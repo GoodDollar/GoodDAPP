@@ -1,15 +1,15 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react'
+import ReactDOM from 'react-dom'
 
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import './index.css'
+import App from './App'
+import * as serviceWorker from './serviceWorker'
 
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import fontMaterialIcons from 'react-native-vector-icons/Fonts/MaterialIcons.ttf';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
+import fontMaterialIcons from 'react-native-vector-icons/Fonts/MaterialIcons.ttf'
 
 // let Main = () => {
-//   return (    
+//   return (
 //     <PaperProvider >
 //       <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
 //         <View style={{flex: 1,
@@ -29,20 +29,20 @@ import fontMaterialIcons from 'react-native-vector-icons/Fonts/MaterialIcons.ttf
 //   )
 // }
 
-const fontStylesMaterialIcons = `@font-face { src: url(${fontMaterialIcons}); font-family: MaterialIcons; }`;
-const style = document.createElement('style');
-style.type = 'text/css';
+const fontStylesMaterialIcons = `@font-face { src: url(${fontMaterialIcons}); font-family: MaterialIcons; }`
+const style = document.createElement('style')
+style.type = 'text/css'
 if (style.styleSheet) {
-  style.styleSheet.cssText = fontStylesMaterialIcons;
+  style.styleSheet.cssText = fontStylesMaterialIcons
 } else {
-  style.appendChild(document.createTextNode(fontStylesMaterialIcons));
+  style.appendChild(document.createTextNode(fontStylesMaterialIcons))
 }
 // Inject stylesheet
-document.head.appendChild(style);
+document.head.appendChild(style)
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<App />, document.getElementById('root'))
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: http://bit.ly/CRA-PWA
-serviceWorker.unregister();
+serviceWorker.unregister()

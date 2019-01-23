@@ -15,7 +15,8 @@
     "test:native": "node scripts/test.js --config \"./config/native.jest.config.js\"",
     "test:native-watch": "node scripts/test.js --watch --config \"./config/native.jest.config.js\"",
     "coverage": "node scripts/test.js --coverage --config \"./config/web.jest.config.js\"",
-    "coverage:native": "node scripts/test.js --config \"./config/native.jest.config.js\" --coverage"
+    "coverage:native": "node scripts/test.js --config \"./config/native.jest.config.js\" --coverage",
+    "flow": "flow"
   },
   "dependencies": {
     "@babel/preset-flow": "^7.0.0",

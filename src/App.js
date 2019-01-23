@@ -40,7 +40,7 @@ class App extends Component<{},{walletReady:boolean, spinValue:any, isLoggedIn:b
     });
     return (
       <PaperProvider >
-      <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
+      <SafeAreaView >
         <View style={styles.container}>
           {this.state.walletReady?
             <WebRouter/> :
@@ -61,9 +61,8 @@ const styles = StyleSheet.create({
     padding: 0,
     position:'fixed',
     maxWidth:'1024px',
-    // left: '50%',
-    // transform:[{ translateX: - Dimensions.get('window').width * 0.24 }]
-    // transform:[{ translateX: - 1024 * 0.24 }]
+    alignSelf:'center',
+    backgroundColor:'#fff',
     },
   logo: {
     width: 300,

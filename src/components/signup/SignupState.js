@@ -7,6 +7,7 @@ import EmailForm from './EmailForm'
 import PhoneForm from './PhoneForm'
 import SmsForm from './SmsForm'
 import { createSwitchNavigator } from '@react-navigation/core'
+
 import API from '../../lib/API/api'
 import GoodWallet from '../../lib/wallet/GoodWallet'
 
@@ -46,7 +47,9 @@ class Signup extends React.Component<{navigation:any},SignupState> {
     else
     {
       console.log("Sending new user data",this.state)
-      API.addUser(this.state)
+      API.addUser(this.state).then(response => {
+        this.props.navigation.navigate('AppNavigation');
+      })
     }
   }
 
@@ -56,8 +59,9 @@ class Signup extends React.Component<{navigation:any},SignupState> {
       this.props.navigation.navigate(nextRoute.key)
   }
   render() {
-    return (
-      <SignupWizardNavigator navigation={this.props.navigation} screenProps={{data:this.state,doneCallback:this.done,back:this.back}} />
+    console.log("this.props SignupState",this.props)
+    return ( 
+        <SignupWizardNavigator navigation={this.props.navigation} screenProps={{data:this.state,doneCallback:this.done,back:this.back}} />
     );
   }
 }

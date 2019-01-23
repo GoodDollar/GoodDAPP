@@ -1,31 +1,26 @@
+// @flow
 import WalletFactory from './WalletFactory'
+import type Web3 from 'web3'
+
 export class GoodWallet {
-    ready:Promise<Web3>
-    wallet:Web3
+  ready: Promise<Web3>
+  wallet: Web3
 
-    constructor (){
-        this.ready = WalletFactory.create("software");
-        this.ready.then(wallet => {
-          this.wallet = wallet
-          this.account = this.wallet.eth.defaultAccount
-        })
-      
-    }
+  constructor() {
+    this.ready = WalletFactory.create('software')
+    this.ready.then(wallet => {
+      this.wallet = wallet
+      this.account = this.wallet.eth.defaultAccount
+    })
+  }
 
-    claim(){
+  claim() {}
+  signMessage() {}
 
-    }
-    signMessage(){
+  sendTx() {}
 
-    }
-
-    sendTx(){
-
-    }
-
-    async sign(toSign:string){
-      return this.wallet.eth.sign(toSign,this.account)
-    }
-
+  async sign(toSign: string) {
+    return this.wallet.eth.sign(toSign, this.account)
+  }
 }
 export default new GoodWallet()

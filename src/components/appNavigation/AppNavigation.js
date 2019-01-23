@@ -44,13 +44,12 @@ class AppNavigation extends React.Component<
 
   //TODO: Change div and links for proper tabviews
   render() {
-    console.log("this.props SignupState", this.props);
     return (
       <React.Fragment>
         <div>
           <Link routeName="Rewards">Rewards</Link>
           {" - "}
-          <Link routeName="Buy">BuySell</Link>
+          <Link routeName="BuySell">BuySell</Link>
           {" - "}
           <Link routeName="Donate">Donate</Link>
           {" - "}

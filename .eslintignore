@@ -1,0 +1,8 @@
+.vscode
+android
+assets
+config
+flow-typed
+scripts
+/*.js
+/src/serviceWorker.js

@@ -1,0 +1,42 @@
+{
+  "extends": [
+    "react-app",
+    "plugin:flowtype/recommended",
+    "plugin:import/recommended",
+    "plugin:prettier/recommended",
+    "plugin:react/recommended",
+    "prettier",
+    "prettier/babel",
+    "prettier/flowtype",
+    "prettier/react"
+  ],
+  "plugins": [
+    "dependencies",
+    "flowtype",
+    "import",
+    "prettier",
+    "react"
+  ],
+  "settings": {
+    "react": {
+      "pragma": "React",
+      "version": "detect",
+      "flowVersion": "0.89"
+    }
+  },
+  "rules": {
+    "prettier/prettier": "error",
+    "react/prop-types": "off",
+    "react/display-name": "off",
+    "dependencies/no-cycles": "error",
+    "dependencies/no-unresolved": [
+      "warn",
+      {
+        "ignore": [
+          "web3"
+        ]
+      }
+    ],
+    "import/no-unresolved": "warn"
+  }
+}

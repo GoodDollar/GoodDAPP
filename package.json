@@ -15,7 +15,8 @@
     "test:native": "node scripts/test.js --config \"./config/native.jest.config.js\"",
     "test:native-watch": "node scripts/test.js --watch --config \"./config/native.jest.config.js\"",
     "coverage": "node scripts/test.js --coverage --config \"./config/web.jest.config.js\"",
-    "coverage:native": "node scripts/test.js --config \"./config/native.jest.config.js\" --coverage"
+    "coverage:native": "node scripts/test.js --config \"./config/native.jest.config.js\" --coverage",
+    "flow": "flow"
   },
   "dependencies": {
     "@babel/preset-flow": "^7.0.0",
@@ -62,11 +63,14 @@
     "dotenv": "6.0.0",
     "dotenv-expand": "4.2.0",
     "eslint": "^5.12.0",
+    "eslint-config-prettier": "^3.6.0",
     "eslint-config-react-app": "^3.0.5",
     "eslint-loader": "2.1.1",
+    "eslint-plugin-dependencies": "^2.4.0",
     "eslint-plugin-flowtype": "2.50.1",
     "eslint-plugin-import": "2.14.0",
     "eslint-plugin-jsx-a11y": "6.1.2",
+    "eslint-plugin-prettier": "^3.0.1",
     "eslint-plugin-react": "7.11.1",
     "file-loader": "2.0.0",
     "flow-bin": "^0.89.0",
@@ -100,7 +104,9 @@
     "workbox-webpack-plugin": "3.6.3"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": [
+      "react-app"
+    ]
   },
   "browserslist": [
     ">0.2%",

@@ -49,11 +49,6 @@ const AppNavigator = createSwitchNavigator(routes, {
 class AppNavigation extends React.Component<AppNavigationProps, AppNavigationState> {
   static router = AppNavigator.router
 
-  constructor() {
-    super()
-    this.goTo = this.goTo.bind(this)
-  }
-
   goTo = (routeKey: string) => {
     this.props.navigation.navigate(routeKey)
   }

@@ -1,7 +1,8 @@
 import React from 'react'
+import Rewards from '../Rewards'
+
 // Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer'
-import Rewards from './Rewards'
 
 describe('Rewards', () => {
   it('renders without errors', () => {

@@ -14,5 +14,15 @@
             "internalConsoleOptions": "neverOpen",
             "env": {}
         },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Update Current File Snapshot",
+            "program": "${workspaceFolder}/scripts/test.js",
+            "args": ["--config", "./config/web.jest.config.js","${file}", "--updateSnapshot"],
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen",
+            "env": {}
+        },
     ]
 }

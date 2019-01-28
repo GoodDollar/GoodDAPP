@@ -1,13 +1,17 @@
 import { REACT_ENV, NETWORK } from 'react-native-dotenv'
+import logger from './lib/logger/pino-logger'
+
+const log = logger.child({ from: 'client.config' })
+
 //const paths = require('../config/paths');
 var env = REACT_ENV
 var network = NETWORK
-console.log({ env })
-console.log({ network })
+log.info({ env })
+log.info({ network })
 
 //var path = './config/' + env + '/dev-'+network+'.json'
 var path = './config/development/dev-kovan.json'
-console.log({ path })
+log.info({ path })
 debugger
 //var conf = paths.appConf;
 var conf = require(path)

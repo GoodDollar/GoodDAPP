@@ -953,7 +953,7 @@ Array [
 ]
 `;
 
-exports[`AppNavigation matches snapshot 2`] = `
+exports[`AppNavigation matches snapshot when changing tab 1`] = `
 Array [
   <div
     style={
@@ -1900,7 +1900,7 @@ Array [
         }
       }
     >
-      Dashboard
+      Rewards
     </div>
   </div>,
 ]

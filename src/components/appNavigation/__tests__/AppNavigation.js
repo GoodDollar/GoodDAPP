@@ -13,9 +13,20 @@ describe('AppNavigation', () => {
     expect(tree.toJSON()).toBeTruthy()
   })
 
-  it.only('matches snapshot', () => {
+  it('matches snapshot', () => {
     const WebRouter = createBrowserApp(createSwitchNavigator({ AppNavigation }))
     const component = renderer.create(<WebRouter />)
-    expect(component.toJSON()).toMatchSnapshot()
+    const tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
+  })
+
+  it('matches snapshot when changing tab', () => {
+    const WebRouter = createBrowserApp(createSwitchNavigator({ AppNavigation }))
+    const component = renderer.create(<WebRouter />)
+    const [tabsView] = component.toJSON()
+    const [tabButton] = tabsView.children
+    tabButton.props.onClick(new Event('fakeEvent'))
+    const tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
   })
 })

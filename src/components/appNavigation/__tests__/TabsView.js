@@ -21,7 +21,7 @@ describe('TabsView', () => {
     expect(tree.toJSON()).toBeTruthy()
   })
 
-  it.only('matches snapshot', () => {
+  it('matches snapshot', () => {
     const component = renderer.create(<TabsView routes={routes} />)
     expect(component.toJSON()).toMatchSnapshot()
   })

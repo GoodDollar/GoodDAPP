@@ -7,9 +7,12 @@ import EmailForm from './EmailForm'
 import PhoneForm from './PhoneForm'
 import SmsForm from './SmsForm'
 import { createSwitchNavigator } from '@react-navigation/core'
+import logger from '../../lib/logger/pino-logger'
 
 import API from '../../lib/API/api'
 import GoodWallet from '../../lib/wallet/GoodWallet'
+
+const log = logger.child({ from: 'SignupState' })
 
 type SignupState = {
   pubkey: string,
@@ -33,16 +36,16 @@ class Signup extends React.Component<{ navigation: any }, SignupState> {
   }
   constructor(props) {
     super(props)
-    console.log()
+    log.info()
   }
 
   done = (data: { [string]: string }) => {
-    console.log('signup data:', { data })
+    log.info('signup data:', { data })
     this.setState(data)
     let nextRoute = this.props.navigation.state.routes[this.props.navigation.state.index + 1]
     if (nextRoute) this.props.navigation.navigate(nextRoute.key)
     else {
-      console.log('Sending new user data', this.state)
+      log.info('Sending new user data', this.state)
       API.addUser(this.state).then(response => {
         this.props.navigation.navigate('AppNavigation')
       })
@@ -54,7 +57,7 @@ class Signup extends React.Component<{ navigation: any }, SignupState> {
     if (nextRoute) this.props.navigation.navigate(nextRoute.key)
   }
   render() {
-    console.log('this.props SignupState', this.props)
+    log.info('this.props SignupState', this.props)
     return (
       <SignupWizardNavigator
         navigation={this.props.navigation}

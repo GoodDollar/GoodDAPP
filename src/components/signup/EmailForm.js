@@ -4,6 +4,9 @@ import { View } from 'react-native'
 import { Button, TextInput, IconButton } from 'react-native-paper'
 import isEmail from 'validator/lib/isEmail'
 import { BackButton, ContinueButton, Wrapper } from './components'
+import logger from '../../lib/logger/pino-logger'
+
+const log = logger.child({ from: 'EmailForm' })
 
 type Props = {
   // callback to report to parent component
@@ -45,7 +48,7 @@ export default class EmailForm extends React.Component<Props, State> {
 
   render() {
     // const MIcon = (<Icon name="rocket" size={30} color="#900" />)
-    console.log(this.props.navigation)
+    log.info(this.props.navigation)
     return (
       <Wrapper>
         {/* Your screen contents depending on current tab. */}

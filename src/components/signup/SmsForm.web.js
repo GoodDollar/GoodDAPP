@@ -4,6 +4,9 @@ import { View, Text } from 'react-native'
 import { Button, IconButton } from 'react-native-paper'
 import OtpInput from 'react-otp-input'
 import { BackButton, ContinueButton, Wrapper } from './components'
+import logger from '../../lib/logger/pino-logger'
+
+const log = logger.child({ from: 'SmsForm.web' })
 
 type Props = {
   // callback to report to parent component
@@ -47,18 +50,18 @@ export default class SmsForm extends React.Component<Props, State> {
 
     const success = otp => {
       let inputs = document.getElementsByClassName('signup_otp')[0].getElementsByTagName('input')
-      console.log('GOT OTP', otp)
+      log.info('GOT OTP', otp)
       otp.split('').forEach((num, i) => {
-        console.log(num, i)
+        log.info(num, i)
         inputs[i].value = num
       })
       this.verifyOTP(otp)
     }
 
     const failure = () => {
-      console.log('Problem in listening OTP')
+      log.info('Problem in listening OTP')
     }
-    console.log('Starting OTP listener:', window.device)
+    log.info('Starting OTP listener:', window.device)
 
     if (window.OTPAutoVerification) window.OTPAutoVerification.startOTPListener(options, success, failure)
   }
@@ -80,7 +83,7 @@ export default class SmsForm extends React.Component<Props, State> {
   }
 
   sendSMS() {
-    console.log('sms to:', this.props.phone)
+    log.info('sms to:', this.props.phone)
     setTimeout(() => this.setState({ sentSMS: true }), 2000)
   }
 

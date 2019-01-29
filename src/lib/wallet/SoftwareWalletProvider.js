@@ -4,6 +4,9 @@ import Secrets from '../../secrets.json'
 //import conf from '../../client.config.js'
 import bip39 from 'bip39'
 import type { WalletConfig } from './WalletFactory'
+import logger from '../logger/pino-logger'
+
+const log = logger.child({ from: 'SoftwareWalletProvider' })
 
 class SoftwareWalletProvider {
   ready: Promise<Web3>
@@ -28,14 +31,14 @@ class SoftwareWalletProvider {
     if (!pkey) {
       account = await web3.eth.accounts.create()
 
-      console.log('account Add is:', account.address)
-      console.log('Private Key is:', account.privateKey)
+      log.info('account Add is:', account.address)
+      log.info('Private Key is:', account.privateKey)
       localStorage.setItem(this.GD_USER_PKEY, account.privateKey)
       pkey = localStorage.getItem(this.GD_USER_PKEY)
 
-      console.log('item set in localStorage ', { pkey })
+      log.info('item set in localStorage ', { pkey })
     } else {
-      console.log('pkey found, creating account from pkey:', { pkey })
+      log.info('pkey found, creating account from pkey:', { pkey })
     }
 
     web3.eth.accounts.wallet.add(pkey)

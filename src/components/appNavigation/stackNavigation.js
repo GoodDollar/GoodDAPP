@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 
 import { createNavigator, SwitchRouter, SceneView, Route } from '@react-navigation/core'
-import { View, StyleSheet } from 'react-native'
+import { View } from 'react-native'
 
 import NavBar from './NavBar'
 import { Button } from 'react-native-paper'
@@ -18,8 +18,8 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
       navigation.navigate(nextRoute)
     } else if (navigation.state.index !== 0) {
       navigation.navigate(navigation.state.routes[0])
-    } else if (navigationConfig.backRouteName) {
-      navigation.navigate(navigationConfig.backRouteName)
+    } else {
+      this.goToRoot()
     }
   }
 
@@ -28,6 +28,14 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
     const activeKey = navigation.state.routes[navigation.state.index].key
     this.stack.push(activeKey)
     navigation.navigate(nextRoute, params)
+  }
+
+  goToRoot = () => {
+    const { navigation, navigationConfig } = this.props
+
+    if (navigationConfig.backRouteName) {
+      navigation.navigate(navigationConfig.backRouteName)
+    }
   }
 
   render() {
@@ -41,7 +49,7 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
         <SceneView
           navigation={descriptor.navigation}
           component={descriptor.getComponent()}
-          screenProps={{ ...navigationConfig, push: this.push }}
+          screenProps={{ ...navigationConfig, push: this.push, goToRoot: this.goToRoot }}
         />
       </View>
     )
@@ -55,17 +63,43 @@ export const createStackNavigator = (routes: [Route], navigationConfig: any) => 
   return createNavigator(AppView, SwitchRouter(routes), { ...navigationConfig, ...defaultNavigationConfig })
 }
 
-type PushButtonProps = { navigationConfig: any, routeName: Route, children: any }
-export const PushButton = ({ navigationConfig, routeName, children }: PushButtonProps) => {
+type ButtonProps = {
+  navigationConfig: any,
+  routeName: Route,
+  children: any,
+  text: string,
+  disabled: boolean,
+  mode: string,
+  color: string
+}
+
+export const PushButton = (props: ButtonProps) => {
+  const { disabled, navigationConfig, routeName, children, mode, color } = props
   return (
-    <Button style={styles.pushButton} onClick={() => navigationConfig.push(routeName)}>
+    <Button
+      mode={mode || 'contained'}
+      color={color || 'black'}
+      disabled={disabled}
+      onPress={() => navigationConfig.push(routeName)}
+      style={styles.pushButton}
+    >
       {children}
     </Button>
   )
 }
 
-const styles = StyleSheet.create({
-  pushButton: {
-    cursor: 'pointer'
-  }
-})
+export const BackButton = (props: ButtonProps) => {
+  const { disabled, navigationConfig, routeName, children, mode, color } = props
+  console.log(navigationConfig)
+  return (
+    <Button
+      mode={mode || 'contained'}
+      color={color || 'grey'}
+      disabled={disabled}
+      onPress={navigationConfig.goToRoot}
+      style={styles.pushButton}
+    >
+      {children}
+    </Button>
+  )
+}

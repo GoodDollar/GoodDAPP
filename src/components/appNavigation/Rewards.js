@@ -1,7 +1,7 @@
 import React from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, StyleSheet } from 'react-native'
 import { Link } from '@react-navigation/web'
-import { createStackNavigator, PushButton } from './stackNavigation'
+import { createStackNavigator, PushButton, BackButton } from './stackNavigation'
 class InternalReward2 extends React.Component {
   // This is one way of setting params for screen
   // More useful if the params are the same for all instances of this component regarding how is included in the stack
@@ -21,9 +21,12 @@ class InternalReward2 extends React.Component {
 const InternalReward1 = props => (
   <View>
     <Text>InternalReward Screen 1</Text>
-    <PushButton routeName={'InternalReward2'} navigationConfig={props.screenProps}>
-      InternalReward 2
-    </PushButton>
+    <View style={styles.buttons}>
+      <BackButton navigationConfig={props.screenProps}>Cancel</BackButton>
+      <PushButton routeName={'InternalReward2'} navigationConfig={props.screenProps}>
+        InternalReward 2
+      </PushButton>
+    </View>
   </View>
 )
 
@@ -32,9 +35,11 @@ const Rewards = props => {
   return (
     <View>
       <Text>Rewards Screen</Text>
-      <PushButton routeName={'InternalReward1'} navigationConfig={props.screenProps}>
-        InternalReward 1
-      </PushButton>
+      <View style={styles.buttons}>
+        <PushButton routeName={'InternalReward1'} navigationConfig={props.screenProps}>
+          InternalReward 1
+        </PushButton>
+      </View>
     </View>
   )
 }
@@ -48,4 +53,13 @@ export default createStackNavigator({
     navigationOptions: { title: 'Internal Reward Title 1' }
   },
   InternalReward2
+})
+
+const styles = StyleSheet.create({
+  buttons: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    padding: '10px'
+  }
 })

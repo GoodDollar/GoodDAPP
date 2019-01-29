@@ -3,6 +3,9 @@ import axios from 'axios'
 import { AsyncStorage } from 'react-native'
 import type { Credentials } from '../API/api'
 import API from '../API/api'
+import logger from '../logger/pino-logger'
+
+const log = logger.child({ from: 'LoginService' })
 
 class LoginService {
   credentials: ?Credentials
@@ -45,31 +48,31 @@ class LoginService {
 
   async auth(): Promise<?Credentials | Error> {
     if (this.credentials && this.jwt) {
-      console.log('Got existing credentials', this.credentials)
+      log.info('Got existing credentials', this.credentials)
       return Promise.resolve(this.credentials)
     }
 
     const creds = await this.login()
-    console.log('signed message')
+    log.info('signed message')
     this.storeCredentials(creds)
-    console.log('stored creds')
+    log.info('stored creds')
 
     // TODO: write the nonce https://gitlab.com/gooddollar/gooddapp/issues/1
-    console.log('Calling server for authentication')
+    log.info('Calling server for authentication')
     const authResult: Credentials | Error = API.auth(creds)
       .then(res => {
-        console.log(res)
+        log.info(res)
         if (res.status === 200) {
           const data = res.data
           creds.jwt = data.token
           this.storeJWT(data.token)
-          console.debug('Login success:', data)
+          log.debug('Login success:', data)
           return creds
         }
         throw new Error(res.statusText)
       })
       .catch((e: Error) => {
-        console.error('Login service auth failed:', e)
+        log.error('Login service auth failed:', e)
         return e
       })
     return authResult
@@ -80,11 +83,11 @@ class LoginService {
   //     headers: { Authorization: `Bearer ${this.jwt || ""}` }
   //   })
   //     .then(async (res) => {
-  //       if (res.status === 200) { console.debug("success"); return false; }
+  //       if (res.status === 200) { log.debug("success"); return false; }
   //       throw new Error("Unauthorized")
   //     })
   //     .catch((e:Error) => {
-  //       console.error("failure", e)
+  //       log.error("failure", e)
   //       return false
   //     }))
   //   const res = await authResult

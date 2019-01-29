@@ -2,6 +2,9 @@
 import axios from 'axios'
 import Config from '../../config/dev.js'
 import { AsyncStorage } from 'react-native'
+import logger from '../logger/pino-logger'
+
+const log = logger.child({ from: 'API' })
 
 export type Credentials = {
   publicKey: string,
@@ -26,7 +29,7 @@ class API {
   }
 
   init() {
-    console.log('initializing api...')
+    log.info('initializing api...')
     AsyncStorage.getItem('GoodDAPP_jwt').then(async jwt => {
       this.jwt = jwt
       this.client = await axios.create({
@@ -34,7 +37,7 @@ class API {
         timeout: 2000,
         headers: { Authorization: `Bearer ${this.jwt || ''}` }
       })
-      console.log('API ready', this.client, this.jwt)
+      log.info('API ready', this.client, this.jwt)
     })
   }
   auth(creds: Credentials) {
@@ -44,9 +47,9 @@ class API {
   async addUser(user: UserRecord) {
     try {
       let res = await this.client.post('/user/add', { user })
-      console.log(res)
+      log.info(res)
     } catch (e) {
-      console.log(e)
+      log.info(e)
     }
   }
 }

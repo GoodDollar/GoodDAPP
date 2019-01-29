@@ -2,20 +2,17 @@ import React from 'react'
 import { View, Text } from 'react-native'
 import { Link } from '@react-navigation/web'
 import { createStackNavigator, PushButton } from './stackNavigation'
-
 class InternalReward2 extends React.Component {
   // This is one way of setting params for screen
   // More useful if the params are the same for all instances of this component regarding how is included in the stack
-
   static navigationOptions = {
-    title: 'Home'
+    title: 'Internal Reward Screen 2'
   }
 
   render() {
-    console.log('Rewards props', this.props)
     return (
       <View>
-        <Text>InternalReward Screen 2 </Text>
+        <Text>Internal Reward Screen 2 </Text>
       </View>
     )
   }

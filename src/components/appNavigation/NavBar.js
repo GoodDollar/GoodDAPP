@@ -4,7 +4,8 @@ import { View, Text, StyleSheet } from 'react-native'
 import backButton from '../../assets/backButton.png'
 
 type NavBarProps = {
-  pop: () => void
+  pop: () => void,
+  title: string
 }
 
 class NavBar extends React.Component<NavBarProps> {
@@ -14,7 +15,7 @@ class NavBar extends React.Component<NavBarProps> {
         <View style={styles.left}>
           <View style={styles.backButton} onClick={this.props.pop} />
         </View>
-        <Text style={styles.title}>My Project</Text>
+        <Text style={styles.title}>{this.props.title}</Text>
         <View style={styles.right} />
       </View>
     )

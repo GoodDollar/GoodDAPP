@@ -4,12 +4,15 @@ import { Link } from '@react-navigation/web'
 import { createStackNavigator, PushButton } from './stackNavigation'
 
 class InternalReward2 extends React.Component {
-  constructor(props) {
-    super(props)
-    // This is one way of setting params for screen. More useful if the params are the same for all instances of this component regarding how is included in the stack
-    this.props.navigation.setParams({ params: { title: 'Title Internal 2' } })
+  // This is one way of setting params for screen
+  // More useful if the params are the same for all instances of this component regarding how is included in the stack
+
+  static navigationOptions = {
+    title: 'Home'
   }
+
   render() {
+    console.log('Rewards props', this.props)
     return (
       <View>
         <Text>InternalReward Screen 2 </Text>
@@ -43,8 +46,9 @@ export default createStackNavigator({
   Rewards,
   InternalReward1: {
     screen: InternalReward1,
-    // This is one way of setting params for screen. More useful if the params may change for the same component
-    params: { title: 'Internal Reward Title 1' }
+    // This is one way of setting params for screen.
+    // More useful if the params may change for the same component
+    navigationOptions: { title: 'Internal Reward Title 1' }
   },
   InternalReward2
 })

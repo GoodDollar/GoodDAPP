@@ -34,11 +34,10 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
     const { descriptors, navigation, navigationConfig } = this.props
     const activeKey = navigation.state.routes[navigation.state.index].key
     const descriptor = descriptors[activeKey]
-    const title = descriptor.navigation.getParam('title', activeKey)
-
+    const { title } = descriptor.options
     return (
       <View>
-        <NavBar pop={this.pop} title={title} />
+        <NavBar pop={this.pop} title={title || activeKey} />
         <SceneView
           navigation={descriptor.navigation}
           component={descriptor.getComponent()}
@@ -51,12 +50,7 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
 
 export const createStackNavigator = (routes: [Route], navigationConfig: any) => {
   const defaultNavigationConfig = {
-    backRouteName: 'Dashboard',
-    navigationOptions: ({ navigator }) => {
-      return {
-        prop: 'prop'
-      }
-    }
+    backRouteName: 'Dashboard'
   }
   return createNavigator(AppView, SwitchRouter(routes), { ...navigationConfig, ...defaultNavigationConfig })
 }
@@ -64,15 +58,7 @@ export const createStackNavigator = (routes: [Route], navigationConfig: any) => 
 type PushButtonProps = { navigationConfig: any, routeName: Route, children: any }
 export const PushButton = ({ navigationConfig, routeName, children }: PushButtonProps) => {
   return (
-    <Button
-      style={styles.pushButton}
-      onClick={() =>
-        navigationConfig.push(routeName, {
-          itemId: 86,
-          otherParam: 'anything you want here'
-        })
-      }
-    >
+    <Button style={styles.pushButton} onClick={() => navigationConfig.push(routeName)}>
       {children}
     </Button>
   )

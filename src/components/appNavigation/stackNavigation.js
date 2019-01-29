@@ -81,7 +81,6 @@ export const PushButton = (props: ButtonProps) => {
       color={color || 'black'}
       disabled={disabled}
       onPress={() => navigationConfig.push(routeName)}
-      style={styles.pushButton}
     >
       {children}
     </Button>
@@ -90,15 +89,8 @@ export const PushButton = (props: ButtonProps) => {
 
 export const BackButton = (props: ButtonProps) => {
   const { disabled, navigationConfig, routeName, children, mode, color } = props
-  console.log(navigationConfig)
   return (
-    <Button
-      mode={mode || 'contained'}
-      color={color || 'grey'}
-      disabled={disabled}
-      onPress={navigationConfig.goToRoot}
-      style={styles.pushButton}
-    >
+    <Button mode={mode || 'text'} color={color || '#575757'} disabled={disabled} onPress={navigationConfig.goToRoot}>
       {children}
     </Button>
   )

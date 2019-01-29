@@ -1,8 +1,14 @@
 import React from 'react'
-import { View, Text } from 'react-native'
+import { ScrollView, View, Text } from 'react-native'
+import { Link } from '@react-navigation/web'
+import { createStackNavigator } from './stackNavigation'
 
-export default () => (
-  <View>
-    <Text>BuySell</Text>
-  </View>
-)
+const BuySell = props => {
+  return (
+    <ScrollView>
+      <Text>BuySell</Text>
+    </ScrollView>
+  )
+}
+
+export default createStackNavigator({ BuySell })

@@ -2,7 +2,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { TextInput, Button } from 'react-native-paper'
-import { ContinueButton, Wrapper } from './components'
+import { BackButton, ContinueButton, Wrapper } from './components'
 
 type Props = {
   // callback to report to parent component
@@ -58,6 +58,7 @@ export default class NameForm extends React.Component<Props, State> {
         />
 
         <ContinueButton valid={this.state.valid} handleSubmit={this.handleSubmit} />
+        <BackButton {...this.props.screenProps} />
       </Wrapper>
     )
   }

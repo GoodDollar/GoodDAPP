@@ -1,13 +1,11 @@
 // @flow
 import Web3 from 'web3'
-import Secrets from '../../secrets.json'
-//import conf from '../../client.config.js'
+import Config from '../../config/config'
 import bip39 from 'bip39'
 import type { WalletConfig } from './WalletFactory'
 import logger from '../logger/pino-logger'
 
 const log = logger.child({ from: 'SoftwareWalletProvider' })
-
 class SoftwareWalletProvider {
   ready: Promise<Web3>
   GD_USER_PKEY: string = 'GD_USER_PKEY'
@@ -52,20 +50,10 @@ class SoftwareWalletProvider {
     return mnemonic
   }
 
-  getWeb3HttpProviderConnectionString(): string {
-    let provider: string
-    let transport: string = this.conf.web3Transport
-    let network_id: string = this.conf.network_id
-
-    provider = this.conf.httpWeb3provider + Secrets.ethereum[network_id].infura.api_key
-    return provider
-  }
-
   getWeb3TransportProvider(): Subprovider {
     let provider
     let web3Provider
     let transport = this.conf.web3Transport
-    let network_id = this.conf.network_id
     switch (transport) {
       case 'WebSocket':
         provider = this.conf.websocketWeb3Provider
@@ -73,12 +61,12 @@ class SoftwareWalletProvider {
         break
 
       case 'HttpProvider':
-        provider = this.conf.httpWeb3provider + Secrets.ethereum[network_id].infura.api_key
+        provider = this.conf.httpWeb3provider + Config.infura_key
         web3Provider = new Web3.providers.HttpProvider(provider)
         break
 
       default:
-        provider = this.conf.httpWeb3provider + Secrets.ethereum[network_id].infura.api_key
+        provider = this.conf.httpWeb3provider + Config.infura_key
         web3Provider = new Web3.providers.HttpProvider(provider)
         break
     }

@@ -1,13 +1,13 @@
 import React from 'react'
-import { createNavigator, SwitchRouter, SwitchView } from '@react-navigation/core'
-import { createBrowserApp, Link } from '@react-navigation/web'
+import { createNavigator, SwitchRouter } from '@react-navigation/core'
+import { createBrowserApp } from '@react-navigation/web'
 import { Platform } from 'react-native'
-// import App from './src/App';
 import Signup from './components/signup/SignupState'
 import AppNavigation from './components/appNavigation/AppNavigation'
+import AppSwitch from './components/AppSwitch'
 
 const AppNavigator = createNavigator(
-  SwitchView,
+  AppSwitch,
   SwitchRouter(
     {
       Signup,

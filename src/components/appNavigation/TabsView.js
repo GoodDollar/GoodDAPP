@@ -51,8 +51,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     height: '60px',
-    backgroundColor: '#909090',
-    color: '#d2d2d2'
+    backgroundColor: '#909090'
   },
   tabIcon: { width: 40, flexGrow: 2, flexBasis: 0 }
 })

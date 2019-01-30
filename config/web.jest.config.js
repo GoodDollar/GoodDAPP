@@ -25,7 +25,7 @@ module.exports = {
 		'^(?!.*\\.(js|jsx|css|json)$)': '<rootDir>/config/jest/fileTransform.js'
 	},
 	transformIgnorePatterns: [
-		'[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$'
+		'node_modules/(?!(jest-)?react-native|react-navigation|react-navigation-redux-helpers|react-phone-number-input)'
 	],
 	moduleFileExtensions: [
 		'web.js',

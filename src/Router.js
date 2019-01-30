@@ -1,31 +1,31 @@
 import React from 'react'
-import { createNavigator, SwitchRouter, SwitchView } from '@react-navigation/core'
-import { createBrowserApp, Link } from '@react-navigation/web'
+import { createNavigator, SwitchRouter } from '@react-navigation/core'
+import { createBrowserApp } from '@react-navigation/web'
 import { Platform } from 'react-native'
-// import App from './src/App';
+import Auth from './components/auth/Auth'
 import Signup from './components/signup/SignupState'
+import SignIn from './components/signin/SignInState'
 import AppNavigation from './components/appNavigation/AppNavigation'
+import AppSwitch from './components/AppSwitch'
 
-const AppNavigator = isLoggedIn =>
-  createNavigator(
-    SwitchView,
-    SwitchRouter(
-      {
-        Signup,
-        AppNavigation
-      },
-      {
-        initialRouteName: isLoggedIn ? 'AppNavigation' : 'Signup'
-      }
-    ),
-    {}
-  )
-
-let CreateRouter = ({ isLoggedIn }) => {
-  if (Platform.OS === 'web') {
-    let WebRouter = createBrowserApp(AppNavigator(isLoggedIn))
-    return <WebRouter />
-  }
+const AppNavigator = createNavigator(
+  AppSwitch,
+  SwitchRouter(
+    {
+      Auth,
+      Signup,
+      SignIn,
+      AppNavigation
+    },
+    {
+      initialRouteName: 'Auth'
+    }
+  ),
+  {}
+)
+let WebRouter
+if (Platform.OS === 'web') {
+  WebRouter = createBrowserApp(AppNavigator)
 }
 
-export { CreateRouter }
+export { WebRouter }

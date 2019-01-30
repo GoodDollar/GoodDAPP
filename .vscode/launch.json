@@ -1,0 +1,28 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Test Current File",
+            "program": "${workspaceFolder}/scripts/test.js",
+            "args": ["--config", "./config/web.jest.config.js","${file}"],
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen",
+            "env": {}
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Update Current File Snapshot",
+            "program": "${workspaceFolder}/scripts/test.js",
+            "args": ["--config", "./config/web.jest.config.js","${file}", "--updateSnapshot"],
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen",
+            "env": {}
+        },
+    ]
+}

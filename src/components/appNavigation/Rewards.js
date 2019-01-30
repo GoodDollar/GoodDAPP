@@ -30,8 +30,11 @@ const InternalReward1 = props => (
   </View>
 )
 
+/**
+ * Rewards screen showing nested navigation with stackNavigator
+ * @param {*} props 
+ */
 const Rewards = props => {
-  console.log('Rewards props', props)
   return (
     <View>
       <Text>Rewards Screen</Text>

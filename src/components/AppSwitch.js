@@ -23,6 +23,15 @@ const TIMEOUT = 1000
  */
 class AppSwitch extends React.Component<LoadingProps, {}> {
   /**
+   * Triggers the required actions before navigating to any app's page
+   * @param {LoadingProps} props
+   */
+  constructor(props: LoadingProps) {
+    super(props)
+    this.checkAuthStatus()
+  }
+
+  /**
    * Check's users' current auth status
    * @returns {Promise<void>}
    */
@@ -47,14 +56,6 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
         this.props.navigation.navigate('Auth')
       }
     }
-  }
-
-  /**
-   * Triggers the required actions before navigating to any app's page
-   * @param {LoadingProps} props
-   */
-  componentDidMount() {
-    this.checkAuthStatus()
   }
 
   render() {

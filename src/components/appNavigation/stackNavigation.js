@@ -7,6 +7,10 @@ import { View } from 'react-native'
 import NavBar from './NavBar'
 import { Button } from 'react-native-paper'
 
+/**
+ * Component wrapping the stack navigator.
+ * It holds the pop push gotToRoot logic and inserts on top the NavBar component.
+ */
 class AppView extends Component<{ descriptors: any, navigation: any, navigationConfig: any }> {
   stack = []
 
@@ -45,7 +49,7 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
     const { title } = descriptor.options
     return (
       <View>
-        <NavBar pop={this.pop} title={title || activeKey} />
+        <NavBar goBack={this.pop} title={title || activeKey} />
         <SceneView
           navigation={descriptor.navigation}
           component={descriptor.getComponent()}
@@ -56,6 +60,12 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
   }
 }
 
+/**
+ * Returns a navigator with a navbar wrapping the routes.
+ * This function is meant to be used to create a new stack navigation with the given routes.
+ * @param {[Route]} routes: Array with routes in the stack
+ * @param {Object} navigationConfig
+ */
 export const createStackNavigator = (routes: [Route], navigationConfig: any) => {
   const defaultNavigationConfig = {
     backRouteName: 'Dashboard'
@@ -72,7 +82,11 @@ type ButtonProps = {
   mode: string,
   color: string
 }
-
+/**
+ * PushButton
+ * This button gets the push action from navigationConfig. Is meant to be used inside a stackNavigator
+ * @param {ButtonProps} props
+ */
 export const PushButton = (props: ButtonProps) => {
   const { disabled, navigationConfig, routeName, children, mode, color } = props
   return (
@@ -87,6 +101,11 @@ export const PushButton = (props: ButtonProps) => {
   )
 }
 
+/**
+ * BackButton
+ * This button gets the goToRoot action from navigationConfig. Is meant to be used inside a stackNavigator
+ * @param {ButtonProps} props
+ */
 export const BackButton = (props: ButtonProps) => {
   const { disabled, navigationConfig, routeName, children, mode, color } = props
   return (

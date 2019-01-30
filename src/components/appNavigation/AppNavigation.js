@@ -45,6 +45,10 @@ const routes = {
 const initialRouteName = 'Dashboard'
 const AppNavigator = createSwitchNavigator(routes, { initialRouteName })
 
+/**
+ * Switch navigation between all screens on the tabs. Each of this screen should be a StackNavigation
+ * Dashboard is the initial route
+ */
 class AppNavigation extends React.Component<AppNavigationProps, AppNavigationState> {
   static router = AppNavigator.router
 

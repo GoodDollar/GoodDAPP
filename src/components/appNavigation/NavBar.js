@@ -4,16 +4,20 @@ import { View, Text, StyleSheet } from 'react-native'
 import backButton from '../../assets/backButton.png'
 
 type NavBarProps = {
-  pop: () => void,
+  goBack: () => void,
   title: string
 }
-
+/**
+ * NavigationBar shows title and back button
+ * @goBack: Function to be executed on click on back button
+ * @title: Screen title
+ */
 class NavBar extends React.Component<NavBarProps> {
   render() {
     return (
       <View style={styles.navBar}>
         <View style={styles.left}>
-          <View style={styles.backButton} onClick={this.props.pop} />
+          <View style={styles.backButton} onClick={this.props.goBack} />
         </View>
         <Text style={styles.title}>{this.props.title}</Text>
         <View style={styles.right} />

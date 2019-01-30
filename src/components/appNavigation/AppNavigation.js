@@ -42,24 +42,18 @@ const routes = {
   }
 }
 
-const AppNavigator = createSwitchNavigator(routes, {
-  initialRouteName: 'Dashboard'
-})
+const initialRouteName = 'Dashboard'
+const AppNavigator = createSwitchNavigator(routes, { initialRouteName })
 
+/**
+ * Switch navigation between all screens on the tabs. Each of this screen should be a StackNavigation
+ * Dashboard is the initial route
+ */
 class AppNavigation extends React.Component<AppNavigationProps, AppNavigationState> {
   static router = AppNavigator.router
 
-  goTo = (routeKey: string) => {
-    this.props.navigation.navigate(routeKey)
-  }
-
   render() {
-    return (
-      <React.Fragment>
-        <TabsView goTo={this.goTo} routes={routes} />
-        <AppNavigator navigation={this.props.navigation} />
-      </React.Fragment>
-    )
+    return <AppNavigator navigation={this.props.navigation} screenProps={{ routes }} />
   }
 }
 

@@ -49,8 +49,17 @@ class API {
       let res = await this.client.post('/user/add', { user })
       log.info(res)
     } catch (e) {
-      log.info(e)
+      log.error(e)
     }
+  }
+
+  async verifyUser(verificationData:any) {
+    try {
+      let res = await this.client.post('/verify/user', { verificationData })
+      log.info(res)
+    } catch (e) {
+      log.error(e)
+      throw e
   }
 }
 

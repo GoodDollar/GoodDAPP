@@ -124,7 +124,7 @@ export const PushButton = (props: ButtonProps) => {
 
 /**
  * BackButton
- * This button gets the goToRoot action from navigationConfig. Is meant to be used inside a stackNavigator
+ * This button gets the goToParent action from navigationConfig. Is meant to be used inside a stackNavigator
  * @param {ButtonProps} props
  */
 export const BackButton = (props: ButtonProps) => {

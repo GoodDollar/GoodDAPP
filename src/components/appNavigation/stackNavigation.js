@@ -9,7 +9,7 @@ import { Button } from 'react-native-paper'
 
 /**
  * Component wrapping the stack navigator.
- * It holds the pop push gotToRoot goToParent logic and inserts on top the NavBar component.
+ * It holds the pop, push, gotToRoot and goToParent navigation logic and inserts on top the NavBar component.
  * This navigation actions are being passed via navigationConfig to children components
  */
 class AppView extends Component<{ descriptors: any, navigation: any, navigationConfig: any }> {
@@ -18,7 +18,7 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
   /**
    * Pops from stack
    * If there is no screen on the stack navigates to initial screen on stack (goToRoot)
-   * If we are currently in the first screen go to ths screen that created the stack (toToParent)
+   * If we are currently in the first screen go to ths screen that created the stack (goToParent)
    */
   pop = () => {
     const { navigation } = this.props

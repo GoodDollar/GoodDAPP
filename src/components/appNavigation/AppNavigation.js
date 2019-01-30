@@ -53,11 +53,7 @@ class AppNavigation extends React.Component<AppNavigationProps, AppNavigationSta
   static router = AppNavigator.router
 
   render() {
-    return (
-      <React.Fragment>
-        <AppNavigator navigation={this.props.navigation} screenProps={{ routes }} />
-      </React.Fragment>
-    )
+    return <AppNavigator navigation={this.props.navigation} screenProps={{ routes }} />
   }
 }
 

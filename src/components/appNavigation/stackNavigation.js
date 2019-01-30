@@ -9,24 +9,34 @@ import { Button } from 'react-native-paper'
 
 /**
  * Component wrapping the stack navigator.
- * It holds the pop push gotToRoot logic and inserts on top the NavBar component.
+ * It holds the pop push gotToRoot goToParent logic and inserts on top the NavBar component.
+ * This navigation actions are being passed via navigationConfig to children components
  */
 class AppView extends Component<{ descriptors: any, navigation: any, navigationConfig: any }> {
   stack = []
 
+  /**
+   * Pops from stack
+   * If there is no screen on the stack navigates to initial screen on stack (goToRoot)
+   * If we are currently in the first screen go to ths screen that created the stack (toToParent)
+   */
   pop = () => {
-    const { navigation, navigationConfig } = this.props
+    const { navigation } = this.props
 
     const nextRoute = this.stack.pop()
     if (nextRoute) {
       navigation.navigate(nextRoute)
     } else if (navigation.state.index !== 0) {
-      navigation.navigate(navigation.state.routes[0])
-    } else {
       this.goToRoot()
+    } else {
+      this.goToParent()
     }
   }
 
+  /**
+   * Push a route to the stack
+   * The stack is maintained in stack property to be able to navigate back and forward
+   */
   push = (nextRoute, params) => {
     const { navigation } = this.props
     const activeKey = navigation.state.routes[navigation.state.index].key
@@ -34,7 +44,18 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
     navigation.navigate(nextRoute, params)
   }
 
+  /**
+   * Navigates to root screen. First on stack
+   */
   goToRoot = () => {
+    const { navigation } = this.props
+    navigation.navigate(navigation.state.routes[0])
+  }
+
+  /**
+   * Navigates to the screen that created the stack (backRouteName)
+   */
+  goToParent = () => {
     const { navigation, navigationConfig } = this.props
 
     if (navigationConfig.backRouteName) {
@@ -53,7 +74,7 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
         <SceneView
           navigation={descriptor.navigation}
           component={descriptor.getComponent()}
-          screenProps={{ ...navigationConfig, push: this.push, goToRoot: this.goToRoot }}
+          screenProps={{ ...navigationConfig, push: this.push, goToRoot: this.goToRoot, goToParent: this.goToParent }}
         />
       </View>
     )
@@ -107,9 +128,9 @@ export const PushButton = (props: ButtonProps) => {
  * @param {ButtonProps} props
  */
 export const BackButton = (props: ButtonProps) => {
-  const { disabled, navigationConfig, routeName, children, mode, color } = props
+  const { disabled, navigationConfig, children, mode, color } = props
   return (
-    <Button mode={mode || 'text'} color={color || '#575757'} disabled={disabled} onPress={navigationConfig.goToRoot}>
+    <Button mode={mode || 'text'} color={color || '#575757'} disabled={disabled} onPress={navigationConfig.goToParent}>
       {children}
     </Button>
   )

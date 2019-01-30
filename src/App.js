@@ -2,19 +2,20 @@
 import React, { Component } from 'react'
 import { StyleSheet, View, Platform, Animated, Easing, SafeAreaView, Dimensions } from 'react-native'
 import { Provider as PaperProvider } from 'react-native-paper'
-import { WebRouter } from './Router'
+import { CreateRouter } from './Router'
 import GoodWallet from './lib/wallet/GoodWallet'
 import logo from './logo.png'
 import GoodWalletLogin from './lib/login/GoodWalletLogin'
 class App extends Component<
   {},
-  { walletReady: boolean, spinValue: any, isLoggedIn: boolean, isUserRegistered: boolean }
+  { walletReady: boolean, spinValue: any, isLoggedIn: boolean, isUserRegistered: boolean, isCitizen: boolean }
 > {
   state = {
     spinValue: new Animated.Value(0.5),
     walletReady: false,
     isLoggedIn: false,
-    isUserRegistered: false
+    isUserRegistered: false,
+    isCitizen: false
   }
 
   componentWillMount() {
@@ -22,6 +23,8 @@ class App extends Component<
     global.wallet = GoodWallet
     //when wallet is ready perform login to server (sign message with wallet and send to server)
     GoodWallet.ready
+      .then(() => GoodWallet.isCitizen())
+      .then(isCitizen => this.setState({ isCitizen }))
       .then(() => GoodWalletLogin.auth())
       .then(credsOrError => {
         this.setState({ walletReady: true, isLoggedIn: credsOrError.jwt !== undefined })
@@ -38,7 +41,7 @@ class App extends Component<
         <SafeAreaView>
           <View style={styles.container}>
             {this.state.walletReady ? (
-              <WebRouter />
+              <CreateRouter isLoggedIn={this.state.isCitizen} />
             ) : (
               <Animated.Image source={logo} style={[styles.logo, { transform: [{ rotate: spin }] }]} />
             )}

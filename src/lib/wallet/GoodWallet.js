@@ -57,5 +57,10 @@ export class GoodWallet {
     const tx: boolean = await this.identityContract.methods.isVerified(address).call()
     return tx
   }
+
+  async isCitizen(): Promise<boolean> {
+    const tx: boolean = await this.identityContract.methods.isVerified(this.account).call()
+    return tx
+  }
 }
 export default new GoodWallet()

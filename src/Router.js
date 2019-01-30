@@ -6,22 +6,26 @@ import { Platform } from 'react-native'
 import Signup from './components/signup/SignupState'
 import AppNavigation from './components/appNavigation/AppNavigation'
 
-const AppNavigator = createNavigator(
-  SwitchView,
-  SwitchRouter(
-    {
-      Signup,
-      AppNavigation
-    },
-    {
-      initialRouteName: 'Signup'
-    }
-  ),
-  {}
-)
-let WebRouter
-if (Platform.OS === 'web') {
-  WebRouter = createBrowserApp(AppNavigator)
+const AppNavigator = isLoggedIn =>
+  createNavigator(
+    SwitchView,
+    SwitchRouter(
+      {
+        Signup,
+        AppNavigation
+      },
+      {
+        initialRouteName: isLoggedIn ? 'AppNavigation' : 'Signup'
+      }
+    ),
+    {}
+  )
+
+let CreateRouter = ({ isLoggedIn }) => {
+  if (Platform.OS === 'web') {
+    let WebRouter = createBrowserApp(AppNavigator(isLoggedIn))
+    return <WebRouter />
+  }
 }
 
-export { WebRouter }
+export { CreateRouter }

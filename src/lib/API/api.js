@@ -34,7 +34,7 @@ class API {
       this.jwt = jwt
       this.client = await axios.create({
         baseURL: Config.GoodServer,
-        timeout: 10000,
+        timeout: 30000,
         headers: { Authorization: `Bearer ${this.jwt || ''}` }
       })
       log.info('API ready', this.client, this.jwt)

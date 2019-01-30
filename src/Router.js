@@ -7,18 +7,20 @@ import Signup from './components/signup/SignupState'
 import SignIn from './components/signin/SignInState'
 import AppNavigation from './components/appNavigation/AppNavigation'
 import AppSwitch from './components/AppSwitch'
+import Splash from './components/splash/Splash'
 
 const AppNavigator = createNavigator(
   AppSwitch,
   SwitchRouter(
     {
+      Splash,
       Auth,
       Signup,
       SignIn,
       AppNavigation
     },
     {
-      initialRouteName: 'Auth'
+      initialRouteName: 'Splash'
     }
   ),
   {}

@@ -5,6 +5,7 @@ import type Web3 from 'web3'
 export class GoodWallet {
   ready: Promise<Web3>
   wallet: Web3
+  account: string
 
   constructor() {
     this.ready = WalletFactory.create('software')

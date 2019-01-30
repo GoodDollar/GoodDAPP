@@ -20,6 +20,7 @@ class App extends Component<{}, { walletReady: boolean, isLoggedIn: boolean, isU
     isUserRegistered: false
   }
 
+class App extends Component<{}> {
   componentWillMount() {
     //set wallet as global, even though everyone can import the singleton
     global.wallet = GoodWallet

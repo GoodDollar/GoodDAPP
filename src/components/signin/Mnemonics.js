@@ -4,6 +4,7 @@ import { StyleSheet, View } from 'react-native'
 import { Button, Paragraph, Text, TextInput } from 'react-native-paper'
 import { normalize } from 'react-native-elements'
 import goodWallet from '../../lib/wallet/GoodWallet'
+import logger from '../../lib/logger/pino-logger'
 
 type Props = {
   // callback to report to parent component
@@ -13,9 +14,11 @@ type Props = {
   }
 }
 
+const log = logger.child({ from: 'Mnemonics' })
+
 class SignUpScreen extends React.Component<Props> {
   componentDidMount() {
-    console.info('...', goodWallet)
+    log.info('...', goodWallet)
   }
 
   handleDone = () => {
@@ -30,9 +33,9 @@ class SignUpScreen extends React.Component<Props> {
       .trim()
       .split(' ')
 
-    console.log(text, sanitizedWords)
+    log.log(text, sanitizedWords)
     if (sanitizedWords.length !== 12) {
-      console.warn('mnemonic is based on 12 words')
+      log.warn('mnemonic is based on 12 words')
     } else {
       // TODO: recover wallet with mnemonics
     }

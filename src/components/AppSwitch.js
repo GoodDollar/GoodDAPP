@@ -2,11 +2,14 @@
 import React from 'react'
 import { SceneView } from '@react-navigation/core'
 import goodWalletLogin from '../lib/login/GoodWalletLogin'
+import logger from '../lib/logger/pino-logger'
 
 type LoadingProps = {
   navigation: any,
   descriptors: any
 }
+
+const log = logger.child({ from: 'AppSwitch' })
 
 /**
  * The main app route. Here we decide where to go depending on the user's credentials status
@@ -41,7 +44,7 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
         this.props.navigation.navigate('Auth')
       } else {
         // TODO: handle other statuses (4xx, 5xx), consider exponential backoff
-        console.error('Failed to sign in', response)
+        log.error('Failed to sign in', response)
         this.props.navigation.navigate('Auth')
       }
     }

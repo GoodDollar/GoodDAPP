@@ -4,15 +4,18 @@ import { StyleSheet, View } from 'react-native'
 import { Button, Headline, Paragraph, Text } from 'react-native-paper'
 import { normalize } from 'react-native-elements'
 import goodWallet from '../../lib/wallet/GoodWallet'
+import logger from '../../lib/logger/pino-logger'
 
 type Props = {
   // callback to report to parent component
   navigation: any
 }
 
+const log = logger.child({ from: 'Auth' })
+
 class Auth extends React.Component<Props> {
   componentDidMount() {
-    console.info('...', goodWallet)
+    log.info(goodWallet)
   }
 
   handleSignUp = () => {
@@ -21,7 +24,7 @@ class Auth extends React.Component<Props> {
 
   handleSignUpThirdParty = () => {
     // TODO: implement 3rd party sign up
-    console.info('3rd Party login not available yet')
+    log.warn('3rd Party login not available yet')
   }
 
   handleSignIn = () => {

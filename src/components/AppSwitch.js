@@ -11,19 +11,17 @@ type LoadingProps = {
 
 const log = logger.child({ from: 'AppSwitch' })
 
+function delay(t, v) {
+  return new Promise(function(resolve) {
+    setTimeout(resolve.bind(null, v), t)
+  })
+}
+const TIMEOUT = 1000
+
 /**
  * The main app route. Here we decide where to go depending on the user's credentials status
  */
 class AppSwitch extends React.Component<LoadingProps, {}> {
-  /**
-   * Triggers the required actions before navigating to any app's page
-   * @param {LoadingProps} props
-   */
-  constructor(props: LoadingProps) {
-    super(props)
-    this.checkAuthStatus()
-  }
-
   /**
    * Check's users' current auth status
    * @returns {Promise<void>}
@@ -32,7 +30,8 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
     await global.wallet.ready
 
     // when wallet is ready perform login to server (sign message with wallet and send to server)
-    const credsOrError: any = await goodWalletLogin.auth()
+    const [credsOrError]: any = await Promise.all([goodWalletLogin.auth(), delay(TIMEOUT)])
+
     const isLoggedIn = credsOrError.jwt !== undefined
 
     if (isLoggedIn) {
@@ -48,6 +47,14 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
         this.props.navigation.navigate('Auth')
       }
     }
+  }
+
+  /**
+   * Triggers the required actions before navigating to any app's page
+   * @param {LoadingProps} props
+   */
+  componentDidMount() {
+    this.checkAuthStatus()
   }
 
   render() {

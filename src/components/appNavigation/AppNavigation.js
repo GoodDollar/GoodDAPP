@@ -48,20 +48,10 @@ const AppNavigator = createSwitchNavigator(routes, { initialRouteName })
 class AppNavigation extends React.Component<AppNavigationProps, AppNavigationState> {
   static router = AppNavigator.router
 
-  goTo = (routeKey: string) => {
-    this.props.navigation.navigate(routeKey)
-  }
-
-  shouldShowTabView = () => {
-    const currentRoute = this.props.navigation.state.routes[this.props.navigation.state.index]
-    return currentRoute.routeName === initialRouteName
-  }
-
   render() {
     return (
       <React.Fragment>
-        {this.shouldShowTabView() && <TabsView goTo={this.goTo} routes={routes} />}
-        <AppNavigator navigation={this.props.navigation} />
+        <AppNavigator navigation={this.props.navigation} screenProps={{ routes }} />
       </React.Fragment>
     )
   }

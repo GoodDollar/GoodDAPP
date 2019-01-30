@@ -15,8 +15,8 @@ function delay(t, v) {
 const TIMEOUT = 1000
 class App extends Component<
   {},
-  { walletReady: boolean, spinValue: any, isLoggedIn: boolean, isUserRegistered: boolean, isCitizen: boolean }
- {
+  { walletReady: boolean, isLoggedIn: boolean, isUserRegistered: boolean, isCitizen: boolean }
+> {
   state = {
     walletReady: false,
     isLoggedIn: false,
@@ -29,7 +29,11 @@ class App extends Component<
     global.wallet = goodWallet
     //when wallet is ready perform login to server (sign message with wallet and send to server)
 
-    Promise.all([goodWallet.ready.then(() => goodWalletLogin.auth()), goodWallet.isCitizen(), delay(TIMEOUT)]).then(([credsOrError, isCitizen]) => {
+    Promise.all([
+      goodWallet.ready.then(() => goodWalletLogin.auth()),
+      goodWallet.ready.then(() => goodWallet.isCitizen()),
+      delay(TIMEOUT)
+    ]).then(([credsOrError, isCitizen]) => {
       this.setState({ walletReady: true, isCitizen, isLoggedIn: credsOrError.jwt !== undefined })
     })
   }

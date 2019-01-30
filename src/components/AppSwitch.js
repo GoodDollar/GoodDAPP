@@ -1,6 +1,7 @@
 // @flow
 import React from 'react'
 import { SceneView } from '@react-navigation/core'
+import goodWallet from '../lib/wallet/GoodWallet'
 import goodWalletLogin from '../lib/login/GoodWalletLogin'
 import logger from '../lib/logger/pino-logger'
 
@@ -29,22 +30,24 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
    * @returns {Promise<void>}
    */
   checkAuthStatus = async () => {
-    await global.wallet.ready
+    await goodWallet.ready
 
     // when wallet is ready perform login to server (sign message with wallet and send to server)
-    const credsOrError: any = await goodWalletLogin.auth()
+    const credsOrError = await goodWalletLogin.auth()
+    const isCitizen: boolean = await goodWallet.isCitizen()
     const isLoggedIn = credsOrError.jwt !== undefined
 
-    if (isLoggedIn) {
+    if (isLoggedIn && isCitizen) {
       this.props.navigation.navigate('AppNavigation')
     } else {
-      const { response } = credsOrError
+      const { jwt } = credsOrError
 
-      if (response && response.status === 400) {
+      if (jwt) {
+        log.debug('New account, not verified, or did not finish signup', jwt)
         this.props.navigation.navigate('Auth')
       } else {
         // TODO: handle other statuses (4xx, 5xx), consider exponential backoff
-        log.error('Failed to sign in', response)
+        log.error('Failed to sign in', credsOrError)
         this.props.navigation.navigate('Auth')
       }
     }

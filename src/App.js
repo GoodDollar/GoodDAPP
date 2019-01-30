@@ -3,8 +3,8 @@ import React, { Component } from 'react'
 import { StyleSheet, View, Platform, SafeAreaView } from 'react-native'
 import { Provider as PaperProvider } from 'react-native-paper'
 import { WebRouter } from './Router'
-import GoodWallet from './lib/wallet/GoodWallet'
-import GoodWalletLogin from './lib/login/GoodWalletLogin'
+import goodWallet from './lib/wallet/GoodWallet'
+import goodWalletLogin from './lib/login/GoodWalletLogin'
 import Splash from './components/splash/Splash'
 
 function delay(t, v) {
@@ -20,12 +20,11 @@ class App extends Component<{}, { walletReady: boolean, isLoggedIn: boolean, isU
     isUserRegistered: false
   }
 
-class App extends Component<{}> {
   componentWillMount() {
     //set wallet as global, even though everyone can import the singleton
-    global.wallet = GoodWallet
+    global.wallet = goodWallet
     //when wallet is ready perform login to server (sign message with wallet and send to server)
-    Promise.all([GoodWallet.ready.then(() => GoodWalletLogin.auth()), delay(TIMEOUT)]).then(([credsOrError]) => {
+    Promise.all([goodWallet.ready.then(() => goodWalletLogin.auth()), delay(TIMEOUT)]).then(([credsOrError]) => {
       this.setState({ walletReady: true, isLoggedIn: credsOrError.jwt !== undefined })
     })
   }

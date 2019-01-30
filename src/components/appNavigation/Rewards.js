@@ -32,7 +32,7 @@ const InternalReward1 = props => (
 
 /**
  * Rewards screen showing nested navigation with stackNavigator
- * @param {*} props 
+ * @param {*} props
  */
 const Rewards = props => {
   return (

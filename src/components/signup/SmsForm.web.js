@@ -11,17 +11,20 @@ const log = logger.child({ from: 'SmsForm.web' })
 type Props = {
   // callback to report to parent component
   phone: string,
-  doneCallback: ({ isPhoneVerified: boolean }) => null
+  doneCallback: ({ isPhoneVerified: boolean }) => null,
+  screenProps: any
 }
 type State = {
   isPhoneVerified: boolean,
-  sentSMS: boolean
+  sentSMS: boolean,
+  valid: boolean
 }
 
 export default class SmsForm extends React.Component<Props, State> {
   state = {
     isPhoneVerified: false,
-    sentSMS: false
+    sentSMS: false,
+    valid: false
   }
 
   numInputs: number = 5
@@ -32,7 +35,7 @@ export default class SmsForm extends React.Component<Props, State> {
     this.sendSMS()
   }
 
-  handleChange = otp => {
+  handleChange = (otp: string) => {
     if (otp.length === this.numInputs) {
       this.verifyOTP(otp)
     }
@@ -73,7 +76,7 @@ export default class SmsForm extends React.Component<Props, State> {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  verifyOTP(otp) {
+  verifyOTP(otp: string) {
     if (otp.length === this.numInputs) {
       this.setState({ valid: true })
       this.handleSubmit()

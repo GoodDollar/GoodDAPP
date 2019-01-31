@@ -6,14 +6,18 @@ import { BackButton, ContinueButton, Wrapper } from './components'
 
 type Props = {
   // callback to report to parent component
-  doneCallback: ({ name: string }) => null
+  doneCallback: ({ name: string }) => null,
+  screenProps: any,
+  navigation: any
 }
+
 type State = {
   name: string,
   valid: boolean
 }
+
 export default class NameForm extends React.Component<Props, State> {
-  constructor(props) {
+  constructor(props: Props) {
     super(props)
     this.state = {
       name: this.props.screenProps.data.name || '',
@@ -24,16 +28,19 @@ export default class NameForm extends React.Component<Props, State> {
   componentDidMount() {
     // this.focusInput()
   }
+
   focusInput() {
     setTimeout(() => {
-      let inputs = document.getElementById('signup_name').focus()
+      const input: TextInput = document.getElementById('signup_name')
+      input.focus()
+
       if (window.Keyboard && window.Keyboard.show) {
         window.Keyboard.show()
       }
     }, 0)
   }
 
-  handleChange = text => {
+  handleChange = (text: string) => {
     this.setState({
       name: text,
       valid: text.match(/[A-Za-z][A-Za-z'-]+(\s[A-Za-z][A-Za-z'-]+)+/) !== null

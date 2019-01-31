@@ -3,9 +3,7 @@ import React, { Component } from 'react'
 import { StyleSheet, View, Platform, SafeAreaView } from 'react-native'
 import { Provider as PaperProvider } from 'react-native-paper'
 import { WebRouter } from './Router'
-import goodWallet from './lib/wallet/GoodWallet'
-import goodWalletLogin from './lib/login/GoodWalletLogin'
-import Splash from './components/splash/Splash'
+import GoodWallet from './lib/wallet/GoodWallet'
 
 class App extends Component<{}, { walletReady: boolean, isLoggedIn: boolean, isUserRegistered: boolean }> {
   componentWillMount() {

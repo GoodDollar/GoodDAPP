@@ -12,6 +12,13 @@ type LoadingProps = {
 
 const log = logger.child({ from: 'AppSwitch' })
 
+function delay(t, v) {
+  return new Promise(function(resolve) {
+    setTimeout(resolve.bind(null, v), t)
+  })
+}
+const TIMEOUT = 1000
+
 /**
  * The main app route. Here we decide where to go depending on the user's credentials status
  */
@@ -33,8 +40,7 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
     await goodWallet.ready
 
     // when wallet is ready perform login to server (sign message with wallet and send to server)
-    const credsOrError = await goodWalletLogin.auth()
-    const isCitizen: boolean = await goodWallet.isCitizen()
+    const [credsOrError, isCitizen]: any = await Promise.all([goodWalletLogin.auth(), goodWallet.isCitizen(), delay(TIMEOUT)])
     const isLoggedIn = credsOrError.jwt !== undefined
 
     if (isLoggedIn && isCitizen) {

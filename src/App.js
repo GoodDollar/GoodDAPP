@@ -7,42 +7,19 @@ import goodWallet from './lib/wallet/GoodWallet'
 import goodWalletLogin from './lib/login/GoodWalletLogin'
 import Splash from './components/splash/Splash'
 
-function delay(t, v) {
-  return new Promise(function(resolve) {
-    setTimeout(resolve.bind(null, v), t)
-  })
-}
-const TIMEOUT = 1000
-class App extends Component<
-  {},
-  { walletReady: boolean, isLoggedIn: boolean, isUserRegistered: boolean, isCitizen: boolean }
-> {
-  state = {
-    walletReady: false,
-    isLoggedIn: false,
-    isUserRegistered: false,
-    isCitizen: false
-  }
-
+class App extends Component<{}, { walletReady: boolean, isLoggedIn: boolean, isUserRegistered: boolean }> {
   componentWillMount() {
     //set wallet as global, even though everyone can import the singleton
-    global.wallet = goodWallet
-    //when wallet is ready perform login to server (sign message with wallet and send to server)
-
-    Promise.all([
-      goodWallet.ready.then(() => goodWalletLogin.auth()),
-      goodWallet.ready.then(() => goodWallet.isCitizen()),
-      delay(TIMEOUT)
-    ]).then(([credsOrError, isCitizen]) => {
-      this.setState({ walletReady: true, isCitizen, isLoggedIn: credsOrError.jwt !== undefined })
-    })
+    global.wallet = GoodWallet
   }
 
   render() {
     return (
       <PaperProvider>
         <SafeAreaView>
-          <View style={styles.container}>{this.state.walletReady ? <WebRouter /> : <Splash />}</View>
+          <View style={styles.container}>
+            <WebRouter />
+          </View>
         </SafeAreaView>
       </PaperProvider>
     )

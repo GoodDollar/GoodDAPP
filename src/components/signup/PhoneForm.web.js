@@ -9,14 +9,17 @@ import { BackButton, ContinueButton, Wrapper } from './components'
 
 type Props = {
   // callback to report to parent component
-  doneCallback: ({ phone: string }) => null
+  doneCallback: ({ phone: string }) => null,
+  screenProps: any,
+  navigation: any
 }
 type State = {
   phone: string,
-  valid?: boolean
+  valid: boolean
 }
+
 export default class PhoneForm extends React.Component<Props, State> {
-  constructor(props) {
+  constructor(props: Props) {
     super(props)
     this.state = {
       phone: this.props.screenProps.data.phone || '',
@@ -31,14 +34,16 @@ export default class PhoneForm extends React.Component<Props, State> {
 
   focusInput() {
     setTimeout(() => {
-      let inputs = document.getElementById('signup_phone').focus()
+      const input: TextInput = document.getElementById('signup_phone')
+      input.focus()
+
       if (window.Keyboard && window.Keyboard.show) {
         window.Keyboard.show()
       }
     }, 0)
   }
 
-  handleChange = phone => {
+  handleChange = (phone: string) => {
     let isValid = false
     try {
       isValid = isMobilePhone(phone)

@@ -34,16 +34,16 @@ class Signup extends React.Component<{ navigation: any }, SignupState> {
     pubkey: goodWallet.account
   }
 
-  done = (data: { [string]: string }) => {
+  done = async (data: { [string]: string }) => {
     log.info('signup data:', { data })
     this.setState(data)
     let nextRoute = this.props.navigation.state.routes[this.props.navigation.state.index + 1]
     if (nextRoute) this.props.navigation.navigate(nextRoute.key)
     else {
       log.info('Sending new user data', this.state)
-      API.addUser(this.state).then(() => {
-        this.props.navigation.navigate('AppNavigation')
-      })
+      await API.verifyUser({})
+      await API.addUser(this.state)
+      this.props.navigation.navigate('AppNavigation')
     }
   }
 

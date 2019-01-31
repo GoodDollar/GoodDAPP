@@ -1,6 +1,6 @@
 // @flow
 import axios from 'axios'
-import Config from '../../config/dev.js'
+import Config from '../../config/config'
 import { AsyncStorage } from 'react-native'
 import logger from '../logger/pino-logger'
 
@@ -34,7 +34,7 @@ class API {
       this.jwt = jwt
       this.client = await axios.create({
         baseURL: Config.GoodServer,
-        timeout: 2000,
+        timeout: 30000,
         headers: { Authorization: `Bearer ${this.jwt || ''}` }
       })
       log.info('API ready', this.client, this.jwt)
@@ -49,7 +49,17 @@ class API {
       let res = await this.client.post('/user/add', { user })
       log.info(res)
     } catch (e) {
-      log.info(e)
+      log.error(e)
+    }
+  }
+
+  async verifyUser(verificationData: any) {
+    try {
+      let res = await this.client.post('/verify/user', { verificationData })
+      log.info(res)
+    } catch (e) {
+      log.error(e)
+      throw e
     }
   }
 }

@@ -13,19 +13,21 @@ type Props = {
   screenProps: any,
   navigation: any
 }
-type State = {
-  phone: string,
-  valid: boolean
+
+export type MobileRecord = {
+  mobile: string
 }
+
+type State = MobileRecord & { valid?: boolean }
 
 export default class PhoneForm extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props)
     this.state = {
-      phone: this.props.screenProps.data.phone || '',
+      mobile: this.props.screenProps.data.mobile || '',
       valid: false
     }
-    this.state.valid = isMobilePhone(this.state.phone)
+    this.state.valid = isMobilePhone(this.state.mobile)
   }
 
   componentDidMount() {
@@ -43,19 +45,19 @@ export default class PhoneForm extends React.Component<Props, State> {
     }, 0)
   }
 
-  handleChange = (phone: string) => {
+  handleChange = (mobile: string) => {
     let isValid = false
     try {
-      isValid = isMobilePhone(phone)
+      isValid = isMobilePhone(mobile)
     } catch (e) {}
     this.setState({
-      phone,
+      mobile,
       valid: isValid
     })
   }
 
   handleSubmit = () => {
-    this.props.screenProps.doneCallback({ phone: this.state.phone })
+    this.props.screenProps.doneCallback({ mobile: this.state.mobile })
   }
 
   render() {
@@ -65,7 +67,7 @@ export default class PhoneForm extends React.Component<Props, State> {
         <PhoneInput
           id="signup_phone"
           placeholder="Enter phone number"
-          value={this.state.phone}
+          value={this.state.mobile}
           onChange={this.handleChange}
         />
         <ContinueButton valid={this.state.valid} handleSubmit={this.handleSubmit} />

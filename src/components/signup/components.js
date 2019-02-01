@@ -6,7 +6,7 @@ import { IconButton, Button } from 'react-native-paper'
 export const BackButton = ({ back, ...other }: { back: Function, other: Array<any> }) => (
   <IconButton style={{ marginTop: '15px' }} icon="arrow-back" size={20} onPress={() => back()} {...other} />
 )
-export const ContinueButton = (props: { valid: boolean, handleSubmit: () => any }) => (
+export const ContinueButton = (props: { valid?: boolean, handleSubmit: () => any }) => (
   <Button
     style={{ marginLeft: 'auto', marginRight: 'auto', marginTop: '15px' }}
     mode="contained"

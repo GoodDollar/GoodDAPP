@@ -11,19 +11,20 @@ type Props = {
   navigation: any
 }
 
-type State = {
-  name: string,
-  valid: boolean
+export type NameRecord = {
+  fullName: string
 }
+
+type State = NameRecord & { valid?: boolean }
 
 export default class NameForm extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props)
     this.state = {
-      name: this.props.screenProps.data.name || '',
+      fullName: this.props.screenProps.data.fullName || '',
       valid: false
     }
-    this.state.valid = this.state.name.match(/[A-Za-z][A-Za-z'-]+(\s[A-Za-z][A-Za-z'-]+)+/) !== null
+    this.state.valid = this.state.fullName.match(/[A-Za-z][A-Za-z'-]+(\s[A-Za-z][A-Za-z'-]+)+/) !== null
   }
   componentDidMount() {
     // this.focusInput()
@@ -42,13 +43,13 @@ export default class NameForm extends React.Component<Props, State> {
 
   handleChange = (text: string) => {
     this.setState({
-      name: text,
+      fullName: text,
       valid: text.match(/[A-Za-z][A-Za-z'-]+(\s[A-Za-z][A-Za-z'-]+)+/) !== null
     })
   }
 
   handleSubmit = () => {
-    this.props.screenProps.doneCallback({ name: this.state.name })
+    this.props.screenProps.doneCallback({ fullName: this.state.fullName })
     // this.$f7router.navigate("/signup/email/")
   }
 
@@ -59,7 +60,7 @@ export default class NameForm extends React.Component<Props, State> {
         <TextInput
           id="signup_name"
           label="Your Full Name"
-          value={this.state.name}
+          value={this.state.fullName}
           onChangeText={this.handleChange}
           autoFocus
         />

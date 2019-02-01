@@ -14,15 +14,17 @@ type Props = {
   doneCallback: ({ isPhoneVerified: boolean }) => null,
   screenProps: any
 }
-type State = {
-  isPhoneVerified: boolean,
-  sentSMS: boolean,
-  valid: boolean
+
+export type SMSRecord = {
+  smsValidated: boolean,
+  sentSMS?: boolean
 }
+
+type State = SMSRecord & { valid?: boolean }
 
 export default class SmsForm extends React.Component<Props, State> {
   state = {
-    isPhoneVerified: false,
+    smsValidated: false,
     sentSMS: false,
     valid: false
   }
@@ -42,7 +44,7 @@ export default class SmsForm extends React.Component<Props, State> {
   }
 
   handleSubmit = () => {
-    this.props.screenProps.doneCallback({ isPhoneVerified: true })
+    this.props.screenProps.doneCallback({ smsValidated: true })
   }
 
   // eslint-disable-next-line class-methods-use-this

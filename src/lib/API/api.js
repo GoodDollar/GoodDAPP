@@ -3,22 +3,19 @@ import axios from 'axios'
 import Config from '../../config/dev.js'
 import { AsyncStorage } from 'react-native'
 import logger from '../logger/pino-logger'
+import type { NameRecord } from '../../components/signup/NameForm'
+import type { EmailRecord } from '../../components/signup/EmailForm'
+import type { MobileRecord } from '../../components/signup/PhoneForm.web'
 
 const log = logger.child({ from: 'API' })
 
 export type Credentials = {
-  publicKey: string,
-  signature: string,
-  jwt?: string
+  pubkey: string,
+  signature?: string,
+  jwt: string
 }
 
-export type UserRecord = {
-  pubkey: string,
-  fullName?: string,
-  mobile?: string,
-  email?: string,
-  jwt?: string
-}
+export type UserRecord = NameRecord & EmailRecord & MobileRecord & Credentials
 
 class API {
   jwt: string

@@ -7,18 +7,14 @@ import SmsForm from './SmsForm'
 import { createSwitchNavigator } from '@react-navigation/core'
 import logger from '../../lib/logger/pino-logger'
 
+import type { UserRecord } from '../../lib/API/api'
 import API from '../../lib/API/api'
 import goodWallet from '../../lib/wallet/GoodWallet'
+import type { SMSRecord } from './SmsForm'
 
 const log = logger.child({ from: 'SignupState' })
 
-type SignupState = {
-  pubkey: string,
-  email?: string,
-  phone?: string,
-  name?: string,
-  smsValidated?: boolean
-}
+type SignupState = UserRecord & SMSRecord
 
 const SignupWizardNavigator = createSwitchNavigator({
   Name: NameForm,
@@ -31,15 +27,22 @@ class Signup extends React.Component<{ navigation: any }, SignupState> {
   static router = SignupWizardNavigator.router
 
   state = {
-    pubkey: goodWallet.account
+    pubkey: goodWallet.account,
+    fullName: '',
+    email: '',
+    mobile: '',
+    smsValidated: false,
+    jwt: ''
   }
 
   done = (data: { [string]: string }) => {
-    log.info('signup data:', { data })
+    log.info('signup data:', data, this.state)
     this.setState(data)
     let nextRoute = this.props.navigation.state.routes[this.props.navigation.state.index + 1]
-    if (nextRoute) this.props.navigation.navigate(nextRoute.key)
-    else {
+
+    if (nextRoute) {
+      this.props.navigation.navigate(nextRoute.key)
+    } else {
       log.info('Sending new user data', this.state)
       API.addUser(this.state).then(() => {
         this.props.navigation.navigate('AppNavigation')

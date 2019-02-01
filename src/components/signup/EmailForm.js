@@ -14,10 +14,13 @@ type Props = {
   screenProps: any,
   navigation: any
 }
-type State = {
-  email: string,
-  valid: boolean
+
+export type EmailRecord = {
+  email: string
 }
+
+type State = EmailRecord & { valid?: boolean }
+
 export default class EmailForm extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props)

@@ -39,4 +39,7 @@ module.name_mapper='^react-native$' -> 'react-native-web'
 module.name_mapper='^[./a-zA-Z0-9$_-]+\.\(png\|css\)$' -> 'empty/object'
 
 # Deal with platform-specific files
-module.file_ext=.andriod.js,.ios.js,.web.js,.js
+module.file_ext=.andriod.js
+module.file_ext=.ios.js
+module.file_ext=.web.js
+module.file_ext=.js

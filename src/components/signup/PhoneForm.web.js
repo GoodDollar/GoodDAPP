@@ -1,11 +1,9 @@
 // @flow
 import React from 'react'
-import { View } from 'react-native'
-import { Button, IconButton, TextInput } from 'react-native-paper'
 import PhoneInput from 'react-phone-number-input'
 import isMobilePhone from 'validator/lib/isMobilePhone'
 import 'react-phone-number-input/style.css'
-import { BackButton, ContinueButton, Wrapper } from './components'
+import { Title, Wrapper, Description } from './components'
 
 type Props = {
   // callback to report to parent component
@@ -55,16 +53,16 @@ export default class PhoneForm extends React.Component<Props, State> {
 
   render() {
     return (
-      <Wrapper>
-        {/* Your screen contents depending on current tab. */}
+      <Wrapper valid={this.state.valid} handleSubmit={this.handleSubmit}>
+        <Title>{'John, \n May we have your number please?'}</Title>
+
         <PhoneInput
           id="signup_phone"
           placeholder="Enter phone number"
           value={this.state.phone}
           onChange={this.handleChange}
         />
-        <ContinueButton valid={this.state.valid} handleSubmit={this.handleSubmit} />
-        <BackButton {...this.props.screenProps} />
+        <Description>We will shortly send you a verification code to this number</Description>
       </Wrapper>
     )
   }

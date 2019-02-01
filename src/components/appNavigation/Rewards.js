@@ -22,8 +22,8 @@ const InternalReward1 = props => (
   <View>
     <Text>InternalReward Screen 1</Text>
     <View style={styles.buttons}>
-      <BackButton navigationConfig={props.screenProps}>Cancel</BackButton>
-      <PushButton routeName={'InternalReward2'} navigationConfig={props.screenProps}>
+      <BackButton screenProps={props.screenProps}>Cancel</BackButton>
+      <PushButton routeName={'InternalReward2'} screenProps={props.screenProps}>
         InternalReward 2
       </PushButton>
     </View>
@@ -39,7 +39,7 @@ const Rewards = props => {
     <View>
       <Text>Rewards Screen</Text>
       <View style={styles.buttons}>
-        <PushButton routeName={'InternalReward1'} navigationConfig={props.screenProps}>
+        <PushButton routeName={'InternalReward1'} screenProps={props.screenProps}>
           InternalReward 1
         </PushButton>
       </View>

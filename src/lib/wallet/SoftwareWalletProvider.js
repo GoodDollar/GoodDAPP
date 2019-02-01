@@ -1,5 +1,7 @@
 // @flow
 import Web3 from 'web3'
+import type { WebSocketProvider } from 'web3-providers-ws'
+import type { HttpProvider } from 'web3-providers-http'
 import Secrets from '../../secrets.json'
 //import conf from '../../client.config.js'
 import bip39 from 'bip39'
@@ -55,13 +57,13 @@ class SoftwareWalletProvider {
   getWeb3HttpProviderConnectionString(): string {
     let provider: string
     let transport: string = this.conf.web3Transport
-    let network_id: string = this.conf.network_id
+    let network_id: number = this.conf.network_id
 
     provider = this.conf.httpWeb3provider + Secrets.ethereum[network_id].infura.api_key
     return provider
   }
 
-  getWeb3TransportProvider(): Subprovider {
+  getWeb3TransportProvider(): HttpProvider | WebSocketProvider {
     let provider
     let web3Provider
     let transport = this.conf.web3Transport

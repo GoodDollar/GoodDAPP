@@ -6,7 +6,8 @@ import Config from '../../config/dev.js'
 export type WalletConfig = {
   network_id: number,
   httpWeb3provider: string,
-  websocketWeb3Provider: string
+  websocketWeb3Provider: string,
+  web3Transport: string
 }
 export default class WalletFactory {
   static create(walletType: string): Promise<Web3> {

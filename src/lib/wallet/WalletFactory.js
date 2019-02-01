@@ -1,7 +1,7 @@
 // @flow
 import Web3 from 'web3'
 import SoftwareWalletProvider from './SoftwareWalletProvider'
-import Config from '../../config/dev.js'
+import Config from '../../config/config'
 
 export type WalletConfig = {
   network_id: number,

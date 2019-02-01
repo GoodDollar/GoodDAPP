@@ -4,13 +4,13 @@ import NameForm from './NameForm'
 import EmailForm from './EmailForm'
 import PhoneForm from './PhoneForm'
 import SmsForm from './SmsForm'
+import type { UserRecord } from '../../lib/API/api'
+import type { SMSRecord } from './SmsForm'
 import { createSwitchNavigator } from '@react-navigation/core'
 import logger from '../../lib/logger/pino-logger'
 
-import type { UserRecord } from '../../lib/API/api'
 import API from '../../lib/API/api'
 import goodWallet from '../../lib/wallet/GoodWallet'
-import type { SMSRecord } from './SmsForm'
 
 const log = logger.child({ from: 'SignupState' })
 
@@ -35,18 +35,16 @@ class Signup extends React.Component<{ navigation: any }, SignupState> {
     jwt: ''
   }
 
-  done = (data: { [string]: string }) => {
-    log.info('signup data:', data, this.state)
+  done = async (data: { [string]: string }) => {
+    log.info('signup data:', { data })
     this.setState(data)
     let nextRoute = this.props.navigation.state.routes[this.props.navigation.state.index + 1]
-
-    if (nextRoute) {
-      this.props.navigation.navigate(nextRoute.key)
-    } else {
+    if (nextRoute) this.props.navigation.navigate(nextRoute.key)
+    else {
       log.info('Sending new user data', this.state)
-      API.addUser(this.state).then(() => {
-        this.props.navigation.navigate('AppNavigation')
-      })
+      await API.verifyUser({})
+      await API.addUser(this.state)
+      this.props.navigation.navigate('AppNavigation')
     }
   }
 

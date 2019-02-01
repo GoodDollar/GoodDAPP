@@ -13,7 +13,7 @@ const TabButton = (props: TabButtonProps) => {
   return (
     <View style={styles.tabButton} onClick={() => props.goTo(props.routeName)}>
       <Image source={props.icon} style={styles.tabIcon} />
-      <Text>{props.text}</Text>
+      <Text style={styles.tabButtonText}>{props.text}</Text>
     </View>
   )
 }
@@ -38,10 +38,12 @@ const TabsView = (props: TabViewProps) => (
 )
 
 const styles = StyleSheet.create({
-  tabButton: {
+  tabButtonText: {
     color: '#d2d2d2',
+    textAlign: 'center'
+  },
+  tabButton: {
     alignItems: 'center',
-    textAlign: 'center',
     display: 'flex',
     flexDirection: 'column',
     height: '100%',
@@ -51,8 +53,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     height: '60px',
-    backgroundColor: '#909090',
-    color: '#d2d2d2'
+    backgroundColor: '#909090'
   },
   tabIcon: { width: 40, flexGrow: 2, flexBasis: 0 }
 })

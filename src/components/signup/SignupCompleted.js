@@ -13,7 +13,7 @@ export default class SignupCompleted extends React.Component<Props, State> {
   render() {
     return (
       <Wrapper valid={true} handleSubmit={this.handleSubmit} submitText="Let's start!" showPrivacyPolicy={false}>
-        <Title>{"That's great,\nThanks John!"}</Title>
+        <Title>{`That's great,\nThanks ${this.props.screenProps.data.name}!`}</Title>
       </Wrapper>
     )
   }

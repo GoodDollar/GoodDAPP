@@ -28,7 +28,7 @@ export default class EmailConfirmation extends React.Component<Props, State> {
         }}
       >
         <Description>{"We've sent an email to:"}</Description>
-        <Title>{'Johndoe@gmail.com'}</Title>
+        <Title>{this.props.screenProps.data.email}</Title>
       </Wrapper>
     )
   }

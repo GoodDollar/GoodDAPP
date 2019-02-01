@@ -59,7 +59,7 @@ class LoginService {
 
     // TODO: write the nonce https://gitlab.com/gooddollar/gooddapp/issues/1
     log.info('Calling server for authentication')
-    const authResult: Credentials | Error = API.auth(creds)
+    const authResult: Promise<Credentials | Error> = API.auth(creds)
       .then(res => {
         log.info(res)
         if (res.status === 200) {

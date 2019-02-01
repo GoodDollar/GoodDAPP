@@ -1,5 +1,6 @@
 // @flow
 import axios from 'axios'
+import type { Axios, AxiosPromise } from 'axios'
 import Config from '../../config/dev.js'
 import { AsyncStorage } from 'react-native'
 import logger from '../logger/pino-logger'
@@ -19,7 +20,7 @@ export type UserRecord = NameRecord & EmailRecord & MobileRecord & Credentials
 
 class API {
   jwt: string
-  client: axios
+  client: Axios
 
   constructor() {
     this.init()
@@ -37,8 +38,9 @@ class API {
       log.info('API ready', this.client, this.jwt)
     })
   }
-  auth(creds: Credentials) {
-    return this.client.post(`/auth/eth`, creds)
+
+  auth(creds: Credentials): AxiosPromise<any> {
+    return this.client.post('/auth/eth', creds)
   }
 
   async addUser(user: UserRecord) {

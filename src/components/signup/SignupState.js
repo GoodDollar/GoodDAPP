@@ -5,6 +5,10 @@ import NameForm from './NameForm'
 import EmailForm from './EmailForm'
 import PhoneForm from './PhoneForm'
 import SmsForm from './SmsForm'
+import EmailConfirmation from './EmailConfirmation'
+import FaceRecognition from './FaceRecognition'
+import SignupCompleted from './SignupCompleted'
+
 import NavBar from '../appNavigation/NavBar'
 
 import { createSwitchNavigator } from '@react-navigation/core'
@@ -27,7 +31,10 @@ const SignupWizardNavigator = createSwitchNavigator({
   Name: NameForm,
   Phone: PhoneForm,
   SMS: SmsForm,
-  Email: EmailForm
+  Email: EmailForm,
+  EmailConfirmation,
+  FaceRecognition,
+  SignupCompleted
 })
 
 class Signup extends React.Component<{ navigation: any, screenProps: any }, SignupState> {

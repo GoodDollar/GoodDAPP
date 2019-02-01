@@ -16,20 +16,30 @@ export const NextButton = (props: { valid?: boolean, handleSubmit: () => any, st
     <Text style={styles.buttonText}>{props.children}</Text>
   </Button>
 )
-export const Wrapper = props => (
-  <View style={styles.wrapper} {...props}>
-    <View style={styles.topContainer}>{props.children}</View>
 
-    <View style={styles.bottomContainer}>
-      <NextButton style={styles.continueButton} valid={props.valid} handleSubmit={props.handleSubmit}>
-        Next
+const Footer = props => {
+  const showPrivacyPolicy = props.showPrivacyPolicy === undefined ? true : props.showPrivacyPolicy
+  return (
+    <React.Fragment>
+      <NextButton valid={props.valid} handleSubmit={props.handleSubmit}>
+        {props.submitText || 'Next'}
       </NextButton>
-      <LinkButton style={styles.linkButton} onPress={() => console.log('Link button')}>
-        Privacy Policy
-      </LinkButton>
+      {showPrivacyPolicy && <LinkButton onPress={() => console.log('Link button')}>Privacy Policy</LinkButton>}
+    </React.Fragment>
+  )
+}
+
+export const Wrapper = props => {
+  const { footerComponent: FooterComponent } = props
+  return (
+    <View style={styles.wrapper} {...props}>
+      <View style={styles.topContainer}>{props.children}</View>
+      <View style={styles.bottomContainer}>
+        {FooterComponent ? <FooterComponent {...props} /> : <Footer {...props} />}
+      </View>
     </View>
-  </View>
-)
+  )
+}
 
 export const LinkButton = props => (
   <Text style={[props.styles, styles.linkButton]} onPress={props.onPress}>
@@ -37,9 +47,9 @@ export const LinkButton = props => (
   </Text>
 )
 
-export const Title = props => <Text style={styles.title}>{props.children}</Text>
+export const Title = props => <Text style={[styles.title, props.style]}>{props.children}</Text>
 
-export const Description = props => <Text style={styles.description}>{props.children}</Text>
+export const Description = props => <Text style={[styles.description, props.style]}>{props.children}</Text>
 
 const fontStyle = {
   fontFamily: 'Helvetica, "sans-serif"',

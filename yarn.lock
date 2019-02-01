@@ -1377,10 +1377,12 @@
   resolved "https://registry.yarnpkg.com/@emotion/unitless/-/unitless-0.7.3.tgz#6310a047f12d21a1036fb031317219892440416f"
   integrity sha512-4zAPlpDEh2VwXswwr/t8xGNDGg8RQiPxtxZ3qQEXyQsBV39ptTdESCjuBvGze1nLMVrxmTIKmnO/nAV8Tqjjzg==
 
-"@gooddollar/goodcontracts@^0.0.1":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@gooddollar/goodcontracts/-/goodcontracts-0.0.1.tgz#32fbe3047bf953e41a50a5f484f38ac2212567b0"
-  integrity sha512-c0Jy3qTHmGjStE0ZoidMsIivxn4aCYoxyXVahHccQDbJn1d3JEdJz4mtRWvHSofofYBh+lH9rQBplhkP+h2s9A==
+"@gooddollar/goodcontracts@0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@gooddollar/goodcontracts/-/goodcontracts-0.0.4.tgz#5ccd1f083201e9be11247f0eca70499cd100bbea"
+  integrity sha512-E2I5kihEBpnkTfqq32kedJFVPdP6Op4ain7AZ8kpREHVOD0UThXBzgZYe3poWECh1fQ8hOx9MGCBWVVKfYdaiw==
+  dependencies:
+    dotenv "^6.2.0"
 
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
@@ -3969,6 +3971,11 @@ dotenv@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-2.0.0.tgz#bd759c357aaa70365e01c96b7b0bec08a6e0d949"
   integrity sha1-vXWcNXqqcDZeAclrewvsCKbg2Uk=
+
+dotenv@^6.2.0:
+  version "6.2.0"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-6.2.0.tgz#941c0410535d942c8becf28d3f357dbd9d476064"
+  integrity sha512-HygQCKUBSFl8wKQZBSemMywRWcEDNidvNbjGVyZu3nbZ8qq9ubiPoGLMdRDpfSrpkkm9BXYFkpKxxFX38o/76w==
 
 drbg.js@^1.0.1:
   version "1.0.1"
@@ -11870,7 +11877,7 @@ web3-utils@1.0.0-beta.37:
     underscore "1.8.3"
     utf8 "2.1.1"
 
-web3@^1.0.0-beta.37:
+web3@1.0.0-beta.37:
   version "1.0.0-beta.37"
   resolved "https://registry.yarnpkg.com/web3/-/web3-1.0.0-beta.37.tgz#b42c30e67195f816cd19d048fda872f70eca7083"
   integrity sha512-8XLgUspdzicC/xHG82TLrcF/Fxzj2XYNJ1KTYnepOI77bj5rvpsxxwHYBWQ6/JOjk0HkZqoBfnXWgcIHCDhZhQ==

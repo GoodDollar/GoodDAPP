@@ -44,3 +44,15 @@ declare module '@gooddollar/goodcontracts/test/GoodCoinMarket.js' {
 declare module '@gooddollar/goodcontracts/test/GoodDollar.js' {
   declare module.exports: $Exports<'@gooddollar/goodcontracts/test/GoodDollar'>;
 }
+declare module '@gooddollar/goodcontracts/build/contracts/Identity.json' {
+  declare module.exports: $Exports<'@gooddollar/goodcontracts/build/contracts/Identity.json'>;
+}
+declare module '@gooddollar/goodcontracts/build/contracts/RedemptionFunctional.json' {
+  declare module.exports: $Exports<'@gooddollar/goodcontracts/build/contracts/RedemptionFunctional.json'>;
+}
+declare module '@gooddollar/goodcontracts/build/contracts/GoodDollar.json' {
+  declare module.exports: $Exports<'@gooddollar/goodcontracts/build/contracts/GoodDollar.json'>;
+}
+declare module '@gooddollar/goodcontracts/build/contracts/GoodDollarReserve.json' {
+  declare module.exports: $Exports<'@gooddollar/goodcontracts/build/contracts/GoodDollarReserve.json'>;
+}

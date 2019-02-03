@@ -1,8 +1,7 @@
 // @flow
 import React from 'react'
-import { View } from 'react-native'
-import { TextInput, Button } from 'react-native-paper'
-import { BackButton, ContinueButton, Wrapper } from './components'
+import { TextInput } from 'react-native-paper'
+import { Wrapper, Title } from './components'
 
 type Props = {
   // callback to report to parent component
@@ -47,8 +46,8 @@ export default class NameForm extends React.Component<Props, State> {
 
   render() {
     return (
-      <Wrapper>
-        {/* Your screen contents depending on current tab. */}
+      <Wrapper valid={this.state.valid} handleSubmit={this.handleSubmit}>
+        <Title>{"Hi, \n What's your name?"}</Title>
         <TextInput
           id="signup_name"
           label="Your Full Name"
@@ -56,9 +55,6 @@ export default class NameForm extends React.Component<Props, State> {
           onChangeText={this.handleChange}
           autoFocus
         />
-
-        <ContinueButton valid={this.state.valid} handleSubmit={this.handleSubmit} />
-        <BackButton {...this.props.screenProps} />
       </Wrapper>
     )
   }

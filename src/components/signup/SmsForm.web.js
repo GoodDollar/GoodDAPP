@@ -1,9 +1,8 @@
 // @flow
 import React from 'react'
-import { View, Text } from 'react-native'
-import { Button, IconButton } from 'react-native-paper'
+import { StyleSheet, Text } from 'react-native'
 import OtpInput from 'react-otp-input'
-import { BackButton, ContinueButton, Wrapper } from './components'
+import { Title, Wrapper } from './components'
 import logger from '../../lib/logger/pino-logger'
 
 const log = logger.child({ from: 'SmsForm.web' })
@@ -89,25 +88,40 @@ export default class SmsForm extends React.Component<Props, State> {
 
   render() {
     return (
-      <Wrapper className="signup_otp">
-        <Text>{this.state.sentSMS ? 'SMS in 15 secs' : 'Sending SMS...'}</Text>
-        {/* Your screen contents depending on current tab. */}
+      <Wrapper valid={this.state.valid} handleSubmit={this.handleSubmit}>
+        <Title>{"Your verification code\nYou've just received"}</Title>
         <OtpInput
+          containerStyle={{
+            justifyContent: 'space-evenly'
+          }}
           inputStyle={{
-            width: '2rem',
-            height: '2rem',
-            margin: '0 1rem',
-            fontSize: '1rem',
-            borderRadius: 4,
-            border: '1px solid rgba(0,0,0,0.3)'
+            width: '100%',
+            height: '3rem',
+            margin: '0 0.5rem',
+            fontSize: '1.5rem',
+            borderTop: 'none',
+            borderRight: 'none',
+            borderLeft: 'none',
+            borderBottom: '1px solid #555'
           }}
           shouldAutoFocus
           numInputs={this.numInputs}
           onChange={this.handleChange}
+          isInputNum={true}
         />
-        <ContinueButton valid={this.state.valid} handleSubmit={this.handleSubmit} />
-        <BackButton {...this.props.screenProps} />
+        <Text>{this.state.sentSMS ? 'SMS in 15 secs' : 'Sending SMS...'}</Text>
       </Wrapper>
     )
   }
 }
+
+const styles = StyleSheet.create({
+  inputStyle: {
+    width: '2rem',
+    height: '2rem',
+    margin: '0 1rem',
+    fontSize: '1rem',
+    borderRadius: 4,
+    border: '1px solid rgba(0,0,0,0.3)'
+  }
+})

@@ -12,9 +12,11 @@ import { Button } from 'react-native-paper'
  * It holds the pop, push, gotToRoot and goToParent navigation logic and inserts on top the NavBar component.
  * This navigation actions are being passed via navigationConfig to children components
  */
-class AppView extends Component<{ descriptors: any, navigation: any, navigationConfig: any }> {
+class AppView extends Component<{ descriptors: any, navigation: any, navigationConfig: any, screenProps: any }, any> {
   stack = []
-
+  state = {
+    screenStates: {}
+  }
   /**
    * Pops from stack
    * If there is no screen on the stack navigates to initial screen on stack (goToRoot)
@@ -63,8 +65,14 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
     }
   }
 
+  setScreenState = (screen, data) => {
+    this.setState({ [screen]: data })
+  }
+
+  getScreenState = screen => this.state.screenStates[screen]
+
   render() {
-    const { descriptors, navigation, navigationConfig } = this.props
+    const { descriptors, navigation, navigationConfig, screenProps } = this.props
     const activeKey = navigation.state.routes[navigation.state.index].key
     const descriptor = descriptors[activeKey]
     const { title } = descriptor.options
@@ -74,7 +82,15 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
         <SceneView
           navigation={descriptor.navigation}
           component={descriptor.getComponent()}
-          screenProps={{ ...navigationConfig, push: this.push, goToRoot: this.goToRoot, goToParent: this.goToParent }}
+          screenProps={{
+            ...screenProps,
+            navigationConfig,
+            push: this.push,
+            goToRoot: this.goToRoot,
+            goToParent: this.goToParent,
+            screenState: this.getScreenState(activeKey),
+            setScreenState: data => this.setScreenState(activeKey, data)
+          }}
         />
       </View>
     )
@@ -95,7 +111,7 @@ export const createStackNavigator = (routes: [Route], navigationConfig: any) => 
 }
 
 type ButtonProps = {
-  navigationConfig: any,
+  screenProps: any,
   routeName: Route,
   children: any,
   text: string,
@@ -105,17 +121,17 @@ type ButtonProps = {
 }
 /**
  * PushButton
- * This button gets the push action from navigationConfig. Is meant to be used inside a stackNavigator
+ * This button gets the push action from screenProps. Is meant to be used inside a stackNavigator
  * @param {ButtonProps} props
  */
 export const PushButton = (props: ButtonProps) => {
-  const { disabled, navigationConfig, routeName, children, mode, color } = props
+  const { disabled, screenProps, routeName, children, mode, color } = props
   return (
     <Button
       mode={mode || 'contained'}
       color={color || 'black'}
       disabled={disabled}
-      onPress={() => navigationConfig.push(routeName)}
+      onPress={() => screenProps.push(routeName)}
     >
       {children}
     </Button>
@@ -124,13 +140,13 @@ export const PushButton = (props: ButtonProps) => {
 
 /**
  * BackButton
- * This button gets the goToParent action from navigationConfig. Is meant to be used inside a stackNavigator
+ * This button gets the goToParent action from screenProps. Is meant to be used inside a stackNavigator
  * @param {ButtonProps} props
  */
 export const BackButton = (props: ButtonProps) => {
-  const { disabled, navigationConfig, children, mode, color } = props
+  const { disabled, screenProps, children, mode, color } = props
   return (
-    <Button mode={mode || 'text'} color={color || '#575757'} disabled={disabled} onPress={navigationConfig.goToParent}>
+    <Button mode={mode || 'text'} color={color || '#575757'} disabled={disabled} onPress={screenProps.goToParent}>
       {children}
     </Button>
   )

@@ -1,6 +1,5 @@
 // @flow
 import React from 'react'
-import { TextInput } from 'react-native-paper'
 import { Wrapper, Title, Description, LinkButton, NextButton } from './components'
 import { StyleSheet } from 'react-native'
 import { normalize } from 'react-native-elements'

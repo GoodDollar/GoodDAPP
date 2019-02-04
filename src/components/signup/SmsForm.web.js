@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { StyleSheet, Text } from 'react-native'
+import { Text } from 'react-native'
 import OtpInput from 'react-otp-input'
 import { Title, Wrapper } from './components'
 import logger from '../../lib/logger/pino-logger'

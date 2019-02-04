@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import { View, StyleSheet } from 'react-native'
-import { IconButton, Button, Text } from 'react-native-paper'
+import { Button, Text } from 'react-native-paper'
 import { normalize } from 'react-native-elements'
 
 export const NextButton = (props: { valid?: boolean, handleSubmit: () => any, styles: any, children: any }) => (

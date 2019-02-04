@@ -1,8 +1,6 @@
 // @flow
 import React from 'react'
-import { StyleSheet } from 'react-native'
-import { Wrapper, Title, Description } from './components'
-import { normalize } from 'react-native-elements'
+import { Wrapper, Title } from './components'
 
 type Props = {}
 type State = {}

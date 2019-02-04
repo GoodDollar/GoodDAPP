@@ -1,6 +1,5 @@
 import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
-import { Link } from '@react-navigation/web'
 import { createStackNavigator, PushButton, BackButton } from './stackNavigation'
 class InternalReward2 extends React.Component {
   // This is one way of setting params for screen

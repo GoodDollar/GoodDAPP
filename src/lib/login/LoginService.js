@@ -1,5 +1,4 @@
 // @flow
-import axios from 'axios'
 import { AsyncStorage } from 'react-native'
 import type { Credentials } from '../API/api'
 import API from '../API/api'

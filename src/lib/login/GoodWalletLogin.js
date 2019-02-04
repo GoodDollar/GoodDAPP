@@ -1,7 +1,6 @@
 // @flow
-import ethUtils from 'ethereumjs-util'
 import LoginService from './LoginService'
-import type { Credentials } from './LoginService'
+import type { Credentials } from '../API/api'
 import { default as wallet, GoodWallet } from '../wallet/GoodWallet'
 import logger from '../logger/pino-logger'
 

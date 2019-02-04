@@ -7,7 +7,6 @@ import Rewards from './Rewards'
 import BuySell from './BuySell'
 import Dashboard from './Dashboard'
 import Donate from './Donate'
-import TabsView from './TabsView'
 
 // TODO: Should we do this diferently?
 import rewardsIcon from '../../assets/rewardsIcon.png'

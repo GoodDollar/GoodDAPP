@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     height: '25px',
     width: '25px',
     cursor: 'pointer',
-    background: `url(${backButton})`
+    backgroundImage: `url(${backButton})`
   },
   left: {
     padding: 10,

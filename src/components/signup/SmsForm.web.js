@@ -114,14 +114,3 @@ export default class SmsForm extends React.Component<Props, State> {
     )
   }
 }
-
-const styles = StyleSheet.create({
-  inputStyle: {
-    width: '2rem',
-    height: '2rem',
-    margin: '0 1rem',
-    fontSize: '1rem',
-    borderRadius: 4,
-    border: '1px solid rgba(0,0,0,0.3)'
-  }
-})

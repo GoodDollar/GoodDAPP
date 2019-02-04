@@ -85,7 +85,7 @@ class Signup extends React.Component<{ navigation: any, screenProps: any }, Sign
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  contentContainer: { justifyContent: 'center', flexDirection: 'row', flex: '1' }
+  contentContainer: { justifyContent: 'center', flexDirection: 'row', flex: 1 }
 })
 
 export default Signup

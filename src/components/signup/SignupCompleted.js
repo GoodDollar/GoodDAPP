@@ -4,7 +4,9 @@ import { StyleSheet } from 'react-native'
 import { Wrapper, Title, Description } from './components'
 import { normalize } from 'react-native-elements'
 
-type Props = {}
+type Props = {
+  screenProps: any
+}
 type State = {}
 export default class SignupCompleted extends React.Component<Props, State> {
   handleSubmit = () => {
@@ -13,7 +15,7 @@ export default class SignupCompleted extends React.Component<Props, State> {
   render() {
     return (
       <Wrapper valid={true} handleSubmit={this.handleSubmit} submitText="Let's start!" showPrivacyPolicy={false}>
-        <Title>{`That's great,\nThanks ${this.props.screenProps.data.name}!`}</Title>
+        <Title>{`That's great,\nThanks ${this.props.screenProps.data.fullName}!`}</Title>
       </Wrapper>
     )
   }

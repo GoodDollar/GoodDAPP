@@ -4,6 +4,7 @@ import PhoneInput from 'react-phone-number-input'
 import isMobilePhone from 'validator/lib/isMobilePhone'
 import 'react-phone-number-input/style.css'
 import { Title, Wrapper, Description } from './components'
+import { TextInput } from 'react-native-paper'
 
 type Props = {
   // callback to report to parent component

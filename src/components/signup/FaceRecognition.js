@@ -4,7 +4,9 @@ import { StyleSheet } from 'react-native'
 import { Wrapper, Title, Description } from './components'
 import { normalize } from 'react-native-elements'
 
-type Props = {}
+type Props = {
+  screenProps: any
+}
 type State = {}
 export default class FaceRecognition extends React.Component<Props, State> {
   handleSubmit = () => {

@@ -4,9 +4,9 @@ import { View, StyleSheet } from 'react-native'
 import { IconButton, Button, Text } from 'react-native-paper'
 import { normalize } from 'react-native-elements'
 
-export const NextButton = (props: { valid?: boolean, handleSubmit: () => any, styles: any, children: any }) => (
+export const NextButton = (props: { valid?: boolean, handleSubmit: () => any, styles?: any, children: any }) => (
   <Button
-    style={[props.styles, styles.continueButton]}
+    style={[props.styles || {}, styles.continueButton]}
     mode="contained"
     color="#555555"
     dark={true}
@@ -17,7 +17,12 @@ export const NextButton = (props: { valid?: boolean, handleSubmit: () => any, st
   </Button>
 )
 
-const Footer = (props: { valid?: boolean, showPrivacyPolicy?: string, submitText?: string, handleSubmit: () => any }) => {
+const Footer = (props: {
+  valid?: boolean,
+  showPrivacyPolicy?: string,
+  submitText?: string,
+  handleSubmit: () => any
+}) => {
   const showPrivacyPolicy = props.showPrivacyPolicy === undefined ? true : props.showPrivacyPolicy
   return (
     <React.Fragment>

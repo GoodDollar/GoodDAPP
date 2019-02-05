@@ -3,3 +3,4 @@ mobile
 secrets.json
 flow-typed/npm
 /.env
+coverage

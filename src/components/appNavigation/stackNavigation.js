@@ -117,7 +117,8 @@ type ButtonProps = {
   text: string,
   disabled: boolean,
   mode: string,
-  color: string
+  color: string,
+  style: any
 }
 /**
  * PushButton
@@ -125,13 +126,14 @@ type ButtonProps = {
  * @param {ButtonProps} props
  */
 export const PushButton = (props: ButtonProps) => {
-  const { disabled, screenProps, routeName, children, mode, color } = props
+  const { disabled, screenProps, routeName, children, mode, color, style } = props
   return (
     <Button
       mode={mode || 'contained'}
       color={color || 'black'}
       disabled={disabled}
       onPress={() => screenProps.push(routeName)}
+      style={style}
     >
       {children}
     </Button>

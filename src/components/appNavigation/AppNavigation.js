@@ -7,6 +7,7 @@ import Rewards from './Rewards'
 import BuySell from './BuySell'
 import Dashboard from './Dashboard'
 import Donate from './Donate'
+import Claim from './Claim'
 import TabsView from './TabsView'
 
 // TODO: Should we do this diferently?
@@ -39,6 +40,10 @@ const routes = {
   Donate: {
     screen: Donate,
     icon: donateIcon
+  },
+  Claim: {
+    screen: Claim,
+    display: false
   }
 }
 

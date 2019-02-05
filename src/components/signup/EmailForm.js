@@ -1,7 +1,6 @@
 // @flow
 import React from 'react'
-import { View } from 'react-native'
-import { Button, TextInput, IconButton } from 'react-native-paper'
+import { TextInput } from 'react-native-paper'
 import isEmail from 'validator/lib/isEmail'
 import { Wrapper, Title } from './components'
 import logger from '../../lib/logger/pino-logger'

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, Image, View, Animated } from 'react-native'
+import { StyleSheet, Image, View } from 'react-native'
 import splashImage from '../../assets/splash.png'
 
 class Splash extends Component {

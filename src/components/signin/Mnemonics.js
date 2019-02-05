@@ -107,8 +107,7 @@ const styles = StyleSheet.create({
     height: '2rem',
     margin: '0 1rem',
     fontSize: '1rem',
-    borderRadius: 4,
-    border: '1px solid rgba(0,0,0,0.3)'
+    borderRadius: 4
   },
   paragraph: {
     fontSize: normalize(18),

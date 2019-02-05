@@ -1,23 +1,110 @@
 // @flow
 import React from 'react'
-import { View } from 'react-native'
-import { IconButton, Button } from 'react-native-paper'
+import { View, StyleSheet } from 'react-native'
+import { IconButton, Button, Text } from 'react-native-paper'
+import { normalize } from 'react-native-elements'
 
-export const BackButton = ({ back, ...other }: { back: Function, other: Array<any> }) => (
-  <IconButton style={{ marginTop: '15px' }} icon="arrow-back" size={20} onPress={() => back()} {...other} />
-)
-export const ContinueButton = (props: { valid?: boolean, handleSubmit: () => any }) => (
+export const NextButton = (props: { valid?: boolean, handleSubmit: () => any, styles: any, children: any }) => (
   <Button
-    style={{ marginLeft: 'auto', marginRight: 'auto', marginTop: '15px' }}
+    style={[props.styles, styles.continueButton]}
     mode="contained"
-    color="green"
-    text="Continue"
+    color="#555555"
+    dark={true}
     disabled={!props.valid}
     onPress={props.handleSubmit}
   >
-    Continue
+    <Text style={styles.buttonText}>{props.children}</Text>
   </Button>
 )
-export const Wrapper = (props: any) => (
-  <View style={{ display: 'flex', flex: 1, justifyContent: 'center', alignItems: 'center' }} {...props} />
+
+const Footer = (props: { valid?: boolean, showPrivacyPolicy?: string, submitText?: string, handleSubmit: () => any }) => {
+  const showPrivacyPolicy = props.showPrivacyPolicy === undefined ? true : props.showPrivacyPolicy
+  return (
+    <React.Fragment>
+      <NextButton valid={props.valid} handleSubmit={props.handleSubmit}>
+        {props.submitText || 'Next'}
+      </NextButton>
+      {showPrivacyPolicy && <LinkButton onPress={() => console.log('Link button')}>Privacy Policy</LinkButton>}
+    </React.Fragment>
+  )
+}
+
+export const Wrapper = (props: any) => {
+  const { footerComponent: FooterComponent } = props
+  return (
+    <View style={styles.wrapper} {...props}>
+      <View style={styles.topContainer}>{props.children}</View>
+      <View style={styles.bottomContainer}>
+        {FooterComponent ? <FooterComponent {...props} /> : <Footer {...props} />}
+      </View>
+    </View>
+  )
+}
+
+export const LinkButton = (props: any) => (
+  <Text style={[props.styles, styles.linkButton]} onPress={props.onPress}>
+    {props.children}
+  </Text>
 )
+
+export const Title = (props: any) => <Text style={[styles.title, props.style]}>{props.children}</Text>
+
+export const Description = (props: any) => <Text style={[styles.description, props.style]}>{props.children}</Text>
+
+const fontStyle = {
+  fontFamily: 'Helvetica, "sans-serif"',
+  color: '#555',
+  fontSize: normalize(18),
+  textAlign: 'center'
+}
+const styles = StyleSheet.create({
+  buttonText: {
+    ...fontStyle,
+    color: 'white',
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
+    padding: normalize(10)
+  },
+  wrapper: {
+    display: 'flex',
+    maxWidth: '500px',
+    flex: 1,
+    justifyContent: 'space-between',
+    alignItems: 'stretch',
+    flex: '1',
+    flexDirection: 'column',
+    padding: normalize(20)
+  },
+  linkButton: {
+    color: '#555',
+    fontFamily: 'Helvetica, "sans-serif"',
+    fontSize: normalize(18),
+    textAlign: 'center',
+    marginTop: normalize(10)
+  },
+  topContainer: {
+    flex: 1,
+    justifyContent: 'space-evenly',
+    paddingTop: normalize(30)
+  },
+  bottomContainer: {
+    display: 'flex',
+    flex: 1,
+    paddingTop: normalize(20),
+    justifyContent: 'flex-end'
+  },
+  continueButton: {
+    marginBottom: '10px',
+    paddingTop: 5,
+    paddingBottom: 5
+  },
+  title: {
+    ...fontStyle,
+    fontSize: normalize(28),
+    marginBottom: normalize(30)
+  },
+  description: {
+    ...fontStyle,
+    marginTop: normalize(30)
+  }
+})

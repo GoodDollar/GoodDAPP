@@ -1,16 +1,24 @@
 // @flow
 import React from 'react'
+import { View, StyleSheet } from 'react-native'
 import NameForm from './NameForm'
 import EmailForm from './EmailForm'
 import PhoneForm from './PhoneForm'
 import SmsForm from './SmsForm'
-import type { UserRecord } from '../../lib/API/api'
-import type { SMSRecord } from './SmsForm'
+import EmailConfirmation from './EmailConfirmation'
+import FaceRecognition from './FaceRecognition'
+import SignupCompleted from './SignupCompleted'
+
+import NavBar from '../appNavigation/NavBar'
+
 import { createSwitchNavigator } from '@react-navigation/core'
 import logger from '../../lib/logger/pino-logger'
 
 import API from '../../lib/API/api'
 import goodWallet from '../../lib/wallet/GoodWallet'
+
+import type { UserRecord } from '../../lib/API/api'
+import type { SMSRecord } from './SmsForm'
 
 const log = logger.child({ from: 'SignupState' })
 
@@ -18,12 +26,15 @@ type SignupState = UserRecord & SMSRecord
 
 const SignupWizardNavigator = createSwitchNavigator({
   Name: NameForm,
-  Email: EmailForm,
   Phone: PhoneForm,
-  SMS: SmsForm
+  SMS: SmsForm,
+  Email: EmailForm,
+  EmailConfirmation,
+  FaceRecognition,
+  SignupCompleted
 })
 
-class Signup extends React.Component<{ navigation: any }, SignupState> {
+class Signup extends React.Component<{ navigation: any, screenProps: any }, SignupState> {
   static router = SignupWizardNavigator.router
 
   state = {
@@ -61,12 +72,22 @@ class Signup extends React.Component<{ navigation: any }, SignupState> {
   render() {
     log.info('this.props SignupState', this.props)
     return (
-      <SignupWizardNavigator
-        navigation={this.props.navigation}
-        screenProps={{ data: this.state, doneCallback: this.done, back: this.back }}
-      />
+      <View style={styles.container}>
+        <NavBar goBack={this.back} title={'Signu Up'} />
+        <View style={styles.contentContainer}>
+          <SignupWizardNavigator
+            navigation={this.props.navigation}
+            screenProps={{ ...this.props.screenProps, data: this.state, doneCallback: this.done, back: this.back }}
+          />
+        </View>
+      </View>
     )
   }
 }
+
+const styles = StyleSheet.create({
+  container: { flex: 1 },
+  contentContainer: { justifyContent: 'center', flexDirection: 'row', flex: '1' }
+})
 
 export default Signup

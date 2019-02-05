@@ -3,7 +3,7 @@ import React from 'react'
 import { View } from 'react-native'
 import { Button, TextInput, IconButton } from 'react-native-paper'
 import isEmail from 'validator/lib/isEmail'
-import { BackButton, ContinueButton, Wrapper } from './components'
+import { Wrapper, Title } from './components'
 import logger from '../../lib/logger/pino-logger'
 
 const log = logger.child({ from: 'EmailForm' })
@@ -55,8 +55,8 @@ export default class EmailForm extends React.Component<Props, State> {
     // const MIcon = (<Icon name="rocket" size={30} color="#900" />)
     log.info(this.props.navigation)
     return (
-      <Wrapper>
-        {/* Your screen contents depending on current tab. */}
+      <Wrapper valid={this.state.valid} handleSubmit={this.handleSubmit}>
+        <Title>{'And which email address should we use to notify you?'}</Title>
         <TextInput
           id="signup_email"
           label="Your Email"
@@ -65,8 +65,6 @@ export default class EmailForm extends React.Component<Props, State> {
           keyboardType="email-address"
           autoFocus
         />
-        <ContinueButton valid={this.state.valid} handleSubmit={this.handleSubmit} />
-        <BackButton {...this.props.screenProps} />
       </Wrapper>
     )
   }

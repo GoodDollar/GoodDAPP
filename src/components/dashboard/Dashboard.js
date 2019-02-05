@@ -1,11 +1,13 @@
 // @flow
 import React, { Component } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import TabsView from './TabsView'
+import TabsView from '../appNavigation/TabsView'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import logger from '../../lib/logger/pino-logger'
 import { normalize } from 'react-native-elements'
-import { Button } from 'react-native-paper'
+import { createStackNavigator, PushButton } from '../appNavigation/stackNavigation'
+import Claim from './Claim'
+import FaceRecognition from './FaceRecognition'
 
 const log = logger.child({ from: 'Dashboard' })
 
@@ -23,6 +25,10 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
   state = {
     canClaim: false,
     entitlement: '0'
+  }
+
+  static navigationOptions = {
+    navigationBarHidden: true
   }
 
   async componentDidMount(): Promise<void> {
@@ -46,15 +52,11 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
       <View>
         <TabsView goTo={navigation.navigate} routes={screenProps.routes} />
         <Text>Dashboard</Text>
-        <Button
-          disabled={!canClaim}
-          onPress={() => this.navigateTo('Claim')}
-          style={[styles.buttonLayout, styles.signUpButton, !canClaim ? styles.buttonDisabled : {}]}
-        >
+        <PushButton routeName={'Claim'} screenProps={this.props.screenProps}>
           <Text style={[styles.buttonText]}>CLAIM</Text>
-          {'\n'}
+          <br />
           <Text style={[styles.buttonText, styles.grayedOutText]}>+{entitlement} GD</Text>
-        </Button>
+        </PushButton>
       </View>
     )
   }
@@ -79,4 +81,8 @@ const styles = StyleSheet.create({
   }
 })
 
-export default Dashboard
+export default createStackNavigator({
+  Dashboard,
+  Claim,
+  FaceRecognition
+})

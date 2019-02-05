@@ -75,10 +75,10 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
     const { descriptors, navigation, navigationConfig, screenProps } = this.props
     const activeKey = navigation.state.routes[navigation.state.index].key
     const descriptor = descriptors[activeKey]
-    const { title } = descriptor.options
+    const { title, navigationBarHidden } = descriptor.options
     return (
       <View>
-        <NavBar goBack={this.pop} title={title || activeKey} />
+        {!navigationBarHidden && <NavBar goBack={this.pop} title={title || activeKey} />}
         <SceneView
           navigation={descriptor.navigation}
           component={descriptor.getComponent()}
@@ -103,7 +103,7 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
  * @param {[Route]} routes: Array with routes in the stack
  * @param {Object} navigationConfig
  */
-export const createStackNavigator = (routes: [Route], navigationConfig: any) => {
+export const createStackNavigator = (routes: any, navigationConfig: any) => {
   const defaultNavigationConfig = {
     backRouteName: 'Dashboard'
   }
@@ -114,11 +114,10 @@ type ButtonProps = {
   screenProps: any,
   routeName: Route,
   children: any,
-  text: string,
-  disabled: boolean,
-  mode: string,
-  color: string,
-  style: any
+  disabled?: boolean,
+  mode?: string,
+  color?: string,
+  style?: any
 }
 /**
  * PushButton

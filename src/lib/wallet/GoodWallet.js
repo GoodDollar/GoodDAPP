@@ -19,6 +19,7 @@ export class GoodWallet {
   reserveContract: Web3.eth.Contract
   account: string
   networkId: number
+  gasPrice: number
 
   constructor() {
     this.ready = WalletFactory.create('software')
@@ -26,6 +27,7 @@ export class GoodWallet {
       this.wallet = wallet
       this.account = this.wallet.eth.defaultAccount
       this.networkId = 42
+      this.gasPrice = this.wallet.eth.getGasPrice()
       this.identityContract = new this.wallet.eth.Contract(
         IdentityABI.abi,
         IdentityABI.networks[this.networkId].address,
@@ -49,7 +51,16 @@ export class GoodWallet {
 
   async claim() {
     await this.ready
-    await this.claimContract.methods.claimTokens().call()
+    try {
+      const gas = await this.claimContract.methods.claimTokens().estimateGas()
+      return this.claimContract.methods.claimTokens().send({
+        gas,
+        gasPrice: await this.gasPrice
+      })
+    } catch (e) {
+      log.info(e)
+      return Promise.reject(e)
+    }
   }
 
   async checkEntitlement() {
@@ -57,12 +68,24 @@ export class GoodWallet {
     return await this.claimContract.methods.checkEntitlement().call()
   }
 
-  // balanceChanged(callback:(error,event) => any) {
-  //   let handler = this.tokenContract.events.Transfer({fromBlock:'latest',filter:{'from':this.addr}},callback)
-  //   let handler2 = this.tokenContract.events.Transfer({fromBlock:'latest',filter:{'to':this.addr}},callback)
-  //   return [handler,handler2]
-  // }
-  //
+  async balanceChanged(callback: (error: any, event: any) => any) {
+    await this.ready
+    let handler = this.tokenContract.events.Transfer({ fromBlock: 'latest', filter: { from: this.account } }, callback)
+    let handler2 = this.tokenContract.events.Transfer({ fromBlock: 'latest', filter: { to: this.account } }, callback)
+    return [handler, handler2]
+  }
+
+  async balanceOf() {
+    await this.ready
+    return this.tokenContract.methods
+      .balanceOf(this.account)
+      .call()
+      .then(b => {
+        b = this.wallet.utils.fromWei(b, 'ether')
+        return b
+      })
+  }
+
   signMessage() {}
 
   sendTx() {}

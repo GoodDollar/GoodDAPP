@@ -1,6 +1,7 @@
 // @flow
 import type { Effects } from 'undux'
 // TODO: this line must be changed to point to the actual store once it's created
+//$FlowFixMe
 import type { State } from '../GDStore'
 import logger from '../../logger/pino-logger'
 

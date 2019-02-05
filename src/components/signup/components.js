@@ -4,9 +4,9 @@ import { View, StyleSheet } from 'react-native'
 import { IconButton, Button, Text } from 'react-native-paper'
 import { normalize } from 'react-native-elements'
 
-export const NextButton = (props: { valid?: boolean, handleSubmit: () => any, styles: any, children: any }) => (
+export const NextButton = (props: { valid?: boolean, handleSubmit: () => any, styles?: any, children: any }) => (
   <Button
-    style={[props.styles, styles.continueButton]}
+    style={[props.styles || {}, styles.continueButton]}
     mode="contained"
     color="#555555"
     dark={true}
@@ -17,7 +17,12 @@ export const NextButton = (props: { valid?: boolean, handleSubmit: () => any, st
   </Button>
 )
 
-const Footer = props => {
+const Footer = (props: {
+  valid?: boolean,
+  showPrivacyPolicy?: string,
+  submitText?: string,
+  handleSubmit: () => any
+}) => {
   const showPrivacyPolicy = props.showPrivacyPolicy === undefined ? true : props.showPrivacyPolicy
   return (
     <React.Fragment>
@@ -29,7 +34,7 @@ const Footer = props => {
   )
 }
 
-export const Wrapper = props => {
+export const Wrapper = (props: any) => {
   const { footerComponent: FooterComponent } = props
   return (
     <View style={styles.wrapper} {...props}>
@@ -41,15 +46,15 @@ export const Wrapper = props => {
   )
 }
 
-export const LinkButton = props => (
+export const LinkButton = (props: any) => (
   <Text style={[props.styles, styles.linkButton]} onPress={props.onPress}>
     {props.children}
   </Text>
 )
 
-export const Title = props => <Text style={[styles.title, props.style]}>{props.children}</Text>
+export const Title = (props: any) => <Text style={[styles.title, props.style]}>{props.children}</Text>
 
-export const Description = props => <Text style={[styles.description, props.style]}>{props.children}</Text>
+export const Description = (props: any) => <Text style={[styles.description, props.style]}>{props.children}</Text>
 
 const fontStyle = {
   fontFamily: 'Helvetica, "sans-serif"',

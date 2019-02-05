@@ -5,7 +5,9 @@ import { Wrapper, Title, Description, LinkButton, NextButton } from './component
 import { StyleSheet } from 'react-native'
 import { normalize } from 'react-native-elements'
 
-type Props = {}
+type Props = {
+  screenProps: any
+}
 type State = {}
 export default class EmailConfirmation extends React.Component<Props, State> {
   handleSubmit = () => {

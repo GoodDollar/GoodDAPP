@@ -10,14 +10,19 @@ const log = logger.child({ from: 'EmailForm' })
 
 type Props = {
   // callback to report to parent component
-  doneCallback: ({ email: string }) => null
+  doneCallback: ({ email: string }) => null,
+  screenProps: any,
+  navigation: any
 }
-type State = {
-  email: string,
-  valid?: boolean
+
+export type EmailRecord = {
+  email: string
 }
+
+type State = EmailRecord & { valid?: boolean }
+
 export default class EmailForm extends React.Component<Props, State> {
-  constructor(props) {
+  constructor(props: Props) {
     super(props)
     this.state = {
       email: this.props.screenProps.data.email || '',
@@ -35,7 +40,7 @@ export default class EmailForm extends React.Component<Props, State> {
     }
   }
 
-  handleChange = text => {
+  handleChange = (text: string) => {
     this.setState({
       email: text,
       valid: isEmail(text)

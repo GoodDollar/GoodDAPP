@@ -17,15 +17,12 @@ import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
 import goodWallet from '../../lib/wallet/GoodWallet'
 
+import type { UserRecord } from '../../lib/API/api'
+import type { SMSRecord } from './SmsForm'
+
 const log = logger.child({ from: 'SignupState' })
 
-type SignupState = {
-  pubkey: string,
-  email?: string,
-  phone?: string,
-  name?: string,
-  smsValidated?: boolean
-}
+type SignupState = UserRecord & SMSRecord
 
 const SignupWizardNavigator = createSwitchNavigator({
   Name: NameForm,
@@ -41,7 +38,12 @@ class Signup extends React.Component<{ navigation: any, screenProps: any }, Sign
   static router = SignupWizardNavigator.router
 
   state = {
-    pubkey: goodWallet.account
+    pubkey: goodWallet.account,
+    fullName: '',
+    email: '',
+    mobile: '',
+    smsValidated: false,
+    jwt: ''
   }
 
   done = async (data: { [string]: string }) => {

@@ -1,11 +1,12 @@
 // @flow
 import React, { Component } from 'react'
 import goodWallet from '../../lib/wallet/GoodWallet'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, Image } from 'react-native'
 import { normalize } from 'react-native-elements'
 import { createStackNavigator, PushButton } from '../appNavigation/stackNavigation'
 import type { DashboardProps, DashboardState } from './Dashboard'
 import logger from '../../lib/logger/pino-logger'
+import { Wrapper, Section, BigNumber, Avatar } from '../common'
 
 const log = logger.child({ from: 'Claim' })
 
@@ -46,26 +47,34 @@ class Claim extends Component<ClaimProps, ClaimState> {
     const { canClaim, entitlement } = this.state
 
     return (
-      <View>
-        <View>
-          <Text>John Doe</Text>
-          <Text>{this.state.balance} GD</Text>
-        </View>
-        <View>
-          <Text>YOUR DAILY INCOME: 5 GD</Text>
-          <View>
-            <Text>Graph</Text>
-          </View>
-        </View>
-        <View>
-          <Text>367K PEOPLE CLAIMED 2.5M GD TODAY!</Text>
-        </View>
-        <View>
+      <Wrapper>
+        <Section>
+          <Section.Row>
+            <Avatar />
+            <BigNumber number={this.state.balance} unit={'GD'} />
+          </Section.Row>
+        </Section>
+        <Section>
+          <Section.Title>GoodDollar is a good economy, each day you can collect your part in the economy</Section.Title>
+          <Section.Row style={styles.centered}>
+            <Text>{`TODAY'S DAILY INCOME `}</Text>
+            <BigNumber number={5} unit={'GD'} />
+          </Section.Row>
+          <Image style={styles.graph} source={require('./graph.png')} />
+        </Section>
+        <Section>
+          <Section.Row style={styles.centered}>
+            <Text>
+              <b>367K</b> PEOPLE CLAIMED <b>2.5M GD</b> TODAY!
+            </Text>
+          </Section.Row>
+        </Section>
+        <Section>
           <Text>DAYS TO CLAIM YOUR INCOME:</Text>
           <Text>3/7</Text>
           <Text>NEXT DAILY INCOME:</Text>
           <Text>23:59:59</Text>
-        </View>
+        </Section>
         <View>
           <PushButton
             disabled={!canClaim}
@@ -73,10 +82,10 @@ class Claim extends Component<ClaimProps, ClaimState> {
             screenProps={screenProps}
             style={[styles.buttonLayout, styles.signUpButton]}
           >
-            <Text style={[styles.buttonText]}>CLAIM YOUR SHARE - {`\n${entitlement}`} GD</Text>
+            CLAIM YOUR SHARE - {`\n${entitlement}`} GD
           </PushButton>
         </View>
-      </View>
+      </Wrapper>
     )
   }
 }
@@ -94,6 +103,16 @@ const styles = StyleSheet.create({
   },
   signUpButton: {
     backgroundColor: '#555555'
+  },
+  centered: {
+    justifyContent: 'center',
+    alignItems: 'baseline'
+  },
+  graph: {
+    width: '323px',
+    maxWidth: '100%',
+    height: '132px',
+    alignSelf: 'center'
   }
 })
 

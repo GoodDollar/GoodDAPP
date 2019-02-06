@@ -8,6 +8,7 @@ import { normalize } from 'react-native-elements'
 import { createStackNavigator, PushButton } from '../appNavigation/stackNavigation'
 import Claim from './Claim'
 import FaceRecognition from './FaceRecognition'
+import { Wrapper } from '../common'
 
 const log = logger.child({ from: 'Dashboard' })
 
@@ -51,12 +52,14 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
     return (
       <View>
         <TabsView goTo={navigation.navigate} routes={screenProps.routes} />
-        <Text>Dashboard</Text>
-        <PushButton routeName={'Claim'} screenProps={this.props.screenProps}>
-          <Text style={[styles.buttonText]}>CLAIM</Text>
-          <br />
-          <Text style={[styles.buttonText, styles.grayedOutText]}>+{entitlement} GD</Text>
-        </PushButton>
+        <Wrapper>
+          <Text>Dashboard</Text>
+          <PushButton routeName={'Claim'} screenProps={this.props.screenProps}>
+            <Text style={[styles.buttonText]}>CLAIM</Text>
+            <br />
+            <Text style={[styles.buttonText, styles.grayedOutText]}>+{entitlement} GD</Text>
+          </PushButton>
+        </Wrapper>
       </View>
     )
   }

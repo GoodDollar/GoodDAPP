@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { StyleSheet, Text } from 'react-native'
+import { Text } from 'react-native'
 import OtpInput from 'react-otp-input'
 import { Title, Wrapper } from './components'
 import logger from '../../lib/logger/pino-logger'
@@ -10,17 +10,22 @@ const log = logger.child({ from: 'SmsForm.web' })
 type Props = {
   // callback to report to parent component
   phone: string,
-  doneCallback: ({ isPhoneVerified: boolean }) => null
+  doneCallback: ({ isPhoneVerified: boolean }) => null,
+  screenProps: any
 }
-type State = {
-  isPhoneVerified: boolean,
-  sentSMS: boolean
+
+export type SMSRecord = {
+  smsValidated: boolean,
+  sentSMS?: boolean
 }
+
+type State = SMSRecord & { valid?: boolean }
 
 export default class SmsForm extends React.Component<Props, State> {
   state = {
-    isPhoneVerified: false,
-    sentSMS: false
+    smsValidated: false,
+    sentSMS: false,
+    valid: false
   }
 
   numInputs: number = 5
@@ -31,14 +36,14 @@ export default class SmsForm extends React.Component<Props, State> {
     this.sendSMS()
   }
 
-  handleChange = otp => {
+  handleChange = (otp: string) => {
     if (otp.length === this.numInputs) {
       this.verifyOTP(otp)
     }
   }
 
   handleSubmit = () => {
-    this.props.screenProps.doneCallback({ isPhoneVerified: true })
+    this.props.screenProps.doneCallback({ smsValidated: true })
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -72,7 +77,7 @@ export default class SmsForm extends React.Component<Props, State> {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  verifyOTP(otp) {
+  verifyOTP(otp: string) {
     if (otp.length === this.numInputs) {
       this.setState({ valid: true })
       this.handleSubmit()
@@ -114,14 +119,3 @@ export default class SmsForm extends React.Component<Props, State> {
     )
   }
 }
-
-const styles = StyleSheet.create({
-  inputStyle: {
-    width: '2rem',
-    height: '2rem',
-    margin: '0 1rem',
-    fontSize: '1rem',
-    borderRadius: 4,
-    border: '1px solid rgba(0,0,0,0.3)'
-  }
-})

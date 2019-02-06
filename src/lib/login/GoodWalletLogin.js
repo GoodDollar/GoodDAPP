@@ -1,7 +1,6 @@
 // @flow
-import ethUtils from 'ethereumjs-util'
 import LoginService from './LoginService'
-import type { Credentials } from './LoginService'
+import type { Credentials } from '../API/api'
 import { default as wallet, GoodWallet } from '../wallet/GoodWallet'
 import logger from '../logger/pino-logger'
 
@@ -20,7 +19,11 @@ export class GoodWalletLogin extends LoginService {
 
     const signature = await this.wallet.sign(toSign)
 
-    const creds = { publicKey: this.wallet.account, signature: signature }
+    const creds = {
+      pubkey: this.wallet.account,
+      signature: signature,
+      jwt: ''
+    }
 
     log.info('returning creds', { creds })
 

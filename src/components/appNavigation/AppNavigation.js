@@ -7,8 +7,6 @@ import Rewards from './Rewards'
 import BuySell from './BuySell'
 import Dashboard from '../dashboard/Dashboard'
 import Donate from './Donate'
-import Claim from '../dashboard/Claim'
-import TabsView from './TabsView'
 
 // TODO: Should we do this diferently?
 import rewardsIcon from '../../assets/rewardsIcon.png'
@@ -40,10 +38,6 @@ const routes = {
   Donate: {
     screen: Donate,
     icon: donateIcon
-  },
-  Claim: {
-    screen: Claim,
-    display: false
   }
 }
 

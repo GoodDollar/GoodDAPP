@@ -1,5 +1,4 @@
 // @flow
-import axios from 'axios'
 import { AsyncStorage } from 'react-native'
 import type { Credentials } from '../API/api'
 import API from '../API/api'
@@ -59,7 +58,7 @@ class LoginService {
 
     // TODO: write the nonce https://gitlab.com/gooddollar/gooddapp/issues/1
     log.info('Calling server for authentication')
-    const authResult: Credentials | Error = API.auth(creds)
+    const authResult: Promise<Credentials | Error> = API.auth(creds)
       .then(res => {
         log.info(res)
         if (res.status === 200) {

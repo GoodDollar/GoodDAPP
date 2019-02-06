@@ -1,11 +1,12 @@
 // @flow
 import React from 'react'
-import { TextInput } from 'react-native-paper'
 import { Wrapper, Title, Description, LinkButton, NextButton } from './components'
 import { StyleSheet } from 'react-native'
 import { normalize } from 'react-native-elements'
 
-type Props = {}
+type Props = {
+  screenProps: any
+}
 type State = {}
 export default class EmailConfirmation extends React.Component<Props, State> {
   handleSubmit = () => {

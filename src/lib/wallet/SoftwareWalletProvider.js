@@ -1,11 +1,14 @@
 // @flow
 import Web3 from 'web3'
+import type { WebSocketProvider } from 'web3-providers-ws'
+import type { HttpProvider } from 'web3-providers-http'
 import Config from '../../config/config'
 import bip39 from 'bip39'
 import type { WalletConfig } from './WalletFactory'
 import logger from '../logger/pino-logger'
 
 const log = logger.child({ from: 'SoftwareWalletProvider' })
+
 class SoftwareWalletProvider {
   ready: Promise<Web3>
   GD_USER_PKEY: string = 'GD_USER_PKEY'
@@ -50,7 +53,7 @@ class SoftwareWalletProvider {
     return mnemonic
   }
 
-  getWeb3TransportProvider(): Subprovider {
+  getWeb3TransportProvider(): HttpProvider | WebSocketProvider {
     let provider
     let web3Provider
     let transport = this.conf.web3Transport

@@ -42,10 +42,13 @@ class FaceRecognition extends React.Component<Props, State> {
   }
 
   _handleDismissDialog = () => {
+    const { title } = this.state.dialogData
     this.setState({
       dialogData: {},
       dialogVisible: false
     })
+    // TODO: Improve this flow
+    if (title === 'Success') this.props.screenProps.pop()
   }
 
   render() {
@@ -70,7 +73,7 @@ class FaceRecognition extends React.Component<Props, State> {
               <Paragraph>{dialogData.message}</Paragraph>
             </Dialog.Content>
             <Dialog.Actions>
-              <Button onPress={this._handleDismissDialog}>Done</Button>
+              <Button onPress={this._handleDismissDialog}>{dialogData.dismissText || 'Done'}</Button>
             </Dialog.Actions>
           </Dialog>
         </Portal>

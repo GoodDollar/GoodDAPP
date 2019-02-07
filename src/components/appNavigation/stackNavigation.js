@@ -89,6 +89,7 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
             push: this.push,
             goToRoot: this.goToRoot,
             goToParent: this.goToParent,
+            pop: this.pop,
             screenState: this.getScreenState(activeKey),
             setScreenState: data => this.setScreenState(activeKey, data)
           }}

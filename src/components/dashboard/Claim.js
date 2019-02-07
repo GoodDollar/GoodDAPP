@@ -10,7 +10,9 @@ import { Wrapper, Section, BigNumber, Avatar } from '../common'
 
 const log = logger.child({ from: 'Claim' })
 
-type ClaimState = DashboardState
+type ClaimState = DashboardState & {
+  balance?: number
+}
 
 type ClaimProps = DashboardProps & {
   entitlement: string
@@ -21,7 +23,8 @@ class Claim extends Component<ClaimProps, ClaimState> {
 
   state = {
     canClaim: false,
-    entitlement: '0'
+    entitlement: '0',
+    balance: undefined
   }
 
   eventHandlers: any

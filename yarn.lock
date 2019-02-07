@@ -7045,6 +7045,15 @@ libphonenumber-js@^1.7.5:
     semver-compare "^1.0.0"
     xml2js "^0.4.17"
 
+libphonenumber-js@^1.7.8:
+  version "1.7.8"
+  resolved "https://registry.yarnpkg.com/libphonenumber-js/-/libphonenumber-js-1.7.8.tgz#2af21013f52201e41cde8721c1db88e4594d957f"
+  integrity sha512-aetBci3aETmuhHVILBH0/Ly7DlmRRwcQ1BpV+iB5rl65pj3eQq7hqq3EzRFTNnYC8rPmSPOfaVt4aa4puhWwbA==
+  dependencies:
+    minimist "^1.2.0"
+    semver-compare "^1.0.0"
+    xml2js "^0.4.17"
+
 load-json-file@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/load-json-file/-/load-json-file-1.1.0.tgz#956905708d58b4bab4c2261b04f59f31c99374c0"

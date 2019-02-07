@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import PhoneInput from 'react-phone-number-input'
-import isMobilePhone from 'validator/lib/isMobilePhone'
+import isMobilePhone from '../../lib/validators/isMobilePhone'
 import 'react-phone-number-input/style.css'
 import { Title, Wrapper, Description } from './components'
 import { TextInput } from 'react-native-paper'

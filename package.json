@@ -45,6 +45,7 @@
     "axios": "^0.18.0",
     "bip39": "^2.5.0",
     "ethereumjs-util": "^6.0.0",
+    "libphonenumber-js": "^1.7.8",
     "pino": "^5.11.1",
     "react": "^16.6.x",
     "react-app-polyfill": "^0.1.3",

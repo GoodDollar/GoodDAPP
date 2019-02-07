@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from 'react'
 import goodWallet from '../../lib/wallet/GoodWallet'
-import { StyleSheet, Text, View, Image } from 'react-native'
+import { StyleSheet, View, Text, Image } from 'react-native'
 import { normalize } from 'react-native-elements'
 import { createStackNavigator, PushButton } from '../appNavigation/stackNavigation'
 import type { DashboardProps, DashboardState } from './Dashboard'
@@ -57,23 +57,27 @@ class Claim extends Component<ClaimProps, ClaimState> {
         <Section>
           <Section.Title>GoodDollar is a good economy, each day you can collect your part in the economy</Section.Title>
           <Section.Row style={styles.centered}>
-            <Text>{`TODAY'S DAILY INCOME `}</Text>
+            <Section.Text>{`TODAY'S DAILY INCOME `}</Section.Text>
             <BigNumber number={entitlement} unit={'GD'} />
           </Section.Row>
           <Image style={styles.graph} source={require('./graph.png')} />
         </Section>
         <Section>
           <Section.Row style={styles.centered}>
-            <Text>
+            <Section.Text>
               <b>367K</b> PEOPLE CLAIMED <b>2.5M GD</b> TODAY!
-            </Text>
+            </Section.Text>
           </Section.Row>
         </Section>
         <Section>
-          <Text>DAYS TO CLAIM YOUR INCOME:</Text>
-          <Text>3/7</Text>
-          <Text>NEXT DAILY INCOME:</Text>
-          <Text>23:59:59</Text>
+          <Section.Title>
+            YOU NOW HAVE <b>3</b> DAYS OF INCOME WAITING
+          </Section.Title>
+          <Section.Separator />
+          <Section.Text>NEXT DAILY INCOME:</Section.Text>
+          <Section.Row style={styles.centered}>
+            <BigNumber number={'23:59:59'} />
+          </Section.Row>
         </Section>
         <View>
           <PushButton

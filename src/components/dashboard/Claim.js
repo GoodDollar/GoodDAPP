@@ -58,7 +58,7 @@ class Claim extends Component<ClaimProps, ClaimState> {
           <Section.Title>GoodDollar is a good economy, each day you can collect your part in the economy</Section.Title>
           <Section.Row style={styles.centered}>
             <Text>{`TODAY'S DAILY INCOME `}</Text>
-            <BigNumber number={5} unit={'GD'} />
+            <BigNumber number={entitlement} unit={'GD'} />
           </Section.Row>
           <Image style={styles.graph} source={require('./graph.png')} />
         </Section>

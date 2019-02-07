@@ -8,7 +8,10 @@ import { normalize } from 'react-native-elements'
 import { createStackNavigator, PushButton } from '../appNavigation/stackNavigation'
 import Claim from './Claim'
 import FaceRecognition from './FaceRecognition'
-import { Wrapper } from '../common'
+import Receive from './Receive'
+import Send from './Send'
+
+import { Wrapper, Section, Avatar, BigNumber } from '../common'
 
 const log = logger.child({ from: 'Dashboard' })
 
@@ -53,12 +56,30 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
       <View>
         <TabsView goTo={navigation.navigate} routes={screenProps.routes} />
         <Wrapper>
-          <Text>Dashboard</Text>
-          <PushButton routeName={'Claim'} screenProps={this.props.screenProps}>
-            <Text style={[styles.buttonText]}>CLAIM</Text>
-            <br />
-            <Text style={[styles.buttonText, styles.grayedOutText]}>+{entitlement} GD</Text>
-          </PushButton>
+          <Section>
+            <Section.Row style={styles.centered}>
+              <Avatar size={80} />
+            </Section.Row>
+            <Section.Row style={styles.centered}>
+              <Section.Text>John Doe</Section.Text>
+            </Section.Row>
+            <Section.Row style={styles.centered}>
+              <BigNumber number={3000} unit="GD" />
+            </Section.Row>
+            <Section.Row style={styles.buttonRow}>
+              <PushButton routeName={'Send'} screenProps={this.props.screenProps} style={styles.leftButton}>
+                Send
+              </PushButton>
+              <PushButton routeName={'Claim'} screenProps={this.props.screenProps}>
+                <Text style={[styles.buttonText]}>Claim</Text>
+                <br />
+                <Text style={[styles.buttonText, styles.grayedOutText]}>{entitlement}GD</Text>
+              </PushButton>
+              <PushButton routeName={'Receive'} screenProps={this.props.screenProps} style={styles.rightButton}>
+                Receive
+              </PushButton>
+            </Section.Row>
+          </Section>
         </Wrapper>
       </View>
     )
@@ -74,18 +95,33 @@ const styles = StyleSheet.create({
     fontFamily: 'Helvetica, "sans-serif"',
     fontSize: normalize(16),
     color: 'white',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    textTransform: 'uppercase'
   },
-  signUpButton: {
-    backgroundColor: '#555555'
+  buttonRow: {
+    alignItems: 'shrink'
   },
   grayedOutText: {
     color: '#d5d5d5'
+  },
+  leftButton: {
+    flex: 1,
+    marginRight: normalize(10)
+  },
+  rightButton: {
+    flex: 1,
+    marginLeft: normalize(10)
+  },
+  centered: {
+    justifyContent: 'center',
+    alignItems: 'baseline'
   }
 })
 
 export default createStackNavigator({
   Dashboard,
   Claim,
+  Receive,
+  Send,
   FaceRecognition
 })

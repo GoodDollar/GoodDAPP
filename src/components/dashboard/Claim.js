@@ -89,7 +89,7 @@ class Claim extends Component<ClaimProps, ClaimState> {
             screenProps={screenProps}
             style={[styles.buttonLayout, styles.signUpButton]}
           >
-            CLAIM YOUR SHARE - {`\n${entitlement}`} GD
+            {`CLAIM YOUR SHARE - ${entitlement} GD`}
           </PushButton>
         </View>
       </Wrapper>

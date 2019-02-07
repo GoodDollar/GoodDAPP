@@ -23,10 +23,9 @@ export default (props: ButtonProps) => (
     disabled={props.disabled}
     onPress={props.onPress}
   >
-    <Text style={styles.buttonText}>{props.children}</Text>
+    {typeof props.children === 'string' ? <Text style={styles.buttonText}>{props.children}</Text> : props.children}
   </Button>
 )
-
 const styles = StyleSheet.create({
   buttonText: {
     ...fontStyle,
@@ -38,6 +37,7 @@ const styles = StyleSheet.create({
   nextButton: {
     marginBottom: '10px',
     paddingTop: 5,
-    paddingBottom: 5
+    paddingBottom: 5,
+    justifyContent: 'center'
   }
 })

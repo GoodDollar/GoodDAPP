@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 
 import { createNavigator, SwitchRouter, SceneView, Route } from '@react-navigation/core'
-import { View } from 'react-native'
+import { View, Style } from 'react-native'
 
 import NavBar from './NavBar'
 import { NextButton, type ButtonProps } from '../common'
@@ -78,7 +78,7 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
     const descriptor = descriptors[activeKey]
     const { title, navigationBarHidden } = descriptor.options
     return (
-      <View>
+      <React.Fragment>
         {!navigationBarHidden && <NavBar goBack={this.pop} title={title || activeKey} />}
         <SceneView
           navigation={descriptor.navigation}
@@ -93,7 +93,7 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
             setScreenState: data => this.setScreenState(activeKey, data)
           }}
         />
-      </View>
+      </React.Fragment>
     )
   }
 }

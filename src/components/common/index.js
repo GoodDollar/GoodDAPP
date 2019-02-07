@@ -22,8 +22,8 @@ const Wrapper = (props: any) => {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
-  contentContainer: { justifyContent: 'center', flexDirection: 'row', flex: 1 },
+  container: { flex: 1, display: 'flex' },
+  contentContainer: { justifyContent: 'center', flexDirection: 'row', flex: 1, alignItems: 'stretch', display: 'flex' },
   wrapper: {
     display: 'flex',
     maxWidth: '500px',

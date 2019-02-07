@@ -40,7 +40,7 @@ class API {
   }
 
   auth(creds: Credentials): AxiosPromise<any> {
-    return this.client.post('/auth/eth', creds)
+    return this.client.post('/auth/eth', creds).then(this.init())
   }
 
   async addUser(user: UserRecord) {

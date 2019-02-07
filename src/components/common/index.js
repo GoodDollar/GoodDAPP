@@ -2,6 +2,7 @@
 import React from 'react'
 import { View, StyleSheet } from 'react-native'
 import { normalize } from 'react-native-elements'
+import { Provider } from 'react-native-paper'
 import { fontStyle } from './styles'
 
 import Avatar from './Avatar'
@@ -11,13 +12,15 @@ import Section from './Section'
 
 const Wrapper = (props: any) => {
   return (
-    <View style={styles.container}>
-      <View style={styles.contentContainer}>
-        <View style={[styles.wrapper, props.style]} {...props}>
-          {props.children}
+    <Provider>
+      <View style={styles.container}>
+        <View style={styles.contentContainer}>
+          <View style={[styles.wrapper, props.style]} {...props}>
+            {props.children}
+          </View>
         </View>
       </View>
-    </View>
+    </Provider>
   )
 }
 

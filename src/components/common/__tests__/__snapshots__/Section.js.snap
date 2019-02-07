@@ -1,0 +1,169 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Section matches snapshot 1`] = `
+<div
+  style={
+    Object {
+      "WebkitAlignItems": "stretch",
+      "WebkitBoxAlign": "stretch",
+      "WebkitBoxDirection": "normal",
+      "WebkitBoxOrient": "vertical",
+      "WebkitFlexBasis": "auto",
+      "WebkitFlexDirection": "column",
+      "WebkitFlexShrink": 0,
+      "alignItems": "stretch",
+      "backgroundColor": "rgba(238,238,239,1.00)",
+      "borderBottomLeftRadius": "5px",
+      "borderBottomRightRadius": "5px",
+      "borderBottomStyle": "solid",
+      "borderBottomWidth": "0px",
+      "borderLeftStyle": "solid",
+      "borderLeftWidth": "0px",
+      "borderRightStyle": "solid",
+      "borderRightWidth": "0px",
+      "borderTopLeftRadius": "5px",
+      "borderTopRightRadius": "5px",
+      "borderTopStyle": "solid",
+      "borderTopWidth": "0px",
+      "boxSizing": "border-box",
+      "display": "flex",
+      "flexBasis": "auto",
+      "flexDirection": "column",
+      "flexShrink": 0,
+      "marginBottom": "15px",
+      "marginLeft": "0px",
+      "marginRight": "0px",
+      "marginTop": "0px",
+      "minHeight": "0px",
+      "minWidth": "0px",
+      "msFlexAlign": "stretch",
+      "msFlexDirection": "column",
+      "msFlexNegative": 0,
+      "msFlexPreferredSize": "auto",
+      "paddingBottom": "15px",
+      "paddingLeft": "10px",
+      "paddingRight": "10px",
+      "paddingTop": "15px",
+      "position": "relative",
+      "zIndex": 0,
+    }
+  }
+>
+  <div
+    dir="auto"
+    style={
+      Object {
+        "borderBottomWidth": "0px",
+        "borderLeftWidth": "0px",
+        "borderRightWidth": "0px",
+        "borderTopWidth": "0px",
+        "boxSizing": "border-box",
+        "color": "rgba(85,85,85,1.00)",
+        "display": "inline",
+        "fontFamily": "Helvetica, \\"sans-serif\\"",
+        "fontSize": "18px",
+        "fontStyle": "inherit",
+        "fontVariant": "inherit",
+        "fontWeight": "inherit",
+        "lineHeight": "inherit",
+        "marginBottom": "0px",
+        "marginLeft": "0px",
+        "marginRight": "0px",
+        "marginTop": "0px",
+        "paddingBottom": "0px",
+        "paddingLeft": "0px",
+        "paddingRight": "0px",
+        "paddingTop": "0px",
+        "textAlign": "center",
+        "textDecoration": "none",
+        "whiteSpace": "pre-wrap",
+        "wordWrap": "break-word",
+      }
+    }
+  >
+    GoodDollar is a good economy, each day you can collect your part in the economy
+  </div>
+  <div
+    style={
+      Object {
+        "WebkitAlignItems": "center",
+        "WebkitBoxAlign": "center",
+        "WebkitBoxDirection": "normal",
+        "WebkitBoxOrient": "horizontal",
+        "WebkitBoxPack": "justify",
+        "WebkitFlexBasis": "auto",
+        "WebkitFlexDirection": "row",
+        "WebkitFlexShrink": 0,
+        "WebkitJustifyContent": "space-between",
+        "alignItems": "center",
+        "borderBottomStyle": "solid",
+        "borderBottomWidth": "0px",
+        "borderLeftStyle": "solid",
+        "borderLeftWidth": "0px",
+        "borderRightStyle": "solid",
+        "borderRightWidth": "0px",
+        "borderTopStyle": "solid",
+        "borderTopWidth": "0px",
+        "boxSizing": "border-box",
+        "display": "flex",
+        "flexBasis": "auto",
+        "flexDirection": "row",
+        "flexShrink": 0,
+        "justifyContent": "space-between",
+        "marginBottom": "0px",
+        "marginLeft": "0px",
+        "marginRight": "0px",
+        "marginTop": "0px",
+        "minHeight": "0px",
+        "minWidth": "0px",
+        "msFlexAlign": "center",
+        "msFlexDirection": "row",
+        "msFlexNegative": 0,
+        "msFlexPack": "justify",
+        "msFlexPreferredSize": "auto",
+        "paddingBottom": "0px",
+        "paddingLeft": "0px",
+        "paddingRight": "0px",
+        "paddingTop": "0px",
+        "position": "relative",
+        "zIndex": 0,
+      }
+    }
+  >
+    <div
+      dir="auto"
+      style={
+        Object {
+          "borderBottomWidth": "0px",
+          "borderLeftWidth": "0px",
+          "borderRightWidth": "0px",
+          "borderTopWidth": "0px",
+          "boxSizing": "border-box",
+          "color": "rgba(85,85,85,1.00)",
+          "display": "inline",
+          "fontFamily": "Helvetica, \\"sans-serif\\"",
+          "fontSize": "14px",
+          "fontStyle": "inherit",
+          "fontVariant": "inherit",
+          "fontWeight": "inherit",
+          "lineHeight": "inherit",
+          "marginBottom": "0px",
+          "marginLeft": "0px",
+          "marginRight": "0px",
+          "marginTop": "0px",
+          "paddingBottom": "0px",
+          "paddingLeft": "0px",
+          "paddingRight": "0px",
+          "paddingTop": "0px",
+          "textAlign": "center",
+          "textDecoration": "none",
+          "whiteSpace": "pre-wrap",
+          "wordWrap": "break-word",
+        }
+      }
+    >
+      TODAY'S DAILY INCOME 
+    </div>
+  </div>
+</div>
+`;

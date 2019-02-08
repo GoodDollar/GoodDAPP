@@ -68,12 +68,12 @@ export class GoodWallet {
     return await this.claimContract.methods.checkEntitlement().call()
   }
 
-  async balanceChanged(callback: (error: any, event: any) => any) {
-    await this.ready
-    let handler = this.tokenContract.events.Transfer({ fromBlock: 'latest', filter: { from: this.account } }, callback)
-    let handler2 = this.tokenContract.events.Transfer({ fromBlock: 'latest', filter: { to: this.account } }, callback)
-    return [handler, handler2]
-  }
+  // async balanceChanged(callback: (error: any, event: any) => any) {
+  //   await this.ready
+  //   let handler = this.tokenContract.events.Transfer({ fromBlock: 'latest', filter: { from: this.account } }, callback)
+  //   let handler2 = this.tokenContract.events.Transfer({ fromBlock: 'latest', filter: { to: this.account } }, callback)
+  //   return [handler, handler2]
+  // }
 
   async balanceOf() {
     await this.ready

@@ -1,9 +1,9 @@
 // @flow
 import React, { Component } from 'react'
 import goodWallet from '../../lib/wallet/GoodWallet'
-import { StyleSheet, View, Text, Image } from 'react-native'
+import { StyleSheet, View, Image } from 'react-native'
 import { normalize } from 'react-native-elements'
-import { createStackNavigator, PushButton } from '../appNavigation/stackNavigation'
+import { PushButton } from '../appNavigation/stackNavigation'
 import type { DashboardProps, DashboardState } from './Dashboard'
 import logger from '../../lib/logger/pino-logger'
 import { Wrapper, Section, BigNumber, Avatar } from '../common'
@@ -11,13 +11,10 @@ import { Wrapper, Section, BigNumber, Avatar } from '../common'
 const log = logger.child({ from: 'Claim' })
 
 type ClaimState = DashboardState & {
-  balance?: number
+  canClaim: boolean
 }
 
-type ClaimProps = DashboardProps & {
-  entitlement: string
-}
-
+type ClaimProps = DashboardProps
 class Claim extends Component<ClaimProps, ClaimState> {
   static navigationOptions = { title: 'Claim GD' }
 
@@ -30,19 +27,13 @@ class Claim extends Component<ClaimProps, ClaimState> {
   eventHandlers: any
 
   async componentDidMount(): Promise<void> {
-    let entitlement =
-      this.props.entitlement !== undefined ? this.props.entitlement : await goodWallet.checkEntitlement()
-
-    const balance = await goodWallet.balanceOf().catch(e => {
+    try {
+      const entitlement = await goodWallet.checkEntitlement()
+      const balance = await goodWallet.balanceOf()
+      this.setState({ canClaim: !!+entitlement, entitlement, balance })
+    } catch (e) {
       console.log(e)
-      return 0
-    })
-
-    this.eventHandlers = goodWallet.balanceChanged((err, event) => {
-      console.log('balanceChanged', { err, event })
-    })
-
-    this.setState({ canClaim: !!+entitlement, entitlement, balance })
+    }
   }
 
   render() {

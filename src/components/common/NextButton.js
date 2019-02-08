@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
     textTransform: 'uppercase',
-    padding: normalize(10)
+    padding: normalize(5)
   },
   nextButton: {
     marginBottom: '10px',

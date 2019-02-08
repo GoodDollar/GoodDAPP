@@ -16,7 +16,7 @@ import { Wrapper, Section, Avatar, BigNumber } from '../common'
 const log = logger.child({ from: 'Dashboard' })
 
 export type DashboardState = {
-  canClaim: boolean,
+  balance?: number,
   entitlement: string
 }
 
@@ -27,7 +27,7 @@ export type DashboardProps = {
 
 class Dashboard extends Component<DashboardProps, DashboardState> {
   state = {
-    canClaim: false,
+    balance: undefined,
     entitlement: '0'
   }
 
@@ -36,12 +36,16 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
   }
 
   async componentDidMount(): Promise<void> {
-    const entitlement = await goodWallet.checkEntitlement()
-
-    this.setState({
-      canClaim: !!+entitlement,
-      entitlement
-    })
+    try {
+      const entitlement = await goodWallet.checkEntitlement()
+      const balance = await goodWallet.balanceOf()
+      this.setState({
+        entitlement,
+        balance
+      })
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   navigateTo = (route: string) => {
@@ -50,7 +54,7 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
 
   render() {
     const { screenProps, navigation }: DashboardProps = this.props
-    const { canClaim, entitlement } = this.state
+    const { balance, entitlement } = this.state
 
     return (
       <View>
@@ -61,10 +65,10 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
               <Avatar size={80} />
             </Section.Row>
             <Section.Row style={styles.centered}>
-              <Section.Text>John Doe</Section.Text>
+              <Section.Title>John Doe</Section.Title>
             </Section.Row>
             <Section.Row style={styles.centered}>
-              <BigNumber number={3000} unit="GD" />
+              <BigNumber number={balance} unit="GD" />
             </Section.Row>
             <Section.Row style={styles.buttonRow}>
               <PushButton routeName={'Send'} screenProps={this.props.screenProps} style={styles.leftButton}>
@@ -87,10 +91,6 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
 }
 
 const styles = StyleSheet.create({
-  buttonLayout: {
-    marginTop: 30,
-    padding: 10
-  },
   buttonText: {
     fontFamily: 'Helvetica, "sans-serif"',
     fontSize: normalize(16),
@@ -99,10 +99,12 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase'
   },
   buttonRow: {
-    alignItems: 'shrink'
+    alignItems: 'stretch',
+    marginTop: normalize(10)
   },
   grayedOutText: {
-    color: '#d5d5d5'
+    color: '#d5d5d5',
+    fontSize: normalize(10)
   },
   leftButton: {
     flex: 1,

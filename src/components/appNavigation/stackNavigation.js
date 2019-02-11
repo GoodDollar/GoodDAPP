@@ -2,9 +2,10 @@
 import React, { Component } from 'react'
 
 import { createNavigator, SwitchRouter, SceneView, Route } from '@react-navigation/core'
-import { View } from 'react-native'
+import { View, Style } from 'react-native'
 
 import NavBar from './NavBar'
+import { NextButton, type ButtonProps } from '../common'
 import { Button } from 'react-native-paper'
 
 /**
@@ -75,10 +76,10 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
     const { descriptors, navigation, navigationConfig, screenProps } = this.props
     const activeKey = navigation.state.routes[navigation.state.index].key
     const descriptor = descriptors[activeKey]
-    const { title } = descriptor.options
+    const { title, navigationBarHidden } = descriptor.options
     return (
-      <View>
-        <NavBar goBack={this.pop} title={title || activeKey} />
+      <React.Fragment>
+        {!navigationBarHidden && <NavBar goBack={this.pop} title={title || activeKey} />}
         <SceneView
           navigation={descriptor.navigation}
           component={descriptor.getComponent()}
@@ -88,11 +89,12 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
             push: this.push,
             goToRoot: this.goToRoot,
             goToParent: this.goToParent,
+            pop: this.pop,
             screenState: this.getScreenState(activeKey),
             setScreenState: data => this.setScreenState(activeKey, data)
           }}
         />
-      </View>
+      </React.Fragment>
     )
   }
 }
@@ -103,39 +105,43 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
  * @param {[Route]} routes: Array with routes in the stack
  * @param {Object} navigationConfig
  */
-export const createStackNavigator = (routes: [Route], navigationConfig: any) => {
+export const createStackNavigator = (routes: any, navigationConfig: any) => {
   const defaultNavigationConfig = {
     backRouteName: 'Dashboard'
   }
   return createNavigator(AppView, SwitchRouter(routes), { ...navigationConfig, ...defaultNavigationConfig })
 }
 
-type ButtonProps = {
-  screenProps: any,
+type PushButtonProps = {
+  ...ButtonProps,
   routeName: Route,
-  children: any,
-  text: string,
-  disabled: boolean,
-  mode: string,
-  color: string
+  screenProps: {}
 }
+
 /**
  * PushButton
  * This button gets the push action from screenProps. Is meant to be used inside a stackNavigator
  * @param {ButtonProps} props
  */
-export const PushButton = (props: ButtonProps) => {
-  const { disabled, screenProps, routeName, children, mode, color } = props
+export const PushButton = (props: PushButtonProps) => {
+  const { disabled, screenProps, routeName, children, mode, color, style } = props
   return (
-    <Button
+    <NextButton
       mode={mode || 'contained'}
       color={color || 'black'}
       disabled={disabled}
       onPress={() => screenProps.push(routeName)}
+      style={style}
     >
       {children}
-    </Button>
+    </NextButton>
   )
+}
+
+type BackButtonProps = {
+  ...ButtonProps,
+  routeName: Route,
+  screenProps: {}
 }
 
 /**
@@ -143,7 +149,7 @@ export const PushButton = (props: ButtonProps) => {
  * This button gets the goToParent action from screenProps. Is meant to be used inside a stackNavigator
  * @param {ButtonProps} props
  */
-export const BackButton = (props: ButtonProps) => {
+export const BackButton = (props: BackButtonProps) => {
   const { disabled, screenProps, children, mode, color } = props
   return (
     <Button mode={mode || 'text'} color={color || '#575757'} disabled={disabled} onPress={screenProps.goToParent}>

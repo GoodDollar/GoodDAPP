@@ -25,15 +25,17 @@ type TabViewProps = {
 
 const TabsView = (props: TabViewProps) => (
   <View style={styles.tabView}>
-    {Object.keys(props.routes).map(routeKey => (
-      <TabButton
-        key={routeKey}
-        routeName={routeKey}
-        text={routeKey}
-        goTo={props.goTo}
-        icon={props.routes[routeKey].icon}
-      />
-    ))}
+    {Object.keys(props.routes)
+      .filter(routeKey => props.routes[routeKey].display !== false)
+      .map(routeKey => (
+        <TabButton
+          key={routeKey}
+          routeName={routeKey}
+          text={routeKey}
+          goTo={props.goTo}
+          icon={props.routes[routeKey].icon}
+        />
+      ))}
   </View>
 )
 

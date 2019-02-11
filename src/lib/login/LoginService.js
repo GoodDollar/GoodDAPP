@@ -66,6 +66,7 @@ class LoginService {
           creds.jwt = data.token
           this.storeJWT(data.token)
           log.debug('Login success:', data)
+          API.init()
           return creds
         }
         throw new Error(res.statusText)

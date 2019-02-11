@@ -32,14 +32,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     height: '60px',
-    backgroundColor: '#909090',
-    color: '#d2d2d2'
+    backgroundColor: '#909090'
   },
   title: {
     textTransform: 'uppercase',
     fontSize: '18px',
     flexGrow: 2,
-    textAlign: 'center'
+    textAlign: 'center',
+    color: '#d2d2d2'
   },
   backButton: {
     height: '25px',

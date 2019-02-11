@@ -36,7 +36,7 @@ class FaceRecognition extends React.Component<Props, State> {
         dialogData: { title: 'Success', message: `You've claimed your GD`, dismissText: 'YAY!' }
       })
     } catch (e) {
-      log.warn('estoooo0', e)
+      log.warn('claiming failed', e)
       this.setState({ dialogVisible: true, dialogData: { title: 'Error', message: e.message } })
     }
   }

@@ -35,7 +35,7 @@ class API {
         timeout: 30000,
         headers: { Authorization: `Bearer ${this.jwt || ''}` }
       })
-      log.info('API ready', this.client, this.jwt)
+      log.info('API ready', this.jwt)
     })
   }
 

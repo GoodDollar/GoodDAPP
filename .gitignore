@@ -2,3 +2,4 @@ node_modules
 mobile
 secrets.json
 /.env
+coverage

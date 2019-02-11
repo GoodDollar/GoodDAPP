@@ -5,7 +5,7 @@ import { createSwitchNavigator } from '@react-navigation/core'
 
 import Rewards from './Rewards'
 import BuySell from './BuySell'
-import Dashboard from './Dashboard'
+import Dashboard from '../dashboard/Dashboard'
 import Donate from './Donate'
 
 // TODO: Should we do this diferently?

@@ -128,7 +128,9 @@ const styles = StyleSheet.create({
     paddingBottom: 5
   },
   actionButton: {
-    border: '1px solid #555',
+    borderStyle: 'solid',
+    borderColor: '#555',
+    borderWidth: 1,
     backgroundColor: 'white',
     borderRadius: 5
   },

@@ -150,8 +150,7 @@ const styles = StyleSheet.create({
   error: {
     ...fontStyle,
     color: 'red',
-    marginTop: normalize(40),
-    marginBottom: normalize(20),
+    marginVertical: normalize(30),
     minHeight: normalize(24)
   }
 })

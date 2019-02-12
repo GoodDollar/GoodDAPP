@@ -62,7 +62,7 @@ export default class PhoneForm extends React.Component<Props, State> {
   render() {
     return (
       <Wrapper valid={this.state.valid} handleSubmit={this.handleSubmit}>
-        <Title>{`${this.props.screenProps.data.name}, \n May we have your number please?`}</Title>
+        <Title>{`${this.props.screenProps.data.fullName}, \n May we have your number please?`}</Title>
 
         <PhoneInput
           id="signup_phone"

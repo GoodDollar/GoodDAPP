@@ -20,7 +20,7 @@ export class GoodWalletLogin extends LoginService {
     const signature = await this.wallet.sign(toSign)
 
     const creds = {
-      publicKey: this.wallet.account,
+      pubkey: this.wallet.account,
       signature: signature,
       jwt: ''
     }

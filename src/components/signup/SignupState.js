@@ -22,7 +22,7 @@ import type { SMSRecord } from './SmsForm'
 
 const log = logger.child({ from: 'SignupState' })
 
-type SignupState = UserRecord & SMSRecord
+export type SignupState = UserRecord & SMSRecord
 
 const SignupWizardNavigator = createSwitchNavigator({
   Name: NameForm,

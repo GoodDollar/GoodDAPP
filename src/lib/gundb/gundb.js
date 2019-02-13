@@ -11,4 +11,4 @@ const initGunDB = () => {
   }
 }
 
-export default initGunDB()
+export default initGunDB

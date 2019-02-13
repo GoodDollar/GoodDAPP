@@ -1,6 +1,5 @@
 //@flow
 import { default as goodWallet, GoodWallet } from '../wallet/GoodWallet'
-import SEA from 'gun/sea'
 import pino from '../logger/pino-logger'
 
 const logger = pino.child({ from: 'UserStorage' })
@@ -8,10 +7,16 @@ const logger = pino.child({ from: 'UserStorage' })
 export type GunDBUser = {
   alias: string,
   epub: string,
-  pub: string
+  pub: string,
+  sea: any
 }
 
 type FieldPrivacy = 'private' | 'public' | 'masked'
+type ACK = {
+  ok: string,
+  err: string
+}
+type EncryptedField = any
 export type ProfileField = {
   value: EncryptedField,
   display: string,
@@ -19,16 +24,16 @@ export type ProfileField = {
 }
 class UserStorage {
   wallet: GoodWallet
-  profile: any
+  profile: Gun
   user: GunDBUser
   ready: Promise<boolean>
 
   static maskField = (fieldType: 'email' | 'mobile' | 'phone', value: string): string => {
     if (fieldType === 'email') {
       let parts = value.split('@')
-      return `${parts[0][0]}${'*'.repeat(parts[0].length - 2)}${parts[0][parts.length - 1]}@${parts[1]}`
+      return `${parts[0][0]}${'*'.repeat(parts[0].length - 2)}${parts[0][parts[0].length - 1]}@${parts[1]}`
     }
-    if (fieldType === 'phone') {
+    if (['mobile', 'phone'].includes(fieldType)) {
       return `${'*'.repeat(value.length - 4)}${value.slice(-4)}`
     }
     return value
@@ -39,6 +44,7 @@ class UserStorage {
       .then(() => this.init())
       .catch(e => {
         logger.error('Error initializing UserStorage', e)
+        return true
       })
   }
 
@@ -50,6 +56,7 @@ class UserStorage {
     return new Promise((res, rej) => {
       gunuser.create(username, password, async userCreated => {
         logger.debug('gundb user created', userCreated)
+        //auth.then - doesnt seem to work server side in tests
         gunuser.auth(username, password, user => {
           this.user = user
           this.profile = gunuser.get('profile')
@@ -66,7 +73,7 @@ class UserStorage {
     })
   }
 
-  async getProfileField(field) {
+  async getProfileFieldValue(field: string): Promise<any> {
     let pField: ProfileField = await this.profile
       .get(field)
       .get('value')
@@ -74,30 +81,44 @@ class UserStorage {
     return pField
   }
 
-  async setProfileField(field: string, value: string, privacy: FieldPrivacy) {
+  async getProfileField(field: string): Promise<any> {
+    let pField: ProfileField = await this.profile.get(field).then()
+    return pField
+  }
+
+  async setProfileField(field: string, value: string, privacy: FieldPrivacy): Promise<ACK> {
     let display
     switch (privacy) {
       case 'private':
         display = ''
         break
       case 'masked':
-        display = UserStorage.maskField(value)
+        display = UserStorage.maskField(field, value)
+        //undo invalid masked field
+        if (display === value) privacy = 'public'
         break
       default:
         display = value
     }
     // const encValue = await SEA.encrypt(value, this.user.sea)
-    this.profile
+    await this.profile
       .get(field)
       .get('value')
       .secret(value)
-    return this.profile
-      .get(field)
-      .put({
-        display,
-        privacy
-      })
-      .then()
+    return new Promise((resolv, reject) => {
+      this.profile.get(field).put(
+        {
+          display,
+          privacy
+        },
+        ack => (ack.err ? reject(ack) : resolv(ack))
+      )
+    })
+  }
+
+  async setProfileFieldPrivacy(field: string, privacy: FieldPrivacy): Promise<ACK> {
+    let value = await this.getProfileFieldValue(field)
+    return this.setProfileField(field, value, privacy)
   }
 }
 

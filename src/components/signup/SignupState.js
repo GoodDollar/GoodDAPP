@@ -18,6 +18,7 @@ import API from '../../lib/API/api'
 import goodWallet from '../../lib/wallet/GoodWallet'
 
 import type { UserRecord } from '../../lib/API/api'
+import userStorage from '../../lib/gundb/UserStorage'
 import type { SMSRecord } from './SmsForm'
 
 const log = logger.child({ from: 'SignupState' })
@@ -46,6 +47,9 @@ class Signup extends React.Component<{ navigation: any, screenProps: any }, Sign
     jwt: ''
   }
 
+  saveProfile() {
+    ;['fullName', 'email', 'mobile'].forEach(field => userStorage.setProfileField(field, this.state[field], 'masked'))
+  }
   done = async (data: { [string]: string }) => {
     log.info('signup data:', { data })
     this.setState(data)
@@ -53,6 +57,7 @@ class Signup extends React.Component<{ navigation: any, screenProps: any }, Sign
     if (nextRoute) this.props.navigation.navigate(nextRoute.key)
     else {
       log.info('Sending new user data', this.state)
+      this.saveProfile()
       await API.verifyUser({})
       await API.addUser(this.state)
       this.props.navigation.navigate('AppNavigation')

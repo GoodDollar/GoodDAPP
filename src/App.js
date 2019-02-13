@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import { StyleSheet, View, Platform, SafeAreaView } from 'react-native'
 import { Provider as PaperProvider } from 'react-native-paper'
 import { WebRouter } from './Router'
+import initGunDB from './lib/gundb/gundb'
 import GoodWallet from './lib/wallet/GoodWallet'
 import userStorage from './lib/gundb/UserStorage'
 class App extends Component<{}, { walletReady: boolean, isLoggedIn: boolean, isUserRegistered: boolean }> {

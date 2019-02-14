@@ -54,7 +54,7 @@ class API {
 
   async sendOTP(user: UserRecord) {
     try {
-      const res = await this.client.post('/user/mobile', { user })
+      const res = await this.client.post('/verify/sendotp', { user })
       log.info(res)
     } catch (e) {
       log.error(e)

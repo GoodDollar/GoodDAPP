@@ -60,6 +60,11 @@ class UserStorage {
         gunuser.auth(username, password, user => {
           this.user = user
           this.profile = gunuser.get('profile')
+          //save ref to user
+          global.gun
+            .get('users')
+            .get(gunuser.is.pub)
+            .put(gunuser)
           logger.debug('GunDB logged in', { username, pubkey: this.wallet.account, user: this.user.sea })
           res(true)
           // this.profile = user.get('profile')

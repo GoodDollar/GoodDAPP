@@ -15,7 +15,8 @@ type Props = {
 }
 
 export type EmailRecord = {
-  email: string
+  email: string,
+  isEmailConfirmed?: boolean
 }
 
 type State = EmailRecord & { valid?: boolean }

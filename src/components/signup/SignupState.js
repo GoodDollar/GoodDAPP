@@ -43,6 +43,7 @@ class Signup extends React.Component<{ navigation: any, screenProps: any }, Sign
     email: '',
     mobile: '',
     smsValidated: false,
+    isEmailConfirmed: false,
     jwt: ''
   }
 

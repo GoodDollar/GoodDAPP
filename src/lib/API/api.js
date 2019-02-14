@@ -31,7 +31,7 @@ class API {
     AsyncStorage.getItem('GoodDAPP_jwt').then(async jwt => {
       this.jwt = jwt
       this.client = await axios.create({
-        baseURL: Config.GoodServer,
+        baseURL: Config.serverUrl,
         timeout: 30000,
         headers: { Authorization: `Bearer ${this.jwt || ''}` }
       })

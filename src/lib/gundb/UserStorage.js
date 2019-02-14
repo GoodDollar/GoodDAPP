@@ -1,7 +1,7 @@
 //@flow
 import { default as goodWallet, GoodWallet } from '../wallet/GoodWallet'
 import pino from '../logger/pino-logger'
-import initGunDB from './gundb'
+
 const logger = pino.child({ from: 'UserStorage' })
 export type GunDBUser = {
   alias: string,
@@ -20,7 +20,6 @@ class UserStorage {
 
   async init() {
     logger.debug('Initializing GunDB UserStorage')
-    initGunDB()
     const username = await this.wallet.sign('GoodDollarUser')
     const password = await this.wallet.sign('GoodDollarPass')
     const gunuser = global.gun.user()

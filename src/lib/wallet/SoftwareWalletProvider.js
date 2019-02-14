@@ -22,6 +22,7 @@ class SoftwareWalletProvider {
   getPKey() {
     return localStorage.getItem(this.GD_USER_PKEY)
   }
+
   async init(): Promise<Web3> {
     let provider = this.getWeb3TransportProvider()
     let web3 = new Web3(provider)
@@ -64,12 +65,12 @@ class SoftwareWalletProvider {
         break
 
       case 'HttpProvider':
-        provider = this.conf.httpWeb3provider + Config.infura_key
+        provider = this.conf.httpWeb3provider + Config.infuraKey
         web3Provider = new Web3.providers.HttpProvider(provider)
         break
 
       default:
-        provider = this.conf.httpWeb3provider + Config.infura_key
+        provider = this.conf.httpWeb3provider + Config.infuraKey
         web3Provider = new Web3.providers.HttpProvider(provider)
         break
     }

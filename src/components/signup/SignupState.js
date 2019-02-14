@@ -58,8 +58,8 @@ class Signup extends React.Component<{ navigation: any, screenProps: any }, Sign
     else {
       log.info('Sending new user data', this.state)
       this.saveProfile()
-      await API.verifyUser({})
       await API.addUser(this.state)
+      await API.verifyUser({})
       this.props.navigation.navigate('AppNavigation')
     }
   }

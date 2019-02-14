@@ -1,7 +1,7 @@
 //@flow
 import { default as goodWallet, GoodWallet } from '../wallet/GoodWallet'
 import pino from '../logger/pino-logger'
-import initGunDB from './gundb'
+
 const logger = pino.child({ from: 'UserStorage' })
 export type GunDBUser = {
   alias: string,

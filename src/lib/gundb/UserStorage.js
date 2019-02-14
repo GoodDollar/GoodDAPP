@@ -105,14 +105,9 @@ class UserStorage {
       .get(field)
       .get('value')
       .secret(value)
-    return new Promise((resolv, reject) => {
-      this.profile.get(field).put(
-        {
-          display,
-          privacy
-        },
-        ack => (ack.err ? reject(ack) : resolv(ack))
-      )
+    return this.profile.get(field).putAck({
+      display,
+      privacy
     })
   }
 

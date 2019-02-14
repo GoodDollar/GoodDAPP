@@ -1,5 +1,5 @@
 import Gun from 'gun'
-import decrypt from '../gundb-decrypt'
+import extend from '../gundb-extend'
 
 let userStorage = require('../UserStorage.js').default
 describe('UserStorage', () => {
@@ -91,7 +91,7 @@ describe('UserStorage', () => {
   it('doesnt mask non email/phone profile fields', async () => {
     const gunRes = await userStorage.setProfileField('name', 'John Doe', 'masked')
     const res = await userStorage.profile.get('name').then()
-    expect(res).toEqual(expect.objectContaining({ privacy: 'masked', display: 'John Doe' }))
+    expect(res).toEqual(expect.objectContaining({ privacy: 'public', display: 'John Doe' }))
   })
 
   it('change profile field privacy to public', async () => {

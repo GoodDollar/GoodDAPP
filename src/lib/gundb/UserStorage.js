@@ -20,7 +20,6 @@ class UserStorage {
 
   async init() {
     logger.debug('Initializing GunDB UserStorage')
-    initGunDB()
     const username = await this.wallet.sign('GoodDollarUser')
     const password = await this.wallet.sign('GoodDollarPass')
     const gunuser = global.gun.user()

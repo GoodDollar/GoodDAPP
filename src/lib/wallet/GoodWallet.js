@@ -22,8 +22,12 @@ export class GoodWallet {
   gasPrice: number
 
   constructor() {
+    this.init()
+  }
+
+  init(): Promise<any> {
     this.ready = WalletFactory.create('software')
-    this.ready
+    return this.ready
       .then(wallet => {
         this.wallet = wallet
         this.account = this.wallet.eth.defaultAccount

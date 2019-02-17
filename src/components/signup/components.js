@@ -17,6 +17,25 @@ export const NextButton = (props: { valid?: boolean, handleSubmit: () => any, st
   </Button>
 )
 
+export const ActionButton = (props: {
+  disabled?: boolean,
+  handleSubmit: () => any,
+  styles?: any,
+  children: any,
+  loading?: boolean
+}) => (
+  <Button
+    style={[styles.actionButton, props.styles || {}]}
+    mode="outlined"
+    color="#555"
+    loading={props.loading}
+    disabled={props.disabled}
+    onPress={props.handleSubmit}
+  >
+    <Text style={styles.actionButtonText}>{props.children}</Text>
+  </Button>
+)
+
 const Footer = (props: {
   valid?: boolean,
   showPrivacyPolicy?: string,
@@ -55,6 +74,12 @@ export const LinkButton = (props: any) => (
 export const Title = (props: any) => <Text style={[styles.title, props.style]}>{props.children}</Text>
 
 export const Description = (props: any) => <Text style={[styles.description, props.style]}>{props.children}</Text>
+
+export const Error = (props: any) => (
+  <View style={styles.errorWrapper}>
+    <Text style={[styles.error, props.style]}>{props.children}</Text>
+  </View>
+)
 
 const fontStyle = {
   fontFamily: 'Helvetica, "sans-serif"',
@@ -102,6 +127,16 @@ const styles = StyleSheet.create({
     paddingTop: 5,
     paddingBottom: 5
   },
+  actionButton: {
+    borderStyle: 'solid',
+    borderColor: '#555',
+    borderWidth: 1,
+    backgroundColor: 'white',
+    borderRadius: 5
+  },
+  actionButtonText: {
+    color: '#555'
+  },
   title: {
     ...fontStyle,
     fontSize: normalize(28),
@@ -110,5 +145,12 @@ const styles = StyleSheet.create({
   description: {
     ...fontStyle,
     marginTop: normalize(30)
+  },
+  errorWrapper: {},
+  error: {
+    ...fontStyle,
+    color: 'red',
+    marginVertical: normalize(30),
+    minHeight: normalize(24)
   }
 })

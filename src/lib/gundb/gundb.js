@@ -6,7 +6,7 @@ import gundbextend from './gundb-extend'
 
 const initGunDB = () => {
   if (!global.gun) {
-    global.gun = Gun([Config.GoodServer + '/gun'])
+    global.gun = Gun([Config.serverUrl + '/gun'])
     logger.debug('Initialized gundb')
   }
 }

@@ -1,7 +1,7 @@
 const Config = {
     "env":"development",
-    "GoodServer":"http://localhost:3003",
-    "infura_key": process.env.REACT_APP_INFURA_KEY,
+    "serverUrl": process.env.REACT_APP_SERVER_URL || "http://localhost:3003",
+    "infuraKey": process.env.REACT_APP_INFURA_KEY,
     "ethereum":{
       "42":{
         "network_id":42,
@@ -18,4 +18,5 @@ const Config = {
 
     }
 }
+
 export default Config

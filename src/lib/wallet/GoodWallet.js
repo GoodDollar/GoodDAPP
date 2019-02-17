@@ -9,6 +9,18 @@ import logger from '../../lib/logger/pino-logger'
 
 const log = logger.child({ from: 'GoodWallet' })
 
+/**
+ * the HDWallet account to use.
+ * we use different accounts for different actions in order to preserve privacy and simplify things for user
+ * in background
+ */
+const AccountUsageToPath = {
+  gd: 0,
+  gundb: 1,
+  eth: 2,
+  donate: 3
+}
+export type AccountUsage = $Keys<AccountUsageToPath>
 export class GoodWallet {
   ready: Promise<Web3>
   wallet: Web3
@@ -93,9 +105,14 @@ export class GoodWallet {
   signMessage() {}
 
   sendTx() {}
-
-  async sign(toSign: string) {
-    return this.wallet.eth.sign(toSign, this.account)
+  
+  async getAccountForType(type: AccountUsage) {
+    let account = await this.wallet.eth.getAccounts().then(acc => acc[AccountUsageToPath[accountType]])
+    return account
+  }
+  async sign(toSign: string, accountType: AccountUsage = 'gd') {
+    let account = await getAccountForType(accountType)
+    return this.wallet.eth.sign(toSign, account)
   }
 
   async isVerified(address: string): Promise<boolean> {

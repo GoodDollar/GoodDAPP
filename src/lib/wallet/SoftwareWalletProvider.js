@@ -2,8 +2,9 @@
 import Web3 from 'web3'
 import type { WebSocketProvider } from 'web3-providers-ws'
 import type { HttpProvider } from 'web3-providers-http'
-import Config from '../../config/config'
 import bip39 from 'bip39'
+import HDWalletProvider from 'truffle-hdwallet-provider'
+import Config from '../../config/config'
 import type { WalletConfig } from './WalletFactory'
 import logger from '../logger/pino-logger'
 
@@ -16,35 +17,53 @@ class SoftwareWalletProvider {
 
   constructor(conf: WalletConfig) {
     this.conf = conf
-    this.ready = this.init()
+    this.ready = this.initHD()
   }
-
   getPKey() {
     return localStorage.getItem(this.GD_USER_PKEY)
   }
-
   async init(): Promise<Web3> {
     let provider = this.getWeb3TransportProvider()
     let web3 = new Web3(provider)
     //let web3 = new Web3(new WebsocketProvider("wss://ropsten.infura.io/ws"))
-
     let pkey: ?string = localStorage.getItem(this.GD_USER_PKEY)
     let account
     if (!pkey) {
       account = await web3.eth.accounts.create()
-
       log.info('account Add is:', account.address)
       log.info('Private Key is:', account.privateKey)
       localStorage.setItem(this.GD_USER_PKEY, account.privateKey)
       pkey = localStorage.getItem(this.GD_USER_PKEY)
-
       log.info('item set in localStorage ', { pkey })
     } else {
       log.info('pkey found, creating account from pkey:', { pkey })
     }
-
     web3.eth.accounts.wallet.add(pkey)
     web3.eth.defaultAccount = web3.eth.accounts.wallet[0].address
+
+    return web3
+  }
+
+  async initHD(): Promise<Web3> {
+    let provider = this.getWeb3TransportProvider()
+    //let web3 = new Web3(new WebsocketProvider("wss://ropsten.infura.io/ws"))
+    let pkey: ?string = localStorage.getItem(this.GD_USER_PKEY)
+    let account
+    if (!pkey) {
+      pkey = this.generateMnemonic()
+      localStorage.setItem(this.GD_USER_PKEY, pkey)
+      pkey = localStorage.getItem(this.GD_USER_PKEY)
+      log.info('item set in localStorage ', { pkey })
+    } else {
+      log.info('pkey found, creating account from pkey:', { pkey })
+    }
+    //we start from addres 1, since from address 0 pubkey all public keys can  be generated
+    //and we want privacy
+    let hdwallet = new HDWalletProvider(pkey, provider, 1, 10)
+    let web3 = new Web3(hdwallet)
+    // web3.eth.accounts.wallet.add(pkey)
+    let accounts = await web3.eth.getAccounts()
+    web3.eth.defaultAccount = accounts[0]
 
     return web3
   }

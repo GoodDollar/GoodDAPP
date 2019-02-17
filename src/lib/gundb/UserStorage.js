@@ -50,8 +50,9 @@ class UserStorage {
 
   async init() {
     logger.debug('Initializing GunDB UserStorage')
-    const username = await this.wallet.sign('GoodDollarUser')
-    const password = await this.wallet.sign('GoodDollarPass')
+    //sign with different address so its not connected to main user address and there's no 1-1 link
+    const username = await this.wallet.sign('GoodDollarUser', 'gundb')
+    const password = await this.wallet.sign('GoodDollarPass', 'gundb')
     const gunuser = global.gun.user()
     return new Promise((res, rej) => {
       gunuser.create(username, password, async userCreated => {

@@ -105,13 +105,13 @@ export class GoodWallet {
   signMessage() {}
 
   sendTx() {}
-  
+
   async getAccountForType(type: AccountUsage) {
-    let account = await this.wallet.eth.getAccounts().then(acc => acc[AccountUsageToPath[accountType]])
+    let account = await this.wallet.eth.getAccounts().then(acc => acc[AccountUsageToPath[type]])
     return account
   }
   async sign(toSign: string, accountType: AccountUsage = 'gd') {
-    let account = await getAccountForType(accountType)
+    let account = await this.getAccountForType(accountType)
     return this.wallet.eth.sign(toSign, account)
   }
 

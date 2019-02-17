@@ -1,15 +1,19 @@
 // @flow
 import React from 'react'
-import { Text } from 'react-native'
+import { Text, View } from 'react-native'
 import OtpInput from 'react-otp-input'
-import { Title, Wrapper } from './components'
+import { ActionButton, Error, Title, Wrapper } from './components'
 import logger from '../../lib/logger/pino-logger'
+import API from '../../lib/API/api'
+import type { SignupState } from './SignupState'
+import { normalize } from 'react-native-elements'
 
 const log = logger.child({ from: 'SmsForm.web' })
 
 type Props = {
   // callback to report to parent component
   phone: string,
+  data: SignupState,
   doneCallback: ({ isPhoneVerified: boolean }) => null,
   screenProps: any
 }
@@ -19,16 +23,22 @@ export type SMSRecord = {
   sentSMS?: boolean
 }
 
-type State = SMSRecord & { valid?: boolean }
+type State = SMSRecord & {
+  valid?: boolean,
+  errorMessage: string,
+  sendingCode: boolean
+}
 
 export default class SmsForm extends React.Component<Props, State> {
   state = {
     smsValidated: false,
     sentSMS: false,
-    valid: false
+    valid: false,
+    errorMessage: '',
+    sendingCode: false
   }
 
-  numInputs: number = 5
+  numInputs: number = 6
 
   componentDidMount() {
     this.focusInput()
@@ -36,9 +46,18 @@ export default class SmsForm extends React.Component<Props, State> {
     this.sendSMS()
   }
 
-  handleChange = (otp: string) => {
+  handleChange = async (otp: string) => {
     if (otp.length === this.numInputs) {
-      this.verifyOTP(otp)
+      try {
+        await this.verifyOTP(otp)
+        this.setState({ valid: true })
+        this.handleSubmit()
+      } catch (e) {
+        log.error({ e })
+        this.setState({ errorMessage: e.response.data.message })
+      }
+    } else {
+      this.setState({ errorMessage: '' })
     }
   }
 
@@ -78,12 +97,7 @@ export default class SmsForm extends React.Component<Props, State> {
 
   // eslint-disable-next-line class-methods-use-this
   verifyOTP(otp: string) {
-    if (otp.length === this.numInputs) {
-      this.setState({ valid: true })
-      this.handleSubmit()
-      return true
-    }
-    return false
+    return API.verifyMobile({ otp })
   }
 
   sendSMS() {
@@ -91,31 +105,84 @@ export default class SmsForm extends React.Component<Props, State> {
     setTimeout(() => this.setState({ sentSMS: true }), 2000)
   }
 
+  handleRetry = async () => {
+    this.setState({ sendingCode: true })
+
+    try {
+      await API.sendOTP({ ...this.props.screenProps.data })
+    } catch (e) {
+      log.error(e)
+    }
+
+    this.setState({ sendingCode: false })
+  }
+
+  handleVoiceCode = () => {
+    log.info('Voice Code is not available')
+  }
+
   render() {
+    const { valid, errorMessage, sendingCode } = this.state
+
     return (
-      <Wrapper valid={this.state.valid} handleSubmit={this.handleSubmit}>
+      <Wrapper valid={valid} handleSubmit={this.handleSubmit} footerComponent={() => <React.Fragment />}>
         <Title>{"Your verification code\nYou've just received"}</Title>
         <OtpInput
           containerStyle={{
             justifyContent: 'space-evenly'
           }}
-          inputStyle={{
-            width: '100%',
-            height: '3rem',
-            margin: '0 0.5rem',
-            fontSize: '1.5rem',
-            borderTop: 'none',
-            borderRight: 'none',
-            borderLeft: 'none',
-            borderBottom: '1px solid #555'
-          }}
+          inputStyle={inputStyle}
           shouldAutoFocus
           numInputs={this.numInputs}
           onChange={this.handleChange}
           isInputNum={true}
+          hasErrored={errorMessage !== ''}
+          errorStyle={errorStyle}
         />
-        <Text>{this.state.sentSMS ? 'SMS in 15 secs' : 'Sending SMS...'}</Text>
+        <Error>{errorMessage !== '' && errorMessage}</Error>
+        <View style={buttonRow.wrapper}>
+          <ActionButton styles={buttonRow.button} loading={sendingCode} handleSubmit={this.handleRetry}>
+            <Text>Send me</Text>
+            <br />
+            <Text>the code again</Text>
+          </ActionButton>
+          <ActionButton styles={buttonRow.button} handleSubmit={this.handleVoiceCode}>
+            <Text>Send me</Text>
+            <br />
+            <Text>a voice code</Text>
+          </ActionButton>
+        </View>
       </Wrapper>
     )
+  }
+}
+
+const inputStyle = {
+  width: '100%',
+  height: '3rem',
+  margin: '0 0.5rem',
+  fontSize: '1.5rem',
+  borderTop: 'none',
+  borderRight: 'none',
+  borderLeft: 'none',
+  borderBottom: '1px solid #555'
+}
+
+const errorStyle = {
+  ...inputStyle,
+  borderBottom: '1px solid red',
+  color: 'red'
+}
+
+const buttonRow = {
+  wrapper: {
+    alignContent: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+  button: {
+    justifyContent: 'center',
+    width: '46%',
+    height: normalize(60)
   }
 }

@@ -22,7 +22,7 @@ import type { SMSRecord } from './SmsForm'
 
 const log = logger.child({ from: 'SignupState' })
 
-type SignupState = UserRecord & SMSRecord
+export type SignupState = UserRecord & SMSRecord
 
 const SignupWizardNavigator = createSwitchNavigator({
   Name: NameForm,
@@ -43,6 +43,7 @@ class Signup extends React.Component<{ navigation: any, screenProps: any }, Sign
     email: '',
     mobile: '',
     smsValidated: false,
+    isEmailConfirmed: false,
     jwt: ''
   }
 
@@ -50,12 +51,23 @@ class Signup extends React.Component<{ navigation: any, screenProps: any }, Sign
     log.info('signup data:', { data })
     this.setState(data)
     let nextRoute = this.props.navigation.state.routes[this.props.navigation.state.index + 1]
-    if (nextRoute) this.props.navigation.navigate(nextRoute.key)
-    else {
-      log.info('Sending new user data', this.state)
-      await API.verifyUser({})
-      await API.addUser(this.state)
-      this.props.navigation.navigate('AppNavigation')
+
+    if (nextRoute && nextRoute.key === 'SMS') {
+      try {
+        await API.sendOTP({ ...this.state, ...data })
+        this.props.navigation.navigate(nextRoute.key)
+      } catch (e) {
+        log.error(e)
+      }
+    } else {
+      if (nextRoute) {
+        this.props.navigation.navigate(nextRoute.key)
+      } else {
+        log.info('Sending new user data', this.state)
+        await API.verifyUser({})
+        await API.addUser(this.state)
+        this.props.navigation.navigate('AppNavigation')
+      }
     }
   }
 

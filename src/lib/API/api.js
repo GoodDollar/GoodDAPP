@@ -1,6 +1,6 @@
 // @flow
 import axios from 'axios'
-import type { Axios, AxiosPromise } from 'axios'
+import type { Axios, AxiosPromise, $AxiosXHR } from 'axios'
 import Config from '../../config/config'
 import { AsyncStorage } from 'react-native'
 import logger from '../logger/pino-logger'
@@ -52,6 +52,16 @@ class API {
     }
   }
 
+  async sendOTP(user: UserRecord) {
+    try {
+      const res = await this.client.post('/verify/sendotp', { user })
+      log.info(res)
+    } catch (e) {
+      log.error(e)
+      throw e
+    }
+  }
+
   async verifyUser(verificationData: any) {
     try {
       let res = await this.client.post('/verify/user', { verificationData })
@@ -60,6 +70,10 @@ class API {
       log.error(e)
       throw e
     }
+  }
+
+  async verifyMobile(verificationData: any): Promise<$AxiosXHR<any>> {
+    return this.client.post('/verify/mobile', { verificationData })
   }
 }
 

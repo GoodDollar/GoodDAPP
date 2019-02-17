@@ -5,7 +5,8 @@ import { createNavigator, SwitchRouter, SceneView, Route } from '@react-navigati
 import { View, Style } from 'react-native'
 
 import NavBar from './NavBar'
-import { NextButton, type ButtonProps } from '../common'
+import { NextButton } from '../common'
+import { type ButtonProps } from '../common/NextButton'
 import { Button } from 'react-native-paper'
 
 /**

@@ -2,7 +2,7 @@ import Gun from 'gun'
 import SEA from 'gun/sea'
 import Config from '../../config/config'
 import logger from '../logger/pino-logger'
-import gundbdecrypt from './gundb-decrypt'
+import gundbextend from './gundb-extend'
 
 const initGunDB = () => {
   if (!global.gun) {

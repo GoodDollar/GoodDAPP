@@ -18,6 +18,7 @@ import API from '../../lib/API/api'
 import goodWallet from '../../lib/wallet/GoodWallet'
 
 import type { UserRecord } from '../../lib/API/api'
+import userStorage from '../../lib/gundb/UserStorage'
 import type { SMSRecord } from './SmsForm'
 
 const log = logger.child({ from: 'SignupState' })
@@ -47,11 +48,13 @@ class Signup extends React.Component<{ navigation: any, screenProps: any }, Sign
     jwt: ''
   }
 
+  saveProfile() {
+    ;['fullName', 'email', 'mobile'].forEach(field => userStorage.setProfileField(field, this.state[field], 'masked'))
+  }
   done = async (data: { [string]: string }) => {
     log.info('signup data:', { data })
     this.setState(data)
     let nextRoute = this.props.navigation.state.routes[this.props.navigation.state.index + 1]
-
     if (nextRoute && nextRoute.key === 'SMS') {
       try {
         await API.sendOTP({ ...this.state, ...data })
@@ -64,8 +67,9 @@ class Signup extends React.Component<{ navigation: any, screenProps: any }, Sign
         this.props.navigation.navigate(nextRoute.key)
       } else {
         log.info('Sending new user data', this.state)
-        await API.verifyUser({})
+        this.saveProfile()
         await API.addUser(this.state)
+        await API.verifyUser({})
         this.props.navigation.navigate('AppNavigation')
       }
     }

@@ -2,6 +2,7 @@ const Config = {
     "env":"development",
     "serverUrl": process.env.REACT_APP_SERVER_URL || "http://localhost:3003",
     "infuraKey": process.env.REACT_APP_INFURA_KEY,
+    "networkId": process.env.REACT_APP_NETWORK_ID || 42,
     "ethereum":{
       "42":{
         "network_id":42,

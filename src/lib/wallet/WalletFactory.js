@@ -14,7 +14,7 @@ export default class WalletFactory {
     switch (walletType) {
       case 'software':
       default:
-        let provider: SoftwareWalletProvider = new SoftwareWalletProvider(Config.ethereum['42'])
+        let provider: SoftwareWalletProvider = new SoftwareWalletProvider(Config.ethereum[Config.networkId])
         return provider.ready
     }
   }

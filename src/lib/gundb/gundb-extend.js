@@ -14,6 +14,17 @@ export default (() => {
     let promise = new Promise((res, rej) => gun.put(data, ack => (ack.err ? rej(ack) : res(ack))))
     return promise.then(cb)
   }
+  Gun.User.prototype.secretAck = function(data, cb) {
+    var gun = this,
+      cb =
+        cb ||
+        function(ctx) {
+          return ctx
+        }
+    let promise = new Promise((res, rej) => gun.secret(data, ack => (ack.err ? rej(ack) : res(ack))))
+    return promise.then(cb)
+  }
+
   Gun.User.prototype.decrypt = function(cb) {
     var gun = this,
       user = gun.back(-1).user(),

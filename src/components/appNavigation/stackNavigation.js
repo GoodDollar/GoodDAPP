@@ -1,13 +1,11 @@
 // @flow
 import React, { Component } from 'react'
-
+import { Style } from 'react-native'
+import { Button } from 'react-native-paper'
 import { createNavigator, SwitchRouter, SceneView, Route } from '@react-navigation/core'
-import { View, Style } from 'react-native'
 
 import NavBar from './NavBar'
-import { NextButton } from '../common'
-import { type ButtonProps } from '../common/NextButton'
-import { Button } from 'react-native-paper'
+import { CustomButton, type ButtonProps } from '../common'
 
 /**
  * Component wrapping the stack navigator.
@@ -110,7 +108,8 @@ export const createStackNavigator = (routes: any, navigationConfig: any) => {
   const defaultNavigationConfig = {
     backRouteName: 'Dashboard'
   }
-  return createNavigator(AppView, SwitchRouter(routes), { ...navigationConfig, ...defaultNavigationConfig })
+
+  return createNavigator(AppView, SwitchRouter(routes), { ...defaultNavigationConfig, ...navigationConfig })
 }
 
 type PushButtonProps = {
@@ -124,19 +123,13 @@ type PushButtonProps = {
  * This button gets the push action from screenProps. Is meant to be used inside a stackNavigator
  * @param {ButtonProps} props
  */
-export const PushButton = (props: PushButtonProps) => {
-  const { disabled, screenProps, routeName, children, mode, color, style } = props
-  return (
-    <NextButton
-      mode={mode || 'contained'}
-      color={color || 'black'}
-      disabled={disabled}
-      onPress={() => screenProps.push(routeName)}
-      style={style}
-    >
-      {children}
-    </NextButton>
-  )
+export const PushButton = ({ routeName, screenProps, ...props }: PushButtonProps) => (
+  <CustomButton {...props} onPress={() => screenProps && screenProps.push(routeName)} />
+)
+
+PushButton.defaultProps = {
+  mode: 'contained',
+  dark: true
 }
 
 type BackButtonProps = {
@@ -152,6 +145,7 @@ type BackButtonProps = {
  */
 export const BackButton = (props: BackButtonProps) => {
   const { disabled, screenProps, children, mode, color } = props
+
   return (
     <Button mode={mode || 'text'} color={color || '#575757'} disabled={disabled} onPress={screenProps.goToParent}>
       {children}

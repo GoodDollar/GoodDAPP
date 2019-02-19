@@ -4,15 +4,17 @@ import { Text, View, StyleSheet } from 'react-native'
 import { normalize } from 'react-native-elements'
 import { fontStyle } from './styles'
 
-const Row = (props: any) => <View style={[styles.sectionRow, props.style]}>{props.children}</View>
-const Title = (props: any) => <Text style={[styles.title, props.style]}>{props.children}</Text>
+const Row = (props: any) => <View {...props} style={[styles.sectionRow, props.style]}>{props.children}</View>
+const Title = (props: any) => <Text {...props} style={[styles.title, props.style]}>{props.children}</Text>
 const SectionText = (props: any) => <Text {...props} style={[styles.text, props.style]} />
-const Separator = (props: any) => <hr style={[styles.separator, props.style]} />
+const Separator = (props: any) => <hr {...props} style={[styles.separator, props.style]} />
+
 export default class Section extends Component<any> {
   static Row = Row
   static Title = Title
   static Text = SectionText
   static Separator = Separator
+
   render() {
     return <View style={[styles.section, this.props.style]}>{this.props.children}</View>
   }

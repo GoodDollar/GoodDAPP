@@ -6,6 +6,7 @@ import goodWallet from '../../lib/wallet/GoodWallet'
 import logger from '../../lib/logger/pino-logger'
 import { normalize } from 'react-native-elements'
 import { createStackNavigator, PushButton } from '../appNavigation/stackNavigation'
+
 import Claim from './Claim'
 import FaceRecognition from './FaceRecognition'
 import Receive from './Receive'

@@ -6,7 +6,7 @@ import { Title, Description } from '../signup/components'
 import { normalize } from 'react-native-elements'
 import logger from '../../lib/logger/pino-logger'
 import { Button, Modal, Portal, Dialog, Paragraph } from 'react-native-paper'
-import { Wrapper, NextButton } from '../common'
+import { Wrapper, CustomButton } from '../common'
 
 const log = logger.child({ from: 'FaceRecognition' })
 
@@ -63,7 +63,7 @@ class FaceRecognition extends React.Component<Props, State> {
           </Description>
         </View>
         <View style={styles.bottomContainer}>
-          <NextButton onPress={this.handleClaim}>Quick Face Recognition</NextButton>
+          <CustomButton onPress={this.handleClaim}>Quick Face Recognition</CustomButton>
         </View>
 
         <Portal>
@@ -73,7 +73,7 @@ class FaceRecognition extends React.Component<Props, State> {
               <Paragraph>{dialogData.message}</Paragraph>
             </Dialog.Content>
             <Dialog.Actions>
-              <Button onPress={this._handleDismissDialog}>{dialogData.dismissText || 'Done'}</Button>
+              <CustomButton onPress={this._handleDismissDialog}>{dialogData.dismissText || 'Done'}</CustomButton>
             </Dialog.Actions>
           </Dialog>
         </Portal>

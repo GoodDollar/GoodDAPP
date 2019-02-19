@@ -25,6 +25,9 @@ const TIMEOUT = 1000
  * The main app route. Here we decide where to go depending on the user's credentials status
  */
 class AppSwitch extends React.Component<LoadingProps, {}> {
+  state = {
+    activeKey: 'Splash'
+  }
   /**
    * Triggers the required actions before navigating to any app's page
    * @param {LoadingProps} props
@@ -33,6 +36,8 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
     super(props)
     const { navigation } = this.props
     this.savedActiveKey = navigation.state.routes[navigation.state.index].key
+    //If we are already in splash (ie user in /) then we later redirect to Dashboard
+    if (this.savedActiveKey === 'Splash') this.savedActiveKey = 'AppNavigation'
   }
   componentWillMount() {
     this.checkAuthStatus()
@@ -43,7 +48,6 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
    * @returns {Promise<void>}
    */
   checkAuthStatus = async () => {
-    this.props.navigation.navigate('Splash')
     await goodWallet.ready
 
     // when wallet is ready perform login to server (sign message with wallet and send to server)
@@ -55,25 +59,24 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
     const isLoggedIn = credsOrError.jwt !== undefined
 
     if (isLoggedIn && isCitizen) {
-      this.props.navigation.navigate(this.savedActiveKey)
+      this.setState({ activeKey: this.savedActiveKey })
     } else {
       const { jwt } = credsOrError
 
       if (jwt) {
         log.debug('New account, not verified, or did not finish signup', jwt)
-        this.props.navigation.navigate('Auth')
+        this.setState({ activeKey: 'Auth' })
       } else {
         // TODO: handle other statuses (4xx, 5xx), consider exponential backoff
         log.error('Failed to sign in', credsOrError)
-        this.props.navigation.navigate('Auth')
+        this.setState({ activeKey: 'Auth' })
       }
     }
   }
 
   render() {
-    const { descriptors, navigation } = this.props
-    const key = navigation.state.routes[navigation.state.index].key
-    const descriptor = descriptors[key]
+    const { descriptors } = this.props
+    const descriptor = descriptors[this.state.activeKey]
     return <SceneView navigation={descriptor.navigation} component={descriptor.getComponent()} />
   }
 }

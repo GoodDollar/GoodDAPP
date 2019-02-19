@@ -34,8 +34,12 @@ export class GoodWallet {
   gasPrice: number
 
   constructor() {
-    this.ready = WalletFactory.create('software')
-    this.ready
+    this.init()
+  }
+
+  init(): Promise<any> {
+    const ready = WalletFactory.create('software')
+    this.ready = ready
       .then(wallet => {
         this.wallet = wallet
         this.account = this.wallet.eth.defaultAccount
@@ -107,7 +111,7 @@ export class GoodWallet {
   sendTx() {}
 
   async getAccountForType(type: AccountUsage) {
-    let account = await this.wallet.eth.getAccounts().then(acc => acc[AccountUsageToPath[type]])
+    let account = await this.wallet.eth.getAccounts().then(acc => acc[AccountUsageToPath[type]] || this.account)
     return account
   }
   async sign(toSign: string, accountType: AccountUsage = 'gd') {

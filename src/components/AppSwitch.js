@@ -3,8 +3,6 @@ import React from 'react'
 import { SceneView } from '@react-navigation/core'
 import goodWallet from '../lib/wallet/GoodWallet'
 import goodWalletLogin from '../lib/login/GoodWalletLogin'
-import API from '../lib/API/api'
-
 import logger from '../lib/logger/pino-logger'
 
 type LoadingProps = {
@@ -25,21 +23,12 @@ const TIMEOUT = 1000
  * The main app route. Here we decide where to go depending on the user's credentials status
  */
 class AppSwitch extends React.Component<LoadingProps, {}> {
-  state = {
-    activeKey: 'Splash'
-  }
   /**
    * Triggers the required actions before navigating to any app's page
    * @param {LoadingProps} props
    */
   constructor(props: LoadingProps) {
     super(props)
-    const { navigation } = this.props
-    this.savedActiveKey = navigation.state.routes[navigation.state.index].key
-    //If we are already in splash (ie user in /) then we later redirect to Dashboard
-    if (this.savedActiveKey === 'Splash') this.savedActiveKey = 'AppNavigation'
-  }
-  componentWillMount() {
     this.checkAuthStatus()
   }
 
@@ -48,8 +37,6 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
    * @returns {Promise<void>}
    */
   checkAuthStatus = async () => {
-    await goodWallet.ready
-
     // when wallet is ready perform login to server (sign message with wallet and send to server)
     const [credsOrError, isCitizen]: any = await Promise.all([
       goodWalletLogin.auth(),
@@ -59,24 +46,25 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
     const isLoggedIn = credsOrError.jwt !== undefined
 
     if (isLoggedIn && isCitizen) {
-      this.setState({ activeKey: this.savedActiveKey })
+      this.props.navigation.navigate('AppNavigation')
     } else {
       const { jwt } = credsOrError
 
       if (jwt) {
         log.debug('New account, not verified, or did not finish signup', jwt)
-        this.setState({ activeKey: 'Auth' })
+        this.props.navigation.navigate('Auth')
       } else {
         // TODO: handle other statuses (4xx, 5xx), consider exponential backoff
         log.error('Failed to sign in', credsOrError)
-        this.setState({ activeKey: 'Auth' })
+        this.props.navigation.navigate('Auth')
       }
     }
   }
 
   render() {
-    const { descriptors } = this.props
-    const descriptor = descriptors[this.state.activeKey]
+    const { descriptors, navigation } = this.props
+    const activeKey = navigation.state.routes[navigation.state.index].key
+    const descriptor = descriptors[activeKey]
     return <SceneView navigation={descriptor.navigation} component={descriptor.getComponent()} />
   }
 }

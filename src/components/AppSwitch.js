@@ -25,9 +25,6 @@ const TIMEOUT = 1000
  * The main app route. Here we decide where to go depending on the user's credentials status
  */
 class AppSwitch extends React.Component<LoadingProps, {}> {
-  state = {
-    activeKey: 'Splash'
-  }
   /**
    * Triggers the required actions before navigating to any app's page
    * @param {LoadingProps} props
@@ -46,6 +43,7 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
    * @returns {Promise<void>}
    */
   checkAuthStatus = async () => {
+    this.props.navigation.navigate('Splash')
     await goodWallet.ready
 
     // when wallet is ready perform login to server (sign message with wallet and send to server)
@@ -57,10 +55,7 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
     const isLoggedIn = credsOrError.jwt !== undefined
 
     if (isLoggedIn && isCitizen) {
-      log.info('to AppNavigation', this.savedActiveKey)
-      // this.props.navigation.navigate('AppNavigation')
-      // this.props.navigation.navigate(this.activeKey)
-      this.setState({ activeKey: this.savedActiveKey })
+      this.props.navigation.navigate(this.savedActiveKey)
     } else {
       const { jwt } = credsOrError
 
@@ -76,8 +71,9 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
   }
 
   render() {
-    const { descriptors } = this.props
-    const descriptor = descriptors[this.state.activeKey]
+    const { descriptors, navigation } = this.props
+    const key = navigation.state.routes[navigation.state.index].key
+    const descriptor = descriptors[key]
     return <SceneView navigation={descriptor.navigation} component={descriptor.getComponent()} />
   }
 }

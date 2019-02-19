@@ -22,6 +22,19 @@
       "pragma": "React",
       "version": "detect",
       "flowVersion": "0.89"
+    },
+    "import/resolver": {
+      "node": {
+        "paths": [
+          "src"
+        ],
+        "extensions": [
+          ".js",
+          ".android.js",
+          ".ios.js",
+          ".web.js"
+        ]
+      }
     }
   },
   "rules": {

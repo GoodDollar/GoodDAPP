@@ -71,6 +71,7 @@ export class GoodWallet {
       .catch(e => {
         log.error('Failed initializing GoodWallet', e)
       })
+      return this.ready
   }
 
   async claim() {
@@ -90,10 +91,17 @@ export class GoodWallet {
     return await this.claimContract.methods.checkEntitlement().call()
   }
 
-  async balanceChanged(callback: (error: any, event: any) => any) {
-    let handler = this.tokenContract.events.Transfer({ fromBlock: 'latest', filter: { from: this.account } }, callback)
-    let handler2 = this.tokenContract.events.Transfer({ fromBlock: 'latest', filter: { to: this.account } }, callback)
-    return [handler, handler2]
+  balanceChanged(callback: (error: any, event: any) => any): [Promise<any>, Promise<any>] {
+    const fromHanlder: Promise<any> = this.tokenContract.events.Transfer(
+      { fromBlock: 'latest', filter: { from: this.account } },
+      callback
+    )
+    const toHandler: Promise<any> = this.tokenContract.events.Transfer(
+      { fromBlock: 'latest', filter: { to: this.account } },
+      callback
+    )
+
+    return [toHandler, fromHanlder]
   }
 
   async balanceOf() {
@@ -114,6 +122,7 @@ export class GoodWallet {
     let account = await this.wallet.eth.getAccounts().then(acc => acc[AccountUsageToPath[type]] || this.account)
     return account
   }
+
   async sign(toSign: string, accountType: AccountUsage = 'gd') {
     let account = await this.getAccountForType(accountType)
     return this.wallet.eth.sign(toSign, account)

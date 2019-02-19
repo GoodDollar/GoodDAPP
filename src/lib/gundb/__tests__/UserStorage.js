@@ -2,6 +2,12 @@ import Gun from 'gun'
 import extend from '../gundb-extend'
 
 let userStorage = require('../UserStorage.js').default
+let event = { id: 'xyz', date: new Date('2019-01-01T10:00:00.000Z').toString(), data: { foo: 'bar', unchanged: 'zar' } }
+let event2 = { id: 'xyz2', date: new Date('2019-01-01T20:00:00.000Z').toString(), data: { foo: 'bar' } }
+let event3 = { id: 'xyz3', date: new Date('2019-01-01T14:00:00.000Z').toString(), data: { foo: 'xar' } }
+let mergedEvent = { id: 'xyz', date: new Date('2019-01-01').toString(), data: { foo: 'zar', unchanged: 'zar', extra: 'bar' } }
+let event4 = { id: 'xyz4', date: new Date('2019-01-02T10:00:00.000Z').toString(), data: { foo: 'bar', unchanged: 'zar' } }
+
 describe('UserStorage', () => {
   beforeAll(async () => {
     global.gun = Gun()
@@ -104,6 +110,77 @@ describe('UserStorage', () => {
     const gunRes = await userStorage.setProfileFieldPrivacy('phone', 'private')
     const res = await userStorage.profile.get('phone').then()
     expect(res).toEqual(expect.objectContaining({ privacy: 'private', display: '' }))
+  })
+
+  it('add event', async () => {
+    const gunRes = await userStorage.updateFeedEvent(event)
+    const index = await userStorage.feed
+      .get('index')
+      .once()
+      .then()
+    const events = await userStorage.feed.get('2019-01-01').decrypt()
+    expect(index).toHaveProperty('2019-01-01')
+    expect(events).toEqual([event])
+  })
+
+  it('add second event', async () => {
+    const gunRes = await userStorage.updateFeedEvent(event2)
+    const index = await userStorage.feed
+      .get('index')
+      .once()
+      .then()
+    const events = await userStorage.feed.get('2019-01-01').decrypt()
+    expect(index['2019-01-01']).toEqual(2)
+    expect(events).toEqual([event2, event])
+  })
+
+  it('updates first event', async () => {
+    let event = { id: 'xyz', date: new Date('2019-01-01').toString(), data: { foo: 'zar', extra: 'bar' } }
+    const gunRes = await userStorage.updateFeedEvent(event)
+    const index = await userStorage.feed
+      .get('index')
+      .once()
+      .then()
+    const events = await userStorage.feed.get('2019-01-01').decrypt()
+    expect(index['2019-01-01']).toEqual(2)
+    expect(events).toEqual([event2, mergedEvent])
+  })
+
+  it('add middle event', async () => {
+    const gunRes = await userStorage.updateFeedEvent(event3)
+    const index = await userStorage.feed
+      .get('index')
+      .once()
+      .then()
+    const events = await userStorage.feed.get('2019-01-01').decrypt()
+    expect(index['2019-01-01']).toEqual(3)
+    expect(events).toEqual([event2, event3, mergedEvent])
+  })
+
+  it('keeps event index sorted', async () => {    
+    const gunRes = await userStorage.updateFeedEvent(event4)
+    const index = await userStorage.feed
+      .get('index')
+      .once()
+      .then()
+    const events = await userStorage.feed.get('2019-01-02').decrypt()
+    expect(index['2019-01-02']).toEqual(1)
+    expect(events).toEqual([event4])
+  })
+
+  it('gets events first page', async () => {
+    const gunRes = await userStorage.getFeedPage(2)
+    expect(gunRes.length).toEqual(4)
+  })
+
+  it('gets events second page', async () => {
+    const gunRes = await userStorage.getFeedPage(2)
+    expect(gunRes.length).toEqual(0)
+  })
+
+  it('resets cursor and get events single day page', async () => {
+    const gunRes = await userStorage.getFeedPage(1,true)
+    expect(gunRes.length).toEqual(1)
   })
 
 })

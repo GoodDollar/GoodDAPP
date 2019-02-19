@@ -1,6 +1,5 @@
 // @flow
 import React from 'react'
-
 import { createSwitchNavigator } from '@react-navigation/core'
 
 import Rewards from './Rewards'
@@ -13,10 +12,7 @@ import rewardsIcon from '../../assets/rewardsIcon.png'
 import homeIcon from '../../assets/homeIcon.png'
 import buySellIcon from '../../assets/buySellIcon.png'
 import donateIcon from '../../assets/donateIcon.png'
-
-type AppNavigationState = {
-  pubkey: string
-}
+import { AccountProvider } from './AccountProvider'
 
 type AppNavigationProps = {
   navigation: any
@@ -48,11 +44,15 @@ const AppNavigator = createSwitchNavigator(routes, { initialRouteName })
  * Switch navigation between all screens on the tabs. Each of this screen should be a StackNavigation
  * Dashboard is the initial route
  */
-class AppNavigation extends React.Component<AppNavigationProps, AppNavigationState> {
+class AppNavigation extends React.Component<AppNavigationProps, {}> {
   static router = AppNavigator.router
 
   render() {
-    return <AppNavigator navigation={this.props.navigation} screenProps={{ routes }} />
+    return (
+      <AccountProvider>
+        <AppNavigator navigation={this.props.navigation} screenProps={{ routes }} />
+      </AccountProvider>
+    )
   }
 }
 

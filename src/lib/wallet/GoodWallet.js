@@ -71,7 +71,7 @@ export class GoodWallet {
       .catch(e => {
         log.error('Failed initializing GoodWallet', e)
       })
-      return this.ready
+    return this.ready
   }
 
   async claim() {

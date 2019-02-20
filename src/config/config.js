@@ -15,6 +15,12 @@ const Config = {
         "web3Transport":"WebSocket",
         "httpWeb3provider":"https://ropsten.infura.io/v3/",
         "websocketWeb3Provider":"wss://ropsten.infura.io/ws"
+      },
+      "121":{
+        "network_id":121,
+        "web3Transport":"WebSocket",
+        "httpWeb3provider":"https://rpc.fuse.io/",
+        "websocketWeb3Provider":"wss://explorer.fuse.io/socket"
       }
 
     }

@@ -1,18 +1,30 @@
 import React from 'react'
-import { Wrapper, TopBar } from '../common'
-import { StyleSheet, Text } from 'react-native'
+import { Wrapper, TopBar, Section, IconButton } from '../common'
+import { StyleSheet, Text, View } from 'react-native'
+import { TextInput } from 'react-native-paper'
 
 import logger from '../../lib/logger/pino-logger'
+import { Button } from 'react-native-elements'
 
 const SEND_TITLE = 'Send GD'
 
 const log = logger.child({ from: SEND_TITLE })
 
+const ScanQRButton = props => <IconButton name="link" text="Scan QR Code" />
+const GenerateLinkButton = props => <IconButton name="code" text="Generate Link" />
+
 const Send = props => {
   return (
     <Wrapper>
       <TopBar />
-      <Text>Send</Text>
+      <Section style={styles.bottomSection}>
+        <Section.Title>TO WHO?</Section.Title>
+        <TextInput />
+        <Section.Row>
+          <ScanQRButton />
+          <GenerateLinkButton />
+        </Section.Row>
+      </Section>
     </Wrapper>
   )
 }
@@ -22,10 +34,13 @@ Send.navigationOptions = {
 }
 
 const styles = StyleSheet.create({
-  wrapper: {
-    justifyContent: 'flex-start',
-    width: '100%',
-    padding: '1rem'
+  wrapper: {},
+  centered: {
+    justifyContent: 'center',
+    alignItems: 'baseline'
+  },
+  bottomSection: {
+    flex: 1
   }
 })
 

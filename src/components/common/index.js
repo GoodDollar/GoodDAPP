@@ -11,6 +11,7 @@ import CustomButton from './CustomButton'
 import BigNumber from './BigNumber'
 import Section from './Section'
 import TopBar from './TopBar'
+import IconButton from './IconButton'
 
 export * from './CustomButton'
 
@@ -82,4 +83,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export { Address, Avatar, CustomButton, Wrapper, Section, BigNumber, TopBar }
+export { Address, Avatar, CustomButton, Wrapper, Section, BigNumber, TopBar, IconButton }

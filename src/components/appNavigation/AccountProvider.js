@@ -109,11 +109,11 @@ class AccountProvider extends React.Component<AccountProviderProps, AccountProvi
     log.info('new Transfer event:', { error, event })
 
     if (error) {
-      // If there's any error it will unsubscribe and reconnect
-      this.unsubscribeTransferEvents()
-      // a new web3 instance is required: https://github.com/ethereum/web3.js/issues/1354#issuecomment-365938093
-      await goodWallet.init()
-      this.initTransferEvents()
+      // // If there's any error it will unsubscribe and reconnect
+      // this.unsubscribeTransferEvents()
+      // // a new web3 instance is required: https://github.com/ethereum/web3.js/issues/1354#issuecomment-365938093
+      // await goodWallet.init()
+      // this.initTransferEvents()
     } else {
       await this.updateValues()
     }
@@ -140,4 +140,4 @@ class AccountProvider extends React.Component<AccountProviderProps, AccountProvi
 
 const AccountConsumer = AccountContext.Consumer
 
-export { AccountProvider, AccountConsumer }
+export { AccountProvider, AccountConsumer, AccountContext }

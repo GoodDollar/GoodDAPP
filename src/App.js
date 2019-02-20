@@ -3,8 +3,6 @@ import React, { Component } from 'react'
 import { StyleSheet, View, Platform, SafeAreaView } from 'react-native'
 import { Provider as PaperProvider } from 'react-native-paper'
 import { WebRouter } from './Router'
-import initGunDB from './lib/gundb/gundb'
-import GoodWallet from './lib/wallet/GoodWallet'
 import userStorage from './lib/gundb/UserStorage'
 import { ReCaptcha, loadReCaptcha } from 'recaptcha-v3-react'
 import Config from './config/config'
@@ -13,7 +11,6 @@ import logger from './lib/logger/pino-logger'
 class App extends Component<{}, { walletReady: boolean, isLoggedIn: boolean, isUserRegistered: boolean }> {
   componentWillMount() {
     //set wallet as global, even though everyone can import the singleton
-    global.wallet = GoodWallet
     loadReCaptcha({
       key: Config.recaptcha,
       id: 'uniqueId'

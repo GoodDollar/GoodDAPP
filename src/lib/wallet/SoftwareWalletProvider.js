@@ -13,11 +13,12 @@ const log = logger.child({ from: 'SoftwareWalletProvider' })
 class SoftwareWalletProvider {
   ready: Promise<Web3>
   GD_USER_PKEY: string = 'GD_USER_PKEY'
+  GD_USER_MNEMONIC: string = 'GD_USER_MNEMONIC'
   conf: WalletConfig
 
   constructor(conf: WalletConfig) {
     this.conf = conf
-    this.ready = this.initHD()
+    this.ready = this.init()
   }
   getPKey() {
     return localStorage.getItem(this.GD_USER_PKEY)
@@ -47,12 +48,12 @@ class SoftwareWalletProvider {
   async initHD(): Promise<Web3> {
     let provider = this.getWeb3TransportProvider()
     //let web3 = new Web3(new WebsocketProvider("wss://ropsten.infura.io/ws"))
-    let pkey: ?string = localStorage.getItem(this.GD_USER_PKEY)
+    let pkey: ?string = localStorage.getItem(this.GD_USER_MNEMONIC)
     let account
     if (!pkey) {
       pkey = this.generateMnemonic()
-      localStorage.setItem(this.GD_USER_PKEY, pkey)
-      pkey = localStorage.getItem(this.GD_USER_PKEY)
+      localStorage.setItem(this.GD_USER_MNEMONIC, pkey)
+      pkey = localStorage.getItem(this.GD_USER_MNEMONIC)
       log.info('item set in localStorage ', { pkey })
     } else {
       log.info('pkey found, creating account from pkey:', { pkey })

@@ -20,7 +20,7 @@ const AccountUsageToPath = {
   eth: 2,
   donate: 3
 }
-export type AccountUsage = $Keys<AccountUsageToPath>
+export type AccountUsage = $Keys<typeof AccountUsageToPath>
 export class GoodWallet {
   ready: Promise<Web3>
   wallet: Web3

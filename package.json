@@ -19,7 +19,8 @@
     "test:native-watch": "node scripts/test.js --watch --config \"./config/native.jest.config.js\"",
     "coverage": "node scripts/test.js --coverage --config \"./config/web.jest.config.js\"",
     "coverage:native": "node scripts/test.js --config \"./config/native.jest.config.js\" --coverage",
-    "flow": "flow"
+    "flow": "flow",
+    "fix-lint": "eslint --fix ./src"
   },
   "repository": {
     "type": "git",

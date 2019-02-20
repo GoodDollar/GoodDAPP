@@ -5,10 +5,13 @@ import { normalize } from 'react-native-elements'
 import { Provider } from 'react-native-paper'
 import { fontStyle } from './styles'
 
+import Address from './Address'
 import Avatar from './Avatar'
-import NextButton from './NextButton'
+import CustomButton from './CustomButton'
 import BigNumber from './BigNumber'
 import Section from './Section'
+
+export * from './CustomButton'
 
 const Wrapper = (props: any) => {
   return (
@@ -78,4 +81,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export { Avatar, NextButton, Wrapper, Section, BigNumber }
+export { Address, Avatar, CustomButton, Wrapper, Section, BigNumber }

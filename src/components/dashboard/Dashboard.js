@@ -5,6 +5,7 @@ import TabsView from '../appNavigation/TabsView'
 import { AccountConsumer } from '../appNavigation/AccountProvider'
 import { normalize } from 'react-native-elements'
 import { createStackNavigator, PushButton } from '../appNavigation/stackNavigation'
+
 import Claim from './Claim'
 import FaceRecognition from './FaceRecognition'
 import Receive from './Receive'

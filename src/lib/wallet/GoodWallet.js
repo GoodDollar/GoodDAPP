@@ -43,7 +43,7 @@ export class GoodWallet {
       .then(wallet => {
         this.wallet = wallet
         this.account = this.wallet.eth.defaultAccount
-        this.networkId = 42
+        this.networkId = 42 // TODO : await this.wallet.eth.net.getId()
         this.identityContract = new this.wallet.eth.Contract(
           IdentityABI.abi,
           IdentityABI.networks[this.networkId].address,

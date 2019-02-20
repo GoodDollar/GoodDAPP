@@ -9,6 +9,7 @@ import { createStackNavigator, PushButton } from '../appNavigation/stackNavigati
 import Claim from './Claim'
 import FaceRecognition from './FaceRecognition'
 import Receive from './Receive'
+import Amount from './Amount'
 import Send from './Send'
 
 import { Wrapper, Section, Avatar, BigNumber } from '../common'
@@ -98,6 +99,7 @@ export default createStackNavigator({
   Dashboard,
   Claim,
   Receive,
+  Amount,
   Send,
   FaceRecognition
 })

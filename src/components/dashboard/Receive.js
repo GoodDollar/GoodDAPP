@@ -1,33 +1,33 @@
-import React, { useCallback, useMemo, useState } from 'react'
-import { Clipboard, StyleSheet, View, Text } from 'react-native'
-import { Headline, TextInput } from 'react-native-paper'
+// @flow
+import React, { useCallback, useMemo } from 'react'
+import { Clipboard, StyleSheet, Text, View } from 'react-native'
+import { normalize } from 'react-native-elements'
 import QRCode from 'qrcode.react'
 
 import goodWallet from '../../lib/wallet/GoodWallet'
 import logger from '../../lib/logger/pino-logger'
 import { generateCode } from '../../lib/share'
-import { Address, Avatar, CustomButton as Button, Section, Wrapper } from '../common'
-import { createStackNavigator } from '../appNavigation/stackNavigation'
+import { Address, CustomButton as Button, Section, Wrapper } from '../common'
 import { fontStyle } from '../common/styles'
-import { normalize } from 'react-native-elements'
+import { PushButton } from '../appNavigation/stackNavigation'
+import TopBar from '../common/TopBar'
+
+export type ReceiveProps = {
+  screenProps: any,
+  navigation: any
+}
 
 const RECEIVE_TITLE = 'Receive GD'
 
 const log = logger.child({ from: RECEIVE_TITLE })
 
-const TopBar = () => (
-  <Section>
-    <Section.Row>
-      <Avatar />
-    </Section.Row>
-  </Section>
-)
-
-const GenerateCode = ({ screenProps, navigation }) => {
+const Receive = ({ screenProps, navigation }: ReceiveProps) => {
   const { account, networkId } = goodWallet
-  const amount = navigation.getParam('amount', 0)
+  const amount = navigation.getParam('amount', '')
 
   const code = useMemo(() => generateCode(account, networkId, amount), [account, networkId, amount])
+
+  const shareAddressAndQR = useCallback(() => log.warn('share action not yet available'))
 
   if (!amount) {
     const copyAddress = useCallback(() => {
@@ -35,11 +35,9 @@ const GenerateCode = ({ screenProps, navigation }) => {
       log.info('Account address copied', { account })
     }, [account])
 
-    const showAmountDialog = useCallback(() => navigation.navigate('Amount'))
-
     return (
       <Wrapper style={styles.wrapper}>
-        <TopBar />
+        <TopBar hideBalance={true} />
         <Section style={styles.section}>
           <Section.Row style={styles.sectionRow}>
             <View style={styles.qrCode}>
@@ -54,12 +52,12 @@ const GenerateCode = ({ screenProps, navigation }) => {
                 Copy address to clipboard
               </Section.Text>
             </View>
-            <Button mode="outlined" onPress={showAmountDialog}>
+            <PushButton mode="outlined" dark={false} routeName="Amount" screenProps={screenProps}>
               Request an amount
-            </Button>
+            </PushButton>
           </Section.Row>
         </Section>
-        <Button mode="contained" dark={true}>
+        <Button mode="contained" dark={true} onPress={shareAddressAndQR}>
           Share address & QR code
         </Button>
       </Wrapper>
@@ -82,7 +80,7 @@ const GenerateCode = ({ screenProps, navigation }) => {
             </View>
           </Section.Row>
         </Section>
-        <Button mode="contained" dark={true}>
+        <Button mode="contained" dark={true} onPress={shareAddressAndQR}>
           Share QR code
         </Button>
       </Wrapper>
@@ -90,52 +88,7 @@ const GenerateCode = ({ screenProps, navigation }) => {
   }
 }
 
-GenerateCode.navigationOptions = {
-  title: RECEIVE_TITLE
-}
-
-const AmountDialog = ({ screenProps, navigation }) => {
-  const [amount, setAmount] = useState(0)
-
-  const goBack = useCallback(() => navigation.navigate('Code'), [])
-
-  const goNext = useCallback(() => navigation.navigate('Code', { amount }), [amount])
-
-  const handleAmountChange = useCallback(value => {
-    const amount = parseInt(value)
-    setAmount(amount)
-  }, [])
-
-  return (
-    <Wrapper style={styles.wrapper}>
-      <TopBar />
-      <Section style={styles.section}>
-        <Section.Row style={styles.sectionRow}>
-          <View style={styles.inputField}>
-            <Section.Title style={styles.headline}>How much?</Section.Title>
-            <TextInput
-              autoFocus={true}
-              keyboardType="numeric"
-              value={amount}
-              onChangeText={handleAmountChange}
-              style={styles.amountInput}
-            />
-          </View>
-          <View style={styles.buttonGroup}>
-            <Button mode="text" onPress={goBack} style={{ flex: 1 }}>
-              Cancel
-            </Button>
-            <Button mode="contained" disabled={amount <= 0} onPress={goNext} style={{ flex: 2 }}>
-              Next
-            </Button>
-          </View>
-        </Section.Row>
-      </Section>
-    </Wrapper>
-  )
-}
-
-AmountDialog.navigationOptions = {
+Receive.navigationOptions = {
   title: RECEIVE_TITLE
 }
 
@@ -186,9 +139,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-between'
   },
-  amountInput: {
-    backgroundColor: 'transparent'
-  },
   amountLabel: {
     ...fontStyle,
     fontSize: normalize(32)
@@ -198,13 +148,4 @@ const styles = StyleSheet.create({
   }
 })
 
-const ReceiveFunnel = createStackNavigator({
-  Code: GenerateCode,
-  Amount: AmountDialog
-})
-
-ReceiveFunnel.navigationOptions = {
-  navigationBarHidden: true
-}
-
-export default ReceiveFunnel
+export default Receive

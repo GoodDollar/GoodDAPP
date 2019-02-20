@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom'
 import './index.css'
 import App from './App'
 import * as serviceWorker from './serviceWorker'
-
+import { init } from './init'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import fontMaterialIcons from 'react-native-vector-icons/Fonts/MaterialIcons.ttf'
 
@@ -40,7 +40,9 @@ if (style.styleSheet) {
 // Inject stylesheet
 document.head.appendChild(style)
 
-ReactDOM.render(<App />, document.getElementById('root'))
+init().then(() => {
+  ReactDOM.render(<App />, document.getElementById('root'))
+})
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

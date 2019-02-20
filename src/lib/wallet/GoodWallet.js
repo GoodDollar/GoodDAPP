@@ -38,8 +38,8 @@ export class GoodWallet {
   }
 
   init(): Promise<any> {
-    this.ready = WalletFactory.create('software')
-    return this.ready
+    const ready = WalletFactory.create('software')
+    this.ready = ready
       .then(wallet => {
         this.wallet = wallet
         this.account = this.wallet.eth.defaultAccount
@@ -71,6 +71,7 @@ export class GoodWallet {
       .catch(e => {
         log.error('Failed initializing GoodWallet', e)
       })
+    return this.ready
   }
 
   async claim() {
@@ -118,7 +119,7 @@ export class GoodWallet {
   sendTx() {}
 
   async getAccountForType(type: AccountUsage) {
-    let account = await this.wallet.eth.getAccounts().then(acc => acc[AccountUsageToPath[type]])
+    let account = await this.wallet.eth.getAccounts().then(acc => acc[AccountUsageToPath[type]] || this.account)
     return account
   }
 

@@ -37,8 +37,6 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
    * @returns {Promise<void>}
    */
   checkAuthStatus = async () => {
-    await goodWallet.ready
-
     // when wallet is ready perform login to server (sign message with wallet and send to server)
     const [credsOrError, isCitizen]: any = await Promise.all([
       goodWalletLogin.auth(),

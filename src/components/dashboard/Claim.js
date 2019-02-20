@@ -17,9 +17,9 @@ class Claim extends Component<ClaimProps, {}> {
 
     return (
       <AccountConsumer>
-        {({ balance, entitlement }) => (
+        {({ entitlement }) => (
           <Wrapper>
-            <TopBar balance={balance} />
+            <TopBar />
             <Section>
               <Section.Title>
                 GoodDollar is a good economy, each day you can collect your part in the economy

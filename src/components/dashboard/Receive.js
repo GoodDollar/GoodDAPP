@@ -31,7 +31,7 @@ const GenerateCode = ({ screenProps, navigation }) => {
 
     return (
       <Wrapper style={styles.wrapper}>
-        <TopBar />
+        <TopBar hideBalance />
         <Section style={styles.section}>
           <Section.Row style={styles.sectionRow}>
             <View style={styles.qrCode}>

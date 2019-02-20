@@ -1,7 +1,6 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import React from 'react'
 import { Wrapper, TopBar } from '../common'
 import { StyleSheet, Text } from 'react-native'
-import { AccountConsumer } from '../appNavigation/AccountProvider'
 
 import logger from '../../lib/logger/pino-logger'
 
@@ -11,14 +10,10 @@ const log = logger.child({ from: SEND_TITLE })
 
 const Send = props => {
   return (
-    <AccountConsumer>
-      {({ balance }) => (
-        <Wrapper>
-          <TopBar balance={balance} />
-          <Text>Send</Text>
-        </Wrapper>
-      )}
-    </AccountConsumer>
+    <Wrapper>
+      <TopBar />
+      <Text>Send</Text>
+    </Wrapper>
   )
 }
 

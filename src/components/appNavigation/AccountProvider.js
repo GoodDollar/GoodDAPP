@@ -140,4 +140,4 @@ class AccountProvider extends React.Component<AccountProviderProps, AccountProvi
 
 const AccountConsumer = AccountContext.Consumer
 
-export { AccountProvider, AccountConsumer }
+export { AccountProvider, AccountConsumer, AccountContext }

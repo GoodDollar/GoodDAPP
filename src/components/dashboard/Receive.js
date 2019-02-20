@@ -6,7 +6,7 @@ import QRCode from 'qrcode.react'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import logger from '../../lib/logger/pino-logger'
 import { generateCode } from '../../lib/share'
-import { Address, Avatar, CustomButton as Button, Section, Wrapper } from '../common'
+import { Address, Avatar, CustomButton as Button, Section, Wrapper, TopBar } from '../common'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { fontStyle } from '../common/styles'
 import { normalize } from 'react-native-elements'
@@ -14,14 +14,6 @@ import { normalize } from 'react-native-elements'
 const RECEIVE_TITLE = 'Receive GD'
 
 const log = logger.child({ from: RECEIVE_TITLE })
-
-const TopBar = () => (
-  <Section>
-    <Section.Row>
-      <Avatar />
-    </Section.Row>
-  </Section>
-)
 
 const GenerateCode = ({ screenProps, navigation }) => {
   const { account, networkId } = goodWallet

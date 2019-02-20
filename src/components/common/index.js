@@ -10,6 +10,7 @@ import Avatar from './Avatar'
 import CustomButton from './CustomButton'
 import BigNumber from './BigNumber'
 import Section from './Section'
+import TopBar from './TopBar'
 
 export * from './CustomButton'
 
@@ -81,4 +82,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export { Address, Avatar, CustomButton, Wrapper, Section, BigNumber }
+export { Address, Avatar, CustomButton, Wrapper, Section, BigNumber, TopBar }

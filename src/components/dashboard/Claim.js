@@ -5,7 +5,7 @@ import { normalize } from 'react-native-elements'
 import { PushButton } from '../appNavigation/stackNavigation'
 import { AccountConsumer } from '../appNavigation/AccountProvider'
 import type { DashboardProps } from './Dashboard'
-import { Wrapper, Section, BigNumber, Avatar } from '../common'
+import { Wrapper, Section, BigNumber, TopBar } from '../common'
 
 type ClaimProps = DashboardProps
 
@@ -19,12 +19,7 @@ class Claim extends Component<ClaimProps, {}> {
       <AccountConsumer>
         {({ balance, entitlement }) => (
           <Wrapper>
-            <Section>
-              <Section.Row>
-                <Avatar />
-                <BigNumber number={balance} unit={'GD'} />
-              </Section.Row>
-            </Section>
+            <TopBar balance={balance} />
             <Section>
               <Section.Title>
                 GoodDollar is a good economy, each day you can collect your part in the economy

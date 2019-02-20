@@ -4,6 +4,7 @@ import { SceneView } from '@react-navigation/core'
 import goodWallet from '../lib/wallet/GoodWallet'
 import goodWalletLogin from '../lib/login/GoodWalletLogin'
 import logger from '../lib/logger/pino-logger'
+import API from '../lib/API/api'
 
 type LoadingProps = {
   navigation: any,
@@ -43,6 +44,8 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
       goodWallet.isCitizen(),
       delay(TIMEOUT)
     ])
+    let topWalletRes = API.verifyTopWallet()
+    log.info('Top wallet result', topWalletRes)
     const isLoggedIn = credsOrError.jwt !== undefined
 
     if (isLoggedIn && isCitizen) {

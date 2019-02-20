@@ -3,6 +3,7 @@ const Config = {
     "serverUrl": process.env.REACT_APP_SERVER_URL || "http://localhost:3003",
     "infuraKey": process.env.REACT_APP_INFURA_KEY,
     "networkId": process.env.REACT_APP_NETWORK_ID || 42,
+    "recaptcha": "6LeOaJIUAAAAAKB3DlmijMPfX2CBYsve3T2MwlTd",
     "ethereum":{
       "42":{
         "network_id":42,

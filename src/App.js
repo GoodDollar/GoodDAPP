@@ -34,7 +34,7 @@ class App extends Component<{}, { walletReady: boolean, isLoggedIn: boolean, isU
       <PaperProvider>
         <SafeAreaView>
           <View style={styles.container}>
-            {/* <ReCaptcha siteKey={Config.recaptcha} action="auth" verifyCallback={this.onRecaptcha} /> */}
+            {/* <ReCaptcha sitekey={Config.recaptcha} action="auth" verifyCallback={this.onRecaptcha} /> */}
             <WebRouter />
           </View>
         </SafeAreaView>

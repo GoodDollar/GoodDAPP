@@ -5,8 +5,16 @@ let userStorage = require('../UserStorage.js').default
 let event = { id: 'xyz', date: new Date('2019-01-01T10:00:00.000Z').toString(), data: { foo: 'bar', unchanged: 'zar' } }
 let event2 = { id: 'xyz2', date: new Date('2019-01-01T20:00:00.000Z').toString(), data: { foo: 'bar' } }
 let event3 = { id: 'xyz3', date: new Date('2019-01-01T14:00:00.000Z').toString(), data: { foo: 'xar' } }
-let mergedEvent = { id: 'xyz', date: new Date('2019-01-01').toString(), data: { foo: 'zar', unchanged: 'zar', extra: 'bar' } }
-let event4 = { id: 'xyz4', date: new Date('2019-01-02T10:00:00.000Z').toString(), data: { foo: 'bar', unchanged: 'zar' } }
+let mergedEvent = {
+  id: 'xyz',
+  date: new Date('2019-01-01').toString(),
+  data: { foo: 'zar', unchanged: 'zar', extra: 'bar' }
+}
+let event4 = {
+  id: 'xyz4',
+  date: new Date('2019-01-02T10:00:00.000Z').toString(),
+  data: { foo: 'bar', unchanged: 'zar' }
+}
 
 describe('UserStorage', () => {
   beforeAll(async () => {
@@ -157,7 +165,7 @@ describe('UserStorage', () => {
     expect(events).toEqual([event2, event3, mergedEvent])
   })
 
-  it('keeps event index sorted', async () => {    
+  it('keeps event index sorted', async () => {
     const gunRes = await userStorage.updateFeedEvent(event4)
     const index = await userStorage.feed
       .get('index')
@@ -179,8 +187,7 @@ describe('UserStorage', () => {
   })
 
   it('resets cursor and get events single day page', async () => {
-    const gunRes = await userStorage.getFeedPage(1,true)
+    const gunRes = await userStorage.getFeedPage(1, true)
     expect(gunRes.length).toEqual(1)
   })
-
 })

@@ -13,6 +13,7 @@ const log = logger.child({ from: 'SoftwareWalletProvider' })
 class SoftwareWalletProvider {
   ready: Promise<Web3>
   GD_USER_PKEY: string = 'GD_USER_PKEY'
+  GD_USER_MNEMONIC: string = 'GD_USER_MNEMONIC'
   conf: WalletConfig
 
   constructor(conf: WalletConfig) {
@@ -47,12 +48,12 @@ class SoftwareWalletProvider {
   async initHD(): Promise<Web3> {
     let provider = this.getWeb3TransportProvider()
     //let web3 = new Web3(new WebsocketProvider("wss://ropsten.infura.io/ws"))
-    let pkey: ?string = localStorage.getItem(this.GD_USER_PKEY)
+    let pkey: ?string = localStorage.getItem(this.GD_USER_MNEMONIC)
     let account
     if (!pkey) {
       pkey = this.generateMnemonic()
-      localStorage.setItem(this.GD_USER_PKEY, pkey)
-      pkey = localStorage.getItem(this.GD_USER_PKEY)
+      localStorage.setItem(this.GD_USER_MNEMONIC, pkey)
+      pkey = localStorage.getItem(this.GD_USER_MNEMONIC)
       log.info('item set in localStorage ', { pkey })
     } else {
       log.info('pkey found, creating account from pkey:', { pkey })
@@ -61,8 +62,9 @@ class SoftwareWalletProvider {
     //and we want privacy
     let hdwallet = new HDWalletProvider(pkey, provider, 1, 10)
     let web3 = new Web3(hdwallet)
+    log.info('provider:', { provider, hdwallet, web3 })
     // web3.eth.accounts.wallet.add(pkey)
-    let accounts = await web3.eth.getAccounts()
+    let accounts = web3.eth.accounts.currentProvider.addresses
     web3.eth.defaultAccount = accounts[0]
 
     return web3

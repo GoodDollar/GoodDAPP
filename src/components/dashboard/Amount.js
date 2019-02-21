@@ -1,12 +1,11 @@
 // @flow
 import React, { useCallback, useState } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
-import { normalize } from 'react-native-elements'
+import { Text, View } from 'react-native'
 import { TextInput } from 'react-native-paper'
 
-import { CustomButton as Button, Section, Wrapper } from '../common'
-import { fontStyle } from '../common/styles'
+import { Section, Wrapper } from '../common'
 import { BackButton, PushButton } from '../appNavigation/stackNavigation'
+import { receiveStyles as styles } from './styles'
 import TopBar from '../common/TopBar'
 
 export type AmountProps = {
@@ -16,10 +15,8 @@ export type AmountProps = {
 
 const RECEIVE_TITLE = 'Receive GD'
 
-const Amount = ({ screenProps, navigation }: AmountProps) => {
+const Amount = ({ screenProps }: AmountProps) => {
   const [amount, setAmount] = useState('')
-
-  const goBack = useCallback(() => navigation.navigate('Dashboard'), [])
 
   const handleAmountChange = useCallback((value: string = '0') => {
     const amount = parseInt(value)
@@ -54,7 +51,7 @@ const Amount = ({ screenProps, navigation }: AmountProps) => {
               disabled={!amount}
               screenProps={{ ...screenProps }}
               params={{ amount }}
-              routeName="Receive"
+              routeName="ReceiveAmount"
               style={{ flex: 2 }}
             >
               Next
@@ -69,64 +66,5 @@ const Amount = ({ screenProps, navigation }: AmountProps) => {
 Amount.navigationOptions = {
   title: RECEIVE_TITLE
 }
-
-const styles = StyleSheet.create({
-  wrapper: {
-    justifyContent: 'flex-start',
-    width: '100%',
-    padding: '1rem'
-  },
-  section: {
-    flex: 1
-  },
-  sectionRow: {
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    height: '100%'
-  },
-  headline: {
-    ...fontStyle,
-    textTransform: 'uppercase',
-    marginBottom: '1rem'
-  },
-  buttonGroup: {
-    width: '100%',
-    flexDirection: 'row',
-    marginTop: '1rem'
-  },
-  inputField: {
-    width: '100%',
-    flexDirection: 'column',
-    justifyContent: 'space-between'
-  },
-  amountWrapper: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignContent: 'center',
-    borderBottom: '1px solid #555'
-  },
-  amountInput: {
-    backgroundColor: 'transparent',
-    border: 'none',
-    fontSize: normalize(26),
-    height: normalize(40),
-    lineHeight: normalize(40),
-    maxWidth: '50%',
-    flexShrink: 1,
-    flexGrow: 1,
-    textAlign: 'justify',
-    textAlignLast: 'right',
-    whiteSpace: 'normal',
-    marginRight: normalize(-5)
-  },
-  amountSuffix: {
-    flexGrow: 1,
-    height: normalize(40),
-    fontSize: normalize(10),
-    justifyContent: 'center',
-    lineHeight: normalize(40),
-    paddingTop: normalize(10)
-  }
-})
 
 export default Amount

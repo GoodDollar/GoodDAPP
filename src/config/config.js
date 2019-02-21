@@ -19,9 +19,9 @@ const Config = {
       },
       "121":{
         "network_id":121,
-        "web3Transport":"HttpProvider",
+        "web3Transport":"WebSocket",
         "httpWeb3provider":"https://rpc.fuse.io/",
-        "websocketWeb3Provider":"wss://explorer.fuse.io/socket/websocket"
+        "websocketWeb3Provider":"wss://explorer-node.fuse.io/ws"
       }
 
     }

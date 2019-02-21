@@ -49,7 +49,6 @@ class SoftwareWalletProvider {
     let provider = this.getWeb3TransportProvider()
     //let web3 = new Web3(new WebsocketProvider("wss://ropsten.infura.io/ws"))
     let pkey: ?string = localStorage.getItem(this.GD_USER_MNEMONIC)
-    let account
     if (!pkey) {
       pkey = this.generateMnemonic()
       localStorage.setItem(this.GD_USER_MNEMONIC, pkey)
@@ -61,12 +60,13 @@ class SoftwareWalletProvider {
     //we start from addres 1, since from address 0 pubkey all public keys can  be generated
     //and we want privacy
     let hdwallet = new HDWalletProvider(pkey, provider, 1, 10)
-    let web3 = new Web3(hdwallet)
-    log.info('provider:', { provider, hdwallet, web3 })
-    // web3.eth.accounts.wallet.add(pkey)
-    let accounts = web3.eth.accounts.currentProvider.addresses
+    let web3 = new Web3(provider)
+    hdwallet.addresses.forEach(addr => {
+      let wallet = web3.eth.accounts.privateKeyToAccount('0x' + hdwallet.wallets[addr]._privKey.toString('hex'))
+      web3.eth.accounts.wallet.add(wallet)
+    })
+    let accounts = hdwallet.addresses
     web3.eth.defaultAccount = accounts[0]
-
     return web3
   }
 

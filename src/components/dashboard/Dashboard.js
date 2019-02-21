@@ -10,6 +10,7 @@ import Claim from './Claim'
 import FaceRecognition from './FaceRecognition'
 import Receive from './Receive'
 import Send from './Send'
+import SendConfirmation from './SendConfirmation'
 
 import { Wrapper, Section, Avatar, BigNumber } from '../common'
 
@@ -99,5 +100,6 @@ export default createStackNavigator({
   Claim,
   Receive,
   Send,
+  SendConfirmation,
   FaceRecognition
 })

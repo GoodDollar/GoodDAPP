@@ -11,7 +11,9 @@ const SEND_TITLE = 'Send GD'
 const log = logger.child({ from: SEND_TITLE })
 
 const ScanQRButton = props => <IconButton name="link" text="Scan QR Code" />
-const GenerateLinkButton = props => <IconButton name="code" text="Generate Link" />
+const GenerateLinkButton = ({ screenProps }) => (
+  <IconButton name="code" text="Generate Link" onPress={screenProps.push('SendConfirmation')} />
+)
 
 const Send = props => {
   return (
@@ -21,8 +23,8 @@ const Send = props => {
         <Section.Title>TO WHO?</Section.Title>
         <TextInput />
         <Section.Row>
-          <ScanQRButton />
-          <GenerateLinkButton />
+          <ScanQRButton screenProps={props.screenProps} />
+          <GenerateLinkButton screenProps={props.screenProps} />
         </Section.Row>
       </Section>
     </Wrapper>

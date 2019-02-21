@@ -124,11 +124,11 @@ type PushButtonProps = {
  * This button gets the push action from screenProps. Is meant to be used inside a stackNavigator
  * @param routeName
  * @param screenProps
+ * @param params
  * @param {ButtonProps} props
  */
-export const PushButton = ({ routeName, screenProps, ...props }: PushButtonProps) => {
-  const { params, ...properties } = props
-  return <CustomButton {...properties} onPress={() => screenProps && screenProps.push(routeName, params)} />
+export const PushButton = ({ routeName, screenProps, params, ...props }: PushButtonProps) => {
+  return <CustomButton {...props} onPress={() => screenProps && screenProps.push(routeName, params)} />
 }
 
 PushButton.defaultProps = {

@@ -6,7 +6,7 @@ import RedemptionABI from '@gooddollar/goodcontracts/build/contracts/RedemptionF
 import GoodDollarABI from '@gooddollar/goodcontracts/build/contracts/GoodDollar.json'
 import ReserveABI from '@gooddollar/goodcontracts/build/contracts/GoodDollarReserve.json'
 import logger from '../../lib/logger/pino-logger'
-
+import Config from '../../config/config'
 const log = logger.child({ from: 'GoodWallet' })
 
 /**
@@ -30,6 +30,7 @@ export class GoodWallet {
   claimContract: Web3.eth.Contract
   reserveContract: Web3.eth.Contract
   account: string
+  accounts: Array<string>
   networkId: number
   gasPrice: number
 
@@ -43,7 +44,8 @@ export class GoodWallet {
       .then(wallet => {
         this.wallet = wallet
         this.account = this.wallet.eth.defaultAccount
-        this.networkId = 42
+        this.accounts = this.wallet.eth.accounts.currentProvider.addresses
+        this.networkId = Config.networkId
         this.identityContract = new this.wallet.eth.Contract(
           IdentityABI.abi,
           IdentityABI.networks[this.networkId].address,
@@ -66,10 +68,11 @@ export class GoodWallet {
             from: this.account
           }
         )
-        log.debug('GoodWallet Ready.')
+        log.info('GoodWallet Ready.')
       })
       .catch(e => {
         log.error('Failed initializing GoodWallet', e)
+        throw e
       })
     return this.ready
   }
@@ -119,7 +122,7 @@ export class GoodWallet {
   sendTx() {}
 
   async getAccountForType(type: AccountUsage) {
-    let account = await this.wallet.eth.getAccounts().then(acc => acc[AccountUsageToPath[type]] || this.account)
+    let account = this.accounts[AccountUsageToPath[type]] || this.account
     return account
   }
 

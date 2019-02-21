@@ -18,7 +18,7 @@ class SoftwareWalletProvider {
 
   constructor(conf: WalletConfig) {
     this.conf = conf
-    this.ready = this.init()
+    this.ready = this.initHD()
   }
   getPKey() {
     return localStorage.getItem(this.GD_USER_PKEY)
@@ -62,8 +62,9 @@ class SoftwareWalletProvider {
     //and we want privacy
     let hdwallet = new HDWalletProvider(pkey, provider, 1, 10)
     let web3 = new Web3(hdwallet)
+    log.info('provider:', { provider, hdwallet, web3 })
     // web3.eth.accounts.wallet.add(pkey)
-    let accounts = await web3.eth.getAccounts()
+    let accounts = web3.eth.accounts.currentProvider.addresses
     web3.eth.defaultAccount = accounts[0]
 
     return web3

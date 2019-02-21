@@ -12,7 +12,7 @@ const log = logger.child({ from: SEND_TITLE })
 
 const ScanQRButton = props => <IconButton name="link" text="Scan QR Code" />
 const GenerateLinkButton = ({ screenProps }) => (
-  <IconButton name="code" text="Generate Link" onPress={screenProps.push('SendConfirmation')} />
+  <IconButton name="code" text="Generate Link" onPress={() => screenProps.push('SendConfirmation')} />
 )
 
 const Send = props => {

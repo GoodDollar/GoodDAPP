@@ -35,7 +35,7 @@ const SendReason = (props: AmountProps) => {
             <BackButton mode="text" screenProps={screenProps} style={{ flex: 1 }}>
               Cancel
             </BackButton>
-            <NextButton value={reason} {...props} />
+            <NextButton values={{ reason }} {...props} />
           </View>
         </Section.Row>
       </Section>

@@ -18,8 +18,7 @@ const TITLE = 'Send GD'
 const SendSummery = (props: AmountProps) => {
   const { screenProps, navigation } = props
   const amount = navigation.getParam('amount', 0)
-
-  const [reason, setReason] = useState('')
+  const reason = navigation.getParam('reason', '')
   return (
     <Wrapper style={styles.wrapper}>
       <TopBar />
@@ -27,6 +26,8 @@ const SendSummery = (props: AmountProps) => {
         <Section.Row style={styles.sectionRow}>
           <View style={styles.inputField}>
             <Section.Title style={styles.headline}>Summery</Section.Title>
+            <Section.Text>{`Here's ${amount}`}</Section.Text>
+            <Section.Text>{`For ${reason}`}</Section.Text>
           </View>
           <View style={styles.buttonGroup}>
             <BackButton mode="text" screenProps={screenProps} style={{ flex: 1 }}>

@@ -49,7 +49,7 @@ const Amount = (props: AmountProps) => {
             <BackButton mode="text" screenProps={screenProps} style={{ flex: 1 }}>
               Cancel
             </BackButton>
-            <NextButton value={amount} {...props} />
+            <NextButton values={{ amount }} disabled={!amount} {...props} />
           </View>
         </Section.Row>
       </Section>

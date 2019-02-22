@@ -171,16 +171,16 @@ export const BackButton = (props: BackButtonProps) => {
   )
 }
 
-export const NextButton = ({ required, value, screenProps, navigation }) => {
+export const NextButton = ({ disabled, values, screenProps, navigation }) => {
   const { nextRoutes: nextRoutesParam, ...params } = navigation.state.params || {}
   const [next, ...nextRoutes] = nextRoutesParam
 
   return (
     <PushButton
       mode="contained"
-      disabled={required && !value}
+      disabled={disabled}
       screenProps={{ ...screenProps }}
-      params={{ ...params, value, nextRoutes }}
+      params={{ ...params, ...values, nextRoutes }}
       routeName={next}
       style={{ flex: 2 }}
     >

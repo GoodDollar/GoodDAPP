@@ -14,6 +14,7 @@ import { CustomButton, type ButtonProps } from '../common'
  */
 class AppView extends Component<{ descriptors: any, navigation: any, navigationConfig: any, screenProps: any }, any> {
   stack = []
+  currentParams = {}
   state = {
     screenStates: {}
   }
@@ -24,10 +25,11 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
    */
   pop = () => {
     const { navigation } = this.props
-
     const nextRoute = this.stack.pop()
     if (nextRoute) {
-      navigation.navigate(nextRoute)
+      const { route, params } = nextRoute
+      this.currentParams = params
+      navigation.navigate(route, params)
     } else if (navigation.state.index !== 0) {
       this.goToRoot()
     } else {
@@ -41,8 +43,13 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
    */
   push = (nextRoute, params) => {
     const { navigation } = this.props
-    const activeKey = navigation.state.routes[navigation.state.index].key
-    this.stack.push(activeKey)
+    const route = navigation.state.routes[navigation.state.index].key
+    this.stack.push({
+      route,
+      params: this.currentParams
+    })
+
+    this.currentParams = params
     navigation.navigate(nextRoute, params)
   }
 
@@ -66,7 +73,7 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
   }
 
   setScreenState = (screen, data) => {
-    this.setState({ [screen]: data })
+    this.setState({ screenStates: { ...this.state.screenStates, [screen]: data } })
   }
 
   getScreenState = screen => this.state.screenStates[screen]
@@ -89,7 +96,7 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
             goToRoot: this.goToRoot,
             goToParent: this.goToParent,
             pop: this.pop,
-            screenState: this.getScreenState(activeKey),
+            screenState: this.getScreenState(activeKey) || {},
             setScreenState: data => this.setScreenState(activeKey, data)
           }}
         />
@@ -160,5 +167,23 @@ export const BackButton = (props: BackButtonProps) => {
     >
       {children}
     </Button>
+  )
+}
+
+export const NextButton = ({ required, value, screenProps, navigation }) => {
+  const { nextRoutes: nextRoutesParam, ...params } = navigation.state.params || {}
+  const [next, ...nextRoutes] = nextRoutesParam
+
+  return (
+    <PushButton
+      mode="contained"
+      disabled={required && !value}
+      screenProps={{ ...screenProps }}
+      params={{ ...params, value, nextRoutes }}
+      routeName={next}
+      style={{ flex: 2 }}
+    >
+      Next
+    </PushButton>
   )
 }

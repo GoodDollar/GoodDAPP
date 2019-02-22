@@ -13,18 +13,14 @@ export type AmountProps = {
   navigation: any
 }
 
-const RECEIVE_TITLE = 'Receive GD'
+const TITLE = 'Send GD'
 
-const Amount = (props: AmountProps) => {
+const SendReason = (props: AmountProps) => {
   const { screenProps, navigation } = props
   const { setScreenState, screenState } = screenProps
+  const amount = navigation.getParam('amount', 0)
 
-  const { amount } = screenState
-
-  const handleAmountChange = useCallback((value: string = '0') => {
-    const amount = parseInt(value)
-    setScreenState({ amount })
-  }, [])
+  const { reason } = screenState
 
   return (
     <Wrapper style={styles.wrapper}>
@@ -32,24 +28,14 @@ const Amount = (props: AmountProps) => {
       <Section style={styles.section}>
         <Section.Row style={styles.sectionRow}>
           <View style={styles.inputField}>
-            <Section.Title style={styles.headline}>How much?</Section.Title>
-            <View style={styles.amountWrapper}>
-              <TextInput
-                focus={true}
-                keyboardType="numeric"
-                placeholder="0"
-                value={amount}
-                onChangeText={handleAmountChange}
-                style={styles.amountInput}
-              />
-              <Text style={styles.amountSuffix}>GD</Text>
-            </View>
+            <Section.Title style={styles.headline}>For?</Section.Title>
+            <TextInput focus={true} value={reason} onChangeText={reason => setScreenState({ reason })} />
           </View>
           <View style={styles.buttonGroup}>
             <BackButton mode="text" screenProps={screenProps} style={{ flex: 1 }}>
               Cancel
             </BackButton>
-            <NextButton value={amount} {...props} />
+            <NextButton value={reason} {...props} />
           </View>
         </Section.Row>
       </Section>
@@ -57,8 +43,8 @@ const Amount = (props: AmountProps) => {
   )
 }
 
-Amount.navigationOptions = {
-  title: RECEIVE_TITLE
+SendReason.navigationOptions = {
+  title: TITLE
 }
 
-export default Amount
+export default SendReason

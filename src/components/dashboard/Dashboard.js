@@ -13,6 +13,8 @@ import Amount from './Amount'
 import ReceiveAmount from './ReceiveAmount'
 import Send from './Send'
 import SendConfirmation from './SendConfirmation'
+import Reason from './Reason'
+import SendLinkSummery from './SendLinkSummery'
 
 import { Wrapper, Section, Avatar, BigNumber } from '../common'
 
@@ -102,8 +104,10 @@ export default createStackNavigator({
   Claim,
   Receive,
   Amount,
+  Reason,
   ReceiveAmount,
   Send,
+  SendLinkSummery,
   SendConfirmation,
   FaceRecognition
 })

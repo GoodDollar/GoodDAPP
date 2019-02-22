@@ -115,17 +115,21 @@ export const createStackNavigator = (routes: any, navigationConfig: any) => {
 type PushButtonProps = {
   ...ButtonProps,
   routeName: Route,
-  screenProps: {}
+  params?: any,
+  screenProps: { push: (routeName: string, params: any) => void }
 }
 
 /**
  * PushButton
  * This button gets the push action from screenProps. Is meant to be used inside a stackNavigator
+ * @param routeName
+ * @param screenProps
+ * @param params
  * @param {ButtonProps} props
  */
-export const PushButton = ({ routeName, screenProps, ...props }: PushButtonProps) => (
-  <CustomButton {...props} onPress={() => screenProps && screenProps.push(routeName)} />
-)
+export const PushButton = ({ routeName, screenProps, params, ...props }: PushButtonProps) => {
+  return <CustomButton {...props} onPress={() => screenProps && screenProps.push(routeName, params)} />
+}
 
 PushButton.defaultProps = {
   mode: 'contained',
@@ -134,7 +138,7 @@ PushButton.defaultProps = {
 
 type BackButtonProps = {
   ...ButtonProps,
-  routeName: Route,
+  routeName?: Route,
   screenProps: {}
 }
 
@@ -144,10 +148,16 @@ type BackButtonProps = {
  * @param {ButtonProps} props
  */
 export const BackButton = (props: BackButtonProps) => {
-  const { disabled, screenProps, children, mode, color } = props
+  const { disabled, screenProps, children, mode, color, style } = props
 
   return (
-    <Button mode={mode || 'text'} color={color || '#575757'} disabled={disabled} onPress={screenProps.goToParent}>
+    <Button
+      mode={mode || 'text'}
+      color={color || '#575757'}
+      style={style}
+      disabled={disabled}
+      onPress={screenProps.goToParent}
+    >
       {children}
     </Button>
   )

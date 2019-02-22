@@ -1,11 +1,12 @@
 // @flow
-import React, { useMemo } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import React, { useMemo, useCallback } from 'react'
+import { Clipboard, StyleSheet, Text, View } from 'react-native'
 import QRCode from 'qrcode.react'
 
 import goodWallet from '../../lib/wallet/GoodWallet'
+import logger from '../../lib/logger/pino-logger'
 import { generateCode } from '../../lib/share'
-import { Section, Wrapper } from '../common'
+import { Section, Wrapper, CustomButton } from '../common'
 import { fontStyle } from '../common/styles'
 import { normalize } from 'react-native-elements'
 
@@ -14,7 +15,8 @@ export type ReceiveProps = {
   navigation: any
 }
 
-const RECEIVE_TITLE = 'Receive GD'
+const SEND_TITLE = 'Send GD'
+const log = logger.child({ from: SEND_TITLE })
 
 const SendConfirmation = ({ screenProps, navigation }: ReceiveProps) => {
   const { account, networkId } = goodWallet
@@ -22,6 +24,15 @@ const SendConfirmation = ({ screenProps, navigation }: ReceiveProps) => {
   const url = 'http://google.com'
 
   const code = useMemo(() => generateCode(account, networkId, amount), [account, networkId, amount])
+  const copyUrl = useCallback(() => {
+    Clipboard.setString(url)
+    log.info('Account address copied', { url })
+  }, [url])
+
+  const share = async () => {
+    log.debug('goodWallet', goodWallet)
+    await goodWallet.generateLink()
+  }
 
   return (
     <Wrapper>
@@ -31,12 +42,13 @@ const SendConfirmation = ({ screenProps, navigation }: ReceiveProps) => {
             <QRCode value={code} />
           </View>
         </Section.Row>
-        <Section.Row>
+        <View style={styles.addressSection}>
           <Section.Title>{url}</Section.Title>
-        </Section.Row>
-        <Section.Row>
-          <Section.Text>COPY ADDRESS TO CLIPBOARD</Section.Text>
-        </Section.Row>
+          <Section.Text style={styles.secondaryText} onPress={copyUrl}>
+            Copy address to clipboard
+          </Section.Text>
+        </View>
+        <CustomButton onPress={share}>generate</CustomButton>
       </Section>
     </Wrapper>
   )
@@ -94,7 +106,7 @@ const styles = StyleSheet.create({
 })
 
 SendConfirmation.navigationOptions = {
-  title: RECEIVE_TITLE
+  title: SEND_TITLE
 }
 
 export default SendConfirmation

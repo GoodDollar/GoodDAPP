@@ -1,5 +1,5 @@
-// flow-typed signature: 796cd11fd3001c458084f8ce3b7b1dfb
-// flow-typed version: 91579302d9/@react-navigation/core_v3.x.x/flow_>=v0.60.x
+// flow-typed signature: d7b7a4cc978b332c2a63943f63ac7400
+// flow-typed version: c674c6bec3/@react-navigation/core_v3.x.x/flow_>=v0.60.x
 
 // @flow
 
@@ -87,15 +87,6 @@ declare module '@react-navigation/core' {
     stopTracking(): void;
     track(tracking: AnimatedTracking): void;
   }
-
-  declare type HeaderForceInset = {
-    horizontal?: string,
-    vertical?: string,
-    left?: string,
-    right?: string,
-    top?: string,
-    bottom?: string,
-  };
 
   /**
    * Next, all the type declarations
@@ -425,7 +416,7 @@ declare module '@react-navigation/core' {
     headerPressColorAndroid?: string,
     headerRight?: React$Node,
     headerStyle?: ViewStyleProp,
-    headerForceInset?: HeaderForceInset,
+    headerForceInset?: _SafeAreaViewInsets,
     headerBackground?: React$Node | React$ElementType,
     gesturesEnabled?: boolean,
     gestureResponseDistance?: { vertical?: number, horizontal?: number },
@@ -642,8 +633,8 @@ declare module '@react-navigation/core' {
     // The value that represents the progress of the transition when navigation
     // state changes from one to another. Its numeric value will range from 0
     // to 1.
-    //  progress.__getAnimatedValue() < 1 : transtion is happening.
-    //  progress.__getAnimatedValue() == 1 : transtion completes.
+    //  progress.__getAnimatedValue() < 1 : transition is happening.
+    //  progress.__getAnimatedValue() == 1 : transition completes.
     progress: AnimatedValue,
 
     // All the scenes of the transitioner.
@@ -781,6 +772,16 @@ declare module '@react-navigation/core' {
     routeConfigs: NavigationRouteConfigMap,
     config?: NavigationTabRouterConfig
   ): NavigationRouter<*, *>;
+
+  declare type _SafeAreaViewForceInsetValue = 'always' | 'never' | number;
+  declare type _SafeAreaViewInsets = $Shape<{
+    top: _SafeAreaViewForceInsetValue,
+    bottom: _SafeAreaViewForceInsetValue,
+    left: _SafeAreaViewForceInsetValue,
+    right: _SafeAreaViewForceInsetValue,
+    vertical: _SafeAreaViewForceInsetValue,
+    horizontal: _SafeAreaViewForceInsetValue,
+  }>;
 
   declare export function withNavigation<Props: {}, ComponentType: React$ComponentType<Props>>(
     Component: ComponentType

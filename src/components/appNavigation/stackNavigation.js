@@ -68,6 +68,7 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
     const { navigation, navigationConfig } = this.props
 
     if (navigationConfig.backRouteName) {
+      this.setState({ screenStates: {} })
       navigation.navigate(navigationConfig.backRouteName)
     }
   }

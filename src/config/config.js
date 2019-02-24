@@ -22,6 +22,12 @@ const Config = {
         "web3Transport":"WebSocket",
         "httpWeb3provider":"https://rpc.fuse.io/",
         "websocketWeb3Provider":"wss://explorer-node.fuse.io/ws"
+      },
+      "6000":{
+        "network_id":6000,
+        "web3Transport":"WebSocket",
+        "httpWeb3provider":"http://localhost:9545/",
+        "websocketWeb3Provider":"ws://localhost:9545/ws"
       }
 
     }

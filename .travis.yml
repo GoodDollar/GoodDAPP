@@ -19,7 +19,7 @@ before_script:
   - npm i
   - ganache-cli -m "$MNEMONIC" --port 9545 --networkId 4447 -g 10000000000 &
   - truffle compile
-  - truffle migrate --network develop
+  - truffle migrate --reset --network develop
   - cd ..
 
 script:

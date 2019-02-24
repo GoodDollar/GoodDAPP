@@ -2,6 +2,8 @@ language: node_js
 
 cache:
   npm: true
+  directories:
+    - ./GoodContracts
   
 env:
   global:
@@ -12,6 +14,7 @@ env:
 
 install:
   - npm install -g ganache-cli truffle
+  - npm i
   
 before_script:
   - git clone https://github.com/GoodDollar/GoodContracts

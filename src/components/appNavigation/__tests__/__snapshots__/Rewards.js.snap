@@ -379,7 +379,7 @@ Array [
             "borderTopRightRadius": "4px",
             "borderTopStyle": "solid",
             "borderTopWidth": "0px",
-            "boxShadow": "0px NaNpx 2px rgba(0,0,0,0.24)",
+            "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
             "boxSizing": "border-box",
             "display": "flex",
             "flexBasis": "auto",
@@ -421,7 +421,6 @@ Array [
           role="button"
           style={
             Object {
-              "MozUserSelect": "none",
               "WebkitAlignItems": "stretch",
               "WebkitBoxAlign": "stretch",
               "WebkitBoxDirection": "normal",
@@ -429,9 +428,7 @@ Array [
               "WebkitFlexBasis": "auto",
               "WebkitFlexDirection": "column",
               "WebkitFlexShrink": 0,
-              "WebkitUserSelect": "none",
               "alignItems": "stretch",
-              "backgroundColor": "rgba(0,0,0,0.00)",
               "borderBottomLeftRadius": "4px",
               "borderBottomRightRadius": "4px",
               "borderBottomStyle": "solid",
@@ -461,14 +458,14 @@ Array [
               "msFlexNegative": 0,
               "msFlexPreferredSize": "auto",
               "msTouchAction": "manipulation",
-              "msUserSelect": "none",
+              "overflowX": "hidden",
+              "overflowY": "hidden",
               "paddingBottom": "0px",
               "paddingLeft": "0px",
               "paddingRight": "0px",
               "paddingTop": "0px",
               "position": "relative",
               "touchAction": "manipulation",
-              "userSelect": "none",
               "zIndex": 0,
             }
           }
@@ -533,7 +530,7 @@ Array [
                   "color": "rgba(255,255,255,1.00)",
                   "direction": "ltr",
                   "display": "inline",
-                  "fontFamily": "Roboto-Medium",
+                  "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                   "fontSize": "14px",
                   "fontStyle": "inherit",
                   "fontVariant": "inherit",

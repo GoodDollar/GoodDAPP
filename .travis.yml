@@ -9,6 +9,9 @@ env:
     - REACT_APP_LOG_LEVEL=debug
     - REACT_APP_NETWORK_ID=6000
 
+install:
+  - npm install -g ganache-cli truffle
+  
 before_script:
   - git clone https://github.com/GoodDollar/GoodContracts
   - cd GoodContracts

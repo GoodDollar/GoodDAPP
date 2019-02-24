@@ -5,12 +5,12 @@ env:
   - REACT_APP_NETWORK_ID=6000
 
 before-script:
-- git clone https://github.com/GoodDollar/GoodContracts
-- cd GoodContracts
-- ganache-cli -p 9545
-- truffle compile
-- truffle migrate --network development
-- cd ..
+  - git clone https://github.com/GoodDollar/GoodContracts
+  - cd GoodContracts
+  - ganache-cli -p 9545
+  - truffle compile
+  - truffle migrate --network development
+  - cd ..
 
 script:
   - npm run build

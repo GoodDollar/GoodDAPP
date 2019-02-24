@@ -15,7 +15,7 @@ install:
 before_script:
   - git clone https://github.com/GoodDollar/GoodContracts
   - cd GoodContracts
-  - ganache-cli -p 9545
+  - ganache-cli --deterministic --port 9545 --networkId 6000 &
   - truffle compile
   - truffle migrate --network development
   - cd ..

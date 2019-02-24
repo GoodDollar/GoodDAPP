@@ -8,6 +8,7 @@ env:
     - REACT_ENV=development
     - REACT_APP_LOG_LEVEL=debug
     - REACT_APP_NETWORK_ID=6000
+    - MNEMONIC=choice congress hobby buddy dutch busy army eager empty solution start grunt
 
 install:
   - npm install -g ganache-cli truffle
@@ -15,7 +16,8 @@ install:
 before_script:
   - git clone https://github.com/GoodDollar/GoodContracts
   - cd GoodContracts
-  - ganache-cli --deterministic --port 9545 --networkId 6000 &
+  - npm i
+  - ganache-cli -m $MNEMONIC --port 9545 --networkId 6000 -g 10000000000 &
   - truffle compile
   - truffle migrate --network development
   - cd ..

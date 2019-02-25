@@ -8,6 +8,7 @@ import ReserveABI from '@gooddollar/goodcontracts/build/contracts/GoodDollarRese
 import OneTimePaymentLinksABI from '@gooddollar/goodcontracts/build/contracts/OneTimePaymentLinks.json'
 import logger from '../../lib/logger/pino-logger'
 import Config from '../../config/config'
+
 const log = logger.child({ from: 'GoodWallet' })
 
 /**
@@ -46,7 +47,7 @@ export class GoodWallet {
       .then(wallet => {
         this.wallet = wallet
         this.account = this.wallet.eth.defaultAccount
-        this.accounts = this.wallet.eth.accounts.currentProvider.addresses
+        this.accounts = this.wallet.eth.accounts.wallet
         this.networkId = Config.networkId
         this.identityContract = new this.wallet.eth.Contract(
           IdentityABI.abi,
@@ -131,7 +132,7 @@ export class GoodWallet {
   sendTx() {}
 
   async getAccountForType(type: AccountUsage) {
-    let account = this.accounts[AccountUsageToPath[type]] || this.account
+    let account = this.accounts[AccountUsageToPath[type]].address || this.account
     return account
   }
 
@@ -150,70 +151,38 @@ export class GoodWallet {
     return tx
   }
 
-  async generateLink(amount: number): Promise<string> {
-    return new Promise(resolve => {
-      const generatedString = this.wallet.utils.sha3(this.wallet.utils.randomHex(10))
-      return generatedString
-    })
-  }
-
-  // async generateLink() {
-  //   const amount = 0
-  //   const generatedString = this.wallet.utils.sha3(this.wallet.utils.randomHex(10))
-  //   const gasPrice = await this.gasPrice
-  //   log.debug('this.oneTimePaymentLinksContract', this.oneTimePaymentLinksContract)
-  //   log.debug('this.tokenContract', this.tokenContract)
-
-  //   const encodedABI = await this.oneTimePaymentLinksContract.methods
-  //     .deposit(this.account, generatedString, amount)
-  //     .encodeABI()
-  //   const balancePre = await this.balanceOf()
-
-  //   log.debug({ encodedABI, balancePre, generatedString })
-
-  //   // const tx = await this.tokenContract.methods
-  //   //   .transferAndCall(this.oneTimePaymentLinksContract._address, amount, encodedABI)
-  //   //   .call()
-  //   //   .catch(err => {
-  //   //     log.error({ err })
-  //   //   })
-
-  //   const resultTransfer = await this.tokenContract.methods
-  //     .transfer(this.oneTimePaymentLinksContract.defaultAccount, amount)
-  //     .send()
-  //     .catch(err => log.error(err))
-  //   const resultApprove = await this.tokenContract.methods
-  //     .approve(this.oneTimePaymentLinksContract.defaultAccount, amount)
-  //     .send()
-  //     .catch(err => log.error(err))
-  //   log.debug({ resultApprove, resultTransfer })
-
-  //   const gasDeposit = await this.oneTimePaymentLinksContract.methods
-  //     .deposit(this.account, generatedString, amount)
-  //     .estimateGas()
-  //     .catch(err => log.error(err))
-  //   log.debug({ gasDeposit })
-
-  //   const resultDeposit = await this.oneTimePaymentLinksContract.methods
-  //     .deposit(this.account, generatedString, amount)
-  //     .send({
-  //       gasDeposit,
-  //       gasPrice
-  //     })
-  //     .catch(err => log.error(err))
-  //   log.debug({ resultDeposit })
-  //   // let balance = (await gdInstance.balanceOf(instance.address)).toNumber()
-  //   // let balanceUser = (await gdInstance.balanceOf(accounts[4])).toNumber()
-  //   // // console.log("balance ="+web3.utils.fromWei(balance.toString(),"ether"));
-  //   // assert.equal(balance, amount)
-  //   // assert.equal(balanceUser, 5)
-
-  //   // const result = await this.oneTimePaymentLinksContract.methods
-  //   //   .deposit(this.account, this.wallet.utils.sha3('234'), '10')
-  //   //   .send({ from: this.account })
-  //   //   .catch(err => {
-  //   //     log.error(err)
-  //   //   })
+  // async generateLink(amount: number): Promise<string> {
+  //   return new Promise(resolve => {
+  //     const generatedString = this.wallet.utils.sha3(this.wallet.utils.randomHex(10))
+  //     return generatedString
+  //   })
   // }
+
+  async generateLink() {
+    const amount = 10
+    const generatedString = this.wallet.utils.sha3(this.wallet.utils.randomHex(10))
+    const gasPrice = await this.gasPrice
+    log.debug('this.oneTimePaymentLinksContract', this.oneTimePaymentLinksContract)
+    log.debug('this.tokenContract', this.tokenContract)
+
+    const encodedABI = await this.oneTimePaymentLinksContract.methods
+      .deposit(this.account, generatedString, amount)
+      .encodeABI()
+
+    const gas = await this.tokenContract.methods
+      .transferAndCall(this.oneTimePaymentLinksContract.defaultAccount, amount, encodedABI)
+      .estimateGas()
+      .catch(err => {
+        log.error(err)
+      })
+
+    const tx = await this.tokenContract.methods
+      .transferAndCall(this.oneTimePaymentLinksContract.defaultAccount, amount, encodedABI)
+      .send({ gas, gasPrice })
+      .catch(err => {
+        log.error({ err })
+      })
+    return tx
+  }
 }
 export default new GoodWallet()

@@ -49,7 +49,6 @@ class SoftwareWalletProvider {
     let provider = this.getWeb3TransportProvider()
     //let web3 = new Web3(new WebsocketProvider("wss://ropsten.infura.io/ws"))
     let pkey: ?string = localStorage.getItem(this.GD_USER_MNEMONIC)
-    let account
     if (!pkey) {
       pkey = this.generateMnemonic()
       localStorage.setItem(this.GD_USER_MNEMONIC, pkey)
@@ -61,12 +60,13 @@ class SoftwareWalletProvider {
     //we start from addres 1, since from address 0 pubkey all public keys can  be generated
     //and we want privacy
     let hdwallet = new HDWalletProvider(pkey, provider, 1, 10)
-    let web3 = new Web3(hdwallet)
-    log.info('provider:', { provider, hdwallet, web3 })
-    // web3.eth.accounts.wallet.add(pkey)
-    let accounts = web3.eth.accounts.currentProvider.addresses
+    let web3 = new Web3(provider)
+    hdwallet.addresses.forEach(addr => {
+      let wallet = web3.eth.accounts.privateKeyToAccount('0x' + hdwallet.wallets[addr]._privKey.toString('hex'))
+      web3.eth.accounts.wallet.add(wallet)
+    })
+    let accounts = hdwallet.addresses
     web3.eth.defaultAccount = accounts[0]
-
     return web3
   }
 
@@ -79,20 +79,24 @@ class SoftwareWalletProvider {
     let provider
     let web3Provider
     let transport = this.conf.web3Transport
+    const defaults = {
+      defaultGasPrice: Web3.utils.toWei('1', 'gwei'),
+      defaultGas: 500000
+    }
     switch (transport) {
       case 'WebSocket':
         provider = this.conf.websocketWeb3Provider
-        web3Provider = new Web3.providers.WebsocketProvider(provider)
+        web3Provider = new Web3.providers.WebsocketProvider(provider, defaults)
         break
 
       case 'HttpProvider':
         provider = this.conf.httpWeb3provider + Config.infuraKey
-        web3Provider = new Web3.providers.HttpProvider(provider)
+        web3Provider = new Web3.providers.HttpProvider(provider, defaults)
         break
 
       default:
         provider = this.conf.httpWeb3provider + Config.infuraKey
-        web3Provider = new Web3.providers.HttpProvider(provider)
+        web3Provider = new Web3.providers.HttpProvider(provider, defaults)
         break
     }
 

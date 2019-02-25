@@ -151,15 +151,7 @@ export class GoodWallet {
     return tx
   }
 
-  // async generateLink(amount: number): Promise<string> {
-  //   return new Promise(resolve => {
-  //     const generatedString = this.wallet.utils.sha3(this.wallet.utils.randomHex(10))
-  //     return generatedString
-  //   })
-  // }
-
-  async generateLink() {
-    const amount = 10
+  async generateLink(amount) {
     const generatedString = this.wallet.utils.sha3(this.wallet.utils.randomHex(10))
     const gasPrice = await this.gasPrice
     log.debug('this.oneTimePaymentLinksContract', this.oneTimePaymentLinksContract)
@@ -182,7 +174,7 @@ export class GoodWallet {
       .catch(err => {
         log.error({ err })
       })
-    return tx
+    return generatedString
   }
 }
 export default new GoodWallet()

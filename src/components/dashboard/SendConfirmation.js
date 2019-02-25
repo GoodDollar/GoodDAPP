@@ -1,12 +1,12 @@
 // @flow
-import React, { useMemo, useCallback } from 'react'
+import React, { useMemo, useCallback, useState } from 'react'
 import { Clipboard, StyleSheet, Text, View } from 'react-native'
 import QRCode from 'qrcode.react'
 
 import goodWallet from '../../lib/wallet/GoodWallet'
 import logger from '../../lib/logger/pino-logger'
 import { generateCode } from '../../lib/share'
-import { Section, Wrapper, CustomButton, TopBar } from '../common'
+import { Section, Wrapper, CustomButton, TopBar, Address } from '../common'
 import { fontStyle } from '../common/styles'
 import { normalize } from 'react-native-elements'
 
@@ -21,7 +21,7 @@ const log = logger.child({ from: SEND_TITLE })
 const SendConfirmation = ({ screenProps, navigation }: ReceiveProps) => {
   const { account, networkId } = goodWallet
   const amount = navigation.getParam('amount', 0)
-  const url = 'http://google.com'
+  const [url, setUrl] = useState()
 
   const code = useMemo(() => generateCode(account, networkId, amount), [account, networkId, amount])
   const copyUrl = useCallback(() => {
@@ -31,7 +31,8 @@ const SendConfirmation = ({ screenProps, navigation }: ReceiveProps) => {
 
   const share = async () => {
     log.debug('goodWallet', goodWallet)
-    await goodWallet.generateLink()
+    const url = await goodWallet.generateLink(amount)
+    setUrl(url)
   }
 
   return (
@@ -44,7 +45,9 @@ const SendConfirmation = ({ screenProps, navigation }: ReceiveProps) => {
           </View>
         </Section.Row>
         <View style={styles.addressSection}>
-          <Section.Title>{url}</Section.Title>
+          <Section.Title>
+            <Address value={url} style={styles.centered} />
+          </Section.Title>
           <Section.Text style={styles.secondaryText} onPress={copyUrl}>
             Copy address to clipboard
           </Section.Text>

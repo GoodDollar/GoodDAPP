@@ -40,7 +40,6 @@ Send.navigationOptions = {
 }
 
 const styles = StyleSheet.create({
-  wrapper: {},
   centered: {
     justifyContent: 'center',
     alignItems: 'baseline'

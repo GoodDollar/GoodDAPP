@@ -6,7 +6,7 @@ import QRCode from 'qrcode.react'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import logger from '../../lib/logger/pino-logger'
 import { generateCode } from '../../lib/share'
-import { Section, Wrapper, CustomButton } from '../common'
+import { Section, Wrapper, CustomButton, TopBar } from '../common'
 import { fontStyle } from '../common/styles'
 import { normalize } from 'react-native-elements'
 
@@ -36,6 +36,7 @@ const SendConfirmation = ({ screenProps, navigation }: ReceiveProps) => {
 
   return (
     <Wrapper>
+      <TopBar hideBalance />
       <Section style={styles.section}>
         <Section.Row style={[{}]}>
           <View style={styles.qrCode}>
@@ -48,7 +49,9 @@ const SendConfirmation = ({ screenProps, navigation }: ReceiveProps) => {
             Copy address to clipboard
           </Section.Text>
         </View>
-        <CustomButton onPress={share}>generate</CustomButton>
+        <CustomButton onPress={share} type="contained">
+          Share Link
+        </CustomButton>
       </Section>
     </Wrapper>
   )

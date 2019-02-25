@@ -3,9 +3,9 @@ import React, { useCallback, useState } from 'react'
 import { Text, View } from 'react-native'
 import { TextInput } from 'react-native-paper'
 
-import { Section, Wrapper } from '../common'
+import { Section, Wrapper, Avatar, BigNumber } from '../common'
 import { BackButton, PushButton } from '../appNavigation/stackNavigation'
-import { receiveStyles as styles } from './styles'
+import { receiveStyles } from './styles'
 import TopBar from '../common/TopBar'
 
 export type AmountProps = {
@@ -24,11 +24,15 @@ const SendSummery = (props: AmountProps) => {
       <TopBar />
       <Section style={styles.section}>
         <Section.Row style={styles.sectionRow}>
-          <View style={styles.inputField}>
-            <Section.Title style={styles.headline}>Summery</Section.Title>
-            <Section.Text>{`Here's ${amount}`}</Section.Text>
-            <Section.Text>{`For ${reason}`}</Section.Text>
-          </View>
+          <Section.Title style={styles.headline}>Summery</Section.Title>
+          <Section.Row>
+            <Avatar size={90} />
+          </Section.Row>
+          <Section.Text>
+            {`Here's `}
+            <BigNumber number={amount} unit="GD" />
+          </Section.Text>
+          <Section.Text>{`For ${reason}`}</Section.Text>
           <View style={styles.buttonGroup}>
             <BackButton mode="text" screenProps={screenProps} style={{ flex: 1 }}>
               Cancel
@@ -47,6 +51,13 @@ const SendSummery = (props: AmountProps) => {
       </Section>
     </Wrapper>
   )
+}
+
+const styles = {
+  ...receiveStyles,
+  headline: {
+    textTransform: 'uppercase'
+  }
 }
 
 SendSummery.navigationOptions = {

@@ -34,12 +34,12 @@ const styles = StyleSheet.create({
   contentContainer: { justifyContent: 'center', flexDirection: 'row', flex: 1, alignItems: 'stretch', display: 'flex' },
   wrapper: {
     display: 'flex',
-    maxWidth: '500px',
     flex: 1,
     justifyContent: 'space-between',
     alignItems: 'stretch',
     flexDirection: 'column',
-    padding: normalize(10)
+    width: '100%',
+    padding: '1rem'
   },
   section: {
     backgroundColor: '#eeeeef',

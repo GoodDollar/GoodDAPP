@@ -151,7 +151,7 @@ export class GoodWallet {
     return tx
   }
 
-  async generateLink(amount) {
+  async generateLink(amount: number) {
     const generatedString = this.wallet.utils.sha3(this.wallet.utils.randomHex(10))
     const gasPrice = await this.gasPrice
     log.debug('this.oneTimePaymentLinksContract', this.oneTimePaymentLinksContract)
@@ -167,13 +167,15 @@ export class GoodWallet {
       .catch(err => {
         log.error(err)
       })
-
+    log.debug({ amount, gas })
     const tx = await this.tokenContract.methods
       .transferAndCall(this.oneTimePaymentLinksContract.defaultAccount, amount, encodedABI)
-      .send({ gas, gasPrice })
+      .send({ gas })
+      .on('transactionHash', hash => log.debug({ hash }))
       .catch(err => {
         log.error({ err })
       })
+    log.debug({ tx })
     return generatedString
   }
 }

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`NextButton matches snapshot 1`] = `
+exports[`CustomButton matches snapshot 1`] = `
 <div
   style={
     Object {
@@ -14,7 +14,7 @@ exports[`NextButton matches snapshot 1`] = `
       "WebkitFlexShrink": 0,
       "WebkitJustifyContent": "center",
       "alignItems": "stretch",
-      "backgroundColor": "rgba(85,85,85,1.00)",
+      "backgroundColor": "rgba(0,0,0,0.00)",
       "borderBottomColor": "rgba(0,0,0,0.00)",
       "borderBottomLeftRadius": "4px",
       "borderBottomRightRadius": "4px",
@@ -31,14 +31,14 @@ exports[`NextButton matches snapshot 1`] = `
       "borderTopRightRadius": "4px",
       "borderTopStyle": "solid",
       "borderTopWidth": "0px",
-      "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
+      "boxShadow": "0px 0px 0px rgba(0,0,0,0.24)",
       "boxSizing": "border-box",
       "display": "flex",
       "flexBasis": "auto",
       "flexDirection": "column",
       "flexShrink": 0,
       "justifyContent": "center",
-      "marginBottom": "10px",
+      "marginBottom": "0px",
       "marginLeft": "0px",
       "marginRight": "0px",
       "marginTop": "0px",
@@ -49,10 +49,10 @@ exports[`NextButton matches snapshot 1`] = `
       "msFlexNegative": 0,
       "msFlexPack": "center",
       "msFlexPreferredSize": "auto",
-      "paddingBottom": "5px",
+      "paddingBottom": "0px",
       "paddingLeft": "0px",
       "paddingRight": "0px",
-      "paddingTop": "5px",
+      "paddingTop": "0px",
       "position": "relative",
       "zIndex": 0,
     }
@@ -173,7 +173,7 @@ exports[`NextButton matches snapshot 1`] = `
             "borderRightWidth": "0px",
             "borderTopWidth": "0px",
             "boxSizing": "border-box",
-            "color": "rgba(255,255,255,1.00)",
+            "color": "rgba(85,85,85,1.00)",
             "direction": "ltr",
             "display": "inline",
             "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
@@ -211,7 +211,6 @@ exports[`NextButton matches snapshot 1`] = `
               "borderRightWidth": "0px",
               "borderTopWidth": "0px",
               "boxSizing": "border-box",
-              "color": "rgba(255,255,255,1.00)",
               "direction": "ltr",
               "display": "inline",
               "fontFamily": "Helvetica, \\"sans-serif\\"",

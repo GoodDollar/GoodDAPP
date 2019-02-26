@@ -1,16 +1,18 @@
 // @flow
 import React, { Component } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import TabsView from '../appNavigation/TabsView'
-import { AccountConsumer } from '../appNavigation/AccountProvider'
 import { normalize } from 'react-native-elements'
+
+import { AccountConsumer } from '../appNavigation/AccountProvider'
+import TabsView from '../appNavigation/TabsView'
 import { createStackNavigator, PushButton } from '../appNavigation/stackNavigation'
 import Claim from './Claim'
 import FaceRecognition from './FaceRecognition'
 import Receive from './Receive'
+import Amount from './Amount'
+import ReceiveAmount from './ReceiveAmount'
 import Send from './Send'
-
-import { Wrapper, Section, Avatar, BigNumber } from '../common'
+import { Avatar, BigNumber, Section, Wrapper } from '../common'
 
 export type DashboardProps = {
   screenProps: any,
@@ -97,6 +99,8 @@ export default createStackNavigator({
   Dashboard,
   Claim,
   Receive,
+  Amount,
+  ReceiveAmount,
   Send,
   FaceRecognition
 })

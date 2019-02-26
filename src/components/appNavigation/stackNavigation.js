@@ -1,5 +1,5 @@
 // @flow
-import React, { Component } from 'react'
+import React, { Component, useState } from 'react'
 import { Style } from 'react-native'
 import { Button } from 'react-native-paper'
 import { createNavigator, SwitchRouter, SceneView, Route } from '@react-navigation/core'
@@ -27,6 +27,10 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
     const { navigation } = this.props
     const nextRoute = this.stack.pop()
     if (nextRoute) {
+      const currentRoute = navigation.state.routes[navigation.state.index].key
+      let { screenStates } = this.state
+      delete screenStates[currentRoute]
+      this.setState({ screenStates })
       const { route, params } = nextRoute
       this.currentParams = params
       navigation.navigate(route, params)
@@ -58,6 +62,10 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
    */
   goToRoot = () => {
     const { navigation } = this.props
+    this.stack = []
+    this.setState({
+      screenStates: {}
+    })
     navigation.navigate(navigation.state.routes[0])
   }
 
@@ -187,4 +195,14 @@ export const NextButton = ({ disabled, values, screenProps, navigation }) => {
       Next
     </PushButton>
   )
+}
+
+type UseScreenProps = { setScreenState?: {}, screenState?: {} }
+
+export const useScreenState = ({ setScreenState, screenState }: UseScreenProps) => {
+  if (setScreenState) {
+    return [screenState || {}, setScreenState]
+  }
+  const [state, setState] = useState<any>()
+  return [state || {}, setState]
 }

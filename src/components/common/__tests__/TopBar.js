@@ -3,8 +3,7 @@ import React from 'react'
 // Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer'
 
-// Takes the context data we want to test, or uses defaults
-const getTopBarWithContext = (context = { balance: 10 }) => {
+const getComponentWithAccountProvider = (componentPath, context = { balance: 10 }) => {
   // Will then mock the LocalizeContext module being used in our LanguageSelector component
   jest.doMock('../../appNavigation/AccountProvider', () => {
     return {
@@ -13,7 +12,11 @@ const getTopBarWithContext = (context = { balance: 10 }) => {
   })
 
   // you need to re-require after calling jest.doMock.
-  return require('../TopBar').default
+  return require(componentPath).default
+}
+
+const getTopBarWithContext = (context = { balance: 10 }) => {
+  return getComponentWithAccountProvider('../TopBar', context)
 }
 
 describe('TopBar', () => {

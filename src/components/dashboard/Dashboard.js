@@ -14,7 +14,7 @@ import ReceiveAmount from './ReceiveAmount'
 import Send from './Send'
 import SendConfirmation from './SendConfirmation'
 import Reason from './Reason'
-import SendLinkSummery from './SendLinkSummery'
+import SendLinkSummary from './SendLinkSummary'
 
 import { Wrapper, Section, Avatar, BigNumber } from '../common'
 
@@ -107,7 +107,7 @@ export default createStackNavigator({
   Reason,
   ReceiveAmount,
   Send,
-  SendLinkSummery,
+  SendLinkSummary,
   SendConfirmation,
   FaceRecognition
 })

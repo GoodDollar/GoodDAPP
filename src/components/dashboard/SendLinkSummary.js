@@ -15,7 +15,7 @@ export type AmountProps = {
 
 const TITLE = 'Send GD'
 
-const SendSummery = (props: AmountProps) => {
+const SendLinkSummary = (props: AmountProps) => {
   const { screenProps, navigation } = props
   const amount = navigation.getParam('amount', 0)
   const reason = navigation.getParam('reason', '')
@@ -60,8 +60,8 @@ const styles = {
   }
 }
 
-SendSummery.navigationOptions = {
+SendLinkSummary.navigationOptions = {
   title: TITLE
 }
 
-export default SendSummery
+export default SendLinkSummary

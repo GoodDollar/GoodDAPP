@@ -15,7 +15,7 @@ const GenerateLinkButton = ({ screenProps }) => (
   <IconButton
     name="code"
     text="Generate Link"
-    onPress={() => screenProps.push('Amount', { nextRoutes: ['Reason', 'SendLinkSummery'] })}
+    onPress={() => screenProps.push('Amount', { nextRoutes: ['Reason', 'SendLinkSummary'] })}
   />
 )
 

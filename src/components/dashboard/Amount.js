@@ -1,10 +1,10 @@
 // @flow
-import React, { useCallback, useState } from 'react'
+import React, { useCallback } from 'react'
 import { Text, View } from 'react-native'
 import { TextInput } from 'react-native-paper'
 
 import { Section, Wrapper } from '../common'
-import { BackButton, NextButton } from '../appNavigation/stackNavigation'
+import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
 import { receiveStyles as styles } from './styles'
 import TopBar from '../common/TopBar'
 
@@ -16,10 +16,10 @@ export type AmountProps = {
 const RECEIVE_TITLE = 'Receive GD'
 
 const Amount = (props: AmountProps) => {
-  const { screenProps, navigation } = props
-  const { setScreenState, screenState } = screenProps
+  const { screenProps } = props
+  const [screenState, setScreenState] = useScreenState(screenProps)
 
-  const { amount } = screenState
+  const { amount } = screenState || {}
 
   const handleAmountChange = useCallback((value: string = '0') => {
     const amount = parseInt(value)
@@ -34,14 +34,16 @@ const Amount = (props: AmountProps) => {
           <View style={styles.inputField}>
             <Section.Title style={styles.headline}>How much?</Section.Title>
             <View style={styles.amountWrapper}>
-              <TextInput
-                focus={true}
-                keyboardType="numeric"
-                placeholder="0"
-                value={amount}
-                onChangeText={handleAmountChange}
-                style={styles.amountInput}
-              />
+              <Text style={styles.amountInputWrapper}>
+                <TextInput
+                  focus={true}
+                  keyboardType="numeric"
+                  placeholder="0"
+                  value={amount}
+                  onChangeText={handleAmountChange}
+                  style={styles.amountInput}
+                />
+              </Text>
               <Text style={styles.amountSuffix}>GD</Text>
             </View>
           </View>

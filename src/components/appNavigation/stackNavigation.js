@@ -199,7 +199,7 @@ export const NextButton = ({ disabled, values, screenProps, navigation }) => {
 
 type UseScreenProps = { setScreenState?: {}, screenState?: {} }
 
-export const useScreenState = ({ setScreenState, screenState }: UseScreenProps) => {
+export const useScreenState = ({ setScreenState, screenState }: UseScreenProps): any => {
   if (setScreenState) {
     return [screenState || {}, setScreenState]
   }

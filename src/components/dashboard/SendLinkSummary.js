@@ -18,7 +18,7 @@ const TITLE = 'Send GD'
 const SendLinkSummary = (props: AmountProps) => {
   const { screenProps, navigation } = props
   const amount = navigation.getParam('amount', 0)
-  const reason = navigation.getParam('reason', '')
+  const reason = navigation.getParam('reason')
   return (
     <Wrapper style={styles.wrapper}>
       <TopBar />
@@ -32,7 +32,7 @@ const SendLinkSummary = (props: AmountProps) => {
             {`Here's `}
             <BigNumber number={amount} unit="GD" />
           </Section.Text>
-          <Section.Text>{`For ${reason}`}</Section.Text>
+          <Section.Text>{reason && `For ${reason}`}</Section.Text>
           <View style={styles.buttonGroup}>
             <BackButton mode="text" screenProps={screenProps} style={{ flex: 1 }}>
               Cancel

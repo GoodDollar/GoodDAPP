@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Wrapper, TopBar, Section, IconButton } from '../common'
 import { StyleSheet, Text, View } from 'react-native'
 import { TextInput } from 'react-native-paper'
@@ -11,24 +11,26 @@ const SEND_TITLE = 'Send GD'
 const log = logger.child({ from: SEND_TITLE })
 
 const ScanQRButton = props => <IconButton name="link" text="Scan QR Code" />
-const GenerateLinkButton = ({ screenProps }) => (
+const GenerateLinkButton = ({ screenProps, to }) => (
   <IconButton
     name="code"
     text="Generate Link"
-    onPress={() => screenProps.push('Amount', { nextRoutes: ['Reason', 'SendLinkSummary'] })}
+    onPress={() => screenProps.push('Amount', { nextRoutes: ['Reason', 'SendLinkSummary'], to })}
   />
 )
 
 const Send = props => {
+  const [to, setTo] = useState()
+
   return (
     <Wrapper>
       <TopBar />
       <Section style={styles.bottomSection}>
         <Section.Title>TO WHO?</Section.Title>
-        <TextInput />
+        <TextInput onChange={setTo} />
         <Section.Row>
           <ScanQRButton screenProps={props.screenProps} />
-          <GenerateLinkButton screenProps={props.screenProps} />
+          <GenerateLinkButton screenProps={props.screenProps} to={to} />
         </Section.Row>
       </Section>
     </Wrapper>

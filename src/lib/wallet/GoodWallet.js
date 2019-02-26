@@ -7,6 +7,7 @@ import GoodDollarABI from '@gooddollar/goodcontracts/build/contracts/GoodDollar.
 import ReserveABI from '@gooddollar/goodcontracts/build/contracts/GoodDollarReserve.json'
 import logger from '../../lib/logger/pino-logger'
 import Config from '../../config/config'
+
 const log = logger.child({ from: 'GoodWallet' })
 
 /**
@@ -44,7 +45,7 @@ export class GoodWallet {
       .then(wallet => {
         this.wallet = wallet
         this.account = this.wallet.eth.defaultAccount
-        this.accounts = this.wallet.eth.accounts.currentProvider.addresses
+        this.accounts = this.wallet.eth.accounts.wallet
         this.networkId = Config.networkId
         this.identityContract = new this.wallet.eth.Contract(
           IdentityABI.abi,
@@ -122,7 +123,7 @@ export class GoodWallet {
   sendTx() {}
 
   async getAccountForType(type: AccountUsage) {
-    let account = this.accounts[AccountUsageToPath[type]] || this.account
+    let account = this.accounts[AccountUsageToPath[type]].address || this.account
     return account
   }
 

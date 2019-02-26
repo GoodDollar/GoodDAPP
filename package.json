@@ -6,8 +6,9 @@
     "npm": "6.x"
   },
   "scripts": {
-    "start": "./node_modules/.bin/react-native start",
-    "start-clean": "rm -rf $TMPDIR/react-* && watchman watch-del-all && npm start -- --reset-cache",
+    "start": "npm run web",
+    "start:native": "./node_modules/.bin/react-native start",
+    "start-clean": "rm -rf $TMPDIR/react-* && watchman watch-del-all && npm start:native -- --reset-cache",
     "android": "./node_modules/.bin/react-native run-android",
     "ios": "./node_modules/.bin/react-native run-ios",
     "web": "node scripts/start.js",
@@ -44,7 +45,7 @@
   "homepage": "https://gooddollar.org",
   "dependencies": {
     "@babel/preset-flow": "^7.0.0",
-    "@gooddollar/goodcontracts": "0.0.6",
+    "@gooddollar/goodcontracts": "0.0.7",
     "@react-navigation/core": "^3.1.1",
     "@react-navigation/web": "^1.0.0-alpha.7",
     "axios": "^0.18.0",
@@ -119,7 +120,7 @@
     "lint-staged": "^8.1.4",
     "metro-react-native-babel-preset": "^0.51.0",
     "mini-css-extract-plugin": "0.4.3",
-    "node-webcrypto-ossl": "^1.0.39",
+    "node-webcrypto-ossl": "^1.0.42",
     "optimize-css-assets-webpack-plugin": "5.0.1",
     "pnp-webpack-plugin": "1.1.0",
     "postcss-flexbugs-fixes": "4.1.0",

@@ -1,5 +1,5 @@
-node_modules
-mobile
+node_modules/
+build/
+coverage/
+.env
 secrets.json
-/.env
-coverage

@@ -1,17 +1,18 @@
 import React from 'react'
-import FaceRecognition from '../FaceRecognition'
-
+import { getWebRouterComponentWithMocks } from './__util__'
 // Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer'
 
 describe('FaceRecognition', () => {
   it('renders without errors', () => {
-    const tree = renderer.create(<FaceRecognition screenProps={{}} />)
+    const FaceRecognition = getWebRouterComponentWithMocks('../FaceRecognition')
+    const tree = renderer.create(<FaceRecognition />)
     expect(tree.toJSON()).toBeTruthy()
   })
 
   it('matches snapshot', () => {
-    const component = renderer.create(<FaceRecognition screenProps={{}} />)
+    const FaceRecognition = getWebRouterComponentWithMocks('../FaceRecognition')
+    const component = renderer.create(<FaceRecognition />)
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

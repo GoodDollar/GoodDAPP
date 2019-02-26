@@ -5,7 +5,7 @@ import { createBrowserApp } from '@react-navigation/web'
 
 export const getComponentWithMocks = (componentPath, context = { balance: 10 }) => {
   // Will then mock the LocalizeContext module being used in our LanguageSelector component
-  jest.doMock('../../appNavigation/AccountProvider', () => {
+  jest.doMock('../../../appNavigation/AccountProvider', () => {
     const AccountContext = React.createContext({ context })
     const AccountConsumer = AccountContext.Consumer
     const AccountProvider = props => <AccountContext.Provider value={context}>{props.children}</AccountContext.Provider>
@@ -17,14 +17,14 @@ export const getComponentWithMocks = (componentPath, context = { balance: 10 }) 
     }
   })
 
-  jest.doMock('../../../lib/share', () => {
+  jest.doMock('../../../../lib/share', () => {
     return {
       generateCode: () => '0xfakeAddress'
     }
   })
 
   // you need to re-require after calling jest.doMock.
-  return require(componentPath).default
+  return require(`../${componentPath}`).default
 }
 
 export const getWebRouterComponentWithMocks = (componentPath, context) => {

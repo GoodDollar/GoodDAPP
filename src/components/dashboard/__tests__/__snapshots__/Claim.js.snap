@@ -180,7 +180,6 @@ exports[`Claim matches snapshot 1`] = `
             "marginLeft": "0px",
             "marginRight": "0px",
             "marginTop": "0px",
-            "maxWidth": "500px",
             "minHeight": "0px",
             "minWidth": "0px",
             "msFlexAlign": "stretch",
@@ -189,11 +188,12 @@ exports[`Claim matches snapshot 1`] = `
             "msFlexPack": "justify",
             "msFlexPositive": 1,
             "msFlexPreferredSize": "0%",
-            "paddingBottom": "10px",
-            "paddingLeft": "10px",
-            "paddingRight": "10px",
-            "paddingTop": "10px",
+            "paddingBottom": "1rem",
+            "paddingLeft": "1rem",
+            "paddingRight": "1rem",
+            "paddingTop": "1rem",
             "position": "relative",
+            "width": "100%",
             "zIndex": 0,
           }
         }
@@ -789,9 +789,7 @@ exports[`Claim matches snapshot 1`] = `
                     "wordWrap": "break-word",
                   }
                 }
-              >
-                0
-              </div>
+              />
               <div
                 dir="auto"
                 style={
@@ -1456,7 +1454,7 @@ exports[`Claim matches snapshot 1`] = `
                 "flexDirection": "column",
                 "flexShrink": 0,
                 "justifyContent": "center",
-                "marginBottom": "10px",
+                "marginBottom": "0px",
                 "marginLeft": "0px",
                 "marginRight": "0px",
                 "marginTop": "30px",
@@ -1467,10 +1465,10 @@ exports[`Claim matches snapshot 1`] = `
                 "msFlexNegative": 0,
                 "msFlexPack": "center",
                 "msFlexPreferredSize": "auto",
-                "paddingBottom": "5px",
+                "paddingBottom": "10px",
                 "paddingLeft": "10px",
                 "paddingRight": "10px",
-                "paddingTop": "5px",
+                "paddingTop": "10px",
                 "position": "relative",
                 "zIndex": 0,
               }
@@ -1489,7 +1487,6 @@ exports[`Claim matches snapshot 1`] = `
               role="button"
               style={
                 Object {
-                  "MozUserSelect": "none",
                   "WebkitAlignItems": "stretch",
                   "WebkitBoxAlign": "stretch",
                   "WebkitBoxDirection": "normal",
@@ -1497,9 +1494,7 @@ exports[`Claim matches snapshot 1`] = `
                   "WebkitFlexBasis": "auto",
                   "WebkitFlexDirection": "column",
                   "WebkitFlexShrink": 0,
-                  "WebkitUserSelect": "none",
                   "alignItems": "stretch",
-                  "backgroundColor": "rgba(0,0,0,0.00)",
                   "borderBottomLeftRadius": "4px",
                   "borderBottomRightRadius": "4px",
                   "borderBottomStyle": "solid",
@@ -1527,13 +1522,13 @@ exports[`Claim matches snapshot 1`] = `
                   "msFlexDirection": "column",
                   "msFlexNegative": 0,
                   "msFlexPreferredSize": "auto",
-                  "msUserSelect": "none",
+                  "overflowX": "hidden",
+                  "overflowY": "hidden",
                   "paddingBottom": "0px",
                   "paddingLeft": "0px",
                   "paddingRight": "0px",
                   "paddingTop": "0px",
                   "position": "relative",
-                  "userSelect": "none",
                   "zIndex": 0,
                 }
               }
@@ -1597,7 +1592,7 @@ exports[`Claim matches snapshot 1`] = `
                       "color": "rgba(0,0,0,0.32)",
                       "direction": "ltr",
                       "display": "inline",
-                      "fontFamily": "Roboto-Medium",
+                      "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                       "fontSize": "14px",
                       "fontStyle": "inherit",
                       "fontVariant": "inherit",
@@ -1657,7 +1652,7 @@ exports[`Claim matches snapshot 1`] = `
                       }
                     }
                   >
-                    CLAIM YOUR SHARE - 0 GD
+                    CLAIM YOUR SHARE - undefined GD
                   </span>
                 </div>
               </div>

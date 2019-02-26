@@ -31,7 +31,7 @@ exports[`CustomButton matches snapshot 1`] = `
       "borderTopRightRadius": "4px",
       "borderTopStyle": "solid",
       "borderTopWidth": "0px",
-      "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
+      "boxShadow": "0px 0px 0px rgba(0,0,0,0.24)",
       "boxSizing": "border-box",
       "display": "flex",
       "flexBasis": "auto",

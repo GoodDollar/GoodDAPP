@@ -34,5 +34,8 @@ module.exports = {
 		'web.jsx',
 		'jsx',
 		'node'
-	]
+	],
+	testPathIgnorePatterns: [
+		"/__tests__/__util__"
+	],
 };

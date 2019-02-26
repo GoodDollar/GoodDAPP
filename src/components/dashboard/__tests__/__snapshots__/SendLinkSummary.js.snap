@@ -1065,9 +1065,7 @@ exports[`SendLinkSummary matches snapshot 1`] = `
                   "wordWrap": "break-word",
                 }
               }
-            >
-              For 
-            </div>
+            />
             <div
               style={
                 Object {

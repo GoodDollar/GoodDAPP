@@ -4,7 +4,7 @@ import { Text, View } from 'react-native'
 import { TextInput } from 'react-native-paper'
 
 import { Section, Wrapper, Avatar, BigNumber } from '../common'
-import { BackButton, PushButton } from '../appNavigation/stackNavigation'
+import { BackButton, PushButton, useScreenState } from '../appNavigation/stackNavigation'
 import { receiveStyles } from './styles'
 import TopBar from '../common/TopBar'
 
@@ -16,9 +16,10 @@ export type AmountProps = {
 const TITLE = 'Send GD'
 
 const SendLinkSummary = (props: AmountProps) => {
-  const { screenProps, navigation } = props
-  const amount = navigation.getParam('amount', 0)
-  const reason = navigation.getParam('reason')
+  const { screenProps } = props
+  const [screenState, setScreenState] = useScreenState(screenProps)
+
+  const { amount, reason, to } = screenState
   return (
     <Wrapper style={styles.wrapper}>
       <TopBar />

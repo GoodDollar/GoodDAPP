@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Wrapper, TopBar, Section, IconButton } from '../common'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet } from 'react-native'
 import { TextInput } from 'react-native-paper'
+import { useScreenState } from '../appNavigation/stackNavigation'
 
 import logger from '../../lib/logger/pino-logger'
-import { Button } from 'react-native-elements'
 
 const SEND_TITLE = 'Send GD'
 
@@ -20,14 +20,15 @@ const GenerateLinkButton = ({ screenProps, to }) => (
 )
 
 const Send = props => {
-  const [to, setTo] = useState()
+  const [screenState, setScreenState] = useScreenState(props.screenProps)
 
+  const { to } = screenState
   return (
     <Wrapper>
       <TopBar />
       <Section style={styles.bottomSection}>
         <Section.Title>TO WHO?</Section.Title>
-        <TextInput onChange={setTo} />
+        <TextInput onChangeText={text => setScreenState({ to: text })} value={to} />
         <Section.Row>
           <ScanQRButton screenProps={props.screenProps} />
           <GenerateLinkButton screenProps={props.screenProps} to={to} />

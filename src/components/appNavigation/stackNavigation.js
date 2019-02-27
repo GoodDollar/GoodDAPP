@@ -83,11 +83,9 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
     }
   }
 
-  setScreenState = (screen, data) => {
+  setScreenState = data => {
     this.setState(state => ({ currentState: { ...state.currentState, ...data } }))
   }
-
-  getScreenState = screen => this.state.currentState
 
   render() {
     const { descriptors, navigation, navigationConfig, screenProps } = this.props
@@ -107,8 +105,8 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
             goToRoot: this.goToRoot,
             goToParent: this.goToParent,
             pop: this.pop,
-            screenState: this.getScreenState(activeKey) || {},
-            setScreenState: data => this.setScreenState(activeKey, data)
+            screenState: this.state.currentState,
+            setScreenState: this.setScreenState
           }}
         />
       </React.Fragment>

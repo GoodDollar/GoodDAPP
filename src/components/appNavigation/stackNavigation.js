@@ -13,10 +13,9 @@ import { CustomButton, type ButtonProps } from '../common'
  * This navigation actions are being passed via navigationConfig to children components
  */
 class AppView extends Component<{ descriptors: any, navigation: any, navigationConfig: any, screenProps: any }, any> {
-  stack = []
-  currentParams = {}
   state = {
-    screenStates: {}
+    stack: [],
+    currentState: {}
   }
   /**
    * Pops from stack
@@ -25,15 +24,12 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
    */
   pop = () => {
     const { navigation } = this.props
-    const nextRoute = this.stack.pop()
+    const nextRoute = this.state.stack.pop()
     if (nextRoute) {
-      const currentRoute = navigation.state.routes[navigation.state.index].key
-      let { screenStates } = this.state
-      delete screenStates[currentRoute]
-      this.setState({ screenStates })
-      const { route, params } = nextRoute
-      this.currentParams = params
-      navigation.navigate(route, params)
+      this.setState(state => {
+        return { currentState: nextRoute.state }
+      })
+      navigation.navigate(nextRoute.route)
     } else if (navigation.state.index !== 0) {
       this.goToRoot()
     } else {
@@ -48,13 +44,19 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
   push = (nextRoute, params) => {
     const { navigation } = this.props
     const route = navigation.state.routes[navigation.state.index].key
-    this.stack.push({
-      route,
-      params: this.currentParams
+    this.setState((state, props) => {
+      return {
+        stack: [
+          ...state.stack,
+          {
+            route,
+            state: state.currentState
+          }
+        ],
+        currentState: params
+      }
     })
-
-    this.currentParams = params
-    navigation.navigate(nextRoute, params)
+    navigation.navigate(nextRoute)
   }
 
   /**
@@ -62,9 +64,9 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
    */
   goToRoot = () => {
     const { navigation } = this.props
-    this.stack = []
     this.setState({
-      screenStates: {}
+      stack: [],
+      currentState: {}
     })
     navigation.navigate(navigation.state.routes[0])
   }
@@ -76,16 +78,14 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
     const { navigation, navigationConfig } = this.props
 
     if (navigationConfig.backRouteName) {
-      this.setState({ screenStates: {} })
+      this.setState({ currentState: {}, stack: [] })
       navigation.navigate(navigationConfig.backRouteName)
     }
   }
 
-  setScreenState = (screen, data) => {
-    this.setState({ screenStates: { ...this.state.screenStates, [screen]: data } })
+  setScreenState = data => {
+    this.setState(state => ({ currentState: { ...state.currentState, ...data } }))
   }
-
-  getScreenState = screen => this.state.screenStates[screen]
 
   render() {
     const { descriptors, navigation, navigationConfig, screenProps } = this.props
@@ -105,8 +105,8 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
             goToRoot: this.goToRoot,
             goToParent: this.goToParent,
             pop: this.pop,
-            screenState: this.getScreenState(activeKey) || {},
-            setScreenState: data => this.setScreenState(activeKey, data)
+            screenState: this.state.currentState,
+            setScreenState: this.setScreenState
           }}
         />
       </React.Fragment>
@@ -179,16 +179,17 @@ export const BackButton = (props: BackButtonProps) => {
   )
 }
 
-export const NextButton = ({ disabled, values, screenProps, navigation }) => {
-  const { nextRoutes: nextRoutesParam, ...params } = navigation.state.params || {}
+export const NextButton = ({ disabled, values, screenProps, nextRoutes: nextRoutesParam }) => {
+  //const { nextRoutes: nextRoutesParam, ...params } = navigation.state.params || {}
+  console.log({ nextRoutesParam })
   const [next, ...nextRoutes] = nextRoutesParam ? nextRoutesParam : []
-
+  console.log({ next, nextRoutes })
   return (
     <PushButton
       mode="contained"
       disabled={disabled || !next}
       screenProps={{ ...screenProps }}
-      params={{ ...params, ...values, nextRoutes }}
+      params={{ ...values, nextRoutes }}
       routeName={next}
       style={{ flex: 2 }}
     >

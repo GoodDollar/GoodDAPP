@@ -5,7 +5,7 @@ import { TextInput } from 'react-native-paper'
 import goodWallet from '../../lib/wallet/GoodWallet'
 
 import { Section, Wrapper, Avatar, BigNumber, CustomButton } from '../common'
-import { BackButton } from '../appNavigation/stackNavigation'
+import { BackButton, PushButton, useScreenState } from '../appNavigation/stackNavigation'
 import { receiveStyles } from './styles'
 import TopBar from '../common/TopBar'
 
@@ -17,10 +17,10 @@ export type AmountProps = {
 const TITLE = 'Send GD'
 
 const SendLinkSummary = (props: AmountProps) => {
-  const { screenProps, navigation } = props
-  const amount = navigation.getParam('amount')
-  const reason = navigation.getParam('reason')
-  const to = navigation.getParam('to')
+  const { screenProps } = props
+  const [screenState, setScreenState] = useScreenState(screenProps)
+
+  const { amount, reason, to } = screenState
 
   const [loading, setLoading] = useState()
   const generateLink = async () => {
@@ -28,7 +28,6 @@ const SendLinkSummary = (props: AmountProps) => {
     const url = await goodWallet.generateLink(amount)
     screenProps.push('SendConfirmation', { url })
   }
-
   return (
     <Wrapper style={styles.wrapper}>
       <TopBar />

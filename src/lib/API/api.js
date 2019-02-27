@@ -97,7 +97,7 @@ class API {
     return this.client.post('/verify/mobile', { verificationData })
   }
 
-  async verifyTopWallet(verificationData: any): Promise<$AxiosXHR<any>> {
+  async verifyTopWallet(): Promise<$AxiosXHR<any>> {
     return this.client.post('/verify/topwallet')
   }
 }

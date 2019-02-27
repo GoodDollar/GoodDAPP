@@ -70,6 +70,8 @@ class Signup extends React.Component<{ navigation: any, screenProps: any }, Sign
         this.saveProfile()
         await API.addUser(this.state)
         await API.verifyUser({})
+        //top wallet of new user
+        API.verifyTopWallet()
         this.props.navigation.navigate('AppNavigation')
       }
     }

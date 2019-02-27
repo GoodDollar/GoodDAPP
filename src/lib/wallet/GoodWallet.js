@@ -49,6 +49,7 @@ export class GoodWallet {
         this.account = this.wallet.eth.defaultAccount
         this.accounts = this.wallet.eth.accounts.wallet
         this.networkId = Config.networkId
+        this.gasPrice = wallet.utils.toWei('1', 'gwei')
         this.identityContract = new this.wallet.eth.Contract(
           IdentityABI.abi,
           IdentityABI.networks[this.networkId].address,
@@ -167,10 +168,10 @@ export class GoodWallet {
       .catch(err => {
         log.error(err)
       })
-    log.debug({ amount, gas })
+    log.debug({ amount, gas, gasPrice })
     const tx = await this.tokenContract.methods
       .transferAndCall(this.oneTimePaymentLinksContract.defaultAccount, amount, encodedABI)
-      .send({ gas })
+      .send({ gas, gasPrice })
       .on('transactionHash', hash => log.debug({ hash }))
       .catch(err => {
         log.error({ err })

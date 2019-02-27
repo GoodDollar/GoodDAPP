@@ -79,24 +79,20 @@ class SoftwareWalletProvider {
     let provider
     let web3Provider
     let transport = this.conf.web3Transport
-    const defaults = {
-      defaultGasPrice: Web3.utils.toWei('1', 'gwei'),
-      defaultGas: 500000
-    }
     switch (transport) {
       case 'WebSocket':
         provider = this.conf.websocketWeb3Provider
-        web3Provider = new Web3.providers.WebsocketProvider(provider, defaults)
+        web3Provider = new Web3.providers.WebsocketProvider(provider)
         break
 
       case 'HttpProvider':
         provider = this.conf.httpWeb3provider + Config.infuraKey
-        web3Provider = new Web3.providers.HttpProvider(provider, defaults)
+        web3Provider = new Web3.providers.HttpProvider(provider)
         break
 
       default:
         provider = this.conf.httpWeb3provider + Config.infuraKey
-        web3Provider = new Web3.providers.HttpProvider(provider, defaults)
+        web3Provider = new Web3.providers.HttpProvider(provider)
         break
     }
 

@@ -152,7 +152,15 @@ export class GoodWallet {
     return tx
   }
 
+  async canSend(amount: number) {
+    const balance = await this.balanceOf()
+    return amount < balance
+  }
+
   async generateLink(amount: number) {
+    if (!(await this.canSend(amount))) {
+      throw new Error(`Amount is bigger than balance`)
+    }
     const generatedString = this.wallet.utils.sha3(this.wallet.utils.randomHex(10))
     const gasPrice = await this.gasPrice
     log.debug('this.oneTimePaymentLinksContract', this.oneTimePaymentLinksContract)
@@ -166,6 +174,7 @@ export class GoodWallet {
       .estimateGas()
       .catch(err => {
         log.error(err)
+        throw err
       })
 
     const balancePre = await this.tokenContract.methods
@@ -178,6 +187,7 @@ export class GoodWallet {
       .on('transactionHash', hash => log.debug({ hash }))
       .catch(err => {
         log.error({ err })
+        throw err
       })
     const balancePost = await this.tokenContract.methods.balanceOf(this.account).call()
     log.debug({ tx, balancePost, onePaymentAccount: this.oneTimePaymentLinksContract.defaultAccount })

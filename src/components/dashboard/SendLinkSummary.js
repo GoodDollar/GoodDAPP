@@ -4,7 +4,7 @@ import { Text, View } from 'react-native'
 import { TextInput } from 'react-native-paper'
 import goodWallet from '../../lib/wallet/GoodWallet'
 
-import { Section, Wrapper, Avatar, BigNumber, CustomButton } from '../common'
+import { Section, Wrapper, Avatar, BigNumber, CustomButton, CustomDialog } from '../common'
 import { BackButton, PushButton, useScreenState } from '../appNavigation/stackNavigation'
 import { receiveStyles } from './styles'
 import TopBar from '../common/TopBar'
@@ -18,15 +18,25 @@ const TITLE = 'Send GD'
 
 const SendLinkSummary = (props: AmountProps) => {
   const { screenProps } = props
-  const [screenState, setScreenState] = useScreenState(screenProps)
+  const [screenState] = useScreenState(screenProps)
+  const [dialogData, setDialogData] = useState()
+  const [loading, setLoading] = useState()
+
+  const dismissDialog = () => {
+    setDialogData({ visible: false })
+  }
 
   const { amount, reason, to } = screenState
 
-  const [loading, setLoading] = useState()
   const generateLink = async () => {
     setLoading(true)
-    const url = await goodWallet.generateLink(amount)
-    screenProps.push('SendConfirmation', { url })
+    try {
+      const url = await goodWallet.generateLink(amount)
+      screenProps.push('SendConfirmation', { url })
+    } catch (e) {
+      setDialogData({ visible: true, title: 'Error', message: e.message })
+      setLoading(false)
+    }
   }
   return (
     <Wrapper style={styles.wrapper}>
@@ -53,6 +63,7 @@ const SendLinkSummary = (props: AmountProps) => {
           </View>
         </Section.Row>
       </Section>
+      <CustomDialog onDismiss={dismissDialog} {...dialogData} />
     </Wrapper>
   )
 }

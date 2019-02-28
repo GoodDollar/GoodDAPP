@@ -10,6 +10,8 @@ import Avatar from './Avatar'
 import CustomButton from './CustomButton'
 import BigNumber from './BigNumber'
 import Section from './Section'
+import TopBar from './TopBar'
+import IconButton from './IconButton'
 
 export * from './CustomButton'
 
@@ -32,12 +34,12 @@ const styles = StyleSheet.create({
   contentContainer: { justifyContent: 'center', flexDirection: 'row', flex: 1, alignItems: 'stretch', display: 'flex' },
   wrapper: {
     display: 'flex',
-    maxWidth: '500px',
     flex: 1,
     justifyContent: 'space-between',
     alignItems: 'stretch',
     flexDirection: 'column',
-    padding: normalize(10)
+    width: '100%',
+    padding: '1rem'
   },
   section: {
     backgroundColor: '#eeeeef',
@@ -81,4 +83,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export { Address, Avatar, CustomButton, Wrapper, Section, BigNumber }
+export { Address, Avatar, CustomButton, Wrapper, Section, BigNumber, TopBar, IconButton }

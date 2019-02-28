@@ -34,6 +34,7 @@ class AccountProvider extends React.Component<AccountProviderProps, AccountProvi
     await this.updateValues()
     this.setAsReady()
     this.initTransferEvents()
+    log.info('done mounting')
   }
 
   componentWillUnmount(): void {

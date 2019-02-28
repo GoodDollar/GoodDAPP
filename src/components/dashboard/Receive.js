@@ -49,7 +49,13 @@ const Receive = ({ screenProps }: ReceiveProps) => {
               Copy address to clipboard
             </Section.Text>
           </View>
-          <PushButton mode="outlined" dark={false} routeName="Amount" screenProps={screenProps}>
+          <PushButton
+            mode="outlined"
+            dark={false}
+            routeName="Amount"
+            screenProps={screenProps}
+            params={{ nextRoutes: ['ReceiveAmount'] }}
+          >
             Request an amount
           </PushButton>
         </Section.Row>

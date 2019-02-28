@@ -1,10 +1,10 @@
 // @flow
-import React, { useCallback, useState } from 'react'
+import React, { useCallback } from 'react'
 import { Text, View } from 'react-native'
 import { TextInput } from 'react-native-paper'
 
 import { Section, Wrapper } from '../common'
-import { BackButton, PushButton } from '../appNavigation/stackNavigation'
+import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
 import { receiveStyles as styles } from './styles'
 import TopBar from '../common/TopBar'
 
@@ -15,12 +15,14 @@ export type AmountProps = {
 
 const RECEIVE_TITLE = 'Receive GD'
 
-const Amount = ({ screenProps }: AmountProps) => {
-  const [amount, setAmount] = useState('')
+const Amount = (props: AmountProps) => {
+  const { screenProps } = props
+  const [screenState, setScreenState] = useScreenState(screenProps)
 
+  const { amount, to } = screenState || {}
   const handleAmountChange = useCallback((value: string = '0') => {
     const amount = parseInt(value)
-    setAmount(amount)
+    setScreenState({ amount })
   }, [])
 
   return (
@@ -31,14 +33,16 @@ const Amount = ({ screenProps }: AmountProps) => {
           <View style={styles.inputField}>
             <Section.Title style={styles.headline}>How much?</Section.Title>
             <View style={styles.amountWrapper}>
-              <TextInput
-                focus={true}
-                keyboardType="numeric"
-                placeholder="0"
-                value={amount}
-                onChangeText={handleAmountChange}
-                style={styles.amountInput}
-              />
+              <Text style={styles.amountInputWrapper}>
+                <TextInput
+                  focus={true}
+                  keyboardType="numeric"
+                  placeholder="0"
+                  value={amount}
+                  onChangeText={handleAmountChange}
+                  style={styles.amountInput}
+                />
+              </Text>
               <Text style={styles.amountSuffix}>GD</Text>
             </View>
           </View>
@@ -46,16 +50,7 @@ const Amount = ({ screenProps }: AmountProps) => {
             <BackButton mode="text" screenProps={screenProps} style={{ flex: 1 }}>
               Cancel
             </BackButton>
-            <PushButton
-              mode="contained"
-              disabled={!amount}
-              screenProps={{ ...screenProps }}
-              params={{ amount }}
-              routeName="ReceiveAmount"
-              style={{ flex: 2 }}
-            >
-              Next
-            </PushButton>
+            <NextButton nextRoutes={screenState.nextRoutes} values={{ amount, to }} disabled={!amount} {...props} />
           </View>
         </Section.Row>
       </Section>

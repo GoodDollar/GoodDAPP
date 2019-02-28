@@ -60,22 +60,21 @@ export const receiveStyles = StyleSheet.create({
   amountWrapper: {
     flexDirection: 'row',
     justifyContent: 'center',
-    alignContent: 'center',
-    borderBottom: '1px solid #555'
+    alignContent: 'center'
   },
   amountInput: {
     backgroundColor: 'transparent',
-    border: 'none',
-    fontSize: normalize(26),
     height: normalize(40),
+    width: '100%'
+  },
+  amountInputWrapper: {
+    fontSize: normalize(26),
     lineHeight: normalize(40),
-    maxWidth: '50%',
+    whiteSpace: 'normal',
     flexShrink: 1,
     flexGrow: 1,
-    textAlign: 'justify',
-    textAlignLast: 'right',
-    whiteSpace: 'normal',
-    marginRight: normalize(-5)
+    maxWidth: '50%',
+    textAlign: 'right'
   },
   amountSuffix: {
     flexGrow: 1,

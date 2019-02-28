@@ -12,7 +12,11 @@ import Receive from './Receive'
 import Amount from './Amount'
 import ReceiveAmount from './ReceiveAmount'
 import Send from './Send'
-import { Avatar, BigNumber, Section, Wrapper } from '../common'
+import SendConfirmation from './SendConfirmation'
+import Reason from './Reason'
+import SendLinkSummary from './SendLinkSummary'
+
+import { Wrapper, Section, Avatar, BigNumber } from '../common'
 
 export type DashboardProps = {
   screenProps: any,
@@ -100,7 +104,10 @@ export default createStackNavigator({
   Claim,
   Receive,
   Amount,
+  Reason,
   ReceiveAmount,
   Send,
+  SendLinkSummary,
+  SendConfirmation,
   FaceRecognition
 })

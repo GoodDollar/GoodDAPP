@@ -1,15 +1,13 @@
 import React from 'react'
-import Dashboard from '../Dashboard'
-import Donate from '../../appNavigation/Donate'
 import { createSwitchNavigator } from '@react-navigation/core'
 import { createBrowserApp } from '@react-navigation/web'
-
+import { getComponentWithMocks } from './__util__'
 // Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer'
 
 const routes = {
-  Dashboard,
-  Donate
+  Dashboard: getComponentWithMocks('../Dashboard'),
+  Donate: getComponentWithMocks('../../appNavigation/Donate')
 }
 
 const AppNavigator = createSwitchNavigator(routes)

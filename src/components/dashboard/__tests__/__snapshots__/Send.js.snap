@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Claim matches snapshot 1`] = `
+exports[`Send matches snapshot 1`] = `
 <div
   style={
     Object {
@@ -563,10 +563,12 @@ exports[`Claim matches snapshot 1`] = `
               "WebkitAlignItems": "stretch",
               "WebkitBoxAlign": "stretch",
               "WebkitBoxDirection": "normal",
+              "WebkitBoxFlex": 1,
               "WebkitBoxOrient": "vertical",
-              "WebkitFlexBasis": "auto",
+              "WebkitFlexBasis": "0%",
               "WebkitFlexDirection": "column",
-              "WebkitFlexShrink": 0,
+              "WebkitFlexGrow": 1,
+              "WebkitFlexShrink": 1,
               "alignItems": "stretch",
               "backgroundColor": "rgba(238,238,239,1.00)",
               "borderBottomLeftRadius": "5px",
@@ -583,9 +585,10 @@ exports[`Claim matches snapshot 1`] = `
               "borderTopWidth": "0px",
               "boxSizing": "border-box",
               "display": "flex",
-              "flexBasis": "auto",
+              "flexBasis": "0%",
               "flexDirection": "column",
-              "flexShrink": 0,
+              "flexGrow": 1,
+              "flexShrink": 1,
               "marginBottom": "15px",
               "marginLeft": "0px",
               "marginRight": "0px",
@@ -594,8 +597,9 @@ exports[`Claim matches snapshot 1`] = `
               "minWidth": "0px",
               "msFlexAlign": "stretch",
               "msFlexDirection": "column",
-              "msFlexNegative": 0,
-              "msFlexPreferredSize": "auto",
+              "msFlexNegative": 1,
+              "msFlexPositive": 1,
+              "msFlexPreferredSize": "0%",
               "paddingBottom": "15px",
               "paddingLeft": "10px",
               "paddingRight": "10px",
@@ -637,201 +641,12 @@ exports[`Claim matches snapshot 1`] = `
               }
             }
           >
-            GoodDollar is a good economy, each day you can collect your part in the economy
-          </div>
-          <div
-            style={
-              Object {
-                "WebkitAlignItems": "baseline",
-                "WebkitBoxAlign": "baseline",
-                "WebkitBoxDirection": "normal",
-                "WebkitBoxOrient": "horizontal",
-                "WebkitBoxPack": "center",
-                "WebkitFlexBasis": "auto",
-                "WebkitFlexDirection": "row",
-                "WebkitFlexShrink": 0,
-                "WebkitJustifyContent": "center",
-                "alignItems": "baseline",
-                "borderBottomStyle": "solid",
-                "borderBottomWidth": "0px",
-                "borderLeftStyle": "solid",
-                "borderLeftWidth": "0px",
-                "borderRightStyle": "solid",
-                "borderRightWidth": "0px",
-                "borderTopStyle": "solid",
-                "borderTopWidth": "0px",
-                "boxSizing": "border-box",
-                "display": "flex",
-                "flexBasis": "auto",
-                "flexDirection": "row",
-                "flexShrink": 0,
-                "justifyContent": "center",
-                "marginBottom": "0px",
-                "marginLeft": "0px",
-                "marginRight": "0px",
-                "marginTop": "0px",
-                "minHeight": "0px",
-                "minWidth": "0px",
-                "msFlexAlign": "baseline",
-                "msFlexDirection": "row",
-                "msFlexNegative": 0,
-                "msFlexPack": "center",
-                "msFlexPreferredSize": "auto",
-                "paddingBottom": "0px",
-                "paddingLeft": "0px",
-                "paddingRight": "0px",
-                "paddingTop": "0px",
-                "position": "relative",
-                "zIndex": 0,
-              }
-            }
-          >
-            <div
-              dir="auto"
-              style={
-                Object {
-                  "borderBottomWidth": "0px",
-                  "borderLeftWidth": "0px",
-                  "borderRightWidth": "0px",
-                  "borderTopWidth": "0px",
-                  "boxSizing": "border-box",
-                  "color": "rgba(85,85,85,1.00)",
-                  "display": "inline",
-                  "fontFamily": "Helvetica, \\"sans-serif\\"",
-                  "fontSize": "14px",
-                  "fontStyle": "inherit",
-                  "fontVariant": "inherit",
-                  "fontWeight": "inherit",
-                  "lineHeight": "inherit",
-                  "marginBottom": "0px",
-                  "marginLeft": "0px",
-                  "marginRight": "0px",
-                  "marginTop": "0px",
-                  "paddingBottom": "0px",
-                  "paddingLeft": "0px",
-                  "paddingRight": "0px",
-                  "paddingTop": "0px",
-                  "textAlign": "center",
-                  "textDecoration": "none",
-                  "whiteSpace": "pre-wrap",
-                  "wordWrap": "break-word",
-                }
-              }
-            >
-              TODAY'S DAILY INCOME 
-            </div>
-            <div
-              style={
-                Object {
-                  "WebkitAlignItems": "stretch",
-                  "WebkitBoxAlign": "stretch",
-                  "WebkitBoxDirection": "normal",
-                  "WebkitBoxOrient": "vertical",
-                  "WebkitFlexDirection": "column",
-                  "alignItems": "stretch",
-                  "borderBottomStyle": "solid",
-                  "borderBottomWidth": "0px",
-                  "borderLeftStyle": "solid",
-                  "borderLeftWidth": "0px",
-                  "borderRightStyle": "solid",
-                  "borderRightWidth": "0px",
-                  "borderTopStyle": "solid",
-                  "borderTopWidth": "0px",
-                  "boxSizing": "border-box",
-                  "display": "inline-block",
-                  "flexDirection": "column",
-                  "marginBottom": "0px",
-                  "marginLeft": "0px",
-                  "marginRight": "0px",
-                  "marginTop": "0px",
-                  "minHeight": "0px",
-                  "minWidth": "0px",
-                  "msFlexAlign": "stretch",
-                  "msFlexDirection": "column",
-                  "paddingBottom": "0px",
-                  "paddingLeft": "0px",
-                  "paddingRight": "0px",
-                  "paddingTop": "0px",
-                  "position": "relative",
-                  "zIndex": 0,
-                }
-              }
-            >
-              <div
-                dir="auto"
-                style={
-                  Object {
-                    "borderBottomWidth": "0px",
-                    "borderLeftWidth": "0px",
-                    "borderRightWidth": "0px",
-                    "borderTopWidth": "0px",
-                    "boxSizing": "border-box",
-                    "color": "rgba(85,85,85,1.00)",
-                    "direction": "ltr",
-                    "display": "inline",
-                    "fontFamily": "Helvetica, \\"sans-serif\\"",
-                    "fontSize": "30px",
-                    "fontStyle": "inherit",
-                    "fontVariant": "inherit",
-                    "fontWeight": "inherit",
-                    "lineHeight": "inherit",
-                    "marginBottom": "0px",
-                    "marginLeft": "0px",
-                    "marginRight": "0px",
-                    "marginTop": "0px",
-                    "paddingBottom": "0px",
-                    "paddingLeft": "0px",
-                    "paddingRight": "0px",
-                    "paddingTop": "0px",
-                    "textAlign": "right",
-                    "textDecoration": "none",
-                    "whiteSpace": "pre-wrap",
-                    "wordWrap": "break-word",
-                  }
-                }
-              />
-              <div
-                dir="auto"
-                style={
-                  Object {
-                    "borderBottomWidth": "0px",
-                    "borderLeftWidth": "0px",
-                    "borderRightWidth": "0px",
-                    "borderTopWidth": "0px",
-                    "boxSizing": "border-box",
-                    "color": "rgba(85,85,85,1.00)",
-                    "direction": "ltr",
-                    "display": "inline",
-                    "fontFamily": "Helvetica, \\"sans-serif\\"",
-                    "fontSize": "18px",
-                    "fontStyle": "inherit",
-                    "fontVariant": "inherit",
-                    "fontWeight": "inherit",
-                    "lineHeight": "inherit",
-                    "marginBottom": "0px",
-                    "marginLeft": "0px",
-                    "marginRight": "0px",
-                    "marginTop": "0px",
-                    "paddingBottom": "0px",
-                    "paddingLeft": "0px",
-                    "paddingRight": "0px",
-                    "paddingTop": "0px",
-                    "textAlign": "right",
-                    "textDecoration": "none",
-                    "whiteSpace": "pre-wrap",
-                    "wordWrap": "break-word",
-                  }
-                }
-              >
-                GD
-              </div>
-            </div>
+            TO WHO?
           </div>
           <div
             style={
               Object {
                 "WebkitAlignItems": "stretch",
-                "WebkitAlignSelf": "center",
                 "WebkitBoxAlign": "stretch",
                 "WebkitBoxDirection": "normal",
                 "WebkitBoxOrient": "vertical",
@@ -839,611 +654,13 @@ exports[`Claim matches snapshot 1`] = `
                 "WebkitFlexDirection": "column",
                 "WebkitFlexShrink": 0,
                 "alignItems": "stretch",
-                "alignSelf": "center",
+                "backgroundColor": "rgba(231,231,231,1.00)",
                 "borderBottomStyle": "solid",
                 "borderBottomWidth": "0px",
                 "borderLeftStyle": "solid",
                 "borderLeftWidth": "0px",
                 "borderRightStyle": "solid",
                 "borderRightWidth": "0px",
-                "borderTopStyle": "solid",
-                "borderTopWidth": "0px",
-                "boxSizing": "border-box",
-                "display": "flex",
-                "flexBasis": "auto",
-                "flexDirection": "column",
-                "flexShrink": 0,
-                "height": "132px",
-                "marginBottom": "0px",
-                "marginLeft": "0px",
-                "marginRight": "0px",
-                "marginTop": "0px",
-                "maxWidth": "100%",
-                "minHeight": "0px",
-                "minWidth": "0px",
-                "msFlexAlign": "stretch",
-                "msFlexDirection": "column",
-                "msFlexItemAlign": "center",
-                "msFlexNegative": 0,
-                "msFlexPreferredSize": "auto",
-                "overflowX": "hidden",
-                "overflowY": "hidden",
-                "paddingBottom": "0px",
-                "paddingLeft": "0px",
-                "paddingRight": "0px",
-                "paddingTop": "0px",
-                "position": "relative",
-                "width": "323px",
-                "zIndex": 0,
-              }
-            }
-          >
-            <div
-              style={
-                Object {
-                  "WebkitAlignItems": "stretch",
-                  "WebkitBoxAlign": "stretch",
-                  "WebkitBoxDirection": "normal",
-                  "WebkitBoxOrient": "vertical",
-                  "WebkitFlexBasis": "auto",
-                  "WebkitFlexDirection": "column",
-                  "WebkitFlexShrink": 0,
-                  "alignItems": "stretch",
-                  "backgroundColor": "rgba(0,0,0,0.00)",
-                  "backgroundImage": "url(\\"graph.png\\")",
-                  "backgroundPosition": "center",
-                  "backgroundRepeat": "no-repeat",
-                  "backgroundSize": "cover",
-                  "borderBottomStyle": "solid",
-                  "borderBottomWidth": "0px",
-                  "borderLeftStyle": "solid",
-                  "borderLeftWidth": "0px",
-                  "borderRightStyle": "solid",
-                  "borderRightWidth": "0px",
-                  "borderTopStyle": "solid",
-                  "borderTopWidth": "0px",
-                  "bottom": "0px",
-                  "boxSizing": "border-box",
-                  "display": "flex",
-                  "flexBasis": "auto",
-                  "flexDirection": "column",
-                  "flexShrink": 0,
-                  "height": "100%",
-                  "left": "0px",
-                  "marginBottom": "0px",
-                  "marginLeft": "0px",
-                  "marginRight": "0px",
-                  "marginTop": "0px",
-                  "minHeight": "0px",
-                  "minWidth": "0px",
-                  "msFlexAlign": "stretch",
-                  "msFlexDirection": "column",
-                  "msFlexNegative": 0,
-                  "msFlexPreferredSize": "auto",
-                  "paddingBottom": "0px",
-                  "paddingLeft": "0px",
-                  "paddingRight": "0px",
-                  "paddingTop": "0px",
-                  "position": "absolute",
-                  "right": "0px",
-                  "top": "0px",
-                  "width": "100%",
-                  "zIndex": -1,
-                }
-              }
-            />
-            <img
-              alt=""
-              draggable={false}
-              src="graph.png"
-              style={
-                Object {
-                  "bottom": "0px",
-                  "height": "100%",
-                  "left": "0px",
-                  "opacity": 0,
-                  "position": "absolute",
-                  "right": "0px",
-                  "top": "0px",
-                  "width": "100%",
-                  "zIndex": -1,
-                }
-              }
-            />
-          </div>
-        </div>
-        <div
-          style={
-            Object {
-              "WebkitAlignItems": "stretch",
-              "WebkitBoxAlign": "stretch",
-              "WebkitBoxDirection": "normal",
-              "WebkitBoxOrient": "vertical",
-              "WebkitFlexBasis": "auto",
-              "WebkitFlexDirection": "column",
-              "WebkitFlexShrink": 0,
-              "alignItems": "stretch",
-              "backgroundColor": "rgba(238,238,239,1.00)",
-              "borderBottomLeftRadius": "5px",
-              "borderBottomRightRadius": "5px",
-              "borderBottomStyle": "solid",
-              "borderBottomWidth": "0px",
-              "borderLeftStyle": "solid",
-              "borderLeftWidth": "0px",
-              "borderRightStyle": "solid",
-              "borderRightWidth": "0px",
-              "borderTopLeftRadius": "5px",
-              "borderTopRightRadius": "5px",
-              "borderTopStyle": "solid",
-              "borderTopWidth": "0px",
-              "boxSizing": "border-box",
-              "display": "flex",
-              "flexBasis": "auto",
-              "flexDirection": "column",
-              "flexShrink": 0,
-              "marginBottom": "15px",
-              "marginLeft": "0px",
-              "marginRight": "0px",
-              "marginTop": "0px",
-              "minHeight": "0px",
-              "minWidth": "0px",
-              "msFlexAlign": "stretch",
-              "msFlexDirection": "column",
-              "msFlexNegative": 0,
-              "msFlexPreferredSize": "auto",
-              "paddingBottom": "15px",
-              "paddingLeft": "10px",
-              "paddingRight": "10px",
-              "paddingTop": "15px",
-              "position": "relative",
-              "zIndex": 0,
-            }
-          }
-        >
-          <div
-            style={
-              Object {
-                "WebkitAlignItems": "baseline",
-                "WebkitBoxAlign": "baseline",
-                "WebkitBoxDirection": "normal",
-                "WebkitBoxOrient": "horizontal",
-                "WebkitBoxPack": "center",
-                "WebkitFlexBasis": "auto",
-                "WebkitFlexDirection": "row",
-                "WebkitFlexShrink": 0,
-                "WebkitJustifyContent": "center",
-                "alignItems": "baseline",
-                "borderBottomStyle": "solid",
-                "borderBottomWidth": "0px",
-                "borderLeftStyle": "solid",
-                "borderLeftWidth": "0px",
-                "borderRightStyle": "solid",
-                "borderRightWidth": "0px",
-                "borderTopStyle": "solid",
-                "borderTopWidth": "0px",
-                "boxSizing": "border-box",
-                "display": "flex",
-                "flexBasis": "auto",
-                "flexDirection": "row",
-                "flexShrink": 0,
-                "justifyContent": "center",
-                "marginBottom": "0px",
-                "marginLeft": "0px",
-                "marginRight": "0px",
-                "marginTop": "0px",
-                "minHeight": "0px",
-                "minWidth": "0px",
-                "msFlexAlign": "baseline",
-                "msFlexDirection": "row",
-                "msFlexNegative": 0,
-                "msFlexPack": "center",
-                "msFlexPreferredSize": "auto",
-                "paddingBottom": "0px",
-                "paddingLeft": "0px",
-                "paddingRight": "0px",
-                "paddingTop": "0px",
-                "position": "relative",
-                "zIndex": 0,
-              }
-            }
-          >
-            <div
-              dir="auto"
-              style={
-                Object {
-                  "borderBottomWidth": "0px",
-                  "borderLeftWidth": "0px",
-                  "borderRightWidth": "0px",
-                  "borderTopWidth": "0px",
-                  "boxSizing": "border-box",
-                  "color": "rgba(85,85,85,1.00)",
-                  "display": "inline",
-                  "fontFamily": "Helvetica, \\"sans-serif\\"",
-                  "fontSize": "14px",
-                  "fontStyle": "inherit",
-                  "fontVariant": "inherit",
-                  "fontWeight": "inherit",
-                  "lineHeight": "inherit",
-                  "marginBottom": "0px",
-                  "marginLeft": "0px",
-                  "marginRight": "0px",
-                  "marginTop": "0px",
-                  "paddingBottom": "0px",
-                  "paddingLeft": "0px",
-                  "paddingRight": "0px",
-                  "paddingTop": "0px",
-                  "textAlign": "center",
-                  "textDecoration": "none",
-                  "whiteSpace": "pre-wrap",
-                  "wordWrap": "break-word",
-                }
-              }
-            >
-              <b>
-                367K
-              </b>
-               PEOPLE CLAIMED 
-              <b>
-                2.5M GD
-              </b>
-               TODAY!
-            </div>
-          </div>
-        </div>
-        <div
-          style={
-            Object {
-              "WebkitAlignItems": "stretch",
-              "WebkitBoxAlign": "stretch",
-              "WebkitBoxDirection": "normal",
-              "WebkitBoxOrient": "vertical",
-              "WebkitFlexBasis": "auto",
-              "WebkitFlexDirection": "column",
-              "WebkitFlexShrink": 0,
-              "alignItems": "stretch",
-              "backgroundColor": "rgba(238,238,239,1.00)",
-              "borderBottomLeftRadius": "5px",
-              "borderBottomRightRadius": "5px",
-              "borderBottomStyle": "solid",
-              "borderBottomWidth": "0px",
-              "borderLeftStyle": "solid",
-              "borderLeftWidth": "0px",
-              "borderRightStyle": "solid",
-              "borderRightWidth": "0px",
-              "borderTopLeftRadius": "5px",
-              "borderTopRightRadius": "5px",
-              "borderTopStyle": "solid",
-              "borderTopWidth": "0px",
-              "boxSizing": "border-box",
-              "display": "flex",
-              "flexBasis": "auto",
-              "flexDirection": "column",
-              "flexShrink": 0,
-              "marginBottom": "15px",
-              "marginLeft": "0px",
-              "marginRight": "0px",
-              "marginTop": "0px",
-              "minHeight": "0px",
-              "minWidth": "0px",
-              "msFlexAlign": "stretch",
-              "msFlexDirection": "column",
-              "msFlexNegative": 0,
-              "msFlexPreferredSize": "auto",
-              "paddingBottom": "15px",
-              "paddingLeft": "10px",
-              "paddingRight": "10px",
-              "paddingTop": "15px",
-              "position": "relative",
-              "zIndex": 0,
-            }
-          }
-        >
-          <div
-            dir="auto"
-            style={
-              Object {
-                "borderBottomWidth": "0px",
-                "borderLeftWidth": "0px",
-                "borderRightWidth": "0px",
-                "borderTopWidth": "0px",
-                "boxSizing": "border-box",
-                "color": "rgba(85,85,85,1.00)",
-                "display": "inline",
-                "fontFamily": "Helvetica, \\"sans-serif\\"",
-                "fontSize": "18px",
-                "fontStyle": "inherit",
-                "fontVariant": "inherit",
-                "fontWeight": "inherit",
-                "lineHeight": "inherit",
-                "marginBottom": "0px",
-                "marginLeft": "0px",
-                "marginRight": "0px",
-                "marginTop": "0px",
-                "paddingBottom": "0px",
-                "paddingLeft": "0px",
-                "paddingRight": "0px",
-                "paddingTop": "0px",
-                "textAlign": "center",
-                "textDecoration": "none",
-                "whiteSpace": "pre-wrap",
-                "wordWrap": "break-word",
-              }
-            }
-          >
-            YOU NOW HAVE 
-            <b>
-              3
-            </b>
-             DAYS OF INCOME WAITING
-          </div>
-          <hr
-            style={
-              Array [
-                Object {
-                  "width": "100%",
-                },
-                undefined,
-              ]
-            }
-          />
-          <div
-            dir="auto"
-            style={
-              Object {
-                "borderBottomWidth": "0px",
-                "borderLeftWidth": "0px",
-                "borderRightWidth": "0px",
-                "borderTopWidth": "0px",
-                "boxSizing": "border-box",
-                "color": "rgba(85,85,85,1.00)",
-                "display": "inline",
-                "fontFamily": "Helvetica, \\"sans-serif\\"",
-                "fontSize": "14px",
-                "fontStyle": "inherit",
-                "fontVariant": "inherit",
-                "fontWeight": "inherit",
-                "lineHeight": "inherit",
-                "marginBottom": "0px",
-                "marginLeft": "0px",
-                "marginRight": "0px",
-                "marginTop": "0px",
-                "paddingBottom": "0px",
-                "paddingLeft": "0px",
-                "paddingRight": "0px",
-                "paddingTop": "0px",
-                "textAlign": "center",
-                "textDecoration": "none",
-                "whiteSpace": "pre-wrap",
-                "wordWrap": "break-word",
-              }
-            }
-          >
-            NEXT DAILY INCOME:
-          </div>
-          <div
-            style={
-              Object {
-                "WebkitAlignItems": "baseline",
-                "WebkitBoxAlign": "baseline",
-                "WebkitBoxDirection": "normal",
-                "WebkitBoxOrient": "horizontal",
-                "WebkitBoxPack": "center",
-                "WebkitFlexBasis": "auto",
-                "WebkitFlexDirection": "row",
-                "WebkitFlexShrink": 0,
-                "WebkitJustifyContent": "center",
-                "alignItems": "baseline",
-                "borderBottomStyle": "solid",
-                "borderBottomWidth": "0px",
-                "borderLeftStyle": "solid",
-                "borderLeftWidth": "0px",
-                "borderRightStyle": "solid",
-                "borderRightWidth": "0px",
-                "borderTopStyle": "solid",
-                "borderTopWidth": "0px",
-                "boxSizing": "border-box",
-                "display": "flex",
-                "flexBasis": "auto",
-                "flexDirection": "row",
-                "flexShrink": 0,
-                "justifyContent": "center",
-                "marginBottom": "0px",
-                "marginLeft": "0px",
-                "marginRight": "0px",
-                "marginTop": "0px",
-                "minHeight": "0px",
-                "minWidth": "0px",
-                "msFlexAlign": "baseline",
-                "msFlexDirection": "row",
-                "msFlexNegative": 0,
-                "msFlexPack": "center",
-                "msFlexPreferredSize": "auto",
-                "paddingBottom": "0px",
-                "paddingLeft": "0px",
-                "paddingRight": "0px",
-                "paddingTop": "0px",
-                "position": "relative",
-                "zIndex": 0,
-              }
-            }
-          >
-            <div
-              style={
-                Object {
-                  "WebkitAlignItems": "stretch",
-                  "WebkitBoxAlign": "stretch",
-                  "WebkitBoxDirection": "normal",
-                  "WebkitBoxOrient": "vertical",
-                  "WebkitFlexDirection": "column",
-                  "alignItems": "stretch",
-                  "borderBottomStyle": "solid",
-                  "borderBottomWidth": "0px",
-                  "borderLeftStyle": "solid",
-                  "borderLeftWidth": "0px",
-                  "borderRightStyle": "solid",
-                  "borderRightWidth": "0px",
-                  "borderTopStyle": "solid",
-                  "borderTopWidth": "0px",
-                  "boxSizing": "border-box",
-                  "display": "inline-block",
-                  "flexDirection": "column",
-                  "marginBottom": "0px",
-                  "marginLeft": "0px",
-                  "marginRight": "0px",
-                  "marginTop": "0px",
-                  "minHeight": "0px",
-                  "minWidth": "0px",
-                  "msFlexAlign": "stretch",
-                  "msFlexDirection": "column",
-                  "paddingBottom": "0px",
-                  "paddingLeft": "0px",
-                  "paddingRight": "0px",
-                  "paddingTop": "0px",
-                  "position": "relative",
-                  "zIndex": 0,
-                }
-              }
-            >
-              <div
-                dir="auto"
-                style={
-                  Object {
-                    "borderBottomWidth": "0px",
-                    "borderLeftWidth": "0px",
-                    "borderRightWidth": "0px",
-                    "borderTopWidth": "0px",
-                    "boxSizing": "border-box",
-                    "color": "rgba(85,85,85,1.00)",
-                    "direction": "ltr",
-                    "display": "inline",
-                    "fontFamily": "Helvetica, \\"sans-serif\\"",
-                    "fontSize": "30px",
-                    "fontStyle": "inherit",
-                    "fontVariant": "inherit",
-                    "fontWeight": "inherit",
-                    "lineHeight": "inherit",
-                    "marginBottom": "0px",
-                    "marginLeft": "0px",
-                    "marginRight": "0px",
-                    "marginTop": "0px",
-                    "paddingBottom": "0px",
-                    "paddingLeft": "0px",
-                    "paddingRight": "0px",
-                    "paddingTop": "0px",
-                    "textAlign": "right",
-                    "textDecoration": "none",
-                    "whiteSpace": "pre-wrap",
-                    "wordWrap": "break-word",
-                  }
-                }
-              >
-                23:59:59
-              </div>
-              <div
-                dir="auto"
-                style={
-                  Object {
-                    "borderBottomWidth": "0px",
-                    "borderLeftWidth": "0px",
-                    "borderRightWidth": "0px",
-                    "borderTopWidth": "0px",
-                    "boxSizing": "border-box",
-                    "color": "rgba(85,85,85,1.00)",
-                    "direction": "ltr",
-                    "display": "inline",
-                    "fontFamily": "Helvetica, \\"sans-serif\\"",
-                    "fontSize": "18px",
-                    "fontStyle": "inherit",
-                    "fontVariant": "inherit",
-                    "fontWeight": "inherit",
-                    "lineHeight": "inherit",
-                    "marginBottom": "0px",
-                    "marginLeft": "0px",
-                    "marginRight": "0px",
-                    "marginTop": "0px",
-                    "paddingBottom": "0px",
-                    "paddingLeft": "0px",
-                    "paddingRight": "0px",
-                    "paddingTop": "0px",
-                    "textAlign": "right",
-                    "textDecoration": "none",
-                    "whiteSpace": "pre-wrap",
-                    "wordWrap": "break-word",
-                  }
-                }
-              />
-            </div>
-          </div>
-        </div>
-        <div
-          style={
-            Object {
-              "WebkitAlignItems": "stretch",
-              "WebkitBoxAlign": "stretch",
-              "WebkitBoxDirection": "normal",
-              "WebkitBoxOrient": "vertical",
-              "WebkitFlexBasis": "auto",
-              "WebkitFlexDirection": "column",
-              "WebkitFlexShrink": 0,
-              "alignItems": "stretch",
-              "borderBottomStyle": "solid",
-              "borderBottomWidth": "0px",
-              "borderLeftStyle": "solid",
-              "borderLeftWidth": "0px",
-              "borderRightStyle": "solid",
-              "borderRightWidth": "0px",
-              "borderTopStyle": "solid",
-              "borderTopWidth": "0px",
-              "boxSizing": "border-box",
-              "display": "flex",
-              "flexBasis": "auto",
-              "flexDirection": "column",
-              "flexShrink": 0,
-              "marginBottom": "0px",
-              "marginLeft": "0px",
-              "marginRight": "0px",
-              "marginTop": "0px",
-              "minHeight": "0px",
-              "minWidth": "0px",
-              "msFlexAlign": "stretch",
-              "msFlexDirection": "column",
-              "msFlexNegative": 0,
-              "msFlexPreferredSize": "auto",
-              "paddingBottom": "0px",
-              "paddingLeft": "0px",
-              "paddingRight": "0px",
-              "paddingTop": "0px",
-              "position": "relative",
-              "zIndex": 0,
-            }
-          }
-        >
-          <div
-            style={
-              Object {
-                "WebkitAlignItems": "stretch",
-                "WebkitBoxAlign": "stretch",
-                "WebkitBoxDirection": "normal",
-                "WebkitBoxOrient": "vertical",
-                "WebkitBoxPack": "center",
-                "WebkitFlexBasis": "auto",
-                "WebkitFlexDirection": "column",
-                "WebkitFlexShrink": 0,
-                "WebkitJustifyContent": "center",
-                "alignItems": "stretch",
-                "backgroundColor": "rgba(85,85,85,1.00)",
-                "borderBottomColor": "rgba(0,0,0,0.00)",
-                "borderBottomLeftRadius": "4px",
-                "borderBottomRightRadius": "4px",
-                "borderBottomStyle": "solid",
-                "borderBottomWidth": "0px",
-                "borderLeftColor": "rgba(0,0,0,0.00)",
-                "borderLeftStyle": "solid",
-                "borderLeftWidth": "0px",
-                "borderRightColor": "rgba(0,0,0,0.00)",
-                "borderRightStyle": "solid",
-                "borderRightWidth": "0px",
-                "borderTopColor": "rgba(0,0,0,0.00)",
                 "borderTopLeftRadius": "4px",
                 "borderTopRightRadius": "4px",
                 "borderTopStyle": "solid",
@@ -1453,38 +670,26 @@ exports[`Claim matches snapshot 1`] = `
                 "flexBasis": "auto",
                 "flexDirection": "column",
                 "flexShrink": 0,
-                "justifyContent": "center",
                 "marginBottom": "0px",
                 "marginLeft": "0px",
                 "marginRight": "0px",
-                "marginTop": "30px",
+                "marginTop": "0px",
                 "minHeight": "0px",
-                "minWidth": "64px",
+                "minWidth": "0px",
                 "msFlexAlign": "stretch",
                 "msFlexDirection": "column",
                 "msFlexNegative": 0,
-                "msFlexPack": "center",
                 "msFlexPreferredSize": "auto",
-                "paddingBottom": "10px",
-                "paddingLeft": "10px",
-                "paddingRight": "10px",
-                "paddingTop": "10px",
+                "paddingBottom": "0px",
+                "paddingLeft": "0px",
+                "paddingRight": "0px",
+                "paddingTop": "0px",
                 "position": "relative",
                 "zIndex": 0,
               }
             }
           >
             <div
-              aria-disabled={true}
-              disabled={true}
-              onKeyDown={[Function]}
-              onKeyUp={[Function]}
-              onResponderGrant={[Function]}
-              onResponderMove={[Function]}
-              onResponderTerminate={[Function]}
-              onResponderTerminationRequest={[Function]}
-              onStartShouldSetResponder={[Function]}
-              role="button"
               style={
                 Object {
                   "WebkitAlignItems": "stretch",
@@ -1494,24 +699,25 @@ exports[`Claim matches snapshot 1`] = `
                   "WebkitFlexBasis": "auto",
                   "WebkitFlexDirection": "column",
                   "WebkitFlexShrink": 0,
+                  "WebkitTransform": "scaleY(0.5)",
                   "alignItems": "stretch",
-                  "borderBottomLeftRadius": "4px",
-                  "borderBottomRightRadius": "4px",
+                  "backgroundColor": "rgba(0,0,0,0.26)",
                   "borderBottomStyle": "solid",
                   "borderBottomWidth": "0px",
                   "borderLeftStyle": "solid",
                   "borderLeftWidth": "0px",
                   "borderRightStyle": "solid",
                   "borderRightWidth": "0px",
-                  "borderTopLeftRadius": "4px",
-                  "borderTopRightRadius": "4px",
                   "borderTopStyle": "solid",
                   "borderTopWidth": "0px",
+                  "bottom": "0px",
                   "boxSizing": "border-box",
                   "display": "flex",
                   "flexBasis": "auto",
                   "flexDirection": "column",
                   "flexShrink": 0,
+                  "height": "2px",
+                  "left": "0px",
                   "marginBottom": "0px",
                   "marginLeft": "0px",
                   "marginRight": "0px",
@@ -1522,8 +728,165 @@ exports[`Claim matches snapshot 1`] = `
                   "msFlexDirection": "column",
                   "msFlexNegative": 0,
                   "msFlexPreferredSize": "auto",
-                  "overflowX": "hidden",
-                  "overflowY": "hidden",
+                  "paddingBottom": "0px",
+                  "paddingLeft": "0px",
+                  "paddingRight": "0px",
+                  "paddingTop": "0px",
+                  "position": "absolute",
+                  "right": "0px",
+                  "transform": "scaleY(0.5)",
+                  "zIndex": 0,
+                }
+              }
+            />
+            <input
+              autoCapitalize="sentences"
+              autoComplete="on"
+              autoCorrect="on"
+              className="rn-placeholderTextColor-1qzd3f0"
+              data-focusable={true}
+              dir="auto"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyPress={[Function]}
+              onSelect={[Function]}
+              readOnly={false}
+              spellCheck={true}
+              style={
+                Object {
+                  "MozAppearance": "textfield",
+                  "WebkitAppearance": "none",
+                  "WebkitBoxFlex": 1,
+                  "WebkitFlexGrow": 1,
+                  "backgroundColor": "rgba(0,0,0,0.00)",
+                  "borderBottomColor": "rgba(0,0,0,1.00)",
+                  "borderBottomLeftRadius": "0px",
+                  "borderBottomRightRadius": "0px",
+                  "borderBottomStyle": "solid",
+                  "borderBottomWidth": "0px",
+                  "borderLeftColor": "rgba(0,0,0,1.00)",
+                  "borderLeftStyle": "solid",
+                  "borderLeftWidth": "0px",
+                  "borderRightColor": "rgba(0,0,0,1.00)",
+                  "borderRightStyle": "solid",
+                  "borderRightWidth": "0px",
+                  "borderTopColor": "rgba(0,0,0,1.00)",
+                  "borderTopLeftRadius": "0px",
+                  "borderTopRightRadius": "0px",
+                  "borderTopStyle": "solid",
+                  "borderTopWidth": "0px",
+                  "boxSizing": "border-box",
+                  "color": "rgba(0,0,0,1.00)",
+                  "flexGrow": 1,
+                  "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                  "fontSize": "16px",
+                  "marginBottom": "0px",
+                  "marginLeft": "0px",
+                  "marginRight": "0px",
+                  "marginTop": "0px",
+                  "minHeight": "58px",
+                  "msFlexPositive": 1,
+                  "paddingBottom": "15px",
+                  "paddingLeft": "12px",
+                  "paddingRight": "12px",
+                  "paddingTop": "15px",
+                  "resize": "none",
+                  "textAlign": "left",
+                  "verticalAlign": "middle",
+                  "zIndex": 1,
+                }
+              }
+              type="text"
+            />
+          </div>
+          <div
+            style={
+              Object {
+                "WebkitAlignItems": "center",
+                "WebkitBoxAlign": "center",
+                "WebkitBoxDirection": "normal",
+                "WebkitBoxOrient": "horizontal",
+                "WebkitBoxPack": "justify",
+                "WebkitFlexBasis": "auto",
+                "WebkitFlexDirection": "row",
+                "WebkitFlexShrink": 0,
+                "WebkitJustifyContent": "space-between",
+                "alignItems": "center",
+                "borderBottomStyle": "solid",
+                "borderBottomWidth": "0px",
+                "borderLeftStyle": "solid",
+                "borderLeftWidth": "0px",
+                "borderRightStyle": "solid",
+                "borderRightWidth": "0px",
+                "borderTopStyle": "solid",
+                "borderTopWidth": "0px",
+                "boxSizing": "border-box",
+                "display": "flex",
+                "flexBasis": "auto",
+                "flexDirection": "row",
+                "flexShrink": 0,
+                "justifyContent": "space-between",
+                "marginBottom": "0px",
+                "marginLeft": "0px",
+                "marginRight": "0px",
+                "marginTop": "0px",
+                "minHeight": "0px",
+                "minWidth": "0px",
+                "msFlexAlign": "center",
+                "msFlexDirection": "row",
+                "msFlexNegative": 0,
+                "msFlexPack": "justify",
+                "msFlexPreferredSize": "auto",
+                "paddingBottom": "0px",
+                "paddingLeft": "0px",
+                "paddingRight": "0px",
+                "paddingTop": "0px",
+                "position": "relative",
+                "zIndex": 0,
+              }
+            }
+          >
+            <div
+              style={
+                Object {
+                  "WebkitAlignItems": "center",
+                  "WebkitBoxAlign": "center",
+                  "WebkitBoxDirection": "normal",
+                  "WebkitBoxFlex": 1,
+                  "WebkitBoxOrient": "horizontal",
+                  "WebkitFlexBasis": "0%",
+                  "WebkitFlexDirection": "row",
+                  "WebkitFlexGrow": 1,
+                  "WebkitFlexShrink": 1,
+                  "alignItems": "center",
+                  "borderBottomStyle": "solid",
+                  "borderBottomWidth": "0px",
+                  "borderLeftStyle": "solid",
+                  "borderLeftWidth": "0px",
+                  "borderRightStyle": "solid",
+                  "borderRightWidth": "0px",
+                  "borderTopStyle": "solid",
+                  "borderTopWidth": "0px",
+                  "boxSizing": "border-box",
+                  "cursor": "pointer",
+                  "display": "flex",
+                  "flexBasis": "0%",
+                  "flexDirection": "row",
+                  "flexGrow": 1,
+                  "flexShrink": 1,
+                  "marginBottom": "0px",
+                  "marginLeft": "0px",
+                  "marginRight": "0px",
+                  "marginTop": "0px",
+                  "minHeight": "0px",
+                  "minWidth": "0px",
+                  "msFlexAlign": "center",
+                  "msFlexDirection": "row",
+                  "msFlexNegative": 1,
+                  "msFlexPositive": 1,
+                  "msFlexPreferredSize": "0%",
                   "paddingBottom": "0px",
                   "paddingLeft": "0px",
                   "paddingRight": "0px",
@@ -1539,35 +902,41 @@ exports[`Claim matches snapshot 1`] = `
                     "WebkitAlignItems": "center",
                     "WebkitBoxAlign": "center",
                     "WebkitBoxDirection": "normal",
-                    "WebkitBoxOrient": "horizontal",
+                    "WebkitBoxOrient": "vertical",
                     "WebkitBoxPack": "center",
                     "WebkitFlexBasis": "auto",
-                    "WebkitFlexDirection": "row",
+                    "WebkitFlexDirection": "column",
                     "WebkitFlexShrink": 0,
                     "WebkitJustifyContent": "center",
                     "alignItems": "center",
+                    "backgroundColor": "rgba(255,255,255,1.00)",
+                    "borderBottomLeftRadius": "28px",
+                    "borderBottomRightRadius": "28px",
                     "borderBottomStyle": "solid",
                     "borderBottomWidth": "0px",
                     "borderLeftStyle": "solid",
                     "borderLeftWidth": "0px",
                     "borderRightStyle": "solid",
                     "borderRightWidth": "0px",
+                    "borderTopLeftRadius": "28px",
+                    "borderTopRightRadius": "28px",
                     "borderTopStyle": "solid",
                     "borderTopWidth": "0px",
                     "boxSizing": "border-box",
                     "display": "flex",
                     "flexBasis": "auto",
-                    "flexDirection": "row",
+                    "flexDirection": "column",
                     "flexShrink": 0,
+                    "height": "52px",
                     "justifyContent": "center",
-                    "marginBottom": "0px",
-                    "marginLeft": "0px",
-                    "marginRight": "0px",
-                    "marginTop": "0px",
+                    "marginBottom": "7px",
+                    "marginLeft": "7px",
+                    "marginRight": "7px",
+                    "marginTop": "7px",
                     "minHeight": "0px",
                     "minWidth": "0px",
                     "msFlexAlign": "center",
-                    "msFlexDirection": "row",
+                    "msFlexDirection": "column",
                     "msFlexNegative": 0,
                     "msFlexPack": "center",
                     "msFlexPreferredSize": "auto",
@@ -1576,6 +945,7 @@ exports[`Claim matches snapshot 1`] = `
                     "paddingRight": "0px",
                     "paddingTop": "0px",
                     "position": "relative",
+                    "width": "52px",
                     "zIndex": 0,
                   }
                 }
@@ -1584,77 +954,241 @@ exports[`Claim matches snapshot 1`] = `
                   dir="auto"
                   style={
                     Object {
+                      "backgroundColor": "rgba(0,0,0,0.00)",
                       "borderBottomWidth": "0px",
                       "borderLeftWidth": "0px",
                       "borderRightWidth": "0px",
                       "borderTopWidth": "0px",
                       "boxSizing": "border-box",
-                      "color": "rgba(0,0,0,0.32)",
-                      "direction": "ltr",
+                      "color": "rgba(40,44,52,1.00)",
                       "display": "inline",
-                      "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                      "fontSize": "14px",
-                      "fontStyle": "inherit",
+                      "fontFamily": "MaterialIcons",
+                      "fontSize": "24px",
+                      "fontStyle": "normal",
                       "fontVariant": "inherit",
-                      "fontWeight": "inherit",
-                      "letterSpacing": "1px",
+                      "fontWeight": "normal",
                       "lineHeight": "inherit",
-                      "marginBottom": "9px",
-                      "marginLeft": "16px",
-                      "marginRight": "16px",
-                      "marginTop": "9px",
-                      "maxWidth": "100%",
-                      "overflowX": "hidden",
-                      "overflowY": "hidden",
+                      "marginBottom": "0px",
+                      "marginLeft": "0px",
+                      "marginRight": "0px",
+                      "marginTop": "0px",
                       "paddingBottom": "0px",
                       "paddingLeft": "0px",
                       "paddingRight": "0px",
                       "paddingTop": "0px",
-                      "textAlign": "center",
                       "textDecoration": "none",
-                      "textOverflow": "ellipsis",
-                      "whiteSpace": "nowrap",
+                      "whiteSpace": "pre-wrap",
                       "wordWrap": "break-word",
                     }
                   }
                 >
-                  <span
-                    dir="auto"
-                    style={
-                      Object {
-                        "borderBottomWidth": "0px",
-                        "borderLeftWidth": "0px",
-                        "borderRightWidth": "0px",
-                        "borderTopWidth": "0px",
-                        "boxSizing": "border-box",
-                        "color": "rgba(255,255,255,1.00)",
-                        "direction": "ltr",
-                        "display": "inline",
-                        "fontFamily": "Helvetica, \\"sans-serif\\"",
-                        "fontSize": "18px",
-                        "fontStyle": "inherit",
-                        "fontVariant": "inherit",
-                        "fontWeight": "bold",
-                        "lineHeight": "inherit",
-                        "marginBottom": "0px",
-                        "marginLeft": "0px",
-                        "marginRight": "0px",
-                        "marginTop": "0px",
-                        "paddingBottom": "5px",
-                        "paddingLeft": "5px",
-                        "paddingRight": "5px",
-                        "paddingTop": "5px",
-                        "textAlign": "center",
-                        "textDecoration": "none",
-                        "textTransform": "uppercase",
-                        "whiteSpace": "inherit",
-                        "wordWrap": "break-word",
-                      }
-                    }
-                  >
-                    CLAIM YOUR SHARE - undefined GD
-                  </span>
+                  
                 </div>
+              </div>
+              <div
+                dir="auto"
+                style={
+                  Object {
+                    "borderBottomWidth": "0px",
+                    "borderLeftWidth": "0px",
+                    "borderRightWidth": "0px",
+                    "borderTopWidth": "0px",
+                    "boxSizing": "border-box",
+                    "color": "inherit",
+                    "display": "inline",
+                    "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \\"Segoe UI\\", Roboto, Ubuntu, \\"Helvetica Neue\\", sans-serif",
+                    "fontSize": "14px",
+                    "fontStyle": "inherit",
+                    "fontVariant": "inherit",
+                    "fontWeight": "inherit",
+                    "lineHeight": "inherit",
+                    "marginBottom": "0px",
+                    "marginLeft": "0px",
+                    "marginRight": "0px",
+                    "marginTop": "0px",
+                    "paddingBottom": "0px",
+                    "paddingLeft": "0px",
+                    "paddingRight": "0px",
+                    "paddingTop": "0px",
+                    "textDecoration": "none",
+                    "whiteSpace": "pre-wrap",
+                    "wordWrap": "break-word",
+                  }
+                }
+              >
+                Scan QR Code
+              </div>
+            </div>
+            <div
+              onClick={[Function]}
+              style={
+                Object {
+                  "WebkitAlignItems": "center",
+                  "WebkitBoxAlign": "center",
+                  "WebkitBoxDirection": "normal",
+                  "WebkitBoxFlex": 1,
+                  "WebkitBoxOrient": "horizontal",
+                  "WebkitFlexBasis": "0%",
+                  "WebkitFlexDirection": "row",
+                  "WebkitFlexGrow": 1,
+                  "WebkitFlexShrink": 1,
+                  "alignItems": "center",
+                  "borderBottomStyle": "solid",
+                  "borderBottomWidth": "0px",
+                  "borderLeftStyle": "solid",
+                  "borderLeftWidth": "0px",
+                  "borderRightStyle": "solid",
+                  "borderRightWidth": "0px",
+                  "borderTopStyle": "solid",
+                  "borderTopWidth": "0px",
+                  "boxSizing": "border-box",
+                  "cursor": "pointer",
+                  "display": "flex",
+                  "flexBasis": "0%",
+                  "flexDirection": "row",
+                  "flexGrow": 1,
+                  "flexShrink": 1,
+                  "marginBottom": "0px",
+                  "marginLeft": "0px",
+                  "marginRight": "0px",
+                  "marginTop": "0px",
+                  "minHeight": "0px",
+                  "minWidth": "0px",
+                  "msFlexAlign": "center",
+                  "msFlexDirection": "row",
+                  "msFlexNegative": 1,
+                  "msFlexPositive": 1,
+                  "msFlexPreferredSize": "0%",
+                  "paddingBottom": "0px",
+                  "paddingLeft": "0px",
+                  "paddingRight": "0px",
+                  "paddingTop": "0px",
+                  "position": "relative",
+                  "zIndex": 0,
+                }
+              }
+            >
+              <div
+                style={
+                  Object {
+                    "WebkitAlignItems": "center",
+                    "WebkitBoxAlign": "center",
+                    "WebkitBoxDirection": "normal",
+                    "WebkitBoxOrient": "vertical",
+                    "WebkitBoxPack": "center",
+                    "WebkitFlexBasis": "auto",
+                    "WebkitFlexDirection": "column",
+                    "WebkitFlexShrink": 0,
+                    "WebkitJustifyContent": "center",
+                    "alignItems": "center",
+                    "backgroundColor": "rgba(255,255,255,1.00)",
+                    "borderBottomLeftRadius": "28px",
+                    "borderBottomRightRadius": "28px",
+                    "borderBottomStyle": "solid",
+                    "borderBottomWidth": "0px",
+                    "borderLeftStyle": "solid",
+                    "borderLeftWidth": "0px",
+                    "borderRightStyle": "solid",
+                    "borderRightWidth": "0px",
+                    "borderTopLeftRadius": "28px",
+                    "borderTopRightRadius": "28px",
+                    "borderTopStyle": "solid",
+                    "borderTopWidth": "0px",
+                    "boxSizing": "border-box",
+                    "display": "flex",
+                    "flexBasis": "auto",
+                    "flexDirection": "column",
+                    "flexShrink": 0,
+                    "height": "52px",
+                    "justifyContent": "center",
+                    "marginBottom": "7px",
+                    "marginLeft": "7px",
+                    "marginRight": "7px",
+                    "marginTop": "7px",
+                    "minHeight": "0px",
+                    "minWidth": "0px",
+                    "msFlexAlign": "center",
+                    "msFlexDirection": "column",
+                    "msFlexNegative": 0,
+                    "msFlexPack": "center",
+                    "msFlexPreferredSize": "auto",
+                    "paddingBottom": "0px",
+                    "paddingLeft": "0px",
+                    "paddingRight": "0px",
+                    "paddingTop": "0px",
+                    "position": "relative",
+                    "width": "52px",
+                    "zIndex": 0,
+                  }
+                }
+              >
+                <div
+                  dir="auto"
+                  style={
+                    Object {
+                      "backgroundColor": "rgba(0,0,0,0.00)",
+                      "borderBottomWidth": "0px",
+                      "borderLeftWidth": "0px",
+                      "borderRightWidth": "0px",
+                      "borderTopWidth": "0px",
+                      "boxSizing": "border-box",
+                      "color": "rgba(40,44,52,1.00)",
+                      "display": "inline",
+                      "fontFamily": "MaterialIcons",
+                      "fontSize": "24px",
+                      "fontStyle": "normal",
+                      "fontVariant": "inherit",
+                      "fontWeight": "normal",
+                      "lineHeight": "inherit",
+                      "marginBottom": "0px",
+                      "marginLeft": "0px",
+                      "marginRight": "0px",
+                      "marginTop": "0px",
+                      "paddingBottom": "0px",
+                      "paddingLeft": "0px",
+                      "paddingRight": "0px",
+                      "paddingTop": "0px",
+                      "textDecoration": "none",
+                      "whiteSpace": "pre-wrap",
+                      "wordWrap": "break-word",
+                    }
+                  }
+                >
+                  
+                </div>
+              </div>
+              <div
+                dir="auto"
+                style={
+                  Object {
+                    "borderBottomWidth": "0px",
+                    "borderLeftWidth": "0px",
+                    "borderRightWidth": "0px",
+                    "borderTopWidth": "0px",
+                    "boxSizing": "border-box",
+                    "color": "inherit",
+                    "display": "inline",
+                    "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \\"Segoe UI\\", Roboto, Ubuntu, \\"Helvetica Neue\\", sans-serif",
+                    "fontSize": "14px",
+                    "fontStyle": "inherit",
+                    "fontVariant": "inherit",
+                    "fontWeight": "inherit",
+                    "lineHeight": "inherit",
+                    "marginBottom": "0px",
+                    "marginLeft": "0px",
+                    "marginRight": "0px",
+                    "marginTop": "0px",
+                    "paddingBottom": "0px",
+                    "paddingLeft": "0px",
+                    "paddingRight": "0px",
+                    "paddingTop": "0px",
+                    "textDecoration": "none",
+                    "whiteSpace": "pre-wrap",
+                    "wordWrap": "break-word",
+                  }
+                }
+              >
+                Generate Link
               </div>
             </div>
           </div>

@@ -1,5 +1,5 @@
 // @flow
-import React, { Component } from 'react'
+import React, { Component, useState } from 'react'
 import { Style } from 'react-native'
 import { Button } from 'react-native-paper'
 import { createNavigator, SwitchRouter, SceneView, Route } from '@react-navigation/core'
@@ -10,12 +10,13 @@ import { CustomButton, type ButtonProps } from '../common'
 /**
  * Component wrapping the stack navigator.
  * It holds the pop, push, gotToRoot and goToParent navigation logic and inserts on top the NavBar component.
+ * Params are passed as initial state for next screen.
  * This navigation actions are being passed via navigationConfig to children components
  */
 class AppView extends Component<{ descriptors: any, navigation: any, navigationConfig: any, screenProps: any }, any> {
-  stack = []
   state = {
-    screenStates: {}
+    stack: [],
+    currentState: {}
   }
   /**
    * Pops from stack
@@ -24,10 +25,12 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
    */
   pop = () => {
     const { navigation } = this.props
-
-    const nextRoute = this.stack.pop()
+    const nextRoute = this.state.stack.pop()
     if (nextRoute) {
-      navigation.navigate(nextRoute)
+      this.setState(state => {
+        return { currentState: nextRoute.state }
+      })
+      navigation.navigate(nextRoute.route)
     } else if (navigation.state.index !== 0) {
       this.goToRoot()
     } else {
@@ -41,9 +44,20 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
    */
   push = (nextRoute, params) => {
     const { navigation } = this.props
-    const activeKey = navigation.state.routes[navigation.state.index].key
-    this.stack.push(activeKey)
-    navigation.navigate(nextRoute, params)
+    const route = navigation.state.routes[navigation.state.index].key
+    this.setState((state, props) => {
+      return {
+        stack: [
+          ...state.stack,
+          {
+            route,
+            state: state.currentState
+          }
+        ],
+        currentState: params
+      }
+    })
+    navigation.navigate(nextRoute)
   }
 
   /**
@@ -51,6 +65,10 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
    */
   goToRoot = () => {
     const { navigation } = this.props
+    this.setState({
+      stack: [],
+      currentState: {}
+    })
     navigation.navigate(navigation.state.routes[0])
   }
 
@@ -61,15 +79,18 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
     const { navigation, navigationConfig } = this.props
 
     if (navigationConfig.backRouteName) {
+      this.setState({ currentState: {}, stack: [] })
       navigation.navigate(navigationConfig.backRouteName)
     }
   }
 
-  setScreenState = (screen, data) => {
-    this.setState({ [screen]: data })
+  /**
+   * Screen states are being stored by this component
+   * This way it can be kept between screens
+   */
+  setScreenState = data => {
+    this.setState(state => ({ currentState: { ...state.currentState, ...data } }))
   }
-
-  getScreenState = screen => this.state.screenStates[screen]
 
   render() {
     const { descriptors, navigation, navigationConfig, screenProps } = this.props
@@ -89,8 +110,8 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
             goToRoot: this.goToRoot,
             goToParent: this.goToParent,
             pop: this.pop,
-            screenState: this.getScreenState(activeKey),
-            setScreenState: data => this.setScreenState(activeKey, data)
+            screenState: this.state.currentState,
+            setScreenState: this.setScreenState
           }}
         />
       </React.Fragment>
@@ -139,7 +160,7 @@ PushButton.defaultProps = {
 type BackButtonProps = {
   ...ButtonProps,
   routeName?: Route,
-  screenProps: {}
+  screenProps: { goToParent: () => void }
 }
 
 /**
@@ -161,4 +182,44 @@ export const BackButton = (props: BackButtonProps) => {
       {children}
     </Button>
   )
+}
+
+type NextButtonProps = {
+  ...ButtonProps,
+  values: {},
+  screenProps: { push: (routeName: string, params: any) => void },
+  nextRoutes: [string]
+}
+/**
+ * NextButton
+ * This button gets the nextRoutes param and creates a Push to the next screen and passes the rest of the array which are
+ * next screens for further Components. Is meant to be used inside a stackNavigator
+ * @param {any} props
+ */
+export const NextButton = ({ disabled, values, screenProps, nextRoutes: nextRoutesParam }: NextButtonProps) => {
+  const [next, ...nextRoutes] = nextRoutesParam ? nextRoutesParam : []
+  return (
+    <PushButton
+      mode="contained"
+      disabled={disabled || !next}
+      screenProps={{ ...screenProps }}
+      params={{ ...values, nextRoutes }}
+      routeName={next}
+      style={{ flex: 2 }}
+    >
+      Next
+    </PushButton>
+  )
+}
+
+type UseScreenProps = { setScreenState?: {}, screenState?: {} }
+/**
+ * Hook to get screen state from stack or from useState hook if there is no setScreenState function
+ */
+export const useScreenState = ({ setScreenState, screenState }: UseScreenProps): any => {
+  if (setScreenState) {
+    return [screenState || {}, setScreenState]
+  }
+  const [state, setState] = useState<any>()
+  return [state || {}, setState]
 }

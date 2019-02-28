@@ -8,6 +8,7 @@ import { generateCode } from '../../lib/share'
 import { Section, Wrapper } from '../common'
 import { receiveStyles as styles } from './styles'
 import ShareQR from './ShareQR'
+import { useScreenState } from '../appNavigation/stackNavigation'
 
 export type ReceiveProps = {
   screenProps: any,
@@ -18,7 +19,8 @@ const RECEIVE_TITLE = 'Receive GD'
 
 const ReceiveAmount = ({ screenProps, navigation }: ReceiveProps) => {
   const { account, networkId } = goodWallet
-  const amount = navigation.getParam('amount', 0)
+  const [screenState, setScreenState] = useScreenState(screenProps)
+  const { amount } = screenState
 
   const code = useMemo(() => generateCode(account, networkId, amount), [account, networkId, amount])
 

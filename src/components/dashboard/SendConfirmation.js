@@ -1,14 +1,12 @@
 // @flow
-import React, { useMemo, useCallback, useState } from 'react'
+import React, { useCallback } from 'react'
 import { Clipboard, StyleSheet, Text, View } from 'react-native'
 import QRCode from 'qrcode.react'
 
-import goodWallet from '../../lib/wallet/GoodWallet'
 import logger from '../../lib/logger/pino-logger'
-import { generateCode } from '../../lib/share'
-import { Section, Wrapper, CustomButton, TopBar, Address } from '../common'
+import { Section, Wrapper, CustomButton, TopBar } from '../common'
 import { fontStyle } from '../common/styles'
-import { normalize } from 'react-native-elements'
+import { useScreenState } from '../appNavigation/stackNavigation'
 
 export type ReceiveProps = {
   screenProps: any,
@@ -19,42 +17,34 @@ const SEND_TITLE = 'Send GD'
 const log = logger.child({ from: SEND_TITLE })
 
 const SendConfirmation = ({ screenProps, navigation }: ReceiveProps) => {
-  const { account, networkId } = goodWallet
-  const amount = navigation.getParam('amount', 0)
-  const [url, setUrl] = useState()
+  const [screenState] = useScreenState(screenProps)
 
-  const code = useMemo(() => generateCode(account, networkId, amount), [account, networkId, amount])
+  const { amount, url } = screenState
+
   const copyUrl = useCallback(() => {
     Clipboard.setString(url)
     log.info('Account address copied', { url })
   }, [url])
 
-  const share = async () => {
-    log.debug('goodWallet', goodWallet)
-    const url = await goodWallet.generateLink(amount)
-    setUrl(url)
-  }
-
   return (
     <Wrapper>
       <TopBar hideBalance />
       <Section style={styles.section}>
-        <Section.Row style={[{}]}>
-          <View style={styles.qrCode}>
-            <QRCode value={code} />
+        <View style={styles.sectionTop}>
+          <Section.Row style={[{}]}>
+            <View style={styles.qrCode}>
+              <QRCode value={url} />
+            </View>
+          </Section.Row>
+          <View style={styles.addressSection}>
+            <Text style={[styles.centered, styles.url]}>{url}</Text>
           </View>
-        </Section.Row>
-        <View style={styles.addressSection}>
-          <Section.Title>
-            <Address value={url} style={styles.centered} />
-          </Section.Title>
-          <Section.Text style={styles.secondaryText} onPress={copyUrl}>
-            Copy address to clipboard
-          </Section.Text>
         </View>
-        <CustomButton onPress={share} type="contained">
-          Share Link
-        </CustomButton>
+        <View style={styles.sectionBottom}>
+          <CustomButton onPress={copyUrl} mode="contained">
+            Share Link
+          </CustomButton>
+        </View>
       </Section>
     </Wrapper>
   )
@@ -63,13 +53,18 @@ const SendConfirmation = ({ screenProps, navigation }: ReceiveProps) => {
 const styles = StyleSheet.create({
   section: {
     flex: 1,
-    //justifyContent: 'space-between',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    alignContent: 'stretch'
+  },
+  sectionTop: {
+    flex: 2,
+    flexDirection: 'column',
+    maxWidth: '100%',
     alignItems: 'center'
   },
-  headline: {
-    ...fontStyle,
-    textTransform: 'uppercase',
-    marginBottom: '1rem'
+  sectionBottom: {
+    width: '100%'
   },
   qrCode: {
     marginTop: '2rem',
@@ -79,35 +74,18 @@ const styles = StyleSheet.create({
     borderRadius: '4px'
   },
   addressSection: {
-    marginBottom: '1rem'
+    marginBottom: '1rem',
+    marginTop: '1rem',
+    maxWidth: '100%'
   },
-  address: {
-    margin: '0.5rem'
-  },
-  secondaryText: {
-    margin: '1rem',
-    color: '#A2A2A2',
-    textTransform: 'uppercase'
-  },
-  buttonGroup: {
-    width: '100%',
-    flexDirection: 'row',
-    marginTop: '1rem'
-  },
-  inputField: {
-    width: '100%',
-    flexDirection: 'column',
-    justifyContent: 'space-between'
-  },
-  amountInput: {
-    backgroundColor: 'transparent'
-  },
-  amountLabel: {
+  url: {
     ...fontStyle,
-    fontSize: normalize(32)
-  },
-  amountSymbol: {
-    fontSize: normalize(12)
+    whiteSpace: 'nowrap',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    maxWidth: '100%',
+    paddingLeft: '1rem',
+    paddingRight: '1rem'
   }
 })
 

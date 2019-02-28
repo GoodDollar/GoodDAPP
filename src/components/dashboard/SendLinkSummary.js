@@ -34,9 +34,10 @@ const SendLinkSummary = (props: AmountProps) => {
       <Section style={styles.section}>
         <Section.Row style={styles.sectionRow}>
           <Section.Title style={styles.headline}>Summery</Section.Title>
-          <Section.Row>
+          <View style={styles.sectionTo}>
             <Avatar size={90} />
-          </Section.Row>
+            {to && <Section.Text style={styles.toText}>{`To: ${to}`}</Section.Text>}
+          </View>
           <Section.Text>
             {`Here's `}
             <BigNumber number={amount} unit="GD" />
@@ -60,6 +61,13 @@ const styles = {
   ...receiveStyles,
   headline: {
     textTransform: 'uppercase'
+  },
+  sectionTo: {
+    alignItems: 'center'
+  },
+  toText: {
+    marginTop: '1rem',
+    marginBottom: '1rem'
   }
 }
 

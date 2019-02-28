@@ -1,6 +1,7 @@
 const Config = {
     "env":"development",
     "serverUrl": process.env.REACT_APP_SERVER_URL || "http://localhost:3003",
+    "publicUrl": process.env.REACT_APP_PUBLIC_URL || "http://localhost:3000",
     "infuraKey": process.env.REACT_APP_INFURA_KEY,
     "networkId": process.env.REACT_APP_NETWORK_ID || 42,
     "recaptcha": "6LeOaJIUAAAAAKB3DlmijMPfX2CBYsve3T2MwlTd",

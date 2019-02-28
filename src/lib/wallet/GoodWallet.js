@@ -161,14 +161,17 @@ export class GoodWallet {
     const encodedABI = await this.oneTimePaymentLinksContract.methods
       .deposit(this.account, generatedString, amount)
       .encodeABI()
-
     const gas = await this.tokenContract.methods
       .transferAndCall(this.oneTimePaymentLinksContract.defaultAccount, amount, encodedABI)
       .estimateGas()
       .catch(err => {
         log.error(err)
       })
-    log.debug({ amount, gas, gasPrice })
+
+    const balancePre = await this.tokenContract.methods
+      .balanceOf(this.oneTimePaymentLinksContract.defaultAccount)
+      .call()
+    log.debug({ amount, gas, gasPrice, balancePre, onePaymentAccount: this.oneTimePaymentLinksContract.defaultAccount })
     const tx = await this.tokenContract.methods
       .transferAndCall(this.oneTimePaymentLinksContract.defaultAccount, amount, encodedABI)
       .send({ gas, gasPrice })
@@ -176,8 +179,9 @@ export class GoodWallet {
       .catch(err => {
         log.error({ err })
       })
-    log.debug({ tx })
-    return generatedString
+    const balancePost = await this.tokenContract.methods.balanceOf(this.account).call()
+    log.debug({ tx, balancePost, onePaymentAccount: this.oneTimePaymentLinksContract.defaultAccount })
+    return `${Config.publicUrl}/AppNavigation/Dashboard/ReceiveLink/${generatedString}`
   }
 }
 export default new GoodWallet()

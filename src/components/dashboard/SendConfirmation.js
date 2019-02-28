@@ -19,12 +19,12 @@ const log = logger.child({ from: SEND_TITLE })
 const SendConfirmation = ({ screenProps, navigation }: ReceiveProps) => {
   const [screenState] = useScreenState(screenProps)
 
-  const { amount, url } = screenState
+  const { amount, sendLink } = screenState
 
-  const copyUrl = useCallback(() => {
-    Clipboard.setString(url)
-    log.info('Account address copied', { url })
-  }, [url])
+  const copySendLink = useCallback(() => {
+    Clipboard.setString(sendLink)
+    log.info('Account address copied', { sendLink })
+  }, [sendLink])
 
   return (
     <Wrapper>
@@ -33,15 +33,15 @@ const SendConfirmation = ({ screenProps, navigation }: ReceiveProps) => {
         <View style={styles.sectionTop}>
           <Section.Row style={[{}]}>
             <View style={styles.qrCode}>
-              <QRCode value={url} />
+              <QRCode value={sendLink} />
             </View>
           </Section.Row>
           <View style={styles.addressSection}>
-            <Text style={[styles.centered, styles.url]}>{url}</Text>
+            <Text style={[styles.centered, styles.url]}>{sendLink}</Text>
           </View>
         </View>
         <View style={styles.sectionBottom}>
-          <CustomButton onPress={copyUrl} mode="contained">
+          <CustomButton onPress={copySendLink} mode="contained">
             Share Link
           </CustomButton>
         </View>

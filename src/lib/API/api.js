@@ -100,6 +100,10 @@ class API {
   async verifyTopWallet(): Promise<$AxiosXHR<any>> {
     return this.client.post('/verify/topwallet')
   }
+
+  async sendLinkByEmail(to: string, sendLink: string): Promise<$AxiosXHR<any>> {
+    return this.client.post('/send/linkemail', { to, sendLink })
+  }
 }
 
 export default new API()

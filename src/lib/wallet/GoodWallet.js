@@ -158,9 +158,9 @@ export class GoodWallet {
   }
 
   async generateLink(amount: number) {
-    if (!(await this.canSend(amount))) {
-      throw new Error(`Amount is bigger than balance`)
-    }
+    // if (!(await this.canSend(amount))) {
+    //   throw new Error(`Amount is bigger than balance`)
+    // }
     const generatedString = this.wallet.utils.sha3(this.wallet.utils.randomHex(10))
     const gasPrice = await this.gasPrice
     log.debug('this.oneTimePaymentLinksContract', this.oneTimePaymentLinksContract)

@@ -8,6 +8,7 @@ import { Section, Wrapper, Avatar, BigNumber, CustomButton, CustomDialog } from 
 import { BackButton, PushButton, useScreenState } from '../appNavigation/stackNavigation'
 import { receiveStyles } from './styles'
 import TopBar from '../common/TopBar'
+import API from '../../lib/API/api'
 
 export type AmountProps = {
   screenProps: any,
@@ -31,8 +32,9 @@ const SendLinkSummary = (props: AmountProps) => {
   const generateLink = async () => {
     setLoading(true)
     try {
-      const url = await goodWallet.generateLink(amount)
-      screenProps.push('SendConfirmation', { url })
+      const sendLink = await goodWallet.generateLink(amount)
+      await API.sendLinkByEmail(to, sendLink)
+      screenProps.push('SendConfirmation', { sendLink })
     } catch (e) {
       setDialogData({ visible: true, title: 'Error', message: e.message })
       setLoading(false)

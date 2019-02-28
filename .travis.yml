@@ -11,5 +11,5 @@ env:
     - MNEMONIC="choice congress hobby buddy dutch busy army eager empty solution start grunt"
 
 script:
-  - npm run build
+#  - npm run build
   - npm run coverage

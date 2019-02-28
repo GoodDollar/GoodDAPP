@@ -10,6 +10,7 @@ import { CustomButton, type ButtonProps } from '../common'
 /**
  * Component wrapping the stack navigator.
  * It holds the pop, push, gotToRoot and goToParent navigation logic and inserts on top the NavBar component.
+ * Params are passed as initial state for next screen.
  * This navigation actions are being passed via navigationConfig to children components
  */
 class AppView extends Component<{ descriptors: any, navigation: any, navigationConfig: any, screenProps: any }, any> {
@@ -83,6 +84,10 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
     }
   }
 
+  /**
+   * Screen states are being stored by this component
+   * This way it can be kept between screens
+   */
   setScreenState = data => {
     this.setState(state => ({ currentState: { ...state.currentState, ...data } }))
   }
@@ -155,7 +160,7 @@ PushButton.defaultProps = {
 type BackButtonProps = {
   ...ButtonProps,
   routeName?: Route,
-  screenProps: {}
+  screenProps: { goToParent: () => void }
 }
 
 /**
@@ -179,11 +184,20 @@ export const BackButton = (props: BackButtonProps) => {
   )
 }
 
-export const NextButton = ({ disabled, values, screenProps, nextRoutes: nextRoutesParam }) => {
-  //const { nextRoutes: nextRoutesParam, ...params } = navigation.state.params || {}
-  console.log({ nextRoutesParam })
+type NextButtonProps = {
+  ...ButtonProps,
+  values: {},
+  screenProps: { push: (routeName: string, params: any) => void },
+  nextRoutes: [string]
+}
+/**
+ * NextButton
+ * This button gets the nextRoutes param and creates a Push to the next screen and passes the rest of the array which are
+ * next screens for further Components. Is meant to be used inside a stackNavigator
+ * @param {any} props
+ */
+export const NextButton = ({ disabled, values, screenProps, nextRoutes: nextRoutesParam }: NextButtonProps) => {
   const [next, ...nextRoutes] = nextRoutesParam ? nextRoutesParam : []
-  console.log({ next, nextRoutes })
   return (
     <PushButton
       mode="contained"
@@ -199,7 +213,9 @@ export const NextButton = ({ disabled, values, screenProps, nextRoutes: nextRout
 }
 
 type UseScreenProps = { setScreenState?: {}, screenState?: {} }
-
+/**
+ * Hook to get screen state from stack or from useState hook if there is no setScreenState function
+ */
 export const useScreenState = ({ setScreenState, screenState }: UseScreenProps): any => {
   if (setScreenState) {
     return [screenState || {}, setScreenState]

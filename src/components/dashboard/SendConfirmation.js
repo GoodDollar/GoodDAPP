@@ -9,6 +9,7 @@ import { generateCode } from '../../lib/share'
 import { Section, Wrapper, CustomButton, TopBar, Address } from '../common'
 import { fontStyle } from '../common/styles'
 import { normalize } from 'react-native-elements'
+import { useScreenState } from '../appNavigation/stackNavigation'
 
 export type ReceiveProps = {
   screenProps: any,
@@ -20,7 +21,8 @@ const log = logger.child({ from: SEND_TITLE })
 
 const SendConfirmation = ({ screenProps, navigation }: ReceiveProps) => {
   const { account, networkId } = goodWallet
-  const amount = navigation.getParam('amount', 0)
+  const [screenState, setScreenState] = useScreenState(screenProps)
+  const { amount } = screenState
   const [url, setUrl] = useState()
 
   const code = useMemo(() => generateCode(account, networkId, amount), [account, networkId, amount])

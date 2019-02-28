@@ -11,6 +11,13 @@ const SEND_TITLE = 'Send GD'
 const log = logger.child({ from: SEND_TITLE })
 
 const ScanQRButton = props => <IconButton name="link" text="Scan QR Code" />
+
+/**
+ * This button navigates to Amount screen passing nextRoutes param
+ * This param is used to navigate with NextButton which will handle push to next screen
+ * It also passes to param as initial state for Amount component
+ * @param {screenProps} props passed by navigation
+ */
 const GenerateLinkButton = ({ screenProps, to }) => (
   <IconButton
     name="code"

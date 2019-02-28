@@ -30,11 +30,32 @@ class API {
     log.info('initializing api...')
     AsyncStorage.getItem('GoodDAPP_jwt').then(async jwt => {
       this.jwt = jwt
-      this.client = await axios.create({
+      let instance = axios.create({
         baseURL: Config.serverUrl,
         timeout: 30000,
         headers: { Authorization: `Bearer ${this.jwt || ''}` }
       })
+      instance.interceptors.request.use(
+        req => {
+          return req
+        },
+        error => {
+          // Do something with response error
+          log.error('axios req error', { error })
+          return Promise.reject(error)
+        }
+      )
+      instance.interceptors.response.use(
+        response => {
+          return response
+        },
+        error => {
+          // Do something with response error
+          log.error('axios response error', { error })
+          return Promise.reject(error)
+        }
+      )
+      this.client = await instance
       log.info('API ready', this.jwt)
     })
   }
@@ -76,7 +97,7 @@ class API {
     return this.client.post('/verify/mobile', { verificationData })
   }
 
-  async verifyTopWallet(verificationData: any): Promise<$AxiosXHR<any>> {
+  async verifyTopWallet(): Promise<$AxiosXHR<any>> {
     return this.client.post('/verify/topwallet')
   }
 }

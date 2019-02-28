@@ -33,7 +33,7 @@ const SendConfirmation = ({ screenProps, navigation }: ReceiveProps) => {
         <View style={styles.sectionTop}>
           <Section.Row style={[{}]}>
             <View style={styles.qrCode}>
-              <QRCode value={sendLink} />
+              <QRCode value={sendLink || ''} />
             </View>
           </Section.Row>
           <View style={styles.addressSection}>

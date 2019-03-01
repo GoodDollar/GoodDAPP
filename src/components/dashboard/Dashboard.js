@@ -4,19 +4,19 @@ import { StyleSheet, Text, View } from 'react-native'
 import { normalize } from 'react-native-elements'
 
 import { AccountConsumer } from '../appNavigation/AccountProvider'
-import TabsView from '../appNavigation/TabsView'
 import { createStackNavigator, PushButton } from '../appNavigation/stackNavigation'
+import TabsView from '../appNavigation/TabsView'
+import { Avatar, BigNumber, Section, Wrapper } from '../common'
+import Amount from './Amount'
 import Claim from './Claim'
 import FaceRecognition from './FaceRecognition'
+import Reason from './Reason'
 import Receive from './Receive'
-import Amount from './Amount'
 import ReceiveAmount from './ReceiveAmount'
+import ScanQR from './ScanQR'
 import Send from './Send'
 import SendConfirmation from './SendConfirmation'
-import Reason from './Reason'
 import SendLinkSummary from './SendLinkSummary'
-
-import { Wrapper, Section, Avatar, BigNumber } from '../common'
 
 export type DashboardProps = {
   screenProps: any,
@@ -109,5 +109,6 @@ export default createStackNavigator({
   Send,
   SendLinkSummary,
   SendConfirmation,
-  FaceRecognition
+  FaceRecognition,
+  ScanQR
 })

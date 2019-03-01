@@ -3,12 +3,13 @@ import React, { useCallback, useState } from 'react'
 import { Text, View } from 'react-native'
 import { TextInput } from 'react-native-paper'
 import goodWallet from '../../lib/wallet/GoodWallet'
-
+import UserStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import { Section, Wrapper, Avatar, BigNumber, CustomButton, CustomDialog } from '../common'
 import { BackButton, PushButton, useScreenState } from '../appNavigation/stackNavigation'
 import { receiveStyles } from './styles'
 import TopBar from '../common/TopBar'
 import API from '../../lib/API/api'
+import isEmail from 'validator/lib/isEmail'
 
 export type AmountProps = {
   screenProps: any,
@@ -32,8 +33,34 @@ const SendLinkSummary = (props: AmountProps) => {
   const generateLink = async () => {
     setLoading(true)
     try {
-      const sendLink = await goodWallet.generateLink(amount)
-      await API.sendLinkByEmail(to, sendLink)
+      // Generate link deposit
+      const { sendLink, receipt } = await goodWallet.generateLink(amount)
+
+      // Save transaction
+      const transactionEvent: TransactionEvent = {
+        id: receipt.blockHash,
+        date: new Date().toString(),
+        type: 'send',
+        data: {
+          to,
+          reason,
+          amount,
+          sendLink,
+          receipt
+        }
+      }
+      await UserStorage.updateFeedEvent(transactionEvent)
+
+      // Cheking events are being stored
+      const events = await UserStorage.feed.get('2019-03-01').decrypt()
+      console.log({ events, transactionEvent })
+
+      // Send email if to is email
+      if (to && isEmail(to)) {
+        await API.sendLinkByEmail(to, sendLink)
+      }
+
+      // Show confirmation
       screenProps.push('SendConfirmation', { sendLink })
     } catch (e) {
       setDialogData({ visible: true, title: 'Error', message: e.message })

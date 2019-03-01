@@ -119,13 +119,7 @@ export class GoodWallet {
   }
 
   async balanceOf() {
-    return this.tokenContract.methods
-      .balanceOf(this.account)
-      .call()
-      .then(b => {
-        b = this.wallet.utils.fromWei(b, 'ether')
-        return b
-      })
+    return this.tokenContract.methods.balanceOf(this.account).call()
   }
 
   signMessage() {}
@@ -158,9 +152,9 @@ export class GoodWallet {
   }
 
   async generateLink(amount: number) {
-    // if (!(await this.canSend(amount))) {
-    //   throw new Error(`Amount is bigger than balance`)
-    // }
+    if (!(await this.canSend(amount))) {
+      throw new Error(`Amount is bigger than balance`)
+    }
     const generatedString = this.wallet.utils.sha3(this.wallet.utils.randomHex(10))
     const gasPrice = await this.gasPrice
     log.debug('this.oneTimePaymentLinksContract', this.oneTimePaymentLinksContract)
@@ -191,7 +185,7 @@ export class GoodWallet {
       })
     const balancePost = await this.tokenContract.methods.balanceOf(this.account).call()
     log.debug({ tx, balancePost, onePaymentAccount: this.oneTimePaymentLinksContract.defaultAccount })
-    return `${Config.publicUrl}/AppNavigation/Dashboard/ReceiveLink/${generatedString}`
+    return { sendLink: `${Config.publicUrl}/AppNavigation/Dashboard/ReceiveLink/${generatedString}`, receipt: tx }
   }
 }
 export default new GoodWallet()

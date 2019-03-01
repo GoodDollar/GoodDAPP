@@ -1,15 +1,25 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { StyleSheet } from 'react-native'
 import QrReader from 'react-qr-reader'
 
 import { NETWORK_ID } from '../../lib/constants/network'
 import logger from '../../lib/logger/pino-logger'
 import { readCode } from '../../lib/share'
-import { Section, TopBar, Wrapper } from '../common'
+import { CustomDialog, Section, TopBar, Wrapper } from '../common'
+
+const QR_DEFAULT_DELAY = 300
 
 const log = logger.child({ from: 'ScanQR.web' })
 
 const ScanQR = ({ screenProps }) => {
+  const [qrDelay, setQRDelay] = useState(QR_DEFAULT_DELAY)
+  const [dialogData, setDialogData] = useState({ visible: false })
+
+  const dismissDialog = () => {
+    setDialogData({ visible: false })
+    setQRDelay(QR_DEFAULT_DELAY)
+  }
+
   const handleScan = async data => {
     if (data) {
       try {
@@ -34,6 +44,8 @@ const ScanQR = ({ screenProps }) => {
         }
       } catch (e) {
         log.error({ e })
+        setQRDelay(false)
+        setDialogData({ visible: true, title: 'Error', message: e.message })
       }
     }
   }
@@ -47,9 +59,10 @@ const ScanQR = ({ screenProps }) => {
       <TopBar hideBalance={true} />
       <Section style={styles.bottomSection}>
         <Section.Row>
-          <QrReader delay={300} onError={handleError} onScan={handleScan} style={{ width: '100%' }} />
+          <QrReader delay={qrDelay} onError={handleError} onScan={handleScan} style={{ width: '100%' }} />
         </Section.Row>
       </Section>
+      <CustomDialog onDismiss={dismissDialog} {...dialogData} />
     </Wrapper>
   )
 }

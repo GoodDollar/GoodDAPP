@@ -64,6 +64,7 @@
     "react-native-elements": "^0.19.1",
     "react-native-otp": "^1.0.0",
     "react-native-paper": "^2.11.0",
+    "react-native-qrcode-scanner": "^1.1.2",
     "react-native-recaptcha-v3": "0.0.16",
     "react-native-vector-icons": "^6.2.0",
     "react-native-web": "^0.9.x",

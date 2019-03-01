@@ -17,6 +17,7 @@ import ScanQR from './ScanQR'
 import Send from './Send'
 import SendConfirmation from './SendConfirmation'
 import SendLinkSummary from './SendLinkSummary'
+import SendQRSummary from './SendQRSummary'
 
 export type DashboardProps = {
   screenProps: any,
@@ -110,5 +111,6 @@ export default createStackNavigator({
   SendLinkSummary,
   SendConfirmation,
   FaceRecognition,
-  ScanQR
+  ScanQR,
+  SendQRSummary
 })

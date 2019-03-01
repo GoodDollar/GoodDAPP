@@ -27,7 +27,11 @@ const ScanQR = ({ screenProps }) => {
           throw new Error('Invalid network. Switch to Fuse.')
         }
 
-        screenProps.push('SendLinkSummary', { to: address, amount })
+        if (!amount) {
+          screenProps.push('Amount', { to: address, nextRoutes: ['Reason', 'SendQRSummary'] })
+        } else {
+          screenProps.push('SendQRSummary', { to: address, amount, reason: 'From QR with Amount' })
+        }
       } catch (e) {
         log.error({ e })
       }

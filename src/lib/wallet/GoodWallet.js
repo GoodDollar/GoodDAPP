@@ -92,7 +92,7 @@ export class GoodWallet {
       const gas = await this.claimContract.methods.claimTokens().estimateGas()
       return this.claimContract.methods.claimTokens().send({
         gas,
-        gasPrice: await this.gasPrice
+        gasPrice: await this.wallet.eth.getGasPrice()
       })
     } catch (e) {
       log.info(e)
@@ -118,13 +118,7 @@ export class GoodWallet {
   }
 
   async balanceOf() {
-    return this.tokenContract.methods
-      .balanceOf(this.account)
-      .call()
-      .then(b => {
-        b = this.wallet.utils.fromWei(b, 'ether')
-        return b
-      })
+    return this.tokenContract.methods.balanceOf(this.account).call()
   }
 
   signMessage() {}

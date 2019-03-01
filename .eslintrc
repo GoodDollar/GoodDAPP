@@ -15,7 +15,8 @@
     "flowtype",
     "import",
     "prettier",
-    "react"
+    "react",
+    "react-hooks"
   ],
   "settings": {
     "react": {
@@ -41,6 +42,7 @@
     "prettier/prettier": "error",
     "react/prop-types": "off",
     "react/display-name": "off",
+    "react-hooks/rules-of-hooks": "warn",
     "dependencies/no-cycles": "error",
     "dependencies/no-unresolved": [
       "warn",

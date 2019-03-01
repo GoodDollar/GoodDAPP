@@ -133,30 +133,6 @@ describe('UserStorage', () => {
     expect(events).toEqual([event])
   })
 
-  it('add TransactionEvent event', async () => {
-    const date = '2019-01-01'
-    const transactionEvent: TransactionEvent = {
-      id: 'xyz32',
-      date: new Date(date).toString(),
-      type: 'send',
-      data: {
-        to: 'Mike',
-        reason: 'For the pizza',
-        amount: 3,
-        sendLink: 'http://fake.link/string',
-        receipt: { foo: 'foo' }
-      }
-    }
-    const gunRes = await userStorage.updateFeedEvent(transactionEvent)
-    const index = await userStorage.feed
-      .get('index')
-      .once()
-      .then()
-    const events = await userStorage.feed.get(date).decrypt()
-    expect(index).toHaveProperty(date)
-    expect(events).toEqual([transactionEvent])
-  })
-
   it('add second event', async () => {
     const gunRes = await userStorage.updateFeedEvent(event2)
     const index = await userStorage.feed
@@ -215,5 +191,29 @@ describe('UserStorage', () => {
   it('resets cursor and get events single day page', async () => {
     const gunRes = await userStorage.getFeedPage(1, true)
     expect(gunRes.length).toEqual(1)
+  })
+
+  it('add TransactionEvent event', async () => {
+    const date = '2020-01-01'
+    const transactionEvent: TransactionEvent = {
+      id: 'xyz32',
+      date: new Date(date).toString(),
+      type: 'send',
+      data: {
+        to: 'Mike',
+        reason: 'For the pizza',
+        amount: 3,
+        sendLink: 'http://fake.link/string',
+        receipt: { foo: 'foo' }
+      }
+    }
+    const gunRes = await userStorage.updateFeedEvent(transactionEvent)
+    const index = await userStorage.feed
+      .get('index')
+      .once()
+      .then()
+    const events = await userStorage.feed.get(date).decrypt()
+    expect(index).toHaveProperty(date)
+    expect(events).toEqual([transactionEvent])
   })
 })

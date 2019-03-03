@@ -93,7 +93,7 @@ export class GoodWallet {
       const gas = await this.claimContract.methods.claimTokens().estimateGas()
       return this.claimContract.methods.claimTokens().send({
         gas,
-        gasPrice: await this.gasPrice
+        gasPrice: await this.wallet.eth.getGasPrice()
       })
     } catch (e) {
       log.info(e)
@@ -156,7 +156,7 @@ export class GoodWallet {
       throw new Error(`Amount is bigger than balance`)
     }
     const generatedString = this.wallet.utils.sha3(this.wallet.utils.randomHex(10))
-    const gasPrice = await this.gasPrice
+    const gasPrice = await this.getGasPrice()
     log.debug('this.oneTimePaymentLinksContract', this.oneTimePaymentLinksContract)
     log.debug('this.tokenContract', this.tokenContract)
 
@@ -186,6 +186,51 @@ export class GoodWallet {
     const balancePost = await this.tokenContract.methods.balanceOf(this.account).call()
     log.debug({ tx, balancePost, onePaymentAccount: this.oneTimePaymentLinksContract.defaultAccount })
     return { sendLink: `${Config.publicUrl}/AppNavigation/Dashboard/ReceiveLink/${generatedString}`, receipt: tx }
+  }
+
+  async getGasPrice() {
+    let gasPrice = this.gasPrice
+
+    try {
+      const { toBN } = this.wallet.utils
+      const networkGasPrice = toBN(await this.wallet.eth.getGasPrice())
+
+      if (networkGasPrice.gt(toBN('0'))) {
+        gasPrice = networkGasPrice.toString()
+      }
+    } catch (e) {
+      log.error('failed to retrieve gas price from network', { e })
+    }
+
+    return gasPrice
+  }
+
+  async sendAmount(to: string, amount: number) {
+    if (!this.wallet.utils.isAddress(to)) {
+      throw new Error('Address is invalid')
+    }
+
+    if (amount === 0 || !(await this.canSend(amount))) {
+      throw new Error('Amount is bigger than balance')
+    }
+
+    const gasPrice = await this.getGasPrice()
+    log.info({ gasPrice, thisGasPrice: this.gasPrice })
+
+    const handleError = err => {
+      log.error({ err })
+      throw err
+    }
+
+    const transferCall = this.tokenContract.methods.transfer(to, amount)
+    const gas = await transferCall.estimateGas().catch(handleError)
+
+    log.debug({ amount, to, gas })
+
+    return await transferCall
+      .send({ gas, gasPrice })
+      .on('transactionHash', hash => log.debug({ hash }))
+      .catch(handleError)
   }
 }
 export default new GoodWallet()

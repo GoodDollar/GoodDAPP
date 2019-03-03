@@ -1,13 +1,13 @@
 // @flow
-import React, { useCallback, useState } from 'react'
-import { Text, View } from 'react-native'
-import { TextInput } from 'react-native-paper'
-import goodWallet from '../../lib/wallet/GoodWallet'
+import React, { useState } from 'react'
+import { View } from 'react-native'
 
-import { Section, Wrapper, Avatar, BigNumber, CustomButton, CustomDialog } from '../common'
-import { BackButton, PushButton, useScreenState } from '../appNavigation/stackNavigation'
-import { receiveStyles } from './styles'
+import logger from '../../lib/logger/pino-logger'
+import goodWallet from '../../lib/wallet/GoodWallet'
+import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
+import { Avatar, BigNumber, CustomButton, CustomDialog, Section, Wrapper } from '../common'
 import TopBar from '../common/TopBar'
+import { receiveStyles } from './styles'
 
 export type AmountProps = {
   screenProps: any,
@@ -16,34 +16,41 @@ export type AmountProps = {
 
 const TITLE = 'Send GD'
 
-const SendLinkSummary = (props: AmountProps) => {
+const log = logger.child({ from: 'SendQRSummary' })
+
+const SendQRSummary = (props: AmountProps) => {
   const { screenProps } = props
   const [screenState] = useScreenState(screenProps)
   const [dialogData, setDialogData] = useState()
-  const [loading, setLoading] = useState()
-
-  const dismissDialog = () => {
-    setDialogData({ visible: false })
-  }
+  const [loading, setLoading] = useState(false)
 
   const { amount, reason, to } = screenState
 
-  const generateLink = async () => {
+  const dismissDialog = () => {
+    setDialogData({ visible: false })
+    screenProps.goToParent()
+  }
+
+  const sendGD = async () => {
     setLoading(true)
+
     try {
-      const url = await goodWallet.generateLink(amount)
-      screenProps.push('SendConfirmation', { url })
+      const receipt = await goodWallet.sendAmount(to, amount)
+      log.debug({ receipt })
+      setDialogData({ visible: true, title: 'SUCCESS!', message: 'The GD was sent successfully', dismissText: 'Yay!' })
     } catch (e) {
       setDialogData({ visible: true, title: 'Error', message: e.message })
-      setLoading(false)
     }
+
+    setLoading(false)
   }
+
   return (
     <Wrapper style={styles.wrapper}>
       <TopBar />
       <Section style={styles.section}>
         <Section.Row style={styles.sectionRow}>
-          <Section.Title style={styles.headline}>Summery</Section.Title>
+          <Section.Title style={styles.headline}>Summary</Section.Title>
           <View style={styles.sectionTo}>
             <Avatar size={90} />
             {to && <Section.Text style={styles.toText}>{`To: ${to}`}</Section.Text>}
@@ -52,13 +59,13 @@ const SendLinkSummary = (props: AmountProps) => {
             {`Here's `}
             <BigNumber number={amount} unit="GD" />
           </Section.Text>
-          <Section.Text>{reason && `For ${reason}`}</Section.Text>
+          <Section.Text>{reason ? reason : null}</Section.Text>
           <View style={styles.buttonGroup}>
             <BackButton mode="text" screenProps={screenProps} style={{ flex: 1 }}>
               Cancel
             </BackButton>
-            <CustomButton mode="contained" onPress={generateLink} style={{ flex: 2 }} loading={loading}>
-              Next
+            <CustomButton mode="contained" onPress={sendGD} style={{ flex: 2 }} loading={loading} disabled={loading}>
+              Confirm
             </CustomButton>
           </View>
         </Section.Row>
@@ -82,8 +89,8 @@ const styles = {
   }
 }
 
-SendLinkSummary.navigationOptions = {
+SendQRSummary.navigationOptions = {
   title: TITLE
 }
 
-export default SendLinkSummary
+export default SendQRSummary

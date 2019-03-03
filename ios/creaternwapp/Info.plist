@@ -73,5 +73,7 @@
 		<string>SimpleLineIcons.ttf</string>
 		<string>Zocial.ttf</string>
 	</array>
+	<key>NSCameraUsageDescription</key>
+  <string>GDWallet needs to access your camera to be able to scan the QR codes</string>
 </dict>
 </plist>

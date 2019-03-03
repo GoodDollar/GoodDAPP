@@ -49,6 +49,7 @@ export class GoodWallet {
         this.account = this.wallet.eth.defaultAccount
         this.accounts = this.wallet.eth.accounts.wallet
         this.networkId = Config.networkId
+        this.gasPrice = wallet.utils.toWei('1', 'gwei')
         this.identityContract = new this.wallet.eth.Contract(
           IdentityABI.abi,
           IdentityABI.networks[this.networkId].address,
@@ -92,7 +93,7 @@ export class GoodWallet {
       const gas = await this.claimContract.methods.claimTokens().estimateGas()
       return this.claimContract.methods.claimTokens().send({
         gas,
-        gasPrice: await this.gasPrice
+        gasPrice: await this.wallet.eth.getGasPrice()
       })
     } catch (e) {
       log.info(e)
@@ -118,13 +119,7 @@ export class GoodWallet {
   }
 
   async balanceOf() {
-    return this.tokenContract.methods
-      .balanceOf(this.account)
-      .call()
-      .then(b => {
-        b = this.wallet.utils.fromWei(b, 'ether')
-        return b
-      })
+    return this.tokenContract.methods.balanceOf(this.account).call()
   }
 
   signMessage() {}
@@ -151,9 +146,17 @@ export class GoodWallet {
     return tx
   }
 
+  async canSend(amount: number) {
+    const balance = await this.balanceOf()
+    return amount < balance
+  }
+
   async generateLink(amount: number) {
+    if (!(await this.canSend(amount))) {
+      throw new Error(`Amount is bigger than balance`)
+    }
     const generatedString = this.wallet.utils.sha3(this.wallet.utils.randomHex(10))
-    const gasPrice = await this.gasPrice
+
     log.debug('this.oneTimePaymentLinksContract', this.oneTimePaymentLinksContract)
     log.debug('this.tokenContract', this.tokenContract)
 
@@ -166,6 +169,7 @@ export class GoodWallet {
       .estimateGas()
       .catch(err => {
         log.error(err)
+        throw err
       })
     log.debug({ amount, gas })
     const tx = await this.tokenContract.methods
@@ -174,9 +178,55 @@ export class GoodWallet {
       .on('transactionHash', hash => log.debug({ hash }))
       .catch(err => {
         log.error({ err })
+        throw err
       })
     log.debug({ tx })
     return generatedString
+  }
+
+  async getGasPrice() {
+    let gasPrice = this.gasPrice
+
+    try {
+      const { toBN } = this.wallet.utils
+      const networkGasPrice = toBN(await this.wallet.eth.getGasPrice())
+
+      if (networkGasPrice.gt(toBN('0'))) {
+        gasPrice = networkGasPrice.toString()
+      }
+    } catch (e) {
+      log.error('failed to retrieve gas price from network', { e })
+    }
+
+    return gasPrice
+  }
+
+  async sendAmount(to: string, amount: number) {
+    if (!this.wallet.utils.isAddress(to)) {
+      throw new Error('Address is invalid')
+    }
+
+    if (amount === 0 || !(await this.canSend(amount))) {
+      throw new Error('Amount is bigger than balance')
+    }
+
+    const gasPrice = await this.getGasPrice()
+    log.info({ gasPrice, thisGasPrice: this.gasPrice })
+
+    const handleError = err => {
+      log.error({ err })
+      throw err
+    }
+
+    const transferCall = this.tokenContract.methods.transfer(to, amount)
+    const gas = await transferCall.estimateGas().catch(handleError)
+
+    log.debug({ amount, to, gas })
+
+    return await transferCall
+      .send({ gas, gasPrice })
+      .on('transactionHash', hash => log.debug({ hash }))
+      .catch(handleError)
   }
 }
 export default new GoodWallet()

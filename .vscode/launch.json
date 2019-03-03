@@ -9,7 +9,7 @@
             "request": "launch",
             "name": "Test Current File",
             "program": "${workspaceFolder}/scripts/test.js",
-            "args": ["--config", "./config/web.jest.config.js","${file}"],
+            "args": ["--config", "./config/web.jest.config.js","${file}", "--detectOpenHandles"],
             "console": "integratedTerminal",
             "internalConsoleOptions": "neverOpen",
             "env": {}

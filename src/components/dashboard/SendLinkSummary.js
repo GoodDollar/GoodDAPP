@@ -10,6 +10,7 @@ import { receiveStyles } from './styles'
 import TopBar from '../common/TopBar'
 import API from '../../lib/API/api'
 import isEmail from 'validator/lib/isEmail'
+import isMobilePhone from '../../lib/validators/isMobilePhone'
 
 export type AmountProps = {
   screenProps: any,
@@ -44,9 +45,11 @@ const SendLinkSummary = (props: AmountProps) => {
     }
 
     // Send sms if to is phone
-    if (true) {
+    if (isMobilePhone(to)) {
       return API.sendLinkBySMS(to, sendLink)
     }
+
+    throw new Error(`${to} is neither a valid phone or email`)
   }
 
   const generateLinkAndSend = async () => {

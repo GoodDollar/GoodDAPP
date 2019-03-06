@@ -20,10 +20,7 @@ const Amount = (props: AmountProps) => {
   const [screenState, setScreenState] = useScreenState(screenProps)
 
   const { amount, to } = screenState || {}
-  const handleAmountChange = useCallback((value: string = '0') => {
-    const amount = parseInt(value)
-    setScreenState({ amount })
-  }, [])
+  const handleAmountChange = useCallback((value: string) => setScreenState({ amount: parseInt(value) }), ['0'])
 
   return (
     <Wrapper style={styles.wrapper}>

@@ -5,8 +5,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import { Title, Description } from '../signup/components'
 import { normalize } from 'react-native-elements'
 import logger from '../../lib/logger/pino-logger'
-import { Button, Modal, Portal, Dialog, Paragraph } from 'react-native-paper'
-import { Wrapper, CustomButton } from '../common'
+import { Wrapper, CustomButton, CustomDialog } from '../common'
 
 const log = logger.child({ from: 'FaceRecognition' })
 
@@ -14,13 +13,11 @@ type Props = {
   screenProps: any
 }
 type State = {
-  dialogVisible: boolean,
   dialogData: any
 }
 
 class FaceRecognition extends React.Component<Props, State> {
   state = {
-    dialogVisible: false,
     dialogData: {}
   }
 
@@ -32,20 +29,20 @@ class FaceRecognition extends React.Component<Props, State> {
     try {
       await goodWallet.claim()
       this.setState({
-        dialogVisible: true,
-        dialogData: { title: 'Success', message: `You've claimed your GD`, dismissText: 'YAY!' }
+        dialogData: { visible: true, title: 'Success', message: `You've claimed your GD`, dismissText: 'YAY!' }
       })
     } catch (e) {
       log.warn('claiming failed', e)
-      this.setState({ dialogVisible: true, dialogData: { title: 'Error', message: e.message } })
+      this.setState({ dialogData: { visible: true, title: 'Error', message: e.message } })
     }
   }
 
   _handleDismissDialog = () => {
     const { title } = this.state.dialogData
     this.setState({
-      dialogData: {},
-      dialogVisible: false
+      dialogData: {
+        visible: false
+      }
     })
     // TODO: Improve this flow
     if (title === 'Success') this.props.screenProps.pop()
@@ -53,7 +50,7 @@ class FaceRecognition extends React.Component<Props, State> {
 
   render() {
     this.props.screenProps.data = { name: 'John' }
-    const { dialogVisible, dialogData } = this.state
+    const { dialogData } = this.state
     return (
       <Wrapper>
         <View style={styles.topContainer}>
@@ -66,17 +63,7 @@ class FaceRecognition extends React.Component<Props, State> {
           <CustomButton onPress={this.handleClaim}>Quick Face Recognition</CustomButton>
         </View>
 
-        <Portal>
-          <Dialog visible={dialogVisible} onDismiss={this._handleDismissDialog} dismissable={true}>
-            <Dialog.Title>{dialogData.title}</Dialog.Title>
-            <Dialog.Content>
-              <Paragraph>{dialogData.message}</Paragraph>
-            </Dialog.Content>
-            <Dialog.Actions>
-              <CustomButton onPress={this._handleDismissDialog}>{dialogData.dismissText || 'Done'}</CustomButton>
-            </Dialog.Actions>
-          </Dialog>
-        </Portal>
+        <CustomDialog onDismiss={this._handleDismissDialog} {...dialogData} />
       </Wrapper>
     )
   }

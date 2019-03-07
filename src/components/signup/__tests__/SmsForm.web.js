@@ -1,21 +1,32 @@
-import React from 'react'
-import SmsForm from '../SmsForm.web'
 import { createSwitchNavigator } from '@react-navigation/core'
 import { createBrowserApp } from '@react-navigation/web'
-
+import React from 'react'
 // Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer'
+
+import GDStore from '../../../lib/undux/GDStore'
+import SmsForm from '../SmsForm.web'
+
+const { Container } = GDStore
 
 describe('SmsForm', () => {
   it('renders without errors', () => {
     const WebRouter = createBrowserApp(createSwitchNavigator({ SmsForm }))
-    const tree = renderer.create(<WebRouter />)
+    const tree = renderer.create(
+      <Container>
+        <WebRouter />
+      </Container>
+    )
     expect(tree.toJSON()).toBeTruthy()
   })
 
   it('matches snapshot', () => {
     const WebRouter = createBrowserApp(createSwitchNavigator({ SmsForm }))
-    const component = renderer.create(<WebRouter />)
+    const component = renderer.create(
+      <Container>
+        <WebRouter />
+      </Container>
+    )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

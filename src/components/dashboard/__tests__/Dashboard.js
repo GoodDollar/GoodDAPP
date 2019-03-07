@@ -1,9 +1,13 @@
-import React from 'react'
 import { createSwitchNavigator } from '@react-navigation/core'
 import { createBrowserApp } from '@react-navigation/web'
-import { getComponentWithMocks } from './__util__'
+import React from 'react'
 // Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer'
+
+import GDStore from '../../../lib/undux/GDStore'
+import { getComponentWithMocks } from './__util__'
+
+const { Container } = GDStore
 
 const routes = {
   Dashboard: getComponentWithMocks('../Dashboard'),
@@ -15,7 +19,11 @@ class AppNavigation extends React.Component<AppNavigationProps, AppNavigationSta
   static router = AppNavigator.router
 
   render() {
-    return <AppNavigator navigation={this.props.navigation} screenProps={{ routes }} />
+    return (
+      <Container>
+        <AppNavigator navigation={this.props.navigation} screenProps={{ routes }} />
+      </Container>
+    )
   }
 }
 

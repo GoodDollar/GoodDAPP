@@ -1,15 +1,21 @@
 // @flow
-import type Web3 from 'web3'
-import WalletFactory from './WalletFactory'
-import IdentityABI from '@gooddollar/goodcontracts/build/contracts/Identity.json'
-import RedemptionABI from '@gooddollar/goodcontracts/build/contracts/RedemptionFunctional.json'
 import GoodDollarABI from '@gooddollar/goodcontracts/build/contracts/GoodDollar.json'
 import ReserveABI from '@gooddollar/goodcontracts/build/contracts/GoodDollarReserve.json'
+import IdentityABI from '@gooddollar/goodcontracts/build/contracts/Identity.json'
 import OneTimePaymentLinksABI from '@gooddollar/goodcontracts/build/contracts/OneTimePaymentLinks.json'
-import logger from '../../lib/logger/pino-logger'
+import RedemptionABI from '@gooddollar/goodcontracts/build/contracts/RedemptionFunctional.json'
+import _ from 'lodash'
+import type Web3 from 'web3'
+import { utils } from 'web3'
+
 import Config from '../../config/config'
+import logger from '../../lib/logger/pino-logger'
+import WalletFactory from './WalletFactory'
 
 const log = logger.child({ from: 'GoodWallet' })
+
+const { BN, toBN } = utils
+const ZERO = new BN('0')
 
 /**
  * the HDWallet account to use.
@@ -22,7 +28,17 @@ const AccountUsageToPath = {
   eth: 2,
   donate: 3
 }
+
 export type AccountUsage = $Keys<typeof AccountUsageToPath>
+
+type QueryEvent = {
+  event: string,
+  contract: Web3.eth.Contract,
+  filter: {},
+  fromBlock: typeof BN,
+  toBlock: typeof BN
+}
+
 export class GoodWallet {
   ready: Promise<Web3>
   wallet: Web3
@@ -105,17 +121,114 @@ export class GoodWallet {
     return await this.claimContract.methods.checkEntitlement().call()
   }
 
-  balanceChanged(callback: (error: any, event: any) => any): [Promise<any>, Promise<any>] {
-    const fromHanlder: Promise<any> = this.tokenContract.events.Transfer(
-      { fromBlock: 'latest', filter: { from: this.account } },
-      callback
-    )
-    const toHandler: Promise<any> = this.tokenContract.events.Transfer(
-      { fromBlock: 'latest', filter: { to: this.account } },
-      callback
+  /**
+   * Listen to balance changes for the current account
+   * @param cb
+   * @returns {Promise<void>}
+   */
+  async balanceChanged(cb: Function) {
+    const toBlock = await this.wallet.eth.getBlockNumber().then(toBN)
+
+    this.pollForEvents(
+      {
+        event: 'Transfer',
+        contract: this.tokenContract,
+        fromBlock: new BN('0'),
+        toBlock,
+        filter: { from: this.account }
+      },
+      cb
     )
 
-    return [toHandler, fromHanlder]
+    this.pollForEvents(
+      {
+        event: 'Transfer',
+        contract: this.tokenContract,
+        fromBlock: new BN('0'),
+        toBlock,
+        filter: { to: this.account }
+      },
+      cb
+    )
+  }
+
+  /**
+   * Client side event filter. Requests all events for a particular contract, then filters them and returns the event Object
+   * @param {String} event - Event to subscribe to
+   * @param {Object} contract - Contract from which event will be queried
+   * @param {Object} filter - Event's filter. Does not required to be indexed as it's filtered locally
+   * @param {BN} fromBlock - Lower blocks range value
+   * @param {BN} toBlock - Higher blocks range value
+   * @returns {Promise<*>}
+   */
+  async getEvents({ event, contract, filter, fromBlock = ZERO, toBlock }: QueryEvent): Promise<[]> {
+    const events = await contract.getPastEvents('allEvents', { fromBlock, toBlock })
+
+    return _(events)
+      .filter({ event })
+      .filter({ returnValues: { ...filter } })
+      .value()
+  }
+
+  /**
+   * Subscribes to a particular event and returns the result based on options specified
+   * @param {String} event - Event to subscribe to
+   * @param {Object} contract - Contract from which event will be queried
+   * @param {Object} filter - Event's filter. Does not required to be indexed as it's filtered locally
+   * @param {BN} fromBlock - Lower blocks range value
+   * @param {BN} toBlock - Higher blocks range value
+   * @param {Function} callback - Function to be called once an event is received
+   * @returns {Promise<void>}
+   */
+  async oneTimeEvents({ event, contract, filter, fromBlock, toBlock }: QueryEvent, callback: Function) {
+    try {
+      const events = await this.getEvents({ event, contract, filter, fromBlock, toBlock })
+      log.debug({ events: events.length, ...filter, fromBlock: fromBlock.toString(), toBlock: toBlock.toString() })
+      if (events.length) {
+        callback(null, events)
+      }
+    } catch (e) {
+      log.error({ e })
+      callback(e, [])
+    }
+  }
+
+  /**
+   * Polls for events every INTERVAL defined by BLOCK_TIME and BLOCK_COUNT, the result is based on specified options
+   * It queries the range 'fromBlock'-'toBlock' and then continues querying the blockchain for most recent events, from
+   * the 'lastProcessedBlock' to the 'latest' every INTERVAL
+   * @param {String} event - Event to subscribe to
+   * @param {Object} contract - Contract from which event will be queried
+   * @param {Object} filter - Event's filter. Does not required to be indexed as it's filtered locally
+   * @param {BN} fromBlock - Lower blocks range value
+   * @param {BN} toBlock - Higher blocks range value
+   * @param {Function} callback - Function to be called once an event is received
+   * @param {BN} lastProcessedBlock - Used for recursion. It's not required to be set by the user. Initial value: ZERO
+   * @returns {Promise<void>}
+   */
+  async pollForEvents(
+    { event, contract, filter, fromBlock, toBlock }: QueryEvent,
+    callback: Function,
+    lastProcessedBlock: typeof BN = ZERO
+  ) {
+    const BLOCK_TIME = 2500
+    const BLOCK_COUNT = 1
+    const INTERVAL = BLOCK_COUNT * BLOCK_TIME
+    const lastBlock = await this.wallet.eth.getBlockNumber().then(toBN)
+
+    if (lastProcessedBlock.lt(lastBlock)) {
+      fromBlock = toBlock
+      toBlock = lastBlock
+      await this.oneTimeEvents({ event, contract, filter, fromBlock, toBlock }, callback)
+    } else {
+      log.debug('all blocks processed', {
+        toBlock: toBlock.toString(),
+        lastBlock: lastBlock.toString()
+      })
+    }
+
+    log.debug('about to recurse')
+    setTimeout(() => this.pollForEvents({ event, contract, filter, fromBlock, toBlock }, callback, toBlock), INTERVAL)
   }
 
   async balanceOf() {

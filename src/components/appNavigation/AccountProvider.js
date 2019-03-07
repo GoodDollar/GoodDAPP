@@ -93,11 +93,7 @@ class AccountProvider extends React.Component<AccountProviderProps, AccountProvi
   initTransferEvents(): void {
     log.info('checking events')
 
-    const transferEventsHandlers: [any, any] = goodWallet.balanceChanged(this.onBalanceChange)
-
-    log.info('the events handlers', { transferEventsHandlers })
-
-    this.setState({ transferEventsHandlers })
+    goodWallet.balanceChanged(this.onBalanceChange)
   }
 
   /**
@@ -106,16 +102,10 @@ class AccountProvider extends React.Component<AccountProviderProps, AccountProvi
    * @param event
    * @returns {Promise<void>}
    */
-  onBalanceChange = async (error: {}, event: {}) => {
+  onBalanceChange = async (error: {}, event: [any]) => {
     log.info('new Transfer event:', { error, event })
 
-    if (error) {
-      // // If there's any error it will unsubscribe and reconnect
-      // this.unsubscribeTransferEvents()
-      // // a new web3 instance is required: https://github.com/ethereum/web3.js/issues/1354#issuecomment-365938093
-      // await goodWallet.init()
-      // this.initTransferEvents()
-    } else {
+    if (!error) {
       await this.updateValues()
     }
   }

@@ -2,8 +2,9 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { normalize } from 'react-native-elements'
+import type { Store } from 'undux'
 
-import { AccountConsumer } from '../appNavigation/AccountProvider'
+import GDStore from '../../lib/undux/GDStore'
 import { createStackNavigator, PushButton } from '../appNavigation/stackNavigation'
 import TabsView from '../appNavigation/TabsView'
 import { Avatar, BigNumber, Section, Wrapper } from '../common'
@@ -21,51 +22,45 @@ import SendQRSummary from './SendQRSummary'
 
 export type DashboardProps = {
   screenProps: any,
-  navigation: any
+  navigation: any,
+  store: Store
 }
 
 class Dashboard extends Component<DashboardProps, {}> {
-  static navigationOptions = {
-    navigationBarHidden: true
-  }
-
   render() {
-    const { screenProps, navigation }: DashboardProps = this.props
+    const { screenProps, navigation, store }: DashboardProps = this.props
+    const { balance, entitlement } = store.get('account')
 
     return (
-      <AccountConsumer>
-        {({ balance, entitlement }) => (
-          <View>
-            <TabsView goTo={navigation.navigate} routes={screenProps.routes} />
-            <Wrapper>
-              <Section>
-                <Section.Row style={styles.centered}>
-                  <Avatar size={80} />
-                </Section.Row>
-                <Section.Row style={styles.centered}>
-                  <Section.Title>John Doe</Section.Title>
-                </Section.Row>
-                <Section.Row style={styles.centered}>
-                  <BigNumber number={balance} unit="GD" />
-                </Section.Row>
-                <Section.Row style={styles.buttonRow}>
-                  <PushButton routeName={'Send'} screenProps={screenProps} style={styles.leftButton}>
-                    Send
-                  </PushButton>
-                  <PushButton routeName={'Claim'} screenProps={screenProps}>
-                    <Text style={[styles.buttonText]}>Claim</Text>
-                    <br />
-                    <Text style={[styles.buttonText, styles.grayedOutText]}>{entitlement}GD</Text>
-                  </PushButton>
-                  <PushButton routeName={'Receive'} screenProps={screenProps} style={styles.rightButton}>
-                    Receive
-                  </PushButton>
-                </Section.Row>
-              </Section>
-            </Wrapper>
-          </View>
-        )}
-      </AccountConsumer>
+      <View>
+        <TabsView goTo={navigation.navigate} routes={screenProps.routes} />
+        <Wrapper>
+          <Section>
+            <Section.Row style={styles.centered}>
+              <Avatar size={80} />
+            </Section.Row>
+            <Section.Row style={styles.centered}>
+              <Section.Title>John Doe</Section.Title>
+            </Section.Row>
+            <Section.Row style={styles.centered}>
+              <BigNumber number={balance} unit="GD" />
+            </Section.Row>
+            <Section.Row style={styles.buttonRow}>
+              <PushButton routeName={'Send'} screenProps={screenProps} style={styles.leftButton}>
+                Send
+              </PushButton>
+              <PushButton routeName={'Claim'} screenProps={screenProps}>
+                <Text style={[styles.buttonText]}>Claim</Text>
+                <br />
+                <Text style={[styles.buttonText, styles.grayedOutText]}>{entitlement}GD</Text>
+              </PushButton>
+              <PushButton routeName={'Receive'} screenProps={screenProps} style={styles.rightButton}>
+                Receive
+              </PushButton>
+            </Section.Row>
+          </Section>
+        </Wrapper>
+      </View>
     )
   }
 }
@@ -100,8 +95,14 @@ const styles = StyleSheet.create({
   }
 })
 
+const dashboard = GDStore.withStore(Dashboard)
+
+dashboard.navigationOptions = {
+  navigationBarHidden: true
+}
+
 export default createStackNavigator({
-  Dashboard,
+  Dashboard: dashboard,
   Claim,
   Receive,
   Amount,

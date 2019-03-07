@@ -7,7 +7,7 @@ import renderer from 'react-test-renderer'
 
 describe('CustomButton', () => {
   it('renders without errors', () => {
-    const tree = renderer.create(<CustomButton />)
+    const tree = renderer.create(<CustomButton>Next</CustomButton>)
     expect(tree.toJSON()).toBeTruthy()
   })
 

@@ -1452,6 +1452,7 @@ exports[`Claim matches snapshot 1`] = `
                 "borderTopRightRadius": "4px",
                 "borderTopStyle": "solid",
                 "borderTopWidth": "0px",
+                "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
                 "boxSizing": "border-box",
                 "display": "flex",
                 "flexBasis": "auto",
@@ -1479,12 +1480,14 @@ exports[`Claim matches snapshot 1`] = `
             }
           >
             <div
-              aria-disabled={true}
-              disabled={true}
+              data-focusable={true}
+              disabled={false}
               onKeyDown={[Function]}
+              onKeyPress={[Function]}
               onKeyUp={[Function]}
               onResponderGrant={[Function]}
               onResponderMove={[Function]}
+              onResponderRelease={[Function]}
               onResponderTerminate={[Function]}
               onResponderTerminationRequest={[Function]}
               onStartShouldSetResponder={[Function]}
@@ -1512,6 +1515,7 @@ exports[`Claim matches snapshot 1`] = `
                   "borderTopStyle": "solid",
                   "borderTopWidth": "0px",
                   "boxSizing": "border-box",
+                  "cursor": "pointer",
                   "display": "flex",
                   "flexBasis": "auto",
                   "flexDirection": "column",
@@ -1526,6 +1530,7 @@ exports[`Claim matches snapshot 1`] = `
                   "msFlexDirection": "column",
                   "msFlexNegative": 0,
                   "msFlexPreferredSize": "auto",
+                  "msTouchAction": "manipulation",
                   "overflowX": "hidden",
                   "overflowY": "hidden",
                   "paddingBottom": "0px",
@@ -1533,9 +1538,11 @@ exports[`Claim matches snapshot 1`] = `
                   "paddingRight": "0px",
                   "paddingTop": "0px",
                   "position": "relative",
+                  "touchAction": "manipulation",
                   "zIndex": 0,
                 }
               }
+              tabIndex="0"
             >
               <div
                 style={
@@ -1593,7 +1600,7 @@ exports[`Claim matches snapshot 1`] = `
                       "borderRightWidth": "0px",
                       "borderTopWidth": "0px",
                       "boxSizing": "border-box",
-                      "color": "rgba(0,0,0,0.32)",
+                      "color": "rgba(255,255,255,1.00)",
                       "direction": "ltr",
                       "display": "inline",
                       "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",

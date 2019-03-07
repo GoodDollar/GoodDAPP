@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { StyleSheet } from 'react-native'
+import { ActivityIndicator, StyleSheet } from 'react-native'
 import { Button as BaseButton, Text } from 'react-native-paper'
 import { normalize } from 'react-native-elements'
 
@@ -13,16 +13,21 @@ export type ButtonProps = {
   color?: string,
   dark?: boolean,
   style?: any,
-  onPress: any
+  onPress: any,
+  loading?: boolean
 }
 
-const CustomButton = ({ children, ...props }: ButtonProps) => (
-  <BaseButton {...props} style={[styles.button, props.style]}>
-    {typeof children === 'string' ? (
-      <Text style={[styles.buttonText, { color: props.dark && 'white' }]}>{children}</Text>
-    ) : (
-      children
-    )}
+const TextContent = ({ children, dark }) => {
+  if (typeof children === 'string') {
+    return <Text style={[styles.buttonText, { color: dark && 'white' }]}>{children}</Text>
+  }
+
+  return children
+}
+
+const CustomButton = (props: ButtonProps) => (
+  <BaseButton {...props} style={[styles.button, props.style]} disabled={props.loading}>
+    <TextContent {...props} />
   </BaseButton>
 )
 

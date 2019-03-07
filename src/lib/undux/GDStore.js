@@ -8,14 +8,24 @@ type Name = {
   valid?: boolean
 }
 
+type Account = {
+  balance: string,
+  entitlement: string
+}
+
 export type State = {
-  name: Name
+  name: Name,
+  account: Account
 }
 
 const initialState: State = {
   name: {
     fullName: '',
     valid: undefined
+  },
+  account: {
+    balance: '',
+    entitlement: ''
   }
 }
 

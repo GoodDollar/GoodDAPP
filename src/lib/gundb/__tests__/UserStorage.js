@@ -1,5 +1,7 @@
+// @flow
 import Gun from 'gun'
 import extend from '../gundb-extend'
+import { type TransactionEvent } from '../UserStorage'
 
 let userStorage = require('../UserStorage.js').default
 let event = { id: 'xyz', date: new Date('2019-01-01T10:00:00.000Z').toString(), data: { foo: 'bar', unchanged: 'zar' } }
@@ -189,5 +191,29 @@ describe('UserStorage', () => {
   it('resets cursor and get events single day page', async () => {
     const gunRes = await userStorage.getFeedPage(1, true)
     expect(gunRes.length).toEqual(1)
+  })
+
+  it('add TransactionEvent event', async () => {
+    const date = '2020-01-01'
+    const transactionEvent: TransactionEvent = {
+      id: 'xyz32',
+      date: new Date(date).toString(),
+      type: 'send',
+      data: {
+        to: 'Mike',
+        reason: 'For the pizza',
+        amount: 3,
+        sendLink: 'http://fake.link/string',
+        receipt: { foo: 'foo' }
+      }
+    }
+    const gunRes = await userStorage.updateFeedEvent(transactionEvent)
+    const index = await userStorage.feed
+      .get('index')
+      .once()
+      .then()
+    const events = await userStorage.feed.get(date).decrypt()
+    expect(index).toHaveProperty(date)
+    expect(events).toEqual([transactionEvent])
   })
 })

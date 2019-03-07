@@ -3,11 +3,13 @@ import React, { useCallback, useState } from 'react'
 import { Text, View } from 'react-native'
 import { TextInput } from 'react-native-paper'
 import goodWallet from '../../lib/wallet/GoodWallet'
-
+import UserStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import { Section, Wrapper, Avatar, BigNumber, CustomButton, CustomDialog } from '../common'
 import { BackButton, PushButton, useScreenState } from '../appNavigation/stackNavigation'
 import { receiveStyles } from './styles'
 import TopBar from '../common/TopBar'
+import API from '../../lib/API/api'
+import isEmail from 'validator/lib/isEmail'
 
 export type AmountProps = {
   screenProps: any,
@@ -26,16 +28,60 @@ const SendLinkSummary = (props: AmountProps) => {
     setDialogData({ visible: false })
   }
 
+  const showDialogError = e => {
+    console.log({ e })
+    setDialogData({ visible: true, title: 'Error', message: e.message })
+    setLoading(false)
+  }
+
   const { amount, reason, to } = screenState
 
-  const generateLink = async () => {
+  const generateLinkAndSend = async () => {
     setLoading(true)
+    let generateLinkResponse
     try {
-      const url = await goodWallet.generateLink(amount)
-      screenProps.push('SendConfirmation', { url })
+      // Generate link deposit
+      generateLinkResponse = await goodWallet.generateLink(amount)
     } catch (e) {
-      setDialogData({ visible: true, title: 'Error', message: e.message })
-      setLoading(false)
+      showDialogError(e)
+    }
+
+    if (generateLinkResponse) {
+      try {
+        // Generate link deposit
+        const { sendLink, receipt } = generateLinkResponse
+
+        // Save transaction
+        const transactionEvent: TransactionEvent = {
+          id: receipt.blockHash,
+          date: new Date().toString(),
+          type: 'send',
+          data: {
+            to,
+            reason,
+            amount,
+            sendLink,
+            receipt
+          }
+        }
+        await UserStorage.updateFeedEvent(transactionEvent)
+
+        // Cheking events are being stored
+        // FIXME: Remove this since is only to check that is working
+        const events = await UserStorage.feed.get('2019-03-01').decrypt()
+        console.log({ events, transactionEvent })
+
+        // Send email if to is email
+        if (to && isEmail(to)) {
+          await API.sendLinkByEmail(to, sendLink)
+        }
+
+        // Show confirmation
+        screenProps.push('SendConfirmation', { sendLink })
+      } catch (e) {
+        // TODO: cash out generated link if either transaction log save or email could not be send
+        showDialogError(e)
+      }
     }
   }
   return (
@@ -57,7 +103,7 @@ const SendLinkSummary = (props: AmountProps) => {
             <BackButton mode="text" screenProps={screenProps} style={{ flex: 1 }}>
               Cancel
             </BackButton>
-            <CustomButton mode="contained" onPress={generateLink} style={{ flex: 2 }} loading={loading}>
+            <CustomButton mode="contained" onPress={generateLinkAndSend} style={{ flex: 2 }} loading={loading}>
               Next
             </CustomButton>
           </View>

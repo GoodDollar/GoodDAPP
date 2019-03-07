@@ -28,6 +28,17 @@ export type FeedEvent = {
   date: string,
   data: any
 }
+
+export type TransactionEvent = FeedEvent & {
+  data: {
+    to: string,
+    reason: string,
+    amount: number,
+    sendLink: string,
+    receipt: any
+  }
+}
+
 class UserStorage {
   wallet: GoodWallet
   profile: Gun

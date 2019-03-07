@@ -156,14 +156,13 @@ export class GoodWallet {
       throw new Error(`Amount is bigger than balance`)
     }
     const generatedString = this.wallet.utils.sha3(this.wallet.utils.randomHex(10))
-
+    const gasPrice = await this.getGasPrice()
     log.debug('this.oneTimePaymentLinksContract', this.oneTimePaymentLinksContract)
     log.debug('this.tokenContract', this.tokenContract)
 
     const encodedABI = await this.oneTimePaymentLinksContract.methods
       .deposit(this.account, generatedString, amount)
       .encodeABI()
-
     const gas = await this.tokenContract.methods
       .transferAndCall(this.oneTimePaymentLinksContract.defaultAccount, amount, encodedABI)
       .estimateGas()
@@ -171,17 +170,22 @@ export class GoodWallet {
         log.error(err)
         throw err
       })
-    log.debug({ amount, gas })
+
+    const balancePre = await this.tokenContract.methods
+      .balanceOf(this.oneTimePaymentLinksContract.defaultAccount)
+      .call()
+    log.debug({ amount, gas, gasPrice, balancePre, onePaymentAccount: this.oneTimePaymentLinksContract.defaultAccount })
     const tx = await this.tokenContract.methods
       .transferAndCall(this.oneTimePaymentLinksContract.defaultAccount, amount, encodedABI)
-      .send({ gas })
+      .send({ gas, gasPrice })
       .on('transactionHash', hash => log.debug({ hash }))
       .catch(err => {
         log.error({ err })
         throw err
       })
-    log.debug({ tx })
-    return generatedString
+    const balancePost = await this.tokenContract.methods.balanceOf(this.account).call()
+    log.debug({ tx, balancePost, onePaymentAccount: this.oneTimePaymentLinksContract.defaultAccount })
+    return { sendLink: `${Config.publicUrl}/AppNavigation/Dashboard/ReceiveLink/${generatedString}`, receipt: tx }
   }
 
   async getGasPrice() {

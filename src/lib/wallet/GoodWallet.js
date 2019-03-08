@@ -188,12 +188,33 @@ export class GoodWallet {
     return { sendLink: `${Config.publicUrl}/AppNavigation/Dashboard/ReceiveLink/${generatedString}`, receipt: tx }
   }
 
+  async withdraw(otlCode: string) {
+    const gasPrice = await this.getGasPrice()
+    log.info({ gasPrice })
+
+    const withdrawCall = this.oneTimePaymentLinksContract.methods.withdraw(otlCode)
+    log.info({ withdrawCall })
+
+    const gas = await withdrawCall.estimateGas().catch(this.handleError)
+    log.info({ gas })
+
+    return await withdrawCall
+      .send({ gas, gasPrice })
+      .on('transactionHash', hash => log.debug({ hash }))
+      .catch(this.handleError)
+  }
+
+  handleError(err: Error) {
+    log.error('handleError', { err })
+    throw err
+  }
+
   async getGasPrice() {
     let gasPrice = this.gasPrice
 
     try {
       const { toBN } = this.wallet.utils
-      const networkGasPrice = toBN(await this.wallet.eth.getGasPrice())
+      const networkGasPrice = await this.wallet.eth.getGasPrice().then(toBN)
 
       if (networkGasPrice.gt(toBN('0'))) {
         gasPrice = networkGasPrice.toString()
@@ -215,22 +236,17 @@ export class GoodWallet {
     }
 
     const gasPrice = await this.getGasPrice()
-    log.info({ gasPrice, thisGasPrice: this.gasPrice })
-
-    const handleError = err => {
-      log.error({ err })
-      throw err
-    }
 
     const transferCall = this.tokenContract.methods.transfer(to, amount)
-    const gas = await transferCall.estimateGas().catch(handleError)
+    const gas = await transferCall.estimateGas().catch(this.handleError)
 
     log.debug({ amount, to, gas })
 
     return await transferCall
       .send({ gas, gasPrice })
       .on('transactionHash', hash => log.debug({ hash }))
-      .catch(handleError)
+      .catch(this.handleError)
   }
 }
+
 export default new GoodWallet()

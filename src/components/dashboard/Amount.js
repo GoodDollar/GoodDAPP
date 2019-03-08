@@ -32,10 +32,10 @@ const Amount = (props: AmountProps) => {
             <View style={styles.amountWrapper}>
               <Text style={styles.amountInputWrapper}>
                 <TextInput
-                  focus={true}
+                  focus="focus"
                   keyboardType="numeric"
                   placeholder="0"
-                  value={amount}
+                  value={`${amount}`}
                   onChangeText={handleAmountChange}
                   style={styles.amountInput}
                 />

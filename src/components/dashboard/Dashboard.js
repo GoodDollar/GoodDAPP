@@ -1,8 +1,10 @@
 // @flow
-import React, { Component } from 'react'
+import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { normalize } from 'react-native-elements'
 
+import logger from '../../lib/logger/pino-logger'
+import goodWallet from '../../lib/wallet/GoodWallet'
 import { AccountConsumer } from '../appNavigation/AccountProvider'
 import { createStackNavigator, PushButton } from '../appNavigation/stackNavigation'
 import TabsView from '../appNavigation/TabsView'
@@ -24,50 +26,65 @@ export type DashboardProps = {
   navigation: any
 }
 
-class Dashboard extends Component<DashboardProps, {}> {
-  static navigationOptions = {
-    navigationBarHidden: true
+const log = logger.child({ from: 'Dashboard' })
+
+const withdraw = async otlCode => {
+  log.info({ otlCode })
+  await goodWallet.ready
+  await goodWallet.withdraw(otlCode)
+}
+
+const Dashboard = props => {
+  const { screenProps, navigation }: DashboardProps = props
+  const focused = navigation.isFocused()
+  const { state } = navigation
+  const param = navigation.getParam('receiveLink', 'no-param')
+
+  if (param !== 'no-param') {
+    withdraw(param).then(log.info)
   }
 
-  render() {
-    const { screenProps, navigation }: DashboardProps = this.props
+  log.debug({ param, focused, state })
 
-    return (
-      <AccountConsumer>
-        {({ balance, entitlement }) => (
-          <View>
-            <TabsView goTo={navigation.navigate} routes={screenProps.routes} />
-            <Wrapper>
-              <Section>
-                <Section.Row style={styles.centered}>
-                  <Avatar size={80} />
-                </Section.Row>
-                <Section.Row style={styles.centered}>
-                  <Section.Title>John Doe</Section.Title>
-                </Section.Row>
-                <Section.Row style={styles.centered}>
-                  <BigNumber number={balance} unit="GD" />
-                </Section.Row>
-                <Section.Row style={styles.buttonRow}>
-                  <PushButton routeName={'Send'} screenProps={screenProps} style={styles.leftButton}>
-                    Send
-                  </PushButton>
-                  <PushButton routeName={'Claim'} screenProps={screenProps}>
-                    <Text style={[styles.buttonText]}>Claim</Text>
-                    <br />
-                    <Text style={[styles.buttonText, styles.grayedOutText]}>{entitlement}GD</Text>
-                  </PushButton>
-                  <PushButton routeName={'Receive'} screenProps={screenProps} style={styles.rightButton}>
-                    Receive
-                  </PushButton>
-                </Section.Row>
-              </Section>
-            </Wrapper>
-          </View>
-        )}
-      </AccountConsumer>
-    )
-  }
+  return (
+    <AccountConsumer>
+      {({ balance, entitlement }) => (
+        <View>
+          <TabsView goTo={navigation.navigate} routes={screenProps.routes} />
+          <Wrapper>
+            <Section>
+              <Section.Row style={styles.centered}>
+                <Avatar size={80} />
+              </Section.Row>
+              <Section.Row style={styles.centered}>
+                <Section.Title>John Doe</Section.Title>
+              </Section.Row>
+              <Section.Row style={styles.centered}>
+                <BigNumber number={balance} unit="GD" />
+              </Section.Row>
+              <Section.Row style={styles.buttonRow}>
+                <PushButton routeName={'Send'} screenProps={screenProps} style={styles.leftButton}>
+                  Send
+                </PushButton>
+                <PushButton routeName={'Claim'} screenProps={screenProps}>
+                  <Text style={[styles.buttonText]}>Claim</Text>
+                  <br />
+                  <Text style={[styles.buttonText, styles.grayedOutText]}>{entitlement}GD</Text>
+                </PushButton>
+                <PushButton routeName={'Receive'} screenProps={screenProps} style={styles.rightButton}>
+                  Receive
+                </PushButton>
+              </Section.Row>
+            </Section>
+          </Wrapper>
+        </View>
+      )}
+    </AccountConsumer>
+  )
+}
+
+Dashboard.navigationOptions = {
+  navigationBarHidden: true
 }
 
 const styles = StyleSheet.create({

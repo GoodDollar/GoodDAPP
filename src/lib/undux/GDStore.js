@@ -1,5 +1,6 @@
 // @flow
-import { createConnectedStore, withReduxDevtools } from 'undux'
+import { createConnectedStore, withReduxDevtools, withLogger } from 'undux'
+import compose from 'lodash/fp/compose'
 
 import withPinoLogger from './plugins/logger'
 
@@ -29,4 +30,10 @@ const initialState: State = {
   }
 }
 
-export default createConnectedStore(initialState, withPinoLogger, withReduxDevtools)
+export default createConnectedStore(
+  initialState,
+  compose(
+    withPinoLogger,
+    withReduxDevtools
+  )
+)

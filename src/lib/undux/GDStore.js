@@ -1,8 +1,13 @@
 // @flow
-import { createConnectedStore, withReduxDevtools, withLogger } from 'undux'
+import { createConnectedStore, withReduxDevtools } from 'undux'
 import compose from 'lodash/fp/compose'
 
 import withPinoLogger from './plugins/logger'
+import withBalanceChange from './plugins/balanceChange.js'
+
+type BalanceUpdate = {
+  running: boolean
+}
 
 type Name = {
   fullName: string,
@@ -11,28 +16,35 @@ type Name = {
 
 type Account = {
   balance: string,
-  entitlement: string
+  entitlement: string,
+  ready: false
 }
 
 export type State = {
+  balanceUpdate: BalanceUpdate,
   name: Name,
   account: Account
 }
 
 const initialState: State = {
+  balanceUpdate: {
+    running: false
+  },
   name: {
     fullName: '',
     valid: undefined
   },
   account: {
     balance: '',
-    entitlement: ''
+    entitlement: '',
+    ready: false
   }
 }
 
 export default createConnectedStore(
   initialState,
   compose(
+    withBalanceChange,
     withPinoLogger,
     withReduxDevtools
   )

@@ -10,6 +10,7 @@ import { receiveStyles } from './styles'
 import TopBar from '../common/TopBar'
 import API from '../../lib/API/api'
 import isEmail from 'validator/lib/isEmail'
+import isMobilePhone from '../../lib/validators/isMobilePhone'
 
 export type AmountProps = {
   screenProps: any,
@@ -36,6 +37,21 @@ const SendLinkSummary = (props: AmountProps) => {
 
   const { amount, reason, to } = screenState
 
+  const sendLinkTo = (to, sendLink) => {
+    if (!to) return
+    // Send email if to is email
+    if (isEmail(to)) {
+      return API.sendLinkByEmail(to, sendLink)
+    }
+
+    // Send sms if to is phone
+    if (isMobilePhone(to)) {
+      return API.sendLinkBySMS(to, sendLink)
+    }
+
+    throw new Error(`${to} is neither a valid phone or email`)
+  }
+
   const generateLinkAndSend = async () => {
     setLoading(true)
     let generateLinkResponse
@@ -50,6 +66,9 @@ const SendLinkSummary = (props: AmountProps) => {
       try {
         // Generate link deposit
         const { sendLink, receipt } = generateLinkResponse
+
+        // Share link
+        await sendLinkTo(to, sendLink)
 
         // Save transaction
         const transactionEvent: TransactionEvent = {
@@ -70,11 +89,6 @@ const SendLinkSummary = (props: AmountProps) => {
         // FIXME: Remove this since is only to check that is working
         const events = await UserStorage.feed.get('2019-03-01').decrypt()
         console.log({ events, transactionEvent })
-
-        // Send email if to is email
-        if (to && isEmail(to)) {
-          await API.sendLinkByEmail(to, sendLink)
-        }
 
         // Show confirmation
         screenProps.push('SendConfirmation', { sendLink })

@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
 })
 
 export default createStackNavigator({
-  Dashboard,
+  Home: Dashboard,
   Claim,
   Receive,
   Amount,

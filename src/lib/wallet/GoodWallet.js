@@ -189,7 +189,41 @@ export class GoodWallet {
     const balancePost = await balanceOf.call()
     log.info({ tx, balancePost, otpAddress })
 
-    return { sendLink: `${Config.publicUrl}/AppNavigation/Dashboard?receiveLink=${randomHex}`, receipt: tx }
+    return { sendLink: `${Config.publicUrl}/AppNavigation/Dashboard/Home?receiveLink=${randomHex}`, receipt: tx }
+  }
+
+  async canWithdraw(otlCode: string) {
+    const { isLinkUsed, payments } = this.oneTimePaymentLinksContract.methods
+    const { sha3, toBN } = this.wallet.utils
+
+    const link = sha3(otlCode)
+    const linkUsed = await isLinkUsed(link).call()
+    log.info('isLinkUsed', linkUsed)
+
+    if (!linkUsed) {
+      throw new Error('invalid link')
+    }
+
+    const paymentAvailable = await payments(link)
+      .call()
+      .then(toBN)
+    log.info(`paymentAvailable: ${paymentAvailable}`)
+
+    if (paymentAvailable.lte(toBN('0'))) {
+      throw new Error('payment already done')
+    }
+
+    const events = await this.oneTimePaymentLinksContract.getPastEvents('allEvents', { fromBlock: '0' })
+    log.info({ events })
+    const { sender } = _(events)
+      .filter({ returnValues: { hash: link } })
+      .map('returnValues')
+      .value()[0]
+
+    return {
+      amount: paymentAvailable.toString(),
+      sender
+    }
   }
 
   async canWithdraw(otlCode: string) {

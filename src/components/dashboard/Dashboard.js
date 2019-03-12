@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import React, { useState } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { normalize } from 'react-native-elements'
 
@@ -8,7 +8,8 @@ import goodWallet from '../../lib/wallet/GoodWallet'
 import { AccountConsumer } from '../appNavigation/AccountProvider'
 import { createStackNavigator, PushButton } from '../appNavigation/stackNavigation'
 import TabsView from '../appNavigation/TabsView'
-import { Avatar, BigNumber, Section, Wrapper } from '../common'
+import { Avatar, BigNumber, CustomDialog, Section, Wrapper } from '../common'
+import Splash from '../splash/Splash'
 import Amount from './Amount'
 import Claim from './Claim'
 import FaceRecognition from './FaceRecognition'
@@ -28,23 +29,33 @@ export type DashboardProps = {
 
 const log = logger.child({ from: 'Dashboard' })
 
-const withdraw = async otlCode => {
-  log.info({ otlCode })
-  await goodWallet.ready
-  await goodWallet.withdraw(otlCode)
-}
-
 const Dashboard = props => {
   const { screenProps, navigation }: DashboardProps = props
-  const focused = navigation.isFocused()
-  const { state } = navigation
   const param = navigation.getParam('receiveLink', 'no-param')
+  const [info, setInfo] = useState({ amount: '0', sender: '0x0' })
+  const [dialogData, setDialogData] = useState({ visible: false })
 
-  if (param !== 'no-param') {
-    withdraw(param).then(log.info)
+  log.debug({ param })
+  const dismissDialog = () => {
+    setDialogData({ visible: false })
+    navigation.navigate('Dashboard')
   }
 
-  log.debug({ param, focused, state })
+  const showDialogError = error => {
+    log.error(error)
+    setDialogData({ visible: true, title: 'Error', message: error.message })
+  }
+
+  if (param !== 'no-param') {
+    goodWallet
+      .canWithdraw(param)
+      .then(withdrawInfo => {
+        setInfo(withdrawInfo)
+        return goodWallet.withdraw(param)
+      })
+      .then(success => log.info(success))
+      .catch(() => navigation.navigate('Dashboard'))
+  }
 
   return (
     <AccountConsumer>
@@ -57,7 +68,9 @@ const Dashboard = props => {
                 <Avatar size={80} />
               </Section.Row>
               <Section.Row style={styles.centered}>
-                <Section.Title>John Doe</Section.Title>
+                <Section.Title>
+                  John Doe ({info.amount} - {info.sender})
+                </Section.Title>
               </Section.Row>
               <Section.Row style={styles.centered}>
                 <BigNumber number={balance} unit="GD" />
@@ -77,6 +90,7 @@ const Dashboard = props => {
               </Section.Row>
             </Section>
           </Wrapper>
+          <CustomDialog onDismiss={dismissDialog} {...dialogData} />
         </View>
       )}
     </AccountConsumer>

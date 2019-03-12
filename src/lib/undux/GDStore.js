@@ -3,7 +3,6 @@ import { createConnectedStore, withReduxDevtools } from 'undux'
 import compose from 'lodash/fp/compose'
 
 import withPinoLogger from './plugins/logger'
-import withBalanceChange from './plugins/balanceChange.js'
 import effects from '../../lib/undux/effects'
 
 type BalanceUpdate = {

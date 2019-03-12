@@ -10,8 +10,8 @@ const SEND_TITLE = 'Send GD'
 
 const log = logger.child({ from: SEND_TITLE })
 
-const ScanQRButton = ({ screenProps }) => (
-  <IconButton name="link" text="Scan QR Code" onPress={() => screenProps.push('ScanQR')} />
+const ScanQRButton = ({ screenProps, disabled }) => (
+  <IconButton name="link" text="Scan QR Code" onPress={() => screenProps.push('ScanQR')} disabled={disabled} />
 )
 
 /**
@@ -20,18 +20,20 @@ const ScanQRButton = ({ screenProps }) => (
  * It also passes to param as initial state for Amount component
  * @param {screenProps} props passed by navigation
  */
-const GenerateLinkButton = ({ screenProps, to }) => (
+const GenerateLinkButton = ({ screenProps, disabled }) => (
   <IconButton
     name="code"
     text="Generate Link"
-    onPress={() => screenProps.push('Amount', { nextRoutes: ['Reason', 'SendLinkSummary'], to })}
+    disabled={disabled}
+    onPress={() => screenProps.push('Amount', { nextRoutes: ['Reason', 'SendLinkSummary'] })}
   />
 )
 
-const ContinueButton = ({ screenProps, to }) => (
+const ContinueButton = ({ screenProps, to, disabled }) => (
   <CustomButton
     onPress={() => screenProps.push('Amount', { to, nextRoutes: ['Reason', 'SendQRSummary'] })}
     mode="contained"
+    disabled={disabled}
   >
     Continue
   </CustomButton>
@@ -49,8 +51,8 @@ const Send = props => {
           <Section.Title>TO WHO?</Section.Title>
           <TextInput onChangeText={text => setScreenState({ to: text })} value={to} />
           <Section.Row>
-            <ScanQRButton screenProps={props.screenProps} />
-            <GenerateLinkButton screenProps={props.screenProps} to={to} />
+            <ScanQRButton screenProps={props.screenProps} disabled={!!to} />
+            <GenerateLinkButton screenProps={props.screenProps} disabled={!!to} />
           </Section.Row>
         </View>
         <View style={styles.bottomContainer}>

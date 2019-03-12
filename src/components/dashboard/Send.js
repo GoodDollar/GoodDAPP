@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Wrapper, TopBar, Section, IconButton, CustomButton } from '../common'
 import { StyleSheet, View } from 'react-native'
-import { TextInput } from 'react-native-paper'
+import { HelperText, TextInput } from 'react-native-paper'
 import { useScreenState } from '../appNavigation/stackNavigation'
+import isMobilePhone from '../../lib/validators/isMobilePhone'
+import isEmail from 'validator/lib/isEmail'
+import goodWallet from '../../lib/wallet/GoodWallet'
 
 import logger from '../../lib/logger/pino-logger'
 
@@ -29,9 +32,33 @@ const GenerateLinkButton = ({ screenProps, disabled }) => (
   />
 )
 
-const ContinueButton = ({ screenProps, to, disabled }) => (
+const validate = to => {
+  if (!to) return null
+
+  if (isMobilePhone(to) || isEmail(to)) {
+    return null
+  }
+
+  if (goodWallet.wallet.utils.isAddress(to)) {
+    return null
+  }
+  return `Needs to be a valid address, email or mobile phone`
+}
+
+const ContinueButton = ({ screenProps, to, disabled, onPress }) => (
   <CustomButton
-    onPress={() => screenProps.push('Amount', { to, nextRoutes: ['Reason', 'SendQRSummary'] })}
+    onPress={() => {
+      onPress()
+
+      if (to && (isMobilePhone(to) || isEmail(to))) {
+        return screenProps.push('Amount', { to, nextRoutes: ['Reason', 'SendLinkSummary'] })
+      }
+
+      if (to && goodWallet.wallet.utils.isAddress(to)) {
+        return screenProps.push('Amount', { to, nextRoutes: ['Reason', 'SendQRSummary'] })
+      }
+      log.info(`${to} Needs to be a valid address, email or mobile phone`)
+    }}
     mode="contained"
     disabled={disabled}
   >
@@ -41,6 +68,8 @@ const ContinueButton = ({ screenProps, to, disabled }) => (
 
 const Send = props => {
   const [screenState, setScreenState] = useScreenState(props.screenProps)
+  const [error, setError] = useState()
+  const checkError = () => setError(validate(to))
 
   const { to } = screenState
   return (
@@ -49,14 +78,17 @@ const Send = props => {
       <Section style={styles.bottomSection}>
         <View style={styles.topContainer}>
           <Section.Title>TO WHO?</Section.Title>
-          <TextInput onChangeText={text => setScreenState({ to: text })} value={to} />
+          <TextInput onChangeText={text => setScreenState({ to: text })} onBlur={checkError} value={to} />
+          <HelperText type="error" visible={error}>
+            {error}
+          </HelperText>
           <Section.Row>
             <ScanQRButton screenProps={props.screenProps} disabled={!!to} />
             <GenerateLinkButton screenProps={props.screenProps} disabled={!!to} />
           </Section.Row>
         </View>
         <View style={styles.bottomContainer}>
-          <ContinueButton screenProps={props.screenProps} to={to} />
+          <ContinueButton screenProps={props.screenProps} to={to} disabled={!to} onPress={checkError} />
         </View>
       </Section>
     </Wrapper>

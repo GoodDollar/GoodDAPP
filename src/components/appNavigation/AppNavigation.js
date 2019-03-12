@@ -10,7 +10,6 @@ import homeIcon from '../../assets/homeIcon.png'
 import rewardsIcon from '../../assets/rewardsIcon.png'
 
 import GDStore from '../../lib/undux/GDStore'
-import { updateAll } from '../../lib/undux/utils/account'
 import Dashboard from '../dashboard/Dashboard'
 import Splash from '../splash/Splash'
 import BuySell from './BuySell'
@@ -53,23 +52,9 @@ const AppNavigator = createSwitchNavigator(routes, { initialRouteName })
  * Dashboard is the initial route
  */
 class AppNavigation extends React.Component<AppNavigationProps, AppNavigationState> {
-  state = {
-    ready: false
-  }
-
-  async componentDidMount(): Promise<void> {
-    const { store } = this.props
-    await updateAll(store)
-    const account = store.get('account')
-
-    account.ready = true
-    store.set('account')(account)
-
-    this.setState({ ready: true })
-  }
-
   render() {
-    if (this.state.ready) {
+    const account = this.props.store.get('account')
+    if (account.ready) {
       return <AppNavigator navigation={this.props.navigation} screenProps={{ routes }} />
     }
 

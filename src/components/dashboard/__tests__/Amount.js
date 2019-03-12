@@ -1,30 +1,18 @@
 import React from 'react'
+import { getWebRouterComponentWithMocks } from './__util__'
 // Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer'
-
-import GDStore from '../../../lib/undux/GDStore'
-import { getWebRouterComponentWithMocks } from './__util__'
-
-const { Container } = GDStore
 
 describe('Amount', () => {
   it('renders without errors', () => {
     const Amount = getWebRouterComponentWithMocks('../Amount')
-    const tree = renderer.create(
-      <Container>
-        <Amount />
-      </Container>
-    )
+    const tree = renderer.create(<Amount />)
     expect(tree.toJSON()).toBeTruthy()
   })
 
   it('matches snapshot', () => {
     const Amount = getWebRouterComponentWithMocks('../Amount')
-    const component = renderer.create(
-      <Container>
-        <Amount />
-      </Container>
-    )
+    const component = renderer.create(<Amount />)
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

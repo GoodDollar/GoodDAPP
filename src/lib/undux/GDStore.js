@@ -4,6 +4,7 @@ import compose from 'lodash/fp/compose'
 
 import withPinoLogger from './plugins/logger'
 import withBalanceChange from './plugins/balanceChange.js'
+import effects from '../../lib/undux/effects'
 
 type BalanceUpdate = {
   running: boolean
@@ -38,13 +39,14 @@ const initialState: State = {
     balance: '',
     entitlement: '',
     ready: false
-  }
+  },
+  isLoggedInCitizen: false
 }
 
 export default createConnectedStore(
   initialState,
   compose(
-    withBalanceChange,
+    effects,
     withPinoLogger,
     withReduxDevtools
   )

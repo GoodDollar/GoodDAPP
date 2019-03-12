@@ -6,7 +6,9 @@ import goodWallet from '../../wallet/GoodWallet'
 const log = logger.child({ from: 'undux/utils/balance' })
 
 const updateAll = (store: Store) => {
-  return Promise.all([updateBalance(store), updateEntitlement(store)])
+  return Promise.all([updateBalance(store), updateEntitlement(store)]).then(() =>
+    store.set('account')({ ...store.get('account'), ready: true })
+  )
 }
 
 /**

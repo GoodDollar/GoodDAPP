@@ -47,7 +47,7 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
       goodWallet.isCitizen(),
       delay(TIMEOUT)
     ])
-    let topWalletRes = await API.verifyTopWallet()
+    let topWalletRes = API.verifyTopWallet()
     log.info('Top wallet result', topWalletRes)
     const isLoggedIn = credsOrError.jwt !== undefined
     this.props.store.set('isLoggedInCitizen')(isLoggedIn && isCitizen)

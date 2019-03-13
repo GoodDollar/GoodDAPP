@@ -1,12 +1,14 @@
 // @flow
 import React, { Component } from 'react'
-import { StyleSheet, View, Platform, SafeAreaView } from 'react-native'
+import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 import { Provider as PaperProvider } from 'react-native-paper'
-import { WebRouter } from './Router'
-import userStorage from './lib/gundb/UserStorage'
-import { ReCaptcha, loadReCaptcha } from 'recaptcha-v3-react'
+import { loadReCaptcha, ReCaptcha } from 'recaptcha-v3-react'
+
 import Config from './config/config'
+import userStorage from './lib/gundb/UserStorage'
 import logger from './lib/logger/pino-logger'
+import GDStore from './lib/undux/GDStore'
+import { WebRouter } from './Router'
 
 class App extends Component<{}, { walletReady: boolean, isLoggedIn: boolean, isUserRegistered: boolean }> {
   componentWillMount() {
@@ -28,14 +30,16 @@ class App extends Component<{}, { walletReady: boolean, isLoggedIn: boolean, isU
   }
   render() {
     return (
-      <PaperProvider>
-        <SafeAreaView>
-          <View style={styles.container}>
-            {/* <ReCaptcha sitekey={Config.recaptcha} action="auth" verifyCallback={this.onRecaptcha} /> */}
-            <WebRouter />
-          </View>
-        </SafeAreaView>
-      </PaperProvider>
+      <GDStore.Container>
+        <PaperProvider>
+          <SafeAreaView>
+            <View style={styles.container}>
+              {/* <ReCaptcha sitekey={Config.recaptcha} action="auth" verifyCallback={this.onRecaptcha} /> */}
+              <WebRouter />
+            </View>
+          </SafeAreaView>
+        </PaperProvider>
+      </GDStore.Container>
     )
   }
 }

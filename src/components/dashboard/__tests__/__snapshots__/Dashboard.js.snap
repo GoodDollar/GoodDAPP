@@ -1111,7 +1111,9 @@ exports[`Dashboard matches snapshot 1`] = `
                       "wordWrap": "break-word",
                     }
                   }
-                />
+                >
+                  
+                </div>
                 <div
                   dir="auto"
                   style={
@@ -1721,6 +1723,7 @@ exports[`Dashboard matches snapshot 1`] = `
                           }
                         }
                       >
+                        
                         GD
                       </span>
                     </div>
@@ -3098,7 +3101,9 @@ exports[`Dashboard matches snapshot when changing tab 1`] = `
                       "wordWrap": "break-word",
                     }
                   }
-                />
+                >
+                  
+                </div>
                 <div
                   dir="auto"
                   style={
@@ -3708,6 +3713,7 @@ exports[`Dashboard matches snapshot when changing tab 1`] = `
                           }
                         }
                       >
+                        
                         GD
                       </span>
                     </div>

@@ -5,10 +5,13 @@ import goodWallet from '../lib/wallet/GoodWallet'
 import goodWalletLogin from '../lib/login/GoodWalletLogin'
 import logger from '../lib/logger/pino-logger'
 import API from '../lib/API/api'
+import GDStore from '../lib/undux/GDStore'
+import type { Store } from 'undux'
 
 type LoadingProps = {
   navigation: any,
-  descriptors: any
+  descriptors: any,
+  store: Store
 }
 
 const log = logger.child({ from: 'AppSwitch' })
@@ -47,8 +50,8 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
     let topWalletRes = API.verifyTopWallet()
     log.info('Top wallet result', topWalletRes)
     const isLoggedIn = credsOrError.jwt !== undefined
-
-    if (isLoggedIn && isCitizen) {
+    this.props.store.set('isLoggedInCitizen')(isLoggedIn && isCitizen)
+    if (this.props.store.get('isLoggedInCitizen')) {
       this.props.navigation.navigate('AppNavigation')
     } else {
       const { jwt } = credsOrError
@@ -72,4 +75,4 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
   }
 }
 
-export default AppSwitch
+export default GDStore.withStore(AppSwitch)

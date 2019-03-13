@@ -1,22 +1,11 @@
-import React, { useContext } from 'react'
-//import { createStackNavigator } from '../../appNavigation/stackNavigation'
 import { createSwitchNavigator } from '@react-navigation/core'
 import { createBrowserApp } from '@react-navigation/web'
+import React from 'react'
+import GDStore from '../../../../lib/undux/GDStore'
+const { Container } = GDStore
 
-export const getComponentWithMocks = (componentPath, context = { balance: 10 }) => {
+export const getComponentWithMocks = componentPath => {
   // Will then mock the LocalizeContext module being used in our LanguageSelector component
-  jest.doMock('../../../appNavigation/AccountProvider', () => {
-    const AccountContext = React.createContext({ context })
-    const AccountConsumer = AccountContext.Consumer
-    const AccountProvider = props => <AccountContext.Provider value={context}>{props.children}</AccountContext.Provider>
-
-    return {
-      AccountProvider,
-      AccountConsumer,
-      AccountContext
-    }
-  })
-
   jest.doMock('../../../../lib/share', () => {
     return {
       generateCode: () => '0xfakeAddress'
@@ -27,8 +16,14 @@ export const getComponentWithMocks = (componentPath, context = { balance: 10 }) 
   return require(`../${componentPath}`).default
 }
 
-export const getWebRouterComponentWithMocks = (componentPath, context) => {
-  const Component = getComponentWithMocks(componentPath, context)
+const withContainer = Component => props => (
+  <Container>
+    <Component {...props} />
+  </Container>
+)
+
+export const getWebRouterComponentWithMocks = componentPath => {
+  const Component = getComponentWithMocks(componentPath)
 
   const routes = {
     Component
@@ -42,5 +37,5 @@ export const getWebRouterComponentWithMocks = (componentPath, context) => {
       return <AppNavigator navigation={this.props.navigation} screenProps={{ routes }} />
     }
   }
-  return createBrowserApp(createSwitchNavigator({ AppNavigation }))
+  return withContainer(createBrowserApp(createSwitchNavigator({ AppNavigation })))
 }

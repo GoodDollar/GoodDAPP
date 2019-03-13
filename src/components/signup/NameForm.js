@@ -1,34 +1,24 @@
 // @flow
 import React from 'react'
 import { TextInput } from 'react-native-paper'
-import { Wrapper, Title } from './components'
+import type { Store } from 'undux'
+
+import GDStore from '../../lib/undux/GDStore'
+import { Title, Wrapper } from './components'
 
 type Props = {
   // callback to report to parent component
   doneCallback: ({ name: string }) => null,
   screenProps: any,
-  navigation: any
+  navigation: any,
+  store: Store
 }
 
 export type NameRecord = {
   fullName: string
 }
 
-type State = NameRecord & { valid?: boolean }
-
-export default class NameForm extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props)
-    this.state = {
-      fullName: this.props.screenProps.data.fullName || '',
-      valid: false
-    }
-    this.state.valid = this.state.fullName.match(/[A-Za-z][A-Za-z'-]+(\s[A-Za-z][A-Za-z'-]+)+/) !== null
-  }
-  componentDidMount() {
-    // this.focusInput()
-  }
-
+class NameForm extends React.Component<Props, {}> {
   focusInput() {
     setTimeout(() => {
       const input: TextInput = document.getElementById('signup_name')
@@ -40,26 +30,31 @@ export default class NameForm extends React.Component<Props, State> {
     }, 0)
   }
 
-  handleChange = (text: string) => {
-    this.setState({
-      fullName: text,
-      valid: text.match(/[A-Za-z][A-Za-z'-]+(\s[A-Za-z][A-Za-z'-]+)+/) !== null
-    })
+  handleChange = (fullName: string) => {
+    const { store } = this.props
+    const name = store.get('name')
+
+    name.fullName = fullName
+    name.valid = fullName.match(/[A-Za-z][A-Za-z'-]+(\s[A-Za-z][A-Za-z'-]+)+/) !== null
+
+    store.set('name')(name)
   }
 
   handleSubmit = () => {
-    this.props.screenProps.doneCallback({ fullName: this.state.fullName })
+    this.props.screenProps.doneCallback({ fullName: this.props.store.get('name').fullName })
     // this.$f7router.navigate("/signup/email/")
   }
 
   render() {
+    const name = this.props.store.get('name')
+
     return (
-      <Wrapper valid={this.state.valid} handleSubmit={this.handleSubmit}>
+      <Wrapper valid={name.valid} handleSubmit={this.handleSubmit}>
         <Title>{"Hi, \n What's your name?"}</Title>
         <TextInput
           id="signup_name"
           label="Your Full Name"
-          value={this.state.fullName}
+          value={name.fullName}
           onChangeText={this.handleChange}
           autoFocus
         />
@@ -67,3 +62,5 @@ export default class NameForm extends React.Component<Props, State> {
     )
   }
 }
+
+export default GDStore.withStore(NameForm)

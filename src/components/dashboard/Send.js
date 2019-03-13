@@ -45,10 +45,10 @@ const validate = to => {
   return `Needs to be a valid address, email or mobile phone`
 }
 
-const ContinueButton = ({ screenProps, to, disabled, onPress }) => (
+const ContinueButton = ({ screenProps, to, disabled, checkError }) => (
   <CustomButton
     onPress={() => {
-      onPress()
+      if (checkError()) return
 
       if (to && (isMobilePhone(to) || isEmail(to))) {
         return screenProps.push('Amount', { to, nextRoutes: ['Reason', 'SendLinkSummary'] })
@@ -57,7 +57,7 @@ const ContinueButton = ({ screenProps, to, disabled, onPress }) => (
       if (to && goodWallet.wallet.utils.isAddress(to)) {
         return screenProps.push('Amount', { to, nextRoutes: ['Reason', 'SendQRSummary'] })
       }
-      log.info(`${to} Needs to be a valid address, email or mobile phone`)
+      log.debug(`Oops, no error and no action`)
     }}
     mode="contained"
     disabled={disabled}
@@ -69,9 +69,14 @@ const ContinueButton = ({ screenProps, to, disabled, onPress }) => (
 const Send = props => {
   const [screenState, setScreenState] = useScreenState(props.screenProps)
   const [error, setError] = useState()
-  const checkError = () => setError(validate(to))
 
   const { to } = screenState
+  const checkError = () => {
+    const err = validate(to)
+    setError(err)
+    return err
+  }
+
   return (
     <Wrapper>
       <TopBar />
@@ -88,7 +93,7 @@ const Send = props => {
           </Section.Row>
         </View>
         <View style={styles.bottomContainer}>
-          <ContinueButton screenProps={props.screenProps} to={to} disabled={!to} onPress={checkError} />
+          <ContinueButton screenProps={props.screenProps} to={to} disabled={!to} checkError={checkError} />
         </View>
       </Section>
     </Wrapper>

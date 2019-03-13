@@ -1034,7 +1034,7 @@ exports[`SendConfirmation matches snapshot 1`] = `
                         }
                       }
                     >
-                      Share Link
+                      Copy Link to Clipboard
                     </span>
                   </div>
                 </div>

@@ -331,53 +331,27 @@ export class GoodWallet {
     log.info(`paymentAvailable: ${paymentAvailable}`)
 
     if (paymentAvailable.lte(toBN('0'))) {
-      throw new Error('payment already done')
+      throw new Error('deposit already withdrawn')
     }
 
-    const events = await this.oneTimePaymentLinksContract.getPastEvents('allEvents', { fromBlock: '0' })
-    log.info({ events })
-    const { sender } = _(events)
+    const events = await this.oneTimeEvents({
+      event: 'PaymentDeposit',
+      contract: this.oneTimePaymentLinksContract,
+      fromBlock: '0',
+      toBlock: 'latest',
+      filter: { hash: link }
+    })
+
+    log.debug({ events })
+
+    const { from } = _(events)
       .filter({ returnValues: { hash: link } })
       .map('returnValues')
       .value()[0]
 
     return {
       amount: paymentAvailable.toString(),
-      sender
-    }
-  }
-
-  async canWithdraw(otlCode: string) {
-    const { isLinkUsed, payments } = this.oneTimePaymentLinksContract.methods
-    const { sha3, toBN } = this.wallet.utils
-
-    const link = sha3(otlCode)
-    const linkUsed = await isLinkUsed(link).call()
-    log.info('isLinkUsed', linkUsed)
-
-    if (!linkUsed) {
-      throw new Error('invalid link')
-    }
-
-    const paymentAvailable = await payments(link)
-      .call()
-      .then(toBN)
-    log.info(`paymentAvailable: ${paymentAvailable}`)
-
-    if (paymentAvailable.lte(toBN('0'))) {
-      throw new Error('payment already done')
-    }
-
-    const events = await this.oneTimePaymentLinksContract.getPastEvents('allEvents', { fromBlock: '0' })
-    log.info({ events })
-    const { sender } = _(events)
-      .filter({ returnValues: { hash: link } })
-      .map('returnValues')
-      .value()[0]
-
-    return {
-      amount: paymentAvailable.toString(),
-      sender
+      sender: from
     }
   }
 

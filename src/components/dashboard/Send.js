@@ -83,7 +83,7 @@ const Send = props => {
       <Section style={styles.bottomSection}>
         <View style={styles.topContainer}>
           <Section.Title>TO WHO?</Section.Title>
-          <TextInput onChangeText={text => setScreenState({ to: text })} onBlur={checkError} value={to} />
+          <TextInput onChangeText={text => setScreenState({ to: text })} onBlur={checkError} value={to} error={error} />
           <HelperText type="error" visible={error}>
             {error}
           </HelperText>

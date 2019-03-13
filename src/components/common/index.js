@@ -14,6 +14,7 @@ import BigGoodDollar from './BigGoodDollar'
 import Section from './Section'
 import TopBar from './TopBar'
 import IconButton from './IconButton'
+import InputGoodDollar from './InputGoodDollar'
 
 export * from './CustomButton'
 
@@ -85,4 +86,16 @@ const styles = StyleSheet.create({
   }
 })
 
-export { Address, Avatar, CustomButton, Wrapper, Section, BigNumber, BigGoodDollar, TopBar, IconButton, CustomDialog }
+export {
+  Address,
+  Avatar,
+  CustomButton,
+  Wrapper,
+  Section,
+  BigNumber,
+  BigGoodDollar,
+  TopBar,
+  IconButton,
+  CustomDialog,
+  InputGoodDollar
+}

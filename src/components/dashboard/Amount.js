@@ -1,14 +1,10 @@
 // @flow
 import React, { useCallback } from 'react'
 import { Text, View } from 'react-native'
-import { TextInput } from 'react-native-paper'
 
-import { Section, Wrapper } from '../common'
+import { Section, Wrapper, TopBar, InputGoodDollar } from '../common'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
 import { receiveStyles as styles } from './styles'
-import TopBar from '../common/TopBar'
-import { weiToMask, maskToWei } from '../../lib/wallet/utils'
-import CurrencyInput from 'react-currency-input'
 
 export type AmountProps = {
   screenProps: any,
@@ -17,31 +13,12 @@ export type AmountProps = {
 
 const RECEIVE_TITLE = 'Receive GD'
 
-const InputGoodDollar = props => {
-  return (
-    <TextInput
-      {...props}
-      step="0.01"
-      placeholder="0"
-      value={weiToMask(props.wei)}
-      onChangeText={text => {
-        props.onChangeWei(maskToWei(text))
-      }}
-    />
-  )
-}
-
 const Amount = (props: AmountProps) => {
   const { screenProps } = props
   const [screenState, setScreenState] = useScreenState(screenProps)
 
   const { amount, to } = screenState || {}
   const handleAmountChange = useCallback((value: string) => setScreenState({ amount: parseInt(value) }), ['0'])
-
-  // const handleAmountChange = value => {
-  //   console.log({ value })
-  //   setScreenState({ amount: value })
-  // }
   return (
     <Wrapper style={styles.wrapper}>
       <TopBar />

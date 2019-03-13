@@ -36,7 +36,7 @@ type QueryEvent = {
   contract: Web3.eth.Contract,
   filter: {},
   fromBlock: typeof BN,
-  toBlock: typeof BN
+  toBlock: typeof BN | 'latest'
 }
 
 export class GoodWallet {
@@ -180,16 +180,26 @@ export class GoodWallet {
    * @param {Function} callback - Function to be called once an event is received
    * @returns {Promise<void>}
    */
-  async oneTimeEvents({ event, contract, filter, fromBlock, toBlock }: QueryEvent, callback: Function) {
+  async oneTimeEvents({ event, contract, filter, fromBlock, toBlock }: QueryEvent, callback?: Function) {
     try {
       const events = await this.getEvents({ event, contract, filter, fromBlock, toBlock })
       log.debug({ events: events.length, ...filter, fromBlock: fromBlock.toString(), toBlock: toBlock.toString() })
+
       if (events.length) {
-        callback(null, events)
+        if (callback === undefined) {
+          return Promise.resolve(events)
+        } else {
+          callback(null, events)
+        }
       }
     } catch (e) {
       log.error({ e })
-      callback(e, [])
+
+      if (callback === undefined) {
+        return Promise.reject(e)
+      } else {
+        callback(e, [])
+      }
     }
   }
 

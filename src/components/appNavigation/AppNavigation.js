@@ -1,21 +1,28 @@
 // @flow
-import React from 'react'
 import { createSwitchNavigator } from '@react-navigation/core'
-
-import Rewards from './Rewards'
-import BuySell from './BuySell'
-import Dashboard from '../dashboard/Dashboard'
-import Donate from './Donate'
+import React from 'react'
+import type { Store } from 'undux'
 
 // TODO: Should we do this diferently?
-import rewardsIcon from '../../assets/rewardsIcon.png'
-import homeIcon from '../../assets/homeIcon.png'
 import buySellIcon from '../../assets/buySellIcon.png'
 import donateIcon from '../../assets/donateIcon.png'
-import { AccountProvider } from './AccountProvider'
+import homeIcon from '../../assets/homeIcon.png'
+import rewardsIcon from '../../assets/rewardsIcon.png'
+
+import GDStore from '../../lib/undux/GDStore'
+import Dashboard from '../dashboard/Dashboard'
+import Splash from '../splash/Splash'
+import BuySell from './BuySell'
+import Donate from './Donate'
+import Rewards from './Rewards'
 
 type AppNavigationProps = {
-  navigation: any
+  navigation: any,
+  store: Store
+}
+
+type AppNavigationState = {
+  ready: boolean
 }
 
 const routes = {
@@ -44,16 +51,18 @@ const AppNavigator = createSwitchNavigator(routes, { initialRouteName })
  * Switch navigation between all screens on the tabs. Each of this screen should be a StackNavigation
  * Dashboard is the initial route
  */
-class AppNavigation extends React.Component<AppNavigationProps, {}> {
-  static router = AppNavigator.router
-
+class AppNavigation extends React.Component<AppNavigationProps, AppNavigationState> {
   render() {
-    return (
-      <AccountProvider>
-        <AppNavigator navigation={this.props.navigation} screenProps={{ routes }} />
-      </AccountProvider>
-    )
+    const account = this.props.store.get('account')
+    if (account.ready) {
+      return <AppNavigator navigation={this.props.navigation} screenProps={{ routes }} />
+    }
+
+    return <Splash />
   }
 }
 
-export default AppNavigation
+const appNavigation = GDStore.withStore(AppNavigation)
+appNavigation.router = AppNavigator.router
+
+export default appNavigation

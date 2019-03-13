@@ -1,7 +1,8 @@
 import React from 'react'
-import { getWebRouterComponentWithMocks } from './__util__'
 // Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer'
+
+import { getWebRouterComponentWithMocks } from './__util__'
 
 describe('Send', () => {
   it('renders without errors', () => {

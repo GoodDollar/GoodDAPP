@@ -56,3 +56,6 @@ declare module '@gooddollar/goodcontracts/build/contracts/GoodDollar.json' {
 declare module '@gooddollar/goodcontracts/build/contracts/GoodDollarReserve.json' {
   declare module.exports: $Exports<'@gooddollar/goodcontracts/build/contracts/GoodDollarReserve.json'>;
 }
+declare module '@gooddollar/goodcontracts/build/contracts/OneTimePaymentLinks.json' {
+  declare module.exports: $Exports<'@gooddollar/goodcontracts/build/contracts/OneTimePaymentLinks.json'>;
+}

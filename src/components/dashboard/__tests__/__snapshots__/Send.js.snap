@@ -518,7 +518,9 @@ exports[`Send matches snapshot 1`] = `
                     "wordWrap": "break-word",
                   }
                 }
-              />
+              >
+                
+              </div>
               <div
                 dir="auto"
                 style={

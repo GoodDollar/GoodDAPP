@@ -42,7 +42,7 @@ const SendConfirmation = ({ screenProps, navigation }: ReceiveProps) => {
         </View>
         <View style={styles.sectionBottom}>
           <CustomButton onPress={copySendLink} mode="contained">
-            Share Link
+            Copy Link to Clipboard
           </CustomButton>
         </View>
       </Section>

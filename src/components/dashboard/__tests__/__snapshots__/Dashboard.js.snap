@@ -1112,7 +1112,7 @@ exports[`Dashboard matches snapshot 1`] = `
                     }
                   }
                 >
-                  
+                  0.00
                 </div>
                 <div
                   dir="auto"
@@ -1723,8 +1723,7 @@ exports[`Dashboard matches snapshot 1`] = `
                           }
                         }
                       >
-                        
-                        GD
+                        0.00 GD
                       </span>
                     </div>
                   </div>
@@ -3102,7 +3101,7 @@ exports[`Dashboard matches snapshot when changing tab 1`] = `
                     }
                   }
                 >
-                  
+                  0.00
                 </div>
                 <div
                   dir="auto"
@@ -3713,8 +3712,7 @@ exports[`Dashboard matches snapshot when changing tab 1`] = `
                           }
                         }
                       >
-                        
-                        GD
+                        0.00 GD
                       </span>
                     </div>
                   </div>

@@ -7,6 +7,8 @@ import { Section, Wrapper } from '../common'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
 import { receiveStyles as styles } from './styles'
 import TopBar from '../common/TopBar'
+import { weiToMask, maskToWei } from '../../lib/wallet/utils'
+import CurrencyInput from 'react-currency-input'
 
 export type AmountProps = {
   screenProps: any,
@@ -15,6 +17,20 @@ export type AmountProps = {
 
 const RECEIVE_TITLE = 'Receive GD'
 
+const InputGoodDollar = props => {
+  return (
+    <TextInput
+      {...props}
+      step="0.01"
+      placeholder="0"
+      value={weiToMask(props.wei)}
+      onChangeText={text => {
+        props.onChangeWei(maskToWei(text))
+      }}
+    />
+  )
+}
+
 const Amount = (props: AmountProps) => {
   const { screenProps } = props
   const [screenState, setScreenState] = useScreenState(screenProps)
@@ -22,6 +38,10 @@ const Amount = (props: AmountProps) => {
   const { amount, to } = screenState || {}
   const handleAmountChange = useCallback((value: string) => setScreenState({ amount: parseInt(value) }), ['0'])
 
+  // const handleAmountChange = value => {
+  //   console.log({ value })
+  //   setScreenState({ amount: value })
+  // }
   return (
     <Wrapper style={styles.wrapper}>
       <TopBar />
@@ -31,12 +51,10 @@ const Amount = (props: AmountProps) => {
             <Section.Title style={styles.headline}>How much?</Section.Title>
             <View style={styles.amountWrapper}>
               <Text style={styles.amountInputWrapper}>
-                <TextInput
-                  focus={true}
-                  keyboardType="numeric"
-                  placeholder="0"
-                  value={amount}
-                  onChangeText={handleAmountChange}
+                <InputGoodDollar
+                  focus="true"
+                  wei={amount}
+                  onChangeWei={handleAmountChange}
                   style={styles.amountInput}
                 />
               </Text>

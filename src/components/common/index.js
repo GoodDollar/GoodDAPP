@@ -10,6 +10,7 @@ import Avatar from './Avatar'
 import CustomDialog from './CustomDialog'
 import CustomButton from './CustomButton'
 import BigNumber from './BigNumber'
+import BigGoodDollar from './BigGoodDollar'
 import Section from './Section'
 import TopBar from './TopBar'
 import IconButton from './IconButton'
@@ -84,4 +85,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export { Address, Avatar, CustomButton, Wrapper, Section, BigNumber, TopBar, IconButton, CustomDialog }
+export { Address, Avatar, CustomButton, Wrapper, Section, BigNumber, BigGoodDollar, TopBar, IconButton, CustomDialog }

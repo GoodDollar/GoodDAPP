@@ -921,7 +921,7 @@ exports[`Amount matches snapshot 1`] = `
                       className="rn-placeholderTextColor-1qzd3f0"
                       data-focusable={true}
                       dir="auto"
-                      focus={true}
+                      focus="focus"
                       onBlur={[Function]}
                       onChange={[Function]}
                       onFocus={[Function]}
@@ -976,6 +976,7 @@ exports[`Amount matches snapshot 1`] = `
                         }
                       }
                       type="number"
+                      value="undefined"
                     />
                   </div>
                 </div>

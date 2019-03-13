@@ -104,6 +104,10 @@ class API {
   async sendLinkByEmail(to: string, sendLink: string): Promise<$AxiosXHR<any>> {
     return this.client.post('/send/linkemail', { to, sendLink })
   }
+
+  async sendLinkBySMS(to: string, sendLink: string): Promise<$AxiosXHR<any>> {
+    return this.client.post('/send/linksms', { to, sendLink })
+  }
 }
 
 export default new API()

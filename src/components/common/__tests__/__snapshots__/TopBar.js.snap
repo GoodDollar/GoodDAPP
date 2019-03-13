@@ -322,7 +322,7 @@ exports[`TopBar matches snapshot with balance 1`] = `
           }
         }
       >
-        10
+        
       </div>
       <div
         dir="auto"

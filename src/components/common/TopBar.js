@@ -1,11 +1,12 @@
-import React, { useContext } from 'react'
-import Avatar from './Avatar'
-import Section from './Section'
-import BigNumber from './BigNumber'
-import { AccountContext } from '../appNavigation/AccountProvider'
+import React from 'react'
 
-const TopBar = ({ hideBalance }) => {
-  const { balance } = useContext(AccountContext)
+import GDStore from '../../lib/undux/GDStore'
+import Avatar from './Avatar'
+import BigNumber from './BigNumber'
+import Section from './Section'
+
+const TopBar = ({ hideBalance, store }) => {
+  const { balance } = store.get('account')
 
   return (
     <Section>
@@ -17,4 +18,4 @@ const TopBar = ({ hideBalance }) => {
   )
 }
 
-export default TopBar
+export default GDStore.withStore(TopBar)

@@ -1,15 +1,13 @@
 // @flow
-import React, { useState } from 'react'
+import React, { Component } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { normalize } from 'react-native-elements'
+import type { Store } from 'undux'
 
-import logger from '../../lib/logger/pino-logger'
-import goodWallet from '../../lib/wallet/GoodWallet'
-import { AccountConsumer } from '../appNavigation/AccountProvider'
+import GDStore from '../../lib/undux/GDStore'
 import { createStackNavigator, PushButton } from '../appNavigation/stackNavigation'
 import TabsView from '../appNavigation/TabsView'
-import { Avatar, BigNumber, CustomDialog, Section, Wrapper } from '../common'
-import Splash from '../splash/Splash'
+import { Avatar, BigNumber, Section, Wrapper } from '../common'
 import Amount from './Amount'
 import Claim from './Claim'
 import FaceRecognition from './FaceRecognition'
@@ -24,81 +22,47 @@ import SendQRSummary from './SendQRSummary'
 
 export type DashboardProps = {
   screenProps: any,
-  navigation: any
+  navigation: any,
+  store: Store
 }
 
-const log = logger.child({ from: 'Dashboard' })
+class Dashboard extends Component<DashboardProps, {}> {
+  render() {
+    const { screenProps, navigation, store }: DashboardProps = this.props
+    const { balance, entitlement } = store.get('account')
 
-const Dashboard = props => {
-  const { screenProps, navigation }: DashboardProps = props
-  const param = navigation.getParam('receiveLink', 'no-param')
-  const [info, setInfo] = useState({ amount: '0', sender: '0x0' })
-  const [dialogData, setDialogData] = useState({ visible: false })
-
-  log.debug({ param })
-  const dismissDialog = () => {
-    setDialogData({ visible: false })
-    navigation.navigate('Dashboard')
+    return (
+      <View>
+        <TabsView goTo={navigation.navigate} routes={screenProps.routes} />
+        <Wrapper>
+          <Section>
+            <Section.Row style={styles.centered}>
+              <Avatar size={80} />
+            </Section.Row>
+            <Section.Row style={styles.centered}>
+              <Section.Title>John Doe</Section.Title>
+            </Section.Row>
+            <Section.Row style={styles.centered}>
+              <BigNumber number={balance} unit="GD" />
+            </Section.Row>
+            <Section.Row style={styles.buttonRow}>
+              <PushButton routeName={'Send'} screenProps={screenProps} style={styles.leftButton}>
+                Send
+              </PushButton>
+              <PushButton routeName={'Claim'} screenProps={screenProps}>
+                <Text style={[styles.buttonText]}>Claim</Text>
+                <br />
+                <Text style={[styles.buttonText, styles.grayedOutText]}>{entitlement}GD</Text>
+              </PushButton>
+              <PushButton routeName={'Receive'} screenProps={screenProps} style={styles.rightButton}>
+                Receive
+              </PushButton>
+            </Section.Row>
+          </Section>
+        </Wrapper>
+      </View>
+    )
   }
-
-  const showDialogError = error => {
-    log.error(error)
-    setDialogData({ visible: true, title: 'Error', message: error.message })
-  }
-
-  if (param !== 'no-param') {
-    goodWallet
-      .canWithdraw(param)
-      .then(withdrawInfo => {
-        setInfo(withdrawInfo)
-        return goodWallet.withdraw(param)
-      })
-      .then(success => log.info(success))
-      .catch(() => navigation.navigate('Dashboard'))
-  }
-
-  return (
-    <AccountConsumer>
-      {({ balance, entitlement }) => (
-        <View>
-          <TabsView goTo={navigation.navigate} routes={screenProps.routes} />
-          <Wrapper>
-            <Section>
-              <Section.Row style={styles.centered}>
-                <Avatar size={80} />
-              </Section.Row>
-              <Section.Row style={styles.centered}>
-                <Section.Title>
-                  John Doe ({info.amount} - {info.sender})
-                </Section.Title>
-              </Section.Row>
-              <Section.Row style={styles.centered}>
-                <BigNumber number={balance} unit="GD" />
-              </Section.Row>
-              <Section.Row style={styles.buttonRow}>
-                <PushButton routeName={'Send'} screenProps={screenProps} style={styles.leftButton}>
-                  Send
-                </PushButton>
-                <PushButton routeName={'Claim'} screenProps={screenProps}>
-                  <Text style={[styles.buttonText]}>Claim</Text>
-                  <br />
-                  <Text style={[styles.buttonText, styles.grayedOutText]}>{entitlement}GD</Text>
-                </PushButton>
-                <PushButton routeName={'Receive'} screenProps={screenProps} style={styles.rightButton}>
-                  Receive
-                </PushButton>
-              </Section.Row>
-            </Section>
-          </Wrapper>
-          <CustomDialog onDismiss={dismissDialog} {...dialogData} />
-        </View>
-      )}
-    </AccountConsumer>
-  )
-}
-
-Dashboard.navigationOptions = {
-  navigationBarHidden: true
 }
 
 const styles = StyleSheet.create({
@@ -131,8 +95,14 @@ const styles = StyleSheet.create({
   }
 })
 
+const dashboard = GDStore.withStore(Dashboard)
+
+dashboard.navigationOptions = {
+  navigationBarHidden: true
+}
+
 export default createStackNavigator({
-  Home: Dashboard,
+  Dashboard: dashboard,
   Claim,
   Receive,
   Amount,

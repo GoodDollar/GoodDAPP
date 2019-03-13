@@ -78,7 +78,7 @@
     "rxjs": "^6.4.0",
     "styled-components": "^4.1.3",
     "truffle-hdwallet-provider": "^1.0.4",
-    "undux": "^5.0.0-beta.19",
+    "undux": "^5.0.0-beta.21",
     "validator": "^10.11.0",
     "web3": "1.0.0-beta.37"
   },

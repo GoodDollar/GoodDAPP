@@ -4,13 +4,20 @@ import { View, StyleSheet } from 'react-native'
 import { Button, Text } from 'react-native-paper'
 import { normalize } from 'react-native-elements'
 
-export const NextButton = (props: { valid?: boolean, handleSubmit: () => any, styles?: any, children: any }) => (
+export const NextButton = (props: {
+  valid?: boolean,
+  handleSubmit: () => any,
+  styles?: any,
+  children: any,
+  loading?: boolean
+}) => (
   <Button
     style={[props.styles || {}, styles.continueButton]}
     mode="contained"
     color="#555555"
     dark={true}
-    disabled={!props.valid}
+    disabled={!props.valid || props.loading}
+    loading={props.loading}
     onPress={props.handleSubmit}
   >
     <Text style={styles.buttonText}>{props.children}</Text>
@@ -40,12 +47,13 @@ const Footer = (props: {
   valid?: boolean,
   showPrivacyPolicy?: string,
   submitText?: string,
-  handleSubmit: () => any
+  handleSubmit: () => any,
+  loading?: boolean
 }) => {
   const showPrivacyPolicy = props.showPrivacyPolicy === undefined ? true : props.showPrivacyPolicy
   return (
     <React.Fragment>
-      <NextButton valid={props.valid} handleSubmit={props.handleSubmit}>
+      <NextButton valid={props.valid} handleSubmit={props.handleSubmit} loading={props.loading}>
         {props.submitText || 'Next'}
       </NextButton>
       {showPrivacyPolicy && <LinkButton onPress={() => console.log('Link button')}>Privacy Policy</LinkButton>}

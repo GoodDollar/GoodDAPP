@@ -8,7 +8,7 @@ import SmsForm from './SmsForm'
 import EmailConfirmation from './EmailConfirmation'
 import FaceRecognition from './FaceRecognition'
 import SignupCompleted from './SignupCompleted'
-
+import { CustomDialog } from '../common/'
 import NavBar from '../appNavigation/NavBar'
 
 import { createSwitchNavigator } from '@react-navigation/core'
@@ -23,7 +23,7 @@ import type { SMSRecord } from './SmsForm'
 
 const log = logger.child({ from: 'SignupState' })
 
-export type SignupState = UserRecord & SMSRecord
+export type SignupState = UserRecord & SMSRecord & { loading: boolean, dialogData: {} }
 
 const SignupWizardNavigator = createSwitchNavigator({
   Name: NameForm,
@@ -45,7 +45,9 @@ class Signup extends React.Component<{ navigation: any, screenProps: any }, Sign
     mobile: '',
     smsValidated: false,
     isEmailConfirmed: false,
-    jwt: ''
+    jwt: '',
+    loading: false,
+    dialogData: {}
   }
 
   saveProfile() {
@@ -68,11 +70,21 @@ class Signup extends React.Component<{ navigation: any, screenProps: any }, Sign
       } else {
         log.info('Sending new user data', this.state)
         this.saveProfile()
-        await API.addUser(this.state)
-        await API.verifyUser({})
-        //top wallet of new user
-        API.verifyTopWallet()
-        this.props.navigation.navigate('AppNavigation')
+        try {
+          this.setState({ loading: true })
+          await API.addUser(this.state)
+          await API.verifyUser({})
+          //top wallet of new user
+          API.verifyTopWallet()
+          this.props.navigation.navigate('AppNavigation')
+        } catch (error) {
+          this.setState({ loading: false })
+          const message = error && error.response && error.response.data ? error.response.data.message : error.message
+          this.setState({
+            dialogData: { visible: true, title: 'Error', message, dismissText: 'OK' }
+          })
+          console.log({ error })
+        }
       }
     }
   }
@@ -87,6 +99,14 @@ class Signup extends React.Component<{ navigation: any, screenProps: any }, Sign
     }
   }
 
+  _handleDismissDialog = () => {
+    this.setState({
+      dialogData: {
+        visible: false
+      }
+    })
+  }
+
   render() {
     log.info('this.props SignupState', this.props)
     return (
@@ -98,6 +118,7 @@ class Signup extends React.Component<{ navigation: any, screenProps: any }, Sign
             screenProps={{ ...this.props.screenProps, data: this.state, doneCallback: this.done, back: this.back }}
           />
         </View>
+        <CustomDialog onDismiss={this._handleDismissDialog} {...this.state.dialogData} />
       </View>
     )
   }

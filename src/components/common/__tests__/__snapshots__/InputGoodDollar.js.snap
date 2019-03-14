@@ -110,10 +110,8 @@ exports[`InputGoodDollar matches snapshot 1`] = `
     onKeyDown={[Function]}
     onKeyPress={[Function]}
     onSelect={[Function]}
-    placeholder="0"
     readOnly={false}
     spellCheck={true}
-    step="0.01"
     style={
       Object {
         "MozAppearance": "textfield",

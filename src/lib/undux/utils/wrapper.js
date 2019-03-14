@@ -1,12 +1,8 @@
-import API from './api'
-import GDStore from '../undux/GDStore'
-
 function isFunction(functionToCheck) {
   return typeof functionToCheck === 'function'
 }
 
-export const useApi = () => {
-  const store = GDStore.useStore()
+const wrapper = (target, store) => {
   const beforeFetching = () =>
     store.set('currentScreen')({
       loading: true
@@ -25,7 +21,7 @@ export const useApi = () => {
     })
   }
 
-  return new Proxy(API, {
+  return new Proxy(target, {
     get: function(target, name, receiver) {
       const origMethod = target[name]
       if (!isFunction(target[name])) {
@@ -43,3 +39,5 @@ export const useApi = () => {
     }
   })
 }
+
+export default wrapper

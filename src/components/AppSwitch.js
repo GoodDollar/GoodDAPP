@@ -71,12 +71,16 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
     const { descriptors, navigation, store } = this.props
     const activeKey = navigation.state.routes[navigation.state.index].key
     const descriptor = descriptors[activeKey]
-
+    const { dialogData } = store.get('currentScreen')
     return (
       <React.Fragment>
         <CustomDialog
-          {...store.get('currentScreen').dialogData}
-          onDismiss={() => store.set('currentScreen')({ dialogData: { visible: false } })}
+          {...dialogData}
+          onDismiss={(...args) => {
+            const currentDialogData = { ...dialogData }
+            store.set('currentScreen')({ dialogData: { visible: false } })
+            dialogData.onDismiss && dialogData.onDismiss(currentDialogData)
+          }}
         />
         <SceneView navigation={descriptor.navigation} component={descriptor.getComponent()} />
       </React.Fragment>

@@ -14,7 +14,7 @@ import NavBar from '../appNavigation/NavBar'
 import { createSwitchNavigator } from '@react-navigation/core'
 import logger from '../../lib/logger/pino-logger'
 
-import { useApi } from '../../lib/API/wrappedApi'
+import { useWrappedApi } from '../../lib/API/useWrappedApi'
 import goodWallet from '../../lib/wallet/GoodWallet'
 
 import type { UserRecord } from '../../lib/API/api'
@@ -37,7 +37,7 @@ const SignupWizardNavigator = createSwitchNavigator({
 })
 
 const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any }) => {
-  const API = useApi()
+  const API = useWrappedApi()
   const initialState: SignupState = {
     pubkey: goodWallet.account,
     fullName: '',

@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import React, { useState } from 'react'
 import { View, StyleSheet } from 'react-native'
 import NameForm from './NameForm'
 import EmailForm from './EmailForm'
@@ -20,10 +20,11 @@ import goodWallet from '../../lib/wallet/GoodWallet'
 import type { UserRecord } from '../../lib/API/api'
 import userStorage from '../../lib/gundb/UserStorage'
 import type { SMSRecord } from './SmsForm'
+import GDStore from '../../lib/undux/GDStore'
 
 const log = logger.child({ from: 'SignupState' })
 
-export type SignupState = UserRecord & SMSRecord & { loading: boolean, dialogData: {} }
+export type SignupState = UserRecord & SMSRecord & { loading?: boolean }
 
 const SignupWizardNavigator = createSwitchNavigator({
   Name: NameForm,
@@ -35,53 +36,56 @@ const SignupWizardNavigator = createSwitchNavigator({
   SignupCompleted
 })
 
-class Signup extends React.Component<{ navigation: any, screenProps: any }, SignupState> {
-  static router = SignupWizardNavigator.router
-
-  state = {
+const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any }) => {
+  const initialState: SignupState = {
     pubkey: goodWallet.account,
     fullName: '',
     email: '',
     mobile: '',
     smsValidated: false,
     isEmailConfirmed: false,
-    jwt: '',
-    loading: false,
-    dialogData: {}
+    jwt: ''
   }
 
-  saveProfile() {
-    ;['fullName', 'email', 'mobile'].forEach(field => userStorage.setProfileField(field, this.state[field], 'masked'))
+  const [state, setState] = useState(initialState)
+  const store = GDStore.useStore()
+  const { loading } = store.get('currentScreen')
+  function saveProfile() {
+    ;['fullName', 'email', 'mobile'].forEach(field => userStorage.setProfileField(field, state[field], 'masked'))
   }
-  done = async (data: { [string]: string }) => {
+
+  const done = async (data: { [string]: string }) => {
     log.info('signup data:', { data })
-    this.setState(data)
-    let nextRoute = this.props.navigation.state.routes[this.props.navigation.state.index + 1]
+    setState({ ...state, ...data })
+    console.log({ state, data })
+    let nextRoute = navigation.state.routes[navigation.state.index + 1]
     if (nextRoute && nextRoute.key === 'SMS') {
       try {
-        await API.sendOTP({ ...this.state, ...data })
-        this.props.navigation.navigate(nextRoute.key)
+        await API.sendOTP({ ...state, ...data })
+        navigation.navigate(nextRoute.key)
       } catch (e) {
         log.error(e)
       }
     } else {
       if (nextRoute) {
-        this.props.navigation.navigate(nextRoute.key)
+        navigation.navigate(nextRoute.key)
       } else {
-        log.info('Sending new user data', this.state)
-        this.saveProfile()
+        log.info('Sending new user data', state)
+        saveProfile()
         try {
-          this.setState({ loading: true })
-          await API.addUser(this.state)
+          store.set('currentScreen')({
+            loading: true
+          })
+          await API.addUser(state)
           await API.verifyUser({})
           //top wallet of new user
           API.verifyTopWallet()
-          this.props.navigation.navigate('AppNavigation')
+          navigation.navigate('AppNavigation')
         } catch (error) {
-          this.setState({ loading: false })
           const message = error && error.response && error.response.data ? error.response.data.message : error.message
-          this.setState({
-            dialogData: { visible: true, title: 'Error', message, dismissText: 'OK' }
+          store.set('currentScreen')({
+            dialogData: { visible: true, title: 'Error', message, dismissText: 'OK' },
+            loading: false
           })
           console.log({ error })
         }
@@ -89,41 +93,29 @@ class Signup extends React.Component<{ navigation: any, screenProps: any }, Sign
     }
   }
 
-  back = () => {
-    const nextRoute = this.props.navigation.state.routes[this.props.navigation.state.index - 1]
+  const back = () => {
+    const nextRoute = navigation.state.routes[navigation.state.index - 1]
 
     if (nextRoute) {
-      this.props.navigation.navigate(nextRoute.key)
+      navigation.navigate(nextRoute.key)
     } else {
-      this.props.navigation.navigate('Auth')
+      navigation.navigate('Auth')
     }
   }
 
-  _handleDismissDialog = () => {
-    this.setState({
-      dialogData: {
-        visible: false
-      }
-    })
-  }
-
-  render() {
-    log.info('this.props SignupState', this.props)
-    return (
-      <View style={styles.container}>
-        <NavBar goBack={this.back} title={'Signu Up'} />
-        <View style={styles.contentContainer}>
-          <SignupWizardNavigator
-            navigation={this.props.navigation}
-            screenProps={{ ...this.props.screenProps, data: this.state, doneCallback: this.done, back: this.back }}
-          />
-        </View>
-        <CustomDialog onDismiss={this._handleDismissDialog} {...this.state.dialogData} />
+  return (
+    <View style={styles.container}>
+      <NavBar goBack={back} title={'Sign Up'} />
+      <View style={styles.contentContainer}>
+        <SignupWizardNavigator
+          navigation={navigation}
+          screenProps={{ ...screenProps, data: { ...state, loading }, doneCallback: done, back: back }}
+        />
       </View>
-    )
-  }
+    </View>
+  )
 }
-
+Signup.router = SignupWizardNavigator.router
 const styles = StyleSheet.create({
   container: { flex: 1 },
   contentContainer: { justifyContent: 'center', flexDirection: 'row', flex: 1 }

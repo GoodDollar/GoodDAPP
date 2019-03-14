@@ -7,7 +7,7 @@ import logger from '../lib/logger/pino-logger'
 import API from '../lib/API/api'
 import GDStore from '../lib/undux/GDStore'
 import type { Store } from 'undux'
-
+import { CustomDialog } from '../components/common'
 type LoadingProps = {
   navigation: any,
   descriptors: any,
@@ -68,10 +68,19 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
   }
 
   render() {
-    const { descriptors, navigation } = this.props
+    const { descriptors, navigation, store } = this.props
     const activeKey = navigation.state.routes[navigation.state.index].key
     const descriptor = descriptors[activeKey]
-    return <SceneView navigation={descriptor.navigation} component={descriptor.getComponent()} />
+
+    return (
+      <React.Fragment>
+        <CustomDialog
+          {...store.get('currentScreen').dialogData}
+          onDismiss={() => store.set('currentScreen')({ dialogData: { visible: false } })}
+        />
+        <SceneView navigation={descriptor.navigation} component={descriptor.getComponent()} />
+      </React.Fragment>
+    )
   }
 }
 

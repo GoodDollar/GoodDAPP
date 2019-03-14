@@ -14,7 +14,7 @@ import NavBar from '../appNavigation/NavBar'
 import { createSwitchNavigator } from '@react-navigation/core'
 import logger from '../../lib/logger/pino-logger'
 
-import API from '../../lib/API/api'
+import { useApi } from '../../lib/API/wrappedApi'
 import goodWallet from '../../lib/wallet/GoodWallet'
 
 import type { UserRecord } from '../../lib/API/api'
@@ -37,6 +37,7 @@ const SignupWizardNavigator = createSwitchNavigator({
 })
 
 const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any }) => {
+  const API = useApi()
   const initialState: SignupState = {
     pubkey: goodWallet.account,
     fullName: '',
@@ -73,20 +74,12 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
         log.info('Sending new user data', state)
         saveProfile()
         try {
-          store.set('currentScreen')({
-            loading: true
-          })
           await API.addUser(state)
           await API.verifyUser({})
           //top wallet of new user
           API.verifyTopWallet()
           navigation.navigate('AppNavigation')
         } catch (error) {
-          const message = error && error.response && error.response.data ? error.response.data.message : error.message
-          store.set('currentScreen')({
-            dialogData: { visible: true, title: 'Error', message, dismissText: 'OK' },
-            loading: false
-          })
           console.log({ error })
         }
       }

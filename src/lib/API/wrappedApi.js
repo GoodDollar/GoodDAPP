@@ -34,7 +34,9 @@ export const useApi = () => {
         return function(...args) {
           beforeFetching()
           let result = origMethod.apply(target, args)
-          result.then(afterFetching).catch(errorHandler)
+          if (isFunction(result.then)) {
+            result.then(afterFetching).catch(errorHandler)
+          }
           return result
         }
       }

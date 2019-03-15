@@ -1,11 +1,10 @@
 // @flow
-import React, { useCallback, useState } from 'react'
-import { Text, View } from 'react-native'
-import { TextInput } from 'react-native-paper'
+import React from 'react'
+import { View } from 'react-native'
 import { useWrappedGoodWallet } from '../../lib/wallet/useWrappedWallet'
 import { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import { useWrappedUserStorage } from '../../lib/gundb/useWrappedStorage'
-import { Section, Wrapper, Avatar, BigNumber, CustomButton, CustomDialog } from '../common'
+import { Section, Wrapper, Avatar, BigGoodDollar, CustomButton, CustomDialog } from '../common'
 import { BackButton, PushButton, useScreenState } from '../appNavigation/stackNavigation'
 import { receiveStyles } from './styles'
 import TopBar from '../common/TopBar'
@@ -107,7 +106,7 @@ const SendLinkSummary = (props: AmountProps) => {
           </View>
           <Section.Text>
             {`Here's `}
-            <BigNumber number={amount} unit="GD" />
+            <BigGoodDollar number={amount} />
           </Section.Text>
           <Section.Text>{reason && `For ${reason}`}</Section.Text>
           <View style={styles.buttonGroup}>

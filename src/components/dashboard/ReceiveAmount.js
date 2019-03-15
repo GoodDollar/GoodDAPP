@@ -5,11 +5,11 @@ import QRCode from 'qrcode.react'
 
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { generateCode } from '../../lib/share'
-import { Section, Wrapper } from '../common'
+import { Section, Wrapper, BigGoodDollar } from '../common'
 import { receiveStyles as styles } from './styles'
 import ShareQR from './ShareQR'
 import { useScreenState } from '../appNavigation/stackNavigation'
-
+import { weiToMask } from '../../lib/wallet/utils'
 export type ReceiveProps = {
   screenProps: any,
   navigation: any
@@ -33,10 +33,9 @@ const ReceiveAmount = ({ screenProps, navigation }: ReceiveProps) => {
           </View>
           <View>
             <Section.Text style={styles.secondaryText}>This QR code requests exactly</Section.Text>
-            <Section.Title style={styles.amountLabel}>
-              {amount}
-              <Text style={styles.amountSymbol}>GD</Text>
-            </Section.Title>
+            <Section.Text>
+              <BigGoodDollar style={styles.centered} number={amount} />
+            </Section.Text>
           </View>
         </Section.Row>
       </Section>

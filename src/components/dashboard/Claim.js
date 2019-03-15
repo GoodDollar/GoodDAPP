@@ -6,7 +6,8 @@ import type { Store } from 'undux'
 
 import GDStore from '../../lib/undux/GDStore'
 import { PushButton } from '../appNavigation/stackNavigation'
-import { BigNumber, Section, TopBar, Wrapper } from '../common'
+import { BigNumber, BigGoodDollar, Section, TopBar, Wrapper } from '../common'
+import { weiToMask } from '../../lib/wallet/utils'
 import type { DashboardProps } from './Dashboard'
 
 type ClaimProps = DashboardProps & {
@@ -17,7 +18,6 @@ class Claim extends Component<ClaimProps, {}> {
   render() {
     const { screenProps, store }: ClaimProps = this.props
     const { entitlement } = store.get('account')
-
     return (
       <Wrapper>
         <TopBar />
@@ -25,7 +25,7 @@ class Claim extends Component<ClaimProps, {}> {
           <Section.Title>GoodDollar is a good economy, each day you can collect your part in the economy</Section.Title>
           <Section.Row style={styles.centered}>
             <Section.Text>{`TODAY'S DAILY INCOME `}</Section.Text>
-            <BigNumber number={entitlement} unit={'GD'} />
+            <BigGoodDollar number={entitlement} />
           </Section.Row>
           <Image style={styles.graph} source={require('./graph.png')} />
         </Section>
@@ -48,12 +48,12 @@ class Claim extends Component<ClaimProps, {}> {
         </Section>
         <View>
           <PushButton
-            disabled={!+entitlement}
+            disabled={entitlement <= 0}
             routeName={'FaceRecognition'}
             screenProps={screenProps}
             style={[styles.buttonLayout, styles.signUpButton]}
           >
-            {`CLAIM YOUR SHARE - ${entitlement} GD`}
+            {`CLAIM YOUR SHARE - ${weiToMask(entitlement, { showUnits: true })}`}
           </PushButton>
         </View>
       </Wrapper>

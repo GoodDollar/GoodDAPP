@@ -515,7 +515,7 @@ exports[`Amount matches snapshot 1`] = `
                   }
                 }
               >
-                
+                0.00
               </div>
               <div
                 dir="auto"
@@ -921,14 +921,14 @@ exports[`Amount matches snapshot 1`] = `
                       className="rn-placeholderTextColor-1qzd3f0"
                       data-focusable={true}
                       dir="auto"
-                      focus="focus"
+                      focus="true"
                       onBlur={[Function]}
                       onChange={[Function]}
+                      onChangeWei={[Function]}
                       onFocus={[Function]}
                       onKeyDown={[Function]}
                       onKeyPress={[Function]}
                       onSelect={[Function]}
-                      placeholder="0"
                       readOnly={false}
                       spellCheck={true}
                       style={
@@ -975,8 +975,8 @@ exports[`Amount matches snapshot 1`] = `
                           "zIndex": 1,
                         }
                       }
-                      type="number"
-                      value="undefined"
+                      type="text"
+                      value="0.00"
                     />
                   </div>
                 </div>

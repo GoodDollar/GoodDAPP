@@ -2,7 +2,7 @@ import React from 'react'
 
 import GDStore from '../../lib/undux/GDStore'
 import Avatar from './Avatar'
-import BigNumber from './BigNumber'
+import BigGoodDollar from './BigGoodDollar'
 import Section from './Section'
 
 const TopBar = ({ hideBalance, store }) => {
@@ -12,7 +12,7 @@ const TopBar = ({ hideBalance, store }) => {
     <Section>
       <Section.Row>
         <Avatar />
-        {!hideBalance && <BigNumber number={balance} unit={'GD'} />}
+        {!hideBalance && <BigGoodDollar number={balance} />}
       </Section.Row>
     </Section>
   )

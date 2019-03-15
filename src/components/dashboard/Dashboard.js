@@ -7,7 +7,7 @@ import type { Store } from 'undux'
 import GDStore from '../../lib/undux/GDStore'
 import { createStackNavigator, PushButton } from '../appNavigation/stackNavigation'
 import TabsView from '../appNavigation/TabsView'
-import { Avatar, BigNumber, Section, Wrapper } from '../common'
+import { Avatar, BigGoodDollar, Section, Wrapper } from '../common'
 import Amount from './Amount'
 import Claim from './Claim'
 import FaceRecognition from './FaceRecognition'
@@ -19,6 +19,7 @@ import Send from './Send'
 import SendConfirmation from './SendConfirmation'
 import SendLinkSummary from './SendLinkSummary'
 import SendQRSummary from './SendQRSummary'
+import { weiToMask } from '../../lib/wallet/utils'
 import Withdraw from './Withdraw'
 
 export type DashboardProps = {
@@ -63,7 +64,7 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
               <Section.Title>{fullName || 'John Doe'}</Section.Title>
             </Section.Row>
             <Section.Row style={styles.centered}>
-              <BigNumber number={balance} unit="GD" />
+              <BigGoodDollar number={balance} />
             </Section.Row>
             <Section.Row style={styles.buttonRow}>
               <PushButton routeName={'Send'} screenProps={screenProps} style={styles.leftButton}>
@@ -72,7 +73,9 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
               <PushButton routeName={'Claim'} screenProps={screenProps}>
                 <Text style={[styles.buttonText]}>Claim</Text>
                 <br />
-                <Text style={[styles.buttonText, styles.grayedOutText]}>{entitlement}GD</Text>
+                <Text style={[styles.buttonText, styles.grayedOutText]}>
+                  {weiToMask(entitlement, { showUnits: true })}
+                </Text>
               </PushButton>
               <PushButton routeName={'Receive'} screenProps={screenProps} style={styles.rightButton}>
                 Receive

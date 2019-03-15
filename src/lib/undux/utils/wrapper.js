@@ -3,7 +3,6 @@ function isFunction(functionToCheck) {
 }
 
 const wrapperFunction = (origMethod, target, handler) => {
-  console.log('wrapperFunction', { origMethod, target, handler })
   return function(...args) {
     handler.beforeFetching()
     let result = origMethod.apply(target, args)

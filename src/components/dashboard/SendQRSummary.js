@@ -5,7 +5,7 @@ import { View } from 'react-native'
 import logger from '../../lib/logger/pino-logger'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
-import { Avatar, BigNumber, CustomButton, CustomDialog, Section, Wrapper } from '../common'
+import { Avatar, BigGoodDollar, CustomButton, CustomDialog, Section, Wrapper } from '../common'
 import TopBar from '../common/TopBar'
 import { receiveStyles } from './styles'
 
@@ -57,7 +57,7 @@ const SendQRSummary = (props: AmountProps) => {
           </View>
           <Section.Text>
             {`Here's `}
-            <BigNumber number={amount} unit="GD" />
+            <BigGoodDollar number={amount} />
           </Section.Text>
           <Section.Text>{reason ? reason : null}</Section.Text>
           <View style={styles.buttonGroup}>

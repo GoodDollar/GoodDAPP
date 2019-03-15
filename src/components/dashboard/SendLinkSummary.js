@@ -93,7 +93,8 @@ const SendLinkSummary = (props: AmountProps) => {
         // Show confirmation
         screenProps.push('SendConfirmation', { sendLink })
       } catch (e) {
-        // TODO: cash out generated link if either transaction log save or email could not be send
+        const { hashedString } = generateLinkResponse
+        await goodWallet.cancelOtl(hashedString)
         showDialogError(e)
       }
     }

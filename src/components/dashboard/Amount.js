@@ -1,12 +1,10 @@
 // @flow
 import React, { useCallback } from 'react'
 import { Text, View } from 'react-native'
-import { TextInput } from 'react-native-paper'
 
-import { Section, Wrapper } from '../common'
+import { Section, Wrapper, TopBar, InputGoodDollar } from '../common'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
 import { receiveStyles as styles } from './styles'
-import TopBar from '../common/TopBar'
 
 export type AmountProps = {
   screenProps: any,
@@ -21,7 +19,6 @@ const Amount = (props: AmountProps) => {
 
   const { amount, to } = screenState || {}
   const handleAmountChange = useCallback((value: string) => setScreenState({ amount: parseInt(value) }), ['0'])
-
   return (
     <Wrapper style={styles.wrapper}>
       <TopBar />
@@ -31,12 +28,10 @@ const Amount = (props: AmountProps) => {
             <Section.Title style={styles.headline}>How much?</Section.Title>
             <View style={styles.amountWrapper}>
               <Text style={styles.amountInputWrapper}>
-                <TextInput
-                  focus="focus"
-                  keyboardType="numeric"
-                  placeholder="0"
-                  value={`${amount}`}
-                  onChangeText={handleAmountChange}
+                <InputGoodDollar
+                  focus="true"
+                  wei={amount}
+                  onChangeWei={handleAmountChange}
                   style={styles.amountInput}
                 />
               </Text>

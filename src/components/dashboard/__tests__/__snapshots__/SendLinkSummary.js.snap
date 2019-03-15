@@ -515,7 +515,7 @@ exports[`SendLinkSummary matches snapshot 1`] = `
                   }
                 }
               >
-                
+                0.00
               </div>
               <div
                 dir="auto"
@@ -992,7 +992,9 @@ exports[`SendLinkSummary matches snapshot 1`] = `
                       "wordWrap": "break-word",
                     }
                   }
-                />
+                >
+                  0.00
+                </span>
                 <span
                   dir="auto"
                   style={

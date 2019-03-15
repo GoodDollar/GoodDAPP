@@ -36,6 +36,18 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
     this.checkAuthStatus()
   }
 
+  getParams = navigation => {
+    const navInfo = navigation.router.getPathAndParamsForState(navigation.state)
+
+    if (navInfo.params.destinationPath) {
+      return navInfo.params
+    }
+
+    if (Object.keys(navInfo.params).length) {
+      return { destinationPath: JSON.stringify(navInfo) }
+    }
+  }
+
   /**
    * Check's users' current auth status
    * @returns {Promise<void>}
@@ -58,11 +70,11 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
 
       if (jwt) {
         log.debug('New account, not verified, or did not finish signup', jwt)
-        this.props.navigation.navigate('Auth')
+        this.props.navigation.navigate('Auth', this.getParams(this.props.navigation))
       } else {
         // TODO: handle other statuses (4xx, 5xx), consider exponential backoff
         log.error('Failed to sign in', credsOrError)
-        this.props.navigation.navigate('Auth')
+        this.props.navigation.navigate('Auth', this.getParams(this.props.navigation))
       }
     }
   }

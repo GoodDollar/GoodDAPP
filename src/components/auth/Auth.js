@@ -19,7 +19,9 @@ class Auth extends React.Component<Props> {
   }
 
   handleSignUp = () => {
-    this.props.navigation.navigate('Signup')
+    const destinationPath = this.props.navigation.getParam('destinationPath')
+    const param = destinationPath ? { destinationPath } : {}
+    this.props.navigation.navigate('Signup', param)
   }
 
   handleSignUpThirdParty = () => {

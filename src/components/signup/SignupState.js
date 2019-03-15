@@ -71,8 +71,16 @@ class Signup extends React.Component<{ navigation: any, screenProps: any }, Sign
         await API.addUser(this.state)
         await API.verifyUser({})
         //top wallet of new user
-        API.verifyTopWallet()
-        this.props.navigation.navigate('AppNavigation')
+        await API.verifyTopWallet()
+        const destinationPath = this.props.navigation.getParam('destinationPath', '')
+
+        if (destinationPath !== '') {
+          const { path, params } = JSON.parse(destinationPath)
+          const url = path.split('/').pop()
+          this.props.navigation.navigate(url, params)
+        } else {
+          this.props.navigation.navigate('AppNavigation')
+        }
       }
     }
   }

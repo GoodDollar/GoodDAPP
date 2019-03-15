@@ -289,20 +289,12 @@ export class GoodWallet {
     const transferAndCall = this.tokenContract.methods.transferAndCall(otpAddress, amount, encodedABI)
     const balanceOf = this.tokenContract.methods.balanceOf(this.account)
 
-    const gas = await transferAndCall.estimateGas().catch(this.handleError)
+    const gas = Math.floor((await transferAndCall.estimateGas().catch(this.handleError)) * 2)
     const gasPrice = await this.getGasPrice()
     const balancePre = await balanceOf.call()
     log.info({ amount, gas, gasPrice, balancePre, otpAddress })
 
     const tx = await transferAndCall
-      .send({ gas, gasPrice })
-      .on('transactionHash', hash => log.info({ hash }))
-      .catch(this.handleError)
-
-    // FIXME: this call to deposit is forcing the deposit call which is not being triggered through `transferAndCall`
-    // FIXME: also, `tansferAndCall` is required because calling only to `deposit` will fail as the contract has not funds
-    // TODO: this `deposit` call must be removed after a fix in the contracts for the `transferAndCall` method call.
-    await deposit
       .send({ gas, gasPrice })
       .on('transactionHash', hash => log.info({ hash }))
       .catch(this.handleError)

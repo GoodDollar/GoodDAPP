@@ -14,7 +14,16 @@ const wrapper = (target, store) => {
     })
 
   const errorHandler = error => {
-    const message = error && error.response && error.response.data ? error.response.data.message : error.message
+    let message = 'Unknown Error'
+    if (error.response && error.response.data) {
+      message = error.response.data.message
+    }
+    if (error.message) {
+      message = error.message
+    }
+    if (error.err) {
+      message = error.err
+    }
     store.set('currentScreen')({
       dialogData: { visible: true, title: 'Error', message, dismissText: 'OK' },
       loading: false

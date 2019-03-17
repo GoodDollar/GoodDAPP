@@ -3,12 +3,12 @@ import React, { useState } from 'react'
 import { View } from 'react-native'
 
 import logger from '../../lib/logger/pino-logger'
-import goodWallet from '../../lib/wallet/GoodWallet'
+import { useWrappedGoodWallet } from '../../lib/wallet/useWrappedWallet'
 import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
 import { Avatar, BigGoodDollar, CustomButton, CustomDialog, Section, Wrapper } from '../common'
 import TopBar from '../common/TopBar'
 import { receiveStyles } from './styles'
-
+import GDStore from '../../lib/undux/GDStore'
 export type AmountProps = {
   screenProps: any,
   navigation: any
@@ -21,28 +21,27 @@ const log = logger.child({ from: 'SendQRSummary' })
 const SendQRSummary = (props: AmountProps) => {
   const { screenProps } = props
   const [screenState] = useScreenState(screenProps)
-  const [dialogData, setDialogData] = useState()
-  const [loading, setLoading] = useState(false)
+  const goodWallet = useWrappedGoodWallet()
+  const store = GDStore.useStore()
+  const { loading } = store.get('currentScreen')
 
   const { amount, reason, to } = screenState
-
-  const dismissDialog = () => {
-    setDialogData({ visible: false })
-    screenProps.goToParent()
-  }
-
   const sendGD = async () => {
-    setLoading(true)
-
     try {
       const receipt = await goodWallet.sendAmount(to, amount)
       log.debug({ receipt })
-      setDialogData({ visible: true, title: 'SUCCESS!', message: 'The GD was sent successfully', dismissText: 'Yay!' })
+      store.set('currentScreen')({
+        dialogData: {
+          visible: true,
+          title: 'SUCCESS!',
+          message: 'The GD was sent successfully',
+          dismissText: 'Yay!',
+          onDismiss: screenProps.goToParent
+        }
+      })
     } catch (e) {
-      setDialogData({ visible: true, title: 'Error', message: e.message })
+      log.error(e)
     }
-
-    setLoading(false)
   }
 
   return (
@@ -64,13 +63,12 @@ const SendQRSummary = (props: AmountProps) => {
             <BackButton mode="text" screenProps={screenProps} style={{ flex: 1 }}>
               Cancel
             </BackButton>
-            <CustomButton mode="contained" onPress={sendGD} style={{ flex: 2 }} loading={loading} disabled={loading}>
+            <CustomButton mode="contained" onPress={sendGD} style={{ flex: 2 }} loading={loading}>
               Confirm
             </CustomButton>
           </View>
         </Section.Row>
       </Section>
-      <CustomDialog onDismiss={dismissDialog} {...dialogData} />
     </Wrapper>
   )
 }

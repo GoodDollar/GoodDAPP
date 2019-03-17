@@ -6,51 +6,49 @@ import { Title, Description } from '../signup/components'
 import { normalize } from 'react-native-elements'
 import logger from '../../lib/logger/pino-logger'
 import { Wrapper, CustomButton, CustomDialog } from '../common'
+import wrapper from '../../lib/undux/utils/wrapper'
+
+import GDStore from '../../lib/undux/GDStore'
 
 const log = logger.child({ from: 'FaceRecognition' })
 
 type Props = {
-  screenProps: any
-}
-type State = {
-  dialogData: any
+  screenProps: any,
+  store: {}
 }
 
-class FaceRecognition extends React.Component<Props, State> {
-  state = {
-    dialogData: {}
-  }
-
+class FaceRecognition extends React.Component<Props> {
   handleSubmit = () => {
     this.props.screenProps.doneCallback({ isEmailConfirmed: true })
   }
 
   handleClaim = async () => {
     try {
-      await goodWallet.claim()
-      this.setState({
-        dialogData: { visible: true, title: 'Success', message: `You've claimed your GD`, dismissText: 'YAY!' }
+      const goodWalletWrapped = wrapper(goodWallet, this.props.store)
+      await goodWalletWrapped.claim()
+      this.props.store.set('currentScreen')({
+        dialogData: {
+          visible: true,
+          title: 'Success',
+          message: `You've claimed your GD`,
+          dismissText: 'YAY!',
+          onDismiss: this._handleDismissDialog
+        },
+        loading: true
       })
     } catch (e) {
       log.warn('claiming failed', e)
-      this.setState({ dialogData: { visible: true, title: 'Error', message: e.message } })
     }
   }
 
-  _handleDismissDialog = () => {
-    const { title } = this.state.dialogData
-    this.setState({
-      dialogData: {
-        visible: false
-      }
-    })
+  _handleDismissDialog = dialogData => {
+    const { title } = dialogData
     // TODO: Improve this flow
     if (title === 'Success') this.props.screenProps.pop()
   }
 
   render() {
     this.props.screenProps.data = { name: 'John' }
-    const { dialogData } = this.state
     return (
       <Wrapper>
         <View style={styles.topContainer}>
@@ -60,10 +58,14 @@ class FaceRecognition extends React.Component<Props, State> {
           </Description>
         </View>
         <View style={styles.bottomContainer}>
-          <CustomButton onPress={this.handleClaim}>Quick Face Recognition</CustomButton>
+          <CustomButton
+            mode="contained"
+            onPress={this.handleClaim}
+            loading={this.props.store.get('currentScreen').loading}
+          >
+            Quick Face Recognition
+          </CustomButton>
         </View>
-
-        <CustomDialog onDismiss={this._handleDismissDialog} {...dialogData} />
       </Wrapper>
     )
   }
@@ -84,4 +86,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default FaceRecognition
+export default GDStore.withStore(FaceRecognition)

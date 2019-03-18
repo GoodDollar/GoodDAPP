@@ -91,7 +91,6 @@ const SendLinkSummary = (props: AmountProps) => {
       } catch (e) {
         const { hashedString } = generateLinkResponse
         await goodWallet.cancelOtl(hashedString)
-        showDialogError(e)
         log.error(e)
       }
     }

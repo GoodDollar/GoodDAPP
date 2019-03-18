@@ -20,16 +20,37 @@ import SendConfirmation from './SendConfirmation'
 import SendLinkSummary from './SendLinkSummary'
 import SendQRSummary from './SendQRSummary'
 import { weiToMask } from '../../lib/wallet/utils'
+import Withdraw from './Withdraw'
+
 export type DashboardProps = {
   screenProps: any,
   navigation: any,
   store: Store
 }
 
-class Dashboard extends Component<DashboardProps, {}> {
+type DashboardState = {
+  param: string
+}
+
+class Dashboard extends Component<DashboardProps, DashboardState> {
+  state = {
+    param: ''
+  }
+
+  componentDidMount() {
+    const param = this.props.navigation.getParam('receiveLink', 'no-param')
+
+    if (param !== 'no-param') {
+      console.log({ param })
+      this.setState({ param })
+    }
+  }
+
   render() {
+    const { param } = this.state
     const { screenProps, navigation, store }: DashboardProps = this.props
     const { balance, entitlement } = store.get('account')
+    const { fullName } = store.get('name')
 
     return (
       <View>
@@ -40,7 +61,7 @@ class Dashboard extends Component<DashboardProps, {}> {
               <Avatar size={80} />
             </Section.Row>
             <Section.Row style={styles.centered}>
-              <Section.Title>John Doe</Section.Title>
+              <Section.Title>{fullName || 'John Doe'}</Section.Title>
             </Section.Row>
             <Section.Row style={styles.centered}>
               <BigGoodDollar number={balance} />
@@ -62,6 +83,7 @@ class Dashboard extends Component<DashboardProps, {}> {
             </Section.Row>
           </Section>
         </Wrapper>
+        {param ? <Withdraw param={param} {...this.props} /> : null}
       </View>
     )
   }
@@ -104,7 +126,7 @@ dashboard.navigationOptions = {
 }
 
 export default createStackNavigator({
-  Dashboard: dashboard,
+  Home: dashboard,
   Claim,
   Receive,
   Amount,

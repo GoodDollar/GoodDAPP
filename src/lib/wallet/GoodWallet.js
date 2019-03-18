@@ -36,7 +36,7 @@ type QueryEvent = {
   contract: Web3.eth.Contract,
   filter: {},
   fromBlock: typeof BN,
-  toBlock: typeof BN
+  toBlock: typeof BN | 'latest'
 }
 
 export class GoodWallet {
@@ -180,16 +180,26 @@ export class GoodWallet {
    * @param {Function} callback - Function to be called once an event is received
    * @returns {Promise<void>}
    */
-  async oneTimeEvents({ event, contract, filter, fromBlock, toBlock }: QueryEvent, callback: Function) {
+  async oneTimeEvents({ event, contract, filter, fromBlock, toBlock }: QueryEvent, callback?: Function) {
     try {
       const events = await this.getEvents({ event, contract, filter, fromBlock, toBlock })
       log.debug({ events: events.length, ...filter, fromBlock: fromBlock.toString(), toBlock: toBlock.toString() })
+
       if (events.length) {
-        callback(null, events)
+        if (callback === undefined) {
+          return Promise.resolve(events)
+        } else {
+          callback(null, events)
+        }
       }
     } catch (e) {
       log.error({ e })
-      callback(e, [])
+
+      if (callback === undefined) {
+        return Promise.reject(e)
+      } else {
+        callback(e, [])
+      }
     }
   }
 
@@ -268,37 +278,115 @@ export class GoodWallet {
     if (!(await this.canSend(amount))) {
       throw new Error(`Amount is bigger than balance`)
     }
-    const generatedString = this.wallet.utils.sha3(this.wallet.utils.randomHex(10))
+
+    const generatedString = this.wallet.utils.randomHex(10).replace('0x', '')
+    const hashedString = this.wallet.utils.sha3(generatedString)
+    const otpAddress = OneTimePaymentLinksABI.networks[this.networkId].address
+
+    const deposit = this.oneTimePaymentLinksContract.methods.deposit(this.account, hashedString, amount)
+    const encodedABI = await deposit.encodeABI()
+
+    const transferAndCall = this.tokenContract.methods.transferAndCall(otpAddress, amount, encodedABI)
+    const balanceOf = this.tokenContract.methods.balanceOf(this.account)
+
+    const gas = Math.floor((await transferAndCall.estimateGas().catch(this.handleError)) * 2)
     const gasPrice = await this.getGasPrice()
-    log.debug('this.oneTimePaymentLinksContract', this.oneTimePaymentLinksContract)
-    log.debug('this.tokenContract', this.tokenContract)
+    const balancePre = await balanceOf.call()
+    log.info({ amount, gas, gasPrice, balancePre, otpAddress })
 
-    const encodedABI = await this.oneTimePaymentLinksContract.methods
-      .deposit(this.account, generatedString, amount)
-      .encodeABI()
-    const gas = await this.tokenContract.methods
-      .transferAndCall(this.oneTimePaymentLinksContract.defaultAccount, amount, encodedABI)
-      .estimateGas()
-      .catch(err => {
-        log.error(err)
-        throw err
-      })
+    const tx = await transferAndCall
+      .send({ gas, gasPrice })
+      .on('transactionHash', hash => log.info({ hash }))
+      .catch(this.handleError)
 
-    const balancePre = await this.tokenContract.methods
-      .balanceOf(this.oneTimePaymentLinksContract.defaultAccount)
+    const balancePost = await balanceOf.call()
+    log.info({ tx, balancePost, otpAddress })
+
+    return {
+      generatedString,
+      hashedString,
+      sendLink: `${Config.publicUrl}/AppNavigation/Dashboard/Home?receiveLink=${generatedString}`,
+      receipt: tx
+    }
+  }
+
+  async canWithdraw(otlCode: string) {
+    const { isLinkUsed, payments } = this.oneTimePaymentLinksContract.methods
+    const { sha3, toBN } = this.wallet.utils
+
+    const link = sha3(otlCode)
+    const linkUsed = await isLinkUsed(link).call()
+    log.info('isLinkUsed', linkUsed)
+
+    if (!linkUsed) {
+      throw new Error('invalid link')
+    }
+
+    const paymentAvailable = await payments(link)
       .call()
-    log.debug({ amount, gas, gasPrice, balancePre, onePaymentAccount: this.oneTimePaymentLinksContract.defaultAccount })
-    const tx = await this.tokenContract.methods
-      .transferAndCall(this.oneTimePaymentLinksContract.defaultAccount, amount, encodedABI)
+      .then(toBN)
+    log.info(`paymentAvailable: ${paymentAvailable}`)
+
+    if (paymentAvailable.lte(toBN('0'))) {
+      throw new Error('deposit already withdrawn')
+    }
+
+    const events = await this.oneTimeEvents({
+      event: 'PaymentDeposit',
+      contract: this.oneTimePaymentLinksContract,
+      fromBlock: '0',
+      toBlock: 'latest',
+      filter: { hash: link }
+    })
+
+    log.debug({ events })
+
+    const { from } = _(events)
+      .filter({ returnValues: { hash: link } })
+      .map('returnValues')
+      .value()[0]
+
+    return {
+      amount: paymentAvailable.toString(),
+      sender: from
+    }
+  }
+
+  async withdraw(otlCode: string) {
+    const gasPrice = await this.getGasPrice()
+    log.info('gasPrice', gasPrice)
+
+    const withdrawCall = this.oneTimePaymentLinksContract.methods.withdraw(otlCode)
+    log.info('withdrawCall', withdrawCall)
+
+    const gas = await withdrawCall.estimateGas().catch(this.handleError)
+    log.info('gas', gas)
+
+    return await withdrawCall
       .send({ gas, gasPrice })
       .on('transactionHash', hash => log.debug({ hash }))
-      .catch(err => {
-        log.error({ err })
-        throw err
-      })
-    const balancePost = await this.tokenContract.methods.balanceOf(this.account).call()
-    log.debug({ tx, balancePost, onePaymentAccount: this.oneTimePaymentLinksContract.defaultAccount })
-    return { sendLink: `${Config.publicUrl}/AppNavigation/Dashboard/ReceiveLink/${generatedString}`, receipt: tx }
+      .catch(this.handleError)
+  }
+
+  async cancelOtl(otlCode: string) {
+    const gasPrice = await this.getGasPrice()
+    log.info('gasPrice', gasPrice)
+
+    const cancelOtlCall = this.oneTimePaymentLinksContract.methods.cancel(otlCode)
+    log.info('withdrawCall', cancelOtlCall)
+
+    const gas = await cancelOtlCall.estimateGas().catch(this.handleError)
+    log.info('gas', gas)
+
+    return await cancelOtlCall
+      .send({ gas, gasPrice })
+      .on('transactionHash', hash => log.debug({ hash }))
+      .catch(this.handleError)
+  }
+
+  handleError(err: Error) {
+    log.error('handleError', { err })
+    throw err
   }
 
   async getGasPrice() {
@@ -306,7 +394,7 @@ export class GoodWallet {
 
     try {
       const { toBN } = this.wallet.utils
-      const networkGasPrice = toBN(await this.wallet.eth.getGasPrice())
+      const networkGasPrice = await this.wallet.eth.getGasPrice().then(toBN)
 
       if (networkGasPrice.gt(toBN('0'))) {
         gasPrice = networkGasPrice.toString()
@@ -328,22 +416,17 @@ export class GoodWallet {
     }
 
     const gasPrice = await this.getGasPrice()
-    log.info({ gasPrice, thisGasPrice: this.gasPrice })
-
-    const handleError = err => {
-      log.error({ err })
-      throw err
-    }
 
     const transferCall = this.tokenContract.methods.transfer(to, amount)
-    const gas = await transferCall.estimateGas().catch(handleError)
+    const gas = await transferCall.estimateGas().catch(this.handleError)
 
     log.debug({ amount, to, gas })
 
     return await transferCall
       .send({ gas, gasPrice })
       .on('transactionHash', hash => log.debug({ hash }))
-      .catch(handleError)
+      .catch(this.handleError)
   }
 }
+
 export default new GoodWallet()

@@ -78,12 +78,10 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
           await API.verifyUser({})
           //top wallet of new user
           await API.verifyTopWallet()
-          const destinationPath = navigation.getParam('destinationPath', '')
+          const destinationPath = store.get('destinationPath')
 
           if (destinationPath !== '') {
-            const { path, params } = JSON.parse(destinationPath)
-            const url = path.split('/').pop()
-            navigation.navigate(url, params)
+            navigation.navigate(JSON.parse(destinationPath))
           } else {
             navigation.navigate('AppNavigation')
           }

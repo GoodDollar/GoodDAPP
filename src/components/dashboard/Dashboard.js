@@ -58,7 +58,7 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
         <Wrapper>
           <Section>
             <Section.Row style={styles.centered}>
-              <Avatar size={80} />
+              <Avatar size={80} onPress={() => navigation.navigate('Profile')} />
             </Section.Row>
             <Section.Row style={styles.centered}>
               <Section.Title>{fullName || 'John Doe'}</Section.Title>

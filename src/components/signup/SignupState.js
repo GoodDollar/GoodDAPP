@@ -79,6 +79,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
           //top wallet of new user
           await API.verifyTopWallet()
           const destinationPath = store.get('destinationPath')
+          store.set('destinationPath')('')
 
           if (destinationPath !== '') {
             navigation.navigate(JSON.parse(destinationPath))

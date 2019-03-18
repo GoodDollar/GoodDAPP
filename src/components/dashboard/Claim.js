@@ -20,7 +20,7 @@ class Claim extends Component<ClaimProps, {}> {
     const { entitlement } = store.get('account')
     return (
       <Wrapper>
-        <TopBar />
+        <TopBar push={screenProps.push} />
         <Section>
           <Section.Title>GoodDollar is a good economy, each day you can collect your part in the economy</Section.Title>
           <Section.Row style={styles.centered}>

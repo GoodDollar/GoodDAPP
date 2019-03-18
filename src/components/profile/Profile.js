@@ -24,9 +24,7 @@ const Profile = props => {
     fetchProfile()
   }, [profile.fullName])
   log.debug({ userStorage, profile })
-  if (!profile.fullName) {
-    return null
-  }
+
   return (
     <Wrapper>
       <Section>
@@ -50,7 +48,8 @@ const Profile = props => {
 }
 
 Profile.navigationOptions = {
-  title: 'Your Profile'
+  title: 'Your Profile',
+  navigationBarHidden: true
 }
 
 const styles = StyleSheet.create({

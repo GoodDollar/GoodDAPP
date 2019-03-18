@@ -34,7 +34,7 @@ const Receive = ({ screenProps }: ReceiveProps) => {
 
   return (
     <Wrapper style={styles.wrapper}>
-      <TopBar hideBalance={true} />
+      <TopBar hideBalance={true} push={screenProps.push} />
       <Section style={styles.section}>
         <Section.Row style={styles.sectionRow}>
           <View style={styles.qrCode}>

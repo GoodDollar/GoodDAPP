@@ -19,6 +19,8 @@ import Send from './Send'
 import SendConfirmation from './SendConfirmation'
 import SendLinkSummary from './SendLinkSummary'
 import SendQRSummary from './SendQRSummary'
+import Profile from '../profile/Profile'
+
 import { weiToMask } from '../../lib/wallet/utils'
 import Withdraw from './Withdraw'
 
@@ -58,7 +60,7 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
         <Wrapper>
           <Section>
             <Section.Row style={styles.centered}>
-              <Avatar size={80} onPress={() => navigation.navigate('Profile')} />
+              <Avatar size={80} onPress={() => screenProps.push('Profile')} />
             </Section.Row>
             <Section.Row style={styles.centered}>
               <Section.Title>{fullName || 'John Doe'}</Section.Title>
@@ -137,5 +139,9 @@ export default createStackNavigator({
   SendConfirmation,
   FaceRecognition,
   ScanQR,
-  SendQRSummary
+  SendQRSummary,
+  Profile: {
+    screen: Profile,
+    display: false
+  }
 })

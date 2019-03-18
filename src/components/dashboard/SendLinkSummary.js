@@ -1,16 +1,21 @@
 // @flow
-import React, { useCallback, useState } from 'react'
-import { Text, View } from 'react-native'
-import { TextInput } from 'react-native-paper'
-import goodWallet from '../../lib/wallet/GoodWallet'
-import UserStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
+import React from 'react'
+import { View } from 'react-native'
+import { useWrappedGoodWallet } from '../../lib/wallet/useWrappedWallet'
+import { type TransactionEvent } from '../../lib/gundb/UserStorage'
+import { useWrappedUserStorage } from '../../lib/gundb/useWrappedStorage'
 import { Section, Wrapper, Avatar, BigGoodDollar, CustomButton, CustomDialog } from '../common'
 import { BackButton, PushButton, useScreenState } from '../appNavigation/stackNavigation'
 import { receiveStyles } from './styles'
 import TopBar from '../common/TopBar'
-import API from '../../lib/API/api'
+import { useWrappedApi } from '../../lib/API/useWrappedApi'
 import isEmail from 'validator/lib/isEmail'
 import isMobilePhone from '../../lib/validators/isMobilePhone'
+import GDStore from '../../lib/undux/GDStore'
+import logger from '../../lib/logger/pino-logger'
+import wrapper from '../../lib/undux/utils/wrapper'
+
+const log = logger.child({ from: 'SendLinkSummary' })
 
 export type AmountProps = {
   screenProps: any,
@@ -22,18 +27,11 @@ const TITLE = 'Send GD'
 const SendLinkSummary = (props: AmountProps) => {
   const { screenProps } = props
   const [screenState] = useScreenState(screenProps)
-  const [dialogData, setDialogData] = useState()
-  const [loading, setLoading] = useState()
-
-  const dismissDialog = () => {
-    setDialogData({ visible: false })
-  }
-
-  const showDialogError = e => {
-    console.log({ e })
-    setDialogData({ visible: true, title: 'Error', message: e.message })
-    setLoading(false)
-  }
+  const goodWallet = useWrappedGoodWallet()
+  const store = GDStore.useStore()
+  const { loading } = store.get('currentScreen')
+  const API = useWrappedApi()
+  const UserStorage = useWrappedUserStorage()
 
   const { amount, reason, to } = screenState
 
@@ -53,20 +51,18 @@ const SendLinkSummary = (props: AmountProps) => {
   }
 
   const generateLinkAndSend = async () => {
-    setLoading(true)
     let generateLinkResponse
     try {
       // Generate link deposit
       generateLinkResponse = await goodWallet.generateLink(amount)
     } catch (e) {
-      showDialogError(e)
+      log.error(e)
     }
 
     if (generateLinkResponse) {
       try {
         // Generate link deposit
         const { sendLink, receipt } = generateLinkResponse
-
         // Share link
         await sendLinkTo(to, sendLink)
 
@@ -88,13 +84,14 @@ const SendLinkSummary = (props: AmountProps) => {
         // Cheking events are being stored
         // FIXME: Remove this since is only to check that is working
         const events = await UserStorage.feed.get('2019-03-01').decrypt()
-        console.log({ events, transactionEvent })
+        log.debug({ events, transactionEvent })
 
         // Show confirmation
         screenProps.push('SendConfirmation', { sendLink })
       } catch (e) {
-        // TODO: cash out generated link if either transaction log save or email could not be send
-        showDialogError(e)
+        const { hashedString } = generateLinkResponse
+        await goodWallet.cancelOtl(hashedString)
+        log.error(e)
       }
     }
   }
@@ -123,7 +120,6 @@ const SendLinkSummary = (props: AmountProps) => {
           </View>
         </Section.Row>
       </Section>
-      <CustomDialog onDismiss={dismissDialog} {...dialogData} />
     </Wrapper>
   )
 }

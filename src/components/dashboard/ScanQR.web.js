@@ -6,6 +6,8 @@ import { NETWORK_ID } from '../../lib/constants/network'
 import logger from '../../lib/logger/pino-logger'
 import { readCode } from '../../lib/share'
 import { CustomDialog, Section, TopBar, Wrapper } from '../common'
+import { wrapFunction } from '../../lib/undux/utils/wrapper'
+import GDStore from '../../lib/undux/GDStore'
 
 const QR_DEFAULT_DELAY = 300
 
@@ -13,12 +15,8 @@ const log = logger.child({ from: 'ScanQR.web' })
 
 const ScanQR = ({ screenProps }) => {
   const [qrDelay, setQRDelay] = useState(QR_DEFAULT_DELAY)
-  const [dialogData, setDialogData] = useState({ visible: false })
-
-  const dismissDialog = () => {
-    setDialogData({ visible: false })
-    setQRDelay(QR_DEFAULT_DELAY)
-  }
+  const store = GDStore.useStore()
+  const onDismissDialog = () => setQRDelay(QR_DEFAULT_DELAY)
 
   const handleScan = async data => {
     if (data) {
@@ -45,7 +43,7 @@ const ScanQR = ({ screenProps }) => {
       } catch (e) {
         log.error({ e })
         setQRDelay(false)
-        setDialogData({ visible: true, title: 'Error', message: e.message })
+        throw e
       }
     }
   }
@@ -59,10 +57,14 @@ const ScanQR = ({ screenProps }) => {
       <TopBar hideBalance={true} />
       <Section style={styles.bottomSection}>
         <Section.Row>
-          <QrReader delay={qrDelay} onError={handleError} onScan={handleScan} style={{ width: '100%' }} />
+          <QrReader
+            delay={qrDelay}
+            onError={handleError}
+            onScan={wrapFunction(handleScan, store, { onDismiss: onDismissDialog })}
+            style={{ width: '100%' }}
+          />
         </Section.Row>
       </Section>
-      <CustomDialog onDismiss={dismissDialog} {...dialogData} />
     </Wrapper>
   )
 }

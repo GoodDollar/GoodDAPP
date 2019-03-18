@@ -25,6 +25,8 @@ class SoftwareWalletProvider {
   }
   async init(): Promise<Web3> {
     let provider = this.getWeb3TransportProvider()
+    log.info('wallet config:', this.conf, provider)
+
     let web3 = new Web3(provider)
     //let web3 = new Web3(new WebsocketProvider("wss://ropsten.infura.io/ws"))
     let pkey: ?string = localStorage.getItem(this.GD_USER_PKEY)
@@ -47,6 +49,8 @@ class SoftwareWalletProvider {
 
   async initHD(): Promise<Web3> {
     let provider = this.getWeb3TransportProvider()
+    log.info('wallet config:', this.conf, provider)
+
     //let web3 = new Web3(new WebsocketProvider("wss://ropsten.infura.io/ws"))
     let pkey: ?string = localStorage.getItem(this.GD_USER_MNEMONIC)
     if (!pkey) {

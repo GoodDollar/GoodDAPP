@@ -64,48 +64,31 @@ class API {
     return this.client.post('/auth/eth', creds)
   }
 
-  async addUser(user: UserRecord) {
-    try {
-      let res = await this.client.post('/user/add', { user })
-      log.info(res)
-    } catch (e) {
-      log.error(e)
-    }
+  addUser(user: UserRecord): AxiosPromise<any> {
+    return this.client.post('/user/add', { user })
   }
 
-  async sendOTP(user: UserRecord) {
-    try {
-      const res = await this.client.post('/verify/sendotp', { user })
-      log.info(res)
-    } catch (e) {
-      log.error(e)
-      throw e
-    }
+  sendOTP(user: UserRecord): AxiosPromise<any> {
+    return this.client.post('/verify/sendotp', { user })
   }
 
-  async verifyUser(verificationData: any) {
-    try {
-      let res = await this.client.post('/verify/user', { verificationData })
-      log.info(res)
-    } catch (e) {
-      log.error(e)
-      throw e
-    }
+  verifyUser(verificationData: any): AxiosPromise<any> {
+    return this.client.post('/verify/user', { verificationData })
   }
 
-  async verifyMobile(verificationData: any): Promise<$AxiosXHR<any>> {
+  verifyMobile(verificationData: any): Promise<$AxiosXHR<any>> {
     return this.client.post('/verify/mobile', { verificationData })
   }
 
-  async verifyTopWallet(): Promise<$AxiosXHR<any>> {
+  verifyTopWallet(): Promise<$AxiosXHR<any>> {
     return this.client.post('/verify/topwallet')
   }
 
-  async sendLinkByEmail(to: string, sendLink: string): Promise<$AxiosXHR<any>> {
+  sendLinkByEmail(to: string, sendLink: string): Promise<$AxiosXHR<any>> {
     return this.client.post('/send/linkemail', { to, sendLink })
   }
 
-  async sendLinkBySMS(to: string, sendLink: string): Promise<$AxiosXHR<any>> {
+  sendLinkBySMS(to: string, sendLink: string): Promise<$AxiosXHR<any>> {
     return this.client.post('/send/linksms', { to, sendLink })
   }
 }

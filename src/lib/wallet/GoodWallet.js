@@ -279,11 +279,11 @@ export class GoodWallet {
       throw new Error(`Amount is bigger than balance`)
     }
 
-    const randomHex = this.wallet.utils.randomHex(10).replace('0x', '')
-    const generatedString = this.wallet.utils.sha3(randomHex)
+    const generatedString = this.wallet.utils.randomHex(10).replace('0x', '')
+    const hashedString = this.wallet.utils.sha3(generatedString)
     const otpAddress = OneTimePaymentLinksABI.networks[this.networkId].address
 
-    const deposit = this.oneTimePaymentLinksContract.methods.deposit(this.account, generatedString, amount)
+    const deposit = this.oneTimePaymentLinksContract.methods.deposit(this.account, hashedString, amount)
     const encodedABI = await deposit.encodeABI()
 
     const transferAndCall = this.tokenContract.methods.transferAndCall(otpAddress, amount, encodedABI)
@@ -302,7 +302,12 @@ export class GoodWallet {
     const balancePost = await balanceOf.call()
     log.info({ tx, balancePost, otpAddress })
 
-    return { sendLink: `${Config.publicUrl}/AppNavigation/Dashboard/Home?receiveLink=${randomHex}`, receipt: tx }
+    return {
+      generatedString,
+      hashedString,
+      sendLink: `${Config.publicUrl}/AppNavigation/Dashboard/Home?receiveLink=${generatedString}`,
+      receipt: tx
+    }
   }
 
   async canWithdraw(otlCode: string) {
@@ -358,6 +363,22 @@ export class GoodWallet {
     log.info('gas', gas)
 
     return await withdrawCall
+      .send({ gas, gasPrice })
+      .on('transactionHash', hash => log.debug({ hash }))
+      .catch(this.handleError)
+  }
+
+  async cancelOtl(otlCode: string) {
+    const gasPrice = await this.getGasPrice()
+    log.info('gasPrice', gasPrice)
+
+    const cancelOtlCall = this.oneTimePaymentLinksContract.methods.cancel(otlCode)
+    log.info('withdrawCall', cancelOtlCall)
+
+    const gas = await cancelOtlCall.estimateGas().catch(this.handleError)
+    log.info('gas', gas)
+
+    return await cancelOtlCall
       .send({ gas, gasPrice })
       .on('transactionHash', hash => log.debug({ hash }))
       .catch(this.handleError)

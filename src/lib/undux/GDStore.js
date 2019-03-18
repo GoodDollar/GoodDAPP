@@ -20,10 +20,22 @@ type Account = {
   ready: false
 }
 
+type DialogData = {
+  visible: boolean,
+  title?: string,
+  message?: string
+}
+
+type CurrentScreen = {
+  dialogData?: DialogData,
+  loading: boolean
+}
+
 export type State = {
   balanceUpdate: BalanceUpdate,
   name: Name,
-  account: Account
+  account: Account,
+  currentScreen: CurrentScreen
 }
 
 const initialState: State = {
@@ -39,7 +51,13 @@ const initialState: State = {
     entitlement: '',
     ready: false
   },
-  isLoggedInCitizen: false
+  isLoggedInCitizen: false,
+  currentScreen: {
+    dialogData: {
+      visible: false
+    },
+    loading: false
+  }
 }
 
 export default createConnectedStore(

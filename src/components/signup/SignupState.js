@@ -81,7 +81,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
 
           if (destinationPath !== '') {
             // top wallet of new user
-            // wait for the topping to complete to be able to withdrwa
+            // wait for the topping to complete to be able to withdraw
             await API.verifyTopWallet()
             navigation.navigate(JSON.parse(destinationPath))
           } else {

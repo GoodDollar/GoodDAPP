@@ -71,6 +71,7 @@ class SoftwareWalletProvider {
     })
     let accounts = hdwallet.addresses
     web3.eth.defaultAccount = accounts[0]
+    hdwallet.engine.stop()
     return web3
   }
 

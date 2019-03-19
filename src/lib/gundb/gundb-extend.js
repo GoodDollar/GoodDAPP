@@ -1,6 +1,5 @@
 import Gun from 'gun'
 import SEA from 'gun/sea'
-require('gun/lib/load.js')
 /**
  * extend gundb SEA with decrypt to match ".secret"
  */

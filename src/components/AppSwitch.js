@@ -1,6 +1,8 @@
 // @flow
 import React from 'react'
 import { SceneView } from '@react-navigation/core'
+import _ from 'lodash'
+
 import goodWallet from '../lib/wallet/GoodWallet'
 import goodWalletLogin from '../lib/login/GoodWalletLogin'
 import logger from '../lib/logger/pino-logger'
@@ -36,6 +38,18 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
     this.checkAuthStatus()
   }
 
+  getParams = () => {
+    const { router, state } = this.props.navigation
+    const navInfo = router.getPathAndParamsForState(state)
+
+    if (Object.keys(navInfo.params).length && this.props.store.get('destinationPath') === '') {
+      const app = router.getActionForPathAndParams(navInfo.path)
+      const destRoute = actions => (_.some(actions, 'action') ? destRoute(actions.action) : actions.action)
+      const destinationPath = JSON.stringify({ ...destRoute(app), params: navInfo.params })
+      this.props.store.set('destinationPath')(destinationPath)
+    }
+  }
+
   /**
    * Check's users' current auth status
    * @returns {Promise<void>}
@@ -55,6 +69,7 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
       this.props.navigation.navigate('AppNavigation')
     } else {
       const { jwt } = credsOrError
+      this.getParams()
 
       if (jwt) {
         log.debug('New account, not verified, or did not finish signup', jwt)

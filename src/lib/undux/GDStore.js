@@ -35,7 +35,8 @@ export type State = {
   balanceUpdate: BalanceUpdate,
   name: Name,
   account: Account,
-  currentScreen: CurrentScreen
+  currentScreen: CurrentScreen,
+  destinationPath: string
 }
 
 const initialState: State = {
@@ -57,7 +58,8 @@ const initialState: State = {
       visible: false
     },
     loading: false
-  }
+  },
+  destinationPath: ''
 }
 
 export default createConnectedStore(

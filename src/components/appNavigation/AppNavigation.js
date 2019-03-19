@@ -42,12 +42,11 @@ const routes = {
   Donate: {
     screen: Donate,
     icon: donateIcon
+  },
+  Profile: {
+    screen: Profile,
+    display: false
   }
-  // },
-  // Profile: {
-  //   screen: Profile,
-  //   display: false
-  // }
 }
 
 const initialRouteName = 'Dashboard'

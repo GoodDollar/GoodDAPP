@@ -19,7 +19,6 @@ import Send from './Send'
 import SendConfirmation from './SendConfirmation'
 import SendLinkSummary from './SendLinkSummary'
 import SendQRSummary from './SendQRSummary'
-import Profile from '../profile/Profile'
 
 import { weiToMask } from '../../lib/wallet/utils'
 import Withdraw from './Withdraw'
@@ -139,9 +138,5 @@ export default createStackNavigator({
   SendConfirmation,
   FaceRecognition,
   ScanQR,
-  SendQRSummary,
-  Profile: {
-    screen: Profile,
-    display: false
-  }
+  SendQRSummary
 })

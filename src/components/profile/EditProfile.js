@@ -1,35 +1,19 @@
 import React from 'react'
 import { StyleSheet, View, Text } from 'react-native'
 import { Icon } from 'react-native-elements'
-import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { Wrapper, Avatar, Section } from '../common'
 import logger from '../../lib/logger/pino-logger'
 import GDStore from '../../lib/undux/GDStore'
-import EditProfile from './EditProfile'
 
 const log = logger.child({ from: 'Profile' })
 
-const EditIcon = props => <IconButton {...props} name="edit" />
-const PrivateIcon = props => <IconButton {...props} name="visibility" />
-
-const IconButton = ({ onPress, disabled, ...iconProps }) => (
-  <View style={styles.icon}>
-    <Icon onPress={onPress} raised color="rgb(85, 85, 85)" {...iconProps} />
-  </View>
-)
-
-const Profile = props => {
+const EditProfile = props => {
   const profile = GDStore.useStore().get('profile')
-  const { screenProps } = props
   return (
     <Wrapper>
       <Section style={styles.section}>
         <Section.Row style={styles.centered}>
-          <PrivateIcon onPress={() => log.debug('PrivateIcon')} />
-          <View style={styles.avatar}>
-            <Avatar size={120} />
-          </View>
-          <EditIcon onPress={() => screenProps.push('EditProfile')} />
+          <Avatar size={120} />
         </Section.Row>
         <Section.Title>{profile.fullName}</Section.Title>
         <View style={styles.table}>
@@ -46,14 +30,15 @@ const Profile = props => {
     </Wrapper>
   )
 }
+
 const styles = StyleSheet.create({
-  centered: {
-    justifyContent: 'center',
-    alignItems: 'flex-start'
-  },
   section: {
     paddingLeft: '1em',
     paddingRight: '1em'
+  },
+  centered: {
+    justifyContent: 'center',
+    alignItems: 'baseline'
   },
   table: {
     margin: '3em',
@@ -76,15 +61,7 @@ const styles = StyleSheet.create({
     color: 'rgb(85, 85, 85)',
     whiteSpace: 'nowrap',
     overflow: 'hidden'
-  },
-  avatar: {
-    flex: 1,
-    justifyContent: 'center',
-    flexDirection: 'row'
-  },
-  icon: {
-    cursor: 'pointer'
   }
 })
 
-export default createStackNavigator({ Profile, EditProfile })
+export default EditProfile

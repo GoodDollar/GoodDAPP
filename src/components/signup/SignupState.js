@@ -76,9 +76,19 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
         try {
           await API.addUser(state)
           await API.verifyUser({})
-          //top wallet of new user
-          API.verifyTopWallet()
-          navigation.navigate('AppNavigation')
+          const destinationPath = store.get('destinationPath')
+          store.set('destinationPath')('')
+
+          if (destinationPath !== '') {
+            // top wallet of new user
+            // wait for the topping to complete to be able to withdrwa
+            await API.verifyTopWallet()
+            navigation.navigate(JSON.parse(destinationPath))
+          } else {
+            //top wallet of new user
+            API.verifyTopWallet()
+            navigation.navigate('AppNavigation')
+          }
         } catch (error) {
           console.log({ error })
         }

@@ -91,7 +91,8 @@ class SoftwareWalletProvider {
         break
 
       case 'HttpProvider':
-        provider = this.conf.httpWeb3provider + Config.infuraKey
+        const infuraKey = this.conf.httpWeb3provider.indexOf('infura') !== -1 ? Config.infuraKey : ''
+        provider = this.conf.httpWeb3provider + infuraKey
         web3Provider = new Web3.providers.HttpProvider(provider)
         break
 

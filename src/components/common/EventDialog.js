@@ -6,7 +6,7 @@ import CustomButton from './CustomButton'
 import type { TransactionEvent } from '../../lib/gundb/UserStorage'
 import Avatar from './Avatar'
 import Section from './Section'
-
+import { BigGoodDollar } from '../common'
 export type EventDialogProps = {
   visible: boolean,
   event: TransactionEvent,
@@ -49,7 +49,7 @@ const EventDialog = ({ visible, event, onDismiss }: EventDialogProps) => {
             <Section.Row>
               <Text style={{ color: '#555', fontSize: '1.2em' }}>{action} GD</Text>
               <Text style={{ color: '#555', fontSize: '1em' }}>
-                +{amount} <Text style={{ color: '#555', fontSize: '0.7em' }}>GD</Text>
+                + <BigGoodDollar number={amount} />
               </Text>
             </Section.Row>
           </Section>

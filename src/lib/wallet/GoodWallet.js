@@ -221,7 +221,7 @@ export class GoodWallet {
     callback: Function,
     lastProcessedBlock: typeof BN = ZERO
   ) {
-    const BLOCK_TIME = 2500
+    const BLOCK_TIME = 5000
     const BLOCK_COUNT = 1
     const INTERVAL = BLOCK_COUNT * BLOCK_TIME
     const lastBlock = await this.wallet.eth.getBlockNumber().then(toBN)

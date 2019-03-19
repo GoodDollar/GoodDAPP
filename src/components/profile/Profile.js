@@ -5,26 +5,12 @@ import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { Wrapper, Avatar, Section } from '../common'
 import { useWrappedUserStorage } from '../../lib/gundb/useWrappedStorage'
 import logger from '../../lib/logger/pino-logger'
+import GDStore from '../../lib/undux/GDStore'
 
 const log = logger.child({ from: 'Profile' })
 
 const Profile = props => {
-  const userStorage = useWrappedUserStorage()
-  const [profile, setProfile] = useState({})
-
-  async function fetchProfile() {
-    const fullName = await userStorage.getProfileField('fullName').then(v => v.display)
-    const email = await userStorage.getProfileField('email').then(v => v.display)
-    const mobile = await userStorage.getProfileField('mobile').then(v => v.display)
-
-    setProfile({ fullName, email, mobile })
-  }
-
-  useEffect(() => {
-    fetchProfile()
-  }, [profile.fullName])
-  log.debug({ userStorage, profile })
-
+  const profile = GDStore.useStore().get('profile')
   return (
     <Wrapper>
       <Section>

@@ -57,7 +57,8 @@ const initialState: State = {
       visible: false
     },
     loading: false
-  }
+  },
+  profile: {}
 }
 
 export default createConnectedStore(

@@ -52,7 +52,7 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
     const { param } = this.state
     const { screenProps, navigation, store }: DashboardProps = this.props
     const { balance, entitlement } = store.get('account')
-    const { fullName } = store.get('name')
+    const { fullName } = store.get('profile')
 
     return (
       <View>

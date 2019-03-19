@@ -216,4 +216,14 @@ describe('UserStorage', () => {
     expect(index).toHaveProperty(date)
     expect(events).toEqual([transactionEvent])
   })
+
+  it.only('gets profile field private (decrypted)', async done => {
+    await userStorage.setProfileField('email', 'johndoe@blah.com', 'masked')
+    await userStorage.setProfileField('name', 'hadar2', 'public')
+    await userStorage.setProfileField('id', 'z123', 'private')
+    const profile = await userStorage.getDisplayProfile(profile => {
+      expect(profile).toEqual({ id: '', name: 'hadar2', email: 'j*****e@blah.com' })
+      done()
+    })
+  })
 })

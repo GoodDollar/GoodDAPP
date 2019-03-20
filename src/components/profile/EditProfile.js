@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { StyleSheet, View, Text } from 'react-native'
 import { TextInput } from 'react-native-paper'
 import { Icon } from 'react-native-elements'
 import { Wrapper, Section, CustomButton, UserAvatar } from '../common'
 import logger from '../../lib/logger/pino-logger'
 import GDStore from '../../lib/undux/GDStore'
+import { useWrappedUserStorage } from '../../lib/gundb/useWrappedStorage'
 
 const log = logger.child({ from: 'Edit Profile' })
 
@@ -25,15 +26,23 @@ const ProfileInput = props => (
 const EditProfile = props => {
   const store = GDStore.useStore()
   const [profile, setProfile] = useState(store.get('profile'))
-
-  // TODO: save into UserStorage
-  const handleSaveButton = () => store.set('profile')(profile)
+  const { loading: saving } = store.get('currentScreen')
+  const userStorage = useWrappedUserStorage()
+  useEffect(() => {
+    userStorage.getPrivateProfile(setProfile)
+  }, [profile.fullName])
+  const handleSaveButton = () => {
+    Promise.all([
+      userStorage.setProfileField('email', profile.email, 'masked'),
+      userStorage.setProfileField('mobile', profile.mobile, 'masked')
+    ])
+  }
   return (
     <Wrapper>
       <Section style={styles.section}>
         <Section.Row style={styles.centered}>
           <UserAvatar profile={profile} />
-          <CustomButton mode="outlined" style={styles.saveButton} onPress={handleSaveButton}>
+          <CustomButton loading={saving} mode="outlined" style={styles.saveButton} onPress={handleSaveButton}>
             Save
           </CustomButton>
         </Section.Row>

@@ -1,11 +1,11 @@
 import React from 'react'
 import { StyleSheet, View, Text } from 'react-native'
 import { Icon } from 'react-native-elements'
-import { Wrapper, Avatar, Section } from '../common'
+import { Wrapper, Section, CustomButton, UserAvatar } from '../common'
 import logger from '../../lib/logger/pino-logger'
 import GDStore from '../../lib/undux/GDStore'
 
-const log = logger.child({ from: 'Profile' })
+const log = logger.child({ from: 'Edit Profile' })
 
 const EditProfile = props => {
   const profile = GDStore.useStore().get('profile')
@@ -13,9 +13,11 @@ const EditProfile = props => {
     <Wrapper>
       <Section style={styles.section}>
         <Section.Row style={styles.centered}>
-          <Avatar size={120} />
+          <UserAvatar profile={profile} />
+          <CustomButton mode="outlined" style={styles.saveButton} onPress={() => log.debug('save')}>
+            Save
+          </CustomButton>
         </Section.Row>
-        <Section.Title>{profile.fullName}</Section.Title>
         <View style={styles.table}>
           <View style={styles.tableRow}>
             <Icon name="email" color="rgb(85, 85, 85)" />
@@ -38,7 +40,7 @@ const styles = StyleSheet.create({
   },
   centered: {
     justifyContent: 'center',
-    alignItems: 'baseline'
+    alignItems: 'flex-start'
   },
   table: {
     margin: '3em',
@@ -61,6 +63,11 @@ const styles = StyleSheet.create({
     color: 'rgb(85, 85, 85)',
     whiteSpace: 'nowrap',
     overflow: 'hidden'
+  },
+  saveButton: {
+    position: 'absolute',
+    top: 0,
+    right: 0
   }
 })
 

@@ -15,6 +15,7 @@ import Section from './Section'
 import TopBar from './TopBar'
 import IconButton from './IconButton'
 import InputGoodDollar from './InputGoodDollar'
+import UserAvatar from './UserAvatar'
 
 export * from './CustomButton'
 
@@ -89,6 +90,7 @@ const styles = StyleSheet.create({
 export {
   Address,
   Avatar,
+  UserAvatar,
   CustomButton,
   Wrapper,
   Section,

@@ -2,7 +2,7 @@ import React from 'react'
 import { StyleSheet, View, Text } from 'react-native'
 import { Icon } from 'react-native-elements'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
-import { Wrapper, Avatar, Section } from '../common'
+import { Wrapper, Section, UserAvatar } from '../common'
 import logger from '../../lib/logger/pino-logger'
 import GDStore from '../../lib/undux/GDStore'
 import EditProfile from './EditProfile'
@@ -26,12 +26,9 @@ const Profile = props => {
       <Section style={styles.section}>
         <Section.Row style={styles.centered}>
           <PrivateIcon onPress={() => log.debug('PrivateIcon')} />
-          <View style={styles.avatar}>
-            <Avatar size={120} />
-          </View>
+          <UserAvatar profile={profile} />
           <EditIcon onPress={() => screenProps.push('EditProfile')} />
         </Section.Row>
-        <Section.Title>{profile.fullName}</Section.Title>
         <View style={styles.table}>
           <View style={styles.tableRow}>
             <Icon name="email" color="rgb(85, 85, 85)" />
@@ -76,11 +73,6 @@ const styles = StyleSheet.create({
     color: 'rgb(85, 85, 85)',
     whiteSpace: 'nowrap',
     overflow: 'hidden'
-  },
-  avatar: {
-    flex: 1,
-    justifyContent: 'center',
-    flexDirection: 'row'
   },
   icon: {
     cursor: 'pointer'

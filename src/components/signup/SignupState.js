@@ -78,6 +78,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
           await API.verifyUser({})
           const destinationPath = store.get('destinationPath')
           store.set('destinationPath')('')
+          store.set('isLoggedInCitizen')(true)
 
           if (destinationPath !== '') {
             // top wallet of new user

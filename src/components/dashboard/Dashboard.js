@@ -5,7 +5,6 @@ import { normalize } from 'react-native-elements'
 import type { Store } from 'undux'
 
 import GDStore from '../../lib/undux/GDStore'
-import { updateEntitlement } from '../../lib/undux/utils/account'
 import { weiToMask } from '../../lib/wallet/utils'
 import { createStackNavigator, PushButton } from '../appNavigation/stackNavigation'
 import TabsView from '../appNavigation/TabsView'
@@ -40,7 +39,6 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
 
   componentDidMount() {
     const param = this.props.navigation.getParam('receiveLink', 'no-param')
-    updateEntitlement(this.props.store)
 
     if (param !== 'no-param') {
       console.log({ param })

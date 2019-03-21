@@ -224,15 +224,6 @@ exports[`ProfileDataTable matches snapshot 1`] = `
         disabled={true}
         editable={false}
         onChange={[Function]}
-        theme={
-          Object {
-            "colors": Object {
-              "background": "transparent",
-            },
-          }
-        }
-        underlineColor="transparent"
-        underlineColorAndroid="rgba(0,0,0,0)"
         value="john@doe.com"
       />
       <div
@@ -451,15 +442,6 @@ exports[`ProfileDataTable matches snapshot 1`] = `
         className="react-phone-number-input__input"
         disabled={true}
         editable={false}
-        theme={
-          Object {
-            "colors": Object {
-              "background": "transparent",
-            },
-          }
-        }
-        underlineColor="transparent"
-        underlineColorAndroid="rgba(0,0,0,0)"
         value="2222222222222"
       />
       <div
@@ -727,15 +709,6 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
         disabled={false}
         editable={false}
         onChange={[Function]}
-        theme={
-          Object {
-            "colors": Object {
-              "background": "transparent",
-            },
-          }
-        }
-        underlineColor="transparent"
-        underlineColorAndroid="rgba(0,0,0,0)"
         value="john@doe.com"
       />
       <div
@@ -2726,15 +2699,6 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
         editable={false}
         error="error"
         onChange={[Function]}
-        theme={
-          Object {
-            "colors": Object {
-              "background": "transparent",
-            },
-          }
-        }
-        underlineColor="transparent"
-        underlineColorAndroid="rgba(0,0,0,0)"
         value="john@doe.com"
       />
       <div

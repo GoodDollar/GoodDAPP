@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { TextInput } from 'react-native-paper'
+import { HelperText, TextInput } from 'react-native-paper'
 import isEmail from 'validator/lib/isEmail'
 import { Wrapper, Title } from './components'
 import logger from '../../lib/logger/pino-logger'
@@ -16,55 +16,57 @@ type Props = {
 
 export type EmailRecord = {
   email: string,
-  isEmailConfirmed?: boolean
+  isEmailConfirmed?: boolean,
+  errorMessage: string
 }
 
 type State = EmailRecord & { valid?: boolean }
 
 export default class EmailForm extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props)
-    this.state = {
-      email: this.props.screenProps.data.email || '',
-      valid: false
-    }
-    this.state.valid = isEmail(this.state.email)
-  }
-  componentDidMount() {
-    this.focusInput()
+  state = {
+    email: this.props.screenProps.data.email || '',
+    errorMessage: ''
   }
 
-  focusInput() {
-    if (window.Keyboard && window.Keyboard.show) {
-      window.Keyboard.show()
+  handleChange = (email: string) => {
+    if (this.state.errorMessage !== '') {
+      this.setState({ errorMessage: '' })
     }
-  }
 
-  handleChange = (text: string) => {
-    this.setState({
-      email: text,
-      valid: isEmail(text)
-    })
+    this.setState({ email })
   }
 
   handleSubmit = () => {
-    this.props.screenProps.doneCallback({ email: this.state.email })
+    if (this.state.errorMessage === '') {
+      this.props.screenProps.doneCallback({ email: this.state.email })
+    }
+  }
+
+  checkErrors = () => {
+    const errorMessage = isEmail(this.state.email) ? '' : 'Please enter an email in format: yourname@example.com'
+
+    this.setState({ errorMessage })
   }
 
   render() {
-    // const MIcon = (<Icon name="rocket" size={30} color="#900" />)
-    log.info(this.props.navigation)
+    const { errorMessage } = this.state
+
     return (
-      <Wrapper valid={this.state.valid} handleSubmit={this.handleSubmit}>
-        <Title>{'And which email address should we use to notify you?'}</Title>
+      <Wrapper valid={true} handleSubmit={this.handleSubmit}>
+        <Title>And which email address should we use to notify you?</Title>
         <TextInput
           id="signup_email"
           label="Your Email"
           value={this.state.email}
           onChangeText={this.handleChange}
+          onBlur={this.checkErrors}
           keyboardType="email-address"
+          error={errorMessage !== ''}
           autoFocus
         />
+        <HelperText type="error" visible={errorMessage}>
+          {errorMessage}
+        </HelperText>
       </Wrapper>
     )
   }

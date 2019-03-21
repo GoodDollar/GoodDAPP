@@ -5,6 +5,8 @@ import type { State } from '../GDStore'
 
 const withProfile: Effects<State> = (store: Store) => {
   store.on('isLoggedInCitizen').subscribe(isLoggedInCitizen => {
+    if (!isLoggedInCitizen) return
+
     userStorage.getProfile(async profile => {
       const displayProfile = await userStorage.getDisplayProfile(profile)
       store.set('profile')(displayProfile)

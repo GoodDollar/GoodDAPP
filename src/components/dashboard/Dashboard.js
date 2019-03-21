@@ -5,6 +5,7 @@ import { normalize } from 'react-native-elements'
 import type { Store } from 'undux'
 
 import GDStore from '../../lib/undux/GDStore'
+import { weiToMask } from '../../lib/wallet/utils'
 import { createStackNavigator, PushButton } from '../appNavigation/stackNavigation'
 import TabsView from '../appNavigation/TabsView'
 import { Avatar, BigGoodDollar, Section, Wrapper } from '../common'
@@ -19,7 +20,6 @@ import Send from './Send'
 import SendConfirmation from './SendConfirmation'
 import SendLinkSummary from './SendLinkSummary'
 import SendQRSummary from './SendQRSummary'
-import { weiToMask } from '../../lib/wallet/utils'
 import Withdraw from './Withdraw'
 
 export type DashboardProps = {

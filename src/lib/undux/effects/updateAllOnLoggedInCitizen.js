@@ -5,6 +5,10 @@ import type { State } from '../GDStore'
 import { updateAll } from '../utils/account'
 
 const updateAllOnLoggedInCitizen: Effects<State> = (store: Store) =>
-  store.on('isLoggedInCitizen').subscribe(isLoggedInCitizen => updateAll(store))
+  store.on('isLoggedInCitizen').subscribe(isLoggedInCitizen => {
+    if (isLoggedInCitizen) {
+      updateAll(store)
+    }
+  })
 
 export default updateAllOnLoggedInCitizen

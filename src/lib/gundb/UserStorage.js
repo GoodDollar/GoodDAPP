@@ -2,7 +2,7 @@
 import { default as goodWallet, GoodWallet } from '../wallet/GoodWallet'
 import pino from '../logger/pino-logger'
 import { find, merge, orderBy, toPairs, takeWhile, flatten } from 'lodash'
-import { getUserModel } from './UserModel'
+import { getUserModel, type UserModel } from './UserModel'
 
 const logger = pino.child({ from: 'UserStorage' })
 
@@ -155,6 +155,14 @@ class UserStorage {
       },
       { wait: WAIT }
     )
+  }
+
+  async setProfile(profile: UserModel) {
+    if (!profile.isValid()) return
+    return Promise.all([
+      this.setProfileField('email', profile.email, 'masked'),
+      this.setProfileField('mobile', profile.mobile, 'masked')
+    ])
   }
 
   async setProfileField(field: string, value: string, privacy: FieldPrivacy): Promise<ACK> {

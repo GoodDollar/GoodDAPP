@@ -26,10 +26,7 @@ const EditProfile = props => {
     setErrors(profile.getErrors())
     if (!profile.isValid()) return
 
-    Promise.all([
-      userStorage.setProfileField('email', profile.email, 'masked'),
-      userStorage.setProfileField('mobile', profile.mobile, 'masked')
-    ])
+    userStorage.setProfile(profile)
   }
   return (
     <Wrapper>

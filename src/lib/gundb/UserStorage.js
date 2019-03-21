@@ -2,6 +2,8 @@
 import { default as goodWallet, GoodWallet } from '../wallet/GoodWallet'
 import pino from '../logger/pino-logger'
 import { find, merge, orderBy, toPairs, takeWhile, flatten } from 'lodash'
+import { getUserModel } from './UserModel'
+
 const logger = pino.child({ from: 'UserStorage' })
 
 const WAIT = 99
@@ -127,17 +129,23 @@ class UserStorage {
   }
 
   async getDisplayProfile(profile: {}): Promise<any> {
-    return Object.keys(profile).reduce((acc, currKey, arr) => ({ ...acc, [currKey]: profile[currKey].display }), {})
+    const displayProfile = Object.keys(profile).reduce(
+      (acc, currKey, arr) => ({ ...acc, [currKey]: profile[currKey].display }),
+      {}
+    )
+    return getUserModel(displayProfile)
   }
 
   async getPrivateProfile(profile: {}) {
     const keys = Object.keys(profile)
-    return Promise.all(keys.map(currKey => this.getProfileFieldValue(currKey))).then(values => {
-      return values.reduce((acc, currValue, index) => {
-        const currKey = keys[index]
-        return { ...acc, [currKey]: currValue }
-      }, {})
-    })
+    return Promise.all(keys.map(currKey => this.getProfileFieldValue(currKey)))
+      .then(values => {
+        return values.reduce((acc, currValue, index) => {
+          const currKey = keys[index]
+          return { ...acc, [currKey]: currValue }
+        }, {})
+      })
+      .then(getUserModel)
   }
 
   getProfile(callback: any => void) {

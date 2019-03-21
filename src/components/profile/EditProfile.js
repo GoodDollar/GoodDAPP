@@ -22,20 +22,10 @@ const EditProfile = props => {
     userStorage.getPrivateProfile(profile).then(setProfile)
   }, [profile.fullName])
 
-  /**
-   * checks errors and returns true if at least one error was found
-   */
-  const checkErrors = () => {
-    const emailErrorMessage = isEmail(profile.email) ? '' : 'Please enter an email in format: yourname@example.com'
-    const mobileErrorMessage = isMobilePhone(profile.mobile) ? '' : 'Please enter a valid phone format'
-
-    log.debug({ email: emailErrorMessage, mobile: mobileErrorMessage })
-    setErrors({ email: emailErrorMessage, mobile: mobileErrorMessage })
-    return !(emailErrorMessage === '' && mobileErrorMessage === '')
-  }
-
   const handleSaveButton = () => {
-    if (checkErrors()) return
+    setErrors(profile.getErrors())
+    if (!profile.isValid()) return
+
     Promise.all([
       userStorage.setProfileField('email', profile.email, 'masked'),
       userStorage.setProfileField('mobile', profile.mobile, 'masked')

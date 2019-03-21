@@ -217,16 +217,60 @@ describe('UserStorage', () => {
     expect(events).toEqual([transactionEvent])
   })
 
-  it('gets profile field private (decrypted)', async done => {
-    await userStorage.setProfileField('x', '', 'public')
-    await userStorage.setProfileField('mobile', '', 'public')
-
+  it('gets profiles field', async done => {
     await userStorage.setProfileField('email', 'johndoe@blah.com', 'masked')
     await userStorage.setProfileField('name', 'hadar2', 'public')
     await userStorage.setProfileField('id', 'z123', 'private')
-    const profile = await userStorage.getDisplayProfile(profile => {
-      expect(profile).toEqual({ id: '', name: 'hadar2', email: 'j*****e@blah.com', phone: '', mobile: '', x: '' })
+
+    userStorage.getProfile(profile => {
+      expect(profile.email.display).toEqual('j*****e@blah.com')
+      expect(profile.name.display).toEqual('hadar2')
+      expect(profile.id.display).toEqual('')
       done()
+    })
+  })
+
+  it.only('gets display profile', async done => {
+    await userStorage.setProfileField('x', '', 'public')
+    await userStorage.setProfileField('mobile', '', 'public')
+    await userStorage.setProfileField('phone', '', 'public')
+    await userStorage.setProfileField('email', 'johndoe@blah.com', 'masked')
+    await userStorage.setProfileField('name', 'hadar2', 'public')
+    await userStorage.setProfileField('id', 'z123', 'private')
+    userStorage.getProfile(profile => {
+      userStorage.getDisplayProfile(profile).then(displayProfile => {
+        expect(displayProfile).toEqual({
+          id: '',
+          name: 'hadar2',
+          email: 'j*****e@blah.com',
+          phone: '',
+          mobile: '',
+          x: ''
+        })
+        done()
+      })
+    })
+  })
+
+  it.only('gets private profile', async done => {
+    await userStorage.setProfileField('x', '', 'public')
+    await userStorage.setProfileField('mobile', '', 'public')
+    await userStorage.setProfileField('phone', '', 'public')
+    await userStorage.setProfileField('email', 'johndoe@blah.com', 'masked')
+    await userStorage.setProfileField('name', 'hadar2', 'public')
+    await userStorage.setProfileField('id', 'z123', 'private')
+    await userStorage.getProfile(profile => {
+      userStorage.getPrivateProfile(profile).then(privateProfile => {
+        expect(privateProfile).toEqual({
+          id: 'z123',
+          name: 'hadar2',
+          email: 'johndoe@blah.com',
+          phone: '',
+          mobile: '',
+          x: ''
+        })
+        done()
+      })
     })
   })
 })

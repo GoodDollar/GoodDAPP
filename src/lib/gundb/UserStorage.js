@@ -126,17 +126,24 @@ class UserStorage {
     return pField
   }
 
-  getDisplayProfile(callback: any => void) {
+  async getDisplayProfile(profile: {}): Promise<any> {
+    return Object.keys(profile).reduce((acc, currKey, arr) => ({ ...acc, [currKey]: profile[currKey].display }), {})
+  }
+
+  async getPrivateProfile(profile: {}) {
+    const keys = Object.keys(profile)
+    return Promise.all(keys.map(currKey => this.getProfileFieldValue(currKey))).then(values => {
+      return values.reduce((acc, currValue, index) => {
+        const currKey = keys[index]
+        return { ...acc, [currKey]: currValue }
+      }, {})
+    })
+  }
+
+  getProfile(callback: any => void) {
     this.profile.open(
       doc => {
-        const profile = Object.keys(doc).reduce((acc, currKey, arr) => {
-          const currValue = doc[currKey]
-          if (currValue) {
-            acc[currKey] = currValue.display
-          }
-          return acc
-        }, {})
-        callback(profile)
+        callback(doc)
       },
       { wait: WAIT }
     )

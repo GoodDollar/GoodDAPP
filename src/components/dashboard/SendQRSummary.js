@@ -46,7 +46,7 @@ const SendQRSummary = (props: AmountProps) => {
 
   return (
     <Wrapper style={styles.wrapper}>
-      <TopBar />
+      <TopBar push={screenProps.push} />
       <Section style={styles.section}>
         <Section.Row style={styles.sectionRow}>
           <Section.Title style={styles.headline}>Summary</Section.Title>

@@ -4,6 +4,7 @@ import pino from '../logger/pino-logger'
 import { find, merge, orderBy, toPairs, takeWhile, flatten } from 'lodash'
 const logger = pino.child({ from: 'UserStorage' })
 
+const WAIT = 99
 export type GunDBUser = {
   alias: string,
   epub: string,
@@ -123,6 +124,22 @@ class UserStorage {
   async getProfileField(field: string): Promise<any> {
     let pField: ProfileField = await this.profile.get(field).then()
     return pField
+  }
+
+  getDisplayProfile(callback: any => void) {
+    this.profile.open(
+      doc => {
+        const profile = Object.keys(doc).reduce((acc, currKey, arr) => {
+          const currValue = doc[currKey]
+          if (currValue) {
+            acc[currKey] = currValue.display
+          }
+          return acc
+        }, {})
+        callback(profile)
+      },
+      { wait: WAIT }
+    )
   }
 
   async setProfileField(field: string, value: string, privacy: FieldPrivacy): Promise<ACK> {

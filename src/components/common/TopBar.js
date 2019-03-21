@@ -5,13 +5,13 @@ import Avatar from './Avatar'
 import BigGoodDollar from './BigGoodDollar'
 import Section from './Section'
 
-const TopBar = ({ hideBalance, store }) => {
+const TopBar = ({ hideBalance, store, push }) => {
   const { balance } = store.get('account')
 
   return (
     <Section>
       <Section.Row>
-        <Avatar />
+        <Avatar onPress={push && (() => push('Profile'))} />
         {!hideBalance && <BigGoodDollar number={balance} />}
       </Section.Row>
     </Section>

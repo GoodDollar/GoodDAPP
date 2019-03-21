@@ -54,7 +54,7 @@ const ScanQR = ({ screenProps }) => {
 
   return (
     <Wrapper>
-      <TopBar hideBalance={true} />
+      <TopBar hideBalance={true} push={screenProps.push} />
       <Section style={styles.bottomSection}>
         <Section.Row>
           <QrReader

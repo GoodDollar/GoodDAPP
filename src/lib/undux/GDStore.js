@@ -59,6 +59,7 @@ const initialState: State = {
     },
     loading: false
   },
+  profile: {},
   destinationPath: ''
 }
 

@@ -28,7 +28,7 @@ const SendConfirmation = ({ screenProps, navigation }: ReceiveProps) => {
 
   return (
     <Wrapper>
-      <TopBar hideBalance />
+      <TopBar hideBalance push={screenProps.push} />
       <Section style={styles.section}>
         <View style={styles.sectionTop}>
           <Section.Row style={[{}]}>

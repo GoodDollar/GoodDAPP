@@ -20,6 +20,7 @@ import Send from './Send'
 import SendConfirmation from './SendConfirmation'
 import SendLinkSummary from './SendLinkSummary'
 import SendQRSummary from './SendQRSummary'
+import Profile from '../profile/Profile'
 import Withdraw from './Withdraw'
 
 export type DashboardProps = {
@@ -50,7 +51,7 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
     const { param } = this.state
     const { screenProps, navigation, store }: DashboardProps = this.props
     const { balance, entitlement } = store.get('account')
-    const { fullName } = store.get('name')
+    const { fullName } = store.get('profile')
 
     return (
       <View>
@@ -58,7 +59,7 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
         <Wrapper>
           <Section>
             <Section.Row style={styles.centered}>
-              <Avatar size={80} />
+              <Avatar size={80} onPress={() => screenProps.push('Profile')} />
             </Section.Row>
             <Section.Row style={styles.centered}>
               <Section.Title>{fullName || 'John Doe'}</Section.Title>
@@ -137,5 +138,9 @@ export default createStackNavigator({
   SendConfirmation,
   FaceRecognition,
   ScanQR,
-  SendQRSummary
+  SendQRSummary,
+  Profile: {
+    screen: Profile,
+    display: false
+  }
 })

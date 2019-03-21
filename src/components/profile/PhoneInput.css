@@ -1,0 +1,22 @@
+.react-phone-number-input {
+  width: 100%;
+  margin-left: 0.2em;
+  padding: 12px;
+}
+
+.react-phone-number-input__input {
+  height: 30px;
+  background: transparent;
+  border: none;
+  font-size: 16px;
+  text-align: right;
+}
+.react-phone-number-input__input:-webkit-autofill {
+  box-shadow: none;
+}
+
+.react-phone-number-input__error {
+  text-align: right;
+  font-size: 12px;
+  font-family: Roboto, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}

@@ -6,6 +6,7 @@ import { Wrapper, Section, UserAvatar } from '../common'
 import logger from '../../lib/logger/pino-logger'
 import GDStore from '../../lib/undux/GDStore'
 import EditProfile from './EditProfile'
+import ProfileDataTable from './ProfileDataTable'
 
 const log = logger.child({ from: 'Profile' })
 
@@ -29,16 +30,7 @@ const Profile = props => {
           <UserAvatar profile={profile} />
           <EditIcon onPress={() => screenProps.push('EditProfile')} />
         </Section.Row>
-        <View style={styles.table}>
-          <View style={styles.tableRow}>
-            <Icon name="email" color="rgb(85, 85, 85)" />
-            <Text style={styles.tableRowText}>{profile.email}</Text>
-          </View>
-          <View style={styles.tableRow}>
-            <Icon name="phone" color="rgb(85, 85, 85)" />
-            <Text style={styles.tableRowText}>{profile.mobile}</Text>
-          </View>
-        </View>
+        <ProfileDataTable profile={profile} />
       </Section>
     </Wrapper>
   )
@@ -51,28 +43,6 @@ const styles = StyleSheet.create({
   section: {
     paddingLeft: '1em',
     paddingRight: '1em'
-  },
-  table: {
-    margin: '3em',
-    borderTopStyle: 'solid',
-    borderTopColor: '#d2d2d2',
-    borderTopWidth: '1px'
-  },
-  tableRow: {
-    paddingBottom: '0.5em',
-    paddingTop: '0.5em',
-    alignItems: 'flex-end',
-    flexDirection: 'row',
-    borderBottomStyle: 'solid',
-    borderBottomColor: '#d2d2d2',
-    borderBottomWidth: '1px'
-  },
-  tableRowText: {
-    textAlign: 'right',
-    flex: 1,
-    color: 'rgb(85, 85, 85)',
-    whiteSpace: 'nowrap',
-    overflow: 'hidden'
   },
   icon: {
     cursor: 'pointer'

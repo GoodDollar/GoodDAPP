@@ -1196,14 +1196,14 @@ Array [
               <div
                 style={
                   Object {
-                    "WebkitAlignItems": "flex-end",
-                    "WebkitBoxAlign": "end",
+                    "WebkitAlignItems": "center",
+                    "WebkitBoxAlign": "center",
                     "WebkitBoxDirection": "normal",
                     "WebkitBoxOrient": "horizontal",
                     "WebkitFlexBasis": "auto",
                     "WebkitFlexDirection": "row",
                     "WebkitFlexShrink": 0,
-                    "alignItems": "flex-end",
+                    "alignItems": "center",
                     "borderBottomColor": "rgba(210,210,210,1.00)",
                     "borderBottomStyle": "solid",
                     "borderBottomWidth": "1px",
@@ -1224,7 +1224,7 @@ Array [
                     "marginTop": "0px",
                     "minHeight": "0px",
                     "minWidth": "0px",
-                    "msFlexAlign": "end",
+                    "msFlexAlign": "center",
                     "msFlexDirection": "row",
                     "msFlexNegative": 0,
                     "msFlexPreferredSize": "auto",
@@ -1321,61 +1321,116 @@ Array [
                   </div>
                 </div>
                 <div
-                  dir="auto"
                   style={
                     Object {
+                      "WebkitAlignItems": "stretch",
+                      "WebkitBoxAlign": "stretch",
+                      "WebkitBoxDirection": "normal",
                       "WebkitBoxFlex": 1,
+                      "WebkitBoxOrient": "vertical",
                       "WebkitFlexBasis": "0%",
+                      "WebkitFlexDirection": "column",
                       "WebkitFlexGrow": 1,
                       "WebkitFlexShrink": 1,
+                      "alignItems": "stretch",
+                      "borderBottomStyle": "solid",
                       "borderBottomWidth": "0px",
+                      "borderLeftStyle": "solid",
                       "borderLeftWidth": "0px",
+                      "borderRightStyle": "solid",
                       "borderRightWidth": "0px",
+                      "borderTopStyle": "solid",
                       "borderTopWidth": "0px",
                       "boxSizing": "border-box",
-                      "color": "rgba(85,85,85,1.00)",
-                      "display": "inline",
+                      "display": "flex",
                       "flexBasis": "0%",
+                      "flexDirection": "column",
                       "flexGrow": 1,
                       "flexShrink": 1,
-                      "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \\"Segoe UI\\", Roboto, Ubuntu, \\"Helvetica Neue\\", sans-serif",
-                      "fontSize": "14px",
-                      "fontStyle": "inherit",
-                      "fontVariant": "inherit",
-                      "fontWeight": "inherit",
-                      "lineHeight": "inherit",
                       "marginBottom": "0px",
-                      "marginLeft": "0px",
+                      "marginLeft": "0.2em",
                       "marginRight": "0px",
                       "marginTop": "0px",
+                      "minHeight": "0px",
+                      "minWidth": "0px",
+                      "msFlexAlign": "stretch",
+                      "msFlexDirection": "column",
                       "msFlexNegative": 1,
                       "msFlexPositive": 1,
                       "msFlexPreferredSize": "0%",
-                      "overflowX": "hidden",
-                      "overflowY": "hidden",
                       "paddingBottom": "0px",
                       "paddingLeft": "0px",
-                      "paddingRight": "0px",
+                      "paddingRight": "12px",
                       "paddingTop": "0px",
-                      "textAlign": "right",
-                      "textDecoration": "none",
-                      "whiteSpace": "nowrap",
-                      "wordWrap": "break-word",
+                      "position": "relative",
+                      "zIndex": 0,
                     }
                   }
-                />
+                >
+                  <input
+                    className="react-phone-number-input__input"
+                    disabled={true}
+                    editable={false}
+                    onChange={[Function]}
+                    theme={
+                      Object {
+                        "colors": Object {
+                          "background": "transparent",
+                        },
+                      }
+                    }
+                    underlineColor="transparent"
+                    underlineColorAndroid="rgba(0,0,0,0)"
+                  />
+                  <div
+                    dir="auto"
+                    style={
+                      Object {
+                        "WebkitTransform": "translateY(0px)",
+                        "borderBottomWidth": "0px",
+                        "borderLeftWidth": "0px",
+                        "borderRightWidth": "0px",
+                        "borderTopWidth": "0px",
+                        "boxSizing": "border-box",
+                        "color": "rgba(176,0,32,1.00)",
+                        "direction": "ltr",
+                        "display": "inline",
+                        "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                        "fontSize": "12px",
+                        "fontStyle": "inherit",
+                        "fontVariant": "inherit",
+                        "fontWeight": "inherit",
+                        "lineHeight": "inherit",
+                        "marginBottom": "0px",
+                        "marginLeft": "0px",
+                        "marginRight": "0px",
+                        "marginTop": "0px",
+                        "opacity": 1,
+                        "paddingBottom": "4px",
+                        "paddingLeft": "12px",
+                        "paddingRight": "0px",
+                        "paddingTop": "4px",
+                        "textAlign": "right",
+                        "textDecoration": "none",
+                        "transform": "translateY(0px)",
+                        "whiteSpace": "pre-wrap",
+                        "wordWrap": "break-word",
+                      }
+                    }
+                  />
+                </div>
               </div>
               <div
                 style={
                   Object {
-                    "WebkitAlignItems": "flex-end",
-                    "WebkitBoxAlign": "end",
+                    "WebkitAlignItems": "center",
+                    "WebkitBoxAlign": "center",
                     "WebkitBoxDirection": "normal",
                     "WebkitBoxOrient": "horizontal",
                     "WebkitFlexBasis": "auto",
                     "WebkitFlexDirection": "row",
                     "WebkitFlexShrink": 0,
-                    "alignItems": "flex-end",
+                    "alignItems": "center",
                     "borderBottomColor": "rgba(210,210,210,1.00)",
                     "borderBottomStyle": "solid",
                     "borderBottomWidth": "1px",
@@ -1396,7 +1451,7 @@ Array [
                     "marginTop": "0px",
                     "minHeight": "0px",
                     "minWidth": "0px",
-                    "msFlexAlign": "end",
+                    "msFlexAlign": "center",
                     "msFlexDirection": "row",
                     "msFlexNegative": 0,
                     "msFlexPreferredSize": "auto",
@@ -1493,49 +1548,103 @@ Array [
                   </div>
                 </div>
                 <div
-                  dir="auto"
                   style={
                     Object {
+                      "WebkitAlignItems": "stretch",
+                      "WebkitBoxAlign": "stretch",
+                      "WebkitBoxDirection": "normal",
                       "WebkitBoxFlex": 1,
+                      "WebkitBoxOrient": "vertical",
                       "WebkitFlexBasis": "0%",
+                      "WebkitFlexDirection": "column",
                       "WebkitFlexGrow": 1,
                       "WebkitFlexShrink": 1,
+                      "alignItems": "stretch",
+                      "borderBottomStyle": "solid",
                       "borderBottomWidth": "0px",
+                      "borderLeftStyle": "solid",
                       "borderLeftWidth": "0px",
+                      "borderRightStyle": "solid",
                       "borderRightWidth": "0px",
+                      "borderTopStyle": "solid",
                       "borderTopWidth": "0px",
                       "boxSizing": "border-box",
-                      "color": "rgba(85,85,85,1.00)",
-                      "display": "inline",
+                      "display": "flex",
                       "flexBasis": "0%",
+                      "flexDirection": "column",
                       "flexGrow": 1,
                       "flexShrink": 1,
-                      "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \\"Segoe UI\\", Roboto, Ubuntu, \\"Helvetica Neue\\", sans-serif",
-                      "fontSize": "14px",
-                      "fontStyle": "inherit",
-                      "fontVariant": "inherit",
-                      "fontWeight": "inherit",
-                      "lineHeight": "inherit",
                       "marginBottom": "0px",
-                      "marginLeft": "0px",
+                      "marginLeft": "0.2em",
                       "marginRight": "0px",
                       "marginTop": "0px",
+                      "minHeight": "0px",
+                      "minWidth": "0px",
+                      "msFlexAlign": "stretch",
+                      "msFlexDirection": "column",
                       "msFlexNegative": 1,
                       "msFlexPositive": 1,
                       "msFlexPreferredSize": "0%",
-                      "overflowX": "hidden",
-                      "overflowY": "hidden",
                       "paddingBottom": "0px",
                       "paddingLeft": "0px",
-                      "paddingRight": "0px",
+                      "paddingRight": "12px",
                       "paddingTop": "0px",
-                      "textAlign": "right",
-                      "textDecoration": "none",
-                      "whiteSpace": "nowrap",
-                      "wordWrap": "break-word",
+                      "position": "relative",
+                      "zIndex": 0,
                     }
                   }
-                />
+                >
+                  <input
+                    className="react-phone-number-input__input"
+                    disabled={true}
+                    editable={false}
+                    theme={
+                      Object {
+                        "colors": Object {
+                          "background": "transparent",
+                        },
+                      }
+                    }
+                    underlineColor="transparent"
+                    underlineColorAndroid="rgba(0,0,0,0)"
+                  />
+                  <div
+                    dir="auto"
+                    style={
+                      Object {
+                        "WebkitTransform": "translateY(0px)",
+                        "borderBottomWidth": "0px",
+                        "borderLeftWidth": "0px",
+                        "borderRightWidth": "0px",
+                        "borderTopWidth": "0px",
+                        "boxSizing": "border-box",
+                        "color": "rgba(176,0,32,1.00)",
+                        "direction": "ltr",
+                        "display": "inline",
+                        "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                        "fontSize": "12px",
+                        "fontStyle": "inherit",
+                        "fontVariant": "inherit",
+                        "fontWeight": "inherit",
+                        "lineHeight": "inherit",
+                        "marginBottom": "0px",
+                        "marginLeft": "0px",
+                        "marginRight": "0px",
+                        "marginTop": "0px",
+                        "opacity": 1,
+                        "paddingBottom": "4px",
+                        "paddingLeft": "12px",
+                        "paddingRight": "0px",
+                        "paddingTop": "4px",
+                        "textAlign": "right",
+                        "textDecoration": "none",
+                        "transform": "translateY(0px)",
+                        "whiteSpace": "pre-wrap",
+                        "wordWrap": "break-word",
+                      }
+                    }
+                  />
+                </div>
               </div>
             </div>
           </div>

@@ -6,6 +6,7 @@ import 'react-phone-number-input/style.css'
 
 import isMobilePhone from '../../lib/validators/isMobilePhone'
 import { Description, Title, Wrapper } from './components'
+import { getMobileErrorMessage } from '../../lib/gundb/UserModel'
 
 type Props = {
   // callback to report to parent component
@@ -19,7 +20,7 @@ export type MobileRecord = {
   errorMessage: string
 }
 
-type State = MobileRecord & { valid?: boolean }
+type State = MobileRecord
 
 export default class PhoneForm extends React.Component<Props, State> {
   state = {
@@ -42,8 +43,7 @@ export default class PhoneForm extends React.Component<Props, State> {
   }
 
   checkErrors = () => {
-    const errorMessage = isMobilePhone(this.state.mobile) ? '' : 'Please enter a valid phone format'
-
+    const errorMessage = getMobileErrorMessage(this.state.mobile)
     this.setState({ errorMessage })
   }
 

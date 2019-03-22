@@ -4,6 +4,7 @@ import { HelperText, TextInput } from 'react-native-paper'
 import isEmail from 'validator/lib/isEmail'
 import { Wrapper, Title } from './components'
 import logger from '../../lib/logger/pino-logger'
+import { getEmailErrorMessage } from '../../lib/gundb/UserModel'
 
 const log = logger.child({ from: 'EmailForm' })
 
@@ -43,7 +44,7 @@ export default class EmailForm extends React.Component<Props, State> {
   }
 
   checkErrors = () => {
-    const errorMessage = isEmail(this.state.email) ? '' : 'Please enter an email in format: yourname@example.com'
+    const errorMessage = getEmailErrorMessage(this.state.email)
 
     this.setState({ errorMessage })
   }

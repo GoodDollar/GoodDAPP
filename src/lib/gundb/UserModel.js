@@ -7,32 +7,47 @@ type Validation = {
   isValid: boolean,
   errors: {}
 }
-type ModelValidator = {
-  isValid: () => boolean,
-  getErrors: () => {},
-  validate: () => Validation
+export type ModelValidator = {
+  isValid: (key: string) => boolean,
+  getErrors: (key: string) => {},
+  validate: (key: string) => Validation
 }
 export type UserModel = UserRecord & ModelValidator
+
+export const getEmailErrorMessage = (email?: string) => {
+  if (!email) return 'Email is required'
+  if (!isEmail(email)) return 'Please enter an email in format: yourname@example.com'
+
+  return ''
+}
+export const getMobileErrorMessage = (mobile?: string) => {
+  if (!mobile) return 'Mobile is required'
+  if (!isMobilePhone(mobile)) return 'Please enter a valid phone format'
+
+  return ''
+}
 
 export function getUserModel(record: UserRecord): UserModel {
   const _isValid = errors => Object.keys(errors).every(key => errors[key] === '')
 
+  const validations = {
+    email: getEmailErrorMessage,
+    mobile: getMobileErrorMessage
+  }
+
   return {
     ...record,
-    isValid: function() {
-      const errors = this.getErrors()
+    isValid: function(key) {
+      const errors = this.getErrors(key)
       return _isValid(errors)
     },
-    getErrors: function() {
-      console.log(this, 'getErrors()')
+    getErrors: function(key) {
+      if (key) return { [key]: validations[key](this[key]) }
 
-      const emailErrorMessage = isEmail(this.email) ? '' : 'Please enter an email in format: yourname@example.com'
-      const mobileErrorMessage = isMobilePhone(this.mobile) ? '' : 'Please enter a valid phone format'
-
-      return { email: emailErrorMessage, mobile: mobileErrorMessage }
+      return { email: validations.email(this.email), mobile: validations.mobile(this.mobile) }
     },
-    validate: function() {
-      return { isValid: this.isValid(), errors: this.getErrors() }
+    validate: function(key) {
+      return { isValid: this.isValid(key), errors: this.getErrors(key) }
     }
   }
 }

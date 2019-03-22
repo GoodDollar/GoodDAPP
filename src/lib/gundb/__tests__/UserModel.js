@@ -20,6 +20,14 @@ describe('UserModel', () => {
     expect(model.isValid()).toBeFalsy()
   })
 
+  it('Profile without email isValid() should false', () => {
+    delete validProfile.email
+    const model = getUserModel(validProfile)
+    const { isValid, errors } = model.validate()
+    expect(isValid).toBeFalsy()
+    expect(errors.email).toBe('Email is required')
+  })
+
   it('Invalid email should get error on email property', () => {
     validProfile.email = 'fakeemail'
     const model = getUserModel(validProfile)
@@ -47,5 +55,21 @@ describe('UserModel', () => {
     expect(isValid).toBeFalsy()
     expect(errors.mobile).not.toBe('')
     expect(errors.email).not.toBe('')
+  })
+
+  it('isValid only a field', () => {
+    const model = getUserModel(validProfile)
+    delete model.email
+
+    expect(model.isValid('mobile')).toBeTruthy()
+  })
+
+  it('validate should return isValid and errors with only a field', () => {
+    const model = getUserModel(validProfile)
+    delete model.email
+    const { isValid, errors } = model.validate('mobile')
+    expect(isValid).toBeTruthy()
+    expect(errors.mobile).toBe('')
+    expect(errors.email).toBeUndefined()
   })
 })

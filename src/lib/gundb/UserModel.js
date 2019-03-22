@@ -27,27 +27,25 @@ export const getMobileErrorMessage = (mobile?: string) => {
   return ''
 }
 
+export const userModelValidations = {
+  email: getEmailErrorMessage,
+  mobile: getMobileErrorMessage
+}
+
 export function getUserModel(record: UserRecord): UserModel {
   const _isValid = errors => Object.keys(errors).every(key => errors[key] === '')
 
-  const validations = {
-    email: getEmailErrorMessage,
-    mobile: getMobileErrorMessage
-  }
-
   return {
     ...record,
-    isValid: function(key) {
-      const errors = this.getErrors(key)
+    isValid: function() {
+      const errors = this.getErrors()
       return _isValid(errors)
     },
-    getErrors: function(key) {
-      if (key) return { [key]: validations[key](this[key]) }
-
-      return { email: validations.email(this.email), mobile: validations.mobile(this.mobile) }
+    getErrors: function() {
+      return { email: userModelValidations.email(this.email), mobile: userModelValidations.mobile(this.mobile) }
     },
-    validate: function(key) {
-      return { isValid: this.isValid(key), errors: this.getErrors(key) }
+    validate: function() {
+      return { isValid: this.isValid(), errors: this.getErrors() }
     }
   }
 }

@@ -1,5 +1,5 @@
 // @flow
-import { getUserModel } from '../UserModel'
+import { getUserModel, userModelValidations } from '../UserModel'
 
 describe('UserModel', () => {
   let validProfile
@@ -58,18 +58,7 @@ describe('UserModel', () => {
   })
 
   it('isValid only a field', () => {
-    const model = getUserModel(validProfile)
-    delete model.email
-
-    expect(model.isValid('mobile')).toBeTruthy()
-  })
-
-  it('validate should return isValid and errors with only a field', () => {
-    const model = getUserModel(validProfile)
-    delete model.email
-    const { isValid, errors } = model.validate('mobile')
-    expect(isValid).toBeTruthy()
-    expect(errors.mobile).toBe('')
-    expect(errors.email).toBeUndefined()
+    expect(userModelValidations.mobile('fake')).not.toBe('')
+    expect(userModelValidations.mobile('+22222222222')).toBe('')
   })
 })

@@ -38,14 +38,15 @@ const EditProfile = props => {
     if (checkErrors()) return
     Promise.all([
       userStorage.setProfileField('email', profile.email, 'masked'),
-      userStorage.setProfileField('mobile', profile.mobile, 'masked')
+      userStorage.setProfileField('mobile', profile.mobile, 'masked'),
+      userStorage.setProfileField('avatar', profile.avatar, 'public')
     ])
   }
   return (
     <Wrapper>
       <Section style={styles.section}>
         <Section.Row style={styles.centered}>
-          <UserAvatar profile={profile} />
+          <UserAvatar onChange={setProfile} editable={true} profile={profile} />
           <CustomButton loading={saving} mode="outlined" style={styles.saveButton} onPress={handleSaveButton}>
             Save
           </CustomButton>

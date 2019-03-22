@@ -3,19 +3,25 @@ import type { UserRecord } from '../api'
 import isEmail from 'validator/lib/isEmail'
 import isMobilePhone from '../validators/isMobilePhone'
 
+type Validation = {
+  isValid: boolean,
+  errors: {}
+}
 type ModelValidator = {
   isValid: () => boolean,
-  getErrors: () => {}
+  getErrors: () => {},
+  validate: () => Validation
 }
-
 type UserModel = UserRecord & ModelValidator
 
 export function getUserModel(record: UserRecord): UserModel {
+  const _isValid = errors => Object.keys(errors).every(key => errors[key] === '')
+
   return {
     ...record,
     isValid: function() {
-      console.log(this, 'isValid()')
-      return this.email && isEmail(this.email) && this.mobile && isMobilePhone(this.mobile)
+      const errors = this.getErrors()
+      return _isValid(errors)
     },
     getErrors: function() {
       console.log(this, 'getErrors()')
@@ -24,6 +30,9 @@ export function getUserModel(record: UserRecord): UserModel {
       const mobileErrorMessage = isMobilePhone(this.mobile) ? '' : 'Please enter a valid phone format'
 
       return { email: emailErrorMessage, mobile: mobileErrorMessage }
+    },
+    validate: function() {
+      return { isValid: this.isValid(), errors: this.getErrors() }
     }
   }
 }

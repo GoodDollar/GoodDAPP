@@ -158,8 +158,13 @@ class UserStorage {
   }
 
   async setProfile(profile: UserModel) {
-    if (!profile.isValid()) return
+    const { errors, isValid } = profile.validate()
+    if (!isValid) {
+      throw new Error(errors)
+    }
+
     return Promise.all([
+      this.setProfileField('fullName', profile.fullName, 'masked'),
       this.setProfileField('email', profile.email, 'masked'),
       this.setProfileField('mobile', profile.mobile, 'masked')
     ])

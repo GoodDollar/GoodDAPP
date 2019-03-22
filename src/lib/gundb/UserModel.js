@@ -12,7 +12,7 @@ type ModelValidator = {
   getErrors: () => {},
   validate: () => Validation
 }
-type UserModel = UserRecord & ModelValidator
+export type UserModel = UserRecord & ModelValidator
 
 export function getUserModel(record: UserRecord): UserModel {
   const _isValid = errors => Object.keys(errors).every(key => errors[key] === '')

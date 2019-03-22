@@ -23,8 +23,9 @@ const EditProfile = props => {
   }, [profile.fullName])
 
   const handleSaveButton = () => {
-    setErrors(profile.getErrors())
-    if (!profile.isValid()) return
+    const { isValid, errors } = profile.validate()
+    setErrors(errors)
+    if (!isValid) return
 
     userStorage.setProfile(profile)
   }

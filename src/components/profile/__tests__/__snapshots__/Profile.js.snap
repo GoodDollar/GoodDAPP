@@ -716,6 +716,7 @@ Array [
                     "paddingRight": "0px",
                     "paddingTop": "0px",
                     "position": "relative",
+                    "top": "50px",
                     "zIndex": 0,
                   }
                 }
@@ -1177,7 +1178,7 @@ Array [
                   "marginBottom": "3em",
                   "marginLeft": "3em",
                   "marginRight": "3em",
-                  "marginTop": "3em",
+                  "marginTop": "5em",
                   "minHeight": "0px",
                   "minWidth": "0px",
                   "msFlexAlign": "stretch",
@@ -1370,7 +1371,6 @@ Array [
                   <input
                     className="react-phone-number-input__input"
                     disabled={true}
-                    editable={false}
                     onChange={[Function]}
                   />
                   <div
@@ -1588,7 +1588,6 @@ Array [
                   <input
                     className="react-phone-number-input__input"
                     disabled={true}
-                    editable={false}
                   />
                   <div
                     dir="auto"

@@ -48,6 +48,7 @@ exports[`UserAvatar matches snapshot 1`] = `
       "paddingRight": "0px",
       "paddingTop": "0px",
       "position": "relative",
+      "top": "50px",
       "zIndex": 0,
     }
   }

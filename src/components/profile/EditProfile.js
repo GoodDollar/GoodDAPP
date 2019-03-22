@@ -4,8 +4,6 @@ import { Wrapper, Section, CustomButton, UserAvatar } from '../common'
 import logger from '../../lib/logger/pino-logger'
 import GDStore from '../../lib/undux/GDStore'
 import { useWrappedUserStorage } from '../../lib/gundb/useWrappedStorage'
-import isEmail from 'validator/lib/isEmail'
-import isMobilePhone from '../../lib/validators/isMobilePhone'
 
 import ProfileDataTable from './ProfileDataTable'
 
@@ -16,25 +14,34 @@ const EditProfile = props => {
   const userStorage = useWrappedUserStorage()
 
   const [profile, setProfile] = useState(store.get('profile'))
+  const [saving, setSaving] = useState()
   const [errors, setErrors] = useState({})
-  const { loading: saving } = store.get('currentScreen')
+  const { loading } = store.get('currentScreen')
   useEffect(() => {
     userStorage.getPrivateProfile(profile).then(setProfile)
   }, [profile.fullName])
 
-  const handleSaveButton = () => {
+  const handleSaveButton = async () => {
     const { isValid, errors } = profile.validate()
     setErrors(errors)
     if (!isValid) return
 
-    userStorage.setProfile(profile)
+    setSaving(true)
+    await userStorage.setProfile(profile)
+    setSaving(false)
   }
   return (
     <Wrapper>
       <Section style={styles.section}>
         <Section.Row style={styles.centered}>
           <UserAvatar profile={profile} />
-          <CustomButton loading={saving} mode="outlined" style={styles.saveButton} onPress={handleSaveButton}>
+          <CustomButton
+            disabled={loading}
+            loading={saving}
+            mode="outlined"
+            style={styles.saveButton}
+            onPress={handleSaveButton}
+          >
             Save
           </CustomButton>
         </Section.Row>

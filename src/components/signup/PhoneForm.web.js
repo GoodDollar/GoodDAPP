@@ -6,7 +6,7 @@ import 'react-phone-number-input/style.css'
 
 import isMobilePhone from '../../lib/validators/isMobilePhone'
 import { Description, Title, Wrapper } from './components'
-import { getMobileErrorMessage } from '../../lib/gundb/UserModel'
+import { userModelValidations } from '../../lib/gundb/UserModel'
 
 type Props = {
   // callback to report to parent component
@@ -43,7 +43,7 @@ export default class PhoneForm extends React.Component<Props, State> {
   }
 
   checkErrors = () => {
-    const errorMessage = getMobileErrorMessage(this.state.mobile)
+    const errorMessage = userModelValidations.mobile(this.state.mobile)
     this.setState({ errorMessage })
   }
 

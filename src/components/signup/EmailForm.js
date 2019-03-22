@@ -1,10 +1,9 @@
 // @flow
 import React from 'react'
 import { HelperText, TextInput } from 'react-native-paper'
-import isEmail from 'validator/lib/isEmail'
 import { Wrapper, Title } from './components'
 import logger from '../../lib/logger/pino-logger'
-import { getEmailErrorMessage } from '../../lib/gundb/UserModel'
+import { userModelValidations } from '../../lib/gundb/UserModel'
 
 const log = logger.child({ from: 'EmailForm' })
 
@@ -44,7 +43,7 @@ export default class EmailForm extends React.Component<Props, State> {
   }
 
   checkErrors = () => {
-    const errorMessage = getEmailErrorMessage(this.state.email)
+    const errorMessage = userModelValidations.email(this.state.email)
 
     this.setState({ errorMessage })
   }

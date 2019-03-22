@@ -14,13 +14,13 @@ export type ModelValidator = {
 }
 export type UserModel = UserRecord & ModelValidator
 
-export const getEmailErrorMessage = (email?: string) => {
+const getEmailErrorMessage = (email?: string) => {
   if (!email) return 'Email is required'
   if (!isEmail(email)) return 'Please enter an email in format: yourname@example.com'
 
   return ''
 }
-export const getMobileErrorMessage = (mobile?: string) => {
+const getMobileErrorMessage = (mobile?: string) => {
   if (!mobile) return 'Mobile is required'
   if (!isMobilePhone(mobile)) return 'Please enter a valid phone format'
 

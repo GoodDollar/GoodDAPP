@@ -27,7 +27,7 @@ const Profile = props => {
       <Section style={styles.section}>
         <Section.Row style={styles.centered}>
           <PrivateIcon onPress={() => log.debug('PrivateIcon')} />
-          <UserAvatar profile={profile} />
+          <UserAvatar profile={profile} source={profile.avatar} />
           <EditIcon onPress={() => screenProps.push('EditProfile')} />
         </Section.Row>
         <ProfileDataTable profile={profile} />

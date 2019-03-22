@@ -230,7 +230,7 @@ describe('UserStorage', () => {
     })
   })
 
-  it.only('gets display profile', async done => {
+  it('gets display profile', async done => {
     await userStorage.setProfileField('x', '', 'public')
     await userStorage.setProfileField('mobile', '', 'public')
     await userStorage.setProfileField('phone', '', 'public')
@@ -238,7 +238,8 @@ describe('UserStorage', () => {
     await userStorage.setProfileField('name', 'hadar2', 'public')
     await userStorage.setProfileField('id', 'z123', 'private')
     userStorage.getProfile(profile => {
-      userStorage.getDisplayProfile(profile).then(displayProfile => {
+      userStorage.getDisplayProfile(profile).then(result => {
+        const { isValid, getErrors, validate, ...displayProfile } = result
         expect(displayProfile).toEqual({
           id: '',
           name: 'hadar2',
@@ -252,7 +253,7 @@ describe('UserStorage', () => {
     })
   })
 
-  it.only('gets private profile', async done => {
+  it('gets private profile', async done => {
     await userStorage.setProfileField('x', '', 'public')
     await userStorage.setProfileField('mobile', '', 'public')
     await userStorage.setProfileField('phone', '', 'public')
@@ -260,7 +261,9 @@ describe('UserStorage', () => {
     await userStorage.setProfileField('name', 'hadar2', 'public')
     await userStorage.setProfileField('id', 'z123', 'private')
     await userStorage.getProfile(profile => {
-      userStorage.getPrivateProfile(profile).then(privateProfile => {
+      userStorage.getPrivateProfile(profile).then(result => {
+        const { isValid, getErrors, validate, ...privateProfile } = result
+
         expect(privateProfile).toEqual({
           id: 'z123',
           name: 'hadar2',

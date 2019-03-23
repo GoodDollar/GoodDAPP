@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
-import CreateAvatar from 'react-avatar-edit'
+import CreateAvatar from 'exif-react-avatar-edit'
 
 import Avatar from './Avatar'
 import Section from './Section'

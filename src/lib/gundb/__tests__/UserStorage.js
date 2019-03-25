@@ -283,6 +283,10 @@ describe('UserStorage', () => {
   })
 
   it('update profile field uses privacy settings', async done => {
+    // Making sure that privacy default is not override in other tests
+    await userStorage.setProfileField('mobile', '+22222222211', 'masked')
+    await userStorage.setProfileField('email', 'new@domain.com', 'masked')
+
     const profileData = {
       fullName: 'New Name',
       email: 'new@email.com',
@@ -314,6 +318,18 @@ describe('UserStorage', () => {
           x: '',
           id: ''
         })
+        done()
+      })
+    })
+  })
+
+  it(`update profile doesn't change privacy settings`, async done => {
+    const email = 'johndoe@blah.com'
+    await userStorage.setProfileField('email', email, 'public')
+    await userStorage.setProfile(getUserModel({ email, fullName: 'full name', mobile: '+22222222222' }))
+    await userStorage.subscribeProfileUpdates(updatedProfile => {
+      userStorage.getDisplayProfile(updatedProfile).then(result => {
+        expect(result.email).toBe(email)
         done()
       })
     })

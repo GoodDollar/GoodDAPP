@@ -168,11 +168,22 @@ class UserStorage {
       throw new Error(errors)
     }
 
-    return Promise.all([
-      this.setProfileField('fullName', profile.fullName, 'masked'),
-      this.setProfileField('email', profile.email, 'masked'),
-      this.setProfileField('mobile', profile.mobile, 'masked')
-    ])
+    const profileSettings = {
+      fullName: { defaultPrivacy: 'public' },
+      email: { defaultPrivacy: 'masked' },
+      mobile: { defaultPrivacy: 'masked' }
+    }
+
+    const getPrivacy = async field => {
+      const currentPrivacy = await this.profile.get(field).get('privacy')
+      return currentPrivacy || profileSettings[field].defaultPrivacy
+    }
+
+    return Promise.all(
+      Object.keys(profileSettings).map(async field =>
+        this.setProfileField(field, profile[field], await getPrivacy(field))
+      )
+    )
   }
 
   async setProfileField(field: string, value: string, privacy: FieldPrivacy): Promise<ACK> {

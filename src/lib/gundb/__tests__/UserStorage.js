@@ -2,6 +2,7 @@
 import Gun from 'gun'
 import extend from '../gundb-extend'
 import { type TransactionEvent } from '../UserStorage'
+import { getUserModel } from '../UserModel'
 
 let userStorage = require('../UserStorage.js').default
 let event = { id: 'xyz', date: new Date('2019-01-01T10:00:00.000Z').toString(), data: { foo: 'bar', unchanged: 'zar' } }
@@ -26,6 +27,10 @@ describe('UserStorage', () => {
     console.debug('wallet ready...')
     await userStorage.ready
     console.log('storage ready...')
+  })
+
+  afterEach(() => {
+    userStorage.unSubscribeProfileUpdates()
   })
 
   it('logins to gundb', async () => {
@@ -222,7 +227,7 @@ describe('UserStorage', () => {
     await userStorage.setProfileField('name', 'hadar2', 'public')
     await userStorage.setProfileField('id', 'z123', 'private')
 
-    userStorage.getProfile(profile => {
+    userStorage.subscribeProfileUpdates(profile => {
       expect(profile.email.display).toEqual('j*****e@blah.com')
       expect(profile.name.display).toEqual('hadar2')
       expect(profile.id.display).toEqual('')
@@ -237,7 +242,7 @@ describe('UserStorage', () => {
     await userStorage.setProfileField('email', 'johndoe@blah.com', 'masked')
     await userStorage.setProfileField('name', 'hadar2', 'public')
     await userStorage.setProfileField('id', 'z123', 'private')
-    userStorage.getProfile(profile => {
+    userStorage.subscribeProfileUpdates(profile => {
       userStorage.getDisplayProfile(profile).then(result => {
         const { isValid, getErrors, validate, ...displayProfile } = result
         expect(displayProfile).toEqual({
@@ -260,7 +265,7 @@ describe('UserStorage', () => {
     await userStorage.setProfileField('email', 'johndoe@blah.com', 'masked')
     await userStorage.setProfileField('name', 'hadar2', 'public')
     await userStorage.setProfileField('id', 'z123', 'private')
-    await userStorage.getProfile(profile => {
+    await userStorage.subscribeProfileUpdates(profile => {
       userStorage.getPrivateProfile(profile).then(result => {
         const { isValid, getErrors, validate, ...privateProfile } = result
 
@@ -271,6 +276,43 @@ describe('UserStorage', () => {
           phone: '',
           mobile: '',
           x: ''
+        })
+        done()
+      })
+    })
+  })
+
+  it('update profile field uses privacy settings', async done => {
+    const profileData = {
+      fullName: 'New Name',
+      email: 'new@email.com',
+      mobile: '+22222222222',
+      name: 'hadar2',
+      phone: '',
+      x: '',
+      id: 'z123'
+    }
+    const profile = getUserModel(profileData)
+    await userStorage.setProfile(profile)
+    await userStorage.subscribeProfileUpdates(updatedProfile => {
+      userStorage.getPrivateProfile(updatedProfile).then(result => {
+        const { isValid, getErrors, validate, ...privateProfile } = result
+
+        expect(privateProfile).toEqual(profileData)
+        done()
+      })
+
+      userStorage.getDisplayProfile(updatedProfile).then(result => {
+        const { isValid, getErrors, validate, ...displayProfile } = result
+
+        expect(displayProfile).toEqual({
+          fullName: 'New Name',
+          email: 'n*w@email.com',
+          mobile: '********2222',
+          name: 'hadar2',
+          phone: '',
+          x: '',
+          id: ''
         })
         done()
       })

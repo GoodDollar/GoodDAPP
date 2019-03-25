@@ -6,7 +6,6 @@ import { getUserModel, type UserModel } from './UserModel'
 
 const logger = pino.child({ from: 'UserStorage' })
 
-const WAIT = 99
 export type GunDBUser = {
   alias: string,
   epub: string,
@@ -48,6 +47,8 @@ class UserStorage {
   feed: Gun
   user: GunDBUser
   ready: Promise<boolean>
+  subscribersProfileUpdates = []
+  _lastProfileUpdate: any
 
   static maskField = (fieldType: 'email' | 'mobile' | 'phone', value: string): string => {
     if (fieldType === 'email') {
@@ -82,6 +83,10 @@ class UserStorage {
         gunuser.auth(username, password, user => {
           this.user = user
           this.profile = gunuser.get('profile')
+          this.profile.open(doc => {
+            this._lastProfileUpdate = doc
+            this.subscribersProfileUpdates.forEach(callback => callback(doc))
+          })
           this.initFeed()
           //save ref to user
           global.gun
@@ -148,13 +153,13 @@ class UserStorage {
       .then(getUserModel)
   }
 
-  getProfile(callback: any => void) {
-    this.profile.open(
-      doc => {
-        callback(doc)
-      },
-      { wait: WAIT }
-    )
+  subscribeProfileUpdates(callback: any => void) {
+    this.subscribersProfileUpdates.push(callback)
+    if (this._lastProfileUpdate) callback(this._lastProfileUpdate)
+  }
+
+  unSubscribeProfileUpdates() {
+    this.subscribersProfileUpdates = []
   }
 
   async setProfile(profile: UserModel) {

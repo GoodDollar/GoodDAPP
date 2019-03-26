@@ -44,7 +44,7 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
   componentDidMount() {
     const { params } = this.props.navigation.state
 
-    if (params.receiveLink) {
+    if (params && params.receiveLink) {
       console.log({ params })
       this.setState({ params })
     }

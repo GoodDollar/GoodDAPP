@@ -52,9 +52,45 @@ export class GoodWallet {
   accounts: Array<string>
   networkId: number
   gasPrice: number
+  subscribers: any
 
   constructor() {
     this.init()
+  }
+
+  listenTxUpdates() {
+    this.subscribers = {}
+    this.wallet.eth
+      .getBlockNumber()
+      .then(toBN)
+      .then(toBlock => {
+        this.pollForEvents(
+          {
+            event: 'Transfer',
+            contract: this.tokenContract,
+            fromBlock: new BN('0'),
+            toBlock,
+            filter: { from: this.account }
+          },
+          (error, event) => {
+            // Send for all events. We could define here different events
+            Object.values(this.subscribers['send']).forEach(cb => cb(error, event))
+          }
+        )
+
+        this.pollForEvents(
+          {
+            event: 'Transfer',
+            contract: this.tokenContract,
+            fromBlock: new BN('0'),
+            toBlock,
+            filter: { to: this.account }
+          },
+          (error, event) => {
+            Object.values(this.subscribers['receive']).forEach(cb => cb(error, event))
+          }
+        )
+      })
   }
 
   init(): Promise<any> {
@@ -95,6 +131,7 @@ export class GoodWallet {
             from: this.account
           }
         )
+        this.listenTxUpdates()
         log.info('GoodWallet Ready.')
       })
       .catch(e => {
@@ -122,34 +159,33 @@ export class GoodWallet {
   }
 
   /**
+   * returns dd+eventName so consumer can unsubscribe
+   */
+  subscribeToTx(eventName: string, cb: Function) {
+    // Get last id from subscribersList
+    if (!this.subscribers[eventName]) {
+      this.subscribers[eventName] = {}
+    }
+    const id = Math.max(...Object.keys(this.subscribers[eventName]).map(parseInt)) + 1
+    this.subscribers[eventName][id] = cb
+    return { id, eventName }
+  }
+
+  /**
+   * removes subscriber
+   */
+  unSubscribeToTx({ eventName, id }: { eventName: string, id: number }) {
+    delete this.subscribers[eventName][id]
+  }
+
+  /**
    * Listen to balance changes for the current account
    * @param cb
    * @returns {Promise<void>}
    */
   async balanceChanged(cb: Function) {
-    const toBlock = await this.wallet.eth.getBlockNumber().then(toBN)
-
-    this.pollForEvents(
-      {
-        event: 'Transfer',
-        contract: this.tokenContract,
-        fromBlock: new BN('0'),
-        toBlock,
-        filter: { from: this.account }
-      },
-      cb
-    )
-
-    this.pollForEvents(
-      {
-        event: 'Transfer',
-        contract: this.tokenContract,
-        fromBlock: new BN('0'),
-        toBlock,
-        filter: { to: this.account }
-      },
-      cb
-    )
+    this.subscribeToTx('receive', cb)
+    this.subscribeToTx('send', cb)
   }
 
   /**

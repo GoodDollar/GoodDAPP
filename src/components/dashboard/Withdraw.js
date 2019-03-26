@@ -15,7 +15,10 @@ export type DashboardProps = {
   screenProps: any,
   navigation: any,
   store: Store,
-  param: string
+  params: {
+    receiveLink: string,
+    reason?: string
+  }
 }
 
 type DashboardState = {
@@ -40,12 +43,12 @@ class Withdraw extends Component<DashboardProps, DashboardState> {
   }
 
   componentDidMount() {
-    const { param } = this.props
+    const { receiveLink, reason } = this.props.params
     this.dismissEventDialog()
 
-    log.info({ param })
+    log.info({ receiveLink, reason })
 
-    if (param) {
+    if (receiveLink) {
       this.setState({
         dialogData: {
           visible: true,
@@ -54,11 +57,11 @@ class Withdraw extends Component<DashboardProps, DashboardState> {
           dismissText: 'hold'
         }
       })
-      this.withdraw(param)
+      this.withdraw(receiveLink, reason)
     }
   }
 
-  async withdraw(hash: string) {
+  async withdraw(hash: string, reason?: string) {
     try {
       const { amount, sender } = await goodWallet.canWithdraw(hash)
       const receipt = await goodWallet.withdraw(hash)
@@ -90,7 +93,8 @@ class Withdraw extends Component<DashboardProps, DashboardState> {
         dialogData: { visible: false },
         eventDialogData: {
           visible: true,
-          event
+          event,
+          reason
         }
       })
     } catch (e) {

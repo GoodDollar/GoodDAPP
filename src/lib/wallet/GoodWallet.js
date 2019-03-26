@@ -277,7 +277,7 @@ export class GoodWallet {
     return amount < balance
   }
 
-  async generateLink(amount: number) {
+  async generateLink(amount: number, reason: string = '') {
     if (!(await this.canSend(amount))) {
       throw new Error(`Amount is bigger than balance`)
     }
@@ -308,7 +308,7 @@ export class GoodWallet {
     return {
       generatedString,
       hashedString,
-      sendLink: `${Config.publicUrl}/AppNavigation/Dashboard/Home?receiveLink=${generatedString}`,
+      sendLink: `${Config.publicUrl}/AppNavigation/Dashboard/Home?receiveLink=${generatedString}&reason=${reason}`,
       receipt: tx
     }
   }

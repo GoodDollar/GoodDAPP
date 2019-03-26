@@ -11,7 +11,7 @@ const UserAvatar = props => {
     <View style={styles.avatar}>
       <View style={styles.innerAvatar}>
         {!editable ? (
-          <Avatar size={120} {...props} />
+          <Avatar size={120} {...props} source={profile.avatar} />
         ) : (
           <CreateAvatar
             onCrop={avatar => onChange({ ...profile, avatar })}

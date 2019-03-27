@@ -72,9 +72,19 @@ export class GoodWallet {
             toBlock,
             filter: { from: this.account }
           },
-          (error, event) => {
+          async (error, events) => {
+            log.debug({ error, events }, 'send')
+            const [event] = events
+            if (!event) {
+              log.error('no event', events)
+              return
+            }
+            this.wallet.eth
+              .getTransactionReceipt(event.transactionHash)
+              .then(receipt => this.notifyTransaction(event.transactionHash, receipt))
             // Send for all events. We could define here different events
-            Object.values(this.subscribers['send']).forEach(cb => cb(error, event))
+            Object.values(this.subscribers['send']).forEach(cb => cb(error, events))
+            Object.values(this.subscribers['balanceChanged']).forEach(cb => cb(error, events))
           }
         )
 
@@ -86,8 +96,19 @@ export class GoodWallet {
             toBlock,
             filter: { to: this.account }
           },
-          (error, event) => {
-            Object.values(this.subscribers['receive']).forEach(cb => cb(error, event))
+          async (error, events) => {
+            log.debug({ error, events }, 'receive')
+            const [event] = events
+            if (!event) {
+              log.error('no event', events)
+              return
+            }
+            this.wallet.eth
+              .getTransactionReceipt(event.transactionHash)
+              .then(receipt => this.notifyTransaction(event.transactionHash, receipt))
+
+            Object.values(this.subscribers['receive']).forEach(cb => cb(error, events))
+            Object.values(this.subscribers['balanceChanged']).forEach(cb => cb(error, events))
           }
         )
       })
@@ -161,7 +182,20 @@ export class GoodWallet {
   /**
    * returns dd+eventName so consumer can unsubscribe
    */
-  subscribeToTx(eventName: string, cb: Function) {
+  subscribeToTransaction(transactionHash: string, cb: Function) {
+    return this.subscribeToEvent(`receipt-${transactionHash}`, cb)
+  }
+
+  notifyTransaction(transactionHash: string, receipt: any) {
+    log.debug({ transactionHash, subscribers: this.subscribers, receipt }, 'notifyTransaction')
+    const subscribers = this.subscribers[`receipt-${transactionHash}`]
+    Object.values(subscribers).forEach(cb => cb(receipt))
+  }
+
+  /**
+   * returns dd+eventName so consumer can unsubscribe
+   */
+  subscribeToEvent(eventName: string, cb: Function) {
     // Get last id from subscribersList
     if (!this.subscribers[eventName]) {
       this.subscribers[eventName] = {}
@@ -177,6 +211,7 @@ export class GoodWallet {
   unSubscribeToTx({ eventName, id }: { eventName: string, id: number }) {
     delete this.subscribers[eventName][id]
   }
+  subscribeToEvent
 
   /**
    * Listen to balance changes for the current account
@@ -184,8 +219,7 @@ export class GoodWallet {
    * @returns {Promise<void>}
    */
   async balanceChanged(cb: Function) {
-    this.subscribeToTx('receive', cb)
-    this.subscribeToTx('send', cb)
+    this.subscribeToEvent('balanceChanged', cb)
   }
 
   /**
@@ -264,7 +298,6 @@ export class GoodWallet {
 
     log.debug('lastProcessedBlock', lastProcessedBlock.toString())
     log.debug('lastBlock', lastBlock.toString())
-
     if (lastProcessedBlock.lt(lastBlock)) {
       fromBlock = toBlock
       toBlock = lastBlock
@@ -333,19 +366,13 @@ export class GoodWallet {
     const balancePre = await balanceOf.call()
     log.info({ amount, gas, gasPrice, balancePre, otpAddress })
 
-    const tx = await transferAndCall
-      .send({ gas, gasPrice })
-      .on('transactionHash', hash => log.info({ hash }))
-      .catch(this.handleError)
-
-    const balancePost = await balanceOf.call()
-    log.info({ tx, balancePost, otpAddress })
-
+    const tx = transferAndCall.send({ gas, gasPrice }) //.catch(this.handleError)
+    log.info({ tx, otpAddress })
     return {
       generatedString,
       hashedString,
       sendLink: `${Config.publicUrl}/AppNavigation/Dashboard/Home?receiveLink=${generatedString}`,
-      receipt: tx
+      tx
     }
   }
 

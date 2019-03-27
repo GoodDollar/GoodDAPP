@@ -87,6 +87,14 @@ class UserStorage {
             .get(gunuser.is.pub)
             .put(gunuser)
           logger.debug('GunDB logged in', { username, pubkey: this.wallet.account, user: this.user.sea })
+          logger.debug('subscribing')
+
+          this.wallet.subscribeToEvent('receive', (err, events) => {
+            logger.debug({ err, events }, 'receive')
+          })
+          this.wallet.subscribeToEvent('send', (err, events) => {
+            logger.debug({ err, events }, 'send')
+          })
           res(true)
           // this.profile = user.get('profile')
         })
@@ -208,8 +216,23 @@ class UserStorage {
     return results
   }
   async updateFeedEvent(event: FeedEvent): Promise<ACK> {
+    logger.debug(event)
+
     let date = new Date(event.date)
     let day = `${date.toISOString().slice(0, 10)}`
+
+    this.wallet.subscribeToTransaction(event.id, receipt => {
+      const { data } = event
+      const newEvent = { ...event, data: { ...data, receipt } }
+      logger.debug({ receipt, newEvent }, 'subscribeToTransaction')
+
+      this.updateFeedEvent(newEvent)
+      this.feed
+        .get(day)
+        .decrypt()
+        .then(events => logger.debug({ events }))
+    })
+
     let dayEventsArr: Array<FeedEvent> = (await this.feed.get(day).decrypt()) || []
     let toUpd = find(dayEventsArr, e => e.id === event.id)
     if (toUpd) {

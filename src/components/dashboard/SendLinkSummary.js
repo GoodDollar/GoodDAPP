@@ -1,9 +1,9 @@
 // @flow
 import React from 'react'
 import { View } from 'react-native'
-import { useWrappedGoodWallet } from '../../lib/wallet/useWrappedWallet'
+import goodWallet from '../../lib/wallet/GoodWallet'
 import { type TransactionEvent } from '../../lib/gundb/UserStorage'
-import { useWrappedUserStorage } from '../../lib/gundb/useWrappedStorage'
+import UserStorage from '../../lib/gundb/UserStorage'
 import { Section, Wrapper, Avatar, BigGoodDollar, CustomButton, CustomDialog } from '../common'
 import { BackButton, PushButton, useScreenState } from '../appNavigation/stackNavigation'
 import { receiveStyles } from './styles'
@@ -27,11 +27,10 @@ const TITLE = 'Send GD'
 const SendLinkSummary = (props: AmountProps) => {
   const { screenProps } = props
   const [screenState] = useScreenState(screenProps)
-  const goodWallet = useWrappedGoodWallet()
+  //const goodWallet = useWrappedGoodWallet()
   const store = GDStore.useStore()
   const { loading } = store.get('currentScreen')
   const API = useWrappedApi()
-  const UserStorage = useWrappedUserStorage()
 
   const { amount, reason, to } = screenState
 
@@ -52,6 +51,7 @@ const SendLinkSummary = (props: AmountProps) => {
 
   const generateLinkAndSend = async () => {
     let generateLinkResponse
+    store.set('currentScreen')({ loading: true })
     try {
       // Generate link deposit
       generateLinkResponse = await goodWallet.generateLink(amount)
@@ -62,35 +62,41 @@ const SendLinkSummary = (props: AmountProps) => {
     if (generateLinkResponse) {
       try {
         // Generate link deposit
-        const { sendLink, receipt } = generateLinkResponse
+        const { sendLink, tx } = generateLinkResponse
         // Share link
-        await sendLinkTo(to, sendLink)
-
-        // Save transaction
-        const transactionEvent: TransactionEvent = {
-          id: receipt.blockHash,
-          date: new Date().toString(),
-          type: 'send',
-          data: {
-            to,
-            reason,
-            amount,
-            sendLink,
-            receipt
+        log.debug({ sendLink, tx })
+        tx.on('transactionHash', hash => {
+          log.info({ hash })
+          // Save transaction
+          const transactionEvent: TransactionEvent = {
+            id: hash,
+            date: new Date().toString(),
+            type: 'send',
+            data: {
+              to,
+              reason,
+              amount,
+              sendLink
+            }
           }
-        }
-        await UserStorage.updateFeedEvent(transactionEvent)
-
-        // Cheking events are being stored
-        // FIXME: Remove this since is only to check that is working
-        const events = await UserStorage.feed.get('2019-03-01').decrypt()
-        log.debug({ events, transactionEvent })
+          UserStorage.updateFeedEvent(transactionEvent)
+          // Cheking events are being stored
+          // FIXME: Remove this since is only to check that is working
+          UserStorage.feed
+            .get('2019-03-01')
+            .decrypt()
+            .then(events => log.debug({ events }))
+        })
+        const receipt = await tx
+        log.debug({ sendLink, tx, receipt })
+        await sendLinkTo(to, sendLink)
 
         // Show confirmation
         screenProps.push('SendConfirmation', { sendLink })
       } catch (e) {
         const { hashedString } = generateLinkResponse
         await goodWallet.cancelOtl(hashedString)
+        store.set('currentScreen')({ loading: false })
         log.error(e)
       }
     }

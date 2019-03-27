@@ -58,7 +58,7 @@ class EventHorizontalListItem extends PureComponent<EventHorizontalListItemProps
           }}
           style={[
             horizontal ? styles.horizItem : styles.item,
-            horizontal ? { height, minWidth: normalize(940) } : {} // width - normalize(40) } : {}
+            horizontal ? { height } : {} // width - normalize(40) } : {}
           ]}
         >
           <View style={styles.modal}>
@@ -123,6 +123,7 @@ const styles = StyleSheet.create({
     flex: 1
   },
   horizItem: {
+    flex: 1,
     alignSelf: 'flex-start' // Necessary for touch highlight
   },
   item: {

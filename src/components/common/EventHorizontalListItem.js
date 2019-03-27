@@ -1,8 +1,30 @@
 // @flow
 import React, { PureComponent } from 'react'
-import { Image, TouchableHighlight, Text, View, StyleSheet } from 'react-native'
+import { Image, TouchableHighlight, Text, View, StyleSheet, Dimensions, Button } from 'react-native'
 import { normalize } from 'react-native-elements'
 import { Avatar } from './index'
+
+// image
+// title
+// key
+// gd
+// person
+// for
+// message
+// date
+// type
+// actions
+// person: {
+//     name: 'John Doe',
+//     phone: '+972-**-***3336',
+//     email: 'j****e@gmail.com',
+//     location: 'New Delhi, India',
+//     birth: '12/30/1980',
+//     facebook: '',
+//     twitter: '',
+//     linkedin: '',
+//     instagram: ''
+//   },
 
 export type EventHorizontalListItemProps = {
   fixedHeight?: ?boolean,
@@ -12,6 +34,13 @@ export type EventHorizontalListItemProps = {
   onShowUnderlay?: () => void,
   onHideUnderlay?: () => void
 }
+
+export const SCREEN_SIZE = {
+  width: 200,
+  height: 72
+}
+
+const { width, height } = Dimensions.get('window')
 
 class EventHorizontalListItem extends PureComponent<EventHorizontalListItemProps> {
   render() {
@@ -27,17 +56,37 @@ class EventHorizontalListItem extends PureComponent<EventHorizontalListItemProps
           tvParallaxProperties={{
             pressMagnification: 1.1
           }}
-          style={horizontal ? styles.horizItem : styles.item}
+          style={[
+            horizontal ? styles.horizItem : styles.item,
+            horizontal ? { height, minWidth: normalize(940) } : {} // width - normalize(40) } : {}
+          ]}
         >
           <View style={styles.modal}>
-            <Text style={styles.title}>{item.title}</Text>
+            {/* {item.image && <Image source={item.image} />} */}
+            {item.date && item.type === 'receive' && <Text>{item.date}</Text>}
+            <View style={styles.row}>
+              <Text style={styles.leftTitle}>{item.title}</Text>
+              {item.gd && <Text style={styles.rightTitle}>{item.gd}</Text>}
+            </View>
+            {item.date && item.type !== 'receive' && <Text>{item.date}</Text>}
             <View style={styles.hrLine} />
-            <View style={styles.profileRow}>
+            <View style={styles.row}>
               <Avatar size={40} />
-              <Text style={styles.label}>To:</Text>
-              <Text style={styles.name}>{item.addressee}</Text>
+              {item.type !== 'confirmation' && (
+                <Text>
+                  {['receive', 'send'].indexOf(item.type) > -1 && (
+                    <Text style={styles.label}>{item.type === 'receive' ? 'From' : 'To'}:</Text>
+                  )}
+                  <Text style={styles.name}>{item.person}</Text>
+                </Text>
+              )}
             </View>
             <View style={styles.hrLine} />
+            {item.message && <Text>{item.message}</Text>}
+            {item.actions &&
+              item.actions.map(action => (
+                <Button title={action.title} color={action.color} key={action.title} onPress={action.onPress} />
+              ))}
           </View>
         </TouchableHighlight>
       )
@@ -52,8 +101,13 @@ class EventHorizontalListItem extends PureComponent<EventHorizontalListItemProps
           }}
           style={horizontal ? styles.horizItem : styles.item}
         >
-          <View style={[styles.row, horizontal && { width: 200 }, fixedHeight && { height: 72 }]}>
-            {!item.noImage && <Image style={styles.thumb} source={imgSource} />}
+          <View
+            style={[
+              styles.row,
+              horizontal && { width: SCREEN_SIZE.width },
+              fixedHeight && { height: SCREEN_SIZE.height }
+            ]}
+          >
             <Text style={styles.text} numberOfLines={horizontal || fixedHeight ? 3 : undefined}>
               {item.title} - {item.text}
             </Text>
@@ -77,7 +131,9 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     padding: 10,
-    backgroundColor: 'white'
+    backgroundColor: 'white',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between'
   },
   modal: {
     flex: 1,
@@ -97,11 +153,18 @@ const styles = StyleSheet.create({
     marginBottom: normalize(10),
     marginTop: normalize(10)
   },
-  title: {
+  leftTitle: {
     fontFamily: 'Helvetica, "sans-serif"',
     fontSize: normalize(16),
     color: 'black',
     fontWeight: 'bold'
+  },
+  rightTitle: {
+    fontFamily: 'Helvetica, "sans-serif"',
+    fontSize: normalize(16),
+    color: 'black',
+    fontWeight: 'bold',
+    textAlign: 'right'
   },
   label: {
     fontFamily: 'Helvetica, "sans-serif"',
@@ -114,9 +177,6 @@ const styles = StyleSheet.create({
     fontSize: normalize(14),
     color: 'black',
     display: 'inlineBlock'
-  },
-  profileRow: {
-    alignItems: 'stretch'
   }
 })
 

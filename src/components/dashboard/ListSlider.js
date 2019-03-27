@@ -1,16 +1,27 @@
 // @flow
 import React, { PureComponent } from 'react'
-import { Animated, FlatList, View, StyleSheet } from 'react-native'
+import {
+  Animated,
+  SwipeableFlatList,
+  View,
+  StyleSheet,
+  TouchableHighlight,
+  Alert,
+  Text,
+  Dimensions
+} from 'react-native'
 import { normalize } from 'react-native-elements'
-import EventHorizontalListItem from '../common/EventHorizontalListItem'
+import EventHorizontalListItem, { SCREEN_SIZE } from '../common/EventHorizontalListItem'
 
-const AnimatedFlatList = Animated.createAnimatedComponent(FlatList)
+const AnimatedFlatList = Animated.createAnimatedComponent(SwipeableFlatList)
 
 const VIEWABILITY_CONFIG = {
   minimumViewTime: 3000,
   viewAreaCoveragePercentThreshold: 100,
   waitForInteraction: true
 }
+
+const { height } = Dimensions.get('window')
 
 export type ListSliderProps = {
   title: string,
@@ -58,7 +69,9 @@ class ListSlider extends PureComponent<ListSliderProps, ListSliderState> {
   captureRef = ref => (this.listRef = ref)
 
   getItemLayout = (data: any, index: number) => {
-    const [length, separator, header] = this.state.horizontal ? [200, 0, 100] : [72, StyleSheet.hairlineWidth, 30]
+    const [length, separator, header] = this.state.horizontal
+      ? [SCREEN_SIZE.width, 0, 100]
+      : [SCREEN_SIZE.height, StyleSheet.hairlineWidth, 30]
     return { length, offset: (length + separator) * index + header, index }
   }
 
@@ -71,7 +84,10 @@ class ListSlider extends PureComponent<ListSliderProps, ListSliderState> {
 
   pressItem = (key: string) => {
     this.setState(state => ({ horizontal: !state.horizontal }))
-    this.listRef.getNode().recordInteraction()
+    // const node = this.listRef.getNode()
+    // if (node) {
+    //   this.listRef.getNode().recordInteraction()
+    // }
   }
 
   scrollPos = new Animated.Value(0)
@@ -80,9 +96,12 @@ class ListSlider extends PureComponent<ListSliderProps, ListSliderState> {
 
   scrollSinkY = Animated.event([{ nativeEvent: { contentOffset: { y: this.scrollPos } } }], { useNativeDriver: true })
 
-  componentDidUpdate() {
-    this.listRef.getNode().recordInteraction() // e.g. flipping logViewable switch
-  }
+  // componentDidUpdate() {
+  //   const node = this.listRef.getNode()
+  //   if (node) {
+  //     this.listRef.getNode().recordInteraction() // e.g. flipping logViewable switch
+  //   }
+  // }
 
   renderItemComponent = ({ item, separators }) => {
     const { fixedHeight } = this.props
@@ -99,12 +118,45 @@ class ListSlider extends PureComponent<ListSliderProps, ListSliderState> {
     )
   }
 
+  renderQuickActions = ({ item }: Object): ?React.Element<any> => {
+    return (
+      <View style={styles.actionsContainer}>
+        <TouchableHighlight
+          style={styles.actionButton}
+          onPress={() => {
+            Alert.alert('Tips', 'You could do something with this edit action!')
+          }}
+        >
+          <Text style={styles.actionButtonText}>Edit</Text>
+        </TouchableHighlight>
+        <TouchableHighlight
+          style={[styles.actionButton, styles.actionButtonDestructive]}
+          onPress={() => {
+            Alert.alert('Tips', 'You could do something with this remove action!')
+          }}
+        >
+          <Text style={styles.actionButtonText}>Remove</Text>
+        </TouchableHighlight>
+      </View>
+    )
+  }
+
   render() {
     const { data, virtualized, fixedHeight, onEndReached } = this.props
     const { inverted, horizontal } = this.state
+    let viewStyles = { ...styles.container }
+    if (horizontal) {
+      viewStyles = {
+        ...viewStyles,
+        position: 'absolute',
+        height
+      }
+    }
     return (
-      <View style={styles.container}>
+      <View style={viewStyles}>
         <AnimatedFlatList
+          bounceFirstRowOnMount={true}
+          maxSwipeDistance={160}
           ItemSeparatorComponent={ItemSeparatorComponent}
           data={data}
           disableVirtualization={!virtualized}
@@ -127,6 +179,7 @@ class ListSlider extends PureComponent<ListSliderProps, ListSliderState> {
           renderItem={this.renderItemComponent}
           contentContainerStyle={styles.list}
           viewabilityConfig={VIEWABILITY_CONFIG}
+          renderQuickActions={this.renderQuickActions}
         />
       </View>
     )
@@ -161,7 +214,7 @@ const styles = StyleSheet.create({
   itemSeparator: {
     height: StyleSheet.hairlineWidth,
     backgroundColor: 'rgb(200, 199, 204)',
-    marginLeft: 60
+    marginLeft: normalize(60)
   }
 })
 

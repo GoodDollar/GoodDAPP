@@ -64,11 +64,118 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
     const { fullName } = store.get('profile')
 
     const sliderData = [
-      { title: 'Item 1', key: '1' },
-      { title: 'Item 2', key: '2' },
-      { title: 'Item 3', key: '3' },
-      { title: 'Item 4', key: '4' },
-      { title: 'Item 5', key: '5' }
+      {
+        title: 'Received GD',
+        key: '1',
+        gd: '+124GD',
+        person: 'David James',
+        for: 'For the pizza',
+        message: 'Thanks man, I truly appreciate it! See you soon :)',
+        date: '31/12/18 22:45',
+        type: 'receive',
+        actions: [
+          {
+            title: 'OK',
+            color: '#ccc',
+            onPress: () => console.log('called')
+          }
+        ]
+      },
+      {
+        title: 'Sent GD',
+        key: '2',
+        gd: '-85GD',
+        person: 'Michelle Pauli',
+        for: 'For the Books',
+        message: "You've got an awesome collection",
+        date: '31/12/18 22:45',
+        type: 'send',
+        actions: [
+          {
+            title: 'OK',
+            color: '#ccc',
+            onPress: () => console.log('called')
+          }
+        ]
+      },
+      {
+        title: 'Doing Good',
+        key: '3',
+        person: 'Maisao Matimbo',
+        message: '"I can buy food for my children!" Nairobi, Kenya - 24,600 people are using GD...',
+        date: '31/12/18 22:45',
+        type: 'message',
+        actions: [
+          {
+            title: 'Share',
+            color: '#fff',
+            onPress: () => console.log('called')
+          }
+        ],
+        image: ''
+      },
+      {
+        title: 'Invite friends to GoodDollar',
+        key: '4',
+        message:
+          'Send invites to get more people connected on GoodDollar. You will earn GD and also Help other people to earn.',
+        date: '31/12/18 22:45',
+        type: 'notification',
+        actions: [
+          {
+            title: 'LATER',
+            color: '#fff',
+            onPress: () => console.log('called')
+          },
+          {
+            title: 'INVITE',
+            color: '#ccc',
+            onPress: () => console.log('called')
+          }
+        ],
+        image: ''
+      },
+      {
+        title: 'This person needs your verification, do you know him?',
+        key: '5',
+        person: {
+          name: 'John Doe',
+          phone: '+972-**-***3336',
+          email: 'j****e@gmail.com',
+          location: 'New Delhi, India',
+          birth: '12/30/1980',
+          facebook: '',
+          twitter: '',
+          linkedin: '',
+          instagram: ''
+        },
+        date: '31/12/18 22:45',
+        type: 'confirmation',
+        actions: [
+          {
+            title: "No, I don't know him",
+            color: '#fff',
+            onPress: () => console.log('called')
+          },
+          {
+            title: 'VOUCHER FOR HIM',
+            color: '#ccc',
+            onPress: () => console.log('called')
+          }
+        ]
+      },
+      {
+        title: 'How likely are you to recommend GoodDollar to a friend or colleague?',
+        key: '6',
+        type: 'feedback',
+        actions: [
+          {
+            title: 'NOT NOW',
+            color: '#fff',
+            onPress: () => console.log('called')
+          }
+        ]
+      }
     ]
 
     return (

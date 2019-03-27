@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, Button } from 'react-native'
 import { normalize } from 'react-native-elements'
 import type { Store } from 'undux'
 
@@ -10,6 +10,8 @@ import { createStackNavigator, PushButton } from '../appNavigation/stackNavigati
 import TabsView from '../appNavigation/TabsView'
 import { Avatar, BigGoodDollar, Section, Wrapper } from '../common'
 import Amount from './Amount'
+import ModalSlider from './ModalSlider.web'
+import ListSlider from './ListSlider'
 import Claim from './Claim'
 import FaceRecognition from './FaceRecognition'
 import Reason from './Reason'
@@ -30,12 +32,16 @@ export type DashboardProps = {
 }
 
 type DashboardState = {
-  param: string
+  param: string,
+  modalSendVisible: boolean,
+  horizontal: boolean
 }
 
 class Dashboard extends Component<DashboardProps, DashboardState> {
   state = {
-    param: ''
+    param: '',
+    modalSendVisible: false,
+    horizontal: false
   }
 
   componentDidMount() {
@@ -47,11 +53,23 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
     }
   }
 
+  toggleModal = () => {
+    this.setState({ modalSendVisible: !this.state.modalSendVisible })
+  }
+
   render() {
-    const { param } = this.state
+    const { param, modalSendVisible, horizontal } = this.state
     const { screenProps, navigation, store }: DashboardProps = this.props
     const { balance, entitlement } = store.get('account')
     const { fullName } = store.get('profile')
+
+    const sliderData = [
+      { title: 'Item 1', key: '1' },
+      { title: 'Item 2', key: '2' },
+      { title: 'Item 3', key: '3' },
+      { title: 'Item 4', key: '4' },
+      { title: 'Item 5', key: '5' }
+    ]
 
     return (
       <View>
@@ -83,6 +101,23 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
               </PushButton>
             </Section.Row>
           </Section>
+          <Button onPress={this.toggleModal} title="Show Modal" />
+          <ModalSlider
+            visible={modalSendVisible}
+            title="Sent GD by Link"
+            toggleModal={this.toggleModal}
+            addressee="Johannah Marshall"
+          />
+          <ListSlider
+            title="Test"
+            horizontal={horizontal}
+            fixedHeight
+            virtualized
+            data={sliderData}
+            getData={() => sliderData}
+            updateData={() => {}}
+            onEndReached={() => {}}
+          />
         </Wrapper>
         {param ? <Withdraw param={param} {...this.props} /> : null}
       </View>
@@ -90,6 +125,12 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
   }
 }
 
+// onEndReached = () => {
+//   if (this.props.data.length >= 1000) return
+//   this.setState(state => ({
+//     data: state.data.concat(this.props.getData(100, this.props.data.length))
+//   }))
+// }
 const styles = StyleSheet.create({
   buttonText: {
     fontFamily: 'Helvetica, "sans-serif"',

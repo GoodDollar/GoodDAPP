@@ -40,12 +40,11 @@ export const SCREEN_SIZE = {
   height: 72
 }
 
-const { width, height } = Dimensions.get('window')
+const { height } = Dimensions.get('window')
 
 class EventHorizontalListItem extends PureComponent<EventHorizontalListItemProps> {
   render() {
     const { fixedHeight, horizontal, item, onShowUnderlay, onHideUnderlay, onPress } = this.props
-    const imgSource = ''
 
     if (horizontal) {
       return (
@@ -56,10 +55,7 @@ class EventHorizontalListItem extends PureComponent<EventHorizontalListItemProps
           tvParallaxProperties={{
             pressMagnification: 1.1
           }}
-          style={[
-            horizontal ? styles.horizItem : styles.item,
-            horizontal ? { height } : {} // width - normalize(40) } : {}
-          ]}
+          style={[horizontal ? styles.horizItem : styles.item, horizontal ? { height } : {}]}
         >
           <View style={styles.modal}>
             {/* {item.image && <Image source={item.image} />} */}
@@ -99,18 +95,28 @@ class EventHorizontalListItem extends PureComponent<EventHorizontalListItemProps
           tvParallaxProperties={{
             pressMagnification: 1.1
           }}
-          style={horizontal ? styles.horizItem : styles.item}
+          style={styles.horizItem}
         >
-          <View
-            style={[
-              styles.row,
-              horizontal && { width: SCREEN_SIZE.width },
-              fixedHeight && { height: SCREEN_SIZE.height }
-            ]}
-          >
-            <Text style={styles.text} numberOfLines={horizontal || fixedHeight ? 3 : undefined}>
+          <View style={[styles.row, fixedHeight && { height: SCREEN_SIZE.height }]}>
+            <Avatar size={40} />
+            <View>
+              <View style={styles.thinRow}>
+                {item.type !== 'confirmation' && (
+                  <Text>
+                    {['receive', 'send'].indexOf(item.type) > -1 && (
+                      <Text style={styles.label}>{item.type === 'receive' ? 'From' : 'To'}:</Text>
+                    )}
+                    <Text style={styles.name}>{item.person}</Text>
+                  </Text>
+                )}
+                {item.gd && <Text style={styles.rightTitle}>{item.gd}</Text>}
+              </View>
+              <View style={styles.thinRow}>{item.for && <Text>{item.for}</Text>}</View>
+            </View>
+            <Avatar size={40} />
+            {/* <Text style={styles.text} numberOfLines={horizontal || fixedHeight ? 3 : undefined}>
               {item.title} - {item.text}
-            </Text>
+            </Text> */}
           </View>
         </TouchableHighlight>
       )
@@ -127,11 +133,19 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start' // Necessary for touch highlight
   },
   item: {
-    flex: 1
+    flex: 1,
+    justifyContent: 'flex-start'
   },
   row: {
     flexDirection: 'row',
-    padding: 10,
+    padding: normalize(10),
+    backgroundColor: 'white',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between'
+  },
+  thinRow: {
+    flexDirection: 'row',
+    padding: normalize(2),
     backgroundColor: 'white',
     flexWrap: 'wrap',
     justifyContent: 'space-between'

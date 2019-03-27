@@ -213,8 +213,7 @@ const styles = StyleSheet.create({
   },
   itemSeparator: {
     height: StyleSheet.hairlineWidth,
-    backgroundColor: 'rgb(200, 199, 204)',
-    marginLeft: normalize(60)
+    backgroundColor: 'rgb(200, 199, 204)'
   }
 })
 

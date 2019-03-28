@@ -30,25 +30,28 @@ export type DashboardProps = {
 }
 
 type DashboardState = {
-  param: string
+  params: {
+    receiveLink: string,
+    reason?: string
+  }
 }
 
 class Dashboard extends Component<DashboardProps, DashboardState> {
   state = {
-    param: ''
+    params: {}
   }
 
   componentDidMount() {
-    const param = this.props.navigation.getParam('receiveLink', 'no-param')
+    const { params } = this.props.navigation.state
 
-    if (param !== 'no-param') {
-      console.log({ param })
-      this.setState({ param })
+    if (params && params.receiveLink) {
+      console.log({ params })
+      this.setState({ params })
     }
   }
 
   render() {
-    const { param } = this.state
+    const { params } = this.state
     const { screenProps, navigation, store }: DashboardProps = this.props
     const { balance, entitlement } = store.get('account')
     const { avatar, fullName } = store.get('profile')
@@ -84,7 +87,7 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
             </Section.Row>
           </Section>
         </Wrapper>
-        {param ? <Withdraw param={param} {...this.props} /> : null}
+        {params.receiveLink ? <Withdraw params={params} {...this.props} /> : null}
       </View>
     )
   }

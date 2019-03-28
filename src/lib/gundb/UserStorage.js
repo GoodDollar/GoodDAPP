@@ -171,7 +171,8 @@ class UserStorage {
     const profileSettings = {
       fullName: { defaultPrivacy: 'public' },
       email: { defaultPrivacy: 'masked' },
-      mobile: { defaultPrivacy: 'masked' }
+      mobile: { defaultPrivacy: 'masked' },
+      avatar: { defaultPrivacy: 'public' }
     }
 
     const getPrivacy = async field => {
@@ -180,9 +181,9 @@ class UserStorage {
     }
 
     return Promise.all(
-      Object.keys(profileSettings).map(async field =>
-        this.setProfileField(field, profile[field], await getPrivacy(field))
-      )
+      Object.keys(profileSettings)
+        .filter(key => profile[key])
+        .map(async field => this.setProfileField(field, profile[field], await getPrivacy(field)))
     )
   }
 

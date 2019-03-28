@@ -39,7 +39,6 @@ const SignupWizardNavigator = createSwitchNavigator({
 const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any }) => {
   const API = useWrappedApi()
   const initialState: SignupState = {
-    pubkey: goodWallet.account,
     fullName: '',
     email: '',
     mobile: '',

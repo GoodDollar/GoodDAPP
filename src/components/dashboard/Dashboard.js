@@ -24,7 +24,6 @@ import SendLinkSummary from './SendLinkSummary'
 import SendQRSummary from './SendQRSummary'
 
 import Withdraw from './Withdraw'
-import userStorage from '../../lib/gundb/UserStorage'
 
 export type DashboardProps = {
   screenProps: any,
@@ -54,12 +53,11 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
       this.setState({ params })
     }
 
-    this.getUsers()
+    this.getFeeds()
   }
 
-  async getUsers() {
-    const results = await userStorage.getStandardizedFeed(10, true)
-    this.setState({ feeds: [...results] })
+  getFeeds() {
+    this.props.store.set('requestFeeds')(true)
   }
 
   render() {
@@ -67,6 +65,7 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
     const { screenProps, navigation, store }: DashboardProps = this.props
     const { balance, entitlement } = store.get('account')
     const { avatar, fullName } = store.get('profile')
+    const feeds = store.get('feeds')
 
     return (
       <View style={{ flex: 1 }}>
@@ -101,7 +100,7 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
         </Wrapper>
         {params.receiveLink ? <Withdraw params={params} {...this.props} /> : null}
         <ScrollView style={{ height: '10vh' }} noSpacer={true} noScroll={true}>
-          <FeedList style={[styles.centering, styles.gray]} feeds={this.state.feeds} />
+          <FeedList style={[styles.centering, styles.gray]} feeds={feeds} />
         </ScrollView>
       </View>
     )

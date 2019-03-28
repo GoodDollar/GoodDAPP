@@ -1,4 +1,5 @@
 //@flow
+import type { StandardFeed } from '../undux/GDStore'
 import { default as goodWallet, GoodWallet } from '../wallet/GoodWallet'
 import pino from '../logger/pino-logger'
 import { find, merge, orderBy, toPairs, takeWhile, flatten } from 'lodash'
@@ -38,20 +39,6 @@ export type TransactionEvent = FeedEvent & {
     amount: number,
     sendLink: string,
     receipt: any
-  }
-}
-type StandardFeed = {
-  id: string,
-  date: number,
-  type: string, // 'message' | 'withdraw' | 'send',
-  data: {
-    endpoint: {
-      address: string,
-      fullName: string,
-      avatar: string
-    },
-    amount: string,
-    message: string
   }
 }
 
@@ -284,7 +271,7 @@ class UserStorage {
           avatar: avatar
         },
         amount: feed.data.amount,
-        message: 'For the pizza'
+        message: feed.data.reason || 'For the pizza'
       }
     }
 

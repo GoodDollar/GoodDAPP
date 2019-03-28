@@ -479,7 +479,7 @@ export class GoodWallet {
     return gasPrice
   }
 
-  async sendAmount(to: string, amount: number) {
+  async sendAmount(to: string, amount: number, onTransactionHash: Function) {
     if (!this.wallet.utils.isAddress(to)) {
       throw new Error('Address is invalid')
     }
@@ -497,7 +497,7 @@ export class GoodWallet {
 
     return await transferCall
       .send({ gas, gasPrice })
-      .on('transactionHash', hash => log.debug({ hash }))
+      .on('transactionHash', onTransactionHash)
       .catch(this.handleError)
   }
 }

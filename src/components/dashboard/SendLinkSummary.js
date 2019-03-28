@@ -64,9 +64,7 @@ const SendLinkSummary = (props: AmountProps) => {
         // Generate link deposit
         const { sendLink, tx } = generateLinkResponse
         // Share link
-        log.debug({ sendLink, tx })
         tx.on('transactionHash', hash => {
-          log.info({ hash })
           // Save transaction
           const transactionEvent: TransactionEvent = {
             id: hash,
@@ -82,8 +80,8 @@ const SendLinkSummary = (props: AmountProps) => {
           UserStorage.updateFeedEvent(transactionEvent)
         })
         const receipt = await tx
-        log.debug({ sendLink, tx, receipt })
         await sendLinkTo(to, sendLink)
+        log.debug({ sendLink, receipt })
         store.set('currentScreen')({ loading: false })
         // Show confirmation
         screenProps.push('SendConfirmation', { sendLink })

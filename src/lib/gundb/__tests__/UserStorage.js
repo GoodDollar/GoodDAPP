@@ -1,6 +1,7 @@
 // @flow
 import Gun from 'gun'
 import extend from '../gundb-extend'
+import gun from '../gundb'
 import { type TransactionEvent } from '../UserStorage'
 
 let userStorage = require('../UserStorage.js').default
@@ -20,7 +21,6 @@ let event4 = {
 
 describe('UserStorage', () => {
   beforeAll(async () => {
-    global.gun = Gun()
     jest.setTimeout(30000)
     await userStorage.wallet.ready
     console.debug('wallet ready...')
@@ -215,5 +215,63 @@ describe('UserStorage', () => {
     const events = await userStorage.feed.get(date).decrypt()
     expect(index).toHaveProperty(date)
     expect(events).toEqual([transactionEvent])
+  })
+
+  it('index profile by phone', async () => {
+    const gunRes = await userStorage.setProfileField('phone', '+972-50_7384928', 'public')
+    const indexedProfile = await global.gun
+      .get('users')
+      .get('byphone')
+      .get('972507384928')
+      .then()
+    expect(indexedProfile).toEqual(expect.objectContaining({ pub: userStorage.user.pub }))
+  })
+
+  it('index profile by email', async () => {
+    const gunRes = await userStorage.setProfileField('email', 'blah@blah.co', 'public')
+    const indexedProfile = await global.gun
+      .get('users')
+      .get('byemail')
+      .get('blah@blah.co')
+      .then()
+    expect(indexedProfile).toEqual(expect.objectContaining({ pub: userStorage.user.pub }))
+  })
+
+  it('index profile by walletAddress', async () => {
+    const gunRes = await userStorage.setProfileField('walletAddress', '0x6353', 'public')
+    const indexedProfile = await global.gun
+      .get('users')
+      .get('bywalletAddress')
+      .get('0x6353')
+      .then()
+    expect(indexedProfile).toEqual(expect.objectContaining({ pub: userStorage.user.pub }))
+  })
+
+  it('should not index profile by somefield', async () => {
+    const gunRes = await userStorage.setProfileField('something', 'blah@blah.co', 'public')
+    const indexedProfile = await global.gun
+      .get('users')
+      .get('bysomething')
+      .get('blah@blah.co')
+      .then()
+    expect(indexedProfile).toBeFalsy()
+  })
+
+  it('should remove index profile of non public field', async () => {
+    let gunRes = await userStorage.setProfileField('email', 'blah@blah.co', 'masked')
+    let indexedProfile = await global.gun
+      .get('users')
+      .get('byemail')
+      .get('blah@blah.co')
+      .then()
+    expect(indexedProfile).toBeFalsy()
+    await userStorage.setProfileField('email', 'blah@blah.co', 'public')
+    gunRes = await userStorage.setProfileField('email', 'blah@blah.co', 'private')
+    indexedProfile = await global.gun
+      .get('users')
+      .get('byemail')
+      .get('blah@blah.co')
+      .then()
+    expect(indexedProfile).toBeFalsy()
   })
 })

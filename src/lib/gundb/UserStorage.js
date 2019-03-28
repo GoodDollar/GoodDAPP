@@ -1,9 +1,11 @@
 //@flow
+import Gun from 'gun'
+import SEA from 'gun/sea'
+import { find, merge, orderBy, toPairs, takeWhile, flatten } from 'lodash'
+import gun from './gundb'
 import { default as goodWallet, GoodWallet } from '../wallet/GoodWallet'
 import pino from '../logger/pino-logger'
-import { find, merge, orderBy, toPairs, takeWhile, flatten } from 'lodash'
 const logger = pino.child({ from: 'UserStorage' })
-
 export type GunDBUser = {
   alias: string,
   epub: string,
@@ -41,11 +43,22 @@ export type TransactionEvent = FeedEvent & {
 
 class UserStorage {
   wallet: GoodWallet
+  gunuser: Gun
   profile: Gun
   feed: Gun
   user: GunDBUser
   ready: Promise<boolean>
 
+  static indexableFields = {
+    email: true,
+    mobile: true,
+    phone: true,
+    walletAddress: true
+  }
+  static cleanFieldForIndex = (field: string, value: string): string => {
+    if (field === 'mobile' || field === 'phone') return value.replace(/[_+-\s]+/g, '')
+    return value
+  }
   static maskField = (fieldType: 'email' | 'mobile' | 'phone', value: string): string => {
     if (fieldType === 'email') {
       let parts = value.split('@')
@@ -71,20 +84,20 @@ class UserStorage {
     //sign with different address so its not connected to main user address and there's no 1-1 link
     const username = await this.wallet.sign('GoodDollarUser', 'gundb')
     const password = await this.wallet.sign('GoodDollarPass', 'gundb')
-    const gunuser = global.gun.user()
+    this.gunuser = gun.user()
     return new Promise((res, rej) => {
-      gunuser.create(username, password, async userCreated => {
+      this.gunuser.create(username, password, async userCreated => {
         logger.debug('gundb user created', userCreated)
         //auth.then - doesnt seem to work server side in tests
-        gunuser.auth(username, password, user => {
-          this.user = user
-          this.profile = gunuser.get('profile')
+        this.gunuser.auth(username, password, user => {
+          this.user = this.gunuser.is
+          this.profile = this.gunuser.get('profile')
           this.initFeed()
           //save ref to user
-          global.gun
+          gun
             .get('users')
-            .get(gunuser.is.pub)
-            .put(gunuser)
+            .get(this.gunuser.is.pub)
+            .put(this.gunuser)
           logger.debug('GunDB logged in', { username, pubkey: this.wallet.account, user: this.user.sea })
           res(true)
           // this.profile = user.get('profile')
@@ -98,13 +111,16 @@ class UserStorage {
     })
   }
 
+  async sign(msg: any) {
+    return SEA.sign(msg, this.gunuser.pair())
+  }
   updateFeedIndex = (changed: any, field: string) => {
     if (field !== 'index' || changed === undefined) return
     delete changed._
     this.feedIndex = orderBy(toPairs(changed), day => day[0], 'desc')
   }
   async initFeed() {
-    this.feed = global.gun.user().get('feed')
+    this.feed = this.gunuser.get('feed')
     await this.feed
       .get('index')
       .map()
@@ -140,6 +156,7 @@ class UserStorage {
         display = value
     }
     // const encValue = await SEA.encrypt(value, this.user.sea)
+    const indexPromiseResult = this.indexProfileField(field, value, privacy)
     await this.profile
       .get(field)
       .get('value')
@@ -150,6 +167,23 @@ class UserStorage {
     })
   }
 
+  //TODO: this is world writable so theoritically a malicious user could delete the indexes
+  //need to develop for gundb immutable keys to non first user
+  async indexProfileField(field: string, value: string, privacy: FieldPrivacy): Promise<ACK> {
+    if (!UserStorage.indexableFields[field]) return
+    const cleanValue = UserStorage.cleanFieldForIndex(field, value)
+    if (privacy !== 'public')
+      return gun
+        .get('users')
+        .get('by' + field)
+        .get(cleanValue)
+        .putAck(null)
+    return gun
+      .get('users')
+      .get('by' + field)
+      .get(cleanValue)
+      .putAck(this.gunuser)
+  }
   async setProfileFieldPrivacy(field: string, privacy: FieldPrivacy): Promise<ACK> {
     let value = await this.getProfileFieldValue(field)
     return this.setProfileField(field, value, privacy)

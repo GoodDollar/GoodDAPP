@@ -1,6 +1,7 @@
 // @flow
 import React, { Component } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
+import { ScrollView } from 'react-native-web'
 import { normalize } from 'react-native-elements'
 import type { Store } from 'undux'
 
@@ -12,6 +13,7 @@ import { Avatar, BigGoodDollar, Section, Wrapper } from '../common'
 import Amount from './Amount'
 import Claim from './Claim'
 import FaceRecognition from './FaceRecognition'
+import FeedList from './FeedList'
 import Reason from './Reason'
 import Receive from './Receive'
 import ReceiveAmount from './ReceiveAmount'
@@ -22,6 +24,7 @@ import SendLinkSummary from './SendLinkSummary'
 import SendQRSummary from './SendQRSummary'
 
 import Withdraw from './Withdraw'
+import userStorage from '../../lib/gundb/UserStorage'
 
 export type DashboardProps = {
   screenProps: any,
@@ -30,12 +33,14 @@ export type DashboardProps = {
 }
 
 type DashboardState = {
-  param: string
+  param: string,
+  feeds: any[]
 }
 
 class Dashboard extends Component<DashboardProps, DashboardState> {
   state = {
-    param: ''
+    param: '',
+    feeds: []
   }
 
   componentDidMount() {
@@ -45,6 +50,13 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
       console.log({ param })
       this.setState({ param })
     }
+
+    this.getUsers()
+  }
+
+  async getUsers() {
+    const results = await userStorage.getStandardizedFeed(10, true)
+    this.setState({ feeds: [...results] })
   }
 
   render() {
@@ -54,7 +66,7 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
     const { fullName } = store.get('profile')
 
     return (
-      <View>
+      <View style={{ flex: 1 }}>
         <TabsView goTo={navigation.navigate} routes={screenProps.routes} />
         <Wrapper>
           <Section>
@@ -84,6 +96,9 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
             </Section.Row>
           </Section>
         </Wrapper>
+        <ScrollView style={{ height: '10vh' }} noSpacer={true} noScroll={true}>
+          <FeedList style={[styles.centering, styles.gray]} feeds={this.state.feeds} />
+        </ScrollView>
         {param ? <Withdraw param={param} {...this.props} /> : null}
       </View>
     )
@@ -117,6 +132,12 @@ const styles = StyleSheet.create({
   centered: {
     justifyContent: 'center',
     alignItems: 'baseline'
+  },
+  centering: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 8,
+    height: '256px'
   }
 })
 

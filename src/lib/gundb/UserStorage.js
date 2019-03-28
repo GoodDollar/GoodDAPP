@@ -39,6 +39,20 @@ export type TransactionEvent = FeedEvent & {
     receipt: any
   }
 }
+type StandardFeed = {
+  id: string,
+  date: number,
+  type: string, // 'message' | 'withdraw' | 'send',
+  data: {
+    endpoint: {
+      address: string,
+      fullName: string,
+      avatar: string
+    },
+    amount: string,
+    message: string
+  }
+}
 
 class UserStorage {
   wallet: GoodWallet
@@ -57,6 +71,7 @@ class UserStorage {
     }
     return value
   }
+
   constructor() {
     this.wallet = goodWallet
     this.ready = this.wallet.ready
@@ -104,6 +119,7 @@ class UserStorage {
     delete changed._
     this.feedIndex = orderBy(toPairs(changed), day => day[0], 'desc')
   }
+
   async initFeed() {
     this.feed = global.gun.user().get('feed')
     await this.feed
@@ -113,6 +129,7 @@ class UserStorage {
       .then()
     this.feed.get('index').on(this.updateFeedIndex, false)
   }
+
   async getProfileFieldValue(field: string): Promise<any> {
     let pField: ProfileField = await this.profile
       .get(field)
@@ -189,6 +206,7 @@ class UserStorage {
     if (reset) this.cursor = undefined
     if (this.cursor === undefined) this.cursor = 0
     let total = 0
+    if (!this.feedIndex) return []
     let daysToTake: Array<[string, number]> = takeWhile(this.feedIndex.slice(this.cursor), day => {
       if (total >= numResults) return false
       total += day[1]
@@ -205,8 +223,36 @@ class UserStorage {
         })
     })
     let results = flatten(await Promise.all(promises))
+    const stdResults = results.map(this.standardizeFeed)
+    console.log('stdResults', stdResults)
     return results
   }
+
+  async getStandardizedFeed(amount: number, reset: boolean): Promise<Array<StandardFeed>> {
+    return (await this.getFeedPage(amount, reset)).map(this.standardizeFeed)
+  }
+
+  standardizeFeed(feed: FeedEvent): StandardFeed {
+    const avatar =
+      'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAkCAIAAAB0Xu9BAAAABGdBTUEAALGPC/xhBQAAAuNJREFUWEetmD1WHDEQhDdxRMYlnBFyBIccgdQhKVcgJeQMpE5JSTd2uqnvIGpVUqmm9TPrffD0eLMzUn+qVnXPwiFd/PP6eLh47v7EaazbmxsOxjhTT88z9hV7GoNF1cUCvN7TTPv/gf/+uQPm862MWTL6fff4HfDx4S79/oVAlAUwqOmYR0rnazuFnhfOy/ErMKkcBFOr1vOjUi2MFn4nuMil6OPh5eGANLhW3y6u3aH7ijEDCxgCvzFmimvc95TekZLyMSeJC68Bkw0kqUy1K87FlpGZqsGFCyqEtQNDdFUtFctTiuhnPKNysid/WFEFLE2O102XJdEE+8IgeuGsjeJyGHm/xHvQ3JtKVsGGp85g9rK6xMHtvHO9+WACYjk5vkVM6XQ6OZubCJvTfPicYPeHO2AKFl5NuF5UK1VDUbeLxh2BcRGKTQE3irHm3+vPj6cfCod50Eqv5QxtwBQUGhZhbrGVuRia1B4MNp6edwBxld2sl1splfHCwfsvCZfrCQyWmX10djjOlWJSSy3VQlS6LmfrgNvaieRWx1LZ6s9co+P0DLsy3OdLU3lWRclQsVcHJBcUQ0k9/WVVrmpRzYQzpgAdQcAXxZzUnFX3proannrYH+Vq6KkLi+UkarH09mC8YPr2RMWOlEqFkQClsykGEv7CqCUbXcG8+SaGvJ4a8d4y6epND+pEhxoN0vWUu5ntXlFb5/JT7JfJJqoTdy9u9qc7ax3xJRHqJLADWEl23cFWl4K9fvoaCJ2BHpmJ3s3z+O0U/DmzdMjB9alWZtg4e3yxzPa7lUR7nkvxLHO9+tvJX3mtSDpwX8GajB283I8R8a7D2MhUZr1iNWdny256yYLd52DwRYBtRMvE7rsmtxIUE+zLKQCDO4jlxB6CZ8M17GhuY+XTE8vNhQiIiSE82ZsGwk1pht4ZSpT0YVpon6EvevOXXH8JxVR78QzNuamupW/7UB7wO/+7sG5V4ekXb4cL5Lyv+4IAAAAASUVORK5CYII='
+    const stdFeed = {
+      id: feed.id,
+      date: new Date(feed.date).getTime(),
+      type: feed.type,
+      data: {
+        endpoint: {
+          address: feed.data.sender,
+          fullName: 'Misao Matimbo',
+          avatar: avatar
+        },
+        amount: feed.data.amount,
+        message: 'For the pizza'
+      }
+    }
+
+    return stdFeed
+  }
+
   async updateFeedEvent(event: FeedEvent): Promise<ACK> {
     let date = new Date(event.date)
     let day = `${date.toISOString().slice(0, 10)}`
@@ -234,4 +280,6 @@ class UserStorage {
   }
 }
 
-export default new UserStorage()
+const userStorage = new UserStorage()
+global.userStorage = userStorage
+export default userStorage

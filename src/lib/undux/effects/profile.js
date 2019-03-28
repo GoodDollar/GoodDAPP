@@ -7,7 +7,7 @@ const withProfile: Effects<State> = (store: Store) => {
   store.on('isLoggedInCitizen').subscribe(isLoggedInCitizen => {
     if (!isLoggedInCitizen) return
 
-    userStorage.getProfile(profile => {
+    userStorage.subscribeProfileUpdates(profile => {
       userStorage.getDisplayProfile(profile).then(store.set('profile'))
     })
   })

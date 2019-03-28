@@ -53,6 +53,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   const { loading } = store.get('currentScreen')
   function saveProfile() {
     ;['fullName', 'email', 'mobile'].forEach(field => userStorage.setProfileField(field, state[field], 'masked'))
+    userStorage.setProfileField('walletAddress', goodWallet.account, 'public')
   }
 
   const done = async (data: { [string]: string }) => {
@@ -78,19 +79,16 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
           await API.verifyUser({})
           const destinationPath = store.get('destinationPath')
           store.set('destinationPath')('')
-
+          // top wallet of new user
+          // wait for the topping to complete to be able to withdrwa
+          await API.verifyTopWallet()
           if (destinationPath !== '') {
-            // top wallet of new user
-            // wait for the topping to complete to be able to withdrwa
-            await API.verifyTopWallet()
             navigation.navigate(JSON.parse(destinationPath))
           } else {
-            //top wallet of new user
-            API.verifyTopWallet()
             navigation.navigate('AppNavigation')
           }
         } catch (error) {
-          console.log({ error })
+          log.error('New user failure', { error })
         }
       }
     }

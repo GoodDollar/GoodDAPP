@@ -307,6 +307,7 @@ Array [
                     "msFlexPack": "center",
                     "msFlexPositive": 1,
                     "msFlexPreferredSize": "0%",
+                    "top": "50px",
                   }
                 }
               >
@@ -474,7 +475,7 @@ Array [
                   "marginBottom": "3em",
                   "marginLeft": "3em",
                   "marginRight": "3em",
-                  "marginTop": "3em",
+                  "marginTop": "5em",
                 }
               }
             >
@@ -554,7 +555,6 @@ Array [
                   <input
                     className="react-phone-number-input__input"
                     disabled={true}
-                    editable={false}
                     onChange={[Function]}
                   />
                   <div
@@ -655,7 +655,6 @@ Array [
                   <input
                     className="react-phone-number-input__input"
                     disabled={true}
-                    editable={false}
                   />
                   <div
                     className="css-text-76zvg2"

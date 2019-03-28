@@ -83,8 +83,8 @@ export class GoodWallet {
               .getTransactionReceipt(event.transactionHash)
               .then(receipt => this.notifyTransaction(event.transactionHash, receipt))
             // Send for all events. We could define here different events
-            Object.values(this.subscribers['send']).forEach(cb => cb(error, events))
-            Object.values(this.subscribers['balanceChanged']).forEach(cb => cb(error, events))
+            this.getSubscribers('send').forEach(cb => cb(error, events))
+            this.getSubscribers('balanceChanged').forEach(cb => cb(error, events))
           }
         )
 
@@ -107,8 +107,8 @@ export class GoodWallet {
               .getTransactionReceipt(event.transactionHash)
               .then(receipt => this.notifyTransaction(event.transactionHash, receipt))
 
-            Object.values(this.subscribers['receive']).forEach(cb => cb(error, events))
-            Object.values(this.subscribers['balanceChanged']).forEach(cb => cb(error, events))
+            this.getSubscribers('receive').forEach(cb => cb(error, events))
+            this.getSubscribers('balanceChanged').forEach(cb => cb(error, events))
           }
         )
       })
@@ -188,8 +188,12 @@ export class GoodWallet {
 
   notifyTransaction(transactionHash: string, receipt: any) {
     log.debug({ transactionHash, subscribers: this.subscribers, receipt }, 'notifyTransaction')
-    const subscribers = this.subscribers[`receipt-${transactionHash}`]
-    Object.values(subscribers).forEach(cb => cb(receipt))
+    const subscribers = this.getSubscribers(`receipt-${transactionHash}`)
+    subscribers.forEach(cb => cb(receipt))
+
+    const receiptUpdatedSubscribers = this.getSubscribers('receiptUpdated')
+    log.debug({ receiptUpdatedSubscribers })
+    receiptUpdatedSubscribers.forEach(cb => cb(receipt))
   }
 
   /**
@@ -200,7 +204,8 @@ export class GoodWallet {
     if (!this.subscribers[eventName]) {
       this.subscribers[eventName] = {}
     }
-    const id = Math.max(...Object.keys(this.subscribers[eventName]).map(parseInt)) + 1
+    const subscribers = this.subscribers[eventName]
+    const id = Math.max(...Object.keys(subscribers).map(parseInt), 0) + 1
     this.subscribers[eventName][id] = cb
     return { id, eventName }
   }
@@ -211,8 +216,10 @@ export class GoodWallet {
   unSubscribeToTx({ eventName, id }: { eventName: string, id: number }) {
     delete this.subscribers[eventName][id]
   }
-  subscribeToEvent
 
+  getSubscribers(eventName: string): Function {
+    return Object.values(this.subscribers[eventName] || {})
+  }
   /**
    * Listen to balance changes for the current account
    * @param cb

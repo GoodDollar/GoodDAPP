@@ -80,7 +80,24 @@ class UserStorage {
         gunuser.auth(username, password, user => {
           this.user = user
           this.profile = gunuser.get('profile')
-          this.initFeed()
+          this.initFeed().then(() => {
+            this.wallet.subscribeToEvent('receiptUpdated', async receipt => {
+              try {
+                const feedEvent = await this.getFeedItemByTransactionHash(receipt.transactionHash)
+                logger.debug('receiptUpdated', { feedEvent, receipt })
+                if (!feedEvent) return
+
+                const updatedFeedEvent = { ...feedEvent, data: { ...feedEvent.data, receipt } }
+                await this.updateFeedEvent(updatedFeedEvent)
+
+                // Checking new feed
+                const feed = await this.getAllFeed()
+                logger.debug('receiptUpdated', { feed, receipt, updatedFeedEvent })
+              } catch (error) {
+                logger.error(error)
+              }
+            })
+          })
           //save ref to user
           global.gun
             .get('users')
@@ -105,6 +122,22 @@ class UserStorage {
         // })
       })
     })
+  }
+
+  async getFeedItemByTransactionHash(transactionHash: string) {
+    const feed = await this.getAllFeed()
+    logger.debug({ feed }, 'feed')
+    const feedItem = feed.find(feedItem => feedItem.id === transactionHash)
+    logger.debug({ feedItem })
+    return feedItem
+  }
+
+  async getAllFeed() {
+    const total = Object.values(await this.feed.get('index')).reduce((acc, curr) => acc + curr)
+    logger.debug({ total })
+    const feed = await this.getFeedPage(total, true)
+    logger.debug({ feed })
+    return feed
   }
 
   updateFeedIndex = (changed: any, field: string) => {
@@ -220,19 +253,6 @@ class UserStorage {
 
     let date = new Date(event.date)
     let day = `${date.toISOString().slice(0, 10)}`
-
-    this.wallet.subscribeToTransaction(event.id, receipt => {
-      const { data } = event
-      const newEvent = { ...event, data: { ...data, receipt } }
-      logger.debug({ receipt, newEvent }, 'subscribeToTransaction')
-
-      this.updateFeedEvent(newEvent)
-      this.feed
-        .get(day)
-        .decrypt()
-        .then(events => logger.debug({ events }))
-    })
-
     let dayEventsArr: Array<FeedEvent> = (await this.feed.get(day).decrypt()) || []
     let toUpd = find(dayEventsArr, e => e.id === event.id)
     if (toUpd) {

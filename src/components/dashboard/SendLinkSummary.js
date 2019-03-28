@@ -80,17 +80,11 @@ const SendLinkSummary = (props: AmountProps) => {
             }
           }
           UserStorage.updateFeedEvent(transactionEvent)
-          // Cheking events are being stored
-          // FIXME: Remove this since is only to check that is working
-          UserStorage.feed
-            .get('2019-03-01')
-            .decrypt()
-            .then(events => log.debug({ events }))
         })
         const receipt = await tx
         log.debug({ sendLink, tx, receipt })
         await sendLinkTo(to, sendLink)
-
+        store.set('currentScreen')({ loading: false })
         // Show confirmation
         screenProps.push('SendConfirmation', { sendLink })
       } catch (e) {

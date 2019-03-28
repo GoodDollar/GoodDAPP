@@ -179,25 +179,15 @@ export class GoodWallet {
     return await this.claimContract.methods.checkEntitlement().call()
   }
 
-  /**
-   * returns dd+eventName so consumer can unsubscribe
-   */
-  subscribeToTransaction(transactionHash: string, cb: Function) {
-    return this.subscribeToEvent(`receipt-${transactionHash}`, cb)
-  }
-
   notifyTransaction(transactionHash: string, receipt: any) {
-    log.debug({ transactionHash, subscribers: this.subscribers, receipt }, 'notifyTransaction')
-    const subscribers = this.getSubscribers(`receipt-${transactionHash}`)
-    subscribers.forEach(cb => cb(receipt))
+    const subscribers = this.getSubscribers('receiptUpdated')
+    log.debug({ transactionHash, subscribers, receipt }, 'notifyTransaction')
 
-    const receiptUpdatedSubscribers = this.getSubscribers('receiptUpdated')
-    log.debug({ receiptUpdatedSubscribers })
-    receiptUpdatedSubscribers.forEach(cb => cb(receipt))
+    subscribers.forEach(cb => cb(receipt))
   }
 
   /**
-   * returns dd+eventName so consumer can unsubscribe
+   * returns id+eventName so consumer can unsubscribe
    */
   subscribeToEvent(eventName: string, cb: Function) {
     // Get last id from subscribersList
@@ -211,12 +201,17 @@ export class GoodWallet {
   }
 
   /**
-   * removes subscriber
+   * removes subscriber from subscriber list
+   * @param {event} event
    */
   unSubscribeToTx({ eventName, id }: { eventName: string, id: number }) {
     delete this.subscribers[eventName][id]
   }
 
+  /**
+   * Gets all subscribers as array for given eventName
+   * @param {string} eventName
+   */
   getSubscribers(eventName: string): Function {
     return Object.values(this.subscribers[eventName] || {})
   }

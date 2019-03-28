@@ -230,7 +230,7 @@ describe('UserStorage', () => {
     })
   })
 
-  it.only('gets display profile', async done => {
+  it('gets display profile', async done => {
     await userStorage.setProfileField('x', '', 'public')
     await userStorage.setProfileField('mobile', '', 'public')
     await userStorage.setProfileField('phone', '', 'public')
@@ -252,7 +252,7 @@ describe('UserStorage', () => {
     })
   })
 
-  it.only('gets private profile', async done => {
+  it('gets private profile', async done => {
     await userStorage.setProfileField('x', '', 'public')
     await userStorage.setProfileField('mobile', '', 'public')
     await userStorage.setProfileField('phone', '', 'public')

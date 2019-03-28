@@ -2,107 +2,38 @@
 
 exports[`BigNumber matches snapshot 1`] = `
 <div
+  className="css-view-1dbjc4n"
   style={
     Object {
-      "WebkitAlignItems": "stretch",
-      "WebkitBoxAlign": "stretch",
-      "WebkitBoxDirection": "normal",
-      "WebkitBoxOrient": "vertical",
-      "WebkitFlexDirection": "column",
-      "alignItems": "stretch",
-      "borderBottomStyle": "solid",
-      "borderBottomWidth": "0px",
-      "borderLeftStyle": "solid",
-      "borderLeftWidth": "0px",
-      "borderRightStyle": "solid",
-      "borderRightWidth": "0px",
-      "borderTopStyle": "solid",
-      "borderTopWidth": "0px",
-      "boxSizing": "border-box",
       "display": "inline-block",
-      "flexDirection": "column",
-      "marginBottom": "0px",
-      "marginLeft": "0px",
-      "marginRight": "0px",
-      "marginTop": "0px",
-      "minHeight": "0px",
-      "minWidth": "0px",
-      "msFlexAlign": "stretch",
-      "msFlexDirection": "column",
-      "paddingBottom": "0px",
-      "paddingLeft": "0px",
-      "paddingRight": "0px",
-      "paddingTop": "0px",
-      "position": "relative",
-      "zIndex": 0,
     }
   }
 >
   <div
+    className="css-text-76zvg2"
     dir="auto"
     style={
       Object {
-        "borderBottomWidth": "0px",
-        "borderLeftWidth": "0px",
-        "borderRightWidth": "0px",
-        "borderTopWidth": "0px",
-        "boxSizing": "border-box",
         "color": "rgba(85,85,85,1.00)",
         "direction": "ltr",
-        "display": "inline",
         "fontFamily": "Helvetica, \\"sans-serif\\"",
         "fontSize": "30px",
-        "fontStyle": "inherit",
-        "fontVariant": "inherit",
-        "fontWeight": "inherit",
-        "lineHeight": "inherit",
-        "marginBottom": "0px",
-        "marginLeft": "0px",
-        "marginRight": "0px",
-        "marginTop": "0px",
-        "paddingBottom": "0px",
-        "paddingLeft": "0px",
-        "paddingRight": "0px",
-        "paddingTop": "0px",
         "textAlign": "right",
-        "textDecoration": "none",
-        "whiteSpace": "pre-wrap",
-        "wordWrap": "break-word",
       }
     }
   >
     10
   </div>
   <div
+    className="css-text-76zvg2"
     dir="auto"
     style={
       Object {
-        "borderBottomWidth": "0px",
-        "borderLeftWidth": "0px",
-        "borderRightWidth": "0px",
-        "borderTopWidth": "0px",
-        "boxSizing": "border-box",
         "color": "rgba(85,85,85,1.00)",
         "direction": "ltr",
-        "display": "inline",
         "fontFamily": "Helvetica, \\"sans-serif\\"",
         "fontSize": "18px",
-        "fontStyle": "inherit",
-        "fontVariant": "inherit",
-        "fontWeight": "inherit",
-        "lineHeight": "inherit",
-        "marginBottom": "0px",
-        "marginLeft": "0px",
-        "marginRight": "0px",
-        "marginTop": "0px",
-        "paddingBottom": "0px",
-        "paddingLeft": "0px",
-        "paddingRight": "0px",
-        "paddingTop": "0px",
         "textAlign": "right",
-        "textDecoration": "none",
-        "whiteSpace": "pre-wrap",
-        "wordWrap": "break-word",
       }
     }
   >

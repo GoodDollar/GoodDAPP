@@ -222,9 +222,9 @@ class UserStorage {
     }
 
     return Promise.all(
-      Object.keys(profileSettings).map(async field =>
-        this.setProfileField(field, profile[field], await getPrivacy(field))
-      )
+      Object.keys(profileSettings)
+        .filter(key => profile[key])
+        .map(async field => this.setProfileField(field, profile[field], await getPrivacy(field)))
     )
   }
 

@@ -45,7 +45,7 @@
   "homepage": "https://gooddollar.org",
   "dependencies": {
     "@babel/preset-flow": "^7.0.0",
-    "@gooddollar/goodcontracts": "0.0.9",
+    "@gooddollar/goodcontracts": "0.0.10",
     "@react-navigation/core": "^3.1.1",
     "@react-navigation/web": "^1.0.0-alpha.7",
     "axios": "^0.18.0",

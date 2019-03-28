@@ -188,7 +188,8 @@ class UserStorage {
     const profileSettings = {
       fullName: { defaultPrivacy: 'public' },
       email: { defaultPrivacy: 'masked' },
-      mobile: { defaultPrivacy: 'masked' }
+      mobile: { defaultPrivacy: 'masked' },
+      avatar: { defaultPrivacy: 'public' }
     }
 
     const getPrivacy = async field => {

@@ -54,7 +54,7 @@ const SendLinkSummary = (props: AmountProps) => {
     store.set('currentScreen')({ loading: true })
     try {
       // Generate link deposit
-      generateLinkResponse = await goodWallet.generateLink(amount)
+      generateLinkResponse = await goodWallet.generateLink(amount, reason)
     } catch (e) {
       log.error(e)
     }

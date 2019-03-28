@@ -24,6 +24,7 @@ exports[`UserAvatar matches snapshot 1`] = `
       "msFlexPack": "center",
       "msFlexPositive": 1,
       "msFlexPreferredSize": "0%",
+      "top": "50px",
     }
   }
 >

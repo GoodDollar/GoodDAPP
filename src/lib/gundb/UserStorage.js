@@ -2,9 +2,10 @@
 import { default as goodWallet, GoodWallet } from '../wallet/GoodWallet'
 import pino from '../logger/pino-logger'
 import { find, merge, orderBy, toPairs, takeWhile, flatten } from 'lodash'
+import { getUserModel, type UserModel } from './UserModel'
+
 const logger = pino.child({ from: 'UserStorage' })
 
-const WAIT = 99
 export type GunDBUser = {
   alias: string,
   epub: string,
@@ -60,6 +61,8 @@ class UserStorage {
   feed: Gun
   user: GunDBUser
   ready: Promise<boolean>
+  subscribersProfileUpdates = []
+  _lastProfileUpdate: any
 
   static maskField = (fieldType: 'email' | 'mobile' | 'phone', value: string): string => {
     if (fieldType === 'email') {
@@ -95,6 +98,10 @@ class UserStorage {
         gunuser.auth(username, password, user => {
           this.user = user
           this.profile = gunuser.get('profile')
+          this.profile.open(doc => {
+            this._lastProfileUpdate = doc
+            this.subscribersProfileUpdates.forEach(callback => callback(doc))
+          })
           this.initFeed()
           //save ref to user
           global.gun
@@ -144,25 +151,55 @@ class UserStorage {
   }
 
   async getDisplayProfile(profile: {}): Promise<any> {
-    return Object.keys(profile).reduce((acc, currKey, arr) => ({ ...acc, [currKey]: profile[currKey].display }), {})
+    const displayProfile = Object.keys(profile).reduce(
+      (acc, currKey, arr) => ({ ...acc, [currKey]: profile[currKey].display }),
+      {}
+    )
+    return getUserModel(displayProfile)
   }
 
   async getPrivateProfile(profile: {}) {
     const keys = Object.keys(profile)
-    return Promise.all(keys.map(currKey => this.getProfileFieldValue(currKey))).then(values => {
-      return values.reduce((acc, currValue, index) => {
-        const currKey = keys[index]
-        return { ...acc, [currKey]: currValue }
-      }, {})
-    })
+    return Promise.all(keys.map(currKey => this.getProfileFieldValue(currKey)))
+      .then(values => {
+        return values.reduce((acc, currValue, index) => {
+          const currKey = keys[index]
+          return { ...acc, [currKey]: currValue }
+        }, {})
+      })
+      .then(getUserModel)
   }
 
-  getProfile(callback: any => void) {
-    this.profile.open(
-      doc => {
-        callback(doc)
-      },
-      { wait: WAIT }
+  subscribeProfileUpdates(callback: any => void) {
+    this.subscribersProfileUpdates.push(callback)
+    if (this._lastProfileUpdate) callback(this._lastProfileUpdate)
+  }
+
+  unSubscribeProfileUpdates() {
+    this.subscribersProfileUpdates = []
+  }
+
+  async setProfile(profile: UserModel) {
+    const { errors, isValid } = profile.validate()
+    if (!isValid) {
+      throw new Error(errors)
+    }
+
+    const profileSettings = {
+      fullName: { defaultPrivacy: 'public' },
+      email: { defaultPrivacy: 'masked' },
+      mobile: { defaultPrivacy: 'masked' }
+    }
+
+    const getPrivacy = async field => {
+      const currentPrivacy = await this.profile.get(field).get('privacy')
+      return currentPrivacy || profileSettings[field].defaultPrivacy
+    }
+
+    return Promise.all(
+      Object.keys(profileSettings).map(async field =>
+        this.setProfileField(field, profile[field], await getPrivacy(field))
+      )
     )
   }
 

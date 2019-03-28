@@ -52,6 +52,7 @@
     "axios": "^0.18.0",
     "bip39": "^2.5.0",
     "ethereumjs-util": "^6.1.0",
+    "exif-react-avatar-edit": "^0.8.3",
     "gun": "^0.9.9999991",
     "lodash": "^4.17.11",
     "mnid": "^0.1.3",

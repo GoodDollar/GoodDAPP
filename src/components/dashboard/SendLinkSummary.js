@@ -54,7 +54,7 @@ const SendLinkSummary = (props: AmountProps) => {
     let generateLinkResponse
     try {
       // Generate link deposit
-      generateLinkResponse = await goodWallet.generateLink(amount)
+      generateLinkResponse = await goodWallet.generateLink(amount, reason)
     } catch (e) {
       log.error(e)
     }

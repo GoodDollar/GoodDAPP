@@ -5,7 +5,12 @@ import { Avatar } from 'react-native-paper'
 
 export default (props: any) => (
   <View onClick={props.onPress} style={props.onPress ? { ...props.style, ...styles.clickable } : props.style}>
-    <Avatar.Image size={34} {...props} style={[styles.avatar, props.style]} />
+    <Avatar.Image
+      size={34}
+      source={props.source ? { uri: props.source } : undefined}
+      {...props}
+      style={[styles.avatar, props.style]}
+    />
   </View>
 )
 

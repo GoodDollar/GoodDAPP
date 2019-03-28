@@ -21,7 +21,7 @@ const Amount = (props: AmountProps) => {
   const handleAmountChange = useCallback((value: string) => setScreenState({ amount: parseInt(value) }), ['0'])
   return (
     <Wrapper style={styles.wrapper}>
-      <TopBar />
+      <TopBar push={screenProps.push} />
       <Section style={styles.section}>
         <Section.Row style={styles.sectionRow}>
           <View style={styles.inputField}>

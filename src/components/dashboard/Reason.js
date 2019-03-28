@@ -23,7 +23,7 @@ const SendReason = (props: AmountProps) => {
 
   return (
     <Wrapper style={styles.wrapper}>
-      <TopBar />
+      <TopBar push={screenProps.push} />
       <Section style={styles.section}>
         <Section.Row style={styles.sectionRow}>
           <View style={styles.inputField}>

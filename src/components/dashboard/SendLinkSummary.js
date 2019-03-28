@@ -54,7 +54,7 @@ const SendLinkSummary = (props: AmountProps) => {
     let generateLinkResponse
     try {
       // Generate link deposit
-      generateLinkResponse = await goodWallet.generateLink(amount)
+      generateLinkResponse = await goodWallet.generateLink(amount, reason)
     } catch (e) {
       log.error(e)
     }
@@ -97,7 +97,7 @@ const SendLinkSummary = (props: AmountProps) => {
   }
   return (
     <Wrapper style={styles.wrapper}>
-      <TopBar />
+      <TopBar push={screenProps.push} />
       <Section style={styles.section}>
         <Section.Row style={styles.sectionRow}>
           <Section.Title style={styles.headline}>Summery</Section.Title>

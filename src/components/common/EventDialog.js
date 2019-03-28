@@ -10,13 +10,14 @@ import { BigGoodDollar } from '../common'
 export type EventDialogProps = {
   visible: boolean,
   event: TransactionEvent,
+  reason?: string,
   onDismiss?: () => void
 }
-const EventDialog = ({ visible, event, onDismiss }: EventDialogProps) => {
+const EventDialog = ({ visible, event, onDismiss, reason }: EventDialogProps) => {
   const {
     date,
     type,
-    data: { amount, sender, reason }
+    data: { amount, sender }
   } = event
 
   const dateOptions = {
@@ -66,7 +67,7 @@ const EventDialog = ({ visible, event, onDismiss }: EventDialogProps) => {
               </Section.Row>
             </Section>
           </View>
-          <Paragraph style={{ fontStyle: 'italic' }}>{reason || 'no reason'}</Paragraph>
+          <Paragraph style={{ fontStyle: 'italic' }}>{reason}</Paragraph>
         </Dialog.Content>
         <Dialog.Actions>
           <CustomButton mode="contained" onPress={onDismiss}>

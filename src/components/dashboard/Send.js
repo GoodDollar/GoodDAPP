@@ -79,7 +79,7 @@ const Send = props => {
 
   return (
     <Wrapper>
-      <TopBar />
+      <TopBar push={props.screenProps.push} />
       <Section style={styles.bottomSection}>
         <View style={styles.topContainer}>
           <Section.Title>TO WHO?</Section.Title>

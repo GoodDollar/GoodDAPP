@@ -15,6 +15,7 @@ import Splash from '../splash/Splash'
 import BuySell from './BuySell'
 import Donate from './Donate'
 import Rewards from './Rewards'
+import Profile from '../profile/Profile'
 
 type AppNavigationProps = {
   navigation: any,
@@ -41,6 +42,10 @@ const routes = {
   Donate: {
     screen: Donate,
     icon: donateIcon
+  },
+  Profile: {
+    screen: Profile,
+    display: false
   }
 }
 

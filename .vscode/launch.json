@@ -19,7 +19,7 @@
             "request": "launch",
             "name": "Update Current File Snapshot",
             "program": "${workspaceFolder}/scripts/test.js",
-            "args": ["--config", "./config/web.jest.config.js","${file}", "--updateSnapshot"],
+            "args": ["--config", "./config/web.jest.config.js","${file}", "--updateSnapshot", "--detectOpenHandles"],
             "console": "integratedTerminal",
             "internalConsoleOptions": "neverOpen",
             "env": {}

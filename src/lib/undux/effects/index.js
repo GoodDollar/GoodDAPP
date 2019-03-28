@@ -1,8 +1,11 @@
+import compose from 'lodash/fp/compose'
+
 import updateAllOnLoggedInCitizen from './updateAllOnLoggedInCitizen'
 import withBalanceChange from './balanceChange'
-import compose from 'lodash/fp/compose'
+import withProfile from './profile'
 
 export default compose(
   updateAllOnLoggedInCitizen,
-  withBalanceChange
+  withBalanceChange,
+  withProfile
 )

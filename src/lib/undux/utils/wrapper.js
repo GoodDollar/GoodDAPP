@@ -6,8 +6,10 @@ const wrapperFunction = (origMethod, target, handler) => {
   return function(...args) {
     handler.beforeFetching()
     let result = origMethod.apply(target, args)
-    if (isFunction(result.then)) {
+    if (result && isFunction(result.then)) {
       result.then(handler.afterFetching).catch(handler.errorHandler)
+    } else {
+      handler.afterFetching()
     }
     return result
   }

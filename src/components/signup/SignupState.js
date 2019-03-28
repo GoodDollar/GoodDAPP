@@ -77,11 +77,13 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
           await API.addUser(state)
           await API.verifyUser({})
           const destinationPath = store.get('destinationPath')
-          store.set('destinationPath')('')
-          // top wallet of new user
-          // wait for the topping to complete to be able to withdrwa
-          await API.verifyTopWallet()
+          store.set('isLoggedInCitizen')(true)
+
           if (destinationPath !== '') {
+            store.set('destinationPath')('')
+            // top wallet of new user
+            // wait for the topping to complete to be able to withdraw
+            await API.verifyTopWallet()
             navigation.navigate(JSON.parse(destinationPath))
           } else {
             navigation.navigate('AppNavigation')

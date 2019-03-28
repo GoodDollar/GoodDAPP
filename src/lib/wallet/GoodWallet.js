@@ -225,6 +225,9 @@ export class GoodWallet {
     const INTERVAL = BLOCK_COUNT * BLOCK_TIME
     const lastBlock = await this.wallet.eth.getBlockNumber().then(toBN)
 
+    log.debug('lastProcessedBlock', lastProcessedBlock.toString())
+    log.debug('lastBlock', lastBlock.toString())
+
     if (lastProcessedBlock.lt(lastBlock)) {
       fromBlock = toBlock
       toBlock = lastBlock
@@ -236,7 +239,7 @@ export class GoodWallet {
       })
     }
 
-    log.debug('about to recurse')
+    log.debug('about to recurse', { event, contract, filter, fromBlock, toBlock })
     setTimeout(() => this.pollForEvents({ event, contract, filter, fromBlock, toBlock }, callback, toBlock), INTERVAL)
   }
 
@@ -273,7 +276,7 @@ export class GoodWallet {
     return amount < balance
   }
 
-  async generateLink(amount: number): Promise<any> {
+  async generateLink(amount: number, reason: string = '') {
     if (!(await this.canSend(amount))) {
       throw new Error(`Amount is bigger than balance`)
     }
@@ -304,7 +307,7 @@ export class GoodWallet {
     return {
       generatedString,
       hashedString,
-      sendLink: `${Config.publicUrl}/AppNavigation/Dashboard/Home?receiveLink=${generatedString}`,
+      sendLink: `${Config.publicUrl}/AppNavigation/Dashboard/Home?receiveLink=${generatedString}&reason=${reason}`,
       receipt: tx
     }
   }

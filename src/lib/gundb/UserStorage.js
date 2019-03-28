@@ -6,6 +6,8 @@ import gun from './gundb'
 import { default as goodWallet, GoodWallet } from '../wallet/GoodWallet'
 import pino from '../logger/pino-logger'
 const logger = pino.child({ from: 'UserStorage' })
+
+const WAIT = 99
 export type GunDBUser = {
   alias: string,
   epub: string,
@@ -139,6 +141,29 @@ class UserStorage {
   async getProfileField(field: string): Promise<any> {
     let pField: ProfileField = await this.profile.get(field).then()
     return pField
+  }
+
+  async getDisplayProfile(profile: {}): Promise<any> {
+    return Object.keys(profile).reduce((acc, currKey, arr) => ({ ...acc, [currKey]: profile[currKey].display }), {})
+  }
+
+  async getPrivateProfile(profile: {}) {
+    const keys = Object.keys(profile)
+    return Promise.all(keys.map(currKey => this.getProfileFieldValue(currKey))).then(values => {
+      return values.reduce((acc, currValue, index) => {
+        const currKey = keys[index]
+        return { ...acc, [currKey]: currValue }
+      }, {})
+    })
+  }
+
+  getProfile(callback: any => void) {
+    this.profile.open(
+      doc => {
+        callback(doc)
+      },
+      { wait: WAIT }
+    )
   }
 
   async setProfileField(field: string, value: string, privacy: FieldPrivacy): Promise<ACK> {

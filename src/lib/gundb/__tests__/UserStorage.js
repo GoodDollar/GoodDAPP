@@ -217,61 +217,60 @@ describe('UserStorage', () => {
     expect(events).toEqual([transactionEvent])
   })
 
-  it('index profile by phone', async () => {
-    const gunRes = await userStorage.setProfileField('phone', '+972-50_7384928', 'public')
-    const indexedProfile = await global.gun
-      .get('users')
-      .get('byphone')
-      .get('972507384928')
-      .then()
-    expect(indexedProfile).toEqual(expect.objectContaining({ pub: userStorage.user.pub }))
+  it('gets profiles field', async done => {
+    await userStorage.setProfileField('email', 'johndoe@blah.com', 'masked')
+    await userStorage.setProfileField('name', 'hadar2', 'public')
+    await userStorage.setProfileField('id', 'z123', 'private')
+
+    userStorage.getProfile(profile => {
+      expect(profile.email.display).toEqual('j*****e@blah.com')
+      expect(profile.name.display).toEqual('hadar2')
+      expect(profile.id.display).toEqual('')
+      done()
+    })
   })
 
-  it('index profile by email', async () => {
-    const gunRes = await userStorage.setProfileField('email', 'blah@blah.co', 'public')
-    const indexedProfile = await global.gun
-      .get('users')
-      .get('byemail')
-      .get('blah@blah.co')
-      .then()
-    expect(indexedProfile).toEqual(expect.objectContaining({ pub: userStorage.user.pub }))
+  it('gets display profile', async done => {
+    await userStorage.setProfileField('x', '', 'public')
+    await userStorage.setProfileField('mobile', '', 'public')
+    await userStorage.setProfileField('phone', '', 'public')
+    await userStorage.setProfileField('email', 'johndoe@blah.com', 'masked')
+    await userStorage.setProfileField('name', 'hadar2', 'public')
+    await userStorage.setProfileField('id', 'z123', 'private')
+    userStorage.getProfile(profile => {
+      userStorage.getDisplayProfile(profile).then(displayProfile => {
+        expect(displayProfile).toEqual({
+          id: '',
+          name: 'hadar2',
+          email: 'j*****e@blah.com',
+          phone: '',
+          mobile: '',
+          x: ''
+        })
+        done()
+      })
+    })
   })
 
-  it('index profile by walletAddress', async () => {
-    const gunRes = await userStorage.setProfileField('walletAddress', '0x6353', 'public')
-    const indexedProfile = await global.gun
-      .get('users')
-      .get('bywalletAddress')
-      .get('0x6353')
-      .then()
-    expect(indexedProfile).toEqual(expect.objectContaining({ pub: userStorage.user.pub }))
-  })
-
-  it('should not index profile by somefield', async () => {
-    const gunRes = await userStorage.setProfileField('something', 'blah@blah.co', 'public')
-    const indexedProfile = await global.gun
-      .get('users')
-      .get('bysomething')
-      .get('blah@blah.co')
-      .then()
-    expect(indexedProfile).toBeFalsy()
-  })
-
-  it('should remove index profile of non public field', async () => {
-    let gunRes = await userStorage.setProfileField('email', 'blah@blah.co', 'masked')
-    let indexedProfile = await global.gun
-      .get('users')
-      .get('byemail')
-      .get('blah@blah.co')
-      .then()
-    expect(indexedProfile).toBeFalsy()
-    await userStorage.setProfileField('email', 'blah@blah.co', 'public')
-    gunRes = await userStorage.setProfileField('email', 'blah@blah.co', 'private')
-    indexedProfile = await global.gun
-      .get('users')
-      .get('byemail')
-      .get('blah@blah.co')
-      .then()
-    expect(indexedProfile).toBeFalsy()
+  it('gets private profile', async done => {
+    await userStorage.setProfileField('x', '', 'public')
+    await userStorage.setProfileField('mobile', '', 'public')
+    await userStorage.setProfileField('phone', '', 'public')
+    await userStorage.setProfileField('email', 'johndoe@blah.com', 'masked')
+    await userStorage.setProfileField('name', 'hadar2', 'public')
+    await userStorage.setProfileField('id', 'z123', 'private')
+    await userStorage.getProfile(profile => {
+      userStorage.getPrivateProfile(profile).then(privateProfile => {
+        expect(privateProfile).toEqual({
+          id: 'z123',
+          name: 'hadar2',
+          email: 'johndoe@blah.com',
+          phone: '',
+          mobile: '',
+          x: ''
+        })
+        done()
+      })
+    })
   })
 })

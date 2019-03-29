@@ -149,6 +149,31 @@ class UserStorage {
     )
   }
 
+  async setProfile(profile: UserModel) {
+    const { errors, isValid } = profile.validate()
+    if (!isValid) {
+      throw new Error(errors)
+    }
+
+    const profileSettings = {
+      fullName: { defaultPrivacy: 'public' },
+      email: { defaultPrivacy: 'masked' },
+      mobile: { defaultPrivacy: 'masked' },
+      avatar: { defaultPrivacy: 'public' }
+    }
+
+    const getPrivacy = async field => {
+      const currentPrivacy = await this.profile.get(field).get('privacy')
+      return currentPrivacy || profileSettings[field].defaultPrivacy
+    }
+
+    return Promise.all(
+      Object.keys(profileSettings)
+        .filter(key => profile[key])
+        .map(async field => this.setProfileField(field, profile[field], await getPrivacy(field)))
+    )
+  }
+
   async setProfileField(field: string, value: string, privacy: FieldPrivacy): Promise<ACK> {
     let display
     switch (privacy) {

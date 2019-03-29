@@ -45,8 +45,14 @@ const EditProfile = props => {
     <Wrapper>
       <Section style={styles.section}>
         <Section.Row style={styles.centered}>
-          <UserAvatar profile={profile} />
-          <CustomButton loading={saving} mode="outlined" style={styles.saveButton} onPress={handleSaveButton}>
+          <UserAvatar onChange={setProfile} editable={true} profile={profile} />
+          <CustomButton
+            disabled={saving}
+            loading={saving}
+            mode="outlined"
+            style={styles.saveButton}
+            onPress={handleSaveButton}
+          >
             Save
           </CustomButton>
         </Section.Row>

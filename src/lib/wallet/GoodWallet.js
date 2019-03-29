@@ -17,6 +17,18 @@ const log = logger.child({ from: 'GoodWallet' })
 const { BN, toBN } = utils
 const ZERO = new BN('0')
 
+type PromiEvents = {
+  onTransactionHash?: Function,
+  onReceipt?: Function,
+  onConfirmation?: Function,
+  onError?: Function
+}
+
+type GasValues = {
+  gas?: number,
+  gasPrice?: number
+}
+
 /**
  * the HDWallet account to use.
  * we use different accounts for different actions in order to preserve privacy and simplify things for user
@@ -52,9 +64,66 @@ export class GoodWallet {
   accounts: Array<string>
   networkId: number
   gasPrice: number
+  subscribers: any
 
   constructor() {
     this.init()
+  }
+
+  listenTxUpdates() {
+    this.subscribers = {}
+    this.wallet.eth
+      .getBlockNumber()
+      .then(toBN)
+      .then(toBlock => {
+        this.pollForEvents(
+          {
+            event: 'Transfer',
+            contract: this.tokenContract,
+            fromBlock: new BN('0'),
+            toBlock,
+            filter: { from: this.account }
+          },
+          async (error, events) => {
+            log.debug({ error, events }, 'send')
+            const [event] = events
+            if (!event) {
+              log.error('no event', events)
+              return
+            }
+            this.wallet.eth
+              .getTransactionReceipt(event.transactionHash)
+              .then(receipt => this.notifyTransaction(event.transactionHash, receipt))
+            // Send for all events. We could define here different events
+            this.getSubscribers('send').forEach(cb => cb(error, events))
+            this.getSubscribers('balanceChanged').forEach(cb => cb(error, events))
+          }
+        )
+
+        this.pollForEvents(
+          {
+            event: 'Transfer',
+            contract: this.tokenContract,
+            fromBlock: new BN('0'),
+            toBlock,
+            filter: { to: this.account }
+          },
+          async (error, events) => {
+            log.debug({ error, events }, 'receive')
+            const [event] = events
+            if (!event) {
+              log.error('no event', events)
+              return
+            }
+            this.wallet.eth
+              .getTransactionReceipt(event.transactionHash)
+              .then(receipt => this.notifyTransaction(event.transactionHash, receipt))
+
+            this.getSubscribers('receive').forEach(cb => cb(error, events))
+            this.getSubscribers('balanceChanged').forEach(cb => cb(error, events))
+          }
+        )
+      })
   }
 
   init(): Promise<any> {
@@ -95,6 +164,7 @@ export class GoodWallet {
             from: this.account
           }
         )
+        this.listenTxUpdates()
         log.info('GoodWallet Ready.')
       })
       .catch(e => {
@@ -106,11 +176,7 @@ export class GoodWallet {
 
   async claim() {
     try {
-      const gas = await this.claimContract.methods.claimTokens().estimateGas()
-      return this.claimContract.methods.claimTokens().send({
-        gas,
-        gasPrice: await this.wallet.eth.getGasPrice()
-      })
+      return this.sendTransaction(this.claimContract.methods.claimTokens())
     } catch (e) {
       log.info(e)
       return Promise.reject(e)
@@ -121,35 +187,49 @@ export class GoodWallet {
     return await this.claimContract.methods.checkEntitlement().call()
   }
 
+  notifyTransaction(transactionHash: string, receipt: any) {
+    const subscribers = this.getSubscribers('receiptUpdated')
+    log.debug({ transactionHash, subscribers, receipt }, 'notifyTransaction')
+
+    subscribers.forEach(cb => cb(receipt))
+  }
+
+  /**
+   * returns id+eventName so consumer can unsubscribe
+   */
+  subscribeToEvent(eventName: string, cb: Function) {
+    // Get last id from subscribersList
+    if (!this.subscribers[eventName]) {
+      this.subscribers[eventName] = {}
+    }
+    const subscribers = this.subscribers[eventName]
+    const id = Math.max(...Object.keys(subscribers).map(parseInt), 0) + 1
+    this.subscribers[eventName][id] = cb
+    return { id, eventName }
+  }
+
+  /**
+   * removes subscriber from subscriber list
+   * @param {event} event
+   */
+  unSubscribeToTx({ eventName, id }: { eventName: string, id: number }) {
+    delete this.subscribers[eventName][id]
+  }
+
+  /**
+   * Gets all subscribers as array for given eventName
+   * @param {string} eventName
+   */
+  getSubscribers(eventName: string): Function {
+    return Object.values(this.subscribers[eventName] || {})
+  }
   /**
    * Listen to balance changes for the current account
    * @param cb
    * @returns {Promise<void>}
    */
   async balanceChanged(cb: Function) {
-    const toBlock = await this.wallet.eth.getBlockNumber().then(toBN)
-
-    this.pollForEvents(
-      {
-        event: 'Transfer',
-        contract: this.tokenContract,
-        fromBlock: new BN('0'),
-        toBlock,
-        filter: { from: this.account }
-      },
-      cb
-    )
-
-    this.pollForEvents(
-      {
-        event: 'Transfer',
-        contract: this.tokenContract,
-        fromBlock: new BN('0'),
-        toBlock,
-        filter: { to: this.account }
-      },
-      cb
-    )
+    this.subscribeToEvent('balanceChanged', cb)
   }
 
   /**
@@ -228,7 +308,6 @@ export class GoodWallet {
 
     log.debug('lastProcessedBlock', lastProcessedBlock.toString())
     log.debug('lastBlock', lastBlock.toString())
-
     if (lastProcessedBlock.lt(lastBlock)) {
       fromBlock = toBlock
       toBlock = lastBlock
@@ -277,7 +356,7 @@ export class GoodWallet {
     return amount < balance
   }
 
-  async generateLink(amount: number, reason: string = '') {
+  async generateLink(amount: number, reason: string = '', events: PromitEvents) {
     if (!(await this.canSend(amount))) {
       throw new Error(`Amount is bigger than balance`)
     }
@@ -290,26 +369,21 @@ export class GoodWallet {
     const encodedABI = await deposit.encodeABI()
 
     const transferAndCall = this.tokenContract.methods.transferAndCall(otpAddress, amount, encodedABI)
-    const balanceOf = this.tokenContract.methods.balanceOf(this.account)
 
-    const gas = Math.floor((await transferAndCall.estimateGas().catch(this.handleError)) * 2)
-    const gasPrice = await this.getGasPrice()
-    const balancePre = await balanceOf.call()
-    log.info({ amount, gas, gasPrice, balancePre, otpAddress })
+    const gas: number = Math.floor((await transferAndCall.estimateGas().catch(this.handleError)) * 2)
 
-    const tx = await transferAndCall
-      .send({ gas, gasPrice })
-      .on('transactionHash', hash => log.info({ hash }))
-      .catch(this.handleError)
+    log.info({ amount })
 
-    const balancePost = await balanceOf.call()
-    log.info({ tx, balancePost, otpAddress })
+    const sendLink = `${Config.publicUrl}/AppNavigation/Dashboard/Home?receiveLink=${generatedString}&reason=${reason}`
+
+    const onTransactionHash = events.onTransactionHash(sendLink)
+    const receipt = await this.sendTransaction(transferAndCall, { onTransactionHash }, { gas })
 
     return {
       generatedString,
       hashedString,
-      sendLink: `${Config.publicUrl}/AppNavigation/Dashboard/Home?receiveLink=${generatedString}&reason=${reason}`,
-      receipt: tx
+      sendLink,
+      receipt
     }
   }
 
@@ -356,35 +430,17 @@ export class GoodWallet {
   }
 
   async withdraw(otlCode: string) {
-    const gasPrice = await this.getGasPrice()
-    log.info('gasPrice', gasPrice)
-
     const withdrawCall = this.oneTimePaymentLinksContract.methods.withdraw(otlCode)
     log.info('withdrawCall', withdrawCall)
 
-    const gas = await withdrawCall.estimateGas().catch(this.handleError)
-    log.info('gas', gas)
-
-    return await withdrawCall
-      .send({ gas, gasPrice })
-      .on('transactionHash', hash => log.debug({ hash }))
-      .catch(this.handleError)
+    return await this.sendTransaction(withdrawCall, { onTransactionHash: hash => log.debug({ hash }) })
   }
 
   async cancelOtl(otlCode: string) {
-    const gasPrice = await this.getGasPrice()
-    log.info('gasPrice', gasPrice)
-
     const cancelOtlCall = this.oneTimePaymentLinksContract.methods.cancel(otlCode)
-    log.info('withdrawCall', cancelOtlCall)
+    log.info('cancelOtlCall', cancelOtlCall)
 
-    const gas = await cancelOtlCall.estimateGas().catch(this.handleError)
-    log.info('gas', gas)
-
-    return await cancelOtlCall
-      .send({ gas, gasPrice })
-      .on('transactionHash', hash => log.debug({ hash }))
-      .catch(this.handleError)
+    return await this.sendTransaction(cancelOtlCall, { onTransactionHash: hash => log.debug({ hash }) })
   }
 
   handleError(err: Error) {
@@ -409,7 +465,7 @@ export class GoodWallet {
     return gasPrice
   }
 
-  async sendAmount(to: string, amount: number) {
+  async sendAmount(to: string, amount: number, events: PromiEvents) {
     if (!this.wallet.utils.isAddress(to)) {
       throw new Error('Address is invalid')
     }
@@ -418,16 +474,46 @@ export class GoodWallet {
       throw new Error('Amount is bigger than balance')
     }
 
-    const gasPrice = await this.getGasPrice()
-
+    log.debug({ amount, to })
     const transferCall = this.tokenContract.methods.transfer(to, amount)
-    const gas = await transferCall.estimateGas().catch(this.handleError)
 
-    log.debug({ amount, to, gas })
+    return await this.sendTransaction(transferCall, events)
+  }
 
-    return await transferCall
+  /**
+   * Helper function to handle a tx Send call
+   * @param tx
+   * @param {object} promiEvents
+   * @param {function} promiEvents.onTransactionHash
+   * @param {function} promiEvents.onReceipt
+   * @param {function} promiEvents.onConfirmation
+   * @param {function} promiEvents.onError
+   * @param {object} gasValues
+   * @param {number} gasValues.gas
+   * @param {number} gasValues.gasPrice
+   * @returns {Promise<Promise|Q.Promise<any>|Promise<*>|Promise<*>|Promise<*>|*>}
+   */
+  async sendTransaction(
+    tx: any,
+    { onTransactionHash, onReceipt, onConfirmation, onError }: PromiEvents = {
+      onTransactionHash: () => {},
+      onReceipt: () => {},
+      onConfirmation: () => {},
+      onError: () => {}
+    },
+    { gas, gasPrice }: GasValues = { gas: undefined, gasPrice: undefined }
+  ) {
+    gas = gas || (await tx.estimateGas().catch(this.handleError))
+    gasPrice = gasPrice || (await this.getGasPrice())
+
+    log.debug({ gas, gasPrice })
+
+    return tx
       .send({ gas, gasPrice })
-      .on('transactionHash', hash => log.debug({ hash }))
+      .on('transactionHash', onTransactionHash)
+      .on('receipt', onReceipt)
+      .on('confirmation', onConfirmation)
+      .on('error', onError)
       .catch(this.handleError)
   }
 }

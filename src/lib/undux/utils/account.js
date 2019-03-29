@@ -73,11 +73,11 @@ const status = {
 /**
  * Starts listening to Transfer events to (and from) the current account
  */
-const initTransferEvents = async (store: Store): Promise<void> => {
+const initTransferEvents = (store: Store) => {
   if (!status.started) {
     log.debug('checking transfer events')
     status.started = true
-    await goodWallet.balanceChanged((error, event) => onBalanceChange(error, event, store))
+    goodWallet.balanceChanged((error, event) => onBalanceChange(error, event, store))
   }
 }
 

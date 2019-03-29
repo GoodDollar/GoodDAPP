@@ -9,6 +9,8 @@ import { Avatar, BigGoodDollar, CustomButton, CustomDialog, Section, Wrapper } f
 import TopBar from '../common/TopBar'
 import { receiveStyles } from './styles'
 import GDStore from '../../lib/undux/GDStore'
+import { type TransactionEvent } from '../../lib/gundb/UserStorage'
+import UserStorage from '../../lib/gundb/UserStorage'
 export type AmountProps = {
   screenProps: any,
   navigation: any
@@ -28,7 +30,24 @@ const SendQRSummary = (props: AmountProps) => {
   const { amount, reason, to } = screenState
   const sendGD = async () => {
     try {
-      const receipt = await goodWallet.sendAmount(to, amount)
+      const receipt = await goodWallet.sendAmount(to, amount, {
+        onTransactionHash: hash => {
+          log.debug({ hash })
+          // Save transaction
+          const transactionEvent: TransactionEvent = {
+            id: hash,
+            date: new Date().toString(),
+            type: 'send',
+            data: {
+              to,
+              reason,
+              amount
+            }
+          }
+          UserStorage.updateFeedEvent(transactionEvent)
+          return hash
+        }
+      })
       log.debug({ receipt })
       store.set('currentScreen')({
         dialogData: {

@@ -87,13 +87,38 @@ class UserStorage {
             this._lastProfileUpdate = doc
             this.subscribersProfileUpdates.forEach(callback => callback(doc))
           })
-          this.initFeed()
+          this.initFeed().then(() => {
+            this.wallet.subscribeToEvent('receiptUpdated', async receipt => {
+              try {
+                const feedEvent = await this.getFeedItemByTransactionHash(receipt.transactionHash)
+                logger.debug('receiptUpdated', { feedEvent, receipt })
+                if (!feedEvent) return
+
+                const updatedFeedEvent = { ...feedEvent, data: { ...feedEvent.data, receipt } }
+                await this.updateFeedEvent(updatedFeedEvent)
+
+                // Checking new feed
+                const feed = await this.getAllFeed()
+                logger.debug('receiptUpdated', { feed, receipt, updatedFeedEvent })
+              } catch (error) {
+                logger.error(error)
+              }
+            })
+          })
           //save ref to user
           global.gun
             .get('users')
             .get(gunuser.is.pub)
             .put(gunuser)
           logger.debug('GunDB logged in', { username, pubkey: this.wallet.account, user: this.user.sea })
+          logger.debug('subscribing')
+
+          this.wallet.subscribeToEvent('receive', (err, events) => {
+            logger.debug({ err, events }, 'receive')
+          })
+          this.wallet.subscribeToEvent('send', (err, events) => {
+            logger.debug({ err, events }, 'send')
+          })
           res(true)
           // this.profile = user.get('profile')
         })
@@ -104,6 +129,22 @@ class UserStorage {
         // })
       })
     })
+  }
+
+  async getFeedItemByTransactionHash(transactionHash: string) {
+    const feed = await this.getAllFeed()
+    logger.debug({ feed }, 'feed')
+    const feedItem = feed.find(feedItem => feedItem.id === transactionHash)
+    logger.debug({ feedItem })
+    return feedItem
+  }
+
+  async getAllFeed() {
+    const total = Object.values(await this.feed.get('index')).reduce((acc, curr) => acc + curr)
+    logger.debug({ total })
+    const feed = await this.getFeedPage(total, true)
+    logger.debug({ feed })
+    return feed
   }
 
   updateFeedIndex = (changed: any, field: string) => {
@@ -246,6 +287,8 @@ class UserStorage {
     return results
   }
   async updateFeedEvent(event: FeedEvent): Promise<ACK> {
+    logger.debug(event)
+
     let date = new Date(event.date)
     let day = `${date.toISOString().slice(0, 10)}`
     let dayEventsArr: Array<FeedEvent> = (await this.feed.get(day).decrypt()) || []

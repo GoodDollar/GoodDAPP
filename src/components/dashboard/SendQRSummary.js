@@ -30,21 +30,23 @@ const SendQRSummary = (props: AmountProps) => {
   const { amount, reason, to } = screenState
   const sendGD = async () => {
     try {
-      const receipt = await goodWallet.sendAmount(to, amount, hash => {
-        log.debug({ hash })
-        // Save transaction
-        const transactionEvent: TransactionEvent = {
-          id: hash,
-          date: new Date().toString(),
-          type: 'send',
-          data: {
-            to,
-            reason,
-            amount
+      const receipt = await goodWallet.sendAmount(to, amount, {
+        onTransactionHash: hash => {
+          log.debug({ hash })
+          // Save transaction
+          const transactionEvent: TransactionEvent = {
+            id: hash,
+            date: new Date().toString(),
+            type: 'send',
+            data: {
+              to,
+              reason,
+              amount
+            }
           }
+          UserStorage.updateFeedEvent(transactionEvent)
+          return hash
         }
-        UserStorage.updateFeedEvent(transactionEvent)
-        return hash
       })
       log.debug({ receipt })
       store.set('currentScreen')({

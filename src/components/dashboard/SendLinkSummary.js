@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import { View } from 'react-native'
-import goodWallet from '../../lib/wallet/GoodWallet'
+import { useWrappedGoodWallet } from '../../lib/wallet/useWrappedWallet'
 import { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import UserStorage from '../../lib/gundb/UserStorage'
 import { Section, Wrapper, Avatar, BigGoodDollar, CustomButton, CustomDialog } from '../common'
@@ -27,7 +27,7 @@ const TITLE = 'Send GD'
 const SendLinkSummary = (props: AmountProps) => {
   const { screenProps } = props
   const [screenState] = useScreenState(screenProps)
-  //const goodWallet = useWrappedGoodWallet()
+  const goodWallet = useWrappedGoodWallet()
   const store = GDStore.useStore()
   const { loading } = store.get('currentScreen')
   const API = useWrappedApi()
@@ -51,20 +51,10 @@ const SendLinkSummary = (props: AmountProps) => {
 
   const generateLinkAndSend = async () => {
     let generateLinkResponse
-    store.set('currentScreen')({ loading: true })
     try {
       // Generate link deposit
-      generateLinkResponse = await goodWallet.generateLink(amount, reason)
-    } catch (e) {
-      log.error(e)
-    }
-
-    if (generateLinkResponse) {
-      try {
-        // Generate link deposit
-        const { sendLink, tx } = generateLinkResponse
-        // Share link
-        tx.on('transactionHash', hash => {
+      generateLinkResponse = await goodWallet.generateLink(amount, reason, {
+        onTransactionHash: sendLink => hash => {
           // Save transaction
           const transactionEvent: TransactionEvent = {
             id: hash,
@@ -78,17 +68,23 @@ const SendLinkSummary = (props: AmountProps) => {
             }
           }
           UserStorage.updateFeedEvent(transactionEvent)
-        })
-        const receipt = await tx
+        }
+      })
+    } catch (e) {
+      log.error(e)
+    }
+
+    if (generateLinkResponse) {
+      try {
+        // Generate link deposit
+        const { sendLink, receipt } = generateLinkResponse
         await sendLinkTo(to, sendLink)
         log.debug({ sendLink, receipt })
-        store.set('currentScreen')({ loading: false })
         // Show confirmation
         screenProps.push('SendConfirmation', { sendLink })
       } catch (e) {
         const { hashedString } = generateLinkResponse
         await goodWallet.cancelOtl(hashedString)
-        store.set('currentScreen')({ loading: false })
         log.error(e)
       }
     }

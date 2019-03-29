@@ -17,6 +17,10 @@ const log = logger.child({ from: 'GoodWallet' })
 const { BN, toBN } = utils
 const ZERO = new BN('0')
 
+type PromitEvents = {
+  onTransactionHash?: Function
+}
+
 /**
  * the HDWallet account to use.
  * we use different accounts for different actions in order to preserve privacy and simplify things for user
@@ -348,7 +352,7 @@ export class GoodWallet {
     return amount < balance
   }
 
-  async generateLink(amount: number, reason: string = '') {
+  async generateLink(amount: number, reason: string = '', events: PromitEvents) {
     if (!(await this.canSend(amount))) {
       throw new Error(`Amount is bigger than balance`)
     }
@@ -367,14 +371,16 @@ export class GoodWallet {
     const gasPrice = await this.getGasPrice()
     const balancePre = await balanceOf.call()
     log.info({ amount, gas, gasPrice, balancePre, otpAddress })
-
-    const tx = transferAndCall.send({ gas, gasPrice }) //.catch(this.handleError)
-    log.info({ tx, otpAddress })
+    const sendLink = `${Config.publicUrl}/AppNavigation/Dashboard/Home?receiveLink=${generatedString}&reason=${reason}`
+    const receipt = await transferAndCall
+      .send({ gas, gasPrice })
+      .on('transactionHash', events.onTransactionHash ? events.onTransactionHash(sendLink) : () => null)
+      .catch(this.handleError)
     return {
       generatedString,
       hashedString,
-      sendLink: `${Config.publicUrl}/AppNavigation/Dashboard/Home?receiveLink=${generatedString}&reason=${reason}`,
-      tx
+      sendLink,
+      receipt
     }
   }
 
@@ -474,7 +480,7 @@ export class GoodWallet {
     return gasPrice
   }
 
-  async sendAmount(to: string, amount: number, onTransactionHash: Function) {
+  async sendAmount(to: string, amount: number, events: PromitEvents) {
     if (!this.wallet.utils.isAddress(to)) {
       throw new Error('Address is invalid')
     }
@@ -492,7 +498,7 @@ export class GoodWallet {
 
     return await transferCall
       .send({ gas, gasPrice })
-      .on('transactionHash', onTransactionHash)
+      .on('transactionHash', events.onTransactionHash)
       .catch(this.handleError)
   }
 }

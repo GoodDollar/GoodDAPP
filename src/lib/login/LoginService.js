@@ -49,6 +49,7 @@ class LoginService {
 
   async auth(): Promise<?Credentials | Error> {
     if (this.credentials && this.jwt) {
+      this.credentials.jwt = this.jwt
       log.info('Got existing credentials', this.credentials)
       return Promise.resolve(this.credentials)
     }

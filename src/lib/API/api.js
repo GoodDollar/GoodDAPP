@@ -1,6 +1,6 @@
 // @flow
 import axios from 'axios'
-import { type Axios, type AxiosPromise, type AxiosInstance, type $AxiosXHR } from 'axios'
+import type { AxiosPromise, AxiosInstance, $AxiosXHR } from 'axios'
 import Config from '../../config/config'
 import { AsyncStorage } from 'react-native'
 import logger from '../logger/pino-logger'

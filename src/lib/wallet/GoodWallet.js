@@ -33,10 +33,10 @@ type QueryEvent = {
 
 export class GoodWallet {
   static AccountUsageToPath = {
-    gd: 1,
-    gundb: 2,
-    eth: 3,
-    donate: 4,
+    gd: 0,
+    gundb: 1,
+    eth: 2,
+    donate: 3,
     login: 4
   }
   ready: Promise<Web3>

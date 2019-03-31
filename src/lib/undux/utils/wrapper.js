@@ -29,13 +29,12 @@ function Handler(store, params) {
 
   this.errorHandler = error => {
     let message = 'Unknown Error'
+    console.log({ error })
     if (error.response && error.response.data) {
       message = error.response.data.message
-    }
-    if (error.message) {
+    } else if (error.message) {
       message = error.message
-    }
-    if (error.err) {
+    } else if (error.err) {
       message = error.err
     }
     store.set('currentScreen')({

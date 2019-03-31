@@ -53,6 +53,7 @@
     "bip39": "^2.5.0",
     "ethereumjs-util": "^6.1.0",
     "ethereumjs-wallet": "^0.6.3",
+    "exif-react-avatar-edit": "^0.8.3",
     "gun": "^0.9.9999991",
     "hdkey": "^1.1.1",
     "lodash": "^4.17.11",

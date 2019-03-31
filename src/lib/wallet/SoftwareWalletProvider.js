@@ -64,6 +64,7 @@ class SoftwareWalletProvider {
     //we start from addres 1, since from address 0 pubkey all public keys can  be generated
     //and we want privacy
     let mulWallet = new MultipleAddressWallet(pkey, 10)
+    await mulWallet.ready()
     let web3 = new Web3(provider)
     mulWallet.addresses.forEach(addr => {
       let wallet = web3.eth.accounts.privateKeyToAccount('0x' + mulWallet.wallets[addr].getPrivateKey().toString('hex'))

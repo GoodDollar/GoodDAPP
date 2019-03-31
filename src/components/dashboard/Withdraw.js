@@ -60,9 +60,11 @@ class Withdraw extends Component<DashboardProps, DashboardState> {
 
   async withdraw(hash: string) {
     try {
-      const { amount, sender } = await goodWallet.canWithdraw(hash)
+      //const { amount, sender } = await goodWallet.canWithdraw(hash)
+      let sender = 'hey'
+      let amount = 100
       const receipt = await goodWallet.withdraw(hash)
-
+      logger.debug({ hash })
       const date = new Date()
 
       const transactionEvent: TransactionEvent = {
@@ -94,6 +96,7 @@ class Withdraw extends Component<DashboardProps, DashboardState> {
         }
       })
     } catch (e) {
+      logger.error({ e })
       this.setState({
         dialogData: {
           visible: true,

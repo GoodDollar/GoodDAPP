@@ -41,6 +41,21 @@ export type TransactionEvent = FeedEvent & {
   }
 }
 
+const getReceiveDataFromReceipt = receipt => {
+  const transferLog = receipt.logs.find(log => {
+    const { events } = log
+    const eventIndex = events.findIndex(
+      event => event.name === 'to' && event.value === '0xcb07bf5869a9f4f17ad7cc07c5c15deb5ac665fb'
+    )
+    logger.debug({ log, eventIndex })
+    return eventIndex >= 0
+  })
+  logger.debug({ transferLog })
+  return transferLog.events.reduce((acc, curr) => {
+    return { ...acc, [curr.name]: curr.value }
+  }, {})
+}
+
 class UserStorage {
   wallet: GoodWallet
   profile: Gun
@@ -126,28 +141,14 @@ class UserStorage {
 
           this.wallet.subscribeToEvent('receiptReceived', async receipt => {
             try {
-              logger.debug('receiptReceived initial', receipt)
-
-              // const feedEvent = await this.getFeedItemByTransactionHash(receipt.transactionHash)
-              // const transaction = await this.wallet.wallet.eth.getTransaction(receipt.transactionHash)
-              // const input = await this.wallet.wallet.utils.hexToAscii(transaction.input)
-
-              // logger.debug('receiptReceived', { feedEvent, receipt })
-              // const updatedFeedEvent = feedEvent
-              //   ? { ...feedEvent, data: { ...feedEvent.data, receipt } }
-              //   : {
-              //       id: receipt.transactionHash,
-              //       date: new Date().toString(),
-              //       type: 'send',
-              //       data: {
-              //         receipt
-              //       }
-              //     }
+              const data = getReceiveDataFromReceipt(receipt)
+              logger.debug('receiptReceived', { receipt, data })
               const updatedFeedEvent = {
                 id: receipt.transactionHash,
                 date: new Date().toString(),
                 type: 'receive',
                 data: {
+                  ...data,
                   receipt
                 }
               }

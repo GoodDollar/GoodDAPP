@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, Button } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import { normalize } from 'react-native-elements'
 import type { Store } from 'undux'
 
@@ -46,10 +46,11 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
   }
 
   componentDidMount() {
-    const param = this.props.navigation.getParam('receiveLink', 'no-param')
+    const { params } = this.props.navigation.state
 
-    if (param !== 'no-param') {
-      this.setState({ param })
+    if (params && params.receiveLink) {
+      console.log({ params })
+      this.setState({ params })
     }
 
     this.getFeeds()
@@ -63,11 +64,10 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
     const { params, horizontal } = this.state
     const { screenProps, navigation, store }: DashboardProps = this.props
     const { balance, entitlement } = store.get('account')
-
     const { avatar, fullName } = store.get('profile')
     const feeds = store.get('feeds')
 
-    console.log(feeds)
+    console.log(params)
 
     return (
       <View style={{ flex: 1 }}>

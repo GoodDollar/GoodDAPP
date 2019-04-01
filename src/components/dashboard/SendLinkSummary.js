@@ -3,7 +3,7 @@ import React from 'react'
 import { View } from 'react-native'
 import { useWrappedGoodWallet } from '../../lib/wallet/useWrappedWallet'
 import { type TransactionEvent } from '../../lib/gundb/UserStorage'
-import { useWrappedUserStorage } from '../../lib/gundb/useWrappedStorage'
+import UserStorage from '../../lib/gundb/UserStorage'
 import { Section, Wrapper, Avatar, BigGoodDollar, CustomButton, CustomDialog } from '../common'
 import { BackButton, PushButton, useScreenState } from '../appNavigation/stackNavigation'
 import { receiveStyles } from './styles'
@@ -31,7 +31,6 @@ const SendLinkSummary = (props: AmountProps) => {
   const store = GDStore.useStore()
   const { loading } = store.get('currentScreen')
   const API = useWrappedApi()
-  const UserStorage = useWrappedUserStorage()
 
   const { amount, reason, to } = screenState
 
@@ -51,50 +50,45 @@ const SendLinkSummary = (props: AmountProps) => {
   }
 
   const generateLinkAndSend = async () => {
-    let generateLinkResponse
     try {
       // Generate link deposit
-      generateLinkResponse = await goodWallet.generateLink(amount)
+      const generateLinkResponse = await goodWallet.generateLink(amount, reason, {
+        onTransactionHash: sendLink => hash => {
+          // Save transaction
+          const transactionEvent: TransactionEvent = {
+            id: hash,
+            date: new Date().toString(),
+            type: 'send',
+            data: {
+              to,
+              reason,
+              amount,
+              sendLink
+            }
+          }
+          UserStorage.updateFeedEvent(transactionEvent)
+        }
+      })
+
+      if (generateLinkResponse) {
+        try {
+          // Generate link deposit
+          const { sendLink, receipt } = generateLinkResponse
+          await sendLinkTo(to, sendLink)
+          log.debug({ sendLink, receipt })
+          // Show confirmation
+          screenProps.push('SendConfirmation', { sendLink })
+        } catch (e) {
+          const { hashedString } = generateLinkResponse
+          await goodWallet.cancelOtl(hashedString)
+          throw e
+        }
+      }
     } catch (e) {
       log.error(e)
     }
-
-    if (generateLinkResponse) {
-      try {
-        // Generate link deposit
-        const { sendLink, receipt } = generateLinkResponse
-        // Share link
-        await sendLinkTo(to, sendLink)
-
-        // Save transaction
-        const transactionEvent: TransactionEvent = {
-          id: receipt.blockHash,
-          date: new Date().toString(),
-          type: 'send',
-          data: {
-            to,
-            reason,
-            amount,
-            sendLink,
-            receipt
-          }
-        }
-        await UserStorage.updateFeedEvent(transactionEvent)
-
-        // Cheking events are being stored
-        // FIXME: Remove this since is only to check that is working
-        const events = await UserStorage.feed.get('2019-03-01').decrypt()
-        log.debug({ events, transactionEvent })
-
-        // Show confirmation
-        screenProps.push('SendConfirmation', { sendLink })
-      } catch (e) {
-        const { hashedString } = generateLinkResponse
-        await goodWallet.cancelOtl(hashedString)
-        log.error(e)
-      }
-    }
   }
+
   return (
     <Wrapper style={styles.wrapper}>
       <TopBar push={screenProps.push} />

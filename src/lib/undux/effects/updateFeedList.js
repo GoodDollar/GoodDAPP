@@ -1,6 +1,5 @@
 // @flow
 import type { Effects, Store } from 'undux'
-
 import userStorage from '../../gundb/UserStorage'
 import type { State } from '../GDStore'
 

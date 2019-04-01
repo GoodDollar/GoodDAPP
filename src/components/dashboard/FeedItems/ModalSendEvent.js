@@ -1,57 +1,38 @@
 import React from 'react'
-import { StyleSheet, TouchableHighlight, Button, Dimensions } from 'react-native'
+import { StyleSheet, Button } from 'react-native'
 import { normalize } from 'react-native-elements'
 import { Avatar } from 'react-native-paper'
 import { Text, View } from 'react-native-web'
 import BigGoodDollar from '../../common/BigGoodDollar'
 
-const { height, width } = Dimensions.get('window')
-
-const ModalSendEvent = ({ item: feed, separators, onPress }) => {
+const ModalSendEvent = ({ item: feed }) => {
   return (
-    <TouchableHighlight
-      onPress={() => onPress(feed.id)}
-      onShowUnderlay={separators.highlight}
-      onHideUnderlay={separators.unhighlight}
-      tvParallaxProperties={{
-        pressMagnification: 1.1
-      }}
-      style={[
-        styles.horizItem,
-        { height: height - normalize(80), width: width - normalize(40), marginLeft: normalize(10) }
-      ]}
-    >
-      <View style={styles.modal}>
-        <View style={styles.row}>
-          {feed.data.endpoint.title && <Text style={styles.leftTitle}>{feed.data.endpoint.title}</Text>}
-          <Text style={styles.leftTitle}>Sent GD</Text>
-          <BigGoodDollar number={feed.data.amount} elementStyles={styles.currency} />
-        </View>
-        <Text>{new Date(feed.date).toLocaleString()}</Text>
-        <View style={styles.hrLine} />
-        <View style={styles.row}>
-          <Avatar.Image size={48} style={{ backgroundColor: 'white' }} source={feed.data.endpoint.avatar} />
-          <Text style={styles.leftMargin}>
-            <Text style={styles.label}>To:</Text>
-            <Text style={styles.name}>{feed.data.endpoint.fullName}</Text>
-          </Text>
-        </View>
-        <View style={styles.hrLine} />
-        {feed.data.message && <Text>{feed.data.message}</Text>}
-        {feed.actions &&
-          feed.actions.map(action => (
-            <Button title={action.title} color={action.color} key={action.title} onPress={action.onPress} />
-          ))}
+    <View style={styles.modal}>
+      <View style={styles.row}>
+        {feed.data.endpoint.title && <Text style={styles.leftTitle}>{feed.data.endpoint.title}</Text>}
+        <Text style={styles.leftTitle}>Sent GD</Text>
+        <BigGoodDollar number={feed.data.amount} elementStyles={styles.currency} />
       </View>
-    </TouchableHighlight>
+      <Text>{new Date(feed.date).toLocaleString()}</Text>
+      <View style={styles.hrLine} />
+      <View style={styles.row}>
+        <Avatar.Image size={48} style={{ backgroundColor: 'white' }} source={feed.data.endpoint.avatar} />
+        <Text style={styles.leftMargin}>
+          <Text style={styles.label}>To:</Text>
+          <Text style={styles.name}>{feed.data.endpoint.fullName}</Text>
+        </Text>
+      </View>
+      <View style={styles.hrLine} />
+      {feed.data.message && <Text>{feed.data.message}</Text>}
+      {feed.actions &&
+        feed.actions.map(action => (
+          <Button title={action.title} color={action.color} key={action.title} onPress={action.onPress} />
+        ))}
+    </View>
   )
 }
 
 const styles = StyleSheet.create({
-  horizItem: {
-    flex: 1,
-    alignSelf: 'flex-start'
-  },
   modal: {
     flex: 1,
     backgroundColor: '#fff',

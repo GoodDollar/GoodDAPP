@@ -1,38 +1,51 @@
-import React from 'react'
-import { StyleSheet, Button } from 'react-native'
+import { StyleSheet } from 'react-native'
 import { normalize } from 'react-native-elements'
-import { Avatar } from 'react-native-paper'
-import { Text, View } from 'react-native-web'
-import BigGoodDollar from '../../common/BigGoodDollar'
 
-const ModalWithdrawEvent = ({ item: feed }) => {
-  return (
-    <View style={styles.modal}>
-      <Text>{new Date(feed.date).toLocaleString()}</Text>
-      <View style={styles.row}>
-        {feed.data.endpoint.title && <Text style={styles.leftTitle}>{feed.data.endpoint.title}</Text>}
-        <Text style={styles.leftTitle}>Received GD</Text>
-        <BigGoodDollar number={feed.data.amount} elementStyles={styles.currency} />
-      </View>
-      <View style={styles.hrLine} />
-      <View style={styles.row}>
-        <Avatar.Image size={48} style={{ backgroundColor: 'white' }} source={feed.data.endpoint.avatar} />
-        <Text style={styles.leftMargin}>
-          <Text style={styles.label}>From:</Text>
-          <Text style={styles.name}>{feed.data.endpoint.fullName}</Text>
-        </Text>
-      </View>
-      <View style={styles.hrLine} />
-      {feed.data.message && <Text>{feed.data.message}</Text>}
-      {feed.actions &&
-        feed.actions.map(action => (
-          <Button title={action.title} color={action.color} key={action.title} onPress={action.onPress} />
-        ))}
-    </View>
-  )
-}
+export const listStyles = StyleSheet.create({
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 15,
+    marginBottom: 5,
+    backgroundColor: 'rgb(238, 238, 239)',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: 'rgba(0,0,0,0.1)'
+  },
+  innerRow: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgb(238, 238, 239)',
+    width: '100%'
+  },
+  rowIcon: {
+    width: 64,
+    height: 64,
+    marginRight: 20,
+    borderRadius: '50%',
+    boxShadow: '0 1px 2px 0 rgba(0,0,0,0.1)'
+  },
+  rowData: {
+    flex: 1
+  },
+  rowDataText: {
+    fontSize: 15,
+    textTransform: 'capitalize',
+    color: '#4b4b4b'
+  },
+  rowDataSubText: {
+    fontSize: 13,
+    opacity: 0.8,
+    color: '#a8a689',
+    marginTop: 4
+  },
+  currency: {
+    fontSize: normalize(12)
+  }
+})
 
-const styles = StyleSheet.create({
+export const modalStyles = StyleSheet.create({
   modal: {
     flex: 1,
     backgroundColor: '#fff',
@@ -94,5 +107,3 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   }
 })
-
-export default ModalWithdrawEvent

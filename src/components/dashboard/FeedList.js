@@ -1,6 +1,6 @@
 // @flow
 import React, { PureComponent } from 'react'
-import { Animated, SwipeableFlatList, View, StyleSheet, Dimensions } from 'react-native'
+import { Animated, SwipeableFlatList, FlatList, View, StyleSheet, Dimensions } from 'react-native'
 import { normalize } from 'react-native-elements'
 import FeedActions from './FeedActions'
 import FeedListItem from './FeedItems/FeedListItem'
@@ -11,8 +11,6 @@ const SCREEN_SIZE = {
   width: 200,
   height: 72
 }
-
-const AnimatedFlatList = Animated.createAnimatedComponent(SwipeableFlatList)
 
 const VIEWABILITY_CONFIG = {
   minimumViewTime: 3000,
@@ -118,16 +116,13 @@ class FeedList extends PureComponent<FeedListProps, FeedListState> {
   render() {
     const { data, virtualized, fixedHeight, onEndReached } = this.props
     const { inverted, horizontal } = this.state
-    let viewStyles = { ...styles.container }
-    if (horizontal) {
-      viewStyles = {
-        ...viewStyles,
-        position: 'fixed',
-        height
-      }
-    }
+    let viewStyles = horizontal ? styles.horizontalContainer : styles.verticalContainer
+    let listStyles = horizontal ? styles.horizontalList : styles.verticalList
+
+    const AnimatedFlatList = Animated.createAnimatedComponent(horizontal ? FlatList : SwipeableFlatList)
+
     return (
-      <ScrollView style={viewStyles}>
+      <ScrollView style={viewStyles} horizontal={horizontal}>
         <AnimatedFlatList
           bounceFirstRowOnMount={true}
           maxSwipeDistance={160}
@@ -152,7 +147,7 @@ class FeedList extends PureComponent<FeedListProps, FeedListState> {
           ref={this.captureRef}
           refreshing={false}
           renderItem={this.renderItemComponent}
-          contentContainerStyle={styles.list}
+          contentContainerStyle={listStyles}
           viewabilityConfig={VIEWABILITY_CONFIG}
           renderQuickActions={FeedActions}
         />
@@ -171,13 +166,30 @@ class ItemSeparatorComponent extends PureComponent<ItemSeparatorComponentProps> 
 }
 
 const styles = StyleSheet.create({
-  container: {
+  horizontalContainer: {
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    flex: 1,
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    paddingHorizontal: normalize(10),
+    paddingVertical: normalize(20),
+    position: 'fixed',
+    height
+  },
+  verticalContainer: {
     backgroundColor: '#efeff4',
     flex: 1
   },
-  list: {
+  verticalList: {
     backgroundColor: '#fff',
-    width: '100%'
+    width: '100%',
+    maxWidth: '100vw'
+  },
+  horizontalList: {
+    width: '100%',
+    maxWidth: '100vw'
   },
   options: {
     flexDirection: 'row',

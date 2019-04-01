@@ -1,54 +1,35 @@
 import React from 'react'
-import { StyleSheet, TouchableHighlight, Button, Dimensions, Image } from 'react-native'
+import { StyleSheet, Button, Image } from 'react-native'
 import { normalize } from 'react-native-elements'
 import { Text, View } from 'react-native-web'
 import { Avatar } from 'react-native-paper'
 
-const { height, width } = Dimensions.get('window')
-
-const ModalMessageEvent = ({ item: feed, separators, onPress }) => {
+const ModalMessageEvent = ({ item: feed }) => {
   return (
-    <TouchableHighlight
-      onPress={() => onPress(feed.id)}
-      onShowUnderlay={separators.highlight}
-      onHideUnderlay={separators.unhighlight}
-      tvParallaxProperties={{
-        pressMagnification: 1.1
-      }}
-      style={[
-        styles.horizItem,
-        { height: height - normalize(80), width: width - normalize(40), marginLeft: normalize(10) }
-      ]}
-    >
-      <View style={styles.modal}>
-        {feed.data.endpoint.image && <Image source={feed.data.endpoint.image} />}
-        <View style={styles.row}>
-          {feed.data.endpoint.title && <Text style={styles.leftTitle}>{feed.data.endpoint.title}</Text>}
-        </View>
-        <Text>{new Date(feed.date).toLocaleString()}</Text>
-        <View style={styles.hrLine} />
-        <View style={styles.row}>
-          <Avatar.Image size={48} style={{ backgroundColor: 'white' }} source={feed.data.endpoint.avatar} />
-          <Text>
-            <Text style={styles.name}>{feed.data.endpoint.fullName}</Text>
-          </Text>
-        </View>
-        <View style={styles.hrLine} />
-        {feed.data.message && <Text>{feed.data.message}</Text>}
-        {feed.actions &&
-          feed.actions.map(action => (
-            <Button title={action.title} color={action.color} key={action.title} onPress={action.onPress} />
-          ))}
+    <View style={styles.modal}>
+      {feed.data.endpoint.image && <Image source={feed.data.endpoint.image} />}
+      <View style={styles.row}>
+        {feed.data.endpoint.title && <Text style={styles.leftTitle}>{feed.data.endpoint.title}</Text>}
       </View>
-    </TouchableHighlight>
+      <Text>{new Date(feed.date).toLocaleString()}</Text>
+      <View style={styles.hrLine} />
+      <View style={styles.row}>
+        <Avatar.Image size={48} style={{ backgroundColor: 'white' }} source={feed.data.endpoint.avatar} />
+        <Text>
+          <Text style={styles.name}>{feed.data.endpoint.fullName}</Text>
+        </Text>
+      </View>
+      <View style={styles.hrLine} />
+      {feed.data.message && <Text>{feed.data.message}</Text>}
+      {feed.actions &&
+        feed.actions.map(action => (
+          <Button title={action.title} color={action.color} key={action.title} onPress={action.onPress} />
+        ))}
+    </View>
   )
 }
 
 const styles = StyleSheet.create({
-  horizItem: {
-    flex: 1,
-    alignSelf: 'flex-start' // Necessary for touch highlight
-  },
   modal: {
     flex: 1,
     backgroundColor: '#fff',

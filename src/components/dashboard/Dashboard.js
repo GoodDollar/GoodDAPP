@@ -10,10 +10,10 @@ import { createStackNavigator, PushButton } from '../appNavigation/stackNavigati
 import TabsView from '../appNavigation/TabsView'
 import { Avatar, BigGoodDollar, Section, Wrapper } from '../common'
 import Amount from './Amount'
-import ModalSlider from './ModalSlider.web'
-import ListSlider from './ListSlider'
+// import ListSlider from './FeedList'
 import Claim from './Claim'
 import FaceRecognition from './FaceRecognition'
+import FeedList from './FeedList'
 import Reason from './Reason'
 import Receive from './Receive'
 import ReceiveAmount from './ReceiveAmount'
@@ -32,15 +32,16 @@ export type DashboardProps = {
 }
 
 type DashboardState = {
-  param: string,
-  modalSendVisible: boolean,
+  params: {
+    receiveLink: string,
+    reason?: string
+  },
   horizontal: boolean
 }
 
 class Dashboard extends Component<DashboardProps, DashboardState> {
   state = {
-    param: '',
-    modalSendVisible: false,
+    params: {},
     horizontal: false
   }
 
@@ -48,143 +49,33 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
     const param = this.props.navigation.getParam('receiveLink', 'no-param')
 
     if (param !== 'no-param') {
-      console.log({ param })
       this.setState({ param })
     }
+
+    this.getFeeds()
   }
 
-  toggleModal = () => {
-    this.setState({ modalSendVisible: !this.state.modalSendVisible })
+  getFeeds() {
+    this.props.store.set('requestFeeds')(true)
   }
 
   render() {
-    const { param, modalSendVisible, horizontal } = this.state
+    const { params, horizontal } = this.state
     const { screenProps, navigation, store }: DashboardProps = this.props
     const { balance, entitlement } = store.get('account')
-    const { fullName } = store.get('profile')
 
-    const sliderData = [
-      {
-        title: 'Received GD',
-        key: '1',
-        gd: '+124GD',
-        person: 'David James',
-        for: 'For the pizza',
-        message: 'Thanks man, I truly appreciate it! See you soon :)',
-        date: '31/12/18 22:45',
-        type: 'receive',
-        actions: [
-          {
-            title: 'OK',
-            color: '#ccc',
-            onPress: () => console.log('called')
-          }
-        ]
-      },
-      {
-        title: 'Sent GD',
-        key: '2',
-        gd: '-85GD',
-        person: 'Michelle Pauli',
-        for: 'For the Books',
-        message: "You've got an awesome collection",
-        date: '31/12/18 22:45',
-        type: 'send',
-        actions: [
-          {
-            title: 'OK',
-            color: '#ccc',
-            onPress: () => console.log('called')
-          }
-        ]
-      },
-      {
-        title: 'Doing Good',
-        key: '3',
-        person: 'Maisao Matimbo',
-        message: '"I can buy food for my children!" Nairobi, Kenya - 24,600 people are using GD...',
-        date: '31/12/18 22:45',
-        type: 'message',
-        actions: [
-          {
-            title: 'Share',
-            color: '#fff',
-            onPress: () => console.log('called')
-          }
-        ],
-        image: ''
-      },
-      {
-        title: 'Invite friends to GoodDollar',
-        key: '4',
-        message:
-          'Send invites to get more people connected on GoodDollar. You will earn GD and also Help other people to earn.',
-        date: '31/12/18 22:45',
-        type: 'notification',
-        actions: [
-          {
-            title: 'LATER',
-            color: '#fff',
-            onPress: () => console.log('called')
-          },
-          {
-            title: 'INVITE',
-            color: '#ccc',
-            onPress: () => console.log('called')
-          }
-        ],
-        image: ''
-      },
-      {
-        title: 'This person needs your verification, do you know him?',
-        key: '5',
-        person: {
-          name: 'John Doe',
-          phone: '+972-**-***3336',
-          email: 'j****e@gmail.com',
-          location: 'New Delhi, India',
-          birth: '12/30/1980',
-          facebook: '',
-          twitter: '',
-          linkedin: '',
-          instagram: ''
-        },
-        date: '31/12/18 22:45',
-        type: 'confirmation',
-        actions: [
-          {
-            title: "No, I don't know him",
-            color: '#fff',
-            onPress: () => console.log('called')
-          },
-          {
-            title: 'VOUCHER FOR HIM',
-            color: '#ccc',
-            onPress: () => console.log('called')
-          }
-        ]
-      },
-      {
-        title: 'How likely are you to recommend GoodDollar to a friend or colleague?',
-        key: '6',
-        type: 'feedback',
-        actions: [
-          {
-            title: 'NOT NOW',
-            color: '#fff',
-            onPress: () => console.log('called')
-          }
-        ]
-      }
-    ]
+    const { avatar, fullName } = store.get('profile')
+    const feeds = store.get('feeds')
+
+    console.log(feeds)
 
     return (
-      <View>
+      <View style={{ flex: 1 }}>
         <TabsView goTo={navigation.navigate} routes={screenProps.routes} />
         <Wrapper>
           <Section>
             <Section.Row style={styles.centered}>
-              <Avatar size={80} onPress={() => screenProps.push('Profile')} />
+              <Avatar size={80} source={avatar} onPress={() => screenProps.push('Profile')} />
             </Section.Row>
             <Section.Row style={styles.centered}>
               <Section.Title>{fullName || 'John Doe'}</Section.Title>
@@ -208,25 +99,18 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
               </PushButton>
             </Section.Row>
           </Section>
-          <Button onPress={this.toggleModal} title="Show Modal" />
-          <ModalSlider
-            visible={modalSendVisible}
-            title="Sent GD by Link"
-            toggleModal={this.toggleModal}
-            addressee="Johannah Marshall"
-          />
-          <ListSlider
+          <FeedList
             title="Test"
             horizontal={horizontal}
             fixedHeight
             virtualized
-            data={sliderData}
-            getData={() => sliderData}
+            data={feeds}
+            getData={() => feeds}
             updateData={() => {}}
             onEndReached={() => {}}
           />
         </Wrapper>
-        {param ? <Withdraw param={param} {...this.props} /> : null}
+        {params.receiveLink ? <Withdraw params={params} {...this.props} /> : null}
       </View>
     )
   }
@@ -265,6 +149,12 @@ const styles = StyleSheet.create({
   centered: {
     justifyContent: 'center',
     alignItems: 'baseline'
+  },
+  centering: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 8,
+    height: '256px'
   }
 })
 

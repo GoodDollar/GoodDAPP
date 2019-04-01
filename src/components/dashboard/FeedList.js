@@ -1,17 +1,16 @@
 // @flow
 import React, { PureComponent } from 'react'
-import {
-  Animated,
-  SwipeableFlatList,
-  View,
-  StyleSheet,
-  TouchableHighlight,
-  Alert,
-  Text,
-  Dimensions
-} from 'react-native'
+import { Animated, SwipeableFlatList, View, StyleSheet, Dimensions } from 'react-native'
 import { normalize } from 'react-native-elements'
-import EventHorizontalListItem, { SCREEN_SIZE } from '../common/EventHorizontalListItem'
+import FeedActions from './FeedActions'
+import FeedListItem from './FeedItems/FeedListItem'
+import FeedModalItem from './FeedItems/FeedModalItem'
+import { ScrollView } from 'react-native-web'
+
+const SCREEN_SIZE = {
+  width: 200,
+  height: 72
+}
 
 const AnimatedFlatList = Animated.createAnimatedComponent(SwipeableFlatList)
 
@@ -23,7 +22,7 @@ const VIEWABILITY_CONFIG = {
 
 const { height } = Dimensions.get('window')
 
-export type ListSliderProps = {
+export type FeedListProps = {
   title: string,
   fixedHeight: boolean,
   virtualized: boolean,
@@ -33,7 +32,7 @@ export type ListSliderProps = {
   onEndReached: any
 }
 
-type ListSliderState = {
+type FeedListState = {
   debug: boolean,
   inverted: boolean,
   filterText: '',
@@ -53,7 +52,7 @@ type InfoType = {
 
 type ItemSeparatorComponentProps = { highlighted: boolean }
 
-class ListSlider extends PureComponent<ListSliderProps, ListSliderState> {
+class FeedList extends PureComponent<FeedListProps, FeedListState> {
   state = {
     debug: false,
     inverted: false,
@@ -72,7 +71,7 @@ class ListSlider extends PureComponent<ListSliderProps, ListSliderState> {
     const [length, separator, header] = this.state.horizontal
       ? [SCREEN_SIZE.width, 0, 100]
       : [SCREEN_SIZE.height, StyleSheet.hairlineWidth, 30]
-    return { length, offset: (length + separator) * index + header, index }
+    return { index, length, offset: (length + separator) * index + header }
   }
 
   onViewableItemsChanged = (info: InfoType) => {
@@ -82,7 +81,7 @@ class ListSlider extends PureComponent<ListSliderProps, ListSliderState> {
     }
   }
 
-  pressItem = (key: string) => {
+  pressItem = () => {
     this.setState(state => ({ horizontal: !state.horizontal }))
     // const node = this.listRef.getNode()
     // if (node) {
@@ -106,39 +105,14 @@ class ListSlider extends PureComponent<ListSliderProps, ListSliderState> {
   renderItemComponent = ({ item, separators }) => {
     const { fixedHeight } = this.props
     const { horizontal } = this.state
-    return (
-      <EventHorizontalListItem
-        item={item}
-        horizontal={horizontal}
-        fixedHeight={fixedHeight}
-        onPress={this.pressItem}
-        onShowUnderlay={separators.highlight}
-        onHideUnderlay={separators.unhighlight}
-      />
-    )
-  }
+    const itemProps = {
+      item,
+      separators,
+      onPress: this.pressItem,
+      fixedHeight
+    }
 
-  renderQuickActions = ({ item }: Object): ?React.Element<any> => {
-    return (
-      <View style={styles.actionsContainer}>
-        <TouchableHighlight
-          style={styles.actionButton}
-          onPress={() => {
-            Alert.alert('Tips', 'You could do something with this edit action!')
-          }}
-        >
-          <Text style={styles.actionButtonText}>Edit</Text>
-        </TouchableHighlight>
-        <TouchableHighlight
-          style={[styles.actionButton, styles.actionButtonDestructive]}
-          onPress={() => {
-            Alert.alert('Tips', 'You could do something with this remove action!')
-          }}
-        >
-          <Text style={styles.actionButtonText}>Remove</Text>
-        </TouchableHighlight>
-      </View>
-    )
+    return horizontal ? <FeedModalItem {...itemProps} /> : <FeedListItem {...itemProps} />
   }
 
   render() {
@@ -148,15 +122,16 @@ class ListSlider extends PureComponent<ListSliderProps, ListSliderState> {
     if (horizontal) {
       viewStyles = {
         ...viewStyles,
-        position: 'absolute',
+        position: 'fixed',
         height
       }
     }
     return (
-      <View style={viewStyles}>
+      <ScrollView style={viewStyles}>
         <AnimatedFlatList
           bounceFirstRowOnMount={true}
           maxSwipeDistance={160}
+          initialNumToRender={5}
           ItemSeparatorComponent={ItemSeparatorComponent}
           data={data}
           disableVirtualization={!virtualized}
@@ -179,9 +154,9 @@ class ListSlider extends PureComponent<ListSliderProps, ListSliderState> {
           renderItem={this.renderItemComponent}
           contentContainerStyle={styles.list}
           viewabilityConfig={VIEWABILITY_CONFIG}
-          renderQuickActions={this.renderQuickActions}
+          renderQuickActions={FeedActions}
         />
-      </View>
+      </ScrollView>
     )
   }
 }
@@ -201,7 +176,8 @@ const styles = StyleSheet.create({
     flex: 1
   },
   list: {
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
+    width: '100%'
   },
   options: {
     flexDirection: 'row',
@@ -217,4 +193,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default ListSlider
+export default FeedList

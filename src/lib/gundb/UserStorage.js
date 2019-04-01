@@ -87,24 +87,9 @@ class UserStorage {
             this._lastProfileUpdate = doc
             this.subscribersProfileUpdates.forEach(callback => callback(doc))
           })
-          this.initFeed().then(() => {
-            this.wallet.subscribeToEvent('receiptUpdated', async receipt => {
-              try {
-                const feedEvent = await this.getFeedItemByTransactionHash(receipt.transactionHash)
-                logger.debug('receiptUpdated', { feedEvent, receipt })
-                if (!feedEvent) return
+          logger.debug('init to events')
 
-                const updatedFeedEvent = { ...feedEvent, data: { ...feedEvent.data, receipt } }
-                await this.updateFeedEvent(updatedFeedEvent)
-
-                // Checking new feed
-                const feed = await this.getAllFeed()
-                logger.debug('receiptUpdated', { feed, receipt, updatedFeedEvent })
-              } catch (error) {
-                logger.error(error)
-              }
-            })
-          })
+          this.initFeed()
           //save ref to user
           global.gun
             .get('users')
@@ -118,6 +103,61 @@ class UserStorage {
           })
           this.wallet.subscribeToEvent('send', (err, events) => {
             logger.debug({ err, events }, 'send')
+          })
+          this.wallet.subscribeToEvent('receiptUpdated', async receipt => {
+            try {
+              const feedEvent = await this.getFeedItemByTransactionHash(receipt.transactionHash)
+              logger.debug('receiptUpdated', { feedEvent, receipt })
+              if (!feedEvent) {
+                logger.error('Received receipt with no event', receipt)
+              }
+
+              const updatedFeedEvent = { ...feedEvent, data: { ...feedEvent.data, receipt } }
+              await this.updateFeedEvent(updatedFeedEvent)
+
+              // Checking new feed
+              const feed = await this.getAllFeed()
+              logger.debug('receiptUpdated', { feed, receipt, updatedFeedEvent })
+            } catch (error) {
+              logger.error(error)
+            }
+          })
+          logger.debug('web3', this.wallet.wallet)
+
+          this.wallet.subscribeToEvent('receiptReceived', async receipt => {
+            try {
+              logger.debug('receiptReceived initial', receipt)
+
+              // const feedEvent = await this.getFeedItemByTransactionHash(receipt.transactionHash)
+              // const transaction = await this.wallet.wallet.eth.getTransaction(receipt.transactionHash)
+              // const input = await this.wallet.wallet.utils.hexToAscii(transaction.input)
+
+              // logger.debug('receiptReceived', { feedEvent, receipt })
+              // const updatedFeedEvent = feedEvent
+              //   ? { ...feedEvent, data: { ...feedEvent.data, receipt } }
+              //   : {
+              //       id: receipt.transactionHash,
+              //       date: new Date().toString(),
+              //       type: 'send',
+              //       data: {
+              //         receipt
+              //       }
+              //     }
+              const updatedFeedEvent = {
+                id: receipt.transactionHash,
+                date: new Date().toString(),
+                type: 'receive',
+                data: {
+                  receipt
+                }
+              }
+              await this.updateFeedEvent(updatedFeedEvent)
+              // Checking new feed
+              const feed = await this.getAllFeed()
+              logger.debug('receiptUpdated', { feed, receipt, updatedFeedEvent })
+            } catch (error) {
+              logger.error(error)
+            }
           })
           res(true)
           // this.profile = user.get('profile')
@@ -153,12 +193,16 @@ class UserStorage {
     this.feedIndex = orderBy(toPairs(changed), day => day[0], 'desc')
   }
   async initFeed() {
+    logger.debug('initFeed')
     this.feed = global.gun.user().get('feed')
     await this.feed
       .get('index')
       .map()
       .once(this.updateFeedIndex)
       .then()
+
+    logger.debug('initFeed after await')
+
     this.feed.get('index').on(this.updateFeedIndex, false)
   }
   async getProfileFieldValue(field: string): Promise<any> {

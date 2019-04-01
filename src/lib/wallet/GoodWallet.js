@@ -85,7 +85,7 @@ export class GoodWallet {
             }
             this.wallet.eth
               .getTransactionReceipt(event.transactionHash)
-              .then(receipt => this.notifyTransaction(event.transactionHash, receipt))
+              .then(receipt => this.getSubscribers('receiptUpdated').forEach(cb => cb(receipt)))
             // Send for all events. We could define here different events
             this.getSubscribers('send').forEach(cb => cb(error, events))
             this.getSubscribers('balanceChanged').forEach(cb => cb(error, events))
@@ -109,7 +109,8 @@ export class GoodWallet {
             }
             this.wallet.eth
               .getTransactionReceipt(event.transactionHash)
-              .then(receipt => this.notifyTransaction(event.transactionHash, receipt))
+              .then(receipt => this.getSubscribers('receiptReceived').forEach(cb => cb(receipt)))
+              .catch(err => log.error(err))
 
             this.getSubscribers('receive').forEach(cb => cb(error, events))
             this.getSubscribers('balanceChanged').forEach(cb => cb(error, events))
@@ -181,13 +182,6 @@ export class GoodWallet {
 
   async checkEntitlement() {
     return await this.claimContract.methods.checkEntitlement().call()
-  }
-
-  notifyTransaction(transactionHash: string, receipt: any) {
-    const subscribers = this.getSubscribers('receiptUpdated')
-    log.debug({ transactionHash, subscribers, receipt }, 'notifyTransaction')
-
-    subscribers.forEach(cb => cb(receipt))
   }
 
   /**

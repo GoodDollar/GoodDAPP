@@ -59,11 +59,9 @@ class FeedList extends PureComponent<FeedListProps, FeedListState> {
     horizontal: false
   }
 
-  onChangeScrollToIndex = text => {
-    this.listRef.getNode().scrollToIndex({ viewPosition: 0.5, index: Number(text) })
+  captureRef = ref => {
+    this.listRef = ref
   }
-
-  captureRef = ref => (this.listRef = ref)
 
   getItemLayout = (data: any, index: number) => {
     const [length, separator, header] = this.state.horizontal
@@ -81,10 +79,10 @@ class FeedList extends PureComponent<FeedListProps, FeedListState> {
 
   pressItem = () => {
     this.setState(state => ({ horizontal: !state.horizontal }))
-    // const node = this.listRef.getNode()
-    // if (node) {
-    //   this.listRef.getNode().recordInteraction()
-    // }
+    const node = this.listRef.getNode()
+    if (node) {
+      this.listRef.getNode().recordInteraction()
+    }
   }
 
   scrollPos = new Animated.Value(0)
@@ -96,7 +94,8 @@ class FeedList extends PureComponent<FeedListProps, FeedListState> {
   // componentDidUpdate() {
   //   const node = this.listRef.getNode()
   //   if (node) {
-  //     this.listRef.getNode().recordInteraction() // e.g. flipping logViewable switch
+  //     console.log(node)
+  //     node.recordInteraction() // e.g. flipping logViewable switch
   //   }
   // }
 

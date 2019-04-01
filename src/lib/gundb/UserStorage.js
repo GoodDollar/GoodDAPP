@@ -194,16 +194,12 @@ class UserStorage {
     this.feedIndex = orderBy(toPairs(changed), day => day[0], 'desc')
   }
   async initFeed() {
-    logger.debug('initFeed')
     this.feed = global.gun.user().get('feed')
     await this.feed
       .get('index')
       .map()
       .once(this.updateFeedIndex)
       .then()
-
-    logger.debug('initFeed after await')
-
     this.feed.get('index').on(this.updateFeedIndex, false)
   }
   async getProfileFieldValue(field: string): Promise<any> {

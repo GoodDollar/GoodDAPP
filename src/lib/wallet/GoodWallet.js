@@ -18,8 +18,16 @@ const log = logger.child({ from: 'GoodWallet' })
 const { BN, toBN } = utils
 const ZERO = new BN('0')
 
-type PromitEvents = {
-  onTransactionHash?: Function
+type PromiEvents = {
+  onTransactionHash?: Function,
+  onReceipt?: Function,
+  onConfirmation?: Function,
+  onError?: Function
+}
+
+type GasValues = {
+  gas?: number,
+  gasPrice?: number
 }
 
 /**
@@ -175,11 +183,7 @@ export class GoodWallet {
 
   async claim() {
     try {
-      const gas = await this.claimContract.methods.claimTokens().estimateGas()
-      return this.claimContract.methods.claimTokens().send({
-        gas,
-        gasPrice: await this.wallet.eth.getGasPrice()
-      })
+      return this.sendTransaction(this.claimContract.methods.claimTokens())
     } catch (e) {
       log.info(e)
       return Promise.reject(e)
@@ -365,17 +369,16 @@ export class GoodWallet {
     const encodedABI = await deposit.encodeABI()
 
     const transferAndCall = this.tokenContract.methods.transferAndCall(otpAddress, amount, encodedABI)
-    const balanceOf = this.tokenContract.methods.balanceOf(this.account)
 
-    const gas = Math.floor((await transferAndCall.estimateGas().catch(this.handleError)) * 2)
-    const gasPrice = await this.getGasPrice()
-    const balancePre = await balanceOf.call()
-    log.info({ amount, gas, gasPrice, balancePre, otpAddress })
+    const gas: number = Math.floor((await transferAndCall.estimateGas().catch(this.handleError)) * 2)
+
+    log.info({ amount })
+
     const sendLink = `${Config.publicUrl}/AppNavigation/Dashboard/Home?receiveLink=${generatedString}&reason=${reason}`
-    const receipt = await transferAndCall
-      .send({ gas, gasPrice })
-      .on('transactionHash', events.onTransactionHash ? events.onTransactionHash(sendLink) : () => null)
-      .catch(this.handleError)
+
+    const onTransactionHash = events.onTransactionHash(sendLink)
+    const receipt = await this.sendTransaction(transferAndCall, { onTransactionHash }, { gas })
+
     return {
       generatedString,
       hashedString,
@@ -427,35 +430,17 @@ export class GoodWallet {
   }
 
   async withdraw(otlCode: string) {
-    const gasPrice = await this.getGasPrice()
-    log.info('gasPrice', gasPrice)
-
     const withdrawCall = this.oneTimePaymentLinksContract.methods.withdraw(otlCode)
     log.info('withdrawCall', withdrawCall)
 
-    const gas = await withdrawCall.estimateGas().catch(this.handleError)
-    log.info('gas', gas)
-
-    return await withdrawCall
-      .send({ gas, gasPrice })
-      .on('transactionHash', hash => log.debug({ hash }))
-      .catch(this.handleError)
+    return await this.sendTransaction(withdrawCall, { onTransactionHash: hash => log.debug({ hash }) })
   }
 
   async cancelOtl(otlCode: string) {
-    const gasPrice = await this.getGasPrice()
-    log.info('gasPrice', gasPrice)
-
     const cancelOtlCall = this.oneTimePaymentLinksContract.methods.cancel(otlCode)
-    log.info('withdrawCall', cancelOtlCall)
+    log.info('cancelOtlCall', cancelOtlCall)
 
-    const gas = await cancelOtlCall.estimateGas().catch(this.handleError)
-    log.info('gas', gas)
-
-    return await cancelOtlCall
-      .send({ gas, gasPrice })
-      .on('transactionHash', hash => log.debug({ hash }))
-      .catch(this.handleError)
+    return await this.sendTransaction(cancelOtlCall, { onTransactionHash: hash => log.debug({ hash }) })
   }
 
   handleError(err: Error) {
@@ -480,7 +465,7 @@ export class GoodWallet {
     return gasPrice
   }
 
-  async sendAmount(to: string, amount: number, events: PromitEvents) {
+  async sendAmount(to: string, amount: number, events: PromiEvents) {
     if (!this.wallet.utils.isAddress(to)) {
       throw new Error('Address is invalid')
     }
@@ -489,16 +474,46 @@ export class GoodWallet {
       throw new Error('Amount is bigger than balance')
     }
 
-    const gasPrice = await this.getGasPrice()
-
+    log.debug({ amount, to })
     const transferCall = this.tokenContract.methods.transfer(to, amount)
-    const gas = await transferCall.estimateGas().catch(this.handleError)
 
-    log.debug({ amount, to, gas })
+    return await this.sendTransaction(transferCall, events)
+  }
 
-    return await transferCall
+  /**
+   * Helper function to handle a tx Send call
+   * @param tx
+   * @param {object} promiEvents
+   * @param {function} promiEvents.onTransactionHash
+   * @param {function} promiEvents.onReceipt
+   * @param {function} promiEvents.onConfirmation
+   * @param {function} promiEvents.onError
+   * @param {object} gasValues
+   * @param {number} gasValues.gas
+   * @param {number} gasValues.gasPrice
+   * @returns {Promise<Promise|Q.Promise<any>|Promise<*>|Promise<*>|Promise<*>|*>}
+   */
+  async sendTransaction(
+    tx: any,
+    { onTransactionHash, onReceipt, onConfirmation, onError }: PromiEvents = {
+      onTransactionHash: () => {},
+      onReceipt: () => {},
+      onConfirmation: () => {},
+      onError: () => {}
+    },
+    { gas, gasPrice }: GasValues = { gas: undefined, gasPrice: undefined }
+  ) {
+    gas = gas || (await tx.estimateGas().catch(this.handleError))
+    gasPrice = gasPrice || (await this.getGasPrice())
+
+    log.debug({ gas, gasPrice })
+
+    return tx
       .send({ gas, gasPrice })
-      .on('transactionHash', events.onTransactionHash)
+      .on('transactionHash', onTransactionHash)
+      .on('receipt', onReceipt)
+      .on('confirmation', onConfirmation)
+      .on('error', onError)
       .catch(this.handleError)
   }
 }

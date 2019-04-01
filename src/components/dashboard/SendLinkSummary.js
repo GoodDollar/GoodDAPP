@@ -50,10 +50,9 @@ const SendLinkSummary = (props: AmountProps) => {
   }
 
   const generateLinkAndSend = async () => {
-    let generateLinkResponse
     try {
       // Generate link deposit
-      generateLinkResponse = await goodWallet.generateLink(amount, reason, {
+      const generateLinkResponse = await goodWallet.generateLink(amount, reason, {
         onTransactionHash: sendLink => hash => {
           // Save transaction
           const transactionEvent: TransactionEvent = {
@@ -70,25 +69,26 @@ const SendLinkSummary = (props: AmountProps) => {
           UserStorage.updateFeedEvent(transactionEvent)
         }
       })
+
+      if (generateLinkResponse) {
+        try {
+          // Generate link deposit
+          const { sendLink, receipt } = generateLinkResponse
+          await sendLinkTo(to, sendLink)
+          log.debug({ sendLink, receipt })
+          // Show confirmation
+          screenProps.push('SendConfirmation', { sendLink })
+        } catch (e) {
+          const { hashedString } = generateLinkResponse
+          await goodWallet.cancelOtl(hashedString)
+          throw e
+        }
+      }
     } catch (e) {
       log.error(e)
     }
-
-    if (generateLinkResponse) {
-      try {
-        // Generate link deposit
-        const { sendLink, receipt } = generateLinkResponse
-        await sendLinkTo(to, sendLink)
-        log.debug({ sendLink, receipt })
-        // Show confirmation
-        screenProps.push('SendConfirmation', { sendLink })
-      } catch (e) {
-        const { hashedString } = generateLinkResponse
-        await goodWallet.cancelOtl(hashedString)
-        log.error(e)
-      }
-    }
   }
+
   return (
     <Wrapper style={styles.wrapper}>
       <TopBar push={screenProps.push} />

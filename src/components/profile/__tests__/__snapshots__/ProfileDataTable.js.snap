@@ -11,7 +11,7 @@ exports[`ProfileDataTable matches snapshot 1`] = `
       "marginBottom": "3em",
       "marginLeft": "3em",
       "marginRight": "3em",
-      "marginTop": "3em",
+      "marginTop": "5em",
     }
   }
 >
@@ -91,7 +91,6 @@ exports[`ProfileDataTable matches snapshot 1`] = `
       <input
         className="react-phone-number-input__input"
         disabled={true}
-        editable={false}
         onChange={[Function]}
         value="john@doe.com"
       />
@@ -193,7 +192,6 @@ exports[`ProfileDataTable matches snapshot 1`] = `
       <input
         className="react-phone-number-input__input"
         disabled={true}
-        editable={false}
         value="2222222222222"
       />
       <div
@@ -232,7 +230,7 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
       "marginBottom": "3em",
       "marginLeft": "3em",
       "marginRight": "3em",
-      "marginTop": "3em",
+      "marginTop": "5em",
     }
   }
 >
@@ -312,7 +310,6 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
       <input
         className="react-phone-number-input__input"
         disabled={false}
-        editable={false}
         onChange={[Function]}
         value="john@doe.com"
       />
@@ -2001,7 +1998,7 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
       "marginBottom": "3em",
       "marginLeft": "3em",
       "marginRight": "3em",
-      "marginTop": "3em",
+      "marginTop": "5em",
     }
   }
 >
@@ -2081,7 +2078,6 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
       <input
         className="react-phone-number-input__input"
         disabled={false}
-        editable={false}
         error="error"
         onChange={[Function]}
         value="john@doe.com"

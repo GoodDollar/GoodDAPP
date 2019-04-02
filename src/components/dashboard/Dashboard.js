@@ -54,7 +54,7 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
     const { params } = this.state
     const { screenProps, navigation, store }: DashboardProps = this.props
     const { balance, entitlement } = store.get('account')
-    const { fullName } = store.get('profile')
+    const { avatar, fullName } = store.get('profile')
 
     return (
       <View>
@@ -62,7 +62,7 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
         <Wrapper>
           <Section>
             <Section.Row style={styles.centered}>
-              <Avatar size={80} onPress={() => screenProps.push('Profile')} />
+              <Avatar size={80} source={avatar} onPress={() => screenProps.push('Profile')} />
             </Section.Row>
             <Section.Row style={styles.centered}>
               <Section.Title>{fullName || 'John Doe'}</Section.Title>

@@ -3,11 +3,12 @@ import Gun from 'gun'
 import SEA from 'gun/sea'
 import { find, merge, orderBy, toPairs, takeWhile, flatten } from 'lodash'
 import gun from './gundb'
-import { default as goodWallet, GoodWallet } from '../wallet/GoodWallet'
+import { default as goodWallet, type GoodWallet } from '../wallet/GoodWallet'
 import pino from '../logger/pino-logger'
+import { getUserModel, type UserModel } from './UserModel'
+
 const logger = pino.child({ from: 'UserStorage' })
 
-const WAIT = 99
 export type GunDBUser = {
   alias: string,
   epub: string,
@@ -50,6 +51,8 @@ class UserStorage {
   feed: Gun
   user: GunDBUser
   ready: Promise<boolean>
+  subscribersProfileUpdates = []
+  _lastProfileUpdate: any
 
   static indexableFields = {
     email: true,
@@ -94,13 +97,42 @@ class UserStorage {
         this.gunuser.auth(username, password, user => {
           this.user = this.gunuser.is
           this.profile = this.gunuser.get('profile')
-          this.initFeed()
+          this.profile.open(doc => {
+            this._lastProfileUpdate = doc
+            this.subscribersProfileUpdates.forEach(callback => callback(doc))
+          })
+          this.initFeed().then(() => {
+            this.wallet.subscribeToEvent('receiptUpdated', async receipt => {
+              try {
+                const feedEvent = await this.getFeedItemByTransactionHash(receipt.transactionHash)
+                logger.debug('receiptUpdated', { feedEvent, receipt })
+                if (!feedEvent) return
+
+                const updatedFeedEvent = { ...feedEvent, data: { ...feedEvent.data, receipt } }
+                await this.updateFeedEvent(updatedFeedEvent)
+
+                // Checking new feed
+                const feed = await this.getAllFeed()
+                logger.debug('receiptUpdated', { feed, receipt, updatedFeedEvent })
+              } catch (error) {
+                logger.error(error)
+              }
+            })
+          })
           //save ref to user
           gun
             .get('users')
             .get(this.gunuser.is.pub)
             .put(this.gunuser)
           logger.debug('GunDB logged in', { username, pubkey: this.wallet.account, user: this.user.sea })
+          logger.debug('subscribing')
+
+          this.wallet.subscribeToEvent('receive', (err, events) => {
+            logger.debug({ err, events }, 'receive')
+          })
+          this.wallet.subscribeToEvent('send', (err, events) => {
+            logger.debug({ err, events }, 'send')
+          })
           res(true)
           // this.profile = user.get('profile')
         })
@@ -116,6 +148,23 @@ class UserStorage {
   async sign(msg: any) {
     return SEA.sign(msg, this.gunuser.pair())
   }
+
+  async getFeedItemByTransactionHash(transactionHash: string) {
+    const feed = await this.getAllFeed()
+    logger.debug({ feed }, 'feed')
+    const feedItem = feed.find(feedItem => feedItem.id === transactionHash)
+    logger.debug({ feedItem })
+    return feedItem
+  }
+
+  async getAllFeed() {
+    const total = Object.values(await this.feed.get('index')).reduce((acc, curr) => acc + curr)
+    logger.debug({ total })
+    const feed = await this.getFeedPage(total, true)
+    logger.debug({ feed })
+    return feed
+  }
+
   updateFeedIndex = (changed: any, field: string) => {
     if (field !== 'index' || changed === undefined) return
     delete changed._
@@ -144,25 +193,57 @@ class UserStorage {
   }
 
   async getDisplayProfile(profile: {}): Promise<any> {
-    return Object.keys(profile).reduce((acc, currKey, arr) => ({ ...acc, [currKey]: profile[currKey].display }), {})
+    const displayProfile = Object.keys(profile).reduce(
+      (acc, currKey, arr) => ({ ...acc, [currKey]: profile[currKey].display }),
+      {}
+    )
+    return getUserModel(displayProfile)
   }
 
   async getPrivateProfile(profile: {}) {
     const keys = Object.keys(profile)
-    return Promise.all(keys.map(currKey => this.getProfileFieldValue(currKey))).then(values => {
-      return values.reduce((acc, currValue, index) => {
-        const currKey = keys[index]
-        return { ...acc, [currKey]: currValue }
-      }, {})
-    })
+    return Promise.all(keys.map(currKey => this.getProfileFieldValue(currKey)))
+      .then(values => {
+        return values.reduce((acc, currValue, index) => {
+          const currKey = keys[index]
+          return { ...acc, [currKey]: currValue }
+        }, {})
+      })
+      .then(getUserModel)
   }
 
-  getProfile(callback: any => void) {
-    this.profile.open(
-      doc => {
-        callback(doc)
-      },
-      { wait: WAIT }
+  subscribeProfileUpdates(callback: any => void) {
+    this.subscribersProfileUpdates.push(callback)
+    if (this._lastProfileUpdate) callback(this._lastProfileUpdate)
+  }
+
+  unSubscribeProfileUpdates() {
+    this.subscribersProfileUpdates = []
+  }
+
+  async setProfile(profile: UserModel) {
+    const { errors, isValid } = profile.validate()
+    if (!isValid) {
+      throw new Error(errors)
+    }
+
+    const profileSettings = {
+      fullName: { defaultPrivacy: 'public' },
+      email: { defaultPrivacy: 'masked' },
+      mobile: { defaultPrivacy: 'masked' },
+      avatar: { defaultPrivacy: 'public' },
+      walletAddress: { defaultPrivacy: 'public' }
+    }
+
+    const getPrivacy = async field => {
+      const currentPrivacy = await this.profile.get(field).get('privacy')
+      return currentPrivacy || profileSettings[field].defaultPrivacy || 'public'
+    }
+
+    return Promise.all(
+      Object.keys(profileSettings)
+        .filter(key => profile[key])
+        .map(async field => this.setProfileField(field, profile[field], await getPrivacy(field)))
     )
   }
 
@@ -203,6 +284,7 @@ class UserStorage {
         .get('by' + field)
         .get(cleanValue)
         .putAck(null)
+
     return gun
       .get('users')
       .get('by' + field)
@@ -243,6 +325,8 @@ class UserStorage {
     return results
   }
   async updateFeedEvent(event: FeedEvent): Promise<ACK> {
+    logger.debug(event)
+
     let date = new Date(event.date)
     let day = `${date.toISOString().slice(0, 10)}`
     let dayEventsArr: Array<FeedEvent> = (await this.feed.get(day).decrypt()) || []

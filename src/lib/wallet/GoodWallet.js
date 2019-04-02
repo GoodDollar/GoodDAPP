@@ -387,7 +387,7 @@ export class GoodWallet {
   }
   //FIXME: what's this for? why does it read events from block0
   async canWithdraw(otlCode: string) {
-    const { isLinkUsed, payments } = this.oneTimePaymentLinksContract.methods
+    const { isLinkUsed, payments, senders } = this.oneTimePaymentLinksContract.methods
     const { sha3, toBN } = this.wallet.utils
 
     const link = sha3(otlCode)
@@ -407,24 +407,10 @@ export class GoodWallet {
       throw new Error('deposit already withdrawn')
     }
 
-    const events = await this.oneTimeEvents({
-      event: 'PaymentDeposit',
-      contract: this.oneTimePaymentLinksContract,
-      fromBlock: '0',
-      toBlock: 'latest',
-      filter: { hash: link }
-    })
-
-    log.debug({ events })
-
-    const { from } = _(events)
-      .filter({ returnValues: { hash: link } })
-      .map('returnValues')
-      .value()[0]
-
+    const sender = await senders(link).call()
     return {
       amount: paymentAvailable.toString(),
-      sender: from
+      sender
     }
   }
 

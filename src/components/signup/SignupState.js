@@ -8,7 +8,6 @@ import SmsForm from './SmsForm'
 import EmailConfirmation from './EmailConfirmation'
 import FaceRecognition from './FaceRecognition'
 import SignupCompleted from './SignupCompleted'
-import { CustomDialog } from '../common/'
 import NavBar from '../appNavigation/NavBar'
 
 import { createSwitchNavigator } from '@react-navigation/core'
@@ -17,14 +16,14 @@ import logger from '../../lib/logger/pino-logger'
 import { useWrappedApi } from '../../lib/API/useWrappedApi'
 import goodWallet from '../../lib/wallet/GoodWallet'
 
-import type { UserRecord } from '../../lib/API/api'
 import userStorage from '../../lib/gundb/UserStorage'
 import type { SMSRecord } from './SmsForm'
 import GDStore from '../../lib/undux/GDStore'
+import { getUserModel, type UserModel } from '../../lib/gundb/UserModel'
 
 const log = logger.child({ from: 'SignupState' })
 
-export type SignupState = UserRecord & SMSRecord & { loading?: boolean }
+export type SignupState = UserRecord & SMSRecord
 
 const SignupWizardNavigator = createSwitchNavigator({
   Name: NameForm,
@@ -39,10 +38,12 @@ const SignupWizardNavigator = createSwitchNavigator({
 const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any }) => {
   const API = useWrappedApi()
   const initialState: SignupState = {
+    ...getUserModel({
+      fullName: '',
+      email: '',
+      mobile: ''
+    }),
     pubkey: goodWallet.account,
-    fullName: '',
-    email: '',
-    mobile: '',
     smsValidated: false,
     isEmailConfirmed: false,
     jwt: ''
@@ -52,7 +53,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   const store = GDStore.useStore()
   const { loading } = store.get('currentScreen')
   function saveProfile() {
-    ;['fullName', 'email', 'mobile'].forEach(field => userStorage.setProfileField(field, state[field], 'masked'))
+    userStorage.setProfile(state)
   }
 
   const done = async (data: { [string]: string }) => {

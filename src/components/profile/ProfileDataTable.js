@@ -11,7 +11,7 @@ const log = logger.child({ from: 'ProfileDataTable' })
 
 const ProfileInput = props => (
   <View style={styles.inputWrapper}>
-    <input {...props} editable={false} className="react-phone-number-input__input" />
+    <input {...props} className="react-phone-number-input__input" />
     <HelperText type="error" visible={props.error} style={styles.error}>
       {props.error}
     </HelperText>
@@ -53,6 +53,7 @@ const ProfileDataTable = props => {
 const styles = StyleSheet.create({
   table: {
     margin: '3em',
+    marginTop: '5em',
     borderTopStyle: 'solid',
     borderTopColor: '#d2d2d2',
     borderTopWidth: '1px'

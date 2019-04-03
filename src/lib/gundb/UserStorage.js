@@ -41,16 +41,16 @@ export type TransactionEvent = FeedEvent & {
   }
 }
 
-const getReceiveDataFromReceipt = receipt => {
+const getReceiveDataFromReceipt = (account, receipt) => {
   const transferLog = receipt.logs.find(log => {
     const { events } = log
     const eventIndex = events.findIndex(
-      event => event.name === 'to' && event.value === '0xcb07bf5869a9f4f17ad7cc07c5c15deb5ac665fb'
+      event => event.name === 'to' && event.value.toLowerCase() === account.toLowerCase()
     )
-    logger.debug({ log, eventIndex })
+    logger.debug({ log, eventIndex, account })
     return eventIndex >= 0
   })
-  logger.debug({ transferLog })
+  logger.debug({ transferLog, account })
   return transferLog.events.reduce((acc, curr) => {
     return { ...acc, [curr.name]: curr.value }
   }, {})
@@ -141,7 +141,7 @@ class UserStorage {
 
           this.wallet.subscribeToEvent('receiptReceived', async receipt => {
             try {
-              const data = getReceiveDataFromReceipt(receipt)
+              const data = getReceiveDataFromReceipt(this.wallet.account, receipt)
               logger.debug('receiptReceived', { receipt, data })
               const updatedFeedEvent = {
                 id: receipt.transactionHash,

@@ -20,6 +20,8 @@ const VIEWABILITY_CONFIG = {
 
 const { height } = Dimensions.get('window')
 
+let AnimatedFlatList = Animated.createAnimatedComponent(SwipeableFlatList)
+
 export type FeedListProps = {
   title: string,
   fixedHeight: boolean,
@@ -48,6 +50,14 @@ type InfoType = {
   }>
 }
 
+type ItemComponentProps = {
+  item: any,
+  separators: {
+    highlight: any,
+    unhighlight: any
+  }
+}
+
 type ItemSeparatorComponentProps = { highlighted: boolean }
 
 class FeedList extends PureComponent<FeedListProps, FeedListState> {
@@ -59,7 +69,11 @@ class FeedList extends PureComponent<FeedListProps, FeedListState> {
     horizontal: false
   }
 
-  captureRef = ref => {
+  componentDidMount() {
+    this.listRef = AnimatedFlatList
+  }
+
+  captureRef = (ref: any) => {
     this.listRef = ref
   }
 
@@ -85,21 +99,23 @@ class FeedList extends PureComponent<FeedListProps, FeedListState> {
     }
   }
 
+  listRef = AnimatedFlatList
+
   scrollPos = new Animated.Value(0)
 
   scrollSinkX = Animated.event([{ nativeEvent: { contentOffset: { x: this.scrollPos } } }], { useNativeDriver: true })
 
   scrollSinkY = Animated.event([{ nativeEvent: { contentOffset: { y: this.scrollPos } } }], { useNativeDriver: true })
 
-  // componentDidUpdate() {
-  //   const node = this.listRef.getNode()
-  //   if (node) {
-  //     console.log(node)
-  //     node.recordInteraction() // e.g. flipping logViewable switch
-  //   }
-  // }
+  componentDidUpdate() {
+    const node = this.listRef.getNode()
+    if (node) {
+      console.log(node)
+      node.recordInteraction() // e.g. flipping logViewable switch
+    }
+  }
 
-  renderItemComponent = ({ item, separators }) => {
+  renderItemComponent = ({ item, separators }: ItemComponentProps) => {
     const { fixedHeight } = this.props
     const { horizontal } = this.state
     const itemProps = {
@@ -118,7 +134,8 @@ class FeedList extends PureComponent<FeedListProps, FeedListState> {
     let viewStyles = horizontal ? styles.horizontalContainer : styles.verticalContainer
     let listStyles = horizontal ? styles.horizontalList : styles.verticalList
 
-    const AnimatedFlatList = Animated.createAnimatedComponent(horizontal ? FlatList : SwipeableFlatList)
+    AnimatedFlatList = Animated.createAnimatedComponent(horizontal ? FlatList : SwipeableFlatList)
+    this.listRef = AnimatedFlatList
 
     return (
       <ScrollView style={viewStyles} horizontal={horizontal}>

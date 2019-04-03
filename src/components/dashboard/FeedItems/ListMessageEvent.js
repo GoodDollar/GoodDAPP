@@ -1,10 +1,25 @@
+// @flow
 import React from 'react'
 import { Icon } from 'react-native-elements'
 import { Avatar } from 'react-native-paper'
 import { Text, View } from 'react-native-web'
 import { listStyles } from './EventStyles'
 
-const FeedListItem = ({ item: feed }) => {
+type FeedItemProps = {
+  item: {
+    date: string,
+    id: string,
+    data: {
+      message: string,
+      endpoint: {
+        avatar: string,
+        title: string
+      }
+    }
+  }
+}
+
+const FeedListItem = ({ item: feed }: FeedItemProps) => {
   return (
     <View style={listStyles.innerRow}>
       <View>

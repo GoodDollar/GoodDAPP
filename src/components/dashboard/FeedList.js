@@ -5,7 +5,7 @@ import { normalize } from 'react-native-elements'
 import FeedActions from './FeedActions'
 import FeedListItem from './FeedItems/FeedListItem'
 import FeedModalItem from './FeedItems/FeedModalItem'
-import { ScrollView } from 'react-native-web'
+// import { ScrollView } from 'react-native-web'
 
 const SCREEN_SIZE = {
   width: 200,
@@ -95,7 +95,8 @@ class FeedList extends PureComponent<FeedListProps, FeedListState> {
     this.setState(state => ({ horizontal: !state.horizontal }))
     const node = this.listRef.getNode()
     if (node) {
-      this.listRef.getNode().recordInteraction()
+      console.log(node)
+      node.recordInteraction()
     }
   }
 
@@ -110,6 +111,7 @@ class FeedList extends PureComponent<FeedListProps, FeedListState> {
   componentDidUpdate() {
     const node = this.listRef.getNode()
     if (node) {
+      console.log('node: ............')
       console.log(node)
       node.recordInteraction() // e.g. flipping logViewable switch
     }
@@ -138,13 +140,14 @@ class FeedList extends PureComponent<FeedListProps, FeedListState> {
     this.listRef = AnimatedFlatList
 
     return (
-      <ScrollView style={viewStyles} horizontal={horizontal}>
+      <View style={viewStyles} horizontal={horizontal}>
         <AnimatedFlatList
           bounceFirstRowOnMount={true}
           maxSwipeDistance={160}
           initialNumToRender={5}
           ItemSeparatorComponent={ItemSeparatorComponent}
           data={data}
+          debug
           disableVirtualization={!virtualized}
           getItemLayout={fixedHeight ? this.getItemLayout : undefined}
           horizontal={horizontal}
@@ -167,7 +170,7 @@ class FeedList extends PureComponent<FeedListProps, FeedListState> {
           viewabilityConfig={VIEWABILITY_CONFIG}
           renderQuickActions={FeedActions}
         />
-      </ScrollView>
+      </View>
     )
   }
 }

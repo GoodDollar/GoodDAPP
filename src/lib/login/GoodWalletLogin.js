@@ -15,14 +15,15 @@ export class GoodWalletLogin extends LoginService {
   }
 
   async login(): Promise<Credentials> {
-    const toSign = 'Login to GoodDAPP'
-
-    const signature = await this.wallet.sign(toSign)
+    const toSign = LoginService.toSign
+    const nonce = this.wallet.wallet.utils.randomHex(10).replace('0x', '')
+    const signature = await this.wallet.sign(toSign + nonce, 'login')
+    const gdSignature = await this.wallet.sign(toSign + nonce, 'gd')
 
     const creds = {
-      pubkey: this.wallet.account,
-      signature: signature,
-      jwt: ''
+      signature,
+      gdSignature,
+      nonce
     }
 
     log.info('returning creds', { creds })

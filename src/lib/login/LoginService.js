@@ -3,10 +3,12 @@ import { AsyncStorage } from 'react-native'
 import type { Credentials } from '../API/api'
 import API from '../API/api'
 import logger from '../logger/pino-logger'
+import UserStorage from '../gundb/UserStorage'
 
 const log = logger.child({ from: 'LoginService' })
 
 class LoginService {
+  static toSign = 'Login to GoodDAPP'
   credentials: ?Credentials
 
   jwt: ?string
@@ -47,20 +49,22 @@ class LoginService {
 
   async auth(): Promise<?Credentials | Error> {
     if (this.credentials && this.jwt) {
+      this.credentials.jwt = this.jwt
       log.info('Got existing credentials', this.credentials)
       return Promise.resolve(this.credentials)
     }
 
-    const creds = await this.login()
-    log.info('signed message')
+    let creds = await this.login()
+    creds.profileSignature = await UserStorage.sign(LoginService.toSign + creds.nonce)
+    creds.profilePublickey = UserStorage.user.pub
+    log.info('signed message', creds)
     this.storeCredentials(creds)
-    log.info('stored creds')
 
     // TODO: write the nonce https://gitlab.com/gooddollar/gooddapp/issues/1
     log.info('Calling server for authentication')
     const authResult: Promise<Credentials | Error> = API.auth(creds)
       .then(res => {
-        log.info(res)
+        log.info('Got auth response', res)
         if (res.status === 200) {
           const data = res.data
           creds.jwt = data.token

@@ -42,7 +42,6 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       email: '',
       mobile: ''
     }),
-    pubkey: goodWallet.account,
     smsValidated: false,
     isEmailConfirmed: false,
     jwt: ''
@@ -52,7 +51,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   const store = GDStore.useStore()
   const { loading } = store.get('currentScreen')
   function saveProfile() {
-    userStorage.setProfile(state)
+    userStorage.setProfile({ ...state, walletAddress: goodWallet.account })
   }
 
   const done = async (data: { [string]: string }) => {
@@ -78,20 +77,17 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
           await API.verifyUser({})
           const destinationPath = store.get('destinationPath')
           store.set('isLoggedInCitizen')(true)
-
+          // top wallet of new user
+          // wait for the topping to complete to be able to withdraw
+          await API.verifyTopWallet()
           if (destinationPath !== '') {
-            store.set('destinationPath')('')
-            // top wallet of new user
-            // wait for the topping to complete to be able to withdraw
-            await API.verifyTopWallet()
             navigation.navigate(JSON.parse(destinationPath))
+            store.set('destinationPath')('')
           } else {
-            //top wallet of new user
-            API.verifyTopWallet()
             navigation.navigate('AppNavigation')
           }
         } catch (error) {
-          console.log({ error })
+          log.error('New user failure', { error })
         }
       }
     }

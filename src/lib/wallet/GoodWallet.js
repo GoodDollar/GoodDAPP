@@ -11,6 +11,7 @@ import { utils } from 'web3'
 import Config from '../../config/config'
 import logger from '../../lib/logger/pino-logger'
 import WalletFactory from './WalletFactory'
+import abiDecoder from 'abi-decoder'
 
 const log = logger.child({ from: 'GoodWallet' })
 
@@ -34,14 +35,6 @@ type GasValues = {
  * we use different accounts for different actions in order to preserve privacy and simplify things for user
  * in background
  */
-const AccountUsageToPath = {
-  gd: 0,
-  gundb: 1,
-  eth: 2,
-  donate: 3
-}
-
-export type AccountUsage = $Keys<typeof AccountUsageToPath>
 
 type QueryEvent = {
   event: string,
@@ -52,6 +45,13 @@ type QueryEvent = {
 }
 
 export class GoodWallet {
+  static AccountUsageToPath = {
+    gd: 0,
+    gundb: 1,
+    eth: 2,
+    donate: 3,
+    login: 4
+  }
   ready: Promise<Web3>
   wallet: Web3
   accountsContract: Web3.eth.Contract
@@ -91,9 +91,10 @@ export class GoodWallet {
               log.error('no event', events)
               return
             }
-            this.wallet.eth
-              .getTransactionReceipt(event.transactionHash)
-              .then(receipt => this.notifyTransaction(event.transactionHash, receipt))
+            this.wallet.eth.getTransactionReceipt(event.transactionHash).then(receipt => {
+              const logs = abiDecoder.decodeLogs(receipt.logs)
+              this.getSubscribers('receiptUpdated').forEach(cb => cb({ ...receipt, logs }))
+            })
             // Send for all events. We could define here different events
             this.getSubscribers('send').forEach(cb => cb(error, events))
             this.getSubscribers('balanceChanged').forEach(cb => cb(error, events))
@@ -117,7 +118,11 @@ export class GoodWallet {
             }
             this.wallet.eth
               .getTransactionReceipt(event.transactionHash)
-              .then(receipt => this.notifyTransaction(event.transactionHash, receipt))
+              .then(receipt => {
+                const logs = abiDecoder.decodeLogs(receipt.logs)
+                this.getSubscribers('receiptReceived').forEach(cb => cb({ ...receipt, logs }))
+              })
+              .catch(err => log.error(err))
 
             this.getSubscribers('receive').forEach(cb => cb(error, events))
             this.getSubscribers('balanceChanged').forEach(cb => cb(error, events))
@@ -129,10 +134,10 @@ export class GoodWallet {
   init(): Promise<any> {
     const ready = WalletFactory.create('software')
     this.ready = ready
-      .then(wallet => {
+      .then(async wallet => {
         this.wallet = wallet
-        this.account = this.wallet.eth.defaultAccount
         this.accounts = this.wallet.eth.accounts.wallet
+        this.account = (await this.getAccountForType('gd')) || this.wallet.eth.defaultAccount
         this.networkId = Config.networkId
         this.gasPrice = wallet.utils.toWei('1', 'gwei')
         this.identityContract = new this.wallet.eth.Contract(
@@ -150,6 +155,7 @@ export class GoodWallet {
           GoodDollarABI.networks[this.networkId].address,
           { from: this.account }
         )
+        abiDecoder.addABI(GoodDollarABI.abi)
         this.reserveContract = new this.wallet.eth.Contract(
           ReserveABI.abi,
           ReserveABI.networks[this.networkId].address,
@@ -164,8 +170,8 @@ export class GoodWallet {
             from: this.account
           }
         )
+        log.info('GoodWallet Ready.', { accounts: this.accounts, account: this.account })
         this.listenTxUpdates()
-        log.info('GoodWallet Ready.')
       })
       .catch(e => {
         log.error('Failed initializing GoodWallet', e)
@@ -174,7 +180,7 @@ export class GoodWallet {
     return this.ready
   }
 
-  async claim() {
+  async claim(): Promise<TransactionReceipt> {
     try {
       return this.sendTransaction(this.claimContract.methods.claimTokens())
     } catch (e) {
@@ -183,15 +189,8 @@ export class GoodWallet {
     }
   }
 
-  async checkEntitlement() {
+  async checkEntitlement(): Promise<number> {
     return await this.claimContract.methods.checkEntitlement().call()
-  }
-
-  notifyTransaction(transactionHash: string, receipt: any) {
-    const subscribers = this.getSubscribers('receiptUpdated')
-    log.debug({ transactionHash, subscribers, receipt }, 'notifyTransaction')
-
-    subscribers.forEach(cb => cb(receipt))
   }
 
   /**
@@ -323,7 +322,7 @@ export class GoodWallet {
     setTimeout(() => this.pollForEvents({ event, contract, filter, fromBlock, toBlock }, callback, toBlock), INTERVAL)
   }
 
-  async balanceOf() {
+  async balanceOf(): Promise<number> {
     return this.tokenContract.methods.balanceOf(this.account).call()
   }
 
@@ -331,12 +330,12 @@ export class GoodWallet {
 
   sendTx() {}
 
-  async getAccountForType(type: AccountUsage) {
-    let account = this.accounts[AccountUsageToPath[type]].address || this.account
+  async getAccountForType(type: AccountUsage): Promise<string> {
+    let account = this.accounts[GoodWallet.AccountUsageToPath[type]].address || this.account
     return account
   }
 
-  async sign(toSign: string, accountType: AccountUsage = 'gd') {
+  async sign(toSign: string, accountType: AccountUsage = 'gd'): Promise<Buffer> {
     let account = await this.getAccountForType(accountType)
     return this.wallet.eth.sign(toSign, account)
   }
@@ -351,7 +350,7 @@ export class GoodWallet {
     return tx
   }
 
-  async canSend(amount: number) {
+  async canSend(amount: number): Promise<boolean> {
     const balance = await this.balanceOf()
     return amount < balance
   }
@@ -386,9 +385,9 @@ export class GoodWallet {
       receipt
     }
   }
-
+  //FIXME: what's this for? why does it read events from block0
   async canWithdraw(otlCode: string) {
-    const { isLinkUsed, payments } = this.oneTimePaymentLinksContract.methods
+    const { isLinkUsed, payments, senders } = this.oneTimePaymentLinksContract.methods
     const { sha3, toBN } = this.wallet.utils
 
     const link = sha3(otlCode)
@@ -408,24 +407,10 @@ export class GoodWallet {
       throw new Error('deposit already withdrawn')
     }
 
-    const events = await this.oneTimeEvents({
-      event: 'PaymentDeposit',
-      contract: this.oneTimePaymentLinksContract,
-      fromBlock: '0',
-      toBlock: 'latest',
-      filter: { hash: link }
-    })
-
-    log.debug({ events })
-
-    const { from } = _(events)
-      .filter({ returnValues: { hash: link } })
-      .map('returnValues')
-      .value()[0]
-
+    const sender = await senders(link).call()
     return {
       amount: paymentAvailable.toString(),
-      sender: from
+      sender
     }
   }
 
@@ -448,7 +433,7 @@ export class GoodWallet {
     throw err
   }
 
-  async getGasPrice() {
+  async getGasPrice(): Promise<number> {
     let gasPrice = this.gasPrice
 
     try {
@@ -465,7 +450,7 @@ export class GoodWallet {
     return gasPrice
   }
 
-  async sendAmount(to: string, amount: number, events: PromiEvents) {
+  async sendAmount(to: string, amount: number, events: PromiEvents): Promise<TransactionReceipt> {
     if (!this.wallet.utils.isAddress(to)) {
       throw new Error('Address is invalid')
     }
@@ -518,4 +503,5 @@ export class GoodWallet {
   }
 }
 
+export type AccountUsage = $Keys<typeof GoodWallet.AccountUsageToPath>
 export default new GoodWallet()

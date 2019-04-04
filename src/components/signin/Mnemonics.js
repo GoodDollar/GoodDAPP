@@ -6,26 +6,10 @@ import { normalize } from 'react-native-elements'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import logger from '../../lib/logger/pino-logger'
 
-type Props = {
-  // callback to report to parent component
-  doneCallback: ({ signUp: string }) => null,
-  screenProps: {
-    doneCallback: ({ [string]: string }) => null
-  }
-}
-
 const log = logger.child({ from: 'Mnemonics' })
 
-class SignUpScreen extends React.Component<Props> {
-  componentDidMount() {
-    log.info('...', goodWallet)
-  }
-
-  handleDone = () => {
-    this.props.screenProps.doneCallback({ mnemonics: 'mnemonics' })
-  }
-
-  handleChange = (text: string) => {
+const Mnemonics = () => {
+  const handleChange = (text: string) => {
     const sanitizedWords = text
       .replace(/[\t\n]+/g, ' ')
       .replace(/<.*>/g, '')
@@ -40,62 +24,47 @@ class SignUpScreen extends React.Component<Props> {
       // TODO: recover wallet with mnemonics
     }
   }
-
-  render() {
-    return (
-      <View style={styles.wrapper}>
-        <View styles={styles.topContainer}>
-          <View style={styles.textContainer}>
-            <Paragraph style={[styles.fontBase, styles.paragraph]}>Please enter your 12-word passphrase:</Paragraph>
-          </View>
-
-          <View style={styles.formContainer}>
-            {/* TODO: this might require to be refactored to use 12 individual inputs as specified in the mocks */}
-            <TextInput multiline={true} numberOfLines={4} onChangeText={this.handleChange} />
-          </View>
+  return (
+    <View style={styles.wrapper}>
+      <View style={styles.topContainer}>
+        <View style={styles.textContainer}>
+          <Paragraph style={[styles.fontBase, styles.paragraph]}>Please enter your 12-word passphrase:</Paragraph>
         </View>
 
-        <View style={styles.bottomContainer}>
-          <View style={styles.buttonsContainer}>
-            <Button style={[styles.buttonLayout, styles.recoverButton]} mode="contained" onPress={this.handleDone}>
-              <Text style={styles.buttonText}>RECOVER MY WALLET</Text>
-            </Button>
-          </View>
+        <View style={styles.formContainer}>
+          {/* TODO: this might require to be refactored to use 12 individual inputs as specified in the mocks */}
+          <TextInput multiline={true} numberOfLines={4} onChangeText={handleChange} />
         </View>
       </View>
-    )
-  }
+      <View style={styles.bottomContainer}>
+        <Button style={[styles.buttonLayout, styles.recoverButton]} mode="contained" onPress={() => log.debug('done')}>
+          <Text style={styles.buttonText}>RECOVER MY WALLET</Text>
+        </Button>
+      </View>
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
   wrapper: {
-    height: '100%',
-    paddingLeft: '4%',
-    paddingRight: '4%',
-    justifyContent: 'space-between',
-    display: 'flex',
     flex: 1,
-    alignItems: 'center'
+    flexDirection: 'column',
+    display: 'flex',
+    padding: '1em',
+    justifyContent: 'space-between'
   },
   topContainer: {
-    flexGrow: 1,
+    flex: 2,
     display: 'flex',
-    justifyContent: 'space-evenly'
-  },
-  formContainer: {
-    marginBottom: 50,
-    paddingTop: 30
+    justifyContent: 'center',
+    padding: 0,
+    margin: 0
   },
   bottomContainer: {
-    marginBottom: 50,
-    paddingTop: 30
-  },
-  textContainer: {
-    paddingTop: '50%',
-    marginTop: -30
-  },
-  buttonsContainer: {
-    marginTop: 30
+    display: 'flex',
+    flex: 1,
+    paddingTop: normalize(20),
+    justifyContent: 'flex-end'
   },
   fontBase: {
     fontFamily: 'Helvetica, "sans-serif"',
@@ -128,4 +97,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default SignUpScreen
+export default Mnemonics

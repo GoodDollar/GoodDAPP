@@ -8,7 +8,7 @@ import BigGoodDollar from '../../common/BigGoodDollar'
 const ModalWithdrawEvent = ({ item: feed }) => {
   return (
     <View style={styles.modal}>
-      <Text>{new Date(feed.date).toLocaleString()}</Text>
+      <Text>{new Date(feed.date).toLocaleDateString()}</Text>
       <View style={styles.row}>
         {feed.data.endpoint.title && <Text style={styles.leftTitle}>{feed.data.endpoint.title}</Text>}
         <Text style={styles.leftTitle}>Received GD</Text>

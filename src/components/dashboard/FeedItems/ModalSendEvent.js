@@ -13,7 +13,7 @@ const ModalSendEvent = ({ item: feed }) => {
         <Text style={styles.leftTitle}>Sent GD</Text>
         <BigGoodDollar number={feed.data.amount} elementStyles={styles.currency} />
       </View>
-      <Text>{new Date(feed.date).toLocaleString()}</Text>
+      <Text>{new Date(feed.date).toLocaleDateString()}</Text>
       <View style={styles.hrLine} />
       <View style={styles.row}>
         <Avatar.Image size={48} style={{ backgroundColor: 'white' }} source={feed.data.endpoint.avatar} />

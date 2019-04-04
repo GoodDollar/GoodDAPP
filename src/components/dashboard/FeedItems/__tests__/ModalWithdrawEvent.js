@@ -1,17 +1,20 @@
 import React from 'react'
-import ModalWithdrawEvent from '../ModalWithdrawEvent'
+// import { getComponentWithMock } from './__util__/index'
 
 // Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer'
+import ModalWithdrawEvent from '../ModalWithdrawEvent'
+import { generateEvent } from '../../../../lib/share'
 
 describe('ModalWithdrawEvent', () => {
+  const props = generateEvent('withdraw')
   it('renders without errors', () => {
-    const tree = renderer.create(<ModalWithdrawEvent />)
+    const tree = renderer.create(<ModalWithdrawEvent {...props} />)
     expect(tree.toJSON()).toBeTruthy()
   })
 
   it('matches snapshot', () => {
-    const component = renderer.create(<ModalWithdrawEvent />)
+    const component = renderer.create(<ModalWithdrawEvent {...props} />)
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

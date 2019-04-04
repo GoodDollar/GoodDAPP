@@ -1,0 +1,291 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ModalSendEvent matches snapshot 1`] = `
+<div
+  className="css-view-1dbjc4n"
+  style={
+    Object {
+      "WebkitBoxFlex": 1,
+      "WebkitFlexBasis": "0%",
+      "WebkitFlexGrow": 1,
+      "WebkitFlexShrink": 1,
+      "backgroundColor": "rgba(255,255,255,1.00)",
+      "borderBottomColor": "rgba(201,200,201,1.00)",
+      "borderBottomLeftRadius": "4px",
+      "borderBottomRightRadius": "4px",
+      "borderBottomWidth": "2px",
+      "borderLeftColor": "rgba(201,200,201,1.00)",
+      "borderLeftWidth": "10px",
+      "borderRightColor": "rgba(201,200,201,1.00)",
+      "borderRightWidth": "2px",
+      "borderTopColor": "rgba(201,200,201,1.00)",
+      "borderTopLeftRadius": "4px",
+      "borderTopRightRadius": "4px",
+      "borderTopWidth": "2px",
+      "flexBasis": "0%",
+      "flexGrow": 1,
+      "flexShrink": 1,
+      "msFlexNegative": 1,
+      "msFlexPositive": 1,
+      "msFlexPreferredSize": "0%",
+      "paddingBottom": "30px",
+      "paddingLeft": "30px",
+      "paddingRight": "30px",
+      "paddingTop": "30px",
+    }
+  }
+>
+  <div
+    className="css-view-1dbjc4n"
+    style={
+      Object {
+        "WebkitAlignItems": "center",
+        "WebkitBoxAlign": "center",
+        "WebkitBoxDirection": "normal",
+        "WebkitBoxOrient": "horizontal",
+        "WebkitBoxPack": "end",
+        "WebkitFlexDirection": "row",
+        "WebkitJustifyContent": "flex-end",
+        "alignItems": "center",
+        "backgroundColor": "rgba(255,255,255,1.00)",
+        "flexDirection": "row",
+        "justifyContent": "flex-end",
+        "msFlexAlign": "center",
+        "msFlexDirection": "row",
+        "msFlexPack": "end",
+        "paddingBottom": "0px",
+        "paddingLeft": "0px",
+        "paddingRight": "0px",
+        "paddingTop": "0px",
+      }
+    }
+  >
+    <div
+      className="css-text-76zvg2"
+      dir="auto"
+      style={
+        Object {
+          "WebkitBoxFlex": 1,
+          "WebkitFlexBasis": "0%",
+          "WebkitFlexGrow": 1,
+          "WebkitFlexShrink": 1,
+          "color": "rgba(0,0,0,1.00)",
+          "flexBasis": "0%",
+          "flexGrow": 1,
+          "flexShrink": 1,
+          "fontFamily": "Helvetica, \\"sans-serif\\"",
+          "fontSize": "16px",
+          "fontWeight": "bold",
+          "msFlexNegative": 1,
+          "msFlexPositive": 1,
+          "msFlexPreferredSize": "0%",
+        }
+      }
+    >
+      Sent GD
+    </div>
+    <div
+      className="css-view-1dbjc4n"
+      style={
+        Object {
+          "display": "inline-block",
+        }
+      }
+    >
+      <div
+        className="css-text-76zvg2"
+        dir="auto"
+        style={
+          Object {
+            "color": "rgba(0,0,0,1.00)",
+            "direction": "ltr",
+            "fontFamily": "Helvetica, \\"sans-serif\\"",
+            "fontSize": "16px",
+            "fontWeight": "bold",
+            "textAlign": "right",
+          }
+        }
+      >
+        0.04
+      </div>
+      <div
+        className="css-text-76zvg2"
+        dir="auto"
+        style={
+          Object {
+            "color": "rgba(0,0,0,1.00)",
+            "direction": "ltr",
+            "fontFamily": "Helvetica, \\"sans-serif\\"",
+            "fontSize": "16px",
+            "fontWeight": "bold",
+            "textAlign": "right",
+          }
+        }
+      >
+        GD
+      </div>
+    </div>
+  </div>
+  <div
+    className="css-text-76zvg2"
+    dir="auto"
+  >
+    4/1/2019
+  </div>
+  <div
+    className="css-view-1dbjc4n"
+    style={
+      Object {
+        "borderBottomColor": "rgba(201,200,201,1.00)",
+        "borderBottomWidth": "1px",
+        "marginBottom": "10px",
+        "marginTop": "10px",
+        "width": "100%",
+      }
+    }
+  />
+  <div
+    className="css-view-1dbjc4n"
+    style={
+      Object {
+        "WebkitAlignItems": "center",
+        "WebkitBoxAlign": "center",
+        "WebkitBoxDirection": "normal",
+        "WebkitBoxOrient": "horizontal",
+        "WebkitBoxPack": "end",
+        "WebkitFlexDirection": "row",
+        "WebkitJustifyContent": "flex-end",
+        "alignItems": "center",
+        "backgroundColor": "rgba(255,255,255,1.00)",
+        "flexDirection": "row",
+        "justifyContent": "flex-end",
+        "msFlexAlign": "center",
+        "msFlexDirection": "row",
+        "msFlexPack": "end",
+        "paddingBottom": "0px",
+        "paddingLeft": "0px",
+        "paddingRight": "0px",
+        "paddingTop": "0px",
+      }
+    }
+  >
+    <div
+      className="css-view-1dbjc4n"
+      style={
+        Object {
+          "backgroundColor": "rgba(255,255,255,1.00)",
+          "borderBottomLeftRadius": "24px",
+          "borderBottomRightRadius": "24px",
+          "borderTopLeftRadius": "24px",
+          "borderTopRightRadius": "24px",
+          "height": "48px",
+          "width": "48px",
+        }
+      }
+    >
+      <div
+        className="css-view-1dbjc4n"
+        style={
+          Object {
+            "WebkitFlexBasis": "auto",
+            "borderBottomLeftRadius": "24px",
+            "borderBottomRightRadius": "24px",
+            "borderTopLeftRadius": "24px",
+            "borderTopRightRadius": "24px",
+            "flexBasis": "auto",
+            "height": "48px",
+            "msFlexPreferredSize": "auto",
+            "overflowX": "hidden",
+            "overflowY": "hidden",
+            "width": "48px",
+            "zIndex": 0,
+          }
+        }
+      >
+        <div
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "backgroundColor": "rgba(0,0,0,0.00)",
+              "backgroundImage": "url(\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAkCAIAAAB0Xu9BAAAABGdBTUEAALGPC/xhBQAAAuNJREFUWEetmD1WHDEQhDdxRMYlnBFyBIccgdQhKVcgJeQMpE5JSTd2uqnvIGpVUqmm9TPrffD0eLMzUn+qVnXPwiFd/PP6eLh47v7EaazbmxsOxjhTT88z9hV7GoNF1cUCvN7TTPv/gf/+uQPm862MWTL6fff4HfDx4S79/oVAlAUwqOmYR0rnazuFnhfOy/ErMKkcBFOr1vOjUi2MFn4nuMil6OPh5eGANLhW3y6u3aH7ijEDCxgCvzFmimvc95TekZLyMSeJC68Bkw0kqUy1K87FlpGZqsGFCyqEtQNDdFUtFctTiuhnPKNysid/WFEFLE2O102XJdEE+8IgeuGsjeJyGHm/xHvQ3JtKVsGGp85g9rK6xMHtvHO9+WACYjk5vkVM6XQ6OZubCJvTfPicYPeHO2AKFl5NuF5UK1VDUbeLxh2BcRGKTQE3irHm3+vPj6cfCod50Eqv5QxtwBQUGhZhbrGVuRia1B4MNp6edwBxld2sl1splfHCwfsvCZfrCQyWmX10djjOlWJSSy3VQlS6LmfrgNvaieRWx1LZ6s9co+P0DLsy3OdLU3lWRclQsVcHJBcUQ0k9/WVVrmpRzYQzpgAdQcAXxZzUnFX3proannrYH+Vq6KkLi+UkarH09mC8YPr2RMWOlEqFkQClsykGEv7CqCUbXcG8+SaGvJ4a8d4y6epND+pEhxoN0vWUu5ntXlFb5/JT7JfJJqoTdy9u9qc7ax3xJRHqJLADWEl23cFWl4K9fvoaCJ2BHpmJ3s3z+O0U/DmzdMjB9alWZtg4e3yxzPa7lUR7nkvxLHO9+tvJX3mtSDpwX8GajB283I8R8a7D2MhUZr1iNWdny256yYLd52DwRYBtRMvE7rsmtxIUE+zLKQCDO4jlxB6CZ8M17GhuY+XTE8vNhQiIiSE82ZsGwk1pht4ZSpT0YVpon6EvevOXXH8JxVR78QzNuamupW/7UB7wO/+7sG5V4ekXb4cL5Lyv+4IAAAAASUVORK5CYII=\\")",
+              "backgroundPosition": "center",
+              "backgroundRepeat": "no-repeat",
+              "backgroundSize": "cover",
+              "bottom": "0px",
+              "height": "100%",
+              "left": "0px",
+              "position": "absolute",
+              "right": "0px",
+              "top": "0px",
+              "width": "100%",
+              "zIndex": -1,
+            }
+          }
+        />
+        <img
+          alt=""
+          className="css-accessibilityImage-9pa8cd"
+          draggable={false}
+          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAkCAIAAAB0Xu9BAAAABGdBTUEAALGPC/xhBQAAAuNJREFUWEetmD1WHDEQhDdxRMYlnBFyBIccgdQhKVcgJeQMpE5JSTd2uqnvIGpVUqmm9TPrffD0eLMzUn+qVnXPwiFd/PP6eLh47v7EaazbmxsOxjhTT88z9hV7GoNF1cUCvN7TTPv/gf/+uQPm862MWTL6fff4HfDx4S79/oVAlAUwqOmYR0rnazuFnhfOy/ErMKkcBFOr1vOjUi2MFn4nuMil6OPh5eGANLhW3y6u3aH7ijEDCxgCvzFmimvc95TekZLyMSeJC68Bkw0kqUy1K87FlpGZqsGFCyqEtQNDdFUtFctTiuhnPKNysid/WFEFLE2O102XJdEE+8IgeuGsjeJyGHm/xHvQ3JtKVsGGp85g9rK6xMHtvHO9+WACYjk5vkVM6XQ6OZubCJvTfPicYPeHO2AKFl5NuF5UK1VDUbeLxh2BcRGKTQE3irHm3+vPj6cfCod50Eqv5QxtwBQUGhZhbrGVuRia1B4MNp6edwBxld2sl1splfHCwfsvCZfrCQyWmX10djjOlWJSSy3VQlS6LmfrgNvaieRWx1LZ6s9co+P0DLsy3OdLU3lWRclQsVcHJBcUQ0k9/WVVrmpRzYQzpgAdQcAXxZzUnFX3proannrYH+Vq6KkLi+UkarH09mC8YPr2RMWOlEqFkQClsykGEv7CqCUbXcG8+SaGvJ4a8d4y6epND+pEhxoN0vWUu5ntXlFb5/JT7JfJJqoTdy9u9qc7ax3xJRHqJLADWEl23cFWl4K9fvoaCJ2BHpmJ3s3z+O0U/DmzdMjB9alWZtg4e3yxzPa7lUR7nkvxLHO9+tvJX3mtSDpwX8GajB283I8R8a7D2MhUZr1iNWdny256yYLd52DwRYBtRMvE7rsmtxIUE+zLKQCDO4jlxB6CZ8M17GhuY+XTE8vNhQiIiSE82ZsGwk1pht4ZSpT0YVpon6EvevOXXH8JxVR78QzNuamupW/7UB7wO/+7sG5V4ekXb4cL5Lyv+4IAAAAASUVORK5CYII="
+        />
+      </div>
+    </div>
+    <div
+      className="css-text-76zvg2"
+      dir="auto"
+      style={
+        Object {
+          "marginLeft": "auto",
+        }
+      }
+    >
+      <span
+        className="css-text-76zvg2 css-textHasAncestor-16my406"
+        dir="auto"
+        style={
+          Object {
+            "color": "rgba(0,0,0,1.00)",
+            "display": "inlineBlock",
+            "fontFamily": "Helvetica, \\"sans-serif\\"",
+            "fontSize": "10px",
+          }
+        }
+      >
+        To:
+      </span>
+      <span
+        className="css-text-76zvg2 css-textHasAncestor-16my406"
+        dir="auto"
+        style={
+          Object {
+            "color": "rgba(0,0,0,1.00)",
+            "display": "inlineBlock",
+            "fontFamily": "Helvetica, \\"sans-serif\\"",
+            "fontSize": "14px",
+          }
+        }
+      >
+        Misao Matimbo
+      </span>
+    </div>
+  </div>
+  <div
+    className="css-view-1dbjc4n"
+    style={
+      Object {
+        "borderBottomColor": "rgba(201,200,201,1.00)",
+        "borderBottomWidth": "1px",
+        "marginBottom": "10px",
+        "marginTop": "10px",
+        "width": "100%",
+      }
+    }
+  />
+  <div
+    className="css-text-76zvg2"
+    dir="auto"
+  >
+    aaa
+  </div>
+</div>
+`;

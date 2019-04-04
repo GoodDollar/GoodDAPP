@@ -7,7 +7,15 @@ import { createNavigator, SwitchRouter, SceneView, Route } from '@react-navigati
 import NavBar from './NavBar'
 import { CustomButton, type ButtonProps } from '../common'
 
-const wrappNavigatedComponent = Component => props => {
+/**
+ * Wrapper that prevents to load a screen if:
+ * shouldNavigateToComponent is present in component and not complaining
+ * This function can be written in every component that needs to prevent access
+ * if there is not in a correct navigation flow.
+ * Example: doesn't makes sense to navigate to Amount if there is no nextRoutes
+ * @param {React.Component} Component
+ */
+const wrapNavigatedComponent = Component => props => {
   const { shouldNavigateToComponent } = Component
   if (shouldNavigateToComponent && !shouldNavigateToComponent(props)) {
     const NewComponent = props => {
@@ -115,7 +123,7 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
         {!navigationBarHidden && <NavBar goBack={backButtonHidden ? undefined : this.pop} title={title || activeKey} />}
         <SceneView
           navigation={descriptor.navigation}
-          component={wrappNavigatedComponent(descriptor.getComponent())}
+          component={wrapNavigatedComponent(descriptor.getComponent())}
           screenProps={{
             ...screenProps,
             navigationConfig,

@@ -11,6 +11,7 @@ import { utils } from 'web3'
 import Config from '../../config/config'
 import logger from '../../lib/logger/pino-logger'
 import WalletFactory from './WalletFactory'
+import abiDecoder from 'abi-decoder'
 
 const log = logger.child({ from: 'GoodWallet' })
 
@@ -91,9 +92,10 @@ export class GoodWallet {
               log.error('no event', events)
               return
             }
-            this.wallet.eth
-              .getTransactionReceipt(event.transactionHash)
-              .then(receipt => this.notifyTransaction(event.transactionHash, receipt))
+            this.wallet.eth.getTransactionReceipt(event.transactionHash).then(receipt => {
+              const logs = abiDecoder.decodeLogs(receipt.logs)
+              this.getSubscribers('receiptUpdated').forEach(cb => cb({ ...receipt, logs }))
+            })
             // Send for all events. We could define here different events
             this.getSubscribers('send').forEach(cb => cb(error, events))
             this.getSubscribers('balanceChanged').forEach(cb => cb(error, events))
@@ -117,7 +119,11 @@ export class GoodWallet {
             }
             this.wallet.eth
               .getTransactionReceipt(event.transactionHash)
-              .then(receipt => this.notifyTransaction(event.transactionHash, receipt))
+              .then(receipt => {
+                const logs = abiDecoder.decodeLogs(receipt.logs)
+                this.getSubscribers('receiptReceived').forEach(cb => cb({ ...receipt, logs }))
+              })
+              .catch(err => log.error(err))
 
             this.getSubscribers('receive').forEach(cb => cb(error, events))
             this.getSubscribers('balanceChanged').forEach(cb => cb(error, events))
@@ -150,6 +156,7 @@ export class GoodWallet {
           GoodDollarABI.networks[this.networkId].address,
           { from: this.account }
         )
+        abiDecoder.addABI(GoodDollarABI.abi)
         this.reserveContract = new this.wallet.eth.Contract(
           ReserveABI.abi,
           ReserveABI.networks[this.networkId].address,
@@ -185,13 +192,6 @@ export class GoodWallet {
 
   async checkEntitlement() {
     return await this.claimContract.methods.checkEntitlement().call()
-  }
-
-  notifyTransaction(transactionHash: string, receipt: any) {
-    const subscribers = this.getSubscribers('receiptUpdated')
-    log.debug({ transactionHash, subscribers, receipt }, 'notifyTransaction')
-
-    subscribers.forEach(cb => cb(receipt))
   }
 
   /**

@@ -41,6 +41,21 @@ export type TransactionEvent = FeedEvent & {
   }
 }
 
+const getReceiveDataFromReceipt = (account, receipt) => {
+  const transferLog = receipt.logs.find(log => {
+    const { events } = log
+    const eventIndex = events.findIndex(
+      event => event.name === 'to' && event.value.toLowerCase() === account.toLowerCase()
+    )
+    logger.debug({ log, eventIndex, account })
+    return eventIndex >= 0
+  })
+  logger.debug({ transferLog, account })
+  return transferLog.events.reduce((acc, curr) => {
+    return { ...acc, [curr.name]: curr.value }
+  }, {})
+}
+
 class UserStorage {
   wallet: GoodWallet
   profile: Gun
@@ -87,24 +102,9 @@ class UserStorage {
             this._lastProfileUpdate = doc
             this.subscribersProfileUpdates.forEach(callback => callback(doc))
           })
-          this.initFeed().then(() => {
-            this.wallet.subscribeToEvent('receiptUpdated', async receipt => {
-              try {
-                const feedEvent = await this.getFeedItemByTransactionHash(receipt.transactionHash)
-                logger.debug('receiptUpdated', { feedEvent, receipt })
-                if (!feedEvent) return
+          logger.debug('init to events')
 
-                const updatedFeedEvent = { ...feedEvent, data: { ...feedEvent.data, receipt } }
-                await this.updateFeedEvent(updatedFeedEvent)
-
-                // Checking new feed
-                const feed = await this.getAllFeed()
-                logger.debug('receiptUpdated', { feed, receipt, updatedFeedEvent })
-              } catch (error) {
-                logger.error(error)
-              }
-            })
-          })
+          this.initFeed()
           //save ref to user
           global.gun
             .get('users')
@@ -118,6 +118,47 @@ class UserStorage {
           })
           this.wallet.subscribeToEvent('send', (err, events) => {
             logger.debug({ err, events }, 'send')
+          })
+          this.wallet.subscribeToEvent('receiptUpdated', async receipt => {
+            try {
+              const feedEvent = await this.getFeedItemByTransactionHash(receipt.transactionHash)
+              logger.debug('receiptUpdated', { feedEvent, receipt })
+              if (!feedEvent) {
+                logger.error('Received receipt with no event', receipt)
+              }
+
+              const updatedFeedEvent = { ...feedEvent, data: { ...feedEvent.data, receipt } }
+              await this.updateFeedEvent(updatedFeedEvent)
+
+              // Checking new feed
+              const feed = await this.getAllFeed()
+              logger.debug('receiptUpdated', { feed, receipt, updatedFeedEvent })
+            } catch (error) {
+              logger.error(error)
+            }
+          })
+          logger.debug('web3', this.wallet.wallet)
+
+          this.wallet.subscribeToEvent('receiptReceived', async receipt => {
+            try {
+              const data = getReceiveDataFromReceipt(this.wallet.account, receipt)
+              logger.debug('receiptReceived', { receipt, data })
+              const updatedFeedEvent = {
+                id: receipt.transactionHash,
+                date: new Date().toString(),
+                type: 'receive',
+                data: {
+                  ...data,
+                  receipt
+                }
+              }
+              await this.updateFeedEvent(updatedFeedEvent)
+              // Checking new feed
+              const feed = await this.getAllFeed()
+              logger.debug('receiptUpdated', { feed, receipt, updatedFeedEvent })
+            } catch (error) {
+              logger.error(error)
+            }
           })
           res(true)
           // this.profile = user.get('profile')

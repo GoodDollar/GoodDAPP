@@ -48,6 +48,20 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
 >
   <div
     className="css-view-1dbjc4n"
+    style={
+      Object {
+        "WebkitBoxFlex": 1,
+        "WebkitFlexBasis": "0%",
+        "WebkitFlexGrow": 1,
+        "WebkitFlexShrink": 1,
+        "flexBasis": "0%",
+        "flexGrow": 1,
+        "flexShrink": 1,
+        "msFlexNegative": 1,
+        "msFlexPositive": 1,
+        "msFlexPreferredSize": "0%",
+      }
+    }
   >
     <div
       className="css-view-1dbjc4n"
@@ -383,6 +397,20 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
 >
   <div
     className="css-view-1dbjc4n"
+    style={
+      Object {
+        "WebkitBoxFlex": 1,
+        "WebkitFlexBasis": "0%",
+        "WebkitFlexGrow": 1,
+        "WebkitFlexShrink": 1,
+        "flexBasis": "0%",
+        "flexGrow": 1,
+        "flexShrink": 1,
+        "msFlexNegative": 1,
+        "msFlexPositive": 1,
+        "msFlexPreferredSize": "0%",
+      }
+    }
   >
     <div
       className="css-view-1dbjc4n"
@@ -520,7 +548,7 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
             }
           }
         >
-          For the pizza
+          aaa
         </div>
       </div>
       <div

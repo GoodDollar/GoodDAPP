@@ -2,20 +2,14 @@ import React from 'react'
 import { TouchableHighlight, View } from 'react-native'
 import ListWithdrawEvent from './ListWithdrawEvent'
 import ListSendEvent from './ListSendEvent'
-import ListNotificationEvent from './ListNotificationEvent'
-import ListMessageEvent from './ListMessageEvent'
-import ListConfirmationEvent from './ListConfirmationEvent'
 import { listStyles } from './EventStyles'
 
 const listType = type => {
   return (
     {
       withdraw: ListWithdrawEvent,
-      send: ListSendEvent,
-      notification: ListNotificationEvent,
-      message: ListMessageEvent,
-      confirmation: ListConfirmationEvent
-    }[type] || ListMessageEvent
+      send: ListSendEvent
+    }[type] || ListWithdrawEvent
   )
 }
 

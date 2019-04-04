@@ -189,7 +189,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
         className="css-text-76zvg2"
         dir="auto"
       >
-        4/1/2019, 12:03:14 PM
+        4/1/2019
       </div>
       <div
         className="css-view-1dbjc4n"
@@ -449,7 +449,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
         className="css-text-76zvg2"
         dir="auto"
       >
-        4/1/2019, 12:03:14 PM
+        4/1/2019
       </div>
       <div
         className="css-view-1dbjc4n"
@@ -695,7 +695,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
         className="css-text-76zvg2"
         dir="auto"
       >
-        For the pizza
+        aaa
       </div>
     </div>
   </div>

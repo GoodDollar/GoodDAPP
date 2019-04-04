@@ -27,7 +27,6 @@ const styles = StyleSheet.create({
   },
   actionButton: {
     padding: 10,
-    color: 'white',
     borderRadius: 6,
     width: 80,
     backgroundColor: '#808080',
@@ -38,6 +37,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ff4b21'
   },
   actionButtonText: {
+    color: 'white',
     textAlign: 'center'
   }
 })

@@ -21,7 +21,7 @@ const listType = type => {
 
 const FeedListItem = props => {
   const Item = listType(props.item.type)
-  console.log(props)
+
   return (
     <TouchableHighlight
       onPress={() => props.onPress(props.item.id)}
@@ -32,7 +32,7 @@ const FeedListItem = props => {
       }}
       style={listStyles.row}
     >
-      <View>
+      <View style={{ flex: 1 }}>
         <Item {...props} />
       </View>
     </TouchableHighlight>

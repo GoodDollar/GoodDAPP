@@ -36,12 +36,14 @@ type DashboardState = {
     receiveLink: string,
     reason?: string
   },
+  horizontal: boolean,
   feeds: any[]
 }
 
 class Dashboard extends Component<DashboardProps, DashboardState> {
   state = {
     params: {},
+    horizontal: false,
     feeds: []
   }
 
@@ -61,7 +63,7 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
   }
 
   render() {
-    const { params } = this.state
+    const { params, horizontal } = this.state
     const { screenProps, navigation, store }: DashboardProps = this.props
     const { balance, entitlement } = store.get('account')
     const { avatar, fullName } = store.get('profile')
@@ -97,11 +99,18 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
               </PushButton>
             </Section.Row>
           </Section>
+          <FeedList
+            title="Test"
+            horizontal={horizontal}
+            fixedHeight
+            virtualized
+            data={feeds}
+            getData={() => feeds}
+            updateData={() => {}}
+            onEndReached={() => {}}
+          />
         </Wrapper>
         {params.receiveLink ? <Withdraw params={params} {...this.props} /> : null}
-        <ScrollView style={{ height: '10vh' }} noSpacer={true} noScroll={true}>
-          <FeedList style={[styles.centering, styles.gray]} feeds={feeds} />
-        </ScrollView>
       </View>
     )
   }

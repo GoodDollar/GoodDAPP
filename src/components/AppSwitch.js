@@ -94,7 +94,7 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
           onDismiss={(...args) => {
             const currentDialogData = { ...dialogData }
             store.set('currentScreen')({ dialogData: { visible: false } })
-            dialogData.onDismiss && dialogData.onDismiss(currentDialogData)
+            currentDialogData.onDismiss && currentDialogData.onDismiss(currentDialogData)
           }}
         />
         <SceneView navigation={descriptor.navigation} component={descriptor.getComponent()} />

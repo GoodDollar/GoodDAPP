@@ -48,14 +48,14 @@ const SendQRSummary = (props: AmountProps) => {
           return hash
         }
       })
-      log.debug({ receipt })
+      log.debug({ receipt, screenProps })
       store.set('currentScreen')({
         dialogData: {
           visible: true,
           title: 'SUCCESS!',
           message: 'The GD was sent successfully',
           dismissText: 'Yay!',
-          onDismiss: screenProps.goToParent
+          onDismiss: screenProps.goToRoot
         }
       })
     } catch (e) {

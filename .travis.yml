@@ -13,3 +13,6 @@ env:
 script:
   - npm run coverage
   - npm run build
+  
+after_failure:
+  - cat /home/travis/.npm/_logs/*-debug.log

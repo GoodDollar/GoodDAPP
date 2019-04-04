@@ -1,6 +1,7 @@
 // @flow
 import Gun from 'gun'
 import extend from '../gundb-extend'
+import gun from '../gundb'
 import { type TransactionEvent } from '../UserStorage'
 import { getUserModel } from '../UserModel'
 
@@ -21,7 +22,6 @@ let event4 = {
 
 describe('UserStorage', () => {
   beforeAll(async () => {
-    global.gun = Gun()
     jest.setTimeout(30000)
     await userStorage.wallet.ready
     console.debug('wallet ready...')

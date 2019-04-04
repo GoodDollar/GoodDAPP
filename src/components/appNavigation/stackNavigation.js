@@ -1,5 +1,5 @@
 // @flow
-import React, { Component, useState } from 'react'
+import React, { Component, useState, useEffect } from 'react'
 import { Style } from 'react-native'
 import { Button } from 'react-native-paper'
 import { createNavigator, SwitchRouter, SceneView, Route } from '@react-navigation/core'
@@ -7,12 +7,25 @@ import { createNavigator, SwitchRouter, SceneView, Route } from '@react-navigati
 import NavBar from './NavBar'
 import { CustomButton, type ButtonProps } from '../common'
 
+const wrappNavigatedComponent = Component => props => {
+  const { shouldNavigateToComponent } = Component
+  if (shouldNavigateToComponent && !shouldNavigateToComponent(props)) {
+    const NewComponent = props => {
+      useEffect(() => props.screenProps.goToParent(), [])
+      return null
+    }
+    return <NewComponent {...props} />
+  }
+  return <Component {...props} />
+}
+
 /**
  * Component wrapping the stack navigator.
  * It holds the pop, push, gotToRoot and goToParent navigation logic and inserts on top the NavBar component.
  * Params are passed as initial state for next screen.
  * This navigation actions are being passed via navigationConfig to children components
  */
+
 class AppView extends Component<{ descriptors: any, navigation: any, navigationConfig: any, screenProps: any }, any> {
   state = {
     stack: [],
@@ -96,13 +109,13 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
     const { descriptors, navigation, navigationConfig, screenProps } = this.props
     const activeKey = navigation.state.routes[navigation.state.index].key
     const descriptor = descriptors[activeKey]
-    const { title, navigationBarHidden } = descriptor.options
+    const { title, navigationBarHidden, backButtonHidden } = descriptor.options
     return (
       <React.Fragment>
-        {!navigationBarHidden && <NavBar goBack={this.pop} title={title || activeKey} />}
+        {!navigationBarHidden && <NavBar goBack={backButtonHidden ? undefined : this.pop} title={title || activeKey} />}
         <SceneView
           navigation={descriptor.navigation}
-          component={descriptor.getComponent()}
+          component={wrappNavigatedComponent(descriptor.getComponent())}
           screenProps={{
             ...screenProps,
             navigationConfig,
@@ -127,7 +140,7 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
  */
 export const createStackNavigator = (routes: any, navigationConfig: any) => {
   const defaultNavigationConfig = {
-    backRouteName: 'Dashboard'
+    backRouteName: 'Home'
   }
 
   return createNavigator(AppView, SwitchRouter(routes), { ...defaultNavigationConfig, ...navigationConfig })
@@ -180,6 +193,33 @@ export const BackButton = (props: BackButtonProps) => {
       onPress={screenProps.goToParent}
     >
       {children}
+    </Button>
+  )
+}
+
+type DoneButtonProps = {
+  ...ButtonProps,
+  routeName?: Route,
+  screenProps: { goToRoot: () => void }
+}
+
+/**
+ * BackButton
+ * This button gets the goToParent action from screenProps. Is meant to be used inside a stackNavigator
+ * @param {ButtonProps} props
+ */
+export const DoneButton = (props: DoneButtonProps) => {
+  const { disabled, screenProps, children, mode, color, style } = props
+
+  return (
+    <Button
+      mode={mode || 'text'}
+      color={color || '#575757'}
+      style={style}
+      disabled={disabled}
+      onPress={screenProps.goToRoot}
+    >
+      {children || 'Done'}
     </Button>
   )
 }

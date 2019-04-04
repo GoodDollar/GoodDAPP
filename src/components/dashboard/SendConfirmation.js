@@ -6,7 +6,7 @@ import QRCode from 'qrcode.react'
 import logger from '../../lib/logger/pino-logger'
 import { Section, Wrapper, CustomButton, TopBar } from '../common'
 import { fontStyle } from '../common/styles'
-import { useScreenState } from '../appNavigation/stackNavigation'
+import { DoneButton, useScreenState } from '../appNavigation/stackNavigation'
 
 export type ReceiveProps = {
   screenProps: any,
@@ -41,7 +41,8 @@ const SendConfirmation = ({ screenProps, navigation }: ReceiveProps) => {
           </View>
         </View>
         <View style={styles.sectionBottom}>
-          <CustomButton onPress={copySendLink} mode="contained">
+          <DoneButton screenProps={screenProps} style={{ flex: 1 }} />
+          <CustomButton onPress={copySendLink} style={{ flex: 2 }} mode="contained">
             Copy Link to Clipboard
           </CustomButton>
         </View>
@@ -64,7 +65,8 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   sectionBottom: {
-    width: '100%'
+    width: '100%',
+    flexDirection: 'row'
   },
   qrCode: {
     marginTop: '2rem',
@@ -90,7 +92,8 @@ const styles = StyleSheet.create({
 })
 
 SendConfirmation.navigationOptions = {
-  title: SEND_TITLE
+  title: SEND_TITLE,
+  backButtonHidden: true
 }
 
 export default SendConfirmation

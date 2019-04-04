@@ -110,4 +110,9 @@ SendQRSummary.navigationOptions = {
   title: TITLE
 }
 
+SendQRSummary.shouldNavigateToComponent = props => {
+  const { screenState } = props.screenProps
+  return !!screenState.nextRoutes
+}
+
 export default SendQRSummary

@@ -13,6 +13,7 @@
     "android": "./node_modules/.bin/react-native run-android",
     "ios": "./node_modules/.bin/react-native run-ios",
     "web": "node scripts/start.js",
+    "web:local": "npm link @gooddollar/goodcontracts && node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "npm run test:web && npm run test:native",
     "test:web-watch": "node scripts/test.js --watch --config \"./config/web.jest.config.js\"",

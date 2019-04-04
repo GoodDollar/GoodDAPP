@@ -1,24 +1,18 @@
 // @flow
-import Web3 from 'web3'
-import bip39 from 'bip39'
 import HDKey from 'hdkey'
-import EthUtil from 'ethereumjs-util'
 import Wallet from 'ethereumjs-wallet'
-import Config from '../../config/config'
 import logger from '../logger/pino-logger'
-import type { WalletConfig } from './WalletFactory'
-import type { HttpProvider } from 'web3-providers-http'
-import type { WebSocketProvider } from 'web3-providers-ws'
+
 
 const log = logger.child({ from: 'MultipleAddressWallet' })
 
-type walletsCollection = {
+type WalletsCollection = {
   [key: string]: Wallet // Associative array
 }
 class MultipleAddressWallet {
   ready: Promise<Web3>
   wallet: Wallet
-  wallets: walletsCollection
+  wallets: WalletsCollection
   mnemonic: string
   addresses: Array<string>
   numOfAccounts: number = 10

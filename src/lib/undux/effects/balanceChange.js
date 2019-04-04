@@ -9,7 +9,7 @@ const withBalanceChange: Effects<State> = (store: Store) => {
     const balanceUpdate = store.get('balanceUpdate')
 
     if (!balanceUpdate.running && ready) {
-      await initTransferEvents(store)
+      initTransferEvents(store)
       balanceUpdate.running = true
       store.set('balanceUpdate')(balanceUpdate)
     }

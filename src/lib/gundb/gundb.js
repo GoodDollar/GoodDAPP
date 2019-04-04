@@ -10,6 +10,6 @@ const initGunDB = () => {
     else global.gun = Gun([Config.serverUrl + '/gun'])
     logger.debug('Initialized gundb')
   }
+  return global.gun
 }
-
 export default initGunDB()

@@ -1,6 +1,6 @@
 // @flow
 import axios from 'axios'
-import type { Axios, AxiosPromise, $AxiosXHR } from 'axios'
+import type { AxiosPromise, AxiosInstance, $AxiosXHR } from 'axios'
 import Config from '../../config/config'
 import { AsyncStorage } from 'react-native'
 import logger from '../logger/pino-logger'
@@ -11,8 +11,11 @@ import type { MobileRecord } from '../../components/signup/PhoneForm.web'
 const log = logger.child({ from: 'API' })
 
 export type Credentials = {
-  pubkey: string,
-  signature?: string,
+  signature?: string, //signed with address used to login to the system
+  gdSignature?: string, //signed with address of user wallet holding GD
+  profileSignature?: string, //signed with address of user profile on GunDB
+  profilePublickey?: string, //public key of user profile on gundb
+  nonce?: string,
   jwt: string
 }
 
@@ -20,7 +23,7 @@ export type UserRecord = NameRecord & EmailRecord & MobileRecord & Credentials
 
 class API {
   jwt: string
-  client: Axios
+  client: AxiosInstance
 
   constructor() {
     this.init()
@@ -30,7 +33,7 @@ class API {
     log.info('initializing api...')
     AsyncStorage.getItem('GoodDAPP_jwt').then(async jwt => {
       this.jwt = jwt
-      let instance = axios.create({
+      let instance: AxiosInstance = axios.create({
         baseURL: Config.serverUrl,
         timeout: 30000,
         headers: { Authorization: `Bearer ${this.jwt || ''}` }

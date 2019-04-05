@@ -2,20 +2,18 @@ import React from 'react'
 import { StyleSheet } from 'react-native'
 import { Alert, TouchableHighlight, Text, View } from 'react-native-web'
 
-const FeedAction = () => {
-  return (
-    <View style={styles.actionsContainer}>
-      <TouchableHighlight
-        style={[styles.actionButton, styles.actionButtonDestructive]}
-        onPress={() => {
-          Alert.alert('Tips', 'You could do something with this remove action!')
-        }}
-      >
-        <Text style={styles.actionButtonText}>Delete</Text>
-      </TouchableHighlight>
-    </View>
-  )
-}
+export default () => (
+  <View style={styles.actionsContainer}>
+    <TouchableHighlight
+      style={[styles.actionButton, styles.actionButtonDestructive]}
+      onPress={() => {
+        Alert.alert('Tips', 'You could do something with this remove action!')
+      }}
+    >
+      <Text style={styles.actionButtonText}>Delete</Text>
+    </TouchableHighlight>
+  </View>
+)
 
 const styles = StyleSheet.create({
   actionsContainer: {
@@ -41,5 +39,3 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   }
 })
-
-export default FeedAction

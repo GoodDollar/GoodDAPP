@@ -100,12 +100,10 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
             </Section.Row>
           </Section>
           <FeedList
-            title="Test"
             horizontal={horizontal}
             fixedHeight
             virtualized
             data={feeds}
-            getData={() => feeds}
             updateData={() => {}}
             onEndReached={() => {}}
           />

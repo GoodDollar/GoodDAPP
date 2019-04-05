@@ -6,6 +6,7 @@ import BigGoodDollar from '../../common/BigGoodDollar'
 import { listStyles } from './EventStyles'
 
 const FeedListItem = ({ item: feed }) => {
+  console.log(feed)
   return (
     <View style={listStyles.innerRow}>
       <View>

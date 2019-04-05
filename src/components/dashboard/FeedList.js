@@ -23,11 +23,9 @@ const AnimatedSwipeableFlatList = Animated.createAnimatedComponent(SwipeableFlat
 const { height } = Dimensions.get('window')
 
 export type FeedListProps = {
-  title: string,
   fixedHeight: boolean,
   virtualized: boolean,
   data: any,
-  getData: any,
   updateData: any,
   onEndReached: any
 }

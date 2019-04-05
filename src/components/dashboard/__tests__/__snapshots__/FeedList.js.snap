@@ -464,7 +464,7 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                           }
                         }
                       >
-                        4/1/2019, 12:03:14 PM
+                        4/1/2019, 3:03:14 PM
                       </div>
                     </div>
                   </div>
@@ -849,7 +849,7 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                           }
                         }
                       >
-                        4/1/2019, 12:03:14 PM
+                        4/1/2019, 3:03:14 PM
                       </div>
                     </div>
                   </div>
@@ -1328,7 +1328,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                           }
                         }
                       >
-                        4/1/2019, 12:03:14 PM
+                        4/1/2019, 3:03:14 PM
                       </div>
                     </div>
                   </div>
@@ -1713,7 +1713,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                           }
                         }
                       >
-                        4/1/2019, 12:03:14 PM
+                        4/1/2019, 3:03:14 PM
                       </div>
                     </div>
                   </div>

@@ -40,10 +40,15 @@ export const getWebRouterComponentWithMocks = componentPath => {
   return withContainer(createBrowserApp(createSwitchNavigator({ AppNavigation })))
 }
 
+export const convertDateToUTC = unixDate => {
+  let date = new Date(unixDate)
+  return date.getTime() + date.getTimezoneOffset() * 60000
+}
+
 export const mockEvent = type => ({
   type,
   id: '0x9812619905da200c4effe8cd2ca4b2b31eeddf133f8fd283069d2e5aec3b9f77',
-  date: 1554130994000,
+  date: convertDateToUTC(1554130994000),
   data: {
     amount: 4,
     message: 'aaa',

@@ -10,7 +10,6 @@ import pino from '../logger/pino-logger'
 import { getUserModel, type UserModel } from './UserModel'
 
 const logger = pino.child({ from: 'UserStorage' })
-
 export type GunDBUser = {
   alias: string,
   epub: string,
@@ -349,6 +348,7 @@ class UserStorage {
    * @param {boolean} reset should restart cursor
    */
   async getFeedPage(numResults: number, reset?: boolean = false): Promise<Array<FeedEvent>> {
+    logger.debug({ numResults, cursor: this.cursor })
     if (reset) this.cursor = undefined
     if (this.cursor === undefined) this.cursor = 0
     let total = 0
@@ -369,13 +369,18 @@ class UserStorage {
         })
     })
     let results = flatten(await Promise.all(promises))
+    logger.debug({ results, daysToTake, cursor: this.cursor })
     const stdResults = results.map(this.standardizeFeed)
     console.log('stdResults', stdResults)
     return results
   }
 
   async getStandardizedFeed(amount: number, reset: boolean): Promise<Array<StandardFeed>> {
-    return (await this.getFeedPage(amount, reset)).map(this.standardizeFeed)
+    const feed = await this.getAllFeed()
+    logger.info({ feed })
+    return feed.map(this.standardizeFeed)
+    // TODO: Use proper pagination
+    // return (await this.getFeedPage(amount, true)).map(this.standardizeFeed)
   }
 
   standardizeFeed(feed: FeedEvent): StandardFeed {
@@ -392,7 +397,7 @@ class UserStorage {
           avatar: avatar
         },
         amount: feed.data.amount,
-        message: feed.data.reason || 'For the pizza'
+        message: feed.data.reason
       }
     }
 

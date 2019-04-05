@@ -10,6 +10,11 @@ import pino from '../logger/pino-logger'
 import { getUserModel, type UserModel } from './UserModel'
 
 const logger = pino.child({ from: 'UserStorage' })
+
+function isValidDate(d) {
+  return d instanceof Date && !isNaN(d)
+}
+
 export type GunDBUser = {
   alias: string,
   epub: string,
@@ -411,6 +416,8 @@ class UserStorage {
     logger.debug(event)
 
     let date = new Date(event.date)
+    // force valid dates
+    date = isValidDate(date) ? date : new Date()
     let day = `${date.toISOString().slice(0, 10)}`
     let dayEventsArr: Array<FeedEvent> = (await this.feed.get(day).decrypt()) || []
     let toUpd = find(dayEventsArr, e => e.id === event.id)

@@ -375,7 +375,7 @@ export class GoodWallet {
 
     const sendLink = `${Config.publicUrl}/AppNavigation/Dashboard/Home?receiveLink=${generatedString}&reason=${reason}`
 
-    const onTransactionHash = events.onTransactionHash(sendLink)
+    const onTransactionHash = events.onTransactionHash({ sendLink, generatedString })
     const receipt = await this.sendTransaction(transferAndCall, { onTransactionHash }, { gas })
 
     return {

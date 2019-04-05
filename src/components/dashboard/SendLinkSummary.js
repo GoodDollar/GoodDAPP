@@ -53,7 +53,7 @@ const SendLinkSummary = (props: AmountProps) => {
     try {
       // Generate link deposit
       const generateLinkResponse = await goodWallet.generateLink(amount, reason, {
-        onTransactionHash: sendLink => hash => {
+        onTransactionHash: extraData => hash => {
           // Save transaction
           const transactionEvent: TransactionEvent = {
             id: hash,
@@ -63,7 +63,7 @@ const SendLinkSummary = (props: AmountProps) => {
               to,
               reason,
               amount,
-              sendLink
+              ...extraData
             }
           }
           UserStorage.updateFeedEvent(transactionEvent)

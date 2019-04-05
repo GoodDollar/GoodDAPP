@@ -397,7 +397,7 @@ class UserStorage {
           amount: feed.data.amount,
           message: feed.data.reason
         }
-      : undefined
+      : { endpoint: {} }
     const stdFeed = {
       id: feed.id,
       date: new Date(feed.date).getTime(),

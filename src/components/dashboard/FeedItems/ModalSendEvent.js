@@ -1,11 +1,11 @@
 import React from 'react'
-import { StyleSheet, Button } from 'react-native'
+import { StyleSheet } from 'react-native'
 import { normalize } from 'react-native-elements'
 import { Avatar } from 'react-native-paper'
 import { Text, View } from 'react-native-web'
-import BigGoodDollar from '../../common/BigGoodDollar'
+import { CustomButton, BigGoodDollar } from '../../common'
 
-const ModalSendEvent = ({ item: feed }) => {
+const ModalSendEvent = ({ item: feed, onPress }) => {
   return (
     <View style={styles.modal}>
       <View style={styles.row}>
@@ -24,10 +24,19 @@ const ModalSendEvent = ({ item: feed }) => {
       </View>
       <View style={styles.hrLine} />
       {feed.data.message && <Text>{feed.data.message}</Text>}
-      {feed.actions &&
-        feed.actions.map(action => (
-          <Button title={action.title} color={action.color} key={action.title} onPress={action.onPress} />
-        ))}
+      <View style={styles.buttonsRow}>
+        {feed.actions && feed.actions.length ? (
+          feed.actions.map(action => (
+            <CustomButton onPress={action.onPress} key={action.title}>
+              {action.title}
+            </CustomButton>
+          ))
+        ) : (
+          <CustomButton style={styles.rightButton} onPress={() => onPress(feed.id)}>
+            OK
+          </CustomButton>
+        )}
+      </View>
     </View>
   )
 }
@@ -43,6 +52,15 @@ const styles = StyleSheet.create({
     borderBottomWidth: normalize(2),
     padding: normalize(30),
     borderColor: '#c9c8c9'
+  },
+  buttonsRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+  rightButton: {
+    marginLeft: 'auto',
+    backgroundColor: '#ccc',
+    borderRadius: 4
   },
   leftMargin: {
     marginLeft: 'auto'

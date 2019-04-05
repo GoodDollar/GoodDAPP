@@ -1,12 +1,12 @@
 import React from 'react'
-import { generateEvent } from '../../../../lib/share'
 import FeedListItem from '../FeedListItem'
+import { generateFeedItemProps } from '../../__tests__/__util__'
 
 // Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer'
 
 describe('FeedListItem - Withdraw', () => {
-  const props = generateEvent('withdraw')
+  const props = generateFeedItemProps('withdraw')
   it('renders without errors', () => {
     const tree = renderer.create(<FeedListItem {...props} />)
     expect(tree.toJSON()).toBeTruthy()
@@ -20,7 +20,7 @@ describe('FeedListItem - Withdraw', () => {
 })
 
 describe('FeedListItem - Send', () => {
-  const props = generateEvent('send')
+  const props = generateFeedItemProps('send')
   it('renders without errors', () => {
     const tree = renderer.create(<FeedListItem {...props} />)
     expect(tree.toJSON()).toBeTruthy()

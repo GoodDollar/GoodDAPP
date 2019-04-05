@@ -4,10 +4,10 @@ import React from 'react'
 // Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer'
 import ModalWithdrawEvent from '../ModalWithdrawEvent'
-import { generateEvent } from '../../../../lib/share'
+import { generateFeedItemProps } from '../../__tests__/__util__'
 
 describe('ModalWithdrawEvent', () => {
-  const props = generateEvent('withdraw')
+  const props = generateFeedItemProps('withdraw')
   it('renders without errors', () => {
     const tree = renderer.create(<ModalWithdrawEvent {...props} />)
     expect(tree.toJSON()).toBeTruthy()

@@ -4,11 +4,11 @@ import React from 'react'
 // Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer'
 import ListWithdrawEvent from '../ListWithdrawEvent'
-import { generateEvent } from '../../../../lib/share'
+import { generateFeedItemProps } from '../../__tests__/__util__'
 
 describe('ListWithdrawEvent', () => {
   // const ListWithdrawEvent = getComponentWithMock('../ListWithdrawEvent', 'withdraw')
-  const props = generateEvent('withdraw')
+  const props = generateFeedItemProps('withdraw')
   it('renders without errors', () => {
     const tree = renderer.create(<ListWithdrawEvent {...props} />)
     expect(tree.toJSON()).toBeTruthy()

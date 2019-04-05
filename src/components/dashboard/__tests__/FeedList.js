@@ -1,6 +1,6 @@
 import React from 'react'
 import FeedList from '../FeedList'
-import { generateEvent } from '../../../lib/share'
+import { mockEvent } from '../__tests__/__util__'
 
 // Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer'
@@ -38,9 +38,9 @@ describe('FeedList', () => {
     describe('With feed data', () => {
       beforeEach(() => {
         props.data = [
-          { ...generateEvent('withdraw').item },
+          { ...mockEvent('withdraw') },
           {
-            ...generateEvent('send').item,
+            ...mockEvent('send'),
             id: '0x9812619905da200c4effe8cd2ca4b2b31eeddf133f8fd283069d2e5aec3b9f88'
           }
         ]
@@ -84,9 +84,9 @@ describe('FeedList', () => {
     describe('With feed data', () => {
       beforeEach(() => {
         props.data = [
-          { ...generateEvent('withdraw').item },
+          { ...mockEvent('withdraw') },
           {
-            ...generateEvent('send').item,
+            ...mockEvent('send'),
             id: '0x9812619905da200c4effe8cd2ca4b2b31eeddf133f8fd283069d2e5aec3b9f88'
           }
         ]

@@ -392,7 +392,7 @@ class UserStorage {
       type: feed.type,
       data: {
         endpoint: {
-          address: feed.data.sender,
+          address: feed.data ? feed.data.sender : '',
           fullName: 'Misao Matimbo',
           avatar: avatar
         },

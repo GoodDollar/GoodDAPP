@@ -24,12 +24,12 @@ class MultipleAddressWallet {
     this.wallets = {}
   }
 
-  async ready() {
-    await this.initAccounts()
+  ready() {
+    this.initAccounts()
     this.wallet = this.wallets[this.addresses[0]]
   }
 
-  async initAccounts() {
+  initAccounts() {
     // i starts from 1
     for (let i = 0; i < this.numOfAccounts; i++) {
       let root = HDKey.fromMasterSeed(this.mnemonic)

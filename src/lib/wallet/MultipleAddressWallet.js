@@ -26,7 +26,7 @@ class MultipleAddressWallet {
 
   async ready() {
     await this.initAccounts()
-    this.wallet = this.wallets[this.addresses[0]]
+    this.wallet = this.wallets[this.accounts[0]]
   }
 
   async initAccounts() {

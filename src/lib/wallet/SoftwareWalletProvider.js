@@ -18,7 +18,7 @@ class SoftwareWalletProvider {
 
   constructor(conf: WalletConfig) {
     this.conf = conf
-    this.ready = this.initHD()
+    this.ready = this.initSoftwareWallet()
   }
   getPKey() {
     return localStorage.getItem(this.GD_USER_PKEY)
@@ -47,7 +47,7 @@ class SoftwareWalletProvider {
     return web3
   }
 
-  async initHD(): Promise<Web3> {
+  async initSoftwareWallet(): Promise<Web3> {
     let provider = this.getWeb3TransportProvider()
     log.info('wallet config:', this.conf, provider)
 

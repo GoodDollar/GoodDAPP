@@ -8,23 +8,23 @@ import NavBar from './NavBar'
 import { CustomButton, type ButtonProps } from '../common'
 
 /**
- * Wrapper that prevents to load a screen if:
+ * getComponent gets the component and props and returns the same component except when
  * shouldNavigateToComponent is present in component and not complaining
  * This function can be written in every component that needs to prevent access
  * if there is not in a correct navigation flow.
  * Example: doesn't makes sense to navigate to Amount if there is no nextRoutes
  * @param {React.Component} Component
  */
-const wrapNavigatedComponent = Component => props => {
+const getComponent = (Component, props) => {
   const { shouldNavigateToComponent } = Component
+
   if (shouldNavigateToComponent && !shouldNavigateToComponent(props)) {
-    const NewComponent = props => {
+    return props => {
       useEffect(() => props.screenProps.goToParent(), [])
       return null
     }
-    return <NewComponent {...props} />
   }
-  return <Component {...props} />
+  return Component
 }
 
 /**
@@ -114,27 +114,26 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
   }
 
   render() {
-    const { descriptors, navigation, navigationConfig, screenProps } = this.props
+    const { descriptors, navigation, navigationConfig, screenProps: incomingScreenProps } = this.props
     const activeKey = navigation.state.routes[navigation.state.index].key
     const descriptor = descriptors[activeKey]
     const { title, navigationBarHidden, backButtonHidden } = descriptor.options
+    const screenProps = {
+      ...incomingScreenProps,
+      navigationConfig,
+      push: this.push,
+      goToRoot: this.goToRoot,
+      goToParent: this.goToParent,
+      pop: this.pop,
+      screenState: this.state.currentState,
+      setScreenState: this.setScreenState
+    }
+    const Component = getComponent(descriptor.getComponent(), { screenProps })
+
     return (
       <React.Fragment>
         {!navigationBarHidden && <NavBar goBack={backButtonHidden ? undefined : this.pop} title={title || activeKey} />}
-        <SceneView
-          navigation={descriptor.navigation}
-          component={wrapNavigatedComponent(descriptor.getComponent())}
-          screenProps={{
-            ...screenProps,
-            navigationConfig,
-            push: this.push,
-            goToRoot: this.goToRoot,
-            goToParent: this.goToParent,
-            pop: this.pop,
-            screenState: this.state.currentState,
-            setScreenState: this.setScreenState
-          }}
-        />
+        <SceneView navigation={descriptor.navigation} component={Component} screenProps={screenProps} />
       </React.Fragment>
     )
   }

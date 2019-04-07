@@ -3,7 +3,6 @@ import HDKey from 'hdkey'
 import Wallet from 'ethereumjs-wallet'
 import logger from '../logger/pino-logger'
 
-
 const log = logger.child({ from: 'MultipleAddressWallet' })
 
 type WalletsCollection = {
@@ -27,7 +26,7 @@ class MultipleAddressWallet {
 
   async ready() {
     await this.initAccounts()
-    this.wallet = this.wallets[0]
+    this.wallet = this.wallets[this.addresses[0]]
   }
 
   async initAccounts() {

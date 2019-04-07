@@ -40,13 +40,13 @@ const SendConfirmation = ({ screenProps, navigation }: ReceiveProps) => {
             <Text style={[styles.centered, styles.url]}>{sendLink}</Text>
           </View>
         </View>
-        <View style={styles.sectionBottom}>
-          <DoneButton screenProps={screenProps} style={{ flex: 1 }} />
-          <CustomButton onPress={copySendLink} style={{ flex: 2 }} mode="contained">
-            Copy Link to Clipboard
-          </CustomButton>
-        </View>
       </Section>
+      <View style={styles.sectionBottom}>
+        <CustomButton style={styles.buttonStyle} onPress={copySendLink} mode="contained">
+          Copy Link to Clipboard
+        </CustomButton>
+        <DoneButton style={styles.buttonStyle} screenProps={screenProps} />
+      </View>
     </Wrapper>
   )
 }
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
   },
   sectionBottom: {
     width: '100%',
-    flexDirection: 'row'
+    flexDirection: 'column'
   },
   qrCode: {
     marginTop: '2rem',
@@ -88,6 +88,9 @@ const styles = StyleSheet.create({
     maxWidth: '100%',
     paddingLeft: '1rem',
     paddingRight: '1rem'
+  },
+  buttonStyle: {
+    marginTop: '1em'
   }
 })
 

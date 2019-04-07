@@ -220,15 +220,15 @@ export const DoneButton = (props: DoneButtonProps) => {
   const { disabled, screenProps, children, mode, color, style } = props
 
   return (
-    <Button
-      mode={mode || 'text'}
+    <CustomButton
+      mode={mode || 'outlined'}
       color={color || '#575757'}
       style={style}
       disabled={disabled}
       onPress={screenProps.goToRoot}
     >
       {children || 'Done'}
-    </Button>
+    </CustomButton>
   )
 }
 

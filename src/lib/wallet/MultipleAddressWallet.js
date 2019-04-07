@@ -22,9 +22,6 @@ class MultipleAddressWallet {
     this.mnemonic = mnemonic
     this.addresses = []
     this.wallets = {}
-  }
-
-  ready() {
     this.initAccounts()
     this.wallet = this.wallets[this.addresses[0]]
   }

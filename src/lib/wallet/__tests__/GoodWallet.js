@@ -1,5 +1,20 @@
 import goodWallet from '../GoodWallet'
 
+describe('Wallet Creation', () => {
+  let wallet
+
+  beforeEach(() => {
+    wallet = goodWallet
+  })
+
+  it(`should create wallet property`, () => {
+    expect(wallet).toBeDefined()
+    expect(wallet).not.toBeNull()
+    expect(wallet.wallet).toBeDefined()
+    expect(wallet.wallet).not.toBeNull()
+  })
+})
+
 describe('Wallet Initialization', () => {
   let wallet
   const numOfAcoounts = 10
@@ -9,10 +24,6 @@ describe('Wallet Initialization', () => {
   })
 
   it(`should initialize wallet property`, () => {
-    expect(wallet).toBeDefined()
-    expect(wallet).not.toBeNull()
-    expect(wallet.wallet).toBeDefined()
-    expect(wallet.wallet).not.toBeNull()
     expect(wallet.account).toBeDefined()
     expect(wallet.account).not.toBeNull()
     expect(wallet.accounts).toBeDefined()

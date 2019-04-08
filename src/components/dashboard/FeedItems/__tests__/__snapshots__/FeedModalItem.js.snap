@@ -3,27 +3,14 @@
 exports[`FeedModalItem - Send matches snapshot 1`] = `
 <div
   className="css-view-1dbjc4n"
-  data-focusable={true}
-  onKeyDown={[Function]}
-  onKeyUp={[Function]}
-  onResponderGrant={[Function]}
-  onResponderMove={[Function]}
-  onResponderRelease={[Function]}
-  onResponderTerminate={[Function]}
-  onResponderTerminationRequest={[Function]}
-  onStartShouldSetResponder={[Function]}
   style={
     Object {
-      "MozUserSelect": "none",
       "WebkitAlignSelf": "flex-start",
       "WebkitBoxFlex": 1,
       "WebkitFlexBasis": "0%",
       "WebkitFlexGrow": 1,
       "WebkitFlexShrink": 1,
-      "WebkitUserSelect": "none",
       "alignSelf": "flex-start",
-      "backgroundColor": "rgba(0,0,0,0.00)",
-      "cursor": "pointer",
       "flexBasis": "0%",
       "flexGrow": 1,
       "flexShrink": 1,
@@ -33,14 +20,9 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
       "msFlexNegative": 1,
       "msFlexPositive": 1,
       "msFlexPreferredSize": "0%",
-      "msTouchAction": "manipulation",
-      "msUserSelect": "none",
-      "touchAction": "manipulation",
-      "userSelect": "none",
       "width": "95vw",
     }
   }
-  tabIndex="0"
 >
   <div
     className="css-view-1dbjc4n"
@@ -493,27 +475,14 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
 exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
 <div
   className="css-view-1dbjc4n"
-  data-focusable={true}
-  onKeyDown={[Function]}
-  onKeyUp={[Function]}
-  onResponderGrant={[Function]}
-  onResponderMove={[Function]}
-  onResponderRelease={[Function]}
-  onResponderTerminate={[Function]}
-  onResponderTerminationRequest={[Function]}
-  onStartShouldSetResponder={[Function]}
   style={
     Object {
-      "MozUserSelect": "none",
       "WebkitAlignSelf": "flex-start",
       "WebkitBoxFlex": 1,
       "WebkitFlexBasis": "0%",
       "WebkitFlexGrow": 1,
       "WebkitFlexShrink": 1,
-      "WebkitUserSelect": "none",
       "alignSelf": "flex-start",
-      "backgroundColor": "rgba(0,0,0,0.00)",
-      "cursor": "pointer",
       "flexBasis": "0%",
       "flexGrow": 1,
       "flexShrink": 1,
@@ -523,14 +492,9 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
       "msFlexNegative": 1,
       "msFlexPositive": 1,
       "msFlexPreferredSize": "0%",
-      "msTouchAction": "manipulation",
-      "msUserSelect": "none",
-      "touchAction": "manipulation",
-      "userSelect": "none",
       "width": "95vw",
     }
   }
-  tabIndex="0"
 >
   <div
     className="css-view-1dbjc4n"

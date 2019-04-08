@@ -48,14 +48,14 @@ const SendQRSummary = (props: AmountProps) => {
           return hash
         }
       })
-      log.debug({ receipt })
+      log.debug({ receipt, screenProps })
       store.set('currentScreen')({
         dialogData: {
           visible: true,
           title: 'SUCCESS!',
           message: 'The GD was sent successfully',
           dismissText: 'Yay!',
-          onDismiss: screenProps.goToParent
+          onDismiss: screenProps.goToRoot
         }
       })
     } catch (e) {
@@ -108,6 +108,11 @@ const styles = {
 
 SendQRSummary.navigationOptions = {
   title: TITLE
+}
+
+SendQRSummary.shouldNavigateToComponent = props => {
+  const { screenState } = props.screenProps
+  return !!screenState.nextRoutes
 }
 
 export default SendQRSummary

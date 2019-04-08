@@ -136,4 +136,9 @@ SendLinkSummary.navigationOptions = {
   title: TITLE
 }
 
+SendLinkSummary.shouldNavigateToComponent = props => {
+  const { screenState } = props.screenProps
+  return (!!screenState.nextRoutes && screenState.amount) || !!screenState.sendLink
+}
+
 export default SendLinkSummary

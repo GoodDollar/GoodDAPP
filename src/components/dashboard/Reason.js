@@ -46,4 +46,9 @@ SendReason.navigationOptions = {
   title: TITLE
 }
 
+SendReason.shouldNavigateToComponent = props => {
+  const { screenState } = props.screenProps
+  return screenState.amount >= 0 && screenState.nextRoutes
+}
+
 export default SendReason

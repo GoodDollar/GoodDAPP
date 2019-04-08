@@ -4,7 +4,7 @@ import { View, Text, StyleSheet } from 'react-native'
 import backButton from '../../assets/backButton.png'
 
 type NavBarProps = {
-  goBack: () => void,
+  goBack?: () => void,
   title: string
 }
 /**
@@ -17,7 +17,7 @@ class NavBar extends React.Component<NavBarProps> {
     return (
       <View style={styles.navBar}>
         <View style={styles.left}>
-          <View style={styles.backButton} onClick={this.props.goBack} />
+          {this.props.goBack && <View style={styles.backButton} onClick={this.props.goBack} />}
         </View>
         <Text style={styles.title}>{this.props.title}</Text>
         <View style={styles.right} />

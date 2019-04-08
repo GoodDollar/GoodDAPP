@@ -66,6 +66,14 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       } catch (e) {
         log.error(e)
       }
+    } else if (nextRoute && nextRoute.key === 'EmailConfirmation') {
+      try {
+        await API.sendVerificationEmail({ ...state, ...data })
+        await userStorage.setProfile({ ...state, ...data, walletAddress: goodWallet.account })
+        navigation.navigate(nextRoute.key)
+      } catch (e) {
+        log.error(e)
+      }
     } else {
       if (nextRoute) {
         navigation.navigate(nextRoute.key)

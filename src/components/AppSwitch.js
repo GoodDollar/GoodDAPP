@@ -73,7 +73,13 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
 
       if (jwt) {
         log.debug('New account, not verified, or did not finish signup', jwt)
-        this.props.navigation.navigate('Auth')
+
+        if (this.props.store.get('destinationPath') !== '') {
+          this.props.navigation.navigate(JSON.parse(this.props.store.get('destinationPath')))
+          this.props.store.set('destinationPath')('')
+        } else {
+          this.props.navigation.navigate('Auth')
+        }
       } else {
         // TODO: handle other statuses (4xx, 5xx), consider exponential backoff
         log.error('Failed to sign in', credsOrError)

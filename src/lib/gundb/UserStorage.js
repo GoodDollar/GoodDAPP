@@ -2,6 +2,7 @@
 import Gun from 'gun'
 import SEA from 'gun/sea'
 import { find, merge, orderBy, toPairs, takeWhile, flatten } from 'lodash'
+import { AsyncStorage } from 'react-native-web'
 import gun from './gundb'
 import { default as goodWallet, type GoodWallet } from '../wallet/GoodWallet'
 import pino from '../logger/pino-logger'
@@ -391,6 +392,23 @@ class UserStorage {
       .get(day)
       .putAck(dayEventsArr.length)
     return Promise.all([saveAck, ack]).then(arr => arr[0])
+  }
+
+  async getProfile() {
+    const { profilePublickey } = JSON.parse(await AsyncStorage.getItem('GoodDAPP_creds'))
+
+    const profile = gun
+      .get('users')
+      .get(profilePublickey)
+      .get('profile')
+
+    return this.getPrivateProfile({
+      fullName: await profile.get('fullName').get('val'),
+      mobile: await profile.get('mobile').get('val'),
+      email: await profile.get('email').get('val'),
+      avatar: await profile.get('avatar').get('val'),
+      walletAddress: await profile.get('walletAddress').get('val')
+    })
   }
 }
 

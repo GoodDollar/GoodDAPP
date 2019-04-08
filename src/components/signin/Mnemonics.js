@@ -1,29 +1,19 @@
 // @flow
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
-import { Button, Paragraph, Text, TextInput } from 'react-native-paper'
+import { Button, Paragraph, Text } from 'react-native-paper'
 import { normalize } from 'react-native-elements'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import logger from '../../lib/logger/pino-logger'
+import MnemonicInput from './MnemonicInput'
 
 const log = logger.child({ from: 'Mnemonics' })
 
 const Mnemonics = () => {
-  const handleChange = (text: string) => {
-    const sanitizedWords = text
-      .replace(/[\t\n]+/g, ' ')
-      .replace(/<.*>/g, '')
-      .replace(/ {2,}/g, ' ')
-      .trim()
-      .split(' ')
-
-    log.log(text, sanitizedWords)
-    if (sanitizedWords.length !== 12) {
-      log.warn('mnemonic is based on 12 words')
-    } else {
-      // TODO: recover wallet with mnemonics
-    }
+  const handleChange = (mnemonics: []) => {
+    log.info('Mnemonics', mnemonics)
   }
+
   return (
     <View style={styles.wrapper}>
       <View style={styles.topContainer}>
@@ -32,8 +22,7 @@ const Mnemonics = () => {
         </View>
 
         <View style={styles.formContainer}>
-          {/* TODO: this might require to be refactored to use 12 individual inputs as specified in the mocks */}
-          <TextInput multiline={true} numberOfLines={4} onChangeText={handleChange} />
+          <MnemonicInput onChange={handleChange} />
         </View>
       </View>
       <View style={styles.bottomContainer}>

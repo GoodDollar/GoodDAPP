@@ -99,4 +99,9 @@ SendConfirmation.navigationOptions = {
   backButtonHidden: true
 }
 
+SendConfirmation.shouldNavigateToComponent = props => {
+  const { screenState } = props.screenProps
+  return !!screenState.sendLink
+}
+
 export default SendConfirmation

@@ -6,6 +6,7 @@ import { createNavigator, SwitchRouter, SceneView, Route } from '@react-navigati
 
 import NavBar from './NavBar'
 import { CustomButton, type ButtonProps } from '../common'
+import logger from '../../lib/logger/pino-logger'
 
 /**
  * getComponent gets the component and props and returns the same component except when
@@ -66,19 +67,21 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
   push = (nextRoute, params) => {
     const { navigation } = this.props
     const route = navigation.state.routes[navigation.state.index].key
-    this.setState((state, props) => {
-      return {
-        stack: [
-          ...state.stack,
-          {
-            route,
-            state: state.currentState
-          }
-        ],
-        currentState: params
-      }
-    })
-    navigation.navigate(nextRoute)
+    this.setState(
+      (state, props) => {
+        return {
+          stack: [
+            ...state.stack,
+            {
+              route,
+              state: state.currentState
+            }
+          ],
+          currentState: params
+        }
+      },
+      state => navigation.navigate(nextRoute)
+    )
   }
 
   /**

@@ -420,12 +420,12 @@ class UserStorage {
     const fullName = fullNameField ? fullNameField.display : 'Unknown Name'
     const avatar = avatarField ? avatarField.display : undefined
 
-    let canWitdraw
+    let withdrawStatus
     if (data.generatedString) {
-      canWitdraw = await this.wallet.canWithdraw(data.generatedString)
+      withdrawStatus = await this.wallet.getWithdrawStatus(data.generatedString)
     }
 
-    logger.info({ avatarField, avatar, canWitdraw })
+    logger.info({ avatarField, avatar, withdrawStatus })
     const stdFeed = {
       id: feedEvent.id,
       date: new Date(feedEvent.date).getTime(),
@@ -435,7 +435,7 @@ class UserStorage {
           address: data.sender,
           fullName,
           avatar,
-          canWitdraw
+          withdrawStatus
         },
         amount: data.amount || data.value,
         message: feedEvent.data.reason

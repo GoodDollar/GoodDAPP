@@ -10,7 +10,10 @@ const ModalSendEvent = ({ item: feed, onPress }) => {
     <View style={styles.modal}>
       <View style={styles.row}>
         {feed.data.endpoint.title && <Text style={styles.leftTitle}>{feed.data.endpoint.title}</Text>}
-        <Text style={styles.leftTitle}>Sent GD</Text>
+        <Text style={styles.leftTitle}>
+          Sent GD
+          {feed.data.endpoint.withdrawStatus && <Text> by link - {feed.data.endpoint.withdrawStatus}</Text>}
+        </Text>
         <BigGoodDollar number={feed.data.amount} elementStyles={styles.currency} />
       </View>
       <Text>{new Date(feed.date).toLocaleDateString()}</Text>

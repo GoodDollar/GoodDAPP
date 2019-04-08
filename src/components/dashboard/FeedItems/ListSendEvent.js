@@ -13,7 +13,10 @@ const FeedListItem = ({ item: feed }) => {
         <Text>{`\n`}</Text>
       </View>
       <View style={listStyles.rowData}>
-        <Text style={listStyles.rowDataText}>{`To: ${feed.data.endpoint.fullName}`}</Text>
+        <Text style={listStyles.rowDataText}>
+          {`To: ${feed.data.endpoint.fullName}`}
+          {feed.data.endpoint.withdrawStatus && <Text> by link - {feed.data.endpoint.withdrawStatus}</Text>}
+        </Text>
         <Text style={listStyles.rowDataSubText}>{feed.data.message}</Text>
       </View>
       <View style={[listStyles.row, { borderBottomWidth: 0, marginBottom: 0, padding: 0 }]}>

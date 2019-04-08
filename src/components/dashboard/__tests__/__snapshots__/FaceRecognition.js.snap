@@ -140,7 +140,7 @@ exports[`FaceRecognition matches snapshot 1`] = `
               }
             }
           >
-            John,
+            undefined,
  Just one last thing...
           </div>
           <div

@@ -415,8 +415,8 @@ class UserStorage {
       logger.info('userTo', { from, to, profileFrom, profileTo })
     }
     const profileToShow = feedEvent.type === 'send' ? profileTo : profileFrom
-    const avatarField = await profileToShow.get('avatar').then()
-    const fullNameField = await profileToShow.get('fullName').then()
+    const avatarField = profileToShow ? await profileToShow.get('avatar').then() : undefined
+    const fullNameField = profileToShow ? await profileToShow.get('fullName').then() : undefined
     const fullName = fullNameField ? fullNameField.display : 'Unknown Name'
     const avatar = avatarField ? avatarField.display : undefined
 

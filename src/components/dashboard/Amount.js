@@ -54,4 +54,9 @@ Amount.navigationOptions = {
   title: RECEIVE_TITLE
 }
 
+Amount.shouldNavigateToComponent = props => {
+  const { screenState } = props.screenProps
+  return !!screenState.nextRoutes
+}
+
 export default Amount

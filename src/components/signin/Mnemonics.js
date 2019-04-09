@@ -68,8 +68,6 @@ const styles = StyleSheet.create({
   },
   bottomContainer: {
     display: 'flex',
-    flex: 1,
-    paddingTop: normalize(20),
     justifyContent: 'flex-end'
   },
   fontBase: {
@@ -89,7 +87,6 @@ const styles = StyleSheet.create({
     lineHeight: '1.2em'
   },
   buttonLayout: {
-    marginTop: 30,
     padding: 10
   },
   buttonText: {

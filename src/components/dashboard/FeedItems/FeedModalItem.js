@@ -16,7 +16,7 @@ const modalType = type => {
 const FeedModalItem = props => {
   const Modal = modalType(props.item.type)
   return (
-    <View style={[styles.horizItem, { height: '90vh', width: '95vw', marginRight: normalize(10) }]}>
+    <View style={styles.horizItem}>
       <View style={styles.fullHeight}>
         <Modal {...props} />
       </View>
@@ -27,7 +27,10 @@ const FeedModalItem = props => {
 const styles = StyleSheet.create({
   horizItem: {
     flex: 1,
-    alignSelf: 'flex-start' // Necessary for touch highlight
+    alignSelf: 'flex-start', // Necessary for touch highlight
+    height: '90vh',
+    width: '95vw',
+    marginRight: normalize(10)
   },
   fullHeight: {
     height: '100%',

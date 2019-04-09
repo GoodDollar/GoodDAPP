@@ -70,7 +70,7 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
     const feeds = store.get('feeds')
 
     return (
-      <View style={{ flex: 1 }}>
+      <View style={styles.dashboardView}>
         <TabsView goTo={navigation.navigate} routes={screenProps.routes} />
         <Wrapper>
           <Section>
@@ -137,6 +137,9 @@ const styles = StyleSheet.create({
   rightButton: {
     flex: 1,
     marginLeft: normalize(10)
+  },
+  dashboardView: {
+    flex: 1
   },
   centered: {
     justifyContent: 'center',

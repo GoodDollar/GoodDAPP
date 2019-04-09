@@ -395,50 +395,51 @@ class UserStorage {
     // return (await this.getFeedPage(amount, true)).map(this.standardizeFeed)
   }
 
-  async standardizeFeed(feedEvent: FeedEvent): Promise<StandardFeed> {
-    const { data } = feedEvent
-    const { receipt } = data
-    let profileFrom, profileTo
+  async standardizeFeed({ data, type, date, id }: FeedEvent): Promise<StandardFeed> {
+    const { receipt, from, to, sender, amount, reason, value, generatedString } = data
+    let avatar, fullName, address, withdrawStatus
     if (receipt) {
-      const from = data.from ? data.from.toLowerCase() : UserStorage.cleanFieldForIndex('walletAddress', receipt.from)
-      const to = data.to ? data.to.toLowerCase() : UserStorage.cleanFieldForIndex('walletAddress', receipt.to)
-      profileFrom = gun
+      if (type === 'send') {
+        address = to ? to.toLowerCase() : UserStorage.cleanFieldForIndex('walletAddress', receipt.to)
+      } else {
+        address = from ? from.toLowerCase() : UserStorage.cleanFieldForIndex('walletAddress', receipt.from)
+      }
+
+      const profileToShow = gun
         .get('users')
         .get('bywalletAddress')
-        .get(from)
+        .get(address)
         .get('profile')
-      profileTo = gun
-        .get('users')
-        .get('bywalletAddress')
-        .get(to)
-        .get('profile')
-      logger.info('userTo', { from, to, profileFrom, profileTo })
-    }
-    const profileToShow = feedEvent.type === 'send' ? profileTo : profileFrom
-    const avatarField = await profileToShow.get('avatar').then()
-    const fullNameField = await profileToShow.get('fullName').then()
-    const fullName = fullNameField ? fullNameField.display : 'Unknown Name'
-    const avatar = avatarField ? avatarField.display : undefined
 
-    let withdrawStatus
-    if (data.generatedString) {
-      withdrawStatus = await this.wallet.getWithdrawStatus(data.generatedString)
+      avatar =
+        (await profileToShow
+          .get('avatar')
+          .get('display')
+          .then()) || undefined
+      fullName =
+        (await profileToShow
+          .get('fullName')
+          .get('display')
+          .then()) || 'Unknown Name'
     }
 
-    logger.info({ avatarField, avatar, withdrawStatus })
+    if (generatedString) {
+      withdrawStatus = await this.wallet.getWithdrawStatus(generatedString)
+    }
+
     const stdFeed = {
-      id: feedEvent.id,
-      date: new Date(feedEvent.date).getTime(),
-      type: feedEvent.type,
+      id: id,
+      date: new Date(date).getTime(),
+      type: type,
       data: {
         endpoint: {
-          address: data.sender,
+          address: sender,
           fullName,
           avatar,
           withdrawStatus
         },
-        amount: data.amount || data.value,
-        message: feedEvent.data.reason
+        amount: amount || value,
+        message: reason
       }
     }
     return stdFeed

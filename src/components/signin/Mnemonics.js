@@ -1,19 +1,31 @@
 // @flow
-import React from 'react'
+import React, { useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Button, Paragraph, Text } from 'react-native-paper'
 import { normalize } from 'react-native-elements'
-import goodWallet from '../../lib/wallet/GoodWallet'
+import { useWrappedGoodWallet } from '../../lib/wallet/useWrappedWallet'
 import logger from '../../lib/logger/pino-logger'
 import MnemonicInput from './MnemonicInput'
+import { defineProperties } from 'ethereumjs-util'
 
 const log = logger.child({ from: 'Mnemonics' })
 
-const Mnemonics = () => {
+const Mnemonics = props => {
+  const [mnemonics, setMnemonics] = useState()
+  const goodWallet = useWrappedGoodWallet()
   const handleChange = (mnemonics: []) => {
-    log.info('Mnemonics', mnemonics)
+    log.info({ mnemonics })
+    setMnemonics(mnemonics.join(' '))
   }
-
+  const recover = async () => {
+    log.info('Mnemonics', mnemonics)
+    try {
+      await goodWallet.recoverWithMnemonic(mnemonics)
+      props.navigation.navigate('AppNavigation')
+    } catch (err) {
+      log.error(err)
+    }
+  }
   return (
     <View style={styles.wrapper}>
       <View style={styles.topContainer}>
@@ -26,7 +38,12 @@ const Mnemonics = () => {
         </View>
       </View>
       <View style={styles.bottomContainer}>
-        <Button style={[styles.buttonLayout, styles.recoverButton]} mode="contained" onPress={() => log.debug('done')}>
+        <Button
+          style={[styles.buttonLayout, styles.recoverButton]}
+          mode="contained"
+          onPress={recover}
+          disabled={!mnemonics}
+        >
           <Text style={styles.buttonText}>RECOVER MY WALLET</Text>
         </Button>
       </View>

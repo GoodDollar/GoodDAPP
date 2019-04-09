@@ -16,9 +16,11 @@ class SoftwareWalletProvider {
   GD_USER_MNEMONIC: string = 'GD_USER_MNEMONIC'
   conf: WalletConfig
 
-  constructor(conf: WalletConfig) {
+  constructor(conf: WalletConfig, initialMnemonics?: string) {
     this.conf = conf
-    this.ready = this.initHD()
+    this.ready = this.initHD(initialMnemonics).catch(err => {
+      throw err
+    })
   }
   getPKey() {
     return localStorage.getItem(this.GD_USER_PKEY)
@@ -47,12 +49,12 @@ class SoftwareWalletProvider {
     return web3
   }
 
-  async initHD(): Promise<Web3> {
+  async initHD(initialMnemonics?: string): Promise<Web3> {
     let provider = this.getWeb3TransportProvider()
     log.info('wallet config:', this.conf, provider)
 
     //let web3 = new Web3(new WebsocketProvider("wss://ropsten.infura.io/ws"))
-    let pkey: ?string = localStorage.getItem(this.GD_USER_MNEMONIC)
+    let pkey: ?string = initialMnemonics || localStorage.getItem(this.GD_USER_MNEMONIC)
     if (!pkey) {
       pkey = this.generateMnemonic()
       localStorage.setItem(this.GD_USER_MNEMONIC, pkey)
@@ -72,6 +74,7 @@ class SoftwareWalletProvider {
     let accounts = hdwallet.addresses
     web3.eth.defaultAccount = accounts[0]
     hdwallet.engine.stop()
+    localStorage.setItem(this.GD_USER_MNEMONIC, pkey)
     return web3
   }
 

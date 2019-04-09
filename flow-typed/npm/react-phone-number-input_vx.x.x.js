@@ -1,4 +1,4 @@
-// flow-typed signature: f0fe57f3b16be37ef066ef39daae21e9
+// flow-typed signature: d8c1486c47dfe50ad58626a119b99735
 // flow-typed version: <<STUB>>/react-phone-number-input_v^2.3.5/flow_v0.89.0
 
 /**
@@ -39,6 +39,14 @@ declare module 'react-phone-number-input/basic-input/index' {
 }
 
 declare module 'react-phone-number-input/build-bundle-styles' {
+  declare module.exports: any;
+}
+
+declare module 'react-phone-number-input/bundle/react-phone-number-input-native-max' {
+  declare module.exports: any;
+}
+
+declare module 'react-phone-number-input/bundle/react-phone-number-input-native-mobile' {
   declare module.exports: any;
 }
 
@@ -334,7 +342,7 @@ declare module 'react-phone-number-input/react-styleguidist' {
   declare module.exports: any;
 }
 
-declare module 'react-phone-number-input/runnable/generate-countries' {
+declare module 'react-phone-number-input/runnable/generate-country-flags' {
   declare module.exports: any;
 }
 
@@ -373,6 +381,12 @@ declare module 'react-phone-number-input/basic-input/index.js' {
 }
 declare module 'react-phone-number-input/build-bundle-styles.js' {
   declare module.exports: $Exports<'react-phone-number-input/build-bundle-styles'>;
+}
+declare module 'react-phone-number-input/bundle/react-phone-number-input-native-max.js' {
+  declare module.exports: $Exports<'react-phone-number-input/bundle/react-phone-number-input-native-max'>;
+}
+declare module 'react-phone-number-input/bundle/react-phone-number-input-native-mobile.js' {
+  declare module.exports: $Exports<'react-phone-number-input/bundle/react-phone-number-input-native-mobile'>;
 }
 declare module 'react-phone-number-input/bundle/react-phone-number-input-native.js' {
   declare module.exports: $Exports<'react-phone-number-input/bundle/react-phone-number-input-native'>;
@@ -599,8 +613,8 @@ declare module 'react-phone-number-input/react-responsive-ui/index.js' {
 declare module 'react-phone-number-input/react-styleguidist.js' {
   declare module.exports: $Exports<'react-phone-number-input/react-styleguidist'>;
 }
-declare module 'react-phone-number-input/runnable/generate-countries.js' {
-  declare module.exports: $Exports<'react-phone-number-input/runnable/generate-countries'>;
+declare module 'react-phone-number-input/runnable/generate-country-flags.js' {
+  declare module.exports: $Exports<'react-phone-number-input/runnable/generate-country-flags'>;
 }
 declare module 'react-phone-number-input/smart-input-custom/index.commonjs.js' {
   declare module.exports: $Exports<'react-phone-number-input/smart-input-custom/index.commonjs'>;

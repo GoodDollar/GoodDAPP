@@ -18,10 +18,6 @@ type Props = {
 }
 
 class FaceRecognition extends React.Component<Props> {
-  handleSubmit = () => {
-    this.props.screenProps.doneCallback({ isEmailConfirmed: true })
-  }
-
   handleClaim = async () => {
     try {
       const goodWalletWrapped = wrapper(goodWallet, this.props.store)
@@ -32,7 +28,7 @@ class FaceRecognition extends React.Component<Props> {
           title: 'Success',
           message: `You've claimed your GD`,
           dismissText: 'YAY!',
-          onDismiss: this._handleDismissDialog
+          onDismiss: this.props.screenProps.goToRoot
         },
         loading: true
       })
@@ -41,18 +37,12 @@ class FaceRecognition extends React.Component<Props> {
     }
   }
 
-  _handleDismissDialog = dialogData => {
-    const { title } = dialogData
-    // TODO: Improve this flow
-    if (title === 'Success') this.props.screenProps.pop()
-  }
-
   render() {
-    this.props.screenProps.data = { name: 'John' }
+    const { fullName } = this.props.store.get('profile')
     return (
       <Wrapper>
         <View style={styles.topContainer}>
-          <Title>{`${this.props.screenProps.data.name},\n Just one last thing...`}</Title>
+          <Title>{`${fullName},\n Just one last thing...`}</Title>
           <Description style={styles.description}>
             {"In order to give you a basic income we need to make sure it's really you"}
           </Description>

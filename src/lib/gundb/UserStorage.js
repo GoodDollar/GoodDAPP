@@ -5,6 +5,8 @@ import SEA from 'gun/sea'
 import { find, merge, orderBy, toPairs, takeWhile, flatten } from 'lodash'
 import gun from './gundb'
 import { default as goodWallet, type GoodWallet } from '../wallet/GoodWallet'
+import isMobilePhone from '../validators/isMobilePhone'
+import isEmail from 'validator/lib/isEmail'
 
 import pino from '../logger/pino-logger'
 import { getUserModel, type UserModel } from './UserModel'
@@ -385,11 +387,8 @@ class UserStorage {
     return results
   }
 
-  async getStandardizedFeed(amount: number, reset: boolean): Promise<Array<StandardFeed>> {
+  async getStandardizedFeed(): Promise<Array<StandardFeed>> {
     const feed = await this.getAllFeed()
-    logger.info({ feed })
-    gun.get('users').load(allUsers => logger.info({ allUsers }), { wait: 99 })
-
     return await Promise.all(feed.filter(feedItem => feedItem.data).map(this.standardizeFeed))
     // TODO: Use proper pagination
     // return (await this.getFeedPage(amount, true)).map(this.standardizeFeed)
@@ -405,9 +404,11 @@ class UserStorage {
         address = from ? from.toLowerCase() : UserStorage.cleanFieldForIndex('walletAddress', receipt.from)
       }
 
+      const searchField = 'by' + (isMobilePhone(address) ? 'mobile' : isEmail(address) ? 'email' : 'walletAddress')
+      gun.get('users').load(allUsers => logger.info({ allUsers }), { wait: 99 })
       const profileToShow = gun
         .get('users')
-        .get('bywalletAddress')
+        .get(searchField)
         .get(address)
         .get('profile')
 

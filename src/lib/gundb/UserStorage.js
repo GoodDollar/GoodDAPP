@@ -394,20 +394,9 @@ class UserStorage {
     return Promise.all([saveAck, ack]).then(arr => arr[0])
   }
 
-  async getProfile() {
-    const { profilePublickey } = JSON.parse(await AsyncStorage.getItem('GoodDAPP_creds'))
-
-    const profile = gun
-      .get('users')
-      .get(profilePublickey)
-      .get('profile')
-
-    return this.getPrivateProfile({
-      fullName: await profile.get('fullName').get('val'),
-      mobile: await profile.get('mobile').get('val'),
-      email: await profile.get('email').get('val'),
-      avatar: await profile.get('avatar').get('val'),
-      walletAddress: await profile.get('walletAddress').get('val')
+  getProfile(): Promise<any> {
+    return new Promise(res => {
+      this.profile.load(async profile => res(await this.getPrivateProfile(profile)), { wait: 99 })
     })
   }
 }

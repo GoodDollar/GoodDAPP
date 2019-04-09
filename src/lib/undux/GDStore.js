@@ -31,12 +31,17 @@ type CurrentScreen = {
   loading: boolean
 }
 
+type LoadingIndicator = {
+  loading: boolean
+}
+
 export type State = {
   balanceUpdate: BalanceUpdate,
   name: Name,
   account: Account,
   currentScreen: CurrentScreen,
-  destinationPath: string
+  destinationPath: string,
+  loadingIndicator: LoadingIndicator
 }
 
 const initialState: State = {
@@ -60,7 +65,10 @@ const initialState: State = {
     loading: false
   },
   profile: {},
-  destinationPath: ''
+  destinationPath: '',
+  loadingIndicator: {
+    loading: false
+  }
 }
 
 export default createConnectedStore(

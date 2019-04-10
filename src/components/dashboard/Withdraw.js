@@ -69,7 +69,7 @@ class Withdraw extends Component<DashboardProps, DashboardState> {
       const date = new Date()
 
       const transactionEvent: TransactionEvent = {
-        id: receipt.blockHash,
+        id: receipt.transactionHash,
         date: date.toString(),
         type: 'withdraw',
         data: {
@@ -86,7 +86,7 @@ class Withdraw extends Component<DashboardProps, DashboardState> {
       log.info(events)
 
       const event = _(events)
-        .filter({ id: receipt.blockHash })
+        .filter({ id: receipt.transactionHash })
         .value()[0]
 
       this.setState({
@@ -120,6 +120,8 @@ class Withdraw extends Component<DashboardProps, DashboardState> {
 
   render() {
     const { dialogData, eventDialogData } = this.state
+
+    console.log({ eventDialogData })
 
     return (
       <>

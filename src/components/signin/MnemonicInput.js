@@ -6,6 +6,7 @@ import { View, StyleSheet } from 'react-native'
 import logger from '../../lib/logger/pino-logger'
 
 const log = logger.child({ from: 'MnemonicInput' })
+const MAX_WORDS = 12
 
 type Props = {
   onChange: Function
@@ -18,25 +19,29 @@ const isValidWord = word => {
 const MnemonicInput = (props: Props) => {
   const [state, setState] = useState({})
   const refs = {}
-  for (let i = 0; i < 12; i++) {
+  for (let i = 0; i < MAX_WORDS; i++) {
     refs[i] = useRef(null)
   }
   const handleChange = () => {
-    log.info({ state })
+    // Each time the state is updated we check if there is a valid mnemonic and execute onChange callback
     const wordsArray = Object.values(state)
-    if (wordsArray.length === 12 && wordsArray.every(isValidWord)) {
+    if (wordsArray.length === MAX_WORDS && wordsArray.every(isValidWord)) {
       props.onChange(wordsArray)
     }
   }
 
   const setWord = index => text => {
+    // If there is more than one word we want to put each word in his own input
+    // We also want to move focus to next word
     const words = text.split(' ')
     if (words.length > 1) {
       const newState = { ...state }
-      for (let i = index; i < words.length && i < 12; i++) {
+      for (let i = index; i < words.length && i < MAX_WORDS; i++) {
         newState[i] = words[i]
       }
       setState(newState)
+
+      // If last word is empty means we need to consider length-1 as pos to focus on next
       const pos = words[words.length - 1] === '' ? words.length - 1 : words.length
       const next = Math.min(pos + index, 11)
       refs[next].current.focus()
@@ -50,7 +55,7 @@ const MnemonicInput = (props: Props) => {
 
   return (
     <View style={styles.inputsContainer}>
-      {[...Array(12).keys()].map(key => (
+      {[...Array(MAX_WORDS).keys()].map(key => (
         <TextInput
           value={state[key] || ''}
           label={key + 1}

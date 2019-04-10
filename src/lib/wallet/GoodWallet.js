@@ -396,16 +396,15 @@ export class GoodWallet {
     return await isLinkUsed(link).call()
   }
 
-  async isWithdrawPaymentAvailable(payment: any) {
-    const { toBN } = this.wallet.utils
-    return payment.lte(toBN('0'))
+  isWithdrawPaymentAvailable(payment: any) {
+    return payment.lte(ZERO)
   }
 
-  async getWithdrawAvailablePayment(link: string) {
+  getWithdrawAvailablePayment(link: string) {
     const { payments } = this.oneTimePaymentLinksContract.methods
     const { toBN } = this.wallet.utils
 
-    return await payments(link)
+    return payments(link)
       .call()
       .then(toBN)
   }
@@ -418,7 +417,7 @@ export class GoodWallet {
     if (linkUsed) return 'Completed'
 
     // Check payment availability
-    const paymentAvailable = this.getWithdrawAvailablePayment(link)
+    const paymentAvailable = await this.getWithdrawAvailablePayment(link)
     if (this.isWithdrawPaymentAvailable(paymentAvailable)) return 'Cancelled'
 
     return 'Pending'
@@ -432,10 +431,10 @@ export class GoodWallet {
 
     // Check link availability
     const linkUsed = await this.isWithdrawLinkUsed(link)
-    if (linkUsed) throw new Error('invalid link')
+    if (!linkUsed) throw new Error('invalid link')
 
     // Check payment availability
-    const paymentAvailable = this.getWithdrawAvailablePayment(link)
+    const paymentAvailable = await this.getWithdrawAvailablePayment(link)
     if (this.isWithdrawPaymentAvailable(paymentAvailable)) throw new Error('deposit already withdrawn')
 
     const sender = await senders(link).call()

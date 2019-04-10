@@ -61,17 +61,12 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
       goodWallet.isCitizen(),
       delay(TIMEOUT)
     ])
-    const { store, navigation } = this.props
-
     let topWalletRes = API.verifyTopWallet()
     log.info('checkAuthStatus', { credsOrError, isCitizen })
-
     const isLoggedIn = credsOrError.jwt !== undefined
-
-    store.set('isLoggedInCitizen')(isLoggedIn && isCitizen)
-
-    if (store.get('isLoggedInCitizen')) {
-      navigation.navigate('AppNavigation')
+    this.props.store.set('isLoggedInCitizen')(isLoggedIn && isCitizen)
+    if (this.props.store.get('isLoggedInCitizen')) {
+      this.props.navigation.navigate('AppNavigation')
     } else {
       const { jwt } = credsOrError
       this.getParams()
@@ -79,16 +74,16 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
       if (jwt) {
         log.debug('New account, not verified, or did not finish signup', jwt)
 
-        if (store.get('destinationPath') !== '') {
-          navigation.navigate(JSON.parse(store.get('destinationPath')))
-          store.set('destinationPath')('')
+        if (this.props.store.get('destinationPath') !== '') {
+          this.props.navigation.navigate(JSON.parse(this.props.store.get('destinationPath')))
+          this.props.store.set('destinationPath')('')
         } else {
-          navigation.navigate('Auth')
+          this.props.navigation.navigate('Auth')
         }
       } else {
         // TODO: handle other statuses (4xx, 5xx), consider exponential backoff
         log.error('Failed to sign in', credsOrError)
-        navigation.navigate('Auth')
+        this.props.navigation.navigate('Auth')
       }
     }
   }

@@ -2,8 +2,7 @@
 import React, { Component } from 'react'
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 import { Provider as PaperProvider } from 'react-native-paper'
-import { loadReCaptcha, ReCaptcha } from 'recaptcha-v3-react'
-import LoadingIndicator from './components/common/LoadingIndicator'
+import { loadReCaptcha } from 'recaptcha-v3-react'
 
 import Config from './config/config'
 import userStorage from './lib/gundb/UserStorage'
@@ -37,7 +36,6 @@ class App extends Component<{}, { walletReady: boolean, isLoggedIn: boolean, isU
             <View style={styles.container}>
               {/* <ReCaptcha sitekey={Config.recaptcha} action="auth" verifyCallback={this.onRecaptcha} /> */}
               <WebRouter />
-              <LoadingIndicator />
             </View>
           </SafeAreaView>
         </PaperProvider>

@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { ActivityIndicator, Colors } from 'react-native-paper'
+import { ActivityIndicator, Colors, Portal } from 'react-native-paper'
 import { StyleSheet, View } from 'react-native-web'
 import type { Store } from 'undux'
 
@@ -18,13 +18,13 @@ const LoadingIndicator = () => {
   const { loading } = store.get('loadingIndicator')
 
   return (
-    <>
+    <Portal>
       {loading ? (
         <View style={styles.screen}>
           <ActivityIndicator animating={loading} color={Colors.lightBlue800} />
         </View>
       ) : null}
-    </>
+    </Portal>
   )
 }
 

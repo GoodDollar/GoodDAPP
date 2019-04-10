@@ -1,15 +1,17 @@
 // @flow
-import React from 'react'
 import { SceneView } from '@react-navigation/core'
 import _ from 'lodash'
-
-import goodWallet from '../lib/wallet/GoodWallet'
-import goodWalletLogin from '../lib/login/GoodWalletLogin'
-import logger from '../lib/logger/pino-logger'
-import API from '../lib/API/api'
-import GDStore from '../lib/undux/GDStore'
+import React from 'react'
 import type { Store } from 'undux'
 import { CustomDialog } from '../components/common'
+import API from '../lib/API/api'
+import logger from '../lib/logger/pino-logger'
+import goodWalletLogin from '../lib/login/GoodWalletLogin'
+import GDStore from '../lib/undux/GDStore'
+
+import goodWallet from '../lib/wallet/GoodWallet'
+import LoadingIndicator from './common/LoadingIndicator'
+
 type LoadingProps = {
   navigation: any,
   descriptors: any,
@@ -103,6 +105,7 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
             currentDialogData.onDismiss && currentDialogData.onDismiss(currentDialogData)
           }}
         />
+        <LoadingIndicator />
         <SceneView navigation={descriptor.navigation} component={descriptor.getComponent()} />
       </React.Fragment>
     )

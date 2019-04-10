@@ -12,6 +12,7 @@ env:
     - CI=false
 
 script:
+  - npm run coverage
   - npm run coveralls
   - npm run build
 

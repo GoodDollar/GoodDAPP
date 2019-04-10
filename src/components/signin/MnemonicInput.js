@@ -33,18 +33,24 @@ const MnemonicInput = (props: Props) => {
   const setWord = index => text => {
     // If there is more than one word we want to put each word in his own input
     // We also want to move focus to next word
-    const words = text.split(' ')
-    if (words.length > 1) {
+    const splitted = text.split(' ')
+
+    if (splitted.length > 1) {
+      const words = splitted.filter(word => word !== '')
+
       const newState = { ...state }
-      for (let i = index; i < words.length && i < MAX_WORDS; i++) {
-        newState[i] = words[i]
+      for (let i = 0; i < words.length; i++) {
+        if (i + index < MAX_WORDS) {
+          log.info(newState[i + index], words[i])
+          newState[i + index] = words[i]
+        }
       }
-      setState(newState)
 
       // If last word is empty means we need to consider length-1 as pos to focus on next
-      const pos = words[words.length - 1] === '' ? words.length - 1 : words.length
-      const next = Math.min(pos + index, 11)
+      const pos = splitted.length > words.length ? words.length : words.length + 1
+      const next = Math.min(pos + index, MAX_WORDS - 1)
       refs[next].current.focus()
+      setState(newState)
     } else {
       const newState = { ...state, [index]: text.trim() }
       setState(newState)

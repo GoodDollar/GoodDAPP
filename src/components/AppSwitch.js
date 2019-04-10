@@ -39,7 +39,6 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
   getParams = () => {
     const { router, state } = this.props.navigation
     const navInfo = router.getPathAndParamsForState(state)
-    log.info(navInfo)
     if (Object.keys(navInfo.params).length && this.props.store.get('destinationPath') === '') {
       const app = router.getActionForPathAndParams(navInfo.path)
       const destRoute = actions => (_.some(actions, 'action') ? destRoute(actions.action) : actions.action)

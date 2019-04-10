@@ -7,7 +7,7 @@ import { useWrappedApi } from '../../lib/API/useWrappedApi'
 import { useWrappedUserStorage } from '../../lib/gundb/useWrappedStorage'
 import logger from '../../lib/logger/pino-logger'
 import GDStore from '../../lib/undux/GDStore'
-import LoadingIndicator, { setLoadingWithStore } from '../common/LoadingIndicator'
+import { setLoadingWithStore } from '../common/LoadingIndicator'
 import { Description, LinkButton, NextButton, Title, Wrapper } from './components'
 
 type Props = {
@@ -74,7 +74,6 @@ const EmailConfirmation = ({ navigation, screenProps }: Props) => {
         <Description>{"We've sent an email to:"}</Description>
         <Title>{globalProfile.email || screenProps.data.email}</Title>
       </Wrapper>
-      <LoadingIndicator />
     </>
   )
 }

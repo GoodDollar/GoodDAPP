@@ -59,11 +59,7 @@ const AppNavigator = createSwitchNavigator(routes, { initialRouteName })
 class AppNavigation extends React.Component<AppNavigationProps, AppNavigationState> {
   render() {
     const account = this.props.store.get('account')
-    if (account.ready) {
-      return <AppNavigator navigation={this.props.navigation} screenProps={{ routes }} />
-    }
-
-    return <Splash />
+    return account.ready ? <AppNavigator navigation={this.props.navigation} screenProps={{ routes }} /> : null
   }
 }
 

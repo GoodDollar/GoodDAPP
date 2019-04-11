@@ -57,7 +57,6 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   const done = async (data: { [string]: string }) => {
     log.info('signup data:', { data })
     setState({ ...state, ...data })
-    console.log({ state, data })
     let nextRoute = navigation.state.routes[navigation.state.index + 1]
     if (nextRoute && nextRoute.key === 'SMS') {
       try {
@@ -80,6 +79,10 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
           // top wallet of new user
           // wait for the topping to complete to be able to withdraw
           await API.verifyTopWallet()
+          const { email: to, fullName: name } = state
+          const mnemonic = localStorage.getItem('GD_USER_MNEMONIC')
+          logger.info({ to, name, mnemonic })
+          await API.sendRecoveryInstructionByEmail({ to, name, mnemonic })
           if (destinationPath !== '') {
             navigation.navigate(JSON.parse(destinationPath))
             store.set('destinationPath')('')

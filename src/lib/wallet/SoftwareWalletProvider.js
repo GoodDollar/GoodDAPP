@@ -1,12 +1,12 @@
 // @flow
 import Web3 from 'web3'
-import type { WebSocketProvider } from 'web3-providers-ws'
-import type { HttpProvider } from 'web3-providers-http'
 import bip39 from 'bip39'
-import HDWalletProvider from 'truffle-hdwallet-provider'
 import Config from '../../config/config'
-import type { WalletConfig } from './WalletFactory'
 import logger from '../logger/pino-logger'
+import type { WalletConfig } from './WalletFactory'
+import type { HttpProvider } from 'web3-providers-http'
+import MultipleAddressWallet from './MultipleAddressWallet'
+import type { WebSocketProvider } from 'web3-providers-ws'
 
 const log = logger.child({ from: 'SoftwareWalletProvider' })
 
@@ -18,7 +18,7 @@ class SoftwareWalletProvider {
 
   constructor(conf: WalletConfig) {
     this.conf = conf
-    this.ready = this.initHD()
+    this.ready = this.initSoftwareWallet()
   }
   getPKey() {
     return localStorage.getItem(this.GD_USER_PKEY)
@@ -47,7 +47,7 @@ class SoftwareWalletProvider {
     return web3
   }
 
-  async initHD(): Promise<Web3> {
+  async initSoftwareWallet(): Promise<Web3> {
     let provider = this.getWeb3TransportProvider()
     log.info('wallet config:', this.conf, provider)
 
@@ -63,15 +63,14 @@ class SoftwareWalletProvider {
     }
     //we start from addres 1, since from address 0 pubkey all public keys can  be generated
     //and we want privacy
-    let hdwallet = new HDWalletProvider(pkey, provider, 1, 10)
+    let mulWallet = new MultipleAddressWallet(pkey, 10)
     let web3 = new Web3(provider)
-    hdwallet.addresses.forEach(addr => {
-      let wallet = web3.eth.accounts.privateKeyToAccount('0x' + hdwallet.wallets[addr]._privKey.toString('hex'))
+    mulWallet.addresses.forEach(addr => {
+      let wallet = web3.eth.accounts.privateKeyToAccount('0x' + mulWallet.wallets[addr].getPrivateKey().toString('hex'))
       web3.eth.accounts.wallet.add(wallet)
     })
-    let accounts = hdwallet.addresses
+    let accounts = mulWallet.addresses
     web3.eth.defaultAccount = accounts[0]
-    hdwallet.engine.stop()
     return web3
   }
 

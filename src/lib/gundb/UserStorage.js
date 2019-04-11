@@ -142,11 +142,7 @@ class UserStorage {
               }
 
               const updatedFeedEvent = { ...feedEvent, data: { ...feedEvent.data, receipt } }
-              await this.updateFeedEvent(updatedFeedEvent)
-
-              // Checking new feed
-              const feed = await this.getAllFeed()
-              logger.debug('receiptUpdated', { feed, receipt, updatedFeedEvent })
+              this.updateFeedEvent(updatedFeedEvent)
             } catch (error) {
               logger.error(error)
             }
@@ -167,9 +163,6 @@ class UserStorage {
                 }
               }
               await this.updateFeedEvent(updatedFeedEvent)
-              // Checking new feed
-              const feed = await this.getAllFeed()
-              logger.debug('receiptUpdated', { feed, receipt, updatedFeedEvent })
             } catch (error) {
               logger.error(error)
             }
@@ -191,22 +184,25 @@ class UserStorage {
   }
 
   async getFeedItemByTransactionHash(transactionHash: string) {
-    const feed = await this.getAllFeed()
-    logger.debug({ feed }, 'feed')
-    const feedItem = feed.find(feedItem => feedItem.id === transactionHash)
-    logger.debug({ feedItem })
+    const feedItem = await this.feed
+      .get('byid')
+      .get(transactionHash)
+      .decrypt()
+
     return feedItem
   }
-
   async getAllFeed() {
-    const total = Object.values(await this.feed.get('index')).reduce((acc, curr) => acc + curr)
-    logger.debug({ total })
+    const total = Object.values((await this.feed.get('index')) || {}).reduce((acc, curr) => acc + curr, 0)
+    const prevCursor = this.cursor
+    logger.debug({ total, prevCursor })
     const feed = await this.getFeedPage(total, true)
-    logger.debug({ feed })
+    this.cursor = prevCursor
+    logger.debug({ feed, cursor: this.cursor })
     return feed
   }
 
   updateFeedIndex = (changed: any, field: string) => {
+    logger.info('updateFeedIndex', { changed, field })
     if (field !== 'index' || changed === undefined) return
     delete changed._
     this.feedIndex = orderBy(toPairs(changed), day => day[0], 'desc')
@@ -219,6 +215,7 @@ class UserStorage {
       .once(this.updateFeedIndex)
       .then()
     this.feed.get('index').on(this.updateFeedIndex, false)
+    this.feed.load(feed => logger.info({ feed }), { wait: 99 })
   }
   async getProfileFieldValue(field: string): Promise<any> {
     let pField: ProfileField = await this.profile
@@ -356,41 +353,65 @@ class UserStorage {
     let promises: Array<Promise<Array<FeedEvent>>> = daysToTake.map(day => {
       return this.feed
         .get(day[0])
-        .decrypt()
+        .then()
         .catch(e => {
           logger.error('getFeed', e)
           return []
         })
     })
-    let results = flatten(await Promise.all(promises))
-    return results
+
+    const eventsIndex = flatten(await Promise.all(promises))
+
+    return await Promise.all(
+      eventsIndex.map(eventIndex =>
+        this.feed
+          .get('byid')
+          .get(eventIndex.id)
+          .decrypt()
+      )
+    )
   }
   async updateFeedEvent(event: FeedEvent): Promise<ACK> {
     logger.debug(event)
 
     let date = new Date(event.date)
     let day = `${date.toISOString().slice(0, 10)}`
-    let dayEventsArr: Array<FeedEvent> = (await this.feed.get(day).decrypt()) || []
-    let toUpd = find(dayEventsArr, e => e.id === event.id)
-    if (toUpd) {
-      merge(toUpd, event)
-    } else {
-      let insertPos = dayEventsArr.findIndex(e => date > new Date(e.date))
-      if (insertPos >= 0) dayEventsArr.splice(insertPos, 0, event)
-      else dayEventsArr.unshift(event)
-    }
-    let saveAck = this.feed
-      .get(day)
-      .secretAck(dayEventsArr)
-      .then({ ok: 0 })
+    // Saving eventFeed by id
+    await this.feed
+      .get('byid')
+      .get(event.id)
+      .secretAck(event)
       .catch(e => {
         return { err: e.message }
       })
-    let ack = this.feed
+
+    // Update dates index
+    let dayEventsArr = (await this.feed.get(day).then()) || []
+    let toUpd = find(dayEventsArr, e => e.id === event.id)
+    const eventIndexItem = { id: event.id, updateDate: event.date }
+    if (toUpd) {
+      merge(toUpd, eventIndexItem)
+    } else {
+      let insertPos = dayEventsArr.findIndex(e => date > new Date(e.updateDate))
+      if (insertPos >= 0) dayEventsArr.splice(insertPos, 0, eventIndexItem)
+      else dayEventsArr.unshift(eventIndexItem)
+    }
+
+    let saveAck = this.feed
+      .get(day)
+      .putAck(JSON.stringify(dayEventsArr))
+      .catch(err => logger.error(err))
+
+    const ack = this.feed
       .get('index')
       .get(day)
       .putAck(dayEventsArr.length)
-    return Promise.all([saveAck, ack]).then(arr => arr[0])
+
+    const result = await Promise.all([saveAck, ack])
+      .then(arr => arr[0])
+      .catch(err => logger.info(err))
+    this.feed.load(feedAfter => logger.info({ feedAfter }))
+    return result
   }
 }
 

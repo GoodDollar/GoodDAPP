@@ -1,4 +1,10 @@
 // @flow
+
+/**
+ * @file Provides a `LoadingIndicator` component which renders an ActivityIndicator over a semi-transparent background.
+ * Also provides a helper function to show/hide the component.
+ */
+
 import React from 'react'
 import { ActivityIndicator, Colors, Portal } from 'react-native-paper'
 import { StyleSheet, View } from 'react-native-web'
@@ -6,13 +12,29 @@ import type { Store } from 'undux'
 
 import GDStore from '../../lib/undux/GDStore'
 
-export const setLoadingWithStore = (store: Store) => (to: boolean) => {
-  const loadingIndicator = store.get('loadingIndicator')
+/**
+ * Curried function wich requires an undux Store and then sets the flag to show/hide the LoadingIndicator component
+ * @param {Store} store - undux store
+ * @returns {Function}
+ */
+export const setLoadingWithStore = (store: Store) =>
+  /**
+   * Sets `loading` to what `to` states.
+   * It requires `loadingIndicator` to be set in the Store's state
+   * @param {boolean} to
+   */
+  (to: boolean) => {
+    const loadingIndicator = store.get('loadingIndicator')
 
-  loadingIndicator.loading = to
-  store.set('loadingIndicator')(loadingIndicator)
-}
+    loadingIndicator.loading = to
+    store.set('loadingIndicator')(loadingIndicator)
+  }
 
+/**
+ * Provides a `LoadingIndicator` component which renders an ActivityIndicator over a semi-transparent background.
+ * @returns {*} - React component
+ * @constructor
+ */
 const LoadingIndicator = () => {
   const store = GDStore.useStore()
   const { loading } = store.get('loadingIndicator')

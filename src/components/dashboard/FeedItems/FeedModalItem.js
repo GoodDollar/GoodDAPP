@@ -13,6 +13,11 @@ const modalType = type => {
   )
 }
 
+/**
+ * Render modal item according to the type for feed list in horizontal view
+ * @param {FeedEventProps} feedEvent - feed event
+ * @returns {HTMLElement}
+ */
 const FeedModalItem = props => {
   const Modal = modalType(props.item.type)
   return (

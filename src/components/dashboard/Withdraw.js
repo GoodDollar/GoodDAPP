@@ -61,6 +61,12 @@ class Withdraw extends Component<DashboardProps, DashboardState> {
     }
   }
 
+  /**
+   * Check if user can withdraw, and make the transaciton
+   *
+   * @param {string} hash - Hash identifier
+   * @param {string} reason - Withdraw reason
+   */
   async withdraw(hash: string, reason?: string) {
     try {
       const { amount, sender } = await goodWallet.canWithdraw(hash)
@@ -109,11 +115,17 @@ class Withdraw extends Component<DashboardProps, DashboardState> {
     }
   }
 
+  /**
+   * Cancel withdraw and close dialog
+   */
   dismissDialog = () => {
     this.setState({ dialogData: { visible: false } })
     this.props.screenProps.goToRoot()
   }
 
+  /**
+   * Reset dialog data
+   */
   dismissEventDialog = () => {
     this.setState({ eventDialogData: this.defaultEventDialogData })
   }

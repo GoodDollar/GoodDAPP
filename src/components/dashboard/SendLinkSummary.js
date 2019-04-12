@@ -34,7 +34,15 @@ const SendLinkSummary = (props: AmountProps) => {
 
   const { amount, reason, to } = screenState
 
-  const sendLinkTo = (to, sendLink) => {
+  /**
+   * Send link via SMS or Email
+   *
+   * @param {string} to - Email address or phone number
+   * @param {string} sendLink - Link
+   * @returns JSON Object with ok if email or sms has been sent
+   * @throws Error with invalid email/phone
+   */
+  const sendLinkTo = (to: string, sendLink: string) => {
     if (!to) return
     // Send email if to is email
     if (isEmail(to)) {
@@ -49,6 +57,10 @@ const SendLinkSummary = (props: AmountProps) => {
     throw new Error(`${to} is neither a valid phone or email`)
   }
 
+  /**
+   * Generates link to send and call send email/sms action
+   * @throws Error if link cannot be send
+   */
   const generateLinkAndSend = async () => {
     try {
       // Generate link deposit

@@ -1,11 +1,18 @@
+// @flow
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import { normalize } from 'react-native-elements'
 import { Avatar } from 'react-native-paper'
 import { Text, View } from 'react-native-web'
 import { CustomButton, BigGoodDollar } from '../../common'
+import type { FeedEventProps } from './EventProps'
 
-const ModalSendEvent = ({ item: feed, onPress }) => {
+/**
+ * Render modal send item for feed list in horizontal view
+ * @param {FeedEventProps} feedEvent - feed event
+ * @returns {HTMLElement}
+ */
+const ModalSendEvent = ({ item: feed, onPress }: FeedEventProps) => {
   return (
     <View style={styles.modal}>
       <View style={styles.row}>

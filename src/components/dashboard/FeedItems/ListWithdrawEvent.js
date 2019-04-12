@@ -1,11 +1,18 @@
+// @flow
 import React from 'react'
 import { Icon } from 'react-native-elements'
 import { Avatar } from 'react-native-paper'
 import { Text, View } from 'react-native-web'
 import BigGoodDollar from '../../common/BigGoodDollar'
 import { listStyles } from './EventStyles'
+import type { FeedEventProps } from './EventProps'
 
-const FeedListItem = ({ item: feed }) => {
+/**
+ * Render list withdraw item for feed list
+ * @param {FeedEventProps} feedEvent - feed event
+ * @returns {HTMLElement}
+ */
+const ListWithdrawEvent = ({ item: feed }: FeedEventProps) => {
   return (
     <View style={listStyles.innerRow}>
       <View>
@@ -29,4 +36,4 @@ const FeedListItem = ({ item: feed }) => {
   )
 }
 
-export default FeedListItem
+export default ListWithdrawEvent

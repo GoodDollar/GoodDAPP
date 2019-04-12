@@ -1,11 +1,18 @@
+// @flow
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import { normalize } from 'react-native-elements'
 import { Avatar } from 'react-native-paper'
 import { Text, View } from 'react-native-web'
 import { CustomButton, BigGoodDollar } from '../../common'
+import type { FeedEventProps } from './EventProps'
 
-const ModalWithdrawEvent = ({ item: feed, onPress }) => {
+/**
+ * Render modal withdraw item for feed list in horizontal view
+ * @param {FeedEventProps} feedEvent - feed event
+ * @returns {HTMLElement}
+ */
+const ModalWithdrawEvent = ({ item: feed, onPress }: FeedEventProps) => {
   return (
     <View style={styles.modal}>
       <Text>{new Date(feed.date).toLocaleDateString()}</Text>

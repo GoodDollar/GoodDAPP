@@ -6,11 +6,11 @@ import { normalize } from 'react-native-elements'
 import { useWrappedGoodWallet } from '../../lib/wallet/useWrappedWallet'
 import { WalletType } from '../../lib/wallet/GoodWallet'
 import walletFactory from '../../lib/wallet/WalletFactory'
-import logger from '../../lib/logger/pino-logger'
-import MnemonicInput from './MnemonicInput'
 import bip39 from 'bip39'
 import { saveMnemonics, getMnemonics } from '../../lib/wallet/SoftwareWalletProvider'
 import GDStore from '../../lib/undux/GDStore'
+import logger from '../../lib/logger/pino-logger'
+import MnemonicInput from './MnemonicInput'
 import { CustomButton } from '../common'
 
 const log = logger.child({ from: 'Mnemonics' })

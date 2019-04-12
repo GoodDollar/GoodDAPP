@@ -81,7 +81,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
           await API.verifyTopWallet()
           const { email: to, fullName: name } = state
           const mnemonic = localStorage.getItem('GD_USER_MNEMONIC')
-          logger.info({ to, name, mnemonic })
+          log.info({ to, name, mnemonic })
           await API.sendRecoveryInstructionByEmail({ to, name, mnemonic })
           if (destinationPath !== '') {
             navigation.navigate(JSON.parse(destinationPath))

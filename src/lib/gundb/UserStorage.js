@@ -1,13 +1,21 @@
 //@flow
+import type { StandardFeed } from '../undux/GDStore'
 import Gun from 'gun'
 import SEA from 'gun/sea'
 import { find, merge, orderBy, toPairs, takeWhile, flatten } from 'lodash'
 import gun from './gundb'
 import { default as goodWallet, type GoodWallet } from '../wallet/GoodWallet'
+import isMobilePhone from '../validators/isMobilePhone'
+import isEmail from 'validator/lib/isEmail'
+
 import pino from '../logger/pino-logger'
 import { getUserModel, type UserModel } from './UserModel'
 
 const logger = pino.child({ from: 'UserStorage' })
+
+function isValidDate(d) {
+  return d instanceof Date && !isNaN(d)
+}
 
 export type GunDBUser = {
   alias: string,
@@ -44,7 +52,13 @@ export type TransactionEvent = FeedEvent & {
   }
 }
 
-const getReceiveDataFromReceipt = (account, receipt) => {
+/**
+ * Obtain logged data from receipt event
+ * @param {string} account - Wallet account
+ * @param {object} receipt - Receipt event
+ * @returns Transfer logs related to the receipt and the account
+ */
+const getReceiveDataFromReceipt = (account: string, receipt: any) => {
   const transferLog = receipt.logs.find(log => {
     const { events } = log
     const eventIndex = events.findIndex(
@@ -75,10 +89,26 @@ class UserStorage {
     phone: true,
     walletAddress: true
   }
+
+  /**
+   * Clean string removing blank spaces and special characters, and converts to lower case
+   *
+   * @param {string} field - Field name
+   * @param {string} value - Field value
+   * @returns {string} - Value without '+' (plus), '-' (minus), '_' (underscore), ' ' (space), in lower case
+   */
   static cleanFieldForIndex = (field: string, value: string): string => {
     if (field === 'mobile' || field === 'phone') return value.replace(/[_+-\s]+/g, '')
-    return value
+    return value.toLowerCase()
   }
+
+  /**
+   * Returns phone with last 4 numbers, and before that ***,
+   * and hide email user characters leaving visible only first and last character
+   * @param {string} fieldType - (Email, mobile or phone) Field name
+   * @param {string} value - Field value
+   * @returns {string} - Returns masked value with *** to hide characters
+   */
   static maskField = (fieldType: 'email' | 'mobile' | 'phone', value: string): string => {
     if (fieldType === 'email') {
       let parts = value.split('@')
@@ -89,6 +119,7 @@ class UserStorage {
     }
     return value
   }
+
   constructor() {
     this.wallet = goodWallet
     this.ready = this.wallet.ready
@@ -99,6 +130,9 @@ class UserStorage {
       })
   }
 
+  /**
+   * Initialize wallet, gundb user, feed and subscribe to events
+   */
   async init() {
     logger.debug('Initializing GunDB UserStorage')
     //sign with different address so its not connected to main user address and there's no 1-1 link
@@ -183,6 +217,12 @@ class UserStorage {
     return SEA.sign(msg, this.gunuser.pair())
   }
 
+  /**
+   * Find feed by transaction hash in array, and returns feed object
+   *
+   * @param {string} transactionHash - transaction identifier
+   * @returns {object} feed item or null if it doesn't exist
+   */
   async getFeedItemByTransactionHash(transactionHash: string) {
     const feedItem = await this.feed
       .get('byid')
@@ -207,6 +247,7 @@ class UserStorage {
     delete changed._
     this.feedIndex = orderBy(toPairs(changed), day => day[0], 'desc')
   }
+
   async initFeed() {
     this.feed = this.gunuser.get('feed')
     await this.feed
@@ -217,6 +258,13 @@ class UserStorage {
     this.feed.get('index').on(this.updateFeedIndex, false)
     this.feed.load(feed => logger.info({ feed }), { wait: 99 })
   }
+
+  /**
+   * Returns profile attribute
+   *
+   * @param {string} field - Profile attribute
+   * @returns {string} Decrypted profile value
+   */
   async getProfileFieldValue(field: string): Promise<any> {
     let pField: ProfileField = await this.profile
       .get(field)
@@ -225,11 +273,23 @@ class UserStorage {
     return pField
   }
 
+  /**
+   * Returns progfile attribute value
+   *
+   * @param {string} field - Profile attribute
+   * @returns {Promise} Gun profile attribute object
+   */
   async getProfileField(field: string): Promise<any> {
     let pField: ProfileField = await this.profile.get(field).then()
     return pField
   }
 
+  /**
+   * Return display attribute of each profile property
+   *
+   * @param {object} profile - User profile
+   * @returns {object} - User model with display values
+   */
   async getDisplayProfile(profile: {}): Promise<any> {
     const displayProfile = Object.keys(profile).reduce(
       (acc, currKey, arr) => ({ ...acc, [currKey]: profile[currKey].display }),
@@ -238,7 +298,13 @@ class UserStorage {
     return getUserModel(displayProfile)
   }
 
-  async getPrivateProfile(profile: {}) {
+  /**
+   * Returns user model with attribute values
+   *
+   * @param {object} profile - user profile
+   * @returns {object} UserModel with some inherit functions
+   */
+  async getPrivateProfile(profile: {}): UserModel {
     const keys = Object.keys(profile)
     return Promise.all(keys.map(currKey => this.getProfileFieldValue(currKey)))
       .then(values => {
@@ -259,6 +325,13 @@ class UserStorage {
     this.subscribersProfileUpdates = []
   }
 
+  /**
+   * Save profile with all validations and indexes
+   *
+   * @param {object} profile - User profile
+   * @returns {Promise} Promise with profile settings updates and privacy validations
+   * @throws Error if profile is invalid
+   */
   async setProfile(profile: UserModel) {
     const { errors, isValid } = profile.validate()
     if (!isValid) {
@@ -285,6 +358,14 @@ class UserStorage {
     )
   }
 
+  /**
+   * Set profile field with privacy settings
+   *
+   * @param {string} field - Profile attribute
+   * @param {string} value - Profile attribute value
+   * @param {string} privacy - (private | public | masked)
+   * @returns {Promise} Promise with updated field value, secret, display and privacy.
+   */
   async setProfileField(field: string, value: string, privacy: FieldPrivacy): Promise<ACK> {
     let display
     switch (privacy) {
@@ -311,11 +392,21 @@ class UserStorage {
     })
   }
 
-  //TODO: this is world writable so theoritically a malicious user could delete the indexes
-  //need to develop for gundb immutable keys to non first user
+  /**
+   * Generates index by field if privacy is public, or empty index if it's not public
+   *
+   * @param {string} field - Profile attribute
+   * @param {string} value - Profile attribute value
+   * @param {string} privacy - (private | public | masked)
+   * @returns Gun result promise after index is generated
+   * @todo This is world writable so theoritically a malicious user could delete the indexes
+   * need to develop for gundb immutable keys to non first user
+   */
   async indexProfileField(field: string, value: string, privacy: FieldPrivacy): Promise<ACK> {
     if (!UserStorage.indexableFields[field]) return
     const cleanValue = UserStorage.cleanFieldForIndex(field, value)
+
+    logger.info({ field, value, privacy })
     if (privacy !== 'public')
       return gun
         .get('users')
@@ -323,27 +414,42 @@ class UserStorage {
         .get(cleanValue)
         .putAck(null)
 
-    return gun
+    const gunResult = await gun
       .get('users')
       .get('by' + field)
       .get(cleanValue)
       .putAck(this.gunuser)
+
+    logger.info({ gunResult })
+    return gunResult
   }
+
+  /**
+   * Set profile field privacy.
+   *
+   * @param {string} field - Profile attribute
+   * @param {string} privacy - (private | public | masked)
+   * @returns {Promise} Promise with updated field value, secret, display and privacy.
+   */
   async setProfileFieldPrivacy(field: string, privacy: FieldPrivacy): Promise<ACK> {
     let value = await this.getProfileFieldValue(field)
     return this.setProfileField(field, value, privacy)
   }
 
   /**
-   * returns the next page in feed. could contain more than numResults. each page will contain all of the transactions
+   * Returns the next page in feed. could contain more than numResults. each page will contain all of the transactions
    * of the last day fetched even if > numResults
-   * @param {number} numResults  return at least this number of results if available
-   * @param {boolean} reset should restart cursor
+   *
+   * @param {number} numResults - return at least this number of results if available
+   * @param {boolean} reset - should restart cursor
+   * @returns {Promise} Promise with an array of feed events
    */
   async getFeedPage(numResults: number, reset?: boolean = false): Promise<Array<FeedEvent>> {
+    logger.debug({ numResults, cursor: this.cursor })
     if (reset) this.cursor = undefined
     if (this.cursor === undefined) this.cursor = 0
     let total = 0
+    if (!this.feedIndex) return []
     let daysToTake: Array<[string, number]> = takeWhile(this.feedIndex.slice(this.cursor), day => {
       if (total >= numResults) return false
       total += day[1]
@@ -371,10 +477,91 @@ class UserStorage {
       )
     )
   }
+
+  /**
+   * Return all feed events
+   *
+   * @returns {Promise} Promise with array of standarised feed events
+   * @todo Add pagination
+   */
+  async getStandardizedFeed(): Promise<Array<StandardFeed>> {
+    const feed = await this.getAllFeed()
+    return await Promise.all(feed.filter(feedItem => feedItem.data).map(this.standardizeFeed))
+    // TODO: Use proper pagination
+    // return (await this.getFeedPage(amount, true)).map(this.standardizeFeed)
+  }
+
+  /**
+   * Returns the feed in a standard format to be loaded in feed list and modal
+   *
+   * @param {FeedEvent} param - Feed event with data, type, date and id props
+   * @returns {Promise} Promise with StandardFeed object,
+   *  with props { id, date, type, data: { amount, message, endpoint: { address, fullName, avatar, withdrawStatus }}}
+   */
+  async standardizeFeed({ data, type, date, id }: FeedEvent): Promise<StandardFeed> {
+    const { receipt, from, to, sender, amount, reason, value, generatedString } = data
+    let avatar, fullName, address, withdrawStatus
+    if (receipt) {
+      if (type === 'send') {
+        address = to ? to.toLowerCase() : UserStorage.cleanFieldForIndex('walletAddress', receipt.to)
+      } else {
+        address = from ? from.toLowerCase() : UserStorage.cleanFieldForIndex('walletAddress', receipt.from)
+      }
+
+      const searchField = 'by' + (isMobilePhone(address) ? 'mobile' : isEmail(address) ? 'email' : 'walletAddress')
+      gun.get('users').load(allUsers => logger.info({ allUsers }), { wait: 99 })
+      const profileToShow = gun
+        .get('users')
+        .get(searchField)
+        .get(address)
+        .get('profile')
+
+      avatar =
+        (await profileToShow
+          .get('avatar')
+          .get('display')
+          .then()) || undefined
+      fullName =
+        (await profileToShow
+          .get('fullName')
+          .get('display')
+          .then()) || 'Unknown Name'
+    }
+
+    if (generatedString) {
+      withdrawStatus = await this.wallet.getWithdrawStatus(generatedString)
+    }
+
+    const stdFeed = {
+      id: id,
+      date: new Date(date).getTime(),
+      type: type,
+      data: {
+        endpoint: {
+          address: sender,
+          fullName,
+          avatar,
+          withdrawStatus
+        },
+        amount: amount || value,
+        message: reason
+      }
+    }
+    return stdFeed
+  }
+
+  /**
+   * Update feed event
+   *
+   * @param {FeedEvent} event - Event to be updated
+   * @returns {Promise} Promise with updated feed
+   */
   async updateFeedEvent(event: FeedEvent): Promise<ACK> {
     logger.debug(event)
 
     let date = new Date(event.date)
+    // force valid dates
+    date = isValidDate(date) ? date : new Date()
     let day = `${date.toISOString().slice(0, 10)}`
     // Saving eventFeed by id
     await this.feed
@@ -415,4 +602,6 @@ class UserStorage {
   }
 }
 
-export default new UserStorage()
+const userStorage = new UserStorage()
+global.userStorage = userStorage
+export default userStorage

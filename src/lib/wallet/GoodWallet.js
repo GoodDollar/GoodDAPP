@@ -375,7 +375,7 @@ export class GoodWallet {
 
     const sendLink = `${Config.publicUrl}/AppNavigation/Dashboard/Home?receiveLink=${generatedString}&reason=${reason}`
 
-    const onTransactionHash = events.onTransactionHash(sendLink)
+    const onTransactionHash = events.onTransactionHash({ sendLink, generatedString })
     const receipt = await this.sendTransaction(transferAndCall, { onTransactionHash }, { gas })
 
     return {
@@ -385,27 +385,57 @@ export class GoodWallet {
       receipt
     }
   }
-  //FIXME: what's this for? why does it read events from block0
-  async canWithdraw(otlCode: string) {
-    const { isLinkUsed, payments, senders } = this.oneTimePaymentLinksContract.methods
-    const { sha3, toBN } = this.wallet.utils
 
-    const link = sha3(otlCode)
-    const linkUsed = await isLinkUsed(link).call()
-    log.info('isLinkUsed', linkUsed)
+  getWithdrawLink(otlCode: string) {
+    const { sha3 } = this.wallet.utils
+    return sha3(otlCode)
+  }
 
-    if (!linkUsed) {
-      throw new Error('invalid link')
-    }
+  async isWithdrawLinkUsed(link: string) {
+    const { isLinkUsed } = this.oneTimePaymentLinksContract.methods
+    return await isLinkUsed(link).call()
+  }
 
-    const paymentAvailable = await payments(link)
+  isWithdrawPaymentAvailable(payment: any) {
+    return payment.lte(ZERO)
+  }
+
+  getWithdrawAvailablePayment(link: string) {
+    const { payments } = this.oneTimePaymentLinksContract.methods
+    const { toBN } = this.wallet.utils
+
+    return payments(link)
       .call()
       .then(toBN)
-    log.info(`paymentAvailable: ${paymentAvailable}`)
+  }
 
-    if (paymentAvailable.lte(toBN('0'))) {
-      throw new Error('deposit already withdrawn')
-    }
+  async getWithdrawStatus(otlCode: string) {
+    const link = this.getWithdrawLink(otlCode)
+
+    // Check link availability
+    const linkUsed = await this.isWithdrawLinkUsed(link)
+    if (linkUsed) return 'Completed'
+
+    // Check payment availability
+    const paymentAvailable = await this.getWithdrawAvailablePayment(link)
+    if (this.isWithdrawPaymentAvailable(paymentAvailable)) return 'Cancelled'
+
+    return 'Pending'
+  }
+
+  //FIXME: what's this for? why does it read events from block0
+  async canWithdraw(otlCode: string) {
+    const { senders } = this.oneTimePaymentLinksContract.methods
+
+    const link = this.getWithdrawLink(otlCode)
+
+    // Check link availability
+    const linkUsed = await this.isWithdrawLinkUsed(link)
+    if (!linkUsed) throw new Error('invalid link')
+
+    // Check payment availability
+    const paymentAvailable = await this.getWithdrawAvailablePayment(link)
+    if (this.isWithdrawPaymentAvailable(paymentAvailable)) throw new Error('deposit already withdrawn')
 
     const sender = await senders(link).call()
     return {

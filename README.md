@@ -5,6 +5,8 @@ This project is intended to work aside with [GoodServer](https://github.com/Good
 
 ## Installation Web
 
+Important: Use node version 10.15.0
+
 ### Install
 
 ```sh

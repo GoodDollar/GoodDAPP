@@ -31,12 +31,29 @@ type CurrentScreen = {
   loading: boolean
 }
 
+export type StandardFeed = {
+  id: string,
+  date: number,
+  type: string, // 'message' | 'withdraw' | 'send',
+  data: {
+    endpoint: {
+      address: string,
+      fullName: string,
+      avatar: string
+    },
+    amount: string,
+    message: string
+  }
+}
+
 export type State = {
   balanceUpdate: BalanceUpdate,
   name: Name,
   account: Account,
   currentScreen: CurrentScreen,
-  destinationPath: string
+  destinationPath: string,
+  feeds: StandardFeed[],
+  requestFeeds: boolean
 }
 
 const initialState: State = {
@@ -60,7 +77,9 @@ const initialState: State = {
     loading: false
   },
   profile: {},
-  destinationPath: ''
+  destinationPath: '',
+  feeds: [],
+  requestFeeds: false
 }
 
 export default createConnectedStore(

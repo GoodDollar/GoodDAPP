@@ -53,12 +53,13 @@ export type TransactionEvent = FeedEvent & {
 }
 
 /**
- * Obtain logged data from receipt event
+ * Extracts transfer events sent to the current account
  * @param {string} account - Wallet account
  * @param {object} receipt - Receipt event
- * @returns Transfer logs related to the receipt and the account
+ * @returns {object} {transferLog: event: [{evtName: evtValue}]}
  */
 const getReceiveDataFromReceipt = (account: string, receipt: any) => {
+  // Obtain logged data from receipt event
   const transferLog = receipt.logs.find(log => {
     const { events } = log
     const eventIndex = events.findIndex(
@@ -335,7 +336,7 @@ class UserStorage {
   /**
    * Save profile with all validations and indexes
    *
-   * @param {object} profile - User profile
+   * @param {UserModel} profile - User profile
    * @returns {Promise} Promise with profile settings updates and privacy validations
    * @throws Error if profile is invalid
    */

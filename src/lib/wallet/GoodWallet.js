@@ -45,6 +45,7 @@ type QueryEvent = {
 }
 
 export class GoodWallet {
+  static WalletType = 'software'
   static AccountUsageToPath = {
     gd: 0,
     gundb: 1,
@@ -132,7 +133,7 @@ export class GoodWallet {
   }
 
   init(): Promise<any> {
-    const ready = WalletFactory.create('software')
+    const ready = WalletFactory.create(GoodWallet.WalletType)
     this.ready = ready
       .then(async wallet => {
         this.wallet = wallet
@@ -503,5 +504,6 @@ export class GoodWallet {
   }
 }
 
+export const WalletType = GoodWallet.WalletType
 export type AccountUsage = $Keys<typeof GoodWallet.AccountUsageToPath>
 export default new GoodWallet()

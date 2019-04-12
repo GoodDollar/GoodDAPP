@@ -16,8 +16,16 @@ export function saveMnemonics(mnemonics: string) {
   localStorage.setItem(GD_USER_MNEMONIC, mnemonics)
 }
 
-function getMnemonics(): ?string {
-  return localStorage.getItem(GD_USER_MNEMONIC)
+export function getMnemonics(): string {
+  let pkey = localStorage.getItem(GD_USER_MNEMONIC)
+  if (!pkey) {
+    pkey = generateMnemonic()
+    saveMnemonics(pkey)
+    log.info('item set in localStorage ', { pkey })
+  } else {
+    log.info('pkey found, creating account from pkey:', { pkey })
+  }
+  return pkey
 }
 
 function generateMnemonic(): string {
@@ -68,14 +76,7 @@ class SoftwareWalletProvider {
 
     //let web3 = new Web3(new WebsocketProvider("wss://ropsten.infura.io/ws"))
     let pkey: ?string = getMnemonics()
-    if (!pkey) {
-      pkey = generateMnemonic()
-      saveMnemonics(pkey)
-      pkey = getMnemonics()
-      log.info('item set in localStorage ', { pkey })
-    } else {
-      log.info('pkey found, creating account from pkey:', { pkey })
-    }
+
     //we start from addres 1, since from address 0 pubkey all public keys can  be generated
     //and we want privacy
     let hdwallet = new HDWalletProvider(pkey, provider, 1, 10)

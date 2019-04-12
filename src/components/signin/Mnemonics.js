@@ -1,31 +1,43 @@
 // @flow
 import React, { useState } from 'react'
 import { StyleSheet, View } from 'react-native'
-import { Button, Paragraph, Text } from 'react-native-paper'
+import { Paragraph } from 'react-native-paper'
 import { normalize } from 'react-native-elements'
 import { useWrappedGoodWallet } from '../../lib/wallet/useWrappedWallet'
 import logger from '../../lib/logger/pino-logger'
 import MnemonicInput from './MnemonicInput'
-import { defineProperties } from 'ethereumjs-util'
-
+import bip39 from 'bip39'
+import { saveMnemonics } from '../../lib/wallet/SoftwareWalletProvider'
+import GDStore from '../../lib/undux/GDStore'
+import { CustomButton } from '../common'
 const log = logger.child({ from: 'Mnemonics' })
 
 const Mnemonics = props => {
   const [mnemonics, setMnemonics] = useState()
   const goodWallet = useWrappedGoodWallet()
+  const store = GDStore.useStore()
   const handleChange = (mnemonics: []) => {
     log.info({ mnemonics })
     setMnemonics(mnemonics.join(' '))
   }
   const recover = async () => {
     log.info('Mnemonics', mnemonics)
-    try {
-      await goodWallet.recoverWithMnemonic(mnemonics)
-      props.navigation.navigate('AppNavigation')
-    } catch (err) {
-      log.error(err)
+    if (!mnemonics || !bip39.validateMnemonic(mnemonics)) {
+      store.set('currentScreen')({
+        dialogData: {
+          visible: true,
+          title: 'ERROR',
+          message: 'Invalid Mnenomic',
+          dismissText: 'OK'
+        }
+      })
+      return
     }
+
+    saveMnemonics(mnemonics)
+    window.location = '/'
   }
+
   return (
     <View style={styles.wrapper}>
       <View style={styles.topContainer}>
@@ -38,14 +50,9 @@ const Mnemonics = props => {
         </View>
       </View>
       <View style={styles.bottomContainer}>
-        <Button
-          style={[styles.buttonLayout, styles.recoverButton]}
-          mode="contained"
-          onPress={recover}
-          disabled={!mnemonics}
-        >
-          <Text style={styles.buttonText}>RECOVER MY WALLET</Text>
-        </Button>
+        <CustomButton mode="contained" onPress={recover} disabled={!mnemonics}>
+          RECOVER MY WALLET
+        </CustomButton>
       </View>
     </View>
   )
@@ -85,18 +92,6 @@ const styles = StyleSheet.create({
   paragraph: {
     fontSize: normalize(18),
     lineHeight: '1.2em'
-  },
-  buttonLayout: {
-    padding: 10
-  },
-  buttonText: {
-    fontFamily: 'Helvetica, "sans-serif"',
-    fontSize: normalize(16),
-    color: 'white',
-    fontWeight: 'bold'
-  },
-  recoverButton: {
-    backgroundColor: '#555555'
   }
 })
 

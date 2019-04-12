@@ -22,11 +22,18 @@ const MnemonicInput = (props: Props) => {
   for (let i = 0; i < MAX_WORDS; i++) {
     refs[i] = useRef(null)
   }
+
+  useEffect(() => {
+    handleChange()
+  }, [state])
+
   const handleChange = () => {
     // Each time the state is updated we check if there is a valid mnemonic and execute onChange callback
     const wordsArray = Object.values(state)
     if (wordsArray.length === MAX_WORDS && wordsArray.every(isValidWord)) {
       props.onChange(wordsArray)
+    } else {
+      props.onChange([])
     }
   }
 
@@ -57,8 +64,6 @@ const MnemonicInput = (props: Props) => {
     }
   }
 
-  handleChange()
-
   return (
     <View style={styles.inputsContainer}>
       {[...Array(MAX_WORDS).keys()].map(key => (
@@ -81,7 +86,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'space-around'
+    justifyContent: 'space-between'
   },
   input: {
     width: '45%',

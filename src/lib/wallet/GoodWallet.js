@@ -131,8 +131,8 @@ export class GoodWallet {
       })
   }
 
-  init(initialMnemonics?: string): Promise<any> {
-    const ready = WalletFactory.create('software', initialMnemonics)
+  init(): Promise<any> {
+    const ready = WalletFactory.create('software')
     this.ready = ready
       .then(async wallet => {
         this.wallet = wallet
@@ -178,10 +178,6 @@ export class GoodWallet {
         throw e
       })
     return this.ready
-  }
-
-  async recoverWithMnemonic(mnemonics: string) {
-    return await this.init(mnemonics)
   }
 
   async claim(): Promise<TransactionReceipt> {

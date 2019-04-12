@@ -10,17 +10,30 @@ import logger from '../logger/pino-logger'
 
 const log = logger.child({ from: 'SoftwareWalletProvider' })
 
+const GD_USER_MNEMONIC: string = 'GD_USER_MNEMONIC'
+
+export function saveMnemonics(mnemonics: string) {
+  localStorage.setItem(GD_USER_MNEMONIC, mnemonics)
+}
+
+function getMnemonics(): ?string {
+  return localStorage.getItem(GD_USER_MNEMONIC)
+}
+
+function generateMnemonic(): string {
+  let mnemonic = bip39.generateMnemonic()
+  return mnemonic
+}
+
 class SoftwareWalletProvider {
   ready: Promise<Web3>
   GD_USER_PKEY: string = 'GD_USER_PKEY'
-  GD_USER_MNEMONIC: string = 'GD_USER_MNEMONIC'
+
   conf: WalletConfig
 
-  constructor(conf: WalletConfig, initialMnemonics?: string) {
+  constructor(conf: WalletConfig) {
     this.conf = conf
-    this.ready = this.initHD(initialMnemonics).catch(err => {
-      throw err
-    })
+    this.ready = this.initHD()
   }
   getPKey() {
     return localStorage.getItem(this.GD_USER_PKEY)
@@ -49,16 +62,16 @@ class SoftwareWalletProvider {
     return web3
   }
 
-  async initHD(initialMnemonics?: string): Promise<Web3> {
+  async initHD(): Promise<Web3> {
     let provider = this.getWeb3TransportProvider()
     log.info('wallet config:', this.conf, provider)
 
     //let web3 = new Web3(new WebsocketProvider("wss://ropsten.infura.io/ws"))
-    let pkey: ?string = initialMnemonics || localStorage.getItem(this.GD_USER_MNEMONIC)
+    let pkey: ?string = getMnemonics()
     if (!pkey) {
-      pkey = this.generateMnemonic()
-      localStorage.setItem(this.GD_USER_MNEMONIC, pkey)
-      pkey = localStorage.getItem(this.GD_USER_MNEMONIC)
+      pkey = generateMnemonic()
+      saveMnemonics(pkey)
+      pkey = getMnemonics()
       log.info('item set in localStorage ', { pkey })
     } else {
       log.info('pkey found, creating account from pkey:', { pkey })
@@ -74,13 +87,7 @@ class SoftwareWalletProvider {
     let accounts = hdwallet.addresses
     web3.eth.defaultAccount = accounts[0]
     hdwallet.engine.stop()
-    localStorage.setItem(this.GD_USER_MNEMONIC, pkey)
     return web3
-  }
-
-  generateMnemonic(): string {
-    let mnemonic = bip39.generateMnemonic()
-    return mnemonic
   }
 
   getWeb3TransportProvider(): HttpProvider | WebSocketProvider {

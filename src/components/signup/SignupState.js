@@ -69,6 +69,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
     } else if (nextRoute && nextRoute.key === 'EmailConfirmation') {
       try {
         await API.sendVerificationEmail({ ...state, ...data })
+        // if email is properly sent, persist current user's information to userStorage
         await userStorage.setProfile({ ...state, ...data, walletAddress: goodWallet.account })
         navigation.navigate(nextRoute.key)
       } catch (e) {

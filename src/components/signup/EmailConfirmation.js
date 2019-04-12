@@ -29,6 +29,8 @@ const EmailConfirmation = ({ navigation, screenProps }: Props) => {
     const validateEmail = async () => {
       setLoading(true)
 
+      // recover user's profile persisted to userStorage in SignupState after sending the email
+      // done before verifying email to have all the user's information available to display
       const profile = await userStorage.getProfile()
       setGlobalProfile(profile)
 
@@ -38,9 +40,7 @@ const EmailConfirmation = ({ navigation, screenProps }: Props) => {
     }
 
     if (params && params.validation) {
-      validateEmail()
-        .then(() => setLoading(false))
-        .catch(() => setLoading(false))
+      validateEmail().finally(() => setLoading(false))
     }
   }, [])
 

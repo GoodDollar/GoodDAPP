@@ -87,7 +87,7 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
             </Section.Row>
           </Section>
         </Wrapper>
-        {params.receiveLink ? <Withdraw params={params} {...this.props} /> : null}
+        {params.receiveLink ? <Withdraw params={params} {...this.props} onFail={screenProps.goToRoot} /> : null}
       </View>
     )
   }

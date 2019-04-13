@@ -38,7 +38,9 @@ const ScanQR = ({ screenProps }) => {
         if (!amount) {
           screenProps.push('Amount', { to: address, nextRoutes: ['Reason', 'SendQRSummary'] })
         } else {
-          screenProps.push('SendQRSummary', { to: address, amount, reason: 'From QR with Amount' })
+          // FIXME: nextRoute -> foo
+          // It was added as a workaround to the restrictions in the SendQRSummary.shouldNavigateToComponent
+          screenProps.push('SendQRSummary', { to: address, amount, reason: 'From QR with Amount', nextRoutes: ['foo'] })
         }
       } catch (e) {
         log.error({ e })

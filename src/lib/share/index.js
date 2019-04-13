@@ -1,4 +1,5 @@
 // @flow
+import fromPairs from 'lodash/fromPairs'
 import { decode, encode, isMNID } from 'mnid'
 import isURL from 'validator/lib/isURL'
 
@@ -46,4 +47,19 @@ export function readReceiveLink(link: string) {
   }
 
   return link
+}
+
+/**
+ * Extracts query params values and returns them as a key-value pair
+ * @param {string} link - url with queryParams
+ * @returns {object} - {key: value}
+ */
+export function extractQueryParams(link: string = ''): {} {
+  const queryParams = link.split('?')[1] || ''
+  const keyValuePairs: Array<[string, string]> = queryParams
+    .split('&')
+    // $FlowFixMe
+    .map(p => p.split('='))
+
+  return fromPairs(keyValuePairs)
 }

@@ -1,16 +1,17 @@
 // @flow
+import QRCode from 'qrcode.react'
 import React, { useCallback, useMemo } from 'react'
 import { Clipboard, View } from 'react-native'
-import QRCode from 'qrcode.react'
 
-import goodWallet from '../../lib/wallet/GoodWallet'
 import logger from '../../lib/logger/pino-logger'
 import { generateCode } from '../../lib/share'
-import { Address, Section, Wrapper } from '../common'
-import { receiveStyles as styles } from './styles'
+import goodWallet from '../../lib/wallet/GoodWallet'
 import { PushButton } from '../appNavigation/stackNavigation'
+import { Address, Section, Wrapper } from '../common'
+import ScanQRButton from '../common/ScanQRButton'
 import TopBar from '../common/TopBar'
 import ShareQR from './ShareQR'
+import { receiveStyles as styles } from './styles'
 
 export type ReceiveProps = {
   screenProps: any,
@@ -34,7 +35,9 @@ const Receive = ({ screenProps }: ReceiveProps) => {
 
   return (
     <Wrapper style={styles.wrapper}>
-      <TopBar hideBalance={true} push={screenProps.push} />
+      <TopBar hideBalance={false} push={screenProps.push}>
+        <ScanQRButton onPress={() => screenProps.push('ScanQR')} />
+      </TopBar>
       <Section style={styles.section}>
         <Section.Row style={styles.sectionRow}>
           <View style={styles.qrCode}>

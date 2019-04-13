@@ -12,13 +12,14 @@ import EventDialog from '../common/EventDialog'
 import type { EventDialogProps } from '../common/EventDialog'
 
 export type DashboardProps = {
-  screenProps: any,
   navigation: any,
   store: Store,
   params: {
     receiveLink: string,
     reason?: string
-  }
+  },
+  onSuccess?: Function,
+  onFail?: Function
 }
 
 type DashboardState = {
@@ -44,7 +45,6 @@ class Withdraw extends Component<DashboardProps, DashboardState> {
 
   componentDidMount() {
     const { receiveLink, reason } = this.props.params
-    this.dismissEventDialog()
 
     log.info({ receiveLink, reason })
 
@@ -112,11 +112,12 @@ class Withdraw extends Component<DashboardProps, DashboardState> {
 
   dismissDialog = () => {
     this.setState({ dialogData: { visible: false } })
-    this.props.screenProps.goToRoot()
+    this.props.onFail && this.props.onFail()
   }
 
   dismissEventDialog = () => {
     this.setState({ eventDialogData: this.defaultEventDialogData })
+    this.props.onSuccess && this.props.onSuccess()
   }
 
   render() {

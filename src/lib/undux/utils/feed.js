@@ -12,10 +12,11 @@ export const getInitialFeed = async (store: Store) => {
 }
 
 export const getNextFeed = async (store: Store) => {
-  console.log('getNextFeed')
   const currentFeeds = store.get('feeds')
   const newFeeds = await userStorage.getStandardizedFeed(PAGE_SIZE, false)
-  store.set('feeds')([...currentFeeds, ...newFeeds])
+  if (newFeeds.length > 0) {
+    store.set('feeds')([...currentFeeds, ...newFeeds])
+  }
 }
 
 export const useFeedActions = () => {

@@ -52,8 +52,7 @@ export type State = {
   account: Account,
   currentScreen: CurrentScreen,
   destinationPath: string,
-  feeds: StandardFeed[],
-  requestFeeds: boolean
+  feeds: StandardFeed[]
 }
 
 const initialState: State = {
@@ -78,8 +77,7 @@ const initialState: State = {
   },
   profile: {},
   destinationPath: '',
-  feeds: [],
-  requestFeeds: false
+  feeds: []
 }
 
 export default createConnectedStore(

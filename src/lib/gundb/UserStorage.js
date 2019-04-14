@@ -484,11 +484,9 @@ class UserStorage {
    * @returns {Promise} Promise with array of standarised feed events
    * @todo Add pagination
    */
-  async getStandardizedFeed(): Promise<Array<StandardFeed>> {
-    const feed = await this.getAllFeed()
+  async getStandardizedFeed(numResults: number, reset?: boolean): Promise<Array<StandardFeed>> {
+    const feed = await this.getFeedPage(numResults, reset)
     return await Promise.all(feed.filter(feedItem => feedItem.data).map(this.standardizeFeed))
-    // TODO: Use proper pagination
-    // return (await this.getFeedPage(amount, true)).map(this.standardizeFeed)
   }
 
   /**

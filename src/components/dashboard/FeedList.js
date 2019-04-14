@@ -136,7 +136,7 @@ class FeedList extends PureComponent<FeedListProps, FeedListState> {
           <AnimatedSwipeableFlatList
             bounceFirstRowOnMount={true}
             maxSwipeDistance={160}
-            initialNumToRender={5}
+            initialNumToRender={10}
             ItemSeparatorComponent={ItemSeparatorComponent}
             data={feeds}
             getItemLayout={fixedHeight ? this.getItemLayout : undefined}

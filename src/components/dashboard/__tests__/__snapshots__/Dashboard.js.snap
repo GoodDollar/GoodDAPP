@@ -3,6 +3,20 @@
 exports[`Dashboard matches snapshot 1`] = `
 <div
   className="css-view-1dbjc4n"
+  style={
+    Object {
+      "WebkitBoxFlex": 1,
+      "WebkitFlexBasis": "0%",
+      "WebkitFlexGrow": 1,
+      "WebkitFlexShrink": 1,
+      "flexBasis": "0%",
+      "flexGrow": 1,
+      "flexShrink": 1,
+      "msFlexNegative": 1,
+      "msFlexPositive": 1,
+      "msFlexPreferredSize": "0%",
+    }
+  }
 >
   <div
     className="css-view-1dbjc4n"
@@ -885,6 +899,36 @@ exports[`Dashboard matches snapshot 1`] = `
               </div>
             </div>
           </div>
+          <div
+            className="css-view-1dbjc4n"
+            style={
+              Object {
+                "WebkitBoxFlex": 1,
+                "WebkitFlexBasis": "0%",
+                "WebkitFlexGrow": 1,
+                "WebkitFlexShrink": 1,
+                "backgroundColor": "rgba(239,239,244,1.00)",
+                "flexBasis": "0%",
+                "flexGrow": 1,
+                "flexShrink": 1,
+                "msFlexNegative": 1,
+                "msFlexPositive": 1,
+                "msFlexPreferredSize": "0%",
+              }
+            }
+          >
+            <div
+              className="css-text-76zvg2"
+              dir="auto"
+              style={
+                Object {
+                  "textAlign": "center",
+                }
+              }
+            >
+              Feed is empty.
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -895,6 +939,20 @@ exports[`Dashboard matches snapshot 1`] = `
 exports[`Dashboard matches snapshot when changing tab 1`] = `
 <div
   className="css-view-1dbjc4n"
+  style={
+    Object {
+      "WebkitBoxFlex": 1,
+      "WebkitFlexBasis": "0%",
+      "WebkitFlexGrow": 1,
+      "WebkitFlexShrink": 1,
+      "flexBasis": "0%",
+      "flexGrow": 1,
+      "flexShrink": 1,
+      "msFlexNegative": 1,
+      "msFlexPositive": 1,
+      "msFlexPreferredSize": "0%",
+    }
+  }
 >
   <div
     className="css-view-1dbjc4n"
@@ -1775,6 +1833,36 @@ exports[`Dashboard matches snapshot when changing tab 1`] = `
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+          <div
+            className="css-view-1dbjc4n"
+            style={
+              Object {
+                "WebkitBoxFlex": 1,
+                "WebkitFlexBasis": "0%",
+                "WebkitFlexGrow": 1,
+                "WebkitFlexShrink": 1,
+                "backgroundColor": "rgba(239,239,244,1.00)",
+                "flexBasis": "0%",
+                "flexGrow": 1,
+                "flexShrink": 1,
+                "msFlexNegative": 1,
+                "msFlexPositive": 1,
+                "msFlexPreferredSize": "0%",
+              }
+            }
+          >
+            <div
+              className="css-text-76zvg2"
+              dir="auto"
+              style={
+                Object {
+                  "textAlign": "center",
+                }
+              }
+            >
+              Feed is empty.
             </div>
           </div>
         </div>

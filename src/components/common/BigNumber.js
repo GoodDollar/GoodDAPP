@@ -7,8 +7,8 @@ import { fontStyle } from './styles'
 
 export default (props: any) => (
   <View style={[styles.bigNumberWrapper, props.style]}>
-    <Text style={styles.bigNumber}>{props.number}</Text>
-    <Text style={styles.bigNumberUnit}>{props.unit}</Text>
+    <Text style={[styles.bigNumber, props.elementStyles]}>{props.number}</Text>
+    <Text style={[styles.bigNumberUnit, props.elementStyles]}>{props.unit}</Text>
   </View>
 )
 

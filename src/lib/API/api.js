@@ -87,6 +87,14 @@ class API {
     return this.client.post('/verify/topwallet')
   }
 
+  sendVerificationEmail(user: UserRecord): Promise<$AxiosXHR<any>> {
+    return this.client.post('/verify/sendemail', { user })
+  }
+
+  verifyEmail(verificationData: { code: string }): Promise<$AxiosXHR<any>> {
+    return this.client.post('/verify/email', { verificationData })
+  }
+
   sendLinkByEmail(to: string, sendLink: string): Promise<$AxiosXHR<any>> {
     return this.client.post('/send/linkemail', { to, sendLink })
   }

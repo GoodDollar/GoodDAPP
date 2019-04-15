@@ -66,6 +66,15 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       } catch (e) {
         log.error(e)
       }
+    } else if (nextRoute && nextRoute.key === 'EmailConfirmation') {
+      try {
+        await API.sendVerificationEmail({ ...state, ...data })
+        // if email is properly sent, persist current user's information to userStorage
+        await userStorage.setProfile({ ...state, ...data, walletAddress: goodWallet.account })
+        navigation.navigate(nextRoute.key)
+      } catch (e) {
+        log.error(e)
+      }
     } else {
       if (nextRoute) {
         navigation.navigate(nextRoute.key)
@@ -73,6 +82,10 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
         log.info('Sending new user data', state)
         saveProfile()
         try {
+          // After sending email to the user for confirmation (transition between Email -> EmailConfirmation)
+          // user's profile is persisted (`userStorage.setProfile`).
+          // Then, when the user access the application from the link (in EmailConfirmation), data is recovered and
+          // saved to the `state`
           await API.addUser(state)
           await API.verifyUser({})
           const destinationPath = store.get('destinationPath')

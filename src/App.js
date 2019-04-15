@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 import { Provider as PaperProvider } from 'react-native-paper'
-import { loadReCaptcha, ReCaptcha } from 'recaptcha-v3-react'
+import { loadReCaptcha } from 'recaptcha-v3-react'
 
 import Config from './config/config'
 import userStorage from './lib/gundb/UserStorage'

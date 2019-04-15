@@ -1,16 +1,16 @@
 // @flow
-import React, { useState } from 'react'
+import React from 'react'
 import { View } from 'react-native'
+import UserStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 
 import logger from '../../lib/logger/pino-logger'
+import GDStore from '../../lib/undux/GDStore'
 import { useWrappedGoodWallet } from '../../lib/wallet/useWrappedWallet'
 import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
-import { Avatar, BigGoodDollar, CustomButton, CustomDialog, Section, Wrapper } from '../common'
+import { Avatar, BigGoodDollar, CustomButton, Section, Wrapper } from '../common'
 import TopBar from '../common/TopBar'
 import { receiveStyles } from './styles'
-import GDStore from '../../lib/undux/GDStore'
-import { type TransactionEvent } from '../../lib/gundb/UserStorage'
-import UserStorage from '../../lib/gundb/UserStorage'
+
 export type AmountProps = {
   screenProps: any,
   navigation: any
@@ -112,7 +112,7 @@ SendQRSummary.navigationOptions = {
 
 SendQRSummary.shouldNavigateToComponent = props => {
   const { screenState } = props.screenProps
-  return !!screenState.nextRoutes
+  return !!screenState.amount && !!screenState.to
 }
 
 export default SendQRSummary

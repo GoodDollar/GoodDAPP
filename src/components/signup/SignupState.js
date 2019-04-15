@@ -82,6 +82,10 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
         log.info('Sending new user data', state)
         saveProfile()
         try {
+          // After sending email to the user for confirmation (transition between Email -> EmailConfirmation)
+          // user's profile is persisted (`userStorage.setProfile`).
+          // Then, when the user access the application from the link (in EmailConfirmation), data is recovered and
+          // saved to the `state`
           await API.addUser(state)
           await API.verifyUser({})
           const destinationPath = store.get('destinationPath')

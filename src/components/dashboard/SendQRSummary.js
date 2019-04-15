@@ -112,6 +112,7 @@ SendQRSummary.navigationOptions = {
 
 SendQRSummary.shouldNavigateToComponent = props => {
   const { screenState } = props.screenProps
+  // Component shouldn't be loaded if there's no 'amount', nor 'to' fields with data
   return !!screenState.amount && !!screenState.to
 }
 

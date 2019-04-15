@@ -18,7 +18,7 @@ describe('AppNavigation', () => {
         <WebRouter />
       </Container>
     )
-    expect(tree.toJSON()).toBeTruthy()
+    expect(tree.toJSON()).toBe(null)
   })
 
   it('matches snapshot', () => {

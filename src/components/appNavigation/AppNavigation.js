@@ -17,6 +17,8 @@ import Donate from './Donate'
 import Rewards from './Rewards'
 import Profile from '../profile/Profile'
 
+import { checkAuthStatus } from '../../lib/login/checkAuthStatus'
+
 type AppNavigationProps = {
   navigation: any,
   store: Store
@@ -57,6 +59,21 @@ const AppNavigator = createSwitchNavigator(routes, { initialRouteName })
  * Dashboard is the initial route
  */
 class AppNavigation extends React.Component<AppNavigationProps, AppNavigationState> {
+  checkAuthStatus() {
+    if (this.props.store.get('isLoggedInCitizen')) return
+
+    // if not isLoggedInCitizen yet we should check status
+    return checkAuthStatus(this.props.store)
+  }
+
+  async componentDidMount() {
+    await this.checkAuthStatus()
+  }
+
+  async componentDidUpdate() {
+    await this.checkAuthStatus()
+  }
+
   render() {
     const account = this.props.store.get('account')
     if (account.ready) {

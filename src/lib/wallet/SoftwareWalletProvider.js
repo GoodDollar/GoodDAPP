@@ -10,10 +10,33 @@ import type { WebSocketProvider } from 'web3-providers-ws'
 
 const log = logger.child({ from: 'SoftwareWalletProvider' })
 
+const GD_USER_MNEMONIC: string = 'GD_USER_MNEMONIC'
+
+export function saveMnemonics(mnemonics: string) {
+  localStorage.setItem(GD_USER_MNEMONIC, mnemonics)
+}
+
+export function getMnemonics(): string {
+  let pkey = localStorage.getItem(GD_USER_MNEMONIC)
+  if (!pkey) {
+    pkey = generateMnemonic()
+    saveMnemonics(pkey)
+    log.info('item set in localStorage ', { pkey })
+  } else {
+    log.info('pkey found, creating account from pkey:', { pkey })
+  }
+  return pkey
+}
+
+function generateMnemonic(): string {
+  let mnemonic = bip39.generateMnemonic()
+  return mnemonic
+}
+
 class SoftwareWalletProvider {
   ready: Promise<Web3>
   GD_USER_PKEY: string = 'GD_USER_PKEY'
-  GD_USER_MNEMONIC: string = 'GD_USER_MNEMONIC'
+
   conf: WalletConfig
 
   constructor(conf: WalletConfig) {
@@ -52,15 +75,8 @@ class SoftwareWalletProvider {
     log.info('wallet config:', this.conf, provider)
 
     //let web3 = new Web3(new WebsocketProvider("wss://ropsten.infura.io/ws"))
-    let pkey: ?string = localStorage.getItem(this.GD_USER_MNEMONIC)
-    if (!pkey) {
-      pkey = this.generateMnemonic()
-      localStorage.setItem(this.GD_USER_MNEMONIC, pkey)
-      pkey = localStorage.getItem(this.GD_USER_MNEMONIC)
-      log.info('item set in localStorage ', { pkey })
-    } else {
-      log.info('pkey found, creating account from pkey:', { pkey })
-    }
+    let pkey: ?string = getMnemonics()
+
     //we start from addres 1, since from address 0 pubkey all public keys can  be generated
     //and we want privacy
     let mulWallet = new MultipleAddressWallet(pkey, 10)
@@ -72,11 +88,6 @@ class SoftwareWalletProvider {
     let accounts = mulWallet.addresses
     web3.eth.defaultAccount = accounts[0]
     return web3
-  }
-
-  generateMnemonic(): string {
-    let mnemonic = bip39.generateMnemonic()
-    return mnemonic
   }
 
   getWeb3TransportProvider(): HttpProvider | WebSocketProvider {

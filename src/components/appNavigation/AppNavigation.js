@@ -76,11 +76,9 @@ class AppNavigation extends React.Component<AppNavigationProps, AppNavigationSta
 
   render() {
     const account = this.props.store.get('account')
-    if (account.ready) {
-      return <AppNavigator navigation={this.props.navigation} screenProps={{ routes }} />
-    }
-
-    return <Splash />
+    // `account.ready` will be set to `true` after retrieving the required user information in `updateAll`,
+    // if not ready will display a blank screen (`null`)
+    return account.ready ? <AppNavigator navigation={this.props.navigation} screenProps={{ routes }} /> : null
   }
 }
 

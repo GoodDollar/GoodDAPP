@@ -1,9 +1,14 @@
 
-# GoodDollar DApp [![Build Status](https://travis-ci.com/GoodDollar/GoodDAPP.svg?branch=master)](https://travis-ci.com/GoodDollar/GoodDAPP)
+# GoodDollar DApp
+[![Build Status](https://travis-ci.com/GoodDollar/GoodDAPP.svg?branch=master)](https://travis-ci.com/GoodDollar/GoodDAPP)
+[![Coverage Status](https://coveralls.io/repos/github/GoodDollar/GoodDAPP/badge.svg?branch=master)](https://coveralls.io/github/GoodDollar/GoodDAPP?branch=master)
+
 
 This project is intended to work aside with [GoodServer](https://github.com/GoodDollar/GoodServer) project
 
 ## Installation Web
+
+Important: Use node version 10.15.0
 
 ### Install
 

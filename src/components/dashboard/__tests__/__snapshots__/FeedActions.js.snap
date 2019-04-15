@@ -1,0 +1,88 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FeedActions matches snapshot 1`] = `
+<div
+  className="css-view-1dbjc4n"
+  style={
+    Object {
+      "WebkitAlignItems": "center",
+      "WebkitBoxAlign": "center",
+      "WebkitBoxDirection": "normal",
+      "WebkitBoxFlex": 1,
+      "WebkitBoxOrient": "horizontal",
+      "WebkitBoxPack": "end",
+      "WebkitFlexBasis": "0%",
+      "WebkitFlexDirection": "row",
+      "WebkitFlexGrow": 1,
+      "WebkitFlexShrink": 1,
+      "WebkitJustifyContent": "flex-end",
+      "alignItems": "center",
+      "flexBasis": "0%",
+      "flexDirection": "row",
+      "flexGrow": 1,
+      "flexShrink": 1,
+      "justifyContent": "flex-end",
+      "msFlexAlign": "center",
+      "msFlexDirection": "row",
+      "msFlexNegative": 1,
+      "msFlexPack": "end",
+      "msFlexPositive": 1,
+      "msFlexPreferredSize": "0%",
+      "paddingBottom": "10px",
+      "paddingLeft": "10px",
+      "paddingRight": "10px",
+      "paddingTop": "10px",
+    }
+  }
+>
+  <div
+    className="css-view-1dbjc4n"
+    data-focusable={true}
+    onKeyDown={[Function]}
+    onKeyUp={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "MozUserSelect": "none",
+        "WebkitUserSelect": "none",
+        "backgroundColor": "rgba(255,75,33,1.00)",
+        "borderBottomLeftRadius": "6px",
+        "borderBottomRightRadius": "6px",
+        "borderTopLeftRadius": "6px",
+        "borderTopRightRadius": "6px",
+        "cursor": "pointer",
+        "marginLeft": "5px",
+        "marginRight": "5px",
+        "msTouchAction": "manipulation",
+        "msUserSelect": "none",
+        "paddingBottom": "10px",
+        "paddingLeft": "10px",
+        "paddingRight": "10px",
+        "paddingTop": "10px",
+        "touchAction": "manipulation",
+        "userSelect": "none",
+        "width": "80px",
+      }
+    }
+    tabIndex="0"
+  >
+    <div
+      className="css-text-76zvg2"
+      dir="auto"
+      style={
+        Object {
+          "color": "rgba(255,255,255,1.00)",
+          "textAlign": "center",
+        }
+      }
+    >
+      Delete
+    </div>
+  </div>
+</div>
+`;

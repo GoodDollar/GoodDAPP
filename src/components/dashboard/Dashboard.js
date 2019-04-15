@@ -1,6 +1,7 @@
 // @flow
 import React, { Component } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
+import { ScrollView } from 'react-native-web'
 import { normalize } from 'react-native-elements'
 import type { Store } from 'undux'
 
@@ -12,6 +13,7 @@ import { Avatar, BigGoodDollar, Section, Wrapper } from '../common'
 import Amount from './Amount'
 import Claim from './Claim'
 import FaceRecognition from './FaceRecognition'
+import FeedList from './FeedList'
 import Reason from './Reason'
 import Receive from './Receive'
 import ReceiveAmount from './ReceiveAmount'
@@ -33,12 +35,16 @@ type DashboardState = {
   params: {
     receiveLink: string,
     reason?: string
-  }
+  },
+  horizontal: boolean,
+  feeds: any[]
 }
 
 class Dashboard extends Component<DashboardProps, DashboardState> {
   state = {
-    params: {}
+    params: {},
+    horizontal: false,
+    feeds: []
   }
 
   componentDidMount() {
@@ -48,16 +54,23 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
       console.log({ params })
       this.setState({ params })
     }
+
+    this.getFeeds()
+  }
+
+  getFeeds() {
+    this.props.store.set('requestFeeds')(true)
   }
 
   render() {
-    const { params } = this.state
+    const { params, horizontal } = this.state
     const { screenProps, navigation, store }: DashboardProps = this.props
     const { balance, entitlement } = store.get('account')
     const { avatar, fullName } = store.get('profile')
+    const feeds = store.get('feeds')
 
     return (
-      <View>
+      <View style={styles.dashboardView}>
         <TabsView goTo={navigation.navigate} routes={screenProps.routes} />
         <Wrapper>
           <Section>
@@ -86,6 +99,14 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
               </PushButton>
             </Section.Row>
           </Section>
+          <FeedList
+            horizontal={horizontal}
+            fixedHeight
+            virtualized
+            data={feeds}
+            updateData={() => {}}
+            onEndReached={() => {}}
+          />
         </Wrapper>
         {params.receiveLink ? <Withdraw params={params} {...this.props} /> : null}
       </View>
@@ -117,9 +138,18 @@ const styles = StyleSheet.create({
     flex: 1,
     marginLeft: normalize(10)
   },
+  dashboardView: {
+    flex: 1
+  },
   centered: {
     justifyContent: 'center',
     alignItems: 'baseline'
+  },
+  centering: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 8,
+    height: '256px'
   }
 })
 

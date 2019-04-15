@@ -31,6 +31,21 @@ type CurrentScreen = {
   loading: boolean
 }
 
+export type StandardFeed = {
+  id: string,
+  date: number,
+  type: string, // 'message' | 'withdraw' | 'send',
+  data: {
+    endpoint: {
+      address: string,
+      fullName: string,
+      avatar: string
+    },
+    amount: string,
+    message: string
+  }
+}
+
 type LoadingIndicator = {
   loading: boolean
 }
@@ -41,6 +56,8 @@ export type State = {
   account: Account,
   currentScreen: CurrentScreen,
   destinationPath: string,
+  feeds: StandardFeed[],
+  requestFeeds: boolean,
   loadingIndicator: LoadingIndicator
 }
 
@@ -66,6 +83,8 @@ const initialState: State = {
   },
   profile: {},
   destinationPath: '',
+  feeds: [],
+  requestFeeds: false,
   loadingIndicator: {
     loading: false
   }

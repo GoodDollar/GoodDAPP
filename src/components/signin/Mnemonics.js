@@ -1,101 +1,108 @@
 // @flow
-import React from 'react'
+import React, { useState } from 'react'
 import { StyleSheet, View } from 'react-native'
-import { Button, Paragraph, Text, TextInput } from 'react-native-paper'
+import { Paragraph } from 'react-native-paper'
 import { normalize } from 'react-native-elements'
-import goodWallet from '../../lib/wallet/GoodWallet'
+import { useWrappedGoodWallet } from '../../lib/wallet/useWrappedWallet'
+import { WalletType } from '../../lib/wallet/GoodWallet'
+import walletFactory from '../../lib/wallet/WalletFactory'
+import bip39 from 'bip39'
+import { saveMnemonics, getMnemonics } from '../../lib/wallet/SoftwareWalletProvider'
+import GDStore from '../../lib/undux/GDStore'
 import logger from '../../lib/logger/pino-logger'
-
-type Props = {
-  // callback to report to parent component
-  doneCallback: ({ signUp: string }) => null,
-  screenProps: {
-    doneCallback: ({ [string]: string }) => null
-  }
-}
+import MnemonicInput from './MnemonicInput'
+import { CustomButton } from '../common'
 
 const log = logger.child({ from: 'Mnemonics' })
 
-class SignUpScreen extends React.Component<Props> {
-  componentDidMount() {
-    log.info('...', goodWallet)
+const Mnemonics = props => {
+  const [mnemonics, setMnemonics] = useState()
+  const goodWallet = useWrappedGoodWallet()
+  const store = GDStore.useStore()
+  const handleChange = (mnemonics: []) => {
+    log.info({ mnemonics })
+    setMnemonics(mnemonics.join(' '))
   }
+  const recover = async () => {
+    log.info('Mnemonics', mnemonics)
+    if (!mnemonics || !bip39.validateMnemonic(mnemonics)) {
+      store.set('currentScreen')({
+        dialogData: {
+          visible: true,
+          title: 'ERROR',
+          message: 'Invalid Mnenomic',
+          dismissText: 'OK'
+        }
+      })
+      return
+    }
+    const prevMnemonics = getMnemonics()
+    try {
+      // We need to try to get a new address using new mnenonics
+      saveMnemonics(mnemonics)
 
-  handleDone = () => {
-    this.props.screenProps.doneCallback({ mnemonics: 'mnemonics' })
-  }
+      const wallet = await walletFactory.create(WalletType)
+      const isVerified = await goodWallet.isVerified(wallet.eth.defaultAccount)
 
-  handleChange = (text: string) => {
-    const sanitizedWords = text
-      .replace(/[\t\n]+/g, ' ')
-      .replace(/<.*>/g, '')
-      .replace(/ {2,}/g, ' ')
-      .trim()
-      .split(' ')
+      if (!isVerified) {
+        saveMnemonics(prevMnemonics)
+        store.set('currentScreen')({
+          dialogData: {
+            visible: true,
+            title: 'ERROR',
+            message: 'User is not verified',
+            dismissText: 'OK'
+          }
+        })
+        return
+      }
 
-    log.log(text, sanitizedWords)
-    if (sanitizedWords.length !== 12) {
-      log.warn('mnemonic is based on 12 words')
-    } else {
-      // TODO: recover wallet with mnemonics
+      // There is no error. Reload screen to start with users mnemonics
+      window.location = '/'
+    } catch (err) {
+      log.error(err)
+      saveMnemonics(prevMnemonics)
     }
   }
 
-  render() {
-    return (
-      <View style={styles.wrapper}>
-        <View styles={styles.topContainer}>
-          <View style={styles.textContainer}>
-            <Paragraph style={[styles.fontBase, styles.paragraph]}>Please enter your 12-word passphrase:</Paragraph>
-          </View>
-
-          <View style={styles.formContainer}>
-            {/* TODO: this might require to be refactored to use 12 individual inputs as specified in the mocks */}
-            <TextInput multiline={true} numberOfLines={4} onChangeText={this.handleChange} />
-          </View>
+  return (
+    <View style={styles.wrapper}>
+      <View style={styles.topContainer}>
+        <View style={styles.textContainer}>
+          <Paragraph style={[styles.fontBase, styles.paragraph]}>Please enter your 12-word passphrase:</Paragraph>
         </View>
 
-        <View style={styles.bottomContainer}>
-          <View style={styles.buttonsContainer}>
-            <Button style={[styles.buttonLayout, styles.recoverButton]} mode="contained" onPress={this.handleDone}>
-              <Text style={styles.buttonText}>RECOVER MY WALLET</Text>
-            </Button>
-          </View>
+        <View style={styles.formContainer}>
+          <MnemonicInput onChange={handleChange} />
         </View>
       </View>
-    )
-  }
+      <View style={styles.bottomContainer}>
+        <CustomButton mode="contained" onPress={recover} disabled={!mnemonics}>
+          RECOVER MY WALLET
+        </CustomButton>
+      </View>
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
   wrapper: {
-    height: '100%',
-    paddingLeft: '4%',
-    paddingRight: '4%',
-    justifyContent: 'space-between',
-    display: 'flex',
     flex: 1,
-    alignItems: 'center'
+    flexDirection: 'column',
+    display: 'flex',
+    padding: '1em',
+    justifyContent: 'space-between'
   },
   topContainer: {
-    flexGrow: 1,
+    flex: 2,
     display: 'flex',
-    justifyContent: 'space-evenly'
-  },
-  formContainer: {
-    marginBottom: 50,
-    paddingTop: 30
+    justifyContent: 'center',
+    padding: 0,
+    margin: 0
   },
   bottomContainer: {
-    marginBottom: 50,
-    paddingTop: 30
-  },
-  textContainer: {
-    paddingTop: '50%',
-    marginTop: -30
-  },
-  buttonsContainer: {
-    marginTop: 30
+    display: 'flex',
+    justifyContent: 'flex-end'
   },
   fontBase: {
     fontFamily: 'Helvetica, "sans-serif"',
@@ -112,20 +119,7 @@ const styles = StyleSheet.create({
   paragraph: {
     fontSize: normalize(18),
     lineHeight: '1.2em'
-  },
-  buttonLayout: {
-    marginTop: 30,
-    padding: 10
-  },
-  buttonText: {
-    fontFamily: 'Helvetica, "sans-serif"',
-    fontSize: normalize(16),
-    color: 'white',
-    fontWeight: 'bold'
-  },
-  recoverButton: {
-    backgroundColor: '#555555'
   }
 })
 
-export default SignUpScreen
+export default Mnemonics

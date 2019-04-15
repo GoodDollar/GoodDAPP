@@ -2,7 +2,7 @@ language: node_js
 
 cache:
   npm: true
-  
+
 env:
   global:
     - REACT_ENV=development
@@ -13,7 +13,8 @@ env:
 
 script:
   - npm run coverage
+  - npm run coveralls
   - npm run build
-  
+
 after_failure:
   - cat /home/travis/.npm/_logs/*-debug.log

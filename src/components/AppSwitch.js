@@ -1,15 +1,13 @@
 // @flow
+import React from 'react'
 import { SceneView } from '@react-navigation/core'
 import _ from 'lodash'
-import React from 'react'
+import logger from '../lib/logger/pino-logger'
+import API from '../lib/API/api'
+import GDStore from '../lib/undux/GDStore'
+import { checkAuthStatus } from '../lib/login/checkAuthStatus'
 import type { Store } from 'undux'
 import { CustomDialog } from '../components/common'
-import API from '../lib/API/api'
-import logger from '../lib/logger/pino-logger'
-import goodWalletLogin from '../lib/login/GoodWalletLogin'
-import GDStore from '../lib/undux/GDStore'
-
-import goodWallet from '../lib/wallet/GoodWallet'
 import LoadingIndicator from './common/LoadingIndicator'
 
 type LoadingProps = {
@@ -57,17 +55,12 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
    * @returns {Promise<void>}
    */
   checkAuthStatus = async () => {
-    // when wallet is ready perform login to server (sign message with wallet and send to server)
-    const [credsOrError, isCitizen]: any = await Promise.all([
-      goodWalletLogin.auth(),
-      goodWallet.isCitizen(),
-      delay(TIMEOUT)
-    ])
-    let topWalletRes = API.verifyTopWallet()
-    log.info('checkAuthStatus', { credsOrError, isCitizen })
-    const isLoggedIn = credsOrError.jwt !== undefined
-    this.props.store.set('isLoggedInCitizen')(isLoggedIn && isCitizen)
+    const { credsOrError } = await Promise.all([checkAuthStatus(this.props.store), delay(TIMEOUT)]).then(
+      ([authResult]) => authResult
+    )
     if (this.props.store.get('isLoggedInCitizen')) {
+      let topWalletRes = API.verifyTopWallet()
+
       this.props.navigation.navigate('AppNavigation')
     } else {
       const { jwt } = credsOrError

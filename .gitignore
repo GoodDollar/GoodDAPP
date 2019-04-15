@@ -3,3 +3,4 @@ build/
 coverage/
 .env
 secrets.json
+cli-commands.txt

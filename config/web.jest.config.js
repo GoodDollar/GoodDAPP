@@ -38,4 +38,7 @@ module.exports = {
 	testPathIgnorePatterns: [
 		"/__tests__/__util__"
 	],
+	globals: {
+		"TZ" : "UTC"
+	}
 };

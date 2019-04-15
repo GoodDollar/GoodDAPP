@@ -15,7 +15,7 @@ import FaceRecognition from './FaceRecognition'
 import Reason from './Reason'
 import Receive from './Receive'
 import ReceiveAmount from './ReceiveAmount'
-import ScanQR from './ScanQR'
+import SendByQR from './SendByQR'
 import Send from './Send'
 import SendConfirmation from './SendConfirmation'
 import SendLinkSummary from './SendLinkSummary'
@@ -140,6 +140,6 @@ export default createStackNavigator({
   SendLinkSummary,
   SendConfirmation,
   FaceRecognition,
-  ScanQR,
+  SendByQR,
   SendQRSummary
 })

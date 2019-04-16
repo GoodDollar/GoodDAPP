@@ -512,7 +512,6 @@ class UserStorage {
       }
 
       const searchField = 'by' + (isMobilePhone(address) ? 'mobile' : isEmail(address) ? 'email' : 'walletAddress')
-      gun.get('users').load(allUsers => logger.info({ allUsers }), { wait: 99 })
       const profileToShow = gun
         .get('users')
         .get(searchField)

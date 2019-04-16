@@ -257,7 +257,6 @@ class UserStorage {
       .once(this.updateFeedIndex)
       .then()
     this.feed.get('index').on(this.updateFeedIndex, false)
-    this.feed.load(feed => logger.info({ feed }), { wait: 99 })
   }
 
   /**
@@ -446,7 +445,6 @@ class UserStorage {
    * @returns {Promise} Promise with an array of feed events
    */
   async getFeedPage(numResults: number, reset?: boolean = false): Promise<Array<FeedEvent>> {
-    logger.debug({ numResults, cursor: this.cursor })
     if (reset) this.cursor = undefined
     if (this.cursor === undefined) this.cursor = 0
     let total = 0
@@ -457,6 +455,7 @@ class UserStorage {
       return true
     })
     this.cursor += daysToTake.length
+
     let promises: Array<Promise<Array<FeedEvent>>> = daysToTake.map(day => {
       return this.feed
         .get(day[0])
@@ -508,7 +507,6 @@ class UserStorage {
       }
 
       const searchField = 'by' + (isMobilePhone(address) ? 'mobile' : isEmail(address) ? 'email' : 'walletAddress')
-      gun.get('users').load(allUsers => logger.info({ allUsers }), { wait: 99 })
       const profileToShow = gun
         .get('users')
         .get(searchField)
@@ -556,7 +554,7 @@ class UserStorage {
    * @returns {Promise} Promise with updated feed
    */
   async updateFeedEvent(event: FeedEvent): Promise<ACK> {
-    logger.debug(event)
+    logger.debug('updateFeedEvent', this.feed)
 
     let date = new Date(event.date)
     // force valid dates
@@ -587,16 +585,14 @@ class UserStorage {
       .get(day)
       .putAck(JSON.stringify(dayEventsArr))
       .catch(err => logger.error(err))
-
     const ack = this.feed
       .get('index')
       .get(day)
-      .putAck(dayEventsArr.length)
+      .put(dayEventsArr.length)
 
     const result = await Promise.all([saveAck, ack])
       .then(arr => arr[0])
-      .catch(err => logger.info(err))
-    this.feed.load(feedAfter => logger.info({ feedAfter }))
+      .catch(err => logger.info('savingIndex', err))
     return result
   }
 }

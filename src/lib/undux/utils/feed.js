@@ -5,7 +5,7 @@ import userStorage from '../../gundb/UserStorage'
 import pino from '../../logger/pino-logger'
 const logger = pino.child({ from: 'feeds' })
 
-const PAGE_SIZE = 10
+export const PAGE_SIZE = 10
 
 export const getInitialFeed = async (store: Store) => {
   const currentScreen = store.get('currentScreen')

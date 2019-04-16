@@ -38,6 +38,7 @@ export type FeedListProps = {
   data: any,
   updateData: any,
   onEndReached: any,
+  initialNumToRender: ?number,
   store: GDStore
 }
 
@@ -115,7 +116,7 @@ class FeedList extends PureComponent<FeedListProps, FeedListState> {
   }
 
   renderList = (feeds: any) => {
-    const { fixedHeight, onEndReached } = this.props
+    const { fixedHeight, onEndReached, initialNumToRender } = this.props
     const { horizontal } = this.state
     if (horizontal) {
       return (
@@ -147,7 +148,7 @@ class FeedList extends PureComponent<FeedListProps, FeedListState> {
           <AnimatedSwipeableFlatList
             bounceFirstRowOnMount={true}
             maxSwipeDistance={160}
-            initialNumToRender={10}
+            initialNumToRender={initialNumToRender || 10}
             ItemSeparatorComponent={ItemSeparatorComponent}
             data={feeds}
             getItemLayout={fixedHeight ? this.getItemLayout : undefined}

@@ -6,7 +6,7 @@ import { normalize } from 'react-native-elements'
 import type { Store } from 'undux'
 
 import GDStore from '../../lib/undux/GDStore'
-import { getInitialFeed, getNextFeed } from '../../lib/undux/utils/feed'
+import { getInitialFeed, getNextFeed, PAGE_SIZE } from '../../lib/undux/utils/feed'
 import { weiToMask } from '../../lib/wallet/utils'
 import { createStackNavigator, PushButton } from '../appNavigation/stackNavigation'
 import TabsView from '../appNavigation/TabsView'
@@ -106,6 +106,7 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
             virtualized
             data={feeds}
             updateData={() => {}}
+            initialNumToRender={PAGE_SIZE}
             onEndReached={getNextFeed.bind(null, store)}
           />
         </Wrapper>

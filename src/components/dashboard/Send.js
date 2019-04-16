@@ -5,8 +5,8 @@ import { HelperText, TextInput } from 'react-native-paper'
 import { useScreenState } from '../appNavigation/stackNavigation'
 import isMobilePhone from '../../lib/validators/isMobilePhone'
 import isEmail from 'validator/lib/isEmail'
+import UserStorage from '../../lib/gundb/UserStorage'
 import goodWallet from '../../lib/wallet/GoodWallet'
-
 import logger from '../../lib/logger/pino-logger'
 
 const SEND_TITLE = 'Send GD'
@@ -47,7 +47,7 @@ const validate = to => {
 
 const ContinueButton = ({ screenProps, to, disabled, checkError }) => (
   <CustomButton
-    onPress={() => {
+    onPress={async () => {
       if (checkError()) return
 
       if (to && (isMobilePhone(to) || isEmail(to))) {
@@ -55,7 +55,8 @@ const ContinueButton = ({ screenProps, to, disabled, checkError }) => (
       }
 
       if (to && goodWallet.wallet.utils.isAddress(to)) {
-        return screenProps.push('Amount', { to, nextRoutes: ['Reason', 'SendQRSummary'] })
+        const profile = await UserStorage.getUserProfile(to)
+        return screenProps.push('Amount', { to, profile, nextRoutes: ['Reason', 'SendQRSummary'] })
       }
       log.debug(`Oops, no error and no action`)
     }}

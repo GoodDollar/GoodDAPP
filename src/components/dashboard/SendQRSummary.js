@@ -5,7 +5,8 @@ import { View } from 'react-native'
 import logger from '../../lib/logger/pino-logger'
 import { useWrappedGoodWallet } from '../../lib/wallet/useWrappedWallet'
 import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
-import { Avatar, BigGoodDollar, CustomButton, CustomDialog, Section, Wrapper } from '../common'
+import { BigGoodDollar, CustomButton, CustomDialog, Section, Wrapper } from '../common'
+import { Avatar } from 'react-native-paper'
 import TopBar from '../common/TopBar'
 import { receiveStyles } from './styles'
 import GDStore from '../../lib/undux/GDStore'
@@ -27,7 +28,7 @@ const SendQRSummary = (props: AmountProps) => {
   const store = GDStore.useStore()
   const { loading } = store.get('currentScreen')
 
-  const { amount, reason, to } = screenState
+  const { amount, reason, to, profile } = screenState
   const sendGD = async () => {
     try {
       const receipt = await goodWallet.sendAmount(to, amount, {
@@ -70,8 +71,9 @@ const SendQRSummary = (props: AmountProps) => {
         <Section.Row style={styles.sectionRow}>
           <Section.Title style={styles.headline}>Summary</Section.Title>
           <View style={styles.sectionTo}>
-            <Avatar size={90} />
+            <Avatar.Image size={90} style={{ backgroundColor: 'white' }} source={profile && profile.avatar} />
             {to && <Section.Text style={styles.toText}>{`To: ${to}`}</Section.Text>}
+            {profile && profile.name && <Section.Text style={styles.toText}>{`Name: ${profile.name}`}</Section.Text>}
           </View>
           <Section.Text>
             {`Here's `}

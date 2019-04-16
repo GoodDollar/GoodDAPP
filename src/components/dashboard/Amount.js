@@ -17,7 +17,7 @@ const Amount = (props: AmountProps) => {
   const { screenProps } = props
   const [screenState, setScreenState] = useScreenState(screenProps)
 
-  const { amount, to } = screenState || {}
+  const { amount, to, profile } = screenState || {}
   const handleAmountChange = useCallback((value: string) => setScreenState({ amount: parseInt(value) }), ['0'])
   return (
     <Wrapper style={styles.wrapper}>
@@ -42,7 +42,12 @@ const Amount = (props: AmountProps) => {
             <BackButton mode="text" screenProps={screenProps} style={{ flex: 1 }}>
               Cancel
             </BackButton>
-            <NextButton nextRoutes={screenState.nextRoutes} values={{ amount, to }} disabled={!amount} {...props} />
+            <NextButton
+              nextRoutes={screenState.nextRoutes}
+              values={{ amount, to, profile }}
+              disabled={!amount}
+              {...props}
+            />
           </View>
         </Section.Row>
       </Section>

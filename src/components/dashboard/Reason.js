@@ -19,7 +19,7 @@ const SendReason = (props: AmountProps) => {
   const { screenProps } = props
 
   const [screenState, setScreenState] = useScreenState(screenProps)
-  const { amount, reason, to } = screenState
+  const { amount, reason, to, profile } = screenState
 
   return (
     <Wrapper style={styles.wrapper}>
@@ -28,13 +28,13 @@ const SendReason = (props: AmountProps) => {
         <Section.Row style={styles.sectionRow}>
           <View style={styles.inputField}>
             <Section.Title style={styles.headline}>For?</Section.Title>
-            <TextInput focus={true} value={reason} onChangeText={reason => setScreenState({ reason })} />
+            <TextInput focus="true" value={reason} onChangeText={reason => setScreenState({ reason })} />
           </View>
           <View style={styles.buttonGroup}>
             <BackButton mode="text" screenProps={screenProps} style={{ flex: 1 }}>
               Cancel
             </BackButton>
-            <NextButton nextRoutes={screenState.nextRoutes} values={{ amount, reason, to }} {...props} />
+            <NextButton nextRoutes={screenState.nextRoutes} values={{ amount, reason, to, profile }} {...props} />
           </View>
         </Section.Row>
       </Section>

@@ -14,7 +14,7 @@ const SEND_TITLE = 'Send GD'
 const log = logger.child({ from: SEND_TITLE })
 
 const ScanQRButton = ({ screenProps, disabled }) => (
-  <IconButton name="link" text="Scan QR Code" onPress={() => screenProps.push('ScanQR')} disabled={disabled} />
+  <IconButton name="link" text="Scan QR Code" onPress={() => screenProps.push('SendByQR')} disabled={disabled} />
 )
 
 /**

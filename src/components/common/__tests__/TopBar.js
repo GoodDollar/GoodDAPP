@@ -1,4 +1,6 @@
 import React from 'react'
+import { View } from 'react-native'
+import { Text } from 'react-native-paper'
 // Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer'
 
@@ -34,6 +36,25 @@ describe('TopBar', () => {
       </Container>
     )
     const tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
+  })
+
+  it(`should render the children component`, () => {
+    // Given
+    const component = renderer.create(
+      <Container>
+        <TopBar>
+          <View>
+            <Text>Children element</Text>
+          </View>
+        </TopBar>
+      </Container>
+    )
+
+    // When
+    const tree = component.toJSON()
+
+    // Then
     expect(tree).toMatchSnapshot()
   })
 })

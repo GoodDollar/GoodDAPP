@@ -17,7 +17,8 @@ import FeedList from './FeedList'
 import Reason from './Reason'
 import Receive from './Receive'
 import ReceiveAmount from './ReceiveAmount'
-import ScanQR from './ScanQR'
+import SendByQR from './SendByQR'
+import ReceiveByQR from './ReceiveByQR'
 import Send from './Send'
 import SendConfirmation from './SendConfirmation'
 import SendLinkSummary from './SendLinkSummary'
@@ -108,7 +109,7 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
             onEndReached={() => {}}
           />
         </Wrapper>
-        {params.receiveLink ? <Withdraw params={params} {...this.props} /> : null}
+        {params.receiveLink ? <Withdraw params={params} {...this.props} onFail={screenProps.goToRoot} /> : null}
       </View>
     )
   }
@@ -170,6 +171,7 @@ export default createStackNavigator({
   SendLinkSummary,
   SendConfirmation,
   FaceRecognition,
-  ScanQR,
+  SendByQR,
+  ReceiveByQR,
   SendQRSummary
 })

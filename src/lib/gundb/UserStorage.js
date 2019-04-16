@@ -352,7 +352,8 @@ class UserStorage {
       email: { defaultPrivacy: 'masked' },
       mobile: { defaultPrivacy: 'masked' },
       avatar: { defaultPrivacy: 'public' },
-      walletAddress: { defaultPrivacy: 'public' }
+      walletAddress: { defaultPrivacy: 'public' },
+      username: { defaultPrivacy: 'public' }
     }
 
     const getPrivacy = async field => {

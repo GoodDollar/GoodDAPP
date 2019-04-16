@@ -9,7 +9,8 @@
   background: transparent;
   border: none;
   font-size: 16px;
-  text-align: right;
+  text-align: left;
+  color: #555555;
 }
 .react-phone-number-input__input:-webkit-autofill {
   box-shadow: none;

@@ -1,5 +1,5 @@
-// flow-typed signature: e6e29bc05fd630504928348b2e063259
-// flow-typed version: 66338731ff/axios_v0.18.x/flow_>=v0.80.x
+// flow-typed signature: 74afec89c50ce53778988cf95042cca4
+// flow-typed version: 7ffaa2ca07/axios_v0.18.x/flow_>=v0.80.x <=v0.92.x
 
 declare module 'axios' {
   declare interface AxiosTransformer<T> {

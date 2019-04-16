@@ -57,11 +57,19 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   const done = async (data: { [string]: string }) => {
     log.info('signup data:', { data })
     setState({ ...state, ...data })
-    console.log({ state, data })
     let nextRoute = navigation.state.routes[navigation.state.index + 1]
     if (nextRoute && nextRoute.key === 'SMS') {
       try {
         await API.sendOTP({ ...state, ...data })
+        navigation.navigate(nextRoute.key)
+      } catch (e) {
+        log.error(e)
+      }
+    } else if (nextRoute && nextRoute.key === 'EmailConfirmation') {
+      try {
+        await API.sendVerificationEmail({ ...state, ...data })
+        // if email is properly sent, persist current user's information to userStorage
+        await userStorage.setProfile({ ...state, ...data, walletAddress: goodWallet.account })
         navigation.navigate(nextRoute.key)
       } catch (e) {
         log.error(e)
@@ -73,6 +81,10 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
         log.info('Sending new user data', state)
         saveProfile()
         try {
+          // After sending email to the user for confirmation (transition between Email -> EmailConfirmation)
+          // user's profile is persisted (`userStorage.setProfile`).
+          // Then, when the user access the application from the link (in EmailConfirmation), data is recovered and
+          // saved to the `state`
           await API.addUser(state)
           await API.verifyUser({})
           const destinationPath = store.get('destinationPath')
@@ -80,6 +92,10 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
           // top wallet of new user
           // wait for the topping to complete to be able to withdraw
           await API.verifyTopWallet()
+          const { email: to, fullName: name } = state
+          const mnemonic = localStorage.getItem('GD_USER_MNEMONIC')
+          log.info({ to, name, mnemonic })
+          await API.sendRecoveryInstructionByEmail(to, name, mnemonic)
           if (destinationPath !== '') {
             navigation.navigate(JSON.parse(destinationPath))
             store.set('destinationPath')('')

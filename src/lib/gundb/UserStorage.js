@@ -3,6 +3,7 @@ import type { StandardFeed } from '../undux/GDStore'
 import Gun from 'gun'
 import SEA from 'gun/sea'
 import { find, merge, orderBy, toPairs, takeWhile, flatten } from 'lodash'
+import { AsyncStorage } from 'react-native-web'
 import gun from './gundb'
 import { default as goodWallet, type GoodWallet } from '../wallet/GoodWallet'
 import isMobilePhone from '../validators/isMobilePhone'
@@ -594,6 +595,12 @@ class UserStorage {
       .then(arr => arr[0])
       .catch(err => logger.info('savingIndex', err))
     return result
+  }
+
+  getProfile(): Promise<any> {
+    return new Promise(res => {
+      this.profile.load(async profile => res(await this.getPrivateProfile(profile)), { wait: 99 })
+    })
   }
 }
 

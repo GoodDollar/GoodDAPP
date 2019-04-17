@@ -128,6 +128,41 @@ describe('UserStorage', () => {
     })
   })
 
+  // describe('generates standarised feed from events', async () => {
+  //   beforeAll(async () => {
+  //     await addUser({
+  //       identifier: 'abcdef',
+  //       walletAddress: 'walletabcdef',
+  //       fullName: 'Kevin Bardi',
+  //       mobile: '22233445566',
+  //       email: 'kevin.bardi@altoros.com'
+  //     })
+  //     await addUser({
+  //       identifier: 'ghijkl',
+  //       walletAddress: 'walletghijkl',
+  //       fullName: 'Fernando Greco',
+  //       mobile: '22244556677',
+  //       email: 'fernando.greco@altoros.com'
+  //     })
+  //     await addUser({
+  //       identifier: 'mnopqr',
+  //       walletAddress: 'walletmnopqr',
+  //       fullName: 'Dario Miñones',
+  //       mobile: '22255667788',
+  //       email: 'dario.minones@altoros.com'
+  //     })
+
+  //     const gunRes = await userStorage.updateFeedEvent(event)
+  //     const index = await userStorage.feed
+  //       .get('index')
+  //       .once()
+  //       .then()
+  //   })
+  //   it ('StandardizeFeed must return the feed with specific object structure', async () => {
+
+  //   })
+  // })
+
   it('sets profile email field masked', async () => {
     const gunRes = await userStorage.setProfileField('email', 'johndoe@blah.com', 'masked')
     const res = await userStorage.profile.get('email').then()

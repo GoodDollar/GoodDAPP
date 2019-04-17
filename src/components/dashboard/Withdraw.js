@@ -70,7 +70,7 @@ class Withdraw extends Component<DashboardProps, DashboardState> {
   async withdraw(hash: string, reason?: string) {
     try {
       //const { amount, sender } = await goodWallet.canWithdraw(hash)
-      let sender = 'hey'
+      // let sender = 'hey'
       let amount = 100
       const receipt = await goodWallet.withdraw(hash)
       logger.debug({ hash })
@@ -81,7 +81,7 @@ class Withdraw extends Component<DashboardProps, DashboardState> {
         date: date.toString(),
         type: 'withdraw',
         data: {
-          sender,
+          sender: receipt.from,
           amount,
           hash,
           receipt
@@ -97,11 +97,19 @@ class Withdraw extends Component<DashboardProps, DashboardState> {
         .filter({ id: receipt.transactionHash })
         .value()[0]
 
+      const profile = await UserStorage.getUserProfile(event.data.sender)
+
       this.setState({
         dialogData: { visible: false },
         eventDialogData: {
           visible: true,
-          event,
+          event: {
+            ...event,
+            data: {
+              ...profile,
+              ...event.data
+            }
+          },
           reason
         }
       })

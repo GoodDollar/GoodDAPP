@@ -2,11 +2,13 @@
 import React, { useCallback } from 'react'
 import { Clipboard, StyleSheet, Text, View } from 'react-native'
 import QRCode from 'qrcode.react'
+import { normalize } from 'react-native-elements'
 
 import logger from '../../lib/logger/pino-logger'
-import { Section, Wrapper, CustomButton, TopBar } from '../common'
+import { Section, Wrapper, CustomButton, TopBar, BigGoodDollar } from '../common'
 import { fontStyle } from '../common/styles'
 import { DoneButton, useScreenState } from '../appNavigation/stackNavigation'
+import './AButton.css'
 
 export type ReceiveProps = {
   screenProps: any,
@@ -19,7 +21,7 @@ const log = logger.child({ from: SEND_TITLE })
 const SendConfirmation = ({ screenProps, navigation }: ReceiveProps) => {
   const [screenState] = useScreenState(screenProps)
 
-  const { amount, sendLink } = screenState
+  const { amount, reason, sendLink, hrefLink } = screenState
 
   const copySendLink = useCallback(() => {
     Clipboard.setString(sendLink)
@@ -35,16 +37,24 @@ const SendConfirmation = ({ screenProps, navigation }: ReceiveProps) => {
             <View style={styles.qrCode}>
               <QRCode value={sendLink || ''} />
             </View>
+            <View style={styles.addressSection}>
+              <Text style={[styles.centered, styles.url]}>{sendLink}</Text>
+            </View>
+            <Section.Text style={styles.secondaryText} onPress={copySendLink}>
+              Copy link to clipboard
+            </Section.Text>
+            <Section.Text>
+              {`Here's `}
+              <BigGoodDollar number={amount} />
+            </Section.Text>
+            <Section.Text>{reason && `For ${reason}`}</Section.Text>
           </Section.Row>
-          <View style={styles.addressSection}>
-            <Text style={[styles.centered, styles.url]}>{sendLink}</Text>
-          </View>
         </View>
       </Section>
       <View style={styles.sectionBottom}>
-        <CustomButton style={styles.buttonStyle} onPress={copySendLink} mode="contained">
-          Copy Link to Clipboard
-        </CustomButton>
+        <a href={hrefLink} className="a-button" title="Share Link">
+          Share Link
+        </a>
         <DoneButton style={styles.buttonStyle} screenProps={screenProps} />
       </View>
     </Wrapper>

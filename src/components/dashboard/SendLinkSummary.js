@@ -1,6 +1,7 @@
 // @flow
 import React from 'react'
-import { View } from 'react-native'
+import { View, Linking } from 'react-native'
+import { Text } from 'react-native-elements'
 import { useWrappedGoodWallet } from '../../lib/wallet/useWrappedWallet'
 import { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import UserStorage from '../../lib/gundb/UserStorage'
@@ -42,16 +43,19 @@ const SendLinkSummary = (props: AmountProps) => {
    * @returns JSON Object with ok if email or sms has been sent
    * @throws Error with invalid email/phone
    */
-  const sendLinkTo = (to: string, sendLink: string) => {
+  const generateHrefLink = (to: string, sendLink: string) => {
+    const text = `You got GD. To withdraw open: ${sendLink}`
+
     if (!to) return
+
     // Send email if to is email
     if (isEmail(to)) {
-      return API.sendLinkByEmail(to, sendLink)
+      return `mailto:${to}?subject=Sending GD via Good Dollar App&body=${text}`
     }
 
     // Send sms if to is phone
     if (isMobilePhone(to)) {
-      return API.sendLinkBySMS(to, sendLink)
+      return `sms:${to}?body=${text}`
     }
 
     throw new Error(`${to} is neither a valid phone or email`)
@@ -86,10 +90,10 @@ const SendLinkSummary = (props: AmountProps) => {
         try {
           // Generate link deposit
           const { sendLink, receipt } = generateLinkResponse
-          await sendLinkTo(to, sendLink)
+          const hrefLink = generateHrefLink(to, sendLink)
           log.debug({ sendLink, receipt })
           // Show confirmation
-          screenProps.push('SendConfirmation', { sendLink })
+          screenProps.push('SendConfirmation', { sendLink, amount, reason, hrefLink })
         } catch (e) {
           const { hashedString } = generateLinkResponse
           await goodWallet.cancelOtl(hashedString)

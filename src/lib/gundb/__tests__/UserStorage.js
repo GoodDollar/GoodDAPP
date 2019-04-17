@@ -4,6 +4,7 @@ import extend from '../gundb-extend'
 import gun from '../gundb'
 import { type TransactionEvent } from '../UserStorage'
 import { getUserModel } from '../UserModel'
+import { addUser } from './__util__/index'
 
 let userStorage = require('../UserStorage.js').default
 let event = { id: 'xyz', date: new Date('2019-01-01T10:00:00.000Z').toString(), data: { foo: 'bar', unchanged: 'zar' } }
@@ -89,6 +90,42 @@ describe('UserStorage', () => {
     const gunRes = userStorage.getProfileFieldValue('id')
     const res = await gunRes.then()
     expect(res).toEqual('z123')
+  })
+
+  describe('gets profile name and avatar from value', async () => {
+    beforeAll(async () => {
+      await addUser({
+        identifier: 'abcdef',
+        walletAddress: 'walletabcdef',
+        fullName: 'Kevin Bardi',
+        mobile: '22233445566',
+        email: 'kevin.bardi@altoros.com'
+      })
+      await addUser({
+        identifier: 'ghijkl',
+        walletAddress: 'walletghijkl',
+        fullName: 'Fernando Greco',
+        mobile: '22244556677',
+        email: 'fernando.greco@altoros.com'
+      })
+      await addUser({
+        identifier: 'mnopqr',
+        walletAddress: 'walletmnopqr',
+        fullName: 'Dario Miñones',
+        mobile: '22255667788',
+        email: 'dario.minones@altoros.com'
+      })
+    })
+
+    it('returns object with user fullName for existing user identifier', async () => {
+      const userProfile = await userStorage.getUserProfile('walletabcdef')
+      expect(userProfile).toEqual(expect.objectContaining({ name: 'Kevin Bardi' }))
+    })
+
+    it("returns object with 'Unknown name' fullName for fake user identifier", async () => {
+      const userProfile = await userStorage.getUserProfile('fake')
+      expect(userProfile).toEqual(expect.objectContaining({ name: 'Unknown Name' }))
+    })
   })
 
   it('sets profile email field masked', async () => {

@@ -1,11 +1,13 @@
 // @flow
 import React from 'react'
 import { View } from 'react-native'
-import { Portal, Dialog, Paragraph, Text, Avatar } from 'react-native-paper'
+import { Portal, Dialog, Paragraph, Text } from 'react-native-paper'
 import CustomButton from './CustomButton'
 import type { TransactionEvent } from '../../lib/gundb/UserStorage'
 import Section from './Section'
 import { BigGoodDollar } from '../common'
+import Avatar from './Avatar'
+
 export type EventDialogProps = {
   visible: boolean,
   event: TransactionEvent,
@@ -61,7 +63,7 @@ const EventDialog = ({ visible, event, onDismiss, reason }: EventDialogProps) =>
           >
             <Section style={{ backgroundColor: '#fff', marginBottom: '0' }}>
               <Section.Row>
-                <Avatar.Image size={48} style={{ backgroundColor: '#777' }} source={avatar} />
+                <Avatar size={48} style={{ backgroundColor: '#777', borderRadius: '50%' }} source={avatar} />
                 <Text style={{ color: '#555' }}>
                   <Text style={{ color: '#555' }}>From: {sender}</Text>
                   <Text>{`\n${name}`}</Text>

@@ -3,21 +3,18 @@ import React from 'react'
 import { StyleSheet } from 'react-native'
 import { Wrapper, Title, Description } from './components'
 import { normalize } from 'react-native-elements'
-import { wrapFunction } from '../../lib/undux/utils/wrapper' // use for error handling
 type Props = {
   screenProps: any
 }
-type State = {}
+type State = {
+  showZoom: boolean
+}
 export default class FaceRecognition extends React.Component<Props, State> {
+  state = {
+    showZoom: false
+  }
   handleSubmit = () => {
-    // Show LivelinessCapture.tx UI.
-    /*wrapFunction( // see in ReceieveByQR.web line 61 the usage.
-      // ... 
-    )*/
-    // Show face reco client.
     this.props.screenProps.doneCallback({}) // call it when the face recognition is over successfully
-
-    // if something fails
   }
 
   render() {

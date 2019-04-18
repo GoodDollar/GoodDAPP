@@ -1,9 +1,10 @@
 import React from 'react'
 import FeedList from '../FeedList'
 import { mockEvent } from '../__tests__/__util__'
-
+import GDStore from '../../../lib/undux/GDStore'
 // Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer'
+const { Container } = GDStore
 
 describe('FeedList', () => {
   let props = {
@@ -24,12 +25,20 @@ describe('FeedList', () => {
       })
 
       it('renders without errors', () => {
-        const tree = renderer.create(<FeedList {...props} />)
+        const tree = renderer.create(
+          <Container>
+            <FeedList {...props} />
+          </Container>
+        )
         expect(tree.toJSON()).toBeTruthy()
       })
 
       it('matches snapshot', () => {
-        const component = renderer.create(<FeedList {...props} />)
+        const component = renderer.create(
+          <Container>
+            <FeedList {...props} />
+          </Container>
+        )
         const tree = component.toJSON()
         expect(tree).toMatchSnapshot()
       })
@@ -47,12 +56,20 @@ describe('FeedList', () => {
       })
 
       it('renders without errors', () => {
-        const tree = renderer.create(<FeedList {...props} />)
+        const tree = renderer.create(
+          <Container>
+            <FeedList {...props} />
+          </Container>
+        )
         expect(tree.toJSON()).toBeTruthy()
       })
 
       it('matches snapshot', () => {
-        const component = renderer.create(<FeedList {...props} />)
+        const component = renderer.create(
+          <Container>
+            <FeedList {...props} />
+          </Container>
+        )
         const tree = component.toJSON()
         expect(tree).toMatchSnapshot()
       })
@@ -70,12 +87,20 @@ describe('FeedList', () => {
       })
 
       it('renders without errors', () => {
-        const tree = renderer.create(<FeedList {...props} />)
+        const tree = renderer.create(
+          <Container>
+            <FeedList {...props} />
+          </Container>
+        )
         expect(tree.toJSON()).toBeTruthy()
       })
 
       it('matches snapshot', () => {
-        const component = renderer.create(<FeedList {...props} />)
+        const component = renderer.create(
+          <Container>
+            <FeedList {...props} />
+          </Container>
+        )
         const tree = component.toJSON()
         expect(tree).toMatchSnapshot()
       })
@@ -93,12 +118,20 @@ describe('FeedList', () => {
       })
 
       it('renders without errors', () => {
-        const tree = renderer.create(<FeedList {...props} />)
+        const tree = renderer.create(
+          <Container>
+            <FeedList {...props} />
+          </Container>
+        )
         expect(tree.toJSON()).toBeTruthy()
       })
 
       it('matches snapshot', () => {
-        const component = renderer.create(<FeedList {...props} />)
+        const component = renderer.create(
+          <Container>
+            <FeedList {...props} />
+          </Container>
+        )
         const tree = component.toJSON()
         expect(tree).toMatchSnapshot()
       })

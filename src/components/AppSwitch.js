@@ -9,6 +9,7 @@ import { checkAuthStatus } from '../lib/login/checkAuthStatus'
 import type { Store } from 'undux'
 import { CustomDialog } from '../components/common'
 import LoadingIndicator from './common/LoadingIndicator'
+import { Helmet } from 'react-helmet'
 
 type LoadingProps = {
   navigation: any,
@@ -90,6 +91,10 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
     const { dialogData } = store.get('currentScreen')
     return (
       <React.Fragment>
+        <Helmet>
+          <title>{`Good Dollar`}</title>
+        </Helmet>
+
         <CustomDialog
           {...dialogData}
           onDismiss={(...args) => {

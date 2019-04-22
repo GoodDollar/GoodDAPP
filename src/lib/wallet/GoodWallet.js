@@ -4,7 +4,7 @@ import ReserveABI from '@gooddollar/goodcontracts/build/contracts/GoodDollarRese
 import IdentityABI from '@gooddollar/goodcontracts/build/contracts/Identity.json'
 import OneTimePaymentLinksABI from '@gooddollar/goodcontracts/build/contracts/OneTimePaymentLinks.json'
 import RedemptionABI from '@gooddollar/goodcontracts/build/contracts/RedemptionFunctional.json'
-import _ from 'lodash'
+import filter from 'lodash/filter'
 import type Web3 from 'web3'
 import { utils } from 'web3'
 
@@ -244,10 +244,9 @@ export class GoodWallet {
   async getEvents({ event, contract, filter, fromBlock = ZERO, toBlock }: QueryEvent): Promise<[]> {
     const events = await contract.getPastEvents('allEvents', { fromBlock, toBlock })
 
-    return _(events)
-      .filter({ event })
-      .filter({ returnValues: { ...filter } })
-      .value()
+    const res1 = filter(events, { event })
+    const res = filter(res1, { returnValues: { ...filter } })
+    return res
   }
 
   /**

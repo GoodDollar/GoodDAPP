@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { View } from 'react-native'
 import UserStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 
@@ -27,7 +27,17 @@ const SendQRSummary = (props: AmountProps) => {
   const store = GDStore.useStore()
   const { loading } = store.get('currentScreen')
 
-  const { amount, reason, to, profile } = screenState
+  const { amount, reason, to } = screenState
+  const [profile, setProfile] = useState({})
+
+  const updateProfile = async () => {
+    const profile = await UserStorage.getUserProfile(to)
+    setProfile(profile)
+  }
+  useEffect(() => {
+    updateProfile()
+  }, [to])
+
   const sendGD = async () => {
     try {
       const receipt = await goodWallet.sendAmount(to, amount, {

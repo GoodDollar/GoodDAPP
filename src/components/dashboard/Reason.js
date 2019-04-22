@@ -19,7 +19,7 @@ const SendReason = (props: AmountProps) => {
   const { screenProps } = props
 
   const [screenState, setScreenState] = useScreenState(screenProps)
-  const { amount, reason, to, profile } = screenState
+  const { amount, reason, to } = screenState
 
   return (
     <Wrapper style={styles.wrapper}>
@@ -34,7 +34,7 @@ const SendReason = (props: AmountProps) => {
             <BackButton mode="text" screenProps={screenProps} style={{ flex: 1 }}>
               Cancel
             </BackButton>
-            <NextButton nextRoutes={screenState.nextRoutes} values={{ amount, reason, to, profile }} {...props} />
+            <NextButton nextRoutes={screenState.nextRoutes} values={{ amount, reason, to }} {...props} />
           </View>
         </Section.Row>
       </Section>

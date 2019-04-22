@@ -55,8 +55,7 @@ const ContinueButton = ({ screenProps, to, disabled, checkError }) => (
       }
 
       if (to && goodWallet.wallet.utils.isAddress(to)) {
-        const profile = await UserStorage.getUserProfile(to)
-        return screenProps.push('Amount', { to, profile, nextRoutes: ['Reason', 'SendQRSummary'] })
+        return screenProps.push('Amount', { to, nextRoutes: ['Reason', 'SendQRSummary'] })
       }
       log.debug(`Oops, no error and no action`)
     }}

@@ -10,6 +10,7 @@ import goodWallet from '../../lib/wallet/GoodWallet'
 import { CustomDialog } from '../common'
 import EventDialog from '../common/EventDialog'
 import type { EventDialogProps } from '../common/EventDialog'
+import { getInitialFeed } from '../../lib/undux/utils/feed'
 
 export type DashboardProps = {
   navigation: any,
@@ -91,16 +92,19 @@ class Withdraw extends Component<DashboardProps, DashboardState> {
 
       log.info({ event })
 
-      this.setState({
-        dialogData: { visible: false },
-        eventDialogData: {
-          visible: true,
-          event,
-          reason
-        }
-      })
+      this.setState(
+        {
+          dialogData: { visible: false },
+          eventDialogData: {
+            visible: true,
+            event,
+            reason
+          }
+        },
+        () => getInitialFeed(this.props.store)
+      )
     } catch (e) {
-      logger.error({ e })
+      log.error({ e })
       this.setState({
         dialogData: {
           visible: true,
@@ -130,8 +134,6 @@ class Withdraw extends Component<DashboardProps, DashboardState> {
 
   render() {
     const { dialogData, eventDialogData } = this.state
-
-    console.log({ eventDialogData })
 
     return (
       <>

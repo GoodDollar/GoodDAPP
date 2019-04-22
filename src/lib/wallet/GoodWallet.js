@@ -171,6 +171,7 @@ export class GoodWallet {
             from: this.account
           }
         )
+        abiDecoder.addABI(OneTimePaymentLinksABI.abi)
         log.info('GoodWallet Ready.', { accounts: this.accounts, account: this.account })
         this.listenTxUpdates()
       })

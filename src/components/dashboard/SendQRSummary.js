@@ -80,11 +80,7 @@ const SendQRSummary = (props: AmountProps) => {
         <Section.Row style={styles.sectionRow}>
           <Section.Title style={styles.headline}>Summary</Section.Title>
           <View style={styles.sectionTo}>
-            <Avatar
-              size={90}
-              style={{ backgroundColor: 'white', borderRadius: '50%' }}
-              source={profile && profile.avatar}
-            />
+            <Avatar size={90} style={styles.avatar} source={profile && profile.avatar} />
             {to && <Section.Text style={styles.toText}>{`To: ${to}`}</Section.Text>}
             {profile.name && <Section.Text style={styles.toText}>{`Name: ${profile.name}`}</Section.Text>}
           </View>
@@ -118,6 +114,9 @@ const styles = {
   toText: {
     marginTop: '1rem',
     marginBottom: '1rem'
+  },
+  avatar: {
+    backgroundColor: 'white'
   }
 }
 

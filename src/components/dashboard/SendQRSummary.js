@@ -86,7 +86,7 @@ const SendQRSummary = (props: AmountProps) => {
               source={profile && profile.avatar}
             />
             {to && <Section.Text style={styles.toText}>{`To: ${to}`}</Section.Text>}
-            {profile && profile.name && <Section.Text style={styles.toText}>{`Name: ${profile.name}`}</Section.Text>}
+            {profile.name && <Section.Text style={styles.toText}>{`Name: ${profile.name}`}</Section.Text>}
           </View>
           <Section.Text>
             {`Here's `}

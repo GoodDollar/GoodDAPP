@@ -92,7 +92,7 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
     return (
       <React.Fragment>
         <Helmet>
-          <title>{`Good Dollar`}</title>
+          <title>Good Dollar</title>
         </Helmet>
 
         <CustomDialog

@@ -160,9 +160,8 @@ class UserStorage {
             .get('users')
             .get(this.gunuser.is.pub)
             .put(this.gunuser)
-          // logger.info('GUN USER - ', this.gunuser)
-          // logger.debug('GunDB logged in', { username, pubkey: this.wallet.account, user: this.user.sea })
-          // logger.debug('subscribing')
+          logger.debug('GunDB logged in', { username, pubkey: this.wallet.account, user: this.user.sea })
+          logger.debug('subscribing')
 
           this.wallet.subscribeToEvent('receive', (err, events) => {
             logger.debug({ err, events }, 'receive')

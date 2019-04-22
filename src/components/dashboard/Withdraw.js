@@ -91,12 +91,7 @@ class Withdraw extends Component<DashboardProps, DashboardState> {
 
       log.info({ event })
 
-      const address = this.getSenderAddress(event, 'from')
-      const profile = await UserStorage.getUserProfile(address)
-      log.info({
-        address,
-        sender
-      })
+      const profile = await UserStorage.getUserProfile(sender)
 
       this.setState({
         dialogData: { visible: false },
@@ -125,22 +120,6 @@ class Withdraw extends Component<DashboardProps, DashboardState> {
       })
     }
   }
-
-  /**
-   * Returns sender wallet address from Payment Withdraw if exists
-   *
-   * @param {object} event - Withdraw Event
-   * @param {string} attr - From/to attribute to obtain wallet address
-   * @returns {string} Wallet address
-   */
-  getSenderAddress = (event: any, attr: string) =>
-    event &&
-    event.data &&
-    event.data.receipt &&
-    event.data.receipt.events &&
-    event.data.receipt.events.PaymentWithdraw &&
-    event.data.receipt.events.PaymentWithdraw.returnValues &&
-    event.data.receipt.events.PaymentWithdraw.returnValues[attr]
 
   /**
    * Cancel withdraw and close dialog

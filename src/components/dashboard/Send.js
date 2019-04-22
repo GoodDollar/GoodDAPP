@@ -5,7 +5,6 @@ import { HelperText, TextInput } from 'react-native-paper'
 import { useScreenState } from '../appNavigation/stackNavigation'
 import isMobilePhone from '../../lib/validators/isMobilePhone'
 import isEmail from 'validator/lib/isEmail'
-import UserStorage from '../../lib/gundb/UserStorage'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import logger from '../../lib/logger/pino-logger'
 
@@ -47,7 +46,7 @@ const validate = to => {
 
 const ContinueButton = ({ screenProps, to, disabled, checkError }) => (
   <CustomButton
-    onPress={async () => {
+    onPress={() => {
       if (checkError()) return
 
       if (to && (isMobilePhone(to) || isEmail(to))) {

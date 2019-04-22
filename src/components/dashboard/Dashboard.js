@@ -71,8 +71,6 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
     const { avatar, fullName } = store.get('profile')
     const feeds = store.get('feeds')
 
-    console.log({ feeds })
-
     return (
       <View style={styles.dashboardView}>
         <TabsView goTo={navigation.navigate} routes={screenProps.routes} />

@@ -46,6 +46,10 @@ export type StandardFeed = {
   }
 }
 
+type LoadingIndicator = {
+  loading: boolean
+}
+
 export type State = {
   balanceUpdate: BalanceUpdate,
   name: Name,
@@ -53,7 +57,7 @@ export type State = {
   currentScreen: CurrentScreen,
   destinationPath: string,
   feeds: StandardFeed[],
-  requestFeeds: boolean
+  loadingIndicator: LoadingIndicator
 }
 
 const initialState: State = {
@@ -79,7 +83,9 @@ const initialState: State = {
   profile: {},
   destinationPath: '',
   feeds: [],
-  requestFeeds: false
+  loadingIndicator: {
+    loading: false
+  }
 }
 
 export default createConnectedStore(

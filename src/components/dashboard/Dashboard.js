@@ -6,6 +6,7 @@ import { normalize } from 'react-native-elements'
 import type { Store } from 'undux'
 
 import GDStore from '../../lib/undux/GDStore'
+import { getInitialFeed, getNextFeed, PAGE_SIZE } from '../../lib/undux/utils/feed'
 import { weiToMask } from '../../lib/wallet/utils'
 import { createStackNavigator, PushButton } from '../appNavigation/stackNavigation'
 import TabsView from '../appNavigation/TabsView'
@@ -17,7 +18,8 @@ import FeedList from './FeedList'
 import Reason from './Reason'
 import Receive from './Receive'
 import ReceiveAmount from './ReceiveAmount'
-import ScanQR from './ScanQR'
+import SendByQR from './SendByQR'
+import ReceiveByQR from './ReceiveByQR'
 import Send from './Send'
 import SendConfirmation from './SendConfirmation'
 import SendLinkSummary from './SendLinkSummary'
@@ -59,7 +61,7 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
   }
 
   getFeeds() {
-    this.props.store.set('requestFeeds')(true)
+    getInitialFeed(this.props.store)
   }
 
   render() {
@@ -68,6 +70,8 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
     const { balance, entitlement } = store.get('account')
     const { avatar, fullName } = store.get('profile')
     const feeds = store.get('feeds')
+
+    console.log({ feeds })
 
     return (
       <View style={styles.dashboardView}>
@@ -105,10 +109,11 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
             virtualized
             data={feeds}
             updateData={() => {}}
-            onEndReached={() => {}}
+            initialNumToRender={PAGE_SIZE}
+            onEndReached={getNextFeed.bind(null, store)}
           />
         </Wrapper>
-        {params.receiveLink ? <Withdraw params={params} {...this.props} /> : null}
+        {params.receiveLink ? <Withdraw params={params} {...this.props} onFail={screenProps.goToRoot} /> : null}
       </View>
     )
   }
@@ -170,6 +175,7 @@ export default createStackNavigator({
   SendLinkSummary,
   SendConfirmation,
   FaceRecognition,
-  ScanQR,
+  SendByQR,
+  ReceiveByQR,
   SendQRSummary
 })

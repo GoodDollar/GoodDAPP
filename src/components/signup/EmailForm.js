@@ -1,9 +1,12 @@
 // @flow
 import React from 'react'
 import { HelperText, TextInput } from 'react-native-paper'
-import { Wrapper, Title } from './components'
-import logger from '../../lib/logger/pino-logger'
+import type { Store } from 'undux'
+
 import { userModelValidations } from '../../lib/gundb/UserModel'
+import logger from '../../lib/logger/pino-logger'
+import GDStore from '../../lib/undux/GDStore'
+import { Title, Wrapper } from './components'
 
 const log = logger.child({ from: 'EmailForm' })
 
@@ -11,7 +14,8 @@ type Props = {
   // callback to report to parent component
   doneCallback: ({ email: string }) => null,
   screenProps: any,
-  navigation: any
+  navigation: any,
+  store: Store
 }
 
 export type EmailRecord = {
@@ -22,7 +26,7 @@ export type EmailRecord = {
 
 type State = EmailRecord & { valid?: boolean }
 
-export default class EmailForm extends React.Component<Props, State> {
+class EmailForm extends React.Component<Props, State> {
   state = {
     email: this.props.screenProps.data.email || '',
     errorMessage: ''
@@ -52,7 +56,7 @@ export default class EmailForm extends React.Component<Props, State> {
     const { errorMessage } = this.state
 
     return (
-      <Wrapper valid={true} handleSubmit={this.handleSubmit}>
+      <Wrapper valid={true} handleSubmit={this.handleSubmit} loading={this.props.store.get('currentScreen').loading}>
         <Title>And which email address should we use to notify you?</Title>
         <TextInput
           id="signup_email"
@@ -71,3 +75,5 @@ export default class EmailForm extends React.Component<Props, State> {
     )
   }
 }
+
+export default GDStore.withStore(EmailForm)

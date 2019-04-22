@@ -5,17 +5,18 @@ import QrReader from 'react-qr-reader'
 import { NETWORK_ID } from '../../lib/constants/network'
 import logger from '../../lib/logger/pino-logger'
 import { readCode } from '../../lib/share'
-import { CustomDialog, Section, TopBar, Wrapper } from '../common'
-import { wrapFunction } from '../../lib/undux/utils/wrapper'
 import GDStore from '../../lib/undux/GDStore'
+import { wrapFunction } from '../../lib/undux/utils/wrapper'
+import { Section, TopBar, Wrapper } from '../common'
 
 const QR_DEFAULT_DELAY = 300
 
-const log = logger.child({ from: 'ScanQR.web' })
+const log = logger.child({ from: 'SendByQR.web' })
 
-const ScanQR = ({ screenProps }) => {
+const SendByQR = ({ screenProps }) => {
   const [qrDelay, setQRDelay] = useState(QR_DEFAULT_DELAY)
   const store = GDStore.useStore()
+
   const onDismissDialog = () => setQRDelay(QR_DEFAULT_DELAY)
 
   const handleScan = async data => {
@@ -79,8 +80,8 @@ const styles = StyleSheet.create({
   }
 })
 
-ScanQR.navigationOptions = {
+SendByQR.navigationOptions = {
   title: 'Scan QR Code'
 }
 
-export default ScanQR
+export default SendByQR

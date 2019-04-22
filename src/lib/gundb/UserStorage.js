@@ -3,6 +3,7 @@ import type { StandardFeed } from '../undux/GDStore'
 import Gun from 'gun'
 import SEA from 'gun/sea'
 import { find, merge, orderBy, toPairs, takeWhile, flatten } from 'lodash'
+import { AsyncStorage } from 'react-native-web'
 import gun from './gundb'
 import { default as goodWallet, type GoodWallet } from '../wallet/GoodWallet'
 import isMobilePhone from '../validators/isMobilePhone'
@@ -178,11 +179,7 @@ class UserStorage {
               }
 
               const updatedFeedEvent = { ...feedEvent, data: { ...feedEvent.data, receipt } }
-              await this.updateFeedEvent(updatedFeedEvent)
-
-              // Checking new feed
-              const feed = await this.getAllFeed()
-              logger.debug('receiptUpdated', { feed, receipt, updatedFeedEvent })
+              this.updateFeedEvent(updatedFeedEvent)
             } catch (error) {
               logger.error(error)
             }
@@ -203,9 +200,6 @@ class UserStorage {
                 }
               }
               await this.updateFeedEvent(updatedFeedEvent)
-              // Checking new feed
-              const feed = await this.getAllFeed()
-              logger.debug('receiptUpdated', { feed, receipt, updatedFeedEvent })
             } catch (error) {
               logger.error(error)
             }
@@ -233,26 +227,25 @@ class UserStorage {
    * @returns {object} feed item or null if it doesn't exist
    */
   async getFeedItemByTransactionHash(transactionHash: string) {
-    const feed = await this.getAllFeed()
-    logger.debug({ feed }, 'feed')
-    const feedItem = feed.find(feedItem => feedItem.id === transactionHash)
-    logger.debug({ feedItem })
+    const feedItem = await this.feed
+      .get('byid')
+      .get(transactionHash)
+      .decrypt()
+
     return feedItem
   }
-
-  /**
-   * Returns all feeds without pagination
-   * @returns {array} Feed list
-   */
   async getAllFeed() {
     const total = Object.values((await this.feed.get('index')) || {}).reduce((acc, curr) => acc + curr, 0)
-    logger.debug({ total })
+    const prevCursor = this.cursor
+    logger.debug({ total, prevCursor })
     const feed = await this.getFeedPage(total, true)
-    logger.debug({ feed })
+    this.cursor = prevCursor
+    logger.debug({ feed, cursor: this.cursor })
     return feed
   }
 
   updateFeedIndex = (changed: any, field: string) => {
+    logger.info('updateFeedIndex', { changed, field })
     if (field !== 'index' || changed === undefined) return
     delete changed._
     this.feedIndex = orderBy(toPairs(changed), day => day[0], 'desc')
@@ -454,7 +447,6 @@ class UserStorage {
    * @returns {Promise} Promise with an array of feed events
    */
   async getFeedPage(numResults: number, reset?: boolean = false): Promise<Array<FeedEvent>> {
-    logger.debug({ numResults, cursor: this.cursor })
     if (reset) this.cursor = undefined
     if (this.cursor === undefined) this.cursor = 0
     let total = 0
@@ -465,20 +457,27 @@ class UserStorage {
       return true
     })
     this.cursor += daysToTake.length
+
     let promises: Array<Promise<Array<FeedEvent>>> = daysToTake.map(day => {
       return this.feed
         .get(day[0])
-        .decrypt()
+        .then()
         .catch(e => {
           logger.error('getFeed', e)
           return []
         })
     })
-    let results = flatten(await Promise.all(promises))
-    logger.debug({ results, daysToTake, cursor: this.cursor })
-    // const stdResults = results.map(this.standardizeFeed)
-    // console.log('stdResults', stdResults)
-    return results
+
+    const eventsIndex = flatten(await Promise.all(promises))
+
+    return await Promise.all(
+      eventsIndex.map(eventIndex =>
+        this.feed
+          .get('byid')
+          .get(eventIndex.id)
+          .decrypt()
+      )
+    )
   }
 
   /**
@@ -487,11 +486,9 @@ class UserStorage {
    * @returns {Promise} Promise with array of standarised feed events
    * @todo Add pagination
    */
-  async getStandardizedFeed(): Promise<Array<StandardFeed>> {
-    const feed = await this.getAllFeed()
+  async getStandardizedFeed(numResults: number, reset?: boolean): Promise<Array<StandardFeed>> {
+    const feed = await this.getFeedPage(numResults, reset)
     return await Promise.all(feed.filter(feedItem => feedItem.data).map(this.standardizeFeed))
-    // TODO: Use proper pagination
-    // return (await this.getFeedPage(amount, true)).map(this.standardizeFeed)
   }
 
   /**
@@ -542,7 +539,6 @@ class UserStorage {
       }
 
       const searchField = 'by' + (isMobilePhone(address) ? 'mobile' : isEmail(address) ? 'email' : 'walletAddress')
-      gun.get('users').load(allUsers => logger.info({ allUsers }), { wait: 99 })
       const profileToShow = gun
         .get('users')
         .get(searchField)
@@ -590,33 +586,52 @@ class UserStorage {
    * @returns {Promise} Promise with updated feed
    */
   async updateFeedEvent(event: FeedEvent): Promise<ACK> {
-    logger.debug(event)
+    logger.debug('updateFeedEvent', this.feed)
 
     let date = new Date(event.date)
     // force valid dates
     date = isValidDate(date) ? date : new Date()
     let day = `${date.toISOString().slice(0, 10)}`
-    let dayEventsArr: Array<FeedEvent> = (await this.feed.get(day).decrypt()) || []
-    let toUpd = find(dayEventsArr, e => e.id === event.id)
-    if (toUpd) {
-      merge(toUpd, event)
-    } else {
-      let insertPos = dayEventsArr.findIndex(e => date > new Date(e.date))
-      if (insertPos >= 0) dayEventsArr.splice(insertPos, 0, event)
-      else dayEventsArr.unshift(event)
-    }
-    let saveAck = this.feed
-      .get(day)
-      .secretAck(dayEventsArr)
-      .then({ ok: 0 })
+    // Saving eventFeed by id
+    await this.feed
+      .get('byid')
+      .get(event.id)
+      .secretAck(event)
       .catch(e => {
         return { err: e.message }
       })
-    let ack = this.feed
+
+    // Update dates index
+    let dayEventsArr = (await this.feed.get(day).then()) || []
+    let toUpd = find(dayEventsArr, e => e.id === event.id)
+    const eventIndexItem = { id: event.id, updateDate: event.date }
+    if (toUpd) {
+      merge(toUpd, eventIndexItem)
+    } else {
+      let insertPos = dayEventsArr.findIndex(e => date > new Date(e.updateDate))
+      if (insertPos >= 0) dayEventsArr.splice(insertPos, 0, eventIndexItem)
+      else dayEventsArr.unshift(eventIndexItem)
+    }
+
+    let saveAck = this.feed
+      .get(day)
+      .putAck(JSON.stringify(dayEventsArr))
+      .catch(err => logger.error(err))
+    const ack = this.feed
       .get('index')
       .get(day)
-      .putAck(dayEventsArr.length)
-    return Promise.all([saveAck, ack]).then(arr => arr[0])
+      .put(dayEventsArr.length)
+
+    const result = await Promise.all([saveAck, ack])
+      .then(arr => arr[0])
+      .catch(err => logger.info('savingIndex', err))
+    return result
+  }
+
+  getProfile(): Promise<any> {
+    return new Promise(res => {
+      this.profile.load(async profile => res(await this.getPrivateProfile(profile)), { wait: 99 })
+    })
   }
 }
 

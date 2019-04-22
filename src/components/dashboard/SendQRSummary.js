@@ -1,17 +1,17 @@
 // @flow
-import React, { useState } from 'react'
+import React from 'react'
 import { View } from 'react-native'
+import UserStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 
 import logger from '../../lib/logger/pino-logger'
+import GDStore from '../../lib/undux/GDStore'
 import { useWrappedGoodWallet } from '../../lib/wallet/useWrappedWallet'
 import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
 import { BigGoodDollar, CustomButton, CustomDialog, Section, Wrapper } from '../common'
 import { Avatar } from 'react-native-paper'
 import TopBar from '../common/TopBar'
 import { receiveStyles } from './styles'
-import GDStore from '../../lib/undux/GDStore'
-import { type TransactionEvent } from '../../lib/gundb/UserStorage'
-import UserStorage from '../../lib/gundb/UserStorage'
+
 export type AmountProps = {
   screenProps: any,
   navigation: any
@@ -71,7 +71,11 @@ const SendQRSummary = (props: AmountProps) => {
         <Section.Row style={styles.sectionRow}>
           <Section.Title style={styles.headline}>Summary</Section.Title>
           <View style={styles.sectionTo}>
-            <Avatar.Image size={90} style={{ backgroundColor: 'white' }} source={profile && profile.avatar} />
+            <Avatar
+              size={90}
+              style={{ backgroundColor: 'white', borderRadius: '50%' }}
+              source={profile && profile.avatar}
+            />
             {to && <Section.Text style={styles.toText}>{`To: ${to}`}</Section.Text>}
             {profile && profile.name && <Section.Text style={styles.toText}>{`Name: ${profile.name}`}</Section.Text>}
           </View>
@@ -114,7 +118,8 @@ SendQRSummary.navigationOptions = {
 
 SendQRSummary.shouldNavigateToComponent = props => {
   const { screenState } = props.screenProps
-  return !!screenState.nextRoutes
+  // Component shouldn't be loaded if there's no 'amount', nor 'to' fields with data
+  return !!screenState.amount && !!screenState.to
 }
 
 export default SendQRSummary

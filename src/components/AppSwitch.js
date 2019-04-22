@@ -8,6 +8,8 @@ import GDStore from '../lib/undux/GDStore'
 import { checkAuthStatus } from '../lib/login/checkAuthStatus'
 import type { Store } from 'undux'
 import { CustomDialog } from '../components/common'
+import LoadingIndicator from './common/LoadingIndicator'
+
 type LoadingProps = {
   navigation: any,
   descriptors: any,
@@ -39,6 +41,7 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
   getParams = () => {
     const { router, state } = this.props.navigation
     const navInfo = router.getPathAndParamsForState(state)
+
     if (Object.keys(navInfo.params).length && this.props.store.get('destinationPath') === '') {
       const app = router.getActionForPathAndParams(navInfo.path)
       const destRoute = actions => (_.some(actions, 'action') ? destRoute(actions.action) : actions.action)
@@ -65,7 +68,13 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
 
       if (jwt) {
         log.debug('New account, not verified, or did not finish signup', jwt)
-        this.props.navigation.navigate('Auth')
+
+        if (this.props.store.get('destinationPath') !== '') {
+          this.props.navigation.navigate(JSON.parse(this.props.store.get('destinationPath')))
+          this.props.store.set('destinationPath')('')
+        } else {
+          this.props.navigation.navigate('Auth')
+        }
       } else {
         // TODO: handle other statuses (4xx, 5xx), consider exponential backoff
         log.error('Failed to sign in', credsOrError)
@@ -89,6 +98,7 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
             currentDialogData.onDismiss && currentDialogData.onDismiss(currentDialogData)
           }}
         />
+        <LoadingIndicator />
         <SceneView navigation={descriptor.navigation} component={descriptor.getComponent()} />
       </React.Fragment>
     )

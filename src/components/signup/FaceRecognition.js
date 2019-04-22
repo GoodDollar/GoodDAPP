@@ -10,8 +10,9 @@ type Props = {
 type State = {}
 export default class FaceRecognition extends React.Component<Props, State> {
   handleSubmit = () => {
-    this.props.screenProps.doneCallback({ isEmailConfirmed: true })
+    this.props.screenProps.doneCallback({})
   }
+
   render() {
     return (
       <Wrapper valid={true} handleSubmit={this.handleSubmit} submitText="Quick face recognition">

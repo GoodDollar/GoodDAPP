@@ -44,6 +44,13 @@ type QueryEvent = {
   toBlock: typeof BN | 'latest'
 }
 
+const defaultPromiEvents: PromiEvents = {
+  onTransactionHash: () => {},
+  onReceipt: () => {},
+  onConfirmation: () => {},
+  onError: () => {}
+}
+
 export class GoodWallet {
   static WalletType = 'software'
   static AccountUsageToPath = {
@@ -446,11 +453,10 @@ export class GoodWallet {
     }
   }
 
-  async withdraw(otlCode: string) {
+  async withdraw(otlCode: string, promiEvents: ?PromiEvents) {
     const withdrawCall = this.oneTimePaymentLinksContract.methods.withdraw(otlCode)
     log.info('withdrawCall', withdrawCall)
-
-    return await this.sendTransaction(withdrawCall, { onTransactionHash: hash => log.debug({ hash }) })
+    return await this.sendTransaction(withdrawCall, { ...defaultPromiEvents, ...promiEvents })
   }
 
   async cancelOtl(otlCode: string) {
@@ -512,12 +518,7 @@ export class GoodWallet {
    */
   async sendTransaction(
     tx: any,
-    { onTransactionHash, onReceipt, onConfirmation, onError }: PromiEvents = {
-      onTransactionHash: () => {},
-      onReceipt: () => {},
-      onConfirmation: () => {},
-      onError: () => {}
-    },
+    { onTransactionHash, onReceipt, onConfirmation, onError }: PromiEvents = defaultPromiEvents,
     { gas, gasPrice }: GasValues = { gas: undefined, gasPrice: undefined }
   ) {
     gas = gas || (await tx.estimateGas().catch(this.handleError))

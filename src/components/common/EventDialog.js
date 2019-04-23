@@ -32,7 +32,7 @@ const EventDialog = ({ visible, event, onDismiss, reason }: EventDialogProps) =>
 
   const customDate = new Date(date).toLocaleString(navigator.language, dateOptions)
 
-  const action = type === 'withdraw' ? 'Received' : 'Sent'
+  const action = type === 'withdraw' ? 'Withdrawn' : 'Sent'
 
   return (
     <Portal>

@@ -71,26 +71,27 @@ class Withdraw extends Component<DashboardProps, DashboardState> {
   async withdraw(hash: string, reason?: string) {
     try {
       const { amount, sender } = await goodWallet.canWithdraw(hash)
-      const receipt = await goodWallet.withdraw(hash)
-      logger.debug({ hash })
-      const date = new Date()
+      const receipt = await goodWallet.withdraw(hash, {
+        onTransactionHash: transactionHash => {
+          logger.debug({ hash })
+          const date = new Date()
 
-      const transactionEvent: TransactionEvent = {
-        id: receipt.transactionHash,
-        date: date.toString(),
-        type: 'withdraw',
-        data: {
-          sender,
-          amount,
-          hash,
-          receipt
+          const transactionEvent: TransactionEvent = {
+            id: transactionHash,
+            date: date.toString(),
+            type: 'withdraw',
+            data: {
+              amount,
+              hash,
+              sender
+            }
+          }
+
+          UserStorage.updateFeedEvent(transactionEvent)
         }
-      }
-
-      await UserStorage.updateFeedEvent(transactionEvent)
-      const event = await UserStorage.getFeedItemByTransactionHash(transactionEvent.id)
-
-      log.info({ event })
+      })
+      const event = await UserStorage.getFeedItemByTransactionHash(receipt.transactionHash)
+      log.info({ event, receipt })
 
       this.setState(
         {

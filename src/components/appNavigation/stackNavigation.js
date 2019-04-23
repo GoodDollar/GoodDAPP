@@ -3,6 +3,7 @@ import React, { Component, useState, useEffect } from 'react'
 import { Style } from 'react-native'
 import { Button } from 'react-native-paper'
 import { createNavigator, SwitchRouter, SceneView, Route } from '@react-navigation/core'
+import { Helmet } from 'react-helmet'
 
 import NavBar from './NavBar'
 import { CustomButton, type ButtonProps } from '../common'
@@ -132,10 +133,13 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
       setScreenState: this.setScreenState
     }
     const Component = getComponent(descriptor.getComponent(), { screenProps })
-
+    const pageTitle = title || activeKey
     return (
       <React.Fragment>
-        {!navigationBarHidden && <NavBar goBack={backButtonHidden ? undefined : this.pop} title={title || activeKey} />}
+        <Helmet>
+          <title>{`Good Dollar | ${pageTitle}`}</title>
+        </Helmet>
+        {!navigationBarHidden && <NavBar goBack={backButtonHidden ? undefined : this.pop} title={pageTitle} />}
         <SceneView navigation={descriptor.navigation} component={Component} screenProps={screenProps} />
       </React.Fragment>
     )

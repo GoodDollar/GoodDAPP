@@ -5,8 +5,7 @@ import { Portal, Dialog, Paragraph, Text } from 'react-native-paper'
 import CustomButton from './CustomButton'
 import type { TransactionEvent } from '../../lib/gundb/UserStorage'
 import Section from './Section'
-import { BigGoodDollar } from '../common'
-import Avatar from './Avatar'
+import { BigGoodDollar, Avatar } from '../common'
 
 export type EventDialogProps = {
   visible: boolean,

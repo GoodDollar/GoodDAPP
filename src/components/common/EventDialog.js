@@ -4,9 +4,8 @@ import { View, StyleSheet } from 'react-native'
 import { Portal, Dialog, Paragraph, Text } from 'react-native-paper'
 import CustomButton from './CustomButton'
 import type { TransactionEvent } from '../../lib/gundb/UserStorage'
-import Avatar from './Avatar'
 import Section from './Section'
-import { BigGoodDollar } from '../common'
+import { BigGoodDollar, Avatar } from '../common'
 
 export type EventDialogProps = {
   visible: boolean,
@@ -18,7 +17,7 @@ const EventDialog = ({ visible, event, onDismiss, reason }: EventDialogProps) =>
   const {
     date,
     type,
-    data: { amount, sender }
+    data: { amount, sender, avatar, name }
   } = event
 
   const dateOptions = {
@@ -51,7 +50,10 @@ const EventDialog = ({ visible, event, onDismiss, reason }: EventDialogProps) =>
             <Section style={styles.senderSection}>
               <Section.Row>
                 <Avatar style={styles.avatar} />
-                <Text style={styles.sender}>From: {sender}</Text>
+                <Text style={{ color: '#555' }}>
+                  <Text style={{ color: '#555' }}>From: {sender}</Text>
+                  <Text>{`\n${name}`}</Text>
+                </Text>
               </Section.Row>
             </Section>
           </View>

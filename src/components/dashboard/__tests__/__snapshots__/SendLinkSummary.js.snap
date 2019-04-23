@@ -288,7 +288,7 @@ exports[`SendLinkSummary matches snapshot 1`] = `
                 }
               }
             >
-              Summery
+              Summary
             </div>
             <div
               className="css-view-1dbjc4n"

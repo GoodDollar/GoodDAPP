@@ -496,6 +496,36 @@ class UserStorage {
   }
 
   /**
+   * Returns name and avatar from profile based filtered by received value
+   *
+   * @param {string} field - Profile field value (email, mobile or wallet address value)
+   * @returns {object} profile - { name, avatar }
+   */
+  async getUserProfile(field: string) {
+    const attr = isMobilePhone(field) ? 'mobile' : isEmail(field) ? 'email' : 'walletAddress'
+    const value = UserStorage.cleanFieldForIndex(attr, field)
+
+    const profileToShow = gun
+      .get('users')
+      .get(`by${attr}`)
+      .get(value)
+      .get('profile')
+
+    const avatar =
+      (await profileToShow
+        .get('avatar')
+        .get('display')
+        .then()) || undefined
+    const name =
+      (await profileToShow
+        .get('fullName')
+        .get('display')
+        .then()) || 'Unknown Name'
+
+    return { name, avatar }
+  }
+
+  /**
    * Returns the feed in a standard format to be loaded in feed list and modal
    *
    * @param {FeedEvent} param - Feed event with data, type, date and id props

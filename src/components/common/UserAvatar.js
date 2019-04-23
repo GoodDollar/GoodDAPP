@@ -1,3 +1,4 @@
+// @flow
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import CreateAvatar from 'exif-react-avatar-edit'
@@ -5,7 +6,18 @@ import CreateAvatar from 'exif-react-avatar-edit'
 import Avatar from './Avatar'
 import Section from './Section'
 
-const UserAvatar = props => {
+export type AvatarProps = {
+  profile: {
+    avatar: string,
+    fullName?: string
+  },
+  onChange: any => mixed,
+  editable?: boolean,
+  size?: number,
+  style?: any
+}
+
+const UserAvatar = (props: AvatarProps) => {
   const { profile, editable, onChange } = props
   return (
     <View style={styles.avatar}>

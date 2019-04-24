@@ -55,6 +55,10 @@ const EmailConfirmation = ({ navigation, screenProps }: Props) => {
 
   const handleSubmit = () => {
     log.info('opening email client...')
+    // This link will continue working as it was working in dev mode. Clicking 'Open your emial app' button, will
+    // continue with registration progress instead of triggering email client.
+    // TODO: for production mode, this should just trigger the email client.
+    screenProps.doneCallback({ isEmailConfirmed: true })
   }
 
   return (

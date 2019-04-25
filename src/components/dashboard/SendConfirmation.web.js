@@ -9,6 +9,7 @@ import { Section, Wrapper, CustomButton, TopBar, BigGoodDollar } from '../common
 import { fontStyle } from '../common/styles'
 import { DoneButton, useScreenState } from '../appNavigation/stackNavigation'
 import './AButton.css'
+import { receiveStyles } from './styles'
 
 export type ReceiveProps = {
   screenProps: any,
@@ -29,44 +30,48 @@ const SendConfirmation = ({ screenProps, navigation }: ReceiveProps) => {
   }, [sendLink])
 
   return (
-    <Wrapper>
+    <Wrapper style={styles.wrapper}>
       <TopBar hideBalance push={screenProps.push} />
       <Section style={styles.section}>
-        <View style={styles.sectionTop}>
-          <Section.Row style={[{}]}>
-            <View style={styles.qrCode}>
-              <QRCode value={sendLink || ''} />
-            </View>
-            <View style={styles.addressSection}>
-              <Text style={[styles.centered, styles.url]}>{sendLink}</Text>
-            </View>
-            <Section.Text style={styles.secondaryText} onPress={copySendLink}>
-              Copy link to clipboard
-            </Section.Text>
-            <Section.Text>
-              {`Here's `}
-              <BigGoodDollar number={amount} />
-            </Section.Text>
-            <Section.Text>{reason && `For ${reason}`}</Section.Text>
-          </Section.Row>
-        </View>
+        <Section.Row style={styles.sectionRow}>
+          <View style={styles.qrCode}>
+            <QRCode value={sendLink || ''} />
+          </View>
+          <Section.Text style={styles.addressSection}>
+            <Text style={styles.url}>{sendLink}</Text>
+          </Section.Text>
+          <Section.Text style={styles.secondaryText} onPress={copySendLink}>
+            Copy link to clipboard
+          </Section.Text>
+          <Section.Text>
+            {`Here's `}
+            <BigGoodDollar number={amount} />
+          </Section.Text>
+          <Section.Text>{reason && `For ${reason}`}</Section.Text>
+          <View style={styles.buttonGroup}>
+            <a href={hrefLink} className="a-button" title="Share Link">
+              Share Link
+            </a>
+            <DoneButton style={styles.buttonStyle} screenProps={screenProps} />
+          </View>
+        </Section.Row>
       </Section>
-      <View style={styles.sectionBottom}>
-        <a href={hrefLink} className="a-button" title="Share Link">
-          Share Link
-        </a>
-        <DoneButton style={styles.buttonStyle} screenProps={screenProps} />
-      </View>
     </Wrapper>
   )
 }
 
 const styles = StyleSheet.create({
+  ...receiveStyles,
   section: {
     flex: 1,
     justifyContent: 'space-between',
     alignItems: 'center',
     alignContent: 'stretch'
+  },
+  sectionRow: {
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    height: '100%'
   },
   sectionTop: {
     flex: 2,
@@ -74,9 +79,11 @@ const styles = StyleSheet.create({
     maxWidth: '100%',
     alignItems: 'center'
   },
-  sectionBottom: {
+  buttonGroup: {
     width: '100%',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    marginTop: '1rem',
+    flex: 1
   },
   qrCode: {
     marginTop: '2rem',

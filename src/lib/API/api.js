@@ -16,7 +16,7 @@ export type Credentials = {
   profileSignature?: string, //signed with address of user profile on GunDB
   profilePublickey?: string, //public key of user profile on gundb
   nonce?: string,
-  jwt: string
+  jwt?: string
 }
 
 export type UserRecord = NameRecord & EmailRecord & MobileRecord & Credentials

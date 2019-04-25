@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { View } from 'react-native'
 import UserStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 
@@ -7,7 +7,7 @@ import logger from '../../lib/logger/pino-logger'
 import GDStore from '../../lib/undux/GDStore'
 import { useWrappedGoodWallet } from '../../lib/wallet/useWrappedWallet'
 import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
-import { Avatar, BigGoodDollar, CustomButton, Section, Wrapper } from '../common'
+import { BigGoodDollar, CustomButton, CustomDialog, Section, Wrapper, Avatar } from '../common'
 import TopBar from '../common/TopBar'
 import { receiveStyles } from './styles'
 
@@ -28,6 +28,16 @@ const SendQRSummary = (props: AmountProps) => {
   const { loading } = store.get('currentScreen')
 
   const { amount, reason, to } = screenState
+  const [profile, setProfile] = useState({})
+
+  const updateProfile = async () => {
+    const profile = await UserStorage.getUserProfile(to)
+    setProfile(profile)
+  }
+  useEffect(() => {
+    updateProfile()
+  }, [to])
+
   const sendGD = async () => {
     try {
       const receipt = await goodWallet.sendAmount(to, amount, {
@@ -70,8 +80,9 @@ const SendQRSummary = (props: AmountProps) => {
         <Section.Row style={styles.sectionRow}>
           <Section.Title style={styles.headline}>Summary</Section.Title>
           <View style={styles.sectionTo}>
-            <Avatar size={90} />
+            <Avatar size={90} style={styles.avatar} source={profile && profile.avatar} />
             {to && <Section.Text style={styles.toText}>{`To: ${to}`}</Section.Text>}
+            {profile.name && <Section.Text style={styles.toText}>{`Name: ${profile.name}`}</Section.Text>}
           </View>
           <Section.Text>
             {`Here's `}
@@ -103,6 +114,9 @@ const styles = {
   toText: {
     marginTop: '1rem',
     marginBottom: '1rem'
+  },
+  avatar: {
+    backgroundColor: 'white'
   }
 }
 

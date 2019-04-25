@@ -57,7 +57,6 @@ export type State = {
   currentScreen: CurrentScreen,
   destinationPath: string,
   feeds: StandardFeed[],
-  requestFeeds: boolean,
   loadingIndicator: LoadingIndicator
 }
 
@@ -84,7 +83,6 @@ const initialState: State = {
   profile: {},
   destinationPath: '',
   feeds: [],
-  requestFeeds: false,
   loadingIndicator: {
     loading: false
   }

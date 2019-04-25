@@ -110,7 +110,7 @@ const SendLinkSummary = (props: AmountProps) => {
       <TopBar push={screenProps.push} />
       <Section style={styles.section}>
         <Section.Row style={styles.sectionRow}>
-          <Section.Title style={styles.headline}>Summery</Section.Title>
+          <Section.Title style={styles.headline}>Summary</Section.Title>
           <View style={styles.sectionTo}>
             <Avatar size={90} />
             {to && <Section.Text style={styles.toText}>{`To: ${to}`}</Section.Text>}

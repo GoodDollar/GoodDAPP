@@ -87,19 +87,24 @@ class Withdraw extends Component<DashboardProps, DashboardState> {
       }
 
       await UserStorage.updateFeedEvent(transactionEvent)
-      const events = await UserStorage.feed.get(date.toISOString().slice(0, 10)).decrypt()
+      const event = await UserStorage.getFeedItemByTransactionHash(transactionEvent.id)
 
-      log.info(events)
+      log.info({ event })
 
-      const event = _(events)
-        .filter({ id: receipt.transactionHash })
-        .value()[0]
+      const profile = await UserStorage.getUserProfile(sender)
 
       this.setState({
         dialogData: { visible: false },
         eventDialogData: {
           visible: true,
-          event,
+          event: {
+            ...event,
+            data: {
+              ...profile,
+              ...event.data,
+              sender
+            }
+          },
           reason
         }
       })

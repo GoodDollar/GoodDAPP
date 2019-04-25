@@ -1,10 +1,20 @@
 // @flow
 import React, { PureComponent } from 'react'
-import { Animated, SwipeableFlatList, FlatList, View, StyleSheet, Dimensions, Text } from 'react-native'
+import {
+  Animated,
+  SwipeableFlatList,
+  FlatList,
+  View,
+  StyleSheet,
+  Dimensions,
+  Text,
+  ActivityIndicator
+} from 'react-native'
 import { normalize } from 'react-native-elements'
 import FeedActions from './FeedActions'
 import FeedListItem from './FeedItems/FeedListItem'
 import FeedModalItem from './FeedItems/FeedModalItem'
+import GDStore from '../../lib/undux/GDStore'
 
 const SCREEN_SIZE = {
   width: 200,
@@ -27,7 +37,9 @@ export type FeedListProps = {
   virtualized: boolean,
   data: any,
   updateData: any,
-  onEndReached: any
+  onEndReached: any,
+  initialNumToRender: ?number,
+  store: GDStore
 }
 
 type FeedListState = {
@@ -104,7 +116,7 @@ class FeedList extends PureComponent<FeedListProps, FeedListState> {
   }
 
   renderList = (feeds: any) => {
-    const { fixedHeight, onEndReached } = this.props
+    const { fixedHeight, onEndReached, initialNumToRender } = this.props
     const { horizontal } = this.state
     if (horizontal) {
       return (
@@ -136,7 +148,7 @@ class FeedList extends PureComponent<FeedListProps, FeedListState> {
           <AnimatedSwipeableFlatList
             bounceFirstRowOnMount={true}
             maxSwipeDistance={160}
-            initialNumToRender={5}
+            initialNumToRender={initialNumToRender || 10}
             ItemSeparatorComponent={ItemSeparatorComponent}
             data={feeds}
             getItemLayout={fixedHeight ? this.getItemLayout : undefined}
@@ -162,12 +174,16 @@ class FeedList extends PureComponent<FeedListProps, FeedListState> {
   render() {
     const { data } = this.props
     const feeds = data && data instanceof Array && data.length ? data : undefined
-
+    const { loading } = this.props.store.get('currentScreen')
     return feeds ? (
       this.renderList(feeds)
     ) : (
       <View style={styles.verticalContainer}>
-        <Text style={{ textAlign: 'center' }}>Feed is empty.</Text>
+        {loading ? (
+          <ActivityIndicator animating={true} color="gray" size="large" />
+        ) : (
+          <Text style={{ textAlign: 'center' }}>Feed is empty.</Text>
+        )}
       </View>
     )
   }
@@ -197,7 +213,8 @@ const styles = StyleSheet.create({
   },
   verticalContainer: {
     backgroundColor: '#efeff4',
-    flex: 1
+    flex: 1,
+    justifyContent: 'center'
   },
   verticalList: {
     backgroundColor: '#fff',
@@ -223,4 +240,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default FeedList
+export default GDStore.withStore(FeedList)

@@ -59,21 +59,6 @@ const AppNavigator = createSwitchNavigator(routes, { initialRouteName })
  * Dashboard is the initial route
  */
 class AppNavigation extends React.Component<AppNavigationProps, AppNavigationState> {
-  // checkAuthStatus() {
-  //   if (this.props.store.get('isLoggedInCitizen')) return
-
-  //   // if not isLoggedInCitizen yet we should check status
-  //   return checkAuthStatus(this.props.store)
-  // }
-
-  // async componentDidMount() {
-  //   await this.checkAuthStatus()
-  // }
-
-  // async componentDidUpdate() {
-  //   await this.checkAuthStatus()
-  // }
-
   render() {
     const account = this.props.store.get('account')
     // `account.ready` will be set to `true` after retrieving the required user information in `updateAll`,

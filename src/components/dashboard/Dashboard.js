@@ -44,11 +44,11 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
     feeds: []
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     const { params } = this.props.navigation.state
 
     if (params && params.receiveLink) {
-      await this.handleWithdraw()
+      this.handleWithdraw()
     } else if (params && params.event) {
       this.showNewFeedEvent(params.event)
     } else {

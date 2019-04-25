@@ -101,7 +101,7 @@ export class GoodWallet {
             }
             this.wallet.eth
               .getTransactionReceipt(event.transactionHash)
-              .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, 'receiptUpdated'))
+              .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptUpdated']))
             // Send for all events. We could define here different events
             this.getSubscribers('send').forEach(cb => cb(error, events))
             this.getSubscribers('balanceChanged').forEach(cb => cb(error, events))
@@ -125,7 +125,7 @@ export class GoodWallet {
             }
             this.wallet.eth
               .getTransactionReceipt(event.transactionHash)
-              .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, 'receiptReceived'))
+              .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptReceived']))
               .catch(err => log.error(err))
 
             this.getSubscribers('receive').forEach(cb => cb(error, events))
@@ -135,9 +135,11 @@ export class GoodWallet {
       })
   }
 
-  sendReceiptWithLogsToSubscribers(receipt: any, subscription: string) {
+  sendReceiptWithLogsToSubscribers(receipt: any, subscriptions: Array<string>) {
     const logs = abiDecoder.decodeLogs(receipt.logs)
-    this.getSubscribers(subscription).forEach(cb => cb({ ...receipt, logs }))
+    subscriptions.forEach(subscription => {
+      this.getSubscribers(subscription).forEach(cb => cb({ ...receipt, logs }))
+    })
     return receipt
   }
 
@@ -536,7 +538,7 @@ export class GoodWallet {
       .on('error', onError)
       .then(async receipt => {
         const transactionReceipt = await this.wallet.eth.getTransactionReceipt(receipt.transactionHash)
-        await this.sendReceiptWithLogsToSubscribers(transactionReceipt, 'receiptReceived')
+        await this.sendReceiptWithLogsToSubscribers(transactionReceipt, ['receiptReceived', 'receiptUpdated'])
         return transactionReceipt
       })
       .catch(this.handleError)

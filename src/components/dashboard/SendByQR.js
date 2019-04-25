@@ -1,20 +1,18 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { StyleSheet } from 'react-native'
 import QRCodeScanner from 'react-native-qrcode-scanner'
 
 import { NETWORK_ID } from '../../lib/constants/network'
 import logger from '../../lib/logger/pino-logger'
 import { readCode } from '../../lib/share'
-import { CustomDialog, Section, TopBar, Wrapper } from '../common'
+import GDStore from '../../lib/undux/GDStore'
+import { wrapFunction } from '../../lib/undux/utils/wrapper'
+import { Section, TopBar, Wrapper } from '../common'
 
-const log = logger.child({ from: 'ScanQR.web' })
+const log = logger.child({ from: 'SendByQR.web' })
 
-const ScanQR = ({ screenProps }) => {
-  const [dialogData, setDialogData] = useState({ visible: false })
-
-  const dismissDialog = () => {
-    setDialogData({ visible: false })
-  }
+const SendByQR = ({ screenProps }) => {
+  const store = GDStore.useStore()
 
   const handleScan = async data => {
     if (data) {
@@ -40,7 +38,7 @@ const ScanQR = ({ screenProps }) => {
         }
       } catch (e) {
         log.error({ e })
-        setDialogData({ visible: true, title: 'Error', message: e.message })
+        throw e
       }
     }
   }
@@ -50,10 +48,9 @@ const ScanQR = ({ screenProps }) => {
       <TopBar hideBalance={true} push={screenProps.push} />
       <Section style={styles.bottomSection}>
         <Section.Row>
-          <QRCodeScanner onRead={handleScan} />
+          <QRCodeScanner onRead={wrapFunction(handleScan, store)} />
         </Section.Row>
       </Section>
-      <CustomDialog onDismiss={dismissDialog} {...dialogData} />
     </Wrapper>
   )
 }
@@ -68,8 +65,8 @@ const styles = StyleSheet.create({
   }
 })
 
-ScanQR.navigationOptions = {
+SendByQR.navigationOptions = {
   title: 'Scan QR Code'
 }
 
-export default ScanQR
+export default SendByQR

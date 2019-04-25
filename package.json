@@ -67,6 +67,7 @@
     "react-app-polyfill": "^0.1.3",
     "react-art": "^16.8.1",
     "react-dom": "^16.8.1",
+    "react-helmet": "^5.2.0",
     "react-native": "0.55.x",
     "react-native-camera": "^1.12.0",
     "react-native-elements": "^0.19.1",

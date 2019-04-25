@@ -12,13 +12,14 @@ import EventDialog from '../common/EventDialog'
 import type { EventDialogProps } from '../common/EventDialog'
 
 export type DashboardProps = {
-  screenProps: any,
   navigation: any,
   store: Store,
   params: {
     receiveLink: string,
     reason?: string
-  }
+  },
+  onSuccess?: Function,
+  onFail?: Function
 }
 
 type DashboardState = {
@@ -44,7 +45,6 @@ class Withdraw extends Component<DashboardProps, DashboardState> {
 
   componentDidMount() {
     const { receiveLink, reason } = this.props.params
-    this.dismissEventDialog()
 
     log.info({ receiveLink, reason })
 
@@ -69,9 +69,7 @@ class Withdraw extends Component<DashboardProps, DashboardState> {
    */
   async withdraw(hash: string, reason?: string) {
     try {
-      //const { amount, sender } = await goodWallet.canWithdraw(hash)
-      let sender = 'hey'
-      let amount = 100
+      const { amount, sender } = await goodWallet.canWithdraw(hash)
       const receipt = await goodWallet.withdraw(hash)
       logger.debug({ hash })
       const date = new Date()
@@ -89,19 +87,24 @@ class Withdraw extends Component<DashboardProps, DashboardState> {
       }
 
       await UserStorage.updateFeedEvent(transactionEvent)
-      const events = await UserStorage.feed.get(date.toISOString().slice(0, 10)).decrypt()
+      const event = await UserStorage.getFeedItemByTransactionHash(transactionEvent.id)
 
-      log.info(events)
+      log.info({ event })
 
-      const event = _(events)
-        .filter({ id: receipt.transactionHash })
-        .value()[0]
+      const profile = await UserStorage.getUserProfile(sender)
 
       this.setState({
         dialogData: { visible: false },
         eventDialogData: {
           visible: true,
-          event,
+          event: {
+            ...event,
+            data: {
+              ...profile,
+              ...event.data,
+              sender
+            }
+          },
           reason
         }
       })
@@ -123,7 +126,7 @@ class Withdraw extends Component<DashboardProps, DashboardState> {
    */
   dismissDialog = () => {
     this.setState({ dialogData: { visible: false } })
-    this.props.screenProps.goToRoot()
+    this.props.onFail && this.props.onFail()
   }
 
   /**
@@ -131,6 +134,7 @@ class Withdraw extends Component<DashboardProps, DashboardState> {
    */
   dismissEventDialog = () => {
     this.setState({ eventDialogData: this.defaultEventDialogData })
+    this.props.onSuccess && this.props.onSuccess()
   }
 
   render() {

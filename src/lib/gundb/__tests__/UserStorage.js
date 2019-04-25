@@ -4,6 +4,7 @@ import extend from '../gundb-extend'
 import gun from '../gundb'
 import { type TransactionEvent } from '../UserStorage'
 import { getUserModel } from '../UserModel'
+import { addUser } from './__util__/index'
 
 let userStorage = require('../UserStorage.js').default
 let event = { id: 'xyz', date: new Date('2019-01-01T10:00:00.000Z').toString(), data: { foo: 'bar', unchanged: 'zar' } }
@@ -91,6 +92,77 @@ describe('UserStorage', () => {
     expect(res).toEqual('z123')
   })
 
+  describe('gets profile name and avatar from value', async () => {
+    beforeAll(async () => {
+      await addUser({
+        identifier: 'abcdef',
+        walletAddress: 'walletabcdef',
+        fullName: 'Kevin Bardi',
+        mobile: '22233445566',
+        email: 'kevin.bardi@altoros.com'
+      })
+      await addUser({
+        identifier: 'ghijkl',
+        walletAddress: 'walletghijkl',
+        fullName: 'Fernando Greco',
+        mobile: '22244556677',
+        email: 'fernando.greco@altoros.com'
+      })
+      await addUser({
+        identifier: 'mnopqr',
+        walletAddress: 'walletmnopqr',
+        fullName: 'Dario Miñones',
+        mobile: '22255667788',
+        email: 'dario.minones@altoros.com'
+      })
+    })
+
+    it('returns object with user fullName for existing user identifier', async () => {
+      const userProfile = await userStorage.getUserProfile('walletabcdef')
+      expect(userProfile).toEqual(expect.objectContaining({ name: 'Kevin Bardi' }))
+    })
+
+    it("returns object with 'Unknown name' fullName for fake user identifier", async () => {
+      const userProfile = await userStorage.getUserProfile('fake')
+      expect(userProfile).toEqual(expect.objectContaining({ name: 'Unknown Name' }))
+    })
+  })
+
+  // describe('generates standarised feed from events', async () => {
+  //   beforeAll(async () => {
+  //     await addUser({
+  //       identifier: 'abcdef',
+  //       walletAddress: 'walletabcdef',
+  //       fullName: 'Kevin Bardi',
+  //       mobile: '22233445566',
+  //       email: 'kevin.bardi@altoros.com'
+  //     })
+  //     await addUser({
+  //       identifier: 'ghijkl',
+  //       walletAddress: 'walletghijkl',
+  //       fullName: 'Fernando Greco',
+  //       mobile: '22244556677',
+  //       email: 'fernando.greco@altoros.com'
+  //     })
+  //     await addUser({
+  //       identifier: 'mnopqr',
+  //       walletAddress: 'walletmnopqr',
+  //       fullName: 'Dario Miñones',
+  //       mobile: '22255667788',
+  //       email: 'dario.minones@altoros.com'
+  //     })
+
+  //     const gunRes = await userStorage.updateFeedEvent(event)
+  //     const index = await userStorage.feed
+  //       .get('index')
+  //       .once()
+  //       .then()
+  //   })
+  //   it ('StandardizeFeed must return the feed with specific object structure', async () => {
+
+  //   })
+  // })
+
   it('sets profile email field masked', async () => {
     const gunRes = await userStorage.setProfileField('email', 'johndoe@blah.com', 'masked')
     const res = await userStorage.profile.get('email').then()
@@ -133,43 +205,49 @@ describe('UserStorage', () => {
       .get('index')
       .once()
       .then()
-    const events = await userStorage.feed.get('2019-01-01').decrypt()
+    const events = await userStorage.getAllFeed()
     expect(index).toHaveProperty('2019-01-01')
-    expect(events).toEqual([event])
+    expect(events).toContainEqual(event)
   })
 
   it('add second event', async () => {
-    const gunRes = await userStorage.updateFeedEvent(event2)
+    await userStorage.updateFeedEvent(event)
+    await userStorage.updateFeedEvent(event2)
     const index = await userStorage.feed
       .get('index')
       .once()
       .then()
-    const events = await userStorage.feed.get('2019-01-01').decrypt()
-    expect(index['2019-01-01']).toEqual(2)
-    expect(events).toEqual([event2, event])
+    const events = await userStorage.getAllFeed()
+    expect(index['2019-01-01']).toBeGreaterThanOrEqual(2)
+    expect(events).toContainEqual(event2)
+    expect(events).toContainEqual(event)
   })
 
   it('updates first event', async () => {
-    let event = { id: 'xyz', date: new Date('2019-01-01').toString(), data: { foo: 'zar', extra: 'bar' } }
-    const gunRes = await userStorage.updateFeedEvent(event)
+    await userStorage.updateFeedEvent(event)
+
+    let updatedEvent = { ...event, date: new Date('2019-01-01').toString(), data: { foo: 'zar', extra: 'bar' } }
+    const gunRes = await userStorage.updateFeedEvent(updatedEvent)
     const index = await userStorage.feed
       .get('index')
       .once()
       .then()
-    const events = await userStorage.feed.get('2019-01-01').decrypt()
-    expect(index['2019-01-01']).toEqual(2)
-    expect(events).toEqual([event2, mergedEvent])
+    const events = await userStorage.getAllFeed()
+    expect(index['2019-01-01']).toBeGreaterThanOrEqual(1)
+    expect(events).toContainEqual(updatedEvent)
   })
 
   it('add middle event', async () => {
-    const gunRes = await userStorage.updateFeedEvent(event3)
+    await userStorage.updateFeedEvent(mergedEvent)
+    await userStorage.updateFeedEvent(event2)
+    await userStorage.updateFeedEvent(event3)
     const index = await userStorage.feed
       .get('index')
       .once()
       .then()
-    const events = await userStorage.feed.get('2019-01-01').decrypt()
-    expect(index['2019-01-01']).toEqual(3)
-    expect(events).toEqual([event2, event3, mergedEvent])
+    const events = await userStorage.getAllFeed()
+    expect(index['2019-01-01']).toBeGreaterThanOrEqual(3)
+    expect([event2, event3, mergedEvent]).toEqual(expect.arrayContaining(events))
   })
 
   it('keeps event index sorted', async () => {
@@ -178,9 +256,9 @@ describe('UserStorage', () => {
       .get('index')
       .once()
       .then()
-    const events = await userStorage.feed.get('2019-01-02').decrypt()
+    const events = await userStorage.feed.get('2019-01-02').then()
     expect(index['2019-01-02']).toEqual(1)
-    expect(events).toEqual([event4])
+    expect(events.map(event => event.id)).toEqual([event4.id])
   })
 
   it('gets events first page', async () => {
@@ -217,9 +295,9 @@ describe('UserStorage', () => {
       .get('index')
       .once()
       .then()
-    const events = await userStorage.feed.get(date).decrypt()
+    const events = await userStorage.getAllFeed()
     expect(index).toHaveProperty(date)
-    expect(events).toEqual([transactionEvent])
+    expect(events).toContainEqual(transactionEvent)
   })
 
   it('gets profiles field', async done => {

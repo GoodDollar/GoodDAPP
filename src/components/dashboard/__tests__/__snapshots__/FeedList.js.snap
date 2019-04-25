@@ -6,14 +6,18 @@ exports[`FeedList Horizontal rendering With empty data matches snapshot 1`] = `
   style={
     Object {
       "WebkitBoxFlex": 1,
+      "WebkitBoxPack": "center",
       "WebkitFlexBasis": "0%",
       "WebkitFlexGrow": 1,
       "WebkitFlexShrink": 1,
+      "WebkitJustifyContent": "center",
       "backgroundColor": "rgba(239,239,244,1.00)",
       "flexBasis": "0%",
       "flexGrow": 1,
       "flexShrink": 1,
+      "justifyContent": "center",
       "msFlexNegative": 1,
+      "msFlexPack": "center",
       "msFlexPositive": 1,
       "msFlexPreferredSize": "0%",
     }
@@ -39,14 +43,18 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
   style={
     Object {
       "WebkitBoxFlex": 1,
+      "WebkitBoxPack": "center",
       "WebkitFlexBasis": "0%",
       "WebkitFlexGrow": 1,
       "WebkitFlexShrink": 1,
+      "WebkitJustifyContent": "center",
       "backgroundColor": "rgba(239,239,244,1.00)",
       "flexBasis": "0%",
       "flexGrow": 1,
       "flexShrink": 1,
+      "justifyContent": "center",
       "msFlexNegative": 1,
+      "msFlexPack": "center",
       "msFlexPositive": 1,
       "msFlexPreferredSize": "0%",
     }
@@ -870,14 +878,18 @@ exports[`FeedList Vertical rendering With empty data matches snapshot 1`] = `
   style={
     Object {
       "WebkitBoxFlex": 1,
+      "WebkitBoxPack": "center",
       "WebkitFlexBasis": "0%",
       "WebkitFlexGrow": 1,
       "WebkitFlexShrink": 1,
+      "WebkitJustifyContent": "center",
       "backgroundColor": "rgba(239,239,244,1.00)",
       "flexBasis": "0%",
       "flexGrow": 1,
       "flexShrink": 1,
+      "justifyContent": "center",
       "msFlexNegative": 1,
+      "msFlexPack": "center",
       "msFlexPositive": 1,
       "msFlexPreferredSize": "0%",
     }
@@ -903,14 +915,18 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
   style={
     Object {
       "WebkitBoxFlex": 1,
+      "WebkitBoxPack": "center",
       "WebkitFlexBasis": "0%",
       "WebkitFlexGrow": 1,
       "WebkitFlexShrink": 1,
+      "WebkitJustifyContent": "center",
       "backgroundColor": "rgba(239,239,244,1.00)",
       "flexBasis": "0%",
       "flexGrow": 1,
       "flexShrink": 1,
+      "justifyContent": "center",
       "msFlexNegative": 1,
+      "msFlexPack": "center",
       "msFlexPositive": 1,
       "msFlexPreferredSize": "0%",
     }

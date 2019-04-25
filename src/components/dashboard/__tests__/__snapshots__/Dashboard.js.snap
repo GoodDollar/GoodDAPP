@@ -904,29 +904,90 @@ exports[`Dashboard matches snapshot 1`] = `
             style={
               Object {
                 "WebkitBoxFlex": 1,
+                "WebkitBoxPack": "center",
                 "WebkitFlexBasis": "0%",
                 "WebkitFlexGrow": 1,
                 "WebkitFlexShrink": 1,
+                "WebkitJustifyContent": "center",
                 "backgroundColor": "rgba(239,239,244,1.00)",
                 "flexBasis": "0%",
                 "flexGrow": 1,
                 "flexShrink": 1,
+                "justifyContent": "center",
                 "msFlexNegative": 1,
+                "msFlexPack": "center",
                 "msFlexPositive": 1,
                 "msFlexPreferredSize": "0%",
               }
             }
           >
             <div
-              className="css-text-76zvg2"
-              dir="auto"
+              aria-valuemax="1"
+              aria-valuemin="0"
+              className="css-view-1dbjc4n"
+              role="progressbar"
               style={
                 Object {
-                  "textAlign": "center",
+                  "WebkitAlignItems": "center",
+                  "WebkitBoxAlign": "center",
+                  "WebkitBoxPack": "center",
+                  "WebkitJustifyContent": "center",
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                  "msFlexAlign": "center",
+                  "msFlexPack": "center",
                 }
               }
             >
-              Feed is empty.
+              <div
+                className="css-view-1dbjc4n r-animationKeyframes-127358a"
+                style={
+                  Object {
+                    "WebkitAnimationDuration": "0.75s",
+                    "WebkitAnimationIterationCount": "infinite",
+                    "WebkitAnimationTimingFunction": "linear",
+                    "animationDuration": "0.75s",
+                    "animationIterationCount": "infinite",
+                    "animationTimingFunction": "linear",
+                    "height": "36px",
+                    "width": "36px",
+                  }
+                }
+              >
+                <svg
+                  height="100%"
+                  viewBox="0 0 32 32"
+                  width="100%"
+                >
+                  <circle
+                    cx="16"
+                    cy="16"
+                    fill="none"
+                    r="14"
+                    strokeWidth="4"
+                    style={
+                      Object {
+                        "opacity": 0.2,
+                        "stroke": "gray",
+                      }
+                    }
+                  />
+                  <circle
+                    cx="16"
+                    cy="16"
+                    fill="none"
+                    r="14"
+                    strokeWidth="4"
+                    style={
+                      Object {
+                        "stroke": "gray",
+                        "strokeDasharray": 80,
+                        "strokeDashoffset": 60,
+                      }
+                    }
+                  />
+                </svg>
+              </div>
             </div>
           </div>
         </div>
@@ -1840,29 +1901,90 @@ exports[`Dashboard matches snapshot when changing tab 1`] = `
             style={
               Object {
                 "WebkitBoxFlex": 1,
+                "WebkitBoxPack": "center",
                 "WebkitFlexBasis": "0%",
                 "WebkitFlexGrow": 1,
                 "WebkitFlexShrink": 1,
+                "WebkitJustifyContent": "center",
                 "backgroundColor": "rgba(239,239,244,1.00)",
                 "flexBasis": "0%",
                 "flexGrow": 1,
                 "flexShrink": 1,
+                "justifyContent": "center",
                 "msFlexNegative": 1,
+                "msFlexPack": "center",
                 "msFlexPositive": 1,
                 "msFlexPreferredSize": "0%",
               }
             }
           >
             <div
-              className="css-text-76zvg2"
-              dir="auto"
+              aria-valuemax="1"
+              aria-valuemin="0"
+              className="css-view-1dbjc4n"
+              role="progressbar"
               style={
                 Object {
-                  "textAlign": "center",
+                  "WebkitAlignItems": "center",
+                  "WebkitBoxAlign": "center",
+                  "WebkitBoxPack": "center",
+                  "WebkitJustifyContent": "center",
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                  "msFlexAlign": "center",
+                  "msFlexPack": "center",
                 }
               }
             >
-              Feed is empty.
+              <div
+                className="css-view-1dbjc4n r-animationKeyframes-127358a"
+                style={
+                  Object {
+                    "WebkitAnimationDuration": "0.75s",
+                    "WebkitAnimationIterationCount": "infinite",
+                    "WebkitAnimationTimingFunction": "linear",
+                    "animationDuration": "0.75s",
+                    "animationIterationCount": "infinite",
+                    "animationTimingFunction": "linear",
+                    "height": "36px",
+                    "width": "36px",
+                  }
+                }
+              >
+                <svg
+                  height="100%"
+                  viewBox="0 0 32 32"
+                  width="100%"
+                >
+                  <circle
+                    cx="16"
+                    cy="16"
+                    fill="none"
+                    r="14"
+                    strokeWidth="4"
+                    style={
+                      Object {
+                        "opacity": 0.2,
+                        "stroke": "gray",
+                      }
+                    }
+                  />
+                  <circle
+                    cx="16"
+                    cy="16"
+                    fill="none"
+                    r="14"
+                    strokeWidth="4"
+                    style={
+                      Object {
+                        "stroke": "gray",
+                        "strokeDasharray": 80,
+                        "strokeDashoffset": 60,
+                      }
+                    }
+                  />
+                </svg>
+              </div>
             </div>
           </div>
         </div>

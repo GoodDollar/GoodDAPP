@@ -17,7 +17,7 @@ type Props = {
 
 export type MobileRecord = {
   mobile: string,
-  errorMessage: string
+  errorMessage?: string
 }
 
 type State = MobileRecord

@@ -99,10 +99,9 @@ export class GoodWallet {
               log.error('no event', events)
               return
             }
-            this.wallet.eth.getTransactionReceipt(event.transactionHash).then(receipt => {
-              const logs = abiDecoder.decodeLogs(receipt.logs)
-              this.getSubscribers('receiptUpdated').forEach(cb => cb({ ...receipt, logs }))
-            })
+            this.wallet.eth
+              .getTransactionReceipt(event.transactionHash)
+              .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, 'receiptUpdated'))
             // Send for all events. We could define here different events
             this.getSubscribers('send').forEach(cb => cb(error, events))
             this.getSubscribers('balanceChanged').forEach(cb => cb(error, events))
@@ -126,10 +125,7 @@ export class GoodWallet {
             }
             this.wallet.eth
               .getTransactionReceipt(event.transactionHash)
-              .then(receipt => {
-                const logs = abiDecoder.decodeLogs(receipt.logs)
-                this.getSubscribers('receiptReceived').forEach(cb => cb({ ...receipt, logs }))
-              })
+              .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, 'receiptReceived'))
               .catch(err => log.error(err))
 
             this.getSubscribers('receive').forEach(cb => cb(error, events))
@@ -137,6 +133,12 @@ export class GoodWallet {
           }
         )
       })
+  }
+
+  sendReceiptWithLogsToSubscribers(receipt: any, subscription: string) {
+    const logs = abiDecoder.decodeLogs(receipt.logs)
+    this.getSubscribers(subscription).forEach(cb => cb({ ...receipt, logs }))
+    return receipt
   }
 
   init(): Promise<any> {
@@ -532,6 +534,11 @@ export class GoodWallet {
       .on('receipt', onReceipt)
       .on('confirmation', onConfirmation)
       .on('error', onError)
+      .then(async receipt => {
+        const transactionReceipt = await this.wallet.eth.getTransactionReceipt(receipt.transactionHash)
+        await this.sendReceiptWithLogsToSubscribers(transactionReceipt, 'receiptReceived')
+        return transactionReceipt
+      })
       .catch(this.handleError)
   }
 }

@@ -1,12 +1,12 @@
 // @flow
 import React, { Component } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import { ScrollView } from 'react-native-web'
 import { normalize } from 'react-native-elements'
 import type { Store } from 'undux'
 
 import GDStore from '../../lib/undux/GDStore'
 import { getInitialFeed, getNextFeed, PAGE_SIZE } from '../../lib/undux/utils/feed'
+import { executeWithdraw } from '../../lib/undux/utils/withdraw'
 import { weiToMask } from '../../lib/wallet/utils'
 import { createStackNavigator, PushButton } from '../appNavigation/stackNavigation'
 import TabsView from '../appNavigation/TabsView'
@@ -25,8 +25,6 @@ import SendConfirmation from './SendConfirmation'
 import SendLinkSummary from './SendLinkSummary'
 import SendQRSummary from './SendQRSummary'
 
-import Withdraw from './Withdraw'
-
 export type DashboardProps = {
   screenProps: any,
   navigation: any,
@@ -34,38 +32,55 @@ export type DashboardProps = {
 }
 
 type DashboardState = {
-  params: {
-    receiveLink: string,
-    reason?: string
-  },
   horizontal: boolean,
-  feeds: any[]
+  feeds: any[],
+  currentFeed: ?string
 }
 
 class Dashboard extends Component<DashboardProps, DashboardState> {
   state = {
-    params: {},
     horizontal: false,
+    currentFeed: null,
     feeds: []
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const { params } = this.props.navigation.state
 
     if (params && params.receiveLink) {
-      console.log({ params })
-      this.setState({ params })
+      await this.handleWithdraw()
+    } else if (params && params.event) {
+      this.showNewFeedEvent(params.event)
+    } else {
+      this.getFeeds()
     }
-
-    this.getFeeds()
   }
 
   getFeeds() {
     getInitialFeed(this.props.store)
   }
 
+  handleFeedSelection = (receipt, horizontal) => {
+    this.setState({ horizontal, currentFeed: receipt.transactionHash })
+  }
+
+  showNewFeedEvent = event => {
+    this.setState({
+      horizontal: true,
+      currentFeed: event
+    })
+    this.getFeeds()
+  }
+
+  handleWithdraw = async () => {
+    const { params } = this.props.navigation.state
+    const receipt = await executeWithdraw(this.props.store, params.receiveLink)
+    // this.props.navigation.navigate('Dashboard', { event: receipt.transactionHash })
+    this.showNewFeedEvent(receipt.transactionHash)
+  }
+
   render() {
-    const { params, horizontal } = this.state
+    const { horizontal, currentFeed } = this.state
     const { screenProps, navigation, store }: DashboardProps = this.props
     const { balance, entitlement } = store.get('account')
     const { avatar, fullName } = store.get('profile')
@@ -103,6 +118,8 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
           </Section>
           <FeedList
             horizontal={horizontal}
+            selectedFeed={currentFeed}
+            handleFeedSelection={this.handleFeedSelection}
             fixedHeight
             virtualized
             data={feeds}
@@ -111,7 +128,6 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
             onEndReached={getNextFeed.bind(null, store)}
           />
         </Wrapper>
-        {params.receiveLink ? <Withdraw params={params} {...this.props} onFail={screenProps.goToRoot} /> : null}
       </View>
     )
   }

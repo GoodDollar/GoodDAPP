@@ -24,6 +24,9 @@ import Send from './Send'
 import SendConfirmation from './SendConfirmation'
 import SendLinkSummary from './SendLinkSummary'
 import SendQRSummary from './SendQRSummary'
+import logger from '../../lib/logger/pino-logger'
+
+const log = logger.child({ from: 'Dashboard' })
 
 export type DashboardProps = {
   screenProps: any,
@@ -74,9 +77,15 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
 
   handleWithdraw = async () => {
     const { params } = this.props.navigation.state
-    const receipt = await executeWithdraw(this.props.store, params.receiveLink)
-    // this.props.navigation.navigate('Dashboard', { event: receipt.transactionHash })
+    const { screenProps, store } = this.props
+    const receipt = await executeWithdraw(store, params.receiveLink)
     this.showNewFeedEvent(receipt.transactionHash)
+
+    screenProps.navigateTo('Home', {
+      event: receipt.transactionHash,
+      receiveLink: undefined,
+      reason: undefined
+    })
   }
 
   render() {
@@ -85,6 +94,8 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
     const { balance, entitlement } = store.get('account')
     const { avatar, fullName } = store.get('profile')
     const feeds = store.get('feeds')
+
+    log.info('LOGGER FEEDS', { feeds })
 
     return (
       <View style={styles.dashboardView}>

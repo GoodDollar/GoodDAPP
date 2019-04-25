@@ -18,17 +18,21 @@ type Props = {
 }
 
 class FaceRecognition extends React.Component<Props> {
+  openEventInDashboard = receipt => () => {
+    this.props.screenProps.navigateTo('Home', { event: receipt.transactionHash })
+  }
+
   handleClaim = async () => {
     try {
       const goodWalletWrapped = wrapper(goodWallet, this.props.store)
-      await goodWalletWrapped.claim()
+      const receipt = await goodWalletWrapped.claim()
       this.props.store.set('currentScreen')({
         dialogData: {
           visible: true,
           title: 'Success',
           message: `You've claimed your GD`,
           dismissText: 'YAY!',
-          onDismiss: this.props.screenProps.goToRoot
+          onDismiss: this.openEventInDashboard(receipt)
         },
         loading: true
       })

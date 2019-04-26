@@ -1,13 +1,13 @@
 // @flow
-import React, { useCallback } from 'react'
-import { Clipboard, StyleSheet, Text, View } from 'react-native'
 import QRCode from 'qrcode.react'
-import { normalize } from 'react-native-elements'
+import React, { useCallback, useState, useEffect } from 'react'
+import { Clipboard, StyleSheet, Text, View } from 'react-native'
 
 import logger from '../../lib/logger/pino-logger'
-import { Section, Wrapper, CustomButton, TopBar, BigGoodDollar } from '../common'
-import { fontStyle } from '../common/styles'
+import { generateHrefLinks } from '../../lib/share'
 import { DoneButton, useScreenState } from '../appNavigation/stackNavigation'
+import { BigGoodDollar, CustomButton, CustomDialog, Section, TopBar, Wrapper } from '../common'
+import { fontStyle } from '../common/styles'
 import './AButton.css'
 import { receiveStyles } from './styles'
 
@@ -19,15 +19,29 @@ export type ReceiveProps = {
 const SEND_TITLE = 'Send GD'
 const log = logger.child({ from: SEND_TITLE })
 
-const SendConfirmation = ({ screenProps, navigation }: ReceiveProps) => {
+const SendConfirmation = ({ screenProps }: ReceiveProps) => {
+  const [shareDialog, setShareDialog] = useState(false)
+  const [hrefLinks, setHrefLinks] = useState([])
   const [screenState] = useScreenState(screenProps)
 
-  const { amount, reason, sendLink, hrefLink } = screenState
+  const { amount, reason, sendLink, to } = screenState
+
+  useEffect(() => {
+    setHrefLinks(generateHrefLinks(sendLink, to))
+  }, [])
 
   const copySendLink = useCallback(() => {
     Clipboard.setString(sendLink)
     log.info('Account address copied', { sendLink })
   }, [sendLink])
+
+  const displayShareDialog = () => {
+    setShareDialog(true)
+  }
+
+  const hideShareDialog = () => {
+    setShareDialog(false)
+  }
 
   return (
     <Wrapper style={styles.wrapper}>
@@ -49,13 +63,32 @@ const SendConfirmation = ({ screenProps, navigation }: ReceiveProps) => {
           </Section.Text>
           <Section.Text>{reason && `For ${reason}`}</Section.Text>
           <View style={styles.buttonGroup}>
-            <a href={hrefLink} className="a-button" title="Share Link">
-              Share Link
-            </a>
+            {hrefLinks.length === 1 ? (
+              <a href={hrefLinks[0].link} className="a-button" title="Share Link">
+                Share Link
+              </a>
+            ) : (
+              <CustomButton style={styles.buttonStyle} onPress={displayShareDialog} mode="contained">
+                Share Link
+              </CustomButton>
+            )}
             <DoneButton style={styles.buttonStyle} screenProps={screenProps} />
           </View>
         </Section.Row>
       </Section>
+      <CustomDialog visible={shareDialog} title="Share via..." onDismiss={hideShareDialog}>
+        {hrefLinks.map(({ link, description }, index) => (
+          <a
+            key={index}
+            href={link}
+            title={`Share Link via ${description}`}
+            className="a-button"
+            onClick={hideShareDialog}
+          >
+            {description}
+          </a>
+        ))}
+      </CustomDialog>
     </Wrapper>
   )
 }

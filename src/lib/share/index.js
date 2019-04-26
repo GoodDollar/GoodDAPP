@@ -2,8 +2,10 @@
 import fromPairs from 'lodash/fromPairs'
 import { decode, encode, isMNID } from 'mnid'
 import isURL from 'validator/lib/isURL'
+import isEmail from 'validator/lib/isEmail'
 
 import Config from '../../config/config'
+import isMobilePhone from '../validators/isMobilePhone'
 
 export function generateCode(address: string, networkId: number, amount: number) {
   const mnid = encode({ address, network: `0x${networkId.toString(16)}` })
@@ -62,4 +64,31 @@ export function extractQueryParams(link: string = ''): {} {
     .map(p => p.split('='))
 
   return fromPairs(keyValuePairs)
+}
+
+type HrefLinkProps = {
+  link: string,
+  description: string
+}
+
+/**
+ * Generates the links to share via anchor tag
+ * @param {string} to - Email address or phone number
+ * @param {string} sendLink - Link
+ * @returns {HrefLinkProps[]}
+ */
+export function generateHrefLinks(sendLink: string, to?: string = ''): Array<HrefLinkProps> {
+  const text = `You got GD. To withdraw open: ${sendLink}`
+  const viaEmail = { link: `mailto:${to}?subject=Sending GD via Good Dollar App&body=${text}`, description: 'e-mail' }
+  const viaSMS = { link: `sms:${to}?body=${text}`, description: 'sms' }
+
+  if (isEmail(to)) {
+    return [viaEmail]
+  }
+
+  if (isMobilePhone(to)) {
+    return [viaSMS]
+  }
+
+  return [viaEmail, viaSMS]
 }

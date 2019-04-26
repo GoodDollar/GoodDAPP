@@ -15,7 +15,7 @@ const Title = (props: any) => (
   </Text>
 )
 const SectionText = (props: any) => <Text {...props} style={[styles.text, props.style]} />
-const Separator = (props: any) => <hr {...props} style={[styles.separator, props.style]} />
+const Separator = () => <hr style={{ width: '100%' }} />
 
 export default class Section extends Component<any> {
   static Row = Row

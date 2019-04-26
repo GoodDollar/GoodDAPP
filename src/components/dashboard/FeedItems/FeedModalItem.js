@@ -23,7 +23,7 @@ const modalType = type => {
 const FeedModalItem = (props: FeedEventProps) => {
   const Modal = modalType(props.item.type)
   return (
-    <View style={{ ...styles.horizItem, ...props.styles }}>
+    <View style={props.styles ? { ...styles.horizItem, ...props.styles } : styles.horizItem}>
       <View style={styles.fullHeight}>
         <Modal {...props} />
       </View>

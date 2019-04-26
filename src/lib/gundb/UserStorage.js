@@ -498,6 +498,7 @@ class UserStorage {
 
   async getStandardizedFeedByTransactionHash(transactionHash: string): Promise<StandardFeed> {
     const feed = await this.getFeedItemByTransactionHash(transactionHash)
+    if (!feed) return null
     return await this.standardizeFeed(feed)
   }
 

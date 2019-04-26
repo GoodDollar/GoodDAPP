@@ -73,20 +73,31 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
   showNewFeedEvent = async event => {
     const item = await userStorage.getStandardizedFeedByTransactionHash(event)
     log.info('ITEM...', { item })
-    this.setState({
-      currentFeedProps: {
-        item,
-        styles: {
-          flex: 1,
-          alignSelf: 'flex-start',
-          height: '90vh',
-          position: 'absolute',
-          width: '100%',
-          padding: normalize(10)
-        },
-        onPress: this.closeFeedEvent
-      }
-    })
+    if (item) {
+      this.setState({
+        currentFeedProps: {
+          item,
+          styles: {
+            flex: 1,
+            alignSelf: 'flex-start',
+            height: '90vh',
+            position: 'absolute',
+            width: '100%',
+            padding: normalize(10)
+          },
+          onPress: this.closeFeedEvent
+        }
+      })
+    } else {
+      this.props.store.set('currentScreen')({
+        ...this.props.store.get('currentScreen'),
+        dialogData: {
+          visible: true,
+          title: 'Error',
+          message: 'Event does not exist'
+        }
+      })
+    }
     this.getFeeds()
   }
 

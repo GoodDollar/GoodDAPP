@@ -2,6 +2,7 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { normalize } from 'react-native-elements'
+import { Portal } from 'react-native-paper'
 import type { Store } from 'undux'
 
 import GDStore from '../../lib/undux/GDStore'
@@ -15,6 +16,7 @@ import Amount from './Amount'
 import Claim from './Claim'
 import FaceRecognition from './FaceRecognition'
 import FeedList from './FeedList'
+import FeedModalItem from './FeedItems/FeedModalItem'
 import Reason from './Reason'
 import Receive from './Receive'
 import ReceiveAmount from './ReceiveAmount'
@@ -25,6 +27,7 @@ import SendConfirmation from './SendConfirmation'
 import SendLinkSummary from './SendLinkSummary'
 import SendQRSummary from './SendQRSummary'
 import logger from '../../lib/logger/pino-logger'
+import userStorage from '../../lib/gundb/UserStorage'
 
 const log = logger.child({ from: 'Dashboard' })
 
@@ -37,13 +40,13 @@ export type DashboardProps = {
 type DashboardState = {
   horizontal: boolean,
   feeds: any[],
-  currentFeed: ?string
+  currentFeedProps: any
 }
 
 class Dashboard extends Component<DashboardProps, DashboardState> {
   state = {
     horizontal: false,
-    currentFeed: null,
+    currentFeedProps: null,
     feeds: []
   }
 
@@ -64,22 +67,50 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
   }
 
   handleFeedSelection = (receipt, horizontal) => {
-    this.setState({ horizontal, currentFeed: receipt.transactionHash })
+    this.setState({ horizontal })
   }
 
-  showNewFeedEvent = event => {
+  showNewFeedEvent = async event => {
+    const item = await userStorage.getStandardizedFeedByTransactionHash(event)
+    log.info('ITEM...', { item })
     this.setState({
-      horizontal: true,
-      currentFeed: event
+      currentFeedProps: {
+        item,
+        styles: {
+          flex: 1,
+          alignSelf: 'flex-start',
+          height: '90vh',
+          position: 'absolute',
+          width: '100%',
+          padding: normalize(10)
+        },
+        onPress: this.closeFeedEvent
+      }
     })
     this.getFeeds()
+  }
+
+  closeFeedEvent = () => {
+    this.setState(
+      {
+        currentFeedProps: null
+      },
+      () => {
+        this.getFeeds()
+        this.props.screenProps.navigateTo('Home', {
+          event: undefined,
+          receiveLink: undefined,
+          reason: undefined
+        })
+      }
+    )
   }
 
   handleWithdraw = async () => {
     const { params } = this.props.navigation.state
     const { screenProps, store } = this.props
     const receipt = await executeWithdraw(store, params.receiveLink)
-    this.showNewFeedEvent(receipt.transactionHash)
+    await this.showNewFeedEvent(receipt.transactionHash)
 
     screenProps.navigateTo('Home', {
       event: receipt.transactionHash,
@@ -89,7 +120,7 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
   }
 
   render() {
-    const { horizontal, currentFeed } = this.state
+    const { horizontal, currentFeedProps } = this.state
     const { screenProps, navigation, store }: DashboardProps = this.props
     const { balance, entitlement } = store.get('account')
     const { avatar, fullName } = store.get('profile')
@@ -129,7 +160,6 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
           </Section>
           <FeedList
             horizontal={horizontal}
-            selectedFeed={currentFeed}
             handleFeedSelection={this.handleFeedSelection}
             fixedHeight
             virtualized
@@ -138,6 +168,11 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
             initialNumToRender={PAGE_SIZE}
             onEndReached={getNextFeed.bind(null, store)}
           />
+          {currentFeedProps && (
+            <Portal>
+              <FeedModalItem {...currentFeedProps} />
+            </Portal>
+          )}
         </Wrapper>
       </View>
     )

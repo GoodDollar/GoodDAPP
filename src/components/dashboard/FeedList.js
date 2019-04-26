@@ -198,7 +198,7 @@ class FeedList extends PureComponent<FeedListProps, FeedListState> {
   }
 }
 
-class ItemSeparatorComponent extends PureComponent<ItemSeparatorComponentProps> {
+export class ItemSeparatorComponent extends PureComponent<ItemSeparatorComponentProps> {
   render() {
     const style = this.props.highlighted
       ? [styles.itemSeparator, { marginLeft: 0, backgroundColor: '#d9d9d9' }]

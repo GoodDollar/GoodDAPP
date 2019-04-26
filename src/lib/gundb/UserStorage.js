@@ -238,6 +238,7 @@ class UserStorage {
 
     return feedItem
   }
+
   async getAllFeed() {
     const total = Object.values((await this.feed.get('index')) || {}).reduce((acc, curr) => acc + curr, 0)
     const prevCursor = this.cursor
@@ -472,7 +473,7 @@ class UserStorage {
         })
     })
 
-    const eventsIndex = flatten(await Promise.all(promises))
+    const eventsIndex = flatten(await Promise.all(promises)).filter(eventIndex => Object.keys(eventIndex).length)
 
     return await Promise.all(
       eventsIndex.map(eventIndex =>
@@ -493,6 +494,11 @@ class UserStorage {
   async getStandardizedFeed(numResults: number, reset?: boolean): Promise<Array<StandardFeed>> {
     const feed = await this.getFeedPage(numResults, reset)
     return await Promise.all(feed.filter(feedItem => feedItem.data).map(this.standardizeFeed))
+  }
+
+  async getStandardizedFeedByTransactionHash(transactionHash: string): Promise<StandardFeed> {
+    const feed = await this.getFeedItemByTransactionHash(transactionHash)
+    return await this.standardizeFeed(feed)
   }
 
   /**

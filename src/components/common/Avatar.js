@@ -6,7 +6,7 @@ import { Avatar } from 'react-native-paper'
 export type AvatarProps = {
   onPress?: () => {},
   source?: string,
-  style: any,
+  style?: any,
   size?: number
 }
 

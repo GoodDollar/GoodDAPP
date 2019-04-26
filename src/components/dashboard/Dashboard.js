@@ -66,28 +66,35 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
     getInitialFeed(this.props.store)
   }
 
+  showEventModal = item => {
+    this.setState({
+      currentFeedProps: {
+        item,
+        styles: {
+          flex: 1,
+          alignSelf: 'flex-start',
+          height: '100vh',
+          position: 'absolute',
+          width: '100%',
+          paddingTop: normalize(30),
+          paddingBottom: normalize(30),
+          paddingLeft: normalize(10),
+          paddingRight: normalize(10),
+          backgroundColor: 'rgba(0, 0, 0, 0.7)'
+        },
+        onPress: this.closeFeedEvent
+      }
+    })
+  }
+
   handleFeedSelection = (receipt, horizontal) => {
-    this.setState({ horizontal })
+    this.showEventModal(receipt)
   }
 
   showNewFeedEvent = async event => {
     const item = await userStorage.getStandardizedFeedByTransactionHash(event)
-    log.info('ITEM...', { item })
     if (item) {
-      this.setState({
-        currentFeedProps: {
-          item,
-          styles: {
-            flex: 1,
-            alignSelf: 'flex-start',
-            height: '90vh',
-            position: 'absolute',
-            width: '100%',
-            padding: normalize(10)
-          },
-          onPress: this.closeFeedEvent
-        }
-      })
+      this.showEventModal(item)
     } else {
       this.props.store.set('currentScreen')({
         ...this.props.store.get('currentScreen'),

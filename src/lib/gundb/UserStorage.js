@@ -491,6 +491,26 @@ class UserStorage {
   }
 
   /**
+   *
+   * @param {string} field - Profile field value (email, mobile or wallet address value)
+   * @returns { string } address
+   */
+  async getUserAddress(field: string) {
+    const attr = isMobilePhone(field) ? 'mobile' : isEmail(field) ? 'email' : 'walletAddress'
+    const value = UserStorage.cleanFieldForIndex(attr, field)
+
+    const address = await gun
+      .get('users')
+      .get(`by${attr}`)
+      .get(value)
+      .get('profile')
+      .get('walletAddress')
+      .get('display')
+
+    return address
+  }
+
+  /**
    * Returns name and avatar from profile based filtered by received value
    *
    * @param {string} field - Profile field value (email, mobile or wallet address value)

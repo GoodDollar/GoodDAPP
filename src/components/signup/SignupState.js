@@ -7,7 +7,7 @@ import PhoneForm from './PhoneForm'
 import SmsForm from './SmsForm'
 import EmailConfirmation from './EmailConfirmation'
 import FaceRecognition from './FaceRecognition'
-import LivenessTest from './LivenessTest'
+import LivenessTest from './LivenessTest/LivenessTest.web'
 import SignupCompleted from './SignupCompleted'
 import NavBar from '../appNavigation/NavBar'
 

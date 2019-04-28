@@ -1,6 +1,7 @@
 // @flow
-import logger from '../../lib/logger/pino-logger'
+import logger from '../../../lib/logger/pino-logger'
 import React, { Component, createRef } from 'react'
+import { Text } from 'react-native'
 
 const log = logger.child({ from: 'Camera' })
 
@@ -93,9 +94,9 @@ export class Camera extends Component<Props, State> {
     return (
       <>
         {this.state.error && (
-          <p>
+          <Text>
             <strong>Error:</strong> {this.state.error.message}
-          </p>
+          </Text>
         )}
 
         <video
@@ -104,8 +105,8 @@ export class Camera extends Component<Props, State> {
           playsInline
           ref={this.videoPlayerRef}
           style={{
-            width: `${this.props.width}px`,
-            height: `${this.props.height}px`
+            width: `640px`,
+            height: `360px`
           }}
         />
       </>

@@ -4,6 +4,7 @@ const Config = {
     "publicUrl": process.env.REACT_APP_PUBLIC_URL || "http://localhost:3000",
     "infuraKey": process.env.REACT_APP_INFURA_KEY,
     "networkId": process.env.REACT_APP_NETWORK_ID || 42,
+    "zoomLicenseKey": process.env.REACT_APP_ZOOM_LICENSE_KEY,
     "recaptcha": "6LeOaJIUAAAAAKB3DlmijMPfX2CBYsve3T2MwlTd",
     "ethereum":{
       "42":{

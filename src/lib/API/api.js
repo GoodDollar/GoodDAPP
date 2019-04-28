@@ -7,6 +7,7 @@ import logger from '../logger/pino-logger'
 import type { NameRecord } from '../../components/signup/NameForm'
 import type { EmailRecord } from '../../components/signup/EmailForm'
 import type { MobileRecord } from '../../components/signup/PhoneForm.web'
+import type { ZoomCaptureResult } from '../../components/signup/Zoom'
 
 const log = logger.child({ from: 'API' })
 
@@ -105,6 +106,10 @@ class API {
 
   sendLinkBySMS(to: string, sendLink: string): Promise<$AxiosXHR<any>> {
     return this.client.post('/send/linksms', { to, sendLink })
+  }
+
+  enroll(capture: ZoomCaptureResult) {
+    return this.client.post('/livetest/enroll', { capture })
   }
 }
 

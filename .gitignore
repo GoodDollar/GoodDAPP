@@ -4,3 +4,4 @@ coverage/
 .env
 secrets.json
 cli-commands.txt
+tree.txt

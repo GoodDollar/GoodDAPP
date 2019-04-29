@@ -7,8 +7,8 @@ import React, { createRef } from 'react'
 import { normalize } from 'react-native-elements'
 import logger from '../../../lib/logger/pino-logger'
 import { StyleSheet } from 'react-native'
-import { Title, Description } from '../components'
-import { Section, Wrapper } from '../../common'
+import { Title, Description, Wrapper } from '../components'
+import { Section } from '../../common'
 import { initializeAndPreload, capture, ZoomCaptureResult } from './Zoom'
 
 type Props = {
@@ -50,6 +50,7 @@ export default class LivenessTest extends React.Component<Props, State> {
       await this.loadZoomSDK()
       log.info('ZoomSDK loaded', ZoomSDK)
       await initializeAndPreload(ZoomSDK) // TODO: what to do in case of init errors?
+      log.info('ZoomSDK initialized and preloaded', ZoomSDK)
       this.setState({ ready: true })
     } catch (e) {
       log.error(e)

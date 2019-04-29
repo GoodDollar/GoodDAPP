@@ -1,15 +1,14 @@
 /* eslint-disable no-undef */
 // @flow
-import './LivenessTest.css'
 import loadjs from 'loadjs'
 import { Camera } from './Camera.web'
 import API from '../../../lib/API/api'
 import React, { createRef } from 'react'
 import { normalize } from 'react-native-elements'
 import logger from '../../../lib/logger/pino-logger'
-import { StyleSheet, View, Text } from 'react-native'
-import { Wrapper, Title, Description } from '../components'
-import { wrapFunction } from '../../../lib/undux/utils/wrapper'
+import { StyleSheet } from 'react-native'
+import { Title, Description } from '../components'
+import { Section, Wrapper } from '../../common'
 import { initializeAndPreload, capture, ZoomCaptureResult } from './Zoom'
 
 type Props = {
@@ -84,24 +83,20 @@ export default class LivenessTest extends React.Component<Props, State> {
   }
 
   render() {
-    const height = this.height
-    const width = this.width
+    const { screenProps } = this.props
+    log.info(screenProps)
 
     return (
       <Wrapper valid={true} handleSubmit={this.handleSubmit} submitText="" footerComponent={() => null}>
-        <Title>{`${this.props.screenProps.data.fullName},\n Welcome to the liveness test`}</Title>
-        <Description style={styles.description}>{'Pleae follow test instructions'}</Description>
-        <div
-          id="zoom-parent-container"
-          style={{
-            width: `640px`,
-            height: `360px`
-          }}
-        >
-          <div id="zoom-interface-container">
-            {this.state.ready && <Camera width={this.width} height={this.height} onLoad={this.onCameraLoad} />}
+        <Title>{`${screenProps.data.fullName},\n Welcome to the liveness test`}</Title>
+        <Description style={styles.description}>Please follow test instructions</Description>
+        <Section style={styles.bottomSection}>
+          <div id="zoom-parent-container" style={videoContainerStyles}>
+            <div id="zoom-interface-container">
+              {this.state.ready && <Camera height={this.height} onLoad={this.onCameraLoad} />}
+            </div>
           </div>
-        </div>
+        </Section>
       </Wrapper>
     )
   }
@@ -110,5 +105,17 @@ export default class LivenessTest extends React.Component<Props, State> {
 const styles = StyleSheet.create({
   description: {
     fontSize: normalize(20)
+  },
+  bottomSection: {
+    flex: 1,
+    backgroundColor: '#fff'
   }
 })
+
+const videoContainerStyles = {
+  height: normalize(360),
+  marginLeft: 'auto',
+  marginRight: 'auto',
+  marginTop: 0,
+  marginBottom: 0
+}

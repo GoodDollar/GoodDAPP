@@ -1,22 +1,23 @@
 // @flow
-import logger from '../../../lib/logger/pino-logger'
 import React, { Component, createRef } from 'react'
 import { Text } from 'react-native'
+import { normalize } from 'react-native-elements'
+import logger from '../../../lib/logger/pino-logger'
 
 const log = logger.child({ from: 'Camera' })
 
-type Props = {
+type CameraProps = {
   width: number,
   height: number,
   onLoad: (track: MediaStreamTrack) => void
 }
 
-type State = {
+type CameraState = {
   error?: Error
 }
 
-export class Camera extends Component<Props, State> {
-  state: State = {}
+export class Camera extends Component<CameraProps, CameraState> {
+  state: CameraState = {}
 
   videoPlayerRef = createRef<HTMLVideoElement>()
 
@@ -62,10 +63,10 @@ export class Camera extends Component<Props, State> {
 
       if (this.currentConstraintIndex >= this.acceptableConstraints.length) {
         throw new Error(
-          'Unable to get a video stream. Please ensure you give permission to this website to access your camera, and have a 720p+ camera plugged in.'
+          `Unable to get a video stream. Please ensure you give permission to this website to access your camera,
+          and have a 720p+ camera plugged in.`
         )
       }
-
       return this.getStream()
     }
   }
@@ -98,18 +99,17 @@ export class Camera extends Component<Props, State> {
             <strong>Error:</strong> {this.state.error.message}
           </Text>
         )}
-
-        <video
-          id="zoom-video-element"
-          autoPlay
-          playsInline
-          ref={this.videoPlayerRef}
-          style={{
-            width: `640px`,
-            height: `360px`
-          }}
-        />
+        <video id="zoom-video-element" autoPlay playsInline ref={this.videoPlayerRef} style={styles.videoElement} />
       </>
     )
+  }
+}
+
+const styles = {
+  videoElement: {
+    height: normalize(360),
+    /* REQUIRED - handle flipping of ZoOm interface.  users of selfie-style interfaces are trained to see their mirror image */
+    transform: 'scaleX(-1)',
+    maxWidth: '100%'
   }
 }

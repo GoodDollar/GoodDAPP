@@ -40,6 +40,7 @@ const preload = async (): Promise<void> =>
   new Promise((resolve, reject) => {
     ZoomSDK.preload((preloadResult: any) => {
       if (preloadResult) {
+        log.info('Preload status: ', { preloadResult })
         return resolve()
       }
 

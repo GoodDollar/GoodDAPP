@@ -18,6 +18,11 @@ function isValidDate(d) {
   return d instanceof Date && !isNaN(d)
 }
 
+const EVENT_TYPES = {
+  PaymentWithdraw: 'withdraw',
+  Transfer: 'claim'
+}
+
 export type GunDBUser = {
   alias: string,
   epub: string,
@@ -141,7 +146,7 @@ class UserStorage {
       const feedEvent = (await this.getFeedItemByTransactionHash(receipt.transactionHash)) || {
         id: receipt.transactionHash,
         date: new Date().toString(),
-        type: data.name === 'PaymentWithdraw' ? 'withdraw' : operationType
+        type: EVENT_TYPES[data.name] || operationType
       }
       logger.info('receiptReceived', { feedEvent, receipt, data })
       const updatedFeedEvent = {

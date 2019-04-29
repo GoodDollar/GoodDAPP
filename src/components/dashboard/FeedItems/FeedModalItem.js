@@ -4,13 +4,15 @@ import { StyleSheet, View } from 'react-native'
 import { normalize } from 'react-native-elements'
 import ModalWithdrawEvent from './ModalWithdrawEvent'
 import ModalSendEvent from './ModalSendEvent'
+import ModalClaimEvent from './ModalClaimEvent'
 import type { FeedEventProps } from './EventProps'
 
 const modalType = type => {
   return (
     {
       withdraw: ModalWithdrawEvent,
-      send: ModalSendEvent
+      send: ModalSendEvent,
+      claim: ModalClaimEvent
     }[type] || ModalWithdrawEvent
   )
 }

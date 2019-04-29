@@ -23,7 +23,7 @@ type ReceiptType = {
  * @param {string} hash - Transaction hash / event id
  * @returns {Promise} Returns the receipt of the transaction
  */
-export const executeWithdraw = async (store: Store, hash: string): Promise<ReceiptType> => {
+export const executeWithdraw = async (store: Store, hash: string, reason: string): Promise<ReceiptType> => {
   store.set('currentScreen')({
     ...store.get('currentScreen'),
     dialogData: {
@@ -33,29 +33,28 @@ export const executeWithdraw = async (store: Store, hash: string): Promise<Recei
       dismissText: 'hold'
     }
   })
-
+  log.info('executeWithdraw', hash, reason)
   try {
     const { amount, sender } = await goodWallet.canWithdraw(hash)
-    const receipt = await goodWallet.withdraw(hash)
+    const receipt = await goodWallet.withdraw(hash, {
+      onTransactionHash: transactionHash => {
+        const transactionEvent: TransactionEvent = {
+          id: transactionHash,
+          date: new Date().toString(),
+          type: 'withdraw',
+          data: {
+            amount,
+            hash,
+            reason
+          }
+        }
+        userStorage.updateFeedEvent(transactionEvent)
+      }
+    })
     store.set('currentScreen')({
       ...store.get('currentScreen'),
       dialogData: { visible: false }
     })
-
-    // This is necessary to have gundb updated with this event before rendering
-    // the modal with withdraw transaction
-    const transactionEvent: TransactionEvent = {
-      id: receipt.transactionHash,
-      date: new Date().toString(),
-      type: 'withdraw',
-      data: {
-        sender,
-        amount,
-        hash,
-        receipt
-      }
-    }
-    await userStorage.updateFeedEvent(transactionEvent)
     return receipt
   } catch (e) {
     log.error({ e })

@@ -62,10 +62,10 @@ export type TransactionEvent = FeedEvent & {
 const getReceiveDataFromReceipt = (account: string, receipt: any) => {
   // Obtain logged data from receipt event
   const transferLog = receipt.logs.find(log => {
-    return log.name === 'Transfer'
+    return log && log.name === 'Transfer'
   })
   const withdrawLog = receipt.logs.find(log => {
-    return log.name === 'PaymentWithdraw'
+    return log && log.name === 'PaymentWithdraw'
   })
   logger.debug({ logs: receipt.logs, transferLog, withdrawLog, account })
   const log = withdrawLog || transferLog
@@ -134,6 +134,30 @@ class UserStorage {
       })
   }
 
+  async handleReceiptUpdated(receipt: any) {
+    try {
+      const data = getReceiveDataFromReceipt(this.wallet.account, receipt)
+      const operationType = data.from && data.from.toLowerCase() === this.wallet.account ? 'send' : 'receive'
+      const feedEvent = (await this.getFeedItemByTransactionHash(receipt.transactionHash)) || {
+        id: receipt.transactionHash,
+        date: new Date().toString(),
+        type: data.name === 'PaymentWithdraw' ? 'withdraw' : operationType
+      }
+      logger.info('receiptReceived', { feedEvent, receipt, data })
+      const updatedFeedEvent = {
+        ...feedEvent,
+        data: {
+          ...feedEvent.data,
+          ...data,
+          receipt
+        }
+      }
+      await this.updateFeedEvent(updatedFeedEvent)
+    } catch (error) {
+      logger.error(error)
+    }
+  }
+
   /**
    * Initialize wallet, gundb user, feed and subscribe to events
    */
@@ -171,43 +195,8 @@ class UserStorage {
           this.wallet.subscribeToEvent('send', (err, events) => {
             logger.debug({ err, events }, 'send')
           })
-          this.wallet.subscribeToEvent('receiptUpdated', async receipt => {
-            try {
-              const feedEvent = await this.getFeedItemByTransactionHash(receipt.transactionHash)
-              logger.debug('receiptUpdated', { feedEvent, receipt })
-              if (!feedEvent) {
-                logger.error('Received receipt with no event', receipt)
-              }
-
-              const updatedFeedEvent = { ...feedEvent, data: { ...feedEvent.data, receipt } }
-              this.updateFeedEvent(updatedFeedEvent)
-            } catch (error) {
-              logger.error(error)
-            }
-          })
-          logger.debug('web3', this.wallet.wallet)
-
-          this.wallet.subscribeToEvent('receiptReceived', async receipt => {
-            try {
-              const data = getReceiveDataFromReceipt(this.wallet.account, receipt)
-              const feedEvent = (await this.getFeedItemByTransactionHash(receipt.transactionHash)) || {
-                id: receipt.transactionHash,
-                date: new Date().toString(),
-                type: data.name === 'PaymentWithdraw' ? 'withdraw' : 'receive'
-              }
-              logger.info('receiptReceived', { feedEvent, receipt, data })
-              const updatedFeedEvent = {
-                ...feedEvent,
-                data: {
-                  ...data,
-                  receipt
-                }
-              }
-              await this.updateFeedEvent(updatedFeedEvent)
-            } catch (error) {
-              logger.error(error)
-            }
-          })
+          this.wallet.subscribeToEvent('receiptUpdated', receipt => this.handleReceiptUpdated(receipt))
+          this.wallet.subscribeToEvent('receiptReceived', receipt => this.handleReceiptUpdated(receipt))
           res(true)
           // this.profile = user.get('profile')
         })
@@ -497,9 +486,18 @@ class UserStorage {
   }
 
   async getStandardizedFeedByTransactionHash(transactionHash: string): Promise<StandardFeed> {
-    const feed = await this.getFeedItemByTransactionHash(transactionHash)
-    if (!feed) return null
-    return await this.standardizeFeed(feed)
+    const prevFeedEvent = await this.getFeedItemByTransactionHash(transactionHash)
+    const standardPrevFeedEvent = await this.standardizeFeed(prevFeedEvent)
+    if (!prevFeedEvent) return standardPrevFeedEvent
+    if (prevFeedEvent.data && prevFeedEvent.data.receipt) return standardPrevFeedEvent
+
+    const receipt = await this.wallet.getReceiptWithLogs(transactionHash)
+    if (!receipt) return standardPrevFeedEvent
+
+    await this.handleReceiptUpdated(receipt)
+    const feedEvent = await this.getFeedItemByTransactionHash(transactionHash)
+    logger.info({ prevFeedEvent, feedEvent })
+    return await this.standardizeFeed(feedEvent)
   }
 
   /**

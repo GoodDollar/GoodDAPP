@@ -99,9 +99,9 @@ export class GoodWallet {
               log.error('no event', events)
               return
             }
-            this.wallet.eth
-              .getTransactionReceipt(event.transactionHash)
+            this.getReceiptWithLogs(event.transactionHash)
               .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptUpdated']))
+              .catch(err => log.error(err))
             // Send for all events. We could define here different events
             this.getSubscribers('send').forEach(cb => cb(error, events))
             this.getSubscribers('balanceChanged').forEach(cb => cb(error, events))
@@ -123,8 +123,7 @@ export class GoodWallet {
               log.error('no event', events)
               return
             }
-            this.wallet.eth
-              .getTransactionReceipt(event.transactionHash)
+            this.getReceiptWithLogs(event.transactionHash)
               .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptReceived']))
               .catch(err => log.error(err))
 
@@ -135,10 +134,18 @@ export class GoodWallet {
       })
   }
 
+  async getReceiptWithLogs(transactionHash: string) {
+    const transactionReceipt = await this.wallet.eth.getTransactionReceipt(transactionHash)
+    if (!transactionReceipt) return null
+
+    const logs = abiDecoder.decodeLogs(transactionReceipt.logs)
+    const receipt = { ...transactionReceipt, logs }
+    return receipt
+  }
+
   sendReceiptWithLogsToSubscribers(receipt: any, subscriptions: Array<string>) {
-    const logs = abiDecoder.decodeLogs(receipt.logs)
     subscriptions.forEach(subscription => {
-      this.getSubscribers(subscription).forEach(cb => cb({ ...receipt, logs }))
+      this.getSubscribers(subscription).forEach(cb => cb(receipt))
     })
     return receipt
   }
@@ -537,7 +544,7 @@ export class GoodWallet {
       .on('confirmation', onConfirmation)
       .on('error', onError)
       .then(async receipt => {
-        const transactionReceipt = await this.wallet.eth.getTransactionReceipt(receipt.transactionHash)
+        const transactionReceipt = await this.getReceiptWithLogs(receipt.transactionHash)
         await this.sendReceiptWithLogsToSubscribers(transactionReceipt, ['receiptReceived', 'receiptUpdated'])
         return transactionReceipt
       })

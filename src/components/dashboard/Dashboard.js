@@ -67,6 +67,11 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
   }
 
   showEventModal = item => {
+    this.props.screenProps.navigateTo('Home', {
+      event: item.id,
+      receiveLink: undefined,
+      reason: undefined
+    })
     this.setState({
       currentFeedProps: {
         item,
@@ -125,16 +130,10 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
   }
 
   handleWithdraw = async () => {
-    const { params } = this.props.navigation.state
+    const { receiveLink, reason } = this.props.navigation.state.params
     const { screenProps, store } = this.props
-    const receipt = await executeWithdraw(store, params.receiveLink)
+    const receipt = await executeWithdraw(store, receiveLink, reason)
     await this.showNewFeedEvent(receipt.transactionHash)
-
-    screenProps.navigateTo('Home', {
-      event: receipt.transactionHash,
-      receiveLink: undefined,
-      reason: undefined
-    })
   }
 
   render() {

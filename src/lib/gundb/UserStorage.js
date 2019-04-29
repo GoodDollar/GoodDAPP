@@ -1,6 +1,6 @@
 //@flow
 import type { StandardFeed } from '../undux/GDStore'
-import Gun from 'gun'
+import Gun from '@gooddollar/gun-appendonly'
 import SEA from 'gun/sea'
 import { find, merge, orderBy, toPairs, takeWhile, flatten } from 'lodash'
 import { AsyncStorage } from 'react-native-web'
@@ -337,6 +337,13 @@ class UserStorage {
     const { errors, isValid } = profile.validate()
     if (!isValid) {
       throw new Error(errors)
+    }
+
+    const oldUsername = await this.getProfileFieldValue('username')
+    const newUsername = profile.username
+    logger.info({ oldUsername, newUsername })
+    if (oldUsername !== newUsername) {
+      logger.info('update user index')
     }
 
     const profileSettings = {

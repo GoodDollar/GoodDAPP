@@ -1,5 +1,5 @@
 // @flow
-import Gun from 'gun'
+import Gun from '@gooddollar/gun-appendonly'
 import extend from '../gundb-extend'
 import gun from '../gundb'
 import { type TransactionEvent } from '../UserStorage'

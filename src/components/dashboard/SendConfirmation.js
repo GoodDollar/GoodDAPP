@@ -19,7 +19,7 @@ const log = logger.child({ from: SEND_TITLE })
 const SendConfirmation = ({ screenProps, navigation }: ReceiveProps) => {
   const [screenState] = useScreenState(screenProps)
 
-  const { amount, sendLink } = screenState
+  const { sendLink } = screenState
 
   const copySendLink = useCallback(() => {
     Clipboard.setString(sendLink)

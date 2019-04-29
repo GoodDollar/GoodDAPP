@@ -8,7 +8,6 @@ import orderBy from 'lodash/orderBy'
 import toPairs from 'lodash/toPairs'
 import takeWhile from 'lodash/takeWhile'
 import flatten from 'lodash/flatten'
-import { AsyncStorage } from 'react-native-web'
 import gun from './gundb'
 import { default as goodWallet, type GoodWallet } from '../wallet/GoodWallet'
 import isMobilePhone from '../validators/isMobilePhone'
@@ -387,7 +386,7 @@ class UserStorage {
         display = value
     }
     // const encValue = await SEA.encrypt(value, this.user.sea)
-    const indexPromiseResult = this.indexProfileField(field, value, privacy)
+    await this.indexProfileField(field, value, privacy)
     await this.profile
       .get(field)
       .get('value')

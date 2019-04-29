@@ -1,7 +1,6 @@
 // @flow
 import React, { Component } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import { ScrollView } from 'react-native-web'
 import { normalize } from 'react-native-elements'
 import type { Store } from 'undux'
 

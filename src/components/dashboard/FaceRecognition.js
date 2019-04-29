@@ -1,11 +1,11 @@
 // @flow
 import React from 'react'
 import goodWallet from '../../lib/wallet/GoodWallet'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { Title, Description } from '../signup/components'
 import { normalize } from 'react-native-elements'
 import logger from '../../lib/logger/pino-logger'
-import { Wrapper, CustomButton, CustomDialog } from '../common'
+import { Wrapper, CustomButton } from '../common'
 import wrapper from '../../lib/undux/utils/wrapper'
 
 import GDStore from '../../lib/undux/GDStore'

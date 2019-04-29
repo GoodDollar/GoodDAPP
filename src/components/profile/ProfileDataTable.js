@@ -1,13 +1,10 @@
 import React from 'react'
-import { StyleSheet, View, Text } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { HelperText } from 'react-native-paper'
 import { Icon } from 'react-native-elements'
-import logger from '../../lib/logger/pino-logger'
 import PhoneInput from 'react-phone-number-input'
 import 'react-phone-number-input/style.css'
 import './PhoneInput.css'
-
-const log = logger.child({ from: 'ProfileDataTable' })
 
 const ProfileInput = props => (
   <View style={styles.inputWrapper}>

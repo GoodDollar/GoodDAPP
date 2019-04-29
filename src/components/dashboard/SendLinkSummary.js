@@ -2,10 +2,10 @@
 import React from 'react'
 import { View } from 'react-native'
 import { useWrappedGoodWallet } from '../../lib/wallet/useWrappedWallet'
-import { type TransactionEvent } from '../../lib/gundb/UserStorage'
+import type { TransactionEvent } from '../../lib/gundb/UserStorage'
 import UserStorage from '../../lib/gundb/UserStorage'
-import { Section, Wrapper, Avatar, BigGoodDollar, CustomButton, CustomDialog } from '../common'
-import { BackButton, PushButton, useScreenState } from '../appNavigation/stackNavigation'
+import { Section, Wrapper, Avatar, BigGoodDollar, CustomButton } from '../common'
+import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
 import { receiveStyles } from './styles'
 import TopBar from '../common/TopBar'
 import { useWrappedApi } from '../../lib/API/useWrappedApi'
@@ -13,7 +13,6 @@ import isEmail from 'validator/lib/isEmail'
 import isMobilePhone from '../../lib/validators/isMobilePhone'
 import GDStore from '../../lib/undux/GDStore'
 import logger from '../../lib/logger/pino-logger'
-import wrapper from '../../lib/undux/utils/wrapper'
 
 const log = logger.child({ from: 'SendLinkSummary' })
 

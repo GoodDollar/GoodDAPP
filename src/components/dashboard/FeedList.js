@@ -105,8 +105,6 @@ class FeedList extends PureComponent<FeedListProps, FeedListState> {
   pressItem = (item, index: number) => () => {
     const { handleFeedSelection, horizontal } = this.props
     handleFeedSelection(item, !horizontal)
-    // I think it's called twice because handleFeedSelection
-    // should update the prop, so componentDidUpdate is called
     this.scrollToItem(item)
   }
 

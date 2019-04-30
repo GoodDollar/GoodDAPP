@@ -97,10 +97,22 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
   }
 
   showNewFeedEvent = async event => {
-    const item = await userStorage.getStandardizedFeedByTransactionHash(event)
-    if (item) {
-      this.showEventModal(item)
-    } else {
+    try {
+      const item = await userStorage.getStandardizedFeedByTransactionHash(event)
+      log.info({ item })
+      if (item) {
+        this.showEventModal(item)
+      } else {
+        this.props.store.set('currentScreen')({
+          ...this.props.store.get('currentScreen'),
+          dialogData: {
+            visible: true,
+            title: 'Error',
+            message: 'Event does not exist'
+          }
+        })
+      }
+    } catch (e) {
       this.props.store.set('currentScreen')({
         ...this.props.store.get('currentScreen'),
         dialogData: {
@@ -132,8 +144,16 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
   handleWithdraw = async () => {
     const { receiveLink, reason } = this.props.navigation.state.params
     const { screenProps, store } = this.props
-    const receipt = await executeWithdraw(store, receiveLink, reason)
-    await this.showNewFeedEvent(receipt.transactionHash)
+    try {
+      const receipt = await executeWithdraw(store, receiveLink, reason)
+      if (receipt.transactionHash) {
+        await this.showNewFeedEvent(receipt.transactionHash)
+      } else {
+        this.getFeeds()
+      }
+    } catch (e) {
+      this.getFeeds()
+    }
   }
 
   render() {

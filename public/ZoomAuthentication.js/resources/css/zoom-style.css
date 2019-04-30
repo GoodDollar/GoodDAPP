@@ -1,0 +1,261 @@
+.center-divs {
+  text-align: center;
+  margin: 0 auto;
+  display: inline-block;
+  overflow: hidden;
+  width: fit-content;
+}
+
+#zoom-feedback-container {
+  visibility: visible;
+  -moz-box-shadow: 0px 3px 10px black;
+  -webkit-box-shadow: 0px 3px 10px black;
+  box-shadow: 0px 3px 10px black;
+  border-radius: 2px;
+  display: inline;
+  margin: 0 auto;
+  position: absolute;
+  z-index: 10;
+  text-align: center;
+  opacity: 0;
+  left: 50%;
+  top: 10%;
+  transform: translateX(-50%);
+}
+
+.videoWrapper {
+  position: absolute;
+  height: inherit;
+  width: inherit;
+}
+
+.videoWrapper canvas,
+.videoWrapper video {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+#zoom-outside-interface-wrapper {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  z-index: 9;
+}
+
+#zoom-image-wrapper {
+  position: relative;
+  top: 76%;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  margin-top: 0px;
+  text-align: center;
+}
+
+@keyframes zoomLogoIn {
+  0% {
+    opacity: 0;
+    top:100%
+  }
+  75% {
+    opacity: 0.25;
+  }
+  100% {
+    opacity: 1;
+    top: 33%;
+  }
+}
+
+#zoom-image-wrapper img {
+  width: 100%;
+}
+
+#zoom-version {
+  margin-top: -2px;
+  text-align: center;
+  font-size: 9px;
+  color: white;
+  letter-spacing: normal;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.15s, visibility 0s 0.15s;
+  font-family: 'Source Sans Pro', Helvetica, sans-serif;
+}
+
+#zoom-version.versionDisplay {
+	opacity: 1;
+	visibility: visible;
+	transition: opacity 0.15s;
+}
+
+#zoom-oval-wrapper {
+  position: absolute;
+  height: inherit;
+  width: inherit;
+  overflow: hidden;
+}
+
+#zoom-oval-zoom {
+  position: absolute;
+  width: inherit;
+  height: inherit;
+}
+
+#zoom-oval-combined-path {
+  fill-opacity: 0.80;
+}
+
+.zoom-oval-comnbined-path-bright {
+  transition: all 0.8s ease;
+  fill-opacity: 1.0 !important;
+  fill: white !important;
+}
+
+#zoom-oval-svg {
+  position: absolute;
+  width: inherit;
+  height: inherit;
+  top: 0;
+  left: 0;
+}
+
+.zoom-oval-zoom-standard {
+  animation: zoom-oval 1.2s ease-out 0s forwards;
+}
+
+@keyframes zoom-oval {
+  100% {
+    transform: scaleX(1.45) scaleY(1.55);
+  }
+}
+
+.zoom-oval-expand-mobile {
+  animation: zoom-oval-mobile 1.2s ease-out 0s forwards;
+}
+
+@keyframes zoom-oval-mobile {
+  100% {
+    transform: scaleX(1.34) scaleY(1.54);
+  }
+}
+
+
+.zoom-feedback-containter-animation-in {
+  animation: feedback-translate-in 0.75s ease-out forwards;
+}
+
+@keyframes feedback-translate-in {
+  100% {
+    top: 14%;
+    opacity: 1;
+  }
+
+  0% {
+    opacity: 0;
+    top: 8%;
+    border: none;
+  }
+}
+
+.zoom-feedback-containter-animation-out {
+  animation: feedback-translate-out 0.5s ease-out forwards;
+}
+
+@keyframes feedback-translate-out {
+  0% {
+    top: 14%;
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    top: 8%;
+    border: none;
+  }
+}
+
+#zoom-feedback{
+  letter-spacing: normal;
+  position: relative;
+  text-align: center;
+  margin: 0 auto;
+  display: none;
+  height: 50px;
+  line-height: 50px;
+  color: white;
+  font-size: 22px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#zoom-x-cancel {
+  position: absolute;
+  width: 0.75em;
+  height: 0.75em;
+  max-height: 35px;
+  max-width: 35px;
+  z-index: 999999;
+  cursor: pointer;
+  background: none;
+  padding: 10px;
+  visibility: visible;
+  pointer-events: all;
+  -webkit-box-sizing: initial !important;
+  -moz-box-sizing: initial !important;
+  box-sizing:content-box !important;
+}
+
+.zoom-complete-expand {
+  animation: ripple-expand 2s normal forwards;
+}
+
+@-webkit-keyframes ripple-expand {
+  100% {
+    -webkit-transform: scale(4.5);
+  }
+}
+
+@keyframes ripple-expand {
+  100% {
+    transform: scale(4.5);
+  }
+}
+
+.zoom-complete-expand-path {
+  animation: complete-expand-path 2s normal forwards;
+}
+
+@keyframes complete-expand-path {
+  50% {
+    opacity: 0.8;
+  }
+  80% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@-webkit-keyframes sk-stretchdelay {
+  0%, 40%, 100% {
+    -webkit-transform: scaleY(0.4)
+  }
+  20% {
+    -webkit-transform: scaleY(1.0)
+  }
+}
+
+@keyframes sk-stretchdelay {
+  0%, 40%, 100% {
+    transform: scaleY(0.4);
+    -webkit-transform: scaleY(0.4);
+  }
+  20% {
+    transform: scaleY(1.0);
+    -webkit-transform: scaleY(1.0);
+  }
+}

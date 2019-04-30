@@ -59,7 +59,7 @@ export default class LivenessTest extends React.Component<Props, State> {
 
   loadZoomSDK = async (): Promise<void> => {
     global.exports = {} // required by zoomSDK
-    const zoomSDKPath = 'https://cdn.jsdelivr.net/gh/GoodDollar/ZoomSDK/ZoomAuthentication.js/ZoomAuthentication.js'
+    const zoomSDKPath = '/ZoomAuthentication.js/ZoomAuthentication.js'
     log.info(`loading ZoomSDK from ${zoomSDKPath}`)
     return loadjs(zoomSDKPath, { returnPromise: true })
   }

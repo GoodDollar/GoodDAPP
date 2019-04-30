@@ -58,6 +58,8 @@ const ContinueButton = ({ screenProps, to, disabled, checkError }) => (
         const address = await UserStorage.getUserAddress(to)
         if (address) {
           return screenProps.push('Amount', { address, nextRoutes: ['Reason', 'SendQRSummary'] })
+        } else {
+          return screenProps.push('Amount', { to, nextRoutes: ['Reason', 'SendLinkSummary'] })
         }
       }
 
@@ -88,7 +90,6 @@ const Send = props => {
         return err
       })
   }
-
   return (
     <Wrapper>
       <TopBar push={props.screenProps.push} />

@@ -7,6 +7,7 @@ import { normalize } from 'react-native-elements'
 import logger from '../../lib/logger/pino-logger'
 import { Wrapper, CustomButton, CustomDialog } from '../common'
 import wrapper from '../../lib/undux/utils/wrapper'
+import { updateAll } from '../../lib/undux/utils/account'
 
 import GDStore from '../../lib/undux/GDStore'
 
@@ -19,6 +20,7 @@ type Props = {
 
 class FaceRecognition extends React.Component<Props> {
   openEventInDashboard = receipt => () => {
+    updateAll(this.props.store)
     this.props.screenProps.navigateTo('Home', { event: receipt.transactionHash })
   }
 

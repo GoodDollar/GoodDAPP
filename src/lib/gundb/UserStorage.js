@@ -472,7 +472,7 @@ class UserStorage {
         })
     })
 
-    const eventsIndex = flatten(await Promise.all(promises)).filter(eventIndex => Object.keys(eventIndex).length)
+    const eventsIndex = flatten(await Promise.all(promises))
 
     return await Promise.all(
       eventsIndex.map(eventIndex =>

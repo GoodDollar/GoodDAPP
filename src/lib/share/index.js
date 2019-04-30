@@ -7,12 +7,24 @@ import isEmail from 'validator/lib/isEmail'
 import Config from '../../config/config'
 import isMobilePhone from '../validators/isMobilePhone'
 
+/**
+ * Generates a code contaning an MNID with an amount if this las one is speced
+ * @param address - address required to generate MNID
+ * @param networkId - network identifier required to generate MNID
+ * @param amount - amount to be attached to the generated MNID code
+ * @returns {string} - 'MNID|amount'|'MNID'
+ */
 export function generateCode(address: string, networkId: number, amount: number) {
   const mnid = encode({ address, network: `0x${networkId.toString(16)}` })
 
   return amount > 0 ? `${mnid}|${amount}` : mnid
 }
 
+/**
+ * Extracts the information from the generated code in `generateCode`
+ * @param code - code returned by `generateCode`
+ * @returns {null|{amount: *, address, networkId: number}}
+ */
 export function readCode(code: string) {
   const [mnid, value] = code.split('|')
 
@@ -66,6 +78,25 @@ export function extractQueryParams(link: string = ''): {} {
   return fromPairs(keyValuePairs)
 }
 
+type ShareObject = {
+  title: string,
+  text: string,
+  url: string
+}
+
+/**
+ * Generates the standard object required for `navigator.share` method to trigger Share menu on mobile devices
+ * @param url - Link
+ * @returns {ShareObject}
+ */
+export function generateShareObject(url: string): ShareObject {
+  return {
+    title: 'Sending GD via Good Dollar App',
+    text: 'You got GD. To withdraw open:',
+    url
+  }
+}
+
 type HrefLinkProps = {
   link: string,
   description: string
@@ -78,9 +109,10 @@ type HrefLinkProps = {
  * @returns {HrefLinkProps[]}
  */
 export function generateHrefLinks(sendLink: string, to?: string = ''): Array<HrefLinkProps> {
-  const text = `You got GD. To withdraw open: ${sendLink}`
-  const viaEmail = { link: `mailto:${to}?subject=Sending GD via Good Dollar App&body=${text}`, description: 'e-mail' }
-  const viaSMS = { link: `sms:${to}?body=${text}`, description: 'sms' }
+  const { title, text, url } = generateShareObject(sendLink)
+  const body = `${text} ${url}`
+  const viaEmail = { link: `mailto:${to}?subject=${title}&body=${body}`, description: 'e-mail' }
+  const viaSMS = { link: `sms:${to}?body=${body}`, description: 'sms' }
 
   if (isEmail(to)) {
     return [viaEmail]

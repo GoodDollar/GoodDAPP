@@ -1,12 +1,14 @@
 // @flow
 import QRCode from 'qrcode.react'
-import React, { useCallback, useState, useEffect } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Clipboard, StyleSheet, Text, View } from 'react-native'
+import { isMobile } from 'mobile-device-detect'
 
 import logger from '../../lib/logger/pino-logger'
-import { generateHrefLinks } from '../../lib/share'
+import { generateHrefLinks, generateShareObject } from '../../lib/share'
+import GDStore from '../../lib/undux/GDStore'
 import { DoneButton, useScreenState } from '../appNavigation/stackNavigation'
-import { BigGoodDollar, CustomButton, CustomDialog, Section, TopBar, Wrapper } from '../common'
+import { BigGoodDollar, CustomButton, Section, TopBar, Wrapper } from '../common'
 import { fontStyle } from '../common/styles'
 import './AButton.css'
 import { receiveStyles } from './styles'
@@ -20,14 +22,14 @@ const SEND_TITLE = 'Send GD'
 const log = logger.child({ from: SEND_TITLE })
 
 const SendConfirmation = ({ screenProps }: ReceiveProps) => {
-  const [shareDialog, setShareDialog] = useState(false)
   const [hrefLinks, setHrefLinks] = useState([])
   const [screenState] = useScreenState(screenProps)
+  const store = GDStore.useStore()
 
   const { amount, reason, sendLink, to } = screenState
 
   useEffect(() => {
-    setHrefLinks(generateHrefLinks(sendLink, to))
+    if (isMobile && to) setHrefLinks(generateHrefLinks(sendLink, to))
   }, [])
 
   const copySendLink = useCallback(() => {
@@ -35,13 +37,33 @@ const SendConfirmation = ({ screenProps }: ReceiveProps) => {
     log.info('Account address copied', { sendLink })
   }, [sendLink])
 
-  const displayShareDialog = () => {
-    setShareDialog(true)
+  const share = async () => {
+    const share = generateShareObject(sendLink)
+    try {
+      await navigator.share(share)
+    } catch (e) {
+      store.set('currentScreen')({
+        dialogData: {
+          visible: true,
+          title: 'Error',
+          message:
+            'There was a problem triggering share action. You can still copy the link in tapping on "Copy link to clipboard"',
+          dismissText: 'Ok'
+        }
+      })
+    }
   }
 
-  const hideShareDialog = () => {
-    setShareDialog(false)
-  }
+  const ShareButton =
+    hrefLinks.length === 1 ? (
+      <a href={hrefLinks[0].link} className="a-button" title="Share Link">
+        Share Link
+      </a>
+    ) : (
+      <CustomButton style={styles.buttonStyle} onPress={share} mode="contained">
+        Share Link
+      </CustomButton>
+    )
 
   return (
     <Wrapper style={styles.wrapper}>
@@ -63,32 +85,11 @@ const SendConfirmation = ({ screenProps }: ReceiveProps) => {
           </Section.Text>
           <Section.Text>{reason && `For ${reason}`}</Section.Text>
           <View style={styles.buttonGroup}>
-            {hrefLinks.length === 1 ? (
-              <a href={hrefLinks[0].link} className="a-button" title="Share Link">
-                Share Link
-              </a>
-            ) : (
-              <CustomButton style={styles.buttonStyle} onPress={displayShareDialog} mode="contained">
-                Share Link
-              </CustomButton>
-            )}
+            {isMobile ? <ShareButton /> : null}
             <DoneButton style={styles.buttonStyle} screenProps={screenProps} />
           </View>
         </Section.Row>
       </Section>
-      <CustomDialog visible={shareDialog} title="Share via..." onDismiss={hideShareDialog}>
-        {hrefLinks.map(({ link, description }, index) => (
-          <a
-            key={index}
-            href={link}
-            title={`Share Link via ${description}`}
-            className="a-button"
-            onClick={hideShareDialog}
-          >
-            {description}
-          </a>
-        ))}
-      </CustomDialog>
     </Wrapper>
   )
 }

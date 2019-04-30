@@ -624,7 +624,6 @@ class UserStorage {
     let dayEventsArr = (await this.feed.get(day).then()) || []
     let toUpd = find(dayEventsArr, e => e.id === event.id)
     const eventIndexItem = { id: event.id, updateDate: event.date }
-    logger.info('CHECK AAAA: ', { event, dayEventsArr, toUpd, eventIndexItem })
     if (toUpd) {
       merge(toUpd, eventIndexItem)
     } else {
@@ -632,8 +631,6 @@ class UserStorage {
       if (insertPos >= 0) dayEventsArr.splice(insertPos, 0, eventIndexItem)
       else dayEventsArr.unshift(eventIndexItem)
     }
-
-    logger.info('CHECK AAAA: ', { dayEventsArr, day })
 
     let saveAck = this.feed
       .get(day)

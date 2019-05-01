@@ -6,6 +6,7 @@ import GDStore from '../../../lib/undux/GDStore'
 import { normalize } from 'react-native-elements'
 import logger from '../../../lib/logger/pino-logger'
 import { Camera } from './Camera.web'
+import Config from '../../../config/config'
 import { StyleSheet, View } from 'react-native'
 import { Wrapper, CustomButton, Section } from '../../common'
 import { initializeAndPreload, capture, ZoomCaptureResult } from './Zoom'
@@ -34,10 +35,6 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
   height = 0
 
   async componentDidMount() {
-    this.setWidth()
-  }
-
-  async componentWillMount() {
     try {
       await this.loadZoomSDK()
       // eslint-disable-next-line no-undef
@@ -49,10 +46,13 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     } catch (e) {
       log.error(e)
     }
+    this.setWidth()
   }
 
   loadZoomSDK = async (): Promise<void> => {
     global.exports = {} // required by zoomSDK
+    const server = Config.serverUrl
+    log.info({ server })
     const zoomSDKPath = '/ZoomAuthentication.js/ZoomAuthentication.js'
     log.info(`loading ZoomSDK from ${zoomSDKPath}`)
     return loadjs(zoomSDKPath, { returnPromise: true })
@@ -100,7 +100,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
   }
 
   render() {
-    const store = GDStore.useStore()
+    const { store }: FaceRecognitionProps = this.props
     const { fullName } = store.get('profile')
     const showZoomCapture = this.state.showZoomCapture
     return (

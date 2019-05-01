@@ -14,7 +14,7 @@ export type ZoomCaptureResult = {
   }
 }
 
-const log = logger.child({ from: 'LivenessTest' })
+const log = logger.child({ from: 'Zoom' })
 const licenseKey = Config.zoomLicenseKey
 log.info({ licenseKey })
 

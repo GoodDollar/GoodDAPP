@@ -86,7 +86,7 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
               <BigGoodDollar number={balance} />
             </Section.Row>
             <Section.Row style={styles.buttonRow}>
-              <PushButton routeName={'Send'} screenProps={screenProps} style={styles.leftButton}>
+              <PushButton routeName={'FaceRecognition'} screenProps={screenProps} style={styles.leftButton}>
                 Send
               </PushButton>
               <PushButton routeName={'Claim'} screenProps={screenProps}>

@@ -6,8 +6,6 @@ import EmailForm from './EmailForm'
 import PhoneForm from './PhoneForm'
 import SmsForm from './SmsForm'
 import EmailConfirmation from './EmailConfirmation'
-import FaceRecognition from './FaceRecognition'
-import LivenessTest from './LivenessTest/LivenessTest.web'
 import SignupCompleted from './SignupCompleted'
 import NavBar from '../appNavigation/NavBar'
 
@@ -31,8 +29,6 @@ const SignupWizardNavigator = createSwitchNavigator({
   SMS: SmsForm,
   Email: EmailForm,
   EmailConfirmation,
-  FaceRecognition,
-  LivenessTest,
   SignupCompleted
 })
 

@@ -1,22 +1,21 @@
 // @flow
-import React from 'react'
+import React, { createRef } from 'react'
 import loadjs from 'loadjs'
 import API from '../../../lib/API/api'
 import GDStore from '../../../lib/undux/GDStore'
 import { normalize } from 'react-native-elements'
 import logger from '../../../lib/logger/pino-logger'
 import { Camera } from './Camera.web'
-import wrapper from '../../../lib/undux/utils/wrapper'
-import { StyleSheet, Text, View } from 'react-native'
-import { Title, Description } from '../../signup/components'
-import { Wrapper, CustomButton, CustomDialog, Section } from '../../common'
+import { StyleSheet, View } from 'react-native'
+import { Wrapper, CustomButton, Section } from '../../common'
 import { initializeAndPreload, capture, ZoomCaptureResult } from './Zoom'
+import type { DashboardProps } from '../Dashboard'
 
 const log = logger.child({ from: 'FaceRecognition' })
 
-type Props = {
+type FaceRecognitionProps = DashboardProps & {
   screenProps: any,
-  store: {}
+  store: Store
 }
 
 type State = {
@@ -24,12 +23,12 @@ type State = {
   ready: boolean
 }
 
-class FaceRecognition extends React.Component<Props, State> {
+class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
   state = {
     showZoomCapture: false,
     ready: false
   }
-  // eslint-disable-next-line no-undef
+
   containerRef = createRef()
   width = 720
   height = 0
@@ -101,16 +100,17 @@ class FaceRecognition extends React.Component<Props, State> {
   }
 
   render() {
-    const { fullName } = this.props.store.get('profile')
+    const store = GDStore.useStore()
+    const { fullName } = store.get('profile')
     const showZoomCapture = this.state.showZoomCapture
     return (
       <Wrapper>
         {!showZoomCapture && (
           <View style={styles.topContainer}>
-            <Title>{`${fullName},\n Just one last thing...`}</Title>
-            <Description style={styles.description}>
+            <Section.Title>{`${fullName},\n Just one last thing...`}</Section.Title>
+            <Section.Text style={styles.description}>
               {"In order to give you a basic income we need to make sure it's really you"}
-            </Description>
+            </Section.Text>
           </View>
         )}
         {!showZoomCapture && (

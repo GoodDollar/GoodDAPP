@@ -1,5 +1,5 @@
-// flow-typed signature: d7b7a4cc978b332c2a63943f63ac7400
-// flow-typed version: c674c6bec3/@react-navigation/core_v3.x.x/flow_>=v0.60.x
+// flow-typed signature: ffc499e1411b231288def9f08300d543
+// flow-typed version: 976d0874e7/@react-navigation/core_v3.x.x/flow_>=v0.60.x <=v0.91.x
 
 // @flow
 
@@ -219,6 +219,7 @@ declare module '@react-navigation/core' {
      */
     index: number,
     routes: Array<NavigationRoute>,
+    isTransitioning?: bool,
   };
 
   declare export type NavigationRoute =
@@ -510,7 +511,7 @@ declare module '@react-navigation/core' {
       >,
       ParamName
     >,
-    dangerouslyGetParent: () => NavigationScreenProp<*>,
+    dangerouslyGetParent: () => ?NavigationScreenProp<NavigationState>,
     isFocused: () => boolean,
     // Shared action creators that exist for all routers
     goBack: (routeKey?: ?string) => boolean,
@@ -618,6 +619,7 @@ declare module '@react-navigation/core' {
     isStale: boolean,
     key: string,
     route: NavigationRoute,
+    descriptor: ?NavigationDescriptor,
   };
 
   declare export type NavigationTransitionProps = $Shape<{
@@ -745,9 +747,9 @@ declare module '@react-navigation/core' {
     }) => NavigationCompleteTransitionAction,
   };
 
-  declare type NavigationDescriptor = {
+  declare export type NavigationDescriptor = {
     key: string,
-    state: NavigationLeafRoute | NavigationStateRoute,
+    state: NavigationRoute,
     navigation: NavigationScreenProp<*>,
     getComponent: () => React$ComponentType<{}>,
   };
@@ -755,6 +757,7 @@ declare module '@react-navigation/core' {
   declare type NavigationView<O, S> = React$ComponentType<{
     descriptors: { [key: string]: NavigationDescriptor },
     navigation: NavigationScreenProp<S>,
+    navigationConfig: *,
   }>;
 
   declare export function createNavigator<O: *, S: *, NavigatorConfig: *>(

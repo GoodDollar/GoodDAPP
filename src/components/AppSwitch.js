@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import { SceneView } from '@react-navigation/core'
-import _ from 'lodash'
+import some from 'lodash/some'
 import logger from '../lib/logger/pino-logger'
 import API from '../lib/API/api'
 import GDStore from '../lib/undux/GDStore'
@@ -9,6 +9,7 @@ import { checkAuthStatus } from '../lib/login/checkAuthStatus'
 import type { Store } from 'undux'
 import { CustomDialog } from '../components/common'
 import LoadingIndicator from './common/LoadingIndicator'
+import { Helmet } from 'react-helmet'
 
 type LoadingProps = {
   navigation: any,
@@ -44,7 +45,7 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
 
     if (Object.keys(navInfo.params).length && this.props.store.get('destinationPath') === '') {
       const app = router.getActionForPathAndParams(navInfo.path)
-      const destRoute = actions => (_.some(actions, 'action') ? destRoute(actions.action) : actions.action)
+      const destRoute = actions => (some(actions, 'action') ? destRoute(actions.action) : actions.action)
       const destinationPath = JSON.stringify({ ...destRoute(app), params: navInfo.params })
       this.props.store.set('destinationPath')(destinationPath)
     }
@@ -90,6 +91,10 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
     const { dialogData } = store.get('currentScreen')
     return (
       <React.Fragment>
+        <Helmet>
+          <title>Good Dollar</title>
+        </Helmet>
+
         <CustomDialog
           {...dialogData}
           onDismiss={(...args) => {

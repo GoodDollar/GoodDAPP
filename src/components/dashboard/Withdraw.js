@@ -1,5 +1,4 @@
 // @flow
-import _ from 'lodash'
 import React, { Component } from 'react'
 import type { Store } from 'undux'
 
@@ -91,11 +90,20 @@ class Withdraw extends Component<DashboardProps, DashboardState> {
 
       log.info({ event })
 
+      const profile = await UserStorage.getUserProfile(sender)
+
       this.setState({
         dialogData: { visible: false },
         eventDialogData: {
           visible: true,
-          event,
+          event: {
+            ...event,
+            data: {
+              ...profile,
+              ...event.data,
+              sender
+            }
+          },
           reason
         }
       })

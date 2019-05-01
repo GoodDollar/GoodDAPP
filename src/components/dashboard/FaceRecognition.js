@@ -1,14 +1,16 @@
 // @flow
 import React from 'react'
-import goodWallet from '../../lib/wallet/GoodWallet'
-import { StyleSheet, Text, View } from 'react-native'
-import { Title, Description } from '../signup/components'
+import loadjs from 'loadjs'
+import API from '../../lib/API/api'
+import GDStore from '../../lib/undux/GDStore'
 import { normalize } from 'react-native-elements'
 import logger from '../../lib/logger/pino-logger'
-import { Wrapper, CustomButton, CustomDialog } from '../common'
+import { Camera } from './livenessTest/Camera.web'
 import wrapper from '../../lib/undux/utils/wrapper'
-
-import GDStore from '../../lib/undux/GDStore'
+import { StyleSheet, Text, View } from 'react-native'
+import { Title, Description } from '../signup/components'
+import { Wrapper, CustomButton, CustomDialog, Section } from '../common'
+import { initializeAndPreload, capture, ZoomCaptureResult } from './livenessTest/Zoom'
 
 const log = logger.child({ from: 'FaceRecognition' })
 
@@ -17,45 +19,122 @@ type Props = {
   store: {}
 }
 
-class FaceRecognition extends React.Component<Props> {
-  handleClaim = async () => {
+type State = {
+  showZoomCapture: boolean,
+  ready: boolean
+}
+
+class FaceRecognition extends React.Component<Props, State> {
+  state = {
+    showZoomCapture: false,
+    ready: false
+  }
+  // eslint-disable-next-line no-undef
+  containerRef = createRef()
+  width = 720
+  height = 0
+
+  async componentDidMount() {
+    this.setWidth()
+  }
+
+  async componentWillMount() {
     try {
-      const goodWalletWrapped = wrapper(goodWallet, this.props.store)
-      await goodWalletWrapped.claim()
+      await this.loadZoomSDK()
+      // eslint-disable-next-line no-undef
+      let loadedZoom = ZoomSDK
+      log.info('ZoomSDK loaded', loadedZoom)
+      await initializeAndPreload(loadedZoom) // TODO: what to do in case of init errors?
+      log.info('ZoomSDK initialized and preloaded', loadedZoom)
+      this.setState({ ready: true })
+    } catch (e) {
+      log.error(e)
+    }
+  }
+
+  loadZoomSDK = async (): Promise<void> => {
+    global.exports = {} // required by zoomSDK
+    const zoomSDKPath = '/ZoomAuthentication.js/ZoomAuthentication.js'
+    log.info(`loading ZoomSDK from ${zoomSDKPath}`)
+    return loadjs(zoomSDKPath, { returnPromise: true })
+  }
+
+  onCameraLoad = async (track: MediaStreamTrack) => {
+    let captureOutcome: ZoomCaptureResult
+
+    try {
+      captureOutcome = await capture(track) // TODO: handle capture errors.
+    } catch (e) {
+      log.error(`Failed on capture, error: ${e}`)
+    }
+    // this.props.screenProps.onCaptureComplete(captureOutcome)
+    await this.enroll(captureOutcome)
+  }
+
+  setWidth = () => {
+    const containerWidth =
+      (this.containerRef && this.containerRef.current && this.containerRef.current.offsetWidth) || this.width
+    this.width = Math.min(this.width, containerWidth)
+    this.height = window.innerHeight > window.innerWidth ? this.width * 1.77777778 : this.width * 0.5625
+
+    this.width = 720
+    this.height = 1280
+  }
+
+  enroll = async (captureResult: ZoomCaptureResult) => {
+    log.info({ captureResult })
+    try {
+      await API.enroll(captureResult)
       this.props.store.set('currentScreen')({
         dialogData: {
           visible: true,
           title: 'Success',
-          message: `You've claimed your GD`,
+          message: `You've successfully passed face recognition`,
           dismissText: 'YAY!',
           onDismiss: this.props.screenProps.goToRoot
         },
         loading: true
       })
     } catch (e) {
-      log.warn('claiming failed', e)
+      log.warn('FaceRecognition failed', e)
     }
   }
 
   render() {
     const { fullName } = this.props.store.get('profile')
+    const showZoomCapture = this.state.showZoomCapture
     return (
       <Wrapper>
-        <View style={styles.topContainer}>
-          <Title>{`${fullName},\n Just one last thing...`}</Title>
-          <Description style={styles.description}>
-            {"In order to give you a basic income we need to make sure it's really you"}
-          </Description>
-        </View>
-        <View style={styles.bottomContainer}>
-          <CustomButton
-            mode="contained"
-            onPress={this.handleClaim}
-            loading={this.props.store.get('currentScreen').loading}
-          >
-            Quick Face Recognition
-          </CustomButton>
-        </View>
+        {!showZoomCapture && (
+          <View style={styles.topContainer}>
+            <Title>{`${fullName},\n Just one last thing...`}</Title>
+            <Description style={styles.description}>
+              {"In order to give you a basic income we need to make sure it's really you"}
+            </Description>
+          </View>
+        )}
+        {!showZoomCapture && (
+          <View style={styles.bottomContainer}>
+            <CustomButton
+              mode="contained"
+              onPress={this.setState({ showZoomCapture: true })}
+              loading={this.props.store.get('currentScreen').loading}
+            >
+              Quick Face Recognition
+            </CustomButton>
+          </View>
+        )}
+        {showZoomCapture && (
+          <View>
+            <Section style={styles.bottomSection}>
+              <div id="zoom-parent-container" style={videoContainerStyles}>
+                <div id="zoom-interface-container">
+                  {this.state.ready && <Camera height={this.height} onLoad={this.onCameraLoad} />}
+                </div>
+              </div>
+            </Section>
+          </View>
+        )}
       </Wrapper>
     )
   }
@@ -73,7 +152,22 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: normalize(20),
     justifyContent: 'flex-end'
+  },
+  description: {
+    fontSize: normalize(20)
+  },
+  bottomSection: {
+    flex: 1,
+    backgroundColor: '#fff'
   }
 })
+
+const videoContainerStyles = {
+  height: normalize(360),
+  marginLeft: 'auto',
+  marginRight: 'auto',
+  marginTop: 0,
+  marginBottom: 0
+}
 
 export default GDStore.withStore(FaceRecognition)

@@ -1,16 +1,16 @@
 // @flow
 import React from 'react'
 import loadjs from 'loadjs'
-import API from '../../lib/API/api'
-import GDStore from '../../lib/undux/GDStore'
+import API from '../../../lib/API/api'
+import GDStore from '../../../lib/undux/GDStore'
 import { normalize } from 'react-native-elements'
-import logger from '../../lib/logger/pino-logger'
-import { Camera } from './livenessTest/Camera.web'
-import wrapper from '../../lib/undux/utils/wrapper'
+import logger from '../../../lib/logger/pino-logger'
+import { Camera } from './Camera.web'
+import wrapper from '../../../lib/undux/utils/wrapper'
 import { StyleSheet, Text, View } from 'react-native'
-import { Title, Description } from '../signup/components'
-import { Wrapper, CustomButton, CustomDialog, Section } from '../common'
-import { initializeAndPreload, capture, ZoomCaptureResult } from './livenessTest/Zoom'
+import { Title, Description } from '../../signup/components'
+import { Wrapper, CustomButton, CustomDialog, Section } from '../../common'
+import { initializeAndPreload, capture, ZoomCaptureResult } from './Zoom'
 
 const log = logger.child({ from: 'FaceRecognition' })
 

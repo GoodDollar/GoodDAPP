@@ -2,7 +2,12 @@
 import type { StandardFeed } from '../undux/GDStore'
 import Gun from 'gun'
 import SEA from 'gun/sea'
-import { find, merge, orderBy, toPairs, takeWhile, flatten } from 'lodash'
+import find from 'lodash/find'
+import merge from 'lodash/merge'
+import orderBy from 'lodash/orderBy'
+import toPairs from 'lodash/toPairs'
+import takeWhile from 'lodash/takeWhile'
+import flatten from 'lodash/flatten'
 import { AsyncStorage } from 'react-native-web'
 import gun from './gundb'
 import { default as goodWallet, type GoodWallet } from '../wallet/GoodWallet'
@@ -488,6 +493,36 @@ class UserStorage {
   async getStandardizedFeed(numResults: number, reset?: boolean): Promise<Array<StandardFeed>> {
     const feed = await this.getFeedPage(numResults, reset)
     return await Promise.all(feed.filter(feedItem => feedItem.data).map(this.standardizeFeed))
+  }
+
+  /**
+   * Returns name and avatar from profile based filtered by received value
+   *
+   * @param {string} field - Profile field value (email, mobile or wallet address value)
+   * @returns {object} profile - { name, avatar }
+   */
+  async getUserProfile(field: string) {
+    const attr = isMobilePhone(field) ? 'mobile' : isEmail(field) ? 'email' : 'walletAddress'
+    const value = UserStorage.cleanFieldForIndex(attr, field)
+
+    const profileToShow = gun
+      .get('users')
+      .get(`by${attr}`)
+      .get(value)
+      .get('profile')
+
+    const avatar =
+      (await profileToShow
+        .get('avatar')
+        .get('display')
+        .then()) || undefined
+    const name =
+      (await profileToShow
+        .get('fullName')
+        .get('display')
+        .then()) || 'Unknown Name'
+
+    return { name, avatar }
   }
 
   /**

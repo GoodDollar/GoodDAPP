@@ -52,26 +52,42 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   const [state, setState] = useState(initialState)
   const store = GDStore.useStore()
   const { loading } = store.get('currentScreen')
+
   function saveProfile() {
     userStorage.setProfile({ ...state, walletAddress: goodWallet.account })
   }
 
   const done = async (data: { [string]: string }) => {
     log.info('signup data:', { data })
-    setState({ ...state, ...data })
     let nextRoute = navigation.state.routes[navigation.state.index + 1]
+    const newState = { ...state, ...data }
+    setState(newState)
+
     if (nextRoute && nextRoute.key === 'SMS') {
       try {
-        await API.sendOTP({ ...state, ...data })
+        await API.sendOTP(newState)
         navigation.navigate(nextRoute.key)
       } catch (e) {
         log.error(e)
       }
     } else if (nextRoute && nextRoute.key === 'EmailConfirmation') {
       try {
-        await API.sendVerificationEmail({ ...state, ...data })
-        // if email is properly sent, persist current user's information to userStorage
-        await userStorage.setProfile({ ...state, ...data, walletAddress: goodWallet.account })
+        const verificationResponse = await API.sendVerificationEmail(newState)
+
+        if (verificationResponse.data.onlyInEnv) {
+          // Server is using onlyInEnv middleware (probably dev mode), email verification is not sent.
+          log.debug({ ...verificationResponse.data })
+
+          // Skip EmailConfirmation screen
+          nextRoute = navigation.state.routes[navigation.state.index + 2]
+
+          // Set email as confirmed
+          setState({ ...newState, isEmailConfirmed: true })
+        } else {
+          // if email is properly sent, persist current user's information to userStorage
+          await userStorage.setProfile({ ...newState, walletAddress: goodWallet.account })
+        }
+
         navigation.navigate(nextRoute.key)
       } catch (e) {
         log.error(e)

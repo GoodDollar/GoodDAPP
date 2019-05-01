@@ -488,12 +488,9 @@ exports[`Claim matches snapshot 1`] = `
           </div>
           <hr
             style={
-              Array [
-                Object {
-                  "width": "100%",
-                },
-                undefined,
-              ]
+              Object {
+                "width": "100%",
+              }
             }
           />
           <div

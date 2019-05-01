@@ -28,7 +28,7 @@ const SendReason = (props: AmountProps) => {
         <Section.Row style={styles.sectionRow}>
           <View style={styles.inputField}>
             <Section.Title style={styles.headline}>For?</Section.Title>
-            <TextInput focus={true} value={reason} onChangeText={reason => setScreenState({ reason })} />
+            <TextInput focus="true" value={reason} onChangeText={reason => setScreenState({ reason })} />
           </View>
           <View style={styles.buttonGroup}>
             <BackButton mode="text" screenProps={screenProps} style={{ flex: 1 }}>

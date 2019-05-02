@@ -226,9 +226,9 @@ export class GoodWallet {
   /**
    * Listen to balance changes for the current account
    * @param cb
-   * @returns {Promise<void>}
+   * @returns {}
    */
-  async balanceChanged(cb: Function) {
+  balanceChanged(cb: Function) {
     this.subscribeToEvent('balanceChanged', cb)
   }
 

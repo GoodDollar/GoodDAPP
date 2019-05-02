@@ -104,10 +104,10 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
           await API.addUser(state)
           await API.verifyUser({})
           const destinationPath = store.get('destinationPath')
-          store.set('isLoggedInCitizen')(true)
           // top wallet of new user
           // wait for the topping to complete to be able to withdraw
           await API.verifyTopWallet()
+          store.set('isLoggedInCitizen')(true)
           const mnemonic = localStorage.getItem('GD_USER_MNEMONIC')
           await API.sendRecoveryInstructionByEmail(mnemonic)
           if (destinationPath !== '') {

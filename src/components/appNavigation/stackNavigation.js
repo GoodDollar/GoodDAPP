@@ -98,6 +98,17 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
   }
 
   /**
+   * Navigates to specific screen with custom parameters as query string.
+   */
+  navigateTo = (routeName: string, params: any) => {
+    this.props.navigation.navigate({
+      routeName,
+      params,
+      type: 'Navigation/NAVIGATE'
+    })
+  }
+
+  /**
    * Navigates to the screen that created the stack (backRouteName)
    */
   goToParent = () => {
@@ -128,6 +139,7 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
       push: this.push,
       goToRoot: this.goToRoot,
       goToParent: this.goToParent,
+      navigateTo: this.navigateTo,
       pop: this.pop,
       screenState: this.state.currentState,
       setScreenState: this.setScreenState

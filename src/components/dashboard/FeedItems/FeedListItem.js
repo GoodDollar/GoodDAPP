@@ -2,13 +2,15 @@ import React from 'react'
 import { TouchableHighlight, View } from 'react-native'
 import ListWithdrawEvent from './ListWithdrawEvent'
 import ListSendEvent from './ListSendEvent'
+import ListClaimEvent from './ListClaimEvent'
 import { listStyles } from './EventStyles'
 
 const listType = type => {
   return (
     {
       withdraw: ListWithdrawEvent,
-      send: ListSendEvent
+      send: ListSendEvent,
+      claim: ListClaimEvent
     }[type] || ListWithdrawEvent
   )
 }

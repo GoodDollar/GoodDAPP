@@ -1,14 +1,18 @@
+// @flow
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { normalize } from 'react-native-elements'
 import ModalWithdrawEvent from './ModalWithdrawEvent'
 import ModalSendEvent from './ModalSendEvent'
+import ModalClaimEvent from './ModalClaimEvent'
+import type { FeedEventProps } from './EventProps'
 
 const modalType = type => {
   return (
     {
       withdraw: ModalWithdrawEvent,
-      send: ModalSendEvent
+      send: ModalSendEvent,
+      claim: ModalClaimEvent
     }[type] || ModalWithdrawEvent
   )
 }
@@ -18,10 +22,10 @@ const modalType = type => {
  * @param {FeedEventProps} props - feed event
  * @returns {HTMLElement}
  */
-const FeedModalItem = props => {
+const FeedModalItem = (props: FeedEventProps) => {
   const Modal = modalType(props.item.type)
   return (
-    <View style={styles.horizItem}>
+    <View style={props.styles ? { ...styles.horizItem, ...props.styles } : styles.horizItem}>
       <View style={styles.fullHeight}>
         <Modal {...props} />
       </View>

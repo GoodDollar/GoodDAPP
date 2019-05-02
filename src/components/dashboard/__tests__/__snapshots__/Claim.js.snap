@@ -494,7 +494,13 @@ exports[`Claim matches snapshot 1`] = `
             </b>
              DAYS OF INCOME WAITING
           </div>
-          <hr />
+          <hr
+            style={
+              Object {
+                "width": "100%",
+              }
+            }
+          />
           <div
             className="css-text-76zvg2"
             dir="auto"

@@ -1,4 +1,7 @@
 // @flow
+/**
+ * @file Displays a summary when sending GD directly to a blockchain address
+ */
 import React, { useState, useEffect } from 'react'
 import { View } from 'react-native'
 import UserStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'

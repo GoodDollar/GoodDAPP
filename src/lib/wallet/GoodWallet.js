@@ -65,15 +65,14 @@ export class GoodWallet {
   accounts: Array<string>
   networkId: number
   gasPrice: number
-  subscribers: any
+  subscribers: any = {}
 
   constructor() {
     this.init()
   }
 
   listenTxUpdates() {
-    this.subscribers = {}
-    this.wallet.eth
+    return this.wallet.eth
       .getBlockNumber()
       .then(toBN)
       .then(toBlock => {
@@ -172,7 +171,6 @@ export class GoodWallet {
           }
         )
         log.info('GoodWallet Ready.', { accounts: this.accounts, account: this.account })
-        this.listenTxUpdates()
       })
       .catch(e => {
         log.error('Failed initializing GoodWallet', e)

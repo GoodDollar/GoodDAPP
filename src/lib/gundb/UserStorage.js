@@ -27,7 +27,7 @@ export type GunDBUser = {
 
 type FieldPrivacy = 'private' | 'public' | 'masked'
 type ACK = {
-  ok: string,
+  ok: number,
   err: string
 }
 type EncryptedField = any
@@ -89,7 +89,8 @@ class UserStorage {
     email: true,
     mobile: true,
     phone: true,
-    walletAddress: true
+    walletAddress: true,
+    username: true
   }
 
   /**
@@ -354,7 +355,6 @@ class UserStorage {
       walletAddress: { defaultPrivacy: 'public' },
       username: { defaultPrivacy: 'public' }
     }
-
     const getPrivacy = async field => {
       const currentPrivacy = await this.profile.get(field).get('privacy')
       return currentPrivacy || profileSettings[field].defaultPrivacy || 'public'
@@ -364,7 +364,11 @@ class UserStorage {
       Object.keys(profileSettings)
         .filter(key => profile[key])
         .map(async field => this.setProfileField(field, profile[field], await getPrivacy(field)))
-    )
+    ).then(results => {
+      const errors = results.filter(ack => ack.err).map(ack => ack.err)
+      if (errors.length > 0) throw new Error(errors)
+      return true
+    })
   }
 
   /**
@@ -389,8 +393,16 @@ class UserStorage {
       default:
         display = value
     }
-    // const encValue = await SEA.encrypt(value, this.user.sea)
-    const indexPromiseResult = this.indexProfileField(field, value, privacy)
+
+    if (UserStorage.indexableFields[field] && privacy === 'public') {
+      const indexPromiseResult = await this.indexProfileField(field, value, privacy)
+      logger.info('indexPromiseResult', indexPromiseResult)
+
+      if (indexPromiseResult.err || !indexPromiseResult.ok) {
+        return indexPromiseResult
+      }
+    }
+
     await this.profile
       .get(field)
       .get('value')
@@ -412,22 +424,31 @@ class UserStorage {
    * need to develop for gundb immutable keys to non first user
    */
   async indexProfileField(field: string, value: string, privacy: FieldPrivacy): Promise<ACK> {
-    if (!UserStorage.indexableFields[field]) return
+    if (!UserStorage.indexableFields[field]) return Promise.resolve({ err: 'Not indexable field', ok: 0 })
     const cleanValue = UserStorage.cleanFieldForIndex(field, value)
-
+    const indexNode = gun.rootAO(`users/by${field}`).get(cleanValue)
     logger.info({ field, value, privacy })
-    if (privacy !== 'public')
-      return gun
-        .get('users')
-        .get('by' + field)
-        .get(cleanValue)
-        .putAck(null)
 
-    const gunResult = await gun
-      .get('users')
-      .get('by' + field)
-      .get(cleanValue)
-      .putAck(this.gunuser)
+    const indexValue = await indexNode.then()
+    logger.info({
+      field,
+      value,
+      privacy,
+      indexValue: indexValue,
+      currentUser: this.gunuser.is.pub
+    })
+
+    if (indexValue && indexValue.pub != this.gunuser.is.pub) {
+      return Promise.resolve({ err: `Existing index on field ${field}`, ok: 0 })
+    }
+
+    if (privacy !== 'public') {
+      const result = indexNode.putAck(null)
+      logger.info('Result: ', result)
+      return Promise.resolve({ err: 'Not public field', ok: 0 })
+    }
+
+    const gunResult = await indexNode.putAck(this.gunuser)
 
     logger.info({ gunResult })
     return gunResult
@@ -567,7 +588,7 @@ class UserStorage {
 
       const searchField = 'by' + (isMobilePhone(address) ? 'mobile' : isEmail(address) ? 'email' : 'walletAddress')
       const profileToShow = gun
-        .get('users')
+        .rootAO(`users/${searchField}`)
         .get(searchField)
         .get(address)
         .get('profile')

@@ -54,7 +54,7 @@ const SendConfirmation = ({ screenProps }: ReceiveProps) => {
     }
   }
 
-  const ShareButton =
+  const ShareButton = () =>
     hrefLinks.length === 1 ? (
       <a href={hrefLinks[0].link} className="a-button" title="Share Link">
         Share Link

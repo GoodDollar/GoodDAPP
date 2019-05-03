@@ -13,7 +13,7 @@ export type AvatarProps = {
 export default (props: AvatarProps) => (
   <View
     onClick={props.onPress}
-    style={props.onPress ? { ...props.style, ...styles.clickable } : { ...props.style, ...styles.avatarView }}
+    style={props.onPress ? [props.style, styles.clickable] : [props.style, styles.avatarView]}
   >
     <Avatar.Image
       size={34}

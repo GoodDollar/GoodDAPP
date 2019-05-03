@@ -4,9 +4,9 @@
 
 -   [useEffect][1]
 -   [React][2]
--   [NavBar][3]
--   [ListSendEvent][4]
-    -   [Parameters][5]
+-   [ListSendEvent][3]
+    -   [Parameters][4]
+-   [NavBar][5]
 -   [ListClaimEvent][6]
     -   [Parameters][7]
 -   [ListWithdrawEvent][8]
@@ -27,47 +27,49 @@
     -   [Parameters][23]
 -   [FeedListItem][24]
     -   [Parameters][25]
--   [GenerateLinkButton][26]
+-   [getComponent][26]
     -   [Parameters][27]
--   [FeedModalItem][28]
-    -   [Parameters][29]
--   [to][30]
-    -   [Parameters][31]
--   [AppSwitch][32]
-    -   [Parameters][33]
-    -   [checkAuthStatus][34]
--   [Rewards][35]
-    -   [Parameters][36]
--   [LoadingIndicator][37]
--   [AppView][38]
-    -   [push][39]
-        -   [Parameters][40]
-    -   [goToRoot][41]
-    -   [navigateTo][42]
-        -   [Parameters][43]
-    -   [goToParent][44]
-    -   [setScreenState][45]
-        -   [Parameters][46]
--   [sendLinkTo][47]
-    -   [Parameters][48]
--   [AppNavigation][49]
--   [generateLinkAndSend][50]
--   [withdraw][51]
-    -   [Parameters][52]
--   [dismissDialog][53]
--   [dismissEventDialog][54]
--   [createStackNavigator][55]
-    -   [Parameters][56]
--   [PushButton][57]
+-   [AppView][28]
+    -   [push][29]
+        -   [Parameters][30]
+    -   [goToRoot][31]
+    -   [navigateTo][32]
+        -   [Parameters][33]
+    -   [goToParent][34]
+    -   [setScreenState][35]
+        -   [Parameters][36]
+-   [GenerateLinkButton][37]
+    -   [Parameters][38]
+-   [FeedModalItem][39]
+    -   [Parameters][40]
+-   [to][41]
+    -   [Parameters][42]
+-   [AppSwitch][43]
+    -   [Parameters][44]
+    -   [checkAuthStatus][45]
+-   [Rewards][46]
+    -   [Parameters][47]
+-   [LoadingIndicator][48]
+-   [sendLinkTo][49]
+    -   [Parameters][50]
+-   [AppNavigation][51]
+-   [generateLinkAndSend][52]
+-   [withdraw][53]
+    -   [Parameters][54]
+-   [dismissDialog][55]
+-   [dismissEventDialog][56]
+-   [createStackNavigator][57]
     -   [Parameters][58]
--   [BackButton][59]
+-   [PushButton][59]
     -   [Parameters][60]
--   [DoneButton][61]
+-   [BackButton][61]
     -   [Parameters][62]
--   [NextButton][63]
+-   [DoneButton][63]
     -   [Parameters][64]
--   [useScreenState][65]
+-   [NextButton][65]
     -   [Parameters][66]
+-   [useScreenState][67]
+    -   [Parameters][68]
 
 ## useEffect
 
@@ -78,12 +80,6 @@ Displays a summary when sending GD directly to a blockchain address
 Provides a `LoadingIndicator` component which renders an ActivityIndicator over a semi-transparent background.
 Also provides a helper function to show/hide the component.
 
-## NavBar
-
-**Extends React.Component**
-
-NavigationBar shows title and back button
-
 ## ListSendEvent
 
 Render list send item for feed list
@@ -93,7 +89,13 @@ Render list send item for feed list
 -   `feedEvent` **FeedEventProps** feed event
     -   `feedEvent.item`  
 
-Returns **[HTMLElement][67]** 
+Returns **[HTMLElement][69]** 
+
+## NavBar
+
+**Extends React.Component**
+
+NavigationBar shows title and back button
 
 ## ListClaimEvent
 
@@ -104,7 +106,7 @@ Render list claim item for feed list
 -   `feedEvent` **FeedEventProps** feed event
     -   `feedEvent.item`  
 
-Returns **[HTMLElement][67]** 
+Returns **[HTMLElement][69]** 
 
 ## ListWithdrawEvent
 
@@ -115,7 +117,7 @@ Render list withdraw item for feed list
 -   `feedEvent` **FeedEventProps** feed event
     -   `feedEvent.item`  
 
-Returns **[HTMLElement][67]** 
+Returns **[HTMLElement][69]** 
 
 ## ModalClaimEvent
 
@@ -127,7 +129,7 @@ Render modal claim item for feed list in horizontal view
     -   `feedEvent.item`  
     -   `feedEvent.onPress`  
 
-Returns **[HTMLElement][67]** 
+Returns **[HTMLElement][69]** 
 
 ## ModalWithdrawEvent
 
@@ -139,7 +141,7 @@ Render modal withdraw item for feed list in horizontal view
     -   `feedEvent.item`  
     -   `feedEvent.onPress`  
 
-Returns **[HTMLElement][67]** 
+Returns **[HTMLElement][69]** 
 
 ## ModalSendEvent
 
@@ -151,7 +153,7 @@ Render modal send item for feed list in horizontal view
     -   `feedEvent.item`  
     -   `feedEvent.onPress`  
 
-Returns **[HTMLElement][67]** 
+Returns **[HTMLElement][69]** 
 
 ## TopBar
 
@@ -159,13 +161,13 @@ TopBar - used To display contextual information in a small container
 
 ### Parameters
 
--   `$0` **[Object][68]** 
+-   `$0` **[Object][70]** 
     -   `$0.hideBalance`  
     -   `$0.push`  
     -   `$0.children`  
--   `hideBalance` **[boolean][69]** if falsy balance will be displayed
--   `push` **[function][70]** pushes a route to the nav stack. When called, apps navigates to the specified ruote
--   `children` **[object][68]** React Component
+-   `hideBalance` **[boolean][71]** if falsy balance will be displayed
+-   `push` **[function][72]** pushes a route to the nav stack. When called, apps navigates to the specified ruote
+-   `children` **[object][70]** React Component
 
 Returns **any** 
 
@@ -191,7 +193,25 @@ Curried function wich requires an undux Store and then sets the flag to show/hid
 
 -   `store` **Store** undux store
 
-Returns **[Function][70]** 
+Returns **[Function][72]** 
+
+## getComponent
+
+### Parameters
+
+-   `Component`  
+-   `props`  
+
+## FeedListItem
+
+Render list item according to the type for feed list
+
+### Parameters
+
+-   `props`  
+-   `feedEvent` **FeedEventProps** feed event
+
+Returns **[HTMLElement][69]** 
 
 ## getComponent
 
@@ -205,78 +225,6 @@ Example: doesn't makes sense to navigate to Amount if there is no nextRoutes
 
 -   `Component` **React.Component** 
 -   `props`  
-
-## FeedListItem
-
-Render list item according to the type for feed list
-
-### Parameters
-
--   `props`  
--   `feedEvent` **FeedEventProps** feed event
-
-Returns **[HTMLElement][67]** 
-
-## GenerateLinkButton
-
-This button navigates to Amount screen passing nextRoutes param
-This param is used to navigate with NextButton which will handle push to next screen
-It also passes to param as initial state for Amount component
-
-### Parameters
-
--   `props` **screenProps** passed by navigation
-    -   `props.screenProps`  
-    -   `props.disabled`  
-
-## FeedModalItem
-
-Render modal item according to the type for feed list in horizontal view
-
-### Parameters
-
--   `props` **FeedEventProps** feed event
-
-Returns **[HTMLElement][67]** 
-
-## to
-
-Sets `loading` to what `to` states.
-It requires `loadingIndicator` to be set in the Store's state
-
-### Parameters
-
--   `to` **[boolean][69]** 
-
-## AppSwitch
-
-**Extends React.Component**
-
-The main app route. Here we decide where to go depending on the user's credentials status
-
-### Parameters
-
--   `props` **LoadingProps** 
-
-### checkAuthStatus
-
-Check's users' current auth status
-
-Returns **[Promise][71]&lt;void>** 
-
-## Rewards
-
-Rewards screen showing nested navigation with stackNavigator
-
-### Parameters
-
--   `props` **any** 
-
-## LoadingIndicator
-
-Provides a `LoadingIndicator` component which renders an ActivityIndicator over a semi-transparent background.
-
-Returns **any** React component
 
 ## AppView
 
@@ -307,7 +255,7 @@ Navigates to specific screen with custom parameters as query string.
 
 #### Parameters
 
--   `routeName` **[string][72]** 
+-   `routeName` **[string][73]** 
 -   `params` **any** 
 
 ### goToParent
@@ -323,6 +271,67 @@ This way it can be kept between screens
 
 -   `data`  
 
+## GenerateLinkButton
+
+This button navigates to Amount screen passing nextRoutes param
+This param is used to navigate with NextButton which will handle push to next screen
+It also passes to param as initial state for Amount component
+
+### Parameters
+
+-   `props` **screenProps** passed by navigation
+    -   `props.screenProps`  
+    -   `props.disabled`  
+
+## FeedModalItem
+
+Render modal item according to the type for feed list in horizontal view
+
+### Parameters
+
+-   `props` **FeedEventProps** feed event
+
+Returns **[HTMLElement][69]** 
+
+## to
+
+Sets `loading` to what `to` states.
+It requires `loadingIndicator` to be set in the Store's state
+
+### Parameters
+
+-   `to` **[boolean][71]** 
+
+## AppSwitch
+
+**Extends React.Component**
+
+The main app route. Here we decide where to go depending on the user's credentials status
+
+### Parameters
+
+-   `props` **LoadingProps** 
+
+### checkAuthStatus
+
+Check's users' current auth status
+
+Returns **[Promise][74]&lt;void>** 
+
+## Rewards
+
+Rewards screen showing nested navigation with stackNavigator
+
+### Parameters
+
+-   `props` **any** 
+
+## LoadingIndicator
+
+Provides a `LoadingIndicator` component which renders an ActivityIndicator over a semi-transparent background.
+
+Returns **any** React component
+
 ## 
 
 Pops from stack
@@ -335,8 +344,8 @@ Send link via SMS or Email
 
 ### Parameters
 
--   `to` **[string][72]** Email address or phone number
--   `sendLink` **[string][72]** Link
+-   `to` **[string][73]** Email address or phone number
+-   `sendLink` **[string][73]** Link
 
 
 -   Throws **any** Error with invalid email/phone
@@ -362,8 +371,8 @@ Check if user can withdraw, and make the transaciton
 
 ### Parameters
 
--   `hash` **[string][72]** Hash identifier
--   `reason` **[string][72]** Withdraw reason
+-   `hash` **[string][73]** Hash identifier
+-   `reason` **[string][73]** Withdraw reason
 
 ## dismissDialog
 
@@ -381,7 +390,7 @@ This function is meant to be used to create a new stack navigation with the give
 ### Parameters
 
 -   `routes` **\[Route]** : Array with routes in the stack
--   `navigationConfig` **[Object][68]** 
+-   `navigationConfig` **[Object][70]** 
 
 ## PushButton
 
@@ -448,11 +457,11 @@ Returns **any**
 
 [2]: #react
 
-[3]: #navbar
+[3]: #listsendevent
 
-[4]: #listsendevent
+[4]: #parameters
 
-[5]: #parameters
+[5]: #navbar
 
 [6]: #listclaimevent
 
@@ -494,96 +503,100 @@ Returns **any**
 
 [25]: #parameters-10
 
-[26]: #generatelinkbutton
+[26]: #getcomponent-1
 
 [27]: #parameters-11
 
-[28]: #feedmodalitem
+[28]: #appview
 
-[29]: #parameters-12
+[29]: #push
 
-[30]: #to
+[30]: #parameters-12
 
-[31]: #parameters-13
+[31]: #gotoroot
 
-[32]: #appswitch
+[32]: #navigateto
 
-[33]: #parameters-14
+[33]: #parameters-13
 
-[34]: #checkauthstatus
+[34]: #gotoparent
 
-[35]: #rewards
+[35]: #setscreenstate
 
-[36]: #parameters-15
+[36]: #parameters-14
 
-[37]: #loadingindicator
+[37]: #generatelinkbutton
 
-[38]: #appview
+[38]: #parameters-15
 
-[39]: #push
+[39]: #feedmodalitem
 
 [40]: #parameters-16
 
-[41]: #gotoroot
+[41]: #to
 
-[42]: #navigateto
+[42]: #parameters-17
 
-[43]: #parameters-17
+[43]: #appswitch
 
-[44]: #gotoparent
+[44]: #parameters-18
 
-[45]: #setscreenstate
+[45]: #checkauthstatus
 
-[46]: #parameters-18
+[46]: #rewards
 
-[47]: #sendlinkto
+[47]: #parameters-19
 
-[48]: #parameters-19
+[48]: #loadingindicator
 
-[49]: #appnavigation
+[49]: #sendlinkto
 
-[50]: #generatelinkandsend
+[50]: #parameters-20
 
-[51]: #withdraw
+[51]: #appnavigation
 
-[52]: #parameters-20
+[52]: #generatelinkandsend
 
-[53]: #dismissdialog
+[53]: #withdraw
 
-[54]: #dismisseventdialog
+[54]: #parameters-21
 
-[55]: #createstacknavigator
+[55]: #dismissdialog
 
-[56]: #parameters-21
+[56]: #dismisseventdialog
 
-[57]: #pushbutton
+[57]: #createstacknavigator
 
 [58]: #parameters-22
 
-[59]: #backbutton
+[59]: #pushbutton
 
 [60]: #parameters-23
 
-[61]: #donebutton
+[61]: #backbutton
 
 [62]: #parameters-24
 
-[63]: #nextbutton
+[63]: #donebutton
 
 [64]: #parameters-25
 
-[65]: #usescreenstate
+[65]: #nextbutton
 
 [66]: #parameters-26
 
-[67]: https://developer.mozilla.org/docs/Web/HTML/Element
+[67]: #usescreenstate
 
-[68]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
+[68]: #parameters-27
 
-[69]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean
+[69]: https://developer.mozilla.org/docs/Web/HTML/Element
 
-[70]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function
+[70]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
 
-[71]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise
+[71]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean
 
-[72]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+[72]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function
+
+[73]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+
+[74]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise

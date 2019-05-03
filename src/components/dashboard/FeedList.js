@@ -11,7 +11,6 @@ import {
   ActivityIndicator
 } from 'react-native'
 import { normalize } from 'react-native-elements'
-import FeedActions from './FeedActions'
 import FeedListItem from './FeedItems/FeedListItem'
 import FeedModalItem from './FeedItems/FeedModalItem'
 import GDStore from '../../lib/undux/GDStore'

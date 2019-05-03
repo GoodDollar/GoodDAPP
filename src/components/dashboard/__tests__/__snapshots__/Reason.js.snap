@@ -611,7 +611,7 @@ exports[`Reason matches snapshot 1`] = `
                           }
                         }
                       >
-                        Next
+                        Skip
                       </span>
                     </div>
                   </div>

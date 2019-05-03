@@ -26,7 +26,8 @@
     "coverage:native": "node scripts/test.js --config \"./config/native.jest.config.js\" --coverage",
     "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls",
     "flow": "flow",
-    "fix-lint": "eslint --fix ./src"
+    "fix-lint": "eslint --fix ./src",
+    "docs": "documentation build src -f md -o docs/code.md --shallow"
   },
   "repository": {
     "type": "git",
@@ -113,6 +114,7 @@
     "css-loader": "1.0.0",
     "dotenv": "6.0.0",
     "dotenv-expand": "4.2.0",
+    "documentation": "9.3.1",
     "empty": "^0.10.1",
     "eslint": "^5.13.0",
     "eslint-config-prettier": "^3.6.0",

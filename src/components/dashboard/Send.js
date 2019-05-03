@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { Wrapper, TopBar, Section, IconButton, CustomButton } from '../common'
-import { StyleSheet, View } from 'react-native'
+import { Clipboard, StyleSheet, View } from 'react-native'
 import { HelperText, TextInput } from 'react-native-paper'
+import { Icon, normalize } from 'react-native-elements'
 import { useScreenState } from '../appNavigation/stackNavigation'
 import isMobilePhone from '../../lib/validators/isMobilePhone'
 import isEmail from 'validator/lib/isEmail'
@@ -41,7 +42,7 @@ const validate = to => {
   if (goodWallet.wallet.utils.isAddress(to)) {
     return null
   }
-  return `Needs to be a valid address, email or mobile phone`
+  return `Needs to be a valid wallet address, email or mobile phone (starts with a '+')`
 }
 
 const ContinueButton = ({ screenProps, to, disabled, checkError }) => (
@@ -76,13 +77,32 @@ const Send = props => {
     return err
   }
 
+  const pasteToWho = async () => {
+    const who = await Clipboard.getString()
+    log.info({ who })
+    setScreenState({ to: who })
+  }
+
   return (
     <Wrapper>
       <TopBar push={props.screenProps.push} />
       <Section style={styles.bottomSection}>
         <View style={styles.topContainer}>
           <Section.Title>TO WHO?</Section.Title>
-          <TextInput onChangeText={text => setScreenState({ to: text })} onBlur={checkError} value={to} error={error} />
+          <View style={styles.iconInputContainer}>
+            <View style={styles.pasteIcon}>
+              <Icon color="#282c34" name="content-paste" onClick={pasteToWho} />
+            </View>
+            <TextInput
+              onChangeText={text => setScreenState({ to: text })}
+              onBlur={checkError}
+              value={to}
+              error={error}
+              style={styles.input}
+              placeholder="Phone Number / Email / Username"
+              autoFocus
+            />
+          </View>
           <HelperText type="error" visible={error}>
             {error}
           </HelperText>
@@ -113,6 +133,20 @@ const styles = StyleSheet.create({
   },
   topContainer: {
     flex: 1
+  },
+  iconInputContainer: {
+    display: 'inline-flex',
+    position: 'relative'
+  },
+  input: {
+    flex: 1
+  },
+  pasteIcon: {
+    position: 'absolute',
+    cursor: 'pointer',
+    right: 0,
+    padding: normalize(15),
+    zIndex: 1
   }
 })
 

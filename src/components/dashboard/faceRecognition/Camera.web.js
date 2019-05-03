@@ -99,7 +99,9 @@ export class Camera extends Component<CameraProps, CameraState> {
             <strong>Error:</strong> {this.state.error.message}
           </Text>
         )}
-        <video id="zoom-video-element" autoPlay playsInline ref={this.videoPlayerRef} style={styles.videoElement} />
+        <div style={styles.videoContainer}>
+          <video id="zoom-video-element" autoPlay playsInline ref={this.videoPlayerRef} style={styles.videoElement} />
+        </div>
       </>
     )
   }
@@ -110,6 +112,13 @@ const styles = {
     height: normalize(360),
     /* REQUIRED - handle flipping of ZoOm interface.  users of selfie-style interfaces are trained to see their mirror image */
     transform: 'scaleX(-1)',
-    maxWidth: '100%'
+    overflow: 'hidden',
+    justifySelf: 'center'
+  },
+  videoContainer: {
+    display: 'grid',
+    justifyContent: 'center',
+    alignContent: 'center',
+    overflow: 'hidden'
   }
 }

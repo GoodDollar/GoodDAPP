@@ -128,9 +128,8 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
           <View>
             <Section style={styles.bottomSection}>
               <div id="zoom-parent-container" style={videoContainerStyles}>
-                <div id="zoom-interface-container">
-                  {this.state.ready && <Camera height={this.height} onLoad={this.onCameraLoad} />}
-                </div>
+                <div id="zoom-interface-container" style={{ position: 'absolute' }} />
+                {this.state.ready && <Camera height={this.height} onLoad={this.onCameraLoad} />}
               </div>
             </Section>
           </View>

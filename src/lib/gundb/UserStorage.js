@@ -75,7 +75,7 @@ const getReceiveDataFromReceipt = (account: string, receipt: any) => {
   }, {})
 }
 
-class UserStorage {
+export class UserStorage {
   wallet: GoodWallet
   gunuser: Gun
   profile: Gun
@@ -123,8 +123,8 @@ class UserStorage {
     return value
   }
 
-  constructor() {
-    this.wallet = goodWallet
+  constructor(wallet: GoodWallet) {
+    this.wallet = wallet || goodWallet
     this.ready = this.wallet.ready
       .then(() => this.init())
       .catch(e => {
@@ -147,6 +147,7 @@ class UserStorage {
         logger.debug('gundb user created', userCreated)
         //auth.then - doesnt seem to work server side in tests
         this.gunuser.auth(username, password, user => {
+          if (user.err) throw new Error(user.err)
           this.user = this.gunuser.is
           this.profile = this.gunuser.get('profile')
           this.profile.open(doc => {

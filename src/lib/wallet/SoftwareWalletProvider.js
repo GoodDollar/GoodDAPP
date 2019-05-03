@@ -16,6 +16,10 @@ export function saveMnemonics(mnemonics: string) {
   localStorage.setItem(GD_USER_MNEMONIC, mnemonics)
 }
 
+export function deleteMnemonics() {
+  localStorage.removeItem(GD_USER_MNEMONIC)
+}
+
 export function getMnemonics(): string {
   let pkey = localStorage.getItem(GD_USER_MNEMONIC)
   if (!pkey) {

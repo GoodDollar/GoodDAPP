@@ -5,8 +5,9 @@ import gun from '../gundb'
 import { type TransactionEvent } from '../UserStorage'
 import { getUserModel } from '../UserModel'
 import { addUser } from './__util__/index'
-
-let userStorage = require('../UserStorage.js').default
+import { GoodWallet } from '../../wallet/GoodWallet'
+import { deleteMnemonics } from '../../wallet/SoftwareWalletProvider'
+let { default: userStorage, UserStorage } = require('../UserStorage.js')
 let event = { id: 'xyz', date: new Date('2019-01-01T10:00:00.000Z').toString(), data: { foo: 'bar', unchanged: 'zar' } }
 let event2 = { id: 'xyz2', date: new Date('2019-01-01T20:00:00.000Z').toString(), data: { foo: 'bar' } }
 let event3 = { id: 'xyz3', date: new Date('2019-01-01T14:00:00.000Z').toString(), data: { foo: 'xar' } }
@@ -19,6 +20,14 @@ let event4 = {
   id: 'xyz4',
   date: new Date('2019-01-02T10:00:00.000Z').toString(),
   data: { foo: 'bar', unchanged: 'zar' }
+}
+
+const createNewUserStorage = async () => {
+  await Promise.all([userStorage.wallet.ready, userStorage.ready])
+  deleteMnemonics()
+  const wallet = new GoodWallet()
+  const newUserStorage = new UserStorage(wallet)
+  return Promise.all([newUserStorage.wallet.ready, newUserStorage.ready]).then(() => newUserStorage)
 }
 
 describe('UserStorage', () => {
@@ -98,6 +107,7 @@ describe('UserStorage', () => {
         identifier: 'abcdef',
         walletAddress: 'walletabcdef',
         fullName: 'Kevin Bardi',
+        username: 'kvardi',
         mobile: '22233445566',
         email: 'kevin.bardi@altoros.com'
       })
@@ -411,5 +421,27 @@ describe('UserStorage', () => {
         done()
       })
     })
+  })
+
+  it(`update username success`, async done => {
+    const result = await userStorage.setProfileField('username', 'user1', 'public')
+    expect(result).toMatchObject({ err: undefined, ok: 0 })
+    await userStorage.subscribeProfileUpdates(updatedProfile => {
+      userStorage.getDisplayProfile(updatedProfile).then(result => {
+        expect(result.username).toBe('user1')
+        done()
+      })
+    })
+  })
+
+  it.only(`update username success`, async () => {
+    const oldPub = JSON.stringify(userStorage.gunuser.is.pub)
+    const result = await userStorage.setProfileField('username', 'user1', 'public')
+    expect(result).toMatchObject({ err: undefined, ok: 0 })
+    const newUserStorage = await createNewUserStorage()
+    expect(newUserStorage.gunuser.is.pub).not.toBe(oldPub)
+
+    const newResult = await newUserStorage.setProfileField('username', 'user1', 'public')
+    expect(newResult).toMatchObject({ err: 'Existing index on field username', ok: 0 })
   })
 })

@@ -171,7 +171,6 @@ class FeedList extends PureComponent<FeedListProps, FeedListState> {
             renderItem={this.renderItemComponent}
             contentContainerStyle={styles.verticalList}
             viewabilityConfig={VIEWABILITY_CONFIG}
-            renderQuickActions={FeedActions}
           />
         </View>
       )

@@ -109,7 +109,12 @@ class API {
   }
 
   enroll(capture: ZoomCaptureResult) {
-    return this.client.post('/livetest/enroll', { capture })
+    console.log({ capture })
+    return this.client.post('/livetest/enroll', {
+      sessionId: capture.sessionId,
+      facemap: capture.facemap,
+      auditTrailImage: capture.auditTrailImage
+    })
   }
 }
 

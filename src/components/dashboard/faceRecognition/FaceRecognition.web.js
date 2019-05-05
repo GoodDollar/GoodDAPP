@@ -67,6 +67,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
       log.error(`Failed on capture, error: ${e}`)
     }
     // this.props.screenProps.onCaptureComplete(captureOutcome)
+    log.info({ captureOutcome })
     await this.enroll(captureOutcome)
   }
 

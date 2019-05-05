@@ -52,7 +52,7 @@ const validate = async to => {
 const ContinueButton = ({ screenProps, to, disabled, checkError }) => (
   <CustomButton
     onPress={async () => {
-      if (checkError()) return
+      if (await checkError()) return
 
       if (to && (isMobilePhone(to) || isEmail(to))) {
         const address = await UserStorage.getUserAddress(to)
@@ -80,16 +80,13 @@ const Send = props => {
   const [error, setError] = useState()
 
   const { to } = screenState
-  const checkError = () => {
-    validate(to)
-      .then(res => {
-        setError(res)
-        return res
-      })
-      .catch(err => {
-        return err
-      })
+
+  const checkError = async () => {
+    const response = await validate(to)
+    setError(response)
+    return response
   }
+
   return (
     <Wrapper>
       <TopBar push={props.screenProps.push} />

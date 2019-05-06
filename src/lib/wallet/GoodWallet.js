@@ -348,8 +348,7 @@ export class GoodWallet {
 
   async isCitizen(): Promise<boolean> {
     const tx: boolean = await this.identityContract.methods.isVerified(this.account).call()
-    log.info(`isCitizen(): ${this.account} = ${tx}`)
-    return true
+    return tx
   }
 
   async canSend(amount: number): Promise<boolean> {

@@ -35,17 +35,10 @@ const GenerateLinkButton = ({ screenProps, disabled }) => (
 const validate = async to => {
   if (!to) return null
 
-  if (isMobilePhone(to) || isEmail(to)) {
-    // Check if user exsist
-    const address = await UserStorage.getUserAddress(to)
-    if (address) {
-      return null
-    } else return `No corresponding user found for that ${isEmail(to) ? 'email' : 'phonenumber'}`
-  }
+  if (isMobilePhone(to) || isEmail(to)) return null
 
-  if (goodWallet.wallet.utils.isAddress(to)) {
-    return null
-  }
+  if (goodWallet.wallet.utils.isAddress(to)) return null
+
   return `Needs to be a valid address, email or mobile phone`
 }
 

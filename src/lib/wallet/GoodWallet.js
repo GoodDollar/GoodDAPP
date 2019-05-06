@@ -6,7 +6,7 @@ import OneTimePaymentLinksABI from '@gooddollar/goodcontracts/build/contracts/On
 import RedemptionABI from '@gooddollar/goodcontracts/build/contracts/RedemptionFunctional.min.json'
 import { default as filterFunc } from 'lodash/filter'
 import type Web3 from 'web3'
-import { utils } from 'web3'
+import { BN, toBN } from 'web3-utils'
 
 import Config from '../../config/config'
 import logger from '../../lib/logger/pino-logger'
@@ -15,7 +15,6 @@ import abiDecoder from 'abi-decoder'
 
 const log = logger.child({ from: 'GoodWallet' })
 
-const { BN, toBN } = utils
 const ZERO = new BN('0')
 
 type PromiEvents = {
@@ -359,9 +358,10 @@ export class GoodWallet {
     return account
   }
 
-  async sign(toSign: string, accountType: AccountUsage = 'gd'): Promise<Buffer> {
+  async sign(toSign: string, accountType: AccountUsage = 'gd'): Promise<string> {
     let account = await this.getAccountForType(accountType)
-    return this.wallet.eth.sign(toSign, account)
+    let signed = await this.wallet.eth.sign(toSign, account)
+    return signed.signature
   }
 
   async isVerified(address: string): Promise<boolean> {

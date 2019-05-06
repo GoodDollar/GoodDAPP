@@ -1,10 +1,9 @@
 // @flow
 import React, { Component, createRef } from 'react'
-import { Text } from 'react-native'
+import { Text, Dimensions } from 'react-native'
 import { normalize } from 'react-native-elements'
-import logger from '../../../lib/logger/pino-logger'
 
-const log = logger.child({ from: 'Camera' })
+const { width, height } = Dimensions.get('window')
 
 type CameraProps = {
   width: number,
@@ -92,6 +91,7 @@ export class Camera extends Component<CameraProps, CameraState> {
   }
 
   render() {
+    const styles = createStyles()
     return (
       <>
         {this.state.error && (
@@ -107,18 +107,29 @@ export class Camera extends Component<CameraProps, CameraState> {
   }
 }
 
-const styles = {
-  videoElement: {
-    height: normalize(360),
-    /* REQUIRED - handle flipping of ZoOm interface.  users of selfie-style interfaces are trained to see their mirror image */
-    transform: 'scaleX(-1)',
-    overflow: 'hidden',
-    justifySelf: 'center'
-  },
-  videoContainer: {
-    display: 'grid',
-    justifyContent: 'center',
-    alignContent: 'center',
-    overflow: 'hidden'
+export const getResponsiveVideoDimensions = () => {
+  const defaultHeight = height - 124 > 360 && width < 690
+  return {
+    height: defaultHeight ? normalize(360) : 'auto',
+    maxHeight: defaultHeight ? normalize(360) : height - 124,
+    width: defaultHeight ? 'auto' : '100%'
+  }
+}
+
+const createStyles = () => {
+  return {
+    videoElement: {
+      ...getResponsiveVideoDimensions(),
+      /* REQUIRED - handle flipping of ZoOm interface.  users of selfie-style interfaces are trained to see their mirror image */
+      transform: 'scaleX(-1)',
+      overflow: 'hidden',
+      justifySelf: 'center'
+    },
+    videoContainer: {
+      display: 'grid',
+      justifyContent: 'center',
+      alignContent: 'center',
+      overflow: 'hidden'
+    }
   }
 }

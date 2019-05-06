@@ -1,15 +1,15 @@
 // @flow
 import React, { createRef } from 'react'
 import loadjs from 'loadjs'
+import { StyleSheet, View } from 'react-native'
 import API from '../../../lib/API/api'
 import GDStore from '../../../lib/undux/GDStore'
 import { normalize } from 'react-native-elements'
 import logger from '../../../lib/logger/pino-logger'
-import { Camera } from './Camera.web'
+import { Camera, getResponsiveVideoDimensions } from './Camera.web'
 import Config from '../../../config/config'
-import { StyleSheet, View } from 'react-native'
 import { Wrapper, CustomButton, Section } from '../../common'
-import { initializeAndPreload, capture, ZoomCaptureResult } from './Zoom'
+import { initializeAndPreload, capture, type ZoomCaptureResult } from './Zoom'
 import type { DashboardProps } from '../Dashboard'
 
 const log = logger.child({ from: 'FaceRecognition' })
@@ -128,7 +128,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
         {showZoomCapture && (
           <View>
             <Section style={styles.bottomSection}>
-              <div id="zoom-parent-container" style={videoContainerStyles}>
+              <div id="zoom-parent-container" style={getVideoContainerStyles()}>
                 <div id="zoom-interface-container" style={{ position: 'absolute' }} />
                 {this.state.ready && <Camera height={this.height} onLoad={this.onCameraLoad} />}
               </div>
@@ -162,12 +162,12 @@ const styles = StyleSheet.create({
   }
 })
 
-const videoContainerStyles = {
-  height: normalize(360),
+const getVideoContainerStyles = () => ({
+  ...getResponsiveVideoDimensions(),
   marginLeft: 'auto',
   marginRight: 'auto',
   marginTop: 0,
   marginBottom: 0
-}
+})
 
 export default GDStore.withStore(FaceRecognition)

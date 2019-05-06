@@ -2,9 +2,8 @@
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import { Alert, TouchableHighlight, Text, View } from 'react-native-web'
+import { utils } from 'web3'
 import type { FeedEventProps } from './FeedItems/EventProps'
-
-const transactionEvents = ['claim', 'receive', 'withdraw']
 
 /**
  * Returns swipeable actions for items inside Feed list
@@ -14,7 +13,7 @@ const transactionEvents = ['claim', 'receive', 'withdraw']
  */
 export default ({ item }: FeedEventProps) => (
   <View style={styles.actionsContainer}>
-    {item && transactionEvents.indexOf(item.type) === -1 && (
+    {item && !utils.isHexStrict(item.id) && (
       <TouchableHighlight
         style={[styles.actionButton, styles.actionButtonDestructive]}
         onPress={() => {

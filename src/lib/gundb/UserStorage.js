@@ -8,7 +8,6 @@ import orderBy from 'lodash/orderBy'
 import toPairs from 'lodash/toPairs'
 import takeWhile from 'lodash/takeWhile'
 import flatten from 'lodash/flatten'
-import { AsyncStorage } from 'react-native-web'
 import gun from './gundb'
 import { default as goodWallet, type GoodWallet } from '../wallet/GoodWallet'
 import isMobilePhone from '../validators/isMobilePhone'
@@ -182,6 +181,7 @@ class UserStorage {
         logger.debug('gundb user created', userCreated)
         //auth.then - doesnt seem to work server side in tests
         this.gunuser.auth(username, password, user => {
+          if (user.err) return rej(user.err)
           this.user = this.gunuser.is
           this.profile = this.gunuser.get('profile')
           this.profile.open(doc => {

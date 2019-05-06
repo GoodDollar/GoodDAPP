@@ -6,7 +6,7 @@ import OneTimePaymentLinksABI from '@gooddollar/goodcontracts/build/contracts/On
 import RedemptionABI from '@gooddollar/goodcontracts/build/contracts/RedemptionFunctional.min.json'
 import filter from 'lodash/filter'
 import type Web3 from 'web3'
-import { utils } from 'web3'
+import { BN, toBN } from 'web3-utils'
 
 import Config from '../../config/config'
 import logger from '../../lib/logger/pino-logger'
@@ -15,7 +15,6 @@ import abiDecoder from 'abi-decoder'
 
 const log = logger.child({ from: 'GoodWallet' })
 
-const { BN, toBN } = utils
 const ZERO = new BN('0')
 
 type PromiEvents = {
@@ -255,16 +254,16 @@ export class GoodWallet {
    * Client side event filter. Requests all events for a particular contract, then filters them and returns the event Object
    * @param {String} event - Event to subscribe to
    * @param {Object} contract - Contract from which event will be queried
-   * @param {Object} filter - Event's filter. Does not required to be indexed as it's filtered locally
+   * @param {Object} filterPred - Event's filter. Does not required to be indexed as it's filtered locally
    * @param {BN} fromBlock - Lower blocks range value
    * @param {BN} toBlock - Higher blocks range value
    * @returns {Promise<*>}
    */
-  async getEvents({ event, contract, filter, fromBlock = ZERO, toBlock }: QueryEvent): Promise<[]> {
+  async getEvents({ event, contract, filterPred, fromBlock = ZERO, toBlock }: QueryEvent): Promise<[]> {
     const events = await contract.getPastEvents('allEvents', { fromBlock, toBlock })
 
     const res1 = filter(events, { event })
-    const res = filter(res1, { returnValues: { ...filter } })
+    const res = filter(res1, { returnValues: { ...filterPred } })
     return res
   }
 
@@ -272,16 +271,16 @@ export class GoodWallet {
    * Subscribes to a particular event and returns the result based on options specified
    * @param {String} event - Event to subscribe to
    * @param {Object} contract - Contract from which event will be queried
-   * @param {Object} filter - Event's filter. Does not required to be indexed as it's filtered locally
+   * @param {Object} filterPred - Event's filter. Does not required to be indexed as it's filtered locally
    * @param {BN} fromBlock - Lower blocks range value
    * @param {BN} toBlock - Higher blocks range value
    * @param {Function} callback - Function to be called once an event is received
    * @returns {Promise<void>}
    */
-  async oneTimeEvents({ event, contract, filter, fromBlock, toBlock }: QueryEvent, callback?: Function) {
+  async oneTimeEvents({ event, contract, filterPred, fromBlock, toBlock }: QueryEvent, callback?: Function) {
     try {
-      const events = await this.getEvents({ event, contract, filter, fromBlock, toBlock })
-      log.debug({ events: events.length, ...filter, fromBlock: fromBlock.toString(), toBlock: toBlock.toString() })
+      const events = await this.getEvents({ event, contract, filterPred, fromBlock, toBlock })
+      log.debug({ events: events.length, ...filterPred, fromBlock: fromBlock.toString(), toBlock: toBlock.toString() })
 
       if (events.length) {
         if (callback === undefined) {
@@ -307,7 +306,7 @@ export class GoodWallet {
    * the 'lastProcessedBlock' to the 'latest' every INTERVAL
    * @param {String} event - Event to subscribe to
    * @param {Object} contract - Contract from which event will be queried
-   * @param {Object} filter - Event's filter. Does not required to be indexed as it's filtered locally
+   * @param {Object} filterPred - Event's filter. Does not required to be indexed as it's filtered locally
    * @param {BN} fromBlock - Lower blocks range value
    * @param {BN} toBlock - Higher blocks range value
    * @param {Function} callback - Function to be called once an event is received
@@ -315,7 +314,7 @@ export class GoodWallet {
    * @returns {Promise<void>}
    */
   async pollForEvents(
-    { event, contract, filter, fromBlock, toBlock }: QueryEvent,
+    { event, contract, filterPred, fromBlock, toBlock }: QueryEvent,
     callback: Function,
     lastProcessedBlock: typeof BN = ZERO
   ) {
@@ -329,7 +328,7 @@ export class GoodWallet {
     if (lastProcessedBlock.lt(lastBlock)) {
       fromBlock = toBlock
       toBlock = lastBlock
-      await this.oneTimeEvents({ event, contract, filter, fromBlock, toBlock }, callback)
+      await this.oneTimeEvents({ event, contract, filterPred, fromBlock, toBlock }, callback)
     } else {
       log.debug('all blocks processed', {
         toBlock: toBlock.toString(),
@@ -337,8 +336,11 @@ export class GoodWallet {
       })
     }
 
-    log.debug('about to recurse', { event, contract, filter, fromBlock, toBlock })
-    setTimeout(() => this.pollForEvents({ event, contract, filter, fromBlock, toBlock }, callback, toBlock), INTERVAL)
+    log.debug('about to recurse', { event, contract, filterPred, fromBlock, toBlock })
+    setTimeout(
+      () => this.pollForEvents({ event, contract, filterPred, fromBlock, toBlock }, callback, toBlock),
+      INTERVAL
+    )
   }
 
   async balanceOf(): Promise<number> {
@@ -354,9 +356,10 @@ export class GoodWallet {
     return account
   }
 
-  async sign(toSign: string, accountType: AccountUsage = 'gd'): Promise<Buffer> {
+  async sign(toSign: string, accountType: AccountUsage = 'gd'): Promise<string> {
     let account = await this.getAccountForType(accountType)
-    return this.wallet.eth.sign(toSign, account)
+    let signed = await this.wallet.eth.sign(toSign, account)
+    return signed.signature
   }
 
   async isVerified(address: string): Promise<boolean> {

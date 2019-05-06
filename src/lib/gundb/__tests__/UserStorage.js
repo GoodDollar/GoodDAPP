@@ -5,8 +5,7 @@ import gun from '../gundb'
 import { type TransactionEvent } from '../UserStorage'
 import { getUserModel } from '../UserModel'
 import { addUser } from './__util__/index'
-
-let userStorage = require('../UserStorage.js').default
+import userStorage from '../UserStorage'
 let event = { id: 'xyz', date: new Date('2019-01-01T10:00:00.000Z').toString(), data: { foo: 'bar', unchanged: 'zar' } }
 let event2 = { id: 'xyz2', date: new Date('2019-01-01T20:00:00.000Z').toString(), data: { foo: 'bar' } }
 let event3 = { id: 'xyz3', date: new Date('2019-01-01T14:00:00.000Z').toString(), data: { foo: 'xar' } }

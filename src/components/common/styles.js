@@ -1,5 +1,4 @@
-import { normalize } from 'react-native-elements'
-
+import normalize from 'react-native-elements/src/helpers/normalizeText'
 export const fontStyle = {
   fontFamily: 'Helvetica, "sans-serif"',
   color: '#555',

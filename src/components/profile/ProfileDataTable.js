@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleSheet, View, Text } from 'react-native'
 import { HelperText } from 'react-native-paper'
-import { Icon } from 'react-native-elements'
+import Icon from 'react-native-elements/src/icons/Icon'
 import logger from '../../lib/logger/pino-logger'
 import PhoneInput from 'react-phone-number-input'
 import 'react-phone-number-input/style.css'

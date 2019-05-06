@@ -2,7 +2,7 @@
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Button, Headline, Paragraph, Text } from 'react-native-paper'
-import { normalize } from 'react-native-elements'
+import normalize from 'react-native-elements/src/helpers/normalizeText'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import logger from '../../lib/logger/pino-logger'
 

@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { Icon } from 'react-native-elements'
+import Icon from 'react-native-elements/src/icons/Icon'
 import { Avatar } from 'react-native-paper'
 import { Text, View } from 'react-native-web'
 import BigGoodDollar from '../../common/BigGoodDollar'

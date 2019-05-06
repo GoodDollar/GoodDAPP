@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
-import { normalize } from 'react-native-elements'
+import normalize from 'react-native-elements/src/helpers/normalizeText'
 import ModalWithdrawEvent from './ModalWithdrawEvent'
 import ModalSendEvent from './ModalSendEvent'
 import ModalClaimEvent from './ModalClaimEvent'

@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import { Icon } from 'react-native-elements'
+import Icon from 'react-native-elements/src/icons/Icon'
 
 type IconProps = {
   text: String,

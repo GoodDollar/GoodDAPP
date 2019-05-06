@@ -1,9 +1,8 @@
 // @flow
 import React, { Component } from 'react'
 import { Image, StyleSheet, View } from 'react-native'
-import { normalize } from 'react-native-elements'
+import normalize from 'react-native-elements/src/helpers/normalizeText'
 import type { Store } from 'undux'
-
 import GDStore from '../../lib/undux/GDStore'
 import { PushButton } from '../appNavigation/stackNavigation'
 import { BigNumber, BigGoodDollar, Section, TopBar, Wrapper } from '../common'

@@ -2,8 +2,7 @@
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import { Wrapper, Title, Description } from './components'
-import { normalize } from 'react-native-elements'
-
+import normalize from 'react-native-elements/src/helpers/normalizeText'
 type Props = {
   screenProps: any
 }

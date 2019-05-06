@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import { normalize } from 'react-native-elements'
+import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { Portal } from 'react-native-paper'
 import type { Store } from 'undux'
 

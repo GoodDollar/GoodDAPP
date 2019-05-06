@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Paragraph } from 'react-native-paper'
-import { normalize } from 'react-native-elements'
+import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { useWrappedGoodWallet } from '../../lib/wallet/useWrappedWallet'
 import { WalletType } from '../../lib/wallet/GoodWallet'
 import walletFactory from '../../lib/wallet/WalletFactory'

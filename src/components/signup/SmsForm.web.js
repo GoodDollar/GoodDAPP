@@ -6,8 +6,7 @@ import { ActionButton, Error, Title, Wrapper } from './components'
 import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
 import type { SignupState } from './SignupState'
-import { normalize } from 'react-native-elements'
-
+import normalize from 'react-native-elements/src/helpers/normalizeText'
 const log = logger.child({ from: 'SmsForm.web' })
 
 type Props = {

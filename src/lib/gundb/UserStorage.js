@@ -307,7 +307,7 @@ export class UserStorage {
    * @param {object} profile - user profile
    * @returns {object} UserModel with some inherit functions
    */
-  async getPrivateProfile(profile: {}): UserModel {
+  async getPrivateProfile(profile: {}): Promise<UserModel> {
     const keys = Object.keys(profile)
     return Promise.all(keys.map(currKey => this.getProfileFieldValue(currKey)))
       .then(values => {
@@ -399,7 +399,7 @@ export class UserStorage {
       const indexPromiseResult = await this.indexProfileField(field, value, privacy)
       logger.info('indexPromiseResult', indexPromiseResult)
 
-      if (indexPromiseResult.err || !indexPromiseResult.ok) {
+      if (indexPromiseResult.err) {
         return indexPromiseResult
       }
     }
@@ -427,32 +427,40 @@ export class UserStorage {
   async indexProfileField(field: string, value: string, privacy: FieldPrivacy): Promise<ACK> {
     if (!UserStorage.indexableFields[field]) return Promise.resolve({ err: 'Not indexable field', ok: 0 })
     const cleanValue = UserStorage.cleanFieldForIndex(field, value)
+    if (!cleanValue) return Promise.resolve({ err: 'Indexable field cannot be null or empty', ok: 0 })
+
     const indexNode = gun.rootAO(`users/by${field}`).get(cleanValue)
-    logger.info({ field, value, privacy })
+    logger.info({ field, cleanValue, value, privacy, indexNode })
 
-    const indexValue = await indexNode.then()
-    logger.info({
-      field,
-      value,
-      privacy,
-      indexValue: indexValue,
-      currentUser: this.gunuser.is.pub
-    })
+    try {
+      const indexValue = await gun
+        .rootAO(`users/by${field}`)
+        .get(cleanValue)
+        .then()
+      logger.info({
+        field,
+        value,
+        privacy,
+        indexValue: indexValue,
+        currentUser: this.gunuser.is.pub
+      })
+      if (indexValue && indexValue.pub != this.gunuser.is.pub) {
+        return Promise.resolve({ err: `Existing index on field ${field}`, ok: 0 })
+      }
 
-    if (indexValue && indexValue.pub != this.gunuser.is.pub) {
-      return Promise.resolve({ err: `Existing index on field ${field}`, ok: 0 })
+      if (privacy !== 'public') {
+        const result = indexNode.putAck(null)
+        logger.info('Result: ', result)
+        return Promise.resolve({ err: 'Not public field', ok: 0 })
+      }
+
+      const gunResult = await indexNode.putAck(this.gunuser)
+
+      logger.info({ gunResult })
+      return gunResult
+    } catch (err) {
+      logger.err(err)
     }
-
-    if (privacy !== 'public') {
-      const result = indexNode.putAck(null)
-      logger.info('Result: ', result)
-      return Promise.resolve({ err: 'Not public field', ok: 0 })
-    }
-
-    const gunResult = await indexNode.putAck(this.gunuser)
-
-    logger.info({ gunResult })
-    return gunResult
   }
 
   /**

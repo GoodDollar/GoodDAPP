@@ -366,7 +366,7 @@ export class UserStorage {
         .filter(key => profile[key])
         .map(async field => this.setProfileField(field, profile[field], await getPrivacy(field)))
     ).then(results => {
-      const errors = results.filter(ack => ack.err).map(ack => ack.err)
+      const errors = results.filter(ack => ack && ack.err).map(ack => ack.err)
       if (errors.length > 0) throw new Error(errors)
       return true
     })
@@ -433,10 +433,7 @@ export class UserStorage {
     logger.info({ field, cleanValue, value, privacy, indexNode })
 
     try {
-      const indexValue = await gun
-        .rootAO(`users/by${field}`)
-        .get(cleanValue)
-        .then()
+      const indexValue = await indexNode.then()
       logger.info({
         field,
         value,
@@ -459,7 +456,7 @@ export class UserStorage {
       logger.info({ gunResult })
       return gunResult
     } catch (err) {
-      logger.err(err)
+      logger.error(err)
     }
   }
 

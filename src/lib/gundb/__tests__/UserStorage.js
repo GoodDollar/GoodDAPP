@@ -440,18 +440,53 @@ describe('UserStorage', () => {
     await userStorage.setProfileField('email', 'user1', 'public')
     expect(result).toMatchObject({ err: undefined, ok: 0 })
 
-    const updatedUsername = await userStorage.getProfileFieldValue('email')
+    const updatedUsername = await userStorage.getProfileFieldValue('username')
     expect(updatedUsername).toBe('user1')
   })
 
-  it(`update username with used username should fail`, async () => {
+  it(`update username with setProfile should not update profile if username is taken`, async () => {
     const oldPub = JSON.stringify(userStorage.gunuser.is.pub)
-    const result = await userStorage.setProfileField('username', 'user1', 'public')
+    const profileModel = getUserModel({
+      fullName: 'New Name',
+      email: 'new@email.com',
+      mobile: '+22222222222',
+      username: 'user5'
+    })
+    const result = await userStorage.setProfile(profileModel)
+    expect(result).toBe(true)
+
+    const newUserStorage = await createNewUserStorage()
+    expect(newUserStorage.gunuser.is.pub).not.toBe(oldPub)
+
+    try {
+      await newUserStorage.setProfile({
+        ...profileModel,
+        email: 'diferent@email.com',
+        mobile: '+22222222221'
+      })
+    } catch (e) {
+      expect(e).toEqual(new Error(['Existing index on field username']))
+    }
+    const updatedUsername = await newUserStorage.getProfileFieldValue('username')
+    expect(updatedUsername).toBe(undefined)
+  })
+
+  it(`update username with used username should fail`, async () => {
+    const userStorage = await createNewUserStorage()
+    const oldPub = JSON.stringify(userStorage.gunuser.is.pub)
+    const result = await userStorage.setProfileField('username', 'user2', 'public')
     expect(result).toMatchObject({ err: undefined, ok: 0 })
     const newUserStorage = await createNewUserStorage()
     expect(newUserStorage.gunuser.is.pub).not.toBe(oldPub)
 
-    const newResult = await newUserStorage.setProfileField('username', 'user1', 'public')
+    const newResult = await newUserStorage.setProfileField('username', 'user2', 'public')
     expect(newResult).toMatchObject({ err: 'Existing index on field username', ok: 0 })
+    const updatedUsername = await newUserStorage.getProfileFieldValue('username')
+    expect(updatedUsername).toBeUndefined()
+
+    const newResultOk = await newUserStorage.setProfileField('username', 'user3', 'public')
+    expect(newResultOk).toMatchObject({ err: undefined })
+    const updatedUsernameOk = await newUserStorage.getProfileFieldValue('username')
+    expect(updatedUsernameOk).toBe('user3')
   })
 })

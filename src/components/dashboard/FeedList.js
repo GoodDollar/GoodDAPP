@@ -15,6 +15,8 @@ import FeedActions from './FeedActions'
 import FeedListItem from './FeedItems/FeedListItem'
 import FeedModalItem from './FeedItems/FeedModalItem'
 import GDStore from '../../lib/undux/GDStore'
+import pino from '../../lib/logger/pino-logger'
+const log = pino.child({ from: 'FeedListView' })
 
 const SCREEN_SIZE = {
   width: 200,
@@ -39,15 +41,17 @@ export type FeedListProps = {
   updateData: any,
   onEndReached: any,
   initialNumToRender: ?number,
-  store: GDStore
+  store: GDStore,
+  handleFeedSelection: Function,
+  horizontal: boolean,
+  selectedFeed: ?string
 }
 
 type FeedListState = {
   debug: boolean,
   inverted: boolean,
   filterText: '',
-  logViewable: boolean,
-  horizontal: boolean
+  logViewable: boolean
 }
 
 type ItemComponentProps = {
@@ -66,48 +70,51 @@ class FeedList extends PureComponent<FeedListProps, FeedListState> {
     debug: false,
     inverted: false,
     filterText: '',
-    logViewable: false,
-    horizontal: false
+    logViewable: false
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.selectedFeed !== this.props.selectedFeed) {
+      const item = this.props.data.find(item => item.transactionHash === this.props.selectedFeed)
+      this.scrollToItem(item)
+    }
+  }
+
+  scrollToItem = item => {
+    log.info('Scroll to item', { item })
+    this.flatListRef && this.flatListRef.getNode().scrollToItem({ animated: true, item, viewPosition: 0.5 })
   }
 
   getItemLayout = (data: any, index: number) => {
-    const [length, separator, header] = this.state.horizontal
+    const [length, separator, header] = this.props.horizontal
       ? [SCREEN_SIZE.width, 0, 100]
       : [SCREEN_SIZE.height, StyleSheet.hairlineWidth, 30]
     return { index, length, offset: (length + separator) * index + header }
   }
 
   pressItem = (item, index: number) => () => {
-    console.log(index)
-    this.setState(
-      state => ({ horizontal: !state.horizontal }),
-      () => {
-        this.flatListRef &&
-          // this.flatListRef.getNode().scrollToIndex({ animated: true, index: Number(index), viewPosition: 0.5 })
-          this.flatListRef.getNode().scrollToItem({ animated: true, item, viewPosition: 0.5 })
-      }
-    )
+    const { handleFeedSelection, horizontal } = this.props
+    handleFeedSelection(item, !horizontal)
+    this.scrollToItem(item)
   }
 
   flatListRef = null
   swipeableFlatListRef = null
 
   renderItemComponent = ({ item, separators, index }: ItemComponentProps) => {
-    const { fixedHeight } = this.props
-    const { horizontal } = this.state
+    const { fixedHeight, horizontal } = this.props
     const itemProps = {
       item,
       separators,
       onPress: this.pressItem(item, index + 1),
       fixedHeight
     }
-
     return horizontal ? <FeedModalItem {...itemProps} /> : <FeedListItem {...itemProps} />
   }
 
   renderList = (feeds: any) => {
-    const { fixedHeight, onEndReached, initialNumToRender } = this.props
-    const { horizontal } = this.state
+    const { fixedHeight, onEndReached, initialNumToRender, horizontal } = this.props
+
     if (horizontal) {
       return (
         <View style={styles.horizontalContainer}>
@@ -179,7 +186,7 @@ class FeedList extends PureComponent<FeedListProps, FeedListState> {
   }
 }
 
-class ItemSeparatorComponent extends PureComponent<ItemSeparatorComponentProps> {
+export class ItemSeparatorComponent extends PureComponent<ItemSeparatorComponentProps> {
   render() {
     const style = this.props.highlighted
       ? [styles.itemSeparator, { marginLeft: 0, backgroundColor: '#d9d9d9' }]

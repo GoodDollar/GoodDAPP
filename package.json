@@ -6,7 +6,7 @@
     "npm": "6.x"
   },
   "scripts": {
-    "start": "npm run web",
+    "start": "serve -l $PORT build",
     "analyze:sme": "source-map-explorer 'build/static/js/*.js'",
     "analyze": "webpack-bundle-analyzer 'build/bundle-stats.json'",
     "start:local": "npm link @gooddollar/goodcontracts && npm start",
@@ -151,6 +151,7 @@
     "react-test-renderer": "^16.8.1",
     "resolve": "1.8.1",
     "sass-loader": "7.1.0",
+    "serve": "^11.0.0",
     "source-map-explorer": "^1.8.0",
     "style-loader": "0.23.0",
     "terser-webpack-plugin": "1.1.0",

@@ -471,7 +471,7 @@ describe('UserStorage', () => {
     expect(updatedUsername).toBe(undefined)
   })
 
-  it(`update username with used username should fail`, async () => {
+  it(`update username with used username should fail`, async done => {
     const userStorage = await createNewUserStorage()
     const oldPub = JSON.stringify(userStorage.gunuser.is.pub)
     const result = await userStorage.setProfileField('username', 'user2', 'public')
@@ -488,5 +488,6 @@ describe('UserStorage', () => {
     expect(newResultOk).toMatchObject({ err: undefined })
     const updatedUsernameOk = await newUserStorage.getProfileFieldValue('username')
     expect(updatedUsernameOk).toBe('user3')
+    done()
   })
 })

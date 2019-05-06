@@ -22,4 +22,15 @@ describe('readCode', () => {
     // Then
     expect(decoded).toEqual({ amount: 1000, networkId: 121, address: '0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1' })
   })
+
+  it(`should return null if MNID is invalid`, () => {
+    // Given
+    const code = 'something invalid'
+
+    // When
+    const decoded = readCode(code)
+
+    // Then
+    expect(decoded).toBeNull()
+  })
 })

@@ -2,7 +2,7 @@
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import { Alert, TouchableHighlight, Text, View } from 'react-native-web'
-import { utils } from 'web3'
+import goodWallet from '../../lib/wallet/GoodWallet'
 import type { FeedEventProps } from './FeedItems/EventProps'
 
 /**
@@ -13,7 +13,7 @@ import type { FeedEventProps } from './FeedItems/EventProps'
  */
 export default ({ item }: FeedEventProps) => (
   <View style={styles.actionsContainer}>
-    {item && !utils.isHexStrict(item.id) && (
+    {item && !goodWallet.wallet.utils.isHexStrict(item.id) && (
       <TouchableHighlight
         style={[styles.actionButton, styles.actionButtonDestructive]}
         onPress={() => {

@@ -48,8 +48,5 @@ const styles = StyleSheet.create({
   text: {
     ...fontStyle,
     fontSize: normalize(14)
-  },
-  separator: {
-    width: '100%'
   }
 })

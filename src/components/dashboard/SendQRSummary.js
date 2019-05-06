@@ -1,4 +1,7 @@
 // @flow
+/**
+ * @file Displays a summary when sending GD directly to a blockchain address
+ */
 import React, { useState, useEffect } from 'react'
 import { View } from 'react-native'
 import UserStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
@@ -7,7 +10,7 @@ import logger from '../../lib/logger/pino-logger'
 import GDStore from '../../lib/undux/GDStore'
 import { useWrappedGoodWallet } from '../../lib/wallet/useWrappedWallet'
 import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
-import { BigGoodDollar, CustomButton, CustomDialog, Section, Wrapper, Avatar } from '../common'
+import { BigGoodDollar, CustomButton, Section, Wrapper, Avatar } from '../common'
 import TopBar from '../common/TopBar'
 import { receiveStyles } from './styles'
 

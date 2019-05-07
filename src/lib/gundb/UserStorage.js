@@ -446,8 +446,7 @@ export class UserStorage {
       if (indexValue && indexValue.pub !== this.gunuser.is.pub) {
         return Promise.resolve({ err: `Existing index on field ${field}`, ok: 0 })
       }
-      if (privacy !== 'public') {
-        if (indexValue !== undefined) return Promise.resolve({ ok: 1 })
+      if (privacy !== 'public' && indexValue !== undefined) {
         return indexNode.putAck(null)
       }
 

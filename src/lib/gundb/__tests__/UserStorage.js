@@ -458,10 +458,10 @@ describe('UserStorage', () => {
       fullName: 'New Name',
       email: 'new@email.com',
       mobile: '+22222222222',
-      username: 'user5'
+      username: 'notTaken'
     })
     await gun
-      .rootAO(`users/byusername`)
+      .get(`users/byusername`)
       .get('taken')
       .putAck('taken')
     const result = await userStorage.setProfile(profileModel)
@@ -478,14 +478,14 @@ describe('UserStorage', () => {
       expect(e).toEqual(new Error(['Existing index on field username']))
     }
     const updated = await userStorage.getProfile()
-    expect(updated.username).toBe('user5')
+    expect(updated.username).toBe('notTaken')
     expect(updated.email).toBe('diferent@email.com')
   })
 
   it(`update username with used username should fail`, async () => {
     //take a username
     await gun
-      .rootAO(`users/byusername`)
+      .get(`users/byusername`)
       .get('taken')
       .putAck('taken')
     const newResult = await userStorage.setProfileField('username', 'taken', 'public')

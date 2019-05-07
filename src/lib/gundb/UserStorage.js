@@ -394,8 +394,8 @@ export class UserStorage {
       default:
         display = value
     }
-
-    if (UserStorage.indexableFields[field] && privacy === 'public') {
+    //for all privacy cases we go through the index, in case field was changed from public to private so we remove it
+    if (UserStorage.indexableFields[field]) {
       const indexPromiseResult = await this.indexProfileField(field, value, privacy)
       logger.info('indexPromiseResult', indexPromiseResult)
 
@@ -444,17 +444,15 @@ export class UserStorage {
       if (indexValue && indexValue.pub != this.gunuser.is.pub) {
         return Promise.resolve({ err: `Existing index on field ${field}`, ok: 0 })
       }
-
       if (privacy !== 'public') {
-        const result = indexNode.putAck(null)
-        logger.info('Result: ', result)
-        return Promise.resolve({ err: 'Not public field', ok: 0 })
+        const indexResult = indexNode.putAck(null)
+        return indexResult
       }
 
-      const gunResult = await indexNode.putAck(this.gunuser)
+      const indexResult = indexNode.putAck(this.gunuser)
 
-      logger.info({ gunResult })
-      return gunResult
+      // logger.info({ gunResult })
+      return indexResult
     } catch (err) {
       logger.error(err)
     }

@@ -3,8 +3,6 @@ import HDKey from 'hdkey'
 import Wallet from 'ethereumjs-wallet'
 import logger from '../logger/pino-logger'
 
-const log = logger.child({ from: 'MultipleAddressWallet' })
-
 type WalletsCollection = {
   [key: string]: Wallet // Associative array
 }

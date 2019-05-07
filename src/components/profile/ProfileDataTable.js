@@ -8,8 +8,6 @@ import 'react-phone-number-input/style.css'
 import logger from '../../lib/logger/pino-logger'
 import './PhoneInput.css'
 
-const log = logger.child({ from: 'ProfileDataTable' })
-
 const ProfileInput = props => (
   <View style={styles.inputWrapper}>
     <FormInput {...props} inputStyle={styles.textInput} placeholderTextColor="rgba(85, 85, 85, 0.3)" />

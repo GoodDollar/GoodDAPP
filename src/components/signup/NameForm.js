@@ -64,11 +64,10 @@ class NameForm extends React.Component<Props, State> {
     const { errorMessage } = this.state
 
     return (
-      <Wrapper valid={true} handleSubmit={this.handleSubmit}>
+      <Wrapper valid={errorMessage !== ''} handleSubmit={this.handleSubmit}>
         <Title>{"Hi, \n What's your name?"}</Title>
         <TextInput
           id="signup_name"
-          label="Your Full Name"
           value={name.fullName}
           onChangeText={this.handleChange}
           onBlur={this.checkErrors}

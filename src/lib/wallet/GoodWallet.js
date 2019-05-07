@@ -262,8 +262,8 @@ export class GoodWallet {
    */
   async getEvents({ event, contract, filterPred, fromBlock = ZERO, toBlock }: QueryEvent): Promise<[]> {
     const events = await contract.getPastEvents('allEvents', { fromBlock, toBlock })
-    const res1 = filter(events, { event })
-    const res = filter(res1, { returnValues: { ...filterPred } })
+    const res1 = filterFunc(events, { event })
+    const res = filterFunc(res1, { returnValues: { ...filterPred } })
 
     return res
   }

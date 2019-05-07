@@ -48,8 +48,8 @@ export const generateDisplayPrivacyUserProfile = (user: UserRecord) => {
 export const setProfileFieldIndex = async (usersCol: any, userId: string, attr: string, value: ?string) => {
   let ack = null
   if (value) {
-    ack = await usersCol
-      .get(`by${attr}`)
+    ack = await gun
+      .get(`users/by${attr}`)
       .get(value)
       .putAck(userId)
   }

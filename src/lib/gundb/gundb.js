@@ -1,4 +1,4 @@
-import Gun from 'gun'
+import Gun from '@gooddollar/gun-appendonly'
 import SEA from 'gun/sea'
 import Config from '../../config/config'
 import logger from '../logger/pino-logger'

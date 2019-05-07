@@ -254,7 +254,8 @@ type NextButtonProps = {
   ...ButtonProps,
   values: {},
   screenProps: { push: (routeName: string, params: any) => void },
-  nextRoutes: [string]
+  nextRoutes: [string],
+  label?: string
 }
 /**
  * NextButton
@@ -262,7 +263,7 @@ type NextButtonProps = {
  * next screens for further Components. Is meant to be used inside a stackNavigator
  * @param {any} props
  */
-export const NextButton = ({ disabled, values, screenProps, nextRoutes: nextRoutesParam }: NextButtonProps) => {
+export const NextButton = ({ disabled, values, screenProps, nextRoutes: nextRoutesParam, label }: NextButtonProps) => {
   const [next, ...nextRoutes] = nextRoutesParam ? nextRoutesParam : []
   return (
     <PushButton
@@ -273,7 +274,7 @@ export const NextButton = ({ disabled, values, screenProps, nextRoutes: nextRout
       routeName={next}
       style={{ flex: 2 }}
     >
-      Next
+      {label || 'Next'}
     </PushButton>
   )
 }

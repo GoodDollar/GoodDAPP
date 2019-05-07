@@ -1,19 +1,15 @@
 // @flow
 import React from 'react'
 import { View } from 'react-native'
-import { useWrappedGoodWallet } from '../../lib/wallet/useWrappedWallet'
-import { type TransactionEvent } from '../../lib/gundb/UserStorage'
-import UserStorage from '../../lib/gundb/UserStorage'
-import { Section, Wrapper, Avatar, BigGoodDollar, CustomButton, CustomDialog } from '../common'
-import { BackButton, PushButton, useScreenState } from '../appNavigation/stackNavigation'
-import { receiveStyles } from './styles'
-import TopBar from '../common/TopBar'
-import { useWrappedApi } from '../../lib/API/useWrappedApi'
-import isEmail from 'validator/lib/isEmail'
-import isMobilePhone from '../../lib/validators/isMobilePhone'
-import GDStore from '../../lib/undux/GDStore'
+
+import UserStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
-import wrapper from '../../lib/undux/utils/wrapper'
+import GDStore from '../../lib/undux/GDStore'
+import { useWrappedGoodWallet } from '../../lib/wallet/useWrappedWallet'
+import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
+import { Avatar, BigGoodDollar, CustomButton, Section, Wrapper } from '../common'
+import TopBar from '../common/TopBar'
+import { receiveStyles } from './styles'
 
 const log = logger.child({ from: 'SendLinkSummary' })
 
@@ -30,32 +26,8 @@ const SendLinkSummary = (props: AmountProps) => {
   const goodWallet = useWrappedGoodWallet()
   const store = GDStore.useStore()
   const { loading } = store.get('currentScreen')
-  const API = useWrappedApi()
 
   const { amount, reason, to } = screenState
-
-  /**
-   * Send link via SMS or Email
-   *
-   * @param {string} to - Email address or phone number
-   * @param {string} sendLink - Link
-   * @returns JSON Object with ok if email or sms has been sent
-   * @throws Error with invalid email/phone
-   */
-  const sendLinkTo = (to: string, sendLink: string) => {
-    if (!to) return
-    // Send email if to is email
-    if (isEmail(to)) {
-      return API.sendLinkByEmail(to, sendLink)
-    }
-
-    // Send sms if to is phone
-    if (isMobilePhone(to)) {
-      return API.sendLinkBySMS(to, sendLink)
-    }
-
-    throw new Error(`${to} is neither a valid phone or email`)
-  }
 
   /**
    * Generates link to send and call send email/sms action
@@ -85,11 +57,9 @@ const SendLinkSummary = (props: AmountProps) => {
       if (generateLinkResponse) {
         try {
           // Generate link deposit
-          const { sendLink, receipt } = generateLinkResponse
-          await sendLinkTo(to, sendLink)
-          log.debug({ sendLink, receipt })
+          const { sendLink } = generateLinkResponse
           // Show confirmation
-          screenProps.push('SendConfirmation', { sendLink })
+          screenProps.push('SendConfirmation', { sendLink, amount, reason, to })
         } catch (e) {
           const { hashedString } = generateLinkResponse
           await goodWallet.cancelOtl(hashedString)

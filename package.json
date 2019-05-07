@@ -6,7 +6,7 @@
     "npm": "6.x"
   },
   "scripts": {
-    "start": "npm run web",
+    "start": "serve -l $PORT build",
     "analyze:sme": "source-map-explorer 'build/static/js/*.js'",
     "analyze": "webpack-bundle-analyzer 'build/bundle-stats.json'",
     "start:local": "npm link @gooddollar/goodcontracts && npm start",
@@ -50,6 +50,7 @@
   "homepage": "https://gooddollar.org",
   "dependencies": {
     "@babel/preset-flow": "^7.0.0",
+    "@gooddollar/gun-appendonly": "^1.0.1",
     "@gooddollar/goodcontracts": "^0.0.13",
     "@react-navigation/core": "^3.1.1",
     "@react-navigation/web": "^1.0.0-alpha.7",
@@ -63,6 +64,7 @@
     "hdkey": "^1.1.1",
     "lodash": "^4.17.11",
     "mnid": "^0.1.3",
+    "mobile-device-detect": "^0.2.3",
     "pino": "^5.11.1",
     "qrcode.react": "^0.9.3",
     "react": "^16.8.1",
@@ -151,6 +153,7 @@
     "react-test-renderer": "^16.8.1",
     "resolve": "1.8.1",
     "sass-loader": "7.1.0",
+    "serve": "^11.0.0",
     "source-map-explorer": "^1.8.0",
     "style-loader": "0.23.0",
     "terser-webpack-plugin": "1.1.0",

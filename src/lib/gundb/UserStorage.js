@@ -443,7 +443,7 @@ export class UserStorage {
         indexValue: indexValue,
         currentUser: this.gunuser.is.pub
       })
-      if (indexValue && indexValue.pub != this.gunuser.is.pub) {
+      if (indexValue && indexValue.pub !== this.gunuser.is.pub) {
         return Promise.resolve({ err: `Existing index on field ${field}`, ok: 0 })
       }
       if (privacy !== 'public') {

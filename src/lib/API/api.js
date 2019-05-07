@@ -100,8 +100,8 @@ class API {
     return this.client.post('/send/linkemail', { to, sendLink })
   }
 
-  sendRecoveryInstructionByEmail(to: string, name: string, mnemonic: string): Promise<$AxiosXHR<any>> {
-    return this.client.post('/send/recoveryinstructions', { to, name, mnemonic })
+  sendRecoveryInstructionByEmail(mnemonic: string): Promise<$AxiosXHR<any>> {
+    return this.client.post('/send/recoveryinstructions', { mnemonic })
   }
 
   sendLinkBySMS(to: string, sendLink: string): Promise<$AxiosXHR<any>> {

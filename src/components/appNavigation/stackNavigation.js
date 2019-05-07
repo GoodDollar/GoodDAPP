@@ -98,6 +98,17 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
   }
 
   /**
+   * Navigates to specific screen with custom parameters as query string.
+   */
+  navigateTo = (routeName: string, params: any) => {
+    this.props.navigation.navigate({
+      routeName,
+      params,
+      type: 'Navigation/NAVIGATE'
+    })
+  }
+
+  /**
    * Navigates to the screen that created the stack (backRouteName)
    */
   goToParent = () => {
@@ -128,6 +139,7 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
       push: this.push,
       goToRoot: this.goToRoot,
       goToParent: this.goToParent,
+      navigateTo: this.navigateTo,
       pop: this.pop,
       screenState: this.state.currentState,
       setScreenState: this.setScreenState
@@ -242,7 +254,8 @@ type NextButtonProps = {
   ...ButtonProps,
   values: {},
   screenProps: { push: (routeName: string, params: any) => void },
-  nextRoutes: [string]
+  nextRoutes: [string],
+  label?: string
 }
 /**
  * NextButton
@@ -250,7 +263,7 @@ type NextButtonProps = {
  * next screens for further Components. Is meant to be used inside a stackNavigator
  * @param {any} props
  */
-export const NextButton = ({ disabled, values, screenProps, nextRoutes: nextRoutesParam }: NextButtonProps) => {
+export const NextButton = ({ disabled, values, screenProps, nextRoutes: nextRoutesParam, label }: NextButtonProps) => {
   const [next, ...nextRoutes] = nextRoutesParam ? nextRoutesParam : []
   return (
     <PushButton
@@ -261,7 +274,7 @@ export const NextButton = ({ disabled, values, screenProps, nextRoutes: nextRout
       routeName={next}
       style={{ flex: 2 }}
     >
-      Next
+      {label || 'Next'}
     </PushButton>
   )
 }

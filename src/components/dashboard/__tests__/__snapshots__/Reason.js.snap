@@ -122,6 +122,14 @@ exports[`Reason matches snapshot 1`] = `
           >
             <div
               className="css-view-1dbjc4n"
+              style={
+                Object {
+                  "borderBottomLeftRadius": "50%",
+                  "borderBottomRightRadius": "50%",
+                  "borderTopLeftRadius": "50%",
+                  "borderTopRightRadius": "50%",
+                }
+              }
             >
               <div
                 className="css-view-1dbjc4n"
@@ -603,7 +611,7 @@ exports[`Reason matches snapshot 1`] = `
                           }
                         }
                       >
-                        Next
+                        Skip
                       </span>
                     </div>
                   </div>

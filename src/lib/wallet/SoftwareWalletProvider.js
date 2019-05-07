@@ -7,17 +7,24 @@ import type { WalletConfig } from './WalletFactory'
 import type { HttpProvider } from 'web3-providers-http'
 import MultipleAddressWallet from './MultipleAddressWallet'
 import type { WebSocketProvider } from 'web3-providers-ws'
+import { AsyncStorage } from 'react-native'
 
 const log = logger.child({ from: 'SoftwareWalletProvider' })
 
 const GD_USER_MNEMONIC: string = 'GD_USER_MNEMONIC'
-
-export function saveMnemonics(mnemonics: string) {
-  localStorage.setItem(GD_USER_MNEMONIC, mnemonics)
+/**
+ * save mnemonics (secret phrase) to user device
+ * @param {string} mnemonics
+ */
+export function saveMnemonics(mnemonics: string): Promise<string> {
+  return AsyncStorage.setItem(GD_USER_MNEMONIC, mnemonics)
 }
 
-export function getMnemonics(): string {
-  let pkey = localStorage.getItem(GD_USER_MNEMONIC)
+/**
+ * get user mnemonics stored on device or generate a new one
+ */
+export async function getMnemonics(): Promise<string> {
+  let pkey = await AsyncStorage.getItem(GD_USER_MNEMONIC)
   if (!pkey) {
     pkey = generateMnemonic()
     saveMnemonics(pkey)
@@ -43,39 +50,13 @@ class SoftwareWalletProvider {
     this.conf = conf
     this.ready = this.initSoftwareWallet()
   }
-  getPKey() {
-    return localStorage.getItem(this.GD_USER_PKEY)
-  }
-  async init(): Promise<Web3> {
-    let provider = this.getWeb3TransportProvider()
-    log.info('wallet config:', this.conf, provider)
-
-    let web3 = new Web3(provider)
-    //let web3 = new Web3(new WebsocketProvider("wss://ropsten.infura.io/ws"))
-    let pkey: ?string = localStorage.getItem(this.GD_USER_PKEY)
-    let account
-    if (!pkey) {
-      account = await web3.eth.accounts.create()
-      log.info('account Add is:', account.address)
-      log.info('Private Key is:', account.privateKey)
-      localStorage.setItem(this.GD_USER_PKEY, account.privateKey)
-      pkey = localStorage.getItem(this.GD_USER_PKEY)
-      log.info('item set in localStorage ', { pkey })
-    } else {
-      log.info('pkey found, creating account from pkey:', { pkey })
-    }
-    web3.eth.accounts.wallet.add(pkey)
-    web3.eth.defaultAccount = web3.eth.accounts.wallet[0].address
-
-    return web3
-  }
 
   async initSoftwareWallet(): Promise<Web3> {
     let provider = this.getWeb3TransportProvider()
     log.info('wallet config:', this.conf, provider)
 
     //let web3 = new Web3(new WebsocketProvider("wss://ropsten.infura.io/ws"))
-    let pkey: ?string = getMnemonics()
+    let pkey: ?string = await getMnemonics()
 
     //we start from addres 1, since from address 0 pubkey all public keys can  be generated
     //and we want privacy

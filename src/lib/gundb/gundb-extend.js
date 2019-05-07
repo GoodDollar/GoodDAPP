@@ -1,4 +1,4 @@
-import Gun from 'gun'
+import Gun from '@gooddollar/gun-appendonly'
 import SEA from 'gun/sea'
 require('gun/lib/load.js')
 /**

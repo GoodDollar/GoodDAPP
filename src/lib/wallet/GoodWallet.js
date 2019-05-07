@@ -38,7 +38,7 @@ type GasValues = {
 type QueryEvent = {
   event: string,
   contract: Web3.eth.Contract,
-  filter: {},
+  filterPred: {},
   fromBlock: typeof BN,
   toBlock: typeof BN | 'latest'
 }
@@ -89,7 +89,7 @@ export class GoodWallet {
             contract: this.tokenContract,
             fromBlock: new BN('0'),
             toBlock,
-            filter: { from: this.account }
+            filterPred: { from: this.account }
           },
           async (error, events) => {
             log.debug({ error, events }, 'send')
@@ -113,7 +113,7 @@ export class GoodWallet {
             contract: this.tokenContract,
             fromBlock: new BN('0'),
             toBlock,
-            filter: { to: this.account }
+            filterPred: { to: this.account }
           },
           async (error, events) => {
             log.debug({ error, events }, 'receive')

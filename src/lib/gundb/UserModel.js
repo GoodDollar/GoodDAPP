@@ -2,6 +2,7 @@
 import type { UserRecord } from '../API/api'
 import isEmail from 'validator/lib/isEmail'
 import isMobilePhone from '../validators/isMobilePhone'
+import isValidUsername from '../validators/isValidUsername'
 
 type Validation = {
   isValid: boolean,
@@ -40,9 +41,16 @@ const getMobileErrorMessage = (mobile?: string) => {
   return ''
 }
 
+const getUsernameErrorMessage = (username: string) => {
+  if (!isValidUsername(username)) return 'Must contain only letters (a-z), numbers (0-9) and underscore (_)'
+
+  return ''
+}
+
 export const userModelValidations = {
   email: getEmailErrorMessage,
-  mobile: getMobileErrorMessage
+  mobile: getMobileErrorMessage,
+  username: getUsernameErrorMessage
 }
 
 /**
@@ -61,7 +69,11 @@ export function getUserModel(record: UserRecord): UserModel {
       return _isValid(errors)
     },
     getErrors: function() {
-      return { email: userModelValidations.email(this.email), mobile: userModelValidations.mobile(this.mobile) }
+      return {
+        email: userModelValidations.email(this.email),
+        mobile: userModelValidations.mobile(this.mobile),
+        username: userModelValidations.username(this.username)
+      }
     },
     validate: function() {
       return { isValid: this.isValid(), errors: this.getErrors() }

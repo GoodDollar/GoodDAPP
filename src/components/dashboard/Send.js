@@ -7,6 +7,7 @@ import isMobilePhone from '../../lib/validators/isMobilePhone'
 import isEmail from 'validator/lib/isEmail'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import logger from '../../lib/logger/pino-logger'
+import UserStorage from '../../lib/gundb/UserStorage'
 
 const SEND_TITLE = 'Send GD'
 
@@ -31,26 +32,28 @@ const GenerateLinkButton = ({ screenProps, disabled }) => (
   />
 )
 
-const validate = to => {
+const validate = async to => {
   if (!to) return null
 
-  if (isMobilePhone(to) || isEmail(to)) {
-    return null
-  }
+  if (isMobilePhone(to) || isEmail(to)) return null
 
-  if (goodWallet.wallet.utils.isAddress(to)) {
-    return null
-  }
+  if (goodWallet.wallet.utils.isAddress(to)) return null
+
   return `Needs to be a valid address, email or mobile phone`
 }
 
 const ContinueButton = ({ screenProps, to, disabled, checkError }) => (
   <CustomButton
-    onPress={() => {
-      if (checkError()) return
+    onPress={async () => {
+      if (await checkError()) return
 
       if (to && (isMobilePhone(to) || isEmail(to))) {
-        return screenProps.push('Amount', { to, nextRoutes: ['Reason', 'SendLinkSummary'] })
+        const address = await UserStorage.getUserAddress(to)
+        if (address) {
+          return screenProps.push('Amount', { address, nextRoutes: ['Reason', 'SendQRSummary'] })
+        } else {
+          return screenProps.push('Amount', { to, nextRoutes: ['Reason', 'SendLinkSummary'] })
+        }
       }
 
       if (to && goodWallet.wallet.utils.isAddress(to)) {
@@ -70,10 +73,11 @@ const Send = props => {
   const [error, setError] = useState()
 
   const { to } = screenState
-  const checkError = () => {
-    const err = validate(to)
-    setError(err)
-    return err
+
+  const checkError = async () => {
+    const response = await validate(to)
+    setError(response)
+    return response
   }
 
   return (

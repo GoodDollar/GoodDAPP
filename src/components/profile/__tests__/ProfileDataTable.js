@@ -1,8 +1,7 @@
 import React from 'react'
-import { getComponentWithMocks } from '../../dashboard/__tests__/__util__'
-import ProfileDataTable from '../ProfileDataTable'
-// Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer'
+
+import ProfileDataTable from '../ProfileDataTable'
 
 describe('ProfileDataTable', () => {
   const profile = { email: 'john@doe.com', mobile: '2222222222222' }

@@ -3,19 +3,22 @@ import { StyleSheet } from 'react-native'
 import { Wrapper, Section, CustomButton, UserAvatar } from '../common'
 import GDStore from '../../lib/undux/GDStore'
 import { useWrappedUserStorage } from '../../lib/gundb/useWrappedStorage'
-
+import userStorage from '../../lib/gundb/UserStorage'
+import logger from '../../lib/logger/pino-logger'
 import ProfileDataTable from './ProfileDataTable'
+
+const log = logger.child({ from: 'EditProfile' })
 
 const EditProfile = props => {
   const store = GDStore.useStore()
-  const userStorage = useWrappedUserStorage()
+  const wrappedUserStorage = useWrappedUserStorage()
 
   const [profile, setProfile] = useState(store.get('profile'))
   const [saving, setSaving] = useState()
   const [errors, setErrors] = useState({})
   const { loading } = store.get('currentScreen')
   useEffect(() => {
-    userStorage.getPrivateProfile(profile).then(setProfile)
+    wrappedUserStorage.getPrivateProfile(profile).then(setProfile)
   }, [profile.fullName])
 
   const handleSaveButton = async () => {
@@ -24,7 +27,11 @@ const EditProfile = props => {
     if (!isValid) return
 
     setSaving(true)
-    await userStorage.setProfile(profile)
+    await wrappedUserStorage.setProfile(profile).catch(async err => {
+      const savedProfile = await userStorage.getPrivateProfile(profile)
+      log.error({ err, profile, savedProfile })
+      setProfile({ ...savedProfile, username: savedProfile.username || '' })
+    })
     setSaving(false)
   }
   return (

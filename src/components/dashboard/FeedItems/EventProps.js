@@ -12,7 +12,9 @@ export type FeedEventProps = {
         fullName: string
       },
       message: string
-    }
+    },
+    type: string
   },
-  onPress: ?(feed: number) => any
+  styles?: any,
+  onPress?: (feed: number) => any
 }

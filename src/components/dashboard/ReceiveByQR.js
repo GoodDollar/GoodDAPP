@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { StyleSheet } from 'react-native'
 import QRCodeScanner from 'react-native-qrcode-scanner'
 
@@ -6,8 +6,8 @@ import logger from '../../lib/logger/pino-logger'
 import { extractQueryParams, readReceiveLink } from '../../lib/share'
 import GDStore from '../../lib/undux/GDStore'
 import { wrapFunction } from '../../lib/undux/utils/wrapper'
+import { executeWithdraw } from '../../lib/undux/utils/withdraw'
 import { Section, TopBar, Wrapper } from '../common'
-import Withdraw from './Withdraw'
 
 const log = logger.child({ from: 'ReceiveByQR.web' })
 
@@ -39,6 +39,22 @@ const ReceiveByQR = ({ screenProps }) => {
       }
     }
   }
+
+  const runWithdraw = async () => {
+    if (withdrawParams.receiveLink) {
+      const receipt = await executeWithdraw(store, withdrawParams.receiveLink)
+      screenProps.navigateTo('Home', {
+        event: receipt.transactionHash,
+        receiveLink: undefined,
+        reason: undefined
+      })
+    }
+  }
+
+  useEffect(() => {
+    runWithdraw()
+  }, [withdrawParams])
+
   return (
     <>
       <Wrapper>
@@ -49,7 +65,6 @@ const ReceiveByQR = ({ screenProps }) => {
           </Section.Row>
         </Section>
       </Wrapper>
-      {withdrawParams.receiveLink ? <Withdraw params={withdrawParams} onSuccess={screenProps.pop} /> : null}
     </>
   )
 }

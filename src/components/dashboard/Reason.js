@@ -34,7 +34,12 @@ const SendReason = (props: AmountProps) => {
             <BackButton mode="text" screenProps={screenProps} style={{ flex: 1 }}>
               Cancel
             </BackButton>
-            <NextButton nextRoutes={screenState.nextRoutes} values={{ amount, reason, to }} {...props} />
+            <NextButton
+              nextRoutes={screenState.nextRoutes}
+              values={{ amount, reason, to }}
+              {...props}
+              label={reason ? 'Next' : 'Skip'}
+            />
           </View>
         </Section.Row>
       </Section>

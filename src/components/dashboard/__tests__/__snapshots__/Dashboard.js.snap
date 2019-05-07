@@ -323,6 +323,10 @@ exports[`Dashboard matches snapshot 1`] = `
                 onClick={[Function]}
                 style={
                   Object {
+                    "borderBottomLeftRadius": "50%",
+                    "borderBottomRightRadius": "50%",
+                    "borderTopLeftRadius": "50%",
+                    "borderTopRightRadius": "50%",
                     "cursor": "pointer",
                   }
                 }
@@ -1320,6 +1324,10 @@ exports[`Dashboard matches snapshot when changing tab 1`] = `
                 onClick={[Function]}
                 style={
                   Object {
+                    "borderBottomLeftRadius": "50%",
+                    "borderBottomRightRadius": "50%",
+                    "borderTopLeftRadius": "50%",
+                    "borderTopRightRadius": "50%",
                     "cursor": "pointer",
                   }
                 }

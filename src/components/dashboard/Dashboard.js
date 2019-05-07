@@ -1,20 +1,22 @@
 // @flow
 import React, { Component } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import { ScrollView } from 'react-native-web'
 import { normalize } from 'react-native-elements'
+import { Portal } from 'react-native-paper'
 import type { Store } from 'undux'
 
 import GDStore from '../../lib/undux/GDStore'
 import { getInitialFeed, getNextFeed, PAGE_SIZE } from '../../lib/undux/utils/feed'
+import { executeWithdraw } from '../../lib/undux/utils/withdraw'
 import { weiToMask } from '../../lib/wallet/utils'
 import { createStackNavigator, PushButton } from '../appNavigation/stackNavigation'
 import TabsView from '../appNavigation/TabsView'
 import { Avatar, BigGoodDollar, Section, Wrapper } from '../common'
 import Amount from './Amount'
 import Claim from './Claim'
-import FaceRecognition from './faceRecognition/FaceRecognition.web'
+import FaceRecognition from './FaceRecognition/FaceRecognition.web'
 import FeedList from './FeedList'
+import FeedModalItem from './FeedItems/FeedModalItem'
 import Reason from './Reason'
 import Receive from './Receive'
 import ReceiveAmount from './ReceiveAmount'
@@ -24,8 +26,10 @@ import Send from './Send'
 import SendConfirmation from './SendConfirmation'
 import SendLinkSummary from './SendLinkSummary'
 import SendQRSummary from './SendQRSummary'
+import logger from '../../lib/logger/pino-logger'
+import userStorage from '../../lib/gundb/UserStorage'
 
-import Withdraw from './Withdraw'
+const log = logger.child({ from: 'Dashboard' })
 
 export type DashboardProps = {
   screenProps: any,
@@ -34,18 +38,15 @@ export type DashboardProps = {
 }
 
 type DashboardState = {
-  params: {
-    receiveLink: string,
-    reason?: string
-  },
   horizontal: boolean,
-  feeds: any[]
+  feeds: any[],
+  currentFeedProps: any
 }
 
 class Dashboard extends Component<DashboardProps, DashboardState> {
   state = {
-    params: {},
     horizontal: false,
+    currentFeedProps: null,
     feeds: []
   }
 
@@ -53,23 +54,116 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
     const { params } = this.props.navigation.state
 
     if (params && params.receiveLink) {
-      console.log({ params })
-      this.setState({ params })
+      this.handleWithdraw()
+    } else if (params && params.event) {
+      this.showNewFeedEvent(params.event)
+    } else {
+      this.getFeeds()
     }
-
-    this.getFeeds()
   }
 
   getFeeds() {
     getInitialFeed(this.props.store)
   }
 
+  showEventModal = item => {
+    this.props.screenProps.navigateTo('Home', {
+      event: item.id,
+      receiveLink: undefined,
+      reason: undefined
+    })
+    this.setState({
+      currentFeedProps: {
+        item,
+        styles: {
+          flex: 1,
+          alignSelf: 'flex-start',
+          height: '100vh',
+          position: 'absolute',
+          width: '100%',
+          paddingTop: normalize(30),
+          paddingBottom: normalize(30),
+          paddingLeft: normalize(10),
+          paddingRight: normalize(10),
+          backgroundColor: 'rgba(0, 0, 0, 0.7)'
+        },
+        onPress: this.closeFeedEvent
+      }
+    })
+  }
+
+  handleFeedSelection = (receipt, horizontal) => {
+    this.showEventModal(receipt)
+  }
+
+  showNewFeedEvent = async event => {
+    try {
+      const item = await userStorage.getStandardizedFeedByTransactionHash(event)
+      log.info({ item })
+      if (item) {
+        this.showEventModal(item)
+      } else {
+        this.props.store.set('currentScreen')({
+          ...this.props.store.get('currentScreen'),
+          dialogData: {
+            visible: true,
+            title: 'Error',
+            message: 'Event does not exist'
+          }
+        })
+      }
+    } catch (e) {
+      this.props.store.set('currentScreen')({
+        ...this.props.store.get('currentScreen'),
+        dialogData: {
+          visible: true,
+          title: 'Error',
+          message: 'Event does not exist'
+        }
+      })
+    }
+    this.getFeeds()
+  }
+
+  closeFeedEvent = () => {
+    this.setState(
+      {
+        currentFeedProps: null
+      },
+      () => {
+        this.getFeeds()
+        this.props.screenProps.navigateTo('Home', {
+          event: undefined,
+          receiveLink: undefined,
+          reason: undefined
+        })
+      }
+    )
+  }
+
+  handleWithdraw = async () => {
+    const { receiveLink, reason } = this.props.navigation.state.params
+    const { screenProps, store } = this.props
+    try {
+      const receipt = await executeWithdraw(store, receiveLink, reason)
+      if (receipt.transactionHash) {
+        await this.showNewFeedEvent(receipt.transactionHash)
+      } else {
+        this.getFeeds()
+      }
+    } catch (e) {
+      this.getFeeds()
+    }
+  }
+
   render() {
-    const { params, horizontal } = this.state
+    const { horizontal, currentFeedProps } = this.state
     const { screenProps, navigation, store }: DashboardProps = this.props
     const { balance, entitlement } = store.get('account')
     const { avatar, fullName } = store.get('profile')
     const feeds = store.get('feeds')
+
+    log.info('LOGGER FEEDS', { feeds })
 
     return (
       <View style={styles.dashboardView}>
@@ -103,6 +197,7 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
           </Section>
           <FeedList
             horizontal={horizontal}
+            handleFeedSelection={this.handleFeedSelection}
             fixedHeight
             virtualized
             data={feeds}
@@ -110,8 +205,12 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
             initialNumToRender={PAGE_SIZE}
             onEndReached={getNextFeed.bind(null, store)}
           />
+          {currentFeedProps && (
+            <Portal>
+              <FeedModalItem {...currentFeedProps} />
+            </Portal>
+          )}
         </Wrapper>
-        {params.receiveLink ? <Withdraw params={params} {...this.props} onFail={screenProps.goToRoot} /> : null}
       </View>
     )
   }

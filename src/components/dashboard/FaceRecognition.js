@@ -7,6 +7,7 @@ import { normalize } from 'react-native-elements'
 import logger from '../../lib/logger/pino-logger'
 import { Wrapper, CustomButton, CustomDialog } from '../common'
 import wrapper from '../../lib/undux/utils/wrapper'
+import { updateAll } from '../../lib/undux/utils/account'
 
 import GDStore from '../../lib/undux/GDStore'
 
@@ -18,17 +19,22 @@ type Props = {
 }
 
 class FaceRecognition extends React.Component<Props> {
+  openEventInDashboard = receipt => () => {
+    updateAll(this.props.store)
+    this.props.screenProps.navigateTo('Home', { event: receipt.transactionHash })
+  }
+
   handleClaim = async () => {
     try {
       const goodWalletWrapped = wrapper(goodWallet, this.props.store)
-      await goodWalletWrapped.claim()
+      const receipt = await goodWalletWrapped.claim()
       this.props.store.set('currentScreen')({
         dialogData: {
           visible: true,
           title: 'Success',
           message: `You've claimed your GD`,
           dismissText: 'YAY!',
-          onDismiss: this.props.screenProps.goToRoot
+          onDismiss: this.openEventInDashboard(receipt)
         },
         loading: true
       })

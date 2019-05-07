@@ -1,6 +1,6 @@
 // @flow
 import Web3 from 'web3'
-import bip39 from 'bip39'
+import bip39 from 'bip39-light'
 import Config from '../../config/config'
 import logger from '../logger/pino-logger'
 import type { WalletConfig } from './WalletFactory'

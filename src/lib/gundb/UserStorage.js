@@ -2,7 +2,12 @@
 import type { StandardFeed } from '../undux/GDStore'
 import Gun from '@gooddollar/gun-appendonly'
 import SEA from 'gun/sea'
-import { find, merge, orderBy, toPairs, takeWhile, flatten } from 'lodash'
+import find from 'lodash/find'
+import merge from 'lodash/merge'
+import orderBy from 'lodash/orderBy'
+import toPairs from 'lodash/toPairs'
+import takeWhile from 'lodash/takeWhile'
+import flatten from 'lodash/flatten'
 import { AsyncStorage } from 'react-native-web'
 import gun from './gundb'
 import { default as goodWallet, type GoodWallet } from '../wallet/GoodWallet'
@@ -16,6 +21,11 @@ const logger = pino.child({ from: 'UserStorage' })
 
 function isValidDate(d) {
   return d instanceof Date && !isNaN(d)
+}
+
+const EVENT_TYPES = {
+  PaymentWithdraw: 'withdraw',
+  Transfer: 'claim'
 }
 
 export type GunDBUser = {
@@ -62,17 +72,19 @@ export type TransactionEvent = FeedEvent & {
 const getReceiveDataFromReceipt = (account: string, receipt: any) => {
   // Obtain logged data from receipt event
   const transferLog = receipt.logs.find(log => {
-    const { events } = log
-    const eventIndex = events.findIndex(
-      event => event.name === 'to' && event.value.toLowerCase() === account.toLowerCase()
-    )
-    logger.debug({ log, eventIndex, account })
-    return eventIndex >= 0
+    return log && log.name === 'Transfer'
   })
-  logger.debug({ transferLog, account })
-  return transferLog.events.reduce((acc, curr) => {
-    return { ...acc, [curr.name]: curr.value }
-  }, {})
+  const withdrawLog = receipt.logs.find(log => {
+    return log && log.name === 'PaymentWithdraw'
+  })
+  logger.debug({ logs: receipt.logs, transferLog, withdrawLog, account })
+  const log = withdrawLog || transferLog
+  return log.events.reduce(
+    (acc, curr) => {
+      return { ...acc, [curr.name]: curr.value }
+    },
+    { name: log.name }
+  )
 }
 
 export class UserStorage {
@@ -133,6 +145,30 @@ export class UserStorage {
       })
   }
 
+  async handleReceiptUpdated(receipt: any) {
+    try {
+      const data = getReceiveDataFromReceipt(this.wallet.account, receipt)
+      const operationType = data.from && data.from.toLowerCase() === this.wallet.account ? 'send' : 'receive'
+      const feedEvent = (await this.getFeedItemByTransactionHash(receipt.transactionHash)) || {
+        id: receipt.transactionHash,
+        date: new Date().toString(),
+        type: EVENT_TYPES[data.name] || operationType
+      }
+      logger.info('receiptReceived', { feedEvent, receipt, data })
+      const updatedFeedEvent = {
+        ...feedEvent,
+        data: {
+          ...feedEvent.data,
+          ...data,
+          receipt
+        }
+      }
+      await this.updateFeedEvent(updatedFeedEvent)
+    } catch (error) {
+      logger.error(error)
+    }
+  }
+
   /**
    * Initialize wallet, gundb user, feed and subscribe to events
    */
@@ -171,40 +207,8 @@ export class UserStorage {
           this.wallet.subscribeToEvent('send', (err, events) => {
             logger.debug({ err, events }, 'send')
           })
-          this.wallet.subscribeToEvent('receiptUpdated', async receipt => {
-            try {
-              const feedEvent = await this.getFeedItemByTransactionHash(receipt.transactionHash)
-              logger.debug('receiptUpdated', { feedEvent, receipt })
-              if (!feedEvent) {
-                logger.error('Received receipt with no event', receipt)
-              }
-
-              const updatedFeedEvent = { ...feedEvent, data: { ...feedEvent.data, receipt } }
-              this.updateFeedEvent(updatedFeedEvent)
-            } catch (error) {
-              logger.error(error)
-            }
-          })
-          logger.debug('web3', this.wallet.wallet)
-
-          this.wallet.subscribeToEvent('receiptReceived', async receipt => {
-            try {
-              const data = getReceiveDataFromReceipt(this.wallet.account, receipt)
-              logger.debug('receiptReceived', { receipt, data })
-              const updatedFeedEvent = {
-                id: receipt.transactionHash,
-                date: new Date().toString(),
-                type: 'receive',
-                data: {
-                  ...data,
-                  receipt
-                }
-              }
-              await this.updateFeedEvent(updatedFeedEvent)
-            } catch (error) {
-              logger.error(error)
-            }
-          })
+          this.wallet.subscribeToEvent('receiptUpdated', receipt => this.handleReceiptUpdated(receipt))
+          this.wallet.subscribeToEvent('receiptReceived', receipt => this.handleReceiptUpdated(receipt))
           res(true)
           // this.profile = user.get('profile')
         })
@@ -235,6 +239,7 @@ export class UserStorage {
 
     return feedItem
   }
+
   async getAllFeed() {
     const total = Object.values((await this.feed.get('index')) || {}).reduce((acc, curr) => acc + curr, 0)
     const prevCursor = this.cursor
@@ -524,6 +529,40 @@ export class UserStorage {
     return await Promise.all(feed.filter(feedItem => feedItem.data).map(this.standardizeFeed))
   }
 
+  async getStandardizedFeedByTransactionHash(transactionHash: string): Promise<StandardFeed> {
+    const prevFeedEvent = await this.getFeedItemByTransactionHash(transactionHash)
+    const standardPrevFeedEvent = await this.standardizeFeed(prevFeedEvent)
+    if (!prevFeedEvent) return standardPrevFeedEvent
+    if (prevFeedEvent.data && prevFeedEvent.data.receipt) return standardPrevFeedEvent
+
+    const receipt = await this.wallet.getReceiptWithLogs(transactionHash)
+    if (!receipt) return standardPrevFeedEvent
+
+    await this.handleReceiptUpdated(receipt)
+    const feedEvent = await this.getFeedItemByTransactionHash(transactionHash)
+    logger.info({ prevFeedEvent, feedEvent })
+    return await this.standardizeFeed(feedEvent)
+  }
+
+  /**
+   *
+   * @param {string} field - Profile field value (email, mobile or wallet address value)
+   * @returns { string } address
+   */
+  async getUserAddress(field: string) {
+    const attr = isMobilePhone(field) ? 'mobile' : isEmail(field) ? 'email' : 'walletAddress'
+    const value = UserStorage.cleanFieldForIndex(attr, field)
+
+    const address = await gun
+      .rootAO(`users/by${attr}`)
+      .get(value)
+      .get('profile')
+      .get('walletAddress')
+      .get('display')
+
+    return address
+  }
+
   /**
    * Returns name and avatar from profile based filtered by received value
    *
@@ -535,8 +574,7 @@ export class UserStorage {
     const value = UserStorage.cleanFieldForIndex(attr, field)
 
     const profileToShow = gun
-      .get('users')
-      .get(`by${attr}`)
+      .rootAO(`users/by${attr}`)
       .get(value)
       .get('profile')
 

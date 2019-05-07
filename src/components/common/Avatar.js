@@ -6,12 +6,15 @@ import { Avatar } from 'react-native-paper'
 export type AvatarProps = {
   onPress?: () => {},
   source?: string,
-  style: any,
+  style?: {},
   size?: number
 }
 
 export default (props: AvatarProps) => (
-  <View onClick={props.onPress} style={props.onPress ? { ...props.style, ...styles.clickable } : props.style}>
+  <View
+    onClick={props.onPress}
+    style={props.onPress ? [props.style, styles.clickable] : [props.style, styles.avatarView]}
+  >
     <Avatar.Image
       size={34}
       source={props.source ? { uri: props.source } : undefined}
@@ -25,7 +28,11 @@ const styles = StyleSheet.create({
   avatar: {
     backgroundColor: 'white'
   },
+  avatarView: {
+    borderRadius: '50%'
+  },
   clickable: {
+    borderRadius: '50%',
     cursor: 'pointer'
   }
 })

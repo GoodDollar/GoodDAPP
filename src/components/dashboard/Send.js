@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import { Wrapper, TopBar, Section, IconButton, CustomButton } from '../common'
-import { Clipboard, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { HelperText, TextInput } from 'react-native-paper'
 import { Icon, normalize } from 'react-native-elements'
 import { useScreenState } from '../appNavigation/stackNavigation'
 import isMobilePhone from '../../lib/validators/isMobilePhone'
+import Clipboard from '../../lib/utils/Clipboard'
 import isEmail from 'validator/lib/isEmail'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import logger from '../../lib/logger/pino-logger'
@@ -78,9 +79,13 @@ const Send = props => {
   }
 
   const pasteToWho = async () => {
-    const who = await Clipboard.getString()
-    log.info({ who })
-    setScreenState({ to: who })
+    try {
+      const who = await Clipboard.getString()
+      log.info({ who })
+      setScreenState({ to: who })
+    } catch (err) {
+      log.error('Paste action failed', err)
+    }
   }
 
   return (

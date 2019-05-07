@@ -27,7 +27,7 @@
     "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls",
     "flow": "flow",
     "fix-lint": "eslint --fix ./src",
-    "docs": "documentation build src -f md -o docs/code.md --shallow"
+    "docs": "node scripts/docs.js"
   },
   "repository": {
     "type": "git",

@@ -1,5 +1,4 @@
 // @flow
-import _ from 'lodash'
 import React, { Component } from 'react'
 import type { Store } from 'undux'
 
@@ -65,7 +64,7 @@ class Withdraw extends Component<DashboardProps, DashboardState> {
    * Check if user can withdraw, and make the transaciton
    *
    * @param {string} hash - Hash identifier
-   * @param {string} reason - Withdraw reason
+   * @param {string} [reason] - Withdraw reason
    */
   async withdraw(hash: string, reason?: string) {
     try {

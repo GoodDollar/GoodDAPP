@@ -1,10 +1,10 @@
 // @flow
-import GoodDollarABI from '@gooddollar/goodcontracts/build/contracts/GoodDollar.json'
-import ReserveABI from '@gooddollar/goodcontracts/build/contracts/GoodDollarReserve.json'
-import IdentityABI from '@gooddollar/goodcontracts/build/contracts/Identity.json'
-import OneTimePaymentLinksABI from '@gooddollar/goodcontracts/build/contracts/OneTimePaymentLinks.json'
-import RedemptionABI from '@gooddollar/goodcontracts/build/contracts/RedemptionFunctional.json'
-import _ from 'lodash'
+import GoodDollarABI from '@gooddollar/goodcontracts/build/contracts/GoodDollar.min.json'
+import ReserveABI from '@gooddollar/goodcontracts/build/contracts/GoodDollarReserve.min.json'
+import IdentityABI from '@gooddollar/goodcontracts/build/contracts/Identity.min.json'
+import OneTimePaymentLinksABI from '@gooddollar/goodcontracts/build/contracts/OneTimePaymentLinks.min.json'
+import RedemptionABI from '@gooddollar/goodcontracts/build/contracts/RedemptionFunctional.min.json'
+import filter from 'lodash/filter'
 import type Web3 from 'web3'
 import { utils } from 'web3'
 
@@ -39,9 +39,16 @@ type GasValues = {
 type QueryEvent = {
   event: string,
   contract: Web3.eth.Contract,
-  filter: {},
+  filterPred: {},
   fromBlock: typeof BN,
   toBlock: typeof BN | 'latest'
+}
+
+const defaultPromiEvents: PromiEvents = {
+  onTransactionHash: () => {},
+  onReceipt: () => {},
+  onConfirmation: () => {},
+  onError: () => {}
 }
 
 export class GoodWallet {
@@ -83,7 +90,7 @@ export class GoodWallet {
             contract: this.tokenContract,
             fromBlock: new BN('0'),
             toBlock,
-            filter: { from: this.account }
+            filterPred: { from: this.account }
           },
           async (error, events) => {
             log.debug({ error, events }, 'send')
@@ -92,10 +99,9 @@ export class GoodWallet {
               log.error('no event', events)
               return
             }
-            this.wallet.eth.getTransactionReceipt(event.transactionHash).then(receipt => {
-              const logs = abiDecoder.decodeLogs(receipt.logs)
-              this.getSubscribers('receiptUpdated').forEach(cb => cb({ ...receipt, logs }))
-            })
+            this.getReceiptWithLogs(event.transactionHash)
+              .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptUpdated']))
+              .catch(err => log.error(err))
             // Send for all events. We could define here different events
             this.getSubscribers('send').forEach(cb => cb(error, events))
             this.getSubscribers('balanceChanged').forEach(cb => cb(error, events))
@@ -108,7 +114,7 @@ export class GoodWallet {
             contract: this.tokenContract,
             fromBlock: new BN('0'),
             toBlock,
-            filter: { to: this.account }
+            filterPred: { to: this.account }
           },
           async (error, events) => {
             log.debug({ error, events }, 'receive')
@@ -117,12 +123,8 @@ export class GoodWallet {
               log.error('no event', events)
               return
             }
-            this.wallet.eth
-              .getTransactionReceipt(event.transactionHash)
-              .then(receipt => {
-                const logs = abiDecoder.decodeLogs(receipt.logs)
-                this.getSubscribers('receiptReceived').forEach(cb => cb({ ...receipt, logs }))
-              })
+            this.getReceiptWithLogs(event.transactionHash)
+              .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptReceived']))
               .catch(err => log.error(err))
 
             this.getSubscribers('receive').forEach(cb => cb(error, events))
@@ -130,6 +132,22 @@ export class GoodWallet {
           }
         )
       })
+  }
+
+  async getReceiptWithLogs(transactionHash: string) {
+    const transactionReceipt = await this.wallet.eth.getTransactionReceipt(transactionHash)
+    if (!transactionReceipt) return null
+
+    const logs = abiDecoder.decodeLogs(transactionReceipt.logs)
+    const receipt = { ...transactionReceipt, logs }
+    return receipt
+  }
+
+  sendReceiptWithLogsToSubscribers(receipt: any, subscriptions: Array<string>) {
+    subscriptions.forEach(subscription => {
+      this.getSubscribers(subscription).forEach(cb => cb(receipt))
+    })
+    return receipt
   }
 
   init(): Promise<any> {
@@ -171,6 +189,7 @@ export class GoodWallet {
             from: this.account
           }
         )
+        abiDecoder.addABI(OneTimePaymentLinksABI.abi)
         log.info('GoodWallet Ready.', { accounts: this.accounts, account: this.account })
         this.listenTxUpdates()
       })
@@ -236,34 +255,33 @@ export class GoodWallet {
    * Client side event filter. Requests all events for a particular contract, then filters them and returns the event Object
    * @param {String} event - Event to subscribe to
    * @param {Object} contract - Contract from which event will be queried
-   * @param {Object} filter - Event's filter. Does not required to be indexed as it's filtered locally
+   * @param {Object} filterPred - Event's filter. Does not required to be indexed as it's filtered locally
    * @param {BN} fromBlock - Lower blocks range value
    * @param {BN} toBlock - Higher blocks range value
    * @returns {Promise<*>}
    */
-  async getEvents({ event, contract, filter, fromBlock = ZERO, toBlock }: QueryEvent): Promise<[]> {
+  async getEvents({ event, contract, filterPred, fromBlock = ZERO, toBlock }: QueryEvent): Promise<[]> {
     const events = await contract.getPastEvents('allEvents', { fromBlock, toBlock })
 
-    return _(events)
-      .filter({ event })
-      .filter({ returnValues: { ...filter } })
-      .value()
+    const res1 = filter(events, { event })
+    const res = filter(res1, { returnValues: { ...filterPred } })
+    return res
   }
 
   /**
    * Subscribes to a particular event and returns the result based on options specified
    * @param {String} event - Event to subscribe to
    * @param {Object} contract - Contract from which event will be queried
-   * @param {Object} filter - Event's filter. Does not required to be indexed as it's filtered locally
+   * @param {Object} filterPred - Event's filter. Does not required to be indexed as it's filtered locally
    * @param {BN} fromBlock - Lower blocks range value
    * @param {BN} toBlock - Higher blocks range value
    * @param {Function} callback - Function to be called once an event is received
    * @returns {Promise<void>}
    */
-  async oneTimeEvents({ event, contract, filter, fromBlock, toBlock }: QueryEvent, callback?: Function) {
+  async oneTimeEvents({ event, contract, filterPred, fromBlock, toBlock }: QueryEvent, callback?: Function) {
     try {
-      const events = await this.getEvents({ event, contract, filter, fromBlock, toBlock })
-      log.debug({ events: events.length, ...filter, fromBlock: fromBlock.toString(), toBlock: toBlock.toString() })
+      const events = await this.getEvents({ event, contract, filterPred, fromBlock, toBlock })
+      log.debug({ events: events.length, ...filterPred, fromBlock: fromBlock.toString(), toBlock: toBlock.toString() })
 
       if (events.length) {
         if (callback === undefined) {
@@ -289,7 +307,7 @@ export class GoodWallet {
    * the 'lastProcessedBlock' to the 'latest' every INTERVAL
    * @param {String} event - Event to subscribe to
    * @param {Object} contract - Contract from which event will be queried
-   * @param {Object} filter - Event's filter. Does not required to be indexed as it's filtered locally
+   * @param {Object} filterPred - Event's filter. Does not required to be indexed as it's filtered locally
    * @param {BN} fromBlock - Lower blocks range value
    * @param {BN} toBlock - Higher blocks range value
    * @param {Function} callback - Function to be called once an event is received
@@ -297,7 +315,7 @@ export class GoodWallet {
    * @returns {Promise<void>}
    */
   async pollForEvents(
-    { event, contract, filter, fromBlock, toBlock }: QueryEvent,
+    { event, contract, filterPred, fromBlock, toBlock }: QueryEvent,
     callback: Function,
     lastProcessedBlock: typeof BN = ZERO
   ) {
@@ -311,7 +329,7 @@ export class GoodWallet {
     if (lastProcessedBlock.lt(lastBlock)) {
       fromBlock = toBlock
       toBlock = lastBlock
-      await this.oneTimeEvents({ event, contract, filter, fromBlock, toBlock }, callback)
+      await this.oneTimeEvents({ event, contract, filterPred, fromBlock, toBlock }, callback)
     } else {
       log.debug('all blocks processed', {
         toBlock: toBlock.toString(),
@@ -319,8 +337,11 @@ export class GoodWallet {
       })
     }
 
-    log.debug('about to recurse', { event, contract, filter, fromBlock, toBlock })
-    setTimeout(() => this.pollForEvents({ event, contract, filter, fromBlock, toBlock }, callback, toBlock), INTERVAL)
+    log.debug('about to recurse', { event, contract, filterPred, fromBlock, toBlock })
+    setTimeout(
+      () => this.pollForEvents({ event, contract, filterPred, fromBlock, toBlock }, callback, toBlock),
+      INTERVAL
+    )
   }
 
   async balanceOf(): Promise<number> {
@@ -445,11 +466,10 @@ export class GoodWallet {
     }
   }
 
-  async withdraw(otlCode: string) {
+  async withdraw(otlCode: string, promiEvents: ?PromiEvents) {
     const withdrawCall = this.oneTimePaymentLinksContract.methods.withdraw(otlCode)
     log.info('withdrawCall', withdrawCall)
-
-    return await this.sendTransaction(withdrawCall, { onTransactionHash: hash => log.debug({ hash }) })
+    return await this.sendTransaction(withdrawCall, { ...defaultPromiEvents, ...promiEvents })
   }
 
   async cancelOtl(otlCode: string) {
@@ -511,12 +531,7 @@ export class GoodWallet {
    */
   async sendTransaction(
     tx: any,
-    { onTransactionHash, onReceipt, onConfirmation, onError }: PromiEvents = {
-      onTransactionHash: () => {},
-      onReceipt: () => {},
-      onConfirmation: () => {},
-      onError: () => {}
-    },
+    { onTransactionHash, onReceipt, onConfirmation, onError }: PromiEvents = defaultPromiEvents,
     { gas, gasPrice }: GasValues = { gas: undefined, gasPrice: undefined }
   ) {
     gas = gas || (await tx.estimateGas().catch(this.handleError))
@@ -530,6 +545,11 @@ export class GoodWallet {
       .on('receipt', onReceipt)
       .on('confirmation', onConfirmation)
       .on('error', onError)
+      .then(async receipt => {
+        const transactionReceipt = await this.getReceiptWithLogs(receipt.transactionHash)
+        await this.sendReceiptWithLogsToSubscribers(transactionReceipt, ['receiptReceived', 'receiptUpdated'])
+        return transactionReceipt
+      })
       .catch(this.handleError)
   }
 }

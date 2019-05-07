@@ -1,12 +1,11 @@
 // @flow
-import Gun from '@gooddollar/gun-appendonly'
-import extend from '../gundb-extend'
 import gun from '../gundb'
 import userStorage, { type TransactionEvent, UserStorage } from '../UserStorage'
 import { getUserModel } from '../UserModel'
 import { addUser } from './__util__/index'
 import { GoodWallet } from '../../wallet/GoodWallet'
 import { deleteMnemonics } from '../../wallet/SoftwareWalletProvider'
+import userStorage, { UserStorage } from '../userStorage'
 
 let event = { id: 'xyz', date: new Date('2019-01-01T10:00:00.000Z').toString(), data: { foo: 'bar', unchanged: 'zar' } }
 let event2 = { id: 'xyz2', date: new Date('2019-01-01T20:00:00.000Z').toString(), data: { foo: 'bar' } }
@@ -317,10 +316,13 @@ describe('UserStorage', () => {
     expect(events).toContainEqual(transactionEvent)
   })
 
-  it('gets profiles field', async done => {
-    await userStorage.setProfileField('email', 'johndoe@blah.com', 'masked')
-    await userStorage.setProfileField('name', 'hadar2', 'public')
-    await userStorage.setProfileField('id', 'z123', 'private')
+  it('should subscribe to profile updates', async done => {
+    let updates = [
+      userStorage.setProfileField('email', 'johndoe@blah.com', 'masked'),
+      userStorage.setProfileField('name', 'hadar2', 'public'),
+      userStorage.setProfileField('id', 'z123', 'private')
+    ]
+    await Promise.all(updates)
 
     userStorage.subscribeProfileUpdates(profile => {
       expect(profile.email.display).toEqual('j*****e@blah.com')
@@ -336,14 +338,17 @@ describe('UserStorage', () => {
   })
 
   it('gets display profile', async done => {
-    await userStorage.setProfileField('x', '', 'public')
-    await userStorage.setProfileField('mobile', '+22222222222', 'public')
-    await userStorage.setProfileField('phone', '+22222222222', 'public')
-    await userStorage.setProfileField('email', 'johndoe@blah.com', 'masked')
-    await userStorage.setProfileField('name', 'hadar2', 'public')
-    await userStorage.setProfileField('id', 'z123', 'private')
+    let updates = [
+      userStorage.setProfileField('x', '', 'public'),
+      userStorage.setProfileField('mobile', '+22222222222', 'public'),
+      userStorage.setProfileField('phone', '+22222222222', 'public'),
+      userStorage.setProfileField('email', 'johndoe@blah.com', 'masked'),
+      userStorage.setProfileField('name', 'hadar2', 'public'),
+      userStorage.setProfileField('id', 'z123', 'private')
+    ]
 
-    userStorage.subscribeProfileUpdates(profile => {
+    await Promise.all(updates)
+    await userStorage.subscribeProfileUpdates(profile => {
       console.log(profile)
 
       userStorage.getDisplayProfile(profile).then(result => {
@@ -362,12 +367,15 @@ describe('UserStorage', () => {
   })
 
   it('gets private profile', async done => {
-    await userStorage.setProfileField('x', '', 'public')
-    await userStorage.setProfileField('mobile', '+22222222222', 'public')
-    await userStorage.setProfileField('phone', '+22222222222', 'public')
-    await userStorage.setProfileField('email', 'johndoe@blah.com', 'masked')
-    await userStorage.setProfileField('name', 'hadar2', 'public')
-    await userStorage.setProfileField('id', 'z123', 'private')
+    let updates = [
+      userStorage.setProfileField('x', '', 'public'),
+      userStorage.setProfileField('mobile', '+22222222222', 'public'),
+      userStorage.setProfileField('phone', '+22222222222', 'public'),
+      userStorage.setProfileField('email', 'johndoe@blah.com', 'masked'),
+      userStorage.setProfileField('name', 'hadar2', 'public'),
+      userStorage.setProfileField('id', 'z123', 'private')
+    ]
+    await Promise.all(updates)
     await userStorage.subscribeProfileUpdates(profile => {
       userStorage.getPrivateProfile(profile).then(result => {
         const { isValid, getErrors, validate, ...privateProfile } = result
@@ -387,10 +395,13 @@ describe('UserStorage', () => {
 
   it('update profile field uses privacy settings', async done => {
     // Making sure that privacy default is not override in other tests
-    await userStorage.setProfileField('fullName', 'Old Name', 'public')
-    await userStorage.setProfileField('mobile', '+22222222211', 'masked')
-    await userStorage.setProfileField('email', 'new@domain.com', 'masked')
+    let updates = [
+      userStorage.setProfileField('fullName', 'Old Name', 'public'),
+      userStorage.setProfileField('mobile', '+22222222211', 'masked'),
+      userStorage.setProfileField('email', 'new@domain.com', 'masked')
+    ]
 
+    await Promise.all(updates)
     const profileData = {
       fullName: 'New Name',
       email: 'new@email.com',
@@ -444,49 +455,47 @@ describe('UserStorage', () => {
   })
 
   it(`update username with setProfile should not update profile if username is taken`, async () => {
-    const oldPub = JSON.stringify(userStorage.gunuser.is.pub)
     const profileModel = getUserModel({
       fullName: 'New Name',
       email: 'new@email.com',
       mobile: '+22222222222',
       username: 'user5'
     })
+    await gun
+      .rootAO(`users/byusername`)
+      .get('taken')
+      .putAck('taken')
     const result = await userStorage.setProfile(profileModel)
     expect(result).toBe(true)
 
-    const newUserStorage = await createNewUserStorage()
-    expect(newUserStorage.gunuser.is.pub).not.toBe(oldPub)
-
     try {
-      await newUserStorage.setProfile({
+      await userStorage.setProfile({
         ...profileModel,
+        username: 'taken',
         email: 'diferent@email.com',
         mobile: '+22222222221'
       })
     } catch (e) {
       expect(e).toEqual(new Error(['Existing index on field username']))
     }
-    const updatedUsername = await newUserStorage.getProfileFieldValue('username')
-    expect(updatedUsername).toBe(undefined)
+    const updated = await userStorage.getProfile()
+    expect(updated.username).toBe('user5')
+    expect(updated.email).toBe('diferent@email.com')
   })
 
-  it(`update username with used username should fail`, async done => {
-    const userStorage = await createNewUserStorage()
-    const oldPub = JSON.stringify(userStorage.gunuser.is.pub)
-    const result = await userStorage.setProfileField('username', 'user2', 'public')
-    expect(result).toMatchObject({ err: undefined, ok: 0 })
-    const newUserStorage = await createNewUserStorage()
-    expect(newUserStorage.gunuser.is.pub).not.toBe(oldPub)
-
-    const newResult = await newUserStorage.setProfileField('username', 'user2', 'public')
+  it(`update username with used username should fail`, async () => {
+    //take a username
+    await gun
+      .rootAO(`users/byusername`)
+      .get('taken')
+      .putAck('taken')
+    const newResult = await userStorage.setProfileField('username', 'taken', 'public')
     expect(newResult).toMatchObject({ err: 'Existing index on field username', ok: 0 })
-    const updatedUsername = await newUserStorage.getProfileFieldValue('username')
-    expect(updatedUsername).toBeUndefined()
-
-    const newResultOk = await newUserStorage.setProfileField('username', 'user3', 'public')
+    const updatedUsername = await userStorage.getProfileFieldValue('username')
+    expect(updatedUsername).not.toBe('taken')
+    const newResultOk = await userStorage.setProfileField('username', 'user3', 'public')
     expect(newResultOk).toMatchObject({ err: undefined })
-    const updatedUsernameOk = await newUserStorage.getProfileFieldValue('username')
+    const updatedUsernameOk = await userStorage.getProfileFieldValue('username')
     expect(updatedUsernameOk).toBe('user3')
-    done()
   })
 })

@@ -4,7 +4,7 @@ import ReserveABI from '@gooddollar/goodcontracts/build/contracts/GoodDollarRese
 import IdentityABI from '@gooddollar/goodcontracts/build/contracts/Identity.min.json'
 import OneTimePaymentLinksABI from '@gooddollar/goodcontracts/build/contracts/OneTimePaymentLinks.min.json'
 import RedemptionABI from '@gooddollar/goodcontracts/build/contracts/RedemptionFunctional.min.json'
-import _filter from 'lodash/filter'
+import filter from 'lodash/filter'
 import type Web3 from 'web3'
 import { utils } from 'web3'
 
@@ -39,7 +39,7 @@ type GasValues = {
 type QueryEvent = {
   event: string,
   contract: Web3.eth.Contract,
-  filter: {},
+  filterPred: {},
   fromBlock: typeof BN,
   toBlock: typeof BN | 'latest'
 }
@@ -89,7 +89,7 @@ export class GoodWallet {
             contract: this.tokenContract,
             fromBlock: new BN('0'),
             toBlock,
-            filter: { from: this.account }
+            filterPred: { from: this.account }
           },
           async (error, events) => {
             log.debug({ error, events }, 'send')
@@ -113,7 +113,7 @@ export class GoodWallet {
             contract: this.tokenContract,
             fromBlock: new BN('0'),
             toBlock,
-            filter: { to: this.account }
+            filterPred: { to: this.account }
           },
           async (error, events) => {
             log.debug({ error, events }, 'receive')
@@ -243,7 +243,7 @@ export class GoodWallet {
   /**
    * Listen to balance changes for the current account
    * @param cb
-   * @returns {}
+   * @returns {Promise<void>}
    */
   balanceChanged(cb: Function) {
     this.subscribeToEvent('balanceChanged', cb)
@@ -253,16 +253,16 @@ export class GoodWallet {
    * Client side event filter. Requests all events for a particular contract, then filters them and returns the event Object
    * @param {String} event - Event to subscribe to
    * @param {Object} contract - Contract from which event will be queried
-   * @param {Object} filter - Event's filter. Does not required to be indexed as it's filtered locally
+   * @param {Object} filterPred - Event's filter. Does not required to be indexed as it's filtered locally
    * @param {BN} fromBlock - Lower blocks range value
    * @param {BN} toBlock - Higher blocks range value
    * @returns {Promise<*>}
    */
-  async getEvents({ event, contract, filter, fromBlock = ZERO, toBlock }: QueryEvent): Promise<[]> {
+  async getEvents({ event, contract, filterPred, fromBlock = ZERO, toBlock }: QueryEvent): Promise<[]> {
     const events = await contract.getPastEvents('allEvents', { fromBlock, toBlock })
 
-    const res1 = _filter(events, { event })
-    const res = _filter(res1, { returnValues: { ...filter } })
+    const res1 = filter(events, { event })
+    const res = filter(res1, { returnValues: { ...filterPred } })
     return res
   }
 
@@ -270,16 +270,16 @@ export class GoodWallet {
    * Subscribes to a particular event and returns the result based on options specified
    * @param {String} event - Event to subscribe to
    * @param {Object} contract - Contract from which event will be queried
-   * @param {Object} filter - Event's filter. Does not required to be indexed as it's filtered locally
+   * @param {Object} filterPred - Event's filter. Does not required to be indexed as it's filtered locally
    * @param {BN} fromBlock - Lower blocks range value
    * @param {BN} toBlock - Higher blocks range value
    * @param {Function} callback - Function to be called once an event is received
    * @returns {Promise<void>}
    */
-  async oneTimeEvents({ event, contract, filter, fromBlock, toBlock }: QueryEvent, callback?: Function) {
+  async oneTimeEvents({ event, contract, filterPred, fromBlock, toBlock }: QueryEvent, callback?: Function) {
     try {
-      const events = await this.getEvents({ event, contract, filter, fromBlock, toBlock })
-      log.debug({ events: events.length, ...filter, fromBlock: fromBlock.toString(), toBlock: toBlock.toString() })
+      const events = await this.getEvents({ event, contract, filterPred, fromBlock, toBlock })
+      log.debug({ events: events.length, ...filterPred, fromBlock: fromBlock.toString(), toBlock: toBlock.toString() })
 
       if (events.length) {
         if (callback === undefined) {
@@ -305,7 +305,7 @@ export class GoodWallet {
    * the 'lastProcessedBlock' to the 'latest' every INTERVAL
    * @param {String} event - Event to subscribe to
    * @param {Object} contract - Contract from which event will be queried
-   * @param {Object} filter - Event's filter. Does not required to be indexed as it's filtered locally
+   * @param {Object} filterPred - Event's filter. Does not required to be indexed as it's filtered locally
    * @param {BN} fromBlock - Lower blocks range value
    * @param {BN} toBlock - Higher blocks range value
    * @param {Function} callback - Function to be called once an event is received
@@ -313,7 +313,7 @@ export class GoodWallet {
    * @returns {Promise<void>}
    */
   async pollForEvents(
-    { event, contract, filter, fromBlock, toBlock }: QueryEvent,
+    { event, contract, filterPred, fromBlock, toBlock }: QueryEvent,
     callback: Function,
     lastProcessedBlock: typeof BN = ZERO
   ) {
@@ -327,7 +327,7 @@ export class GoodWallet {
     if (lastProcessedBlock.lt(lastBlock)) {
       fromBlock = toBlock
       toBlock = lastBlock
-      await this.oneTimeEvents({ event, contract, filter, fromBlock, toBlock }, callback)
+      await this.oneTimeEvents({ event, contract, filterPred, fromBlock, toBlock }, callback)
     } else {
       log.debug('all blocks processed', {
         toBlock: toBlock.toString(),
@@ -335,8 +335,11 @@ export class GoodWallet {
       })
     }
 
-    log.debug('about to recurse', { event, contract, filter, fromBlock, toBlock })
-    setTimeout(() => this.pollForEvents({ event, contract, filter, fromBlock, toBlock }, callback, toBlock), INTERVAL)
+    log.debug('about to recurse', { event, contract, filterPred, fromBlock, toBlock })
+    setTimeout(
+      () => this.pollForEvents({ event, contract, filterPred, fromBlock, toBlock }, callback, toBlock),
+      INTERVAL
+    )
   }
 
   async balanceOf(): Promise<number> {

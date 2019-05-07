@@ -137,11 +137,13 @@ exports[`FaceRecognition matches snapshot 1`] = `
               id="zoom-parent-container"
               style={
                 Object {
-                  "height": 360,
+                  "height": "auto",
                   "marginBottom": 0,
                   "marginLeft": "auto",
                   "marginRight": "auto",
                   "marginTop": 0,
+                  "maxHeight": 644,
+                  "width": "100%",
                 }
               }
             >

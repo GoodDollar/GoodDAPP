@@ -404,14 +404,16 @@ export class UserStorage {
       }
     }
 
-    await this.profile
-      .get(field)
-      .get('value')
-      .secret(value)
-    return this.profile.get(field).putAck({
-      display,
-      privacy
-    })
+    return Promise.all([
+      this.profile
+        .get(field)
+        .get('value')
+        .secretAck(value),
+      this.profile.get(field).putAck({
+        display,
+        privacy
+      })
+    ]).then(arr => arr[1])
   }
 
   /**

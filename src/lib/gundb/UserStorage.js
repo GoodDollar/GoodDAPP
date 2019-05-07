@@ -595,7 +595,6 @@ export class UserStorage {
       const searchField = 'by' + (isMobilePhone(address) ? 'mobile' : isEmail(address) ? 'email' : 'walletAddress')
       const profileToShow = gun
         .rootAO(`users/${searchField}`)
-        .get(searchField)
         .get(address)
         .get('profile')
 

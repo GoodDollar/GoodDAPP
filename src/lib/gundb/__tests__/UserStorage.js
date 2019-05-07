@@ -7,8 +7,8 @@ import { getUserModel } from '../UserModel'
 import { addUser } from './__util__/index'
 import { GoodWallet } from '../../wallet/GoodWallet'
 import { deleteMnemonics } from '../../wallet/SoftwareWalletProvider'
+import userStorage, { UserStorage } from '../userStorage'
 
-let { default: userStorage, UserStorage } = require('../UserStorage.js')
 let event = { id: 'xyz', date: new Date('2019-01-01T10:00:00.000Z').toString(), data: { foo: 'bar', unchanged: 'zar' } }
 let event2 = { id: 'xyz2', date: new Date('2019-01-01T20:00:00.000Z').toString(), data: { foo: 'bar' } }
 let event3 = { id: 'xyz3', date: new Date('2019-01-01T14:00:00.000Z').toString(), data: { foo: 'xar' } }
@@ -318,10 +318,13 @@ describe('UserStorage', () => {
     expect(events).toContainEqual(transactionEvent)
   })
 
-  it('gets profiles field', async done => {
-    await userStorage.setProfileField('email', 'johndoe@blah.com', 'masked')
-    await userStorage.setProfileField('name', 'hadar2', 'public')
-    await userStorage.setProfileField('id', 'z123', 'private')
+  it('should subscribe to profile updates', async done => {
+    let updates = [
+      userStorage.setProfileField('email', 'johndoe@blah.com', 'masked'),
+      userStorage.setProfileField('name', 'hadar2', 'public'),
+      userStorage.setProfileField('id', 'z123', 'private')
+    ]
+    await Promise.all(updates)
 
     userStorage.subscribeProfileUpdates(profile => {
       expect(profile.email.display).toEqual('j*****e@blah.com')
@@ -337,14 +340,17 @@ describe('UserStorage', () => {
   })
 
   it('gets display profile', async done => {
-    await userStorage.setProfileField('x', '', 'public')
-    await userStorage.setProfileField('mobile', '+22222222222', 'public')
-    await userStorage.setProfileField('phone', '+22222222222', 'public')
-    await userStorage.setProfileField('email', 'johndoe@blah.com', 'masked')
-    await userStorage.setProfileField('name', 'hadar2', 'public')
-    await userStorage.setProfileField('id', 'z123', 'private')
+    let updates = [
+      userStorage.setProfileField('x', '', 'public'),
+      userStorage.setProfileField('mobile', '+22222222222', 'public'),
+      userStorage.setProfileField('phone', '+22222222222', 'public'),
+      userStorage.setProfileField('email', 'johndoe@blah.com', 'masked'),
+      userStorage.setProfileField('name', 'hadar2', 'public'),
+      userStorage.setProfileField('id', 'z123', 'private')
+    ]
 
-    userStorage.subscribeProfileUpdates(profile => {
+    await Promise.all(updates)
+    await userStorage.subscribeProfileUpdates(profile => {
       console.log(profile)
 
       userStorage.getDisplayProfile(profile).then(result => {
@@ -363,12 +369,15 @@ describe('UserStorage', () => {
   })
 
   it('gets private profile', async done => {
-    await userStorage.setProfileField('x', '', 'public')
-    await userStorage.setProfileField('mobile', '+22222222222', 'public')
-    await userStorage.setProfileField('phone', '+22222222222', 'public')
-    await userStorage.setProfileField('email', 'johndoe@blah.com', 'masked')
-    await userStorage.setProfileField('name', 'hadar2', 'public')
-    await userStorage.setProfileField('id', 'z123', 'private')
+    let updates = [
+      userStorage.setProfileField('x', '', 'public'),
+      userStorage.setProfileField('mobile', '+22222222222', 'public'),
+      userStorage.setProfileField('phone', '+22222222222', 'public'),
+      userStorage.setProfileField('email', 'johndoe@blah.com', 'masked'),
+      userStorage.setProfileField('name', 'hadar2', 'public'),
+      userStorage.setProfileField('id', 'z123', 'private')
+    ]
+    await Promise.all(updates)
     await userStorage.subscribeProfileUpdates(profile => {
       userStorage.getPrivateProfile(profile).then(result => {
         const { isValid, getErrors, validate, ...privateProfile } = result
@@ -388,10 +397,13 @@ describe('UserStorage', () => {
 
   it('update profile field uses privacy settings', async done => {
     // Making sure that privacy default is not override in other tests
-    await userStorage.setProfileField('fullName', 'Old Name', 'public')
-    await userStorage.setProfileField('mobile', '+22222222211', 'masked')
-    await userStorage.setProfileField('email', 'new@domain.com', 'masked')
+    let updates = [
+      userStorage.setProfileField('fullName', 'Old Name', 'public'),
+      userStorage.setProfileField('mobile', '+22222222211', 'masked'),
+      userStorage.setProfileField('email', 'new@domain.com', 'masked')
+    ]
 
+    await Promise.all(updates)
     const profileData = {
       fullName: 'New Name',
       email: 'new@email.com',

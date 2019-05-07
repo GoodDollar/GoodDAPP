@@ -535,8 +535,7 @@ export class UserStorage {
     const value = UserStorage.cleanFieldForIndex(attr, field)
 
     const address = await gun
-      .get('users')
-      .get(`by${attr}`)
+      .rootAO(`users/by${attr}`)
       .get(value)
       .get('profile')
       .get('walletAddress')
@@ -556,8 +555,7 @@ export class UserStorage {
     const value = UserStorage.cleanFieldForIndex(attr, field)
 
     const profileToShow = gun
-      .get('users')
-      .get(`by${attr}`)
+      .rootAO(`users/by${attr}`)
       .get(value)
       .get('profile')
 

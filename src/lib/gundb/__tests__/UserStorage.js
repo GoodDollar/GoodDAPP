@@ -348,8 +348,6 @@ describe('UserStorage', () => {
 
     await Promise.all(updates)
     await userStorage.subscribeProfileUpdates(profile => {
-      console.log(profile)
-
       userStorage.getDisplayProfile(profile).then(result => {
         const { isValid, getErrors, validate, ...displayProfile } = result
         expect(displayProfile).toEqual({

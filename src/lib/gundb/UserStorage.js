@@ -574,7 +574,7 @@ export class UserStorage {
     const value = UserStorage.cleanFieldForIndex(attr, field)
 
     const profileToShow = gun
-      .rootAO(`users/by${attr}`)
+      .get(`users/by${attr}`)
       .get(value)
       .get('profile')
 

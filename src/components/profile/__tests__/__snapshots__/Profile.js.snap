@@ -512,6 +512,86 @@ Array [
                   className="css-view-1dbjc4n"
                   style={
                     Object {
+                      "WebkitBoxFlex": 1,
+                      "WebkitFlexBasis": "0%",
+                      "WebkitFlexGrow": 1,
+                      "WebkitFlexShrink": 1,
+                      "flexBasis": "0%",
+                      "flexGrow": 1,
+                      "flexShrink": 1,
+                      "marginLeft": "0.2em",
+                      "msFlexNegative": 1,
+                      "msFlexPositive": 1,
+                      "msFlexPreferredSize": "0%",
+                      "paddingRight": "12px",
+                    }
+                  }
+                >
+                  <div
+                    className="css-view-1dbjc4n"
+                    style={
+                      Object {
+                        "WebkitTransform": "translateX(0px)",
+                        "marginLeft": "15px",
+                        "marginRight": "15px",
+                        "transform": "translateX(0px)",
+                      }
+                    }
+                  >
+                    <input
+                      aria-disabled={true}
+                      autoCapitalize="sentences"
+                      autoComplete="on"
+                      autoCorrect="on"
+                      className="css-textinput-1cwyjr8 r-placeholderTextColor-1x7zpd"
+                      dir="auto"
+                      disabled={true}
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      onKeyDown={[Function]}
+                      onKeyPress={[Function]}
+                      onSelect={[Function]}
+                      placeholder="choose a Username"
+                      readOnly={false}
+                      spellCheck={true}
+                      style={
+                        Object {
+                          "color": "rgba(85,85,85,1.00)",
+                          "fontSize": "16px",
+                          "height": "30px",
+                          "textAlign": "left",
+                        }
+                      }
+                      tabIndex="-1"
+                      type="text"
+                    />
+                  </div>
+                  <div
+                    className="css-text-76zvg2"
+                    dir="auto"
+                    style={
+                      Object {
+                        "WebkitTransform": "translateY(0px)",
+                        "color": "rgba(176,0,32,1.00)",
+                        "direction": "ltr",
+                        "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                        "fontSize": "12px",
+                        "opacity": 1,
+                        "paddingBottom": "4px",
+                        "paddingLeft": "12px",
+                        "paddingRight": "0px",
+                        "paddingTop": "4px",
+                        "textAlign": "left",
+                        "transform": "translateY(0px)",
+                      }
+                    }
+                  />
+                </div>
+                <div
+                  className="css-view-1dbjc4n"
+                  style={
+                    Object {
                       "WebkitAlignItems": "center",
                       "WebkitBoxAlign": "center",
                       "WebkitBoxPack": "center",
@@ -530,7 +610,7 @@ Array [
                     style={
                       Object {
                         "backgroundColor": "rgba(0,0,0,0.00)",
-                        "color": "rgba(85,85,85,1.00)",
+                        "color": "rgba(163,163,163,1.00)",
                         "fontFamily": "MaterialIcons",
                         "fontSize": "24px",
                         "fontStyle": "normal",
@@ -538,53 +618,8 @@ Array [
                       }
                     }
                   >
-                    
+                    
                   </div>
-                </div>
-                <div
-                  className="css-view-1dbjc4n"
-                  style={
-                    Object {
-                      "WebkitBoxFlex": 1,
-                      "WebkitFlexBasis": "0%",
-                      "WebkitFlexGrow": 1,
-                      "WebkitFlexShrink": 1,
-                      "flexBasis": "0%",
-                      "flexGrow": 1,
-                      "flexShrink": 1,
-                      "marginLeft": "0.2em",
-                      "msFlexNegative": 1,
-                      "msFlexPositive": 1,
-                      "msFlexPreferredSize": "0%",
-                      "paddingRight": "12px",
-                    }
-                  }
-                >
-                  <input
-                    className="react-phone-number-input__input"
-                    disabled={true}
-                    onChange={[Function]}
-                  />
-                  <div
-                    className="css-text-76zvg2"
-                    dir="auto"
-                    style={
-                      Object {
-                        "WebkitTransform": "translateY(0px)",
-                        "color": "rgba(176,0,32,1.00)",
-                        "direction": "ltr",
-                        "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                        "fontSize": "12px",
-                        "opacity": 1,
-                        "paddingBottom": "4px",
-                        "paddingLeft": "12px",
-                        "paddingRight": "0px",
-                        "paddingTop": "4px",
-                        "textAlign": "right",
-                        "transform": "translateY(0px)",
-                      }
-                    }
-                  />
                 </div>
               </div>
               <div
@@ -612,6 +647,85 @@ Array [
                   className="css-view-1dbjc4n"
                   style={
                     Object {
+                      "WebkitBoxFlex": 1,
+                      "WebkitFlexBasis": "0%",
+                      "WebkitFlexGrow": 1,
+                      "WebkitFlexShrink": 1,
+                      "flexBasis": "0%",
+                      "flexGrow": 1,
+                      "flexShrink": 1,
+                      "marginLeft": "0.2em",
+                      "msFlexNegative": 1,
+                      "msFlexPositive": 1,
+                      "msFlexPreferredSize": "0%",
+                      "paddingRight": "12px",
+                    }
+                  }
+                >
+                  <div
+                    className="css-view-1dbjc4n"
+                    style={
+                      Object {
+                        "WebkitTransform": "translateX(0px)",
+                        "marginLeft": "15px",
+                        "marginRight": "15px",
+                        "transform": "translateX(0px)",
+                      }
+                    }
+                  >
+                    <input
+                      aria-disabled={true}
+                      autoCapitalize="sentences"
+                      autoComplete="on"
+                      autoCorrect="on"
+                      className="css-textinput-1cwyjr8 r-placeholderTextColor-1x7zpd"
+                      dir="auto"
+                      disabled={true}
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      onKeyDown={[Function]}
+                      onKeyPress={[Function]}
+                      onSelect={[Function]}
+                      readOnly={false}
+                      spellCheck={true}
+                      style={
+                        Object {
+                          "color": "rgba(85,85,85,1.00)",
+                          "fontSize": "16px",
+                          "height": "30px",
+                          "textAlign": "left",
+                        }
+                      }
+                      tabIndex="-1"
+                      type="text"
+                    />
+                  </div>
+                  <div
+                    className="css-text-76zvg2"
+                    dir="auto"
+                    style={
+                      Object {
+                        "WebkitTransform": "translateY(0px)",
+                        "color": "rgba(176,0,32,1.00)",
+                        "direction": "ltr",
+                        "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                        "fontSize": "12px",
+                        "opacity": 1,
+                        "paddingBottom": "4px",
+                        "paddingLeft": "12px",
+                        "paddingRight": "0px",
+                        "paddingTop": "4px",
+                        "textAlign": "left",
+                        "transform": "translateY(0px)",
+                      }
+                    }
+                  />
+                </div>
+                <div
+                  className="css-view-1dbjc4n"
+                  style={
+                    Object {
                       "WebkitAlignItems": "center",
                       "WebkitBoxAlign": "center",
                       "WebkitBoxPack": "center",
@@ -630,7 +744,7 @@ Array [
                     style={
                       Object {
                         "backgroundColor": "rgba(0,0,0,0.00)",
-                        "color": "rgba(85,85,85,1.00)",
+                        "color": "rgba(163,163,163,1.00)",
                         "fontFamily": "MaterialIcons",
                         "fontSize": "24px",
                         "fontStyle": "normal",
@@ -641,6 +755,28 @@ Array [
                     
                   </div>
                 </div>
+              </div>
+              <div
+                className="css-view-1dbjc4n"
+                style={
+                  Object {
+                    "WebkitAlignItems": "center",
+                    "WebkitBoxAlign": "center",
+                    "WebkitBoxDirection": "normal",
+                    "WebkitBoxOrient": "horizontal",
+                    "WebkitFlexDirection": "row",
+                    "alignItems": "center",
+                    "borderBottomColor": "rgba(210,210,210,1.00)",
+                    "borderBottomStyle": "solid",
+                    "borderBottomWidth": "1px",
+                    "flexDirection": "row",
+                    "msFlexAlign": "center",
+                    "msFlexDirection": "row",
+                    "paddingBottom": "0.5em",
+                    "paddingTop": "0.5em",
+                  }
+                }
+              >
                 <div
                   className="css-view-1dbjc4n"
                   style={
@@ -660,10 +796,45 @@ Array [
                     }
                   }
                 >
-                  <input
-                    className="react-phone-number-input__input"
-                    disabled={true}
-                  />
+                  <div
+                    className="css-view-1dbjc4n"
+                    style={
+                      Object {
+                        "WebkitTransform": "translateX(0px)",
+                        "marginLeft": "15px",
+                        "marginRight": "15px",
+                        "transform": "translateX(0px)",
+                      }
+                    }
+                  >
+                    <input
+                      aria-disabled={true}
+                      autoCapitalize="sentences"
+                      autoComplete="on"
+                      autoCorrect="on"
+                      className="css-textinput-1cwyjr8 r-placeholderTextColor-1x7zpd"
+                      dir="auto"
+                      disabled={true}
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      onKeyDown={[Function]}
+                      onKeyPress={[Function]}
+                      onSelect={[Function]}
+                      readOnly={false}
+                      spellCheck={true}
+                      style={
+                        Object {
+                          "color": "rgba(85,85,85,1.00)",
+                          "fontSize": "16px",
+                          "height": "30px",
+                          "textAlign": "left",
+                        }
+                      }
+                      tabIndex="-1"
+                      type="text"
+                    />
+                  </div>
                   <div
                     className="css-text-76zvg2"
                     dir="auto"
@@ -679,11 +850,44 @@ Array [
                         "paddingLeft": "12px",
                         "paddingRight": "0px",
                         "paddingTop": "4px",
-                        "textAlign": "right",
+                        "textAlign": "left",
                         "transform": "translateY(0px)",
                       }
                     }
                   />
+                </div>
+                <div
+                  className="css-view-1dbjc4n"
+                  style={
+                    Object {
+                      "WebkitAlignItems": "center",
+                      "WebkitBoxAlign": "center",
+                      "WebkitBoxPack": "center",
+                      "WebkitJustifyContent": "center",
+                      "alignItems": "center",
+                      "backgroundColor": "rgba(0,0,0,0.00)",
+                      "justifyContent": "center",
+                      "msFlexAlign": "center",
+                      "msFlexPack": "center",
+                    }
+                  }
+                >
+                  <div
+                    className="css-text-76zvg2"
+                    dir="auto"
+                    style={
+                      Object {
+                        "backgroundColor": "rgba(0,0,0,0.00)",
+                        "color": "rgba(163,163,163,1.00)",
+                        "fontFamily": "MaterialIcons",
+                        "fontSize": "24px",
+                        "fontStyle": "normal",
+                        "fontWeight": "normal",
+                      }
+                    }
+                  >
+                    
+                  </div>
                 </div>
               </div>
             </div>

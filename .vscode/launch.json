@@ -12,7 +12,9 @@
             "args": ["--config", "./config/web.jest.config.js","${file}", "--detectOpenHandles"],
             "console": "integratedTerminal",
             "internalConsoleOptions": "neverOpen",
-            "env": {}
+            "env": {
+                "REACT_APP_LOG_LEVEL":"error" 
+            }
         },
         {
             "type": "node",

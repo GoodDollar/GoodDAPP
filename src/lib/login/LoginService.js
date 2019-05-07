@@ -81,22 +81,6 @@ class LoginService {
       })
     return authResult
   }
-
-  // async testAuth():Promise<boolean> {
-  //   const authResult = await fetchPromise.then(fetch => fetch(`${window.location.origin}/auth/test`, {
-  //     headers: { Authorization: `Bearer ${this.jwt || ""}` }
-  //   })
-  //     .then(async (res) => {
-  //       if (res.status === 200) { log.debug("success"); return false; }
-  //       throw new Error("Unauthorized")
-  //     })
-  //     .catch((e:Error) => {
-  //       log.error("failure", e)
-  //       return false
-  //     }))
-  //   const res = await authResult
-  //   return res
-  // }
 }
 
 export default LoginService

@@ -16,7 +16,7 @@ const GD_USER_MNEMONIC: string = 'GD_USER_MNEMONIC'
  * save mnemonics (secret phrase) to user device
  * @param {string} mnemonics
  */
-export function saveMnemonics(mnemonics: string): Promise<string> {
+export function saveMnemonics(mnemonics: string): Promise<any> {
   return AsyncStorage.setItem(GD_USER_MNEMONIC, mnemonics)
 }
 
@@ -33,6 +33,10 @@ export async function getMnemonics(): Promise<string> {
     log.info('pkey found, creating account from pkey:', { pkey })
   }
   return pkey
+}
+
+export function deleteMnemonics():Promise<any> {
+  return AsyncStorage.removeItem(GD_USER_MNEMONIC)
 }
 
 function generateMnemonic(): string {

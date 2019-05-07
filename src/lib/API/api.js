@@ -19,7 +19,12 @@ export type Credentials = {
   jwt?: string
 }
 
-export type UserRecord = NameRecord & EmailRecord & MobileRecord & Credentials
+export type UserRecord = NameRecord &
+  EmailRecord &
+  MobileRecord &
+  Credentials & {
+    username?: string
+  }
 
 class API {
   jwt: string

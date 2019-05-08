@@ -78,59 +78,64 @@ export class GoodWallet {
     this.init()
   }
 
-  listenTxUpdates() {
-    return this.wallet.eth
-      .getBlockNumber()
-      .then(toBN)
-      .then(toBlock => {
-        this.pollForEvents(
-          {
-            event: 'Transfer',
-            contract: this.tokenContract,
-            fromBlock: new BN('0'),
-            toBlock,
-            filterPred: { from: this.account }
-          },
-          async (error, events) => {
-            log.debug({ error, events }, 'send')
-            const [event] = events
-            if (!event) {
-              log.error('no event', events)
-              return
-            }
-            this.getReceiptWithLogs(event.transactionHash)
-              .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptUpdated']))
-              .catch(err => log.error(err))
-            // Send for all events. We could define here different events
-            this.getSubscribers('send').forEach(cb => cb(error, events))
-            this.getSubscribers('balanceChanged').forEach(cb => cb(error, events))
-          }
-        )
+  /**
+   * Subscribes to Transfer events (from and to) the current account
+   * This is used to verify account balance changes
+   * @param fromBlock - defaultValue: '0'
+   * @returns {Promise<R>|Promise<R|*>|Promise<*>}
+   */
+  listenTxUpdates(fromBlock: string = '0') {
+    log.debug('listening from block:', fromBlock)
 
-        this.pollForEvents(
-          {
-            event: 'Transfer',
-            contract: this.tokenContract,
-            fromBlock: new BN('0'),
-            toBlock,
-            filterPred: { to: this.account }
-          },
-          async (error, events) => {
-            log.debug({ error, events }, 'receive')
-            const [event] = events
-            if (!event) {
-              log.error('no event', events)
-              return
-            }
-            this.getReceiptWithLogs(event.transactionHash)
-              .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptReceived']))
-              .catch(err => log.error(err))
-
-            this.getSubscribers('receive').forEach(cb => cb(error, events))
-            this.getSubscribers('balanceChanged').forEach(cb => cb(error, events))
+    return this.getBlockNumber().then(toBlock => {
+      this.pollForEvents(
+        {
+          event: 'Transfer',
+          contract: this.tokenContract,
+          fromBlock,
+          toBlock,
+          filterPred: { from: this.account }
+        },
+        async (error, events) => {
+          log.debug({ error, events }, 'send')
+          const [event] = events
+          if (!event) {
+            log.error('no event', events)
+            return
           }
-        )
-      })
+          this.getReceiptWithLogs(event.transactionHash)
+            .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptUpdated']))
+            .catch(err => log.error(err))
+          // Send for all events. We could define here different events
+          this.getSubscribers('send').forEach(cb => cb(error, events))
+          this.getSubscribers('balanceChanged').forEach(cb => cb(error, events))
+        }
+      )
+
+      this.pollForEvents(
+        {
+          event: 'Transfer',
+          contract: this.tokenContract,
+          fromBlock,
+          toBlock,
+          filterPred: { to: this.account }
+        },
+        async (error, events) => {
+          log.debug({ error, events }, 'receive')
+          const [event] = events
+          if (!event) {
+            log.error('no event', events)
+            return
+          }
+          this.getReceiptWithLogs(event.transactionHash)
+            .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptReceived']))
+            .catch(err => log.error(err))
+
+          this.getSubscribers('receive').forEach(cb => cb(error, events))
+          this.getSubscribers('balanceChanged').forEach(cb => cb(error, events))
+        }
+      )
+    })
   }
 
   async getReceiptWithLogs(transactionHash: string) {
@@ -250,6 +255,14 @@ export class GoodWallet {
   }
 
   /**
+   * Retrieves current Block Number and returns it as converted to a BN instance
+   * @returns {Promise<BN>} - Current block number in BN instance
+   */
+  getBlockNumber(): Promise<BN> {
+    return this.wallet.eth.getBlockNumber().then(toBN)
+  }
+
+  /**
    * Client side event filter. Requests all events for a particular contract, then filters them and returns the event Object
    * @param {String} event - Event to subscribe to
    * @param {Object} contract - Contract from which event will be queried
@@ -320,7 +333,7 @@ export class GoodWallet {
     const BLOCK_TIME = 5000
     const BLOCK_COUNT = 1
     const INTERVAL = BLOCK_COUNT * BLOCK_TIME
-    const lastBlock = await this.wallet.eth.getBlockNumber().then(toBN)
+    const lastBlock = await this.getBlockNumber()
 
     log.debug('lastProcessedBlock', lastProcessedBlock.toString())
     log.debug('lastBlock', lastBlock.toString())

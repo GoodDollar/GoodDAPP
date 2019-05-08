@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, Dimensions } from 'react-native'
 import { normalize } from 'react-native-elements'
 import { Portal } from 'react-native-paper'
 import type { Store } from 'undux'
@@ -30,6 +30,8 @@ import logger from '../../lib/logger/pino-logger'
 import userStorage from '../../lib/gundb/UserStorage'
 
 const log = logger.child({ from: 'Dashboard' })
+
+const { width } = Dimensions.get('window')
 
 export type DashboardProps = {
   screenProps: any,
@@ -216,6 +218,8 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
   }
 }
 
+const BREAKPOINT_SIZE = 450
+
 const styles = StyleSheet.create({
   buttonText: {
     fontFamily: 'Helvetica, "sans-serif"',
@@ -226,7 +230,8 @@ const styles = StyleSheet.create({
   },
   buttonRow: {
     alignItems: 'stretch',
-    marginTop: normalize(10)
+    marginTop: normalize(10),
+    flexDirection: width > BREAKPOINT_SIZE ? 'row' : 'column'
   },
   grayedOutText: {
     color: '#d5d5d5',
@@ -234,11 +239,13 @@ const styles = StyleSheet.create({
   },
   leftButton: {
     flex: 1,
-    marginRight: normalize(10)
+    marginRight: width > BREAKPOINT_SIZE ? normalize(10) : 0,
+    marginBottom: width > BREAKPOINT_SIZE ? 0 : normalize(5)
   },
   rightButton: {
     flex: 1,
-    marginLeft: normalize(10)
+    marginLeft: width > BREAKPOINT_SIZE ? normalize(10) : 0,
+    marginTop: width > BREAKPOINT_SIZE ? 0 : normalize(5)
   },
   dashboardView: {
     flex: 1

@@ -386,7 +386,6 @@ exports[`Amount matches snapshot 1`] = `
                       focus="true"
                       onBlur={[Function]}
                       onChange={[Function]}
-                      onChangeWei={[Function]}
                       onFocus={[Function]}
                       onKeyDown={[Function]}
                       onKeyPress={[Function]}

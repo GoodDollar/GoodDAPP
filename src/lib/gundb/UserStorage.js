@@ -698,6 +698,44 @@ export class UserStorage {
     return result
   }
 
+  /**
+   * Returns the 'lastBlock' gun's node
+   * @returns {*}
+   */
+  getLastBlockNode() {
+    return this.feed.get('lastBlock')
+  }
+
+  /**
+   * Saves block number in the 'lastBlock' node
+   * @param blockNumber
+   * @returns {Promise<Promise<*>|Promise<R|*>>}
+   */
+  async saveLastBlockNumber(blockNumber: number | string): Promise<any> {
+    return this.getLastBlockNode()
+      .putAck(blockNumber)
+      .then()
+  }
+
+  /**
+   * It stores the latest processed block number in the 'lastBlock' node
+   * @returns {Promise<Promise<*>|Promise<R|*>>}
+   */
+  async saveLastBlockNumberProcessed(): Promise<any> {
+    // seek for the latest feed, and extract it's receipt
+    const [
+      {
+        data: { receipt }
+      }
+    ] = await this.getFeedPage(1, true)
+
+    // feed partially stored, will wait for the next call
+    if (!receipt) return
+
+    // stores blockNumber from the feed's receipt
+    return this.saveLastBlockNumber(receipt.blockNumber)
+  }
+
   getProfile(): Promise<any> {
     return new Promise(res => {
       this.profile.load(async profile => res(await this.getPrivateProfile(profile)), { wait: 99 })

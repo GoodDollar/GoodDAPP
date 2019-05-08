@@ -54,16 +54,6 @@ type FeedListState = {
   logViewable: boolean
 }
 
-type InfoType = {
-  changed: Array<{
-    key: string,
-    isViewable: boolean,
-    item: any,
-    index: ?number,
-    section?: any
-  }>
-}
-
 type ItemComponentProps = {
   item: any,
   separators: {

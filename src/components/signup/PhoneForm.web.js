@@ -1,10 +1,8 @@
 // @flow
 import React from 'react'
-import { HelperText } from 'react-native-paper'
 import PhoneInput from 'react-phone-number-input'
 import 'react-phone-number-input/style.css'
 
-import isMobilePhone from '../../lib/validators/isMobilePhone'
 import { Description, Title, Wrapper } from './components'
 import { userModelValidations } from '../../lib/gundb/UserModel'
 

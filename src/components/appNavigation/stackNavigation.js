@@ -1,13 +1,11 @@
 // @flow
 import React, { Component, useState, useEffect } from 'react'
-import { Style } from 'react-native'
 import { Button } from 'react-native-paper'
 import { createNavigator, SwitchRouter, SceneView, Route } from '@react-navigation/core'
 import { Helmet } from 'react-helmet'
 
 import NavBar from './NavBar'
 import { CustomButton, type ButtonProps } from '../common'
-import logger from '../../lib/logger/pino-logger'
 
 /**
  * getComponent gets the component and props and returns the same component except when

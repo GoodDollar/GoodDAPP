@@ -4,9 +4,9 @@ import ReserveABI from '@gooddollar/goodcontracts/build/contracts/GoodDollarRese
 import IdentityABI from '@gooddollar/goodcontracts/build/contracts/Identity.min.json'
 import OneTimePaymentLinksABI from '@gooddollar/goodcontracts/build/contracts/OneTimePaymentLinks.min.json'
 import RedemptionABI from '@gooddollar/goodcontracts/build/contracts/RedemptionFunctional.min.json'
-import filter from 'lodash/filter'
+import { default as filterFunc } from 'lodash/filter'
 import type Web3 from 'web3'
-import { utils } from 'web3'
+import { BN, toBN } from 'web3-utils'
 
 import Config from '../../config/config'
 import logger from '../../lib/logger/pino-logger'
@@ -15,7 +15,6 @@ import abiDecoder from 'abi-decoder'
 
 const log = logger.child({ from: 'GoodWallet' })
 
-const { BN, toBN } = utils
 const ZERO = new BN('0')
 
 type PromiEvents = {
@@ -190,7 +189,7 @@ export class GoodWallet {
           }
         )
         abiDecoder.addABI(OneTimePaymentLinksABI.abi)
-        log.info('GoodWallet Ready.', { accounts: this.accounts, account: this.account })
+        log.info('GoodWallet Ready.', { account: this.account })
         this.listenTxUpdates()
       })
       .catch(e => {
@@ -262,9 +261,9 @@ export class GoodWallet {
    */
   async getEvents({ event, contract, filterPred, fromBlock = ZERO, toBlock }: QueryEvent): Promise<[]> {
     const events = await contract.getPastEvents('allEvents', { fromBlock, toBlock })
+    const res1 = filterFunc(events, { event })
+    const res = filterFunc(res1, { returnValues: { ...filterPred } })
 
-    const res1 = filter(events, { event })
-    const res = filter(res1, { returnValues: { ...filterPred } })
     return res
   }
 
@@ -357,9 +356,10 @@ export class GoodWallet {
     return account
   }
 
-  async sign(toSign: string, accountType: AccountUsage = 'gd'): Promise<Buffer> {
+  async sign(toSign: string, accountType: AccountUsage = 'gd'): Promise<string> {
     let account = await this.getAccountForType(accountType)
-    return this.wallet.eth.sign(toSign, account)
+    let signed = await this.wallet.eth.sign(toSign, account)
+    return signed.signature
   }
 
   async isVerified(address: string): Promise<boolean> {

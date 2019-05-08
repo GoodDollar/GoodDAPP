@@ -4,11 +4,8 @@ import { HelperText, TextInput } from 'react-native-paper'
 import type { Store } from 'undux'
 
 import { userModelValidations } from '../../lib/gundb/UserModel'
-import logger from '../../lib/logger/pino-logger'
 import GDStore from '../../lib/undux/GDStore'
 import { Title, Wrapper } from './components'
-
-const log = logger.child({ from: 'EmailForm' })
 
 type Props = {
   // callback to report to parent component

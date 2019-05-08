@@ -31,6 +31,7 @@ class EmailForm extends React.Component<Props, State> {
     email: this.props.screenProps.data.email || '',
     errorMessage: ''
   }
+  isValid = false
 
   handleChange = (email: string) => {
     if (this.state.errorMessage !== '') {
@@ -41,7 +42,7 @@ class EmailForm extends React.Component<Props, State> {
   }
 
   handleSubmit = () => {
-    if (this.state.errorMessage === '') {
+    if (this.isValid) {
       this.props.screenProps.doneCallback({ email: this.state.email })
     }
   }
@@ -54,19 +55,23 @@ class EmailForm extends React.Component<Props, State> {
 
   render() {
     const { errorMessage } = this.state
+    this.isValid = userModelValidations.email(this.state.email) === ''
+    const { key } = this.props.navigation.state
 
     return (
-      <Wrapper valid={true} handleSubmit={this.handleSubmit} loading={this.props.store.get('currentScreen').loading}>
+      <Wrapper
+        valid={this.isValid}
+        handleSubmit={this.handleSubmit}
+        loading={this.props.store.get('currentScreen').loading}
+      >
         <Title>And which email address should we use to notify you?</Title>
         <TextInput
-          id="signup_email"
-          label="Your Email"
+          id={key + '_input'}
           value={this.state.email}
           onChangeText={this.handleChange}
           onBlur={this.checkErrors}
           keyboardType="email-address"
           error={errorMessage !== ''}
-          autoFocus
         />
         <HelperText type="error" visible={errorMessage}>
           {errorMessage}

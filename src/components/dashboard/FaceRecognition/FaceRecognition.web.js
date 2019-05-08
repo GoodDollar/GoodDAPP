@@ -40,7 +40,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
       // eslint-disable-next-line no-undef
       let loadedZoom = ZoomSDK
       log.info('ZoomSDK loaded', loadedZoom)
-      await initializeAndPreload(loadedZoom) // TODO: what to do in case of init errors?
+      await initializeAndPreload(loadedZoom) // TODO: what  to do in case of init errors?
       log.info('ZoomSDK initialized and preloaded', loadedZoom)
       this.setState({ ready: true })
     } catch (e) {

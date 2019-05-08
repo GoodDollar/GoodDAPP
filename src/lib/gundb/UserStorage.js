@@ -692,7 +692,9 @@ export class UserStorage {
       .get(day)
       .put(dayEventsArr.length)
 
-    const result = await Promise.all([saveAck, ack])
+    const lastBlockAck = this.saveLastBlockNumberProcessed()
+
+    const result = await Promise.all([saveAck, ack, lastBlockAck])
       .then(arr => arr[0])
       .catch(err => logger.info('savingIndex', err))
     return result

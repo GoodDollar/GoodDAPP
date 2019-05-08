@@ -57,6 +57,12 @@ class NameForm extends React.Component<Props, State> {
     store.set('name')(name)
   }
 
+  handleEnter = (event: { nativeEvent: { key: string } }) => {
+    if (event.nativeEvent.key === 'Enter' && this.isValid) {
+      this.handleSubmit()
+    }
+  }
+
   render() {
     console.log(this.props.navigation, this.props.screenProps)
     const name = this.props.store.get('name')
@@ -72,6 +78,7 @@ class NameForm extends React.Component<Props, State> {
           onChangeText={this.handleChange}
           onBlur={this.checkErrors}
           error={errorMessage !== ''}
+          onKeyPress={this.handleEnter}
         />
         <HelperText type="error" visible={errorMessage}>
           {errorMessage}

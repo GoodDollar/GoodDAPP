@@ -43,6 +43,12 @@ export default class PhoneForm extends React.Component<Props, State> {
     }
   }
 
+  handleEnter = (event: { nativeEvent: { key: string } }) => {
+    if (event.keyCode === 13 && this.isValid) {
+      this.handleSubmit()
+    }
+  }
+
   checkErrors = () => {
     const errorMessage = userModelValidations.mobile(this.state.mobile)
     this.setState({ errorMessage })
@@ -63,6 +69,7 @@ export default class PhoneForm extends React.Component<Props, State> {
           onChange={this.handleChange}
           onBlur={this.checkErrors}
           error={errorMessage}
+          onKeyDown={this.handleEnter}
         />
         <Description>We will shortly send you a verification code to this number</Description>
       </Wrapper>

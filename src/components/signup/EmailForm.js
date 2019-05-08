@@ -47,6 +47,12 @@ class EmailForm extends React.Component<Props, State> {
     }
   }
 
+  handleEnter = (event: { nativeEvent: { key: string } }) => {
+    if (event.nativeEvent.key === 'Enter' && this.isValid) {
+      this.handleSubmit()
+    }
+  }
+
   checkErrors = () => {
     const errorMessage = userModelValidations.email(this.state.email)
 
@@ -72,6 +78,7 @@ class EmailForm extends React.Component<Props, State> {
           onBlur={this.checkErrors}
           keyboardType="email-address"
           error={errorMessage !== ''}
+          onKeyPress={this.handleEnter}
         />
         <HelperText type="error" visible={errorMessage}>
           {errorMessage}

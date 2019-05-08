@@ -119,7 +119,6 @@ class API {
     form.append('session_id', capture.sessionId)
     form.append('facemap', capture.facemap, { contentType: 'application/zip' })
     form.append('audit_trail_image', capture.auditTrailImage, { contentType: 'image/jpeg' })
-    debugger
     let res = this.client.post('/livetest/enroll', form, {
       headers: {
         'Content-Type': `multipart/form-data;`

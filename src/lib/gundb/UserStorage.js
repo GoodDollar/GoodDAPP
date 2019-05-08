@@ -239,14 +239,31 @@ export class UserStorage {
     return feedItem
   }
 
-  async getAllFeed() {
-    const total = Object.values((await this.feed.get('index')) || {}).reduce((acc, curr) => acc + curr, 0)
+  /**
+   * Returns the amount specified of feeds in desc order (from newest to oldest)
+   * @param {number} amount
+   * @returns {Promise<Array<FeedEvent>>}
+   */
+  async getFeeds(amount: number = 0): Promise<Array<FeedEvent>> {
+    if (!amount) return []
+
     const prevCursor = this.cursor
-    logger.debug({ total, prevCursor })
-    const feed = await this.getFeedPage(total, true)
+    logger.debug({ amount, prevCursor })
+
+    const feeds = await this.getFeedPage(amount, true)
     this.cursor = prevCursor
-    logger.debug({ feed, cursor: this.cursor })
-    return feed
+    logger.debug({ feeds, cursor: this.cursor })
+
+    return feeds
+  }
+
+  /**
+   * Returns all the feeds available for the current user
+   * @returns {Promise<Array<FeedEvent>>}
+   */
+  async getAllFeed(): Promise<Array<FeedEvent>> {
+    const total = Object.values((await this.feed.get('index')) || {}).reduce((acc, curr) => acc + curr, 0)
+    return this.getFeeds(total)
   }
 
   updateFeedIndex = (changed: any, field: string) => {
@@ -724,17 +741,13 @@ export class UserStorage {
    */
   async saveLastBlockNumberProcessed(): Promise<any> {
     // seek for the latest feed, and extract it's receipt
-    const [
-      {
-        data: { receipt }
-      }
-    ] = await this.getFeedPage(1, true)
+    const [lastBlock] = await this.getFeeds(1)
 
     // feed partially stored, will wait for the next call
-    if (!receipt) return
+    if (!lastBlock || !lastBlock.data || !lastBlock.data.receipt) return
 
     // stores blockNumber from the feed's receipt
-    return this.saveLastBlockNumber(receipt.blockNumber)
+    return this.saveLastBlockNumber(lastBlock.data.receipt.blockNumber)
   }
 
   getProfile(): Promise<any> {

@@ -11,7 +11,6 @@ import rewardsIcon from '../../assets/rewardsIcon.png'
 
 import GDStore from '../../lib/undux/GDStore'
 import Dashboard from '../dashboard/Dashboard'
-import Splash from '../splash/Splash'
 import BuySell from './BuySell'
 import Donate from './Donate'
 import Rewards from './Rewards'

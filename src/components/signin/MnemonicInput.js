@@ -13,7 +13,7 @@ type Props = {
 }
 
 const isValidWord = word => {
-  return word != ''
+  return word !== ''
 }
 
 const MnemonicInput = (props: Props) => {

@@ -1,5 +1,6 @@
 // @flow
 import React, { Component, useState, useEffect } from 'react'
+import { ScrollView } from 'react-native'
 import { Button } from 'react-native-paper'
 import { createNavigator, SwitchRouter, SceneView, Route } from '@react-navigation/core'
 import { Helmet } from 'react-helmet'
@@ -150,7 +151,9 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
           <title>{`Good Dollar | ${pageTitle}`}</title>
         </Helmet>
         {!navigationBarHidden && <NavBar goBack={backButtonHidden ? undefined : this.pop} title={pageTitle} />}
-        <SceneView navigation={descriptor.navigation} component={Component} screenProps={screenProps} />
+        <ScrollView>
+          <SceneView navigation={descriptor.navigation} component={Component} screenProps={screenProps} />
+        </ScrollView>
       </React.Fragment>
     )
   }

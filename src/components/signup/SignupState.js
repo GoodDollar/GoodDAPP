@@ -1,6 +1,6 @@
 // @flow
 import React, { useState } from 'react'
-import { View, StyleSheet } from 'react-native'
+import { View, StyleSheet, ScrollView } from 'react-native'
 import NameForm from './NameForm'
 import EmailForm from './EmailForm'
 import PhoneForm from './PhoneForm'
@@ -136,12 +136,14 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   return (
     <View style={styles.container}>
       <NavBar goBack={back} title={'Sign Up'} />
-      <View style={styles.contentContainer}>
-        <SignupWizardNavigator
-          navigation={navigation}
-          screenProps={{ ...screenProps, data: { ...state, loading }, doneCallback: done, back: back }}
-        />
-      </View>
+      <ScrollView>
+        <View style={styles.contentContainer}>
+          <SignupWizardNavigator
+            navigation={navigation}
+            screenProps={{ ...screenProps, data: { ...state, loading }, doneCallback: done, back: back }}
+          />
+        </View>
+      </ScrollView>
     </View>
   )
 }

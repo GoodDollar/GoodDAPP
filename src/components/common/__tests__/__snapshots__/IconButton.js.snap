@@ -68,7 +68,7 @@ exports[`IconButton disabled matches snapshot 1`] = `
         }
       }
     >
-      ?
+      
     </div>
   </div>
   <div
@@ -153,7 +153,7 @@ exports[`IconButton enabled matches snapshot 1`] = `
         }
       }
     >
-      ?
+      
     </div>
   </div>
   <div

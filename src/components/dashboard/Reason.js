@@ -1,6 +1,6 @@
 // @flow
-import React, { useCallback, useState } from 'react'
-import { Text, View } from 'react-native'
+import React from 'react'
+import { View } from 'react-native'
 import { TextInput } from 'react-native-paper'
 
 import { Section, Wrapper } from '../common'

@@ -1,4 +1,4 @@
-import Gun from 'gun'
+import Gun from '@gooddollar/gun-appendonly'
 import SEA from 'gun/sea'
 require('gun/lib/load.js')
 /**
@@ -7,23 +7,23 @@ require('gun/lib/load.js')
 export default (() => {
   Gun.chain.putAck = function(data, cb) {
     var gun = this,
-      cb =
+      callback =
         cb ||
         function(ctx) {
           return ctx
         }
     let promise = new Promise((res, rej) => gun.put(data, ack => (ack.err ? rej(ack) : res(ack))))
-    return promise.then(cb)
+    return promise.then(callback)
   }
   Gun.User.prototype.secretAck = function(data, cb) {
     var gun = this,
-      cb =
+      callback =
         cb ||
         function(ctx) {
           return ctx
         }
     let promise = new Promise((res, rej) => gun.secret(data, ack => (ack.err ? rej(ack) : res(ack))))
-    return promise.then(cb)
+    return promise.then(callback)
   }
 
   Gun.User.prototype.decrypt = function(cb) {

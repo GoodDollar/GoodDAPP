@@ -2,11 +2,14 @@ import React, { useState } from 'react'
 import { Wrapper, TopBar, Section, IconButton, CustomButton } from '../common'
 import { StyleSheet, View } from 'react-native'
 import { HelperText, TextInput } from 'react-native-paper'
+import { Icon, normalize } from 'react-native-elements'
 import { useScreenState } from '../appNavigation/stackNavigation'
 import isMobilePhone from '../../lib/validators/isMobilePhone'
+import Clipboard from '../../lib/utils/Clipboard'
 import isEmail from 'validator/lib/isEmail'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import logger from '../../lib/logger/pino-logger'
+import UserStorage from '../../lib/gundb/UserStorage'
 
 const SEND_TITLE = 'Send GD'
 
@@ -31,26 +34,28 @@ const GenerateLinkButton = ({ screenProps, disabled }) => (
   />
 )
 
-const validate = to => {
+const validate = async to => {
   if (!to) return null
 
-  if (isMobilePhone(to) || isEmail(to)) {
-    return null
-  }
+  if (isMobilePhone(to) || isEmail(to)) return null
 
-  if (goodWallet.wallet.utils.isAddress(to)) {
-    return null
-  }
-  return `Needs to be a valid address, email or mobile phone`
+  if (goodWallet.wallet.utils.isAddress(to)) return null
+
+  return `Needs to be a valid wallet address, email or mobile phone (starts with a '+')`
 }
 
 const ContinueButton = ({ screenProps, to, disabled, checkError }) => (
   <CustomButton
-    onPress={() => {
-      if (checkError()) return
+    onPress={async () => {
+      if (await checkError()) return
 
       if (to && (isMobilePhone(to) || isEmail(to))) {
-        return screenProps.push('Amount', { to, nextRoutes: ['Reason', 'SendLinkSummary'] })
+        const address = await UserStorage.getUserAddress(to)
+        if (address) {
+          return screenProps.push('Amount', { address, nextRoutes: ['Reason', 'SendQRSummary'] })
+        } else {
+          return screenProps.push('Amount', { to, nextRoutes: ['Reason', 'SendLinkSummary'] })
+        }
       }
 
       if (to && goodWallet.wallet.utils.isAddress(to)) {
@@ -70,10 +75,21 @@ const Send = props => {
   const [error, setError] = useState()
 
   const { to } = screenState
-  const checkError = () => {
-    const err = validate(to)
-    setError(err)
-    return err
+
+  const checkError = async () => {
+    const response = await validate(to)
+    setError(response)
+    return response
+  }
+
+  const pasteToWho = async () => {
+    try {
+      const who = await Clipboard.getString()
+      log.info({ who })
+      setScreenState({ to: who })
+    } catch (err) {
+      log.error('Paste action failed', err)
+    }
   }
 
   return (
@@ -82,7 +98,20 @@ const Send = props => {
       <Section style={styles.bottomSection}>
         <View style={styles.topContainer}>
           <Section.Title>TO WHO?</Section.Title>
-          <TextInput onChangeText={text => setScreenState({ to: text })} onBlur={checkError} value={to} error={error} />
+          <View style={styles.iconInputContainer}>
+            <View style={styles.pasteIcon}>
+              <Icon color="#282c34" name="content-paste" onClick={pasteToWho} />
+            </View>
+            <TextInput
+              onChangeText={text => setScreenState({ to: text })}
+              onBlur={checkError}
+              value={to}
+              error={error}
+              style={styles.input}
+              placeholder="Phone Number / Email / Username"
+              autoFocus
+            />
+          </View>
           <HelperText type="error" visible={error}>
             {error}
           </HelperText>
@@ -113,6 +142,20 @@ const styles = StyleSheet.create({
   },
   topContainer: {
     flex: 1
+  },
+  iconInputContainer: {
+    display: 'inline-flex',
+    position: 'relative'
+  },
+  input: {
+    flex: 1
+  },
+  pasteIcon: {
+    position: 'absolute',
+    cursor: 'pointer',
+    right: 0,
+    padding: normalize(15),
+    zIndex: 1
   }
 })
 

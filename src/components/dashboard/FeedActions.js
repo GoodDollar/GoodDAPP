@@ -1,17 +1,28 @@
+// @flow
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import { Alert, TouchableHighlight, Text, View } from 'react-native-web'
+import goodWallet from '../../lib/wallet/GoodWallet'
+import type { FeedEventProps } from './FeedItems/EventProps'
 
-export default () => (
+/**
+ * Returns swipeable actions for items inside Feed list
+ *
+ * @param {FeedEventProps} feedItem - Contains the feed item
+ * @returns React element with actions
+ */
+export default ({ item }: FeedEventProps) => (
   <View style={styles.actionsContainer}>
-    <TouchableHighlight
-      style={[styles.actionButton, styles.actionButtonDestructive]}
-      onPress={() => {
-        Alert.alert('Tips', 'You could do something with this remove action!')
-      }}
-    >
-      <Text style={styles.actionButtonText}>Delete</Text>
-    </TouchableHighlight>
+    {item && !goodWallet.wallet.utils.isHexStrict(item.id) && (
+      <TouchableHighlight
+        style={[styles.actionButton, styles.actionButtonDestructive]}
+        onPress={() => {
+          Alert.alert('Tips', 'You could do something with this remove action!')
+        }}
+      >
+        <Text style={styles.actionButtonText}>Delete</Text>
+      </TouchableHighlight>
+    )}
   </View>
 )
 

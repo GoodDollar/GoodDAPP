@@ -1,5 +1,6 @@
 // @flow
 import fromPairs from 'lodash/fromPairs'
+import toPairs from 'lodash/toPairs'
 import { decode, encode, isMNID } from 'mnid'
 import isURL from 'validator/lib/isURL'
 import isEmail from 'validator/lib/isEmail'
@@ -123,4 +124,29 @@ export function generateHrefLinks(sendLink: string, to?: string = ''): Array<Hre
   }
 
   return [viaEmail, viaSMS]
+}
+
+type ActionType = 'receive' | 'send'
+
+/**
+ * Generates URL link to share/receive GDs
+ * @param {ActionType} action - Wether 'receive' or 'send'
+ * @param {object} params - key-pair of query params to be added to the URL
+ * @returns {string} - URL to use to share/receive GDs
+ */
+export function generateShareLink(action: ActionType = 'receive', params: {} = {}): string {
+  // depending on the action, routes may vary
+  const destination = {
+    receive: 'Send',
+    send: 'Home'
+  }[action]
+
+  // creates query params from params object
+  const queryParams = toPairs(params)
+    .map(param => param.join('='))
+    .join('&')
+
+  if (!queryParams || !destination) return ''
+
+  return `${Config.publicUrl}/AppNavigation/Dashboard/${destination}?${queryParams}`
 }

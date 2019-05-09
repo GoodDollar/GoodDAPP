@@ -10,6 +10,7 @@ import { BN, toBN } from 'web3-utils'
 
 import Config from '../../config/config'
 import logger from '../../lib/logger/pino-logger'
+import { generateShareLink } from '../share'
 import WalletFactory from './WalletFactory'
 import abiDecoder from 'abi-decoder'
 
@@ -395,7 +396,14 @@ export class GoodWallet {
 
     log.info({ amount })
 
-    const sendLink = `${Config.publicUrl}/AppNavigation/Dashboard/Home?receiveLink=${generatedString}&reason=${reason}`
+    const sendLink = generateShareLink('send', {
+      receiveLink: generatedString,
+      reason
+    })
+
+    if (!sendLink) {
+      throw new Error(`Link couldn't be generated`)
+    }
 
     const onTransactionHash = events.onTransactionHash({ sendLink, generatedString })
     const receipt = await this.sendTransaction(transferAndCall, { onTransactionHash }, { gas })

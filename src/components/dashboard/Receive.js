@@ -57,7 +57,7 @@ const Receive = ({ screenProps }: ReceiveProps) => {
             dark={false}
             routeName="Amount"
             screenProps={screenProps}
-            params={{ nextRoutes: ['ReceiveAmount'] }}
+            params={{ nextRoutes: ['ReceiveAmount'], params: { toReceive: true } }}
           >
             Request an amount
           </PushButton>

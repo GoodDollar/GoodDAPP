@@ -20,10 +20,11 @@ const log = logger.child({ from: RECEIVE_TITLE })
 const Amount = (props: AmountProps) => {
   const { screenProps } = props
   const [screenState, setScreenState] = useScreenState(screenProps)
-  const { amount, to } = screenState || {}
+  const { amount, to, params } = screenState || {}
   const [showDialogWithData] = useDialog()
-
   const canContinue = async () => {
+    if (params && params.toReceive) return true
+
     if (!(await goodWallet.canSend(amount))) {
       showDialogWithData({
         title: 'Cannot send GD',

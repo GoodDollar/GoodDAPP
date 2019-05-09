@@ -5,3 +5,7 @@ export const fontStyle = {
   fontSize: normalize(18),
   textAlign: 'center'
 }
+
+export const scrollableContainer = {
+  minHeight: '100%'
+}

@@ -117,10 +117,6 @@ export default class SmsForm extends React.Component<Props, State> {
     this.setState({ sendingCode: false })
   }
 
-  handleVoiceCode = () => {
-    log.info('Voice Code is not available')
-  }
-
   render() {
     const { valid, errorMessage, sendingCode } = this.state
 
@@ -142,14 +138,7 @@ export default class SmsForm extends React.Component<Props, State> {
         <Error>{errorMessage !== '' && errorMessage}</Error>
         <View style={buttonRow.wrapper}>
           <ActionButton styles={buttonRow.button} loading={sendingCode} handleSubmit={this.handleRetry}>
-            <Text>Send me</Text>
-            <br />
-            <Text>the code again</Text>
-          </ActionButton>
-          <ActionButton styles={buttonRow.button} handleSubmit={this.handleVoiceCode}>
-            <Text>Send me</Text>
-            <br />
-            <Text>a voice code</Text>
+            <Text>Send me the code again</Text>
           </ActionButton>
         </View>
       </Wrapper>
@@ -182,7 +171,7 @@ const buttonRow = {
   },
   button: {
     justifyContent: 'center',
-    width: '46%',
+    width: '100%',
     height: normalize(60)
   }
 }

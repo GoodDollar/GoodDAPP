@@ -1,10 +1,9 @@
 // @flow
 import React from 'react'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, ScrollView } from 'react-native'
 import { Text } from 'react-native-paper'
 import { normalize } from 'react-native-elements'
-import goodWallet from '../../lib/wallet/GoodWallet'
 import logger from '../../lib/logger/pino-logger'
 import { CustomButton } from '../common'
 import { Description, LinkButton } from '../signup/components'
@@ -24,10 +23,6 @@ const log = logger.child({ from: 'Auth' })
 class Auth extends React.Component<Props> {
   static navigationOptions = {
     navigationBarHidden: true
-  }
-
-  componentDidMount() {
-    log.info(goodWallet)
   }
 
   handleSignUp = () => {
@@ -84,10 +79,8 @@ const styles = StyleSheet.create({
     height: '100%',
     paddingLeft: '4%',
     paddingRight: '4%',
-    justifyContent: 'space-between',
     display: 'flex',
-    flex: 1,
-    alignItems: 'stretch'
+    flex: 1
   },
   topContainer: {
     flexGrow: 1,

@@ -413,7 +413,6 @@ exports[`Dashboard matches snapshot 1`] = `
                 style={
                   Object {
                     "color": "rgba(85,85,85,1.00)",
-                    "fontFamily": "Helvetica, \\"sans-serif\\"",
                     "fontSize": "18px",
                     "textAlign": "center",
                   }
@@ -457,7 +456,7 @@ exports[`Dashboard matches snapshot 1`] = `
                     Object {
                       "color": "rgba(85,85,85,1.00)",
                       "direction": "ltr",
-                      "fontFamily": "Helvetica, \\"sans-serif\\"",
+                      "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                       "fontSize": "30px",
                       "textAlign": "right",
                     }
@@ -472,7 +471,7 @@ exports[`Dashboard matches snapshot 1`] = `
                     Object {
                       "color": "rgba(85,85,85,1.00)",
                       "direction": "ltr",
-                      "fontFamily": "Helvetica, \\"sans-serif\\"",
+                      "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                       "fontSize": "18px",
                       "textAlign": "right",
                     }
@@ -618,7 +617,7 @@ exports[`Dashboard matches snapshot 1`] = `
                           Object {
                             "color": "rgba(255,255,255,1.00)",
                             "direction": "ltr",
-                            "fontFamily": "Helvetica, \\"sans-serif\\"",
+                            "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                             "fontSize": "18px",
                             "fontWeight": "bold",
                             "paddingBottom": "5px",
@@ -883,7 +882,7 @@ exports[`Dashboard matches snapshot 1`] = `
                           Object {
                             "color": "rgba(255,255,255,1.00)",
                             "direction": "ltr",
-                            "fontFamily": "Helvetica, \\"sans-serif\\"",
+                            "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                             "fontSize": "18px",
                             "fontWeight": "bold",
                             "paddingBottom": "5px",
@@ -1414,7 +1413,6 @@ exports[`Dashboard matches snapshot when changing tab 1`] = `
                 style={
                   Object {
                     "color": "rgba(85,85,85,1.00)",
-                    "fontFamily": "Helvetica, \\"sans-serif\\"",
                     "fontSize": "18px",
                     "textAlign": "center",
                   }
@@ -1458,7 +1456,7 @@ exports[`Dashboard matches snapshot when changing tab 1`] = `
                     Object {
                       "color": "rgba(85,85,85,1.00)",
                       "direction": "ltr",
-                      "fontFamily": "Helvetica, \\"sans-serif\\"",
+                      "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                       "fontSize": "30px",
                       "textAlign": "right",
                     }
@@ -1473,7 +1471,7 @@ exports[`Dashboard matches snapshot when changing tab 1`] = `
                     Object {
                       "color": "rgba(85,85,85,1.00)",
                       "direction": "ltr",
-                      "fontFamily": "Helvetica, \\"sans-serif\\"",
+                      "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                       "fontSize": "18px",
                       "textAlign": "right",
                     }
@@ -1619,7 +1617,7 @@ exports[`Dashboard matches snapshot when changing tab 1`] = `
                           Object {
                             "color": "rgba(255,255,255,1.00)",
                             "direction": "ltr",
-                            "fontFamily": "Helvetica, \\"sans-serif\\"",
+                            "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                             "fontSize": "18px",
                             "fontWeight": "bold",
                             "paddingBottom": "5px",
@@ -1884,7 +1882,7 @@ exports[`Dashboard matches snapshot when changing tab 1`] = `
                           Object {
                             "color": "rgba(255,255,255,1.00)",
                             "direction": "ltr",
-                            "fontFamily": "Helvetica, \\"sans-serif\\"",
+                            "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                             "fontSize": "18px",
                             "fontWeight": "bold",
                             "paddingBottom": "5px",

@@ -210,7 +210,7 @@ Array [
                   Object {
                     "color": "rgba(255,255,255,1.00)",
                     "direction": "ltr",
-                    "fontFamily": "Helvetica, \\"sans-serif\\"",
+                    "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                     "fontSize": "18px",
                     "fontWeight": "bold",
                     "paddingBottom": "5px",

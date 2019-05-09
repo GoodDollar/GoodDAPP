@@ -1,0 +1,89 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WebViewScreen Instances PrivacyPolicy matches snapshot 1`] = `
+<iframe
+  allowFullScreen={true}
+  allowpaymentrequest="true"
+  frameBorder="0"
+  seamless={true}
+  src="https://community.gooddollar.org/privacy/"
+  style={
+    Object {
+      "borderBottomWidth": "0px",
+      "borderLeftWidth": "0px",
+      "borderRightWidth": "0px",
+      "borderTopWidth": "0px",
+      "height": "100%",
+      "overflowX": "hidden",
+      "overflowY": "hidden",
+      "width": "100%",
+    }
+  }
+/>
+`;
+
+exports[`WebViewScreen Instances TermsOfUse matches snapshot 1`] = `
+<iframe
+  allowFullScreen={true}
+  allowpaymentrequest="true"
+  frameBorder="0"
+  seamless={true}
+  src="https://community.gooddollar.org/terms/"
+  style={
+    Object {
+      "borderBottomWidth": "0px",
+      "borderLeftWidth": "0px",
+      "borderRightWidth": "0px",
+      "borderTopWidth": "0px",
+      "height": "100%",
+      "overflowX": "hidden",
+      "overflowY": "hidden",
+      "width": "100%",
+    }
+  }
+/>
+`;
+
+exports[`WebViewScreen matches snapshot 1`] = `
+<iframe
+  allowFullScreen={true}
+  allowpaymentrequest="true"
+  frameBorder="0"
+  seamless={true}
+  src="sourceUrl"
+  style={
+    Object {
+      "borderBottomWidth": "0px",
+      "borderLeftWidth": "0px",
+      "borderRightWidth": "0px",
+      "borderTopWidth": "0px",
+      "height": "100%",
+      "overflowX": "hidden",
+      "overflowY": "hidden",
+      "width": "100%",
+    }
+  }
+/>
+`;
+
+exports[`WebViewScreen matches snapshot 2`] = `
+<iframe
+  allowFullScreen={true}
+  allowpaymentrequest="true"
+  frameBorder="0"
+  seamless={true}
+  src="https://community.gooddollar.org/terms/"
+  style={
+    Object {
+      "borderBottomWidth": "0px",
+      "borderLeftWidth": "0px",
+      "borderRightWidth": "0px",
+      "borderTopWidth": "0px",
+      "height": "100%",
+      "overflowX": "hidden",
+      "overflowY": "hidden",
+      "width": "100%",
+    }
+  }
+/>
+`;

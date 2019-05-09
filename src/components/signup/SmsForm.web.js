@@ -138,9 +138,7 @@ export default class SmsForm extends React.Component<Props, State> {
         <Error>{errorMessage !== '' && errorMessage}</Error>
         <View style={buttonRow.wrapper}>
           <ActionButton styles={buttonRow.button} loading={sendingCode} handleSubmit={this.handleRetry}>
-            <Text>Send me</Text>
-            <br />
-            <Text>the code again</Text>
+            <Text>Send me the code again</Text>
           </ActionButton>
         </View>
       </Wrapper>

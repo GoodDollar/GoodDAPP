@@ -1,6 +1,6 @@
 // @flow
 import React, { useState } from 'react'
-import { View, StyleSheet, ScrollView } from 'react-native'
+import { View, StyleSheet, ScrollView, AsyncStorage } from 'react-native'
 import NameForm from './NameForm'
 import EmailForm from './EmailForm'
 import PhoneForm from './PhoneForm'
@@ -104,16 +104,16 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
           // saved to the `state`
           await API.addUser(state)
           await API.verifyUser({})
-          const destinationPath = store.get('destinationPath')
+          const destinationPath = await AsyncStorage.getItem('destinationPath')
           store.set('isLoggedInCitizen')(true)
           // top wallet of new user
           // wait for the topping to complete to be able to withdraw
           await API.verifyTopWallet()
-          const mnemonic = localStorage.getItem('GD_USER_MNEMONIC')
+          const mnemonic = await AsyncStorage.getItem('GD_USER_MNEMONIC')
           await API.sendRecoveryInstructionByEmail(mnemonic)
           if (destinationPath !== '') {
             navigation.navigate(JSON.parse(destinationPath))
-            store.set('destinationPath')('')
+            return AsyncStorage.setItem('destinationPath', '')
           } else {
             navigation.navigate('AppNavigation')
           }

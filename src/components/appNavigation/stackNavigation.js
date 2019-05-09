@@ -151,7 +151,7 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
           <title>{`Good Dollar | ${pageTitle}`}</title>
         </Helmet>
         {!navigationBarHidden && <NavBar goBack={backButtonHidden ? undefined : this.pop} title={pageTitle} />}
-        <ScrollView>
+        <ScrollView contentContainerStyle={{ minHeight: '100%' }}>
           <SceneView navigation={descriptor.navigation} component={Component} screenProps={screenProps} />
         </ScrollView>
       </React.Fragment>

@@ -136,7 +136,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   return (
     <View style={styles.container}>
       <NavBar goBack={back} title={'Sign Up'} />
-      <ScrollView>
+      <ScrollView contentContainerStyle={{ minHeight: '100%' }}>
         <View style={styles.contentContainer}>
           <SignupWizardNavigator
             navigation={navigation}

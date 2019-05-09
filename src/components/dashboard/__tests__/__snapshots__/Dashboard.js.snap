@@ -39,6 +39,11 @@ exports[`Dashboard matches snapshot 1`] = `
 >
   <div
     className="css-view-1dbjc4n"
+    style={
+      Object {
+        "minHeight": "100%",
+      }
+    }
   >
     <div
       className="css-view-1dbjc4n"
@@ -1156,6 +1161,11 @@ Array [
   >
     <div
       className="css-view-1dbjc4n"
+      style={
+        Object {
+          "minHeight": "100%",
+        }
+      }
     >
       <div
         className="css-view-1dbjc4n"

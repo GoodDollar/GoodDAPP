@@ -53,7 +53,7 @@ class Auth extends React.Component<Props> {
         </View>
         <View style={styles.bottomContainer}>
           <Text style={styles.acceptTermsText}>
-            {`By clicking the 'Create a wallet' button, you are accepting our`}
+            {`By clicking the 'Create a wallet' button, you are accepting our `}
             <LinkButton style={styles.acceptTermsLink} onPress={this.handleNavigateTermsOfUse}>
               Terms of Service
             </LinkButton>

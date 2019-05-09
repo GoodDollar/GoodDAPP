@@ -435,7 +435,7 @@ export class UserStorage {
     const cleanValue = UserStorage.cleanFieldForIndex(field, value)
     if (!cleanValue) return Promise.resolve({ err: 'Indexable field cannot be null or empty', ok: 0 })
 
-    const indexNode = gun.rootAO(`users/by${field}`).get(cleanValue)
+    const indexNode = gun.get(`users/by${field}`).get(cleanValue)
     logger.info({ field, cleanValue, value, privacy, indexNode })
 
     try {
@@ -450,9 +450,8 @@ export class UserStorage {
       if (indexValue && indexValue.pub !== this.gunuser.is.pub) {
         return Promise.resolve({ err: `Existing index on field ${field}`, ok: 0 })
       }
-      if (privacy !== 'public') {
-        const indexResult = indexNode.putAck(null)
-        return indexResult
+      if (privacy !== 'public' && indexValue !== undefined) {
+        return indexNode.putAck(null)
       }
 
       const indexResult = indexNode.putAck(this.gunuser)
@@ -574,7 +573,7 @@ export class UserStorage {
     const value = UserStorage.cleanFieldForIndex(attr, field)
 
     const profileToShow = gun
-      .rootAO(`users/by${attr}`)
+      .get(`users/by${attr}`)
       .get(value)
       .get('profile')
 

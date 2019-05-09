@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { StyleSheet } from 'react-native'
 import { Wrapper, Section, CustomButton, UserAvatar } from '../common'
-import logger from '../../lib/logger/pino-logger'
 import GDStore from '../../lib/undux/GDStore'
 import { useWrappedUserStorage } from '../../lib/gundb/useWrappedStorage'
 import userStorage from '../../lib/gundb/UserStorage'
-
+import logger from '../../lib/logger/pino-logger'
 import ProfileDataTable from './ProfileDataTable'
 
-const log = logger.child({ from: 'Edit Profile' })
+const log = logger.child({ from: 'EditProfile' })
 
 const EditProfile = props => {
   const store = GDStore.useStore()
@@ -31,7 +30,7 @@ const EditProfile = props => {
     await wrappedUserStorage.setProfile(profile).catch(async err => {
       const savedProfile = await userStorage.getPrivateProfile(profile)
       log.error({ err, profile, savedProfile })
-      setProfile(savedProfile)
+      setProfile({ ...savedProfile, username: savedProfile.username || '' })
     })
     setSaving(false)
   }

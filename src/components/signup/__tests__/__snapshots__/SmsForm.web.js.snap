@@ -66,7 +66,7 @@ exports[`SmsForm matches snapshot 1`] = `
         Object {
           "color": "rgba(85,85,85,1.00)",
           "direction": "ltr",
-          "fontFamily": "Helvetica, \\"sans-serif\\"",
+          "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
           "fontSize": "28px",
           "marginBottom": "30px",
           "textAlign": "center",
@@ -294,7 +294,7 @@ You've just received
           Object {
             "color": "rgba(255,0,0,1.00)",
             "direction": "ltr",
-            "fontFamily": "Helvetica, \\"sans-serif\\"",
+            "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
             "fontSize": "18px",
             "marginBottom": "30px",
             "marginTop": "30px",
@@ -351,7 +351,7 @@ You've just received
             "justifyContent": "center",
             "minWidth": "64px",
             "msFlexPack": "center",
-            "width": "46%",
+            "width": "100%",
           }
         }
       >
@@ -438,143 +438,7 @@ You've just received
                   className="css-text-76zvg2 css-textHasAncestor-16my406"
                   dir="auto"
                 >
-                  Send me
-                </span>
-                <br />
-                <span
-                  className="css-text-76zvg2 css-textHasAncestor-16my406"
-                  dir="auto"
-                >
-                  the code again
-                </span>
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div
-        className="css-view-1dbjc4n"
-        style={
-          Object {
-            "WebkitBoxPack": "center",
-            "WebkitJustifyContent": "center",
-            "backgroundColor": "rgba(255,255,255,1.00)",
-            "borderBottomColor": "rgba(85,85,85,1.00)",
-            "borderBottomLeftRadius": "5px",
-            "borderBottomRightRadius": "5px",
-            "borderBottomStyle": "solid",
-            "borderBottomWidth": "1px",
-            "borderLeftColor": "rgba(85,85,85,1.00)",
-            "borderLeftStyle": "solid",
-            "borderLeftWidth": "1px",
-            "borderRightColor": "rgba(85,85,85,1.00)",
-            "borderRightStyle": "solid",
-            "borderRightWidth": "1px",
-            "borderTopColor": "rgba(85,85,85,1.00)",
-            "borderTopLeftRadius": "5px",
-            "borderTopRightRadius": "5px",
-            "borderTopStyle": "solid",
-            "borderTopWidth": "1px",
-            "boxShadow": "0px 0px 0px rgba(0,0,0,0.24)",
-            "height": "60px",
-            "justifyContent": "center",
-            "minWidth": "64px",
-            "msFlexPack": "center",
-            "width": "46%",
-          }
-        }
-      >
-        <div
-          className="css-cursor-18t94o4 css-view-1dbjc4n"
-          data-focusable={true}
-          disabled={false}
-          onKeyDown={[Function]}
-          onKeyPress={[Function]}
-          onKeyUp={[Function]}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
-          role="button"
-          style={
-            Object {
-              "borderBottomLeftRadius": "4px",
-              "borderBottomRightRadius": "4px",
-              "borderTopLeftRadius": "4px",
-              "borderTopRightRadius": "4px",
-              "cursor": "pointer",
-              "msTouchAction": "manipulation",
-              "overflowX": "hidden",
-              "overflowY": "hidden",
-              "position": "relative",
-              "touchAction": "manipulation",
-            }
-          }
-          tabIndex="0"
-        >
-          <div
-            className="css-view-1dbjc4n"
-            style={
-              Object {
-                "WebkitAlignItems": "center",
-                "WebkitBoxAlign": "center",
-                "WebkitBoxDirection": "normal",
-                "WebkitBoxOrient": "horizontal",
-                "WebkitBoxPack": "center",
-                "WebkitFlexDirection": "row",
-                "WebkitJustifyContent": "center",
-                "alignItems": "center",
-                "flexDirection": "row",
-                "justifyContent": "center",
-                "msFlexAlign": "center",
-                "msFlexDirection": "row",
-                "msFlexPack": "center",
-              }
-            }
-          >
-            <div
-              className="css-text-76zvg2 css-textOneLine-bfa6kz"
-              dir="auto"
-              style={
-                Object {
-                  "color": "rgba(85,85,85,1.00)",
-                  "direction": "ltr",
-                  "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                  "letterSpacing": "1px",
-                  "marginBottom": "9px",
-                  "marginLeft": "16px",
-                  "marginRight": "16px",
-                  "marginTop": "9px",
-                  "textAlign": "center",
-                }
-              }
-            >
-              <span
-                className="css-text-76zvg2 css-textHasAncestor-16my406"
-                dir="auto"
-                style={
-                  Object {
-                    "color": "rgba(85,85,85,1.00)",
-                    "direction": "ltr",
-                    "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                    "textAlign": "left",
-                  }
-                }
-              >
-                <span
-                  className="css-text-76zvg2 css-textHasAncestor-16my406"
-                  dir="auto"
-                >
-                  Send me
-                </span>
-                <br />
-                <span
-                  className="css-text-76zvg2 css-textHasAncestor-16my406"
-                  dir="auto"
-                >
-                  a voice code
+                  Send me the code again
                 </span>
               </span>
             </div>

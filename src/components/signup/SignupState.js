@@ -1,6 +1,6 @@
 // @flow
 import React, { useState } from 'react'
-import { View, StyleSheet, AsyncStorage } from 'react-native'
+import { View, StyleSheet, ScrollView, AsyncStorage } from 'react-native'
 import NameForm from './NameForm'
 import EmailForm from './EmailForm'
 import PhoneForm from './PhoneForm'
@@ -9,6 +9,7 @@ import EmailConfirmation from './EmailConfirmation'
 import FaceRecognition from './FaceRecognition'
 import SignupCompleted from './SignupCompleted'
 import NavBar from '../appNavigation/NavBar'
+import { scrollableContainer } from '../common/styles'
 
 import { createSwitchNavigator } from '@react-navigation/core'
 import logger from '../../lib/logger/pino-logger'
@@ -136,12 +137,14 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   return (
     <View style={styles.container}>
       <NavBar goBack={back} title={'Sign Up'} />
-      <View style={styles.contentContainer}>
-        <SignupWizardNavigator
-          navigation={navigation}
-          screenProps={{ ...screenProps, data: { ...state, loading }, doneCallback: done, back: back }}
-        />
-      </View>
+      <ScrollView contentContainerStyle={scrollableContainer}>
+        <View style={styles.contentContainer}>
+          <SignupWizardNavigator
+            navigation={navigation}
+            screenProps={{ ...screenProps, data: { ...state, loading }, doneCallback: done, back: back }}
+          />
+        </View>
+      </ScrollView>
     </View>
   )
 }

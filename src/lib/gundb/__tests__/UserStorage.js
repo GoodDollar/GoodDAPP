@@ -1,11 +1,10 @@
 // @flow
 import gun from '../gundb'
-import { type TransactionEvent } from '../UserStorage'
+import userStorage, { type TransactionEvent, UserStorage } from '../UserStorage'
 import { getUserModel } from '../UserModel'
 import { addUser } from './__util__/index'
 import { GoodWallet } from '../../wallet/GoodWallet'
 import { deleteMnemonics } from '../../wallet/SoftwareWalletProvider'
-import userStorage, { UserStorage } from '../UserStorage'
 
 let event = { id: 'xyz', date: new Date('2019-01-01T10:00:00.000Z').toString(), data: { foo: 'bar', unchanged: 'zar' } }
 let event2 = { id: 'xyz2', date: new Date('2019-01-01T20:00:00.000Z').toString(), data: { foo: 'bar' } }
@@ -349,8 +348,6 @@ describe('UserStorage', () => {
 
     await Promise.all(updates)
     await userStorage.subscribeProfileUpdates(profile => {
-      console.log(profile)
-
       userStorage.getDisplayProfile(profile).then(result => {
         const { isValid, getErrors, validate, ...displayProfile } = result
         expect(displayProfile).toEqual({
@@ -459,10 +456,10 @@ describe('UserStorage', () => {
       fullName: 'New Name',
       email: 'new@email.com',
       mobile: '+22222222222',
-      username: 'user5'
+      username: 'notTaken'
     })
     await gun
-      .rootAO(`users/byusername`)
+      .get(`users/byusername`)
       .get('taken')
       .putAck('taken')
     const result = await userStorage.setProfile(profileModel)
@@ -479,14 +476,14 @@ describe('UserStorage', () => {
       expect(e).toEqual(new Error(['Existing index on field username']))
     }
     const updated = await userStorage.getProfile()
-    expect(updated.username).toBe('user5')
+    expect(updated.username).toBe('notTaken')
     expect(updated.email).toBe('diferent@email.com')
   })
 
   it(`update username with used username should fail`, async () => {
     //take a username
     await gun
-      .rootAO(`users/byusername`)
+      .get(`users/byusername`)
       .get('taken')
       .putAck('taken')
     const newResult = await userStorage.setProfileField('username', 'taken', 'public')

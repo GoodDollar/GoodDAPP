@@ -82,6 +82,7 @@
     "react-native-recaptcha-v3": "0.0.16",
     "react-native-vector-icons": "^6.2.0",
     "react-native-web": "^0.11.x",
+    "react-native-web-webview": "^0.2.8",
     "react-navigation-stack": "^1.0.9",
     "react-navigation-tabs": "^1.0.2",
     "react-otp-input": "^0.2.2",

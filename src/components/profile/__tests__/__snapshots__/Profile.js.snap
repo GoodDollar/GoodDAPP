@@ -439,7 +439,6 @@ Array [
                         style={
                           Object {
                             "color": "rgba(85,85,85,1.00)",
-                            "fontFamily": "Helvetica, \\"sans-serif\\"",
                             "fontSize": "18px",
                             "textAlign": "center",
                           }

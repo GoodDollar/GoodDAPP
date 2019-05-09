@@ -66,7 +66,7 @@ exports[`SmsForm matches snapshot 1`] = `
         Object {
           "color": "rgba(85,85,85,1.00)",
           "direction": "ltr",
-          "fontFamily": "Helvetica, \\"sans-serif\\"",
+          "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
           "fontSize": "28px",
           "marginBottom": "30px",
           "textAlign": "center",
@@ -294,7 +294,7 @@ You've just received
           Object {
             "color": "rgba(255,0,0,1.00)",
             "direction": "ltr",
-            "fontFamily": "Helvetica, \\"sans-serif\\"",
+            "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
             "fontSize": "18px",
             "marginBottom": "30px",
             "marginTop": "30px",

@@ -55,7 +55,7 @@ const routes = {
     display: false
   },
   Sidemenu: {
-    screen: Profile,
+    screen: Dashboard,
     icon: burgerIcon,
     displayText: false,
     iconStyle: { width: 20, maxHeight: 20, marginTop: 20 },

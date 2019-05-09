@@ -41,6 +41,7 @@ const ReceiveAmount = ({ screenProps }: ReceiveProps) => {
         </Section.Row>
       </Section>
       <ShareLink link={link}>Share Link</ShareLink>
+      <DoneButton style={styles.buttonStyle} screenProps={screenProps} />
     </Wrapper>
   )
 }

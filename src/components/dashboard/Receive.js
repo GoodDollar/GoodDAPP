@@ -4,13 +4,13 @@ import React, { useCallback, useMemo } from 'react'
 import { Clipboard, View } from 'react-native'
 
 import logger from '../../lib/logger/pino-logger'
-import { generateCode } from '../../lib/share'
+import { generateCode, generateShareLink } from '../../lib/share'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { PushButton } from '../appNavigation/stackNavigation'
 import { Address, Section, Wrapper } from '../common'
 import ScanQRButton from '../common/ScanQRButton'
 import TopBar from '../common/TopBar'
-import ShareQR from './ShareQR'
+import ShareLink from './ShareLink'
 import { receiveStyles as styles } from './styles'
 
 export type ReceiveProps = {
@@ -27,6 +27,7 @@ const Receive = ({ screenProps }: ReceiveProps) => {
   const amount = 0
 
   const code = useMemo(() => generateCode(account, networkId, amount), [account, networkId, amount])
+  const link = useMemo(() => generateShareLink('receive', { code }), [code])
 
   const copyAddress = useCallback(() => {
     Clipboard.setString(account)
@@ -63,7 +64,7 @@ const Receive = ({ screenProps }: ReceiveProps) => {
           </PushButton>
         </Section.Row>
       </Section>
-      <ShareQR>Share address & QR code</ShareQR>
+      <ShareLink link={link}>Share address & QR code</ShareLink>
     </Wrapper>
   )
 }

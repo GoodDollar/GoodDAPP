@@ -4,11 +4,11 @@ import { View } from 'react-native'
 import QRCode from 'qrcode.react'
 
 import goodWallet from '../../lib/wallet/GoodWallet'
-import { generateCode } from '../../lib/share'
+import { generateCode, generateShareLink } from '../../lib/share'
 import { Section, Wrapper, BigGoodDollar } from '../common'
 import { receiveStyles as styles } from './styles'
-import ShareQR from './ShareQR'
-import { useScreenState } from '../appNavigation/stackNavigation'
+import ShareLink from './ShareLink'
+import { DoneButton, useScreenState } from '../appNavigation/stackNavigation'
 
 export type ReceiveProps = {
   screenProps: any,
@@ -17,12 +17,13 @@ export type ReceiveProps = {
 
 const RECEIVE_TITLE = 'Receive GD'
 
-const ReceiveAmount = ({ screenProps, navigation }: ReceiveProps) => {
+const ReceiveAmount = ({ screenProps }: ReceiveProps) => {
   const { account, networkId } = goodWallet
   const [screenState, setScreenState] = useScreenState(screenProps)
   const { amount } = screenState
 
   const code = useMemo(() => generateCode(account, networkId, amount), [account, networkId, amount])
+  const link = useMemo(() => generateShareLink('receive', { code }), [code])
 
   return (
     <Wrapper style={styles.wrapper}>
@@ -39,7 +40,7 @@ const ReceiveAmount = ({ screenProps, navigation }: ReceiveProps) => {
           </View>
         </Section.Row>
       </Section>
-      <ShareQR>Share Link</ShareQR>
+      <ShareLink link={link}>Share Link</ShareLink>
     </Wrapper>
   )
 }

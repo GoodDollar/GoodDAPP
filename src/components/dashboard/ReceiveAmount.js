@@ -39,7 +39,7 @@ const ReceiveAmount = ({ screenProps, navigation }: ReceiveProps) => {
           </View>
         </Section.Row>
       </Section>
-      <ShareQR>Share QR Code</ShareQR>
+      <ShareQR>Share Link</ShareQR>
     </Wrapper>
   )
 }

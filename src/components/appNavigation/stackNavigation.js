@@ -7,6 +7,7 @@ import { Helmet } from 'react-helmet'
 
 import NavBar from './NavBar'
 import { CustomButton, type ButtonProps } from '../common'
+import { scrollableContainer } from '../common/styles'
 
 /**
  * getComponent gets the component and props and returns the same component except when
@@ -151,7 +152,7 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
           <title>{`Good Dollar | ${pageTitle}`}</title>
         </Helmet>
         {!navigationBarHidden && <NavBar goBack={backButtonHidden ? undefined : this.pop} title={pageTitle} />}
-        <ScrollView contentContainerStyle={{ minHeight: '100%' }}>
+        <ScrollView contentContainerStyle={scrollableContainer}>
           <SceneView navigation={descriptor.navigation} component={Component} screenProps={screenProps} />
         </ScrollView>
       </React.Fragment>

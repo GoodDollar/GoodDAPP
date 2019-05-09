@@ -9,6 +9,7 @@ import EmailConfirmation from './EmailConfirmation'
 import FaceRecognition from './FaceRecognition'
 import SignupCompleted from './SignupCompleted'
 import NavBar from '../appNavigation/NavBar'
+import { scrollableContainer } from '../common/styles'
 
 import { createSwitchNavigator } from '@react-navigation/core'
 import logger from '../../lib/logger/pino-logger'
@@ -136,7 +137,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   return (
     <View style={styles.container}>
       <NavBar goBack={back} title={'Sign Up'} />
-      <ScrollView contentContainerStyle={{ minHeight: '100%' }}>
+      <ScrollView contentContainerStyle={scrollableContainer}>
         <View style={styles.contentContainer}>
           <SignupWizardNavigator
             navigation={navigation}

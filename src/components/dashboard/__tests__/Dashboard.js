@@ -46,8 +46,10 @@ describe('Dashboard', () => {
   it('matches snapshot when changing tab', () => {
     const WebRouter = createBrowserApp(createSwitchNavigator({ AppNavigation }))
     const component = renderer.create(<WebRouter />)
-    const [tabsView] = component.toJSON().children
-    const [tabButton] = tabsView.children
+    const [scrollView] = component.toJSON().children
+    const [view] = scrollView.children
+    const [tabsView] = view.children
+    const [, tabButton] = tabsView.children
     tabButton.props.onClick(new Event('fakeEvent'))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()

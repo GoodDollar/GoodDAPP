@@ -11,7 +11,8 @@ module.exports = function(api) {
     plugins: [
       ["module-resolver", {
         "alias": {
-          "^react-native$": "react-native-web"
+          "^react-native$": "react-native-web",
+          "WebView": "react-native-web-webview"
         }
       }]
     ],

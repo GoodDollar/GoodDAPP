@@ -1,25 +1,37 @@
 // @flow
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
-import { Button, Headline, Paragraph, Text } from 'react-native-paper'
+import { createStackNavigator } from '../appNavigation/stackNavigation'
+import { StyleSheet, View, ScrollView } from 'react-native'
+import { Text } from 'react-native-paper'
 import { normalize } from 'react-native-elements'
-import goodWallet from '../../lib/wallet/GoodWallet'
 import logger from '../../lib/logger/pino-logger'
+import { CustomButton } from '../common'
+import { Description, LinkButton } from '../signup/components'
+import { fontStyle } from '../common/styles'
+import { TermsOfUse, PrivacyPolicy } from '../webView/webViewInstances'
 
 type Props = {
   // callback to report to parent component
-  navigation: any
+  navigation: any,
+  screenProps: {
+    push: Function
+  }
 }
 
 const log = logger.child({ from: 'Auth' })
 
 class Auth extends React.Component<Props> {
-  componentDidMount() {
-    log.info(goodWallet)
+  static navigationOptions = {
+    navigationBarHidden: true
   }
 
   handleSignUp = () => {
     this.props.navigation.navigate('Signup')
+    //Hack to get keyboard up on mobile need focus from user event such as click
+    setTimeout(() => {
+      const el = document.getElementById('Name_input')
+      if (el) el.focus()
+    }, 500)
   }
 
   handleSignUpThirdParty = () => {
@@ -31,30 +43,35 @@ class Auth extends React.Component<Props> {
     this.props.navigation.navigate('SignIn')
   }
 
+  handleNavigateTermsOfUse = () => this.props.screenProps.push('TermsOfUse')
+  handleNavigatePrivacyPolicy = () => this.props.screenProps.push('PrivacyPolicy')
+
   render() {
     return (
       <View style={styles.wrapper}>
-        <View styles={styles.topContainer}>
-          <View style={styles.textContainer}>
-            <Headline style={[styles.fontBase, styles.headline]}>CREATE YOUR WALLET</Headline>
-            <Paragraph style={[styles.fontBase, styles.paragraph]}>
-              START EARNING MONEY & USE IT FOR PAYMENTS!
-            </Paragraph>
-          </View>
-
-          <View style={styles.buttonsContainer}>
-            <Button style={[styles.buttonLayout, styles.signUpButton]} mode="contained" onPress={this.handleSignUp}>
-              <Text style={styles.buttonText}>SIGN UP</Text>
-            </Button>
-            <Button style={styles.buttonLayout} mode="outlined" onPress={this.handleSignUpThirdParty}>
-              <Text style={[styles.buttonText, { color: '#555555' }]}>SIGN UP WITH 3rd PARTY</Text>
-            </Button>
-          </View>
+        <View style={styles.topContainer}>
+          <Description style={styles.paragraph}>
+            {
+              "Early Access Alpha's tokens will be revoked at the end of the test and they have no value until public release"
+            }
+          </Description>
         </View>
-
         <View style={styles.bottomContainer}>
+          <Text style={styles.acceptTermsText}>
+            {`By clicking the 'Create a wallet' button, you are accepting our `}
+            <LinkButton style={styles.acceptTermsLink} onPress={this.handleNavigateTermsOfUse}>
+              Terms of Service
+            </LinkButton>
+            {` and `}
+            <LinkButton style={styles.acceptTermsLink} onPress={this.handleNavigatePrivacyPolicy}>
+              Privacy Policy
+            </LinkButton>
+          </Text>
+          <CustomButton style={styles.buttonLayout} mode="contained" onPress={this.handleSignUp}>
+            Create a wallet
+          </CustomButton>
           <Text style={styles.signInLink} onPress={this.handleSignIn}>
-            Sign In (Recovery In your Wallet)
+            Already have a wallet?
           </Text>
         </View>
       </View>
@@ -67,10 +84,8 @@ const styles = StyleSheet.create({
     height: '100%',
     paddingLeft: '4%',
     paddingRight: '4%',
-    justifyContent: 'space-between',
     display: 'flex',
-    flex: 1,
-    alignItems: 'center'
+    flex: 1
   },
   topContainer: {
     flexGrow: 1,
@@ -78,49 +93,45 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly'
   },
   bottomContainer: {
-    marginBottom: 50,
+    marginBottom: 30,
     paddingTop: 30
   },
-  textContainer: {
-    paddingTop: '50%',
-    marginTop: -30
-  },
-  buttonsContainer: {
-    marginTop: 30
-  },
-  fontBase: {
-    fontFamily: 'Helvetica, "sans-serif"',
-    color: '#555555',
-    textAlign: 'center'
-  },
-  headline: {
-    fontWeight: 'bold',
-    fontSize: normalize(24)
-  },
   paragraph: {
-    fontSize: normalize(18),
+    ...fontStyle,
+    marginLeft: normalize(20),
+    marginRight: normalize(20),
+    fontSize: normalize(20),
     lineHeight: '1.2em'
   },
   buttonLayout: {
-    marginTop: 30,
-    padding: 10
-  },
-  buttonText: {
-    fontFamily: 'Helvetica, "sans-serif"',
-    fontSize: normalize(16),
-    color: 'white',
-    fontWeight: 'bold'
-  },
-  signUpButton: {
-    backgroundColor: '#555555'
+    padding: normalize(5),
+    marginTop: normalize(20),
+    marginBottom: normalize(20),
+    fontSize: normalize(18)
   },
   signInLink: {
-    color: '#555555',
-    fontFamily: 'Helvetica, "sans-serif"',
-    fontSize: normalize(18),
+    ...fontStyle,
     textDecorationLine: 'underline',
-    textAlign: 'center'
+    fontSize: normalize(16)
+  },
+  acceptTermsText: {
+    ...fontStyle,
+    fontSize: normalize(14)
+  },
+  acceptTermsLink: {
+    ...fontStyle,
+    fontSize: normalize(14),
+    fontWeight: 'bold'
   }
 })
 
-export default Auth
+export default createStackNavigator(
+  {
+    Auth,
+    TermsOfUse,
+    PrivacyPolicy
+  },
+  {
+    backRouteName: 'Auth'
+  }
+)

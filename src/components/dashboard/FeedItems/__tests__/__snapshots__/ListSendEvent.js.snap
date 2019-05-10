@@ -183,7 +183,7 @@ exports[`ListSendEvent matches snapshot 1`] = `
           Object {
             "color": "rgba(85,85,85,1.00)",
             "direction": "ltr",
-            "fontFamily": "Helvetica, \\"sans-serif\\"",
+            "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
             "fontSize": "12px",
             "textAlign": "right",
           }
@@ -198,7 +198,7 @@ exports[`ListSendEvent matches snapshot 1`] = `
           Object {
             "color": "rgba(85,85,85,1.00)",
             "direction": "ltr",
-            "fontFamily": "Helvetica, \\"sans-serif\\"",
+            "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
             "fontSize": "12px",
             "textAlign": "right",
           }

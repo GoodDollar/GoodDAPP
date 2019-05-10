@@ -143,7 +143,8 @@ module.exports = {
     alias: {
       // Support React Native Web
       // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
-      'react-native': 'react-native-web'
+      'react-native': 'react-native-web',
+      'WebView': 'react-native-web-webview',
     },
     plugins: [
       // Adds support for installing with Plug'n'Play, leading to faster installs and adding
@@ -185,6 +186,15 @@ module.exports = {
           }
         ],
         include: paths.appSrc
+      },
+      {
+        test: /postMock.html$/,
+        use: {
+          loader: 'file-loader',
+          options: {
+            name: '[name].[ext]',
+          },
+        },
       },
       {
         // "oneOf" will traverse all following loaders until one will

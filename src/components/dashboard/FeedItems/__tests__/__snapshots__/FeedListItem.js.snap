@@ -245,7 +245,7 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
               Object {
                 "color": "rgba(85,85,85,1.00)",
                 "direction": "ltr",
-                "fontFamily": "Helvetica, \\"sans-serif\\"",
+                "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                 "fontSize": "12px",
                 "textAlign": "right",
               }
@@ -260,7 +260,7 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
               Object {
                 "color": "rgba(85,85,85,1.00)",
                 "direction": "ltr",
-                "fontFamily": "Helvetica, \\"sans-serif\\"",
+                "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                 "fontSize": "12px",
                 "textAlign": "right",
               }
@@ -594,7 +594,7 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
               Object {
                 "color": "rgba(85,85,85,1.00)",
                 "direction": "ltr",
-                "fontFamily": "Helvetica, \\"sans-serif\\"",
+                "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                 "fontSize": "12px",
                 "textAlign": "right",
               }
@@ -609,7 +609,7 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
               Object {
                 "color": "rgba(85,85,85,1.00)",
                 "direction": "ltr",
-                "fontFamily": "Helvetica, \\"sans-serif\\"",
+                "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                 "fontSize": "12px",
                 "textAlign": "right",
               }

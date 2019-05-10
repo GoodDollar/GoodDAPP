@@ -44,11 +44,11 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
     const { router, state } = this.props.navigation
     const navInfo = router.getPathAndParamsForState(state)
     const destinationPath = await AsyncStorage.getItem('destinationPath')
-    if (Object.keys(navInfo.params).length && destinationPath === '') {
+    if (Object.keys(navInfo.params).length && !destinationPath) {
       const app = router.getActionForPathAndParams(navInfo.path)
       const destRoute = actions => (some(actions, 'action') ? destRoute(actions.action) : actions.action)
       const destinationPath = JSON.stringify({ ...destRoute(app), params: navInfo.params })
-      return AsyncStorage.set('destinationPath', destinationPath)
+      return AsyncStorage.setItem('destinationPath', destinationPath)
     }
   }
 
@@ -71,7 +71,7 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
       if (jwt) {
         log.debug('New account, not verified, or did not finish signup', jwt)
         const destinationPath = await AsyncStorage.getItem('destinationPath')
-        if (destinationPath !== '') {
+        if (destinationPath) {
           this.props.navigation.navigate(JSON.parse(destinationPath))
           return AsyncStorage.setItem('destinationPath', '')
         } else {

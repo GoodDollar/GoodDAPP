@@ -3,17 +3,19 @@ import React from 'react'
 import { View, Text, StyleSheet, Image } from 'react-native'
 
 type TabButtonProps = {
-  text: string,
+  text?: string,
   routeName: string,
   icon: string,
-  goTo: (routeKey: string) => void
+  goTo: (routeKey: string) => void,
+  iconStyle: any,
+  tabButtonStyle: any
 }
 
 const TabButton = (props: TabButtonProps) => {
   return (
-    <View style={styles.tabButton} onClick={() => props.goTo(props.routeName)}>
-      <Image source={props.icon} style={styles.tabIcon} />
-      <Text style={styles.tabButtonText}>{props.text}</Text>
+    <View style={[styles.tabButton, props.tabButtonStyle]} onClick={() => props.goTo(props.routeName)}>
+      <Image source={props.icon} style={[styles.tabIcon, props.iconStyle]} />
+      {props.text && <Text style={styles.tabButtonText}>{props.text}</Text>}
     </View>
   )
 }
@@ -31,9 +33,11 @@ const TabsView = (props: TabViewProps) => (
         <TabButton
           key={routeKey}
           routeName={routeKey}
-          text={routeKey}
+          text={props.routes[routeKey].displayText !== false && routeKey}
           goTo={props.goTo}
           icon={props.routes[routeKey].icon}
+          iconStyle={props.routes[routeKey].iconStyle}
+          tabButtonStyle={props.routes[routeKey].buttonStyle}
         />
       ))}
   </View>

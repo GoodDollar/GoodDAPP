@@ -1,10 +1,13 @@
 // @flow
-import React, { useCallback } from 'react'
+import React from 'react'
 import { Text, View } from 'react-native'
 
 import { Section, Wrapper, TopBar, InputGoodDollar } from '../common'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
 import { receiveStyles as styles } from './styles'
+import goodWallet from '../../lib/wallet/GoodWallet'
+import logger from '../../lib/logger/pino-logger'
+import { useDialog } from '../../lib/undux/utils/dialog'
 
 export type AmountProps = {
   screenProps: any,
@@ -12,13 +15,25 @@ export type AmountProps = {
 }
 
 const RECEIVE_TITLE = 'Receive GD'
+const log = logger.child({ from: RECEIVE_TITLE })
 
 const Amount = (props: AmountProps) => {
   const { screenProps } = props
   const [screenState, setScreenState] = useScreenState(screenProps)
-
   const { amount, to } = screenState || {}
-  const handleAmountChange = useCallback((value: string) => setScreenState({ amount: parseInt(value) }), ['0'])
+  const [showDialogWithData] = useDialog()
+
+  const canContinue = async () => {
+    if (!(await goodWallet.canSend(amount))) {
+      showDialogWithData({
+        title: 'Cannot send GD',
+        message: 'Amount is bigger than balance'
+      })
+      return false
+    }
+    return true
+  }
+  const handleAmountChange = (value: number) => setScreenState({ amount: value })
   return (
     <Wrapper style={styles.wrapper}>
       <TopBar push={screenProps.push} />
@@ -42,7 +57,13 @@ const Amount = (props: AmountProps) => {
             <BackButton mode="text" screenProps={screenProps} style={{ flex: 1 }}>
               Cancel
             </BackButton>
-            <NextButton nextRoutes={screenState.nextRoutes} values={{ amount, to }} disabled={!amount} {...props} />
+            <NextButton
+              nextRoutes={screenState.nextRoutes}
+              canContinue={canContinue}
+              values={{ amount, to }}
+              disabled={!amount}
+              {...props}
+            />
           </View>
         </Section.Row>
       </Section>

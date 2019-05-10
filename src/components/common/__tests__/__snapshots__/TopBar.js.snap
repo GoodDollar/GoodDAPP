@@ -119,7 +119,7 @@ exports[`TopBar matches snapshot with balance 1`] = `
           Object {
             "color": "rgba(85,85,85,1.00)",
             "direction": "ltr",
-            "fontFamily": "Helvetica, \\"sans-serif\\"",
+            "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
             "fontSize": "30px",
             "textAlign": "right",
           }
@@ -134,7 +134,7 @@ exports[`TopBar matches snapshot with balance 1`] = `
           Object {
             "color": "rgba(85,85,85,1.00)",
             "direction": "ltr",
-            "fontFamily": "Helvetica, \\"sans-serif\\"",
+            "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
             "fontSize": "18px",
             "textAlign": "right",
           }

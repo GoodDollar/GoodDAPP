@@ -386,7 +386,7 @@ export class GoodWallet {
 
   async canSend(amount: number): Promise<boolean> {
     const balance = await this.balanceOf()
-    return amount < balance
+    return amount <= balance
   }
 
   async generateLink(amount: number, reason: string = '', events: PromitEvents) {

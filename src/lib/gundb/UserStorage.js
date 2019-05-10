@@ -240,30 +240,17 @@ export class UserStorage {
   }
 
   /**
-   * Returns the amount specified of feeds in desc order (from newest to oldest)
-   * @param {number} amount
+   * Returns a Promise that, when resolved, will have all the feeds available for the current user
    * @returns {Promise<Array<FeedEvent>>}
    */
-  async getFeeds(amount: number = 0): Promise<Array<FeedEvent>> {
-    if (!amount) return []
-
-    const prevCursor = this.cursor
-    logger.debug({ amount, prevCursor })
-
-    const feeds = await this.getFeedPage(amount, true)
-    this.cursor = prevCursor
-    logger.debug({ feeds, cursor: this.cursor })
-
-    return feeds
-  }
-
-  /**
-   * Returns all the feeds available for the current user
-   * @returns {Promise<Array<FeedEvent>>}
-   */
-  async getAllFeed(): Promise<Array<FeedEvent>> {
+  async getAllFeed() {
     const total = Object.values((await this.feed.get('index')) || {}).reduce((acc, curr) => acc + curr, 0)
-    return this.getFeeds(total)
+    const prevCursor = this.cursor
+    logger.debug({ total, prevCursor })
+    const feed = await this.getFeedPage(total, true)
+    this.cursor = prevCursor
+    logger.debug({ feed, cursor: this.cursor })
+    return feed
   }
 
   updateFeedIndex = (changed: any, field: string) => {
@@ -708,9 +695,11 @@ export class UserStorage {
       .get(day)
       .put(dayEventsArr.length)
 
-    const lastBlockAck = this.saveLastBlockNumberProcessed()
+    if (event.data && event.data.receipt) {
+      await this.saveLastBlockNumber(event.data.receipt.blockNumber)
+    }
 
-    const result = await Promise.all([saveAck, ack, lastBlockAck])
+    const result = await Promise.all([saveAck, ack])
       .then(arr => arr[0])
       .catch(err => logger.info('savingIndex', err))
     return result
@@ -730,24 +719,11 @@ export class UserStorage {
    * @returns {Promise<Promise<*>|Promise<R|*>>}
    */
   async saveLastBlockNumber(blockNumber: number | string): Promise<any> {
+    logger.debug('saving lastBlock:', blockNumber)
+
     return this.getLastBlockNode()
       .putAck(blockNumber)
       .then()
-  }
-
-  /**
-   * It stores the latest processed block number in the 'lastBlock' node
-   * @returns {Promise<Promise<*>|Promise<R|*>>}
-   */
-  async saveLastBlockNumberProcessed(): Promise<any> {
-    // seek for the latest feed, and extract it's receipt
-    const [lastBlock] = await this.getFeeds(1)
-
-    // feed partially stored, will wait for the next call
-    if (!lastBlock || !lastBlock.data || !lastBlock.data.receipt) return
-
-    // stores blockNumber from the feed's receipt
-    return this.saveLastBlockNumber(lastBlock.data.receipt.blockNumber)
   }
 
   getProfile(): Promise<any> {

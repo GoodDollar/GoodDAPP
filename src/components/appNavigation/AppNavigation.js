@@ -1,6 +1,6 @@
 // @flow
 import { createSwitchNavigator } from '@react-navigation/core'
-import { Icon } from 'react-native-elements'
+import { Icon, normalize } from 'react-native-elements'
 import React from 'react'
 import type { Store } from 'undux'
 
@@ -58,10 +58,14 @@ const routes = {
     screen: Dashboard,
     icon: burgerIcon,
     displayText: false,
-    iconStyle: { width: 20, maxHeight: 20, marginTop: 20 },
+    iconStyle: {
+      width: normalize(20),
+      maxHeight: normalize(20),
+      marginTop: normalize(20)
+    },
     buttonStyle: {
       marginLeft: 'auto',
-      marginRight: 30
+      marginRight: normalize(30)
     }
   }
 }

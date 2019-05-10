@@ -1,9 +1,15 @@
 // @flow
 import React, { Component, useState, useEffect } from 'react'
-import { ScrollView } from 'react-native'
+import { ScrollView, View, Text, StyleSheet, AsyncStorage } from 'react-native'
 import { Button } from 'react-native-paper'
+import { Icon, normalize } from 'react-native-elements'
+import SideMenu from 'react-native-side-menu'
 import { createNavigator, SwitchRouter, SceneView, Route } from '@react-navigation/core'
 import { Helmet } from 'react-helmet'
+import GDStore from '../../lib/undux/GDStore'
+import { toggleSidemenu } from '../../lib/undux/utils/sidemenu'
+import { useWrappedApi } from '../../lib/API/useWrappedApi'
+import { useDialog } from '../../lib/undux/utils/dialog'
 
 import NavBar from './NavBar'
 import { CustomButton, type ButtonProps } from '../common'
@@ -29,6 +35,52 @@ const getComponent = (Component, props) => {
   return Component
 }
 
+const MENU_ITEMS = [
+  {
+    icon: 'person',
+    name: 'Your profile'
+  },
+  {
+    action: async (API, showDialogWithData) => {
+      const mnemonic = await AsyncStorage.getItem('GD_USER_MNEMONIC')
+      await API.sendRecoveryInstructionByEmail(mnemonic)
+      showDialogWithData({
+        title: 'Backup Your Wallet',
+        message: 'We sent an email with recovery instructions for your wallet'
+      })
+    },
+    icon: 'lock',
+    name: 'Backup Your Wallet'
+  },
+  {
+    icon: 'person',
+    name: 'Profile Privacy'
+  },
+  {
+    icon: 'notifications',
+    name: 'Notification Settings'
+  },
+  {
+    icon: 'person',
+    name: 'Send Feedback'
+  },
+  {
+    icon: 'comment',
+    name: 'FAQ'
+  },
+  {
+    icon: 'question-answer',
+    name: 'About'
+  }
+]
+
+type AppViewProps = {
+  descriptors: any,
+  navigation: any,
+  navigationConfig: any,
+  screenProps: any,
+  store: GDStore
+}
 /**
  * Component wrapping the stack navigator.
  * It holds the pop, push, gotToRoot and goToParent navigation logic and inserts on top the NavBar component.
@@ -36,7 +88,7 @@ const getComponent = (Component, props) => {
  * This navigation actions are being passed via navigationConfig to children components
  */
 
-class AppView extends Component<{ descriptors: any, navigation: any, navigationConfig: any, screenProps: any }, any> {
+class AppView extends Component<AppViewProps, any> {
   state = {
     stack: [],
     currentState: {}
@@ -128,8 +180,10 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
     this.setState(state => ({ currentState: { ...state.currentState, ...data } }))
   }
 
+  handleSidemenuVisibility = () => toggleSidemenu(this.props.store)
+
   render() {
-    const { descriptors, navigation, navigationConfig, screenProps: incomingScreenProps } = this.props
+    const { descriptors, navigation, navigationConfig, screenProps: incomingScreenProps, store } = this.props
     const activeKey = navigation.state.routes[navigation.state.index].key
     const descriptor = descriptors[activeKey]
     const { title, navigationBarHidden, backButtonHidden } = descriptor.options
@@ -146,19 +200,74 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
     }
     const Component = getComponent(descriptor.getComponent(), { screenProps })
     const pageTitle = title || activeKey
+    const menu = <SideMenuPanel screenProps={screenProps} />
     return (
       <React.Fragment>
         <Helmet>
           <title>{`Good Dollar | ${pageTitle}`}</title>
         </Helmet>
         {!navigationBarHidden && <NavBar goBack={backButtonHidden ? undefined : this.pop} title={pageTitle} />}
-        <ScrollView contentContainerStyle={scrollableContainer}>
-          <SceneView navigation={descriptor.navigation} component={Component} screenProps={screenProps} />
-        </ScrollView>
+        <SideMenu menu={menu} menuPosition="right" isOpen={store.get('sidemenu').visible}>
+          <ScrollView contentContainerStyle={scrollableContainer}>
+            <SceneView navigation={descriptor.navigation} component={Component} screenProps={screenProps} />
+          </ScrollView>
+        </SideMenu>
       </React.Fragment>
     )
   }
 }
+
+const SideMenuPanel = () => {
+  const store = GDStore.useStore()
+  const API = useWrappedApi()
+  const [showDialogWithData] = useDialog()
+  return (
+    <View>
+      <View style={[styles.row, styles.closeIcon]} onClick={() => toggleSidemenu(store)}>
+        <Icon name="close" />
+      </View>
+      {MENU_ITEMS.map(item => (
+        <SideMenuItem key={item.name} {...item} action={() => item.action && item.action(API, showDialogWithData)} />
+      ))}
+    </View>
+  )
+}
+
+type SideMenuItemProps = {
+  icon: String,
+  name: String,
+  action: Function
+}
+
+const SideMenuItem = ({ icon, name, action }: SideMenuItemProps) => (
+  <View style={styles.row} onClick={action}>
+    <View style={styles.menuIcon}>
+      <Icon name={icon} size={20} />
+    </View>
+    <Text style={styles.menuItem}>{name}</Text>
+  </View>
+)
+
+const styles = StyleSheet.create({
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    marginVertical: normalize(20)
+  },
+  closeIcon: {
+    marginLeft: 'auto',
+    marginRight: normalize(20)
+  },
+  menuItem: {
+    fontFamily: 'Roboto',
+    fontWeight: 'bold',
+    fontSize: normalize(15)
+  },
+  menuIcon: {
+    marginHorizontal: normalize(20)
+  }
+})
 
 /**
  * Returns a navigator with a navbar wrapping the routes.
@@ -171,7 +280,10 @@ export const createStackNavigator = (routes: any, navigationConfig: any) => {
     backRouteName: 'Home'
   }
 
-  return createNavigator(AppView, SwitchRouter(routes), { ...defaultNavigationConfig, ...navigationConfig })
+  return createNavigator(GDStore.withStore(AppView), SwitchRouter(routes), {
+    ...defaultNavigationConfig,
+    ...navigationConfig
+  })
 }
 
 type PushButtonProps = {

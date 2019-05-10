@@ -85,6 +85,9 @@ const initialState: State = {
   feeds: [],
   loadingIndicator: {
     loading: false
+  },
+  sidemenu: {
+    visible: false
   }
 }
 

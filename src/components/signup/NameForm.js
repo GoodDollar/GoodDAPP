@@ -27,6 +27,7 @@ class NameForm extends React.Component<Props, State> {
   state = {
     errorMessage: ''
   }
+  isValid = false
 
   handleChange = (fullName: string) => {
     const { store } = this.props
@@ -41,9 +42,9 @@ class NameForm extends React.Component<Props, State> {
   }
 
   handleSubmit = () => {
-    const { fullName, valid } = this.props.store.get('name')
+    const { fullName } = this.props.store.get('name')
 
-    if (valid) {
+    if (this.isValid) {
       this.props.screenProps.doneCallback({ fullName })
     }
   }
@@ -52,28 +53,32 @@ class NameForm extends React.Component<Props, State> {
     const { store } = this.props
     const name = store.get('name')
     const errorMessage = validateFullName(name.fullName)
-
     this.setState({ errorMessage })
-
-    name.valid = errorMessage === ''
     store.set('name')(name)
   }
 
+  handleEnter = (event: { nativeEvent: { key: string } }) => {
+    if (event.nativeEvent.key === 'Enter' && this.isValid) {
+      this.handleSubmit()
+    }
+  }
+
   render() {
+    console.log(this.props.navigation, this.props.screenProps)
     const name = this.props.store.get('name')
     const { errorMessage } = this.state
-
+    const { key } = this.props.navigation.state
+    this.isValid = validateFullName(name.fullName) === ''
     return (
-      <Wrapper valid={true} handleSubmit={this.handleSubmit}>
+      <Wrapper valid={this.isValid} handleSubmit={this.handleSubmit}>
         <Title>{"Hi, \n What's your name?"}</Title>
         <TextInput
-          id="signup_name"
-          label="Your Full Name"
+          id={key + '_input'}
           value={name.fullName}
           onChangeText={this.handleChange}
           onBlur={this.checkErrors}
           error={errorMessage !== ''}
-          autoFocus
+          onKeyPress={this.handleEnter}
         />
         <HelperText type="error" visible={errorMessage}>
           {errorMessage}

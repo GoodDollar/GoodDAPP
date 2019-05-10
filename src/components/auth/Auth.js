@@ -27,6 +27,11 @@ class Auth extends React.Component<Props> {
 
   handleSignUp = () => {
     this.props.navigation.navigate('Signup')
+    //Hack to get keyboard up on mobile need focus from user event such as click
+    setTimeout(() => {
+      const el = document.getElementById('Name_input')
+      if (el) el.focus()
+    }, 500)
   }
 
   handleSignUpThirdParty = () => {

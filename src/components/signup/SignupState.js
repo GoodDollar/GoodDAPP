@@ -31,7 +31,6 @@ const SignupWizardNavigator = createSwitchNavigator({
   SMS: SmsForm,
   Email: EmailForm,
   EmailConfirmation,
-  FaceRecognition,
   SignupCompleted
 })
 
@@ -56,6 +55,13 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
     userStorage.setProfile({ ...state, walletAddress: goodWallet.account })
   }
 
+  const navigateWithFocus = (routeKey: string) => {
+    navigation.navigate(routeKey)
+    setTimeout(() => {
+      const el = document.getElementById(routeKey + '_input')
+      if (el) el.focus()
+    }, 300)
+  }
   const done = async (data: { [string]: string }) => {
     log.info('signup data:', { data })
     let nextRoute = navigation.state.routes[navigation.state.index + 1]
@@ -65,7 +71,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
     if (nextRoute && nextRoute.key === 'SMS') {
       try {
         await API.sendOTP(newState)
-        navigation.navigate(nextRoute.key)
+        navigateWithFocus(nextRoute.key)
       } catch (e) {
         log.error(e)
       }
@@ -87,13 +93,13 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
           await userStorage.setProfile({ ...newState, walletAddress: goodWallet.account })
         }
 
-        navigation.navigate(nextRoute.key)
+        navigateWithFocus(nextRoute.key)
       } catch (e) {
         log.error(e)
       }
     } else {
       if (nextRoute) {
-        navigation.navigate(nextRoute.key)
+        navigateWithFocus(nextRoute.key)
       } else {
         log.info('Sending new user data', state)
         saveProfile()
@@ -128,7 +134,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
     const nextRoute = navigation.state.routes[navigation.state.index - 1]
 
     if (nextRoute) {
-      navigation.navigate(nextRoute.key)
+      navigateWithFocus(nextRoute.key)
     } else {
       navigation.navigate('Auth')
     }

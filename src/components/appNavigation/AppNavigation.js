@@ -1,6 +1,6 @@
 // @flow
 import { createSwitchNavigator } from '@react-navigation/core'
-import { Icon, normalize } from 'react-native-elements'
+import { normalize } from 'react-native-elements'
 import React from 'react'
 import type { Store } from 'undux'
 
@@ -17,8 +17,6 @@ import BuySell from './BuySell'
 import Donate from './Donate'
 import Rewards from './Rewards'
 import Profile from '../profile/Profile'
-
-import { checkAuthStatus } from '../../lib/login/checkAuthStatus'
 
 type AppNavigationProps = {
   navigation: any,

@@ -600,6 +600,11 @@ Array [
                           spellCheck={true}
                           style={
                             Object {
+                              "backgroundColor": "rgba(0,0,0,0.00)",
+                              "borderBottomWidth": "0px",
+                              "borderLeftWidth": "0px",
+                              "borderRightWidth": "0px",
+                              "borderTopWidth": "0px",
                               "color": "rgba(85,85,85,1.00)",
                               "fontSize": "16px",
                               "height": "30px",
@@ -734,6 +739,11 @@ Array [
                           spellCheck={true}
                           style={
                             Object {
+                              "backgroundColor": "rgba(0,0,0,0.00)",
+                              "borderBottomWidth": "0px",
+                              "borderLeftWidth": "0px",
+                              "borderRightWidth": "0px",
+                              "borderTopWidth": "0px",
                               "color": "rgba(85,85,85,1.00)",
                               "fontSize": "16px",
                               "height": "30px",
@@ -868,6 +878,11 @@ Array [
                           spellCheck={true}
                           style={
                             Object {
+                              "backgroundColor": "rgba(0,0,0,0.00)",
+                              "borderBottomWidth": "0px",
+                              "borderLeftWidth": "0px",
+                              "borderRightWidth": "0px",
+                              "borderTopWidth": "0px",
                               "color": "rgba(85,85,85,1.00)",
                               "fontSize": "16px",
                               "height": "30px",

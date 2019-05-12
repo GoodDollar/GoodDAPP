@@ -26,7 +26,7 @@ const TextContent = ({ children, dark }) => {
 }
 
 const CustomButton = (props: ButtonProps) => (
-  <BaseButton {...props} style={[styles.button, props.style]} disabled={props.loading || props.disabled}>
+  <BaseButton {...props} style={[styles.button, props.style]} disabled={props.loading || props.disabled} compact={true}>
     <TextContent {...props} />
   </BaseButton>
 )

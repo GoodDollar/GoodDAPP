@@ -8,18 +8,26 @@ import { CustomButton, BigGoodDollar } from '../../common'
 import type { FeedEventProps } from './EventProps'
 
 /**
- * Render modal claim item for feed list in horizontal view
+ * Render modal withdraw item for feed list in horizontal view
  * @param {FeedEventProps} feedEvent - feed event
  * @returns {HTMLElement}
  */
-const ModalClaimEvent = ({ item: feed, onPress }: FeedEventProps) => {
+const ModalReceiveEvent = ({ item: feed, onPress }: FeedEventProps) => {
   return (
     <View style={styles.modal}>
       <Text>{new Date(feed.date).toLocaleDateString()}</Text>
       <View style={styles.row}>
         {feed.data.endpoint.title && <Text style={styles.leftTitle}>{feed.data.endpoint.title}</Text>}
-        <Text style={styles.leftTitle}>Claimed GD</Text>
+        <Text style={styles.leftTitle}>{`${feed.type === 'withdraw' ? 'Withdraw' : 'Received'} GD`}</Text>
         <BigGoodDollar number={feed.data.amount} elementStyles={styles.currency} />
+      </View>
+      <View style={styles.hrLine} />
+      <View style={styles.row}>
+        <Avatar.Image size={48} style={{ backgroundColor: 'white' }} source={feed.data.endpoint.avatar} />
+        <Text style={styles.leftMargin}>
+          <Text style={styles.label}>From:</Text>
+          <Text style={styles.name}>{feed.data.endpoint.fullName}</Text>
+        </Text>
       </View>
       <View style={styles.hrLine} />
       {feed.data.message && <Text>{feed.data.message}</Text>}
@@ -112,4 +120,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default ModalClaimEvent
+export default ModalReceiveEvent

@@ -49,18 +49,4 @@ describe('EventCounterParty', () => {
       expect(tree.toJSON()).toMatchSnapshot()
     })
   })
-
-  describe('claim', () => {
-    const feedItem = mockEvent('claim')
-
-    it('renders without errors', () => {
-      const tree = renderer.create(<EventCounterParty feedItem={feedItem} />)
-      expect(tree.toJSON()).toBeTruthy()
-    })
-
-    it('matches snapshot', () => {
-      const tree = renderer.create(<EventCounterParty feedItem={feedItem} />)
-      expect(tree.toJSON()).toMatchSnapshot()
-    })
-  })
 })

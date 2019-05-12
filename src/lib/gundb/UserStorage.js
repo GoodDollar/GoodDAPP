@@ -633,7 +633,7 @@ export class UserStorage {
         (await profileToShow
           .get('fullName')
           .get('display')
-          .then()) || 'Unknown Name'
+          .then()) || 'GoodDollar'
     }
 
     if (generatedString) {

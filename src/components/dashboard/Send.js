@@ -97,10 +97,10 @@ const Send = props => {
       <TopBar push={props.screenProps.push} />
       <Section style={styles.bottomSection}>
         <View style={styles.topContainer}>
-          <Section.Title>TO WHO?</Section.Title>
+          <Section.Title style={styles.title}>TO WHO?</Section.Title>
           <View style={styles.iconInputContainer}>
             <View style={styles.pasteIcon}>
-              <Icon color="#282c34" name="content-paste" onClick={pasteToWho} />
+              <Icon size={normalize(16)} color="#282c34" name="content-paste" onClick={pasteToWho} />
             </View>
             <TextInput
               onChangeText={text => setScreenState({ to: text })}
@@ -115,7 +115,7 @@ const Send = props => {
           <HelperText type="error" visible={error}>
             {error}
           </HelperText>
-          <Section.Row style={{ marginTop: '30px' }}>
+          <Section.Row style={{ marginTop: '100px' }}>
             <ScanQRButton screenProps={props.screenProps} disabled={!!to} />
             <GenerateLinkButton screenProps={props.screenProps} disabled={!!to} />
           </Section.Row>
@@ -133,12 +133,17 @@ Send.navigationOptions = {
 }
 
 const styles = StyleSheet.create({
+  title: {
+    fontSize: normalize(24),
+    fontWeight: 500
+  },
   centered: {
     justifyContent: 'center',
     alignItems: 'baseline'
   },
   bottomSection: {
-    flex: 1
+    flex: 1,
+    paddingTop: normalize(22)
   },
   topContainer: {
     flex: 1
@@ -148,13 +153,15 @@ const styles = StyleSheet.create({
     position: 'relative'
   },
   input: {
-    flex: 1
+    flex: 1,
+    backgroundColor: 'inherit',
+    marginTop: normalize(10)
   },
   pasteIcon: {
     position: 'absolute',
     cursor: 'pointer',
     right: 0,
-    padding: normalize(15),
+    paddingTop: normalize(30),
     zIndex: 1
   }
 })

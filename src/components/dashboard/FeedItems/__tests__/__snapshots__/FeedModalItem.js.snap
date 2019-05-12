@@ -601,7 +601,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
             }
           }
         >
-          Withdraw GD
+          Withdrawn GD
         </div>
         <div
           className="css-view-1dbjc4n"

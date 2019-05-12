@@ -135,7 +135,7 @@ Send.navigationOptions = {
 const styles = StyleSheet.create({
   title: {
     fontSize: normalize(24),
-    fontWeight: 500
+    fontWeight: '500'
   },
   centered: {
     justifyContent: 'center',

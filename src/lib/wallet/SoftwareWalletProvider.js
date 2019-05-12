@@ -47,6 +47,14 @@ function generateMnemonic(): string {
 class SoftwareWalletProvider {
   ready: Promise<Web3>
   GD_USER_PKEY: string = 'GD_USER_PKEY'
+  defaults = {
+    defaultBlock: 'latest',
+    defaultGas: 140000,
+    defaultGasPrice: 1000000,
+    transactionBlockTimeout: 2,
+    transactionConfirmationBlocks: 1,
+    transactionPollingTimeout: 30
+  }
 
   conf: WalletConfig
 
@@ -65,7 +73,7 @@ class SoftwareWalletProvider {
     //we start from addres 1, since from address 0 pubkey all public keys can  be generated
     //and we want privacy
     let mulWallet = new MultipleAddressWallet(pkey, 10)
-    let web3 = new Web3(provider)
+    let web3 = new Web3(provider, null, this.defaults)
     mulWallet.addresses.forEach(addr => {
       let wallet = web3.eth.accounts.privateKeyToAccount('0x' + mulWallet.wallets[addr].getPrivateKey().toString('hex'))
       web3.eth.accounts.wallet.add(wallet)

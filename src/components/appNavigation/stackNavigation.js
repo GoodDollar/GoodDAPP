@@ -68,19 +68,21 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
   push = (nextRoute, params) => {
     const { navigation } = this.props
     const route = navigation.state.routes[navigation.state.index].key
-    navigation.navigate(nextRoute)
-    this.setState((state, props) => {
-      return {
-        stack: [
-          ...state.stack,
-          {
-            route,
-            state: state.currentState
-          }
-        ],
-        currentState: params
-      }
-    })
+    this.setState(
+      (state, props) => {
+        return {
+          stack: [
+            ...state.stack,
+            {
+              route,
+              state: state.currentState
+            }
+          ],
+          currentState: params
+        }
+      },
+      state => navigation.navigate(nextRoute)
+    )
   }
 
   /**

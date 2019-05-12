@@ -1,21 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`EventCounterParty claim matches snapshot 1`] = `
-<div
-  className="css-text-76zvg2"
-  dir="auto"
-  style={
-    Object {
-      "color": "rgba(75,75,75,1.00)",
-      "fontSize": "15px",
-      "textTransform": "capitalize",
-    }
-  }
->
-  From: Good Dollar
-</div>
-`;
-
 exports[`EventCounterParty receive matches snapshot 1`] = `
 <div
   className="css-text-76zvg2"

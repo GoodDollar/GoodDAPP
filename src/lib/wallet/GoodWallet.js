@@ -359,7 +359,7 @@ export class GoodWallet {
   async sign(toSign: string, accountType: AccountUsage = 'gd'): Promise<string> {
     let account = await this.getAccountForType(accountType)
     let signed = await this.wallet.eth.sign(toSign, account)
-    return signed.signature
+    return signed
   }
 
   async isVerified(address: string): Promise<boolean> {
@@ -510,8 +510,8 @@ export class GoodWallet {
       throw new Error('Amount is bigger than balance')
     }
 
-    log.debug({ amount, to })
-    const transferCall = this.tokenContract.methods.transfer(to, amount)
+    log.info({ amount, to })
+    const transferCall = this.tokenContract.methods.transfer(to, amount.toString())
 
     return await this.sendTransaction(transferCall, events)
   }

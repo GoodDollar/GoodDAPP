@@ -115,7 +115,7 @@ const Send = props => {
           <HelperText type="error" visible={error}>
             {error}
           </HelperText>
-          <Section.Row>
+          <Section.Row style={{ marginTop: '30px' }}>
             <ScanQRButton screenProps={props.screenProps} disabled={!!to} />
             <GenerateLinkButton screenProps={props.screenProps} disabled={!!to} />
           </Section.Row>

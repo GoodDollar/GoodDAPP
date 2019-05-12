@@ -22,11 +22,6 @@ function isValidDate(d) {
   return d instanceof Date && !isNaN(d)
 }
 
-const EVENT_TYPES = {
-  PaymentWithdraw: 'withdraw',
-  Transfer: 'claim'
-}
-
 export type GunDBUser = {
   alias: string,
   epub: string,
@@ -84,6 +79,15 @@ const getReceiveDataFromReceipt = (account: string, receipt: any) => {
     },
     { name: log.name }
   )
+}
+
+export const getOperationType = (data: any, account: string) => {
+  const EVENT_TYPES = {
+    PaymentWithdraw: 'withdraw'
+  }
+
+  const operationType = data.from && data.from.toLowerCase() === account ? 'send' : 'receive'
+  return EVENT_TYPES[data.name] || operationType
 }
 
 export class UserStorage {
@@ -147,11 +151,10 @@ export class UserStorage {
   async handleReceiptUpdated(receipt: any) {
     try {
       const data = getReceiveDataFromReceipt(this.wallet.account, receipt)
-      const operationType = data.from && data.from.toLowerCase() === this.wallet.account ? 'send' : 'receive'
       const feedEvent = (await this.getFeedItemByTransactionHash(receipt.transactionHash)) || {
         id: receipt.transactionHash,
         date: new Date().toString(),
-        type: EVENT_TYPES[data.name] || operationType
+        type: getOperationType(data, this.wallet.account)
       }
       logger.info('receiptReceived', { feedEvent, receipt, data })
       const updatedFeedEvent = {

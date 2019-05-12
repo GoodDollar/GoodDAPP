@@ -113,20 +113,13 @@ class API {
     return this.client.post('/send/linksms', { to, sendLink })
   }
 
-  enroll(capture: ZoomCaptureResult) {
-    console.log({ capture })
-    let form = new FormData()
-    form.append('session_id', capture.sessionId)
-    form.append('facemap', capture.facemap, { contentType: 'application/zip' })
-    form.append('audit_trail_image', capture.auditTrailImage, { contentType: 'image/jpeg' })
-    let res = this.client.post('/livetest/enroll', form, {
+  performFaceRecognition(req: FormData): Promise<$AxiosXHR<any>> {
+    //return { data: { ok: 1, livenessPassed: true, duplicates: false, zoomEnrollmentId:-1 } } //TODO: // REMOVE!!!!!!!!!!
+    return this.client.post('/livetest/facerecognition', req, {
       headers: {
         'Content-Type': `multipart/form-data;`
       }
     })
-    // let res = this.client.post('/livetest/enroll', data)
-    return res
   }
 }
-
 export default new API()

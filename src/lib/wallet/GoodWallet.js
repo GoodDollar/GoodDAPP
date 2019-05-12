@@ -56,6 +56,7 @@ export class GoodWallet {
   static AccountUsageToPath = {
     gd: 0,
     gundb: 1,
+    zoomId: 1,
     eth: 2,
     donate: 3,
     login: 4

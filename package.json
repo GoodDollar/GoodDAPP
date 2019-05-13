@@ -95,7 +95,7 @@
     "truffle-hdwallet-provider": "^1.0.4",
     "undux": "^5.0.0-beta.21",
     "validator": "^10.11.0",
-    "web3": "^1.0.0-beta.54"
+    "web3": "^1.0.0-beta.37"
   },
   "devDependencies": {
     "@babel/core": "7.1.0",

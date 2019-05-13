@@ -4,16 +4,10 @@ import React from 'react'
 import type { Store } from 'undux'
 
 // TODO: Should we do this diferently?
-import buySellIcon from '../../assets/buySellIcon.png'
-import donateIcon from '../../assets/donateIcon.png'
 import homeIcon from '../../assets/homeIcon.png'
-import rewardsIcon from '../../assets/rewardsIcon.png'
 
 import GDStore from '../../lib/undux/GDStore'
 import Dashboard from '../dashboard/Dashboard'
-import BuySell from './BuySell'
-import Donate from './Donate'
-import Rewards from './Rewards'
 import Profile from '../profile/Profile'
 
 type AppNavigationProps = {
@@ -26,24 +20,9 @@ type AppNavigationState = {
 }
 
 const routes = {
-  Rewards: {
-    screen: Rewards,
-    icon: rewardsIcon,
-    display: false
-  },
-  BuySell: {
-    screen: BuySell,
-    icon: buySellIcon,
-    display: false
-  },
   Dashboard: {
     screen: Dashboard,
     icon: homeIcon,
-    display: false
-  },
-  Donate: {
-    screen: Donate,
-    icon: donateIcon,
     display: false
   },
   Profile: {

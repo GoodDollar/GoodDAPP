@@ -117,9 +117,9 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
           await API.verifyTopWallet()
           const mnemonic = await AsyncStorage.getItem('GD_USER_MNEMONIC')
           await API.sendRecoveryInstructionByEmail(mnemonic)
-          if (destinationPath !== '') {
+          if (destinationPath) {
             navigation.navigate(JSON.parse(destinationPath))
-            return AsyncStorage.setItem('destinationPath', '')
+            return AsyncStorage.removeItem('destinationPath')
           } else {
             navigation.navigate('AppNavigation')
           }

@@ -57,7 +57,8 @@ export class GoodWallet {
     gundb: 1,
     eth: 2,
     donate: 3,
-    login: 4
+    login: 4,
+    zoomId: 1
   }
   ready: Promise<Web3>
   wallet: Web3
@@ -156,8 +157,10 @@ export class GoodWallet {
         this.wallet = wallet
         this.accounts = this.wallet.eth.accounts.wallet
         this.account = (await this.getAccountForType('gd')) || this.wallet.eth.defaultAccount
+        this.wallet.eth.defaultAccount = this.account
         this.networkId = Config.networkId
         this.gasPrice = wallet.utils.toWei('1', 'gwei')
+        this.wallet.eth.defaultGasPrice = this.gasPrice
         this.identityContract = new this.wallet.eth.Contract(
           IdentityABI.abi,
           IdentityABI.networks[this.networkId].address,
@@ -359,7 +362,7 @@ export class GoodWallet {
   async sign(toSign: string, accountType: AccountUsage = 'gd'): Promise<string> {
     let account = await this.getAccountForType(accountType)
     let signed = await this.wallet.eth.sign(toSign, account)
-    return signed.signature
+    return signed
   }
 
   async isVerified(address: string): Promise<boolean> {
@@ -374,7 +377,7 @@ export class GoodWallet {
 
   async canSend(amount: number): Promise<boolean> {
     const balance = await this.balanceOf()
-    return amount <= balance
+    return parseInt(amount) <= parseInt(balance)
   }
 
   async generateLink(amount: number, reason: string = '', events: PromitEvents) {
@@ -510,8 +513,8 @@ export class GoodWallet {
       throw new Error('Amount is bigger than balance')
     }
 
-    log.debug({ amount, to })
-    const transferCall = this.tokenContract.methods.transfer(to, amount)
+    log.info({ amount, to })
+    const transferCall = this.tokenContract.methods.transfer(to, amount.toString())
 
     return await this.sendTransaction(transferCall, events)
   }
@@ -535,7 +538,7 @@ export class GoodWallet {
     { gas, gasPrice }: GasValues = { gas: undefined, gasPrice: undefined }
   ) {
     gas = gas || (await tx.estimateGas().catch(this.handleError))
-    gasPrice = gasPrice || (await this.getGasPrice())
+    gasPrice = gasPrice || this.gasPrice
 
     log.debug({ gas, gasPrice })
 

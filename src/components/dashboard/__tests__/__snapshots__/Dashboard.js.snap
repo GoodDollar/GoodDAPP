@@ -45,6 +45,7 @@ exports[`Dashboard matches snapshot 1`] = `
             "WebkitFlexDirection": "row",
             "WebkitJustifyContent": "flex-start",
             "alignItems": "center",
+            "cursor": "pointer",
             "flexDirection": "row",
             "justifyContent": "flex-start",
             "marginBottom": "20px",
@@ -104,6 +105,7 @@ exports[`Dashboard matches snapshot 1`] = `
             "WebkitFlexDirection": "row",
             "WebkitJustifyContent": "flex-start",
             "alignItems": "center",
+            "cursor": "pointer",
             "flexDirection": "row",
             "justifyContent": "flex-start",
             "marginBottom": "20px",
@@ -184,6 +186,7 @@ exports[`Dashboard matches snapshot 1`] = `
             "WebkitFlexDirection": "row",
             "WebkitJustifyContent": "flex-start",
             "alignItems": "center",
+            "cursor": "pointer",
             "flexDirection": "row",
             "justifyContent": "flex-start",
             "marginBottom": "20px",
@@ -253,7 +256,6 @@ exports[`Dashboard matches snapshot 1`] = `
       </div>
       <div
         className="css-view-1dbjc4n"
-        onClick={[Function]}
         style={
           Object {
             "WebkitAlignItems": "center",
@@ -264,6 +266,7 @@ exports[`Dashboard matches snapshot 1`] = `
             "WebkitFlexDirection": "row",
             "WebkitJustifyContent": "flex-start",
             "alignItems": "center",
+            "cursor": "pointer",
             "flexDirection": "row",
             "justifyContent": "flex-start",
             "marginBottom": "20px",
@@ -333,7 +336,6 @@ exports[`Dashboard matches snapshot 1`] = `
       </div>
       <div
         className="css-view-1dbjc4n"
-        onClick={[Function]}
         style={
           Object {
             "WebkitAlignItems": "center",
@@ -344,6 +346,7 @@ exports[`Dashboard matches snapshot 1`] = `
             "WebkitFlexDirection": "row",
             "WebkitJustifyContent": "flex-start",
             "alignItems": "center",
+            "cursor": "pointer",
             "flexDirection": "row",
             "justifyContent": "flex-start",
             "marginBottom": "20px",
@@ -413,7 +416,6 @@ exports[`Dashboard matches snapshot 1`] = `
       </div>
       <div
         className="css-view-1dbjc4n"
-        onClick={[Function]}
         style={
           Object {
             "WebkitAlignItems": "center",
@@ -424,6 +426,7 @@ exports[`Dashboard matches snapshot 1`] = `
             "WebkitFlexDirection": "row",
             "WebkitJustifyContent": "flex-start",
             "alignItems": "center",
+            "cursor": "pointer",
             "flexDirection": "row",
             "justifyContent": "flex-start",
             "marginBottom": "20px",
@@ -493,7 +496,6 @@ exports[`Dashboard matches snapshot 1`] = `
       </div>
       <div
         className="css-view-1dbjc4n"
-        onClick={[Function]}
         style={
           Object {
             "WebkitAlignItems": "center",
@@ -504,6 +506,7 @@ exports[`Dashboard matches snapshot 1`] = `
             "WebkitFlexDirection": "row",
             "WebkitJustifyContent": "flex-start",
             "alignItems": "center",
+            "cursor": "pointer",
             "flexDirection": "row",
             "justifyContent": "flex-start",
             "marginBottom": "20px",
@@ -573,7 +576,6 @@ exports[`Dashboard matches snapshot 1`] = `
       </div>
       <div
         className="css-view-1dbjc4n"
-        onClick={[Function]}
         style={
           Object {
             "WebkitAlignItems": "center",
@@ -584,6 +586,7 @@ exports[`Dashboard matches snapshot 1`] = `
             "WebkitFlexDirection": "row",
             "WebkitJustifyContent": "flex-start",
             "alignItems": "center",
+            "cursor": "pointer",
             "flexDirection": "row",
             "justifyContent": "flex-start",
             "marginBottom": "20px",
@@ -840,77 +843,6 @@ exports[`Dashboard matches snapshot 1`] = `
                 }
               >
                 Dashboard
-              </div>
-            </div>
-            <div
-              className="css-view-1dbjc4n"
-              onClick={[Function]}
-              style={
-                Object {
-                  "WebkitAlignItems": "center",
-                  "WebkitBoxAlign": "center",
-                  "WebkitBoxDirection": "normal",
-                  "WebkitBoxOrient": "vertical",
-                  "WebkitFlexDirection": "column",
-                  "alignItems": "center",
-                  "cursor": "pointer",
-                  "display": "flex",
-                  "flexDirection": "column",
-                  "height": "100%",
-                  "msFlexAlign": "center",
-                  "msFlexDirection": "column",
-                }
-              }
-            >
-              <div
-                className="css-view-1dbjc4n"
-                style={
-                  Object {
-                    "WebkitBoxFlex": 2,
-                    "WebkitFlexBasis": "0px",
-                    "WebkitFlexGrow": 2,
-                    "flexBasis": "0px",
-                    "flexGrow": 2,
-                    "msFlexPositive": 2,
-                    "msFlexPreferredSize": "0px",
-                    "overflowX": "hidden",
-                    "overflowY": "hidden",
-                    "width": "40px",
-                    "zIndex": 0,
-                  }
-                }
-              >
-                <div
-                  className="css-view-1dbjc4n"
-                  style={
-                    Object {
-                      "backgroundColor": "rgba(0,0,0,0.00)",
-                      "backgroundPosition": "center",
-                      "backgroundRepeat": "no-repeat",
-                      "backgroundSize": "cover",
-                      "bottom": "0px",
-                      "height": "100%",
-                      "left": "0px",
-                      "position": "absolute",
-                      "right": "0px",
-                      "top": "0px",
-                      "width": "100%",
-                      "zIndex": -1,
-                    }
-                  }
-                />
-              </div>
-              <div
-                className="css-text-76zvg2"
-                dir="auto"
-                style={
-                  Object {
-                    "color": "rgba(210,210,210,1.00)",
-                    "textAlign": "center",
-                  }
-                }
-              >
-                Donate
               </div>
             </div>
             <div
@@ -1340,7 +1272,7 @@ exports[`Dashboard matches snapshot 1`] = `
                             "flexShrink": 1,
                             "justifyContent": "center",
                             "marginRight": "10px",
-                            "minWidth": "64px",
+                            "minWidth": "auto",
                             "msFlexNegative": 1,
                             "msFlexPack": "center",
                             "msFlexPositive": 1,
@@ -1408,8 +1340,8 @@ exports[`Dashboard matches snapshot 1`] = `
                                   "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                                   "letterSpacing": "1px",
                                   "marginBottom": "9px",
-                                  "marginLeft": "16px",
-                                  "marginRight": "16px",
+                                  "marginLeft": "8px",
+                                  "marginRight": "8px",
                                   "marginTop": "9px",
                                   "textAlign": "center",
                                 }
@@ -1425,10 +1357,10 @@ exports[`Dashboard matches snapshot 1`] = `
                                     "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                                     "fontSize": "18px",
                                     "fontWeight": "bold",
-                                    "paddingBottom": "5px",
-                                    "paddingLeft": "5px",
-                                    "paddingRight": "5px",
-                                    "paddingTop": "5px",
+                                    "paddingBottom": "0px",
+                                    "paddingLeft": "0px",
+                                    "paddingRight": "0px",
+                                    "paddingTop": "0px",
                                     "textAlign": "center",
                                     "textTransform": "uppercase",
                                   }
@@ -1465,7 +1397,7 @@ exports[`Dashboard matches snapshot 1`] = `
                             "borderTopWidth": "0px",
                             "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
                             "justifyContent": "center",
-                            "minWidth": "64px",
+                            "minWidth": "auto",
                             "msFlexPack": "center",
                           }
                         }
@@ -1530,8 +1462,8 @@ exports[`Dashboard matches snapshot 1`] = `
                                   "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                                   "letterSpacing": "1px",
                                   "marginBottom": "9px",
-                                  "marginLeft": "16px",
-                                  "marginRight": "16px",
+                                  "marginLeft": "8px",
+                                  "marginRight": "8px",
                                   "marginTop": "9px",
                                   "textAlign": "center",
                                 }
@@ -1605,7 +1537,7 @@ exports[`Dashboard matches snapshot 1`] = `
                             "flexShrink": 1,
                             "justifyContent": "center",
                             "marginLeft": "10px",
-                            "minWidth": "64px",
+                            "minWidth": "auto",
                             "msFlexNegative": 1,
                             "msFlexPack": "center",
                             "msFlexPositive": 1,
@@ -1673,8 +1605,8 @@ exports[`Dashboard matches snapshot 1`] = `
                                   "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                                   "letterSpacing": "1px",
                                   "marginBottom": "9px",
-                                  "marginLeft": "16px",
-                                  "marginRight": "16px",
+                                  "marginLeft": "8px",
+                                  "marginRight": "8px",
                                   "marginTop": "9px",
                                   "textAlign": "center",
                                 }
@@ -1690,10 +1622,10 @@ exports[`Dashboard matches snapshot 1`] = `
                                     "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                                     "fontSize": "18px",
                                     "fontWeight": "bold",
-                                    "paddingBottom": "5px",
-                                    "paddingLeft": "5px",
-                                    "paddingRight": "5px",
-                                    "paddingTop": "5px",
+                                    "paddingBottom": "0px",
+                                    "paddingLeft": "0px",
+                                    "paddingRight": "0px",
+                                    "paddingTop": "0px",
                                     "textAlign": "center",
                                     "textTransform": "uppercase",
                                   }
@@ -1807,139 +1739,4 @@ exports[`Dashboard matches snapshot 1`] = `
     </div>
   </div>
 </div>
-`;
-
-exports[`Dashboard matches snapshot when changing tab 1`] = `
-Array [
-  <div
-    className="css-view-1dbjc4n"
-    style={
-      Object {
-        "WebkitAlignItems": "center",
-        "WebkitBoxAlign": "center",
-        "WebkitBoxDirection": "normal",
-        "WebkitBoxOrient": "horizontal",
-        "WebkitBoxPack": "center",
-        "WebkitFlexDirection": "row",
-        "WebkitJustifyContent": "center",
-        "alignItems": "center",
-        "backgroundColor": "rgba(144,144,144,1.00)",
-        "flexDirection": "row",
-        "height": "60px",
-        "justifyContent": "center",
-        "msFlexAlign": "center",
-        "msFlexDirection": "row",
-        "msFlexPack": "center",
-      }
-    }
-  >
-    <div
-      className="css-view-1dbjc4n"
-      style={
-        Object {
-          "minWidth": "40px",
-          "paddingBottom": "10px",
-          "paddingLeft": "10px",
-          "paddingRight": "10px",
-          "paddingTop": "10px",
-        }
-      }
-    >
-      <div
-        className="css-view-1dbjc4n"
-        onClick={[Function]}
-        style={
-          Object {
-            "backgroundImage": "url(backButton.png)",
-            "cursor": "pointer",
-            "height": "25px",
-            "width": "25px",
-          }
-        }
-      />
-    </div>
-    <div
-      className="css-text-76zvg2"
-      dir="auto"
-      style={
-        Object {
-          "WebkitBoxFlex": 2,
-          "WebkitFlexGrow": 2,
-          "color": "rgba(210,210,210,1.00)",
-          "flexGrow": 2,
-          "fontSize": "18px",
-          "msFlexPositive": 2,
-          "textAlign": "center",
-          "textTransform": "uppercase",
-        }
-      }
-    >
-      Donate
-    </div>
-    <div
-      className="css-view-1dbjc4n"
-      style={
-        Object {
-          "minWidth": "40px",
-        }
-      }
-    />
-  </div>,
-  <div
-    className="css-view-1dbjc4n"
-    onResponderGrant={[Function]}
-    onResponderReject={[Function]}
-    onResponderRelease={[Function]}
-    onResponderTerminationRequest={[Function]}
-    onScroll={[Function]}
-    onScrollShouldSetResponder={[Function]}
-    onStartShouldSetResponder={[Function]}
-    onStartShouldSetResponderCapture={[Function]}
-    onTouchEnd={[Function]}
-    onTouchMove={[Function]}
-    onTouchStart={[Function]}
-    onWheel={[Function]}
-    style={
-      Object {
-        "WebkitBoxDirection": "normal",
-        "WebkitBoxFlex": 1,
-        "WebkitBoxOrient": "vertical",
-        "WebkitFlexDirection": "column",
-        "WebkitFlexGrow": 1,
-        "WebkitFlexShrink": 1,
-        "WebkitOverflowScrolling": "touch",
-        "WebkitTransform": "translateZ(0px)",
-        "flexDirection": "column",
-        "flexGrow": 1,
-        "flexShrink": 1,
-        "msFlexDirection": "column",
-        "msFlexNegative": 1,
-        "msFlexPositive": 1,
-        "overflowX": "hidden",
-        "overflowY": "auto",
-        "transform": "translateZ(0px)",
-      }
-    }
-  >
-    <div
-      className="css-view-1dbjc4n"
-      style={
-        Object {
-          "minHeight": "100%",
-        }
-      }
-    >
-      <div
-        className="css-view-1dbjc4n"
-      >
-        <div
-          className="css-text-76zvg2"
-          dir="auto"
-        >
-          Donate
-        </div>
-      </div>
-    </div>
-  </div>,
-]
 `;

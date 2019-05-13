@@ -1,15 +1,14 @@
 // @flow
 import React, { Component, useState, useEffect } from 'react'
-import { ScrollView, View, Text, StyleSheet, AsyncStorage } from 'react-native'
+import { ScrollView, StyleSheet, AsyncStorage } from 'react-native'
 import { Button } from 'react-native-paper'
-import { Icon, normalize } from 'react-native-elements'
+import { normalize } from 'react-native-elements'
 import SideMenu from 'react-native-side-menu'
 import { createNavigator, SwitchRouter, SceneView, Route } from '@react-navigation/core'
 import { Helmet } from 'react-helmet'
 import GDStore from '../../lib/undux/GDStore'
 import { toggleSidemenu } from '../../lib/undux/utils/sidemenu'
-import { useWrappedApi } from '../../lib/API/useWrappedApi'
-import { useDialog } from '../../lib/undux/utils/dialog'
+import SideMenuPanel from '../sidemenu/sidemenuPanel'
 
 import NavBar from './NavBar'
 import { CustomButton, type ButtonProps } from '../common'
@@ -35,44 +34,55 @@ const getComponent = (Component, props) => {
   return Component
 }
 
-const MENU_ITEMS = [
-  {
-    icon: 'person',
-    name: 'Your profile'
-  },
-  {
-    action: async (API, showDialogWithData) => {
-      const mnemonic = await AsyncStorage.getItem('GD_USER_MNEMONIC')
-      await API.sendRecoveryInstructionByEmail(mnemonic)
-      showDialogWithData({
-        title: 'Backup Your Wallet',
-        message: 'We sent an email with recovery instructions for your wallet'
-      })
+const getMenuItems = ({ API, sidemenuActions, navigation }) => {
+  const { hideSidemenu, showDialogWithData } = sidemenuActions
+  return [
+    {
+      icon: 'person',
+      name: 'Your profile',
+      action: () => {
+        navigation.navigate({
+          routeName: 'Profile',
+          type: 'Navigation/NAVIGATE'
+        })
+        hideSidemenu()
+      }
     },
-    icon: 'lock',
-    name: 'Backup Your Wallet'
-  },
-  {
-    icon: 'person',
-    name: 'Profile Privacy'
-  },
-  {
-    icon: 'notifications',
-    name: 'Notification Settings'
-  },
-  {
-    icon: 'person',
-    name: 'Send Feedback'
-  },
-  {
-    icon: 'comment',
-    name: 'FAQ'
-  },
-  {
-    icon: 'question-answer',
-    name: 'About'
-  }
-]
+    {
+      icon: 'lock',
+      name: 'Backup Your Wallet',
+      action: async () => {
+        const mnemonic = await AsyncStorage.getItem('GD_USER_MNEMONIC')
+        await API.sendRecoveryInstructionByEmail(mnemonic)
+        showDialogWithData({
+          title: 'Backup Your Wallet',
+          message: 'We sent an email with recovery instructions for your wallet'
+        })
+        hideSidemenu()
+      }
+    },
+    {
+      icon: 'person',
+      name: 'Profile Privacy'
+    },
+    {
+      icon: 'notifications',
+      name: 'Notification Settings'
+    },
+    {
+      icon: 'person',
+      name: 'Send Feedback'
+    },
+    {
+      icon: 'comment',
+      name: 'FAQ'
+    },
+    {
+      icon: 'question-answer',
+      name: 'About'
+    }
+  ]
+}
 
 type AppViewProps = {
   descriptors: any,
@@ -200,7 +210,7 @@ class AppView extends Component<AppViewProps, any> {
     }
     const Component = getComponent(descriptor.getComponent(), { screenProps })
     const pageTitle = title || activeKey
-    const menu = <SideMenuPanel screenProps={screenProps} />
+    const menu = <SideMenuPanel screenProps={screenProps} navigation={navigation} getItems={getMenuItems} />
     return (
       <React.Fragment>
         <Helmet>
@@ -216,58 +226,6 @@ class AppView extends Component<AppViewProps, any> {
     )
   }
 }
-
-const SideMenuPanel = () => {
-  const store = GDStore.useStore()
-  const API = useWrappedApi()
-  const [showDialogWithData] = useDialog()
-  return (
-    <View>
-      <View style={[styles.row, styles.closeIcon]} onClick={() => toggleSidemenu(store)}>
-        <Icon name="close" />
-      </View>
-      {MENU_ITEMS.map(item => (
-        <SideMenuItem key={item.name} {...item} action={() => item.action && item.action(API, showDialogWithData)} />
-      ))}
-    </View>
-  )
-}
-
-type SideMenuItemProps = {
-  icon: String,
-  name: String,
-  action: Function
-}
-
-const SideMenuItem = ({ icon, name, action }: SideMenuItemProps) => (
-  <View style={styles.row} onClick={action}>
-    <View style={styles.menuIcon}>
-      <Icon name={icon} size={20} />
-    </View>
-    <Text style={styles.menuItem}>{name}</Text>
-  </View>
-)
-
-const styles = StyleSheet.create({
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    marginVertical: normalize(20)
-  },
-  closeIcon: {
-    marginLeft: 'auto',
-    marginRight: normalize(20)
-  },
-  menuItem: {
-    fontFamily: 'Roboto',
-    fontWeight: 'bold',
-    fontSize: normalize(15)
-  },
-  menuIcon: {
-    marginHorizontal: normalize(20)
-  }
-})
 
 /**
  * Returns a navigator with a navbar wrapping the routes.
@@ -340,6 +298,7 @@ export const BackButton = (props: BackButtonProps) => {
 
   return (
     <Button
+      compact={true}
       mode={mode || 'text'}
       color={color || '#575757'}
       style={style}

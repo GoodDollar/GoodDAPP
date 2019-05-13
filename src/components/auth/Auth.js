@@ -106,8 +106,7 @@ const styles = StyleSheet.create({
   buttonLayout: {
     padding: normalize(5),
     marginTop: normalize(20),
-    marginBottom: normalize(20),
-    fontSize: normalize(18)
+    marginBottom: normalize(20)
   },
   signInLink: {
     ...fontStyle,

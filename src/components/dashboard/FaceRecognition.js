@@ -26,26 +26,12 @@ class FaceRecognition extends React.Component<Props> {
     updateAll(this.props.store)
     this.props.screenProps.navigateTo('Home', { event: receipt.transactionHash })
   }
-
-  handleClaim = async () => {
-    console.log('claining')
-    this.setState({ loading: true })
-    try {
-      const goodWalletWrapped = wrapper(goodWallet, this.props.store)
-      const receipt = await goodWalletWrapped.claim()
-      this.setState({ loading: false })
-      this.props.store.set('currentScreen')({
-        dialogData: {
-          visible: true,
-          title: 'Success',
-          message: `You've claimed your GD`,
-          dismissText: 'YAY!',
-          onDismiss: this.openEventInDashboard(receipt)
-        }
-      })
-    } catch (e) {
-      log.warn('claiming failed', e)
-    }
+  /**
+   * return FR result to route we came from
+   * @param {boolean} isValid result of FR
+   */
+  returnResult = (isValid: boolean = true) => {
+    this.props.screenProps.pop({ isValid: true })
   }
 
   render() {
@@ -59,7 +45,7 @@ class FaceRecognition extends React.Component<Props> {
           </Description>
         </View>
         <View style={styles.bottomContainer}>
-          <CustomButton mode="contained" onPress={this.handleClaim} loading={this.state.loading}>
+          <CustomButton mode="contained" onPress={this.returnResult} loading={this.state.loading}>
             Quick Face Recognition
           </CustomButton>
         </View>

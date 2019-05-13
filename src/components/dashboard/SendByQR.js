@@ -1,17 +1,22 @@
+// @flow
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import QRCodeScanner from 'react-native-qrcode-scanner'
 
-import { NETWORK_ID } from '../../lib/constants/network'
 import logger from '../../lib/logger/pino-logger'
 import { readCode } from '../../lib/share'
 import GDStore from '../../lib/undux/GDStore'
 import { wrapFunction } from '../../lib/undux/utils/wrapper'
 import { Section, TopBar, Wrapper } from '../common'
+import { sendFromQRCode } from './utils/sendFromQRCode'
 
 const log = logger.child({ from: 'SendByQR.web' })
 
-const SendByQR = ({ screenProps }) => {
+type Props = {
+  screenProps: any
+}
+
+const SendByQR = ({ screenProps }: Props) => {
   const store = GDStore.useStore()
 
   const handleScan = async data => {
@@ -21,21 +26,11 @@ const SendByQR = ({ screenProps }) => {
 
         log.info({ code })
 
-        if (code === null) {
-          throw new Error('Invalid QR Code.')
-        }
+        const extractRouteAndParams = sendFromQRCode('sendByQR')
 
-        const { networkId, address, amount } = code
+        const [route, params] = extractRouteAndParams(code)
 
-        if (networkId !== NETWORK_ID.FUSE) {
-          throw new Error('Invalid network. Switch to Fuse.')
-        }
-
-        if (!amount) {
-          screenProps.push('Amount', { to: address, nextRoutes: ['Reason', 'SendQRSummary'] })
-        } else {
-          screenProps.push('SendQRSummary', { to: address, amount, reason: 'From QR with Amount' })
-        }
+        screenProps.push(route, params)
       } catch (e) {
         log.error({ e })
         throw e

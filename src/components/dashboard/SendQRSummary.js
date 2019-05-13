@@ -29,7 +29,7 @@ const SendQRSummary = (props: AmountProps) => {
   const goodWallet = useWrappedGoodWallet()
   const store = GDStore.useStore()
   const { loading } = store.get('currentScreen')
-
+  const [isValid, setIsValid] = useState(screenState.isValid)
   const { amount, reason, to } = screenState
   const [profile, setProfile] = useState({})
 
@@ -41,6 +41,9 @@ const SendQRSummary = (props: AmountProps) => {
     updateProfile()
   }, [to])
 
+  const faceRecognition = () => {
+    return screenProps.push('FaceRecognition', { from: 'SendQRSummary' })
+  }
   const sendGD = async () => {
     try {
       const receipt = await goodWallet.sendAmount(to, amount, {
@@ -76,6 +79,17 @@ const SendQRSummary = (props: AmountProps) => {
     }
   }
 
+  /**
+   * continue after valid FR to send the GD
+   */
+  useEffect(() => {
+    if (isValid === true) {
+      sendGD()
+    } else if (isValid === false) {
+      screenProps.goToRoot()
+    }
+    return () => setIsValid(undefined)
+  }, [isValid])
   return (
     <Wrapper style={styles.wrapper}>
       <TopBar push={screenProps.push} />
@@ -96,7 +110,14 @@ const SendQRSummary = (props: AmountProps) => {
             <BackButton mode="text" screenProps={screenProps} style={{ flex: 1 }}>
               Cancel
             </BackButton>
-            <CustomButton mode="contained" onPress={sendGD} style={{ flex: 2 }} loading={loading}>
+            <CustomButton
+              mode="contained"
+              onPress={async () => {
+                ;(await goodWallet.isCitizen()) ? sendGD() : faceRecognition()
+              }}
+              style={{ flex: 2 }}
+              loading={loading}
+            >
               Confirm
             </CustomButton>
           </View>

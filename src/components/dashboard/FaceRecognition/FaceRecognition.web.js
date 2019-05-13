@@ -43,7 +43,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     showZoomCapture: false,
     loadingFaceRecognition: false,
     loadingText: '',
-    facemap: undefined,
+    facemap: null,
     ready: false
   }
 
@@ -153,7 +153,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
 
   onFaceRecognitionFailure = result => {
     log.warn('user did not pass Face Recognition')
-    let reason = result.livenessPassed ? '| liveness failed' : ''
+    let reason = !result.livenessPassed ? '| liveness failed' : ''
     reason += result.duplicates ? '| found duplicated' : ''
     this.props.store.set('currentScreen')({
       dialogData: {

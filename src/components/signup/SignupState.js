@@ -109,12 +109,12 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
           // Then, when the user access the application from the link (in EmailConfirmation), data is recovered and
           // saved to the `state`
           await API.addUser(state)
-          await API.verifyUser({})
+          // await API.verifyUser({})
           const destinationPath = await AsyncStorage.getItem('destinationPath')
-          store.set('isLoggedInCitizen')(true)
+          store.set('isLoggedIn')(true)
           // top wallet of new user
           // wait for the topping to complete to be able to withdraw
-          await API.verifyTopWallet()
+          // await API.verifyTopWallet()
           const mnemonic = await AsyncStorage.getItem('GD_USER_MNEMONIC')
           await API.sendRecoveryInstructionByEmail(mnemonic)
           if (destinationPath) {
@@ -123,6 +123,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
           } else {
             navigation.navigate('AppNavigation')
           }
+          userStorage.setProfileField('registered', true)
         } catch (error) {
           log.error('New user failure', { error })
         }

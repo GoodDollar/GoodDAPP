@@ -133,8 +133,10 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
       return
     }
     let result = res.data
-    if (result.ok && result.livenessPassed && !result.duplicates) this.onFaceRecognitionSuccess(result)
-    else if (result.ok && (!result.livenessPassed || result.duplicates)) this.onFaceRecognitionFailure(result)
+    if (result.ok && result.livenessPassed && !result.duplicates && result.enrollment)
+      this.onFaceRecognitionSuccess(result)
+    else if (result.ok && (!result.livenessPassed || result.duplicates || !result.enrollment))
+      this.onFaceRecognitionFailure(result)
     else log.error('general error') // TODO: handle general error
   }
 
@@ -153,8 +155,10 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
 
   onFaceRecognitionFailure = result => {
     log.warn('user did not pass Face Recognition')
-    let reason = !result.livenessPassed ? '| liveness failed' : ''
-    reason += result.duplicates ? '| found duplicated' : ''
+    let reason = !result.livenessPassed ? ' liveness failed' : ''
+    reason += result.duplicates ? ' found duplicated' : ''
+    reason += !result.enrollment ? ' enrollment failed' : ''
+
     this.props.store.set('currentScreen')({
       dialogData: {
         visible: true,

@@ -693,7 +693,7 @@ export class UserStorage {
     const ack = this.feed
       .get('index')
       .get(day)
-      .put(dayEventsArr.length)
+      .putAck(dayEventsArr.length)
 
     if (event.data && event.data.receipt) {
       await this.saveLastBlockNumber(event.data.receipt.blockNumber)
@@ -723,7 +723,6 @@ export class UserStorage {
 
     return this.getLastBlockNode()
       .putAck(blockNumber)
-      .then()
   }
 
   getProfile(): Promise<any> {

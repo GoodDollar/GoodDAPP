@@ -288,7 +288,6 @@ exports[`SendConfirmation matches snapshot 1`] = `
               style={
                 Object {
                   "color": "rgba(85,85,85,1.00)",
-                  "fontFamily": "Helvetica, \\"sans-serif\\"",
                   "fontSize": "14px",
                   "marginBottom": "1rem",
                   "marginTop": "1rem",
@@ -303,7 +302,6 @@ exports[`SendConfirmation matches snapshot 1`] = `
                 style={
                   Object {
                     "color": "rgba(85,85,85,1.00)",
-                    "fontFamily": "Helvetica, \\"sans-serif\\"",
                     "fontSize": "18px",
                     "maxWidth": "100%",
                     "overflowX": "hidden",
@@ -327,7 +325,6 @@ exports[`SendConfirmation matches snapshot 1`] = `
                 Object {
                   "color": "rgba(162,162,162,1.00)",
                   "cursor": "pointer",
-                  "fontFamily": "Helvetica, \\"sans-serif\\"",
                   "fontSize": "14px",
                   "marginBottom": "1rem",
                   "marginLeft": "1rem",
@@ -347,7 +344,6 @@ exports[`SendConfirmation matches snapshot 1`] = `
               style={
                 Object {
                   "color": "rgba(85,85,85,1.00)",
-                  "fontFamily": "Helvetica, \\"sans-serif\\"",
                   "fontSize": "14px",
                   "textAlign": "center",
                 }
@@ -369,7 +365,7 @@ exports[`SendConfirmation matches snapshot 1`] = `
                     Object {
                       "color": "rgba(85,85,85,1.00)",
                       "direction": "ltr",
-                      "fontFamily": "Helvetica, \\"sans-serif\\"",
+                      "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                       "fontSize": "30px",
                       "textAlign": "right",
                     }
@@ -384,7 +380,7 @@ exports[`SendConfirmation matches snapshot 1`] = `
                     Object {
                       "color": "rgba(85,85,85,1.00)",
                       "direction": "ltr",
-                      "fontFamily": "Helvetica, \\"sans-serif\\"",
+                      "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                       "fontSize": "18px",
                       "textAlign": "right",
                     }
@@ -400,7 +396,6 @@ exports[`SendConfirmation matches snapshot 1`] = `
               style={
                 Object {
                   "color": "rgba(85,85,85,1.00)",
-                  "fontFamily": "Helvetica, \\"sans-serif\\"",
                   "fontSize": "14px",
                   "textAlign": "center",
                 }
@@ -456,7 +451,7 @@ exports[`SendConfirmation matches snapshot 1`] = `
                     "boxShadow": "0px 0px 0px rgba(0,0,0,0.24)",
                     "justifyContent": "center",
                     "marginTop": "1em",
-                    "minWidth": "64px",
+                    "minWidth": "auto",
                     "msFlexPack": "center",
                   }
                 }
@@ -515,8 +510,8 @@ exports[`SendConfirmation matches snapshot 1`] = `
                           "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                           "letterSpacing": "1px",
                           "marginBottom": "9px",
-                          "marginLeft": "16px",
-                          "marginRight": "16px",
+                          "marginLeft": "8px",
+                          "marginRight": "8px",
                           "marginTop": "9px",
                           "textAlign": "center",
                         }
@@ -528,13 +523,13 @@ exports[`SendConfirmation matches snapshot 1`] = `
                         style={
                           Object {
                             "direction": "ltr",
-                            "fontFamily": "Helvetica, \\"sans-serif\\"",
+                            "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                             "fontSize": "18px",
                             "fontWeight": "bold",
-                            "paddingBottom": "5px",
-                            "paddingLeft": "5px",
-                            "paddingRight": "5px",
-                            "paddingTop": "5px",
+                            "paddingBottom": "0px",
+                            "paddingLeft": "0px",
+                            "paddingRight": "0px",
+                            "paddingTop": "0px",
                             "textAlign": "center",
                             "textTransform": "uppercase",
                           }

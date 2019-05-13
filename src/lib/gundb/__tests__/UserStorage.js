@@ -22,7 +22,7 @@ let event4 = {
 
 const createNewUserStorage = async () => {
   await Promise.all([userStorage.wallet.ready, userStorage.ready])
-  deleteMnemonics()
+  await deleteMnemonics()
   const wallet = new GoodWallet()
   const newUserStorage = new UserStorage(wallet)
   return Promise.all([newUserStorage.wallet.ready, newUserStorage.ready]).then(() => newUserStorage)
@@ -302,7 +302,7 @@ describe('UserStorage', () => {
         reason: 'For the pizza',
         amount: 3,
         sendLink: 'http://fake.link/string',
-        receipt: { foo: 'foo' }
+        receipt: { foo: 'foo', blockNumber: 123 }
       }
     }
     const gunRes = await userStorage.updateFeedEvent(transactionEvent)

@@ -1,6 +1,7 @@
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { FormInput, Icon } from 'react-native-elements'
+import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { HelperText } from 'react-native-paper'
 import PhoneInput from 'react-phone-number-input'
 import 'react-phone-number-input/style.css'
@@ -88,9 +89,9 @@ const styles = StyleSheet.create({
   },
   textInput: {
     height: '30px',
-    background: 'transparent',
-    border: 'none',
-    fontSize: '16px',
+    backgroundColor: 'transparent',
+    borderWidth: '0px',
+    fontSize: normalize(16),
     textAlign: 'left',
     color: '#555555'
   },

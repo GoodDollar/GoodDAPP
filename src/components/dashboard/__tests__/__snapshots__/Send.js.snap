@@ -221,7 +221,7 @@ exports[`Send matches snapshot 1`] = `
                   Object {
                     "color": "rgba(85,85,85,1.00)",
                     "direction": "ltr",
-                    "fontFamily": "Helvetica, \\"sans-serif\\"",
+                    "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                     "fontSize": "30px",
                     "textAlign": "right",
                   }
@@ -236,7 +236,7 @@ exports[`Send matches snapshot 1`] = `
                   Object {
                     "color": "rgba(85,85,85,1.00)",
                     "direction": "ltr",
-                    "fontFamily": "Helvetica, \\"sans-serif\\"",
+                    "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                     "fontSize": "18px",
                     "textAlign": "right",
                   }
@@ -270,7 +270,7 @@ exports[`Send matches snapshot 1`] = `
               "paddingBottom": "15px",
               "paddingLeft": "10px",
               "paddingRight": "10px",
-              "paddingTop": "15px",
+              "paddingTop": "22px",
             }
           }
         >
@@ -297,8 +297,8 @@ exports[`Send matches snapshot 1`] = `
               style={
                 Object {
                   "color": "rgba(85,85,85,1.00)",
-                  "fontFamily": "Helvetica, \\"sans-serif\\"",
-                  "fontSize": "18px",
+                  "fontSize": "24px",
+                  "fontWeight": "500",
                   "textAlign": "center",
                 }
               }
@@ -319,10 +319,7 @@ exports[`Send matches snapshot 1`] = `
                 style={
                   Object {
                     "cursor": "pointer",
-                    "paddingBottom": "15px",
-                    "paddingLeft": "15px",
-                    "paddingRight": "15px",
-                    "paddingTop": "15px",
+                    "paddingTop": "30px",
                     "position": "absolute",
                     "right": "0px",
                     "zIndex": 1,
@@ -354,7 +351,7 @@ exports[`Send matches snapshot 1`] = `
                         "backgroundColor": "rgba(0,0,0,0.00)",
                         "color": "rgba(40,44,52,1.00)",
                         "fontFamily": "MaterialIcons",
-                        "fontSize": "24px",
+                        "fontSize": "16px",
                         "fontStyle": "normal",
                         "fontWeight": "normal",
                       }
@@ -372,12 +369,13 @@ exports[`Send matches snapshot 1`] = `
                     "WebkitFlexBasis": "0%",
                     "WebkitFlexGrow": 1,
                     "WebkitFlexShrink": 1,
-                    "backgroundColor": "rgba(231,231,231,1.00)",
+                    "backgroundColor": "inherit",
                     "borderTopLeftRadius": "4px",
                     "borderTopRightRadius": "4px",
                     "flexBasis": "0%",
                     "flexGrow": 1,
                     "flexShrink": 1,
+                    "marginTop": "10px",
                     "msFlexNegative": 1,
                     "msFlexPositive": 1,
                     "msFlexPreferredSize": "0%",
@@ -477,6 +475,7 @@ exports[`Send matches snapshot 1`] = `
                   "alignItems": "center",
                   "flexDirection": "row",
                   "justifyContent": "space-between",
+                  "marginTop": "100px",
                   "msFlexAlign": "center",
                   "msFlexDirection": "row",
                   "msFlexPack": "justify",
@@ -485,31 +484,51 @@ exports[`Send matches snapshot 1`] = `
             >
               <div
                 className="css-view-1dbjc4n"
-                onClick={[Function]}
+                data-focusable={true}
+                onKeyDown={[Function]}
+                onKeyUp={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
                 style={
                   Object {
+                    "MozTransitionProperty": "opacity",
+                    "MozUserSelect": "none",
                     "WebkitAlignItems": "center",
                     "WebkitBoxAlign": "center",
                     "WebkitBoxDirection": "normal",
                     "WebkitBoxFlex": 1,
-                    "WebkitBoxOrient": "horizontal",
+                    "WebkitBoxOrient": "vertical",
                     "WebkitFlexBasis": "0%",
-                    "WebkitFlexDirection": "row",
+                    "WebkitFlexDirection": "column",
                     "WebkitFlexGrow": 1,
                     "WebkitFlexShrink": 1,
+                    "WebkitTransitionDuration": "0.15s",
+                    "WebkitTransitionProperty": "opacity",
+                    "WebkitUserSelect": "none",
                     "alignItems": "center",
                     "cursor": "pointer",
                     "flexBasis": "0%",
-                    "flexDirection": "row",
+                    "flexDirection": "column",
                     "flexGrow": 1,
                     "flexShrink": 1,
                     "msFlexAlign": "center",
-                    "msFlexDirection": "row",
+                    "msFlexDirection": "column",
                     "msFlexNegative": 1,
                     "msFlexPositive": 1,
                     "msFlexPreferredSize": "0%",
+                    "msTouchAction": "manipulation",
+                    "msUserSelect": "none",
+                    "touchAction": "manipulation",
+                    "transitionDuration": "0.15s",
+                    "transitionProperty": "opacity",
+                    "userSelect": "none",
                   }
                 }
+                tabIndex="0"
               >
                 <div
                   className="css-view-1dbjc4n"
@@ -521,11 +540,11 @@ exports[`Send matches snapshot 1`] = `
                       "WebkitJustifyContent": "center",
                       "alignItems": "center",
                       "backgroundColor": "rgba(255,255,255,1.00)",
-                      "borderBottomLeftRadius": "28px",
-                      "borderBottomRightRadius": "28px",
-                      "borderTopLeftRadius": "28px",
-                      "borderTopRightRadius": "28px",
-                      "height": "52px",
+                      "borderBottomLeftRadius": "36px",
+                      "borderBottomRightRadius": "36px",
+                      "borderTopLeftRadius": "36px",
+                      "borderTopRightRadius": "36px",
+                      "height": "68px",
                       "justifyContent": "center",
                       "marginBottom": "7px",
                       "marginLeft": "7px",
@@ -533,7 +552,7 @@ exports[`Send matches snapshot 1`] = `
                       "marginTop": "7px",
                       "msFlexAlign": "center",
                       "msFlexPack": "center",
-                      "width": "52px",
+                      "width": "68px",
                     }
                   }
                 >
@@ -545,7 +564,7 @@ exports[`Send matches snapshot 1`] = `
                         "backgroundColor": "rgba(0,0,0,0.00)",
                         "color": "rgba(40,44,52,1.00)",
                         "fontFamily": "MaterialIcons",
-                        "fontSize": "24px",
+                        "fontSize": "32px",
                         "fontStyle": "normal",
                         "fontWeight": "normal",
                       }
@@ -560,6 +579,7 @@ exports[`Send matches snapshot 1`] = `
                   style={
                     Object {
                       "color": "inherit",
+                      "fontSize": "11px",
                     }
                   }
                 >
@@ -568,31 +588,51 @@ exports[`Send matches snapshot 1`] = `
               </div>
               <div
                 className="css-view-1dbjc4n"
-                onClick={[Function]}
+                data-focusable={true}
+                onKeyDown={[Function]}
+                onKeyUp={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
                 style={
                   Object {
+                    "MozTransitionProperty": "opacity",
+                    "MozUserSelect": "none",
                     "WebkitAlignItems": "center",
                     "WebkitBoxAlign": "center",
                     "WebkitBoxDirection": "normal",
                     "WebkitBoxFlex": 1,
-                    "WebkitBoxOrient": "horizontal",
+                    "WebkitBoxOrient": "vertical",
                     "WebkitFlexBasis": "0%",
-                    "WebkitFlexDirection": "row",
+                    "WebkitFlexDirection": "column",
                     "WebkitFlexGrow": 1,
                     "WebkitFlexShrink": 1,
+                    "WebkitTransitionDuration": "0.15s",
+                    "WebkitTransitionProperty": "opacity",
+                    "WebkitUserSelect": "none",
                     "alignItems": "center",
                     "cursor": "pointer",
                     "flexBasis": "0%",
-                    "flexDirection": "row",
+                    "flexDirection": "column",
                     "flexGrow": 1,
                     "flexShrink": 1,
                     "msFlexAlign": "center",
-                    "msFlexDirection": "row",
+                    "msFlexDirection": "column",
                     "msFlexNegative": 1,
                     "msFlexPositive": 1,
                     "msFlexPreferredSize": "0%",
+                    "msTouchAction": "manipulation",
+                    "msUserSelect": "none",
+                    "touchAction": "manipulation",
+                    "transitionDuration": "0.15s",
+                    "transitionProperty": "opacity",
+                    "userSelect": "none",
                   }
                 }
+                tabIndex="0"
               >
                 <div
                   className="css-view-1dbjc4n"
@@ -604,11 +644,11 @@ exports[`Send matches snapshot 1`] = `
                       "WebkitJustifyContent": "center",
                       "alignItems": "center",
                       "backgroundColor": "rgba(255,255,255,1.00)",
-                      "borderBottomLeftRadius": "28px",
-                      "borderBottomRightRadius": "28px",
-                      "borderTopLeftRadius": "28px",
-                      "borderTopRightRadius": "28px",
-                      "height": "52px",
+                      "borderBottomLeftRadius": "36px",
+                      "borderBottomRightRadius": "36px",
+                      "borderTopLeftRadius": "36px",
+                      "borderTopRightRadius": "36px",
+                      "height": "68px",
                       "justifyContent": "center",
                       "marginBottom": "7px",
                       "marginLeft": "7px",
@@ -616,7 +656,7 @@ exports[`Send matches snapshot 1`] = `
                       "marginTop": "7px",
                       "msFlexAlign": "center",
                       "msFlexPack": "center",
-                      "width": "52px",
+                      "width": "68px",
                     }
                   }
                 >
@@ -628,7 +668,7 @@ exports[`Send matches snapshot 1`] = `
                         "backgroundColor": "rgba(0,0,0,0.00)",
                         "color": "rgba(40,44,52,1.00)",
                         "fontFamily": "MaterialIcons",
-                        "fontSize": "24px",
+                        "fontSize": "32px",
                         "fontStyle": "normal",
                         "fontWeight": "normal",
                       }
@@ -643,6 +683,7 @@ exports[`Send matches snapshot 1`] = `
                   style={
                     Object {
                       "color": "inherit",
+                      "fontSize": "11px",
                     }
                   }
                 >
@@ -678,7 +719,7 @@ exports[`Send matches snapshot 1`] = `
                   "borderTopStyle": "solid",
                   "borderTopWidth": "0px",
                   "justifyContent": "center",
-                  "minWidth": "64px",
+                  "minWidth": "auto",
                   "msFlexPack": "center",
                 }
               }
@@ -737,8 +778,8 @@ exports[`Send matches snapshot 1`] = `
                         "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                         "letterSpacing": "1px",
                         "marginBottom": "9px",
-                        "marginLeft": "16px",
-                        "marginRight": "16px",
+                        "marginLeft": "8px",
+                        "marginRight": "8px",
                         "marginTop": "9px",
                         "textAlign": "center",
                       }
@@ -750,13 +791,13 @@ exports[`Send matches snapshot 1`] = `
                       style={
                         Object {
                           "direction": "ltr",
-                          "fontFamily": "Helvetica, \\"sans-serif\\"",
+                          "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                           "fontSize": "18px",
                           "fontWeight": "bold",
-                          "paddingBottom": "5px",
-                          "paddingLeft": "5px",
-                          "paddingRight": "5px",
-                          "paddingTop": "5px",
+                          "paddingBottom": "0px",
+                          "paddingLeft": "0px",
+                          "paddingRight": "0px",
+                          "paddingTop": "0px",
                           "textAlign": "center",
                           "textTransform": "uppercase",
                         }

@@ -10,12 +10,13 @@ type Props = {
 }
 
 const InputGoodDollar = (props: Props) => {
+  const { onChangeWei, ...rest } = props
   return (
     <TextInput
-      {...props}
+      {...rest}
       value={weiToMask(props.wei)}
       onChangeText={text => {
-        props.onChangeWei(maskToWei(text))
+        onChangeWei(maskToWei(text))
       }}
     />
   )

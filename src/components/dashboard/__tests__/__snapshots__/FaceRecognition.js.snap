@@ -105,31 +105,111 @@ exports[`FaceRecognition matches snapshot 1`] = `
       >
         <div
           className="css-view-1dbjc4n"
+          style={
+            Object {
+              "WebkitBoxFlex": 1,
+              "WebkitBoxPack": "space-evenly",
+              "WebkitFlexBasis": "0%",
+              "WebkitFlexGrow": 1,
+              "WebkitFlexShrink": 1,
+              "WebkitJustifyContent": "space-evenly",
+              "display": "flex",
+              "flexBasis": "0%",
+              "flexGrow": 1,
+              "flexShrink": 1,
+              "justifyContent": "space-evenly",
+              "msFlexNegative": 1,
+              "msFlexPack": "space-evenly",
+              "msFlexPositive": 1,
+              "msFlexPreferredSize": "0%",
+              "paddingTop": "30px",
+            }
+          }
+        >
+          <div
+            className="css-text-76zvg2"
+            dir="auto"
+            style={
+              Object {
+                "color": "rgba(85,85,85,1.00)",
+                "direction": "ltr",
+                "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                "fontSize": "28px",
+                "marginBottom": "30px",
+                "textAlign": "center",
+              }
+            }
+          >
+            undefined,
+ Just one last thing...
+          </div>
+          <div
+            className="css-text-76zvg2"
+            dir="auto"
+            style={
+              Object {
+                "color": "rgba(85,85,85,1.00)",
+                "direction": "ltr",
+                "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                "fontSize": "18px",
+                "marginTop": "30px",
+                "textAlign": "center",
+              }
+            }
+          >
+            In order to give you a basic income we need to make sure it's really you
+          </div>
+        </div>
+        <div
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "WebkitBoxFlex": 1,
+              "WebkitBoxPack": "end",
+              "WebkitFlexBasis": "0%",
+              "WebkitFlexGrow": 1,
+              "WebkitFlexShrink": 1,
+              "WebkitJustifyContent": "flex-end",
+              "display": "flex",
+              "flexBasis": "0%",
+              "flexGrow": 1,
+              "flexShrink": 1,
+              "justifyContent": "flex-end",
+              "msFlexNegative": 1,
+              "msFlexPack": "end",
+              "msFlexPositive": 1,
+              "msFlexPreferredSize": "0%",
+              "paddingTop": "20px",
+            }
+          }
         >
           <div
             className="css-view-1dbjc4n"
             style={
               Object {
-                "WebkitBoxFlex": 1,
-                "WebkitFlexBasis": "0%",
-                "WebkitFlexGrow": 1,
-                "WebkitFlexShrink": 1,
-                "backgroundColor": "rgba(255,255,255,1.00)",
-                "borderBottomLeftRadius": "5px",
-                "borderBottomRightRadius": "5px",
-                "borderTopLeftRadius": "5px",
-                "borderTopRightRadius": "5px",
-                "flexBasis": "0%",
-                "flexGrow": 1,
-                "flexShrink": 1,
-                "marginBottom": "15px",
-                "msFlexNegative": 1,
-                "msFlexPositive": 1,
-                "msFlexPreferredSize": "0%",
-                "paddingBottom": "15px",
-                "paddingLeft": "10px",
-                "paddingRight": "10px",
-                "paddingTop": "15px",
+                "WebkitBoxPack": "center",
+                "WebkitJustifyContent": "center",
+                "backgroundColor": "rgba(85,85,85,1.00)",
+                "borderBottomColor": "rgba(0,0,0,0.00)",
+                "borderBottomLeftRadius": "4px",
+                "borderBottomRightRadius": "4px",
+                "borderBottomStyle": "solid",
+                "borderBottomWidth": "0px",
+                "borderLeftColor": "rgba(0,0,0,0.00)",
+                "borderLeftStyle": "solid",
+                "borderLeftWidth": "0px",
+                "borderRightColor": "rgba(0,0,0,0.00)",
+                "borderRightStyle": "solid",
+                "borderRightWidth": "0px",
+                "borderTopColor": "rgba(0,0,0,0.00)",
+                "borderTopLeftRadius": "4px",
+                "borderTopRightRadius": "4px",
+                "borderTopStyle": "solid",
+                "borderTopWidth": "0px",
+                "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
+                "justifyContent": "center",
+                "minWidth": "auto",
+                "msFlexPack": "center",
               }
             }
           >
@@ -154,7 +234,46 @@ exports[`FaceRecognition matches snapshot 1`] = `
                     "position": "absolute",
                   }
                 }
-              />
+              >
+                <div
+                  className="css-text-76zvg2 css-textOneLine-bfa6kz"
+                  dir="auto"
+                  style={
+                    Object {
+                      "color": "rgba(255,255,255,1.00)",
+                      "direction": "ltr",
+                      "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                      "letterSpacing": "1px",
+                      "marginBottom": "9px",
+                      "marginLeft": "8px",
+                      "marginRight": "8px",
+                      "marginTop": "9px",
+                      "textAlign": "center",
+                    }
+                  }
+                >
+                  <span
+                    className="css-text-76zvg2 css-textHasAncestor-16my406"
+                    dir="auto"
+                    style={
+                      Object {
+                        "direction": "ltr",
+                        "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                        "fontSize": "18px",
+                        "fontWeight": "bold",
+                        "paddingBottom": "0px",
+                        "paddingLeft": "0px",
+                        "paddingRight": "0px",
+                        "paddingTop": "0px",
+                        "textAlign": "center",
+                        "textTransform": "uppercase",
+                      }
+                    }
+                  >
+                    Quick Face Recognition
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
         </div>

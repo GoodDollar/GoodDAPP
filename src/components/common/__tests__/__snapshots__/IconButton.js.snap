@@ -3,30 +3,51 @@
 exports[`IconButton disabled matches snapshot 1`] = `
 <div
   className="css-view-1dbjc4n"
+  data-focusable={true}
+  onKeyDown={[Function]}
+  onKeyUp={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
   style={
     Object {
+      "MozTransitionProperty": "opacity",
+      "MozUserSelect": "none",
       "WebkitAlignItems": "center",
       "WebkitBoxAlign": "center",
       "WebkitBoxDirection": "normal",
       "WebkitBoxFlex": 1,
-      "WebkitBoxOrient": "horizontal",
+      "WebkitBoxOrient": "vertical",
       "WebkitFlexBasis": "0%",
-      "WebkitFlexDirection": "row",
+      "WebkitFlexDirection": "column",
       "WebkitFlexGrow": 1,
       "WebkitFlexShrink": 1,
+      "WebkitTransitionDuration": "0.15s",
+      "WebkitTransitionProperty": "opacity",
+      "WebkitUserSelect": "none",
       "alignItems": "center",
       "cursor": "inherit",
       "flexBasis": "0%",
-      "flexDirection": "row",
+      "flexDirection": "column",
       "flexGrow": 1,
       "flexShrink": 1,
       "msFlexAlign": "center",
-      "msFlexDirection": "row",
+      "msFlexDirection": "column",
       "msFlexNegative": 1,
       "msFlexPositive": 1,
       "msFlexPreferredSize": "0%",
+      "msTouchAction": "manipulation",
+      "msUserSelect": "none",
+      "touchAction": "manipulation",
+      "transitionDuration": "0.15s",
+      "transitionProperty": "opacity",
+      "userSelect": "none",
     }
   }
+  tabIndex="0"
 >
   <div
     className="css-view-1dbjc4n"
@@ -38,11 +59,11 @@ exports[`IconButton disabled matches snapshot 1`] = `
         "WebkitJustifyContent": "center",
         "alignItems": "center",
         "backgroundColor": "rgba(255,255,255,1.00)",
-        "borderBottomLeftRadius": "28px",
-        "borderBottomRightRadius": "28px",
-        "borderTopLeftRadius": "28px",
-        "borderTopRightRadius": "28px",
-        "height": "52px",
+        "borderBottomLeftRadius": "36px",
+        "borderBottomRightRadius": "36px",
+        "borderTopLeftRadius": "36px",
+        "borderTopRightRadius": "36px",
+        "height": "68px",
         "justifyContent": "center",
         "marginBottom": "7px",
         "marginLeft": "7px",
@@ -50,7 +71,7 @@ exports[`IconButton disabled matches snapshot 1`] = `
         "marginTop": "7px",
         "msFlexAlign": "center",
         "msFlexPack": "center",
-        "width": "52px",
+        "width": "68px",
       }
     }
   >
@@ -62,13 +83,13 @@ exports[`IconButton disabled matches snapshot 1`] = `
           "backgroundColor": "rgba(0,0,0,0.00)",
           "color": "rgba(0,0,0,0.32)",
           "fontFamily": "MaterialIcons",
-          "fontSize": "24px",
+          "fontSize": "32px",
           "fontStyle": "normal",
           "fontWeight": "normal",
         }
       }
     >
-      ?
+      
     </div>
   </div>
   <div
@@ -77,6 +98,7 @@ exports[`IconButton disabled matches snapshot 1`] = `
     style={
       Object {
         "color": "rgba(0,0,0,0.32)",
+        "fontSize": "11px",
       }
     }
   >
@@ -88,30 +110,51 @@ exports[`IconButton disabled matches snapshot 1`] = `
 exports[`IconButton enabled matches snapshot 1`] = `
 <div
   className="css-view-1dbjc4n"
+  data-focusable={true}
+  onKeyDown={[Function]}
+  onKeyUp={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
   style={
     Object {
+      "MozTransitionProperty": "opacity",
+      "MozUserSelect": "none",
       "WebkitAlignItems": "center",
       "WebkitBoxAlign": "center",
       "WebkitBoxDirection": "normal",
       "WebkitBoxFlex": 1,
-      "WebkitBoxOrient": "horizontal",
+      "WebkitBoxOrient": "vertical",
       "WebkitFlexBasis": "0%",
-      "WebkitFlexDirection": "row",
+      "WebkitFlexDirection": "column",
       "WebkitFlexGrow": 1,
       "WebkitFlexShrink": 1,
+      "WebkitTransitionDuration": "0.15s",
+      "WebkitTransitionProperty": "opacity",
+      "WebkitUserSelect": "none",
       "alignItems": "center",
       "cursor": "pointer",
       "flexBasis": "0%",
-      "flexDirection": "row",
+      "flexDirection": "column",
       "flexGrow": 1,
       "flexShrink": 1,
       "msFlexAlign": "center",
-      "msFlexDirection": "row",
+      "msFlexDirection": "column",
       "msFlexNegative": 1,
       "msFlexPositive": 1,
       "msFlexPreferredSize": "0%",
+      "msTouchAction": "manipulation",
+      "msUserSelect": "none",
+      "touchAction": "manipulation",
+      "transitionDuration": "0.15s",
+      "transitionProperty": "opacity",
+      "userSelect": "none",
     }
   }
+  tabIndex="0"
 >
   <div
     className="css-view-1dbjc4n"
@@ -123,11 +166,11 @@ exports[`IconButton enabled matches snapshot 1`] = `
         "WebkitJustifyContent": "center",
         "alignItems": "center",
         "backgroundColor": "rgba(255,255,255,1.00)",
-        "borderBottomLeftRadius": "28px",
-        "borderBottomRightRadius": "28px",
-        "borderTopLeftRadius": "28px",
-        "borderTopRightRadius": "28px",
-        "height": "52px",
+        "borderBottomLeftRadius": "36px",
+        "borderBottomRightRadius": "36px",
+        "borderTopLeftRadius": "36px",
+        "borderTopRightRadius": "36px",
+        "height": "68px",
         "justifyContent": "center",
         "marginBottom": "7px",
         "marginLeft": "7px",
@@ -135,7 +178,7 @@ exports[`IconButton enabled matches snapshot 1`] = `
         "marginTop": "7px",
         "msFlexAlign": "center",
         "msFlexPack": "center",
-        "width": "52px",
+        "width": "68px",
       }
     }
   >
@@ -147,13 +190,13 @@ exports[`IconButton enabled matches snapshot 1`] = `
           "backgroundColor": "rgba(0,0,0,0.00)",
           "color": "rgba(40,44,52,1.00)",
           "fontFamily": "MaterialIcons",
-          "fontSize": "24px",
+          "fontSize": "32px",
           "fontStyle": "normal",
           "fontWeight": "normal",
         }
       }
     >
-      ?
+      
     </div>
   </div>
   <div
@@ -162,6 +205,7 @@ exports[`IconButton enabled matches snapshot 1`] = `
     style={
       Object {
         "color": "inherit",
+        "fontSize": "11px",
       }
     }
   >

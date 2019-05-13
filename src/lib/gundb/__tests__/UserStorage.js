@@ -302,7 +302,7 @@ describe('UserStorage', () => {
         reason: 'For the pizza',
         amount: 3,
         sendLink: 'http://fake.link/string',
-        receipt: { foo: 'foo' }
+        receipt: { foo: 'foo', blockNumber: 123 }
       }
     }
     const gunRes = await userStorage.updateFeedEvent(transactionEvent)

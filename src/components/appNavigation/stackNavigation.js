@@ -94,7 +94,17 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
       stack: [],
       currentState: {}
     })
-    navigation.navigate(navigation.state.routes[0])
+
+    const route = navigation.state.routes[0]
+    route.params = {
+      ...route.params,
+      event: undefined,
+      receiveLink: undefined,
+      reason: undefined,
+      code: undefined
+    }
+
+    navigation.navigate(route)
   }
 
   /**

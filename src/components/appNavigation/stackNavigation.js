@@ -8,7 +8,7 @@ import { createNavigator, SwitchRouter, SceneView, Route } from '@react-navigati
 import { Helmet } from 'react-helmet'
 import GDStore from '../../lib/undux/GDStore'
 import { toggleSidemenu } from '../../lib/undux/utils/sidemenu'
-import SideMenuPanel from '../sidemenu/sidemenuPanel'
+import SideMenuPanel from '../sidemenu/SideMenuPanel'
 
 import NavBar from './NavBar'
 import { CustomButton, type ButtonProps } from '../common'
@@ -217,11 +217,11 @@ class AppView extends Component<AppViewProps, any> {
           <title>{`Good Dollar | ${pageTitle}`}</title>
         </Helmet>
         {!navigationBarHidden && <NavBar goBack={backButtonHidden ? undefined : this.pop} title={pageTitle} />}
-        <SideMenu menu={menu} menuPosition="right" isOpen={store.get('sidemenu').visible}>
-          <ScrollView contentContainerStyle={scrollableContainer}>
+        <ScrollView contentContainerStyle={scrollableContainer}>
+          <SideMenu menu={menu} menuPosition="right" isOpen={store.get('sidemenu').visible}>
             <SceneView navigation={descriptor.navigation} component={Component} screenProps={screenProps} />
-          </ScrollView>
-        </SideMenu>
+          </SideMenu>
+        </ScrollView>
       </React.Fragment>
     )
   }

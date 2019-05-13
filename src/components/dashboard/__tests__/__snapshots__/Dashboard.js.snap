@@ -3,17 +3,37 @@
 exports[`Dashboard matches snapshot 1`] = `
 <div
   className="css-view-1dbjc4n"
+  onResponderGrant={[Function]}
+  onResponderReject={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onScroll={[Function]}
+  onScrollShouldSetResponder={[Function]}
+  onStartShouldSetResponder={[Function]}
+  onStartShouldSetResponderCapture={[Function]}
+  onTouchEnd={[Function]}
+  onTouchMove={[Function]}
+  onTouchStart={[Function]}
+  onWheel={[Function]}
   style={
     Object {
-      "WebkitBoxPack": "center",
-      "WebkitJustifyContent": "center",
-      "bottom": "0px",
-      "justifyContent": "center",
-      "left": "0px",
-      "msFlexPack": "center",
-      "position": "absolute",
-      "right": "0px",
-      "top": "0px",
+      "WebkitBoxDirection": "normal",
+      "WebkitBoxFlex": 1,
+      "WebkitBoxOrient": "vertical",
+      "WebkitFlexDirection": "column",
+      "WebkitFlexGrow": 1,
+      "WebkitFlexShrink": 1,
+      "WebkitOverflowScrolling": "touch",
+      "WebkitTransform": "translateZ(0px)",
+      "flexDirection": "column",
+      "flexGrow": 1,
+      "flexShrink": 1,
+      "msFlexDirection": "column",
+      "msFlexNegative": 1,
+      "msFlexPositive": 1,
+      "overflowX": "hidden",
+      "overflowY": "auto",
+      "transform": "translateZ(0px)",
     }
   }
 >
@@ -21,713 +41,23 @@ exports[`Dashboard matches snapshot 1`] = `
     className="css-view-1dbjc4n"
     style={
       Object {
-        "bottom": "0px",
-        "left": "341.33333333333337px",
-        "position": "absolute",
-        "right": "0px",
-        "top": "0px",
+        "minHeight": "100%",
       }
     }
   >
     <div
       className="css-view-1dbjc4n"
-    >
-      <div
-        className="css-view-1dbjc4n"
-        onClick={[Function]}
-        style={
-          Object {
-            "WebkitAlignItems": "center",
-            "WebkitBoxAlign": "center",
-            "WebkitBoxDirection": "normal",
-            "WebkitBoxOrient": "horizontal",
-            "WebkitBoxPack": "start",
-            "WebkitFlexDirection": "row",
-            "WebkitJustifyContent": "flex-start",
-            "alignItems": "center",
-            "cursor": "pointer",
-            "flexDirection": "row",
-            "justifyContent": "flex-start",
-            "marginBottom": "20px",
-            "marginLeft": "auto",
-            "marginRight": "20px",
-            "marginTop": "20px",
-            "msFlexAlign": "center",
-            "msFlexDirection": "row",
-            "msFlexPack": "start",
-          }
-        }
-      >
-        <div
-          className="css-view-1dbjc4n"
-          style={
-            Object {
-              "WebkitAlignItems": "center",
-              "WebkitBoxAlign": "center",
-              "WebkitBoxPack": "center",
-              "WebkitJustifyContent": "center",
-              "alignItems": "center",
-              "backgroundColor": "rgba(0,0,0,0.00)",
-              "justifyContent": "center",
-              "msFlexAlign": "center",
-              "msFlexPack": "center",
-            }
-          }
-        >
-          <div
-            className="css-text-76zvg2"
-            dir="auto"
-            style={
-              Object {
-                "backgroundColor": "rgba(0,0,0,0.00)",
-                "color": "rgba(0,0,0,1.00)",
-                "fontFamily": "MaterialIcons",
-                "fontSize": "24px",
-                "fontStyle": "normal",
-                "fontWeight": "normal",
-              }
-            }
-          >
-            
-          </div>
-        </div>
-      </div>
-      <div
-        className="css-view-1dbjc4n"
-        onClick={[Function]}
-        style={
-          Object {
-            "WebkitAlignItems": "center",
-            "WebkitBoxAlign": "center",
-            "WebkitBoxDirection": "normal",
-            "WebkitBoxOrient": "horizontal",
-            "WebkitBoxPack": "start",
-            "WebkitFlexDirection": "row",
-            "WebkitJustifyContent": "flex-start",
-            "alignItems": "center",
-            "cursor": "pointer",
-            "flexDirection": "row",
-            "justifyContent": "flex-start",
-            "marginBottom": "20px",
-            "marginTop": "20px",
-            "msFlexAlign": "center",
-            "msFlexDirection": "row",
-            "msFlexPack": "start",
-          }
-        }
-      >
-        <div
-          className="css-view-1dbjc4n"
-          style={
-            Object {
-              "marginLeft": "20px",
-              "marginRight": "20px",
-            }
-          }
-        >
-          <div
-            className="css-view-1dbjc4n"
-            style={
-              Object {
-                "WebkitAlignItems": "center",
-                "WebkitBoxAlign": "center",
-                "WebkitBoxPack": "center",
-                "WebkitJustifyContent": "center",
-                "alignItems": "center",
-                "backgroundColor": "rgba(0,0,0,0.00)",
-                "justifyContent": "center",
-                "msFlexAlign": "center",
-                "msFlexPack": "center",
-              }
-            }
-          >
-            <div
-              className="css-text-76zvg2"
-              dir="auto"
-              style={
-                Object {
-                  "backgroundColor": "rgba(0,0,0,0.00)",
-                  "color": "rgba(0,0,0,1.00)",
-                  "fontFamily": "MaterialIcons",
-                  "fontSize": "20px",
-                  "fontStyle": "normal",
-                  "fontWeight": "normal",
-                }
-              }
-            >
-              
-            </div>
-          </div>
-        </div>
-        <div
-          className="css-text-76zvg2"
-          dir="auto"
-          style={
-            Object {
-              "fontFamily": "Roboto",
-              "fontSize": "15px",
-              "fontWeight": "bold",
-            }
-          }
-        >
-          Your profile
-        </div>
-      </div>
-      <div
-        className="css-view-1dbjc4n"
-        onClick={[Function]}
-        style={
-          Object {
-            "WebkitAlignItems": "center",
-            "WebkitBoxAlign": "center",
-            "WebkitBoxDirection": "normal",
-            "WebkitBoxOrient": "horizontal",
-            "WebkitBoxPack": "start",
-            "WebkitFlexDirection": "row",
-            "WebkitJustifyContent": "flex-start",
-            "alignItems": "center",
-            "cursor": "pointer",
-            "flexDirection": "row",
-            "justifyContent": "flex-start",
-            "marginBottom": "20px",
-            "marginTop": "20px",
-            "msFlexAlign": "center",
-            "msFlexDirection": "row",
-            "msFlexPack": "start",
-          }
-        }
-      >
-        <div
-          className="css-view-1dbjc4n"
-          style={
-            Object {
-              "marginLeft": "20px",
-              "marginRight": "20px",
-            }
-          }
-        >
-          <div
-            className="css-view-1dbjc4n"
-            style={
-              Object {
-                "WebkitAlignItems": "center",
-                "WebkitBoxAlign": "center",
-                "WebkitBoxPack": "center",
-                "WebkitJustifyContent": "center",
-                "alignItems": "center",
-                "backgroundColor": "rgba(0,0,0,0.00)",
-                "justifyContent": "center",
-                "msFlexAlign": "center",
-                "msFlexPack": "center",
-              }
-            }
-          >
-            <div
-              className="css-text-76zvg2"
-              dir="auto"
-              style={
-                Object {
-                  "backgroundColor": "rgba(0,0,0,0.00)",
-                  "color": "rgba(0,0,0,1.00)",
-                  "fontFamily": "MaterialIcons",
-                  "fontSize": "20px",
-                  "fontStyle": "normal",
-                  "fontWeight": "normal",
-                }
-              }
-            >
-              
-            </div>
-          </div>
-        </div>
-        <div
-          className="css-text-76zvg2"
-          dir="auto"
-          style={
-            Object {
-              "fontFamily": "Roboto",
-              "fontSize": "15px",
-              "fontWeight": "bold",
-            }
-          }
-        >
-          Backup Your Wallet
-        </div>
-      </div>
-      <div
-        className="css-view-1dbjc4n"
-        style={
-          Object {
-            "WebkitAlignItems": "center",
-            "WebkitBoxAlign": "center",
-            "WebkitBoxDirection": "normal",
-            "WebkitBoxOrient": "horizontal",
-            "WebkitBoxPack": "start",
-            "WebkitFlexDirection": "row",
-            "WebkitJustifyContent": "flex-start",
-            "alignItems": "center",
-            "cursor": "pointer",
-            "flexDirection": "row",
-            "justifyContent": "flex-start",
-            "marginBottom": "20px",
-            "marginTop": "20px",
-            "msFlexAlign": "center",
-            "msFlexDirection": "row",
-            "msFlexPack": "start",
-          }
-        }
-      >
-        <div
-          className="css-view-1dbjc4n"
-          style={
-            Object {
-              "marginLeft": "20px",
-              "marginRight": "20px",
-            }
-          }
-        >
-          <div
-            className="css-view-1dbjc4n"
-            style={
-              Object {
-                "WebkitAlignItems": "center",
-                "WebkitBoxAlign": "center",
-                "WebkitBoxPack": "center",
-                "WebkitJustifyContent": "center",
-                "alignItems": "center",
-                "backgroundColor": "rgba(0,0,0,0.00)",
-                "justifyContent": "center",
-                "msFlexAlign": "center",
-                "msFlexPack": "center",
-              }
-            }
-          >
-            <div
-              className="css-text-76zvg2"
-              dir="auto"
-              style={
-                Object {
-                  "backgroundColor": "rgba(0,0,0,0.00)",
-                  "color": "rgba(0,0,0,1.00)",
-                  "fontFamily": "MaterialIcons",
-                  "fontSize": "20px",
-                  "fontStyle": "normal",
-                  "fontWeight": "normal",
-                }
-              }
-            >
-              
-            </div>
-          </div>
-        </div>
-        <div
-          className="css-text-76zvg2"
-          dir="auto"
-          style={
-            Object {
-              "fontFamily": "Roboto",
-              "fontSize": "15px",
-              "fontWeight": "bold",
-            }
-          }
-        >
-          Profile Privacy
-        </div>
-      </div>
-      <div
-        className="css-view-1dbjc4n"
-        style={
-          Object {
-            "WebkitAlignItems": "center",
-            "WebkitBoxAlign": "center",
-            "WebkitBoxDirection": "normal",
-            "WebkitBoxOrient": "horizontal",
-            "WebkitBoxPack": "start",
-            "WebkitFlexDirection": "row",
-            "WebkitJustifyContent": "flex-start",
-            "alignItems": "center",
-            "cursor": "pointer",
-            "flexDirection": "row",
-            "justifyContent": "flex-start",
-            "marginBottom": "20px",
-            "marginTop": "20px",
-            "msFlexAlign": "center",
-            "msFlexDirection": "row",
-            "msFlexPack": "start",
-          }
-        }
-      >
-        <div
-          className="css-view-1dbjc4n"
-          style={
-            Object {
-              "marginLeft": "20px",
-              "marginRight": "20px",
-            }
-          }
-        >
-          <div
-            className="css-view-1dbjc4n"
-            style={
-              Object {
-                "WebkitAlignItems": "center",
-                "WebkitBoxAlign": "center",
-                "WebkitBoxPack": "center",
-                "WebkitJustifyContent": "center",
-                "alignItems": "center",
-                "backgroundColor": "rgba(0,0,0,0.00)",
-                "justifyContent": "center",
-                "msFlexAlign": "center",
-                "msFlexPack": "center",
-              }
-            }
-          >
-            <div
-              className="css-text-76zvg2"
-              dir="auto"
-              style={
-                Object {
-                  "backgroundColor": "rgba(0,0,0,0.00)",
-                  "color": "rgba(0,0,0,1.00)",
-                  "fontFamily": "MaterialIcons",
-                  "fontSize": "20px",
-                  "fontStyle": "normal",
-                  "fontWeight": "normal",
-                }
-              }
-            >
-              
-            </div>
-          </div>
-        </div>
-        <div
-          className="css-text-76zvg2"
-          dir="auto"
-          style={
-            Object {
-              "fontFamily": "Roboto",
-              "fontSize": "15px",
-              "fontWeight": "bold",
-            }
-          }
-        >
-          Notification Settings
-        </div>
-      </div>
-      <div
-        className="css-view-1dbjc4n"
-        style={
-          Object {
-            "WebkitAlignItems": "center",
-            "WebkitBoxAlign": "center",
-            "WebkitBoxDirection": "normal",
-            "WebkitBoxOrient": "horizontal",
-            "WebkitBoxPack": "start",
-            "WebkitFlexDirection": "row",
-            "WebkitJustifyContent": "flex-start",
-            "alignItems": "center",
-            "cursor": "pointer",
-            "flexDirection": "row",
-            "justifyContent": "flex-start",
-            "marginBottom": "20px",
-            "marginTop": "20px",
-            "msFlexAlign": "center",
-            "msFlexDirection": "row",
-            "msFlexPack": "start",
-          }
-        }
-      >
-        <div
-          className="css-view-1dbjc4n"
-          style={
-            Object {
-              "marginLeft": "20px",
-              "marginRight": "20px",
-            }
-          }
-        >
-          <div
-            className="css-view-1dbjc4n"
-            style={
-              Object {
-                "WebkitAlignItems": "center",
-                "WebkitBoxAlign": "center",
-                "WebkitBoxPack": "center",
-                "WebkitJustifyContent": "center",
-                "alignItems": "center",
-                "backgroundColor": "rgba(0,0,0,0.00)",
-                "justifyContent": "center",
-                "msFlexAlign": "center",
-                "msFlexPack": "center",
-              }
-            }
-          >
-            <div
-              className="css-text-76zvg2"
-              dir="auto"
-              style={
-                Object {
-                  "backgroundColor": "rgba(0,0,0,0.00)",
-                  "color": "rgba(0,0,0,1.00)",
-                  "fontFamily": "MaterialIcons",
-                  "fontSize": "20px",
-                  "fontStyle": "normal",
-                  "fontWeight": "normal",
-                }
-              }
-            >
-              
-            </div>
-          </div>
-        </div>
-        <div
-          className="css-text-76zvg2"
-          dir="auto"
-          style={
-            Object {
-              "fontFamily": "Roboto",
-              "fontSize": "15px",
-              "fontWeight": "bold",
-            }
-          }
-        >
-          Send Feedback
-        </div>
-      </div>
-      <div
-        className="css-view-1dbjc4n"
-        style={
-          Object {
-            "WebkitAlignItems": "center",
-            "WebkitBoxAlign": "center",
-            "WebkitBoxDirection": "normal",
-            "WebkitBoxOrient": "horizontal",
-            "WebkitBoxPack": "start",
-            "WebkitFlexDirection": "row",
-            "WebkitJustifyContent": "flex-start",
-            "alignItems": "center",
-            "cursor": "pointer",
-            "flexDirection": "row",
-            "justifyContent": "flex-start",
-            "marginBottom": "20px",
-            "marginTop": "20px",
-            "msFlexAlign": "center",
-            "msFlexDirection": "row",
-            "msFlexPack": "start",
-          }
-        }
-      >
-        <div
-          className="css-view-1dbjc4n"
-          style={
-            Object {
-              "marginLeft": "20px",
-              "marginRight": "20px",
-            }
-          }
-        >
-          <div
-            className="css-view-1dbjc4n"
-            style={
-              Object {
-                "WebkitAlignItems": "center",
-                "WebkitBoxAlign": "center",
-                "WebkitBoxPack": "center",
-                "WebkitJustifyContent": "center",
-                "alignItems": "center",
-                "backgroundColor": "rgba(0,0,0,0.00)",
-                "justifyContent": "center",
-                "msFlexAlign": "center",
-                "msFlexPack": "center",
-              }
-            }
-          >
-            <div
-              className="css-text-76zvg2"
-              dir="auto"
-              style={
-                Object {
-                  "backgroundColor": "rgba(0,0,0,0.00)",
-                  "color": "rgba(0,0,0,1.00)",
-                  "fontFamily": "MaterialIcons",
-                  "fontSize": "20px",
-                  "fontStyle": "normal",
-                  "fontWeight": "normal",
-                }
-              }
-            >
-              
-            </div>
-          </div>
-        </div>
-        <div
-          className="css-text-76zvg2"
-          dir="auto"
-          style={
-            Object {
-              "fontFamily": "Roboto",
-              "fontSize": "15px",
-              "fontWeight": "bold",
-            }
-          }
-        >
-          FAQ
-        </div>
-      </div>
-      <div
-        className="css-view-1dbjc4n"
-        style={
-          Object {
-            "WebkitAlignItems": "center",
-            "WebkitBoxAlign": "center",
-            "WebkitBoxDirection": "normal",
-            "WebkitBoxOrient": "horizontal",
-            "WebkitBoxPack": "start",
-            "WebkitFlexDirection": "row",
-            "WebkitJustifyContent": "flex-start",
-            "alignItems": "center",
-            "cursor": "pointer",
-            "flexDirection": "row",
-            "justifyContent": "flex-start",
-            "marginBottom": "20px",
-            "marginTop": "20px",
-            "msFlexAlign": "center",
-            "msFlexDirection": "row",
-            "msFlexPack": "start",
-          }
-        }
-      >
-        <div
-          className="css-view-1dbjc4n"
-          style={
-            Object {
-              "marginLeft": "20px",
-              "marginRight": "20px",
-            }
-          }
-        >
-          <div
-            className="css-view-1dbjc4n"
-            style={
-              Object {
-                "WebkitAlignItems": "center",
-                "WebkitBoxAlign": "center",
-                "WebkitBoxPack": "center",
-                "WebkitJustifyContent": "center",
-                "alignItems": "center",
-                "backgroundColor": "rgba(0,0,0,0.00)",
-                "justifyContent": "center",
-                "msFlexAlign": "center",
-                "msFlexPack": "center",
-              }
-            }
-          >
-            <div
-              className="css-text-76zvg2"
-              dir="auto"
-              style={
-                Object {
-                  "backgroundColor": "rgba(0,0,0,0.00)",
-                  "color": "rgba(0,0,0,1.00)",
-                  "fontFamily": "MaterialIcons",
-                  "fontSize": "20px",
-                  "fontStyle": "normal",
-                  "fontWeight": "normal",
-                }
-              }
-            >
-              
-            </div>
-          </div>
-        </div>
-        <div
-          className="css-text-76zvg2"
-          dir="auto"
-          style={
-            Object {
-              "fontFamily": "Roboto",
-              "fontSize": "15px",
-              "fontWeight": "bold",
-            }
-          }
-        >
-          About
-        </div>
-      </div>
-    </div>
-  </div>
-  <div
-    className="css-view-1dbjc4n"
-    onMoveShouldSetResponder={[Function]}
-    onMoveShouldSetResponderCapture={[Function]}
-    onResponderEnd={[Function]}
-    onResponderGrant={[Function]}
-    onResponderMove={[Function]}
-    onResponderReject={[Function]}
-    onResponderRelease={[Function]}
-    onResponderStart={[Function]}
-    onResponderTerminate={[Function]}
-    onResponderTerminationRequest={[Function]}
-    onStartShouldSetResponder={[Function]}
-    onStartShouldSetResponderCapture={[Function]}
-    style={
-      Object {
-        "WebkitBoxFlex": 1,
-        "WebkitFlexBasis": "0%",
-        "WebkitFlexGrow": 1,
-        "WebkitFlexShrink": 1,
-        "WebkitTransform": "translateX(0px)",
-        "backgroundColor": "rgba(0,0,0,0.00)",
-        "flexBasis": "0%",
-        "flexGrow": 1,
-        "flexShrink": 1,
-        "height": "768px",
-        "left": "0px",
-        "msFlexNegative": 1,
-        "msFlexPositive": 1,
-        "msFlexPreferredSize": "0%",
-        "overflowX": "hidden",
-        "overflowY": "hidden",
-        "position": "absolute",
-        "top": "0px",
-        "transform": "translateX(0px)",
-        "width": "1024px",
-      }
-    }
-  >
-    <div
-      className="css-view-1dbjc4n"
-      onResponderGrant={[Function]}
-      onResponderReject={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onScroll={[Function]}
-      onScrollShouldSetResponder={[Function]}
-      onStartShouldSetResponder={[Function]}
-      onStartShouldSetResponderCapture={[Function]}
-      onTouchEnd={[Function]}
-      onTouchMove={[Function]}
-      onTouchStart={[Function]}
-      onWheel={[Function]}
       style={
         Object {
-          "WebkitBoxDirection": "normal",
-          "WebkitBoxFlex": 1,
-          "WebkitBoxOrient": "vertical",
-          "WebkitFlexDirection": "column",
-          "WebkitFlexGrow": 1,
-          "WebkitFlexShrink": 1,
-          "WebkitOverflowScrolling": "touch",
-          "WebkitTransform": "translateZ(0px)",
-          "flexDirection": "column",
-          "flexGrow": 1,
-          "flexShrink": 1,
-          "msFlexDirection": "column",
-          "msFlexNegative": 1,
-          "msFlexPositive": 1,
-          "overflowX": "hidden",
-          "overflowY": "auto",
-          "transform": "translateZ(0px)",
+          "WebkitBoxPack": "center",
+          "WebkitJustifyContent": "center",
+          "bottom": "0px",
+          "justifyContent": "center",
+          "left": "0px",
+          "msFlexPack": "center",
+          "position": "absolute",
+          "right": "0px",
+          "top": "0px",
         }
       }
     >
@@ -735,7 +65,677 @@ exports[`Dashboard matches snapshot 1`] = `
         className="css-view-1dbjc4n"
         style={
           Object {
-            "minHeight": "100%",
+            "bottom": "0px",
+            "left": "341.33333333333337px",
+            "position": "absolute",
+            "right": "0px",
+            "top": "0px",
+          }
+        }
+      >
+        <div
+          className="css-view-1dbjc4n"
+        >
+          <div
+            className="css-view-1dbjc4n"
+            onClick={[Function]}
+            style={
+              Object {
+                "WebkitAlignItems": "center",
+                "WebkitBoxAlign": "center",
+                "WebkitBoxDirection": "normal",
+                "WebkitBoxOrient": "horizontal",
+                "WebkitBoxPack": "start",
+                "WebkitFlexDirection": "row",
+                "WebkitJustifyContent": "flex-start",
+                "alignItems": "center",
+                "cursor": "pointer",
+                "flexDirection": "row",
+                "justifyContent": "flex-start",
+                "marginBottom": "20px",
+                "marginLeft": "auto",
+                "marginRight": "20px",
+                "marginTop": "20px",
+                "msFlexAlign": "center",
+                "msFlexDirection": "row",
+                "msFlexPack": "start",
+              }
+            }
+          >
+            <div
+              className="css-view-1dbjc4n"
+              style={
+                Object {
+                  "WebkitAlignItems": "center",
+                  "WebkitBoxAlign": "center",
+                  "WebkitBoxPack": "center",
+                  "WebkitJustifyContent": "center",
+                  "alignItems": "center",
+                  "backgroundColor": "rgba(0,0,0,0.00)",
+                  "justifyContent": "center",
+                  "msFlexAlign": "center",
+                  "msFlexPack": "center",
+                }
+              }
+            >
+              <div
+                className="css-text-76zvg2"
+                dir="auto"
+                style={
+                  Object {
+                    "backgroundColor": "rgba(0,0,0,0.00)",
+                    "color": "rgba(0,0,0,1.00)",
+                    "fontFamily": "MaterialIcons",
+                    "fontSize": "24px",
+                    "fontStyle": "normal",
+                    "fontWeight": "normal",
+                  }
+                }
+              >
+                
+              </div>
+            </div>
+          </div>
+          <div
+            className="css-view-1dbjc4n"
+            onClick={[Function]}
+            style={
+              Object {
+                "WebkitAlignItems": "center",
+                "WebkitBoxAlign": "center",
+                "WebkitBoxDirection": "normal",
+                "WebkitBoxOrient": "horizontal",
+                "WebkitBoxPack": "start",
+                "WebkitFlexDirection": "row",
+                "WebkitJustifyContent": "flex-start",
+                "alignItems": "center",
+                "cursor": "pointer",
+                "flexDirection": "row",
+                "justifyContent": "flex-start",
+                "marginBottom": "20px",
+                "marginTop": "20px",
+                "msFlexAlign": "center",
+                "msFlexDirection": "row",
+                "msFlexPack": "start",
+              }
+            }
+          >
+            <div
+              className="css-view-1dbjc4n"
+              style={
+                Object {
+                  "marginLeft": "20px",
+                  "marginRight": "20px",
+                }
+              }
+            >
+              <div
+                className="css-view-1dbjc4n"
+                style={
+                  Object {
+                    "WebkitAlignItems": "center",
+                    "WebkitBoxAlign": "center",
+                    "WebkitBoxPack": "center",
+                    "WebkitJustifyContent": "center",
+                    "alignItems": "center",
+                    "backgroundColor": "rgba(0,0,0,0.00)",
+                    "justifyContent": "center",
+                    "msFlexAlign": "center",
+                    "msFlexPack": "center",
+                  }
+                }
+              >
+                <div
+                  className="css-text-76zvg2"
+                  dir="auto"
+                  style={
+                    Object {
+                      "backgroundColor": "rgba(0,0,0,0.00)",
+                      "color": "rgba(0,0,0,1.00)",
+                      "fontFamily": "MaterialIcons",
+                      "fontSize": "20px",
+                      "fontStyle": "normal",
+                      "fontWeight": "normal",
+                    }
+                  }
+                >
+                  
+                </div>
+              </div>
+            </div>
+            <div
+              className="css-text-76zvg2"
+              dir="auto"
+              style={
+                Object {
+                  "fontFamily": "Roboto",
+                  "fontSize": "15px",
+                  "fontWeight": "bold",
+                }
+              }
+            >
+              Your profile
+            </div>
+          </div>
+          <div
+            className="css-view-1dbjc4n"
+            onClick={[Function]}
+            style={
+              Object {
+                "WebkitAlignItems": "center",
+                "WebkitBoxAlign": "center",
+                "WebkitBoxDirection": "normal",
+                "WebkitBoxOrient": "horizontal",
+                "WebkitBoxPack": "start",
+                "WebkitFlexDirection": "row",
+                "WebkitJustifyContent": "flex-start",
+                "alignItems": "center",
+                "cursor": "pointer",
+                "flexDirection": "row",
+                "justifyContent": "flex-start",
+                "marginBottom": "20px",
+                "marginTop": "20px",
+                "msFlexAlign": "center",
+                "msFlexDirection": "row",
+                "msFlexPack": "start",
+              }
+            }
+          >
+            <div
+              className="css-view-1dbjc4n"
+              style={
+                Object {
+                  "marginLeft": "20px",
+                  "marginRight": "20px",
+                }
+              }
+            >
+              <div
+                className="css-view-1dbjc4n"
+                style={
+                  Object {
+                    "WebkitAlignItems": "center",
+                    "WebkitBoxAlign": "center",
+                    "WebkitBoxPack": "center",
+                    "WebkitJustifyContent": "center",
+                    "alignItems": "center",
+                    "backgroundColor": "rgba(0,0,0,0.00)",
+                    "justifyContent": "center",
+                    "msFlexAlign": "center",
+                    "msFlexPack": "center",
+                  }
+                }
+              >
+                <div
+                  className="css-text-76zvg2"
+                  dir="auto"
+                  style={
+                    Object {
+                      "backgroundColor": "rgba(0,0,0,0.00)",
+                      "color": "rgba(0,0,0,1.00)",
+                      "fontFamily": "MaterialIcons",
+                      "fontSize": "20px",
+                      "fontStyle": "normal",
+                      "fontWeight": "normal",
+                    }
+                  }
+                >
+                  
+                </div>
+              </div>
+            </div>
+            <div
+              className="css-text-76zvg2"
+              dir="auto"
+              style={
+                Object {
+                  "fontFamily": "Roboto",
+                  "fontSize": "15px",
+                  "fontWeight": "bold",
+                }
+              }
+            >
+              Backup Your Wallet
+            </div>
+          </div>
+          <div
+            className="css-view-1dbjc4n"
+            style={
+              Object {
+                "WebkitAlignItems": "center",
+                "WebkitBoxAlign": "center",
+                "WebkitBoxDirection": "normal",
+                "WebkitBoxOrient": "horizontal",
+                "WebkitBoxPack": "start",
+                "WebkitFlexDirection": "row",
+                "WebkitJustifyContent": "flex-start",
+                "alignItems": "center",
+                "cursor": "pointer",
+                "flexDirection": "row",
+                "justifyContent": "flex-start",
+                "marginBottom": "20px",
+                "marginTop": "20px",
+                "msFlexAlign": "center",
+                "msFlexDirection": "row",
+                "msFlexPack": "start",
+              }
+            }
+          >
+            <div
+              className="css-view-1dbjc4n"
+              style={
+                Object {
+                  "marginLeft": "20px",
+                  "marginRight": "20px",
+                }
+              }
+            >
+              <div
+                className="css-view-1dbjc4n"
+                style={
+                  Object {
+                    "WebkitAlignItems": "center",
+                    "WebkitBoxAlign": "center",
+                    "WebkitBoxPack": "center",
+                    "WebkitJustifyContent": "center",
+                    "alignItems": "center",
+                    "backgroundColor": "rgba(0,0,0,0.00)",
+                    "justifyContent": "center",
+                    "msFlexAlign": "center",
+                    "msFlexPack": "center",
+                  }
+                }
+              >
+                <div
+                  className="css-text-76zvg2"
+                  dir="auto"
+                  style={
+                    Object {
+                      "backgroundColor": "rgba(0,0,0,0.00)",
+                      "color": "rgba(0,0,0,1.00)",
+                      "fontFamily": "MaterialIcons",
+                      "fontSize": "20px",
+                      "fontStyle": "normal",
+                      "fontWeight": "normal",
+                    }
+                  }
+                >
+                  
+                </div>
+              </div>
+            </div>
+            <div
+              className="css-text-76zvg2"
+              dir="auto"
+              style={
+                Object {
+                  "fontFamily": "Roboto",
+                  "fontSize": "15px",
+                  "fontWeight": "bold",
+                }
+              }
+            >
+              Profile Privacy
+            </div>
+          </div>
+          <div
+            className="css-view-1dbjc4n"
+            style={
+              Object {
+                "WebkitAlignItems": "center",
+                "WebkitBoxAlign": "center",
+                "WebkitBoxDirection": "normal",
+                "WebkitBoxOrient": "horizontal",
+                "WebkitBoxPack": "start",
+                "WebkitFlexDirection": "row",
+                "WebkitJustifyContent": "flex-start",
+                "alignItems": "center",
+                "cursor": "pointer",
+                "flexDirection": "row",
+                "justifyContent": "flex-start",
+                "marginBottom": "20px",
+                "marginTop": "20px",
+                "msFlexAlign": "center",
+                "msFlexDirection": "row",
+                "msFlexPack": "start",
+              }
+            }
+          >
+            <div
+              className="css-view-1dbjc4n"
+              style={
+                Object {
+                  "marginLeft": "20px",
+                  "marginRight": "20px",
+                }
+              }
+            >
+              <div
+                className="css-view-1dbjc4n"
+                style={
+                  Object {
+                    "WebkitAlignItems": "center",
+                    "WebkitBoxAlign": "center",
+                    "WebkitBoxPack": "center",
+                    "WebkitJustifyContent": "center",
+                    "alignItems": "center",
+                    "backgroundColor": "rgba(0,0,0,0.00)",
+                    "justifyContent": "center",
+                    "msFlexAlign": "center",
+                    "msFlexPack": "center",
+                  }
+                }
+              >
+                <div
+                  className="css-text-76zvg2"
+                  dir="auto"
+                  style={
+                    Object {
+                      "backgroundColor": "rgba(0,0,0,0.00)",
+                      "color": "rgba(0,0,0,1.00)",
+                      "fontFamily": "MaterialIcons",
+                      "fontSize": "20px",
+                      "fontStyle": "normal",
+                      "fontWeight": "normal",
+                    }
+                  }
+                >
+                  
+                </div>
+              </div>
+            </div>
+            <div
+              className="css-text-76zvg2"
+              dir="auto"
+              style={
+                Object {
+                  "fontFamily": "Roboto",
+                  "fontSize": "15px",
+                  "fontWeight": "bold",
+                }
+              }
+            >
+              Notification Settings
+            </div>
+          </div>
+          <div
+            className="css-view-1dbjc4n"
+            style={
+              Object {
+                "WebkitAlignItems": "center",
+                "WebkitBoxAlign": "center",
+                "WebkitBoxDirection": "normal",
+                "WebkitBoxOrient": "horizontal",
+                "WebkitBoxPack": "start",
+                "WebkitFlexDirection": "row",
+                "WebkitJustifyContent": "flex-start",
+                "alignItems": "center",
+                "cursor": "pointer",
+                "flexDirection": "row",
+                "justifyContent": "flex-start",
+                "marginBottom": "20px",
+                "marginTop": "20px",
+                "msFlexAlign": "center",
+                "msFlexDirection": "row",
+                "msFlexPack": "start",
+              }
+            }
+          >
+            <div
+              className="css-view-1dbjc4n"
+              style={
+                Object {
+                  "marginLeft": "20px",
+                  "marginRight": "20px",
+                }
+              }
+            >
+              <div
+                className="css-view-1dbjc4n"
+                style={
+                  Object {
+                    "WebkitAlignItems": "center",
+                    "WebkitBoxAlign": "center",
+                    "WebkitBoxPack": "center",
+                    "WebkitJustifyContent": "center",
+                    "alignItems": "center",
+                    "backgroundColor": "rgba(0,0,0,0.00)",
+                    "justifyContent": "center",
+                    "msFlexAlign": "center",
+                    "msFlexPack": "center",
+                  }
+                }
+              >
+                <div
+                  className="css-text-76zvg2"
+                  dir="auto"
+                  style={
+                    Object {
+                      "backgroundColor": "rgba(0,0,0,0.00)",
+                      "color": "rgba(0,0,0,1.00)",
+                      "fontFamily": "MaterialIcons",
+                      "fontSize": "20px",
+                      "fontStyle": "normal",
+                      "fontWeight": "normal",
+                    }
+                  }
+                >
+                  
+                </div>
+              </div>
+            </div>
+            <div
+              className="css-text-76zvg2"
+              dir="auto"
+              style={
+                Object {
+                  "fontFamily": "Roboto",
+                  "fontSize": "15px",
+                  "fontWeight": "bold",
+                }
+              }
+            >
+              Send Feedback
+            </div>
+          </div>
+          <div
+            className="css-view-1dbjc4n"
+            style={
+              Object {
+                "WebkitAlignItems": "center",
+                "WebkitBoxAlign": "center",
+                "WebkitBoxDirection": "normal",
+                "WebkitBoxOrient": "horizontal",
+                "WebkitBoxPack": "start",
+                "WebkitFlexDirection": "row",
+                "WebkitJustifyContent": "flex-start",
+                "alignItems": "center",
+                "cursor": "pointer",
+                "flexDirection": "row",
+                "justifyContent": "flex-start",
+                "marginBottom": "20px",
+                "marginTop": "20px",
+                "msFlexAlign": "center",
+                "msFlexDirection": "row",
+                "msFlexPack": "start",
+              }
+            }
+          >
+            <div
+              className="css-view-1dbjc4n"
+              style={
+                Object {
+                  "marginLeft": "20px",
+                  "marginRight": "20px",
+                }
+              }
+            >
+              <div
+                className="css-view-1dbjc4n"
+                style={
+                  Object {
+                    "WebkitAlignItems": "center",
+                    "WebkitBoxAlign": "center",
+                    "WebkitBoxPack": "center",
+                    "WebkitJustifyContent": "center",
+                    "alignItems": "center",
+                    "backgroundColor": "rgba(0,0,0,0.00)",
+                    "justifyContent": "center",
+                    "msFlexAlign": "center",
+                    "msFlexPack": "center",
+                  }
+                }
+              >
+                <div
+                  className="css-text-76zvg2"
+                  dir="auto"
+                  style={
+                    Object {
+                      "backgroundColor": "rgba(0,0,0,0.00)",
+                      "color": "rgba(0,0,0,1.00)",
+                      "fontFamily": "MaterialIcons",
+                      "fontSize": "20px",
+                      "fontStyle": "normal",
+                      "fontWeight": "normal",
+                    }
+                  }
+                >
+                  
+                </div>
+              </div>
+            </div>
+            <div
+              className="css-text-76zvg2"
+              dir="auto"
+              style={
+                Object {
+                  "fontFamily": "Roboto",
+                  "fontSize": "15px",
+                  "fontWeight": "bold",
+                }
+              }
+            >
+              FAQ
+            </div>
+          </div>
+          <div
+            className="css-view-1dbjc4n"
+            style={
+              Object {
+                "WebkitAlignItems": "center",
+                "WebkitBoxAlign": "center",
+                "WebkitBoxDirection": "normal",
+                "WebkitBoxOrient": "horizontal",
+                "WebkitBoxPack": "start",
+                "WebkitFlexDirection": "row",
+                "WebkitJustifyContent": "flex-start",
+                "alignItems": "center",
+                "cursor": "pointer",
+                "flexDirection": "row",
+                "justifyContent": "flex-start",
+                "marginBottom": "20px",
+                "marginTop": "20px",
+                "msFlexAlign": "center",
+                "msFlexDirection": "row",
+                "msFlexPack": "start",
+              }
+            }
+          >
+            <div
+              className="css-view-1dbjc4n"
+              style={
+                Object {
+                  "marginLeft": "20px",
+                  "marginRight": "20px",
+                }
+              }
+            >
+              <div
+                className="css-view-1dbjc4n"
+                style={
+                  Object {
+                    "WebkitAlignItems": "center",
+                    "WebkitBoxAlign": "center",
+                    "WebkitBoxPack": "center",
+                    "WebkitJustifyContent": "center",
+                    "alignItems": "center",
+                    "backgroundColor": "rgba(0,0,0,0.00)",
+                    "justifyContent": "center",
+                    "msFlexAlign": "center",
+                    "msFlexPack": "center",
+                  }
+                }
+              >
+                <div
+                  className="css-text-76zvg2"
+                  dir="auto"
+                  style={
+                    Object {
+                      "backgroundColor": "rgba(0,0,0,0.00)",
+                      "color": "rgba(0,0,0,1.00)",
+                      "fontFamily": "MaterialIcons",
+                      "fontSize": "20px",
+                      "fontStyle": "normal",
+                      "fontWeight": "normal",
+                    }
+                  }
+                >
+                  
+                </div>
+              </div>
+            </div>
+            <div
+              className="css-text-76zvg2"
+              dir="auto"
+              style={
+                Object {
+                  "fontFamily": "Roboto",
+                  "fontSize": "15px",
+                  "fontWeight": "bold",
+                }
+              }
+            >
+              About
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="css-view-1dbjc4n"
+        onMoveShouldSetResponder={[Function]}
+        onMoveShouldSetResponderCapture={[Function]}
+        onResponderEnd={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderReject={[Function]}
+        onResponderRelease={[Function]}
+        onResponderStart={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        onStartShouldSetResponderCapture={[Function]}
+        style={
+          Object {
+            "WebkitBoxFlex": 1,
+            "WebkitFlexBasis": "0%",
+            "WebkitFlexGrow": 1,
+            "WebkitFlexShrink": 1,
+            "WebkitTransform": "translateX(0px)",
+            "backgroundColor": "rgba(0,0,0,0.00)",
+            "flexBasis": "0%",
+            "flexGrow": 1,
+            "flexShrink": 1,
+            "height": "768px",
+            "left": "0px",
+            "msFlexNegative": 1,
+            "msFlexPositive": 1,
+            "msFlexPreferredSize": "0%",
+            "overflowX": "hidden",
+            "overflowY": "hidden",
+            "position": "absolute",
+            "top": "0px",
+            "transform": "translateX(0px)",
+            "width": "1024px",
           }
         }
       >

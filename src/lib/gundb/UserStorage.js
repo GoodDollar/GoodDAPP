@@ -720,9 +720,7 @@ export class UserStorage {
    */
   async saveLastBlockNumber(blockNumber: number | string): Promise<any> {
     logger.debug('saving lastBlock:', blockNumber)
-
-    return this.getLastBlockNode()
-      .putAck(blockNumber)
+    return this.getLastBlockNode().putAck(blockNumber)
   }
 
   getProfile(): Promise<any> {

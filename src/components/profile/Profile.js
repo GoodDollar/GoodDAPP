@@ -42,7 +42,9 @@ const styles = StyleSheet.create({
   },
   section: {
     paddingLeft: '1em',
-    paddingRight: '1em'
+    paddingRight: '1em',
+    marginBottom: 'auto',
+    minHeight: '100%'
   },
   icon: {
     cursor: 'pointer'

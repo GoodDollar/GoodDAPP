@@ -44,12 +44,7 @@ const Amount = (props: AmountProps) => {
             <Section.Title style={styles.headline}>How much?</Section.Title>
             <View style={styles.amountWrapper}>
               <Text style={styles.amountInputWrapper}>
-                <InputGoodDollar
-                  focus="true"
-                  wei={amount}
-                  onChangeWei={handleAmountChange}
-                  style={styles.amountInput}
-                />
+                <InputGoodDollar autoFocus wei={amount} onChangeWei={handleAmountChange} style={styles.amountInput} />
               </Text>
               <Text style={styles.amountSuffix}>GD</Text>
             </View>

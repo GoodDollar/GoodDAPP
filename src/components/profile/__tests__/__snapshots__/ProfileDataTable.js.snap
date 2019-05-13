@@ -85,6 +85,11 @@ exports[`ProfileDataTable matches snapshot 1`] = `
           spellCheck={true}
           style={
             Object {
+              "backgroundColor": "rgba(0,0,0,0.00)",
+              "borderBottomWidth": "0px",
+              "borderLeftWidth": "0px",
+              "borderRightWidth": "0px",
+              "borderTopWidth": "0px",
               "color": "rgba(85,85,85,1.00)",
               "fontSize": "16px",
               "height": "30px",
@@ -219,6 +224,11 @@ exports[`ProfileDataTable matches snapshot 1`] = `
           spellCheck={true}
           style={
             Object {
+              "backgroundColor": "rgba(0,0,0,0.00)",
+              "borderBottomWidth": "0px",
+              "borderLeftWidth": "0px",
+              "borderRightWidth": "0px",
+              "borderTopWidth": "0px",
               "color": "rgba(85,85,85,1.00)",
               "fontSize": "16px",
               "height": "30px",
@@ -354,6 +364,11 @@ exports[`ProfileDataTable matches snapshot 1`] = `
           spellCheck={true}
           style={
             Object {
+              "backgroundColor": "rgba(0,0,0,0.00)",
+              "borderBottomWidth": "0px",
+              "borderLeftWidth": "0px",
+              "borderRightWidth": "0px",
+              "borderTopWidth": "0px",
               "color": "rgba(85,85,85,1.00)",
               "fontSize": "16px",
               "height": "30px",
@@ -508,6 +523,11 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
           spellCheck={true}
           style={
             Object {
+              "backgroundColor": "rgba(0,0,0,0.00)",
+              "borderBottomWidth": "0px",
+              "borderLeftWidth": "0px",
+              "borderRightWidth": "0px",
+              "borderTopWidth": "0px",
               "color": "rgba(85,85,85,1.00)",
               "fontSize": "16px",
               "height": "30px",
@@ -2290,6 +2310,11 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
           spellCheck={true}
           style={
             Object {
+              "backgroundColor": "rgba(0,0,0,0.00)",
+              "borderBottomWidth": "0px",
+              "borderLeftWidth": "0px",
+              "borderRightWidth": "0px",
+              "borderTopWidth": "0px",
               "color": "rgba(85,85,85,1.00)",
               "fontSize": "16px",
               "height": "30px",
@@ -2443,6 +2468,11 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
           spellCheck={true}
           style={
             Object {
+              "backgroundColor": "rgba(0,0,0,0.00)",
+              "borderBottomWidth": "0px",
+              "borderLeftWidth": "0px",
+              "borderRightWidth": "0px",
+              "borderTopWidth": "0px",
               "color": "rgba(85,85,85,1.00)",
               "fontSize": "16px",
               "height": "30px",
@@ -4231,6 +4261,11 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
           spellCheck={true}
           style={
             Object {
+              "backgroundColor": "rgba(0,0,0,0.00)",
+              "borderBottomWidth": "0px",
+              "borderLeftWidth": "0px",
+              "borderRightWidth": "0px",
+              "borderTopWidth": "0px",
               "color": "rgba(85,85,85,1.00)",
               "fontSize": "16px",
               "height": "30px",

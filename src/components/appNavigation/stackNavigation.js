@@ -228,6 +228,7 @@ export const BackButton = (props: BackButtonProps) => {
 
   return (
     <Button
+      compact={true}
       mode={mode || 'text'}
       color={color || '#575757'}
       style={style}

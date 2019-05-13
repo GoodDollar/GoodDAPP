@@ -26,7 +26,7 @@ exports[`CustomButton matches snapshot 1`] = `
       "borderTopWidth": "0px",
       "boxShadow": "0px 0px 0px rgba(0,0,0,0.24)",
       "justifyContent": "center",
-      "minWidth": "64px",
+      "minWidth": "auto",
       "msFlexPack": "center",
     }
   }
@@ -85,8 +85,8 @@ exports[`CustomButton matches snapshot 1`] = `
             "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
             "letterSpacing": "1px",
             "marginBottom": "9px",
-            "marginLeft": "16px",
-            "marginRight": "16px",
+            "marginLeft": "8px",
+            "marginRight": "8px",
             "marginTop": "9px",
             "textAlign": "center",
           }
@@ -101,10 +101,10 @@ exports[`CustomButton matches snapshot 1`] = `
               "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
               "fontSize": "18px",
               "fontWeight": "bold",
-              "paddingBottom": "5px",
-              "paddingLeft": "5px",
-              "paddingRight": "5px",
-              "paddingTop": "5px",
+              "paddingBottom": "0px",
+              "paddingLeft": "0px",
+              "paddingRight": "0px",
+              "paddingTop": "0px",
               "textAlign": "center",
               "textTransform": "uppercase",
             }

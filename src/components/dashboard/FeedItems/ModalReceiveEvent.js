@@ -18,7 +18,7 @@ const ModalReceiveEvent = ({ item: feed, onPress }: FeedEventProps) => {
       <Text>{new Date(feed.date).toLocaleDateString()}</Text>
       <View style={styles.row}>
         {feed.data.endpoint.title && <Text style={styles.leftTitle}>{feed.data.endpoint.title}</Text>}
-        <Text style={styles.leftTitle}>{`${feed.type === 'withdraw' ? 'Withdrawn' : 'Received'} GD`}</Text>
+        <Text style={styles.leftTitle}>Received GD</Text>
         <BigGoodDollar number={feed.data.amount} elementStyles={styles.currency} />
       </View>
       <View style={styles.hrLine} />

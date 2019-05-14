@@ -40,7 +40,7 @@ const EventDialog = ({ visible, event, onDismiss, reason }: EventDialogProps) =>
           <Paragraph style={styles.date}>{customDate}</Paragraph>
           <Section style={styles.gdSection}>
             <Section.Row>
-              <Text style={styles.gd}>{action} GD</Text>
+              <Text style={styles.gd}>Sent GD</Text>
               <Text style={styles.amount}>
                 + <BigGoodDollar number={amount} />
               </Text>

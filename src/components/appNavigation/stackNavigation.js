@@ -1,8 +1,7 @@
 // @flow
 import React, { Component, useState, useEffect } from 'react'
-import { ScrollView, StyleSheet, AsyncStorage } from 'react-native'
+import { ScrollView, AsyncStorage, View } from 'react-native'
 import { Button } from 'react-native-paper'
-import { normalize } from 'react-native-elements'
 import SideMenu from 'react-native-side-menu'
 import { createNavigator, SwitchRouter, SceneView, Route } from '@react-navigation/core'
 import { Helmet } from 'react-helmet'
@@ -219,7 +218,9 @@ class AppView extends Component<AppViewProps, any> {
         {!navigationBarHidden && <NavBar goBack={backButtonHidden ? undefined : this.pop} title={pageTitle} />}
         <ScrollView contentContainerStyle={scrollableContainer}>
           <SideMenu menu={menu} menuPosition="right" isOpen={store.get('sidemenu').visible}>
-            <SceneView navigation={descriptor.navigation} component={Component} screenProps={screenProps} />
+            <View style={{ backgroundColor: '#fff', flex: 1 }}>
+              <SceneView navigation={descriptor.navigation} component={Component} screenProps={screenProps} />
+            </View>
           </SideMenu>
         </ScrollView>
       </React.Fragment>

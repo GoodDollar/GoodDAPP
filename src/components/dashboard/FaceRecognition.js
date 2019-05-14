@@ -22,9 +22,10 @@ class FaceRecognition extends React.Component<Props> {
   state = {
     loading: false
   }
+
   openEventInDashboard = receipt => () => {
     updateAll(this.props.store)
-    this.props.screenProps.navigateTo('Home', { event: receipt.transactionHash })
+    this.props.screenProps.navigateTo('Home')
   }
 
   handleClaim = async () => {

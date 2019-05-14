@@ -9,6 +9,13 @@ import NavBar from './NavBar'
 import { CustomButton, type ButtonProps } from '../common'
 import { scrollableContainer } from '../common/styles'
 
+export const DEFAULT_PARAMS = {
+  event: undefined,
+  receiveLink: undefined,
+  reason: undefined,
+  code: undefined
+}
+
 /**
  * getComponent gets the component and props and returns the same component except when
  * shouldNavigateToComponent is present in component and not complaining
@@ -98,10 +105,7 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
     const route = navigation.state.routes[0]
     route.params = {
       ...route.params,
-      event: undefined,
-      receiveLink: undefined,
-      reason: undefined,
-      code: undefined
+      ...DEFAULT_PARAMS
     }
 
     navigation.navigate(route)

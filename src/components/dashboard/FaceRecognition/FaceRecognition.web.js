@@ -1,17 +1,16 @@
 // @flow
 
-import loadjs from 'loadjs'
 import API from '../../../lib/API/api'
 import React, { createRef } from 'react'
-import Config from '../../../config/config'
 import { StyleSheet, View } from 'react-native'
 import GDStore from '../../../lib/undux/GDStore'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import logger from '../../../lib/logger/pino-logger'
 import userStorage from '../../../lib/gundb/UserStorage'
 import { Wrapper, CustomButton, Section } from '../../common'
-import { Camera, getResponsiveVideoDimensions } from './Camera.web'
-import { initializeAndPreload, capture, type ZoomCaptureResult } from './Zoom'
+import ZoomCapture from './ZoomCapture'
+import { getResponsiveVideoDimensions } from './Camera.web'
+import { type ZoomCaptureResult } from './Zoom'
 import goodWallet from '../../../lib/wallet/GoodWallet'
 import type { DashboardProps } from '../Dashboard'
 
@@ -178,7 +177,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
             <Section style={styles.bottomSection}>
               <div id="zoom-parent-container" style={getVideoContainerStyles()}>
                 <div id="zoom-interface-container" style={{ position: 'absolute' }} />
-                {this.state.ready && <Camera height={this.height} onLoad={this.onCameraLoad} />}
+                <ZoomCapture height={this.height} screenProps={this.screenProps} />
               </div>
             </Section>
           </View>

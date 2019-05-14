@@ -38,7 +38,7 @@ const SendQRSummary = (props: AmountProps) => {
     setProfile(profile)
   }
   useEffect(() => {
-    updateRecepientProfile()
+    if (to) updateRecepientProfile()
   }, [to])
 
   const faceRecognition = () => {
@@ -151,7 +151,7 @@ SendQRSummary.navigationOptions = {
 SendQRSummary.shouldNavigateToComponent = props => {
   const { screenState } = props.screenProps
   // Component shouldn't be loaded if there's no 'amount', nor 'to' fields with data
-  return !!screenState.amount && !!screenState.to
+  return (!!screenState.amount && !!screenState.to) || screenState.from
 }
 
 export default SendQRSummary

@@ -133,12 +133,12 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
     this.setState(state => ({ currentState: { ...state.currentState, ...data } }))
   }
 
-  // shouldComponentUpdate(nextProps: any, nextState: any) {
-  //   return (
-  //     this.props.navigation.state.index !== nextProps.navigation.state.index ||
-  //     this.state.currentState.route !== nextState.currentState.route
-  //   )
-  // }
+  shouldComponentUpdate(nextProps: any, nextState: any) {
+    return (
+      this.props.navigation.state.index !== nextProps.navigation.state.index ||
+      this.state.currentState.route !== nextState.currentState.route
+    )
+  }
   render() {
     const { descriptors, navigation, navigationConfig, screenProps: incomingScreenProps } = this.props
     const activeKey = navigation.state.routes[navigation.state.index].key

@@ -33,12 +33,12 @@ const SendQRSummary = (props: AmountProps) => {
   const { amount, reason, to } = screenState
   const [profile, setProfile] = useState({})
 
-  const updateProfile = async () => {
+  const updateRecepientProfile = async () => {
     const profile = await UserStorage.getUserProfile(to)
     setProfile(profile)
   }
   useEffect(() => {
-    updateProfile()
+    updateRecepientProfile()
   }, [to])
 
   const faceRecognition = () => {

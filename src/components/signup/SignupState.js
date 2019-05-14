@@ -51,7 +51,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   const { loading } = store.get('currentScreen')
 
   function saveProfile() {
-    userStorage.setProfile({ ...state, walletAddress: goodWallet.account })
+    return userStorage.setProfile({ ...state, walletAddress: goodWallet.account })
   }
 
   const navigateWithFocus = (routeKey: string) => {
@@ -101,8 +101,8 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
         navigateWithFocus(nextRoute.key)
       } else {
         log.info('Sending new user data', state)
-        saveProfile()
         try {
+          await saveProfile()
           // After sending email to the user for confirmation (transition between Email -> EmailConfirmation)
           // user's profile is persisted (`userStorage.setProfile`).
           // Then, when the user access the application from the link (in EmailConfirmation), data is recovered and

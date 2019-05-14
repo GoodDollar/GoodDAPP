@@ -18,7 +18,8 @@ const log = logger.child({ from: 'SendQRSummary' })
 
 class Claim extends Component<ClaimProps, {}> {
   state = {
-    loading: false
+    loading: false,
+    isCitizen: this.props.store.get('isLoggedInCitizen')
   }
   goodWalletWrapped = wrapper(goodWallet, this.props.store)
   async componentDidMount() {
@@ -57,7 +58,7 @@ class Claim extends Component<ClaimProps, {}> {
     const { entitlement } = store.get('account')
     const ClaimButton = (
       <CustomButton
-        disabled={entitlement <= 0}
+        disabled={entitlement <= 0 && this.state.isCitizen}
         mode="contained"
         onPress={async () => {
           ;(await goodWallet.isCitizen()) ? this.handleClaim() : this.faceRecognition()

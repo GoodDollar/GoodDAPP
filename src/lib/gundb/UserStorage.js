@@ -388,7 +388,7 @@ export class UserStorage {
    * @param {string} privacy - (private | public | masked)
    * @returns {Promise} Promise with updated field value, secret, display and privacy.
    */
-  async setProfileField(field: string, value: string, privacy: FieldPrivacy): Promise<ACK> {
+  async setProfileField(field: string, value: string, privacy: FieldPrivacy = 'public'): Promise<ACK> {
     let display
     switch (privacy) {
       case 'private':
@@ -399,8 +399,11 @@ export class UserStorage {
         //undo invalid masked field
         if (display === value) privacy = 'public'
         break
-      default:
+      case 'public':
         display = value
+        break
+      default:
+        throw new Error('Invalid privacy setting', { privacy })
     }
     //for all privacy cases we go through the index, in case field was changed from public to private so we remove it
     if (UserStorage.indexableFields[field]) {

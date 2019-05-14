@@ -146,12 +146,11 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     log.debug({ res })
     this.setState({ loadingFaceRecognition: true, loadingText: 'Saving Face Information to Your profile..' })
     try {
-      await userStorage.setProfileField('zoomEnrollmentId', res.enrollResult.enrollmentIdentifier, 'private')
-      this.setState({ loadingFaceRecognition: false, loadingText: '' })
+      if (res.enrollResult.enrollmentIdentifier)
+        await userStorage.setProfileField('zoomEnrollmentId', res.enrollResult.enrollmentIdentifier, 'private')
       this.props.screenProps.pop({ isValid: true })
     } catch (e) {
       log.error('failed to save facemap') // TODO: handle what happens if the facemap was not saved successfully to the user storage
-      this.setState({ loadingFaceRecognition: false, loadingText: '' })
       this.props.screenProps.pop({ isValid: false })
     }
   }

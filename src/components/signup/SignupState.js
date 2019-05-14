@@ -126,7 +126,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
           } else {
             navigation.navigate('AppNavigation')
           }
-          userStorage.setProfileField('registered', true)
+          userStorage.setProfileField('registered', true, 'public')
         } catch (error) {
           log.error('New user failure', { error })
         }

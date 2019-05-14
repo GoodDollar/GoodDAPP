@@ -1,6 +1,12 @@
 // @flow
 import gun from '../gundb'
-import userStorage, { type TransactionEvent, UserStorage, getReceiveDataFromReceipt } from '../UserStorage'
+
+import userStorage, {
+  type TransactionEvent,
+  UserStorage,
+  getOperationType,
+  getReceiveDataFromReceipt
+} from '../UserStorage'
 import { getUserModel } from '../UserModel'
 import { addUser } from './__util__/index'
 import { GoodWallet } from '../../wallet/GoodWallet'
@@ -302,7 +308,7 @@ describe('UserStorage', () => {
         reason: 'For the pizza',
         amount: 3,
         sendLink: 'http://fake.link/string',
-        receipt: { foo: 'foo' }
+        receipt: { foo: 'foo', blockNumber: 123 }
       }
     }
     const gunRes = await userStorage.updateFeedEvent(transactionEvent)
@@ -625,5 +631,38 @@ describe('UserStorage', () => {
       const result = getReceiveDataFromReceipt(receipt)
       expect(result).toMatchObject({})
     })
+  })
+})
+
+describe('getOperationType', () => {
+  it('PaymentWithdraw should be withdraw', () => {
+    const event = {
+      name: 'PaymentWithdraw'
+    }
+    expect(getOperationType(event, 'account1')).toBe('withdraw')
+  })
+
+  it('PaymentWithdraw with any from should be withdraw', () => {
+    const event = {
+      name: 'PaymentWithdraw',
+      from: 'account1'
+    }
+    expect(getOperationType(event, 'account1')).toBe('withdraw')
+  })
+
+  it('from equal to account should be send', () => {
+    const event = {
+      name: 'Transfer',
+      from: 'account1'
+    }
+    expect(getOperationType(event, 'account1')).toBe('send')
+  })
+
+  it('from different to account should be receive', () => {
+    const event = {
+      name: 'Transfer',
+      from: 'account2'
+    }
+    expect(getOperationType(event, 'account1')).toBe('receive')
   })
 })

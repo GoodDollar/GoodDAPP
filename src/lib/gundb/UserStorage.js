@@ -22,11 +22,6 @@ function isValidDate(d) {
   return d instanceof Date && !isNaN(d)
 }
 
-const EVENT_TYPES = {
-  PaymentWithdraw: 'withdraw',
-  Transfer: 'claim'
-}
-
 export type GunDBUser = {
   alias: string,
   epub: string,
@@ -95,6 +90,15 @@ export const getReceiveDataFromReceipt = (receipt: any) => {
   return log
 }
 
+export const getOperationType = (data: any, account: string) => {
+  const EVENT_TYPES = {
+    PaymentWithdraw: 'withdraw'
+  }
+
+  const operationType = data.from && data.from.toLowerCase() === account ? 'send' : 'receive'
+  return EVENT_TYPES[data.name] || operationType
+}
+
 export class UserStorage {
   wallet: GoodWallet
   gunuser: Gun
@@ -156,11 +160,10 @@ export class UserStorage {
   async handleReceiptUpdated(receipt: any) {
     try {
       const data = getReceiveDataFromReceipt(receipt)
-      const operationType = data.from && data.from.toLowerCase() === this.wallet.account ? 'send' : 'receive'
       const feedEvent = (await this.getFeedItemByTransactionHash(receipt.transactionHash)) || {
         id: receipt.transactionHash,
         date: new Date().toString(),
-        type: EVENT_TYPES[data.name] || operationType
+        type: getOperationType(data, this.wallet.account)
       }
       logger.info('receiptReceived', { feedEvent, receipt, data })
       const updatedFeedEvent = {
@@ -191,7 +194,7 @@ export class UserStorage {
         logger.debug('gundb user created', userCreated)
         //auth.then - doesnt seem to work server side in tests
         this.gunuser.auth(username, password, user => {
-          if (user.err) throw new Error(user.err)
+          if (user.err) return rej(user.err)
           this.user = this.gunuser.is
           this.profile = this.gunuser.get('profile')
           this.profile.open(doc => {
@@ -248,6 +251,10 @@ export class UserStorage {
     return feedItem
   }
 
+  /**
+   * Returns a Promise that, when resolved, will have all the feeds available for the current user
+   * @returns {Promise<Array<FeedEvent>>}
+   */
   async getAllFeed() {
     const total = Object.values((await this.feed.get('index')) || {}).reduce((acc, curr) => acc + curr, 0)
     const prevCursor = this.cursor
@@ -619,7 +626,7 @@ export class UserStorage {
 
       const searchField = 'by' + (isMobilePhone(address) ? 'mobile' : isEmail(address) ? 'email' : 'walletAddress')
       const profileToShow = gun
-        .rootAO(`users/${searchField}`)
+        .get(`users/${searchField}`)
         .get(address)
         .get('profile')
 
@@ -632,7 +639,7 @@ export class UserStorage {
         (await profileToShow
           .get('fullName')
           .get('display')
-          .then()) || 'Unknown Name'
+          .then()) || 'GoodDollar'
     }
 
     if (generatedString) {
@@ -698,12 +705,34 @@ export class UserStorage {
     const ack = this.feed
       .get('index')
       .get(day)
-      .put(dayEventsArr.length)
+      .putAck(dayEventsArr.length)
+
+    if (event.data && event.data.receipt) {
+      await this.saveLastBlockNumber(event.data.receipt.blockNumber)
+    }
 
     const result = await Promise.all([saveAck, ack])
       .then(arr => arr[0])
       .catch(err => logger.info('savingIndex', err))
     return result
+  }
+
+  /**
+   * Returns the 'lastBlock' gun's node
+   * @returns {*}
+   */
+  getLastBlockNode() {
+    return this.feed.get('lastBlock')
+  }
+
+  /**
+   * Saves block number in the 'lastBlock' node
+   * @param blockNumber
+   * @returns {Promise<Promise<*>|Promise<R|*>>}
+   */
+  async saveLastBlockNumber(blockNumber: number | string): Promise<any> {
+    logger.debug('saving lastBlock:', blockNumber)
+    return this.getLastBlockNode().putAck(blockNumber)
   }
 
   getProfile(): Promise<any> {

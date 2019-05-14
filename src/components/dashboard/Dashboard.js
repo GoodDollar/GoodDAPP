@@ -14,7 +14,7 @@ import TabsView from '../appNavigation/TabsView'
 import { Avatar, BigGoodDollar, Section, Wrapper } from '../common'
 import Amount from './Amount'
 import Claim from './Claim'
-import FaceRecognition from './FaceRecognition'
+import FaceRecognition from './FaceRecognition/FaceRecognition'
 import FeedList from './FeedList'
 import FeedModalItem from './FeedItems/FeedModalItem'
 import Reason from './Reason'
@@ -143,7 +143,7 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
 
   handleWithdraw = async () => {
     const { receiveLink, reason } = this.props.navigation.state.params
-    const { screenProps, store } = this.props
+    const { store } = this.props
     try {
       const receipt = await executeWithdraw(store, receiveLink, reason)
       if (receipt.transactionHash) {

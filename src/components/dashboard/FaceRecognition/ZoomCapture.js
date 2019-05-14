@@ -1,5 +1,4 @@
 // @flow
-
 import loadjs from 'loadjs'
 import API from '../../../lib/API/api'
 import React, { createRef } from 'react'
@@ -15,9 +14,9 @@ import { initializeAndPreload, capture, type ZoomCaptureResult } from './Zoom'
 import goodWallet from '../../../lib/wallet/GoodWallet'
 import type { DashboardProps } from '../Dashboard'
 
-const log = logger.child({ from: 'FaceRecognition' })
+const log = logger.child({ from: 'ZoomCapture' })
 
-type FaceRecognitionProps = DashboardProps & {
+type ZoomCaptureProps = DashboardProps & {
   screenProps: any,
   store: Store
 }
@@ -38,7 +37,7 @@ type FaceRecognitionResponse = {
   enrollResult?: object | false
 }
 
-class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
+class ZoomCapture extends React.Component<ZoomCaptureProps, State> {
   state = {
     showPreText: true,
     showZoomCapture: false,
@@ -48,26 +47,39 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     ready: false
   }
 
-  containerRef = createRef()
-  width = 720
-  height = 0
-
   async componentDidMount() {
-    this.setWidth()
+    try {
+      await this.loadZoomSDK()
+      // eslint-disable-next-line no-undef
+      let loadedZoom = ZoomSDK
+      log.info('ZoomSDK loaded', loadedZoom)
+      loadedZoom.zoomResourceDirectory('/ZoomAuthentication.js/resources')
+      await initializeAndPreload(loadedZoom) // TODO: what  to do in case of init errors?
+      log.info('ZoomSDK initialized and preloaded', loadedZoom)
+      this.setState({ ready: true })
+    } catch (e) {
+      log.error(e)
+    }
   }
 
-  showFaceRecognition = () => {
-    this.setState({ showZoomCapture: true, showPreText: false })
+  loadZoomSDK = async (): Promise<void> => {
+    global.exports = {} // required by zoomSDK
+    const server = Config.publicUrl
+    log.info({ server })
+    const zoomSDKPath = '/ZoomAuthentication.js/ZoomAuthentication.js'
+    log.info(`loading ZoomSDK from ${zoomSDKPath}`)
+    return loadjs(zoomSDKPath, { returnPromise: true })
   }
 
-  setWidth = () => {
-    const containerWidth =
-      (this.containerRef && this.containerRef.current && this.containerRef.current.offsetWidth) || this.width
-    this.width = Math.min(this.width, containerWidth)
-    this.height = window.innerHeight > window.innerWidth ? this.width * 1.77777778 : this.width * 0.5625
-
-    this.width = 720
-    this.height = 1280
+  onCameraLoad = async (track: MediaStreamTrack) => {
+    let captureOutcome: ZoomCaptureResult
+    try {
+      captureOutcome = await capture(track) // TODO: handle capture errors.
+    } catch (e) {
+      log.error(`Failed on capture, error: ${e}`)
+    }
+    log.info({ captureOutcome })
+    this.props.store.set('captureResult')(captureOutcome)
   }
 
   performFaceRecognition = async (captureResult: ZoomCaptureResult) => {
@@ -114,7 +126,8 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     log.debug({ res })
     this.setState({ loadingFaceRecognition: true, loadingText: 'Saving Face Information to Your profile..' })
     try {
-      await userStorage.setProfileField('zoomEnrollmentId', res.enrollResult.enrollmentIdentifier, 'private')
+      if (res.enrollResult.enrollmentIdentifier)
+        await userStorage.setProfileField('zoomEnrollmentId', res.enrollResult.enrollmentIdentifier, 'private')
       this.setState({ loadingFaceRecognition: false, loadingText: '' })
     } catch (e) {
       log.error('failed to save facemap') // TODO: handle what happens if the facemap was not saved successfully to the user storage
@@ -142,68 +155,20 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
   }
 
   render() {
-    const { store }: FaceRecognitionProps = this.props
-    const { fullName } = store.get('profile')
-    const { showZoomCapture, showPreText, loadingFaceRecognition, loadingText } = this.state
-
     return (
-      <Wrapper>
-        {showPreText && (
-          <View style={styles.topContainer}>
-            <Section.Title>{`${fullName},\n Just one last thing...`}</Section.Title>
-            <Section.Text style={styles.description}>
-              {"In order to give you a basic income we need to make sure it's really you"}
-            </Section.Text>
-          </View>
-        )}
-        {showPreText && (
-          <View style={styles.bottomContainer}>
-            <CustomButton
-              mode="contained"
-              onPress={this.showFaceRecognition}
-              loading={this.props.store.get('currentScreen').loading}
-            >
-              Quick Face Recognition
-            </CustomButton>
-          </View>
-        )}
-        {loadingFaceRecognition && (
-          <CustomButton mode="contained" loading={true}>
-            {loadingText}
-          </CustomButton>
-        )}
-
-        {showZoomCapture && (
-          <View>
-            <Section style={styles.bottomSection}>
-              <div id="zoom-parent-container" style={getVideoContainerStyles()}>
-                <div id="zoom-interface-container" style={{ position: 'absolute' }} />
-                {this.state.ready && <Camera height={this.height} onLoad={this.onCameraLoad} />}
-              </div>
-            </Section>
-          </View>
-        )}
-      </Wrapper>
+      <View>
+        <Section style={styles.bottomSection}>
+          <div id="zoom-parent-container" style={getVideoContainerStyles()}>
+            <div id="zoom-interface-container" style={{ position: 'absolute' }} />
+            {this.state.ready && <Camera height={this.height} onLoad={this.onCameraLoad} />}
+          </div>
+        </Section>
+      </View>
     )
   }
 }
 
 const styles = StyleSheet.create({
-  topContainer: {
-    display: 'flex',
-    flex: 1,
-    justifyContent: 'space-evenly',
-    paddingTop: normalize(30)
-  },
-  bottomContainer: {
-    display: 'flex',
-    flex: 1,
-    paddingTop: normalize(20),
-    justifyContent: 'flex-end'
-  },
-  description: {
-    fontSize: normalize(20)
-  },
   bottomSection: {
     flex: 1,
     backgroundColor: '#fff'
@@ -218,4 +183,4 @@ const getVideoContainerStyles = () => ({
   marginBottom: 0
 })
 
-export default GDStore.withStore(FaceRecognition)
+export default GDStore.withStore(ZoomCapture)

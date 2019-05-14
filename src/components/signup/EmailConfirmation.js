@@ -54,10 +54,6 @@ const EmailConfirmation = ({ navigation, screenProps }: Props) => {
 
   const handleSubmit = () => {
     log.info('opening email client...')
-    // This link will continue working as it was working in dev mode. Clicking 'Open your emial app' button, will
-    // continue with registration progress instead of triggering email client.
-    // TODO: for production mode, this should just trigger the email client.
-    screenProps.doneCallback({ isEmailConfirmed: true })
   }
 
   return (
@@ -66,11 +62,8 @@ const EmailConfirmation = ({ navigation, screenProps }: Props) => {
         handleSubmit={handleSubmit}
         footerComponent={props => (
           <React.Fragment>
-            <Description style={styles.description}>{'Please click the link to approve the email'}</Description>
-            <NextButton valid={true} handleSubmit={props.handleSubmit}>
-              Open your email app
-            </NextButton>
-            <LinkButton onPress={handleResend}>Send mail again</LinkButton>
+            <Description style={styles.description}>{'Please approve the email in order to continue'}</Description>
+            <LinkButton onPress={handleResend} styles={styles.link}>{`I haven't received an email`}</LinkButton>
           </React.Fragment>
         )}
       >
@@ -83,7 +76,12 @@ const EmailConfirmation = ({ navigation, screenProps }: Props) => {
 
 const styles = StyleSheet.create({
   description: {
-    marginBottom: normalize(20)
+    marginBottom: normalize(20),
+    fontSize: normalize(24)
+  },
+  link: {
+    fontSize: normalize(15),
+    opacity: '0.6'
   }
 })
 

@@ -1,6 +1,6 @@
 //@flow
 import type { StandardFeed } from '../undux/GDStore'
-import Gun from 'gun'
+import Gun from '@gooddollar/gun-appendonly'
 import SEA from 'gun/sea'
 import find from 'lodash/find'
 import merge from 'lodash/merge'
@@ -8,7 +8,6 @@ import orderBy from 'lodash/orderBy'
 import toPairs from 'lodash/toPairs'
 import takeWhile from 'lodash/takeWhile'
 import flatten from 'lodash/flatten'
-import { AsyncStorage } from 'react-native-web'
 import gun from './gundb'
 import { default as goodWallet, type GoodWallet } from '../wallet/GoodWallet'
 import isMobilePhone from '../validators/isMobilePhone'
@@ -37,7 +36,7 @@ export type GunDBUser = {
 
 type FieldPrivacy = 'private' | 'public' | 'masked'
 type ACK = {
-  ok: string,
+  ok: number,
   err: string
 }
 type EncryptedField = any
@@ -87,7 +86,7 @@ const getReceiveDataFromReceipt = (account: string, receipt: any) => {
   )
 }
 
-class UserStorage {
+export class UserStorage {
   wallet: GoodWallet
   gunuser: Gun
   profile: Gun
@@ -101,7 +100,8 @@ class UserStorage {
     email: true,
     mobile: true,
     phone: true,
-    walletAddress: true
+    walletAddress: true,
+    username: true
   }
 
   /**
@@ -134,8 +134,8 @@ class UserStorage {
     return value
   }
 
-  constructor() {
-    this.wallet = goodWallet
+  constructor(wallet: GoodWallet) {
+    this.wallet = wallet || goodWallet
     this.ready = this.wallet.ready
       .then(() => this.init())
       .catch(e => {
@@ -182,6 +182,7 @@ class UserStorage {
         logger.debug('gundb user created', userCreated)
         //auth.then - doesnt seem to work server side in tests
         this.gunuser.auth(username, password, user => {
+          if (user.err) throw new Error(user.err)
           this.user = this.gunuser.is
           this.profile = this.gunuser.get('profile')
           this.profile.open(doc => {
@@ -238,6 +239,10 @@ class UserStorage {
     return feedItem
   }
 
+  /**
+   * Returns a Promise that, when resolved, will have all the feeds available for the current user
+   * @returns {Promise<Array<FeedEvent>>}
+   */
   async getAllFeed() {
     const total = Object.values((await this.feed.get('index')) || {}).reduce((acc, curr) => acc + curr, 0)
     const prevCursor = this.cursor
@@ -310,7 +315,7 @@ class UserStorage {
    * @param {object} profile - user profile
    * @returns {object} UserModel with some inherit functions
    */
-  async getPrivateProfile(profile: {}): UserModel {
+  async getPrivateProfile(profile: {}): Promise<UserModel> {
     const keys = Object.keys(profile)
     return Promise.all(keys.map(currKey => this.getProfileFieldValue(currKey)))
       .then(values => {
@@ -344,14 +349,21 @@ class UserStorage {
       throw new Error(errors)
     }
 
+    const oldUsername = await this.getProfileFieldValue('username')
+    const newUsername = profile.username
+    logger.info({ oldUsername, newUsername })
+    if (oldUsername !== newUsername) {
+      logger.info('update user index')
+    }
+
     const profileSettings = {
       fullName: { defaultPrivacy: 'public' },
       email: { defaultPrivacy: 'masked' },
       mobile: { defaultPrivacy: 'masked' },
       avatar: { defaultPrivacy: 'public' },
-      walletAddress: { defaultPrivacy: 'public' }
+      walletAddress: { defaultPrivacy: 'public' },
+      username: { defaultPrivacy: 'public' }
     }
-
     const getPrivacy = async field => {
       const currentPrivacy = await this.profile.get(field).get('privacy')
       return currentPrivacy || profileSettings[field].defaultPrivacy || 'public'
@@ -361,7 +373,11 @@ class UserStorage {
       Object.keys(profileSettings)
         .filter(key => profile[key])
         .map(async field => this.setProfileField(field, profile[field], await getPrivacy(field)))
-    )
+    ).then(results => {
+      const errors = results.filter(ack => ack && ack.err).map(ack => ack.err)
+      if (errors.length > 0) throw new Error(errors)
+      return true
+    })
   }
 
   /**
@@ -386,16 +402,26 @@ class UserStorage {
       default:
         display = value
     }
-    // const encValue = await SEA.encrypt(value, this.user.sea)
-    const indexPromiseResult = this.indexProfileField(field, value, privacy)
-    await this.profile
-      .get(field)
-      .get('value')
-      .secret(value)
-    return this.profile.get(field).putAck({
-      display,
-      privacy
-    })
+    //for all privacy cases we go through the index, in case field was changed from public to private so we remove it
+    if (UserStorage.indexableFields[field]) {
+      const indexPromiseResult = await this.indexProfileField(field, value, privacy)
+      logger.info('indexPromiseResult', indexPromiseResult)
+
+      if (indexPromiseResult.err) {
+        return indexPromiseResult
+      }
+    }
+
+    return Promise.all([
+      this.profile
+        .get(field)
+        .get('value')
+        .secretAck(value),
+      this.profile.get(field).putAck({
+        display,
+        privacy
+      })
+    ]).then(arr => arr[1])
   }
 
   /**
@@ -409,25 +435,36 @@ class UserStorage {
    * need to develop for gundb immutable keys to non first user
    */
   async indexProfileField(field: string, value: string, privacy: FieldPrivacy): Promise<ACK> {
-    if (!UserStorage.indexableFields[field]) return
+    if (!UserStorage.indexableFields[field]) return Promise.resolve({ err: 'Not indexable field', ok: 0 })
     const cleanValue = UserStorage.cleanFieldForIndex(field, value)
+    if (!cleanValue) return Promise.resolve({ err: 'Indexable field cannot be null or empty', ok: 0 })
 
-    logger.info({ field, value, privacy })
-    if (privacy !== 'public')
-      return gun
-        .get('users')
-        .get('by' + field)
-        .get(cleanValue)
-        .putAck(null)
+    const indexNode = gun.get(`users/by${field}`).get(cleanValue)
+    logger.info({ field, cleanValue, value, privacy, indexNode })
 
-    const gunResult = await gun
-      .get('users')
-      .get('by' + field)
-      .get(cleanValue)
-      .putAck(this.gunuser)
+    try {
+      const indexValue = await indexNode.then()
+      logger.info({
+        field,
+        value,
+        privacy,
+        indexValue: indexValue,
+        currentUser: this.gunuser.is.pub
+      })
+      if (indexValue && indexValue.pub !== this.gunuser.is.pub) {
+        return Promise.resolve({ err: `Existing index on field ${field}`, ok: 0 })
+      }
+      if (privacy !== 'public' && indexValue !== undefined) {
+        return indexNode.putAck(null)
+      }
 
-    logger.info({ gunResult })
-    return gunResult
+      const indexResult = indexNode.putAck(this.gunuser)
+
+      // logger.info({ gunResult })
+      return indexResult
+    } catch (err) {
+      logger.error(err)
+    }
   }
 
   /**
@@ -511,6 +548,25 @@ class UserStorage {
   }
 
   /**
+   *
+   * @param {string} field - Profile field value (email, mobile or wallet address value)
+   * @returns { string } address
+   */
+  async getUserAddress(field: string) {
+    const attr = isMobilePhone(field) ? 'mobile' : isEmail(field) ? 'email' : 'walletAddress'
+    const value = UserStorage.cleanFieldForIndex(attr, field)
+
+    const address = await gun
+      .rootAO(`users/by${attr}`)
+      .get(value)
+      .get('profile')
+      .get('walletAddress')
+      .get('display')
+
+    return address
+  }
+
+  /**
    * Returns name and avatar from profile based filtered by received value
    *
    * @param {string} field - Profile field value (email, mobile or wallet address value)
@@ -521,8 +577,7 @@ class UserStorage {
     const value = UserStorage.cleanFieldForIndex(attr, field)
 
     const profileToShow = gun
-      .get('users')
-      .get(`by${attr}`)
+      .get(`users/by${attr}`)
       .get(value)
       .get('profile')
 
@@ -559,8 +614,7 @@ class UserStorage {
 
       const searchField = 'by' + (isMobilePhone(address) ? 'mobile' : isEmail(address) ? 'email' : 'walletAddress')
       const profileToShow = gun
-        .get('users')
-        .get(searchField)
+        .rootAO(`users/${searchField}`)
         .get(address)
         .get('profile')
 
@@ -639,12 +693,34 @@ class UserStorage {
     const ack = this.feed
       .get('index')
       .get(day)
-      .put(dayEventsArr.length)
+      .putAck(dayEventsArr.length)
+
+    if (event.data && event.data.receipt) {
+      await this.saveLastBlockNumber(event.data.receipt.blockNumber)
+    }
 
     const result = await Promise.all([saveAck, ack])
       .then(arr => arr[0])
       .catch(err => logger.info('savingIndex', err))
     return result
+  }
+
+  /**
+   * Returns the 'lastBlock' gun's node
+   * @returns {*}
+   */
+  getLastBlockNode() {
+    return this.feed.get('lastBlock')
+  }
+
+  /**
+   * Saves block number in the 'lastBlock' node
+   * @param blockNumber
+   * @returns {Promise<Promise<*>|Promise<R|*>>}
+   */
+  async saveLastBlockNumber(blockNumber: number | string): Promise<any> {
+    logger.debug('saving lastBlock:', blockNumber)
+    return this.getLastBlockNode().putAck(blockNumber)
   }
 
   getProfile(): Promise<any> {

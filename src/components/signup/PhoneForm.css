@@ -1,0 +1,9 @@
+@import url('~react-phone-number-input/style.css');
+
+.react-phone-number-input__row .react-phone-number-input__input {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.26);
+}
+
+.react-phone-number-input__row .react-phone-number-input__input.react-phone-number-input__input--invalid {
+  border-bottom: 1px solid #D30F00;
+}

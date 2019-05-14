@@ -36,10 +36,10 @@ const Mnemonics = props => {
       })
       return
     }
-    const prevMnemonics = getMnemonics()
+    const prevMnemonics = await getMnemonics()
     try {
       // We need to try to get a new address using new mnenonics
-      saveMnemonics(mnemonics)
+      await saveMnemonics(mnemonics)
 
       const wallet = await walletFactory.create(WalletType)
       const isVerified = await goodWallet.isVerified(wallet.eth.defaultAccount)

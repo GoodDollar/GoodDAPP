@@ -201,7 +201,7 @@ exports[`Reason matches snapshot 1`] = `
                   Object {
                     "color": "rgba(85,85,85,1.00)",
                     "direction": "ltr",
-                    "fontFamily": "Helvetica, \\"sans-serif\\"",
+                    "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                     "fontSize": "30px",
                     "textAlign": "right",
                   }
@@ -216,7 +216,7 @@ exports[`Reason matches snapshot 1`] = `
                   Object {
                     "color": "rgba(85,85,85,1.00)",
                     "direction": "ltr",
-                    "fontFamily": "Helvetica, \\"sans-serif\\"",
+                    "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                     "fontSize": "18px",
                     "textAlign": "right",
                   }
@@ -298,7 +298,6 @@ exports[`Reason matches snapshot 1`] = `
                 style={
                   Object {
                     "color": "rgba(85,85,85,1.00)",
-                    "fontFamily": "Helvetica, \\"sans-serif\\"",
                     "fontSize": "18px",
                     "marginBottom": "1rem",
                     "textAlign": "center",
@@ -337,10 +336,10 @@ exports[`Reason matches snapshot 1`] = `
                   autoCapitalize="sentences"
                   autoComplete="on"
                   autoCorrect="on"
+                  autoFocus={true}
                   className="css-textinput-1cwyjr8 r-placeholderTextColor-1qzd3f0"
                   data-focusable={true}
                   dir="auto"
-                  focus="true"
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
@@ -419,7 +418,7 @@ exports[`Reason matches snapshot 1`] = `
                     "flexBasis": "0%",
                     "flexGrow": 1,
                     "flexShrink": 1,
-                    "minWidth": "64px",
+                    "minWidth": "auto",
                     "msFlexNegative": 1,
                     "msFlexPositive": 1,
                     "msFlexPreferredSize": "0%",
@@ -480,8 +479,8 @@ exports[`Reason matches snapshot 1`] = `
                           "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                           "letterSpacing": "1px",
                           "marginBottom": "9px",
-                          "marginLeft": "16px",
-                          "marginRight": "16px",
+                          "marginLeft": "8px",
+                          "marginRight": "8px",
                           "marginTop": "9px",
                           "textAlign": "center",
                         }
@@ -523,7 +522,7 @@ exports[`Reason matches snapshot 1`] = `
                     "flexGrow": 2,
                     "flexShrink": 1,
                     "justifyContent": "center",
-                    "minWidth": "64px",
+                    "minWidth": "auto",
                     "msFlexNegative": 1,
                     "msFlexPack": "center",
                     "msFlexPositive": 2,
@@ -585,8 +584,8 @@ exports[`Reason matches snapshot 1`] = `
                           "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                           "letterSpacing": "1px",
                           "marginBottom": "9px",
-                          "marginLeft": "16px",
-                          "marginRight": "16px",
+                          "marginLeft": "8px",
+                          "marginRight": "8px",
                           "marginTop": "9px",
                           "textAlign": "center",
                         }
@@ -599,13 +598,13 @@ exports[`Reason matches snapshot 1`] = `
                           Object {
                             "color": "rgba(255,255,255,1.00)",
                             "direction": "ltr",
-                            "fontFamily": "Helvetica, \\"sans-serif\\"",
+                            "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                             "fontSize": "18px",
                             "fontWeight": "bold",
-                            "paddingBottom": "5px",
-                            "paddingLeft": "5px",
-                            "paddingRight": "5px",
-                            "paddingTop": "5px",
+                            "paddingBottom": "0px",
+                            "paddingLeft": "0px",
+                            "paddingRight": "0px",
+                            "paddingTop": "0px",
                             "textAlign": "center",
                             "textTransform": "uppercase",
                           }

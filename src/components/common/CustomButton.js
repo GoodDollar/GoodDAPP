@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { ActivityIndicator, StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native'
 import { Button as BaseButton, Text } from 'react-native-paper'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { fontStyle } from './styles'
@@ -25,7 +25,7 @@ const TextContent = ({ children, dark }) => {
 }
 
 const CustomButton = (props: ButtonProps) => (
-  <BaseButton {...props} style={[styles.button, props.style]} disabled={props.loading || props.disabled}>
+  <BaseButton {...props} style={[styles.button, props.style]} disabled={props.loading || props.disabled} compact={true}>
     <TextContent {...props} />
   </BaseButton>
 )
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     ...fontStyle,
     fontWeight: 'bold',
     textTransform: 'uppercase',
-    padding: normalize(5)
+    padding: normalize(0)
   }
 })
 

@@ -1,6 +1,6 @@
 // @flow
 import React, { useMemo } from 'react'
-import { Text, View } from 'react-native'
+import { View } from 'react-native'
 import QRCode from 'qrcode.react'
 
 import goodWallet from '../../lib/wallet/GoodWallet'
@@ -9,7 +9,7 @@ import { Section, Wrapper, BigGoodDollar } from '../common'
 import { receiveStyles as styles } from './styles'
 import ShareQR from './ShareQR'
 import { useScreenState } from '../appNavigation/stackNavigation'
-import { weiToMask } from '../../lib/wallet/utils'
+
 export type ReceiveProps = {
   screenProps: any,
   navigation: any

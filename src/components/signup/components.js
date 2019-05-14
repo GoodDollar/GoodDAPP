@@ -3,6 +3,8 @@ import React from 'react'
 import { View, StyleSheet } from 'react-native'
 import { Button, Text } from 'react-native-paper'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
+import { PushButton } from '../appNavigation/stackNavigation'
+
 export const NextButton = (props: {
   valid?: boolean,
   handleSubmit: () => any,
@@ -42,20 +44,12 @@ export const ActionButton = (props: {
   </Button>
 )
 
-const Footer = (props: {
-  valid?: boolean,
-  showPrivacyPolicy?: string,
-  submitText?: string,
-  handleSubmit: () => any,
-  loading?: boolean
-}) => {
-  const showPrivacyPolicy = props.showPrivacyPolicy === undefined ? true : props.showPrivacyPolicy
+const Footer = (props: { valid?: boolean, submitText?: string, handleSubmit: () => any, loading?: boolean }) => {
   return (
     <React.Fragment>
       <NextButton valid={props.valid} handleSubmit={props.handleSubmit} loading={props.loading}>
         {props.submitText || 'Next'}
       </NextButton>
-      {showPrivacyPolicy && <LinkButton onPress={() => console.log('Link button')}>Privacy Policy</LinkButton>}
     </React.Fragment>
   )
 }
@@ -73,7 +67,7 @@ export const Wrapper = (props: any) => {
 }
 
 export const LinkButton = (props: any) => (
-  <Text style={[props.styles, styles.linkButton]} onPress={props.onPress}>
+  <Text style={[styles.linkButton, props.style]} onPress={props.onPress}>
     {props.children}
   </Text>
 )
@@ -89,7 +83,6 @@ export const Error = (props: any) => (
 )
 
 const fontStyle = {
-  fontFamily: 'Helvetica, "sans-serif"',
   color: '#555',
   fontSize: normalize(18),
   textAlign: 'center'
@@ -113,7 +106,6 @@ const styles = StyleSheet.create({
   },
   linkButton: {
     color: '#555',
-    fontFamily: 'Helvetica, "sans-serif"',
     fontSize: normalize(18),
     textAlign: 'center',
     marginTop: normalize(10)

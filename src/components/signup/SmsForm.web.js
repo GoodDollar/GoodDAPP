@@ -39,11 +39,7 @@ export default class SmsForm extends React.Component<Props, State> {
 
   numInputs: number = 6
 
-  componentDidMount() {
-    this.focusInput()
-    this.listenSMS()
-    this.sendSMS()
-  }
+  componentDidMount() {}
 
   handleChange = async (otp: string) => {
     if (otp.length === this.numInputs) {
@@ -65,43 +61,8 @@ export default class SmsForm extends React.Component<Props, State> {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  listenSMS() {
-    const options = {
-      length: this.numInputs
-    }
-
-    const success = otp => {
-      let inputs = document.getElementsByClassName('signup_otp')[0].getElementsByTagName('input')
-      log.info('GOT OTP', otp)
-      otp.split('').forEach((num, i) => {
-        log.info(num, i)
-        inputs[i].value = num
-      })
-      this.verifyOTP(otp)
-    }
-
-    const failure = () => {
-      log.info('Problem in listening OTP')
-    }
-    log.info('Starting OTP listener:', window.device)
-
-    if (window.OTPAutoVerification) window.OTPAutoVerification.startOTPListener(options, success, failure)
-  }
-
-  focusInput() {
-    if (window.Keyboard && window.Keyboard.show) {
-      window.Keyboard.show()
-    }
-  }
-
-  // eslint-disable-next-line class-methods-use-this
   verifyOTP(otp: string) {
     return API.verifyMobile({ otp })
-  }
-
-  sendSMS() {
-    log.info('sms to:', this.props.phone)
-    setTimeout(() => this.setState({ sentSMS: true }), 2000)
   }
 
   handleRetry = async () => {
@@ -114,10 +75,6 @@ export default class SmsForm extends React.Component<Props, State> {
     }
 
     this.setState({ sendingCode: false })
-  }
-
-  handleVoiceCode = () => {
-    log.info('Voice Code is not available')
   }
 
   render() {
@@ -141,14 +98,7 @@ export default class SmsForm extends React.Component<Props, State> {
         <Error>{errorMessage !== '' && errorMessage}</Error>
         <View style={buttonRow.wrapper}>
           <ActionButton styles={buttonRow.button} loading={sendingCode} handleSubmit={this.handleRetry}>
-            <Text>Send me</Text>
-            <br />
-            <Text>the code again</Text>
-          </ActionButton>
-          <ActionButton styles={buttonRow.button} handleSubmit={this.handleVoiceCode}>
-            <Text>Send me</Text>
-            <br />
-            <Text>a voice code</Text>
+            <Text>Send me the code again</Text>
           </ActionButton>
         </View>
       </Wrapper>
@@ -181,7 +131,7 @@ const buttonRow = {
   },
   button: {
     justifyContent: 'center',
-    width: '46%',
+    width: '100%',
     height: normalize(60)
   }
 }

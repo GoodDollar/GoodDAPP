@@ -55,6 +55,17 @@ describe('validations', () => {
     // Then
     expect(errorMessage !== '').toBeTruthy()
   })
+
+  it(`should pass if first name and last name have more than 2 chars long and they only have characters`, () => {
+    // Given
+    const fullName = 'John Doe'
+
+    // When
+    const errorMessage = validateFullName(fullName)
+
+    // Then
+    expect(errorMessage !== '').toBeFalsy()
+  })
 })
 
 describe('error messages', () => {

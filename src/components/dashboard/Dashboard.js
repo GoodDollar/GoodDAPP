@@ -143,7 +143,7 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
 
   handleWithdraw = async () => {
     const { receiveLink, reason } = this.props.navigation.state.params
-    const { screenProps, store } = this.props
+    const { store } = this.props
     try {
       const receipt = await executeWithdraw(store, receiveLink, reason)
       if (receipt.transactionHash) {

@@ -58,55 +58,11 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
   height = 0
 
   async componentDidMount() {
-    try {
-      await this.loadZoomSDK()
-      // eslint-disable-next-line no-undef
-      let loadedZoom = ZoomSDK
-      log.info('ZoomSDK loaded', loadedZoom)
-      loadedZoom.zoomResourceDirectory('/ZoomAuthentication.js/resources')
-      await initializeAndPreload(loadedZoom) // TODO: what  to do in case of init errors?
-      log.info('ZoomSDK initialized and preloaded', loadedZoom)
-      this.setState({ ready: true })
-    } catch (e) {
-      log.error(e)
-    }
     this.setWidth()
   }
 
   showFaceRecognition = () => {
     this.setState({ showZoomCapture: true, showPreText: false })
-  }
-
-  componentWillUnmount() {
-    log.debug('Unloading ZoomSDK', ZoomSDK)
-    this.videoTrack && this.videoTrack.stop()
-    ZoomSDK &&
-      ZoomSDK.unload(() => {
-        window.ZoomSDK = null
-        exports.ZoomSDK = null
-        ZoomSDK = null
-        log.debug('ZoomSDK unloaded')
-      })
-  }
-  loadZoomSDK = async (): Promise<void> => {
-    global.exports = {} // required by zoomSDK
-    const server = Config.publicUrl
-    log.info({ server })
-    const zoomSDKPath = '/ZoomAuthentication.js/ZoomAuthentication.js'
-    log.info(`loading ZoomSDK from ${zoomSDKPath}`)
-    return loadjs(zoomSDKPath, { returnPromise: true })
-  }
-
-  onCameraLoad = async (track: MediaStreamTrack) => {
-    this.videoTrack = track
-    let captureOutcome: ZoomCaptureResult
-    try {
-      captureOutcome = await capture(track) // TODO: handle capture errors.
-    } catch (e) {
-      log.error(`Failed on capture, error: ${e}`)
-    }
-    log.info({ captureOutcome })
-    await this.performFaceRecognition(captureOutcome)
   }
 
   setWidth = () => {
@@ -164,9 +120,8 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     log.debug({ res })
     this.setState({ loadingFaceRecognition: true, loadingText: 'Saving Face Information to Your profile..' })
     try {
-      if (res.enrollResult.enrollmentIdentifier)
-        await userStorage.setProfileField('zoomEnrollmentId', res.enrollResult.enrollmentIdentifier, 'private')
-      this.props.screenProps.pop({ isValid: true })
+      await userStorage.setProfileField('zoomEnrollmentId', res.enrollResult.enrollmentIdentifier, 'private')
+      this.setState({ loadingFaceRecognition: false, loadingText: '' })
     } catch (e) {
       log.error('failed to save facemap') // TODO: handle what happens if the facemap was not saved successfully to the user storage
       this.props.screenProps.pop({ isValid: false })

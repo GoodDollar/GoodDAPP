@@ -6,7 +6,7 @@ import React, { createRef } from 'react'
 import Config from '../../../config/config'
 import { StyleSheet, View } from 'react-native'
 import GDStore from '../../../lib/undux/GDStore'
-import { normalize } from 'react-native-elements'
+import normalize from 'react-native-elements/src/helpers/normalizeText'
 import logger from '../../../lib/logger/pino-logger'
 import userStorage from '../../../lib/gundb/UserStorage'
 import { Wrapper, CustomButton, Section } from '../../common'
@@ -31,10 +31,11 @@ type State = {
   ready: boolean
 }
 
-type faceRecognitionResponse = {
+type FaceRecognitionResponse = {
   ok: boolean,
-  livenessPassed: boolean,
-  duplicates: boolean
+  livenessPassed?: boolean,
+  isDuplicate?: boolean,
+  enrollResult?: object | false
 }
 
 class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
@@ -57,6 +58,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
       // eslint-disable-next-line no-undef
       let loadedZoom = ZoomSDK
       log.info('ZoomSDK loaded', loadedZoom)
+      loadedZoom.zoomResourceDirectory('/ZoomAuthentication.js/resources')
       await initializeAndPreload(loadedZoom) // TODO: what  to do in case of init errors?
       log.info('ZoomSDK initialized and preloaded', loadedZoom)
       this.setState({ ready: true })
@@ -72,7 +74,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
 
   loadZoomSDK = async (): Promise<void> => {
     global.exports = {} // required by zoomSDK
-    const server = Config.serverUrl
+    const server = Config.publicUrl
     log.info({ server })
     const zoomSDKPath = '/ZoomAuthentication.js/ZoomAuthentication.js'
     log.info(`loading ZoomSDK from ${zoomSDKPath}`)
@@ -109,7 +111,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     try {
       let res = await API.performFaceRecognition(req)
       this.setState({ loadingFaceRecognition: false, loadindText: '' })
-      this.onFaceRecognitionResponse(res)
+      this.onFaceRecognitionResponse(res.data)
     } catch (e) {
       log.warn('General Error in FaceRecognition', e)
       this.setState({ loadingFaceRecognition: false, loadingText: '' })
@@ -127,25 +129,24 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     return req
   }
 
-  onFaceRecognitionResponse = (res: faceRecognitionResponse) => {
-    if (!res || !res.data) {
+  onFaceRecognitionResponse = (result: FaceRecognitionResponse) => {
+    if (!result) {
       log.error('Bad response') // TODO: handle corrupted response
       return
     }
-    let result = res.data
-    if (result.ok && result.livenessPassed && !result.duplicates && result.enrollment)
-      this.onFaceRecognitionSuccess(result)
-    else if (result.ok && (!result.livenessPassed || result.duplicates || !result.enrollment))
+    log.info({ result })
+    if (!result.ok || result.livenessPassed === false || result.isDuplicate === true || result.enrollResult === false)
       this.onFaceRecognitionFailure(result)
-    else log.error('general error') // TODO: handle general error
+    if (result.ok && result.enrollResult) this.onFaceRecognitionSuccess(result)
+    else log.error('uknown error') // TODO: handle general error
   }
 
-  onFaceRecognitionSuccess = async res => {
+  onFaceRecognitionSuccess = async (res: FaceRecognitionResponse) => {
     log.info('user passed Face Recognition successfully, res:')
-    log.trace({ res })
+    log.debug({ res })
     this.setState({ loadingFaceRecognition: true, loadingText: 'Saving Face Information to Your profile..' })
     try {
-      await userStorage.setProfileField('zoomEnrollmentId', res.zoomEnrollmentId, 'private')
+      await userStorage.setProfileField('zoomEnrollmentId', res.enrollResult.enrollmentIdentifier, 'private')
       this.setState({ loadingFaceRecognition: false, loadingText: '' })
     } catch (e) {
       log.error('failed to save facemap') // TODO: handle what happens if the facemap was not saved successfully to the user storage
@@ -153,17 +154,18 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     }
   }
 
-  onFaceRecognitionFailure = result => {
-    log.warn('user did not pass Face Recognition')
-    let reason = !result.livenessPassed ? ' liveness failed' : ''
-    reason += result.duplicates ? ' found duplicated' : ''
-    reason += !result.enrollment ? ' enrollment failed' : ''
+  onFaceRecognitionFailure = (result: FaceRecognitionResponse) => {
+    log.warn('user did not pass Face Recognition', result)
+    let reason = ''
+    if (result.livenessPassed === false) reason = 'Liveness Failed'
+    else if (result.isDuplicate) reason = 'Face Already Exist'
+    else reason = 'Enrollment Failed'
 
     this.props.store.set('currentScreen')({
       dialogData: {
         visible: true,
         title: 'Please try again',
-        message: `Face Recognition failed. Reason: ${reason} Please try again`,
+        message: `FaceRecognition failed. Reason: ${reason}. Please try again`,
         dismissText: 'Retry',
         onDismiss: this.setState({ showPreText: true }) // reload.
       },

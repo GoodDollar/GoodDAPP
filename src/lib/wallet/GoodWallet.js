@@ -55,11 +55,10 @@ export class GoodWallet {
   static AccountUsageToPath = {
     gd: 0,
     gundb: 1,
-    zoomId: 1,
     eth: 2,
     donate: 3,
     login: 4,
-    zoomId: 1
+    zoomId: 5
   }
   ready: Promise<Web3>
   wallet: Web3
@@ -370,7 +369,7 @@ export class GoodWallet {
 
   async getAccountForType(type: AccountUsage): Promise<string> {
     let account = this.accounts[GoodWallet.AccountUsageToPath[type]].address || this.account
-    return account
+    return account.toString().toLowerCase()
   }
 
   async sign(toSign: string, accountType: AccountUsage = 'gd'): Promise<string> {

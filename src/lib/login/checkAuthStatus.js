@@ -10,7 +10,6 @@ const log = logger.child({ from: 'AppSwitch' })
 
 export const checkAuthStatus = async (store: GDStore) => {
   // when wallet is ready perform login to server (sign message with wallet and send to server)
-  // debugger
   const [credsOrError, isCitizen]: any = await Promise.all([goodWalletLogin.auth(), goodWallet.isCitizen()])
 
   const isLoggedIn = credsOrError.jwt !== undefined

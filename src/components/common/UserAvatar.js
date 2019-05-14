@@ -26,8 +26,8 @@ const UserAvatar = (props: AvatarProps) => {
 
   return editable ? (
     <View style={styles.innerAvatar}>
-      <View style={styles.fullName}>
-        <Section.Title>{profile.fullName}</Section.Title>
+      <View style={styles.fullNameContainer}>
+        <Section.Title style={styles.fullName}>{profile.fullName}</Section.Title>
       </View>
       <View style={styles.cropContainer}>
         <CreateAvatar
@@ -61,8 +61,11 @@ const styles = StyleSheet.create({
   innerAvatar: {
     flexDirection: 'column'
   },
-  fullName: {
+  fullNameContainer: {
     padding: 10
+  },
+  fullName: {
+    textAlign: 'left'
   },
   cropContainer: {
     marginTop: normalize(5),

@@ -496,7 +496,7 @@ describe('UserStorage', () => {
     expect(updatedUsernameOk).toBe('user3')
   })
 
-  describe.only('getReceiveDataFromReceipt', async () => {
+  describe('getReceiveDataFromReceipt', async () => {
     it('get Transfer data from logs', async () => {
       const receipt = {
         logs: [

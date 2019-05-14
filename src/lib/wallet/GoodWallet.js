@@ -58,7 +58,7 @@ export class GoodWallet {
     eth: 2,
     donate: 3,
     login: 4,
-    zoomId: 1
+    zoomId: 5
   }
   ready: Promise<Web3>
   wallet: Web3
@@ -163,6 +163,7 @@ export class GoodWallet {
         this.account = (await this.getAccountForType('gd')) || this.wallet.eth.defaultAccount
         this.wallet.eth.defaultAccount = this.account
         this.networkId = Config.networkId
+        log.info(`networkId: ${this.networkId}`)
         this.gasPrice = wallet.utils.toWei('1', 'gwei')
         this.wallet.eth.defaultGasPrice = this.gasPrice
         this.identityContract = new this.wallet.eth.Contract(
@@ -368,7 +369,7 @@ export class GoodWallet {
 
   async getAccountForType(type: AccountUsage): Promise<string> {
     let account = this.accounts[GoodWallet.AccountUsageToPath[type]].address || this.account
-    return account
+    return account.toString().toLowerCase()
   }
 
   async sign(toSign: string, accountType: AccountUsage = 'gd'): Promise<string> {

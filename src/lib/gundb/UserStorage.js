@@ -182,7 +182,7 @@ export class UserStorage {
         logger.debug('gundb user created', userCreated)
         //auth.then - doesnt seem to work server side in tests
         this.gunuser.auth(username, password, user => {
-          if (user.err) throw new Error(user.err)
+          if (user.err) return rej(user.err)
           this.user = this.gunuser.is
           this.profile = this.gunuser.get('profile')
           this.profile.open(doc => {

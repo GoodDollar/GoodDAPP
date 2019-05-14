@@ -6,7 +6,6 @@ import EmailForm from './EmailForm'
 import PhoneForm from './PhoneForm'
 import SmsForm from './SmsForm'
 import EmailConfirmation from './EmailConfirmation'
-import FaceRecognition from './FaceRecognition'
 import SignupCompleted from './SignupCompleted'
 import NavBar from '../appNavigation/NavBar'
 import { scrollableContainer } from '../common/styles'
@@ -110,11 +109,15 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
           // saved to the `state`
           await API.addUser(state)
           // await API.verifyUser({})
+          // Stores creationBlock number into 'lastBlock' feed's node
+          const creationBlock = (await goodWallet.getBlockNumber()).toString()
+          await userStorage.saveLastBlockNumber(creationBlock)
           const destinationPath = await AsyncStorage.getItem('destinationPath')
           store.set('isLoggedIn')(true)
           // top wallet of new user
           // wait for the topping to complete to be able to withdraw
           // await API.verifyTopWallet()
+
           const mnemonic = await AsyncStorage.getItem('GD_USER_MNEMONIC')
           await API.sendRecoveryInstructionByEmail(mnemonic)
           if (destinationPath) {

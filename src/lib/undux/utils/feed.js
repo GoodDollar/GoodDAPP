@@ -1,5 +1,5 @@
 // @flow
-import type { Effects, Store } from 'undux'
+import type { Store } from 'undux'
 
 import userStorage from '../../gundb/UserStorage'
 import pino from '../../logger/pino-logger'

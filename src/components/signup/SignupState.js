@@ -1,14 +1,14 @@
 // @flow
 import React, { useState } from 'react'
-import { View, StyleSheet } from 'react-native'
+import { View, StyleSheet, ScrollView, AsyncStorage } from 'react-native'
 import NameForm from './NameForm'
 import EmailForm from './EmailForm'
 import PhoneForm from './PhoneForm'
 import SmsForm from './SmsForm'
 import EmailConfirmation from './EmailConfirmation'
-import FaceRecognition from './FaceRecognition'
 import SignupCompleted from './SignupCompleted'
 import NavBar from '../appNavigation/NavBar'
+import { scrollableContainer } from '../common/styles'
 
 import { createSwitchNavigator } from '@react-navigation/core'
 import logger from '../../lib/logger/pino-logger'
@@ -30,7 +30,6 @@ const SignupWizardNavigator = createSwitchNavigator({
   SMS: SmsForm,
   Email: EmailForm,
   EmailConfirmation,
-  FaceRecognition,
   SignupCompleted
 })
 
@@ -55,6 +54,13 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
     userStorage.setProfile({ ...state, walletAddress: goodWallet.account })
   }
 
+  const navigateWithFocus = (routeKey: string) => {
+    navigation.navigate(routeKey)
+    setTimeout(() => {
+      const el = document.getElementById(routeKey + '_input')
+      if (el) el.focus()
+    }, 300)
+  }
   const done = async (data: { [string]: string }) => {
     log.info('signup data:', { data })
     let nextRoute = navigation.state.routes[navigation.state.index + 1]
@@ -64,7 +70,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
     if (nextRoute && nextRoute.key === 'SMS') {
       try {
         await API.sendOTP(newState)
-        navigation.navigate(nextRoute.key)
+        navigateWithFocus(nextRoute.key)
       } catch (e) {
         log.error(e)
       }
@@ -86,13 +92,13 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
           await userStorage.setProfile({ ...newState, walletAddress: goodWallet.account })
         }
 
-        navigation.navigate(nextRoute.key)
+        navigateWithFocus(nextRoute.key)
       } catch (e) {
         log.error(e)
       }
     } else {
       if (nextRoute) {
-        navigation.navigate(nextRoute.key)
+        navigateWithFocus(nextRoute.key)
       } else {
         log.info('Sending new user data', state)
         saveProfile()
@@ -103,16 +109,21 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
           // saved to the `state`
           await API.addUser(state)
           await API.verifyUser({})
-          const destinationPath = store.get('destinationPath')
-          store.set('isLoggedInCitizen')(true)
+
+          // Stores creationBlock number into 'lastBlock' feed's node
+          const creationBlock = (await goodWallet.getBlockNumber()).toString()
+          await userStorage.saveLastBlockNumber(creationBlock)
+
+          const destinationPath = await AsyncStorage.getItem('destinationPath')
           // top wallet of new user
           // wait for the topping to complete to be able to withdraw
           await API.verifyTopWallet()
-          const mnemonic = localStorage.getItem('GD_USER_MNEMONIC')
+          store.set('isLoggedInCitizen')(true)
+          const mnemonic = await AsyncStorage.getItem('GD_USER_MNEMONIC')
           await API.sendRecoveryInstructionByEmail(mnemonic)
-          if (destinationPath !== '') {
+          if (destinationPath) {
             navigation.navigate(JSON.parse(destinationPath))
-            store.set('destinationPath')('')
+            return AsyncStorage.removeItem('destinationPath')
           } else {
             navigation.navigate('AppNavigation')
           }
@@ -127,7 +138,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
     const nextRoute = navigation.state.routes[navigation.state.index - 1]
 
     if (nextRoute) {
-      navigation.navigate(nextRoute.key)
+      navigateWithFocus(nextRoute.key)
     } else {
       navigation.navigate('Auth')
     }
@@ -136,12 +147,14 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   return (
     <View style={styles.container}>
       <NavBar goBack={back} title={'Sign Up'} />
-      <View style={styles.contentContainer}>
-        <SignupWizardNavigator
-          navigation={navigation}
-          screenProps={{ ...screenProps, data: { ...state, loading }, doneCallback: done, back: back }}
-        />
-      </View>
+      <ScrollView contentContainerStyle={scrollableContainer}>
+        <View style={styles.contentContainer}>
+          <SignupWizardNavigator
+            navigation={navigation}
+            screenProps={{ ...screenProps, data: { ...state, loading }, doneCallback: done, back: back }}
+          />
+        </View>
+      </ScrollView>
     </View>
   )
 }

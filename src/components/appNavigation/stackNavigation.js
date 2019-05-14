@@ -1,13 +1,13 @@
 // @flow
 import React, { Component, useState, useEffect } from 'react'
-import { Style } from 'react-native'
+import { ScrollView } from 'react-native'
 import { Button } from 'react-native-paper'
 import { createNavigator, SwitchRouter, SceneView, Route } from '@react-navigation/core'
 import { Helmet } from 'react-helmet'
 
 import NavBar from './NavBar'
 import { CustomButton, type ButtonProps } from '../common'
-import logger from '../../lib/logger/pino-logger'
+import { scrollableContainer } from '../common/styles'
 
 /** @module StackNavigation **/
 
@@ -155,7 +155,9 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
           <title>{`Good Dollar | ${pageTitle}`}</title>
         </Helmet>
         {!navigationBarHidden && <NavBar goBack={backButtonHidden ? undefined : this.pop} title={pageTitle} />}
-        <SceneView navigation={descriptor.navigation} component={Component} screenProps={screenProps} />
+        <ScrollView contentContainerStyle={scrollableContainer}>
+          <SceneView navigation={descriptor.navigation} component={Component} screenProps={screenProps} />
+        </ScrollView>
       </React.Fragment>
     )
   }
@@ -179,7 +181,8 @@ type PushButtonProps = {
   ...ButtonProps,
   routeName: Route,
   params?: any,
-  screenProps: { push: (routeName: string, params: any) => void }
+  screenProps: { push: (routeName: string, params: any) => void },
+  canContinue?: Function
 }
 
 /**
@@ -190,13 +193,26 @@ type PushButtonProps = {
  * @param params
  * @param {ButtonProps} props
  */
-export const PushButton = ({ routeName, screenProps, params, ...props }: PushButtonProps) => {
-  return <CustomButton {...props} onPress={() => screenProps && screenProps.push(routeName, params)} />
+export const PushButton = ({ routeName, screenProps, canContinue, params, ...props }: PushButtonProps) => {
+  const shouldContinue = async () => {
+    if (canContinue === undefined) return true
+
+    const result = await canContinue()
+    return result
+  }
+
+  return (
+    <CustomButton
+      {...props}
+      onPress={async () => screenProps && (await shouldContinue()) && screenProps.push(routeName, params)}
+    />
+  )
 }
 
 PushButton.defaultProps = {
   mode: 'contained',
-  dark: true
+  dark: true,
+  canContinue: () => true
 }
 
 type BackButtonProps = {
@@ -215,6 +231,7 @@ export const BackButton = (props: BackButtonProps) => {
 
   return (
     <Button
+      compact={true}
       mode={mode || 'text'}
       color={color || '#575757'}
       style={style}
@@ -257,7 +274,9 @@ type NextButtonProps = {
   ...ButtonProps,
   values: {},
   screenProps: { push: (routeName: string, params: any) => void },
-  nextRoutes: [string]
+  nextRoutes: [string],
+  label?: string,
+  canContinue?: Function
 }
 /**
  * NextButton
@@ -265,7 +284,14 @@ type NextButtonProps = {
  * next screens for further Components. Is meant to be used inside a stackNavigator
  * @param {any} props
  */
-export const NextButton = ({ disabled, values, screenProps, nextRoutes: nextRoutesParam }: NextButtonProps) => {
+export const NextButton = ({
+  disabled,
+  values,
+  screenProps,
+  nextRoutes: nextRoutesParam,
+  label,
+  canContinue
+}: NextButtonProps) => {
   const [next, ...nextRoutes] = nextRoutesParam ? nextRoutesParam : []
   return (
     <PushButton
@@ -275,8 +301,9 @@ export const NextButton = ({ disabled, values, screenProps, nextRoutes: nextRout
       params={{ ...values, nextRoutes }}
       routeName={next}
       style={{ flex: 2 }}
+      canContinue={canContinue}
     >
-      Next
+      {label || 'Next'}
     </PushButton>
   )
 }

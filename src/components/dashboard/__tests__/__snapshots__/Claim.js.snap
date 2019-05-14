@@ -221,7 +221,7 @@ exports[`Claim matches snapshot 1`] = `
                   Object {
                     "color": "rgba(85,85,85,1.00)",
                     "direction": "ltr",
-                    "fontFamily": "Helvetica, \\"sans-serif\\"",
+                    "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                     "fontSize": "30px",
                     "textAlign": "right",
                   }
@@ -236,7 +236,7 @@ exports[`Claim matches snapshot 1`] = `
                   Object {
                     "color": "rgba(85,85,85,1.00)",
                     "direction": "ltr",
-                    "fontFamily": "Helvetica, \\"sans-serif\\"",
+                    "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                     "fontSize": "18px",
                     "textAlign": "right",
                   }
@@ -270,7 +270,6 @@ exports[`Claim matches snapshot 1`] = `
             style={
               Object {
                 "color": "rgba(85,85,85,1.00)",
-                "fontFamily": "Helvetica, \\"sans-serif\\"",
                 "fontSize": "18px",
                 "textAlign": "center",
               }
@@ -304,7 +303,6 @@ exports[`Claim matches snapshot 1`] = `
               style={
                 Object {
                   "color": "rgba(85,85,85,1.00)",
-                  "fontFamily": "Helvetica, \\"sans-serif\\"",
                   "fontSize": "14px",
                   "textAlign": "center",
                 }
@@ -327,7 +325,7 @@ exports[`Claim matches snapshot 1`] = `
                   Object {
                     "color": "rgba(85,85,85,1.00)",
                     "direction": "ltr",
-                    "fontFamily": "Helvetica, \\"sans-serif\\"",
+                    "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                     "fontSize": "30px",
                     "textAlign": "right",
                   }
@@ -342,7 +340,7 @@ exports[`Claim matches snapshot 1`] = `
                   Object {
                     "color": "rgba(85,85,85,1.00)",
                     "direction": "ltr",
-                    "fontFamily": "Helvetica, \\"sans-serif\\"",
+                    "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                     "fontSize": "18px",
                     "textAlign": "right",
                   }
@@ -442,7 +440,6 @@ exports[`Claim matches snapshot 1`] = `
               style={
                 Object {
                   "color": "rgba(85,85,85,1.00)",
-                  "fontFamily": "Helvetica, \\"sans-serif\\"",
                   "fontSize": "14px",
                   "textAlign": "center",
                 }
@@ -482,7 +479,6 @@ exports[`Claim matches snapshot 1`] = `
             style={
               Object {
                 "color": "rgba(85,85,85,1.00)",
-                "fontFamily": "Helvetica, \\"sans-serif\\"",
                 "fontSize": "18px",
                 "textAlign": "center",
               }
@@ -507,7 +503,6 @@ exports[`Claim matches snapshot 1`] = `
             style={
               Object {
                 "color": "rgba(85,85,85,1.00)",
-                "fontFamily": "Helvetica, \\"sans-serif\\"",
                 "fontSize": "14px",
                 "textAlign": "center",
               }
@@ -550,7 +545,7 @@ exports[`Claim matches snapshot 1`] = `
                   Object {
                     "color": "rgba(85,85,85,1.00)",
                     "direction": "ltr",
-                    "fontFamily": "Helvetica, \\"sans-serif\\"",
+                    "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                     "fontSize": "30px",
                     "textAlign": "right",
                   }
@@ -565,7 +560,7 @@ exports[`Claim matches snapshot 1`] = `
                   Object {
                     "color": "rgba(85,85,85,1.00)",
                     "direction": "ltr",
-                    "fontFamily": "Helvetica, \\"sans-serif\\"",
+                    "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                     "fontSize": "18px",
                     "textAlign": "right",
                   }
@@ -602,7 +597,7 @@ exports[`Claim matches snapshot 1`] = `
                 "borderTopWidth": "0px",
                 "justifyContent": "center",
                 "marginTop": "30px",
-                "minWidth": "64px",
+                "minWidth": "auto",
                 "msFlexPack": "center",
                 "paddingBottom": "10px",
                 "paddingLeft": "10px",
@@ -665,8 +660,8 @@ exports[`Claim matches snapshot 1`] = `
                       "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                       "letterSpacing": "1px",
                       "marginBottom": "9px",
-                      "marginLeft": "16px",
-                      "marginRight": "16px",
+                      "marginLeft": "8px",
+                      "marginRight": "8px",
                       "marginTop": "9px",
                       "textAlign": "center",
                     }
@@ -679,13 +674,13 @@ exports[`Claim matches snapshot 1`] = `
                       Object {
                         "color": "rgba(255,255,255,1.00)",
                         "direction": "ltr",
-                        "fontFamily": "Helvetica, \\"sans-serif\\"",
+                        "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                         "fontSize": "18px",
                         "fontWeight": "bold",
-                        "paddingBottom": "5px",
-                        "paddingLeft": "5px",
-                        "paddingRight": "5px",
-                        "paddingTop": "5px",
+                        "paddingBottom": "0px",
+                        "paddingLeft": "0px",
+                        "paddingRight": "0px",
+                        "paddingTop": "0px",
                         "textAlign": "center",
                         "textTransform": "uppercase",
                       }

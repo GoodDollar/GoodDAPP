@@ -77,7 +77,7 @@ module.exports = {
   mode: 'development',
   // You may want 'eval' instead if you prefer to see the compiled output in DevTools.
   // See the discussion in https://github.com/facebook/create-react-app/issues/343
-  devtool: 'cheap-module-source-map',
+  devtool: 'eval-source-map',
   // These are the "entry points" to our application.
   // This means they will be the "root" imports that are included in JS bundle.
   entry: [
@@ -143,7 +143,8 @@ module.exports = {
     alias: {
       // Support React Native Web
       // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
-      'react-native': 'react-native-web'
+      'react-native': 'react-native-web',
+      'WebView': 'react-native-web-webview',
     },
     plugins: [
       // Adds support for installing with Plug'n'Play, leading to faster installs and adding
@@ -185,6 +186,15 @@ module.exports = {
           }
         ],
         include: paths.appSrc
+      },
+      {
+        test: /postMock.html$/,
+        use: {
+          loader: 'file-loader',
+          options: {
+            name: '[name].[ext]',
+          },
+        },
       },
       {
         // "oneOf" will traverse all following loaders until one will
@@ -257,7 +267,7 @@ module.exports = {
               // because it was compiled. Thus, we don't want the browser
               // debugger to show the original code. Instead, the code
               // being evaluated would be much more helpful.
-              sourceMaps: false
+              sourceMaps: true
             }
           },
           // "postcss" loader applies autoprefixer to our CSS.

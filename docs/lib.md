@@ -2,80 +2,145 @@
 
 ### Table of Contents
 
--   [gundb-extend][1]
--   [updateBalance][2]
-    -   [Parameters][3]
--   [getEmailErrorMessage][4]
-    -   [Parameters][5]
--   [executeWithdraw][6]
-    -   [Parameters][7]
--   [getMobileErrorMessage][8]
-    -   [Parameters][9]
--   [updateEntitlement][10]
-    -   [Parameters][11]
--   [QueryEvent][12]
-    -   [Properties][13]
--   [readReceiveLink][14]
-    -   [Parameters][15]
-    -   [Parameters][16]
--   [extractQueryParams][17]
-    -   [Parameters][18]
--   [onBalanceChange][19]
-    -   [Parameters][20]
--   [getReceiveDataFromReceipt][21]
-    -   [Parameters][22]
-    -   [Parameters][23]
--   [init][24]
--   [getFeedItemByTransactionHash][25]
+-   -   [Parameters][1]
+-   [gundb-extend][2]
+-   [listenOrientationChange][3]
+    -   [Parameters][4]
+-   [generateCode][5]
+    -   [Parameters][6]
+-   [saveMnemonics][7]
+    -   [Parameters][8]
+-   [updateBalance][9]
+    -   [Parameters][10]
+-   [gdToWei][11]
+    -   [Parameters][12]
+-   [getEmailErrorMessage][13]
+    -   [Parameters][14]
+-   [getMnemonics][15]
+-   [executeWithdraw][16]
+    -   [Parameters][17]
+-   [readCode][18]
+    -   [Parameters][19]
+-   [getMobileErrorMessage][20]
+    -   [Parameters][21]
+-   [QueryEvent][22]
+    -   [Properties][23]
+-   [updateEntitlement][24]
+    -   [Parameters][25]
     -   [Parameters][26]
--   [getProfileFieldValue][27]
+-   [readReceiveLink][27]
     -   [Parameters][28]
--   [getProfileField][29]
+-   [onBalanceChange][29]
     -   [Parameters][30]
--   [getDisplayProfile][31]
+-   [getReceiveDataFromReceipt][31]
     -   [Parameters][32]
--   [getPrivateProfile][33]
+-   [extractQueryParams][33]
     -   [Parameters][34]
--   [setProfile][35]
+-   [listenTxUpdates][35]
     -   [Parameters][36]
--   [setProfileField][37]
+-   [subscribeToEvent][37]
     -   [Parameters][38]
--   [indexProfileField][39]
+-   [unSubscribeToTx][39]
     -   [Parameters][40]
--   [setProfileFieldPrivacy][41]
+-   [getSubscribers][41]
     -   [Parameters][42]
--   [getFeedPage][43]
+-   [balanceChanged][43]
     -   [Parameters][44]
--   [getStandardizedFeed][45]
-    -   [Parameters][46]
--   [getUserProfile][47]
-    -   [Parameters][48]
--   [standardizeFeed][49]
-    -   [Parameters][50]
--   [updateFeedEvent][51]
-    -   [Parameters][52]
--   [maskField][53]
-    -   [Parameters][54]
--   [subscribeToEvent][55]
+-   [getBlockNumber][45]
+-   [getEvents][46]
+    -   [Parameters][47]
+-   [oneTimeEvents][48]
+    -   [Parameters][49]
+-   [pollForEvents][50]
+    -   [Parameters][51]
+-   [sendTransaction][52]
+    -   [Parameters][53]
+-   [generateShareObject][54]
+    -   [Parameters][55]
     -   [Parameters][56]
--   [unSubscribeToTx][57]
+-   [generateHrefLinks][57]
     -   [Parameters][58]
--   [getSubscribers][59]
-    -   [Parameters][60]
--   [balanceChanged][61]
-    -   [Parameters][62]
--   [getEvents][63]
+-   [init][59]
+-   [getFeedItemByTransactionHash][60]
+    -   [Parameters][61]
+-   [getAllFeed][62]
+-   [getProfileFieldValue][63]
     -   [Parameters][64]
--   [oneTimeEvents][65]
+-   [getProfileField][65]
     -   [Parameters][66]
--   [pollForEvents][67]
+-   [getDisplayProfile][67]
     -   [Parameters][68]
--   [sendTransaction][69]
+-   [getPrivateProfile][69]
     -   [Parameters][70]
+-   [setProfile][71]
+    -   [Parameters][72]
+-   [setProfileField][73]
+    -   [Parameters][74]
+-   [indexProfileField][75]
+    -   [Parameters][76]
+-   [setProfileFieldPrivacy][77]
+    -   [Parameters][78]
+-   [getFeedPage][79]
+    -   [Parameters][80]
+-   [getStandardizedFeed][81]
+    -   [Parameters][82]
+-   [getUserAddress][83]
+    -   [Parameters][84]
+-   [getUserProfile][85]
+    -   [Parameters][86]
+-   [standardizeFeed][87]
+    -   [Parameters][88]
+-   [updateFeedEvent][89]
+    -   [Parameters][90]
+-   [getLastBlockNode][91]
+-   [saveLastBlockNumber][92]
+    -   [Parameters][93]
+-   [maskField][94]
+    -   [Parameters][95]
+
+## 
+
+convert wei to gooddollars (2 decimals) use toFixed to overcome javascript precision issues ie 8.95\*100=894.9999...
+
+### Parameters
+
+-   `wei` **[number][96]** 
+
+Returns **[number][96]** 
 
 ## gundb-extend
 
 extend gundb SEA with decrypt to match ".secret"
+
+## listenOrientationChange
+
+Event listener for orientation changes
+
+### Parameters
+
+-   `callback` **[Function][97]** 
+
+## generateCode
+
+Generates a code contaning an MNID with an amount if this las one is speced
+
+### Parameters
+
+-   `address` **[string][98]** address required to generate MNID
+-   `networkId` **[number][96]** network identifier required to generate MNID
+-   `amount` **[number][96]** amount to be attached to the generated MNID code
+
+Returns **[string][98]** 'MNID|amount'|'MNID'
+
+## saveMnemonics
+
+save mnemonics (secret phrase) to user device
+
+### Parameters
+
+-   `mnemonics` **[string][98]** 
+
+Returns **[Promise][99]&lt;any>** 
 
 ## updateBalance
 
@@ -85,7 +150,17 @@ Retrieves account's balance and sets its value to the state
 
 -   `store` **Store** 
 
-Returns **[Promise][71]&lt;void>** 
+Returns **[Promise][99]&lt;void>** 
+
+## gdToWei
+
+convert gooddollars to wei (0 decimals) use toFixed to overcome javascript precision issues ie 8.95\*Math.pow(0.1,2)=8.9500000001
+
+### Parameters
+
+-   `gd` **[number][96]** 
+
+Returns **[number][96]** 
 
 ## getEmailErrorMessage
 
@@ -93,9 +168,15 @@ Returns email error message after running some validations
 
 ### Parameters
 
--   `email` **[string][72]** email value
+-   `email` **[string][98]** email value
 
-Returns **[string][72]** Email error message if invalid, or empty string
+Returns **[string][98]** Email error message if invalid, or empty string
+
+## getMnemonics
+
+get user mnemonics stored on device or generate a new one
+
+Returns **[Promise][99]&lt;[string][98]>** 
 
 ## executeWithdraw
 
@@ -104,10 +185,20 @@ Execute withdraw from a transaction hash, and handle dialogs with process inform
 ### Parameters
 
 -   `store` **Store** Undux store
--   `hash` **[string][72]** Transaction hash / event id
--   `reason` **[string][72]** 
+-   `hash` **[string][98]** Transaction hash / event id
+-   `reason` **[string][98]** 
 
-Returns **[Promise][71]** Returns the receipt of the transaction
+Returns **[Promise][99]** Returns the receipt of the transaction
+
+## readCode
+
+Extracts the information from the generated code in `generateCode`
+
+### Parameters
+
+-   `code` **[string][98]** code returned by `generateCode`
+
+Returns **(null | {amount: any, address, networkId: [number][96]})** 
 
 ## getMobileErrorMessage
 
@@ -115,9 +206,25 @@ Returns mobile error message after running some validations
 
 ### Parameters
 
--   `mobile` **[string][72]** mobile value
+-   `mobile` **[string][98]** mobile value
 
-Returns **[string][72]** Mobile error message if invalid, or empty string
+Returns **[string][98]** Mobile error message if invalid, or empty string
+
+## QueryEvent
+
+the HDWallet account to use.
+we use different accounts for different actions in order to preserve privacy and simplify things for user
+in background
+
+Type: {event: [string][98], contract: Web3.eth.Contract, filterPred: {}, fromBlock: any, toBlock: (any | `"latest"`)}
+
+### Properties
+
+-   `event` **[string][98]** 
+-   `contract` **Web3.eth.Contract** 
+-   `filterPred` **{}** 
+-   `fromBlock` **any** 
+-   `toBlock` **(any | `"latest"`)** 
 
 ## updateEntitlement
 
@@ -127,35 +234,7 @@ Retrieves account's entitlement and sets its value to the state
 
 -   `store` **Store** 
 
-Returns **[Promise][71]&lt;void>** 
-
-## QueryEvent
-
-the HDWallet account to use.
-we use different accounts for different actions in order to preserve privacy and simplify things for user
-in background
-
-Type: {event: [string][72], contract: Web3.eth.Contract, filter: {}, fromBlock: any, toBlock: (any | `"latest"`)}
-
-### Properties
-
--   `event` **[string][72]** 
--   `contract` **Web3.eth.Contract** 
--   `filter` **{}** 
--   `fromBlock` **any** 
--   `toBlock` **(any | `"latest"`)** 
-
-## readReceiveLink
-
-Parses the read ReceiveGDLink from QR Code.
-If not valid, returns null.
-If valid, returns the ReceiveGDLink.
-
-### Parameters
-
--   `link` **[string][72]** receive GD Link
-
-Returns **([string][72] | null)** {link|null}
+Returns **[Promise][99]&lt;void>** 
 
 ## 
 
@@ -167,15 +246,17 @@ Returns an object with record attributes plus some methods to validate, getError
 
 Returns **UserModel** User model with some available methods
 
-## extractQueryParams
+## readReceiveLink
 
-Extracts query params values and returns them as a key-value pair
+Parses the read ReceiveGDLink from QR Code.
+If not valid, returns null.
+If valid, returns the ReceiveGDLink.
 
 ### Parameters
 
--   `link` **[string][72]** url with queryParams (optional, default `''`)
+-   `link` **[string][98]** receive GD Link
 
-Returns **[object][73]** {key: value}
+Returns **([string][98] | null)** {link|null}
 
 ## onBalanceChange
 
@@ -187,11 +268,7 @@ Callback to handle events emmited
 -   `event` **\[any]** 
 -   `store` **Store** 
 
-Returns **[Promise][71]&lt;void>** 
-
-## 
-
-Starts listening to Transfer events to (and from) the current account
+Returns **[Promise][99]&lt;void>** 
 
 ## getReceiveDataFromReceipt
 
@@ -199,10 +276,173 @@ Extracts transfer events sent to the current account
 
 ### Parameters
 
--   `account` **[string][72]** Wallet account
--   `receipt` **[object][73]** Receipt event
+-   `account` **[string][98]** Wallet account
+-   `receipt` **[object][100]** Receipt event
 
-Returns **[object][73]** {transferLog: event: [{evtName: evtValue}]}
+Returns **[object][100]** {transferLog: event: [{evtName: evtValue}]}
+
+## 
+
+Starts listening to Transfer events to (and from) the current account
+
+## extractQueryParams
+
+Extracts query params values and returns them as a key-value pair
+
+### Parameters
+
+-   `link` **[string][98]** url with queryParams (optional, default `''`)
+
+Returns **[object][100]** {key: value}
+
+## listenTxUpdates
+
+Subscribes to Transfer events (from and to) the current account
+This is used to verify account balance changes
+
+### Parameters
+
+-   `fromBlock` **[string][98]** defaultValue: '0'
+
+Returns **([Promise][99]&lt;R> | [Promise][99]&lt;(R | any)> | [Promise][99]&lt;any>)** 
+
+## subscribeToEvent
+
+returns id+eventName so consumer can unsubscribe
+
+### Parameters
+
+-   `eventName` **[string][98]** 
+-   `cb` **[Function][97]** 
+
+## unSubscribeToTx
+
+removes subscriber from subscriber list
+
+### Parameters
+
+-   `event` **[event][101]** 
+    -   `event.eventName`  
+    -   `event.id`  
+
+## getSubscribers
+
+Gets all subscribers as array for given eventName
+
+### Parameters
+
+-   `eventName` **[string][98]** 
+
+Returns **[Function][97]** 
+
+## balanceChanged
+
+Listen to balance changes for the current account
+
+### Parameters
+
+-   `cb` **[Function][97]** 
+
+Returns **[Promise][99]&lt;void>** 
+
+## getBlockNumber
+
+Retrieves current Block Number and returns it as converted to a BN instance
+
+Returns **[Promise][99]&lt;BN>** Current block number in BN instance
+
+## getEvents
+
+Client side event filter. Requests all events for a particular contract, then filters them and returns the event Object
+
+### Parameters
+
+-   `$0` **any** 
+    -   `$0.event`  
+    -   `$0.contract`  
+    -   `$0.filterPred`  
+    -   `$0.fromBlock`   (optional, default `ZERO`)
+    -   `$0.toBlock`  
+-   `event` **[String][98]** Event to subscribe to
+-   `contract` **[Object][100]** Contract from which event will be queried
+-   `filterPred` **[Object][100]** Event's filter. Does not required to be indexed as it's filtered locally
+-   `fromBlock` **BN** Lower blocks range value
+-   `toBlock` **BN** Higher blocks range value
+
+Returns **[Promise][99]&lt;any>** 
+
+## oneTimeEvents
+
+Subscribes to a particular event and returns the result based on options specified
+
+### Parameters
+
+-   `$0` **any** 
+    -   `$0.event`  
+    -   `$0.contract`  
+    -   `$0.filterPred`  
+    -   `$0.fromBlock`  
+    -   `$0.toBlock`  
+-   `callback` **[Function][97]** Function to be called once an event is received
+-   `event` **[String][98]** Event to subscribe to
+-   `contract` **[Object][100]** Contract from which event will be queried
+-   `filterPred` **[Object][100]** Event's filter. Does not required to be indexed as it's filtered locally
+-   `fromBlock` **BN** Lower blocks range value
+-   `toBlock` **BN** Higher blocks range value
+
+Returns **[Promise][99]&lt;void>** 
+
+## pollForEvents
+
+Polls for events every INTERVAL defined by BLOCK_TIME and BLOCK_COUNT, the result is based on specified options
+It queries the range 'fromBlock'-'toBlock' and then continues querying the blockchain for most recent events, from
+the 'lastProcessedBlock' to the 'latest' every INTERVAL
+
+### Parameters
+
+-   `$0` **any** 
+    -   `$0.event`  
+    -   `$0.contract`  
+    -   `$0.filterPred`  
+    -   `$0.fromBlock`  
+    -   `$0.toBlock`  
+-   `callback` **[Function][97]** Function to be called once an event is received
+-   `lastProcessedBlock` **BN** Used for recursion. It's not required to be set by the user. Initial value: ZERO (optional, default `ZERO`)
+-   `event` **[String][98]** Event to subscribe to
+-   `contract` **[Object][100]** Contract from which event will be queried
+-   `filterPred` **[Object][100]** Event's filter. Does not required to be indexed as it's filtered locally
+-   `fromBlock` **BN** Lower blocks range value
+-   `toBlock` **BN** Higher blocks range value
+
+Returns **[Promise][99]&lt;void>** 
+
+## sendTransaction
+
+Helper function to handle a tx Send call
+
+### Parameters
+
+-   `tx` **any** 
+-   `promiEvents` **[object][100]**  (optional, default `defaultPromiEvents`)
+    -   `promiEvents.onTransactionHash` **[function][97]** 
+    -   `promiEvents.onReceipt` **[function][97]** 
+    -   `promiEvents.onConfirmation` **[function][97]** 
+    -   `promiEvents.onError` **[function][97]** 
+-   `gasValues` **[object][100]**  (optional, default `{gas:undefined,gasPrice:undefined}`)
+    -   `gasValues.gas` **[number][96]** 
+    -   `gasValues.gasPrice` **[number][96]** 
+
+Returns **[Promise][99]&lt;([Promise][99] | Q.Promise&lt;any> | [Promise][99]&lt;any> | [Promise][99]&lt;any> | [Promise][99]&lt;any> | any)>** 
+
+## generateShareObject
+
+Generates the standard object required for `navigator.share` method to trigger Share menu on mobile devices
+
+### Parameters
+
+-   `url` **[string][98]** Link
+
+Returns **ShareObject** 
 
 ## 
 
@@ -210,10 +450,21 @@ Clean string removing blank spaces and special characters, and converts to lower
 
 ### Parameters
 
--   `field` **[string][72]** Field name
--   `value` **[string][72]** Field value
+-   `field` **[string][98]** Field name
+-   `value` **[string][98]** Field value
 
-Returns **[string][72]** Value without '+' (plus), '-' (minus), '\_' (underscore), ' ' (space), in lower case
+Returns **[string][98]** Value without '+' (plus), '-' (minus), '\_' (underscore), ' ' (space), in lower case
+
+## generateHrefLinks
+
+Generates the links to share via anchor tag
+
+### Parameters
+
+-   `sendLink` **[string][98]** Link
+-   `to` **[string][98]** Email address or phone number (optional, default `''`)
+
+Returns **[Array][102]&lt;HrefLinkProps>** 
 
 ## init
 
@@ -225,9 +476,15 @@ Find feed by transaction hash in array, and returns feed object
 
 ### Parameters
 
--   `transactionHash` **[string][72]** transaction identifier
+-   `transactionHash` **[string][98]** transaction identifier
 
-Returns **[object][73]** feed item or null if it doesn't exist
+Returns **[object][100]** feed item or null if it doesn't exist
+
+## getAllFeed
+
+Returns a Promise that, when resolved, will have all the feeds available for the current user
+
+Returns **[Promise][99]&lt;[Array][102]&lt;FeedEvent>>** 
 
 ## getProfileFieldValue
 
@@ -235,9 +492,9 @@ Returns profile attribute
 
 ### Parameters
 
--   `field` **[string][72]** Profile attribute
+-   `field` **[string][98]** Profile attribute
 
-Returns **[string][72]** Decrypted profile value
+Returns **[string][98]** Decrypted profile value
 
 ## getProfileField
 
@@ -245,9 +502,9 @@ Returns progfile attribute value
 
 ### Parameters
 
--   `field` **[string][72]** Profile attribute
+-   `field` **[string][98]** Profile attribute
 
-Returns **[Promise][71]** Gun profile attribute object
+Returns **[Promise][99]** Gun profile attribute object
 
 ## getDisplayProfile
 
@@ -255,9 +512,9 @@ Return display attribute of each profile property
 
 ### Parameters
 
--   `profile` **[object][73]** User profile
+-   `profile` **[object][100]** User profile
 
-Returns **[object][73]** User model with display values
+Returns **[object][100]** User model with display values
 
 ## getPrivateProfile
 
@@ -265,9 +522,9 @@ Returns user model with attribute values
 
 ### Parameters
 
--   `profile` **[object][73]** user profile
+-   `profile` **[object][100]** user profile
 
-Returns **[object][73]** UserModel with some inherit functions
+Returns **[object][100]** UserModel with some inherit functions
 
 ## setProfile
 
@@ -280,7 +537,7 @@ Save profile with all validations and indexes
 
 -   Throws **any** Error if profile is invalid
 
-Returns **[Promise][71]** Promise with profile settings updates and privacy validations
+Returns **[Promise][99]** Promise with profile settings updates and privacy validations
 
 ## setProfileField
 
@@ -288,11 +545,11 @@ Set profile field with privacy settings
 
 ### Parameters
 
--   `field` **[string][72]** Profile attribute
--   `value` **[string][72]** Profile attribute value
--   `privacy` **[string][72]** (private | public | masked)
+-   `field` **[string][98]** Profile attribute
+-   `value` **[string][98]** Profile attribute value
+-   `privacy` **[string][98]** (private | public | masked)
 
-Returns **[Promise][71]** Promise with updated field value, secret, display and privacy.
+Returns **[Promise][99]** Promise with updated field value, secret, display and privacy.
 
 ## indexProfileField
 
@@ -300,11 +557,11 @@ Generates index by field if privacy is public, or empty index if it's not public
 
 ### Parameters
 
--   `field` **[string][72]** Profile attribute
--   `value` **[string][72]** Profile attribute value
--   `privacy` **[string][72]** (private | public | masked)
+-   `field` **[string][98]** Profile attribute
+-   `value` **[string][98]** Profile attribute value
+-   `privacy` **[string][98]** (private | public | masked)
 
-Returns **[Promise][71]&lt;ACK>** Gun result promise after index is generated
+Returns **[Promise][99]&lt;ACK>** Gun result promise after index is generated
 
 ## setProfileFieldPrivacy
 
@@ -312,10 +569,10 @@ Set profile field privacy.
 
 ### Parameters
 
--   `field` **[string][72]** Profile attribute
--   `privacy` **[string][72]** (private | public | masked)
+-   `field` **[string][98]** Profile attribute
+-   `privacy` **[string][98]** (private | public | masked)
 
-Returns **[Promise][71]** Promise with updated field value, secret, display and privacy.
+Returns **[Promise][99]** Promise with updated field value, secret, display and privacy.
 
 ## getFeedPage
 
@@ -324,10 +581,10 @@ of the last day fetched even if > numResults
 
 ### Parameters
 
--   `numResults` **[number][74]** return at least this number of results if available
--   `reset` **[boolean][75]** should restart cursor (optional, default `false`)
+-   `numResults` **[number][96]** return at least this number of results if available
+-   `reset` **[boolean][103]** should restart cursor (optional, default `false`)
 
-Returns **[Promise][71]** Promise with an array of feed events
+Returns **[Promise][99]** Promise with an array of feed events
 
 ## getStandardizedFeed
 
@@ -335,10 +592,18 @@ Return all feed events
 
 ### Parameters
 
--   `numResults` **[number][74]** 
--   `reset` **[boolean][75]** 
+-   `numResults` **[number][96]** 
+-   `reset` **[boolean][103]** 
 
-Returns **[Promise][71]** Promise with array of standarised feed events
+Returns **[Promise][99]** Promise with array of standarised feed events
+
+## getUserAddress
+
+### Parameters
+
+-   `field` **[string][98]** Profile field value (email, mobile or wallet address value)
+
+Returns **[string][98]** address
 
 ## getUserProfile
 
@@ -346,9 +611,9 @@ Returns name and avatar from profile based filtered by received value
 
 ### Parameters
 
--   `field` **[string][72]** Profile field value (email, mobile or wallet address value)
+-   `field` **[string][98]** Profile field value (email, mobile or wallet address value)
 
-Returns **[object][73]** profile - { name, avatar }
+Returns **[object][100]** profile - { name, avatar }
 
 ## standardizeFeed
 
@@ -362,7 +627,7 @@ Returns the feed in a standard format to be loaded in feed list and modal
     -   `param.date`  
     -   `param.id`  
 
-Returns **[Promise][71]** Promise with StandardFeed object,
+Returns **[Promise][99]** Promise with StandardFeed object,
  with props { id, date, type, data: { amount, message, endpoint: { address, fullName, avatar, withdrawStatus }}}
 
 ## updateFeedEvent
@@ -373,7 +638,23 @@ Update feed event
 
 -   `event` **FeedEvent** Event to be updated
 
-Returns **[Promise][71]** Promise with updated feed
+Returns **[Promise][99]** Promise with updated feed
+
+## getLastBlockNode
+
+Returns the 'lastBlock' gun's node
+
+Returns **any** 
+
+## saveLastBlockNumber
+
+Saves block number in the 'lastBlock' node
+
+### Parameters
+
+-   `blockNumber` **([number][96] \| [string][98])** 
+
+Returns **[Promise][99]&lt;([Promise][99]&lt;any> | [Promise][99]&lt;(R | any)>)>** 
 
 ## maskField
 
@@ -382,283 +663,213 @@ and hide email user characters leaving visible only first and last character
 
 ### Parameters
 
--   `fieldType` **[string][72]** (Email, mobile or phone) Field name
--   `value` **[string][72]** Field value
+-   `fieldType` **[string][98]** (Email, mobile or phone) Field name
+-   `value` **[string][98]** Field value
 
-Returns **[string][72]** Returns masked value with \*\*\* to hide characters
+Returns **[string][98]** Returns masked value with \*\*\* to hide characters
 
-## subscribeToEvent
+[1]: #parameters
 
-returns id+eventName so consumer can unsubscribe
+[2]: #gundb-extend
 
-### Parameters
+[3]: #listenorientationchange
 
--   `eventName` **[string][72]** 
--   `cb` **[Function][76]** 
+[4]: #parameters-1
 
-## unSubscribeToTx
+[5]: #generatecode
 
-removes subscriber from subscriber list
+[6]: #parameters-2
 
-### Parameters
+[7]: #savemnemonics
 
--   `event` **[event][77]** 
-    -   `event.eventName`  
-    -   `event.id`  
+[8]: #parameters-3
 
-## getSubscribers
+[9]: #updatebalance
 
-Gets all subscribers as array for given eventName
+[10]: #parameters-4
 
-### Parameters
+[11]: #gdtowei
 
--   `eventName` **[string][72]** 
+[12]: #parameters-5
 
-Returns **[Function][76]** 
+[13]: #getemailerrormessage
 
-## balanceChanged
+[14]: #parameters-6
 
-Listen to balance changes for the current account
+[15]: #getmnemonics
 
-### Parameters
+[16]: #executewithdraw
 
--   `cb` **[Function][76]** 
+[17]: #parameters-7
 
-Returns **[Promise][71]&lt;void>** 
+[18]: #readcode
 
-## getEvents
+[19]: #parameters-8
 
-Client side event filter. Requests all events for a particular contract, then filters them and returns the event Object
+[20]: #getmobileerrormessage
 
-### Parameters
+[21]: #parameters-9
 
--   `$0` **any** 
-    -   `$0.event`  
-    -   `$0.contract`  
-    -   `$0.filter`  
-    -   `$0.fromBlock`   (optional, default `ZERO`)
-    -   `$0.toBlock`  
--   `event` **[String][72]** Event to subscribe to
--   `contract` **[Object][73]** Contract from which event will be queried
--   `filter` **[Object][73]** Event's filter. Does not required to be indexed as it's filtered locally
--   `fromBlock` **BN** Lower blocks range value
--   `toBlock` **BN** Higher blocks range value
+[22]: #queryevent
 
-Returns **[Promise][71]&lt;any>** 
+[23]: #properties
 
-## oneTimeEvents
+[24]: #updateentitlement
 
-Subscribes to a particular event and returns the result based on options specified
-
-### Parameters
-
--   `$0` **any** 
-    -   `$0.event`  
-    -   `$0.contract`  
-    -   `$0.filter`  
-    -   `$0.fromBlock`  
-    -   `$0.toBlock`  
--   `callback` **[Function][76]** Function to be called once an event is received
--   `event` **[String][72]** Event to subscribe to
--   `contract` **[Object][73]** Contract from which event will be queried
--   `filter` **[Object][73]** Event's filter. Does not required to be indexed as it's filtered locally
--   `fromBlock` **BN** Lower blocks range value
--   `toBlock` **BN** Higher blocks range value
-
-Returns **[Promise][71]&lt;void>** 
-
-## pollForEvents
-
-Polls for events every INTERVAL defined by BLOCK_TIME and BLOCK_COUNT, the result is based on specified options
-It queries the range 'fromBlock'-'toBlock' and then continues querying the blockchain for most recent events, from
-the 'lastProcessedBlock' to the 'latest' every INTERVAL
-
-### Parameters
-
--   `$0` **any** 
-    -   `$0.event`  
-    -   `$0.contract`  
-    -   `$0.filter`  
-    -   `$0.fromBlock`  
-    -   `$0.toBlock`  
--   `callback` **[Function][76]** Function to be called once an event is received
--   `lastProcessedBlock` **BN** Used for recursion. It's not required to be set by the user. Initial value: ZERO (optional, default `ZERO`)
--   `event` **[String][72]** Event to subscribe to
--   `contract` **[Object][73]** Contract from which event will be queried
--   `filter` **[Object][73]** Event's filter. Does not required to be indexed as it's filtered locally
--   `fromBlock` **BN** Lower blocks range value
--   `toBlock` **BN** Higher blocks range value
-
-Returns **[Promise][71]&lt;void>** 
-
-## sendTransaction
-
-Helper function to handle a tx Send call
-
-### Parameters
-
--   `tx` **any** 
--   `promiEvents` **[object][73]**  (optional, default `defaultPromiEvents`)
-    -   `promiEvents.onTransactionHash` **[function][76]** 
-    -   `promiEvents.onReceipt` **[function][76]** 
-    -   `promiEvents.onConfirmation` **[function][76]** 
-    -   `promiEvents.onError` **[function][76]** 
--   `gasValues` **[object][73]**  (optional, default `{gas:undefined,gasPrice:undefined}`)
-    -   `gasValues.gas` **[number][74]** 
-    -   `gasValues.gasPrice` **[number][74]** 
-
-Returns **[Promise][71]&lt;([Promise][71] | Q.Promise&lt;any> | [Promise][71]&lt;any> | [Promise][71]&lt;any> | [Promise][71]&lt;any> | any)>** 
-
-[1]: #gundb-extend
-
-[2]: #updatebalance
-
-[3]: #parameters
-
-[4]: #getemailerrormessage
-
-[5]: #parameters-1
-
-[6]: #executewithdraw
-
-[7]: #parameters-2
-
-[8]: #getmobileerrormessage
-
-[9]: #parameters-3
-
-[10]: #updateentitlement
-
-[11]: #parameters-4
-
-[12]: #queryevent
-
-[13]: #properties
-
-[14]: #readreceivelink
-
-[15]: #parameters-5
-
-[16]: #parameters-6
-
-[17]: #extractqueryparams
-
-[18]: #parameters-7
-
-[19]: #onbalancechange
-
-[20]: #parameters-8
-
-[21]: #getreceivedatafromreceipt
-
-[22]: #parameters-9
-
-[23]: #parameters-10
-
-[24]: #init
-
-[25]: #getfeeditembytransactionhash
+[25]: #parameters-10
 
 [26]: #parameters-11
 
-[27]: #getprofilefieldvalue
+[27]: #readreceivelink
 
 [28]: #parameters-12
 
-[29]: #getprofilefield
+[29]: #onbalancechange
 
 [30]: #parameters-13
 
-[31]: #getdisplayprofile
+[31]: #getreceivedatafromreceipt
 
 [32]: #parameters-14
 
-[33]: #getprivateprofile
+[33]: #extractqueryparams
 
 [34]: #parameters-15
 
-[35]: #setprofile
+[35]: #listentxupdates
 
 [36]: #parameters-16
 
-[37]: #setprofilefield
+[37]: #subscribetoevent
 
 [38]: #parameters-17
 
-[39]: #indexprofilefield
+[39]: #unsubscribetotx
 
 [40]: #parameters-18
 
-[41]: #setprofilefieldprivacy
+[41]: #getsubscribers
 
 [42]: #parameters-19
 
-[43]: #getfeedpage
+[43]: #balancechanged
 
 [44]: #parameters-20
 
-[45]: #getstandardizedfeed
+[45]: #getblocknumber
 
-[46]: #parameters-21
+[46]: #getevents
 
-[47]: #getuserprofile
+[47]: #parameters-21
 
-[48]: #parameters-22
+[48]: #onetimeevents
 
-[49]: #standardizefeed
+[49]: #parameters-22
 
-[50]: #parameters-23
+[50]: #pollforevents
 
-[51]: #updatefeedevent
+[51]: #parameters-23
 
-[52]: #parameters-24
+[52]: #sendtransaction
 
-[53]: #maskfield
+[53]: #parameters-24
 
-[54]: #parameters-25
+[54]: #generateshareobject
 
-[55]: #subscribetoevent
+[55]: #parameters-25
 
 [56]: #parameters-26
 
-[57]: #unsubscribetotx
+[57]: #generatehreflinks
 
 [58]: #parameters-27
 
-[59]: #getsubscribers
+[59]: #init
 
-[60]: #parameters-28
+[60]: #getfeeditembytransactionhash
 
-[61]: #balancechanged
+[61]: #parameters-28
 
-[62]: #parameters-29
+[62]: #getallfeed
 
-[63]: #getevents
+[63]: #getprofilefieldvalue
 
-[64]: #parameters-30
+[64]: #parameters-29
 
-[65]: #onetimeevents
+[65]: #getprofilefield
 
-[66]: #parameters-31
+[66]: #parameters-30
 
-[67]: #pollforevents
+[67]: #getdisplayprofile
 
-[68]: #parameters-32
+[68]: #parameters-31
 
-[69]: #sendtransaction
+[69]: #getprivateprofile
 
-[70]: #parameters-33
+[70]: #parameters-32
 
-[71]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise
+[71]: #setprofile
 
-[72]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+[72]: #parameters-33
 
-[73]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
+[73]: #setprofilefield
 
-[74]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number
+[74]: #parameters-34
 
-[75]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean
+[75]: #indexprofilefield
 
-[76]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function
+[76]: #parameters-35
 
-[77]: https://developer.mozilla.org/docs/Web/API/Event
+[77]: #setprofilefieldprivacy
+
+[78]: #parameters-36
+
+[79]: #getfeedpage
+
+[80]: #parameters-37
+
+[81]: #getstandardizedfeed
+
+[82]: #parameters-38
+
+[83]: #getuseraddress
+
+[84]: #parameters-39
+
+[85]: #getuserprofile
+
+[86]: #parameters-40
+
+[87]: #standardizefeed
+
+[88]: #parameters-41
+
+[89]: #updatefeedevent
+
+[90]: #parameters-42
+
+[91]: #getlastblocknode
+
+[92]: #savelastblocknumber
+
+[93]: #parameters-43
+
+[94]: #maskfield
+
+[95]: #parameters-44
+
+[96]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number
+
+[97]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function
+
+[98]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+
+[99]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise
+
+[100]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
+
+[101]: https://developer.mozilla.org/docs/Web/API/Event
+
+[102]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array
+
+[103]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean

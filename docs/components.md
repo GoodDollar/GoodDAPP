@@ -4,72 +4,66 @@
 
 -   [useEffect][1]
 -   [React][2]
--   [ListSendEvent][3]
+-   [FeedListItem][3]
     -   [Parameters][4]
--   [NavBar][5]
--   [ListClaimEvent][6]
-    -   [Parameters][7]
--   [ListWithdrawEvent][8]
+-   [FeedActions][5]
+    -   [Parameters][6]
+-   [NavBar][7]
+-   [ModalReceiveEvent][8]
     -   [Parameters][9]
--   [ModalClaimEvent][10]
+-   [ModalSendEvent][10]
     -   [Parameters][11]
--   [ModalWithdrawEvent][12]
+-   [ListEvent][12]
     -   [Parameters][13]
--   [ModalSendEvent][14]
+-   [TopBar][14]
     -   [Parameters][15]
--   [TopBar][16]
+-   [setLoadingWithStore][16]
     -   [Parameters][17]
 -   [IconButton][18]
     -   [Parameters][19]
--   [setLoadingWithStore][20]
+-   [FeedModalItem][20]
     -   [Parameters][21]
 -   [getComponent][22]
     -   [Parameters][23]
--   [FeedListItem][24]
+-   [getComponent][24]
     -   [Parameters][25]
--   [getComponent][26]
-    -   [Parameters][27]
--   [AppView][28]
-    -   [push][29]
-        -   [Parameters][30]
-    -   [goToRoot][31]
-    -   [navigateTo][32]
-        -   [Parameters][33]
-    -   [goToParent][34]
-    -   [setScreenState][35]
-        -   [Parameters][36]
+-   [AppView][26]
+    -   [push][27]
+        -   [Parameters][28]
+    -   [goToRoot][29]
+    -   [navigateTo][30]
+        -   [Parameters][31]
+    -   [goToParent][32]
+    -   [setScreenState][33]
+        -   [Parameters][34]
+-   [to][35]
+    -   [Parameters][36]
 -   [GenerateLinkButton][37]
     -   [Parameters][38]
--   [FeedModalItem][39]
+-   [AppSwitch][39]
     -   [Parameters][40]
--   [to][41]
-    -   [Parameters][42]
--   [AppSwitch][43]
+    -   [checkAuthStatus][41]
+-   [generateLinkAndSend][42]
+-   [Rewards][43]
     -   [Parameters][44]
-    -   [checkAuthStatus][45]
--   [Rewards][46]
+-   [LoadingIndicator][45]
+-   [withdraw][46]
     -   [Parameters][47]
--   [LoadingIndicator][48]
--   [sendLinkTo][49]
-    -   [Parameters][50]
--   [AppNavigation][51]
--   [generateLinkAndSend][52]
--   [withdraw][53]
+-   [dismissDialog][48]
+-   [dismissEventDialog][49]
+-   [AppNavigation][50]
+-   [createStackNavigator][51]
+    -   [Parameters][52]
+-   [PushButton][53]
     -   [Parameters][54]
--   [dismissDialog][55]
--   [dismissEventDialog][56]
--   [createStackNavigator][57]
+-   [BackButton][55]
+    -   [Parameters][56]
+-   [DoneButton][57]
     -   [Parameters][58]
--   [PushButton][59]
+-   [NextButton][59]
     -   [Parameters][60]
--   [BackButton][61]
+-   [useScreenState][61]
     -   [Parameters][62]
--   [DoneButton][63]
-    -   [Parameters][64]
--   [NextButton][65]
-    -   [Parameters][66]
--   [useScreenState][67]
-    -   [Parameters][68]
 
 ## useEffect
 
@@ -80,16 +74,27 @@ Displays a summary when sending GD directly to a blockchain address
 Provides a `LoadingIndicator` component which renders an ActivityIndicator over a semi-transparent background.
 Also provides a helper function to show/hide the component.
 
-## ListSendEvent
+## FeedListItem
 
-Render list send item for feed list
+Render list item according to the type for feed list
 
 ### Parameters
 
+-   `props`  
 -   `feedEvent` **FeedEventProps** feed event
-    -   `feedEvent.item`  
 
-Returns **[HTMLElement][69]** 
+Returns **[HTMLElement][63]** 
+
+## FeedActions
+
+Returns swipeable actions for items inside Feed list
+
+### Parameters
+
+-   `feedItem` **FeedEventProps** Contains the feed item
+    -   `feedItem.item`  
+
+Returns **any** React element with actions
 
 ## NavBar
 
@@ -97,41 +102,7 @@ Returns **[HTMLElement][69]**
 
 NavigationBar shows title and back button
 
-## ListClaimEvent
-
-Render list claim item for feed list
-
-### Parameters
-
--   `feedEvent` **FeedEventProps** feed event
-    -   `feedEvent.item`  
-
-Returns **[HTMLElement][69]** 
-
-## ListWithdrawEvent
-
-Render list withdraw item for feed list
-
-### Parameters
-
--   `feedEvent` **FeedEventProps** feed event
-    -   `feedEvent.item`  
-
-Returns **[HTMLElement][69]** 
-
-## ModalClaimEvent
-
-Render modal claim item for feed list in horizontal view
-
-### Parameters
-
--   `feedEvent` **FeedEventProps** feed event
-    -   `feedEvent.item`  
-    -   `feedEvent.onPress`  
-
-Returns **[HTMLElement][69]** 
-
-## ModalWithdrawEvent
+## ModalReceiveEvent
 
 Render modal withdraw item for feed list in horizontal view
 
@@ -141,7 +112,7 @@ Render modal withdraw item for feed list in horizontal view
     -   `feedEvent.item`  
     -   `feedEvent.onPress`  
 
-Returns **[HTMLElement][69]** 
+Returns **[HTMLElement][63]** 
 
 ## ModalSendEvent
 
@@ -153,7 +124,18 @@ Render modal send item for feed list in horizontal view
     -   `feedEvent.item`  
     -   `feedEvent.onPress`  
 
-Returns **[HTMLElement][69]** 
+Returns **[HTMLElement][63]** 
+
+## ListEvent
+
+Render list withdraw item for feed list
+
+### Parameters
+
+-   `feedEvent` **FeedEventProps** feed event
+    -   `feedEvent.item`  
+
+Returns **[HTMLElement][63]** 
 
 ## TopBar
 
@@ -161,15 +143,25 @@ TopBar - used To display contextual information in a small container
 
 ### Parameters
 
--   `$0` **[Object][70]** 
+-   `$0` **[Object][64]** 
     -   `$0.hideBalance`  
     -   `$0.push`  
     -   `$0.children`  
--   `hideBalance` **[boolean][71]** if falsy balance will be displayed
--   `push` **[function][72]** pushes a route to the nav stack. When called, apps navigates to the specified ruote
--   `children` **[object][70]** React Component
+-   `hideBalance` **[boolean][65]** if falsy balance will be displayed
+-   `push` **[function][66]** pushes a route to the nav stack. When called, apps navigates to the specified ruote
+-   `children` **[object][64]** React Component
 
 Returns **any** 
+
+## setLoadingWithStore
+
+Curried function wich requires an undux Store and then sets the flag to show/hide the LoadingIndicator component
+
+### Parameters
+
+-   `store` **Store** undux store
+
+Returns **[Function][66]** 
 
 ## IconButton
 
@@ -185,15 +177,15 @@ Returns a button with an icon and text
 
 Returns **any** Button with icon and text
 
-## setLoadingWithStore
+## FeedModalItem
 
-Curried function wich requires an undux Store and then sets the flag to show/hide the LoadingIndicator component
+Render modal item according to the type for feed list in horizontal view
 
 ### Parameters
 
--   `store` **Store** undux store
+-   `props` **FeedEventProps** feed event
 
-Returns **[Function][72]** 
+Returns **[HTMLElement][63]** 
 
 ## getComponent
 
@@ -201,17 +193,6 @@ Returns **[Function][72]**
 
 -   `Component`  
 -   `props`  
-
-## FeedListItem
-
-Render list item according to the type for feed list
-
-### Parameters
-
--   `props`  
--   `feedEvent` **FeedEventProps** feed event
-
-Returns **[HTMLElement][69]** 
 
 ## getComponent
 
@@ -255,7 +236,7 @@ Navigates to specific screen with custom parameters as query string.
 
 #### Parameters
 
--   `routeName` **[string][73]** 
+-   `routeName` **[string][67]** 
 -   `params` **any** 
 
 ### goToParent
@@ -271,6 +252,15 @@ This way it can be kept between screens
 
 -   `data`  
 
+## to
+
+Sets `loading` to what `to` states.
+It requires `loadingIndicator` to be set in the Store's state
+
+### Parameters
+
+-   `to` **[boolean][65]** 
+
 ## GenerateLinkButton
 
 This button navigates to Amount screen passing nextRoutes param
@@ -282,25 +272,6 @@ It also passes to param as initial state for Amount component
 -   `props` **screenProps** passed by navigation
     -   `props.screenProps`  
     -   `props.disabled`  
-
-## FeedModalItem
-
-Render modal item according to the type for feed list in horizontal view
-
-### Parameters
-
--   `props` **FeedEventProps** feed event
-
-Returns **[HTMLElement][69]** 
-
-## to
-
-Sets `loading` to what `to` states.
-It requires `loadingIndicator` to be set in the Store's state
-
-### Parameters
-
--   `to` **[boolean][71]** 
 
 ## AppSwitch
 
@@ -316,7 +287,13 @@ The main app route. Here we decide where to go depending on the user's credentia
 
 Check's users' current auth status
 
-Returns **[Promise][74]&lt;void>** 
+Returns **[Promise][68]&lt;void>** 
+
+## generateLinkAndSend
+
+Generates link to send and call send email/sms action
+
+-   Throws **any** Error if link cannot be send
 
 ## Rewards
 
@@ -338,41 +315,14 @@ Pops from stack
 If there is no screen on the stack navigates to initial screen on stack (goToRoot)
 If we are currently in the first screen go to ths screen that created the stack (goToParent)
 
-## sendLinkTo
-
-Send link via SMS or Email
-
-### Parameters
-
--   `to` **[string][73]** Email address or phone number
--   `sendLink` **[string][73]** Link
-
-
--   Throws **any** Error with invalid email/phone
-
-Returns **any** JSON Object with ok if email or sms has been sent
-
-## AppNavigation
-
-**Extends React.Component**
-
-Switch navigation between all screens on the tabs. Each of this screen should be a StackNavigation
-Dashboard is the initial route
-
-## generateLinkAndSend
-
-Generates link to send and call send email/sms action
-
--   Throws **any** Error if link cannot be send
-
 ## withdraw
 
 Check if user can withdraw, and make the transaciton
 
 ### Parameters
 
--   `hash` **[string][73]** Hash identifier
--   `reason` **[string][73]** Withdraw reason
+-   `hash` **[string][67]** Hash identifier
+-   `reason` **[string][67]?** Withdraw reason
 
 ## dismissDialog
 
@@ -382,6 +332,13 @@ Cancel withdraw and close dialog
 
 Reset dialog data
 
+## AppNavigation
+
+**Extends React.Component**
+
+Switch navigation between all screens on the tabs. Each of this screen should be a StackNavigation
+Dashboard is the initial route
+
 ## createStackNavigator
 
 Returns a navigator with a navbar wrapping the routes.
@@ -390,7 +347,7 @@ This function is meant to be used to create a new stack navigation with the give
 ### Parameters
 
 -   `routes` **\[Route]** : Array with routes in the stack
--   `navigationConfig` **[Object][70]** 
+-   `navigationConfig` **[Object][64]** 
 
 ## PushButton
 
@@ -402,6 +359,7 @@ This button gets the push action from screenProps. Is meant to be used inside a 
 -   `$0` **any** 
     -   `$0.routeName`  
     -   `$0.screenProps`  
+    -   `$0.canContinue`  
     -   `$0.params`  
     -   `$0.props` **...any** 
 -   `routeName`  
@@ -440,6 +398,8 @@ next screens for further Components. Is meant to be used inside a stackNavigator
     -   `props.values`  
     -   `props.screenProps`  
     -   `props.nextRoutes`  
+    -   `props.label`  
+    -   `props.canContinue`  
 
 ## useScreenState
 
@@ -457,33 +417,33 @@ Returns **any**
 
 [2]: #react
 
-[3]: #listsendevent
+[3]: #feedlistitem
 
 [4]: #parameters
 
-[5]: #navbar
+[5]: #feedactions
 
-[6]: #listclaimevent
+[6]: #parameters-1
 
-[7]: #parameters-1
+[7]: #navbar
 
-[8]: #listwithdrawevent
+[8]: #modalreceiveevent
 
 [9]: #parameters-2
 
-[10]: #modalclaimevent
+[10]: #modalsendevent
 
 [11]: #parameters-3
 
-[12]: #modalwithdrawevent
+[12]: #listevent
 
 [13]: #parameters-4
 
-[14]: #modalsendevent
+[14]: #topbar
 
 [15]: #parameters-5
 
-[16]: #topbar
+[16]: #setloadingwithstore
 
 [17]: #parameters-6
 
@@ -491,7 +451,7 @@ Returns **any**
 
 [19]: #parameters-7
 
-[20]: #setloadingwithstore
+[20]: #feedmodalitem
 
 [21]: #parameters-8
 
@@ -499,29 +459,29 @@ Returns **any**
 
 [23]: #parameters-9
 
-[24]: #feedlistitem
+[24]: #getcomponent-1
 
 [25]: #parameters-10
 
-[26]: #getcomponent-1
+[26]: #appview
 
-[27]: #parameters-11
+[27]: #push
 
-[28]: #appview
+[28]: #parameters-11
 
-[29]: #push
+[29]: #gotoroot
 
-[30]: #parameters-12
+[30]: #navigateto
 
-[31]: #gotoroot
+[31]: #parameters-12
 
-[32]: #navigateto
+[32]: #gotoparent
 
-[33]: #parameters-13
+[33]: #setscreenstate
 
-[34]: #gotoparent
+[34]: #parameters-13
 
-[35]: #setscreenstate
+[35]: #to
 
 [36]: #parameters-14
 
@@ -529,74 +489,62 @@ Returns **any**
 
 [38]: #parameters-15
 
-[39]: #feedmodalitem
+[39]: #appswitch
 
 [40]: #parameters-16
 
-[41]: #to
+[41]: #checkauthstatus
 
-[42]: #parameters-17
+[42]: #generatelinkandsend
 
-[43]: #appswitch
+[43]: #rewards
 
-[44]: #parameters-18
+[44]: #parameters-17
 
-[45]: #checkauthstatus
+[45]: #loadingindicator
 
-[46]: #rewards
+[46]: #withdraw
 
-[47]: #parameters-19
+[47]: #parameters-18
 
-[48]: #loadingindicator
+[48]: #dismissdialog
 
-[49]: #sendlinkto
+[49]: #dismisseventdialog
 
-[50]: #parameters-20
+[50]: #appnavigation
 
-[51]: #appnavigation
+[51]: #createstacknavigator
 
-[52]: #generatelinkandsend
+[52]: #parameters-19
 
-[53]: #withdraw
+[53]: #pushbutton
 
-[54]: #parameters-21
+[54]: #parameters-20
 
-[55]: #dismissdialog
+[55]: #backbutton
 
-[56]: #dismisseventdialog
+[56]: #parameters-21
 
-[57]: #createstacknavigator
+[57]: #donebutton
 
 [58]: #parameters-22
 
-[59]: #pushbutton
+[59]: #nextbutton
 
 [60]: #parameters-23
 
-[61]: #backbutton
+[61]: #usescreenstate
 
 [62]: #parameters-24
 
-[63]: #donebutton
+[63]: https://developer.mozilla.org/docs/Web/HTML/Element
 
-[64]: #parameters-25
+[64]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
 
-[65]: #nextbutton
+[65]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean
 
-[66]: #parameters-26
+[66]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function
 
-[67]: #usescreenstate
+[67]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
 
-[68]: #parameters-27
-
-[69]: https://developer.mozilla.org/docs/Web/HTML/Element
-
-[70]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
-
-[71]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean
-
-[72]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function
-
-[73]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
-
-[74]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise
+[68]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise

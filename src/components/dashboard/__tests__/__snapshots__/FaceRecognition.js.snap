@@ -132,10 +132,7 @@ exports[`FaceRecognition matches snapshot 1`] = `
             style={
               Object {
                 "color": "rgba(85,85,85,1.00)",
-                "direction": "ltr",
-                "fontFamily": "Helvetica, \\"sans-serif\\"",
-                "fontSize": "28px",
-                "marginBottom": "30px",
+                "fontSize": "18px",
                 "textAlign": "center",
               }
             }
@@ -149,10 +146,7 @@ exports[`FaceRecognition matches snapshot 1`] = `
             style={
               Object {
                 "color": "rgba(85,85,85,1.00)",
-                "direction": "ltr",
-                "fontFamily": "Helvetica, \\"sans-serif\\"",
-                "fontSize": "18px",
-                "marginTop": "30px",
+                "fontSize": "20px",
                 "textAlign": "center",
               }
             }
@@ -208,7 +202,7 @@ exports[`FaceRecognition matches snapshot 1`] = `
                 "borderTopWidth": "0px",
                 "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
                 "justifyContent": "center",
-                "minWidth": "64px",
+                "minWidth": "auto",
                 "msFlexPack": "center",
               }
             }
@@ -273,8 +267,8 @@ exports[`FaceRecognition matches snapshot 1`] = `
                       "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                       "letterSpacing": "1px",
                       "marginBottom": "9px",
-                      "marginLeft": "16px",
-                      "marginRight": "16px",
+                      "marginLeft": "8px",
+                      "marginRight": "8px",
                       "marginTop": "9px",
                       "textAlign": "center",
                     }
@@ -286,13 +280,13 @@ exports[`FaceRecognition matches snapshot 1`] = `
                     style={
                       Object {
                         "direction": "ltr",
-                        "fontFamily": "Helvetica, \\"sans-serif\\"",
+                        "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                         "fontSize": "18px",
                         "fontWeight": "bold",
-                        "paddingBottom": "5px",
-                        "paddingLeft": "5px",
-                        "paddingRight": "5px",
-                        "paddingTop": "5px",
+                        "paddingBottom": "0px",
+                        "paddingLeft": "0px",
+                        "paddingRight": "0px",
+                        "paddingTop": "0px",
                         "textAlign": "center",
                         "textTransform": "uppercase",
                       }

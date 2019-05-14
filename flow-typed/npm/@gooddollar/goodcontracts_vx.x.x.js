@@ -59,3 +59,18 @@ declare module '@gooddollar/goodcontracts/build/contracts/GoodDollarReserve.json
 declare module '@gooddollar/goodcontracts/build/contracts/OneTimePaymentLinks.json' {
   declare module.exports: $Exports<'@gooddollar/goodcontracts/build/contracts/OneTimePaymentLinks.json'>;
 }
+declare module '@gooddollar/goodcontracts/build/contracts/Identity.min.json' {
+  declare module.exports: $Exports<'@gooddollar/goodcontracts/build/contracts/Identity.json'>;
+}
+declare module '@gooddollar/goodcontracts/build/contracts/RedemptionFunctional.min.json' {
+  declare module.exports: $Exports<'@gooddollar/goodcontracts/build/contracts/RedemptionFunctional.json'>;
+}
+declare module '@gooddollar/goodcontracts/build/contracts/GoodDollar.min.json' {
+  declare module.exports: $Exports<'@gooddollar/goodcontracts/build/contracts/GoodDollar.json'>;
+}
+declare module '@gooddollar/goodcontracts/build/contracts/GoodDollarReserve.min.json' {
+  declare module.exports: $Exports<'@gooddollar/goodcontracts/build/contracts/GoodDollarReserve.json'>;
+}
+declare module '@gooddollar/goodcontracts/build/contracts/OneTimePaymentLinks.min.json' {
+  declare module.exports: $Exports<'@gooddollar/goodcontracts/build/contracts/OneTimePaymentLinks.json'>;
+}

@@ -1,17 +1,17 @@
 import React from 'react'
-import { StyleSheet, View, Text } from 'react-native'
+import { StyleSheet, View } from 'react-native'
+import { FormInput, Icon } from 'react-native-elements'
+import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { HelperText } from 'react-native-paper'
-import { Icon } from 'react-native-elements'
-import logger from '../../lib/logger/pino-logger'
 import PhoneInput from 'react-phone-number-input'
 import 'react-phone-number-input/style.css'
-import './PhoneInput.css'
 
-const log = logger.child({ from: 'ProfileDataTable' })
+import logger from '../../lib/logger/pino-logger'
+import './PhoneInput.css'
 
 const ProfileInput = props => (
   <View style={styles.inputWrapper}>
-    <input {...props} className="react-phone-number-input__input" />
+    <FormInput {...props} inputStyle={styles.textInput} placeholderTextColor="rgba(85, 85, 85, 0.3)" />
     <HelperText type="error" visible={props.error} style={styles.error}>
       {props.error}
     </HelperText>
@@ -24,16 +24,16 @@ const ProfileDataTable = props => {
   return (
     <View style={styles.table}>
       <View style={styles.tableRow}>
-        <Icon name="email" color="rgb(85, 85, 85)" />
         <ProfileInput
-          value={profile.email}
-          onChange={value => onChange({ ...profile, email: value.target.value })}
-          error={errors.email}
+          placeholder="choose a Username"
+          value={profile.username}
+          onChange={value => onChange({ ...profile, username: value.target.value })}
+          error={errors.username}
           disabled={!editable}
         />
+        <Icon name="person-outline" color="rgb(163, 163, 163)" />
       </View>
       <View style={styles.tableRow}>
-        <Icon name="phone" color="rgb(85, 85, 85)" />
         {editable ? (
           <PhoneInput
             id="signup_phone"
@@ -45,6 +45,16 @@ const ProfileDataTable = props => {
         ) : (
           <ProfileInput value={profile.mobile} disabled={true} />
         )}
+        <Icon name="phone" color="rgb(163, 163, 163)" />
+      </View>
+      <View style={styles.tableRow}>
+        <ProfileInput
+          value={profile.email}
+          onChange={value => onChange({ ...profile, email: value.target.value })}
+          error={errors.email}
+          disabled={!editable}
+        />
+        <Icon name="mail-outline" color="rgb(163, 163, 163)" />
       </View>
     </View>
   )
@@ -77,9 +87,17 @@ const styles = StyleSheet.create({
     marginLeft: '0.2em',
     paddingRight: '12px'
   },
+  textInput: {
+    height: '30px',
+    backgroundColor: 'transparent',
+    borderWidth: '0px',
+    fontSize: normalize(16),
+    textAlign: 'left',
+    color: '#555555'
+  },
   error: {
     paddingRight: 0,
-    textAlign: 'right'
+    textAlign: 'left'
   }
 })
 

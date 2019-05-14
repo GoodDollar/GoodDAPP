@@ -1,5 +1,6 @@
 // @flow
 import { createSwitchNavigator } from '@react-navigation/core'
+import { normalize } from 'react-native-elements'
 import React from 'react'
 import type { Store } from 'undux'
 
@@ -8,16 +9,14 @@ import buySellIcon from '../../assets/buySellIcon.png'
 import donateIcon from '../../assets/donateIcon.png'
 import homeIcon from '../../assets/homeIcon.png'
 import rewardsIcon from '../../assets/rewardsIcon.png'
+import burgerIcon from '../../assets/burgerIcon.png'
 
 import GDStore from '../../lib/undux/GDStore'
 import Dashboard from '../dashboard/Dashboard'
-import Splash from '../splash/Splash'
 import BuySell from './BuySell'
 import Donate from './Donate'
 import Rewards from './Rewards'
 import Profile from '../profile/Profile'
-
-import { checkAuthStatus } from '../../lib/login/checkAuthStatus'
 
 type AppNavigationProps = {
   navigation: any,
@@ -31,23 +30,41 @@ type AppNavigationState = {
 const routes = {
   Rewards: {
     screen: Rewards,
-    icon: rewardsIcon
+    icon: rewardsIcon,
+    display: false
   },
   BuySell: {
     screen: BuySell,
-    icon: buySellIcon
+    icon: buySellIcon,
+    display: false
   },
   Dashboard: {
     screen: Dashboard,
-    icon: homeIcon
+    icon: homeIcon,
+    display: false
   },
   Donate: {
     screen: Donate,
-    icon: donateIcon
+    icon: donateIcon,
+    display: false
   },
   Profile: {
     screen: Profile,
     display: false
+  },
+  Sidemenu: {
+    screen: Dashboard,
+    icon: burgerIcon,
+    displayText: false,
+    iconStyle: {
+      width: normalize(20),
+      maxHeight: normalize(20),
+      marginTop: normalize(20)
+    },
+    buttonStyle: {
+      marginLeft: 'auto',
+      marginRight: normalize(30)
+    }
   }
 }
 

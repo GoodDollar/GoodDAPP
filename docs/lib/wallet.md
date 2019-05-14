@@ -2,24 +2,69 @@
 
 ### Table of Contents
 
--   [QueryEvent][1]
-    -   [Properties][2]
--   [subscribeToEvent][3]
-    -   [Parameters][4]
--   [unSubscribeToTx][5]
-    -   [Parameters][6]
--   [getSubscribers][7]
-    -   [Parameters][8]
--   [balanceChanged][9]
+-   -   [Parameters][1]
+-   [saveMnemonics][2]
+    -   [Parameters][3]
+-   [gdToWei][4]
+    -   [Parameters][5]
+-   [getMnemonics][6]
+-   [QueryEvent][7]
+    -   [Properties][8]
+-   [listenTxUpdates][9]
     -   [Parameters][10]
--   [getEvents][11]
+-   [subscribeToEvent][11]
     -   [Parameters][12]
--   [oneTimeEvents][13]
+-   [unSubscribeToTx][13]
     -   [Parameters][14]
--   [pollForEvents][15]
+-   [getSubscribers][15]
     -   [Parameters][16]
--   [sendTransaction][17]
+-   [balanceChanged][17]
     -   [Parameters][18]
+-   [getBlockNumber][19]
+-   [getEvents][20]
+    -   [Parameters][21]
+-   [oneTimeEvents][22]
+    -   [Parameters][23]
+-   [pollForEvents][24]
+    -   [Parameters][25]
+-   [sendTransaction][26]
+    -   [Parameters][27]
+
+## 
+
+convert wei to gooddollars (2 decimals) use toFixed to overcome javascript precision issues ie 8.95\*100=894.9999...
+
+### Parameters
+
+-   `wei` **[number][28]** 
+
+Returns **[number][28]** 
+
+## saveMnemonics
+
+save mnemonics (secret phrase) to user device
+
+### Parameters
+
+-   `mnemonics` **[string][29]** 
+
+Returns **[Promise][30]&lt;any>** 
+
+## gdToWei
+
+convert gooddollars to wei (0 decimals) use toFixed to overcome javascript precision issues ie 8.95\*Math.pow(0.1,2)=8.9500000001
+
+### Parameters
+
+-   `gd` **[number][28]** 
+
+Returns **[number][28]** 
+
+## getMnemonics
+
+get user mnemonics stored on device or generate a new one
+
+Returns **[Promise][30]&lt;[string][29]>** 
 
 ## QueryEvent
 
@@ -27,15 +72,26 @@ the HDWallet account to use.
 we use different accounts for different actions in order to preserve privacy and simplify things for user
 in background
 
-Type: {event: [string][19], contract: Web3.eth.Contract, filter: {}, fromBlock: any, toBlock: (any | `"latest"`)}
+Type: {event: [string][29], contract: Web3.eth.Contract, filterPred: {}, fromBlock: any, toBlock: (any | `"latest"`)}
 
 ### Properties
 
--   `event` **[string][19]** 
+-   `event` **[string][29]** 
 -   `contract` **Web3.eth.Contract** 
--   `filter` **{}** 
+-   `filterPred` **{}** 
 -   `fromBlock` **any** 
 -   `toBlock` **(any | `"latest"`)** 
+
+## listenTxUpdates
+
+Subscribes to Transfer events (from and to) the current account
+This is used to verify account balance changes
+
+### Parameters
+
+-   `fromBlock` **[string][29]** defaultValue: '0'
+
+Returns **([Promise][30]&lt;R> | [Promise][30]&lt;(R | any)> | [Promise][30]&lt;any>)** 
 
 ## subscribeToEvent
 
@@ -43,8 +99,8 @@ returns id+eventName so consumer can unsubscribe
 
 ### Parameters
 
--   `eventName` **[string][19]** 
--   `cb` **[Function][20]** 
+-   `eventName` **[string][29]** 
+-   `cb` **[Function][31]** 
 
 ## unSubscribeToTx
 
@@ -52,7 +108,7 @@ removes subscriber from subscriber list
 
 ### Parameters
 
--   `event` **[event][21]** 
+-   `event` **[event][32]** 
     -   `event.eventName`  
     -   `event.id`  
 
@@ -62,9 +118,9 @@ Gets all subscribers as array for given eventName
 
 ### Parameters
 
--   `eventName` **[string][19]** 
+-   `eventName` **[string][29]** 
 
-Returns **[Function][20]** 
+Returns **[Function][31]** 
 
 ## balanceChanged
 
@@ -72,9 +128,15 @@ Listen to balance changes for the current account
 
 ### Parameters
 
--   `cb` **[Function][20]** 
+-   `cb` **[Function][31]** 
 
-Returns **[Promise][22]&lt;void>** 
+Returns **[Promise][30]&lt;void>** 
+
+## getBlockNumber
+
+Retrieves current Block Number and returns it as converted to a BN instance
+
+Returns **[Promise][30]&lt;BN>** Current block number in BN instance
 
 ## getEvents
 
@@ -85,16 +147,16 @@ Client side event filter. Requests all events for a particular contract, then fi
 -   `$0` **any** 
     -   `$0.event`  
     -   `$0.contract`  
-    -   `$0.filter`  
+    -   `$0.filterPred`  
     -   `$0.fromBlock`   (optional, default `ZERO`)
     -   `$0.toBlock`  
--   `event` **[String][19]** Event to subscribe to
--   `contract` **[Object][23]** Contract from which event will be queried
--   `filter` **[Object][23]** Event's filter. Does not required to be indexed as it's filtered locally
+-   `event` **[String][29]** Event to subscribe to
+-   `contract` **[Object][33]** Contract from which event will be queried
+-   `filterPred` **[Object][33]** Event's filter. Does not required to be indexed as it's filtered locally
 -   `fromBlock` **BN** Lower blocks range value
 -   `toBlock` **BN** Higher blocks range value
 
-Returns **[Promise][22]&lt;any>** 
+Returns **[Promise][30]&lt;any>** 
 
 ## oneTimeEvents
 
@@ -105,17 +167,17 @@ Subscribes to a particular event and returns the result based on options specifi
 -   `$0` **any** 
     -   `$0.event`  
     -   `$0.contract`  
-    -   `$0.filter`  
+    -   `$0.filterPred`  
     -   `$0.fromBlock`  
     -   `$0.toBlock`  
--   `callback` **[Function][20]** Function to be called once an event is received
--   `event` **[String][19]** Event to subscribe to
--   `contract` **[Object][23]** Contract from which event will be queried
--   `filter` **[Object][23]** Event's filter. Does not required to be indexed as it's filtered locally
+-   `callback` **[Function][31]** Function to be called once an event is received
+-   `event` **[String][29]** Event to subscribe to
+-   `contract` **[Object][33]** Contract from which event will be queried
+-   `filterPred` **[Object][33]** Event's filter. Does not required to be indexed as it's filtered locally
 -   `fromBlock` **BN** Lower blocks range value
 -   `toBlock` **BN** Higher blocks range value
 
-Returns **[Promise][22]&lt;void>** 
+Returns **[Promise][30]&lt;void>** 
 
 ## pollForEvents
 
@@ -128,18 +190,18 @@ the 'lastProcessedBlock' to the 'latest' every INTERVAL
 -   `$0` **any** 
     -   `$0.event`  
     -   `$0.contract`  
-    -   `$0.filter`  
+    -   `$0.filterPred`  
     -   `$0.fromBlock`  
     -   `$0.toBlock`  
--   `callback` **[Function][20]** Function to be called once an event is received
+-   `callback` **[Function][31]** Function to be called once an event is received
 -   `lastProcessedBlock` **BN** Used for recursion. It's not required to be set by the user. Initial value: ZERO (optional, default `ZERO`)
--   `event` **[String][19]** Event to subscribe to
--   `contract` **[Object][23]** Contract from which event will be queried
--   `filter` **[Object][23]** Event's filter. Does not required to be indexed as it's filtered locally
+-   `event` **[String][29]** Event to subscribe to
+-   `contract` **[Object][33]** Contract from which event will be queried
+-   `filterPred` **[Object][33]** Event's filter. Does not required to be indexed as it's filtered locally
 -   `fromBlock` **BN** Lower blocks range value
 -   `toBlock` **BN** Higher blocks range value
 
-Returns **[Promise][22]&lt;void>** 
+Returns **[Promise][30]&lt;void>** 
 
 ## sendTransaction
 
@@ -148,61 +210,79 @@ Helper function to handle a tx Send call
 ### Parameters
 
 -   `tx` **any** 
--   `promiEvents` **[object][23]**  (optional, default `defaultPromiEvents`)
-    -   `promiEvents.onTransactionHash` **[function][20]** 
-    -   `promiEvents.onReceipt` **[function][20]** 
-    -   `promiEvents.onConfirmation` **[function][20]** 
-    -   `promiEvents.onError` **[function][20]** 
--   `gasValues` **[object][23]**  (optional, default `{gas:undefined,gasPrice:undefined}`)
-    -   `gasValues.gas` **[number][24]** 
-    -   `gasValues.gasPrice` **[number][24]** 
+-   `promiEvents` **[object][33]**  (optional, default `defaultPromiEvents`)
+    -   `promiEvents.onTransactionHash` **[function][31]** 
+    -   `promiEvents.onReceipt` **[function][31]** 
+    -   `promiEvents.onConfirmation` **[function][31]** 
+    -   `promiEvents.onError` **[function][31]** 
+-   `gasValues` **[object][33]**  (optional, default `{gas:undefined,gasPrice:undefined}`)
+    -   `gasValues.gas` **[number][28]** 
+    -   `gasValues.gasPrice` **[number][28]** 
 
-Returns **[Promise][22]&lt;([Promise][22] | Q.Promise&lt;any> | [Promise][22]&lt;any> | [Promise][22]&lt;any> | [Promise][22]&lt;any> | any)>** 
+Returns **[Promise][30]&lt;([Promise][30] | Q.Promise&lt;any> | [Promise][30]&lt;any> | [Promise][30]&lt;any> | [Promise][30]&lt;any> | any)>** 
 
-[1]: #queryevent
+[1]: #parameters
 
-[2]: #properties
+[2]: #savemnemonics
 
-[3]: #subscribetoevent
+[3]: #parameters-1
 
-[4]: #parameters
+[4]: #gdtowei
 
-[5]: #unsubscribetotx
+[5]: #parameters-2
 
-[6]: #parameters-1
+[6]: #getmnemonics
 
-[7]: #getsubscribers
+[7]: #queryevent
 
-[8]: #parameters-2
+[8]: #properties
 
-[9]: #balancechanged
+[9]: #listentxupdates
 
 [10]: #parameters-3
 
-[11]: #getevents
+[11]: #subscribetoevent
 
 [12]: #parameters-4
 
-[13]: #onetimeevents
+[13]: #unsubscribetotx
 
 [14]: #parameters-5
 
-[15]: #pollforevents
+[15]: #getsubscribers
 
 [16]: #parameters-6
 
-[17]: #sendtransaction
+[17]: #balancechanged
 
 [18]: #parameters-7
 
-[19]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+[19]: #getblocknumber
 
-[20]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function
+[20]: #getevents
 
-[21]: https://developer.mozilla.org/docs/Web/API/Event
+[21]: #parameters-8
 
-[22]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise
+[22]: #onetimeevents
 
-[23]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
+[23]: #parameters-9
 
-[24]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number
+[24]: #pollforevents
+
+[25]: #parameters-10
+
+[26]: #sendtransaction
+
+[27]: #parameters-11
+
+[28]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number
+
+[29]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+
+[30]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise
+
+[31]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function
+
+[32]: https://developer.mozilla.org/docs/Web/API/Event
+
+[33]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object

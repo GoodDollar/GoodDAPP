@@ -16,7 +16,6 @@ export default class SignupCompleted extends React.Component<Props, State> {
         valid={true}
         handleSubmit={this.handleSubmit}
         submitText="Let's start!"
-        showPrivacyPolicy={false}
         loading={this.props.screenProps.data.loading}
       >
         <Title>{`That's great,\nThanks ${this.props.screenProps.data.fullName}!`}</Title>

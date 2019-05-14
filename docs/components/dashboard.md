@@ -3,37 +3,53 @@
 ### Table of Contents
 
 -   [useEffect][1]
--   [ModalWithdrawEvent][2]
+-   [FeedListItem][2]
     -   [Parameters][3]
--   [ListClaimEvent][4]
+-   [FeedActions][4]
     -   [Parameters][5]
--   [ListSendEvent][6]
+-   [ModalReceiveEvent][6]
     -   [Parameters][7]
--   [ListWithdrawEvent][8]
+-   [ModalSendEvent][8]
     -   [Parameters][9]
--   [ModalClaimEvent][10]
+-   [ListEvent][10]
     -   [Parameters][11]
--   [ModalSendEvent][12]
+-   [FeedModalItem][12]
     -   [Parameters][13]
--   [FeedListItem][14]
+-   [GenerateLinkButton][14]
     -   [Parameters][15]
--   [GenerateLinkButton][16]
-    -   [Parameters][17]
--   [FeedModalItem][18]
-    -   [Parameters][19]
--   [sendLinkTo][20]
-    -   [Parameters][21]
--   [generateLinkAndSend][22]
--   [withdraw][23]
-    -   [Parameters][24]
--   [dismissDialog][25]
--   [dismissEventDialog][26]
+-   [generateLinkAndSend][16]
+-   [withdraw][17]
+    -   [Parameters][18]
+-   [dismissDialog][19]
+-   [dismissEventDialog][20]
 
 ## useEffect
 
 Displays a summary when sending GD directly to a blockchain address
 
-## ModalWithdrawEvent
+## FeedListItem
+
+Render list item according to the type for feed list
+
+### Parameters
+
+-   `props`  
+-   `feedEvent` **FeedEventProps** feed event
+
+Returns **[HTMLElement][21]** 
+
+## FeedActions
+
+Returns swipeable actions for items inside Feed list
+
+### Parameters
+
+-   `feedItem` **FeedEventProps** Contains the feed item
+    -   `feedItem.item`  
+
+Returns **any** React element with actions
+
+## ModalReceiveEvent
 
 Render modal withdraw item for feed list in horizontal view
 
@@ -43,52 +59,7 @@ Render modal withdraw item for feed list in horizontal view
     -   `feedEvent.item`  
     -   `feedEvent.onPress`  
 
-Returns **[HTMLElement][27]** 
-
-## ListClaimEvent
-
-Render list claim item for feed list
-
-### Parameters
-
--   `feedEvent` **FeedEventProps** feed event
-    -   `feedEvent.item`  
-
-Returns **[HTMLElement][27]** 
-
-## ListSendEvent
-
-Render list send item for feed list
-
-### Parameters
-
--   `feedEvent` **FeedEventProps** feed event
-    -   `feedEvent.item`  
-
-Returns **[HTMLElement][27]** 
-
-## ListWithdrawEvent
-
-Render list withdraw item for feed list
-
-### Parameters
-
--   `feedEvent` **FeedEventProps** feed event
-    -   `feedEvent.item`  
-
-Returns **[HTMLElement][27]** 
-
-## ModalClaimEvent
-
-Render modal claim item for feed list in horizontal view
-
-### Parameters
-
--   `feedEvent` **FeedEventProps** feed event
-    -   `feedEvent.item`  
-    -   `feedEvent.onPress`  
-
-Returns **[HTMLElement][27]** 
+Returns **[HTMLElement][21]** 
 
 ## ModalSendEvent
 
@@ -100,18 +71,28 @@ Render modal send item for feed list in horizontal view
     -   `feedEvent.item`  
     -   `feedEvent.onPress`  
 
-Returns **[HTMLElement][27]** 
+Returns **[HTMLElement][21]** 
 
-## FeedListItem
+## ListEvent
 
-Render list item according to the type for feed list
+Render list withdraw item for feed list
 
 ### Parameters
 
--   `props`  
 -   `feedEvent` **FeedEventProps** feed event
+    -   `feedEvent.item`  
 
-Returns **[HTMLElement][27]** 
+Returns **[HTMLElement][21]** 
+
+## FeedModalItem
+
+Render modal item according to the type for feed list in horizontal view
+
+### Parameters
+
+-   `props` **FeedEventProps** feed event
+
+Returns **[HTMLElement][21]** 
 
 ## GenerateLinkButton
 
@@ -125,30 +106,6 @@ It also passes to param as initial state for Amount component
     -   `props.screenProps`  
     -   `props.disabled`  
 
-## FeedModalItem
-
-Render modal item according to the type for feed list in horizontal view
-
-### Parameters
-
--   `props` **FeedEventProps** feed event
-
-Returns **[HTMLElement][27]** 
-
-## sendLinkTo
-
-Send link via SMS or Email
-
-### Parameters
-
--   `to` **[string][28]** Email address or phone number
--   `sendLink` **[string][28]** Link
-
-
--   Throws **any** Error with invalid email/phone
-
-Returns **any** JSON Object with ok if email or sms has been sent
-
 ## generateLinkAndSend
 
 Generates link to send and call send email/sms action
@@ -161,8 +118,8 @@ Check if user can withdraw, and make the transaciton
 
 ### Parameters
 
--   `hash` **[string][28]** Hash identifier
--   `reason` **[string][28]** Withdraw reason
+-   `hash` **[string][22]** Hash identifier
+-   `reason` **[string][22]?** Withdraw reason
 
 ## dismissDialog
 
@@ -174,56 +131,44 @@ Reset dialog data
 
 [1]: #useeffect
 
-[2]: #modalwithdrawevent
+[2]: #feedlistitem
 
 [3]: #parameters
 
-[4]: #listclaimevent
+[4]: #feedactions
 
 [5]: #parameters-1
 
-[6]: #listsendevent
+[6]: #modalreceiveevent
 
 [7]: #parameters-2
 
-[8]: #listwithdrawevent
+[8]: #modalsendevent
 
 [9]: #parameters-3
 
-[10]: #modalclaimevent
+[10]: #listevent
 
 [11]: #parameters-4
 
-[12]: #modalsendevent
+[12]: #feedmodalitem
 
 [13]: #parameters-5
 
-[14]: #feedlistitem
+[14]: #generatelinkbutton
 
 [15]: #parameters-6
 
-[16]: #generatelinkbutton
+[16]: #generatelinkandsend
 
-[17]: #parameters-7
+[17]: #withdraw
 
-[18]: #feedmodalitem
+[18]: #parameters-7
 
-[19]: #parameters-8
+[19]: #dismissdialog
 
-[20]: #sendlinkto
+[20]: #dismisseventdialog
 
-[21]: #parameters-9
+[21]: https://developer.mozilla.org/docs/Web/HTML/Element
 
-[22]: #generatelinkandsend
-
-[23]: #withdraw
-
-[24]: #parameters-10
-
-[25]: #dismissdialog
-
-[26]: #dismisseventdialog
-
-[27]: https://developer.mozilla.org/docs/Web/HTML/Element
-
-[28]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+[22]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String

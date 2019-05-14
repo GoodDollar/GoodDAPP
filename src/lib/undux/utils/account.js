@@ -2,6 +2,7 @@
 import type { Store } from 'undux'
 import logger from '../../logger/pino-logger'
 import goodWallet from '../../wallet/GoodWallet'
+import userStorage from '../../gundb/UserStorage'
 
 const log = logger.child({ from: 'undux/utils/balance' })
 
@@ -73,10 +74,16 @@ const status = {
 /**
  * Starts listening to Transfer events to (and from) the current account
  */
-const initTransferEvents = (store: Store) => {
+const initTransferEvents = async (store: Store) => {
   if (!status.started) {
     log.debug('checking transfer events')
+
     status.started = true
+
+    const lastBlock = await userStorage.getLastBlockNode().then()
+    log.debug({ lastBlock })
+    await goodWallet.listenTxUpdates(lastBlock)
+
     goodWallet.balanceChanged((error, event) => onBalanceChange(error, event, store))
   }
 }

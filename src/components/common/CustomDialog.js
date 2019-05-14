@@ -4,6 +4,7 @@ import { Portal, Dialog, Paragraph } from 'react-native-paper'
 import CustomButton from './CustomButton'
 
 type DialogProps = {
+  children?: any,
   visible?: boolean,
   title?: string,
   message?: string,
@@ -12,12 +13,13 @@ type DialogProps = {
   loading?: boolean
 }
 
-const CustomDialog = ({ visible, title, message, dismissText, onDismiss, loading = false }: DialogProps) => (
+const CustomDialog = ({ children, visible, title, message, dismissText, onDismiss, loading = false }: DialogProps) => (
   <Portal>
     <Dialog visible={visible} onDismiss={onDismiss} dismissable={true}>
       <Dialog.Title>{title}</Dialog.Title>
       <Dialog.Content>
-        <Paragraph>{message}</Paragraph>
+        {children ? children : null}
+        {message ? <Paragraph>{message}</Paragraph> : null}
       </Dialog.Content>
       <Dialog.Actions>
         <CustomButton onPress={onDismiss} disabled={loading} loading={loading}>

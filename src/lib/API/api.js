@@ -7,6 +7,7 @@ import logger from '../logger/pino-logger'
 import type { NameRecord } from '../../components/signup/NameForm'
 import type { EmailRecord } from '../../components/signup/EmailForm'
 import type { MobileRecord } from '../../components/signup/PhoneForm.web'
+import type { ZoomCaptureResult } from '../../components/signup/Zoom'
 
 const log = logger.child({ from: 'API' })
 
@@ -19,7 +20,12 @@ export type Credentials = {
   jwt?: string
 }
 
-export type UserRecord = NameRecord & EmailRecord & MobileRecord & Credentials
+export type UserRecord = NameRecord &
+  EmailRecord &
+  MobileRecord &
+  Credentials & {
+    username?: string
+  }
 
 class API {
   jwt: string
@@ -106,6 +112,22 @@ class API {
   sendLinkBySMS(to: string, sendLink: string): Promise<$AxiosXHR<any>> {
     return this.client.post('/send/linksms', { to, sendLink })
   }
-}
 
+  performFaceRecognition(req: FormData): Promise<$AxiosXHR<any>> {
+    //return { data: { ok: 1, livenessPassed: true, duplicates: false, zoomEnrollmentId:-1 } } //TODO: // REMOVE!!!!!!!!!!
+    return this.client
+      .post('/verify/facerecognition', req, {
+        headers: {
+          'Content-Type': `multipart/form-data;`
+        }
+      })
+      .then(r => {
+        console.log(r)
+        if (r.data.onlyInEnv) {
+          return { data: { ok: 1, enrollResult: { alreadyEnrolled: true } } }
+        }
+        return r
+      })
+  }
+}
 export default new API()

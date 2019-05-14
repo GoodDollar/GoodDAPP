@@ -2,10 +2,40 @@
 
 ### Table of Contents
 
--   [readReceiveLink][1]
+-   [generateCode][1]
     -   [Parameters][2]
--   [extractQueryParams][3]
+-   [readCode][3]
     -   [Parameters][4]
+-   [readReceiveLink][5]
+    -   [Parameters][6]
+-   [extractQueryParams][7]
+    -   [Parameters][8]
+-   [generateShareObject][9]
+    -   [Parameters][10]
+-   [generateHrefLinks][11]
+    -   [Parameters][12]
+
+## generateCode
+
+Generates a code contaning an MNID with an amount if this las one is speced
+
+### Parameters
+
+-   `address` **[string][13]** address required to generate MNID
+-   `networkId` **[number][14]** network identifier required to generate MNID
+-   `amount` **[number][14]** amount to be attached to the generated MNID code
+
+Returns **[string][13]** 'MNID|amount'|'MNID'
+
+## readCode
+
+Extracts the information from the generated code in `generateCode`
+
+### Parameters
+
+-   `code` **[string][13]** code returned by `generateCode`
+
+Returns **(null | {amount: any, address, networkId: [number][14]})** 
 
 ## readReceiveLink
 
@@ -15,9 +45,9 @@ If valid, returns the ReceiveGDLink.
 
 ### Parameters
 
--   `link` **[string][5]** receive GD Link
+-   `link` **[string][13]** receive GD Link
 
-Returns **([string][5] | null)** {link|null}
+Returns **([string][13] | null)** {link|null}
 
 ## extractQueryParams
 
@@ -25,18 +55,59 @@ Extracts query params values and returns them as a key-value pair
 
 ### Parameters
 
--   `link` **[string][5]** url with queryParams (optional, default `''`)
+-   `link` **[string][13]** url with queryParams (optional, default `''`)
 
-Returns **[object][6]** {key: value}
+Returns **[object][15]** {key: value}
 
-[1]: #readreceivelink
+## generateShareObject
+
+Generates the standard object required for `navigator.share` method to trigger Share menu on mobile devices
+
+### Parameters
+
+-   `url` **[string][13]** Link
+
+Returns **ShareObject** 
+
+## generateHrefLinks
+
+Generates the links to share via anchor tag
+
+### Parameters
+
+-   `sendLink` **[string][13]** Link
+-   `to` **[string][13]** Email address or phone number (optional, default `''`)
+
+Returns **[Array][16]&lt;HrefLinkProps>** 
+
+[1]: #generatecode
 
 [2]: #parameters
 
-[3]: #extractqueryparams
+[3]: #readcode
 
 [4]: #parameters-1
 
-[5]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+[5]: #readreceivelink
 
-[6]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
+[6]: #parameters-2
+
+[7]: #extractqueryparams
+
+[8]: #parameters-3
+
+[9]: #generateshareobject
+
+[10]: #parameters-4
+
+[11]: #generatehreflinks
+
+[12]: #parameters-5
+
+[13]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+
+[14]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number
+
+[15]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
+
+[16]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array

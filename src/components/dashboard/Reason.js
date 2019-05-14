@@ -1,6 +1,6 @@
 // @flow
-import React, { useCallback, useState } from 'react'
-import { Text, View } from 'react-native'
+import React from 'react'
+import { View } from 'react-native'
 import { TextInput } from 'react-native-paper'
 
 import { Section, Wrapper } from '../common'
@@ -28,13 +28,18 @@ const SendReason = (props: AmountProps) => {
         <Section.Row style={styles.sectionRow}>
           <View style={styles.inputField}>
             <Section.Title style={styles.headline}>For?</Section.Title>
-            <TextInput focus="true" value={reason} onChangeText={reason => setScreenState({ reason })} />
+            <TextInput autoFocus value={reason} onChangeText={reason => setScreenState({ reason })} />
           </View>
           <View style={styles.buttonGroup}>
             <BackButton mode="text" screenProps={screenProps} style={{ flex: 1 }}>
               Cancel
             </BackButton>
-            <NextButton nextRoutes={screenState.nextRoutes} values={{ amount, reason, to }} {...props} />
+            <NextButton
+              nextRoutes={screenState.nextRoutes}
+              values={{ amount, reason, to }}
+              {...props}
+              label={reason ? 'Next' : 'Skip'}
+            />
           </View>
         </Section.Row>
       </Section>

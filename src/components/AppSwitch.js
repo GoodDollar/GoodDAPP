@@ -1,5 +1,6 @@
 // @flow
 import React from 'react'
+import { AsyncStorage } from 'react-native'
 import { SceneView } from '@react-navigation/core'
 import some from 'lodash/some'
 import logger from '../lib/logger/pino-logger'
@@ -39,15 +40,15 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
     this.checkAuthStatus()
   }
 
-  getParams = () => {
+  getParams = async () => {
     const { router, state } = this.props.navigation
     const navInfo = router.getPathAndParamsForState(state)
-
-    if (Object.keys(navInfo.params).length && this.props.store.get('destinationPath') === '') {
+    const destinationPath = await AsyncStorage.getItem('destinationPath')
+    if (Object.keys(navInfo.params).length && !destinationPath) {
       const app = router.getActionForPathAndParams(navInfo.path)
       const destRoute = actions => (some(actions, 'action') ? destRoute(actions.action) : actions.action)
       const destinationPath = JSON.stringify({ ...destRoute(app), params: navInfo.params })
-      this.props.store.set('destinationPath')(destinationPath)
+      return AsyncStorage.setItem('destinationPath', destinationPath)
     }
   }
 
@@ -59,20 +60,21 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
     const { credsOrError } = await Promise.all([checkAuthStatus(this.props.store), delay(TIMEOUT)]).then(
       ([authResult]) => authResult
     )
+
     if (this.props.store.get('isLoggedInCitizen')) {
       let topWalletRes = API.verifyTopWallet()
 
       this.props.navigation.navigate('AppNavigation')
     } else {
       const { jwt } = credsOrError
-      this.getParams()
+      await this.getParams()
 
       if (jwt) {
         log.debug('New account, not verified, or did not finish signup', jwt)
-
-        if (this.props.store.get('destinationPath') !== '') {
-          this.props.navigation.navigate(JSON.parse(this.props.store.get('destinationPath')))
-          this.props.store.set('destinationPath')('')
+        const destinationPath = await AsyncStorage.getItem('destinationPath')
+        if (destinationPath) {
+          this.props.navigation.navigate(JSON.parse(destinationPath))
+          return AsyncStorage.setItem('destinationPath', '')
         } else {
           this.props.navigation.navigate('Auth')
         }

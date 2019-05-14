@@ -144,6 +144,7 @@ This button gets the push action from screenProps. Is meant to be used inside a 
 -   `$0` **any** 
     -   `$0.routeName`  
     -   `$0.screenProps`  
+    -   `$0.canContinue`  
     -   `$0.params`  
     -   `$0.props` **...any** 
 -   `routeName`  
@@ -182,6 +183,8 @@ next screens for further Components. Is meant to be used inside a stackNavigator
     -   `props.values`  
     -   `props.screenProps`  
     -   `props.nextRoutes`  
+    -   `props.label`  
+    -   `props.canContinue`  
 
 ## useScreenState
 

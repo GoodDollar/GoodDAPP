@@ -1,10 +1,8 @@
 // @flow
 import React from 'react'
-import { HelperText } from 'react-native-paper'
 import PhoneInput from 'react-phone-number-input'
-import 'react-phone-number-input/style.css'
+import './PhoneForm.css'
 
-import isMobilePhone from '../../lib/validators/isMobilePhone'
 import { Description, Title, Wrapper } from './components'
 import { userModelValidations } from '../../lib/gundb/UserModel'
 
@@ -27,6 +25,7 @@ export default class PhoneForm extends React.Component<Props, State> {
     mobile: this.props.screenProps.data.mobile || '',
     errorMessage: ''
   }
+  isValid = false
 
   handleChange = (mobile: string) => {
     if (this.state.errorMessage !== '') {
@@ -37,8 +36,14 @@ export default class PhoneForm extends React.Component<Props, State> {
   }
 
   handleSubmit = () => {
-    if (this.state.errorMessage === '') {
+    if (this.isValid) {
       this.props.screenProps.doneCallback({ mobile: this.state.mobile })
+    }
+  }
+
+  handleEnter = (event: { nativeEvent: { key: string } }) => {
+    if (event.keyCode === 13 && this.isValid) {
+      this.handleSubmit()
     }
   }
 
@@ -49,19 +54,20 @@ export default class PhoneForm extends React.Component<Props, State> {
 
   render() {
     const { errorMessage } = this.state
+    this.isValid = userModelValidations.mobile(this.state.mobile) === ''
+    const { key } = this.props.navigation.state
 
     return (
-      <Wrapper valid={true} handleSubmit={this.handleSubmit}>
+      <Wrapper valid={this.isValid} handleSubmit={this.handleSubmit}>
         <Title>{`${this.props.screenProps.data.fullName}, \n May we have your number please?`}</Title>
 
         <PhoneInput
-          id="signup_phone"
-          placeholder="Enter phone number"
+          id={key + '_input'}
           value={this.state.mobile}
           onChange={this.handleChange}
           onBlur={this.checkErrors}
           error={errorMessage}
-          autoFocus
+          onKeyDown={this.handleEnter}
         />
         <Description>We will shortly send you a verification code to this number</Description>
       </Wrapper>

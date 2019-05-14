@@ -14,34 +14,40 @@
 -   [init][10]
 -   [getFeedItemByTransactionHash][11]
     -   [Parameters][12]
--   [getProfileFieldValue][13]
-    -   [Parameters][14]
--   [getProfileField][15]
-    -   [Parameters][16]
--   [getDisplayProfile][17]
-    -   [Parameters][18]
--   [getPrivateProfile][19]
-    -   [Parameters][20]
--   [setProfile][21]
-    -   [Parameters][22]
--   [setProfileField][23]
-    -   [Parameters][24]
--   [indexProfileField][25]
-    -   [Parameters][26]
--   [setProfileFieldPrivacy][27]
-    -   [Parameters][28]
--   [getFeedPage][29]
-    -   [Parameters][30]
--   [getStandardizedFeed][31]
-    -   [Parameters][32]
--   [getUserProfile][33]
-    -   [Parameters][34]
--   [standardizeFeed][35]
-    -   [Parameters][36]
--   [updateFeedEvent][37]
-    -   [Parameters][38]
--   [maskField][39]
-    -   [Parameters][40]
+-   [getAllFeed][13]
+-   [getProfileFieldValue][14]
+    -   [Parameters][15]
+-   [getProfileField][16]
+    -   [Parameters][17]
+-   [getDisplayProfile][18]
+    -   [Parameters][19]
+-   [getPrivateProfile][20]
+    -   [Parameters][21]
+-   [setProfile][22]
+    -   [Parameters][23]
+-   [setProfileField][24]
+    -   [Parameters][25]
+-   [indexProfileField][26]
+    -   [Parameters][27]
+-   [setProfileFieldPrivacy][28]
+    -   [Parameters][29]
+-   [getFeedPage][30]
+    -   [Parameters][31]
+-   [getStandardizedFeed][32]
+    -   [Parameters][33]
+-   [getUserAddress][34]
+    -   [Parameters][35]
+-   [getUserProfile][36]
+    -   [Parameters][37]
+-   [standardizeFeed][38]
+    -   [Parameters][39]
+-   [updateFeedEvent][40]
+    -   [Parameters][41]
+-   [getLastBlockNode][42]
+-   [saveLastBlockNumber][43]
+    -   [Parameters][44]
+-   [maskField][45]
+    -   [Parameters][46]
 
 ## gundb-extend
 
@@ -53,9 +59,9 @@ Returns email error message after running some validations
 
 ### Parameters
 
--   `email` **[string][41]** email value
+-   `email` **[string][47]** email value
 
-Returns **[string][41]** Email error message if invalid, or empty string
+Returns **[string][47]** Email error message if invalid, or empty string
 
 ## getMobileErrorMessage
 
@@ -63,9 +69,9 @@ Returns mobile error message after running some validations
 
 ### Parameters
 
--   `mobile` **[string][41]** mobile value
+-   `mobile` **[string][47]** mobile value
 
-Returns **[string][41]** Mobile error message if invalid, or empty string
+Returns **[string][47]** Mobile error message if invalid, or empty string
 
 ## 
 
@@ -83,10 +89,10 @@ Extracts transfer events sent to the current account
 
 ### Parameters
 
--   `account` **[string][41]** Wallet account
--   `receipt` **[object][42]** Receipt event
+-   `account` **[string][47]** Wallet account
+-   `receipt` **[object][48]** Receipt event
 
-Returns **[object][42]** {transferLog: event: [{evtName: evtValue}]}
+Returns **[object][48]** {transferLog: event: [{evtName: evtValue}]}
 
 ## 
 
@@ -94,10 +100,10 @@ Clean string removing blank spaces and special characters, and converts to lower
 
 ### Parameters
 
--   `field` **[string][41]** Field name
--   `value` **[string][41]** Field value
+-   `field` **[string][47]** Field name
+-   `value` **[string][47]** Field value
 
-Returns **[string][41]** Value without '+' (plus), '-' (minus), '\_' (underscore), ' ' (space), in lower case
+Returns **[string][47]** Value without '+' (plus), '-' (minus), '\_' (underscore), ' ' (space), in lower case
 
 ## init
 
@@ -109,9 +115,15 @@ Find feed by transaction hash in array, and returns feed object
 
 ### Parameters
 
--   `transactionHash` **[string][41]** transaction identifier
+-   `transactionHash` **[string][47]** transaction identifier
 
-Returns **[object][42]** feed item or null if it doesn't exist
+Returns **[object][48]** feed item or null if it doesn't exist
+
+## getAllFeed
+
+Returns a Promise that, when resolved, will have all the feeds available for the current user
+
+Returns **[Promise][49]&lt;[Array][50]&lt;FeedEvent>>** 
 
 ## getProfileFieldValue
 
@@ -119,9 +131,9 @@ Returns profile attribute
 
 ### Parameters
 
--   `field` **[string][41]** Profile attribute
+-   `field` **[string][47]** Profile attribute
 
-Returns **[string][41]** Decrypted profile value
+Returns **[string][47]** Decrypted profile value
 
 ## getProfileField
 
@@ -129,9 +141,9 @@ Returns progfile attribute value
 
 ### Parameters
 
--   `field` **[string][41]** Profile attribute
+-   `field` **[string][47]** Profile attribute
 
-Returns **[Promise][43]** Gun profile attribute object
+Returns **[Promise][49]** Gun profile attribute object
 
 ## getDisplayProfile
 
@@ -139,9 +151,9 @@ Return display attribute of each profile property
 
 ### Parameters
 
--   `profile` **[object][42]** User profile
+-   `profile` **[object][48]** User profile
 
-Returns **[object][42]** User model with display values
+Returns **[object][48]** User model with display values
 
 ## getPrivateProfile
 
@@ -149,9 +161,9 @@ Returns user model with attribute values
 
 ### Parameters
 
--   `profile` **[object][42]** user profile
+-   `profile` **[object][48]** user profile
 
-Returns **[object][42]** UserModel with some inherit functions
+Returns **[object][48]** UserModel with some inherit functions
 
 ## setProfile
 
@@ -164,7 +176,7 @@ Save profile with all validations and indexes
 
 -   Throws **any** Error if profile is invalid
 
-Returns **[Promise][43]** Promise with profile settings updates and privacy validations
+Returns **[Promise][49]** Promise with profile settings updates and privacy validations
 
 ## setProfileField
 
@@ -172,11 +184,11 @@ Set profile field with privacy settings
 
 ### Parameters
 
--   `field` **[string][41]** Profile attribute
--   `value` **[string][41]** Profile attribute value
--   `privacy` **[string][41]** (private | public | masked)
+-   `field` **[string][47]** Profile attribute
+-   `value` **[string][47]** Profile attribute value
+-   `privacy` **[string][47]** (private | public | masked)
 
-Returns **[Promise][43]** Promise with updated field value, secret, display and privacy.
+Returns **[Promise][49]** Promise with updated field value, secret, display and privacy.
 
 ## indexProfileField
 
@@ -184,11 +196,11 @@ Generates index by field if privacy is public, or empty index if it's not public
 
 ### Parameters
 
--   `field` **[string][41]** Profile attribute
--   `value` **[string][41]** Profile attribute value
--   `privacy` **[string][41]** (private | public | masked)
+-   `field` **[string][47]** Profile attribute
+-   `value` **[string][47]** Profile attribute value
+-   `privacy` **[string][47]** (private | public | masked)
 
-Returns **[Promise][43]&lt;ACK>** Gun result promise after index is generated
+Returns **[Promise][49]&lt;ACK>** Gun result promise after index is generated
 
 ## setProfileFieldPrivacy
 
@@ -196,10 +208,10 @@ Set profile field privacy.
 
 ### Parameters
 
--   `field` **[string][41]** Profile attribute
--   `privacy` **[string][41]** (private | public | masked)
+-   `field` **[string][47]** Profile attribute
+-   `privacy` **[string][47]** (private | public | masked)
 
-Returns **[Promise][43]** Promise with updated field value, secret, display and privacy.
+Returns **[Promise][49]** Promise with updated field value, secret, display and privacy.
 
 ## getFeedPage
 
@@ -208,10 +220,10 @@ of the last day fetched even if > numResults
 
 ### Parameters
 
--   `numResults` **[number][44]** return at least this number of results if available
--   `reset` **[boolean][45]** should restart cursor (optional, default `false`)
+-   `numResults` **[number][51]** return at least this number of results if available
+-   `reset` **[boolean][52]** should restart cursor (optional, default `false`)
 
-Returns **[Promise][43]** Promise with an array of feed events
+Returns **[Promise][49]** Promise with an array of feed events
 
 ## getStandardizedFeed
 
@@ -219,10 +231,18 @@ Return all feed events
 
 ### Parameters
 
--   `numResults` **[number][44]** 
--   `reset` **[boolean][45]** 
+-   `numResults` **[number][51]** 
+-   `reset` **[boolean][52]** 
 
-Returns **[Promise][43]** Promise with array of standarised feed events
+Returns **[Promise][49]** Promise with array of standarised feed events
+
+## getUserAddress
+
+### Parameters
+
+-   `field` **[string][47]** Profile field value (email, mobile or wallet address value)
+
+Returns **[string][47]** address
 
 ## getUserProfile
 
@@ -230,9 +250,9 @@ Returns name and avatar from profile based filtered by received value
 
 ### Parameters
 
--   `field` **[string][41]** Profile field value (email, mobile or wallet address value)
+-   `field` **[string][47]** Profile field value (email, mobile or wallet address value)
 
-Returns **[object][42]** profile - { name, avatar }
+Returns **[object][48]** profile - { name, avatar }
 
 ## standardizeFeed
 
@@ -246,7 +266,7 @@ Returns the feed in a standard format to be loaded in feed list and modal
     -   `param.date`  
     -   `param.id`  
 
-Returns **[Promise][43]** Promise with StandardFeed object,
+Returns **[Promise][49]** Promise with StandardFeed object,
  with props { id, date, type, data: { amount, message, endpoint: { address, fullName, avatar, withdrawStatus }}}
 
 ## updateFeedEvent
@@ -257,7 +277,23 @@ Update feed event
 
 -   `event` **FeedEvent** Event to be updated
 
-Returns **[Promise][43]** Promise with updated feed
+Returns **[Promise][49]** Promise with updated feed
+
+## getLastBlockNode
+
+Returns the 'lastBlock' gun's node
+
+Returns **any** 
+
+## saveLastBlockNumber
+
+Saves block number in the 'lastBlock' node
+
+### Parameters
+
+-   `blockNumber` **([number][51] \| [string][47])** 
+
+Returns **[Promise][49]&lt;([Promise][49]&lt;any> | [Promise][49]&lt;(R | any)>)>** 
 
 ## maskField
 
@@ -266,10 +302,10 @@ and hide email user characters leaving visible only first and last character
 
 ### Parameters
 
--   `fieldType` **[string][41]** (Email, mobile or phone) Field name
--   `value` **[string][41]** Field value
+-   `fieldType` **[string][47]** (Email, mobile or phone) Field name
+-   `value` **[string][47]** Field value
 
-Returns **[string][41]** Returns masked value with \*\*\* to hide characters
+Returns **[string][47]** Returns masked value with \*\*\* to hide characters
 
 [1]: #gundb-extend
 
@@ -295,68 +331,82 @@ Returns **[string][41]** Returns masked value with \*\*\* to hide characters
 
 [12]: #parameters-5
 
-[13]: #getprofilefieldvalue
+[13]: #getallfeed
 
-[14]: #parameters-6
+[14]: #getprofilefieldvalue
 
-[15]: #getprofilefield
+[15]: #parameters-6
 
-[16]: #parameters-7
+[16]: #getprofilefield
 
-[17]: #getdisplayprofile
+[17]: #parameters-7
 
-[18]: #parameters-8
+[18]: #getdisplayprofile
 
-[19]: #getprivateprofile
+[19]: #parameters-8
 
-[20]: #parameters-9
+[20]: #getprivateprofile
 
-[21]: #setprofile
+[21]: #parameters-9
 
-[22]: #parameters-10
+[22]: #setprofile
 
-[23]: #setprofilefield
+[23]: #parameters-10
 
-[24]: #parameters-11
+[24]: #setprofilefield
 
-[25]: #indexprofilefield
+[25]: #parameters-11
 
-[26]: #parameters-12
+[26]: #indexprofilefield
 
-[27]: #setprofilefieldprivacy
+[27]: #parameters-12
 
-[28]: #parameters-13
+[28]: #setprofilefieldprivacy
 
-[29]: #getfeedpage
+[29]: #parameters-13
 
-[30]: #parameters-14
+[30]: #getfeedpage
 
-[31]: #getstandardizedfeed
+[31]: #parameters-14
 
-[32]: #parameters-15
+[32]: #getstandardizedfeed
 
-[33]: #getuserprofile
+[33]: #parameters-15
 
-[34]: #parameters-16
+[34]: #getuseraddress
 
-[35]: #standardizefeed
+[35]: #parameters-16
 
-[36]: #parameters-17
+[36]: #getuserprofile
 
-[37]: #updatefeedevent
+[37]: #parameters-17
 
-[38]: #parameters-18
+[38]: #standardizefeed
 
-[39]: #maskfield
+[39]: #parameters-18
 
-[40]: #parameters-19
+[40]: #updatefeedevent
 
-[41]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+[41]: #parameters-19
 
-[42]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
+[42]: #getlastblocknode
 
-[43]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise
+[43]: #savelastblocknumber
 
-[44]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number
+[44]: #parameters-20
 
-[45]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean
+[45]: #maskfield
+
+[46]: #parameters-21
+
+[47]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+
+[48]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
+
+[49]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise
+
+[50]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array
+
+[51]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number
+
+[52]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean

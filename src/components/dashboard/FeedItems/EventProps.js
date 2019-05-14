@@ -2,7 +2,7 @@
 export type FeedEventProps = {
   item: {
     id: string,
-    date: String,
+    date: string,
     data: {
       amount: number,
       endpoint: {

@@ -9,9 +9,10 @@ import { useDialog } from '../../lib/undux/utils/dialog'
 import MnemonicInput from './MnemonicInput'
 import { CustomButton } from '../common'
 import { useWrappedApi } from '../../lib/API/useWrappedApi'
-import { DoneButton } from '../appNavigation/stackNavigation'
 
-const log = logger.child({ from: 'BackupWallet' })
+const TITLE = 'Back up your wallet'
+
+const log = logger.child({ from: TITLE })
 
 type BackupWalletProps = {
   screenProps: any
@@ -63,6 +64,10 @@ const BackupWallet = ({ screenProps }: BackupWalletProps) => {
       </View>
     </View>
   )
+}
+
+BackupWallet.navigationOptions = {
+  title: TITLE
 }
 
 const styles = StyleSheet.create({

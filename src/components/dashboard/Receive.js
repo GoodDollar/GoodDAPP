@@ -5,6 +5,7 @@ import { Clipboard, View } from 'react-native'
 
 import logger from '../../lib/logger/pino-logger'
 import { generateCode, generateShareLink } from '../../lib/share'
+import { useDialog } from '../../lib/undux/utils/dialog'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { PushButton } from '../appNavigation/stackNavigation'
 import { Address, Section, Wrapper } from '../common'
@@ -24,10 +25,20 @@ const log = logger.child({ from: RECEIVE_TITLE })
 
 const Receive = ({ screenProps }: ReceiveProps) => {
   const { account, networkId } = goodWallet
+  const [showDialogWithData] = useDialog()
   const amount = 0
 
   const code = useMemo(() => generateCode(account, networkId, amount), [account, networkId, amount])
-  const link = useMemo(() => generateShareLink('receive', { code }), [code])
+  const link = useMemo(() => {
+    try {
+      return generateShareLink('receive', { code })
+    } catch (e) {
+      showDialogWithData({
+        title: 'Error',
+        message: e.message
+      })
+    }
+  }, [code])
 
   const copyAddress = useCallback(() => {
     Clipboard.setString(account)

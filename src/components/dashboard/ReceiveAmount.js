@@ -2,6 +2,7 @@
 import React, { useMemo } from 'react'
 import { View } from 'react-native'
 import QRCode from 'qrcode.react'
+import { useDialog } from '../../lib/undux/utils/dialog'
 
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { generateCode, generateShareLink } from '../../lib/share'
@@ -20,10 +21,20 @@ const RECEIVE_TITLE = 'Receive GD'
 const ReceiveAmount = ({ screenProps }: ReceiveProps) => {
   const { account, networkId } = goodWallet
   const [screenState, setScreenState] = useScreenState(screenProps)
+  const [showDialogWithData] = useDialog()
   const { amount } = screenState
 
   const code = useMemo(() => generateCode(account, networkId, amount), [account, networkId, amount])
-  const link = useMemo(() => generateShareLink('receive', { code }), [code])
+  const link = useMemo(() => {
+    try {
+      return generateShareLink('receive', { code })
+    } catch (e) {
+      showDialogWithData({
+        title: 'Error',
+        message: e.message
+      })
+    }
+  }, [code])
 
   return (
     <Wrapper style={styles.wrapper}>

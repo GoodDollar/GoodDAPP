@@ -404,10 +404,6 @@ export class GoodWallet {
       reason
     })
 
-    if (!sendLink) {
-      throw new Error(`Link couldn't be generated`)
-    }
-
     const onTransactionHash = events.onTransactionHash({ sendLink, generatedString })
     const receipt = await this.sendTransaction(transferAndCall, { onTransactionHash }, { gas })
 

@@ -29,7 +29,6 @@ function Handler(store, params) {
 
   this.errorHandler = error => {
     let message = 'Unknown Error'
-    console.log({ error })
     if (error.response && error.response.data) {
       message = error.response.data.message
     } else if (error.message) {

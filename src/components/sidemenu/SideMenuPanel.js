@@ -11,60 +11,56 @@ type SideMenuPanelProps = {
   getItems: Function
 }
 
-const getMenuItems = ({ API, sidemenuActions, navigation }) => {
-  const { hideSidemenu } = sidemenuActions
-  return [
-    {
-      icon: 'person',
-      name: 'Your profile',
-      action: () => {
-        navigation.navigate({
-          routeName: 'Profile',
-          type: 'Navigation/NAVIGATE'
-        })
-        hideSidemenu()
-      }
-    },
-    {
-      icon: 'lock',
-      name: 'Backup Your Wallet',
-      action: async () => {
-        navigation.navigate({
-          routeName: 'BackupWallet',
-          type: 'Navigation/NAVIGATE'
-        })
-        hideSidemenu()
-      }
-    },
-    {
-      icon: 'person',
-      name: 'Profile Privacy'
-    },
-    {
-      icon: 'notifications',
-      name: 'Notification Settings'
-    },
-    {
-      icon: 'person',
-      name: 'Send Feedback'
-    },
-    {
-      icon: 'comment',
-      name: 'FAQ'
-    },
-    {
-      icon: 'question-answer',
-      name: 'About'
+const getMenuItems = ({ API, hideSidemenu, navigation }) => [
+  {
+    icon: 'person',
+    name: 'Your profile',
+    action: () => {
+      navigation.navigate({
+        routeName: 'Profile',
+        type: 'Navigation/NAVIGATE'
+      })
+      hideSidemenu()
     }
-  ]
-}
+  },
+  {
+    icon: 'lock',
+    name: 'Backup Your Wallet',
+    action: async () => {
+      navigation.navigate({
+        routeName: 'BackupWallet',
+        type: 'Navigation/NAVIGATE'
+      })
+      hideSidemenu()
+    }
+  },
+  {
+    icon: 'person',
+    name: 'Profile Privacy'
+  },
+  {
+    icon: 'notifications',
+    name: 'Notification Settings'
+  },
+  {
+    icon: 'person',
+    name: 'Send Feedback'
+  },
+  {
+    icon: 'comment',
+    name: 'FAQ'
+  },
+  {
+    icon: 'question-answer',
+    name: 'About'
+  }
+]
 
 const SideMenuPanel = ({ navigation }: SideMenuPanelProps) => {
   const API = useWrappedApi()
-  const sidemenuActions = useSidemenu()
-  const { toggleSidemenu } = sidemenuActions
+  const [toggleSidemenu, hideSidemenu] = useSidemenu()
 
-  const MENU_ITEMS = getMenuItems({ API, sidemenuActions, navigation })
+  const MENU_ITEMS = getMenuItems({ API, hideSidemenu, navigation })
   return (
     <View>
       <View style={styles.closeIconRow} onClick={toggleSidemenu}>

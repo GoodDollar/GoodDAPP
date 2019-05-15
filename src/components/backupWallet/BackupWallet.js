@@ -6,7 +6,7 @@ import { normalize } from 'react-native-elements'
 import { getMnemonics, getMnemonicsObject } from '../../lib/wallet/SoftwareWalletProvider'
 import logger from '../../lib/logger/pino-logger'
 import { useDialog } from '../../lib/undux/utils/dialog'
-import MnemonicInput from './MnemonicInput'
+import MnemonicInput from '../signin/MnemonicInput'
 import { CustomButton } from '../common'
 import { useWrappedApi } from '../../lib/API/useWrappedApi'
 

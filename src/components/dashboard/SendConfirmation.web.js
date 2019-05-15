@@ -2,6 +2,7 @@
 import QRCode from 'qrcode.react'
 import React, { useCallback, useEffect, useState } from 'react'
 import { Clipboard, StyleSheet, Text, View } from 'react-native'
+import { normalize } from 'react-native-elements'
 import { isMobile } from 'mobile-device-detect'
 
 import logger from '../../lib/logger/pino-logger'
@@ -12,6 +13,7 @@ import { BigGoodDollar, CustomButton, Section, TopBar, Wrapper } from '../common
 import { fontStyle } from '../common/styles'
 import './AButton.css'
 import { receiveStyles } from './styles'
+import { getScreenHeight } from '../../lib/utils/Orientation'
 
 export type ReceiveProps = {
   screenProps: any,
@@ -66,29 +68,31 @@ const SendConfirmation = ({ screenProps }: ReceiveProps) => {
     )
 
   return (
-    <Wrapper style={styles.wrapper}>
+    <Wrapper>
       <TopBar hideBalance push={screenProps.push} />
       <Section style={styles.section}>
-        <Section.Row style={styles.sectionRow}>
-          <View style={styles.qrCode}>
-            <QRCode value={sendLink || ''} />
-          </View>
-          <Section.Text style={styles.addressSection}>
-            <Text style={styles.url}>{sendLink}</Text>
-          </Section.Text>
-          <Section.Text style={styles.secondaryText} onPress={copySendLink}>
-            Copy link to clipboard
-          </Section.Text>
-          <Section.Text>
-            {`Here's `}
-            <BigGoodDollar number={amount} />
-          </Section.Text>
-          <Section.Text>{reason && `For ${reason}`}</Section.Text>
-          <View style={styles.buttonGroup}>
-            {isMobile ? <ShareButton /> : null}
-            <DoneButton style={styles.buttonStyle} screenProps={screenProps} />
-          </View>
-        </Section.Row>
+        <View style={styles.topContainer}>
+          <Section.Row style={styles.sectionRow}>
+            <View style={styles.qrCode}>
+              <QRCode value={sendLink || ''} />
+            </View>
+            <Section.Text style={styles.addressSection}>
+              <Text style={styles.url}>{sendLink}</Text>
+            </Section.Text>
+            <Section.Text style={styles.secondaryText} onPress={copySendLink}>
+              Copy link to clipboard
+            </Section.Text>
+            <Section.Text>
+              {`Here's `}
+              <BigGoodDollar number={amount} />
+            </Section.Text>
+            <Section.Text>{reason && `For ${reason}`}</Section.Text>
+          </Section.Row>
+        </View>
+        <View style={styles.buttonGroup}>
+          {isMobile ? <ShareButton /> : null}
+          <DoneButton style={styles.buttonStyle} screenProps={screenProps} />
+        </View>
       </Section>
     </Wrapper>
   )
@@ -100,7 +104,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-between',
     alignItems: 'center',
-    alignContent: 'stretch'
+    alignContent: 'stretch',
+    paddingTop: normalize(22)
   },
   sectionRow: {
     flexDirection: 'column',
@@ -116,11 +121,11 @@ const styles = StyleSheet.create({
   buttonGroup: {
     width: '100%',
     flexDirection: 'column',
-    marginTop: '1rem',
+    marginTop: getScreenHeight() > 600 ? '1rem' : 0,
     flex: 1
   },
   qrCode: {
-    marginTop: '2rem',
+    marginTop: getScreenHeight() > 600 ? '2rem' : 0,
     padding: '1rem',
     borderColor: '#555',
     borderWidth: 1,

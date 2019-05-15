@@ -87,7 +87,7 @@ exports[`TabsView matches snapshot 1`] = `
         }
       }
     >
-      Rewards
+      Dashboard
     </div>
   </div>
   <div
@@ -158,7 +158,7 @@ exports[`TabsView matches snapshot 1`] = `
         }
       }
     >
-      BuySell
+      Profile
     </div>
   </div>
 </div>

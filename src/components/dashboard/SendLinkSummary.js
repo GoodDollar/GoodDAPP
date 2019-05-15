@@ -50,7 +50,7 @@ const SendLinkSummary = (props: AmountProps) => {
               ...extraData
             }
           }
-          UserStorage.updateFeedEvent(transactionEvent)
+          UserStorage.enqueueTX(transactionEvent)
         }
       })
 

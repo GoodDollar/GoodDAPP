@@ -28,8 +28,8 @@ const SendQRSummary = (props: AmountProps) => {
   const [screenState] = useScreenState(screenProps)
   const goodWallet = useWrappedGoodWallet()
   const store = GDStore.useStore()
-  const { loading } = store.get('currentScreen')
-
+  const [loading, setLoading] = useState(false)
+  const [isValid, setIsValid] = useState(screenState.isValid)
   const { amount, reason, to } = screenState
   const [profile, setProfile] = useState({})
 
@@ -43,6 +43,7 @@ const SendQRSummary = (props: AmountProps) => {
 
   const sendGD = async () => {
     try {
+      setLoading(true)
       const receipt = await goodWallet.sendAmount(to, amount, {
         onTransactionHash: hash => {
           log.debug({ hash })
@@ -57,10 +58,11 @@ const SendQRSummary = (props: AmountProps) => {
               amount
             }
           }
-          UserStorage.updateFeedEvent(transactionEvent)
+          UserStorage.enqueueTX(transactionEvent)
           return hash
         }
       })
+      setLoading(false)
       log.debug({ receipt, screenProps })
       store.set('currentScreen')({
         dialogData: {

@@ -41,7 +41,7 @@ type QueryEvent = {
   contract: Web3.eth.Contract,
   filterPred: {},
   fromBlock: typeof BN,
-  toBlock: typeof BN | 'latest'
+  toBlock?: typeof BN | 'latest'
 }
 
 const defaultPromiEvents: PromiEvents = {
@@ -59,7 +59,7 @@ export class GoodWallet {
     eth: 2,
     donate: 3,
     login: 4,
-    zoomId: 1
+    zoomId: 5
   }
   ready: Promise<Web3>
   wallet: Web3
@@ -73,66 +73,67 @@ export class GoodWallet {
   accounts: Array<string>
   networkId: number
   gasPrice: number
-  subscribers: any
+  subscribers: any = {}
 
   constructor() {
     this.init()
   }
 
-  listenTxUpdates() {
-    this.subscribers = {}
-    this.wallet.eth
-      .getBlockNumber()
-      .then(toBN)
-      .then(toBlock => {
-        this.pollForEvents(
-          {
-            event: 'Transfer',
-            contract: this.tokenContract,
-            fromBlock: new BN('0'),
-            toBlock,
-            filterPred: { from: this.account }
-          },
-          async (error, events) => {
-            log.debug({ error, events }, 'send')
-            const [event] = events
-            if (!event) {
-              log.error('no event', events)
-              return
-            }
-            this.getReceiptWithLogs(event.transactionHash)
-              .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptUpdated']))
-              .catch(err => log.error(err))
-            // Send for all events. We could define here different events
-            this.getSubscribers('send').forEach(cb => cb(error, events))
-            this.getSubscribers('balanceChanged').forEach(cb => cb(error, events))
-          }
-        )
+  /**
+   * Subscribes to Transfer events (from and to) the current account
+   * This is used to verify account balance changes
+   * @param fromBlock - defaultValue: '0'
+   * @returns {Promise<R>|Promise<R|*>|Promise<*>}
+   */
+  listenTxUpdates(fromBlock: string = '0') {
+    log.debug('listening from block:', fromBlock)
+    fromBlock = new BN(fromBlock)
 
-        this.pollForEvents(
-          {
-            event: 'Transfer',
-            contract: this.tokenContract,
-            fromBlock: new BN('0'),
-            toBlock,
-            filterPred: { to: this.account }
-          },
-          async (error, events) => {
-            log.debug({ error, events }, 'receive')
-            const [event] = events
-            if (!event) {
-              log.error('no event', events)
-              return
-            }
-            this.getReceiptWithLogs(event.transactionHash)
-              .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptReceived']))
-              .catch(err => log.error(err))
+    this.pollForEvents(
+      {
+        event: 'Transfer',
+        contract: this.tokenContract,
+        fromBlock,
+        filterPred: { from: this.wallet.utils.toChecksumAddress(this.account) }
+      },
+      async (error, events) => {
+        log.debug({ error, events }, 'send')
+        const [event] = events
+        if (!event) {
+          log.error('no event', events)
+          return
+        }
+        this.getReceiptWithLogs(event.transactionHash)
+          .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptUpdated']))
+          .catch(err => log.error(err))
+        // Send for all events. We could define here different events
+        this.getSubscribers('send').forEach(cb => cb(error, events))
+        this.getSubscribers('balanceChanged').forEach(cb => cb(error, events))
+      }
+    )
 
-            this.getSubscribers('receive').forEach(cb => cb(error, events))
-            this.getSubscribers('balanceChanged').forEach(cb => cb(error, events))
-          }
-        )
-      })
+    this.pollForEvents(
+      {
+        event: 'Transfer',
+        contract: this.tokenContract,
+        fromBlock,
+        filterPred: { to: this.wallet.utils.toChecksumAddress(this.account) }
+      },
+      async (error, events) => {
+        log.debug({ error, events }, 'receive')
+        const [event] = events
+        if (!event) {
+          log.error('no event', events)
+          return
+        }
+        this.getReceiptWithLogs(event.transactionHash)
+          .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptReceived']))
+          .catch(err => log.error(err))
+
+        this.getSubscribers('receive').forEach(cb => cb(error, events))
+        this.getSubscribers('balanceChanged').forEach(cb => cb(error, events))
+      }
+    )
   }
 
   async getReceiptWithLogs(transactionHash: string) {
@@ -160,6 +161,7 @@ export class GoodWallet {
         this.account = (await this.getAccountForType('gd')) || this.wallet.eth.defaultAccount
         this.wallet.eth.defaultAccount = this.account
         this.networkId = Config.networkId
+        log.info(`networkId: ${this.networkId}`)
         this.gasPrice = wallet.utils.toWei('1', 'gwei')
         this.wallet.eth.defaultGasPrice = this.gasPrice
         this.identityContract = new this.wallet.eth.Contract(
@@ -194,7 +196,6 @@ export class GoodWallet {
         )
         abiDecoder.addABI(OneTimePaymentLinksABI.abi)
         log.info('GoodWallet Ready.', { account: this.account })
-        this.listenTxUpdates()
       })
       .catch(e => {
         log.error('Failed initializing GoodWallet', e)
@@ -255,6 +256,14 @@ export class GoodWallet {
   }
 
   /**
+   * Retrieves current Block Number and returns it as converted to a BN instance
+   * @returns {Promise<BN>} - Current block number in BN instance
+   */
+  getBlockNumber(): Promise<BN> {
+    return this.wallet.eth.getBlockNumber().then(toBN)
+  }
+
+  /**
    * Client side event filter. Requests all events for a particular contract, then filters them and returns the event Object
    * @param {String} event - Event to subscribe to
    * @param {Object} contract - Contract from which event will be queried
@@ -267,6 +276,7 @@ export class GoodWallet {
     const events = await contract.getPastEvents('allEvents', { fromBlock, toBlock })
     const res1 = filterFunc(events, { event })
     const res = filterFunc(res1, { returnValues: { ...filterPred } })
+    log.debug({ res, events, res1, fromBlock: fromBlock.toString(), toBlock: toBlock && toBlock.toString() })
 
     return res
   }
@@ -317,34 +327,41 @@ export class GoodWallet {
    * @param {BN} lastProcessedBlock - Used for recursion. It's not required to be set by the user. Initial value: ZERO
    * @returns {Promise<void>}
    */
-  async pollForEvents(
-    { event, contract, filterPred, fromBlock, toBlock }: QueryEvent,
-    callback: Function,
-    lastProcessedBlock: typeof BN = ZERO
-  ) {
+  async pollForEvents({ event, contract, filterPred, fromBlock, toBlock }: QueryEvent, callback: Function) {
     const BLOCK_TIME = 5000
     const BLOCK_COUNT = 1
     const INTERVAL = BLOCK_COUNT * BLOCK_TIME
-    const lastBlock = await this.wallet.eth.getBlockNumber().then(toBN)
 
-    log.debug('lastProcessedBlock', lastProcessedBlock.toString())
+    const lastBlock = toBlock !== undefined ? toBlock : await this.getBlockNumber()
+    fromBlock = fromBlock !== undefined ? fromBlock : ZERO
+
+    log.debug('fromBlock', fromBlock && fromBlock.toString())
     log.debug('lastBlock', lastBlock.toString())
-    if (lastProcessedBlock.lt(lastBlock)) {
-      fromBlock = toBlock
-      toBlock = lastBlock
-      await this.oneTimeEvents({ event, contract, filterPred, fromBlock, toBlock }, callback)
-    } else {
-      log.debug('all blocks processed', {
-        toBlock: toBlock.toString(),
-        lastBlock: lastBlock.toString()
-      })
+    log.debug('toBlock', toBlock && toBlock.toString())
+
+    if (toBlock && toBlock.lt(lastBlock)) {
+      log.debug('toBlock reached', { toBlock: toBlock.toString(), lastBlock: lastBlock.toString() })
+      return
     }
 
-    log.debug('about to recurse', { event, contract, filterPred, fromBlock, toBlock })
-    setTimeout(
-      () => this.pollForEvents({ event, contract, filterPred, fromBlock, toBlock }, callback, toBlock),
-      INTERVAL
-    )
+    if (fromBlock && fromBlock.eq(lastBlock)) {
+      log.debug('all blocks processed', { fromBlock: fromBlock.toString(), lastBlock: lastBlock.toString() })
+    } else {
+      await this.oneTimeEvents({ event, contract, filterPred, fromBlock, toBlock: lastBlock }, callback)
+    }
+
+    log.debug('about to recurse', {
+      event,
+      contract,
+      filterPred,
+      fromBlock: fromBlock && fromBlock.toString(),
+      toBlock: toBlock && toBlock.toString(),
+      lastBlock: lastBlock.toString()
+    })
+
+    setTimeout(() => {
+      this.pollForEvents({ event, contract, filterPred, fromBlock: lastBlock, toBlock }, callback)
+    }, INTERVAL)
   }
 
   async balanceOf(): Promise<number> {
@@ -357,7 +374,7 @@ export class GoodWallet {
 
   async getAccountForType(type: AccountUsage): Promise<string> {
     let account = this.accounts[GoodWallet.AccountUsageToPath[type]].address || this.account
-    return account
+    return account.toString().toLowerCase()
   }
 
   async sign(toSign: string, accountType: AccountUsage = 'gd'): Promise<string> {

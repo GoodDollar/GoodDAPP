@@ -11,12 +11,60 @@ type SideMenuPanelProps = {
   getItems: Function
 }
 
-const SideMenuPanel = ({ navigation, getItems }: SideMenuPanelProps) => {
+const getMenuItems = ({ API, sidemenuActions, navigation }) => {
+  const { hideSidemenu } = sidemenuActions
+  return [
+    {
+      icon: 'person',
+      name: 'Your profile',
+      action: () => {
+        navigation.navigate({
+          routeName: 'Profile',
+          type: 'Navigation/NAVIGATE'
+        })
+        hideSidemenu()
+      }
+    },
+    {
+      icon: 'lock',
+      name: 'Backup Your Wallet',
+      action: async () => {
+        navigation.navigate({
+          routeName: 'BackupWallet',
+          type: 'Navigation/NAVIGATE'
+        })
+        hideSidemenu()
+      }
+    },
+    {
+      icon: 'person',
+      name: 'Profile Privacy'
+    },
+    {
+      icon: 'notifications',
+      name: 'Notification Settings'
+    },
+    {
+      icon: 'person',
+      name: 'Send Feedback'
+    },
+    {
+      icon: 'comment',
+      name: 'FAQ'
+    },
+    {
+      icon: 'question-answer',
+      name: 'About'
+    }
+  ]
+}
+
+const SideMenuPanel = ({ navigation }: SideMenuPanelProps) => {
   const API = useWrappedApi()
   const sidemenuActions = useSidemenu()
   const { toggleSidemenu } = sidemenuActions
 
-  const MENU_ITEMS = getItems({ API, sidemenuActions, navigation })
+  const MENU_ITEMS = getMenuItems({ API, sidemenuActions, navigation })
   return (
     <View>
       <View style={styles.closeIconRow} onClick={toggleSidemenu}>

@@ -33,56 +33,6 @@ const getComponent = (Component, props) => {
   return Component
 }
 
-const getMenuItems = ({ API, sidemenuActions, navigation }) => {
-  const { hideSidemenu, showDialogWithData } = sidemenuActions
-  return [
-    {
-      icon: 'person',
-      name: 'Your profile',
-      action: () => {
-        navigation.navigate({
-          routeName: 'Profile',
-          type: 'Navigation/NAVIGATE'
-        })
-        hideSidemenu()
-      }
-    },
-    {
-      icon: 'lock',
-      name: 'Backup Your Wallet',
-      action: async () => {
-        const mnemonic = await AsyncStorage.getItem('GD_USER_MNEMONIC')
-        await API.sendRecoveryInstructionByEmail(mnemonic)
-        showDialogWithData({
-          title: 'Backup Your Wallet',
-          message: 'We sent an email with recovery instructions for your wallet'
-        })
-        hideSidemenu()
-      }
-    },
-    {
-      icon: 'person',
-      name: 'Profile Privacy'
-    },
-    {
-      icon: 'notifications',
-      name: 'Notification Settings'
-    },
-    {
-      icon: 'person',
-      name: 'Send Feedback'
-    },
-    {
-      icon: 'comment',
-      name: 'FAQ'
-    },
-    {
-      icon: 'question-answer',
-      name: 'About'
-    }
-  ]
-}
-
 type AppViewProps = {
   descriptors: any,
   navigation: any,
@@ -209,7 +159,7 @@ class AppView extends Component<AppViewProps, any> {
     }
     const Component = getComponent(descriptor.getComponent(), { screenProps })
     const pageTitle = title || activeKey
-    const menu = <SideMenuPanel screenProps={screenProps} navigation={navigation} getItems={getMenuItems} />
+    const menu = <SideMenuPanel screenProps={screenProps} navigation={navigation} />
     return (
       <React.Fragment>
         <Helmet>

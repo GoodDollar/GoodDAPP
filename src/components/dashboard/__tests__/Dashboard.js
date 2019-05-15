@@ -11,7 +11,7 @@ const { Container } = GDStore
 
 const routes = {
   Dashboard: getComponentWithMocks('../Dashboard'),
-  Donate: getComponentWithMocks('../../appNavigation/Donate')
+  Profile: getComponentWithMocks('../../profile/Profile')
 }
 
 const AppNavigator = createSwitchNavigator(routes)

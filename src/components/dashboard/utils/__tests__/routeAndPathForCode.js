@@ -1,20 +1,9 @@
-import { sendFromQRCode } from '../sendFromQRCode'
+import { routeAndPathForCode } from '../routeAndPathForCode'
 
-describe('sendFromQRCode', () => {
-  it(`should return a curried function`, () => {
-    // Given
-    const curriedFunction = sendFromQRCode('send')
-
-    // Then
-    expect(curriedFunction).toBeInstanceOf(Function)
-  })
-
+describe('routeAndPathForCode', () => {
   it(`should fail if code is null`, () => {
     // Given
-    const curriedFunction = sendFromQRCode('send')
-
-    // When
-    const erroredCall = () => curriedFunction(null)
+    const erroredCall = () => routeAndPathForCode('send', null)
 
     // Then
     expect(erroredCall).toThrowError('Invalid QR Code.')
@@ -22,10 +11,7 @@ describe('sendFromQRCode', () => {
 
   it(`should fail if code is malformed`, () => {
     // Given
-    const curriedFunction = sendFromQRCode('send')
-
-    // When
-    const erroredCall = () => curriedFunction('123')
+    const erroredCall = () => routeAndPathForCode('send', '123')
 
     // Then
     expect(erroredCall).toThrowError('Invalid network. Switch to Fuse.')
@@ -33,11 +19,8 @@ describe('sendFromQRCode', () => {
 
   it(`should pass if code is valid`, () => {
     // Given
-    const curriedFunction = sendFromQRCode('send')
-
-    // When
     const code = { networkId: 121, address: '0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1' }
-    const [route, params] = curriedFunction(code)
+    const { route, params } = routeAndPathForCode('send', code)
 
     // Then
     expect(route).toBe('Amount')
@@ -46,11 +29,8 @@ describe('sendFromQRCode', () => {
 
   it(`should fail if screen is invalid`, () => {
     // Given
-    const curriedFunction = sendFromQRCode('invalidScreen')
-
-    // When
     const code = { networkId: 121, address: '0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1' }
-    const erroredCall = () => curriedFunction(code)
+    const erroredCall = () => routeAndPathForCode('invalidScreen', code)
 
     // Then
     expect(erroredCall).toThrowError('Invalid screen specified')

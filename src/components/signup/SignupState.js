@@ -113,20 +113,13 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
           // Stores creationBlock number into 'lastBlock' feed's node
           const creationBlock = (await goodWallet.getBlockNumber()).toString()
           await userStorage.saveLastBlockNumber(creationBlock)
-
-          const destinationPath = await AsyncStorage.getItem('destinationPath')
           // top wallet of new user
           // wait for the topping to complete to be able to withdraw
           await API.verifyTopWallet()
           store.set('isLoggedInCitizen')(true)
           const mnemonic = await AsyncStorage.getItem('GD_USER_MNEMONIC')
           await API.sendRecoveryInstructionByEmail(mnemonic)
-          if (destinationPath) {
-            navigation.navigate(JSON.parse(destinationPath))
-            return AsyncStorage.removeItem('destinationPath')
-          } else {
-            navigation.navigate('AppNavigation')
-          }
+          navigation.navigate('AppNavigation')
         } catch (error) {
           log.error('New user failure', { error })
         }

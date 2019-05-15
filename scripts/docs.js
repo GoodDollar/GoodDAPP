@@ -1,7 +1,7 @@
 'use strict';
 const fs = require('fs');
 const { exec } = require('child_process');
-const DELETE_EMPTY_DOCS = false
+const DELETE_EMPTY_DOCS = true
 console.log("Generating docs...")
 const excludedFolders = ['__tests__', '__util__']
 

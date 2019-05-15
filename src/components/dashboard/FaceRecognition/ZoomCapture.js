@@ -38,6 +38,15 @@ type FaceRecognitionResponse = {
 }
 
 class ZoomCapture extends React.Component<ZoomCaptureProps, State> {
+  state = {
+    showPreText: true,
+    showZoomCapture: false,
+    loadingFaceRecognition: false,
+    loadingText: '',
+    facemap: null,
+    ready: false
+  }
+
   async componentDidMount() {
     try {
       await this.loadZoomSDK()
@@ -70,6 +79,7 @@ class ZoomCapture extends React.Component<ZoomCaptureProps, State> {
       log.error(`Failed on capture, error: ${e}`)
     }
     log.info({ captureOutcome })
+    debugger
     this.props.store.set('captureResult')(captureOutcome)
   }
 

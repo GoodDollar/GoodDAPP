@@ -63,7 +63,7 @@ export type TransactionEvent = FeedEvent & {
  * @returns {object} {transferLog: event: [{evtName: evtValue}]}
  */
 export const getReceiveDataFromReceipt = (receipt: any) => {
-  if (!receipt || !receipt.logs || receipt.logs <= 0) return {}
+  if (!receipt || !receipt.logs || receipt.logs.length <= 0) return {}
   // Obtain logged data from receipt event
   const logs = receipt.logs.map(log =>
     log.events.reduce(

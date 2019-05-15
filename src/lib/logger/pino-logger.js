@@ -1,7 +1,7 @@
 import pino from 'pino'
 
 const logger = pino({
-  level: process.env.REACT_APP_LOG_LEVEL
+  level: 'debug'
 })
-
+logger.debug = logger.info
 export default logger

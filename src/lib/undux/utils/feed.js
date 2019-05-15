@@ -11,7 +11,7 @@ export const getInitialFeed = async (store: Store) => {
   const currentScreen = store.get('currentScreen')
   store.set('currentScreen')({ ...currentScreen, loading: true })
   const feeds = await userStorage
-    .getStandardizedFeed(PAGE_SIZE, true)
+    .getFormattedEvents(PAGE_SIZE, true)
     .catch(err => logger.error('getInitialFeed -> ', err))
   store.set('currentScreen')({ ...currentScreen, loading: false })
   store.set('feeds')(feeds)
@@ -19,7 +19,7 @@ export const getInitialFeed = async (store: Store) => {
 
 export const getNextFeed = async (store: Store) => {
   const currentFeeds = store.get('feeds')
-  const newFeeds = await userStorage.getStandardizedFeed(PAGE_SIZE, false)
+  const newFeeds = await userStorage.getFormattedEvents(PAGE_SIZE, false)
   if (newFeeds.length > 0) {
     store.set('feeds')([...currentFeeds, ...newFeeds])
   }

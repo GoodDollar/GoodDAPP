@@ -566,6 +566,7 @@ export class GoodWallet {
         .on('receipt', onReceipt)
         .on('confirmation', onConfirmation)
         .on('error', onError)
+        /** receipt handling happens already in polling events */
         // .then(async receipt => {
         //   const transactionReceipt = await this.getReceiptWithLogs(receipt.transactionHash)
         //   await this.sendReceiptWithLogsToSubscribers(transactionReceipt, ['receiptReceived', 'receiptUpdated'])

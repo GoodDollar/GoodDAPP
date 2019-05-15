@@ -2,7 +2,7 @@ import { generateShareLink } from '../'
 import Config from '../../../config/config'
 
 describe('generateShareLink', () => {
-  it(`should return an empty string if action has an invalid value`, () => {
+  it(`should fail if action has an invalid value`, () => {
     // Given
     const action = 'share'
     const params = {
@@ -10,30 +10,30 @@ describe('generateShareLink', () => {
     }
 
     // When
-    const link = generateShareLink(action, params)
+    const erroredFunction = () => generateShareLink(action, params)
 
     // Then
-    expect(link).toEqual('')
+    expect(erroredFunction).toThrowError(`Link couldn't be generated`)
   })
 
-  it(`should return an empty string if params is an empty object`, () => {
+  it(`should fail if params is an empty object`, () => {
     // Given
     const action = 'send'
     const params = {}
 
     // When
-    const link = generateShareLink(action, params)
+    const erroredFunction = () => generateShareLink(action, params)
 
     // Then
-    expect(link).toEqual('')
+    expect(erroredFunction).toThrowError(`Link couldn't be generated`)
   })
 
-  it(`should return an empty string if no params are provided`, () => {
-    // Given
-    const link = generateShareLink()
+  it(`should fail if no params are provided`, () => {
+    // When
+    const erroredFunction = () => generateShareLink()
 
     // Then
-    expect(link).toEqual('')
+    expect(erroredFunction).toThrowError(`Link couldn't be generated`)
   })
 
   it(`should return link generated from send action`, () => {

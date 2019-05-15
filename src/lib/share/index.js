@@ -146,7 +146,7 @@ export function generateShareLink(action: ActionType = 'receive', params: {} = {
     .map(param => param.join('='))
     .join('&')
 
-  if (!queryParams || !destination) return ''
+  if (!queryParams || !destination) throw new Error(`Link couldn't be generated`)
 
   return `${Config.publicUrl}/AppNavigation/Dashboard/${destination}?${queryParams}`
 }

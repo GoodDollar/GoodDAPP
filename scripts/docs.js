@@ -65,7 +65,7 @@ async function generateDocs(baseFolder, deep){
             const filePath = `${folder}/${file}`;
             //generate recursively for all subfolders when reaching last level
             if(fs.lstatSync(filePath).isDirectory() && deep==0) {
-                const outputFolder = `${folder.replace(baseFolder,'docs')}/`
+                const outputFolder = `${folder.replace(baseFolder,'docs/api')}/`
                 await execPromise(`mkdir -p ${outputFolder}`)
 
                 const mdFile = `${outputFolder+file}.md`
@@ -75,7 +75,7 @@ async function generateDocs(baseFolder, deep){
             //generate docs only for direct source files for non last level directory
             else if(fs.lstatSync(filePath).isDirectory())
             {
-                const outputFolder = `${folder.replace(baseFolder,'docs')}/`
+                const outputFolder = `${folder.replace(baseFolder,'docs/api')}/`
                 await execPromise(`mkdir -p ${outputFolder}`)
                 //adding '*.js' causes documentation to not be generated for sub folders
                 const mdFile = `${outputFolder+file}.md`

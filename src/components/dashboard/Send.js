@@ -13,7 +13,7 @@ import isMobilePhone from '../../lib/validators/isMobilePhone'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { useScreenState } from '../appNavigation/stackNavigation'
 import { CustomButton, IconButton, Section, TopBar, Wrapper } from '../common'
-import { sendFromQRCode } from './utils/sendFromQRCode'
+import { routeAndPathForCode } from './utils/routeAndPathForCode'
 
 const SEND_TITLE = 'Send GD'
 
@@ -83,13 +83,12 @@ const Send = props => {
     const { screenProps } = props
 
     try {
-      const extractRouteAndParams = sendFromQRCode('send')
       const { state } = props.navigation
 
       if (state.params && state.params.code) {
         const code = readCode(state.params.code)
 
-        const [route, params] = extractRouteAndParams(code)
+        const { route, params } = routeAndPathForCode('send', code)
 
         screenProps.push(route, params)
       }

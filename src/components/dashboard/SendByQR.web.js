@@ -8,7 +8,7 @@ import { readCode } from '../../lib/share'
 import GDStore from '../../lib/undux/GDStore'
 import { wrapFunction } from '../../lib/undux/utils/wrapper'
 import { Section, TopBar, Wrapper } from '../common'
-import { sendFromQRCode } from './utils/sendFromQRCode'
+import { routeAndPathForCode } from './utils/routeAndPathForCode'
 
 const QR_DEFAULT_DELAY = 300
 
@@ -31,9 +31,7 @@ const SendByQR = ({ screenProps }: Props) => {
 
         log.info({ code })
 
-        const extractRouteAndParams = sendFromQRCode('sendByQR')
-
-        const [route, params] = extractRouteAndParams(code)
+        const { route, params } = routeAndPathForCode('sendByQR', code)
 
         screenProps.push(route, params)
       } catch (e) {

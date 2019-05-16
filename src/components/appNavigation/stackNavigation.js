@@ -13,6 +13,13 @@ import NavBar from './NavBar'
 import { CustomButton, type ButtonProps } from '../common'
 import { scrollableContainer } from '../common/styles'
 
+export const DEFAULT_PARAMS = {
+  event: undefined,
+  receiveLink: undefined,
+  reason: undefined,
+  code: undefined
+}
+
 const log = logger.child({ from: 'stackNavigation' })
 
 /**
@@ -117,7 +124,14 @@ class AppView extends Component<AppViewProps, AppViewState> {
       stack: [],
       currentState: {}
     })
-    navigation.navigate(navigation.state.routes[0])
+
+    const route = navigation.state.routes[0]
+    route.params = {
+      ...route.params,
+      ...DEFAULT_PARAMS
+    }
+
+    navigation.navigate(route)
   }
 
   /**

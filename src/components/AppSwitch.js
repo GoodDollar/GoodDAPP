@@ -58,9 +58,10 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
     log.info('didUpdate')
     const destinationPath = await AsyncStorage.getItem('destinationPath')
     //once user logs in we can redirect him to saved destinationpath
-    if (destinationPath && this.props.store.get('isLoggedInCitizen')) {
+    if (destinationPath && this.props.store.get('isLoggedIn')) {
       const destDetails = JSON.parse(destinationPath)
       await AsyncStorage.removeItem('destinationPath')
+      log.debug('destinationPath found:', destDetails)
       return this.props.navigation.navigate(destDetails)
     }
   }

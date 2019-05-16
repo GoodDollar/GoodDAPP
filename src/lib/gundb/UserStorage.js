@@ -269,7 +269,7 @@ export class UserStorage {
     if (field !== 'index' || changed === undefined) return
     delete changed._
     this.feedIndex = orderBy(toPairs(changed), day => day[0], 'desc')
-    logger.denug('updateFeedIndex', { changed, field, newIndex: this.feedIndex })
+    logger.debug('updateFeedIndex', { changed, field, newIndex: this.feedIndex })
   }
 
   async initFeed() {
@@ -350,6 +350,7 @@ export class UserStorage {
 
   /**
    * Save profile with all validations and indexes
+   * It saves only known profile fields
    *
    * @param {UserModel} profile - User profile
    * @returns {Promise} Promise with profile settings updates and privacy validations

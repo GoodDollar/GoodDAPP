@@ -1,38 +1,45 @@
 import { routeAndPathForCode } from '../routeAndPathForCode'
 
+jest.mock('web3-providers-http', () => () => {
+  const Config = require('../../../../config/config').default
+  return require('ganache-cli').provider({ network_id: Config.networkId })
+})
+
 describe('routeAndPathForCode', () => {
   it(`should fail if code is null`, () => {
-    // Given
-    const erroredCall = () => routeAndPathForCode('send', null)
+    expect.assertions(1)
 
-    // Then
-    expect(erroredCall).toThrowError('Invalid QR Code.')
+    return routeAndPathForCode('send', null).catch(e => expect(e.message).toMatch('Invalid QR Code.'))
   })
 
   it(`should fail if code is malformed`, () => {
-    // Given
-    const erroredCall = () => routeAndPathForCode('send', '123')
+    expect.assertions(1)
 
-    // Then
-    expect(erroredCall).toThrowError('Invalid network. Switch to Fuse.')
+    return routeAndPathForCode('send', '123').catch(e => expect(e.message).toMatch(`Invalid QR Code.`))
   })
 
   it(`should pass if code is valid`, () => {
-    // Given
-    const code = { networkId: 121, address: '0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1' }
-    const { route, params } = routeAndPathForCode('send', code)
+    const code = { networkId: 42, address: '0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1' }
 
-    // Then
-    expect(route).toBe('Amount')
-    expect(params).toEqual({ to: code.address, nextRoutes: ['Reason', 'SendQRSummary'] })
+    return routeAndPathForCode('send', code).then(({ route, params }) => {
+      expect(route).toMatch('Amount')
+      expect(params).toEqual({ to: code.address, nextRoutes: ['Reason', 'SendQRSummary'] })
+    })
   })
 
   it(`should fail if screen is invalid`, () => {
-    // Given
-    const code = { networkId: 121, address: '0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1' }
-    const erroredCall = () => routeAndPathForCode('invalidScreen', code)
+    expect.assertions(1)
+    const code = { networkId: 42, address: '0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1' }
 
-    // Then
-    expect(erroredCall).toThrowError('Invalid screen specified')
+    return routeAndPathForCode('invalidScreen', code).catch(e => expect(e.message).toMatch('Invalid screen specified.'))
+  })
+
+  it(`should fail if networkId isn't current network ID is invalid`, () => {
+    expect.assertions(1)
+    const code = { networkId: 121, address: '0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1' }
+
+    return routeAndPathForCode('invalidScreen', code).catch(e =>
+      expect(e.message).toMatch('Invalid network. Code is meant to be used in FUSE network.')
+    )
   })
 })

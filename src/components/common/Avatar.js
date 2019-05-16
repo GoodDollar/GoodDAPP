@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, TouchableOpacity } from 'react-native'
 import { Avatar } from 'react-native-paper'
 
 export type AvatarProps = {
@@ -11,7 +11,7 @@ export type AvatarProps = {
 }
 
 export default (props: AvatarProps) => (
-  <View
+  <TouchableOpacity
     onClick={props.onPress}
     style={props.onPress ? [props.style, styles.clickable] : [props.style, styles.avatarView]}
   >
@@ -21,7 +21,7 @@ export default (props: AvatarProps) => (
       {...props}
       style={[styles.avatar, props.style]}
     />
-  </View>
+  </TouchableOpacity>
 )
 
 const styles = StyleSheet.create({

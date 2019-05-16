@@ -1,6 +1,6 @@
 //@flow
 import React from 'react'
-import { View, Text, StyleSheet, Image } from 'react-native'
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
 
 type TabButtonProps = {
   text?: string,
@@ -13,10 +13,10 @@ type TabButtonProps = {
 
 const TabButton = (props: TabButtonProps) => {
   return (
-    <View style={[styles.tabButton, props.tabButtonStyle]} onClick={() => props.goTo(props.routeName)}>
+    <TouchableOpacity style={[styles.tabButton, props.tabButtonStyle]} onClick={() => props.goTo(props.routeName)}>
       <Image source={props.icon} style={[styles.tabIcon, props.iconStyle]} />
       {props.text && <Text style={styles.tabButtonText}>{props.text}</Text>}
-    </View>
+    </TouchableOpacity>
   )
 }
 

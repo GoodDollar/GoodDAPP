@@ -6,11 +6,12 @@ export const listStyles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 15,
+    padding: normalize(5),
     marginBottom: 5,
     backgroundColor: 'rgb(238, 238, 239)',
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: 'rgba(0,0,0,0.1)'
+    borderLeftWidth: normalize(5),
+    borderLeftColor: 'rgb(186, 186, 186)',
+    borderRadius: normalize(8)
   },
   innerRow: {
     flexDirection: 'row',
@@ -30,18 +31,46 @@ export const listStyles = StyleSheet.create({
     flex: 1
   },
   rowDataText: {
-    fontSize: 15,
+    fontSize: normalize(15),
     textTransform: 'capitalize',
-    color: '#4b4b4b'
+    color: '#555'
   },
   rowDataSubText: {
-    fontSize: 13,
-    opacity: 0.8,
-    color: '#a8a689',
-    marginTop: 4
+    fontSize: normalize(15),
+    color: '#A3A3A3',
+    marginTop: 4,
+    textTransform: 'capitalize'
   },
   currency: {
     fontSize: normalize(12)
+  },
+  direction: {
+    fontWeight: 500,
+    fontSize: normalize(10)
+  },
+  fullName: {
+    fontWeight: 700
+  },
+  contentColumn: {
+    flexDirection: 'column',
+    justifyContent: 'right',
+    alignItems: 'right',
+    borderBottomWidth: 0,
+    marginBottom: 0,
+    padding: 0
+  },
+  rightContentRow: {
+    flexDirection: 'row',
+    justifyContent: 'right',
+    alignItems: 'center'
+  },
+  date: {
+    fontSize: normalize(8),
+    color: 'rgba(75, 75, 75, 0.8)',
+    marginLeft: 'auto'
+  },
+  eventIcon: {
+    marginRight: 0
   }
 })
 

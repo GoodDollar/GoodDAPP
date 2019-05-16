@@ -17,19 +17,29 @@ const ListEvent = ({ item: feed }: FeedEventProps) => {
   return (
     <View style={listStyles.innerRow}>
       <View>
-        <Avatar.Image size={48} style={{ backgroundColor: 'white' }} source={feed.data.endpoint.avatar} />
+        <Avatar.Image size={36} style={{ backgroundColor: 'white' }} source={feed.data.endpoint.avatar} />
         <Text>{`\n`}</Text>
       </View>
       <View style={listStyles.rowData}>
         <EventCounterParty feedItem={feed} />
         <Text style={listStyles.rowDataSubText}>{feed.data.message}</Text>
       </View>
-      <View style={[listStyles.row, { borderBottomWidth: 0, marginBottom: 0, padding: 0 }]}>
-        <BigGoodDollar number={feed.data.amount} elementStyles={listStyles.currency} />
-        <View style={listStyles.rowData}>
+      <View style={listStyles.contentColumn}>
+        <View style={listStyles.rightContentRow}>
+          <BigGoodDollar number={feed.data.amount} elementStyles={listStyles.currency} />
           <EventIcon type={feed.type} />
-          <Text style={{ fontSize: '8px', color: '#4b4b4b', opacity: 0.8 }}>
-            {new Date(feed.date).toLocaleString()}
+        </View>
+        <View style={listStyles.rightContentRow}>
+          <Text style={listStyles.date}>
+            {new Date(feed.date)
+              .toLocaleString([], {
+                day: '2-digit',
+                month: '2-digit',
+                year: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit'
+              })
+              .replace(',', '')}
           </Text>
         </View>
       </View>

@@ -9,9 +9,10 @@ const EventCounterParty = ({ feedItem }) => {
       ? ` by link - ${feedItem.data.endpoint.withdrawStatus}`
       : ''
   return (
-    <Text style={listStyles.rowDataText}>{`${direction}: ${
-      feedItem.data.endpoint.fullName
-    }${withdrawStatusText}`}</Text>
+    <Text style={listStyles.rowDataText}>
+      <Text style={listStyles.direction}>{direction}:</Text>
+      <Text style={listStyles.fullName}>{`${feedItem.data.endpoint.fullName}${withdrawStatusText}`}</Text>
+    </Text>
   )
 }
 

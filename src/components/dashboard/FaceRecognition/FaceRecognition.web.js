@@ -1,24 +1,15 @@
 // @flow
 
-import API from '../../../lib/API/api'
 import React, { createRef } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Text } from 'react-native-paper'
 import GDStore from '../../../lib/undux/GDStore'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
-import logger from '../../../lib/logger/pino-logger'
-import userStorage from '../../../lib/gundb/UserStorage'
 import { Wrapper, CustomButton, Section } from '../../common'
 import ZoomCapture from './ZoomCapture'
 import { getResponsiveVideoDimensions } from './Camera.web'
-import { type ZoomCaptureResult } from './Zoom'
-import goodWallet from '../../../lib/wallet/GoodWallet'
-import { LinkButton } from '../../signup/components'
+import FRUtil from './FaceRecognitionUtil'
 import type { DashboardProps } from '../Dashboard'
-
-const log = logger.child({ from: 'FaceRecognition' })
-
-declare var ZoomSDK: any
 
 type FaceRecognitionProps = DashboardProps & {
   screenProps: any,
@@ -32,13 +23,6 @@ type State = {
   loadingText: string,
   facemap: Blob,
   ready: boolean
-}
-
-type FaceRecognitionResponse = {
-  ok: boolean,
-  livenessPassed?: boolean,
-  isDuplicate?: boolean,
-  enrollResult?: object | false
 }
 
 class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
@@ -57,6 +41,10 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
 
   async componentDidMount() {
     this.setWidth()
+    this.props.store.on('captureResult').subscribe(captureResult => {
+      console.log('capture result changed to:', captureResult)
+      FRUtil.performFaceRecognition(captureResult)
+    })
   }
 
   showFaceRecognition = () => {
@@ -72,83 +60,6 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     this.width = 720
     this.height = 1280
   }
-
-  performFaceRecognition = async (captureResult: ZoomCaptureResult) => {
-    log.info({ captureResult })
-    if (!captureResult) return this.onFaceRecognitionFailure({ error: 'Failed to cature user' })
-    this.setState({ showZoomCapture: false, loadingFaceRecognition: true, loadingText: 'Analyzing Face Recognition..' })
-    let req = await this.createFaceRecognitionReq(captureResult)
-    log.debug({ req })
-    this.setState({ facemap: captureResult.facemap })
-    try {
-      let res = await API.performFaceRecognition(req)
-      this.setState({ loadingFaceRecognition: false, loadindText: '' })
-      this.onFaceRecognitionResponse(res.data)
-    } catch (e) {
-      log.warn('General Error in FaceRecognition', e)
-      this.setState({ loadingFaceRecognition: false, loadingText: '' })
-    }
-  }
-
-  createFaceRecognitionReq = async (captureResult: ZoomCaptureResult) => {
-    let req = new FormData()
-    req.append('sessionId', captureResult.sessionId)
-    req.append('facemap', captureResult.facemap, { contentType: 'application/zip' })
-    req.append('auditTrailImage', captureResult.auditTrailImage, { contentType: 'image/jpeg' })
-    let account = goodWallet.getAccountForType('zoomId')
-    req.append('enrollmentIdentifier', account)
-    log.debug({ req })
-    return req
-  }
-
-  onFaceRecognitionResponse = (result: FaceRecognitionResponse) => {
-    if (!result) {
-      log.error('Bad response') // TODO: handle corrupted response
-      return
-    }
-    log.info({ result })
-    if (!result.ok || result.livenessPassed === false || result.isDuplicate === true || result.enrollResult === false)
-      this.onFaceRecognitionFailure(result)
-    if (result.ok && result.enrollResult) this.onFaceRecognitionSuccess(result)
-    else log.error('uknown error') // TODO: handle general error
-  }
-
-  onFaceRecognitionSuccess = async (res: FaceRecognitionResponse) => {
-    log.info('user passed Face Recognition successfully, res:')
-    log.debug({ res })
-    this.setState({ loadingFaceRecognition: true, loadingText: 'Saving Face Information to Your profile..' })
-    try {
-      await userStorage.setProfileField('zoomEnrollmentId', res.enrollResult.enrollmentIdentifier, 'private')
-      this.setState({ loadingFaceRecognition: false, loadingText: '' })
-    } catch (e) {
-      log.error('failed to save facemap') // TODO: handle what happens if the facemap was not saved successfully to the user storage
-      this.props.screenProps.pop({ isValid: false })
-    }
-  }
-
-  onFaceRecognitionFailure = (result: FaceRecognitionResponse & { error: string }) => {
-    this.setState({ loadingFaceRecognition: false, loadingText: '', showZoomCapture: false })
-    log.warn('user did not pass Face Recognition', result)
-    let reason = ''
-    if (!result) reason = 'General Error'
-    if (result.error) reason = result.error
-    if (result.livenessPassed === false) reason = 'Liveness Failed'
-    else if (result.isDuplicate) reason = 'Face Already Exist'
-    else reason = 'Enrollment Failed'
-
-    this.props.store.set('currentScreen')({
-      dialogData: {
-        visible: true,
-        title: 'Please try again',
-        message: `FaceRecognition failed. Reason: ${reason}. Please try again`,
-        dismissText: 'Retry',
-        onDismiss: this.setState({ showPreText: true }) // reload.
-      }
-    })
-  }
-
-  handleNavigateTermsOfUse = () => this.props.screenProps.push('TermsOfUse')
-  handleNavigatePrivacyPolicy = () => this.props.screenProps.push('PrivacyPolicy')
 
   render() {
     const { store }: FaceRecognitionProps = this.props

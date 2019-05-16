@@ -31,7 +31,7 @@ const SendByQR = ({ screenProps }: Props) => {
 
         log.info({ code })
 
-        const { route, params } = routeAndPathForCode('sendByQR', code)
+        const { route, params } = await routeAndPathForCode('sendByQR', code)
 
         screenProps.push(route, params)
       } catch (e) {

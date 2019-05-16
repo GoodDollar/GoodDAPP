@@ -88,9 +88,15 @@ const Send = props => {
       if (state.params && state.params.code) {
         const code = readCode(state.params.code)
 
-        const { route, params } = routeAndPathForCode('send', code)
-
-        screenProps.push(route, params)
+        routeAndPathForCode('send', code)
+          .then(({ route, params }) => screenProps.push(route, params))
+          .catch(({ message }) => {
+            showDialogWithData({
+              title: 'Error',
+              message,
+              onDismiss: screenProps.goToRoot
+            })
+          })
       }
     } catch (e) {
       showDialogWithData({

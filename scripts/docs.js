@@ -6,27 +6,20 @@ const DELETE_EMPTY_DOCS = true
 const BASE_DOCS_FOLDER = 'docs/dapp'
 const excludedFolders = ['__tests__', '__util__']
 
-const getEmptyFileString = (function () {
-    let emptyFile
-    return async function () {
-        return new Promise((resolve, reject) => {
-            if(emptyFile) resolve(emptyFile)
-
-            exec(`documentation build ./fakepath -f md --shallow`, (error, stdout, stderr) => {
-                if (error) {
-                    reject(error)
-                }
-                if(stdout) {
-                    resolve(stdout)
-                }
-            });            
-        })
+const whenEmptyFileString = new Promise((resolve, reject) => {
+  exec(`documentation build ./fakepath -f md --shallow`, (error, stdout, stderr) => {
+    if (error) {
+        reject(error)
     }
-  })();
+    if(stdout) {
+        resolve(stdout)
+    }
+  });            
+})
 
 const isValidFile = async (filePath) => {
   try{
-    const emptyDoc = await getEmptyFileString()
+    const emptyDoc = await whenEmptyFileString
     const data = fs.readFileSync(filePath);
     const docString = data.toString()
   
@@ -42,7 +35,7 @@ const isValidFile = async (filePath) => {
  * @param {[string]} docs
  */
 async function filterEmptyDocs(docs) {
-    const emptyDoc = await getEmptyFileString()
+    const emptyDoc = await whenEmptyFileString
     return docs.filter(doc => {
       const data = fs.readFileSync(doc.mdFile);
       const docString = data.toString()

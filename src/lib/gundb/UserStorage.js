@@ -61,11 +61,11 @@ export type TransactionEvent = FeedEvent & {
 
 /**
  * Extracts transfer events sent to the current account
- * @param {string} account - Wallet account
  * @param {object} receipt - Receipt event
  * @returns {object} {transferLog: event: [{evtName: evtValue}]}
  */
-const getReceiveDataFromReceipt = (account: string, receipt: any) => {
+export const getReceiveDataFromReceipt = (receipt: any) => {
+  if (!receipt || !receipt.logs || receipt.logs.length <= 0) return {}
   // Obtain logged data from receipt event
   //maxBy is used in case transaction also paid a TX fee/burn, so since they are small
   //it filters them out

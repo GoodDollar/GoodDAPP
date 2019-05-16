@@ -1,9 +1,13 @@
 // @flow
 import React, { Component, useState, useEffect } from 'react'
-import { ScrollView } from 'react-native'
+import { ScrollView, View } from 'react-native'
 import { Button } from 'react-native-paper'
+import SideMenu from 'react-native-side-menu'
 import { createNavigator, SwitchRouter, SceneView, Route } from '@react-navigation/core'
 import { Helmet } from 'react-helmet'
+import GDStore from '../../lib/undux/GDStore'
+import { toggleSidemenu } from '../../lib/undux/utils/sidemenu'
+import SideMenuPanel from '../sidemenu/SideMenuPanel'
 import logger from '../../lib/logger/pino-logger'
 import NavBar from './NavBar'
 import { CustomButton, type ButtonProps } from '../common'
@@ -31,6 +35,19 @@ const getComponent = (Component, props) => {
   return Component
 }
 
+type AppViewProps = {
+  descriptors: any,
+  navigation: any,
+  navigationConfig: any,
+  screenProps: any,
+  store: GDStore
+}
+
+type AppViewState = {
+  stack: Array<any>,
+  currentState: any
+}
+
 /**
  * Component wrapping the stack navigator.
  * It holds the pop, push, gotToRoot and goToParent navigation logic and inserts on top the NavBar component.
@@ -38,11 +55,12 @@ const getComponent = (Component, props) => {
  * This navigation actions are being passed via navigationConfig to children components
  */
 
-class AppView extends Component<{ descriptors: any, navigation: any, navigationConfig: any, screenProps: any }, any> {
+class AppView extends Component<AppViewProps, AppViewState> {
   state = {
     stack: [],
     currentState: {}
   }
+
   /**
    * Pops from stack
    * If there is no screen on the stack navigates to initial screen on stack (goToRoot)
@@ -133,14 +151,17 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
     this.setState(state => ({ currentState: { ...state.currentState, ...data } }))
   }
 
+  handleSidemenuVisibility = () => toggleSidemenu(this.props.store)
+
   shouldComponentUpdate(nextProps: any, nextState: any) {
     return (
       this.props.navigation.state.index !== nextProps.navigation.state.index ||
       this.state.currentState.route !== nextState.currentState.route
     )
   }
+
   render() {
-    const { descriptors, navigation, navigationConfig, screenProps: incomingScreenProps } = this.props
+    const { descriptors, navigation, navigationConfig, screenProps: incomingScreenProps, store } = this.props
     const activeKey = navigation.state.routes[navigation.state.index].key
     const descriptor = descriptors[activeKey]
     const { title, navigationBarHidden, backButtonHidden } = descriptor.options
@@ -158,6 +179,7 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
     log.info('stackNavigation Render: FIXME rerender', activeKey, this.props, this.state)
     const Component = getComponent(descriptor.getComponent(), { screenProps })
     const pageTitle = title || activeKey
+    const menu = <SideMenuPanel navigation={navigation} />
     return (
       <React.Fragment>
         <Helmet>
@@ -165,7 +187,11 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
         </Helmet>
         {!navigationBarHidden && <NavBar goBack={backButtonHidden ? undefined : this.pop} title={pageTitle} />}
         <ScrollView contentContainerStyle={scrollableContainer}>
-          <SceneView navigation={descriptor.navigation} component={Component} screenProps={screenProps} />
+          <SideMenu menu={menu} menuPosition="right" isOpen={store.get('sidemenu').visible}>
+            <View style={{ backgroundColor: '#fff', flex: 1 }}>
+              <SceneView navigation={descriptor.navigation} component={Component} screenProps={screenProps} />
+            </View>
+          </SideMenu>
         </ScrollView>
       </React.Fragment>
     )
@@ -183,7 +209,10 @@ export const createStackNavigator = (routes: any, navigationConfig: any) => {
     backRouteName: 'Home'
   }
 
-  return createNavigator(AppView, SwitchRouter(routes), { ...defaultNavigationConfig, ...navigationConfig })
+  return createNavigator(GDStore.withStore(AppView), SwitchRouter(routes), {
+    ...defaultNavigationConfig,
+    ...navigationConfig
+  })
 }
 
 type PushButtonProps = {

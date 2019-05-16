@@ -688,7 +688,7 @@ export class UserStorage {
    * @param {FeedEvent} event - Event to be updated
    * @returns {Promise} Promise with updated feed
    */
-  async updateFeedEvent(event: FeedEvent): Promise<ACK> {
+  async updateFeedEvent(event: FeedEvent): Promise<FeedEvent> {
     logger.debug('updateFeedEvent:', { event })
     let date = new Date(event.date)
     // force valid dates

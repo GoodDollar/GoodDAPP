@@ -81,29 +81,19 @@ const Send = props => {
 
   useEffect(() => {
     const { screenProps } = props
+    const { state } = props.navigation
 
-    try {
-      const { state } = props.navigation
-
-      if (state.params && state.params.code) {
-        const code = readCode(state.params.code)
-
-        routeAndPathForCode('send', code)
-          .then(({ route, params }) => screenProps.push(route, params))
-          .catch(({ message }) => {
-            showDialogWithData({
-              title: 'Error',
-              message,
-              onDismiss: screenProps.goToRoot
-            })
+    if (state.params && state.params.code) {
+      const code = readCode(state.params.code)
+      routeAndPathForCode('send', code)
+        .then(({ route, params }) => screenProps.push(route, params))
+        .catch(({ message }) => {
+          showDialogWithData({
+            title: 'Error',
+            message,
+            onDismiss: screenProps.goToRoot
           })
-      }
-    } catch (e) {
-      showDialogWithData({
-        title: 'Error',
-        message: e.message,
-        onDismiss: screenProps.goToRoot
-      })
+        })
     }
   }, [])
 

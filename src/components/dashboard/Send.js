@@ -74,7 +74,7 @@ const Send = props => {
   const [screenState, setScreenState] = useScreenState(props.screenProps)
   const [error, setError] = useState()
 
-  const [to, setTo] = useState(screenState.to)
+  const { to } = screenState
 
   const checkError = async () => {
     const response = await validate(to)
@@ -86,7 +86,7 @@ const Send = props => {
     try {
       const who = await Clipboard.getString()
       log.info({ who })
-      setTo(who)
+      setScreenState({ to: who })
     } catch (err) {
       log.error('Paste action failed', err)
     }
@@ -100,10 +100,10 @@ const Send = props => {
           <Section.Title style={styles.title}>TO WHO?</Section.Title>
           <View style={styles.iconInputContainer}>
             <View style={styles.pasteIcon}>
-              <Icon size={normalize(16)} color="#282c34" name="content-paste" onClick={pasteToWho} />
+              <Icon size={normalize(16)} color="#282c34" name="content-paste" onPress={pasteToWho} />
             </View>
             <TextInput
-              onChangeText={text => setTo(text)}
+              onChangeText={text => setScreenState({ to: text })}
               onBlur={checkError}
               value={to}
               error={error}

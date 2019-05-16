@@ -1,6 +1,6 @@
 // @flow
 import React, { Component, useState, useEffect } from 'react'
-import { ScrollView, AsyncStorage, View } from 'react-native'
+import { ScrollView, View } from 'react-native'
 import { Button } from 'react-native-paper'
 import SideMenu from 'react-native-side-menu'
 import { createNavigator, SwitchRouter, SceneView, Route } from '@react-navigation/core'
@@ -8,10 +8,12 @@ import { Helmet } from 'react-helmet'
 import GDStore from '../../lib/undux/GDStore'
 import { toggleSidemenu } from '../../lib/undux/utils/sidemenu'
 import SideMenuPanel from '../sidemenu/SideMenuPanel'
-
+import logger from '../../lib/logger/pino-logger'
 import NavBar from './NavBar'
 import { CustomButton, type ButtonProps } from '../common'
 import { scrollableContainer } from '../common/styles'
+
+const log = logger.child({ from: 'stackNavigation' })
 
 /**
  * getComponent gets the component and props and returns the same component except when
@@ -43,8 +45,7 @@ type AppViewProps = {
 
 type AppViewState = {
   stack: Array<any>,
-  currentState: any,
-  visibleSidemenu: boolean
+  currentState: any
 }
 
 /**
@@ -64,13 +65,16 @@ class AppView extends Component<AppViewProps, AppViewState> {
    * Pops from stack
    * If there is no screen on the stack navigates to initial screen on stack (goToRoot)
    * If we are currently in the first screen go to ths screen that created the stack (goToParent)
+   * we can use this to navigate back to previous screen with adding new params
+   *
+   * @param {object} params new params to add to previous screen screenState
    */
-  pop = () => {
+  pop = (params?: any) => {
     const { navigation } = this.props
     const nextRoute = this.state.stack.pop()
     if (nextRoute) {
       this.setState(state => {
-        return { currentState: nextRoute.state }
+        return { currentState: { ...nextRoute.state, ...params, route: nextRoute.route } }
       })
       navigation.navigate(nextRoute.route)
     } else if (navigation.state.index !== 0) {
@@ -97,7 +101,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
               state: state.currentState
             }
           ],
-          currentState: params
+          currentState: { ...params, route }
         }
       },
       state => navigation.navigate(nextRoute)
@@ -149,6 +153,13 @@ class AppView extends Component<AppViewProps, AppViewState> {
 
   handleSidemenuVisibility = () => toggleSidemenu(this.props.store)
 
+  shouldComponentUpdate(nextProps: any, nextState: any) {
+    return (
+      this.props.navigation.state.index !== nextProps.navigation.state.index ||
+      this.state.currentState.route !== nextState.currentState.route
+    )
+  }
+
   render() {
     const { descriptors, navigation, navigationConfig, screenProps: incomingScreenProps, store } = this.props
     const activeKey = navigation.state.routes[navigation.state.index].key
@@ -165,6 +176,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
       screenState: this.state.currentState,
       setScreenState: this.setScreenState
     }
+    log.info('stackNavigation Render: FIXME rerender', activeKey, this.props, this.state)
     const Component = getComponent(descriptor.getComponent(), { screenProps })
     const pageTitle = title || activeKey
     const menu = <SideMenuPanel navigation={navigation} />

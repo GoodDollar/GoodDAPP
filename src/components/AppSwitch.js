@@ -57,11 +57,12 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
    * @returns {Promise<void>}
    */
   checkAuthStatus = async () => {
-    const { credsOrError } = await Promise.all([checkAuthStatus(this.props.store), delay(TIMEOUT)]).then(
-      ([authResult]) => authResult
-    )
-    if (this.props.store.get('isLoggedInCitizen')) {
-      let topWalletRes = API.verifyTopWallet()
+    const { credsOrError, isLoggedInCitizen, isLoggedIn } = await Promise.all([
+      checkAuthStatus(this.props.store),
+      delay(TIMEOUT)
+    ]).then(([authResult]) => authResult)
+    if (isLoggedIn) {
+      let topWalletRes = isLoggedInCitizen ? API.verifyTopWallet() : Promise.resolve()
 
       this.props.navigation.navigate('AppNavigation')
     } else {

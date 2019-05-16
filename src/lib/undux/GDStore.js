@@ -74,6 +74,7 @@ const initialState: State = {
     ready: false
   },
   isLoggedInCitizen: false,
+  isLoggedIn: false,
   currentScreen: {
     dialogData: {
       visible: false

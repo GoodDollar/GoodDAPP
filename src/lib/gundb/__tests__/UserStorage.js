@@ -666,3 +666,36 @@ describe('getOperationType', () => {
     expect(getOperationType(event, 'account1')).toBe('receive')
   })
 })
+
+describe('getOperationType', () => {
+  it('PaymentWithdraw should be withdraw', () => {
+    const event = {
+      name: 'PaymentWithdraw'
+    }
+    expect(getOperationType(event, 'account1')).toBe('withdraw')
+  })
+
+  it('PaymentWithdraw with any from should be withdraw', () => {
+    const event = {
+      name: 'PaymentWithdraw',
+      from: 'account1'
+    }
+    expect(getOperationType(event, 'account1')).toBe('withdraw')
+  })
+
+  it('from equal to account should be send', () => {
+    const event = {
+      name: 'Transfer',
+      from: 'account1'
+    }
+    expect(getOperationType(event, 'account1')).toBe('send')
+  })
+
+  it('from different to account should be receive', () => {
+    const event = {
+      name: 'Transfer',
+      from: 'account2'
+    }
+    expect(getOperationType(event, 'account1')).toBe('receive')
+  })
+})

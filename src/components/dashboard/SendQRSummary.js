@@ -33,14 +33,17 @@ const SendQRSummary = (props: AmountProps) => {
   const { amount, reason, to } = screenState
   const [profile, setProfile] = useState({})
 
-  const updateProfile = async () => {
+  const updateRecepientProfile = async () => {
     const profile = await UserStorage.getUserProfile(to)
     setProfile(profile)
   }
   useEffect(() => {
-    updateProfile()
+    if (to) updateRecepientProfile()
   }, [to])
 
+  const faceRecognition = () => {
+    return screenProps.push('FaceRecognition', { from: 'SendQRSummary' })
+  }
   const sendGD = async () => {
     try {
       setLoading(true)
@@ -78,6 +81,17 @@ const SendQRSummary = (props: AmountProps) => {
     }
   }
 
+  /**
+   * continue after valid FR to send the GD
+   */
+  useEffect(() => {
+    if (isValid === true) {
+      sendGD()
+    } else if (isValid === false) {
+      screenProps.goToRoot()
+    }
+    return () => setIsValid(undefined)
+  }, [isValid])
   return (
     <Wrapper style={styles.wrapper}>
       <TopBar push={screenProps.push} />
@@ -98,7 +112,14 @@ const SendQRSummary = (props: AmountProps) => {
             <BackButton mode="text" screenProps={screenProps} style={{ flex: 1 }}>
               Cancel
             </BackButton>
-            <CustomButton mode="contained" onPress={sendGD} style={{ flex: 2 }} loading={loading}>
+            <CustomButton
+              mode="contained"
+              onPress={async () => {
+                ;(await goodWallet.isCitizen()) ? sendGD() : faceRecognition()
+              }}
+              style={{ flex: 2 }}
+              loading={loading}
+            >
               Confirm
             </CustomButton>
           </View>
@@ -132,7 +153,7 @@ SendQRSummary.navigationOptions = {
 SendQRSummary.shouldNavigateToComponent = props => {
   const { screenState } = props.screenProps
   // Component shouldn't be loaded if there's no 'amount', nor 'to' fields with data
-  return !!screenState.amount && !!screenState.to
+  return (!!screenState.amount && !!screenState.to) || screenState.from
 }
 
 export default SendQRSummary

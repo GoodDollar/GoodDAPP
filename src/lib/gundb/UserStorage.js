@@ -59,26 +59,35 @@ export type TransactionEvent = FeedEvent & {
 
 /**
  * Extracts transfer events sent to the current account
- * @param {string} account - Wallet account
  * @param {object} receipt - Receipt event
  * @returns {object} {transferLog: event: [{evtName: evtValue}]}
  */
-const getReceiveDataFromReceipt = (account: string, receipt: any) => {
+export const getReceiveDataFromReceipt = (receipt: any) => {
+  if (!receipt || !receipt.logs || receipt.logs.length <= 0) return {}
   // Obtain logged data from receipt event
-  const transferLog = receipt.logs.find(log => {
-    return log && log.name === 'Transfer'
-  })
-  const withdrawLog = receipt.logs.find(log => {
+  const logs = receipt.logs.map(log =>
+    log.events.reduce(
+      (acc, curr) => {
+        return { ...acc, [curr.name]: curr.value }
+      },
+      { name: log.name }
+    )
+  )
+
+  const transferLog = logs
+    .filter(log => {
+      return log && log.name === 'Transfer'
+    })
+    .reduce((max, curr) => {
+      if (curr.value > max.value) max = curr
+      return max
+    }, logs[0])
+  const withdrawLog = logs.find(log => {
     return log && log.name === 'PaymentWithdraw'
   })
-  logger.debug({ logs: receipt.logs, transferLog, withdrawLog, account })
+  logger.debug({ receiptLogs: receipt.logs, logs, transferLog, withdrawLog })
   const log = withdrawLog || transferLog
-  return log.events.reduce(
-    (acc, curr) => {
-      return { ...acc, [curr.name]: curr.value }
-    },
-    { name: log.name }
-  )
+  return log
 }
 
 export const getOperationType = (data: any, account: string) => {
@@ -150,7 +159,7 @@ export class UserStorage {
 
   async handleReceiptUpdated(receipt: any) {
     try {
-      const data = getReceiveDataFromReceipt(this.wallet.account, receipt)
+      const data = getReceiveDataFromReceipt(receipt)
       const feedEvent = (await this.getFeedItemByTransactionHash(receipt.transactionHash)) || {
         id: receipt.transactionHash,
         date: new Date().toString(),
@@ -391,7 +400,7 @@ export class UserStorage {
    * @param {string} privacy - (private | public | masked)
    * @returns {Promise} Promise with updated field value, secret, display and privacy.
    */
-  async setProfileField(field: string, value: string, privacy: FieldPrivacy): Promise<ACK> {
+  async setProfileField(field: string, value: string, privacy: FieldPrivacy = 'public'): Promise<ACK> {
     let display
     switch (privacy) {
       case 'private':
@@ -402,8 +411,11 @@ export class UserStorage {
         //undo invalid masked field
         if (display === value) privacy = 'public'
         break
-      default:
+      case 'public':
         display = value
+        break
+      default:
+        throw new Error('Invalid privacy setting', { privacy })
     }
     //for all privacy cases we go through the index, in case field was changed from public to private so we remove it
     if (UserStorage.indexableFields[field]) {
@@ -560,7 +572,7 @@ export class UserStorage {
     const value = UserStorage.cleanFieldForIndex(attr, field)
 
     const address = await gun
-      .rootAO(`users/by${attr}`)
+      .get(`users/by${attr}`)
       .get(value)
       .get('profile')
       .get('walletAddress')

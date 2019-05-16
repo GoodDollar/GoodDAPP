@@ -4,12 +4,12 @@ import { ScrollView } from 'react-native'
 import { Button } from 'react-native-paper'
 import { createNavigator, SwitchRouter, SceneView, Route } from '@react-navigation/core'
 import { Helmet } from 'react-helmet'
-
+import logger from '../../lib/logger/pino-logger'
 import NavBar from './NavBar'
 import { CustomButton, type ButtonProps } from '../common'
 import { scrollableContainer } from '../common/styles'
 
-/** @module StackNavigation **/
+const log = logger.child({ from: 'stackNavigation' })
 
 /**
  * getComponent gets the component and props and returns the same component except when
@@ -48,13 +48,16 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
    * Pops from stack
    * If there is no screen on the stack navigates to initial screen on stack (goToRoot)
    * If we are currently in the first screen go to ths screen that created the stack (goToParent)
+   * we can use this to navigate back to previous screen with adding new params
+   *
+   * @param {object} params new params to add to previous screen screenState
    */
-  pop = () => {
+  pop = (params?: any) => {
     const { navigation } = this.props
     const nextRoute = this.state.stack.pop()
     if (nextRoute) {
       this.setState(state => {
-        return { currentState: nextRoute.state }
+        return { currentState: { ...nextRoute.state, ...params, route: nextRoute.route } }
       })
       navigation.navigate(nextRoute.route)
     } else if (navigation.state.index !== 0) {
@@ -81,7 +84,7 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
               state: state.currentState
             }
           ],
-          currentState: params
+          currentState: { ...params, route }
         }
       },
       state => navigation.navigate(nextRoute)
@@ -131,6 +134,12 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
     this.setState(state => ({ currentState: { ...state.currentState, ...data } }))
   }
 
+  shouldComponentUpdate(nextProps: any, nextState: any) {
+    return (
+      this.props.navigation.state.index !== nextProps.navigation.state.index ||
+      this.state.currentState.route !== nextState.currentState.route
+    )
+  }
   render() {
     const { descriptors, navigation, navigationConfig, screenProps: incomingScreenProps } = this.props
     const activeKey = navigation.state.routes[navigation.state.index].key
@@ -147,6 +156,7 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
       screenState: this.state.currentState,
       setScreenState: this.setScreenState
     }
+    log.info('stackNavigation Render: FIXME rerender', activeKey, this.props, this.state)
     const Component = getComponent(descriptor.getComponent(), { screenProps })
     const pageTitle = title || activeKey
     return (

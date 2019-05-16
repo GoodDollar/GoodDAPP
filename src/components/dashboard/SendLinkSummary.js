@@ -1,10 +1,11 @@
 // @flow
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { View } from 'react-native'
 
 import UserStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import GDStore from '../../lib/undux/GDStore'
+import goodWallet from '../../lib/wallet/GoodWallet'
 import { useWrappedGoodWallet } from '../../lib/wallet/useWrappedWallet'
 import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
 import { Avatar, BigGoodDollar, CustomButton, Section, Wrapper } from '../common'
@@ -23,12 +24,14 @@ const TITLE = 'Send GD'
 const SendLinkSummary = (props: AmountProps) => {
   const { screenProps } = props
   const [screenState] = useScreenState(screenProps)
-  const goodWallet = useWrappedGoodWallet()
   const store = GDStore.useStore()
-  const { loading } = store.get('currentScreen')
-
+  const [loading, setLoading] = useState(false)
+  const [isValid, setIsValid] = useState(screenState.isValid)
   const { amount, reason, to } = screenState
 
+  const faceRecognition = () => {
+    return screenProps.push('FaceRecognition', { from: 'SendLinkSummary' })
+  }
   /**
    * Generates link to send and call send email/sms action
    * @throws Error if link cannot be send
@@ -36,6 +39,7 @@ const SendLinkSummary = (props: AmountProps) => {
   const generateLinkAndSend = async () => {
     try {
       // Generate link deposit
+      setLoading(true)
       const generateLinkResponse = await goodWallet.generateLink(amount, reason, {
         onTransactionHash: extraData => hash => {
           // Save transaction
@@ -53,7 +57,6 @@ const SendLinkSummary = (props: AmountProps) => {
           UserStorage.updateFeedEvent(transactionEvent)
         }
       })
-
       if (generateLinkResponse) {
         try {
           // Generate link deposit
@@ -61,16 +64,30 @@ const SendLinkSummary = (props: AmountProps) => {
           // Show confirmation
           screenProps.push('SendConfirmation', { sendLink, amount, reason, to })
         } catch (e) {
+          log.error(e)
           const { hashedString } = generateLinkResponse
           await goodWallet.cancelOtl(hashedString)
           throw e
         }
-      }
+      } else throw new Error('Link generation failed')
     } catch (e) {
+      store.set('currentScreen')({
+        dialogData: { visible: true, title: 'Error', message: e.message, dismissText: 'OK' }
+      })
       log.error(e)
+    } finally {
+      setLoading(false)
     }
   }
 
+  useEffect(() => {
+    if (isValid === true) {
+      generateLinkAndSend()
+    } else if (isValid === false) {
+      screenProps.goToRoot()
+    }
+    return () => setIsValid(undefined)
+  }, [isValid])
   return (
     <Wrapper style={styles.wrapper}>
       <TopBar push={screenProps.push} />
@@ -90,8 +107,15 @@ const SendLinkSummary = (props: AmountProps) => {
             <BackButton mode="text" screenProps={screenProps} style={{ flex: 1 }}>
               Cancel
             </BackButton>
-            <CustomButton mode="contained" onPress={generateLinkAndSend} style={{ flex: 2 }} loading={loading}>
-              Next
+            <CustomButton
+              mode="contained"
+              onPress={async () => {
+                ;(await goodWallet.isCitizen()) ? generateLinkAndSend() : faceRecognition()
+              }}
+              style={{ flex: 2 }}
+              loading={loading}
+            >
+              Confirm
             </CustomButton>
           </View>
         </Section.Row>
@@ -120,7 +144,7 @@ SendLinkSummary.navigationOptions = {
 
 SendLinkSummary.shouldNavigateToComponent = props => {
   const { screenState } = props.screenProps
-  return (!!screenState.nextRoutes && screenState.amount) || !!screenState.sendLink
+  return (!!screenState.nextRoutes && screenState.amount) || !!screenState.sendLink || screenState.from
 }
 
 export default SendLinkSummary

@@ -27,11 +27,14 @@ const EditProfile = props => {
     if (!isValid) return
 
     setSaving(true)
-    await wrappedUserStorage.setProfile(profile).catch(async err => {
-      const savedProfile = await userStorage.getPrivateProfile(profile)
-      log.error({ err, profile, savedProfile })
-      setProfile({ ...savedProfile, username: savedProfile.username || '' })
-    })
+    await wrappedUserStorage
+      .setProfile(profile)
+      .catch(async err => {
+        const savedProfile = await userStorage.getPrivateProfile(profile)
+        log.error({ err, profile, savedProfile })
+        setProfile({ ...savedProfile, username: savedProfile.username || '' })
+      })
+      .catch(e => log.error(e))
     setSaving(false)
   }
   return (

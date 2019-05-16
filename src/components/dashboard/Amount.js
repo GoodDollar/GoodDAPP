@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import React, { useState } from 'react'
 import { Text, View } from 'react-native'
 
 import { Section, Wrapper, TopBar, InputGoodDollar } from '../common'
@@ -8,7 +8,7 @@ import { receiveStyles as styles } from './styles'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import logger from '../../lib/logger/pino-logger'
 import { useDialog } from '../../lib/undux/utils/dialog'
-
+import get from 'lodash/get'
 export type AmountProps = {
   screenProps: any,
   navigation: any
@@ -19,9 +19,11 @@ const log = logger.child({ from: RECEIVE_TITLE })
 
 const Amount = (props: AmountProps) => {
   const { screenProps } = props
+  const [amount, setAmount] = useState(get(screenProps, 'screenState.amount', 0))
   const [screenState, setScreenState] = useScreenState(screenProps)
-  const { amount, to, params } = screenState || {}
+  const { to, params } = screenState || {}
   const [showDialogWithData] = useDialog()
+
   const canContinue = async () => {
     if (params && params.toReceive) return true
 
@@ -34,7 +36,7 @@ const Amount = (props: AmountProps) => {
     }
     return true
   }
-  const handleAmountChange = (value: number) => setScreenState({ amount: value })
+  const handleAmountChange = (value: number) => setAmount(value) //setScreenState({ amount: value })
   return (
     <Wrapper style={styles.wrapper}>
       <TopBar push={screenProps.push} />

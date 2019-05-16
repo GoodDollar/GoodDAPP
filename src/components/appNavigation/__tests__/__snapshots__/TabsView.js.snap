@@ -161,5 +161,75 @@ exports[`TabsView matches snapshot 1`] = `
       Profile
     </div>
   </div>
+  <div
+    className="css-view-1dbjc4n"
+    onClick={[Function]}
+    style={
+      Object {
+        "WebkitAlignItems": "center",
+        "WebkitBoxAlign": "center",
+        "WebkitBoxDirection": "normal",
+        "WebkitBoxOrient": "vertical",
+        "WebkitFlexDirection": "column",
+        "alignItems": "center",
+        "cursor": "pointer",
+        "display": "flex",
+        "flexDirection": "column",
+        "height": "100%",
+        "marginLeft": "auto",
+        "marginRight": "30px",
+        "msFlexAlign": "center",
+        "msFlexDirection": "column",
+      }
+    }
+  >
+    <div
+      className="css-view-1dbjc4n"
+      style={
+        Object {
+          "WebkitBoxFlex": 2,
+          "WebkitFlexBasis": "0px",
+          "WebkitFlexGrow": 2,
+          "flexBasis": "0px",
+          "flexGrow": 2,
+          "marginTop": "20px",
+          "maxHeight": "20px",
+          "msFlexPositive": 2,
+          "msFlexPreferredSize": "0px",
+          "overflowX": "hidden",
+          "overflowY": "hidden",
+          "width": "20px",
+          "zIndex": 0,
+        }
+      }
+    >
+      <div
+        className="css-view-1dbjc4n"
+        style={
+          Object {
+            "backgroundColor": "rgba(0,0,0,0.00)",
+            "backgroundImage": "url(\\"burgerIcon.png\\")",
+            "backgroundPosition": "center",
+            "backgroundRepeat": "no-repeat",
+            "backgroundSize": "cover",
+            "bottom": "0px",
+            "height": "100%",
+            "left": "0px",
+            "position": "absolute",
+            "right": "0px",
+            "top": "0px",
+            "width": "100%",
+            "zIndex": -1,
+          }
+        }
+      />
+      <img
+        alt=""
+        className="css-accessibilityImage-9pa8cd"
+        draggable={false}
+        src="burgerIcon.png"
+      />
+    </div>
+  </div>
 </div>
 `;

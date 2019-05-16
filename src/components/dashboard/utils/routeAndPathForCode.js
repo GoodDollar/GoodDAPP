@@ -1,23 +1,28 @@
 // @flow
-import { NETWORK_ID } from '../../../lib/constants/network'
+import { getNetworkName } from '../../../lib/constants/network'
+import goodWallet from '../../../lib/wallet/GoodWallet'
 
-export type CodeType = { networkId: string, address: string, amount: number }
+export type CodeType = { networkId: number, address: string, amount: number }
 
 /**
  * Returns a dictionary with route and params to be used by screenProps navigation
  * @param {screen} screen
  * @param {object|null} code
- * @returns {object} {route, params}
+ * @returns {Promise<object>} {route, params}
  */
-export const routeAndPathForCode = (screen: string, code: CodeType | null): any => {
-  if (code === null) {
+export const routeAndPathForCode = async (screen: string, code: CodeType | null): Promise<any> => {
+  if (code === null || !code.networkId || !code.address) {
     throw new Error('Invalid QR Code.')
   }
 
   const { networkId, address, amount } = code
 
-  if (networkId !== NETWORK_ID.FUSE) {
-    throw new Error('Invalid network. Switch to Fuse.')
+  await goodWallet.ready
+  const currentNetworkId = await goodWallet.wallet.eth.net.getId()
+
+  if (networkId !== currentNetworkId) {
+    const networkName = getNetworkName(networkId)
+    throw new Error(`Invalid network. Code is meant to be used in ${networkName} network.`)
   }
 
   switch (screen) {
@@ -35,6 +40,6 @@ export const routeAndPathForCode = (screen: string, code: CodeType | null): any 
         }
       }
     default:
-      throw new Error('Invalid screen specified')
+      throw new Error('Invalid screen specified.')
   }
 }

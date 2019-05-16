@@ -154,9 +154,9 @@ class AppView extends Component<{ descriptors: any, navigation: any, navigationC
     const pageTitle = title || activeKey
     return (
       <React.Fragment>
-        <Helmet>
+        {/* <Helmet>
           <title>{`Good Dollar | ${pageTitle}`}</title>
-        </Helmet>
+        </Helmet> */}
         {!navigationBarHidden && <NavBar goBack={backButtonHidden ? undefined : this.pop} title={pageTitle} />}
         <ScrollView contentContainerStyle={scrollableContainer}>
           <SceneView navigation={descriptor.navigation} component={Component} screenProps={screenProps} />

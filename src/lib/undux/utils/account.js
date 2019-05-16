@@ -41,7 +41,7 @@ const updateEntitlement = async (store: Store): Promise<void> => {
     log.info('updating entitlement')
 
     const account = store.get('account')
-    const entitlement = await goodWallet.checkEntitlement()
+    const entitlement = await goodWallet.checkEntitlement().catch(e => 0)
 
     log.debug({ entitlement })
 

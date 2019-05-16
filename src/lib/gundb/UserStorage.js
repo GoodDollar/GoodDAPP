@@ -79,14 +79,12 @@ export const getReceiveDataFromReceipt = (receipt: any) => {
     )
   //maxBy is used in case transaction also paid a TX fee/burn, so since they are small
   //it filters them out
-  const transferLog = logs
-    .filter(log => {
+  const transferLog = maxBy(
+    logs.filter(log => {
       return log && log.name === 'Transfer'
-    })
-    .reduce((max, curr) => {
-      if (curr.value > max.value) max = curr
-      return max
-    }, logs[0])
+    }),
+    'value'
+  )
   const withdrawLog = logs.find(log => {
     return log && log.name === 'PaymentWithdraw'
   })
@@ -165,7 +163,7 @@ export class UserStorage {
 
   async handleReceiptUpdated(receipt: any): Promise<FeedEvent> {
     try {
-      const data = getReceiveDataFromReceipt(this.wallet.account, receipt)
+      const data = getReceiveDataFromReceipt(receipt)
       //get initial TX data
       const initialEvent = (await this.dequeueTX(receipt.transactionHash)) || { data: {} }
       //get existing or make a new event

@@ -18,7 +18,6 @@ const log = logger.child({ from: 'stackNavigation' })
  * if there is not in a correct navigation flow.
  * Example: doesn't makes sense to navigate to Amount if there is no nextRoutes
  * @param {React.Component} Component
- * @memberof StackNavigation
  */
 const getComponent = (Component, props) => {
   const { shouldNavigateToComponent } = Component
@@ -37,8 +36,8 @@ const getComponent = (Component, props) => {
  * It holds the pop, push, gotToRoot and goToParent navigation logic and inserts on top the NavBar component.
  * Params are passed as initial state for next screen.
  * This navigation actions are being passed via navigationConfig to children components
- * @memberof StackNavigation
  */
+
 class AppView extends Component<{ descriptors: any, navigation: any, navigationConfig: any, screenProps: any }, any> {
   state = {
     stack: [],

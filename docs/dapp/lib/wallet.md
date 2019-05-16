@@ -72,7 +72,7 @@ the HDWallet account to use.
 we use different accounts for different actions in order to preserve privacy and simplify things for user
 in background
 
-Type: {event: [string][29], contract: Web3.eth.Contract, filterPred: {}, fromBlock: any, toBlock: (any | `"latest"`)}
+Type: {event: [string][29], contract: Web3.eth.Contract, filterPred: {}, fromBlock: any, toBlock: (any | `"latest"`)?}
 
 ### Properties
 
@@ -80,7 +80,7 @@ Type: {event: [string][29], contract: Web3.eth.Contract, filterPred: {}, fromBlo
 -   `contract` **Web3.eth.Contract** 
 -   `filterPred` **{}** 
 -   `fromBlock` **any** 
--   `toBlock` **(any | `"latest"`)** 
+-   `toBlock` **(any | `"latest"`)?** 
 
 ## listenTxUpdates
 
@@ -194,12 +194,12 @@ the 'lastProcessedBlock' to the 'latest' every INTERVAL
     -   `$0.fromBlock`  
     -   `$0.toBlock`  
 -   `callback` **[Function][31]** Function to be called once an event is received
--   `lastProcessedBlock` **BN** Used for recursion. It's not required to be set by the user. Initial value: ZERO (optional, default `ZERO`)
 -   `event` **[String][29]** Event to subscribe to
 -   `contract` **[Object][33]** Contract from which event will be queried
 -   `filterPred` **[Object][33]** Event's filter. Does not required to be indexed as it's filtered locally
 -   `fromBlock` **BN** Lower blocks range value
 -   `toBlock` **BN** Higher blocks range value
+-   `lastProcessedBlock` **BN** Used for recursion. It's not required to be set by the user. Initial value: ZERO
 
 Returns **[Promise][30]&lt;void>** 
 

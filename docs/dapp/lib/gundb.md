@@ -89,7 +89,6 @@ Extracts transfer events sent to the current account
 
 ### Parameters
 
--   `account` **[string][47]** Wallet account
 -   `receipt` **[object][48]** Receipt event
 
 Returns **[object][48]** {transferLog: event: [{evtName: evtValue}]}
@@ -186,7 +185,7 @@ Set profile field with privacy settings
 
 -   `field` **[string][47]** Profile attribute
 -   `value` **[string][47]** Profile attribute value
--   `privacy` **[string][47]** (private | public | masked)
+-   `privacy` **[string][47]** (private | public | masked) (optional, default `'public'`)
 
 Returns **[Promise][49]** Promise with updated field value, secret, display and privacy.
 

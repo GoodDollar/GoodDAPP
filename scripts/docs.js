@@ -62,7 +62,8 @@ function execPromise(toExec) {
     return promiseFromChildProcess(exec(toExec))
 }
 
-async function doGenerateToc(docs, {baseFolder, level}) {
+async function doGenerateToc(docs, {baseFolder, relativeToToc, level}) {
+  relativeToToc = relativeToToc || '.'
   let outputString = ''
   const currentLevel = level || 0
   if(!docs || docs.length <= 0) return outputString
@@ -71,14 +72,14 @@ async function doGenerateToc(docs, {baseFolder, level}) {
     let addedOutput = ''
 
     if(doc.mdFile) {
-      const path = doc.mdFile.replace(baseFolder, '.')
+      const path = doc.mdFile.replace(baseFolder, relativeToToc)
       addedOutput += `${padding+padding}-   [${path}](${path})\n`
     }
 
     if(doc.childrenDocs && doc.childrenDocs.length>0) {
-      const path = doc.folder.replace(baseFolder, '.')
+      const path = doc.folder.replace(baseFolder, relativeToToc)
       addedOutput += `${padding}-   ${path}\n`
-      addedOutput += await doGenerateToc(doc.childrenDocs, {baseFolder, level: currentLevel+1})
+      addedOutput += await doGenerateToc(doc.childrenDocs, {baseFolder, relativeToToc, level: currentLevel+1})
     }
 
     return addedOutput
@@ -90,10 +91,13 @@ async function generateToc(docs) {
   const baseFolder = BASE_DOCS_FOLDER
   await execPromise(`mkdir -p ${baseFolder}`)
 
-  let outputString = '\n### Table of Contents\n\n'
+  const title = '\n### Table of Contents\n\n'
 
-  outputString += await doGenerateToc(docs, {baseFolder})
+  const outputString = title + await doGenerateToc(docs, {baseFolder})
   fs.writeFileSync(`${baseFolder}/toc.md`,outputString)
+
+  const outputStringOutside = title + await doGenerateToc(docs, {baseFolder, relativeToToc: 'dapp'})
+  fs.writeFileSync(`docs/dapp-toc.md`,outputStringOutside)
 }
 
 async function generateDocs(baseFolder, deep){

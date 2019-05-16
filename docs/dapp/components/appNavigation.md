@@ -5,7 +5,7 @@
 -   [NavBar][1]
 -   [getComponent][2]
     -   [Parameters][3]
--   [getComponent][4]
+-   [Rewards][4]
     -   [Parameters][5]
 -   [AppView][6]
     -   [push][7]
@@ -16,34 +16,26 @@
     -   [goToParent][12]
     -   [setScreenState][13]
         -   [Parameters][14]
--   [Rewards][15]
-    -   [Parameters][16]
--   [AppNavigation][17]
--   [createStackNavigator][18]
-    -   [Parameters][19]
--   [PushButton][20]
-    -   [Parameters][21]
--   [BackButton][22]
-    -   [Parameters][23]
--   [DoneButton][24]
-    -   [Parameters][25]
--   [NextButton][26]
-    -   [Parameters][27]
--   [useScreenState][28]
-    -   [Parameters][29]
+    -   [Parameters][15]
+-   [AppNavigation][16]
+-   [createStackNavigator][17]
+    -   [Parameters][18]
+-   [PushButton][19]
+    -   [Parameters][20]
+-   [BackButton][21]
+    -   [Parameters][22]
+-   [DoneButton][23]
+    -   [Parameters][24]
+-   [NextButton][25]
+    -   [Parameters][26]
+-   [useScreenState][27]
+    -   [Parameters][28]
 
 ## NavBar
 
 **Extends React.Component**
 
 NavigationBar shows title and back button
-
-## getComponent
-
-### Parameters
-
--   `Component`  
--   `props`  
 
 ## getComponent
 
@@ -57,6 +49,14 @@ Example: doesn't makes sense to navigate to Amount if there is no nextRoutes
 
 -   `Component` **React.Component** 
 -   `props`  
+
+## Rewards
+
+Rewards screen showing nested navigation with stackNavigator
+
+### Parameters
+
+-   `props` **any** 
 
 ## AppView
 
@@ -87,7 +87,7 @@ Navigates to specific screen with custom parameters as query string.
 
 #### Parameters
 
--   `routeName` **[string][30]** 
+-   `routeName` **[string][29]** 
 -   `params` **any** 
 
 ### goToParent
@@ -103,19 +103,16 @@ This way it can be kept between screens
 
 -   `data`  
 
-## Rewards
-
-Rewards screen showing nested navigation with stackNavigator
-
-### Parameters
-
--   `props` **any** 
-
 ## 
 
 Pops from stack
 If there is no screen on the stack navigates to initial screen on stack (goToRoot)
 If we are currently in the first screen go to ths screen that created the stack (goToParent)
+we can use this to navigate back to previous screen with adding new params
+
+### Parameters
+
+-   `params` **[object][30]** new params to add to previous screen screenState
 
 ## AppNavigation
 
@@ -132,7 +129,7 @@ This function is meant to be used to create a new stack navigation with the give
 ### Parameters
 
 -   `routes` **\[Route]** : Array with routes in the stack
--   `navigationConfig` **[Object][31]** 
+-   `navigationConfig` **[Object][30]** 
 
 ## PushButton
 
@@ -204,7 +201,7 @@ Returns **any**
 
 [3]: #parameters
 
-[4]: #getcomponent-1
+[4]: #rewards
 
 [5]: #parameters-1
 
@@ -226,36 +223,34 @@ Returns **any**
 
 [14]: #parameters-4
 
-[15]: #rewards
+[15]: #parameters-5
 
-[16]: #parameters-5
+[16]: #appnavigation
 
-[17]: #appnavigation
+[17]: #createstacknavigator
 
-[18]: #createstacknavigator
+[18]: #parameters-6
 
-[19]: #parameters-6
+[19]: #pushbutton
 
-[20]: #pushbutton
+[20]: #parameters-7
 
-[21]: #parameters-7
+[21]: #backbutton
 
-[22]: #backbutton
+[22]: #parameters-8
 
-[23]: #parameters-8
+[23]: #donebutton
 
-[24]: #donebutton
+[24]: #parameters-9
 
-[25]: #parameters-9
+[25]: #nextbutton
 
-[26]: #nextbutton
+[26]: #parameters-10
 
-[27]: #parameters-10
+[27]: #usescreenstate
 
-[28]: #usescreenstate
+[28]: #parameters-11
 
-[29]: #parameters-11
+[29]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
 
-[30]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
-
-[31]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
+[30]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object

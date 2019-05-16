@@ -3,29 +3,34 @@
 ### Table of Contents
 
 -   [useEffect][1]
--   [FeedListItem][2]
-    -   [Parameters][3]
--   [FeedActions][4]
-    -   [Parameters][5]
--   [ModalReceiveEvent][6]
-    -   [Parameters][7]
--   [ModalSendEvent][8]
-    -   [Parameters][9]
--   [ListEvent][10]
-    -   [Parameters][11]
--   [FeedModalItem][12]
-    -   [Parameters][13]
--   [GenerateLinkButton][14]
-    -   [Parameters][15]
--   [generateLinkAndSend][16]
--   [withdraw][17]
-    -   [Parameters][18]
--   [dismissDialog][19]
--   [dismissEventDialog][20]
+-   [useEffect][2]
+-   [FeedListItem][3]
+    -   [Parameters][4]
+-   [FeedActions][5]
+    -   [Parameters][6]
+-   [ModalReceiveEvent][7]
+    -   [Parameters][8]
+-   [ModalSendEvent][9]
+    -   [Parameters][10]
+-   [ListEvent][11]
+    -   [Parameters][12]
+-   [FeedModalItem][13]
+    -   [Parameters][14]
+-   [GenerateLinkButton][15]
+    -   [Parameters][16]
+-   [generateLinkAndSend][17]
+-   [withdraw][18]
+    -   [Parameters][19]
+-   [dismissDialog][20]
+-   [dismissEventDialog][21]
 
 ## useEffect
 
 Displays a summary when sending GD directly to a blockchain address
+
+## useEffect
+
+continue after valid FR to send the GD
 
 ## FeedListItem
 
@@ -36,7 +41,7 @@ Render list item according to the type for feed list
 -   `props`  
 -   `feedEvent` **FeedEventProps** feed event
 
-Returns **[HTMLElement][21]** 
+Returns **[HTMLElement][22]** 
 
 ## FeedActions
 
@@ -59,7 +64,7 @@ Render modal withdraw item for feed list in horizontal view
     -   `feedEvent.item`  
     -   `feedEvent.onPress`  
 
-Returns **[HTMLElement][21]** 
+Returns **[HTMLElement][22]** 
 
 ## ModalSendEvent
 
@@ -71,7 +76,7 @@ Render modal send item for feed list in horizontal view
     -   `feedEvent.item`  
     -   `feedEvent.onPress`  
 
-Returns **[HTMLElement][21]** 
+Returns **[HTMLElement][22]** 
 
 ## ListEvent
 
@@ -82,7 +87,7 @@ Render list withdraw item for feed list
 -   `feedEvent` **FeedEventProps** feed event
     -   `feedEvent.item`  
 
-Returns **[HTMLElement][21]** 
+Returns **[HTMLElement][22]** 
 
 ## FeedModalItem
 
@@ -92,7 +97,7 @@ Render modal item according to the type for feed list in horizontal view
 
 -   `props` **FeedEventProps** feed event
 
-Returns **[HTMLElement][21]** 
+Returns **[HTMLElement][22]** 
 
 ## GenerateLinkButton
 
@@ -118,8 +123,8 @@ Check if user can withdraw, and make the transaciton
 
 ### Parameters
 
--   `hash` **[string][22]** Hash identifier
--   `reason` **[string][22]?** Withdraw reason
+-   `hash` **[string][23]** Hash identifier
+-   `reason` **[string][23]?** Withdraw reason
 
 ## dismissDialog
 
@@ -131,44 +136,46 @@ Reset dialog data
 
 [1]: #useeffect
 
-[2]: #feedlistitem
+[2]: #useeffect-1
 
-[3]: #parameters
+[3]: #feedlistitem
 
-[4]: #feedactions
+[4]: #parameters
 
-[5]: #parameters-1
+[5]: #feedactions
 
-[6]: #modalreceiveevent
+[6]: #parameters-1
 
-[7]: #parameters-2
+[7]: #modalreceiveevent
 
-[8]: #modalsendevent
+[8]: #parameters-2
 
-[9]: #parameters-3
+[9]: #modalsendevent
 
-[10]: #listevent
+[10]: #parameters-3
 
-[11]: #parameters-4
+[11]: #listevent
 
-[12]: #feedmodalitem
+[12]: #parameters-4
 
-[13]: #parameters-5
+[13]: #feedmodalitem
 
-[14]: #generatelinkbutton
+[14]: #parameters-5
 
-[15]: #parameters-6
+[15]: #generatelinkbutton
 
-[16]: #generatelinkandsend
+[16]: #parameters-6
 
-[17]: #withdraw
+[17]: #generatelinkandsend
 
-[18]: #parameters-7
+[18]: #withdraw
 
-[19]: #dismissdialog
+[19]: #parameters-7
 
-[20]: #dismisseventdialog
+[20]: #dismissdialog
 
-[21]: https://developer.mozilla.org/docs/Web/HTML/Element
+[21]: #dismisseventdialog
 
-[22]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+[22]: https://developer.mozilla.org/docs/Web/HTML/Element
+
+[23]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String

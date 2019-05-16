@@ -22,11 +22,8 @@ type ZoomCaptureProps = DashboardProps & {
 }
 
 type State = {
-  showPreText: boolean,
-  showZoomCapture: boolean,
   loadingFaceRecognition: boolean,
   loadingText: string,
-  facemap: Blob,
   ready: boolean
 }
 
@@ -88,10 +85,9 @@ class ZoomCapture extends React.Component<ZoomCaptureProps, State> {
     this.setState({ showZoomCapture: false, loadingFaceRecognition: true, loadingText: 'Analyzing Face Recognition..' })
     let req = await this.createFaceRecognitionReq(captureResult)
     log.debug({ req })
-    this.setState({ facemap: captureResult.facemap })
     try {
       let res = await API.performFaceRecognition(req)
-      this.setState({ loadingFaceRecognition: false, loadindText: '' })
+      this.setState({ loadingFaceRecognition: false, loadingText: '' })
       this.onFaceRecognitionResponse(res.data)
     } catch (e) {
       log.warn('General Error in FaceRecognition', e)

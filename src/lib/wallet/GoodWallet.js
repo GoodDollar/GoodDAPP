@@ -334,22 +334,22 @@ export class GoodWallet {
     const lastBlock = toBlock !== undefined ? toBlock : await this.getBlockNumber()
     fromBlock = fromBlock !== undefined ? fromBlock : ZERO
 
-    log.debug('fromBlock', fromBlock && fromBlock.toString())
-    log.debug('lastBlock', lastBlock.toString())
-    log.debug('toBlock', toBlock && toBlock.toString())
+    log.trace('fromBlock', fromBlock && fromBlock.toString())
+    log.trace('lastBlock', lastBlock.toString())
+    log.trace('toBlock', toBlock && toBlock.toString())
 
     if (toBlock && toBlock.lt(lastBlock)) {
-      log.debug('toBlock reached', { toBlock: toBlock.toString(), lastBlock: lastBlock.toString() })
+      log.trace('toBlock reached', { toBlock: toBlock.toString(), lastBlock: lastBlock.toString() })
       return
     }
 
     if (fromBlock && fromBlock.eq(lastBlock)) {
-      log.debug('all blocks processed', { fromBlock: fromBlock.toString(), lastBlock: lastBlock.toString() })
+      log.trace('all blocks processed', { fromBlock: fromBlock.toString(), lastBlock: lastBlock.toString() })
     } else {
       await this.oneTimeEvents({ event, contract, filterPred, fromBlock, toBlock: lastBlock }, callback)
     }
 
-    log.debug('about to recurse', {
+    log.trace('about to recurse', {
       event,
       contract,
       filterPred,

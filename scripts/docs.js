@@ -95,9 +95,6 @@ async function generateToc(docs) {
 
   const outputString = title + await doGenerateToc(docs, {baseFolder})
   fs.writeFileSync(`${baseFolder}/toc.md`,outputString)
-
-  const outputStringOutside = title + await doGenerateToc(docs, {baseFolder, relativeToToc: 'dapp'})
-  fs.writeFileSync(`docs/dapp-toc.md`,outputStringOutside)
 }
 
 async function generateDocs(baseFolder, deep){

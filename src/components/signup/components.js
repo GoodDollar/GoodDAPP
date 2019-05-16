@@ -87,6 +87,7 @@ const fontStyle = {
   fontSize: normalize(18),
   textAlign: 'center'
 }
+
 const styles = StyleSheet.create({
   buttonText: {
     ...fontStyle,

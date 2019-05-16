@@ -7,7 +7,7 @@ import RedemptionABI from '@gooddollar/goodcontracts/build/contracts/RedemptionF
 import { default as filterFunc } from 'lodash/filter'
 import type Web3 from 'web3'
 import { BN, toBN } from 'web3-utils'
-
+import uniqBy from 'lodash/uniqBy'
 import Config from '../../config/config'
 import logger from '../../lib/logger/pino-logger'
 import WalletFactory from './WalletFactory'
@@ -97,14 +97,12 @@ export class GoodWallet {
       },
       async (error, events) => {
         log.debug('send events', { error, events })
-        const [event] = events
-        if (!event) {
-          log.error('no event', events)
-          return
-        }
-        this.getReceiptWithLogs(event.transactionHash)
-          .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptUpdated']))
-          .catch(err => log.error(err))
+        const uniqEvents = uniqBy(events, 'transactionHash')
+        uniqEvents.forEach(event => {
+          this.getReceiptWithLogs(event.transactionHash)
+            .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptUpdated']))
+            .catch(err => log.error(err))
+        })
         // Send for all events. We could define here different events
         this.getSubscribers('send').forEach(cb => cb(error, events))
         this.getSubscribers('balanceChanged').forEach(cb => cb(error, events))
@@ -120,14 +118,12 @@ export class GoodWallet {
       },
       async (error, events) => {
         log.debug('receive events', { error, events })
-        const [event] = events
-        if (!event) {
-          log.error('no event', events)
-          return
-        }
-        this.getReceiptWithLogs(event.transactionHash)
-          .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptReceived']))
-          .catch(err => log.error(err))
+        const uniqEvents = uniqBy(events, 'transactionHash')
+        uniqEvents.forEach(event => {
+          this.getReceiptWithLogs(event.transactionHash)
+            .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptReceived']))
+            .catch(err => log.error(err))
+        })
 
         this.getSubscribers('receive').forEach(cb => cb(error, events))
         this.getSubscribers('balanceChanged').forEach(cb => cb(error, events))

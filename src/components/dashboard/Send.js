@@ -3,7 +3,7 @@ import { Wrapper, TopBar, Section, IconButton, CustomButton } from '../common'
 import { StyleSheet, View } from 'react-native'
 import { HelperText, TextInput } from 'react-native-paper'
 import { Icon, normalize } from 'react-native-elements'
-import { useScreenState } from '../appNavigation/stackNavigation'
+import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
 import isMobilePhone from '../../lib/validators/isMobilePhone'
 import Clipboard from '../../lib/utils/Clipboard'
 import isEmail from 'validator/lib/isEmail'
@@ -65,8 +65,9 @@ const ContinueButton = ({ screenProps, to, disabled, checkError }) => (
     }}
     mode="contained"
     disabled={disabled}
+    style={{ flex: 2 }}
   >
-    Continue
+    NEXT
   </CustomButton>
 )
 
@@ -97,7 +98,7 @@ const Send = props => {
       <TopBar push={props.screenProps.push} />
       <Section style={styles.bottomSection}>
         <View style={styles.topContainer}>
-          <Section.Title style={styles.title}>TO WHO?</Section.Title>
+          <Section.Title style={styles.title}>TO WHOM?</Section.Title>
           <View style={styles.iconInputContainer}>
             <View style={styles.pasteIcon}>
               <Icon size={normalize(16)} color="#282c34" name="content-paste" onClick={pasteToWho} />
@@ -115,12 +116,15 @@ const Send = props => {
           <HelperText type="error" visible={error}>
             {error}
           </HelperText>
-          <Section.Row style={{ marginTop: '100px' }}>
+          <Section.Row>
             <ScanQRButton screenProps={props.screenProps} disabled={!!to} />
             <GenerateLinkButton screenProps={props.screenProps} disabled={!!to} />
           </Section.Row>
         </View>
         <View style={styles.bottomContainer}>
+          <BackButton mode="text" screenProps={props.screenProps} style={{ flex: 1 }}>
+            Cancel
+          </BackButton>
           <ContinueButton screenProps={props.screenProps} to={to} disabled={!to} checkError={checkError} />
         </View>
       </Section>
@@ -143,7 +147,13 @@ const styles = StyleSheet.create({
   },
   bottomSection: {
     flex: 1,
-    paddingTop: normalize(22)
+    paddingTop: normalize(22),
+    justifyContent: 'space-between'
+  },
+  bottomContainer: {
+    width: '100%',
+    flexDirection: 'row',
+    marginTop: '1rem'
   },
   topContainer: {
     flex: 1

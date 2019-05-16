@@ -46,7 +46,6 @@ const Amount = (props: AmountProps) => {
               <Text style={styles.amountInputWrapper}>
                 <InputGoodDollar autoFocus wei={amount} onChangeWei={handleAmountChange} style={styles.amountInput} />
               </Text>
-              <Text style={styles.amountSuffix}>GD</Text>
             </View>
           </View>
           <View style={styles.buttonGroup}>

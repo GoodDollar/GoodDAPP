@@ -11,6 +11,7 @@ import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
 import { Avatar, BigGoodDollar, CustomButton, Section, Wrapper } from '../common'
 import TopBar from '../common/TopBar'
 import { receiveStyles } from './styles'
+import { normalize } from 'react-native-elements'
 
 const log = logger.child({ from: 'SendLinkSummary' })
 
@@ -93,16 +94,16 @@ const SendLinkSummary = (props: AmountProps) => {
       <TopBar push={screenProps.push} />
       <Section style={styles.section}>
         <Section.Row style={styles.sectionRow}>
-          <Section.Title style={styles.headline}>Summary</Section.Title>
+          <Section.Title style={styles.headline}>SUMMARY</Section.Title>
           <View style={styles.sectionTo}>
             <Avatar size={90} />
             {to && <Section.Text style={styles.toText}>{`To: ${to}`}</Section.Text>}
           </View>
-          <Section.Text>
+          <Section.Text style={styles.reason}>
             {`Here's `}
             <BigGoodDollar number={amount} />
           </Section.Text>
-          <Section.Text>{reason && `For ${reason}`}</Section.Text>
+          <Section.Text style={styles.reason}>{reason && `For ${reason}`}</Section.Text>
           <View style={styles.buttonGroup}>
             <BackButton mode="text" screenProps={screenProps} style={{ flex: 1 }}>
               Cancel
@@ -126,15 +127,16 @@ const SendLinkSummary = (props: AmountProps) => {
 
 const styles = {
   ...receiveStyles,
-  headline: {
-    textTransform: 'uppercase'
-  },
   sectionTo: {
     alignItems: 'center'
   },
   toText: {
     marginTop: '1rem',
     marginBottom: '1rem'
+  },
+  reason: {
+    fontSize: normalize(16),
+    fontFamily: 'Roboto'
   }
 }
 

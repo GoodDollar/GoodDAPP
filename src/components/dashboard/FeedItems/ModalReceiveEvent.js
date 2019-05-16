@@ -6,6 +6,7 @@ import { Avatar } from 'react-native-paper'
 import { Text, View } from 'react-native-web'
 import { CustomButton, BigGoodDollar } from '../../common'
 import type { FeedEventProps } from './EventProps'
+import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
 
 /**
  * Render modal withdraw item for feed list in horizontal view
@@ -15,7 +16,7 @@ import type { FeedEventProps } from './EventProps'
 const ModalReceiveEvent = ({ item: feed, onPress }: FeedEventProps) => {
   return (
     <View style={styles.modal}>
-      <Text>{new Date(feed.date).toLocaleDateString()}</Text>
+      <Text>{getFormattedDateTime(feed.date)}</Text>
       <View style={styles.row}>
         {feed.data.endpoint.title && <Text style={styles.leftTitle}>{feed.data.endpoint.title}</Text>}
         <Text style={styles.leftTitle}>Received GD</Text>
@@ -32,17 +33,9 @@ const ModalReceiveEvent = ({ item: feed, onPress }: FeedEventProps) => {
       <View style={styles.hrLine} />
       {feed.data.message && <Text>{feed.data.message}</Text>}
       <View style={styles.buttonsRow}>
-        {feed.actions && feed.actions.length ? (
-          feed.actions.map(action => (
-            <CustomButton onPress={action.onPress} key={action.title}>
-              {action.title}
-            </CustomButton>
-          ))
-        ) : (
-          <CustomButton style={styles.rightButton} onPress={() => onPress(feed.id)}>
-            OK
-          </CustomButton>
-        )}
+        <CustomButton mode="contained" style={styles.rightButton} onPress={() => onPress(feed.id)}>
+          OK
+        </CustomButton>
       </View>
     </View>
   )
@@ -54,20 +47,21 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: normalize(4),
     borderLeftWidth: normalize(10),
-    borderRightWidth: normalize(2),
-    borderTopWidth: normalize(2),
-    borderBottomWidth: normalize(2),
+    borderRightWidth: 0,
+    borderTopWidth: 0,
+    borderBottomWidth: 0,
     padding: normalize(30),
     borderColor: '#c9c8c9'
   },
   buttonsRow: {
     flexDirection: 'row',
+    flex: 1,
+    alignItems: 'flex-end',
     justifyContent: 'space-between'
   },
   rightButton: {
     marginLeft: 'auto',
-    backgroundColor: '#ccc',
-    borderRadius: 4
+    minWidth: normalize(80)
   },
   row: {
     flexDirection: 'row',

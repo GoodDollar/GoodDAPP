@@ -4,20 +4,23 @@ import { normalize } from 'react-native-elements'
 export const listStyles = StyleSheet.create({
   row: {
     flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: normalize(5),
     marginBottom: 5,
     backgroundColor: 'rgb(238, 238, 239)',
-    borderLeftWidth: normalize(5),
-    borderLeftColor: 'rgb(186, 186, 186)',
-    borderRadius: normalize(8)
+    borderRadius: normalize(8),
+    overflow: 'hidden'
+  },
+  rowContent: {
+    padding: normalize(5),
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1,
+    borderLeftWidth: normalize(8),
+    borderLeftColor: 'rgb(186, 186, 186)'
   },
   innerRow: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgb(238, 238, 239)',
     width: '100%'
   },
   rowIcon: {

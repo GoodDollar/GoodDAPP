@@ -38,7 +38,8 @@ export const receiveStyles = StyleSheet.create({
   headline: {
     ...fontStyle,
     textTransform: 'uppercase',
-    marginBottom: '1rem'
+    marginBottom: '1rem',
+    fontSize: normalize(24)
   },
   buttonGroup: {
     width: '100%',
@@ -73,15 +74,6 @@ export const receiveStyles = StyleSheet.create({
     whiteSpace: 'normal',
     flexShrink: 1,
     flexGrow: 1,
-    maxWidth: '50%',
     textAlign: 'right'
-  },
-  amountSuffix: {
-    flexGrow: 1,
-    height: normalize(40),
-    fontSize: normalize(10),
-    justifyContent: 'center',
-    lineHeight: normalize(40),
-    paddingTop: normalize(10)
   }
 })

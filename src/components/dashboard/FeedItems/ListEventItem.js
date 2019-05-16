@@ -7,6 +7,7 @@ import { listStyles } from './EventStyles'
 import type { FeedEventProps } from './EventProps'
 import EventIcon from './EventIcon'
 import EventCounterParty from './EventCounterParty'
+import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
 
 /**
  * Render list withdraw item for feed list
@@ -30,17 +31,7 @@ const ListEvent = ({ item: feed }: FeedEventProps) => {
           <EventIcon type={feed.type} />
         </View>
         <View style={listStyles.rightContentRow}>
-          <Text style={listStyles.date}>
-            {new Date(feed.date)
-              .toLocaleString([], {
-                day: '2-digit',
-                month: '2-digit',
-                year: '2-digit',
-                hour: '2-digit',
-                minute: '2-digit'
-              })
-              .replace(',', '')}
-          </Text>
+          <Text style={listStyles.date}>{getFormattedDateTime(feed.date)}</Text>
         </View>
       </View>
     </View>

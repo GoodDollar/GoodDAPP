@@ -37,14 +37,14 @@ module.exports = {
   ],
   testPathIgnorePatterns: [
     "/__tests__/__util__/",
-    "<rootDir>/src/.*/.*(android|ios)",
+    "<rootDir>/src/.*/.*(android|ios)\.js",
     "<rootDir>/src/index.js",
     "<rootDir>/src/init.js",
     "<rootDir>/src/serviceWorker.js"
   ],
   coveragePathIgnorePatterns: [
     "/__tests__/__util__/",
-    "<rootDir>/src/.*/.*(android|ios)",
+    "<rootDir>/src/.*/.*(android|ios)\.js",
     "<rootDir>/src/index.js",
     "<rootDir>/src/init.js",
     "<rootDir>/src/serviceWorker.js"

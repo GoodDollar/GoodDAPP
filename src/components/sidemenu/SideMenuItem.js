@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { Icon, normalize } from 'react-native-elements'
 
 export type SideMenuItemProps = {
@@ -10,12 +10,12 @@ export type SideMenuItemProps = {
 }
 
 const SideMenuItem = ({ icon, name, action }: SideMenuItemProps) => (
-  <View style={styles.clickableRow} onClick={action}>
+  <TouchableOpacity style={styles.clickableRow} onPress={action}>
     <View style={styles.menuIcon}>
       <Icon name={icon} size={20} />
     </View>
     <Text style={styles.menuItem}>{name}</Text>
-  </View>
+  </TouchableOpacity>
 )
 
 const styles = StyleSheet.create({

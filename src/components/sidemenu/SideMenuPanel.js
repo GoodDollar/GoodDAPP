@@ -1,14 +1,13 @@
 // @flow
 import React from 'react'
 import SideMenuItem from './SideMenuItem'
-import { View, StyleSheet } from 'react-native'
+import { View, StyleSheet, TouchableOpacity } from 'react-native'
 import { Icon, normalize } from 'react-native-elements'
 import { useSidemenu } from '../../lib/undux/utils/sidemenu'
 import { useWrappedApi } from '../../lib/API/useWrappedApi'
 
 type SideMenuPanelProps = {
-  navigation: any,
-  getItems: Function
+  navigation: any
 }
 
 const getMenuItems = ({ API, hideSidemenu, navigation }) => [
@@ -59,13 +58,12 @@ const getMenuItems = ({ API, hideSidemenu, navigation }) => [
 const SideMenuPanel = ({ navigation }: SideMenuPanelProps) => {
   const API = useWrappedApi()
   const [toggleSidemenu, hideSidemenu] = useSidemenu()
-
   const MENU_ITEMS = getMenuItems({ API, hideSidemenu, navigation })
   return (
     <View>
-      <View style={styles.closeIconRow} onClick={toggleSidemenu}>
+      <TouchableOpacity style={styles.closeIconRow} onPress={toggleSidemenu}>
         <Icon name="close" />
-      </View>
+      </TouchableOpacity>
       {MENU_ITEMS.map(item => (
         <SideMenuItem key={item.name} {...item} />
       ))}

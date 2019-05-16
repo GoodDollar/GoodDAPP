@@ -40,6 +40,13 @@ type AppViewProps = {
   screenProps: any,
   store: GDStore
 }
+
+type AppViewState = {
+  stack: Array<any>,
+  currentState: any,
+  visibleSidemenu: boolean
+}
+
 /**
  * Component wrapping the stack navigator.
  * It holds the pop, push, gotToRoot and goToParent navigation logic and inserts on top the NavBar component.
@@ -47,11 +54,12 @@ type AppViewProps = {
  * This navigation actions are being passed via navigationConfig to children components
  */
 
-class AppView extends Component<AppViewProps, any> {
+class AppView extends Component<AppViewProps, AppViewState> {
   state = {
     stack: [],
     currentState: {}
   }
+
   /**
    * Pops from stack
    * If there is no screen on the stack navigates to initial screen on stack (goToRoot)
@@ -159,7 +167,7 @@ class AppView extends Component<AppViewProps, any> {
     }
     const Component = getComponent(descriptor.getComponent(), { screenProps })
     const pageTitle = title || activeKey
-    const menu = <SideMenuPanel screenProps={screenProps} navigation={navigation} />
+    const menu = <SideMenuPanel navigation={navigation} />
     return (
       <React.Fragment>
         <Helmet>

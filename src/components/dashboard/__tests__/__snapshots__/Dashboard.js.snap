@@ -78,9 +78,19 @@ exports[`Dashboard matches snapshot 1`] = `
         >
           <div
             className="css-view-1dbjc4n"
-            onClick={[Function]}
+            data-focusable={true}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
             style={
               Object {
+                "MozTransitionProperty": "opacity",
+                "MozUserSelect": "none",
                 "WebkitAlignItems": "center",
                 "WebkitBoxAlign": "center",
                 "WebkitBoxDirection": "normal",
@@ -88,6 +98,9 @@ exports[`Dashboard matches snapshot 1`] = `
                 "WebkitBoxPack": "start",
                 "WebkitFlexDirection": "row",
                 "WebkitJustifyContent": "flex-start",
+                "WebkitTransitionDuration": "0.15s",
+                "WebkitTransitionProperty": "opacity",
+                "WebkitUserSelect": "none",
                 "alignItems": "center",
                 "cursor": "pointer",
                 "flexDirection": "row",
@@ -99,8 +112,15 @@ exports[`Dashboard matches snapshot 1`] = `
                 "msFlexAlign": "center",
                 "msFlexDirection": "row",
                 "msFlexPack": "start",
+                "msTouchAction": "manipulation",
+                "msUserSelect": "none",
+                "touchAction": "manipulation",
+                "transitionDuration": "0.15s",
+                "transitionProperty": "opacity",
+                "userSelect": "none",
               }
             }
+            tabIndex="0"
           >
             <div
               className="css-view-1dbjc4n"
@@ -138,9 +158,19 @@ exports[`Dashboard matches snapshot 1`] = `
           </div>
           <div
             className="css-view-1dbjc4n"
-            onClick={[Function]}
+            data-focusable={true}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
             style={
               Object {
+                "MozTransitionProperty": "opacity",
+                "MozUserSelect": "none",
                 "WebkitAlignItems": "center",
                 "WebkitBoxAlign": "center",
                 "WebkitBoxDirection": "normal",
@@ -148,6 +178,9 @@ exports[`Dashboard matches snapshot 1`] = `
                 "WebkitBoxPack": "start",
                 "WebkitFlexDirection": "row",
                 "WebkitJustifyContent": "flex-start",
+                "WebkitTransitionDuration": "0.15s",
+                "WebkitTransitionProperty": "opacity",
+                "WebkitUserSelect": "none",
                 "alignItems": "center",
                 "cursor": "pointer",
                 "flexDirection": "row",
@@ -157,8 +190,15 @@ exports[`Dashboard matches snapshot 1`] = `
                 "msFlexAlign": "center",
                 "msFlexDirection": "row",
                 "msFlexPack": "start",
+                "msTouchAction": "manipulation",
+                "msUserSelect": "none",
+                "touchAction": "manipulation",
+                "transitionDuration": "0.15s",
+                "transitionProperty": "opacity",
+                "userSelect": "none",
               }
             }
+            tabIndex="0"
           >
             <div
               className="css-view-1dbjc4n"
@@ -219,9 +259,19 @@ exports[`Dashboard matches snapshot 1`] = `
           </div>
           <div
             className="css-view-1dbjc4n"
-            onClick={[Function]}
+            data-focusable={true}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
             style={
               Object {
+                "MozTransitionProperty": "opacity",
+                "MozUserSelect": "none",
                 "WebkitAlignItems": "center",
                 "WebkitBoxAlign": "center",
                 "WebkitBoxDirection": "normal",
@@ -229,6 +279,9 @@ exports[`Dashboard matches snapshot 1`] = `
                 "WebkitBoxPack": "start",
                 "WebkitFlexDirection": "row",
                 "WebkitJustifyContent": "flex-start",
+                "WebkitTransitionDuration": "0.15s",
+                "WebkitTransitionProperty": "opacity",
+                "WebkitUserSelect": "none",
                 "alignItems": "center",
                 "cursor": "pointer",
                 "flexDirection": "row",
@@ -238,8 +291,15 @@ exports[`Dashboard matches snapshot 1`] = `
                 "msFlexAlign": "center",
                 "msFlexDirection": "row",
                 "msFlexPack": "start",
+                "msTouchAction": "manipulation",
+                "msUserSelect": "none",
+                "touchAction": "manipulation",
+                "transitionDuration": "0.15s",
+                "transitionProperty": "opacity",
+                "userSelect": "none",
               }
             }
+            tabIndex="0"
           >
             <div
               className="css-view-1dbjc4n"
@@ -300,8 +360,19 @@ exports[`Dashboard matches snapshot 1`] = `
           </div>
           <div
             className="css-view-1dbjc4n"
+            data-focusable={true}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
             style={
               Object {
+                "MozTransitionProperty": "opacity",
+                "MozUserSelect": "none",
                 "WebkitAlignItems": "center",
                 "WebkitBoxAlign": "center",
                 "WebkitBoxDirection": "normal",
@@ -309,6 +380,9 @@ exports[`Dashboard matches snapshot 1`] = `
                 "WebkitBoxPack": "start",
                 "WebkitFlexDirection": "row",
                 "WebkitJustifyContent": "flex-start",
+                "WebkitTransitionDuration": "0.15s",
+                "WebkitTransitionProperty": "opacity",
+                "WebkitUserSelect": "none",
                 "alignItems": "center",
                 "cursor": "pointer",
                 "flexDirection": "row",
@@ -318,8 +392,15 @@ exports[`Dashboard matches snapshot 1`] = `
                 "msFlexAlign": "center",
                 "msFlexDirection": "row",
                 "msFlexPack": "start",
+                "msTouchAction": "manipulation",
+                "msUserSelect": "none",
+                "touchAction": "manipulation",
+                "transitionDuration": "0.15s",
+                "transitionProperty": "opacity",
+                "userSelect": "none",
               }
             }
+            tabIndex="0"
           >
             <div
               className="css-view-1dbjc4n"
@@ -380,8 +461,19 @@ exports[`Dashboard matches snapshot 1`] = `
           </div>
           <div
             className="css-view-1dbjc4n"
+            data-focusable={true}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
             style={
               Object {
+                "MozTransitionProperty": "opacity",
+                "MozUserSelect": "none",
                 "WebkitAlignItems": "center",
                 "WebkitBoxAlign": "center",
                 "WebkitBoxDirection": "normal",
@@ -389,6 +481,9 @@ exports[`Dashboard matches snapshot 1`] = `
                 "WebkitBoxPack": "start",
                 "WebkitFlexDirection": "row",
                 "WebkitJustifyContent": "flex-start",
+                "WebkitTransitionDuration": "0.15s",
+                "WebkitTransitionProperty": "opacity",
+                "WebkitUserSelect": "none",
                 "alignItems": "center",
                 "cursor": "pointer",
                 "flexDirection": "row",
@@ -398,8 +493,15 @@ exports[`Dashboard matches snapshot 1`] = `
                 "msFlexAlign": "center",
                 "msFlexDirection": "row",
                 "msFlexPack": "start",
+                "msTouchAction": "manipulation",
+                "msUserSelect": "none",
+                "touchAction": "manipulation",
+                "transitionDuration": "0.15s",
+                "transitionProperty": "opacity",
+                "userSelect": "none",
               }
             }
+            tabIndex="0"
           >
             <div
               className="css-view-1dbjc4n"
@@ -460,8 +562,19 @@ exports[`Dashboard matches snapshot 1`] = `
           </div>
           <div
             className="css-view-1dbjc4n"
+            data-focusable={true}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
             style={
               Object {
+                "MozTransitionProperty": "opacity",
+                "MozUserSelect": "none",
                 "WebkitAlignItems": "center",
                 "WebkitBoxAlign": "center",
                 "WebkitBoxDirection": "normal",
@@ -469,6 +582,9 @@ exports[`Dashboard matches snapshot 1`] = `
                 "WebkitBoxPack": "start",
                 "WebkitFlexDirection": "row",
                 "WebkitJustifyContent": "flex-start",
+                "WebkitTransitionDuration": "0.15s",
+                "WebkitTransitionProperty": "opacity",
+                "WebkitUserSelect": "none",
                 "alignItems": "center",
                 "cursor": "pointer",
                 "flexDirection": "row",
@@ -478,8 +594,15 @@ exports[`Dashboard matches snapshot 1`] = `
                 "msFlexAlign": "center",
                 "msFlexDirection": "row",
                 "msFlexPack": "start",
+                "msTouchAction": "manipulation",
+                "msUserSelect": "none",
+                "touchAction": "manipulation",
+                "transitionDuration": "0.15s",
+                "transitionProperty": "opacity",
+                "userSelect": "none",
               }
             }
+            tabIndex="0"
           >
             <div
               className="css-view-1dbjc4n"
@@ -540,8 +663,19 @@ exports[`Dashboard matches snapshot 1`] = `
           </div>
           <div
             className="css-view-1dbjc4n"
+            data-focusable={true}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
             style={
               Object {
+                "MozTransitionProperty": "opacity",
+                "MozUserSelect": "none",
                 "WebkitAlignItems": "center",
                 "WebkitBoxAlign": "center",
                 "WebkitBoxDirection": "normal",
@@ -549,6 +683,9 @@ exports[`Dashboard matches snapshot 1`] = `
                 "WebkitBoxPack": "start",
                 "WebkitFlexDirection": "row",
                 "WebkitJustifyContent": "flex-start",
+                "WebkitTransitionDuration": "0.15s",
+                "WebkitTransitionProperty": "opacity",
+                "WebkitUserSelect": "none",
                 "alignItems": "center",
                 "cursor": "pointer",
                 "flexDirection": "row",
@@ -558,8 +695,15 @@ exports[`Dashboard matches snapshot 1`] = `
                 "msFlexAlign": "center",
                 "msFlexDirection": "row",
                 "msFlexPack": "start",
+                "msTouchAction": "manipulation",
+                "msUserSelect": "none",
+                "touchAction": "manipulation",
+                "transitionDuration": "0.15s",
+                "transitionProperty": "opacity",
+                "userSelect": "none",
               }
             }
+            tabIndex="0"
           >
             <div
               className="css-view-1dbjc4n"
@@ -620,8 +764,19 @@ exports[`Dashboard matches snapshot 1`] = `
           </div>
           <div
             className="css-view-1dbjc4n"
+            data-focusable={true}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
             style={
               Object {
+                "MozTransitionProperty": "opacity",
+                "MozUserSelect": "none",
                 "WebkitAlignItems": "center",
                 "WebkitBoxAlign": "center",
                 "WebkitBoxDirection": "normal",
@@ -629,6 +784,9 @@ exports[`Dashboard matches snapshot 1`] = `
                 "WebkitBoxPack": "start",
                 "WebkitFlexDirection": "row",
                 "WebkitJustifyContent": "flex-start",
+                "WebkitTransitionDuration": "0.15s",
+                "WebkitTransitionProperty": "opacity",
+                "WebkitUserSelect": "none",
                 "alignItems": "center",
                 "cursor": "pointer",
                 "flexDirection": "row",
@@ -638,8 +796,15 @@ exports[`Dashboard matches snapshot 1`] = `
                 "msFlexAlign": "center",
                 "msFlexDirection": "row",
                 "msFlexPack": "start",
+                "msTouchAction": "manipulation",
+                "msUserSelect": "none",
+                "touchAction": "manipulation",
+                "transitionDuration": "0.15s",
+                "transitionProperty": "opacity",
+                "userSelect": "none",
               }
             }
+            tabIndex="0"
           >
             <div
               className="css-view-1dbjc4n"

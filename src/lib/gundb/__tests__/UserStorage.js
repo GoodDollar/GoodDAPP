@@ -105,7 +105,7 @@ describe('UserStorage', () => {
     expect(res).toEqual('z123')
   })
 
-  describe('gets profile name and avatar from value', async () => {
+  describe('gets profile name and avatar from value', () => {
     beforeAll(async () => {
       await addUser({
         identifier: 'abcdef',

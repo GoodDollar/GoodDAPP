@@ -35,9 +35,7 @@ class MultipleAddressWallet {
       let address = wallet.getAddressString()
       this.addresses.push(address)
       let wallets = this.wallets
-      logger.debug({ wallets })
       this.wallets[address] = wallet
-      logger.debug('added wallet,', { wallet })
     }
   }
 }

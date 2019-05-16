@@ -48,7 +48,7 @@ export const executeWithdraw = async (store: Store, hash: string, reason: string
             reason
           }
         }
-        userStorage.updateFeedEvent(transactionEvent)
+        userStorage.enqueueTX(transactionEvent)
       }
     })
     store.set('currentScreen')({

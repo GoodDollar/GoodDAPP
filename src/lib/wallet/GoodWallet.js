@@ -96,7 +96,7 @@ export class GoodWallet {
         filterPred: { from: this.wallet.utils.toChecksumAddress(this.account) }
       },
       async (error, events) => {
-        log.debug({ error, events }, 'send')
+        log.debug('send events', { error, events })
         const [event] = events
         if (!event) {
           log.error('no event', events)
@@ -119,7 +119,7 @@ export class GoodWallet {
         filterPred: { to: this.wallet.utils.toChecksumAddress(this.account) }
       },
       async (error, events) => {
-        log.debug({ error, events }, 'receive')
+        log.debug('receive events', { error, events })
         const [event] = events
         if (!event) {
           log.error('no event', events)
@@ -157,7 +157,7 @@ export class GoodWallet {
       .then(async wallet => {
         this.wallet = wallet
         this.accounts = this.wallet.eth.accounts.wallet
-        this.account = (await this.getAccountForType('gd')) || this.wallet.eth.defaultAccount
+        this.account = await this.getAccountForType('gd')
         this.wallet.eth.defaultAccount = this.account
         this.networkId = Config.networkId
         log.info(`networkId: ${this.networkId}`)
@@ -372,8 +372,8 @@ export class GoodWallet {
   sendTx() {}
 
   async getAccountForType(type: AccountUsage): Promise<string> {
-    let account = this.accounts[GoodWallet.AccountUsageToPath[type]].address || this.account
-    return account.toString().toLowerCase()
+    let account = this.accounts[GoodWallet.AccountUsageToPath[type]].address || this.wallet.eth.defaultAccount
+    return account.toString()
   }
 
   async sign(toSign: string, accountType: AccountUsage = 'gd'): Promise<string> {
@@ -559,18 +559,21 @@ export class GoodWallet {
 
     log.debug({ gas, gasPrice })
 
-    return tx
-      .send({ gas, gasPrice })
-      .on('transactionHash', onTransactionHash)
-      .on('receipt', onReceipt)
-      .on('confirmation', onConfirmation)
-      .on('error', onError)
-      .then(async receipt => {
-        const transactionReceipt = await this.getReceiptWithLogs(receipt.transactionHash)
-        await this.sendReceiptWithLogsToSubscribers(transactionReceipt, ['receiptReceived', 'receiptUpdated'])
-        return transactionReceipt
-      })
-      .catch(this.handleError)
+    return (
+      tx
+        .send({ gas, gasPrice })
+        .on('transactionHash', onTransactionHash)
+        .on('receipt', onReceipt)
+        .on('confirmation', onConfirmation)
+        .on('error', onError)
+        /** receipt handling happens already in polling events */
+        // .then(async receipt => {
+        //   const transactionReceipt = await this.getReceiptWithLogs(receipt.transactionHash)
+        //   await this.sendReceiptWithLogsToSubscribers(transactionReceipt, ['receiptReceived', 'receiptUpdated'])
+        //   return transactionReceipt
+        // })
+        .catch(this.handleError)
+    )
   }
 }
 

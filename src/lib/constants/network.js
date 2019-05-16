@@ -1,3 +1,9 @@
+// @flow
+import findKey from 'lodash/findKey'
+import isEqual from 'lodash/isEqual'
+import partial from 'lodash/partial'
+import startCase from 'lodash/startCase'
+
 export const NETWORK_ID = {
   MAINNET: 1,
   ROPSTEN: 3,
@@ -9,4 +15,13 @@ export const NETWORK_ID = {
   POA: 99,
   XDAI: 100,
   FUSE: 121
+}
+
+/**
+ * Returns the network name based on the id provided or UNDEFINED if it's not in the dictionary
+ * @param {number} networkId - ethereum network id
+ * @returns {string} network name
+ */
+export const getNetworkName = (networkId: number): string => {
+  return startCase(findKey(NETWORK_ID, partial(isEqual, networkId))) || 'UNDEFINED'
 }

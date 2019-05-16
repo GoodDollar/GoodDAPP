@@ -69,15 +69,13 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
    * @returns {Promise<void>}
    */
   checkAuthStatus = async () => {
-    const { credsOrError } = await Promise.all([checkAuthStatus(this.props.store), delay(TIMEOUT)]).then(
-      ([authResult]) => authResult
-    )
-    //if we have url params then convert them to route params
-    //or use saved params in destination path
+    const { credsOrError, isLoggedInCitizen, isLoggedIn } = await Promise.all([
+      checkAuthStatus(this.props.store),
+      delay(TIMEOUT)
+    ]).then(([authResult]) => authResult)
     let destDetails = await this.getParams()
-    if (this.props.store.get('isLoggedInCitizen')) {
-      let topWalletRes = API.verifyTopWallet()
-      //this simply converts the url params to route params
+    if (isLoggedIn) {
+      let topWalletRes = isLoggedInCitizen ? API.verifyTopWallet() : Promise.resolve()
       if (destDetails) {
         this.props.navigation.navigate(destDetails)
         return AsyncStorage.removeItem('destinationPath')

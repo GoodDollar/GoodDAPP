@@ -51,7 +51,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   const { loading } = store.get('currentScreen')
 
   function saveProfile() {
-    userStorage.setProfile({ ...state, walletAddress: goodWallet.account })
+    return userStorage.setProfile({ ...state, walletAddress: goodWallet.account })
   }
 
   const navigateWithFocus = (routeKey: string) => {
@@ -101,25 +101,26 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
         navigateWithFocus(nextRoute.key)
       } else {
         log.info('Sending new user data', state)
-        saveProfile()
         try {
+          await saveProfile()
           // After sending email to the user for confirmation (transition between Email -> EmailConfirmation)
           // user's profile is persisted (`userStorage.setProfile`).
           // Then, when the user access the application from the link (in EmailConfirmation), data is recovered and
           // saved to the `state`
           await API.addUser(state)
-          await API.verifyUser({})
-
+          // await API.verifyUser({})
           // Stores creationBlock number into 'lastBlock' feed's node
           const creationBlock = (await goodWallet.getBlockNumber()).toString()
           await userStorage.saveLastBlockNumber(creationBlock)
+          store.set('isLoggedIn')(true)
           // top wallet of new user
           // wait for the topping to complete to be able to withdraw
-          await API.verifyTopWallet()
-          store.set('isLoggedInCitizen')(true)
+          // await API.verifyTopWallet()
+
           const mnemonic = await AsyncStorage.getItem('GD_USER_MNEMONIC')
           await API.sendRecoveryInstructionByEmail(mnemonic)
           navigation.navigate('AppNavigation')
+          userStorage.setProfileField('registered', true, 'public')
         } catch (error) {
           log.error('New user failure', { error })
         }

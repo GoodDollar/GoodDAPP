@@ -67,26 +67,32 @@ export type TransactionEvent = FeedEvent & {
 export const getReceiveDataFromReceipt = (receipt: any) => {
   if (!receipt || !receipt.logs || receipt.logs.length <= 0) return {}
   // Obtain logged data from receipt event
+  const logs = receipt.logs
+    .filter(_ => _)
+    .map(log =>
+      log.events.reduce(
+        (acc, curr) => {
+          return { ...acc, [curr.name]: curr.value }
+        },
+        { name: log.name }
+      )
+    )
   //maxBy is used in case transaction also paid a TX fee/burn, so since they are small
   //it filters them out
-  const transferLog = maxBy(
-    receipt.logs.filter(log => {
+  const transferLog = logs
+    .filter(log => {
       return log && log.name === 'Transfer'
-    }),
-    event => parseInt(event.events[2].value)
-  )
-  const withdrawLog = receipt.logs.find(log => {
+    })
+    .reduce((max, curr) => {
+      if (curr.value > max.value) max = curr
+      return max
+    }, logs[0])
+  const withdrawLog = logs.find(log => {
     return log && log.name === 'PaymentWithdraw'
   })
   logger.debug('getReceiveDataFromReceipt', { logs: receipt.logs, transferLog, withdrawLog })
   const log = withdrawLog || transferLog
-  const events = log.events.reduce(
-    (acc, curr) => {
-      return { ...acc, [curr.name]: curr.value }
-    },
-    { name: log.name }
-  )
-  return events
+  return log
 }
 
 export const getOperationType = (data: any, account: string) => {

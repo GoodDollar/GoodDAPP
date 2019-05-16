@@ -1,8 +1,9 @@
 'use strict';
 const fs = require('fs');
 const { exec } = require('child_process');
+
 const DELETE_EMPTY_DOCS = true
-console.log("Generating docs...")
+const BASE_DOCS_FOLDER = 'docs/dapp'
 const excludedFolders = ['__tests__', '__util__']
 
 const getEmptyFileString = (function () {
@@ -23,22 +24,31 @@ const getEmptyFileString = (function () {
     }
   })();
 
+const isValidFile = async (filePath) => {
+  try{
+    const emptyDoc = await getEmptyFileString()
+    const data = fs.readFileSync(filePath);
+    const docString = data.toString()
+  
+    return Promise.resolve(docString != emptyDoc) 
+  } catch(e) {
+    return Promise.resolve(false)
+  }
+}
+
+
 /**
  * Removes all empty docs and returns a list with actual documentation
  * @param {[string]} docs
  */
-async function removeEmptyDocs(docs) {
+async function filterEmptyDocs(docs) {
     const emptyDoc = await getEmptyFileString()
-    const actualDocs = docs.filter(docPath => {
-        const data = fs.readFileSync(docPath);
-        const doc = data.toString()
+    return docs.filter(doc => {
+      const data = fs.readFileSync(doc.mdFile);
+      const docString = data.toString()
 
-        return doc != emptyDoc 
+      return docString != emptyDoc 
     })
-
-    const toRemove = docs.filter(doc => !actualDocs.includes(doc))
-    toRemove.forEach(toRemove => fs.unlinkSync(toRemove))
-    return actualDocs
 }
 
 function promiseFromChildProcess(child) {
@@ -51,10 +61,41 @@ function promiseFromChildProcess(child) {
 function execPromise(toExec) {
     return promiseFromChildProcess(exec(toExec))
 }
-async function addTOC(doc,children)
-{
 
+async function doGenerateToc(docs, {baseFolder, level}) {
+  let outputString = ''
+  const currentLevel = level || 0
+  if(!docs || docs.length <= 0) return outputString
+  const padding = ' '.repeat(currentLevel*3)
+  const results = await Promise.all(await docs.map(async doc => {
+    let addedOutput = ''
+
+    if(doc.mdFile) {
+      const path = doc.mdFile.replace(baseFolder, '.')
+      addedOutput += `${padding+padding}-   [${path}](${path})\n`
+    }
+
+    if(doc.childrenDocs && doc.childrenDocs.length>0) {
+      const path = doc.folder.replace(baseFolder, '.')
+      addedOutput += `${padding}-   ${path}\n`
+      addedOutput += await doGenerateToc(doc.childrenDocs, {baseFolder, level: currentLevel+1})
+    }
+
+    return addedOutput
+  }))
+  return results.join('')
 }
+
+async function generateToc(docs) {
+  const baseFolder = BASE_DOCS_FOLDER
+  await execPromise(`mkdir -p ${baseFolder}`)
+
+  let outputString = '\n### Table of Contents\n\n'
+
+  outputString += await doGenerateToc(docs, {baseFolder})
+  fs.writeFileSync(`${baseFolder}/toc.md`,outputString)
+}
+
 async function generateDocs(baseFolder, deep){
 
     async function doGenerateDocs(folder, deep) {
@@ -65,27 +106,30 @@ async function generateDocs(baseFolder, deep){
             const filePath = `${folder}/${file}`;
             //generate recursively for all subfolders when reaching last level
             if(fs.lstatSync(filePath).isDirectory() && deep==0) {
-                const outputFolder = `${folder.replace(baseFolder,'docs/api')}/`
+                const outputFolder = `${folder.replace(baseFolder,BASE_DOCS_FOLDER)}/`
                 await execPromise(`mkdir -p ${outputFolder}`)
 
                 const mdFile = `${outputFolder+file}.md`
                 const toExec = `documentation build ${filePath} -f md -o ${mdFile} --shallow`
-                return execPromise(toExec).then(r => mdFile)
+                return execPromise(toExec).then(r => ({mdFile, folder: outputFolder+file }))
             }
             //generate docs only for direct source files for non last level directory
             else if(fs.lstatSync(filePath).isDirectory())
             {
-                const outputFolder = `${folder.replace(baseFolder,'docs/api')}/`
+                const outputFolder = `${folder.replace(baseFolder,BASE_DOCS_FOLDER)}/`
                 await execPromise(`mkdir -p ${outputFolder}`)
                 //adding '*.js' causes documentation to not be generated for sub folders
                 const mdFile = `${outputFolder+file}.md`
                 const toExec = `documentation build ${filePath}/*.js -f md -o ${mdFile} --shallow`                
-                const childrenDocs = await doGenerateDocs(filePath, deep-1).then(removeEmptyDocs)
-                console.log({filePath, mdFile, childrenDocs})
+                const childrenDocs = await doGenerateDocs(filePath, deep-1).then(filterEmptyDocs)
                 await execPromise(toExec)
-                //TODO: add children folder docs to TOC
-                addTOC(`${outputFolder+file}.md`,childrenDocs)
-                return { mdFile, childrenDocs }
+                
+                const newDoc = { folder: outputFolder+file, childrenDocs }
+                if(await isValidFile(mdFile)) {
+                  newDoc.mdFile =  mdFile
+                }
+
+                return (newDoc.mdFile || (newDoc.childrenDocs.length > 0)) ? newDoc : false
             }
 
             return Promise.resolve(false)
@@ -93,11 +137,19 @@ async function generateDocs(baseFolder, deep){
         return results.filter(_ => _)
     }
 
+    console.log("Generating docs...")
+
     await execPromise('rm -rf docs/*')
     const childrenDocs = await doGenerateDocs(baseFolder, deep)
-    console.log({childrenDocs})
-    if(DELETE_EMPTY_DOCS)
+    generateToc(childrenDocs)
+
+    if(DELETE_EMPTY_DOCS) {
+      console.log("Deleting empty docs...")
       await execPromise("find ./docs -name '*.md'  -size 118c -delete")
+    }
+    console.log("done!")
 }
+
+
 
 generateDocs('src',1)

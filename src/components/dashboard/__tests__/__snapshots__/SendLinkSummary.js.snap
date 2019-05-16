@@ -671,7 +671,7 @@ exports[`SendLinkSummary matches snapshot 1`] = `
                           }
                         }
                       >
-                        Next
+                        Confirm
                       </span>
                     </div>
                   </div>

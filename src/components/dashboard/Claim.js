@@ -14,16 +14,16 @@ import logger from '../../lib/logger/pino-logger'
 type ClaimProps = DashboardProps & {
   store: Store
 }
-const log = logger.child({ from: 'SendQRSummary' })
+const log = logger.child({ from: 'Claim' })
 
 class Claim extends Component<ClaimProps, {}> {
   state = {
-    loading: false,
-    isCitizen: this.props.store.get('isLoggedInCitizen')
+    loading: false
   }
   goodWalletWrapped = wrapper(goodWallet, this.props.store)
   async componentDidMount() {
-    //returned from facerecoginition
+    //if we returned from facerecoginition then the isValid param would be set
+    //this happens only on first claim
     const isValid = this.props.screenProps.screenState && this.props.screenProps.screenState.isValid
     if (isValid && (await goodWallet.isCitizen())) {
       this.handleClaim()
@@ -32,6 +32,8 @@ class Claim extends Component<ClaimProps, {}> {
     }
   }
   handleClaim = async () => {
+    let entitlement = await goodWallet.checkEntitlement()
+    if (entitlement === 0) return
     this.setState({ loading: true })
     try {
       const receipt = await this.goodWalletWrapped.claim()
@@ -56,9 +58,10 @@ class Claim extends Component<ClaimProps, {}> {
   render() {
     const { screenProps, store }: ClaimProps = this.props
     const { entitlement } = store.get('account')
+    const isCitizen = store.get('isLoggedInCitizen')
     const ClaimButton = (
       <CustomButton
-        disabled={entitlement <= 0 && this.state.isCitizen}
+        disabled={entitlement <= 0 && isCitizen}
         mode="contained"
         onPress={async () => {
           ;(await goodWallet.isCitizen()) ? this.handleClaim() : this.faceRecognition()

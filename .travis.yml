@@ -6,7 +6,7 @@ cache:
 env:
   global:
     - REACT_ENV=development
-    - REACT_APP_LOG_LEVEL=error
+    - REACT_APP_LOG_LEVEL=debug
 #    - REACT_APP_NETWORK_ID=4447
     - MNEMONIC="choice congress hobby buddy dutch busy army eager empty solution start grunt"
     - CI=false

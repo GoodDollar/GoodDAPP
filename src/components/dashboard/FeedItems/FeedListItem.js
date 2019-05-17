@@ -1,19 +1,7 @@
 import React from 'react'
 import { TouchableHighlight, View } from 'react-native'
-import ListWithdrawEvent from './ListWithdrawEvent'
-import ListSendEvent from './ListSendEvent'
-import ListClaimEvent from './ListClaimEvent'
+import ListEventItem from './ListEventItem'
 import { listStyles } from './EventStyles'
-
-const listType = type => {
-  return (
-    {
-      withdraw: ListWithdrawEvent,
-      send: ListSendEvent,
-      claim: ListClaimEvent
-    }[type] || ListWithdrawEvent
-  )
-}
 
 /**
  * Render list item according to the type for feed list
@@ -21,8 +9,6 @@ const listType = type => {
  * @returns {HTMLElement}
  */
 const FeedListItem = props => {
-  const Item = listType(props.item.type)
-
   return (
     <TouchableHighlight
       onPress={() => props.onPress(props.item.id)}
@@ -34,7 +20,7 @@ const FeedListItem = props => {
       style={listStyles.row}
     >
       <View style={{ flex: 1 }}>
-        <Item {...props} />
+        <ListEventItem {...props} />
       </View>
     </TouchableHighlight>
   )

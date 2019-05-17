@@ -1,6 +1,12 @@
 // @flow
 import gun from '../gundb'
-import userStorage, { type TransactionEvent, UserStorage } from '../UserStorage'
+
+import userStorage, {
+  type TransactionEvent,
+  UserStorage,
+  getOperationType,
+  getReceiveDataFromReceipt
+} from '../UserStorage'
 import { getUserModel } from '../UserModel'
 import { addUser } from './__util__/index'
 import { GoodWallet } from '../../wallet/GoodWallet'
@@ -494,5 +500,202 @@ describe('UserStorage', () => {
     expect(newResultOk).toMatchObject({ err: undefined })
     const updatedUsernameOk = await userStorage.getProfileFieldValue('username')
     expect(updatedUsernameOk).toBe('user3')
+  })
+
+  describe('getReceiveDataFromReceipt', async () => {
+    it('get Transfer data from logs', async () => {
+      const receipt = {
+        logs: [
+          {
+            name: 'Transfer',
+            events: [
+              { name: 'from', type: 'address', value: '0x7aa689d96362de59b78c2f184f840dbdab9270e0' },
+              { name: 'to', type: 'address', value: '0x90e5c2433a1fbab3c9d350bcffe2e73ac479941d' },
+              { name: 'value', type: 'uint256', value: '15' }
+            ],
+            address: '0x88ceB1769E0F8304b9981F0CB23C3192361d6873'
+          }
+        ]
+      }
+      const result = getReceiveDataFromReceipt(receipt)
+      expect(result).toMatchObject({
+        from: '0x7aa689d96362de59b78c2f184f840dbdab9270e0',
+        to: '0x90e5c2433a1fbab3c9d350bcffe2e73ac479941d',
+        value: '15'
+      })
+    })
+
+    it('get PaymentWithdraw data from logs', async () => {
+      const receipt = {
+        logs: [
+          {
+            name: 'Transfer',
+            events: [
+              { name: 'from', type: 'address', value: '0x7aa689d96362de59b78c2f184f840dbdab9270e0' },
+              { name: 'to', type: 'address', value: '0x90e5c2433a1fbab3c9d350bcffe2e73ac479941d' },
+              { name: 'value', type: 'uint256', value: '15' }
+            ],
+            address: '0x88ceB1769E0F8304b9981F0CB23C3192361d6873'
+          },
+          {
+            name: 'PaymentWithdraw',
+            events: [
+              { name: 'from', type: 'address', value: '0x7aa689d96362de59b78c2f184f840dbdab9270e0' },
+              { name: 'to', type: 'address', value: '0x90e5c2433a1fbab3c9d350bcffe2e73ac479941d' },
+              { name: 'value', type: 'uint256', value: '15' }
+            ],
+            address: '0x88ceB1769E0F8304b9981F0CB23C3192361d6873'
+          }
+        ]
+      }
+      const result = getReceiveDataFromReceipt(receipt)
+      expect(result).toMatchObject({
+        from: '0x7aa689d96362de59b78c2f184f840dbdab9270e0',
+        to: '0x90e5c2433a1fbab3c9d350bcffe2e73ac479941d',
+        value: '15'
+      })
+    })
+
+    it('get Transfer when multiple Transfer should get the bigger (the lastone)', async () => {
+      const receipt = {
+        logs: [
+          {
+            name: 'Transfer',
+            events: [
+              { name: 'from', type: 'address', value: '0x7aa689d96362de59b78c2f184f840dbdab9270e0' },
+              { name: 'to', type: 'address', value: '0x90e5c2433a1fbab3c9d350bcffe2e73ac479941d' },
+              { name: 'value', type: 'uint256', value: '15' }
+            ],
+            address: '0x88ceB1769E0F8304b9981F0CB23C3192361d6873'
+          },
+          {
+            name: 'Transfer',
+            events: [
+              { name: 'from', type: 'address', value: '0x7aa689d96362de59b78c2f184f840dbdab9270e0' },
+              { name: 'to', type: 'address', value: '0x90e5c2433a1fbab3c9d350bcffe2e73ac479941d' },
+              { name: 'value', type: 'uint256', value: '1500' }
+            ],
+            address: '0x88ceB1769E0F8304b9981F0CB23C3192361d6873'
+          }
+        ]
+      }
+      const result = getReceiveDataFromReceipt(receipt)
+      expect(result).toMatchObject({
+        from: '0x7aa689d96362de59b78c2f184f840dbdab9270e0',
+        to: '0x90e5c2433a1fbab3c9d350bcffe2e73ac479941d',
+        value: '1500'
+      })
+    })
+
+    it('get Transfer when multiple Transfer should get the bigger (the firstone)', async () => {
+      const receipt = {
+        logs: [
+          {
+            name: 'Transfer',
+            events: [
+              { name: 'from', type: 'address', value: '0x7aa689d96362de59b78c2f184f840dbdab9270e0' },
+              { name: 'to', type: 'address', value: '0x90e5c2433a1fbab3c9d350bcffe2e73ac479941d' },
+              { name: 'value', type: 'uint256', value: '20' }
+            ],
+            address: '0x88ceB1769E0F8304b9981F0CB23C3192361d6873'
+          },
+          {
+            name: 'Transfer',
+            events: [
+              { name: 'from', type: 'address', value: '0x7aa689d96362de59b78c2f184f840dbdab9270e0' },
+              { name: 'to', type: 'address', value: '0x90e5c2433a1fbab3c9d350bcffe2e73ac479941d' },
+              { name: 'value', type: 'uint256', value: '1' }
+            ],
+            address: '0x88ceB1769E0F8304b9981F0CB23C3192361d6873'
+          }
+        ]
+      }
+      const result = getReceiveDataFromReceipt(receipt)
+      expect(result).toMatchObject({
+        from: '0x7aa689d96362de59b78c2f184f840dbdab9270e0',
+        to: '0x90e5c2433a1fbab3c9d350bcffe2e73ac479941d',
+        value: '20'
+      })
+    })
+
+    it('empty logs should return empty object', async () => {
+      const receipt = {
+        logs: []
+      }
+      const result = getReceiveDataFromReceipt(receipt)
+      expect(result).toMatchObject({})
+    })
+
+    it('empty receipt should return empty object', async () => {
+      const receipt = {}
+      const result = getReceiveDataFromReceipt(receipt)
+      expect(result).toMatchObject({})
+    })
+  })
+})
+
+describe('getOperationType', () => {
+  it('PaymentWithdraw should be withdraw', () => {
+    const event = {
+      name: 'PaymentWithdraw'
+    }
+    expect(getOperationType(event, 'account1')).toBe('withdraw')
+  })
+
+  it('PaymentWithdraw with any from should be withdraw', () => {
+    const event = {
+      name: 'PaymentWithdraw',
+      from: 'account1'
+    }
+    expect(getOperationType(event, 'account1')).toBe('withdraw')
+  })
+
+  it('from equal to account should be send', () => {
+    const event = {
+      name: 'Transfer',
+      from: 'account1'
+    }
+    expect(getOperationType(event, 'account1')).toBe('send')
+  })
+
+  it('from different to account should be receive', () => {
+    const event = {
+      name: 'Transfer',
+      from: 'account2'
+    }
+    expect(getOperationType(event, 'account1')).toBe('receive')
+  })
+})
+
+describe('getOperationType', () => {
+  it('PaymentWithdraw should be withdraw', () => {
+    const event = {
+      name: 'PaymentWithdraw'
+    }
+    expect(getOperationType(event, 'account1')).toBe('withdraw')
+  })
+
+  it('PaymentWithdraw with any from should be withdraw', () => {
+    const event = {
+      name: 'PaymentWithdraw',
+      from: 'account1'
+    }
+    expect(getOperationType(event, 'account1')).toBe('withdraw')
+  })
+
+  it('from equal to account should be send', () => {
+    const event = {
+      name: 'Transfer',
+      from: 'account1'
+    }
+    expect(getOperationType(event, 'account1')).toBe('send')
+  })
+
+  it('from different to account should be receive', () => {
+    const event = {
+      name: 'Transfer',
+      from: 'account2'
+    }
+    expect(getOperationType(event, 'account1')).toBe('receive')
   })
 })

@@ -74,6 +74,7 @@ const initialState: State = {
     ready: false
   },
   isLoggedInCitizen: false,
+  isLoggedIn: false,
   currentScreen: {
     dialogData: {
       visible: false
@@ -85,6 +86,9 @@ const initialState: State = {
   feeds: [],
   loadingIndicator: {
     loading: false
+  },
+  sidemenu: {
+    visible: false
   }
 }
 

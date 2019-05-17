@@ -35,6 +35,11 @@ export async function getMnemonics(): Promise<string> {
   return pkey
 }
 
+export async function getMnemonicsObject(): Promise<any> {
+  const pkey = await getMnemonics()
+  return { ...pkey.split(' ') }
+}
+
 export function deleteMnemonics(): Promise<any> {
   return AsyncStorage.removeItem(GD_USER_MNEMONIC)
 }

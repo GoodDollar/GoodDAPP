@@ -132,10 +132,7 @@ exports[`FaceRecognition matches snapshot 1`] = `
             style={
               Object {
                 "color": "rgba(85,85,85,1.00)",
-                "direction": "ltr",
-                "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                "fontSize": "28px",
-                "marginBottom": "30px",
+                "fontSize": "18px",
                 "textAlign": "center",
               }
             }
@@ -149,10 +146,7 @@ exports[`FaceRecognition matches snapshot 1`] = `
             style={
               Object {
                 "color": "rgba(85,85,85,1.00)",
-                "direction": "ltr",
-                "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                "fontSize": "18px",
-                "marginTop": "30px",
+                "fontSize": "20px",
                 "textAlign": "center",
               }
             }

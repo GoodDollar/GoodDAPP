@@ -3,12 +3,25 @@ import type { Effects, Store } from 'undux'
 import type { State } from '../GDStore'
 
 import { updateAll } from '../utils/account'
+import API from '../../API/api'
 
-const updateAllOnLoggedInCitizen: Effects<State> = (store: Store) =>
-  store.on('isLoggedInCitizen').subscribe(isLoggedInCitizen => {
+import logger from '../../logger/pino-logger'
+
+const log = logger.child({ from: 'updateAllOnLoggedInCitizen' })
+
+const updateAllOnLoggedInCitizen: Effects<State> = (store: Store) => {
+  store.on('isLoggedIn').subscribe(isLoggedInCitizen => {
     if (isLoggedInCitizen) {
       updateAll(store)
     }
   })
+  store.on('isLoggedInCitizen').subscribe(isLoggedInCitizen => {
+    if (isLoggedInCitizen) {
+      API.verifyTopWallet()
+        .then(r => log.debug('Top Wallet Result:', r))
+        .catch(e => log.error('Top Wallet Error:', e.message))
+    }
+  })
+}
 
 export default updateAllOnLoggedInCitizen

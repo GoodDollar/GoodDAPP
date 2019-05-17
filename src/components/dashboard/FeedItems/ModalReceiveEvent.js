@@ -30,7 +30,7 @@ const ModalReceiveEvent = ({ item: feed, onPress }: FeedEventProps) => {
         </Text>
       </View>
       <View style={styles.hrLine} />
-      {feed.data.message && <Text>{feed.data.message}</Text>}
+      {<Text>{feed.data.message || ''}</Text>}
       <View style={styles.buttonsRow}>
         {feed.actions && feed.actions.length ? (
           feed.actions.map(action => (

@@ -1,6 +1,6 @@
 //@flow
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import backButton from '../../assets/backButton.png'
 
 type NavBarProps = {
@@ -17,7 +17,7 @@ class NavBar extends React.Component<NavBarProps> {
     return (
       <View style={styles.navBar}>
         <View style={styles.left}>
-          {this.props.goBack && <View style={styles.backButton} onClick={this.props.goBack} />}
+          {this.props.goBack && <TouchableOpacity style={styles.backButton} onPress={this.props.goBack} />}
         </View>
         <Text style={styles.title}>{this.props.title}</Text>
         <View style={styles.right} />

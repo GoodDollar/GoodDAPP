@@ -21,14 +21,27 @@ exports[`TabsView matches snapshot 1`] = `
 >
   <div
     className="css-view-1dbjc4n"
-    onClick={[Function]}
+    data-focusable={true}
+    onKeyDown={[Function]}
+    onKeyUp={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
     style={
       Object {
+        "MozTransitionProperty": "opacity",
+        "MozUserSelect": "none",
         "WebkitAlignItems": "center",
         "WebkitBoxAlign": "center",
         "WebkitBoxDirection": "normal",
         "WebkitBoxOrient": "vertical",
         "WebkitFlexDirection": "column",
+        "WebkitTransitionDuration": "0.15s",
+        "WebkitTransitionProperty": "opacity",
+        "WebkitUserSelect": "none",
         "alignItems": "center",
         "cursor": "pointer",
         "display": "flex",
@@ -36,8 +49,15 @@ exports[`TabsView matches snapshot 1`] = `
         "height": "100%",
         "msFlexAlign": "center",
         "msFlexDirection": "column",
+        "msTouchAction": "manipulation",
+        "msUserSelect": "none",
+        "touchAction": "manipulation",
+        "transitionDuration": "0.15s",
+        "transitionProperty": "opacity",
+        "userSelect": "none",
       }
     }
+    tabIndex="0"
   >
     <div
       className="css-view-1dbjc4n"
@@ -92,14 +112,27 @@ exports[`TabsView matches snapshot 1`] = `
   </div>
   <div
     className="css-view-1dbjc4n"
-    onClick={[Function]}
+    data-focusable={true}
+    onKeyDown={[Function]}
+    onKeyUp={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
     style={
       Object {
+        "MozTransitionProperty": "opacity",
+        "MozUserSelect": "none",
         "WebkitAlignItems": "center",
         "WebkitBoxAlign": "center",
         "WebkitBoxDirection": "normal",
         "WebkitBoxOrient": "vertical",
         "WebkitFlexDirection": "column",
+        "WebkitTransitionDuration": "0.15s",
+        "WebkitTransitionProperty": "opacity",
+        "WebkitUserSelect": "none",
         "alignItems": "center",
         "cursor": "pointer",
         "display": "flex",
@@ -107,8 +140,15 @@ exports[`TabsView matches snapshot 1`] = `
         "height": "100%",
         "msFlexAlign": "center",
         "msFlexDirection": "column",
+        "msTouchAction": "manipulation",
+        "msUserSelect": "none",
+        "touchAction": "manipulation",
+        "transitionDuration": "0.15s",
+        "transitionProperty": "opacity",
+        "userSelect": "none",
       }
     }
+    tabIndex="0"
   >
     <div
       className="css-view-1dbjc4n"
@@ -163,14 +203,27 @@ exports[`TabsView matches snapshot 1`] = `
   </div>
   <div
     className="css-view-1dbjc4n"
-    onClick={[Function]}
+    data-focusable={true}
+    onKeyDown={[Function]}
+    onKeyUp={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
     style={
       Object {
+        "MozTransitionProperty": "opacity",
+        "MozUserSelect": "none",
         "WebkitAlignItems": "center",
         "WebkitBoxAlign": "center",
         "WebkitBoxDirection": "normal",
         "WebkitBoxOrient": "vertical",
         "WebkitFlexDirection": "column",
+        "WebkitTransitionDuration": "0.15s",
+        "WebkitTransitionProperty": "opacity",
+        "WebkitUserSelect": "none",
         "alignItems": "center",
         "cursor": "pointer",
         "display": "flex",
@@ -180,8 +233,15 @@ exports[`TabsView matches snapshot 1`] = `
         "marginRight": "30px",
         "msFlexAlign": "center",
         "msFlexDirection": "column",
+        "msTouchAction": "manipulation",
+        "msUserSelect": "none",
+        "touchAction": "manipulation",
+        "transitionDuration": "0.15s",
+        "transitionProperty": "opacity",
+        "userSelect": "none",
       }
     }
+    tabIndex="0"
   >
     <div
       className="css-view-1dbjc4n"

@@ -38,15 +38,35 @@ Array [
     >
       <div
         className="css-view-1dbjc4n"
-        onClick={[Function]}
+        data-focusable={true}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
         style={
           Object {
+            "MozTransitionProperty": "opacity",
+            "MozUserSelect": "none",
+            "WebkitTransitionDuration": "0.15s",
+            "WebkitTransitionProperty": "opacity",
+            "WebkitUserSelect": "none",
             "backgroundImage": "url(backButton.png)",
             "cursor": "pointer",
             "height": "25px",
+            "msTouchAction": "manipulation",
+            "msUserSelect": "none",
+            "touchAction": "manipulation",
+            "transitionDuration": "0.15s",
+            "transitionProperty": "opacity",
+            "userSelect": "none",
             "width": "25px",
           }
         }
+        tabIndex="0"
       />
     </div>
     <div
@@ -1247,14 +1267,36 @@ Array [
                           >
                             <div
                               className="css-view-1dbjc4n"
+                              data-focusable={true}
+                              onKeyDown={[Function]}
+                              onKeyUp={[Function]}
+                              onResponderGrant={[Function]}
+                              onResponderMove={[Function]}
+                              onResponderRelease={[Function]}
+                              onResponderTerminate={[Function]}
+                              onResponderTerminationRequest={[Function]}
+                              onStartShouldSetResponder={[Function]}
                               style={
                                 Object {
+                                  "MozTransitionProperty": "opacity",
+                                  "MozUserSelect": "none",
+                                  "WebkitTransitionDuration": "0.15s",
+                                  "WebkitTransitionProperty": "opacity",
+                                  "WebkitUserSelect": "none",
                                   "borderBottomLeftRadius": "50%",
                                   "borderBottomRightRadius": "50%",
                                   "borderTopLeftRadius": "50%",
                                   "borderTopRightRadius": "50%",
+                                  "cursor": "pointer",
+                                  "msTouchAction": "manipulation",
+                                  "msUserSelect": "none",
+                                  "touchAction": "manipulation",
+                                  "transitionDuration": "0.15s",
+                                  "transitionProperty": "opacity",
+                                  "userSelect": "none",
                                 }
                               }
+                              tabIndex="0"
                             >
                               <div
                                 className="css-view-1dbjc4n"
@@ -1448,16 +1490,29 @@ Array [
                               }
                             }
                           >
-                            <div
-                              className="css-view-1dbjc4n"
+                            <input
+                              aria-disabled={true}
+                              autoCapitalize="sentences"
+                              autoComplete="on"
+                              autoCorrect="on"
+                              className="css-textinput-1cwyjr8"
+                              dir="auto"
+                              disabled={true}
+                              onBlur={[Function]}
+                              onChange={[Function]}
+                              onFocus={[Function]}
+                              onKeyDown={[Function]}
+                              onKeyPress={[Function]}
+                              onSelect={[Function]}
+                              placeholder="Choose a Username"
+                              readOnly={false}
+                              spellCheck={true}
                               style={
                                 Object {
                                   "backgroundColor": "rgba(0,0,0,0.00)",
                                   "borderBottomWidth": "0px",
                                   "borderLeftWidth": "0px",
                                   "borderRightWidth": "0px",
-                                  "borderTopLeftRadius": "4px",
-                                  "borderTopRightRadius": "4px",
                                   "borderTopWidth": "0px",
                                   "color": "rgba(85,85,85,1.00)",
                                   "fontSize": "16px",
@@ -1465,64 +1520,9 @@ Array [
                                   "textAlign": "left",
                                 }
                               }
-                            >
-                              <div
-                                className="css-view-1dbjc4n"
-                                style={
-                                  Object {
-                                    "WebkitTransform": "scaleY(0.5)",
-                                    "backgroundColor": "rgba(0,0,0,0.00)",
-                                    "bottom": "0px",
-                                    "height": "2px",
-                                    "left": "0px",
-                                    "position": "absolute",
-                                    "right": "0px",
-                                    "transform": "scaleY(0.5)",
-                                  }
-                                }
-                              />
-                              <input
-                                autoCapitalize="sentences"
-                                autoComplete="on"
-                                autoCorrect="on"
-                                className="css-textinput-1cwyjr8 r-placeholderTextColor-5afe0u"
-                                data-focusable={true}
-                                dir="auto"
-                                onBlur={[Function]}
-                                onChange={[Function]}
-                                onFocus={[Function]}
-                                onKeyDown={[Function]}
-                                onKeyPress={[Function]}
-                                onSelect={[Function]}
-                                placeholder="Choose a Username"
-                                readOnly={true}
-                                spellCheck={true}
-                                style={
-                                  Object {
-                                    "WebkitBoxFlex": 1,
-                                    "WebkitFlexGrow": 1,
-                                    "color": "rgba(0,0,0,0.54)",
-                                    "flexGrow": 1,
-                                    "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                                    "fontSize": "16px",
-                                    "marginBottom": "0px",
-                                    "marginLeft": "0px",
-                                    "marginRight": "0px",
-                                    "marginTop": "0px",
-                                    "minHeight": "58px",
-                                    "msFlexPositive": 1,
-                                    "paddingBottom": "15px",
-                                    "paddingLeft": "12px",
-                                    "paddingRight": "12px",
-                                    "paddingTop": "15px",
-                                    "textAlign": "left",
-                                    "verticalAlign": "middle",
-                                    "zIndex": 1,
-                                  }
-                                }
-                                type="text"
-                              />
-                            </div>
+                              tabIndex="-1"
+                              type="text"
+                            />
                             <div
                               className="css-text-76zvg2"
                               dir="auto"
@@ -1618,16 +1618,28 @@ Array [
                               }
                             }
                           >
-                            <div
-                              className="css-view-1dbjc4n"
+                            <input
+                              aria-disabled={true}
+                              autoCapitalize="sentences"
+                              autoComplete="on"
+                              autoCorrect="on"
+                              className="css-textinput-1cwyjr8"
+                              dir="auto"
+                              disabled={true}
+                              onBlur={[Function]}
+                              onChange={[Function]}
+                              onFocus={[Function]}
+                              onKeyDown={[Function]}
+                              onKeyPress={[Function]}
+                              onSelect={[Function]}
+                              readOnly={false}
+                              spellCheck={true}
                               style={
                                 Object {
                                   "backgroundColor": "rgba(0,0,0,0.00)",
                                   "borderBottomWidth": "0px",
                                   "borderLeftWidth": "0px",
                                   "borderRightWidth": "0px",
-                                  "borderTopLeftRadius": "4px",
-                                  "borderTopRightRadius": "4px",
                                   "borderTopWidth": "0px",
                                   "color": "rgba(85,85,85,1.00)",
                                   "fontSize": "16px",
@@ -1635,63 +1647,9 @@ Array [
                                   "textAlign": "left",
                                 }
                               }
-                            >
-                              <div
-                                className="css-view-1dbjc4n"
-                                style={
-                                  Object {
-                                    "WebkitTransform": "scaleY(0.5)",
-                                    "backgroundColor": "rgba(0,0,0,0.00)",
-                                    "bottom": "0px",
-                                    "height": "2px",
-                                    "left": "0px",
-                                    "position": "absolute",
-                                    "right": "0px",
-                                    "transform": "scaleY(0.5)",
-                                  }
-                                }
-                              />
-                              <input
-                                autoCapitalize="sentences"
-                                autoComplete="on"
-                                autoCorrect="on"
-                                className="css-textinput-1cwyjr8 r-placeholderTextColor-5afe0u"
-                                data-focusable={true}
-                                dir="auto"
-                                onBlur={[Function]}
-                                onChange={[Function]}
-                                onFocus={[Function]}
-                                onKeyDown={[Function]}
-                                onKeyPress={[Function]}
-                                onSelect={[Function]}
-                                readOnly={true}
-                                spellCheck={true}
-                                style={
-                                  Object {
-                                    "WebkitBoxFlex": 1,
-                                    "WebkitFlexGrow": 1,
-                                    "color": "rgba(0,0,0,0.54)",
-                                    "flexGrow": 1,
-                                    "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                                    "fontSize": "16px",
-                                    "marginBottom": "0px",
-                                    "marginLeft": "0px",
-                                    "marginRight": "0px",
-                                    "marginTop": "0px",
-                                    "minHeight": "58px",
-                                    "msFlexPositive": 1,
-                                    "paddingBottom": "15px",
-                                    "paddingLeft": "12px",
-                                    "paddingRight": "12px",
-                                    "paddingTop": "15px",
-                                    "textAlign": "left",
-                                    "verticalAlign": "middle",
-                                    "zIndex": 1,
-                                  }
-                                }
-                                type="text"
-                              />
-                            </div>
+                              tabIndex="-1"
+                              type="text"
+                            />
                             <div
                               className="css-text-76zvg2"
                               dir="auto"
@@ -1787,16 +1745,28 @@ Array [
                               }
                             }
                           >
-                            <div
-                              className="css-view-1dbjc4n"
+                            <input
+                              aria-disabled={true}
+                              autoCapitalize="sentences"
+                              autoComplete="on"
+                              autoCorrect="on"
+                              className="css-textinput-1cwyjr8"
+                              dir="auto"
+                              disabled={true}
+                              onBlur={[Function]}
+                              onChange={[Function]}
+                              onFocus={[Function]}
+                              onKeyDown={[Function]}
+                              onKeyPress={[Function]}
+                              onSelect={[Function]}
+                              readOnly={false}
+                              spellCheck={true}
                               style={
                                 Object {
                                   "backgroundColor": "rgba(0,0,0,0.00)",
                                   "borderBottomWidth": "0px",
                                   "borderLeftWidth": "0px",
                                   "borderRightWidth": "0px",
-                                  "borderTopLeftRadius": "4px",
-                                  "borderTopRightRadius": "4px",
                                   "borderTopWidth": "0px",
                                   "color": "rgba(85,85,85,1.00)",
                                   "fontSize": "16px",
@@ -1804,63 +1774,9 @@ Array [
                                   "textAlign": "left",
                                 }
                               }
-                            >
-                              <div
-                                className="css-view-1dbjc4n"
-                                style={
-                                  Object {
-                                    "WebkitTransform": "scaleY(0.5)",
-                                    "backgroundColor": "rgba(0,0,0,0.00)",
-                                    "bottom": "0px",
-                                    "height": "2px",
-                                    "left": "0px",
-                                    "position": "absolute",
-                                    "right": "0px",
-                                    "transform": "scaleY(0.5)",
-                                  }
-                                }
-                              />
-                              <input
-                                autoCapitalize="sentences"
-                                autoComplete="on"
-                                autoCorrect="on"
-                                className="css-textinput-1cwyjr8 r-placeholderTextColor-5afe0u"
-                                data-focusable={true}
-                                dir="auto"
-                                onBlur={[Function]}
-                                onChange={[Function]}
-                                onFocus={[Function]}
-                                onKeyDown={[Function]}
-                                onKeyPress={[Function]}
-                                onSelect={[Function]}
-                                readOnly={true}
-                                spellCheck={true}
-                                style={
-                                  Object {
-                                    "WebkitBoxFlex": 1,
-                                    "WebkitFlexGrow": 1,
-                                    "color": "rgba(0,0,0,0.54)",
-                                    "flexGrow": 1,
-                                    "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                                    "fontSize": "16px",
-                                    "marginBottom": "0px",
-                                    "marginLeft": "0px",
-                                    "marginRight": "0px",
-                                    "marginTop": "0px",
-                                    "minHeight": "58px",
-                                    "msFlexPositive": 1,
-                                    "paddingBottom": "15px",
-                                    "paddingLeft": "12px",
-                                    "paddingRight": "12px",
-                                    "paddingTop": "15px",
-                                    "textAlign": "left",
-                                    "verticalAlign": "middle",
-                                    "zIndex": 1,
-                                  }
-                                }
-                                type="text"
-                              />
-                            </div>
+                              tabIndex="-1"
+                              type="text"
+                            />
                             <div
                               className="css-text-76zvg2"
                               dir="auto"

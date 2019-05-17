@@ -1,7 +1,7 @@
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, TextInput } from 'react-native'
 import { Icon, normalize } from 'react-native-elements'
-import { HelperText, TextInput } from 'react-native-paper'
+import { HelperText } from 'react-native-paper'
 import PhoneInput from 'react-phone-number-input'
 import './ProfileDataTablePhoneInput.css'
 import { getScreenWidth } from '../../lib/utils/Orientation'
@@ -12,7 +12,7 @@ import './PhoneInput.css'
 logger.info('width', { width: getScreenWidth() })
 const ProfileInput = props => (
   <View style={styles.inputWrapper}>
-    <TextInput {...props} style={styles.textInput} underlineColor="transparent" />
+    <TextInput {...props} style={styles.textInput} />
     <HelperText type="error" visible={props.error} style={styles.error}>
       {props.error}
     </HelperText>
@@ -90,11 +90,12 @@ const styles = StyleSheet.create({
   },
   textInput: {
     height: normalize(30),
-    backgroundColor: 'transparent',
+    backgroundColor: 'rgba(0,0,0,0)',
     borderWidth: 0,
     fontSize: normalize(16),
     textAlign: 'left',
-    color: '#555555'
+    color: '#555555',
+    outline: 'none'
   },
   error: {
     paddingRight: 0,

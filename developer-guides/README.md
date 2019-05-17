@@ -4,13 +4,13 @@ description: Guides to the main system components
 
 # Developer Guides
 
-### GoodDAPP
+## GoodDAPP
 
 * UserStorage
 * Face Recognition
-* Routing
+* [Routing](routing.md)
 
-### GoodServer
+## GoodServer
 
-### GoodContracts
+## GoodContracts
 

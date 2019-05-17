@@ -12,7 +12,7 @@ export type AvatarProps = {
 
 export default (props: AvatarProps) => (
   <TouchableOpacity
-    onClick={props.onPress}
+    onPress={props.onPress}
     style={props.onPress ? [props.style, styles.clickable] : [props.style, styles.avatarView]}
   >
     <Avatar.Image

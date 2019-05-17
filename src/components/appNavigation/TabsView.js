@@ -47,9 +47,9 @@ const TabsView = (props: TabViewProps) => (
 const TabSideMenu = () => {
   const store = GDStore.useStore()
   return (
-    <View style={[styles.tabButton, styles.burgerIconButton]} onClick={() => toggleSidemenu(store)}>
+    <TouchableOpacity style={[styles.tabButton, styles.burgerIconButton]} onPress={() => toggleSidemenu(store)}>
       <Image source={burgerIcon} style={styles.burgerIcon} />
-    </View>
+    </TouchableOpacity>
   )
 }
 

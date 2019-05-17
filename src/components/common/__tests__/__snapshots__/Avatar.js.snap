@@ -3,14 +3,36 @@
 exports[`Avatar matches snapshot 1`] = `
 <div
   className="css-view-1dbjc4n"
+  data-focusable={true}
+  onKeyDown={[Function]}
+  onKeyUp={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
   style={
     Object {
+      "MozTransitionProperty": "opacity",
+      "MozUserSelect": "none",
+      "WebkitTransitionDuration": "0.15s",
+      "WebkitTransitionProperty": "opacity",
+      "WebkitUserSelect": "none",
       "borderBottomLeftRadius": "50%",
       "borderBottomRightRadius": "50%",
       "borderTopLeftRadius": "50%",
       "borderTopRightRadius": "50%",
+      "cursor": "pointer",
+      "msTouchAction": "manipulation",
+      "msUserSelect": "none",
+      "touchAction": "manipulation",
+      "transitionDuration": "0.15s",
+      "transitionProperty": "opacity",
+      "userSelect": "none",
     }
   }
+  tabIndex="0"
 >
   <div
     className="css-view-1dbjc4n"

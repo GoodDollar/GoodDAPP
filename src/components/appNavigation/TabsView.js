@@ -1,6 +1,6 @@
 //@flow
 import React from 'react'
-import { View, Text, StyleSheet, Image } from 'react-native'
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
 import { normalize } from 'react-native-elements'
 import burgerIcon from '../../assets/burgerIcon.png'
 import { toggleSidemenu } from '../../lib/undux/utils/sidemenu'
@@ -15,10 +15,10 @@ type TabButtonProps = {
 
 const TabButton = (props: TabButtonProps) => {
   return (
-    <View style={styles.tabButton} onClick={() => props.goTo(props.routeName)}>
+    <TouchableOpacity style={styles.tabButton} onPress={() => props.goTo(props.routeName)}>
       <Image source={props.icon} style={styles.tabIcon} />
       <Text style={styles.tabButtonText}>{props.text}</Text>
-    </View>
+    </TouchableOpacity>
   )
 }
 
@@ -47,9 +47,9 @@ const TabsView = (props: TabViewProps) => (
 const TabSideMenu = () => {
   const store = GDStore.useStore()
   return (
-    <View style={[styles.tabButton, styles.burgerIconButton]} onClick={() => toggleSidemenu(store)}>
+    <TouchableOpacity style={[styles.tabButton, styles.burgerIconButton]} onPress={() => toggleSidemenu(store)}>
       <Image source={burgerIcon} style={styles.burgerIcon} />
-    </View>
+    </TouchableOpacity>
   )
 }
 

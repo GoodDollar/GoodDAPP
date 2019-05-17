@@ -92,5 +92,16 @@ export const receiveStyles = StyleSheet.create({
   },
   shareQRButton: {
     marginHorizontal: normalize(10)
+  },
+  amountSuffix: {
+    flexGrow: 1,
+    height: normalize(40),
+    fontSize: normalize(10),
+    justifyContent: 'center',
+    lineHeight: normalize(40),
+    paddingTop: normalize(10)
+  },
+  buttonStyle: {
+    marginTop: '1em'
   }
 })

@@ -21,10 +21,12 @@ const Amount = (props: AmountProps) => {
   const { screenProps } = props
   const [amount, setAmount] = useState(get(screenProps, 'screenState.amount', 0))
   const [screenState, setScreenState] = useScreenState(screenProps)
-  const { to } = screenState || {}
+  const { to, params } = screenState || {}
   const [showDialogWithData] = useDialog()
 
   const canContinue = async () => {
+    if (params && params.toReceive) return true
+
     if (!(await goodWallet.canSend(amount))) {
       showDialogWithData({
         title: 'Cannot send GD',

@@ -132,13 +132,15 @@ exports[`FaceRecognition matches snapshot 1`] = `
             style={
               Object {
                 "color": "rgba(85,85,85,1.00)",
-                "fontSize": "18px",
+                "fontFamily": "Roboto",
+                "fontSize": "24px",
+                "fontWeight": 500,
+                "marginBottom": "1rem",
                 "textAlign": "center",
               }
             }
           >
-            undefined,
- Just one last thing...
+            undefined, Just one more thing before we can get started...
           </div>
           <div
             className="css-text-76zvg2"
@@ -146,12 +148,14 @@ exports[`FaceRecognition matches snapshot 1`] = `
             style={
               Object {
                 "color": "rgba(85,85,85,1.00)",
-                "fontSize": "20px",
+                "fontFamily": "Roboto",
+                "fontSize": "18px",
                 "textAlign": "center",
               }
             }
           >
-            In order to give you a basic income we need to make sure it's really you
+            Since it's your first time sending GD, we need to make sure it's really
+              you and prevent other people from creating multiple accounts.
           </div>
         </div>
         <div
@@ -177,6 +181,67 @@ exports[`FaceRecognition matches snapshot 1`] = `
             }
           }
         >
+          <div
+            className="css-text-76zvg2"
+            dir="auto"
+            style={
+              Object {
+                "color": "rgba(85,85,85,1.00)",
+                "direction": "ltr",
+                "fontFamily": "Roboto",
+                "fontSize": "14px",
+                "marginBottom": "1rem",
+                "textAlign": "center",
+              }
+            }
+          >
+            By clicking the 'Create a wallet' button, you are accepting our 
+            <span
+              className="css-text-76zvg2 css-textHasAncestor-16my406"
+              data-focusable={true}
+              dir="auto"
+              onClick={[Function]}
+              onKeyDown={[Function]}
+              style={
+                Object {
+                  "color": "rgba(85,85,85,1.00)",
+                  "cursor": "pointer",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto",
+                  "fontSize": "14px",
+                  "fontWeight": "bold",
+                  "marginTop": "10px",
+                  "textAlign": "center",
+                }
+              }
+              tabIndex="0"
+            >
+              Terms of Service
+            </span>
+             and 
+            <span
+              className="css-text-76zvg2 css-textHasAncestor-16my406"
+              data-focusable={true}
+              dir="auto"
+              onClick={[Function]}
+              onKeyDown={[Function]}
+              style={
+                Object {
+                  "color": "rgba(85,85,85,1.00)",
+                  "cursor": "pointer",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto",
+                  "fontSize": "14px",
+                  "fontWeight": "bold",
+                  "marginTop": "10px",
+                  "textAlign": "center",
+                }
+              }
+              tabIndex="0"
+            >
+              Privacy Policy
+            </span>
+          </div>
           <div
             className="css-view-1dbjc4n"
             style={
@@ -280,7 +345,7 @@ exports[`FaceRecognition matches snapshot 1`] = `
                     style={
                       Object {
                         "direction": "ltr",
-                        "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                        "fontFamily": "Roboto",
                         "fontSize": "18px",
                         "fontWeight": "bold",
                         "paddingBottom": "0px",

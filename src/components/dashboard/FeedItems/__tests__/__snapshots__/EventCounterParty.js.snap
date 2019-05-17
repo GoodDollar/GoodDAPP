@@ -6,13 +6,36 @@ exports[`EventCounterParty receive matches snapshot 1`] = `
   dir="auto"
   style={
     Object {
-      "color": "rgba(75,75,75,1.00)",
+      "color": "rgba(85,85,85,1.00)",
       "fontSize": "15px",
       "textTransform": "capitalize",
     }
   }
 >
-  From: Misao Matimbo
+  <span
+    className="css-text-76zvg2 css-textHasAncestor-16my406"
+    dir="auto"
+    style={
+      Object {
+        "fontSize": "10px",
+        "fontWeight": 500,
+      }
+    }
+  >
+    From
+    :
+  </span>
+  <span
+    className="css-text-76zvg2 css-textHasAncestor-16my406"
+    dir="auto"
+    style={
+      Object {
+        "fontWeight": 700,
+      }
+    }
+  >
+    Misao Matimbo
+  </span>
 </div>
 `;
 
@@ -22,13 +45,36 @@ exports[`EventCounterParty send matches snapshot 1`] = `
   dir="auto"
   style={
     Object {
-      "color": "rgba(75,75,75,1.00)",
+      "color": "rgba(85,85,85,1.00)",
       "fontSize": "15px",
       "textTransform": "capitalize",
     }
   }
 >
-  To: Misao Matimbo
+  <span
+    className="css-text-76zvg2 css-textHasAncestor-16my406"
+    dir="auto"
+    style={
+      Object {
+        "fontSize": "10px",
+        "fontWeight": 500,
+      }
+    }
+  >
+    To
+    :
+  </span>
+  <span
+    className="css-text-76zvg2 css-textHasAncestor-16my406"
+    dir="auto"
+    style={
+      Object {
+        "fontWeight": 700,
+      }
+    }
+  >
+    Misao Matimbo
+  </span>
 </div>
 `;
 
@@ -38,12 +84,35 @@ exports[`EventCounterParty withdraw matches snapshot 1`] = `
   dir="auto"
   style={
     Object {
-      "color": "rgba(75,75,75,1.00)",
+      "color": "rgba(85,85,85,1.00)",
       "fontSize": "15px",
       "textTransform": "capitalize",
     }
   }
 >
-  From: Misao Matimbo
+  <span
+    className="css-text-76zvg2 css-textHasAncestor-16my406"
+    dir="auto"
+    style={
+      Object {
+        "fontSize": "10px",
+        "fontWeight": 500,
+      }
+    }
+  >
+    From
+    :
+  </span>
+  <span
+    className="css-text-76zvg2 css-textHasAncestor-16my406"
+    dir="auto"
+    style={
+      Object {
+        "fontWeight": 700,
+      }
+    }
+  >
+    Misao Matimbo
+  </span>
 </div>
 `;

@@ -14,7 +14,6 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
       "flexBasis": "0%",
       "flexGrow": 1,
       "flexShrink": 1,
-      "height": "90vh",
       "marginRight": "10px",
       "msFlexItemAlign": "start",
       "msFlexNegative": 1,
@@ -54,15 +53,15 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
           "borderBottomColor": "rgba(201,200,201,1.00)",
           "borderBottomLeftRadius": "4px",
           "borderBottomRightRadius": "4px",
-          "borderBottomWidth": "2px",
+          "borderBottomWidth": "0px",
           "borderLeftColor": "rgba(201,200,201,1.00)",
           "borderLeftWidth": "10px",
           "borderRightColor": "rgba(201,200,201,1.00)",
-          "borderRightWidth": "2px",
+          "borderRightWidth": "0px",
           "borderTopColor": "rgba(201,200,201,1.00)",
           "borderTopLeftRadius": "4px",
           "borderTopRightRadius": "4px",
-          "borderTopWidth": "2px",
+          "borderTopWidth": "0px",
           "flexBasis": "0%",
           "flexGrow": 1,
           "flexShrink": 1,
@@ -94,10 +93,9 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
             "msFlexAlign": "center",
             "msFlexDirection": "row",
             "msFlexPack": "end",
-            "paddingBottom": "0px",
             "paddingLeft": "0px",
             "paddingRight": "0px",
-            "paddingTop": "0px",
+            "paddingTop": "2em",
           }
         }
       >
@@ -110,13 +108,13 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
               "WebkitFlexBasis": "0%",
               "WebkitFlexGrow": 1,
               "WebkitFlexShrink": 1,
-              "color": "rgba(0,0,0,1.00)",
+              "color": "rgba(85,85,85,1.00)",
               "flexBasis": "0%",
               "flexGrow": 1,
               "flexShrink": 1,
-              "fontFamily": "Helvetica, \\"sans-serif\\"",
-              "fontSize": "16px",
-              "fontWeight": "bold",
+              "fontFamily": "Roboto",
+              "fontSize": "20px",
+              "fontWeight": 700,
               "msFlexNegative": 1,
               "msFlexPositive": 1,
               "msFlexPreferredSize": "0%",
@@ -163,15 +161,24 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
               }
             }
           >
-            GD
+            G$
           </div>
         </div>
       </div>
       <div
         className="css-text-76zvg2"
         dir="auto"
+        style={
+          Object {
+            "color": "rgba(163,163,163,1.00)",
+            "fontFamily": "Roboto",
+            "fontSize": "10px",
+            "fontWeight": 500,
+            "marginTop": "5px",
+          }
+        }
       >
-        4/1/2019
+        04/01/19 3:03 PM
       </div>
       <div
         className="css-view-1dbjc4n"
@@ -193,20 +200,14 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
             "WebkitBoxAlign": "center",
             "WebkitBoxDirection": "normal",
             "WebkitBoxOrient": "horizontal",
-            "WebkitBoxPack": "end",
             "WebkitFlexDirection": "row",
-            "WebkitJustifyContent": "flex-end",
             "alignItems": "center",
             "backgroundColor": "rgba(255,255,255,1.00)",
             "flexDirection": "row",
-            "justifyContent": "flex-end",
             "msFlexAlign": "center",
             "msFlexDirection": "row",
-            "msFlexPack": "end",
-            "paddingBottom": "0px",
             "paddingLeft": "0px",
             "paddingRight": "0px",
-            "paddingTop": "0px",
           }
         }
       >
@@ -214,13 +215,11 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
-              "backgroundColor": "rgba(255,255,255,1.00)",
-              "borderBottomLeftRadius": "24px",
-              "borderBottomRightRadius": "24px",
-              "borderTopLeftRadius": "24px",
-              "borderTopRightRadius": "24px",
-              "height": "48px",
-              "width": "48px",
+              "backgroundColor": "rgba(187,187,187,1.00)",
+              "borderBottomLeftRadius": "50%",
+              "borderBottomRightRadius": "50%",
+              "borderTopLeftRadius": "50%",
+              "borderTopRightRadius": "50%",
             }
           }
         >
@@ -228,18 +227,21 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
             className="css-view-1dbjc4n"
             style={
               Object {
-                "WebkitFlexBasis": "auto",
-                "borderBottomLeftRadius": "24px",
-                "borderBottomRightRadius": "24px",
-                "borderTopLeftRadius": "24px",
-                "borderTopRightRadius": "24px",
-                "flexBasis": "auto",
-                "height": "48px",
-                "msFlexPreferredSize": "auto",
-                "overflowX": "hidden",
-                "overflowY": "hidden",
-                "width": "48px",
-                "zIndex": 0,
+                "backgroundColor": "rgba(187,187,187,1.00)",
+                "borderBottomColor": "rgba(112,112,112,1.00)",
+                "borderBottomLeftRadius": "17px",
+                "borderBottomRightRadius": "17px",
+                "borderBottomWidth": "1px",
+                "borderLeftColor": "rgba(112,112,112,1.00)",
+                "borderLeftWidth": "1px",
+                "borderRightColor": "rgba(112,112,112,1.00)",
+                "borderRightWidth": "1px",
+                "borderTopColor": "rgba(112,112,112,1.00)",
+                "borderTopLeftRadius": "17px",
+                "borderTopRightRadius": "17px",
+                "borderTopWidth": "1px",
+                "height": "34px",
+                "width": "34px",
               }
             }
           >
@@ -247,28 +249,48 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
               className="css-view-1dbjc4n"
               style={
                 Object {
-                  "backgroundColor": "rgba(0,0,0,0.00)",
-                  "backgroundImage": "url(\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAkCAIAAAB0Xu9BAAAABGdBTUEAALGPC/xhBQAAAuNJREFUWEetmD1WHDEQhDdxRMYlnBFyBIccgdQhKVcgJeQMpE5JSTd2uqnvIGpVUqmm9TPrffD0eLMzUn+qVnXPwiFd/PP6eLh47v7EaazbmxsOxjhTT88z9hV7GoNF1cUCvN7TTPv/gf/+uQPm862MWTL6fff4HfDx4S79/oVAlAUwqOmYR0rnazuFnhfOy/ErMKkcBFOr1vOjUi2MFn4nuMil6OPh5eGANLhW3y6u3aH7ijEDCxgCvzFmimvc95TekZLyMSeJC68Bkw0kqUy1K87FlpGZqsGFCyqEtQNDdFUtFctTiuhnPKNysid/WFEFLE2O102XJdEE+8IgeuGsjeJyGHm/xHvQ3JtKVsGGp85g9rK6xMHtvHO9+WACYjk5vkVM6XQ6OZubCJvTfPicYPeHO2AKFl5NuF5UK1VDUbeLxh2BcRGKTQE3irHm3+vPj6cfCod50Eqv5QxtwBQUGhZhbrGVuRia1B4MNp6edwBxld2sl1splfHCwfsvCZfrCQyWmX10djjOlWJSSy3VQlS6LmfrgNvaieRWx1LZ6s9co+P0DLsy3OdLU3lWRclQsVcHJBcUQ0k9/WVVrmpRzYQzpgAdQcAXxZzUnFX3proannrYH+Vq6KkLi+UkarH09mC8YPr2RMWOlEqFkQClsykGEv7CqCUbXcG8+SaGvJ4a8d4y6epND+pEhxoN0vWUu5ntXlFb5/JT7JfJJqoTdy9u9qc7ax3xJRHqJLADWEl23cFWl4K9fvoaCJ2BHpmJ3s3z+O0U/DmzdMjB9alWZtg4e3yxzPa7lUR7nkvxLHO9+tvJX3mtSDpwX8GajB283I8R8a7D2MhUZr1iNWdny256yYLd52DwRYBtRMvE7rsmtxIUE+zLKQCDO4jlxB6CZ8M17GhuY+XTE8vNhQiIiSE82ZsGwk1pht4ZSpT0YVpon6EvevOXXH8JxVR78QzNuamupW/7UB7wO/+7sG5V4ekXb4cL5Lyv+4IAAAAASUVORK5CYII=\\")",
-                  "backgroundPosition": "center",
-                  "backgroundRepeat": "no-repeat",
-                  "backgroundSize": "cover",
-                  "bottom": "0px",
-                  "height": "100%",
-                  "left": "0px",
-                  "position": "absolute",
-                  "right": "0px",
-                  "top": "0px",
-                  "width": "100%",
-                  "zIndex": -1,
+                  "WebkitFlexBasis": "auto",
+                  "borderBottomLeftRadius": "17px",
+                  "borderBottomRightRadius": "17px",
+                  "borderTopLeftRadius": "17px",
+                  "borderTopRightRadius": "17px",
+                  "flexBasis": "auto",
+                  "height": "34px",
+                  "msFlexPreferredSize": "auto",
+                  "overflowX": "hidden",
+                  "overflowY": "hidden",
+                  "width": "34px",
+                  "zIndex": 0,
                 }
               }
-            />
-            <img
-              alt=""
-              className="css-accessibilityImage-9pa8cd"
-              draggable={false}
-              src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAkCAIAAAB0Xu9BAAAABGdBTUEAALGPC/xhBQAAAuNJREFUWEetmD1WHDEQhDdxRMYlnBFyBIccgdQhKVcgJeQMpE5JSTd2uqnvIGpVUqmm9TPrffD0eLMzUn+qVnXPwiFd/PP6eLh47v7EaazbmxsOxjhTT88z9hV7GoNF1cUCvN7TTPv/gf/+uQPm862MWTL6fff4HfDx4S79/oVAlAUwqOmYR0rnazuFnhfOy/ErMKkcBFOr1vOjUi2MFn4nuMil6OPh5eGANLhW3y6u3aH7ijEDCxgCvzFmimvc95TekZLyMSeJC68Bkw0kqUy1K87FlpGZqsGFCyqEtQNDdFUtFctTiuhnPKNysid/WFEFLE2O102XJdEE+8IgeuGsjeJyGHm/xHvQ3JtKVsGGp85g9rK6xMHtvHO9+WACYjk5vkVM6XQ6OZubCJvTfPicYPeHO2AKFl5NuF5UK1VDUbeLxh2BcRGKTQE3irHm3+vPj6cfCod50Eqv5QxtwBQUGhZhbrGVuRia1B4MNp6edwBxld2sl1splfHCwfsvCZfrCQyWmX10djjOlWJSSy3VQlS6LmfrgNvaieRWx1LZ6s9co+P0DLsy3OdLU3lWRclQsVcHJBcUQ0k9/WVVrmpRzYQzpgAdQcAXxZzUnFX3proannrYH+Vq6KkLi+UkarH09mC8YPr2RMWOlEqFkQClsykGEv7CqCUbXcG8+SaGvJ4a8d4y6epND+pEhxoN0vWUu5ntXlFb5/JT7JfJJqoTdy9u9qc7ax3xJRHqJLADWEl23cFWl4K9fvoaCJ2BHpmJ3s3z+O0U/DmzdMjB9alWZtg4e3yxzPa7lUR7nkvxLHO9+tvJX3mtSDpwX8GajB283I8R8a7D2MhUZr1iNWdny256yYLd52DwRYBtRMvE7rsmtxIUE+zLKQCDO4jlxB6CZ8M17GhuY+XTE8vNhQiIiSE82ZsGwk1pht4ZSpT0YVpon6EvevOXXH8JxVR78QzNuamupW/7UB7wO/+7sG5V4ekXb4cL5Lyv+4IAAAAASUVORK5CYII="
-            />
+            >
+              <div
+                className="css-view-1dbjc4n"
+                style={
+                  Object {
+                    "backgroundColor": "rgba(0,0,0,0.00)",
+                    "backgroundImage": "url(\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAkCAIAAAB0Xu9BAAAABGdBTUEAALGPC/xhBQAAAuNJREFUWEetmD1WHDEQhDdxRMYlnBFyBIccgdQhKVcgJeQMpE5JSTd2uqnvIGpVUqmm9TPrffD0eLMzUn+qVnXPwiFd/PP6eLh47v7EaazbmxsOxjhTT88z9hV7GoNF1cUCvN7TTPv/gf/+uQPm862MWTL6fff4HfDx4S79/oVAlAUwqOmYR0rnazuFnhfOy/ErMKkcBFOr1vOjUi2MFn4nuMil6OPh5eGANLhW3y6u3aH7ijEDCxgCvzFmimvc95TekZLyMSeJC68Bkw0kqUy1K87FlpGZqsGFCyqEtQNDdFUtFctTiuhnPKNysid/WFEFLE2O102XJdEE+8IgeuGsjeJyGHm/xHvQ3JtKVsGGp85g9rK6xMHtvHO9+WACYjk5vkVM6XQ6OZubCJvTfPicYPeHO2AKFl5NuF5UK1VDUbeLxh2BcRGKTQE3irHm3+vPj6cfCod50Eqv5QxtwBQUGhZhbrGVuRia1B4MNp6edwBxld2sl1splfHCwfsvCZfrCQyWmX10djjOlWJSSy3VQlS6LmfrgNvaieRWx1LZ6s9co+P0DLsy3OdLU3lWRclQsVcHJBcUQ0k9/WVVrmpRzYQzpgAdQcAXxZzUnFX3proannrYH+Vq6KkLi+UkarH09mC8YPr2RMWOlEqFkQClsykGEv7CqCUbXcG8+SaGvJ4a8d4y6epND+pEhxoN0vWUu5ntXlFb5/JT7JfJJqoTdy9u9qc7ax3xJRHqJLADWEl23cFWl4K9fvoaCJ2BHpmJ3s3z+O0U/DmzdMjB9alWZtg4e3yxzPa7lUR7nkvxLHO9+tvJX3mtSDpwX8GajB283I8R8a7D2MhUZr1iNWdny256yYLd52DwRYBtRMvE7rsmtxIUE+zLKQCDO4jlxB6CZ8M17GhuY+XTE8vNhQiIiSE82ZsGwk1pht4ZSpT0YVpon6EvevOXXH8JxVR78QzNuamupW/7UB7wO/+7sG5V4ekXb4cL5Lyv+4IAAAAASUVORK5CYII=\\")",
+                    "backgroundPosition": "center",
+                    "backgroundRepeat": "no-repeat",
+                    "backgroundSize": "cover",
+                    "bottom": "0px",
+                    "height": "100%",
+                    "left": "0px",
+                    "position": "absolute",
+                    "right": "0px",
+                    "top": "0px",
+                    "width": "100%",
+                    "zIndex": -1,
+                  }
+                }
+              />
+              <img
+                alt=""
+                className="css-accessibilityImage-9pa8cd"
+                draggable={false}
+                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAkCAIAAAB0Xu9BAAAABGdBTUEAALGPC/xhBQAAAuNJREFUWEetmD1WHDEQhDdxRMYlnBFyBIccgdQhKVcgJeQMpE5JSTd2uqnvIGpVUqmm9TPrffD0eLMzUn+qVnXPwiFd/PP6eLh47v7EaazbmxsOxjhTT88z9hV7GoNF1cUCvN7TTPv/gf/+uQPm862MWTL6fff4HfDx4S79/oVAlAUwqOmYR0rnazuFnhfOy/ErMKkcBFOr1vOjUi2MFn4nuMil6OPh5eGANLhW3y6u3aH7ijEDCxgCvzFmimvc95TekZLyMSeJC68Bkw0kqUy1K87FlpGZqsGFCyqEtQNDdFUtFctTiuhnPKNysid/WFEFLE2O102XJdEE+8IgeuGsjeJyGHm/xHvQ3JtKVsGGp85g9rK6xMHtvHO9+WACYjk5vkVM6XQ6OZubCJvTfPicYPeHO2AKFl5NuF5UK1VDUbeLxh2BcRGKTQE3irHm3+vPj6cfCod50Eqv5QxtwBQUGhZhbrGVuRia1B4MNp6edwBxld2sl1splfHCwfsvCZfrCQyWmX10djjOlWJSSy3VQlS6LmfrgNvaieRWx1LZ6s9co+P0DLsy3OdLU3lWRclQsVcHJBcUQ0k9/WVVrmpRzYQzpgAdQcAXxZzUnFX3proannrYH+Vq6KkLi+UkarH09mC8YPr2RMWOlEqFkQClsykGEv7CqCUbXcG8+SaGvJ4a8d4y6epND+pEhxoN0vWUu5ntXlFb5/JT7JfJJqoTdy9u9qc7ax3xJRHqJLADWEl23cFWl4K9fvoaCJ2BHpmJ3s3z+O0U/DmzdMjB9alWZtg4e3yxzPa7lUR7nkvxLHO9+tvJX3mtSDpwX8GajB283I8R8a7D2MhUZr1iNWdny256yYLd52DwRYBtRMvE7rsmtxIUE+zLKQCDO4jlxB6CZ8M17GhuY+XTE8vNhQiIiSE82ZsGwk1pht4ZSpT0YVpon6EvevOXXH8JxVR78QzNuamupW/7UB7wO/+7sG5V4ekXb4cL5Lyv+4IAAAAASUVORK5CYII="
+              />
+            </div>
           </div>
         </div>
         <div
@@ -276,7 +298,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
           dir="auto"
           style={
             Object {
-              "marginLeft": "auto",
+              "marginLeft": "10px",
             }
           }
         >
@@ -285,28 +307,36 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
             dir="auto"
             style={
               Object {
-                "color": "rgba(0,0,0,1.00)",
-                "display": "inlineBlock",
-                "fontFamily": "Helvetica, \\"sans-serif\\"",
-                "fontSize": "10px",
+                "color": "rgba(85,85,85,1.00)",
+                "fontSize": "15px",
+                "textTransform": "capitalize",
               }
             }
           >
-            To:
-          </span>
-          <span
-            className="css-text-76zvg2 css-textHasAncestor-16my406"
-            dir="auto"
-            style={
-              Object {
-                "color": "rgba(0,0,0,1.00)",
-                "display": "inlineBlock",
-                "fontFamily": "Helvetica, \\"sans-serif\\"",
-                "fontSize": "14px",
+            <span
+              className="css-text-76zvg2 css-textHasAncestor-16my406"
+              dir="auto"
+              style={
+                Object {
+                  "fontSize": "10px",
+                  "fontWeight": 500,
+                }
               }
-            }
-          >
-            Misao Matimbo
+            >
+              To
+              :
+            </span>
+            <span
+              className="css-text-76zvg2 css-textHasAncestor-16my406"
+              dir="auto"
+              style={
+                Object {
+                  "fontWeight": 700,
+                }
+              }
+            >
+              Misao Matimbo
+            </span>
           </span>
         </div>
       </div>
@@ -325,6 +355,15 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
       <div
         className="css-text-76zvg2"
         dir="auto"
+        style={
+          Object {
+            "color": "rgba(0,0,0,0.54)",
+            "fontFamily": "Roboto",
+            "fontSize": "16px",
+            "fontWeight": 500,
+            "textTransform": "capitalize",
+          }
+        }
       >
         aaa
       </div>
@@ -332,15 +371,29 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
         className="css-view-1dbjc4n"
         style={
           Object {
+            "WebkitAlignItems": "flex-end",
+            "WebkitBoxAlign": "end",
             "WebkitBoxDirection": "normal",
+            "WebkitBoxFlex": 1,
             "WebkitBoxOrient": "horizontal",
             "WebkitBoxPack": "justify",
+            "WebkitFlexBasis": "0%",
             "WebkitFlexDirection": "row",
+            "WebkitFlexGrow": 1,
+            "WebkitFlexShrink": 1,
             "WebkitJustifyContent": "space-between",
+            "alignItems": "flex-end",
+            "flexBasis": "0%",
             "flexDirection": "row",
+            "flexGrow": 1,
+            "flexShrink": 1,
             "justifyContent": "space-between",
+            "msFlexAlign": "end",
             "msFlexDirection": "row",
+            "msFlexNegative": 1,
             "msFlexPack": "justify",
+            "msFlexPositive": 1,
+            "msFlexPreferredSize": "0%",
           }
         }
       >
@@ -350,7 +403,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
             Object {
               "WebkitBoxPack": "center",
               "WebkitJustifyContent": "center",
-              "backgroundColor": "rgba(204,204,204,1.00)",
+              "backgroundColor": "rgba(85,85,85,1.00)",
               "borderBottomColor": "rgba(0,0,0,0.00)",
               "borderBottomLeftRadius": "4px",
               "borderBottomRightRadius": "4px",
@@ -367,10 +420,10 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
               "borderTopRightRadius": "4px",
               "borderTopStyle": "solid",
               "borderTopWidth": "0px",
-              "boxShadow": "0px 0px 0px rgba(0,0,0,0.24)",
+              "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
               "justifyContent": "center",
               "marginLeft": "auto",
-              "minWidth": "auto",
+              "minWidth": "80px",
               "msFlexPack": "center",
             }
           }
@@ -430,7 +483,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                 dir="auto"
                 style={
                   Object {
-                    "color": "rgba(85,85,85,1.00)",
+                    "color": "rgba(255,255,255,1.00)",
                     "direction": "ltr",
                     "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                     "letterSpacing": "1px",
@@ -448,7 +501,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                   style={
                     Object {
                       "direction": "ltr",
-                      "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                      "fontFamily": "Roboto",
                       "fontSize": "18px",
                       "fontWeight": "bold",
                       "paddingBottom": "0px",
@@ -486,7 +539,6 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
       "flexBasis": "0%",
       "flexGrow": 1,
       "flexShrink": 1,
-      "height": "90vh",
       "marginRight": "10px",
       "msFlexItemAlign": "start",
       "msFlexNegative": 1,
@@ -526,15 +578,15 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
           "borderBottomColor": "rgba(201,200,201,1.00)",
           "borderBottomLeftRadius": "4px",
           "borderBottomRightRadius": "4px",
-          "borderBottomWidth": "2px",
+          "borderBottomWidth": "0px",
           "borderLeftColor": "rgba(201,200,201,1.00)",
           "borderLeftWidth": "10px",
           "borderRightColor": "rgba(201,200,201,1.00)",
-          "borderRightWidth": "2px",
+          "borderRightWidth": "0px",
           "borderTopColor": "rgba(201,200,201,1.00)",
           "borderTopLeftRadius": "4px",
           "borderTopRightRadius": "4px",
-          "borderTopWidth": "2px",
+          "borderTopWidth": "0px",
           "flexBasis": "0%",
           "flexGrow": 1,
           "flexShrink": 1,
@@ -551,8 +603,16 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
       <div
         className="css-text-76zvg2"
         dir="auto"
+        style={
+          Object {
+            "color": "rgba(163,163,163,1.00)",
+            "fontFamily": "Roboto",
+            "fontSize": "10px",
+            "fontWeight": 500,
+          }
+        }
       >
-        4/1/2019
+        04/01/19 3:03 PM
       </div>
       <div
         className="css-view-1dbjc4n"
@@ -572,10 +632,9 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
             "msFlexAlign": "center",
             "msFlexDirection": "row",
             "msFlexPack": "end",
-            "paddingBottom": "0px",
             "paddingLeft": "0px",
             "paddingRight": "0px",
-            "paddingTop": "0px",
+            "paddingTop": "2em",
           }
         }
       >
@@ -588,13 +647,13 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
               "WebkitFlexBasis": "0%",
               "WebkitFlexGrow": 1,
               "WebkitFlexShrink": 1,
-              "color": "rgba(0,0,0,1.00)",
+              "color": "rgba(85,85,85,1.00)",
               "flexBasis": "0%",
               "flexGrow": 1,
               "flexShrink": 1,
-              "fontFamily": "Helvetica, \\"sans-serif\\"",
-              "fontSize": "16px",
-              "fontWeight": "bold",
+              "fontFamily": "Roboto",
+              "fontSize": "20px",
+              "fontWeight": 700,
               "msFlexNegative": 1,
               "msFlexPositive": 1,
               "msFlexPreferredSize": "0%",
@@ -641,7 +700,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
               }
             }
           >
-            GD
+            G$
           </div>
         </div>
       </div>
@@ -665,20 +724,14 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
             "WebkitBoxAlign": "center",
             "WebkitBoxDirection": "normal",
             "WebkitBoxOrient": "horizontal",
-            "WebkitBoxPack": "end",
             "WebkitFlexDirection": "row",
-            "WebkitJustifyContent": "flex-end",
             "alignItems": "center",
             "backgroundColor": "rgba(255,255,255,1.00)",
             "flexDirection": "row",
-            "justifyContent": "flex-end",
             "msFlexAlign": "center",
             "msFlexDirection": "row",
-            "msFlexPack": "end",
-            "paddingBottom": "0px",
             "paddingLeft": "0px",
             "paddingRight": "0px",
-            "paddingTop": "0px",
           }
         }
       >
@@ -686,13 +739,11 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
-              "backgroundColor": "rgba(255,255,255,1.00)",
-              "borderBottomLeftRadius": "24px",
-              "borderBottomRightRadius": "24px",
-              "borderTopLeftRadius": "24px",
-              "borderTopRightRadius": "24px",
-              "height": "48px",
-              "width": "48px",
+              "backgroundColor": "rgba(187,187,187,1.00)",
+              "borderBottomLeftRadius": "50%",
+              "borderBottomRightRadius": "50%",
+              "borderTopLeftRadius": "50%",
+              "borderTopRightRadius": "50%",
             }
           }
         >
@@ -700,18 +751,21 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
             className="css-view-1dbjc4n"
             style={
               Object {
-                "WebkitFlexBasis": "auto",
-                "borderBottomLeftRadius": "24px",
-                "borderBottomRightRadius": "24px",
-                "borderTopLeftRadius": "24px",
-                "borderTopRightRadius": "24px",
-                "flexBasis": "auto",
-                "height": "48px",
-                "msFlexPreferredSize": "auto",
-                "overflowX": "hidden",
-                "overflowY": "hidden",
-                "width": "48px",
-                "zIndex": 0,
+                "backgroundColor": "rgba(187,187,187,1.00)",
+                "borderBottomColor": "rgba(112,112,112,1.00)",
+                "borderBottomLeftRadius": "17px",
+                "borderBottomRightRadius": "17px",
+                "borderBottomWidth": "1px",
+                "borderLeftColor": "rgba(112,112,112,1.00)",
+                "borderLeftWidth": "1px",
+                "borderRightColor": "rgba(112,112,112,1.00)",
+                "borderRightWidth": "1px",
+                "borderTopColor": "rgba(112,112,112,1.00)",
+                "borderTopLeftRadius": "17px",
+                "borderTopRightRadius": "17px",
+                "borderTopWidth": "1px",
+                "height": "34px",
+                "width": "34px",
               }
             }
           >
@@ -719,28 +773,48 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
               className="css-view-1dbjc4n"
               style={
                 Object {
-                  "backgroundColor": "rgba(0,0,0,0.00)",
-                  "backgroundImage": "url(\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAkCAIAAAB0Xu9BAAAABGdBTUEAALGPC/xhBQAAAuNJREFUWEetmD1WHDEQhDdxRMYlnBFyBIccgdQhKVcgJeQMpE5JSTd2uqnvIGpVUqmm9TPrffD0eLMzUn+qVnXPwiFd/PP6eLh47v7EaazbmxsOxjhTT88z9hV7GoNF1cUCvN7TTPv/gf/+uQPm862MWTL6fff4HfDx4S79/oVAlAUwqOmYR0rnazuFnhfOy/ErMKkcBFOr1vOjUi2MFn4nuMil6OPh5eGANLhW3y6u3aH7ijEDCxgCvzFmimvc95TekZLyMSeJC68Bkw0kqUy1K87FlpGZqsGFCyqEtQNDdFUtFctTiuhnPKNysid/WFEFLE2O102XJdEE+8IgeuGsjeJyGHm/xHvQ3JtKVsGGp85g9rK6xMHtvHO9+WACYjk5vkVM6XQ6OZubCJvTfPicYPeHO2AKFl5NuF5UK1VDUbeLxh2BcRGKTQE3irHm3+vPj6cfCod50Eqv5QxtwBQUGhZhbrGVuRia1B4MNp6edwBxld2sl1splfHCwfsvCZfrCQyWmX10djjOlWJSSy3VQlS6LmfrgNvaieRWx1LZ6s9co+P0DLsy3OdLU3lWRclQsVcHJBcUQ0k9/WVVrmpRzYQzpgAdQcAXxZzUnFX3proannrYH+Vq6KkLi+UkarH09mC8YPr2RMWOlEqFkQClsykGEv7CqCUbXcG8+SaGvJ4a8d4y6epND+pEhxoN0vWUu5ntXlFb5/JT7JfJJqoTdy9u9qc7ax3xJRHqJLADWEl23cFWl4K9fvoaCJ2BHpmJ3s3z+O0U/DmzdMjB9alWZtg4e3yxzPa7lUR7nkvxLHO9+tvJX3mtSDpwX8GajB283I8R8a7D2MhUZr1iNWdny256yYLd52DwRYBtRMvE7rsmtxIUE+zLKQCDO4jlxB6CZ8M17GhuY+XTE8vNhQiIiSE82ZsGwk1pht4ZSpT0YVpon6EvevOXXH8JxVR78QzNuamupW/7UB7wO/+7sG5V4ekXb4cL5Lyv+4IAAAAASUVORK5CYII=\\")",
-                  "backgroundPosition": "center",
-                  "backgroundRepeat": "no-repeat",
-                  "backgroundSize": "cover",
-                  "bottom": "0px",
-                  "height": "100%",
-                  "left": "0px",
-                  "position": "absolute",
-                  "right": "0px",
-                  "top": "0px",
-                  "width": "100%",
-                  "zIndex": -1,
+                  "WebkitFlexBasis": "auto",
+                  "borderBottomLeftRadius": "17px",
+                  "borderBottomRightRadius": "17px",
+                  "borderTopLeftRadius": "17px",
+                  "borderTopRightRadius": "17px",
+                  "flexBasis": "auto",
+                  "height": "34px",
+                  "msFlexPreferredSize": "auto",
+                  "overflowX": "hidden",
+                  "overflowY": "hidden",
+                  "width": "34px",
+                  "zIndex": 0,
                 }
               }
-            />
-            <img
-              alt=""
-              className="css-accessibilityImage-9pa8cd"
-              draggable={false}
-              src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAkCAIAAAB0Xu9BAAAABGdBTUEAALGPC/xhBQAAAuNJREFUWEetmD1WHDEQhDdxRMYlnBFyBIccgdQhKVcgJeQMpE5JSTd2uqnvIGpVUqmm9TPrffD0eLMzUn+qVnXPwiFd/PP6eLh47v7EaazbmxsOxjhTT88z9hV7GoNF1cUCvN7TTPv/gf/+uQPm862MWTL6fff4HfDx4S79/oVAlAUwqOmYR0rnazuFnhfOy/ErMKkcBFOr1vOjUi2MFn4nuMil6OPh5eGANLhW3y6u3aH7ijEDCxgCvzFmimvc95TekZLyMSeJC68Bkw0kqUy1K87FlpGZqsGFCyqEtQNDdFUtFctTiuhnPKNysid/WFEFLE2O102XJdEE+8IgeuGsjeJyGHm/xHvQ3JtKVsGGp85g9rK6xMHtvHO9+WACYjk5vkVM6XQ6OZubCJvTfPicYPeHO2AKFl5NuF5UK1VDUbeLxh2BcRGKTQE3irHm3+vPj6cfCod50Eqv5QxtwBQUGhZhbrGVuRia1B4MNp6edwBxld2sl1splfHCwfsvCZfrCQyWmX10djjOlWJSSy3VQlS6LmfrgNvaieRWx1LZ6s9co+P0DLsy3OdLU3lWRclQsVcHJBcUQ0k9/WVVrmpRzYQzpgAdQcAXxZzUnFX3proannrYH+Vq6KkLi+UkarH09mC8YPr2RMWOlEqFkQClsykGEv7CqCUbXcG8+SaGvJ4a8d4y6epND+pEhxoN0vWUu5ntXlFb5/JT7JfJJqoTdy9u9qc7ax3xJRHqJLADWEl23cFWl4K9fvoaCJ2BHpmJ3s3z+O0U/DmzdMjB9alWZtg4e3yxzPa7lUR7nkvxLHO9+tvJX3mtSDpwX8GajB283I8R8a7D2MhUZr1iNWdny256yYLd52DwRYBtRMvE7rsmtxIUE+zLKQCDO4jlxB6CZ8M17GhuY+XTE8vNhQiIiSE82ZsGwk1pht4ZSpT0YVpon6EvevOXXH8JxVR78QzNuamupW/7UB7wO/+7sG5V4ekXb4cL5Lyv+4IAAAAASUVORK5CYII="
-            />
+            >
+              <div
+                className="css-view-1dbjc4n"
+                style={
+                  Object {
+                    "backgroundColor": "rgba(0,0,0,0.00)",
+                    "backgroundImage": "url(\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAkCAIAAAB0Xu9BAAAABGdBTUEAALGPC/xhBQAAAuNJREFUWEetmD1WHDEQhDdxRMYlnBFyBIccgdQhKVcgJeQMpE5JSTd2uqnvIGpVUqmm9TPrffD0eLMzUn+qVnXPwiFd/PP6eLh47v7EaazbmxsOxjhTT88z9hV7GoNF1cUCvN7TTPv/gf/+uQPm862MWTL6fff4HfDx4S79/oVAlAUwqOmYR0rnazuFnhfOy/ErMKkcBFOr1vOjUi2MFn4nuMil6OPh5eGANLhW3y6u3aH7ijEDCxgCvzFmimvc95TekZLyMSeJC68Bkw0kqUy1K87FlpGZqsGFCyqEtQNDdFUtFctTiuhnPKNysid/WFEFLE2O102XJdEE+8IgeuGsjeJyGHm/xHvQ3JtKVsGGp85g9rK6xMHtvHO9+WACYjk5vkVM6XQ6OZubCJvTfPicYPeHO2AKFl5NuF5UK1VDUbeLxh2BcRGKTQE3irHm3+vPj6cfCod50Eqv5QxtwBQUGhZhbrGVuRia1B4MNp6edwBxld2sl1splfHCwfsvCZfrCQyWmX10djjOlWJSSy3VQlS6LmfrgNvaieRWx1LZ6s9co+P0DLsy3OdLU3lWRclQsVcHJBcUQ0k9/WVVrmpRzYQzpgAdQcAXxZzUnFX3proannrYH+Vq6KkLi+UkarH09mC8YPr2RMWOlEqFkQClsykGEv7CqCUbXcG8+SaGvJ4a8d4y6epND+pEhxoN0vWUu5ntXlFb5/JT7JfJJqoTdy9u9qc7ax3xJRHqJLADWEl23cFWl4K9fvoaCJ2BHpmJ3s3z+O0U/DmzdMjB9alWZtg4e3yxzPa7lUR7nkvxLHO9+tvJX3mtSDpwX8GajB283I8R8a7D2MhUZr1iNWdny256yYLd52DwRYBtRMvE7rsmtxIUE+zLKQCDO4jlxB6CZ8M17GhuY+XTE8vNhQiIiSE82ZsGwk1pht4ZSpT0YVpon6EvevOXXH8JxVR78QzNuamupW/7UB7wO/+7sG5V4ekXb4cL5Lyv+4IAAAAASUVORK5CYII=\\")",
+                    "backgroundPosition": "center",
+                    "backgroundRepeat": "no-repeat",
+                    "backgroundSize": "cover",
+                    "bottom": "0px",
+                    "height": "100%",
+                    "left": "0px",
+                    "position": "absolute",
+                    "right": "0px",
+                    "top": "0px",
+                    "width": "100%",
+                    "zIndex": -1,
+                  }
+                }
+              />
+              <img
+                alt=""
+                className="css-accessibilityImage-9pa8cd"
+                draggable={false}
+                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAkCAIAAAB0Xu9BAAAABGdBTUEAALGPC/xhBQAAAuNJREFUWEetmD1WHDEQhDdxRMYlnBFyBIccgdQhKVcgJeQMpE5JSTd2uqnvIGpVUqmm9TPrffD0eLMzUn+qVnXPwiFd/PP6eLh47v7EaazbmxsOxjhTT88z9hV7GoNF1cUCvN7TTPv/gf/+uQPm862MWTL6fff4HfDx4S79/oVAlAUwqOmYR0rnazuFnhfOy/ErMKkcBFOr1vOjUi2MFn4nuMil6OPh5eGANLhW3y6u3aH7ijEDCxgCvzFmimvc95TekZLyMSeJC68Bkw0kqUy1K87FlpGZqsGFCyqEtQNDdFUtFctTiuhnPKNysid/WFEFLE2O102XJdEE+8IgeuGsjeJyGHm/xHvQ3JtKVsGGp85g9rK6xMHtvHO9+WACYjk5vkVM6XQ6OZubCJvTfPicYPeHO2AKFl5NuF5UK1VDUbeLxh2BcRGKTQE3irHm3+vPj6cfCod50Eqv5QxtwBQUGhZhbrGVuRia1B4MNp6edwBxld2sl1splfHCwfsvCZfrCQyWmX10djjOlWJSSy3VQlS6LmfrgNvaieRWx1LZ6s9co+P0DLsy3OdLU3lWRclQsVcHJBcUQ0k9/WVVrmpRzYQzpgAdQcAXxZzUnFX3proannrYH+Vq6KkLi+UkarH09mC8YPr2RMWOlEqFkQClsykGEv7CqCUbXcG8+SaGvJ4a8d4y6epND+pEhxoN0vWUu5ntXlFb5/JT7JfJJqoTdy9u9qc7ax3xJRHqJLADWEl23cFWl4K9fvoaCJ2BHpmJ3s3z+O0U/DmzdMjB9alWZtg4e3yxzPa7lUR7nkvxLHO9+tvJX3mtSDpwX8GajB283I8R8a7D2MhUZr1iNWdny256yYLd52DwRYBtRMvE7rsmtxIUE+zLKQCDO4jlxB6CZ8M17GhuY+XTE8vNhQiIiSE82ZsGwk1pht4ZSpT0YVpon6EvevOXXH8JxVR78QzNuamupW/7UB7wO/+7sG5V4ekXb4cL5Lyv+4IAAAAASUVORK5CYII="
+              />
+            </div>
           </div>
         </div>
         <div
@@ -748,7 +822,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
           dir="auto"
           style={
             Object {
-              "marginLeft": "auto",
+              "marginLeft": "10px",
             }
           }
         >
@@ -757,28 +831,36 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
             dir="auto"
             style={
               Object {
-                "color": "rgba(0,0,0,1.00)",
-                "display": "inlineBlock",
-                "fontFamily": "Helvetica, \\"sans-serif\\"",
-                "fontSize": "10px",
+                "color": "rgba(85,85,85,1.00)",
+                "fontSize": "15px",
+                "textTransform": "capitalize",
               }
             }
           >
-            From:
-          </span>
-          <span
-            className="css-text-76zvg2 css-textHasAncestor-16my406"
-            dir="auto"
-            style={
-              Object {
-                "color": "rgba(0,0,0,1.00)",
-                "display": "inlineBlock",
-                "fontFamily": "Helvetica, \\"sans-serif\\"",
-                "fontSize": "14px",
+            <span
+              className="css-text-76zvg2 css-textHasAncestor-16my406"
+              dir="auto"
+              style={
+                Object {
+                  "fontSize": "10px",
+                  "fontWeight": 500,
+                }
               }
-            }
-          >
-            Misao Matimbo
+            >
+              From
+              :
+            </span>
+            <span
+              className="css-text-76zvg2 css-textHasAncestor-16my406"
+              dir="auto"
+              style={
+                Object {
+                  "fontWeight": 700,
+                }
+              }
+            >
+              Misao Matimbo
+            </span>
           </span>
         </div>
       </div>
@@ -797,6 +879,15 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
       <div
         className="css-text-76zvg2"
         dir="auto"
+        style={
+          Object {
+            "color": "rgba(0,0,0,0.54)",
+            "fontFamily": "Roboto",
+            "fontSize": "16px",
+            "fontWeight": 500,
+            "textTransform": "capitalize",
+          }
+        }
       >
         aaa
       </div>
@@ -804,15 +895,29 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
         className="css-view-1dbjc4n"
         style={
           Object {
+            "WebkitAlignItems": "flex-end",
+            "WebkitBoxAlign": "end",
             "WebkitBoxDirection": "normal",
+            "WebkitBoxFlex": 1,
             "WebkitBoxOrient": "horizontal",
             "WebkitBoxPack": "justify",
+            "WebkitFlexBasis": "0%",
             "WebkitFlexDirection": "row",
+            "WebkitFlexGrow": 1,
+            "WebkitFlexShrink": 1,
             "WebkitJustifyContent": "space-between",
+            "alignItems": "flex-end",
+            "flexBasis": "0%",
             "flexDirection": "row",
+            "flexGrow": 1,
+            "flexShrink": 1,
             "justifyContent": "space-between",
+            "msFlexAlign": "end",
             "msFlexDirection": "row",
+            "msFlexNegative": 1,
             "msFlexPack": "justify",
+            "msFlexPositive": 1,
+            "msFlexPreferredSize": "0%",
           }
         }
       >
@@ -822,7 +927,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
             Object {
               "WebkitBoxPack": "center",
               "WebkitJustifyContent": "center",
-              "backgroundColor": "rgba(204,204,204,1.00)",
+              "backgroundColor": "rgba(85,85,85,1.00)",
               "borderBottomColor": "rgba(0,0,0,0.00)",
               "borderBottomLeftRadius": "4px",
               "borderBottomRightRadius": "4px",
@@ -839,10 +944,10 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
               "borderTopRightRadius": "4px",
               "borderTopStyle": "solid",
               "borderTopWidth": "0px",
-              "boxShadow": "0px 0px 0px rgba(0,0,0,0.24)",
+              "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
               "justifyContent": "center",
               "marginLeft": "auto",
-              "minWidth": "auto",
+              "minWidth": "80px",
               "msFlexPack": "center",
             }
           }
@@ -902,7 +1007,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                 dir="auto"
                 style={
                   Object {
-                    "color": "rgba(85,85,85,1.00)",
+                    "color": "rgba(255,255,255,1.00)",
                     "direction": "ltr",
                     "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                     "letterSpacing": "1px",
@@ -920,7 +1025,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                   style={
                     Object {
                       "direction": "ltr",
-                      "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                      "fontFamily": "Roboto",
                       "fontSize": "18px",
                       "fontWeight": "bold",
                       "paddingBottom": "0px",

@@ -75,10 +75,10 @@ exports[`SendLinkSummary matches snapshot 1`] = `
             "WebkitJustifyContent": "flex-start",
             "justifyContent": "flex-start",
             "msFlexPack": "start",
-            "paddingBottom": "1rem",
-            "paddingLeft": "1rem",
-            "paddingRight": "1rem",
-            "paddingTop": "1rem",
+            "paddingBottom": "8px",
+            "paddingLeft": "8px",
+            "paddingRight": "8px",
+            "paddingTop": "8px",
             "width": "100%",
           }
         }
@@ -136,10 +136,18 @@ exports[`SendLinkSummary matches snapshot 1`] = `
                 style={
                   Object {
                     "backgroundColor": "rgba(255,255,255,1.00)",
+                    "borderBottomColor": "rgba(112,112,112,1.00)",
                     "borderBottomLeftRadius": "17px",
                     "borderBottomRightRadius": "17px",
+                    "borderBottomWidth": "1px",
+                    "borderLeftColor": "rgba(112,112,112,1.00)",
+                    "borderLeftWidth": "1px",
+                    "borderRightColor": "rgba(112,112,112,1.00)",
+                    "borderRightWidth": "1px",
+                    "borderTopColor": "rgba(112,112,112,1.00)",
                     "borderTopLeftRadius": "17px",
                     "borderTopRightRadius": "17px",
+                    "borderTopWidth": "1px",
                     "height": "34px",
                     "width": "34px",
                   }
@@ -201,14 +209,12 @@ exports[`SendLinkSummary matches snapshot 1`] = `
                   Object {
                     "color": "rgba(85,85,85,1.00)",
                     "direction": "ltr",
-                    "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                    "fontFamily": "Roboto",
                     "fontSize": "30px",
                     "textAlign": "right",
                   }
                 }
-              >
-                0.00
-              </div>
+              />
               <div
                 className="css-text-76zvg2"
                 dir="auto"
@@ -216,13 +222,13 @@ exports[`SendLinkSummary matches snapshot 1`] = `
                   Object {
                     "color": "rgba(85,85,85,1.00)",
                     "direction": "ltr",
-                    "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                    "fontFamily": "Roboto",
                     "fontSize": "18px",
                     "textAlign": "right",
                   }
                 }
               >
-                GD
+                G$
               </div>
             </div>
           </div>
@@ -281,13 +287,15 @@ exports[`SendLinkSummary matches snapshot 1`] = `
               style={
                 Object {
                   "color": "rgba(85,85,85,1.00)",
-                  "fontSize": "18px",
+                  "fontFamily": "Roboto",
+                  "fontSize": "24px",
+                  "marginBottom": "1rem",
                   "textAlign": "center",
                   "textTransform": "uppercase",
                 }
               }
             >
-              Summary
+              SUMMARY
             </div>
             <div
               className="css-view-1dbjc4n"
@@ -304,10 +312,18 @@ exports[`SendLinkSummary matches snapshot 1`] = `
                 className="css-view-1dbjc4n"
                 style={
                   Object {
+                    "borderBottomColor": "rgba(112,112,112,1.00)",
                     "borderBottomLeftRadius": "50%",
                     "borderBottomRightRadius": "50%",
+                    "borderBottomWidth": "1px",
+                    "borderLeftColor": "rgba(112,112,112,1.00)",
+                    "borderLeftWidth": "1px",
+                    "borderRightColor": "rgba(112,112,112,1.00)",
+                    "borderRightWidth": "1px",
+                    "borderTopColor": "rgba(112,112,112,1.00)",
                     "borderTopLeftRadius": "50%",
                     "borderTopRightRadius": "50%",
+                    "borderTopWidth": "1px",
                   }
                 }
               >
@@ -316,12 +332,20 @@ exports[`SendLinkSummary matches snapshot 1`] = `
                   style={
                     Object {
                       "backgroundColor": "rgba(255,255,255,1.00)",
-                      "borderBottomLeftRadius": "45px",
-                      "borderBottomRightRadius": "45px",
-                      "borderTopLeftRadius": "45px",
-                      "borderTopRightRadius": "45px",
-                      "height": "90px",
-                      "width": "90px",
+                      "borderBottomColor": "rgba(112,112,112,1.00)",
+                      "borderBottomLeftRadius": "55px",
+                      "borderBottomRightRadius": "55px",
+                      "borderBottomWidth": "1px",
+                      "borderLeftColor": "rgba(112,112,112,1.00)",
+                      "borderLeftWidth": "1px",
+                      "borderRightColor": "rgba(112,112,112,1.00)",
+                      "borderRightWidth": "1px",
+                      "borderTopColor": "rgba(112,112,112,1.00)",
+                      "borderTopLeftRadius": "55px",
+                      "borderTopRightRadius": "55px",
+                      "borderTopWidth": "1px",
+                      "height": "110px",
+                      "width": "110px",
                     }
                   }
                 >
@@ -330,16 +354,16 @@ exports[`SendLinkSummary matches snapshot 1`] = `
                     style={
                       Object {
                         "WebkitFlexBasis": "auto",
-                        "borderBottomLeftRadius": "45px",
-                        "borderBottomRightRadius": "45px",
-                        "borderTopLeftRadius": "45px",
-                        "borderTopRightRadius": "45px",
+                        "borderBottomLeftRadius": "55px",
+                        "borderBottomRightRadius": "55px",
+                        "borderTopLeftRadius": "55px",
+                        "borderTopRightRadius": "55px",
                         "flexBasis": "auto",
-                        "height": "90px",
+                        "height": "110px",
                         "msFlexPreferredSize": "auto",
                         "overflowX": "hidden",
                         "overflowY": "hidden",
-                        "width": "90px",
+                        "width": "110px",
                         "zIndex": 0,
                       }
                     }
@@ -373,7 +397,8 @@ exports[`SendLinkSummary matches snapshot 1`] = `
               style={
                 Object {
                   "color": "rgba(85,85,85,1.00)",
-                  "fontSize": "14px",
+                  "fontFamily": "Roboto",
+                  "fontSize": "16px",
                   "textAlign": "center",
                 }
               }
@@ -394,14 +419,12 @@ exports[`SendLinkSummary matches snapshot 1`] = `
                     Object {
                       "color": "rgba(85,85,85,1.00)",
                       "direction": "ltr",
-                      "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                      "fontFamily": "Roboto",
                       "fontSize": "30px",
                       "textAlign": "right",
                     }
                   }
-                >
-                  0.00
-                </span>
+                />
                 <span
                   className="css-text-76zvg2 css-textHasAncestor-16my406"
                   dir="auto"
@@ -409,13 +432,13 @@ exports[`SendLinkSummary matches snapshot 1`] = `
                     Object {
                       "color": "rgba(85,85,85,1.00)",
                       "direction": "ltr",
-                      "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                      "fontFamily": "Roboto",
                       "fontSize": "18px",
                       "textAlign": "right",
                     }
                   }
                 >
-                  GD
+                  G$
                 </span>
               </div>
             </div>
@@ -425,7 +448,8 @@ exports[`SendLinkSummary matches snapshot 1`] = `
               style={
                 Object {
                   "color": "rgba(85,85,85,1.00)",
-                  "fontSize": "14px",
+                  "fontFamily": "Roboto",
+                  "fontSize": "16px",
                   "textAlign": "center",
                 }
               }
@@ -659,7 +683,7 @@ exports[`SendLinkSummary matches snapshot 1`] = `
                         style={
                           Object {
                             "direction": "ltr",
-                            "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                            "fontFamily": "Roboto",
                             "fontSize": "18px",
                             "fontWeight": "bold",
                             "paddingBottom": "0px",
@@ -671,7 +695,7 @@ exports[`SendLinkSummary matches snapshot 1`] = `
                           }
                         }
                       >
-                        Next
+                        Confirm
                       </span>
                     </div>
                   </div>

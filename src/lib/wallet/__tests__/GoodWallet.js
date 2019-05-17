@@ -1,8 +1,12 @@
 import goodWallet from '../GoodWallet'
 
-jest.mock('web3-providers-http', () => () => {
-  const Config = require('../../../config/config').default
-  return require('ganache-cli').provider({ network_id: Config.networkId })
+beforeAll(() => {
+  jest.resetAllMocks()
+
+  jest.mock('web3-providers-http', () => () => {
+    const Config = require('../../../config/config').default
+    return require('ganache-cli').provider({ network_id: Config.networkId })
+  })
 })
 
 describe('Wallet Creation', () => {

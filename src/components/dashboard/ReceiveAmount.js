@@ -8,7 +8,7 @@ import { generateCode } from '../../lib/share'
 import { Section, Wrapper, BigGoodDollar } from '../common'
 import { receiveStyles as styles } from './styles'
 import ShareQR from './ShareQR'
-import { useScreenState } from '../appNavigation/stackNavigation'
+import { useScreenState, DoneButton } from '../appNavigation/stackNavigation'
 
 export type ReceiveProps = {
   screenProps: any,
@@ -32,7 +32,7 @@ const ReceiveAmount = ({ screenProps, navigation }: ReceiveProps) => {
             <QRCode value={code} />
           </View>
           <View>
-            <Section.Text style={styles.secondaryText}>This QR code requests exactly</Section.Text>
+            <Section.Text style={[styles.lowerSecondaryText]}>This QR code requests exactly</Section.Text>
             <Section.Text>
               <BigGoodDollar style={styles.centered} number={amount} />
             </Section.Text>
@@ -40,6 +40,7 @@ const ReceiveAmount = ({ screenProps, navigation }: ReceiveProps) => {
         </Section.Row>
       </Section>
       <ShareQR>Share QR Code</ShareQR>
+      <DoneButton style={styles.doneButton} screenProps={screenProps} />
     </Wrapper>
   )
 }

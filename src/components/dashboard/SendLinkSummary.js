@@ -1,7 +1,6 @@
 // @flow
 import React, { useState, useEffect } from 'react'
 import { View } from 'react-native'
-
 import UserStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import GDStore from '../../lib/undux/GDStore'
@@ -96,7 +95,7 @@ const SendLinkSummary = (props: AmountProps) => {
         <Section.Row style={styles.sectionRow}>
           <Section.Title style={styles.headline}>SUMMARY</Section.Title>
           <View style={styles.sectionTo}>
-            <Avatar size={90} />
+            <Avatar size={110} style={styles.avatarBorder} />
             {to && <Section.Text style={styles.toText}>{`To: ${to}`}</Section.Text>}
           </View>
           <Section.Text style={styles.reason}>
@@ -137,6 +136,10 @@ const styles = {
   reason: {
     fontSize: normalize(16),
     fontFamily: 'Roboto'
+  },
+  avatarBorder: {
+    borderWidth: normalize(1),
+    borderColor: '#707070'
   }
 }
 

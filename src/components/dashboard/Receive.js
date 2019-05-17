@@ -18,7 +18,7 @@ export type ReceiveProps = {
   navigation: any
 }
 
-const RECEIVE_TITLE = 'Receive GD'
+const RECEIVE_TITLE = 'Receive G$'
 
 const log = logger.child({ from: RECEIVE_TITLE })
 
@@ -58,12 +58,13 @@ const Receive = ({ screenProps }: ReceiveProps) => {
             routeName="Amount"
             screenProps={screenProps}
             params={{ nextRoutes: ['ReceiveAmount'] }}
+            style={styles.fullWidth}
           >
-            Request an amount
+            Share your wallet link
           </PushButton>
         </Section.Row>
       </Section>
-      <ShareQR>Share address & QR code</ShareQR>
+      <ShareQR style={styles.shareQRButton}>Generate detailed request</ShareQR>
     </Wrapper>
   )
 }

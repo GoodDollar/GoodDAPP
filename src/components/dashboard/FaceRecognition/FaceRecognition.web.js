@@ -5,14 +5,17 @@ import API from '../../../lib/API/api'
 import React, { createRef } from 'react'
 import Config from '../../../config/config'
 import { StyleSheet, View } from 'react-native'
+import { Text } from 'react-native-paper'
 import GDStore from '../../../lib/undux/GDStore'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import logger from '../../../lib/logger/pino-logger'
 import userStorage from '../../../lib/gundb/UserStorage'
 import { Wrapper, CustomButton, Section } from '../../common'
+import { fontStyle } from '../../common/styles'
 import { Camera, getResponsiveVideoDimensions } from './Camera.web'
 import { initializeAndPreload, capture, type ZoomCaptureResult } from './Zoom'
 import goodWallet from '../../../lib/wallet/GoodWallet'
+import { LinkButton } from '../../signup/components'
 import type { DashboardProps } from '../Dashboard'
 
 const log = logger.child({ from: 'FaceRecognition' })
@@ -174,6 +177,9 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     })
   }
 
+  handleNavigateTermsOfUse = () => this.props.screenProps.push('TermsOfUse')
+  handleNavigatePrivacyPolicy = () => this.props.screenProps.push('PrivacyPolicy')
+
   render() {
     const { store }: FaceRecognitionProps = this.props
     const { fullName } = store.get('profile')
@@ -183,14 +189,27 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
       <Wrapper>
         {showPreText && (
           <View style={styles.topContainer}>
-            <Section.Title>{`${fullName},\n Just one last thing...`}</Section.Title>
+            <Section.Title
+              style={styles.mainTitle}
+            >{`${fullName}, Just one more thing before we can get started...`}</Section.Title>
             <Section.Text style={styles.description}>
-              {"In order to give you a basic income we need to make sure it's really you"}
+              {`Since it's your first time sending GD, we need to make sure it's really
+              you and prevent other people from creating multiple accounts.`}
             </Section.Text>
           </View>
         )}
         {showPreText && (
           <View style={styles.bottomContainer}>
+            <Text style={styles.acceptTermsText}>
+              {`By clicking the 'Create a wallet' button, you are accepting our `}
+              <LinkButton style={styles.acceptTermsLink} onPress={this.handleNavigateTermsOfUse}>
+                Terms of Service
+              </LinkButton>
+              {` and `}
+              <LinkButton style={styles.acceptTermsLink} onPress={this.handleNavigatePrivacyPolicy}>
+                Privacy Policy
+              </LinkButton>
+            </Text>
             <CustomButton
               mode="contained"
               onPress={this.showFaceRecognition}
@@ -235,11 +254,30 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end'
   },
   description: {
-    fontSize: normalize(20)
+    fontSize: normalize(18),
+    fontFamily: 'Roboto'
   },
   bottomSection: {
     flex: 1,
     backgroundColor: '#fff'
+  },
+  acceptTermsText: {
+    ...fontStyle,
+    fontSize: normalize(14),
+    marginBottom: '1rem'
+  },
+  acceptTermsLink: {
+    ...fontStyle,
+    fontSize: normalize(14),
+    fontWeight: 'bold'
+  },
+  mainTitle: {
+    fontSize: normalize(24),
+    fontFamily: 'Roboto',
+    fontWeight: 500,
+    marginBottom: '1rem',
+    color: '#555',
+    textAlign: 'center'
   }
 })
 

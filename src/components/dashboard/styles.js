@@ -7,7 +7,7 @@ export const receiveStyles = StyleSheet.create({
   wrapper: {
     justifyContent: 'flex-start',
     width: '100%',
-    padding: '1rem'
+    padding: normalize(8)
   },
   section: {
     flex: 1
@@ -32,8 +32,16 @@ export const receiveStyles = StyleSheet.create({
   },
   secondaryText: {
     margin: '1rem',
-    color: '#A2A2A2',
+    color: '#555555',
+    fontSize: normalize(14),
+    fontFamily: 'Roboto',
     textTransform: 'uppercase'
+  },
+  lowerSecondaryText: {
+    margin: '1rem',
+    color: '#555555',
+    fontSize: normalize(16),
+    fontFamily: 'Roboto'
   },
   headline: {
     ...fontStyle,
@@ -75,5 +83,14 @@ export const receiveStyles = StyleSheet.create({
     flexShrink: 1,
     flexGrow: 1,
     textAlign: 'right'
+  },
+  fullWidth: {
+    width: '100%'
+  },
+  doneButton: {
+    marginTop: '1rem'
+  },
+  shareQRButton: {
+    marginHorizontal: normalize(10)
   }
 })

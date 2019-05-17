@@ -82,18 +82,18 @@ const SendConfirmation = ({ screenProps }: ReceiveProps) => {
             <Section.Text style={styles.secondaryText} onPress={copySendLink}>
               Copy link to clipboard
             </Section.Text>
-            <Section.Text>
+            <Section.Text style={styles.reasonText}>
               {`Here's `}
               <BigGoodDollar number={amount} />
             </Section.Text>
-            <Section.Text>{reason && `For ${reason}`}</Section.Text>
+            <Section.Text style={styles.reasonText}>{reason && `For ${reason}`}</Section.Text>
           </Section.Row>
         </View>
-        <View style={styles.buttonGroup}>
-          {isMobile ? <ShareButton /> : null}
-          <DoneButton style={styles.buttonStyle} screenProps={screenProps} />
-        </View>
       </Section>
+      <View style={styles.buttonGroup}>
+        {isMobile ? <ShareButton style={styles.shareButton} /> : null}
+        <DoneButton style={styles.doneButton} screenProps={screenProps} />
+      </View>
     </Wrapper>
   )
 }
@@ -122,7 +122,8 @@ const styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'column',
     marginTop: getScreenHeight() > 600 ? '1rem' : 0,
-    flex: 1
+    display: 'flex',
+    justifyContent: 'flex-end'
   },
   qrCode: {
     marginTop: getScreenHeight() > 600 ? '2rem' : 0,
@@ -145,8 +146,23 @@ const styles = StyleSheet.create({
     paddingLeft: '1rem',
     paddingRight: '1rem'
   },
-  buttonStyle: {
+  shareButton: {
+    marginTop: 0
+  },
+  doneButton: {
     marginTop: '1em'
+  },
+  secondaryText: {
+    margin: '1rem',
+    color: '#555555',
+    fontSize: normalize(14),
+    textTransform: 'uppercase',
+    fontFamily: 'Roboto'
+  },
+  reasonText: {
+    color: '#555555',
+    fontSize: normalize(16),
+    fontFamily: 'Roboto'
   }
 })
 

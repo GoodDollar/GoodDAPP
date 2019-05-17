@@ -5,6 +5,10 @@ jest.mock('web3-providers-http', () => () => {
 })
 
 describe('routeAndPathForCode', () => {
+  beforeAll(() => {
+    jest.resetAllMocks()
+  })
+
   it(`should fail if code is null`, () => {
     expect.assertions(1)
 

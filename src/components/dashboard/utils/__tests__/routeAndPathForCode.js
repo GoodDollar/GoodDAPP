@@ -1,13 +1,13 @@
 import { routeAndPathForCode } from '../routeAndPathForCode'
 
+jest.mock('web3-providers-http', () => () => {
+  const Config = require('../../../../config/config').default
+  return require('ganache-cli').provider({ network_id: Config.networkId })
+})
+
 describe('routeAndPathForCode', () => {
   beforeAll(() => {
     jest.resetAllMocks()
-
-    jest.mock('web3-providers-http', () => () => {
-      const Config = require('../../../../config/config').default
-      return require('ganache-cli').provider({ network_id: Config.networkId })
-    })
   })
 
   it(`should fail if code is null`, () => {

@@ -52,17 +52,23 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
 
   componentDidMount() {
     const { params } = this.props.navigation.state
-
+    userStorage.feed.on(() => this.getFeeds(), true)
     if (params && params.receiveLink) {
       this.handleWithdraw()
     } else if (params && params.event) {
       this.showNewFeedEvent(params.event)
-    } else {
-      this.getFeeds()
     }
+
+    this.getFeeds()
+  }
+
+  componentWillUnmount() {
+    // TODO: we should be removing the listener in unmount but this causes that you cannot re-subscribe
+    // userStorage.feed.off()
   }
 
   getFeeds() {
+    log.info('getFeeds')
     getInitialFeed(this.props.store)
   }
 
@@ -122,7 +128,6 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
         }
       })
     }
-    this.getFeeds()
   }
 
   closeFeedEvent = () => {
@@ -131,7 +136,6 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
         currentFeedProps: null
       },
       () => {
-        this.getFeeds()
         this.props.screenProps.navigateTo('Home', {
           event: undefined,
           receiveLink: undefined,
@@ -148,11 +152,9 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
       const receipt = await executeWithdraw(store, receiveLink, reason)
       if (receipt.transactionHash) {
         await this.showNewFeedEvent(receipt.transactionHash)
-      } else {
-        this.getFeeds()
       }
     } catch (e) {
-      this.getFeeds()
+      log.error(e)
     }
   }
 

@@ -50,7 +50,7 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
     feeds: []
   }
 
-  componentDidMount() {
+  componentWillMount() {
     const { params } = this.props.navigation.state
     userStorage.feed.on(() => this.getFeeds(), true)
     if (params && params.receiveLink) {
@@ -59,12 +59,12 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
       this.showNewFeedEvent(params.event)
     }
 
-    this.getFeeds()
+    // this.getFeeds()
   }
 
   componentWillUnmount() {
     // TODO: we should be removing the listener in unmount but this causes that you cannot re-subscribe
-    // userStorage.feed.off()
+    // userStorage.feed.get('byid').off()
   }
 
   getFeeds() {

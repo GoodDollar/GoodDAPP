@@ -260,7 +260,7 @@ export class UserStorage {
    * @returns {Promise<Array<FeedEvent>>}
    */
   async getAllFeed() {
-    const total = Object.values((await this.feed.get('index')) || {}).reduce((acc, curr) => acc + curr, 0)
+    const total = Object.values((await this.feed.get('index').then()) || {}).reduce((acc, curr) => acc + curr, 0)
     const prevCursor = this.cursor
     logger.debug('getAllFeed', { total, prevCursor })
     const feed = await this.getFeedPage(total, true)
@@ -374,7 +374,10 @@ export class UserStorage {
       username: { defaultPrivacy: 'public' }
     }
     const getPrivacy = async field => {
-      const currentPrivacy = await this.profile.get(field).get('privacy')
+      const currentPrivacy = await this.profile
+        .get(field)
+        .get('privacy')
+        .then()
       return currentPrivacy || profileSettings[field].defaultPrivacy || 'public'
     }
 
@@ -574,6 +577,7 @@ export class UserStorage {
       .get('profile')
       .get('walletAddress')
       .get('display')
+      .then()
 
     return address
   }

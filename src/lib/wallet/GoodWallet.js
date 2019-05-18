@@ -154,7 +154,7 @@ export class GoodWallet {
       .then(async wallet => {
         this.wallet = wallet
         this.accounts = this.wallet.eth.accounts.wallet
-        this.account = await this.getAccountForType('gd')
+        this.account = this.getAccountForType('gd')
         this.wallet.eth.defaultAccount = this.account
         this.networkId = Config.networkId
         log.info(`networkId: ${this.networkId}`)
@@ -368,13 +368,13 @@ export class GoodWallet {
 
   sendTx() {}
 
-  async getAccountForType(type: AccountUsage): Promise<string> {
+  getAccountForType(type: AccountUsage): string {
     let account = this.accounts[GoodWallet.AccountUsageToPath[type]].address || this.wallet.eth.defaultAccount
     return account.toString()
   }
 
   async sign(toSign: string, accountType: AccountUsage = 'gd'): Promise<string> {
-    let account = await this.getAccountForType(accountType)
+    let account = this.getAccountForType(accountType)
     let signed = await this.wallet.eth.sign(toSign, account)
     return signed
   }

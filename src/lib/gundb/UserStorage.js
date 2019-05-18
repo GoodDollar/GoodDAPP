@@ -7,6 +7,7 @@ import merge from 'lodash/merge'
 import orderBy from 'lodash/orderBy'
 import toPairs from 'lodash/toPairs'
 import takeWhile from 'lodash/takeWhile'
+import isEqual from 'lodash/isEqual'
 import maxBy from 'lodash/maxBy'
 import flatten from 'lodash/flatten'
 import gun from './gundb'
@@ -184,7 +185,7 @@ export class UserStorage {
         }
       }
       logger.debug('receiptReceived', { initialEvent, feedEvent, receipt, data, updatedFeedEvent })
-      await this.updateFeedEvent(updatedFeedEvent)
+      if (isEqual(feedEvent, updatedFeedEvent) === false) await this.updateFeedEvent(updatedFeedEvent)
       return updatedFeedEvent
     } catch (error) {
       logger.error('handleReceiptUpdated', error)
@@ -527,12 +528,14 @@ export class UserStorage {
     const eventsIndex = flatten(await Promise.all(promises))
 
     return await Promise.all(
-      eventsIndex.map(eventIndex =>
-        this.feed
-          .get('byid')
-          .get(eventIndex.id)
-          .decrypt()
-      )
+      eventsIndex
+        .filter(_ => _.id)
+        .map(eventIndex =>
+          this.feed
+            .get('byid')
+            .get(eventIndex.id)
+            .decrypt()
+        )
     )
   }
 

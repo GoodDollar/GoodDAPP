@@ -58,7 +58,7 @@ class Claim extends Component<ClaimProps, {}> {
     const { entitlement } = store.get('account')
     const ClaimButton = (
       <CustomButton
-        disabled={entitlement <= 0 && this.state.isCitizen}
+        // disabled={entitlement <= 0 && this.state.isCitizen}
         mode="contained"
         onPress={async () => {
           ;(await goodWallet.isCitizen()) ? this.handleClaim() : this.faceRecognition()

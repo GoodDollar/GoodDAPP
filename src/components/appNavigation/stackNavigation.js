@@ -80,8 +80,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
     const { navigation } = this.props
     const nextRoute = this.state.stack.pop()
     if (nextRoute) {
-      this.setState(
-        { currentState: { ...nextRoute.state, ...params, route: nextRoute.route } },
+      this.setState({ currentState: { ...nextRoute.state, ...params, route: nextRoute.route } }, () =>
         navigation.navigate(nextRoute.route)
       )
     } else if (navigation.state.index !== 0) {

@@ -105,9 +105,9 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
     this.showEventModal(receipt)
   }
 
-  showNewFeedEvent = async event => {
+  showNewFeedEvent = async eventId => {
     try {
-      const item = await userStorage.getFormatedEventById(event)
+      const item = await userStorage.getFormatedEventById(eventId)
       log.info({ item })
       if (item) {
         this.showEventModal(item)

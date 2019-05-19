@@ -166,7 +166,7 @@ export class UserStorage {
     try {
       const data = getReceiveDataFromReceipt(receipt)
       //get initial TX data
-      const initialEvent = (await this.dequeueTX(receipt.transactionHash)) || { data: {} }
+      const initialEvent = (await this.peekTX(receipt.transactionHash)) || { data: {} }
       //get existing or make a new event
       const feedEvent = (await this.getFeedItemByTransactionHash(receipt.transactionHash)) || {
         id: receipt.transactionHash,
@@ -186,6 +186,8 @@ export class UserStorage {
       }
       logger.debug('receiptReceived', { initialEvent, feedEvent, receipt, data, updatedFeedEvent })
       if (isEqual(feedEvent, updatedFeedEvent) === false) await this.updateFeedEvent(updatedFeedEvent)
+      //remove pending once we used it and updated feed
+      this.dequeueTX(receipt.transactionHash)
       return updatedFeedEvent
     } catch (error) {
       logger.error('handleReceiptUpdated', error)
@@ -248,11 +250,16 @@ export class UserStorage {
    * @param {string} transactionHash - transaction identifier
    * @returns {object} feed item or null if it doesn't exist
    */
-  async getFeedItemByTransactionHash(transactionHash: string) {
-    const feedItem = await this.feed
+  async getFeedItemByTransactionHash(transactionHash: string): Promise<FeedEvent> {
+    let feedItem = await this.feed
       .get('byid')
       .get(transactionHash)
       .decrypt()
+      .catch(e => {
+        logger.warn('getFeedItemByTransactionHash not found or cant decrypt', { transactionHash })
+        return undefined
+      })
+
     return feedItem
   }
 
@@ -551,7 +558,7 @@ export class UserStorage {
   }
 
   async getFormatedEventById(id: string): Promise<StandardFeed> {
-    const prevFeedEvent = await this.getFeedItemByTransactionHash(id)
+    const prevFeedEvent = (await this.getFeedItemByTransactionHash(id)) || (await this.peekTX(id))
     const standardPrevFeedEvent = await this.formatEvent(prevFeedEvent)
     if (!prevFeedEvent) return standardPrevFeedEvent
     if (prevFeedEvent.data && prevFeedEvent.data.receipt) return standardPrevFeedEvent
@@ -672,21 +679,33 @@ export class UserStorage {
   }
 
   /**
-   * enqueue a new TX done on DAPP, to be later merged with the blockchain tx
+   * enqueue a new pending TX done on DAPP, to be later merged with the blockchain tx
    * the DAPP event can contain more details than the blockchain tx event
    * @param {FeedEvent} event
+   * @returns {Promise<>}
    */
-  async enqueueTX(event: FeedEvent) {
+  async enqueueTX(event: FeedEvent): Promise<> {
     return await AsyncStorage.setItem(event.id, JSON.stringify(event))
   }
   /**
-   *
+   * remove and return pending TX
    * @param {*} event
+   * @returns {Promise<FeedEvent>}
    */
-  async dequeueTX(eventId: string) {
+  async dequeueTX(eventId: string): Promise<FeedEvent> {
     let res = await AsyncStorage.getItem(eventId)
     AsyncStorage.removeItem(eventId)
-    return JSON.parse(res)
+    return res ? JSON.parse(res) : res
+  }
+
+  /**
+   * lookup a pending tx
+   * @param {string} eventId
+   * @returns {Promise<FeedEvent>}
+   */
+  async peekTX(eventId: string): Promise<FeedEvent> {
+    let res = await AsyncStorage.getItem(eventId)
+    return res ? JSON.parse(res) : res
   }
 
   /**

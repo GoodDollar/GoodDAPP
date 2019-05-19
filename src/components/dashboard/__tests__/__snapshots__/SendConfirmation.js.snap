@@ -341,7 +341,6 @@ exports[`SendConfirmation matches snapshot 1`] = `
                 style={
                   Object {
                     "color": "rgba(85,85,85,1.00)",
-                    "fontFamily": "Roboto",
                     "fontSize": "14px",
                     "marginBottom": "1rem",
                     "marginTop": "1rem",
@@ -356,7 +355,6 @@ exports[`SendConfirmation matches snapshot 1`] = `
                   style={
                     Object {
                       "color": "rgba(85,85,85,1.00)",
-                      "fontFamily": "Roboto",
                       "fontSize": "18px",
                       "maxWidth": "100%",
                       "overflowX": "hidden",
@@ -380,7 +378,6 @@ exports[`SendConfirmation matches snapshot 1`] = `
                   Object {
                     "color": "rgba(85,85,85,1.00)",
                     "cursor": "pointer",
-                    "fontFamily": "Roboto",
                     "fontSize": "14px",
                     "marginBottom": "1rem",
                     "marginLeft": "1rem",
@@ -400,7 +397,6 @@ exports[`SendConfirmation matches snapshot 1`] = `
                 style={
                   Object {
                     "color": "rgba(85,85,85,1.00)",
-                    "fontFamily": "Roboto",
                     "fontSize": "16px",
                     "textAlign": "center",
                   }
@@ -422,7 +418,7 @@ exports[`SendConfirmation matches snapshot 1`] = `
                       Object {
                         "color": "rgba(85,85,85,1.00)",
                         "direction": "ltr",
-                        "fontFamily": "Roboto",
+                        "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                         "fontSize": "30px",
                         "textAlign": "right",
                       }
@@ -435,7 +431,7 @@ exports[`SendConfirmation matches snapshot 1`] = `
                       Object {
                         "color": "rgba(85,85,85,1.00)",
                         "direction": "ltr",
-                        "fontFamily": "Roboto",
+                        "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                         "fontSize": "18px",
                         "textAlign": "right",
                       }
@@ -451,7 +447,6 @@ exports[`SendConfirmation matches snapshot 1`] = `
                 style={
                   Object {
                     "color": "rgba(85,85,85,1.00)",
-                    "fontFamily": "Roboto",
                     "fontSize": "16px",
                     "textAlign": "center",
                   }
@@ -577,7 +572,7 @@ exports[`SendConfirmation matches snapshot 1`] = `
                     style={
                       Object {
                         "direction": "ltr",
-                        "fontFamily": "Roboto",
+                        "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                         "fontSize": "18px",
                         "fontWeight": "bold",
                         "paddingBottom": "0px",

@@ -111,7 +111,7 @@ exports[`ScanQRButton should match snapshot 1`] = `
           "color": "rgba(0,0,0,1.00)",
           "direction": "ltr",
           "display": "inlineBlock",
-          "fontFamily": "Helvetica, \\"sans-serif\\"",
+          "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
           "fontSize": "14px",
           "textAlign": "left",
         }

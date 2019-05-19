@@ -251,7 +251,7 @@ exports[`Send matches snapshot 1`] = `
                   Object {
                     "color": "rgba(85,85,85,1.00)",
                     "direction": "ltr",
-                    "fontFamily": "Roboto",
+                    "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                     "fontSize": "30px",
                     "textAlign": "right",
                   }
@@ -264,7 +264,7 @@ exports[`Send matches snapshot 1`] = `
                   Object {
                     "color": "rgba(85,85,85,1.00)",
                     "direction": "ltr",
-                    "fontFamily": "Roboto",
+                    "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                     "fontSize": "18px",
                     "textAlign": "right",
                   }
@@ -329,7 +329,6 @@ exports[`Send matches snapshot 1`] = `
               style={
                 Object {
                   "color": "rgba(85,85,85,1.00)",
-                  "fontFamily": "Roboto",
                   "fontSize": "24px",
                   "fontWeight": "500",
                   "textAlign": "center",
@@ -962,7 +961,7 @@ exports[`Send matches snapshot 1`] = `
                       style={
                         Object {
                           "direction": "ltr",
-                          "fontFamily": "Roboto",
+                          "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                           "fontSize": "18px",
                           "fontWeight": "bold",
                           "paddingBottom": "0px",

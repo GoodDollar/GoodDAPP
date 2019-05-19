@@ -248,7 +248,6 @@ exports[`Dashboard matches snapshot 1`] = `
               dir="auto"
               style={
                 Object {
-                  "fontFamily": "Roboto",
                   "fontSize": "15px",
                   "fontWeight": "bold",
                 }
@@ -349,7 +348,6 @@ exports[`Dashboard matches snapshot 1`] = `
               dir="auto"
               style={
                 Object {
-                  "fontFamily": "Roboto",
                   "fontSize": "15px",
                   "fontWeight": "bold",
                 }
@@ -450,7 +448,6 @@ exports[`Dashboard matches snapshot 1`] = `
               dir="auto"
               style={
                 Object {
-                  "fontFamily": "Roboto",
                   "fontSize": "15px",
                   "fontWeight": "bold",
                 }
@@ -551,7 +548,6 @@ exports[`Dashboard matches snapshot 1`] = `
               dir="auto"
               style={
                 Object {
-                  "fontFamily": "Roboto",
                   "fontSize": "15px",
                   "fontWeight": "bold",
                 }
@@ -652,7 +648,6 @@ exports[`Dashboard matches snapshot 1`] = `
               dir="auto"
               style={
                 Object {
-                  "fontFamily": "Roboto",
                   "fontSize": "15px",
                   "fontWeight": "bold",
                 }
@@ -753,7 +748,6 @@ exports[`Dashboard matches snapshot 1`] = `
               dir="auto"
               style={
                 Object {
-                  "fontFamily": "Roboto",
                   "fontSize": "15px",
                   "fontWeight": "bold",
                 }
@@ -854,7 +848,6 @@ exports[`Dashboard matches snapshot 1`] = `
               dir="auto"
               style={
                 Object {
-                  "fontFamily": "Roboto",
                   "fontSize": "15px",
                   "fontWeight": "bold",
                 }
@@ -1401,7 +1394,6 @@ exports[`Dashboard matches snapshot 1`] = `
                           style={
                             Object {
                               "color": "rgba(85,85,85,1.00)",
-                              "fontFamily": "Roboto",
                               "fontSize": "18px",
                               "textAlign": "center",
                             }
@@ -1445,7 +1437,7 @@ exports[`Dashboard matches snapshot 1`] = `
                               Object {
                                 "color": "rgba(85,85,85,1.00)",
                                 "direction": "ltr",
-                                "fontFamily": "Roboto",
+                                "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                                 "fontSize": "30px",
                                 "textAlign": "right",
                               }
@@ -1458,7 +1450,7 @@ exports[`Dashboard matches snapshot 1`] = `
                               Object {
                                 "color": "rgba(85,85,85,1.00)",
                                 "direction": "ltr",
-                                "fontFamily": "Roboto",
+                                "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                                 "fontSize": "18px",
                                 "textAlign": "right",
                               }
@@ -1604,7 +1596,7 @@ exports[`Dashboard matches snapshot 1`] = `
                                     Object {
                                       "color": "rgba(255,255,255,1.00)",
                                       "direction": "ltr",
-                                      "fontFamily": "Roboto",
+                                      "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                                       "fontSize": "18px",
                                       "fontWeight": "bold",
                                       "paddingBottom": "0px",
@@ -1725,7 +1717,6 @@ exports[`Dashboard matches snapshot 1`] = `
                                   style={
                                     Object {
                                       "color": "rgba(255,255,255,1.00)",
-                                      "fontFamily": "Helvetica, \\"sans-serif\\"",
                                       "fontSize": "16px",
                                       "fontWeight": "bold",
                                       "textTransform": "uppercase",
@@ -1741,7 +1732,6 @@ exports[`Dashboard matches snapshot 1`] = `
                                   style={
                                     Object {
                                       "color": "rgba(213,213,213,1.00)",
-                                      "fontFamily": "Helvetica, \\"sans-serif\\"",
                                       "fontSize": "10px",
                                       "fontWeight": "bold",
                                       "textTransform": "uppercase",
@@ -1869,7 +1859,7 @@ exports[`Dashboard matches snapshot 1`] = `
                                     Object {
                                       "color": "rgba(255,255,255,1.00)",
                                       "direction": "ltr",
-                                      "fontFamily": "Roboto",
+                                      "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                                       "fontSize": "18px",
                                       "fontWeight": "bold",
                                       "paddingBottom": "0px",

@@ -79,7 +79,6 @@ exports[`ModalReceiveEvent matches snapshot 1`] = `
           "flexBasis": "0%",
           "flexGrow": 1,
           "flexShrink": 1,
-          "fontFamily": "Helvetica, \\"sans-serif\\"",
           "fontSize": "16px",
           "fontWeight": "bold",
           "msFlexNegative": 1,
@@ -105,7 +104,7 @@ exports[`ModalReceiveEvent matches snapshot 1`] = `
           Object {
             "color": "rgba(0,0,0,1.00)",
             "direction": "ltr",
-            "fontFamily": "Helvetica, \\"sans-serif\\"",
+            "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
             "fontSize": "16px",
             "fontWeight": "bold",
             "textAlign": "right",
@@ -121,7 +120,7 @@ exports[`ModalReceiveEvent matches snapshot 1`] = `
           Object {
             "color": "rgba(0,0,0,1.00)",
             "direction": "ltr",
-            "fontFamily": "Helvetica, \\"sans-serif\\"",
+            "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
             "fontSize": "16px",
             "fontWeight": "bold",
             "textAlign": "right",
@@ -246,7 +245,6 @@ exports[`ModalReceiveEvent matches snapshot 1`] = `
           Object {
             "color": "rgba(0,0,0,1.00)",
             "display": "inlineBlock",
-            "fontFamily": "Helvetica, \\"sans-serif\\"",
             "fontSize": "10px",
           }
         }
@@ -260,7 +258,6 @@ exports[`ModalReceiveEvent matches snapshot 1`] = `
           Object {
             "color": "rgba(0,0,0,1.00)",
             "display": "inlineBlock",
-            "fontFamily": "Helvetica, \\"sans-serif\\"",
             "fontSize": "14px",
           }
         }
@@ -421,7 +418,7 @@ exports[`ModalReceiveEvent matches snapshot 1`] = `
               style={
                 Object {
                   "direction": "ltr",
-                  "fontFamily": "Roboto",
+                  "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                   "fontSize": "18px",
                   "fontWeight": "bold",
                   "paddingBottom": "0px",

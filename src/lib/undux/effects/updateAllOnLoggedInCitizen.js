@@ -10,13 +10,14 @@ import logger from '../../logger/pino-logger'
 const log = logger.child({ from: 'updateAllOnLoggedInCitizen' })
 
 const updateAllOnLoggedInCitizen: Effects<State> = (store: Store) => {
-  store.on('isLoggedIn').subscribe(isLoggedInCitizen => {
-    if (isLoggedInCitizen) {
+  store.on('isLoggedIn').subscribe(isLoggedIn => {
+    if (isLoggedIn) {
       updateAll(store)
     }
   })
   store.on('isLoggedInCitizen').subscribe(isLoggedInCitizen => {
     if (isLoggedInCitizen) {
+      updateAll(store)
       API.verifyTopWallet()
         .then(r => log.debug('Top Wallet Result:', r))
         .catch(e => log.error('Top Wallet Error:', e.message))

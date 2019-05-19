@@ -132,7 +132,6 @@ exports[`FaceRecognition matches snapshot 1`] = `
             style={
               Object {
                 "color": "rgba(85,85,85,1.00)",
-                "fontFamily": "Roboto",
                 "fontSize": "24px",
                 "fontWeight": 500,
                 "marginBottom": "1rem",
@@ -148,7 +147,6 @@ exports[`FaceRecognition matches snapshot 1`] = `
             style={
               Object {
                 "color": "rgba(85,85,85,1.00)",
-                "fontFamily": "Roboto",
                 "fontSize": "18px",
                 "textAlign": "center",
               }
@@ -188,7 +186,7 @@ exports[`FaceRecognition matches snapshot 1`] = `
               Object {
                 "color": "rgba(85,85,85,1.00)",
                 "direction": "ltr",
-                "fontFamily": "Roboto",
+                "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                 "fontSize": "14px",
                 "marginBottom": "1rem",
                 "textAlign": "center",
@@ -207,7 +205,7 @@ exports[`FaceRecognition matches snapshot 1`] = `
                   "color": "rgba(85,85,85,1.00)",
                   "cursor": "pointer",
                   "direction": "ltr",
-                  "fontFamily": "Roboto",
+                  "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                   "fontSize": "14px",
                   "fontWeight": "bold",
                   "marginTop": "10px",
@@ -230,7 +228,7 @@ exports[`FaceRecognition matches snapshot 1`] = `
                   "color": "rgba(85,85,85,1.00)",
                   "cursor": "pointer",
                   "direction": "ltr",
-                  "fontFamily": "Roboto",
+                  "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                   "fontSize": "14px",
                   "fontWeight": "bold",
                   "marginTop": "10px",
@@ -345,7 +343,7 @@ exports[`FaceRecognition matches snapshot 1`] = `
                     style={
                       Object {
                         "direction": "ltr",
-                        "fontFamily": "Roboto",
+                        "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                         "fontSize": "18px",
                         "fontWeight": "bold",
                         "paddingBottom": "0px",

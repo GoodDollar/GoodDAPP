@@ -218,7 +218,8 @@ export class GoodWallet {
   }
 
   /**
-   * returns id+eventName so consumer can unsubscribe
+   *
+   * returns {object} id+eventName so consumer can unsubscribe
    */
   subscribeToEvent(eventName: string, cb: Function) {
     // Get last id from subscribersList

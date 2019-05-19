@@ -223,7 +223,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
             Object {
               "color": "rgba(85,85,85,1.00)",
               "direction": "ltr",
-              "fontFamily": "Roboto",
+              "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
               "fontSize": "12px",
               "textAlign": "right",
             }
@@ -238,7 +238,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
             Object {
               "color": "rgba(85,85,85,1.00)",
               "direction": "ltr",
-              "fontFamily": "Roboto",
+              "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
               "fontSize": "12px",
               "textAlign": "right",
             }
@@ -552,7 +552,7 @@ exports[`ListEventItem send matches snapshot 1`] = `
             Object {
               "color": "rgba(85,85,85,1.00)",
               "direction": "ltr",
-              "fontFamily": "Roboto",
+              "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
               "fontSize": "12px",
               "textAlign": "right",
             }
@@ -567,7 +567,7 @@ exports[`ListEventItem send matches snapshot 1`] = `
             Object {
               "color": "rgba(85,85,85,1.00)",
               "direction": "ltr",
-              "fontFamily": "Roboto",
+              "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
               "fontSize": "12px",
               "textAlign": "right",
             }
@@ -881,7 +881,7 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
             Object {
               "color": "rgba(85,85,85,1.00)",
               "direction": "ltr",
-              "fontFamily": "Roboto",
+              "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
               "fontSize": "12px",
               "textAlign": "right",
             }
@@ -896,7 +896,7 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
             Object {
               "color": "rgba(85,85,85,1.00)",
               "direction": "ltr",
-              "fontFamily": "Roboto",
+              "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
               "fontSize": "12px",
               "textAlign": "right",
             }

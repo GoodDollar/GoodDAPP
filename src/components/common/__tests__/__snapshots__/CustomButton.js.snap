@@ -98,7 +98,7 @@ exports[`CustomButton matches snapshot 1`] = `
           style={
             Object {
               "direction": "ltr",
-              "fontFamily": "Roboto",
+              "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
               "fontSize": "18px",
               "fontWeight": "bold",
               "paddingBottom": "0px",

@@ -112,7 +112,6 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
               "flexBasis": "0%",
               "flexGrow": 1,
               "flexShrink": 1,
-              "fontFamily": "Roboto",
               "fontSize": "20px",
               "fontWeight": 700,
               "msFlexNegative": 1,
@@ -138,7 +137,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
               Object {
                 "color": "rgba(0,0,0,1.00)",
                 "direction": "ltr",
-                "fontFamily": "Helvetica, \\"sans-serif\\"",
+                "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                 "fontSize": "16px",
                 "fontWeight": "bold",
                 "textAlign": "right",
@@ -154,7 +153,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
               Object {
                 "color": "rgba(0,0,0,1.00)",
                 "direction": "ltr",
-                "fontFamily": "Helvetica, \\"sans-serif\\"",
+                "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                 "fontSize": "16px",
                 "fontWeight": "bold",
                 "textAlign": "right",
@@ -171,7 +170,6 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
         style={
           Object {
             "color": "rgba(163,163,163,1.00)",
-            "fontFamily": "Roboto",
             "fontSize": "10px",
             "fontWeight": 500,
             "marginTop": "5px",
@@ -380,7 +378,6 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
         style={
           Object {
             "color": "rgba(0,0,0,0.54)",
-            "fontFamily": "Roboto",
             "fontSize": "16px",
             "fontWeight": 500,
             "textTransform": "capitalize",
@@ -523,7 +520,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                   style={
                     Object {
                       "direction": "ltr",
-                      "fontFamily": "Roboto",
+                      "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                       "fontSize": "18px",
                       "fontWeight": "bold",
                       "paddingBottom": "0px",
@@ -628,7 +625,6 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
         style={
           Object {
             "color": "rgba(163,163,163,1.00)",
-            "fontFamily": "Roboto",
             "fontSize": "10px",
             "fontWeight": 500,
           }
@@ -673,7 +669,6 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
               "flexBasis": "0%",
               "flexGrow": 1,
               "flexShrink": 1,
-              "fontFamily": "Roboto",
               "fontSize": "20px",
               "fontWeight": 700,
               "msFlexNegative": 1,
@@ -699,7 +694,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
               Object {
                 "color": "rgba(0,0,0,1.00)",
                 "direction": "ltr",
-                "fontFamily": "Helvetica, \\"sans-serif\\"",
+                "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                 "fontSize": "16px",
                 "fontWeight": "bold",
                 "textAlign": "right",
@@ -715,7 +710,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
               Object {
                 "color": "rgba(0,0,0,1.00)",
                 "direction": "ltr",
-                "fontFamily": "Helvetica, \\"sans-serif\\"",
+                "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                 "fontSize": "16px",
                 "fontWeight": "bold",
                 "textAlign": "right",
@@ -926,7 +921,6 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
         style={
           Object {
             "color": "rgba(0,0,0,0.54)",
-            "fontFamily": "Roboto",
             "fontSize": "16px",
             "fontWeight": 500,
             "textTransform": "capitalize",
@@ -1069,7 +1063,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                   style={
                     Object {
                       "direction": "ltr",
-                      "fontFamily": "Roboto",
+                      "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                       "fontSize": "18px",
                       "fontWeight": "bold",
                       "paddingBottom": "0px",

@@ -83,5 +83,8 @@ export const receiveStyles = StyleSheet.create({
     justifyContent: 'center',
     lineHeight: normalize(40),
     paddingTop: normalize(10)
+  },
+  buttonStyle: {
+    marginTop: '1em'
   }
 })

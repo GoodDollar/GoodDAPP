@@ -1,18 +1,18 @@
 import React from 'react'
 import TabsView from '../TabsView'
-import Rewards from '../Rewards'
-import BuySell from '../BuySell'
+import Dashboard from '../../dashboard/Dashboard'
+import Profile from '../../profile/Profile'
 
 // Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer'
 
 describe('TabsView', () => {
   const routes = {
-    Rewards: {
-      screen: Rewards
+    Dashboard: {
+      screen: Dashboard
     },
-    BuySell: {
-      screen: BuySell
+    Profile: {
+      screen: Profile
     }
   }
 

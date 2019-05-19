@@ -1,0 +1,139 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EventIcon - Receive matches snapshot 1`] = `
+<div
+  className="css-view-1dbjc4n"
+  style={
+    Object {
+      "WebkitAlignItems": "center",
+      "WebkitBoxAlign": "center",
+      "WebkitBoxPack": "center",
+      "WebkitJustifyContent": "center",
+      "alignItems": "center",
+      "backgroundColor": "rgba(255,255,255,1.00)",
+      "borderBottomLeftRadius": "28px",
+      "borderBottomRightRadius": "28px",
+      "borderTopLeftRadius": "28px",
+      "borderTopRightRadius": "28px",
+      "height": "52px",
+      "justifyContent": "center",
+      "marginBottom": "7px",
+      "marginLeft": "7px",
+      "marginRight": "7px",
+      "marginTop": "7px",
+      "msFlexAlign": "center",
+      "msFlexPack": "center",
+      "width": "52px",
+    }
+  }
+>
+  <div
+    className="css-text-76zvg2"
+    dir="auto"
+    style={
+      Object {
+        "backgroundColor": "rgba(0,0,0,0.00)",
+        "color": "rgba(85,85,85,1.00)",
+        "fontFamily": "MaterialIcons",
+        "fontSize": "24px",
+        "fontStyle": "normal",
+        "fontWeight": "normal",
+      }
+    }
+  >
+    
+  </div>
+</div>
+`;
+
+exports[`EventIcon - Send matches snapshot 1`] = `
+<div
+  className="css-view-1dbjc4n"
+  style={
+    Object {
+      "WebkitAlignItems": "center",
+      "WebkitBoxAlign": "center",
+      "WebkitBoxPack": "center",
+      "WebkitJustifyContent": "center",
+      "alignItems": "center",
+      "backgroundColor": "rgba(255,255,255,1.00)",
+      "borderBottomLeftRadius": "28px",
+      "borderBottomRightRadius": "28px",
+      "borderTopLeftRadius": "28px",
+      "borderTopRightRadius": "28px",
+      "height": "52px",
+      "justifyContent": "center",
+      "marginBottom": "7px",
+      "marginLeft": "7px",
+      "marginRight": "7px",
+      "marginTop": "7px",
+      "msFlexAlign": "center",
+      "msFlexPack": "center",
+      "width": "52px",
+    }
+  }
+>
+  <div
+    className="css-text-76zvg2"
+    dir="auto"
+    style={
+      Object {
+        "backgroundColor": "rgba(0,0,0,0.00)",
+        "color": "rgba(85,85,85,1.00)",
+        "fontFamily": "MaterialIcons",
+        "fontSize": "24px",
+        "fontStyle": "normal",
+        "fontWeight": "normal",
+      }
+    }
+  >
+    
+  </div>
+</div>
+`;
+
+exports[`EventIcon - Withdraw matches snapshot 1`] = `
+<div
+  className="css-view-1dbjc4n"
+  style={
+    Object {
+      "WebkitAlignItems": "center",
+      "WebkitBoxAlign": "center",
+      "WebkitBoxPack": "center",
+      "WebkitJustifyContent": "center",
+      "alignItems": "center",
+      "backgroundColor": "rgba(255,255,255,1.00)",
+      "borderBottomLeftRadius": "28px",
+      "borderBottomRightRadius": "28px",
+      "borderTopLeftRadius": "28px",
+      "borderTopRightRadius": "28px",
+      "height": "52px",
+      "justifyContent": "center",
+      "marginBottom": "7px",
+      "marginLeft": "7px",
+      "marginRight": "7px",
+      "marginTop": "7px",
+      "msFlexAlign": "center",
+      "msFlexPack": "center",
+      "width": "52px",
+    }
+  }
+>
+  <div
+    className="css-text-76zvg2"
+    dir="auto"
+    style={
+      Object {
+        "backgroundColor": "rgba(0,0,0,0.00)",
+        "color": "rgba(85,85,85,1.00)",
+        "fontFamily": "MaterialIcons",
+        "fontSize": "24px",
+        "fontStyle": "normal",
+        "fontWeight": "normal",
+      }
+    }
+  >
+    
+  </div>
+</div>
+`;

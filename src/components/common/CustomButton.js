@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     ...fontStyle,
     fontWeight: 'bold',
     textTransform: 'uppercase',
-    padding: normalize(0)
+    padding: 0
   }
 })
 

@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, TouchableOpacity } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { Avatar, Text } from 'react-native-paper'
 
@@ -13,12 +13,12 @@ type Props = {
 const ScanQRButton = ({ onPress, ...screenProps }: Props) => {
   const { disabled, style = {} } = screenProps
   return (
-    <View style={[styles.row, style.row]} onClick={!disabled ? onPress : undefined}>
+    <TouchableOpacity style={[styles.row, style.row]} onPress={!disabled ? onPress : undefined}>
       <Avatar.Icon size={48} style={[styles.icon, style.icon]} icon="code" />
       <Text style={[styles.legendWrapper, style.legendWrapper]}>
         <Text style={[styles.legend, style.legend]}>Scan QR Code</Text>
       </Text>
-    </View>
+    </TouchableOpacity>
   )
 }
 

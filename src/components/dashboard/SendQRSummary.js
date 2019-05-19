@@ -1,6 +1,6 @@
 // @flow
 /**
- * @file Displays a summary when sending GD directly to a blockchain address
+ * @file Displays a summary when sending G$ directly to a blockchain address
  */
 import React, { useState, useEffect } from 'react'
 import { View } from 'react-native'
@@ -19,7 +19,7 @@ export type AmountProps = {
   navigation: any
 }
 
-const TITLE = 'Send GD'
+const TITLE = 'Send G$'
 
 const log = logger.child({ from: 'SendQRSummary' })
 
@@ -69,7 +69,7 @@ const SendQRSummary = (props: AmountProps) => {
         dialogData: {
           visible: true,
           title: 'SUCCESS!',
-          message: 'The GD was sent successfully',
+          message: 'The G$ was sent successfully',
           dismissText: 'Yay!',
           onDismiss: screenProps.goToRoot
         }
@@ -80,7 +80,7 @@ const SendQRSummary = (props: AmountProps) => {
   }
 
   /**
-   * continue after valid FR to send the GD
+   * continue after valid FR to send the G$
    */
   useEffect(() => {
     if (isValid === true) {

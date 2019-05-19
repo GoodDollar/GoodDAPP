@@ -67,7 +67,7 @@ class EmailForm extends React.Component<Props, State> {
         handleSubmit={this.handleSubmit}
         loading={this.props.store.get('currentScreen').loading}
       >
-        <Title>And which email address should we use to notify you?</Title>
+        <Title>And which email address should we use to notify you of important activity?</Title>
         <TextInput
           id={key + '_input'}
           value={this.state.email}

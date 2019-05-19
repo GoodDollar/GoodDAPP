@@ -60,7 +60,6 @@ const styles = StyleSheet.create({
   },
   linkButton: {
     color: '#555',
-    fontFamily: 'Helvetica, "sans-serif"',
     fontSize: normalize(18),
     textAlign: 'center',
     marginTop: normalize(10)

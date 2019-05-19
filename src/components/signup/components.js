@@ -87,6 +87,7 @@ const fontStyle = {
   fontSize: normalize(18),
   textAlign: 'center'
 }
+
 const styles = StyleSheet.create({
   buttonText: {
     ...fontStyle,
@@ -138,7 +139,7 @@ const styles = StyleSheet.create({
   },
   title: {
     ...fontStyle,
-    fontSize: normalize(28),
+    fontSize: normalize(24),
     marginBottom: normalize(30)
   },
   description: {

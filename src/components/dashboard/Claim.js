@@ -39,7 +39,7 @@ class Claim extends Component<ClaimProps, {}> {
         dialogData: {
           visible: true,
           title: 'Success',
-          message: `You've claimed your GD`,
+          message: `You've claimed your G$`,
           dismissText: 'YAY!',
           onDismiss: this.props.screenProps.goToRoot
         }
@@ -84,7 +84,7 @@ class Claim extends Component<ClaimProps, {}> {
         <Section>
           <Section.Row style={styles.centered}>
             <Section.Text>
-              <b>367K</b> PEOPLE CLAIMED <b>2.5M GD</b> TODAY!
+              <b>367K</b> PEOPLE CLAIMED <b>2.5M G$</b> TODAY!
             </Section.Text>
           </Section.Row>
         </Section>
@@ -116,6 +116,6 @@ const styles = StyleSheet.create({
 })
 
 const claim = GDStore.withStore(Claim)
-claim.navigationOptions = { title: 'Claim GD' }
+claim.navigationOptions = { title: 'Claim G$' }
 
 export default claim

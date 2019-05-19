@@ -13,15 +13,15 @@ exports[`ModalSendEvent matches snapshot 1`] = `
       "borderBottomColor": "rgba(201,200,201,1.00)",
       "borderBottomLeftRadius": "4px",
       "borderBottomRightRadius": "4px",
-      "borderBottomWidth": "2px",
+      "borderBottomWidth": "0px",
       "borderLeftColor": "rgba(201,200,201,1.00)",
       "borderLeftWidth": "10px",
       "borderRightColor": "rgba(201,200,201,1.00)",
-      "borderRightWidth": "2px",
+      "borderRightWidth": "0px",
       "borderTopColor": "rgba(201,200,201,1.00)",
       "borderTopLeftRadius": "4px",
       "borderTopRightRadius": "4px",
-      "borderTopWidth": "2px",
+      "borderTopWidth": "0px",
       "flexBasis": "0%",
       "flexGrow": 1,
       "flexShrink": 1,
@@ -82,7 +82,7 @@ exports[`ModalSendEvent matches snapshot 1`] = `
         }
       }
     >
-      Sent GD
+      Sent G$
     </div>
     <div
       className="css-view-1dbjc4n"
@@ -122,7 +122,7 @@ exports[`ModalSendEvent matches snapshot 1`] = `
           }
         }
       >
-        GD
+        G$
       </div>
     </div>
   </div>
@@ -130,7 +130,7 @@ exports[`ModalSendEvent matches snapshot 1`] = `
     className="css-text-76zvg2"
     dir="auto"
   >
-    4/1/2019
+    04/01/19 3:03 PM
   </div>
   <div
     className="css-view-1dbjc4n"
@@ -291,15 +291,29 @@ exports[`ModalSendEvent matches snapshot 1`] = `
     className="css-view-1dbjc4n"
     style={
       Object {
+        "WebkitAlignItems": "flex-end",
+        "WebkitBoxAlign": "end",
         "WebkitBoxDirection": "normal",
+        "WebkitBoxFlex": 1,
         "WebkitBoxOrient": "horizontal",
         "WebkitBoxPack": "justify",
+        "WebkitFlexBasis": "0%",
         "WebkitFlexDirection": "row",
+        "WebkitFlexGrow": 1,
+        "WebkitFlexShrink": 1,
         "WebkitJustifyContent": "space-between",
+        "alignItems": "flex-end",
+        "flexBasis": "0%",
         "flexDirection": "row",
+        "flexGrow": 1,
+        "flexShrink": 1,
         "justifyContent": "space-between",
+        "msFlexAlign": "end",
         "msFlexDirection": "row",
+        "msFlexNegative": 1,
         "msFlexPack": "justify",
+        "msFlexPositive": 1,
+        "msFlexPreferredSize": "0%",
       }
     }
   >
@@ -309,7 +323,7 @@ exports[`ModalSendEvent matches snapshot 1`] = `
         Object {
           "WebkitBoxPack": "center",
           "WebkitJustifyContent": "center",
-          "backgroundColor": "rgba(204,204,204,1.00)",
+          "backgroundColor": "rgba(85,85,85,1.00)",
           "borderBottomColor": "rgba(0,0,0,0.00)",
           "borderBottomLeftRadius": "4px",
           "borderBottomRightRadius": "4px",
@@ -326,10 +340,10 @@ exports[`ModalSendEvent matches snapshot 1`] = `
           "borderTopRightRadius": "4px",
           "borderTopStyle": "solid",
           "borderTopWidth": "0px",
-          "boxShadow": "0px 0px 0px rgba(0,0,0,0.24)",
+          "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
           "justifyContent": "center",
           "marginLeft": "auto",
-          "minWidth": "auto",
+          "minWidth": "80px",
           "msFlexPack": "center",
         }
       }
@@ -389,7 +403,7 @@ exports[`ModalSendEvent matches snapshot 1`] = `
             dir="auto"
             style={
               Object {
-                "color": "rgba(85,85,85,1.00)",
+                "color": "rgba(255,255,255,1.00)",
                 "direction": "ltr",
                 "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                 "letterSpacing": "1px",
@@ -407,7 +421,7 @@ exports[`ModalSendEvent matches snapshot 1`] = `
               style={
                 Object {
                   "direction": "ltr",
-                  "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                  "fontFamily": "Roboto",
                   "fontSize": "18px",
                   "fontWeight": "bold",
                   "paddingBottom": "0px",

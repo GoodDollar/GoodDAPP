@@ -67,14 +67,14 @@ exports[`SmsForm matches snapshot 1`] = `
           "color": "rgba(85,85,85,1.00)",
           "direction": "ltr",
           "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-          "fontSize": "28px",
+          "fontSize": "24px",
           "marginBottom": "30px",
           "textAlign": "center",
         }
       }
     >
-      Your verification code
-You've just received
+      Enter the verification code 
+ sent to your phone
     </div>
     <div
       className={false}

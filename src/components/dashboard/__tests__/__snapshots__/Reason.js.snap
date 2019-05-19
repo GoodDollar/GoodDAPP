@@ -75,10 +75,10 @@ exports[`Reason matches snapshot 1`] = `
             "WebkitJustifyContent": "flex-start",
             "justifyContent": "flex-start",
             "msFlexPack": "start",
-            "paddingBottom": "1rem",
-            "paddingLeft": "1rem",
-            "paddingRight": "1rem",
-            "paddingTop": "1rem",
+            "paddingBottom": "8px",
+            "paddingLeft": "8px",
+            "paddingRight": "8px",
+            "paddingTop": "8px",
             "width": "100%",
           }
         }
@@ -158,10 +158,18 @@ exports[`Reason matches snapshot 1`] = `
                 style={
                   Object {
                     "backgroundColor": "rgba(255,255,255,1.00)",
+                    "borderBottomColor": "rgba(112,112,112,1.00)",
                     "borderBottomLeftRadius": "17px",
                     "borderBottomRightRadius": "17px",
+                    "borderBottomWidth": "1px",
+                    "borderLeftColor": "rgba(112,112,112,1.00)",
+                    "borderLeftWidth": "1px",
+                    "borderRightColor": "rgba(112,112,112,1.00)",
+                    "borderRightWidth": "1px",
+                    "borderTopColor": "rgba(112,112,112,1.00)",
                     "borderTopLeftRadius": "17px",
                     "borderTopRightRadius": "17px",
+                    "borderTopWidth": "1px",
                     "height": "34px",
                     "width": "34px",
                   }
@@ -223,14 +231,12 @@ exports[`Reason matches snapshot 1`] = `
                   Object {
                     "color": "rgba(85,85,85,1.00)",
                     "direction": "ltr",
-                    "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                    "fontFamily": "Roboto",
                     "fontSize": "30px",
                     "textAlign": "right",
                   }
                 }
-              >
-                0.00
-              </div>
+              />
               <div
                 className="css-text-76zvg2"
                 dir="auto"
@@ -238,13 +244,13 @@ exports[`Reason matches snapshot 1`] = `
                   Object {
                     "color": "rgba(85,85,85,1.00)",
                     "direction": "ltr",
-                    "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                    "fontFamily": "Roboto",
                     "fontSize": "18px",
                     "textAlign": "right",
                   }
                 }
               >
-                GD
+                G$
               </div>
             </div>
           </div>
@@ -320,14 +326,15 @@ exports[`Reason matches snapshot 1`] = `
                 style={
                   Object {
                     "color": "rgba(85,85,85,1.00)",
-                    "fontSize": "18px",
+                    "fontFamily": "Roboto",
+                    "fontSize": "24px",
                     "marginBottom": "1rem",
                     "textAlign": "center",
                     "textTransform": "uppercase",
                   }
                 }
               >
-                For?
+                What For?
               </div>
               <div
                 className="css-view-1dbjc4n"
@@ -368,6 +375,7 @@ exports[`Reason matches snapshot 1`] = `
                   onKeyDown={[Function]}
                   onKeyPress={[Function]}
                   onSelect={[Function]}
+                  placeholder="Add a message"
                   readOnly={false}
                   spellCheck={true}
                   style={
@@ -620,7 +628,7 @@ exports[`Reason matches snapshot 1`] = `
                           Object {
                             "color": "rgba(255,255,255,1.00)",
                             "direction": "ltr",
-                            "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                            "fontFamily": "Roboto",
                             "fontSize": "18px",
                             "fontWeight": "bold",
                             "paddingBottom": "0px",

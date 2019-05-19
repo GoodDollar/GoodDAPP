@@ -19,7 +19,7 @@ const ModalSendEvent = ({ item: feed, onPress }: FeedEventProps) => {
       <View style={styles.row}>
         {feed.data.endpoint.title && <Text style={styles.leftTitle}>{feed.data.endpoint.title}</Text>}
         <Text style={styles.leftTitle}>
-          Sent GD
+          Sent G$
           {feed.data.endpoint.withdrawStatus && <Text> by link - {feed.data.endpoint.withdrawStatus}</Text>}
         </Text>
         <BigGoodDollar number={feed.data.amount} elementStyles={styles.currency} />

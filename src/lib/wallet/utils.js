@@ -28,7 +28,7 @@ export const gdToWei = (gd: number): number => (gd * Math.pow(10, DECIMALS)).toF
 
 const getComposedSettings = (settings?: {} = {}): {} => {
   const { showUnits, ...restSettings } = settings
-  const customSettings = { suffixUnit: showUnits ? ' GD' : undefined }
+  const customSettings = { suffixUnit: showUnits ? ' G$' : undefined }
   return { ...maskSettings, ...restSettings, ...customSettings }
 }
 

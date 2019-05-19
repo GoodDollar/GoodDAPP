@@ -88,7 +88,7 @@ exports[`ModalReceiveEvent matches snapshot 1`] = `
         }
       }
     >
-      Received GD
+      Received G$
     </div>
     <div
       className="css-view-1dbjc4n"

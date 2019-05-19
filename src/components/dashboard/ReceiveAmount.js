@@ -17,7 +17,7 @@ export type ReceiveProps = {
   navigation: any
 }
 
-const RECEIVE_TITLE = 'Receive GD'
+const RECEIVE_TITLE = 'Receive G$'
 
 const ReceiveAmount = ({ screenProps }: ReceiveProps) => {
   const { account, networkId } = goodWallet

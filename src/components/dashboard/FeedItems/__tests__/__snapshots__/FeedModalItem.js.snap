@@ -121,7 +121,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
             }
           }
         >
-          Sent GD
+          Sent G$
         </div>
         <div
           className="css-view-1dbjc4n"
@@ -682,7 +682,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
             }
           }
         >
-          Received GD
+          Received G$
         </div>
         <div
           className="css-view-1dbjc4n"

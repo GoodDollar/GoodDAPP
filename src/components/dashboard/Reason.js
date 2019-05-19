@@ -13,7 +13,7 @@ export type AmountProps = {
   navigation: any
 }
 
-const TITLE = 'Send GD'
+const TITLE = 'Send G$'
 
 const SendReason = (props: AmountProps) => {
   const { screenProps } = props

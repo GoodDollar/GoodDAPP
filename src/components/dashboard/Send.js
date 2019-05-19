@@ -14,7 +14,7 @@ import goodWallet from '../../lib/wallet/GoodWallet'
 import { CustomButton, IconButton, Section, TopBar, Wrapper } from '../common'
 import { routeAndPathForCode } from './utils/routeAndPathForCode'
 
-const SEND_TITLE = 'Send GD'
+const SEND_TITLE = 'Send G$'
 
 const log = logger.child({ from: SEND_TITLE })
 

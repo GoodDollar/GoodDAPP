@@ -20,7 +20,7 @@ const FeedModalItem = (props: FeedEventProps) => (
         <View style={[styles.row, styles.title]}>
           {props.item.data.endpoint.title && <Text style={styles.leftTitle}>{props.item.data.endpoint.title}</Text>}
           <Text style={styles.leftTitle}>
-            {props.item.type !== 'send' ? 'Received GD' : 'Sent GD'}
+            {props.item.type !== 'send' ? 'Received G$' : 'Sent G$'}
             {props.item.type === 'send' && props.item.data.endpoint.withdrawStatus && (
               <Text> by link - {props.item.data.endpoint.withdrawStatus}</Text>
             )}

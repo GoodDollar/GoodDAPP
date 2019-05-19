@@ -56,7 +56,7 @@ const Receive = ({ screenProps }: ReceiveProps) => {
             <QRCode value={code} />
           </View>
           <View style={styles.addressSection}>
-            <Section.Text style={styles.secondaryText}>Your GD wallet address:</Section.Text>
+            <Section.Text style={styles.secondaryText}>Your G$ wallet address:</Section.Text>
             <Section.Title style={styles.address}>
               <Address value={account} />
             </Section.Title>

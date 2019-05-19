@@ -28,7 +28,7 @@ describe('readReceiveLink', () => {
     expect(result).toBeNull()
   })
 
-  it(`should fail if reason is missing in GD URL`, () => {
+  it(`should fail if reason is missing in G$ URL`, () => {
     // Given
     const url = `${Config.publicUrl}/AppNavigation/Dashboard?receiveLink=0a1b2c3d4e5f6a7b8c9d`
 
@@ -39,7 +39,7 @@ describe('readReceiveLink', () => {
     expect(result).toBeNull()
   })
 
-  it(`should fail if receiveLink is missing in GD URL`, () => {
+  it(`should fail if receiveLink is missing in G$ URL`, () => {
     // Given
     const url = `${Config.publicUrl}/AppNavigation/Dashboard?reason=pizzas`
 
@@ -50,7 +50,7 @@ describe('readReceiveLink', () => {
     expect(result).toBeNull()
   })
 
-  it(`should fail if URL host is not GD Wallet's host`, () => {
+  it(`should fail if URL host is not G$ Wallet's host`, () => {
     // Given
     const url = `https://example.com/AppNavigation/Dashboard?receiveLink=0a1b2c3d4e5f6a7b8c9d&reason=pizzas`
 

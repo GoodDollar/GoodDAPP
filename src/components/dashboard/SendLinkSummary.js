@@ -19,7 +19,7 @@ export type AmountProps = {
   navigation: any
 }
 
-const TITLE = 'Send GD'
+const TITLE = 'Send G$'
 
 const SendLinkSummary = (props: AmountProps) => {
   const { screenProps } = props

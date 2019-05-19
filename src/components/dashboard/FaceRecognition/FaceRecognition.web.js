@@ -193,7 +193,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
               style={styles.mainTitle}
             >{`${fullName}, Just one more thing before we can get started...`}</Section.Title>
             <Section.Text style={styles.description}>
-              {`Since it's your first time sending GD, we need to make sure it's really
+              {`Since it's your first time sending G$, we need to make sure it's really
               you and prevent other people from creating multiple accounts.`}
             </Section.Text>
           </View>

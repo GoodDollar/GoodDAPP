@@ -19,7 +19,7 @@ const ModalReceiveEvent = ({ item: feed, onPress }: FeedEventProps) => {
       <Text>{getFormattedDateTime(feed.date)}</Text>
       <View style={styles.row}>
         {feed.data.endpoint.title && <Text style={styles.leftTitle}>{feed.data.endpoint.title}</Text>}
-        <Text style={styles.leftTitle}>Received GD</Text>
+        <Text style={styles.leftTitle}>Received G$</Text>
         <BigGoodDollar number={feed.data.amount} elementStyles={styles.currency} />
       </View>
       <View style={styles.hrLine} />

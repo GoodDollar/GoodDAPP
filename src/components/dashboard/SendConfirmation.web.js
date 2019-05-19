@@ -20,7 +20,7 @@ export type ReceiveProps = {
   navigation: any
 }
 
-const SEND_TITLE = 'Send GD'
+const SEND_TITLE = 'Send G$'
 const log = logger.child({ from: SEND_TITLE })
 
 const SendConfirmation = ({ screenProps }: ReceiveProps) => {

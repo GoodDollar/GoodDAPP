@@ -112,12 +112,13 @@ class FeedList extends PureComponent<FeedListProps, FeedListState> {
     return horizontal ? <FeedModalItem {...itemProps} /> : <FeedListItem {...itemProps} />
   }
 
-  renderList = (feeds: any) => {
+  renderList = (feeds: any, loading: boolean) => {
     const { fixedHeight, onEndReached, initialNumToRender, horizontal } = this.props
 
     if (horizontal) {
       return (
         <View style={styles.horizontalContainer}>
+          {loading ? <ActivityIndicator style={styles.loading} animating={true} color="gray" size="large" /> : null}
           <AnimatedFlatList
             initialNumToRender={5}
             ItemSeparatorComponent={ItemSeparatorComponent}
@@ -142,6 +143,7 @@ class FeedList extends PureComponent<FeedListProps, FeedListState> {
     } else {
       return (
         <View style={styles.verticalContainer}>
+          {loading ? <ActivityIndicator style={styles.loading} animating={true} color="gray" size="large" /> : null}
           <AnimatedSwipeableFlatList
             bounceFirstRowOnMount={true}
             maxSwipeDistance={160}
@@ -173,7 +175,7 @@ class FeedList extends PureComponent<FeedListProps, FeedListState> {
     const feeds = data && data instanceof Array && data.length ? data : undefined
     const { loading } = this.props.store.get('currentScreen')
     return feeds ? (
-      this.renderList(feeds)
+      this.renderList(feeds, loading)
     ) : (
       <View style={styles.verticalContainer}>
         {loading ? (
@@ -196,6 +198,9 @@ export class ItemSeparatorComponent extends PureComponent<ItemSeparatorComponent
 }
 
 const styles = StyleSheet.create({
+  loading: {
+    marginTop: normalize(10)
+  },
   horizontalContainer: {
     backgroundColor: 'rgba(0, 0, 0, 0.7)',
     flex: 1,

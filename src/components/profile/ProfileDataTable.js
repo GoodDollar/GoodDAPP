@@ -1,17 +1,18 @@
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
-import { FormInput, Icon } from 'react-native-elements'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
+import { StyleSheet, View, TextInput } from 'react-native'
+import { Icon, normalize } from 'react-native-elements'
 import { HelperText } from 'react-native-paper'
 import PhoneInput from 'react-phone-number-input'
-import 'react-phone-number-input/style.css'
+import './ProfileDataTablePhoneInput.css'
+import { getScreenWidth } from '../../lib/utils/Orientation'
 
 import logger from '../../lib/logger/pino-logger'
 import './PhoneInput.css'
 
+logger.info('width', { width: getScreenWidth() })
 const ProfileInput = props => (
   <View style={styles.inputWrapper}>
-    <FormInput {...props} inputStyle={styles.textInput} placeholderTextColor="rgba(85, 85, 85, 0.3)" />
+    <TextInput {...props} style={styles.textInput} />
     <HelperText type="error" visible={props.error} style={styles.error}>
       {props.error}
     </HelperText>
@@ -25,7 +26,7 @@ const ProfileDataTable = props => {
     <View style={styles.table}>
       <View style={styles.tableRow}>
         <ProfileInput
-          placeholder="choose a Username"
+          placeholder="Choose a Username"
           value={profile.username}
           onChange={value => onChange({ ...profile, username: value.target.value })}
           error={errors.username}
@@ -62,20 +63,20 @@ const ProfileDataTable = props => {
 
 const styles = StyleSheet.create({
   table: {
-    margin: '3em',
-    marginTop: '5em',
+    margin: normalize(getScreenWidth() > 350 ? 20 : 5),
+    marginTop: normalize(20),
     borderTopStyle: 'solid',
     borderTopColor: '#d2d2d2',
-    borderTopWidth: '1px'
+    borderTopWidth: StyleSheet.hairlineWidth
   },
   tableRow: {
-    paddingBottom: '0.5em',
-    paddingTop: '0.5em',
+    paddingBottom: normalize(5),
+    paddingTop: normalize(5),
     alignItems: 'center',
     flexDirection: 'row',
     borderBottomStyle: 'solid',
     borderBottomColor: '#d2d2d2',
-    borderBottomWidth: '1px'
+    borderBottomWidth: StyleSheet.hairlineWidth
   },
   tableRowInput: {
     flex: 1,
@@ -84,16 +85,17 @@ const styles = StyleSheet.create({
   },
   inputWrapper: {
     flex: 1,
-    marginLeft: '0.2em',
-    paddingRight: '12px'
+    marginLeft: normalize(1),
+    paddingRight: normalize(5)
   },
   textInput: {
-    height: '30px',
-    backgroundColor: 'transparent',
-    borderWidth: '0px',
+    height: normalize(30),
+    backgroundColor: 'rgba(0,0,0,0)',
+    borderWidth: 0,
     fontSize: normalize(16),
     textAlign: 'left',
-    color: '#555555'
+    color: '#555555',
+    outline: 'none'
   },
   error: {
     paddingRight: 0,

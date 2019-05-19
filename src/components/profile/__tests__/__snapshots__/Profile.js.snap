@@ -1128,7 +1128,8 @@ Array [
                           "borderBottomRightRadius": "5px",
                           "borderTopLeftRadius": "5px",
                           "borderTopRightRadius": "5px",
-                          "marginBottom": "15px",
+                          "marginBottom": "auto",
+                          "minHeight": "100%",
                           "paddingBottom": "15px",
                           "paddingLeft": "1em",
                           "paddingRight": "1em",
@@ -1243,12 +1244,12 @@ Array [
                               "flexGrow": 1,
                               "flexShrink": 1,
                               "justifyContent": "center",
+                              "marginTop": "50px",
                               "msFlexDirection": "row",
                               "msFlexNegative": 1,
                               "msFlexPack": "center",
                               "msFlexPositive": 1,
                               "msFlexPreferredSize": "0%",
-                              "top": "50px",
                             }
                           }
                         >
@@ -1451,10 +1452,10 @@ Array [
                             "borderTopColor": "rgba(210,210,210,1.00)",
                             "borderTopStyle": "solid",
                             "borderTopWidth": "1px",
-                            "marginBottom": "3em",
-                            "marginLeft": "3em",
-                            "marginRight": "3em",
-                            "marginTop": "5em",
+                            "marginBottom": "5px",
+                            "marginLeft": "5px",
+                            "marginRight": "5px",
+                            "marginTop": "20px",
                           }
                         }
                       >
@@ -1474,8 +1475,8 @@ Array [
                               "flexDirection": "row",
                               "msFlexAlign": "center",
                               "msFlexDirection": "row",
-                              "paddingBottom": "0.5em",
-                              "paddingTop": "0.5em",
+                              "paddingBottom": "5px",
+                              "paddingTop": "5px",
                             }
                           }
                         >
@@ -1490,59 +1491,47 @@ Array [
                                 "flexBasis": "0%",
                                 "flexGrow": 1,
                                 "flexShrink": 1,
-                                "marginLeft": "0.2em",
+                                "marginLeft": "1px",
                                 "msFlexNegative": 1,
                                 "msFlexPositive": 1,
                                 "msFlexPreferredSize": "0%",
-                                "paddingRight": "12px",
+                                "paddingRight": "5px",
                               }
                             }
                           >
-                            <div
-                              className="css-view-1dbjc4n"
+                            <input
+                              aria-disabled={true}
+                              autoCapitalize="sentences"
+                              autoComplete="on"
+                              autoCorrect="on"
+                              className="css-textinput-1cwyjr8"
+                              dir="auto"
+                              disabled={true}
+                              onBlur={[Function]}
+                              onChange={[Function]}
+                              onFocus={[Function]}
+                              onKeyDown={[Function]}
+                              onKeyPress={[Function]}
+                              onSelect={[Function]}
+                              placeholder="Choose a Username"
+                              readOnly={false}
+                              spellCheck={true}
                               style={
                                 Object {
-                                  "WebkitTransform": "translateX(0px)",
-                                  "marginLeft": "15px",
-                                  "marginRight": "15px",
-                                  "transform": "translateX(0px)",
+                                  "backgroundColor": "rgba(0,0,0,0.00)",
+                                  "borderBottomWidth": "0px",
+                                  "borderLeftWidth": "0px",
+                                  "borderRightWidth": "0px",
+                                  "borderTopWidth": "0px",
+                                  "color": "rgba(85,85,85,1.00)",
+                                  "fontSize": "16px",
+                                  "height": "30px",
+                                  "textAlign": "left",
                                 }
                               }
-                            >
-                              <input
-                                aria-disabled={true}
-                                autoCapitalize="sentences"
-                                autoComplete="on"
-                                autoCorrect="on"
-                                className="css-textinput-1cwyjr8 r-placeholderTextColor-1x7zpd"
-                                dir="auto"
-                                disabled={true}
-                                onBlur={[Function]}
-                                onChange={[Function]}
-                                onFocus={[Function]}
-                                onKeyDown={[Function]}
-                                onKeyPress={[Function]}
-                                onSelect={[Function]}
-                                placeholder="choose a Username"
-                                readOnly={false}
-                                spellCheck={true}
-                                style={
-                                  Object {
-                                    "backgroundColor": "rgba(0,0,0,0.00)",
-                                    "borderBottomWidth": "0px",
-                                    "borderLeftWidth": "0px",
-                                    "borderRightWidth": "0px",
-                                    "borderTopWidth": "0px",
-                                    "color": "rgba(85,85,85,1.00)",
-                                    "fontSize": "16px",
-                                    "height": "30px",
-                                    "textAlign": "left",
-                                  }
-                                }
-                                tabIndex="-1"
-                                type="text"
-                              />
-                            </div>
+                              tabIndex="-1"
+                              type="text"
+                            />
                             <div
                               className="css-text-76zvg2"
                               dir="auto"
@@ -1614,8 +1603,8 @@ Array [
                               "flexDirection": "row",
                               "msFlexAlign": "center",
                               "msFlexDirection": "row",
-                              "paddingBottom": "0.5em",
-                              "paddingTop": "0.5em",
+                              "paddingBottom": "5px",
+                              "paddingTop": "5px",
                             }
                           }
                         >
@@ -1630,58 +1619,46 @@ Array [
                                 "flexBasis": "0%",
                                 "flexGrow": 1,
                                 "flexShrink": 1,
-                                "marginLeft": "0.2em",
+                                "marginLeft": "1px",
                                 "msFlexNegative": 1,
                                 "msFlexPositive": 1,
                                 "msFlexPreferredSize": "0%",
-                                "paddingRight": "12px",
+                                "paddingRight": "5px",
                               }
                             }
                           >
-                            <div
-                              className="css-view-1dbjc4n"
+                            <input
+                              aria-disabled={true}
+                              autoCapitalize="sentences"
+                              autoComplete="on"
+                              autoCorrect="on"
+                              className="css-textinput-1cwyjr8"
+                              dir="auto"
+                              disabled={true}
+                              onBlur={[Function]}
+                              onChange={[Function]}
+                              onFocus={[Function]}
+                              onKeyDown={[Function]}
+                              onKeyPress={[Function]}
+                              onSelect={[Function]}
+                              readOnly={false}
+                              spellCheck={true}
                               style={
                                 Object {
-                                  "WebkitTransform": "translateX(0px)",
-                                  "marginLeft": "15px",
-                                  "marginRight": "15px",
-                                  "transform": "translateX(0px)",
+                                  "backgroundColor": "rgba(0,0,0,0.00)",
+                                  "borderBottomWidth": "0px",
+                                  "borderLeftWidth": "0px",
+                                  "borderRightWidth": "0px",
+                                  "borderTopWidth": "0px",
+                                  "color": "rgba(85,85,85,1.00)",
+                                  "fontSize": "16px",
+                                  "height": "30px",
+                                  "textAlign": "left",
                                 }
                               }
-                            >
-                              <input
-                                aria-disabled={true}
-                                autoCapitalize="sentences"
-                                autoComplete="on"
-                                autoCorrect="on"
-                                className="css-textinput-1cwyjr8 r-placeholderTextColor-1x7zpd"
-                                dir="auto"
-                                disabled={true}
-                                onBlur={[Function]}
-                                onChange={[Function]}
-                                onFocus={[Function]}
-                                onKeyDown={[Function]}
-                                onKeyPress={[Function]}
-                                onSelect={[Function]}
-                                readOnly={false}
-                                spellCheck={true}
-                                style={
-                                  Object {
-                                    "backgroundColor": "rgba(0,0,0,0.00)",
-                                    "borderBottomWidth": "0px",
-                                    "borderLeftWidth": "0px",
-                                    "borderRightWidth": "0px",
-                                    "borderTopWidth": "0px",
-                                    "color": "rgba(85,85,85,1.00)",
-                                    "fontSize": "16px",
-                                    "height": "30px",
-                                    "textAlign": "left",
-                                  }
-                                }
-                                tabIndex="-1"
-                                type="text"
-                              />
-                            </div>
+                              tabIndex="-1"
+                              type="text"
+                            />
                             <div
                               className="css-text-76zvg2"
                               dir="auto"
@@ -1753,8 +1730,8 @@ Array [
                               "flexDirection": "row",
                               "msFlexAlign": "center",
                               "msFlexDirection": "row",
-                              "paddingBottom": "0.5em",
-                              "paddingTop": "0.5em",
+                              "paddingBottom": "5px",
+                              "paddingTop": "5px",
                             }
                           }
                         >
@@ -1769,58 +1746,46 @@ Array [
                                 "flexBasis": "0%",
                                 "flexGrow": 1,
                                 "flexShrink": 1,
-                                "marginLeft": "0.2em",
+                                "marginLeft": "1px",
                                 "msFlexNegative": 1,
                                 "msFlexPositive": 1,
                                 "msFlexPreferredSize": "0%",
-                                "paddingRight": "12px",
+                                "paddingRight": "5px",
                               }
                             }
                           >
-                            <div
-                              className="css-view-1dbjc4n"
+                            <input
+                              aria-disabled={true}
+                              autoCapitalize="sentences"
+                              autoComplete="on"
+                              autoCorrect="on"
+                              className="css-textinput-1cwyjr8"
+                              dir="auto"
+                              disabled={true}
+                              onBlur={[Function]}
+                              onChange={[Function]}
+                              onFocus={[Function]}
+                              onKeyDown={[Function]}
+                              onKeyPress={[Function]}
+                              onSelect={[Function]}
+                              readOnly={false}
+                              spellCheck={true}
                               style={
                                 Object {
-                                  "WebkitTransform": "translateX(0px)",
-                                  "marginLeft": "15px",
-                                  "marginRight": "15px",
-                                  "transform": "translateX(0px)",
+                                  "backgroundColor": "rgba(0,0,0,0.00)",
+                                  "borderBottomWidth": "0px",
+                                  "borderLeftWidth": "0px",
+                                  "borderRightWidth": "0px",
+                                  "borderTopWidth": "0px",
+                                  "color": "rgba(85,85,85,1.00)",
+                                  "fontSize": "16px",
+                                  "height": "30px",
+                                  "textAlign": "left",
                                 }
                               }
-                            >
-                              <input
-                                aria-disabled={true}
-                                autoCapitalize="sentences"
-                                autoComplete="on"
-                                autoCorrect="on"
-                                className="css-textinput-1cwyjr8 r-placeholderTextColor-1x7zpd"
-                                dir="auto"
-                                disabled={true}
-                                onBlur={[Function]}
-                                onChange={[Function]}
-                                onFocus={[Function]}
-                                onKeyDown={[Function]}
-                                onKeyPress={[Function]}
-                                onSelect={[Function]}
-                                readOnly={false}
-                                spellCheck={true}
-                                style={
-                                  Object {
-                                    "backgroundColor": "rgba(0,0,0,0.00)",
-                                    "borderBottomWidth": "0px",
-                                    "borderLeftWidth": "0px",
-                                    "borderRightWidth": "0px",
-                                    "borderTopWidth": "0px",
-                                    "color": "rgba(85,85,85,1.00)",
-                                    "fontSize": "16px",
-                                    "height": "30px",
-                                    "textAlign": "left",
-                                  }
-                                }
-                                tabIndex="-1"
-                                type="text"
-                              />
-                            </div>
+                              tabIndex="-1"
+                              type="text"
+                            />
                             <div
                               className="css-text-76zvg2"
                               dir="auto"

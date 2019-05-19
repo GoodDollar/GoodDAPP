@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react'
-import { Image, StyleSheet, View } from 'react-native'
+import { Image, StyleSheet, View, Text } from 'react-native'
 import { normalize } from 'react-native-elements'
 import type { Store } from 'undux'
 import goodWallet from '../../lib/wallet/GoodWallet'
@@ -60,10 +60,11 @@ class Claim extends Component<ClaimProps, {}> {
       <CustomButton
         // disabled={entitlement <= 0 && this.state.isCitizen}
         mode="contained"
+        compact={true}
         onPress={async () => {
           ;(await goodWallet.isCitizen()) ? this.handleClaim() : this.faceRecognition()
         }}
-        style={{ flex: 2 }}
+        style={styles.claimButton}
         loading={this.state.loading}
       >
         {`CLAIM YOUR SHARE - ${weiToMask(entitlement, { showUnits: true })}`}
@@ -73,13 +74,12 @@ class Claim extends Component<ClaimProps, {}> {
     return (
       <Wrapper>
         <TopBar push={screenProps.push} />
-        <Section>
-          <Section.Title>GoodDollar is a good economy, each day you can collect your part in the economy</Section.Title>
-          <Section.Row style={styles.centered}>
-            <Section.Text>{`TODAY'S DAILY INCOME `}</Section.Text>
-            <BigGoodDollar number={entitlement} />
-          </Section.Row>
-          <Image style={styles.graph} source={require('./graph.png')} />
+        <Section style={styles.mainContent}>
+          <Section.Text>GoodDollar allows you to collect</Section.Text>
+          <Section.Text>
+            <Text>G$s</Text>
+            <Text style={styles.everyDay}> every day</Text>
+          </Section.Text>
         </Section>
         <Section>
           <Section.Row style={styles.centered}>
@@ -106,28 +106,13 @@ class Claim extends Component<ClaimProps, {}> {
 }
 
 const styles = StyleSheet.create({
-  buttonLayout: {
-    marginTop: 30,
-    padding: 10
-  },
-  buttonText: {
-    fontSize: normalize(16),
-    color: 'white',
-    fontWeight: 'bold'
-  },
-  signUpButton: {
-    backgroundColor: '#555555'
-  },
+  claimButton: { flexGrow: 0, flexShrink: 1 },
   centered: {
     justifyContent: 'center',
     alignItems: 'baseline'
   },
-  graph: {
-    width: '323px',
-    maxWidth: '100%',
-    height: '132px',
-    alignSelf: 'center'
-  }
+  mainContent: { flexGrow: 1, justifyContent: 'center', backgroundColor: 'none' },
+  everyDay: { fontSize: normalize(20) }
 })
 
 const claim = GDStore.withStore(Claim)

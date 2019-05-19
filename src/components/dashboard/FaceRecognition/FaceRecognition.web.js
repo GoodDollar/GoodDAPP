@@ -107,6 +107,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
 
   performFaceRecognition = async (captureResult: ZoomCaptureResult) => {
     log.info({ captureResult })
+    if (!captureResult) this.onFaceRecognitionFailure({ error: 'Failed to cature user' })
     this.setState({ showZoomCapture: false, loadingFaceRecognition: true, loadingText: 'Analyzing Face Recognition..' })
     let req = await this.createFaceRecognitionReq(captureResult)
     log.debug({ req })
@@ -158,9 +159,12 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     }
   }
 
-  onFaceRecognitionFailure = (result: FaceRecognitionResponse) => {
+  onFaceRecognitionFailure = (result: FaceRecognitionResponse & { error: string }) => {
+    this.setState({ loadingFaceRecognition: false, loadingText: '', showZoomCapture: false })
     log.warn('user did not pass Face Recognition', result)
     let reason = ''
+    if (!result) reason = 'General Error'
+    if (result.error) reason = result.error
     if (result.livenessPassed === false) reason = 'Liveness Failed'
     else if (result.isDuplicate) reason = 'Face Already Exist'
     else reason = 'Enrollment Failed'
@@ -230,7 +234,9 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
             <Section style={styles.bottomSection}>
               <div id="zoom-parent-container" style={getVideoContainerStyles()}>
                 <div id="zoom-interface-container" style={{ position: 'absolute' }} />
-                {this.state.ready && <Camera height={this.height} onLoad={this.onCameraLoad} />}
+                {this.state.ready && (
+                  <Camera height={this.height} onLoad={this.onCameraLoad} onError={this.onFaceRecognitionFailure} />
+                )}
               </div>
             </Section>
           </View>

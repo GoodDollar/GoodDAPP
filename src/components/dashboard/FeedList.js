@@ -63,8 +63,6 @@ type ItemComponentProps = {
   index: number
 }
 
-type ItemSeparatorComponentProps = { highlighted: boolean }
-
 class FeedList extends PureComponent<FeedListProps, FeedListState> {
   state = {
     debug: false,
@@ -120,7 +118,6 @@ class FeedList extends PureComponent<FeedListProps, FeedListState> {
         <View style={styles.horizontalContainer}>
           <AnimatedFlatList
             initialNumToRender={5}
-            ItemSeparatorComponent={ItemSeparatorComponent}
             data={feeds}
             getItemLayout={fixedHeight ? this.getItemLayout : undefined}
             horizontal={horizontal}
@@ -146,7 +143,6 @@ class FeedList extends PureComponent<FeedListProps, FeedListState> {
             bounceFirstRowOnMount={true}
             maxSwipeDistance={160}
             initialNumToRender={initialNumToRender || 10}
-            ItemSeparatorComponent={ItemSeparatorComponent}
             data={feeds}
             getItemLayout={fixedHeight ? this.getItemLayout : undefined}
             horizontal={horizontal}
@@ -183,15 +179,6 @@ class FeedList extends PureComponent<FeedListProps, FeedListState> {
         )}
       </View>
     )
-  }
-}
-
-export class ItemSeparatorComponent extends PureComponent<ItemSeparatorComponentProps> {
-  render() {
-    const style = this.props.highlighted
-      ? [styles.itemSeparator, { marginLeft: 0, backgroundColor: '#d9d9d9' }]
-      : styles.itemSeparator
-    return <View style={style} />
   }
 }
 

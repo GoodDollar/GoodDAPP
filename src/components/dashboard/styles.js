@@ -7,7 +7,7 @@ export const receiveStyles = StyleSheet.create({
   wrapper: {
     justifyContent: 'flex-start',
     width: '100%',
-    padding: '1rem'
+    padding: normalize(8)
   },
   section: {
     flex: 1
@@ -32,13 +32,20 @@ export const receiveStyles = StyleSheet.create({
   },
   secondaryText: {
     margin: '1rem',
-    color: '#A2A2A2',
+    color: '#555555',
+    fontSize: normalize(14),
     textTransform: 'uppercase'
+  },
+  lowerSecondaryText: {
+    margin: '1rem',
+    color: '#555555',
+    fontSize: normalize(16)
   },
   headline: {
     ...fontStyle,
     textTransform: 'uppercase',
-    marginBottom: '1rem'
+    marginBottom: '1rem',
+    fontSize: normalize(24)
   },
   buttonGroup: {
     width: '100%',
@@ -73,8 +80,16 @@ export const receiveStyles = StyleSheet.create({
     whiteSpace: 'normal',
     flexShrink: 1,
     flexGrow: 1,
-    maxWidth: '50%',
     textAlign: 'right'
+  },
+  fullWidth: {
+    width: '100%'
+  },
+  doneButton: {
+    marginTop: '1rem'
+  },
+  shareQRButton: {
+    marginHorizontal: normalize(10)
   },
   amountSuffix: {
     flexGrow: 1,

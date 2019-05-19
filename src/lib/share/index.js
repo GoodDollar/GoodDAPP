@@ -49,7 +49,7 @@ export function readCode(code: string) {
  * Parses the read ReceiveGDLink from QR Code.
  * If not valid, returns null.
  * If valid, returns the ReceiveGDLink.
- * @param {string} link - receive GD Link
+ * @param {string} link - receive G$ Link
  * @returns {string|null} - {link|null}
  */
 export function readReceiveLink(link: string) {
@@ -92,8 +92,8 @@ type ShareObject = {
  */
 export function generateShareObject(url: string): ShareObject {
   return {
-    title: 'Sending GD via Good Dollar App',
-    text: 'You got GD. To withdraw open:',
+    title: 'Sending G$ via Good Dollar App',
+    text: 'You got G$. To withdraw open:',
     url
   }
 }

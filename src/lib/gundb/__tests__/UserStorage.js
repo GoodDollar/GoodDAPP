@@ -105,7 +105,7 @@ describe('UserStorage', () => {
     expect(res).toEqual('z123')
   })
 
-  describe('gets profile name and avatar from value', async () => {
+  describe('gets profile name and avatar from value', () => {
     beforeAll(async () => {
       await addUser({
         identifier: 'abcdef',
@@ -142,7 +142,7 @@ describe('UserStorage', () => {
     })
   })
 
-  // describe('generates standarised feed from events', async () => {
+  // describe('generates standarised feed from events', () => {
   //   beforeAll(async () => {
   //     await addUser({
   //       identifier: 'abcdef',
@@ -502,7 +502,7 @@ describe('UserStorage', () => {
     expect(updatedUsernameOk).toBe('user3')
   })
 
-  describe('getReceiveDataFromReceipt', async () => {
+  describe('getReceiveDataFromReceipt', () => {
     it('get Transfer data from logs', async () => {
       const receipt = {
         logs: [

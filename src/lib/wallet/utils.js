@@ -15,7 +15,10 @@ const maskSettings = {
  * @param {number} wei
  * @returns {number}
  */
-export const weiToGd = (wei: number): number => (wei * Math.pow(0.1, DECIMALS)).toFixed(DECIMALS)
+export const weiToGd = (wei: number): number => {
+  const withDecimals = wei * Math.pow(0.1, DECIMALS)
+  return withDecimals > 0 ? withDecimals.toFixed(DECIMALS) : null
+}
 /**
  * convert gooddollars to wei (0 decimals) use toFixed to overcome javascript precision issues ie 8.95*Math.pow(0.1,2)=8.9500000001
  * @param {number} gd
@@ -25,12 +28,12 @@ export const gdToWei = (gd: number): number => (gd * Math.pow(10, DECIMALS)).toF
 
 const getComposedSettings = (settings?: {} = {}): {} => {
   const { showUnits, ...restSettings } = settings
-  const customSettings = { suffixUnit: showUnits ? ' GD' : undefined }
+  const customSettings = { suffixUnit: showUnits ? ' G$' : undefined }
   return { ...maskSettings, ...restSettings, ...customSettings }
 }
 
-export const toMask = (gd: number, settings?: {}): string => {
-  return MaskService.toMask('money', gd, getComposedSettings(settings))
+export const toMask = (gd?: number, settings?: {}): string => {
+  return gd ? MaskService.toMask('money', gd, getComposedSettings(settings)) : null
 }
 export const toRawValue = (masked: string, settings?: {}): number =>
   MaskService.toRawValue('money', masked, getComposedSettings(settings))

@@ -14,7 +14,7 @@ export type AmountProps = {
   navigation: any
 }
 
-const RECEIVE_TITLE = 'Receive GD'
+const RECEIVE_TITLE = 'Receive G$'
 const log = logger.child({ from: RECEIVE_TITLE })
 
 const Amount = (props: AmountProps) => {
@@ -29,7 +29,7 @@ const Amount = (props: AmountProps) => {
 
     if (!(await goodWallet.canSend(amount))) {
       showDialogWithData({
-        title: 'Cannot send GD',
+        title: 'Cannot send G$',
         message: 'Amount is bigger than balance'
       })
       return false
@@ -48,7 +48,6 @@ const Amount = (props: AmountProps) => {
               <Text style={styles.amountInputWrapper}>
                 <InputGoodDollar autoFocus wei={amount} onChangeWei={handleAmountChange} style={styles.amountInput} />
               </Text>
-              <Text style={styles.amountSuffix}>GD</Text>
             </View>
           </View>
           <View style={styles.buttonGroup}>

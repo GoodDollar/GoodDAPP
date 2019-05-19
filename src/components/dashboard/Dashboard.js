@@ -187,7 +187,7 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
                 <Text style={[styles.buttonText]}>Claim</Text>
                 <br />
                 <Text style={[styles.buttonText, styles.grayedOutText]}>
-                  {weiToMask(entitlement, { showUnits: true })}
+                  +{weiToMask(entitlement, { showUnits: true })}
                 </Text>
               </PushButton>
               <PushButton routeName={'Receive'} screenProps={screenProps} style={styles.rightButton}>
@@ -218,7 +218,6 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
 
 const styles = StyleSheet.create({
   buttonText: {
-    fontFamily: 'Helvetica, "sans-serif"',
     fontSize: normalize(16),
     color: 'white',
     fontWeight: 'bold',

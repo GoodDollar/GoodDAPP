@@ -17,7 +17,7 @@ const getInitial = async (store: Store) => {
   store.set('feeds')(feeds)
 }
 
-export const getNext = async (store: Store) => {
+export const getNextFeed = async (store: Store) => {
   const currentFeeds = store.get('feeds')
   const newFeeds = await userStorage.getFormattedEvents(PAGE_SIZE, false)
   if (newFeeds.length > 0) {

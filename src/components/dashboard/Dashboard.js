@@ -53,7 +53,7 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
 
   componentWillMount() {
     const { params } = this.props.navigation.state
-    userStorage.feed.on(() => this.getFeeds(), true)
+    userStorage.feed.get('byid').on(() => this.getFeeds(), true)
     if (params && params.receiveLink) {
       this.handleWithdraw()
     } else if (params && params.event) {
@@ -72,7 +72,7 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
     const get = () => {
       getInitialFeed(this.props.store)
     }
-    return throttle(get, { leading: true })
+    return throttle(get, 2000, { leading: true })
   })()
 
   showEventModal = item => {

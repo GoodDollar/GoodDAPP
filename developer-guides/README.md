@@ -7,7 +7,7 @@ description: Guides to the main system components
 ## GoodDAPP
 
 * UserStorage
-* Face Recognition
+* [FaceRecognition]Face Recognition
 * [Routing](routing.md)
 
 ## GoodServer

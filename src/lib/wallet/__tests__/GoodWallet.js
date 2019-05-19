@@ -48,4 +48,10 @@ describe('Wallet Initialization', () => {
       expect(wallet.oneTimePaymentLinksContract).not.toBeNull()
     })
   })
+
+  it('should get account for type', async () => {
+    await goodWallet.ready
+    expect(goodWallet.getAccountForType('gd')).toBe(goodWallet.accounts[0].address)
+    expect(goodWallet.getAccountForType('zoomId')).toBe(goodWallet.accounts[5].address)
+  })
 })

@@ -80,10 +80,9 @@ class AppView extends Component<AppViewProps, AppViewState> {
     const { navigation } = this.props
     const nextRoute = this.state.stack.pop()
     if (nextRoute) {
-      this.setState(state => {
-        return { currentState: { ...nextRoute.state, ...params, route: nextRoute.route } }
-      })
-      navigation.navigate(nextRoute.route)
+      this.setState({ currentState: { ...nextRoute.state, ...params, route: nextRoute.route } }, () =>
+        navigation.navigate(nextRoute.route)
+      )
     } else if (navigation.state.index !== 0) {
       this.goToRoot()
     } else {
@@ -167,13 +166,6 @@ class AppView extends Component<AppViewProps, AppViewState> {
 
   handleSidemenuVisibility = () => toggleSidemenu(this.props.store)
 
-  shouldComponentUpdate(nextProps: any, nextState: any) {
-    return (
-      this.props.navigation.state.index !== nextProps.navigation.state.index ||
-      this.state.currentState.route !== nextState.currentState.route
-    )
-  }
-
   render() {
     const { descriptors, navigation, navigationConfig, screenProps: incomingScreenProps, store } = this.props
     const activeKey = navigation.state.routes[navigation.state.index].key
@@ -196,9 +188,9 @@ class AppView extends Component<AppViewProps, AppViewState> {
     const menu = <SideMenuPanel navigation={navigation} />
     return (
       <React.Fragment>
-        <Helmet>
+        {/* <Helmet>
           <title>{`Good Dollar | ${pageTitle}`}</title>
-        </Helmet>
+        </Helmet> */}
         {!navigationBarHidden && <NavBar goBack={backButtonHidden ? undefined : this.pop} title={pageTitle} />}
         <ScrollView contentContainerStyle={scrollableContainer}>
           <SideMenu menu={menu} menuPosition="right" isOpen={store.get('sidemenu').visible}>

@@ -423,7 +423,9 @@ exports[`SendConfirmation matches snapshot 1`] = `
                         "textAlign": "right",
                       }
                     }
-                  />
+                  >
+                    0.00
+                  </span>
                   <span
                     className="css-text-76zvg2 css-textHasAncestor-16my406"
                     dir="auto"

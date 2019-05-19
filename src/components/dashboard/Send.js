@@ -123,7 +123,7 @@ const Send = props => {
           <Section.Title style={styles.title}>TO WHOM?</Section.Title>
           <View style={styles.iconInputContainer}>
             <View style={styles.pasteIcon}>
-              <Icon size={normalize(16)} color="#282c34" name="content-paste" onClick={pasteToWho} />
+              <Icon size={normalize(16)} color="#282c34" name="content-paste" onPress={pasteToWho} />
             </View>
             <TextInput
               onChangeText={text => setScreenState({ to: text })}

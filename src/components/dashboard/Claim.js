@@ -14,7 +14,7 @@ import logger from '../../lib/logger/pino-logger'
 type ClaimProps = DashboardProps & {
   store: Store
 }
-const log = logger.child({ from: 'SendQRSummary' })
+const log = logger.child({ from: 'Claim' })
 
 class Claim extends Component<ClaimProps, {}> {
   state = {

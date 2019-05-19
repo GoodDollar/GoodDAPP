@@ -127,7 +127,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     req.append('sessionId', captureResult.sessionId)
     req.append('facemap', captureResult.facemap, { contentType: 'application/zip' })
     req.append('auditTrailImage', captureResult.auditTrailImage, { contentType: 'image/jpeg' })
-    let account = await goodWallet.getAccountForType('zoomId')
+    let account = goodWallet.getAccountForType('zoomId')
     req.append('enrollmentIdentifier', account)
     log.debug({ req })
     return req

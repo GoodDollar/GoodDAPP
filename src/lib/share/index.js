@@ -29,8 +29,6 @@ export function generateCode(address: string, networkId: number, amount: number)
 export function readCode(code: string) {
   const [mnid, value] = code.split('|')
 
-  console.log({ code })
-
   if (!isMNID(mnid)) {
     return null
   }

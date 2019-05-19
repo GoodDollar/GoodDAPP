@@ -8,7 +8,6 @@ import { receiveStyles as styles } from './styles'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import logger from '../../lib/logger/pino-logger'
 import { useDialog } from '../../lib/undux/utils/dialog'
-import get from 'lodash/get'
 export type AmountProps = {
   screenProps: any,
   navigation: any
@@ -19,9 +18,8 @@ const log = logger.child({ from: RECEIVE_TITLE })
 
 const Amount = (props: AmountProps) => {
   const { screenProps } = props
-  const [amount, setAmount] = useState(get(screenProps, 'screenState.amount', 0))
   const [screenState, setScreenState] = useScreenState(screenProps)
-  const { to, params } = screenState || {}
+  const { to, params, amount } = screenState || {}
   const [showDialogWithData] = useDialog()
 
   const canContinue = async () => {
@@ -36,7 +34,7 @@ const Amount = (props: AmountProps) => {
     }
     return true
   }
-  const handleAmountChange = (value: number) => setAmount(value) //setScreenState({ amount: value })
+  const handleAmountChange = (value: number) => setScreenState({ amount: value })
   return (
     <Wrapper style={styles.wrapper}>
       <TopBar push={screenProps.push} />

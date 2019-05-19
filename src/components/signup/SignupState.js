@@ -108,7 +108,6 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
           // Then, when the user access the application from the link (in EmailConfirmation), data is recovered and
           // saved to the `state`
           await API.addUser(state)
-          // await API.verifyUser({})
           // Stores creationBlock number into 'lastBlock' feed's node
           const creationBlock = (await goodWallet.getBlockNumber()).toString()
           await userStorage.saveLastBlockNumber(creationBlock)

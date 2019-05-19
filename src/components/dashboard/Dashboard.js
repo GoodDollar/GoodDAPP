@@ -4,6 +4,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { Portal } from 'react-native-paper'
 import type { Store } from 'undux'
+import throttle from 'lodash/throttle'
 
 import GDStore from '../../lib/undux/GDStore'
 import { getInitialFeed, getNextFeed, PAGE_SIZE } from '../../lib/undux/utils/feed'
@@ -50,21 +51,32 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
     feeds: []
   }
 
-  componentDidMount() {
+  componentWillMount() {
     const { params } = this.props.navigation.state
-
+    userStorage.feed.get('byid').on(data => {
+      log.debug('gun getFeed callback', { data })
+      this.getFeeds()
+    }, true)
     if (params && params.receiveLink) {
       this.handleWithdraw()
     } else if (params && params.event) {
       this.showNewFeedEvent(params.event)
-    } else {
-      this.getFeeds()
     }
+
+    // this.getFeeds()
   }
 
-  getFeeds() {
-    getInitialFeed(this.props.store)
+  componentWillUnmount() {
+    // TODO: we should be removing the listener in unmount but this causes that you cannot re-subscribe
+    // userStorage.feed.get('byid').off()
   }
+
+  getFeeds = (() => {
+    const get = () => {
+      getInitialFeed(this.props.store)
+    }
+    return throttle(get, 2000, { leading: true })
+  })()
 
   showEventModal = item => {
     this.props.screenProps.navigateTo('Home', {
@@ -96,9 +108,9 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
     this.showEventModal(receipt)
   }
 
-  showNewFeedEvent = async event => {
+  showNewFeedEvent = async eventId => {
     try {
-      const item = await userStorage.getStandardizedFeedByTransactionHash(event)
+      const item = await userStorage.getFormatedEventById(eventId)
       log.info({ item })
       if (item) {
         this.showEventModal(item)
@@ -122,7 +134,6 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
         }
       })
     }
-    this.getFeeds()
   }
 
   closeFeedEvent = () => {
@@ -131,7 +142,6 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
         currentFeedProps: null
       },
       () => {
-        this.getFeeds()
         this.props.screenProps.navigateTo('Home', {
           event: undefined,
           receiveLink: undefined,
@@ -148,11 +158,9 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
       const receipt = await executeWithdraw(store, receiveLink, reason)
       if (receipt.transactionHash) {
         await this.showNewFeedEvent(receipt.transactionHash)
-      } else {
-        this.getFeeds()
       }
     } catch (e) {
-      this.getFeeds()
+      log.error(e)
     }
   }
 

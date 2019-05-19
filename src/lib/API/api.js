@@ -122,7 +122,6 @@ class API {
         }
       })
       .then(r => {
-        console.log(r)
         if (r.data.onlyInEnv) {
           return { data: { ok: 1, enrollResult: { alreadyEnrolled: true } } }
         }

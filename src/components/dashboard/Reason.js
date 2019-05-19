@@ -1,5 +1,5 @@
 // @flow
-import React, { useState } from 'react'
+import React from 'react'
 import { View } from 'react-native'
 import { TextInput } from 'react-native-paper'
 
@@ -19,8 +19,7 @@ const SendReason = (props: AmountProps) => {
   const { screenProps } = props
 
   const [screenState, setScreenState] = useScreenState(screenProps)
-  const [reason, setReason] = useState(screenState.reason)
-  const { amount, to } = screenState
+  const { amount, reason, to } = screenState
 
   return (
     <Wrapper style={styles.wrapper}>
@@ -32,7 +31,7 @@ const SendReason = (props: AmountProps) => {
             <TextInput
               autoFocus
               value={reason}
-              onChangeText={reason => setReason(reason)}
+              onChangeText={reason => setScreenState({ reason })}
               placeholder="Add a message"
             />
           </View>

@@ -256,7 +256,9 @@ exports[`Send matches snapshot 1`] = `
                     "textAlign": "right",
                   }
                 }
-              />
+              >
+                0.00
+              </div>
               <div
                 className="css-text-76zvg2"
                 dir="auto"

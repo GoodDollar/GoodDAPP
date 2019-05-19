@@ -4,6 +4,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import { normalize } from 'react-native-elements'
 import { Portal } from 'react-native-paper'
 import type { Store } from 'undux'
+import throttle from 'lodash/throttle'
 
 import GDStore from '../../lib/undux/GDStore'
 import { getInitialFeed, getNextFeed, PAGE_SIZE } from '../../lib/undux/utils/feed'
@@ -67,10 +68,12 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
     // userStorage.feed.get('byid').off()
   }
 
-  getFeeds() {
-    log.info('getFeeds')
-    getInitialFeed(this.props.store)
-  }
+  getFeeds = (() => {
+    const get = () => {
+      getInitialFeed(this.props.store)
+    }
+    return throttle(get, { leading: true })
+  })()
 
   showEventModal = item => {
     this.props.screenProps.navigateTo('Home', {

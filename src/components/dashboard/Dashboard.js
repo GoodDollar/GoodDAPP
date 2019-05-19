@@ -53,7 +53,10 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
 
   componentWillMount() {
     const { params } = this.props.navigation.state
-    userStorage.feed.get('byid').on(() => this.getFeeds(), true)
+    userStorage.feed.get('byid').on(data => {
+      log.debug('gun getFeed callback', { data })
+      this.getFeeds()
+    }, true)
     if (params && params.receiveLink) {
       this.handleWithdraw()
     } else if (params && params.event) {

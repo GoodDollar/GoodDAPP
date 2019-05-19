@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import { StyleSheet, View, Text } from 'react-native'
-import { normalize } from 'react-native-elements'
+import normalize from 'react-native-elements/src/helpers/normalizeText'
 import type { FeedEventProps } from './EventProps'
 import EventCounterParty from './EventCounterParty'
 import { CustomButton, BigGoodDollar, Avatar } from '../../common'

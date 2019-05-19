@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import { StyleSheet } from 'react-native'
-import { normalize } from 'react-native-elements'
+import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { Avatar } from 'react-native-paper'
 import { Text, View } from 'react-native-web'
 import { CustomButton, BigGoodDollar } from '../../common'

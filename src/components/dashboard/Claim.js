@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from 'react'
 import { Image, StyleSheet, View, Text } from 'react-native'
-import { normalize } from 'react-native-elements'
+import normalize from 'react-native-elements/src/helpers/normalizeText'
 import type { Store } from 'undux'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import wrapper from '../../lib/undux/utils/wrapper'

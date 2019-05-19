@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
-import { Icon } from 'react-native-elements'
+import Icon from 'react-native-elements/src/icons/Icon'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { Wrapper, Section, UserAvatar } from '../common'
 import logger from '../../lib/logger/pino-logger'

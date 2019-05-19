@@ -1,4 +1,4 @@
-import { normalize } from 'react-native-elements'
+import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { StyleSheet } from 'react-native'
 
 import { fontStyle } from '../common/styles'

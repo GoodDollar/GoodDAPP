@@ -1,7 +1,10 @@
 import React from 'react'
 import { StyleSheet, View, TextInput } from 'react-native'
-import { Icon, normalize } from 'react-native-elements'
+import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { HelperText } from 'react-native-paper'
+import Icon from 'react-native-elements/src/icons/Icon'
+import FormInput from 'react-native-elements/src/form/FormInput'
+
 import PhoneInput from 'react-phone-number-input'
 import './ProfileDataTablePhoneInput.css'
 import { getScreenWidth } from '../../lib/utils/Orientation'

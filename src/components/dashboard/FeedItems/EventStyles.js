@@ -1,6 +1,5 @@
 import { StyleSheet } from 'react-native'
-import { normalize } from 'react-native-elements'
-
+import normalize from 'react-native-elements/src/helpers/normalizeText'
 export const listStyles = StyleSheet.create({
   row: {
     flexDirection: 'row',

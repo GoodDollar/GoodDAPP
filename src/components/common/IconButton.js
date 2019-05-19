@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import { StyleSheet, Text, TouchableOpacity } from 'react-native'
-import { Icon } from 'react-native-elements'
+import Icon from 'react-native-elements/src/icons/Icon'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 
 type IconProps = {

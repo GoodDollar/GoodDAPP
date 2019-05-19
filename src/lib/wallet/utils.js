@@ -15,10 +15,7 @@ const maskSettings = {
  * @param {number} wei
  * @returns {number}
  */
-export const weiToGd = (wei: number): number => {
-  const withDecimals = wei * Math.pow(0.1, DECIMALS)
-  return withDecimals > 0 ? withDecimals.toFixed(DECIMALS) : null
-}
+export const weiToGd = (wei: number): number => (wei * Math.pow(0.1, DECIMALS)).toFixed(DECIMALS)
 /**
  * convert gooddollars to wei (0 decimals) use toFixed to overcome javascript precision issues ie 8.95*Math.pow(0.1,2)=8.9500000001
  * @param {number} gd

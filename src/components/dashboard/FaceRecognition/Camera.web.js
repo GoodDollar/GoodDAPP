@@ -8,7 +8,8 @@ const { width, height } = Dimensions.get('window')
 type CameraProps = {
   width: number,
   height: number,
-  onLoad: (track: MediaStreamTrack) => void
+  onLoad: (track: MediaStreamTrack) => void,
+  onError: (result: any) => void
 }
 
 type CameraState = {
@@ -61,6 +62,15 @@ export class Camera extends Component<CameraProps, CameraState> {
       this.currentConstraintIndex++
 
       if (this.currentConstraintIndex >= this.acceptableConstraints.length) {
+        /* throw new Error(
+          `Unable to get a video stream. Please ensure you give permission to this website to access your camera,
+          and have a 720p+ camera plugged in.`
+        )*/
+        this.props.onError({
+          error: `Unable to get a video stream. Please ensure you give permission to this website to access your camera,
+        and have a 720p+ camera plugged in.`
+        })
+
         throw new Error(
           `Unable to get a video stream. Please ensure you give permission to this website to access your camera,
           and have a 720p+ camera plugged in.`

@@ -50,7 +50,7 @@
   "homepage": "https://gooddollar.org",
   "dependencies": {
     "@babel/preset-flow": "^7.0.0",
-    "@gooddollar/goodcontracts": "^0.0.13",
+    "@gooddollar/goodcontracts": "0.0.14",
     "@gooddollar/gun-appendonly": "^1.0.1",
     "@react-navigation/core": "^3.1.1",
     "@react-navigation/web": "^1.0.0-alpha.7",
@@ -60,7 +60,7 @@
     "ethereumjs-util": "^6.1.0",
     "ethereumjs-wallet": "^0.6.3",
     "exif-react-avatar-edit": "^0.8.3",
-    "gun": "^0.2019.428",
+    "gun": "^0.2019.515",
     "hdkey": "^1.1.1",
     "loadjs": "^3.6.1",
     "lodash": "^4.17.11",

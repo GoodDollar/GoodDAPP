@@ -19,7 +19,7 @@ export type ReceiveProps = {
   navigation: any
 }
 
-const RECEIVE_TITLE = 'Receive GD'
+const RECEIVE_TITLE = 'Receive G$'
 
 const log = logger.child({ from: RECEIVE_TITLE })
 
@@ -56,7 +56,7 @@ const Receive = ({ screenProps }: ReceiveProps) => {
             <QRCode value={code} />
           </View>
           <View style={styles.addressSection}>
-            <Section.Text style={styles.secondaryText}>Your GD wallet address:</Section.Text>
+            <Section.Text style={styles.secondaryText}>Your G$ wallet address:</Section.Text>
             <Section.Title style={styles.address}>
               <Address value={account} />
             </Section.Title>
@@ -69,13 +69,16 @@ const Receive = ({ screenProps }: ReceiveProps) => {
             dark={false}
             routeName="Amount"
             screenProps={screenProps}
+            style={styles.fullWidth}
             params={{ nextRoutes: ['ReceiveAmount'], params: { toReceive: true } }}
           >
-            Request an amount
+            Share your wallet link
           </PushButton>
         </Section.Row>
       </Section>
-      <ShareLink link={link}>Share address & QR code</ShareLink>
+      <ShareLink link={link} style={styles.shareQRButton}>
+        Generate detailed request
+      </ShareLink>
     </Wrapper>
   )
 }

@@ -63,7 +63,7 @@ class NameForm extends React.Component<Props, State> {
     this.isValid = validateFullName(fullName) === ''
     return (
       <Wrapper valid={this.isValid} handleSubmit={this.handleSubmit}>
-        <Title>{"Hi, \n What's your name?"}</Title>
+        <Title>{'Hi, \n Please enter your full name'}</Title>
         <TextInput
           id={key + '_input'}
           value={fullName}

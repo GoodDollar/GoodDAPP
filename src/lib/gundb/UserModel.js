@@ -23,7 +23,7 @@ export type UserModel = UserRecord & ModelValidator
  */
 const getEmailErrorMessage = (email?: string) => {
   if (!email) return 'Email is required'
-  if (!isEmail(email)) return 'Please enter an email in format: yourname@example.com'
+  if (!isEmail(email)) return 'Enter a valid format: yourname@example.com'
 
   return ''
 }

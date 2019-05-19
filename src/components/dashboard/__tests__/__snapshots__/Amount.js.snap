@@ -75,10 +75,10 @@ exports[`Amount matches snapshot 1`] = `
             "WebkitJustifyContent": "flex-start",
             "justifyContent": "flex-start",
             "msFlexPack": "start",
-            "paddingBottom": "1rem",
-            "paddingLeft": "1rem",
-            "paddingRight": "1rem",
-            "paddingTop": "1rem",
+            "paddingBottom": "8px",
+            "paddingLeft": "8px",
+            "paddingRight": "8px",
+            "paddingTop": "8px",
             "width": "100%",
           }
         }
@@ -158,10 +158,18 @@ exports[`Amount matches snapshot 1`] = `
                 style={
                   Object {
                     "backgroundColor": "rgba(255,255,255,1.00)",
+                    "borderBottomColor": "rgba(112,112,112,1.00)",
                     "borderBottomLeftRadius": "17px",
                     "borderBottomRightRadius": "17px",
+                    "borderBottomWidth": "1px",
+                    "borderLeftColor": "rgba(112,112,112,1.00)",
+                    "borderLeftWidth": "1px",
+                    "borderRightColor": "rgba(112,112,112,1.00)",
+                    "borderRightWidth": "1px",
+                    "borderTopColor": "rgba(112,112,112,1.00)",
                     "borderTopLeftRadius": "17px",
                     "borderTopRightRadius": "17px",
+                    "borderTopWidth": "1px",
                     "height": "34px",
                     "width": "34px",
                   }
@@ -223,14 +231,12 @@ exports[`Amount matches snapshot 1`] = `
                   Object {
                     "color": "rgba(85,85,85,1.00)",
                     "direction": "ltr",
-                    "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                    "fontFamily": "Roboto",
                     "fontSize": "30px",
                     "textAlign": "right",
                   }
                 }
-              >
-                0.00
-              </div>
+              />
               <div
                 className="css-text-76zvg2"
                 dir="auto"
@@ -238,13 +244,13 @@ exports[`Amount matches snapshot 1`] = `
                   Object {
                     "color": "rgba(85,85,85,1.00)",
                     "direction": "ltr",
-                    "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                    "fontFamily": "Roboto",
                     "fontSize": "18px",
                     "textAlign": "right",
                   }
                 }
               >
-                GD
+                G$
               </div>
             </div>
           </div>
@@ -320,7 +326,8 @@ exports[`Amount matches snapshot 1`] = `
                 style={
                   Object {
                     "color": "rgba(85,85,85,1.00)",
-                    "fontSize": "18px",
+                    "fontFamily": "Roboto",
+                    "fontSize": "24px",
                     "marginBottom": "1rem",
                     "textAlign": "center",
                     "textTransform": "uppercase",
@@ -360,7 +367,6 @@ exports[`Amount matches snapshot 1`] = `
                       "flexShrink": 1,
                       "fontSize": "26px",
                       "lineHeight": "40px",
-                      "maxWidth": "50%",
                       "msFlexNegative": 1,
                       "msFlexPositive": 1,
                       "textAlign": "right",
@@ -411,6 +417,7 @@ exports[`Amount matches snapshot 1`] = `
                       onKeyDown={[Function]}
                       onKeyPress={[Function]}
                       onSelect={[Function]}
+                      placeholder="0 G$"
                       readOnly={false}
                       spellCheck={true}
                       style={
@@ -440,28 +447,6 @@ exports[`Amount matches snapshot 1`] = `
                       value="0.00"
                     />
                   </div>
-                </div>
-                <div
-                  className="css-text-76zvg2"
-                  dir="auto"
-                  style={
-                    Object {
-                      "WebkitBoxFlex": 1,
-                      "WebkitBoxPack": "center",
-                      "WebkitFlexGrow": 1,
-                      "WebkitJustifyContent": "center",
-                      "flexGrow": 1,
-                      "fontSize": "10px",
-                      "height": "40px",
-                      "justifyContent": "center",
-                      "lineHeight": "40px",
-                      "msFlexPack": "center",
-                      "msFlexPositive": 1,
-                      "paddingTop": "10px",
-                    }
-                  }
-                >
-                  GD
                 </div>
               </div>
             </div>
@@ -688,7 +673,7 @@ exports[`Amount matches snapshot 1`] = `
                           Object {
                             "color": "rgba(255,255,255,1.00)",
                             "direction": "ltr",
-                            "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                            "fontFamily": "Roboto",
                             "fontSize": "18px",
                             "fontWeight": "bold",
                             "paddingBottom": "0px",

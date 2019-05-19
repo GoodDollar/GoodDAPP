@@ -6,8 +6,7 @@ import { ActionButton, Error, Title, Wrapper } from './components'
 import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
 import type { SignupState } from './SignupState'
-import { normalize } from 'react-native-elements'
-
+import normalize from 'react-native-elements/src/helpers/normalizeText'
 const log = logger.child({ from: 'SmsForm.web' })
 
 type Props = {
@@ -83,7 +82,7 @@ export default class SmsForm extends React.Component<Props, State> {
 
     return (
       <Wrapper valid={valid} handleSubmit={this.handleSubmit} footerComponent={() => <React.Fragment />}>
-        <Title>{"Your verification code\nYou've just received"}</Title>
+        <Title>{'Enter the verification code \n sent to your phone'}</Title>
         <OtpInput
           containerStyle={{
             justifyContent: 'space-evenly'

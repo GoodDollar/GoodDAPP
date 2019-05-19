@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import { normalize } from 'react-native-elements'
+import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { Portal } from 'react-native-paper'
 import type { Store } from 'undux'
 import throttle from 'lodash/throttle'
@@ -192,7 +192,7 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
                 <Text style={[styles.buttonText]}>Claim</Text>
                 <br />
                 <Text style={[styles.buttonText, styles.grayedOutText]}>
-                  {weiToMask(entitlement, { showUnits: true })}
+                  +{weiToMask(entitlement, { showUnits: true })}
                 </Text>
               </PushButton>
               <PushButton routeName={'Receive'} screenProps={screenProps} style={styles.rightButton}>
@@ -223,7 +223,6 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
 
 const styles = StyleSheet.create({
   buttonText: {
-    fontFamily: 'Helvetica, "sans-serif"',
     fontSize: normalize(16),
     color: 'white',
     fontWeight: 'bold',

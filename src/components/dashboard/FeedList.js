@@ -10,7 +10,7 @@ import {
   Text,
   ActivityIndicator
 } from 'react-native'
-import { normalize } from 'react-native-elements'
+import normalize from 'react-native-elements/src/helpers/normalizeText'
 import FeedActions from './FeedActions'
 import FeedListItem from './FeedItems/FeedListItem'
 import FeedModalItem from './FeedItems/FeedModalItem'
@@ -62,8 +62,6 @@ type ItemComponentProps = {
   },
   index: number
 }
-
-type ItemSeparatorComponentProps = { highlighted: boolean }
 
 class FeedList extends PureComponent<FeedListProps, FeedListState> {
   state = {
@@ -121,7 +119,6 @@ class FeedList extends PureComponent<FeedListProps, FeedListState> {
           {loading ? <ActivityIndicator style={styles.loading} animating={true} color="gray" size="large" /> : null}
           <AnimatedFlatList
             initialNumToRender={5}
-            ItemSeparatorComponent={ItemSeparatorComponent}
             data={feeds}
             getItemLayout={fixedHeight ? this.getItemLayout : undefined}
             horizontal={horizontal}
@@ -148,7 +145,6 @@ class FeedList extends PureComponent<FeedListProps, FeedListState> {
             bounceFirstRowOnMount={true}
             maxSwipeDistance={160}
             initialNumToRender={initialNumToRender || 10}
-            ItemSeparatorComponent={ItemSeparatorComponent}
             data={feeds}
             getItemLayout={fixedHeight ? this.getItemLayout : undefined}
             horizontal={horizontal}
@@ -185,15 +181,6 @@ class FeedList extends PureComponent<FeedListProps, FeedListState> {
         )}
       </View>
     )
-  }
-}
-
-export class ItemSeparatorComponent extends PureComponent<ItemSeparatorComponentProps> {
-  render() {
-    const style = this.props.highlighted
-      ? [styles.itemSeparator, { marginLeft: 0, backgroundColor: '#d9d9d9' }]
-      : styles.itemSeparator
-    return <View style={style} />
   }
 }
 

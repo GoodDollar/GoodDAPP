@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import { StyleSheet, TouchableOpacity } from 'react-native'
-import { normalize } from 'react-native-elements'
+import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { Avatar, Text } from 'react-native-paper'
 
 type Props = {
@@ -37,7 +37,6 @@ const styles = StyleSheet.create({
     marginLeft: '10px'
   },
   legend: {
-    fontFamily: 'Helvetica, "sans-serif"',
     fontSize: normalize(14),
     color: 'black',
     display: 'inlineBlock'

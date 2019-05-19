@@ -18,5 +18,6 @@
     * [Table of Contents](docs/dapp/toc.md)
 * [Developer Guides](developer-guides/README.md)
   * [Routing](developer-guides/routing.md)
+  * [Face Recognition](developer-guides/facerecognition.md)
 * [create-react-native-web-app](readme_crnwa.md)
 

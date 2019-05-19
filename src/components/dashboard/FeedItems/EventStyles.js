@@ -100,14 +100,12 @@ export const modalStyles = StyleSheet.create({
     marginLeft: 'auto'
   },
   leftTitle: {
-    fontFamily: 'Helvetica, "sans-serif"',
     fontSize: normalize(16),
     color: 'black',
     fontWeight: 'bold',
     flex: 1
   },
   rightTitle: {
-    fontFamily: 'Helvetica, "sans-serif"',
     fontSize: normalize(16),
     color: 'black',
     fontWeight: 'bold',
@@ -121,19 +119,16 @@ export const modalStyles = StyleSheet.create({
     marginTop: normalize(10)
   },
   label: {
-    fontFamily: 'Helvetica, "sans-serif"',
     fontSize: normalize(10),
     color: 'black',
     display: 'inlineBlock'
   },
   name: {
-    fontFamily: 'Helvetica, "sans-serif"',
     fontSize: normalize(14),
     color: 'black',
     display: 'inlineBlock'
   },
   currency: {
-    fontFamily: 'Helvetica, "sans-serif"',
     fontSize: normalize(16),
     color: 'black',
     fontWeight: 'bold'

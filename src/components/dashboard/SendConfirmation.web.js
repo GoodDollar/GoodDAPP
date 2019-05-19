@@ -156,13 +156,11 @@ const styles = StyleSheet.create({
     margin: '1rem',
     color: '#555555',
     fontSize: normalize(14),
-    textTransform: 'uppercase',
-    fontFamily: 'Roboto'
+    textTransform: 'uppercase'
   },
   reasonText: {
     color: '#555555',
-    fontSize: normalize(16),
-    fontFamily: 'Roboto'
+    fontSize: normalize(16)
   }
 })
 

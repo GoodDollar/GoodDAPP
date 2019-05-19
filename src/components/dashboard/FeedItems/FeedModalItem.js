@@ -74,7 +74,6 @@ const styles = StyleSheet.create({
   dateText: {
     fontSize: normalize(10),
     color: '#A3A3A3',
-    fontFamily: 'Roboto',
     fontWeight: 500
   },
   bottomDate: {
@@ -106,12 +105,10 @@ const styles = StyleSheet.create({
   leftTitle: {
     color: '#555',
     flex: 1,
-    fontFamily: 'Roboto',
     fontWeight: 700,
     fontSize: normalize(20)
   },
   rightTitle: {
-    fontFamily: 'Helvetica, "sans-serif"',
     fontSize: normalize(16),
     color: 'black',
     fontWeight: 'bold',
@@ -125,7 +122,6 @@ const styles = StyleSheet.create({
     marginTop: normalize(10)
   },
   currency: {
-    fontFamily: 'Helvetica, "sans-serif"',
     fontSize: normalize(16),
     color: 'black',
     fontWeight: 'bold'
@@ -133,7 +129,6 @@ const styles = StyleSheet.create({
   reason: {
     color: 'rgba(0, 0, 0, 0.54)',
     fontSize: normalize(16),
-    fontFamily: 'Roboto',
     fontWeight: 500,
     textTransform: 'capitalize'
   }

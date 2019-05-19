@@ -134,8 +134,7 @@ const styles = {
     marginBottom: '1rem'
   },
   reason: {
-    fontSize: normalize(16),
-    fontFamily: 'Roboto'
+    fontSize: normalize(16)
   },
   avatarBorder: {
     borderWidth: normalize(1),

@@ -34,14 +34,12 @@ export const receiveStyles = StyleSheet.create({
     margin: '1rem',
     color: '#555555',
     fontSize: normalize(14),
-    fontFamily: 'Roboto',
     textTransform: 'uppercase'
   },
   lowerSecondaryText: {
     margin: '1rem',
     color: '#555555',
-    fontSize: normalize(16),
-    fontFamily: 'Roboto'
+    fontSize: normalize(16)
   },
   headline: {
     ...fontStyle,

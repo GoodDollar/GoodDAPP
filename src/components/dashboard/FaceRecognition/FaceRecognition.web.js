@@ -254,8 +254,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end'
   },
   description: {
-    fontSize: normalize(18),
-    fontFamily: 'Roboto'
+    fontSize: normalize(18)
   },
   bottomSection: {
     flex: 1,
@@ -273,7 +272,6 @@ const styles = StyleSheet.create({
   },
   mainTitle: {
     fontSize: normalize(24),
-    fontFamily: 'Roboto',
     fontWeight: 500,
     marginBottom: '1rem',
     color: '#555',

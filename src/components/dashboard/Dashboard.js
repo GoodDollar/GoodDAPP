@@ -218,7 +218,6 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
 
 const styles = StyleSheet.create({
   buttonText: {
-    fontFamily: 'Helvetica, "sans-serif"',
     fontSize: normalize(16),
     color: 'white',
     fontWeight: 'bold',

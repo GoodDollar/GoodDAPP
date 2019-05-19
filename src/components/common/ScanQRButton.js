@@ -37,7 +37,6 @@ const styles = StyleSheet.create({
     marginLeft: '10px'
   },
   legend: {
-    fontFamily: 'Helvetica, "sans-serif"',
     fontSize: normalize(14),
     color: 'black',
     display: 'inlineBlock'

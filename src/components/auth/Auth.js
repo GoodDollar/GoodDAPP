@@ -104,7 +104,6 @@ const styles = StyleSheet.create({
     marginRight: 0,
     fontSize: normalize(16),
     lineHeight: '1.3em',
-    fontFamily: 'Roboto',
     fontWeight: 500
   },
   buttonLayout: {

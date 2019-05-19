@@ -111,7 +111,6 @@ const styles = StyleSheet.create({
     padding: 10
   },
   buttonText: {
-    fontFamily: 'Helvetica, "sans-serif"',
     fontSize: normalize(16),
     color: 'white',
     fontWeight: 'bold'

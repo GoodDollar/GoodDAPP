@@ -33,8 +33,7 @@ const styles = StyleSheet.create({
     fontSize: normalize(22),
     marginHorizontal: '1.2em',
     textAlign: 'center',
-    lineHeight: normalize(30),
-    fontFamily: 'Roboto'
+    lineHeight: normalize(30)
   },
   boldText: {
     fontWeight: 700

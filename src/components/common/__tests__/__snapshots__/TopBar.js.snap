@@ -76,10 +76,18 @@ exports[`TopBar matches snapshot with balance 1`] = `
         style={
           Object {
             "backgroundColor": "rgba(255,255,255,1.00)",
+            "borderBottomColor": "rgba(112,112,112,1.00)",
             "borderBottomLeftRadius": "17px",
             "borderBottomRightRadius": "17px",
+            "borderBottomWidth": "1px",
+            "borderLeftColor": "rgba(112,112,112,1.00)",
+            "borderLeftWidth": "1px",
+            "borderRightColor": "rgba(112,112,112,1.00)",
+            "borderRightWidth": "1px",
+            "borderTopColor": "rgba(112,112,112,1.00)",
             "borderTopLeftRadius": "17px",
             "borderTopRightRadius": "17px",
+            "borderTopWidth": "1px",
             "height": "34px",
             "width": "34px",
           }
@@ -141,14 +149,12 @@ exports[`TopBar matches snapshot with balance 1`] = `
           Object {
             "color": "rgba(85,85,85,1.00)",
             "direction": "ltr",
-            "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+            "fontFamily": "Roboto",
             "fontSize": "30px",
             "textAlign": "right",
           }
         }
-      >
-        0.00
-      </div>
+      />
       <div
         className="css-text-76zvg2"
         dir="auto"
@@ -156,13 +162,13 @@ exports[`TopBar matches snapshot with balance 1`] = `
           Object {
             "color": "rgba(85,85,85,1.00)",
             "direction": "ltr",
-            "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+            "fontFamily": "Roboto",
             "fontSize": "18px",
             "textAlign": "right",
           }
         }
       >
-        GD
+        G$
       </div>
     </div>
   </div>
@@ -245,10 +251,18 @@ exports[`TopBar matches snapshot without balance 1`] = `
         style={
           Object {
             "backgroundColor": "rgba(255,255,255,1.00)",
+            "borderBottomColor": "rgba(112,112,112,1.00)",
             "borderBottomLeftRadius": "17px",
             "borderBottomRightRadius": "17px",
+            "borderBottomWidth": "1px",
+            "borderLeftColor": "rgba(112,112,112,1.00)",
+            "borderLeftWidth": "1px",
+            "borderRightColor": "rgba(112,112,112,1.00)",
+            "borderRightWidth": "1px",
+            "borderTopColor": "rgba(112,112,112,1.00)",
             "borderTopLeftRadius": "17px",
             "borderTopRightRadius": "17px",
+            "borderTopWidth": "1px",
             "height": "34px",
             "width": "34px",
           }
@@ -375,10 +389,18 @@ exports[`TopBar should render the children component 1`] = `
         style={
           Object {
             "backgroundColor": "rgba(255,255,255,1.00)",
+            "borderBottomColor": "rgba(112,112,112,1.00)",
             "borderBottomLeftRadius": "17px",
             "borderBottomRightRadius": "17px",
+            "borderBottomWidth": "1px",
+            "borderLeftColor": "rgba(112,112,112,1.00)",
+            "borderLeftWidth": "1px",
+            "borderRightColor": "rgba(112,112,112,1.00)",
+            "borderRightWidth": "1px",
+            "borderTopColor": "rgba(112,112,112,1.00)",
             "borderTopLeftRadius": "17px",
             "borderTopRightRadius": "17px",
+            "borderTopWidth": "1px",
             "height": "34px",
             "width": "34px",
           }

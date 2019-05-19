@@ -6,7 +6,7 @@ import { Text } from 'react-native-paper'
 import { normalize } from 'react-native-elements'
 import logger from '../../lib/logger/pino-logger'
 import { CustomButton } from '../common'
-import { Description, LinkButton } from '../signup/components'
+import { Description, LinkButton, Title } from '../signup/components'
 import { fontStyle } from '../common/styles'
 import { TermsOfUse, PrivacyPolicy } from '../webView/webViewInstances'
 
@@ -50,10 +50,9 @@ class Auth extends React.Component<Props> {
     return (
       <View style={styles.wrapper}>
         <View style={styles.topContainer}>
+          <Title style={styles.title}>Just a heads up!</Title>
           <Description style={styles.paragraph}>
-            {
-              "Early Access Alpha's tokens will be revoked at the end of the test and they have no value until public release"
-            }
+            {`All tokens in the Alpha are "test tokens".\nThey have no real value yet and will be reset for future public release.`}
           </Description>
         </View>
         <View style={styles.bottomContainer}>
@@ -90,18 +89,22 @@ const styles = StyleSheet.create({
   topContainer: {
     flexGrow: 1,
     display: 'flex',
-    justifyContent: 'space-evenly'
+    justifyContent: 'center'
   },
   bottomContainer: {
     marginBottom: 30,
     paddingTop: 30
   },
+  title: {
+    marginBottom: 0
+  },
   paragraph: {
     ...fontStyle,
-    marginLeft: normalize(20),
-    marginRight: normalize(20),
-    fontSize: normalize(20),
-    lineHeight: '1.2em'
+    marginLeft: 0,
+    marginRight: 0,
+    fontSize: normalize(16),
+    lineHeight: '1.3em',
+    fontWeight: 500
   },
   buttonLayout: {
     padding: normalize(5),
@@ -115,11 +118,11 @@ const styles = StyleSheet.create({
   },
   acceptTermsText: {
     ...fontStyle,
-    fontSize: normalize(14)
+    fontSize: normalize(12)
   },
   acceptTermsLink: {
     ...fontStyle,
-    fontSize: normalize(14),
+    fontSize: normalize(12),
     fontWeight: 'bold'
   }
 })

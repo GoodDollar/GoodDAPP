@@ -13,6 +13,6 @@ export const validateFullName = (fullName: string) => {
 
 export const ERROR_MESSAGE = {
   EMPTY: 'Field must not be empty',
-  ONLY_LETTERS: 'Please use only letters (A-Z)',
+  ONLY_LETTERS: 'A-Z letter only, no numbers, no symbols.',
   FULL_NAME: 'Please add first and last name'
 }

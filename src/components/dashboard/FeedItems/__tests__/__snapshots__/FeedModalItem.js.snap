@@ -210,8 +210,9 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
         }
       >
         <div
+          aria-disabled={true}
           className="css-view-1dbjc4n"
-          data-focusable={true}
+          disabled={true}
           onKeyDown={[Function]}
           onKeyUp={[Function]}
           onResponderGrant={[Function]}
@@ -228,20 +229,12 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
               "WebkitTransitionProperty": "opacity",
               "WebkitUserSelect": "none",
               "backgroundColor": "rgba(187,187,187,1.00)",
-              "borderBottomLeftRadius": "50%",
-              "borderBottomRightRadius": "50%",
-              "borderTopLeftRadius": "50%",
-              "borderTopRightRadius": "50%",
-              "cursor": "pointer",
-              "msTouchAction": "manipulation",
               "msUserSelect": "none",
-              "touchAction": "manipulation",
               "transitionDuration": "0.15s",
               "transitionProperty": "opacity",
               "userSelect": "none",
             }
           }
-          tabIndex="0"
         >
           <div
             className="css-view-1dbjc4n"
@@ -753,8 +746,9 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
         }
       >
         <div
+          aria-disabled={true}
           className="css-view-1dbjc4n"
-          data-focusable={true}
+          disabled={true}
           onKeyDown={[Function]}
           onKeyUp={[Function]}
           onResponderGrant={[Function]}
@@ -771,20 +765,12 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
               "WebkitTransitionProperty": "opacity",
               "WebkitUserSelect": "none",
               "backgroundColor": "rgba(187,187,187,1.00)",
-              "borderBottomLeftRadius": "50%",
-              "borderBottomRightRadius": "50%",
-              "borderTopLeftRadius": "50%",
-              "borderTopRightRadius": "50%",
-              "cursor": "pointer",
-              "msTouchAction": "manipulation",
               "msUserSelect": "none",
-              "touchAction": "manipulation",
               "transitionDuration": "0.15s",
               "transitionProperty": "opacity",
               "userSelect": "none",
             }
           }
-          tabIndex="0"
         >
           <div
             className="css-view-1dbjc4n"

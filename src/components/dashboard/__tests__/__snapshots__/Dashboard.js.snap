@@ -422,6 +422,7 @@ exports[`Dashboard matches snapshot 1`] = `
                     <div
                       className="css-view-1dbjc4n"
                       data-focusable={true}
+                      disabled={false}
                       onKeyDown={[Function]}
                       onKeyUp={[Function]}
                       onResponderGrant={[Function]}
@@ -437,10 +438,6 @@ exports[`Dashboard matches snapshot 1`] = `
                           "WebkitTransitionDuration": "0.15s",
                           "WebkitTransitionProperty": "opacity",
                           "WebkitUserSelect": "none",
-                          "borderBottomLeftRadius": "50%",
-                          "borderBottomRightRadius": "50%",
-                          "borderTopLeftRadius": "50%",
-                          "borderTopRightRadius": "50%",
                           "cursor": "pointer",
                           "msTouchAction": "manipulation",
                           "msUserSelect": "none",

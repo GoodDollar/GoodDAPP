@@ -62,11 +62,7 @@ class EmailForm extends React.Component<Props, State> {
     const { key } = this.props.navigation.state
 
     return (
-      <Wrapper
-        valid={this.isValid}
-        handleSubmit={this.handleSubmit}
-        loading={this.props.store.get('currentScreen').loading}
-      >
+      <Wrapper valid={this.isValid} handleSubmit={this.handleSubmit} loading={this.props.screenProps.data.loading}>
         <Title>And which email address should we use to notify you of important activity?</Title>
         <TextInput
           id={key + '_input'}

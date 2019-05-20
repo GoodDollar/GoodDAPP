@@ -16,7 +16,6 @@ const EditProfile = props => {
   const [profile, setProfile] = useState(store.get('profile'))
   const [saving, setSaving] = useState()
   const [errors, setErrors] = useState({})
-  const { loading } = store.get('currentScreen')
   useEffect(() => {
     wrappedUserStorage.getPrivateProfile(profile).then(setProfile)
   }, [profile.fullName])
@@ -35,7 +34,7 @@ const EditProfile = props => {
         setProfile({ ...savedProfile, username: savedProfile.username || '' })
       })
       .catch(e => log.error(e))
-    setSaving(false)
+      .finally(r => setSaving(false))
   }
   return (
     <Wrapper>
@@ -43,7 +42,7 @@ const EditProfile = props => {
         <Section.Row style={styles.centered}>
           <UserAvatar onChange={setProfile} editable={true} profile={profile} />
           <CustomButton
-            disabled={loading}
+            disabled={saving}
             loading={saving}
             mode="outlined"
             style={styles.saveButton}

@@ -2,7 +2,7 @@
 import React from 'react'
 import PhoneInput from 'react-phone-number-input'
 import './PhoneForm.css'
-
+import GDStore from '../../lib/undux/GDStore'
 import { Description, Title, Wrapper } from './components'
 import { userModelValidations } from '../../lib/gundb/UserModel'
 
@@ -20,7 +20,7 @@ export type MobileRecord = {
 
 type State = MobileRecord
 
-export default class PhoneForm extends React.Component<Props, State> {
+class PhoneForm extends React.Component<Props, State> {
   state = {
     mobile: this.props.screenProps.data.mobile || '',
     errorMessage: ''
@@ -56,9 +56,9 @@ export default class PhoneForm extends React.Component<Props, State> {
     const { errorMessage } = this.state
     this.isValid = userModelValidations.mobile(this.state.mobile) === ''
     const { key } = this.props.navigation.state
-
+    const { loading } = this.props.store.get('currentScreen')
     return (
-      <Wrapper valid={this.isValid} handleSubmit={this.handleSubmit}>
+      <Wrapper valid={this.isValid} handleSubmit={this.handleSubmit} loading={loading}>
         <Title>{`${this.props.screenProps.data.fullName}, \n May we have your number please?`}</Title>
         <PhoneInput
           id={key + '_input'}
@@ -73,3 +73,5 @@ export default class PhoneForm extends React.Component<Props, State> {
     )
   }
 }
+
+export default GDStore.withStore(PhoneForm)

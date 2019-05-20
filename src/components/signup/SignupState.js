@@ -56,12 +56,14 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
 
   const navigateWithFocus = (routeKey: string) => {
     navigation.navigate(routeKey)
+    store.set('currentScreen')({ loading: false })
     setTimeout(() => {
       const el = document.getElementById(routeKey + '_input')
       if (el) el.focus()
     }, 300)
   }
   const done = async (data: { [string]: string }) => {
+    store.set('currentScreen')({ loading: true })
     log.info('signup data:', { data })
     let nextRoute = navigation.state.routes[navigation.state.index + 1]
     const newState = { ...state, ...data }
@@ -123,6 +125,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
           userStorage.setProfileField('registered', true, 'public')
           navigation.navigate('AppNavigation')
           store.set('isLoggedIn')(true)
+          store.set('currentScreen')({ loading: false })
         } catch (error) {
           log.error('New user failure', { error })
         }

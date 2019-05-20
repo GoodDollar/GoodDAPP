@@ -16,6 +16,12 @@
       * [common](docs/dapp/components/common.md)
     * [components](docs/dapp/components-1.md)
     * [Table of Contents](docs/dapp/toc.md)
+<<<<<<< HEAD
 * [Developer Guides](developer-guides.md)
+=======
+* [Developer Guides](developer-guides/README.md)
+  * [Routing](developer-guides/routing.md)
+  * [Face Recognition](developer-guides/facerecognition.md)
+>>>>>>> b91ee630c2ff681d6ae8d2652629676ec051fdf7
 * [create-react-native-web-app](readme_crnwa.md)
 

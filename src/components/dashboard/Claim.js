@@ -32,8 +32,6 @@ class Claim extends Component<ClaimProps, {}> {
     }
   }
   handleClaim = async () => {
-    let entitlement = await goodWallet.checkEntitlement()
-    if (entitlement === 0) return
     this.setState({ loading: true })
     try {
       const receipt = await this.goodWalletWrapped.claim()

@@ -117,12 +117,12 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
               .then(creationBlock => userStorage.saveLastBlockNumber(creationBlock.toString())),
             AsyncStorage.getItem('GD_USER_MNEMONIC').then(mnemonic => API.sendRecoveryInstructionByEmail(mnemonic)))
           ])
-          store.set('isLoggedIn')(true)
           // top wallet of new user
           // wait for the topping to complete to be able to withdraw
           // await API.verifyTopWallet()
-          navigation.navigate('AppNavigation')
           userStorage.setProfileField('registered', true, 'public')
+          navigation.navigate('AppNavigation')
+          store.set('isLoggedIn')(true)
         } catch (error) {
           log.error('New user failure', { error })
         }

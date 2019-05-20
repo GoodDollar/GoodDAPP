@@ -60,7 +60,6 @@ export default class PhoneForm extends React.Component<Props, State> {
     return (
       <Wrapper valid={this.isValid} handleSubmit={this.handleSubmit}>
         <Title>{`${this.props.screenProps.data.fullName}, \n May we have your number please?`}</Title>
-
         <PhoneInput
           id={key + '_input'}
           value={this.state.mobile}
@@ -69,7 +68,7 @@ export default class PhoneForm extends React.Component<Props, State> {
           error={errorMessage}
           onKeyDown={this.handleEnter}
         />
-        <Description>We will shortly send you a verification code to this number</Description>
+        <Description>A verification code will be sent to this number</Description>
       </Wrapper>
     )
   }

@@ -1,15 +1,16 @@
 // @flow
 
 import React, { useState, useRef, useEffect } from 'react'
-import { TextInput } from 'react-native-paper'
-import { View, StyleSheet } from 'react-native'
+import { View, StyleSheet, TextInput, Text } from 'react-native'
 import logger from '../../lib/logger/pino-logger'
+import { normalize } from 'react-native-elements'
 
 const log = logger.child({ from: 'MnemonicInput' })
 const MAX_WORDS = 12
 
 type Props = {
-  onChange: Function
+  onChange?: Function,
+  recoveryMode: any
 }
 
 const isValidWord = word => {
@@ -26,6 +27,17 @@ const MnemonicInput = (props: Props) => {
   useEffect(() => {
     handleChange()
   }, [state])
+
+  useEffect(() => {
+    if (props.recoveryMode && state !== props.recoveryMode) {
+      log.info({
+        recoveryMode: props.recoveryMode,
+        different: state !== props.recoveryMode,
+        state
+      })
+      setState(props.recoveryMode)
+    }
+  }, [props.recoveryMode])
 
   const handleChange = () => {
     // Each time the state is updated we check if there is a valid mnemonic and execute onChange callback
@@ -67,18 +79,26 @@ const MnemonicInput = (props: Props) => {
   return (
     <View style={styles.inputsContainer}>
       {[...Array(MAX_WORDS).keys()].map(key => (
-        <TextInput
-          value={state[key] || ''}
-          label={key + 1}
-          type="outlined"
-          key={key}
-          style={styles.input}
-          onChange={e => setWord(key)(e.target.value)}
-          ref={refs[key]}
-        />
+        <View key={key} style={styles.inputContainer}>
+          <View style={styles.prevNumber}>
+            <Text>{key + 1}</Text>
+          </View>
+          <TextInput
+            value={state[key] || ''}
+            label={key + 1}
+            style={styles.input}
+            onChange={e => setWord(key)(e.target.value)}
+            ref={refs[key]}
+            editable={!props.recoveryMode}
+          />
+        </View>
       ))}
     </View>
   )
+}
+
+MnemonicInput.defaultProps = {
+  onChange: (words: any) => {}
 }
 
 const styles = StyleSheet.create({
@@ -88,9 +108,36 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     justifyContent: 'space-between'
   },
-  input: {
+  inputContainer: {
     width: '45%',
-    marginTop: '1em'
+    marginTop: normalize(10),
+    height: normalize(40),
+    flexDirection: 'row'
+  },
+  input: {
+    backgroundColor: '#fff',
+    borderColor: '#555',
+    borderWidth: StyleSheet.hairlineWidth,
+    borderTopRightRadius: normalize(5),
+    borderBottomRightRadius: normalize(5),
+    height: normalize(40),
+    justifyContent: 'center',
+    paddingLeft: normalize(16),
+    flex: 1,
+    width: '100%',
+    marginLeft: '-1px'
+  },
+  prevNumber: {
+    borderColor: '#555',
+    borderWidth: StyleSheet.hairlineWidth,
+    borderTopLeftRadius: normalize(5),
+    borderBottomLeftRadius: normalize(5),
+    display: 'flex',
+    width: normalize(30),
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: '0 8px',
+    backgroundColor: '#d2d2d2'
   }
 })
 

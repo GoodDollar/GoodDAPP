@@ -16,7 +16,8 @@ type Props = {
 }
 
 type State = {
-  errorMessage: string
+  errorMessage: string,
+  fullName: string
 }
 
 export type NameRecord = {
@@ -25,36 +26,29 @@ export type NameRecord = {
 
 class NameForm extends React.Component<Props, State> {
   state = {
-    errorMessage: ''
+    errorMessage: '',
+    fullName: ''
   }
   isValid = false
 
   handleChange = (fullName: string) => {
-    const { store } = this.props
-    const name = store.get('name')
-
     if (this.state.errorMessage !== '') {
       this.setState({ errorMessage: '' })
     }
 
-    name.fullName = fullName
-    store.set('name')(name)
+    this.setState({ fullName })
   }
 
   handleSubmit = () => {
-    const { fullName } = this.props.store.get('name')
-
+    const { fullName } = this.state
     if (this.isValid) {
       this.props.screenProps.doneCallback({ fullName })
     }
   }
 
   checkErrors = () => {
-    const { store } = this.props
-    const name = store.get('name')
-    const errorMessage = validateFullName(name.fullName)
+    const errorMessage = validateFullName(this.state.fullName)
     this.setState({ errorMessage })
-    store.set('name')(name)
   }
 
   handleEnter = (event: { nativeEvent: { key: string } }) => {
@@ -64,17 +58,15 @@ class NameForm extends React.Component<Props, State> {
   }
 
   render() {
-    console.log(this.props.navigation, this.props.screenProps)
-    const name = this.props.store.get('name')
-    const { errorMessage } = this.state
+    const { fullName, errorMessage } = this.state
     const { key } = this.props.navigation.state
-    this.isValid = validateFullName(name.fullName) === ''
+    this.isValid = validateFullName(fullName) === ''
     return (
       <Wrapper valid={this.isValid} handleSubmit={this.handleSubmit}>
-        <Title>{"Hi, \n What's your name?"}</Title>
+        <Title>{'Hi, \n Please enter your full name'}</Title>
         <TextInput
           id={key + '_input'}
-          value={name.fullName}
+          value={fullName}
           onChangeText={this.handleChange}
           onBlur={this.checkErrors}
           error={errorMessage !== ''}

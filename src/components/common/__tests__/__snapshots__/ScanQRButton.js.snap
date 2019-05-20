@@ -3,9 +3,19 @@
 exports[`ScanQRButton should match snapshot 1`] = `
 <div
   className="css-view-1dbjc4n"
-  onClick={[Function]}
+  data-focusable={true}
+  onKeyDown={[Function]}
+  onKeyUp={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
   style={
     Object {
+      "MozTransitionProperty": "opacity",
+      "MozUserSelect": "none",
       "WebkitAlignItems": "center",
       "WebkitBoxAlign": "center",
       "WebkitBoxDirection": "normal",
@@ -13,6 +23,9 @@ exports[`ScanQRButton should match snapshot 1`] = `
       "WebkitBoxPack": "end",
       "WebkitFlexDirection": "row",
       "WebkitJustifyContent": "flex-end",
+      "WebkitTransitionDuration": "0.15s",
+      "WebkitTransitionProperty": "opacity",
+      "WebkitUserSelect": "none",
       "alignItems": "center",
       "cursor": "pointer",
       "flexDirection": "row",
@@ -20,12 +33,19 @@ exports[`ScanQRButton should match snapshot 1`] = `
       "msFlexAlign": "center",
       "msFlexDirection": "row",
       "msFlexPack": "end",
+      "msTouchAction": "manipulation",
+      "msUserSelect": "none",
       "paddingBottom": "0px",
       "paddingLeft": "0px",
       "paddingRight": "0px",
       "paddingTop": "0px",
+      "touchAction": "manipulation",
+      "transitionDuration": "0.15s",
+      "transitionProperty": "opacity",
+      "userSelect": "none",
     }
   }
+  tabIndex="0"
 >
   <div
     className="css-view-1dbjc4n"
@@ -91,7 +111,7 @@ exports[`ScanQRButton should match snapshot 1`] = `
           "color": "rgba(0,0,0,1.00)",
           "direction": "ltr",
           "display": "inlineBlock",
-          "fontFamily": "Helvetica, \\"sans-serif\\"",
+          "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
           "fontSize": "14px",
           "textAlign": "left",
         }

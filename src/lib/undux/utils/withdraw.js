@@ -4,6 +4,7 @@ import goodWallet from '../../wallet/GoodWallet'
 import pino from '../../logger/pino-logger'
 import userStorage from '../../gundb/UserStorage'
 import type { TransactionEvent } from '../../gundb/UserStorage'
+
 const log = pino.child({ from: 'withdraw' })
 
 type ReceiptType = {
@@ -24,18 +25,18 @@ type ReceiptType = {
  * @returns {Promise} Returns the receipt of the transaction
  */
 export const executeWithdraw = async (store: Store, hash: string, reason: string): Promise<ReceiptType> => {
-  store.set('currentScreen')({
-    ...store.get('currentScreen'),
-    dialogData: {
-      visible: true,
-      title: 'Processing withrawal...',
-      loading: true,
-      dismissText: 'hold'
-    }
-  })
   log.info('executeWithdraw', hash, reason)
   try {
     const { amount, sender } = await goodWallet.canWithdraw(hash)
+    store.set('currentScreen')({
+      ...store.get('currentScreen'),
+      dialogData: {
+        visible: true,
+        title: 'Processing withrawal...',
+        loading: true,
+        dismissText: 'hold'
+      }
+    })
     const receipt = await goodWallet.withdraw(hash, {
       onTransactionHash: transactionHash => {
         const transactionEvent: TransactionEvent = {
@@ -48,12 +49,14 @@ export const executeWithdraw = async (store: Store, hash: string, reason: string
             reason
           }
         }
-        userStorage.updateFeedEvent(transactionEvent)
+        userStorage.enqueueTX(transactionEvent)
       }
     })
     store.set('currentScreen')({
       ...store.get('currentScreen'),
-      dialogData: { visible: false }
+      dialogData: {
+        visible: false
+      }
     })
     return receipt
   } catch (e) {

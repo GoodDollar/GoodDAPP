@@ -162,7 +162,6 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                 "flexBasis": "0%",
                 "flexGrow": 1,
                 "flexShrink": 1,
-                "height": "90vh",
                 "marginRight": "10px",
                 "msFlexItemAlign": "start",
                 "msFlexNegative": 1,
@@ -202,15 +201,15 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                     "borderBottomColor": "rgba(201,200,201,1.00)",
                     "borderBottomLeftRadius": "4px",
                     "borderBottomRightRadius": "4px",
-                    "borderBottomWidth": "2px",
+                    "borderBottomWidth": "0px",
                     "borderLeftColor": "rgba(201,200,201,1.00)",
                     "borderLeftWidth": "10px",
                     "borderRightColor": "rgba(201,200,201,1.00)",
-                    "borderRightWidth": "2px",
+                    "borderRightWidth": "0px",
                     "borderTopColor": "rgba(201,200,201,1.00)",
                     "borderTopLeftRadius": "4px",
                     "borderTopRightRadius": "4px",
-                    "borderTopWidth": "2px",
+                    "borderTopWidth": "0px",
                     "flexBasis": "0%",
                     "flexGrow": 1,
                     "flexShrink": 1,
@@ -227,8 +226,15 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                 <div
                   className="css-text-76zvg2"
                   dir="auto"
+                  style={
+                    Object {
+                      "color": "rgba(163,163,163,1.00)",
+                      "fontSize": "10px",
+                      "fontWeight": "500",
+                    }
+                  }
                 >
-                  4/1/2019
+                  04/01/19 3:03 PM
                 </div>
                 <div
                   className="css-view-1dbjc4n"
@@ -248,10 +254,9 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                       "msFlexAlign": "center",
                       "msFlexDirection": "row",
                       "msFlexPack": "end",
-                      "paddingBottom": "0px",
                       "paddingLeft": "0px",
                       "paddingRight": "0px",
-                      "paddingTop": "0px",
+                      "paddingTop": "2em",
                     }
                   }
                 >
@@ -264,20 +269,19 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                         "WebkitFlexBasis": "0%",
                         "WebkitFlexGrow": 1,
                         "WebkitFlexShrink": 1,
-                        "color": "rgba(0,0,0,1.00)",
+                        "color": "rgba(85,85,85,1.00)",
                         "flexBasis": "0%",
                         "flexGrow": 1,
                         "flexShrink": 1,
-                        "fontFamily": "Helvetica, \\"sans-serif\\"",
-                        "fontSize": "16px",
-                        "fontWeight": "bold",
+                        "fontSize": "20px",
+                        "fontWeight": "700",
                         "msFlexNegative": 1,
                         "msFlexPositive": 1,
                         "msFlexPreferredSize": "0%",
                       }
                     }
                   >
-                    Received GD
+                    Received G$
                   </div>
                   <div
                     className="css-view-1dbjc4n"
@@ -294,7 +298,7 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                         Object {
                           "color": "rgba(0,0,0,1.00)",
                           "direction": "ltr",
-                          "fontFamily": "Helvetica, \\"sans-serif\\"",
+                          "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                           "fontSize": "16px",
                           "fontWeight": "bold",
                           "textAlign": "right",
@@ -310,14 +314,14 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                         Object {
                           "color": "rgba(0,0,0,1.00)",
                           "direction": "ltr",
-                          "fontFamily": "Helvetica, \\"sans-serif\\"",
+                          "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                           "fontSize": "16px",
                           "fontWeight": "bold",
                           "textAlign": "right",
                         }
                       }
                     >
-                      GD
+                      G$
                     </div>
                   </div>
                 </div>
@@ -341,53 +345,70 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                       "WebkitBoxAlign": "center",
                       "WebkitBoxDirection": "normal",
                       "WebkitBoxOrient": "horizontal",
-                      "WebkitBoxPack": "end",
                       "WebkitFlexDirection": "row",
-                      "WebkitJustifyContent": "flex-end",
                       "alignItems": "center",
                       "backgroundColor": "rgba(255,255,255,1.00)",
                       "flexDirection": "row",
-                      "justifyContent": "flex-end",
                       "msFlexAlign": "center",
                       "msFlexDirection": "row",
-                      "msFlexPack": "end",
-                      "paddingBottom": "0px",
                       "paddingLeft": "0px",
                       "paddingRight": "0px",
-                      "paddingTop": "0px",
                     }
                   }
                 >
                   <div
                     className="css-view-1dbjc4n"
+                    data-focusable={true}
+                    onKeyDown={[Function]}
+                    onKeyUp={[Function]}
+                    onResponderGrant={[Function]}
+                    onResponderMove={[Function]}
+                    onResponderRelease={[Function]}
+                    onResponderTerminate={[Function]}
+                    onResponderTerminationRequest={[Function]}
+                    onStartShouldSetResponder={[Function]}
                     style={
                       Object {
-                        "backgroundColor": "rgba(255,255,255,1.00)",
-                        "borderBottomLeftRadius": "24px",
-                        "borderBottomRightRadius": "24px",
-                        "borderTopLeftRadius": "24px",
-                        "borderTopRightRadius": "24px",
-                        "height": "48px",
-                        "width": "48px",
+                        "MozTransitionProperty": "opacity",
+                        "MozUserSelect": "none",
+                        "WebkitTransitionDuration": "0.15s",
+                        "WebkitTransitionProperty": "opacity",
+                        "WebkitUserSelect": "none",
+                        "backgroundColor": "rgba(187,187,187,1.00)",
+                        "borderBottomLeftRadius": "50%",
+                        "borderBottomRightRadius": "50%",
+                        "borderTopLeftRadius": "50%",
+                        "borderTopRightRadius": "50%",
+                        "cursor": "pointer",
+                        "msTouchAction": "manipulation",
+                        "msUserSelect": "none",
+                        "touchAction": "manipulation",
+                        "transitionDuration": "0.15s",
+                        "transitionProperty": "opacity",
+                        "userSelect": "none",
                       }
                     }
+                    tabIndex="0"
                   >
                     <div
                       className="css-view-1dbjc4n"
                       style={
                         Object {
-                          "WebkitFlexBasis": "auto",
-                          "borderBottomLeftRadius": "24px",
-                          "borderBottomRightRadius": "24px",
-                          "borderTopLeftRadius": "24px",
-                          "borderTopRightRadius": "24px",
-                          "flexBasis": "auto",
-                          "height": "48px",
-                          "msFlexPreferredSize": "auto",
-                          "overflowX": "hidden",
-                          "overflowY": "hidden",
-                          "width": "48px",
-                          "zIndex": 0,
+                          "backgroundColor": "rgba(187,187,187,1.00)",
+                          "borderBottomColor": "rgba(112,112,112,1.00)",
+                          "borderBottomLeftRadius": "17px",
+                          "borderBottomRightRadius": "17px",
+                          "borderBottomWidth": "1px",
+                          "borderLeftColor": "rgba(112,112,112,1.00)",
+                          "borderLeftWidth": "1px",
+                          "borderRightColor": "rgba(112,112,112,1.00)",
+                          "borderRightWidth": "1px",
+                          "borderTopColor": "rgba(112,112,112,1.00)",
+                          "borderTopLeftRadius": "17px",
+                          "borderTopRightRadius": "17px",
+                          "borderTopWidth": "1px",
+                          "height": "34px",
+                          "width": "34px",
                         }
                       }
                     >
@@ -395,28 +416,48 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                         className="css-view-1dbjc4n"
                         style={
                           Object {
-                            "backgroundColor": "rgba(0,0,0,0.00)",
-                            "backgroundImage": "url(\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAkCAIAAAB0Xu9BAAAABGdBTUEAALGPC/xhBQAAAuNJREFUWEetmD1WHDEQhDdxRMYlnBFyBIccgdQhKVcgJeQMpE5JSTd2uqnvIGpVUqmm9TPrffD0eLMzUn+qVnXPwiFd/PP6eLh47v7EaazbmxsOxjhTT88z9hV7GoNF1cUCvN7TTPv/gf/+uQPm862MWTL6fff4HfDx4S79/oVAlAUwqOmYR0rnazuFnhfOy/ErMKkcBFOr1vOjUi2MFn4nuMil6OPh5eGANLhW3y6u3aH7ijEDCxgCvzFmimvc95TekZLyMSeJC68Bkw0kqUy1K87FlpGZqsGFCyqEtQNDdFUtFctTiuhnPKNysid/WFEFLE2O102XJdEE+8IgeuGsjeJyGHm/xHvQ3JtKVsGGp85g9rK6xMHtvHO9+WACYjk5vkVM6XQ6OZubCJvTfPicYPeHO2AKFl5NuF5UK1VDUbeLxh2BcRGKTQE3irHm3+vPj6cfCod50Eqv5QxtwBQUGhZhbrGVuRia1B4MNp6edwBxld2sl1splfHCwfsvCZfrCQyWmX10djjOlWJSSy3VQlS6LmfrgNvaieRWx1LZ6s9co+P0DLsy3OdLU3lWRclQsVcHJBcUQ0k9/WVVrmpRzYQzpgAdQcAXxZzUnFX3proannrYH+Vq6KkLi+UkarH09mC8YPr2RMWOlEqFkQClsykGEv7CqCUbXcG8+SaGvJ4a8d4y6epND+pEhxoN0vWUu5ntXlFb5/JT7JfJJqoTdy9u9qc7ax3xJRHqJLADWEl23cFWl4K9fvoaCJ2BHpmJ3s3z+O0U/DmzdMjB9alWZtg4e3yxzPa7lUR7nkvxLHO9+tvJX3mtSDpwX8GajB283I8R8a7D2MhUZr1iNWdny256yYLd52DwRYBtRMvE7rsmtxIUE+zLKQCDO4jlxB6CZ8M17GhuY+XTE8vNhQiIiSE82ZsGwk1pht4ZSpT0YVpon6EvevOXXH8JxVR78QzNuamupW/7UB7wO/+7sG5V4ekXb4cL5Lyv+4IAAAAASUVORK5CYII=\\")",
-                            "backgroundPosition": "center",
-                            "backgroundRepeat": "no-repeat",
-                            "backgroundSize": "cover",
-                            "bottom": "0px",
-                            "height": "100%",
-                            "left": "0px",
-                            "position": "absolute",
-                            "right": "0px",
-                            "top": "0px",
-                            "width": "100%",
-                            "zIndex": -1,
+                            "WebkitFlexBasis": "auto",
+                            "borderBottomLeftRadius": "17px",
+                            "borderBottomRightRadius": "17px",
+                            "borderTopLeftRadius": "17px",
+                            "borderTopRightRadius": "17px",
+                            "flexBasis": "auto",
+                            "height": "34px",
+                            "msFlexPreferredSize": "auto",
+                            "overflowX": "hidden",
+                            "overflowY": "hidden",
+                            "width": "34px",
+                            "zIndex": 0,
                           }
                         }
-                      />
-                      <img
-                        alt=""
-                        className="css-accessibilityImage-9pa8cd"
-                        draggable={false}
-                        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAkCAIAAAB0Xu9BAAAABGdBTUEAALGPC/xhBQAAAuNJREFUWEetmD1WHDEQhDdxRMYlnBFyBIccgdQhKVcgJeQMpE5JSTd2uqnvIGpVUqmm9TPrffD0eLMzUn+qVnXPwiFd/PP6eLh47v7EaazbmxsOxjhTT88z9hV7GoNF1cUCvN7TTPv/gf/+uQPm862MWTL6fff4HfDx4S79/oVAlAUwqOmYR0rnazuFnhfOy/ErMKkcBFOr1vOjUi2MFn4nuMil6OPh5eGANLhW3y6u3aH7ijEDCxgCvzFmimvc95TekZLyMSeJC68Bkw0kqUy1K87FlpGZqsGFCyqEtQNDdFUtFctTiuhnPKNysid/WFEFLE2O102XJdEE+8IgeuGsjeJyGHm/xHvQ3JtKVsGGp85g9rK6xMHtvHO9+WACYjk5vkVM6XQ6OZubCJvTfPicYPeHO2AKFl5NuF5UK1VDUbeLxh2BcRGKTQE3irHm3+vPj6cfCod50Eqv5QxtwBQUGhZhbrGVuRia1B4MNp6edwBxld2sl1splfHCwfsvCZfrCQyWmX10djjOlWJSSy3VQlS6LmfrgNvaieRWx1LZ6s9co+P0DLsy3OdLU3lWRclQsVcHJBcUQ0k9/WVVrmpRzYQzpgAdQcAXxZzUnFX3proannrYH+Vq6KkLi+UkarH09mC8YPr2RMWOlEqFkQClsykGEv7CqCUbXcG8+SaGvJ4a8d4y6epND+pEhxoN0vWUu5ntXlFb5/JT7JfJJqoTdy9u9qc7ax3xJRHqJLADWEl23cFWl4K9fvoaCJ2BHpmJ3s3z+O0U/DmzdMjB9alWZtg4e3yxzPa7lUR7nkvxLHO9+tvJX3mtSDpwX8GajB283I8R8a7D2MhUZr1iNWdny256yYLd52DwRYBtRMvE7rsmtxIUE+zLKQCDO4jlxB6CZ8M17GhuY+XTE8vNhQiIiSE82ZsGwk1pht4ZSpT0YVpon6EvevOXXH8JxVR78QzNuamupW/7UB7wO/+7sG5V4ekXb4cL5Lyv+4IAAAAASUVORK5CYII="
-                      />
+                      >
+                        <div
+                          className="css-view-1dbjc4n"
+                          style={
+                            Object {
+                              "backgroundColor": "rgba(0,0,0,0.00)",
+                              "backgroundImage": "url(\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAkCAIAAAB0Xu9BAAAABGdBTUEAALGPC/xhBQAAAuNJREFUWEetmD1WHDEQhDdxRMYlnBFyBIccgdQhKVcgJeQMpE5JSTd2uqnvIGpVUqmm9TPrffD0eLMzUn+qVnXPwiFd/PP6eLh47v7EaazbmxsOxjhTT88z9hV7GoNF1cUCvN7TTPv/gf/+uQPm862MWTL6fff4HfDx4S79/oVAlAUwqOmYR0rnazuFnhfOy/ErMKkcBFOr1vOjUi2MFn4nuMil6OPh5eGANLhW3y6u3aH7ijEDCxgCvzFmimvc95TekZLyMSeJC68Bkw0kqUy1K87FlpGZqsGFCyqEtQNDdFUtFctTiuhnPKNysid/WFEFLE2O102XJdEE+8IgeuGsjeJyGHm/xHvQ3JtKVsGGp85g9rK6xMHtvHO9+WACYjk5vkVM6XQ6OZubCJvTfPicYPeHO2AKFl5NuF5UK1VDUbeLxh2BcRGKTQE3irHm3+vPj6cfCod50Eqv5QxtwBQUGhZhbrGVuRia1B4MNp6edwBxld2sl1splfHCwfsvCZfrCQyWmX10djjOlWJSSy3VQlS6LmfrgNvaieRWx1LZ6s9co+P0DLsy3OdLU3lWRclQsVcHJBcUQ0k9/WVVrmpRzYQzpgAdQcAXxZzUnFX3proannrYH+Vq6KkLi+UkarH09mC8YPr2RMWOlEqFkQClsykGEv7CqCUbXcG8+SaGvJ4a8d4y6epND+pEhxoN0vWUu5ntXlFb5/JT7JfJJqoTdy9u9qc7ax3xJRHqJLADWEl23cFWl4K9fvoaCJ2BHpmJ3s3z+O0U/DmzdMjB9alWZtg4e3yxzPa7lUR7nkvxLHO9+tvJX3mtSDpwX8GajB283I8R8a7D2MhUZr1iNWdny256yYLd52DwRYBtRMvE7rsmtxIUE+zLKQCDO4jlxB6CZ8M17GhuY+XTE8vNhQiIiSE82ZsGwk1pht4ZSpT0YVpon6EvevOXXH8JxVR78QzNuamupW/7UB7wO/+7sG5V4ekXb4cL5Lyv+4IAAAAASUVORK5CYII=\\")",
+                              "backgroundPosition": "center",
+                              "backgroundRepeat": "no-repeat",
+                              "backgroundSize": "cover",
+                              "bottom": "0px",
+                              "height": "100%",
+                              "left": "0px",
+                              "position": "absolute",
+                              "right": "0px",
+                              "top": "0px",
+                              "width": "100%",
+                              "zIndex": -1,
+                            }
+                          }
+                        />
+                        <img
+                          alt=""
+                          className="css-accessibilityImage-9pa8cd"
+                          draggable={false}
+                          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAkCAIAAAB0Xu9BAAAABGdBTUEAALGPC/xhBQAAAuNJREFUWEetmD1WHDEQhDdxRMYlnBFyBIccgdQhKVcgJeQMpE5JSTd2uqnvIGpVUqmm9TPrffD0eLMzUn+qVnXPwiFd/PP6eLh47v7EaazbmxsOxjhTT88z9hV7GoNF1cUCvN7TTPv/gf/+uQPm862MWTL6fff4HfDx4S79/oVAlAUwqOmYR0rnazuFnhfOy/ErMKkcBFOr1vOjUi2MFn4nuMil6OPh5eGANLhW3y6u3aH7ijEDCxgCvzFmimvc95TekZLyMSeJC68Bkw0kqUy1K87FlpGZqsGFCyqEtQNDdFUtFctTiuhnPKNysid/WFEFLE2O102XJdEE+8IgeuGsjeJyGHm/xHvQ3JtKVsGGp85g9rK6xMHtvHO9+WACYjk5vkVM6XQ6OZubCJvTfPicYPeHO2AKFl5NuF5UK1VDUbeLxh2BcRGKTQE3irHm3+vPj6cfCod50Eqv5QxtwBQUGhZhbrGVuRia1B4MNp6edwBxld2sl1splfHCwfsvCZfrCQyWmX10djjOlWJSSy3VQlS6LmfrgNvaieRWx1LZ6s9co+P0DLsy3OdLU3lWRclQsVcHJBcUQ0k9/WVVrmpRzYQzpgAdQcAXxZzUnFX3proannrYH+Vq6KkLi+UkarH09mC8YPr2RMWOlEqFkQClsykGEv7CqCUbXcG8+SaGvJ4a8d4y6epND+pEhxoN0vWUu5ntXlFb5/JT7JfJJqoTdy9u9qc7ax3xJRHqJLADWEl23cFWl4K9fvoaCJ2BHpmJ3s3z+O0U/DmzdMjB9alWZtg4e3yxzPa7lUR7nkvxLHO9+tvJX3mtSDpwX8GajB283I8R8a7D2MhUZr1iNWdny256yYLd52DwRYBtRMvE7rsmtxIUE+zLKQCDO4jlxB6CZ8M17GhuY+XTE8vNhQiIiSE82ZsGwk1pht4ZSpT0YVpon6EvevOXXH8JxVR78QzNuamupW/7UB7wO/+7sG5V4ekXb4cL5Lyv+4IAAAAASUVORK5CYII="
+                        />
+                      </div>
                     </div>
                   </div>
                   <div
@@ -424,7 +465,7 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                     dir="auto"
                     style={
                       Object {
-                        "marginLeft": "auto",
+                        "marginLeft": "10px",
                       }
                     }
                   >
@@ -433,28 +474,36 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                       dir="auto"
                       style={
                         Object {
-                          "color": "rgba(0,0,0,1.00)",
-                          "display": "inlineBlock",
-                          "fontFamily": "Helvetica, \\"sans-serif\\"",
-                          "fontSize": "10px",
+                          "color": "rgba(85,85,85,1.00)",
+                          "fontSize": "15px",
+                          "textTransform": "capitalize",
                         }
                       }
                     >
-                      From:
-                    </span>
-                    <span
-                      className="css-text-76zvg2 css-textHasAncestor-16my406"
-                      dir="auto"
-                      style={
-                        Object {
-                          "color": "rgba(0,0,0,1.00)",
-                          "display": "inlineBlock",
-                          "fontFamily": "Helvetica, \\"sans-serif\\"",
-                          "fontSize": "14px",
+                      <span
+                        className="css-text-76zvg2 css-textHasAncestor-16my406"
+                        dir="auto"
+                        style={
+                          Object {
+                            "fontSize": "10px",
+                            "fontWeight": "500",
+                          }
                         }
-                      }
-                    >
-                      Misao Matimbo
+                      >
+                        From
+                        :
+                      </span>
+                      <span
+                        className="css-text-76zvg2 css-textHasAncestor-16my406"
+                        dir="auto"
+                        style={
+                          Object {
+                            "fontWeight": "700",
+                          }
+                        }
+                      >
+                        Misao Matimbo
+                      </span>
                     </span>
                   </div>
                 </div>
@@ -473,6 +522,14 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                 <div
                   className="css-text-76zvg2"
                   dir="auto"
+                  style={
+                    Object {
+                      "color": "rgba(0,0,0,0.54)",
+                      "fontSize": "16px",
+                      "fontWeight": "500",
+                      "textTransform": "capitalize",
+                    }
+                  }
                 >
                   aaa
                 </div>
@@ -480,15 +537,29 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                   className="css-view-1dbjc4n"
                   style={
                     Object {
+                      "WebkitAlignItems": "flex-end",
+                      "WebkitBoxAlign": "end",
                       "WebkitBoxDirection": "normal",
+                      "WebkitBoxFlex": 1,
                       "WebkitBoxOrient": "horizontal",
                       "WebkitBoxPack": "justify",
+                      "WebkitFlexBasis": "0%",
                       "WebkitFlexDirection": "row",
+                      "WebkitFlexGrow": 1,
+                      "WebkitFlexShrink": 1,
                       "WebkitJustifyContent": "space-between",
+                      "alignItems": "flex-end",
+                      "flexBasis": "0%",
                       "flexDirection": "row",
+                      "flexGrow": 1,
+                      "flexShrink": 1,
                       "justifyContent": "space-between",
+                      "msFlexAlign": "end",
                       "msFlexDirection": "row",
+                      "msFlexNegative": 1,
                       "msFlexPack": "justify",
+                      "msFlexPositive": 1,
+                      "msFlexPreferredSize": "0%",
                     }
                   }
                 >
@@ -498,7 +569,7 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                       Object {
                         "WebkitBoxPack": "center",
                         "WebkitJustifyContent": "center",
-                        "backgroundColor": "rgba(204,204,204,1.00)",
+                        "backgroundColor": "rgba(85,85,85,1.00)",
                         "borderBottomColor": "rgba(0,0,0,0.00)",
                         "borderBottomLeftRadius": "4px",
                         "borderBottomRightRadius": "4px",
@@ -515,10 +586,10 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                         "borderTopRightRadius": "4px",
                         "borderTopStyle": "solid",
                         "borderTopWidth": "0px",
-                        "boxShadow": "0px 0px 0px rgba(0,0,0,0.24)",
+                        "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
                         "justifyContent": "center",
                         "marginLeft": "auto",
-                        "minWidth": "auto",
+                        "minWidth": "80px",
                         "msFlexPack": "center",
                       }
                     }
@@ -578,7 +649,7 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                           dir="auto"
                           style={
                             Object {
-                              "color": "rgba(85,85,85,1.00)",
+                              "color": "rgba(255,255,255,1.00)",
                               "direction": "ltr",
                               "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                               "letterSpacing": "1px",
@@ -618,15 +689,6 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
               </div>
             </div>
           </div>
-          <div
-            className="css-view-1dbjc4n"
-            style={
-              Object {
-                "backgroundColor": "rgba(200,199,204,1.00)",
-                "height": "1px",
-              }
-            }
-          />
         </div>
       </div>
       <div
@@ -662,7 +724,6 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                 "flexBasis": "0%",
                 "flexGrow": 1,
                 "flexShrink": 1,
-                "height": "90vh",
                 "marginRight": "10px",
                 "msFlexItemAlign": "start",
                 "msFlexNegative": 1,
@@ -702,15 +763,15 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                     "borderBottomColor": "rgba(201,200,201,1.00)",
                     "borderBottomLeftRadius": "4px",
                     "borderBottomRightRadius": "4px",
-                    "borderBottomWidth": "2px",
+                    "borderBottomWidth": "0px",
                     "borderLeftColor": "rgba(201,200,201,1.00)",
                     "borderLeftWidth": "10px",
                     "borderRightColor": "rgba(201,200,201,1.00)",
-                    "borderRightWidth": "2px",
+                    "borderRightWidth": "0px",
                     "borderTopColor": "rgba(201,200,201,1.00)",
                     "borderTopLeftRadius": "4px",
                     "borderTopRightRadius": "4px",
-                    "borderTopWidth": "2px",
+                    "borderTopWidth": "0px",
                     "flexBasis": "0%",
                     "flexGrow": 1,
                     "flexShrink": 1,
@@ -742,10 +803,9 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                       "msFlexAlign": "center",
                       "msFlexDirection": "row",
                       "msFlexPack": "end",
-                      "paddingBottom": "0px",
                       "paddingLeft": "0px",
                       "paddingRight": "0px",
-                      "paddingTop": "0px",
+                      "paddingTop": "2em",
                     }
                   }
                 >
@@ -758,20 +818,19 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                         "WebkitFlexBasis": "0%",
                         "WebkitFlexGrow": 1,
                         "WebkitFlexShrink": 1,
-                        "color": "rgba(0,0,0,1.00)",
+                        "color": "rgba(85,85,85,1.00)",
                         "flexBasis": "0%",
                         "flexGrow": 1,
                         "flexShrink": 1,
-                        "fontFamily": "Helvetica, \\"sans-serif\\"",
-                        "fontSize": "16px",
-                        "fontWeight": "bold",
+                        "fontSize": "20px",
+                        "fontWeight": "700",
                         "msFlexNegative": 1,
                         "msFlexPositive": 1,
                         "msFlexPreferredSize": "0%",
                       }
                     }
                   >
-                    Sent GD
+                    Sent G$
                   </div>
                   <div
                     className="css-view-1dbjc4n"
@@ -788,7 +847,7 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                         Object {
                           "color": "rgba(0,0,0,1.00)",
                           "direction": "ltr",
-                          "fontFamily": "Helvetica, \\"sans-serif\\"",
+                          "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                           "fontSize": "16px",
                           "fontWeight": "bold",
                           "textAlign": "right",
@@ -804,22 +863,30 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                         Object {
                           "color": "rgba(0,0,0,1.00)",
                           "direction": "ltr",
-                          "fontFamily": "Helvetica, \\"sans-serif\\"",
+                          "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                           "fontSize": "16px",
                           "fontWeight": "bold",
                           "textAlign": "right",
                         }
                       }
                     >
-                      GD
+                      G$
                     </div>
                   </div>
                 </div>
                 <div
                   className="css-text-76zvg2"
                   dir="auto"
+                  style={
+                    Object {
+                      "color": "rgba(163,163,163,1.00)",
+                      "fontSize": "10px",
+                      "fontWeight": "500",
+                      "marginTop": "5px",
+                    }
+                  }
                 >
-                  4/1/2019
+                  04/01/19 3:03 PM
                 </div>
                 <div
                   className="css-view-1dbjc4n"
@@ -841,53 +908,70 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                       "WebkitBoxAlign": "center",
                       "WebkitBoxDirection": "normal",
                       "WebkitBoxOrient": "horizontal",
-                      "WebkitBoxPack": "end",
                       "WebkitFlexDirection": "row",
-                      "WebkitJustifyContent": "flex-end",
                       "alignItems": "center",
                       "backgroundColor": "rgba(255,255,255,1.00)",
                       "flexDirection": "row",
-                      "justifyContent": "flex-end",
                       "msFlexAlign": "center",
                       "msFlexDirection": "row",
-                      "msFlexPack": "end",
-                      "paddingBottom": "0px",
                       "paddingLeft": "0px",
                       "paddingRight": "0px",
-                      "paddingTop": "0px",
                     }
                   }
                 >
                   <div
                     className="css-view-1dbjc4n"
+                    data-focusable={true}
+                    onKeyDown={[Function]}
+                    onKeyUp={[Function]}
+                    onResponderGrant={[Function]}
+                    onResponderMove={[Function]}
+                    onResponderRelease={[Function]}
+                    onResponderTerminate={[Function]}
+                    onResponderTerminationRequest={[Function]}
+                    onStartShouldSetResponder={[Function]}
                     style={
                       Object {
-                        "backgroundColor": "rgba(255,255,255,1.00)",
-                        "borderBottomLeftRadius": "24px",
-                        "borderBottomRightRadius": "24px",
-                        "borderTopLeftRadius": "24px",
-                        "borderTopRightRadius": "24px",
-                        "height": "48px",
-                        "width": "48px",
+                        "MozTransitionProperty": "opacity",
+                        "MozUserSelect": "none",
+                        "WebkitTransitionDuration": "0.15s",
+                        "WebkitTransitionProperty": "opacity",
+                        "WebkitUserSelect": "none",
+                        "backgroundColor": "rgba(187,187,187,1.00)",
+                        "borderBottomLeftRadius": "50%",
+                        "borderBottomRightRadius": "50%",
+                        "borderTopLeftRadius": "50%",
+                        "borderTopRightRadius": "50%",
+                        "cursor": "pointer",
+                        "msTouchAction": "manipulation",
+                        "msUserSelect": "none",
+                        "touchAction": "manipulation",
+                        "transitionDuration": "0.15s",
+                        "transitionProperty": "opacity",
+                        "userSelect": "none",
                       }
                     }
+                    tabIndex="0"
                   >
                     <div
                       className="css-view-1dbjc4n"
                       style={
                         Object {
-                          "WebkitFlexBasis": "auto",
-                          "borderBottomLeftRadius": "24px",
-                          "borderBottomRightRadius": "24px",
-                          "borderTopLeftRadius": "24px",
-                          "borderTopRightRadius": "24px",
-                          "flexBasis": "auto",
-                          "height": "48px",
-                          "msFlexPreferredSize": "auto",
-                          "overflowX": "hidden",
-                          "overflowY": "hidden",
-                          "width": "48px",
-                          "zIndex": 0,
+                          "backgroundColor": "rgba(187,187,187,1.00)",
+                          "borderBottomColor": "rgba(112,112,112,1.00)",
+                          "borderBottomLeftRadius": "17px",
+                          "borderBottomRightRadius": "17px",
+                          "borderBottomWidth": "1px",
+                          "borderLeftColor": "rgba(112,112,112,1.00)",
+                          "borderLeftWidth": "1px",
+                          "borderRightColor": "rgba(112,112,112,1.00)",
+                          "borderRightWidth": "1px",
+                          "borderTopColor": "rgba(112,112,112,1.00)",
+                          "borderTopLeftRadius": "17px",
+                          "borderTopRightRadius": "17px",
+                          "borderTopWidth": "1px",
+                          "height": "34px",
+                          "width": "34px",
                         }
                       }
                     >
@@ -895,28 +979,48 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                         className="css-view-1dbjc4n"
                         style={
                           Object {
-                            "backgroundColor": "rgba(0,0,0,0.00)",
-                            "backgroundImage": "url(\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAkCAIAAAB0Xu9BAAAABGdBTUEAALGPC/xhBQAAAuNJREFUWEetmD1WHDEQhDdxRMYlnBFyBIccgdQhKVcgJeQMpE5JSTd2uqnvIGpVUqmm9TPrffD0eLMzUn+qVnXPwiFd/PP6eLh47v7EaazbmxsOxjhTT88z9hV7GoNF1cUCvN7TTPv/gf/+uQPm862MWTL6fff4HfDx4S79/oVAlAUwqOmYR0rnazuFnhfOy/ErMKkcBFOr1vOjUi2MFn4nuMil6OPh5eGANLhW3y6u3aH7ijEDCxgCvzFmimvc95TekZLyMSeJC68Bkw0kqUy1K87FlpGZqsGFCyqEtQNDdFUtFctTiuhnPKNysid/WFEFLE2O102XJdEE+8IgeuGsjeJyGHm/xHvQ3JtKVsGGp85g9rK6xMHtvHO9+WACYjk5vkVM6XQ6OZubCJvTfPicYPeHO2AKFl5NuF5UK1VDUbeLxh2BcRGKTQE3irHm3+vPj6cfCod50Eqv5QxtwBQUGhZhbrGVuRia1B4MNp6edwBxld2sl1splfHCwfsvCZfrCQyWmX10djjOlWJSSy3VQlS6LmfrgNvaieRWx1LZ6s9co+P0DLsy3OdLU3lWRclQsVcHJBcUQ0k9/WVVrmpRzYQzpgAdQcAXxZzUnFX3proannrYH+Vq6KkLi+UkarH09mC8YPr2RMWOlEqFkQClsykGEv7CqCUbXcG8+SaGvJ4a8d4y6epND+pEhxoN0vWUu5ntXlFb5/JT7JfJJqoTdy9u9qc7ax3xJRHqJLADWEl23cFWl4K9fvoaCJ2BHpmJ3s3z+O0U/DmzdMjB9alWZtg4e3yxzPa7lUR7nkvxLHO9+tvJX3mtSDpwX8GajB283I8R8a7D2MhUZr1iNWdny256yYLd52DwRYBtRMvE7rsmtxIUE+zLKQCDO4jlxB6CZ8M17GhuY+XTE8vNhQiIiSE82ZsGwk1pht4ZSpT0YVpon6EvevOXXH8JxVR78QzNuamupW/7UB7wO/+7sG5V4ekXb4cL5Lyv+4IAAAAASUVORK5CYII=\\")",
-                            "backgroundPosition": "center",
-                            "backgroundRepeat": "no-repeat",
-                            "backgroundSize": "cover",
-                            "bottom": "0px",
-                            "height": "100%",
-                            "left": "0px",
-                            "position": "absolute",
-                            "right": "0px",
-                            "top": "0px",
-                            "width": "100%",
-                            "zIndex": -1,
+                            "WebkitFlexBasis": "auto",
+                            "borderBottomLeftRadius": "17px",
+                            "borderBottomRightRadius": "17px",
+                            "borderTopLeftRadius": "17px",
+                            "borderTopRightRadius": "17px",
+                            "flexBasis": "auto",
+                            "height": "34px",
+                            "msFlexPreferredSize": "auto",
+                            "overflowX": "hidden",
+                            "overflowY": "hidden",
+                            "width": "34px",
+                            "zIndex": 0,
                           }
                         }
-                      />
-                      <img
-                        alt=""
-                        className="css-accessibilityImage-9pa8cd"
-                        draggable={false}
-                        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAkCAIAAAB0Xu9BAAAABGdBTUEAALGPC/xhBQAAAuNJREFUWEetmD1WHDEQhDdxRMYlnBFyBIccgdQhKVcgJeQMpE5JSTd2uqnvIGpVUqmm9TPrffD0eLMzUn+qVnXPwiFd/PP6eLh47v7EaazbmxsOxjhTT88z9hV7GoNF1cUCvN7TTPv/gf/+uQPm862MWTL6fff4HfDx4S79/oVAlAUwqOmYR0rnazuFnhfOy/ErMKkcBFOr1vOjUi2MFn4nuMil6OPh5eGANLhW3y6u3aH7ijEDCxgCvzFmimvc95TekZLyMSeJC68Bkw0kqUy1K87FlpGZqsGFCyqEtQNDdFUtFctTiuhnPKNysid/WFEFLE2O102XJdEE+8IgeuGsjeJyGHm/xHvQ3JtKVsGGp85g9rK6xMHtvHO9+WACYjk5vkVM6XQ6OZubCJvTfPicYPeHO2AKFl5NuF5UK1VDUbeLxh2BcRGKTQE3irHm3+vPj6cfCod50Eqv5QxtwBQUGhZhbrGVuRia1B4MNp6edwBxld2sl1splfHCwfsvCZfrCQyWmX10djjOlWJSSy3VQlS6LmfrgNvaieRWx1LZ6s9co+P0DLsy3OdLU3lWRclQsVcHJBcUQ0k9/WVVrmpRzYQzpgAdQcAXxZzUnFX3proannrYH+Vq6KkLi+UkarH09mC8YPr2RMWOlEqFkQClsykGEv7CqCUbXcG8+SaGvJ4a8d4y6epND+pEhxoN0vWUu5ntXlFb5/JT7JfJJqoTdy9u9qc7ax3xJRHqJLADWEl23cFWl4K9fvoaCJ2BHpmJ3s3z+O0U/DmzdMjB9alWZtg4e3yxzPa7lUR7nkvxLHO9+tvJX3mtSDpwX8GajB283I8R8a7D2MhUZr1iNWdny256yYLd52DwRYBtRMvE7rsmtxIUE+zLKQCDO4jlxB6CZ8M17GhuY+XTE8vNhQiIiSE82ZsGwk1pht4ZSpT0YVpon6EvevOXXH8JxVR78QzNuamupW/7UB7wO/+7sG5V4ekXb4cL5Lyv+4IAAAAASUVORK5CYII="
-                      />
+                      >
+                        <div
+                          className="css-view-1dbjc4n"
+                          style={
+                            Object {
+                              "backgroundColor": "rgba(0,0,0,0.00)",
+                              "backgroundImage": "url(\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAkCAIAAAB0Xu9BAAAABGdBTUEAALGPC/xhBQAAAuNJREFUWEetmD1WHDEQhDdxRMYlnBFyBIccgdQhKVcgJeQMpE5JSTd2uqnvIGpVUqmm9TPrffD0eLMzUn+qVnXPwiFd/PP6eLh47v7EaazbmxsOxjhTT88z9hV7GoNF1cUCvN7TTPv/gf/+uQPm862MWTL6fff4HfDx4S79/oVAlAUwqOmYR0rnazuFnhfOy/ErMKkcBFOr1vOjUi2MFn4nuMil6OPh5eGANLhW3y6u3aH7ijEDCxgCvzFmimvc95TekZLyMSeJC68Bkw0kqUy1K87FlpGZqsGFCyqEtQNDdFUtFctTiuhnPKNysid/WFEFLE2O102XJdEE+8IgeuGsjeJyGHm/xHvQ3JtKVsGGp85g9rK6xMHtvHO9+WACYjk5vkVM6XQ6OZubCJvTfPicYPeHO2AKFl5NuF5UK1VDUbeLxh2BcRGKTQE3irHm3+vPj6cfCod50Eqv5QxtwBQUGhZhbrGVuRia1B4MNp6edwBxld2sl1splfHCwfsvCZfrCQyWmX10djjOlWJSSy3VQlS6LmfrgNvaieRWx1LZ6s9co+P0DLsy3OdLU3lWRclQsVcHJBcUQ0k9/WVVrmpRzYQzpgAdQcAXxZzUnFX3proannrYH+Vq6KkLi+UkarH09mC8YPr2RMWOlEqFkQClsykGEv7CqCUbXcG8+SaGvJ4a8d4y6epND+pEhxoN0vWUu5ntXlFb5/JT7JfJJqoTdy9u9qc7ax3xJRHqJLADWEl23cFWl4K9fvoaCJ2BHpmJ3s3z+O0U/DmzdMjB9alWZtg4e3yxzPa7lUR7nkvxLHO9+tvJX3mtSDpwX8GajB283I8R8a7D2MhUZr1iNWdny256yYLd52DwRYBtRMvE7rsmtxIUE+zLKQCDO4jlxB6CZ8M17GhuY+XTE8vNhQiIiSE82ZsGwk1pht4ZSpT0YVpon6EvevOXXH8JxVR78QzNuamupW/7UB7wO/+7sG5V4ekXb4cL5Lyv+4IAAAAASUVORK5CYII=\\")",
+                              "backgroundPosition": "center",
+                              "backgroundRepeat": "no-repeat",
+                              "backgroundSize": "cover",
+                              "bottom": "0px",
+                              "height": "100%",
+                              "left": "0px",
+                              "position": "absolute",
+                              "right": "0px",
+                              "top": "0px",
+                              "width": "100%",
+                              "zIndex": -1,
+                            }
+                          }
+                        />
+                        <img
+                          alt=""
+                          className="css-accessibilityImage-9pa8cd"
+                          draggable={false}
+                          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAkCAIAAAB0Xu9BAAAABGdBTUEAALGPC/xhBQAAAuNJREFUWEetmD1WHDEQhDdxRMYlnBFyBIccgdQhKVcgJeQMpE5JSTd2uqnvIGpVUqmm9TPrffD0eLMzUn+qVnXPwiFd/PP6eLh47v7EaazbmxsOxjhTT88z9hV7GoNF1cUCvN7TTPv/gf/+uQPm862MWTL6fff4HfDx4S79/oVAlAUwqOmYR0rnazuFnhfOy/ErMKkcBFOr1vOjUi2MFn4nuMil6OPh5eGANLhW3y6u3aH7ijEDCxgCvzFmimvc95TekZLyMSeJC68Bkw0kqUy1K87FlpGZqsGFCyqEtQNDdFUtFctTiuhnPKNysid/WFEFLE2O102XJdEE+8IgeuGsjeJyGHm/xHvQ3JtKVsGGp85g9rK6xMHtvHO9+WACYjk5vkVM6XQ6OZubCJvTfPicYPeHO2AKFl5NuF5UK1VDUbeLxh2BcRGKTQE3irHm3+vPj6cfCod50Eqv5QxtwBQUGhZhbrGVuRia1B4MNp6edwBxld2sl1splfHCwfsvCZfrCQyWmX10djjOlWJSSy3VQlS6LmfrgNvaieRWx1LZ6s9co+P0DLsy3OdLU3lWRclQsVcHJBcUQ0k9/WVVrmpRzYQzpgAdQcAXxZzUnFX3proannrYH+Vq6KkLi+UkarH09mC8YPr2RMWOlEqFkQClsykGEv7CqCUbXcG8+SaGvJ4a8d4y6epND+pEhxoN0vWUu5ntXlFb5/JT7JfJJqoTdy9u9qc7ax3xJRHqJLADWEl23cFWl4K9fvoaCJ2BHpmJ3s3z+O0U/DmzdMjB9alWZtg4e3yxzPa7lUR7nkvxLHO9+tvJX3mtSDpwX8GajB283I8R8a7D2MhUZr1iNWdny256yYLd52DwRYBtRMvE7rsmtxIUE+zLKQCDO4jlxB6CZ8M17GhuY+XTE8vNhQiIiSE82ZsGwk1pht4ZSpT0YVpon6EvevOXXH8JxVR78QzNuamupW/7UB7wO/+7sG5V4ekXb4cL5Lyv+4IAAAAASUVORK5CYII="
+                        />
+                      </div>
                     </div>
                   </div>
                   <div
@@ -924,7 +1028,7 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                     dir="auto"
                     style={
                       Object {
-                        "marginLeft": "auto",
+                        "marginLeft": "10px",
                       }
                     }
                   >
@@ -933,28 +1037,36 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                       dir="auto"
                       style={
                         Object {
-                          "color": "rgba(0,0,0,1.00)",
-                          "display": "inlineBlock",
-                          "fontFamily": "Helvetica, \\"sans-serif\\"",
-                          "fontSize": "10px",
+                          "color": "rgba(85,85,85,1.00)",
+                          "fontSize": "15px",
+                          "textTransform": "capitalize",
                         }
                       }
                     >
-                      To:
-                    </span>
-                    <span
-                      className="css-text-76zvg2 css-textHasAncestor-16my406"
-                      dir="auto"
-                      style={
-                        Object {
-                          "color": "rgba(0,0,0,1.00)",
-                          "display": "inlineBlock",
-                          "fontFamily": "Helvetica, \\"sans-serif\\"",
-                          "fontSize": "14px",
+                      <span
+                        className="css-text-76zvg2 css-textHasAncestor-16my406"
+                        dir="auto"
+                        style={
+                          Object {
+                            "fontSize": "10px",
+                            "fontWeight": "500",
+                          }
                         }
-                      }
-                    >
-                      Misao Matimbo
+                      >
+                        To
+                        :
+                      </span>
+                      <span
+                        className="css-text-76zvg2 css-textHasAncestor-16my406"
+                        dir="auto"
+                        style={
+                          Object {
+                            "fontWeight": "700",
+                          }
+                        }
+                      >
+                        Misao Matimbo
+                      </span>
                     </span>
                   </div>
                 </div>
@@ -973,6 +1085,14 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                 <div
                   className="css-text-76zvg2"
                   dir="auto"
+                  style={
+                    Object {
+                      "color": "rgba(0,0,0,0.54)",
+                      "fontSize": "16px",
+                      "fontWeight": "500",
+                      "textTransform": "capitalize",
+                    }
+                  }
                 >
                   aaa
                 </div>
@@ -980,15 +1100,29 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                   className="css-view-1dbjc4n"
                   style={
                     Object {
+                      "WebkitAlignItems": "flex-end",
+                      "WebkitBoxAlign": "end",
                       "WebkitBoxDirection": "normal",
+                      "WebkitBoxFlex": 1,
                       "WebkitBoxOrient": "horizontal",
                       "WebkitBoxPack": "justify",
+                      "WebkitFlexBasis": "0%",
                       "WebkitFlexDirection": "row",
+                      "WebkitFlexGrow": 1,
+                      "WebkitFlexShrink": 1,
                       "WebkitJustifyContent": "space-between",
+                      "alignItems": "flex-end",
+                      "flexBasis": "0%",
                       "flexDirection": "row",
+                      "flexGrow": 1,
+                      "flexShrink": 1,
                       "justifyContent": "space-between",
+                      "msFlexAlign": "end",
                       "msFlexDirection": "row",
+                      "msFlexNegative": 1,
                       "msFlexPack": "justify",
+                      "msFlexPositive": 1,
+                      "msFlexPreferredSize": "0%",
                     }
                   }
                 >
@@ -998,7 +1132,7 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                       Object {
                         "WebkitBoxPack": "center",
                         "WebkitJustifyContent": "center",
-                        "backgroundColor": "rgba(204,204,204,1.00)",
+                        "backgroundColor": "rgba(85,85,85,1.00)",
                         "borderBottomColor": "rgba(0,0,0,0.00)",
                         "borderBottomLeftRadius": "4px",
                         "borderBottomRightRadius": "4px",
@@ -1015,10 +1149,10 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                         "borderTopRightRadius": "4px",
                         "borderTopStyle": "solid",
                         "borderTopWidth": "0px",
-                        "boxShadow": "0px 0px 0px rgba(0,0,0,0.24)",
+                        "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
                         "justifyContent": "center",
                         "marginLeft": "auto",
-                        "minWidth": "auto",
+                        "minWidth": "80px",
                         "msFlexPack": "center",
                       }
                     }
@@ -1078,7 +1212,7 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                           dir="auto"
                           style={
                             Object {
-                              "color": "rgba(85,85,85,1.00)",
+                              "color": "rgba(255,255,255,1.00)",
                               "direction": "ltr",
                               "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                               "letterSpacing": "1px",
@@ -1272,31 +1406,23 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
               style={
                 Object {
                   "MozUserSelect": "none",
-                  "WebkitAlignItems": "center",
-                  "WebkitBoxAlign": "center",
                   "WebkitBoxDirection": "normal",
                   "WebkitBoxOrient": "horizontal",
-                  "WebkitBoxPack": "center",
                   "WebkitFlexDirection": "row",
-                  "WebkitJustifyContent": "center",
                   "WebkitUserSelect": "none",
-                  "alignItems": "center",
                   "backgroundColor": "rgba(238,238,239,1.00)",
-                  "borderBottomColor": "rgba(0,0,0,0.10)",
-                  "borderBottomWidth": "1px",
+                  "borderBottomLeftRadius": "8px",
+                  "borderBottomRightRadius": "8px",
+                  "borderTopLeftRadius": "8px",
+                  "borderTopRightRadius": "8px",
                   "cursor": "pointer",
                   "flexDirection": "row",
-                  "justifyContent": "center",
                   "marginBottom": "5px",
-                  "msFlexAlign": "center",
                   "msFlexDirection": "row",
-                  "msFlexPack": "center",
                   "msTouchAction": "manipulation",
                   "msUserSelect": "none",
-                  "paddingBottom": "15px",
-                  "paddingLeft": "15px",
-                  "paddingRight": "15px",
-                  "paddingTop": "15px",
+                  "overflowX": "hidden",
+                  "overflowY": "hidden",
                   "touchAction": "manipulation",
                   "userSelect": "none",
                 }
@@ -1307,16 +1433,30 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                 className="css-view-1dbjc4n"
                 style={
                   Object {
+                    "WebkitAlignItems": "center",
+                    "WebkitBoxAlign": "center",
                     "WebkitBoxFlex": 1,
+                    "WebkitBoxPack": "center",
                     "WebkitFlexBasis": "0%",
                     "WebkitFlexGrow": 1,
                     "WebkitFlexShrink": 1,
+                    "WebkitJustifyContent": "center",
+                    "alignItems": "center",
+                    "borderLeftColor": "rgba(186,186,186,1.00)",
+                    "borderLeftWidth": "8px",
                     "flexBasis": "0%",
                     "flexGrow": 1,
                     "flexShrink": 1,
+                    "justifyContent": "center",
+                    "msFlexAlign": "center",
                     "msFlexNegative": 1,
+                    "msFlexPack": "center",
                     "msFlexPositive": 1,
                     "msFlexPreferredSize": "0%",
+                    "paddingBottom": "5px",
+                    "paddingLeft": "5px",
+                    "paddingRight": "5px",
+                    "paddingTop": "5px",
                   }
                 }
               >
@@ -1332,7 +1472,6 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                       "WebkitFlexDirection": "row",
                       "WebkitJustifyContent": "center",
                       "alignItems": "center",
-                      "backgroundColor": "rgba(238,238,239,1.00)",
                       "flexDirection": "row",
                       "justifyContent": "center",
                       "msFlexAlign": "center",
@@ -1350,12 +1489,12 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                       style={
                         Object {
                           "backgroundColor": "rgba(255,255,255,1.00)",
-                          "borderBottomLeftRadius": "24px",
-                          "borderBottomRightRadius": "24px",
-                          "borderTopLeftRadius": "24px",
-                          "borderTopRightRadius": "24px",
-                          "height": "48px",
-                          "width": "48px",
+                          "borderBottomLeftRadius": "18px",
+                          "borderBottomRightRadius": "18px",
+                          "borderTopLeftRadius": "18px",
+                          "borderTopRightRadius": "18px",
+                          "height": "36px",
+                          "width": "36px",
                         }
                       }
                     >
@@ -1364,16 +1503,16 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                         style={
                           Object {
                             "WebkitFlexBasis": "auto",
-                            "borderBottomLeftRadius": "24px",
-                            "borderBottomRightRadius": "24px",
-                            "borderTopLeftRadius": "24px",
-                            "borderTopRightRadius": "24px",
+                            "borderBottomLeftRadius": "18px",
+                            "borderBottomRightRadius": "18px",
+                            "borderTopLeftRadius": "18px",
+                            "borderTopRightRadius": "18px",
                             "flexBasis": "auto",
-                            "height": "48px",
+                            "height": "36px",
                             "msFlexPreferredSize": "auto",
                             "overflowX": "hidden",
                             "overflowY": "hidden",
-                            "width": "48px",
+                            "width": "36px",
                             "zIndex": 0,
                           }
                         }
@@ -1436,23 +1575,46 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                       dir="auto"
                       style={
                         Object {
-                          "color": "rgba(75,75,75,1.00)",
+                          "color": "rgba(85,85,85,1.00)",
                           "fontSize": "15px",
                           "textTransform": "capitalize",
                         }
                       }
                     >
-                      From: Misao Matimbo
+                      <span
+                        className="css-text-76zvg2 css-textHasAncestor-16my406"
+                        dir="auto"
+                        style={
+                          Object {
+                            "fontSize": "10px",
+                            "fontWeight": "500",
+                          }
+                        }
+                      >
+                        From
+                        :
+                      </span>
+                      <span
+                        className="css-text-76zvg2 css-textHasAncestor-16my406"
+                        dir="auto"
+                        style={
+                          Object {
+                            "fontWeight": "700",
+                          }
+                        }
+                      >
+                        Misao Matimbo
+                      </span>
                     </div>
                     <div
                       className="css-text-76zvg2"
                       dir="auto"
                       style={
                         Object {
-                          "color": "rgba(168,166,137,1.00)",
-                          "fontSize": "13px",
+                          "color": "rgba(163,163,163,1.00)",
+                          "fontSize": "15px",
                           "marginTop": "4px",
-                          "opacity": 0.8,
+                          "textTransform": "capitalize",
                         }
                       }
                     >
@@ -1463,23 +1625,21 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                     className="css-view-1dbjc4n"
                     style={
                       Object {
-                        "WebkitAlignItems": "center",
-                        "WebkitBoxAlign": "center",
+                        "WebkitAlignItems": "right",
+                        "WebkitBoxAlign": "right",
                         "WebkitBoxDirection": "normal",
-                        "WebkitBoxOrient": "horizontal",
-                        "WebkitBoxPack": "center",
-                        "WebkitFlexDirection": "row",
-                        "WebkitJustifyContent": "center",
-                        "alignItems": "center",
-                        "backgroundColor": "rgba(238,238,239,1.00)",
-                        "borderBottomColor": "rgba(0,0,0,0.10)",
+                        "WebkitBoxOrient": "vertical",
+                        "WebkitBoxPack": "right",
+                        "WebkitFlexDirection": "column",
+                        "WebkitJustifyContent": "right",
+                        "alignItems": "right",
                         "borderBottomWidth": "0px",
-                        "flexDirection": "row",
-                        "justifyContent": "center",
+                        "flexDirection": "column",
+                        "justifyContent": "right",
                         "marginBottom": "0px",
-                        "msFlexAlign": "center",
-                        "msFlexDirection": "row",
-                        "msFlexPack": "center",
+                        "msFlexAlign": "right",
+                        "msFlexDirection": "column",
+                        "msFlexPack": "right",
                         "paddingBottom": "0px",
                         "paddingLeft": "0px",
                         "paddingRight": "0px",
@@ -1491,58 +1651,61 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                       className="css-view-1dbjc4n"
                       style={
                         Object {
-                          "display": "inline-block",
+                          "WebkitAlignItems": "center",
+                          "WebkitBoxAlign": "center",
+                          "WebkitBoxDirection": "normal",
+                          "WebkitBoxOrient": "horizontal",
+                          "WebkitBoxPack": "right",
+                          "WebkitFlexDirection": "row",
+                          "WebkitJustifyContent": "right",
+                          "alignItems": "center",
+                          "flexDirection": "row",
+                          "justifyContent": "right",
+                          "msFlexAlign": "center",
+                          "msFlexDirection": "row",
+                          "msFlexPack": "right",
                         }
                       }
                     >
                       <div
-                        className="css-text-76zvg2"
-                        dir="auto"
+                        className="css-view-1dbjc4n"
                         style={
                           Object {
-                            "color": "rgba(85,85,85,1.00)",
-                            "direction": "ltr",
-                            "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                            "fontSize": "12px",
-                            "textAlign": "right",
+                            "display": "inline-block",
                           }
                         }
                       >
-                        0.04
-                      </div>
-                      <div
-                        className="css-text-76zvg2"
-                        dir="auto"
-                        style={
-                          Object {
-                            "color": "rgba(85,85,85,1.00)",
-                            "direction": "ltr",
-                            "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                            "fontSize": "12px",
-                            "textAlign": "right",
+                        <div
+                          className="css-text-76zvg2"
+                          dir="auto"
+                          style={
+                            Object {
+                              "color": "rgba(85,85,85,1.00)",
+                              "direction": "ltr",
+                              "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                              "fontSize": "12px",
+                              "textAlign": "right",
+                            }
                           }
-                        }
-                      >
-                        GD
+                        >
+                          0.04
+                        </div>
+                        <div
+                          className="css-text-76zvg2"
+                          dir="auto"
+                          style={
+                            Object {
+                              "color": "rgba(85,85,85,1.00)",
+                              "direction": "ltr",
+                              "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                              "fontSize": "12px",
+                              "textAlign": "right",
+                            }
+                          }
+                        >
+                          G$
+                        </div>
                       </div>
-                    </div>
-                    <div
-                      className="css-view-1dbjc4n"
-                      style={
-                        Object {
-                          "WebkitBoxFlex": 1,
-                          "WebkitFlexBasis": "0%",
-                          "WebkitFlexGrow": 1,
-                          "WebkitFlexShrink": 1,
-                          "flexBasis": "0%",
-                          "flexGrow": 1,
-                          "flexShrink": 1,
-                          "msFlexNegative": 1,
-                          "msFlexPositive": 1,
-                          "msFlexPreferredSize": "0%",
-                        }
-                      }
-                    >
                       <div
                         className="css-view-1dbjc4n"
                         style={
@@ -1553,19 +1716,19 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                             "WebkitJustifyContent": "center",
                             "alignItems": "center",
                             "backgroundColor": "rgba(255,255,255,1.00)",
-                            "borderBottomLeftRadius": "28px",
-                            "borderBottomRightRadius": "28px",
-                            "borderTopLeftRadius": "28px",
-                            "borderTopRightRadius": "28px",
-                            "height": "52px",
+                            "borderBottomLeftRadius": "20px",
+                            "borderBottomRightRadius": "20px",
+                            "borderTopLeftRadius": "20px",
+                            "borderTopRightRadius": "20px",
+                            "height": "36px",
                             "justifyContent": "center",
                             "marginBottom": "7px",
                             "marginLeft": "7px",
-                            "marginRight": "7px",
+                            "marginRight": "0px",
                             "marginTop": "7px",
                             "msFlexAlign": "center",
                             "msFlexPack": "center",
-                            "width": "52px",
+                            "width": "36px",
                           }
                         }
                       >
@@ -1577,7 +1740,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                               "backgroundColor": "rgba(0,0,0,0.00)",
                               "color": "rgba(85,85,85,1.00)",
                               "fontFamily": "MaterialIcons",
-                              "fontSize": "24px",
+                              "fontSize": "16px",
                               "fontStyle": "normal",
                               "fontWeight": "normal",
                             }
@@ -1586,18 +1749,39 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                           
                         </div>
                       </div>
+                    </div>
+                    <div
+                      className="css-view-1dbjc4n"
+                      style={
+                        Object {
+                          "WebkitAlignItems": "center",
+                          "WebkitBoxAlign": "center",
+                          "WebkitBoxDirection": "normal",
+                          "WebkitBoxOrient": "horizontal",
+                          "WebkitBoxPack": "right",
+                          "WebkitFlexDirection": "row",
+                          "WebkitJustifyContent": "right",
+                          "alignItems": "center",
+                          "flexDirection": "row",
+                          "justifyContent": "right",
+                          "msFlexAlign": "center",
+                          "msFlexDirection": "row",
+                          "msFlexPack": "right",
+                        }
+                      }
+                    >
                       <div
                         className="css-text-76zvg2"
                         dir="auto"
                         style={
                           Object {
-                            "color": "rgba(75,75,75,1.00)",
+                            "color": "rgba(75,75,75,0.80)",
                             "fontSize": "8px",
-                            "opacity": 0.8,
+                            "marginLeft": "auto",
                           }
                         }
                       >
-                        4/1/2019, 3:03:14 PM
+                        04/01/19 3:03 PM
                       </div>
                     </div>
                   </div>
@@ -1606,15 +1790,6 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
             </div>
           </div>
         </div>
-        <div
-          className="css-view-1dbjc4n"
-          style={
-            Object {
-              "backgroundColor": "rgba(200,199,204,1.00)",
-              "height": "1px",
-            }
-          }
-        />
       </div>
       <div
         className="css-view-1dbjc4n"
@@ -1657,31 +1832,23 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
               style={
                 Object {
                   "MozUserSelect": "none",
-                  "WebkitAlignItems": "center",
-                  "WebkitBoxAlign": "center",
                   "WebkitBoxDirection": "normal",
                   "WebkitBoxOrient": "horizontal",
-                  "WebkitBoxPack": "center",
                   "WebkitFlexDirection": "row",
-                  "WebkitJustifyContent": "center",
                   "WebkitUserSelect": "none",
-                  "alignItems": "center",
                   "backgroundColor": "rgba(238,238,239,1.00)",
-                  "borderBottomColor": "rgba(0,0,0,0.10)",
-                  "borderBottomWidth": "1px",
+                  "borderBottomLeftRadius": "8px",
+                  "borderBottomRightRadius": "8px",
+                  "borderTopLeftRadius": "8px",
+                  "borderTopRightRadius": "8px",
                   "cursor": "pointer",
                   "flexDirection": "row",
-                  "justifyContent": "center",
                   "marginBottom": "5px",
-                  "msFlexAlign": "center",
                   "msFlexDirection": "row",
-                  "msFlexPack": "center",
                   "msTouchAction": "manipulation",
                   "msUserSelect": "none",
-                  "paddingBottom": "15px",
-                  "paddingLeft": "15px",
-                  "paddingRight": "15px",
-                  "paddingTop": "15px",
+                  "overflowX": "hidden",
+                  "overflowY": "hidden",
                   "touchAction": "manipulation",
                   "userSelect": "none",
                 }
@@ -1692,16 +1859,30 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                 className="css-view-1dbjc4n"
                 style={
                   Object {
+                    "WebkitAlignItems": "center",
+                    "WebkitBoxAlign": "center",
                     "WebkitBoxFlex": 1,
+                    "WebkitBoxPack": "center",
                     "WebkitFlexBasis": "0%",
                     "WebkitFlexGrow": 1,
                     "WebkitFlexShrink": 1,
+                    "WebkitJustifyContent": "center",
+                    "alignItems": "center",
+                    "borderLeftColor": "rgba(186,186,186,1.00)",
+                    "borderLeftWidth": "8px",
                     "flexBasis": "0%",
                     "flexGrow": 1,
                     "flexShrink": 1,
+                    "justifyContent": "center",
+                    "msFlexAlign": "center",
                     "msFlexNegative": 1,
+                    "msFlexPack": "center",
                     "msFlexPositive": 1,
                     "msFlexPreferredSize": "0%",
+                    "paddingBottom": "5px",
+                    "paddingLeft": "5px",
+                    "paddingRight": "5px",
+                    "paddingTop": "5px",
                   }
                 }
               >
@@ -1717,7 +1898,6 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                       "WebkitFlexDirection": "row",
                       "WebkitJustifyContent": "center",
                       "alignItems": "center",
-                      "backgroundColor": "rgba(238,238,239,1.00)",
                       "flexDirection": "row",
                       "justifyContent": "center",
                       "msFlexAlign": "center",
@@ -1735,12 +1915,12 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                       style={
                         Object {
                           "backgroundColor": "rgba(255,255,255,1.00)",
-                          "borderBottomLeftRadius": "24px",
-                          "borderBottomRightRadius": "24px",
-                          "borderTopLeftRadius": "24px",
-                          "borderTopRightRadius": "24px",
-                          "height": "48px",
-                          "width": "48px",
+                          "borderBottomLeftRadius": "18px",
+                          "borderBottomRightRadius": "18px",
+                          "borderTopLeftRadius": "18px",
+                          "borderTopRightRadius": "18px",
+                          "height": "36px",
+                          "width": "36px",
                         }
                       }
                     >
@@ -1749,16 +1929,16 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                         style={
                           Object {
                             "WebkitFlexBasis": "auto",
-                            "borderBottomLeftRadius": "24px",
-                            "borderBottomRightRadius": "24px",
-                            "borderTopLeftRadius": "24px",
-                            "borderTopRightRadius": "24px",
+                            "borderBottomLeftRadius": "18px",
+                            "borderBottomRightRadius": "18px",
+                            "borderTopLeftRadius": "18px",
+                            "borderTopRightRadius": "18px",
                             "flexBasis": "auto",
-                            "height": "48px",
+                            "height": "36px",
                             "msFlexPreferredSize": "auto",
                             "overflowX": "hidden",
                             "overflowY": "hidden",
-                            "width": "48px",
+                            "width": "36px",
                             "zIndex": 0,
                           }
                         }
@@ -1821,23 +2001,46 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                       dir="auto"
                       style={
                         Object {
-                          "color": "rgba(75,75,75,1.00)",
+                          "color": "rgba(85,85,85,1.00)",
                           "fontSize": "15px",
                           "textTransform": "capitalize",
                         }
                       }
                     >
-                      To: Misao Matimbo
+                      <span
+                        className="css-text-76zvg2 css-textHasAncestor-16my406"
+                        dir="auto"
+                        style={
+                          Object {
+                            "fontSize": "10px",
+                            "fontWeight": "500",
+                          }
+                        }
+                      >
+                        To
+                        :
+                      </span>
+                      <span
+                        className="css-text-76zvg2 css-textHasAncestor-16my406"
+                        dir="auto"
+                        style={
+                          Object {
+                            "fontWeight": "700",
+                          }
+                        }
+                      >
+                        Misao Matimbo
+                      </span>
                     </div>
                     <div
                       className="css-text-76zvg2"
                       dir="auto"
                       style={
                         Object {
-                          "color": "rgba(168,166,137,1.00)",
-                          "fontSize": "13px",
+                          "color": "rgba(163,163,163,1.00)",
+                          "fontSize": "15px",
                           "marginTop": "4px",
-                          "opacity": 0.8,
+                          "textTransform": "capitalize",
                         }
                       }
                     >
@@ -1848,23 +2051,21 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                     className="css-view-1dbjc4n"
                     style={
                       Object {
-                        "WebkitAlignItems": "center",
-                        "WebkitBoxAlign": "center",
+                        "WebkitAlignItems": "right",
+                        "WebkitBoxAlign": "right",
                         "WebkitBoxDirection": "normal",
-                        "WebkitBoxOrient": "horizontal",
-                        "WebkitBoxPack": "center",
-                        "WebkitFlexDirection": "row",
-                        "WebkitJustifyContent": "center",
-                        "alignItems": "center",
-                        "backgroundColor": "rgba(238,238,239,1.00)",
-                        "borderBottomColor": "rgba(0,0,0,0.10)",
+                        "WebkitBoxOrient": "vertical",
+                        "WebkitBoxPack": "right",
+                        "WebkitFlexDirection": "column",
+                        "WebkitJustifyContent": "right",
+                        "alignItems": "right",
                         "borderBottomWidth": "0px",
-                        "flexDirection": "row",
-                        "justifyContent": "center",
+                        "flexDirection": "column",
+                        "justifyContent": "right",
                         "marginBottom": "0px",
-                        "msFlexAlign": "center",
-                        "msFlexDirection": "row",
-                        "msFlexPack": "center",
+                        "msFlexAlign": "right",
+                        "msFlexDirection": "column",
+                        "msFlexPack": "right",
                         "paddingBottom": "0px",
                         "paddingLeft": "0px",
                         "paddingRight": "0px",
@@ -1876,58 +2077,61 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                       className="css-view-1dbjc4n"
                       style={
                         Object {
-                          "display": "inline-block",
+                          "WebkitAlignItems": "center",
+                          "WebkitBoxAlign": "center",
+                          "WebkitBoxDirection": "normal",
+                          "WebkitBoxOrient": "horizontal",
+                          "WebkitBoxPack": "right",
+                          "WebkitFlexDirection": "row",
+                          "WebkitJustifyContent": "right",
+                          "alignItems": "center",
+                          "flexDirection": "row",
+                          "justifyContent": "right",
+                          "msFlexAlign": "center",
+                          "msFlexDirection": "row",
+                          "msFlexPack": "right",
                         }
                       }
                     >
                       <div
-                        className="css-text-76zvg2"
-                        dir="auto"
+                        className="css-view-1dbjc4n"
                         style={
                           Object {
-                            "color": "rgba(85,85,85,1.00)",
-                            "direction": "ltr",
-                            "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                            "fontSize": "12px",
-                            "textAlign": "right",
+                            "display": "inline-block",
                           }
                         }
                       >
-                        0.04
-                      </div>
-                      <div
-                        className="css-text-76zvg2"
-                        dir="auto"
-                        style={
-                          Object {
-                            "color": "rgba(85,85,85,1.00)",
-                            "direction": "ltr",
-                            "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                            "fontSize": "12px",
-                            "textAlign": "right",
+                        <div
+                          className="css-text-76zvg2"
+                          dir="auto"
+                          style={
+                            Object {
+                              "color": "rgba(85,85,85,1.00)",
+                              "direction": "ltr",
+                              "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                              "fontSize": "12px",
+                              "textAlign": "right",
+                            }
                           }
-                        }
-                      >
-                        GD
+                        >
+                          0.04
+                        </div>
+                        <div
+                          className="css-text-76zvg2"
+                          dir="auto"
+                          style={
+                            Object {
+                              "color": "rgba(85,85,85,1.00)",
+                              "direction": "ltr",
+                              "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                              "fontSize": "12px",
+                              "textAlign": "right",
+                            }
+                          }
+                        >
+                          G$
+                        </div>
                       </div>
-                    </div>
-                    <div
-                      className="css-view-1dbjc4n"
-                      style={
-                        Object {
-                          "WebkitBoxFlex": 1,
-                          "WebkitFlexBasis": "0%",
-                          "WebkitFlexGrow": 1,
-                          "WebkitFlexShrink": 1,
-                          "flexBasis": "0%",
-                          "flexGrow": 1,
-                          "flexShrink": 1,
-                          "msFlexNegative": 1,
-                          "msFlexPositive": 1,
-                          "msFlexPreferredSize": "0%",
-                        }
-                      }
-                    >
                       <div
                         className="css-view-1dbjc4n"
                         style={
@@ -1938,19 +2142,19 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                             "WebkitJustifyContent": "center",
                             "alignItems": "center",
                             "backgroundColor": "rgba(255,255,255,1.00)",
-                            "borderBottomLeftRadius": "28px",
-                            "borderBottomRightRadius": "28px",
-                            "borderTopLeftRadius": "28px",
-                            "borderTopRightRadius": "28px",
-                            "height": "52px",
+                            "borderBottomLeftRadius": "20px",
+                            "borderBottomRightRadius": "20px",
+                            "borderTopLeftRadius": "20px",
+                            "borderTopRightRadius": "20px",
+                            "height": "36px",
                             "justifyContent": "center",
                             "marginBottom": "7px",
                             "marginLeft": "7px",
-                            "marginRight": "7px",
+                            "marginRight": "0px",
                             "marginTop": "7px",
                             "msFlexAlign": "center",
                             "msFlexPack": "center",
-                            "width": "52px",
+                            "width": "36px",
                           }
                         }
                       >
@@ -1962,7 +2166,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                               "backgroundColor": "rgba(0,0,0,0.00)",
                               "color": "rgba(85,85,85,1.00)",
                               "fontFamily": "MaterialIcons",
-                              "fontSize": "24px",
+                              "fontSize": "16px",
                               "fontStyle": "normal",
                               "fontWeight": "normal",
                             }
@@ -1971,18 +2175,39 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                           
                         </div>
                       </div>
+                    </div>
+                    <div
+                      className="css-view-1dbjc4n"
+                      style={
+                        Object {
+                          "WebkitAlignItems": "center",
+                          "WebkitBoxAlign": "center",
+                          "WebkitBoxDirection": "normal",
+                          "WebkitBoxOrient": "horizontal",
+                          "WebkitBoxPack": "right",
+                          "WebkitFlexDirection": "row",
+                          "WebkitJustifyContent": "right",
+                          "alignItems": "center",
+                          "flexDirection": "row",
+                          "justifyContent": "right",
+                          "msFlexAlign": "center",
+                          "msFlexDirection": "row",
+                          "msFlexPack": "right",
+                        }
+                      }
+                    >
                       <div
                         className="css-text-76zvg2"
                         dir="auto"
                         style={
                           Object {
-                            "color": "rgba(75,75,75,1.00)",
+                            "color": "rgba(75,75,75,0.80)",
                             "fontSize": "8px",
-                            "opacity": 0.8,
+                            "marginLeft": "auto",
                           }
                         }
                       >
-                        4/1/2019, 3:03:14 PM
+                        04/01/19 3:03 PM
                       </div>
                     </div>
                   </div>

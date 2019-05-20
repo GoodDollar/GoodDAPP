@@ -18,6 +18,7 @@ const InputGoodDollar = (props: Props) => {
       onChangeText={text => {
         onChangeWei(maskToWei(text))
       }}
+      placeholder="0 G$"
     />
   )
 }

@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
-import { Icon } from 'react-native-elements'
+import Icon from 'react-native-elements/src/icons/Icon'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { Wrapper, Section, UserAvatar } from '../common'
 import logger from '../../lib/logger/pino-logger'
@@ -42,7 +42,9 @@ const styles = StyleSheet.create({
   },
   section: {
     paddingLeft: '1em',
-    paddingRight: '1em'
+    paddingRight: '1em',
+    marginBottom: 'auto',
+    minHeight: '100%'
   },
   icon: {
     cursor: 'pointer'

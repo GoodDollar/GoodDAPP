@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import { View, StyleSheet } from 'react-native'
-import { normalize } from 'react-native-elements'
+import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { Provider } from 'react-native-paper'
 import { fontStyle } from './styles'
 
@@ -60,7 +60,6 @@ const styles = StyleSheet.create({
   },
   linkButton: {
     color: '#555',
-    fontFamily: 'Helvetica, "sans-serif"',
     fontSize: normalize(18),
     textAlign: 'center',
     marginTop: normalize(10)

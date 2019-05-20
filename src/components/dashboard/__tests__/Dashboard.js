@@ -6,12 +6,11 @@ import renderer from 'react-test-renderer'
 
 import GDStore from '../../../lib/undux/GDStore'
 import { getComponentWithMocks } from './__util__'
-
+import userStorage from '../../../lib/gundb/UserStorage'
 const { Container } = GDStore
 
 const routes = {
-  Dashboard: getComponentWithMocks('../Dashboard'),
-  Donate: getComponentWithMocks('../../appNavigation/Donate')
+  Dashboard: getComponentWithMocks('../Dashboard')
 }
 
 const AppNavigator = createSwitchNavigator(routes)
@@ -28,29 +27,19 @@ class AppNavigation extends React.Component<AppNavigationProps, AppNavigationSta
 }
 
 describe('Dashboard', () => {
-  it('renders without errors', () => {
+  it('renders without errors', async () => {
+    await userStorage.ready
     const WebRouter = createBrowserApp(createSwitchNavigator({ AppNavigation }))
 
     const tree = renderer.create(<WebRouter />)
     expect(tree.toJSON()).toBeTruthy()
   })
 
-  it('matches snapshot', () => {
+  it('matches snapshot', async () => {
+    await userStorage.ready
     const WebRouter = createBrowserApp(createSwitchNavigator({ AppNavigation }))
 
     const component = renderer.create(<WebRouter />)
-    const tree = component.toJSON()
-    expect(tree).toMatchSnapshot()
-  })
-
-  it('matches snapshot when changing tab', () => {
-    const WebRouter = createBrowserApp(createSwitchNavigator({ AppNavigation }))
-    const component = renderer.create(<WebRouter />)
-    const [scrollView] = component.toJSON().children
-    const [view] = scrollView.children
-    const [tabsView] = view.children
-    const [, tabButton] = tabsView.children
-    tabButton.props.onClick(new Event('fakeEvent'))
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

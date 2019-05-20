@@ -13,7 +13,6 @@ exports[`ListEventItem receive matches snapshot 1`] = `
       "WebkitFlexDirection": "row",
       "WebkitJustifyContent": "center",
       "alignItems": "center",
-      "backgroundColor": "rgba(238,238,239,1.00)",
       "flexDirection": "row",
       "justifyContent": "center",
       "msFlexAlign": "center",
@@ -31,12 +30,12 @@ exports[`ListEventItem receive matches snapshot 1`] = `
       style={
         Object {
           "backgroundColor": "rgba(255,255,255,1.00)",
-          "borderBottomLeftRadius": "24px",
-          "borderBottomRightRadius": "24px",
-          "borderTopLeftRadius": "24px",
-          "borderTopRightRadius": "24px",
-          "height": "48px",
-          "width": "48px",
+          "borderBottomLeftRadius": "18px",
+          "borderBottomRightRadius": "18px",
+          "borderTopLeftRadius": "18px",
+          "borderTopRightRadius": "18px",
+          "height": "36px",
+          "width": "36px",
         }
       }
     >
@@ -45,16 +44,16 @@ exports[`ListEventItem receive matches snapshot 1`] = `
         style={
           Object {
             "WebkitFlexBasis": "auto",
-            "borderBottomLeftRadius": "24px",
-            "borderBottomRightRadius": "24px",
-            "borderTopLeftRadius": "24px",
-            "borderTopRightRadius": "24px",
+            "borderBottomLeftRadius": "18px",
+            "borderBottomRightRadius": "18px",
+            "borderTopLeftRadius": "18px",
+            "borderTopRightRadius": "18px",
             "flexBasis": "auto",
-            "height": "48px",
+            "height": "36px",
             "msFlexPreferredSize": "auto",
             "overflowX": "hidden",
             "overflowY": "hidden",
-            "width": "48px",
+            "width": "36px",
             "zIndex": 0,
           }
         }
@@ -117,23 +116,46 @@ exports[`ListEventItem receive matches snapshot 1`] = `
       dir="auto"
       style={
         Object {
-          "color": "rgba(75,75,75,1.00)",
+          "color": "rgba(85,85,85,1.00)",
           "fontSize": "15px",
           "textTransform": "capitalize",
         }
       }
     >
-      From: Misao Matimbo
+      <span
+        className="css-text-76zvg2 css-textHasAncestor-16my406"
+        dir="auto"
+        style={
+          Object {
+            "fontSize": "10px",
+            "fontWeight": "500",
+          }
+        }
+      >
+        From
+        :
+      </span>
+      <span
+        className="css-text-76zvg2 css-textHasAncestor-16my406"
+        dir="auto"
+        style={
+          Object {
+            "fontWeight": "700",
+          }
+        }
+      >
+        Misao Matimbo
+      </span>
     </div>
     <div
       className="css-text-76zvg2"
       dir="auto"
       style={
         Object {
-          "color": "rgba(168,166,137,1.00)",
-          "fontSize": "13px",
+          "color": "rgba(163,163,163,1.00)",
+          "fontSize": "15px",
           "marginTop": "4px",
-          "opacity": 0.8,
+          "textTransform": "capitalize",
         }
       }
     >
@@ -144,23 +166,21 @@ exports[`ListEventItem receive matches snapshot 1`] = `
     className="css-view-1dbjc4n"
     style={
       Object {
-        "WebkitAlignItems": "center",
-        "WebkitBoxAlign": "center",
+        "WebkitAlignItems": "right",
+        "WebkitBoxAlign": "right",
         "WebkitBoxDirection": "normal",
-        "WebkitBoxOrient": "horizontal",
-        "WebkitBoxPack": "center",
-        "WebkitFlexDirection": "row",
-        "WebkitJustifyContent": "center",
-        "alignItems": "center",
-        "backgroundColor": "rgba(238,238,239,1.00)",
-        "borderBottomColor": "rgba(0,0,0,0.10)",
+        "WebkitBoxOrient": "vertical",
+        "WebkitBoxPack": "right",
+        "WebkitFlexDirection": "column",
+        "WebkitJustifyContent": "right",
+        "alignItems": "right",
         "borderBottomWidth": "0px",
-        "flexDirection": "row",
-        "justifyContent": "center",
+        "flexDirection": "column",
+        "justifyContent": "right",
         "marginBottom": "0px",
-        "msFlexAlign": "center",
-        "msFlexDirection": "row",
-        "msFlexPack": "center",
+        "msFlexAlign": "right",
+        "msFlexDirection": "column",
+        "msFlexPack": "right",
         "paddingBottom": "0px",
         "paddingLeft": "0px",
         "paddingRight": "0px",
@@ -172,58 +192,61 @@ exports[`ListEventItem receive matches snapshot 1`] = `
       className="css-view-1dbjc4n"
       style={
         Object {
-          "display": "inline-block",
+          "WebkitAlignItems": "center",
+          "WebkitBoxAlign": "center",
+          "WebkitBoxDirection": "normal",
+          "WebkitBoxOrient": "horizontal",
+          "WebkitBoxPack": "right",
+          "WebkitFlexDirection": "row",
+          "WebkitJustifyContent": "right",
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "right",
+          "msFlexAlign": "center",
+          "msFlexDirection": "row",
+          "msFlexPack": "right",
         }
       }
     >
       <div
-        className="css-text-76zvg2"
-        dir="auto"
+        className="css-view-1dbjc4n"
         style={
           Object {
-            "color": "rgba(85,85,85,1.00)",
-            "direction": "ltr",
-            "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-            "fontSize": "12px",
-            "textAlign": "right",
+            "display": "inline-block",
           }
         }
       >
-        0.04
-      </div>
-      <div
-        className="css-text-76zvg2"
-        dir="auto"
-        style={
-          Object {
-            "color": "rgba(85,85,85,1.00)",
-            "direction": "ltr",
-            "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-            "fontSize": "12px",
-            "textAlign": "right",
+        <div
+          className="css-text-76zvg2"
+          dir="auto"
+          style={
+            Object {
+              "color": "rgba(85,85,85,1.00)",
+              "direction": "ltr",
+              "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "fontSize": "12px",
+              "textAlign": "right",
+            }
           }
-        }
-      >
-        GD
+        >
+          0.04
+        </div>
+        <div
+          className="css-text-76zvg2"
+          dir="auto"
+          style={
+            Object {
+              "color": "rgba(85,85,85,1.00)",
+              "direction": "ltr",
+              "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "fontSize": "12px",
+              "textAlign": "right",
+            }
+          }
+        >
+          G$
+        </div>
       </div>
-    </div>
-    <div
-      className="css-view-1dbjc4n"
-      style={
-        Object {
-          "WebkitBoxFlex": 1,
-          "WebkitFlexBasis": "0%",
-          "WebkitFlexGrow": 1,
-          "WebkitFlexShrink": 1,
-          "flexBasis": "0%",
-          "flexGrow": 1,
-          "flexShrink": 1,
-          "msFlexNegative": 1,
-          "msFlexPositive": 1,
-          "msFlexPreferredSize": "0%",
-        }
-      }
-    >
       <div
         className="css-view-1dbjc4n"
         style={
@@ -234,19 +257,19 @@ exports[`ListEventItem receive matches snapshot 1`] = `
             "WebkitJustifyContent": "center",
             "alignItems": "center",
             "backgroundColor": "rgba(255,255,255,1.00)",
-            "borderBottomLeftRadius": "28px",
-            "borderBottomRightRadius": "28px",
-            "borderTopLeftRadius": "28px",
-            "borderTopRightRadius": "28px",
-            "height": "52px",
+            "borderBottomLeftRadius": "20px",
+            "borderBottomRightRadius": "20px",
+            "borderTopLeftRadius": "20px",
+            "borderTopRightRadius": "20px",
+            "height": "36px",
             "justifyContent": "center",
             "marginBottom": "7px",
             "marginLeft": "7px",
-            "marginRight": "7px",
+            "marginRight": "0px",
             "marginTop": "7px",
             "msFlexAlign": "center",
             "msFlexPack": "center",
-            "width": "52px",
+            "width": "36px",
           }
         }
       >
@@ -258,7 +281,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
               "backgroundColor": "rgba(0,0,0,0.00)",
               "color": "rgba(85,85,85,1.00)",
               "fontFamily": "MaterialIcons",
-              "fontSize": "24px",
+              "fontSize": "16px",
               "fontStyle": "normal",
               "fontWeight": "normal",
             }
@@ -267,18 +290,39 @@ exports[`ListEventItem receive matches snapshot 1`] = `
           
         </div>
       </div>
+    </div>
+    <div
+      className="css-view-1dbjc4n"
+      style={
+        Object {
+          "WebkitAlignItems": "center",
+          "WebkitBoxAlign": "center",
+          "WebkitBoxDirection": "normal",
+          "WebkitBoxOrient": "horizontal",
+          "WebkitBoxPack": "right",
+          "WebkitFlexDirection": "row",
+          "WebkitJustifyContent": "right",
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "right",
+          "msFlexAlign": "center",
+          "msFlexDirection": "row",
+          "msFlexPack": "right",
+        }
+      }
+    >
       <div
         className="css-text-76zvg2"
         dir="auto"
         style={
           Object {
-            "color": "rgba(75,75,75,1.00)",
+            "color": "rgba(75,75,75,0.80)",
             "fontSize": "8px",
-            "opacity": 0.8,
+            "marginLeft": "auto",
           }
         }
       >
-        4/1/2019, 3:03:14 PM
+        04/01/19 3:03 PM
       </div>
     </div>
   </div>
@@ -298,7 +342,6 @@ exports[`ListEventItem send matches snapshot 1`] = `
       "WebkitFlexDirection": "row",
       "WebkitJustifyContent": "center",
       "alignItems": "center",
-      "backgroundColor": "rgba(238,238,239,1.00)",
       "flexDirection": "row",
       "justifyContent": "center",
       "msFlexAlign": "center",
@@ -316,12 +359,12 @@ exports[`ListEventItem send matches snapshot 1`] = `
       style={
         Object {
           "backgroundColor": "rgba(255,255,255,1.00)",
-          "borderBottomLeftRadius": "24px",
-          "borderBottomRightRadius": "24px",
-          "borderTopLeftRadius": "24px",
-          "borderTopRightRadius": "24px",
-          "height": "48px",
-          "width": "48px",
+          "borderBottomLeftRadius": "18px",
+          "borderBottomRightRadius": "18px",
+          "borderTopLeftRadius": "18px",
+          "borderTopRightRadius": "18px",
+          "height": "36px",
+          "width": "36px",
         }
       }
     >
@@ -330,16 +373,16 @@ exports[`ListEventItem send matches snapshot 1`] = `
         style={
           Object {
             "WebkitFlexBasis": "auto",
-            "borderBottomLeftRadius": "24px",
-            "borderBottomRightRadius": "24px",
-            "borderTopLeftRadius": "24px",
-            "borderTopRightRadius": "24px",
+            "borderBottomLeftRadius": "18px",
+            "borderBottomRightRadius": "18px",
+            "borderTopLeftRadius": "18px",
+            "borderTopRightRadius": "18px",
             "flexBasis": "auto",
-            "height": "48px",
+            "height": "36px",
             "msFlexPreferredSize": "auto",
             "overflowX": "hidden",
             "overflowY": "hidden",
-            "width": "48px",
+            "width": "36px",
             "zIndex": 0,
           }
         }
@@ -402,23 +445,46 @@ exports[`ListEventItem send matches snapshot 1`] = `
       dir="auto"
       style={
         Object {
-          "color": "rgba(75,75,75,1.00)",
+          "color": "rgba(85,85,85,1.00)",
           "fontSize": "15px",
           "textTransform": "capitalize",
         }
       }
     >
-      To: Misao Matimbo
+      <span
+        className="css-text-76zvg2 css-textHasAncestor-16my406"
+        dir="auto"
+        style={
+          Object {
+            "fontSize": "10px",
+            "fontWeight": "500",
+          }
+        }
+      >
+        To
+        :
+      </span>
+      <span
+        className="css-text-76zvg2 css-textHasAncestor-16my406"
+        dir="auto"
+        style={
+          Object {
+            "fontWeight": "700",
+          }
+        }
+      >
+        Misao Matimbo
+      </span>
     </div>
     <div
       className="css-text-76zvg2"
       dir="auto"
       style={
         Object {
-          "color": "rgba(168,166,137,1.00)",
-          "fontSize": "13px",
+          "color": "rgba(163,163,163,1.00)",
+          "fontSize": "15px",
           "marginTop": "4px",
-          "opacity": 0.8,
+          "textTransform": "capitalize",
         }
       }
     >
@@ -429,23 +495,21 @@ exports[`ListEventItem send matches snapshot 1`] = `
     className="css-view-1dbjc4n"
     style={
       Object {
-        "WebkitAlignItems": "center",
-        "WebkitBoxAlign": "center",
+        "WebkitAlignItems": "right",
+        "WebkitBoxAlign": "right",
         "WebkitBoxDirection": "normal",
-        "WebkitBoxOrient": "horizontal",
-        "WebkitBoxPack": "center",
-        "WebkitFlexDirection": "row",
-        "WebkitJustifyContent": "center",
-        "alignItems": "center",
-        "backgroundColor": "rgba(238,238,239,1.00)",
-        "borderBottomColor": "rgba(0,0,0,0.10)",
+        "WebkitBoxOrient": "vertical",
+        "WebkitBoxPack": "right",
+        "WebkitFlexDirection": "column",
+        "WebkitJustifyContent": "right",
+        "alignItems": "right",
         "borderBottomWidth": "0px",
-        "flexDirection": "row",
-        "justifyContent": "center",
+        "flexDirection": "column",
+        "justifyContent": "right",
         "marginBottom": "0px",
-        "msFlexAlign": "center",
-        "msFlexDirection": "row",
-        "msFlexPack": "center",
+        "msFlexAlign": "right",
+        "msFlexDirection": "column",
+        "msFlexPack": "right",
         "paddingBottom": "0px",
         "paddingLeft": "0px",
         "paddingRight": "0px",
@@ -457,58 +521,61 @@ exports[`ListEventItem send matches snapshot 1`] = `
       className="css-view-1dbjc4n"
       style={
         Object {
-          "display": "inline-block",
+          "WebkitAlignItems": "center",
+          "WebkitBoxAlign": "center",
+          "WebkitBoxDirection": "normal",
+          "WebkitBoxOrient": "horizontal",
+          "WebkitBoxPack": "right",
+          "WebkitFlexDirection": "row",
+          "WebkitJustifyContent": "right",
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "right",
+          "msFlexAlign": "center",
+          "msFlexDirection": "row",
+          "msFlexPack": "right",
         }
       }
     >
       <div
-        className="css-text-76zvg2"
-        dir="auto"
+        className="css-view-1dbjc4n"
         style={
           Object {
-            "color": "rgba(85,85,85,1.00)",
-            "direction": "ltr",
-            "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-            "fontSize": "12px",
-            "textAlign": "right",
+            "display": "inline-block",
           }
         }
       >
-        0.04
-      </div>
-      <div
-        className="css-text-76zvg2"
-        dir="auto"
-        style={
-          Object {
-            "color": "rgba(85,85,85,1.00)",
-            "direction": "ltr",
-            "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-            "fontSize": "12px",
-            "textAlign": "right",
+        <div
+          className="css-text-76zvg2"
+          dir="auto"
+          style={
+            Object {
+              "color": "rgba(85,85,85,1.00)",
+              "direction": "ltr",
+              "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "fontSize": "12px",
+              "textAlign": "right",
+            }
           }
-        }
-      >
-        GD
+        >
+          0.04
+        </div>
+        <div
+          className="css-text-76zvg2"
+          dir="auto"
+          style={
+            Object {
+              "color": "rgba(85,85,85,1.00)",
+              "direction": "ltr",
+              "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "fontSize": "12px",
+              "textAlign": "right",
+            }
+          }
+        >
+          G$
+        </div>
       </div>
-    </div>
-    <div
-      className="css-view-1dbjc4n"
-      style={
-        Object {
-          "WebkitBoxFlex": 1,
-          "WebkitFlexBasis": "0%",
-          "WebkitFlexGrow": 1,
-          "WebkitFlexShrink": 1,
-          "flexBasis": "0%",
-          "flexGrow": 1,
-          "flexShrink": 1,
-          "msFlexNegative": 1,
-          "msFlexPositive": 1,
-          "msFlexPreferredSize": "0%",
-        }
-      }
-    >
       <div
         className="css-view-1dbjc4n"
         style={
@@ -519,19 +586,19 @@ exports[`ListEventItem send matches snapshot 1`] = `
             "WebkitJustifyContent": "center",
             "alignItems": "center",
             "backgroundColor": "rgba(255,255,255,1.00)",
-            "borderBottomLeftRadius": "28px",
-            "borderBottomRightRadius": "28px",
-            "borderTopLeftRadius": "28px",
-            "borderTopRightRadius": "28px",
-            "height": "52px",
+            "borderBottomLeftRadius": "20px",
+            "borderBottomRightRadius": "20px",
+            "borderTopLeftRadius": "20px",
+            "borderTopRightRadius": "20px",
+            "height": "36px",
             "justifyContent": "center",
             "marginBottom": "7px",
             "marginLeft": "7px",
-            "marginRight": "7px",
+            "marginRight": "0px",
             "marginTop": "7px",
             "msFlexAlign": "center",
             "msFlexPack": "center",
-            "width": "52px",
+            "width": "36px",
           }
         }
       >
@@ -543,7 +610,7 @@ exports[`ListEventItem send matches snapshot 1`] = `
               "backgroundColor": "rgba(0,0,0,0.00)",
               "color": "rgba(85,85,85,1.00)",
               "fontFamily": "MaterialIcons",
-              "fontSize": "24px",
+              "fontSize": "16px",
               "fontStyle": "normal",
               "fontWeight": "normal",
             }
@@ -552,18 +619,39 @@ exports[`ListEventItem send matches snapshot 1`] = `
           
         </div>
       </div>
+    </div>
+    <div
+      className="css-view-1dbjc4n"
+      style={
+        Object {
+          "WebkitAlignItems": "center",
+          "WebkitBoxAlign": "center",
+          "WebkitBoxDirection": "normal",
+          "WebkitBoxOrient": "horizontal",
+          "WebkitBoxPack": "right",
+          "WebkitFlexDirection": "row",
+          "WebkitJustifyContent": "right",
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "right",
+          "msFlexAlign": "center",
+          "msFlexDirection": "row",
+          "msFlexPack": "right",
+        }
+      }
+    >
       <div
         className="css-text-76zvg2"
         dir="auto"
         style={
           Object {
-            "color": "rgba(75,75,75,1.00)",
+            "color": "rgba(75,75,75,0.80)",
             "fontSize": "8px",
-            "opacity": 0.8,
+            "marginLeft": "auto",
           }
         }
       >
-        4/1/2019, 3:03:14 PM
+        04/01/19 3:03 PM
       </div>
     </div>
   </div>
@@ -583,7 +671,6 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
       "WebkitFlexDirection": "row",
       "WebkitJustifyContent": "center",
       "alignItems": "center",
-      "backgroundColor": "rgba(238,238,239,1.00)",
       "flexDirection": "row",
       "justifyContent": "center",
       "msFlexAlign": "center",
@@ -601,12 +688,12 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
       style={
         Object {
           "backgroundColor": "rgba(255,255,255,1.00)",
-          "borderBottomLeftRadius": "24px",
-          "borderBottomRightRadius": "24px",
-          "borderTopLeftRadius": "24px",
-          "borderTopRightRadius": "24px",
-          "height": "48px",
-          "width": "48px",
+          "borderBottomLeftRadius": "18px",
+          "borderBottomRightRadius": "18px",
+          "borderTopLeftRadius": "18px",
+          "borderTopRightRadius": "18px",
+          "height": "36px",
+          "width": "36px",
         }
       }
     >
@@ -615,16 +702,16 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
         style={
           Object {
             "WebkitFlexBasis": "auto",
-            "borderBottomLeftRadius": "24px",
-            "borderBottomRightRadius": "24px",
-            "borderTopLeftRadius": "24px",
-            "borderTopRightRadius": "24px",
+            "borderBottomLeftRadius": "18px",
+            "borderBottomRightRadius": "18px",
+            "borderTopLeftRadius": "18px",
+            "borderTopRightRadius": "18px",
             "flexBasis": "auto",
-            "height": "48px",
+            "height": "36px",
             "msFlexPreferredSize": "auto",
             "overflowX": "hidden",
             "overflowY": "hidden",
-            "width": "48px",
+            "width": "36px",
             "zIndex": 0,
           }
         }
@@ -687,23 +774,46 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
       dir="auto"
       style={
         Object {
-          "color": "rgba(75,75,75,1.00)",
+          "color": "rgba(85,85,85,1.00)",
           "fontSize": "15px",
           "textTransform": "capitalize",
         }
       }
     >
-      From: Misao Matimbo
+      <span
+        className="css-text-76zvg2 css-textHasAncestor-16my406"
+        dir="auto"
+        style={
+          Object {
+            "fontSize": "10px",
+            "fontWeight": "500",
+          }
+        }
+      >
+        From
+        :
+      </span>
+      <span
+        className="css-text-76zvg2 css-textHasAncestor-16my406"
+        dir="auto"
+        style={
+          Object {
+            "fontWeight": "700",
+          }
+        }
+      >
+        Misao Matimbo
+      </span>
     </div>
     <div
       className="css-text-76zvg2"
       dir="auto"
       style={
         Object {
-          "color": "rgba(168,166,137,1.00)",
-          "fontSize": "13px",
+          "color": "rgba(163,163,163,1.00)",
+          "fontSize": "15px",
           "marginTop": "4px",
-          "opacity": 0.8,
+          "textTransform": "capitalize",
         }
       }
     >
@@ -714,23 +824,21 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
     className="css-view-1dbjc4n"
     style={
       Object {
-        "WebkitAlignItems": "center",
-        "WebkitBoxAlign": "center",
+        "WebkitAlignItems": "right",
+        "WebkitBoxAlign": "right",
         "WebkitBoxDirection": "normal",
-        "WebkitBoxOrient": "horizontal",
-        "WebkitBoxPack": "center",
-        "WebkitFlexDirection": "row",
-        "WebkitJustifyContent": "center",
-        "alignItems": "center",
-        "backgroundColor": "rgba(238,238,239,1.00)",
-        "borderBottomColor": "rgba(0,0,0,0.10)",
+        "WebkitBoxOrient": "vertical",
+        "WebkitBoxPack": "right",
+        "WebkitFlexDirection": "column",
+        "WebkitJustifyContent": "right",
+        "alignItems": "right",
         "borderBottomWidth": "0px",
-        "flexDirection": "row",
-        "justifyContent": "center",
+        "flexDirection": "column",
+        "justifyContent": "right",
         "marginBottom": "0px",
-        "msFlexAlign": "center",
-        "msFlexDirection": "row",
-        "msFlexPack": "center",
+        "msFlexAlign": "right",
+        "msFlexDirection": "column",
+        "msFlexPack": "right",
         "paddingBottom": "0px",
         "paddingLeft": "0px",
         "paddingRight": "0px",
@@ -742,58 +850,61 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
       className="css-view-1dbjc4n"
       style={
         Object {
-          "display": "inline-block",
+          "WebkitAlignItems": "center",
+          "WebkitBoxAlign": "center",
+          "WebkitBoxDirection": "normal",
+          "WebkitBoxOrient": "horizontal",
+          "WebkitBoxPack": "right",
+          "WebkitFlexDirection": "row",
+          "WebkitJustifyContent": "right",
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "right",
+          "msFlexAlign": "center",
+          "msFlexDirection": "row",
+          "msFlexPack": "right",
         }
       }
     >
       <div
-        className="css-text-76zvg2"
-        dir="auto"
+        className="css-view-1dbjc4n"
         style={
           Object {
-            "color": "rgba(85,85,85,1.00)",
-            "direction": "ltr",
-            "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-            "fontSize": "12px",
-            "textAlign": "right",
+            "display": "inline-block",
           }
         }
       >
-        0.04
-      </div>
-      <div
-        className="css-text-76zvg2"
-        dir="auto"
-        style={
-          Object {
-            "color": "rgba(85,85,85,1.00)",
-            "direction": "ltr",
-            "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-            "fontSize": "12px",
-            "textAlign": "right",
+        <div
+          className="css-text-76zvg2"
+          dir="auto"
+          style={
+            Object {
+              "color": "rgba(85,85,85,1.00)",
+              "direction": "ltr",
+              "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "fontSize": "12px",
+              "textAlign": "right",
+            }
           }
-        }
-      >
-        GD
+        >
+          0.04
+        </div>
+        <div
+          className="css-text-76zvg2"
+          dir="auto"
+          style={
+            Object {
+              "color": "rgba(85,85,85,1.00)",
+              "direction": "ltr",
+              "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "fontSize": "12px",
+              "textAlign": "right",
+            }
+          }
+        >
+          G$
+        </div>
       </div>
-    </div>
-    <div
-      className="css-view-1dbjc4n"
-      style={
-        Object {
-          "WebkitBoxFlex": 1,
-          "WebkitFlexBasis": "0%",
-          "WebkitFlexGrow": 1,
-          "WebkitFlexShrink": 1,
-          "flexBasis": "0%",
-          "flexGrow": 1,
-          "flexShrink": 1,
-          "msFlexNegative": 1,
-          "msFlexPositive": 1,
-          "msFlexPreferredSize": "0%",
-        }
-      }
-    >
       <div
         className="css-view-1dbjc4n"
         style={
@@ -804,19 +915,19 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
             "WebkitJustifyContent": "center",
             "alignItems": "center",
             "backgroundColor": "rgba(255,255,255,1.00)",
-            "borderBottomLeftRadius": "28px",
-            "borderBottomRightRadius": "28px",
-            "borderTopLeftRadius": "28px",
-            "borderTopRightRadius": "28px",
-            "height": "52px",
+            "borderBottomLeftRadius": "20px",
+            "borderBottomRightRadius": "20px",
+            "borderTopLeftRadius": "20px",
+            "borderTopRightRadius": "20px",
+            "height": "36px",
             "justifyContent": "center",
             "marginBottom": "7px",
             "marginLeft": "7px",
-            "marginRight": "7px",
+            "marginRight": "0px",
             "marginTop": "7px",
             "msFlexAlign": "center",
             "msFlexPack": "center",
-            "width": "52px",
+            "width": "36px",
           }
         }
       >
@@ -828,7 +939,7 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
               "backgroundColor": "rgba(0,0,0,0.00)",
               "color": "rgba(85,85,85,1.00)",
               "fontFamily": "MaterialIcons",
-              "fontSize": "24px",
+              "fontSize": "16px",
               "fontStyle": "normal",
               "fontWeight": "normal",
             }
@@ -837,18 +948,39 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
           
         </div>
       </div>
+    </div>
+    <div
+      className="css-view-1dbjc4n"
+      style={
+        Object {
+          "WebkitAlignItems": "center",
+          "WebkitBoxAlign": "center",
+          "WebkitBoxDirection": "normal",
+          "WebkitBoxOrient": "horizontal",
+          "WebkitBoxPack": "right",
+          "WebkitFlexDirection": "row",
+          "WebkitJustifyContent": "right",
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "right",
+          "msFlexAlign": "center",
+          "msFlexDirection": "row",
+          "msFlexPack": "right",
+        }
+      }
+    >
       <div
         className="css-text-76zvg2"
         dir="auto"
         style={
           Object {
-            "color": "rgba(75,75,75,1.00)",
+            "color": "rgba(75,75,75,0.80)",
             "fontSize": "8px",
-            "opacity": 0.8,
+            "marginLeft": "auto",
           }
         }
       >
-        4/1/2019, 3:03:14 PM
+        04/01/19 3:03 PM
       </div>
     </div>
   </div>

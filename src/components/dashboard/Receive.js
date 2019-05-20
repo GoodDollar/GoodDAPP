@@ -4,13 +4,14 @@ import React, { useCallback, useMemo } from 'react'
 import { Clipboard, View } from 'react-native'
 
 import logger from '../../lib/logger/pino-logger'
-import { generateCode } from '../../lib/share'
+import { generateCode, generateShareLink } from '../../lib/share'
+import { useDialog } from '../../lib/undux/utils/dialog'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { PushButton } from '../appNavigation/stackNavigation'
 import { Address, Section, Wrapper } from '../common'
 import ScanQRButton from '../common/ScanQRButton'
 import TopBar from '../common/TopBar'
-import ShareQR from './ShareQR'
+import ShareLink from './ShareLink'
 import { receiveStyles as styles } from './styles'
 
 export type ReceiveProps = {
@@ -18,15 +19,26 @@ export type ReceiveProps = {
   navigation: any
 }
 
-const RECEIVE_TITLE = 'Receive GD'
+const RECEIVE_TITLE = 'Receive G$'
 
 const log = logger.child({ from: RECEIVE_TITLE })
 
 const Receive = ({ screenProps }: ReceiveProps) => {
   const { account, networkId } = goodWallet
+  const [showDialogWithData] = useDialog()
   const amount = 0
 
   const code = useMemo(() => generateCode(account, networkId, amount), [account, networkId, amount])
+  const link = useMemo(() => {
+    try {
+      return generateShareLink('receive', { code })
+    } catch (e) {
+      showDialogWithData({
+        title: 'Error',
+        message: e.message
+      })
+    }
+  }, [code])
 
   const copyAddress = useCallback(() => {
     Clipboard.setString(account)
@@ -44,7 +56,7 @@ const Receive = ({ screenProps }: ReceiveProps) => {
             <QRCode value={code} />
           </View>
           <View style={styles.addressSection}>
-            <Section.Text style={styles.secondaryText}>Your GD wallet address:</Section.Text>
+            <Section.Text style={styles.secondaryText}>Your G$ wallet address:</Section.Text>
             <Section.Title style={styles.address}>
               <Address value={account} />
             </Section.Title>
@@ -57,13 +69,16 @@ const Receive = ({ screenProps }: ReceiveProps) => {
             dark={false}
             routeName="Amount"
             screenProps={screenProps}
-            params={{ nextRoutes: ['ReceiveAmount'] }}
+            style={styles.fullWidth}
+            params={{ nextRoutes: ['ReceiveAmount'], params: { toReceive: true } }}
           >
-            Request an amount
+            Share your wallet link
           </PushButton>
         </Section.Row>
       </Section>
-      <ShareQR>Share address & QR code</ShareQR>
+      <ShareLink link={link} style={styles.shareQRButton}>
+        Generate detailed request
+      </ShareLink>
     </Wrapper>
   )
 }

@@ -7,9 +7,10 @@ import RedemptionABI from '@gooddollar/goodcontracts/build/contracts/RedemptionF
 import { default as filterFunc } from 'lodash/filter'
 import type Web3 from 'web3'
 import { BN, toBN } from 'web3-utils'
-
+import uniqBy from 'lodash/uniqBy'
 import Config from '../../config/config'
 import logger from '../../lib/logger/pino-logger'
+import { generateShareLink } from '../share'
 import WalletFactory from './WalletFactory'
 import abiDecoder from 'abi-decoder'
 
@@ -96,15 +97,13 @@ export class GoodWallet {
         filterPred: { from: this.wallet.utils.toChecksumAddress(this.account) }
       },
       async (error, events) => {
-        log.debug({ error, events }, 'send')
-        const [event] = events
-        if (!event) {
-          log.error('no event', events)
-          return
-        }
-        this.getReceiptWithLogs(event.transactionHash)
-          .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptUpdated']))
-          .catch(err => log.error(err))
+        log.debug('send events', { error, events })
+        const uniqEvents = uniqBy(events, 'transactionHash')
+        uniqEvents.forEach(event => {
+          this.getReceiptWithLogs(event.transactionHash)
+            .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptUpdated']))
+            .catch(err => log.error(err))
+        })
         // Send for all events. We could define here different events
         this.getSubscribers('send').forEach(cb => cb(error, events))
         this.getSubscribers('balanceChanged').forEach(cb => cb(error, events))
@@ -119,15 +118,13 @@ export class GoodWallet {
         filterPred: { to: this.wallet.utils.toChecksumAddress(this.account) }
       },
       async (error, events) => {
-        log.debug({ error, events }, 'receive')
-        const [event] = events
-        if (!event) {
-          log.error('no event', events)
-          return
-        }
-        this.getReceiptWithLogs(event.transactionHash)
-          .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptReceived']))
-          .catch(err => log.error(err))
+        log.debug('receive events', { error, events })
+        const uniqEvents = uniqBy(events, 'transactionHash')
+        uniqEvents.forEach(event => {
+          this.getReceiptWithLogs(event.transactionHash)
+            .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptReceived']))
+            .catch(err => log.error(err))
+        })
 
         this.getSubscribers('receive').forEach(cb => cb(error, events))
         this.getSubscribers('balanceChanged').forEach(cb => cb(error, events))
@@ -157,7 +154,7 @@ export class GoodWallet {
       .then(async wallet => {
         this.wallet = wallet
         this.accounts = this.wallet.eth.accounts.wallet
-        this.account = (await this.getAccountForType('gd')) || this.wallet.eth.defaultAccount
+        this.account = this.getAccountForType('gd')
         this.wallet.eth.defaultAccount = this.account
         this.networkId = Config.networkId
         log.info(`networkId: ${this.networkId}`)
@@ -217,7 +214,8 @@ export class GoodWallet {
   }
 
   /**
-   * returns id+eventName so consumer can unsubscribe
+   *
+   * returns {object} id+eventName so consumer can unsubscribe
    */
   subscribeToEvent(eventName: string, cb: Function) {
     // Get last id from subscribersList
@@ -334,22 +332,22 @@ export class GoodWallet {
     const lastBlock = toBlock !== undefined ? toBlock : await this.getBlockNumber()
     fromBlock = fromBlock !== undefined ? fromBlock : ZERO
 
-    log.debug('fromBlock', fromBlock && fromBlock.toString())
-    log.debug('lastBlock', lastBlock.toString())
-    log.debug('toBlock', toBlock && toBlock.toString())
+    log.trace('fromBlock', fromBlock && fromBlock.toString())
+    log.trace('lastBlock', lastBlock.toString())
+    log.trace('toBlock', toBlock && toBlock.toString())
 
     if (toBlock && toBlock.lt(lastBlock)) {
-      log.debug('toBlock reached', { toBlock: toBlock.toString(), lastBlock: lastBlock.toString() })
+      log.trace('toBlock reached', { toBlock: toBlock.toString(), lastBlock: lastBlock.toString() })
       return
     }
 
     if (fromBlock && fromBlock.eq(lastBlock)) {
-      log.debug('all blocks processed', { fromBlock: fromBlock.toString(), lastBlock: lastBlock.toString() })
+      log.trace('all blocks processed', { fromBlock: fromBlock.toString(), lastBlock: lastBlock.toString() })
     } else {
       await this.oneTimeEvents({ event, contract, filterPred, fromBlock, toBlock: lastBlock }, callback)
     }
 
-    log.debug('about to recurse', {
+    log.trace('about to recurse', {
       event,
       contract,
       filterPred,
@@ -371,13 +369,13 @@ export class GoodWallet {
 
   sendTx() {}
 
-  async getAccountForType(type: AccountUsage): Promise<string> {
-    let account = this.accounts[GoodWallet.AccountUsageToPath[type]].address || this.account
-    return account.toString().toLowerCase()
+  getAccountForType(type: AccountUsage): string {
+    let account = this.accounts[GoodWallet.AccountUsageToPath[type]].address || this.wallet.eth.defaultAccount
+    return account.toString()
   }
 
   async sign(toSign: string, accountType: AccountUsage = 'gd'): Promise<string> {
-    let account = await this.getAccountForType(accountType)
+    let account = this.getAccountForType(accountType)
     let signed = await this.wallet.eth.sign(toSign, account)
     return signed
   }
@@ -415,7 +413,10 @@ export class GoodWallet {
 
     log.info({ amount })
 
-    const sendLink = `${Config.publicUrl}/AppNavigation/Dashboard/Home?receiveLink=${generatedString}&reason=${reason}`
+    const sendLink = generateShareLink('send', {
+      receiveLink: generatedString,
+      reason
+    })
 
     const onTransactionHash = events.onTransactionHash({ sendLink, generatedString })
     const receipt = await this.sendTransaction(transferAndCall, { onTransactionHash }, { gas })
@@ -559,18 +560,21 @@ export class GoodWallet {
 
     log.debug({ gas, gasPrice })
 
-    return tx
-      .send({ gas, gasPrice })
-      .on('transactionHash', onTransactionHash)
-      .on('receipt', onReceipt)
-      .on('confirmation', onConfirmation)
-      .on('error', onError)
-      .then(async receipt => {
-        const transactionReceipt = await this.getReceiptWithLogs(receipt.transactionHash)
-        await this.sendReceiptWithLogsToSubscribers(transactionReceipt, ['receiptReceived', 'receiptUpdated'])
-        return transactionReceipt
-      })
-      .catch(this.handleError)
+    return (
+      tx
+        .send({ gas, gasPrice })
+        .on('transactionHash', onTransactionHash)
+        .on('receipt', onReceipt)
+        .on('confirmation', onConfirmation)
+        .on('error', onError)
+        /** receipt handling happens already in polling events */
+        // .then(async receipt => {
+        //   const transactionReceipt = await this.getReceiptWithLogs(receipt.transactionHash)
+        //   await this.sendReceiptWithLogsToSubscribers(transactionReceipt, ['receiptReceived', 'receiptUpdated'])
+        //   return transactionReceipt
+        // })
+        .catch(this.handleError)
+    )
   }
 }
 

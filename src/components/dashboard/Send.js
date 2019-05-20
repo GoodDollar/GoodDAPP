@@ -1,17 +1,20 @@
-import React, { useState } from 'react'
-import { Wrapper, TopBar, Section, IconButton, CustomButton } from '../common'
+import React, { useEffect, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
-import { HelperText, TextInput } from 'react-native-paper'
 import { Icon, normalize } from 'react-native-elements'
-import { useScreenState } from '../appNavigation/stackNavigation'
-import isMobilePhone from '../../lib/validators/isMobilePhone'
-import Clipboard from '../../lib/utils/Clipboard'
+import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
+import { HelperText, TextInput } from 'react-native-paper'
 import isEmail from 'validator/lib/isEmail'
-import goodWallet from '../../lib/wallet/GoodWallet'
+import userStorage from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
-import UserStorage from '../../lib/gundb/UserStorage'
+import { readCode } from '../../lib/share'
+import { useDialog } from '../../lib/undux/utils/dialog'
+import Clipboard from '../../lib/utils/Clipboard'
+import isMobilePhone from '../../lib/validators/isMobilePhone'
+import goodWallet from '../../lib/wallet/GoodWallet'
+import { CustomButton, IconButton, Section, TopBar, Wrapper } from '../common'
+import { routeAndPathForCode } from './utils/routeAndPathForCode'
 
-const SEND_TITLE = 'Send GD'
+const SEND_TITLE = 'Send G$'
 
 const log = logger.child({ from: SEND_TITLE })
 
@@ -50,7 +53,7 @@ const ContinueButton = ({ screenProps, to, disabled, checkError }) => (
       if (await checkError()) return
 
       if (to && (isMobilePhone(to) || isEmail(to))) {
-        const address = await UserStorage.getUserAddress(to)
+        const address = await userStorage.getUserAddress(to)
         if (address) {
           return screenProps.push('Amount', { address, nextRoutes: ['Reason', 'SendQRSummary'] })
         } else {
@@ -65,14 +68,34 @@ const ContinueButton = ({ screenProps, to, disabled, checkError }) => (
     }}
     mode="contained"
     disabled={disabled}
+    style={{ flex: 2 }}
   >
-    Continue
+    NEXT
   </CustomButton>
 )
 
 const Send = props => {
   const [screenState, setScreenState] = useScreenState(props.screenProps)
   const [error, setError] = useState()
+  const [showDialogWithData] = useDialog()
+
+  useEffect(() => {
+    const { screenProps } = props
+    const { state } = props.navigation
+
+    if (state.params && state.params.code) {
+      const code = readCode(state.params.code)
+      routeAndPathForCode('send', code)
+        .then(({ route, params }) => screenProps.push(route, params))
+        .catch(({ message }) => {
+          showDialogWithData({
+            title: 'Error',
+            message,
+            onDismiss: screenProps.goToRoot
+          })
+        })
+    }
+  }, [])
 
   const { to } = screenState
 
@@ -97,10 +120,10 @@ const Send = props => {
       <TopBar push={props.screenProps.push} />
       <Section style={styles.bottomSection}>
         <View style={styles.topContainer}>
-          <Section.Title style={styles.title}>TO WHO?</Section.Title>
+          <Section.Title style={styles.title}>TO WHOM?</Section.Title>
           <View style={styles.iconInputContainer}>
             <View style={styles.pasteIcon}>
-              <Icon size={normalize(16)} color="#282c34" name="content-paste" onClick={pasteToWho} />
+              <Icon size={normalize(16)} color="#282c34" name="content-paste" onPress={pasteToWho} />
             </View>
             <TextInput
               onChangeText={text => setScreenState({ to: text })}
@@ -115,12 +138,15 @@ const Send = props => {
           <HelperText type="error" visible={error}>
             {error}
           </HelperText>
-          <Section.Row style={{ marginTop: '100px' }}>
+          <Section.Row>
             <ScanQRButton screenProps={props.screenProps} disabled={!!to} />
             <GenerateLinkButton screenProps={props.screenProps} disabled={!!to} />
           </Section.Row>
         </View>
         <View style={styles.bottomContainer}>
+          <BackButton mode="text" screenProps={props.screenProps} style={{ flex: 1 }}>
+            Cancel
+          </BackButton>
           <ContinueButton screenProps={props.screenProps} to={to} disabled={!to} checkError={checkError} />
         </View>
       </Section>
@@ -143,7 +169,13 @@ const styles = StyleSheet.create({
   },
   bottomSection: {
     flex: 1,
-    paddingTop: normalize(22)
+    paddingTop: normalize(22),
+    justifyContent: 'space-between'
+  },
+  bottomContainer: {
+    width: '100%',
+    flexDirection: 'row',
+    marginTop: '1rem'
   },
   topContainer: {
     flex: 1

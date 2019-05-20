@@ -1,5 +1,6 @@
 // @flow
 import fromPairs from 'lodash/fromPairs'
+import toPairs from 'lodash/toPairs'
 import { decode, encode, isMNID } from 'mnid'
 import isURL from 'validator/lib/isURL'
 import isEmail from 'validator/lib/isEmail'
@@ -28,8 +29,6 @@ export function generateCode(address: string, networkId: number, amount: number)
 export function readCode(code: string) {
   const [mnid, value] = code.split('|')
 
-  console.log({ code })
-
   if (!isMNID(mnid)) {
     return null
   }
@@ -48,7 +47,7 @@ export function readCode(code: string) {
  * Parses the read ReceiveGDLink from QR Code.
  * If not valid, returns null.
  * If valid, returns the ReceiveGDLink.
- * @param {string} link - receive GD Link
+ * @param {string} link - receive G$ Link
  * @returns {string|null} - {link|null}
  */
 export function readReceiveLink(link: string) {
@@ -91,8 +90,8 @@ type ShareObject = {
  */
 export function generateShareObject(url: string): ShareObject {
   return {
-    title: 'Sending GD via Good Dollar App',
-    text: 'You got GD. To withdraw open:',
+    title: 'Sending G$ via Good Dollar App',
+    text: 'You got G$. To withdraw open:',
     url
   }
 }
@@ -123,4 +122,29 @@ export function generateHrefLinks(sendLink: string, to?: string = ''): Array<Hre
   }
 
   return [viaEmail, viaSMS]
+}
+
+type ActionType = 'receive' | 'send'
+
+/**
+ * Generates URL link to share/receive GDs
+ * @param {ActionType} action - Wether 'receive' or 'send'
+ * @param {object} params - key-pair of query params to be added to the URL
+ * @returns {string} - URL to use to share/receive GDs
+ */
+export function generateShareLink(action: ActionType = 'receive', params: {} = {}): string {
+  // depending on the action, routes may vary
+  const destination = {
+    receive: 'Send',
+    send: 'Home'
+  }[action]
+
+  // creates query params from params object
+  const queryParams = toPairs(params)
+    .map(param => param.join('='))
+    .join('&')
+
+  if (!queryParams || !destination) throw new Error(`Link couldn't be generated`)
+
+  return `${Config.publicUrl}/AppNavigation/Dashboard/${destination}?${queryParams}`
 }

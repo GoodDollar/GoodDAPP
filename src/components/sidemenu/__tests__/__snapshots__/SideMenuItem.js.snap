@@ -1,0 +1,104 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SideMenuItem matches snapshot 1`] = `
+<div
+  className="css-view-1dbjc4n"
+  data-focusable={true}
+  onKeyDown={[Function]}
+  onKeyUp={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "MozTransitionProperty": "opacity",
+      "MozUserSelect": "none",
+      "WebkitAlignItems": "center",
+      "WebkitBoxAlign": "center",
+      "WebkitBoxDirection": "normal",
+      "WebkitBoxOrient": "horizontal",
+      "WebkitBoxPack": "start",
+      "WebkitFlexDirection": "row",
+      "WebkitJustifyContent": "flex-start",
+      "WebkitTransitionDuration": "0.15s",
+      "WebkitTransitionProperty": "opacity",
+      "WebkitUserSelect": "none",
+      "alignItems": "center",
+      "cursor": "pointer",
+      "flexDirection": "row",
+      "justifyContent": "flex-start",
+      "marginBottom": "20px",
+      "marginTop": "20px",
+      "msFlexAlign": "center",
+      "msFlexDirection": "row",
+      "msFlexPack": "start",
+      "msTouchAction": "manipulation",
+      "msUserSelect": "none",
+      "touchAction": "manipulation",
+      "transitionDuration": "0.15s",
+      "transitionProperty": "opacity",
+      "userSelect": "none",
+    }
+  }
+  tabIndex="0"
+>
+  <div
+    className="css-view-1dbjc4n"
+    style={
+      Object {
+        "marginLeft": "20px",
+        "marginRight": "20px",
+      }
+    }
+  >
+    <div
+      className="css-view-1dbjc4n"
+      style={
+        Object {
+          "WebkitAlignItems": "center",
+          "WebkitBoxAlign": "center",
+          "WebkitBoxPack": "center",
+          "WebkitJustifyContent": "center",
+          "alignItems": "center",
+          "backgroundColor": "rgba(0,0,0,0.00)",
+          "justifyContent": "center",
+          "msFlexAlign": "center",
+          "msFlexPack": "center",
+        }
+      }
+    >
+      <div
+        className="css-text-76zvg2"
+        dir="auto"
+        style={
+          Object {
+            "backgroundColor": "rgba(0,0,0,0.00)",
+            "color": "rgba(0,0,0,1.00)",
+            "fontFamily": "MaterialIcons",
+            "fontSize": "20px",
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        
+      </div>
+    </div>
+  </div>
+  <div
+    className="css-text-76zvg2"
+    dir="auto"
+    style={
+      Object {
+        "fontSize": "15px",
+        "fontWeight": "bold",
+      }
+    }
+  >
+    Profile
+  </div>
+</div>
+`;

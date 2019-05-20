@@ -25,12 +25,12 @@ export const gdToWei = (gd: number): number => (gd * Math.pow(10, DECIMALS)).toF
 
 const getComposedSettings = (settings?: {} = {}): {} => {
   const { showUnits, ...restSettings } = settings
-  const customSettings = { suffixUnit: showUnits ? ' GD' : undefined }
+  const customSettings = { suffixUnit: showUnits ? ' G$' : undefined }
   return { ...maskSettings, ...restSettings, ...customSettings }
 }
 
-export const toMask = (gd: number, settings?: {}): string => {
-  return MaskService.toMask('money', gd, getComposedSettings(settings))
+export const toMask = (gd?: number, settings?: {}): string => {
+  return gd ? MaskService.toMask('money', gd, getComposedSettings(settings)) : null
 }
 export const toRawValue = (masked: string, settings?: {}): number =>
   MaskService.toRawValue('money', masked, getComposedSettings(settings))

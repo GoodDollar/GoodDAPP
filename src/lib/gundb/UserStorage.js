@@ -7,6 +7,8 @@ import merge from 'lodash/merge'
 import orderBy from 'lodash/orderBy'
 import toPairs from 'lodash/toPairs'
 import takeWhile from 'lodash/takeWhile'
+import isEqual from 'lodash/isEqual'
+import maxBy from 'lodash/maxBy'
 import flatten from 'lodash/flatten'
 import gun from './gundb'
 import { default as goodWallet, type GoodWallet } from '../wallet/GoodWallet'
@@ -15,6 +17,7 @@ import isEmail from 'validator/lib/isEmail'
 
 import pino from '../logger/pino-logger'
 import { getUserModel, type UserModel } from './UserModel'
+import { AsyncStorage } from 'react-native'
 
 const logger = pino.child({ from: 'UserStorage' })
 
@@ -65,27 +68,28 @@ export type TransactionEvent = FeedEvent & {
 export const getReceiveDataFromReceipt = (receipt: any) => {
   if (!receipt || !receipt.logs || receipt.logs.length <= 0) return {}
   // Obtain logged data from receipt event
-  const logs = receipt.logs.map(log =>
-    log.events.reduce(
-      (acc, curr) => {
-        return { ...acc, [curr.name]: curr.value }
-      },
-      { name: log.name }
+  const logs = receipt.logs
+    .filter(_ => _)
+    .map(log =>
+      log.events.reduce(
+        (acc, curr) => {
+          return { ...acc, [curr.name]: curr.value }
+        },
+        { name: log.name }
+      )
     )
-  )
-
-  const transferLog = logs
-    .filter(log => {
+  //maxBy is used in case transaction also paid a TX fee/burn, so since they are small
+  //it filters them out
+  const transferLog = maxBy(
+    logs.filter(log => {
       return log && log.name === 'Transfer'
-    })
-    .reduce((max, curr) => {
-      if (curr.value > max.value) max = curr
-      return max
-    }, logs[0])
+    }),
+    'value'
+  )
   const withdrawLog = logs.find(log => {
     return log && log.name === 'PaymentWithdraw'
   })
-  logger.debug({ receiptLogs: receipt.logs, logs, transferLog, withdrawLog })
+  logger.debug('getReceiveDataFromReceipt', { logs: receipt.logs, transferLog, withdrawLog })
   const log = withdrawLog || transferLog
   return log
 }
@@ -104,6 +108,7 @@ export class UserStorage {
   gunuser: Gun
   profile: Gun
   feed: Gun
+  feedIndex: Array<[Date, number]>
   user: GunDBUser
   ready: Promise<boolean>
   subscribersProfileUpdates = []
@@ -157,26 +162,35 @@ export class UserStorage {
       })
   }
 
-  async handleReceiptUpdated(receipt: any) {
+  async handleReceiptUpdated(receipt: any): Promise<FeedEvent> {
     try {
       const data = getReceiveDataFromReceipt(receipt)
+      //get initial TX data
+      const initialEvent = (await this.peekTX(receipt.transactionHash)) || { data: {} }
+      //get existing or make a new event
       const feedEvent = (await this.getFeedItemByTransactionHash(receipt.transactionHash)) || {
         id: receipt.transactionHash,
         date: new Date().toString(),
         type: getOperationType(data, this.wallet.account)
       }
-      logger.info('receiptReceived', { feedEvent, receipt, data })
-      const updatedFeedEvent = {
+      //merge incoming receipt data into existing event
+      const updatedFeedEvent: FeedEvent = {
         ...feedEvent,
+        ...initialEvent,
         data: {
           ...feedEvent.data,
           ...data,
+          ...initialEvent.data,
           receipt
         }
       }
-      await this.updateFeedEvent(updatedFeedEvent)
+      logger.debug('receiptReceived', { initialEvent, feedEvent, receipt, data, updatedFeedEvent })
+      if (isEqual(feedEvent, updatedFeedEvent) === false) await this.updateFeedEvent(updatedFeedEvent)
+      //remove pending once we used it and updated feed
+      this.dequeueTX(receipt.transactionHash)
+      return updatedFeedEvent
     } catch (error) {
-      logger.error(error)
+      logger.error('handleReceiptUpdated', error)
     }
   }
 
@@ -221,13 +235,7 @@ export class UserStorage {
           this.wallet.subscribeToEvent('receiptUpdated', receipt => this.handleReceiptUpdated(receipt))
           this.wallet.subscribeToEvent('receiptReceived', receipt => this.handleReceiptUpdated(receipt))
           res(true)
-          // this.profile = user.get('profile')
         })
-        // .catch(e => {
-        //   console.log('arrrr')
-        //   logger.error("GunDB can't login!", e)
-        //   rej(false)
-        // })
       })
     })
   }
@@ -242,11 +250,15 @@ export class UserStorage {
    * @param {string} transactionHash - transaction identifier
    * @returns {object} feed item or null if it doesn't exist
    */
-  async getFeedItemByTransactionHash(transactionHash: string) {
-    const feedItem = await this.feed
+  async getFeedItemByTransactionHash(transactionHash: string): Promise<FeedEvent> {
+    let feedItem = await this.feed
       .get('byid')
       .get(transactionHash)
       .decrypt()
+      .catch(e => {
+        logger.warn('getFeedItemByTransactionHash not found or cant decrypt', { transactionHash })
+        return undefined
+      })
 
     return feedItem
   }
@@ -256,20 +268,20 @@ export class UserStorage {
    * @returns {Promise<Array<FeedEvent>>}
    */
   async getAllFeed() {
-    const total = Object.values((await this.feed.get('index')) || {}).reduce((acc, curr) => acc + curr, 0)
+    const total = Object.values((await this.feed.get('index').then()) || {}).reduce((acc, curr) => acc + curr, 0)
     const prevCursor = this.cursor
-    logger.debug({ total, prevCursor })
+    logger.debug('getAllFeed', { total, prevCursor })
     const feed = await this.getFeedPage(total, true)
     this.cursor = prevCursor
-    logger.debug({ feed, cursor: this.cursor })
+    logger.debug('getAllfeed', { feed, cursor: this.cursor })
     return feed
   }
 
   updateFeedIndex = (changed: any, field: string) => {
-    logger.info('updateFeedIndex', { changed, field })
     if (field !== 'index' || changed === undefined) return
     delete changed._
     this.feedIndex = orderBy(toPairs(changed), day => day[0], 'desc')
+    logger.debug('updateFeedIndex', { changed, field, newIndex: this.feedIndex })
   }
 
   async initFeed() {
@@ -350,6 +362,7 @@ export class UserStorage {
 
   /**
    * Save profile with all validations and indexes
+   * It saves only known profile fields
    *
    * @param {UserModel} profile - User profile
    * @returns {Promise} Promise with profile settings updates and privacy validations
@@ -361,13 +374,6 @@ export class UserStorage {
       throw new Error(errors)
     }
 
-    const oldUsername = await this.getProfileFieldValue('username')
-    const newUsername = profile.username
-    logger.info({ oldUsername, newUsername })
-    if (oldUsername !== newUsername) {
-      logger.info('update user index')
-    }
-
     const profileSettings = {
       fullName: { defaultPrivacy: 'public' },
       email: { defaultPrivacy: 'masked' },
@@ -377,7 +383,10 @@ export class UserStorage {
       username: { defaultPrivacy: 'public' }
     }
     const getPrivacy = async field => {
-      const currentPrivacy = await this.profile.get(field).get('privacy')
+      const currentPrivacy = await this.profile
+        .get(field)
+        .get('privacy')
+        .then()
       return currentPrivacy || profileSettings[field].defaultPrivacy || 'public'
     }
 
@@ -455,11 +464,11 @@ export class UserStorage {
     if (!cleanValue) return Promise.resolve({ err: 'Indexable field cannot be null or empty', ok: 0 })
 
     const indexNode = gun.get(`users/by${field}`).get(cleanValue)
-    logger.info({ field, cleanValue, value, privacy, indexNode })
+    logger.debug('indexProfileField', { field, cleanValue, value, privacy, indexNode })
 
     try {
       const indexValue = await indexNode.then()
-      logger.info({
+      logger.debug('indexProfileField', {
         field,
         value,
         privacy,
@@ -478,7 +487,7 @@ export class UserStorage {
       // logger.info({ gunResult })
       return indexResult
     } catch (err) {
-      logger.error(err)
+      logger.error('indexProfileField', err)
     }
   }
 
@@ -527,12 +536,14 @@ export class UserStorage {
     const eventsIndex = flatten(await Promise.all(promises))
 
     return await Promise.all(
-      eventsIndex.map(eventIndex =>
-        this.feed
-          .get('byid')
-          .get(eventIndex.id)
-          .decrypt()
-      )
+      eventsIndex
+        .filter(_ => _.id)
+        .map(eventIndex =>
+          this.feed
+            .get('byid')
+            .get(eventIndex.id)
+            .decrypt()
+        )
     )
   }
 
@@ -542,24 +553,24 @@ export class UserStorage {
    * @returns {Promise} Promise with array of standarised feed events
    * @todo Add pagination
    */
-  async getStandardizedFeed(numResults: number, reset?: boolean): Promise<Array<StandardFeed>> {
+  async getFormattedEvents(numResults: number, reset?: boolean): Promise<Array<StandardFeed>> {
     const feed = await this.getFeedPage(numResults, reset)
-    return await Promise.all(feed.filter(feedItem => feedItem.data).map(this.standardizeFeed))
+    return await Promise.all(feed.filter(feedItem => feedItem.data).map(this.formatEvent))
   }
 
-  async getStandardizedFeedByTransactionHash(transactionHash: string): Promise<StandardFeed> {
-    const prevFeedEvent = await this.getFeedItemByTransactionHash(transactionHash)
-    const standardPrevFeedEvent = await this.standardizeFeed(prevFeedEvent)
+  async getFormatedEventById(id: string): Promise<StandardFeed> {
+    const prevFeedEvent = (await this.getFeedItemByTransactionHash(id)) || (await this.peekTX(id))
+    const standardPrevFeedEvent = await this.formatEvent(prevFeedEvent)
     if (!prevFeedEvent) return standardPrevFeedEvent
     if (prevFeedEvent.data && prevFeedEvent.data.receipt) return standardPrevFeedEvent
 
-    const receipt = await this.wallet.getReceiptWithLogs(transactionHash)
+    //if for some reason we dont have the receipt(from blockchain) yet then fetch it
+    const receipt = await this.wallet.getReceiptWithLogs(id)
     if (!receipt) return standardPrevFeedEvent
-
-    await this.handleReceiptUpdated(receipt)
-    const feedEvent = await this.getFeedItemByTransactionHash(transactionHash)
-    logger.info({ prevFeedEvent, feedEvent })
-    return await this.standardizeFeed(feedEvent)
+    //update the event
+    let updatedEvent = await this.handleReceiptUpdated(receipt)
+    logger.debug('getFormatedEventById updated event with receipt', { prevFeedEvent, updatedEvent })
+    return await this.formatEvent(updatedEvent)
   }
 
   /**
@@ -577,6 +588,7 @@ export class UserStorage {
       .get('profile')
       .get('walletAddress')
       .get('display')
+      .then()
 
     return address
   }
@@ -617,7 +629,7 @@ export class UserStorage {
    * @returns {Promise} Promise with StandardFeed object,
    *  with props { id, date, type, data: { amount, message, endpoint: { address, fullName, avatar, withdrawStatus }}}
    */
-  async standardizeFeed({ data, type, date, id }: FeedEvent): Promise<StandardFeed> {
+  async formatEvent({ data, type, date, id }: FeedEvent): Promise<StandardFeed> {
     const { receipt, from, to, sender, amount, reason, value, generatedString } = data
     let avatar, fullName, address, withdrawStatus
     if (receipt) {
@@ -626,8 +638,8 @@ export class UserStorage {
       } else {
         address = from ? from.toLowerCase() : UserStorage.cleanFieldForIndex('walletAddress', receipt.from)
       }
-
-      const searchField = 'by' + (isMobilePhone(address) ? 'mobile' : isEmail(address) ? 'email' : 'walletAddress')
+      const toType = isMobilePhone(address) ? 'mobile' : isEmail(address) ? 'email' : 'walletAddress'
+      const searchField = `by${toType}`
       const profileToShow = gun
         .get(`users/${searchField}`)
         .get(address)
@@ -642,7 +654,7 @@ export class UserStorage {
         (await profileToShow
           .get('fullName')
           .get('display')
-          .then()) || 'GoodDollar'
+          .then()) || (address === '0x0000000000000000000000000000000000000000' ? 'GoodDollar' : address)
     }
 
     if (generatedString) {
@@ -668,27 +680,57 @@ export class UserStorage {
   }
 
   /**
+   * enqueue a new pending TX done on DAPP, to be later merged with the blockchain tx
+   * the DAPP event can contain more details than the blockchain tx event
+   * @param {FeedEvent} event
+   * @returns {Promise<>}
+   */
+  async enqueueTX(event: FeedEvent): Promise<> {
+    return await AsyncStorage.setItem(event.id, JSON.stringify(event))
+  }
+  /**
+   * remove and return pending TX
+   * @param {*} event
+   * @returns {Promise<FeedEvent>}
+   */
+  async dequeueTX(eventId: string): Promise<FeedEvent> {
+    let res = await AsyncStorage.getItem(eventId)
+    AsyncStorage.removeItem(eventId)
+    return res ? JSON.parse(res) : res
+  }
+
+  /**
+   * lookup a pending tx
+   * @param {string} eventId
+   * @returns {Promise<FeedEvent>}
+   */
+  async peekTX(eventId: string): Promise<FeedEvent> {
+    let res = await AsyncStorage.getItem(eventId)
+    return res ? JSON.parse(res) : res
+  }
+
+  /**
    * Update feed event
    *
    * @param {FeedEvent} event - Event to be updated
    * @returns {Promise} Promise with updated feed
    */
-  async updateFeedEvent(event: FeedEvent): Promise<ACK> {
-    logger.debug('updateFeedEvent', this.feed)
-
+  async updateFeedEvent(event: FeedEvent): Promise<FeedEvent> {
+    logger.debug('updateFeedEvent:', { event })
     let date = new Date(event.date)
     // force valid dates
     date = isValidDate(date) ? date : new Date()
     let day = `${date.toISOString().slice(0, 10)}`
     // Saving eventFeed by id
+    logger.debug('updateFeedEvent starting encrypt')
     await this.feed
       .get('byid')
       .get(event.id)
       .secretAck(event)
       .catch(e => {
+        logger.error('updateFeedEvent failedEncrypt byId:', e, event)
         return { err: e.message }
       })
-
     // Update dates index
     let dayEventsArr = (await this.feed.get(day).then()) || []
     let toUpd = find(dayEventsArr, e => e.id === event.id)
@@ -700,23 +742,25 @@ export class UserStorage {
       if (insertPos >= 0) dayEventsArr.splice(insertPos, 0, eventIndexItem)
       else dayEventsArr.unshift(eventIndexItem)
     }
-
     let saveAck = this.feed
       .get(day)
       .putAck(JSON.stringify(dayEventsArr))
-      .catch(err => logger.error(err))
+      .catch(err => logger.error('updateFeedEvent dayIndex', err))
     const ack = this.feed
       .get('index')
       .get(day)
       .putAck(dayEventsArr.length)
+      .catch(err => logger.error('updateFeedEvent daySize', err))
 
     if (event.data && event.data.receipt) {
       await this.saveLastBlockNumber(event.data.receipt.blockNumber)
     }
 
     const result = await Promise.all([saveAck, ack])
-      .then(arr => arr[0])
-      .catch(err => logger.info('savingIndex', err))
+      .then(arr => {
+        return event
+      })
+      .catch(err => logger.error('savingIndex', err))
     return result
   }
 

@@ -1,5 +1,5 @@
 // @flow
-import React, { useState } from 'react'
+import React from 'react'
 import { View } from 'react-native'
 import { TextInput } from 'react-native-paper'
 
@@ -13,14 +13,13 @@ export type AmountProps = {
   navigation: any
 }
 
-const TITLE = 'Send GD'
+const TITLE = 'Send G$'
 
 const SendReason = (props: AmountProps) => {
   const { screenProps } = props
 
   const [screenState, setScreenState] = useScreenState(screenProps)
-  const [reason, setReason] = useState(screenState.reason)
-  const { amount, to } = screenState
+  const { amount, reason, to } = screenState
 
   return (
     <Wrapper style={styles.wrapper}>
@@ -28,8 +27,13 @@ const SendReason = (props: AmountProps) => {
       <Section style={styles.section}>
         <Section.Row style={styles.sectionRow}>
           <View style={styles.inputField}>
-            <Section.Title style={styles.headline}>For?</Section.Title>
-            <TextInput autoFocus value={reason} onChangeText={reason => setReason(reason)} />
+            <Section.Title style={styles.headline}>What For?</Section.Title>
+            <TextInput
+              autoFocus
+              value={reason}
+              onChangeText={reason => setScreenState({ reason })}
+              placeholder="Add a message"
+            />
           </View>
           <View style={styles.buttonGroup}>
             <BackButton mode="text" screenProps={screenProps} style={{ flex: 1 }}>

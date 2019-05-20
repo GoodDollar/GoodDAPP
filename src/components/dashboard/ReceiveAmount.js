@@ -2,27 +2,40 @@
 import React, { useMemo } from 'react'
 import { View } from 'react-native'
 import QRCode from 'qrcode.react'
+import { useDialog } from '../../lib/undux/utils/dialog'
 
 import goodWallet from '../../lib/wallet/GoodWallet'
-import { generateCode } from '../../lib/share'
+import { generateCode, generateShareLink } from '../../lib/share'
 import { Section, Wrapper, BigGoodDollar } from '../common'
 import { receiveStyles as styles } from './styles'
-import ShareQR from './ShareQR'
-import { useScreenState } from '../appNavigation/stackNavigation'
+// import ShareQR from './ShareQR'
+import ShareLink from './ShareLink'
+import { DoneButton, useScreenState } from '../appNavigation/stackNavigation'
 
 export type ReceiveProps = {
   screenProps: any,
   navigation: any
 }
 
-const RECEIVE_TITLE = 'Receive GD'
+const RECEIVE_TITLE = 'Receive G$'
 
-const ReceiveAmount = ({ screenProps, navigation }: ReceiveProps) => {
+const ReceiveAmount = ({ screenProps }: ReceiveProps) => {
   const { account, networkId } = goodWallet
   const [screenState, setScreenState] = useScreenState(screenProps)
+  const [showDialogWithData] = useDialog()
   const { amount } = screenState
 
   const code = useMemo(() => generateCode(account, networkId, amount), [account, networkId, amount])
+  const link = useMemo(() => {
+    try {
+      return generateShareLink('receive', { code })
+    } catch (e) {
+      showDialogWithData({
+        title: 'Error',
+        message: e.message
+      })
+    }
+  }, [code])
 
   return (
     <Wrapper style={styles.wrapper}>
@@ -32,14 +45,17 @@ const ReceiveAmount = ({ screenProps, navigation }: ReceiveProps) => {
             <QRCode value={code} />
           </View>
           <View>
-            <Section.Text style={styles.secondaryText}>This QR code requests exactly</Section.Text>
+            <Section.Text style={[styles.lowerSecondaryText]}>This QR code requests exactly</Section.Text>
             <Section.Text>
               <BigGoodDollar style={styles.centered} number={amount} />
             </Section.Text>
           </View>
         </Section.Row>
       </Section>
-      <ShareQR>Share QR Code</ShareQR>
+      {/* <ShareQR>Share QR Code</ShareQR>
+      <DoneButton style={styles.doneButton} screenProps={screenProps} /> */}
+      <ShareLink link={link}>Share QR Code</ShareLink>
+      <DoneButton style={styles.buttonStyle} screenProps={screenProps} />
     </Wrapper>
   )
 }

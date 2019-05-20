@@ -75,10 +75,10 @@ exports[`SendLinkSummary matches snapshot 1`] = `
             "WebkitJustifyContent": "flex-start",
             "justifyContent": "flex-start",
             "msFlexPack": "start",
-            "paddingBottom": "1rem",
-            "paddingLeft": "1rem",
-            "paddingRight": "1rem",
-            "paddingTop": "1rem",
+            "paddingBottom": "8px",
+            "paddingLeft": "8px",
+            "paddingRight": "8px",
+            "paddingTop": "8px",
             "width": "100%",
           }
         }
@@ -122,24 +122,54 @@ exports[`SendLinkSummary matches snapshot 1`] = `
           >
             <div
               className="css-view-1dbjc4n"
+              data-focusable={true}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
               style={
                 Object {
+                  "MozTransitionProperty": "opacity",
+                  "MozUserSelect": "none",
+                  "WebkitTransitionDuration": "0.15s",
+                  "WebkitTransitionProperty": "opacity",
+                  "WebkitUserSelect": "none",
                   "borderBottomLeftRadius": "50%",
                   "borderBottomRightRadius": "50%",
                   "borderTopLeftRadius": "50%",
                   "borderTopRightRadius": "50%",
+                  "cursor": "pointer",
+                  "msTouchAction": "manipulation",
+                  "msUserSelect": "none",
+                  "touchAction": "manipulation",
+                  "transitionDuration": "0.15s",
+                  "transitionProperty": "opacity",
+                  "userSelect": "none",
                 }
               }
+              tabIndex="0"
             >
               <div
                 className="css-view-1dbjc4n"
                 style={
                   Object {
                     "backgroundColor": "rgba(255,255,255,1.00)",
+                    "borderBottomColor": "rgba(112,112,112,1.00)",
                     "borderBottomLeftRadius": "17px",
                     "borderBottomRightRadius": "17px",
+                    "borderBottomWidth": "1px",
+                    "borderLeftColor": "rgba(112,112,112,1.00)",
+                    "borderLeftWidth": "1px",
+                    "borderRightColor": "rgba(112,112,112,1.00)",
+                    "borderRightWidth": "1px",
+                    "borderTopColor": "rgba(112,112,112,1.00)",
                     "borderTopLeftRadius": "17px",
                     "borderTopRightRadius": "17px",
+                    "borderTopWidth": "1px",
                     "height": "34px",
                     "width": "34px",
                   }
@@ -222,7 +252,7 @@ exports[`SendLinkSummary matches snapshot 1`] = `
                   }
                 }
               >
-                GD
+                G$
               </div>
             </div>
           </div>
@@ -281,13 +311,14 @@ exports[`SendLinkSummary matches snapshot 1`] = `
               style={
                 Object {
                   "color": "rgba(85,85,85,1.00)",
-                  "fontSize": "18px",
+                  "fontSize": "24px",
+                  "marginBottom": "1rem",
                   "textAlign": "center",
                   "textTransform": "uppercase",
                 }
               }
             >
-              Summary
+              SUMMARY
             </div>
             <div
               className="css-view-1dbjc4n"
@@ -302,26 +333,64 @@ exports[`SendLinkSummary matches snapshot 1`] = `
             >
               <div
                 className="css-view-1dbjc4n"
+                data-focusable={true}
+                onKeyDown={[Function]}
+                onKeyUp={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
                 style={
                   Object {
+                    "MozTransitionProperty": "opacity",
+                    "MozUserSelect": "none",
+                    "WebkitTransitionDuration": "0.15s",
+                    "WebkitTransitionProperty": "opacity",
+                    "WebkitUserSelect": "none",
+                    "borderBottomColor": "rgba(112,112,112,1.00)",
                     "borderBottomLeftRadius": "50%",
                     "borderBottomRightRadius": "50%",
+                    "borderBottomWidth": "1px",
+                    "borderLeftColor": "rgba(112,112,112,1.00)",
+                    "borderLeftWidth": "1px",
+                    "borderRightColor": "rgba(112,112,112,1.00)",
+                    "borderRightWidth": "1px",
+                    "borderTopColor": "rgba(112,112,112,1.00)",
                     "borderTopLeftRadius": "50%",
                     "borderTopRightRadius": "50%",
+                    "borderTopWidth": "1px",
+                    "cursor": "pointer",
+                    "msTouchAction": "manipulation",
+                    "msUserSelect": "none",
+                    "touchAction": "manipulation",
+                    "transitionDuration": "0.15s",
+                    "transitionProperty": "opacity",
+                    "userSelect": "none",
                   }
                 }
+                tabIndex="0"
               >
                 <div
                   className="css-view-1dbjc4n"
                   style={
                     Object {
                       "backgroundColor": "rgba(255,255,255,1.00)",
-                      "borderBottomLeftRadius": "45px",
-                      "borderBottomRightRadius": "45px",
-                      "borderTopLeftRadius": "45px",
-                      "borderTopRightRadius": "45px",
-                      "height": "90px",
-                      "width": "90px",
+                      "borderBottomColor": "rgba(112,112,112,1.00)",
+                      "borderBottomLeftRadius": "55px",
+                      "borderBottomRightRadius": "55px",
+                      "borderBottomWidth": "1px",
+                      "borderLeftColor": "rgba(112,112,112,1.00)",
+                      "borderLeftWidth": "1px",
+                      "borderRightColor": "rgba(112,112,112,1.00)",
+                      "borderRightWidth": "1px",
+                      "borderTopColor": "rgba(112,112,112,1.00)",
+                      "borderTopLeftRadius": "55px",
+                      "borderTopRightRadius": "55px",
+                      "borderTopWidth": "1px",
+                      "height": "110px",
+                      "width": "110px",
                     }
                   }
                 >
@@ -330,16 +399,16 @@ exports[`SendLinkSummary matches snapshot 1`] = `
                     style={
                       Object {
                         "WebkitFlexBasis": "auto",
-                        "borderBottomLeftRadius": "45px",
-                        "borderBottomRightRadius": "45px",
-                        "borderTopLeftRadius": "45px",
-                        "borderTopRightRadius": "45px",
+                        "borderBottomLeftRadius": "55px",
+                        "borderBottomRightRadius": "55px",
+                        "borderTopLeftRadius": "55px",
+                        "borderTopRightRadius": "55px",
                         "flexBasis": "auto",
-                        "height": "90px",
+                        "height": "110px",
                         "msFlexPreferredSize": "auto",
                         "overflowX": "hidden",
                         "overflowY": "hidden",
-                        "width": "90px",
+                        "width": "110px",
                         "zIndex": 0,
                       }
                     }
@@ -373,7 +442,7 @@ exports[`SendLinkSummary matches snapshot 1`] = `
               style={
                 Object {
                   "color": "rgba(85,85,85,1.00)",
-                  "fontSize": "14px",
+                  "fontSize": "16px",
                   "textAlign": "center",
                 }
               }
@@ -415,7 +484,7 @@ exports[`SendLinkSummary matches snapshot 1`] = `
                     }
                   }
                 >
-                  GD
+                  G$
                 </span>
               </div>
             </div>
@@ -425,7 +494,7 @@ exports[`SendLinkSummary matches snapshot 1`] = `
               style={
                 Object {
                   "color": "rgba(85,85,85,1.00)",
-                  "fontSize": "14px",
+                  "fontSize": "16px",
                   "textAlign": "center",
                 }
               }

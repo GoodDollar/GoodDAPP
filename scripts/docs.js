@@ -87,7 +87,7 @@ async function generateToc(docs) {
   const title = '\n### Table of Contents\n\n'
 
   const outputString = title + await doGenerateToc(docs, {baseFolder})
-  fs.writeFileSync(`${baseFolder}/toc.md`,outputString)
+  fs.writeFileSync(`${baseFolder}/README.md`,outputString)
 }
 
 async function generateDocs(baseFolder, deep){

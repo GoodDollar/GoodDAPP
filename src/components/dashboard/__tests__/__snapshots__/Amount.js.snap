@@ -446,7 +446,6 @@ exports[`Amount matches snapshot 1`] = `
                       }
                       type="text"
                       value="0.00"
-                      wei={0}
                     />
                   </div>
                 </div>

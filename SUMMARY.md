@@ -15,7 +15,6 @@
       * [dashboard](docs/dapp/components/dashboard.md)
       * [common](docs/dapp/components/common.md)
     * [components](docs/dapp/components-1.md)
-    * [Table of Contents](docs/dapp/toc.md)
 * [Developer Guides](developer-guides.md)
 * [create-react-native-web-app](readme_crnwa.md)
 

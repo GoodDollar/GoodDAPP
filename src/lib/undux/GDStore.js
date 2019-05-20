@@ -57,6 +57,7 @@ export type State = {
   currentScreen: CurrentScreen,
   destinationPath: string,
   feeds: StandardFeed[],
+  feedLoading: Boolean,
   loadingIndicator: LoadingIndicator
 }
 
@@ -87,6 +88,7 @@ const initialState: State = {
   loadingIndicator: {
     loading: false
   },
+  feedLoading: false,
   sidemenu: {
     visible: false
   }

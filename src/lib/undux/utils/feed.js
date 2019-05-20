@@ -10,12 +10,12 @@ export const PAGE_SIZE = 10
 const getInitial = async (store: Store) => {
   logger.debug('getFeed')
   const currentScreen = store.get('currentScreen')
-  store.set('currentScreen')({ ...currentScreen, loading: true })
+  store.set('feedLoading')(true)
   const feeds = await userStorage
     .getFormattedEvents(PAGE_SIZE, true)
     .catch(err => logger.error('getInitialFeed -> ', err))
   logger.debug('getFeed done')
-  store.set('currentScreen')({ ...currentScreen, loading: false })
+  store.set('feedLoading')(false)
   store.set('feeds')(feeds)
 }
 

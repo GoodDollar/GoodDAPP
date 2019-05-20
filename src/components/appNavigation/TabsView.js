@@ -17,7 +17,7 @@ const TabButton = (props: TabButtonProps) => {
   return (
     <TouchableOpacity style={styles.tabButton} onPress={() => props.goTo(props.routeName)}>
       <Image source={props.icon} style={styles.tabIcon} />
-      <Text style={styles.tabButtonText}>{props.text}</Text>
+      <Text style={styles.tabButtonText}>{props.text || ''}</Text>
     </TouchableOpacity>
   )
 }

@@ -13,7 +13,7 @@ const log = logger.child({ from: 'API' })
 
 export type Credentials = {
   signature?: string, //signed with address used to login to the system
-  gdSignature?: string, //signed with address of user wallet holding GD
+  gdSignature?: string, //signed with address of user wallet holding G$
   profileSignature?: string, //signed with address of user profile on GunDB
   profilePublickey?: string, //public key of user profile on gundb
   nonce?: string,

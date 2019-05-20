@@ -7,6 +7,7 @@ import merge from 'lodash/merge'
 import orderBy from 'lodash/orderBy'
 import toPairs from 'lodash/toPairs'
 import takeWhile from 'lodash/takeWhile'
+import isEqual from 'lodash/isEqual'
 import maxBy from 'lodash/maxBy'
 import flatten from 'lodash/flatten'
 import gun from './gundb'
@@ -165,7 +166,7 @@ export class UserStorage {
     try {
       const data = getReceiveDataFromReceipt(receipt)
       //get initial TX data
-      const initialEvent = (await this.dequeueTX(receipt.transactionHash)) || { data: {} }
+      const initialEvent = (await this.peekTX(receipt.transactionHash)) || { data: {} }
       //get existing or make a new event
       const feedEvent = (await this.getFeedItemByTransactionHash(receipt.transactionHash)) || {
         id: receipt.transactionHash,
@@ -184,7 +185,9 @@ export class UserStorage {
         }
       }
       logger.debug('receiptReceived', { initialEvent, feedEvent, receipt, data, updatedFeedEvent })
-      await this.updateFeedEvent(updatedFeedEvent)
+      if (isEqual(feedEvent, updatedFeedEvent) === false) await this.updateFeedEvent(updatedFeedEvent)
+      //remove pending once we used it and updated feed
+      this.dequeueTX(receipt.transactionHash)
       return updatedFeedEvent
     } catch (error) {
       logger.error('handleReceiptUpdated', error)
@@ -247,11 +250,16 @@ export class UserStorage {
    * @param {string} transactionHash - transaction identifier
    * @returns {object} feed item or null if it doesn't exist
    */
-  async getFeedItemByTransactionHash(transactionHash: string) {
-    const feedItem = await this.feed
+  async getFeedItemByTransactionHash(transactionHash: string): Promise<FeedEvent> {
+    let feedItem = await this.feed
       .get('byid')
       .get(transactionHash)
       .decrypt()
+      .catch(e => {
+        logger.warn('getFeedItemByTransactionHash not found or cant decrypt', { transactionHash })
+        return undefined
+      })
+
     return feedItem
   }
 
@@ -260,7 +268,7 @@ export class UserStorage {
    * @returns {Promise<Array<FeedEvent>>}
    */
   async getAllFeed() {
-    const total = Object.values((await this.feed.get('index')) || {}).reduce((acc, curr) => acc + curr, 0)
+    const total = Object.values((await this.feed.get('index').then()) || {}).reduce((acc, curr) => acc + curr, 0)
     const prevCursor = this.cursor
     logger.debug('getAllFeed', { total, prevCursor })
     const feed = await this.getFeedPage(total, true)
@@ -375,7 +383,10 @@ export class UserStorage {
       username: { defaultPrivacy: 'public' }
     }
     const getPrivacy = async field => {
-      const currentPrivacy = await this.profile.get(field).get('privacy')
+      const currentPrivacy = await this.profile
+        .get(field)
+        .get('privacy')
+        .then()
       return currentPrivacy || profileSettings[field].defaultPrivacy || 'public'
     }
 
@@ -525,12 +536,14 @@ export class UserStorage {
     const eventsIndex = flatten(await Promise.all(promises))
 
     return await Promise.all(
-      eventsIndex.map(eventIndex =>
-        this.feed
-          .get('byid')
-          .get(eventIndex.id)
-          .decrypt()
-      )
+      eventsIndex
+        .filter(_ => _.id)
+        .map(eventIndex =>
+          this.feed
+            .get('byid')
+            .get(eventIndex.id)
+            .decrypt()
+        )
     )
   }
 
@@ -546,7 +559,7 @@ export class UserStorage {
   }
 
   async getFormatedEventById(id: string): Promise<StandardFeed> {
-    const prevFeedEvent = await this.getFeedItemByTransactionHash(id)
+    const prevFeedEvent = (await this.getFeedItemByTransactionHash(id)) || (await this.peekTX(id))
     const standardPrevFeedEvent = await this.formatEvent(prevFeedEvent)
     if (!prevFeedEvent) return standardPrevFeedEvent
     if (prevFeedEvent.data && prevFeedEvent.data.receipt) return standardPrevFeedEvent
@@ -575,6 +588,7 @@ export class UserStorage {
       .get('profile')
       .get('walletAddress')
       .get('display')
+      .then()
 
     return address
   }
@@ -666,21 +680,33 @@ export class UserStorage {
   }
 
   /**
-   * enqueue a new TX done on DAPP, to be later merged with the blockchain tx
+   * enqueue a new pending TX done on DAPP, to be later merged with the blockchain tx
    * the DAPP event can contain more details than the blockchain tx event
    * @param {FeedEvent} event
+   * @returns {Promise<>}
    */
-  async enqueueTX(event: FeedEvent) {
+  async enqueueTX(event: FeedEvent): Promise<> {
     return await AsyncStorage.setItem(event.id, JSON.stringify(event))
   }
   /**
-   *
+   * remove and return pending TX
    * @param {*} event
+   * @returns {Promise<FeedEvent>}
    */
-  async dequeueTX(eventId: string) {
+  async dequeueTX(eventId: string): Promise<FeedEvent> {
     let res = await AsyncStorage.getItem(eventId)
     AsyncStorage.removeItem(eventId)
-    return JSON.parse(res)
+    return res ? JSON.parse(res) : res
+  }
+
+  /**
+   * lookup a pending tx
+   * @param {string} eventId
+   * @returns {Promise<FeedEvent>}
+   */
+  async peekTX(eventId: string): Promise<FeedEvent> {
+    let res = await AsyncStorage.getItem(eventId)
+    return res ? JSON.parse(res) : res
   }
 
   /**
@@ -689,7 +715,7 @@ export class UserStorage {
    * @param {FeedEvent} event - Event to be updated
    * @returns {Promise} Promise with updated feed
    */
-  async updateFeedEvent(event: FeedEvent): Promise<ACK> {
+  async updateFeedEvent(event: FeedEvent): Promise<FeedEvent> {
     logger.debug('updateFeedEvent:', { event })
     let date = new Date(event.date)
     // force valid dates

@@ -38,9 +38,9 @@ describe('UserStorage', () => {
   beforeAll(async () => {
     jest.setTimeout(30000)
     await userStorage.wallet.ready
-    console.debug('wallet ready...')
+    console.log('wallet ready...', userStorage.wallet.account)
     await userStorage.ready
-    console.log('storage ready...')
+    console.log('storage ready...', userStorage.wallet.account)
   })
 
   afterEach(() => {
@@ -142,7 +142,7 @@ describe('UserStorage', () => {
     })
   })
 
-  // describe('generates standarised feed from events', async () => {
+  // describe('generates standarised feed from events', () => {
   //   beforeAll(async () => {
   //     await addUser({
   //       identifier: 'abcdef',
@@ -502,7 +502,7 @@ describe('UserStorage', () => {
     expect(updatedUsernameOk).toBe('user3')
   })
 
-  describe('getReceiveDataFromReceipt', async () => {
+  describe('getReceiveDataFromReceipt', () => {
     it('get Transfer data from logs', async () => {
       const receipt = {
         logs: [
@@ -697,5 +697,20 @@ describe('getOperationType', () => {
       from: 'account2'
     }
     expect(getOperationType(event, 'account1')).toBe('receive')
+  })
+})
+
+describe('users index', () => {
+  beforeAll(async () => {
+    await userStorage.wallet.ready
+    await userStorage.ready
+  })
+
+  it('should return user address by public email', async () => {
+    let wallet = userStorage.wallet.account
+    await userStorage.setProfileField('walletAddress', wallet)
+    await userStorage.setProfileField('email', 'test@test.com', 'public')
+    let addr = await userStorage.getUserAddress('test@test.com')
+    expect(addr).toBe(wallet)
   })
 })

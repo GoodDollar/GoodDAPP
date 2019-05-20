@@ -15,31 +15,23 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
   style={
     Object {
       "MozUserSelect": "none",
-      "WebkitAlignItems": "center",
-      "WebkitBoxAlign": "center",
       "WebkitBoxDirection": "normal",
       "WebkitBoxOrient": "horizontal",
-      "WebkitBoxPack": "center",
       "WebkitFlexDirection": "row",
-      "WebkitJustifyContent": "center",
       "WebkitUserSelect": "none",
-      "alignItems": "center",
       "backgroundColor": "rgba(238,238,239,1.00)",
-      "borderBottomColor": "rgba(0,0,0,0.10)",
-      "borderBottomWidth": "1px",
+      "borderBottomLeftRadius": "8px",
+      "borderBottomRightRadius": "8px",
+      "borderTopLeftRadius": "8px",
+      "borderTopRightRadius": "8px",
       "cursor": "pointer",
       "flexDirection": "row",
-      "justifyContent": "center",
       "marginBottom": "5px",
-      "msFlexAlign": "center",
       "msFlexDirection": "row",
-      "msFlexPack": "center",
       "msTouchAction": "manipulation",
       "msUserSelect": "none",
-      "paddingBottom": "15px",
-      "paddingLeft": "15px",
-      "paddingRight": "15px",
-      "paddingTop": "15px",
+      "overflowX": "hidden",
+      "overflowY": "hidden",
       "touchAction": "manipulation",
       "userSelect": "none",
     }
@@ -50,16 +42,30 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
     className="css-view-1dbjc4n"
     style={
       Object {
+        "WebkitAlignItems": "center",
+        "WebkitBoxAlign": "center",
         "WebkitBoxFlex": 1,
+        "WebkitBoxPack": "center",
         "WebkitFlexBasis": "0%",
         "WebkitFlexGrow": 1,
         "WebkitFlexShrink": 1,
+        "WebkitJustifyContent": "center",
+        "alignItems": "center",
+        "borderLeftColor": "rgba(186,186,186,1.00)",
+        "borderLeftWidth": "8px",
         "flexBasis": "0%",
         "flexGrow": 1,
         "flexShrink": 1,
+        "justifyContent": "center",
+        "msFlexAlign": "center",
         "msFlexNegative": 1,
+        "msFlexPack": "center",
         "msFlexPositive": 1,
         "msFlexPreferredSize": "0%",
+        "paddingBottom": "5px",
+        "paddingLeft": "5px",
+        "paddingRight": "5px",
+        "paddingTop": "5px",
       }
     }
   >
@@ -75,7 +81,6 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
           "WebkitFlexDirection": "row",
           "WebkitJustifyContent": "center",
           "alignItems": "center",
-          "backgroundColor": "rgba(238,238,239,1.00)",
           "flexDirection": "row",
           "justifyContent": "center",
           "msFlexAlign": "center",
@@ -93,12 +98,12 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
           style={
             Object {
               "backgroundColor": "rgba(255,255,255,1.00)",
-              "borderBottomLeftRadius": "24px",
-              "borderBottomRightRadius": "24px",
-              "borderTopLeftRadius": "24px",
-              "borderTopRightRadius": "24px",
-              "height": "48px",
-              "width": "48px",
+              "borderBottomLeftRadius": "18px",
+              "borderBottomRightRadius": "18px",
+              "borderTopLeftRadius": "18px",
+              "borderTopRightRadius": "18px",
+              "height": "36px",
+              "width": "36px",
             }
           }
         >
@@ -107,16 +112,16 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
             style={
               Object {
                 "WebkitFlexBasis": "auto",
-                "borderBottomLeftRadius": "24px",
-                "borderBottomRightRadius": "24px",
-                "borderTopLeftRadius": "24px",
-                "borderTopRightRadius": "24px",
+                "borderBottomLeftRadius": "18px",
+                "borderBottomRightRadius": "18px",
+                "borderTopLeftRadius": "18px",
+                "borderTopRightRadius": "18px",
                 "flexBasis": "auto",
-                "height": "48px",
+                "height": "36px",
                 "msFlexPreferredSize": "auto",
                 "overflowX": "hidden",
                 "overflowY": "hidden",
-                "width": "48px",
+                "width": "36px",
                 "zIndex": 0,
               }
             }
@@ -179,23 +184,46 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
           dir="auto"
           style={
             Object {
-              "color": "rgba(75,75,75,1.00)",
+              "color": "rgba(85,85,85,1.00)",
               "fontSize": "15px",
               "textTransform": "capitalize",
             }
           }
         >
-          To: Misao Matimbo
+          <span
+            className="css-text-76zvg2 css-textHasAncestor-16my406"
+            dir="auto"
+            style={
+              Object {
+                "fontSize": "10px",
+                "fontWeight": 500,
+              }
+            }
+          >
+            To
+            :
+          </span>
+          <span
+            className="css-text-76zvg2 css-textHasAncestor-16my406"
+            dir="auto"
+            style={
+              Object {
+                "fontWeight": 700,
+              }
+            }
+          >
+            Misao Matimbo
+          </span>
         </div>
         <div
           className="css-text-76zvg2"
           dir="auto"
           style={
             Object {
-              "color": "rgba(168,166,137,1.00)",
-              "fontSize": "13px",
+              "color": "rgba(163,163,163,1.00)",
+              "fontSize": "15px",
               "marginTop": "4px",
-              "opacity": 0.8,
+              "textTransform": "capitalize",
             }
           }
         >
@@ -206,23 +234,21 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
         className="css-view-1dbjc4n"
         style={
           Object {
-            "WebkitAlignItems": "center",
-            "WebkitBoxAlign": "center",
+            "WebkitAlignItems": "right",
+            "WebkitBoxAlign": "right",
             "WebkitBoxDirection": "normal",
-            "WebkitBoxOrient": "horizontal",
-            "WebkitBoxPack": "center",
-            "WebkitFlexDirection": "row",
-            "WebkitJustifyContent": "center",
-            "alignItems": "center",
-            "backgroundColor": "rgba(238,238,239,1.00)",
-            "borderBottomColor": "rgba(0,0,0,0.10)",
+            "WebkitBoxOrient": "vertical",
+            "WebkitBoxPack": "right",
+            "WebkitFlexDirection": "column",
+            "WebkitJustifyContent": "right",
+            "alignItems": "right",
             "borderBottomWidth": "0px",
-            "flexDirection": "row",
-            "justifyContent": "center",
+            "flexDirection": "column",
+            "justifyContent": "right",
             "marginBottom": "0px",
-            "msFlexAlign": "center",
-            "msFlexDirection": "row",
-            "msFlexPack": "center",
+            "msFlexAlign": "right",
+            "msFlexDirection": "column",
+            "msFlexPack": "right",
             "paddingBottom": "0px",
             "paddingLeft": "0px",
             "paddingRight": "0px",
@@ -234,58 +260,61 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
-              "display": "inline-block",
+              "WebkitAlignItems": "center",
+              "WebkitBoxAlign": "center",
+              "WebkitBoxDirection": "normal",
+              "WebkitBoxOrient": "horizontal",
+              "WebkitBoxPack": "right",
+              "WebkitFlexDirection": "row",
+              "WebkitJustifyContent": "right",
+              "alignItems": "center",
+              "flexDirection": "row",
+              "justifyContent": "right",
+              "msFlexAlign": "center",
+              "msFlexDirection": "row",
+              "msFlexPack": "right",
             }
           }
         >
           <div
-            className="css-text-76zvg2"
-            dir="auto"
+            className="css-view-1dbjc4n"
             style={
               Object {
-                "color": "rgba(85,85,85,1.00)",
-                "direction": "ltr",
-                "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                "fontSize": "12px",
-                "textAlign": "right",
+                "display": "inline-block",
               }
             }
           >
-            0.04
-          </div>
-          <div
-            className="css-text-76zvg2"
-            dir="auto"
-            style={
-              Object {
-                "color": "rgba(85,85,85,1.00)",
-                "direction": "ltr",
-                "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                "fontSize": "12px",
-                "textAlign": "right",
+            <div
+              className="css-text-76zvg2"
+              dir="auto"
+              style={
+                Object {
+                  "color": "rgba(85,85,85,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                  "fontSize": "12px",
+                  "textAlign": "right",
+                }
               }
-            }
-          >
-            GD
+            >
+              0.04
+            </div>
+            <div
+              className="css-text-76zvg2"
+              dir="auto"
+              style={
+                Object {
+                  "color": "rgba(85,85,85,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                  "fontSize": "12px",
+                  "textAlign": "right",
+                }
+              }
+            >
+              G$
+            </div>
           </div>
-        </div>
-        <div
-          className="css-view-1dbjc4n"
-          style={
-            Object {
-              "WebkitBoxFlex": 1,
-              "WebkitFlexBasis": "0%",
-              "WebkitFlexGrow": 1,
-              "WebkitFlexShrink": 1,
-              "flexBasis": "0%",
-              "flexGrow": 1,
-              "flexShrink": 1,
-              "msFlexNegative": 1,
-              "msFlexPositive": 1,
-              "msFlexPreferredSize": "0%",
-            }
-          }
-        >
           <div
             className="css-view-1dbjc4n"
             style={
@@ -296,19 +325,19 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
                 "WebkitJustifyContent": "center",
                 "alignItems": "center",
                 "backgroundColor": "rgba(255,255,255,1.00)",
-                "borderBottomLeftRadius": "28px",
-                "borderBottomRightRadius": "28px",
-                "borderTopLeftRadius": "28px",
-                "borderTopRightRadius": "28px",
-                "height": "52px",
+                "borderBottomLeftRadius": "20px",
+                "borderBottomRightRadius": "20px",
+                "borderTopLeftRadius": "20px",
+                "borderTopRightRadius": "20px",
+                "height": "36px",
                 "justifyContent": "center",
                 "marginBottom": "7px",
                 "marginLeft": "7px",
-                "marginRight": "7px",
+                "marginRight": "0px",
                 "marginTop": "7px",
                 "msFlexAlign": "center",
                 "msFlexPack": "center",
-                "width": "52px",
+                "width": "36px",
               }
             }
           >
@@ -320,7 +349,7 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
                   "backgroundColor": "rgba(0,0,0,0.00)",
                   "color": "rgba(85,85,85,1.00)",
                   "fontFamily": "MaterialIcons",
-                  "fontSize": "24px",
+                  "fontSize": "16px",
                   "fontStyle": "normal",
                   "fontWeight": "normal",
                 }
@@ -329,18 +358,39 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
               
             </div>
           </div>
+        </div>
+        <div
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "WebkitAlignItems": "center",
+              "WebkitBoxAlign": "center",
+              "WebkitBoxDirection": "normal",
+              "WebkitBoxOrient": "horizontal",
+              "WebkitBoxPack": "right",
+              "WebkitFlexDirection": "row",
+              "WebkitJustifyContent": "right",
+              "alignItems": "center",
+              "flexDirection": "row",
+              "justifyContent": "right",
+              "msFlexAlign": "center",
+              "msFlexDirection": "row",
+              "msFlexPack": "right",
+            }
+          }
+        >
           <div
             className="css-text-76zvg2"
             dir="auto"
             style={
               Object {
-                "color": "rgba(75,75,75,1.00)",
+                "color": "rgba(75,75,75,0.80)",
                 "fontSize": "8px",
-                "opacity": 0.8,
+                "marginLeft": "auto",
               }
             }
           >
-            4/1/2019, 3:03:14 PM
+            04/01/19 3:03 PM
           </div>
         </div>
       </div>
@@ -364,31 +414,23 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
   style={
     Object {
       "MozUserSelect": "none",
-      "WebkitAlignItems": "center",
-      "WebkitBoxAlign": "center",
       "WebkitBoxDirection": "normal",
       "WebkitBoxOrient": "horizontal",
-      "WebkitBoxPack": "center",
       "WebkitFlexDirection": "row",
-      "WebkitJustifyContent": "center",
       "WebkitUserSelect": "none",
-      "alignItems": "center",
       "backgroundColor": "rgba(238,238,239,1.00)",
-      "borderBottomColor": "rgba(0,0,0,0.10)",
-      "borderBottomWidth": "1px",
+      "borderBottomLeftRadius": "8px",
+      "borderBottomRightRadius": "8px",
+      "borderTopLeftRadius": "8px",
+      "borderTopRightRadius": "8px",
       "cursor": "pointer",
       "flexDirection": "row",
-      "justifyContent": "center",
       "marginBottom": "5px",
-      "msFlexAlign": "center",
       "msFlexDirection": "row",
-      "msFlexPack": "center",
       "msTouchAction": "manipulation",
       "msUserSelect": "none",
-      "paddingBottom": "15px",
-      "paddingLeft": "15px",
-      "paddingRight": "15px",
-      "paddingTop": "15px",
+      "overflowX": "hidden",
+      "overflowY": "hidden",
       "touchAction": "manipulation",
       "userSelect": "none",
     }
@@ -399,16 +441,30 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
     className="css-view-1dbjc4n"
     style={
       Object {
+        "WebkitAlignItems": "center",
+        "WebkitBoxAlign": "center",
         "WebkitBoxFlex": 1,
+        "WebkitBoxPack": "center",
         "WebkitFlexBasis": "0%",
         "WebkitFlexGrow": 1,
         "WebkitFlexShrink": 1,
+        "WebkitJustifyContent": "center",
+        "alignItems": "center",
+        "borderLeftColor": "rgba(186,186,186,1.00)",
+        "borderLeftWidth": "8px",
         "flexBasis": "0%",
         "flexGrow": 1,
         "flexShrink": 1,
+        "justifyContent": "center",
+        "msFlexAlign": "center",
         "msFlexNegative": 1,
+        "msFlexPack": "center",
         "msFlexPositive": 1,
         "msFlexPreferredSize": "0%",
+        "paddingBottom": "5px",
+        "paddingLeft": "5px",
+        "paddingRight": "5px",
+        "paddingTop": "5px",
       }
     }
   >
@@ -424,7 +480,6 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
           "WebkitFlexDirection": "row",
           "WebkitJustifyContent": "center",
           "alignItems": "center",
-          "backgroundColor": "rgba(238,238,239,1.00)",
           "flexDirection": "row",
           "justifyContent": "center",
           "msFlexAlign": "center",
@@ -442,12 +497,12 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
           style={
             Object {
               "backgroundColor": "rgba(255,255,255,1.00)",
-              "borderBottomLeftRadius": "24px",
-              "borderBottomRightRadius": "24px",
-              "borderTopLeftRadius": "24px",
-              "borderTopRightRadius": "24px",
-              "height": "48px",
-              "width": "48px",
+              "borderBottomLeftRadius": "18px",
+              "borderBottomRightRadius": "18px",
+              "borderTopLeftRadius": "18px",
+              "borderTopRightRadius": "18px",
+              "height": "36px",
+              "width": "36px",
             }
           }
         >
@@ -456,16 +511,16 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
             style={
               Object {
                 "WebkitFlexBasis": "auto",
-                "borderBottomLeftRadius": "24px",
-                "borderBottomRightRadius": "24px",
-                "borderTopLeftRadius": "24px",
-                "borderTopRightRadius": "24px",
+                "borderBottomLeftRadius": "18px",
+                "borderBottomRightRadius": "18px",
+                "borderTopLeftRadius": "18px",
+                "borderTopRightRadius": "18px",
                 "flexBasis": "auto",
-                "height": "48px",
+                "height": "36px",
                 "msFlexPreferredSize": "auto",
                 "overflowX": "hidden",
                 "overflowY": "hidden",
-                "width": "48px",
+                "width": "36px",
                 "zIndex": 0,
               }
             }
@@ -528,23 +583,46 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
           dir="auto"
           style={
             Object {
-              "color": "rgba(75,75,75,1.00)",
+              "color": "rgba(85,85,85,1.00)",
               "fontSize": "15px",
               "textTransform": "capitalize",
             }
           }
         >
-          From: Misao Matimbo
+          <span
+            className="css-text-76zvg2 css-textHasAncestor-16my406"
+            dir="auto"
+            style={
+              Object {
+                "fontSize": "10px",
+                "fontWeight": 500,
+              }
+            }
+          >
+            From
+            :
+          </span>
+          <span
+            className="css-text-76zvg2 css-textHasAncestor-16my406"
+            dir="auto"
+            style={
+              Object {
+                "fontWeight": 700,
+              }
+            }
+          >
+            Misao Matimbo
+          </span>
         </div>
         <div
           className="css-text-76zvg2"
           dir="auto"
           style={
             Object {
-              "color": "rgba(168,166,137,1.00)",
-              "fontSize": "13px",
+              "color": "rgba(163,163,163,1.00)",
+              "fontSize": "15px",
               "marginTop": "4px",
-              "opacity": 0.8,
+              "textTransform": "capitalize",
             }
           }
         >
@@ -555,23 +633,21 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
         className="css-view-1dbjc4n"
         style={
           Object {
-            "WebkitAlignItems": "center",
-            "WebkitBoxAlign": "center",
+            "WebkitAlignItems": "right",
+            "WebkitBoxAlign": "right",
             "WebkitBoxDirection": "normal",
-            "WebkitBoxOrient": "horizontal",
-            "WebkitBoxPack": "center",
-            "WebkitFlexDirection": "row",
-            "WebkitJustifyContent": "center",
-            "alignItems": "center",
-            "backgroundColor": "rgba(238,238,239,1.00)",
-            "borderBottomColor": "rgba(0,0,0,0.10)",
+            "WebkitBoxOrient": "vertical",
+            "WebkitBoxPack": "right",
+            "WebkitFlexDirection": "column",
+            "WebkitJustifyContent": "right",
+            "alignItems": "right",
             "borderBottomWidth": "0px",
-            "flexDirection": "row",
-            "justifyContent": "center",
+            "flexDirection": "column",
+            "justifyContent": "right",
             "marginBottom": "0px",
-            "msFlexAlign": "center",
-            "msFlexDirection": "row",
-            "msFlexPack": "center",
+            "msFlexAlign": "right",
+            "msFlexDirection": "column",
+            "msFlexPack": "right",
             "paddingBottom": "0px",
             "paddingLeft": "0px",
             "paddingRight": "0px",
@@ -583,58 +659,61 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
-              "display": "inline-block",
+              "WebkitAlignItems": "center",
+              "WebkitBoxAlign": "center",
+              "WebkitBoxDirection": "normal",
+              "WebkitBoxOrient": "horizontal",
+              "WebkitBoxPack": "right",
+              "WebkitFlexDirection": "row",
+              "WebkitJustifyContent": "right",
+              "alignItems": "center",
+              "flexDirection": "row",
+              "justifyContent": "right",
+              "msFlexAlign": "center",
+              "msFlexDirection": "row",
+              "msFlexPack": "right",
             }
           }
         >
           <div
-            className="css-text-76zvg2"
-            dir="auto"
+            className="css-view-1dbjc4n"
             style={
               Object {
-                "color": "rgba(85,85,85,1.00)",
-                "direction": "ltr",
-                "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                "fontSize": "12px",
-                "textAlign": "right",
+                "display": "inline-block",
               }
             }
           >
-            0.04
-          </div>
-          <div
-            className="css-text-76zvg2"
-            dir="auto"
-            style={
-              Object {
-                "color": "rgba(85,85,85,1.00)",
-                "direction": "ltr",
-                "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                "fontSize": "12px",
-                "textAlign": "right",
+            <div
+              className="css-text-76zvg2"
+              dir="auto"
+              style={
+                Object {
+                  "color": "rgba(85,85,85,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                  "fontSize": "12px",
+                  "textAlign": "right",
+                }
               }
-            }
-          >
-            GD
+            >
+              0.04
+            </div>
+            <div
+              className="css-text-76zvg2"
+              dir="auto"
+              style={
+                Object {
+                  "color": "rgba(85,85,85,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                  "fontSize": "12px",
+                  "textAlign": "right",
+                }
+              }
+            >
+              G$
+            </div>
           </div>
-        </div>
-        <div
-          className="css-view-1dbjc4n"
-          style={
-            Object {
-              "WebkitBoxFlex": 1,
-              "WebkitFlexBasis": "0%",
-              "WebkitFlexGrow": 1,
-              "WebkitFlexShrink": 1,
-              "flexBasis": "0%",
-              "flexGrow": 1,
-              "flexShrink": 1,
-              "msFlexNegative": 1,
-              "msFlexPositive": 1,
-              "msFlexPreferredSize": "0%",
-            }
-          }
-        >
           <div
             className="css-view-1dbjc4n"
             style={
@@ -645,19 +724,19 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
                 "WebkitJustifyContent": "center",
                 "alignItems": "center",
                 "backgroundColor": "rgba(255,255,255,1.00)",
-                "borderBottomLeftRadius": "28px",
-                "borderBottomRightRadius": "28px",
-                "borderTopLeftRadius": "28px",
-                "borderTopRightRadius": "28px",
-                "height": "52px",
+                "borderBottomLeftRadius": "20px",
+                "borderBottomRightRadius": "20px",
+                "borderTopLeftRadius": "20px",
+                "borderTopRightRadius": "20px",
+                "height": "36px",
                 "justifyContent": "center",
                 "marginBottom": "7px",
                 "marginLeft": "7px",
-                "marginRight": "7px",
+                "marginRight": "0px",
                 "marginTop": "7px",
                 "msFlexAlign": "center",
                 "msFlexPack": "center",
-                "width": "52px",
+                "width": "36px",
               }
             }
           >
@@ -669,7 +748,7 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
                   "backgroundColor": "rgba(0,0,0,0.00)",
                   "color": "rgba(85,85,85,1.00)",
                   "fontFamily": "MaterialIcons",
-                  "fontSize": "24px",
+                  "fontSize": "16px",
                   "fontStyle": "normal",
                   "fontWeight": "normal",
                 }
@@ -678,18 +757,39 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
               
             </div>
           </div>
+        </div>
+        <div
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "WebkitAlignItems": "center",
+              "WebkitBoxAlign": "center",
+              "WebkitBoxDirection": "normal",
+              "WebkitBoxOrient": "horizontal",
+              "WebkitBoxPack": "right",
+              "WebkitFlexDirection": "row",
+              "WebkitJustifyContent": "right",
+              "alignItems": "center",
+              "flexDirection": "row",
+              "justifyContent": "right",
+              "msFlexAlign": "center",
+              "msFlexDirection": "row",
+              "msFlexPack": "right",
+            }
+          }
+        >
           <div
             className="css-text-76zvg2"
             dir="auto"
             style={
               Object {
-                "color": "rgba(75,75,75,1.00)",
+                "color": "rgba(75,75,75,0.80)",
                 "fontSize": "8px",
-                "opacity": 0.8,
+                "marginLeft": "auto",
               }
             }
           >
-            4/1/2019, 3:03:14 PM
+            04/01/19 3:03 PM
           </div>
         </div>
       </div>

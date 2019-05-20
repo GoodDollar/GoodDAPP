@@ -142,24 +142,54 @@ exports[`Claim matches snapshot 1`] = `
           >
             <div
               className="css-view-1dbjc4n"
+              data-focusable={true}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
               style={
                 Object {
+                  "MozTransitionProperty": "opacity",
+                  "MozUserSelect": "none",
+                  "WebkitTransitionDuration": "0.15s",
+                  "WebkitTransitionProperty": "opacity",
+                  "WebkitUserSelect": "none",
                   "borderBottomLeftRadius": "50%",
                   "borderBottomRightRadius": "50%",
                   "borderTopLeftRadius": "50%",
                   "borderTopRightRadius": "50%",
+                  "cursor": "pointer",
+                  "msTouchAction": "manipulation",
+                  "msUserSelect": "none",
+                  "touchAction": "manipulation",
+                  "transitionDuration": "0.15s",
+                  "transitionProperty": "opacity",
+                  "userSelect": "none",
                 }
               }
+              tabIndex="0"
             >
               <div
                 className="css-view-1dbjc4n"
                 style={
                   Object {
                     "backgroundColor": "rgba(255,255,255,1.00)",
+                    "borderBottomColor": "rgba(112,112,112,1.00)",
                     "borderBottomLeftRadius": "17px",
                     "borderBottomRightRadius": "17px",
+                    "borderBottomWidth": "1px",
+                    "borderLeftColor": "rgba(112,112,112,1.00)",
+                    "borderLeftWidth": "1px",
+                    "borderRightColor": "rgba(112,112,112,1.00)",
+                    "borderRightWidth": "1px",
+                    "borderTopColor": "rgba(112,112,112,1.00)",
                     "borderTopLeftRadius": "17px",
                     "borderTopRightRadius": "17px",
+                    "borderTopWidth": "1px",
                     "height": "34px",
                     "width": "34px",
                   }
@@ -242,7 +272,7 @@ exports[`Claim matches snapshot 1`] = `
                   }
                 }
               >
-                GD
+                G$
               </div>
             </div>
           </div>
@@ -251,12 +281,19 @@ exports[`Claim matches snapshot 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
-              "backgroundColor": "rgba(238,238,239,1.00)",
+              "WebkitBoxFlex": 1,
+              "WebkitBoxPack": "center",
+              "WebkitFlexGrow": 1,
+              "WebkitJustifyContent": "center",
               "borderBottomLeftRadius": "5px",
               "borderBottomRightRadius": "5px",
               "borderTopLeftRadius": "5px",
               "borderTopRightRadius": "5px",
+              "flexGrow": 1,
+              "justifyContent": "center",
               "marginBottom": "15px",
+              "msFlexPack": "center",
+              "msFlexPositive": 1,
               "paddingBottom": "15px",
               "paddingLeft": "10px",
               "paddingRight": "10px",
@@ -270,131 +307,41 @@ exports[`Claim matches snapshot 1`] = `
             style={
               Object {
                 "color": "rgba(85,85,85,1.00)",
-                "fontSize": "18px",
+                "fontSize": "14px",
                 "textAlign": "center",
               }
             }
           >
-            GoodDollar is a good economy, each day you can collect your part in the economy
+            GoodDollar allows you to collect
           </div>
           <div
-            className="css-view-1dbjc4n"
+            className="css-text-76zvg2"
+            dir="auto"
             style={
               Object {
-                "WebkitAlignItems": "baseline",
-                "WebkitBoxAlign": "baseline",
-                "WebkitBoxDirection": "normal",
-                "WebkitBoxOrient": "horizontal",
-                "WebkitBoxPack": "center",
-                "WebkitFlexDirection": "row",
-                "WebkitJustifyContent": "center",
-                "alignItems": "baseline",
-                "flexDirection": "row",
-                "justifyContent": "center",
-                "msFlexAlign": "baseline",
-                "msFlexDirection": "row",
-                "msFlexPack": "center",
+                "color": "rgba(85,85,85,1.00)",
+                "fontSize": "14px",
+                "textAlign": "center",
               }
             }
           >
-            <div
-              className="css-text-76zvg2"
+            <span
+              className="css-text-76zvg2 css-textHasAncestor-16my406"
+              dir="auto"
+            >
+              G$s
+            </span>
+            <span
+              className="css-text-76zvg2 css-textHasAncestor-16my406"
               dir="auto"
               style={
                 Object {
-                  "color": "rgba(85,85,85,1.00)",
-                  "fontSize": "14px",
-                  "textAlign": "center",
+                  "fontSize": "20px",
                 }
               }
             >
-              TODAY'S DAILY INCOME 
-            </div>
-            <div
-              className="css-view-1dbjc4n"
-              style={
-                Object {
-                  "display": "inline-block",
-                }
-              }
-            >
-              <div
-                className="css-text-76zvg2"
-                dir="auto"
-                style={
-                  Object {
-                    "color": "rgba(85,85,85,1.00)",
-                    "direction": "ltr",
-                    "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                    "fontSize": "30px",
-                    "textAlign": "right",
-                  }
-                }
-              >
-                0.00
-              </div>
-              <div
-                className="css-text-76zvg2"
-                dir="auto"
-                style={
-                  Object {
-                    "color": "rgba(85,85,85,1.00)",
-                    "direction": "ltr",
-                    "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                    "fontSize": "18px",
-                    "textAlign": "right",
-                  }
-                }
-              >
-                GD
-              </div>
-            </div>
-          </div>
-          <div
-            className="css-view-1dbjc4n"
-            style={
-              Object {
-                "WebkitAlignSelf": "center",
-                "WebkitFlexBasis": "auto",
-                "alignSelf": "center",
-                "flexBasis": "auto",
-                "height": "132px",
-                "maxWidth": "100%",
-                "msFlexItemAlign": "center",
-                "msFlexPreferredSize": "auto",
-                "overflowX": "hidden",
-                "overflowY": "hidden",
-                "width": "323px",
-                "zIndex": 0,
-              }
-            }
-          >
-            <div
-              className="css-view-1dbjc4n"
-              style={
-                Object {
-                  "backgroundColor": "rgba(0,0,0,0.00)",
-                  "backgroundImage": "url(\\"graph.png\\")",
-                  "backgroundPosition": "center",
-                  "backgroundRepeat": "no-repeat",
-                  "backgroundSize": "cover",
-                  "bottom": "0px",
-                  "height": "100%",
-                  "left": "0px",
-                  "position": "absolute",
-                  "right": "0px",
-                  "top": "0px",
-                  "width": "100%",
-                  "zIndex": -1,
-                }
-              }
-            />
-            <img
-              alt=""
-              className="css-accessibilityImage-9pa8cd"
-              draggable={false}
-              src="graph.png"
-            />
+               every day
+            </span>
           </div>
         </div>
         <div
@@ -450,7 +397,7 @@ exports[`Claim matches snapshot 1`] = `
               </b>
                PEOPLE CLAIMED 
               <b>
-                2.5M GD
+                2.5M G$
               </b>
                TODAY!
             </div>
@@ -573,13 +520,12 @@ exports[`Claim matches snapshot 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
-              "WebkitBoxFlex": 2,
+              "WebkitBoxFlex": 0,
               "WebkitBoxPack": "center",
-              "WebkitFlexBasis": "0%",
-              "WebkitFlexGrow": 2,
+              "WebkitFlexGrow": 0,
               "WebkitFlexShrink": 1,
               "WebkitJustifyContent": "center",
-              "backgroundColor": "rgba(85,85,85,1.00)",
+              "backgroundColor": "rgba(0,0,0,0.12)",
               "borderBottomColor": "rgba(0,0,0,0.00)",
               "borderBottomLeftRadius": "4px",
               "borderBottomRightRadius": "4px",
@@ -596,29 +542,24 @@ exports[`Claim matches snapshot 1`] = `
               "borderTopRightRadius": "4px",
               "borderTopStyle": "solid",
               "borderTopWidth": "0px",
-              "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
-              "flexBasis": "0%",
-              "flexGrow": 2,
+              "flexGrow": 0,
               "flexShrink": 1,
               "justifyContent": "center",
               "minWidth": "auto",
               "msFlexNegative": 1,
               "msFlexPack": "center",
-              "msFlexPositive": 2,
-              "msFlexPreferredSize": "0%",
+              "msFlexPositive": 0,
             }
           }
         >
           <div
-            className="css-cursor-18t94o4 css-view-1dbjc4n"
-            data-focusable={true}
-            disabled={false}
+            aria-disabled={true}
+            className="css-view-1dbjc4n"
+            disabled={true}
             onKeyDown={[Function]}
-            onKeyPress={[Function]}
             onKeyUp={[Function]}
             onResponderGrant={[Function]}
             onResponderMove={[Function]}
-            onResponderRelease={[Function]}
             onResponderTerminate={[Function]}
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
@@ -629,15 +570,11 @@ exports[`Claim matches snapshot 1`] = `
                 "borderBottomRightRadius": "4px",
                 "borderTopLeftRadius": "4px",
                 "borderTopRightRadius": "4px",
-                "cursor": "pointer",
-                "msTouchAction": "manipulation",
                 "overflowX": "hidden",
                 "overflowY": "hidden",
                 "position": "relative",
-                "touchAction": "manipulation",
               }
             }
-            tabIndex="0"
           >
             <div
               className="css-view-1dbjc4n"
@@ -664,7 +601,7 @@ exports[`Claim matches snapshot 1`] = `
                 dir="auto"
                 style={
                   Object {
-                    "color": "rgba(255,255,255,1.00)",
+                    "color": "rgba(0,0,0,0.32)",
                     "direction": "ltr",
                     "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                     "letterSpacing": "1px",
@@ -694,7 +631,7 @@ exports[`Claim matches snapshot 1`] = `
                     }
                   }
                 >
-                  CLAIM YOUR SHARE - 0.00 GD
+                  CLAIM YOUR SHARE - 0.00 G$
                 </span>
               </div>
             </div>

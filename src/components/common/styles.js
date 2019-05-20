@@ -1,5 +1,4 @@
-import { normalize } from 'react-native-elements'
-
+import normalize from 'react-native-elements/src/helpers/normalizeText'
 export const fontStyle = {
   color: '#555',
   fontSize: normalize(18),

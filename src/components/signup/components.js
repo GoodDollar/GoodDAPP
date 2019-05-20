@@ -2,7 +2,7 @@
 import React from 'react'
 import { View, StyleSheet } from 'react-native'
 import { Button, Text } from 'react-native-paper'
-import { normalize } from 'react-native-elements'
+import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { PushButton } from '../appNavigation/stackNavigation'
 
 export const NextButton = (props: {
@@ -87,6 +87,7 @@ const fontStyle = {
   fontSize: normalize(18),
   textAlign: 'center'
 }
+
 const styles = StyleSheet.create({
   buttonText: {
     ...fontStyle,
@@ -138,7 +139,7 @@ const styles = StyleSheet.create({
   },
   title: {
     ...fontStyle,
-    fontSize: normalize(28),
+    fontSize: normalize(24),
     marginBottom: normalize(30)
   },
   description: {

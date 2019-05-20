@@ -90,7 +90,6 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end'
   },
   fontBase: {
-    fontFamily: 'Helvetica, "sans-serif"',
     color: '#555555',
     textAlign: 'center'
   },

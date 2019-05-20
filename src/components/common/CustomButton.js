@@ -2,8 +2,7 @@
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import { Button as BaseButton, Text } from 'react-native-paper'
-import { normalize } from 'react-native-elements'
-
+import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { fontStyle } from './styles'
 
 export type ButtonProps = {
@@ -44,7 +43,7 @@ const styles = StyleSheet.create({
     ...fontStyle,
     fontWeight: 'bold',
     textTransform: 'uppercase',
-    padding: normalize(0)
+    padding: 0
   }
 })
 

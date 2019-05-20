@@ -13,7 +13,7 @@ export type AmountProps = {
   navigation: any
 }
 
-const TITLE = 'Send GD'
+const TITLE = 'Send G$'
 
 const SendReason = (props: AmountProps) => {
   const { screenProps } = props
@@ -27,8 +27,13 @@ const SendReason = (props: AmountProps) => {
       <Section style={styles.section}>
         <Section.Row style={styles.sectionRow}>
           <View style={styles.inputField}>
-            <Section.Title style={styles.headline}>For?</Section.Title>
-            <TextInput autoFocus value={reason} onChangeText={reason => setScreenState({ reason })} />
+            <Section.Title style={styles.headline}>What For?</Section.Title>
+            <TextInput
+              autoFocus
+              value={reason}
+              onChangeText={reason => setScreenState({ reason })}
+              placeholder="Add a message"
+            />
           </View>
           <View style={styles.buttonGroup}>
             <BackButton mode="text" screenProps={screenProps} style={{ flex: 1 }}>

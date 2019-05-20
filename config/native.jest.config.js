@@ -26,6 +26,7 @@ module.exports = {
 	moduleFileExtensions: [
 		'ios.js',
 		'android.js',
+		'native.js',
 		'js',
 		'json',
 		'jsx',

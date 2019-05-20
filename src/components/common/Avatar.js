@@ -26,7 +26,9 @@ export default (props: AvatarProps) => (
 
 const styles = StyleSheet.create({
   avatar: {
-    backgroundColor: 'white'
+    backgroundColor: 'white',
+    borderColor: '#707070',
+    borderWidth: StyleSheet.hairlineWidth
   },
   avatarView: {
     borderRadius: '50%'

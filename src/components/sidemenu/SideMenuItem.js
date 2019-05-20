@@ -27,7 +27,6 @@ const styles = StyleSheet.create({
     cursor: 'pointer'
   },
   menuItem: {
-    fontFamily: 'Roboto',
     fontWeight: 'bold',
     fontSize: normalize(15)
   },

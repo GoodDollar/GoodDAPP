@@ -22,8 +22,8 @@ const ShareLink = ({ children, link, ...props }: Props) => {
     if (isMobile) {
       try {
         await navigator.share({
-          title: 'Sending GD via Good Dollar App',
-          text: 'To send me GD open:',
+          title: 'Sending G$ via Good Dollar App',
+          text: 'To send me G$ open:',
           url: link
         })
       } catch (e) {

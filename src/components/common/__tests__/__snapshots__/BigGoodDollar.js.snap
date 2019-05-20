@@ -37,7 +37,7 @@ exports[`BigGoodDollar matches snapshot 1`] = `
       }
     }
   >
-    GD
+    G$
   </div>
 </div>
 `;

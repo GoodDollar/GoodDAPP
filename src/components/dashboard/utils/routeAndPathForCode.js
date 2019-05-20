@@ -33,11 +33,11 @@ export const routeAndPathForCode = async (screen: string, code: CodeType | null)
           route: 'Amount',
           params: { to: address, nextRoutes: ['Reason', 'SendQRSummary'] }
         }
-      } else {
-        return {
-          route: 'SendQRSummary',
-          params: { to: address, amount, reason: 'From QR with Amount' }
-        }
+      }
+
+      return {
+        route: 'SendQRSummary',
+        params: { to: address, amount, reason: 'From QR with Amount' }
       }
     default:
       throw new Error('Invalid screen specified.')

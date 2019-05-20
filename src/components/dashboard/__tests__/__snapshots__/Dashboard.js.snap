@@ -248,7 +248,6 @@ exports[`Dashboard matches snapshot 1`] = `
               dir="auto"
               style={
                 Object {
-                  "fontFamily": "Roboto",
                   "fontSize": "15px",
                   "fontWeight": "bold",
                 }
@@ -349,7 +348,6 @@ exports[`Dashboard matches snapshot 1`] = `
               dir="auto"
               style={
                 Object {
-                  "fontFamily": "Roboto",
                   "fontSize": "15px",
                   "fontWeight": "bold",
                 }
@@ -450,7 +448,6 @@ exports[`Dashboard matches snapshot 1`] = `
               dir="auto"
               style={
                 Object {
-                  "fontFamily": "Roboto",
                   "fontSize": "15px",
                   "fontWeight": "bold",
                 }
@@ -551,7 +548,6 @@ exports[`Dashboard matches snapshot 1`] = `
               dir="auto"
               style={
                 Object {
-                  "fontFamily": "Roboto",
                   "fontSize": "15px",
                   "fontWeight": "bold",
                 }
@@ -652,7 +648,6 @@ exports[`Dashboard matches snapshot 1`] = `
               dir="auto"
               style={
                 Object {
-                  "fontFamily": "Roboto",
                   "fontSize": "15px",
                   "fontWeight": "bold",
                 }
@@ -753,7 +748,6 @@ exports[`Dashboard matches snapshot 1`] = `
               dir="auto"
               style={
                 Object {
-                  "fontFamily": "Roboto",
                   "fontSize": "15px",
                   "fontWeight": "bold",
                 }
@@ -854,7 +848,6 @@ exports[`Dashboard matches snapshot 1`] = `
               dir="auto"
               style={
                 Object {
-                  "fontFamily": "Roboto",
                   "fontSize": "15px",
                   "fontWeight": "bold",
                 }
@@ -959,14 +952,27 @@ exports[`Dashboard matches snapshot 1`] = `
             >
               <div
                 className="css-view-1dbjc4n"
-                onClick={[Function]}
+                data-focusable={true}
+                onKeyDown={[Function]}
+                onKeyUp={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
                 style={
                   Object {
+                    "MozTransitionProperty": "opacity",
+                    "MozUserSelect": "none",
                     "WebkitAlignItems": "center",
                     "WebkitBoxAlign": "center",
                     "WebkitBoxDirection": "normal",
                     "WebkitBoxOrient": "vertical",
                     "WebkitFlexDirection": "column",
+                    "WebkitTransitionDuration": "0.15s",
+                    "WebkitTransitionProperty": "opacity",
+                    "WebkitUserSelect": "none",
                     "alignItems": "center",
                     "cursor": "pointer",
                     "display": "flex",
@@ -974,8 +980,15 @@ exports[`Dashboard matches snapshot 1`] = `
                     "height": "100%",
                     "msFlexAlign": "center",
                     "msFlexDirection": "column",
+                    "msTouchAction": "manipulation",
+                    "msUserSelect": "none",
+                    "touchAction": "manipulation",
+                    "transitionDuration": "0.15s",
+                    "transitionProperty": "opacity",
+                    "userSelect": "none",
                   }
                 }
+                tabIndex="0"
               >
                 <div
                   className="css-view-1dbjc4n"
@@ -1030,14 +1043,27 @@ exports[`Dashboard matches snapshot 1`] = `
               </div>
               <div
                 className="css-view-1dbjc4n"
-                onClick={[Function]}
+                data-focusable={true}
+                onKeyDown={[Function]}
+                onKeyUp={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
                 style={
                   Object {
+                    "MozTransitionProperty": "opacity",
+                    "MozUserSelect": "none",
                     "WebkitAlignItems": "center",
                     "WebkitBoxAlign": "center",
                     "WebkitBoxDirection": "normal",
                     "WebkitBoxOrient": "vertical",
                     "WebkitFlexDirection": "column",
+                    "WebkitTransitionDuration": "0.15s",
+                    "WebkitTransitionProperty": "opacity",
+                    "WebkitUserSelect": "none",
                     "alignItems": "center",
                     "cursor": "pointer",
                     "display": "flex",
@@ -1047,8 +1073,15 @@ exports[`Dashboard matches snapshot 1`] = `
                     "marginRight": "30px",
                     "msFlexAlign": "center",
                     "msFlexDirection": "column",
+                    "msTouchAction": "manipulation",
+                    "msUserSelect": "none",
+                    "touchAction": "manipulation",
+                    "transitionDuration": "0.15s",
+                    "transitionProperty": "opacity",
+                    "userSelect": "none",
                   }
                 }
+                tabIndex="0"
               >
                 <div
                   className="css-view-1dbjc4n"
@@ -1240,26 +1273,54 @@ exports[`Dashboard matches snapshot 1`] = `
                       >
                         <div
                           className="css-view-1dbjc4n"
-                          onClick={[Function]}
+                          data-focusable={true}
+                          onKeyDown={[Function]}
+                          onKeyUp={[Function]}
+                          onResponderGrant={[Function]}
+                          onResponderMove={[Function]}
+                          onResponderRelease={[Function]}
+                          onResponderTerminate={[Function]}
+                          onResponderTerminationRequest={[Function]}
+                          onStartShouldSetResponder={[Function]}
                           style={
                             Object {
+                              "MozTransitionProperty": "opacity",
+                              "MozUserSelect": "none",
+                              "WebkitTransitionDuration": "0.15s",
+                              "WebkitTransitionProperty": "opacity",
+                              "WebkitUserSelect": "none",
                               "borderBottomLeftRadius": "50%",
                               "borderBottomRightRadius": "50%",
                               "borderTopLeftRadius": "50%",
                               "borderTopRightRadius": "50%",
                               "cursor": "pointer",
+                              "msTouchAction": "manipulation",
+                              "msUserSelect": "none",
+                              "touchAction": "manipulation",
+                              "transitionDuration": "0.15s",
+                              "transitionProperty": "opacity",
+                              "userSelect": "none",
                             }
                           }
+                          tabIndex="0"
                         >
                           <div
                             className="css-view-1dbjc4n"
                             style={
                               Object {
                                 "backgroundColor": "rgba(255,255,255,1.00)",
+                                "borderBottomColor": "rgba(112,112,112,1.00)",
                                 "borderBottomLeftRadius": "40px",
                                 "borderBottomRightRadius": "40px",
+                                "borderBottomWidth": "1px",
+                                "borderLeftColor": "rgba(112,112,112,1.00)",
+                                "borderLeftWidth": "1px",
+                                "borderRightColor": "rgba(112,112,112,1.00)",
+                                "borderRightWidth": "1px",
+                                "borderTopColor": "rgba(112,112,112,1.00)",
                                 "borderTopLeftRadius": "40px",
                                 "borderTopRightRadius": "40px",
+                                "borderTopWidth": "1px",
                                 "height": "80px",
                                 "width": "80px",
                               }
@@ -1397,7 +1458,7 @@ exports[`Dashboard matches snapshot 1`] = `
                               }
                             }
                           >
-                            GD
+                            G$
                           </div>
                         </div>
                       </div>
@@ -1658,7 +1719,6 @@ exports[`Dashboard matches snapshot 1`] = `
                                   style={
                                     Object {
                                       "color": "rgba(255,255,255,1.00)",
-                                      "fontFamily": "Helvetica, \\"sans-serif\\"",
                                       "fontSize": "16px",
                                       "fontWeight": "bold",
                                       "textTransform": "uppercase",
@@ -1674,14 +1734,14 @@ exports[`Dashboard matches snapshot 1`] = `
                                   style={
                                     Object {
                                       "color": "rgba(213,213,213,1.00)",
-                                      "fontFamily": "Helvetica, \\"sans-serif\\"",
                                       "fontSize": "10px",
                                       "fontWeight": "bold",
                                       "textTransform": "uppercase",
                                     }
                                   }
                                 >
-                                  0.00 GD
+                                  +
+                                  0.00 G$
                                 </span>
                               </div>
                             </div>
@@ -1845,72 +1905,15 @@ exports[`Dashboard matches snapshot 1`] = `
                       }
                     >
                       <div
-                        aria-valuemax="1"
-                        aria-valuemin="0"
-                        className="css-view-1dbjc4n"
-                        role="progressbar"
+                        className="css-text-76zvg2"
+                        dir="auto"
                         style={
                           Object {
-                            "WebkitAlignItems": "center",
-                            "WebkitBoxAlign": "center",
-                            "WebkitBoxPack": "center",
-                            "WebkitJustifyContent": "center",
-                            "alignItems": "center",
-                            "justifyContent": "center",
-                            "msFlexAlign": "center",
-                            "msFlexPack": "center",
+                            "textAlign": "center",
                           }
                         }
                       >
-                        <div
-                          className="css-view-1dbjc4n r-animationKeyframes-127358a"
-                          style={
-                            Object {
-                              "WebkitAnimationDuration": "0.75s",
-                              "WebkitAnimationIterationCount": "infinite",
-                              "WebkitAnimationTimingFunction": "linear",
-                              "animationDuration": "0.75s",
-                              "animationIterationCount": "infinite",
-                              "animationTimingFunction": "linear",
-                              "height": "36px",
-                              "width": "36px",
-                            }
-                          }
-                        >
-                          <svg
-                            height="100%"
-                            viewBox="0 0 32 32"
-                            width="100%"
-                          >
-                            <circle
-                              cx="16"
-                              cy="16"
-                              fill="none"
-                              r="14"
-                              strokeWidth="4"
-                              style={
-                                Object {
-                                  "opacity": 0.2,
-                                  "stroke": "gray",
-                                }
-                              }
-                            />
-                            <circle
-                              cx="16"
-                              cy="16"
-                              fill="none"
-                              r="14"
-                              strokeWidth="4"
-                              style={
-                                Object {
-                                  "stroke": "gray",
-                                  "strokeDasharray": 80,
-                                  "strokeDashoffset": 60,
-                                }
-                              }
-                            />
-                          </svg>
-                        </div>
+                        Feed is empty.
                       </div>
                     </div>
                   </div>

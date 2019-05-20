@@ -278,7 +278,7 @@ const styles = StyleSheet.create({
   },
   mainTitle: {
     fontSize: normalize(24),
-    fontWeight: 500,
+    fontWeight: '500',
     marginBottom: '1rem',
     color: '#555',
     textAlign: 'center'

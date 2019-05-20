@@ -196,7 +196,7 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
             style={
               Object {
                 "fontSize": "10px",
-                "fontWeight": 500,
+                "fontWeight": "500",
               }
             }
           >
@@ -208,7 +208,7 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
             dir="auto"
             style={
               Object {
-                "fontWeight": 700,
+                "fontWeight": "700",
               }
             }
           >
@@ -595,7 +595,7 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
             style={
               Object {
                 "fontSize": "10px",
-                "fontWeight": 500,
+                "fontWeight": "500",
               }
             }
           >
@@ -607,7 +607,7 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
             dir="auto"
             style={
               Object {
-                "fontWeight": 700,
+                "fontWeight": "700",
               }
             }
           >

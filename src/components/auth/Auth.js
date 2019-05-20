@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     marginRight: 0,
     fontSize: normalize(16),
     lineHeight: '1.3em',
-    fontWeight: 500
+    fontWeight: '500'
   },
   buttonLayout: {
     padding: normalize(5),

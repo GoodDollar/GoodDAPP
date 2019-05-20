@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
   dateText: {
     fontSize: normalize(10),
     color: '#A3A3A3',
-    fontWeight: 500
+    fontWeight: '500'
   },
   bottomDate: {
     marginTop: normalize(5)
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
   leftTitle: {
     color: '#555',
     flex: 1,
-    fontWeight: 700,
+    fontWeight: '700',
     fontSize: normalize(20)
   },
   rightTitle: {
@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
   reason: {
     color: 'rgba(0, 0, 0, 0.54)',
     fontSize: normalize(16),
-    fontWeight: 500,
+    fontWeight: '500',
     textTransform: 'capitalize'
   }
 })

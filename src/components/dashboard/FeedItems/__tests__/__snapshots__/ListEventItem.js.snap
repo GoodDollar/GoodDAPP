@@ -128,7 +128,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
         style={
           Object {
             "fontSize": "10px",
-            "fontWeight": 500,
+            "fontWeight": "500",
           }
         }
       >
@@ -140,7 +140,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
         dir="auto"
         style={
           Object {
-            "fontWeight": 700,
+            "fontWeight": "700",
           }
         }
       >
@@ -457,7 +457,7 @@ exports[`ListEventItem send matches snapshot 1`] = `
         style={
           Object {
             "fontSize": "10px",
-            "fontWeight": 500,
+            "fontWeight": "500",
           }
         }
       >
@@ -469,7 +469,7 @@ exports[`ListEventItem send matches snapshot 1`] = `
         dir="auto"
         style={
           Object {
-            "fontWeight": 700,
+            "fontWeight": "700",
           }
         }
       >
@@ -786,7 +786,7 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
         style={
           Object {
             "fontSize": "10px",
-            "fontWeight": 500,
+            "fontWeight": "500",
           }
         }
       >
@@ -798,7 +798,7 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
         dir="auto"
         style={
           Object {
-            "fontWeight": 700,
+            "fontWeight": "700",
           }
         }
       >

@@ -230,7 +230,7 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                     Object {
                       "color": "rgba(163,163,163,1.00)",
                       "fontSize": "10px",
-                      "fontWeight": 500,
+                      "fontWeight": "500",
                     }
                   }
                 >
@@ -274,7 +274,7 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                         "flexGrow": 1,
                         "flexShrink": 1,
                         "fontSize": "20px",
-                        "fontWeight": 700,
+                        "fontWeight": "700",
                         "msFlexNegative": 1,
                         "msFlexPositive": 1,
                         "msFlexPreferredSize": "0%",
@@ -486,7 +486,7 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                         style={
                           Object {
                             "fontSize": "10px",
-                            "fontWeight": 500,
+                            "fontWeight": "500",
                           }
                         }
                       >
@@ -498,7 +498,7 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                         dir="auto"
                         style={
                           Object {
-                            "fontWeight": 700,
+                            "fontWeight": "700",
                           }
                         }
                       >
@@ -526,7 +526,7 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                     Object {
                       "color": "rgba(0,0,0,0.54)",
                       "fontSize": "16px",
-                      "fontWeight": 500,
+                      "fontWeight": "500",
                       "textTransform": "capitalize",
                     }
                   }
@@ -823,7 +823,7 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                         "flexGrow": 1,
                         "flexShrink": 1,
                         "fontSize": "20px",
-                        "fontWeight": 700,
+                        "fontWeight": "700",
                         "msFlexNegative": 1,
                         "msFlexPositive": 1,
                         "msFlexPreferredSize": "0%",
@@ -881,7 +881,7 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                     Object {
                       "color": "rgba(163,163,163,1.00)",
                       "fontSize": "10px",
-                      "fontWeight": 500,
+                      "fontWeight": "500",
                       "marginTop": "5px",
                     }
                   }
@@ -1049,7 +1049,7 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                         style={
                           Object {
                             "fontSize": "10px",
-                            "fontWeight": 500,
+                            "fontWeight": "500",
                           }
                         }
                       >
@@ -1061,7 +1061,7 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                         dir="auto"
                         style={
                           Object {
-                            "fontWeight": 700,
+                            "fontWeight": "700",
                           }
                         }
                       >
@@ -1089,7 +1089,7 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                     Object {
                       "color": "rgba(0,0,0,0.54)",
                       "fontSize": "16px",
-                      "fontWeight": 500,
+                      "fontWeight": "500",
                       "textTransform": "capitalize",
                     }
                   }
@@ -1587,7 +1587,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                         style={
                           Object {
                             "fontSize": "10px",
-                            "fontWeight": 500,
+                            "fontWeight": "500",
                           }
                         }
                       >
@@ -1599,7 +1599,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                         dir="auto"
                         style={
                           Object {
-                            "fontWeight": 700,
+                            "fontWeight": "700",
                           }
                         }
                       >
@@ -2013,7 +2013,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                         style={
                           Object {
                             "fontSize": "10px",
-                            "fontWeight": 500,
+                            "fontWeight": "500",
                           }
                         }
                       >
@@ -2025,7 +2025,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                         dir="auto"
                         style={
                           Object {
-                            "fontWeight": 700,
+                            "fontWeight": "700",
                           }
                         }
                       >

@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     lineHeight: normalize(30)
   },
   boldText: {
-    fontWeight: 700
+    fontWeight: '700'
   }
 })
 

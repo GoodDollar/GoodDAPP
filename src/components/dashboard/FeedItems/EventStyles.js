@@ -47,11 +47,11 @@ export const listStyles = StyleSheet.create({
     fontSize: normalize(12)
   },
   direction: {
-    fontWeight: 500,
+    fontWeight: '500',
     fontSize: normalize(10)
   },
   fullName: {
-    fontWeight: 700
+    fontWeight: '700'
   },
   contentColumn: {
     flexDirection: 'column',

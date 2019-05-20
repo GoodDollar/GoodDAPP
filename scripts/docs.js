@@ -6,6 +6,15 @@ const DELETE_EMPTY_DOCS = true
 const BASE_DOCS_FOLDER = 'docs/dapp'
 const excludedFolders = ['__tests__', '__util__']
 
+/**
+ * camelCaseToDash('userId') => "user-id"
+ * camelCaseToDash('waitAMoment') => "wait-a-moment"
+ * camelCaseToDash('TurboPascal') => "turbo-pascal"
+ */
+function camelCaseToDash (str) {
+  return str.replace(/([a-zA-Z])(?=[A-Z])/g, '$1-').toLowerCase()
+}
+
 const whenEmptyFileString = new Promise((resolve, reject) => {
   exec(`documentation build ./fakepath -f md --shallow`, (error, stdout, stderr) => {
     if (error) {
@@ -103,7 +112,7 @@ async function generateDocs(baseFolder, deep){
                 const outputFolder = `${folder.replace(baseFolder,BASE_DOCS_FOLDER)}/`
                 await execPromise(`mkdir -p ${outputFolder}`)
 
-                const mdFile = `${outputFolder+file}.md`
+                const mdFile = camelCaseToDash(`${outputFolder+file}.md`)
                 const toExec = `documentation build ${filePath} -f md -o ${mdFile} --shallow`
                 return execPromise(toExec).then(r => ({mdFile, folder: outputFolder+file }))
             }
@@ -113,7 +122,7 @@ async function generateDocs(baseFolder, deep){
                 const outputFolder = `${folder.replace(baseFolder,BASE_DOCS_FOLDER)}/`
                 await execPromise(`mkdir -p ${outputFolder}`)
                 //adding '*.js' causes documentation to not be generated for sub folders
-                const mdFile = `${outputFolder+file}.md`
+                const mdFile = camelCaseToDash(`${outputFolder+file}.md`)
                 const toExec = `documentation build ${filePath}/*.js -f md -o ${mdFile} --shallow`                
                 const childrenDocs = await doGenerateDocs(filePath, deep-1).then(filterEmptyDocs)
                 await execPromise(toExec)

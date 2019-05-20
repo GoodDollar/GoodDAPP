@@ -11,10 +11,7 @@ export type AvatarProps = {
 }
 
 export default (props: AvatarProps) => (
-  <TouchableOpacity
-    onPress={props.onPress}
-    style={props.onPress ? [props.style, styles.clickable] : [props.style, styles.avatarView]}
-  >
+  <TouchableOpacity onPress={props.onPress} style={props.style} disabled={!props.onPress}>
     <Avatar.Image
       size={34}
       source={props.source ? { uri: props.source } : undefined}
@@ -29,12 +26,5 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderColor: '#707070',
     borderWidth: StyleSheet.hairlineWidth
-  },
-  avatarView: {
-    borderRadius: '50%'
-  },
-  clickable: {
-    borderRadius: '50%',
-    cursor: 'pointer'
   }
 })

@@ -10,6 +10,7 @@ import takeWhile from 'lodash/takeWhile'
 import isEqual from 'lodash/isEqual'
 import maxBy from 'lodash/maxBy'
 import flatten from 'lodash/flatten'
+import get from 'lodash/get'
 import gun from './gundb'
 import { default as goodWallet, type GoodWallet } from '../wallet/GoodWallet'
 import isMobilePhone from '../validators/isMobilePhone'
@@ -18,7 +19,7 @@ import isEmail from 'validator/lib/isEmail'
 import pino from '../logger/pino-logger'
 import { getUserModel, type UserModel } from './UserModel'
 import { AsyncStorage } from 'react-native'
-
+import API from '../API/api'
 const logger = pino.child({ from: 'UserStorage' })
 
 function isValidDate(d) {
@@ -786,6 +787,28 @@ export class UserStorage {
     return new Promise(res => {
       this.profile.load(async profile => res(await this.getPrivateProfile(profile)), { wait: 99 })
     })
+  }
+
+  async deleteAccount(): Promise<boolean> {
+    let profileDelete = await this.gunuser
+      .delete()
+      .then(r => ({ profile: 'ok' }))
+      .catch(e => ({
+        profile: 'failed'
+      }))
+    let deleteResults = await Promise.all([
+      goodWallet
+        .deleteAccount()
+        .then(r => ({ wallet: 'ok' }))
+        .catch(e => ({ wallet: 'failed' })),
+      API.deleteAccount(goodWallet.getAccountForType('zoomId'))
+        .then(r => get(r, 'data.results'))
+        .catch(e => ({
+          server: 'failed'
+        }))
+    ])
+    logger.debug('deleteAccount', { ...deleteResults, ...profileDelete })
+    return AsyncStorage.clear()
   }
 }
 

@@ -200,6 +200,9 @@ export class GoodWallet {
     return this.ready
   }
 
+  async deleteAccount(): Promise<> {
+    this.identityContract.methods.renounceWhitelisted().call()
+  }
   async claim(): Promise<TransactionReceipt> {
     try {
       return this.sendTransaction(this.claimContract.methods.claimTokens())

@@ -73,6 +73,7 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
 
   getFeeds = (() => {
     const get = () => {
+      log.debug('getFeed initial')
       getInitialFeed(this.props.store)
     }
     return throttle(get, 2000, { leading: true })

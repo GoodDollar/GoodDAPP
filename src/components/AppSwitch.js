@@ -85,13 +85,17 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
       const { jwt } = credsOrError
       if (jwt) {
         log.debug('New account, not verified, or did not finish signup', jwt)
-        //for new accounts check if link is email verification if so
+        //for new accounts check if link is email validation if so
         //redirect to continue signup flow
         if (destDetails) {
-          if (destDetails.params.verification) {
+          log.debug('destinationPath details found', destDetails)
+          if (destDetails.params.validation) {
+            log.debug('destinationPath redirecting to email validation')
             this.props.navigation.navigate(destDetails)
+            return
           }
-          //for non loggedin users, store non email verification params to the destinationPath for later
+          log.debug('destinationPath saving details')
+          //for non loggedin users, store non email validation params to the destinationPath for later
           //to be used once signed in
           const destinationPath = JSON.stringify(destDetails)
           AsyncStorage.setItem('destinationPath', destinationPath)

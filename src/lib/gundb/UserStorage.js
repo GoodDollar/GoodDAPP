@@ -362,6 +362,7 @@ export class UserStorage {
 
   /**
    * Save profile with all validations and indexes
+   * It saves only known profile fields
    *
    * @param {UserModel} profile - User profile
    * @returns {Promise} Promise with profile settings updates and privacy validations

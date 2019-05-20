@@ -22,7 +22,8 @@ class Claim extends Component<ClaimProps, {}> {
   }
   goodWalletWrapped = wrapper(goodWallet, this.props.store)
   async componentDidMount() {
-    //returned from facerecoginition
+    //if we returned from facerecoginition then the isValid param would be set
+    //this happens only on first claim
     const isValid = this.props.screenProps.screenState && this.props.screenProps.screenState.isValid
     if (isValid && (await goodWallet.isCitizen())) {
       this.handleClaim()
@@ -63,7 +64,7 @@ class Claim extends Component<ClaimProps, {}> {
         mode="contained"
         compact={true}
         onPress={async () => {
-          ;(await goodWallet.isCitizen()) ? this.handleClaim() : this.faceRecognition()
+          isCitizen ? this.handleClaim() : this.faceRecognition()
         }}
         style={styles.claimButton}
         loading={this.state.loading}

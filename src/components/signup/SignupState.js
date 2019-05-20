@@ -102,7 +102,6 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       } else {
         log.info('Sending new user data', state)
         try {
-          await saveProfile()
           // After sending email to the user for confirmation (transition between Email -> EmailConfirmation)
           // user's profile is persisted (`userStorage.setProfile`).
           // Then, when the user access the application from the link (in EmailConfirmation), data is recovered and
@@ -110,22 +109,20 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
           await API.addUser(state)
           // Stores creationBlock number into 'lastBlock' feed's node
           const creationBlock = (await goodWallet.getBlockNumber()).toString()
-          await userStorage.saveLastBlockNumber(creationBlock)
-          const destinationPath = await AsyncStorage.getItem('destinationPath')
-          store.set('isLoggedIn')(true)
+          await Promise.all([
+            (saveProfile({ registered: true }),
+            userStorage.setProfileField('registered', true),
+            goodWallet
+              .getBlockNumber()
+              .then(creationBlock => userStorage.saveLastBlockNumber(creationBlock.toString())),
+            AsyncStorage.getItem('GD_USER_MNEMONIC').then(mnemonic => API.sendRecoveryInstructionByEmail(mnemonic)))
+          ])
           // top wallet of new user
           // wait for the topping to complete to be able to withdraw
           // await API.verifyTopWallet()
-
-          const mnemonic = await AsyncStorage.getItem('GD_USER_MNEMONIC')
-          await API.sendRecoveryInstructionByEmail(mnemonic)
-          if (destinationPath) {
-            navigation.navigate(JSON.parse(destinationPath))
-            return AsyncStorage.removeItem('destinationPath')
-          } else {
-            navigation.navigate('AppNavigation')
-          }
           userStorage.setProfileField('registered', true, 'public')
+          navigation.navigate('AppNavigation')
+          store.set('isLoggedIn')(true)
         } catch (error) {
           log.error('New user failure', { error })
         }

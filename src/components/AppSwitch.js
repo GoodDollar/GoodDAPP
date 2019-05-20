@@ -44,14 +44,27 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
     const { router, state } = this.props.navigation
     const navInfo = router.getPathAndParamsForState(state)
     const destinationPath = await AsyncStorage.getItem('destinationPath')
+    log.debug('getParams', { destinationPath, navInfo, router, state })
     if (Object.keys(navInfo.params).length && !destinationPath) {
       const app = router.getActionForPathAndParams(navInfo.path)
       const destRoute = actions => (some(actions, 'action') ? destRoute(actions.action) : actions.action)
-      const destinationPath = JSON.stringify({ ...destRoute(app), params: navInfo.params })
-      return AsyncStorage.setItem('destinationPath', destinationPath)
+      const destData = { ...destRoute(app), params: navInfo.params }
+      return destData
+    } else if (destinationPath) return JSON.parse(destinationPath)
+    return undefined
+  }
+  //TODO: add shouldComponentUpdate to rerender only on route change/dialog?
+  async componentDidUpdate() {
+    log.info('didUpdate')
+    const destinationPath = await AsyncStorage.getItem('destinationPath')
+    //once user logs in we can redirect him to saved destinationpath
+    if (destinationPath && this.props.store.get('isLoggedIn')) {
+      const destDetails = JSON.parse(destinationPath)
+      await AsyncStorage.removeItem('destinationPath')
+      log.debug('destinationPath found:', destDetails)
+      return this.props.navigation.navigate(destDetails)
     }
   }
-
   /**
    * Check's users' current auth status
    * @returns {Promise<void>}
@@ -61,23 +74,29 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
       checkAuthStatus(this.props.store),
       delay(TIMEOUT)
     ]).then(([authResult]) => authResult)
+    let destDetails = await this.getParams()
     if (isLoggedIn) {
       let topWalletRes = isLoggedInCitizen ? API.verifyTopWallet() : Promise.resolve()
-
-      this.props.navigation.navigate('AppNavigation')
+      if (destDetails) {
+        this.props.navigation.navigate(destDetails)
+        return AsyncStorage.removeItem('destinationPath')
+      } else this.props.navigation.navigate('AppNavigation')
     } else {
       const { jwt } = credsOrError
-      await this.getParams()
-
       if (jwt) {
         log.debug('New account, not verified, or did not finish signup', jwt)
-        const destinationPath = await AsyncStorage.getItem('destinationPath')
-        if (destinationPath) {
-          this.props.navigation.navigate(JSON.parse(destinationPath))
-          return AsyncStorage.setItem('destinationPath', '')
-        } else {
-          this.props.navigation.navigate('Auth')
+        //for new accounts check if link is email verification if so
+        //redirect to continue signup flow
+        if (destDetails) {
+          if (destDetails.params.verification) {
+            this.props.navigation.navigate(destDetails)
+          }
+          //for non loggedin users, store non email verification params to the destinationPath for later
+          //to be used once signed in
+          const destinationPath = JSON.stringify(destDetails)
+          AsyncStorage.setItem('destinationPath', destinationPath)
         }
+        this.props.navigation.navigate('Auth')
       } else {
         // TODO: handle other statuses (4xx, 5xx), consider exponential backoff
         log.error('Failed to sign in', credsOrError)

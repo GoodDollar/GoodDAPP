@@ -193,11 +193,9 @@ class AppView extends Component<AppViewProps, AppViewState> {
         </Helmet> */}
         {!navigationBarHidden && <NavBar goBack={backButtonHidden ? undefined : this.pop} title={pageTitle} />}
         <ScrollView contentContainerStyle={scrollableContainer}>
-          <SideMenu menu={menu} menuPosition="right" isOpen={store.get('sidemenu').visible}>
-            <View style={{ backgroundColor: '#fff', flex: 1 }}>
-              <SceneView navigation={descriptor.navigation} component={Component} screenProps={screenProps} />
-            </View>
-          </SideMenu>
+          <View style={{ backgroundColor: '#fff', flex: 1 }}>
+            <SceneView navigation={descriptor.navigation} component={Component} screenProps={screenProps} />
+          </View>
         </ScrollView>
       </React.Fragment>
     )

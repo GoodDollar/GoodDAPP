@@ -1,10 +1,4 @@
 // @flow
-
-/**
- * @file Provides a `LoadingIndicator` component which renders an ActivityIndicator over a semi-transparent background.
- * Also provides a helper function to show/hide the component.
- */
-
 import React from 'react'
 import { ActivityIndicator, Colors, Portal } from 'react-native-paper'
 import { StyleSheet, View } from 'react-native-web'
@@ -32,8 +26,6 @@ export const setLoadingWithStore = (store: Store) =>
 
 /**
  * Provides a `LoadingIndicator` component which renders an ActivityIndicator over a semi-transparent background.
- * @returns {*} - React component
- * @constructor
  */
 const LoadingIndicator = () => {
   const store = GDStore.useStore()

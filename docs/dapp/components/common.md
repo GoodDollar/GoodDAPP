@@ -2,21 +2,39 @@
 
 ### Table of Contents
 
--   [React][1]
--   [TopBar][2]
-    -   [Parameters][3]
--   [IconButton][4]
-    -   [Parameters][5]
--   [setLoadingWithStore][6]
-    -   [Parameters][7]
--   [to][8]
-    -   [Parameters][9]
--   [LoadingIndicator][10]
+-   [BigGoodDollar][1]
+    -   [Parameters][2]
+-   [setLoadingWithStore][3]
+    -   [Parameters][4]
+-   [TopBar][5]
+    -   [Parameters][6]
+-   [Avatar][7]
+    -   [Parameters][8]
+-   [IconButton][9]
+    -   [Parameters][10]
+-   [to][11]
+    -   [Parameters][12]
+-   [LoadingIndicator][13]
 
-## React
+## BigGoodDollar
 
-Provides a `LoadingIndicator` component which renders an ActivityIndicator over a semi-transparent background.
-Also provides a helper function to show/hide the component.
+Receives wei and shows as G$.
+
+### Parameters
+
+-   `Props` **props** 
+    -   `Props.number`  
+    -   `Props.props` **...any** 
+
+## setLoadingWithStore
+
+Curried function wich requires an undux Store and then sets the flag to show/hide the LoadingIndicator component
+
+### Parameters
+
+-   `store` **Store** undux store
+
+Returns **[Function][14]** 
 
 ## TopBar
 
@@ -24,15 +42,24 @@ TopBar - used To display contextual information in a small container
 
 ### Parameters
 
--   `$0` **[Object][11]** 
+-   `$0` **[Object][15]** 
     -   `$0.hideBalance`  
     -   `$0.push`  
     -   `$0.children`  
--   `hideBalance` **[boolean][12]** if falsy balance will be displayed
--   `push` **[function][13]** pushes a route to the nav stack. When called, apps navigates to the specified ruote
--   `children` **[object][11]** React Component
+-   `hideBalance` **[boolean][16]** if falsy balance will be displayed
+-   `push` **[function][14]** pushes a route to the nav stack. When called, apps navigates to the specified ruote
+-   `children` **[object][15]** React Component
 
 Returns **any** 
+
+## Avatar
+
+Touchable Avatar
+
+### Parameters
+
+-   `props` **AvatarProps** 
+-   `AvatarProps` **props** 
 
 ## IconButton
 
@@ -48,16 +75,6 @@ Returns a button with an icon and text
 
 Returns **any** Button with icon and text
 
-## setLoadingWithStore
-
-Curried function wich requires an undux Store and then sets the flag to show/hide the LoadingIndicator component
-
-### Parameters
-
--   `store` **Store** undux store
-
-Returns **[Function][13]** 
-
 ## to
 
 Sets `loading` to what `to` states.
@@ -65,36 +82,40 @@ It requires `loadingIndicator` to be set in the Store's state
 
 ### Parameters
 
--   `to` **[boolean][12]** 
+-   `to` **[boolean][16]** 
 
 ## LoadingIndicator
 
 Provides a `LoadingIndicator` component which renders an ActivityIndicator over a semi-transparent background.
 
-Returns **any** React component
+[1]: #biggooddollar
 
-[1]: #react
+[2]: #parameters
 
-[2]: #topbar
+[3]: #setloadingwithstore
 
-[3]: #parameters
+[4]: #parameters-1
 
-[4]: #iconbutton
+[5]: #topbar
 
-[5]: #parameters-1
+[6]: #parameters-2
 
-[6]: #setloadingwithstore
+[7]: #avatar
 
-[7]: #parameters-2
+[8]: #parameters-3
 
-[8]: #to
+[9]: #iconbutton
 
-[9]: #parameters-3
+[10]: #parameters-4
 
-[10]: #loadingindicator
+[11]: #to
 
-[11]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
+[12]: #parameters-5
 
-[12]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean
+[13]: #loadingindicator
 
-[13]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function
+[14]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function
+
+[15]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
+
+[16]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean

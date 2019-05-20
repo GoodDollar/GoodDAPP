@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import { StyleSheet, TouchableOpacity } from 'react-native'
-import { Avatar } from 'react-native-paper'
+import { Avatar as PaperAvatar } from 'react-native-paper'
 
 export type AvatarProps = {
   onPress?: () => {},
@@ -10,12 +10,16 @@ export type AvatarProps = {
   size?: number
 }
 
-export default (props: AvatarProps) => (
+/**
+ * Touchable Avatar
+ * @param {props} AvatarProps
+ */
+const Avatar = (props: AvatarProps) => (
   <TouchableOpacity
     onPress={props.onPress}
     style={props.onPress ? [props.style, styles.clickable] : [props.style, styles.avatarView]}
   >
-    <Avatar.Image
+    <PaperAvatar.Image
       size={34}
       source={props.source ? { uri: props.source } : undefined}
       {...props}
@@ -38,3 +42,5 @@ const styles = StyleSheet.create({
     cursor: 'pointer'
   }
 })
+
+export default Avatar

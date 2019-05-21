@@ -82,13 +82,13 @@ export const receiveStyles = StyleSheet.create({
     flexGrow: 1,
     textAlign: 'right'
   },
-  fullWidth: {
+  shareQRButton: {
     width: '100%'
   },
   doneButton: {
     marginTop: '1rem'
   },
-  shareQRButton: {
+  fullWidth: {
     marginHorizontal: normalize(10)
   },
   amountSuffix: {

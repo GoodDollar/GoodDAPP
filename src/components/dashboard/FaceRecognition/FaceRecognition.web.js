@@ -7,7 +7,7 @@ import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { Wrapper, CustomButton, Section } from '../../common'
 import ZoomCapture from './ZoomCapture'
 import { getResponsiveVideoDimensions } from './Camera.web'
-import FRUtil from './FaceRecognitionUtil'
+import FRUtil from './FRUtil'
 import type { DashboardProps } from '../Dashboard'
 
 type FaceRecognitionProps = DashboardProps & {
@@ -40,12 +40,35 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
 
   async componentDidMount() {
     this.setWidth()
-    this.props.store.on('captureResult').subscribe(captureResult => {
+    this.props.store.on('captureResult').subscribe(async captureResult => {
       console.log('capture result changed to:', captureResult)
-      FRUtil.performFaceRecognition(captureResult)
+      this.setState({
+        showZoomCapture: false,
+        loadingFaceRecognition: true,
+        loadingText: 'Analyzing Face Recognition..'
+      })
+      this.setState({ loadingFaceRecognition: true, loadindText: '' })
+
+      let result: FaceRecognitionResponse = await FRUtil.performFaceRecognition(captureResult)
+      this.setState({ loadingFaceRecognition: false, loadindText: '' })
+      if (!result || !result.ok) {
+        this.showFRError(result.error)
+      }
     })
   }
 
+  showFRError(error: string) {
+    this.props.store.set('currentScreen')({
+      dialogData: {
+        visible: true,
+        title: 'Please try again',
+        message: `FaceRecognition failed. Reason: ${error}. Please try again`,
+        dismissText: 'Retry',
+        onDismiss: this.setState({ showPreText: true }) // reload.
+      },
+      loading: true
+    })
+  }
   showFaceRecognition = () => {
     this.setState({ showZoomCapture: true, showPreText: false })
   }

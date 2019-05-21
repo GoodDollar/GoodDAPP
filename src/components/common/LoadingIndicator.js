@@ -9,23 +9,18 @@ import GDStore from '../../lib/undux/GDStore'
 /**
  * Curried function wich requires an undux Store and then sets the flag to show/hide the LoadingIndicator component
  * @param {Store} store - undux store
- * @returns {Function}
+ * @returns {function(to:boolean): void}  Sets `loading` to what `to` states. It requires `loadingIndicator` to be set in the Store's state
  */
-export const setLoadingWithStore = (store: Store) =>
-  /**
-   * Sets `loading` to what `to` states.
-   * It requires `loadingIndicator` to be set in the Store's state
-   * @param {boolean} to
-   */
-  (to: boolean) => {
-    const loadingIndicator = store.get('loadingIndicator')
+export const setLoadingWithStore = (store: Store) => (to: boolean) => {
+  const loadingIndicator = store.get('loadingIndicator')
 
-    loadingIndicator.loading = to
-    store.set('loadingIndicator')(loadingIndicator)
-  }
+  loadingIndicator.loading = to
+  store.set('loadingIndicator')(loadingIndicator)
+}
 
 /**
  * Provides a `LoadingIndicator` component which renders an ActivityIndicator over a semi-transparent background.
+ * @returns {React.Node}
  */
 const LoadingIndicator = () => {
   const store = GDStore.useStore()

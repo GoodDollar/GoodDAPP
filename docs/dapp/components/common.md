@@ -8,23 +8,25 @@
     -   [Parameters][4]
 -   [TopBar][5]
     -   [Parameters][6]
--   [Avatar][7]
+-   [BigNumber][7]
     -   [Parameters][8]
 -   [IconButton][9]
     -   [Parameters][10]
--   [to][11]
+-   [Avatar][11]
     -   [Parameters][12]
 -   [LoadingIndicator][13]
 
 ## BigGoodDollar
 
-Receives wei and shows as G$.
+Receives wei and shows as G$ using BigNumber component
 
 ### Parameters
 
--   `Props` **props** 
-    -   `Props.number`  
-    -   `Props.props` **...any** 
+-   `props` **Props** 
+    -   `props.number` **[Number][14]?** 
+    -   `props.props` **...any** 
+
+Returns **React.Node** 
 
 ## setLoadingWithStore
 
@@ -34,7 +36,7 @@ Curried function wich requires an undux Store and then sets the flag to show/hid
 
 -   `store` **Store** undux store
 
-Returns **[Function][14]** 
+Returns **function (to: [boolean][15]): void** Sets `loading` to what `to` states. It requires `loadingIndicator` to be set in the Store's state
 
 ## TopBar
 
@@ -42,21 +44,26 @@ TopBar - used To display contextual information in a small container
 
 ### Parameters
 
--   `props` **[object][15]** an object with props
-    -   `props.hideBalance` **[boolean][16]** if falsy balance will be displayed
-    -   `props.push` **[function][14]** pushes a route to the nav stack. When called, apps navigates to the specified ruote
+-   `props` **[object][16]** an object with props
+    -   `props.hideBalance` **[boolean][15]** if falsy balance will be displayed
+    -   `props.push` **[function][17]** pushes a route to the nav stack. When called, apps navigates to the specified ruote
     -   `props.children` **React.Node** 
 
 Returns **React.Node** 
 
-## Avatar
+## BigNumber
 
-Touchable Avatar
+Receives a number and a unit to display
 
 ### Parameters
 
--   `props` **AvatarProps** 
--   `AvatarProps` **props** 
+-   `props` **Props** 
+    -   `props.number` **[Number][14]?** Number to show
+    -   `props.unit` **[String][18]?** Units for the number
+    -   `props.elementStyles` **[Object][16]?** Inner elements styles
+    -   `props.style` **[Object][16]?** Outer element style
+
+Returns **React.Node** 
 
 ## IconButton
 
@@ -72,18 +79,25 @@ Returns a button with an icon and text
 
 Returns **any** Button with icon and text
 
-## to
+## Avatar
 
-Sets `loading` to what `to` states.
-It requires `loadingIndicator` to be set in the Store's state
+Touchable Avatar
 
 ### Parameters
 
--   `to` **[boolean][16]** 
+-   `props` **Props** 
+    -   `props.onPress` **[Function][17]?** 
+    -   `props.source` **[String][18]?** 
+    -   `props.style` **[Object][16]?** 
+    -   `props.size` **[Number][14]**  (optional, default `34`)
+
+Returns **React.Node** 
 
 ## LoadingIndicator
 
 Provides a `LoadingIndicator` component which renders an ActivityIndicator over a semi-transparent background.
+
+Returns **React.Node** 
 
 [1]: #biggooddollar
 
@@ -97,7 +111,7 @@ Provides a `LoadingIndicator` component which renders an ActivityIndicator over 
 
 [6]: #parameters-2
 
-[7]: #avatar
+[7]: #bignumber
 
 [8]: #parameters-3
 
@@ -105,14 +119,18 @@ Provides a `LoadingIndicator` component which renders an ActivityIndicator over 
 
 [10]: #parameters-4
 
-[11]: #to
+[11]: #avatar
 
 [12]: #parameters-5
 
 [13]: #loadingindicator
 
-[14]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function
+[14]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number
 
-[15]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
+[15]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean
 
-[16]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean
+[16]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
+
+[17]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function
+
+[18]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String

@@ -3,7 +3,7 @@ import React from 'react'
 import { StyleSheet, TouchableOpacity } from 'react-native'
 import { Avatar as PaperAvatar } from 'react-native-paper'
 
-export type AvatarProps = {
+export type Props = {
   onPress?: () => {},
   source?: string,
   style?: {},
@@ -12,9 +12,14 @@ export type AvatarProps = {
 
 /**
  * Touchable Avatar
- * @param {props} AvatarProps
+ * @param {Props} props
+ * @param {Function} [props.onPress]
+ * @param {String} [props.source]
+ * @param {Object} [props.style]
+ * @param {Number} [props.size=34]
+ * @returns {React.Node}
  */
-const Avatar = (props: AvatarProps) => (
+const Avatar = (props: Props) => (
   <TouchableOpacity
     onPress={props.onPress}
     style={props.onPress ? [props.style, styles.clickable] : [props.style, styles.avatarView]}

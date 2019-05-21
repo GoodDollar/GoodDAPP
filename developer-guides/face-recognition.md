@@ -87,6 +87,9 @@ Contains a Video tag and methods that handles the actual video capture of the us
 
 
 ## Low level technical description - GoodServer
+
+Git repo is loacted here: [https://github.com/GoodDollar/](https://github.com/GoodDollar/)
+
 Recall that, on the server under _/verify/facerecognition_, the face recognition process is triggered by calling _liveness_ test, and then _search_ test with the user capture data, to verify the user is a real user and haven't been registered to Zoom & GoodDollar before (it is not duplicated). In case both pass, the user is whitelisted on the GoodDollar contract.
 
 Both verification tests (_liveness_ & _search_) are done by calling from the server to Zoom (FaceTech) API's. 

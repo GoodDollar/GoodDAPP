@@ -11,7 +11,7 @@
       * [utils](docs/dapp/lib/utils.md)
       * [undux](docs/dapp/lib/undux.md)
     * [components](docs/dapp/components/README.md)
-      * [appNavigation](docs/dapp/components/appnavigation.md)
+      * [appNavigation](docs/dapp/components/app-navigation.md)
       * [dashboard](docs/dapp/components/dashboard.md)
       * [common](docs/dapp/components/common.md)
     * [components](docs/dapp/components-1.md)

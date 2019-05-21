@@ -15,7 +15,6 @@
       * [dashboard](docs/dapp/components/dashboard.md)
       * [common](docs/dapp/components/common.md)
     * [components](docs/dapp/components-1.md)
-    * [Table of Contents](docs/dapp/table-of-contents.md)
 * [Developer Guides](developer-guides/README.md)
   * [Routing](developer-guides/routing.md)
   * [Face Recognition](developer-guides/face-recognition.md)

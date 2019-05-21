@@ -6,7 +6,7 @@ import Signup from './components/signup/SignupState'
 import SignIn from './components/signin/SignInState'
 import BackupWallet from './components/backupWallet/BackupWalletState'
 import AppNavigation from './components/appNavigation/AppNavigation'
-import AppSwitch from './components/AppSwitch'
+import AppSwitch from './components/appSwitch/AppSwitch'
 import Splash from './components/splash/Splash'
 
 const AppNavigator = createNavigator(

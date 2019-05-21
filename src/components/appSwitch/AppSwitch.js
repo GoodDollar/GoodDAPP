@@ -3,13 +3,13 @@ import React from 'react'
 import { AsyncStorage } from 'react-native'
 import { SceneView } from '@react-navigation/core'
 import some from 'lodash/some'
-import logger from '../lib/logger/pino-logger'
-import API from '../lib/API/api'
-import GDStore from '../lib/undux/GDStore'
-import { checkAuthStatus } from '../lib/login/checkAuthStatus'
+import logger from '../../lib/logger/pino-logger'
+import API from '../../lib/API/api'
+import GDStore from '../../lib/undux/GDStore'
+import { checkAuthStatus } from '../../lib/login/checkAuthStatus'
 import type { Store } from 'undux'
-import { CustomDialog } from '../components/common'
-import LoadingIndicator from './common/LoadingIndicator'
+import { CustomDialog } from '../common'
+import LoadingIndicator from '../common/LoadingIndicator'
 import { Helmet } from 'react-helmet'
 
 type LoadingProps = {
@@ -28,7 +28,7 @@ function delay(t, v) {
 const TIMEOUT = 1000
 
 /**
- * The main app route. Here we decide where to go depending on the user's credentials status
+ * The main app route rendering component. Here we decide where to go depending on the user's credentials status
  */
 class AppSwitch extends React.Component<LoadingProps, {}> {
   /**

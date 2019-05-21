@@ -22,26 +22,6 @@ export const DEFAULT_PARAMS = {
 
 const log = logger.child({ from: 'stackNavigation' })
 
-/**
- * getComponent gets the component and props and returns the same component except when
- * shouldNavigateToComponent is present in component and not complaining
- * This function can be written in every component that needs to prevent access
- * if there is not in a correct navigation flow.
- * Example: doesn't makes sense to navigate to Amount if there is no nextRoutes
- * @param {React.Component} Component
- */
-const getComponent = (Component, props) => {
-  const { shouldNavigateToComponent } = Component
-
-  if (shouldNavigateToComponent && !shouldNavigateToComponent(props)) {
-    return props => {
-      useEffect(() => props.screenProps.goToParent(), [])
-      return null
-    }
-  }
-  return Component
-}
-
 type AppViewProps = {
   descriptors: any,
   navigation: any,
@@ -68,6 +48,25 @@ class AppView extends Component<AppViewProps, AppViewState> {
     currentState: {}
   }
 
+  /**
+   * getComponent gets the component and props and returns the same component except when
+   * shouldNavigateToComponent is present in component and not complaining
+   * This function can be written in every component that needs to prevent access
+   * if there is not in a correct navigation flow.
+   * Example: doesn't makes sense to navigate to Amount if there is no nextRoutes
+   * @param {React.Component} Component
+   */
+  getComponent = (Component, props) => {
+    const { shouldNavigateToComponent } = Component
+
+    if (shouldNavigateToComponent && !shouldNavigateToComponent(props)) {
+      return props => {
+        useEffect(() => props.screenProps.goToParent(), [])
+        return null
+      }
+    }
+    return Component
+  }
   /**
    * Pops from stack
    * If there is no screen on the stack navigates to initial screen on stack (goToRoot)
@@ -183,7 +182,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
       setScreenState: this.setScreenState
     }
     log.info('stackNavigation Render: FIXME rerender', activeKey, this.props, this.state)
-    const Component = getComponent(descriptor.getComponent(), { screenProps })
+    const Component = this.getComponent(descriptor.getComponent(), { screenProps })
     const pageTitle = title || activeKey
     const menu = <SideMenuPanel navigation={navigation} />
     return (

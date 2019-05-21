@@ -68,7 +68,7 @@ class PhoneForm extends React.Component<Props, State> {
           error={errorMessage}
           onKeyDown={this.handleEnter}
         />
-        <Description>A verification code will be sent to this number</Description>
+        <Description>A verification code will be sent to this number</Description>
       </Wrapper>
     )
   }

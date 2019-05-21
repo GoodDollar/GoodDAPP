@@ -8,8 +8,6 @@ description: >-
 
 ## High level description
 
-## High level description
-
 Face Recognition is the process when the user becomes a GoodDollar citizen \(`this.props.store.get('isLoggedInCitizen')`\), and without being a citizen, the user cannot _claim GoodDollars_ or _send existing GoodDollars_ using his/hers wallet. Therefore, Face Recognition process is triggered when, assuming the user have not passed face recognition yet:
 
 * The first time the user tries to claim for GoodDollars

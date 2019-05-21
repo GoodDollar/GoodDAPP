@@ -42,15 +42,12 @@ TopBar - used To display contextual information in a small container
 
 ### Parameters
 
--   `$0` **[Object][15]** 
-    -   `$0.hideBalance`  
-    -   `$0.push`  
-    -   `$0.children`  
--   `hideBalance` **[boolean][16]** if falsy balance will be displayed
--   `push` **[function][14]** pushes a route to the nav stack. When called, apps navigates to the specified ruote
--   `children` **[object][15]** React Component
+-   `props` **[object][15]** an object with props
+    -   `props.hideBalance` **[boolean][16]** if falsy balance will be displayed
+    -   `props.push` **[function][14]** pushes a route to the nav stack. When called, apps navigates to the specified ruote
+    -   `props.children` **React.Node** 
 
-Returns **any** 
+Returns **React.Node** 
 
 ## Avatar
 

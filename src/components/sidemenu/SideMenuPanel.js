@@ -5,12 +5,13 @@ import { View, StyleSheet, TouchableOpacity } from 'react-native'
 import { Icon, normalize } from 'react-native-elements'
 import { useSidemenu } from '../../lib/undux/utils/sidemenu'
 import { useWrappedApi } from '../../lib/API/useWrappedApi'
-
+import { useDialog } from '../../lib/undux/utils/dialog'
+import userStorage from '../../lib/gundb/UserStorage'
 type SideMenuPanelProps = {
   navigation: any
 }
 
-const getMenuItems = ({ API, hideSidemenu, navigation }) => [
+const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation }) => [
   {
     icon: 'person',
     name: 'Your profile',
@@ -52,13 +53,31 @@ const getMenuItems = ({ API, hideSidemenu, navigation }) => [
   {
     icon: 'question-answer',
     name: 'About'
+  },
+  {
+    icon: 'delete',
+    name: 'Delete Account',
+    action: () => {
+      showDialog({
+        title: 'Delete Account',
+        message: 'Are you sure?',
+        dismissText: 'YES',
+        onCancel: () => hideDialog(),
+        onDismiss: async () => {
+          await userStorage.deleteAccount()
+          hideSidemenu()
+          navigation.navigate('Auth')
+        }
+      })
+    }
   }
 ]
 
 const SideMenuPanel = ({ navigation }: SideMenuPanelProps) => {
   const API = useWrappedApi()
   const [toggleSidemenu, hideSidemenu] = useSidemenu()
-  const MENU_ITEMS = getMenuItems({ API, hideSidemenu, navigation })
+  const [showDialog, hideDialog] = useDialog()
+  const MENU_ITEMS = getMenuItems({ API, hideSidemenu, showDialog, hideDialog, navigation })
   return (
     <View>
       <TouchableOpacity style={styles.closeIconRow} onPress={toggleSidemenu}>

@@ -2,31 +2,29 @@
 
 ### Table of Contents
 
--   [BigGoodDollar][1]
+-   [setLoadingWithStore][1]
     -   [Parameters][2]
--   [setLoadingWithStore][3]
+-   [BigGoodDollar][3]
     -   [Parameters][4]
 -   [TopBar][5]
     -   [Parameters][6]
 -   [BigNumber][7]
     -   [Parameters][8]
--   [IconButton][9]
+-   [InputGoodDollar][9]
     -   [Parameters][10]
 -   [Avatar][11]
     -   [Parameters][12]
--   [LoadingIndicator][13]
-
-## BigGoodDollar
-
-Receives wei and shows as G$ using BigNumber component
-
-### Parameters
-
--   `props` **Props** 
-    -   `props.number` **[Number][14]?** 
-    -   `props.props` **...any** 
-
-Returns **React.Node** 
+-   [IconButton][13]
+    -   [Parameters][14]
+-   [LoadingIndicator][15]
+-   [EventDialog][16]
+    -   [Parameters][17]
+-   [CustomDialog][18]
+    -   [Parameters][19]
+-   [UserAvatar][20]
+    -   [Parameters][21]
+-   [CustomButton][22]
+    -   [Parameters][23]
 
 ## setLoadingWithStore
 
@@ -36,7 +34,19 @@ Curried function wich requires an undux Store and then sets the flag to show/hid
 
 -   `store` **Store** undux store
 
-Returns **function (to: [boolean][15]): void** Sets `loading` to what `to` states. It requires `loadingIndicator` to be set in the Store's state
+Returns **function (to: [boolean][24]): void** Sets `loading` to what `to` states. It requires `loadingIndicator` to be set in the Store's state
+
+## BigGoodDollar
+
+Receives wei and shows as G$ using BigNumber component
+
+### Parameters
+
+-   `props` **Props** 
+    -   `props.number` **[Number][25]?** 
+    -   `props.props` **...any** 
+
+Returns **React.Node** 
 
 ## TopBar
 
@@ -44,9 +54,9 @@ TopBar - used To display contextual information in a small container
 
 ### Parameters
 
--   `props` **[object][16]** an object with props
-    -   `props.hideBalance` **[boolean][15]** if falsy balance will be displayed
-    -   `props.push` **[function][17]** pushes a route to the nav stack. When called, apps navigates to the specified ruote
+-   `props` **[object][26]** an object with props
+    -   `props.hideBalance` **[boolean][24]** if falsy balance will be displayed
+    -   `props.push` **[function][27]** pushes a route to the nav stack. When called, apps navigates to the specified ruote
     -   `props.children` **React.Node** 
 
 Returns **React.Node** 
@@ -58,10 +68,35 @@ Receives a number and a unit to display
 ### Parameters
 
 -   `props` **Props** 
-    -   `props.number` **[Number][14]?** Number to show
-    -   `props.unit` **[String][18]?** Units for the number
-    -   `props.elementStyles` **[Object][16]?** Inner elements styles
-    -   `props.style` **[Object][16]?** Outer element style
+    -   `props.number` **[Number][25]?** Number to show
+    -   `props.unit` **[String][28]?** Units for the number
+    -   `props.elementStyles` **[Object][26]?** Inner elements styles
+    -   `props.style` **[Object][26]?** Outer element style
+
+Returns **React.Node** 
+
+## InputGoodDollar
+
+Receives wei and shows as G$ using `TextInput` component (react-native-paper).
+
+### Parameters
+
+-   `props` **Props** 
+    -   `props.wei` **[number][25]** to be shown as G$
+
+Returns **React.Node** 
+
+## Avatar
+
+Touchable Avatar
+
+### Parameters
+
+-   `props` **Props** 
+    -   `props.onPress` **[Function][27]?** 
+    -   `props.source` **[String][28]?** 
+    -   `props.style` **[Object][26]?** 
+    -   `props.size` **[Number][25]**  (optional, default `34`)
 
 Returns **React.Node** 
 
@@ -72,24 +107,11 @@ Returns a button with an icon and text
 ### Parameters
 
 -   `props` **IconProps** 
-    -   `props.text`  
-    -   `props.onPress`  
-    -   `props.disabled`  
+    -   `props.text` **[String][28]** to shown
+    -   `props.onPress` **[Function][27]** action
+    -   `props.disabled` **[Boolean][24]** 
+    -   `props.name` **[String][28]** icon name
     -   `props.iconProps` **...any** 
-
-Returns **any** Button with icon and text
-
-## Avatar
-
-Touchable Avatar
-
-### Parameters
-
--   `props` **Props** 
-    -   `props.onPress` **[Function][17]?** 
-    -   `props.source` **[String][18]?** 
-    -   `props.style` **[Object][16]?** 
-    -   `props.size` **[Number][14]**  (optional, default `34`)
 
 Returns **React.Node** 
 
@@ -99,11 +121,76 @@ Provides a `LoadingIndicator` component which renders an ActivityIndicator over 
 
 Returns **React.Node** 
 
-[1]: #biggooddollar
+## EventDialog
+
+EventDialog based on react-native-paper
+
+### Parameters
+
+-   `props` **EventDialogProps** 
+    -   `props.visible` **[boolean][24]?** 
+    -   `props.event` **TransactionEvent?** 
+    -   `props.onDismiss` **[function][27]?** 
+    -   `props.reason` **[string][28]?** 
+
+Returns **React.Node** 
+
+## CustomDialog
+
+Custom Dialog based on react-native-paper
+
+### Parameters
+
+-   `props` **DialogProps** 
+    -   `props.children` **(React.Node | [String][28])?** 
+    -   `props.visible` **[boolean][24]?** 
+    -   `props.title` **[string][28]?** 
+    -   `props.message` **[string][28]?** 
+    -   `props.dismissText` **[string][28]?** 
+    -   `props.onDismiss` **[function][27]?** 
+    -   `props.loading` **[boolean][24]?**  (optional, default `false`)
+
+Returns **React.Node** 
+
+## UserAvatar
+
+Touchable Users Avatar based on Avatar component
+
+### Parameters
+
+-   `props` **AvatarProps** 
+    -   `props.profile` **[Object][26]** ]
+        -   `props.profile.avatar` **[string][28]** 
+        -   `props.profile.fullName` **[string][28]?** 
+    -   `props.editable` **[boolean][24]?** 
+    -   `props.size` **[Number][25]**  (optional, default `120`)
+
+Returns **React.Node** 
+
+## CustomButton
+
+Custom button based on react-native-paper
+
+### Parameters
+
+-   `props` **Props** 
+    -   `props.children` **(React.Node | [String][28])** If it's a string will add a Text component as child
+    -   `props.onPress` **[function][27]** 
+    -   `props.disabled` **[boolean][24]?** 
+    -   `props.mode` **[string][28]?** 
+    -   `props.loading` **[boolean][24]?** 
+    -   `props.color` **[string][28]**  (optional, default `#555555`)
+    -   `props.dark` **[boolean][24]?** 
+    -   `props.uppercase` **[boolean][24]**  (optional, default `true`)
+    -   `props.style` **[Object][26]?** Button style
+
+Returns **React.Node** 
+
+[1]: #setloadingwithstore
 
 [2]: #parameters
 
-[3]: #setloadingwithstore
+[3]: #biggooddollar
 
 [4]: #parameters-1
 
@@ -115,7 +202,7 @@ Returns **React.Node**
 
 [8]: #parameters-3
 
-[9]: #iconbutton
+[9]: #inputgooddollar
 
 [10]: #parameters-4
 
@@ -123,14 +210,34 @@ Returns **React.Node**
 
 [12]: #parameters-5
 
-[13]: #loadingindicator
+[13]: #iconbutton
 
-[14]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number
+[14]: #parameters-6
 
-[15]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean
+[15]: #loadingindicator
 
-[16]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
+[16]: #eventdialog
 
-[17]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function
+[17]: #parameters-7
 
-[18]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+[18]: #customdialog
+
+[19]: #parameters-8
+
+[20]: #useravatar
+
+[21]: #parameters-9
+
+[22]: #custombutton
+
+[23]: #parameters-10
+
+[24]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean
+
+[25]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number
+
+[26]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
+
+[27]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function
+
+[28]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String

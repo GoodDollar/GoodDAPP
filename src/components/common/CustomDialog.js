@@ -13,6 +13,18 @@ type DialogProps = {
   loading?: boolean
 }
 
+/**
+ * Custom Dialog based on react-native-paper
+ * @param {DialogProps} props
+ * @param {React.Node|String} [props.children]
+ * @param {function} [props.onDismiss]
+ * @param {boolean} [props.visible]
+ * @param {string} [props.title]
+ * @param {string} [props.message]
+ * @param {string} [props.dismissText]
+ * @param {boolean} [props.loading]
+ * @returns {React.Node}
+ */
 const CustomDialog = ({ children, visible, title, message, dismissText, onDismiss, loading = false }: DialogProps) => (
   <Portal>
     <Dialog visible={visible} onDismiss={onDismiss} dismissable={true}>

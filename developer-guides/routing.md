@@ -31,7 +31,7 @@ const AppNavigator = createNavigator(
 
 In this example there are five possible routes at root level like this: `/Splash/,` `/Auth/`, `/Signup/`, `/Signin/`, `/AppNavigation/`
 
-This example also uses [createNavigator](https://reactnavigation.org/docs/en/custom-navigators.html#createnavigator). Notice that [AppSwitch](../docs/dapp/components-1.md) is a custom component that handles some common states for the entire app and holds some logic on start. Please refer to [AppSwitch](../docs/dapp/components-1.md) docs for more information.
+This example also uses [createNavigator](https://reactnavigation.org/docs/en/custom-navigators.html#createnavigator). Notice that [AppSwitch]() is a custom component that handles some common states for the entire app and holds some logic on start. Please refer to [AppSwitch]() docs for more information.
 
 {% hint style="info" %}
  Each of this is including a component that may or may not contain further navigation inside

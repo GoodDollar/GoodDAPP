@@ -34,26 +34,26 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation })
       hideSidemenu()
     }
   },
-  {
-    icon: 'person',
-    name: 'Profile Privacy'
-  },
-  {
-    icon: 'notifications',
-    name: 'Notification Settings'
-  },
-  {
-    icon: 'person',
-    name: 'Send Feedback'
-  },
-  {
-    icon: 'comment',
-    name: 'FAQ'
-  },
-  {
-    icon: 'question-answer',
-    name: 'About'
-  },
+  // {
+  //   icon: 'person',
+  //   name: 'Profile Privacy'
+  // },
+  // {
+  //   icon: 'notifications',
+  //   name: 'Notification Settings'
+  // },
+  // {
+  //   icon: 'person',
+  //   name: 'Send Feedback'
+  // },
+  // {
+  //   icon: 'comment',
+  //   name: 'FAQ'
+  // },
+  // {
+  //   icon: 'question-answer',
+  //   name: 'About'
+  // },
   {
     icon: 'delete',
     name: 'Delete Account',
@@ -61,7 +61,7 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation })
       showDialog({
         title: 'Delete Account',
         message: 'Are you sure?',
-        dismissText: 'YES',
+        dismissText: 'DELETE',
         onCancel: () => hideDialog(),
         onDismiss: async () => {
           await userStorage.deleteAccount()

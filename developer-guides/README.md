@@ -11,7 +11,7 @@ description: Guides to the main system components
 * [Face Recognition](face-recognition.md)
 * [Routing](routing.md)
 * Wallet
-* Blockchain Events
+* [Blockchain Events](blockchain-events.md)
 * [Building Blocks](building-blocks.md)
 
 ## GoodServer

@@ -19,6 +19,7 @@
   * [Good Wallet](developer-guides/good-wallet.md)
   * [Routing](developer-guides/routing.md)
   * [Face Recognition](developer-guides/face-recognition.md)
+  * [Blockchain Events](developer-guides/blockchain-events.md)
   * [Building Blocks](developer-guides/building-blocks.md)
 * [create-react-native-web-app](readme_crnwa.md)
 

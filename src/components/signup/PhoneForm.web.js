@@ -56,7 +56,7 @@ class PhoneForm extends React.Component<Props, State> {
     const { errorMessage } = this.state
     this.isValid = userModelValidations.mobile(this.state.mobile) === ''
     const { key } = this.props.navigation.state
-    const { loading } = this.props.store.get('currentScreen')
+    const { loading } = this.props.screenProps.data.loading
     return (
       <Wrapper valid={this.isValid} handleSubmit={this.handleSubmit} loading={loading}>
         <Title>{`${this.props.screenProps.data.fullName}, \n May we have your number please?`}</Title>

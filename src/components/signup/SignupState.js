@@ -47,8 +47,9 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   }
 
   const [state, setState] = useState(initialState)
+  const [loading, setLoading] = useState(false)
   const store = GDStore.useStore()
-  const { loading } = store.get('currentScreen')
+  // const { loading } = store.get('currentScreen')
 
   function saveProfile() {
     return userStorage.setProfile({ ...state, walletAddress: goodWallet.account })
@@ -56,14 +57,16 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
 
   const navigateWithFocus = (routeKey: string) => {
     navigation.navigate(routeKey)
-    store.set('currentScreen')({ loading: false })
+    // store.set('currentScreen')({ loading: false })
+    setLoading(false)
     setTimeout(() => {
       const el = document.getElementById(routeKey + '_input')
       if (el) el.focus()
     }, 300)
   }
   const done = async (data: { [string]: string }) => {
-    store.set('currentScreen')({ loading: true })
+    // store.set('currentScreen')({ loading: true })
+    setLoading(true)
     log.info('signup data:', { data })
     let nextRoute = navigation.state.routes[navigation.state.index + 1]
     const newState = { ...state, ...data }
@@ -125,7 +128,8 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
           userStorage.setProfileField('registered', true, 'public')
           navigation.navigate('AppNavigation')
           store.set('isLoggedIn')(true)
-          store.set('currentScreen')({ loading: false })
+          // store.set('currentScreen')({ loading: false })
+          setLoading(false)
         } catch (error) {
           log.error('New user failure', { error })
         }

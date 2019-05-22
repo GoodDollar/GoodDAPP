@@ -28,15 +28,15 @@ const CustomDialog = ({
     <Dialog visible={visible} onDismiss={onDismiss} dismissable={true}>
       <Dialog.Title>{title}</Dialog.Title>
       <Dialog.Content>
-        {children ? children : null}
-        {message ? <Paragraph>{message}</Paragraph> : null}
+        {children && children }
+        {message && <Paragraph>{message}</Paragraph>}
       </Dialog.Content>
       <Dialog.Actions>
-        {onCancel ? (
+        {onCancel &&
           <CustomButton onPress={onCancel} disabled={loading} loading={loading}>
             Cancel
           </CustomButton>
-        ) : null}
+        )}
         <CustomButton onPress={onDismiss} disabled={loading} loading={loading}>
           {dismissText || 'Done'}
         </CustomButton>

@@ -116,9 +116,9 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
     const { dialogData } = store.get('currentScreen')
     return (
       <React.Fragment>
-        {/* <Helmet>
-          <title>Good Dollar</title>
-        </Helmet> */}
+        <Helmet>
+          <title>GoodDollar | UBI</title>
+        </Helmet>
 
         <CustomDialog
           {...dialogData}

@@ -11,6 +11,7 @@ import isEqual from 'lodash/isEqual'
 import maxBy from 'lodash/maxBy'
 import flatten from 'lodash/flatten'
 import get from 'lodash/get'
+import values from 'lodash/values'
 import gun from './gundb'
 import { default as goodWallet, type GoodWallet } from '../wallet/GoodWallet'
 import isMobilePhone from '../validators/isMobilePhone'
@@ -319,7 +320,7 @@ export class UserStorage {
    * @returns {Promise<Array<FeedEvent>>}
    */
   async getAllFeed() {
-    const total = Object.values((await this.feed.get('index').then()) || {}).reduce((acc, curr) => acc + curr, 0)
+    const total = values((await this.feed.get('index').then()) || {}).reduce((acc, curr) => acc + curr, 0)
     const prevCursor = this.cursor
     logger.debug('getAllFeed', { total, prevCursor })
     const feed = await this.getFeedPage(total, true)

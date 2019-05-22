@@ -13,6 +13,7 @@ import logger from '../../lib/logger/pino-logger'
 import { generateShareLink } from '../share'
 import WalletFactory from './WalletFactory'
 import abiDecoder from 'abi-decoder'
+import values from 'lodash/values'
 
 const log = logger.child({ from: 'GoodWallet' })
 
@@ -244,7 +245,7 @@ export class GoodWallet {
    * @param {string} eventName
    */
   getSubscribers(eventName: string): Function {
-    return Object.values(this.subscribers[eventName] || {})
+    return values(this.subscribers[eventName] || {})
   }
   /**
    * Listen to balance changes for the current account

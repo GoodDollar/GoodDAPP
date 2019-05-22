@@ -58,9 +58,6 @@ const BackupWallet = ({ screenProps }: BackupWalletProps) => {
         <CustomButton mode="outlined" onPress={sendRecoveryEmail} color="#575757">
           RESEND BACKUP EMAIL
         </CustomButton>
-        <CustomButton mode="contained" onPress={() => screenProps.navigateTo('Home')} style={styles.doneButton}>
-          Done
-        </CustomButton>
       </View>
     </View>
   )

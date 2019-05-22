@@ -29,7 +29,7 @@ The Face Recognition files are located under: [https://github.com/GoodDollar/Goo
 
 ### Dashboard Integration
 
-FaceRecognition is a component that is part of the stackNavigation of the dashbaord:
+FaceRecognition is a component that is part of the stackNavigation of the dashboard:
 
 ```text
 import FaceRecognition from './FaceRecognition/FaceRecognition'
@@ -47,13 +47,14 @@ export default createStackNavigator({
 
 ### FaceRecognition.js.web
 
+  
 This is the main FaceRecognition container which is loaded into the dashboard.
 
 {% hint style="info" %}
 Please note, Currently, it is not supported as a react native component out of the box and will have to be translated into proper native components \(The tag is web only\)
 {% endhint %}
 
-The component holds the component and uses the Camera capture result to send it to the server:
+FaceRecognition holds the [Camera component ](https://github.com/GoodDollar/GoodDAPP/blob/a6dbf966ac45660f50165979b95c08fdcea24000/src/components/dashboard/FaceRecognition/Camera.web.js)and uses the it's capture method result to send it to the server:
 
 ```text
 onCameraLoad = async (track: MediaStreamTrack) => {
@@ -69,15 +70,16 @@ FaceRecognition request is prepared using the capture result. The capture result
 * facemap - a zip file contains user facemap data in zoomformat
 * auditTrailImage - a jpg file contains user single image data in zoomformat
 * sessionId - identifier for this zoom session
-* enrollmentIdentifier - an identifier GoodDollar choose to give for the enrollment \(if succseed on the server\). We are using one of the account numbers generated from the wallet seed.
+* enrollmentIdentifier - an identifier GoodDollar choose to give for the enrollment \(if succeed on the server\). We are using one of the account numbers generated from the wallet seed.
 
 The request is sent to the server to go through face recognition steps described above. The returned result is analyzed - in case of failure, `onFaceRecognitionFailure` is triggered - generally it displays the error message and suggest to try again. on success, `onFaceRecognitionSuccess` is triggered and stores the enrollment identifier under field `zoomEnrollmentId`, and takes the user to the initially desired screen using the routing system.
 
-For more information about Zoom integration: [https://dev.zoomlogin.com/zoomsdk/\#/docs](https://dev.zoomlogin.com/zoomsdk/#/docs)
+For more information about Zoom integration: [https://dev.zoomlogin.com/zoomsdk/\#/docs](https://dev.zoomlogin.com/zoomsdk/#/docs)  
+[Link to Face Recognition code](https://github.com/GoodDollar/GoodDAPP/blob/a6dbf966ac45660f50165979b95c08fdcea24000/src/components/dashboard/FaceRecognition/FaceRecognition.web.js)
 
 ### Zoom.js
 
-Mainly contains the `capture` method which recieves the streaming video track from the Camera component and translates it into zoom data objects.
+Mainly contains the `capture` method which recieves the streaming video track from the Camera component and translates it into zoom data objects. [Link to code](https://github.com/GoodDollar/GoodDAPP/blob/a6dbf966ac45660f50165979b95c08fdcea24000/src/components/dashboard/FaceRecognition/Zoom.js)
 
 ### Camera.web.js
 
@@ -85,11 +87,11 @@ Mainly contains the `capture` method which recieves the streaming video track fr
 Please note, Currently, it is not supported as a react native component out of the box and will have to be translated into proper native components \(The tag is web only\)
 {% endhint %}
 
-Contains a Video tag and methods that handles the actual video capture of the user.
+Contains a Video tag and methods that handles the actual video capture of the user. [Link to code](https://github.com/GoodDollar/GoodDAPP/blob/a6dbf966ac45660f50165979b95c08fdcea24000/src/components/dashboard/FaceRecognition/Camera.web.js)
 
 ## Low level technical description - GoodServer
 
-Git repo is loacted here: [https://github.com/GoodDollar/](https://github.com/GoodDollar/)
+Git repo is located here: [https://github.com/GoodDollar/GoodServer](https://github.com/GoodDollar/GoodServer)
 
 Recall that, on the server under _/verify/facerecognition_, the face recognition process is triggered by calling _liveness_ test, and then _search_ test with the user capture data, to verify the user is a real user and haven't been registered to Zoom & GoodDollar before \(it is not duplicated\). In case both pass, the user is whitelisted on the GoodDollar contract.
 
@@ -104,11 +106,17 @@ Contains the endpoint code for _/verify/facerecognition_ endpoint. Responsible f
 3. cleanup loaded files after verifying the user
 4. in case user is verified, whitelist the user in the Admin Wallet contract, and update the user on the GD storage as verified.
 
+[Link to code](https://github.com/GoodDollar/GoodServer/blob/0c4b6124a97f719bbf4f75a8d4edde58715fa01b/src/server/verification/verificationAPI.js)
+
 ### Verification.js
 
-This module contains a method called `verifyUser(user: UserRecord, verificationData: any): Promise<boolean>` which recieves the active user that needs to pass face recognition, and the face recognition data. It: 1. Prepares Liveness & Search request 2. Caling Zoom Livness & Search API \(using Helper class\) to verify the user is alive, and that the user has no duplicates.
+This module contains a method called `verifyUser(user: UserRecord, verificationData: any): Promise<boolean>` which receives the active user that needs to pass face recognition, and the face recognition data. It: 1. Prepares Liveness & Search request 2. Calling Zoom Liveness & Search API \(using Helper class\) to verify the user is alive, and that the user has no duplicates.
 
-The testing is gradual. Livness must pass first, then duplicates test. Once both passed, the user is enrolled to Zoom database, in order to be available for the next _search_ actions.
+The testing is gradual. Liveness must pass first, then duplicates test. Once both passed, the user is enrolled to Zoom database, in order to be available for the next _search_ actions.
 
-This module is using `zoomClient.js` and `faceRecognitionHelper.js`, which are straight forward and self explanatory.
+[Link to code](https://github.com/GoodDollar/GoodServer/blob/0c4b6124a97f719bbf4f75a8d4edde58715fa01b/src/server/verification/verification.js)
+
+This module is using [`zoomClient.js`](https://github.com/GoodDollar/GoodServer/blob/0c4b6124a97f719bbf4f75a8d4edde58715fa01b/src/server/verification/faceRecognition/zoomClient.js) and [`faceRecognitionHelper.js`](https://github.com/GoodDollar/GoodServer/blob/0c4b6124a97f719bbf4f75a8d4edde58715fa01b/src/server/verification/faceRecognition/faceRecognitionHelper.js), which are straight forward and self explanatory.
+
+
 

@@ -4,9 +4,8 @@ import bip39 from 'bip39-light'
 import Config from '../../config/config'
 import logger from '../logger/pino-logger'
 import type { WalletConfig } from './WalletFactory'
-import type { HttpProvider } from 'web3-providers-http'
+import type { HttpProvider, WebSocketProvider } from 'web3-providers'
 import MultipleAddressWallet from './MultipleAddressWallet'
-import type { WebSocketProvider } from 'web3-providers-ws'
 import { AsyncStorage } from 'react-native'
 
 const log = logger.child({ from: 'SoftwareWalletProvider' })

@@ -10,11 +10,13 @@ import ProfileDataTable from './ProfileDataTable'
 
 const log = logger.child({ from: 'Profile' })
 
-const EditIcon = props => <IconButton {...props} name="edit" />
-const PrivateIcon = props => <View style={{ width: '66px', height: '66px' }} />
+const EditIcon = props => <IconButton {...props} wrapperStyle={styles.iconRight} name="edit" />
+const PrivateIcon = props => <IconButton {...props} wrapperStyle={styles.iconLeft} name="visibility" />
 
-const IconButton = ({ onPress, disabled, ...iconProps }) => (
-  <Icon onPress={onPress} raised color="rgb(85, 85, 85)" {...iconProps} />
+const IconButton = ({ onPress, disabled, wrapperStyle, ...iconProps }) => (
+  <View style={[styles.icon, wrapperStyle]}>
+    <Icon onPress={onPress} raised color="rgb(85, 85, 85)" {...iconProps} />
+  </View>
 )
 
 const Profile = props => {
@@ -24,7 +26,7 @@ const Profile = props => {
     <Wrapper>
       <Section style={styles.section}>
         <Section.Row style={styles.centered}>
-          <PrivateIcon onPress={() => log.debug('PrivateIcon')} />
+          {/* <PrivateIcon onPress={() => log.debug('PrivateIcon')} /> */}
           <UserAvatar profile={profile} />
           <EditIcon onPress={() => screenProps.push('EditProfile')} />
         </Section.Row>
@@ -43,6 +45,16 @@ const styles = StyleSheet.create({
     paddingRight: '1em',
     marginBottom: 'auto',
     minHeight: '100%'
+  },
+  icon: {
+    top: 0,
+    position: 'absolute'
+  },
+  iconRight: {
+    right: 0
+  },
+  iconLeft: {
+    left: 0
   }
 })
 

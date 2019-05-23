@@ -16,6 +16,7 @@
       * [common](docs/dapp/components/common.md)
     * [components](docs/dapp/components-1.md)
 * [Developer Guides](developer-guides/README.md)
+  * [Getting Started](developer-guides/getting-started.md)
   * [Good Wallet](developer-guides/good-wallet.md)
   * [Routing](developer-guides/routing.md)
   * [Face Recognition](developer-guides/face-recognition.md)

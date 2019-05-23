@@ -6,11 +6,11 @@ description: Guides to the main system components
 
 ## GoodDAPP
 
-* Install + Smart contracts deploy + admin wallet
+* [Getting Started](getting-started.md)
 * UserStorage
 * [Face Recognition](face-recognition.md)
 * [Routing](routing.md)
-* Wallet
+* [Good Wallet](good-wallet.md)
 * [Blockchain Events](blockchain-events.md)
 * [Building Blocks](building-blocks.md)
 

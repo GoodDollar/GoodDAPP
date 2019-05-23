@@ -18,11 +18,12 @@ export const routeAndPathForCode = async (screen: string, code: CodeType | null)
   const { networkId, address, amount } = code
 
   await goodWallet.ready
-  const currentNetworkId = await goodWallet.wallet.eth.net.getId()
-
+  const currentNetworkId = goodWallet.networkId
   if (networkId !== currentNetworkId) {
     const networkName = getNetworkName(networkId)
-    throw new Error(`Invalid network. Code is meant to be used in ${networkName} network.`)
+    throw new Error(
+      `Invalid network. Code is meant to be used in ${networkName} network, not on ${getNetworkName(currentNetworkId)}`
+    )
   }
 
   switch (screen) {

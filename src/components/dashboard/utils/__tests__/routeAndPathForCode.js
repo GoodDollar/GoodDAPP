@@ -1,8 +1,12 @@
 import { routeAndPathForCode } from '../routeAndPathForCode'
 
-jest.mock('web3-providers-http', () => () => {
-  return require('ganache-cli').provider({ network_id: 42 })
+const networkId = 4447
+const httpProviderMock = jest.fn().mockImplementation(() => {
+  return require('ganache-cli').provider({ network_id: networkId })
 })
+
+let WEB3PROVIDERS = require('web3-providers')
+WEB3PROVIDERS.HttpProvider = httpProviderMock
 
 describe('routeAndPathForCode', () => {
   beforeAll(() => {
@@ -22,7 +26,7 @@ describe('routeAndPathForCode', () => {
   })
 
   it(`should pass if code is valid`, () => {
-    const code = { networkId: 42, address: '0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1' }
+    const code = { networkId: networkId, address: '0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1' }
 
     return routeAndPathForCode('send', code).then(({ route, params }) => {
       expect(route).toMatch('Amount')
@@ -32,7 +36,7 @@ describe('routeAndPathForCode', () => {
 
   it(`should fail if screen is invalid`, () => {
     expect.assertions(1)
-    const code = { networkId: 42, address: '0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1' }
+    const code = { networkId: networkId, address: '0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1' }
 
     return routeAndPathForCode('invalidScreen', code).catch(e => expect(e.message).toMatch('Invalid screen specified.'))
   })
@@ -42,7 +46,7 @@ describe('routeAndPathForCode', () => {
     const code = { networkId: 121, address: '0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1' }
 
     return routeAndPathForCode('invalidScreen', code).catch(e =>
-      expect(e.message).toMatch('Invalid network. Code is meant to be used in FUSE network.')
+      expect(e.message).toContain('Invalid network. Code is meant to be used in FUSE network, not on')
     )
   })
 })

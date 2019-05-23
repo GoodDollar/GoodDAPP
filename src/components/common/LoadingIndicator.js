@@ -35,10 +35,9 @@ export const setLoadingWithStore = (store: Store) =>
  * @returns {*} - React component
  * @constructor
  */
-const LoadingIndicator = () => {
+const LoadingIndicator = ({ force }) => {
   const store = GDStore.useStore()
-  const { loading } = store.get('loadingIndicator')
-
+  const loading = store.get('loadingIndicator').loading || force
   return (
     <Portal>
       {loading ? (

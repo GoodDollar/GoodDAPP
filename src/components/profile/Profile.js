@@ -11,12 +11,10 @@ import ProfileDataTable from './ProfileDataTable'
 const log = logger.child({ from: 'Profile' })
 
 const EditIcon = props => <IconButton {...props} name="edit" />
-const PrivateIcon = props => <IconButton {...props} name="visibility" />
+const PrivateIcon = props => <View style={{ width: '66px', height: '66px' }} />
 
 const IconButton = ({ onPress, disabled, ...iconProps }) => (
-  <View style={styles.icon}>
-    <Icon onPress={onPress} raised color="rgb(85, 85, 85)" {...iconProps} />
-  </View>
+  <Icon onPress={onPress} raised color="rgb(85, 85, 85)" {...iconProps} />
 )
 
 const Profile = props => {
@@ -45,9 +43,6 @@ const styles = StyleSheet.create({
     paddingRight: '1em',
     marginBottom: 'auto',
     minHeight: '100%'
-  },
-  icon: {
-    cursor: 'pointer'
   }
 })
 

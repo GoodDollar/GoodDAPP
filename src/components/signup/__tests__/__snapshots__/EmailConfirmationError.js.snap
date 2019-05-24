@@ -1,0 +1,120 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Address matches snapshot 1`] = `
+<div
+  className="css-view-1dbjc4n"
+  style={
+    Object {
+      "WebkitAlignItems": "stretch",
+      "WebkitBoxAlign": "stretch",
+      "WebkitBoxDirection": "normal",
+      "WebkitBoxFlex": 1,
+      "WebkitBoxOrient": "vertical",
+      "WebkitBoxPack": "justify",
+      "WebkitFlexBasis": "0%",
+      "WebkitFlexDirection": "column",
+      "WebkitFlexGrow": 1,
+      "WebkitFlexShrink": 1,
+      "WebkitJustifyContent": "space-between",
+      "alignItems": "stretch",
+      "display": "flex",
+      "flexBasis": "0%",
+      "flexDirection": "column",
+      "flexGrow": 1,
+      "flexShrink": 1,
+      "justifyContent": "space-between",
+      "maxWidth": "500px",
+      "msFlexAlign": "stretch",
+      "msFlexDirection": "column",
+      "msFlexNegative": 1,
+      "msFlexPack": "justify",
+      "msFlexPositive": 1,
+      "msFlexPreferredSize": "0%",
+      "paddingBottom": "20px",
+      "paddingLeft": "20px",
+      "paddingRight": "20px",
+      "paddingTop": "20px",
+    }
+  }
+>
+  <div
+    className="css-view-1dbjc4n"
+    style={
+      Object {
+        "WebkitBoxFlex": 1,
+        "WebkitBoxPack": "space-evenly",
+        "WebkitFlexBasis": "0%",
+        "WebkitFlexGrow": 1,
+        "WebkitFlexShrink": 1,
+        "WebkitJustifyContent": "space-evenly",
+        "flexBasis": "0%",
+        "flexGrow": 1,
+        "flexShrink": 1,
+        "justifyContent": "space-evenly",
+        "msFlexNegative": 1,
+        "msFlexPack": "space-evenly",
+        "msFlexPositive": 1,
+        "msFlexPreferredSize": "0%",
+        "paddingTop": "30px",
+      }
+    }
+  >
+    <div
+      className="css-text-76zvg2"
+      dir="auto"
+      style={
+        Object {
+          "color": "rgba(85,85,85,1.00)",
+          "direction": "ltr",
+          "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+          "fontSize": "24px",
+          "marginBottom": "30px",
+          "marginTop": "50px",
+          "textAlign": "center",
+        }
+      }
+    >
+      Email Confirmation Fail
+    </div>
+    <div
+      className="css-text-76zvg2"
+      dir="auto"
+      style={
+        Object {
+          "color": "rgba(85,85,85,1.00)",
+          "direction": "ltr",
+          "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+          "fontSize": "18px",
+          "marginTop": "30px",
+          "textAlign": "center",
+        }
+      }
+    >
+      In order to be able to continue with the signup process please open this link in the same browser you start the registration process
+    </div>
+  </div>
+  <div
+    className="css-view-1dbjc4n"
+    style={
+      Object {
+        "WebkitBoxFlex": 1,
+        "WebkitBoxPack": "end",
+        "WebkitFlexBasis": "0%",
+        "WebkitFlexGrow": 1,
+        "WebkitFlexShrink": 1,
+        "WebkitJustifyContent": "flex-end",
+        "display": "flex",
+        "flexBasis": "0%",
+        "flexGrow": 1,
+        "flexShrink": 1,
+        "justifyContent": "flex-end",
+        "msFlexNegative": 1,
+        "msFlexPack": "end",
+        "msFlexPositive": 1,
+        "msFlexPreferredSize": "0%",
+        "paddingTop": "20px",
+      }
+    }
+  />
+</div>
+`;

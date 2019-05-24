@@ -1,6 +1,7 @@
 import { routeAndPathForCode } from '../routeAndPathForCode'
+import goodWallet from '../../../../lib/wallet/GoodWallet'
 
-const networkId = 4447
+let networkId
 const httpProviderMock = jest.fn().mockImplementation(() => {
   return require('ganache-cli').provider({ network_id: networkId })
 })
@@ -9,8 +10,10 @@ let WEB3PROVIDERS = require('web3-providers')
 WEB3PROVIDERS.HttpProvider = httpProviderMock
 
 describe('routeAndPathForCode', () => {
-  beforeAll(() => {
+  beforeAll(async () => {
     jest.resetAllMocks()
+    await goodWallet.ready
+    networkId = goodWallet.networkId
   })
 
   it(`should fail if code is null`, () => {

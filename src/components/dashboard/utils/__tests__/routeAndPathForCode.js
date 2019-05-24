@@ -46,10 +46,10 @@ describe('routeAndPathForCode', () => {
 
   it(`should fail if networkId isn't current network ID is invalid`, () => {
     expect.assertions(1)
-    const code = { networkId: networkId + 1, address: '0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1' }
+    const code = { networkId: 100, address: '0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1' }
 
     return routeAndPathForCode('invalidScreen', code).catch(e =>
-      expect(e.message).toContain('Invalid network. Code is meant to be used in FUSE network, not on')
+      expect(e.message).toContain('Invalid network. Code is meant to be used in XDAI network, not on')
     )
   })
 })

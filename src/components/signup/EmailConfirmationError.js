@@ -35,7 +35,7 @@ const EmailConfirmationError = ({ navigation, screenProps }: Props) => {
   return (
     <>
       <Wrapper footerComponent={props => null}>
-        <Title style={styles.wrapper}>Email Confirmation Fail</Title>
+        <Title style={styles.title}>Email Confirmation Fail</Title>
         <Description>
           {
             'In order to be able to continue with the signup process please open this link in the same browser you start the registration process'
@@ -48,16 +48,8 @@ const EmailConfirmationError = ({ navigation, screenProps }: Props) => {
 }
 
 const styles = StyleSheet.create({
-  wrapper: {
+  title: {
     marginTop: normalize(50)
-  },
-  description: {
-    marginBottom: normalize(20),
-    fontSize: normalize(24)
-  },
-  link: {
-    fontSize: normalize(15),
-    opacity: '0.6'
   }
 })
 

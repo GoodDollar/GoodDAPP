@@ -3,11 +3,12 @@ import React, { useEffect, useState } from 'react'
 import { StyleSheet } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { useWrappedApi } from '../../lib/API/useWrappedApi'
-import { useWrappedUserStorage } from '../../lib/gundb/useWrappedStorage'
+import userStorage from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import GDStore from '../../lib/undux/GDStore'
 import { setLoadingWithStore } from '../common/LoadingIndicator'
 import { Description, LinkButton, NextButton, Title, Wrapper } from './components'
+import EmailConfirmationError from './EmailConfirmationError'
 
 type Props = {
   screenProps: any,
@@ -19,7 +20,7 @@ const log = logger.child({ from: 'EmailConfirmation' })
 const EmailConfirmation = ({ navigation, screenProps }: Props) => {
   const [globalProfile, setGlobalProfile] = useState({})
   const API = useWrappedApi()
-  const userStorage = useWrappedUserStorage()
+  const [browserError, setBrowserError] = useState()
   const setLoading = setLoadingWithStore(GDStore.useStore())
 
   useEffect(() => {
@@ -30,12 +31,21 @@ const EmailConfirmation = ({ navigation, screenProps }: Props) => {
 
       // recover user's profile persisted to userStorage in SignupState after sending the email
       // done before verifying email to have all the user's information available to display
-      const profile = await userStorage.getProfile()
-      setGlobalProfile(profile)
+      log.debug('Validating Email...')
+      try {
+        const profile = await userStorage.getProfile()
+        log.debug('profile ->', profile)
+        setGlobalProfile(profile)
 
-      await API.verifyEmail({ code: params.validation })
+        await API.verifyEmail({ code: params.validation })
 
-      screenProps.doneCallback({ ...profile, isEmailConfirmed: true })
+        screenProps.doneCallback({ ...profile, isEmailConfirmed: true })
+      } catch (e) {
+        log.error(e)
+        setLoading(false)
+        setBrowserError(true)
+        return
+      }
     }
 
     if (params && params.validation) {
@@ -55,6 +65,7 @@ const EmailConfirmation = ({ navigation, screenProps }: Props) => {
   const handleSubmit = () => {
     log.info('opening email client...')
   }
+  if (browserError) return <EmailConfirmationError />
 
   return (
     <>

@@ -835,7 +835,11 @@ export class UserStorage {
   }
 
   getProfile(): Promise<any> {
-    return new Promise(res => {
+    return new Promise(async (res, rej) => {
+      const profile = await this.profile.then()
+      if (!profile) {
+        return rej('User profile not found')
+      }
       this.profile.load(async profile => res(await this.getPrivateProfile(profile)), { wait: 99 })
     })
   }

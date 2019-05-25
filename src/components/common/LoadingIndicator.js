@@ -32,7 +32,9 @@ export const setLoadingWithStore = (store: Store) =>
 
 /**
  * Provides a `LoadingIndicator` component which renders an ActivityIndicator over a semi-transparent background.
- * @returns {*} - React component
+ * @param {object} props - an object with props
+ * @param {boolean} props.force - to force rendering
+ * @returns {React.Node}
  * @constructor
  */
 const LoadingIndicator = ({ force }) => {

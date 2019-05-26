@@ -338,11 +338,6 @@ export class UserStorage {
 
   async initFeed() {
     this.feed = this.gunuser.get('feed')
-    await this.feed
-      .get('index')
-      .map()
-      .once(this.updateFeedIndex)
-      .then()
     this.feed.get('index').on(this.updateFeedIndex, false)
   }
 

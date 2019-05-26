@@ -20,12 +20,14 @@ export const setLoadingWithStore = (store: Store) => (to: boolean) => {
 
 /**
  * Provides a `LoadingIndicator` component which renders an ActivityIndicator over a semi-transparent background.
+ * @param {object} props - an object with props
+ * @param {boolean} props.force - to force rendering
  * @returns {React.Node}
+ * @constructor
  */
-const LoadingIndicator = () => {
+const LoadingIndicator = ({ force }) => {
   const store = GDStore.useStore()
-  const { loading } = store.get('loadingIndicator')
-
+  const loading = store.get('loadingIndicator').loading || force
   return (
     <Portal>
       {loading ? (

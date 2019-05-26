@@ -22,26 +22,6 @@ export const DEFAULT_PARAMS = {
 
 const log = logger.child({ from: 'stackNavigation' })
 
-/**
- * getComponent gets the component and props and returns the same component except when
- * shouldNavigateToComponent is present in component and not complaining
- * This function can be written in every component that needs to prevent access
- * if there is not in a correct navigation flow.
- * Example: doesn't makes sense to navigate to Amount if there is no nextRoutes
- * @param {React.Component} Component
- */
-const getComponent = (Component, props) => {
-  const { shouldNavigateToComponent } = Component
-
-  if (shouldNavigateToComponent && !shouldNavigateToComponent(props)) {
-    return props => {
-      useEffect(() => props.screenProps.goToParent(), [])
-      return null
-    }
-  }
-  return Component
-}
-
 type AppViewProps = {
   descriptors: any,
   navigation: any,
@@ -67,7 +47,32 @@ class AppView extends Component<AppViewProps, AppViewState> {
     stack: [],
     currentState: {}
   }
+  /**
+   * marks route transistion
+   */
+  trans: boolean = false
 
+  shouldComponentUpdate() {
+    return this.trans === false
+  }
+  /**
+   * getComponent gets the component and props and returns the same component except when
+   * shouldNavigateToComponent is present in component and not complaining
+   * This function can be written in every component that needs to prevent access
+   * if there is not in a correct navigation flow.
+   * Example: doesn't makes sense to navigate to Amount if there is no nextRoutes
+   * @param {React.Component} Component
+   */
+  getComponent = (Component, props) => {
+    const { shouldNavigateToComponent } = Component
+    if (shouldNavigateToComponent && !shouldNavigateToComponent(props)) {
+      return props => {
+        useEffect(() => props.screenProps.goToParent(), [])
+        return null
+      }
+    }
+    return Component
+  }
   /**
    * Pops from stack
    * If there is no screen on the stack navigates to initial screen on stack (goToRoot)
@@ -80,9 +85,11 @@ class AppView extends Component<AppViewProps, AppViewState> {
     const { navigation } = this.props
     const nextRoute = this.state.stack.pop()
     if (nextRoute) {
-      this.setState({ currentState: { ...nextRoute.state, ...params, route: nextRoute.route } }, () =>
+      this.trans = true
+      this.setState({ currentState: { ...nextRoute.state, ...params, route: nextRoute.route } }, () => {
         navigation.navigate(nextRoute.route)
-      )
+        this.trans = false
+      })
     } else if (navigation.state.index !== 0) {
       this.goToRoot()
     } else {
@@ -97,6 +104,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
   push = (nextRoute, params) => {
     const { navigation } = this.props
     const route = navigation.state.routes[navigation.state.index].key
+    this.trans = true
     this.setState(
       (state, props) => {
         return {
@@ -110,7 +118,10 @@ class AppView extends Component<AppViewProps, AppViewState> {
           currentState: { ...params, route }
         }
       },
-      state => navigation.navigate(nextRoute)
+      state => {
+        navigation.navigate(nextRoute)
+        this.trans = false
+      }
     )
   }
 
@@ -119,6 +130,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
    */
   goToRoot = () => {
     const { navigation } = this.props
+    this.trans = true
     this.setState({
       stack: [],
       currentState: {}
@@ -131,6 +143,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
     }
 
     navigation.navigate(route)
+    this.trans = false
   }
 
   /**
@@ -151,8 +164,10 @@ class AppView extends Component<AppViewProps, AppViewState> {
     const { navigation, navigationConfig } = this.props
 
     if (navigationConfig.backRouteName) {
+      this.trans = true
       this.setState({ currentState: {}, stack: [] })
       navigation.navigate(navigationConfig.backRouteName)
+      this.trans = false
     }
   }
 
@@ -180,23 +195,27 @@ class AppView extends Component<AppViewProps, AppViewState> {
       navigateTo: this.navigateTo,
       pop: this.pop,
       screenState: this.state.currentState,
-      setScreenState: this.setScreenState
+      setScreenState: this.setScreenState,
+      toggleMenu: () => this.drawer.open()
     }
-    log.info('stackNavigation Render: FIXME rerender', activeKey, this.props, this.state)
-    const Component = getComponent(descriptor.getComponent(), { screenProps })
+    log.info('stackNavigation Render: FIXME rerender', descriptor, activeKey, this.props, this.state)
+    const Component = this.getComponent(descriptor.getComponent(), { screenProps })
     const pageTitle = title || activeKey
-    const menu = <SideMenuPanel navigation={navigation} />
+    const open = store.get('sidemenu').visible
+    const menu = open ? <SideMenuPanel navigation={navigation} /> : null
     return (
       <React.Fragment>
         {/* <Helmet>
           <title>{`Good Dollar | ${pageTitle}`}</title>
         </Helmet> */}
         {!navigationBarHidden && <NavBar goBack={backButtonHidden ? undefined : this.pop} title={pageTitle} />}
-        <ScrollView contentContainerStyle={scrollableContainer}>
-          <View style={{ backgroundColor: '#fff', flex: 1 }}>
-            <SceneView navigation={descriptor.navigation} component={Component} screenProps={screenProps} />
-          </View>
-        </ScrollView>
+        <View style={{ backgroundColor: '#fff', flex: 1 }}>
+          <SideMenu menu={menu} menuPosition="right" isOpen={store.get('sidemenu').visible}>
+            <ScrollView contentContainerStyle={scrollableContainer}>
+              <SceneView navigation={descriptor.navigation} component={Component} screenProps={screenProps} />
+            </ScrollView>
+          </SideMenu>
+        </View>
       </React.Fragment>
     )
   }

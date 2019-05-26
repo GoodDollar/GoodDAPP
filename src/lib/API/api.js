@@ -77,6 +77,10 @@ class API {
     return this.client.post('/user/add', { user })
   }
 
+  deleteAccount(zoomId: string): AxiosPromise<any> {
+    return this.client.post('/user/delete', { zoomId })
+  }
+
   sendOTP(user: UserRecord): AxiosPromise<any> {
     return this.client.post('/verify/sendotp', { user })
   }

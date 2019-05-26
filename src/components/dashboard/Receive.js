@@ -64,21 +64,21 @@ const Receive = ({ screenProps }: ReceiveProps) => {
               Copy address to clipboard
             </Section.Text>
           </View>
-          <PushButton
-            mode="outlined"
-            dark={false}
-            routeName="Amount"
-            screenProps={screenProps}
-            style={styles.fullWidth}
-            params={{ nextRoutes: ['ReceiveAmount'], params: { toReceive: true } }}
-          >
+          <ShareLink link={link} style={styles.shareQRButton}>
             Share your wallet link
-          </PushButton>
+          </ShareLink>
         </Section.Row>
       </Section>
-      <ShareLink link={link} style={styles.shareQRButton}>
+      <PushButton
+        mode="outlined"
+        dark={false}
+        routeName="Amount"
+        screenProps={screenProps}
+        style={styles.fullWidth}
+        params={{ nextRoutes: ['ReceiveAmount'], params: { toReceive: true } }}
+      >
         Generate detailed request
-      </ShareLink>
+      </PushButton>
     </Wrapper>
   )
 }

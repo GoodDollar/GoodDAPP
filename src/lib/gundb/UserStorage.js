@@ -10,6 +10,8 @@ import takeWhile from 'lodash/takeWhile'
 import isEqual from 'lodash/isEqual'
 import maxBy from 'lodash/maxBy'
 import flatten from 'lodash/flatten'
+import get from 'lodash/get'
+import values from 'lodash/values'
 import gun from './gundb'
 import { default as goodWallet, type GoodWallet } from '../wallet/GoodWallet'
 import isMobilePhone from '../validators/isMobilePhone'
@@ -18,31 +20,45 @@ import isEmail from 'validator/lib/isEmail'
 import pino from '../logger/pino-logger'
 import { getUserModel, type UserModel } from './UserModel'
 import { AsyncStorage } from 'react-native'
-
+import API from '../API/api'
 const logger = pino.child({ from: 'UserStorage' })
 
 function isValidDate(d) {
   return d instanceof Date && !isNaN(d)
 }
 
+/**
+ * User details returned from Gun SEA
+ */
 export type GunDBUser = {
   alias: string,
   epub: string,
   pub: string,
   sea: any
 }
-
+/**
+ * possible privacy level for profile fields
+ */
 type FieldPrivacy = 'private' | 'public' | 'masked'
+
 type ACK = {
   ok: number,
   err: string
 }
 type EncryptedField = any
+
+/**
+ * User's profile field data
+ */
 export type ProfileField = {
   value: EncryptedField,
   display: string,
   privacy: FieldPrivacy
 }
+
+/**
+ * User's feed event data
+ */
 export type FeedEvent = {
   id: string,
   type: string,
@@ -50,6 +66,9 @@ export type FeedEvent = {
   data: any
 }
 
+/**
+ * Blockchain transaction event data
+ */
 export type TransactionEvent = FeedEvent & {
   data: {
     to: string,
@@ -103,13 +122,46 @@ export const getOperationType = (data: any, account: string) => {
   return EVENT_TYPES[data.name] || operationType
 }
 
+/**
+ * Users gundb to handle user storage.
+ * User storage is used to keep the user Self Soverign Profile and his blockchain transcation history
+ * @class
+ *  */
 export class UserStorage {
+  /**
+   * wallet an instance of GoodWallet
+   * @instance {GoodWallet}
+   */
   wallet: GoodWallet
+  /**
+   * a gun node refering to gun.user()
+   * @instance {Gun}
+   */
   gunuser: Gun
+  /**
+   * a gun node refering to gun.user().get('profile')
+   * @instance {Gun}
+   */
   profile: Gun
+  /**
+   * a gun node refering to gun.user().get('feed')
+   * @instance {Gun}
+   */
   feed: Gun
+  /**
+   * In memory array. keep number of events per day
+   * @instance {Gun}
+   */
   feedIndex: Array<[Date, number]>
+
+  /**
+   * object with Gun SEA user details
+   * @instance {GunDBUser}
+   */
   user: GunDBUser
+  /**
+   * A promise which is resolved once init() is done
+   */
   ready: Promise<boolean>
   subscribersProfileUpdates = []
   _lastProfileUpdate: any
@@ -158,40 +210,8 @@ export class UserStorage {
       .then(() => this.init())
       .catch(e => {
         logger.error('Error initializing UserStorage', e)
-        return true
+        return false
       })
-  }
-
-  async handleReceiptUpdated(receipt: any): Promise<FeedEvent> {
-    try {
-      const data = getReceiveDataFromReceipt(receipt)
-      //get initial TX data
-      const initialEvent = (await this.peekTX(receipt.transactionHash)) || { data: {} }
-      //get existing or make a new event
-      const feedEvent = (await this.getFeedItemByTransactionHash(receipt.transactionHash)) || {
-        id: receipt.transactionHash,
-        date: new Date().toString(),
-        type: getOperationType(data, this.wallet.account)
-      }
-      //merge incoming receipt data into existing event
-      const updatedFeedEvent: FeedEvent = {
-        ...feedEvent,
-        ...initialEvent,
-        data: {
-          ...feedEvent.data,
-          ...data,
-          ...initialEvent.data,
-          receipt
-        }
-      }
-      logger.debug('receiptReceived', { initialEvent, feedEvent, receipt, data, updatedFeedEvent })
-      if (isEqual(feedEvent, updatedFeedEvent) === false) await this.updateFeedEvent(updatedFeedEvent)
-      //remove pending once we used it and updated feed
-      this.dequeueTX(receipt.transactionHash)
-      return updatedFeedEvent
-    } catch (error) {
-      logger.error('handleReceiptUpdated', error)
-    }
   }
 
   /**
@@ -200,8 +220,8 @@ export class UserStorage {
   async init() {
     logger.debug('Initializing GunDB UserStorage')
     //sign with different address so its not connected to main user address and there's no 1-1 link
-    const username = await this.wallet.sign('GoodDollarUser', 'gundb')
-    const password = await this.wallet.sign('GoodDollarPass', 'gundb')
+    const username = await this.wallet.sign('GoodDollarUser', 'gundb').then(r => r.slice(0, 20))
+    const password = await this.wallet.sign('GoodDollarPass', 'gundb').then(r => r.slice(0, 20))
     this.gunuser = gun.user()
     return new Promise((res, rej) => {
       this.gunuser.create(username, password, async userCreated => {
@@ -240,6 +260,38 @@ export class UserStorage {
     })
   }
 
+  async handleReceiptUpdated(receipt: any): Promise<FeedEvent> {
+    try {
+      const data = getReceiveDataFromReceipt(receipt)
+      //get initial TX data
+      const initialEvent = (await this.peekTX(receipt.transactionHash)) || { data: {} }
+      //get existing or make a new event
+      const feedEvent = (await this.getFeedItemByTransactionHash(receipt.transactionHash)) || {
+        id: receipt.transactionHash,
+        date: new Date().toString(),
+        type: getOperationType(data, this.wallet.account)
+      }
+      //merge incoming receipt data into existing event
+      const updatedFeedEvent: FeedEvent = {
+        ...feedEvent,
+        ...initialEvent,
+        data: {
+          ...feedEvent.data,
+          ...data,
+          ...initialEvent.data,
+          receipt
+        }
+      }
+      logger.debug('receiptReceived', { initialEvent, feedEvent, receipt, data, updatedFeedEvent })
+      if (isEqual(feedEvent, updatedFeedEvent) === false) await this.updateFeedEvent(updatedFeedEvent)
+      //remove pending once we used it and updated feed
+      this.dequeueTX(receipt.transactionHash)
+      return updatedFeedEvent
+    } catch (error) {
+      logger.error('handleReceiptUpdated', error)
+    }
+  }
+
   async sign(msg: any) {
     return SEA.sign(msg, this.gunuser.pair())
   }
@@ -268,7 +320,7 @@ export class UserStorage {
    * @returns {Promise<Array<FeedEvent>>}
    */
   async getAllFeed() {
-    const total = Object.values((await this.feed.get('index').then()) || {}).reduce((acc, curr) => acc + curr, 0)
+    const total = values((await this.feed.get('index').then()) || {}).reduce((acc, curr) => acc + curr, 0)
     const prevCursor = this.cursor
     logger.debug('getAllFeed', { total, prevCursor })
     const feed = await this.getFeedPage(total, true)
@@ -314,7 +366,7 @@ export class UserStorage {
    * @param {string} field - Profile attribute
    * @returns {Promise} Gun profile attribute object
    */
-  async getProfileField(field: string): Promise<any> {
+  async getProfileField(field: string): Promise<ProfileField> {
     let pField: ProfileField = await this.profile.get(field).then()
     return pField
   }
@@ -786,6 +838,32 @@ export class UserStorage {
     return new Promise(res => {
       this.profile.load(async profile => res(await this.getPrivateProfile(profile)), { wait: 99 })
     })
+  }
+  /**
+   * Delete the user account.
+   * Deleting gundb profile and clearing local storage
+   * Calling the server to delete their data
+   */
+  async deleteAccount(): Promise<boolean> {
+    let profileDelete = await this.gunuser
+      .delete()
+      .then(r => ({ profile: 'ok' }))
+      .catch(e => ({
+        profile: 'failed'
+      }))
+    let deleteResults = await Promise.all([
+      goodWallet
+        .deleteAccount()
+        .then(r => ({ wallet: 'ok' }))
+        .catch(e => ({ wallet: 'failed' })),
+      API.deleteAccount(goodWallet.getAccountForType('zoomId'))
+        .then(r => get(r, 'data.results'))
+        .catch(e => ({
+          server: 'failed'
+        }))
+    ])
+    logger.debug('deleteAccount', { ...deleteResults, ...profileDelete })
+    return AsyncStorage.clear()
   }
 }
 

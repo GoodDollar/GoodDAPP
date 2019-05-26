@@ -169,7 +169,7 @@ class FeedList extends PureComponent<FeedListProps, FeedListState> {
   render() {
     const { data } = this.props
     const feeds = data && data instanceof Array && data.length ? data : undefined
-    const { loading } = this.props.store.get('currentScreen')
+    const loading = this.props.store.get('feedLoading')
     return feeds ? (
       this.renderList(feeds, loading)
     ) : (

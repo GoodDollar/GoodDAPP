@@ -3,14 +3,14 @@ import React from 'react'
 import { AsyncStorage } from 'react-native'
 import { SceneView } from '@react-navigation/core'
 import some from 'lodash/some'
-import logger from '../lib/logger/pino-logger'
-import API from '../lib/API/api'
-import GDStore from '../lib/undux/GDStore'
-import { checkAuthStatus } from '../lib/login/checkAuthStatus'
-import type { Store } from 'undux'
-import { CustomDialog } from '../components/common'
-import LoadingIndicator from './common/LoadingIndicator'
 import { Helmet } from 'react-helmet'
+import logger from '../../lib/logger/pino-logger'
+import API from '../../lib/API/api'
+import GDStore from '../../lib/undux/GDStore'
+import { checkAuthStatus } from '../../lib/login/checkAuthStatus'
+import type { Store } from 'undux'
+import { CustomDialog } from '../common'
+import LoadingIndicator from '../common/LoadingIndicator'
 
 type LoadingProps = {
   navigation: any,
@@ -28,7 +28,7 @@ function delay(t, v) {
 const TIMEOUT = 1000
 
 /**
- * The main app route. Here we decide where to go depending on the user's credentials status
+ * The main app route rendering component. Here we decide where to go depending on the user's credentials status
  */
 class AppSwitch extends React.Component<LoadingProps, {}> {
   /**
@@ -37,7 +37,11 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
    */
   constructor(props: LoadingProps) {
     super(props)
-    this.checkAuthStatus()
+    this.ready = false
+    this.checkAuthStatus().then(r => {
+      this.ready = true
+      this.forceUpdate()
+    })
   }
 
   getParams = async () => {
@@ -85,13 +89,17 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
       const { jwt } = credsOrError
       if (jwt) {
         log.debug('New account, not verified, or did not finish signup', jwt)
-        //for new accounts check if link is email verification if so
+        //for new accounts check if link is email validation if so
         //redirect to continue signup flow
         if (destDetails) {
-          if (destDetails.params.verification) {
+          log.debug('destinationPath details found', destDetails)
+          if (destDetails.params.validation) {
+            log.debug('destinationPath redirecting to email validation')
             this.props.navigation.navigate(destDetails)
+            return
           }
-          //for non loggedin users, store non email verification params to the destinationPath for later
+          log.debug('destinationPath saving details')
+          //for non loggedin users, store non email validation params to the destinationPath for later
           //to be used once signed in
           const destinationPath = JSON.stringify(destDetails)
           AsyncStorage.setItem('destinationPath', destinationPath)
@@ -124,7 +132,7 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
             currentDialogData.onDismiss && currentDialogData.onDismiss(currentDialogData)
           }}
         />
-        <LoadingIndicator />
+        <LoadingIndicator force={!this.ready} />
         <SceneView navigation={descriptor.navigation} component={descriptor.getComponent()} />
       </React.Fragment>
     )

@@ -52,17 +52,12 @@ const ContinueButton = ({ screenProps, to, disabled, checkError }) => (
     onPress={async () => {
       if (await checkError()) return
 
-      if (to && (isMobilePhone(to) || isEmail(to))) {
-        const address = await userStorage.getUserAddress(to)
-        if (address) {
-          return screenProps.push('Amount', { address, nextRoutes: ['Reason', 'SendQRSummary'] })
-        } else {
-          return screenProps.push('Amount', { to, nextRoutes: ['Reason', 'SendLinkSummary'] })
-        }
+      const address = await userStorage.getUserAddress(to).catch(e => undefined)
+      if (address || goodWallet.wallet.utils.isAddress(to)) {
+        return screenProps.push('Amount', { to: address || to, nextRoutes: ['Reason', 'SendQRSummary'] })
       }
-
-      if (to && goodWallet.wallet.utils.isAddress(to)) {
-        return screenProps.push('Amount', { to, nextRoutes: ['Reason', 'SendQRSummary'] })
+      if (to && (isMobilePhone(to) || isEmail(to))) {
+        return screenProps.push('Amount', { to, nextRoutes: ['Reason', 'SendLinkSummary'] })
       }
       log.debug(`Oops, no error and no action`)
     }}

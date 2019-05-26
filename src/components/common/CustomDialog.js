@@ -10,7 +10,8 @@ type DialogProps = {
   message?: string,
   dismissText?: string,
   onDismiss?: () => void,
-  loading?: boolean
+  loading?: boolean,
+  onCancel?: () => void
 }
 
 /**
@@ -18,6 +19,7 @@ type DialogProps = {
  * @param {DialogProps} props
  * @param {React.Node|String} [props.children]
  * @param {function} [props.onDismiss]
+ * @param {function} [props.onCancel]
  * @param {boolean} [props.visible]
  * @param {string} [props.title]
  * @param {string} [props.message]
@@ -25,15 +27,29 @@ type DialogProps = {
  * @param {boolean} [props.loading]
  * @returns {React.Node}
  */
-const CustomDialog = ({ children, visible, title, message, dismissText, onDismiss, loading = false }: DialogProps) => (
+const CustomDialog = ({
+  children,
+  visible,
+  title,
+  message,
+  dismissText,
+  onDismiss,
+  onCancel,
+  loading = false
+}: DialogProps) => (
   <Portal>
     <Dialog visible={visible} onDismiss={onDismiss} dismissable={true}>
       <Dialog.Title>{title}</Dialog.Title>
       <Dialog.Content>
-        {children ? children : null}
-        {message ? <Paragraph>{message}</Paragraph> : null}
+        {children && children}
+        {message && <Paragraph>{message}</Paragraph>}
       </Dialog.Content>
       <Dialog.Actions>
+        {onCancel && (
+          <CustomButton onPress={onCancel} disabled={loading} loading={loading}>
+            Cancel
+          </CustomButton>
+        )}
         <CustomButton onPress={onDismiss} disabled={loading} loading={loading}>
           {dismissText || 'Done'}
         </CustomButton>

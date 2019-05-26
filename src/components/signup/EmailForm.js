@@ -32,7 +32,7 @@ class EmailForm extends React.Component<Props, State> {
 
   handleChange = (email: string) => {
     if (this.state.errorMessage !== '') {
-      this.setState({ errorMessage: '' })
+      this.setState({ errorMessage: undefined })
     }
 
     this.setState({ email })
@@ -57,16 +57,13 @@ class EmailForm extends React.Component<Props, State> {
   }
 
   render() {
-    const { errorMessage } = this.state
+    const errorMessage = this.state.errorMessage || this.props.screenProps.error
+    this.props.screenProps.error = undefined
     this.isValid = userModelValidations.email(this.state.email) === ''
     const { key } = this.props.navigation.state
 
     return (
-      <Wrapper
-        valid={this.isValid}
-        handleSubmit={this.handleSubmit}
-        loading={this.props.store.get('currentScreen').loading}
-      >
+      <Wrapper valid={this.isValid} handleSubmit={this.handleSubmit} loading={this.props.screenProps.data.loading}>
         <Title>And which email address should we use to notify you of important activity?</Title>
         <TextInput
           id={key + '_input'}

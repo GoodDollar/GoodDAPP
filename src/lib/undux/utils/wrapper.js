@@ -4,12 +4,12 @@ function isFunction(functionToCheck) {
 
 const wrapperFunction = (origMethod, target, handler) => {
   return function(...args) {
-    handler.beforeFetching()
+    // handler.beforeFetching()
     let result = origMethod.apply(target, args)
     if (result && isFunction(result.then)) {
-      result.then(handler.afterFetching).catch(handler.errorHandler)
+      result.catch(handler.errorHandler)
     } else {
-      handler.afterFetching()
+      // handler.afterFetching()
     }
     return result
   }
@@ -17,15 +17,15 @@ const wrapperFunction = (origMethod, target, handler) => {
 
 function Handler(store, params) {
   const { onDismiss } = params || {}
-  this.beforeFetching = () =>
-    store.set('currentScreen')({
-      loading: true
-    })
+  // this.beforeFetching = () =>
+  //   store.set('currentScreen')({
+  //     loading: true
+  //   })
 
-  this.afterFetching = () =>
-    store.set('currentScreen')({
-      loading: false
-    })
+  // this.afterFetching = () =>
+  //   store.set('currentScreen')({
+  //     loading: false
+  //   })
 
   this.errorHandler = error => {
     let message = 'Unknown Error'
@@ -37,8 +37,7 @@ function Handler(store, params) {
       message = error.err
     }
     store.set('currentScreen')({
-      dialogData: { visible: true, title: 'Error', message, dismissText: 'OK', onDismiss },
-      loading: false
+      dialogData: { visible: true, title: 'Error', message, dismissText: 'OK', onDismiss }
     })
   }
 }

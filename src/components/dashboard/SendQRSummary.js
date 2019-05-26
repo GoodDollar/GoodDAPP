@@ -65,7 +65,6 @@ const SendQRSummary = (props: AmountProps) => {
           return hash
         }
       })
-      setLoading(false)
       log.debug({ receipt, screenProps })
       store.set('currentScreen')({
         dialogData: {
@@ -78,6 +77,8 @@ const SendQRSummary = (props: AmountProps) => {
       })
     } catch (e) {
       log.error(e)
+    } finally {
+      setLoading(false)
     }
   }
 

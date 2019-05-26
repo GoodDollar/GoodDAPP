@@ -19,7 +19,6 @@ import userStorage from '../../lib/gundb/UserStorage'
 import type { SMSRecord } from './SmsForm'
 import GDStore from '../../lib/undux/GDStore'
 import { getUserModel, type UserModel } from '../../lib/gundb/UserModel'
-
 const log = logger.child({ from: 'SignupState' })
 
 export type SignupState = UserModel & SMSRecord
@@ -47,8 +46,11 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   }
 
   const [state, setState] = useState(initialState)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(undefined)
+
   const store = GDStore.useStore()
-  const { loading } = store.get('currentScreen')
+  // const { loading } = store.get('currentScreen')
 
   function saveProfile() {
     return userStorage.setProfile({ ...state, walletAddress: goodWallet.account })
@@ -56,12 +58,17 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
 
   const navigateWithFocus = (routeKey: string) => {
     navigation.navigate(routeKey)
+    // store.set('currentScreen')({ loading: false })
+    setLoading(false)
     setTimeout(() => {
       const el = document.getElementById(routeKey + '_input')
       if (el) el.focus()
     }, 300)
   }
   const done = async (data: { [string]: string }) => {
+    // store.set('currentScreen')({ loading: true })
+    setLoading(true)
+    setError()
     log.info('signup data:', { data })
     let nextRoute = navigation.state.routes[navigation.state.index + 1]
     const newState = { ...state, ...data }
@@ -69,18 +76,25 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
 
     if (nextRoute && nextRoute.key === 'SMS') {
       try {
-        await API.sendOTP(newState)
-        navigateWithFocus(nextRoute.key)
+        let { data } = await API.sendOTP(newState)
+        if (data.ok === 0) {
+          setLoading(false)
+          return setError(data.error)
+        }
+        return navigateWithFocus(nextRoute.key)
       } catch (e) {
         log.error(e)
       }
     } else if (nextRoute && nextRoute.key === 'EmailConfirmation') {
       try {
-        const verificationResponse = await API.sendVerificationEmail(newState)
-
-        if (verificationResponse.data.onlyInEnv) {
+        const { data } = await API.sendVerificationEmail(newState)
+        if (data.ok === 0) {
+          setLoading(false)
+          return setError(data.error)
+        }
+        if (data.onlyInEnv) {
           // Server is using onlyInEnv middleware (probably dev mode), email verification is not sent.
-          log.debug({ ...verificationResponse.data })
+          log.debug({ ...data })
 
           // Skip EmailConfirmation screen
           nextRoute = navigation.state.routes[navigation.state.index + 2]
@@ -92,13 +106,13 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
           await userStorage.setProfile({ ...newState, walletAddress: goodWallet.account })
         }
 
-        navigateWithFocus(nextRoute.key)
+        return navigateWithFocus(nextRoute.key)
       } catch (e) {
         log.error(e)
       }
     } else {
       if (nextRoute) {
-        navigateWithFocus(nextRoute.key)
+        return navigateWithFocus(nextRoute.key)
       } else {
         log.info('Sending new user data', state)
         try {
@@ -123,6 +137,8 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
           userStorage.setProfileField('registered', true, 'public')
           navigation.navigate('AppNavigation')
           store.set('isLoggedIn')(true)
+          // store.set('currentScreen')({ loading: false })
+          setLoading(false)
         } catch (error) {
           log.error('New user failure', { error })
         }
@@ -132,7 +148,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
 
   const back = () => {
     const nextRoute = navigation.state.routes[navigation.state.index - 1]
-
+    setError()
     if (nextRoute) {
       navigateWithFocus(nextRoute.key)
     } else {
@@ -147,7 +163,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
         <View style={styles.contentContainer}>
           <SignupWizardNavigator
             navigation={navigation}
-            screenProps={{ ...screenProps, data: { ...state, loading }, doneCallback: done, back: back }}
+            screenProps={{ ...screenProps, error, data: { ...state, loading }, doneCallback: done, back: back }}
           />
         </View>
       </ScrollView>

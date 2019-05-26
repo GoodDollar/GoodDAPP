@@ -1,5 +1,5 @@
 // @flow
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { View, StyleSheet, ScrollView, AsyncStorage } from 'react-native'
 import NameForm from './NameForm'
 import EmailForm from './EmailForm'
@@ -32,6 +32,7 @@ const SignupWizardNavigator = createSwitchNavigator({
   SignupCompleted
 })
 
+declare var amplitude
 const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any }) => {
   const API = useWrappedApi()
   const initialState: SignupState = {
@@ -65,10 +66,22 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       if (el) el.focus()
     }, 300)
   }
+  const fireSignupEvent = (event?: string) => {
+    const Amplitude = amplitude.getInstance()
+    let curRoute = navigation.state.routes[navigation.state.index]
+    let res = Amplitude.logEvent(`SIGNUP_${event || curRoute.key}`)
+    if (!res) log.warn('Amplitude event not sent')
+    console.log('fired event', `SIGNUP_${event || curRoute.key}`)
+  }
+
+  useEffect(() => {
+    fireSignupEvent('STARTED')
+  }, [])
   const done = async (data: { [string]: string }) => {
     // store.set('currentScreen')({ loading: true })
     setLoading(true)
     setError()
+    fireSignupEvent()
     log.info('signup data:', { data })
     let nextRoute = navigation.state.routes[navigation.state.index + 1]
     const newState = { ...state, ...data }

@@ -133,6 +133,10 @@ export class GoodWallet {
     )
   }
 
+  /**
+   * @return an existing (non-pending) transaction receipt information + human readable logs of the transaction
+   * @param transactionHash The TX hash to return the data for
+   */
   async getReceiptWithLogs(transactionHash: string) {
     const transactionReceipt = await this.wallet.eth.getTransactionReceipt(transactionHash)
     if (!transactionReceipt) return null
@@ -218,8 +222,10 @@ export class GoodWallet {
   }
 
   /**
-   *
-   * returns {object} id+eventName so consumer can unsubscribe
+   * Sets an id and place a callback function for this id, for the sent event
+   * @dev event can have multiple subscribers, each one recieves it's own id
+   * @return {object} subscriber id and eventName
+   * @dev so consumer can unsubscribe using id and event name
    */
   subscribeToEvent(eventName: string, cb: Function) {
     // Get last id from subscribersList
@@ -227,22 +233,23 @@ export class GoodWallet {
       this.subscribers[eventName] = {}
     }
     const subscribers = this.subscribers[eventName]
-    const id = Math.max(...Object.keys(subscribers).map(parseInt), 0) + 1
+    const id = Math.max(...Object.keys(subscribers).map(parseInt), 0) + 1 // Give next id in a raw to current subscriber
     this.subscribers[eventName][id] = cb
     return { id, eventName }
   }
 
   /**
-   * removes subscriber from subscriber list
+   * removes subscriber from subscriber list with the specified id and event name
    * @param {event} event
    */
-  unSubscribeToTx({ eventName, id }: { eventName: string, id: number }) {
+  unsubscribeFromEvent({ eventName, id }: { eventName: string, id: number }) {
     delete this.subscribers[eventName][id]
   }
 
   /**
    * Gets all subscribers as array for given eventName
    * @param {string} eventName
+   * @return a json object containing all subscribers for the specified event name
    */
   getSubscribers(eventName: string): Function {
     return values(this.subscribers[eventName] || {})
@@ -265,7 +272,7 @@ export class GoodWallet {
   }
 
   /**
-   * Client side event filter. Requests all events for a particular contract, then filters them and returns the event Object
+   * Client side event filter. Requests all events matching to the specified event, of a specified contract, then filters them and returns the event Object
    * @param {String} event - Event to subscribe to
    * @param {Object} contract - Contract from which event will be queried
    * @param {Object} filterPred - Event's filter. Does not required to be indexed as it's filtered locally
@@ -537,9 +544,9 @@ export class GoodWallet {
     }
 
     log.info({ amount, to })
-    const transferCall = this.tokenContract.methods.transfer(to, amount.toString())
+    const transferCall = this.tokenContract.methods.transfer(to, amount.toString()) // retusn TX object (not sent to the blockchain yet)
 
-    return await this.sendTransaction(transferCall, events)
+    return await this.sendTransaction(transferCall, events) // Send TX to the blockchain
   }
 
   /**

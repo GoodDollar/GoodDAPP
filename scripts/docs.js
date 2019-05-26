@@ -120,8 +120,8 @@ async function generateToc(docs) {
 
 async function insertSourceLink(mdFile, srcFile) {
   const link = BASE_SRC_URL + srcFile
-  console.log('insert line', { link, mdFile })
-  // return await execPromise(`echo "## Source\n[${link}](${link})\n" >> ${mdFile}`)
+  // console.log('insert line', { link, mdFile })
+  return await execPromise(`echo "## Source\n[${link}](${link})\n" >> ${mdFile}`)
 }
 
 async function generateDocs(baseFolder, deep, perFile = true) {

@@ -55,36 +55,40 @@ The available token actions are:
 
 * Claim - Claims for GoodDollar UBI. Handled in `Claim()` method
 * Check Entitlement - returns the amount the user can claim
-* BalanceOf - returns the current wallet balance
+* BalanceOf - returns the current balance of the account
 * Balance Changed - Listen to balance changes for the current account _\(Note that conceptually, this is a Token action concern.\)_
-* getAccountForType - accounts, generated from the same seed, are used as identifiers for different modules in GoodDollar application \(i.e. GoodDollar, GunDB records, Face Recognition enrollment to zoom, login, donation\). This method returns the relevant account to use per module.
-* sign
-* canSend
-* sendAmount
-* sendTransaction
+* getAccountForType - accounts, generated from the same seed, are used as identifiers and used for TX of different modules in GoodDollar application \(i.e. GoodDollar, GunDB records, Face Recognition enrollment to zoom, login, donation\). This method returns the relevant account to use per module.
+* sign - sign transactions \(by the relevant account\)
+* canSend - verifies the user has sufficient amount of money to be sent
+* sendAmount - sends the specifies amount of money to the specified address \(if address is valid and amount can be sent\). Note Fees are calculated for this action.
+* sendTransaction - A basic wrapper function that receives a TX object and optional callbacks to perform when TX completed. It sends the TX to the blockchain and attach the callbacks to the relevant event triggers.
 
 ### Manage Identity
 
-* isVerified
-* isCitizen
-* deleteAccount
+* isVerified - returns is the sent address is a verified address in the Identity contract
+* isCitizen - returns if the current wallet holder is the 
+* deleteAccount - deletes all user information from GoodDollar contracts, inc. Account address and DID's
 
 ### Communicate with Blockchain events
 
-* subscribeToEvent
-* listenTxUpdates
-* unSubscribeToTx
-* getReceiptWithLogs
-* sendReceiptWithLogsToSubscribers
-* getSubscribers
-* getBlockNumber
-* getEvents
-* pollForEvents
-* getGasPrice
+The main purpose of this sub-module is to be able to track events related to thi
+
+* subscribeToEvent - Sets an id and place a callback function for this id, for the sent event \(event can have multiple subscribers, each one receives it's own id\). Returns the subscriber generated id and eventName, so the consumer can unsubscribe using id and event name
+* unsubscribeFromEvent - receives id and event name, deletes the saved callback in the subscribers list under the specified subscriber id and event name
+* getSubscribers - returns a json object containing all subscribers for the specified event name
+* getBlockNumber - Retrieves current Block Number and returns it as converted to a BN instance
+* getEvents - Client side event filter. Requests all events for the specified contract, then filters them and returns the event Object
+* oneTimeEvents - _might be refactored_ filters events based on specified predicate, then runs callback on them and return them
+* pollForEvents - periodically polling for events like the specified event \(filters by the specified event\) up to the current blockchain block, and perform callback on them
+* getReceiptWithLogs - Returns an existing \(non-pending\) transaction receipt information + human readable logs of the transaction
+* sendReceiptWithLogsToSubscribers - Receives events names \(as an array\). For each event, iterate through the subscriptions for this event, using this.getSubscribers, and fire the callback that is registered for this event in the subscriber, on this event.
+* listenTxUpdates - Initialize 2 main listeners: 1. For Transfer funds _from_ the account 2. For Transfer funds _to_ the account. In both cases, events are polled from the latest block that was not polled before \(starting from 0 and advancing\). Once these events were filtered \(found\) by the client:
+* Their receipts + logs are being loaded from the Blockchain. The receipts + Logs object of each event are sent to the event subscriber. Subscribers to "transferFrom" are subscribing to _receiptUpdated_ flag, and to "transferTo" are subscribing to _receiptReceived_ flag.
+* Subscribers to send / recieve \(accordingly\) and balanceChanged flags are invoked also.
+* getGasPrice - returns blockchain gas price
 
 ### Manage payment links
 
-* oneTimeEvents
 * generateLink
 * getWithdrawLink
 * isWithdrawLinkUsed

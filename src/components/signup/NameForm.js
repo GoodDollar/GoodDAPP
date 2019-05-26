@@ -27,7 +27,7 @@ export type NameRecord = {
 class NameForm extends React.Component<Props, State> {
   state = {
     errorMessage: '',
-    fullName: ''
+    fullName: this.props.screenProps.data.fullName || ''
   }
   isValid = false
 

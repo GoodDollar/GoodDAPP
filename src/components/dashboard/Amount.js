@@ -19,7 +19,7 @@ const log = logger.child({ from: RECEIVE_TITLE })
 const Amount = (props: AmountProps) => {
   const { screenProps } = props
   const [screenState, setScreenState] = useScreenState(screenProps)
-  const { to, params, amount } = screenState || {}
+  const { to, params, amount } = { amount: 0, ...screenState } || {}
   const [showDialogWithData] = useDialog()
 
   const canContinue = async () => {
@@ -56,7 +56,7 @@ const Amount = (props: AmountProps) => {
               nextRoutes={screenState.nextRoutes}
               canContinue={canContinue}
               values={{ amount, to }}
-              disabled={!amount}
+              disabled={amount <= 0}
               {...props}
             />
           </View>

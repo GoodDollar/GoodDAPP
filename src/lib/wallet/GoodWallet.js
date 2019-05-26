@@ -13,6 +13,7 @@ import logger from '../../lib/logger/pino-logger'
 import { generateShareLink } from '../share'
 import WalletFactory from './WalletFactory'
 import abiDecoder from 'abi-decoder'
+import values from 'lodash/values'
 
 const log = logger.child({ from: 'GoodWallet' })
 
@@ -200,6 +201,9 @@ export class GoodWallet {
     return this.ready
   }
 
+  async deleteAccount(): Promise<> {
+    return this.sendTransaction(this.identityContract.methods.renounceWhitelisted())
+  }
   async claim(): Promise<TransactionReceipt> {
     try {
       return this.sendTransaction(this.claimContract.methods.claimTokens())
@@ -241,7 +245,7 @@ export class GoodWallet {
    * @param {string} eventName
    */
   getSubscribers(eventName: string): Function {
-    return Object.values(this.subscribers[eventName] || {})
+    return values(this.subscribers[eventName] || {})
   }
   /**
    * Listen to balance changes for the current account
@@ -377,7 +381,7 @@ export class GoodWallet {
   async sign(toSign: string, accountType: AccountUsage = 'gd'): Promise<string> {
     let account = this.getAccountForType(accountType)
     let signed = await this.wallet.eth.sign(toSign, account)
-    return signed
+    return signed.signature
   }
 
   async isVerified(address: string): Promise<boolean> {
@@ -408,10 +412,11 @@ export class GoodWallet {
     const encodedABI = await deposit.encodeABI()
 
     const transferAndCall = this.tokenContract.methods.transferAndCall(otpAddress, amount, encodedABI)
+    //Fixed gas amount so it can work locally with ganache
+    //https://github.com/trufflesuite/ganache-core/issues/417
+    const gas: number = 200000 //Math.floor((await transferAndCall.estimateGas().catch(this.handleError)) * 2)
 
-    const gas: number = Math.floor((await transferAndCall.estimateGas().catch(this.handleError)) * 2)
-
-    log.info({ amount })
+    log.debug('generateLiknk:', { amount })
 
     const sendLink = generateShareLink('send', {
       receiveLink: generatedString,
@@ -552,21 +557,29 @@ export class GoodWallet {
    */
   async sendTransaction(
     tx: any,
-    { onTransactionHash, onReceipt, onConfirmation, onError }: PromiEvents = defaultPromiEvents,
+    txCallbacks: PromiEvents = defaultPromiEvents,
     { gas, gasPrice }: GasValues = { gas: undefined, gasPrice: undefined }
   ) {
+    const { onTransactionHash, onReceipt, onConfirmation, onError } = { ...defaultPromiEvents, ...txCallbacks }
     gas = gas || (await tx.estimateGas().catch(this.handleError))
     gasPrice = gasPrice || this.gasPrice
 
     log.debug({ gas, gasPrice })
 
     return (
-      tx
-        .send({ gas, gasPrice })
-        .on('transactionHash', onTransactionHash)
-        .on('receipt', onReceipt)
-        .on('confirmation', onConfirmation)
-        .on('error', onError)
+      new Promise((res, rej) => {
+        tx.send({ gas, gasPrice, chainId: Config.networkId })
+          .on('transactionHash', onTransactionHash)
+          .on('receipt', r => {
+            onReceipt && onReceipt(r)
+            res(r)
+          })
+          .on('confirmation', onConfirmation)
+          .on('error', e => {
+            onError && onError(e)
+            rej(e)
+          })
+      })
         /** receipt handling happens already in polling events */
         // .then(async receipt => {
         //   const transactionReceipt = await this.getReceiptWithLogs(receipt.transactionHash)

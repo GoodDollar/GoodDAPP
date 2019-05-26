@@ -56,7 +56,7 @@ const ReceiveByQR = ({ screenProps }) => {
   }, [withdrawParams])
 
   return (
-    <>
+    <React.Fragment>
       <Wrapper>
         <TopBar hideBalance={true} push={screenProps.push} />
         <Section style={styles.bottomSection}>
@@ -65,7 +65,7 @@ const ReceiveByQR = ({ screenProps }) => {
           </Section.Row>
         </Section>
       </Wrapper>
-    </>
+    </React.Fragment>
   )
 }
 

@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect } from 'react'
 import { View, StyleSheet, TextInput, Text } from 'react-native'
 import logger from '../../lib/logger/pino-logger'
 import { normalize } from 'react-native-elements'
-
+import values from 'lodash/values'
 const log = logger.child({ from: 'MnemonicInput' })
 const MAX_WORDS = 12
 
@@ -41,7 +41,7 @@ const MnemonicInput = (props: Props) => {
 
   const handleChange = () => {
     // Each time the state is updated we check if there is a valid mnemonic and execute onChange callback
-    const wordsArray = Object.values(state)
+    const wordsArray = values(state)
     if (wordsArray.length === MAX_WORDS && wordsArray.every(isValidWord)) {
       props.onChange(wordsArray)
     } else {

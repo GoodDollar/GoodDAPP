@@ -2,7 +2,7 @@
 import React from 'react'
 import PhoneInput from 'react-phone-number-input'
 import './PhoneForm.css'
-
+import GDStore from '../../lib/undux/GDStore'
 import { Description, Title, Wrapper } from './components'
 import { userModelValidations } from '../../lib/gundb/UserModel'
 
@@ -20,7 +20,7 @@ export type MobileRecord = {
 
 type State = MobileRecord
 
-export default class PhoneForm extends React.Component<Props, State> {
+class PhoneForm extends React.Component<Props, State> {
   state = {
     mobile: this.props.screenProps.data.mobile || '',
     errorMessage: ''
@@ -53,12 +53,14 @@ export default class PhoneForm extends React.Component<Props, State> {
   }
 
   render() {
-    const { errorMessage } = this.state
+    const errorMessage = this.state.errorMessage || this.props.screenProps.error
+    this.props.screenProps.error = undefined
+
     this.isValid = userModelValidations.mobile(this.state.mobile) === ''
     const { key } = this.props.navigation.state
-
+    const { loading } = this.props.screenProps.data
     return (
-      <Wrapper valid={this.isValid} handleSubmit={this.handleSubmit}>
+      <Wrapper valid={this.isValid} handleSubmit={this.handleSubmit} loading={loading}>
         <Title>{`${this.props.screenProps.data.fullName}, \n May we have your number please?`}</Title>
         <PhoneInput
           id={key + '_input'}
@@ -68,8 +70,10 @@ export default class PhoneForm extends React.Component<Props, State> {
           error={errorMessage}
           onKeyDown={this.handleEnter}
         />
-        <Description>A verification code will be sent to this number</Description>
+        <Description>A verification code will be sent to this number</Description>
       </Wrapper>
     )
   }
 }
+
+export default GDStore.withStore(PhoneForm)

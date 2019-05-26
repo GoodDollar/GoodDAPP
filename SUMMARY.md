@@ -22,5 +22,6 @@
   * [Face Recognition](developer-guides/face-recognition.md)
   * [Blockchain Events](developer-guides/blockchain-events.md)
   * [Building Blocks](developer-guides/building-blocks.md)
+  * [User Storage](developer-guides/untitled.md)
 * [create-react-native-web-app](readme_crnwa.md)
 

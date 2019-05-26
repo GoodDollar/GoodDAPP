@@ -49,15 +49,15 @@ As described, the wallet handles the following concerns: \(which should be [brea
 3. Communicate with Blockchain events
 4. Manage payment links
 
-### Provide Token actions
+### Token Actions
 
 The available token actions are:
 
 * Claim - Claims for GoodDollar UBI. Handled in `Claim()` method
 * Check Entitlement - returns the amount the user can claim
-* BalanceOf
+* BalanceOf - returns the current wallet balance
 * Balance Changed - Listen to balance changes for the current account _\(Note that conceptually, this is a Token action concern.\)_
-* getAccountForType
+* getAccountForType - accounts, generated from the same seed, are used as identifiers for different modules in GoodDollar application \(i.e. GoodDollar, GunDB records, Face Recognition enrollment to zoom, login, donation\). This method returns the relevant account to use per module.
 * sign
 * canSend
 * sendAmount

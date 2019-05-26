@@ -1,9 +1,13 @@
 import goodWallet from '../GoodWallet'
 
-jest.mock('web3-providers-http', () => () => {
+const httpProviderMock = jest.fn().mockImplementation(() => {
   const Config = require('../../../config/config').default
+  console.log('returning mock')
   return require('ganache-cli').provider({ network_id: Config.networkId })
 })
+
+let WEB3PROVIDERS = require('web3-providers')
+WEB3PROVIDERS.HttpProvider = httpProviderMock
 
 beforeAll(() => {
   jest.resetAllMocks()

@@ -29,6 +29,7 @@ import SendLinkSummary from './SendLinkSummary'
 import SendQRSummary from './SendQRSummary'
 import logger from '../../lib/logger/pino-logger'
 import userStorage from '../../lib/gundb/UserStorage'
+import { TermsOfUse, PrivacyPolicy } from '../webView/webViewInstances'
 
 const log = logger.child({ from: 'Dashboard' })
 
@@ -282,5 +283,7 @@ export default createStackNavigator({
   FaceRecognition,
   SendByQR,
   ReceiveByQR,
-  SendQRSummary
+  SendQRSummary,
+  PP: PrivacyPolicy,
+  TOU: TermsOfUse
 })

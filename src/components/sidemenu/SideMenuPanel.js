@@ -37,10 +37,22 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation })
       hideSidemenu()
     }
   },
-  // {
-  //   icon: 'person',
-  //   name: 'Profile Privacy'
-  // },
+  {
+    icon: 'person-pin',
+    name: 'Privacy Policy',
+    action: async () => {
+      navigation.navigate('PP')
+      hideSidemenu()
+    }
+  },
+  {
+    icon: 'announcement',
+    name: 'Terms of Use',
+    action: async () => {
+      navigation.navigate('TOU')
+      hideSidemenu()
+    }
+  },
   // {
   //   icon: 'notifications',
   //   name: 'Notification Settings'

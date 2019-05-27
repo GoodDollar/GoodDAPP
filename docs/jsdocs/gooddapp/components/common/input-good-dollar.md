@@ -22,5 +22,5 @@ Returns **React.Node**
 
 [3]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number
 ## Source
-[https://github.com/GoodDollar/GoodDAPPsrc/components/common/InputGoodDollar.js](https://github.com/GoodDollar/GoodDAPPsrc/components/common/InputGoodDollar.js)
+[https://github.com/GoodDollar/GoodDAPP/src/components/common/InputGoodDollar.js](https://github.com/GoodDollar/GoodDAPP/src/components/common/InputGoodDollar.js)
 

@@ -36,5 +36,5 @@ Returns **React.Node**
 
 [6]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
 ## Source
-[https://github.com/GoodDollar/GoodDAPPsrc/components/common/CustomButton.js](https://github.com/GoodDollar/GoodDAPPsrc/components/common/CustomButton.js)
+[https://github.com/GoodDollar/GoodDAPP/src/components/common/CustomButton.js](https://github.com/GoodDollar/GoodDAPP/src/components/common/CustomButton.js)
 

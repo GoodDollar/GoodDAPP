@@ -23,5 +23,5 @@ Returns **[HTMLElement][3]**
 
 [3]: https://developer.mozilla.org/docs/Web/HTML/Element
 ## Source
-[https://github.com/GoodDollar/GoodDAPPsrc/components/dashboard/FeedItems/ModalSendEvent.js](https://github.com/GoodDollar/GoodDAPPsrc/components/dashboard/FeedItems/ModalSendEvent.js)
+[https://github.com/GoodDollar/GoodDAPP/src/components/dashboard/FeedItems/ModalSendEvent.js](https://github.com/GoodDollar/GoodDAPP/src/components/dashboard/FeedItems/ModalSendEvent.js)
 

@@ -19,5 +19,5 @@ Event listener for orientation changes
 
 [3]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function
 ## Source
-[https://github.com/GoodDollar/GoodDAPPsrc/lib/utils/Orientation.js](https://github.com/GoodDollar/GoodDAPPsrc/lib/utils/Orientation.js)
+[https://github.com/GoodDollar/GoodDAPP/src/lib/utils/Orientation.js](https://github.com/GoodDollar/GoodDAPP/src/lib/utils/Orientation.js)
 

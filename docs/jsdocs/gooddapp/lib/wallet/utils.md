@@ -34,5 +34,5 @@ Returns **[number][4]**
 
 [4]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number
 ## Source
-[https://github.com/GoodDollar/GoodDAPPsrc/lib/wallet/utils.js](https://github.com/GoodDollar/GoodDAPPsrc/lib/wallet/utils.js)
+[https://github.com/GoodDollar/GoodDAPP/src/lib/wallet/utils.js](https://github.com/GoodDollar/GoodDAPP/src/lib/wallet/utils.js)
 

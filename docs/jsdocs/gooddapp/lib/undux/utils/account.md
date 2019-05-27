@@ -59,5 +59,5 @@ Starts listening to Transfer events to (and from) the current account
 
 [7]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise
 ## Source
-[https://github.com/GoodDollar/GoodDAPPsrc/lib/undux/utils/account.js](https://github.com/GoodDollar/GoodDAPPsrc/lib/undux/utils/account.js)
+[https://github.com/GoodDollar/GoodDAPP/src/lib/undux/utils/account.js](https://github.com/GoodDollar/GoodDAPP/src/lib/undux/utils/account.js)
 

@@ -52,5 +52,5 @@ default exported instance of our global Undux Store
 
 [9]: #state
 ## Source
-[https://github.com/GoodDollar/GoodDAPPsrc/lib/undux/GDStore.js](https://github.com/GoodDollar/GoodDAPPsrc/lib/undux/GDStore.js)
+[https://github.com/GoodDollar/GoodDAPP/src/lib/undux/GDStore.js](https://github.com/GoodDollar/GoodDAPP/src/lib/undux/GDStore.js)
 

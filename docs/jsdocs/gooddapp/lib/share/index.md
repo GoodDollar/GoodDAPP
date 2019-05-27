@@ -129,5 +129,5 @@ Returns **[string][15]** URL to use to share/receive GDs
 
 [18]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array
 ## Source
-[https://github.com/GoodDollar/GoodDAPPsrc/lib/share/index.js](https://github.com/GoodDollar/GoodDAPPsrc/lib/share/index.js)
+[https://github.com/GoodDollar/GoodDAPP/src/lib/share/index.js](https://github.com/GoodDollar/GoodDAPP/src/lib/share/index.js)
 

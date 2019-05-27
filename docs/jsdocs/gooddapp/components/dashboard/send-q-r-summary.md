@@ -17,5 +17,5 @@ continue after valid FR to send the G$
 
 [2]: #useeffect-1
 ## Source
-[https://github.com/GoodDollar/GoodDAPPsrc/components/dashboard/SendQRSummary.js](https://github.com/GoodDollar/GoodDAPPsrc/components/dashboard/SendQRSummary.js)
+[https://github.com/GoodDollar/GoodDAPP/src/components/dashboard/SendQRSummary.js](https://github.com/GoodDollar/GoodDAPP/src/components/dashboard/SendQRSummary.js)
 

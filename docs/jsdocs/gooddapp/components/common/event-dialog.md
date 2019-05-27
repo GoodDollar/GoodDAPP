@@ -29,5 +29,5 @@ Returns **React.Node**
 
 [5]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
 ## Source
-[https://github.com/GoodDollar/GoodDAPPsrc/components/common/EventDialog.js](https://github.com/GoodDollar/GoodDAPPsrc/components/common/EventDialog.js)
+[https://github.com/GoodDollar/GoodDAPP/src/components/common/EventDialog.js](https://github.com/GoodDollar/GoodDAPP/src/components/common/EventDialog.js)
 

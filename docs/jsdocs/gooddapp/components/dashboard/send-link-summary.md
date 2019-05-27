@@ -12,5 +12,5 @@ Generates link to send and call send email/sms action
 
 [1]: #generatelinkandsend
 ## Source
-[https://github.com/GoodDollar/GoodDAPPsrc/components/dashboard/SendLinkSummary.js](https://github.com/GoodDollar/GoodDAPPsrc/components/dashboard/SendLinkSummary.js)
+[https://github.com/GoodDollar/GoodDAPP/src/components/dashboard/SendLinkSummary.js](https://github.com/GoodDollar/GoodDAPP/src/components/dashboard/SendLinkSummary.js)
 

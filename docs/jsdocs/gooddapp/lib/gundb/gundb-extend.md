@@ -10,5 +10,5 @@ extend gundb SEA with decrypt to match ".secret"
 
 [1]: #gundb-extend
 ## Source
-[https://github.com/GoodDollar/GoodDAPPsrc/lib/gundb/gundb-extend.js](https://github.com/GoodDollar/GoodDAPPsrc/lib/gundb/gundb-extend.js)
+[https://github.com/GoodDollar/GoodDAPP/src/lib/gundb/gundb-extend.js](https://github.com/GoodDollar/GoodDAPP/src/lib/gundb/gundb-extend.js)
 

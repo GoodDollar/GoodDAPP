@@ -13,5 +13,5 @@ Dashboard is the initial route
 
 [1]: #appnavigation
 ## Source
-[https://github.com/GoodDollar/GoodDAPPsrc/components/appNavigation/AppNavigation.js](https://github.com/GoodDollar/GoodDAPPsrc/components/appNavigation/AppNavigation.js)
+[https://github.com/GoodDollar/GoodDAPP/src/components/appNavigation/AppNavigation.js](https://github.com/GoodDollar/GoodDAPP/src/components/appNavigation/AppNavigation.js)
 

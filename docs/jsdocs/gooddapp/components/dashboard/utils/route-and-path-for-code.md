@@ -26,5 +26,5 @@ Returns **[Promise][5]&lt;[object][4]>** {route, params}
 
 [5]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise
 ## Source
-[https://github.com/GoodDollar/GoodDAPPsrc/components/dashboard/utils/routeAndPathForCode.js](https://github.com/GoodDollar/GoodDAPPsrc/components/dashboard/utils/routeAndPathForCode.js)
+[https://github.com/GoodDollar/GoodDAPP/src/components/dashboard/utils/routeAndPathForCode.js](https://github.com/GoodDollar/GoodDAPP/src/components/dashboard/utils/routeAndPathForCode.js)
 

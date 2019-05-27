@@ -30,5 +30,5 @@ Returns **React.Node**
 
 [5]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean
 ## Source
-[https://github.com/GoodDollar/GoodDAPPsrc/components/common/IconButton.js](https://github.com/GoodDollar/GoodDAPPsrc/components/common/IconButton.js)
+[https://github.com/GoodDollar/GoodDAPP/src/components/common/IconButton.js](https://github.com/GoodDollar/GoodDAPP/src/components/common/IconButton.js)
 

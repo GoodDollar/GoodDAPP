@@ -12,5 +12,5 @@ NavigationBar shows title and back button
 
 [1]: #navbar
 ## Source
-[https://github.com/GoodDollar/GoodDAPPsrc/components/appNavigation/NavBar.js](https://github.com/GoodDollar/GoodDAPPsrc/components/appNavigation/NavBar.js)
+[https://github.com/GoodDollar/GoodDAPP/src/components/appNavigation/NavBar.js](https://github.com/GoodDollar/GoodDAPP/src/components/appNavigation/NavBar.js)
 

@@ -229,5 +229,5 @@ Returns **any**
 
 [27]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
 ## Source
-[https://github.com/GoodDollar/GoodDAPPsrc/components/appNavigation/stackNavigation.js](https://github.com/GoodDollar/GoodDAPPsrc/components/appNavigation/stackNavigation.js)
+[https://github.com/GoodDollar/GoodDAPP/src/components/appNavigation/stackNavigation.js](https://github.com/GoodDollar/GoodDAPP/src/components/appNavigation/stackNavigation.js)
 

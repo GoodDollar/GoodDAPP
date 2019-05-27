@@ -20,5 +20,5 @@ Returns **any** React element with actions
 
 [2]: #parameters
 ## Source
-[https://github.com/GoodDollar/GoodDAPPsrc/components/dashboard/FeedActions.js](https://github.com/GoodDollar/GoodDAPPsrc/components/dashboard/FeedActions.js)
+[https://github.com/GoodDollar/GoodDAPP/src/components/dashboard/FeedActions.js](https://github.com/GoodDollar/GoodDAPP/src/components/dashboard/FeedActions.js)
 

@@ -8,7 +8,7 @@
     -   [Parameters][4]
 -   [subscribeToEvent][5]
     -   [Parameters][6]
--   [unSubscribeToTx][7]
+-   [unsubscribeFromEvent][7]
     -   [Parameters][8]
 -   [getSubscribers][9]
     -   [Parameters][10]
@@ -53,20 +53,22 @@ Returns **([Promise][23]&lt;R> | [Promise][23]&lt;(R | any)> | [Promise][23]&lt;
 
 ## subscribeToEvent
 
-returns {object} id+eventName so consumer can unsubscribe
+Sets an id and place a callback function for this id, for the sent event
 
 ### Parameters
 
 -   `eventName` **[string][22]** 
 -   `cb` **[Function][24]** 
 
-## unSubscribeToTx
+Returns **[object][25]** subscriber id and eventName
 
-removes subscriber from subscriber list
+## unsubscribeFromEvent
+
+removes subscriber from subscriber list with the specified id and event name
 
 ### Parameters
 
--   `event` **[event][25]** 
+-   `event` **[event][26]** 
     -   `event.eventName`  
     -   `event.id`  
 
@@ -78,7 +80,7 @@ Gets all subscribers as array for given eventName
 
 -   `eventName` **[string][22]** 
 
-Returns **[Function][24]** 
+Returns **[Function][24]** a json object containing all subscribers for the specified event name
 
 ## balanceChanged
 
@@ -109,8 +111,8 @@ Client side event filter. Requests all events for a particular contract, then fi
     -   `$0.fromBlock`   (optional, default `ZERO`)
     -   `$0.toBlock`  
 -   `event` **[String][22]** Event to subscribe to
--   `contract` **[Object][26]** Contract from which event will be queried
--   `filterPred` **[Object][26]** Event's filter. Does not required to be indexed as it's filtered locally
+-   `contract` **[Object][25]** Contract from which event will be queried
+-   `filterPred` **[Object][25]** Event's filter. Does not required to be indexed as it's filtered locally
 -   `fromBlock` **BN** Lower blocks range value
 -   `toBlock` **BN** Higher blocks range value
 
@@ -130,8 +132,8 @@ Subscribes to a particular event and returns the result based on options specifi
     -   `$0.toBlock`  
 -   `callback` **[Function][24]** Function to be called once an event is received
 -   `event` **[String][22]** Event to subscribe to
--   `contract` **[Object][26]** Contract from which event will be queried
--   `filterPred` **[Object][26]** Event's filter. Does not required to be indexed as it's filtered locally
+-   `contract` **[Object][25]** Contract from which event will be queried
+-   `filterPred` **[Object][25]** Event's filter. Does not required to be indexed as it's filtered locally
 -   `fromBlock` **BN** Lower blocks range value
 -   `toBlock` **BN** Higher blocks range value
 
@@ -153,8 +155,8 @@ the 'lastProcessedBlock' to the 'latest' every INTERVAL
     -   `$0.toBlock`  
 -   `callback` **[Function][24]** Function to be called once an event is received
 -   `event` **[String][22]** Event to subscribe to
--   `contract` **[Object][26]** Contract from which event will be queried
--   `filterPred` **[Object][26]** Event's filter. Does not required to be indexed as it's filtered locally
+-   `contract` **[Object][25]** Contract from which event will be queried
+-   `filterPred` **[Object][25]** Event's filter. Does not required to be indexed as it's filtered locally
 -   `fromBlock` **BN** Lower blocks range value
 -   `toBlock` **BN** Higher blocks range value
 -   `lastProcessedBlock` **BN** Used for recursion. It's not required to be set by the user. Initial value: ZERO
@@ -169,10 +171,10 @@ Helper function to handle a tx Send call
 
 -   `tx` **any** 
 -   `txCallbacks` **PromiEvents**  (optional, default `defaultPromiEvents`)
--   `gasValues` **[object][26]**  (optional, default `{gas:undefined,gasPrice:undefined}`)
+-   `gasValues` **[object][25]**  (optional, default `{gas:undefined,gasPrice:undefined}`)
     -   `gasValues.gas` **[number][27]** 
     -   `gasValues.gasPrice` **[number][27]** 
--   `promiEvents` **[object][26]** 
+-   `promiEvents` **[object][25]** 
     -   `promiEvents.onTransactionHash` **[function][24]** 
     -   `promiEvents.onReceipt` **[function][24]** 
     -   `promiEvents.onConfirmation` **[function][24]** 
@@ -196,7 +198,7 @@ receipt handling happens already in polling events
 
 [6]: #parameters-1
 
-[7]: #unsubscribetotx
+[7]: #unsubscribefromevent
 
 [8]: #parameters-2
 
@@ -232,11 +234,11 @@ receipt handling happens already in polling events
 
 [24]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function
 
-[25]: https://developer.mozilla.org/docs/Web/API/Event
+[25]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
 
-[26]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
+[26]: https://developer.mozilla.org/docs/Web/API/Event
 
 [27]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number
 ## Source
-[https://github.com/GoodDollar/GoodDAPPsrc/lib/wallet/GoodWallet.js](https://github.com/GoodDollar/GoodDAPPsrc/lib/wallet/GoodWallet.js)
+[https://github.com/GoodDollar/GoodDAPP/src/lib/wallet/GoodWallet.js](https://github.com/GoodDollar/GoodDAPP/src/lib/wallet/GoodWallet.js)
 

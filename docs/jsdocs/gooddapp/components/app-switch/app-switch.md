@@ -30,5 +30,5 @@ Returns **[Promise][4]&lt;void>**
 
 [4]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise
 ## Source
-[https://github.com/GoodDollar/GoodDAPPsrc/components/appSwitch/AppSwitch.js](https://github.com/GoodDollar/GoodDAPPsrc/components/appSwitch/AppSwitch.js)
+[https://github.com/GoodDollar/GoodDAPP/src/components/appSwitch/AppSwitch.js](https://github.com/GoodDollar/GoodDAPP/src/components/appSwitch/AppSwitch.js)
 

@@ -580,5 +580,5 @@ Returns **[string][65]** Value without '+' (plus), '-' (minus), '\_' (underscore
 
 [74]: #feedevent
 ## Source
-[https://github.com/GoodDollar/GoodDAPPsrc/lib/gundb/UserStorage.js](https://github.com/GoodDollar/GoodDAPPsrc/lib/gundb/UserStorage.js)
+[https://github.com/GoodDollar/GoodDAPP/src/lib/gundb/UserStorage.js](https://github.com/GoodDollar/GoodDAPP/src/lib/gundb/UserStorage.js)
 

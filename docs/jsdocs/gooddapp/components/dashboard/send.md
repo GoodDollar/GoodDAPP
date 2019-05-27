@@ -21,5 +21,5 @@ It also passes to param as initial state for Amount component
 
 [2]: #parameters
 ## Source
-[https://github.com/GoodDollar/GoodDAPPsrc/components/dashboard/Send.js](https://github.com/GoodDollar/GoodDAPPsrc/components/dashboard/Send.js)
+[https://github.com/GoodDollar/GoodDAPP/src/components/dashboard/Send.js](https://github.com/GoodDollar/GoodDAPP/src/components/dashboard/Send.js)
 

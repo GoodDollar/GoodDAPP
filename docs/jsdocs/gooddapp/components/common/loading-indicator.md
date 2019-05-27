@@ -40,5 +40,5 @@ Returns **React.Node**
 
 [6]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
 ## Source
-[https://github.com/GoodDollar/GoodDAPPsrc/components/common/LoadingIndicator.js](https://github.com/GoodDollar/GoodDAPPsrc/components/common/LoadingIndicator.js)
+[https://github.com/GoodDollar/GoodDAPP/src/components/common/LoadingIndicator.js](https://github.com/GoodDollar/GoodDAPP/src/components/common/LoadingIndicator.js)
 

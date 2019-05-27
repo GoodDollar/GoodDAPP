@@ -28,5 +28,5 @@ Returns **React.Node**
 
 [5]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function
 ## Source
-[https://github.com/GoodDollar/GoodDAPPsrc/components/common/TopBar.js](https://github.com/GoodDollar/GoodDAPPsrc/components/common/TopBar.js)
+[https://github.com/GoodDollar/GoodDAPP/src/components/common/TopBar.js](https://github.com/GoodDollar/GoodDAPP/src/components/common/TopBar.js)
 

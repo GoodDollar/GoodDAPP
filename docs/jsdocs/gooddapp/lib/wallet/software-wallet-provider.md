@@ -32,5 +32,5 @@ Returns **[Promise][5]&lt;[string][4]>**
 
 [5]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise
 ## Source
-[https://github.com/GoodDollar/GoodDAPPsrc/lib/wallet/SoftwareWalletProvider.js](https://github.com/GoodDollar/GoodDAPPsrc/lib/wallet/SoftwareWalletProvider.js)
+[https://github.com/GoodDollar/GoodDAPP/src/lib/wallet/SoftwareWalletProvider.js](https://github.com/GoodDollar/GoodDAPP/src/lib/wallet/SoftwareWalletProvider.js)
 

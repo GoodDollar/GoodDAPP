@@ -50,5 +50,5 @@ Returns **UserModel** User model with some available methods
 
 [6]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
 ## Source
-[https://github.com/GoodDollar/GoodDAPPsrc/lib/gundb/UserModel.js](https://github.com/GoodDollar/GoodDAPPsrc/lib/gundb/UserModel.js)
+[https://github.com/GoodDollar/GoodDAPP/src/lib/gundb/UserModel.js](https://github.com/GoodDollar/GoodDAPP/src/lib/gundb/UserModel.js)
 

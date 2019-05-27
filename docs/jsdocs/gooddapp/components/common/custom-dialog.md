@@ -33,5 +33,5 @@ Returns **React.Node**
 
 [5]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function
 ## Source
-[https://github.com/GoodDollar/GoodDAPPsrc/components/common/CustomDialog.js](https://github.com/GoodDollar/GoodDAPPsrc/components/common/CustomDialog.js)
+[https://github.com/GoodDollar/GoodDAPP/src/components/common/CustomDialog.js](https://github.com/GoodDollar/GoodDAPP/src/components/common/CustomDialog.js)
 

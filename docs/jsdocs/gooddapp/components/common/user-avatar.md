@@ -32,5 +32,5 @@ Returns **React.Node**
 
 [6]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number
 ## Source
-[https://github.com/GoodDollar/GoodDAPPsrc/components/common/UserAvatar.js](https://github.com/GoodDollar/GoodDAPPsrc/components/common/UserAvatar.js)
+[https://github.com/GoodDollar/GoodDAPP/src/components/common/UserAvatar.js](https://github.com/GoodDollar/GoodDAPP/src/components/common/UserAvatar.js)
 

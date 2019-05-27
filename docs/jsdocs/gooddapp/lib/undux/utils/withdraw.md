@@ -25,5 +25,5 @@ Returns **[Promise][4]** Returns the receipt of the transaction
 
 [4]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise
 ## Source
-[https://github.com/GoodDollar/GoodDAPPsrc/lib/undux/utils/withdraw.js](https://github.com/GoodDollar/GoodDAPPsrc/lib/undux/utils/withdraw.js)
+[https://github.com/GoodDollar/GoodDAPP/src/lib/undux/utils/withdraw.js](https://github.com/GoodDollar/GoodDAPP/src/lib/undux/utils/withdraw.js)
 

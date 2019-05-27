@@ -95,7 +95,7 @@ const SendLinkSummary = (props: AmountProps) => {
         <Section.Row style={styles.sectionRow}>
           <Section.Title style={styles.headline}>SUMMARY</Section.Title>
           <View style={styles.sectionTo}>
-            <Avatar size={110} style={styles.avatarBorder} />
+            <Avatar size={110} />
             {to && <Section.Text style={styles.toText}>{`To: ${to}`}</Section.Text>}
           </View>
           <Section.Text style={styles.reason}>
@@ -135,10 +135,6 @@ const styles = {
   },
   reason: {
     fontSize: normalize(16)
-  },
-  avatarBorder: {
-    borderWidth: normalize(1),
-    borderColor: '#707070'
   }
 }
 

@@ -7,11 +7,11 @@ import Section from './Section'
 
 /**
  * TopBar - used To display contextual information in a small container
- * @param {boolean} hideBalance - if falsy balance will be displayed
- * @param {function} push - pushes a route to the nav stack. When called, apps navigates to the specified ruote
- * @param {object} children - React Component
- * @returns {*}
- * @constructor
+ * @param {object} props - an object with props
+ * @param {boolean} props.hideBalance - if falsy balance will be displayed
+ * @param {function} props.push - pushes a route to the nav stack. When called, apps navigates to the specified ruote
+ * @param {React.Node} props.children
+ * @returns {React.Node}
  */
 const TopBar = ({ hideBalance, push, children }) => {
   const store = GDStore.useStore()

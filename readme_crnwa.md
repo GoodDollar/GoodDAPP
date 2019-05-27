@@ -151,8 +151,8 @@ Issues with Xcode 10 \(newest version\) - [https://github.com/facebook/react-nat
 
 If you got `Execution failed for task ':app:compileDebugAidl'` when running `yarn android`, try to update Android Gradle plugin to version 3.1.1 and Gradle to version 4.4.
 
-Here is how to do that: 1. Open **Android Studio** 1. Open the `android` project   
-![](https://cdn-images-1.medium.com/max/800/1*jyLo3Jk-nudieT3aaEzUBQ.png) 1. Click `Update` on this prompt   
+Here is how to do that: 1. Open **Android Studio** 1. Open the `android` project  
+![](https://cdn-images-1.medium.com/max/800/1*jyLo3Jk-nudieT3aaEzUBQ.png) 1. Click `Update` on this prompt  
 ![](https://cdn-images-1.medium.com/max/800/1*7I2tqGZ9C63aUGOtae-XHg.png) 1. Wait for Android Studio syncing the project.
 
 If you got `FAILURE: Build failed with an exception.`, examine the warnings:

@@ -59,7 +59,7 @@ export const userModelValidations = {
  * @param {UserRecord} record - User record
  * @returns {UserModel} User model with some available methods
  */
-export function getUserModel(record: UserRecord): UserModel {
+export const getUserModel = (record: UserRecord): UserModel => {
   const _isValid = errors => Object.keys(errors).every(key => errors[key] === '')
 
   return {

@@ -50,6 +50,10 @@ type LoadingIndicator = {
   loading: boolean
 }
 
+/**
+ * Type definition for the global store
+ * @type
+ */
 export type State = {
   balanceUpdate: BalanceUpdate,
   name: Name,
@@ -61,6 +65,10 @@ export type State = {
   loadingIndicator: LoadingIndicator
 }
 
+/**
+ * Initial store state
+ * @constant
+ */
 const initialState: State = {
   balanceUpdate: {
     running: false
@@ -94,7 +102,11 @@ const initialState: State = {
   }
 }
 
-export default createConnectedStore(
+/**
+ * default exported instance of our global Undux Store
+ * @module
+ */
+const GDStore: UnduxStore = createConnectedStore(
   initialState,
   compose(
     effects,
@@ -102,3 +114,5 @@ export default createConnectedStore(
     withReduxDevtools
   )
 )
+
+export default GDStore

@@ -52,7 +52,7 @@ class Auth extends React.Component<Props> {
         <View style={styles.topContainer}>
           <Title style={styles.title}>Just a heads up!</Title>
           <Description style={styles.paragraph}>
-            {`All tokens in the Alpha are "test tokens".\nThey have no real value yet and will be reset for future public release.`}
+            {`All tokens in the Alpha are "test tokens".\nThey have NO real value.\nThey will be deleted at the end of the Alpha.`}
           </Description>
         </View>
         <View style={styles.bottomContainer}>

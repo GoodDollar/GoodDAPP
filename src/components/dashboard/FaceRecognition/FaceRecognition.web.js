@@ -20,6 +20,8 @@ import type { DashboardProps } from '../Dashboard'
 
 const log = logger.child({ from: 'FaceRecognition' })
 
+declare var ZoomSDK: any
+
 type FaceRecognitionProps = DashboardProps & {
   screenProps: any,
   store: Store
@@ -75,6 +77,17 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     this.setState({ showZoomCapture: true, showPreText: false })
   }
 
+  componentWillUnmount() {
+    log.debug('Unloading ZoomSDK', ZoomSDK)
+    this.videoTrack && this.videoTrack.stop()
+    ZoomSDK &&
+      ZoomSDK.unload(() => {
+        window.ZoomSDK = null
+        exports.ZoomSDK = null
+        ZoomSDK = null
+        log.debug('ZoomSDK unloaded')
+      })
+  }
   loadZoomSDK = async (): Promise<void> => {
     global.exports = {} // required by zoomSDK
     const server = Config.publicUrl
@@ -85,6 +98,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
   }
 
   onCameraLoad = async (track: MediaStreamTrack) => {
+    this.videoTrack = track
     let captureOutcome: ZoomCaptureResult
     try {
       captureOutcome = await capture(track) // TODO: handle capture errors.

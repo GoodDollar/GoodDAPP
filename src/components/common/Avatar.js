@@ -10,6 +10,15 @@ export type AvatarProps = {
   size?: number
 }
 
+/**
+ * Touchable Avatar
+ * @param {Props} props
+ * @param {Function} [props.onPress]
+ * @param {String} [props.source]
+ * @param {Object} [props.style]
+ * @param {Number} [props.size=34]
+ * @returns {React.Node}
+ */
 export default (props: AvatarProps) => (
   <TouchableOpacity onPress={props.onPress} style={props.style} disabled={!props.onPress}>
     <Avatar.Image

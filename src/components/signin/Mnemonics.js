@@ -41,22 +41,6 @@ const Mnemonics = props => {
       // We need to try to get a new address using new mnenonics
       await saveMnemonics(mnemonics)
 
-      const wallet = await walletFactory.create(WalletType)
-      const isVerified = await goodWallet.isVerified(wallet.eth.defaultAccount)
-
-      if (!isVerified) {
-        saveMnemonics(prevMnemonics)
-        store.set('currentScreen')({
-          dialogData: {
-            visible: true,
-            title: 'ERROR',
-            message: 'User is not verified',
-            dismissText: 'OK'
-          }
-        })
-        return
-      }
-
       // There is no error. Reload screen to start with users mnemonics
       window.location = '/'
     } catch (err) {

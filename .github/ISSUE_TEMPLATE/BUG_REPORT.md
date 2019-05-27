@@ -16,4 +16,4 @@ about: Create a report to fix a bug
 
 ### Supporting data
 <!-- Do you have screenshots showing the problem? -->
-<!-- Do you see errors in the dev console? If yes, please include a screenshot.
+<!-- Do you see errors in the dev console? If yes, please include a screenshot. -->

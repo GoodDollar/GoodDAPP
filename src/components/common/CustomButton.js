@@ -13,7 +13,8 @@ export type ButtonProps = {
   dark?: boolean,
   style?: any,
   onPress: any,
-  loading?: boolean
+  loading?: boolean,
+  uppercase?: boolean
 }
 
 const TextContent = ({ children, dark }) => {
@@ -24,6 +25,20 @@ const TextContent = ({ children, dark }) => {
   return children
 }
 
+/**
+ * Custom button based on react-native-paper
+ * @param {Props} props
+ * @param {React.Node|String} props.children If it's a string will add a Text component as child
+ * @param {function} props.onPress
+ * @param {boolean} [props.disabled]
+ * @param {string} [props.mode]
+ * @param {boolean} [props.loading]
+ * @param {string} [props.color=#555555]
+ * @param {boolean} [props.dark]
+ * @param {boolean} [props.uppercase=true]
+ * @param {Object} [props.style] Button style
+ * @returns {React.Node}
+ */
 const CustomButton = (props: ButtonProps) => (
   <BaseButton {...props} style={[styles.button, props.style]} disabled={props.loading || props.disabled} compact={true}>
     <TextContent {...props} />

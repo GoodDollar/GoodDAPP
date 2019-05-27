@@ -15,10 +15,20 @@ export type AvatarProps = {
   },
   onChange: any => mixed,
   editable?: boolean,
-  size?: number,
-  style?: any
+  size?: number
 }
 
+/**
+ * Touchable Users Avatar based on Avatar component
+ * @param {AvatarProps} props
+ * @param {Object} props.profile]
+ * @param {string} props.profile.avatar
+ * @param {string} [props.profile.fullName]
+ * @param {any => mixed} props.onChange
+ * @param {boolean} [props.editable]
+ * @param {Number} [props.size=120]
+ * @returns {React.Node}
+ */
 const UserAvatar = (props: AvatarProps) => {
   const { profile, editable, onChange } = props
   let cropSize = isPortrait() ? getScreenWidth() - 70 : getScreenHeight() - 70

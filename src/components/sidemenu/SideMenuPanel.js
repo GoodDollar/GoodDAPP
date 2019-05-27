@@ -79,9 +79,9 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation })
         dismissText: 'DELETE',
         onCancel: () => hideDialog(),
         onDismiss: async () => {
-          userStorage.deleteAccount().catch(e => log.error('Error deleting account', e))
+          await userStorage.deleteAccount().catch(e => log.error('Error deleting account', e))
           hideSidemenu()
-          navigation.navigate('Auth')
+          window.location = '/'
         }
       })
     }

@@ -859,15 +859,34 @@ export class UserStorage {
         .then(r => get(r, 'data.results'))
         .catch(e => ({
           server: 'failed'
+        })),
+      this.gunuser
+        .get('profile')
+        .put('null')
+        .then(r => ({
+          profile: 'ok'
+        }))
+        .catch(r => ({
+          profile: 'failed'
+        })),
+      this.gunuser
+        .get('feed')
+        .put(null)
+        .then(r => ({
+          feed: 'ok'
+        }))
+        .catch(r => ({
+          feed: 'failed'
         }))
     ])
-    let profileDelete = await this.gunuser
-      .delete()
-      .then(r => ({ profile: 'ok' }))
-      .catch(e => ({
-        profile: 'failed'
-      }))
-    logger.debug('deleteAccount', { ...deleteResults, ...profileDelete })
+    //Issue with gun delete()
+    // let profileDelete = await this.gunuser
+    //   .delete()
+    //   .then(r => ({ profile: 'ok' }))
+    //   .catch(e => ({
+    //     profile: 'failed'
+    //   }))
+    logger.debug('deleteAccount', { deleteResults })
     return AsyncStorage.clear()
   }
 }

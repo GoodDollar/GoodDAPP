@@ -90,9 +90,9 @@ type ShareObject = {
  */
 export function generateShareObject(url: string): ShareObject {
   return {
-    title: 'Sending G$ via Good Dollar App',
+    title: 'Sending G$ via GoodDollar App',
     text: 'You got G$. To withdraw open:',
-    url
+    url: encodeURI(url)
   }
 }
 

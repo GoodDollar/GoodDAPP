@@ -10,7 +10,7 @@
 
 **Extends React.Component**
 
-The main app route. Here we decide where to go depending on the user's credentials status
+The main app route rendering component. Here we decide where to go depending on the user's credentials status
 
 ### Parameters
 
@@ -29,3 +29,6 @@ Returns **[Promise][4]&lt;void>**
 [3]: #checkauthstatus
 
 [4]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise
+## Source
+[https://github.com/GoodDollar/GoodDAPPsrc/components/appSwitch/AppSwitch.js](https://github.com/GoodDollar/GoodDAPPsrc/components/appSwitch/AppSwitch.js)
+

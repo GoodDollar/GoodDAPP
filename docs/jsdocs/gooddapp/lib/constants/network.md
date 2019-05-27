@@ -19,3 +19,6 @@ Returns **[string][3]** network name
 [2]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number
 
 [3]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+## Source
+[https://github.com/GoodDollar/GoodDAPPsrc/lib/constants/network.js](https://github.com/GoodDollar/GoodDAPPsrc/lib/constants/network.js)
+

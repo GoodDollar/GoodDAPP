@@ -134,7 +134,7 @@ async function generateDocs(baseFolder, deep, perFile = true) {
       filesToProcess.map(async file => {
         const filePath = `${folder}/${file}`
         if (fs.lstatSync(filePath).isDirectory() && perFile) {
-          const outputFolder = `${filePath.replace(baseFolder, BASE_DOCS_FOLDER)}/`
+          const outputFolder = camelCaseToDash(`${filePath.replace(baseFolder, BASE_DOCS_FOLDER)}/`)
           console.log('creating docs folder:', outputFolder)
           await execPromise(`mkdir -p ${outputFolder}`)
           //adding '*.js' causes documentation to not be generated for sub folders
@@ -144,8 +144,8 @@ async function generateDocs(baseFolder, deep, perFile = true) {
           return newDoc.childrenDocs.length > 0 ? newDoc : false
         } else if (fs.lstatSync(filePath).isFile() && perFile && filePath.endsWith('.js')) {
           const outputFolder = `${folder.replace(baseFolder, BASE_DOCS_FOLDER)}/`
-          // const mdFile = camelCaseToDash(`${outputFolder + file.replace('.js', '')}.md`)
-          const mdFile = `${outputFolder + file.replace('.js', '')}.md`
+          const mdFile = camelCaseToDash(`${outputFolder + file.replace('.js', '')}.md`)
+          // const mdFile = `${outputFolder + file.replace('.js', '')}.md`
           const toExec = `documentation build ${filePath} -f md -o ${mdFile} --shallow`
           console.log('Generating docs for:', { filePath, mdFile, toExec })
           await execPromise(toExec)

@@ -32,7 +32,7 @@ const FeedModalItem = (props: FeedEventProps) => (
         )}
         <View style={styles.hrLine} />
         <View style={styles.row}>
-          <Avatar style={{ backgroundColor: '#BBB' }} source={props.item.data.endpoint.avatar} />
+          <Avatar style={styles.avatarColor} source={props.item.data.endpoint.avatar} />
           <Text style={styles.leftMargin}>
             <EventCounterParty feedItem={props.item} />
           </Text>
@@ -131,6 +131,10 @@ const styles = StyleSheet.create({
     fontSize: normalize(16),
     fontWeight: '500',
     textTransform: 'capitalize'
+  },
+  avatarColor: {
+    backgroundColor: '#BBB',
+    borderRadius: '50%'
   }
 })
 

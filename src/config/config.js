@@ -6,6 +6,7 @@ const Config = {
   networkId: process.env.REACT_APP_NETWORK_ID || 42,
   zoomLicenseKey: process.env.REACT_APP_ZOOM_LICENSE_KEY,
   recaptcha: '6LeOaJIUAAAAAKB3DlmijMPfX2CBYsve3T2MwlTd',
+  skipEmailVerification: process.env.REACT_APP_SKIP_EMAIL_VERIFICATION || false,
   ethereum: {
     '42': {
       network_id: 42,

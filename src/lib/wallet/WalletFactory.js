@@ -2,6 +2,7 @@
 import Web3 from 'web3'
 import SoftwareWalletProvider from './SoftwareWalletProvider'
 import Config from '../../config/config'
+import ContractsAddress from '@gooddollar/goodcontracts/releases/deployment.json'
 
 export type WalletConfig = {
   network_id: number,
@@ -14,7 +15,9 @@ export default class WalletFactory {
     switch (walletType) {
       case 'software':
       default:
-        let provider: SoftwareWalletProvider = new SoftwareWalletProvider(Config.ethereum[Config.networkId])
+        let provider: SoftwareWalletProvider = new SoftwareWalletProvider(
+          Config.ethereum[ContractsAddress[Config.network].networkId]
+        )
         return provider.ready
     }
   }

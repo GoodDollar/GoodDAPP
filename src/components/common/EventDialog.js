@@ -13,6 +13,16 @@ export type EventDialogProps = {
   reason?: string,
   onDismiss?: () => void
 }
+
+/**
+ * EventDialog based on react-native-paper
+ * @param {EventDialogProps} props
+ * @param {function} [props.onDismiss]
+ * @param {boolean} [props.visible]
+ * @param {TransactionEvent} [props.event]
+ * @param {string} [props.reason]
+ * @returns {React.Node}
+ */
 const EventDialog = ({ visible, event, onDismiss, reason }: EventDialogProps) => {
   const {
     date,

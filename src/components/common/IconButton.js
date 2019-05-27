@@ -15,7 +15,11 @@ type IconProps = {
  * Returns a button with an icon and text
  *
  * @param {IconProps} props
- * @returns Button with icon and text
+ * @param {String} props.text to shown
+ * @param {Function} props.onPress action
+ * @param {Boolean} props.disabled
+ * @param {String} props.name icon name
+ * @returns {React.Node}
  */
 const IconButton = ({ text, onPress, disabled, ...iconProps }: IconProps) => {
   const styles = createStyles(disabled)

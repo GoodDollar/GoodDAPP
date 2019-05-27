@@ -14,6 +14,19 @@ type DialogProps = {
   onCancel?: () => void
 }
 
+/**
+ * Custom Dialog based on react-native-paper
+ * @param {DialogProps} props
+ * @param {React.Node|String} [props.children]
+ * @param {function} [props.onDismiss]
+ * @param {function} [props.onCancel]
+ * @param {boolean} [props.visible]
+ * @param {string} [props.title]
+ * @param {string} [props.message]
+ * @param {string} [props.dismissText]
+ * @param {boolean} [props.loading]
+ * @returns {React.Node}
+ */
 const CustomDialog = ({
   children,
   visible,

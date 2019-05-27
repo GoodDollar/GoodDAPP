@@ -4,6 +4,7 @@ import ReserveABI from '@gooddollar/goodcontracts/build/contracts/GoodDollarRese
 import IdentityABI from '@gooddollar/goodcontracts/build/contracts/Identity.min.json'
 import OneTimePaymentLinksABI from '@gooddollar/goodcontracts/build/contracts/OneTimePaymentLinks.min.json'
 import RedemptionABI from '@gooddollar/goodcontracts/build/contracts/RedemptionFunctional.min.json'
+import ContractsAddress from '@gooddollar/goodcontracts/releases/deployment.json'
 import { default as filterFunc } from 'lodash/filter'
 import type Web3 from 'web3'
 import { BN, toBN } from 'web3-utils'
@@ -14,6 +15,7 @@ import { generateShareLink } from '../share'
 import WalletFactory from './WalletFactory'
 import abiDecoder from 'abi-decoder'
 import values from 'lodash/values'
+import get from 'lodash/get'
 
 const log = logger.child({ from: 'GoodWallet' })
 
@@ -157,36 +159,42 @@ export class GoodWallet {
         this.accounts = this.wallet.eth.accounts.wallet
         this.account = this.getAccountForType('gd')
         this.wallet.eth.defaultAccount = this.account
-        this.networkId = Config.networkId
+        this.networkId = ContractsAddress[Config.network].networkId
+        this.network = Config.network
         log.info(`networkId: ${this.networkId}`)
         this.gasPrice = wallet.utils.toWei('1', 'gwei')
         this.wallet.eth.defaultGasPrice = this.gasPrice
         this.identityContract = new this.wallet.eth.Contract(
           IdentityABI.abi,
-          IdentityABI.networks[this.networkId].address,
+          get(ContractsAddress, `${this.network}.Identity`, IdentityABI.networks[this.networkId].address),
           { from: this.account }
         )
         this.claimContract = new this.wallet.eth.Contract(
           RedemptionABI.abi,
-          RedemptionABI.networks[this.networkId].address,
+          get(ContractsAddress, `${this.network}.RedemptionFunctional`, RedemptionABI.networks[this.networkId].address),
+
           { from: this.account }
         )
         this.tokenContract = new this.wallet.eth.Contract(
           GoodDollarABI.abi,
-          GoodDollarABI.networks[this.networkId].address,
+          get(ContractsAddress, `${this.network}.GoodDollar`, GoodDollarABI.networks[this.networkId].address),
           { from: this.account }
         )
         abiDecoder.addABI(GoodDollarABI.abi)
         this.reserveContract = new this.wallet.eth.Contract(
           ReserveABI.abi,
-          ReserveABI.networks[this.networkId].address,
+          get(ContractsAddress, `${this.network}.GoodDollarReserve`, ReserveABI.networks[this.networkId].address),
           {
             from: this.account
           }
         )
         this.oneTimePaymentLinksContract = new this.wallet.eth.Contract(
           OneTimePaymentLinksABI.abi,
-          OneTimePaymentLinksABI.networks[this.networkId].address,
+          get(
+            ContractsAddress,
+            `${this.network}.OneTimePaymentLinks`,
+            OneTimePaymentLinksABI.networks[this.networkId].address
+          ),
           {
             from: this.account
           }
@@ -218,8 +226,10 @@ export class GoodWallet {
   }
 
   /**
-   *
-   * returns {object} id+eventName so consumer can unsubscribe
+   * Sets an id and place a callback function for this id, for the sent event
+   * @dev event can have multiple subscribers, each one recieves it's own id
+   * @return {object} subscriber id and eventName
+   * @dev so consumer can unsubscribe using id and event name
    */
   subscribeToEvent(eventName: string, cb: Function) {
     // Get last id from subscribersList
@@ -227,22 +237,23 @@ export class GoodWallet {
       this.subscribers[eventName] = {}
     }
     const subscribers = this.subscribers[eventName]
-    const id = Math.max(...Object.keys(subscribers).map(parseInt), 0) + 1
+    const id = Math.max(...Object.keys(subscribers).map(parseInt), 0) + 1 // Give next id in a raw to current subscriber
     this.subscribers[eventName][id] = cb
     return { id, eventName }
   }
 
   /**
-   * removes subscriber from subscriber list
+   * removes subscriber from subscriber list with the specified id and event name
    * @param {event} event
    */
-  unSubscribeToTx({ eventName, id }: { eventName: string, id: number }) {
+  unsubscribeFromEvent({ eventName, id }: { eventName: string, id: number }) {
     delete this.subscribers[eventName][id]
   }
 
   /**
    * Gets all subscribers as array for given eventName
    * @param {string} eventName
+   * @return a json object containing all subscribers for the specified event name
    */
   getSubscribers(eventName: string): Function {
     return values(this.subscribers[eventName] || {})
@@ -406,7 +417,11 @@ export class GoodWallet {
 
     const generatedString = this.wallet.utils.randomHex(10).replace('0x', '')
     const hashedString = this.wallet.utils.sha3(generatedString)
-    const otpAddress = OneTimePaymentLinksABI.networks[this.networkId].address
+    const otpAddress = get(
+      ContractsAddress,
+      `${this.network}.OneTimePaymentLinks`,
+      OneTimePaymentLinksABI.networks[this.networkId].address
+    )
 
     const deposit = this.oneTimePaymentLinksContract.methods.deposit(this.account, hashedString, amount)
     const encodedABI = await deposit.encodeABI()
@@ -537,9 +552,9 @@ export class GoodWallet {
     }
 
     log.info({ amount, to })
-    const transferCall = this.tokenContract.methods.transfer(to, amount.toString())
+    const transferCall = this.tokenContract.methods.transfer(to, amount.toString()) // retusn TX object (not sent to the blockchain yet)
 
-    return await this.sendTransaction(transferCall, events)
+    return await this.sendTransaction(transferCall, events) // Send TX to the blockchain
   }
 
   /**
@@ -568,7 +583,7 @@ export class GoodWallet {
 
     return (
       new Promise((res, rej) => {
-        tx.send({ gas, gasPrice, chainId: Config.networkId })
+        tx.send({ gas, gasPrice, chainId: this.networkId })
           .on('transactionHash', onTransactionHash)
           .on('receipt', r => {
             onReceipt && onReceipt(r)

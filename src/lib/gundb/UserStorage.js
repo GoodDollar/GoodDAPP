@@ -433,8 +433,8 @@ export class UserStorage {
 
     const profileSettings = {
       fullName: { defaultPrivacy: 'public' },
-      email: { defaultPrivacy: 'masked' },
-      mobile: { defaultPrivacy: 'masked' },
+      email: { defaultPrivacy: 'public' },
+      mobile: { defaultPrivacy: 'public' },
       avatar: { defaultPrivacy: 'public' },
       walletAddress: { defaultPrivacy: 'public' },
       username: { defaultPrivacy: 'public' }
@@ -453,7 +453,7 @@ export class UserStorage {
         .map(async field => this.setProfileField(field, profile[field], await getPrivacy(field)))
     ).then(results => {
       const errors = results.filter(ack => ack && ack.err).map(ack => ack.err)
-      if (errors.length > 0) throw new Error(errors)
+      if (errors.length > 0) logger.error('setProfile', errors)
       return true
     })
   }
@@ -850,12 +850,6 @@ export class UserStorage {
    * Calling the server to delete their data
    */
   async deleteAccount(): Promise<boolean> {
-    let profileDelete = await this.gunuser
-      .delete()
-      .then(r => ({ profile: 'ok' }))
-      .catch(e => ({
-        profile: 'failed'
-      }))
     let deleteResults = await Promise.all([
       goodWallet
         .deleteAccount()
@@ -867,6 +861,12 @@ export class UserStorage {
           server: 'failed'
         }))
     ])
+    let profileDelete = await this.gunuser
+      .delete()
+      .then(r => ({ profile: 'ok' }))
+      .catch(e => ({
+        profile: 'failed'
+      }))
     logger.debug('deleteAccount', { ...deleteResults, ...profileDelete })
     return AsyncStorage.clear()
   }

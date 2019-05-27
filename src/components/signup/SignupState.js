@@ -19,6 +19,7 @@ import userStorage from '../../lib/gundb/UserStorage'
 import type { SMSRecord } from './SmsForm'
 import GDStore from '../../lib/undux/GDStore'
 import { getUserModel, type UserModel } from '../../lib/gundb/UserModel'
+import Config from '../../config/config'
 const log = logger.child({ from: 'SignupState' })
 
 export type SignupState = UserModel & SMSRecord
@@ -92,7 +93,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
           setLoading(false)
           return setError(data.error)
         }
-        if (data.onlyInEnv) {
+        if (Config.skipEmailVerification || data.onlyInEnv) {
           // Server is using onlyInEnv middleware (probably dev mode), email verification is not sent.
           log.debug({ ...data })
 

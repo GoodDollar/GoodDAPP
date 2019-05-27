@@ -328,7 +328,13 @@ export class UserStorage {
     logger.debug('getAllfeed', { feed, cursor: this.cursor })
     return feed
   }
-
+  /**
+   * Used as subscripition callback for gundb
+   * When the index of <day> to <number of events> changes
+   * We get the object and turn it into a sorted array by <day> which we keep in memory for feed display purposes
+   * @param {object} changed the index data from gundb an object with days as keys and number of event in that day as value
+   * @param {string} field the name of the gundb key changed
+   */
   updateFeedIndex = (changed: any, field: string) => {
     if (field !== 'index' || changed === undefined) return
     delete changed._
@@ -336,13 +342,12 @@ export class UserStorage {
     logger.debug('updateFeedIndex', { changed, field, newIndex: this.feedIndex })
   }
 
+  /**
+   * Subscribes to changes on the event index of day to number of events
+   * the "false" (see gundb docs) passed is so we get the complete 'index' on every change and not just the day that changed
+   */
   async initFeed() {
     this.feed = this.gunuser.get('feed')
-    await this.feed
-      .get('index')
-      .map()
-      .once(this.updateFeedIndex)
-      .then()
     this.feed.get('index').on(this.updateFeedIndex, false)
   }
 

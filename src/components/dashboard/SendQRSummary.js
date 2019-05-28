@@ -4,7 +4,7 @@
  */
 import React, { useState, useEffect } from 'react'
 import { View } from 'react-native'
-import UserStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
+import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 
 import logger from '../../lib/logger/pino-logger'
 import GDStore from '../../lib/undux/GDStore'
@@ -34,7 +34,7 @@ const SendQRSummary = (props: AmountProps) => {
   const [profile, setProfile] = useState({})
 
   const updateRecepientProfile = async () => {
-    const profile = await UserStorage.getUserProfile(to)
+    const profile = await userStorage.getUserProfile(to)
     setProfile(profile)
   }
   useEffect(() => {
@@ -61,7 +61,7 @@ const SendQRSummary = (props: AmountProps) => {
               amount
             }
           }
-          UserStorage.enqueueTX(transactionEvent)
+          userStorage.enqueueTX(transactionEvent)
           return hash
         }
       })

@@ -374,9 +374,11 @@ type UseScreenProps = { setScreenState?: {}, screenState?: {} }
  * Hook to get screen state from stack or from useState hook if there is no setScreenState function
  */
 export const useScreenState = ({ setScreenState, screenState }: UseScreenProps): any => {
+  const [state, setState] = useState<any>()
+
   if (setScreenState) {
     return [screenState || {}, setScreenState]
   }
-  const [state, setState] = useState<any>()
+
   return [state || {}, setState]
 }

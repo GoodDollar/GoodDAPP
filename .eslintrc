@@ -33,25 +33,32 @@
           ".js",
           ".android.js",
           ".ios.js",
-          ".web.js"
+          ".web.js",
+          ".native.js"
         ]
       }
+    },
+    "dependencies/resolver": {
+      "node": {
+        "paths": [
+          "src"
+        ]
+      },
+      "extensions": [
+        ".js",
+        ".android.js",
+        ".ios.js",
+        ".web.js",
+        ".native.js"
+      ]
     }
   },
   "rules": {
     "prettier/prettier": "error",
     "react/prop-types": "off",
     "react/display-name": "off",
-    "react-hooks/rules-of-hooks": "warn",
+    "react-hooks/rules-of-hooks": "error",
     "dependencies/no-cycles": "error",
-    "dependencies/no-unresolved": [
-      "warn",
-      {
-        "ignore": [
-          "web3"
-        ]
-      }
-    ],
     "import/no-unresolved": "warn"
   }
 }

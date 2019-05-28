@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
-import { StyleSheet, View, ScrollView } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { Text } from 'react-native-paper'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import logger from '../../lib/logger/pino-logger'

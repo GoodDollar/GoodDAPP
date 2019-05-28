@@ -3,9 +3,6 @@ import React, { useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Paragraph } from 'react-native-paper'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
-import { useWrappedGoodWallet } from '../../lib/wallet/useWrappedWallet'
-import { WalletType } from '../../lib/wallet/GoodWallet'
-import walletFactory from '../../lib/wallet/WalletFactory'
 import bip39 from 'bip39-light'
 import { saveMnemonics, getMnemonics } from '../../lib/wallet/SoftwareWalletProvider'
 import GDStore from '../../lib/undux/GDStore'
@@ -17,9 +14,8 @@ import { CustomButton } from '../common'
 const TITLE = 'Recover'
 const log = logger.child({ from: TITLE })
 
-const Mnemonics = props => {
+const Mnemonics = () => {
   const [mnemonics, setMnemonics] = useState()
-  const goodWallet = useWrappedGoodWallet()
   const store = GDStore.useStore()
   const handleChange = (mnemonics: []) => {
     log.info({ mnemonics })

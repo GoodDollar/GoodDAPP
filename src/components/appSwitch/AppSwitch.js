@@ -79,7 +79,10 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
     ]).then(([authResult]) => authResult)
     let destDetails = await this.getParams()
     if (isLoggedIn) {
-      let topWalletRes = isLoggedInCitizen ? API.verifyTopWallet() : Promise.resolve()
+      if (isLoggedInCitizen) {
+        API.verifyTopWallet()
+      }
+
       if (destDetails) {
         this.props.navigation.navigate(destDetails)
         return AsyncStorage.removeItem('destinationPath')

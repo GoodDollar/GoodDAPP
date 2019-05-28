@@ -34,7 +34,6 @@ class MultipleAddressWallet {
       let wallet = Wallet.fromPrivateKey(privateKeyBuffer)
       let address = wallet.getAddressString()
       this.addresses.push(address)
-      let wallets = this.wallets
       this.wallets[address] = wallet
     }
   }

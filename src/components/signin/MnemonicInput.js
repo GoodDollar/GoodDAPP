@@ -1,6 +1,6 @@
 // @flow
 
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useEffect, createRef } from 'react'
 import { View, StyleSheet, TextInput, Text } from 'react-native'
 import { normalize } from 'react-native-elements'
 import values from 'lodash/values'
@@ -24,8 +24,9 @@ const isValidWord = word => {
 const MnemonicInput = (props: Props) => {
   const [state, setState] = useState({})
   const refs = {}
+
   for (let i = 0; i < MAX_WORDS; i++) {
-    refs[i] = useRef(null)
+    refs[i] = createRef()
   }
 
   useEffect(() => {

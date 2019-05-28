@@ -1,11 +1,10 @@
 // @flow
 import React, { useState, useEffect } from 'react'
 import { View } from 'react-native'
-import UserStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
+import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import GDStore from '../../lib/undux/GDStore'
 import goodWallet from '../../lib/wallet/GoodWallet'
-import { useWrappedGoodWallet } from '../../lib/wallet/useWrappedWallet'
 import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
 import { Avatar, BigGoodDollar, CustomButton, Section, Wrapper } from '../common'
 import TopBar from '../common/TopBar'
@@ -54,7 +53,7 @@ const SendLinkSummary = (props: AmountProps) => {
               ...extraData
             }
           }
-          UserStorage.enqueueTX(transactionEvent)
+          userStorage.enqueueTX(transactionEvent)
         }
       })
       if (generateLinkResponse) {

@@ -21,7 +21,7 @@ const RECEIVE_TITLE = 'Receive G$'
 
 const ReceiveAmount = ({ screenProps }: ReceiveProps) => {
   const { account, networkId } = goodWallet
-  const [screenState, setScreenState] = useScreenState(screenProps)
+  const [screenState] = useScreenState(screenProps)
   const [showDialogWithData] = useDialog()
   const { amount } = screenState
 

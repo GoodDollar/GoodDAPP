@@ -3,15 +3,11 @@ import { StyleSheet, View } from 'react-native'
 import Icon from 'react-native-elements/src/icons/Icon'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { Wrapper, Section, UserAvatar } from '../common'
-import logger from '../../lib/logger/pino-logger'
 import GDStore from '../../lib/undux/GDStore'
 import EditProfile from './EditProfile'
 import ProfileDataTable from './ProfileDataTable'
 
-const log = logger.child({ from: 'Profile' })
-
 const EditIcon = props => <IconButton {...props} wrapperStyle={styles.iconRight} name="edit" />
-const PrivateIcon = props => <IconButton {...props} wrapperStyle={styles.iconLeft} name="visibility" />
 
 const IconButton = ({ onPress, disabled, wrapperStyle, ...iconProps }) => (
   <View style={[styles.icon, wrapperStyle]}>

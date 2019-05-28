@@ -7,7 +7,6 @@ import logger from '../logger/pino-logger'
 import type { NameRecord } from '../../components/signup/NameForm'
 import type { EmailRecord } from '../../components/signup/EmailForm'
 import type { MobileRecord } from '../../components/signup/PhoneForm.web'
-import type { ZoomCaptureResult } from '../../components/signup/Zoom'
 
 const log = logger.child({ from: 'API' })
 

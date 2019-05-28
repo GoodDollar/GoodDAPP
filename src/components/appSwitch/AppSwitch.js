@@ -3,7 +3,7 @@ import React from 'react'
 import { AsyncStorage } from 'react-native'
 import { SceneView } from '@react-navigation/core'
 import some from 'lodash/some'
-import { Helmet } from 'react-helmet'
+// import { Helmet } from 'react-helmet'
 import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
 import GDStore from '../../lib/undux/GDStore'
@@ -80,7 +80,10 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
     ]).then(([authResult]) => authResult)
     let destDetails = await this.getParams()
     if (isLoggedIn) {
-      let topWalletRes = isLoggedInCitizen ? API.verifyTopWallet() : Promise.resolve()
+      if (isLoggedInCitizen) {
+        API.verifyTopWallet()
+      }
+
       if (destDetails) {
         this.props.navigation.navigate(destDetails)
         return AsyncStorage.removeItem('destinationPath')

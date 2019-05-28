@@ -4,9 +4,6 @@ import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 import { Provider as PaperProvider } from 'react-native-paper'
 // import { loadReCaptcha } from 'recaptcha-v3-react'
 
-import Config from './config/config'
-import userStorage from './lib/gundb/UserStorage'
-import logger from './lib/logger/pino-logger'
 import GDStore from './lib/undux/GDStore'
 import { WebRouter } from './Router'
 

@@ -4,7 +4,7 @@ import { ScrollView, View } from 'react-native'
 import { Button } from 'react-native-paper'
 import SideMenu from 'react-native-side-menu'
 import { createNavigator, SwitchRouter, SceneView, Route } from '@react-navigation/core'
-import { Helmet } from 'react-helmet'
+// import { Helmet } from 'react-helmet'
 import GDStore from '../../lib/undux/GDStore'
 import { toggleSidemenu } from '../../lib/undux/utils/sidemenu'
 import SideMenuPanel from '../sidemenu/SideMenuPanel'
@@ -374,9 +374,11 @@ type UseScreenProps = { setScreenState?: {}, screenState?: {} }
  * Hook to get screen state from stack or from useState hook if there is no setScreenState function
  */
 export const useScreenState = ({ setScreenState, screenState }: UseScreenProps): any => {
+  const [state, setState] = useState<any>()
+
   if (setScreenState) {
     return [screenState || {}, setScreenState]
   }
-  const [state, setState] = useState<any>()
+
   return [state || {}, setState]
 }

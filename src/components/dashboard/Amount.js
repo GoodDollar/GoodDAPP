@@ -1,12 +1,11 @@
 // @flow
-import React, { useState } from 'react'
+import React from 'react'
 import { Text, View } from 'react-native'
 
 import { Section, Wrapper, TopBar, InputGoodDollar } from '../common'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
 import { receiveStyles as styles } from './styles'
 import goodWallet from '../../lib/wallet/GoodWallet'
-import logger from '../../lib/logger/pino-logger'
 import { useDialog } from '../../lib/undux/utils/dialog'
 export type AmountProps = {
   screenProps: any,
@@ -14,7 +13,6 @@ export type AmountProps = {
 }
 
 const RECEIVE_TITLE = 'Receive G$'
-const log = logger.child({ from: RECEIVE_TITLE })
 
 const Amount = (props: AmountProps) => {
   const { screenProps } = props

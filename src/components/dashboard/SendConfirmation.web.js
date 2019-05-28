@@ -6,7 +6,7 @@ import { normalize } from 'react-native-elements'
 import { isMobile } from 'mobile-device-detect'
 
 import logger from '../../lib/logger/pino-logger'
-import { generateHrefLinks, generateShareObject } from '../../lib/share'
+import { generateSendShareObject } from '../../lib/share'
 import GDStore from '../../lib/undux/GDStore'
 import { DoneButton, useScreenState } from '../appNavigation/stackNavigation'
 import { BigGoodDollar, CustomButton, Section, TopBar, Wrapper } from '../common'
@@ -24,15 +24,10 @@ const SEND_TITLE = 'Send G$'
 const log = logger.child({ from: SEND_TITLE })
 
 const SendConfirmation = ({ screenProps }: ReceiveProps) => {
-  const [hrefLinks, setHrefLinks] = useState([])
   const [screenState] = useScreenState(screenProps)
   const store = GDStore.useStore()
 
   const { amount, reason, sendLink, to } = screenState
-
-  useEffect(() => {
-    if (isMobile && to) setHrefLinks(generateHrefLinks(sendLink, to))
-  }, [])
 
   const copySendLink = useCallback(() => {
     Clipboard.setString(sendLink)
@@ -40,7 +35,7 @@ const SendConfirmation = ({ screenProps }: ReceiveProps) => {
   }, [sendLink])
 
   const share = async () => {
-    const share = generateShareObject(sendLink)
+    const share = generateSendShareObject(sendLink)
     try {
       await navigator.share(share)
     } catch (e) {
@@ -56,16 +51,11 @@ const SendConfirmation = ({ screenProps }: ReceiveProps) => {
     }
   }
 
-  const ShareButton = () =>
-    hrefLinks.length === 1 ? (
-      <a href={hrefLinks[0].link} className="a-button" title="Share Link">
-        Share Link
-      </a>
-    ) : (
-      <CustomButton style={styles.buttonStyle} onPress={share} mode="contained">
-        Share Link
-      </CustomButton>
-    )
+  const ShareButton = () => (
+    <CustomButton style={styles.buttonStyle} onPress={share} mode="contained">
+      Share Link
+    </CustomButton>
+  )
 
   return (
     <Wrapper>
@@ -91,7 +81,7 @@ const SendConfirmation = ({ screenProps }: ReceiveProps) => {
         </View>
       </Section>
       <View style={styles.buttonGroup}>
-        {isMobile ? <ShareButton style={styles.shareButton} /> : null}
+        {isMobile && navigator.share ? <ShareButton style={styles.shareButton} /> : null}
         <DoneButton style={styles.doneButton} screenProps={screenProps} />
       </View>
     </Wrapper>

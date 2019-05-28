@@ -9,25 +9,25 @@ import Config from '../../config/config'
 import isMobilePhone from '../validators/isMobilePhone'
 
 /**
- * Generates a code contaning an MNID with an amount if this las one is speced
+ * Generates a code contaning an MNID with an amount if specified
  * @param address - address required to generate MNID
  * @param networkId - network identifier required to generate MNID
  * @param amount - amount to be attached to the generated MNID code
  * @returns {string} - 'MNID|amount'|'MNID'
  */
-export function generateCode(address: string, networkId: number, amount: number) {
+export function generateCode(address: string, networkId: number, amount: number, reason: string) {
   const mnid = encode({ address, network: `0x${networkId.toString(16)}` })
 
-  return amount > 0 ? `${mnid}|${amount}` : mnid
+  return `${mnid}|${amount}|${reason}`
 }
 
 /**
  * Extracts the information from the generated code in `generateCode`
  * @param code - code returned by `generateCode`
- * @returns {null|{amount: *, address, networkId: number}}
+ * @returns {null|{amount: *, address, networkId: number, reason: string}}
  */
 export function readCode(code: string) {
-  const [mnid, value] = code.split('|')
+  const [mnid, value, reason] = code.split('|')
 
   if (!isMNID(mnid)) {
     return null
@@ -39,7 +39,8 @@ export function readCode(code: string) {
   return {
     networkId: parseInt(network),
     address,
-    amount: amount ? amount : undefined
+    amount: amount ? amount : undefined,
+    reason
   }
 }
 
@@ -88,12 +89,20 @@ type ShareObject = {
  * @param url - Link
  * @returns {ShareObject}
  */
-export function generateShareObject(url: string): ShareObject {
+export function generateShareObject(title: string, text: string, url: string): ShareObject {
   return {
-    title: 'Sending G$ via GoodDollar App',
-    text: 'You got G$. To withdraw open:',
+    title,
+    text,
     url: encodeURI(url)
   }
+}
+
+export function generateSendShareObject(url: string): ShareObject {
+  return generateShareObject('Sending G$ via GoodDollar App', 'You have received G$. To withdraw open:', url)
+}
+
+export function generateReceiveShareObject(url: string): ShareObject {
+  return generateShareObject('Sending G$ via GoodDollar App', 'To send me G$ open:', url)
 }
 
 type HrefLinkProps = {
@@ -107,21 +116,18 @@ type HrefLinkProps = {
  * @param {string} sendLink - Link
  * @returns {HrefLinkProps[]}
  */
-export function generateHrefLinks(sendLink: string, to?: string = ''): Array<HrefLinkProps> {
-  const { title, text, url } = generateShareObject(sendLink)
-  const body = `${text} ${url}`
-  const viaEmail = { link: `mailto:${to}?subject=${title}&body=${body}`, description: 'e-mail' }
-  const viaSMS = { link: `sms:${to}?body=${body}`, description: 'sms' }
-
+export function generateHrefLink(shareObject: ShareObject, to?: string = ''): HrefLinkProps {
+  const { title, text, url } = shareObject
+  const body = `${text}\n${url}`
   if (isEmail(to)) {
-    return [viaEmail]
+    return { link: `mailto:${to}?subject=${title}&body=${body}`, description: 'e-mail' }
   }
 
   if (isMobilePhone(to)) {
-    return [viaSMS]
+    return { link: `sms:${to}?body=${body}`, description: 'sms' }
   }
 
-  return [viaEmail, viaSMS]
+  return undefined
 }
 
 type ActionType = 'receive' | 'send'

@@ -6,6 +6,7 @@ import { Clipboard } from 'react-native'
 import logger from '../../lib/logger/pino-logger'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import { CustomButton as Button } from '../common'
+import { generateReceiveShareObject } from '../../lib/share'
 
 const log = logger.child({ from: 'ShareLink' })
 
@@ -21,11 +22,7 @@ const ShareLink = ({ children, link, ...props }: Props) => {
   const share = useCallback(async () => {
     if (isMobile) {
       try {
-        await navigator.share({
-          title: 'Sending G$ via Good Dollar App',
-          text: 'To send me G$ open:',
-          url: link
-        })
+        await navigator.share(generateReceiveShareObject(link))
       } catch (e) {
         showDialogWithData({
           title: 'Error',

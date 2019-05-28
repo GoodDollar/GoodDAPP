@@ -441,7 +441,7 @@ export class GoodWallet {
     //https://github.com/trufflesuite/ganache-core/issues/417
     const gas: number = 200000 //Math.floor((await transferAndCall.estimateGas().catch(this.handleError)) * 2)
 
-    log.debug('generateLiknk:', { amount })
+    log.debug('generateLink:', { amount })
 
     const sendLink = generateShareLink('send', {
       receiveLink: generatedString,
@@ -464,15 +464,27 @@ export class GoodWallet {
     return sha3(otlCode)
   }
 
+  /**
+   * checks against oneTimeLink contract, if the specified link has already been used or not.
+   * @param {string} link
+   */
   async isWithdrawLinkUsed(link: string) {
     const { isLinkUsed } = this.oneTimePaymentLinksContract.methods
     return await isLinkUsed(link).call()
   }
 
+  /**
+   * Checks if getWithdrawAvailablePayment returned a valid payment (BN handle)
+   * @param {*} payment
+   */
   isWithdrawPaymentAvailable(payment: any) {
     return payment.lte(ZERO)
   }
 
+  /**
+   * @returns the amount of GoodDollars resides in the oneTimeLink contract under the specified link, in BN representation.
+   * @param {string} link
+   */
   getWithdrawAvailablePayment(link: string) {
     const { payments } = this.oneTimePaymentLinksContract.methods
     const { toBN } = this.wallet.utils
@@ -496,7 +508,10 @@ export class GoodWallet {
     return 'Pending'
   }
 
-  //FIXME: what's this for? why does it read events from block0
+  /**
+   * verifies otlCode link has not been used, and payment available. If yes for both, returns the original payment sender address and the amount of GoodDollars payment.
+   * @param {string} otlCode - the payment identifier in OneTimePaymentLink contract
+   */
   async canWithdraw(otlCode: string) {
     const { senders } = this.oneTimePaymentLinksContract.methods
 
@@ -517,12 +532,21 @@ export class GoodWallet {
     }
   }
 
+  /**
+   * withdraws the payment received in the link to the current wallet holder
+   * @param {string} otlCode
+   * @param {PromiEvents} promiEvents
+   */
   async withdraw(otlCode: string, promiEvents: ?PromiEvents) {
     const withdrawCall = this.oneTimePaymentLinksContract.methods.withdraw(otlCode)
     log.info('withdrawCall', withdrawCall)
     return await this.sendTransaction(withdrawCall, { ...defaultPromiEvents, ...promiEvents })
   }
 
+  /**
+   * cancels payment link and return the money to the sender (if not been withdrawn already)
+   * @param {string} otlCode
+   */
   async cancelOtl(otlCode: string) {
     const cancelOtlCall = this.oneTimePaymentLinksContract.methods.cancel(otlCode)
     log.info('cancelOtlCall', cancelOtlCall)

@@ -414,7 +414,13 @@ export class GoodWallet {
     return parseInt(amount) <= parseInt(balance)
   }
 
-  async generateLink(amount: number, reason: string = '', events: PromitEvents) {
+  /**
+   * deposit specified amount to _oneTimeLink_ conrtact, and generates a link that would send the user to a URL to withdraw it
+   * @param {number} amount - amount of money to send using OTP
+   * @param {string} reason - optional reason for sending the payment (comment)
+   * @param {PromiEvents} events - used to subscribe to onTransactionHash event
+   */
+  async generateLink(amount: number, reason: string = '', events: PromiEvents) {
     if (!(await this.canSend(amount))) {
       throw new Error(`Amount is bigger than balance`)
     }

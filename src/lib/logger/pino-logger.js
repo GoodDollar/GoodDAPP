@@ -7,7 +7,7 @@ const logger = pino({
 logger.debug = logger.info
 let error = logger.error
 logger.error = function() {
-  Rollbar && Rollbar.error.apply(Rollbar, arguments)
+  if (global.Rollbar && Config.env !== 'test') Rollbar.error.apply(Rollbar, arguments)
   return error.apply(logger, arguments)
 }
 global.logger = logger

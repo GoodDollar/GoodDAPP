@@ -521,7 +521,7 @@ export class UserStorage {
     if (!cleanValue) return Promise.resolve({ err: 'Indexable field cannot be null or empty', ok: 0 })
 
     const indexNode = gun.get(`users/by${field}`).get(cleanValue)
-    logger.debug('indexProfileField', { field, cleanValue, value, privacy, indexNode })
+    logger.debug('indexProfileField', { field, cleanValue, value, privacy })
 
     try {
       const indexValue = await indexNode.then()

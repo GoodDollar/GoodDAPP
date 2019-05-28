@@ -121,7 +121,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
 
   performFaceRecognition = async (captureResult: ZoomCaptureResult) => {
     log.info({ captureResult })
-    if (!captureResult) this.onFaceRecognitionFailure({ error: 'Failed to cature user' })
+    if (!captureResult) return this.onFaceRecognitionFailure({ error: 'Failed to cature user' })
     this.setState({ showZoomCapture: false, loadingFaceRecognition: true, loadingText: 'Analyzing Face Recognition..' })
     let req = await this.createFaceRecognitionReq(captureResult)
     log.debug({ req })
@@ -190,8 +190,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
         message: `FaceRecognition failed. Reason: ${reason}. Please try again`,
         dismissText: 'Retry',
         onDismiss: this.setState({ showPreText: true }) // reload.
-      },
-      loading: true
+      }
     })
   }
 
@@ -228,11 +227,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
                 Privacy Policy
               </LinkButton>
             </Text>
-            <CustomButton
-              mode="contained"
-              onPress={this.showFaceRecognition}
-              loading={this.props.store.get('currentScreen').loading}
-            >
+            <CustomButton mode="contained" onPress={this.showFaceRecognition} loading={loadingFaceRecognition}>
               Quick Face Recognition
             </CustomButton>
           </View>

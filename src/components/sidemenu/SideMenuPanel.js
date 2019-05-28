@@ -7,10 +7,13 @@ import { useSidemenu } from '../../lib/undux/utils/sidemenu'
 import { useWrappedApi } from '../../lib/API/useWrappedApi'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import userStorage from '../../lib/gundb/UserStorage'
+import logger from '../../lib/logger/pino-logger'
+
 type SideMenuPanelProps = {
   navigation: any
 }
 
+const log = logger.child({ from: 'SideMenuPanel' })
 const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation }) => [
   {
     icon: 'person',
@@ -34,10 +37,22 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation })
       hideSidemenu()
     }
   },
-  // {
-  //   icon: 'person',
-  //   name: 'Profile Privacy'
-  // },
+  {
+    icon: 'person-pin',
+    name: 'Privacy Policy',
+    action: async () => {
+      navigation.navigate('PP')
+      hideSidemenu()
+    }
+  },
+  {
+    icon: 'announcement',
+    name: 'Terms of Use',
+    action: async () => {
+      navigation.navigate('TOU')
+      hideSidemenu()
+    }
+  },
   // {
   //   icon: 'notifications',
   //   name: 'Notification Settings'
@@ -64,9 +79,9 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation })
         dismissText: 'DELETE',
         onCancel: () => hideDialog(),
         onDismiss: async () => {
-          await userStorage.deleteAccount()
+          await userStorage.deleteAccount().catch(e => log.error('Error deleting account', e))
           hideSidemenu()
-          navigation.navigate('Auth')
+          window.location = '/'
         }
       })
     }

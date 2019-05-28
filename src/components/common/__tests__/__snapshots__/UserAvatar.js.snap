@@ -59,6 +59,7 @@ exports[`UserAvatar matches snapshot 1`] = `
           "WebkitTransitionDuration": "0.15s",
           "WebkitTransitionProperty": "opacity",
           "WebkitUserSelect": "none",
+          "backgroundColor": "rgba(0,0,0,0.00)",
           "msUserSelect": "none",
           "transitionDuration": "0.15s",
           "transitionProperty": "opacity",

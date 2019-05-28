@@ -328,7 +328,13 @@ export class UserStorage {
     logger.debug('getAllfeed', { feed, cursor: this.cursor })
     return feed
   }
-
+  /**
+   * Used as subscripition callback for gundb
+   * When the index of <day> to <number of events> changes
+   * We get the object and turn it into a sorted array by <day> which we keep in memory for feed display purposes
+   * @param {object} changed the index data from gundb an object with days as keys and number of event in that day as value
+   * @param {string} field the name of the gundb key changed
+   */
   updateFeedIndex = (changed: any, field: string) => {
     if (field !== 'index' || changed === undefined) return
     delete changed._
@@ -336,13 +342,12 @@ export class UserStorage {
     logger.debug('updateFeedIndex', { changed, field, newIndex: this.feedIndex })
   }
 
+  /**
+   * Subscribes to changes on the event index of day to number of events
+   * the "false" (see gundb docs) passed is so we get the complete 'index' on every change and not just the day that changed
+   */
   async initFeed() {
     this.feed = this.gunuser.get('feed')
-    await this.feed
-      .get('index')
-      .map()
-      .once(this.updateFeedIndex)
-      .then()
     this.feed.get('index').on(this.updateFeedIndex, false)
   }
 
@@ -428,8 +433,8 @@ export class UserStorage {
 
     const profileSettings = {
       fullName: { defaultPrivacy: 'public' },
-      email: { defaultPrivacy: 'masked' },
-      mobile: { defaultPrivacy: 'masked' },
+      email: { defaultPrivacy: 'public' },
+      mobile: { defaultPrivacy: 'public' },
       avatar: { defaultPrivacy: 'public' },
       walletAddress: { defaultPrivacy: 'public' },
       username: { defaultPrivacy: 'public' }
@@ -448,7 +453,7 @@ export class UserStorage {
         .map(async field => this.setProfileField(field, profile[field], await getPrivacy(field)))
     ).then(results => {
       const errors = results.filter(ack => ack && ack.err).map(ack => ack.err)
-      if (errors.length > 0) throw new Error(errors)
+      if (errors.length > 0) logger.error('setProfile', errors)
       return true
     })
   }
@@ -845,12 +850,6 @@ export class UserStorage {
    * Calling the server to delete their data
    */
   async deleteAccount(): Promise<boolean> {
-    let profileDelete = await this.gunuser
-      .delete()
-      .then(r => ({ profile: 'ok' }))
-      .catch(e => ({
-        profile: 'failed'
-      }))
     let deleteResults = await Promise.all([
       goodWallet
         .deleteAccount()
@@ -860,9 +859,34 @@ export class UserStorage {
         .then(r => get(r, 'data.results'))
         .catch(e => ({
           server: 'failed'
+        })),
+      this.gunuser
+        .get('profile')
+        .put('null')
+        .then(r => ({
+          profile: 'ok'
+        }))
+        .catch(r => ({
+          profile: 'failed'
+        })),
+      this.gunuser
+        .get('feed')
+        .put(null)
+        .then(r => ({
+          feed: 'ok'
+        }))
+        .catch(r => ({
+          feed: 'failed'
         }))
     ])
-    logger.debug('deleteAccount', { ...deleteResults, ...profileDelete })
+    //Issue with gun delete()
+    // let profileDelete = await this.gunuser
+    //   .delete()
+    //   .then(r => ({ profile: 'ok' }))
+    //   .catch(e => ({
+    //     profile: 'failed'
+    //   }))
+    logger.debug('deleteAccount', { deleteResults })
     return AsyncStorage.clear()
   }
 }

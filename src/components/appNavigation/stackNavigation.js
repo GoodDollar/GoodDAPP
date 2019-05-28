@@ -206,7 +206,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
     return (
       <React.Fragment>
         {/* <Helmet>
-          <title>{`Good Dollar | ${pageTitle}`}</title>
+          <title>{`GoodDollar | ${pageTitle}`}</title>
         </Helmet> */}
         {!navigationBarHidden && <NavBar goBack={backButtonHidden ? undefined : this.pop} title={pageTitle} />}
         <View style={{ backgroundColor: '#fff', flex: 1 }}>

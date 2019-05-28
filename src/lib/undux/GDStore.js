@@ -1,36 +1,51 @@
 // @flow
-import { createConnectedStore, withReduxDevtools } from 'undux'
+import { createConnectedStore, withReduxDevtools, type StoreDefinition } from 'undux'
 import compose from 'lodash/fp/compose'
 
 import withPinoLogger from './plugins/logger'
 import effects from '../../lib/undux/effects'
 
+/**
+ * Wheather the balance update is running or not
+ * @type
+ */
 type BalanceUpdate = {
   running: boolean
 }
 
-type Name = {
-  fullName: string,
-  valid?: boolean
-}
-
+/**
+ * Account data
+ * @type
+ */
 type Account = {
   balance: string,
   entitlement: string,
   ready: false
 }
 
+/**
+ * Dialog data. This is being used to show a dialog across the app
+ * @type
+ */
 type DialogData = {
   visible: boolean,
   title?: string,
   message?: string
 }
 
+/**
+ * Current screen state data
+ * @type
+ */
 type CurrentScreen = {
   dialogData?: DialogData,
   loading: boolean
 }
 
+/**
+ * StandardFeed element. It's being used to show the feed on dashboard
+ * @type
+ */
 export type StandardFeed = {
   id: string,
   date: number,
@@ -46,6 +61,10 @@ export type StandardFeed = {
   }
 }
 
+/**
+ * Loading indicator screen status. In true means that there is a loading overlay over the current screen
+ * @type
+ */
 type LoadingIndicator = {
   loading: boolean
 }
@@ -56,7 +75,6 @@ type LoadingIndicator = {
  */
 export type State = {
   balanceUpdate: BalanceUpdate,
-  name: Name,
   account: Account,
   currentScreen: CurrentScreen,
   destinationPath: string,
@@ -72,10 +90,6 @@ export type State = {
 const initialState: State = {
   balanceUpdate: {
     running: false
-  },
-  name: {
-    fullName: '',
-    valid: undefined
   },
   account: {
     balance: '',
@@ -106,7 +120,7 @@ const initialState: State = {
  * default exported instance of our global Undux Store
  * @module
  */
-const GDStore: UnduxStore = createConnectedStore(
+const GDStore: StoreDefinition<State> = createConnectedStore(
   initialState,
   compose(
     effects,

@@ -1,9 +1,7 @@
 // @flow
 import React from 'react'
 import { HelperText, TextInput } from 'react-native-paper'
-import type { Store } from 'undux'
 
-import GDStore from '../../lib/undux/GDStore'
 import { validateFullName } from '../../lib/validators/validateFullName'
 import { Title, Wrapper } from './components'
 
@@ -11,8 +9,7 @@ type Props = {
   // callback to report to parent component
   doneCallback: ({ name: string }) => null,
   screenProps: any,
-  navigation: any,
-  store: Store
+  navigation: any
 }
 
 type State = {
@@ -80,4 +77,4 @@ class NameForm extends React.Component<Props, State> {
   }
 }
 
-export default GDStore.withStore(NameForm)
+export default NameForm

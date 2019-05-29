@@ -89,6 +89,9 @@
         "allow": [
           "info"
         ]
-      }]
+      }
+    ],
+    "no-await-in-loop": "error",
+    "curly": "error"
   }
 }

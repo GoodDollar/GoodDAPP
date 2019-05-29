@@ -85,7 +85,9 @@ export type TransactionEvent = FeedEvent & {
  * @returns {object} {transferLog: event: [{evtName: evtValue}]}
  */
 export const getReceiveDataFromReceipt = (receipt: any) => {
-  if (!receipt || !receipt.logs || receipt.logs.length <= 0) return {}
+  if (!receipt || !receipt.logs || receipt.logs.length <= 0) {
+    return {}
+  }
   // Obtain logged data from receipt event
   const logs = receipt.logs
     .filter(_ => _)
@@ -182,7 +184,9 @@ export class UserStorage {
    * @returns {string} - Value without '+' (plus), '-' (minus), '_' (underscore), ' ' (space), in lower case
    */
   static cleanFieldForIndex = (field: string, value: string): string => {
-    if (field === 'mobile' || field === 'phone') return value.replace(/[_+-\s]+/g, '')
+    if (field === 'mobile' || field === 'phone') {
+      return value.replace(/[_+-\s]+/g, '')
+    }
     return value.toLowerCase()
   }
 
@@ -228,7 +232,9 @@ export class UserStorage {
         logger.debug('gundb user created', userCreated)
         //auth.then - doesnt seem to work server side in tests
         this.gunuser.auth(username, password, user => {
-          if (user.err) return rej(user.err)
+          if (user.err) {
+            return rej(user.err)
+          }
           this.user = this.gunuser.is
           this.profile = this.gunuser.get('profile')
           this.profile.open(doc => {
@@ -283,7 +289,9 @@ export class UserStorage {
         }
       }
       logger.debug('receiptReceived', { initialEvent, feedEvent, receipt, data, updatedFeedEvent })
-      if (isEqual(feedEvent, updatedFeedEvent) === false) await this.updateFeedEvent(updatedFeedEvent)
+      if (isEqual(feedEvent, updatedFeedEvent) === false) {
+        await this.updateFeedEvent(updatedFeedEvent)
+      }
       //remove pending once we used it and updated feed
       this.dequeueTX(receipt.transactionHash)
       return updatedFeedEvent
@@ -336,7 +344,9 @@ export class UserStorage {
    * @param {string} field the name of the gundb key changed
    */
   updateFeedIndex = (changed: any, field: string) => {
-    if (field !== 'index' || changed === undefined) return
+    if (field !== 'index' || changed === undefined) {
+      return
+    }
     delete changed._
     this.feedIndex = orderBy(toPairs(changed), day => day[0], 'desc')
     logger.debug('updateFeedIndex', { changed, field, newIndex: this.feedIndex })
@@ -410,7 +420,9 @@ export class UserStorage {
 
   subscribeProfileUpdates(callback: any => void) {
     this.subscribersProfileUpdates.push(callback)
-    if (this._lastProfileUpdate) callback(this._lastProfileUpdate)
+    if (this._lastProfileUpdate) {
+      callback(this._lastProfileUpdate)
+    }
   }
 
   unSubscribeProfileUpdates() {
@@ -453,7 +465,9 @@ export class UserStorage {
         .map(async field => this.setProfileField(field, profile[field], await getPrivacy(field)))
     ).then(results => {
       const errors = results.filter(ack => ack && ack.err).map(ack => ack.err)
-      if (errors.length > 0) logger.error('setProfile', errors)
+      if (errors.length > 0) {
+        logger.error('setProfile', errors)
+      }
       return true
     })
   }
@@ -475,7 +489,9 @@ export class UserStorage {
       case 'masked':
         display = UserStorage.maskField(field, value)
         //undo invalid masked field
-        if (display === value) privacy = 'public'
+        if (display === value) {
+          privacy = 'public'
+        }
         break
       case 'public':
         display = value
@@ -516,9 +532,13 @@ export class UserStorage {
    * need to develop for gundb immutable keys to non first user
    */
   async indexProfileField(field: string, value: string, privacy: FieldPrivacy): Promise<ACK> {
-    if (!UserStorage.indexableFields[field]) return Promise.resolve({ err: 'Not indexable field', ok: 0 })
+    if (!UserStorage.indexableFields[field]) {
+      return Promise.resolve({ err: 'Not indexable field', ok: 0 })
+    }
     const cleanValue = UserStorage.cleanFieldForIndex(field, value)
-    if (!cleanValue) return Promise.resolve({ err: 'Indexable field cannot be null or empty', ok: 0 })
+    if (!cleanValue) {
+      return Promise.resolve({ err: 'Indexable field cannot be null or empty', ok: 0 })
+    }
 
     const indexNode = gun.get(`users/by${field}`).get(cleanValue)
     logger.debug('indexProfileField', { field, cleanValue, value, privacy, indexNode })
@@ -569,12 +589,20 @@ export class UserStorage {
    * @returns {Promise} Promise with an array of feed events
    */
   async getFeedPage(numResults: number, reset?: boolean = false): Promise<Array<FeedEvent>> {
-    if (reset) this.cursor = undefined
-    if (this.cursor === undefined) this.cursor = 0
+    if (reset) {
+      this.cursor = undefined
+    }
+    if (this.cursor === undefined) {
+      this.cursor = 0
+    }
     let total = 0
-    if (!this.feedIndex) return []
+    if (!this.feedIndex) {
+      return []
+    }
     let daysToTake: Array<[string, number]> = takeWhile(this.feedIndex.slice(this.cursor), day => {
-      if (total >= numResults) return false
+      if (total >= numResults) {
+        return false
+      }
       total += day[1]
       return true
     })
@@ -618,12 +646,18 @@ export class UserStorage {
   async getFormatedEventById(id: string): Promise<StandardFeed> {
     const prevFeedEvent = (await this.getFeedItemByTransactionHash(id)) || (await this.peekTX(id))
     const standardPrevFeedEvent = await this.formatEvent(prevFeedEvent)
-    if (!prevFeedEvent) return standardPrevFeedEvent
-    if (prevFeedEvent.data && prevFeedEvent.data.receipt) return standardPrevFeedEvent
+    if (!prevFeedEvent) {
+      return standardPrevFeedEvent
+    }
+    if (prevFeedEvent.data && prevFeedEvent.data.receipt) {
+      return standardPrevFeedEvent
+    }
 
     //if for some reason we dont have the receipt(from blockchain) yet then fetch it
     const receipt = await this.wallet.getReceiptWithLogs(id)
-    if (!receipt) return standardPrevFeedEvent
+    if (!receipt) {
+      return standardPrevFeedEvent
+    }
     //update the event
     let updatedEvent = await this.handleReceiptUpdated(receipt)
     logger.debug('getFormatedEventById updated event with receipt', { prevFeedEvent, updatedEvent })
@@ -796,8 +830,11 @@ export class UserStorage {
       merge(toUpd, eventIndexItem)
     } else {
       let insertPos = dayEventsArr.findIndex(e => date > new Date(e.updateDate))
-      if (insertPos >= 0) dayEventsArr.splice(insertPos, 0, eventIndexItem)
-      else dayEventsArr.unshift(eventIndexItem)
+      if (insertPos >= 0) {
+        dayEventsArr.splice(insertPos, 0, eventIndexItem)
+      } else {
+        dayEventsArr.unshift(eventIndexItem)
+      }
     }
     let saveAck = this.feed
       .get(day)

@@ -256,7 +256,9 @@ type PushButtonProps = {
  */
 export const PushButton = ({ routeName, screenProps, canContinue, params, ...props }: PushButtonProps) => {
   const shouldContinue = async () => {
-    if (canContinue === undefined) return true
+    if (canContinue === undefined) {
+      return true
+    }
 
     const result = await canContinue()
     return result

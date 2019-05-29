@@ -38,11 +38,17 @@ const GenerateLinkButton = ({ screenProps, disabled }) => (
 )
 
 const validate = async to => {
-  if (!to) return null
+  if (!to) {
+    return null
+  }
 
-  if (isMobilePhone(to) || isEmail(to)) return null
+  if (isMobilePhone(to) || isEmail(to)) {
+    return null
+  }
 
-  if (goodWallet.wallet.utils.isAddress(to)) return null
+  if (goodWallet.wallet.utils.isAddress(to)) {
+    return null
+  }
 
   return `Needs to be a valid wallet address, email or mobile phone (starts with a '+')`
 }
@@ -50,7 +56,9 @@ const validate = async to => {
 const ContinueButton = ({ screenProps, to, disabled, checkError }) => (
   <CustomButton
     onPress={async () => {
-      if (await checkError()) return
+      if (await checkError()) {
+        return
+      }
 
       const address = await userStorage.getUserAddress(to).catch(e => undefined)
       if (address || goodWallet.wallet.utils.isAddress(to)) {

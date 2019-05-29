@@ -21,7 +21,9 @@ class LoginService {
   }
 
   storeCredentials(creds: Credentials) {
-    if (!creds) return
+    if (!creds) {
+      return
+    }
     this.credentials = creds
     AsyncStorage.setItem('GoodDAPP_creds', JSON.stringify(this.credentials))
   }
@@ -29,7 +31,9 @@ class LoginService {
   // eslint-disable-next-line class-methods-use-this
   storeJWT(jwt: string) {
     this.jwt = jwt
-    if (jwt) AsyncStorage.setItem('GoodDAPP_jwt', jwt)
+    if (jwt) {
+      AsyncStorage.setItem('GoodDAPP_jwt', jwt)
+    }
   }
 
   async getCredentials(): Promise<?Credentials> {

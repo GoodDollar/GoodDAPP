@@ -54,7 +54,9 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
       const destRoute = actions => (some(actions, 'action') ? destRoute(actions.action) : actions.action)
       const destData = { ...destRoute(app), params: navInfo.params }
       return destData
-    } else if (destinationPath) return JSON.parse(destinationPath)
+    } else if (destinationPath) {
+      return JSON.parse(destinationPath)
+    }
     return undefined
   }
   //TODO: add shouldComponentUpdate to rerender only on route change/dialog?
@@ -87,7 +89,9 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
       if (destDetails) {
         this.props.navigation.navigate(destDetails)
         return AsyncStorage.removeItem('destinationPath')
-      } else this.props.navigation.navigate('AppNavigation')
+      } else {
+        this.props.navigation.navigate('AppNavigation')
+      }
     } else {
       const { jwt } = credsOrError
       if (jwt) {

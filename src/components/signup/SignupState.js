@@ -63,14 +63,18 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
     setLoading(false)
     setTimeout(() => {
       const el = document.getElementById(routeKey + '_input')
-      if (el) el.focus()
+      if (el) {
+        el.focus()
+      }
     }, 300)
   }
   const fireSignupEvent = (event?: string) => {
     const Amplitude = amplitude.getInstance()
     let curRoute = navigation.state.routes[navigation.state.index]
     let res = Amplitude.logEvent(`SIGNUP_${event || curRoute.key}`)
-    if (!res) log.warn('Amplitude event not sent')
+    if (!res) {
+      log.warn('Amplitude event not sent')
+    }
     log.debug('fired event', `SIGNUP_${event || curRoute.key}`)
   }
 

@@ -120,7 +120,9 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
 
   performFaceRecognition = async (captureResult: ZoomCaptureResult) => {
     log.info({ captureResult })
-    if (!captureResult) this.onFaceRecognitionFailure({ error: 'Failed to cature user' })
+    if (!captureResult) {
+      this.onFaceRecognitionFailure({ error: 'Failed to cature user' })
+    }
     this.setState({ showZoomCapture: false, loadingFaceRecognition: true, loadingText: 'Analyzing Face Recognition..' })
     let req = await this.createFaceRecognitionReq(captureResult)
     log.debug({ req })
@@ -152,10 +154,14 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
       return
     }
     log.info({ result })
-    if (!result.ok || result.livenessPassed === false || result.isDuplicate === true || result.enrollResult === false)
+    if (!result.ok || result.livenessPassed === false || result.isDuplicate === true || result.enrollResult === false) {
       this.onFaceRecognitionFailure(result)
-    if (result.ok && result.enrollResult) this.onFaceRecognitionSuccess(result)
-    else log.error('uknown error') // TODO: handle general error
+    }
+    if (result.ok && result.enrollResult) {
+      this.onFaceRecognitionSuccess(result)
+    } else {
+      log.error('uknown error')
+    } // TODO: handle general error
   }
 
   onFaceRecognitionSuccess = async (res: FaceRecognitionResponse) => {
@@ -163,8 +169,9 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     log.debug({ res })
     this.setState({ loadingFaceRecognition: true, loadingText: 'Saving Face Information to Your profile..' })
     try {
-      if (res.enrollResult.enrollmentIdentifier)
+      if (res.enrollResult.enrollmentIdentifier) {
         await userStorage.setProfileField('zoomEnrollmentId', res.enrollResult.enrollmentIdentifier, 'private')
+      }
       this.props.screenProps.pop({ isValid: true })
     } catch (e) {
       log.error('failed to save facemap') // TODO: handle what happens if the facemap was not saved successfully to the user storage
@@ -176,11 +183,19 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     this.setState({ loadingFaceRecognition: false, loadingText: '', showZoomCapture: false })
     log.warn('user did not pass Face Recognition', result)
     let reason = ''
-    if (!result) reason = 'General Error'
-    if (result.error) reason = result.error
-    if (result.livenessPassed === false) reason = 'Liveness Failed'
-    else if (result.isDuplicate) reason = 'Face Already Exist'
-    else reason = 'Enrollment Failed'
+    if (!result) {
+      reason = 'General Error'
+    }
+    if (result.error) {
+      reason = result.error
+    }
+    if (result.livenessPassed === false) {
+      reason = 'Liveness Failed'
+    } else if (result.isDuplicate) {
+      reason = 'Face Already Exist'
+    } else {
+      reason = 'Enrollment Failed'
+    }
 
     this.props.store.set('currentScreen')({
       dialogData: {

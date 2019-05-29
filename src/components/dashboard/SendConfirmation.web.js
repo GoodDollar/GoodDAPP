@@ -30,7 +30,9 @@ const SendConfirmation = ({ screenProps }: ReceiveProps) => {
   const { amount, reason, sendLink, to } = screenState
 
   useEffect(() => {
-    if (isMobile && to) setHrefLinks(generateHrefLinks(sendLink, to))
+    if (isMobile && to) {
+      setHrefLinks(generateHrefLinks(sendLink, to))
+    }
   }, [])
 
   const copySendLink = useCallback(() => {

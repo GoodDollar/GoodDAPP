@@ -23,7 +23,9 @@ const EditProfile = props => {
   const handleSaveButton = async () => {
     const { isValid, errors } = profile.validate()
     setErrors(errors)
-    if (!isValid) return
+    if (!isValid) {
+      return
+    }
 
     setSaving(true)
     await wrappedUserStorage

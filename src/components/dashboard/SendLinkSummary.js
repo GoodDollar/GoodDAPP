@@ -68,7 +68,9 @@ const SendLinkSummary = (props: AmountProps) => {
           await goodWallet.cancelOtl(hashedString)
           throw e
         }
-      } else throw new Error('Link generation failed')
+      } else {
+        throw new Error('Link generation failed')
+      }
     } catch (e) {
       store.set('currentScreen')({
         dialogData: { visible: true, title: 'Error', message: e.message, dismissText: 'OK' }

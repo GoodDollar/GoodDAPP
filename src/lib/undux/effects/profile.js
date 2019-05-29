@@ -5,7 +5,9 @@ import type { State } from '../GDStore'
 
 const withProfile: Effects<State> = (store: Store) => {
   store.on('isLoggedIn').subscribe(isLoggedIn => {
-    if (!isLoggedIn) return
+    if (!isLoggedIn) {
+      return
+    }
 
     userStorage.subscribeProfileUpdates(profile => {
       userStorage.getDisplayProfile(profile).then(store.set('profile'))

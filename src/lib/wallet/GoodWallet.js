@@ -137,7 +137,9 @@ export class GoodWallet {
 
   async getReceiptWithLogs(transactionHash: string) {
     const transactionReceipt = await this.wallet.eth.getTransactionReceipt(transactionHash)
-    if (!transactionReceipt) return null
+    if (!transactionReceipt) {
+      return null
+    }
 
     const logs = abiDecoder.decodeLogs(transactionReceipt.logs)
     const receipt = { ...transactionReceipt, logs }
@@ -477,11 +479,15 @@ export class GoodWallet {
 
     // Check link availability
     const linkUsed = await this.isWithdrawLinkUsed(link)
-    if (linkUsed) return 'Completed'
+    if (linkUsed) {
+      return 'Completed'
+    }
 
     // Check payment availability
     const paymentAvailable = await this.getWithdrawAvailablePayment(link)
-    if (this.isWithdrawPaymentAvailable(paymentAvailable)) return 'Cancelled'
+    if (this.isWithdrawPaymentAvailable(paymentAvailable)) {
+      return 'Cancelled'
+    }
 
     return 'Pending'
   }
@@ -494,11 +500,15 @@ export class GoodWallet {
 
     // Check link availability
     const linkUsed = await this.isWithdrawLinkUsed(link)
-    if (!linkUsed) throw new Error('invalid link')
+    if (!linkUsed) {
+      throw new Error('invalid link')
+    }
 
     // Check payment availability
     const paymentAvailable = await this.getWithdrawAvailablePayment(link)
-    if (this.isWithdrawPaymentAvailable(paymentAvailable)) throw new Error('deposit already withdrawn')
+    if (this.isWithdrawPaymentAvailable(paymentAvailable)) {
+      throw new Error('deposit already withdrawn')
+    }
 
     const sender = await senders(link).call()
     return {

@@ -21,7 +21,9 @@ const Amount = (props: AmountProps) => {
   const [showDialogWithData] = useDialog()
 
   const canContinue = async () => {
-    if (params && params.toReceive) return true
+    if (params && params.toReceive) {
+      return true
+    }
 
     if (!(await goodWallet.canSend(amount))) {
       showDialogWithData({

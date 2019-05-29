@@ -37,7 +37,9 @@ const SendQRSummary = (props: AmountProps) => {
     setProfile(profile)
   }
   useEffect(() => {
-    if (to) updateRecepientProfile()
+    if (to) {
+      updateRecepientProfile()
+    }
   }, [to])
 
   const faceRecognition = () => {

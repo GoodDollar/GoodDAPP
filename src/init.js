@@ -6,8 +6,8 @@ import userStorage from './lib/gundb/UserStorage'
 
 declare var Rollbar
 declare var amplitude
-export const init = async () => {
-  return await Promise.all([goodWallet.ready, userStorage.ready]).then(([wallet, storage]) => {
+export const init = () => {
+  return Promise.all([goodWallet.ready, userStorage.ready]).then(() => {
     global.wallet = goodWallet
     Rollbar.configure({
       payload: {

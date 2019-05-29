@@ -223,8 +223,8 @@ export class GoodWallet {
     }
   }
 
-  async checkEntitlement(): Promise<number> {
-    return await this.claimContract.methods.checkEntitlement().call()
+  checkEntitlement(): Promise<number> {
+    return this.claimContract.methods.checkEntitlement().call()
   }
 
   /**
@@ -456,9 +456,9 @@ export class GoodWallet {
     return sha3(otlCode)
   }
 
-  async isWithdrawLinkUsed(link: string) {
+  isWithdrawLinkUsed(link: string): Promise<boolean> {
     const { isLinkUsed } = this.oneTimePaymentLinksContract.methods
-    return await isLinkUsed(link).call()
+    return isLinkUsed(link).call()
   }
 
   isWithdrawPaymentAvailable(payment: any) {
@@ -517,17 +517,17 @@ export class GoodWallet {
     }
   }
 
-  async withdraw(otlCode: string, promiEvents: ?PromiEvents) {
+  withdraw(otlCode: string, promiEvents: ?PromiEvents): Promise<TransactionReceipt> {
     const withdrawCall = this.oneTimePaymentLinksContract.methods.withdraw(otlCode)
     log.info('withdrawCall', withdrawCall)
-    return await this.sendTransaction(withdrawCall, { ...defaultPromiEvents, ...promiEvents })
+    return this.sendTransaction(withdrawCall, { ...defaultPromiEvents, ...promiEvents })
   }
 
-  async cancelOtl(otlCode: string) {
+  cancelOtl(otlCode: string): Promise<TransactionReceipt> {
     const cancelOtlCall = this.oneTimePaymentLinksContract.methods.cancel(otlCode)
     log.info('cancelOtlCall', cancelOtlCall)
 
-    return await this.sendTransaction(cancelOtlCall, { onTransactionHash: hash => log.debug({ hash }) })
+    return this.sendTransaction(cancelOtlCall, { onTransactionHash: hash => log.debug({ hash }) })
   }
 
   handleError(err: Error) {
@@ -564,7 +564,7 @@ export class GoodWallet {
     log.info({ amount, to })
     const transferCall = this.tokenContract.methods.transfer(to, amount.toString()) // retusn TX object (not sent to the blockchain yet)
 
-    return await this.sendTransaction(transferCall, events) // Send TX to the blockchain
+    return this.sendTransaction(transferCall, events) // Send TX to the blockchain
   }
 
   /**

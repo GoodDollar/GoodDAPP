@@ -620,7 +620,7 @@ export class UserStorage {
 
     const eventsIndex = flatten(await Promise.all(promises))
 
-    return await Promise.all(
+    return Promise.all(
       eventsIndex
         .filter(_ => _.id)
         .map(eventIndex =>
@@ -640,7 +640,7 @@ export class UserStorage {
    */
   async getFormattedEvents(numResults: number, reset?: boolean): Promise<Array<StandardFeed>> {
     const feed = await this.getFeedPage(numResults, reset)
-    return await Promise.all(feed.filter(feedItem => feedItem.data).map(this.formatEvent))
+    return Promise.all(feed.filter(feedItem => feedItem.data).map(this.formatEvent))
   }
 
   async getFormatedEventById(id: string): Promise<StandardFeed> {
@@ -661,7 +661,7 @@ export class UserStorage {
     //update the event
     let updatedEvent = await this.handleReceiptUpdated(receipt)
     logger.debug('getFormatedEventById updated event with receipt', { prevFeedEvent, updatedEvent })
-    return await this.formatEvent(updatedEvent)
+    return this.formatEvent(updatedEvent)
   }
 
   /**
@@ -776,8 +776,8 @@ export class UserStorage {
    * @param {FeedEvent} event
    * @returns {Promise<>}
    */
-  async enqueueTX(event: FeedEvent): Promise<> {
-    return await AsyncStorage.setItem(event.id, JSON.stringify(event))
+  enqueueTX(event: FeedEvent): Promise<> {
+    return AsyncStorage.setItem(event.id, JSON.stringify(event))
   }
   /**
    * remove and return pending TX

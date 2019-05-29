@@ -94,6 +94,13 @@
     "no-await-in-loop": "error",
     "curly": "error",
     "dot-notation": "error",
-    "no-else-return": "error"
+    "no-else-return": "error",
+    "no-implicit-coercion": [
+      "error",
+      {
+        "boolean": false
+      }
+    ],
+    "no-return-await": "error"
   }
 }

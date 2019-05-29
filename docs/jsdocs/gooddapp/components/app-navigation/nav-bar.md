@@ -3,14 +3,19 @@
 ### Table of Contents
 
 -   [NavBar][1]
+    -   [Parameters][2]
 
 ## NavBar
 
-**Extends React.Component**
-
 NavigationBar shows title and back button
 
+### Parameters
+
+-   `props` **NavBarProps** 
+
 [1]: #navbar
+
+[2]: #parameters
 ## Source
 [https://github.com/GoodDollar/GoodDAPP/src/components/appNavigation/NavBar.js](https://github.com/GoodDollar/GoodDAPP/src/components/appNavigation/NavBar.js)
 

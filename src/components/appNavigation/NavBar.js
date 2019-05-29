@@ -9,8 +9,8 @@ type NavBarProps = {
 }
 /**
  * NavigationBar shows title and back button
- * @goBack: Function to be executed on click on back button
- * @title: Screen title
+ * @class NavBar
+ * @param {NavBarProps} props
  */
 class NavBar extends React.Component<NavBarProps> {
   render() {

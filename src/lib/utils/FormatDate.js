@@ -1,4 +1,9 @@
 // @flow
+
+/**
+ * format date util function
+ * @param {string} stringDate
+ */
 export const getFormattedDateTime = (stringDate: string) =>
   new Date(stringDate)
     .toLocaleString([], {

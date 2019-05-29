@@ -1,7 +1,4 @@
 // @flow
-/**
- * @file Displays a summary when sending G$ directly to a blockchain address
- */
 import React, { useState, useEffect } from 'react'
 import { View } from 'react-native'
 import UserStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
@@ -23,6 +20,12 @@ const TITLE = 'Send G$'
 
 const log = logger.child({ from: 'SendQRSummary' })
 
+/**
+ * Screen that shows transaction summary for a send qr action
+ * @param {AmountProps} props
+ * @param {any} props.screenProps
+ * @param {any} props.navigation
+ */
 const SendQRSummary = (props: AmountProps) => {
   const { screenProps } = props
   const [screenState] = useScreenState(screenProps)
@@ -82,9 +85,7 @@ const SendQRSummary = (props: AmountProps) => {
     }
   }
 
-  /**
-   * continue after valid FR to send the G$
-   */
+  // continue after valid FR to send G$
   useEffect(() => {
     if (isValid === true) {
       sendGD()

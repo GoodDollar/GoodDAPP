@@ -281,11 +281,12 @@ export class GoodWallet {
 
   /**
    * Client side event filter. Requests all events matching to the specified event, of a specified contract, then filters them and returns the event Object
-   * @param {String} event - Event to subscribe to
-   * @param {Object} contract - Contract from which event will be queried
-   * @param {Object} filterPred - Event's filter. Does not required to be indexed as it's filtered locally
-   * @param {BN} fromBlock - Lower blocks range value
-   * @param {BN} toBlock - Higher blocks range value
+   * @param {object} params - an object with params
+   * @param {string} params.event - Event to subscribe to
+   * @param {object} params.contract - Contract from which event will be queried
+   * @param {object} params.filterPred - Event's filter. Does not require to be indexed as it's filtered locally
+   * @param {BN} params.fromBlock - Lower blocks range value
+   * @param {BN} params.toBlock - Higher blocks range value
    * @returns {Promise<*>}
    */
   async getEvents({ event, contract, filterPred, fromBlock = ZERO, toBlock }: QueryEvent): Promise<[]> {

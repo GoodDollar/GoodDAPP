@@ -415,7 +415,7 @@ export class GoodWallet {
   }
 
   /**
-   * deposit specified amount to _oneTimeLink_ conrtact, and generates a link that would send the user to a URL to withdraw it
+   * deposits the specified amount to _oneTimeLink_ contract and generates a link that will send the user to a URL to withdraw it
    * @param {number} amount - amount of money to send using OTP
    * @param {string} reason - optional reason for sending the payment (comment)
    * @param {PromiEvents} events - used to subscribe to onTransactionHash event

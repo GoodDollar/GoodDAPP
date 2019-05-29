@@ -92,6 +92,8 @@
       }
     ],
     "no-await-in-loop": "error",
-    "curly": "error"
+    "curly": "error",
+    "dot-notation": "error",
+    "no-else-return": "error"
   }
 }

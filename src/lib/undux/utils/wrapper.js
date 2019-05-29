@@ -50,13 +50,14 @@ export const wrapFunction = (fn, store, params) => {
 const wrapper = (target, store, params) => {
   const handler = new Handler(store, params)
   return new Proxy(target, {
-    get: function(target, name, receiver) {
+    get: function(target, name) {
       const origMethod = target[name]
+
       if (!isFunction(target[name])) {
         return target[name]
-      } else {
-        return wrapperFunction(origMethod, target, handler)
       }
+
+      return wrapperFunction(origMethod, target, handler)
     }
   })
 }

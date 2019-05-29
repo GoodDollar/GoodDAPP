@@ -313,18 +313,18 @@ export class GoodWallet {
       if (events.length) {
         if (callback === undefined) {
           return Promise.resolve(events)
-        } else {
-          callback(null, events)
         }
+
+        callback(null, events)
       }
     } catch (e) {
       log.error({ e })
 
       if (callback === undefined) {
         return Promise.reject(e)
-      } else {
-        callback(e, [])
       }
+
+      callback(e, [])
     }
   }
 

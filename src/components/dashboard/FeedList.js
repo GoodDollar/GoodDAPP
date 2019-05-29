@@ -138,33 +138,33 @@ class FeedList extends PureComponent<FeedListProps, FeedListState> {
           />
         </View>
       )
-    } else {
-      return (
-        <View style={styles.verticalContainer}>
-          {loading ? <ActivityIndicator style={styles.loading} animating={true} color="gray" size="large" /> : null}
-          <AnimatedSwipeableFlatList
-            bounceFirstRowOnMount={true}
-            maxSwipeDistance={160}
-            initialNumToRender={initialNumToRender || 10}
-            data={feeds}
-            getItemLayout={fixedHeight ? this.getItemLayout : undefined}
-            horizontal={horizontal}
-            key={(horizontal ? 'h' : 'v') + (fixedHeight ? 'f' : 'd')}
-            keyboardShouldPersistTaps="always"
-            keyboardDismissMode="on-drag"
-            legacyImplementation={false}
-            numColumns={1}
-            onEndReached={onEndReached}
-            ref={ref => (this.swipeableFlatListRef = ref)}
-            refreshing={false}
-            renderItem={this.renderItemComponent}
-            contentContainerStyle={styles.verticalList}
-            viewabilityConfig={VIEWABILITY_CONFIG}
-            renderQuickActions={FeedActions}
-          />
-        </View>
-      )
     }
+
+    return (
+      <View style={styles.verticalContainer}>
+        {loading ? <ActivityIndicator style={styles.loading} animating={true} color="gray" size="large" /> : null}
+        <AnimatedSwipeableFlatList
+          bounceFirstRowOnMount={true}
+          maxSwipeDistance={160}
+          initialNumToRender={initialNumToRender || 10}
+          data={feeds}
+          getItemLayout={fixedHeight ? this.getItemLayout : undefined}
+          horizontal={horizontal}
+          key={(horizontal ? 'h' : 'v') + (fixedHeight ? 'f' : 'd')}
+          keyboardShouldPersistTaps="always"
+          keyboardDismissMode="on-drag"
+          legacyImplementation={false}
+          numColumns={1}
+          onEndReached={onEndReached}
+          ref={ref => (this.swipeableFlatListRef = ref)}
+          refreshing={false}
+          renderItem={this.renderItemComponent}
+          contentContainerStyle={styles.verticalList}
+          viewabilityConfig={VIEWABILITY_CONFIG}
+          renderQuickActions={FeedActions}
+        />
+      </View>
+    )
   }
 
   render() {

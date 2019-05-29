@@ -130,35 +130,33 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
     } else {
       if (nextRoute) {
         return navigateWithFocus(nextRoute.key)
-      } else {
-        log.info('Sending new user data', state)
-        try {
-          // After sending email to the user for confirmation (transition between Email -> EmailConfirmation)
-          // user's profile is persisted (`userStorage.setProfile`).
-          // Then, when the user access the application from the link (in EmailConfirmation), data is recovered and
-          // saved to the `state`
-          await API.addUser(state)
+      }
 
-          await Promise.all([
-            (saveProfile({ registered: true }),
-            userStorage.setProfileField('registered', true),
-            // Stores creationBlock number into 'lastBlock' feed's node
-            goodWallet
-              .getBlockNumber()
-              .then(creationBlock => userStorage.saveLastBlockNumber(creationBlock.toString())),
-            AsyncStorage.getItem('GD_USER_MNEMONIC').then(mnemonic => API.sendRecoveryInstructionByEmail(mnemonic)))
-          ])
-          // top wallet of new user
-          // wait for the topping to complete to be able to withdraw
-          // await API.verifyTopWallet()
-          userStorage.setProfileField('registered', true, 'public')
-          navigation.navigate('AppNavigation')
-          store.set('isLoggedIn')(true)
-          // store.set('currentScreen')({ loading: false })
-          setLoading(false)
-        } catch (error) {
-          log.error('New user failure', { error })
-        }
+      log.info('Sending new user data', state)
+      try {
+        // After sending email to the user for confirmation (transition between Email -> EmailConfirmation)
+        // user's profile is persisted (`userStorage.setProfile`).
+        // Then, when the user access the application from the link (in EmailConfirmation), data is recovered and
+        // saved to the `state`
+        await API.addUser(state)
+
+        await Promise.all([
+          (saveProfile({ registered: true }),
+          userStorage.setProfileField('registered', true),
+          // Stores creationBlock number into 'lastBlock' feed's node
+          goodWallet.getBlockNumber().then(creationBlock => userStorage.saveLastBlockNumber(creationBlock.toString())),
+          AsyncStorage.getItem('GD_USER_MNEMONIC').then(mnemonic => API.sendRecoveryInstructionByEmail(mnemonic)))
+        ])
+        // top wallet of new user
+        // wait for the topping to complete to be able to withdraw
+        // await API.verifyTopWallet()
+        userStorage.setProfileField('registered', true, 'public')
+        navigation.navigate('AppNavigation')
+        store.set('isLoggedIn')(true)
+        // store.set('currentScreen')({ loading: false })
+        setLoading(false)
+      } catch (error) {
+        log.error('New user failure', { error })
       }
     }
   }

@@ -89,9 +89,9 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
       if (destDetails) {
         this.props.navigation.navigate(destDetails)
         return AsyncStorage.removeItem('destinationPath')
-      } else {
-        this.props.navigation.navigate('AppNavigation')
       }
+
+      this.props.navigation.navigate('AppNavigation')
     } else {
       const { jwt } = credsOrError
       if (jwt) {

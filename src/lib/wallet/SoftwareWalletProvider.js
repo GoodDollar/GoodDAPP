@@ -25,13 +25,15 @@ export function saveMnemonics(mnemonics: string): Promise<any> {
  */
 export async function getMnemonics(): Promise<string> {
   let pkey = await AsyncStorage.getItem(GD_USER_MNEMONIC)
-  if (!pkey) {
+
+  if (pkey) {
+    log.info('pkey found, creating account from pkey:', { pkey })
+  } else {
     pkey = generateMnemonic()
     saveMnemonics(pkey)
     log.info('item set in localStorage ', { pkey })
-  } else {
-    log.info('pkey found, creating account from pkey:', { pkey })
   }
+
   return pkey
 }
 
@@ -101,7 +103,7 @@ class SoftwareWalletProvider {
         break
 
       case 'HttpProvider': {
-        const infuraKey = this.conf.httpWeb3provider.indexOf('infura') !== -1 ? Config.infuraKey : ''
+        const infuraKey = this.conf.httpWeb3provider.indexOf('infura') === -1 ? '' : Config.infuraKey
         provider = this.conf.httpWeb3provider + infuraKey
         web3Provider = new Web3.providers.HttpProvider(provider)
         break

@@ -362,8 +362,8 @@ export class GoodWallet {
     const BLOCK_COUNT = 1
     const INTERVAL = BLOCK_COUNT * BLOCK_TIME
 
-    const lastBlock = toBlock !== undefined ? toBlock : await this.getBlockNumber()
-    fromBlock = fromBlock !== undefined ? fromBlock : ZERO
+    const lastBlock = toBlock === undefined ? await this.getBlockNumber() : toBlock
+    fromBlock = fromBlock === undefined ? ZERO : fromBlock
 
     log.trace('fromBlock', fromBlock && fromBlock.toString())
     log.trace('lastBlock', lastBlock.toString())

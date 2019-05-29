@@ -61,10 +61,14 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation, s
   //   icon: 'person',
   //   name: 'Send Feedback'
   // },
-  // {
-  //   icon: 'comment',
-  //   name: 'FAQ'
-  // },
+  {
+    icon: 'comment',
+    name: 'Support',
+    action: async () => {
+      navigation.navigate('Support')
+      hideSidemenu()
+    }
+  },
   // {
   //   icon: 'question-answer',
   //   name: 'About'

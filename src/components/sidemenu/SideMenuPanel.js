@@ -8,13 +8,13 @@ import { useWrappedApi } from '../../lib/API/useWrappedApi'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import userStorage from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
-
+import GDStore from '../../lib/undux/GDStore'
 type SideMenuPanelProps = {
   navigation: any
 }
 
 const log = logger.child({ from: 'SideMenuPanel' })
-const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation }) => [
+const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation, store }) => [
   {
     icon: 'person',
     name: 'Your profile',
@@ -61,10 +61,14 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation })
   //   icon: 'person',
   //   name: 'Send Feedback'
   // },
-  // {
-  //   icon: 'comment',
-  //   name: 'FAQ'
-  // },
+  {
+    icon: 'comment',
+    name: 'Support',
+    action: async () => {
+      navigation.navigate('Support')
+      hideSidemenu()
+    }
+  },
   // {
   //   icon: 'question-answer',
   //   name: 'About'
@@ -79,8 +83,13 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation })
         dismissText: 'DELETE',
         onCancel: () => hideDialog(),
         onDismiss: async () => {
-          await userStorage.deleteAccount().catch(e => log.error('Error deleting account', e))
+          store.set('loadingIndicator')({ loading: true })
           hideSidemenu()
+          await userStorage
+            .deleteAccount()
+            .then(r => log.debug('deleted account', r))
+            .catch(e => log.error('Error deleting account', e))
+          store.set('loadingIndicator')({ loading: false })
           window.location = '/'
         }
       })
@@ -90,9 +99,10 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation })
 
 const SideMenuPanel = ({ navigation }: SideMenuPanelProps) => {
   const API = useWrappedApi()
+  const store = GDStore.useStore()
   const [toggleSidemenu, hideSidemenu] = useSidemenu()
   const [showDialog, hideDialog] = useDialog()
-  const MENU_ITEMS = getMenuItems({ API, hideSidemenu, showDialog, hideDialog, navigation })
+  const MENU_ITEMS = getMenuItems({ API, hideSidemenu, showDialog, hideDialog, navigation, store })
   return (
     <ScrollView>
       <TouchableOpacity style={styles.closeIconRow} onPress={toggleSidemenu}>

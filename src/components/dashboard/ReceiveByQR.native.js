@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { StyleSheet } from 'react-native'
 import QRCodeScanner from 'react-native-qrcode-scanner'
-
 import logger from '../../lib/logger/pino-logger'
 import { extractQueryParams, readReceiveLink } from '../../lib/share'
 import GDStore from '../../lib/undux/GDStore'

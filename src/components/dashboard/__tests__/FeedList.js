@@ -1,9 +1,9 @@
 import React from 'react'
+import renderer from 'react-test-renderer'
 import FeedList from '../FeedList'
 import { mockEvent } from '../__tests__/__util__'
 import GDStore from '../../../lib/undux/GDStore'
-// Note: test renderer must be required after react-native.
-import renderer from 'react-test-renderer'
+
 const { Container } = GDStore
 
 describe('FeedList', () => {

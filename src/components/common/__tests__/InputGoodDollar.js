@@ -1,8 +1,6 @@
 import React from 'react'
-import InputGoodDollar from '../InputGoodDollar'
-
-// Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer'
+import InputGoodDollar from '../InputGoodDollar'
 
 describe('InputGoodDollar', () => {
   it('renders without errors', () => {

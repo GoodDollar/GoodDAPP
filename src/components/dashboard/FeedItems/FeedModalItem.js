@@ -1,11 +1,11 @@
 // @flow
 import React from 'react'
-import { StyleSheet, View, Text } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
+import { Avatar, BigGoodDollar, CustomButton } from '../../common'
+import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
 import type { FeedEventProps } from './EventProps'
 import EventCounterParty from './EventCounterParty'
-import { CustomButton, BigGoodDollar, Avatar } from '../../common'
-import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
 
 /**
  * Render modal item according to the type for feed list in horizontal view

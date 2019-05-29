@@ -63,7 +63,7 @@
     "import/first": "error",
     "import/no-duplicates": "error",
     "import/order": [
-      "error",
+      "warn",
       {
         "groups": [
           "builtin",
@@ -76,7 +76,7 @@
       }
     ],
     "sort-imports": [
-      "error",
+      "warn",
       {
         "ignoreCase": true,
         "ignoreDeclarationSort": true

@@ -1,6 +1,6 @@
 // @flow
 import React, { Component, createRef } from 'react'
-import { Text, Dimensions } from 'react-native'
+import { Dimensions, Text } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 
 const { width, height } = Dimensions.get('window')

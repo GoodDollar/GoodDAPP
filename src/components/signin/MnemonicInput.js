@@ -1,10 +1,10 @@
 // @flow
-
-import React, { useState, useEffect, createRef } from 'react'
-import { View, StyleSheet, TextInput, Text } from 'react-native'
-import logger from '../../lib/logger/pino-logger'
+import React, { createRef, useEffect, useState } from 'react'
+import { StyleSheet, Text, TextInput, View } from 'react-native'
 import { normalize } from 'react-native-elements'
 import values from 'lodash/values'
+import logger from '../../lib/logger/pino-logger'
+
 const log = logger.child({ from: 'MnemonicInput' })
 const MAX_WORDS = 12
 

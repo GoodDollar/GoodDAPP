@@ -4,7 +4,6 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { Clipboard, StyleSheet, Text, View } from 'react-native'
 import { normalize } from 'react-native-elements'
 import { isMobile } from 'mobile-device-detect'
-
 import logger from '../../lib/logger/pino-logger'
 import { generateHrefLinks, generateShareObject } from '../../lib/share'
 import GDStore from '../../lib/undux/GDStore'
@@ -12,8 +11,8 @@ import { DoneButton, useScreenState } from '../appNavigation/stackNavigation'
 import { BigGoodDollar, CustomButton, Section, TopBar, Wrapper } from '../common'
 import { fontStyle } from '../common/styles'
 import './AButton.css'
-import { receiveStyles } from './styles'
 import { getScreenHeight } from '../../lib/utils/Orientation'
+import { receiveStyles } from './styles'
 
 export type ReceiveProps = {
   screenProps: any,

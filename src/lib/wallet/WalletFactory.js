@@ -1,8 +1,8 @@
 // @flow
 import Web3 from 'web3'
-import SoftwareWalletProvider from './SoftwareWalletProvider'
-import Config from '../../config/config'
 import ContractsAddress from '@gooddollar/goodcontracts/releases/deployment.json'
+import Config from '../../config/config'
+import SoftwareWalletProvider from './SoftwareWalletProvider'
 
 export type WalletConfig = {
   network_id: number,

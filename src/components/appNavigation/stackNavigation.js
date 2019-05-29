@@ -1,17 +1,17 @@
 // @flow
-import React, { Component, useState, useEffect } from 'react'
+import React, { Component, useEffect, useState } from 'react'
 import { ScrollView, View } from 'react-native'
 import { Button } from 'react-native-paper'
 import SideMenu from 'react-native-side-menu'
-import { createNavigator, SwitchRouter, SceneView, Route } from '@react-navigation/core'
+import { createNavigator, Route, SceneView, SwitchRouter } from '@react-navigation/core'
 // import { Helmet } from 'react-helmet'
 import GDStore from '../../lib/undux/GDStore'
 import { toggleSidemenu } from '../../lib/undux/utils/sidemenu'
 import SideMenuPanel from '../sidemenu/SideMenuPanel'
 import logger from '../../lib/logger/pino-logger'
-import NavBar from './NavBar'
-import { CustomButton, type ButtonProps } from '../common'
+import { type ButtonProps, CustomButton } from '../common'
 import { scrollableContainer } from '../common/styles'
+import NavBar from './NavBar'
 
 export const DEFAULT_PARAMS = {
   event: undefined,

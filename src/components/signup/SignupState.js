@@ -1,25 +1,24 @@
 // @flow
-import React, { useState, useEffect } from 'react'
-import { View, StyleSheet, ScrollView, AsyncStorage } from 'react-native'
-import NameForm from './NameForm'
-import EmailForm from './EmailForm'
-import PhoneForm from './PhoneForm'
-import SmsForm from './SmsForm'
-import EmailConfirmation from './EmailConfirmation'
-import SignupCompleted from './SignupCompleted'
+import React, { useEffect, useState } from 'react'
+import { AsyncStorage, ScrollView, StyleSheet, View } from 'react-native'
+import { createSwitchNavigator } from '@react-navigation/core'
 import NavBar from '../appNavigation/NavBar'
 import { scrollableContainer } from '../common/styles'
-
-import { createSwitchNavigator } from '@react-navigation/core'
 import logger from '../../lib/logger/pino-logger'
-
 import { useWrappedApi } from '../../lib/API/useWrappedApi'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import userStorage from '../../lib/gundb/UserStorage'
-import type { SMSRecord } from './SmsForm'
 import GDStore from '../../lib/undux/GDStore'
 import { getUserModel, type UserModel } from '../../lib/gundb/UserModel'
 import Config from '../../config/config'
+import type { SMSRecord } from './SmsForm'
+import SignupCompleted from './SignupCompleted'
+import EmailConfirmation from './EmailConfirmation'
+import SmsForm from './SmsForm'
+import PhoneForm from './PhoneForm'
+import EmailForm from './EmailForm'
+import NameForm from './NameForm'
+
 const log = logger.child({ from: 'SignupState' })
 
 export type SignupState = UserModel & SMSRecord

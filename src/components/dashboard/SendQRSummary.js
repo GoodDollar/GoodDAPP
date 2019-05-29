@@ -2,15 +2,14 @@
 /**
  * @file Displays a summary when sending G$ directly to a blockchain address
  */
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { View } from 'react-native'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
-
 import logger from '../../lib/logger/pino-logger'
 import GDStore from '../../lib/undux/GDStore'
 import { useWrappedGoodWallet } from '../../lib/wallet/useWrappedWallet'
 import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
-import { BigGoodDollar, CustomButton, Section, Wrapper, Avatar } from '../common'
+import { Avatar, BigGoodDollar, CustomButton, Section, Wrapper } from '../common'
 import TopBar from '../common/TopBar'
 import { receiveStyles } from './styles'
 

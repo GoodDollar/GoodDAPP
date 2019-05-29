@@ -1,5 +1,4 @@
 //@flow
-import type { StandardFeed } from '../undux/GDStore'
 import Gun from '@gooddollar/gun-appendonly'
 import SEA from 'gun/sea'
 import find from 'lodash/find'
@@ -12,15 +11,16 @@ import maxBy from 'lodash/maxBy'
 import flatten from 'lodash/flatten'
 import get from 'lodash/get'
 import values from 'lodash/values'
-import gun from './gundb'
+import isEmail from 'validator/lib/isEmail'
+import { AsyncStorage } from 'react-native'
 import { default as goodWallet, type GoodWallet } from '../wallet/GoodWallet'
 import isMobilePhone from '../validators/isMobilePhone'
-import isEmail from 'validator/lib/isEmail'
-
 import pino from '../logger/pino-logger'
-import { getUserModel, type UserModel } from './UserModel'
-import { AsyncStorage } from 'react-native'
+import type { StandardFeed } from '../undux/GDStore'
 import API from '../API/api'
+import { getUserModel, type UserModel } from './UserModel'
+import gun from './gundb'
+
 const logger = pino.child({ from: 'UserStorage' })
 
 function isValidDate(d) {
@@ -61,7 +61,7 @@ export type ProfileField = {
  */
 export type FeedEvent = {
   id: string,
-  type: string,
+  type?: string,
   date: string,
   data: any
 }

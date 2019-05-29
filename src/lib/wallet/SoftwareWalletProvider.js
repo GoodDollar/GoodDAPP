@@ -1,12 +1,12 @@
 // @flow
 import Web3 from 'web3'
 import bip39 from 'bip39-light'
+import type { HttpProvider, WebSocketProvider } from 'web3-providers'
+import { AsyncStorage } from 'react-native'
 import Config from '../../config/config'
 import logger from '../logger/pino-logger'
 import type { WalletConfig } from './WalletFactory'
-import type { HttpProvider, WebSocketProvider } from 'web3-providers'
 import MultipleAddressWallet from './MultipleAddressWallet'
-import { AsyncStorage } from 'react-native'
 
 const log = logger.child({ from: 'SoftwareWalletProvider' })
 

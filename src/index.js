@@ -1,11 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-
 import './index.css'
+import fontMaterialIcons from 'react-native-vector-icons/Fonts/MaterialIcons.ttf'
 import App from './App'
 import * as serviceWorker from './serviceWorker'
 import { init } from './init'
-import fontMaterialIcons from 'react-native-vector-icons/Fonts/MaterialIcons.ttf'
 
 const fontStylesMaterialIcons = `@font-face { src: url(${fontMaterialIcons}); font-family: MaterialIcons; }`
 const style = document.createElement('style')

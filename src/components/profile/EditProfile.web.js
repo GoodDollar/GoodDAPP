@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { StyleSheet } from 'react-native'
-import { Wrapper, Section, CustomButton, UserAvatar } from '../common'
+import { CustomButton, Section, UserAvatar, Wrapper } from '../common'
 import GDStore from '../../lib/undux/GDStore'
 import { useWrappedUserStorage } from '../../lib/gundb/useWrappedStorage'
 import userStorage from '../../lib/gundb/UserStorage'

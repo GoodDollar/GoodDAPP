@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { Wrapper, Title } from './components'
+import { Title, Wrapper } from './components'
 
 type Props = {
   screenProps: any

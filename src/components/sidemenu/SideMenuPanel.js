@@ -1,6 +1,5 @@
 // @flow
 import React from 'react'
-import SideMenuItem from './SideMenuItem'
 import { ScrollView, StyleSheet, TouchableOpacity } from 'react-native'
 import { Icon, normalize } from 'react-native-elements'
 import { useSidemenu } from '../../lib/undux/utils/sidemenu'
@@ -8,13 +7,14 @@ import { useWrappedApi } from '../../lib/API/useWrappedApi'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import userStorage from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
+import SideMenuItem from './SideMenuItem'
 
 type SideMenuPanelProps = {
   navigation: any
 }
 
 const log = logger.child({ from: 'SideMenuPanel' })
-const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation }) => [
+const getMenuItems = ({ hideSidemenu, showDialog, hideDialog, navigation }) => [
   {
     icon: 'person',
     name: 'Your profile',

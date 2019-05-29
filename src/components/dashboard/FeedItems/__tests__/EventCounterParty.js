@@ -1,9 +1,7 @@
 import React from 'react'
+import renderer from 'react-test-renderer'
 import EventCounterParty from '../EventCounterParty'
 import { mockEvent } from '../../__tests__/__util__'
-
-// Note: test renderer must be required after react-native.
-import renderer from 'react-test-renderer'
 
 describe('EventCounterParty', () => {
   describe('withdraw', () => {

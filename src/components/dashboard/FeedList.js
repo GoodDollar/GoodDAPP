@@ -1,21 +1,22 @@
 // @flow
 import React, { PureComponent } from 'react'
 import {
+  ActivityIndicator,
   Animated,
-  SwipeableFlatList,
-  FlatList,
-  View,
-  StyleSheet,
   Dimensions,
+  FlatList,
+  StyleSheet,
+  SwipeableFlatList,
   Text,
-  ActivityIndicator
+  View
 } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
+import GDStore from '../../lib/undux/GDStore'
+import pino from '../../lib/logger/pino-logger'
 import FeedActions from './FeedActions'
 import FeedListItem from './FeedItems/FeedListItem'
 import FeedModalItem from './FeedItems/FeedModalItem'
-import GDStore from '../../lib/undux/GDStore'
-import pino from '../../lib/logger/pino-logger'
+
 const log = pino.child({ from: 'FeedListView' })
 
 const SCREEN_SIZE = {

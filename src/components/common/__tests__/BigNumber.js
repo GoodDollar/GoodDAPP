@@ -1,8 +1,6 @@
 import React from 'react'
-import BigNumber from '../BigNumber'
-
-// Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer'
+import BigNumber from '../BigNumber'
 
 describe('BigNumber', () => {
   it('renders without errors', () => {

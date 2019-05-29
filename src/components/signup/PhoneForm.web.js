@@ -3,8 +3,8 @@ import React from 'react'
 import PhoneInput from 'react-phone-number-input'
 import './PhoneForm.css'
 import GDStore from '../../lib/undux/GDStore'
-import { Description, Title, Wrapper } from './components'
 import { userModelValidations } from '../../lib/gundb/UserModel'
+import { Description, Title, Wrapper } from './components'
 
 type Props = {
   // callback to report to parent component

@@ -1,6 +1,7 @@
 // @flow
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { View } from 'react-native'
+import { normalize } from 'react-native-elements'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import GDStore from '../../lib/undux/GDStore'
@@ -9,7 +10,6 @@ import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
 import { Avatar, BigGoodDollar, CustomButton, Section, Wrapper } from '../common'
 import TopBar from '../common/TopBar'
 import { receiveStyles } from './styles'
-import { normalize } from 'react-native-elements'
 
 const log = logger.child({ from: 'SendLinkSummary' })
 

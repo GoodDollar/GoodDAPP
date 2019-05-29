@@ -1,8 +1,6 @@
 import React from 'react'
-import { getWebRouterComponentWithMocks } from '../../dashboard/__tests__/__util__'
-
-// Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer'
+import { getWebRouterComponentWithMocks } from '../../dashboard/__tests__/__util__'
 
 describe('Profile', () => {
   it('renders without errors', () => {

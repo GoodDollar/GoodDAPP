@@ -1,8 +1,7 @@
 // @flow
-
 import React from 'react'
 import { TextInput } from 'react-native-paper'
-import { weiToMask, maskToWei } from '../../lib/wallet/utils'
+import { maskToWei, weiToMask } from '../../lib/wallet/utils'
 
 type Props = {
   onChangeWei: number => void,

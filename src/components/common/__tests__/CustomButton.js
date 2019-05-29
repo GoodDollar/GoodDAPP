@@ -1,9 +1,6 @@
 import React from 'react'
-
-import CustomButton from '../CustomButton'
-
-// Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer'
+import CustomButton from '../CustomButton'
 
 describe('CustomButton', () => {
   it('renders without errors', () => {

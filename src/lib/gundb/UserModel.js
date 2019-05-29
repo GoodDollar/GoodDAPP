@@ -1,6 +1,6 @@
 // @flow
-import type { UserRecord } from '../API/api'
 import isEmail from 'validator/lib/isEmail'
+import type { UserRecord } from '../API/api'
 import isMobilePhone from '../validators/isMobilePhone'
 import isValidUsername from '../validators/isValidUsername'
 

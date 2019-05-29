@@ -1,6 +1,6 @@
 //@flow
 import React from 'react'
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import backButton from '../../assets/backButton.png'
 
 type NavBarProps = {

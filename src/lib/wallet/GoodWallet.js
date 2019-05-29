@@ -9,13 +9,13 @@ import { default as filterFunc } from 'lodash/filter'
 import type Web3 from 'web3'
 import { BN, toBN } from 'web3-utils'
 import uniqBy from 'lodash/uniqBy'
+import abiDecoder from 'abi-decoder'
+import values from 'lodash/values'
+import get from 'lodash/get'
 import Config from '../../config/config'
 import logger from '../../lib/logger/pino-logger'
 import { generateShareLink } from '../share'
 import WalletFactory from './WalletFactory'
-import abiDecoder from 'abi-decoder'
-import values from 'lodash/values'
-import get from 'lodash/get'
 
 const log = logger.child({ from: 'GoodWallet' })
 

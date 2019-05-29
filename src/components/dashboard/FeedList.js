@@ -98,6 +98,7 @@ class FeedList extends PureComponent<FeedListProps, FeedListState> {
   }
 
   flatListRef = null
+
   swipeableFlatListRef = null
 
   renderItemComponent = ({ item, separators, index }: ItemComponentProps) => {

@@ -10,6 +10,7 @@ export default class SignupCompleted extends React.Component<Props, State> {
   handleSubmit = () => {
     this.props.screenProps.doneCallback({ isEmailConfirmed: true })
   }
+
   render() {
     return (
       <Wrapper

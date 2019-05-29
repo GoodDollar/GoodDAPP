@@ -47,6 +47,7 @@ export class Camera extends Component<CameraProps, CameraState> {
       }
     }
   ]
+
   currentConstraintIndex = 0
 
   async componentDidMount() {

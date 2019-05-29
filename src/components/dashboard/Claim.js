@@ -21,7 +21,9 @@ class Claim extends Component<ClaimProps, {}> {
   state = {
     loading: false
   }
+
   goodWalletWrapped = wrapper(goodWallet, this.props.store)
+
   async componentDidMount() {
     //if we returned from facerecoginition then the isValid param would be set
     //this happens only on first claim
@@ -32,6 +34,7 @@ class Claim extends Component<ClaimProps, {}> {
       this.props.screenProps.goToRoot()
     }
   }
+
   handleClaim = async () => {
     this.setState({ loading: true })
     try {
@@ -51,6 +54,7 @@ class Claim extends Component<ClaimProps, {}> {
       this.setState({ loading: false })
     }
   }
+
   faceRecognition = () => {
     this.props.screenProps.push('FaceRecognition', { from: 'Claim' })
   }

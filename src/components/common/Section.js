@@ -19,8 +19,11 @@ const Separator = () => <hr style={{ width: '100%' }} />
 
 export default class Section extends Component<any> {
   static Row = Row
+
   static Title = Title
+
   static Text = SectionText
+
   static Separator = Separator
 
   render() {

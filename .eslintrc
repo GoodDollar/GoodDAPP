@@ -103,6 +103,31 @@
     ],
     "no-return-await": "error",
     "no-useless-catch": "error",
-    "require-await": "error"
+    "require-await": "error",
+    "array-bracket-newline": [
+      "error",
+      {
+        "multiline": true
+      }
+    ],
+    "block-spacing": "error",
+    "brace-style": [
+      "error",
+      "1tbs",
+      {
+        "allowSingleLine": true
+      }
+    ],
+    "camelcase": [
+      "error",
+      {
+        "ignoreDestructuring": true,
+        "properties": "never"
+      }
+    ],
+    "comma-dangle": "error",
+    "comma-spacing": "error",
+    "computed-property-spacing": "error",
+    "lines-between-class-members": "error"
   }
 }

@@ -46,6 +46,7 @@ class Auth extends React.Component<Props> {
   }
 
   handleNavigateTermsOfUse = () => this.props.screenProps.push('TermsOfUse')
+
   handleNavigatePrivacyPolicy = () => this.props.screenProps.push('PrivacyPolicy')
 
   render() {

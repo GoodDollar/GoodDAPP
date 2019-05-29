@@ -9,6 +9,7 @@ const log = logger.child({ from: 'LoginService' })
 
 class LoginService {
   static toSign = 'Login to GoodDAPP'
+
   credentials: ?Credentials
 
   jwt: ?string

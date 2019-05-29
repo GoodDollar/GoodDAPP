@@ -28,6 +28,7 @@ export type UserRecord = NameRecord &
 
 class API {
   jwt: string
+
   client: AxiosInstance
 
   constructor() {

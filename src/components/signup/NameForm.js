@@ -29,6 +29,7 @@ class NameForm extends React.Component<Props, State> {
     errorMessage: '',
     fullName: this.props.screenProps.data.fullName || ''
   }
+
   isValid = false
 
   handleChange = (fullName: string) => {

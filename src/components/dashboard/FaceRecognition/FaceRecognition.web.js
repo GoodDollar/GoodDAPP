@@ -53,7 +53,9 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
   }
 
   containerRef = createRef()
+
   width = 720
+
   height = 0
 
   async componentDidMount() {
@@ -87,6 +89,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
         log.debug('ZoomSDK unloaded')
       })
   }
+
   loadZoomSDK = (): Promise<void> => {
     global.exports = {} // required by zoomSDK
     const server = Config.publicUrl
@@ -210,6 +213,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
   }
 
   handleNavigateTermsOfUse = () => this.props.screenProps.push('TermsOfUse')
+
   handleNavigatePrivacyPolicy = () => this.props.screenProps.push('PrivacyPolicy')
 
   render() {

@@ -50,7 +50,9 @@ function generateMnemonic(): string {
 
 class SoftwareWalletProvider {
   ready: Promise<Web3>
+
   GD_USER_PKEY: string = 'GD_USER_PKEY'
+
   defaults = {
     defaultBlock: 'latest',
     defaultGas: 140000,

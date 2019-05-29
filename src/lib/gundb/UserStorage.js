@@ -136,21 +136,25 @@ export class UserStorage {
    * @instance {GoodWallet}
    */
   wallet: GoodWallet
+
   /**
    * a gun node refering to gun.user()
    * @instance {Gun}
    */
   gunuser: Gun
+
   /**
    * a gun node refering to gun.user().get('profile')
    * @instance {Gun}
    */
   profile: Gun
+
   /**
    * a gun node refering to gun.user().get('feed')
    * @instance {Gun}
    */
   feed: Gun
+
   /**
    * In memory array. keep number of events per day
    * @instance {Gun}
@@ -162,11 +166,14 @@ export class UserStorage {
    * @instance {GunDBUser}
    */
   user: GunDBUser
+
   /**
    * A promise which is resolved once init() is done
    */
   ready: Promise<boolean>
+
   subscribersProfileUpdates = []
+
   _lastProfileUpdate: any
 
   static indexableFields = {
@@ -335,6 +342,7 @@ export class UserStorage {
     logger.debug('getAllfeed', { feed, cursor: this.cursor })
     return feed
   }
+
   /**
    * Used as subscripition callback for gundb
    * When the index of <day> to <number of events> changes
@@ -786,6 +794,7 @@ export class UserStorage {
   enqueueTX(event: FeedEvent): Promise<> {
     return AsyncStorage.setItem(event.id, JSON.stringify(event))
   }
+
   /**
    * remove and return pending TX
    * @param {*} event
@@ -888,6 +897,7 @@ export class UserStorage {
       this.profile.load(async profile => res(await this.getPrivateProfile(profile)), { wait: 99 })
     })
   }
+
   /**
    * Delete the user account.
    * Deleting gundb profile and clearing local storage

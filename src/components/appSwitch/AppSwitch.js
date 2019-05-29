@@ -59,6 +59,7 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
     }
     return undefined
   }
+
   //TODO: add shouldComponentUpdate to rerender only on route change/dialog?
   async componentDidUpdate() {
     log.info('didUpdate')
@@ -71,6 +72,7 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
       return this.props.navigation.navigate(destDetails)
     }
   }
+
   /**
    * Check's users' current auth status
    * @returns {Promise<void>}

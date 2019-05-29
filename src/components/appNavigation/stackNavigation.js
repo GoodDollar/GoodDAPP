@@ -47,6 +47,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
     stack: [],
     currentState: {}
   }
+
   /**
    * marks route transistion
    */
@@ -55,6 +56,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
   shouldComponentUpdate() {
     return this.trans === false
   }
+
   /**
    * getComponent gets the component and props and returns the same component except when
    * shouldNavigateToComponent is present in component and not complaining
@@ -73,6 +75,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
     }
     return Component
   }
+
   /**
    * Pops from stack
    * If there is no screen on the stack navigates to initial screen on stack (goToRoot)

@@ -56,6 +56,7 @@ const defaultPromiEvents: PromiEvents = {
 
 export class GoodWallet {
   static WalletType = 'software'
+
   static AccountUsageToPath = {
     gd: 0,
     gundb: 1,
@@ -64,18 +65,31 @@ export class GoodWallet {
     login: 4,
     zoomId: 5
   }
+
   ready: Promise<Web3>
+
   wallet: Web3
+
   accountsContract: Web3.eth.Contract
+
   tokenContract: Web3.eth.Contract
+
   identityContract: Web3.eth.Contract
+
   claimContract: Web3.eth.Contract
+
   reserveContract: Web3.eth.Contract
+
   oneTimePaymentLinksContract: Web3.eth.Contract
+
   account: string
+
   accounts: Array<string>
+
   networkId: number
+
   gasPrice: number
+
   subscribers: any = {}
 
   constructor() {
@@ -261,6 +275,7 @@ export class GoodWallet {
   getSubscribers(eventName: string): Function {
     return values(this.subscribers[eventName] || {})
   }
+
   /**
    * Listen to balance changes for the current account
    * @param cb

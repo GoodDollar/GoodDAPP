@@ -22,6 +22,7 @@ const log = logger.child({ from: 'FaceRecognition' })
 export const FRUtil = {
   async performFaceRecognition(captureResult: ZoomCaptureResult) {
     log.info({ captureResult })
+    if (!captureResult) this.onFaceRecognitionFailure({ error: 'Failed to capture user' })
     let req = await this.createFaceRecognitionReq(captureResult)
     log.debug({ req })
     try {

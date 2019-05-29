@@ -1,11 +1,12 @@
 import Gun from '@gooddollar/gun-appendonly'
 import SEA from 'gun/sea'
 require('gun/lib/load.js')
+
 /**
  * extend gundb SEA with decrypt to match ".secret"
- * @module gunExtend
+ * @module
  */
-export default (() => {
+const gunExtend = (() => {
   Gun.chain.putAck = function(data, cb) {
     var gun = this,
       callback =
@@ -57,3 +58,5 @@ export default (() => {
     })()
   }
 })()
+
+export default gunExtend

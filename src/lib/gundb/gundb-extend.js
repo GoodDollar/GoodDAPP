@@ -7,6 +7,10 @@ require('gun/lib/load.js')
  * @module
  */
 const gunExtend = (() => {
+  /**
+   * it returns a promise with the first result from a peer
+   * @returns {Promise<ack>}
+   */
   Gun.chain.putAck = function(data, cb) {
     var gun = this,
       callback =
@@ -17,6 +21,10 @@ const gunExtend = (() => {
     let promise = new Promise((res, rej) => gun.put(data, ack => (ack.err ? rej(ack) : res(ack))))
     return promise.then(callback)
   }
+  /**
+   * saves encrypted and returns a promise with the first result from a peer
+   * @returns {Promise<ack>}
+   */
   Gun.User.prototype.secretAck = function(data, cb) {
     var gun = this,
       callback =
@@ -28,6 +36,10 @@ const gunExtend = (() => {
     return promise.then(callback)
   }
 
+  /**
+   * returns the decrypted value
+   * @returns {Promise<any>}
+   */
   Gun.User.prototype.decrypt = function(cb) {
     var gun = this,
       user = gun.back(-1).user(),

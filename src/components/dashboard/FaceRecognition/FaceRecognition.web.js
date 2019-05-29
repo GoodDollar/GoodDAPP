@@ -87,7 +87,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
         log.debug('ZoomSDK unloaded')
       })
   }
-  loadZoomSDK = async (): Promise<void> => {
+  loadZoomSDK = (): Promise<void> => {
     global.exports = {} // required by zoomSDK
     const server = Config.publicUrl
     log.info({ server })
@@ -137,7 +137,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     }
   }
 
-  createFaceRecognitionReq = async (captureResult: ZoomCaptureResult) => {
+  createFaceRecognitionReq = (captureResult: ZoomCaptureResult) => {
     let req = new FormData()
     req.append('sessionId', captureResult.sessionId)
     req.append('facemap', captureResult.facemap, { contentType: 'application/zip' })

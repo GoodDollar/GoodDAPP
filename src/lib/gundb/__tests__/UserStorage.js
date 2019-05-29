@@ -31,7 +31,7 @@ describe('UserStorage', () => {
     userStorage.unSubscribeProfileUpdates()
   })
 
-  it('logins to gundb', async () => {
+  it('logins to gundb', () => {
     expect(userStorage.user).not.toBeUndefined()
   })
 
@@ -303,18 +303,18 @@ describe('UserStorage', () => {
 
     await Promise.all(updates)
     await userStorage.subscribeProfileUpdates(profile => {
-      userStorage.getDisplayProfile(profile).then(result => {
-        const { isValid, getErrors, validate, ...displayProfile } = result
-        expect(displayProfile).toEqual({
-          id: '',
-          name: 'hadar2',
-          email: 'j*****e@blah.com',
-          phone: '+22222222222',
-          mobile: '+22222222222',
-          x: ''
-        })
-        done()
+      const { isValid, getErrors, validate, ...displayProfile } = userStorage.getDisplayProfile(profile)
+
+      expect(displayProfile).toEqual({
+        id: '',
+        name: 'hadar2',
+        email: 'j*****e@blah.com',
+        phone: '+22222222222',
+        mobile: '+22222222222',
+        x: ''
       })
+
+      done()
     })
   })
 
@@ -370,8 +370,8 @@ describe('UserStorage', () => {
 
           expect(privateProfile).toMatchObject(profileData)
         }),
-        userStorage.getDisplayProfile(updatedProfile).then(result => {
-          const { isValid, getErrors, validate, ...displayProfile } = result
+        (() => {
+          const { isValid, getErrors, validate, ...displayProfile } = userStorage.getDisplayProfile(updatedProfile)
 
           expect(displayProfile).toMatchObject({
             fullName: 'New Name',
@@ -379,7 +379,7 @@ describe('UserStorage', () => {
             mobile: '********2222',
             username: 'hadar2'
           })
-        })
+        })()
       ]).then(() => done())
     })
   })
@@ -389,10 +389,11 @@ describe('UserStorage', () => {
     await userStorage.setProfileField('email', email, 'public')
     await userStorage.setProfile(getUserModel({ email, fullName: 'full name', mobile: '+22222222222' }))
     await userStorage.subscribeProfileUpdates(updatedProfile => {
-      userStorage.getDisplayProfile(updatedProfile).then(result => {
-        expect(result.email).toBe(email)
-        done()
-      })
+      const { email: profileEmail } = userStorage.getDisplayProfile(updatedProfile)
+
+      expect(profileEmail).toBe(email)
+
+      done()
     })
   })
 
@@ -452,7 +453,7 @@ describe('UserStorage', () => {
   })
 
   describe('getReceiveDataFromReceipt', () => {
-    it('get Transfer data from logs', async () => {
+    it('get Transfer data from logs', () => {
       const receipt = {
         logs: [
           {
@@ -474,7 +475,7 @@ describe('UserStorage', () => {
       })
     })
 
-    it('get PaymentWithdraw data from logs', async () => {
+    it('get PaymentWithdraw data from logs', () => {
       const receipt = {
         logs: [
           {
@@ -505,7 +506,7 @@ describe('UserStorage', () => {
       })
     })
 
-    it('get Transfer when multiple Transfer should get the bigger (the lastone)', async () => {
+    it('get Transfer when multiple Transfer should get the bigger (the lastone)', () => {
       const receipt = {
         logs: [
           {
@@ -536,7 +537,7 @@ describe('UserStorage', () => {
       })
     })
 
-    it('get Transfer when multiple Transfer should get the bigger (the firstone)', async () => {
+    it('get Transfer when multiple Transfer should get the bigger (the firstone)', () => {
       const receipt = {
         logs: [
           {
@@ -567,7 +568,7 @@ describe('UserStorage', () => {
       })
     })
 
-    it('empty logs should return empty object', async () => {
+    it('empty logs should return empty object', () => {
       const receipt = {
         logs: []
       }
@@ -575,7 +576,7 @@ describe('UserStorage', () => {
       expect(result).toMatchObject({})
     })
 
-    it('empty receipt should return empty object', async () => {
+    it('empty receipt should return empty object', () => {
       const receipt = {}
       const result = getReceiveDataFromReceipt(receipt)
       expect(result).toMatchObject({})

@@ -13,6 +13,7 @@ import get from 'lodash/get'
 import values from 'lodash/values'
 import isEmail from 'validator/lib/isEmail'
 import { AsyncStorage } from 'react-native'
+import type { UserRecord } from '../API/api'
 import { default as goodWallet, type GoodWallet } from '../wallet/GoodWallet'
 import isMobilePhone from '../validators/isMobilePhone'
 import pino from '../logger/pino-logger'
@@ -228,7 +229,7 @@ export class UserStorage {
     const password = await this.wallet.sign('GoodDollarPass', 'gundb').then(r => r.slice(0, 20))
     this.gunuser = gun.user()
     return new Promise((res, rej) => {
-      this.gunuser.create(username, password, async userCreated => {
+      this.gunuser.create(username, password, userCreated => {
         logger.debug('gundb user created', userCreated)
         //auth.then - doesnt seem to work server side in tests
         this.gunuser.auth(username, password, user => {
@@ -300,7 +301,7 @@ export class UserStorage {
     }
   }
 
-  async sign(msg: any) {
+  sign(msg: any) {
     return SEA.sign(msg, this.gunuser.pair())
   }
 
@@ -310,8 +311,8 @@ export class UserStorage {
    * @param {string} transactionHash - transaction identifier
    * @returns {object} feed item or null if it doesn't exist
    */
-  async getFeedItemByTransactionHash(transactionHash: string): Promise<FeedEvent> {
-    let feedItem = await this.feed
+  getFeedItemByTransactionHash(transactionHash: string): Promise<FeedEvent> {
+    return this.feed
       .get('byid')
       .get(transactionHash)
       .decrypt()
@@ -319,8 +320,6 @@ export class UserStorage {
         logger.warn('getFeedItemByTransactionHash not found or cant decrypt', { transactionHash })
         return undefined
       })
-
-    return feedItem
   }
 
   /**
@@ -356,7 +355,7 @@ export class UserStorage {
    * Subscribes to changes on the event index of day to number of events
    * the "false" (see gundb docs) passed is so we get the complete 'index' on every change and not just the day that changed
    */
-  async initFeed() {
+  initFeed() {
     this.feed = this.gunuser.get('feed')
     this.feed.get('index').on(this.updateFeedIndex, false)
   }
@@ -365,36 +364,34 @@ export class UserStorage {
    * Returns profile attribute
    *
    * @param {string} field - Profile attribute
-   * @returns {string} Decrypted profile value
+   * @returns {Promise<ProfileField>} Decrypted profile value
    */
-  async getProfileFieldValue(field: string): Promise<any> {
-    let pField: ProfileField = await this.profile
+  getProfileFieldValue(field: string): Promise<ProfileField> {
+    return this.profile
       .get(field)
       .get('value')
       .decrypt()
-    return pField
   }
 
   /**
    * Returns progfile attribute value
    *
    * @param {string} field - Profile attribute
-   * @returns {Promise} Gun profile attribute object
+   * @returns {Promise<ProfileField>} Gun profile attribute object
    */
-  async getProfileField(field: string): Promise<ProfileField> {
-    let pField: ProfileField = await this.profile.get(field).then()
-    return pField
+  getProfileField(field: string): Promise<ProfileField> {
+    return this.profile.get(field).then()
   }
 
   /**
    * Return display attribute of each profile property
    *
    * @param {object} profile - User profile
-   * @returns {object} - User model with display values
+   * @returns {UserModel} - User model with display values
    */
-  async getDisplayProfile(profile: {}): Promise<any> {
-    const displayProfile = Object.keys(profile).reduce(
-      (acc, currKey, arr) => ({ ...acc, [currKey]: profile[currKey].display }),
+  getDisplayProfile(profile: {}): UserModel {
+    const displayProfile = Object.keys(profile).reduce<UserRecord>(
+      (acc, currKey) => ({ ...acc, [currKey]: profile[currKey].display }),
       {}
     )
     return getUserModel(displayProfile)
@@ -406,7 +403,7 @@ export class UserStorage {
    * @param {object} profile - user profile
    * @returns {object} UserModel with some inherit functions
    */
-  async getPrivateProfile(profile: {}): Promise<UserModel> {
+  getPrivateProfile(profile: {}): Promise<UserModel> {
     const keys = Object.keys(profile)
     return Promise.all(keys.map(currKey => this.getProfileFieldValue(currKey)))
       .then(values => {
@@ -437,8 +434,9 @@ export class UserStorage {
    * @returns {Promise} Promise with profile settings updates and privacy validations
    * @throws Error if profile is invalid
    */
-  async setProfile(profile: UserModel) {
+  setProfile(profile: UserModel) {
     const { errors, isValid } = profile.validate()
+
     if (!isValid) {
       throw new Error(errors)
     }
@@ -451,11 +449,13 @@ export class UserStorage {
       walletAddress: { defaultPrivacy: 'public' },
       username: { defaultPrivacy: 'public' }
     }
+
     const getPrivacy = async field => {
       const currentPrivacy = await this.profile
         .get(field)
         .get('privacy')
         .then()
+
       return currentPrivacy || profileSettings[field].defaultPrivacy || 'public'
     }
 
@@ -482,6 +482,7 @@ export class UserStorage {
    */
   async setProfileField(field: string, value: string, privacy: FieldPrivacy = 'public'): Promise<ACK> {
     let display
+
     switch (privacy) {
       case 'private':
         display = ''
@@ -499,6 +500,7 @@ export class UserStorage {
       default:
         throw new Error('Invalid privacy setting', { privacy })
     }
+
     //for all privacy cases we go through the index, in case field was changed from public to private so we remove it
     if (UserStorage.indexableFields[field]) {
       const indexPromiseResult = await this.indexProfileField(field, value, privacy)
@@ -545,6 +547,7 @@ export class UserStorage {
 
     try {
       const indexValue = await indexNode.then()
+
       logger.debug('indexProfileField', {
         field,
         value,
@@ -552,17 +555,16 @@ export class UserStorage {
         indexValue: indexValue,
         currentUser: this.gunuser.is.pub
       })
+
       if (indexValue && indexValue.pub !== this.gunuser.is.pub) {
         return Promise.resolve({ err: `Existing index on field ${field}`, ok: 0 })
       }
+
       if (privacy !== 'public' && indexValue !== undefined) {
         return indexNode.putAck(null)
       }
 
-      const indexResult = indexNode.putAck(this.gunuser)
-
-      // logger.info({ gunResult })
-      return indexResult
+      return indexNode.putAck(this.gunuser)
     } catch (err) {
       logger.error('indexProfileField', err)
     }
@@ -592,13 +594,17 @@ export class UserStorage {
     if (reset) {
       this.cursor = undefined
     }
+
     if (this.cursor === undefined) {
       this.cursor = 0
     }
+
     let total = 0
+
     if (!this.feedIndex) {
       return []
     }
+
     let daysToTake: Array<[string, number]> = takeWhile(this.feedIndex.slice(this.cursor), day => {
       if (total >= numResults) {
         return false
@@ -606,6 +612,7 @@ export class UserStorage {
       total += day[1]
       return true
     })
+
     this.cursor += daysToTake.length
 
     let promises: Array<Promise<Array<FeedEvent>>> = daysToTake.map(day => {
@@ -871,7 +878,7 @@ export class UserStorage {
    * @param blockNumber
    * @returns {Promise<Promise<*>|Promise<R|*>>}
    */
-  async saveLastBlockNumber(blockNumber: number | string): Promise<any> {
+  saveLastBlockNumber(blockNumber: number | string): Promise<any> {
     logger.debug('saving lastBlock:', blockNumber)
     return this.getLastBlockNode().putAck(blockNumber)
   }

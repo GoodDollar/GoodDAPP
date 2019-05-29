@@ -37,7 +37,7 @@ const GenerateLinkButton = ({ screenProps, disabled }) => (
   />
 )
 
-const validate = async to => {
+const validate = to => {
   if (!to) {
     return null
   }

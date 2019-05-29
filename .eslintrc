@@ -101,6 +101,8 @@
         "boolean": false
       }
     ],
-    "no-return-await": "error"
+    "no-return-await": "error",
+    "no-useless-catch": "error",
+    "require-await": "error"
   }
 }

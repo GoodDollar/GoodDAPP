@@ -99,7 +99,7 @@ export class GoodWallet {
         fromBlock,
         filterPred: { from: this.wallet.utils.toChecksumAddress(this.account) }
       },
-      async (error, events) => {
+      (error, events) => {
         log.debug('send events', { error, events })
         const uniqEvents = uniqBy(events, 'transactionHash')
         uniqEvents.forEach(event => {
@@ -120,7 +120,7 @@ export class GoodWallet {
         fromBlock,
         filterPred: { to: this.wallet.utils.toChecksumAddress(this.account) }
       },
-      async (error, events) => {
+      (error, events) => {
         log.debug('receive events', { error, events })
         const uniqEvents = uniqBy(events, 'transactionHash')
         uniqEvents.forEach(event => {
@@ -156,7 +156,7 @@ export class GoodWallet {
   init(): Promise<any> {
     const ready = WalletFactory.create(GoodWallet.WalletType)
     this.ready = ready
-      .then(async wallet => {
+      .then(wallet => {
         this.wallet = wallet
         this.accounts = this.wallet.eth.accounts.wallet
         this.account = this.getAccountForType('gd')
@@ -211,10 +211,11 @@ export class GoodWallet {
     return this.ready
   }
 
-  async deleteAccount(): Promise<> {
+  deleteAccount(): Promise<TransactionReceipt> {
     return this.sendTransaction(this.identityContract.methods.renounceWhitelisted())
   }
-  async claim(): Promise<TransactionReceipt> {
+
+  claim(): Promise<TransactionReceipt> {
     try {
       return this.sendTransaction(this.claimContract.methods.claimTokens())
     } catch (e) {
@@ -263,9 +264,8 @@ export class GoodWallet {
   /**
    * Listen to balance changes for the current account
    * @param cb
-   * @returns {Promise<void>}
    */
-  async balanceChanged(cb: Function) {
+  balanceChanged(cb: Function) {
     this.subscribeToEvent('balanceChanged', cb)
   }
 
@@ -378,7 +378,7 @@ export class GoodWallet {
     }, INTERVAL)
   }
 
-  async balanceOf(): Promise<number> {
+  balanceOf(): Promise<number> {
     return this.tokenContract.methods.balanceOf(this.account).call()
   }
 
@@ -402,9 +402,8 @@ export class GoodWallet {
     return tx
   }
 
-  async isCitizen(): Promise<boolean> {
-    const tx: boolean = await this.identityContract.methods.isVerified(this.account).call()
-    return tx
+  isCitizen(): Promise<boolean> {
+    return this.identityContract.methods.isVerified(this.account).call()
   }
 
   async canSend(amount: number): Promise<boolean> {

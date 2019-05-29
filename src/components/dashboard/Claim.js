@@ -64,7 +64,7 @@ class Claim extends Component<ClaimProps, {}> {
         disabled={entitlement <= 0}
         mode="contained"
         compact={true}
-        onPress={async () => {
+        onPress={() => {
           isCitizen ? this.handleClaim() : this.faceRecognition()
         }}
         style={styles.claimButton}

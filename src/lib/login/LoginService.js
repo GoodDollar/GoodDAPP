@@ -42,13 +42,13 @@ class LoginService {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  async getJWT(): Promise<?string> {
+  getJWT(): Promise<?string> {
     return AsyncStorage.getItem('GoodDAPP_jwt')
   }
 
   // eslint-disable-next-line class-methods-use-this
-  async login(): Promise<Credentials> {
-    throw new Error('Method not implemented')
+  login(): Promise<Credentials> {
+    return Promise.reject('Method not implemented')
   }
 
   async auth(): Promise<?Credentials | Error> {

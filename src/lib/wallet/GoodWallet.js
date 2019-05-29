@@ -475,9 +475,9 @@ export class GoodWallet {
 
   /**
    * Checks if getWithdrawAvailablePayment returned a valid payment (BN handle)
-   * @param {*} payment
+   * @param {BN} payment
    */
-  isWithdrawPaymentAvailable(payment: any) {
+  isWithdrawPaymentAvailable(payment: typeof BN) {
     return payment.lte(ZERO)
   }
 

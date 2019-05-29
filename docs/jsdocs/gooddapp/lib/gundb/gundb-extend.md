@@ -2,13 +2,13 @@
 
 ### Table of Contents
 
--   [gun-extend][1]
+-   [gunExtend][1]
 
-## gun-extend
+## gunExtend
 
 extend gundb SEA with decrypt to match ".secret"
 
-[1]: #gun-extend
+[1]: #gunextend
 ## Source
 [https://github.com/GoodDollar/GoodDAPP/src/lib/gundb/gundb-extend.js](https://github.com/GoodDollar/GoodDAPP/src/lib/gundb/gundb-extend.js)
 

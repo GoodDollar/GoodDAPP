@@ -2,8 +2,19 @@
 
 ### Table of Contents
 
--   [NavBar][1]
-    -   [Parameters][2]
+-   [NavBarProps][1]
+    -   [Properties][2]
+-   [NavBar][3]
+    -   [Parameters][4]
+
+## NavBarProps
+
+Type: {goBack: function (): void?, title: [string][5]}
+
+### Properties
+
+-   `goBack` **function (): void?** 
+-   `title` **[string][5]** 
 
 ## NavBar
 
@@ -11,11 +22,19 @@ NavigationBar shows title and back button
 
 ### Parameters
 
--   `props` **NavBarProps** 
+-   `props` **[NavBarProps][6]** 
 
-[1]: #navbar
+[1]: #navbarprops
 
-[2]: #parameters
+[2]: #properties
+
+[3]: #navbar
+
+[4]: #parameters
+
+[5]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+
+[6]: #navbarprops
 ## Source
 [https://github.com/GoodDollar/GoodDAPP/src/components/appNavigation/NavBar.js](https://github.com/GoodDollar/GoodDAPP/src/components/appNavigation/NavBar.js)
 

@@ -1,7 +1,6 @@
 import React from 'react'
 import { createSwitchNavigator } from '@react-navigation/core'
 import { createBrowserApp } from '@react-navigation/web'
-// Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer'
 import AppNavigation from '../AppNavigation'
 import GDStore from '../../../lib/undux/GDStore'

@@ -7,7 +7,6 @@ import { userModelValidations } from '../../lib/gundb/UserModel'
 import { Description, Title, Wrapper } from './components'
 
 type Props = {
-  // callback to report to parent component
   doneCallback: ({ phone: string }) => null,
   screenProps: any,
   navigation: any

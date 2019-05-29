@@ -17,6 +17,7 @@ const wrapperFunction = (origMethod, target, handler) => {
 
 function Handler(store, params) {
   const { onDismiss } = params || {}
+
   // this.beforeFetching = () =>
   //   store.set('currentScreen')({
   //     loading: true

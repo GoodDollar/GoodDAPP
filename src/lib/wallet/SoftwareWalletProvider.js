@@ -11,6 +11,7 @@ import MultipleAddressWallet from './MultipleAddressWallet'
 const log = logger.child({ from: 'SoftwareWalletProvider' })
 
 const GD_USER_MNEMONIC: string = 'GD_USER_MNEMONIC'
+
 /**
  * save mnemonics (secret phrase) to user device
  * @param {string} mnemonics

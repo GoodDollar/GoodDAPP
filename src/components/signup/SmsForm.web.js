@@ -11,7 +11,6 @@ import type { SignupState } from './SignupState'
 const log = logger.child({ from: 'SmsForm.web' })
 
 type Props = {
-  // callback to report to parent component
   phone: string,
   data: SignupState,
   doneCallback: ({ isPhoneVerified: boolean }) => null,

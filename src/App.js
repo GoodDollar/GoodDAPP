@@ -2,6 +2,7 @@
 import React, { Component } from 'react'
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 import { Provider as PaperProvider } from 'react-native-paper'
+
 // import { loadReCaptcha } from 'recaptcha-v3-react'
 
 import GDStore from './lib/undux/GDStore'
@@ -9,7 +10,7 @@ import { WebRouter } from './Router'
 
 class App extends Component<{}, { walletReady: boolean, isLoggedIn: boolean, isUserRegistered: boolean }> {
   componentWillMount() {
-    //set wallet as global, even though everyone can import the singleton
+    // set wallet as global, even though everyone can import the singleton
     // loadReCaptcha({
     //   key: Config.recaptcha,
     //   id: 'uniqueId'
@@ -60,5 +61,6 @@ if (Platform.OS === 'web') {
   const { hot } = require('react-hot-loader')
   hotWrapper = hot
 }
+
 //$FlowFixMe
 export default hotWrapper(module)(App)

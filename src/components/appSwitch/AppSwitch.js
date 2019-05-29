@@ -3,6 +3,7 @@ import React from 'react'
 import { AsyncStorage } from 'react-native'
 import { SceneView } from '@react-navigation/core'
 import some from 'lodash/some'
+
 // import { Helmet } from 'react-helmet'
 import type { Store } from 'undux'
 import logger from '../../lib/logger/pino-logger'
@@ -64,6 +65,7 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
   async componentDidUpdate() {
     log.info('didUpdate')
     const destinationPath = await AsyncStorage.getItem('destinationPath')
+
     //once user logs in we can redirect him to saved destinationpath
     if (destinationPath && this.props.store.get('isLoggedIn')) {
       const destDetails = JSON.parse(destinationPath)
@@ -98,6 +100,7 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
       const { jwt } = credsOrError
       if (jwt) {
         log.debug('New account, not verified, or did not finish signup', jwt)
+
         //for new accounts check if link is email validation if so
         //redirect to continue signup flow
         if (destDetails) {
@@ -108,6 +111,7 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
             return
           }
           log.debug('destinationPath saving details')
+
           //for non loggedin users, store non email validation params to the destinationPath for later
           //to be used once signed in
           const destinationPath = JSON.stringify(destDetails)

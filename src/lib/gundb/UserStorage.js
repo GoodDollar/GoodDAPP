@@ -37,6 +37,7 @@ export type GunDBUser = {
   pub: string,
   sea: any
 }
+
 /**
  * possible privacy level for profile fields
  */
@@ -89,6 +90,7 @@ export const getReceiveDataFromReceipt = (receipt: any) => {
   if (!receipt || !receipt.logs || receipt.logs.length <= 0) {
     return {}
   }
+
   // Obtain logged data from receipt event
   const logs = receipt.logs
     .filter(_ => _)
@@ -100,6 +102,7 @@ export const getReceiveDataFromReceipt = (receipt: any) => {
         { name: log.name }
       )
     )
+
   //maxBy is used in case transaction also paid a TX fee/burn, so since they are small
   //it filters them out
   const transferLog = maxBy(
@@ -231,6 +234,7 @@ export class UserStorage {
    */
   async init() {
     logger.debug('Initializing GunDB UserStorage')
+
     //sign with different address so its not connected to main user address and there's no 1-1 link
     const username = await this.wallet.sign('GoodDollarUser', 'gundb').then(r => r.slice(0, 20))
     const password = await this.wallet.sign('GoodDollarPass', 'gundb').then(r => r.slice(0, 20))
@@ -238,6 +242,7 @@ export class UserStorage {
     return new Promise((res, rej) => {
       this.gunuser.create(username, password, userCreated => {
         logger.debug('gundb user created', userCreated)
+
         //auth.then - doesnt seem to work server side in tests
         this.gunuser.auth(username, password, user => {
           if (user.err) {
@@ -252,6 +257,7 @@ export class UserStorage {
           logger.debug('init to events')
 
           this.initFeed()
+
           //save ref to user
           gun
             .get('users')
@@ -277,14 +283,17 @@ export class UserStorage {
   async handleReceiptUpdated(receipt: any): Promise<FeedEvent> {
     try {
       const data = getReceiveDataFromReceipt(receipt)
+
       //get initial TX data
       const initialEvent = (await this.peekTX(receipt.transactionHash)) || { data: {} }
+
       //get existing or make a new event
       const feedEvent = (await this.getFeedItemByTransactionHash(receipt.transactionHash)) || {
         id: receipt.transactionHash,
         date: new Date().toString(),
         type: getOperationType(data, this.wallet.account)
       }
+
       //merge incoming receipt data into existing event
       const updatedFeedEvent: FeedEvent = {
         ...feedEvent,
@@ -300,6 +309,7 @@ export class UserStorage {
       if (isEqual(feedEvent, updatedFeedEvent) === false) {
         await this.updateFeedEvent(updatedFeedEvent)
       }
+
       //remove pending once we used it and updated feed
       this.dequeueTX(receipt.transactionHash)
       return updatedFeedEvent
@@ -497,6 +507,7 @@ export class UserStorage {
         break
       case 'masked':
         display = UserStorage.maskField(field, value)
+
         //undo invalid masked field
         if (display === value) {
           privacy = 'public'
@@ -673,6 +684,7 @@ export class UserStorage {
     if (!receipt) {
       return standardPrevFeedEvent
     }
+
     //update the event
     let updatedEvent = await this.handleReceiptUpdated(receipt)
     logger.debug('getFormatedEventById updated event with receipt', { prevFeedEvent, updatedEvent })
@@ -825,9 +837,11 @@ export class UserStorage {
   async updateFeedEvent(event: FeedEvent): Promise<FeedEvent> {
     logger.debug('updateFeedEvent:', { event })
     let date = new Date(event.date)
+
     // force valid dates
     date = isValidDate(date) ? date : new Date()
     let day = `${date.toISOString().slice(0, 10)}`
+
     // Saving eventFeed by id
     logger.debug('updateFeedEvent starting encrypt')
     await this.feed
@@ -838,6 +852,7 @@ export class UserStorage {
         logger.error('updateFeedEvent failedEncrypt byId:', e, event)
         return { err: e.message }
       })
+
     // Update dates index
     let dayEventsArr = (await this.feed.get(day).then()) || []
     let toUpd = find(dayEventsArr, e => e.id === event.id)
@@ -933,7 +948,8 @@ export class UserStorage {
           feed: 'failed'
         }))
     ])
-    //Issue with gun delete()
+
+    // Issue with gun delete()
     // let profileDelete = await this.gunuser
     //   .delete()
     //   .then(r => ({ profile: 'ok' }))

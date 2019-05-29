@@ -7,6 +7,7 @@ type NavBarProps = {
   goBack?: () => void,
   title: string
 }
+
 /**
  * NavigationBar shows title and back button
  * @goBack: Function to be executed on click on back button

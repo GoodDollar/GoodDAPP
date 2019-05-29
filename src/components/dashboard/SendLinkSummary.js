@@ -31,6 +31,7 @@ const SendLinkSummary = (props: AmountProps) => {
   const faceRecognition = () => {
     return screenProps.push('FaceRecognition', { from: 'SendLinkSummary' })
   }
+
   /**
    * Generates link to send and call send email/sms action
    * @throws Error if link cannot be send
@@ -60,6 +61,7 @@ const SendLinkSummary = (props: AmountProps) => {
         try {
           // Generate link deposit
           const { sendLink } = generateLinkResponse
+
           // Show confirmation
           screenProps.push('SendConfirmation', { sendLink, amount, reason, to })
         } catch (e) {

@@ -8,6 +8,7 @@ import { generateCode, generateShareLink } from '../../lib/share'
 import { BigGoodDollar, Section, Wrapper } from '../common'
 import { DoneButton, useScreenState } from '../appNavigation/stackNavigation'
 import { receiveStyles as styles } from './styles'
+
 // import ShareQR from './ShareQR'
 import ShareLink from './ShareLink'
 

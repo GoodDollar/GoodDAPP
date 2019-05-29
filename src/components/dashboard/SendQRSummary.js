@@ -51,6 +51,7 @@ const SendQRSummary = (props: AmountProps) => {
       const receipt = await goodWallet.sendAmount(to, amount, {
         onTransactionHash: hash => {
           log.debug({ hash })
+
           // Save transaction
           const transactionEvent: TransactionEvent = {
             id: hash,
@@ -154,6 +155,7 @@ SendQRSummary.navigationOptions = {
 
 SendQRSummary.shouldNavigateToComponent = props => {
   const { screenState } = props.screenProps
+
   // Component shouldn't be loaded if there's no 'amount', nor 'to' fields with data
   return (!!screenState.amount && !!screenState.to) || screenState.from
 }

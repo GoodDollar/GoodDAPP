@@ -51,6 +51,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   const [error, setError] = useState(undefined)
 
   const store = GDStore.useStore()
+
   // const { loading } = store.get('currentScreen')
 
   function saveProfile() {
@@ -59,6 +60,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
 
   const navigateWithFocus = (routeKey: string) => {
     navigation.navigate(routeKey)
+
     // store.set('currentScreen')({ loading: false })
     setLoading(false)
     setTimeout(() => {
@@ -143,16 +145,20 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
         await Promise.all([
           (saveProfile({ registered: true }),
           userStorage.setProfileField('registered', true),
-          // Stores creationBlock number into 'lastBlock' feed's node
-          goodWallet.getBlockNumber().then(creationBlock => userStorage.saveLastBlockNumber(creationBlock.toString())),
+          goodWallet.getBlockNumber().then(creationBlock => {
+            // Stores creationBlock number into 'lastBlock' feed's node
+            return userStorage.saveLastBlockNumber(creationBlock.toString())
+          }),
           AsyncStorage.getItem('GD_USER_MNEMONIC').then(mnemonic => API.sendRecoveryInstructionByEmail(mnemonic)))
         ])
+
         // top wallet of new user
         // wait for the topping to complete to be able to withdraw
         // await API.verifyTopWallet()
         userStorage.setProfileField('registered', true, 'public')
         navigation.navigate('AppNavigation')
         store.set('isLoggedIn')(true)
+
         // store.set('currentScreen')({ loading: false })
         setLoading(false)
       } catch (error) {

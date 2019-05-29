@@ -11,7 +11,6 @@ import { fontStyle } from '../common/styles'
 import { PrivacyPolicy, TermsOfUse } from '../webView/webViewInstances'
 
 type Props = {
-  // callback to report to parent component
   navigation: any,
   screenProps: {
     push: Function
@@ -27,6 +26,7 @@ class Auth extends React.Component<Props> {
 
   handleSignUp = () => {
     this.props.navigation.navigate('Signup')
+
     //Hack to get keyboard up on mobile need focus from user event such as click
     setTimeout(() => {
       const el = document.getElementById('Name_input')

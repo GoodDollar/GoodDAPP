@@ -4,6 +4,7 @@ import { ScrollView, View } from 'react-native'
 import { Button } from 'react-native-paper'
 import SideMenu from 'react-native-side-menu'
 import { createNavigator, Route, SceneView, SwitchRouter } from '@react-navigation/core'
+
 // import { Helmet } from 'react-helmet'
 import GDStore from '../../lib/undux/GDStore'
 import { toggleSidemenu } from '../../lib/undux/utils/sidemenu'
@@ -344,6 +345,7 @@ type NextButtonProps = {
   label?: string,
   canContinue?: Function
 }
+
 /**
  * NextButton
  * This button gets the nextRoutes param and creates a Push to the next screen and passes the rest of the array which are
@@ -375,6 +377,7 @@ export const NextButton = ({
 }
 
 type UseScreenProps = { setScreenState?: {}, screenState?: {} }
+
 /**
  * Hook to get screen state from stack or from useState hook if there is no setScreenState function
  */

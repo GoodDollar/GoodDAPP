@@ -71,6 +71,7 @@ export function extractQueryParams(link: string = ''): {} {
   const queryParams = link.split('?')[1] || ''
   const keyValuePairs: Array<[string, string]> = queryParams
     .split('&')
+
     // $FlowFixMe
     .map(p => p.split('='))
 

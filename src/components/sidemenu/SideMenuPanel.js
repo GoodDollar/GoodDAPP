@@ -53,6 +53,7 @@ const getMenuItems = ({ hideSidemenu, showDialog, hideDialog, navigation }) => [
       hideSidemenu()
     }
   },
+
   // {
   //   icon: 'notifications',
   //   name: 'Notification Settings'

@@ -121,6 +121,7 @@ export class GoodWallet {
             .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptUpdated']))
             .catch(err => log.error(err))
         })
+
         // Send for all events. We could define here different events
         this.getSubscribers('send').forEach(cb => cb(error, events))
         this.getSubscribers('balanceChanged').forEach(cb => cb(error, events))
@@ -443,6 +444,7 @@ export class GoodWallet {
     const encodedABI = await deposit.encodeABI()
 
     const transferAndCall = this.tokenContract.methods.transferAndCall(otpAddress, amount, encodedABI)
+
     //Fixed gas amount so it can work locally with ganache
     //https://github.com/trufflesuite/ganache-core/issues/417
     const gas: number = 200000 //Math.floor((await transferAndCall.estimateGas().catch(this.handleError)) * 2)
@@ -619,6 +621,7 @@ export class GoodWallet {
             rej(e)
           })
       })
+
         /** receipt handling happens already in polling events */
         // .then(async receipt => {
         //   const transactionReceipt = await this.getReceiptWithLogs(receipt.transactionHash)

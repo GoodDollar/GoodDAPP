@@ -128,6 +128,20 @@
     "comma-dangle": "error",
     "comma-spacing": "error",
     "computed-property-spacing": "error",
-    "lines-between-class-members": "error"
+    "lines-between-class-members": "error",
+    "lines-around-comment": ["error", {
+      "beforeBlockComment": true,
+      "beforeLineComment": true,
+      "allowBlockStart": true,
+      "allowObjectStart": true,
+      "allowArrayStart": true,
+      "allowClassStart": true,
+      "afterBlockComment": false,
+      "afterLineComment": false,
+      "allowBlockEnd": false,
+      "allowObjectEnd": false,
+      "allowArrayEnd": false,
+      "allowClassEnd": false
+    }]
   }
 }

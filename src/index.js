@@ -14,6 +14,7 @@ if (style.styleSheet) {
 } else {
   style.appendChild(document.createTextNode(fontStylesMaterialIcons))
 }
+
 // Inject stylesheet
 document.head.appendChild(style)
 

@@ -131,6 +131,7 @@ const createStyles = () => {
   return {
     videoElement: {
       ...getResponsiveVideoDimensions(),
+
       /* REQUIRED - handle flipping of ZoOm interface.  users of selfie-style interfaces are trained to see their mirror image */
       transform: 'scaleX(-1)',
       overflow: 'hidden',

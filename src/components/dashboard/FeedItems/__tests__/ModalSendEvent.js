@@ -1,7 +1,7 @@
 import React from 'react'
+
 // import { getComponentWithMock } from './__util__/index'
 
-// Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer'
 import ModalSendEvent from '../ModalSendEvent'
 import { generateFeedItemProps } from '../../__tests__/__util__'

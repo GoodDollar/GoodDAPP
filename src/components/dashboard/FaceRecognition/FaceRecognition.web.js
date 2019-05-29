@@ -8,7 +8,7 @@ import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { Wrapper, CustomButton, Section } from '../../common'
 import ZoomCapture from './ZoomCapture'
 import { getResponsiveVideoDimensions } from './Camera.web'
-import FRUtil from './FRUtil'
+import { FRUtil } from './FRUtil'
 import type { DashboardProps } from '../Dashboard'
 
 type FaceRecognitionProps = DashboardProps & {
@@ -66,8 +66,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
         message: `FaceRecognition failed. Reason: ${error}. Please try again`,
         dismissText: 'Retry',
         onDismiss: this.setState({ showPreText: true }) // reload.
-      },
-      loading: true
+      }
     })
   }
   showFaceRecognition = () => {
@@ -104,16 +103,6 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
         )}
         {showPreText && (
           <View style={styles.bottomContainer}>
-            <Text style={styles.acceptTermsText}>
-              {`By clicking the 'Create a wallet' button, you are accepting our `}
-              <LinkButton style={styles.acceptTermsLink} onPress={this.handleNavigateTermsOfUse}>
-                Terms of Service
-              </LinkButton>
-              {` and `}
-              <LinkButton style={styles.acceptTermsLink} onPress={this.handleNavigatePrivacyPolicy}>
-                Privacy Policy
-              </LinkButton>
-            </Text>
             <CustomButton mode="contained" onPress={this.showFaceRecognition} loading={loadingFaceRecognition}>
               Quick Face Recognition
             </CustomButton>

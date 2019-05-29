@@ -300,12 +300,13 @@ export class GoodWallet {
 
   /**
    * Subscribes to a particular event and returns the result based on options specified
-   * @param {String} event - Event to subscribe to
-   * @param {Object} contract - Contract from which event will be queried
-   * @param {Object} filterPred - Event's filter. Does not required to be indexed as it's filtered locally
-   * @param {BN} fromBlock - Lower blocks range value
-   * @param {BN} toBlock - Higher blocks range value
-   * @param {Function} callback - Function to be called once an event is received
+   * @param {object} params - an object with params
+   * @param {string} params.event - Event to subscribe to
+   * @param {object} params.contract - Contract from which event will be queried
+   * @param {object} params.filterPred - Event's filter. Does not required to be indexed as it's filtered locally
+   * @param {BN} params.fromBlock - Lower blocks range value
+   * @param {BN} params.toBlock - Higher blocks range value
+   * @param {function} callback - Function to be called once an event is received
    * @returns {Promise<void>}
    */
   async oneTimeEvents({ event, contract, filterPred, fromBlock, toBlock }: QueryEvent, callback?: Function) {
@@ -335,13 +336,13 @@ export class GoodWallet {
    * Polls for events every INTERVAL defined by BLOCK_TIME and BLOCK_COUNT, the result is based on specified options
    * It queries the range 'fromBlock'-'toBlock' and then continues querying the blockchain for most recent events, from
    * the 'lastProcessedBlock' to the 'latest' every INTERVAL
-   * @param {String} event - Event to subscribe to
-   * @param {Object} contract - Contract from which event will be queried
-   * @param {Object} filterPred - Event's filter. Does not required to be indexed as it's filtered locally
-   * @param {BN} fromBlock - Lower blocks range value
-   * @param {BN} toBlock - Higher blocks range value
-   * @param {Function} callback - Function to be called once an event is received
-   * @param {BN} lastProcessedBlock - Used for recursion. It's not required to be set by the user. Initial value: ZERO
+   * @param {string} params - an object with params
+   * @param {string} params.event - Event to subscribe to
+   * @param {object} params.contract - Contract from which event will be queried
+   * @param {object} params.filterPred - Event's filter. Does not required to be indexed as it's filtered locally
+   * @param {BN} params.fromBlock - Lower blocks range value
+   * @param {BN} params.toBlock - Higher blocks range value
+   * @param {function} callback - Function to be called once an event is received
    * @returns {Promise<void>}
    */
   async pollForEvents({ event, contract, filterPred, fromBlock, toBlock }: QueryEvent, callback: Function) {

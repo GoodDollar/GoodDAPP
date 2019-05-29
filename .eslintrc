@@ -59,6 +59,28 @@
     "react/display-name": "off",
     "react-hooks/rules-of-hooks": "error",
     "dependencies/no-cycles": "error",
-    "import/no-unresolved": "warn"
+    "import/no-unresolved": "error",
+    "import/first": "error",
+    "import/no-duplicates": "error",
+    "import/order": [
+      "error",
+      {
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          "parent",
+          "sibling",
+          "index"
+        ]
+      }
+    ],
+    "sort-imports": [
+      "error",
+      {
+        "ignoreCase": true,
+        "ignoreDeclarationSort": true
+      }
+    ]
   }
 }

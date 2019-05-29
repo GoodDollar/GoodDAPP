@@ -844,6 +844,21 @@ export class UserStorage {
       this.profile.load(async profile => res(await this.getPrivateProfile(profile)), { wait: 99 })
     })
   }
+
+  /**
+   * remove user from indexes when deleting profile
+   */
+  async deleteProfile(): Promise<> {
+    //first delete from indexes then delete the profile itself
+    return Promise.all(UserStorage.indexableFields.map(async (k, v) => this.setProfileFieldPrivacy(k, 'private'))).then(
+      r =>
+        this.gunuser
+          .get('profile')
+          .put('null')
+          .then()
+    )
+  }
+
   /**
    * Delete the user account.
    * Deleting gundb profile and clearing local storage
@@ -860,9 +875,7 @@ export class UserStorage {
         .catch(e => ({
           server: 'failed'
         })),
-      this.gunuser
-        .get('profile')
-        .put('null')
+      this.deleteProfile()
         .then(r => ({
           profile: 'ok'
         }))

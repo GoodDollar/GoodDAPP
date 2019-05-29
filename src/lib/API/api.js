@@ -133,4 +133,6 @@ class API {
       })
   }
 }
-export default new API()
+const api = new API()
+global.api = api
+export default api

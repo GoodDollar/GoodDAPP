@@ -1,6 +1,7 @@
 {
   "extends": [
     "react-app",
+    "eslint:recommended",
     "plugin:flowtype/recommended",
     "plugin:import/recommended",
     "plugin:prettier/recommended",
@@ -81,6 +82,13 @@
         "ignoreCase": true,
         "ignoreDeclarationSort": true
       }
-    ]
+    ],
+    "no-console": [
+      "error",
+      {
+        "allow": [
+          "info"
+        ]
+      }]
   }
 }

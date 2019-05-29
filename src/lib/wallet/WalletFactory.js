@@ -14,11 +14,12 @@ export default class WalletFactory {
   static create(walletType: string): Promise<Web3> {
     switch (walletType) {
       case 'software':
-      default:
+      default: {
         let provider: SoftwareWalletProvider = new SoftwareWalletProvider(
           Config.ethereum[ContractsAddress[Config.network].networkId]
         )
         return provider.ready
+      }
     }
   }
 }

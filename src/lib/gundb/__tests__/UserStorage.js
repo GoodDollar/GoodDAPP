@@ -22,9 +22,9 @@ describe('UserStorage', () => {
   beforeAll(async () => {
     jest.setTimeout(30000)
     await userStorage.wallet.ready
-    console.log('wallet ready...', userStorage.wallet.account)
+    console.info('wallet ready...', userStorage.wallet.account)
     await userStorage.ready
-    console.log('storage ready...', userStorage.wallet.account)
+    console.info('storage ready...', userStorage.wallet.account)
   })
 
   afterEach(() => {

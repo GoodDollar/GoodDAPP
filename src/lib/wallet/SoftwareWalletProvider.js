@@ -97,12 +97,12 @@ class SoftwareWalletProvider {
         web3Provider = new Web3.providers.WebsocketProvider(provider)
         break
 
-      case 'HttpProvider':
+      case 'HttpProvider': {
         const infuraKey = this.conf.httpWeb3provider.indexOf('infura') !== -1 ? Config.infuraKey : ''
         provider = this.conf.httpWeb3provider + infuraKey
         web3Provider = new Web3.providers.HttpProvider(provider)
         break
-
+      }
       default:
         provider = this.conf.httpWeb3provider + Config.infuraKey
         web3Provider = new Web3.providers.HttpProvider(provider)

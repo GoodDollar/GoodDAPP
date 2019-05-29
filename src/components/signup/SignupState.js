@@ -71,7 +71,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
     let curRoute = navigation.state.routes[navigation.state.index]
     let res = Amplitude.logEvent(`SIGNUP_${event || curRoute.key}`)
     if (!res) log.warn('Amplitude event not sent')
-    console.log('fired event', `SIGNUP_${event || curRoute.key}`)
+    log.debug('fired event', `SIGNUP_${event || curRoute.key}`)
   }
 
   useEffect(() => {

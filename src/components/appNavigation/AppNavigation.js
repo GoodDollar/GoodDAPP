@@ -40,10 +40,7 @@ const AppNavigator = createSwitchNavigator(routes, { initialRouteName })
  */
 class AppNavigation extends React.Component<AppNavigationProps, AppNavigationState> {
   render() {
-    const account = this.props.store.get('account')
-    // `account.ready` will be set to `true` after retrieving the required user information in `updateAll`,
-    // if not ready will display a blank screen (`null`)
-    return account.ready ? <AppNavigator navigation={this.props.navigation} screenProps={{ routes }} /> : null
+    return <AppNavigator navigation={this.props.navigation} screenProps={{ routes }} />
   }
 }
 

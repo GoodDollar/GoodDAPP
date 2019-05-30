@@ -20,13 +20,11 @@ const updateBalance = async (store: Store): Promise<void> => {
   try {
     log.info('updating balance')
 
-    const account = store.get('account')
     const balance = await goodWallet.balanceOf()
 
     log.debug({ balance })
 
-    account.balance = balance
-    store.set('account')(account)
+    store.set('account')({ ...store.get('account'), balance })
   } catch (error) {
     log.error('failed to gather balance value:', { error })
   }
@@ -40,13 +38,10 @@ const updateEntitlement = async (store: Store): Promise<void> => {
   try {
     log.info('updating entitlement')
 
-    const account = store.get('account')
     const entitlement = await goodWallet.checkEntitlement().catch(e => 0)
 
     log.debug({ entitlement })
-
-    account.entitlement = entitlement
-    store.set('account')(account)
+    store.set('account')({ ...store.get('account'), entitlement })
   } catch (error) {
     log.error('failed to gather entitlement value:', { error })
   }

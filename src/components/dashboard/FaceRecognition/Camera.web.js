@@ -3,12 +3,10 @@ import React, { Component, createRef } from 'react'
 import { Text, Dimensions } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 
-const { width, height } = Dimensions.get('window')
+import { getScreenHeight, getScreenWidth, isPortrait } from '../../../lib/utils/Orientation'
 
 type CameraProps = {
-  width: number,
-  height: number,
-  onLoad: (track: MediaStreamTrack) => void,
+  onLoad: (track: MediaStreamTrack) => Promise,
   onError: (result: any) => void
 }
 
@@ -89,12 +87,13 @@ export class Camera extends Component<CameraProps, CameraState> {
       }
 
       const videoTrack = stream.getVideoTracks()[0]
+      if (this.videoPlayerRef.current) {
+        this.videoPlayerRef.current.srcObject = stream
 
-      this.videoPlayerRef.current.srcObject = stream
-
-      this.videoPlayerRef.current.addEventListener('loadeddata', () => {
-        this.props.onLoad(videoTrack)
-      })
+        this.videoPlayerRef.current.addEventListener('loadeddata', () => {
+          this.props.onLoad(videoTrack)
+        })
+      }
     } catch (error) {
       this.setState({ error })
     }
@@ -117,19 +116,35 @@ export class Camera extends Component<CameraProps, CameraState> {
   }
 }
 
-export const getResponsiveVideoDimensions = () => {
-  const defaultHeight = height - 124 > 360 && width < 690
-  return {
-    height: defaultHeight ? normalize(360) : 'auto',
-    maxHeight: defaultHeight ? normalize(360) : height - 124,
-    width: defaultHeight ? 'auto' : '100%'
-  }
-}
+// const screenSizes: Array<Array<number>> = [[360, 640], [720, 1280], [1080, 1920]]
+
+// const getScreenSizes = (size1: number, size2: number): Array<number> => {
+//   const index = size1 >= 1080 && size2 >= 1920 ? 2 : size1 >= 720 && size2 >= 1280 ? 1 : 0
+//   return screenSizes[index]
+// }
+
+// export const getResponsiveVideoDimensions = () => {
+//   if (isPortrait()) {
+//     const [width, height] = getScreenSizes(getScreenWidth(), getScreenHeight() - 124)
+//     return {
+//       height,
+//       maxHeight: height,
+//       width
+//     }
+//   } else {
+//     const [height, width] = getScreenSizes(getScreenHeight() - 124, getScreenWidth())
+//     return {
+//       height,
+//       maxHeight: height,
+//       width
+//     }
+//   }
+// }
 
 const createStyles = () => {
   return {
     videoElement: {
-      ...getResponsiveVideoDimensions(),
+      // ...getResponsiveVideoDimensions(),
       /* REQUIRED - handle flipping of ZoOm interface.  users of selfie-style interfaces are trained to see their mirror image */
       transform: 'scaleX(-1)',
       overflow: 'hidden',

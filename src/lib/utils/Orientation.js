@@ -4,7 +4,7 @@ export const getScreenHeight = () => Dimensions.get('screen').height
 
 export const getScreenWidth = () => Dimensions.get('screen').width
 
-export const isPortrait = () => getScreenHeight() >= getScreenWidth()
+export const isPortrait = () => getScreenHeight() > getScreenWidth()
 
 /**
  * Event listener for orientation changes

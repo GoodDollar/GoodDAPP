@@ -12,7 +12,7 @@ import logger from '../../../lib/logger/pino-logger'
 import userStorage from '../../../lib/gundb/UserStorage'
 import { Wrapper, CustomButton, Section } from '../../common'
 import { fontStyle } from '../../common/styles'
-import { Camera, getResponsiveVideoDimensions } from './Camera.web'
+import { Camera } from './Camera.web'
 import { initializeAndPreload, capture, type ZoomCaptureResult } from './Zoom'
 import goodWallet from '../../../lib/wallet/GoodWallet'
 import { LinkButton } from '../../signup/components'
@@ -54,13 +54,10 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
   }
 
   containerRef = createRef()
-  width = 720
-  height = 0
 
   async componentDidMount() {
     try {
       await this.loadZoomSDK()
-      // eslint-disable-next-line no-undef
       let loadedZoom = ZoomSDK
       log.info('ZoomSDK loaded', loadedZoom)
       loadedZoom.zoomResourceDirectory('/ZoomAuthentication.js/resources')
@@ -70,7 +67,6 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     } catch (e) {
       log.error(e)
     }
-    this.setWidth()
   }
 
   showFaceRecognition = () => {
@@ -88,6 +84,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
         log.debug('ZoomSDK unloaded')
       })
   }
+
   loadZoomSDK = async (): Promise<void> => {
     global.exports = {} // required by zoomSDK
     const server = Config.publicUrl
@@ -107,16 +104,6 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     }
     log.info({ captureOutcome })
     await this.performFaceRecognition(captureOutcome)
-  }
-
-  setWidth = () => {
-    const containerWidth =
-      (this.containerRef && this.containerRef.current && this.containerRef.current.offsetWidth) || this.width
-    this.width = Math.min(this.width, containerWidth)
-    this.height = window.innerHeight > window.innerWidth ? this.width * 1.77777778 : this.width * 0.5625
-
-    this.width = 720
-    this.height = 1280
   }
 
   performFaceRecognition = async (captureResult: ZoomCaptureResult) => {
@@ -243,9 +230,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
             <Section style={styles.bottomSection}>
               <div id="zoom-parent-container" style={getVideoContainerStyles()}>
                 <div id="zoom-interface-container" style={{ position: 'absolute' }} />
-                {this.state.ready && (
-                  <Camera height={this.height} onLoad={this.onCameraLoad} onError={this.onFaceRecognitionFailure} />
-                )}
+                {this.state.ready && <Camera onLoad={this.onCameraLoad} onError={this.onFaceRecognitionFailure} />}
               </div>
             </Section>
           </View>
@@ -295,7 +280,6 @@ const styles = StyleSheet.create({
 })
 
 const getVideoContainerStyles = () => ({
-  ...getResponsiveVideoDimensions(),
   marginLeft: 'auto',
   marginRight: 'auto',
   marginTop: 0,

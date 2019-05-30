@@ -57,7 +57,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
   width = 720
   height = 0
 
-  async componentDidMount() {
+  async componentWillMount() {
     try {
       await this.loadZoomSDK()
       // eslint-disable-next-line no-undef
@@ -200,7 +200,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
   render() {
     const { store }: FaceRecognitionProps = this.props
     const { fullName } = store.get('profile')
-    const { showZoomCapture, showPreText, loadingFaceRecognition, loadingText } = this.state
+    const { showZoomCapture, showPreText, loadingFaceRecognition, loadingText, ready } = this.state
 
     return (
       <Wrapper>
@@ -227,7 +227,12 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
                 Privacy Policy
               </LinkButton>
             </Text>
-            <CustomButton mode="contained" onPress={this.showFaceRecognition} loading={loadingFaceRecognition}>
+            <CustomButton
+              mode="contained"
+              disabled={ready === false}
+              onPress={this.showFaceRecognition}
+              loading={loadingFaceRecognition}
+            >
               Quick Face Recognition
             </CustomButton>
           </View>
@@ -238,14 +243,12 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
           </CustomButton>
         )}
 
-        {showZoomCapture && (
+        {ready && showZoomCapture && (
           <View>
             <Section style={styles.bottomSection}>
               <div id="zoom-parent-container" style={getVideoContainerStyles()}>
                 <div id="zoom-interface-container" style={{ position: 'absolute' }} />
-                {this.state.ready && (
-                  <Camera height={this.height} onLoad={this.onCameraLoad} onError={this.onFaceRecognitionFailure} />
-                )}
+                <Camera height={this.height} onLoad={this.onCameraLoad} onError={this.onFaceRecognitionFailure} />
               </div>
             </Section>
           </View>

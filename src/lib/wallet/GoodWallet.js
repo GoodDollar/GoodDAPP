@@ -78,7 +78,8 @@ export class GoodWallet {
   gasPrice: number
   subscribers: any = {}
 
-  constructor() {
+  constructor(walletConfig: {} = {}) {
+    this.config = walletConfig
     this.init()
   }
 
@@ -152,7 +153,7 @@ export class GoodWallet {
   }
 
   init(): Promise<any> {
-    const ready = WalletFactory.create(GoodWallet.WalletType)
+    const ready = WalletFactory.create(GoodWallet.WalletType, this.config)
     this.ready = ready
       .then(async wallet => {
         this.wallet = wallet
@@ -580,16 +581,17 @@ export class GoodWallet {
     gasPrice = gasPrice || this.gasPrice
 
     log.debug({ gas, gasPrice })
-
     return (
       new Promise((res, rej) => {
         tx.send({ gas, gasPrice, chainId: this.networkId })
-          .on('transactionHash', onTransactionHash)
+          .on('transactionHash', h => {
+            onTransactionHash && onTransactionHash(h)
+          })
           .on('receipt', r => {
             onReceipt && onReceipt(r)
             res(r)
           })
-          .on('confirmation', onConfirmation)
+          .on('confirmation', c => onConfirmation && onConfirmation(c))
           .on('error', e => {
             onError && onError(e)
             rej(e)

@@ -209,7 +209,7 @@ export class UserStorage {
     this.ready = this.wallet.ready
       .then(() => this.init())
       .catch(e => {
-        logger.error('Error initializing UserStorage', e)
+        logger.error('Error initializing UserStorage', { e, message: e.message, account: this.wallet.account })
         return false
       })
   }

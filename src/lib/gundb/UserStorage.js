@@ -1,6 +1,6 @@
 //@flow
 import type { StandardFeed } from '../undux/GDStore'
-import Gun from '@gooddollar/gun-appendonly'
+import Gun from 'gun'
 import SEA from 'gun/sea'
 import find from 'lodash/find'
 import merge from 'lodash/merge'
@@ -209,7 +209,7 @@ export class UserStorage {
     this.ready = this.wallet.ready
       .then(() => this.init())
       .catch(e => {
-        logger.error('Error initializing UserStorage', e)
+        logger.error('Error initializing UserStorage', { e, message: e.message, account: this.wallet.account })
         return false
       })
   }

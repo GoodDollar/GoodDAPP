@@ -1,36 +1,32 @@
 // @flow
+import React from 'react'
 import loadjs from 'loadjs'
-import React, { useState, useEffect } from 'react'
+import { Section } from '../../common'
 import Config from '../../../config/config'
 import { StyleSheet, View } from 'react-native'
 import GDStore from '../../../lib/undux/GDStore'
+import type { DashboardProps } from '../Dashboard'
 import logger from '../../../lib/logger/pino-logger'
-import { Section } from '../../common'
 import { Camera, getResponsiveVideoDimensions } from './Camera.web'
 import { initializeAndPreload, capture, type ZoomCaptureResult } from './Zoom'
-import type { DashboardProps } from '../Dashboard'
 
 const log = logger.child({ from: 'ZoomCapture' })
-//const store = GDStore.useStore()
-const [ready, setIsReady] = useState(0)
 
 type ZoomCaptureProps = DashboardProps & {
   screenProps: any,
   store: Store
 }
 
-/*
-useEffect(() => {
-  function handleStatusChange(status) {
-    setIsReady(status.ready);
-  }*/
+type State = {
+  ready: boolean
+}
 
 class ZoomCapture extends React.Component<ZoomCaptureProps, State> {
   state = {
     ready: false
   }
 
-  async componentDidMount() {
+  async componentWillMount() {
     try {
       await this.loadZoomSDK()
       // eslint-disable-next-line no-undef
@@ -39,7 +35,7 @@ class ZoomCapture extends React.Component<ZoomCaptureProps, State> {
       loadedZoom.zoomResourceDirectory('/ZoomAuthentication.js/resources')
       await initializeAndPreload(loadedZoom) // TODO: what  to do in case of init errors?
       log.info('ZoomSDK initialized and preloaded', loadedZoom)
-      this.setState({ ready: true })
+      this.setState({ ready: true }, this.props.onZoomReady()) // notify parent to enable 'Face Recognition' button
     } catch (e) {
       log.error(e)
     }
@@ -62,20 +58,22 @@ class ZoomCapture extends React.Component<ZoomCaptureProps, State> {
       log.error(`Failed on capture, error: ${e}`)
     }
     log.info({ captureOutcome })
-    debugger
-    this.props.store.set('captureResult')(captureOutcome)
+    this.props.onCaptureResult(captureOutcome)
   }
 
   render() {
+    const ready = this.state.ready
     return (
-      <View>
-        <Section style={styles.bottomSection}>
-          <div id="zoom-parent-container" style={getVideoContainerStyles()}>
-            <div id="zoom-interface-container" style={{ position: 'absolute' }} />
-            {ready && <Camera height={this.height} onLoad={this.onCameraLoad} />}
-          </div>
-        </Section>
-      </View>
+      ready && (
+        <View>
+          <Section style={styles.bottomSection}>
+            <div id="zoom-parent-container" style={getVideoContainerStyles()}>
+              <div id="zoom-interface-container" style={{ position: 'absolute' }} />
+              {<Camera height={this.height} onLoad={this.onCameraLoad} />}
+            </div>
+          </Section>
+        </View>
+      )
     )
   }
 }

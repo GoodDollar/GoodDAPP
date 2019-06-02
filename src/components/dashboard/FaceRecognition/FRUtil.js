@@ -17,7 +17,7 @@ type FRUtilResponse = {
   error: string
 }
 
-const log = logger.child({ from: 'FaceRecognition' })
+const log = logger.child({ from: 'FRUtil' })
 
 export const FRUtil = {
   async performFaceRecognition(captureResult: ZoomCaptureResult) {

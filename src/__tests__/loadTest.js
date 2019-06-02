@@ -35,6 +35,7 @@ export const mytest = async () => {
   let mnemonic = bip39.generateMnemonic()
   let wallet = new GoodWallet({ mnemonic })
   await wallet.ready
+  await API.ready
   let storage = new UserStorage(wallet)
   let login = new GoodWalletLogin(wallet, storage)
   await storage.ready

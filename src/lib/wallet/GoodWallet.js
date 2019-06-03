@@ -8,9 +8,11 @@ import ContractsAddress from '@gooddollar/goodcontracts/releases/deployment.json
 import { default as filterFunc } from 'lodash/filter'
 import type Web3 from 'web3'
 import { BN, toBN } from 'web3-utils'
+import numeral from 'numeral'
 import uniqBy from 'lodash/uniqBy'
 import Config from '../../config/config'
 import logger from '../../lib/logger/pino-logger'
+import { toRawValue } from './utils'
 import { generateShareLink } from '../share'
 import WalletFactory from './WalletFactory'
 import abiDecoder from 'abi-decoder'
@@ -218,6 +220,21 @@ export class GoodWallet {
     } catch (e) {
       log.info(e)
       return Promise.reject(e)
+    }
+  }
+
+  async getTimeToNextClaim(): Promise<any> {
+    const lastCall = await this.claimContract.methods.getLastClaimed().call()
+    const nextCall = (lastCall.toNumber() + 86400) * 1000 - new Date().getTime()
+    return new Date(nextCall).toISOString().substr(11, 8)
+  }
+
+  async getAmountAndQuantityClaimedToday(entitlement): Promise<any> {
+    const people = await this.identityContract.methods.whiteListedCount().call()
+    const amount = people.toNumber() * entitlement.toNumber()
+    return {
+      people: numeral(people.toNumber()).format('0b'),
+      amount: numeral(amount).format('0b')
     }
   }
 

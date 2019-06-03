@@ -14,23 +14,52 @@ import logger from '../../lib/logger/pino-logger'
 type ClaimProps = DashboardProps & {
   store: Store
 }
+
+type ClaimState = {
+  loading: boolean,
+  nextClaim: string,
+  claimedToday: any
+}
+
 const log = logger.child({ from: 'Claim' })
 
-class Claim extends Component<ClaimProps, {}> {
+class Claim extends Component<ClaimProps, ClaimState> {
   state = {
-    loading: false
+    loading: false,
+    nextClaim: '23:59:59',
+    claimedToday: {
+      people: '',
+      amount: ''
+    }
   }
+
+  interval = null
+
   goodWalletWrapped = wrapper(goodWallet, this.props.store)
+
   async componentDidMount() {
     //if we returned from facerecoginition then the isValid param would be set
     //this happens only on first claim
+    const { entitlement } = this.props.store.get('account')
     const isValid = this.props.screenProps.screenState && this.props.screenProps.screenState.isValid
     if (isValid && (await goodWallet.isCitizen())) {
       this.handleClaim()
     } else if (isValid === false) {
       this.props.screenProps.goToRoot()
     }
+
+    const claimedToday = await this.goodWalletWrapped.getAmountAndQuantityClaimedToday(entitlement)
+    this.setState({ claimedToday })
+    this.interval = setInterval(async () => {
+      const nextClaim = await this.goodWalletWrapped.getTimeToNextClaim()
+      this.setState({ nextClaim })
+    }, 1000)
   }
+
+  componentWillUnmount() {
+    clearInterval(this.interval)
+  }
+
   handleClaim = async () => {
     this.setState({ loading: true })
     try {
@@ -50,6 +79,7 @@ class Claim extends Component<ClaimProps, {}> {
       this.setState({ loading: false })
     }
   }
+
   faceRecognition = () => {
     this.props.screenProps.push('FaceRecognition', { from: 'Claim' })
   }
@@ -58,6 +88,8 @@ class Claim extends Component<ClaimProps, {}> {
     const { screenProps, store }: ClaimProps = this.props
     const { entitlement } = store.get('account')
     const isCitizen = store.get('isLoggedInCitizen')
+    const { nextClaim, claimedToday } = this.state
+
     const ClaimButton = (
       <CustomButton
         disabled={entitlement <= 0}
@@ -83,6 +115,15 @@ class Claim extends Component<ClaimProps, {}> {
             <Text style={styles.everyDay}> every day</Text>
           </Section.Text>
         </Section>
+        <Section style={styles.nextIncome}>
+          <Section.Text>
+            {claimedToday.people} PEOPLE CLAIMED {claimedToday.amount} g$ TODAY!
+          </Section.Text>
+        </Section>
+        <Section style={styles.nextIncome}>
+          <Section.Text style={styles.incomeTitle}>Next daily income:</Section.Text>
+          <Section.Text style={styles.time}>{nextClaim}</Section.Text>
+        </Section>
         {ClaimButton}
         <View />
       </Wrapper>
@@ -91,13 +132,34 @@ class Claim extends Component<ClaimProps, {}> {
 }
 
 const styles = StyleSheet.create({
-  claimButton: { flexGrow: 0, flexShrink: 1 },
+  claimButton: {
+    flexGrow: 0,
+    flexShrink: 1
+  },
   centered: {
     justifyContent: 'center',
     alignItems: 'baseline'
   },
-  mainContent: { flexGrow: 1, justifyContent: 'center', backgroundColor: 'none' },
-  everyDay: { fontSize: normalize(20) }
+  mainContent: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    backgroundColor: 'none'
+  },
+  nextIncome: {
+    justifyContent: 'center'
+  },
+  incomeTitle: {
+    fontSize: normalize(18),
+    textTransform: 'uppercase',
+    fontFamily: 'Roboto, Regular'
+  },
+  time: {
+    fontSize: normalize(36),
+    fontFamily: 'Roboto, Medium'
+  },
+  everyDay: {
+    fontSize: normalize(20)
+  }
 })
 
 const claim = GDStore.withStore(Claim)

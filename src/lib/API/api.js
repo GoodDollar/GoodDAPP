@@ -32,12 +32,12 @@ class API {
   client: AxiosInstance
 
   constructor() {
-    this.init()
+    this.ready = this.init()
   }
 
   init() {
-    log.info('initializing api...')
-    AsyncStorage.getItem('GoodDAPP_jwt').then(async jwt => {
+    log.info('initializing api...', Config.serverUrl)
+    return AsyncStorage.getItem('GoodDAPP_jwt').then(async jwt => {
       this.jwt = jwt
       let instance: AxiosInstance = axios.create({
         baseURL: Config.serverUrl,
@@ -133,4 +133,6 @@ class API {
       })
   }
 }
-export default new API()
+const api = new API()
+global.api = api
+export default api

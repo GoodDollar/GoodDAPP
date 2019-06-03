@@ -12,6 +12,7 @@ import maxBy from 'lodash/maxBy'
 import flatten from 'lodash/flatten'
 import get from 'lodash/get'
 import values from 'lodash/values'
+import keys from 'lodash/keys'
 import gun from './gundb'
 import { default as goodWallet, type GoodWallet } from '../wallet/GoodWallet'
 import isMobilePhone from '../validators/isMobilePhone'
@@ -182,6 +183,7 @@ export class UserStorage {
    * @returns {string} - Value without '+' (plus), '-' (minus), '_' (underscore), ' ' (space), in lower case
    */
   static cleanFieldForIndex = (field: string, value: string): string => {
+    if (!value) return value
     if (field === 'mobile' || field === 'phone') return value.replace(/[_+-\s]+/g, '')
     return value.toLowerCase()
   }
@@ -449,7 +451,12 @@ export class UserStorage {
     return Promise.all(
       Object.keys(profileSettings)
         .filter(key => profile[key])
-        .map(async field => this.setProfileField(field, profile[field], await getPrivacy(field)))
+        .map(async field =>
+          this.setProfileField(field, profile[field], await getPrivacy(field)).catch(e => {
+            logger.error('setProfile field failed:', field)
+            return { err: 'failed saving field' }
+          })
+        )
     ).then(results => {
       const errors = results.filter(ack => ack && ack.err).map(ack => ack.err)
       if (errors.length > 0) logger.error('setProfile some fields failed', errors.length, errors)
@@ -849,12 +856,17 @@ export class UserStorage {
    */
   async deleteProfile(): Promise<> {
     //first delete from indexes then delete the profile itself
-    return Promise.all(UserStorage.indexableFields.map(async (k, v) => this.setProfileFieldPrivacy(k, 'private'))).then(
-      r =>
-        this.gunuser
-          .get('profile')
-          .put('null')
-          .then()
+    return Promise.all(
+      keys(UserStorage.indexableFields).map(async k => {
+        return this.setProfileFieldPrivacy(k, 'private').catch(e => {
+          logger.error('failed deleting profile field', k)
+        })
+      })
+    ).then(r =>
+      this.gunuser
+        .get('profile')
+        .put('null')
+        .then()
     )
   }
 

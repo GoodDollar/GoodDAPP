@@ -49,9 +49,10 @@ class Claim extends Component<ClaimProps, ClaimState> {
     }
 
     const claimedToday = await this.goodWalletWrapped.getAmountAndQuantityClaimedToday(entitlement)
+    const nextClaimDate = await this.goodWalletWrapped.getNextClaimTime()
     this.setState({ claimedToday })
     this.interval = setInterval(async () => {
-      const nextClaim = await this.goodWalletWrapped.getTimeToNextClaim()
+      const nextClaim = new Date(nextClaimDate - new Date().getTime()).toISOString().substr(11, 8)
       this.setState({ nextClaim })
     }, 1000)
   }

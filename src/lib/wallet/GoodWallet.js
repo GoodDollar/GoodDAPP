@@ -224,10 +224,9 @@ export class GoodWallet {
     }
   }
 
-  async getTimeToNextClaim(): Promise<any> {
-    const lastCall = await this.claimContract.methods.getLastClaimed().call()
-    const nextCall = (lastCall.toNumber() + 86400) * 1000 - new Date().getTime()
-    return new Date(nextCall).toISOString().substr(11, 8)
+  async getNextClaimTime(): Promise<any> {
+    const lastClaim = await this.claimContract.methods.getLastClaimed().call()
+    return (lastClaim.toNumber() + 86400) * 1000
   }
 
   async getAmountAndQuantityClaimedToday(entitlement): Promise<any> {

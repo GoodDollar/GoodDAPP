@@ -88,23 +88,6 @@ class Claim extends Component<ClaimProps, {}> {
             <Text style={styles.everyDay}> every day</Text>
           </Section.Text>
         </Section>
-        <Section>
-          <Section.Row style={styles.centered}>
-            <Section.Text>
-              <b>367K</b> PEOPLE CLAIMED <b>2.5M G$</b> TODAY!
-            </Section.Text>
-          </Section.Row>
-        </Section>
-        <Section>
-          <Section.Title>
-            YOU NOW HAVE <b>3</b> DAYS OF INCOME WAITING
-          </Section.Title>
-          <Section.Separator />
-          <Section.Text>NEXT DAILY INCOME:</Section.Text>
-          <Section.Row style={styles.centered}>
-            <BigNumber number={'23:59:59'} />
-          </Section.Row>
-        </Section>
         {ClaimButton}
         <View />
       </Wrapper>

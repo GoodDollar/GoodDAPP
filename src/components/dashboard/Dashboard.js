@@ -14,7 +14,7 @@ import TabsView from '../appNavigation/TabsView'
 import { Avatar, BigGoodDollar, Section, Wrapper } from '../common'
 import logger from '../../lib/logger/pino-logger'
 import userStorage from '../../lib/gundb/UserStorage'
-import { PrivacyPolicy, TermsOfUse } from '../webView/webViewInstances'
+import { PrivacyPolicy, Support, TermsOfUse } from '../webView/webViewInstances'
 import Amount from './Amount'
 import Claim from './Claim'
 import FaceRecognition from './FaceRecognition/FaceRecognition'
@@ -284,5 +284,6 @@ export default createStackNavigator({
   ReceiveByQR,
   SendQRSummary,
   PP: PrivacyPolicy,
-  TOU: TermsOfUse
+  TOU: TermsOfUse,
+  Support
 })

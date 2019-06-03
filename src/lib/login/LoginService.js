@@ -3,7 +3,6 @@ import { AsyncStorage } from 'react-native'
 import type { Credentials } from '../API/api'
 import API from '../API/api'
 import logger from '../logger/pino-logger'
-import userStorage from '../gundb/UserStorage'
 
 const log = logger.child({ from: 'LoginService' })
 
@@ -16,7 +15,8 @@ class LoginService {
 
   toSign: string = 'Login to GoodDAPP'
 
-  constructor() {
+  constructor(userStorage) {
+    this.userStorage = userStorage
     this.getJWT().then(jwt => (this.jwt = jwt))
     this.getCredentials().then(c => (this.credentials = c))
   }
@@ -60,8 +60,8 @@ class LoginService {
     }
 
     let creds = await this.login()
-    creds.profileSignature = await userStorage.sign(LoginService.toSign + creds.nonce)
-    creds.profilePublickey = userStorage.user.pub
+    creds.profileSignature = await this.userStorage.sign(LoginService.toSign + creds.nonce)
+    creds.profilePublickey = this.userStorage.user.pub
     log.info('signed message', creds)
     this.storeCredentials(creds)
 

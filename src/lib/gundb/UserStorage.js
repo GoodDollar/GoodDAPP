@@ -1,5 +1,5 @@
 //@flow
-import Gun from '@gooddollar/gun-appendonly'
+import Gun from 'gun'
 import SEA from 'gun/sea'
 import find from 'lodash/find'
 import merge from 'lodash/merge'
@@ -11,6 +11,7 @@ import maxBy from 'lodash/maxBy'
 import flatten from 'lodash/flatten'
 import get from 'lodash/get'
 import values from 'lodash/values'
+import keys from 'lodash/keys'
 import isEmail from 'validator/lib/isEmail'
 import { AsyncStorage } from 'react-native'
 import type { UserRecord } from '../API/api'
@@ -20,7 +21,6 @@ import pino from '../logger/pino-logger'
 import type { StandardFeed } from '../undux/GDStore'
 import API from '../API/api'
 import { getUserModel, type UserModel } from './UserModel'
-import gun from './gundb'
 
 const logger = pino.child({ from: 'UserStorage' })
 
@@ -195,9 +195,14 @@ export class UserStorage {
    * @returns {string} - Value without '+' (plus), '-' (minus), '_' (underscore), ' ' (space), in lower case
    */
   static cleanFieldForIndex = (field: string, value: string): string => {
+    if (!value) {
+      return value
+    }
+
     if (field === 'mobile' || field === 'phone') {
       return value.replace(/[_+-\s]+/g, '')
     }
+
     return value.toLowerCase()
   }
 
@@ -224,7 +229,7 @@ export class UserStorage {
     this.ready = this.wallet.ready
       .then(() => this.init())
       .catch(e => {
-        logger.error('Error initializing UserStorage', e)
+        logger.error('Error initializing UserStorage', { e, message: e.message, account: this.wallet.account })
         return false
       })
   }
@@ -337,6 +342,8 @@ export class UserStorage {
         logger.warn('getFeedItemByTransactionHash not found or cant decrypt', { transactionHash })
         return undefined
       })
+
+    return feedItem
   }
 
   /**
@@ -389,6 +396,7 @@ export class UserStorage {
       .get(field)
       .get('value')
       .decrypt()
+    return pField
   }
 
   /**
@@ -455,7 +463,12 @@ export class UserStorage {
   setProfile(profile: UserModel) {
     const { errors, isValid } = profile.validate()
 
+    if (profile && !profile.validate) {
+      profile = getUserModel(profile)
+    }
+
     if (!isValid) {
+      logger.error('setProfile failed:', { errors })
       throw new Error(errors)
     }
 
@@ -469,22 +482,23 @@ export class UserStorage {
     }
 
     const getPrivacy = async field => {
-      const currentPrivacy = await this.profile
-        .get(field)
-        .get('privacy')
-        .then()
-
+      const currentPrivacy = await this.profile.get(field).get('privacy')
       return currentPrivacy || profileSettings[field].defaultPrivacy || 'public'
     }
 
     return Promise.all(
       Object.keys(profileSettings)
         .filter(key => profile[key])
-        .map(async field => this.setProfileField(field, profile[field], await getPrivacy(field)))
+        .map(async field =>
+          this.setProfileField(field, profile[field], await getPrivacy(field)).catch(e => {
+            logger.error('setProfile field failed:', field)
+            return { err: 'failed saving field' }
+          })
+        )
     ).then(results => {
       const errors = results.filter(ack => ack && ack.err).map(ack => ack.err)
       if (errors.length > 0) {
-        logger.error('setProfile', errors)
+        logger.error('setProfile some fields failed', errors.length, errors)
       }
       return true
     })
@@ -562,7 +576,7 @@ export class UserStorage {
     }
 
     const indexNode = gun.get(`users/by${field}`).get(cleanValue)
-    logger.debug('indexProfileField', { field, cleanValue, value, privacy, indexNode })
+    logger.debug('indexProfileField', { field, cleanValue, value, privacy })
 
     try {
       const indexValue = await indexNode.then()
@@ -914,6 +928,25 @@ export class UserStorage {
   }
 
   /**
+   * remove user from indexes when deleting profile
+   */
+  deleteProfile(): Promise<> {
+    //first delete from indexes then delete the profile itself
+    return Promise.all(
+      keys(UserStorage.indexableFields).map(async k => {
+        return this.setProfileFieldPrivacy(k, 'private').catch(e => {
+          logger.error('failed deleting profile field', k)
+        })
+      })
+    ).then(r =>
+      this.gunuser
+        .get('profile')
+        .put('null')
+        .then()
+    )
+  }
+
+  /**
    * Delete the user account.
    * Deleting gundb profile and clearing local storage
    * Calling the server to delete their data
@@ -929,9 +962,7 @@ export class UserStorage {
         .catch(e => ({
           server: 'failed'
         })),
-      this.gunuser
-        .get('profile')
-        .put('null')
+      this.deleteProfile()
         .then(r => ({
           profile: 'ok'
         }))

@@ -10,7 +10,9 @@ const withProfile: Effects<State> = (store: Store) => {
     }
 
     userStorage.subscribeProfileUpdates(profile => {
-      store.set('profile')(userStorage.getDisplayProfile(profile))
+      if (profile) {
+        userStorage.getDisplayProfile(profile).then(store.set('profile'))
+      }
     })
   })
 

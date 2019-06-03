@@ -1,11 +1,10 @@
-import Gun from '@gooddollar/gun-appendonly'
+import { LocalStorage } from 'node-localStorage'
+import Config from '../config/config'
+import Gun from 'gun'
 import SEA from 'gun/sea'
 import load from 'gun/lib/load'
 
-/**
- * extend gundb SEA with decrypt to match ".secret"
- */
-export default (() => {
+const extend = (() => {
   Gun.chain.putAck = function(data, cb) {
     var gun = this,
       callback =
@@ -57,3 +56,9 @@ export default (() => {
     })()
   }
 })()
+
+global.window = {}
+global.window.localStorage = new LocalStorage('./localStorage.tmp')
+global.gun = Gun([`${Config.serverUrl}/gun`])
+global.Gun = Gun
+console.log('here')

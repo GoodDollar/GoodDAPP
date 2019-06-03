@@ -111,9 +111,9 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
           setLoading(false)
           return setError(data.error)
         }
+        log.debug('skipping email verification?', { ...data, skip: Config.skipEmailVerification })
         if (Config.skipEmailVerification || data.onlyInEnv) {
           // Server is using onlyInEnv middleware (probably dev mode), email verification is not sent.
-          log.debug({ ...data })
 
           // Skip EmailConfirmation screen
           nextRoute = navigation.state.routes[navigation.state.index + 2]

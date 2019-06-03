@@ -80,7 +80,8 @@ export class GoodWallet {
   gasPrice: number
   subscribers: any = {}
 
-  constructor() {
+  constructor(walletConfig: {} = {}) {
+    this.config = walletConfig
     this.init()
   }
 
@@ -107,7 +108,7 @@ export class GoodWallet {
         uniqEvents.forEach(event => {
           this.getReceiptWithLogs(event.transactionHash)
             .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptUpdated']))
-            .catch(err => log.error(err))
+            .catch(err => log.error('send event get/send receipt failed:', err))
         })
         // Send for all events. We could define here different events
         this.getSubscribers('send').forEach(cb => cb(error, events))
@@ -128,7 +129,7 @@ export class GoodWallet {
         uniqEvents.forEach(event => {
           this.getReceiptWithLogs(event.transactionHash)
             .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptReceived']))
-            .catch(err => log.error(err))
+            .catch(err => log.error('receive event get/send receipt failed:', err))
         })
 
         this.getSubscribers('receive').forEach(cb => cb(error, events))
@@ -154,7 +155,7 @@ export class GoodWallet {
   }
 
   init(): Promise<any> {
-    const ready = WalletFactory.create(GoodWallet.WalletType)
+    const ready = WalletFactory.create(GoodWallet.WalletType, this.config)
     this.ready = ready
       .then(async wallet => {
         this.wallet = wallet
@@ -333,7 +334,7 @@ export class GoodWallet {
         }
       }
     } catch (e) {
-      log.error({ e })
+      log.error('oneTimeEvents failed:', { e })
 
       if (callback === undefined) {
         return Promise.reject(e)
@@ -597,16 +598,17 @@ export class GoodWallet {
     gasPrice = gasPrice || this.gasPrice
 
     log.debug({ gas, gasPrice })
-
     return (
       new Promise((res, rej) => {
         tx.send({ gas, gasPrice, chainId: this.networkId })
-          .on('transactionHash', onTransactionHash)
+          .on('transactionHash', h => {
+            onTransactionHash && onTransactionHash(h)
+          })
           .on('receipt', r => {
             onReceipt && onReceipt(r)
             res(r)
           })
-          .on('confirmation', onConfirmation)
+          .on('confirmation', c => onConfirmation && onConfirmation(c))
           .on('error', e => {
             onError && onError(e)
             rej(e)

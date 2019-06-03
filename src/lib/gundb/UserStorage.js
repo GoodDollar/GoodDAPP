@@ -426,8 +426,10 @@ export class UserStorage {
    * @throws Error if profile is invalid
    */
   async setProfile(profile: UserModel) {
+    if (profile && !profile.validate) profile = getUserModel(profile)
     const { errors, isValid } = profile.validate()
     if (!isValid) {
+      logger.error('setProfile failed:', { errors })
       throw new Error(errors)
     }
 
@@ -440,10 +442,7 @@ export class UserStorage {
       username: { defaultPrivacy: 'public' }
     }
     const getPrivacy = async field => {
-      const currentPrivacy = await this.profile
-        .get(field)
-        .get('privacy')
-        .then()
+      const currentPrivacy = await this.profile.get(field).get('privacy')
       return currentPrivacy || profileSettings[field].defaultPrivacy || 'public'
     }
 
@@ -453,7 +452,7 @@ export class UserStorage {
         .map(async field => this.setProfileField(field, profile[field], await getPrivacy(field)))
     ).then(results => {
       const errors = results.filter(ack => ack && ack.err).map(ack => ack.err)
-      if (errors.length > 0) logger.error('setProfile', errors)
+      if (errors.length > 0) logger.error('setProfile some fields failed', errors.length, errors)
       return true
     })
   }

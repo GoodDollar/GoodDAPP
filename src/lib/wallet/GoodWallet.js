@@ -106,7 +106,7 @@ export class GoodWallet {
         uniqEvents.forEach(event => {
           this.getReceiptWithLogs(event.transactionHash)
             .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptUpdated']))
-            .catch(err => log.error(err))
+            .catch(err => log.error('send event get/send receipt failed:', err))
         })
         // Send for all events. We could define here different events
         this.getSubscribers('send').forEach(cb => cb(error, events))
@@ -127,7 +127,7 @@ export class GoodWallet {
         uniqEvents.forEach(event => {
           this.getReceiptWithLogs(event.transactionHash)
             .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptReceived']))
-            .catch(err => log.error(err))
+            .catch(err => log.error('receive event get/send receipt failed:', err))
         })
 
         this.getSubscribers('receive').forEach(cb => cb(error, events))
@@ -317,7 +317,7 @@ export class GoodWallet {
         }
       }
     } catch (e) {
-      log.error({ e })
+      log.error('oneTimeEvents failed:', { e })
 
       if (callback === undefined) {
         return Promise.reject(e)

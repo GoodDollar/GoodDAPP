@@ -631,12 +631,25 @@ export class UserStorage {
   }
 
   /**
+   * Checks if username connected to a profile
+   * @param {string} username
+   */
+  async isUsername(username: string) {
+    let profile = await gun.get('users/byusername')
+    return profile !== undefined
+  }
+  /**
    *
    * @param {string} field - Profile field value (email, mobile or wallet address value)
    * @returns { string } address
    */
   async getUserAddress(field: string) {
-    const attr = isMobilePhone(field) ? 'mobile' : isEmail(field) ? 'email' : 'walletAddress'
+    let attr = undefined
+    if (isMobilePhone(field)) attr = 'mobile'
+    else if (isEmail(field)) attr = 'email'
+    else if (this.isUsername(field)) attr = 'username'
+    else if (this.wallet.wallet.utils.isAddress(field)) return field
+    if (attr === undefined) return undefined
     const value = UserStorage.cleanFieldForIndex(attr, field)
 
     const address = await gun

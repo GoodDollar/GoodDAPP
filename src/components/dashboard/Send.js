@@ -40,11 +40,11 @@ const GenerateLinkButton = ({ screenProps, disabled }) => (
 const validate = async to => {
   if (!to) return null
 
-  if (isMobilePhone(to) || isEmail(to)) return null
+  if (isMobilePhone(to) || isEmail(to) || userStorage.isUsername(to)) return null
 
   if (goodWallet.wallet.utils.isAddress(to)) return null
 
-  return `Needs to be a valid wallet address, email or mobile phone (starts with a '+')`
+  return `Needs to be a valid username, email or mobile phone (starts with a '+')`
 }
 
 const ContinueButton = ({ screenProps, to, disabled, checkError }) => (

@@ -166,10 +166,11 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
 
     if (result.ok && result.enrollResult) {
       return this.onFaceRecognitionSuccess(result)
-    } else {
-      log.error('uknown error', { result }) // TODO: handle general error
-      return this.onFaceRecognitionFailure(result)
     }
+
+    log.error('uknown error', { result }) // TODO: handle general error
+
+    return this.onFaceRecognitionFailure(result)
   }
 
   onFaceRecognitionSuccess = async (res: FaceRecognitionResponse) => {

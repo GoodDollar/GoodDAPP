@@ -1,5 +1,6 @@
 import Gun from '@gooddollar/gun-appendonly'
 import SEA from 'gun/sea'
+// eslint-disable-next-line no-unused-vars
 import load from 'gun/lib/load'
 
 /**

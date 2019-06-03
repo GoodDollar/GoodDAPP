@@ -20,6 +20,7 @@ import isMobilePhone from '../validators/isMobilePhone'
 import pino from '../logger/pino-logger'
 import type { StandardFeed } from '../undux/GDStore'
 import API from '../API/api'
+import gun from './gundb'
 import { getUserModel, type UserModel } from './UserModel'
 
 const logger = pino.child({ from: 'UserStorage' })
@@ -342,8 +343,6 @@ export class UserStorage {
         logger.warn('getFeedItemByTransactionHash not found or cant decrypt', { transactionHash })
         return undefined
       })
-
-    return feedItem
   }
 
   /**
@@ -396,7 +395,6 @@ export class UserStorage {
       .get(field)
       .get('value')
       .decrypt()
-    return pField
   }
 
   /**
@@ -930,10 +928,10 @@ export class UserStorage {
   /**
    * remove user from indexes when deleting profile
    */
-  deleteProfile(): Promise<> {
+  deleteProfile(): Promise<any> {
     //first delete from indexes then delete the profile itself
     return Promise.all(
-      keys(UserStorage.indexableFields).map(async k => {
+      keys(UserStorage.indexableFields).map(k => {
         return this.setProfileFieldPrivacy(k, 'private').catch(e => {
           logger.error('failed deleting profile field', k)
         })

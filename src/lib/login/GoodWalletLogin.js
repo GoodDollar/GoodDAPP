@@ -2,8 +2,8 @@
 import type { Credentials } from '../API/api'
 import { GoodWallet, default as wallet } from '../wallet/GoodWallet'
 import logger from '../logger/pino-logger'
-import LoginService from './LoginService'
 import { default as defaultStorage } from '../gundb/UserStorage'
+import LoginService from './LoginService'
 
 const log = logger.child({ from: 'GoodWalletLogin' })
 

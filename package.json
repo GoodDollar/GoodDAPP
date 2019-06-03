@@ -70,6 +70,7 @@
     "mnid": "^0.1.3",
     "mobile-device-detect": "^0.2.3",
     "node-fetch": "^2.6.0",
+    "node-localStorage": "0.0.1",
     "node-localstorage": "^1.3.1",
     "pino": "^5.12.6",
     "qrcode.react": "^0.9.3",

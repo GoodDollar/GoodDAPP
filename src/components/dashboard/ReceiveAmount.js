@@ -54,7 +54,7 @@ const ReceiveAmount = ({ screenProps }: ReceiveProps) => {
       </Section>
       {/* <ShareQR>Share QR Code</ShareQR>
       <DoneButton style={styles.doneButton} screenProps={screenProps} /> */}
-      <ShareLink link={link}>Share QR Code</ShareLink>
+      <ShareLink link={link}>Share Link</ShareLink>
       <DoneButton style={styles.buttonStyle} screenProps={screenProps} />
     </Wrapper>
   )

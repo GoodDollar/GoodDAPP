@@ -289,7 +289,7 @@ export class GoodWallet {
     const events = await contract.getPastEvents('allEvents', { fromBlock, toBlock })
     const res1 = filterFunc(events, { event })
     const res = filterFunc(res1, { returnValues: { ...filterPred } })
-    log.debug({ res, events, res1, fromBlock: fromBlock.toString(), toBlock: toBlock && toBlock.toString() })
+    log.trace({ res, events, res1, fromBlock: fromBlock.toString(), toBlock: toBlock && toBlock.toString() })
 
     return res
   }

@@ -40,7 +40,6 @@ class Claim extends Component<ClaimProps, ClaimState> {
   async componentDidMount() {
     //if we returned from facerecoginition then the isValid param would be set
     //this happens only on first claim
-    const { entitlement } = this.props.store.get('account')
     const isValid = this.props.screenProps.screenState && this.props.screenProps.screenState.isValid
     if (isValid && (await goodWallet.isCitizen())) {
       this.handleClaim()
@@ -48,8 +47,12 @@ class Claim extends Component<ClaimProps, ClaimState> {
       this.props.screenProps.goToRoot()
     }
 
-    const claimedToday = await this.goodWalletWrapped.getAmountAndQuantityClaimedToday(entitlement)
-    const nextClaimDate = await this.goodWalletWrapped.getNextClaimTime()
+    const { entitlement } = this.props.store.get('account')
+    const goodWallet = this.goodWalletWrapped
+    const [claimedToday, nextClaimDate] = await Promise.all([
+      goodWallet.getAmountAndQuantityClaimedToday(entitlement),
+      goodWallet.getNextClaimTime()
+    ])
     this.setState({ claimedToday })
     this.interval = setInterval(async () => {
       const nextClaim = new Date(nextClaimDate - new Date().getTime()).toISOString().substr(11, 8)

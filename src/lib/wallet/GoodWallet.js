@@ -21,6 +21,8 @@ import get from 'lodash/get'
 
 const log = logger.child({ from: 'GoodWallet' })
 
+const DAY_IN_SECONDS = 86400
+const MILLISECONDS = 1000
 const ZERO = new BN('0')
 
 type PromiEvents = {
@@ -226,10 +228,10 @@ export class GoodWallet {
 
   async getNextClaimTime(): Promise<any> {
     const lastClaim = await this.claimContract.methods.getLastClaimed().call()
-    return (lastClaim.toNumber() + 86400) * 1000
+    return (lastClaim.toNumber() + DAY_IN_SECONDS) * MILLISECONDS
   }
 
-  async getAmountAndQuantityClaimedToday(entitlement): Promise<any> {
+  async getAmountAndQuantityClaimedToday(entitlement: BN): Promise<any> {
     const people = await this.identityContract.methods.whiteListedCount().call()
     const amount = people.toNumber() * entitlement.toNumber()
     return {

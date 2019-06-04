@@ -15,7 +15,9 @@ type CameraProps = {
 type CameraState = {
   error?: Error
 }
-
+/**
+ * Responsible to capture Camera stream
+ */
 export class Camera extends Component<CameraProps, CameraState> {
   state: CameraState = {}
 

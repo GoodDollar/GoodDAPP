@@ -12,14 +12,21 @@ type FaceRecognitionResponse = {
   enrollResult?: object | false
 }
 
-type FRUtilResponse = {
+type FaceRecognitionAPIResponse = {
   ok: boolean,
   error: string
 }
 
-const log = logger.child({ from: 'FRUtil' })
-
-export const FRUtil = {
+const log = logger.child({ from: 'FaceRecognitionAPI' })
+/**
+ * Responsible to communicate with GoodServer and UserStorage on FaceRecognition related actions, and handle sucess / failure
+ * * onFaceRecognitionFailure: Analyze the failure reason and returns a proper error message
+ * * createFaceRecognitionReq - prepares the FR request for the server
+ * * performFaceRecognition - calls the server API to perform FR process
+ * * onFaceRecognitionResponse - Analyze the server result and call failure / success handler accordingly
+ * * onFaceRecognitionSuccess - sets the enrollmentIdentifier (recivied from a successful FR process) on the user private storage
+ */
+export const FaceRecognitionAPI = {
   async performFaceRecognition(captureResult: ZoomCaptureResult) {
     log.info({ captureResult })
     if (!captureResult) this.onFaceRecognitionFailure({ error: 'Failed to capture user' })
@@ -45,7 +52,7 @@ export const FRUtil = {
     return req
   },
 
-  onFaceRecognitionResponse(result: FaceRecognitionResponse): FRUtilResponse {
+  onFaceRecognitionResponse(result: FaceRecognitionResponse): FaceRecognitionAPIResponse {
     if (!result) {
       log.error('Bad response') // TODO: handle corrupted response
       return { ok: 0, error: 'Bad Response' }
@@ -67,7 +74,7 @@ export const FRUtil = {
       return { ok: 1 }
     } catch (e) {
       log.error('failed to save facemap') // TODO: handle what happens if the facemap was not saved successfully to the user storage
-      return { ok: 0, error: 'failed to save cpature information to user profile' }
+      return { ok: 0, error: 'failed to save capture information to user profile' }
     }
   },
 
@@ -82,4 +89,4 @@ export const FRUtil = {
   }
 }
 
-export default FRUtil
+export default FaceRecognitionAPI

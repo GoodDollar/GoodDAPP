@@ -1,26 +1,17 @@
 // @flow
-
-import loadjs from 'loadjs'
-import API from '../../../lib/API/api'
+import FRapi from './FaceRecognitionAPI'
+import ZoomCapture from './ZoomCapture'
 import React, { createRef } from 'react'
-import Config from '../../../config/config'
+import { type ZoomCaptureResult } from './Zoom'
 import { StyleSheet, View } from 'react-native'
 import { Text } from 'react-native-paper'
 import GDStore from '../../../lib/undux/GDStore'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
-import logger from '../../../lib/logger/pino-logger'
-import userStorage from '../../../lib/gundb/UserStorage'
-import { Wrapper, CustomButton, Section } from '../../common'
-import { fontStyle } from '../../common/styles'
-import { Camera, getResponsiveVideoDimensions } from './Camera.web'
-import { initializeAndPreload, capture, type ZoomCaptureResult } from './Zoom'
-import goodWallet from '../../../lib/wallet/GoodWallet'
-import { LinkButton } from '../../signup/components'
 import type { DashboardProps } from '../Dashboard'
+import logger from '../../../lib/logger/pino-logger'
+import { Wrapper, CustomButton, Section } from '../../common'
+import normalize from 'react-native-elements/src/helpers/normalizeText'
 
 const log = logger.child({ from: 'FaceRecognition' })
-
-declare var ZoomSDK: any
 
 type FaceRecognitionProps = DashboardProps & {
   screenProps: any,
@@ -33,16 +24,17 @@ type State = {
   loadingFaceRecognition: boolean,
   loadingText: string,
   facemap: Blob,
-  ready: boolean
+  zoomReady: boolean,
+  captureResult: ZoomCaptureResult
 }
 
-type FaceRecognitionResponse = {
-  ok: boolean,
-  livenessPassed?: boolean,
-  isDuplicate?: boolean,
-  enrollResult?: object | false
-}
-
+/**
+ * Responsible to orchestrate FaceReco process, using the following modules: ZoomCapture & FRapi.
+ * 1. Loads ZoomCapture and recieve ZoomCaptureResult - the user video capture result after processed locally by ZoomSDK (Handled by ZoomCapture)
+ * 2. Uses FRapi which is responsible to communicate with GoodServer and UserStorage on FaceRecognition related actions, and handle sucess / failure
+ * 3. Display relevant error messages
+ * 4. Enables/Disables UI components as dependancy in the state of the process
+ **/
 class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
   state = {
     showPreText: true,
@@ -50,63 +42,16 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     loadingFaceRecognition: false,
     loadingText: '',
     facemap: null,
-    ready: false
+    zoomReady: false,
+    captureResult: null
   }
 
   containerRef = createRef()
   width = 720
   height = 0
 
-  async componentWillMount() {
-    try {
-      await this.loadZoomSDK()
-      // eslint-disable-next-line no-undef
-      let loadedZoom = ZoomSDK
-      log.info('ZoomSDK loaded', loadedZoom)
-      loadedZoom.zoomResourceDirectory('/ZoomAuthentication.js/resources')
-      await initializeAndPreload(loadedZoom) // TODO: what  to do in case of init errors?
-      log.info('ZoomSDK initialized and preloaded', loadedZoom)
-      this.setState({ ready: true })
-    } catch (e) {
-      log.error('initializing failed', e)
-    }
+  async componentDidMount() {
     this.setWidth()
-  }
-
-  showFaceRecognition = () => {
-    this.setState({ showZoomCapture: true, showPreText: false })
-  }
-
-  componentWillUnmount() {
-    log.debug('Unloading ZoomSDK', ZoomSDK)
-    this.videoTrack && this.videoTrack.stop()
-    ZoomSDK &&
-      ZoomSDK.unload(() => {
-        window.ZoomSDK = null
-        exports.ZoomSDK = null
-        ZoomSDK = null
-        log.debug('ZoomSDK unloaded')
-      })
-  }
-  loadZoomSDK = async (): Promise<void> => {
-    global.exports = {} // required by zoomSDK
-    const server = Config.publicUrl
-    log.info({ server })
-    const zoomSDKPath = '/ZoomAuthentication.js/ZoomAuthentication.js'
-    log.info(`loading ZoomSDK from ${zoomSDKPath}`)
-    return loadjs(zoomSDKPath, { returnPromise: true })
-  }
-
-  onCameraLoad = async (track: MediaStreamTrack) => {
-    this.videoTrack = track
-    let captureOutcome: ZoomCaptureResult
-    try {
-      captureOutcome = await capture(track) // TODO: handle capture errors.
-    } catch (e) {
-      log.error(`Failed on capture, error: ${e}`)
-    }
-    log.info({ captureOutcome })
-    await this.performFaceRecognition(captureOutcome)
   }
 
   setWidth = () => {
@@ -119,94 +64,51 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     this.height = 1280
   }
 
-  performFaceRecognition = async (captureResult: ZoomCaptureResult) => {
-    log.info({ captureResult })
-    if (!captureResult) return this.onFaceRecognitionFailure({ error: 'Failed to cature user' })
-    this.setState({ showZoomCapture: false, loadingFaceRecognition: true, loadingText: 'Analyzing Face Recognition..' })
-    let req = await this.createFaceRecognitionReq(captureResult)
-    log.debug({ req })
-    this.setState({ facemap: captureResult.facemap })
-    try {
-      let res = await API.performFaceRecognition(req)
-      this.setState({ loadingFaceRecognition: false, loadindText: '' })
-      this.onFaceRecognitionResponse(res.data)
-    } catch (e) {
-      log.warn('General Error in FaceRecognition', e)
-      this.setState({ loadingFaceRecognition: false, loadingText: '' })
+  onZoomReady() {
+    this.setState({ zoomReady: true })
+  }
+
+  onCaptureResult(captureResult: ZoomCaptureResult) {
+    log.debug('zoom capture completed')
+    this.setState({ captureResult: captureResult }, this.startFRProcessOnServer(captureResult))
+  }
+
+  async startFRProcessOnServer(captureResult: ZoomCaptureResult) {
+    console.log('Sending capture result to server', captureResult)
+    this.setState({
+      showZoomCapture: false,
+      loadingFaceRecognition: true,
+      loadingText: 'Analyzing Face Recognition..'
+    })
+    this.setState({ loadingFaceRecognition: true, loadindText: '' })
+
+    let result: FaceRecognitionResponse = await FRapi.performFaceRecognition(captureResult)
+    this.setState({ loadingFaceRecognition: false, loadindText: '' })
+    if (!result || !result.ok) {
+      this.showFRError(result.error)
     }
   }
 
-  createFaceRecognitionReq = async (captureResult: ZoomCaptureResult) => {
-    let req = new FormData()
-    req.append('sessionId', captureResult.sessionId)
-    req.append('facemap', captureResult.facemap, { contentType: 'application/zip' })
-    req.append('auditTrailImage', captureResult.auditTrailImage, { contentType: 'image/jpeg' })
-    let account = goodWallet.getAccountForType('zoomId')
-    req.append('enrollmentIdentifier', account)
-    log.debug({ req })
-    return req
-  }
-
-  onFaceRecognitionResponse = (result: FaceRecognitionResponse) => {
-    log.info({ result })
-    if (
-      !result ||
-      !result.ok ||
-      result.livenessPassed === false ||
-      result.isDuplicate === true ||
-      result.enrollResult === false ||
-      result.enrollResult.ok === 0
-    )
-      return this.onFaceRecognitionFailure(result)
-    else if (result.ok && result.enrollResult) return this.onFaceRecognitionSuccess(result)
-    else {
-      log.error('uknown error', { result }) // TODO: handle general error
-      this.onFaceRecognitionFailure(result)
-    }
-  }
-
-  onFaceRecognitionSuccess = async (res: FaceRecognitionResponse) => {
-    log.info('user passed Face Recognition successfully, res:')
-    log.debug({ res })
-    this.setState({ loadingFaceRecognition: true, loadingText: 'Saving Face Information to Your profile..' })
-    try {
-      if (res.enrollResult.enrollmentIdentifier)
-        await userStorage.setProfileField('zoomEnrollmentId', res.enrollResult.enrollmentIdentifier, 'private')
-      this.props.screenProps.pop({ isValid: true })
-    } catch (e) {
-      log.error('failed to save facemap', e) // TODO: handle what happens if the facemap was not saved successfully to the user storage
-      this.props.screenProps.pop({ isValid: false })
-    }
-  }
-
-  onFaceRecognitionFailure = (result: FaceRecognitionResponse & { error: string }) => {
-    this.setState({ loadingFaceRecognition: false, loadingText: '', showZoomCapture: false })
-    log.warn('user did not pass Face Recognition', result)
-    let reason = ''
-    if (!result) reason = 'General Error'
-    else if (result.error) reason = result.error
-    else if (result.livenessPassed === false) reason = 'Liveness Failed'
-    else if (result.isDuplicate) reason = 'Face Already Exist'
-    else reason = 'Enrollment Failed'
-
+  showFRError(error: string) {
     this.props.store.set('currentScreen')({
       dialogData: {
         visible: true,
         title: 'Please try again',
-        message: `FaceRecognition failed. Reason: ${reason}. Please try again`,
+        message: `FaceRecognition failed. Reason: ${error}. Please try again`,
         dismissText: 'Retry',
         onDismiss: this.setState({ showPreText: true }) // reload.
       }
     })
   }
 
-  handleNavigateTermsOfUse = () => this.props.screenProps.push('TermsOfUse')
-  handleNavigatePrivacyPolicy = () => this.props.screenProps.push('PrivacyPolicy')
+  showFaceRecognition = () => {
+    this.setState({ showZoomCapture: true, showPreText: false })
+  }
 
   render() {
     const { store }: FaceRecognitionProps = this.props
     const { fullName } = store.get('profile')
-    const { showZoomCapture, showPreText, loadingFaceRecognition, loadingText, ready } = this.state
+    const { showZoomCapture, showPreText, loadingFaceRecognition, loadingText, zoomReady } = this.state
 
     return (
       <Wrapper>
@@ -223,19 +125,9 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
         )}
         {showPreText && (
           <View style={styles.bottomContainer}>
-            <Text style={styles.acceptTermsText}>
-              {`By clicking the 'Create a wallet' button, you are accepting our `}
-              <LinkButton style={styles.acceptTermsLink} onPress={this.handleNavigateTermsOfUse}>
-                Terms of Service
-              </LinkButton>
-              {` and `}
-              <LinkButton style={styles.acceptTermsLink} onPress={this.handleNavigatePrivacyPolicy}>
-                Privacy Policy
-              </LinkButton>
-            </Text>
             <CustomButton
               mode="contained"
-              disabled={ready === false}
+              disabled={zoomReady === false}
               onPress={this.showFaceRecognition}
               loading={loadingFaceRecognition}
             >
@@ -249,15 +141,13 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
           </CustomButton>
         )}
 
-        {ready && showZoomCapture && (
-          <View>
-            <Section style={styles.bottomSection}>
-              <div id="zoom-parent-container" style={getVideoContainerStyles()}>
-                <div id="zoom-interface-container" style={{ position: 'absolute' }} />
-                <Camera height={this.height} onLoad={this.onCameraLoad} onError={this.onFaceRecognitionFailure} />
-              </div>
-            </Section>
-          </View>
+        {showZoomCapture && (
+          <ZoomCapture
+            height={this.height}
+            screenProps={this.screenProps}
+            onZoomReady={this.onZoomReady}
+            onCaptureResult={this.onCaptureResult}
+          />
         )}
       </Wrapper>
     )
@@ -278,37 +168,8 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end'
   },
   description: {
-    fontSize: normalize(18)
-  },
-  bottomSection: {
-    flex: 1,
-    backgroundColor: '#fff'
-  },
-  acceptTermsText: {
-    ...fontStyle,
-    fontSize: normalize(14),
-    marginBottom: '1rem'
-  },
-  acceptTermsLink: {
-    ...fontStyle,
-    fontSize: normalize(14),
-    fontWeight: 'bold'
-  },
-  mainTitle: {
-    fontSize: normalize(24),
-    fontWeight: '500',
-    marginBottom: '1rem',
-    color: '#555',
-    textAlign: 'center'
+    fontSize: normalize(20)
   }
-})
-
-const getVideoContainerStyles = () => ({
-  ...getResponsiveVideoDimensions(),
-  marginLeft: 'auto',
-  marginRight: 'auto',
-  marginTop: 0,
-  marginBottom: 0
 })
 
 export default GDStore.withStore(FaceRecognition)

@@ -184,7 +184,7 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
               <Avatar size={80} source={avatar} onPress={() => screenProps.push('Profile')} />
             </Section.Row>
             <Section.Row style={styles.centered}>
-              <Section.Title>{fullName || 'John Doe'}</Section.Title>
+              <Section.Title>{fullName || ' '}</Section.Title>
             </Section.Row>
             <Section.Row style={styles.centered}>
               <BigGoodDollar number={balance} />

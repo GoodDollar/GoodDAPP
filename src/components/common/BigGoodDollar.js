@@ -11,6 +11,8 @@ type Props = { number: any, props?: {} }
  * @param {Number} [props.number]
  * @returns {React.Node}
  */
-const BigGoodDollar = ({ number, ...props }: Props) => <BigNumber number={weiToMask(number)} unit={'G$'} {...props} />
+const BigGoodDollar = ({ number, ...props }: Props) => (
+  <BigNumber number={number !== undefined ? weiToMask(number) : '-.--'} unit={'G$'} {...props} />
+)
 
 export default BigGoodDollar

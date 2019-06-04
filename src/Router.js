@@ -1,4 +1,4 @@
-import { createNavigator, SwitchRouter } from '@react-navigation/core'
+import { createNavigator, SwitchRouter, getActiveChildNavigationOptions } from '@react-navigation/core'
 import { createBrowserApp } from '@react-navigation/web'
 import { Platform } from 'react-native'
 import Auth from './components/auth/Auth'
@@ -24,7 +24,12 @@ const AppNavigator = createNavigator(
       initialRouteName: 'Splash'
     }
   ),
-  {}
+  {
+    navigationOptions: ({ navigation, screenProps }) => {
+      const options = navigation ? getActiveChildNavigationOptions(navigation, screenProps) : {}
+      return { title: options.title }
+    }
+  }
 )
 let WebRouter
 if (Platform.OS === 'web') {

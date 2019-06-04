@@ -184,7 +184,12 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
     </View>
   )
 }
+
 Signup.router = SignupWizardNavigator.router
+Signup.navigationOptions = {
+  title: 'Sign up'
+}
+
 const styles = StyleSheet.create({
   container: { flex: 1 },
   contentContainer: { justifyContent: 'center', flexDirection: 'row', flex: 1 }

@@ -55,6 +55,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
   shouldComponentUpdate() {
     return this.trans === false
   }
+
   /**
    * getComponent gets the component and props and returns the same component except when
    * shouldNavigateToComponent is present in component and not complaining
@@ -205,9 +206,9 @@ class AppView extends Component<AppViewProps, AppViewState> {
     const menu = open ? <SideMenuPanel navigation={navigation} /> : null
     return (
       <React.Fragment>
-        {/* <Helmet>
+        <Helmet>
           <title>{`GoodDollar | ${pageTitle}`}</title>
-        </Helmet> */}
+        </Helmet>
         {!navigationBarHidden && <NavBar goBack={backButtonHidden ? undefined : this.pop} title={pageTitle} />}
         <View style={{ backgroundColor: '#fff', flex: 1 }}>
           <SideMenu menu={menu} menuPosition="right" isOpen={store.get('sidemenu').visible}>

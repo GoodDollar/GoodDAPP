@@ -21,10 +21,6 @@ type Props = {
 const log = logger.child({ from: 'Auth' })
 
 class Auth extends React.Component<Props> {
-  static navigationOptions = {
-    navigationBarHidden: true
-  }
-
   handleSignUp = () => {
     this.props.navigation.navigate('Signup')
     //Hack to get keyboard up on mobile need focus from user event such as click
@@ -76,6 +72,11 @@ class Auth extends React.Component<Props> {
       </View>
     )
   }
+}
+
+Auth.navigationOptions = {
+  title: 'Auth',
+  navigationBarHidden: true
 }
 
 const styles = StyleSheet.create({

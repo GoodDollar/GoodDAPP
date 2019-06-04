@@ -31,7 +31,8 @@ class ZoomCapture extends React.Component<ZoomCaptureProps, State> {
     ready: false
   }
 
-  async componentWillMount() {
+  componentWillMount = async () => {
+    log.debug('loading zoom sdk..')
     try {
       await this.loadZoomSDK()
       // eslint-disable-next-line no-undef
@@ -58,6 +59,7 @@ class ZoomCapture extends React.Component<ZoomCaptureProps, State> {
   onCameraLoad = async (track: MediaStreamTrack) => {
     let captureOutcome: ZoomCaptureResult
     try {
+      log.debug('zoom performs capture..')
       captureOutcome = await capture(track) // TODO: handle capture errors.
     } catch (e) {
       log.error(`Failed on capture, error: ${e}`)
@@ -68,8 +70,10 @@ class ZoomCapture extends React.Component<ZoomCaptureProps, State> {
 
   render() {
     const ready = this.state.ready
+    const showZoomCapture = this.props.showZoomCapture
     return (
-      ready && (
+      ready &&
+      showZoomCapture && (
         <View>
           <Section style={styles.bottomSection}>
             <div id="zoom-parent-container" style={getVideoContainerStyles()}>

@@ -20,7 +20,12 @@ type ZoomCaptureProps = DashboardProps & {
 type State = {
   ready: boolean
 }
-
+/**
+ * Responsible for Zoom client SDK loading and triggering:
+ * 1. Loads ZoomSDK
+ * 2. Calls zoom.capture() on the camera capture (Recieved from Camera component)
+ * 3. Triggers callback when captureResult is ready
+ */
 class ZoomCapture extends React.Component<ZoomCaptureProps, State> {
   state = {
     ready: false

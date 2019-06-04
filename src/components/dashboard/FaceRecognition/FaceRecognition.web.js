@@ -1,5 +1,5 @@
 // @flow
-import { FRUtil } from './FRUtil'
+import FRapi from './FaceRecognitionAPI'
 import ZoomCapture from './ZoomCapture'
 import React, { createRef } from 'react'
 import { type ZoomCaptureResult } from './Zoom'
@@ -27,6 +27,13 @@ type State = {
   captureResult: ZoomCaptureResult
 }
 
+/**
+ * Responsible to orchestrate FaceReco process, using the following modules: ZoomCapture & FRapi.
+ * 1. Loads ZoomCapture and recieve ZoomCaptureResult - the user video capture result after processed locally by ZoomSDK (Handled by ZoomCapture)
+ * 2. Uses FRapi which is responsible to communicate with GoodServer and UserStorage on FaceRecognition related actions, and handle sucess / failure
+ * 3. Display relevant error messages
+ * 4. Enables/Disables UI components as dependancy in the state of the process
+ **/
 class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
   state = {
     showPreText: true,
@@ -46,17 +53,27 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     this.setWidth()
   }
 
+  setWidth = () => {
+    const containerWidth =
+      (this.containerRef && this.containerRef.current && this.containerRef.current.offsetWidth) || this.width
+    this.width = Math.min(this.width, containerWidth)
+    this.height = window.innerHeight > window.innerWidth ? this.width * 1.77777778 : this.width * 0.5625
+
+    this.width = 720
+    this.height = 1280
+  }
+
   onZoomReady() {
     this.setState({ zoomReady: true })
   }
 
   onCaptureResult(captureResult: ZoomCaptureResult) {
     log.debug('zoom capture completed')
-    this.setState({ captureResult: captureResult }, this.startFRProcess(captureResult))
+    this.setState({ captureResult: captureResult }, this.startFRProcessOnServer(captureResult))
   }
 
-  async startFRProcess(captureResult: ZoomCaptureResult) {
-    console.log('capture result changed to:', captureResult)
+  async startFRProcessOnServer(captureResult: ZoomCaptureResult) {
+    console.log('Sending capture result to server', captureResult)
     this.setState({
       showZoomCapture: false,
       loadingFaceRecognition: true,
@@ -64,7 +81,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     })
     this.setState({ loadingFaceRecognition: true, loadindText: '' })
 
-    let result: FaceRecognitionResponse = await FRUtil.performFaceRecognition(captureResult)
+    let result: FaceRecognitionResponse = await FRapi.performFaceRecognition(captureResult)
     this.setState({ loadingFaceRecognition: false, loadindText: '' })
     if (!result || !result.ok) {
       this.showFRError(result.error)
@@ -82,18 +99,9 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
       }
     })
   }
+
   showFaceRecognition = () => {
     this.setState({ showZoomCapture: true, showPreText: false })
-  }
-
-  setWidth = () => {
-    const containerWidth =
-      (this.containerRef && this.containerRef.current && this.containerRef.current.offsetWidth) || this.width
-    this.width = Math.min(this.width, containerWidth)
-    this.height = window.innerHeight > window.innerWidth ? this.width * 1.77777778 : this.width * 0.5625
-
-    this.width = 720
-    this.height = 1280
   }
 
   render() {

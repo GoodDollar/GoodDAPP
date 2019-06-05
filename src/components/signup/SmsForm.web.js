@@ -1,8 +1,8 @@
 // @flow
 import React from 'react'
-import { Text, View } from 'react-native'
+import { Text, View, StyleSheet } from 'react-native'
 import OtpInput from 'react-otp-input'
-import { ActionButton, Error, Title, Wrapper } from './components'
+import { ActionButton, Error, Title, Wrapper, Description } from './components'
 import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
 import type { SignupState } from './SignupState'
@@ -25,7 +25,8 @@ export type SMSRecord = {
 type State = SMSRecord & {
   valid?: boolean,
   errorMessage: string,
-  sendingCode: boolean
+  sendingCode: boolean,
+  renderButton: boolean
 }
 
 export default class SmsForm extends React.Component<Props, State> {
@@ -34,12 +35,27 @@ export default class SmsForm extends React.Component<Props, State> {
     sentSMS: false,
     valid: false,
     errorMessage: '',
-    sendingCode: false
+    sendingCode: false,
+    renderButton: false
   }
 
   numInputs: number = 6
 
   componentDidMount() {}
+
+  componentDidUpdate() {
+    if (!this.state.renderButton) {
+      this.handleRenderButtonVisibility()
+    }
+  }
+
+  handleRenderButtonVisibility = () => {
+    setTimeout(() => {
+      this.setState({
+        renderButton: true
+      })
+    }, 7000)
+  }
 
   handleChange = async (otp: string) => {
     if (otp.length === this.numInputs) {
@@ -73,12 +89,11 @@ export default class SmsForm extends React.Component<Props, State> {
     } catch (e) {
       log.error(e)
     }
-
-    this.setState({ sendingCode: false })
+    this.setState({ sendingCode: false, renderButton: false }, this.handleRenderButtonVisibility)
   }
 
   render() {
-    const { valid, errorMessage, sendingCode } = this.state
+    const { valid, errorMessage, sendingCode, renderButton } = this.state
 
     return (
       <Wrapper valid={valid} handleSubmit={this.handleSubmit} footerComponent={() => <React.Fragment />}>
@@ -96,15 +111,40 @@ export default class SmsForm extends React.Component<Props, State> {
           errorStyle={errorStyle}
         />
         <Error>{errorMessage !== '' && errorMessage}</Error>
-        <View style={buttonRow.wrapper}>
-          <ActionButton styles={buttonRow.button} loading={sendingCode} handleSubmit={this.handleRetry}>
-            <Text>Send me the code again</Text>
-          </ActionButton>
+        <View style={styles.buttonWrapper}>
+          {renderButton ? (
+            <ActionButton
+              styles={styles.button}
+              loading={sendingCode}
+              handleSubmit={this.handleRetry}
+              disabled={sendingCode}
+            >
+              <Text>Send me the code again</Text>
+            </ActionButton>
+          ) : (
+            <Description>Please wait a few seconds until the SMS arrives</Description>
+          )}
         </View>
       </Wrapper>
     )
   }
 }
+
+const styles = StyleSheet.create({
+  informativeParagraph: {
+    margin: '1em'
+  },
+  buttonWrapper: {
+    alignContent: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+  button: {
+    justifyContent: 'center',
+    width: '100%',
+    height: normalize(60)
+  }
+})
 
 const inputStyle = {
   width: '100%',
@@ -121,17 +161,4 @@ const errorStyle = {
   ...inputStyle,
   borderBottom: '1px solid red',
   color: 'red'
-}
-
-const buttonRow = {
-  wrapper: {
-    alignContent: 'center',
-    flexDirection: 'row',
-    justifyContent: 'space-between'
-  },
-  button: {
-    justifyContent: 'center',
-    width: '100%',
-    height: normalize(60)
-  }
 }

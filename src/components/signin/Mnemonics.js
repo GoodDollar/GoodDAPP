@@ -15,6 +15,8 @@ import { CustomButton } from '../common'
 
 const log = logger.child({ from: 'Mnemonics' })
 
+const TITLE = 'Recover'
+
 const Mnemonics = props => {
   const [mnemonics, setMnemonics] = useState()
   const goodWallet = useWrappedGoodWallet()
@@ -67,6 +69,10 @@ const Mnemonics = props => {
       </View>
     </View>
   )
+}
+
+Mnemonics.navigationOptions = {
+  title: TITLE
 }
 
 const styles = StyleSheet.create({

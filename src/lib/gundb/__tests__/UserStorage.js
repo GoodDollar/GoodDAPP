@@ -12,6 +12,11 @@ import { addUser } from './__util__/index'
 import { GoodWallet } from '../../wallet/GoodWallet'
 import { deleteMnemonics } from '../../wallet/SoftwareWalletProvider'
 
+const delay = duration => {
+  return new Promise((resolve, reject) => {
+    setTimeout(resolve, duration)
+  })
+}
 let event = { id: 'xyz', date: new Date('2019-01-01T10:00:00.000Z').toString(), data: { foo: 'bar', unchanged: 'zar' } }
 let event2 = { id: 'xyz2', date: new Date('2019-01-01T20:00:00.000Z').toString(), data: { foo: 'bar' } }
 let event3 = { id: 'xyz3', date: new Date('2019-01-01T14:00:00.000Z').toString(), data: { foo: 'xar' } }
@@ -403,7 +408,7 @@ describe('UserStorage', () => {
       userStorage.setProfileField('mobile', '+22222222211', 'masked'),
       userStorage.setProfileField('email', 'new@domain.com', 'masked')
     ]
-
+    await delay(200)
     await Promise.all(updates)
     const profileData = {
       fullName: 'New Name',
@@ -414,7 +419,9 @@ describe('UserStorage', () => {
     const profile = getUserModel(profileData)
     const result = await userStorage.setProfile(profile)
     expect(result).toBe(true)
+    await delay(500)
     await userStorage.subscribeProfileUpdates(updatedProfile => {
+      console.log({ updatedProfile })
       Promise.all([
         userStorage.getPrivateProfile(updatedProfile).then(result => {
           const { isValid, getErrors, validate, ...privateProfile } = result

@@ -61,7 +61,7 @@ class PhoneForm extends React.Component<Props, State> {
     const { loading } = this.props.screenProps.data
     return (
       <Wrapper valid={this.isValid} handleSubmit={this.handleSubmit} loading={loading}>
-        <Title>{`${this.props.screenProps.data.fullName}, \n May we have your number please?`}</Title>
+        <Title>{`${this.props.screenProps.data.fullName.split(' ')[0]}, \n May we have your number please?`}</Title>
         <PhoneInput
           id={key + '_input'}
           value={this.state.mobile}

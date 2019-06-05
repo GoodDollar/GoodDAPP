@@ -12,7 +12,8 @@ import maxBy from 'lodash/maxBy'
 import flatten from 'lodash/flatten'
 import get from 'lodash/get'
 import values from 'lodash/values'
-import gun from './gundb'
+import keys from 'lodash/keys'
+import defaultGun from './gundb'
 import { default as goodWallet, type GoodWallet } from '../wallet/GoodWallet'
 import isMobilePhone from '../validators/isMobilePhone'
 import isEmail from 'validator/lib/isEmail'
@@ -182,6 +183,7 @@ export class UserStorage {
    * @returns {string} - Value without '+' (plus), '-' (minus), '_' (underscore), ' ' (space), in lower case
    */
   static cleanFieldForIndex = (field: string, value: string): string => {
+    if (!value) return value
     if (field === 'mobile' || field === 'phone') return value.replace(/[_+-\s]+/g, '')
     return value.toLowerCase()
   }
@@ -204,12 +206,13 @@ export class UserStorage {
     return value
   }
 
-  constructor(wallet: GoodWallet) {
+  constructor(wallet: GoodWallet, gun = defaultGun) {
+    this.gun = gun
     this.wallet = wallet || goodWallet
     this.ready = this.wallet.ready
       .then(() => this.init())
       .catch(e => {
-        logger.error('Error initializing UserStorage', e)
+        logger.error('Error initializing UserStorage', { e, message: e.message, account: this.wallet.account })
         return false
       })
   }
@@ -222,7 +225,7 @@ export class UserStorage {
     //sign with different address so its not connected to main user address and there's no 1-1 link
     const username = await this.wallet.sign('GoodDollarUser', 'gundb').then(r => r.slice(0, 20))
     const password = await this.wallet.sign('GoodDollarPass', 'gundb').then(r => r.slice(0, 20))
-    this.gunuser = gun.user()
+    this.gunuser = this.gun.user()
     return new Promise((res, rej) => {
       this.gunuser.create(username, password, async userCreated => {
         logger.debug('gundb user created', userCreated)
@@ -239,7 +242,7 @@ export class UserStorage {
 
           this.initFeed()
           //save ref to user
-          gun
+          this.gun
             .get('users')
             .get(this.gunuser.is.pub)
             .put(this.gunuser)
@@ -426,8 +429,10 @@ export class UserStorage {
    * @throws Error if profile is invalid
    */
   async setProfile(profile: UserModel) {
+    if (profile && !profile.validate) profile = getUserModel(profile)
     const { errors, isValid } = profile.validate()
     if (!isValid) {
+      logger.error('setProfile failed:', { errors })
       throw new Error(errors)
     }
 
@@ -440,22 +445,25 @@ export class UserStorage {
       username: { defaultPrivacy: 'public' }
     }
     const getPrivacy = async field => {
-      const currentPrivacy = await this.profile
-        .get(field)
-        .get('privacy')
-        .then()
+      const currentPrivacy = await this.profile.get(field).get('privacy')
       return currentPrivacy || profileSettings[field].defaultPrivacy || 'public'
     }
-
     return Promise.all(
-      Object.keys(profileSettings)
+      keys(profileSettings)
         .filter(key => profile[key])
-        .map(async field => this.setProfileField(field, profile[field], await getPrivacy(field)))
-    ).then(results => {
-      const errors = results.filter(ack => ack && ack.err).map(ack => ack.err)
-      if (errors.length > 0) logger.error('setProfile', errors)
-      return true
-    })
+        .map(async field => {
+          return this.setProfileField(field, profile[field], await getPrivacy(field)).catch(e => {
+            logger.error('setProfile field failed:', field)
+            return { err: `failed saving field ${field}` }
+          })
+        })
+    )
+      .then(results => {
+        const errors = results.filter(ack => ack && ack.err).map(ack => ack.err)
+        if (errors.length > 0) logger.error('setProfile some fields failed', errors.length, errors)
+        return true
+      })
+      .catch(e => logger.error('setProfile Failed', e, e.message))
   }
 
   /**
@@ -520,8 +528,8 @@ export class UserStorage {
     const cleanValue = UserStorage.cleanFieldForIndex(field, value)
     if (!cleanValue) return Promise.resolve({ err: 'Indexable field cannot be null or empty', ok: 0 })
 
-    const indexNode = gun.get(`users/by${field}`).get(cleanValue)
-    logger.debug('indexProfileField', { field, cleanValue, value, privacy, indexNode })
+    const indexNode = this.gun.get(`users/by${field}`).get(cleanValue)
+    logger.debug('indexProfileField', { field, cleanValue, value, privacy })
 
     try {
       const indexValue = await indexNode.then()
@@ -639,7 +647,7 @@ export class UserStorage {
     const attr = isMobilePhone(field) ? 'mobile' : isEmail(field) ? 'email' : 'walletAddress'
     const value = UserStorage.cleanFieldForIndex(attr, field)
 
-    const address = await gun
+    const address = await this.gun
       .get(`users/by${attr}`)
       .get(value)
       .get('profile')
@@ -660,7 +668,7 @@ export class UserStorage {
     const attr = isMobilePhone(field) ? 'mobile' : isEmail(field) ? 'email' : 'walletAddress'
     const value = UserStorage.cleanFieldForIndex(attr, field)
 
-    const profileToShow = gun
+    const profileToShow = this.gun
       .get(`users/by${attr}`)
       .get(value)
       .get('profile')
@@ -697,7 +705,7 @@ export class UserStorage {
       }
       const toType = isMobilePhone(address) ? 'mobile' : isEmail(address) ? 'email' : 'walletAddress'
       const searchField = `by${toType}`
-      const profileToShow = gun
+      const profileToShow = this.gun
         .get(`users/${searchField}`)
         .get(address)
         .get('profile')
@@ -844,6 +852,26 @@ export class UserStorage {
       this.profile.load(async profile => res(await this.getPrivateProfile(profile)), { wait: 99 })
     })
   }
+
+  /**
+   * remove user from indexes when deleting profile
+   */
+  async deleteProfile(): Promise<> {
+    //first delete from indexes then delete the profile itself
+    return Promise.all(
+      keys(UserStorage.indexableFields).map(async k => {
+        return this.setProfileFieldPrivacy(k, 'private').catch(e => {
+          logger.error('failed deleting profile field', k)
+        })
+      })
+    ).then(r =>
+      this.gunuser
+        .get('profile')
+        .put('null')
+        .then()
+    )
+  }
+
   /**
    * Delete the user account.
    * Deleting gundb profile and clearing local storage
@@ -860,9 +888,7 @@ export class UserStorage {
         .catch(e => ({
           server: 'failed'
         })),
-      this.gunuser
-        .get('profile')
-        .put('null')
+      this.deleteProfile()
         .then(r => ({
           profile: 'ok'
         }))

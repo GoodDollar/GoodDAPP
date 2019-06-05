@@ -57,7 +57,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
   width = 720
   height = 0
 
-  async componentDidMount() {
+  async componentWillMount() {
     try {
       await this.loadZoomSDK()
       // eslint-disable-next-line no-undef
@@ -68,7 +68,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
       log.info('ZoomSDK initialized and preloaded', loadedZoom)
       this.setState({ ready: true })
     } catch (e) {
-      log.error(e)
+      log.error('initializing failed', e)
     }
     this.setWidth()
   }
@@ -121,7 +121,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
 
   performFaceRecognition = async (captureResult: ZoomCaptureResult) => {
     log.info({ captureResult })
-    if (!captureResult) this.onFaceRecognitionFailure({ error: 'Failed to cature user' })
+    if (!captureResult) return this.onFaceRecognitionFailure({ error: 'Failed to cature user' })
     this.setState({ showZoomCapture: false, loadingFaceRecognition: true, loadingText: 'Analyzing Face Recognition..' })
     let req = await this.createFaceRecognitionReq(captureResult)
     log.debug({ req })
@@ -148,15 +148,21 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
   }
 
   onFaceRecognitionResponse = (result: FaceRecognitionResponse) => {
-    if (!result) {
-      log.error('Bad response') // TODO: handle corrupted response
-      return
-    }
     log.info({ result })
-    if (!result.ok || result.livenessPassed === false || result.isDuplicate === true || result.enrollResult === false)
+    if (
+      !result ||
+      !result.ok ||
+      result.livenessPassed === false ||
+      result.isDuplicate === true ||
+      result.enrollResult === false ||
+      result.enrollResult.ok === 0
+    )
+      return this.onFaceRecognitionFailure(result)
+    else if (result.ok && result.enrollResult) return this.onFaceRecognitionSuccess(result)
+    else {
+      log.error('uknown error', { result }) // TODO: handle general error
       this.onFaceRecognitionFailure(result)
-    if (result.ok && result.enrollResult) this.onFaceRecognitionSuccess(result)
-    else log.error('uknown error') // TODO: handle general error
+    }
   }
 
   onFaceRecognitionSuccess = async (res: FaceRecognitionResponse) => {
@@ -168,7 +174,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
         await userStorage.setProfileField('zoomEnrollmentId', res.enrollResult.enrollmentIdentifier, 'private')
       this.props.screenProps.pop({ isValid: true })
     } catch (e) {
-      log.error('failed to save facemap') // TODO: handle what happens if the facemap was not saved successfully to the user storage
+      log.error('failed to save facemap', e) // TODO: handle what happens if the facemap was not saved successfully to the user storage
       this.props.screenProps.pop({ isValid: false })
     }
   }
@@ -178,8 +184,8 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     log.warn('user did not pass Face Recognition', result)
     let reason = ''
     if (!result) reason = 'General Error'
-    if (result.error) reason = result.error
-    if (result.livenessPassed === false) reason = 'Liveness Failed'
+    else if (result.error) reason = result.error
+    else if (result.livenessPassed === false) reason = 'Liveness Failed'
     else if (result.isDuplicate) reason = 'Face Already Exist'
     else reason = 'Enrollment Failed'
 
@@ -190,8 +196,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
         message: `FaceRecognition failed. Reason: ${reason}. Please try again`,
         dismissText: 'Retry',
         onDismiss: this.setState({ showPreText: true }) // reload.
-      },
-      loading: true
+      }
     })
   }
 
@@ -201,7 +206,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
   render() {
     const { store }: FaceRecognitionProps = this.props
     const { fullName } = store.get('profile')
-    const { showZoomCapture, showPreText, loadingFaceRecognition, loadingText } = this.state
+    const { showZoomCapture, showPreText, loadingFaceRecognition, loadingText, ready } = this.state
 
     return (
       <Wrapper>
@@ -230,8 +235,9 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
             </Text>
             <CustomButton
               mode="contained"
+              disabled={ready === false}
               onPress={this.showFaceRecognition}
-              loading={this.props.store.get('currentScreen').loading}
+              loading={loadingFaceRecognition}
             >
               Quick Face Recognition
             </CustomButton>
@@ -243,14 +249,12 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
           </CustomButton>
         )}
 
-        {showZoomCapture && (
+        {ready && showZoomCapture && (
           <View>
             <Section style={styles.bottomSection}>
               <div id="zoom-parent-container" style={getVideoContainerStyles()}>
                 <div id="zoom-interface-container" style={{ position: 'absolute' }} />
-                {this.state.ready && (
-                  <Camera height={this.height} onLoad={this.onCameraLoad} onError={this.onFaceRecognitionFailure} />
-                )}
+                <Camera height={this.height} onLoad={this.onCameraLoad} onError={this.onFaceRecognitionFailure} />
               </div>
             </Section>
           </View>

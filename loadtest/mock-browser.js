@@ -1,15 +1,10 @@
-import Gun from '@gooddollar/gun-appendonly'
+import { LocalStorage } from 'node-localStorage'
+import Config from '../src/config/config'
+import Gun from 'gun'
 import SEA from 'gun/sea'
 import load from 'gun/lib/load'
-/**
- * extend gundb SEA with decrypt to match ".secret"
- * @module
- */
-const gunExtend = (() => {
-  /**
-   * it returns a promise with the first result from a peer
-   * @returns {Promise<ack>}
-   */
+
+const extend = (() => {
   Gun.chain.putAck = function(data, cb) {
     var gun = this,
       callback =
@@ -20,10 +15,6 @@ const gunExtend = (() => {
     let promise = new Promise((res, rej) => gun.put(data, ack => (ack.err ? rej(ack) : res(ack))))
     return promise.then(callback)
   }
-  /**
-   * saves encrypted and returns a promise with the first result from a peer
-   * @returns {Promise<ack>}
-   */
   Gun.User.prototype.secretAck = function(data, cb) {
     var gun = this,
       callback =
@@ -35,10 +26,6 @@ const gunExtend = (() => {
     return promise.then(callback)
   }
 
-  /**
-   * returns the decrypted value
-   * @returns {Promise<any>}
-   */
   Gun.User.prototype.decrypt = function(cb) {
     var gun = this,
       user = gun.back(-1).user(),
@@ -70,4 +57,8 @@ const gunExtend = (() => {
   }
 })()
 
-export default gunExtend
+global.window = {}
+global.window.localStorage = new LocalStorage('./localStorage.tmp')
+global.gun = Gun([`${Config.serverUrl}/gun`])
+global.Gun = Gun
+console.log('here')

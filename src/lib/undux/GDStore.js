@@ -18,8 +18,8 @@ type BalanceUpdate = {
  * @type
  */
 type Account = {
-  balance: string,
-  entitlement: string,
+  balance: ?string,
+  entitlement: ?string,
   ready: false
 }
 
@@ -92,8 +92,8 @@ const initialState: State = {
     running: false
   },
   account: {
-    balance: '',
-    entitlement: '',
+    balance: undefined,
+    entitlement: undefined,
     ready: false
   },
   isLoggedInCitizen: false,

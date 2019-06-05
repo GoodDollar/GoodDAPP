@@ -251,7 +251,7 @@ exports[`Claim matches snapshot 1`] = `
                   }
                 }
               >
-                0.00
+                -.--
               </div>
               <div
                 className="css-text-76zvg2"
@@ -342,184 +342,12 @@ exports[`Claim matches snapshot 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
-              "backgroundColor": "rgba(238,238,239,1.00)",
-              "borderBottomLeftRadius": "5px",
-              "borderBottomRightRadius": "5px",
-              "borderTopLeftRadius": "5px",
-              "borderTopRightRadius": "5px",
-              "marginBottom": "15px",
-              "paddingBottom": "15px",
-              "paddingLeft": "10px",
-              "paddingRight": "10px",
-              "paddingTop": "15px",
-            }
-          }
-        >
-          <div
-            className="css-view-1dbjc4n"
-            style={
-              Object {
-                "WebkitAlignItems": "baseline",
-                "WebkitBoxAlign": "baseline",
-                "WebkitBoxDirection": "normal",
-                "WebkitBoxOrient": "horizontal",
-                "WebkitBoxPack": "center",
-                "WebkitFlexDirection": "row",
-                "WebkitJustifyContent": "center",
-                "alignItems": "baseline",
-                "flexDirection": "row",
-                "justifyContent": "center",
-                "msFlexAlign": "baseline",
-                "msFlexDirection": "row",
-                "msFlexPack": "center",
-              }
-            }
-          >
-            <div
-              className="css-text-76zvg2"
-              dir="auto"
-              style={
-                Object {
-                  "color": "rgba(85,85,85,1.00)",
-                  "fontSize": "14px",
-                  "textAlign": "center",
-                }
-              }
-            >
-              <b>
-                367K
-              </b>
-               PEOPLE CLAIMED 
-              <b>
-                2.5M G$
-              </b>
-               TODAY!
-            </div>
-          </div>
-        </div>
-        <div
-          className="css-view-1dbjc4n"
-          style={
-            Object {
-              "backgroundColor": "rgba(238,238,239,1.00)",
-              "borderBottomLeftRadius": "5px",
-              "borderBottomRightRadius": "5px",
-              "borderTopLeftRadius": "5px",
-              "borderTopRightRadius": "5px",
-              "marginBottom": "15px",
-              "paddingBottom": "15px",
-              "paddingLeft": "10px",
-              "paddingRight": "10px",
-              "paddingTop": "15px",
-            }
-          }
-        >
-          <div
-            className="css-text-76zvg2"
-            dir="auto"
-            style={
-              Object {
-                "color": "rgba(85,85,85,1.00)",
-                "fontSize": "18px",
-                "textAlign": "center",
-              }
-            }
-          >
-            YOU NOW HAVE 
-            <b>
-              3
-            </b>
-             DAYS OF INCOME WAITING
-          </div>
-          <hr
-            style={
-              Object {
-                "width": "100%",
-              }
-            }
-          />
-          <div
-            className="css-text-76zvg2"
-            dir="auto"
-            style={
-              Object {
-                "color": "rgba(85,85,85,1.00)",
-                "fontSize": "14px",
-                "textAlign": "center",
-              }
-            }
-          >
-            NEXT DAILY INCOME:
-          </div>
-          <div
-            className="css-view-1dbjc4n"
-            style={
-              Object {
-                "WebkitAlignItems": "baseline",
-                "WebkitBoxAlign": "baseline",
-                "WebkitBoxDirection": "normal",
-                "WebkitBoxOrient": "horizontal",
-                "WebkitBoxPack": "center",
-                "WebkitFlexDirection": "row",
-                "WebkitJustifyContent": "center",
-                "alignItems": "baseline",
-                "flexDirection": "row",
-                "justifyContent": "center",
-                "msFlexAlign": "baseline",
-                "msFlexDirection": "row",
-                "msFlexPack": "center",
-              }
-            }
-          >
-            <div
-              className="css-view-1dbjc4n"
-              style={
-                Object {
-                  "display": "inline-block",
-                }
-              }
-            >
-              <div
-                className="css-text-76zvg2"
-                dir="auto"
-                style={
-                  Object {
-                    "color": "rgba(85,85,85,1.00)",
-                    "direction": "ltr",
-                    "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                    "fontSize": "30px",
-                    "textAlign": "right",
-                  }
-                }
-              >
-                23:59:59
-              </div>
-              <div
-                className="css-text-76zvg2"
-                dir="auto"
-                style={
-                  Object {
-                    "color": "rgba(85,85,85,1.00)",
-                    "direction": "ltr",
-                    "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                    "fontSize": "18px",
-                    "textAlign": "right",
-                  }
-                }
-              />
-            </div>
-          </div>
-        </div>
-        <div
-          className="css-view-1dbjc4n"
-          style={
-            Object {
               "WebkitBoxFlex": 0,
               "WebkitBoxPack": "center",
               "WebkitFlexGrow": 0,
               "WebkitFlexShrink": 1,
               "WebkitJustifyContent": "center",
-              "backgroundColor": "rgba(0,0,0,0.12)",
+              "backgroundColor": "rgba(85,85,85,1.00)",
               "borderBottomColor": "rgba(0,0,0,0.00)",
               "borderBottomLeftRadius": "4px",
               "borderBottomRightRadius": "4px",
@@ -536,6 +364,7 @@ exports[`Claim matches snapshot 1`] = `
               "borderTopRightRadius": "4px",
               "borderTopStyle": "solid",
               "borderTopWidth": "0px",
+              "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
               "flexGrow": 0,
               "flexShrink": 1,
               "justifyContent": "center",
@@ -547,13 +376,15 @@ exports[`Claim matches snapshot 1`] = `
           }
         >
           <div
-            aria-disabled={true}
-            className="css-view-1dbjc4n"
-            disabled={true}
+            className="css-cursor-18t94o4 css-view-1dbjc4n"
+            data-focusable={true}
+            disabled={false}
             onKeyDown={[Function]}
+            onKeyPress={[Function]}
             onKeyUp={[Function]}
             onResponderGrant={[Function]}
             onResponderMove={[Function]}
+            onResponderRelease={[Function]}
             onResponderTerminate={[Function]}
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
@@ -564,11 +395,15 @@ exports[`Claim matches snapshot 1`] = `
                 "borderBottomRightRadius": "4px",
                 "borderTopLeftRadius": "4px",
                 "borderTopRightRadius": "4px",
+                "cursor": "pointer",
+                "msTouchAction": "manipulation",
                 "overflowX": "hidden",
                 "overflowY": "hidden",
                 "position": "relative",
+                "touchAction": "manipulation",
               }
             }
+            tabIndex="0"
           >
             <div
               className="css-view-1dbjc4n"
@@ -595,7 +430,7 @@ exports[`Claim matches snapshot 1`] = `
                 dir="auto"
                 style={
                   Object {
-                    "color": "rgba(0,0,0,0.32)",
+                    "color": "rgba(255,255,255,1.00)",
                     "direction": "ltr",
                     "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                     "letterSpacing": "1px",

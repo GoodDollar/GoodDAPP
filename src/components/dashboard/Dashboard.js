@@ -29,7 +29,7 @@ import SendLinkSummary from './SendLinkSummary'
 import SendQRSummary from './SendQRSummary'
 import logger from '../../lib/logger/pino-logger'
 import userStorage from '../../lib/gundb/UserStorage'
-import { TermsOfUse, PrivacyPolicy } from '../webView/webViewInstances'
+import { TermsOfUse, PrivacyPolicy, Support } from '../webView/webViewInstances'
 
 const log = logger.child({ from: 'Dashboard' })
 
@@ -184,7 +184,7 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
               <Avatar size={80} source={avatar} onPress={() => screenProps.push('Profile')} />
             </Section.Row>
             <Section.Row style={styles.centered}>
-              <Section.Title>{fullName || 'John Doe'}</Section.Title>
+              <Section.Title>{fullName || ' '}</Section.Title>
             </Section.Row>
             <Section.Row style={styles.centered}>
               <BigGoodDollar number={balance} />
@@ -285,5 +285,6 @@ export default createStackNavigator({
   ReceiveByQR,
   SendQRSummary,
   PP: PrivacyPolicy,
-  TOU: TermsOfUse
+  TOU: TermsOfUse,
+  Support
 })

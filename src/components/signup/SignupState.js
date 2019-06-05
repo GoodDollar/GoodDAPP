@@ -11,6 +11,7 @@ import NavBar from '../appNavigation/NavBar'
 import { scrollableContainer } from '../common/styles'
 
 import { createSwitchNavigator } from '@react-navigation/core'
+import { navigationConfig } from '../appNavigation/navigationConfig'
 import logger from '../../lib/logger/pino-logger'
 
 import { useWrappedApi } from '../../lib/API/useWrappedApi'
@@ -24,14 +25,17 @@ const log = logger.child({ from: 'SignupState' })
 
 export type SignupState = UserModel & SMSRecord
 
-const SignupWizardNavigator = createSwitchNavigator({
-  Name: NameForm,
-  Phone: PhoneForm,
-  SMS: SmsForm,
-  Email: EmailForm,
-  EmailConfirmation,
-  SignupCompleted
-})
+const SignupWizardNavigator = createSwitchNavigator(
+  {
+    Name: NameForm,
+    Phone: PhoneForm,
+    SMS: SmsForm,
+    Email: EmailForm,
+    EmailConfirmation,
+    SignupCompleted
+  },
+  navigationConfig
+)
 
 declare var amplitude
 const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any }) => {
@@ -186,9 +190,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
 }
 
 Signup.router = SignupWizardNavigator.router
-Signup.navigationOptions = {
-  title: 'Sign up'
-}
+Signup.navigationOptions = SignupWizardNavigator.navigationOptions
 
 const styles = StyleSheet.create({
   container: { flex: 1 },

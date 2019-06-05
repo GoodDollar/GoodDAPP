@@ -1,10 +1,8 @@
 import Gun from '@gooddollar/gun-appendonly'
-// eslint-disable-next-line no-unused-vars
-import SEA from 'gun/sea'
+import 'gun/sea'
 import Config from '../../config/config'
 import logger from '../logger/pino-logger'
-// eslint-disable-next-line no-unused-vars
-import gundbextend from './gundb-extend'
+import './gundb-extend'
 
 const initGunDB = () => {
   if (!global.gun) {

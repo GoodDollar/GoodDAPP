@@ -1,8 +1,7 @@
 import { LocalStorage } from 'node-localStorage'
 import Gun from 'gun'
 import SEA from 'gun/sea'
-// eslint-disable-next-line no-unused-vars
-import load from 'gun/lib/load'
+import 'gun/lib/load'
 import Config from '../config/config'
 
 // eslint-disable-next-line no-unused-vars

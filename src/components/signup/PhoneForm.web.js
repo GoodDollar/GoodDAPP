@@ -23,7 +23,7 @@ class PhoneForm extends React.Component<Props, State> {
   state = {
     mobile: this.props.screenProps.data.mobile || '',
     errorMessage: ''
-  }``
+  }
 
   isValid = false
 

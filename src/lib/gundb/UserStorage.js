@@ -452,7 +452,7 @@ export class UserStorage {
       keys(profileSettings)
         .filter(key => profile[key])
         .map(async field => {
-          this.setProfileField(field, profile[field], await getPrivacy(field)).catch(e => {
+          return this.setProfileField(field, profile[field], await getPrivacy(field)).catch(e => {
             logger.error('setProfile field failed:', field)
             return { err: `failed saving field ${field}` }
           })

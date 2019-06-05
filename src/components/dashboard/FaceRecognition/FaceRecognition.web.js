@@ -1,6 +1,7 @@
 // @flow
 import FRapi from './FaceRecognitionAPI'
 import ZoomCapture from './ZoomCapture'
+import zoomSdkLoader from './ZoomSdkLoader'
 import React, { createRef } from 'react'
 import { type ZoomCaptureResult } from './Zoom'
 import { StyleSheet, View } from 'react-native'
@@ -49,6 +50,15 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
   width = 720
   height = 0
 
+  componentWillUnmount = () => {
+    zoomSdkLoader.unload()
+  }
+
+  componentWillMount = async () => {
+    this.loadedZoom = await zoomSdkLoader.load()
+    if (this.loadedZoom) this.zoomReady = true // TODO: handle zoom init issues.
+  }
+
   componentDidMount = async () => {
     this.setWidth()
   }
@@ -63,18 +73,12 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     this.height = 1280
   }
 
-  onZoomReady = () => {
-    log.debug('zoom loaded successfully')
-    this.setState({ zoomReady: true })
-  }
-
   onCaptureResult = (captureResult: ZoomCaptureResult) => {
-    log.debug('zoom capture completed')
-    this.setState({ captureResult: captureResult }, this.startFRProcessOnServer)
+    log.debug('zoom capture completed', { captureResult })
+    this.startFRProcessOnServer(captureResult)
   }
 
-  startFRProcessOnServer = async () => {
-    let captureResult: ZoomCaptureResult = this.state.captureResult
+  startFRProcessOnServer = async (captureResult: ZoomCaptureResult) => {
     log.debug('Sending capture result to server', captureResult)
     this.setState({
       showZoomCapture: false,
@@ -83,9 +87,10 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     })
     let result: FaceRecognitionResponse = await FRapi.performFaceRecognition(captureResult)
     this.setState({ loadingFaceRecognition: false, loadindText: '' })
-    debugger
     if (!result || !result.ok) {
       this.showFRError(result.error)
+    } else {
+      this.props.screenProps.pop({ isValid: true })
     }
   }
 
@@ -102,13 +107,13 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
   }
 
   showFaceRecognition = () => {
-    this.setState({ showZoomCapture: true, showPreText: false })
+    this.setState(prevState => ({ showZoomCapture: true, showPreText: false }))
   }
 
   render() {
     const { store }: FaceRecognitionProps = this.props
     const { fullName } = store.get('profile')
-    const { showZoomCapture, showPreText, loadingFaceRecognition, loadingText, zoomReady } = this.state
+    const { showZoomCapture, showPreText, loadingFaceRecognition, loadingText } = this.state
 
     return (
       <Wrapper>
@@ -127,7 +132,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
           <View style={styles.bottomContainer}>
             <CustomButton
               mode="contained"
-              disabled={zoomReady === false}
+              disabled={this.zoomReady === false}
               onPress={this.showFaceRecognition}
               loading={loadingFaceRecognition}
             >
@@ -144,9 +149,10 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
         <ZoomCapture
           height={this.height}
           screenProps={this.screenProps}
-          onZoomReady={this.onZoomReady}
           onCaptureResult={this.onCaptureResult}
           showZoomCapture={showZoomCapture}
+          loadedZoom={this.loadedZoom}
+          onError={this.showFRError}
         />
       </Wrapper>
     )

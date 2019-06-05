@@ -1,14 +1,12 @@
 // @flow
 import React from 'react'
-import loadjs from 'loadjs'
 import { Section } from '../../common'
-import Config from '../../../config/config'
 import { StyleSheet, View } from 'react-native'
 import GDStore from '../../../lib/undux/GDStore'
 import type { DashboardProps } from '../Dashboard'
 import logger from '../../../lib/logger/pino-logger'
 import { Camera, getResponsiveVideoDimensions } from './Camera.web'
-import { initializeAndPreload, capture, type ZoomCaptureResult } from './Zoom'
+import { capture, type ZoomCaptureResult } from './Zoom'
 
 const log = logger.child({ from: 'ZoomCapture' })
 
@@ -17,50 +15,19 @@ type ZoomCaptureProps = DashboardProps & {
   store: Store
 }
 
-type State = {
-  ready: boolean
-}
 /**
- * Responsible for Zoom client SDK loading and triggering:
- * 1. Loads ZoomSDK
- * 2. Calls zoom.capture() on the camera capture (Recieved from Camera component)
- * 3. Triggers callback when captureResult is ready
+ * Responsible for Zoom client SDK triggering:
+ * 1. Calls zoom.capture() on the camera capture (Recieved from Camera component)
+ * 2. Triggers callback when captureResult is ready
  */
 class ZoomCapture extends React.Component<ZoomCaptureProps, State> {
-  state = {
-    ready: false
-  }
-
-  componentWillMount = async () => {
-    log.debug('loading zoom sdk..')
-    try {
-      await this.loadZoomSDK()
-      // eslint-disable-next-line no-undef
-      let loadedZoom = ZoomSDK
-      log.info('ZoomSDK loaded', loadedZoom)
-      loadedZoom.zoomResourceDirectory('/ZoomAuthentication.js/resources')
-      await initializeAndPreload(loadedZoom) // TODO: what  to do in case of init errors?
-      log.info('ZoomSDK initialized and preloaded', loadedZoom)
-      this.setState({ ready: true }, this.props.onZoomReady()) // notify parent to enable 'Face Recognition' button
-    } catch (e) {
-      log.error(e)
-    }
-  }
-
-  loadZoomSDK = async (): Promise<void> => {
-    global.exports = {} // required by zoomSDK
-    const server = Config.publicUrl
-    log.info({ server })
-    const zoomSDKPath = '/ZoomAuthentication.js/ZoomAuthentication.js'
-    log.info(`loading ZoomSDK from ${zoomSDKPath}`)
-    return loadjs(zoomSDKPath, { returnPromise: true })
-  }
-
   onCameraLoad = async (track: MediaStreamTrack) => {
+    this.videoTrack = track
     let captureOutcome: ZoomCaptureResult
     try {
       log.debug('zoom performs capture..')
-      captureOutcome = await capture(track) // TODO: handle capture errors.
+      let zoomSDK = this.props.loadedZoom
+      captureOutcome = await capture(zoomSDK, track) // TODO: handle capture errors.
     } catch (e) {
       log.error(`Failed on capture, error: ${e}`)
     }
@@ -68,17 +35,23 @@ class ZoomCapture extends React.Component<ZoomCaptureProps, State> {
     this.props.onCaptureResult(captureOutcome)
   }
 
+  componentWillUnmount() {
+    log.debug('Unloading video track?', !!this.videoTrack)
+    this.videoTrack && this.videoTrack.stop()
+  }
+
+  componentDidMount() {
+    if (!this.props.loadedZoom) log.warn('zoomSDK was not loaded into ZoomCapture properly')
+  }
   render() {
-    const ready = this.state.ready
     const showZoomCapture = this.props.showZoomCapture
     return (
-      ready &&
       showZoomCapture && (
         <View>
           <Section style={styles.bottomSection}>
             <div id="zoom-parent-container" style={getVideoContainerStyles()}>
               <div id="zoom-interface-container" style={{ position: 'absolute' }} />
-              {<Camera height={this.height} onLoad={this.onCameraLoad} />}
+              {<Camera height={this.height} onLoad={this.onCameraLoad} onError={this.props.onError} />}
             </div>
           </Section>
         </View>

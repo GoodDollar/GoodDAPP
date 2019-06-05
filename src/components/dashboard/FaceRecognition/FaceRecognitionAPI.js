@@ -29,7 +29,7 @@ const log = logger.child({ from: 'FaceRecognitionAPI' })
 export const FaceRecognitionAPI = {
   async performFaceRecognition(captureResult: ZoomCaptureResult) {
     log.info({ captureResult })
-    if (!captureResult) this.onFaceRecognitionFailure({ error: 'Failed to capture user' })
+    if (!captureResult) return this.onFaceRecognitionFailure({ error: 'Failed to capture user' })
     let req = await this.createFaceRecognitionReq(captureResult)
     log.debug({ req })
     try {
@@ -53,27 +53,33 @@ export const FaceRecognitionAPI = {
   },
 
   onFaceRecognitionResponse(result: FaceRecognitionResponse): FaceRecognitionAPIResponse {
-    if (!result) {
-      log.error('Bad response') // TODO: handle corrupted response
-      return { ok: 0, error: 'Bad Response' }
-    }
     log.info({ result })
-    if (!result.ok || result.livenessPassed === false || result.isDuplicate === true || result.enrollResult === false)
+    if (
+      !result ||
+      !result.ok ||
+      result.livenessPassed === false ||
+      result.isDuplicate === true ||
+      result.enrollResult === false ||
+      result.enrollResult.ok === 0
+    )
       return this.onFaceRecognitionFailure(result)
-    if (result.ok && result.enrollResult) this.onFaceRecognitionSuccess(result)
-    else log.error('uknown error') // TODO: handle general error
+    else if (result.ok && result.enrollResult) return this.onFaceRecognitionSuccess(result)
+    else {
+      log.error('uknown error', { result }) // TODO: handle general error
+      this.onFaceRecognitionFailure(result)
+    }
+
     return { ok: 0, error: 'General Error' }
   },
 
   async onFaceRecognitionSuccess(res: FaceRecognitionResponse) {
     log.info('user passed Face Recognition successfully, res:')
     log.debug({ res })
-    //    this.setState({ loadingFaceRecognition: true, loadingText: 'Saving Face Information to Your profile..' })
     try {
       await userStorage.setProfileField('zoomEnrollmentId', res.enrollResult.enrollmentIdentifier, 'private')
       return { ok: 1 }
     } catch (e) {
-      log.error('failed to save facemap') // TODO: handle what happens if the facemap was not saved successfully to the user storage
+      log.error('failed to save zoomEnrollmentId:', res.enrollResult.enrollmentIdentifier, e) // TODO: handle what happens if the facemap was not saved successfully to the user storage
       return { ok: 0, error: 'failed to save capture information to user profile' }
     }
   },
@@ -81,7 +87,9 @@ export const FaceRecognitionAPI = {
   onFaceRecognitionFailure(result: FaceRecognitionResponse) {
     log.warn('user did not pass Face Recognition', result)
     let reason = ''
-    if (result.livenessPassed === false) reason = 'Liveness Failed'
+    if (!result) reason = 'General Error'
+    else if (result.error) reason = result.error
+    else if (result.livenessPassed === false) reason = 'Liveness Failed'
     else if (result.isDuplicate) reason = 'Face Already Exist'
     else reason = 'Enrollment Failed'
 

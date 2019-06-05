@@ -1,15 +1,17 @@
 // @flow
+import { Dimensions } from 'react-native'
 import React, { Component, createRef } from 'react'
-import { Text, Dimensions } from 'react-native'
+import logger from '../../../lib/logger/pino-logger'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 
+const log = logger.child({ from: 'Camera' })
 const { width, height } = Dimensions.get('window')
 
 type CameraProps = {
   width: number,
   height: number,
   onLoad: (track: MediaStreamTrack) => void,
-  onError: (result: any) => void
+  onError: (result: string) => void
 }
 
 type CameraState = {
@@ -64,20 +66,15 @@ export class Camera extends Component<CameraProps, CameraState> {
       this.currentConstraintIndex++
 
       if (this.currentConstraintIndex >= this.acceptableConstraints.length) {
-        /* throw new Error(
-          `Unable to get a video stream. Please ensure you give permission to this website to access your camera,
-          and have a 720p+ camera plugged in.`
-        )*/
-        this.props.onError({
-          error: `Unable to get a video stream. Please ensure you give permission to this website to access your camera,
-        and have a 720p+ camera plugged in.`
-        })
-
-        throw new Error(
-          `Unable to get a video stream. Please ensure you give permission to this website to access your camera,
-          and have a 720p+ camera plugged in.`
-        )
+        let error =
+          'Unable to get a video stream. Please ensure you give permission to this website to access your camera, and have a 720p+ camera plugged in'
+        log.error(error)
+        this.props.onError(error)
+        throw new Error(error)
       }
+
+      log.error('Unknown error in getStream()', e)
+      this.props.onError('General Error')
       return this.getStream()
     }
   }
@@ -87,7 +84,10 @@ export class Camera extends Component<CameraProps, CameraState> {
       const stream = await this.getStream()
 
       if (!this.videoPlayerRef.current) {
-        throw new Error('No video player found')
+        let error = 'No video player found'
+        log.error(error)
+        this.props.onError(error)
+        throw new Error(error)
       }
 
       const videoTrack = stream.getVideoTracks()[0]
@@ -106,11 +106,6 @@ export class Camera extends Component<CameraProps, CameraState> {
     const styles = createStyles()
     return (
       <>
-        {this.state.error && (
-          <Text>
-            <strong>Error:</strong> {this.state.error.message}
-          </Text>
-        )}
         <div style={styles.videoContainer}>
           <video id="zoom-video-element" autoPlay playsInline ref={this.videoPlayerRef} style={styles.videoElement} />
         </div>

@@ -121,7 +121,7 @@ class Claim extends Component<ClaimProps, ClaimState> {
         </Section>
         <Section style={styles.nextIncome}>
           <Section.Text>
-            {claimedToday.people} PEOPLE CLAIMED {claimedToday.amount} g$ TODAY!
+            {claimedToday.people} PEOPLE CLAIMED {claimedToday.amount} G$ TODAY!
           </Section.Text>
         </Section>
         <Section style={styles.nextIncome}>

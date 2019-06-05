@@ -33,7 +33,7 @@ const createReq = (id, jwt) => {
 
 export const mytest = async i => {
   try {
-    const gun = global.Gun({ file: '../../loadtest' + i + '.json', peers: [`${Config.serverUrl}/gun`] })
+    const gun = global.Gun({ file: './loadtest/loadtest' + i + '.json', peers: [`${Config.serverUrl}/gun`] })
     let mnemonic = bip39.generateMnemonic()
     let wallet = new GoodWallet({ mnemonic })
     await wallet.ready
@@ -48,7 +48,7 @@ export const mytest = async i => {
     var randomCard = faker.phone.phoneNumber('+97250#######')
     // console.log(randomCard, randomName, randomEmail)
     let adduser = await Promise.race([
-      Timeout(10000).then(x => {
+      Timeout(20000).then(x => {
         throw new Error('adduser timeout')
       }),
       API.addUser({
@@ -60,9 +60,15 @@ export const mytest = async i => {
     ])
     console.log('/user/add:', adduser.data)
     if (adduser.data.ok !== 1) throw new Error('adduser failed')
+    await storage.setProfile({
+      fullName: randomName,
+      email: randomEmail,
+      mobile: randomCard,
+      walletAddress: wallet.account
+    })
     let fr = await Promise.race([
-      Timeout(10000).then(x => {
-        throw new Error('adduser timeout')
+      Timeout(20000).then(x => {
+        throw new Error('FR timeout')
       }),
       createReq(wallet.getAccountForType('zoomId'), creds.jwt).then(r => r.json())
     ])
@@ -76,25 +82,27 @@ export const mytest = async i => {
         if (!r) rej(new Error('Empty gun data'))
         else if (++gunres === 1) res()
       })
-      // gun.get('users/bymobile').open(r => {
-      //   if (r.err) rej(new Error(r.err))
-      //   else if (++gunres === 2) res()
-      // })
-      //   gun.get('users/bywalletAddress').open(r => {
-      //     if (r.err) rej(new Error(r.err))
-      //     else if (++gunres === 3) res()
-      //   })
+      //   // gun.get('users/bymobile').open(r => {
+      //   //   if (r.err) rej(new Error(r.err))
+      //   //   else if (++gunres === 2) res()
+      //   // })
+      //   //   gun.get('users/bywalletAddress').open(r => {
+      //   //     if (r.err) rej(new Error(r.err))
+      //   //     else if (++gunres === 3) res()
+      //   //   })
     })
   } catch (error) {
     console.log(`Test failed`, error)
     failedTests[error.message] !== undefined ? (failedTests[error.message] += 1) : (failedTests[error.message] = 1)
+  } finally {
+    // fs.unlinkSync('./loadtest/loadtest' + i + '.json')
   }
 }
 const run = async numTests => {
   let promises = []
   for (let i = 0; i < numTests; i++) {
     promises[i] = mytest(i)
-    await Timeout(5000)
+    await Timeout(10000)
   }
   console.log('Waiting for tests to finish...')
   await Promise.all(promises)

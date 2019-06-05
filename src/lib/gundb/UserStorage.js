@@ -1,6 +1,6 @@
 //@flow
 import type { StandardFeed } from '../undux/GDStore'
-import Gun from 'gun'
+import Gun from '@gooddollar/gun-appendonly'
 import SEA from 'gun/sea'
 import find from 'lodash/find'
 import merge from 'lodash/merge'
@@ -13,7 +13,7 @@ import flatten from 'lodash/flatten'
 import get from 'lodash/get'
 import values from 'lodash/values'
 import keys from 'lodash/keys'
-import gun from './gundb'
+import defaultGun from './gundb'
 import { default as goodWallet, type GoodWallet } from '../wallet/GoodWallet'
 import isMobilePhone from '../validators/isMobilePhone'
 import isEmail from 'validator/lib/isEmail'
@@ -206,7 +206,8 @@ export class UserStorage {
     return value
   }
 
-  constructor(wallet: GoodWallet) {
+  constructor(wallet: GoodWallet, gun = defaultGun) {
+    this.gun = gun
     this.wallet = wallet || goodWallet
     this.ready = this.wallet.ready
       .then(() => this.init())
@@ -224,7 +225,7 @@ export class UserStorage {
     //sign with different address so its not connected to main user address and there's no 1-1 link
     const username = await this.wallet.sign('GoodDollarUser', 'gundb').then(r => r.slice(0, 20))
     const password = await this.wallet.sign('GoodDollarPass', 'gundb').then(r => r.slice(0, 20))
-    this.gunuser = gun.user()
+    this.gunuser = this.gun.user()
     return new Promise((res, rej) => {
       this.gunuser.create(username, password, async userCreated => {
         logger.debug('gundb user created', userCreated)
@@ -241,7 +242,7 @@ export class UserStorage {
 
           this.initFeed()
           //save ref to user
-          gun
+          this.gun
             .get('users')
             .get(this.gunuser.is.pub)
             .put(this.gunuser)
@@ -447,21 +448,22 @@ export class UserStorage {
       const currentPrivacy = await this.profile.get(field).get('privacy')
       return currentPrivacy || profileSettings[field].defaultPrivacy || 'public'
     }
-
     return Promise.all(
-      Object.keys(profileSettings)
+      keys(profileSettings)
         .filter(key => profile[key])
-        .map(async field =>
-          this.setProfileField(field, profile[field], await getPrivacy(field)).catch(e => {
+        .map(async field => {
+          return this.setProfileField(field, profile[field], await getPrivacy(field)).catch(e => {
             logger.error('setProfile field failed:', field)
-            return { err: 'failed saving field' }
+            return { err: `failed saving field ${field}` }
           })
-        )
-    ).then(results => {
-      const errors = results.filter(ack => ack && ack.err).map(ack => ack.err)
-      if (errors.length > 0) logger.error('setProfile some fields failed', errors.length, errors)
-      return true
-    })
+        })
+    )
+      .then(results => {
+        const errors = results.filter(ack => ack && ack.err).map(ack => ack.err)
+        if (errors.length > 0) logger.error('setProfile some fields failed', errors.length, errors)
+        return true
+      })
+      .catch(e => logger.error('setProfile Failed', e, e.message))
   }
 
   /**
@@ -526,7 +528,7 @@ export class UserStorage {
     const cleanValue = UserStorage.cleanFieldForIndex(field, value)
     if (!cleanValue) return Promise.resolve({ err: 'Indexable field cannot be null or empty', ok: 0 })
 
-    const indexNode = gun.get(`users/by${field}`).get(cleanValue)
+    const indexNode = this.gun.get(`users/by${field}`).get(cleanValue)
     logger.debug('indexProfileField', { field, cleanValue, value, privacy })
 
     try {
@@ -645,7 +647,7 @@ export class UserStorage {
     const attr = isMobilePhone(field) ? 'mobile' : isEmail(field) ? 'email' : 'walletAddress'
     const value = UserStorage.cleanFieldForIndex(attr, field)
 
-    const address = await gun
+    const address = await this.gun
       .get(`users/by${attr}`)
       .get(value)
       .get('profile')
@@ -666,7 +668,7 @@ export class UserStorage {
     const attr = isMobilePhone(field) ? 'mobile' : isEmail(field) ? 'email' : 'walletAddress'
     const value = UserStorage.cleanFieldForIndex(attr, field)
 
-    const profileToShow = gun
+    const profileToShow = this.gun
       .get(`users/by${attr}`)
       .get(value)
       .get('profile')
@@ -703,7 +705,7 @@ export class UserStorage {
       }
       const toType = isMobilePhone(address) ? 'mobile' : isEmail(address) ? 'email' : 'walletAddress'
       const searchField = `by${toType}`
-      const profileToShow = gun
+      const profileToShow = this.gun
         .get(`users/${searchField}`)
         .get(address)
         .get('profile')

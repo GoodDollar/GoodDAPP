@@ -231,7 +231,7 @@ exports[`SendLinkSummary matches snapshot 1`] = `
                   }
                 }
               >
-                0.00
+                -.--
               </div>
               <div
                 className="css-text-76zvg2"
@@ -449,7 +449,7 @@ exports[`SendLinkSummary matches snapshot 1`] = `
                     }
                   }
                 >
-                  0.00
+                  -.--
                 </span>
                 <span
                   className="css-text-76zvg2 css-textHasAncestor-16my406"

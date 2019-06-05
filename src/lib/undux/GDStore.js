@@ -17,8 +17,8 @@ type Name = {
 }
 
 type Account = {
-  balance: string,
-  entitlement: string,
+  balance: ?string,
+  entitlement: ?string,
   ready: false
 }
 
@@ -80,8 +80,8 @@ const initialState: State = {
     valid: undefined
   },
   account: {
-    balance: '',
-    entitlement: '',
+    balance: undefined,
+    entitlement: undefined,
     ready: false
   },
   isLoggedInCitizen: false,

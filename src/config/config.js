@@ -6,6 +6,7 @@ const Config = {
   infuraKey: process.env.REACT_APP_INFURA_KEY,
   network: process.env.REACT_APP_NETWORK || 'fuse',
   zoomLicenseKey: process.env.REACT_APP_ZOOM_LICENSE_KEY,
+  httpWeb3provider: process.env.REACT_APP_WEB3_RPC,
   recaptcha: '6LeOaJIUAAAAAKB3DlmijMPfX2CBYsve3T2MwlTd',
   skipEmailVerification: process.env.REACT_APP_SKIP_EMAIL_VERIFICATION || false,
   ethereum: {

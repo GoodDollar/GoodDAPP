@@ -72,7 +72,7 @@ export class ZoomSdkLoader {
 
   async preload(zoomSDK: any): Promise<void> {
     return new Promise((resolve, reject) => {
-      styleZoom(zoomSDK)
+      //styleZoom(zoomSDK)
       zoomSDK.preload((preloadResult: any) => {
         if (preloadResult) {
           log.info('Preload status: ', { preloadResult })

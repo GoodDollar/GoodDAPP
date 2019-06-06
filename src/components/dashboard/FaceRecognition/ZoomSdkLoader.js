@@ -2,13 +2,14 @@
 import logger from '../../../lib/logger/pino-logger'
 import loadjs from 'loadjs'
 import Config from '../../../config/config'
-import { initializeAndPreload, capture, type ZoomCaptureResult } from './Zoom'
 const log = logger.child({ from: 'ZoomSdkLoader' })
 
 /**
  * Loads Zoom SDK
  */
 declare var ZoomSDK: any
+const licenseKey = Config.zoomLicenseKey
+log.info({ licenseKey })
 
 export class ZoomSdkLoader {
   async load() {
@@ -18,7 +19,7 @@ export class ZoomSdkLoader {
       this.loadedZoom = ZoomSDK
       log.info('ZoomSDK loaded', this.loadedZoom)
       this.loadedZoom.zoomResourceDirectory('/ZoomAuthentication.js/resources')
-      await initializeAndPreload(this.loadedZoom) // TODO: what  to do in case of init errors?
+      await this.initializeAndPreload(this.loadedZoom) // TODO: what  to do in case of init errors?
       log.info('ZoomSDK initialized and preloaded', this.loadedZoom)
       return this.loadedZoom
     } catch (e) {
@@ -47,6 +48,45 @@ export class ZoomSdkLoader {
         this.loadedZoom = null
         log.debug('ZoomSDK unloaded')
       })
+  }
+
+  async initialize(zoomSDK: any): Promise<void> {
+    return new Promise((resolve, reject) => {
+      if (!licenseKey) {
+        return reject(new Error('No license key supplied in environment variable'))
+      }
+
+      let ZoomSDK = zoomSDK
+      log.info('initializing zoom ..')
+      log.info({ ZoomSDK })
+      ZoomSDK.initialize(licenseKey, (initializationSuccessful: boolean) => {
+        log.info(`zoom initialization status: ${ZoomSDK.getStatus()}`)
+        if (initializationSuccessful) {
+          log.info('zoom initialized successfully')
+          resolve()
+        }
+        reject(new Error(`unable to initialize zoom sdk: ${ZoomSDK.getStatus()}`))
+      })
+    })
+  }
+
+  async preload(zoomSDK: any): Promise<void> {
+    return new Promise((resolve, reject) => {
+      let ZoomSDK = zoomSDK
+      ZoomSDK.preload((preloadResult: any) => {
+        if (preloadResult) {
+          log.info('Preload status: ', { preloadResult })
+          return resolve()
+        }
+
+        reject()
+      })
+    })
+  }
+
+  async initializeAndPreload(zoomSDK: any): Promise<void> {
+    await this.initialize(zoomSDK)
+    await this.preload(zoomSDK)
   }
 }
 

@@ -15,6 +15,7 @@ script:
   - npm run coverage
   - npm run coveralls
   - npm run build
+  - npm run bundlesize:check
 
 after_failure:
   - cat /home/travis/.npm/_logs/*-debug.log

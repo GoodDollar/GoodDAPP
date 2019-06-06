@@ -25,6 +25,7 @@
     "coverage": "node scripts/test.js --coverage --config \"./config/web.jest.config.js\"",
     "coverage:native": "node scripts/test.js --config \"./config/native.jest.config.js\" --coverage",
     "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls",
+    "bundlesize:check": "bundlesize",
     "flow": "flow",
     "fix-lint": "eslint --fix ./src",
     "docs": "node scripts/docs.js"
@@ -121,6 +122,7 @@
     "babel-preset-react-app": "^6.1.0",
     "babel-preset-react-native": "^5.0.2",
     "bfj": "6.1.1",
+    "bundlesize": "^0.17.2",
     "case-sensitive-paths-webpack-plugin": "2.1.2",
     "chalk": "2.4.1",
     "coveralls": "^3.0.3",
@@ -201,5 +203,11 @@
       "eslint --fix",
       "git add"
     ]
-  }
+  },
+  "bundlesize": [
+    {
+      "path": "./build/static/js/*.js",
+      "maxSize": "4 MB"
+    }
+  ]
 }

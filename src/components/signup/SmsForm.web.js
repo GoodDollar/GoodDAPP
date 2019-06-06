@@ -3,6 +3,7 @@ import React from 'react'
 import { Text, View, StyleSheet } from 'react-native'
 import OtpInput from 'react-otp-input'
 import { ActionButton, Error, Title, Wrapper, Description } from './components'
+import LoadingIndicator from '../common/LoadingIndicator'
 import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
 import type { SignupState } from './SignupState'
@@ -26,7 +27,8 @@ type State = SMSRecord & {
   valid?: boolean,
   errorMessage: string,
   sendingCode: boolean,
-  renderButton: boolean
+  renderButton: boolean,
+  loading: boolean
 }
 
 export default class SmsForm extends React.Component<Props, State> {
@@ -36,7 +38,8 @@ export default class SmsForm extends React.Component<Props, State> {
     valid: false,
     errorMessage: '',
     sendingCode: false,
-    renderButton: false
+    renderButton: false,
+    loading: false
   }
 
   numInputs: number = 6
@@ -59,13 +62,20 @@ export default class SmsForm extends React.Component<Props, State> {
 
   handleChange = async (otp: string) => {
     if (otp.length === this.numInputs) {
+      this.setState({ loading: true })
       try {
         await this.verifyOTP(otp)
-        this.setState({ valid: true })
+        this.setState({
+          valid: true,
+          loading: false
+        })
         this.handleSubmit()
       } catch (e) {
         log.error({ e })
-        this.setState({ errorMessage: e.response.data.message })
+        this.setState({
+          errorMessage: e.response.data.message,
+          loading: false
+        })
       }
     } else {
       this.setState({ errorMessage: '' })
@@ -93,7 +103,7 @@ export default class SmsForm extends React.Component<Props, State> {
   }
 
   render() {
-    const { valid, errorMessage, sendingCode, renderButton } = this.state
+    const { valid, errorMessage, sendingCode, renderButton, loading } = this.state
 
     return (
       <Wrapper valid={valid} handleSubmit={this.handleSubmit} footerComponent={() => <React.Fragment />}>
@@ -125,6 +135,7 @@ export default class SmsForm extends React.Component<Props, State> {
             <Description>Please wait a few seconds until the SMS arrives</Description>
           )}
         </View>
+        <LoadingIndicator force={loading} />
       </Wrapper>
     )
   }

@@ -13,7 +13,8 @@ import logger from '../../lib/logger/pino-logger'
 import MnemonicInput from './MnemonicInput'
 import { CustomButton } from '../common'
 
-const log = logger.child({ from: 'Mnemonics' })
+const TITLE = 'Recover my wallet'
+const log = logger.child({ from: TITLE })
 
 const TITLE = 'Recover'
 
@@ -26,7 +27,6 @@ const Mnemonics = props => {
     setMnemonics(mnemonics.join(' '))
   }
   const recover = async () => {
-    log.info('Mnemonics', mnemonics)
     if (!mnemonics || !bip39.validateMnemonic(mnemonics)) {
       store.set('currentScreen')({
         dialogData: {
@@ -57,7 +57,6 @@ const Mnemonics = props => {
         <View style={styles.textContainer}>
           <Paragraph style={[styles.fontBase, styles.paragraph]}>Please enter your 12-word passphrase:</Paragraph>
         </View>
-
         <View style={styles.formContainer}>
           <MnemonicInput onChange={handleChange} />
         </View>

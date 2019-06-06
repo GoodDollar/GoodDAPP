@@ -267,7 +267,8 @@ const styles = StyleSheet.create({
 const dashboard = GDStore.withStore(Dashboard)
 
 dashboard.navigationOptions = {
-  navigationBarHidden: true
+  navigationBarHidden: true,
+  title: 'Home'
 }
 
 export default createStackNavigator({

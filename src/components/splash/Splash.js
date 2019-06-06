@@ -18,7 +18,7 @@ class Splash extends Component {
 }
 
 Splash.navigationOptions = {
-  title: 'Good Dollar | Welcome'
+  title: 'GoodDollar | Welcome'
 }
 
 const styles = StyleSheet.create({

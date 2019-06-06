@@ -4,7 +4,7 @@ import { ScrollView, View } from 'react-native'
 import { Button } from 'react-native-paper'
 import SideMenu from 'react-native-side-menu'
 import { createNavigator, SwitchRouter, SceneView, Route } from '@react-navigation/core'
-import { Helmet } from 'react-helmet'
+import { navigationOptions } from './navigationConfig'
 import GDStore from '../../lib/undux/GDStore'
 import { toggleSidemenu } from '../../lib/undux/utils/sidemenu'
 import SideMenuPanel from '../sidemenu/SideMenuPanel'
@@ -41,7 +41,6 @@ type AppViewState = {
  * Params are passed as initial state for next screen.
  * This navigation actions are being passed via navigationConfig to children components
  */
-
 class AppView extends Component<AppViewProps, AppViewState> {
   state = {
     stack: [],
@@ -55,6 +54,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
   shouldComponentUpdate() {
     return this.trans === false
   }
+
   /**
    * getComponent gets the component and props and returns the same component except when
    * shouldNavigateToComponent is present in component and not complaining
@@ -73,6 +73,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
     }
     return Component
   }
+
   /**
    * Pops from stack
    * If there is no screen on the stack navigates to initial screen on stack (goToRoot)
@@ -205,9 +206,6 @@ class AppView extends Component<AppViewProps, AppViewState> {
     const menu = open ? <SideMenuPanel navigation={navigation} /> : null
     return (
       <React.Fragment>
-        {/* <Helmet>
-          <title>{`GoodDollar | ${pageTitle}`}</title>
-        </Helmet> */}
         {!navigationBarHidden && <NavBar goBack={backButtonHidden ? undefined : this.pop} title={pageTitle} />}
         <View style={{ backgroundColor: '#fff', flex: 1 }}>
           <SideMenu menu={menu} menuPosition="right" isOpen={store.get('sidemenu').visible}>
@@ -234,7 +232,8 @@ export const createStackNavigator = (routes: any, navigationConfig: any) => {
 
   return createNavigator(GDStore.withStore(AppView), SwitchRouter(routes), {
     ...defaultNavigationConfig,
-    ...navigationConfig
+    ...navigationConfig,
+    navigationOptions
   })
 }
 
@@ -339,6 +338,7 @@ type NextButtonProps = {
   label?: string,
   canContinue?: Function
 }
+
 /**
  * NextButton
  * This button gets the nextRoutes param and creates a Push to the next screen and passes the rest of the array which are

@@ -167,6 +167,8 @@ const styles = StyleSheet.create({
 })
 
 const claim = GDStore.withStore(Claim)
-claim.navigationOptions = { title: 'Claim G$' }
+claim.navigationOptions = {
+  title: 'Claim G$'
+}
 
 export default claim

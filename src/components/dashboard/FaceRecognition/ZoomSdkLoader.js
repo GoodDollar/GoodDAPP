@@ -2,6 +2,7 @@
 import logger from '../../../lib/logger/pino-logger'
 import loadjs from 'loadjs'
 import Config from '../../../config/config'
+import { styleZoom } from './ZoomStyler'
 const log = logger.child({ from: 'ZoomSdkLoader' })
 
 /**
@@ -56,24 +57,23 @@ export class ZoomSdkLoader {
         return reject(new Error('No license key supplied in environment variable'))
       }
 
-      let ZoomSDK = zoomSDK
       log.info('initializing zoom ..')
-      log.info({ ZoomSDK })
-      ZoomSDK.initialize(licenseKey, (initializationSuccessful: boolean) => {
-        log.info(`zoom initialization status: ${ZoomSDK.getStatus()}`)
+      log.info({ zoomSDK })
+      zoomSDK.initialize(licenseKey, (initializationSuccessful: boolean) => {
+        log.info(`zoom initialization status: ${zoomSDK.getStatus()}`)
         if (initializationSuccessful) {
           log.info('zoom initialized successfully')
           resolve()
         }
-        reject(new Error(`unable to initialize zoom sdk: ${ZoomSDK.getStatus()}`))
+        reject(new Error(`unable to initialize zoom sdk: ${zoomSDK.getStatus()}`))
       })
     })
   }
 
   async preload(zoomSDK: any): Promise<void> {
     return new Promise((resolve, reject) => {
-      let ZoomSDK = zoomSDK
-      ZoomSDK.preload((preloadResult: any) => {
+      styleZoom(zoomSDK)
+      zoomSDK.preload((preloadResult: any) => {
         if (preloadResult) {
           log.info('Preload status: ', { preloadResult })
           return resolve()

@@ -1,6 +1,5 @@
 // @flow
 import logger from '../../../lib/logger/pino-logger'
-import Config from '../../../config/config'
 
 /**
  * An object responsible to all Zoom actions and interactions

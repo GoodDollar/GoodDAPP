@@ -396,7 +396,7 @@ exports[`Receive matches snapshot 1`] = `
                   "borderTopLeftRadius": "4px",
                   "borderTopRightRadius": "4px",
                   "borderTopWidth": "1px",
-                  "marginTop": "2rem",
+                  "marginTop": "0px",
                   "paddingBottom": "1rem",
                   "paddingLeft": "1rem",
                   "paddingRight": "1rem",
@@ -419,7 +419,7 @@ exports[`Receive matches snapshot 1`] = `
               className="css-view-1dbjc4n"
               style={
                 Object {
-                  "marginBottom": "1rem",
+                  "marginBottom": "0px",
                 }
               }
             >
@@ -430,10 +430,10 @@ exports[`Receive matches snapshot 1`] = `
                   Object {
                     "color": "rgba(85,85,85,1.00)",
                     "fontSize": "14px",
-                    "marginBottom": "1rem",
-                    "marginLeft": "1rem",
-                    "marginRight": "1rem",
-                    "marginTop": "1rem",
+                    "marginBottom": "0.2rem",
+                    "marginLeft": "0.2rem",
+                    "marginRight": "0.2rem",
+                    "marginTop": "0.2rem",
                     "textAlign": "center",
                     "textTransform": "uppercase",
                   }
@@ -474,10 +474,10 @@ exports[`Receive matches snapshot 1`] = `
                     "color": "rgba(85,85,85,1.00)",
                     "cursor": "pointer",
                     "fontSize": "14px",
-                    "marginBottom": "1rem",
-                    "marginLeft": "1rem",
-                    "marginRight": "1rem",
-                    "marginTop": "1rem",
+                    "marginBottom": "0.2rem",
+                    "marginLeft": "0.2rem",
+                    "marginRight": "0.2rem",
+                    "marginTop": "0.2rem",
                     "textAlign": "center",
                     "textTransform": "uppercase",
                   }

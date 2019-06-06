@@ -13,10 +13,9 @@ import logger from '../../lib/logger/pino-logger'
 import MnemonicInput from './MnemonicInput'
 import { CustomButton } from '../common'
 
-const TITLE = 'Recover my wallet'
-const log = logger.child({ from: TITLE })
-
+//const TITLE = 'Recover my wallet'
 const TITLE = 'Recover'
+const log = logger.child({ from: TITLE })
 
 const Mnemonics = props => {
   const [mnemonics, setMnemonics] = useState()

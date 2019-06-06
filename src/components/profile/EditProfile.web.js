@@ -7,7 +7,7 @@ import userStorage from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import ProfileDataTable from './ProfileDataTable'
 
-const TITLE = 'Edit profile'
+const TITLE = 'Edit Profile'
 const log = logger.child({ from: TITLE })
 
 const EditProfile = props => {

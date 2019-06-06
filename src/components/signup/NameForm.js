@@ -80,4 +80,9 @@ class NameForm extends React.Component<Props, State> {
   }
 }
 
-export default GDStore.withStore(NameForm)
+const nameForm = GDStore.withStore(NameForm)
+nameForm.navigationOptions = {
+  title: 'Name'
+}
+
+export default nameForm

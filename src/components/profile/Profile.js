@@ -8,7 +8,8 @@ import GDStore from '../../lib/undux/GDStore'
 import EditProfile from './EditProfile'
 import ProfileDataTable from './ProfileDataTable'
 
-const log = logger.child({ from: 'Profile' })
+const TITLE = 'Profile'
+const log = logger.child({ from: TITLE })
 
 const EditIcon = props => <IconButton {...props} wrapperStyle={styles.iconRight} name="edit" />
 const PrivateIcon = props => <IconButton {...props} wrapperStyle={styles.iconLeft} name="visibility" />
@@ -35,6 +36,11 @@ const Profile = props => {
     </Wrapper>
   )
 }
+
+Profile.navigationOptions = {
+  title: TITLE
+}
+
 const styles = StyleSheet.create({
   centered: {
     justifyContent: 'center',

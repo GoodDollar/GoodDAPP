@@ -17,6 +17,10 @@ class Splash extends Component {
   }
 }
 
+Splash.navigationOptions = {
+  title: 'GoodDollar | Welcome'
+}
+
 const styles = StyleSheet.create({
   logo: {
     minWidth: 212,

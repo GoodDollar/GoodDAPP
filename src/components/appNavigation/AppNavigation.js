@@ -2,6 +2,7 @@
 import { createSwitchNavigator } from '@react-navigation/core'
 import React from 'react'
 import type { Store } from 'undux'
+import { navigationOptions } from './navigationConfig'
 
 // TODO: Should we do this diferently?
 import homeIcon from '../../assets/homeIcon.png'
@@ -49,5 +50,6 @@ class AppNavigation extends React.Component<AppNavigationProps, AppNavigationSta
 
 const appNavigation = GDStore.withStore(AppNavigation)
 appNavigation.router = AppNavigator.router
+appNavigation.navigationOptions = navigationOptions
 
 export default appNavigation

@@ -15,6 +15,8 @@ script:
   - npm run coverage
   - npm run coveralls
   - npm run build
+
+after_success:
   - npm run bundlesize:check
 
 after_failure:

@@ -1,4 +1,4 @@
-import { LocalStorage } from 'node-localStorage'
+import { LocalStorage } from 'node-localstorage'
 import Config from '../src/config/config'
 import Gun from 'gun'
 import SEA from 'gun/sea'

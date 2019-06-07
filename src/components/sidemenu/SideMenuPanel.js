@@ -1,6 +1,5 @@
 // @flow
 import React from 'react'
-import SideMenuItem from './SideMenuItem'
 import { ScrollView, StyleSheet, TouchableOpacity } from 'react-native'
 import { Icon, normalize } from 'react-native-elements'
 import { useSidemenu } from '../../lib/undux/utils/sidemenu'
@@ -9,6 +8,7 @@ import { useDialog } from '../../lib/undux/utils/dialog'
 import userStorage from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import GDStore from '../../lib/undux/GDStore'
+import SideMenuItem from './SideMenuItem'
 type SideMenuPanelProps = {
   navigation: any
 }
@@ -53,6 +53,7 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation, s
       hideSidemenu()
     }
   },
+
   // {
   //   icon: 'notifications',
   //   name: 'Notification Settings'
@@ -69,6 +70,7 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation, s
       hideSidemenu()
     }
   },
+
   // {
   //   icon: 'question-answer',
   //   name: 'About'

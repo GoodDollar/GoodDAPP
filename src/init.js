@@ -8,7 +8,7 @@ declare var amplitude
 export const init = async () => {
   return await Promise.all([goodWallet.ready, userStorage.ready]).then(([wallet, storage]) => {
     global.wallet = goodWallet
-    if (global.Rollbar && Config.env !== 'test')
+    if (global.Rollbar && Config.env !== 'test') {
       global.Rollbar.configure({
         payload: {
           person: {
@@ -16,6 +16,7 @@ export const init = async () => {
           }
         }
       })
+    }
     amplitude.getInstance().setUserId(goodWallet.getAccountForType('login'))
   })
 }

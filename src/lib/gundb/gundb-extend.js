@@ -1,6 +1,7 @@
 import Gun from '@gooddollar/gun-appendonly'
 import SEA from 'gun/sea'
-import load from 'gun/lib/load'
+import 'gun/lib/load'
+
 /**
  * extend gundb SEA with decrypt to match ".secret"
  */

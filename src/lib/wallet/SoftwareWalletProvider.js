@@ -1,16 +1,17 @@
 // @flow
 import Web3 from 'web3'
 import bip39 from 'bip39-light'
+import type { HttpProvider, WebSocketProvider } from 'web3-providers'
+import { AsyncStorage } from 'react-native'
 import Config from '../../config/config'
 import logger from '../logger/pino-logger'
 import type { WalletConfig } from './WalletFactory'
-import type { HttpProvider, WebSocketProvider } from 'web3-providers'
 import MultipleAddressWallet from './MultipleAddressWallet'
-import { AsyncStorage } from 'react-native'
 
 const log = logger.child({ from: 'SoftwareWalletProvider' })
 
 const GD_USER_MNEMONIC: string = 'GD_USER_MNEMONIC'
+
 /**
  * save mnemonics (secret phrase) to user device
  * @param {string} mnemonics
@@ -50,7 +51,9 @@ function generateMnemonic(): string {
 
 class SoftwareWalletProvider {
   ready: Promise<Web3>
+
   GD_USER_PKEY: string = 'GD_USER_PKEY'
+
   defaults = {
     defaultBlock: 'latest',
     defaultGas: 140000,
@@ -97,12 +100,12 @@ class SoftwareWalletProvider {
         web3Provider = new Web3.providers.WebsocketProvider(provider)
         break
 
-      case 'HttpProvider':
-        const infuraKey = this.conf.httpWeb3provider.indexOf('infura') !== -1 ? Config.infuraKey : ''
+      case 'HttpProvider': {
+        const infuraKey = this.conf.httpWeb3provider.indexOf('infura') === -1 ? '' : Config.infuraKey
         provider = this.conf.httpWeb3provider + infuraKey
         web3Provider = new Web3.providers.HttpProvider(provider)
         break
-
+      }
       default:
         provider = this.conf.httpWeb3provider + Config.infuraKey
         web3Provider = new Web3.providers.HttpProvider(provider)

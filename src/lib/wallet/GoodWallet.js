@@ -10,14 +10,13 @@ import type Web3 from 'web3'
 import { BN, toBN } from 'web3-utils'
 import numeral from 'numeral'
 import uniqBy from 'lodash/uniqBy'
-import Config from '../../config/config'
-import logger from '../../lib/logger/pino-logger'
-import { toRawValue } from './utils'
-import { generateShareLink } from '../share'
-import WalletFactory from './WalletFactory'
 import abiDecoder from 'abi-decoder'
 import values from 'lodash/values'
 import get from 'lodash/get'
+import Config from '../../config/config'
+import logger from '../../lib/logger/pino-logger'
+import { generateShareLink } from '../share'
+import WalletFactory from './WalletFactory'
 
 const log = logger.child({ from: 'GoodWallet' })
 
@@ -60,6 +59,7 @@ const defaultPromiEvents: PromiEvents = {
 
 export class GoodWallet {
   static WalletType = 'software'
+
   static AccountUsageToPath = {
     gd: 0,
     gundb: 1,
@@ -68,18 +68,31 @@ export class GoodWallet {
     login: 4,
     zoomId: 5
   }
+
   ready: Promise<Web3>
+
   wallet: Web3
+
   accountsContract: Web3.eth.Contract
+
   tokenContract: Web3.eth.Contract
+
   identityContract: Web3.eth.Contract
+
   claimContract: Web3.eth.Contract
+
   reserveContract: Web3.eth.Contract
+
   oneTimePaymentLinksContract: Web3.eth.Contract
+
   account: string
+
   accounts: Array<string>
+
   networkId: number
+
   gasPrice: number
+
   subscribers: any = {}
 
   constructor(walletConfig: {} = {}) {
@@ -112,6 +125,7 @@ export class GoodWallet {
             .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptUpdated']))
             .catch(err => log.error('send event get/send receipt failed:', err))
         })
+
         // Send for all events. We could define here different events
         this.getSubscribers('send').forEach(cb => cb(error, events))
         this.getSubscribers('balanceChanged').forEach(cb => cb(error, events))
@@ -146,7 +160,9 @@ export class GoodWallet {
    */
   async getReceiptWithLogs(transactionHash: string) {
     const transactionReceipt = await this.wallet.eth.getTransactionReceipt(transactionHash)
-    if (!transactionReceipt) return null
+    if (!transactionReceipt) {
+      return null
+    }
 
     const logs = abiDecoder.decodeLogs(transactionReceipt.logs)
     const receipt = { ...transactionReceipt, logs }
@@ -221,6 +237,7 @@ export class GoodWallet {
   async deleteAccount(): Promise<> {
     return this.sendTransaction(this.identityContract.methods.renounceWhitelisted())
   }
+
   async claim(): Promise<TransactionReceipt> {
     try {
       return this.sendTransaction(this.claimContract.methods.claimTokens())
@@ -281,6 +298,7 @@ export class GoodWallet {
   getSubscribers(eventName: string): Function {
     return values(this.subscribers[eventName] || {})
   }
+
   /**
    * Listen to balance changes for the current account
    * @param cb
@@ -336,18 +354,16 @@ export class GoodWallet {
       if (events.length) {
         if (callback === undefined) {
           return Promise.resolve(events)
-        } else {
-          callback(null, events)
         }
+        callback(null, events)
       }
     } catch (e) {
       log.error('oneTimeEvents failed:', { e })
 
       if (callback === undefined) {
         return Promise.reject(e)
-      } else {
-        callback(e, [])
       }
+      callback(e, [])
     }
   }
 
@@ -458,6 +474,7 @@ export class GoodWallet {
     const encodedABI = await deposit.encodeABI()
 
     const transferAndCall = this.tokenContract.methods.transferAndCall(otpAddress, amount, encodedABI)
+
     //Fixed gas amount so it can work locally with ganache
     //https://github.com/trufflesuite/ganache-core/issues/417
     const gas: number = 200000 //Math.floor((await transferAndCall.estimateGas().catch(this.handleError)) * 2)
@@ -520,11 +537,15 @@ export class GoodWallet {
 
     // Check link availability
     const linkUsed = await this.isWithdrawLinkUsed(link)
-    if (linkUsed) return 'Completed'
+    if (linkUsed) {
+      return 'Completed'
+    }
 
     // Check payment availability
     const paymentAvailable = await this.getWithdrawAvailablePayment(link)
-    if (this.isWithdrawPaymentAvailable(paymentAvailable)) return 'Cancelled'
+    if (this.isWithdrawPaymentAvailable(paymentAvailable)) {
+      return 'Cancelled'
+    }
 
     return 'Pending'
   }
@@ -540,11 +561,15 @@ export class GoodWallet {
 
     // Check link availability
     const linkUsed = await this.isWithdrawLinkUsed(link)
-    if (!linkUsed) throw new Error('invalid link')
+    if (!linkUsed) {
+      throw new Error('invalid link')
+    }
 
     // Check payment availability
     const paymentAvailable = await this.getWithdrawAvailablePayment(link)
-    if (this.isWithdrawPaymentAvailable(paymentAvailable)) throw new Error('deposit already withdrawn')
+    if (this.isWithdrawPaymentAvailable(paymentAvailable)) {
+      throw new Error('deposit already withdrawn')
+    }
 
     const sender = await senders(link).call()
     return {
@@ -651,6 +676,7 @@ export class GoodWallet {
             rej(e)
           })
       })
+
         /** receipt handling happens already in polling events */
         // .then(async receipt => {
         //   const transactionReceipt = await this.getReceiptWithLogs(receipt.transactionHash)

@@ -2,8 +2,8 @@
 import { createConnectedStore, withReduxDevtools } from 'undux'
 import compose from 'lodash/fp/compose'
 
-import withPinoLogger from './plugins/logger'
 import effects from '../../lib/undux/effects'
+import withPinoLogger from './plugins/logger'
 
 type BalanceUpdate = {
   running: boolean

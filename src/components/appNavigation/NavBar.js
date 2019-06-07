@@ -1,12 +1,13 @@
 //@flow
 import React from 'react'
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import backButton from '../../assets/backButton.png'
 
 type NavBarProps = {
   goBack?: () => void,
   title: string
 }
+
 /**
  * NavigationBar shows title and back button
  * @goBack: Function to be executed on click on back button

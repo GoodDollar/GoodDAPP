@@ -28,6 +28,7 @@ class EmailForm extends React.Component<Props, State> {
     email: this.props.screenProps.data.email || '',
     errorMessage: ''
   }
+
   isValid = false
 
   handleChange = (email: string) => {

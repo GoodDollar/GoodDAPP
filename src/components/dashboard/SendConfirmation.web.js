@@ -12,8 +12,8 @@ import { DoneButton, useScreenState } from '../appNavigation/stackNavigation'
 import { BigGoodDollar, CustomButton, Section, TopBar, Wrapper } from '../common'
 import { fontStyle } from '../common/styles'
 import './AButton.css'
-import { receiveStyles } from './styles'
 import { getScreenHeight } from '../../lib/utils/Orientation'
+import { receiveStyles } from './styles'
 
 export type ReceiveProps = {
   screenProps: any,
@@ -31,7 +31,9 @@ const SendConfirmation = ({ screenProps }: ReceiveProps) => {
   const { amount, reason, sendLink, to } = screenState
 
   useEffect(() => {
-    if (isMobile && to) setHrefLinks(generateHrefLinks(sendLink, to))
+    if (isMobile && to) {
+      setHrefLinks(generateHrefLinks(sendLink, to))
+    }
   }, [])
 
   const copySendLink = useCallback(() => {

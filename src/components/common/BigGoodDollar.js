@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
-import BigNumber from './BigNumber'
 import { weiToMask } from '../../lib/wallet/utils'
+import BigNumber from './BigNumber'
 
 type Props = { number: any, props?: {} }
 

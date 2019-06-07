@@ -1,16 +1,9 @@
 // @flow
 import gun from '../gundb'
 
-import userStorage, {
-  type TransactionEvent,
-  UserStorage,
-  getOperationType,
-  getReceiveDataFromReceipt
-} from '../UserStorage'
+import userStorage, { getOperationType, getReceiveDataFromReceipt, type TransactionEvent } from '../UserStorage'
 import { getUserModel } from '../UserModel'
 import { addUser } from './__util__/index'
-import { GoodWallet } from '../../wallet/GoodWallet'
-import { deleteMnemonics } from '../../wallet/SoftwareWalletProvider'
 
 const delay = duration => {
   return new Promise((resolve, reject) => {
@@ -29,14 +22,6 @@ let event4 = {
   id: 'xyz4',
   date: new Date('2019-01-02T10:00:00.000Z').toString(),
   data: { foo: 'bar', unchanged: 'zar' }
-}
-
-const createNewUserStorage = async () => {
-  await Promise.all([userStorage.wallet.ready, userStorage.ready])
-  await deleteMnemonics()
-  const wallet = new GoodWallet()
-  const newUserStorage = new UserStorage(wallet)
-  return Promise.all([newUserStorage.wallet.ready, newUserStorage.ready]).then(() => newUserStorage)
 }
 
 describe('UserStorage', () => {
@@ -65,7 +50,7 @@ describe('UserStorage', () => {
   })
 
   it('updates gundb field', done => {
-    const gunRes = userStorage.profile.get('x').put({ z: 2, y: 2 }, async v => {
+    userStorage.profile.get('x').put({ z: 2, y: 2 }, async () => {
       let res = await userStorage.profile.get('x').then()
       expect(res).toEqual(expect.objectContaining({ z: 2, y: 2 }))
       done()
@@ -79,7 +64,7 @@ describe('UserStorage', () => {
   })
 
   it('update profile field', async () => {
-    const ack = await userStorage.setProfileField('name', 'hadar2', 'public')
+    await userStorage.setProfileField('name', 'hadar2', 'public')
     const res = await userStorage.profile.get('name').then()
     expect(res).toEqual(expect.objectContaining({ privacy: 'public', display: 'hadar2' }))
   })
@@ -91,7 +76,7 @@ describe('UserStorage', () => {
   })
 
   it('sets profile field private (encrypted)', async () => {
-    const gunRes = await userStorage.setProfileField('id', 'z123', 'private')
+    await userStorage.setProfileField('id', 'z123', 'private')
     const res = await userStorage.profile.get('id').then()
     expect(res).toEqual(expect.objectContaining({ privacy: 'private', display: '' }))
   })
@@ -183,25 +168,25 @@ describe('UserStorage', () => {
   // })
 
   it('sets profile email field masked', async () => {
-    const gunRes = await userStorage.setProfileField('email', 'johndoe@blah.com', 'masked')
+    await userStorage.setProfileField('email', 'johndoe@blah.com', 'masked')
     const res = await userStorage.profile.get('email').then()
     expect(res).toEqual(expect.objectContaining({ privacy: 'masked', display: 'j*****e@blah.com' }))
   })
 
   it('sets profile mobile field masked', async () => {
-    const gunRes = await userStorage.setProfileField('mobile', '+972-50-7384928', 'masked')
+    await userStorage.setProfileField('mobile', '+972-50-7384928', 'masked')
     const res = await userStorage.profile.get('mobile').then()
     expect(res).toEqual(expect.objectContaining({ privacy: 'masked', display: '***********4928' }))
   })
 
   it('sets profile phone field masked', async () => {
-    const gunRes = await userStorage.setProfileField('phone', '+972-50-7384928', 'masked')
+    await userStorage.setProfileField('phone', '+972-50-7384928', 'masked')
     const res = await userStorage.profile.get('phone').then()
     expect(res).toEqual(expect.objectContaining({ privacy: 'masked', display: '***********4928' }))
   })
 
   it('doesnt mask non email/phone profile fields', async () => {
-    const gunRes = await userStorage.setProfileField('name', 'John Doe', 'masked')
+    await userStorage.setProfileField('name', 'John Doe', 'masked')
     const res = await userStorage.profile.get('name').then()
     expect(res).toEqual(expect.objectContaining({ privacy: 'public', display: 'John Doe' }))
   })
@@ -220,13 +205,13 @@ describe('UserStorage', () => {
   })
 
   it('change profile field privacy to private', async () => {
-    const gunRes = await userStorage.setProfileFieldPrivacy('phone', 'private')
+    await userStorage.setProfileFieldPrivacy('phone', 'private')
     const res = await userStorage.profile.get('phone').then()
     expect(res).toEqual(expect.objectContaining({ privacy: 'private', display: '' }))
   })
 
   it('add event', async () => {
-    const gunRes = await userStorage.updateFeedEvent(event)
+    await userStorage.updateFeedEvent(event)
     const index = await userStorage.feed
       .get('index')
       .once()
@@ -253,7 +238,7 @@ describe('UserStorage', () => {
     await userStorage.updateFeedEvent(event)
 
     let updatedEvent = { ...event, date: new Date('2019-01-01').toString(), data: { foo: 'zar', extra: 'bar' } }
-    const gunRes = await userStorage.updateFeedEvent(updatedEvent)
+    await userStorage.updateFeedEvent(updatedEvent)
     const index = await userStorage.feed
       .get('index')
       .once()
@@ -277,7 +262,7 @@ describe('UserStorage', () => {
   })
 
   it('keeps event index sorted', async () => {
-    const gunRes = await userStorage.updateFeedEvent(event4)
+    await userStorage.updateFeedEvent(event4)
     const index = await userStorage.feed
       .get('index')
       .once()
@@ -316,7 +301,7 @@ describe('UserStorage', () => {
         receipt: { foo: 'foo', blockNumber: 123 }
       }
     }
-    const gunRes = await userStorage.updateFeedEvent(transactionEvent)
+    await userStorage.updateFeedEvent(transactionEvent)
     const index = await userStorage.feed
       .get('index')
       .once()

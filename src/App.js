@@ -2,6 +2,7 @@
 import React, { Component } from 'react'
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 import { Provider as PaperProvider } from 'react-native-paper'
+
 // import { loadReCaptcha } from 'recaptcha-v3-react'
 
 import GDStore from './lib/undux/GDStore'
@@ -60,5 +61,6 @@ if (Platform.OS === 'web') {
   const { hot } = require('react-hot-loader')
   hotWrapper = hot
 }
+
 //$FlowFixMe
 export default hotWrapper(module)(App)

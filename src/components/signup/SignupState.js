@@ -1,26 +1,26 @@
 // @flow
-import React, { useState, useEffect } from 'react'
-import { View, StyleSheet, ScrollView, AsyncStorage } from 'react-native'
-import NameForm from './NameForm'
-import EmailForm from './EmailForm'
-import PhoneForm from './PhoneForm'
-import SmsForm from './SmsForm'
-import EmailConfirmation from './EmailConfirmation'
-import SignupCompleted from './SignupCompleted'
-import NavBar from '../appNavigation/NavBar'
+import React, { useEffect, useState } from 'react'
+import { AsyncStorage, ScrollView, StyleSheet, View } from 'react-native'
+import { createSwitchNavigator } from '@react-navigation/core'
 import { scrollableContainer } from '../common/styles'
 
-import { createSwitchNavigator } from '@react-navigation/core'
+import NavBar from '../appNavigation/NavBar'
 import { navigationConfig } from '../appNavigation/navigationConfig'
 import logger from '../../lib/logger/pino-logger'
 
 import { useWrappedApi } from '../../lib/API/useWrappedApi'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import userStorage from '../../lib/gundb/UserStorage'
-import type { SMSRecord } from './SmsForm'
 import GDStore from '../../lib/undux/GDStore'
 import { getUserModel, type UserModel } from '../../lib/gundb/UserModel'
 import Config from '../../config/config'
+import type { SMSRecord } from './SmsForm'
+import SignupCompleted from './SignupCompleted'
+import EmailConfirmation from './EmailConfirmation'
+import SmsForm from './SmsForm'
+import PhoneForm from './PhoneForm'
+import EmailForm from './EmailForm'
+import NameForm from './NameForm'
 const log = logger.child({ from: 'SignupState' })
 
 export type SignupState = UserModel & SMSRecord
@@ -56,6 +56,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   const [error, setError] = useState(undefined)
 
   const store = GDStore.useStore()
+
   // const { loading } = store.get('currentScreen')
 
   function saveProfile() {
@@ -64,18 +65,23 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
 
   const navigateWithFocus = (routeKey: string) => {
     navigation.navigate(routeKey)
+
     // store.set('currentScreen')({ loading: false })
     setLoading(false)
     setTimeout(() => {
       const el = document.getElementById(routeKey + '_input')
-      if (el) el.focus()
+      if (el) {
+        el.focus()
+      }
     }, 300)
   }
   const fireSignupEvent = (event?: string) => {
     const Amplitude = amplitude.getInstance()
     let curRoute = navigation.state.routes[navigation.state.index]
     let res = Amplitude.logEvent(`SIGNUP_${event || curRoute.key}`)
-    if (!res) log.warn('Amplitude event not sent')
+    if (!res) {
+      log.warn('Amplitude event not sent')
+    }
     console.log('fired event', `SIGNUP_${event || curRoute.key}`)
   }
 
@@ -131,35 +137,35 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
     } else {
       if (nextRoute) {
         return navigateWithFocus(nextRoute.key)
-      } else {
-        log.info('Sending new user data', state)
-        try {
-          // After sending email to the user for confirmation (transition between Email -> EmailConfirmation)
-          // user's profile is persisted (`userStorage.setProfile`).
-          // Then, when the user access the application from the link (in EmailConfirmation), data is recovered and
-          // saved to the `state`
-          await API.addUser(state)
+      }
+      log.info('Sending new user data', state)
+      try {
+        // After sending email to the user for confirmation (transition between Email -> EmailConfirmation)
+        // user's profile is persisted (`userStorage.setProfile`).
+        // Then, when the user access the application from the link (in EmailConfirmation), data is recovered and
+        // saved to the `state`
+        await API.addUser(state)
 
-          await Promise.all([
-            (saveProfile({ registered: true }),
-            userStorage.setProfileField('registered', true),
-            // Stores creationBlock number into 'lastBlock' feed's node
-            goodWallet
-              .getBlockNumber()
-              .then(creationBlock => userStorage.saveLastBlockNumber(creationBlock.toString())),
-            AsyncStorage.getItem('GD_USER_MNEMONIC').then(mnemonic => API.sendRecoveryInstructionByEmail(mnemonic)))
-          ])
-          // top wallet of new user
-          // wait for the topping to complete to be able to withdraw
-          // await API.verifyTopWallet()
-          userStorage.setProfileField('registered', true, 'public')
-          navigation.navigate('AppNavigation')
-          store.set('isLoggedIn')(true)
-          // store.set('currentScreen')({ loading: false })
-          setLoading(false)
-        } catch (error) {
-          log.error('New user failure', { error })
-        }
+        await Promise.all([
+          (saveProfile({ registered: true }),
+          userStorage.setProfileField('registered', true),
+
+          // Stores creationBlock number into 'lastBlock' feed's node
+          goodWallet.getBlockNumber().then(creationBlock => userStorage.saveLastBlockNumber(creationBlock.toString())),
+          AsyncStorage.getItem('GD_USER_MNEMONIC').then(mnemonic => API.sendRecoveryInstructionByEmail(mnemonic)))
+        ])
+
+        // top wallet of new user
+        // wait for the topping to complete to be able to withdraw
+        // await API.verifyTopWallet()
+        userStorage.setProfileField('registered', true, 'public')
+        navigation.navigate('AppNavigation')
+        store.set('isLoggedIn')(true)
+
+        // store.set('currentScreen')({ loading: false })
+        setLoading(false)
+      } catch (error) {
+        log.error('New user failure', { error })
       }
     }
   }

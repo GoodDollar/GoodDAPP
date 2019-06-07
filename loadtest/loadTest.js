@@ -1,15 +1,14 @@
 import './mock-browser'
-import { GoodWallet } from '../src/lib/wallet/GoodWallet'
+import fs from 'fs'
 import bip39 from 'bip39-light'
+import faker from 'faker'
+import FormData from 'form-data'
+import fetch from 'node-fetch'
+import { GoodWallet } from '../src/lib/wallet/GoodWallet'
 import { GoodWalletLogin } from '../src/lib/login/GoodWalletLogin'
 import { UserStorage } from '../src/lib/gundb/UserStorage'
 import Config from '../src/config/config'
 import API from '../src/lib/API/api'
-import faker from 'faker'
-import range from 'lodash/range'
-import FormData from 'form-data'
-import fs from 'fs'
-import fetch from 'node-fetch'
 const Timeout = (timeout = 3000) => {
   return new Promise((res, rej) => {
     setTimeout(res, timeout)
@@ -42,10 +41,12 @@ export const mytest = async i => {
     let login = new GoodWalletLogin(wallet, storage)
     await storage.ready
     let creds = await login.auth()
+
     // console.log({ creds })
     var randomName = faker.name.findName() // Rowan Nikolaus
     var randomEmail = faker.internet.email() // Kassandra.Haley@erich.biz
     var randomCard = faker.phone.phoneNumber('+97250#######')
+
     // console.log(randomCard, randomName, randomEmail)
     let adduser = await Promise.race([
       Timeout(20000).then(x => {
@@ -59,7 +60,9 @@ export const mytest = async i => {
       })
     ])
     console.log('/user/add:', adduser.data)
-    if (adduser.data.ok !== 1) throw new Error('adduser failed')
+    if (adduser.data.ok !== 1) {
+      throw new Error('adduser failed')
+    }
     await storage.setProfile({
       fullName: randomName,
       email: randomEmail,
@@ -74,14 +77,22 @@ export const mytest = async i => {
     ])
 
     console.log('/verify/facerecognition:', fr)
-    if (fr.ok !== 1) throw new Error(`FR failed`)
+    if (fr.ok !== 1) {
+      throw new Error(`FR failed`)
+    }
     let gunres = 0
     await new Promise((res, rej) => {
       gun.get('users/byemail').once(r => {
-        if (r && r.err) rej(new Error(r.err))
-        if (!r) rej(new Error('Empty gun data'))
-        else if (++gunres === 1) res()
+        if (r && r.err) {
+          rej(new Error(r.err))
+        }
+        if (!r) {
+          rej(new Error('Empty gun data'))
+        } else if (++gunres === 1) {
+          res()
+        }
       })
+
       //   // gun.get('users/bymobile').open(r => {
       //   //   if (r.err) rej(new Error(r.err))
       //   //   else if (++gunres === 2) res()
@@ -115,6 +126,7 @@ const run = async numTests => {
 let numTests = process.argv[2]
 console.log('arrgs', process.argv, numTests)
 run(numTests)
+
 // describe('load test', () => {
 //   it('loadtest', async () => {
 //     const doLogin = async () => {

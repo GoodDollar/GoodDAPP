@@ -1,4 +1,4 @@
-import { validateFullName, ERROR_MESSAGE } from '../validateFullName'
+import { ERROR_MESSAGE, validateFullName } from '../validateFullName'
 
 describe('validations', () => {
   it(`should fail if fullName is empty`, () => {

@@ -308,17 +308,18 @@ exports[`SmsForm matches snapshot 1`] = `
       className="css-view-1dbjc4n"
       style={
         Object {
-          "WebkitAlignContent": "center",
+          "WebkitAlignContent": "stretch",
           "WebkitBoxDirection": "normal",
-          "WebkitBoxOrient": "horizontal",
+          "WebkitBoxOrient": "vertical",
           "WebkitBoxPack": "justify",
-          "WebkitFlexDirection": "row",
+          "WebkitFlexDirection": "column",
           "WebkitJustifyContent": "space-between",
-          "alignContent": "center",
-          "flexDirection": "row",
+          "alignContent": "stretch",
+          "display": "flex",
+          "flexDirection": "column",
           "justifyContent": "space-between",
-          "msFlexDirection": "row",
-          "msFlexLinePack": "center",
+          "msFlexDirection": "column",
+          "msFlexLinePack": "stretch",
           "msFlexPack": "justify",
         }
       }

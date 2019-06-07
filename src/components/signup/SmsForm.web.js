@@ -48,15 +48,13 @@ export default class SmsForm extends React.Component<Props, State> {
 
   componentDidUpdate() {
     if (!this.state.renderButton) {
-      this.handleRenderButtonVisibility()
+      this.displayDelayedRenderButton()
     }
   }
 
-  handleRenderButtonVisibility = () => {
+  displayDelayedRenderButton = () => {
     setTimeout(() => {
-      this.setState({
-        renderButton: true
-      })
+      this.setState({ renderButton: true })
     }, 7000)
   }
 
@@ -99,7 +97,7 @@ export default class SmsForm extends React.Component<Props, State> {
     } catch (e) {
       log.error(e)
     }
-    this.setState({ sendingCode: false, renderButton: false }, this.handleRenderButtonVisibility)
+    this.setState({ sendingCode: false, renderButton: false }, this.displayDelayedRenderButton)
   }
 
   render() {
@@ -146,8 +144,9 @@ const styles = StyleSheet.create({
     margin: '1em'
   },
   buttonWrapper: {
-    alignContent: 'center',
-    flexDirection: 'row',
+    alignContent: 'stretch',
+    flexDirection: 'column',
+    display: 'flex',
     justifyContent: 'space-between'
   },
   button: {

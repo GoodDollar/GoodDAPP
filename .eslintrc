@@ -55,14 +55,14 @@
     }
   },
   "rules": {
-    "prettier/prettier": "warn",
+    "prettier/prettier": "error",
     "react/prop-types": "off",
     "react/display-name": "off",
-    "react-hooks/rules-of-hooks": "warn",
-    "dependencies/no-cycles": "warn",
-    "import/no-unresolved": "warn",
-    "import/first": "warn",
-    "import/no-duplicates": "warn",
+    "react-hooks/rules-of-hooks": "error",
+    "dependencies/no-cycles": "error",
+    "import/no-unresolved": "error",
+    "import/first": "error",
+    "import/no-duplicates": "error",
     "import/order": [
       "warn",
       {
@@ -84,53 +84,53 @@
       }
     ],
     "no-console": [
-      "warn",
+      "error",
       {
         "allow": [
           "info"
         ]
       }
     ],
-    "no-await-in-loop": "warn",
-    "curly": "warn",
-    "dot-notation": "warn",
-    "no-else-return": "warn",
+    "no-await-in-loop": "error",
+    "curly": "error",
+    "dot-notation": "error",
+    "no-else-return": "error",
     "no-implicit-coercion": [
-      "warn",
+      "error",
       {
         "boolean": false
       }
     ],
-    "no-return-await": "warn",
-    "no-useless-catch": "warn",
-    "require-await": "warn",
+    "no-return-await": "error",
+    "no-useless-catch": "error",
+    "require-await": "error",
     "array-bracket-newline": [
-      "warn",
+      "error",
       {
         "multiline": true
       }
     ],
-    "block-spacing": "warn",
+    "block-spacing": "error",
     "brace-style": [
-      "warn",
+      "error",
       "1tbs",
       {
         "allowSingleLine": true
       }
     ],
     "camelcase": [
-      "warn",
+      "error",
       {
         "ignoreDestructuring": true,
         "properties": "never"
       }
     ],
-    "comma-dangle": "warn",
-    "comma-spacing": "warn",
-    "computed-property-spacing": "warn",
-    "lines-between-class-members": "warn",
+    "comma-dangle": "error",
+    "comma-spacing": "error",
+    "computed-property-spacing": "error",
+    "lines-between-class-members": "error",
     "lines-around-comment": [
-      "warn",
+      "error",
       {
         "beforeBlockComment": true,
         "beforeLineComment": true,
@@ -146,6 +146,6 @@
         "allowClassEnd": false
       }
     ],
-    "no-negated-condition": "warn"
+    "no-negated-condition": "error"
   }
 }

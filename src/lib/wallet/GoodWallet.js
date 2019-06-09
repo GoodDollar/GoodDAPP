@@ -507,7 +507,7 @@ export class GoodWallet {
    * @returns {Promise<boolean>}
    */
   isCitizen(): Promise<boolean> {
-    return this.isVerified(this.account).call()
+    return this.isVerified(this.account)
   }
 
   /**

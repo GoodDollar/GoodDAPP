@@ -15,7 +15,7 @@ const ReceiveByQR = ({ screenProps }) => {
   const [withdrawParams, setWithdrawParams] = useState({ receiveLink: '', reason: '' })
   const store = GDStore.useStore()
 
-  const handleScan = async data => {
+  const handleScan = data => {
     if (data) {
       try {
         const url = readReceiveLink(data)

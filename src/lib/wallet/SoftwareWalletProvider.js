@@ -25,13 +25,15 @@ export function saveMnemonics(mnemonics: string): Promise<any> {
  */
 export async function getMnemonics(): Promise<string> {
   let pkey = await AsyncStorage.getItem(GD_USER_MNEMONIC)
-  if (!pkey) {
+
+  if (pkey) {
+    log.info('pkey found, creating account from pkey:', { pkey })
+  } else {
     pkey = generateMnemonic()
     saveMnemonics(pkey)
     log.info('item set in localStorage ', { pkey })
-  } else {
-    log.info('pkey found, creating account from pkey:', { pkey })
   }
+
   return pkey
 }
 
@@ -45,14 +47,11 @@ export function deleteMnemonics(): Promise<any> {
 }
 
 function generateMnemonic(): string {
-  let mnemonic = bip39.generateMnemonic()
-  return mnemonic
+  return bip39.generateMnemonic()
 }
 
 class SoftwareWalletProvider {
   ready: Promise<Web3>
-
-  GD_USER_PKEY: string = 'GD_USER_PKEY'
 
   defaults = {
     defaultBlock: 'latest',

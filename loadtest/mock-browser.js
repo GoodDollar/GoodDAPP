@@ -62,4 +62,4 @@ global.window = {}
 global.window.localStorage = new LocalStorage('./localStorage.tmp')
 global.gun = Gun([Config.gunPublicUrl])
 global.Gun = Gun
-console.log('here')
+console.info('here')

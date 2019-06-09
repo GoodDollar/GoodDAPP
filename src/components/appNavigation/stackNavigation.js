@@ -92,10 +92,10 @@ class AppView extends Component<AppViewProps, AppViewState> {
         navigation.navigate(nextRoute.route)
         this.trans = false
       })
-    } else if (navigation.state.index !== 0) {
-      this.goToRoot()
-    } else {
+    } else if (navigation.state.index === 0) {
       this.goToParent()
+    } else {
+      this.goToRoot()
     }
   }
 

@@ -82,7 +82,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
     if (!res) {
       log.warn('Amplitude event not sent')
     }
-    console.log('fired event', `SIGNUP_${event || curRoute.key}`)
+    log.debug('fired event', `SIGNUP_${event || curRoute.key}`)
   }
 
   useEffect(() => {
@@ -149,9 +149,10 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
         await Promise.all([
           (saveProfile({ registered: true }),
           userStorage.setProfileField('registered', true),
-
-          // Stores creationBlock number into 'lastBlock' feed's node
-          goodWallet.getBlockNumber().then(creationBlock => userStorage.saveLastBlockNumber(creationBlock.toString())),
+          goodWallet.getBlockNumber().then(creationBlock => {
+            // Stores creationBlock number into 'lastBlock' feed's node
+            return userStorage.saveLastBlockNumber(creationBlock.toString())
+          }),
           AsyncStorage.getItem('GD_USER_MNEMONIC').then(mnemonic => API.sendRecoveryInstructionByEmail(mnemonic)))
         ])
 

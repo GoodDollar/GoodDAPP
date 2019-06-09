@@ -11,7 +11,6 @@ import { fontStyle } from '../common/styles'
 import { PrivacyPolicy, TermsOfUse } from '../webView/webViewInstances'
 
 type Props = {
-  // callback to report to parent component
   navigation: any,
   screenProps: {
     push: Function

@@ -10,13 +10,13 @@ describe('EventCounterParty', () => {
     const feedItem = mockEvent('withdraw')
 
     it('renders without errors', () => {
-      console.log({ feedItem })
+      console.info({ feedItem })
       const tree = renderer.create(<EventCounterParty feedItem={feedItem} />)
       expect(tree.toJSON()).toBeTruthy()
     })
 
     it('matches snapshot', () => {
-      console.log({ feedItem })
+      console.info({ feedItem })
       const tree = renderer.create(<EventCounterParty feedItem={feedItem} />)
       expect(tree.toJSON()).toMatchSnapshot()
     })

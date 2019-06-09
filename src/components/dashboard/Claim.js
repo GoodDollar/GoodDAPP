@@ -54,7 +54,7 @@ class Claim extends Component<ClaimProps, ClaimState> {
       goodWallet.getNextClaimTime()
     ])
     this.setState({ claimedToday })
-    this.interval = setInterval(async () => {
+    this.interval = setInterval(() => {
       const nextClaim = new Date(nextClaimDate - new Date().getTime()).toISOString().substr(11, 8)
       this.setState({ nextClaim })
     }, 1000)
@@ -99,7 +99,7 @@ class Claim extends Component<ClaimProps, ClaimState> {
         disabled={entitlement <= 0}
         mode="contained"
         compact={true}
-        onPress={async () => {
+        onPress={() => {
           isCitizen ? this.handleClaim() : this.faceRecognition()
         }}
         style={styles.claimButton}

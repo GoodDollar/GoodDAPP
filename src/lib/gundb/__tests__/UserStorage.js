@@ -28,16 +28,14 @@ describe('UserStorage', () => {
   beforeAll(async () => {
     jest.setTimeout(30000)
     await userStorage.wallet.ready
-    console.log('wallet ready...', userStorage.wallet.account)
     await userStorage.ready
-    console.log('storage ready...', userStorage.wallet.account)
   })
 
   afterEach(() => {
     userStorage.unSubscribeProfileUpdates()
   })
 
-  it('logins to gundb', async () => {
+  it('logins to gundb', () => {
     expect(userStorage.user).not.toBeUndefined()
   })
 
@@ -406,7 +404,6 @@ describe('UserStorage', () => {
     expect(result).toBe(true)
     await delay(500)
     await userStorage.subscribeProfileUpdates(updatedProfile => {
-      console.log({ updatedProfile })
       Promise.all([
         userStorage.getPrivateProfile(updatedProfile).then(result => {
           const { isValid, getErrors, validate, ...privateProfile } = result
@@ -495,7 +492,7 @@ describe('UserStorage', () => {
   })
 
   describe('getReceiveDataFromReceipt', () => {
-    it('get Transfer data from logs', async () => {
+    it('get Transfer data from logs', () => {
       const receipt = {
         logs: [
           {
@@ -517,7 +514,7 @@ describe('UserStorage', () => {
       })
     })
 
-    it('get PaymentWithdraw data from logs', async () => {
+    it('get PaymentWithdraw data from logs', () => {
       const receipt = {
         logs: [
           {
@@ -548,7 +545,7 @@ describe('UserStorage', () => {
       })
     })
 
-    it('get Transfer when multiple Transfer should get the bigger (the lastone)', async () => {
+    it('get Transfer when multiple Transfer should get the bigger (the lastone)', () => {
       const receipt = {
         logs: [
           {
@@ -579,7 +576,7 @@ describe('UserStorage', () => {
       })
     })
 
-    it('get Transfer when multiple Transfer should get the bigger (the firstone)', async () => {
+    it('get Transfer when multiple Transfer should get the bigger (the firstone)', () => {
       const receipt = {
         logs: [
           {
@@ -610,7 +607,7 @@ describe('UserStorage', () => {
       })
     })
 
-    it('empty logs should return empty object', async () => {
+    it('empty logs should return empty object', () => {
       const receipt = {
         logs: []
       }
@@ -618,7 +615,7 @@ describe('UserStorage', () => {
       expect(result).toMatchObject({})
     })
 
-    it('empty receipt should return empty object', async () => {
+    it('empty receipt should return empty object', () => {
       const receipt = {}
       const result = getReceiveDataFromReceipt(receipt)
       expect(result).toMatchObject({})

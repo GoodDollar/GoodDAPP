@@ -20,7 +20,7 @@ const ReceiveByQR = ({ screenProps }) => {
 
   const onDismissDialog = () => setQRDelay(QR_DEFAULT_DELAY)
 
-  const handleScan = async data => {
+  const handleScan = data => {
     if (data) {
       try {
         const url = readReceiveLink(data)

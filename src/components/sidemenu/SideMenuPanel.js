@@ -29,7 +29,7 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation, s
   {
     icon: 'lock',
     name: 'Backup Your Wallet',
-    action: async () => {
+    action: () => {
       navigation.navigate({
         routeName: 'BackupWallet',
         type: 'Navigation/NAVIGATE'
@@ -40,7 +40,7 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation, s
   {
     icon: 'person-pin',
     name: 'Privacy Policy',
-    action: async () => {
+    action: () => {
       navigation.navigate('PP')
       hideSidemenu()
     }
@@ -48,7 +48,7 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation, s
   {
     icon: 'announcement',
     name: 'Terms of Use',
-    action: async () => {
+    action: () => {
       navigation.navigate('TOU')
       hideSidemenu()
     }
@@ -65,7 +65,7 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation, s
   {
     icon: 'comment',
     name: 'Support',
-    action: async () => {
+    action: () => {
       navigation.navigate('Support')
       hideSidemenu()
     }

@@ -42,12 +42,12 @@ export const mytest = async i => {
     await storage.ready
     let creds = await login.auth()
 
-    // console.log({ creds })
+    // console.info({ creds })
     var randomName = faker.name.findName() // Rowan Nikolaus
     var randomEmail = faker.internet.email() // Kassandra.Haley@erich.biz
     var randomCard = faker.phone.phoneNumber('+97250#######')
 
-    // console.log(randomCard, randomName, randomEmail)
+    // console.info(randomCard, randomName, randomEmail)
     let adduser = await Promise.race([
       Timeout(20000).then(x => {
         throw new Error('adduser timeout')
@@ -59,7 +59,7 @@ export const mytest = async i => {
         walletAddress: wallet.account
       })
     ])
-    console.log('/user/add:', adduser.data)
+    console.info('/user/add:', adduser.data)
     if (adduser.data.ok !== 1) {
       throw new Error('adduser failed')
     }
@@ -76,7 +76,7 @@ export const mytest = async i => {
       createReq(wallet.getAccountForType('zoomId'), creds.jwt).then(r => r.json())
     ])
 
-    console.log('/verify/facerecognition:', fr)
+    console.info('/verify/facerecognition:', fr)
     if (fr.ok !== 1) {
       throw new Error(`FR failed`)
     }
@@ -103,8 +103,8 @@ export const mytest = async i => {
       //   //   })
     })
   } catch (error) {
-    console.log(`Test failed`, error)
-    failedTests[error.message] !== undefined ? (failedTests[error.message] += 1) : (failedTests[error.message] = 1)
+    console.info(`Test failed`, error)
+    failedTests[error.message] === undefined ? (failedTests[error.message] = 1) : (failedTests[error.message] += 1)
   } finally {
     // fs.unlinkSync('./loadtest/loadtest' + i + '.json')
   }
@@ -113,18 +113,19 @@ const run = async numTests => {
   let promises = []
   for (let i = 0; i < numTests; i++) {
     promises[i] = mytest(i)
+    // eslint-disable-next-line no-await-in-loop
     await Timeout(10000)
   }
-  console.log('Waiting for tests to finish...')
+  console.info('Waiting for tests to finish...')
   await Promise.all(promises)
-  console.log('Done running tests', { total: promises.length, failedTests })
-  console.log('Waiting for server memory stats')
+  console.info('Done running tests', { total: promises.length, failedTests })
+  console.info('Waiting for server memory stats')
   await Timeout(5000)
-  console.log('Done. Quiting')
+  console.info('Done. Quiting')
   process.exit(-1)
 }
 let numTests = process.argv[2]
-console.log('arrgs', process.argv, numTests)
+console.info('arrgs', process.argv, numTests)
 run(numTests)
 
 // describe('load test', () => {
@@ -136,7 +137,7 @@ run(numTests)
 //       expect(wallet).toBeTruthy()
 //       let login = new GoodWalletLogin(wallet)
 //       let creds = await login.auth()
-//       console.log({ creds })
+//       console.info({ creds })
 //       return expect(creds).toBeTruthy()
 //     }
 //     let promises = range(3).map(i => doLogin())

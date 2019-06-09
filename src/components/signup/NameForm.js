@@ -8,7 +8,6 @@ import { validateFullName } from '../../lib/validators/validateFullName'
 import { Title, Wrapper } from './components'
 
 type Props = {
-  // callback to report to parent component
   doneCallback: ({ name: string }) => null,
   screenProps: any,
   navigation: any,

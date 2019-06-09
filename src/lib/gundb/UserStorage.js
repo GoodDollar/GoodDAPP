@@ -147,6 +147,12 @@ export class UserStorage {
   gunuser: Gun
 
   /**
+   * a gun node referring to gun
+   * @instance {Gun}
+   */
+  gun: Gun
+
+  /**
    * a gun node refering to gun.user().get('profile')
    * @instance {Gun}
    */
@@ -222,7 +228,7 @@ export class UserStorage {
     return value
   }
 
-  constructor(wallet: GoodWallet, gun = defaultGun) {
+  constructor(wallet: GoodWallet, gun: Gun = defaultGun) {
     this.gun = gun
     this.wallet = wallet || goodWallet
     this.ready = this.wallet.ready
@@ -244,7 +250,7 @@ export class UserStorage {
     const password = await this.wallet.sign('GoodDollarPass', 'gundb').then(r => r.slice(0, 20))
     this.gunuser = this.gun.user()
     return new Promise((res, rej) => {
-      this.gunuser.create(username, password, async userCreated => {
+      this.gunuser.create(username, password, userCreated => {
         logger.debug('gundb user created', userCreated)
 
         //auth.then - doesnt seem to work server side in tests
@@ -322,7 +328,7 @@ export class UserStorage {
     }
   }
 
-  async sign(msg: any) {
+  sign(msg: any) {
     return SEA.sign(msg, this.gunuser.pair())
   }
 
@@ -379,7 +385,7 @@ export class UserStorage {
    * Subscribes to changes on the event index of day to number of events
    * the "false" (see gundb docs) passed is so we get the complete 'index' on every change and not just the day that changed
    */
-  async initFeed() {
+  initFeed() {
     this.feed = this.gunuser.get('feed')
     this.feed.get('index').on(this.updateFeedIndex, false)
   }
@@ -415,7 +421,7 @@ export class UserStorage {
    * @param {object} profile - User profile
    * @returns {object} - User model with display values
    */
-  async getDisplayProfile(profile: {}): Promise<any> {
+  getDisplayProfile(profile: {}): Promise<any> {
     const displayProfile = Object.keys(profile).reduce(
       (acc, currKey, arr) => ({ ...acc, [currKey]: profile[currKey].display }),
       {}
@@ -429,7 +435,7 @@ export class UserStorage {
    * @param {object} profile - user profile
    * @returns {object} UserModel with some inherit functions
    */
-  async getPrivateProfile(profile: {}): Promise<UserModel> {
+  getPrivateProfile(profile: {}): Promise<UserModel> {
     const keys = Object.keys(profile)
     return Promise.all(keys.map(currKey => this.getProfileFieldValue(currKey)))
       .then(values => {
@@ -460,7 +466,7 @@ export class UserStorage {
    * @returns {Promise} Promise with profile settings updates and privacy validations
    * @throws Error if profile is invalid
    */
-  async setProfile(profile: UserModel) {
+  setProfile(profile: UserModel) {
     if (profile && !profile.validate) {
       profile = getUserModel(profile)
     }
@@ -652,7 +658,7 @@ export class UserStorage {
 
     const eventsIndex = flatten(await Promise.all(promises))
 
-    return await Promise.all(
+    return Promise.all(
       eventsIndex
         .filter(_ => _.id)
         .map(eventIndex =>
@@ -665,14 +671,13 @@ export class UserStorage {
   }
 
   /**
-   * Return all feed events
-   *
+   * Return all feed events*
    * @returns {Promise} Promise with array of standarised feed events
    * @todo Add pagination
    */
   async getFormattedEvents(numResults: number, reset?: boolean): Promise<Array<StandardFeed>> {
     const feed = await this.getFeedPage(numResults, reset)
-    return await Promise.all(feed.filter(feedItem => feedItem.data).map(this.formatEvent))
+    return Promise.all(feed.filter(feedItem => feedItem.data).map(this.formatEvent))
   }
 
   async getFormatedEventById(id: string): Promise<StandardFeed> {
@@ -694,7 +699,7 @@ export class UserStorage {
     //update the event
     let updatedEvent = await this.handleReceiptUpdated(receipt)
     logger.debug('getFormatedEventById updated event with receipt', { prevFeedEvent, updatedEvent })
-    return await this.formatEvent(updatedEvent)
+    return this.formatEvent(updatedEvent)
   }
 
   /**
@@ -702,19 +707,17 @@ export class UserStorage {
    * @param {string} field - Profile field value (email, mobile or wallet address value)
    * @returns { string } address
    */
-  async getUserAddress(field: string) {
+  getUserAddress(field: string) {
     const attr = isMobilePhone(field) ? 'mobile' : isEmail(field) ? 'email' : 'walletAddress'
     const value = UserStorage.cleanFieldForIndex(attr, field)
 
-    const address = await this.gun
+    return this.gun
       .get(`users/by${attr}`)
       .get(value)
       .get('profile')
       .get('walletAddress')
       .get('display')
       .then()
-
-    return address
   }
 
   /**
@@ -785,7 +788,7 @@ export class UserStorage {
       withdrawStatus = await this.wallet.getWithdrawStatus(generatedString)
     }
 
-    const stdFeed = {
+    return {
       id: id,
       date: new Date(date).getTime(),
       type: type,
@@ -800,7 +803,6 @@ export class UserStorage {
         message: reason
       }
     }
-    return stdFeed
   }
 
   /**
@@ -809,13 +811,13 @@ export class UserStorage {
    * @param {FeedEvent} event
    * @returns {Promise<>}
    */
-  async enqueueTX(event: FeedEvent): Promise<> {
-    return await AsyncStorage.setItem(event.id, JSON.stringify(event))
+  enqueueTX(event: FeedEvent): Promise<> {
+    return AsyncStorage.setItem(event.id, JSON.stringify(event))
   }
 
   /**
    * remove and return pending TX
-   * @param {*} event
+   * @param eventId
    * @returns {Promise<FeedEvent>}
    */
   async dequeueTX(eventId: string): Promise<FeedEvent> {
@@ -908,7 +910,7 @@ export class UserStorage {
    * @param blockNumber
    * @returns {Promise<Promise<*>|Promise<R|*>>}
    */
-  async saveLastBlockNumber(blockNumber: number | string): Promise<any> {
+  saveLastBlockNumber(blockNumber: number | string): Promise<any> {
     logger.debug('saving lastBlock:', blockNumber)
     return this.getLastBlockNode().putAck(blockNumber)
   }
@@ -922,20 +924,22 @@ export class UserStorage {
   /**
    * remove user from indexes when deleting profile
    */
-  async deleteProfile(): Promise<> {
+  async deleteProfile(): Promise<boolean> {
     //first delete from indexes then delete the profile itself
-    return Promise.all(
-      keys(UserStorage.indexableFields).map(async k => {
-        return this.setProfileFieldPrivacy(k, 'private').catch(e => {
+    await Promise.all(
+      keys(UserStorage.indexableFields).map(k => {
+        return this.setProfileFieldPrivacy(k, 'private').catch(() => {
           logger.error('failed deleting profile field', k)
         })
       })
-    ).then(r =>
-      this.gunuser
-        .get('profile')
-        .put('null')
-        .then()
     )
+
+    await this.gunuser
+      .get('profile')
+      .put('null')
+      .then()
+
+    return true
   }
 
   /**

@@ -2,7 +2,7 @@ import goodWallet from '../GoodWallet'
 
 const httpProviderMock = jest.fn().mockImplementation(() => {
   const Config = require('../../../config/config').default
-  console.log('returning mock')
+  console.info('returning mock')
   return require('ganache-cli').provider({ network_id: Config.networkId })
 })
 

@@ -5,8 +5,8 @@ import goodWallet from './lib/wallet/GoodWallet'
 import userStorage from './lib/gundb/UserStorage'
 import Config from './config/config'
 declare var amplitude
-export const init = async () => {
-  return await Promise.all([goodWallet.ready, userStorage.ready]).then(([wallet, storage]) => {
+export const init = () => {
+  return Promise.all([goodWallet.ready, userStorage.ready]).then(() => {
     global.wallet = goodWallet
     if (global.Rollbar && Config.env !== 'test') {
       global.Rollbar.configure({

@@ -3,7 +3,6 @@ import React from 'react'
 import { AsyncStorage } from 'react-native'
 import { SceneView } from '@react-navigation/core'
 import some from 'lodash/some'
-import { Helmet } from 'react-helmet'
 import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
 import GDStore from '../../lib/undux/GDStore'
@@ -120,10 +119,6 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
     const { dialogData } = store.get('currentScreen')
     return (
       <React.Fragment>
-        {/* <Helmet>
-          <title>GoodDollar | UBI</title>
-        </Helmet> */}
-
         <CustomDialog
           {...dialogData}
           onDismiss={(...args) => {

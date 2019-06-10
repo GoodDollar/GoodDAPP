@@ -66,7 +66,9 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
       loadedZoom.zoomResourceDirectory('/ZoomAuthentication.js/resources')
       await initializeAndPreload(loadedZoom) // TODO: what  to do in case of init errors?
       log.info('ZoomSDK initialized and preloaded', loadedZoom)
-      this.setState({ ready: true })
+      this.timeout = setTimeout(() => {
+        this.setState({ ready: true })
+      }, 500)
     } catch (e) {
       log.error('initializing failed', e)
     }
@@ -79,6 +81,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
 
   componentWillUnmount() {
     log.debug('Unloading ZoomSDK', ZoomSDK)
+    this.timeout && clearTimeout(this.timeout)
     this.videoTrack && this.videoTrack.stop()
     ZoomSDK &&
       ZoomSDK.unload(() => {
@@ -237,7 +240,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
               mode="contained"
               disabled={ready === false}
               onPress={this.showFaceRecognition}
-              loading={loadingFaceRecognition}
+              loading={ready === false || loadingFaceRecognition}
             >
               Quick Face Recognition
             </CustomButton>

@@ -45,7 +45,6 @@ const SendLinkSummary = (props: AmountProps) => {
   const generateLinkAndSend = async () => {
     try {
       // Generate link deposit
-      setLoading(true)
       const generateLinkResponse = await goodWallet.generateLink(amount, reason, {
         onTransactionHash: extraData => hash => {
           // Save transaction
@@ -81,8 +80,19 @@ const SendLinkSummary = (props: AmountProps) => {
         dialogData: { visible: true, title: 'Error', message: e.message, dismissText: 'OK' }
       })
       log.error(e)
-    } finally {
+    }
+  }
+
+  const handleContinue = async () => {
+    setLoading(true)
+
+    const isCitizen = await goodWallet.isCitizen()
+
+    if (isCitizen) {
+      await generateLinkAndSend()
       setLoading(false)
+    } else {
+      faceRecognition()
     }
   }
 
@@ -113,14 +123,7 @@ const SendLinkSummary = (props: AmountProps) => {
             <BackButton mode="text" screenProps={screenProps} style={{ flex: 1 }}>
               Cancel
             </BackButton>
-            <CustomButton
-              mode="contained"
-              onPress={async () => {
-                ;(await goodWallet.isCitizen()) ? generateLinkAndSend() : faceRecognition()
-              }}
-              style={{ flex: 2 }}
-              loading={loading}
-            >
+            <CustomButton mode="contained" onPress={handleContinue} style={{ flex: 2 }} disabled={loading}>
               Confirm
             </CustomButton>
           </View>

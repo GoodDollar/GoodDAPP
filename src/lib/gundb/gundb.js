@@ -7,7 +7,7 @@ import gundbextend from './gundb-extend'
 const initGunDB = () => {
   if (!global.gun) {
     if (process.env.NODE_ENV === 'test') global.gun = Gun()
-    else global.gun = Gun([Config.serverUrl + '/gun'])
+    else global.gun = Gun([Config.gunPublicUrl])
     logger.debug('Initialized gundb')
   }
   return global.gun

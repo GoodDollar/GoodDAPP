@@ -342,6 +342,95 @@ exports[`Claim matches snapshot 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
+              "WebkitBoxPack": "center",
+              "WebkitJustifyContent": "center",
+              "backgroundColor": "rgba(238,238,239,1.00)",
+              "borderBottomLeftRadius": "5px",
+              "borderBottomRightRadius": "5px",
+              "borderTopLeftRadius": "5px",
+              "borderTopRightRadius": "5px",
+              "justifyContent": "center",
+              "marginBottom": "15px",
+              "msFlexPack": "center",
+              "paddingBottom": "15px",
+              "paddingLeft": "10px",
+              "paddingRight": "10px",
+              "paddingTop": "15px",
+            }
+          }
+        >
+          <div
+            className="css-text-76zvg2"
+            dir="auto"
+            style={
+              Object {
+                "color": "rgba(85,85,85,1.00)",
+                "fontSize": "14px",
+                "textAlign": "center",
+              }
+            }
+          >
+            
+             PEOPLE CLAIMED 
+            
+             G$ TODAY!
+          </div>
+        </div>
+        <div
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "WebkitBoxPack": "center",
+              "WebkitJustifyContent": "center",
+              "backgroundColor": "rgba(238,238,239,1.00)",
+              "borderBottomLeftRadius": "5px",
+              "borderBottomRightRadius": "5px",
+              "borderTopLeftRadius": "5px",
+              "borderTopRightRadius": "5px",
+              "justifyContent": "center",
+              "marginBottom": "15px",
+              "msFlexPack": "center",
+              "paddingBottom": "15px",
+              "paddingLeft": "10px",
+              "paddingRight": "10px",
+              "paddingTop": "15px",
+            }
+          }
+        >
+          <div
+            className="css-text-76zvg2"
+            dir="auto"
+            style={
+              Object {
+                "color": "rgba(85,85,85,1.00)",
+                "fontFamily": "Roboto, Regular",
+                "fontSize": "18px",
+                "textAlign": "center",
+                "textTransform": "uppercase",
+              }
+            }
+          >
+            Next daily income:
+          </div>
+          <div
+            className="css-text-76zvg2"
+            dir="auto"
+            style={
+              Object {
+                "color": "rgba(85,85,85,1.00)",
+                "fontFamily": "Roboto, Medium",
+                "fontSize": "36px",
+                "textAlign": "center",
+              }
+            }
+          >
+            23:59:59
+          </div>
+        </div>
+        <div
+          className="css-view-1dbjc4n"
+          style={
+            Object {
               "WebkitBoxFlex": 0,
               "WebkitBoxPack": "center",
               "WebkitFlexGrow": 0,

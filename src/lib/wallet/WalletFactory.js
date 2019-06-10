@@ -12,6 +12,7 @@ export type WalletConfig = {
 }
 export default class WalletFactory {
   static create(walletType: string, walletConf: {}): Promise<Web3> {
+    if (Config.httpWeb3provider) walletConf.httpWeb3provider = walletConf.httpWeb3provider || Config.httpWeb3provider
     switch (walletType) {
       case 'software':
       default:

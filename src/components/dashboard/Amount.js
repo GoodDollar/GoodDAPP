@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import React, { useState } from 'react'
 import { Text, View } from 'react-native'
 
 import { InputGoodDollar, Section, TopBar, Wrapper } from '../common'
@@ -7,6 +7,7 @@ import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNa
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import { receiveStyles as styles } from './styles'
+
 export type AmountProps = {
   screenProps: any,
   navigation: any

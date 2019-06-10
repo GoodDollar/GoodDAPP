@@ -3,11 +3,9 @@ import React, { useEffect, useState } from 'react'
 import { AsyncStorage, ScrollView, StyleSheet, View } from 'react-native'
 import { createSwitchNavigator } from '@react-navigation/core'
 import { scrollableContainer } from '../common/styles'
-
 import NavBar from '../appNavigation/NavBar'
 import { navigationConfig } from '../appNavigation/navigationConfig'
 import logger from '../../lib/logger/pino-logger'
-
 import { useWrappedApi } from '../../lib/API/useWrappedApi'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import userStorage from '../../lib/gundb/UserStorage'
@@ -21,6 +19,7 @@ import SmsForm from './SmsForm'
 import PhoneForm from './PhoneForm'
 import EmailForm from './EmailForm'
 import NameForm from './NameForm'
+
 const log = logger.child({ from: 'SignupState' })
 
 export type SignupState = UserModel & SMSRecord
@@ -141,7 +140,9 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
         setLoading(false)
         return navigateWithFocus(nextRoute.key)
       }
+
       log.info('Sending new user data', state)
+
       try {
         // After sending email to the user for confirmation (transition between Email -> EmailConfirmation)
         // user's profile is persisted (`userStorage.setProfile`).
@@ -167,8 +168,8 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
         store.set('isLoggedIn')(true)
         setLoading(false)
       } catch (error) {
-        setLoading(false)
         log.error('New user failure', { error })
+        setLoading(false)
       }
     }
   }

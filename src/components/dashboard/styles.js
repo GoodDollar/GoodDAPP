@@ -2,6 +2,9 @@ import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { StyleSheet } from 'react-native'
 
 import { fontStyle } from '../common/styles'
+import { getScreenHeight } from '../../lib/utils/Orientation'
+
+const isMobileHeight = getScreenHeight() < 680
 
 export const receiveStyles = StyleSheet.create({
   wrapper: {
@@ -18,20 +21,20 @@ export const receiveStyles = StyleSheet.create({
     height: '100%'
   },
   qrCode: {
-    marginTop: '2rem',
+    marginTop: isMobileHeight ? 0 : '2rem',
     padding: '1rem',
     borderColor: '#555',
     borderWidth: 1,
     borderRadius: '4px'
   },
   addressSection: {
-    marginBottom: '1rem'
+    marginBottom: isMobileHeight ? 0 : '1rem'
   },
   address: {
     margin: '0.5rem'
   },
   secondaryText: {
-    margin: '1rem',
+    margin: isMobileHeight ? '0.2rem' : '1rem',
     color: '#555555',
     fontSize: normalize(14),
     textTransform: 'uppercase'

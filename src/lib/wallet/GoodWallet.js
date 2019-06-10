@@ -308,47 +308,13 @@ export class GoodWallet {
    * @param {BN} params.toBlock - Higher blocks range value
    * @returns {Promise<*>}
    */
-  async getEvents({ event, contract, filterPred, fromBlock = ZERO, toBlock }: QueryEvent): Promise<[]> {
+  static async getEvents({ event, contract, filterPred, fromBlock = ZERO, toBlock }: QueryEvent): Promise<[]> {
     const events = await contract.getPastEvents('allEvents', { fromBlock, toBlock })
     const res1 = filterFunc(events, { event })
     const res = filterFunc(res1, { returnValues: { ...filterPred } })
     log.trace({ res, events, res1, fromBlock: fromBlock.toString(), toBlock: toBlock && toBlock.toString() })
 
     return res
-  }
-
-  /**
-   * Subscribes to a particular event and returns the result based on options specified
-   * @param {object} params - an object with params
-   * @param {string} params.event - Event to subscribe to
-   * @param {object} params.contract - Contract from which event will be queried
-   * @param {object} params.filterPred - Event's filter. Does not required to be indexed as it's filtered locally
-   * @param {BN} params.fromBlock - Lower blocks range value
-   * @param {BN} params.toBlock - Higher blocks range value
-   * @param {function} callback - Function to be called once an event is received
-   * @returns {Promise<void>}
-   */
-  async oneTimeEvents({ event, contract, filterPred, fromBlock, toBlock }: QueryEvent, callback?: Function) {
-    try {
-      const events = await this.getEvents({ event, contract, filterPred, fromBlock, toBlock })
-      log.debug({ events: events.length, ...filterPred, fromBlock: fromBlock.toString(), toBlock: toBlock.toString() })
-
-      if (events.length) {
-        if (callback === undefined) {
-          return Promise.resolve(events)
-        } else {
-          callback(null, events)
-        }
-      }
-    } catch (e) {
-      log.error('oneTimeEvents failed:', { e })
-
-      if (callback === undefined) {
-        return Promise.reject(e)
-      } else {
-        callback(e, [])
-      }
-    }
   }
 
   /**
@@ -369,8 +335,8 @@ export class GoodWallet {
     const BLOCK_COUNT = 1
     const INTERVAL = BLOCK_COUNT * BLOCK_TIME
 
-    const lastBlock = toBlock !== undefined ? toBlock : await this.getBlockNumber()
-    fromBlock = fromBlock !== undefined ? fromBlock : ZERO
+    const lastBlock = toBlock === undefined ? await this.getBlockNumber() : toBlock
+    fromBlock = fromBlock === undefined ? ZERO : fromBlock
 
     log.trace('fromBlock', fromBlock && fromBlock.toString())
     log.trace('lastBlock', lastBlock.toString())
@@ -384,7 +350,13 @@ export class GoodWallet {
     if (fromBlock && fromBlock.eq(lastBlock)) {
       log.trace('all blocks processed', { fromBlock: fromBlock.toString(), lastBlock: lastBlock.toString() })
     } else {
-      await this.oneTimeEvents({ event, contract, filterPred, fromBlock, toBlock: lastBlock }, callback)
+      try {
+        const events = await GoodWallet.getEvents({ event, contract, filterPred, fromBlock, toBlock: lastBlock })
+        callback(null, events)
+      } catch (e) {
+        log.error('getEvents call @pollForEvents failed:', { e })
+        callback(e, [])
+      }
     }
 
     log.trace('about to recurse', {

@@ -341,19 +341,17 @@ describe('UserStorage', () => {
     ]
 
     await Promise.all(updates)
-    await userStorage.subscribeProfileUpdates(profile => {
-      userStorage.getDisplayProfile(profile).then(result => {
-        const { isValid, getErrors, validate, ...displayProfile } = result
-        expect(displayProfile).toEqual({
-          id: '',
-          name: 'hadar2',
-          email: 'j*****e@blah.com',
-          phone: '+22222222222',
-          mobile: '+22222222222',
-          x: ''
-        })
-        done()
+    userStorage.subscribeProfileUpdates(profile => {
+      const { isValid, getErrors, validate, ...displayProfile } = userStorage.getDisplayProfile(profile)
+      expect(displayProfile).toEqual({
+        id: '',
+        name: 'hadar2',
+        email: 'j*****e@blah.com',
+        phone: '+22222222222',
+        mobile: '+22222222222',
+        x: ''
       })
+      done()
     })
   })
 
@@ -403,24 +401,19 @@ describe('UserStorage', () => {
     const result = await userStorage.setProfile(profile)
     expect(result).toBe(true)
     await delay(500)
-    await userStorage.subscribeProfileUpdates(updatedProfile => {
-      Promise.all([
-        userStorage.getPrivateProfile(updatedProfile).then(result => {
-          const { isValid, getErrors, validate, ...privateProfile } = result
-
-          expect(privateProfile).toMatchObject(profileData)
-        }),
-        userStorage.getDisplayProfile(updatedProfile).then(result => {
-          const { isValid, getErrors, validate, ...displayProfile } = result
-
-          expect(displayProfile).toMatchObject({
-            fullName: 'New Name',
-            email: 'n*w@email.com',
-            mobile: '********2222',
-            username: 'hadar2'
-          })
-        })
-      ]).then(() => done())
+    userStorage.subscribeProfileUpdates(async updatedProfile => {
+      await userStorage.getPrivateProfile(updatedProfile).then(result => {
+        const { isValid, getErrors, validate, ...privateProfile } = result
+        expect(privateProfile).toMatchObject(profileData)
+      })
+      const { isValid, getErrors, validate, ...displayProfile } = userStorage.getDisplayProfile(updatedProfile)
+      expect(displayProfile).toMatchObject({
+        fullName: 'New Name',
+        email: 'n*w@email.com',
+        mobile: '********2222',
+        username: 'hadar2'
+      })
+      done()
     })
   })
 
@@ -428,11 +421,10 @@ describe('UserStorage', () => {
     const email = 'johndoe@blah.com'
     await userStorage.setProfileField('email', email, 'public')
     await userStorage.setProfile(getUserModel({ email, fullName: 'full name', mobile: '+22222222222' }))
-    await userStorage.subscribeProfileUpdates(updatedProfile => {
-      userStorage.getDisplayProfile(updatedProfile).then(result => {
-        expect(result.email).toBe(email)
-        done()
-      })
+    userStorage.subscribeProfileUpdates(updatedProfile => {
+      const result = userStorage.getDisplayProfile(updatedProfile)
+      expect(result.email).toBe(email)
+      done()
     })
   })
 

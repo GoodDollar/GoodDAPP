@@ -394,36 +394,34 @@ export class UserStorage {
    * Returns profile attribute
    *
    * @param {string} field - Profile attribute
-   * @returns {string} Decrypted profile value
+   * @returns {Promise<ProfileField>} Decrypted profile value
    */
-  async getProfileFieldValue(field: string): Promise<any> {
-    let pField: ProfileField = await this.profile
+  getProfileFieldValue(field: string): Promise<ProfileField> {
+    return this.profile
       .get(field)
       .get('value')
       .decrypt()
-    return pField
   }
 
   /**
    * Returns progfile attribute value
    *
    * @param {string} field - Profile attribute
-   * @returns {Promise} Gun profile attribute object
+   * @returns {Promise<ProfileField>} Gun profile attribute object
    */
-  async getProfileField(field: string): Promise<ProfileField> {
-    let pField: ProfileField = await this.profile.get(field).then()
-    return pField
+  getProfileField(field: string): Promise<ProfileField> {
+    return this.profile.get(field).then()
   }
 
   /**
    * Return display attribute of each profile property
    *
    * @param {object} profile - User profile
-   * @returns {object} - User model with display values
+   * @returns {UserModel} - User model with display values
    */
-  getDisplayProfile(profile: {}): Promise<any> {
+  getDisplayProfile(profile: {}): UserModel {
     const displayProfile = Object.keys(profile).reduce(
-      (acc, currKey, arr) => ({ ...acc, [currKey]: profile[currKey].display }),
+      (acc, currKey) => ({ ...acc, [currKey]: profile[currKey].display }),
       {}
     )
     return getUserModel(displayProfile)

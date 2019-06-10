@@ -2,15 +2,39 @@
 
 ### Table of Contents
 
--   [NavBar][1]
+-   [NavBarProps][1]
+    -   [Properties][2]
+-   [NavBar][3]
+    -   [Parameters][4]
+
+## NavBarProps
+
+Type: {goBack: function (): void?, title: [string][5]}
+
+### Properties
+
+-   `goBack` **function (): void?** 
+-   `title` **[string][5]** 
 
 ## NavBar
 
-**Extends React.Component**
-
 NavigationBar shows title and back button
 
-[1]: #navbar
+### Parameters
+
+-   `props` **[NavBarProps][6]** 
+
+[1]: #navbarprops
+
+[2]: #properties
+
+[3]: #navbar
+
+[4]: #parameters
+
+[5]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+
+[6]: #navbarprops
 ## Source
 [https://github.com/GoodDollar/GoodDAPP/src/components/appNavigation/NavBar.js](https://github.com/GoodDollar/GoodDAPP/src/components/appNavigation/NavBar.js)
 

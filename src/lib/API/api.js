@@ -27,6 +27,11 @@ export type UserRecord = NameRecord &
     username?: string
   }
 
+/**
+ * GoodServer Client.
+ * This is being initialized with the token retrieved from GoodServer once.
+ * After init is being used to user operations such add, delete, etc.
+ */
 class API {
   jwt: string
   client: AxiosInstance
@@ -35,6 +40,9 @@ class API {
     this.ready = this.init()
   }
 
+  /**
+   * init API with axions client and proper interptors. Needs `GoodDAPP_jwt`to be present in AsyncStorage
+   */
   init() {
     log.info('initializing api...', Config.serverUrl)
     return AsyncStorage.getItem('GoodDAPP_jwt').then(async jwt => {
@@ -69,54 +77,108 @@ class API {
     })
   }
 
+  /**
+   * `/auth/eth` post api call
+   * @param {Credentials} creds
+   */
   auth(creds: Credentials): AxiosPromise<any> {
     return this.client.post('/auth/eth', creds)
   }
 
+  /**
+   * `/user/add` post api call
+   * @param {UserRecord} user
+   */
   addUser(user: UserRecord): AxiosPromise<any> {
     return this.client.post('/user/add', { user })
   }
 
+  /**
+   * `/user/delete` post api call
+   * @param {string} zoomId
+   */
   deleteAccount(zoomId: string): AxiosPromise<any> {
     return this.client.post('/user/delete', { zoomId })
   }
 
+  /**
+   * `/verify/sendotp` post api call
+   * @param {UserRecord} user
+   */
   sendOTP(user: UserRecord): AxiosPromise<any> {
     return this.client.post('/verify/sendotp', { user })
   }
 
+  /**
+   * `/verify/user` post api call
+   * @param {any} verificationData
+   */
   verifyUser(verificationData: any): AxiosPromise<any> {
     return this.client.post('/verify/user', { verificationData })
   }
 
+  /**
+   * `/verify/mobile` post api call
+   * @param {any} verificationData
+   */
   verifyMobile(verificationData: any): Promise<$AxiosXHR<any>> {
     return this.client.post('/verify/mobile', { verificationData })
   }
 
+  /**
+   * `/verify/topwallet` post api call. Tops users wallet
+   */
   verifyTopWallet(): Promise<$AxiosXHR<any>> {
     return this.client.post('/verify/topwallet')
   }
 
+  /**
+   * `/verify/sendemail` post api call
+   * @param {UserRecord} user
+   */
   sendVerificationEmail(user: UserRecord): Promise<$AxiosXHR<any>> {
     return this.client.post('/verify/sendemail', { user })
   }
 
+  /**
+   * `/verify/email` post api call
+   * @param {object} verificationData
+   * @param {string} verificationData.code
+   */
   verifyEmail(verificationData: { code: string }): Promise<$AxiosXHR<any>> {
     return this.client.post('/verify/email', { verificationData })
   }
 
+  /**
+   * `/send/linkemail` post api call
+   * @param {string} creds
+   * @param {string} sendLink
+   */
   sendLinkByEmail(to: string, sendLink: string): Promise<$AxiosXHR<any>> {
     return this.client.post('/send/linkemail', { to, sendLink })
   }
 
+  /**
+   * `/send/recoveryinstructions` post api call
+   * @param {string} mnemonic
+   */
   sendRecoveryInstructionByEmail(mnemonic: string): Promise<$AxiosXHR<any>> {
     return this.client.post('/send/recoveryinstructions', { mnemonic })
   }
 
+  /**
+   * `/send/linksms` post api call
+   * @param {string} to
+   * @param {string} sendLink
+   */
   sendLinkBySMS(to: string, sendLink: string): Promise<$AxiosXHR<any>> {
     return this.client.post('/send/linksms', { to, sendLink })
   }
 
+  /**
+   * `/verify/facerecognition` post api call
+   * @param {Credentials} creds
+   */
   performFaceRecognition(req: FormData): Promise<$AxiosXHR<any>> {
     //return { data: { ok: 1, livenessPassed: true, duplicates: false, zoomEnrollmentId:-1 } } //TODO: // REMOVE!!!!!!!!!!
     return this.client

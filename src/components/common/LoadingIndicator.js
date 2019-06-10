@@ -18,6 +18,16 @@ export const setLoadingWithStore = (store: Store) => (to: boolean) => {
   store.set('loadingIndicator')(loadingIndicator)
 }
 
+const Indicator = ({ loading }) => (
+  <Portal>
+    {loading ? (
+      <View style={styles.screen}>
+        <ActivityIndicator animating={loading} color={Colors.lightBlue800} />
+      </View>
+    ) : null}
+  </Portal>
+)
+
 /**
  * Provides a `LoadingIndicator` component which renders an ActivityIndicator over a semi-transparent background.
  * @param {object} props - an object with props
@@ -28,17 +38,8 @@ export const setLoadingWithStore = (store: Store) => (to: boolean) => {
 const LoadingIndicator = ({ force }) => {
   const store = GDStore.useStore()
   const loading = store.get('loadingIndicator').loading || force
-  return (
-    <Portal>
-      {loading ? (
-        <View style={styles.screen}>
-          <ActivityIndicator animating={loading} color={Colors.lightBlue800} />
-        </View>
-      ) : null}
-    </Portal>
-  )
+  return <Indicator loading />
 }
-
 const styles = StyleSheet.create({
   screen: {
     position: 'absolute',
@@ -53,4 +54,14 @@ const styles = StyleSheet.create({
   }
 })
 
-export default LoadingIndicator
+const suspenseWithIndicator = (child, props) => {
+  console.log({ props })
+  const Child = React.lazy(() => child)
+  const Loading = <Indicator loading={true} />
+  return (
+    <React.Suspense fallback={Loading}>
+      <Child {...props} />
+    </React.Suspense>
+  )
+}
+export { LoadingIndicator as default, suspenseWithIndicator }

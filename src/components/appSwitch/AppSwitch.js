@@ -127,7 +127,7 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
             currentDialogData.onDismiss && currentDialogData.onDismiss(currentDialogData)
           }}
         />
-        <LoadingIndicator force={!this.ready} />
+        {/* <LoadingIndicator force={!this.ready} /> */}
         <SceneView navigation={descriptor.navigation} component={descriptor.getComponent()} />
       </React.Fragment>
     )

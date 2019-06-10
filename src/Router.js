@@ -1,3 +1,4 @@
+import React from 'react'
 import { createNavigator, SwitchRouter } from '@react-navigation/core'
 import { createBrowserApp } from '@react-navigation/web'
 import { Platform } from 'react-native'
@@ -9,29 +10,35 @@ import BackupWallet from './components/backupWallet/BackupWalletState'
 import AppNavigation from './components/appNavigation/AppNavigation'
 import AppSwitch from './components/appSwitch/AppSwitch'
 import Splash from './components/splash/Splash'
+import GDStore from './lib/undux/GDStore'
 
-const AppNavigator = createNavigator(
-  AppSwitch,
-  SwitchRouter(
-    {
-      Splash,
-      Auth,
-      Signup,
-      SignIn,
-      BackupWallet,
-      AppNavigation
-    },
-    {
-      initialRouteName: 'Splash'
-    },
+const Router = ({ isLoggedIn }) => {
+  const AppNavigator = createNavigator(
+    AppSwitch,
+    SwitchRouter(
+      {
+        Auth,
+        Signup,
+        SignIn,
+        BackupWallet,
+        AppNavigation
+      },
+      {
+        initialRouteName: isLoggedIn ? 'AppNavigation' : 'Auth'
+      },
+      navigationConfig
+    ),
     navigationConfig
-  ),
-  navigationConfig
-)
+  )
 
-let WebRouter
-if (Platform.OS === 'web') {
-  WebRouter = createBrowserApp(AppNavigator)
+  let WebRouter
+  if (Platform.OS === 'web') {
+    WebRouter = createBrowserApp(AppNavigator)
+  }
+  return (
+    <GDStore.Container>
+      <WebRouter isLoggedIn />
+    </GDStore.Container>
+  )
 }
-
-export { WebRouter }
+export default Router

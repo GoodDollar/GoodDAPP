@@ -102,6 +102,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
         return navigateWithFocus(nextRoute.key)
       } catch (e) {
         log.error(e)
+        setLoading(false)
       }
     } else if (nextRoute && nextRoute.key === 'EmailConfirmation') {
       try {
@@ -123,13 +124,15 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
           // if email is properly sent, persist current user's information to userStorage
           await userStorage.setProfile({ ...newState, walletAddress: goodWallet.account })
         }
-
+        setLoading(false)
         return navigateWithFocus(nextRoute.key)
       } catch (e) {
         log.error(e)
+        setLoading(false)
       }
     } else {
       if (nextRoute) {
+        setLoading(false)
         return navigateWithFocus(nextRoute.key)
       } else {
         log.info('Sending new user data', state)
@@ -159,6 +162,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
           setLoading(false)
         } catch (error) {
           log.error('New user failure', { error })
+          setLoading(false)
         }
       }
     }

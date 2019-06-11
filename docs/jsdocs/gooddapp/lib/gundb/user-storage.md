@@ -25,59 +25,62 @@
     -   [getFeedItemByTransactionHash][21]
         -   [Parameters][22]
     -   [getAllFeed][23]
-    -   [getProfileFieldValue][24]
+    -   [updateFeedIndex][24]
         -   [Parameters][25]
-    -   [getProfileField][26]
-        -   [Parameters][27]
-    -   [getDisplayProfile][28]
-        -   [Parameters][29]
-    -   [getPrivateProfile][30]
-        -   [Parameters][31]
-    -   [setProfile][32]
-        -   [Parameters][33]
-    -   [setProfileField][34]
-        -   [Parameters][35]
-    -   [indexProfileField][36]
-        -   [Parameters][37]
-    -   [setProfileFieldPrivacy][38]
-        -   [Parameters][39]
-    -   [getFeedPage][40]
-        -   [Parameters][41]
-    -   [getFormattedEvents][42]
-        -   [Parameters][43]
-    -   [getUserAddress][44]
-        -   [Parameters][45]
-    -   [getUserProfile][46]
-        -   [Parameters][47]
-    -   [formatEvent][48]
-        -   [Parameters][49]
-    -   [enqueueTX][50]
-        -   [Parameters][51]
-    -   [dequeueTX][52]
-        -   [Parameters][53]
-    -   [peekTX][54]
-        -   [Parameters][55]
-    -   [updateFeedEvent][56]
-        -   [Parameters][57]
-    -   [getLastBlockNode][58]
-    -   [saveLastBlockNumber][59]
+    -   [initFeed][26]
+    -   [getProfileFieldValue][27]
+        -   [Parameters][28]
+    -   [getProfileField][29]
+        -   [Parameters][30]
+    -   [getDisplayProfile][31]
+        -   [Parameters][32]
+    -   [getPrivateProfile][33]
+        -   [Parameters][34]
+    -   [setProfile][35]
+        -   [Parameters][36]
+    -   [setProfileField][37]
+        -   [Parameters][38]
+    -   [indexProfileField][39]
+        -   [Parameters][40]
+    -   [setProfileFieldPrivacy][41]
+        -   [Parameters][42]
+    -   [getFeedPage][43]
+        -   [Parameters][44]
+    -   [getFormattedEvents][45]
+        -   [Parameters][46]
+    -   [getUserAddress][47]
+        -   [Parameters][48]
+    -   [getUserProfile][49]
+        -   [Parameters][50]
+    -   [formatEvent][51]
+        -   [Parameters][52]
+    -   [enqueueTX][53]
+        -   [Parameters][54]
+    -   [dequeueTX][55]
+        -   [Parameters][56]
+    -   [peekTX][57]
+        -   [Parameters][58]
+    -   [updateFeedEvent][59]
         -   [Parameters][60]
-    -   [deleteAccount][61]
-    -   [maskField][62]
+    -   [getLastBlockNode][61]
+    -   [saveLastBlockNumber][62]
         -   [Parameters][63]
-    -   [Parameters][64]
+    -   [deleteAccount][64]
+    -   [maskField][65]
+        -   [Parameters][66]
+    -   [Parameters][67]
 
 ## GunDBUser
 
 User details returned from Gun SEA
 
-Type: {alias: [string][65], epub: [string][65], pub: [string][65], sea: any}
+Type: {alias: [string][68], epub: [string][68], pub: [string][68], sea: any}
 
 ### Properties
 
--   `alias` **[string][65]** 
--   `epub` **[string][65]** 
--   `pub` **[string][65]** 
+-   `alias` **[string][68]** 
+-   `epub` **[string][68]** 
+-   `pub` **[string][68]** 
 -   `sea` **any** 
 
 ## FieldPrivacy
@@ -90,25 +93,25 @@ Type: (`"private"` \| `"public"` \| `"masked"`)
 
 User's profile field data
 
-Type: {value: EncryptedField, display: [string][65], privacy: [FieldPrivacy][66]}
+Type: {value: EncryptedField, display: [string][68], privacy: [FieldPrivacy][69]}
 
 ### Properties
 
 -   `value` **EncryptedField** 
--   `display` **[string][65]** 
--   `privacy` **[FieldPrivacy][66]** 
+-   `display` **[string][68]** 
+-   `privacy` **[FieldPrivacy][69]** 
 
 ## FeedEvent
 
 User's feed event data
 
-Type: {id: [string][65], type: [string][65], date: [string][65], data: any}
+Type: {id: [string][68], type: [string][68], date: [string][68], data: any}
 
 ### Properties
 
--   `id` **[string][65]** 
--   `type` **[string][65]** 
--   `date` **[string][65]** 
+-   `id` **[string][68]** 
+-   `type` **[string][68]** 
+-   `date` **[string][68]** 
 -   `data` **any** 
 
 ## TransactionEvent
@@ -123,9 +126,9 @@ Extracts transfer events sent to the current account
 
 ### Parameters
 
--   `receipt` **[object][67]** Receipt event
+-   `receipt` **[object][70]** Receipt event
 
-Returns **[object][67]** {transferLog: event: [{evtName: evtValue}]}
+Returns **[object][70]** {transferLog: event: [{evtName: evtValue}]}
 
 ## UserStorage
 
@@ -164,19 +167,19 @@ Type: Gun
 
 In memory array. keep number of events per day
 
-Type: [Array][68]&lt;\[[Date][69], [number][70]]>
+Type: [Array][71]&lt;\[[Date][72], [number][73]]>
 
 ### user
 
 object with Gun SEA user details
 
-Type: [GunDBUser][71]
+Type: [GunDBUser][74]
 
 ### ready
 
 A promise which is resolved once init() is done
 
-Type: [Promise][72]&lt;[boolean][73]>
+Type: [Promise][75]&lt;[boolean][76]>
 
 ### init
 
@@ -188,15 +191,31 @@ Find feed by transaction hash in array, and returns feed object
 
 #### Parameters
 
--   `transactionHash` **[string][65]** transaction identifier
+-   `transactionHash` **[string][68]** transaction identifier
 
-Returns **[object][67]** feed item or null if it doesn't exist
+Returns **[object][70]** feed item or null if it doesn't exist
 
 ### getAllFeed
 
 Returns a Promise that, when resolved, will have all the feeds available for the current user
 
-Returns **[Promise][72]&lt;[Array][68]&lt;[FeedEvent][74]>>** 
+Returns **[Promise][75]&lt;[Array][71]&lt;[FeedEvent][77]>>** 
+
+### updateFeedIndex
+
+Used as subscripition callback for gundb
+When the index of <day> to <number of events> changes
+We get the object and turn it into a sorted array by <day> which we keep in memory for feed display purposes
+
+#### Parameters
+
+-   `changed` **[object][70]** the index data from gundb an object with days as keys and number of event in that day as value
+-   `field` **[string][68]** the name of the gundb key changed
+
+### initFeed
+
+Subscribes to changes on the event index of day to number of events
+the "false" (see gundb docs) passed is so we get the complete 'index' on every change and not just the day that changed
 
 ### getProfileFieldValue
 
@@ -204,9 +223,9 @@ Returns profile attribute
 
 #### Parameters
 
--   `field` **[string][65]** Profile attribute
+-   `field` **[string][68]** Profile attribute
 
-Returns **[string][65]** Decrypted profile value
+Returns **[string][68]** Decrypted profile value
 
 ### getProfileField
 
@@ -214,9 +233,9 @@ Returns progfile attribute value
 
 #### Parameters
 
--   `field` **[string][65]** Profile attribute
+-   `field` **[string][68]** Profile attribute
 
-Returns **[Promise][72]** Gun profile attribute object
+Returns **[Promise][75]** Gun profile attribute object
 
 ### getDisplayProfile
 
@@ -224,9 +243,9 @@ Return display attribute of each profile property
 
 #### Parameters
 
--   `profile` **[object][67]** User profile
+-   `profile` **[object][70]** User profile
 
-Returns **[object][67]** User model with display values
+Returns **[object][70]** User model with display values
 
 ### getPrivateProfile
 
@@ -234,9 +253,9 @@ Returns user model with attribute values
 
 #### Parameters
 
--   `profile` **[object][67]** user profile
+-   `profile` **[object][70]** user profile
 
-Returns **[object][67]** UserModel with some inherit functions
+Returns **[object][70]** UserModel with some inherit functions
 
 ### setProfile
 
@@ -250,7 +269,7 @@ It saves only known profile fields
 
 -   Throws **any** Error if profile is invalid
 
-Returns **[Promise][72]** Promise with profile settings updates and privacy validations
+Returns **[Promise][75]** Promise with profile settings updates and privacy validations
 
 ### setProfileField
 
@@ -258,11 +277,11 @@ Set profile field with privacy settings
 
 #### Parameters
 
--   `field` **[string][65]** Profile attribute
--   `value` **[string][65]** Profile attribute value
--   `privacy` **[string][65]** (private | public | masked) (optional, default `'public'`)
+-   `field` **[string][68]** Profile attribute
+-   `value` **[string][68]** Profile attribute value
+-   `privacy` **[string][68]** (private | public | masked) (optional, default `'public'`)
 
-Returns **[Promise][72]** Promise with updated field value, secret, display and privacy.
+Returns **[Promise][75]** Promise with updated field value, secret, display and privacy.
 
 ### indexProfileField
 
@@ -270,11 +289,11 @@ Generates index by field if privacy is public, or empty index if it's not public
 
 #### Parameters
 
--   `field` **[string][65]** Profile attribute
--   `value` **[string][65]** Profile attribute value
--   `privacy` **[string][65]** (private | public | masked)
+-   `field` **[string][68]** Profile attribute
+-   `value` **[string][68]** Profile attribute value
+-   `privacy` **[string][68]** (private | public | masked)
 
-Returns **[Promise][72]&lt;ACK>** Gun result promise after index is generated
+Returns **[Promise][75]&lt;ACK>** Gun result promise after index is generated
 
 ### setProfileFieldPrivacy
 
@@ -282,10 +301,10 @@ Set profile field privacy.
 
 #### Parameters
 
--   `field` **[string][65]** Profile attribute
--   `privacy` **[string][65]** (private | public | masked)
+-   `field` **[string][68]** Profile attribute
+-   `privacy` **[string][68]** (private | public | masked)
 
-Returns **[Promise][72]** Promise with updated field value, secret, display and privacy.
+Returns **[Promise][75]** Promise with updated field value, secret, display and privacy.
 
 ### getFeedPage
 
@@ -294,10 +313,10 @@ of the last day fetched even if > numResults
 
 #### Parameters
 
--   `numResults` **[number][70]** return at least this number of results if available
--   `reset` **[boolean][73]** should restart cursor (optional, default `false`)
+-   `numResults` **[number][73]** return at least this number of results if available
+-   `reset` **[boolean][76]** should restart cursor (optional, default `false`)
 
-Returns **[Promise][72]** Promise with an array of feed events
+Returns **[Promise][75]** Promise with an array of feed events
 
 ### getFormattedEvents
 
@@ -305,18 +324,18 @@ Return all feed events
 
 #### Parameters
 
--   `numResults` **[number][70]** 
--   `reset` **[boolean][73]** 
+-   `numResults` **[number][73]** 
+-   `reset` **[boolean][76]** 
 
-Returns **[Promise][72]** Promise with array of standarised feed events
+Returns **[Promise][75]** Promise with array of standarised feed events
 
 ### getUserAddress
 
 #### Parameters
 
--   `field` **[string][65]** Profile field value (email, mobile or wallet address value)
+-   `field` **[string][68]** Profile field value (email, mobile or wallet address value)
 
-Returns **[string][65]** address
+Returns **[string][68]** address
 
 ### getUserProfile
 
@@ -324,9 +343,9 @@ Returns name and avatar from profile based filtered by received value
 
 #### Parameters
 
--   `field` **[string][65]** Profile field value (email, mobile or wallet address value)
+-   `field` **[string][68]** Profile field value (email, mobile or wallet address value)
 
-Returns **[object][67]** profile - { name, avatar }
+Returns **[object][70]** profile - { name, avatar }
 
 ### formatEvent
 
@@ -334,13 +353,13 @@ Returns the feed in a standard format to be loaded in feed list and modal
 
 #### Parameters
 
--   `param` **[FeedEvent][74]** Feed event with data, type, date and id props
+-   `param` **[FeedEvent][77]** Feed event with data, type, date and id props
     -   `param.data`  
     -   `param.type`  
     -   `param.date`  
     -   `param.id`  
 
-Returns **[Promise][72]** Promise with StandardFeed object,
+Returns **[Promise][75]** Promise with StandardFeed object,
  with props { id, date, type, data: { amount, message, endpoint: { address, fullName, avatar, withdrawStatus }}}
 
 ### enqueueTX
@@ -350,9 +369,9 @@ the DAPP event can contain more details than the blockchain tx event
 
 #### Parameters
 
--   `event` **[FeedEvent][74]** 
+-   `event` **[FeedEvent][77]** 
 
-Returns **[Promise][72]&lt;>** 
+Returns **[Promise][75]&lt;>** 
 
 ### dequeueTX
 
@@ -360,10 +379,10 @@ remove and return pending TX
 
 #### Parameters
 
--   `eventId` **[string][65]** 
+-   `eventId` **[string][68]** 
 -   `event` **any** 
 
-Returns **[Promise][72]&lt;[FeedEvent][74]>** 
+Returns **[Promise][75]&lt;[FeedEvent][77]>** 
 
 ### peekTX
 
@@ -371,9 +390,9 @@ lookup a pending tx
 
 #### Parameters
 
--   `eventId` **[string][65]** 
+-   `eventId` **[string][68]** 
 
-Returns **[Promise][72]&lt;[FeedEvent][74]>** 
+Returns **[Promise][75]&lt;[FeedEvent][77]>** 
 
 ### updateFeedEvent
 
@@ -381,9 +400,9 @@ Update feed event
 
 #### Parameters
 
--   `event` **[FeedEvent][74]** Event to be updated
+-   `event` **[FeedEvent][77]** Event to be updated
 
-Returns **[Promise][72]** Promise with updated feed
+Returns **[Promise][75]** Promise with updated feed
 
 ### getLastBlockNode
 
@@ -397,9 +416,9 @@ Saves block number in the 'lastBlock' node
 
 #### Parameters
 
--   `blockNumber` **([number][70] \| [string][65])** 
+-   `blockNumber` **([number][73] \| [string][68])** 
 
-Returns **[Promise][72]&lt;([Promise][72]&lt;any> | [Promise][72]&lt;(R | any)>)>** 
+Returns **[Promise][75]&lt;([Promise][75]&lt;any> | [Promise][75]&lt;(R | any)>)>** 
 
 ### deleteAccount
 
@@ -407,7 +426,7 @@ Delete the user account.
 Deleting gundb profile and clearing local storage
 Calling the server to delete their data
 
-Returns **[Promise][72]&lt;[boolean][73]>** 
+Returns **[Promise][75]&lt;[boolean][76]>** 
 
 ### maskField
 
@@ -416,10 +435,10 @@ and hide email user characters leaving visible only first and last character
 
 #### Parameters
 
--   `fieldType` **[string][65]** (Email, mobile or phone) Field name
--   `value` **[string][65]** Field value
+-   `fieldType` **[string][68]** (Email, mobile or phone) Field name
+-   `value` **[string][68]** Field value
 
-Returns **[string][65]** Returns masked value with \*\*\* to hide characters
+Returns **[string][68]** Returns masked value with \*\*\* to hide characters
 
 ## 
 
@@ -427,10 +446,10 @@ Clean string removing blank spaces and special characters, and converts to lower
 
 ### Parameters
 
--   `field` **[string][65]** Field name
--   `value` **[string][65]** Field value
+-   `field` **[string][68]** Field name
+-   `value` **[string][68]** Field value
 
-Returns **[string][65]** Value without '+' (plus), '-' (minus), '\_' (underscore), ' ' (space), in lower case
+Returns **[string][68]** Value without '+' (plus), '-' (minus), '\_' (underscore), ' ' (space), in lower case
 
 [1]: #gundbuser
 
@@ -478,107 +497,113 @@ Returns **[string][65]** Value without '+' (plus), '-' (minus), '\_' (underscore
 
 [23]: #getallfeed
 
-[24]: #getprofilefieldvalue
+[24]: #updatefeedindex
 
 [25]: #parameters-3
 
-[26]: #getprofilefield
+[26]: #initfeed
 
-[27]: #parameters-4
+[27]: #getprofilefieldvalue
 
-[28]: #getdisplayprofile
+[28]: #parameters-4
 
-[29]: #parameters-5
+[29]: #getprofilefield
 
-[30]: #getprivateprofile
+[30]: #parameters-5
 
-[31]: #parameters-6
+[31]: #getdisplayprofile
 
-[32]: #setprofile
+[32]: #parameters-6
 
-[33]: #parameters-7
+[33]: #getprivateprofile
 
-[34]: #setprofilefield
+[34]: #parameters-7
 
-[35]: #parameters-8
+[35]: #setprofile
 
-[36]: #indexprofilefield
+[36]: #parameters-8
 
-[37]: #parameters-9
+[37]: #setprofilefield
 
-[38]: #setprofilefieldprivacy
+[38]: #parameters-9
 
-[39]: #parameters-10
+[39]: #indexprofilefield
 
-[40]: #getfeedpage
+[40]: #parameters-10
 
-[41]: #parameters-11
+[41]: #setprofilefieldprivacy
 
-[42]: #getformattedevents
+[42]: #parameters-11
 
-[43]: #parameters-12
+[43]: #getfeedpage
 
-[44]: #getuseraddress
+[44]: #parameters-12
 
-[45]: #parameters-13
+[45]: #getformattedevents
 
-[46]: #getuserprofile
+[46]: #parameters-13
 
-[47]: #parameters-14
+[47]: #getuseraddress
 
-[48]: #formatevent
+[48]: #parameters-14
 
-[49]: #parameters-15
+[49]: #getuserprofile
 
-[50]: #enqueuetx
+[50]: #parameters-15
 
-[51]: #parameters-16
+[51]: #formatevent
 
-[52]: #dequeuetx
+[52]: #parameters-16
 
-[53]: #parameters-17
+[53]: #enqueuetx
 
-[54]: #peektx
+[54]: #parameters-17
 
-[55]: #parameters-18
+[55]: #dequeuetx
 
-[56]: #updatefeedevent
+[56]: #parameters-18
 
-[57]: #parameters-19
+[57]: #peektx
 
-[58]: #getlastblocknode
+[58]: #parameters-19
 
-[59]: #savelastblocknumber
+[59]: #updatefeedevent
 
 [60]: #parameters-20
 
-[61]: #deleteaccount
+[61]: #getlastblocknode
 
-[62]: #maskfield
+[62]: #savelastblocknumber
 
 [63]: #parameters-21
 
-[64]: #parameters-22
+[64]: #deleteaccount
 
-[65]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+[65]: #maskfield
 
-[66]: #fieldprivacy
+[66]: #parameters-22
 
-[67]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
+[67]: #parameters-23
 
-[68]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array
+[68]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
 
-[69]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Date
+[69]: #fieldprivacy
 
-[70]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number
+[70]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
 
-[71]: #gundbuser
+[71]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array
 
-[72]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise
+[72]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Date
 
-[73]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean
+[73]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number
 
-[74]: #feedevent
+[74]: #gundbuser
+
+[75]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise
+
+[76]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean
+
+[77]: #feedevent
 ## Source
 [https://github.com/GoodDollar/GoodDAPP/src/lib/gundb/UserStorage.js](https://github.com/GoodDollar/GoodDAPP/src/lib/gundb/UserStorage.js)
 

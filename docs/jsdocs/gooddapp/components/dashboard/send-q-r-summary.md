@@ -2,20 +2,22 @@
 
 ### Table of Contents
 
--   [useEffect][1]
--   [useEffect][2]
+-   [SendQRSummary][1]
+    -   [Parameters][2]
 
-## useEffect
+## SendQRSummary
 
-Displays a summary when sending G$ directly to a blockchain address
+Screen that shows transaction summary for a send qr action
 
-## useEffect
+### Parameters
 
-continue after valid FR to send the G$
+-   `props` **AmountProps** 
+    -   `props.screenProps` **any** 
+    -   `props.navigation` **any** 
 
-[1]: #useeffect
+[1]: #sendqrsummary
 
-[2]: #useeffect-1
+[2]: #parameters
 ## Source
 [https://github.com/GoodDollar/GoodDAPP/src/components/dashboard/SendQRSummary.js](https://github.com/GoodDollar/GoodDAPP/src/components/dashboard/SendQRSummary.js)
 

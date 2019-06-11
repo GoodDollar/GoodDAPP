@@ -2,11 +2,45 @@
 
 ### Table of Contents
 
--   [getEmailErrorMessage][1]
-    -   [Parameters][2]
--   [getMobileErrorMessage][3]
-    -   [Parameters][4]
-    -   [Parameters][5]
+-   [Validation][1]
+    -   [Properties][2]
+-   [ModelValidator][3]
+    -   [Properties][4]
+-   [UserModel][5]
+-   [getEmailErrorMessage][6]
+    -   [Parameters][7]
+-   [getMobileErrorMessage][8]
+    -   [Parameters][9]
+    -   [Parameters][10]
+
+## Validation
+
+validation object type
+
+Type: {isValid: [boolean][11], errors: {}}
+
+### Properties
+
+-   `isValid` **[boolean][11]** 
+-   `errors` **{}** 
+
+## ModelValidator
+
+validation interface type
+
+Type: {isValid: function (key: [string][12]): [boolean][11], getErrors: function (key: [string][12]): {}, validate: function (key: [string][12]): [Validation][13]}
+
+### Properties
+
+-   `isValid` **function (key: [string][12]): [boolean][11]** 
+-   `getErrors` **function (key: [string][12]): {}** 
+-   `validate` **function (key: [string][12]): [Validation][13]** 
+
+## UserModel
+
+User model abstraction useful to validate type and data
+
+Type: any
 
 ## getEmailErrorMessage
 
@@ -14,9 +48,9 @@ Returns email error message after running some validations
 
 ### Parameters
 
--   `email` **[string][6]** email value
+-   `email` **[string][12]** email value
 
-Returns **[string][6]** Email error message if invalid, or empty string
+Returns **[string][12]** Email error message if invalid, or empty string
 
 ## getMobileErrorMessage
 
@@ -24,9 +58,9 @@ Returns mobile error message after running some validations
 
 ### Parameters
 
--   `mobile` **[string][6]** mobile value
+-   `mobile` **[string][12]** mobile value
 
-Returns **[string][6]** Mobile error message if invalid, or empty string
+Returns **[string][12]** Mobile error message if invalid, or empty string
 
 ## 
 
@@ -36,19 +70,35 @@ Returns an object with record attributes plus some methods to validate, getError
 
 -   `record` **UserRecord** User record
 
-Returns **UserModel** User model with some available methods
+Returns **[UserModel][14]** User model with some available methods
 
-[1]: #getemailerrormessage
+[1]: #validation
 
-[2]: #parameters
+[2]: #properties
 
-[3]: #getmobileerrormessage
+[3]: #modelvalidator
 
-[4]: #parameters-1
+[4]: #properties-1
 
-[5]: #parameters-2
+[5]: #usermodel
 
-[6]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+[6]: #getemailerrormessage
+
+[7]: #parameters
+
+[8]: #getmobileerrormessage
+
+[9]: #parameters-1
+
+[10]: #parameters-2
+
+[11]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean
+
+[12]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+
+[13]: #validation
+
+[14]: #usermodel
 ## Source
 [https://github.com/GoodDollar/GoodDAPP/src/lib/gundb/UserModel.js](https://github.com/GoodDollar/GoodDAPP/src/lib/gundb/UserModel.js)
 

@@ -11,10 +11,17 @@ import Dashboard from '../dashboard/Dashboard'
 import Profile from '../profile/Profile'
 import { navigationOptions } from './navigationConfig'
 
+/**
+ * @type
+ */
 type AppNavigationProps = {
   navigation: any,
   store: Store
 }
+
+/**
+ * @type
+ */
 
 type AppNavigationState = {
   ready: boolean
@@ -38,6 +45,7 @@ const AppNavigator = createSwitchNavigator(routes, { initialRouteName })
 /**
  * Switch navigation between all screens on the tabs. Each of this screen should be a StackNavigation
  * Dashboard is the initial route
+ * @param {AppNavigationProps} props
  */
 class AppNavigation extends React.Component<AppNavigationProps, AppNavigationState> {
   render() {

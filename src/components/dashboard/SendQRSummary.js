@@ -5,7 +5,6 @@
 import React, { useEffect, useState } from 'react'
 import { View } from 'react-native'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
-
 import logger from '../../lib/logger/pino-logger'
 import GDStore from '../../lib/undux/GDStore'
 import { useWrappedGoodWallet } from '../../lib/wallet/useWrappedWallet'
@@ -23,6 +22,12 @@ const TITLE = 'Send G$'
 
 const log = logger.child({ from: 'SendQRSummary' })
 
+/**
+ * Screen that shows transaction summary for a send qr action
+ * @param {AmountProps} props
+ * @param {any} props.screenProps
+ * @param {any} props.navigation
+ */
 const SendQRSummary = (props: AmountProps) => {
   const { screenProps } = props
   const [screenState] = useScreenState(screenProps)
@@ -85,9 +90,7 @@ const SendQRSummary = (props: AmountProps) => {
     }
   }
 
-  /**
-   * continue after valid FR to send the G$
-   */
+  // continue after valid FR to send G$
   useEffect(() => {
     if (isValid === true) {
       sendGD()

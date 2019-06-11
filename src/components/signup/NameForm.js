@@ -1,17 +1,15 @@
 // @flow
 import React from 'react'
 import { HelperText, TextInput } from 'react-native-paper'
-import type { Store } from 'undux'
 
-import GDStore from '../../lib/undux/GDStore'
 import { validateFullName } from '../../lib/validators/validateFullName'
+import GDStore from '../../lib/undux/GDStore'
 import { Title, Wrapper } from './components'
 
 type Props = {
   doneCallback: ({ name: string }) => null,
   screenProps: any,
-  navigation: any,
-  store: Store
+  navigation: any
 }
 
 type State = {

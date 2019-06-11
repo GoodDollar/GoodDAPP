@@ -20,6 +20,12 @@ export type AmountProps = {
 
 const TITLE = 'Send G$'
 
+/**
+ * Screen that shows transaction summary for a send link action
+ * @param {AmountProps} props
+ * @param {any} props.screenProps
+ * @param {any} props.navigation
+ */
 const SendLinkSummary = (props: AmountProps) => {
   const { screenProps } = props
   const [screenState] = useScreenState(screenProps)

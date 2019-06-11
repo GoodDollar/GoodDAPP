@@ -2,7 +2,6 @@
 import logger from '../../../lib/logger/pino-logger'
 import loadjs from 'loadjs'
 import Config from '../../../config/config'
-import { styleZoom } from './ZoomStyler'
 const log = logger.child({ from: 'ZoomSdkLoader' })
 
 /**
@@ -13,6 +12,7 @@ const licenseKey = Config.zoomLicenseKey
 log.info({ licenseKey })
 
 export class ZoomSdkLoader {
+  /* Orchestrates zoom loading & initialization process process */
   async load() {
     log.debug('loading zoom sdk..')
     try {
@@ -31,6 +31,7 @@ export class ZoomSdkLoader {
     }
   }
 
+  /* Loads zoom SDK JS Files and runs them */
   loadZoomSDK(): Promise<void> {
     global.exports = {} // required by zoomSDK
     const server = Config.publicUrl
@@ -40,17 +41,12 @@ export class ZoomSdkLoader {
     return loadjs(zoomSDKPath, { returnPromise: true })
   }
 
-  unload(): void {
-    log.debug('Unloading ZoomSDK?', !!this.loadedZoom)
-    this.loadedZoom &&
-      this.loadedZoom.unload(() => {
-        window.ZoomSDK = null
-        exports.ZoomSDK = null
-        this.loadedZoom = null
-        log.debug('ZoomSDK unloaded')
-      })
+  async initializeAndPreload(zoomSDK: any): Promise<void> {
+    await this.initialize(zoomSDK)
+    await this.preload(zoomSDK)
   }
 
+  /*Call ZoomSDK initialize with license key */
   async initialize(zoomSDK: any): Promise<void> {
     return new Promise((resolve, reject) => {
       if (!licenseKey) {
@@ -70,6 +66,7 @@ export class ZoomSdkLoader {
     })
   }
 
+  /* Preloads Zoom SDK */
   async preload(zoomSDK: any): Promise<void> {
     return new Promise((resolve, reject) => {
       //styleZoom(zoomSDK)
@@ -84,9 +81,16 @@ export class ZoomSdkLoader {
     })
   }
 
-  async initializeAndPreload(zoomSDK: any): Promise<void> {
-    await this.initialize(zoomSDK)
-    await this.preload(zoomSDK)
+  /* unload (sets undefined) zoom SDK from window, export, this */
+  unload(): void {
+    log.debug('Unloading ZoomSDK?', !!this.loadedZoom)
+    this.loadedZoom &&
+      this.loadedZoom.unload(() => {
+        window.ZoomSDK = null
+        exports.ZoomSDK = null
+        this.loadedZoom = null
+        log.debug('ZoomSDK unloaded')
+      })
   }
 }
 

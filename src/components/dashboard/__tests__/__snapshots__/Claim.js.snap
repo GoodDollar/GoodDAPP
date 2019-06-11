@@ -251,7 +251,7 @@ exports[`Claim matches snapshot 1`] = `
                   }
                 }
               >
-                -.--
+                0.00
               </div>
               <div
                 className="css-text-76zvg2"
@@ -436,7 +436,7 @@ exports[`Claim matches snapshot 1`] = `
               "WebkitFlexGrow": 0,
               "WebkitFlexShrink": 1,
               "WebkitJustifyContent": "center",
-              "backgroundColor": "rgba(85,85,85,1.00)",
+              "backgroundColor": "rgba(0,0,0,0.12)",
               "borderBottomColor": "rgba(0,0,0,0.00)",
               "borderBottomLeftRadius": "4px",
               "borderBottomRightRadius": "4px",
@@ -453,7 +453,6 @@ exports[`Claim matches snapshot 1`] = `
               "borderTopRightRadius": "4px",
               "borderTopStyle": "solid",
               "borderTopWidth": "0px",
-              "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
               "flexGrow": 0,
               "flexShrink": 1,
               "justifyContent": "center",
@@ -465,15 +464,13 @@ exports[`Claim matches snapshot 1`] = `
           }
         >
           <div
-            className="css-cursor-18t94o4 css-view-1dbjc4n"
-            data-focusable={true}
-            disabled={false}
+            aria-disabled={true}
+            className="css-view-1dbjc4n"
+            disabled={true}
             onKeyDown={[Function]}
-            onKeyPress={[Function]}
             onKeyUp={[Function]}
             onResponderGrant={[Function]}
             onResponderMove={[Function]}
-            onResponderRelease={[Function]}
             onResponderTerminate={[Function]}
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
@@ -484,15 +481,11 @@ exports[`Claim matches snapshot 1`] = `
                 "borderBottomRightRadius": "4px",
                 "borderTopLeftRadius": "4px",
                 "borderTopRightRadius": "4px",
-                "cursor": "pointer",
-                "msTouchAction": "manipulation",
                 "overflowX": "hidden",
                 "overflowY": "hidden",
                 "position": "relative",
-                "touchAction": "manipulation",
               }
             }
-            tabIndex="0"
           >
             <div
               className="css-view-1dbjc4n"
@@ -519,7 +512,7 @@ exports[`Claim matches snapshot 1`] = `
                 dir="auto"
                 style={
                   Object {
-                    "color": "rgba(255,255,255,1.00)",
+                    "color": "rgba(0,0,0,0.32)",
                     "direction": "ltr",
                     "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                     "letterSpacing": "1px",

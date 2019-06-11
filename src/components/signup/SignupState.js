@@ -11,6 +11,7 @@ import NavBar from '../appNavigation/NavBar'
 import { scrollableContainer } from '../common/styles'
 
 import { createSwitchNavigator } from '@react-navigation/core'
+import { navigationConfig } from '../appNavigation/navigationConfig'
 import logger from '../../lib/logger/pino-logger'
 
 import { useWrappedApi } from '../../lib/API/useWrappedApi'
@@ -24,14 +25,17 @@ const log = logger.child({ from: 'SignupState' })
 
 export type SignupState = UserModel & SMSRecord
 
-const SignupWizardNavigator = createSwitchNavigator({
-  Name: NameForm,
-  Phone: PhoneForm,
-  SMS: SmsForm,
-  Email: EmailForm,
-  EmailConfirmation,
-  SignupCompleted
-})
+const SignupWizardNavigator = createSwitchNavigator(
+  {
+    Name: NameForm,
+    Phone: PhoneForm,
+    SMS: SmsForm,
+    Email: EmailForm,
+    EmailConfirmation,
+    SignupCompleted
+  },
+  navigationConfig
+)
 
 declare var amplitude
 const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any }) => {
@@ -98,6 +102,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
         return navigateWithFocus(nextRoute.key)
       } catch (e) {
         log.error(e)
+        setLoading(false)
       }
     } else if (nextRoute && nextRoute.key === 'EmailConfirmation') {
       try {
@@ -119,13 +124,15 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
           // if email is properly sent, persist current user's information to userStorage
           await userStorage.setProfile({ ...newState, walletAddress: goodWallet.account })
         }
-
+        setLoading(false)
         return navigateWithFocus(nextRoute.key)
       } catch (e) {
         log.error(e)
+        setLoading(false)
       }
     } else {
       if (nextRoute) {
+        setLoading(false)
         return navigateWithFocus(nextRoute.key)
       } else {
         log.info('Sending new user data', state)
@@ -155,6 +162,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
           setLoading(false)
         } catch (error) {
           log.error('New user failure', { error })
+          setLoading(false)
         }
       }
     }
@@ -184,7 +192,10 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
     </View>
   )
 }
+
 Signup.router = SignupWizardNavigator.router
+Signup.navigationOptions = SignupWizardNavigator.navigationOptions
+
 const styles = StyleSheet.create({
   container: { flex: 1 },
   contentContainer: { justifyContent: 'center', flexDirection: 'row', flex: 1 }

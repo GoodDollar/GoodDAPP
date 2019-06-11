@@ -3,14 +3,17 @@ import React from 'react'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import backButton from '../../assets/backButton.png'
 
+/**
+ * @type
+ */
 type NavBarProps = {
   goBack?: () => void,
   title: string
 }
 /**
  * NavigationBar shows title and back button
- * @goBack: Function to be executed on click on back button
- * @title: Screen title
+ * @name NavBar
+ * @param {NavBarProps} props
  */
 class NavBar extends React.Component<NavBarProps> {
   render() {

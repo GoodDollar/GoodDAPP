@@ -4,15 +4,28 @@ import isEmail from 'validator/lib/isEmail'
 import isMobilePhone from '../validators/isMobilePhone'
 import isValidUsername from '../validators/isValidUsername'
 
+/**
+ * validation object type
+ */
 type Validation = {
   isValid: boolean,
   errors: {}
 }
+
+/**
+ * validation interface type
+ * @type
+ */
 export type ModelValidator = {
   isValid: (key: string) => boolean,
   getErrors: (key: string) => {},
   validate: (key: string) => Validation
 }
+
+/**
+ * User model abstraction useful to validate type and data
+ * @type
+ */
 export type UserModel = UserRecord & ModelValidator
 
 /**

@@ -3,8 +3,13 @@ import SEA from 'gun/sea'
 import load from 'gun/lib/load'
 /**
  * extend gundb SEA with decrypt to match ".secret"
+ * @module
  */
-export default (() => {
+const gunExtend = (() => {
+  /**
+   * it returns a promise with the first result from a peer
+   * @returns {Promise<ack>}
+   */
   Gun.chain.putAck = function(data, cb) {
     var gun = this,
       callback =
@@ -15,6 +20,10 @@ export default (() => {
     let promise = new Promise((res, rej) => gun.put(data, ack => (ack.err ? rej(ack) : res(ack))))
     return promise.then(callback)
   }
+  /**
+   * saves encrypted and returns a promise with the first result from a peer
+   * @returns {Promise<ack>}
+   */
   Gun.User.prototype.secretAck = function(data, cb) {
     var gun = this,
       callback =
@@ -26,6 +35,10 @@ export default (() => {
     return promise.then(callback)
   }
 
+  /**
+   * returns the decrypted value
+   * @returns {Promise<any>}
+   */
   Gun.User.prototype.decrypt = function(cb) {
     var gun = this,
       user = gun.back(-1).user(),
@@ -56,3 +69,5 @@ export default (() => {
     })()
   }
 })()
+
+export default gunExtend

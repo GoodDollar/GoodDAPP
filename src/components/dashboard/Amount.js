@@ -20,21 +20,40 @@ const Amount = (props: AmountProps) => {
   const { screenProps } = props
   const [screenState, setScreenState] = useScreenState(screenProps)
   const { to, params, amount } = { amount: 0, ...screenState } || {}
+  const [loading, setLoading] = useState(amount <= 0)
   const [showDialogWithData] = useDialog()
 
   const canContinue = async () => {
-    if (params && params.toReceive) return true
+    if (params && params.toReceive) {
+      return true
+    }
 
     if (!(await goodWallet.canSend(amount))) {
       showDialogWithData({
         title: 'Cannot send G$',
         message: 'Amount is bigger than balance'
       })
+
       return false
     }
+
     return true
   }
-  const handleAmountChange = (value: number) => setScreenState({ amount: value })
+
+  const handleContinue = async () => {
+    setLoading(true)
+
+    const can = await canContinue()
+    setLoading(false)
+
+    return can
+  }
+
+  const handleAmountChange = (value: number) => {
+    setScreenState({ amount: value })
+    setLoading(value <= 0)
+  }
+
   return (
     <Wrapper style={styles.wrapper}>
       <TopBar push={screenProps.push} />
@@ -54,9 +73,9 @@ const Amount = (props: AmountProps) => {
             </BackButton>
             <NextButton
               nextRoutes={screenState.nextRoutes}
-              canContinue={canContinue}
+              canContinue={handleContinue}
               values={{ amount, to }}
-              disabled={amount <= 0}
+              disabled={loading}
               {...props}
             />
           </View>

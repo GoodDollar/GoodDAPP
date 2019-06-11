@@ -7,7 +7,8 @@ import userStorage from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import ProfileDataTable from './ProfileDataTable'
 
-const log = logger.child({ from: 'EditProfile' })
+const TITLE = 'Edit Profile'
+const log = logger.child({ from: TITLE })
 
 const EditProfile = props => {
   const store = GDStore.useStore()
@@ -55,6 +56,10 @@ const EditProfile = props => {
       </Section>
     </Wrapper>
   )
+}
+
+EditProfile.navigationOptions = {
+  title: TITLE
 }
 
 const styles = StyleSheet.create({

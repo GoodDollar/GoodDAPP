@@ -140,7 +140,6 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
           // saved to the `state`
           await API.addUser(state)
           // Stores creationBlock number into 'lastBlock' feed's node
-          const creationBlock = (await goodWallet.getBlockNumber()).toString()
           await Promise.all([
             (saveProfile({ registered: true }),
             userStorage.setProfileField('registered', true),

@@ -217,8 +217,8 @@ exports[`Profile matches snapshot 1`] = `
                   >
                     <input
                       accept="image/jpeg,image/png"
-                      id="avatar_loader-4be7-0207-bcc1"
-                      name="avatar_loader-4be7-0207-bcc1"
+                      id="avatar_loader-ce3e-f20b-1da5"
+                      name="avatar_loader-ce3e-f20b-1da5"
                       onChange={[Function]}
                       style={
                         Object {
@@ -233,7 +233,7 @@ exports[`Profile matches snapshot 1`] = `
                       type="file"
                     />
                     <label
-                      htmlFor="avatar_loader-4be7-0207-bcc1"
+                      htmlFor="avatar_loader-ce3e-f20b-1da5"
                       style={
                         Object {
                           "color": "black",

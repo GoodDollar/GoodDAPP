@@ -59,6 +59,6 @@ const extend = (() => {
 
 global.window = {}
 global.window.localStorage = new LocalStorage('./localStorage.tmp')
-global.gun = Gun([`${Config.serverUrl}/gun`])
+global.gun = Gun([Config.gunPublicUrl])
 global.Gun = Gun
 console.log('here')

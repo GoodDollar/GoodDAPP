@@ -120,10 +120,10 @@ class API {
   /**
    * `ip-api.com/json` get location api call
    */
-  getLocation(): AxiosPromise<string> {
+  getLocation(): AxiosPromise<any> {
     return axios
       .get('https://get.geojs.io/v1/ip/country.json')
-      .then(response => response.data.country)
+      .then(response => response)
       .catch(error => {
         // Do something with response error
         log.error('axios response error', { error })

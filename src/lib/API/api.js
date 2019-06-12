@@ -121,7 +121,7 @@ class API {
    * `ip-api.com/json` get location api call
    */
   getLocation(): AxiosPromise<any> {
-    return this.client.get('/verify/location')
+    return axios.get('https://get.geojs.io/v1/ip/country.json').then(response => response.data.country)
   }
 
   /**

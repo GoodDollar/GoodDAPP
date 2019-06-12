@@ -32,7 +32,6 @@ class PhoneForm extends React.Component<Props, State> {
 
   setCountryCode = async () => {
     const countryCode = await api.getLocation()
-    console.log(countryCode)
     this.setState({ countryCode })
   }
 

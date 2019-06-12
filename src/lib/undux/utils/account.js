@@ -23,15 +23,15 @@ const updateAll = (store: Store) => {
 
 /**
  * Callback to handle events emmited
- * @param error
- * @param event
- * @param store
+ * @param {object} error
+ * @param {array} events
+ * @param {Store} store
  * @returns {Promise<void>}
  */
-const onBalanceChange = async (error: {}, event: [any] = [], store: Store) => {
-  log.debug('new Transfer event:', { error, event })
+const onBalanceChange = async (error: {}, events: [] = [], store: Store) => {
+  log.debug('new Transfer events:', { error, events })
 
-  if (!error && event.length) {
+  if (!error && events.length) {
     await updateAll(store)
   }
 }
@@ -53,7 +53,7 @@ const initTransferEvents = async (store: Store) => {
     log.debug({ lastBlock })
     await goodWallet.listenTxUpdates(lastBlock)
 
-    goodWallet.balanceChanged((error, event) => onBalanceChange(error, event, store))
+    goodWallet.balanceChanged((error, events) => onBalanceChange(error, events, store))
   }
 }
 

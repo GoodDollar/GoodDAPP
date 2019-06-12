@@ -5,7 +5,7 @@ import IdentityABI from '@gooddollar/goodcontracts/build/contracts/Identity.min.
 import OneTimePaymentLinksABI from '@gooddollar/goodcontracts/build/contracts/OneTimePaymentLinks.min.json'
 import RedemptionABI from '@gooddollar/goodcontracts/build/contracts/RedemptionFunctional.min.json'
 import ContractsAddress from '@gooddollar/goodcontracts/releases/deployment.json'
-import { default as filterFunc } from 'lodash/filter'
+import ERC20ABI from '@gooddollar/goodcontracts/build/contracts/ERC20.min.json'
 import type Web3 from 'web3'
 import { BN, toBN } from 'web3-utils'
 import numeral from 'numeral'
@@ -13,7 +13,6 @@ import uniqBy from 'lodash/uniqBy'
 import abiDecoder from 'abi-decoder'
 import values from 'lodash/values'
 import get from 'lodash/get'
-import memoize from 'lodash/memoize'
 import Config from '../../config/config'
 import logger from '../../lib/logger/pino-logger'
 import { generateShareLink } from '../share'
@@ -24,7 +23,7 @@ const log = logger.child({ from: 'GoodWallet' })
 const DAY_IN_SECONDS = 86400
 const MILLISECONDS = 1000
 const BLOCK_TIME = 5000
-const BLOCK_COUNT = 1
+const BLOCK_COUNT = 2
 const ZERO = new BN('0')
 
 type EventLog = {
@@ -92,7 +91,7 @@ type GasValues = {
 type QueryEvent = {
   event: string,
   contract: Web3.eth.Contract,
-  filterPred: {},
+  filter: {},
   fromBlock: typeof BN,
   toBlock?: typeof BN | 'latest'
 }
@@ -134,6 +133,8 @@ export class GoodWallet {
 
   oneTimePaymentLinksContract: Web3.eth.Contract
 
+  erc20Contract: Web3.eth.Contract
+
   account: string
 
   accounts: Array<string>
@@ -148,11 +149,83 @@ export class GoodWallet {
 
   blockNumber: typeof BN
 
-  tokenPastEvents: Function
-
   constructor(walletConfig: {} = {}) {
     this.config = walletConfig
     this.init()
+  }
+
+  init(): Promise<any> {
+    const ready = WalletFactory.create(GoodWallet.WalletType, this.config)
+    this.ready = ready
+      .then(wallet => {
+        this.wallet = wallet
+        this.accounts = this.wallet.eth.accounts.wallet
+        this.account = this.getAccountForType('gd')
+        this.wallet.eth.defaultAccount = this.account
+        this.networkId = ContractsAddress[Config.network].networkId
+        this.network = Config.network
+        log.info(`networkId: ${this.networkId}`)
+        this.gasPrice = wallet.utils.toWei('1', 'gwei')
+        this.wallet.eth.defaultGasPrice = this.gasPrice
+
+        // Identity Contract
+        this.identityContract = new this.wallet.eth.Contract(
+          IdentityABI.abi,
+          get(ContractsAddress, `${this.network}.Identity`, IdentityABI.networks[this.networkId].address),
+          { from: this.account }
+        )
+        this.claimContract = new this.wallet.eth.Contract(
+          RedemptionABI.abi,
+          get(ContractsAddress, `${this.network}.RedemptionFunctional`, RedemptionABI.networks[this.networkId].address),
+
+          { from: this.account }
+        )
+
+        // Token Contract
+        this.tokenContract = new this.wallet.eth.Contract(
+          GoodDollarABI.abi,
+          get(ContractsAddress, `${this.network}.GoodDollar`, GoodDollarABI.networks[this.networkId].address),
+          { from: this.account }
+        )
+        abiDecoder.addABI(GoodDollarABI.abi)
+
+        // ERC20 Contract
+        this.erc20Contract = new this.wallet.eth.Contract(
+          ERC20ABI.abi,
+          get(ContractsAddress, `${this.network}.GoodDollar`, GoodDollarABI.networks[this.networkId].address),
+          { from: this.account }
+        )
+        abiDecoder.addABI(ERC20ABI.abi)
+
+        // Reserve Contract
+        this.reserveContract = new this.wallet.eth.Contract(
+          ReserveABI.abi,
+          get(ContractsAddress, `${this.network}.GoodDollarReserve`, ReserveABI.networks[this.networkId].address),
+          {
+            from: this.account
+          }
+        )
+
+        // OneTimePaymentLinks Contract
+        this.oneTimePaymentLinksContract = new this.wallet.eth.Contract(
+          OneTimePaymentLinksABI.abi,
+          get(
+            ContractsAddress,
+            `${this.network}.OneTimePaymentLinks`,
+            OneTimePaymentLinksABI.networks[this.networkId].address
+          ),
+          {
+            from: this.account
+          }
+        )
+        abiDecoder.addABI(OneTimePaymentLinksABI.abi)
+        log.info('GoodWallet Ready.', { account: this.account })
+      })
+      .catch(e => {
+        log.error('Failed initializing GoodWallet', e)
+        throw e
+      })
+    return this.ready
   }
 
   /**
@@ -165,17 +238,17 @@ export class GoodWallet {
     log.debug('listening from block:', fromBlock)
     fromBlock = new BN(fromBlock)
 
-    this.getBlockNumber().then(blockNumber => {
+    return this.getBlockNumber().then(async blockNumber => {
       this.blockNumber = blockNumber
 
       this.pollForBlockNumber()
 
-      this.pollForEvents(
+      await this.pollForEvents(
         {
           event: 'Transfer',
-          contract: this.tokenContract,
+          contract: this.erc20Contract,
           fromBlock,
-          filterPred: { from: this.wallet.utils.toChecksumAddress(this.account) }
+          filter: { from: this.wallet.utils.toChecksumAddress(this.account) }
         },
         (error, events) => {
           log.debug('send events', { error, events })
@@ -192,12 +265,12 @@ export class GoodWallet {
         }
       )
 
-      this.pollForEvents(
+      await this.pollForEvents(
         {
           event: 'Transfer',
-          contract: this.tokenContract,
+          contract: this.erc20Contract,
           fromBlock,
-          filterPred: { to: this.wallet.utils.toChecksumAddress(this.account) }
+          filter: { to: this.wallet.utils.toChecksumAddress(this.account) }
         },
         (error, events) => {
           log.debug('receive events', { error, events })
@@ -234,83 +307,6 @@ export class GoodWallet {
       this.getSubscribers(subscription).forEach(cb => cb(receipt))
     })
     return receipt
-  }
-
-  init(): Promise<any> {
-    const ready = WalletFactory.create(GoodWallet.WalletType, this.config)
-    this.ready = ready
-      .then(wallet => {
-        this.wallet = wallet
-        this.accounts = this.wallet.eth.accounts.wallet
-        this.account = this.getAccountForType('gd')
-        this.wallet.eth.defaultAccount = this.account
-        this.networkId = ContractsAddress[Config.network].networkId
-        this.network = Config.network
-        log.info(`networkId: ${this.networkId}`)
-        this.gasPrice = wallet.utils.toWei('1', 'gwei')
-        this.wallet.eth.defaultGasPrice = this.gasPrice
-
-        // Identity Contract
-        this.identityContract = new this.wallet.eth.Contract(
-          IdentityABI.abi,
-          get(ContractsAddress, `${this.network}.Identity`, IdentityABI.networks[this.networkId].address),
-          { from: this.account }
-        )
-        this.claimContract = new this.wallet.eth.Contract(
-          RedemptionABI.abi,
-          get(ContractsAddress, `${this.network}.RedemptionFunctional`, RedemptionABI.networks[this.networkId].address),
-
-          { from: this.account }
-        )
-
-        // Token Contract
-        this.tokenContract = new this.wallet.eth.Contract(
-          GoodDollarABI.abi,
-          get(ContractsAddress, `${this.network}.GoodDollar`, GoodDollarABI.networks[this.networkId].address),
-          { from: this.account }
-        )
-        this.tokenContract._name = 'tokenContract'
-        this.tokenPastEvents = memoize(
-          this.tokenContract.getPastEvents.bind(this.tokenContract),
-          (type, { fromBlock, toBlock }) => {
-            if (this.tokenPastEvents.cache.size > 20) {
-              // clears cache to prevent storing unnecessary data, 20 is an arbitrary data and can be changed in the future
-              this.tokenPastEvents.cache.clear()
-            }
-            return `${type}_${fromBlock}${toBlock}`
-          }
-        )
-        abiDecoder.addABI(GoodDollarABI.abi)
-
-        // Reserve Contract
-        this.reserveContract = new this.wallet.eth.Contract(
-          ReserveABI.abi,
-          get(ContractsAddress, `${this.network}.GoodDollarReserve`, ReserveABI.networks[this.networkId].address),
-          {
-            from: this.account
-          }
-        )
-
-        // OneTimePaymentLinks Contract
-        this.oneTimePaymentLinksContract = new this.wallet.eth.Contract(
-          OneTimePaymentLinksABI.abi,
-          get(
-            ContractsAddress,
-            `${this.network}.OneTimePaymentLinks`,
-            OneTimePaymentLinksABI.networks[this.networkId].address
-          ),
-          {
-            from: this.account
-          }
-        )
-        abiDecoder.addABI(OneTimePaymentLinksABI.abi)
-        log.info('GoodWallet Ready.', { account: this.account })
-      })
-      .catch(e => {
-        log.error('Failed initializing GoodWallet', e)
-        throw e
-      })
-    return this.ready
   }
 
   /**
@@ -415,43 +411,18 @@ export class GoodWallet {
   }
 
   /**
-   * Client side event filter. Requests all events matching to the specified event, of a specified contract, then filters them and returns the event Object
-   * @param {object} params - an object with params
-   * @param {string} params.event - Event to subscribe to
-   * @param {object} params.contract - Contract from which event will be queried
-   * @param {object} params.filterPred - Event's filter. Does not require to be indexed as it's filtered locally
-   * @param {BN} params.fromBlock - Lower blocks range value
-   * @param {BN} params.toBlock - Higher blocks range value
-   * @returns {Promise<*>}
-   */
-  async getEvents({ event, contract, filterPred, fromBlock = ZERO, toBlock }: QueryEvent): Promise<[]> {
-    const pastEvents =
-      {
-        tokenContract: this.tokenPastEvents
-      }[contract._name] || (() => Promise.resolve([]))
-
-    const events = await pastEvents('allEvents', { fromBlock, toBlock })
-    const res1 = filterFunc(events, { event })
-    const res = filterFunc(res1, { returnValues: { ...filterPred } })
-
-    log.debug({ res, events, res1, fromBlock: fromBlock.toString(), toBlock: toBlock && toBlock.toString() })
-
-    return res
-  }
-
-  /**
    * Polls for events every INTERVAL defined by BLOCK_TIME and BLOCK_COUNT, the result is based on specified options
    * It queries the range 'fromBlock'-'toBlock' and then continues querying the blockchain for most recent events, from
    * the 'lastProcessedBlock' to the 'latest' every INTERVAL
    * @param {string} params - an object with params
    * @param {string} params.event - Event to subscribe to
    * @param {object} params.contract - Contract from which event will be queried
-   * @param {object} params.filterPred - Event's filter. Does not required to be indexed as it's filtered locally
+   * @param {object} params.filter - Event's filter. Does not required to be indexed as it's filtered locally
    * @param {BN} params.fromBlock - Lower blocks range value
    * @param {function} callback - Function to be called once an event is received
    * @returns {Promise<void>}
    */
-  async pollForEvents({ event, contract, filterPred, fromBlock }: QueryEvent, callback: Function) {
+  async pollForEvents({ event, contract, filter, fromBlock }: QueryEvent, callback: Function) {
     const INTERVAL = BLOCK_COUNT * BLOCK_TIME
     const toBlock = this.blockNumber
 
@@ -461,7 +432,7 @@ export class GoodWallet {
       log.debug('all blocks processed', { fromBlock: fromBlock.toString(), toBlock: toBlock.toString() })
     } else {
       try {
-        const events = await this.getEvents({ event, contract, filterPred, fromBlock, toBlock })
+        const events = await contract.getPastEvents(event, { filter, fromBlock, toBlock })
         callback(null, events)
       } catch (e) {
         log.error('getEvents call @pollForEvents failed:', { e })
@@ -472,13 +443,13 @@ export class GoodWallet {
     log.debug('about to recurse', {
       event,
       contract,
-      filterPred,
+      filter,
       fromBlock: fromBlock && fromBlock.toString(),
       toBlock: toBlock && toBlock.toString()
     })
 
     setTimeout(() => {
-      this.pollForEvents({ event, contract, filterPred, fromBlock: toBlock }, callback)
+      this.pollForEvents({ event, contract, filter, fromBlock: toBlock }, callback)
     }, INTERVAL)
   }
 

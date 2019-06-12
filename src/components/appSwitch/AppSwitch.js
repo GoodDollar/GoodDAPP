@@ -8,7 +8,7 @@ import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
 import GDStore from '../../lib/undux/GDStore'
 import { checkAuthStatus } from '../../lib/login/checkAuthStatus'
-import { CustomDialog } from '../common'
+import { CustomDialog, CustomSnackbar } from '../common'
 import LoadingIndicator from '../common/LoadingIndicator'
 
 type LoadingProps = {
@@ -128,6 +128,8 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
     const activeKey = navigation.state.routes[navigation.state.index].key
     const descriptor = descriptors[activeKey]
     const { dialogData } = store.get('currentScreen')
+    const snackbarData = store.get('snackbarData')
+
     return (
       <React.Fragment>
         <CustomDialog
@@ -138,6 +140,7 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
             currentDialogData.onDismiss && currentDialogData.onDismiss(currentDialogData)
           }}
         />
+        <CustomSnackbar {...snackbarData} onDismiss={() => store.set('snackbarData')({ visible: false })} />
         <LoadingIndicator force={!this.ready} />
         <SceneView navigation={descriptor.navigation} component={descriptor.getComponent()} />
       </React.Fragment>

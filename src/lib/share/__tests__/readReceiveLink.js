@@ -64,7 +64,6 @@ describe('readReceiveLink', () => {
   it(`should fail if tld is required for an invalida public URL`, () => {
     // Given
     Config.env = 'production'
-    console.log(Config)
     const url = `${Config.publicUrl}/AppNavigation/Dashboard?receiveLink=0a1b2c3d4e5f6a7b8c9d&reason=pizzas`
 
     // When

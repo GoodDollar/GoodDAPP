@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import { StyleSheet } from 'react-native'
-import { Alert, TouchableHighlight, Text, View } from 'react-native-web'
+import { Alert, Text, TouchableHighlight, View } from 'react-native-web'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import type { FeedEventProps } from './FeedItems/EventProps'
 

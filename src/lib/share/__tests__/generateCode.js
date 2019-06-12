@@ -11,7 +11,6 @@ describe('generateCode', () => {
 
     // When
     const code = generateCode(address, networkId)
-    console.log(code)
 
     // Then
     expect(isMNID(code)).toBeTruthy()
@@ -27,7 +26,6 @@ describe('generateCode', () => {
 
     // When
     const code = generateCode(address, networkId, amount)
-    console.log(code)
 
     // Then
     expect(`${mnid}|${amount}`).toEqual(code)

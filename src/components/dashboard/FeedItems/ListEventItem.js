@@ -3,11 +3,11 @@ import React from 'react'
 import { Avatar } from 'react-native-paper'
 import { Text, View } from 'react-native-web'
 import BigGoodDollar from '../../common/BigGoodDollar'
+import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
 import { listStyles } from './EventStyles'
 import type { FeedEventProps } from './EventProps'
 import EventIcon from './EventIcon'
 import EventCounterParty from './EventCounterParty'
-import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
 
 /**
  * Render list withdraw item for feed list

@@ -1,10 +1,11 @@
 import React from 'react'
+
 // Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer'
 
 let getWebRouterComponentWithMocks
 describe('Receive', () => {
-  beforeAll(async () => {
+  beforeAll(() => {
     localStorage.setItem(
       'GD_USER_MNEMONIC',
       'burger must derive wrong dry unaware reopen laptop acoustic report slender scene'

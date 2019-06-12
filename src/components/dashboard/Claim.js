@@ -1,15 +1,15 @@
 // @flow
 import React, { Component } from 'react'
-import { Image, StyleSheet, View, Text } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import type { Store } from 'undux'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import wrapper from '../../lib/undux/utils/wrapper'
 import GDStore from '../../lib/undux/GDStore'
-import { BigNumber, BigGoodDollar, Section, TopBar, Wrapper, CustomButton } from '../common'
+import { CustomButton, Section, TopBar, Wrapper } from '../common'
 import { weiToMask } from '../../lib/wallet/utils'
-import type { DashboardProps } from './Dashboard'
 import logger from '../../lib/logger/pino-logger'
+import type { DashboardProps } from './Dashboard'
 
 type ClaimProps = DashboardProps & {
   store: Store
@@ -53,7 +53,7 @@ class Claim extends Component<ClaimProps, ClaimState> {
       this.goodWalletWrapped.getNextClaimTime()
     ])
     this.setState({ claimedToday })
-    this.interval = setInterval(async () => {
+    this.interval = setInterval(() => {
       const nextClaim = new Date(nextClaimDate - new Date().getTime()).toISOString().substr(11, 8)
       this.setState({ nextClaim })
     }, 1000)
@@ -66,7 +66,7 @@ class Claim extends Component<ClaimProps, ClaimState> {
   handleClaim = async () => {
     this.setState({ loading: true })
     try {
-      const receipt = await this.goodWalletWrapped.claim()
+      await this.goodWalletWrapped.claim()
       this.props.store.set('currentScreen')({
         dialogData: {
           visible: true,
@@ -98,7 +98,7 @@ class Claim extends Component<ClaimProps, ClaimState> {
         disabled={entitlement <= 0}
         mode="contained"
         compact={true}
-        onPress={async () => {
+        onPress={() => {
           isCitizen ? this.handleClaim() : this.faceRecognition()
         }}
         style={styles.claimButton}

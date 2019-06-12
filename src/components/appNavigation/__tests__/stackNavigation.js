@@ -1,8 +1,8 @@
 import React from 'react'
-import { PushButton, NextButton } from '../stackNavigation'
+import renderer from 'react-test-renderer'
+import { NextButton, PushButton } from '../stackNavigation'
 
 // Note: test renderer must be required after react-native.
-import renderer from 'react-test-renderer'
 
 describe('PushButton', () => {
   it('renders without errors', () => {

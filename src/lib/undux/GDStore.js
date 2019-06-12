@@ -1,9 +1,9 @@
 // @flow
-import { createConnectedStore, withReduxDevtools, type StoreDefinition } from 'undux'
+import { createConnectedStore, type StoreDefinition, withReduxDevtools } from 'undux'
 import compose from 'lodash/fp/compose'
 
-import withPinoLogger from './plugins/logger'
 import effects from '../../lib/undux/effects'
+import withPinoLogger from './plugins/logger'
 
 /**
  * Wheather the balance update is running or not

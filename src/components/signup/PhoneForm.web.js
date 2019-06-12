@@ -3,12 +3,11 @@ import React from 'react'
 import PhoneInput from 'react-phone-number-input'
 import './PhoneForm.css'
 import GDStore from '../../lib/undux/GDStore'
-import { Description, Title, Wrapper } from './components'
 import { userModelValidations } from '../../lib/gundb/UserModel'
 import api from '../../lib/API/api'
+import { Description, Title, Wrapper } from './components'
 
 type Props = {
-  // callback to report to parent component
   doneCallback: ({ phone: string }) => null,
   screenProps: any,
   navigation: any
@@ -28,6 +27,7 @@ class PhoneForm extends React.Component<Props, State> {
     errorMessage: '',
     countryCode: null
   }
+
   isValid = false
 
   setCountryCode = async () => {

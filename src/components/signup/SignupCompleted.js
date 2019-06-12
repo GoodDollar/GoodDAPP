@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { Wrapper, Title } from './components'
+import { Title, Wrapper } from './components'
 
 type Props = {
   screenProps: any
@@ -10,6 +10,7 @@ export default class SignupCompleted extends React.Component<Props, State> {
   handleSubmit = () => {
     this.props.screenProps.doneCallback({ isEmailConfirmed: true })
   }
+
   render() {
     return (
       <Wrapper

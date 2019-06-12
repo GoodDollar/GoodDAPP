@@ -5,7 +5,7 @@ const { Container } = GDStore
 export const getMockedEvent = (componentPath, event) => {
   // Will then mock the LocalizeContext module being used in our LanguageSelector component
   jest.doMock('../../../../../lib/share', () => {
-    console.log({
+    console.info({
       generateEvent: () => event
     })
     return {

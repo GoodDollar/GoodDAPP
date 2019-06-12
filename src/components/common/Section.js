@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react'
-import { Text, View, StyleSheet } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { fontStyle } from './styles'
 
@@ -19,8 +19,11 @@ const Separator = () => <hr style={{ width: '100%' }} />
 
 export default class Section extends Component<any> {
   static Row = Row
+
   static Title = Title
+
   static Text = SectionText
+
   static Separator = Separator
 
   render() {

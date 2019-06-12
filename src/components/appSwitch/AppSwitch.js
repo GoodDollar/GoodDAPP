@@ -3,11 +3,11 @@ import React from 'react'
 import { AsyncStorage } from 'react-native'
 import { SceneView } from '@react-navigation/core'
 import some from 'lodash/some'
+import type { Store } from 'undux'
 import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
 import GDStore from '../../lib/undux/GDStore'
 import { checkAuthStatus } from '../../lib/login/checkAuthStatus'
-import type { Store } from 'undux'
 import { CustomDialog } from '../common'
 import LoadingIndicator from '../common/LoadingIndicator'
 
@@ -53,13 +53,17 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
       const destRoute = actions => (some(actions, 'action') ? destRoute(actions.action) : actions.action)
       const destData = { ...destRoute(app), params: navInfo.params }
       return destData
-    } else if (destinationPath) return JSON.parse(destinationPath)
+    } else if (destinationPath) {
+      return JSON.parse(destinationPath)
+    }
     return undefined
   }
+
   //TODO: add shouldComponentUpdate to rerender only on route change/dialog?
   async componentDidUpdate() {
     log.info('didUpdate')
     const destinationPath = await AsyncStorage.getItem('destinationPath')
+
     //once user logs in we can redirect him to saved destinationpath
     if (destinationPath && this.props.store.get('isLoggedIn')) {
       const destDetails = JSON.parse(destinationPath)
@@ -68,6 +72,7 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
       return this.props.navigation.navigate(destDetails)
     }
   }
+
   /**
    * Check's users' current auth status
    * @returns {Promise<void>}
@@ -79,15 +84,20 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
     ]).then(([authResult]) => authResult)
     let destDetails = await this.getParams()
     if (isLoggedIn) {
-      let topWalletRes = isLoggedInCitizen ? API.verifyTopWallet() : Promise.resolve()
+      if (isLoggedInCitizen) {
+        API.verifyTopWallet()
+      }
+
       if (destDetails) {
         this.props.navigation.navigate(destDetails)
         return AsyncStorage.removeItem('destinationPath')
-      } else this.props.navigation.navigate('AppNavigation')
+      }
+      this.props.navigation.navigate('AppNavigation')
     } else {
       const { jwt } = credsOrError
       if (jwt) {
         log.debug('New account, not verified, or did not finish signup', jwt)
+
         //for new accounts check if link is email validation if so
         //redirect to continue signup flow
         if (destDetails) {
@@ -98,6 +108,7 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
             return
           }
           log.debug('destinationPath saving details')
+
           //for non loggedin users, store non email validation params to the destinationPath for later
           //to be used once signed in
           const destinationPath = JSON.stringify(destDetails)

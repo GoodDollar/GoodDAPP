@@ -1,4 +1,5 @@
 import React from 'react'
+
 // import { getComponentWithMock } from './__util__/index'
 
 // Note: test renderer must be required after react-native.

@@ -1,6 +1,7 @@
 import { createSwitchNavigator } from '@react-navigation/core'
 import { createBrowserApp } from '@react-navigation/web'
 import React from 'react'
+
 // Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer'
 

@@ -9,6 +9,7 @@ const Clipboard = {
    * @returns {string}
    */
   getString: () => navigator.clipboard.readText(),
+
   /**
    * @param {string} text
    */

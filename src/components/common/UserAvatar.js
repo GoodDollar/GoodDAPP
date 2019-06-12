@@ -32,7 +32,9 @@ export type AvatarProps = {
 const UserAvatar = (props: AvatarProps) => {
   const { profile, editable, onChange } = props
   let cropSize = isPortrait() ? getScreenWidth() - 70 : getScreenHeight() - 70
-  if (cropSize > 320) cropSize = 320
+  if (cropSize > 320) {
+    cropSize = 320
+  }
 
   return editable ? (
     <View style={styles.innerAvatar}>

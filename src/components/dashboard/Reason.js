@@ -5,8 +5,8 @@ import { TextInput } from 'react-native-paper'
 
 import { Section, Wrapper } from '../common'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
-import { receiveStyles as styles } from './styles'
 import TopBar from '../common/TopBar'
+import { receiveStyles as styles } from './styles'
 
 export type AmountProps = {
   screenProps: any,

@@ -1,8 +1,8 @@
 import React from 'react'
+import renderer from 'react-test-renderer'
 import IconButton from '../IconButton'
 
 // Note: test renderer must be required after react-native.
-import renderer from 'react-test-renderer'
 
 describe('IconButton enabled', () => {
   it('renders without errors', () => {

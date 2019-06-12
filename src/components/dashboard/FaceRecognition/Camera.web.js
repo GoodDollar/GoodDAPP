@@ -1,6 +1,6 @@
 // @flow
 import React, { Component, createRef } from 'react'
-import { Text, Dimensions } from 'react-native'
+import { Dimensions, Text } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 
 const { width, height } = Dimensions.get('window')
@@ -47,6 +47,7 @@ export class Camera extends Component<CameraProps, CameraState> {
       }
     }
   ]
+
   currentConstraintIndex = 0
 
   async componentDidMount() {
@@ -130,6 +131,7 @@ const createStyles = () => {
   return {
     videoElement: {
       ...getResponsiveVideoDimensions(),
+
       /* REQUIRED - handle flipping of ZoOm interface.  users of selfie-style interfaces are trained to see their mirror image */
       transform: 'scaleX(-1)',
       overflow: 'hidden',

@@ -6,11 +6,12 @@ import { useDialog } from '../../lib/undux/utils/dialog'
 
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { generateCode, generateShareLink } from '../../lib/share'
-import { Section, Wrapper, BigGoodDollar } from '../common'
+import { BigGoodDollar, Section, Wrapper } from '../common'
+import { DoneButton, useScreenState } from '../appNavigation/stackNavigation'
 import { receiveStyles as styles } from './styles'
+
 // import ShareQR from './ShareQR'
 import ShareLink from './ShareLink'
-import { DoneButton, useScreenState } from '../appNavigation/stackNavigation'
 
 export type ReceiveProps = {
   screenProps: any,
@@ -21,7 +22,7 @@ const RECEIVE_TITLE = 'Receive G$'
 
 const ReceiveAmount = ({ screenProps }: ReceiveProps) => {
   const { account, networkId } = goodWallet
-  const [screenState, setScreenState] = useScreenState(screenProps)
+  const [screenState] = useScreenState(screenProps)
   const [showDialogWithData] = useDialog()
   const { amount } = screenState
 

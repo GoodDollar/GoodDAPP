@@ -647,7 +647,7 @@ export class UserStorage {
     let attr = undefined
     if (isMobilePhone(field)) attr = 'mobile'
     else if (isEmail(field)) attr = 'email'
-    else if (this.isUsername(field)) attr = 'username'
+    else if (await this.isUsername(field)) attr = 'username'
     else if (this.wallet.wallet.utils.isAddress(field)) return field
     if (attr === undefined) return undefined
     const value = UserStorage.cleanFieldForIndex(attr, field)

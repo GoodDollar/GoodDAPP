@@ -4,8 +4,11 @@ import PhoneInput from 'react-phone-number-input'
 import './PhoneForm.css'
 import GDStore from '../../lib/undux/GDStore'
 import { userModelValidations } from '../../lib/gundb/UserModel'
+import logger from '../../lib/logger/pino-logger'
 import api from '../../lib/API/api'
 import { Description, Title, Wrapper } from './components'
+
+const log = logger.child({ from: 'PhoneForm' })
 
 type Props = {
   doneCallback: ({ phone: string }) => null,
@@ -16,7 +19,7 @@ type Props = {
 export type MobileRecord = {
   mobile: string,
   errorMessage?: string,
-  countryCode?: string
+  countryCode?: string | null
 }
 
 type State = MobileRecord
@@ -31,8 +34,12 @@ class PhoneForm extends React.Component<Props, State> {
   isValid = false
 
   setCountryCode = async () => {
-    const countryCode = await api.getLocation()
-    this.setState({ countryCode })
+    try {
+      const countryCode = await api.getLocation()
+      this.setState({ countryCode })
+    } catch (e) {
+      log.error('Could not get user location', e)
+    }
   }
 
   componentDidMount() {

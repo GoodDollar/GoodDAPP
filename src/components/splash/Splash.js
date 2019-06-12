@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, Image, View, Text } from 'react-native'
+import { Image, StyleSheet, Text, View } from 'react-native'
 import { normalize } from 'react-native-elements'
 import splashImage from '../../assets/splash.png'
 
@@ -15,6 +15,10 @@ class Splash extends Component {
       </View>
     )
   }
+}
+
+Splash.navigationOptions = {
+  title: 'GoodDollar | Welcome'
 }
 
 const styles = StyleSheet.create({

@@ -1,5 +1,6 @@
 language: node_js
-
+node_js:
+  - '10.15.3'
 cache:
   npm: true
 
@@ -7,14 +8,16 @@ env:
   global:
     - REACT_ENV=development
     - REACT_APP_LOG_LEVEL=debug
-#    - REACT_APP_NETWORK_ID=4447
+    #    - REACT_APP_NETWORK_ID=4447
     - MNEMONIC="choice congress hobby buddy dutch busy army eager empty solution start grunt"
     - CI=false
-
 script:
   - npm run coverage
   - npm run coveralls
   - npm run build
+
+after_success:
+  - npm run bundlesize:check
 
 after_failure:
   - cat /home/travis/.npm/_logs/*-debug.log

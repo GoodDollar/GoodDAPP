@@ -2,15 +2,14 @@
 import React from 'react'
 import { Text, View } from 'react-native'
 import OtpInput from 'react-otp-input'
-import { ActionButton, Error, Title, Wrapper } from './components'
+import normalize from 'react-native-elements/src/helpers/normalizeText'
 import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
+import { ActionButton, Error, Title, Wrapper } from './components'
 import type { SignupState } from './SignupState'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
 const log = logger.child({ from: 'SmsForm.web' })
 
 type Props = {
-  // callback to report to parent component
   phone: string,
   data: SignupState,
   doneCallback: ({ isPhoneVerified: boolean }) => null,

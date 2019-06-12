@@ -1,18 +1,31 @@
 // @flow
-import type { UserRecord } from '../API/api'
 import isEmail from 'validator/lib/isEmail'
+import type { UserRecord } from '../API/api'
 import isMobilePhone from '../validators/isMobilePhone'
 import isValidUsername from '../validators/isValidUsername'
 
+/**
+ * validation object type
+ */
 type Validation = {
   isValid: boolean,
   errors: {}
 }
+
+/**
+ * validation interface type
+ * @type
+ */
 export type ModelValidator = {
   isValid: (key: string) => boolean,
   getErrors: (key: string) => {},
   validate: (key: string) => Validation
 }
+
+/**
+ * User model abstraction useful to validate type and data
+ * @type
+ */
 export type UserModel = UserRecord & ModelValidator
 
 /**
@@ -22,8 +35,12 @@ export type UserModel = UserRecord & ModelValidator
  * @returns {string} Email error message if invalid, or empty string
  */
 const getEmailErrorMessage = (email?: string) => {
-  if (!email) return 'Email is required'
-  if (!isEmail(email)) return 'Enter a valid format: yourname@example.com'
+  if (!email) {
+    return 'Email is required'
+  }
+  if (!isEmail(email)) {
+    return 'Enter a valid format: yourname@example.com'
+  }
 
   return ''
 }
@@ -35,14 +52,20 @@ const getEmailErrorMessage = (email?: string) => {
  * @returns {string} Mobile error message if invalid, or empty string
  */
 const getMobileErrorMessage = (mobile?: string) => {
-  if (!mobile) return 'Mobile is required'
-  if (!isMobilePhone(mobile)) return 'Please enter a valid phone format'
+  if (!mobile) {
+    return 'Mobile is required'
+  }
+  if (!isMobilePhone(mobile)) {
+    return 'Please enter a valid phone format'
+  }
 
   return ''
 }
 
 const getUsernameErrorMessage = (username: string) => {
-  if (!isValidUsername(username)) return 'Must contain only letters (a-z), numbers (0-9) and underscore (_)'
+  if (!isValidUsername(username)) {
+    return 'Must contain only letters (a-z), numbers (0-9) and underscore (_)'
+  }
 
   return ''
 }

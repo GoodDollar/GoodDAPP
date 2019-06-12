@@ -1,16 +1,15 @@
 // @flow
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { View } from 'react-native'
-import UserStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
+import { normalize } from 'react-native-elements'
+import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import GDStore from '../../lib/undux/GDStore'
 import goodWallet from '../../lib/wallet/GoodWallet'
-import { useWrappedGoodWallet } from '../../lib/wallet/useWrappedWallet'
 import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
 import { Avatar, BigGoodDollar, CustomButton, Section, Wrapper } from '../common'
 import TopBar from '../common/TopBar'
 import { receiveStyles } from './styles'
-import { normalize } from 'react-native-elements'
 
 const log = logger.child({ from: 'SendLinkSummary' })
 
@@ -21,6 +20,12 @@ export type AmountProps = {
 
 const TITLE = 'Send G$'
 
+/**
+ * Screen that shows transaction summary for a send link action
+ * @param {AmountProps} props
+ * @param {any} props.screenProps
+ * @param {any} props.navigation
+ */
 const SendLinkSummary = (props: AmountProps) => {
   const { screenProps } = props
   const [screenState] = useScreenState(screenProps)
@@ -32,6 +37,7 @@ const SendLinkSummary = (props: AmountProps) => {
   const faceRecognition = () => {
     return screenProps.push('FaceRecognition', { from: 'SendLinkSummary' })
   }
+
   /**
    * Generates link to send and call send email/sms action
    * @throws Error if link cannot be send
@@ -39,7 +45,6 @@ const SendLinkSummary = (props: AmountProps) => {
   const generateLinkAndSend = async () => {
     try {
       // Generate link deposit
-      setLoading(true)
       const generateLinkResponse = await goodWallet.generateLink(amount, reason, {
         onTransactionHash: extraData => hash => {
           // Save transaction
@@ -54,13 +59,14 @@ const SendLinkSummary = (props: AmountProps) => {
               ...extraData
             }
           }
-          UserStorage.enqueueTX(transactionEvent)
+          userStorage.enqueueTX(transactionEvent)
         }
       })
       if (generateLinkResponse) {
         try {
           // Generate link deposit
           const { sendLink } = generateLinkResponse
+
           // Show confirmation
           screenProps.push('SendConfirmation', { sendLink, amount, reason, to })
         } catch (e) {
@@ -69,14 +75,27 @@ const SendLinkSummary = (props: AmountProps) => {
           await goodWallet.cancelOtl(hashedString)
           throw e
         }
-      } else throw new Error('Link generation failed')
+      } else {
+        throw new Error('Link generation failed')
+      }
     } catch (e) {
       store.set('currentScreen')({
         dialogData: { visible: true, title: 'Error', message: e.message, dismissText: 'OK' }
       })
       log.error(e)
-    } finally {
+    }
+  }
+
+  const handleContinue = async () => {
+    setLoading(true)
+
+    const isCitizen = await goodWallet.isCitizen()
+
+    if (isCitizen) {
+      await generateLinkAndSend()
       setLoading(false)
+    } else {
+      faceRecognition()
     }
   }
 
@@ -95,7 +114,7 @@ const SendLinkSummary = (props: AmountProps) => {
         <Section.Row style={styles.sectionRow}>
           <Section.Title style={styles.headline}>SUMMARY</Section.Title>
           <View style={styles.sectionTo}>
-            <Avatar size={110} style={styles.avatarBorder} />
+            <Avatar size={110} />
             {to && <Section.Text style={styles.toText}>{`To: ${to}`}</Section.Text>}
           </View>
           <Section.Text style={styles.reason}>
@@ -107,14 +126,7 @@ const SendLinkSummary = (props: AmountProps) => {
             <BackButton mode="text" screenProps={screenProps} style={{ flex: 1 }}>
               Cancel
             </BackButton>
-            <CustomButton
-              mode="contained"
-              onPress={async () => {
-                ;(await goodWallet.isCitizen()) ? generateLinkAndSend() : faceRecognition()
-              }}
-              style={{ flex: 2 }}
-              loading={loading}
-            >
+            <CustomButton mode="contained" onPress={handleContinue} style={{ flex: 2 }} disabled={loading}>
               Confirm
             </CustomButton>
           </View>
@@ -135,10 +147,6 @@ const styles = {
   },
   reason: {
     fontSize: normalize(16)
-  },
-  avatarBorder: {
-    borderWidth: normalize(1),
-    borderColor: '#707070'
   }
 }
 

@@ -1,17 +1,17 @@
 // @flow
-import React, { Component, useState, useEffect } from 'react'
+import React, { Component, useEffect, useState } from 'react'
 import { ScrollView, View } from 'react-native'
 import { Button } from 'react-native-paper'
 import SideMenu from 'react-native-side-menu'
-import { createNavigator, SwitchRouter, SceneView, Route } from '@react-navigation/core'
-import { Helmet } from 'react-helmet'
+import { createNavigator, Route, SceneView, SwitchRouter } from '@react-navigation/core'
 import GDStore from '../../lib/undux/GDStore'
 import { toggleSidemenu } from '../../lib/undux/utils/sidemenu'
 import SideMenuPanel from '../sidemenu/SideMenuPanel'
 import logger from '../../lib/logger/pino-logger'
-import NavBar from './NavBar'
-import { CustomButton, type ButtonProps } from '../common'
+import { type ButtonProps, CustomButton } from '../common'
 import { scrollableContainer } from '../common/styles'
+import NavBar from './NavBar'
+import { navigationOptions } from './navigationConfig'
 
 export const DEFAULT_PARAMS = {
   event: undefined,
@@ -41,12 +41,12 @@ type AppViewState = {
  * Params are passed as initial state for next screen.
  * This navigation actions are being passed via navigationConfig to children components
  */
-
 class AppView extends Component<AppViewProps, AppViewState> {
   state = {
     stack: [],
     currentState: {}
   }
+
   /**
    * marks route transistion
    */
@@ -55,6 +55,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
   shouldComponentUpdate() {
     return this.trans === false
   }
+
   /**
    * getComponent gets the component and props and returns the same component except when
    * shouldNavigateToComponent is present in component and not complaining
@@ -73,6 +74,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
     }
     return Component
   }
+
   /**
    * Pops from stack
    * If there is no screen on the stack navigates to initial screen on stack (goToRoot)
@@ -90,10 +92,10 @@ class AppView extends Component<AppViewProps, AppViewState> {
         navigation.navigate(nextRoute.route)
         this.trans = false
       })
-    } else if (navigation.state.index !== 0) {
-      this.goToRoot()
-    } else {
+    } else if (navigation.state.index === 0) {
       this.goToParent()
+    } else {
+      this.goToRoot()
     }
   }
 
@@ -205,9 +207,6 @@ class AppView extends Component<AppViewProps, AppViewState> {
     const menu = open ? <SideMenuPanel navigation={navigation} /> : null
     return (
       <React.Fragment>
-        {/* <Helmet>
-          <title>{`GoodDollar | ${pageTitle}`}</title>
-        </Helmet> */}
         {!navigationBarHidden && <NavBar goBack={backButtonHidden ? undefined : this.pop} title={pageTitle} />}
         <View style={{ backgroundColor: '#fff', flex: 1 }}>
           <SideMenu menu={menu} menuPosition="right" isOpen={store.get('sidemenu').visible}>
@@ -234,7 +233,8 @@ export const createStackNavigator = (routes: any, navigationConfig: any) => {
 
   return createNavigator(GDStore.withStore(AppView), SwitchRouter(routes), {
     ...defaultNavigationConfig,
-    ...navigationConfig
+    ...navigationConfig,
+    navigationOptions
   })
 }
 
@@ -256,7 +256,9 @@ type PushButtonProps = {
  */
 export const PushButton = ({ routeName, screenProps, canContinue, params, ...props }: PushButtonProps) => {
   const shouldContinue = async () => {
-    if (canContinue === undefined) return true
+    if (canContinue === undefined) {
+      return true
+    }
 
     const result = await canContinue()
     return result
@@ -339,6 +341,7 @@ type NextButtonProps = {
   label?: string,
   canContinue?: Function
 }
+
 /**
  * NextButton
  * This button gets the nextRoutes param and creates a Push to the next screen and passes the rest of the array which are
@@ -370,13 +373,16 @@ export const NextButton = ({
 }
 
 type UseScreenProps = { setScreenState?: {}, screenState?: {} }
+
 /**
  * Hook to get screen state from stack or from useState hook if there is no setScreenState function
  */
 export const useScreenState = ({ setScreenState, screenState }: UseScreenProps): any => {
+  const [state, setState] = useState<any>()
+
   if (setScreenState) {
     return [screenState || {}, setScreenState]
   }
-  const [state, setState] = useState<any>()
+
   return [state || {}, setState]
 }

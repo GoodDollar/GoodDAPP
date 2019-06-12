@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { StyleSheet } from 'react-native'
-import { Wrapper, Section, CustomButton, UserAvatar } from '../common'
+import { CustomButton, Section, UserAvatar, Wrapper } from '../common'
 import GDStore from '../../lib/undux/GDStore'
 import { useWrappedUserStorage } from '../../lib/gundb/useWrappedStorage'
 import userStorage from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import ProfileDataTable from './ProfileDataTable'
 
-const log = logger.child({ from: 'EditProfile' })
+const TITLE = 'Edit Profile'
+const log = logger.child({ from: TITLE })
 
 const EditProfile = props => {
   const store = GDStore.useStore()
@@ -23,7 +24,9 @@ const EditProfile = props => {
   const handleSaveButton = async () => {
     const { isValid, errors } = profile.validate()
     setErrors(errors)
-    if (!isValid) return
+    if (!isValid) {
+      return
+    }
 
     setSaving(true)
     await wrappedUserStorage
@@ -55,6 +58,10 @@ const EditProfile = props => {
       </Section>
     </Wrapper>
   )
+}
+
+EditProfile.navigationOptions = {
+  title: TITLE
 }
 
 const styles = StyleSheet.create({

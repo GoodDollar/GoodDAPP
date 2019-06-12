@@ -1,16 +1,16 @@
 // @flow
-import LoginService from './LoginService'
 import type { Credentials } from '../API/api'
-import { default as wallet, GoodWallet } from '../wallet/GoodWallet'
+import { GoodWallet, default as wallet } from '../wallet/GoodWallet'
 import logger from '../logger/pino-logger'
-
+import { default as defaultStorage } from '../gundb/UserStorage'
+import LoginService from './LoginService'
 const log = logger.child({ from: 'GoodWalletLogin' })
 
 export class GoodWalletLogin extends LoginService {
   wallet: GoodWallet
 
-  constructor(wallet: GoodWallet) {
-    super()
+  constructor(wallet: GoodWallet, userStorage = defaultStorage) {
+    super(userStorage)
     this.wallet = wallet
   }
 

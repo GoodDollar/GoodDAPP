@@ -1,6 +1,6 @@
 // @flow
 import QRCode from 'qrcode.react'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback } from 'react'
 import { Clipboard, StyleSheet, Text, View } from 'react-native'
 import { normalize } from 'react-native-elements'
 import { isMobile } from 'mobile-device-detect'
@@ -12,8 +12,8 @@ import { DoneButton, useScreenState } from '../appNavigation/stackNavigation'
 import { BigGoodDollar, CustomButton, Section, TopBar, Wrapper } from '../common'
 import { fontStyle } from '../common/styles'
 import './AButton.css'
-import { receiveStyles } from './styles'
 import { getScreenHeight } from '../../lib/utils/Orientation'
+import { receiveStyles } from './styles'
 
 export type ReceiveProps = {
   screenProps: any,
@@ -27,7 +27,7 @@ const SendConfirmation = ({ screenProps }: ReceiveProps) => {
   const [screenState] = useScreenState(screenProps)
   const store = GDStore.useStore()
 
-  const { amount, reason, sendLink, to } = screenState
+  const { amount, reason, sendLink } = screenState
 
   const copySendLink = useCallback(() => {
     Clipboard.setString(sendLink)

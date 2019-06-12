@@ -3,11 +3,10 @@ import React from 'react'
 import PhoneInput from 'react-phone-number-input'
 import './PhoneForm.css'
 import GDStore from '../../lib/undux/GDStore'
-import { Description, Title, Wrapper } from './components'
 import { userModelValidations } from '../../lib/gundb/UserModel'
+import { Description, Title, Wrapper } from './components'
 
 type Props = {
-  // callback to report to parent component
   doneCallback: ({ phone: string }) => null,
   screenProps: any,
   navigation: any
@@ -25,6 +24,7 @@ class PhoneForm extends React.Component<Props, State> {
     mobile: this.props.screenProps.data.mobile || '',
     errorMessage: ''
   }
+
   isValid = false
 
   handleChange = (mobile: string) => {
@@ -61,7 +61,7 @@ class PhoneForm extends React.Component<Props, State> {
     const { loading } = this.props.screenProps.data
     return (
       <Wrapper valid={this.isValid} handleSubmit={this.handleSubmit} loading={loading}>
-        <Title>{`${this.props.screenProps.data.fullName}, \n May we have your number please?`}</Title>
+        <Title>{`${this.props.screenProps.data.fullName.split(' ')[0]}, \n May we have your number please?`}</Title>
         <PhoneInput
           id={key + '_input'}
           value={this.state.mobile}

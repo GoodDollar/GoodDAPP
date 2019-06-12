@@ -27,6 +27,8 @@ export const getWebRouterComponentWithRoutes = routes => {
   class AppNavigation extends React.Component<AppNavigationProps, AppNavigationState> {
     static router = AppNavigator.router
 
+    static navigationOptions = AppNavigator.navigationOptions
+
     render() {
       return <AppNavigator navigation={this.props.navigation} screenProps={{ routes }} />
     }

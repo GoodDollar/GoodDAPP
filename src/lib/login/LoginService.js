@@ -3,25 +3,28 @@ import { AsyncStorage } from 'react-native'
 import type { Credentials } from '../API/api'
 import API from '../API/api'
 import logger from '../logger/pino-logger'
-import UserStorage from '../gundb/UserStorage'
 
 const log = logger.child({ from: 'LoginService' })
 
 class LoginService {
   static toSign = 'Login to GoodDAPP'
+
   credentials: ?Credentials
 
   jwt: ?string
 
   toSign: string = 'Login to GoodDAPP'
 
-  constructor() {
+  constructor(userStorage) {
+    this.userStorage = userStorage
     this.getJWT().then(jwt => (this.jwt = jwt))
     this.getCredentials().then(c => (this.credentials = c))
   }
 
   storeCredentials(creds: Credentials) {
-    if (!creds) return
+    if (!creds) {
+      return
+    }
     this.credentials = creds
     AsyncStorage.setItem('GoodDAPP_creds', JSON.stringify(this.credentials))
   }
@@ -29,7 +32,9 @@ class LoginService {
   // eslint-disable-next-line class-methods-use-this
   storeJWT(jwt: string) {
     this.jwt = jwt
-    if (jwt) AsyncStorage.setItem('GoodDAPP_jwt', jwt)
+    if (jwt) {
+      AsyncStorage.setItem('GoodDAPP_jwt', jwt)
+    }
   }
 
   async getCredentials(): Promise<?Credentials> {
@@ -38,12 +43,12 @@ class LoginService {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  async getJWT(): Promise<?string> {
+  getJWT(): Promise<?string> {
     return AsyncStorage.getItem('GoodDAPP_jwt')
   }
 
   // eslint-disable-next-line class-methods-use-this
-  async login(): Promise<Credentials> {
+  login(): Promise<Credentials> {
     throw new Error('Method not implemented')
   }
 
@@ -55,8 +60,8 @@ class LoginService {
     }
 
     let creds = await this.login()
-    creds.profileSignature = await UserStorage.sign(LoginService.toSign + creds.nonce)
-    creds.profilePublickey = UserStorage.user.pub
+    creds.profileSignature = await this.userStorage.sign(LoginService.toSign + creds.nonce)
+    creds.profilePublickey = this.userStorage.user.pub
     log.info('signed message', creds)
     this.storeCredentials(creds)
 

@@ -1,16 +1,17 @@
 // @flow
 import Web3 from 'web3'
 import bip39 from 'bip39-light'
+import type { HttpProvider, WebSocketProvider } from 'web3-providers'
+import { AsyncStorage } from 'react-native'
 import Config from '../../config/config'
 import logger from '../logger/pino-logger'
 import type { WalletConfig } from './WalletFactory'
-import type { HttpProvider, WebSocketProvider } from 'web3-providers'
 import MultipleAddressWallet from './MultipleAddressWallet'
-import { AsyncStorage } from 'react-native'
 
 const log = logger.child({ from: 'SoftwareWalletProvider' })
 
 const GD_USER_MNEMONIC: string = 'GD_USER_MNEMONIC'
+
 /**
  * save mnemonics (secret phrase) to user device
  * @param {string} mnemonics
@@ -24,13 +25,15 @@ export function saveMnemonics(mnemonics: string): Promise<any> {
  */
 export async function getMnemonics(): Promise<string> {
   let pkey = await AsyncStorage.getItem(GD_USER_MNEMONIC)
-  if (!pkey) {
+
+  if (pkey) {
+    log.info('pkey found, creating account from pkey:', { pkey })
+  } else {
     pkey = generateMnemonic()
     saveMnemonics(pkey)
     log.info('item set in localStorage ', { pkey })
-  } else {
-    log.info('pkey found, creating account from pkey:', { pkey })
   }
+
   return pkey
 }
 
@@ -44,13 +47,12 @@ export function deleteMnemonics(): Promise<any> {
 }
 
 function generateMnemonic(): string {
-  let mnemonic = bip39.generateMnemonic()
-  return mnemonic
+  return bip39.generateMnemonic()
 }
 
 class SoftwareWalletProvider {
   ready: Promise<Web3>
-  GD_USER_PKEY: string = 'GD_USER_PKEY'
+
   defaults = {
     defaultBlock: 'latest',
     defaultGas: 140000,
@@ -72,7 +74,7 @@ class SoftwareWalletProvider {
     log.info('wallet config:', this.conf, provider)
 
     //let web3 = new Web3(new WebsocketProvider("wss://ropsten.infura.io/ws"))
-    let pkey: ?string = await getMnemonics()
+    let pkey: ?string = this.conf.mnemonic || (await getMnemonics())
 
     //we start from addres 1, since from address 0 pubkey all public keys can  be generated
     //and we want privacy
@@ -97,12 +99,12 @@ class SoftwareWalletProvider {
         web3Provider = new Web3.providers.WebsocketProvider(provider)
         break
 
-      case 'HttpProvider':
-        const infuraKey = this.conf.httpWeb3provider.indexOf('infura') !== -1 ? Config.infuraKey : ''
+      case 'HttpProvider': {
+        const infuraKey = this.conf.httpWeb3provider.indexOf('infura') === -1 ? '' : Config.infuraKey
         provider = this.conf.httpWeb3provider + infuraKey
         web3Provider = new Web3.providers.HttpProvider(provider)
         break
-
+      }
       default:
         provider = this.conf.httpWeb3provider + Config.infuraKey
         web3Provider = new Web3.providers.HttpProvider(provider)

@@ -8,10 +8,15 @@ type WalletsCollection = {
 }
 class MultipleAddressWallet {
   ready: Promise<Web3>
+
   wallet: Wallet
+
   wallets: WalletsCollection
+
   mnemonic: string
+
   addresses: Array<string>
+
   numOfAccounts: number = 10
 
   constructor(mnemonic: string, numOfAccounts: number) {
@@ -34,7 +39,6 @@ class MultipleAddressWallet {
       let wallet = Wallet.fromPrivateKey(privateKeyBuffer)
       let address = wallet.getAddressString()
       this.addresses.push(address)
-      let wallets = this.wallets
       this.wallets[address] = wallet
     }
   }

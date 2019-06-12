@@ -2,55 +2,176 @@
 
 ### Table of Contents
 
--   [State][1]
+-   [BalanceUpdate][1]
     -   [Properties][2]
--   [initialState][3]
--   [GDStore][4]
+-   [Account][3]
+    -   [Properties][4]
+-   [DialogData][5]
+    -   [Properties][6]
+-   [CurrentScreen][7]
+    -   [Properties][8]
+-   [StandardFeed][9]
+    -   [Properties][10]
+-   [LoadingIndicator][11]
+    -   [Properties][12]
+-   [State][13]
+    -   [Properties][14]
+-   [initialState][15]
+-   [GDStore][16]
+
+## BalanceUpdate
+
+Wheather the balance update is running or not
+
+Type: {running: [boolean][17]}
+
+### Properties
+
+-   `running` **[boolean][17]** 
+
+## Account
+
+Account data
+
+Type: {balance: [string][18], entitlement: [string][18], ready: `false`}
+
+### Properties
+
+-   `balance` **[string][18]** 
+-   `entitlement` **[string][18]** 
+-   `ready` **`false`** 
+
+## DialogData
+
+Dialog data. This is being used to show a dialog across the app
+
+Type: {visible: [boolean][17], title: [string][18]?, message: [string][18]?}
+
+### Properties
+
+-   `visible` **[boolean][17]** 
+-   `title` **[string][18]?** 
+-   `message` **[string][18]?** 
+
+## CurrentScreen
+
+Current screen state data
+
+Type: {dialogData: [DialogData][19]?, loading: [boolean][17]}
+
+### Properties
+
+-   `dialogData` **[DialogData][19]?** 
+-   `loading` **[boolean][17]** 
+
+## StandardFeed
+
+StandardFeed element. It's being used to show the feed on dashboard
+
+Type: {id: [string][18], date: [number][20], type: [string][18], data: {endpoint: {address: [string][18], fullName: [string][18], avatar: [string][18]}, amount: [string][18], message: [string][18]}}
+
+### Properties
+
+-   `id` **[string][18]** 
+-   `date` **[number][20]** 
+-   `type` **[string][18]** 
+-   `data` **{endpoint: {address: [string][18], fullName: [string][18], avatar: [string][18]}, amount: [string][18], message: [string][18]}** 
+-   `data.endpoint` **{address: [string][18], fullName: [string][18], avatar: [string][18]}** 
+-   `data.endpoint.address` **[string][18]** 
+-   `data.endpoint.fullName` **[string][18]** 
+-   `data.endpoint.avatar` **[string][18]** 
+-   `data.amount` **[string][18]** 
+-   `data.message` **[string][18]** 
+
+## LoadingIndicator
+
+Loading indicator screen status. In true means that there is a loading overlay over the current screen
+
+Type: {loading: [boolean][17]}
+
+### Properties
+
+-   `loading` **[boolean][17]** 
 
 ## State
 
 Type definition for the global store
 
-Type: {balanceUpdate: BalanceUpdate, name: [Name][5], account: Account, currentScreen: CurrentScreen, destinationPath: [string][6], feeds: [Array][7]&lt;StandardFeed>, feedLoading: [Boolean][8], loadingIndicator: LoadingIndicator}
+Type: {balanceUpdate: [BalanceUpdate][21], account: [Account][22], currentScreen: [CurrentScreen][23], destinationPath: [string][18], feeds: [Array][24]&lt;[StandardFeed][25]>, feedLoading: [Boolean][17], loadingIndicator: [LoadingIndicator][26]}
 
 ### Properties
 
--   `balanceUpdate` **BalanceUpdate** 
--   `name` **[Name][5]** 
--   `account` **Account** 
--   `currentScreen` **CurrentScreen** 
--   `destinationPath` **[string][6]** 
--   `feeds` **[Array][7]&lt;StandardFeed>** 
--   `feedLoading` **[Boolean][8]** 
--   `loadingIndicator` **LoadingIndicator** 
+-   `balanceUpdate` **[BalanceUpdate][21]** 
+-   `account` **[Account][22]** 
+-   `currentScreen` **[CurrentScreen][23]** 
+-   `destinationPath` **[string][18]** 
+-   `feeds` **[Array][24]&lt;[StandardFeed][25]>** 
+-   `feedLoading` **[Boolean][17]** 
+-   `loadingIndicator` **[LoadingIndicator][26]** 
 
 ## initialState
 
 Initial store state
 
-Type: [State][9]
+Type: [State][27]
 
 ## GDStore
 
 default exported instance of our global Undux Store
 
-[1]: #state
+[1]: #balanceupdate
 
 [2]: #properties
 
-[3]: #initialstate
+[3]: #account
 
-[4]: #gdstore
+[4]: #properties-1
 
-[5]: https://developer.mozilla.org/
+[5]: #dialogdata
 
-[6]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+[6]: #properties-2
 
-[7]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array
+[7]: #currentscreen
 
-[8]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean
+[8]: #properties-3
 
-[9]: #state
+[9]: #standardfeed
+
+[10]: #properties-4
+
+[11]: #loadingindicator
+
+[12]: #properties-5
+
+[13]: #state
+
+[14]: #properties-6
+
+[15]: #initialstate
+
+[16]: #gdstore
+
+[17]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean
+
+[18]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+
+[19]: #dialogdata
+
+[20]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number
+
+[21]: #balanceupdate
+
+[22]: #account
+
+[23]: #currentscreen
+
+[24]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array
+
+[25]: #standardfeed
+
+[26]: #loadingindicator
+
+[27]: #state
 ## Source
 [https://github.com/GoodDollar/GoodDAPP/src/lib/undux/GDStore.js](https://github.com/GoodDollar/GoodDAPP/src/lib/undux/GDStore.js)
 

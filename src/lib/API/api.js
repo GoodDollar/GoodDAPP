@@ -118,6 +118,13 @@ class API {
   }
 
   /**
+   * `ip-api.com/json` get location api call
+   */
+  getLocation(): AxiosPromise<any> {
+    return this.client.get('/verify/location')
+  }
+
+  /**
    * `/verify/mobile` post api call
    * @param {any} verificationData
    */

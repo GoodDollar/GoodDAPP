@@ -14,11 +14,10 @@ import { createSwitchNavigator } from '@react-navigation/core'
 import { navigationConfig } from '../appNavigation/navigationConfig'
 import logger from '../../lib/logger/pino-logger'
 
-import { useWrappedApi } from '../../lib/API/useWrappedApi'
-import goodWallet from '../../lib/wallet/GoodWallet'
-import userStorage from '../../lib/gundb/UserStorage'
+import API from '../../lib/API/api'
+// import goodWallet from '../../lib/wallet/GoodWallet'
+// import userStorage from '../../lib/gundb/UserStorage'
 import type { SMSRecord } from './SmsForm'
-import GDStore from '../../lib/undux/GDStore'
 import { getUserModel, type UserModel } from '../../lib/gundb/UserModel'
 import Config from '../../config/config'
 const log = logger.child({ from: 'SignupState' })
@@ -39,7 +38,7 @@ const SignupWizardNavigator = createSwitchNavigator(
 
 declare var amplitude
 const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any }) => {
-  const API = useWrappedApi()
+  // const API = useWrappedApi()
   const initialState: SignupState = {
     ...getUserModel({
       fullName: '',
@@ -55,16 +54,12 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(undefined)
 
-  const store = GDStore.useStore()
-  // const { loading } = store.get('currentScreen')
-
   function saveProfile() {
-    return userStorage.setProfile({ ...state, walletAddress: goodWallet.account })
+    // return userStorage.setProfile({ ...state, walletAddress: goodWallet.account })
   }
 
   const navigateWithFocus = (routeKey: string) => {
     navigation.navigate(routeKey)
-    // store.set('currentScreen')({ loading: false })
     setLoading(false)
     setTimeout(() => {
       const el = document.getElementById(routeKey + '_input')
@@ -80,13 +75,12 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   }
 
   useEffect(() => {
-    fireSignupEvent('STARTED')
+    // fireSignupEvent('STARTED')
   }, [])
   const done = async (data: { [string]: string }) => {
-    // store.set('currentScreen')({ loading: true })
     setLoading(true)
     setError()
-    fireSignupEvent()
+    // fireSignupEvent()
     log.info('signup data:', { data })
     let nextRoute = navigation.state.routes[navigation.state.index + 1]
     const newState = { ...state, ...data }
@@ -121,7 +115,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
           setState({ ...newState, isEmailConfirmed: true })
         } else {
           // if email is properly sent, persist current user's information to userStorage
-          await userStorage.setProfile({ ...newState, walletAddress: goodWallet.account })
+          // await userStorage.setProfile({ ...newState, walletAddress: goodWallet.account })
         }
 
         return navigateWithFocus(nextRoute.key)
@@ -140,22 +134,21 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
           // saved to the `state`
           await API.addUser(state)
           // Stores creationBlock number into 'lastBlock' feed's node
-          const creationBlock = (await goodWallet.getBlockNumber()).toString()
-          await Promise.all([
-            (saveProfile({ registered: true }),
-            userStorage.setProfileField('registered', true),
-            goodWallet
-              .getBlockNumber()
-              .then(creationBlock => userStorage.saveLastBlockNumber(creationBlock.toString())),
-            AsyncStorage.getItem('GD_USER_MNEMONIC').then(mnemonic => API.sendRecoveryInstructionByEmail(mnemonic)))
-          ])
-          // top wallet of new user
-          // wait for the topping to complete to be able to withdraw
-          // await API.verifyTopWallet()
-          userStorage.setProfileField('registered', true, 'public')
+          // const creationBlock = (await goodWallet.getBlockNumber()).toString()
+          // await Promise.all([
+          //   (saveProfile({ registered: true }),
+          //   userStorage.setProfileField('registered', true),
+          //   goodWallet
+          //     .getBlockNumber()
+          //     .then(creationBlock => userStorage.saveLastBlockNumber(creationBlock.toString())),
+          //   AsyncStorage.getItem('GD_USER_MNEMONIC').then(mnemonic => API.sendRecoveryInstructionByEmail(mnemonic)))
+          // ])
+          // // top wallet of new user
+          // // wait for the topping to complete to be able to withdraw
+          // // await API.verifyTopWallet()
+          // userStorage.setProfileField('registered', true, 'public')
           navigation.navigate('AppNavigation')
-          store.set('isLoggedIn')(true)
-          // store.set('currentScreen')({ loading: false })
+          // store.set('isLoggedIn')(true)
           setLoading(false)
         } catch (error) {
           log.error('New user failure', { error })

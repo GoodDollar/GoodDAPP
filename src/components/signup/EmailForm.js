@@ -1,18 +1,15 @@
 // @flow
 import React from 'react'
 import { HelperText, TextInput } from 'react-native-paper'
-import type { Store } from 'undux'
 
 import { userModelValidations } from '../../lib/gundb/UserModel'
-import GDStore from '../../lib/undux/GDStore'
 import { Title, Wrapper } from './components'
 
 type Props = {
   // callback to report to parent component
   doneCallback: ({ email: string }) => null,
   screenProps: any,
-  navigation: any,
-  store: Store
+  navigation: any
 }
 
 export type EmailRecord = {
@@ -82,4 +79,4 @@ class EmailForm extends React.Component<Props, State> {
   }
 }
 
-export default GDStore.withStore(EmailForm)
+export default EmailForm

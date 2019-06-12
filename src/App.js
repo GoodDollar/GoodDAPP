@@ -9,15 +9,17 @@ import PaperProvider from 'react-native-paper/src/core/Provider'
 import Splash from './components/splash/Splash'
 
 const App = () => {
-  let walletAndStorageReady = import(/* webpackChunkName: "init-wallet-storage"*/ './init').then(({ init, _ }) =>
-    init()
-  )
-  let router = import(/* webpackChunkName: "router" */ './Router')
+  // let walletAndStorageReady = import(/* webpackChunkName: "init-wallet-storage" */ './init').then(({ init, _ }) =>
+  //   init()
+  // )
+  // let router = import(/* webpackChunkName: "router" */ './Router')
+  // const Signup = props => suspenseWithIndicator(import('./components/signup/SignupState'), props)
+  let signupRouter = import(/* webpackChunkName: "signuprouter" */ './SignupRouter')
   let isLoggedIn = AsyncStorage.getItem('GD_USER_MNEMONIC').then(_ => _ !== undefined)
   //if not logged in dont wait for wallet/storage to be ready
   let Router = React.lazy(async () => {
-    if (await isLoggedIn) await walletAndStorageReady
-    return router
+    // if (await isLoggedIn) await walletAndStorageReady
+    return signupRouter
   })
   // onRecaptcha = (token: string) => {
   //   userStorage.setProfileField('recaptcha', token, 'private')

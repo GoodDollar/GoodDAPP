@@ -1,6 +1,5 @@
 // @flow
 import React from 'react'
-import SideMenuItem from './SideMenuItem'
 import { ScrollView, StyleSheet, TouchableOpacity } from 'react-native'
 import { Icon, normalize } from 'react-native-elements'
 import { useSidemenu } from '../../lib/undux/utils/sidemenu'
@@ -9,6 +8,7 @@ import { useDialog } from '../../lib/undux/utils/dialog'
 import userStorage from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import GDStore from '../../lib/undux/GDStore'
+import SideMenuItem from './SideMenuItem'
 type SideMenuPanelProps = {
   navigation: any
 }
@@ -29,7 +29,7 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation, s
   {
     icon: 'lock',
     name: 'Backup Your Wallet',
-    action: async () => {
+    action: () => {
       navigation.navigate({
         routeName: 'BackupWallet',
         type: 'Navigation/NAVIGATE'
@@ -40,7 +40,7 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation, s
   {
     icon: 'person-pin',
     name: 'Privacy Policy',
-    action: async () => {
+    action: () => {
       navigation.navigate('PP')
       hideSidemenu()
     }
@@ -48,11 +48,12 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation, s
   {
     icon: 'announcement',
     name: 'Terms of Use',
-    action: async () => {
+    action: () => {
       navigation.navigate('TOU')
       hideSidemenu()
     }
   },
+
   // {
   //   icon: 'notifications',
   //   name: 'Notification Settings'
@@ -64,11 +65,12 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation, s
   {
     icon: 'comment',
     name: 'Support',
-    action: async () => {
+    action: () => {
       navigation.navigate('Support')
       hideSidemenu()
     }
   },
+
   // {
   //   icon: 'question-answer',
   //   name: 'About'

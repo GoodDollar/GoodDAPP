@@ -24,7 +24,7 @@ type IconProps = {
 const IconButton = ({ text, onPress, disabled, ...iconProps }: IconProps) => {
   const styles = createStyles(disabled)
   return (
-    <TouchableOpacity style={styles.container} onPress={!disabled ? onPress : undefined}>
+    <TouchableOpacity style={styles.container} onPress={disabled ? undefined : onPress}>
       <Icon
         size={32}
         reverse

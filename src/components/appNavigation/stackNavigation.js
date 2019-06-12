@@ -1,17 +1,17 @@
 // @flow
-import React, { Component, useState, useEffect } from 'react'
+import React, { Component, useEffect, useState } from 'react'
 import { ScrollView, View } from 'react-native'
 import { Button } from 'react-native-paper'
 import SideMenu from 'react-native-side-menu'
-import { createNavigator, SwitchRouter, SceneView, Route } from '@react-navigation/core'
-import { navigationOptions } from './navigationConfig'
+import { createNavigator, Route, SceneView, SwitchRouter } from '@react-navigation/core'
 import GDStore from '../../lib/undux/GDStore'
 import { toggleSidemenu } from '../../lib/undux/utils/sidemenu'
 import SideMenuPanel from '../sidemenu/SideMenuPanel'
 import logger from '../../lib/logger/pino-logger'
-import NavBar from './NavBar'
-import { CustomButton, type ButtonProps } from '../common'
+import { type ButtonProps, CustomButton } from '../common'
 import { scrollableContainer } from '../common/styles'
+import NavBar from './NavBar'
+import { navigationOptions } from './navigationConfig'
 
 export const DEFAULT_PARAMS = {
   event: undefined,
@@ -46,6 +46,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
     stack: [],
     currentState: {}
   }
+
   /**
    * marks route transistion
    */
@@ -91,10 +92,10 @@ class AppView extends Component<AppViewProps, AppViewState> {
         navigation.navigate(nextRoute.route)
         this.trans = false
       })
-    } else if (navigation.state.index !== 0) {
-      this.goToRoot()
-    } else {
+    } else if (navigation.state.index === 0) {
       this.goToParent()
+    } else {
+      this.goToRoot()
     }
   }
 
@@ -255,7 +256,9 @@ type PushButtonProps = {
  */
 export const PushButton = ({ routeName, screenProps, canContinue, params, ...props }: PushButtonProps) => {
   const shouldContinue = async () => {
-    if (canContinue === undefined) return true
+    if (canContinue === undefined) {
+      return true
+    }
 
     const result = await canContinue()
     return result
@@ -370,13 +373,16 @@ export const NextButton = ({
 }
 
 type UseScreenProps = { setScreenState?: {}, screenState?: {} }
+
 /**
  * Hook to get screen state from stack or from useState hook if there is no setScreenState function
  */
 export const useScreenState = ({ setScreenState, screenState }: UseScreenProps): any => {
+  const [state, setState] = useState<any>()
+
   if (setScreenState) {
     return [screenState || {}, setScreenState]
   }
-  const [state, setState] = useState<any>()
+
   return [state || {}, setState]
 }

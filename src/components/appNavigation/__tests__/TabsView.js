@@ -1,10 +1,10 @@
 import React from 'react'
+import renderer from 'react-test-renderer'
 import TabsView from '../TabsView'
 import Dashboard from '../../dashboard/Dashboard'
 import Profile from '../../profile/Profile'
 
 // Note: test renderer must be required after react-native.
-import renderer from 'react-test-renderer'
 
 describe('TabsView', () => {
   const routes = {

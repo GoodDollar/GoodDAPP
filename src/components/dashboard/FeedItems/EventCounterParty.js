@@ -1,6 +1,6 @@
 import React from 'react'
-import { listStyles } from './EventStyles'
 import { Text } from 'react-native-web'
+import { listStyles } from './EventStyles'
 
 const EventCounterParty = ({ feedItem }) => {
   const direction = feedItem.type === 'send' ? 'To' : 'From'

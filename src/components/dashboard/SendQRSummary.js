@@ -1,13 +1,15 @@
 // @flow
-import React, { useState, useEffect } from 'react'
+/**
+ * @file Displays a summary when sending G$ directly to a blockchain address
+ */
+import React, { useEffect, useState } from 'react'
 import { View } from 'react-native'
-import UserStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
-
+import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import GDStore from '../../lib/undux/GDStore'
 import { useWrappedGoodWallet } from '../../lib/wallet/useWrappedWallet'
 import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
-import { BigGoodDollar, CustomButton, Section, Wrapper, Avatar } from '../common'
+import { Avatar, BigGoodDollar, CustomButton, Section, Wrapper } from '../common'
 import TopBar from '../common/TopBar'
 import { receiveStyles } from './styles'
 
@@ -37,11 +39,13 @@ const SendQRSummary = (props: AmountProps) => {
   const [profile, setProfile] = useState({})
 
   const updateRecepientProfile = async () => {
-    const profile = await UserStorage.getUserProfile(to)
+    const profile = await userStorage.getUserProfile(to)
     setProfile(profile)
   }
   useEffect(() => {
-    if (to) updateRecepientProfile()
+    if (to) {
+      updateRecepientProfile()
+    }
   }, [to])
 
   const faceRecognition = () => {
@@ -53,6 +57,7 @@ const SendQRSummary = (props: AmountProps) => {
       const receipt = await goodWallet.sendAmount(to, amount, {
         onTransactionHash: hash => {
           log.debug({ hash })
+
           // Save transaction
           const transactionEvent: TransactionEvent = {
             id: hash,
@@ -64,7 +69,7 @@ const SendQRSummary = (props: AmountProps) => {
               amount
             }
           }
-          UserStorage.enqueueTX(transactionEvent)
+          userStorage.enqueueTX(transactionEvent)
           return hash
         }
       })
@@ -154,6 +159,7 @@ SendQRSummary.navigationOptions = {
 
 SendQRSummary.shouldNavigateToComponent = props => {
   const { screenState } = props.screenProps
+
   // Component shouldn't be loaded if there's no 'amount', nor 'to' fields with data
   return (!!screenState.amount && !!screenState.to) || screenState.from
 }

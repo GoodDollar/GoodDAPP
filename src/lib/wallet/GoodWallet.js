@@ -10,20 +10,63 @@ import type Web3 from 'web3'
 import { BN, toBN } from 'web3-utils'
 import numeral from 'numeral'
 import uniqBy from 'lodash/uniqBy'
-import Config from '../../config/config'
-import logger from '../../lib/logger/pino-logger'
-import { toRawValue } from './utils'
-import { generateShareLink } from '../share'
-import WalletFactory from './WalletFactory'
 import abiDecoder from 'abi-decoder'
 import values from 'lodash/values'
 import get from 'lodash/get'
+import Config from '../../config/config'
+import logger from '../../lib/logger/pino-logger'
+import { generateShareLink } from '../share'
+import WalletFactory from './WalletFactory'
 
 const log = logger.child({ from: 'GoodWallet' })
 
 const DAY_IN_SECONDS = 86400
 const MILLISECONDS = 1000
 const ZERO = new BN('0')
+
+type EventLog = {
+  event: string,
+  address: string,
+  returnValues: any,
+  logIndex: number,
+  transactionIndex: number,
+  transactionHash: string,
+  blockHash: string,
+  blockNumber: number,
+  raw?: {
+    data: string,
+    topics: any[]
+  }
+}
+
+type Log = {
+  address: string,
+  data: string,
+  topics: Array<string | string[]>,
+  logIndex: number,
+  transactionIndex: number,
+  transactionHash: string,
+  blockHash: string,
+  blockNumber: number
+}
+
+type TransactionReceipt = {
+  status: boolean,
+  transactionHash: string,
+  transactionIndex: number,
+  blockHash: string,
+  blockNumber: number,
+  from: string,
+  to: string,
+  contractAddress?: string,
+  cumulativeGasUsed: number,
+  gasUsed: number,
+  logs: Log[],
+  logsBloom: string,
+  events?: {
+    [eventName: string]: EventLog
+  }
+}
 
 type PromiEvents = {
   onTransactionHash?: Function,
@@ -60,6 +103,7 @@ const defaultPromiEvents: PromiEvents = {
 
 export class GoodWallet {
   static WalletType = 'software'
+
   static AccountUsageToPath = {
     gd: 0,
     gundb: 1,
@@ -68,18 +112,35 @@ export class GoodWallet {
     login: 4,
     zoomId: 5
   }
+
   ready: Promise<Web3>
+
   wallet: Web3
+
+  config: {}
+
   accountsContract: Web3.eth.Contract
+
   tokenContract: Web3.eth.Contract
+
   identityContract: Web3.eth.Contract
+
   claimContract: Web3.eth.Contract
+
   reserveContract: Web3.eth.Contract
+
   oneTimePaymentLinksContract: Web3.eth.Contract
+
   account: string
+
   accounts: Array<string>
+
   networkId: number
+
+  network: string
+
   gasPrice: number
+
   subscribers: any = {}
 
   constructor(walletConfig: {} = {}) {
@@ -104,7 +165,7 @@ export class GoodWallet {
         fromBlock,
         filterPred: { from: this.wallet.utils.toChecksumAddress(this.account) }
       },
-      async (error, events) => {
+      (error, events) => {
         log.debug('send events', { error, events })
         const uniqEvents = uniqBy(events, 'transactionHash')
         uniqEvents.forEach(event => {
@@ -112,6 +173,7 @@ export class GoodWallet {
             .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptUpdated']))
             .catch(err => log.error('send event get/send receipt failed:', err))
         })
+
         // Send for all events. We could define here different events
         this.getSubscribers('send').forEach(cb => cb(error, events))
         this.getSubscribers('balanceChanged').forEach(cb => cb(error, events))
@@ -125,7 +187,7 @@ export class GoodWallet {
         fromBlock,
         filterPred: { to: this.wallet.utils.toChecksumAddress(this.account) }
       },
-      async (error, events) => {
+      (error, events) => {
         log.debug('receive events', { error, events })
         const uniqEvents = uniqBy(events, 'transactionHash')
         uniqEvents.forEach(event => {
@@ -146,11 +208,12 @@ export class GoodWallet {
    */
   async getReceiptWithLogs(transactionHash: string) {
     const transactionReceipt = await this.wallet.eth.getTransactionReceipt(transactionHash)
-    if (!transactionReceipt) return null
+    if (!transactionReceipt) {
+      return null
+    }
 
     const logs = abiDecoder.decodeLogs(transactionReceipt.logs)
-    const receipt = { ...transactionReceipt, logs }
-    return receipt
+    return { ...transactionReceipt, logs }
   }
 
   sendReceiptWithLogsToSubscribers(receipt: any, subscriptions: Array<string>) {
@@ -163,7 +226,7 @@ export class GoodWallet {
   init(): Promise<any> {
     const ready = WalletFactory.create(GoodWallet.WalletType, this.config)
     this.ready = ready
-      .then(async wallet => {
+      .then(wallet => {
         this.wallet = wallet
         this.accounts = this.wallet.eth.accounts.wallet
         this.account = this.getAccountForType('gd')
@@ -218,10 +281,19 @@ export class GoodWallet {
     return this.ready
   }
 
-  async deleteAccount(): Promise<> {
+  /**
+   * Deletes the current account
+   * @returns {Promise<Promise|Q.Promise<TransactionReceipt>|Promise<*>|*>}
+   */
+  deleteAccount(): Promise<TransactionReceipt> {
     return this.sendTransaction(this.identityContract.methods.renounceWhitelisted())
   }
-  async claim(): Promise<TransactionReceipt> {
+
+  /**
+   * Claims tokens for current account
+   * @returns {Promise<TransactionReceipt>|Promise<Promise|Q.Promise<TransactionReceipt>|Promise<*>|*>}
+   */
+  claim(): Promise<TransactionReceipt> {
     try {
       return this.sendTransaction(this.claimContract.methods.claimTokens())
     } catch (e) {
@@ -244,8 +316,8 @@ export class GoodWallet {
     }
   }
 
-  async checkEntitlement(): Promise<number> {
-    return await this.claimContract.methods.checkEntitlement().call()
+  checkEntitlement(): Promise<number> {
+    return this.claimContract.methods.checkEntitlement().call()
   }
 
   /**
@@ -255,13 +327,15 @@ export class GoodWallet {
    * @dev so consumer can unsubscribe using id and event name
    */
   subscribeToEvent(eventName: string, cb: Function) {
-    // Get last id from subscribersList
     if (!this.subscribers[eventName]) {
+      // Get last id from subscribersList
       this.subscribers[eventName] = {}
     }
+
     const subscribers = this.subscribers[eventName]
     const id = Math.max(...Object.keys(subscribers).map(parseInt), 0) + 1 // Give next id in a raw to current subscriber
     this.subscribers[eventName][id] = cb
+
     return { id, eventName }
   }
 
@@ -281,12 +355,13 @@ export class GoodWallet {
   getSubscribers(eventName: string): Function {
     return values(this.subscribers[eventName] || {})
   }
+
   /**
    * Listen to balance changes for the current account
    * @param cb
    * @returns {Promise<void>}
    */
-  async balanceChanged(cb: Function) {
+  balanceChanged(cb: Function) {
     this.subscribeToEvent('balanceChanged', cb)
   }
 
@@ -336,18 +411,16 @@ export class GoodWallet {
       if (events.length) {
         if (callback === undefined) {
           return Promise.resolve(events)
-        } else {
-          callback(null, events)
         }
+        callback(null, events)
       }
     } catch (e) {
       log.error('oneTimeEvents failed:', { e })
 
       if (callback === undefined) {
         return Promise.reject(e)
-      } else {
-        callback(e, [])
       }
+      callback(e, [])
     }
   }
 
@@ -369,8 +442,8 @@ export class GoodWallet {
     const BLOCK_COUNT = 1
     const INTERVAL = BLOCK_COUNT * BLOCK_TIME
 
-    const lastBlock = toBlock !== undefined ? toBlock : await this.getBlockNumber()
-    fromBlock = fromBlock !== undefined ? fromBlock : ZERO
+    const lastBlock = toBlock === undefined ? await this.getBlockNumber() : toBlock
+    fromBlock = fromBlock === undefined ? ZERO : fromBlock
 
     log.trace('fromBlock', fromBlock && fromBlock.toString())
     log.trace('lastBlock', lastBlock.toString())
@@ -401,7 +474,7 @@ export class GoodWallet {
     }, INTERVAL)
   }
 
-  async balanceOf(): Promise<number> {
+  balanceOf(): Promise<number> {
     return this.tokenContract.methods.balanceOf(this.account).call()
   }
 
@@ -420,16 +493,28 @@ export class GoodWallet {
     return signed.signature
   }
 
-  async isVerified(address: string): Promise<boolean> {
-    const tx: boolean = await this.identityContract.methods.isVerified(address).call()
-    return tx
+  /**
+   * Determines if a specified address is verified in the blockchain
+   * @param address
+   * @returns {Promise<boolean>}
+   */
+  isVerified(address: string): Promise<boolean> {
+    return this.identityContract.methods.isVerified(address).call()
   }
 
-  async isCitizen(): Promise<boolean> {
-    const tx: boolean = await this.identityContract.methods.isVerified(this.account).call()
-    return tx
+  /**
+   * Determines if current user is verified in the blockchain
+   * @returns {Promise<boolean>}
+   */
+  isCitizen(): Promise<boolean> {
+    return this.isVerified(this.account)
   }
 
+  /**
+   * Checks if use can send an specific amount of G$s
+   * @param {number} amount
+   * @returns {Promise<boolean>}
+   */
   async canSend(amount: number): Promise<boolean> {
     const balance = await this.balanceOf()
     return parseInt(amount) <= parseInt(balance)
@@ -440,6 +525,7 @@ export class GoodWallet {
    * @param {number} amount - amount of money to send using OTP
    * @param {string} reason - optional reason for sending the payment (comment)
    * @param {PromiEvents} events - used to subscribe to onTransactionHash event
+   * @returns {{generatedString, hashedString, sendLink, receipt}}
    */
   async generateLink(amount: number, reason: string = '', events: PromiEvents) {
     if (!(await this.canSend(amount))) {
@@ -458,8 +544,9 @@ export class GoodWallet {
     const encodedABI = await deposit.encodeABI()
 
     const transferAndCall = this.tokenContract.methods.transferAndCall(otpAddress, amount, encodedABI)
-    //Fixed gas amount so it can work locally with ganache
-    //https://github.com/trufflesuite/ganache-core/issues/417
+
+    // Fixed gas amount so it can work locally with ganache
+    // https://github.com/trufflesuite/ganache-core/issues/417
     const gas: number = 200000 //Math.floor((await transferAndCall.estimateGas().catch(this.handleError)) * 2)
 
     log.debug('generateLink:', { amount })
@@ -481,32 +568,34 @@ export class GoodWallet {
   }
 
   getWithdrawLink(otlCode: string) {
-    const { sha3 } = this.wallet.utils
-    return sha3(otlCode)
+    return this.wallet.utils.sha3(otlCode)
   }
 
   /**
    * checks against oneTimeLink contract, if the specified link has already been used or not.
    * @param {string} link
+   * @returns {Promise<boolean>}
    */
-  async isWithdrawLinkUsed(link: string) {
+  isWithdrawLinkUsed(link: string): Promise<boolean> {
     const { isLinkUsed } = this.oneTimePaymentLinksContract.methods
-    return await isLinkUsed(link).call()
+    return isLinkUsed(link).call()
   }
 
   /**
    * Checks if getWithdrawAvailablePayment returned a valid payment (BN handle)
    * @param {BN} payment
+   * @returns boolean
    */
-  isWithdrawPaymentAvailable(payment: typeof BN) {
+  isWithdrawPaymentAvailable(payment: typeof BN): boolean {
     return payment.lte(ZERO)
   }
 
   /**
-   * @returns the amount of GoodDollars resides in the oneTimeLink contract under the specified link, in BN representation.
+   * The amount of GoodDollars resides in the oneTimeLink contract under the specified link, in BN representation.
    * @param {string} link
+   * @returns {Promise<BN>}
    */
-  getWithdrawAvailablePayment(link: string) {
+  getWithdrawAvailablePayment(link: string): Promise<BN> {
     const { payments } = this.oneTimePaymentLinksContract.methods
     const { toBN } = this.wallet.utils
 
@@ -515,16 +604,25 @@ export class GoodWallet {
       .then(toBN)
   }
 
-  async getWithdrawStatus(otlCode: string) {
+  /**
+   * Depending on what's queried off the blockchain for the OTL code, will return an status to display
+   * @param otlCode - one time link code
+   * @returns {Promise<'Completed' | 'Cancelled' | 'Pending'>}
+   */
+  async getWithdrawStatus(otlCode: string): Promise<'Completed' | 'Cancelled' | 'Pending'> {
     const link = this.getWithdrawLink(otlCode)
 
     // Check link availability
     const linkUsed = await this.isWithdrawLinkUsed(link)
-    if (linkUsed) return 'Completed'
+    if (linkUsed) {
+      return 'Completed'
+    }
 
     // Check payment availability
     const paymentAvailable = await this.getWithdrawAvailablePayment(link)
-    if (this.isWithdrawPaymentAvailable(paymentAvailable)) return 'Cancelled'
+    if (this.isWithdrawPaymentAvailable(paymentAvailable)) {
+      return 'Cancelled'
+    }
 
     return 'Pending'
   }
@@ -540,11 +638,15 @@ export class GoodWallet {
 
     // Check link availability
     const linkUsed = await this.isWithdrawLinkUsed(link)
-    if (!linkUsed) throw new Error('invalid link')
+    if (!linkUsed) {
+      throw new Error('invalid link')
+    }
 
     // Check payment availability
     const paymentAvailable = await this.getWithdrawAvailablePayment(link)
-    if (this.isWithdrawPaymentAvailable(paymentAvailable)) throw new Error('deposit already withdrawn')
+    if (this.isWithdrawPaymentAvailable(paymentAvailable)) {
+      throw new Error('deposit already withdrawn')
+    }
 
     const sender = await senders(link).call()
     return {
@@ -558,21 +660,22 @@ export class GoodWallet {
    * @param {string} otlCode
    * @param {PromiEvents} promiEvents
    */
-  async withdraw(otlCode: string, promiEvents: ?PromiEvents) {
+  withdraw(otlCode: string, promiEvents: ?PromiEvents) {
     const withdrawCall = this.oneTimePaymentLinksContract.methods.withdraw(otlCode)
     log.info('withdrawCall', withdrawCall)
-    return await this.sendTransaction(withdrawCall, { ...defaultPromiEvents, ...promiEvents })
+    return this.sendTransaction(withdrawCall, { ...defaultPromiEvents, ...promiEvents })
   }
 
   /**
    * cancels payment link and return the money to the sender (if not been withdrawn already)
    * @param {string} otlCode
+   * @returns {Promise<TransactionReceipt>}
    */
-  async cancelOtl(otlCode: string) {
+  cancelOtl(otlCode: string): Promise<TransactionReceipt> {
     const cancelOtlCall = this.oneTimePaymentLinksContract.methods.cancel(otlCode)
     log.info('cancelOtlCall', cancelOtlCall)
 
-    return await this.sendTransaction(cancelOtlCall, { onTransactionHash: hash => log.debug({ hash }) })
+    return this.sendTransaction(cancelOtlCall, { onTransactionHash: hash => log.debug({ hash }) })
   }
 
   handleError(err: Error) {
@@ -609,21 +712,21 @@ export class GoodWallet {
     log.info({ amount, to })
     const transferCall = this.tokenContract.methods.transfer(to, amount.toString()) // retusn TX object (not sent to the blockchain yet)
 
-    return await this.sendTransaction(transferCall, events) // Send TX to the blockchain
+    return this.sendTransaction(transferCall, events) // Send TX to the blockchain
   }
 
   /**
    * Helper function to handle a tx Send call
    * @param tx
-   * @param {object} promiEvents
-   * @param {function} promiEvents.onTransactionHash
-   * @param {function} promiEvents.onReceipt
-   * @param {function} promiEvents.onConfirmation
-   * @param {function} promiEvents.onError
+   * @param {PromiEvents} txCallbacks
+   * @param {function} txCallbacks.onTransactionHash
+   * @param {function} txCallbacks.onReceipt
+   * @param {function} txCallbacks.onConfirmation
+   * @param {function} txCallbacks.onError
    * @param {object} gasValues
    * @param {number} gasValues.gas
    * @param {number} gasValues.gasPrice
-   * @returns {Promise<Promise|Q.Promise<any>|Promise<*>|Promise<*>|Promise<*>|*>}
+   * @returns {Promise<Promise|Q.Promise<TransactionReceipt>|Promise<*>|Promise<*>|Promise<*>|*>}
    */
   async sendTransaction(
     tx: any,
@@ -651,6 +754,7 @@ export class GoodWallet {
             rej(e)
           })
       })
+
         /** receipt handling happens already in polling events */
         // .then(async receipt => {
         //   const transactionReceipt = await this.getReceiptWithLogs(receipt.transactionHash)

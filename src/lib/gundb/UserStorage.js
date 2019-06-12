@@ -1,5 +1,4 @@
 //@flow
-import type { StandardFeed } from '../undux/GDStore'
 import Gun from '@gooddollar/gun-appendonly'
 import SEA from 'gun/sea'
 import find from 'lodash/find'
@@ -13,15 +12,16 @@ import flatten from 'lodash/flatten'
 import get from 'lodash/get'
 import values from 'lodash/values'
 import keys from 'lodash/keys'
-import defaultGun from './gundb'
+import isEmail from 'validator/lib/isEmail'
+import { AsyncStorage } from 'react-native'
 import { default as goodWallet, type GoodWallet } from '../wallet/GoodWallet'
 import isMobilePhone from '../validators/isMobilePhone'
-import isEmail from 'validator/lib/isEmail'
 
 import pino from '../logger/pino-logger'
-import { getUserModel, type UserModel } from './UserModel'
-import { AsyncStorage } from 'react-native'
+import type { StandardFeed } from '../undux/GDStore'
 import API from '../API/api'
+import { getUserModel, type UserModel } from './UserModel'
+import defaultGun from './gundb'
 const logger = pino.child({ from: 'UserStorage' })
 
 function isValidDate(d) {
@@ -37,6 +37,7 @@ export type GunDBUser = {
   pub: string,
   sea: any
 }
+
 /**
  * possible privacy level for profile fields
  */
@@ -86,7 +87,10 @@ export type TransactionEvent = FeedEvent & {
  * @returns {object} {transferLog: event: [{evtName: evtValue}]}
  */
 export const getReceiveDataFromReceipt = (receipt: any) => {
-  if (!receipt || !receipt.logs || receipt.logs.length <= 0) return {}
+  if (!receipt || !receipt.logs || receipt.logs.length <= 0) {
+    return {}
+  }
+
   // Obtain logged data from receipt event
   const logs = receipt.logs
     .filter(_ => _)
@@ -98,6 +102,7 @@ export const getReceiveDataFromReceipt = (receipt: any) => {
         { name: log.name }
       )
     )
+
   //maxBy is used in case transaction also paid a TX fee/burn, so since they are small
   //it filters them out
   const transferLog = maxBy(
@@ -134,21 +139,31 @@ export class UserStorage {
    * @instance {GoodWallet}
    */
   wallet: GoodWallet
+
   /**
    * a gun node refering to gun.user()
    * @instance {Gun}
    */
   gunuser: Gun
+
+  /**
+   * a gun node referring to gun
+   * @instance {Gun}
+   */
+  gun: Gun
+
   /**
    * a gun node refering to gun.user().get('profile')
    * @instance {Gun}
    */
   profile: Gun
+
   /**
    * a gun node refering to gun.user().get('feed')
    * @instance {Gun}
    */
   feed: Gun
+
   /**
    * In memory array. keep number of events per day
    * @instance {Gun}
@@ -160,11 +175,14 @@ export class UserStorage {
    * @instance {GunDBUser}
    */
   user: GunDBUser
+
   /**
    * A promise which is resolved once init() is done
    */
   ready: Promise<boolean>
+
   subscribersProfileUpdates = []
+
   _lastProfileUpdate: any
 
   static indexableFields = {
@@ -183,8 +201,12 @@ export class UserStorage {
    * @returns {string} - Value without '+' (plus), '-' (minus), '_' (underscore), ' ' (space), in lower case
    */
   static cleanFieldForIndex = (field: string, value: string): string => {
-    if (!value) return value
-    if (field === 'mobile' || field === 'phone') return value.replace(/[_+-\s]+/g, '')
+    if (!value) {
+      return value
+    }
+    if (field === 'mobile' || field === 'phone') {
+      return value.replace(/[_+-\s]+/g, '')
+    }
     return value.toLowerCase()
   }
 
@@ -206,7 +228,7 @@ export class UserStorage {
     return value
   }
 
-  constructor(wallet: GoodWallet, gun = defaultGun) {
+  constructor(wallet: GoodWallet, gun: Gun = defaultGun) {
     this.gun = gun
     this.wallet = wallet || goodWallet
     this.ready = this.wallet.ready
@@ -222,16 +244,20 @@ export class UserStorage {
    */
   async init() {
     logger.debug('Initializing GunDB UserStorage')
+
     //sign with different address so its not connected to main user address and there's no 1-1 link
     const username = await this.wallet.sign('GoodDollarUser', 'gundb').then(r => r.slice(0, 20))
     const password = await this.wallet.sign('GoodDollarPass', 'gundb').then(r => r.slice(0, 20))
     this.gunuser = this.gun.user()
     return new Promise((res, rej) => {
-      this.gunuser.create(username, password, async userCreated => {
+      this.gunuser.create(username, password, userCreated => {
         logger.debug('gundb user created', userCreated)
+
         //auth.then - doesnt seem to work server side in tests
         this.gunuser.auth(username, password, user => {
-          if (user.err) return rej(user.err)
+          if (user.err) {
+            return rej(user.err)
+          }
           this.user = this.gunuser.is
           this.profile = this.gunuser.get('profile')
           this.profile.open(doc => {
@@ -241,6 +267,7 @@ export class UserStorage {
           logger.debug('init to events')
 
           this.initFeed()
+
           //save ref to user
           this.gun
             .get('users')
@@ -266,14 +293,17 @@ export class UserStorage {
   async handleReceiptUpdated(receipt: any): Promise<FeedEvent> {
     try {
       const data = getReceiveDataFromReceipt(receipt)
+
       //get initial TX data
       const initialEvent = (await this.peekTX(receipt.transactionHash)) || { data: {} }
+
       //get existing or make a new event
       const feedEvent = (await this.getFeedItemByTransactionHash(receipt.transactionHash)) || {
         id: receipt.transactionHash,
         date: new Date().toString(),
         type: getOperationType(data, this.wallet.account)
       }
+
       //merge incoming receipt data into existing event
       const updatedFeedEvent: FeedEvent = {
         ...feedEvent,
@@ -286,7 +316,10 @@ export class UserStorage {
         }
       }
       logger.debug('receiptReceived', { initialEvent, feedEvent, receipt, data, updatedFeedEvent })
-      if (isEqual(feedEvent, updatedFeedEvent) === false) await this.updateFeedEvent(updatedFeedEvent)
+      if (isEqual(feedEvent, updatedFeedEvent) === false) {
+        await this.updateFeedEvent(updatedFeedEvent)
+      }
+
       //remove pending once we used it and updated feed
       this.dequeueTX(receipt.transactionHash)
       return updatedFeedEvent
@@ -295,7 +328,7 @@ export class UserStorage {
     }
   }
 
-  async sign(msg: any) {
+  sign(msg: any) {
     return SEA.sign(msg, this.gunuser.pair())
   }
 
@@ -331,6 +364,7 @@ export class UserStorage {
     logger.debug('getAllfeed', { feed, cursor: this.cursor })
     return feed
   }
+
   /**
    * Used as subscripition callback for gundb
    * When the index of <day> to <number of events> changes
@@ -339,7 +373,9 @@ export class UserStorage {
    * @param {string} field the name of the gundb key changed
    */
   updateFeedIndex = (changed: any, field: string) => {
-    if (field !== 'index' || changed === undefined) return
+    if (field !== 'index' || changed === undefined) {
+      return
+    }
     delete changed._
     this.feedIndex = orderBy(toPairs(changed), day => day[0], 'desc')
     logger.debug('updateFeedIndex', { changed, field, newIndex: this.feedIndex })
@@ -349,7 +385,7 @@ export class UserStorage {
    * Subscribes to changes on the event index of day to number of events
    * the "false" (see gundb docs) passed is so we get the complete 'index' on every change and not just the day that changed
    */
-  async initFeed() {
+  initFeed() {
     this.feed = this.gunuser.get('feed')
     this.feed.get('index').on(this.updateFeedIndex, false)
   }
@@ -358,36 +394,34 @@ export class UserStorage {
    * Returns profile attribute
    *
    * @param {string} field - Profile attribute
-   * @returns {string} Decrypted profile value
+   * @returns {Promise<ProfileField>} Decrypted profile value
    */
-  async getProfileFieldValue(field: string): Promise<any> {
-    let pField: ProfileField = await this.profile
+  getProfileFieldValue(field: string): Promise<ProfileField> {
+    return this.profile
       .get(field)
       .get('value')
       .decrypt()
-    return pField
   }
 
   /**
    * Returns progfile attribute value
    *
    * @param {string} field - Profile attribute
-   * @returns {Promise} Gun profile attribute object
+   * @returns {Promise<ProfileField>} Gun profile attribute object
    */
-  async getProfileField(field: string): Promise<ProfileField> {
-    let pField: ProfileField = await this.profile.get(field).then()
-    return pField
+  getProfileField(field: string): Promise<ProfileField> {
+    return this.profile.get(field).then()
   }
 
   /**
    * Return display attribute of each profile property
    *
    * @param {object} profile - User profile
-   * @returns {object} - User model with display values
+   * @returns {UserModel} - User model with display values
    */
-  async getDisplayProfile(profile: {}): Promise<any> {
+  getDisplayProfile(profile: {}): UserModel {
     const displayProfile = Object.keys(profile).reduce(
-      (acc, currKey, arr) => ({ ...acc, [currKey]: profile[currKey].display }),
+      (acc, currKey) => ({ ...acc, [currKey]: profile[currKey].display }),
       {}
     )
     return getUserModel(displayProfile)
@@ -399,7 +433,7 @@ export class UserStorage {
    * @param {object} profile - user profile
    * @returns {object} UserModel with some inherit functions
    */
-  async getPrivateProfile(profile: {}): Promise<UserModel> {
+  getPrivateProfile(profile: {}): Promise<UserModel> {
     const keys = Object.keys(profile)
     return Promise.all(keys.map(currKey => this.getProfileFieldValue(currKey)))
       .then(values => {
@@ -413,7 +447,9 @@ export class UserStorage {
 
   subscribeProfileUpdates(callback: any => void) {
     this.subscribersProfileUpdates.push(callback)
-    if (this._lastProfileUpdate) callback(this._lastProfileUpdate)
+    if (this._lastProfileUpdate) {
+      callback(this._lastProfileUpdate)
+    }
   }
 
   unSubscribeProfileUpdates() {
@@ -428,8 +464,10 @@ export class UserStorage {
    * @returns {Promise} Promise with profile settings updates and privacy validations
    * @throws Error if profile is invalid
    */
-  async setProfile(profile: UserModel) {
-    if (profile && !profile.validate) profile = getUserModel(profile)
+  setProfile(profile: UserModel) {
+    if (profile && !profile.validate) {
+      profile = getUserModel(profile)
+    }
     const { errors, isValid } = profile.validate()
     if (!isValid) {
       logger.error('setProfile failed:', { errors })
@@ -460,7 +498,9 @@ export class UserStorage {
     )
       .then(results => {
         const errors = results.filter(ack => ack && ack.err).map(ack => ack.err)
-        if (errors.length > 0) logger.error('setProfile some fields failed', errors.length, errors)
+        if (errors.length > 0) {
+          logger.error('setProfile some fields failed', errors.length, errors)
+        }
         return true
       })
       .catch(e => logger.error('setProfile Failed', e, e.message))
@@ -482,8 +522,11 @@ export class UserStorage {
         break
       case 'masked':
         display = UserStorage.maskField(field, value)
+
         //undo invalid masked field
-        if (display === value) privacy = 'public'
+        if (display === value) {
+          privacy = 'public'
+        }
         break
       case 'public':
         display = value
@@ -491,6 +534,7 @@ export class UserStorage {
       default:
         throw new Error('Invalid privacy setting', { privacy })
     }
+
     //for all privacy cases we go through the index, in case field was changed from public to private so we remove it
     if (UserStorage.indexableFields[field]) {
       const indexPromiseResult = await this.indexProfileField(field, value, privacy)
@@ -524,9 +568,13 @@ export class UserStorage {
    * need to develop for gundb immutable keys to non first user
    */
   async indexProfileField(field: string, value: string, privacy: FieldPrivacy): Promise<ACK> {
-    if (!UserStorage.indexableFields[field]) return Promise.resolve({ err: 'Not indexable field', ok: 0 })
+    if (!UserStorage.indexableFields[field]) {
+      return Promise.resolve({ err: 'Not indexable field', ok: 0 })
+    }
     const cleanValue = UserStorage.cleanFieldForIndex(field, value)
-    if (!cleanValue) return Promise.resolve({ err: 'Indexable field cannot be null or empty', ok: 0 })
+    if (!cleanValue) {
+      return Promise.resolve({ err: 'Indexable field cannot be null or empty', ok: 0 })
+    }
 
     const indexNode = this.gun.get(`users/by${field}`).get(cleanValue)
     logger.debug('indexProfileField', { field, cleanValue, value, privacy })
@@ -577,12 +625,20 @@ export class UserStorage {
    * @returns {Promise} Promise with an array of feed events
    */
   async getFeedPage(numResults: number, reset?: boolean = false): Promise<Array<FeedEvent>> {
-    if (reset) this.cursor = undefined
-    if (this.cursor === undefined) this.cursor = 0
+    if (reset) {
+      this.cursor = undefined
+    }
+    if (this.cursor === undefined) {
+      this.cursor = 0
+    }
     let total = 0
-    if (!this.feedIndex) return []
+    if (!this.feedIndex) {
+      return []
+    }
     let daysToTake: Array<[string, number]> = takeWhile(this.feedIndex.slice(this.cursor), day => {
-      if (total >= numResults) return false
+      if (total >= numResults) {
+        return false
+      }
       total += day[1]
       return true
     })
@@ -600,7 +656,7 @@ export class UserStorage {
 
     const eventsIndex = flatten(await Promise.all(promises))
 
-    return await Promise.all(
+    return Promise.all(
       eventsIndex
         .filter(_ => _.id)
         .map(eventIndex =>
@@ -613,29 +669,35 @@ export class UserStorage {
   }
 
   /**
-   * Return all feed events
-   *
+   * Return all feed events*
    * @returns {Promise} Promise with array of standarised feed events
    * @todo Add pagination
    */
   async getFormattedEvents(numResults: number, reset?: boolean): Promise<Array<StandardFeed>> {
     const feed = await this.getFeedPage(numResults, reset)
-    return await Promise.all(feed.filter(feedItem => feedItem.data).map(this.formatEvent))
+    return Promise.all(feed.filter(feedItem => feedItem.data).map(this.formatEvent))
   }
 
   async getFormatedEventById(id: string): Promise<StandardFeed> {
     const prevFeedEvent = (await this.getFeedItemByTransactionHash(id)) || (await this.peekTX(id))
     const standardPrevFeedEvent = await this.formatEvent(prevFeedEvent)
-    if (!prevFeedEvent) return standardPrevFeedEvent
-    if (prevFeedEvent.data && prevFeedEvent.data.receipt) return standardPrevFeedEvent
+    if (!prevFeedEvent) {
+      return standardPrevFeedEvent
+    }
+    if (prevFeedEvent.data && prevFeedEvent.data.receipt) {
+      return standardPrevFeedEvent
+    }
 
     //if for some reason we dont have the receipt(from blockchain) yet then fetch it
     const receipt = await this.wallet.getReceiptWithLogs(id)
-    if (!receipt) return standardPrevFeedEvent
+    if (!receipt) {
+      return standardPrevFeedEvent
+    }
+
     //update the event
     let updatedEvent = await this.handleReceiptUpdated(receipt)
     logger.debug('getFormatedEventById updated event with receipt', { prevFeedEvent, updatedEvent })
-    return await this.formatEvent(updatedEvent)
+    return this.formatEvent(updatedEvent)
   }
 
   /**
@@ -643,19 +705,17 @@ export class UserStorage {
    * @param {string} field - Profile field value (email, mobile or wallet address value)
    * @returns { string } address
    */
-  async getUserAddress(field: string) {
+  getUserAddress(field: string) {
     const attr = isMobilePhone(field) ? 'mobile' : isEmail(field) ? 'email' : 'walletAddress'
     const value = UserStorage.cleanFieldForIndex(attr, field)
 
-    const address = await this.gun
+    return this.gun
       .get(`users/by${attr}`)
       .get(value)
       .get('profile')
       .get('walletAddress')
       .get('display')
       .then()
-
-    return address
   }
 
   /**
@@ -726,7 +786,7 @@ export class UserStorage {
       withdrawStatus = await this.wallet.getWithdrawStatus(generatedString)
     }
 
-    const stdFeed = {
+    return {
       id: id,
       date: new Date(date).getTime(),
       type: type,
@@ -741,7 +801,6 @@ export class UserStorage {
         message: reason
       }
     }
-    return stdFeed
   }
 
   /**
@@ -750,12 +809,13 @@ export class UserStorage {
    * @param {FeedEvent} event
    * @returns {Promise<>}
    */
-  async enqueueTX(event: FeedEvent): Promise<> {
-    return await AsyncStorage.setItem(event.id, JSON.stringify(event))
+  enqueueTX(event: FeedEvent): Promise<> {
+    return AsyncStorage.setItem(event.id, JSON.stringify(event))
   }
+
   /**
    * remove and return pending TX
-   * @param {*} event
+   * @param eventId
    * @returns {Promise<FeedEvent>}
    */
   async dequeueTX(eventId: string): Promise<FeedEvent> {
@@ -783,9 +843,11 @@ export class UserStorage {
   async updateFeedEvent(event: FeedEvent): Promise<FeedEvent> {
     logger.debug('updateFeedEvent:', { event })
     let date = new Date(event.date)
+
     // force valid dates
     date = isValidDate(date) ? date : new Date()
     let day = `${date.toISOString().slice(0, 10)}`
+
     // Saving eventFeed by id
     logger.debug('updateFeedEvent starting encrypt')
     await this.feed
@@ -796,6 +858,7 @@ export class UserStorage {
         logger.error('updateFeedEvent failedEncrypt byId:', e, event)
         return { err: e.message }
       })
+
     // Update dates index
     let dayEventsArr = (await this.feed.get(day).then()) || []
     let toUpd = find(dayEventsArr, e => e.id === event.id)
@@ -804,8 +867,11 @@ export class UserStorage {
       merge(toUpd, eventIndexItem)
     } else {
       let insertPos = dayEventsArr.findIndex(e => date > new Date(e.updateDate))
-      if (insertPos >= 0) dayEventsArr.splice(insertPos, 0, eventIndexItem)
-      else dayEventsArr.unshift(eventIndexItem)
+      if (insertPos >= 0) {
+        dayEventsArr.splice(insertPos, 0, eventIndexItem)
+      } else {
+        dayEventsArr.unshift(eventIndexItem)
+      }
     }
     let saveAck = this.feed
       .get(day)
@@ -842,7 +908,7 @@ export class UserStorage {
    * @param blockNumber
    * @returns {Promise<Promise<*>|Promise<R|*>>}
    */
-  async saveLastBlockNumber(blockNumber: number | string): Promise<any> {
+  saveLastBlockNumber(blockNumber: number | string): Promise<any> {
     logger.debug('saving lastBlock:', blockNumber)
     return this.getLastBlockNode().putAck(blockNumber)
   }
@@ -856,20 +922,22 @@ export class UserStorage {
   /**
    * remove user from indexes when deleting profile
    */
-  async deleteProfile(): Promise<> {
+  async deleteProfile(): Promise<boolean> {
     //first delete from indexes then delete the profile itself
-    return Promise.all(
-      keys(UserStorage.indexableFields).map(async k => {
-        return this.setProfileFieldPrivacy(k, 'private').catch(e => {
+    await Promise.all(
+      keys(UserStorage.indexableFields).map(k => {
+        return this.setProfileFieldPrivacy(k, 'private').catch(() => {
           logger.error('failed deleting profile field', k)
         })
       })
-    ).then(r =>
-      this.gunuser
-        .get('profile')
-        .put('null')
-        .then()
     )
+
+    await this.gunuser
+      .get('profile')
+      .put('null')
+      .then()
+
+    return true
   }
 
   /**
@@ -905,6 +973,7 @@ export class UserStorage {
           feed: 'failed'
         }))
     ])
+
     //Issue with gun delete()
     // let profileDelete = await this.gunuser
     //   .delete()

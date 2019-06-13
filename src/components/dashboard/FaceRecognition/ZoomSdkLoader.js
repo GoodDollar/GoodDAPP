@@ -1,6 +1,6 @@
 // @flow
-import logger from '../../../lib/logger/pino-logger'
 import loadjs from 'loadjs'
+import logger from '../../../lib/logger/pino-logger'
 import Config from '../../../config/config'
 const log = logger.child({ from: 'ZoomSdkLoader' })
 
@@ -47,7 +47,7 @@ export class ZoomSdkLoader {
   }
 
   /*Call ZoomSDK initialize with license key */
-  async initialize(zoomSDK: any): Promise<void> {
+  initialize(zoomSDK: any): Promise<void> {
     return new Promise((resolve, reject) => {
       if (!licenseKey) {
         return reject(new Error('No license key supplied in environment variable'))
@@ -67,7 +67,7 @@ export class ZoomSdkLoader {
   }
 
   /* Preloads Zoom SDK */
-  async preload(zoomSDK: any): Promise<void> {
+  preload(zoomSDK: any): Promise<void> {
     return new Promise((resolve, reject) => {
       //styleZoom(zoomSDK)
       zoomSDK.preload((preloadResult: any) => {

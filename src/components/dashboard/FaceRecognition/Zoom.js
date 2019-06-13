@@ -15,8 +15,7 @@ export type ZoomCaptureResult = {
 }
 
 const log = logger.child({ from: 'Zoom' })
-
-export const capture = async (zoomSDK: any, videoTrack: MediaStreamTrack): Promise<ZoomCaptureResult> =>
+export const capture = (zoomSDK: any, videoTrack: MediaStreamTrack): Promise<ZoomCaptureResult> =>
   new Promise((resolve, reject) => {
     let ZoomSDK = zoomSDK
     log.info('ZoomSDK = ', { ZoomSDK })

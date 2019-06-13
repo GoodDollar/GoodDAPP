@@ -1,8 +1,8 @@
 // @flow
 import { Dimensions } from 'react-native'
-import React, { useEffect, createRef } from 'react'
-import logger from '../../../lib/logger/pino-logger'
+import React, { createRef, useEffect } from 'react'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
+import logger from '../../../lib/logger/pino-logger'
 
 const log = logger.child({ from: 'Camera' })
 const { width, height } = Dimensions.get('window')
@@ -54,6 +54,7 @@ export function Camera(props: CameraProps) {
   const styles = {
     videoElement: {
       ...getResponsiveVideoDimensions(),
+
       /* REQUIRED - handle flipping of ZoOm interface.  users of selfie-style interfaces are trained to see their mirror image */
       transform: 'scaleX(-1)',
       overflow: 'hidden',

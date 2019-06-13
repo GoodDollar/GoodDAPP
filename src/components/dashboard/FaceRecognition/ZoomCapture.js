@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
-import { Section } from '../../common'
 import { StyleSheet, View } from 'react-native'
+import { Section } from '../../common'
 import GDStore from '../../../lib/undux/GDStore'
 import type { DashboardProps } from '../Dashboard'
 import logger from '../../../lib/logger/pino-logger'
@@ -41,8 +41,11 @@ class ZoomCapture extends React.Component<ZoomCaptureProps, State> {
   }
 
   componentDidMount() {
-    if (!this.props.loadedZoom) log.warn('zoomSDK was not loaded into ZoomCapture properly')
+    if (!this.props.loadedZoom) {
+      log.warn('zoomSDK was not loaded into ZoomCapture properly')
+    }
   }
+
   render() {
     const showZoomCapture = this.props.showZoomCapture
     return (

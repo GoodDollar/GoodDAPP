@@ -1,15 +1,15 @@
 // @flow
-import FRapi from './FaceRecognitionAPI'
-import ZoomCapture from './ZoomCapture'
-import zoomSdkLoader from './ZoomSdkLoader'
 import React, { createRef } from 'react'
-import { type ZoomCaptureResult } from './Zoom'
 import { StyleSheet, View } from 'react-native'
+import normalize from 'react-native-elements/src/helpers/normalizeText'
 import GDStore from '../../../lib/undux/GDStore'
 import type { DashboardProps } from '../Dashboard'
 import logger from '../../../lib/logger/pino-logger'
-import { Wrapper, CustomButton, Section } from '../../common'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
+import { CustomButton, Section, Wrapper } from '../../common'
+import FRapi from './FaceRecognitionAPI'
+import ZoomCapture from './ZoomCapture'
+import zoomSdkLoader from './ZoomSdkLoader'
+import { type ZoomCaptureResult } from './Zoom'
 
 const log = logger.child({ from: 'FaceRecognition' })
 
@@ -47,7 +47,9 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
   }
 
   containerRef = createRef()
+
   width = 720
+
   height = 0
 
   componentWillUnmount = () => {
@@ -63,7 +65,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     }
   }
 
-  componentDidMount = async () => {
+  componentDidMount = () => {
     this.setWidth()
     this.timeout && clearTimeout(this.timeout)
   }

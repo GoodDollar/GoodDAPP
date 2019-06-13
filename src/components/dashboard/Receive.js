@@ -1,9 +1,9 @@
 // @flow
 import QRCode from 'qrcode.react'
-import React, { useCallback, useMemo } from 'react'
-import { Clipboard, View } from 'react-native'
+import React, { useMemo } from 'react'
+import { View } from 'react-native'
 
-import logger from '../../lib/logger/pino-logger'
+import { useSetClipboard } from '../../lib/utils/Clipboard'
 import { generateCode, generateShareLink } from '../../lib/share'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import goodWallet from '../../lib/wallet/GoodWallet'
@@ -21,11 +21,10 @@ export type ReceiveProps = {
 
 const RECEIVE_TITLE = 'Receive G$'
 
-const log = logger.child({ from: RECEIVE_TITLE })
-
 const Receive = ({ screenProps }: ReceiveProps) => {
   const { account, networkId } = goodWallet
   const [showDialogWithData] = useDialog()
+  const setClipboard = useSetClipboard()
   const amount = 0
 
   const code = useMemo(() => generateCode(account, networkId, amount), [account, networkId, amount])
@@ -39,11 +38,6 @@ const Receive = ({ screenProps }: ReceiveProps) => {
       })
     }
   }, [code])
-
-  const copyAddress = useCallback(() => {
-    Clipboard.setString(account)
-    log.info('Account address copied', { account })
-  }, [account])
 
   return (
     <Wrapper style={styles.wrapper}>
@@ -60,7 +54,7 @@ const Receive = ({ screenProps }: ReceiveProps) => {
             <Section.Title style={styles.address}>
               <Address value={account} />
             </Section.Title>
-            <Section.Text style={styles.secondaryText} onPress={copyAddress}>
+            <Section.Text style={styles.secondaryText} onPress={() => setClipboard(account)}>
               Copy address to clipboard
             </Section.Text>
           </View>

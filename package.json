@@ -27,8 +27,8 @@
     "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls",
     "bundlesize:check": "bundlesize",
     "flow": "flow",
-    "lint": "eslint .",
-    "lint:fix": "eslint --fix .",
+    "lint": "eslint src/**/*.js",
+    "lint:fix": "eslint --fix src/**/*.js",
     "docs": "node scripts/docs.js"
   },
   "repository": {

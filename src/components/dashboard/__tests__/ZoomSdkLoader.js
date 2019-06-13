@@ -1,4 +1,4 @@
-import ZoomSdkLoader from '../FaceRecognition/ZoomSdkLoader'
+import { ZoomSdkLoader } from '../FaceRecognition/ZoomSdkLoader'
 
 let zoomChecker
 

@@ -48,10 +48,9 @@ class Claim extends Component<ClaimProps, ClaimState> {
     }
 
     const { entitlement } = this.props.store.get('account')
-    const goodWallet = this.goodWalletWrapped
     const [claimedToday, nextClaimDate] = await Promise.all([
-      goodWallet.getAmountAndQuantityClaimedToday(entitlement),
-      goodWallet.getNextClaimTime()
+      this.goodWalletWrapped.getAmountAndQuantityClaimedToday(entitlement),
+      this.goodWalletWrapped.getNextClaimTime()
     ])
     this.setState({ claimedToday })
     this.interval = setInterval(async () => {

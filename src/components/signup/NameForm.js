@@ -4,6 +4,7 @@ import { HelperText, TextInput } from 'react-native-paper'
 
 import { validateFullName } from '../../lib/validators/validateFullName'
 import { Title, Wrapper } from './components'
+import GDStore from '../../lib/undux/GDStore'
 
 type Props = {
   // callback to report to parent component

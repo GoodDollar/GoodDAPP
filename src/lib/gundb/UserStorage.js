@@ -211,6 +211,7 @@ export class UserStorage {
     this.wallet = wallet || goodWallet
     this.ready = this.wallet.ready
       .then(() => this.init())
+      .then(() => logger.debug('userStorage initialized.'))
       .catch(e => {
         logger.error('Error initializing UserStorage', { e, message: e.message, account: this.wallet.account })
         return false

@@ -16,5 +16,6 @@ export const init = async () => {
         }
       })
     amplitude.getInstance().setUserId(goodWallet.getAccountForType('login'))
+    return { goodWallet, userStorage }
   })
 }

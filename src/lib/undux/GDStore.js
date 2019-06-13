@@ -1,5 +1,5 @@
 // @flow
-import { createConnectedStore, withReduxDevtools } from 'undux'
+import { createConnectedStore } from 'undux'
 import compose from 'lodash/fp/compose'
 
 import withPinoLogger from './plugins/logger'
@@ -110,8 +110,7 @@ const GDStore: UnduxStore = createConnectedStore(
   initialState,
   compose(
     effects,
-    withPinoLogger,
-    withReduxDevtools
+    withPinoLogger
   )
 )
 

@@ -1,13 +1,15 @@
 // @flow
 import QRCode from 'qrcode.react'
-import React, { useCallback } from 'react'
-import { Clipboard, StyleSheet, Text, View } from 'react-native'
+
+import React from 'react'
+import { StyleSheet, Text, View } from 'react-native'
 import { normalize } from 'react-native-elements'
 import { isMobile } from 'mobile-device-detect'
 
-import logger from '../../lib/logger/pino-logger'
 import { generateSendShareObject } from '../../lib/share'
 import GDStore from '../../lib/undux/GDStore'
+import { useSetClipboard } from '../../lib/utils/Clipboard'
+
 import { DoneButton, useScreenState } from '../appNavigation/stackNavigation'
 import { BigGoodDollar, CustomButton, Section, TopBar, Wrapper } from '../common'
 import { fontStyle } from '../common/styles'
@@ -21,18 +23,12 @@ export type ReceiveProps = {
 }
 
 const SEND_TITLE = 'Send G$'
-const log = logger.child({ from: SEND_TITLE })
-
 const SendConfirmation = ({ screenProps }: ReceiveProps) => {
   const [screenState] = useScreenState(screenProps)
   const store = GDStore.useStore()
+  const setClipboard = useSetClipboard()
 
   const { amount, reason, sendLink } = screenState
-
-  const copySendLink = useCallback(() => {
-    Clipboard.setString(sendLink)
-    log.info('Account address copied', { sendLink })
-  }, [sendLink])
 
   const share = async () => {
     const share = generateSendShareObject(sendLink)
@@ -69,7 +65,7 @@ const SendConfirmation = ({ screenProps }: ReceiveProps) => {
             <Section.Text style={styles.addressSection}>
               <Text style={styles.url}>{sendLink}</Text>
             </Section.Text>
-            <Section.Text style={styles.secondaryText} onPress={copySendLink}>
+            <Section.Text style={styles.secondaryText} onPress={() => setClipboard(sendLink)}>
               Copy link to clipboard
             </Section.Text>
             <Section.Text style={styles.reasonText}>

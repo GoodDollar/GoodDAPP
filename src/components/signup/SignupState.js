@@ -14,9 +14,9 @@ import { createSwitchNavigator } from '@react-navigation/core'
 import { navigationConfig } from '../appNavigation/navigationConfig'
 import logger from '../../lib/logger/pino-logger'
 
-import API from '../../lib/API/api'
-// import goodWallet from '../../lib/wallet/GoodWallet'
-// import userStorage from '../../lib/gundb/UserStorage'
+import { useWrappedApi } from '../../lib/API/useWrappedApi'
+import SimpleStore from '../../lib/undux/SimpleStore'
+
 import type { SMSRecord } from './SmsForm'
 import { getUserModel, type UserModel } from '../../lib/gundb/UserModel'
 import Config from '../../config/config'
@@ -38,7 +38,14 @@ const SignupWizardNavigator = createSwitchNavigator(
 
 declare var amplitude
 const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any }) => {
-  // const API = useWrappedApi()
+  const ready = (async () => {
+    let { init } = await import('../../init')
+    let login = import('../../lib/login/GoodWalletLogin')
+    await init()
+    await login.then(l => l.default.auth())
+  })()
+  const store = SimpleStore.useStore()
+  const API = useWrappedApi()
   const initialState: SignupState = {
     ...getUserModel({
       fullName: '',
@@ -75,12 +82,18 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   }
 
   useEffect(() => {
-    // fireSignupEvent('STARTED')
+    //don't allow to start signup flow not from begining
+    if (navigation.state.index > 0) {
+      setLoading(true)
+      return navigateWithFocus(navigation.state.routes[0].key)
+    }
+    fireSignupEvent('STARTED')
   }, [])
   const done = async (data: { [string]: string }) => {
     setLoading(true)
     setError()
-    // fireSignupEvent()
+    // await ready
+    fireSignupEvent()
     log.info('signup data:', { data })
     let nextRoute = navigation.state.routes[navigation.state.index + 1]
     const newState = { ...state, ...data }
@@ -147,8 +160,9 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
           // // wait for the topping to complete to be able to withdraw
           // // await API.verifyTopWallet()
           // userStorage.setProfileField('registered', true, 'public')
-          navigation.navigate('AppNavigation')
-          // store.set('isLoggedIn')(true)
+          // navigation.navigate('AppNavigation')
+          //tell App.js we are done here so RouterSelector switches router
+          store.set('isLoggedIn')(true)
           setLoading(false)
         } catch (error) {
           log.error('New user failure', { error })

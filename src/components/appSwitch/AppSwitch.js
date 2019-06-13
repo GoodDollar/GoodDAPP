@@ -19,13 +19,6 @@ type LoadingProps = {
 
 const log = logger.child({ from: 'AppSwitch' })
 
-function delay(t, v) {
-  return new Promise(function(resolve) {
-    setTimeout(resolve.bind(null, v), t)
-  })
-}
-const TIMEOUT = 1000
-
 /**
  * The main app route rendering component. Here we decide where to go depending on the user's credentials status
  */

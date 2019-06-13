@@ -2,7 +2,7 @@
 import React from 'react'
 import { Portal, Dialog, Paragraph } from 'react-native-paper'
 import CustomButton from './CustomButton'
-
+import SimpleStore from '../../lib/undux/SimpleStore'
 type DialogProps = {
   children?: any,
   visible?: boolean,
@@ -58,4 +58,19 @@ const CustomDialog = ({
   </Portal>
 )
 
-export default CustomDialog
+const SimpleStoreDialog = () => {
+  const store = SimpleStore.useStore()
+  const { dialogData } = store.get('currentScreen')
+  return (
+    <CustomDialog
+      {...dialogData}
+      onDismiss={(...args) => {
+        const currentDialogData = { ...dialogData }
+        store.set('currentScreen')({ dialogData: { visible: false } })
+        currentDialogData.onDismiss && currentDialogData.onDismiss(currentDialogData)
+      }}
+    />
+  )
+}
+
+export { CustomDialog as default, SimpleStoreDialog }

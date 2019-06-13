@@ -10,7 +10,8 @@ export class GoodWalletLogin extends LoginService {
   wallet: GoodWallet
 
   constructor(wallet: GoodWallet, userStorage = defaultStorage) {
-    super(userStorage)
+    super()
+    this.userStorage = userStorage
     this.wallet = wallet
   }
 
@@ -19,10 +20,13 @@ export class GoodWalletLogin extends LoginService {
     const nonce = this.wallet.wallet.utils.randomHex(10).replace('0x', '')
     const signature = await this.wallet.sign(toSign + nonce, 'login')
     const gdSignature = await this.wallet.sign(toSign + nonce, 'gd')
-
+    const profileSignature = await this.userStorage.sign(LoginService.toSign + nonce)
+    const profilePublickey = this.userStorage.user.pub
     const creds = {
       signature,
       gdSignature,
+      profilePublickey,
+      profileSignature,
       nonce
     }
 

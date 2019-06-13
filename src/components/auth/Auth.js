@@ -1,15 +1,15 @@
 // @flow
 import React from 'react'
-import { createStackNavigator } from '../appNavigation/stackNavigation'
-import { StyleSheet, View, ScrollView } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { Text } from 'react-native-paper'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import logger from '../../lib/logger/pino-logger'
-import { CustomButton } from '../common'
+import { createStackNavigator } from '../appNavigation/stackNavigation'
+import CustomButton from '../common/CustomButton'
 import { Description, LinkButton, Title } from '../signup/components'
 import { fontStyle } from '../common/styles'
 import { TermsOfUse, PrivacyPolicy } from '../webView/webViewInstances'
-
+import Mnemonics from '../signin/Mnemonics'
 type Props = {
   // callback to report to parent component
   navigation: any,
@@ -36,7 +36,7 @@ class Auth extends React.Component<Props> {
   }
 
   handleSignIn = () => {
-    this.props.navigation.navigate('SignIn')
+    this.props.navigation.navigate('Recover')
   }
 
   handleNavigateTermsOfUse = () => this.props.screenProps.push('TermsOfUse')
@@ -130,9 +130,10 @@ const styles = StyleSheet.create({
 
 export default createStackNavigator(
   {
-    Auth,
+    Login: Auth,
     TermsOfUse,
-    PrivacyPolicy
+    PrivacyPolicy,
+    Recover: Mnemonics
   },
   {
     backRouteName: 'Auth'

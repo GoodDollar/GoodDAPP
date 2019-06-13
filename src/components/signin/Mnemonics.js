@@ -3,24 +3,22 @@ import React, { useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Paragraph } from 'react-native-paper'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
-import { useWrappedGoodWallet } from '../../lib/wallet/useWrappedWallet'
-import { WalletType } from '../../lib/wallet/GoodWallet'
-import walletFactory from '../../lib/wallet/WalletFactory'
 import bip39 from 'bip39-light'
-import { saveMnemonics, getMnemonics } from '../../lib/wallet/SoftwareWalletProvider'
-import GDStore from '../../lib/undux/GDStore'
+// import { saveMnemonics, getMnemonics } from '../../lib/wallet/SoftwareWalletProvider'
+import SimpleStore from '../../lib/undux/SimpleStore'
 import logger from '../../lib/logger/pino-logger'
 import MnemonicInput from './MnemonicInput'
-import { CustomButton } from '../common'
+import CustomButton from '../common/CustomButton'
 
 //const TITLE = 'Recover my wallet'
 const TITLE = 'Recover'
 const log = logger.child({ from: TITLE })
 
 const Mnemonics = props => {
+  //lazy load heavy wallet stuff for fast initial app load (part of initial routes)
+  const mnemonicsHelpers = import('../../lib/wallet/SoftwareWalletProvider')
   const [mnemonics, setMnemonics] = useState()
-  const goodWallet = useWrappedGoodWallet()
-  const store = GDStore.useStore()
+  const store = SimpleStore.useStore()
   const handleChange = (mnemonics: []) => {
     log.info({ mnemonics })
     setMnemonics(mnemonics.join(' '))
@@ -37,6 +35,7 @@ const Mnemonics = props => {
       })
       return
     }
+    const { getMnemonics, saveMnemonics } = await mnemonicsHelpers
     const prevMnemonics = await getMnemonics()
     try {
       // We need to try to get a new address using new mnenonics

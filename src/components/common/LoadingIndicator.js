@@ -4,7 +4,7 @@ import { ActivityIndicator, Colors, Portal } from 'react-native-paper'
 import { StyleSheet, View } from 'react-native-web'
 import type { Store } from 'undux'
 
-import GDStore from '../../lib/undux/GDStore'
+import SimpleStore from '../../lib/undux/SimpleStore'
 
 /**
  * Curried function wich requires an undux Store and then sets the flag to show/hide the LoadingIndicator component
@@ -18,7 +18,7 @@ export const setLoadingWithStore = (store: Store) => (to: boolean) => {
   store.set('loadingIndicator')(loadingIndicator)
 }
 
-const Indicator = ({ loading }) => (
+export const Indicator = ({ loading }) => (
   <Portal>
     {loading ? (
       <View style={styles.screen}>
@@ -36,9 +36,9 @@ const Indicator = ({ loading }) => (
  * @constructor
  */
 const LoadingIndicator = ({ force }) => {
-  const store = GDStore.useStore()
+  const store = SimpleStore.useStore()
   const loading = store.get('loadingIndicator').loading || force
-  return <Indicator loading />
+  return <Indicator loading={loading} />
 }
 const styles = StyleSheet.create({
   screen: {
@@ -55,7 +55,6 @@ const styles = StyleSheet.create({
 })
 
 const suspenseWithIndicator = (child, props) => {
-  console.log({ props })
   const Child = React.lazy(() => child)
   const Loading = <Indicator loading={true} />
   return (

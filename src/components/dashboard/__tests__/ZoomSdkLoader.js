@@ -1,4 +1,4 @@
-import { ZoomSdkLoader } from '../FaceRecognition/ZoomSdkLoader'
+import zoomSdkLoader from '../FaceRecognition/ZoomSdkLoader'
 
 let zoomChecker
 
@@ -8,22 +8,22 @@ afterAll(() => {
 
 describe('ZoomSdkLoader Functionality', () => {
   it('loads zoom successfuly', () => {
-    let loadedZoom = ZoomSdkLoader.load()
+    let loadedZoom = zoomSdkLoader.load()
     expect(loadedZoom).toBeDefined()
     zoomChecker = setTimeout(function() {
       expect(window.ZoomSDK).toBeDefined()
       expect(exports.ZoomSDK).toBeDefined()
-      expect(ZoomSdkLoader.ZoomSDK).toBeDefined()
+      expect(zoomSdkLoader.ZoomSDK).toBeDefined()
     }, 500)
   })
   it('unloads zoom successfuly', () => {
-    let loadedZoom = ZoomSdkLoader.load()
+    let loadedZoom = zoomSdkLoader.load()
     zoomChecker = setTimeout(function() {
-      ZoomSdkLoader.unload()
+      zoomSdkLoader.unload()
       expect(loadedZoom).not.toBeDefined()
       expect(window.ZoomSDK).not.toBeDefined()
       expect(exports.ZoomSDK).not.toBeDefined()
-      expect(ZoomSdkLoader.ZoomSDK).not.toBeDefined()
+      expect(zoomSdkLoader.ZoomSDK).not.toBeDefined()
     }, 500)
   })
 })

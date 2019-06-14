@@ -8,9 +8,9 @@ describe('generateShareObject', () => {
     const url = 'https://example.com/myLink'
 
     // When
-    const shareObject = generateShareObject(url)
+    const shareObject = generateShareObject(title, text, url)
 
     // Then
-    expect(shareObject).toEqual({ title, text, url })
+    expect(shareObject).toEqual({ title, text, url: encodeURI(url) })
   })
 })

@@ -2,7 +2,12 @@
 import { getNetworkName } from '../../../lib/constants/network'
 import goodWallet from '../../../lib/wallet/GoodWallet'
 
-export type CodeType = { networkId: number, address: string, amount: number }
+export type CodeType = {
+  networkId: number,
+  address: string,
+  amount: number,
+  reason: string
+}
 
 /**
  * Returns a dictionary with route and params to be used by screenProps navigation
@@ -15,7 +20,7 @@ export const routeAndPathForCode = async (screen: string, code: CodeType | null)
     throw new Error('Invalid QR Code.')
   }
 
-  const { networkId, address, amount } = code
+  const { networkId, address, amount, reason } = code
 
   await goodWallet.ready
   const currentNetworkId = goodWallet.networkId
@@ -38,7 +43,7 @@ export const routeAndPathForCode = async (screen: string, code: CodeType | null)
 
       return {
         route: 'SendQRSummary',
-        params: { to: address, amount, reason: 'From QR with Amount' }
+        params: { to: address, amount, reason: reason || 'From QR with Amount' }
       }
     default:
       throw new Error('Invalid screen specified.')

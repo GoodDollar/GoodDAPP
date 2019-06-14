@@ -29,9 +29,9 @@ const SendConfirmation = ({ screenProps }: ReceiveProps) => {
   const setClipboard = useSetClipboard()
 
   const { amount, reason, sendLink } = screenState
+  const share = generateSendShareObject(sendLink)
 
-  const share = async () => {
-    const share = generateSendShareObject(sendLink)
+  const shareAction = async () => {
     try {
       await navigator.share(share)
     } catch (e) {
@@ -48,7 +48,7 @@ const SendConfirmation = ({ screenProps }: ReceiveProps) => {
   }
 
   const ShareButton = () => (
-    <CustomButton style={styles.buttonStyle} onPress={share} mode="contained">
+    <CustomButton style={styles.buttonStyle} onPress={shareAction} mode="contained">
       Share Link
     </CustomButton>
   )
@@ -63,9 +63,9 @@ const SendConfirmation = ({ screenProps }: ReceiveProps) => {
               <QRCode value={sendLink || ''} />
             </View>
             <Section.Text style={styles.addressSection}>
-              <Text style={styles.url}>{sendLink}</Text>
+              <Text style={styles.url}>{share.url}</Text>
             </Section.Text>
-            <Section.Text style={styles.secondaryText} onPress={() => setClipboard(sendLink)}>
+            <Section.Text style={styles.secondaryText} onPress={() => setClipboard(share.url)}>
               Copy link to clipboard
             </Section.Text>
             <Section.Text style={styles.reasonText}>

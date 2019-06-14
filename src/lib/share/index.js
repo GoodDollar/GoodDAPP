@@ -13,6 +13,7 @@ import isMobilePhone from '../validators/isMobilePhone'
  * @param address - address required to generate MNID
  * @param networkId - network identifier required to generate MNID
  * @param amount - amount to be attached to the generated MNID code
+ * @param reason - reason to be attached to the generated MNID code
  * @returns {string} - 'MNID|amount'|'MNID'
  */
 export function generateCode(address: string, networkId: number, amount: number, reason: string) {
@@ -102,7 +103,13 @@ export function generateSendShareObject(url: string): ShareObject {
   return generateShareObject('Sending G$ via GoodDollar App', 'You have received G$. To withdraw open:', url)
 }
 
-export function generateReceiveShareObject(url: string): ShareObject {
+/**
+ * Generates URL link to share/receive GDs
+ * @param code - code returned by `generateCode`
+ * @returns {string} - URL to use to share/receive GDs
+ */
+export function generateReceiveShareObject(code: string): ShareObject {
+  const url = generateShareLink('receive', { code })
   return generateShareObject('Sending G$ via GoodDollar App', 'To send me G$ open:', url)
 }
 

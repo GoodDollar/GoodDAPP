@@ -16,6 +16,7 @@ import TopBar from './TopBar'
 import IconButton from './IconButton'
 import InputGoodDollar from './InputGoodDollar'
 import UserAvatar from './UserAvatar'
+import CustomSnackbar from './CustomSnackbar'
 
 export * from './CustomButton'
 
@@ -98,5 +99,6 @@ export {
   TopBar,
   IconButton,
   CustomDialog,
-  InputGoodDollar
+  InputGoodDollar,
+  CustomSnackbar
 }

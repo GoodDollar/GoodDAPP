@@ -38,7 +38,7 @@ const CustomDialog = ({
   loading = false
 }: DialogProps) => (
   <Portal>
-    <Dialog visible={visible} onDismiss={onDismiss} dismissable={true}>
+    <Dialog visible={visible} onDismiss={onCancel || onDismiss} dismissable={true}>
       <Dialog.Title>{title}</Dialog.Title>
       <Dialog.Content>
         {children && children}

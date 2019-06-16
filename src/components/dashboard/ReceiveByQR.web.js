@@ -4,7 +4,7 @@ import QrReader from 'react-qr-reader'
 
 import logger from '../../lib/logger/pino-logger'
 import { extractQueryParams, readReceiveLink } from '../../lib/share'
-import GDStore from '../../lib/undux/GDStore'
+import SimpleStore from '../../lib/undux/SimpleStore'
 import { wrapFunction } from '../../lib/undux/utils/wrapper'
 import { executeWithdraw } from '../../lib/undux/utils/withdraw'
 import { Section, TopBar, Wrapper } from '../common'
@@ -16,7 +16,7 @@ const log = logger.child({ from: 'ReceiveByQR.web' })
 const ReceiveByQR = ({ screenProps }) => {
   const [qrDelay, setQRDelay] = useState(QR_DEFAULT_DELAY)
   const [withdrawParams, setWithdrawParams] = useState({ receiveLink: '', reason: '' })
-  const store = GDStore.useStore()
+  const store = SimpleStore.useStore()
 
   const onDismissDialog = () => setQRDelay(QR_DEFAULT_DELAY)
 

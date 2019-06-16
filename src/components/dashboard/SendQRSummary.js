@@ -1,10 +1,10 @@
 // @flow
 import React, { useState, useEffect } from 'react'
 import { View } from 'react-native'
-import UserStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
+import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 
 import logger from '../../lib/logger/pino-logger'
-import GDStore from '../../lib/undux/GDStore'
+import { useDialog } from '../../lib/undux/utils/dialog'
 import { useWrappedGoodWallet } from '../../lib/wallet/useWrappedWallet'
 import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
 import { BigGoodDollar, CustomButton, Section, Wrapper, Avatar } from '../common'
@@ -30,14 +30,14 @@ const SendQRSummary = (props: AmountProps) => {
   const { screenProps } = props
   const [screenState] = useScreenState(screenProps)
   const goodWallet = useWrappedGoodWallet()
-  const store = GDStore.useStore()
+  const [showDialog] = useDialog()
   const [loading, setLoading] = useState(false)
   const [isValid, setIsValid] = useState(screenState.isValid)
   const { amount, reason, to } = screenState
   const [profile, setProfile] = useState({})
 
   const updateRecepientProfile = async () => {
-    const profile = await UserStorage.getUserProfile(to)
+    const profile = await userStorage.getUserProfile(to)
     setProfile(profile)
   }
   useEffect(() => {
@@ -64,19 +64,17 @@ const SendQRSummary = (props: AmountProps) => {
               amount
             }
           }
-          UserStorage.enqueueTX(transactionEvent)
+          userStorage.enqueueTX(transactionEvent)
           return hash
         }
       })
       log.debug({ receipt, screenProps })
-      store.set('currentScreen')({
-        dialogData: {
-          visible: true,
-          title: 'SUCCESS!',
-          message: 'The G$ was sent successfully',
-          dismissText: 'Yay!',
-          onDismiss: screenProps.goToRoot
-        }
+      showDialog({
+        visible: true,
+        title: 'SUCCESS!',
+        message: 'The G$ was sent successfully',
+        dismissText: 'Yay!',
+        onDismiss: screenProps.goToRoot
       })
     } catch (e) {
       log.error(e)

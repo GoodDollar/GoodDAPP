@@ -1,6 +1,6 @@
 // @flow
 import { createSwitchNavigator } from '@react-navigation/core'
-import React from 'react'
+import React, { useEffect } from 'react'
 import type { Store } from 'undux'
 import { navigationOptions } from './navigationConfig'
 
@@ -8,6 +8,8 @@ import { navigationOptions } from './navigationConfig'
 import homeIcon from '../../assets/homeIcon.png'
 
 import GDStore from '../../lib/undux/GDStore'
+import SimpleStore from '../../lib/undux/SimpleStore'
+
 import Dashboard from '../dashboard/Dashboard'
 import Profile from '../profile/Profile'
 
@@ -47,17 +49,23 @@ const AppNavigator = createSwitchNavigator(routes, { initialRouteName })
  * Dashboard is the initial route
  * @param {AppNavigationProps} props
  */
-class AppNavigation extends React.Component<AppNavigationProps, AppNavigationState> {
-  render() {
-    const account = this.props.store.get('account')
-    // `account.ready` will be set to `true` after retrieving the required user information in `updateAll`,
-    // if not ready will display a blank screen (`null`)
-    return account.ready ? <AppNavigator navigation={this.props.navigation} screenProps={{ routes }} /> : null
-  }
+const AppNavigation = ({ navigation }) => {
+  const store = SimpleStore.useStore()
+  const gdstore = GDStore.useStore()
+  const account = gdstore.get('account')
+  let ready = account.ready
+  console.log({ ready })
+  useEffect(() => {
+    if (account.ready === false) store.set('loadingIndicator')({ loading: true })
+    else store.set('loadingIndicator')({ loading: false })
+  }, [ready])
+  // `account.ready` will be set to `true` after retrieving the required user information in `updateAll`,
+  // if not ready will display a blank screen (`null`)
+  return <AppNavigator navigation={navigation} screenProps={{ routes }} />
 }
 
-const appNavigation = GDStore.withStore(AppNavigation)
-appNavigation.router = AppNavigator.router
-appNavigation.navigationOptions = navigationOptions
+// const appNavigation = GDStore.withStore(AppNavigation)
+AppNavigation.router = AppNavigator.router
+AppNavigation.navigationOptions = navigationOptions
 
-export default appNavigation
+export default AppNavigation

@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
 import { normalize } from 'react-native-elements'
 import burgerIcon from '../../assets/burgerIcon.png'
 import { toggleSidemenu } from '../../lib/undux/utils/sidemenu'
-import GDStore from '../../lib/undux/GDStore'
+import SimpleStore from '../../lib/undux/SimpleStore'
 
 type TabButtonProps = {
   text?: string,
@@ -45,7 +45,7 @@ const TabsView = (props: TabViewProps) => (
 )
 
 const TabSideMenu = () => {
-  const store = GDStore.useStore()
+  const store = SimpleStore.useStore()
   return (
     <TouchableOpacity style={[styles.tabButton, styles.burgerIconButton]} onPress={() => toggleSidemenu(store)}>
       <Image source={burgerIcon} style={styles.burgerIcon} />

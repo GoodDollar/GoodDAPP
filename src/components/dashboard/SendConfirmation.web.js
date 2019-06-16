@@ -7,7 +7,7 @@ import { isMobile } from 'mobile-device-detect'
 
 import logger from '../../lib/logger/pino-logger'
 import { generateHrefLinks, generateShareObject } from '../../lib/share'
-import GDStore from '../../lib/undux/GDStore'
+import { useDialog } from '../../lib/undux/utils/dialog'
 import { DoneButton, useScreenState } from '../appNavigation/stackNavigation'
 import { BigGoodDollar, CustomButton, Section, TopBar, Wrapper } from '../common'
 import { fontStyle } from '../common/styles'
@@ -26,7 +26,7 @@ const log = logger.child({ from: SEND_TITLE })
 const SendConfirmation = ({ screenProps }: ReceiveProps) => {
   const [hrefLinks, setHrefLinks] = useState([])
   const [screenState] = useScreenState(screenProps)
-  const store = GDStore.useStore()
+  const [showDialog] = useDialog()
 
   const { amount, reason, sendLink, to } = screenState
 
@@ -44,14 +44,12 @@ const SendConfirmation = ({ screenProps }: ReceiveProps) => {
     try {
       await navigator.share(share)
     } catch (e) {
-      store.set('currentScreen')({
-        dialogData: {
-          visible: true,
-          title: 'Error',
-          message:
-            'There was a problem triggering share action. You can still copy the link in tapping on "Copy link to clipboard"',
-          dismissText: 'Ok'
-        }
+      showDialog({
+        visible: true,
+        title: 'Error',
+        message:
+          'There was a problem triggering share action. You can still copy the link in tapping on "Copy link to clipboard"',
+        dismissText: 'Ok'
       })
     }
   }

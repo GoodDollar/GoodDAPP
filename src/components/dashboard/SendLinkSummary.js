@@ -1,9 +1,9 @@
 // @flow
 import React, { useState, useEffect } from 'react'
 import { View } from 'react-native'
-import UserStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
+import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
-import GDStore from '../../lib/undux/GDStore'
+import { useDialog } from '../../lib/undux/utils/dialog'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
 import { Avatar, BigGoodDollar, CustomButton, Section, Wrapper } from '../common'
@@ -29,7 +29,7 @@ const TITLE = 'Send G$'
 const SendLinkSummary = (props: AmountProps) => {
   const { screenProps } = props
   const [screenState] = useScreenState(screenProps)
-  const store = GDStore.useStore()
+  const [showDialog] = useDialog()
   const [loading, setLoading] = useState(false)
   const [isValid, setIsValid] = useState(screenState.isValid)
   const { amount, reason, to } = screenState
@@ -59,7 +59,7 @@ const SendLinkSummary = (props: AmountProps) => {
               ...extraData
             }
           }
-          UserStorage.enqueueTX(transactionEvent)
+          userStorage.enqueueTX(transactionEvent)
         }
       })
       if (generateLinkResponse) {
@@ -76,9 +76,7 @@ const SendLinkSummary = (props: AmountProps) => {
         }
       } else throw new Error('Link generation failed')
     } catch (e) {
-      store.set('currentScreen')({
-        dialogData: { visible: true, title: 'Error', message: e.message, dismissText: 'OK' }
-      })
+      showDialog({ visible: true, title: 'Error', message: e.message, dismissText: 'OK' })
       log.error(e)
     }
   }

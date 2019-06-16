@@ -1,17 +1,20 @@
 // @flow
 import React from 'react'
-import SideMenuItem from './SideMenuItem'
 import { ScrollView, StyleSheet, TouchableOpacity } from 'react-native'
 import { Icon, normalize } from 'react-native-elements'
+import SideMenuItem from './SideMenuItem'
 import { useSidemenu } from '../../lib/undux/utils/sidemenu'
 import { useWrappedApi } from '../../lib/API/useWrappedApi'
 import { useDialog } from '../../lib/undux/utils/dialog'
-import userStorage from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
-import GDStore from '../../lib/undux/GDStore'
+import SimpleStore from '../../lib/undux/SimpleStore'
+// import GDStore from '../../lib/undux/GDStore'
+
 type SideMenuPanelProps = {
   navigation: any
 }
+
+const userStoragePromise = Promise.resolve() //import('../../lib/gundb/UserStorage')
 
 const log = logger.child({ from: 'SideMenuPanel' })
 const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation, store }) => [
@@ -85,6 +88,7 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation, s
         onDismiss: async () => {
           store.set('loadingIndicator')({ loading: true })
           hideSidemenu()
+          const userStorage = await import('../../lib/gundb/UserStorage')
           await userStorage
             .deleteAccount()
             .then(r => log.debug('deleted account', r))
@@ -99,7 +103,8 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation, s
 
 const SideMenuPanel = ({ navigation }: SideMenuPanelProps) => {
   const API = useWrappedApi()
-  const store = GDStore.useStore()
+  const store = SimpleStore.useStore()
+
   const [toggleSidemenu, hideSidemenu] = useSidemenu()
   const [showDialog, hideDialog] = useDialog()
   const MENU_ITEMS = getMenuItems({ API, hideSidemenu, showDialog, hideDialog, navigation, store })

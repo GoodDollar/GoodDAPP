@@ -99,8 +99,6 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   }, [])
   const done = async (data: { [string]: string }) => {
     setLoading(true)
-    AsyncStorage.setItem('GOODDAPP_isLoggedIn', true)
-    store.set('isLoggedIn')(true)
     // await ready
     fireSignupEvent()
     log.info('signup data:', { data })

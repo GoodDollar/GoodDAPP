@@ -18,19 +18,6 @@ const RouterSelector = () => {
   //we use global state for signup process to signal user has registered
   const isLoggedIn = store.get('isLoggedIn') //Promise.resolve( || AsyncStorage.getItem('GOODDAPP_isLoggedIn'))
   const Router = isLoggedIn ? AppRouter : SignupRouter
-  // let router = isLoggedIn.then(_ =>
-  //   _
-  //     ? import(/* webpackChunkName: "router", webpackPrefetch: true */ './Router')
-  //     : import(/* webpackChunkName: "signuprouter" */ './SignupRouter')
-  // )
-  // //if not logged in dont wait for wallet/storage to be ready
-  // let Router = React.lazy(async () => {
-  //   if (await isLoggedIn) {
-  //     let walletAndStorageReady = import(/* webpackChunkName: "init-wallet-storage", webpackPrefetch: true */ './init')
-  //     await walletAndStorageReady.then(({ init, _ }) => init())
-  //   } else await delay(2000)
-  //   return router
-  // })
 
   return (
     <React.Suspense fallback={<Splash />}>

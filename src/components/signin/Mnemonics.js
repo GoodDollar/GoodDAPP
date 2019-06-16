@@ -1,14 +1,14 @@
 // @flow
 import React, { useState } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { AsyncStorage, StyleSheet, View } from 'react-native'
 import { Paragraph } from 'react-native-paper'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import bip39 from 'bip39-light'
-// import { saveMnemonics, getMnemonics } from '../../lib/wallet/SoftwareWalletProvider'
-import SimpleStore from '../../lib/undux/SimpleStore'
+
 import logger from '../../lib/logger/pino-logger'
 import MnemonicInput from './MnemonicInput'
 import CustomButton from '../common/CustomButton'
+import { useDialog } from '../../lib/undux/utils/dialog'
 
 //const TITLE = 'Recover my wallet'
 const TITLE = 'Recover'
@@ -18,20 +18,25 @@ const Mnemonics = props => {
   //lazy load heavy wallet stuff for fast initial app load (part of initial routes)
   const mnemonicsHelpers = import('../../lib/wallet/SoftwareWalletProvider')
   const [mnemonics, setMnemonics] = useState()
-  const store = SimpleStore.useStore()
+  const [showDialog, hideDialog] = useDialog()
+
+  /**
+   * TODO: check after restoring if mnemonic is of account that finished signup
+   */
+  const isExisting = (): Promise<boolean> => {
+    return Promise.resolve(true)
+  }
   const handleChange = (mnemonics: []) => {
     log.info({ mnemonics })
     setMnemonics(mnemonics.join(' '))
   }
   const recover = async () => {
     if (!mnemonics || !bip39.validateMnemonic(mnemonics)) {
-      store.set('currentScreen')({
-        dialogData: {
-          visible: true,
-          title: 'ERROR',
-          message: 'Invalid Mnenomic',
-          dismissText: 'OK'
-        }
+      showDialog({
+        visible: true,
+        title: 'ERROR',
+        message: 'Invalid Mnenomic',
+        dismissText: 'OK'
       })
       return
     }
@@ -40,9 +45,22 @@ const Mnemonics = props => {
     try {
       // We need to try to get a new address using new mnenonics
       await saveMnemonics(mnemonics)
-
+      const isLoggedIn = await isExisting()
+      if (isLoggedIn === false) {
+        showDialog({
+          visible: true,
+          title: 'Account not found',
+          message: "Mnemonic doesn't match any existing account. Would you still like to continue?",
+          dismissText: 'Continue',
+          onCancel: () => hideDialog(),
+          onDismiss: () => (window.location = '/')
+        })
+      }
       // There is no error. Reload screen to start with users mnemonics
-      window.location = '/'
+      else {
+        await AsyncStorage.setItem('GOODDAPP_isLoggedIn', true)
+        window.location = '/'
+      }
     } catch (err) {
       log.error(err)
       saveMnemonics(prevMnemonics)

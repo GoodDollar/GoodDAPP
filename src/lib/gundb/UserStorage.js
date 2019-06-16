@@ -620,7 +620,8 @@ export class UserStorage {
    */
   async getFormattedEvents(numResults: number, reset?: boolean): Promise<Array<StandardFeed>> {
     const feed = await this.getFeedPage(numResults, reset)
-    return await Promise.all(feed.filter(feedItem => feedItem.data).map(this.formatEvent))
+    logger.info('Kevin feed', feed.filter(feedItem => feedItem.data).map(feedItem => feedItem.data))
+    return Promise.all(feed.filter(feedItem => feedItem.data).map(this.formatEvent))
   }
 
   async getFormatedEventById(id: string): Promise<StandardFeed> {

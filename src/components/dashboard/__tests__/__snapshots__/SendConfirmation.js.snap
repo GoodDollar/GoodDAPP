@@ -360,7 +360,9 @@ exports[`SendConfirmation matches snapshot 1`] = `
                       "whiteSpace": "nowrap",
                     }
                   }
-                />
+                >
+                  undefined
+                </span>
               </div>
               <div
                 className="css-text-76zvg2"

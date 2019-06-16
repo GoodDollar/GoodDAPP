@@ -15,11 +15,11 @@ const router = createSwitchNavigator(
     initialRouteName: 'Auth'
   }
 )
+let WebRouter
+if (Platform.OS === 'web') {
+  WebRouter = createBrowserApp(router)
+}
 const Router = () => {
-  let WebRouter
-  if (Platform.OS === 'web') {
-    WebRouter = createBrowserApp(router)
-  }
   return <WebRouter />
 }
 export default Router

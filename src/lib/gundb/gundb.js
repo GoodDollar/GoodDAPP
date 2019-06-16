@@ -8,7 +8,7 @@ const initGunDB = () => {
   if (!global.gun) {
     if (process.env.NODE_ENV === 'test') global.gun = Gun()
     else global.gun = Gun([Config.gunPublicUrl])
-    logger.debug('Initialized gundb')
+    logger.debug('Initialized gundb', { peer: Config.gunPublicUrl })
   }
   return global.gun
 }

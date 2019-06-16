@@ -1,12 +1,12 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-
+import { AsyncStorage } from 'react-native'
 import './index.css'
 import App from './App'
 import * as serviceWorker from './serviceWorker'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import fontMaterialIcons from 'react-native-vector-icons/Fonts/MaterialIcons.ttf'
-
+import { initStore } from './lib/undux/SimpleStore'
 // let Main = () => {
 //   return (
 //     <PaperProvider >
@@ -40,7 +40,10 @@ if (style.styleSheet) {
 document.head.appendChild(style)
 
 // init().then(() => {
-ReactDOM.render(<App />, document.getElementById('root'))
+//load simple store with initial async values from localStorage(asyncstorage)
+initStore().then(() => {
+  ReactDOM.render(<App />, document.getElementById('root'))
+})
 // })
 
 // If you want your app to work offline and load faster, you can change

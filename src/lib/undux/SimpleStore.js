@@ -1,5 +1,7 @@
 // @flow
 import { createConnectedStore } from 'undux'
+import { AsyncStorage } from 'react-native'
+import updateLoggedIn from './effects/loggedin'
 type DialogData = {
   visible: boolean,
   title?: string,
@@ -56,6 +58,11 @@ const initialState: State = {
  * default exported instance of our global Undux Store
  * @module
  */
-const SimpleStore: UnduxStore = createConnectedStore(initialState)
-
-export default SimpleStore
+let SimpleStore: UnduxStore
+const initStore = async () => {
+  let isLoggedIn = await AsyncStorage.getItem('GOODDAPP_isLoggedIn')
+  initialState.isLoggedIn = isLoggedIn
+  SimpleStore = createConnectedStore(initialState, updateLoggedIn)
+  return SimpleStore
+}
+export { initStore, SimpleStore as default }

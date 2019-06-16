@@ -2,17 +2,30 @@
 import { createConnectedStore } from 'undux'
 import { AsyncStorage } from 'react-native'
 import updateLoggedIn from './effects/loggedin'
+
+/**
+ * Dialog data. This is being used to show a dialog across the app
+ * @type
+ */
 type DialogData = {
   visible: boolean,
   title?: string,
   message?: string
 }
 
+/**
+ * Current screen state data
+ * @type
+ */
 type CurrentScreen = {
   dialogData?: DialogData,
   loading: boolean
 }
 
+/**
+ * Loading indicator screen status. In true means that there is a loading overlay over the current screen
+ * @type
+ */
 type LoadingIndicator = {
   loading: boolean
 }

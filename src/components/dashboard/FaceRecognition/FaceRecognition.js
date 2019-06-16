@@ -54,6 +54,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
 
   componentWillUnmount = () => {
     zoomSdkLoader.unload()
+    this.timeout && clearTimeout(this.timeout)
   }
 
   componentWillMount = async () => {
@@ -67,7 +68,6 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
 
   componentDidMount = () => {
     this.setWidth()
-    this.timeout && clearTimeout(this.timeout)
   }
 
   setWidth = () => {

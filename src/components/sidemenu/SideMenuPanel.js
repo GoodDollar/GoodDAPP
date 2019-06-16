@@ -8,13 +8,10 @@ import { useWrappedApi } from '../../lib/API/useWrappedApi'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import logger from '../../lib/logger/pino-logger'
 import SimpleStore from '../../lib/undux/SimpleStore'
-// import GDStore from '../../lib/undux/GDStore'
 
 type SideMenuPanelProps = {
   navigation: any
 }
-
-const userStoragePromise = Promise.resolve() //import('../../lib/gundb/UserStorage')
 
 const log = logger.child({ from: 'SideMenuPanel' })
 const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation, store }) => [
@@ -88,7 +85,7 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation, s
         onDismiss: async () => {
           store.set('loadingIndicator')({ loading: true })
           hideSidemenu()
-          const userStorage = await import('../../lib/gundb/UserStorage')
+          const userStorage = await import('../../lib/gundb/UserStorage').then(_ => _.default)
           await userStorage
             .deleteAccount()
             .then(r => log.debug('deleted account', r))

@@ -1,5 +1,5 @@
 import React from 'react'
-import WebView from 'react-native-web-webview'
+import WebView from 'WebView'
 
 const WebViewScreen = props => {
   return <WebView source={{ uri: props.source }} style={{ flex: 1 }} />

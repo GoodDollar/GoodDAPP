@@ -4,7 +4,6 @@ import { Text, View } from 'react-native'
 import QRCode from 'qrcode.react'
 import { isMobile } from 'mobile-device-detect'
 import { useDialog } from '../../lib/undux/utils/dialog'
-
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { generateCode, generateReceiveShareObject } from '../../lib/share'
 import GDStore from '../../lib/undux/GDStore'
@@ -22,7 +21,7 @@ const RECEIVE_TITLE = 'Receive G$'
 
 const ReceiveAmount = ({ screenProps }: ReceiveProps) => {
   const { account, networkId } = goodWallet
-  const [screenState] = useScreenState(screenProps)
+  const [screenState, setScreenState] = useScreenState(screenProps)
   const [showDialogWithData] = useDialog()
   const store = GDStore.useStore()
   const setClipboard = useSetClipboard()

@@ -11,6 +11,7 @@ describe('generateCode', () => {
 
     // When
     const code = generateCode(address, networkId)
+    console.log(code)
 
     // Then
     expect(isMNID(code.split('|')[0])).toBeTruthy()

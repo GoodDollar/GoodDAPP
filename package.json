@@ -205,10 +205,8 @@
       "git add"
     ]
   },
-  "bundlesize": [
-    {
-      "path": "./build/static/js/*.js",
-      "maxSize": "4 MB"
-    }
-  ]
+  "bundlesize": [{
+    "path": "./build/static/js/*.js",
+    "maxSize": "4 MB"
+  }]
 }

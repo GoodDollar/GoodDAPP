@@ -1,11 +1,11 @@
 // @flow
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
-import { Dialog, Paragraph, Portal, Text } from 'react-native-paper'
-import type { TransactionEvent } from '../../lib/gundb/UserStorage'
-import { Avatar, BigGoodDollar } from '../common'
+import { View, StyleSheet } from 'react-native'
+import { Portal, Dialog, Paragraph, Text } from 'react-native-paper'
 import CustomButton from './CustomButton'
+import type { TransactionEvent } from '../../lib/gundb/UserStorage'
 import Section from './Section'
+import { BigGoodDollar, Avatar } from '../common'
 
 export type EventDialogProps = {
   visible: boolean,
@@ -26,7 +26,8 @@ export type EventDialogProps = {
 const EventDialog = ({ visible, event, onDismiss, reason }: EventDialogProps) => {
   const {
     date,
-    data: { amount, sender, name }
+    type,
+    data: { amount, sender, avatar, name }
   } = event
 
   const dateOptions = {
@@ -39,6 +40,8 @@ const EventDialog = ({ visible, event, onDismiss, reason }: EventDialogProps) =>
   }
 
   const customDate = new Date(date).toLocaleString(navigator.language, dateOptions)
+
+  const action = type === 'withdraw' ? 'Withdrawn' : 'Sent'
 
   return (
     <Portal>

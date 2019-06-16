@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { StyleSheet } from 'react-native'
 import QRCodeScanner from 'react-native-qrcode-scanner'
 
@@ -15,7 +15,7 @@ const ReceiveByQR = ({ screenProps }) => {
   const [withdrawParams, setWithdrawParams] = useState({ receiveLink: '', reason: '' })
   const store = GDStore.useStore()
 
-  const handleScan = data => {
+  const handleScan = async data => {
     if (data) {
       try {
         const url = readReceiveLink(data)

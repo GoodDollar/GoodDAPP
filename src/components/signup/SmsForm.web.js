@@ -1,16 +1,16 @@
 // @flow
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { Text, View } from 'react-native'
 import OtpInput from 'react-otp-input'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
+import { ActionButton, Error, Title, Wrapper } from './components'
 import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
-import LoadingIndicator from '../common/LoadingIndicator'
-import { ActionButton, Description, Error, Title, Wrapper } from './components'
 import type { SignupState } from './SignupState'
+import normalize from 'react-native-elements/src/helpers/normalizeText'
 const log = logger.child({ from: 'SmsForm.web' })
 
 type Props = {
+  // callback to report to parent component
   phone: string,
   data: SignupState,
   doneCallback: ({ isPhoneVerified: boolean }) => null,
@@ -25,9 +25,7 @@ export type SMSRecord = {
 type State = SMSRecord & {
   valid?: boolean,
   errorMessage: string,
-  sendingCode: boolean,
-  renderButton: boolean,
-  loading: boolean
+  sendingCode: boolean
 }
 
 export default class SmsForm extends React.Component<Props, State> {
@@ -36,43 +34,22 @@ export default class SmsForm extends React.Component<Props, State> {
     sentSMS: false,
     valid: false,
     errorMessage: '',
-    sendingCode: false,
-    renderButton: false,
-    loading: false
+    sendingCode: false
   }
 
   numInputs: number = 6
 
   componentDidMount() {}
 
-  componentDidUpdate() {
-    if (!this.state.renderButton) {
-      this.displayDelayedRenderButton()
-    }
-  }
-
-  displayDelayedRenderButton = () => {
-    setTimeout(() => {
-      this.setState({ renderButton: true })
-    }, 7000)
-  }
-
   handleChange = async (otp: string) => {
     if (otp.length === this.numInputs) {
-      this.setState({ loading: true })
       try {
         await this.verifyOTP(otp)
-        this.setState({
-          valid: true,
-          loading: false
-        })
+        this.setState({ valid: true })
         this.handleSubmit()
       } catch (e) {
         log.error({ e })
-        this.setState({
-          errorMessage: e.response.data.message,
-          loading: false
-        })
+        this.setState({ errorMessage: e.response.data.message })
       }
     } else {
       this.setState({ errorMessage: '' })
@@ -96,11 +73,12 @@ export default class SmsForm extends React.Component<Props, State> {
     } catch (e) {
       log.error(e)
     }
-    this.setState({ sendingCode: false, renderButton: false }, this.displayDelayedRenderButton)
+
+    this.setState({ sendingCode: false })
   }
 
   render() {
-    const { valid, errorMessage, sendingCode, renderButton, loading } = this.state
+    const { valid, errorMessage, sendingCode } = this.state
 
     return (
       <Wrapper valid={valid} handleSubmit={this.handleSubmit} footerComponent={() => <React.Fragment />}>
@@ -118,42 +96,15 @@ export default class SmsForm extends React.Component<Props, State> {
           errorStyle={errorStyle}
         />
         <Error>{errorMessage !== '' && errorMessage}</Error>
-        <View style={styles.buttonWrapper}>
-          {renderButton ? (
-            <ActionButton
-              styles={styles.button}
-              loading={sendingCode}
-              handleSubmit={this.handleRetry}
-              disabled={sendingCode}
-            >
-              <Text>Send me the code again</Text>
-            </ActionButton>
-          ) : (
-            <Description>Please wait a few seconds until the SMS arrives</Description>
-          )}
+        <View style={buttonRow.wrapper}>
+          <ActionButton styles={buttonRow.button} loading={sendingCode} handleSubmit={this.handleRetry}>
+            <Text>Send me the code again</Text>
+          </ActionButton>
         </View>
-        <LoadingIndicator force={loading} />
       </Wrapper>
     )
   }
 }
-
-const styles = StyleSheet.create({
-  informativeParagraph: {
-    margin: '1em'
-  },
-  buttonWrapper: {
-    alignContent: 'stretch',
-    flexDirection: 'column',
-    display: 'flex',
-    justifyContent: 'space-between'
-  },
-  button: {
-    justifyContent: 'center',
-    width: '100%',
-    height: normalize(60)
-  }
-})
 
 const inputStyle = {
   width: '100%',
@@ -170,4 +121,17 @@ const errorStyle = {
   ...inputStyle,
   borderBottom: '1px solid red',
   color: 'red'
+}
+
+const buttonRow = {
+  wrapper: {
+    alignContent: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+  button: {
+    justifyContent: 'center',
+    width: '100%',
+    height: normalize(60)
+  }
 }

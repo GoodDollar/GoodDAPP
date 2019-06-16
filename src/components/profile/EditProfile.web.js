@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { StyleSheet } from 'react-native'
-import { CustomButton, Section, UserAvatar, Wrapper } from '../common'
+import { Wrapper, Section, CustomButton, UserAvatar } from '../common'
 import GDStore from '../../lib/undux/GDStore'
 import { useWrappedUserStorage } from '../../lib/gundb/useWrappedStorage'
 import userStorage from '../../lib/gundb/UserStorage'
@@ -24,9 +24,7 @@ const EditProfile = props => {
   const handleSaveButton = async () => {
     const { isValid, errors } = profile.validate()
     setErrors(errors)
-    if (!isValid) {
-      return
-    }
+    if (!isValid) return
 
     setSaving(true)
     await wrappedUserStorage

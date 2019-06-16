@@ -8,6 +8,7 @@ import GDStore from '../../lib/undux/GDStore'
 import { Title, Wrapper } from './components'
 
 type Props = {
+  // callback to report to parent component
   doneCallback: ({ email: string }) => null,
   screenProps: any,
   navigation: any,
@@ -27,7 +28,6 @@ class EmailForm extends React.Component<Props, State> {
     email: this.props.screenProps.data.email || '',
     errorMessage: ''
   }
-
   isValid = false
 
   handleChange = (email: string) => {

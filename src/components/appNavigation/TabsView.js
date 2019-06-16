@@ -1,6 +1,6 @@
 //@flow
 import React from 'react'
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
 import { normalize } from 'react-native-elements'
 import burgerIcon from '../../assets/burgerIcon.png'
 import { toggleSidemenu } from '../../lib/undux/utils/sidemenu'

@@ -14,8 +14,8 @@ import { DoneButton, useScreenState } from '../appNavigation/stackNavigation'
 import { BigGoodDollar, CustomButton, Section, TopBar, Wrapper } from '../common'
 import { fontStyle } from '../common/styles'
 import './AButton.css'
-import { getScreenHeight } from '../../lib/utils/Orientation'
 import { receiveStyles } from './styles'
+import { getScreenHeight } from '../../lib/utils/Orientation'
 
 export type ReceiveProps = {
   screenProps: any,
@@ -27,10 +27,8 @@ const SendConfirmation = ({ screenProps }: ReceiveProps) => {
   const [screenState] = useScreenState(screenProps)
   const store = GDStore.useStore()
   const setClipboard = useSetClipboard()
-
   const { amount, reason, sendLink } = screenState
   const share = generateSendShareObject(sendLink)
-
   const shareAction = async () => {
     try {
       await navigator.share(share)

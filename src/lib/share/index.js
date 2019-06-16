@@ -73,7 +73,6 @@ export function extractQueryParams(link: string = ''): {} {
   const queryParams = link.split('?')[1] || ''
   const keyValuePairs: Array<[string, string]> = queryParams
     .split('&')
-
     // $FlowFixMe
     .map(p => p.split('='))
 
@@ -158,9 +157,7 @@ export function generateShareLink(action: ActionType = 'receive', params: {} = {
     .map(param => param.join('='))
     .join('&')
 
-  if (!queryParams || !destination) {
-    throw new Error(`Link couldn't be generated`)
-  }
+  if (!queryParams || !destination) throw new Error(`Link couldn't be generated`)
 
   return `${Config.publicUrl}/AppNavigation/Dashboard/${destination}?${queryParams}`
 }

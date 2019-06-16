@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Icon, normalize } from 'react-native-elements'
+import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
 import { HelperText, TextInput } from 'react-native-paper'
 import isEmail from 'validator/lib/isEmail'
-import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
 import userStorage from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import { readCode } from '../../lib/share'
@@ -37,18 +37,12 @@ const GenerateLinkButton = ({ screenProps, disabled }) => (
   />
 )
 
-const validate = to => {
-  if (!to) {
-    return null
-  }
+const validate = async to => {
+  if (!to) return null
 
-  if (isMobilePhone(to) || isEmail(to)) {
-    return null
-  }
+  if (isMobilePhone(to) || isEmail(to)) return null
 
-  if (goodWallet.wallet.utils.isAddress(to)) {
-    return null
-  }
+  if (goodWallet.wallet.utils.isAddress(to)) return null
 
   return `Needs to be a valid wallet address, email or mobile phone (starts with a '+')`
 }
@@ -56,9 +50,7 @@ const validate = to => {
 const ContinueButton = ({ screenProps, to, disabled, checkError }) => (
   <CustomButton
     onPress={async () => {
-      if (await checkError()) {
-        return
-      }
+      if (await checkError()) return
 
       const address = await userStorage.getUserAddress(to).catch(e => undefined)
       if (address || goodWallet.wallet.utils.isAddress(to)) {

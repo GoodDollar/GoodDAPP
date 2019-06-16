@@ -7,7 +7,7 @@ import { useWrappedUserStorage } from '../../lib/gundb/useWrappedStorage'
 import logger from '../../lib/logger/pino-logger'
 import GDStore from '../../lib/undux/GDStore'
 import { setLoadingWithStore } from '../common/LoadingIndicator'
-import { Description, LinkButton, Title, Wrapper } from './components'
+import { Description, LinkButton, NextButton, Title, Wrapper } from './components'
 
 type Props = {
   screenProps: any,

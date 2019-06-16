@@ -1,9 +1,9 @@
 import React from 'react'
-import renderer from 'react-test-renderer'
 import FeedListItem from '../FeedListItem'
 import { generateFeedItemProps } from '../../__tests__/__util__'
 
 // Note: test renderer must be required after react-native.
+import renderer from 'react-test-renderer'
 
 describe('FeedListItem - Withdraw', () => {
   const props = generateFeedItemProps('withdraw')

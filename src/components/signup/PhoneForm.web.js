@@ -68,6 +68,7 @@ class PhoneForm extends React.Component<Props, State> {
           onBlur={this.checkErrors}
           error={errorMessage}
           onKeyDown={this.handleEnter}
+          autoFocus
         />
         <Description>A verification code will be sent to this number</Description>
       </Wrapper>

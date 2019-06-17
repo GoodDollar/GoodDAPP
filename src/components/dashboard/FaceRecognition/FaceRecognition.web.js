@@ -1,9 +1,6 @@
 // @flow
-
-import loadjs from 'loadjs'
 import API from '../../../lib/API/api'
 import React, { createRef } from 'react'
-import Config from '../../../config/config'
 import { StyleSheet, View } from 'react-native'
 import { Text } from 'react-native-paper'
 import GDStore from '../../../lib/undux/GDStore'
@@ -59,7 +56,6 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
 
   async componentWillMount() {
     try {
-      await this.loadZoomSDK()
       // eslint-disable-next-line no-undef
       let loadedZoom = ZoomSDK
       log.info('ZoomSDK loaded', loadedZoom)
@@ -68,7 +64,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
       log.info('ZoomSDK initialized and preloaded', loadedZoom)
       this.timeout = setTimeout(() => {
         this.setState({ ready: true })
-      }, 500)
+      }, 0)
     } catch (e) {
       log.error('initializing failed', e)
     }
@@ -82,22 +78,13 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
   componentWillUnmount() {
     log.debug('Unloading ZoomSDK', ZoomSDK)
     this.timeout && clearTimeout(this.timeout)
-    this.videoTrack && this.videoTrack.stop()
-    ZoomSDK &&
-      ZoomSDK.unload(() => {
-        window.ZoomSDK = null
-        exports.ZoomSDK = null
-        ZoomSDK = null
-        log.debug('ZoomSDK unloaded')
-      })
-  }
-  loadZoomSDK = async (): Promise<void> => {
-    global.exports = {} // required by zoomSDK
-    const server = Config.publicUrl
-    log.info({ server })
-    const zoomSDKPath = '/ZoomAuthentication.js/ZoomAuthentication.js'
-    log.info(`loading ZoomSDK from ${zoomSDKPath}`)
-    return loadjs(zoomSDKPath, { returnPromise: true })
+    // ZoomSDK &&
+    //   ZoomSDK.unload(() => {
+    //     window.ZoomSDK = null
+    //     exports.ZoomSDK = null
+    //     ZoomSDK = null
+    //     log.debug('ZoomSDK unloaded')
+    //   })
   }
 
   onCameraLoad = async (track: MediaStreamTrack) => {

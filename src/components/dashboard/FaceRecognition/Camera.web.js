@@ -53,6 +53,11 @@ export class Camera extends Component<CameraProps, CameraState> {
     await this.getUserMedia()
   }
 
+  componentWillUnmount() {
+    this.videoTrack && this.videoTrack.stop()
+    this.videoTrack = null
+  }
+
   async getStream(): Promise<MediaStream> {
     const constraints = this.acceptableConstraints[this.currentConstraintIndex]
 
@@ -89,7 +94,7 @@ export class Camera extends Component<CameraProps, CameraState> {
       }
 
       const videoTrack = stream.getVideoTracks()[0]
-
+      this.videoTrack = videoTrack
       this.videoPlayerRef.current.srcObject = stream
 
       this.videoPlayerRef.current.addEventListener('loadeddata', () => {

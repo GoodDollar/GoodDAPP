@@ -197,12 +197,15 @@
   height: 0.75em;
   max-height: 35px;
   max-width: 35px;
-  z-index: 11;
+  z-index: 999999;
   cursor: pointer;
   background: none;
-  padding: unset;
+  padding: 10px;
   visibility: visible;
   pointer-events: all;
+  -webkit-box-sizing: initial !important;
+  -moz-box-sizing: initial !important;
+  box-sizing:content-box !important;
 }
 
 .zoom-complete-expand {

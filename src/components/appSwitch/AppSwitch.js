@@ -1,9 +1,10 @@
 // @flow
 import React from 'react'
+import loadjs from 'loadjs'
 import { AsyncStorage } from 'react-native'
 import { SceneView } from '@react-navigation/core'
 import some from 'lodash/some'
-import { Helmet } from 'react-helmet'
+import Config from '../../config/config'
 import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
 import GDStore from '../../lib/undux/GDStore'
@@ -69,6 +70,15 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
       return this.props.navigation.navigate(destDetails)
     }
   }
+
+  loadZoomSDK = async (): Promise<void> => {
+    global.exports = {} // required by zoomSDK
+    const server = Config.publicUrl
+    const zoomSDKPath = '/ZoomAuthentication.js/ZoomAuthentication.js'
+    log.info(`loading ZoomSDK from ${zoomSDKPath}`)
+    return loadjs(zoomSDKPath, { returnPromise: true })
+  }
+
   /**
    * Check's users' current auth status
    * @returns {Promise<void>}
@@ -80,6 +90,7 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
     ]).then(([authResult]) => authResult)
     let destDetails = await this.getParams()
     if (isLoggedIn) {
+      if (!isLoggedInCitizen) this.loadZoomSDK()
       let topWalletRes = isLoggedInCitizen ? API.verifyTopWallet() : Promise.resolve()
       if (destDetails) {
         this.props.navigation.navigate(destDetails)

@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     margin: 0,
     padding: 0,
     position: 'fixed',
-    maxWidth: '1024px',
+    maxWidth: '475px',
     alignSelf: 'center',
     backgroundColor: '#fff'
   }

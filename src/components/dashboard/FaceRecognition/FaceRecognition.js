@@ -62,7 +62,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     if (this.loadedZoom) {
       this.timeout = setTimeout(() => {
         this.zoomReady = true // TODO: handle zoom init issues.
-      }, 500)
+      }, 0)
     }
   }
 

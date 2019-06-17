@@ -49,7 +49,33 @@ export function Camera(props: CameraProps) {
 
   useEffect(() => {
     awaitGetUserMedia()
+    return () => {
+      this.videoTrack && this.videoTrack.stop()
+      this.videoTrack = null
+    }
   }, [])
+
+  const getStream = async (): Promise<MediaStream> => {
+    const constraints = acceptableConstraints[currentConstraintIndex]
+
+    try {
+      return await window.navigator.mediaDevices.getUserMedia(constraints)
+    } catch (e) {
+      currentConstraintIndex++
+
+      if (currentConstraintIndex >= acceptableConstraints.length) {
+        let error =
+          'Unable to get a video stream. Please ensure you give permission to this website to access your camera, and have a 720p+ camera plugged in'
+        log.error(error)
+        props.onError(error)
+        throw new Error(error)
+      }
+
+      log.error('Unknown error in getStream()', e)
+      props.onError('General Error')
+      return getStream()
+    }
+  }
 
   const styles = {
     videoElement: {
@@ -84,8 +110,8 @@ export function Camera(props: CameraProps) {
       }
 
       const videoTrack = stream.getVideoTracks()[0]
-
-      videoPlayerRef.current.srcObject = stream
+      this.videoTrack = videoTrack
+      this.videoPlayerRef.current.srcObject = stream
 
       videoPlayerRef.current.addEventListener('loadeddata', () => {
         props.onLoad(videoTrack)

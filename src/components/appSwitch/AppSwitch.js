@@ -88,7 +88,7 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
     ]).then(([authResult]) => authResult)
     let destDetails = await this.getParams()
     if (isLoggedIn) {
-      if (!isLoggedInCitizen) this.loadZoomSDK()
+      if (!isLoggedInCitizen) await this.loadZoomSDK()
       let topWalletRes = isLoggedInCitizen ? API.verifyTopWallet() : Promise.resolve()
       if (destDetails) {
         this.props.navigation.navigate(destDetails)

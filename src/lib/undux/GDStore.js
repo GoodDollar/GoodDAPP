@@ -35,6 +35,15 @@ type DialogData = {
 }
 
 /**
+ * Dialog data. This is being used to show a dialog across the app
+ * @type
+ */
+type SnackbarData = {
+  visible: boolean,
+  text?: string
+}
+
+/**
  * Current screen state data
  * @type
  */
@@ -81,7 +90,8 @@ export type State = {
   destinationPath: string,
   feeds: StandardFeed[],
   feedLoading: Boolean,
-  loadingIndicator: LoadingIndicator
+  loadingIndicator: LoadingIndicator,
+  snackbarData: SnackbarData
 }
 
 /**
@@ -113,6 +123,9 @@ const initialState: State = {
   },
   feedLoading: false,
   sidemenu: {
+    visible: false
+  },
+  snackbarData: {
     visible: false
   }
 }

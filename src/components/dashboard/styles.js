@@ -75,7 +75,8 @@ export const receiveStyles = StyleSheet.create({
   amountInput: {
     backgroundColor: 'transparent',
     height: normalize(40),
-    width: '100%'
+    width: '100%',
+    textAlign: 'center'
   },
   amountInputWrapper: {
     fontSize: normalize(26),

@@ -1,20 +1,19 @@
 // @flow
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { AsyncStorage } from 'react-native'
 import { SceneView } from '@react-navigation/core'
 import some from 'lodash/some'
 import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
+import SimpleStore from '../../lib/undux/SimpleStore'
 import GDStore from '../../lib/undux/GDStore'
-import { checkAuthStatus } from '../../lib/login/checkAuthStatus'
+
+import { checkAuthStatus as getLoginState } from '../../lib/login/checkAuthStatus'
 import type { Store } from 'undux'
-import { CustomDialog } from '../common'
-import LoadingIndicator from '../common/LoadingIndicator'
 
 type LoadingProps = {
   navigation: any,
-  descriptors: any,
-  store: Store
+  descriptors: any
 }
 
 const log = logger.child({ from: 'AppSwitch' })
@@ -22,22 +21,15 @@ const log = logger.child({ from: 'AppSwitch' })
 /**
  * The main app route rendering component. Here we decide where to go depending on the user's credentials status
  */
-class AppSwitch extends React.Component<LoadingProps, {}> {
-  /**
-   * Triggers the required actions before navigating to any app's page
-   * @param {LoadingProps} props
-   */
-  constructor(props: LoadingProps) {
-    super(props)
-    this.ready = false
-    this.checkAuthStatus().then(r => {
-      this.ready = true
-      this.forceUpdate()
-    })
-  }
+const AppSwitch = (props: LoadingProps) => {
+  const store = SimpleStore.useStore()
+  const gdstore = GDStore.useStore()
 
-  getParams = async () => {
-    const { router, state } = this.props.navigation
+  /*
+  Check if user is incoming with a URL with action details, such as payment link or email confirmation
+  */
+  const getParams = async () => {
+    const { router, state } = props.navigation
     const navInfo = router.getPathAndParamsForState(state)
     const destinationPath = await AsyncStorage.getItem('destinationPath')
     log.debug('getParams', { destinationPath, navInfo, router, state })
@@ -49,34 +41,40 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
     } else if (destinationPath) return JSON.parse(destinationPath)
     return undefined
   }
-  //TODO: add shouldComponentUpdate to rerender only on route change/dialog?
-  async componentDidUpdate() {
+  /*
+  If a user has a saved destination path from before logging in or from inside-app (receipt view?)
+  He won't be redirect in checkAuthStatus since it only happens on didmount and won't happen after
+  use completes signup and becomes loggedin
+*/
+  const navigateToUrlAction = async () => {
     log.info('didUpdate')
     const destinationPath = await AsyncStorage.getItem('destinationPath')
     //once user logs in we can redirect him to saved destinationpath
-    if (destinationPath && this.props.store.get('isLoggedIn')) {
+    if (destinationPath) {
       const destDetails = JSON.parse(destinationPath)
       await AsyncStorage.removeItem('destinationPath')
       log.debug('destinationPath found:', destDetails)
-      return this.props.navigation.navigate(destDetails)
+      return props.navigation.navigate(destDetails)
     }
   }
   /**
    * Check's users' current auth status
    * @returns {Promise<void>}
    */
-  checkAuthStatus = async () => {
-    const { credsOrError, isLoggedInCitizen, isLoggedIn } = await Promise.all([checkAuthStatus(this.props.store)]).then(
+  const checkAuthStatus = async () => {
+    //after dynamic routes update, if user arrived here, then he is already loggedin
+    const { credsOrError, isLoggedInCitizen, isLoggedIn } = await Promise.all([getLoginState()]).then(
       ([authResult]) => authResult
     )
-    console.log('got auth response')
-    let destDetails = await this.getParams()
+    gdstore.set('isLoggedIn')(isLoggedIn)
+    gdstore.set('isLoggedInCitizen')(isLoggedInCitizen)
+    let destDetails = await getParams()
     if (isLoggedIn) {
       let topWalletRes = isLoggedInCitizen ? API.verifyTopWallet() : Promise.resolve()
       if (destDetails) {
-        this.props.navigation.navigate(destDetails)
+        props.navigation.navigate(destDetails)
         return AsyncStorage.removeItem('destinationPath')
-      } else this.props.navigation.navigate('AppNavigation')
+      } else props.navigation.navigate('AppNavigation')
     } else {
       const { jwt } = credsOrError
       if (jwt) {
@@ -87,7 +85,7 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
           log.debug('destinationPath details found', destDetails)
           if (destDetails.params.validation) {
             log.debug('destinationPath redirecting to email validation')
-            this.props.navigation.navigate(destDetails)
+            props.navigation.navigate(destDetails)
             return
           }
           log.debug('destinationPath saving details')
@@ -96,25 +94,36 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
           const destinationPath = JSON.stringify(destDetails)
           AsyncStorage.setItem('destinationPath', destinationPath)
         }
-        this.props.navigation.navigate('Auth')
+        props.navigation.navigate('Auth')
       } else {
         // TODO: handle other statuses (4xx, 5xx), consider exponential backoff
         log.error('Failed to sign in', credsOrError)
-        this.props.navigation.navigate('Auth')
+        props.navigation.navigate('Auth')
       }
     }
   }
 
-  render() {
-    const { descriptors, navigation, store } = this.props
-    const activeKey = navigation.state.routes[navigation.state.index].key
-    const descriptor = descriptors[activeKey]
-    return (
-      <React.Fragment>
-        <SceneView navigation={descriptor.navigation} component={descriptor.getComponent()} />
-      </React.Fragment>
-    )
+  const test = async () => {
+    store.set('loadingIndicator')({ loading: true })
+    await checkAuthStatus()
+    store.set('loadingIndicator')({ loading: false })
   }
+  useEffect(() => {
+    test()
+  }, [])
+
+  useEffect(() => {
+    navigateToUrlAction()
+  })
+
+  const { descriptors, navigation } = props
+  const activeKey = navigation.state.routes[navigation.state.index].key
+  const descriptor = descriptors[activeKey]
+  return (
+    <React.Fragment>
+      <SceneView navigation={descriptor.navigation} component={descriptor.getComponent()} />
+    </React.Fragment>
+  )
 }
 
-export default GDStore.withStore(AppSwitch)
+export default AppSwitch

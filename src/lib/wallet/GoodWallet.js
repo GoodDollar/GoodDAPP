@@ -23,7 +23,7 @@ const log = logger.child({ from: 'GoodWallet' })
 const DAY_IN_SECONDS = 86400
 const MILLISECONDS = 1000
 const BLOCK_TIME = 5000
-const BLOCK_COUNT = 2
+const BLOCK_COUNT = 1
 const ZERO = new BN('0')
 
 type EventLog = {
@@ -239,7 +239,7 @@ export class GoodWallet {
     fromBlock = new BN(fromBlock)
 
     return this.getBlockNumber().then(async blockNumber => {
-      this.blockNumber = blockNumber
+      this.setBlockNumber(blockNumber)
 
       this.pollForBlockNumber()
 
@@ -252,16 +252,20 @@ export class GoodWallet {
         },
         (error, events) => {
           log.debug('send events', { error, events })
-          const uniqEvents = uniqBy(events, 'transactionHash')
-          uniqEvents.forEach(event => {
-            this.getReceiptWithLogs(event.transactionHash)
-              .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptUpdated']))
-              .catch(err => log.error('send event get/send receipt failed:', err))
-          })
 
-          // Send for all events. We could define here different events
-          this.getSubscribers('send').forEach(cb => cb(error, events))
-          this.getSubscribers('balanceChanged').forEach(cb => cb(error, events))
+          if (events.length) {
+            uniqBy(events, 'transactionHash').forEach(event => {
+              this.getReceiptWithLogs(event.transactionHash)
+                .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptUpdated']))
+                .catch(err => log.error('send event get/send receipt failed:', err))
+            })
+          }
+
+          if (error || events.length) {
+            // Send for all events. We could define here different events
+            this.getSubscribers('send').forEach(cb => cb(error, events))
+            this.getSubscribers('balanceChanged').forEach(cb => cb(error, events))
+          }
         }
       )
 
@@ -274,15 +278,19 @@ export class GoodWallet {
         },
         (error, events) => {
           log.debug('receive events', { error, events })
-          const uniqEvents = uniqBy(events, 'transactionHash')
-          uniqEvents.forEach(event => {
-            this.getReceiptWithLogs(event.transactionHash)
-              .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptReceived']))
-              .catch(err => log.error('receive event get/send receipt failed:', err))
-          })
 
-          this.getSubscribers('receive').forEach(cb => cb(error, events))
-          this.getSubscribers('balanceChanged').forEach(cb => cb(error, events))
+          if (events.length) {
+            uniqBy(events, 'transactionHash').forEach(event => {
+              this.getReceiptWithLogs(event.transactionHash)
+                .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptReceived']))
+                .catch(err => log.error('receive event get/send receipt failed:', err))
+            })
+          }
+
+          if (error || events.length) {
+            this.getSubscribers('receive').forEach(cb => cb(error, events))
+            this.getSubscribers('balanceChanged').forEach(cb => cb(error, events))
+          }
         }
       )
     })
@@ -406,8 +414,16 @@ export class GoodWallet {
    */
   pollForBlockNumber() {
     setInterval(async () => {
-      this.blockNumber = await this.getBlockNumber()
+      this.setBlockNumber(await this.getBlockNumber())
     }, BLOCK_TIME)
+  }
+
+  /**
+   * blockNumber setter
+   * @param {BN} blockNumber
+   */
+  setBlockNumber(blockNumber: typeof BN) {
+    this.blockNumber = blockNumber
   }
 
   /**
@@ -420,23 +436,55 @@ export class GoodWallet {
    * @param {object} params.filter - Event's filter. Does not required to be indexed as it's filtered locally
    * @param {BN} params.fromBlock - Lower blocks range value
    * @param {function} callback - Function to be called once an event is received
+   * @param {function} cancel - Will be called one an event is received with the same params as callback. If returns true polling is cacelled
+   * @param {number} waitTime - (milliseconds) wait time specified before recursing
    * @returns {Promise<void>}
    */
-  async pollForEvents({ event, contract, filter, fromBlock }: QueryEvent, callback: Function) {
-    const INTERVAL = BLOCK_COUNT * BLOCK_TIME
+  async pollForEvents(
+    { event, contract, filter = {}, fromBlock }: QueryEvent,
+    callback: Function,
+    cancel: Function = () => false,
+    waitTime
+  ) {
+    if (!callback) {
+      throw new Error('callback must be provided')
+    }
+
+    if (!event) {
+      throw new Error('event must be provided')
+    }
+
+    if (!contract) {
+      throw new Error('contract object must be provided')
+    }
+
+    const INTERVAL = waitTime || BLOCK_COUNT * BLOCK_TIME
     const toBlock = this.blockNumber
 
     fromBlock = fromBlock === undefined ? ZERO : fromBlock
 
     if (fromBlock && fromBlock.eq(toBlock)) {
       log.debug('all blocks processed', { fromBlock: fromBlock.toString(), toBlock: toBlock.toString() })
+      callback(null, [])
+
+      if (cancel(null, [])) {
+        return
+      }
     } else {
       try {
         const events = await contract.getPastEvents(event, { filter, fromBlock, toBlock })
         callback(null, events)
+
+        if (cancel(null, events)) {
+          return
+        }
       } catch (e) {
         log.error('getEvents call @pollForEvents failed:', { e })
         callback(e, [])
+
+        if (cancel(e, [])) {
+          return
+        }
       }
     }
 
@@ -449,7 +497,7 @@ export class GoodWallet {
     })
 
     setTimeout(() => {
-      this.pollForEvents({ event, contract, filter, fromBlock: toBlock }, callback)
+      this.pollForEvents({ event, contract, filter, fromBlock: toBlock }, callback, cancel, waitTime)
     }, INTERVAL)
   }
 

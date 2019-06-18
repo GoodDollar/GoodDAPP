@@ -8,10 +8,11 @@ import logger from '../../../lib/logger/pino-logger'
 import { CustomButton, Section, Wrapper } from '../../common'
 import FRapi from './FaceRecognitionAPI'
 import ZoomCapture from './ZoomCapture'
-import zoomSdkLoader from './ZoomSdkLoader'
 import { type ZoomCaptureResult } from './Zoom'
 
 const log = logger.child({ from: 'FaceRecognition' })
+
+declare var ZoomSDK: any
 
 type FaceRecognitionProps = DashboardProps & {
   screenProps: any,
@@ -53,12 +54,12 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
   height = 0
 
   componentWillUnmount = () => {
-    zoomSdkLoader.unload()
+    log.debug('Unloading ZoomSDK', this.loadedZoom)
     this.timeout && clearTimeout(this.timeout)
   }
 
   componentWillMount = async () => {
-    this.loadedZoom = await zoomSdkLoader.load()
+    this.loadedZoom = ZoomSDK
     if (this.loadedZoom) {
       this.timeout = setTimeout(() => {
         this.zoomReady = true // TODO: handle zoom init issues.

@@ -102,7 +102,7 @@ export function Camera(props: CameraProps) {
     try {
       const stream = await getStream()
 
-      if (!videoPlayerRef.current) {
+      if (!videoPlayerRef || !videoPlayerRef.current) {
         let error = 'No video player found'
         log.error(error)
         props.onError(error)
@@ -111,7 +111,7 @@ export function Camera(props: CameraProps) {
 
       const videoTrack = stream.getVideoTracks()[0]
       this.videoTrack = videoTrack
-      this.videoPlayerRef.current.srcObject = stream
+      videoPlayerRef.current.srcObject = stream
 
       videoPlayerRef.current.addEventListener('loadeddata', () => {
         props.onLoad(videoTrack)

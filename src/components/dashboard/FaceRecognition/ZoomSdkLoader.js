@@ -9,7 +9,7 @@ const log = logger.child({ from: 'ZoomSdkLoader' })
  */
 declare var ZoomSDK: any
 const licenseKey = Config.zoomLicenseKey
-log.info({ licenseKey })
+//log.info({ licenseKey })
 
 export class ZoomSdkLoader {
   /* Orchestrates zoom loading & initialization process process */

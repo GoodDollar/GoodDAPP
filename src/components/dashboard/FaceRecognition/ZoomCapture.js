@@ -54,7 +54,7 @@ class ZoomCapture extends React.Component<ZoomCaptureProps, State> {
           <Section style={styles.bottomSection}>
             <div id="zoom-parent-container" style={getVideoContainerStyles()}>
               <div id="zoom-interface-container" style={{ position: 'absolute' }} />
-              {<Camera height={this.height} onLoad={this.onCameraLoad} onError={this.props.onError} />}
+              {<Camera height={this.props.height} onLoad={this.onCameraLoad} onError={this.props.onError} />}
             </div>
           </Section>
         </View>

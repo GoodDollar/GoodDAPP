@@ -7,8 +7,7 @@ import GDStore from '../SimpleStore'
 
 const log = logger.child({ from: 'undux/utils/balance' })
 
-const updateAll = () => {
-  const store = GDStore.useStore()
+const updateAll = store => {
   return Promise.all([goodWallet.balanceOf(), goodWallet.checkEntitlement()])
     .then(([balance, entitlement]) => {
       const account = store.get('account')

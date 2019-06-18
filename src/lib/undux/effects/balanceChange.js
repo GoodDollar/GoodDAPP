@@ -5,10 +5,10 @@ import { initTransferEvents } from '../../undux/utils/account'
 import type { State } from '../GDStore'
 
 const withBalanceChange: Effects<State> = (store: Store) => {
-  store.on('account').subscribe(async ({ ready }) => {
+  store.on('isLoggedIn').subscribe(async isLoggedIn => {
     const balanceUpdate = store.get('balanceUpdate')
 
-    if (!balanceUpdate.running && ready) {
+    if (!balanceUpdate.running && isLoggedIn) {
       initTransferEvents(store)
       balanceUpdate.running = true
       store.set('balanceUpdate')(balanceUpdate)

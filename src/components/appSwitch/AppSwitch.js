@@ -67,7 +67,7 @@ const AppSwitch = (props: LoadingProps) => {
     //initialize the citizen status and wallet status
     const { credsOrError, isLoggedInCitizen, isLoggedIn } = await Promise.all([
       getLoginState(),
-      updateWalletStatus()
+      updateWalletStatus(gdstore)
     ]).then(([authResult, _]) => authResult)
     gdstore.set('isLoggedIn')(isLoggedIn)
     gdstore.set('isLoggedInCitizen')(isLoggedInCitizen)

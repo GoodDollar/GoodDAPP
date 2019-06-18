@@ -1,13 +1,12 @@
 import { createSwitchNavigator } from '@react-navigation/core'
 import { createBrowserApp } from '@react-navigation/web'
 import React from 'react'
-
 // Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer'
 
 import GDStore from '../../../lib/undux/GDStore'
-import userStorage from '../../../lib/gundb/UserStorage'
 import { getComponentWithMocks } from './__util__'
+import userStorage from '../../../lib/gundb/UserStorage'
 const { Container } = GDStore
 
 const routes = {

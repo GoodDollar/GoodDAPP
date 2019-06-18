@@ -1,7 +1,7 @@
 // @flow
 
-import React, { createRef, useEffect, useState } from 'react'
-import { StyleSheet, Text, TextInput, View } from 'react-native'
+import React, { useState, useRef, useEffect } from 'react'
+import { View, StyleSheet, TextInput, Text } from 'react-native'
 import { normalize } from 'react-native-elements'
 import values from 'lodash/values'
 import logger from '../../lib/logger/pino-logger'
@@ -24,9 +24,8 @@ const isValidWord = word => {
 const MnemonicInput = (props: Props) => {
   const [state, setState] = useState({})
   const refs = {}
-
   for (let i = 0; i < MAX_WORDS; i++) {
-    refs[i] = createRef()
+    refs[i] = useRef(null)
   }
 
   useEffect(() => {

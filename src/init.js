@@ -1,14 +1,13 @@
 //@flow
-// eslint-disable-next-line no-unused-vars
 import initGunDB from './lib/gundb/gundb'
 import goodWallet from './lib/wallet/GoodWallet'
 import userStorage from './lib/gundb/UserStorage'
 import Config from './config/config'
 declare var amplitude
-export const init = () => {
-  return Promise.all([goodWallet.ready, userStorage.ready]).then(() => {
+export const init = async () => {
+  return await Promise.all([goodWallet.ready, userStorage.ready]).then(([wallet, storage]) => {
     global.wallet = goodWallet
-    if (global.Rollbar && Config.env !== 'test') {
+    if (global.Rollbar && Config.env !== 'test')
       global.Rollbar.configure({
         payload: {
           person: {
@@ -16,7 +15,6 @@ export const init = () => {
           }
         }
       })
-    }
     amplitude.getInstance().setUserId(goodWallet.getAccountForType('login'))
   })
 }

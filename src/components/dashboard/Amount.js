@@ -4,16 +4,17 @@ import { Keyboard, StyleSheet, Text, TouchableWithoutFeedback, View } from 'reac
 
 import { InputGoodDollar, NumPadKeyboard, Section, TopBar, Wrapper } from '../common'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
-import goodWallet from '../../lib/wallet/GoodWallet'
-import { useDialog } from '../../lib/undux/utils/dialog'
 import { receiveStyles as styles } from './styles'
-
+import goodWallet from '../../lib/wallet/GoodWallet'
+import logger from '../../lib/logger/pino-logger'
+import { useDialog } from '../../lib/undux/utils/dialog'
 export type AmountProps = {
   screenProps: any,
   navigation: any
 }
 
 const RECEIVE_TITLE = 'Receive G$'
+const log = logger.child({ from: RECEIVE_TITLE })
 
 const Amount = (props: AmountProps) => {
   const { screenProps } = props
@@ -32,10 +33,8 @@ const Amount = (props: AmountProps) => {
         title: 'Cannot send G$',
         message: 'Amount is bigger than balance'
       })
-
       return false
     }
-
     return true
   }
 

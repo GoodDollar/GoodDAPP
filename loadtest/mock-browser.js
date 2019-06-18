@@ -1,10 +1,9 @@
-import { LocalStorage } from 'node-localstorage'
+import { LocalStorage } from 'node-localStorage'
+import Config from '../src/config/config'
 import Gun from 'gun'
 import SEA from 'gun/sea'
-import 'gun/lib/load'
-import Config from '../src/config/config'
+import load from 'gun/lib/load'
 
-// eslint-disable-next-line no-unused-vars
 const extend = (() => {
   Gun.chain.putAck = function(data, cb) {
     var gun = this,
@@ -62,4 +61,4 @@ global.window = {}
 global.window.localStorage = new LocalStorage('./localStorage.tmp')
 global.gun = Gun([Config.gunPublicUrl])
 global.Gun = Gun
-console.info('here')
+console.log('here')

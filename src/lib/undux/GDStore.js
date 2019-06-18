@@ -1,8 +1,6 @@
 // @flow
 import { createConnectedStore, type StoreDefinition, withReduxDevtools } from 'undux'
 import compose from 'lodash/fp/compose'
-import { BN } from 'web3-utils'
-
 import effects from '../../lib/undux/effects'
 import withPinoLogger from './plugins/logger'
 
@@ -103,8 +101,8 @@ const initialState: State = {
     running: false
   },
   account: {
-    balance: new BN(0),
-    entitlement: new BN(0),
+    balance: undefined,
+    entitlement: undefined,
     ready: false
   },
   isLoggedInCitizen: false,

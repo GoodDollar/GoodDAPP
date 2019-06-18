@@ -7,6 +7,7 @@ import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import GDStore from '../../lib/undux/GDStore'
+import { updateAll as updateWalletStatus } from '../../lib/undux/utils/account'
 
 import { checkAuthStatus as getLoginState } from '../../lib/login/checkAuthStatus'
 import type { Store } from 'undux'
@@ -61,11 +62,13 @@ const AppSwitch = (props: LoadingProps) => {
    * Check's users' current auth status
    * @returns {Promise<void>}
    */
-  const checkAuthStatus = async () => {
+  const initialize = async () => {
     //after dynamic routes update, if user arrived here, then he is already loggedin
-    const { credsOrError, isLoggedInCitizen, isLoggedIn } = await Promise.all([getLoginState()]).then(
-      ([authResult]) => authResult
-    )
+    //initialize the citizen status and wallet status
+    const { credsOrError, isLoggedInCitizen, isLoggedIn } = await Promise.all([
+      getLoginState(),
+      updateWalletStatus()
+    ]).then(([authResult, _]) => authResult)
     gdstore.set('isLoggedIn')(isLoggedIn)
     gdstore.set('isLoggedInCitizen')(isLoggedInCitizen)
     let destDetails = await getParams()
@@ -103,13 +106,13 @@ const AppSwitch = (props: LoadingProps) => {
     }
   }
 
-  const test = async () => {
+  const init = async () => {
     store.set('loadingIndicator')({ loading: true })
-    await checkAuthStatus()
+    await initialize()
     store.set('loadingIndicator')({ loading: false })
   }
   useEffect(() => {
-    test()
+    init()
   }, [])
 
   useEffect(() => {

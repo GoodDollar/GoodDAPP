@@ -1,19 +1,19 @@
 // @flow
-import React, { Component } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Image, StyleSheet, View, Text } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import type { Store } from 'undux'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import wrapper from '../../lib/undux/utils/wrapper'
 import GDStore from '../../lib/undux/GDStore'
+import SimpleStore from '../../lib/undux/SimpleStore'
+
 import { BigNumber, BigGoodDollar, Section, TopBar, Wrapper, CustomButton } from '../common'
 import { weiToMask } from '../../lib/wallet/utils'
 import type { DashboardProps } from './Dashboard'
 import logger from '../../lib/logger/pino-logger'
 
-type ClaimProps = DashboardProps & {
-  store: Store
-}
+type ClaimProps = DashboardProps
 
 type ClaimState = {
   loading: boolean,
@@ -23,115 +23,116 @@ type ClaimState = {
 
 const log = logger.child({ from: 'Claim' })
 
-class Claim extends Component<ClaimProps, ClaimState> {
-  state = {
+const Claim = ({ navigation, screenProps, ...props }: ClaimProps) => {
+  const store = SimpleStore.useStore()
+  const gdstore = GDStore.useStore()
+  const [state, setState] = useState({
     loading: false,
     nextClaim: '23:59:59',
     claimedToday: {
       people: '',
       amount: ''
     }
-  }
+  })
 
-  interval = null
+  let interval = null
 
-  goodWalletWrapped = wrapper(goodWallet, this.props.store)
+  let goodWalletWrapped = wrapper(goodWallet, store)
 
-  async componentDidMount() {
+  const initialize = async () => {
     //if we returned from facerecoginition then the isValid param would be set
     //this happens only on first claim
-    const isValid = this.props.screenProps.screenState && this.props.screenProps.screenState.isValid
+    const isValid = screenProps.screenState && screenProps.screenState.isValid
+    log.debug('from FR:', { isValid })
     if (isValid && (await goodWallet.isCitizen())) {
-      this.handleClaim()
+      handleClaim()
     } else if (isValid === false) {
-      this.props.screenProps.goToRoot()
+      screenProps.goToRoot()
     }
 
-    const { entitlement } = this.props.store.get('account')
+    const entitlement = await goodWalletWrapped.checkEntitlement()
     const [claimedToday, nextClaimDate] = await Promise.all([
-      this.goodWalletWrapped.getAmountAndQuantityClaimedToday(entitlement),
-      this.goodWalletWrapped.getNextClaimTime()
+      goodWalletWrapped.getAmountAndQuantityClaimedToday(entitlement),
+      goodWalletWrapped.getNextClaimTime()
     ])
-    this.setState({ claimedToday })
-    this.interval = setInterval(async () => {
+    setState({ ...state, claimedToday })
+    interval = setInterval(async () => {
       const nextClaim = new Date(nextClaimDate - new Date().getTime()).toISOString().substr(11, 8)
-      this.setState({ nextClaim })
+      setState({ ...state, nextClaim })
     }, 1000)
   }
 
-  componentWillUnmount() {
-    clearInterval(this.interval)
-  }
+  useEffect(() => {
+    initialize()
+    return () => clearInterval(interval)
+  }, [])
 
-  handleClaim = async () => {
-    this.setState({ loading: true })
+  const handleClaim = async () => {
+    setState({ ...state, loading: true })
     try {
-      const receipt = await this.goodWalletWrapped.claim()
-      this.props.store.set('currentScreen')({
+      const receipt = await goodWalletWrapped.claim()
+      store.set('currentScreen')({
         dialogData: {
           visible: true,
           title: 'Success',
           message: `You've claimed your G$`,
           dismissText: 'YAY!',
-          onDismiss: this.props.screenProps.goToRoot
+          onDismiss: screenProps.goToRoot
         }
       })
-      this.setState({ loading: false })
+      setState({ ...state, loading: false })
     } catch (e) {
       log.error('claiming failed', e)
-      this.setState({ loading: false })
+      setState({ ...state, loading: false })
     }
   }
 
-  faceRecognition = () => {
-    this.props.screenProps.push('FaceRecognition', { from: 'Claim' })
+  const faceRecognition = () => {
+    screenProps.push('FaceRecognition', { from: 'Claim' })
   }
 
-  render() {
-    const { screenProps, store }: ClaimProps = this.props
-    const { entitlement } = store.get('account')
-    const isCitizen = store.get('isLoggedInCitizen')
-    const { nextClaim, claimedToday } = this.state
+  const { entitlement } = gdstore.get('account')
+  const isCitizen = gdstore.get('isLoggedInCitizen')
+  const { nextClaim, claimedToday } = state
 
-    const ClaimButton = (
-      <CustomButton
-        disabled={entitlement <= 0}
-        mode="contained"
-        compact={true}
-        onPress={async () => {
-          isCitizen ? this.handleClaim() : this.faceRecognition()
-        }}
-        style={styles.claimButton}
-        loading={this.state.loading}
-      >
-        {`CLAIM YOUR SHARE - ${weiToMask(entitlement, { showUnits: true })}`}
-      </CustomButton>
-    )
+  const ClaimButton = (
+    <CustomButton
+      disabled={entitlement <= 0}
+      mode="contained"
+      compact={true}
+      onPress={async () => {
+        isCitizen ? handleClaim() : faceRecognition()
+      }}
+      style={styles.claimButton}
+      loading={state.loading}
+    >
+      {`CLAIM YOUR SHARE - ${weiToMask(entitlement, { showUnits: true })}`}
+    </CustomButton>
+  )
 
-    return (
-      <Wrapper>
-        <TopBar push={screenProps.push} />
-        <Section style={styles.mainContent}>
-          <Section.Text>GoodDollar allows you to collect</Section.Text>
-          <Section.Text>
-            <Text>G$s</Text>
-            <Text style={styles.everyDay}> every day</Text>
-          </Section.Text>
-        </Section>
-        <Section style={styles.nextIncome}>
-          <Section.Text>
-            {claimedToday.people} PEOPLE CLAIMED {claimedToday.amount} G$ TODAY!
-          </Section.Text>
-        </Section>
-        <Section style={styles.nextIncome}>
-          <Section.Text style={styles.incomeTitle}>Next daily income:</Section.Text>
-          <Section.Text style={styles.time}>{nextClaim}</Section.Text>
-        </Section>
-        {ClaimButton}
-        <View />
-      </Wrapper>
-    )
-  }
+  return (
+    <Wrapper>
+      <TopBar push={screenProps.push} />
+      <Section style={styles.mainContent}>
+        <Section.Text>GoodDollar allows you to collect</Section.Text>
+        <Section.Text>
+          <Text>G$s</Text>
+          <Text style={styles.everyDay}> every day</Text>
+        </Section.Text>
+      </Section>
+      <Section style={styles.nextIncome}>
+        <Section.Text>
+          {claimedToday.people} PEOPLE CLAIMED {claimedToday.amount} G$ TODAY!
+        </Section.Text>
+      </Section>
+      <Section style={styles.nextIncome}>
+        <Section.Text style={styles.incomeTitle}>Next daily income:</Section.Text>
+        <Section.Text style={styles.time}>{nextClaim}</Section.Text>
+      </Section>
+      {ClaimButton}
+      <View />
+    </Wrapper>
+  )
 }
 
 const styles = StyleSheet.create({

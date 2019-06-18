@@ -1,7 +1,6 @@
 // @flow
 import { createConnectedStore, withReduxDevtools, type StoreDefinition } from 'undux'
 import compose from 'lodash/fp/compose'
-import { type ZoomCaptureResult } from './Zoom'
 import withPinoLogger from './plugins/logger'
 import effects from '../../lib/undux/effects'
 

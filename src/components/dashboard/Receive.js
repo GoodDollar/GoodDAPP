@@ -3,13 +3,12 @@ import QRCode from 'qrcode.react'
 import React, { useMemo } from 'react'
 import { View } from 'react-native'
 import { isMobile } from 'mobile-device-detect'
-import { useSetClipboard } from '../../lib/utils/Clipboard'
 import { generateCode, generateReceiveShareObject } from '../../lib/share'
 import GDStore from '../../lib/undux/GDStore'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { PushButton } from '../appNavigation/stackNavigation'
-import { Address, CustomButton, Section, Wrapper } from '../common'
+import { Address, CustomButton, Section, Wrapper, CopyButton } from '../common'
 import ScanQRButton from '../common/ScanQRButton'
 import TopBar from '../common/TopBar'
 import { receiveStyles as styles } from './styles'
@@ -25,7 +24,6 @@ const Receive = ({ screenProps }: ReceiveProps) => {
   const { account, networkId } = goodWallet
   const [showDialogWithData] = useDialog()
   const store = GDStore.useStore()
-  const setClipboard = useSetClipboard()
   const amount = 0
   const reason = ''
 
@@ -78,19 +76,18 @@ const Receive = ({ screenProps }: ReceiveProps) => {
             <Section.Title style={styles.address}>
               <Address value={account} />
             </Section.Title>
-            <Section.Text style={styles.secondaryText} onPress={() => setClipboard(account)}>
-              Copy address to clipboard
-            </Section.Text>
           </View>
           {isMobile && navigator.share ? <ShareButton style={styles.shareButton} /> : null}
         </Section.Row>
       </Section>
+      <CopyButton mode="outlined" toCopy={account}>
+        Copy address to clipboard
+      </CopyButton>
       <PushButton
-        mode="outlined"
-        dark={false}
+        mode="contained"
         routeName="Amount"
         screenProps={screenProps}
-        style={styles.fullWidth}
+        style={{ marginTop: 10 }}
         params={{ nextRoutes: ['Reason', 'ReceiveAmount'], params: { toReceive: true } }}
       >
         Generate detailed request

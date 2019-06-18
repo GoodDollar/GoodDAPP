@@ -9,6 +9,7 @@ import Address from './Address'
 import Avatar from './Avatar'
 import CustomDialog from './CustomDialog'
 import CustomButton from './CustomButton'
+import CopyButton from './CopyButton'
 import BigNumber from './BigNumber'
 import BigGoodDollar from './BigGoodDollar'
 import Section from './Section'
@@ -16,7 +17,6 @@ import TopBar from './TopBar'
 import IconButton from './IconButton'
 import InputGoodDollar from './InputGoodDollar'
 import UserAvatar from './UserAvatar'
-import CustomSnackbar from './CustomSnackbar'
 
 export * from './CustomButton'
 
@@ -92,6 +92,7 @@ export {
   Avatar,
   UserAvatar,
   CustomButton,
+  CopyButton,
   Wrapper,
   Section,
   BigNumber,
@@ -99,6 +100,5 @@ export {
   TopBar,
   IconButton,
   CustomDialog,
-  InputGoodDollar,
-  CustomSnackbar
+  InputGoodDollar
 }

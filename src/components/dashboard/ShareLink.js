@@ -1,7 +1,7 @@
 // @flow
 import { isMobile } from 'mobile-device-detect'
 import React, { useCallback } from 'react'
-import { useSetClipboard } from '../../lib/utils/Clipboard'
+import Clipboard from '../../lib/utils/Clipboard'
 
 import logger from '../../lib/logger/pino-logger'
 import { useDialog } from '../../lib/undux/utils/dialog'
@@ -18,7 +18,6 @@ type Props = {
 
 const ShareLink = ({ children, link, ...props }: Props) => {
   const [showDialogWithData] = useDialog()
-  const setClipboard = useSetClipboard()
 
   const share = useCallback(async () => {
     if (isMobile) {
@@ -30,11 +29,11 @@ const ShareLink = ({ children, link, ...props }: Props) => {
           message:
             'There was a problem triggering share action. URL will be copied to clipboard after closing this dialog',
           dismissText: 'Ok',
-          onDismiss: () => setClipboard(link)
+          onDismiss: () => Clipboard.setString(link)
         })
       }
     } else {
-      setClipboard(link)
+      Clipboard.setString(link)
       log.info('Receive link copied', { link })
     }
   })

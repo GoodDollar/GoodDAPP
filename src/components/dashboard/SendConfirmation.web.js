@@ -1,17 +1,16 @@
 // @flow
 import QRCode from 'qrcode.react'
 
-import React from 'react'
+import React, { useState } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { normalize } from 'react-native-elements'
 import { isMobile } from 'mobile-device-detect'
 
 import { generateSendShareObject } from '../../lib/share'
 import GDStore from '../../lib/undux/GDStore'
-import { useSetClipboard } from '../../lib/utils/Clipboard'
 
 import { DoneButton, useScreenState } from '../appNavigation/stackNavigation'
-import { BigGoodDollar, CustomButton, Section, TopBar, Wrapper } from '../common'
+import { BigGoodDollar, CustomButton, Section, TopBar, Wrapper, CopyButton } from '../common'
 import { fontStyle } from '../common/styles'
 import './AButton.css'
 import { receiveStyles } from './styles'
@@ -23,11 +22,12 @@ export type ReceiveProps = {
 }
 
 const SEND_TITLE = 'Send G$'
+
 const SendConfirmation = ({ screenProps }: ReceiveProps) => {
   const [screenState] = useScreenState(screenProps)
   const store = GDStore.useStore()
-  const setClipboard = useSetClipboard()
   const { amount, reason, sendLink } = screenState
+
   const share = generateSendShareObject(sendLink)
   const shareAction = async () => {
     try {
@@ -46,7 +46,7 @@ const SendConfirmation = ({ screenProps }: ReceiveProps) => {
   }
 
   const ShareButton = () => (
-    <CustomButton style={styles.buttonStyle} onPress={shareAction} mode="contained">
+    <CustomButton onPress={shareAction} mode="contained">
       Share Link
     </CustomButton>
   )
@@ -63,9 +63,6 @@ const SendConfirmation = ({ screenProps }: ReceiveProps) => {
             <Section.Text style={styles.addressSection}>
               <Text style={styles.url}>{share.url}</Text>
             </Section.Text>
-            <Section.Text style={styles.secondaryText} onPress={() => setClipboard(share.url)}>
-              Copy link to clipboard
-            </Section.Text>
             <Section.Text style={styles.reasonText}>
               {`Here's `}
               <BigGoodDollar number={amount} />
@@ -75,7 +72,11 @@ const SendConfirmation = ({ screenProps }: ReceiveProps) => {
         </View>
       </Section>
       <View style={styles.buttonGroup}>
-        {isMobile && navigator.share ? <ShareButton style={styles.shareButton} /> : null}
+        {isMobile && navigator.share ? (
+          <ShareButton style={styles.shareButton} />
+        ) : (
+          <CopyButton toCopy={share.url}>Copy link to clipboard</CopyButton>
+        )}
         <DoneButton style={styles.doneButton} screenProps={screenProps} />
       </View>
     </Wrapper>

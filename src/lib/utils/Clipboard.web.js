@@ -1,7 +1,6 @@
 // @flow
 import { Clipboard as NativeClipboard } from 'react-native'
 import logger from '../../lib/logger/pino-logger'
-import GDStore from '../../lib/undux/GDStore'
 const log = logger.child({ from: 'Clipboard' })
 
 /**
@@ -11,22 +10,17 @@ const Clipboard = {
   /**
    * @returns {string}
    */
-  getString: () => navigator.clipboard.readText(),
+  getString: () => {
+    const text = navigator.clipboard.readText()
+    log.debug('getString', text)
+    return text
+  },
   /**
    * @param {string} text
    */
   setString: (text: string) => {
     log.debug('setString', text)
     NativeClipboard.setString(text)
-  }
-}
-
-export const useSetClipboard = () => {
-  const store = GDStore.useStore()
-
-  return (text: string) => {
-    Clipboard.setString(text)
-    store.set('snackbarData')({ visible: true, text: 'Copied to clipboard' })
   }
 }
 

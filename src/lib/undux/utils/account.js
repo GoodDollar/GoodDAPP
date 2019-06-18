@@ -3,10 +3,12 @@ import type { Store } from 'undux'
 import logger from '../../logger/pino-logger'
 import goodWallet from '../../wallet/GoodWallet'
 import userStorage from '../../gundb/UserStorage'
+import GDStore from '../SimpleStore'
 
 const log = logger.child({ from: 'undux/utils/balance' })
 
-const updateAll = (store: Store) => {
+const updateAll = () => {
+  const store = GDStore.useStore()
   return Promise.all([goodWallet.balanceOf(), goodWallet.checkEntitlement()])
     .then(([balance, entitlement]) => {
       const account = store.get('account')

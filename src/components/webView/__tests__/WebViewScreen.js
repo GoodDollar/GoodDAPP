@@ -1,9 +1,9 @@
 import React from 'react'
-import renderer from 'react-test-renderer'
 import WebViewScreen, { createWebViewScreen } from '../WebViewScreen'
-import { PrivacyPolicy, TermsOfUse } from '../webViewInstances'
+import { TermsOfUse, PrivacyPolicy } from '../webViewInstances'
 
 // Note: test renderer must be required after react-native.
+import renderer from 'react-test-renderer'
 
 describe('WebViewScreen', () => {
   it('renders without errors', () => {

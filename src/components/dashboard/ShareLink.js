@@ -1,11 +1,12 @@
 // @flow
 import { isMobile } from 'mobile-device-detect'
 import React, { useCallback } from 'react'
-import { Clipboard } from 'react-native'
+import { useSetClipboard } from '../../lib/utils/Clipboard'
 
 import logger from '../../lib/logger/pino-logger'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import { CustomButton as Button } from '../common'
+import { generateReceiveShareObject } from '../../lib/share'
 
 const log = logger.child({ from: 'ShareLink' })
 
@@ -17,26 +18,23 @@ type Props = {
 
 const ShareLink = ({ children, link, ...props }: Props) => {
   const [showDialogWithData] = useDialog()
+  const setClipboard = useSetClipboard()
 
   const share = useCallback(async () => {
     if (isMobile) {
       try {
-        await navigator.share({
-          title: 'Sending G$ via Good Dollar App',
-          text: 'To send me G$ open:',
-          url: link
-        })
+        await navigator.share(generateReceiveShareObject(link))
       } catch (e) {
         showDialogWithData({
           title: 'Error',
           message:
             'There was a problem triggering share action. URL will be copied to clipboard after closing this dialog',
           dismissText: 'Ok',
-          onDismiss: () => Clipboard.setString(link)
+          onDismiss: () => setClipboard(link)
         })
       }
     } else {
-      Clipboard.setString(link)
+      setClipboard(link)
       log.info('Receive link copied', { link })
     }
   })

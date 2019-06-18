@@ -1,9 +1,9 @@
 // @flow
-import { createConnectedStore, type StoreDefinition, withReduxDevtools } from 'undux'
+import { createConnectedStore, withReduxDevtools, type StoreDefinition } from 'undux'
 import compose from 'lodash/fp/compose'
-
-import effects from '../../lib/undux/effects'
+import { type ZoomCaptureResult } from './Zoom'
 import withPinoLogger from './plugins/logger'
+import effects from '../../lib/undux/effects'
 
 /**
  * Wheather the balance update is running or not
@@ -31,6 +31,15 @@ type DialogData = {
   visible: boolean,
   title?: string,
   message?: string
+}
+
+/**
+ * Dialog data. This is being used to show a dialog across the app
+ * @type
+ */
+type SnackbarData = {
+  visible: boolean,
+  text?: string
 }
 
 /**
@@ -80,7 +89,8 @@ export type State = {
   destinationPath: string,
   feeds: StandardFeed[],
   feedLoading: Boolean,
-  loadingIndicator: LoadingIndicator
+  loadingIndicator: LoadingIndicator,
+  snackbarData: SnackbarData
 }
 
 /**
@@ -112,6 +122,9 @@ const initialState: State = {
   },
   feedLoading: false,
   sidemenu: {
+    visible: false
+  },
+  snackbarData: {
     visible: false
   }
 }

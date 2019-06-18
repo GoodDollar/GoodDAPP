@@ -1,21 +1,21 @@
 // @flow
 import React, { PureComponent } from 'react'
 import {
-  ActivityIndicator,
   Animated,
-  Dimensions,
-  FlatList,
-  StyleSheet,
   SwipeableFlatList,
+  FlatList,
+  View,
+  StyleSheet,
+  Dimensions,
   Text,
-  View
+  ActivityIndicator
 } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
-import GDStore from '../../lib/undux/GDStore'
-import pino from '../../lib/logger/pino-logger'
 import FeedActions from './FeedActions'
 import FeedListItem from './FeedItems/FeedListItem'
 import FeedModalItem from './FeedItems/FeedModalItem'
+import GDStore from '../../lib/undux/GDStore'
+import pino from '../../lib/logger/pino-logger'
 const log = pino.child({ from: 'FeedListView' })
 
 const SCREEN_SIZE = {
@@ -97,7 +97,6 @@ class FeedList extends PureComponent<FeedListProps, FeedListState> {
   }
 
   flatListRef = null
-
   swipeableFlatListRef = null
 
   renderItemComponent = ({ item, separators, index }: ItemComponentProps) => {
@@ -138,32 +137,33 @@ class FeedList extends PureComponent<FeedListProps, FeedListState> {
           />
         </View>
       )
+    } else {
+      return (
+        <View style={styles.verticalContainer}>
+          {loading ? <ActivityIndicator style={styles.loading} animating={true} color="gray" size="large" /> : null}
+          <AnimatedSwipeableFlatList
+            bounceFirstRowOnMount={true}
+            maxSwipeDistance={160}
+            initialNumToRender={initialNumToRender || 10}
+            data={feeds}
+            getItemLayout={fixedHeight ? this.getItemLayout : undefined}
+            horizontal={horizontal}
+            key={(horizontal ? 'h' : 'v') + (fixedHeight ? 'f' : 'd')}
+            keyboardShouldPersistTaps="always"
+            keyboardDismissMode="on-drag"
+            legacyImplementation={false}
+            numColumns={1}
+            onEndReached={onEndReached}
+            ref={ref => (this.swipeableFlatListRef = ref)}
+            refreshing={false}
+            renderItem={this.renderItemComponent}
+            contentContainerStyle={styles.verticalList}
+            viewabilityConfig={VIEWABILITY_CONFIG}
+            renderQuickActions={FeedActions}
+          />
+        </View>
+      )
     }
-    return (
-      <View style={styles.verticalContainer}>
-        {loading ? <ActivityIndicator style={styles.loading} animating={true} color="gray" size="large" /> : null}
-        <AnimatedSwipeableFlatList
-          bounceFirstRowOnMount={true}
-          maxSwipeDistance={160}
-          initialNumToRender={initialNumToRender || 10}
-          data={feeds}
-          getItemLayout={fixedHeight ? this.getItemLayout : undefined}
-          horizontal={horizontal}
-          key={(horizontal ? 'h' : 'v') + (fixedHeight ? 'f' : 'd')}
-          keyboardShouldPersistTaps="always"
-          keyboardDismissMode="on-drag"
-          legacyImplementation={false}
-          numColumns={1}
-          onEndReached={onEndReached}
-          ref={ref => (this.swipeableFlatListRef = ref)}
-          refreshing={false}
-          renderItem={this.renderItemComponent}
-          contentContainerStyle={styles.verticalList}
-          viewabilityConfig={VIEWABILITY_CONFIG}
-          renderQuickActions={FeedActions}
-        />
-      </View>
-    )
   }
 
   render() {

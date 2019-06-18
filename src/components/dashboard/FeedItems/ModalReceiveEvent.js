@@ -4,9 +4,9 @@ import { StyleSheet } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { Avatar } from 'react-native-paper'
 import { Text, View } from 'react-native-web'
-import { BigGoodDollar, CustomButton } from '../../common'
-import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
+import { CustomButton, BigGoodDollar } from '../../common'
 import type { FeedEventProps } from './EventProps'
+import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
 
 /**
  * Render modal withdraw item for feed list in horizontal view

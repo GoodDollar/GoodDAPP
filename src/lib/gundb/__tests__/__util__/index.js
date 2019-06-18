@@ -14,7 +14,7 @@ type UserRecord = {
   emailVerification?: { code: string, expirationDate: number }
 }
 
-export const addUser = (user: UserRecord): Promise<boolean> => {
+export const addUser = async (user: UserRecord): Promise<boolean> => {
   return updateUser(user)
 }
 

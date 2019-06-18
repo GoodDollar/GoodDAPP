@@ -3,7 +3,6 @@ import renderer from 'react-test-renderer'
 
 import GDStore from '../../../lib/undux/GDStore'
 import LoadingIndicator from '../LoadingIndicator'
-
 // import LoadingIndicator, { setLoadingWithStore } from '../LoadingIndicator'
 
 const { Container } = GDStore

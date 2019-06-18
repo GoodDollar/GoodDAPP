@@ -1,7 +1,6 @@
 {
   "extends": [
     "react-app",
-    "eslint:recommended",
     "plugin:flowtype/recommended",
     "plugin:import/recommended",
     "plugin:prettier/recommended",
@@ -34,118 +33,25 @@
           ".js",
           ".android.js",
           ".ios.js",
-          ".web.js",
-          ".native.js"
+          ".web.js"
         ]
       }
-    },
-    "dependencies/resolver": {
-      "node": {
-        "paths": [
-          "src"
-        ]
-      },
-      "extensions": [
-        ".js",
-        ".android.js",
-        ".ios.js",
-        ".web.js",
-        ".native.js"
-      ]
     }
   },
   "rules": {
     "prettier/prettier": "error",
     "react/prop-types": "off",
     "react/display-name": "off",
-    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/rules-of-hooks": "warn",
     "dependencies/no-cycles": "error",
-    "import/no-unresolved": "error",
-    "import/first": "error",
-    "import/no-duplicates": "error",
-    "import/order": [
+    "dependencies/no-unresolved": [
       "warn",
       {
-        "groups": [
-          "builtin",
-          "external",
-          "internal",
-          "parent",
-          "sibling",
-          "index"
+        "ignore": [
+          "web3"
         ]
       }
     ],
-    "sort-imports": [
-      "warn",
-      {
-        "ignoreCase": true,
-        "ignoreDeclarationSort": true
-      }
-    ],
-    "no-console": [
-      "error",
-      {
-        "allow": [
-          "info"
-        ]
-      }
-    ],
-    "no-await-in-loop": "error",
-    "curly": "error",
-    "dot-notation": "error",
-    "no-else-return": "error",
-    "no-implicit-coercion": [
-      "error",
-      {
-        "boolean": false
-      }
-    ],
-    "no-return-await": "error",
-    "no-useless-catch": "error",
-    "require-await": "error",
-    "array-bracket-newline": [
-      "error",
-      {
-        "multiline": true
-      }
-    ],
-    "block-spacing": "error",
-    "brace-style": [
-      "error",
-      "1tbs",
-      {
-        "allowSingleLine": true
-      }
-    ],
-    "camelcase": [
-      "error",
-      {
-        "ignoreDestructuring": true,
-        "properties": "never"
-      }
-    ],
-    "comma-dangle": "error",
-    "comma-spacing": "error",
-    "computed-property-spacing": "error",
-    "lines-between-class-members": "error",
-    "lines-around-comment": [
-      "error",
-      {
-        "beforeBlockComment": true,
-        "beforeLineComment": true,
-        "allowBlockStart": true,
-        "allowObjectStart": true,
-        "allowArrayStart": true,
-        "allowClassStart": true,
-        "afterBlockComment": false,
-        "afterLineComment": false,
-        "allowBlockEnd": false,
-        "allowObjectEnd": false,
-        "allowArrayEnd": false,
-        "allowClassEnd": false
-      }
-    ],
-    "no-negated-condition": "error"
+    "import/no-unresolved": "warn"
   }
 }

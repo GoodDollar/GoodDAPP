@@ -1,17 +1,16 @@
 // @flow
 import React, { useMemo } from 'react'
-import { View } from 'react-native'
+import { Text, View } from 'react-native'
 import QRCode from 'qrcode.react'
+import { isMobile } from 'mobile-device-detect'
 import { useDialog } from '../../lib/undux/utils/dialog'
-
 import goodWallet from '../../lib/wallet/GoodWallet'
-import { generateCode, generateShareLink } from '../../lib/share'
-import { BigGoodDollar, Section, Wrapper } from '../common'
+import { generateCode, generateReceiveShareObject } from '../../lib/share'
+import GDStore from '../../lib/undux/GDStore'
+import { useSetClipboard } from '../../lib/utils/Clipboard'
+import { BigGoodDollar, CustomButton, Section, Wrapper } from '../common'
 import { DoneButton, useScreenState } from '../appNavigation/stackNavigation'
 import { receiveStyles as styles } from './styles'
-
-// import ShareQR from './ShareQR'
-import ShareLink from './ShareLink'
 
 export type ReceiveProps = {
   screenProps: any,
@@ -22,14 +21,16 @@ const RECEIVE_TITLE = 'Receive G$'
 
 const ReceiveAmount = ({ screenProps }: ReceiveProps) => {
   const { account, networkId } = goodWallet
-  const [screenState] = useScreenState(screenProps)
+  const [screenState, setScreenState] = useScreenState(screenProps)
   const [showDialogWithData] = useDialog()
-  const { amount } = screenState
+  const store = GDStore.useStore()
+  const setClipboard = useSetClipboard()
+  const { amount, reason } = screenState
 
-  const code = useMemo(() => generateCode(account, networkId, amount), [account, networkId, amount])
-  const link = useMemo(() => {
+  const code = useMemo(() => generateCode(account, networkId, amount, reason), [account, networkId, amount, reason])
+  const share = useMemo(() => {
     try {
-      return generateShareLink('receive', { code })
+      return generateReceiveShareObject(code)
     } catch (e) {
       showDialogWithData({
         title: 'Error',
@@ -37,6 +38,28 @@ const ReceiveAmount = ({ screenProps }: ReceiveProps) => {
       })
     }
   }, [code])
+
+  const shareAction = async () => {
+    try {
+      await navigator.share(share)
+    } catch (e) {
+      store.set('currentScreen')({
+        dialogData: {
+          visible: true,
+          title: 'Error',
+          message:
+            'There was a problem triggering share action. You can still copy the link in tapping on "Copy link to clipboard"',
+          dismissText: 'Ok'
+        }
+      })
+    }
+  }
+
+  const ShareButton = () => (
+    <CustomButton style={styles.buttonStyle} onPress={shareAction} mode="contained">
+      Share link
+    </CustomButton>
+  )
 
   return (
     <Wrapper style={styles.wrapper}>
@@ -47,15 +70,22 @@ const ReceiveAmount = ({ screenProps }: ReceiveProps) => {
           </View>
           <View>
             <Section.Text style={[styles.lowerSecondaryText]}>This QR code requests exactly</Section.Text>
+            <Section.Text style={styles.addressSection}>
+              <Text style={styles.url}>{share.url}</Text>
+            </Section.Text>
+            <Section.Text style={styles.secondaryText} onPress={() => setClipboard(share.url)}>
+              Copy to clipboard
+            </Section.Text>
             <Section.Text>
               <BigGoodDollar style={styles.centered} number={amount} />
             </Section.Text>
+            <Section.Text>{reason ? reason : null}</Section.Text>
           </View>
         </Section.Row>
       </Section>
       {/* <ShareQR>Share QR Code</ShareQR>
       <DoneButton style={styles.doneButton} screenProps={screenProps} /> */}
-      <ShareLink link={link}>Share Link</ShareLink>
+      {isMobile && navigator.share ? <ShareButton style={styles.shareButton} /> : null}
       <DoneButton style={styles.buttonStyle} screenProps={screenProps} />
     </Wrapper>
   )

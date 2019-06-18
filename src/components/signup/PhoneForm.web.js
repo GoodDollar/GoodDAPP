@@ -11,6 +11,7 @@ import { Description, Title, Wrapper } from './components'
 const log = logger.child({ from: 'PhoneForm' })
 
 type Props = {
+  // callback to report to parent component
   doneCallback: ({ phone: string }) => null,
   screenProps: any,
   navigation: any
@@ -30,7 +31,6 @@ class PhoneForm extends React.Component<Props, State> {
     errorMessage: '',
     countryCode: null
   }
-
   isValid = false
 
   setCountryCode = async () => {

@@ -1,8 +1,8 @@
 // @flow
 import axios from 'axios'
-import type { $AxiosXHR, AxiosInstance, AxiosPromise } from 'axios'
-import { AsyncStorage } from 'react-native'
+import type { AxiosPromise, AxiosInstance, $AxiosXHR } from 'axios'
 import Config from '../../config/config'
+import { AsyncStorage } from 'react-native'
 import logger from '../logger/pino-logger'
 import type { NameRecord } from '../../components/signup/NameForm'
 import type { EmailRecord } from '../../components/signup/EmailForm'
@@ -33,7 +33,6 @@ export type UserRecord = NameRecord &
  */
 class API {
   jwt: string
-
   client: AxiosInstance
 
   constructor() {
@@ -121,7 +120,7 @@ class API {
    * `ip-api.com/json` get location api call
    */
   getLocation(): AxiosPromise<any> {
-    return axios.get('https://get.geojs.io/v1/ip/country.json').then(response => response)
+    return axios.get('https://get.geojs.io/v1/ip/country.json')
   }
 
   /**
@@ -187,7 +186,6 @@ class API {
    * @param {Credentials} creds
    */
   performFaceRecognition(req: FormData): Promise<$AxiosXHR<any>> {
-    //return { data: { ok: 1, livenessPassed: true, duplicates: false, zoomEnrollmentId:-1 } } //TODO: // REMOVE!!!!!!!!!!
     return this.client
       .post('/verify/facerecognition', req, {
         headers: {

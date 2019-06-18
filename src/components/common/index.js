@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { Provider } from 'react-native-paper'
 import { fontStyle } from './styles'
@@ -16,6 +16,7 @@ import TopBar from './TopBar'
 import IconButton from './IconButton'
 import InputGoodDollar from './InputGoodDollar'
 import UserAvatar from './UserAvatar'
+import CustomSnackbar from './CustomSnackbar'
 
 export * from './CustomButton'
 
@@ -98,5 +99,6 @@ export {
   TopBar,
   IconButton,
   CustomDialog,
-  InputGoodDollar
+  InputGoodDollar,
+  CustomSnackbar
 }

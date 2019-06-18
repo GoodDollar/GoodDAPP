@@ -1,8 +1,8 @@
 import React from 'react'
-import renderer from 'react-test-renderer'
 import FeedActions from '../FeedActions'
 
 // Note: test renderer must be required after react-native.
+import renderer from 'react-test-renderer'
 
 describe('FeedActions', () => {
   it('renders without errors', () => {

@@ -1,9 +1,16 @@
 // @flow
 import gun from '../gundb'
 
-import userStorage, { getOperationType, getReceiveDataFromReceipt, type TransactionEvent } from '../UserStorage'
+import userStorage, {
+  type TransactionEvent,
+  UserStorage,
+  getOperationType,
+  getReceiveDataFromReceipt
+} from '../UserStorage'
 import { getUserModel } from '../UserModel'
 import { addUser } from './__util__/index'
+import { GoodWallet } from '../../wallet/GoodWallet'
+import { deleteMnemonics } from '../../wallet/SoftwareWalletProvider'
 
 const delay = duration => {
   return new Promise((resolve, reject) => {
@@ -24,18 +31,28 @@ let event4 = {
   data: { foo: 'bar', unchanged: 'zar' }
 }
 
+const createNewUserStorage = async () => {
+  await Promise.all([userStorage.wallet.ready, userStorage.ready])
+  await deleteMnemonics()
+  const wallet = new GoodWallet()
+  const newUserStorage = new UserStorage(wallet)
+  return Promise.all([newUserStorage.wallet.ready, newUserStorage.ready]).then(() => newUserStorage)
+}
+
 describe('UserStorage', () => {
   beforeAll(async () => {
     jest.setTimeout(30000)
     await userStorage.wallet.ready
+    console.log('wallet ready...', userStorage.wallet.account)
     await userStorage.ready
+    console.log('storage ready...', userStorage.wallet.account)
   })
 
   afterEach(() => {
     userStorage.unSubscribeProfileUpdates()
   })
 
-  it('logins to gundb', () => {
+  it('logins to gundb', async () => {
     expect(userStorage.user).not.toBeUndefined()
   })
 
@@ -48,7 +65,7 @@ describe('UserStorage', () => {
   })
 
   it('updates gundb field', done => {
-    userStorage.profile.get('x').put({ z: 2, y: 2 }, async () => {
+    const gunRes = userStorage.profile.get('x').put({ z: 2, y: 2 }, async v => {
       let res = await userStorage.profile.get('x').then()
       expect(res).toEqual(expect.objectContaining({ z: 2, y: 2 }))
       done()
@@ -62,7 +79,7 @@ describe('UserStorage', () => {
   })
 
   it('update profile field', async () => {
-    await userStorage.setProfileField('name', 'hadar2', 'public')
+    const ack = await userStorage.setProfileField('name', 'hadar2', 'public')
     const res = await userStorage.profile.get('name').then()
     expect(res).toEqual(expect.objectContaining({ privacy: 'public', display: 'hadar2' }))
   })
@@ -74,7 +91,7 @@ describe('UserStorage', () => {
   })
 
   it('sets profile field private (encrypted)', async () => {
-    await userStorage.setProfileField('id', 'z123', 'private')
+    const gunRes = await userStorage.setProfileField('id', 'z123', 'private')
     const res = await userStorage.profile.get('id').then()
     expect(res).toEqual(expect.objectContaining({ privacy: 'private', display: '' }))
   })
@@ -166,25 +183,25 @@ describe('UserStorage', () => {
   // })
 
   it('sets profile email field masked', async () => {
-    await userStorage.setProfileField('email', 'johndoe@blah.com', 'masked')
+    const gunRes = await userStorage.setProfileField('email', 'johndoe@blah.com', 'masked')
     const res = await userStorage.profile.get('email').then()
     expect(res).toEqual(expect.objectContaining({ privacy: 'masked', display: 'j*****e@blah.com' }))
   })
 
   it('sets profile mobile field masked', async () => {
-    await userStorage.setProfileField('mobile', '+972-50-7384928', 'masked')
+    const gunRes = await userStorage.setProfileField('mobile', '+972-50-7384928', 'masked')
     const res = await userStorage.profile.get('mobile').then()
     expect(res).toEqual(expect.objectContaining({ privacy: 'masked', display: '***********4928' }))
   })
 
   it('sets profile phone field masked', async () => {
-    await userStorage.setProfileField('phone', '+972-50-7384928', 'masked')
+    const gunRes = await userStorage.setProfileField('phone', '+972-50-7384928', 'masked')
     const res = await userStorage.profile.get('phone').then()
     expect(res).toEqual(expect.objectContaining({ privacy: 'masked', display: '***********4928' }))
   })
 
   it('doesnt mask non email/phone profile fields', async () => {
-    await userStorage.setProfileField('name', 'John Doe', 'masked')
+    const gunRes = await userStorage.setProfileField('name', 'John Doe', 'masked')
     const res = await userStorage.profile.get('name').then()
     expect(res).toEqual(expect.objectContaining({ privacy: 'public', display: 'John Doe' }))
   })
@@ -203,13 +220,13 @@ describe('UserStorage', () => {
   })
 
   it('change profile field privacy to private', async () => {
-    await userStorage.setProfileFieldPrivacy('phone', 'private')
+    const gunRes = await userStorage.setProfileFieldPrivacy('phone', 'private')
     const res = await userStorage.profile.get('phone').then()
     expect(res).toEqual(expect.objectContaining({ privacy: 'private', display: '' }))
   })
 
   it('add event', async () => {
-    await userStorage.updateFeedEvent(event)
+    const gunRes = await userStorage.updateFeedEvent(event)
     const index = await userStorage.feed
       .get('index')
       .once()
@@ -236,7 +253,7 @@ describe('UserStorage', () => {
     await userStorage.updateFeedEvent(event)
 
     let updatedEvent = { ...event, date: new Date('2019-01-01').toString(), data: { foo: 'zar', extra: 'bar' } }
-    await userStorage.updateFeedEvent(updatedEvent)
+    const gunRes = await userStorage.updateFeedEvent(updatedEvent)
     const index = await userStorage.feed
       .get('index')
       .once()
@@ -260,7 +277,7 @@ describe('UserStorage', () => {
   })
 
   it('keeps event index sorted', async () => {
-    await userStorage.updateFeedEvent(event4)
+    const gunRes = await userStorage.updateFeedEvent(event4)
     const index = await userStorage.feed
       .get('index')
       .once()
@@ -299,7 +316,7 @@ describe('UserStorage', () => {
         receipt: { foo: 'foo', blockNumber: 123 }
       }
     }
-    await userStorage.updateFeedEvent(transactionEvent)
+    const gunRes = await userStorage.updateFeedEvent(transactionEvent)
     const index = await userStorage.feed
       .get('index')
       .once()
@@ -341,17 +358,19 @@ describe('UserStorage', () => {
     ]
 
     await Promise.all(updates)
-    userStorage.subscribeProfileUpdates(profile => {
-      const { isValid, getErrors, validate, ...displayProfile } = userStorage.getDisplayProfile(profile)
-      expect(displayProfile).toEqual({
-        id: '',
-        name: 'hadar2',
-        email: 'j*****e@blah.com',
-        phone: '+22222222222',
-        mobile: '+22222222222',
-        x: ''
+    await userStorage.subscribeProfileUpdates(profile => {
+      userStorage.getDisplayProfile(profile).then(result => {
+        const { isValid, getErrors, validate, ...displayProfile } = result
+        expect(displayProfile).toEqual({
+          id: '',
+          name: 'hadar2',
+          email: 'j*****e@blah.com',
+          phone: '+22222222222',
+          mobile: '+22222222222',
+          x: ''
+        })
+        done()
       })
-      done()
     })
   })
 
@@ -401,19 +420,25 @@ describe('UserStorage', () => {
     const result = await userStorage.setProfile(profile)
     expect(result).toBe(true)
     await delay(500)
-    userStorage.subscribeProfileUpdates(async updatedProfile => {
-      await userStorage.getPrivateProfile(updatedProfile).then(result => {
-        const { isValid, getErrors, validate, ...privateProfile } = result
-        expect(privateProfile).toMatchObject(profileData)
-      })
-      const { isValid, getErrors, validate, ...displayProfile } = userStorage.getDisplayProfile(updatedProfile)
-      expect(displayProfile).toMatchObject({
-        fullName: 'New Name',
-        email: 'n*w@email.com',
-        mobile: '********2222',
-        username: 'hadar2'
-      })
-      done()
+    await userStorage.subscribeProfileUpdates(updatedProfile => {
+      console.log({ updatedProfile })
+      Promise.all([
+        userStorage.getPrivateProfile(updatedProfile).then(result => {
+          const { isValid, getErrors, validate, ...privateProfile } = result
+
+          expect(privateProfile).toMatchObject(profileData)
+        }),
+        userStorage.getDisplayProfile(updatedProfile).then(result => {
+          const { isValid, getErrors, validate, ...displayProfile } = result
+
+          expect(displayProfile).toMatchObject({
+            fullName: 'New Name',
+            email: 'n*w@email.com',
+            mobile: '********2222',
+            username: 'hadar2'
+          })
+        })
+      ]).then(() => done())
     })
   })
 
@@ -421,10 +446,11 @@ describe('UserStorage', () => {
     const email = 'johndoe@blah.com'
     await userStorage.setProfileField('email', email, 'public')
     await userStorage.setProfile(getUserModel({ email, fullName: 'full name', mobile: '+22222222222' }))
-    userStorage.subscribeProfileUpdates(updatedProfile => {
-      const result = userStorage.getDisplayProfile(updatedProfile)
-      expect(result.email).toBe(email)
-      done()
+    await userStorage.subscribeProfileUpdates(updatedProfile => {
+      userStorage.getDisplayProfile(updatedProfile).then(result => {
+        expect(result.email).toBe(email)
+        done()
+      })
     })
   })
 
@@ -484,7 +510,7 @@ describe('UserStorage', () => {
   })
 
   describe('getReceiveDataFromReceipt', () => {
-    it('get Transfer data from logs', () => {
+    it('get Transfer data from logs', async () => {
       const receipt = {
         logs: [
           {
@@ -506,7 +532,7 @@ describe('UserStorage', () => {
       })
     })
 
-    it('get PaymentWithdraw data from logs', () => {
+    it('get PaymentWithdraw data from logs', async () => {
       const receipt = {
         logs: [
           {
@@ -537,7 +563,7 @@ describe('UserStorage', () => {
       })
     })
 
-    it('get Transfer when multiple Transfer should get the bigger (the lastone)', () => {
+    it('get Transfer when multiple Transfer should get the bigger (the lastone)', async () => {
       const receipt = {
         logs: [
           {
@@ -568,7 +594,7 @@ describe('UserStorage', () => {
       })
     })
 
-    it('get Transfer when multiple Transfer should get the bigger (the firstone)', () => {
+    it('get Transfer when multiple Transfer should get the bigger (the firstone)', async () => {
       const receipt = {
         logs: [
           {
@@ -599,7 +625,7 @@ describe('UserStorage', () => {
       })
     })
 
-    it('empty logs should return empty object', () => {
+    it('empty logs should return empty object', async () => {
       const receipt = {
         logs: []
       }
@@ -607,7 +633,7 @@ describe('UserStorage', () => {
       expect(result).toMatchObject({})
     })
 
-    it('empty receipt should return empty object', () => {
+    it('empty receipt should return empty object', async () => {
       const receipt = {}
       const result = getReceiveDataFromReceipt(receipt)
       expect(result).toMatchObject({})

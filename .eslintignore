@@ -4,6 +4,5 @@ assets
 config
 flow-typed
 scripts
-public/ZoomAuthentication.js
 /*.js
 /src/serviceWorker.js

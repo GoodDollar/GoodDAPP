@@ -1,16 +1,17 @@
 // @flow
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { createStackNavigator } from '../appNavigation/stackNavigation'
+import { StyleSheet, View, ScrollView } from 'react-native'
 import { Text } from 'react-native-paper'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
-import { createStackNavigator } from '../appNavigation/stackNavigation'
 import logger from '../../lib/logger/pino-logger'
 import { CustomButton } from '../common'
 import { Description, LinkButton, Title } from '../signup/components'
 import { fontStyle } from '../common/styles'
-import { PrivacyPolicy, TermsOfUse } from '../webView/webViewInstances'
+import { TermsOfUse, PrivacyPolicy } from '../webView/webViewInstances'
 
 type Props = {
+  // callback to report to parent component
   navigation: any,
   screenProps: {
     push: Function
@@ -22,13 +23,10 @@ const log = logger.child({ from: 'Auth' })
 class Auth extends React.Component<Props> {
   handleSignUp = () => {
     this.props.navigation.navigate('Signup')
-
     //Hack to get keyboard up on mobile need focus from user event such as click
     setTimeout(() => {
       const el = document.getElementById('Name_input')
-      if (el) {
-        el.focus()
-      }
+      if (el) el.focus()
     }, 500)
   }
 
@@ -42,7 +40,6 @@ class Auth extends React.Component<Props> {
   }
 
   handleNavigateTermsOfUse = () => this.props.screenProps.push('TermsOfUse')
-
   handleNavigatePrivacyPolicy = () => this.props.screenProps.push('PrivacyPolicy')
 
   render() {

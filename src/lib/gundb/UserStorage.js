@@ -771,16 +771,16 @@ export class UserStorage {
         .get(address)
         .get('profile')
 
-      avatar =
-        (await profileToShow
-          .get('avatar')
-          .get('display')
-          .then()) || undefined
       fullName =
         (await profileToShow
           .get('fullName')
           .get('display')
           .then()) || (address === '0x0000000000000000000000000000000000000000' ? 'GoodDollar' : address)
+      avatar =
+        (await profileToShow
+          .get('avatar')
+          .get('display')
+          .then()) || (fullName === 'GoodDollar' ? `${process.env.PUBLIC_URL}/favicon-96x96.png` : undefined)
     }
 
     if (generatedString) {

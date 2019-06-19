@@ -1,5 +1,5 @@
 // @flow
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { Portal } from 'react-native-paper'
@@ -15,6 +15,9 @@ import { weiToMask } from '../../lib/wallet/utils'
 import { createStackNavigator, PushButton } from '../appNavigation/stackNavigation'
 import TabsView from '../appNavigation/TabsView'
 import { Avatar, BigGoodDollar, Section, Wrapper } from '../common'
+import logger from '../../lib/logger/pino-logger'
+import userStorage from '../../lib/gundb/UserStorage'
+import { PrivacyPolicy, Support, TermsOfUse } from '../webView/webViewInstances'
 import Amount from './Amount'
 import Claim from './Claim'
 import FaceRecognition from './FaceRecognition/FaceRecognition'
@@ -29,9 +32,6 @@ import Send from './Send'
 import SendConfirmation from './SendConfirmation'
 import SendLinkSummary from './SendLinkSummary'
 import SendQRSummary from './SendQRSummary'
-import logger from '../../lib/logger/pino-logger'
-import userStorage from '../../lib/gundb/UserStorage'
-import { TermsOfUse, PrivacyPolicy, Support } from '../webView/webViewInstances'
 
 const log = logger.child({ from: 'Dashboard' })
 
@@ -51,7 +51,7 @@ const Dashboard = props => {
   const store = SimpleStore.useStore()
   const gdstore = GDStore.useStore()
   const [showDialog, hideDialog] = useDialog()
-  const [state, setState] = useState({
+  const [state: DashboardState, setState] = useState({
     horizontal: false,
     currentFeedProps: null,
     feeds: []

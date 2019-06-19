@@ -463,151 +463,126 @@ exports[`Receive matches snapshot 1`] = `
                   0x5dfF...E35F
                 </span>
               </div>
-              <div
-                className="css-text-76zvg2"
-                data-focusable={true}
-                dir="auto"
-                onClick={[Function]}
-                onKeyDown={[Function]}
-                style={
-                  Object {
-                    "color": "rgba(85,85,85,1.00)",
-                    "cursor": "pointer",
-                    "fontSize": "14px",
-                    "marginBottom": "0.2rem",
-                    "marginLeft": "0.2rem",
-                    "marginRight": "0.2rem",
-                    "marginTop": "0.2rem",
-                    "textAlign": "center",
-                    "textTransform": "uppercase",
-                  }
-                }
-                tabIndex="0"
-              >
-                Copy address to clipboard
-              </div>
             </div>
+          </div>
+        </div>
+        <div
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "WebkitBoxPack": "center",
+              "WebkitJustifyContent": "center",
+              "backgroundColor": "rgba(0,0,0,0.00)",
+              "borderBottomColor": "rgba(0,0,0,0.29)",
+              "borderBottomLeftRadius": "4px",
+              "borderBottomRightRadius": "4px",
+              "borderBottomStyle": "solid",
+              "borderBottomWidth": "1px",
+              "borderLeftColor": "rgba(0,0,0,0.29)",
+              "borderLeftStyle": "solid",
+              "borderLeftWidth": "1px",
+              "borderRightColor": "rgba(0,0,0,0.29)",
+              "borderRightStyle": "solid",
+              "borderRightWidth": "1px",
+              "borderTopColor": "rgba(0,0,0,0.29)",
+              "borderTopLeftRadius": "4px",
+              "borderTopRightRadius": "4px",
+              "borderTopStyle": "solid",
+              "borderTopWidth": "1px",
+              "boxShadow": "0px 0px 0px rgba(0,0,0,0.24)",
+              "justifyContent": "center",
+              "minWidth": "auto",
+              "msFlexPack": "center",
+            }
+          }
+        >
+          <div
+            className="css-cursor-18t94o4 css-view-1dbjc4n"
+            data-focusable={true}
+            disabled={false}
+            onKeyDown={[Function]}
+            onKeyPress={[Function]}
+            onKeyUp={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            role="button"
+            style={
+              Object {
+                "borderBottomLeftRadius": "4px",
+                "borderBottomRightRadius": "4px",
+                "borderTopLeftRadius": "4px",
+                "borderTopRightRadius": "4px",
+                "cursor": "pointer",
+                "msTouchAction": "manipulation",
+                "overflowX": "hidden",
+                "overflowY": "hidden",
+                "position": "relative",
+                "touchAction": "manipulation",
+              }
+            }
+            tabIndex="0"
+          >
             <div
               className="css-view-1dbjc4n"
               style={
                 Object {
+                  "WebkitAlignItems": "center",
+                  "WebkitBoxAlign": "center",
+                  "WebkitBoxDirection": "normal",
+                  "WebkitBoxOrient": "horizontal",
                   "WebkitBoxPack": "center",
+                  "WebkitFlexDirection": "row",
                   "WebkitJustifyContent": "center",
-                  "backgroundColor": "rgba(85,85,85,1.00)",
-                  "borderBottomColor": "rgba(0,0,0,0.00)",
-                  "borderBottomLeftRadius": "4px",
-                  "borderBottomRightRadius": "4px",
-                  "borderBottomStyle": "solid",
-                  "borderBottomWidth": "0px",
-                  "borderLeftColor": "rgba(0,0,0,0.00)",
-                  "borderLeftStyle": "solid",
-                  "borderLeftWidth": "0px",
-                  "borderRightColor": "rgba(0,0,0,0.00)",
-                  "borderRightStyle": "solid",
-                  "borderRightWidth": "0px",
-                  "borderTopColor": "rgba(0,0,0,0.00)",
-                  "borderTopLeftRadius": "4px",
-                  "borderTopRightRadius": "4px",
-                  "borderTopStyle": "solid",
-                  "borderTopWidth": "0px",
-                  "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
+                  "alignItems": "center",
+                  "flexDirection": "row",
                   "justifyContent": "center",
-                  "minWidth": "auto",
+                  "msFlexAlign": "center",
+                  "msFlexDirection": "row",
                   "msFlexPack": "center",
-                  "width": "100%",
                 }
               }
             >
               <div
-                className="css-cursor-18t94o4 css-view-1dbjc4n"
-                data-focusable={true}
-                disabled={false}
-                onKeyDown={[Function]}
-                onKeyPress={[Function]}
-                onKeyUp={[Function]}
-                onResponderGrant={[Function]}
-                onResponderMove={[Function]}
-                onResponderRelease={[Function]}
-                onResponderTerminate={[Function]}
-                onResponderTerminationRequest={[Function]}
-                onStartShouldSetResponder={[Function]}
-                role="button"
+                className="css-text-76zvg2 css-textOneLine-bfa6kz"
+                dir="auto"
                 style={
                   Object {
-                    "borderBottomLeftRadius": "4px",
-                    "borderBottomRightRadius": "4px",
-                    "borderTopLeftRadius": "4px",
-                    "borderTopRightRadius": "4px",
-                    "cursor": "pointer",
-                    "msTouchAction": "manipulation",
-                    "overflowX": "hidden",
-                    "overflowY": "hidden",
-                    "position": "relative",
-                    "touchAction": "manipulation",
+                    "color": "rgba(85,85,85,1.00)",
+                    "direction": "ltr",
+                    "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                    "letterSpacing": "1px",
+                    "marginBottom": "9px",
+                    "marginLeft": "8px",
+                    "marginRight": "8px",
+                    "marginTop": "9px",
+                    "textAlign": "center",
                   }
                 }
-                tabIndex="0"
               >
-                <div
-                  className="css-view-1dbjc4n"
+                <span
+                  className="css-text-76zvg2 css-textHasAncestor-16my406"
+                  dir="auto"
                   style={
                     Object {
-                      "WebkitAlignItems": "center",
-                      "WebkitBoxAlign": "center",
-                      "WebkitBoxDirection": "normal",
-                      "WebkitBoxOrient": "horizontal",
-                      "WebkitBoxPack": "center",
-                      "WebkitFlexDirection": "row",
-                      "WebkitJustifyContent": "center",
-                      "alignItems": "center",
-                      "flexDirection": "row",
-                      "justifyContent": "center",
-                      "msFlexAlign": "center",
-                      "msFlexDirection": "row",
-                      "msFlexPack": "center",
+                      "direction": "ltr",
+                      "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                      "fontSize": "18px",
+                      "fontWeight": "bold",
+                      "paddingBottom": "0px",
+                      "paddingLeft": "0px",
+                      "paddingRight": "0px",
+                      "paddingTop": "0px",
+                      "textAlign": "center",
+                      "textTransform": "uppercase",
                     }
                   }
                 >
-                  <div
-                    className="css-text-76zvg2 css-textOneLine-bfa6kz"
-                    dir="auto"
-                    style={
-                      Object {
-                        "color": "rgba(255,255,255,1.00)",
-                        "direction": "ltr",
-                        "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                        "letterSpacing": "1px",
-                        "marginBottom": "9px",
-                        "marginLeft": "8px",
-                        "marginRight": "8px",
-                        "marginTop": "9px",
-                        "textAlign": "center",
-                      }
-                    }
-                  >
-                    <span
-                      className="css-text-76zvg2 css-textHasAncestor-16my406"
-                      dir="auto"
-                      style={
-                        Object {
-                          "color": "rgba(255,255,255,1.00)",
-                          "direction": "ltr",
-                          "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                          "fontSize": "18px",
-                          "fontWeight": "bold",
-                          "paddingBottom": "0px",
-                          "paddingLeft": "0px",
-                          "paddingRight": "0px",
-                          "paddingTop": "0px",
-                          "textAlign": "center",
-                          "textTransform": "uppercase",
-                        }
-                      }
-                    >
-                      Share your wallet link
-                    </span>
-                  </div>
-                </div>
+                  Copy address to clipboard
+                </span>
               </div>
             </div>
           </div>
@@ -637,8 +612,7 @@ exports[`Receive matches snapshot 1`] = `
               "borderTopWidth": "1px",
               "boxShadow": "0px 0px 0px rgba(0,0,0,0.24)",
               "justifyContent": "center",
-              "marginLeft": "10px",
-              "marginRight": "10px",
+              "marginTop": "10px",
               "minWidth": "auto",
               "msFlexPack": "center",
             }

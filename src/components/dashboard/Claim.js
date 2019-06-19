@@ -1,16 +1,16 @@
 // @flow
-import React, { useState, useEffect } from 'react'
-import { StyleSheet, View, Text } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { StyleSheet, Text, View } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import wrapper from '../../lib/undux/utils/wrapper'
 import GDStore from '../../lib/undux/GDStore'
 import SimpleStore from '../../lib/undux/SimpleStore'
 
-import { Section, TopBar, Wrapper, CustomButton } from '../common'
+import { CustomButton, Section, TopBar, Wrapper } from '../common'
 import { weiToMask } from '../../lib/wallet/utils'
-import type { DashboardProps } from './Dashboard'
 import logger from '../../lib/logger/pino-logger'
+import type { DashboardProps } from './Dashboard'
 
 type ClaimProps = DashboardProps
 
@@ -25,7 +25,7 @@ const log = logger.child({ from: 'Claim' })
 const Claim = ({ navigation, screenProps, ...props }: ClaimProps) => {
   const store = SimpleStore.useStore()
   const gdstore = GDStore.useStore()
-  const [state, setState] = useState({
+  const [state: ClaimState, setState] = useState({
     loading: false,
     nextClaim: '23:59:59',
     claimedToday: {
@@ -55,7 +55,7 @@ const Claim = ({ navigation, screenProps, ...props }: ClaimProps) => {
       goodWalletWrapped.getNextClaimTime()
     ])
     setState({ ...state, claimedToday })
-    interval = setInterval(async () => {
+    interval = setInterval(() => {
       const nextClaim = new Date(nextClaimDate - new Date().getTime()).toISOString().substr(11, 8)
       setState({ ...state, nextClaim })
     }, 1000)
@@ -69,7 +69,7 @@ const Claim = ({ navigation, screenProps, ...props }: ClaimProps) => {
   const handleClaim = async () => {
     setState({ ...state, loading: true })
     try {
-      const receipt = await goodWalletWrapped.claim()
+      await goodWalletWrapped.claim()
       store.set('currentScreen')({
         dialogData: {
           visible: true,
@@ -99,7 +99,7 @@ const Claim = ({ navigation, screenProps, ...props }: ClaimProps) => {
       disabled={entitlement <= 0}
       mode="contained"
       compact={true}
-      onPress={async () => {
+      onPress={() => {
         isCitizen ? handleClaim() : faceRecognition()
       }}
       style={styles.claimButton}

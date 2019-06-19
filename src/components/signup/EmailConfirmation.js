@@ -3,9 +3,10 @@ import React, { useEffect, useState } from 'react'
 import { StyleSheet } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import API from '../../lib/API/api'
+
 // import { useWrappedUserStorage } from '../../lib/gundb/useWrappedStorage'
 import logger from '../../lib/logger/pino-logger'
-import { Description, LinkButton, NextButton, Title, Wrapper } from './components'
+import { Description, LinkButton, Title, Wrapper } from './components'
 
 type Props = {
   screenProps: any,
@@ -16,9 +17,10 @@ const log = logger.child({ from: 'EmailConfirmation' })
 
 const EmailConfirmation = ({ navigation, screenProps }: Props) => {
   const [globalProfile, setGlobalProfile] = useState({})
+
   // const API = useWrappedApi()
   // const userStorage = useWrappedUserStorage()
-  const setLoading = () => console.log('implement me')
+  const setLoading = () => log.warn('implement me')
   useEffect(() => {
     const { params } = navigation.state
 

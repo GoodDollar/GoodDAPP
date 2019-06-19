@@ -1,5 +1,5 @@
 // @flow
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { AsyncStorage } from 'react-native'
 import { SceneView } from '@react-navigation/core'
 import some from 'lodash/some'
@@ -9,7 +9,6 @@ import SimpleStore from '../../lib/undux/SimpleStore'
 import GDStore from '../../lib/undux/GDStore'
 import { updateAll as updateWalletStatus } from '../../lib/undux/utils/account'
 import { checkAuthStatus as getLoginState } from '../../lib/login/checkAuthStatus'
-import type { Store } from 'undux'
 
 type LoadingProps = {
   navigation: any,
@@ -30,6 +29,7 @@ const AppSwitch = (props: LoadingProps) => {
   */
   const getParams = async () => {
     const { router, state } = props.navigation
+
     // const navInfo = router.getPathAndParamsForState(state)
     const destinationPath = await AsyncStorage.getItem('destinationPath').then(JSON.parse)
     AsyncStorage.removeItem('destinationPath')
@@ -42,6 +42,7 @@ const AppSwitch = (props: LoadingProps) => {
     }
     return undefined
   }
+
   /*
   If a user has a saved destination path from before logging in or from inside-app (receipt view?)
   He won't be redirected in checkAuthStatus since it is called on didmount effect and won't happen after
@@ -50,12 +51,14 @@ const AppSwitch = (props: LoadingProps) => {
   const navigateToUrlAction = async () => {
     log.info('didUpdate')
     let destDetails = await getParams()
+
     //once user logs in we can redirect him to saved destinationpath
     if (destDetails) {
       log.debug('destinationPath found:', destDetails)
       return props.navigation.navigate(destDetails)
     }
   }
+
   /**
    * Check's users' current auth status
    * @returns {Promise<void>}
@@ -63,13 +66,13 @@ const AppSwitch = (props: LoadingProps) => {
   const initialize = async () => {
     //after dynamic routes update, if user arrived here, then he is already loggedin
     //initialize the citizen status and wallet status
-    const { credsOrError, isLoggedInCitizen, isLoggedIn } = await Promise.all([
-      getLoginState(),
-      updateWalletStatus(gdstore)
-    ]).then(([authResult, _]) => authResult)
+    const { isLoggedInCitizen, isLoggedIn } = await Promise.all([getLoginState(), updateWalletStatus(gdstore)]).then(
+      ([authResult, _]) => authResult
+    )
     gdstore.set('isLoggedIn')(isLoggedIn)
     gdstore.set('isLoggedInCitizen')(isLoggedInCitizen)
-    let topWalletRes = isLoggedInCitizen ? API.verifyTopWallet() : Promise.resolve()
+    isLoggedInCitizen ? API.verifyTopWallet() : Promise.resolve()
+
     // if (isLoggedIn) {
     //   if (destDetails) {
     //     props.navigation.navigate(destDetails)

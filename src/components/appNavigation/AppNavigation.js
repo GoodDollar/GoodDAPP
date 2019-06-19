@@ -2,7 +2,6 @@
 import { createSwitchNavigator } from '@react-navigation/core'
 import React, { useEffect } from 'react'
 import type { Store } from 'undux'
-import { navigationOptions } from './navigationConfig'
 
 // TODO: Should we do this diferently?
 import homeIcon from '../../assets/homeIcon.png'
@@ -12,6 +11,7 @@ import SimpleStore from '../../lib/undux/SimpleStore'
 
 import Dashboard from '../dashboard/Dashboard'
 import Profile from '../profile/Profile'
+import { navigationOptions } from './navigationConfig'
 
 /**
  * @type
@@ -19,14 +19,6 @@ import Profile from '../profile/Profile'
 type AppNavigationProps = {
   navigation: any,
   store: Store
-}
-
-/**
- * @type
- */
-
-type AppNavigationState = {
-  ready: boolean
 }
 
 const routes = {
@@ -49,16 +41,19 @@ const AppNavigator = createSwitchNavigator(routes, { initialRouteName })
  * Dashboard is the initial route
  * @param {AppNavigationProps} props
  */
-const AppNavigation = ({ navigation }) => {
+const AppNavigation = ({ navigation }: AppNavigationProps) => {
   const store = SimpleStore.useStore()
   const gdstore = GDStore.useStore()
   const account = gdstore.get('account')
   let ready = account.ready
-  console.log({ ready })
   useEffect(() => {
-    if (account.ready === false) store.set('loadingIndicator')({ loading: true })
-    else store.set('loadingIndicator')({ loading: false })
+    if (account.ready === false) {
+      store.set('loadingIndicator')({ loading: true })
+    } else {
+      store.set('loadingIndicator')({ loading: false })
+    }
   }, [ready])
+
   // `account.ready` will be set to `true` after retrieving the required user information in `updateAll`,
   // if not ready will display a blank screen (`null`)
   return <AppNavigator navigation={navigation} screenProps={{ routes }} />

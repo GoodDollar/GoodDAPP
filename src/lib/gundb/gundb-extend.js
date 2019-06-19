@@ -1,6 +1,7 @@
 import Gun from '@gooddollar/gun-appendonly'
 import SEA from 'gun/sea'
-import load from 'gun/lib/load'
+import 'gun/lib/load'
+
 /**
  * extend gundb SEA with decrypt to match ".secret"
  * @module
@@ -20,6 +21,7 @@ const gunExtend = (() => {
     let promise = new Promise((res, rej) => gun.put(data, ack => (ack.err ? rej(ack) : res(ack))))
     return promise.then(callback)
   }
+
   /**
    * saves encrypted and returns a promise with the first result from a peer
    * @returns {Promise<ack>}

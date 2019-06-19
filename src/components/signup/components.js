@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { View, StyleSheet } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { Button, Text } from 'react-native-paper'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 

@@ -1,16 +1,9 @@
 // @flow
-import React, { useState, useEffect } from 'react'
-import { View, StyleSheet, ScrollView, AsyncStorage } from 'react-native'
-import NameForm from './NameForm'
-import EmailForm from './EmailForm'
-import PhoneForm from './PhoneForm'
-import SmsForm from './SmsForm'
-import EmailConfirmation from './EmailConfirmation'
-import SignupCompleted from './SignupCompleted'
-import NavBar from '../appNavigation/NavBar'
-import { scrollableContainer } from '../common/styles'
-
+import React, { useEffect, useState } from 'react'
+import { AsyncStorage, ScrollView, StyleSheet, View } from 'react-native'
 import { createSwitchNavigator } from '@react-navigation/core'
+import { scrollableContainer } from '../common/styles'
+import NavBar from '../appNavigation/NavBar'
 import { navigationConfig } from '../appNavigation/navigationConfig'
 import logger from '../../lib/logger/pino-logger'
 
@@ -19,9 +12,16 @@ import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import { type DialogProps } from '../common/CustomDialog'
 
-import type { SMSRecord } from './SmsForm'
 import { getUserModel, type UserModel } from '../../lib/gundb/UserModel'
 import Config from '../../config/config'
+import type { SMSRecord } from './SmsForm'
+import SignupCompleted from './SignupCompleted'
+import EmailConfirmation from './EmailConfirmation'
+import SmsForm from './SmsForm'
+import PhoneForm from './PhoneForm'
+import EmailForm from './EmailForm'
+import NameForm from './NameForm'
+
 const log = logger.child({ from: 'SignupState' })
 
 export type SignupState = UserModel & SMSRecord
@@ -63,15 +63,19 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
     setLoading(false)
     setTimeout(() => {
       const el = document.getElementById(routeKey + '_input')
-      if (el) el.focus()
+      if (el) {
+        el.focus()
+      }
     }, 300)
   }
   const fireSignupEvent = (event?: string) => {
     const Amplitude = amplitude.getInstance()
     let curRoute = navigation.state.routes[navigation.state.index]
     let res = Amplitude.logEvent(`SIGNUP_${event || curRoute.key}`)
-    if (!res) log.warn('Amplitude event not sent')
-    console.log('fired event', `SIGNUP_${event || curRoute.key}`)
+    if (!res) {
+      log.warn('Amplitude event not sent')
+    }
+    log.debug('fired event', `SIGNUP_${event || curRoute.key}`)
   }
 
   const showError = (title: string, message: string, data: DialogProps = {}) => {
@@ -84,22 +88,19 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       return navigateWithFocus(navigation.state.routes[0].key)
     }
     fireSignupEvent('STARTED')
+
     //lazy login in background
     const ready = (async () => {
-      console.log('Loading wallet and storage')
       const { init } = await import('../../init')
       const login = import('../../lib/login/GoodWalletLogin')
       const { goodWallet, userStorage } = await init()
       await login.then(l => l.default.auth())
-      console.log('Done wallet and storage and login', goodWallet, userStorage)
-
       return { goodWallet, userStorage }
     })()
     setReady(ready)
   }, [])
   const done = async (data: { [string]: string }) => {
     setLoading(true)
-    // await ready
     fireSignupEvent()
     log.info('signup data:', { data })
     let nextRoute = navigation.state.routes[navigation.state.index + 1]
@@ -150,33 +151,32 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       if (nextRoute) {
         setLoading(false)
         return navigateWithFocus(nextRoute.key)
-      } else {
-        log.info('Sending new user data', state)
-        try {
-          const { goodWallet, userStorage } = await ready
-          console.log({ goodWallet, userStorage, ready })
-          // After sending email to the user for confirmation (transition between Email -> EmailConfirmation)
-          // user's profile is persisted (`userStorage.setProfile`).
-          // Then, when the user access the application from the link (in EmailConfirmation), data is recovered and
-          // saved to the `state`
-          await API.addUser(state)
-          // Stores creationBlock number into 'lastBlock' feed's node
-          await Promise.all([
-            userStorage.setProfile({ ...state, walletAddress: goodWallet.account }),
-            userStorage.setProfileField('registered', true, 'public'),
-            goodWallet
-              .getBlockNumber()
-              .then(creationBlock => userStorage.saveLastBlockNumber(creationBlock.toString())),
-            AsyncStorage.getItem('GD_USER_MNEMONIC').then(mnemonic => API.sendRecoveryInstructionByEmail(mnemonic)),
-            AsyncStorage.setItem('GOODDAPP_isLoggedIn', true)
-          ])
-          //tell App.js we are done here so RouterSelector switches router
-          store.set('isLoggedIn')(true)
-        } catch (e) {
-          log.error('New user failure', { e, message: e.message })
-          showError('New user creation failed', e.message || e)
-          setLoading(false)
-        }
+      }
+      log.info('Sending new user data', state)
+      try {
+        const { goodWallet, userStorage } = await ready
+
+        // After sending email to the user for confirmation (transition between Email -> EmailConfirmation)
+        // user's profile is persisted (`userStorage.setProfile`).
+        // Then, when the user access the application from the link (in EmailConfirmation), data is recovered and
+        // saved to the `state`
+        await API.addUser(state)
+
+        // Stores creationBlock number into 'lastBlock' feed's node
+        await Promise.all([
+          userStorage.setProfile({ ...state, walletAddress: goodWallet.account }),
+          userStorage.setProfileField('registered', true, 'public'),
+          goodWallet.getBlockNumber().then(creationBlock => userStorage.saveLastBlockNumber(creationBlock.toString())),
+          AsyncStorage.getItem('GD_USER_MNEMONIC').then(mnemonic => API.sendRecoveryInstructionByEmail(mnemonic)),
+          AsyncStorage.setItem('GOODDAPP_isLoggedIn', true)
+        ])
+
+        //tell App.js we are done here so RouterSelector switches router
+        store.set('isLoggedIn')(true)
+      } catch (e) {
+        log.error('New user failure', { e, message: e.message })
+        showError('New user creation failed', e.message || e)
+        setLoading(false)
       }
     }
   }

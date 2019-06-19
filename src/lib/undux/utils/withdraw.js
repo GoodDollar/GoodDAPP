@@ -27,7 +27,7 @@ type ReceiptType = {
 export const executeWithdraw = async (store: Store, hash: string, reason: string): Promise<ReceiptType> => {
   log.info('executeWithdraw', hash, reason)
   try {
-    const { amount, sender } = await goodWallet.canWithdraw(hash)
+    const { amount } = await goodWallet.canWithdraw(hash)
     const receipt = await goodWallet.withdraw(hash, {
       onTransactionHash: transactionHash => {
         const transactionEvent: TransactionEvent = {

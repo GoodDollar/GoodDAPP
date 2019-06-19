@@ -1,8 +1,8 @@
 // @flow
 import React from 'react'
-import { AsyncStorage } from 'react-native'
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 import PaperProvider from 'react-native-paper/src/core/Provider'
+
 // import { loadReCaptcha } from 'recaptcha-v3-react'
 import SimpleStore from './lib/undux/SimpleStore'
 import RouterSelector from './RouterSelector'
@@ -48,5 +48,6 @@ if (Platform.OS === 'web') {
   const { hot } = require('react-hot-loader')
   hotWrapper = hot
 }
+
 //$FlowFixMe
 export default hotWrapper(module)(App)

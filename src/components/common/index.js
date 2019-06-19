@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { View, StyleSheet } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { Provider } from 'react-native-paper'
 import { fontStyle } from './styles'
@@ -9,6 +9,7 @@ import Address from './Address'
 import Avatar from './Avatar'
 import CustomDialog from './CustomDialog'
 import CustomButton from './CustomButton'
+import CopyButton from './CopyButton'
 import BigNumber from './BigNumber'
 import BigGoodDollar from './BigGoodDollar'
 import Section from './Section'
@@ -91,6 +92,7 @@ export {
   Avatar,
   UserAvatar,
   CustomButton,
+  CopyButton,
   Wrapper,
   Section,
   BigNumber,

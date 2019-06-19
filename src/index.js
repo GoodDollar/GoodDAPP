@@ -1,32 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { AsyncStorage } from 'react-native'
 import './index.css'
+import fontMaterialIcons from 'react-native-vector-icons/Fonts/MaterialIcons.ttf'
 import App from './App'
 import * as serviceWorker from './serviceWorker'
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
-import fontMaterialIcons from 'react-native-vector-icons/Fonts/MaterialIcons.ttf'
 import { initStore } from './lib/undux/SimpleStore'
-// let Main = () => {
-//   return (
-//     <PaperProvider >
-//       <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
-//         <View style={{flex: 1,
-//           width: '100%',
-//           height: '100%',
-//           margin: 0,
-//           padding: 0,
-//           position:'fixed',
-//           maxWidth:'1024px',
-//           left: '50%',
-//           transform:[{ translateX: - Dimensions.get('window').width * 0.24 }]
-//           }}>
-//           <WebRouter/>
-//         </View>
-//       </SafeAreaView>
-//     </PaperProvider>
-//   )
-// }
 
 const fontStylesMaterialIcons = `@font-face { src: url(${fontMaterialIcons}); font-family: MaterialIcons; }`
 const style = document.createElement('style')
@@ -36,6 +14,7 @@ if (style.styleSheet) {
 } else {
   style.appendChild(document.createTextNode(fontStylesMaterialIcons))
 }
+
 // Inject stylesheet
 document.head.appendChild(style)
 
@@ -44,6 +23,7 @@ document.head.appendChild(style)
 initStore().then(() => {
   ReactDOM.render(<App />, document.getElementById('root'))
 })
+
 // })
 
 // If you want your app to work offline and load faster, you can change

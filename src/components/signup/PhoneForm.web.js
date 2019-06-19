@@ -2,11 +2,14 @@
 import React from 'react'
 import PhoneInput from 'react-phone-number-input'
 import './PhoneForm.css'
-import { Description, Title, Wrapper } from './components'
 import { userModelValidations } from '../../lib/gundb/UserModel'
+import logger from '../../lib/logger/pino-logger'
+import api from '../../lib/API/api'
+import { Description, Title, Wrapper } from './components'
+
+const log = logger.child({ from: 'PhoneForm' })
 
 type Props = {
-  // callback to report to parent component
   doneCallback: ({ phone: string }) => null,
   screenProps: any,
   navigation: any
@@ -14,7 +17,8 @@ type Props = {
 
 export type MobileRecord = {
   mobile: string,
-  errorMessage?: string
+  errorMessage?: string,
+  countryCode?: string | null
 }
 
 type State = MobileRecord
@@ -22,9 +26,24 @@ type State = MobileRecord
 class PhoneForm extends React.Component<Props, State> {
   state = {
     mobile: this.props.screenProps.data.mobile || '',
-    errorMessage: ''
+    errorMessage: '',
+    countryCode: null
   }
+
   isValid = false
+
+  setCountryCode = async () => {
+    try {
+      const { data } = await api.getLocation()
+      this.setState({ countryCode: data.country })
+    } catch (e) {
+      log.error('Could not get user location', e)
+    }
+  }
+
+  componentDidMount() {
+    this.setCountryCode()
+  }
 
   handleChange = (mobile: string) => {
     if (this.state.errorMessage !== '') {
@@ -68,7 +87,7 @@ class PhoneForm extends React.Component<Props, State> {
           onBlur={this.checkErrors}
           error={errorMessage}
           onKeyDown={this.handleEnter}
-          autoFocus
+          country={this.state.countryCode}
         />
         <Description>A verification code will be sent to this number</Description>
       </Wrapper>

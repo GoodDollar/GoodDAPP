@@ -18,7 +18,7 @@ const log = logger.child({ from: 'Zoom' })
 const licenseKey = Config.zoomLicenseKey
 log.info({ licenseKey })
 
-const initialize = async (): Promise<void> =>
+const initialize = (): Promise<void> =>
   new Promise((resolve, reject) => {
     if (!licenseKey) {
       return reject(new Error('No license key supplied in environment variable'))
@@ -36,7 +36,7 @@ const initialize = async (): Promise<void> =>
     })
   })
 
-const preload = async (): Promise<void> =>
+const preload = (): Promise<void> =>
   new Promise((resolve, reject) => {
     ZoomSDK.preload((preloadResult: any) => {
       if (preloadResult) {
@@ -54,7 +54,7 @@ export const initializeAndPreload = async (zoomSDK: any): Promise<void> => {
   await preload()
 }
 
-export const capture = async (videoTrack: MediaStreamTrack): Promise<ZoomCaptureResult> =>
+export const capture = (videoTrack: MediaStreamTrack): Promise<ZoomCaptureResult> =>
   new Promise((resolve, reject) => {
     log.info('ZoomSDK = ', { ZoomSDK })
     ZoomSDK.prepareInterface('zoom-interface-container', 'zoom-video-element', (prepareInterfaceResult: any) => {

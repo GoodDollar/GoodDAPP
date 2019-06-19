@@ -1,6 +1,7 @@
 import { createSwitchNavigator } from '@react-navigation/core'
 import { createBrowserApp } from '@react-navigation/web'
 import React from 'react'
+import * as libShare from '../../../../lib/share'
 import GDStore from '../../../../lib/undux/GDStore'
 const { Container } = GDStore
 
@@ -8,6 +9,7 @@ export const getComponentWithMocks = componentPath => {
   // Will then mock the LocalizeContext module being used in our LanguageSelector component
   jest.doMock('../../../../lib/share', () => {
     return {
+      ...libShare,
       generateCode: () => '0xfakeAddress'
     }
   })
@@ -26,6 +28,7 @@ export const getWebRouterComponentWithRoutes = routes => {
   const AppNavigator = createSwitchNavigator(routes)
   class AppNavigation extends React.Component<AppNavigationProps, AppNavigationState> {
     static router = AppNavigator.router
+
     static navigationOptions = AppNavigator.navigationOptions
 
     render() {

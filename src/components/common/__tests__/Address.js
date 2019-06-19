@@ -1,8 +1,8 @@
 import React from 'react'
+import renderer from 'react-test-renderer'
 import Address from '../Address'
 
 // Note: test renderer must be required after react-native.
-import renderer from 'react-test-renderer'
 
 describe('Address', () => {
   it('renders without errors', () => {

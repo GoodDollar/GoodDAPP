@@ -1,6 +1,7 @@
 // @flow
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { View } from 'react-native'
+import normalize from 'react-native-elements/src/helpers/normalizeText'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import { useDialog } from '../../lib/undux/utils/dialog'
@@ -9,7 +10,6 @@ import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
 import { Avatar, BigGoodDollar, CustomButton, Section, Wrapper } from '../common'
 import TopBar from '../common/TopBar'
 import { receiveStyles } from './styles'
-import { normalize } from 'react-native-elements'
 
 const log = logger.child({ from: 'SendLinkSummary' })
 
@@ -66,6 +66,7 @@ const SendLinkSummary = (props: AmountProps) => {
         try {
           // Generate link deposit
           const { sendLink } = generateLinkResponse
+
           // Show confirmation
           screenProps.push('SendConfirmation', { sendLink, amount, reason, to })
         } catch (e) {
@@ -74,7 +75,9 @@ const SendLinkSummary = (props: AmountProps) => {
           await goodWallet.cancelOtl(hashedString)
           throw e
         }
-      } else throw new Error('Link generation failed')
+      } else {
+        throw new Error('Link generation failed')
+      }
     } catch (e) {
       showDialog({ visible: true, title: 'Error', message: e.message, dismissText: 'OK' })
       log.error(e)

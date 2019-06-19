@@ -3,7 +3,6 @@ import type { Store } from 'undux'
 import logger from '../../logger/pino-logger'
 import goodWallet from '../../wallet/GoodWallet'
 import userStorage from '../../gundb/UserStorage'
-import GDStore from '../SimpleStore'
 
 const log = logger.child({ from: 'undux/utils/balance' })
 
@@ -11,7 +10,9 @@ const updateAll = store => {
   return Promise.all([goodWallet.balanceOf(), goodWallet.checkEntitlement()])
     .then(([balance, entitlement]) => {
       const account = store.get('account')
-      if (account.balance === balance && account.entitlement === entitlement && account.ready === true) return
+      if (account.balance === balance && account.entitlement === entitlement && account.ready === true) {
+        return
+      }
 
       store.set('account')({ balance, entitlement, ready: true })
     })

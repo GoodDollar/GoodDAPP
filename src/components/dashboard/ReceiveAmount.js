@@ -8,8 +8,7 @@ import { useDialog } from '../../lib/undux/utils/dialog'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { generateCode, generateReceiveShareObject } from '../../lib/share'
 import GDStore from '../../lib/undux/GDStore'
-import { useSetClipboard } from '../../lib/utils/Clipboard'
-import { BigGoodDollar, CustomButton, Section, Wrapper } from '../common'
+import { BigGoodDollar, CopyButton, CustomButton, Section, Wrapper } from '../common'
 import { DoneButton, useScreenState } from '../appNavigation/stackNavigation'
 import { receiveStyles as styles } from './styles'
 
@@ -25,7 +24,6 @@ const ReceiveAmount = ({ screenProps }: ReceiveProps) => {
   const [screenState] = useScreenState(screenProps)
   const [showDialogWithData] = useDialog()
   const store = GDStore.useStore()
-  const setClipboard = useSetClipboard()
   const { amount, reason } = screenState
 
   const code = useMemo(() => generateCode(account, networkId, amount, reason), [account, networkId, amount, reason])
@@ -74,9 +72,6 @@ const ReceiveAmount = ({ screenProps }: ReceiveProps) => {
             <Section.Text style={styles.addressSection}>
               <Text style={styles.url}>{share.url}</Text>
             </Section.Text>
-            <Section.Text style={styles.secondaryText} onPress={() => setClipboard(share.url)}>
-              Copy to clipboard
-            </Section.Text>
             <Section.Text>
               <BigGoodDollar style={styles.centered} number={amount} />
             </Section.Text>
@@ -86,7 +81,7 @@ const ReceiveAmount = ({ screenProps }: ReceiveProps) => {
       </Section>
       {/* <ShareQR>Share QR Code</ShareQR>
       <DoneButton style={styles.doneButton} screenProps={screenProps} /> */}
-      {isMobile && navigator.share ? <ShareButton style={styles.shareButton} /> : null}
+      {isMobile && navigator.share ? <ShareButton style={styles.shareButton} /> : <CopyButton toCopy={share.url} />}
       <DoneButton style={styles.buttonStyle} screenProps={screenProps} />
     </Wrapper>
   )

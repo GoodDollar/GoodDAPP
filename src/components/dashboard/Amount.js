@@ -1,8 +1,8 @@
 // @flow
 import React, { useState } from 'react'
-import { Text, View } from 'react-native'
-
-import { InputGoodDollar, Section, TopBar, Wrapper } from '../common'
+import { Keyboard, StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native'
+import { isMobile } from 'mobile-device-detect'
+import { InputGoodDollar, NumPadKeyboard, Section, TopBar, Wrapper } from '../common'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { useDialog } from '../../lib/undux/utils/dialog'
@@ -56,15 +56,26 @@ const Amount = (props: AmountProps) => {
   return (
     <Wrapper style={styles.wrapper}>
       <TopBar push={screenProps.push} />
-      <Section style={styles.section}>
+      <Section style={customStyles.section}>
         <Section.Row style={styles.sectionRow}>
           <View style={styles.inputField}>
             <Section.Title style={styles.headline}>How much?</Section.Title>
             <View style={styles.amountWrapper}>
-              <Text style={styles.amountInputWrapper}>
-                <InputGoodDollar autoFocus wei={amount} onChangeWei={handleAmountChange} style={styles.amountInput} />
-              </Text>
+              <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false} style={styles.section}>
+                <View style={styles.section}>
+                  <Text style={styles.amountInputWrapper}>
+                    <InputGoodDollar
+                      disabled={isMobile}
+                      autoFocus
+                      style={styles.amountInput}
+                      wei={amount}
+                      onChangeWei={handleAmountChange}
+                    />
+                  </Text>
+                </View>
+              </TouchableWithoutFeedback>
             </View>
+            <NumPadKeyboard onPress={handleAmountChange} amount={amount} />
           </View>
           <View style={styles.buttonGroup}>
             <BackButton mode="text" screenProps={screenProps} style={{ flex: 1 }}>
@@ -83,6 +94,13 @@ const Amount = (props: AmountProps) => {
     </Wrapper>
   )
 }
+
+const customStyles = StyleSheet.create({
+  section: {
+    flex: 1,
+    backgroundColor: '#fff'
+  }
+})
 
 Amount.navigationOptions = {
   title: RECEIVE_TITLE

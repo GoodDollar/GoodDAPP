@@ -57,6 +57,12 @@
 		494E3AC8F1B641B69CEEE962 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 50947F5355BE423BACB1D560 /* Zocial.ttf */; };
 		5982C45D2DCC4C4BB4BC738E /* libRNCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FB7D6D77B23A4BAF9DCDC488 /* libRNCamera.a */; };
 		AEE5ABC0F8104445AA2F7461 /* libReactNativePermissions.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A01A921494C4A5EA9EBBF82 /* libReactNativePermissions.a */; };
+		24DB9C178E004E08B1754C5F /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8CB9AC31FF1F4EA897FD3AA0 /* Roboto-Medium.ttf */; };
+		E8960ACB10994BE2AFA31A92 /* Roboto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 67D86F661A3E40C49FA630D6 /* Roboto.ttf */; };
+		EF0E8D5C1ADC4D269C02D7B8 /* RobotoSlab-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EB71EC8BEB4840158CEA5BFC /* RobotoSlab-Bold.ttf */; };
+		0A9B5C7A363C4C568CD918F6 /* RobotoSlab-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 707FB96783E347F2B285B5B4 /* RobotoSlab-Regular.ttf */; };
+		6C338BAA3E314E508527A0CE /* RobotoSlabBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 095830F1065C4DBCA14D1909 /* RobotoSlabBold.ttf */; };
+		070F49FF94C54E5199B8ED54 /* RobotoSlabRegular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8AD815768448490698F319E8 /* RobotoSlabRegular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -383,6 +389,12 @@
 		FB7D6D77B23A4BAF9DCDC488 /* libRNCamera.a */ = {isa = PBXFileReference; name = "libRNCamera.a"; path = "libRNCamera.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 		7D15E637CBFB456D968C0EC3 /* ReactNativePermissions.xcodeproj */ = {isa = PBXFileReference; name = "ReactNativePermissions.xcodeproj"; path = "../node_modules/react-native-permissions/ios/ReactNativePermissions.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		2A01A921494C4A5EA9EBBF82 /* libReactNativePermissions.a */ = {isa = PBXFileReference; name = "libReactNativePermissions.a"; path = "libReactNativePermissions.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		8CB9AC31FF1F4EA897FD3AA0 /* Roboto-Medium.ttf */ = {isa = PBXFileReference; name = "Roboto-Medium.ttf"; path = "../src/assets/fonts/Roboto-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		67D86F661A3E40C49FA630D6 /* Roboto.ttf */ = {isa = PBXFileReference; name = "Roboto.ttf"; path = "../src/assets/fonts/Roboto.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		EB71EC8BEB4840158CEA5BFC /* RobotoSlab-Bold.ttf */ = {isa = PBXFileReference; name = "RobotoSlab-Bold.ttf"; path = "../src/assets/fonts/RobotoSlab-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		707FB96783E347F2B285B5B4 /* RobotoSlab-Regular.ttf */ = {isa = PBXFileReference; name = "RobotoSlab-Regular.ttf"; path = "../src/assets/fonts/RobotoSlab-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		095830F1065C4DBCA14D1909 /* RobotoSlabBold.ttf */ = {isa = PBXFileReference; name = "RobotoSlabBold.ttf"; path = "../src/assets/fonts/RobotoSlabBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		8AD815768448490698F319E8 /* RobotoSlabRegular.ttf */ = {isa = PBXFileReference; name = "RobotoSlabRegular.ttf"; path = "../src/assets/fonts/RobotoSlabRegular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -669,6 +681,12 @@
 				D432921332D54E48B53C21FD /* Octicons.ttf */,
 				5CF4332BD5FA45D3A2AF663E /* SimpleLineIcons.ttf */,
 				50947F5355BE423BACB1D560 /* Zocial.ttf */,
+				8CB9AC31FF1F4EA897FD3AA0 /* Roboto-Medium.ttf */,
+				67D86F661A3E40C49FA630D6 /* Roboto.ttf */,
+				EB71EC8BEB4840158CEA5BFC /* RobotoSlab-Bold.ttf */,
+				707FB96783E347F2B285B5B4 /* RobotoSlab-Regular.ttf */,
+				095830F1065C4DBCA14D1909 /* RobotoSlabBold.ttf */,
+				8AD815768448490698F319E8 /* RobotoSlabRegular.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1138,6 +1156,12 @@
 				640213230666486CB44E9FD7 /* Octicons.ttf in Resources */,
 				111C3EA7DA844758B01C00D2 /* SimpleLineIcons.ttf in Resources */,
 				494E3AC8F1B641B69CEEE962 /* Zocial.ttf in Resources */,
+				24DB9C178E004E08B1754C5F /* Roboto-Medium.ttf in Resources */,
+				E8960ACB10994BE2AFA31A92 /* Roboto.ttf in Resources */,
+				EF0E8D5C1ADC4D269C02D7B8 /* RobotoSlab-Bold.ttf in Resources */,
+				0A9B5C7A363C4C568CD918F6 /* RobotoSlab-Regular.ttf in Resources */,
+				6C338BAA3E314E508527A0CE /* RobotoSlabBold.ttf in Resources */,
+				070F49FF94C54E5199B8ED54 /* RobotoSlabRegular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

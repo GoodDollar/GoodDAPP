@@ -1,14 +1,13 @@
 // @flow
 import React, { useState, useEffect } from 'react'
-import { Image, StyleSheet, View, Text } from 'react-native'
+import { StyleSheet, View, Text } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
-import type { Store } from 'undux'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import wrapper from '../../lib/undux/utils/wrapper'
 import GDStore from '../../lib/undux/GDStore'
 import SimpleStore from '../../lib/undux/SimpleStore'
 
-import { BigNumber, BigGoodDollar, Section, TopBar, Wrapper, CustomButton } from '../common'
+import { Section, TopBar, Wrapper, CustomButton } from '../common'
 import { weiToMask } from '../../lib/wallet/utils'
 import type { DashboardProps } from './Dashboard'
 import logger from '../../lib/logger/pino-logger'

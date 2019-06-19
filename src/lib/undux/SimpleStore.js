@@ -73,9 +73,9 @@ const initialState: State = {
  */
 let SimpleStore: UnduxStore
 const initStore = async () => {
-  let isLoggedIn = await AsyncStorage.getItem('GOODDAPP_isLoggedIn')
+  let isLoggedIn = await AsyncStorage.getItem('GOODDAPP_isLoggedIn').then(JSON.parse)
   initialState.isLoggedIn = isLoggedIn
-  SimpleStore = createConnectedStore(initialState, updateLoggedIn)
+  SimpleStore = createConnectedStore(initialState)
   return SimpleStore
 }
 export { initStore, SimpleStore as default }

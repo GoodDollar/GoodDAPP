@@ -8,7 +8,7 @@ import throttle from 'lodash/throttle'
 
 import GDStore from '../../lib/undux/GDStore'
 import SimpleStore from '../../lib/undux/SimpleStore'
-
+import { useDialog } from '../../lib/undux/utils/dialog'
 import { getInitialFeed, getNextFeed, PAGE_SIZE } from '../../lib/undux/utils/feed'
 import { executeWithdraw } from '../../lib/undux/utils/withdraw'
 import { weiToMask } from '../../lib/wallet/utils'
@@ -50,24 +50,30 @@ type DashboardState = {
 const Dashboard = props => {
   const store = SimpleStore.useStore()
   const gdstore = GDStore.useStore()
+  const [showDialog, hideDialog] = useDialog()
   const [state, setState] = useState({
     horizontal: false,
     currentFeedProps: null,
     feeds: []
   })
+  const { params } = props.navigation.state
 
   useEffect(() => {
-    const { params } = props.navigation.state
+    log.debug('Dashboard didmount')
     userStorage.feed.get('byid').on(data => {
       log.debug('gun getFeed callback', { data })
       getFeeds()
     }, true)
+  }, [])
+
+  useEffect(() => {
+    log.debug('handle links effect dashboard', { params })
     if (params && params.receiveLink) {
       handleWithdraw()
     } else if (params && params.event) {
       showNewFeedEvent(params.event)
     }
-  }, [])
+  }, [params])
 
   // componentWillUnmount() {
   //   // TODO: we should be removing the listener in unmount but this causes that you cannot re-subscribe
@@ -83,11 +89,11 @@ const Dashboard = props => {
   })()
 
   const showEventModal = item => {
-    props.screenProps.navigateTo('Home', {
-      event: item.id,
-      receiveLink: undefined,
-      reason: undefined
-    })
+    // props.screenProps.navigateTo('Home', {
+    //   event: item.id,
+    //   receiveLink: undefined,
+    //   reason: undefined
+    // })
     setState({
       currentFeedProps: {
         item,
@@ -115,27 +121,19 @@ const Dashboard = props => {
   const showNewFeedEvent = async eventId => {
     try {
       const item = await userStorage.getFormatedEventById(eventId)
-      log.info({ item })
+      log.info('showNewFeedEvent', { eventId, item })
       if (item) {
         showEventModal(item)
       } else {
-        store.set('currentScreen')({
-          ...store.get('currentScreen'),
-          dialogData: {
-            visible: true,
-            title: 'Error',
-            message: 'Event does not exist'
-          }
+        showDialog({
+          title: 'Error',
+          message: 'Event does not exist'
         })
       }
     } catch (e) {
-      store.set('currentScreen')({
-        ...store.get('currentScreen'),
-        dialogData: {
-          visible: true,
-          title: 'Error',
-          message: 'Event does not exist'
-        }
+      showDialog({
+        title: 'Error',
+        message: 'Event does not exist'
       })
     }
   }
@@ -144,22 +142,19 @@ const Dashboard = props => {
     setState({
       currentFeedProps: null
     })
-    props.screenProps.navigateTo('Home', {
-      event: undefined,
-      receiveLink: undefined,
-      reason: undefined
-    })
   }
 
   const handleWithdraw = async () => {
     const { receiveLink, reason } = props.navigation.state.params
     try {
+      showDialog({ title: 'Processing withrawal...', loading: true, dismissText: 'hold' })
       const receipt = await executeWithdraw(store, receiveLink, reason)
+      hideDialog()
       if (receipt.transactionHash) {
         await showNewFeedEvent(receipt.transactionHash)
       }
     } catch (e) {
-      log.error(e)
+      showDialog({ title: 'Error', message: e.message })
     }
   }
 

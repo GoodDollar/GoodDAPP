@@ -30,15 +30,16 @@ const AppSwitch = (props: LoadingProps) => {
   */
   const getParams = async () => {
     const { router, state } = props.navigation
-    const navInfo = router.getPathAndParamsForState(state)
-    const destinationPath = await AsyncStorage.getItem('destinationPath')
-    log.debug('getParams', { destinationPath, navInfo, router, state })
-    if (!destinationPath && Object.keys(navInfo.params).length) {
-      const app = router.getActionForPathAndParams(navInfo.path)
+    // const navInfo = router.getPathAndParamsForState(state)
+    const destinationPath = await AsyncStorage.getItem('destinationPath').then(JSON.parse)
+    AsyncStorage.removeItem('destinationPath')
+    log.debug('getParams', { destinationPath, router, state })
+    if (destinationPath) {
+      const app = router.getActionForPathAndParams(destinationPath.path)
       const destRoute = actions => (some(actions, 'action') ? destRoute(actions.action) : actions.action)
-      const destData = { ...destRoute(app), params: navInfo.params }
+      const destData = { ...destRoute(app), params: destinationPath.params }
       return destData
-    } else if (destinationPath) return JSON.parse(destinationPath)
+    }
     return undefined
   }
   /*
@@ -48,11 +49,9 @@ const AppSwitch = (props: LoadingProps) => {
 */
   const navigateToUrlAction = async () => {
     log.info('didUpdate')
-    const destinationPath = await AsyncStorage.getItem('destinationPath')
+    let destDetails = await getParams()
     //once user logs in we can redirect him to saved destinationpath
-    if (destinationPath) {
-      const destDetails = JSON.parse(destinationPath)
-      await AsyncStorage.removeItem('destinationPath')
+    if (destDetails) {
       log.debug('destinationPath found:', destDetails)
       return props.navigation.navigate(destDetails)
     }
@@ -70,39 +69,38 @@ const AppSwitch = (props: LoadingProps) => {
     ]).then(([authResult, _]) => authResult)
     gdstore.set('isLoggedIn')(isLoggedIn)
     gdstore.set('isLoggedInCitizen')(isLoggedInCitizen)
-    let destDetails = await getParams()
-    if (isLoggedIn) {
-      let topWalletRes = isLoggedInCitizen ? API.verifyTopWallet() : Promise.resolve()
-      if (destDetails) {
-        props.navigation.navigate(destDetails)
-        return AsyncStorage.removeItem('destinationPath')
-      } else props.navigation.navigate('AppNavigation')
-    } else {
-      const { jwt } = credsOrError
-      if (jwt) {
-        log.debug('New account, not verified, or did not finish signup', jwt)
-        //for new accounts check if link is email validation if so
-        //redirect to continue signup flow
-        if (destDetails) {
-          log.debug('destinationPath details found', destDetails)
-          if (destDetails.params.validation) {
-            log.debug('destinationPath redirecting to email validation')
-            props.navigation.navigate(destDetails)
-            return
-          }
-          log.debug('destinationPath saving details')
-          //for non loggedin users, store non email validation params to the destinationPath for later
-          //to be used once signed in
-          const destinationPath = JSON.stringify(destDetails)
-          AsyncStorage.setItem('destinationPath', destinationPath)
-        }
-        props.navigation.navigate('Auth')
-      } else {
-        // TODO: handle other statuses (4xx, 5xx), consider exponential backoff
-        log.error('Failed to sign in', credsOrError)
-        props.navigation.navigate('Auth')
-      }
-    }
+    let topWalletRes = isLoggedInCitizen ? API.verifyTopWallet() : Promise.resolve()
+    // if (isLoggedIn) {
+    //   if (destDetails) {
+    //     props.navigation.navigate(destDetails)
+    //     return AsyncStorage.removeItem('destinationPath')
+    //   } else props.navigation.navigate('AppNavigation')
+    // } else {
+    //   const { jwt } = credsOrError
+    //   if (jwt) {
+    //     log.debug('New account, not verified, or did not finish signup', jwt)
+    //     //for new accounts check if link is email validation if so
+    //     //redirect to continue signup flow
+    //     if (destDetails) {
+    //       log.debug('destinationPath details found', destDetails)
+    //       if (destDetails.params.validation) {
+    //         log.debug('destinationPath redirecting to email validation')
+    //         props.navigation.navigate(destDetails)
+    //         return
+    //       }
+    //       log.debug('destinationPath saving details')
+    //       //for non loggedin users, store non email validation params to the destinationPath for later
+    //       //to be used once signed in
+    //       const destinationPath = JSON.stringify(destDetails)
+    //       AsyncStorage.setItem('destinationPath', destinationPath)
+    //     }
+    //     props.navigation.navigate('Auth')
+    //   } else {
+    //     // TODO: handle other statuses (4xx, 5xx), consider exponential backoff
+    //     log.error('Failed to sign in', credsOrError)
+    //     props.navigation.navigate('Auth')
+    //   }
+    // }
   }
 
   const init = async () => {
@@ -112,11 +110,12 @@ const AppSwitch = (props: LoadingProps) => {
   }
   useEffect(() => {
     init()
+    navigateToUrlAction()
   }, [])
 
-  useEffect(() => {
-    navigateToUrlAction()
-  })
+  // useEffect(() => {
+
+  // })
 
   const { descriptors, navigation } = props
   const activeKey = navigation.state.routes[navigation.state.index].key

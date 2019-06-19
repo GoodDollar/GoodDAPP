@@ -28,15 +28,6 @@ export const executeWithdraw = async (store: Store, hash: string, reason: string
   log.info('executeWithdraw', hash, reason)
   try {
     const { amount, sender } = await goodWallet.canWithdraw(hash)
-    store.set('currentScreen')({
-      ...store.get('currentScreen'),
-      dialogData: {
-        visible: true,
-        title: 'Processing withrawal...',
-        loading: true,
-        dismissText: 'hold'
-      }
-    })
     const receipt = await goodWallet.withdraw(hash, {
       onTransactionHash: transactionHash => {
         const transactionEvent: TransactionEvent = {
@@ -52,23 +43,9 @@ export const executeWithdraw = async (store: Store, hash: string, reason: string
         userStorage.enqueueTX(transactionEvent)
       }
     })
-    store.set('currentScreen')({
-      ...store.get('currentScreen'),
-      dialogData: {
-        visible: false
-      }
-    })
     return receipt
   } catch (e) {
     log.error({ e })
-    store.set('currentScreen')({
-      ...store.get('currentScreen'),
-      dialogData: {
-        visible: true,
-        title: 'Error',
-        message: e.message
-      }
-    })
-    return {}
+    throw e
   }
 }

@@ -28,20 +28,20 @@ type DialogProps = {
  * @returns {React.Node}
  */
 const CustomDialog = ({
-  children,
+  children = null,
   visible,
   title,
-  message,
+  message = null,
   dismissText,
   onDismiss,
-  onCancel,
+  onCancel = null,
   loading = false
 }: DialogProps) => (
   <Portal>
     <Dialog visible={visible} onDismiss={onDismiss} dismissable={true}>
       <Dialog.Title>{title}</Dialog.Title>
       <Dialog.Content>
-        {children && children}
+        {children}
         {message && <Paragraph>{message}</Paragraph>}
       </Dialog.Content>
       <Dialog.Actions>

@@ -22,6 +22,8 @@ const ReceiveByQR = ({ screenProps }) => {
 
   const handleScan = data => {
     if (data) {
+      setQRDelay(false)
+
       try {
         const url = readReceiveLink(data)
 

@@ -61,7 +61,11 @@ const Amount = (props: AmountProps) => {
           <View style={styles.inputField}>
             <Section.Title style={styles.headline}>How much?</Section.Title>
             <View style={styles.amountWrapper}>
-              <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false} style={styles.section}>
+              <TouchableWithoutFeedback
+                onPress={() => (isMobile ? Keyboard.dismiss() : null)}
+                accessible={false}
+                style={styles.section}
+              >
                 <View style={styles.section}>
                   <Text style={styles.amountInputWrapper}>
                     <InputGoodDollar

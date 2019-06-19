@@ -84,7 +84,7 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
         style={
           Object {
             "color": "rgba(66,69,74,1.00)",
-            "fontFamily": "RobotoSlabBold",
+            "fontFamily": "RobotoSlab-Bold",
             "fontSize": "20px",
             "fontWeight": 700,
           }
@@ -143,7 +143,7 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
         style={
           Object {
             "color": "rgba(66,69,74,1.00)",
-            "fontFamily": "RobotoSlabBold",
+            "fontFamily": "RobotoSlab-Bold",
             "fontSize": "20px",
             "fontWeight": 700,
           }
@@ -202,7 +202,7 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
         style={
           Object {
             "color": "rgba(66,69,74,1.00)",
-            "fontFamily": "RobotoSlabBold",
+            "fontFamily": "RobotoSlab-Bold",
             "fontSize": "20px",
             "fontWeight": 700,
           }
@@ -283,7 +283,7 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
         style={
           Object {
             "color": "rgba(66,69,74,1.00)",
-            "fontFamily": "RobotoSlabBold",
+            "fontFamily": "RobotoSlab-Bold",
             "fontSize": "20px",
             "fontWeight": 700,
           }
@@ -342,7 +342,7 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
         style={
           Object {
             "color": "rgba(66,69,74,1.00)",
-            "fontFamily": "RobotoSlabBold",
+            "fontFamily": "RobotoSlab-Bold",
             "fontSize": "20px",
             "fontWeight": 700,
           }
@@ -401,7 +401,7 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
         style={
           Object {
             "color": "rgba(66,69,74,1.00)",
-            "fontFamily": "RobotoSlabBold",
+            "fontFamily": "RobotoSlab-Bold",
             "fontSize": "20px",
             "fontWeight": 700,
           }
@@ -482,7 +482,7 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
         style={
           Object {
             "color": "rgba(66,69,74,1.00)",
-            "fontFamily": "RobotoSlabBold",
+            "fontFamily": "RobotoSlab-Bold",
             "fontSize": "20px",
             "fontWeight": 700,
           }
@@ -541,7 +541,7 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
         style={
           Object {
             "color": "rgba(66,69,74,1.00)",
-            "fontFamily": "RobotoSlabBold",
+            "fontFamily": "RobotoSlab-Bold",
             "fontSize": "20px",
             "fontWeight": 700,
           }
@@ -600,7 +600,7 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
         style={
           Object {
             "color": "rgba(66,69,74,1.00)",
-            "fontFamily": "RobotoSlabBold",
+            "fontFamily": "RobotoSlab-Bold",
             "fontSize": "20px",
             "fontWeight": 700,
           }
@@ -681,7 +681,7 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
         style={
           Object {
             "color": "rgba(66,69,74,1.00)",
-            "fontFamily": "RobotoSlabBold",
+            "fontFamily": "RobotoSlab-Bold",
             "fontSize": "20px",
             "fontWeight": 700,
           }
@@ -740,7 +740,7 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
         style={
           Object {
             "color": "rgba(66,69,74,1.00)",
-            "fontFamily": "RobotoSlabBold",
+            "fontFamily": "RobotoSlab-Bold",
             "fontSize": "20px",
             "fontWeight": 700,
           }

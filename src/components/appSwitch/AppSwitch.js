@@ -34,7 +34,7 @@ const AppSwitch = (props: LoadingProps) => {
     const navInfo = router.getPathAndParamsForState(state)
     const destinationPath = await AsyncStorage.getItem('destinationPath')
     log.debug('getParams', { destinationPath, navInfo, router, state })
-    if (Object.keys(navInfo.params).length && !destinationPath) {
+    if (!destinationPath && Object.keys(navInfo.params).length) {
       const app = router.getActionForPathAndParams(navInfo.path)
       const destRoute = actions => (some(actions, 'action') ? destRoute(actions.action) : actions.action)
       const destData = { ...destRoute(app), params: navInfo.params }
@@ -44,8 +44,8 @@ const AppSwitch = (props: LoadingProps) => {
   }
   /*
   If a user has a saved destination path from before logging in or from inside-app (receipt view?)
-  He won't be redirect in checkAuthStatus since it only happens on didmount and won't happen after
-  use completes signup and becomes loggedin
+  He won't be redirected in checkAuthStatus since it is called on didmount effect and won't happen after
+  user completes signup and becomes loggedin which just updates this component
 */
   const navigateToUrlAction = async () => {
     log.info('didUpdate')

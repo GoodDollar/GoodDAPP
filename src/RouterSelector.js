@@ -7,6 +7,7 @@ import { extractQueryParams } from './lib/share/index'
 import logger from './lib/logger/pino-logger'
 
 const log = logger.child({ from: 'RouterSelector' })
+
 // import Router from './SignupRouter'
 let SignupRouter = React.lazy(() =>
   Promise.all([delay(2000), import(/* webpackChunkName: "signuprouter" */ './SignupRouter')]).then(r => r[1])
@@ -18,14 +19,18 @@ let AppRouter = React.lazy(() => {
 })
 const RouterSelector = () => {
   const store = SimpleStore.useStore()
+
   //we use global state for signup process to signal user has registered
   const isLoggedIn = store.get('isLoggedIn') //Promise.resolve( || AsyncStorage.getItem('GOODDAPP_isLoggedIn'))
 
   log.debug('RouterSelector Rendered', { isLoggedIn })
   const Router = isLoggedIn ? AppRouter : SignupRouter
+
   //save "in-app" links for non logged in to be poped later once logged in
   useEffect(() => {
-    if (isLoggedIn === true) return
+    if (isLoggedIn === true) {
+      return
+    }
     const params = extractQueryParams(window.location.href)
     if (params && Object.keys(params).length > 0) {
       const dest = { path: window.location.pathname.slice(1), params }

@@ -6,9 +6,9 @@ import normalize from 'react-native-elements/src/helpers/normalizeText'
 import bip39 from 'bip39-light'
 
 import logger from '../../lib/logger/pino-logger'
-import MnemonicInput from './MnemonicInput'
 import CustomButton from '../common/CustomButton'
 import { useDialog } from '../../lib/undux/utils/dialog'
+import MnemonicInput from './MnemonicInput'
 
 //const TITLE = 'Recover my wallet'
 const TITLE = 'Recover'
@@ -55,10 +55,10 @@ const Mnemonics = props => {
           onCancel: () => hideDialog(),
           onDismiss: () => (window.location = '/')
         })
-      }
-      // There is no error. Reload screen to start with users mnemonics
-      else {
+      } else {
         await AsyncStorage.setItem('GOODDAPP_isLoggedIn', true)
+
+        // There is no error. Reload screen to start with users mnemonics
         window.location = '/'
       }
     } catch (err) {

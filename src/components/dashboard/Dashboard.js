@@ -4,7 +4,6 @@ import { StyleSheet, Text, View } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { Portal } from 'react-native-paper'
 import type { Store } from 'undux'
-import throttle from 'lodash/throttle'
 
 import GDStore from '../../lib/undux/GDStore'
 import SimpleStore from '../../lib/undux/SimpleStore'
@@ -80,13 +79,9 @@ const Dashboard = props => {
   //   // userStorage.feed.get('byid').off()
   // }
 
-  const getFeeds = (() => {
-    const get = () => {
-      log.debug('getFeed initial')
-      getInitialFeed(gdstore)
-    }
-    return throttle(get, 2000, { leading: true })
-  })()
+  const getFeeds = () => {
+    getInitialFeed(gdstore)
+  }
 
   const showEventModal = item => {
     // props.screenProps.navigateTo('Home', {

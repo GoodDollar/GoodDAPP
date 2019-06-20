@@ -572,7 +572,7 @@ export class GoodWallet {
   }
 
   /**
-   * checks against oneTimeLink contract, if the specified link has already been used or not.
+   * checks against oneTimeLink contract, if the specified hash code has already been used or not.
    * @param {string} link
    * @returns {Promise<boolean>}
    */
@@ -587,7 +587,7 @@ export class GoodWallet {
    * @returns boolean
    */
   isWithdrawPaymentAvailable(payment: typeof BN): boolean {
-    return payment.lte(ZERO)
+    return payment.gt(ZERO)
   }
 
   /**
@@ -612,19 +612,13 @@ export class GoodWallet {
   async getWithdrawStatus(otlCode: string): Promise<'Completed' | 'Cancelled' | 'Pending'> {
     const link = this.getWithdrawLink(otlCode)
 
-    // Check link availability
-    const linkUsed = await this.isWithdrawLinkUsed(link)
-    if (linkUsed) {
-      return 'Completed'
-    }
-
     // Check payment availability
     const paymentAvailable = await this.getWithdrawAvailablePayment(link)
     if (this.isWithdrawPaymentAvailable(paymentAvailable)) {
-      return 'Cancelled'
+      return 'Pending'
     }
 
-    return 'Pending'
+    return 'Completed'
   }
 
   /**
@@ -644,7 +638,7 @@ export class GoodWallet {
 
     // Check payment availability
     const paymentAvailable = await this.getWithdrawAvailablePayment(link)
-    if (this.isWithdrawPaymentAvailable(paymentAvailable)) {
+    if (this.isWithdrawPaymentAvailable(paymentAvailable) === false) {
       throw new Error('deposit already withdrawn')
     }
 

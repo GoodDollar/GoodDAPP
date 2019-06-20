@@ -13,6 +13,7 @@ import get from 'lodash/get'
 import values from 'lodash/values'
 import keys from 'lodash/keys'
 import isEmail from 'validator/lib/isEmail'
+import mutex from 'await-mutex'
 import { AsyncStorage } from 'react-native'
 import { default as goodWallet, type GoodWallet } from '../wallet/GoodWallet'
 import isMobilePhone from '../validators/isMobilePhone'
@@ -170,6 +171,8 @@ export class UserStorage {
    */
   feedIndex: Array<[Date, number]>
 
+  feedMutex = new mutex()
+
   /**
    * object with Gun SEA user details
    * @instance {GunDBUser}
@@ -292,11 +295,16 @@ export class UserStorage {
   }
 
   async handleReceiptUpdated(receipt: any): Promise<FeedEvent> {
+    //receipt received via websockets/polling need mutex to prevent race
+    //with enqueing the initial TX data
+    const release = mutex.lock()
     try {
       const data = getReceiveDataFromReceipt(receipt)
 
-      //get initial TX data
-      const initialEvent = (await this.peekTX(receipt.transactionHash)) || { data: {} }
+      //get initial TX data from queue, if not in queue then it must be a receive TX ie
+      //not initiated by user
+      //other option is that TX was processed on another wallet instance
+      const initialEvent = (await this.dequeueTX(receipt.transactionHash)) || {}
 
       //get existing or make a new event
       const feedEvent = (await this.getFeedItemByTransactionHash(receipt.transactionHash)) || {
@@ -312,7 +320,6 @@ export class UserStorage {
         data: {
           ...feedEvent.data,
           ...data,
-          ...initialEvent.data,
           receipt
         }
       }
@@ -320,12 +327,11 @@ export class UserStorage {
       if (isEqual(feedEvent, updatedFeedEvent) === false) {
         await this.updateFeedEvent(updatedFeedEvent)
       }
-
-      //remove pending once we used it and updated feed
-      this.dequeueTX(receipt.transactionHash)
       return updatedFeedEvent
     } catch (error) {
       logger.error('handleReceiptUpdated', error)
+    } finally {
+      release()
     }
   }
 
@@ -814,8 +820,20 @@ export class UserStorage {
    * @param {FeedEvent} event
    * @returns {Promise<>}
    */
-  enqueueTX(event: FeedEvent): Promise<> {
-    return AsyncStorage.setItem(event.id, JSON.stringify(event))
+  async enqueueTX(event: FeedEvent): Promise<> {
+    //a race exists between enqueing and receipt from websockets/polling
+    const release = await this.feedMutex.lock()
+    try {
+      await this.feed
+        .get('queue')
+        .get(event.id)
+        .put(event)
+      this.updateFeedEvent(event)
+    } catch (e) {
+      logger.error('enqueueTX failed: ', { e, message: e.message })
+    } finally {
+      release()
+    }
   }
 
   /**
@@ -824,9 +842,16 @@ export class UserStorage {
    * @returns {Promise<FeedEvent>}
    */
   async dequeueTX(eventId: string): Promise<FeedEvent> {
-    let res = await AsyncStorage.getItem(eventId)
-    AsyncStorage.removeItem(eventId)
-    return res ? JSON.parse(res) : res
+    try {
+      const feedItem = await this.feed.get('queue').get(event.id)
+      this.feed
+        .get('queue')
+        .get(event.id)
+        .put(null)
+      return feedItem
+    } catch (e) {
+      logger.error('dequeueTX failed:', { e, message: e.message })
+    }
   }
 
   /**
@@ -835,12 +860,12 @@ export class UserStorage {
    * @returns {Promise<FeedEvent>}
    */
   async peekTX(eventId: string): Promise<FeedEvent> {
-    let res = await AsyncStorage.getItem(eventId)
-    return res ? JSON.parse(res) : res
+    const feedItem = await this.feed.get('queue').get(event.id)
+    return feedItem
   }
 
   /**
-   * Update feed event
+   * Add or Update feed event
    *
    * @param {FeedEvent} event - Event to be updated
    * @returns {Promise} Promise with updated feed
@@ -852,17 +877,6 @@ export class UserStorage {
     // force valid dates
     date = isValidDate(date) ? date : new Date()
     let day = `${date.toISOString().slice(0, 10)}`
-
-    // Saving eventFeed by id
-    logger.debug('updateFeedEvent starting encrypt')
-    await this.feed
-      .get('byid')
-      .get(event.id)
-      .secretAck(event)
-      .catch(e => {
-        logger.error('updateFeedEvent failedEncrypt byId:', e, event)
-        return { err: e.message }
-      })
 
     // Update dates index
     let dayEventsArr = (await this.feed.get(day).then()) || []
@@ -878,21 +892,34 @@ export class UserStorage {
         dayEventsArr.unshift(eventIndexItem)
       }
     }
-    let saveAck = this.feed
+
+    // Saving eventFeed by id
+    logger.debug('updateFeedEvent starting encrypt')
+    const eventAck = this.feed
+      .get('byid')
+      .get(event.id)
+      .secret(event)
+      .catch(e => {
+        logger.error('updateFeedEvent failedEncrypt byId:', e, event)
+        return { err: e.message }
+      })
+
+    const saveAck = this.feed
       .get(day)
-      .putAck(JSON.stringify(dayEventsArr))
+      .put(JSON.stringify(dayEventsArr))
       .catch(err => logger.error('updateFeedEvent dayIndex', err))
     const ack = this.feed
       .get('index')
       .get(day)
-      .putAck(dayEventsArr.length)
+      .put(dayEventsArr.length)
       .catch(err => logger.error('updateFeedEvent daySize', err))
 
+    let blockAck = Promise.resolve()
     if (event.data && event.data.receipt) {
-      await this.saveLastBlockNumber(event.data.receipt.blockNumber)
+      blockAck = this.saveLastBlockNumber(event.data.receipt.blockNumber)
     }
 
-    const result = await Promise.all([saveAck, ack])
+    const result = await Promise.all([saveAck, ack, eventAck, blockAck])
       .then(arr => {
         return event
       })
@@ -915,7 +942,7 @@ export class UserStorage {
    */
   saveLastBlockNumber(blockNumber: number | string): Promise<any> {
     logger.debug('saving lastBlock:', blockNumber)
-    return this.getLastBlockNode().putAck(blockNumber)
+    return this.getLastBlockNode().put(blockNumber)
   }
 
   getProfile(): Promise<any> {

@@ -28,22 +28,27 @@ export const executeWithdraw = async (store: Store, hash: string, reason: string
   log.info('executeWithdraw', hash, reason)
   try {
     const { amount } = await goodWallet.canWithdraw(hash)
-    const receipt = await goodWallet.withdraw(hash, {
-      onTransactionHash: transactionHash => {
-        const transactionEvent: TransactionEvent = {
-          id: transactionHash,
-          date: new Date().toString(),
-          type: 'withdraw',
-          data: {
-            amount,
-            hash,
-            reason
+    return new Promise((res, rej) => {
+      goodWallet.withdraw(hash, {
+        onTransactionHash: transactionHash => {
+          const transactionEvent: TransactionEvent = {
+            id: transactionHash,
+            date: new Date().toString(),
+            type: 'withdraw',
+            data: {
+              amount,
+              hash,
+              reason
+            }
           }
+          userStorage.enqueueTX(transactionEvent)
+          res(transactionHash)
+        },
+        onError: e => {
+          rej(e)
         }
-        userStorage.enqueueTX(transactionEvent)
-      }
+      })
     })
-    return receipt
   } catch (e) {
     log.error({ e })
     throw e

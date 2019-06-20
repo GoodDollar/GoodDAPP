@@ -51,10 +51,10 @@ const SendQRSummary = (props: AmountProps) => {
   const faceRecognition = () => {
     return screenProps.push('FaceRecognition', { from: 'SendQRSummary' })
   }
-  const sendGD = async () => {
+  const sendGD = () => {
     try {
       setLoading(true)
-      const receipt = await goodWallet.sendAmount(to, amount, {
+      goodWallet.sendAmount(to, amount, {
         onTransactionHash: hash => {
           log.debug({ hash })
 
@@ -70,19 +70,33 @@ const SendQRSummary = (props: AmountProps) => {
             }
           }
           userStorage.enqueueTX(transactionEvent)
+          showDialog({
+            visible: true,
+            title: 'SUCCESS!',
+            message: 'The G$ was sent successfully',
+            dismissText: 'Yay!',
+            onDismiss: screenProps.goToRoot
+          })
           return hash
+        },
+        onError: e => {
+          log.error('Send TX failed:', { e, message: e.message })
+          showDialog({
+            visible: true,
+            title: 'Transaction Failed!',
+            message: `There was a problem sending G$. Try again`,
+            dismissText: 'OK'
+          })
         }
       })
-      log.debug({ receipt, screenProps })
+    } catch (e) {
+      log.error('Send TX failed:', { e, message: e.message })
       showDialog({
         visible: true,
-        title: 'SUCCESS!',
-        message: 'The G$ was sent successfully',
-        dismissText: 'Yay!',
-        onDismiss: screenProps.goToRoot
+        title: 'Transaction Failed!',
+        message: `There was a problem sending G$. Try again`,
+        dismissText: 'OK'
       })
-    } catch (e) {
-      log.error(e)
     } finally {
       setLoading(false)
     }

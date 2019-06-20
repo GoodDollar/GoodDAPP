@@ -59,6 +59,7 @@ const SendLinkSummary = (props: AmountProps) => {
               ...extraData
             }
           }
+          log.debug('generateLinkAndSend: enqueueTX', { transactionEvent })
           userStorage.enqueueTX(transactionEvent)
         }
       })

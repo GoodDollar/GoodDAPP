@@ -29,6 +29,7 @@ const ListEvent = ({ item: feed }: FeedEventProps) => {
         <View style={listStyles.rightContentRow}>
           <BigGoodDollar number={feed.data.amount} elementStyles={listStyles.currency} />
           <EventIcon type={feed.type} />
+          <Text style={listStyles.rowDataSubText}>status: {feed.status}</Text>
         </View>
         <View style={listStyles.rightContentRow}>
           <Text style={listStyles.date}>{getFormattedDateTime(feed.date)}</Text>

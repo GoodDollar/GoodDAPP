@@ -20,6 +20,7 @@ import isMobilePhone from '../validators/isMobilePhone'
 import pino from '../logger/pino-logger'
 import type { StandardFeed } from '../undux/GDStore'
 import API from '../API/api'
+import Config from '../../config/config'
 import { getUserModel, type UserModel } from './UserModel'
 import defaultGun from './gundb'
 const logger = pino.child({ from: 'UserStorage' })
@@ -471,7 +472,9 @@ export class UserStorage {
     const { errors, isValid } = profile.validate()
     if (!isValid) {
       logger.error('setProfile failed:', { errors })
-      throw new Error(errors)
+      if (Config.throwSaveProfileErrors) {
+        throw new Error(errors)
+      }
     }
 
     const profileSettings = {
@@ -486,6 +489,7 @@ export class UserStorage {
       const currentPrivacy = await this.profile.get(field).get('privacy')
       return currentPrivacy || profileSettings[field].defaultPrivacy || 'public'
     }
+    logger.debug('CONFIGURACION', { Config })
     return Promise.all(
       keys(profileSettings)
         .filter(key => profile[key])
@@ -495,15 +499,16 @@ export class UserStorage {
             return { err: `failed saving field ${field}` }
           })
         })
-    )
-      .then(results => {
-        const errors = results.filter(ack => ack && ack.err).map(ack => ack.err)
-        if (errors.length > 0) {
-          logger.error('setProfile some fields failed', errors.length, errors)
+    ).then(results => {
+      const errors = results.filter(ack => ack && ack.err).map(ack => ack.err)
+      if (errors.length > 0) {
+        logger.error('setProfile some fields failed', errors.length, errors)
+        if (Config.throwSaveProfileErrors) {
+          throw new Error(errors)
         }
-        return true
-      })
-      .catch(e => logger.error('setProfile Failed', e, e.message))
+      }
+      return true
+    })
   }
 
   /**

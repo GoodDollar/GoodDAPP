@@ -9,6 +9,7 @@ import logger from '../../lib/logger/pino-logger'
 import { useWrappedApi } from '../../lib/API/useWrappedApi'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import userStorage from '../../lib/gundb/UserStorage'
+import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import GDStore from '../../lib/undux/GDStore'
 import { getUserModel, type UserModel } from '../../lib/gundb/UserModel'
 import Config from '../../config/config'
@@ -53,13 +54,14 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   const [state, setState] = useState(initialState)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(undefined)
+  const [showErrorDialog] = useErrorDialog()
 
   const store = GDStore.useStore()
 
   // const { loading } = store.get('currentScreen')
 
   function saveProfile() {
-    return userStorage.setProfile({ ...state, walletAddress: goodWallet.account })
+    return userStorage.setProfile({ ...state, walletAddress: goodWallet.account }).catch(showErrorDialog)
   }
 
   const navigateWithFocus = (routeKey: string) => {

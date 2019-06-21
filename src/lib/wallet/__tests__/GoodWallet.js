@@ -1,4 +1,3 @@
-import { BN } from 'web3-utils'
 import goodWallet from '../GoodWallet'
 
 const httpProviderMock = jest.fn().mockImplementation(() => {
@@ -14,114 +13,16 @@ beforeAll(() => {
   jest.resetAllMocks()
 })
 
-describe('Polling for events', () => {
-  it(`should stop polling after cancel returns true`, () => {
-    // Given
-    const contract = {
-      getPastEvents() {
-        return Promise.resolve([])
-      }
-    }
-
-    return new Promise(async resolve => {
-      // When
-      await goodWallet.ready
-      goodWallet.setBlockNumber(new BN(1))
-      goodWallet.pollForEvents(
-        { event: 'Transfer', contract },
-        () => {},
-        () => {
-          goodWallet.setBlockNumber(goodWallet.blockNumber.add(new BN(1)))
-          const shouldCancel = goodWallet.blockNumber > 7
-
-          if (shouldCancel) {
-            resolve(undefined)
-          }
-
-          return shouldCancel
-        },
-        1
-      )
-    }).then(() => {
-      // Then
-      expect(goodWallet.blockNumber.toString()).toEqual('8')
-    })
-  })
-
-  it(`should fail if no callback is provided`, () => {
-    // Given
-    const contract = {
-      getPastEvents() {
-        return Promise.resolve([])
-      }
-    }
-
-    return new Promise(async (resolve, reject) => {
-      await goodWallet.ready
-
-      // When
-      try {
-        await goodWallet.pollForEvents({ event: 'Transfer', contract })
-      } catch (e) {
-        reject(e)
-      }
-    }).catch(error => {
-      // Then
-      expect(error.message).toBe('callback must be provided')
-    })
-  })
-
-  it(`should fail if no event is provided`, () => {
-    // Given
-    const contract = {
-      getPastEvents() {
-        return Promise.resolve([])
-      }
-    }
-
-    return new Promise(async (resolve, reject) => {
-      await goodWallet.ready
-
-      // When
-      try {
-        await goodWallet.pollForEvents({ contract }, () => {})
-      } catch (e) {
-        reject(e)
-      }
-    }).catch(error => {
-      // Then
-      expect(error.message).toBe('event must be provided')
-    })
-  })
-
-  it(`should fail if no contract is provided`, () => {
-    return new Promise(async (resolve, reject) => {
-      // Given
-      await goodWallet.ready
-
-      // When
-      try {
-        await goodWallet.pollForEvents({ event: 'Transfer' }, () => {})
-      } catch (e) {
-        reject(e)
-      }
-    }).catch(error => {
-      // Then
-      expect(error.message).toBe('contract object must be provided')
-    })
-  })
-})
-
 describe('Wallet Initialization', () => {
   it(`should initialize wallet property`, () => {
-    const numOfAcoounts = 10
+    const numOfAccounts = 10
 
     return goodWallet.ready.then(() => {
       expect(goodWallet.account).toBeDefined()
       expect(goodWallet.account).not.toBeNull()
       expect(goodWallet.accounts).toBeDefined()
       expect(goodWallet.accounts).not.toBeNull()
-      expect(goodWallet.accounts.length).toEqual(numOfAcoounts)
+      expect(goodWallet.accounts.length).toEqual(numOfAccounts)
       expect(goodWallet.networkId).toBeDefined()
       expect(goodWallet.networkId).not.toBeNull()
       expect(goodWallet.identityContract).toBeDefined()

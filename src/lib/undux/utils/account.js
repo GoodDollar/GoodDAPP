@@ -46,15 +46,14 @@ const status = {
  */
 const initTransferEvents = async (store: Store) => {
   if (!status.started) {
-    log.debug('checking transfer events')
+    const lastBlock = await userStorage.getLastBlockNode().then()
+    log.debug('starting events listener', { lastBlock })
 
     status.started = true
 
-    const lastBlock = await userStorage.getLastBlockNode().then()
-    log.debug({ lastBlock })
-    await goodWallet.listenTxUpdates(lastBlock)
+    goodWallet.listenTxUpdates(lastBlock, ({ fromBlock, toBlock }) => userStorage.saveLastBlockNumber(toBlock))
 
-    goodWallet.balanceChanged((error, events) => onBalanceChange(error, events, store))
+    goodWallet.balanceChanged((error, event) => onBalanceChange(error, event, store))
   }
 }
 

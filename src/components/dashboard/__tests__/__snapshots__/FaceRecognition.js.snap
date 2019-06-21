@@ -127,7 +127,7 @@ exports[`FaceRecognition matches snapshot 1`] = `
           }
         >
           <div
-            className="css-text-901oao"
+            className="css-text-76zvg2"
             dir="auto"
             style={
               Object {
@@ -142,7 +142,7 @@ exports[`FaceRecognition matches snapshot 1`] = `
             undefined, Just one more thing before we can get started...
           </div>
           <div
-            className="css-text-901oao"
+            className="css-text-76zvg2"
             dir="auto"
             style={
               Object {
@@ -180,7 +180,7 @@ exports[`FaceRecognition matches snapshot 1`] = `
           }
         >
           <div
-            className="css-text-901oao"
+            className="css-text-76zvg2"
             dir="auto"
             style={
               Object {
@@ -195,7 +195,7 @@ exports[`FaceRecognition matches snapshot 1`] = `
           >
             By clicking the 'Create a wallet' button, you are accepting our 
             <span
-              className="css-text-901oao css-textHasAncestor-16my406"
+              className="css-text-76zvg2 css-textHasAncestor-16my406"
               data-focusable={true}
               dir="auto"
               onClick={[Function]}
@@ -218,7 +218,7 @@ exports[`FaceRecognition matches snapshot 1`] = `
             </span>
              and 
             <span
-              className="css-text-901oao css-textHasAncestor-16my406"
+              className="css-text-76zvg2 css-textHasAncestor-16my406"
               data-focusable={true}
               dir="auto"
               onClick={[Function]}
@@ -385,7 +385,7 @@ exports[`FaceRecognition matches snapshot 1`] = `
                   </div>
                 </div>
                 <div
-                  className="css-text-901oao css-textOneLine-bfa6kz"
+                  className="css-text-76zvg2 css-textOneLine-bfa6kz"
                   dir="auto"
                   style={
                     Object {
@@ -402,7 +402,7 @@ exports[`FaceRecognition matches snapshot 1`] = `
                   }
                 >
                   <span
-                    className="css-text-901oao css-textHasAncestor-16my406"
+                    className="css-text-76zvg2 css-textHasAncestor-16my406"
                     dir="auto"
                     style={
                       Object {

@@ -10,11 +10,12 @@ const updateAll = (store: Store) => {
   return Promise.all([goodWallet.balanceOf(), goodWallet.checkEntitlement()])
     .then(([balance, entitlement]) => {
       const account = store.get('account')
-      if (account.balance === balance && account.entitlement === entitlement && account.ready === true) {
-        return
-      }
+      const balanceChanged = !account.balance || !account.balance.eq(balance)
+      const entitlementChanged = !account.entitlement || !account.entitlement.eq(entitlement)
 
-      store.set('account')({ balance, entitlement, ready: true })
+      if (balanceChanged || entitlementChanged || account.ready === false) {
+        store.set('account')({ balance, entitlement, ready: true })
+      }
     })
     .catch(error => {
       log.error(error)
@@ -23,15 +24,15 @@ const updateAll = (store: Store) => {
 
 /**
  * Callback to handle events emmited
- * @param error
- * @param event
- * @param store
+ * @param {object} error
+ * @param {array} events
+ * @param {Store} store
  * @returns {Promise<void>}
  */
-const onBalanceChange = async (error: {}, event: [any], store: Store) => {
-  log.debug('new Transfer event:', { error, event })
+const onBalanceChange = async (error: {}, events: [] = [], store: Store) => {
+  log.debug('new Transfer events:', { error, events })
 
-  if (!error) {
+  if (!error && events.length) {
     await updateAll(store)
   }
 }
@@ -45,13 +46,12 @@ const status = {
  */
 const initTransferEvents = async (store: Store) => {
   if (!status.started) {
-    log.debug('checking transfer events')
+    const lastBlock = await userStorage.getLastBlockNode().then()
+    log.debug('starting events listener', { lastBlock })
 
     status.started = true
 
-    const lastBlock = await userStorage.getLastBlockNode().then()
-    log.debug({ lastBlock })
-    await goodWallet.listenTxUpdates(lastBlock)
+    goodWallet.listenTxUpdates(lastBlock, ({ fromBlock, toBlock }) => userStorage.saveLastBlockNumber(toBlock))
 
     goodWallet.balanceChanged((error, event) => onBalanceChange(error, event, store))
   }

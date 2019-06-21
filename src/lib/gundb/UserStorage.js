@@ -489,7 +489,6 @@ export class UserStorage {
       const currentPrivacy = await this.profile.get(field).get('privacy')
       return currentPrivacy || profileSettings[field].defaultPrivacy || 'public'
     }
-    logger.debug('CONFIGURACION', { Config })
     return Promise.all(
       keys(profileSettings)
         .filter(key => profile[key])

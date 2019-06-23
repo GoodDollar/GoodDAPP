@@ -88,14 +88,16 @@ type ShareObject = {
 
 /**
  * Generates the standard object required for `navigator.share` method to trigger Share menu on mobile devices
- * @param url - Link
+ * @param {string} title
+ * @param {string} text
+ * @param {string} url - Link
  * @returns {ShareObject}
  */
 export function generateShareObject(title: string, text: string, url: string): ShareObject {
   return {
     title,
     text,
-    url: encodeURI(url)
+    url
   }
 }
 
@@ -120,13 +122,14 @@ type HrefLinkProps = {
 
 /**
  * Generates the links to share via anchor tag
+ * @param {ShareObject} shareObject - object used by `navigator.share`
  * @param {string} to - Email address or phone number
- * @param {string} sendLink - Link
  * @returns {HrefLinkProps[]}
  */
 export function generateHrefLink(shareObject: ShareObject, to?: string = ''): HrefLinkProps {
   const { title, text, url } = shareObject
   const body = `${text}\n${url}`
+
   if (isEmail(to)) {
     return { link: `mailto:${to}?subject=${title}&body=${body}`, description: 'e-mail' }
   }
@@ -134,8 +137,6 @@ export function generateHrefLink(shareObject: ShareObject, to?: string = ''): Hr
   if (isMobilePhone(to)) {
     return { link: `sms:${to}?body=${body}`, description: 'sms' }
   }
-
-  return undefined
 }
 
 type ActionType = 'receive' | 'send'
@@ -155,7 +156,7 @@ export function generateShareLink(action: ActionType = 'receive', params: {} = {
 
   // creates query params from params object
   const queryParams = toPairs(params)
-    .map(param => param.join('='))
+    .map(param => param.map(encodeURIComponent).join('='))
     .join('&')
 
   if (!queryParams || !destination) {

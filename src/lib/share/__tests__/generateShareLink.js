@@ -82,4 +82,21 @@ describe('generateShareLink', () => {
       `${Config.publicUrl}/AppNavigation/Dashboard/Home?key=value&key2=value2&key3=value3&key4=value4`
     )
   })
+
+  it(`should return link generated from send action, with encoded params`, () => {
+    // Given
+    const action = 'send'
+    const params = {
+      key: 'prevent&errors',
+      [`ke¥`]: 'thisShouldBeEscapeÐ'
+    }
+
+    // When
+    const link = generateShareLink(action, params)
+
+    // Then
+    expect(link).toEqual(
+      `${Config.publicUrl}/AppNavigation/Dashboard/Home?key=prevent%26errors&ke%C2%A5=thisShouldBeEscape%C3%90`
+    )
+  })
 })

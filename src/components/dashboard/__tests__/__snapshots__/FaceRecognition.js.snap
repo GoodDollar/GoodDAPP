@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`FaceRecognition matches snapshot 1`] = `
+exports[`FaceRecognition Rendering matches snapshot 1`] = `
 <div
   className="css-view-1dbjc4n"
   style={
@@ -132,9 +132,7 @@ exports[`FaceRecognition matches snapshot 1`] = `
             style={
               Object {
                 "color": "rgba(85,85,85,1.00)",
-                "fontSize": "24px",
-                "fontWeight": "500",
-                "marginBottom": "1rem",
+                "fontSize": "18px",
                 "textAlign": "center",
               }
             }
@@ -147,7 +145,7 @@ exports[`FaceRecognition matches snapshot 1`] = `
             style={
               Object {
                 "color": "rgba(85,85,85,1.00)",
-                "fontSize": "18px",
+                "fontSize": "20px",
                 "textAlign": "center",
               }
             }
@@ -180,73 +178,12 @@ exports[`FaceRecognition matches snapshot 1`] = `
           }
         >
           <div
-            className="css-text-76zvg2"
-            dir="auto"
-            style={
-              Object {
-                "color": "rgba(85,85,85,1.00)",
-                "direction": "ltr",
-                "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                "fontSize": "14px",
-                "marginBottom": "1rem",
-                "textAlign": "center",
-              }
-            }
-          >
-            By clicking the 'Create a wallet' button, you are accepting our 
-            <span
-              className="css-text-76zvg2 css-textHasAncestor-16my406"
-              data-focusable={true}
-              dir="auto"
-              onClick={[Function]}
-              onKeyDown={[Function]}
-              style={
-                Object {
-                  "color": "rgba(85,85,85,1.00)",
-                  "cursor": "pointer",
-                  "direction": "ltr",
-                  "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                  "fontSize": "14px",
-                  "fontWeight": "bold",
-                  "marginTop": "10px",
-                  "textAlign": "center",
-                }
-              }
-              tabIndex="0"
-            >
-              Terms of Service
-            </span>
-             and 
-            <span
-              className="css-text-76zvg2 css-textHasAncestor-16my406"
-              data-focusable={true}
-              dir="auto"
-              onClick={[Function]}
-              onKeyDown={[Function]}
-              style={
-                Object {
-                  "color": "rgba(85,85,85,1.00)",
-                  "cursor": "pointer",
-                  "direction": "ltr",
-                  "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                  "fontSize": "14px",
-                  "fontWeight": "bold",
-                  "marginTop": "10px",
-                  "textAlign": "center",
-                }
-              }
-              tabIndex="0"
-            >
-              Privacy Policy
-            </span>
-          </div>
-          <div
             className="css-view-1dbjc4n"
             style={
               Object {
                 "WebkitBoxPack": "center",
                 "WebkitJustifyContent": "center",
-                "backgroundColor": "rgba(0,0,0,0.12)",
+                "backgroundColor": "rgba(85,85,85,1.00)",
                 "borderBottomColor": "rgba(0,0,0,0.00)",
                 "borderBottomLeftRadius": "4px",
                 "borderBottomRightRadius": "4px",
@@ -263,6 +200,7 @@ exports[`FaceRecognition matches snapshot 1`] = `
                 "borderTopRightRadius": "4px",
                 "borderTopStyle": "solid",
                 "borderTopWidth": "0px",
+                "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
                 "justifyContent": "center",
                 "minWidth": "auto",
                 "msFlexPack": "center",
@@ -270,13 +208,15 @@ exports[`FaceRecognition matches snapshot 1`] = `
             }
           >
             <div
-              aria-disabled={true}
-              className="css-view-1dbjc4n"
-              disabled={true}
+              className="css-cursor-18t94o4 css-view-1dbjc4n"
+              data-focusable={true}
+              disabled={false}
               onKeyDown={[Function]}
+              onKeyPress={[Function]}
               onKeyUp={[Function]}
               onResponderGrant={[Function]}
               onResponderMove={[Function]}
+              onResponderRelease={[Function]}
               onResponderTerminate={[Function]}
               onResponderTerminationRequest={[Function]}
               onStartShouldSetResponder={[Function]}
@@ -287,11 +227,15 @@ exports[`FaceRecognition matches snapshot 1`] = `
                   "borderBottomRightRadius": "4px",
                   "borderTopLeftRadius": "4px",
                   "borderTopRightRadius": "4px",
+                  "cursor": "pointer",
+                  "msTouchAction": "manipulation",
                   "overflowX": "hidden",
                   "overflowY": "hidden",
                   "position": "relative",
+                  "touchAction": "manipulation",
                 }
               }
+              tabIndex="0"
             >
               <div
                 className="css-view-1dbjc4n"
@@ -314,82 +258,11 @@ exports[`FaceRecognition matches snapshot 1`] = `
                 }
               >
                 <div
-                  aria-valuemax="1"
-                  aria-valuemin="0"
-                  className="css-view-1dbjc4n"
-                  role="progressbar"
-                  style={
-                    Object {
-                      "WebkitAlignItems": "center",
-                      "WebkitBoxAlign": "center",
-                      "WebkitBoxPack": "center",
-                      "WebkitJustifyContent": "center",
-                      "alignItems": "center",
-                      "justifyContent": "center",
-                      "marginLeft": "12px",
-                      "marginRight": "-4px",
-                      "msFlexAlign": "center",
-                      "msFlexPack": "center",
-                      "width": "16px",
-                    }
-                  }
-                >
-                  <div
-                    className="css-view-1dbjc4n r-animationKeyframes-127358a"
-                    style={
-                      Object {
-                        "WebkitAnimationDuration": "0.75s",
-                        "WebkitAnimationIterationCount": "infinite",
-                        "WebkitAnimationTimingFunction": "linear",
-                        "animationDuration": "0.75s",
-                        "animationIterationCount": "infinite",
-                        "animationTimingFunction": "linear",
-                        "height": "20px",
-                        "width": "20px",
-                      }
-                    }
-                  >
-                    <svg
-                      height="100%"
-                      viewBox="0 0 32 32"
-                      width="100%"
-                    >
-                      <circle
-                        cx="16"
-                        cy="16"
-                        fill="none"
-                        r="14"
-                        strokeWidth="4"
-                        style={
-                          Object {
-                            "opacity": 0.2,
-                            "stroke": "rgba(0, 0, 0, 0.32)",
-                          }
-                        }
-                      />
-                      <circle
-                        cx="16"
-                        cy="16"
-                        fill="none"
-                        r="14"
-                        strokeWidth="4"
-                        style={
-                          Object {
-                            "stroke": "rgba(0, 0, 0, 0.32)",
-                            "strokeDasharray": 80,
-                            "strokeDashoffset": 60,
-                          }
-                        }
-                      />
-                    </svg>
-                  </div>
-                </div>
-                <div
                   className="css-text-76zvg2 css-textOneLine-bfa6kz"
                   dir="auto"
                   style={
                     Object {
-                      "color": "rgba(0,0,0,0.32)",
+                      "color": "rgba(255,255,255,1.00)",
                       "direction": "ltr",
                       "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                       "letterSpacing": "1px",

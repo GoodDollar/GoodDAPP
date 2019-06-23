@@ -4,6 +4,19 @@ import GDStore from '../GDStore'
 import pino from '../../logger/pino-logger'
 const log = pino.child({ from: 'dialogs' })
 
+export const showDialogForError = (store: Store, error: any) => {
+  let message = 'Unknown Error'
+  if (error.response && error.response.data) {
+    message = error.response.data.message
+  } else if (error.message) {
+    message = error.message
+  } else if (error.err) {
+    message = error.err
+  }
+  const dialogData = { visible: true, title: 'Error', message, dismissText: 'OK' }
+  showDialogWithData(store, dialogData)
+}
+
 export const showDialogWithData = (store: Store, dialogData: {}) => {
   log.debug('showDialogWithData', { dialogData })
   store.set('currentScreen')({
@@ -29,4 +42,9 @@ export const hideDialog = (store: Store) => {
 export const useDialog = () => {
   const store = GDStore.useStore()
   return [showDialogWithData.bind(null, store), hideDialog.bind(null, store)]
+}
+
+export const useErrorDialog = () => {
+  const store = GDStore.useStore()
+  return [showDialogForError.bind(null, store), hideDialog.bind(null, store)]
 }

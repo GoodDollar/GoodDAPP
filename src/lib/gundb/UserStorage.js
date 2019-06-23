@@ -20,6 +20,7 @@ import isMobilePhone from '../validators/isMobilePhone'
 import pino from '../logger/pino-logger'
 import type { StandardFeed } from '../undux/GDStore'
 import API from '../API/api'
+import Config from '../../config/config'
 import { getUserModel, type UserModel } from './UserModel'
 import defaultGun from './gundb'
 const logger = pino.child({ from: 'UserStorage' })
@@ -471,7 +472,9 @@ export class UserStorage {
     const { errors, isValid } = profile.validate()
     if (!isValid) {
       logger.error('setProfile failed:', { errors })
-      throw new Error(errors)
+      if (Config.throwSaveProfileErrors) {
+        throw new Error(errors)
+      }
     }
 
     const profileSettings = {
@@ -495,15 +498,16 @@ export class UserStorage {
             return { err: `failed saving field ${field}` }
           })
         })
-    )
-      .then(results => {
-        const errors = results.filter(ack => ack && ack.err).map(ack => ack.err)
-        if (errors.length > 0) {
-          logger.error('setProfile some fields failed', errors.length, errors)
+    ).then(results => {
+      const errors = results.filter(ack => ack && ack.err).map(ack => ack.err)
+      if (errors.length > 0) {
+        logger.error('setProfile some fields failed', errors.length, errors)
+        if (Config.throwSaveProfileErrors) {
+          throw new Error(errors)
         }
-        return true
-      })
-      .catch(e => logger.error('setProfile Failed', e, e.message))
+      }
+      return true
+    })
   }
 
   /**
@@ -702,12 +706,33 @@ export class UserStorage {
   }
 
   /**
+   * Checks if username connected to a profile
+   * @param {string} username
+   */
+  async isUsername(username: string) {
+    let profile = await this.gun.get('users/byusername').get(username)
+    return profile !== undefined
+  }
+
+  /**
    *
    * @param {string} field - Profile field value (email, mobile or wallet address value)
    * @returns { string } address
    */
-  getUserAddress(field: string) {
-    const attr = isMobilePhone(field) ? 'mobile' : isEmail(field) ? 'email' : 'walletAddress'
+  async getUserAddress(field: string) {
+    let attr = undefined
+    if (isMobilePhone(field)) {
+      attr = 'mobile'
+    } else if (isEmail(field)) {
+      attr = 'email'
+    } else if (await this.isUsername(field)) {
+      attr = 'username'
+    } else if (this.wallet.wallet.utils.isAddress(field)) {
+      return field
+    }
+    if (attr === undefined) {
+      return undefined
+    }
     const value = UserStorage.cleanFieldForIndex(attr, field)
 
     return this.gun

@@ -10,7 +10,7 @@ const { width, height } = Dimensions.get('window')
 type CameraProps = {
   width: number,
   height: number,
-  onLoad: (track: MediaStreamTrack) => void,
+  onCameraLoad: (track: MediaStreamTrack) => Promise<void>,
   onError: (result: string) => void
 }
 
@@ -114,7 +114,7 @@ export function Camera(props: CameraProps) {
       videoPlayerRef.current.srcObject = stream
 
       videoPlayerRef.current.addEventListener('loadeddata', () => {
-        props.onLoad(videoTrack)
+        props.onCameraLoad(videoTrack)
       })
     } catch (error) {
       log.error(error)

@@ -706,7 +706,7 @@ export class UserStorage {
    * @param {string} username
    */
   async isUsername(username: string) {
-    let profile = await this.gun.get('users/byusername')
+    let profile = await this.gun.get('users/byusername').get(username)
     return profile !== undefined
   }
 

@@ -1,7 +1,6 @@
 // @flow
 import { createConnectedStore } from 'undux'
 import { AsyncStorage } from 'react-native'
-import updateLoggedIn from './effects/loggedin'
 
 /**
  * Dialog data. This is being used to show a dialog across the app

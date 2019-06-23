@@ -71,13 +71,13 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
     }
   }
 
-  loadZoomSDK = async (): Promise<void> => {
-    global.exports = {} // required by zoomSDK
-    const server = Config.publicUrl
-    const zoomSDKPath = '/ZoomAuthentication.js/ZoomAuthentication.js'
-    log.info(`loading ZoomSDK from ${zoomSDKPath}`)
-    return loadjs(zoomSDKPath, { returnPromise: true })
-  }
+  // loadZoomSDK = async (): Promise<void> => {
+  //   global.exports = {} // required by zoomSDK
+  //   const server = Config.publicUrl
+  //   const zoomSDKPath = '/ZoomAuthentication.js/ZoomAuthentication.js'
+  //   log.info(`loading ZoomSDK from ${zoomSDKPath}`)
+  //   return loadjs(zoomSDKPath, { returnPromise: true })
+  // }
 
   /**
    * Check's users' current auth status
@@ -89,7 +89,7 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
       delay(TIMEOUT)
     ]).then(([authResult]) => authResult)
     let destDetails = await this.getParams()
-    if (!isLoggedInCitizen) await this.loadZoomSDK()
+    // if (!isLoggedInCitizen) await this.loadZoomSDK()
     if (isLoggedIn) {
       let topWalletRes = isLoggedInCitizen ? API.verifyTopWallet() : Promise.resolve()
       if (destDetails) {

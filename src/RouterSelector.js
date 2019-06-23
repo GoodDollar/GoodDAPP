@@ -13,9 +13,15 @@ let SignupRouter = React.lazy(() =>
   Promise.all([delay(2000), import(/* webpackChunkName: "signuprouter" */ './SignupRouter')]).then(r => r[1])
 )
 let AppRouter = React.lazy(() => {
+  log.debug('initializing storage and wallet...')
   let walletAndStorageReady = import(/* webpackChunkName: "init", webpackPrefetch: true */ './init')
-  let p2 = walletAndStorageReady.then(({ init, _ }) => init())
-  return Promise.all([p2, import(/* webpackChunkName: "router", webpackPrefetch: true */ './Router')]).then(r => r[1])
+  let p2 = walletAndStorageReady.then(({ init, _ }) => init()).then(_ => log.debug('storage and wallet ready'))
+  return Promise.all([p2, import(/* webpackChunkName: "router", webpackPrefetch: true */ './Router')])
+    .then(r => {
+      log.debug('router ready')
+      return r
+    })
+    .then(r => r[1])
 })
 const RouterSelector = () => {
   const store = SimpleStore.useStore()

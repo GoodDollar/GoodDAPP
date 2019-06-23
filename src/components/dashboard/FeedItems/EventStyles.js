@@ -55,12 +55,15 @@ export const listStyles = StyleSheet.create({
   },
   contentColumn: {
     flexDirection: 'column',
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end',
     borderBottomWidth: 0,
     marginBottom: 0,
     padding: 0
   },
   rightContentRow: {
     flexDirection: 'row',
+    justifyContent: 'flex-end',
     alignItems: 'center'
   },
   date: {

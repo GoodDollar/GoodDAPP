@@ -56,6 +56,7 @@ const Mnemonics = props => {
           onDismiss: () => (window.location = '/')
         })
       } else {
+        // There is no error. Reload screen to start with users mnemonics
         await AsyncStorage.setItem('GOODDAPP_isLoggedIn', true)
 
         // There is no error. Reload screen to start with users mnemonics

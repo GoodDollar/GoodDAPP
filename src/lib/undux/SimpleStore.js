@@ -70,7 +70,7 @@ const initialState: State = {
  * default exported instance of our global Undux Store
  * @module
  */
-let SimpleStore: UnduxStore
+let SimpleStore: UnduxStore = createConnectedStore(initialState) // default value for tests
 const initStore = async () => {
   let isLoggedIn = await AsyncStorage.getItem('GOODDAPP_isLoggedIn').then(JSON.parse)
   initialState.isLoggedIn = isLoggedIn

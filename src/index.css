@@ -23,3 +23,34 @@ a {
   color: inherit; /* blue colors for links too */
   text-decoration: inherit; /* no underline */
 }
+@font-face {
+  font-family: 'RobotoSlab-Bold';
+  src: url('./assets/fonts/RobotoSlab-Bold.ttf');
+  src: url('./assets/fonts/RobotoSlab-Bold.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'RobotoSlab-Regular';
+  src: url('./assets/fonts/RobotoSlab-Regular.ttf');
+  src: url('./assets/fonts/RobotoSlab-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto-Medium';
+  src: url('./assets/fonts/Roboto-Medium.ttf');
+  src: url('./assets/fonts/Roboto-Medium.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('./assets/fonts/Roboto.ttf');
+  src: url('./assets/fonts/Roboto.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}

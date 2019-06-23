@@ -70,7 +70,7 @@ exports[`ScanQRButton should match snapshot 1`] = `
     }
   >
     <div
-      className="css-text-901oao r-pointerEvents-633pao"
+      className="css-text-76zvg2 r-pointerEvents-633pao"
       dir="auto"
       focusable={false}
       role="img"
@@ -91,7 +91,7 @@ exports[`ScanQRButton should match snapshot 1`] = `
     </div>
   </div>
   <div
-    className="css-text-901oao"
+    className="css-text-76zvg2"
     dir="auto"
     style={
       Object {
@@ -104,7 +104,7 @@ exports[`ScanQRButton should match snapshot 1`] = `
     }
   >
     <span
-      className="css-text-901oao css-textHasAncestor-16my406"
+      className="css-text-76zvg2 css-textHasAncestor-16my406"
       dir="auto"
       style={
         Object {

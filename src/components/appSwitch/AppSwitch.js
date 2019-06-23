@@ -12,6 +12,7 @@ import { checkAuthStatus } from '../../lib/login/checkAuthStatus'
 import type { Store } from 'undux'
 import { CustomDialog } from '../common'
 import LoadingIndicator from '../common/LoadingIndicator'
+import zoomSdkLoader from '../dashboard/FaceRecognition/ZoomSdkLoader'
 
 type LoadingProps = {
   navigation: any,
@@ -89,7 +90,11 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
       delay(TIMEOUT)
     ]).then(([authResult]) => authResult)
     let destDetails = await this.getParams()
-    // if (!isLoggedInCitizen) await this.loadZoomSDK()
+
+    if (!isLoggedInCitizen) {
+      // load Zoom SDK at start so it will be loaded when user gets to FR screen
+      await zoomSdkLoader.load()
+    }
     if (isLoggedIn) {
       let topWalletRes = isLoggedInCitizen ? API.verifyTopWallet() : Promise.resolve()
       if (destDetails) {

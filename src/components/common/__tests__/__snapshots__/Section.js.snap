@@ -19,7 +19,7 @@ exports[`Section matches snapshot 1`] = `
   }
 >
   <div
-    className="css-text-76zvg2"
+    className="css-text-901oao"
     dir="auto"
     style={
       Object {
@@ -52,7 +52,7 @@ exports[`Section matches snapshot 1`] = `
     }
   >
     <div
-      className="css-text-76zvg2"
+      className="css-text-901oao"
       dir="auto"
       style={
         Object {

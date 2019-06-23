@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
   },
   wrapper: {
     display: 'flex',
-    maxWidth: '500px',
+    maxWidth: '475px',
     flex: 1,
     justifyContent: 'space-between',
     alignItems: 'stretch',

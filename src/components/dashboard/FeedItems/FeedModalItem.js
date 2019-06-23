@@ -38,7 +38,7 @@ const FeedModalItem = (props: FeedEventProps) => (
           </Text>
         </View>
         <View style={styles.hrLine} />
-        {props.item.data.message && <Text style={styles.reason}>{props.item.data.message}</Text>}
+        {props.item.data.message ? <Text style={styles.reason}>{props.item.data.message}</Text> : null}
         <View style={styles.buttonsRow}>
           <CustomButton mode="contained" style={styles.rightButton} onPress={() => props.onPress(props.item.id)}>
             OK

@@ -96,8 +96,7 @@ const styles = StyleSheet.create({
     borderWidth: 0,
     fontSize: normalize(16),
     textAlign: 'left',
-    color: '#555555',
-    outline: 'none'
+    color: '#555555'
   },
   error: {
     paddingRight: 0,

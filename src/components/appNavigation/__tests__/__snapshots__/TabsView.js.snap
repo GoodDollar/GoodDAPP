@@ -98,7 +98,7 @@ exports[`TabsView matches snapshot 1`] = `
       />
     </div>
     <div
-      className="css-text-76zvg2"
+      className="css-text-901oao"
       dir="auto"
       style={
         Object {
@@ -189,7 +189,7 @@ exports[`TabsView matches snapshot 1`] = `
       />
     </div>
     <div
-      className="css-text-76zvg2"
+      className="css-text-901oao"
       dir="auto"
       style={
         Object {

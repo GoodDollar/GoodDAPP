@@ -2,7 +2,19 @@
 
 ### Table of Contents
 
--   [generateLinkAndSend][1]
+-   [SendLinkSummary][1]
+    -   [Parameters][2]
+-   [generateLinkAndSend][3]
+
+## SendLinkSummary
+
+Screen that shows transaction summary for a send link action
+
+### Parameters
+
+-   `props` **AmountProps** 
+    -   `props.screenProps` **any** 
+    -   `props.navigation` **any** 
 
 ## generateLinkAndSend
 
@@ -10,7 +22,11 @@ Generates link to send and call send email/sms action
 
 -   Throws **any** Error if link cannot be send
 
-[1]: #generatelinkandsend
+[1]: #sendlinksummary
+
+[2]: #parameters
+
+[3]: #generatelinkandsend
 ## Source
 [https://github.com/GoodDollar/GoodDAPP/src/components/dashboard/SendLinkSummary.js](https://github.com/GoodDollar/GoodDAPP/src/components/dashboard/SendLinkSummary.js)
 

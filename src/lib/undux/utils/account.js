@@ -7,49 +7,18 @@ import userStorage from '../../gundb/UserStorage'
 const log = logger.child({ from: 'undux/utils/balance' })
 
 const updateAll = (store: Store) => {
-  return Promise.all([updateBalance(store), updateEntitlement(store)]).then(() =>
-    store.set('account')({ ...store.get('account'), ready: true })
-  )
-}
+  return Promise.all([goodWallet.balanceOf(), goodWallet.checkEntitlement()])
+    .then(([balance, entitlement]) => {
+      const account = store.get('account')
+      if (account.balance === balance && account.entitlement === entitlement && account.ready === true) {
+        return
+      }
 
-/**
- * Retrieves account's balance and sets its value to the state
- * @returns {Promise<void>}
- */
-const updateBalance = async (store: Store): Promise<void> => {
-  try {
-    log.info('updating balance')
-
-    const account = store.get('account')
-    const balance = await goodWallet.balanceOf()
-
-    log.debug({ balance })
-
-    account.balance = balance
-    store.set('account')(account)
-  } catch (error) {
-    log.error('failed to gather balance value:', { error })
-  }
-}
-
-/**
- * Retrieves account's entitlement and sets its value to the state
- * @returns {Promise<void>}
- */
-const updateEntitlement = async (store: Store): Promise<void> => {
-  try {
-    log.info('updating entitlement')
-
-    const account = store.get('account')
-    const entitlement = await goodWallet.checkEntitlement().catch(e => 0)
-
-    log.debug({ entitlement })
-
-    account.entitlement = entitlement
-    store.set('account')(account)
-  } catch (error) {
-    log.error('failed to gather entitlement value:', { error })
-  }
+      store.set('account')({ balance, entitlement, ready: true })
+    })
+    .catch(error => {
+      log.error(error)
+    })
 }
 
 /**
@@ -88,4 +57,4 @@ const initTransferEvents = async (store: Store) => {
   }
 }
 
-export { initTransferEvents, updateBalance, updateEntitlement, updateAll }
+export { initTransferEvents, updateAll }

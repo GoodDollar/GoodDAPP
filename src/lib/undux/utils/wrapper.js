@@ -17,6 +17,7 @@ const wrapperFunction = (origMethod, target, handler) => {
 
 function Handler(store, params) {
   const { onDismiss } = params || {}
+
   // this.beforeFetching = () =>
   //   store.set('currentScreen')({
   //     loading: true
@@ -54,9 +55,8 @@ const wrapper = (target, store, params) => {
       const origMethod = target[name]
       if (!isFunction(target[name])) {
         return target[name]
-      } else {
-        return wrapperFunction(origMethod, target, handler)
       }
+      return wrapperFunction(origMethod, target, handler)
     }
   })
 }

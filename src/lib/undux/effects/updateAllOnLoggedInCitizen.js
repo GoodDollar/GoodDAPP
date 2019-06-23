@@ -9,6 +9,10 @@ import logger from '../../logger/pino-logger'
 
 const log = logger.child({ from: 'updateAllOnLoggedInCitizen' })
 
+/**
+ * Undux Effect: On isLoggedIn fires an updateAll
+ * @param {Store} store
+ */
 const updateAllOnLoggedInCitizen: Effects<State> = (store: Store) => {
   store.on('isLoggedIn').subscribe(isLoggedIn => {
     if (isLoggedIn) {

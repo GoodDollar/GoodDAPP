@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { StyleSheet } from 'react-native'
 import QrReader from 'react-qr-reader'
 
@@ -20,8 +20,10 @@ const ReceiveByQR = ({ screenProps }) => {
 
   const onDismissDialog = () => setQRDelay(QR_DEFAULT_DELAY)
 
-  const handleScan = async data => {
+  const handleScan = data => {
     if (data) {
+      setQRDelay(false)
+
       try {
         const url = readReceiveLink(data)
 

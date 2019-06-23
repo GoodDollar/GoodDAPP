@@ -4,9 +4,9 @@ import { StyleSheet } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { Avatar } from 'react-native-paper'
 import { Text, View } from 'react-native-web'
-import { CustomButton, BigGoodDollar } from '../../common'
-import type { FeedEventProps } from './EventProps'
+import { BigGoodDollar, CustomButton } from '../../common'
 import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
+import type { FeedEventProps } from './EventProps'
 
 /**
  * Render modal send item for feed list in horizontal view

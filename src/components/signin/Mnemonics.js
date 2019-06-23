@@ -3,28 +3,25 @@ import React, { useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Paragraph } from 'react-native-paper'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
-import { useWrappedGoodWallet } from '../../lib/wallet/useWrappedWallet'
-import { WalletType } from '../../lib/wallet/GoodWallet'
-import walletFactory from '../../lib/wallet/WalletFactory'
 import bip39 from 'bip39-light'
-import { saveMnemonics, getMnemonics } from '../../lib/wallet/SoftwareWalletProvider'
+import { getMnemonics, saveMnemonics } from '../../lib/wallet/SoftwareWalletProvider'
 import GDStore from '../../lib/undux/GDStore'
 import logger from '../../lib/logger/pino-logger'
-import MnemonicInput from './MnemonicInput'
 import { CustomButton } from '../common'
+import MnemonicInput from './MnemonicInput'
 
-const log = logger.child({ from: 'Mnemonics' })
+//const TITLE = 'Recover my wallet'
+const TITLE = 'Recover'
+const log = logger.child({ from: TITLE })
 
-const Mnemonics = props => {
+const Mnemonics = () => {
   const [mnemonics, setMnemonics] = useState()
-  const goodWallet = useWrappedGoodWallet()
   const store = GDStore.useStore()
   const handleChange = (mnemonics: []) => {
     log.info({ mnemonics })
     setMnemonics(mnemonics.join(' '))
   }
   const recover = async () => {
-    log.info('Mnemonics', mnemonics)
     if (!mnemonics || !bip39.validateMnemonic(mnemonics)) {
       store.set('currentScreen')({
         dialogData: {
@@ -55,7 +52,6 @@ const Mnemonics = props => {
         <View style={styles.textContainer}>
           <Paragraph style={[styles.fontBase, styles.paragraph]}>Please enter your 12-word passphrase:</Paragraph>
         </View>
-
         <View style={styles.formContainer}>
           <MnemonicInput onChange={handleChange} />
         </View>
@@ -67,6 +63,10 @@ const Mnemonics = props => {
       </View>
     </View>
   )
+}
+
+Mnemonics.navigationOptions = {
+  title: TITLE
 }
 
 const styles = StyleSheet.create({

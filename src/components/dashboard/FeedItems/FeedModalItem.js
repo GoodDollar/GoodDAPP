@@ -1,11 +1,11 @@
 // @flow
 import React from 'react'
-import { StyleSheet, View, Text } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
+import { Avatar, BigGoodDollar, CustomButton } from '../../common'
+import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
 import type { FeedEventProps } from './EventProps'
 import EventCounterParty from './EventCounterParty'
-import { CustomButton, BigGoodDollar, Avatar } from '../../common'
-import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
 
 /**
  * Render modal item according to the type for feed list in horizontal view
@@ -20,7 +20,7 @@ const FeedModalItem = (props: FeedEventProps) => (
         <View style={[styles.row, styles.title]}>
           {props.item.data.endpoint.title && <Text style={styles.leftTitle}>{props.item.data.endpoint.title}</Text>}
           <Text style={styles.leftTitle}>
-            {props.item.type !== 'send' ? 'Received G$' : 'Sent G$'}
+            {props.item.type === 'send' ? 'Sent G$' : 'Received G$'}
             {props.item.type === 'send' && props.item.data.endpoint.withdrawStatus && (
               <Text> by link - {props.item.data.endpoint.withdrawStatus}</Text>
             )}
@@ -38,7 +38,7 @@ const FeedModalItem = (props: FeedEventProps) => (
           </Text>
         </View>
         <View style={styles.hrLine} />
-        {props.item.data.message && <Text style={styles.reason}>{props.item.data.message}</Text>}
+        {props.item.data.message ? <Text style={styles.reason}>{props.item.data.message}</Text> : null}
         <View style={styles.buttonsRow}>
           <CustomButton mode="contained" style={styles.rightButton} onPress={() => props.onPress(props.item.id)}>
             OK

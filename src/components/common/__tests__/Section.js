@@ -1,8 +1,8 @@
 import React from 'react'
+import renderer from 'react-test-renderer'
 import Section from '../Section'
 
 // Note: test renderer must be required after react-native.
-import renderer from 'react-test-renderer'
 
 describe('Section', () => {
   it('renders without errors', () => {

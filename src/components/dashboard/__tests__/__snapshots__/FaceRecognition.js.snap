@@ -127,7 +127,7 @@ exports[`FaceRecognition matches snapshot 1`] = `
           }
         >
           <div
-            className="css-text-76zvg2"
+            className="css-text-901oao"
             dir="auto"
             style={
               Object {
@@ -142,7 +142,7 @@ exports[`FaceRecognition matches snapshot 1`] = `
             undefined, Just one more thing before we can get started...
           </div>
           <div
-            className="css-text-76zvg2"
+            className="css-text-901oao"
             dir="auto"
             style={
               Object {
@@ -180,7 +180,7 @@ exports[`FaceRecognition matches snapshot 1`] = `
           }
         >
           <div
-            className="css-text-76zvg2"
+            className="css-text-901oao"
             dir="auto"
             style={
               Object {
@@ -195,7 +195,7 @@ exports[`FaceRecognition matches snapshot 1`] = `
           >
             By clicking the 'Create a wallet' button, you are accepting our 
             <span
-              className="css-text-76zvg2 css-textHasAncestor-16my406"
+              className="css-text-901oao css-textHasAncestor-16my406"
               data-focusable={true}
               dir="auto"
               onClick={[Function]}
@@ -218,7 +218,7 @@ exports[`FaceRecognition matches snapshot 1`] = `
             </span>
              and 
             <span
-              className="css-text-76zvg2 css-textHasAncestor-16my406"
+              className="css-text-901oao css-textHasAncestor-16my406"
               data-focusable={true}
               dir="auto"
               onClick={[Function]}
@@ -314,7 +314,78 @@ exports[`FaceRecognition matches snapshot 1`] = `
                 }
               >
                 <div
-                  className="css-text-76zvg2 css-textOneLine-bfa6kz"
+                  aria-valuemax="1"
+                  aria-valuemin="0"
+                  className="css-view-1dbjc4n"
+                  role="progressbar"
+                  style={
+                    Object {
+                      "WebkitAlignItems": "center",
+                      "WebkitBoxAlign": "center",
+                      "WebkitBoxPack": "center",
+                      "WebkitJustifyContent": "center",
+                      "alignItems": "center",
+                      "justifyContent": "center",
+                      "marginLeft": "12px",
+                      "marginRight": "-4px",
+                      "msFlexAlign": "center",
+                      "msFlexPack": "center",
+                      "width": "16px",
+                    }
+                  }
+                >
+                  <div
+                    className="css-view-1dbjc4n r-animationKeyframes-127358a"
+                    style={
+                      Object {
+                        "WebkitAnimationDuration": "0.75s",
+                        "WebkitAnimationIterationCount": "infinite",
+                        "WebkitAnimationTimingFunction": "linear",
+                        "animationDuration": "0.75s",
+                        "animationIterationCount": "infinite",
+                        "animationTimingFunction": "linear",
+                        "height": "20px",
+                        "width": "20px",
+                      }
+                    }
+                  >
+                    <svg
+                      height="100%"
+                      viewBox="0 0 32 32"
+                      width="100%"
+                    >
+                      <circle
+                        cx="16"
+                        cy="16"
+                        fill="none"
+                        r="14"
+                        strokeWidth="4"
+                        style={
+                          Object {
+                            "opacity": 0.2,
+                            "stroke": "rgba(0, 0, 0, 0.32)",
+                          }
+                        }
+                      />
+                      <circle
+                        cx="16"
+                        cy="16"
+                        fill="none"
+                        r="14"
+                        strokeWidth="4"
+                        style={
+                          Object {
+                            "stroke": "rgba(0, 0, 0, 0.32)",
+                            "strokeDasharray": 80,
+                            "strokeDashoffset": 60,
+                          }
+                        }
+                      />
+                    </svg>
+                  </div>
+                </div>
+                <div
+                  className="css-text-901oao css-textOneLine-bfa6kz"
                   dir="auto"
                   style={
                     Object {
@@ -331,7 +402,7 @@ exports[`FaceRecognition matches snapshot 1`] = `
                   }
                 >
                   <span
-                    className="css-text-76zvg2 css-textHasAncestor-16my406"
+                    className="css-text-901oao css-textHasAncestor-16my406"
                     dir="auto"
                     style={
                       Object {

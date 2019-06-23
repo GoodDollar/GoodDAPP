@@ -9,11 +9,19 @@ import homeIcon from '../../assets/homeIcon.png'
 import GDStore from '../../lib/undux/GDStore'
 import Dashboard from '../dashboard/Dashboard'
 import Profile from '../profile/Profile'
+import { navigationOptions } from './navigationConfig'
 
+/**
+ * @type
+ */
 type AppNavigationProps = {
   navigation: any,
   store: Store
 }
+
+/**
+ * @type
+ */
 
 type AppNavigationState = {
   ready: boolean
@@ -37,10 +45,12 @@ const AppNavigator = createSwitchNavigator(routes, { initialRouteName })
 /**
  * Switch navigation between all screens on the tabs. Each of this screen should be a StackNavigation
  * Dashboard is the initial route
+ * @param {AppNavigationProps} props
  */
 class AppNavigation extends React.Component<AppNavigationProps, AppNavigationState> {
   render() {
     const account = this.props.store.get('account')
+
     // `account.ready` will be set to `true` after retrieving the required user information in `updateAll`,
     // if not ready will display a blank screen (`null`)
     return account.ready ? <AppNavigator navigation={this.props.navigation} screenProps={{ routes }} /> : null
@@ -49,5 +59,6 @@ class AppNavigation extends React.Component<AppNavigationProps, AppNavigationSta
 
 const appNavigation = GDStore.withStore(AppNavigation)
 appNavigation.router = AppNavigator.router
+appNavigation.navigationOptions = navigationOptions
 
 export default appNavigation

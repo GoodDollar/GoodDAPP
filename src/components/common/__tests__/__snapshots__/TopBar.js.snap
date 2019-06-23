@@ -137,7 +137,7 @@ exports[`TopBar matches snapshot with balance 1`] = `
       }
     >
       <div
-        className="css-text-76zvg2"
+        className="css-text-901oao"
         dir="auto"
         style={
           Object {
@@ -149,10 +149,10 @@ exports[`TopBar matches snapshot with balance 1`] = `
           }
         }
       >
-        0.00
+        -.--
       </div>
       <div
-        className="css-text-76zvg2"
+        className="css-text-901oao"
         dir="auto"
         style={
           Object {
@@ -435,7 +435,7 @@ exports[`TopBar should render the children component 1`] = `
       className="css-view-1dbjc4n"
     >
       <div
-        className="css-text-76zvg2"
+        className="css-text-901oao"
         dir="auto"
         style={
           Object {

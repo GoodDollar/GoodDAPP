@@ -1,10 +1,14 @@
 // @flow
 
-import React, { useState, useRef, useEffect } from 'react'
-import { View, StyleSheet, TextInput, Text } from 'react-native'
-import logger from '../../lib/logger/pino-logger'
+import React, { createRef, useEffect, useState } from 'react'
+import { StyleSheet, Text, TextInput, View } from 'react-native'
 import { normalize } from 'react-native-elements'
 import values from 'lodash/values'
+import logger from '../../lib/logger/pino-logger'
+import { getScreenHeight } from '../../lib/utils/Orientation'
+
+const height = getScreenHeight()
+
 const log = logger.child({ from: 'MnemonicInput' })
 const MAX_WORDS = 12
 
@@ -20,8 +24,9 @@ const isValidWord = word => {
 const MnemonicInput = (props: Props) => {
   const [state, setState] = useState({})
   const refs = {}
+
   for (let i = 0; i < MAX_WORDS; i++) {
-    refs[i] = useRef(null)
+    refs[i] = createRef()
   }
 
   useEffect(() => {
@@ -111,7 +116,7 @@ const styles = StyleSheet.create({
   inputContainer: {
     width: '45%',
     marginTop: normalize(10),
-    height: normalize(40),
+    height: normalize(height >= 640 ? 40 : 35),
     flexDirection: 'row'
   },
   input: {
@@ -120,7 +125,7 @@ const styles = StyleSheet.create({
     borderWidth: StyleSheet.hairlineWidth,
     borderTopRightRadius: normalize(5),
     borderBottomRightRadius: normalize(5),
-    height: normalize(40),
+    height: normalize(height >= 640 ? 40 : 35),
     justifyContent: 'center',
     paddingLeft: normalize(16),
     flex: 1,

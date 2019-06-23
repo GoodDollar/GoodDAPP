@@ -2,39 +2,57 @@
 import React, { useState } from 'react'
 import { Text, View } from 'react-native'
 
-import { Section, Wrapper, TopBar, InputGoodDollar } from '../common'
+import { InputGoodDollar, Section, TopBar, Wrapper } from '../common'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
-import { receiveStyles as styles } from './styles'
 import goodWallet from '../../lib/wallet/GoodWallet'
-import logger from '../../lib/logger/pino-logger'
 import { useDialog } from '../../lib/undux/utils/dialog'
+import { receiveStyles as styles } from './styles'
+
 export type AmountProps = {
   screenProps: any,
   navigation: any
 }
 
 const RECEIVE_TITLE = 'Receive G$'
-const log = logger.child({ from: RECEIVE_TITLE })
 
 const Amount = (props: AmountProps) => {
   const { screenProps } = props
   const [screenState, setScreenState] = useScreenState(screenProps)
   const { to, params, amount } = { amount: 0, ...screenState } || {}
+  const [loading, setLoading] = useState(amount <= 0)
   const [showDialogWithData] = useDialog()
 
   const canContinue = async () => {
-    if (params && params.toReceive) return true
+    if (params && params.toReceive) {
+      return true
+    }
 
     if (!(await goodWallet.canSend(amount))) {
       showDialogWithData({
         title: 'Cannot send G$',
         message: 'Amount is bigger than balance'
       })
+
       return false
     }
+
     return true
   }
-  const handleAmountChange = (value: number) => setScreenState({ amount: value })
+
+  const handleContinue = async () => {
+    setLoading(true)
+
+    const can = await canContinue()
+    setLoading(false)
+
+    return can
+  }
+
+  const handleAmountChange = (value: number) => {
+    setScreenState({ amount: value })
+    setLoading(value <= 0)
+  }
+
   return (
     <Wrapper style={styles.wrapper}>
       <TopBar push={screenProps.push} />
@@ -54,9 +72,9 @@ const Amount = (props: AmountProps) => {
             </BackButton>
             <NextButton
               nextRoutes={screenState.nextRoutes}
-              canContinue={canContinue}
+              canContinue={handleContinue}
               values={{ amount, to }}
-              disabled={amount <= 0}
+              disabled={loading}
               {...props}
             />
           </View>

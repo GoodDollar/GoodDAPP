@@ -63,6 +63,9 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
 
   componentWillMount = () => {
     this.loadedZoom = ZoomSDK
+    if (this.loadedZoom) {
+      this.zoomReady = true
+    }
   }
 
   componentDidMount = () => {

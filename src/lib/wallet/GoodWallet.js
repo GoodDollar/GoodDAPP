@@ -5,7 +5,7 @@ import IdentityABI from '@gooddollar/goodcontracts/build/contracts/Identity.min.
 import OneTimePaymentLinksABI from '@gooddollar/goodcontracts/build/contracts/OneTimePaymentLinks.min.json'
 import RedemptionABI from '@gooddollar/goodcontracts/build/contracts/RedemptionFunctional.min.json'
 import ContractsAddress from '@gooddollar/goodcontracts/releases/deployment.json'
-import { default as filterFunc } from 'lodash/filter'
+import ERC20ABI from '@gooddollar/goodcontracts/build/contracts/ERC20.min.json'
 import type Web3 from 'web3'
 import { BN, toBN } from 'web3-utils'
 import numeral from 'numeral'
@@ -22,6 +22,8 @@ const log = logger.child({ from: 'GoodWallet' })
 
 const DAY_IN_SECONDS = 86400
 const MILLISECONDS = 1000
+const BLOCK_TIME = 5000
+const BLOCK_COUNT = 1
 const ZERO = new BN('0')
 
 type EventLog = {
@@ -80,20 +82,6 @@ type GasValues = {
   gasPrice?: number
 }
 
-/**
- * the HDWallet account to use.
- * we use different accounts for different actions in order to preserve privacy and simplify things for user
- * in background
- */
-
-type QueryEvent = {
-  event: string,
-  contract: Web3.eth.Contract,
-  filterPred: {},
-  fromBlock: typeof BN,
-  toBlock?: typeof BN | 'latest'
-}
-
 const defaultPromiEvents: PromiEvents = {
   onTransactionHash: () => {},
   onReceipt: () => {},
@@ -131,6 +119,8 @@ export class GoodWallet {
 
   oneTimePaymentLinksContract: Web3.eth.Contract
 
+  erc20Contract: Web3.eth.Contract
+
   account: string
 
   accounts: Array<string>
@@ -143,63 +133,180 @@ export class GoodWallet {
 
   subscribers: any = {}
 
+  blockNumber: typeof BN
+
   constructor(walletConfig: {} = {}) {
     this.config = walletConfig
     this.init()
   }
 
+  init(): Promise<any> {
+    const ready = WalletFactory.create(GoodWallet.WalletType, this.config)
+    this.ready = ready
+      .then(wallet => {
+        this.wallet = wallet
+        this.accounts = this.wallet.eth.accounts.wallet
+        this.account = this.getAccountForType('gd')
+        this.wallet.eth.defaultAccount = this.account
+        this.networkId = ContractsAddress[Config.network].networkId
+        this.network = Config.network
+        log.info(`networkId: ${this.networkId}`)
+        this.gasPrice = wallet.utils.toWei('1', 'gwei')
+        this.wallet.eth.defaultGasPrice = this.gasPrice
+
+        // Identity Contract
+        this.identityContract = new this.wallet.eth.Contract(
+          IdentityABI.abi,
+          get(ContractsAddress, `${this.network}.Identity`, IdentityABI.networks[this.networkId].address),
+          { from: this.account }
+        )
+        this.claimContract = new this.wallet.eth.Contract(
+          RedemptionABI.abi,
+          get(ContractsAddress, `${this.network}.RedemptionFunctional`, RedemptionABI.networks[this.networkId].address),
+
+          { from: this.account }
+        )
+
+        // Token Contract
+        this.tokenContract = new this.wallet.eth.Contract(
+          GoodDollarABI.abi,
+          get(ContractsAddress, `${this.network}.GoodDollar`, GoodDollarABI.networks[this.networkId].address),
+          { from: this.account }
+        )
+        abiDecoder.addABI(GoodDollarABI.abi)
+
+        // ERC20 Contract
+        this.erc20Contract = new this.wallet.eth.Contract(
+          ERC20ABI.abi,
+          get(ContractsAddress, `${this.network}.GoodDollar`, GoodDollarABI.networks[this.networkId].address),
+          { from: this.account }
+        )
+        abiDecoder.addABI(ERC20ABI.abi)
+
+        // Reserve Contract
+        this.reserveContract = new this.wallet.eth.Contract(
+          ReserveABI.abi,
+          get(ContractsAddress, `${this.network}.GoodDollarReserve`, ReserveABI.networks[this.networkId].address),
+          {
+            from: this.account
+          }
+        )
+
+        // OneTimePaymentLinks Contract
+        this.oneTimePaymentLinksContract = new this.wallet.eth.Contract(
+          OneTimePaymentLinksABI.abi,
+          get(
+            ContractsAddress,
+            `${this.network}.OneTimePaymentLinks`,
+            OneTimePaymentLinksABI.networks[this.networkId].address
+          ),
+          {
+            from: this.account
+          }
+        )
+        abiDecoder.addABI(OneTimePaymentLinksABI.abi)
+        log.info('GoodWallet Ready.', { account: this.account })
+      })
+      .catch(e => {
+        log.error('Failed initializing GoodWallet', e)
+        throw e
+      })
+    return this.ready
+  }
+
   /**
    * Subscribes to Transfer events (from and to) the current account
    * This is used to verify account balance changes
-   * @param fromBlock - defaultValue: '0'
+   * @param {string} fromBlock - defaultValue: '0'
+   * @param {function} blockIntervalCallback
    * @returns {Promise<R>|Promise<R|*>|Promise<*>}
    */
-  listenTxUpdates(fromBlock: string = '0') {
-    log.debug('listening from block:', fromBlock)
+  async listenTxUpdates(fromBlock: string = '0', blockIntervalCallback: Function) {
+    log.trace('listenTxUpdates listening from block:', fromBlock)
     fromBlock = new BN(fromBlock)
+    const toBlock = await this.getBlockNumber().catch(e => {
+      log.error('listenTxUpdates: failed getting current block number', { e })
+      return ZERO
+    })
+    if (toBlock.gt(fromBlock)) {
+      const event = 'Transfer'
+      const contract = this.erc20Contract
 
-    this.pollForEvents(
-      {
-        event: 'Transfer',
-        contract: this.tokenContract,
+      //Get transfers from this account
+      const fromEventsFilter = {
         fromBlock,
-        filterPred: { from: this.wallet.utils.toChecksumAddress(this.account) }
-      },
-      (error, events) => {
-        log.debug('send events', { error, events })
-        const uniqEvents = uniqBy(events, 'transactionHash')
-        uniqEvents.forEach(event => {
-          this.getReceiptWithLogs(event.transactionHash)
-            .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptUpdated']))
-            .catch(err => log.error('send event get/send receipt failed:', err))
+        toBlock,
+        filter: { from: this.wallet.utils.toChecksumAddress(this.account) }
+      }
+      const fromEventsPromise = contract
+        .getPastEvents(event, fromEventsFilter)
+        .catch(e => {
+          log.error('listenTxUpdates fromEventsPromise failed:', { e, fromEventsFilter })
+          return { error: e }
+        })
+        .then(res => {
+          log.debug("listenTxUpdates got 'from' events", { res })
+          let events = res.error ? [] : res
+          let error = undefined || res.error
+          const uniqEvents = uniqBy(events, 'transactionHash')
+          uniqEvents.forEach(event => {
+            this.getReceiptWithLogs(event.transactionHash)
+              .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptUpdated']))
+              .catch(err => log.error('send event get/send receipt failed:', err))
+          })
+
+          // Send for all events. We could define here different events
+          this.getSubscribers('send').forEach(cb => cb(error, events))
+          this.getSubscribers('balanceChanged').forEach(cb => cb(error, events))
+        })
+        .catch(e => {
+          log.error('listenTxUpdates fromEventsPromise unexpected error:', { e })
         })
 
-        // Send for all events. We could define here different events
-        this.getSubscribers('send').forEach(cb => cb(error, events))
-        this.getSubscribers('balanceChanged').forEach(cb => cb(error, events))
-      }
-    )
-
-    this.pollForEvents(
-      {
-        event: 'Transfer',
-        contract: this.tokenContract,
+      //Get transfers to this account
+      const toEventsFilter = {
         fromBlock,
-        filterPred: { to: this.wallet.utils.toChecksumAddress(this.account) }
-      },
-      (error, events) => {
-        log.debug('receive events', { error, events })
-        const uniqEvents = uniqBy(events, 'transactionHash')
-        uniqEvents.forEach(event => {
-          this.getReceiptWithLogs(event.transactionHash)
-            .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptReceived']))
-            .catch(err => log.error('receive event get/send receipt failed:', err))
+        toBlock,
+        filter: { to: this.wallet.utils.toChecksumAddress(this.account) }
+      }
+      const toEventsPromise = contract
+        .getPastEvents(event, toEventsFilter)
+        .catch(e => {
+          log.error('listenTxUpdates toEventsPromise failed:', { e, toEventsFilter })
+          return { error: e }
+        })
+        .then(res => {
+          log.debug("listenTxUpdates got 'to' events", { res })
+          let events = res.error ? [] : res
+          let error = undefined || res.error
+          const uniqEvents = uniqBy(events, 'transactionHash')
+          uniqEvents.forEach(event => {
+            this.getReceiptWithLogs(event.transactionHash)
+              .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptReceived']))
+              .catch(err => log.error('receive event get/send receipt failed:', err))
+          })
+
+          // Send for all events. We could define here different events
+          this.getSubscribers('receive').forEach(cb => cb(error, events))
+          this.getSubscribers('balanceChanged').forEach(cb => cb(error, events))
+        })
+        .catch(e => {
+          log.error('listenTxUpdates toEventsPromise unexpected error:', { e })
         })
 
-        this.getSubscribers('receive').forEach(cb => cb(error, events))
-        this.getSubscribers('balanceChanged').forEach(cb => cb(error, events))
-      }
-    )
+      //wait for events processing to end
+      await Promise.all([fromEventsPromise, toEventsPromise])
+    }
+
+    const INTERVAL = BLOCK_COUNT * BLOCK_TIME
+    log.trace('listenTxUpdates setting timeout. processed:', {
+      fromBlock: fromBlock && fromBlock.toString(),
+      toBlock: toBlock && toBlock.toString()
+    })
+    blockIntervalCallback && blockIntervalCallback({ fromBlock: fromBlock.toNumber(), toBlock: toBlock.toNumber() })
+    setTimeout(() => {
+      this.listenTxUpdates(toBlock, blockIntervalCallback)
+    }, INTERVAL)
   }
 
   /**
@@ -221,64 +328,6 @@ export class GoodWallet {
       this.getSubscribers(subscription).forEach(cb => cb(receipt))
     })
     return receipt
-  }
-
-  init(): Promise<any> {
-    const ready = WalletFactory.create(GoodWallet.WalletType, this.config)
-    this.ready = ready
-      .then(wallet => {
-        this.wallet = wallet
-        this.accounts = this.wallet.eth.accounts.wallet
-        this.account = this.getAccountForType('gd')
-        this.wallet.eth.defaultAccount = this.account
-        this.networkId = ContractsAddress[Config.network].networkId
-        this.network = Config.network
-        log.info(`networkId: ${this.networkId}`)
-        this.gasPrice = wallet.utils.toWei('1', 'gwei')
-        this.wallet.eth.defaultGasPrice = this.gasPrice
-        this.identityContract = new this.wallet.eth.Contract(
-          IdentityABI.abi,
-          get(ContractsAddress, `${this.network}.Identity`, IdentityABI.networks[this.networkId].address),
-          { from: this.account }
-        )
-        this.claimContract = new this.wallet.eth.Contract(
-          RedemptionABI.abi,
-          get(ContractsAddress, `${this.network}.RedemptionFunctional`, RedemptionABI.networks[this.networkId].address),
-
-          { from: this.account }
-        )
-        this.tokenContract = new this.wallet.eth.Contract(
-          GoodDollarABI.abi,
-          get(ContractsAddress, `${this.network}.GoodDollar`, GoodDollarABI.networks[this.networkId].address),
-          { from: this.account }
-        )
-        abiDecoder.addABI(GoodDollarABI.abi)
-        this.reserveContract = new this.wallet.eth.Contract(
-          ReserveABI.abi,
-          get(ContractsAddress, `${this.network}.GoodDollarReserve`, ReserveABI.networks[this.networkId].address),
-          {
-            from: this.account
-          }
-        )
-        this.oneTimePaymentLinksContract = new this.wallet.eth.Contract(
-          OneTimePaymentLinksABI.abi,
-          get(
-            ContractsAddress,
-            `${this.network}.OneTimePaymentLinks`,
-            OneTimePaymentLinksABI.networks[this.networkId].address
-          ),
-          {
-            from: this.account
-          }
-        )
-        abiDecoder.addABI(OneTimePaymentLinksABI.abi)
-        log.info('GoodWallet Ready.', { account: this.account })
-      })
-      .catch(e => {
-        log.error('Failed initializing GoodWallet', e)
-        throw e
-      })
-    return this.ready
   }
 
   /**
@@ -371,107 +420,6 @@ export class GoodWallet {
    */
   getBlockNumber(): Promise<BN> {
     return this.wallet.eth.getBlockNumber().then(toBN)
-  }
-
-  /**
-   * Client side event filter. Requests all events matching to the specified event, of a specified contract, then filters them and returns the event Object
-   * @param {object} params - an object with params
-   * @param {string} params.event - Event to subscribe to
-   * @param {object} params.contract - Contract from which event will be queried
-   * @param {object} params.filterPred - Event's filter. Does not require to be indexed as it's filtered locally
-   * @param {BN} params.fromBlock - Lower blocks range value
-   * @param {BN} params.toBlock - Higher blocks range value
-   * @returns {Promise<*>}
-   */
-  async getEvents({ event, contract, filterPred, fromBlock = ZERO, toBlock }: QueryEvent): Promise<[]> {
-    const events = await contract.getPastEvents('allEvents', { fromBlock, toBlock })
-    const res1 = filterFunc(events, { event })
-    const res = filterFunc(res1, { returnValues: { ...filterPred } })
-    log.trace({ res, events, res1, fromBlock: fromBlock.toString(), toBlock: toBlock && toBlock.toString() })
-
-    return res
-  }
-
-  /**
-   * Subscribes to a particular event and returns the result based on options specified
-   * @param {object} params - an object with params
-   * @param {string} params.event - Event to subscribe to
-   * @param {object} params.contract - Contract from which event will be queried
-   * @param {object} params.filterPred - Event's filter. Does not required to be indexed as it's filtered locally
-   * @param {BN} params.fromBlock - Lower blocks range value
-   * @param {BN} params.toBlock - Higher blocks range value
-   * @param {function} callback - Function to be called once an event is received
-   * @returns {Promise<void>}
-   */
-  async oneTimeEvents({ event, contract, filterPred, fromBlock, toBlock }: QueryEvent, callback?: Function) {
-    try {
-      const events = await this.getEvents({ event, contract, filterPred, fromBlock, toBlock })
-      log.debug({ events: events.length, ...filterPred, fromBlock: fromBlock.toString(), toBlock: toBlock.toString() })
-
-      if (events.length) {
-        if (callback === undefined) {
-          return Promise.resolve(events)
-        }
-        callback(null, events)
-      }
-    } catch (e) {
-      log.error('oneTimeEvents failed:', { e })
-
-      if (callback === undefined) {
-        return Promise.reject(e)
-      }
-      callback(e, [])
-    }
-  }
-
-  /**
-   * Polls for events every INTERVAL defined by BLOCK_TIME and BLOCK_COUNT, the result is based on specified options
-   * It queries the range 'fromBlock'-'toBlock' and then continues querying the blockchain for most recent events, from
-   * the 'lastProcessedBlock' to the 'latest' every INTERVAL
-   * @param {string} params - an object with params
-   * @param {string} params.event - Event to subscribe to
-   * @param {object} params.contract - Contract from which event will be queried
-   * @param {object} params.filterPred - Event's filter. Does not required to be indexed as it's filtered locally
-   * @param {BN} params.fromBlock - Lower blocks range value
-   * @param {BN} params.toBlock - Higher blocks range value
-   * @param {function} callback - Function to be called once an event is received
-   * @returns {Promise<void>}
-   */
-  async pollForEvents({ event, contract, filterPred, fromBlock, toBlock }: QueryEvent, callback: Function) {
-    const BLOCK_TIME = 5000
-    const BLOCK_COUNT = 1
-    const INTERVAL = BLOCK_COUNT * BLOCK_TIME
-
-    const lastBlock = toBlock === undefined ? await this.getBlockNumber() : toBlock
-    fromBlock = fromBlock === undefined ? ZERO : fromBlock
-
-    log.trace('fromBlock', fromBlock && fromBlock.toString())
-    log.trace('lastBlock', lastBlock.toString())
-    log.trace('toBlock', toBlock && toBlock.toString())
-
-    if (toBlock && toBlock.lt(lastBlock)) {
-      log.trace('toBlock reached', { toBlock: toBlock.toString(), lastBlock: lastBlock.toString() })
-      return
-    }
-
-    if (fromBlock && fromBlock.eq(lastBlock)) {
-      log.trace('all blocks processed', { fromBlock: fromBlock.toString(), lastBlock: lastBlock.toString() })
-    } else {
-      await this.oneTimeEvents({ event, contract, filterPred, fromBlock, toBlock: lastBlock }, callback)
-    }
-
-    log.trace('about to recurse', {
-      event,
-      contract,
-      filterPred,
-      fromBlock: fromBlock && fromBlock.toString(),
-      toBlock: toBlock && toBlock.toString(),
-      lastBlock: lastBlock.toString()
-    })
-
-    setTimeout(() => {
-      this.pollForEvents({ event, contract, filterPred, fromBlock: lastBlock, toBlock }, callback)
-    }, INTERVAL)
   }
 
   balanceOf(): Promise<number> {

@@ -1,7 +1,6 @@
 // @flow
 import { createConnectedStore, type StoreDefinition, withReduxDevtools } from 'undux'
 import compose from 'lodash/fp/compose'
-
 import effects from '../../lib/undux/effects'
 import withPinoLogger from './plugins/logger'
 

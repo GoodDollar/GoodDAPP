@@ -475,7 +475,12 @@ export class GoodWallet {
    * @param {PromiEvents} events - used to subscribe to onTransactionHash event
    * @returns {{generatedString, hashedString, sendLink, receipt}}
    */
-  async generateLink(amount: number, reason: string = '', events: PromiEvents) {
+  async generateLink(
+    amount: number,
+    reason: string = '',
+    getOnTxHash: (extraData: { link: string, hash: string }) => () => any,
+    events: PromiEvents
+  ) {
     if (!(await this.canSend(amount))) {
       throw new Error(`Amount is bigger than balance`)
     }
@@ -504,14 +509,16 @@ export class GoodWallet {
       reason
     })
 
-    const onTransactionHash = events.onTransactionHash({ sendLink, generatedString })
-    const receipt = await this.sendTransaction(transferAndCall, { onTransactionHash }, { gas })
+    //pass extra data
+    const onTransactionHash = getOnTxHash({ sendLink, generatedString })
+
+    //dont wait for transaction return immediatly with hash code and link (not using await here)
+    this.sendTransaction(transferAndCall, { onTransactionHash }, { gas })
 
     return {
       generatedString,
       hashedString,
-      sendLink,
-      receipt
+      sendLink
     }
   }
 

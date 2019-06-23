@@ -142,12 +142,13 @@ const Dashboard = props => {
   const handleWithdraw = async () => {
     const { receiveLink, reason } = props.navigation.state.params
     try {
-      showDialog({ title: 'Processing withrawal...', loading: true, dismissText: 'hold' })
-      const receipt = await executeWithdraw(store, receiveLink, reason)
+      showDialog({ title: 'Processing Payment Link...', loading: true, dismissText: 'hold' })
+      await executeWithdraw(store, receiveLink, reason)
       hideDialog()
-      if (receipt.transactionHash) {
-        await showNewFeedEvent(receipt.transactionHash)
-      }
+
+      // if (receipt.transactionHash) {
+      //   await showNewFeedEvent(receipt.transactionHash)
+      // }
     } catch (e) {
       showDialog({ title: 'Error', message: e.message })
     }

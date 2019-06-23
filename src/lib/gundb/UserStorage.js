@@ -822,7 +822,8 @@ export class UserStorage {
         : undefined)
 
     if (generatedString) {
-      withdrawStatus = await this.wallet.getWithdrawStatus(generatedString)
+      //check real status only if tx has been confirmed (ie we have a receipt)
+      withdrawStatus = receipt ? await this.wallet.getWithdrawStatus(generatedString) : 'pending'
     }
 
     return {

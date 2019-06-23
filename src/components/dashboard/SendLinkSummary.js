@@ -45,23 +45,21 @@ const SendLinkSummary = (props: AmountProps) => {
   const generateLinkAndSend = async () => {
     try {
       // Generate link deposit
-      const generateLinkResponse = await goodWallet.generateLink(amount, reason, {
-        onTransactionHash: extraData => hash => {
-          // Save transaction
-          const transactionEvent: TransactionEvent = {
-            id: hash,
-            date: new Date().toString(),
-            type: 'send',
-            data: {
-              to,
-              reason,
-              amount,
-              ...extraData
-            }
+      const generateLinkResponse = goodWallet.generateLink(amount, reason, extraData => hash => {
+        // Save transaction
+        const transactionEvent: TransactionEvent = {
+          id: hash,
+          date: new Date().toString(),
+          type: 'send',
+          data: {
+            to,
+            reason,
+            amount,
+            ...extraData
           }
-          log.debug('generateLinkAndSend: enqueueTX', { transactionEvent })
-          userStorage.enqueueTX(transactionEvent)
         }
+        log.debug('generateLinkAndSend: enqueueTX', { transactionEvent })
+        userStorage.enqueueTX(transactionEvent)
       })
       if (generateLinkResponse) {
         try {

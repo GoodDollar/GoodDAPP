@@ -302,7 +302,7 @@ export class UserStorage {
     const release = await this.feedMutex.lock()
     try {
       const data = getReceiveDataFromReceipt(receipt)
-      logger.debug('handleReceiptUpdated', { data })
+      logger.debug('handleReceiptUpdated', { data, receipt })
 
       //get initial TX data from queue, if not in queue then it must be a receive TX ie
       //not initiated by user
@@ -773,12 +773,15 @@ export class UserStorage {
   async formatEvent(event: FeedEvent): Promise<StandardFeed> {
     logger.debug('formatEvent', { event })
     const { data, type, date, id, status, createdDate } = event
-    const { receiptData, receipt, from, to, sender, amount, reason, value, generatedString } = data
+    const { receiptData, receipt, from, to, sender, amount, reason, generatedString } = data
     let avatar, fullName, address, withdrawStatus, initiator
     if (type === 'send') {
       address = this.wallet.wallet.utils.isAddress(to) ? to : (receiptData && receiptData.to) || (receipt && receipt.to)
       address = UserStorage.cleanFieldForIndex('walletAddress', address)
       initiator = to
+
+      // eslint-disable-next-line no-empty
+    } else if (type === 'claim') {
     } else {
       address = this.wallet.wallet.utils.isAddress(from)
         ? from
@@ -787,8 +790,8 @@ export class UserStorage {
       initiator = from
     }
     const initiatorType = initiator && (isMobilePhone(initiator) ? 'mobile' : isEmail(initiator) ? 'email' : undefined)
-
-    logger.debug('formatEvent:', { id: event.id, address, initiator, reason, value, to, from, receiptData })
+    const value = (receiptData && receiptData.value) || amount
+    logger.debug('formatEvent:', { id: event.id, type, address, initiator, reason, to, from, receiptData, value })
     const searchField = `by${initiatorType}`
     const profileByIndex =
       initiatorType &&
@@ -810,14 +813,14 @@ export class UserStorage {
           .get('display')
           .then())) ||
       (initiatorType && initiator) ||
-      (address === '0x0000000000000000000000000000000000000000' ? 'GoodDollar' : 'Unknown')
+      (type === 'claim' || address === '0x0000000000000000000000000000000000000000' ? 'GoodDollar' : 'Unknown')
     avatar =
       (profileToShow &&
         (await profileToShow
           .get('avatar')
           .get('display')
           .then())) ||
-      (address === '0x0000000000000000000000000000000000000000'
+      (type === 'claim' || address === '0x0000000000000000000000000000000000000000'
         ? `${process.env.PUBLIC_URL}/favicon-96x96.png`
         : undefined)
 
@@ -839,7 +842,7 @@ export class UserStorage {
           avatar,
           withdrawStatus
         },
-        amount: amount || value,
+        amount: value,
         message: reason
       }
     }
@@ -985,15 +988,19 @@ export class UserStorage {
     return this.getLastBlockNode().put(blockNumber)
   }
 
-  getProfile(): Promise<any> {
-    return new Promise(res => {
-      this.profile.load(async profile => res(await this.getPrivateProfile(profile)), { wait: 99 })
-    })
+  async getProfile(): Promise<any> {
+    const encryptedProfile = await this.loadGunField(this.profile)
+    const fullProfile = this.getPrivateProfile(encryptedProfile)
+    return fullProfile
   }
 
   loadGunField(gunNode): Promise<any> {
-    return new Promise(res => {
+    return new Promise(async res => {
       gunNode.load(p => res(p))
+      let isNode = await gunNode
+      if (isNode === undefined) {
+        res(undefined)
+      }
     })
   }
 

@@ -1,9 +1,14 @@
 import React from 'react'
+import renderer from 'react-test-renderer'
+import zoomSdkLoader from '../FaceRecognition/ZoomSdkLoader'
 import { getWebRouterComponentWithMocks } from './__util__'
 // Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer'
 
 describe('FaceRecognition Rendering', () => {
+  beforeAll(async () => {
+    await zoomSdkLoader.load()
+  })
   it('renders without errors', () => {
     const FaceRecognition = getWebRouterComponentWithMocks('../FaceRecognition/FaceRecognition')
     const tree = renderer.create(<FaceRecognition />)

@@ -6,7 +6,8 @@ import goodWallet from '../../lib/wallet/GoodWallet'
 import wrapper from '../../lib/undux/utils/wrapper'
 import GDStore from '../../lib/undux/GDStore'
 import SimpleStore from '../../lib/undux/SimpleStore'
-
+import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
+import { useDialog } from '../../lib/undux/utils/dialog'
 import { CustomButton, Section, TopBar, Wrapper } from '../common'
 import { weiToMask } from '../../lib/wallet/utils'
 import logger from '../../lib/logger/pino-logger'
@@ -25,9 +26,11 @@ const log = logger.child({ from: 'Claim' })
 const Claim = ({ navigation, screenProps, ...props }: ClaimProps) => {
   const store = SimpleStore.useStore()
   const gdstore = GDStore.useStore()
+  const [showDialog] = useDialog()
   const [state: ClaimState, setState] = useState({
     loading: false,
     nextClaim: '23:59:59',
+    entitlement: 0,
     claimedToday: {
       people: '',
       amount: ''
@@ -54,7 +57,7 @@ const Claim = ({ navigation, screenProps, ...props }: ClaimProps) => {
       goodWalletWrapped.getAmountAndQuantityClaimedToday(entitlement),
       goodWalletWrapped.getNextClaimTime()
     ])
-    setState({ ...state, claimedToday })
+    setState({ ...state, claimedToday, entitlement })
     interval = setInterval(() => {
       const nextClaim = new Date(nextClaimDate - new Date().getTime()).toISOString().substr(11, 8)
       setState({ ...state, nextClaim })
@@ -66,22 +69,37 @@ const Claim = ({ navigation, screenProps, ...props }: ClaimProps) => {
     return () => clearInterval(interval)
   }, [])
 
-  const handleClaim = async () => {
+  const handleClaim = () => {
     setState({ ...state, loading: true })
     try {
-      await goodWalletWrapped.claim()
-      store.set('currentScreen')({
-        dialogData: {
-          visible: true,
-          title: 'Success',
-          message: `You've claimed your G$`,
-          dismissText: 'YAY!',
-          onDismiss: screenProps.goToRoot
+      goodWalletWrapped.claim({
+        onTransactionHash: async hash => {
+          const entitlement = await goodWalletWrapped.checkEntitlement()
+          const transactionEvent: TransactionEvent = {
+            id: hash,
+            date: new Date().toString(),
+            type: 'claim',
+            data: {
+              amount: entitlement
+            }
+          }
+          userStorage.enqueueTX(transactionEvent)
+          showDialog({
+            title: 'SUCCESS!',
+            message: `You've claimed your G$`,
+            dismissText: 'Yay!',
+            onDismiss: screenProps.goToRoot
+          })
+          setState({ ...state, loading: false })
         }
       })
-      setState({ ...state, loading: false })
     } catch (e) {
       log.error('claiming failed', e)
+      showDialog({
+        title: 'Claiming Failed',
+        message: `${e.message}.\nTry again later.`,
+        dismissText: 'OK'
+      })
       setState({ ...state, loading: false })
     }
   }

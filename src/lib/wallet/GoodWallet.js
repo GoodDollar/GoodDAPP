@@ -342,9 +342,9 @@ export class GoodWallet {
    * Claims tokens for current account
    * @returns {Promise<TransactionReceipt>|Promise<Promise|Q.Promise<TransactionReceipt>|Promise<*>|*>}
    */
-  claim(): Promise<TransactionReceipt> {
+  claim(callbacks: PromiEvents): Promise<TransactionReceipt> {
     try {
-      return this.sendTransaction(this.claimContract.methods.claimTokens())
+      return this.sendTransaction(this.claimContract.methods.claimTokens(), callbacks)
     } catch (e) {
       log.info(e)
       return Promise.reject(e)

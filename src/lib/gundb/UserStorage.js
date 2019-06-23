@@ -325,7 +325,8 @@ export class UserStorage {
         date: new Date().toString(),
         data: {
           ...feedEvent.data,
-          ...data,
+          ...initialEvent.data,
+          receiptData: data,
           receipt
         }
       }
@@ -772,30 +773,50 @@ export class UserStorage {
   async formatEvent(event: FeedEvent): Promise<StandardFeed> {
     logger.debug('formatEvent', { event })
     const { data, type, date, id, status, createdDate } = event
-    const { receipt, from, to, sender, amount, reason, value, generatedString } = data
-    let avatar, fullName, address, withdrawStatus
+    const { receiptData, receipt, from, to, sender, amount, reason, value, generatedString } = data
+    let avatar, fullName, address, withdrawStatus, initiator
     if (type === 'send') {
-      address = to ? to.toLowerCase() : UserStorage.cleanFieldForIndex('walletAddress', receipt.to)
+      address = this.wallet.wallet.utils.isAddress(to) ? to : (receiptData && receiptData.to) || (receipt && receipt.to)
+      address = UserStorage.cleanFieldForIndex('walletAddress', address)
+      initiator = to
     } else {
-      address = from ? from.toLowerCase() : UserStorage.cleanFieldForIndex('walletAddress', receipt.from)
+      address = this.wallet.wallet.utils.isAddress(from)
+        ? from
+        : (receiptData && receiptData.from) || (receipt && receipt.from)
+      address = UserStorage.cleanFieldForIndex('walletAddress', address)
+      initiator = from
     }
-    const toType = isMobilePhone(address) ? 'mobile' : isEmail(address) ? 'email' : 'walletAddress'
-    const searchField = `by${toType}`
-    const profileToShow = this.gun
-      .get(`users/${searchField}`)
-      .get(address)
-      .get('profile')
+    const initiatorType = initiator && (isMobilePhone(initiator) ? 'mobile' : isEmail(initiator) ? 'email' : undefined)
 
+    logger.debug('formatEvent:', { id: event.id, address, initiator, reason, value, to, from, receiptData })
+    const searchField = `by${initiatorType}`
+    const profileByIndex =
+      initiatorType &&
+      (await this.gun
+        .get(`users/${searchField}`)
+        .get(initiator)
+        .get('profile'))
+    const profileByAddress =
+      address &&
+      (await this.gun
+        .get(`users/bywalletAddress`)
+        .get(address)
+        .get('profile'))
+    const profileToShow = (profileByIndex || profileByAddress) && this.gun.get((profileByIndex || profileByAddress)._)
     fullName =
-      (await profileToShow
-        .get('fullName')
-        .get('display')
-        .then()) || (address === '0x0000000000000000000000000000000000000000' ? 'GoodDollar' : address)
+      (profileToShow &&
+        (await profileToShow
+          .get('fullName')
+          .get('display')
+          .then())) ||
+      (initiatorType && initiator) ||
+      (address === '0x0000000000000000000000000000000000000000' ? 'GoodDollar' : 'Unknown')
     avatar =
-      (await profileToShow
-        .get('avatar')
-        .get('display')
-        .then()) ||
+      (profileToShow &&
+        (await profileToShow
+          .get('avatar')
+          .get('display')
+          .then())) ||
       (address === '0x0000000000000000000000000000000000000000'
         ? `${process.env.PUBLIC_URL}/favicon-96x96.png`
         : undefined)
@@ -855,7 +876,7 @@ export class UserStorage {
    */
   async dequeueTX(eventId: string): Promise<FeedEvent> {
     try {
-      const feedItem = await this.feed.get('queue').get(eventId)
+      const feedItem = await this.loadGunField(this.feed.get('queue').get(eventId))
       logger.debug('dequeueTX got item', eventId, feedItem)
       if (feedItem) {
         this.feed
@@ -969,10 +990,14 @@ export class UserStorage {
     })
   }
 
-  getFullProfile(profileNode): Promise<> {
+  loadGunField(gunNode): Promise<any> {
     return new Promise(res => {
-      profileNode.load(p => res(p))
+      gunNode.load(p => res(p))
     })
+  }
+
+  getFullProfile(profileNode): Promise<> {
+    return this.loadGunField(profileNode)
   }
 
   /**

@@ -26,7 +26,7 @@ type ZoomCaptureProps = DashboardProps & {
 class ZoomCapture extends React.Component<ZoomCaptureProps> {
   videoTrack: MediaStreamTrack
 
-  onCameraLoad = async (track: MediaStreamTrack) => {
+  captureUserMediaZoom = async (track: MediaStreamTrack) => {
     this.videoTrack = track
     let captureOutcome: ZoomCaptureResult
     try {
@@ -37,7 +37,7 @@ class ZoomCapture extends React.Component<ZoomCaptureProps> {
       log.error(`Failed on capture, error: ${e}`)
     }
     log.info({ captureOutcome })
-    this.props.onCaptureResult()
+    this.props.onCaptureResult(captureOutcome)
   }
 
   componentWillUnmount() {
@@ -63,7 +63,7 @@ class ZoomCapture extends React.Component<ZoomCaptureProps> {
                 <Camera
                   height={this.props.height}
                   width={this.props.width}
-                  onCameraLoad={this.onCameraLoad}
+                  onCameraLoad={this.captureUserMediaZoom}
                   onError={this.props.onError}
                 />
               }

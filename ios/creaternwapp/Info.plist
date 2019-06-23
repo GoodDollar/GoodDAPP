@@ -72,8 +72,14 @@
 		<string>Octicons.ttf</string>
 		<string>SimpleLineIcons.ttf</string>
 		<string>Zocial.ttf</string>
+		<string>Roboto-Medium.ttf</string>
+		<string>Roboto.ttf</string>
+		<string>RobotoSlab-Bold.ttf</string>
+		<string>RobotoSlab-Regular.ttf</string>
+		<string>RobotoSlabBold.ttf</string>
+		<string>RobotoSlabRegular.ttf</string>
 	</array>
 	<key>NSCameraUsageDescription</key>
-  <string>GDWallet needs to access your camera to be able to scan the QR codes</string>
+	<string>GDWallet needs to access your camera to be able to scan the QR codes</string>
 </dict>
 </plist>

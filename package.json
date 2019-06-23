@@ -210,5 +210,10 @@
       "path": "./build/static/js/*.js",
       "maxSize": "4 MB"
     }
-  ]
+  ],
+  "rnpm": {
+    "assets": [
+	    "./src/assets/fonts/"
+    ]
+  }
 }

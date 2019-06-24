@@ -8,6 +8,21 @@ import { initAnalytics } from './lib/analytics/analytics'
 export const init = () => {
   return Promise.all([goodWallet.ready, userStorage.ready]).then(async () => {
     global.wallet = goodWallet
-    await initAnalytics(goodWallet, userStorage)
+    const identifier = goodWallet.getAccountForType('login')
+    const emailOrId = (await userStorage.getProfileFieldValue('email')) || identifier
+    if (global.Rollbar && Config.env !== 'test') {
+      global.Rollbar.configure({
+        payload: {
+          person: {
+            id: emailOrId
+          }
+        }
+      })
+    }
+    global.FS && FS.identify(emailOrId, {})
+    if (global.amplitude) {
+      amplitude.getInstance().init(process.env.REACT_APP_AMPLITUDE_API_KEY)
+      amplitude.getInstance().setUserId(emailOrId)
+    }
   })
 }

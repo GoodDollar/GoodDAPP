@@ -1,5 +1,5 @@
-// flow-typed signature: ffc499e1411b231288def9f08300d543
-// flow-typed version: 976d0874e7/@react-navigation/core_v3.x.x/flow_>=v0.60.x <=v0.91.x
+// flow-typed signature: 0d164d726fae25a6592d25e8d09c9056
+// flow-typed version: 7549eef60b/@react-navigation/core_v3.x.x/flow_>=v0.60.x <=v0.91.x
 
 // @flow
 
@@ -494,7 +494,7 @@ declare module '@react-navigation/core' {
       fallback?: $ElementType<
         $PropertyType<
           {|
-            ...{| params: {| [ParamName]: void |} |},
+            ...{| params: { } |},
             ...$Exact<S>,
           |},
           'params'
@@ -504,7 +504,7 @@ declare module '@react-navigation/core' {
     ) => $ElementType<
       $PropertyType<
         {|
-          ...{| params: {| [ParamName]: void |} |},
+          ...{| params: { } |},
           ...$Exact<S>,
         |},
         'params'

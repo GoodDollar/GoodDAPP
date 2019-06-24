@@ -23,7 +23,7 @@ exports[`SmsForm matches snapshot 1`] = `
       "flexGrow": 1,
       "flexShrink": 1,
       "justifyContent": "space-between",
-      "maxWidth": "500px",
+      "maxWidth": "475px",
       "msFlexAlign": "stretch",
       "msFlexDirection": "column",
       "msFlexNegative": 1,
@@ -60,7 +60,7 @@ exports[`SmsForm matches snapshot 1`] = `
     }
   >
     <div
-      className="css-text-76zvg2"
+      className="css-text-901oao"
       dir="auto"
       style={
         Object {
@@ -288,7 +288,7 @@ exports[`SmsForm matches snapshot 1`] = `
       className="css-view-1dbjc4n"
     >
       <div
-        className="css-text-76zvg2"
+        className="css-text-901oao"
         dir="auto"
         style={
           Object {
@@ -325,7 +325,7 @@ exports[`SmsForm matches snapshot 1`] = `
       }
     >
       <div
-        className="css-text-76zvg2"
+        className="css-text-901oao"
         dir="auto"
         style={
           Object {

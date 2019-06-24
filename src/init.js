@@ -7,10 +7,12 @@ import Config from './config/config'
 declare var amplitude
 
 declare var __insp
+declare var FS
 export const init = () => {
-  return Promise.all([goodWallet.ready, userStorage.ready]).then(([wallet, storage]) => {
+  return Promise.all([goodWallet.ready, userStorage.ready]).then(async ([wallet, storage]) => {
     global.wallet = goodWallet
     const identifier = goodWallet.getAccountForType('login')
+    const email = await userStorage.getProfileFieldValue('email')
     if (global.Rollbar && Config.env !== 'test') {
       global.Rollbar.configure({
         payload: {
@@ -20,6 +22,9 @@ export const init = () => {
         }
       })
     }
+    FS.identify(identifier, {
+      email
+    })
     amplitude.getInstance().setUserId(identifier)
     __insp.push(['identify', identifier])
   })

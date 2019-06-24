@@ -1,10 +1,14 @@
 // @flow
 import React, { useEffect, useState } from 'react'
 import { View } from 'react-native'
+import { isMobile } from 'mobile-device-detect'
+import isEmail from 'validator/lib/isEmail'
 import { normalize } from 'react-native-elements'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
+import { generateHrefLink, generateSendShareObject } from '../../lib/share'
 import GDStore from '../../lib/undux/GDStore'
+import isMobilePhone from '../../lib/validators/isMobilePhone'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
 import { Avatar, BigGoodDollar, CustomButton, Section, Wrapper } from '../common'
@@ -30,6 +34,9 @@ const SendLinkSummary = (props: AmountProps) => {
   const { screenProps } = props
   const [screenState] = useScreenState(screenProps)
   const store = GDStore.useStore()
+  const [hrefLink, setHrefLink] = useState(null)
+  const [aButton, setAButton] = useState()
+  const [emailOrSMSOnMobile, setEmailOrSMSOnMobile] = useState(false)
   const [loading, setLoading] = useState(false)
   const [isValid, setIsValid] = useState(screenState.isValid)
   const { amount, reason, to } = screenState
@@ -43,9 +50,11 @@ const SendLinkSummary = (props: AmountProps) => {
    * @throws Error if link cannot be send
    */
   const generateLinkAndSend = async () => {
+    setLoading(true)
+
     try {
       // Generate link deposit
-      const generateLinkResponse = await goodWallet.generateLink(amount, reason, {
+      const { hashedString, sendLink } = await goodWallet.generateLink(amount, reason, {
         onTransactionHash: extraData => hash => {
           // Save transaction
           const transactionEvent: TransactionEvent = {
@@ -62,21 +71,19 @@ const SendLinkSummary = (props: AmountProps) => {
           userStorage.enqueueTX(transactionEvent)
         }
       })
-      if (generateLinkResponse) {
-        try {
-          // Generate link deposit
-          const { sendLink } = generateLinkResponse
 
-          // Show confirmation
+      try {
+        // Show confirmation
+        if (emailOrSMSOnMobile) {
+          setHrefLink(generateHrefLink(generateSendShareObject(sendLink), to))
+          clickAnchorButton()
+        } else {
           screenProps.push('SendConfirmation', { sendLink, amount, reason, to })
-        } catch (e) {
-          log.error(e)
-          const { hashedString } = generateLinkResponse
-          await goodWallet.cancelOtl(hashedString)
-          throw e
         }
-      } else {
-        throw new Error('Link generation failed')
+      } catch (e) {
+        log.error(e)
+        await goodWallet.cancelOtl(hashedString)
+        throw e
       }
     } catch (e) {
       store.set('currentScreen')({
@@ -84,6 +91,13 @@ const SendLinkSummary = (props: AmountProps) => {
       })
       log.error(e)
     }
+
+    setLoading(false)
+  }
+
+  const clickAnchorButton = () => {
+    aButton.click()
+    screenProps.goToRoot()
   }
 
   const handleContinue = async () => {
@@ -100,13 +114,24 @@ const SendLinkSummary = (props: AmountProps) => {
   }
 
   useEffect(() => {
+    // onComponentDidMount check destination and device used
+    setEmailOrSMSOnMobile(isMobile && (isMobilePhone(to) || isEmail(to)))
+  }, [])
+
+  useEffect(() => {
     if (isValid === true) {
-      generateLinkAndSend()
+      if (emailOrSMSOnMobile) {
+        clickAnchorButton()
+      } else {
+        generateLinkAndSend()
+      }
     } else if (isValid === false) {
       screenProps.goToRoot()
     }
+
     return () => setIsValid(undefined)
   }, [isValid])
+
   return (
     <Wrapper style={styles.wrapper}>
       <TopBar push={screenProps.push} />
@@ -129,6 +154,14 @@ const SendLinkSummary = (props: AmountProps) => {
             <CustomButton mode="contained" onPress={handleContinue} style={{ flex: 2 }} disabled={loading}>
               Confirm
             </CustomButton>
+            <a
+              href={hrefLink && hrefLink.link}
+              ref={anchor => setAButton(anchor)}
+              className="a-button"
+              title="Share Link"
+            >
+              share
+            </a>
           </View>
         </Section.Row>
       </Section>

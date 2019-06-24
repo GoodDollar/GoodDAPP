@@ -22,19 +22,21 @@ const EditProfile = props => {
   }, [profile.fullName])
 
   const validate = async () => {
-    setIsValid(false)
     const { isValid, errors } = profile.validate()
     const { isValid: indexIsValid, errors: indexErrors } = await userStorage.validateProfile(profile)
     setErrors({ ...errors, ...indexErrors })
     setIsValid(isValid && indexIsValid)
+    return isValid && indexIsValid
   }
 
-  const handleSaveButton = () => {
+  const handleSaveButton = async () => {
+    setSaving(true)
+    const isValid = await validate()
+
     if (!isValid) {
       return
     }
 
-    setSaving(true)
     userStorage
       .setProfile(profile)
       .catch(showErrorDialog)

@@ -14,6 +14,7 @@ const EditProfile = props => {
 
   const [profile, setProfile] = useState(store.get('profile'))
   const [saving, setSaving] = useState()
+  const [isValid, setIsValid] = useState()
   const [errors, setErrors] = useState({})
   const [showErrorDialog] = useErrorDialog()
   useEffect(() => {
@@ -21,14 +22,14 @@ const EditProfile = props => {
   }, [profile.fullName])
 
   const validate = async () => {
+    setIsValid(false)
     const { isValid, errors } = profile.validate()
     const { isValid: indexIsValid, errors: indexErrors } = await userStorage.validateProfile(profile)
     setErrors({ ...errors, ...indexErrors })
-    return isValid && indexIsValid
+    setIsValid(isValid && indexIsValid)
   }
 
-  const handleSaveButton = async () => {
-    const isValid = await validate()
+  const handleSaveButton = () => {
     if (!isValid) {
       return
     }
@@ -54,7 +55,7 @@ const EditProfile = props => {
         <Section.Row style={styles.centered}>
           <UserAvatar onChange={setProfile} editable={true} profile={profile} />
           <CustomButton
-            disabled={saving}
+            disabled={saving || !isValid}
             loading={saving}
             mode="outlined"
             style={styles.saveButton}

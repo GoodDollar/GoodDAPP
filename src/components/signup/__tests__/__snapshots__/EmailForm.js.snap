@@ -1,0 +1,306 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EmailForm matches snapshot 1`] = `
+<div
+  className="css-view-1dbjc4n"
+  style={
+    Object {
+      "WebkitAlignItems": "stretch",
+      "WebkitBoxAlign": "stretch",
+      "WebkitBoxDirection": "normal",
+      "WebkitBoxFlex": 1,
+      "WebkitBoxOrient": "vertical",
+      "WebkitBoxPack": "justify",
+      "WebkitFlexBasis": "0%",
+      "WebkitFlexDirection": "column",
+      "WebkitFlexGrow": 1,
+      "WebkitFlexShrink": 1,
+      "WebkitJustifyContent": "space-between",
+      "alignItems": "stretch",
+      "display": "flex",
+      "flexBasis": "0%",
+      "flexDirection": "column",
+      "flexGrow": 1,
+      "flexShrink": 1,
+      "justifyContent": "space-between",
+      "maxWidth": "475px",
+      "msFlexAlign": "stretch",
+      "msFlexDirection": "column",
+      "msFlexNegative": 1,
+      "msFlexPack": "justify",
+      "msFlexPositive": 1,
+      "msFlexPreferredSize": "0%",
+      "paddingBottom": "20px",
+      "paddingLeft": "20px",
+      "paddingRight": "20px",
+      "paddingTop": "20px",
+    }
+  }
+>
+  <div
+    className="css-view-1dbjc4n"
+    style={
+      Object {
+        "WebkitBoxFlex": 1,
+        "WebkitBoxPack": "space-evenly",
+        "WebkitFlexBasis": "0%",
+        "WebkitFlexGrow": 1,
+        "WebkitFlexShrink": 1,
+        "WebkitJustifyContent": "space-evenly",
+        "flexBasis": "0%",
+        "flexGrow": 1,
+        "flexShrink": 1,
+        "justifyContent": "space-evenly",
+        "msFlexNegative": 1,
+        "msFlexPack": "space-evenly",
+        "msFlexPositive": 1,
+        "msFlexPreferredSize": "0%",
+        "paddingTop": "30px",
+      }
+    }
+  >
+    <div
+      className="css-text-76zvg2"
+      dir="auto"
+      style={
+        Object {
+          "color": "rgba(85,85,85,1.00)",
+          "direction": "ltr",
+          "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+          "fontSize": "24px",
+          "marginBottom": "30px",
+          "textAlign": "center",
+        }
+      }
+    >
+      And which email address should we use to notify you of important activity?
+    </div>
+    <div
+      className="css-view-1dbjc4n"
+      style={
+        Object {
+          "backgroundColor": "rgba(231,231,231,1.00)",
+          "borderTopLeftRadius": "4px",
+          "borderTopRightRadius": "4px",
+        }
+      }
+    >
+      <div
+        className="css-view-1dbjc4n"
+        style={
+          Object {
+            "WebkitTransform": "scaleY(0.5)",
+            "backgroundColor": "rgba(176,0,32,1.00)",
+            "bottom": "0px",
+            "height": "2px",
+            "left": "0px",
+            "position": "absolute",
+            "right": "0px",
+            "transform": "scaleY(0.5)",
+          }
+        }
+      />
+      <input
+        autoCapitalize="sentences"
+        autoComplete="on"
+        autoCorrect="on"
+        className="css-textinput-1cwyjr8 r-placeholderTextColor-1qzd3f0"
+        data-focusable={true}
+        dir="auto"
+        id="Component_input"
+        onBlur={[Function]}
+        onChange={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onKeyPress={[Function]}
+        onSelect={[Function]}
+        readOnly={false}
+        spellCheck={true}
+        style={
+          Object {
+            "WebkitBoxFlex": 1,
+            "WebkitFlexGrow": 1,
+            "color": "rgba(0,0,0,1.00)",
+            "flexGrow": 1,
+            "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+            "fontSize": "16px",
+            "marginBottom": "0px",
+            "marginLeft": "0px",
+            "marginRight": "0px",
+            "marginTop": "0px",
+            "minHeight": "58px",
+            "msFlexPositive": 1,
+            "paddingBottom": "15px",
+            "paddingLeft": "12px",
+            "paddingRight": "12px",
+            "paddingTop": "15px",
+            "textAlign": "left",
+            "verticalAlign": "middle",
+            "zIndex": 1,
+          }
+        }
+        type="email"
+        value=""
+      />
+    </div>
+    <div
+      className="css-text-76zvg2"
+      dir="auto"
+      style={
+        Object {
+          "WebkitTransform": "translateY(0px)",
+          "color": "rgba(176,0,32,1.00)",
+          "direction": "ltr",
+          "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+          "fontSize": "12px",
+          "opacity": 1,
+          "paddingBottom": "4px",
+          "paddingLeft": "12px",
+          "paddingRight": "12px",
+          "paddingTop": "4px",
+          "textAlign": "left",
+          "transform": "translateY(0px)",
+        }
+      }
+    />
+  </div>
+  <div
+    className="css-view-1dbjc4n"
+    style={
+      Object {
+        "WebkitBoxFlex": 1,
+        "WebkitBoxPack": "end",
+        "WebkitFlexBasis": "0%",
+        "WebkitFlexGrow": 1,
+        "WebkitFlexShrink": 1,
+        "WebkitJustifyContent": "flex-end",
+        "display": "flex",
+        "flexBasis": "0%",
+        "flexGrow": 1,
+        "flexShrink": 1,
+        "justifyContent": "flex-end",
+        "msFlexNegative": 1,
+        "msFlexPack": "end",
+        "msFlexPositive": 1,
+        "msFlexPreferredSize": "0%",
+        "paddingTop": "20px",
+      }
+    }
+  >
+    <div
+      className="css-view-1dbjc4n"
+      style={
+        Object {
+          "backgroundColor": "rgba(0,0,0,0.12)",
+          "borderBottomColor": "rgba(0,0,0,0.00)",
+          "borderBottomLeftRadius": "4px",
+          "borderBottomRightRadius": "4px",
+          "borderBottomStyle": "solid",
+          "borderBottomWidth": "0px",
+          "borderLeftColor": "rgba(0,0,0,0.00)",
+          "borderLeftStyle": "solid",
+          "borderLeftWidth": "0px",
+          "borderRightColor": "rgba(0,0,0,0.00)",
+          "borderRightStyle": "solid",
+          "borderRightWidth": "0px",
+          "borderTopColor": "rgba(0,0,0,0.00)",
+          "borderTopLeftRadius": "4px",
+          "borderTopRightRadius": "4px",
+          "borderTopStyle": "solid",
+          "borderTopWidth": "0px",
+          "marginBottom": "10px",
+          "minWidth": "64px",
+          "paddingBottom": "5px",
+          "paddingTop": "5px",
+        }
+      }
+    >
+      <div
+        aria-disabled={true}
+        className="css-view-1dbjc4n"
+        disabled={true}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        role="button"
+        style={
+          Object {
+            "borderBottomLeftRadius": "4px",
+            "borderBottomRightRadius": "4px",
+            "borderTopLeftRadius": "4px",
+            "borderTopRightRadius": "4px",
+            "overflowX": "hidden",
+            "overflowY": "hidden",
+            "position": "relative",
+          }
+        }
+      >
+        <div
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "WebkitAlignItems": "center",
+              "WebkitBoxAlign": "center",
+              "WebkitBoxDirection": "normal",
+              "WebkitBoxOrient": "horizontal",
+              "WebkitBoxPack": "center",
+              "WebkitFlexDirection": "row",
+              "WebkitJustifyContent": "center",
+              "alignItems": "center",
+              "flexDirection": "row",
+              "justifyContent": "center",
+              "msFlexAlign": "center",
+              "msFlexDirection": "row",
+              "msFlexPack": "center",
+            }
+          }
+        >
+          <div
+            className="css-text-76zvg2 css-textOneLine-bfa6kz"
+            dir="auto"
+            style={
+              Object {
+                "color": "rgba(0,0,0,0.32)",
+                "direction": "ltr",
+                "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                "letterSpacing": "1px",
+                "marginBottom": "9px",
+                "marginLeft": "16px",
+                "marginRight": "16px",
+                "marginTop": "9px",
+                "textAlign": "center",
+              }
+            }
+          >
+            <span
+              className="css-text-76zvg2 css-textHasAncestor-16my406"
+              dir="auto"
+              style={
+                Object {
+                  "color": "rgba(255,255,255,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                  "fontSize": "18px",
+                  "fontWeight": "bold",
+                  "paddingBottom": "10px",
+                  "paddingLeft": "10px",
+                  "paddingRight": "10px",
+                  "paddingTop": "10px",
+                  "textAlign": "center",
+                  "textTransform": "uppercase",
+                }
+              }
+            >
+              Next
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

@@ -70,7 +70,6 @@ class EmailForm extends React.Component<Props, State> {
           keyboardType="email-address"
           error={errorMessage !== ''}
           onKeyPress={this.handleEnter}
-          autoFocus
         />
         <HelperText type="error" visible={errorMessage}>
           {errorMessage}

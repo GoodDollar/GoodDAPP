@@ -5,6 +5,22 @@ import { type DialogProps } from '../../../components/common/CustomDialog'
 import pino from '../../logger/pino-logger'
 const log = pino.child({ from: 'dialogs' })
 
+export const showDialogForError = (store: Store, humanError: string, error: Error | ResponseError) => {
+  let message = 'Unknown Error'
+  if (typeof error === 'string') {
+    message = error
+  } else if (error.response && error.response.data) {
+    message = error.response.data.message
+  } else if (error.message) {
+    message = error.message
+  } else if (error.err) {
+    message = error.err
+  }
+  message = humanError + '\n' + message
+  const dialogData = { visible: true, title: 'Error', message, dismissText: 'OK' }
+  showDialogWithData(store, dialogData)
+}
+
 export const showDialogWithData = (store: Store, dialogData: DialogProps) => {
   log.debug('showDialogWithData', { dialogData })
   store.set('currentScreen')({
@@ -30,4 +46,9 @@ export const hideDialog = (store: Store) => {
 export const useDialog = () => {
   const store = SimpleStore.useStore()
   return [showDialogWithData.bind(null, store), hideDialog.bind(null, store)]
+}
+
+export const useErrorDialog = () => {
+  const store = SimpleStore.useStore()
+  return [showDialogForError.bind(null, store), hideDialog.bind(null, store)]
 }

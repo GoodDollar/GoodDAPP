@@ -9,8 +9,7 @@ import logger from '../../lib/logger/pino-logger'
 
 import API from '../../lib/API/api'
 import SimpleStore from '../../lib/undux/SimpleStore'
-import { useDialog } from '../../lib/undux/utils/dialog'
-import { type DialogProps } from '../common/CustomDialog'
+import { useErrorDialog } from '../../lib/undux/utils/dialog'
 
 import { getUserModel, type UserModel } from '../../lib/gundb/UserModel'
 import Config from '../../config/config'
@@ -56,7 +55,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   const [ready, setReady] = useState()
   const [state, setState] = useState(initialState)
   const [loading, setLoading] = useState(false)
-  const [showDialog] = useDialog()
+  const [showErrorDialog] = useErrorDialog()
 
   const navigateWithFocus = (routeKey: string) => {
     navigation.navigate(routeKey)
@@ -78,9 +77,6 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
     log.debug('fired event', `SIGNUP_${event || curRoute.key}`)
   }
 
-  const showError = (title: string, message: string, data: DialogProps = {}) => {
-    showDialog({ title, message, ...data })
-  }
   useEffect(() => {
     //don't allow to start signup flow not from begining
     if (navigation.state.index > 0) {
@@ -112,12 +108,12 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
         let { data } = await API.sendOTP(newState)
         if (data.ok === 0) {
           setLoading(false)
-          return showError('Sending mobile verification code failed', data.error)
+          return showErrorDialog('Sending mobile verification code failed', data.error)
         }
         return navigateWithFocus(nextRoute.key)
       } catch (e) {
         log.error(e)
-        showError('Sending mobile verification code failed', e.message || e)
+        showErrorDialog('Sending mobile verification code failed', e)
         setLoading(false)
       }
     } else if (nextRoute && nextRoute.key === 'EmailConfirmation') {
@@ -125,7 +121,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
         const { data } = await API.sendVerificationEmail(newState)
         if (data.ok === 0) {
           setLoading(false)
-          return showError('Failed sending verificaiton email', data.error)
+          return showErrorDialog('Failed sending verificaiton email', data.error)
         }
         log.debug('skipping email verification?', { ...data, skip: Config.skipEmailVerification })
         if (Config.skipEmailVerification || data.onlyInEnv) {
@@ -144,7 +140,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
         return navigateWithFocus(nextRoute.key)
       } catch (e) {
         log.error(e)
-        showError('Email verification failed', e.message || e)
+        showErrorDialog('Email verification failed', e)
         setLoading(false)
       }
     } else {
@@ -175,7 +171,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
         store.set('isLoggedIn')(true)
       } catch (e) {
         log.error('New user failure', { e, message: e.message })
-        showError('New user creation failed', e.message || e)
+        showErrorDialog('New user creation failed', e)
         setLoading(false)
       }
     }

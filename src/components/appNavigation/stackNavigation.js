@@ -197,7 +197,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
       setScreenState: this.setScreenState,
       toggleMenu: () => this.drawer.open()
     }
-    log.info('stackNavigation Render: FIXME rerender', descriptor, activeKey, this.props, this.state)
+    log.info('stackNavigation Render: FIXME rerender', descriptor, activeKey)
     const Component = this.getComponent(descriptor.getComponent(), { screenProps })
     const pageTitle = title || activeKey
     const open = store.get('sidemenu').visible

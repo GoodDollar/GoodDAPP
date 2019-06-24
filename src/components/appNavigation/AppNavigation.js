@@ -55,7 +55,7 @@ const AppNavigation = ({ navigation }: AppNavigationProps) => {
   }, [ready])
 
   // `account.ready` will be set to `true` after retrieving the required user information in `updateAll`,
-  // if not ready will display a blank screen (`null`)
+  // if not ready will display the app loading indicator
   return <AppNavigator navigation={navigation} screenProps={{ routes }} />
 }
 

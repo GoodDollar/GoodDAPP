@@ -23,7 +23,7 @@ exports[`PhoneForm matches snapshot 1`] = `
       "flexGrow": 1,
       "flexShrink": 1,
       "justifyContent": "space-between",
-      "maxWidth": "500px",
+      "maxWidth": "475px",
       "msFlexAlign": "stretch",
       "msFlexDirection": "column",
       "msFlexNegative": 1,

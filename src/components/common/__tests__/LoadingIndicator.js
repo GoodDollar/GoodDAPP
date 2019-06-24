@@ -1,12 +1,12 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 
-import GDStore from '../../../lib/undux/GDStore'
+import SimpleStore from '../../../lib/undux/SimpleStore'
 import LoadingIndicator from '../LoadingIndicator'
 
 // import LoadingIndicator, { setLoadingWithStore } from '../LoadingIndicator'
 
-const { Container } = GDStore
+const { Container } = SimpleStore
 
 describe('LoadingIndicator', () => {
   describe('when loading indicator is false', () => {

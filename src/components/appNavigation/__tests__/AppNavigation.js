@@ -5,28 +5,30 @@ import { createBrowserApp } from '@react-navigation/web'
 // Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer'
 import AppNavigation from '../AppNavigation'
+import goodWallet from '../../../lib/wallet/GoodWallet'
+import userStorage from '../../../lib/gundb/UserStorage'
 
-import GDStore from '../../../lib/undux/GDStore'
+import { StoresWrapper } from '../../../lib/undux/utils/storeswrapper.js'
 
-const { Container } = GDStore
-
+jest.setTimeout(10000)
 describe('AppNavigation', () => {
+  beforeAll(() => Promise.all([goodWallet.ready, userStorage.ready]))
   it('renders without errors', () => {
     const WebRouter = createBrowserApp(createSwitchNavigator({ AppNavigation }))
     const tree = renderer.create(
-      <Container>
+      <StoresWrapper>
         <WebRouter />
-      </Container>
+      </StoresWrapper>
     )
-    expect(tree.toJSON()).toBe(null)
+    expect(tree.toJSON()).toBeTruthy()
   })
 
   it('matches snapshot', () => {
     const WebRouter = createBrowserApp(createSwitchNavigator({ AppNavigation }))
     const component = renderer.create(
-      <Container>
+      <StoresWrapper>
         <WebRouter />
-      </Container>
+      </StoresWrapper>
     )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()

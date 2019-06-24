@@ -10,25 +10,31 @@ const TITLE = 'Edit Profile'
 
 const EditProfile = props => {
   const store = GDStore.useStore()
-  const wrappedUserStorage = useWrappedUserStorage()
+  const userStorage = useWrappedUserStorage()
 
   const [profile, setProfile] = useState(store.get('profile'))
   const [saving, setSaving] = useState()
   const [errors, setErrors] = useState({})
   const [showErrorDialog] = useErrorDialog()
   useEffect(() => {
-    wrappedUserStorage.getPrivateProfile(profile).then(setProfile)
+    userStorage.getPrivateProfile(profile).then(setProfile)
   }, [profile.fullName])
 
-  const handleSaveButton = () => {
+  const validate = async () => {
     const { isValid, errors } = profile.validate()
-    setErrors(errors)
+    const { isValid: indexIsValid, errors: indexErrors } = await userStorage.validateProfile(profile)
+    setErrors({ ...errors, ...indexErrors })
+    return isValid && indexIsValid
+  }
+
+  const handleSaveButton = async () => {
+    const isValid = await validate()
     if (!isValid) {
       return
     }
 
     setSaving(true)
-    wrappedUserStorage
+    userStorage
       .setProfile(profile)
       .catch(showErrorDialog)
       .finally(r => {
@@ -36,6 +42,12 @@ const EditProfile = props => {
       })
     props.screenProps.pop()
   }
+
+  // Validate after saving profile state in order to show errors
+  useEffect(() => {
+    validate()
+  }, [profile])
+
   return (
     <Wrapper>
       <Section style={styles.section}>

@@ -22,9 +22,10 @@ export const init = () => {
         }
       })
     }
-    FS.identify(identifier, {
-      email
-    })
+    window.FS &&
+      FS.identify(identifier, {
+        email
+      })
     amplitude.getInstance().setUserId(identifier)
   })
 }

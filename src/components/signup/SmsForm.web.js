@@ -27,7 +27,8 @@ type State = SMSRecord & {
   errorMessage: string,
   sendingCode: boolean,
   renderButton: boolean,
-  loading: boolean
+  loading: boolean,
+  otp: string | number
 }
 
 export default class SmsForm extends React.Component<Props, State> {
@@ -38,7 +39,8 @@ export default class SmsForm extends React.Component<Props, State> {
     errorMessage: '',
     sendingCode: false,
     renderButton: false,
-    loading: false
+    loading: false,
+    otp: ''
   }
 
   numInputs: number = 6
@@ -57,11 +59,15 @@ export default class SmsForm extends React.Component<Props, State> {
     }, 7000)
   }
 
-  handleChange = async (otp: string) => {
-    if (otp.length === this.numInputs) {
-      this.setState({ loading: true })
+  handleChange = async (otp: string | number) => {
+    const otpValue = otp.toString()
+    if (otpValue.length === this.numInputs) {
+      this.setState({
+        loading: true,
+        otp
+      })
       try {
-        await this.verifyOTP(otp)
+        await this.verifyOTP(otpValue)
         this.setState({
           valid: true,
           loading: false
@@ -75,7 +81,10 @@ export default class SmsForm extends React.Component<Props, State> {
         })
       }
     } else {
-      this.setState({ errorMessage: '' })
+      this.setState({
+        errorMessage: '',
+        otp
+      })
     }
   }
 
@@ -89,7 +98,7 @@ export default class SmsForm extends React.Component<Props, State> {
   }
 
   handleRetry = async () => {
-    this.setState({ sendingCode: true })
+    this.setState({ sendingCode: true, otp: '' })
 
     try {
       await API.sendOTP({ ...this.props.screenProps.data })
@@ -100,7 +109,7 @@ export default class SmsForm extends React.Component<Props, State> {
   }
 
   render() {
-    const { valid, errorMessage, sendingCode, renderButton, loading } = this.state
+    const { valid, errorMessage, sendingCode, renderButton, loading, otp } = this.state
 
     return (
       <Wrapper valid={valid} handleSubmit={this.handleSubmit} footerComponent={() => <React.Fragment />}>
@@ -116,6 +125,7 @@ export default class SmsForm extends React.Component<Props, State> {
           isInputNum={true}
           hasErrored={errorMessage !== ''}
           errorStyle={errorStyle}
+          value={otp}
         />
         <Error>{errorMessage !== '' && errorMessage}</Error>
         <View style={styles.buttonWrapper}>

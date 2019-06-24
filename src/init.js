@@ -12,20 +12,17 @@ export const init = () => {
   return Promise.all([goodWallet.ready, userStorage.ready]).then(async ([wallet, storage]) => {
     global.wallet = goodWallet
     const identifier = goodWallet.getAccountForType('login')
-    const email = (await userStorage.getProfileFieldValue('email')) || ''
+    const emailOrId = (await userStorage.getProfileFieldValue('email')) || identifier
     if (global.Rollbar && Config.env !== 'test') {
       global.Rollbar.configure({
         payload: {
           person: {
-            id: identifier
+            id: emailOrId
           }
         }
       })
     }
-    window.FS &&
-      FS.identify(identifier, {
-        email
-      })
-    amplitude.getInstance().setUserId(identifier)
+    global.FS && FS.identify(emailOrId, {})
+    global.amplitude && amplitude.getInstance().setUserId(emailOrId)
   })
 }

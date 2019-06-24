@@ -682,9 +682,36 @@ describe('getOperationType', () => {
 })
 
 describe('users index', () => {
-  beforeAll(async () => {
+  const unavailableProfile = {
+    email: 'username@unavailable.com',
+    mobile: '22222222220',
+    username: 'unavailable'
+  }
+  beforeAll(async done => {
     await userStorage.wallet.ready
     await userStorage.ready
+
+    const gunUser = gun.user()
+    gunUser.create('fakeuser', 'fakeuser', () => {
+      gunUser.auth('fakeuser', 'fakeuser', async () => {
+        await gunUser.get('profile').putAck(unavailableProfile)
+        await gun
+          .get('users/byemail')
+          .get(unavailableProfile.email)
+          .putAck(gunUser.get('profile'))
+        await gun
+          .get('users/bymobile')
+          .get(unavailableProfile.mobile)
+          .putAck(gunUser.get('profile'))
+        await gun
+          .get('users/byusername')
+          .get(unavailableProfile.username)
+          .putAck(gunUser.get('profile'))
+
+        await userStorage.init()
+        done()
+      })
+    })
   })
 
   it('should return user address by public email', async () => {
@@ -710,5 +737,20 @@ describe('users index', () => {
     const { isValid, errors } = await userStorage.validateProfile()
     expect(isValid).toBeFalsy()
     expect(errors).toEqual({})
+  })
+
+  it('validateProfile should return isValid=false when field is being used', async () => {
+    expect(await userStorage.isValidValue('email', unavailableProfile.email)).toBeFalsy()
+    expect(await userStorage.isValidValue('mobile', unavailableProfile.mobile)).toBeFalsy()
+    expect(await userStorage.isValidValue('username', unavailableProfile.username)).toBeFalsy()
+  })
+
+  it('validateProfile should return isValid=false when field is being used and error only in that field', async () => {
+    const { isValid, errors } = await userStorage.validateProfile({
+      email: unavailableProfile.email,
+      username: 'newUsername'
+    })
+    expect(isValid).toBeFalsy()
+    expect(errors).toEqual({ email: 'Unavailable email' })
   })
 })

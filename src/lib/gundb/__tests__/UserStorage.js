@@ -694,4 +694,21 @@ describe('users index', () => {
     let addr = await userStorage.getUserAddress('test@test.com')
     expect(addr).toBe(wallet)
   })
+
+  it('isValidValue should return true', async () => {
+    const isValidValue = await userStorage.isValidValue('email', 'test@test.com')
+    expect(isValidValue).toBeTruthy()
+  })
+
+  it('validateProfile should return isValid=true', async () => {
+    const { isValid, errors } = await userStorage.validateProfile({ email: 'test@test.com' })
+    expect(isValid).toBeTruthy()
+    expect(errors).toEqual({})
+  })
+
+  it('validateProfile should return isValid=false when not profile provided', async () => {
+    const { isValid, errors } = await userStorage.validateProfile()
+    expect(isValid).toBeFalsy()
+    expect(errors).toEqual({})
+  })
 })

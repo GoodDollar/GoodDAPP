@@ -23,6 +23,10 @@ export const init = () => {
       })
     }
     global.FS && FS.identify(emailOrId, {})
-    global.amplitude && amplitude.getInstance().setUserId(emailOrId)
+
+    if (global.amplitude) {
+      amplitude.getInstance().init(process.env.REACT_APP_AMPLITUDE_API_KEY)
+      amplitude.getInstance().setUserId(emailOrId)
+    }
   })
 }

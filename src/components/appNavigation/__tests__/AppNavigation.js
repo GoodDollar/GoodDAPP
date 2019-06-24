@@ -10,7 +10,7 @@ import userStorage from '../../../lib/gundb/UserStorage'
 
 import { StoresWrapper } from '../../../lib/undux/utils/storeswrapper.js'
 
-jest.setTimeout(10000)
+jest.setTimeout(15000)
 describe('AppNavigation', () => {
   beforeAll(() => Promise.all([goodWallet.ready, userStorage.ready]))
   it('renders without errors', () => {

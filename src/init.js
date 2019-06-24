@@ -12,7 +12,7 @@ export const init = () => {
   return Promise.all([goodWallet.ready, userStorage.ready]).then(async ([wallet, storage]) => {
     global.wallet = goodWallet
     const identifier = goodWallet.getAccountForType('login')
-    const email = await userStorage.getProfileFieldValue('email')
+    const email = (await userStorage.getProfileFieldValue('email')) || ''
     if (global.Rollbar && Config.env !== 'test') {
       global.Rollbar.configure({
         payload: {

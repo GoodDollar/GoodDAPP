@@ -323,7 +323,8 @@ export class GoodWallet {
         }
       }
     } catch (e) {
-      log.error('oneTimeEvents failed:', { e })
+      //temporary supress this error not to flod rollbar on production
+      //log.error('oneTimeEvents failed:', { e })
 
       if (callback === undefined) {
         return Promise.reject(e)

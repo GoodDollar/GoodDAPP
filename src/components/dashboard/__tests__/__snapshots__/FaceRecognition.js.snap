@@ -127,7 +127,7 @@ exports[`FaceRecognition Rendering matches snapshot 1`] = `
           }
         >
           <div
-            className="css-text-76zvg2"
+            className="css-text-901oao"
             dir="auto"
             style={
               Object {
@@ -140,7 +140,7 @@ exports[`FaceRecognition Rendering matches snapshot 1`] = `
             undefined, Just one more thing before we can get started...
           </div>
           <div
-            className="css-text-76zvg2"
+            className="css-text-901oao"
             dir="auto"
             style={
               Object {
@@ -183,7 +183,7 @@ exports[`FaceRecognition Rendering matches snapshot 1`] = `
               Object {
                 "WebkitBoxPack": "center",
                 "WebkitJustifyContent": "center",
-                "backgroundColor": "rgba(85,85,85,1.00)",
+                "backgroundColor": "rgba(0,0,0,0.12)",
                 "borderBottomColor": "rgba(0,0,0,0.00)",
                 "borderBottomLeftRadius": "4px",
                 "borderBottomRightRadius": "4px",
@@ -200,7 +200,6 @@ exports[`FaceRecognition Rendering matches snapshot 1`] = `
                 "borderTopRightRadius": "4px",
                 "borderTopStyle": "solid",
                 "borderTopWidth": "0px",
-                "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
                 "justifyContent": "center",
                 "minWidth": "auto",
                 "msFlexPack": "center",
@@ -208,15 +207,13 @@ exports[`FaceRecognition Rendering matches snapshot 1`] = `
             }
           >
             <div
-              className="css-cursor-18t94o4 css-view-1dbjc4n"
-              data-focusable={true}
-              disabled={false}
+              aria-disabled={true}
+              className="css-view-1dbjc4n"
+              disabled={true}
               onKeyDown={[Function]}
-              onKeyPress={[Function]}
               onKeyUp={[Function]}
               onResponderGrant={[Function]}
               onResponderMove={[Function]}
-              onResponderRelease={[Function]}
               onResponderTerminate={[Function]}
               onResponderTerminationRequest={[Function]}
               onStartShouldSetResponder={[Function]}
@@ -227,15 +224,11 @@ exports[`FaceRecognition Rendering matches snapshot 1`] = `
                   "borderBottomRightRadius": "4px",
                   "borderTopLeftRadius": "4px",
                   "borderTopRightRadius": "4px",
-                  "cursor": "pointer",
-                  "msTouchAction": "manipulation",
                   "overflowX": "hidden",
                   "overflowY": "hidden",
                   "position": "relative",
-                  "touchAction": "manipulation",
                 }
               }
-              tabIndex="0"
             >
               <div
                 className="css-view-1dbjc4n"
@@ -258,11 +251,82 @@ exports[`FaceRecognition Rendering matches snapshot 1`] = `
                 }
               >
                 <div
-                  className="css-text-76zvg2 css-textOneLine-bfa6kz"
+                  aria-valuemax="1"
+                  aria-valuemin="0"
+                  className="css-view-1dbjc4n"
+                  role="progressbar"
+                  style={
+                    Object {
+                      "WebkitAlignItems": "center",
+                      "WebkitBoxAlign": "center",
+                      "WebkitBoxPack": "center",
+                      "WebkitJustifyContent": "center",
+                      "alignItems": "center",
+                      "justifyContent": "center",
+                      "marginLeft": "12px",
+                      "marginRight": "-4px",
+                      "msFlexAlign": "center",
+                      "msFlexPack": "center",
+                      "width": "16px",
+                    }
+                  }
+                >
+                  <div
+                    className="css-view-1dbjc4n r-animationKeyframes-127358a"
+                    style={
+                      Object {
+                        "WebkitAnimationDuration": "0.75s",
+                        "WebkitAnimationIterationCount": "infinite",
+                        "WebkitAnimationTimingFunction": "linear",
+                        "animationDuration": "0.75s",
+                        "animationIterationCount": "infinite",
+                        "animationTimingFunction": "linear",
+                        "height": "20px",
+                        "width": "20px",
+                      }
+                    }
+                  >
+                    <svg
+                      height="100%"
+                      viewBox="0 0 32 32"
+                      width="100%"
+                    >
+                      <circle
+                        cx="16"
+                        cy="16"
+                        fill="none"
+                        r="14"
+                        strokeWidth="4"
+                        style={
+                          Object {
+                            "opacity": 0.2,
+                            "stroke": "rgba(0, 0, 0, 0.32)",
+                          }
+                        }
+                      />
+                      <circle
+                        cx="16"
+                        cy="16"
+                        fill="none"
+                        r="14"
+                        strokeWidth="4"
+                        style={
+                          Object {
+                            "stroke": "rgba(0, 0, 0, 0.32)",
+                            "strokeDasharray": 80,
+                            "strokeDashoffset": 60,
+                          }
+                        }
+                      />
+                    </svg>
+                  </div>
+                </div>
+                <div
+                  className="css-text-901oao css-textOneLine-bfa6kz"
                   dir="auto"
                   style={
                     Object {
-                      "color": "rgba(255,255,255,1.00)",
+                      "color": "rgba(0,0,0,0.32)",
                       "direction": "ltr",
                       "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                       "letterSpacing": "1px",
@@ -275,7 +339,7 @@ exports[`FaceRecognition Rendering matches snapshot 1`] = `
                   }
                 >
                   <span
-                    className="css-text-76zvg2 css-textHasAncestor-16my406"
+                    className="css-text-901oao css-textHasAncestor-16my406"
                     dir="auto"
                     style={
                       Object {

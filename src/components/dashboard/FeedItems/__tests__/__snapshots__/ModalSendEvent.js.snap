@@ -61,7 +61,7 @@ exports[`ModalSendEvent matches snapshot 1`] = `
     }
   >
     <div
-      className="css-text-76zvg2"
+      className="css-text-901oao"
       dir="auto"
       style={
         Object {
@@ -92,7 +92,7 @@ exports[`ModalSendEvent matches snapshot 1`] = `
       }
     >
       <div
-        className="css-text-76zvg2"
+        className="css-text-901oao"
         dir="auto"
         style={
           Object {
@@ -108,7 +108,7 @@ exports[`ModalSendEvent matches snapshot 1`] = `
         0.04
       </div>
       <div
-        className="css-text-76zvg2"
+        className="css-text-901oao"
         dir="auto"
         style={
           Object {
@@ -126,7 +126,7 @@ exports[`ModalSendEvent matches snapshot 1`] = `
     </div>
   </div>
   <div
-    className="css-text-76zvg2"
+    className="css-text-901oao"
     dir="auto"
   >
     04/01/19 3:03 PM
@@ -230,7 +230,7 @@ exports[`ModalSendEvent matches snapshot 1`] = `
       </div>
     </div>
     <div
-      className="css-text-76zvg2"
+      className="css-text-901oao"
       dir="auto"
       style={
         Object {
@@ -239,7 +239,7 @@ exports[`ModalSendEvent matches snapshot 1`] = `
       }
     >
       <span
-        className="css-text-76zvg2 css-textHasAncestor-16my406"
+        className="css-text-901oao css-textHasAncestor-16my406"
         dir="auto"
         style={
           Object {
@@ -252,7 +252,7 @@ exports[`ModalSendEvent matches snapshot 1`] = `
         To:
       </span>
       <span
-        className="css-text-76zvg2 css-textHasAncestor-16my406"
+        className="css-text-901oao css-textHasAncestor-16my406"
         dir="auto"
         style={
           Object {
@@ -279,7 +279,7 @@ exports[`ModalSendEvent matches snapshot 1`] = `
     }
   />
   <div
-    className="css-text-76zvg2"
+    className="css-text-901oao"
     dir="auto"
   >
     aaa
@@ -396,7 +396,7 @@ exports[`ModalSendEvent matches snapshot 1`] = `
           }
         >
           <div
-            className="css-text-76zvg2 css-textOneLine-bfa6kz"
+            className="css-text-901oao css-textOneLine-bfa6kz"
             dir="auto"
             style={
               Object {
@@ -413,7 +413,7 @@ exports[`ModalSendEvent matches snapshot 1`] = `
             }
           >
             <span
-              className="css-text-76zvg2 css-textHasAncestor-16my406"
+              className="css-text-901oao css-textHasAncestor-16my406"
               dir="auto"
               style={
                 Object {

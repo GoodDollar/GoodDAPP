@@ -5,19 +5,24 @@ import goodWallet from './lib/wallet/GoodWallet'
 import userStorage from './lib/gundb/UserStorage'
 import Config from './config/config'
 declare var amplitude
+
+declare var __insp
+declare var FS
 export const init = () => {
-  return Promise.all([goodWallet.ready, userStorage.ready]).then(() => {
+  return Promise.all([goodWallet.ready, userStorage.ready]).then(async ([wallet, storage]) => {
     global.wallet = goodWallet
+    const identifier = goodWallet.getAccountForType('login')
+    const emailOrId = (await userStorage.getProfileFieldValue('email')) || identifier
     if (global.Rollbar && Config.env !== 'test') {
       global.Rollbar.configure({
         payload: {
           person: {
-            id: goodWallet.getAccountForType('login')
+            id: emailOrId
           }
         }
       })
     }
-    amplitude.getInstance().setUserId(goodWallet.getAccountForType('login'))
-    return { goodWallet, userStorage }
+    global.FS && FS.identify(emailOrId, {})
+    global.amplitude && amplitude.getInstance().setUserId(emailOrId)
   })
 }

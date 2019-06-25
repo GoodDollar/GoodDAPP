@@ -17,9 +17,6 @@ const EditProfile = props => {
   const [isValid, setIsValid] = useState()
   const [errors, setErrors] = useState({})
   const [showErrorDialog] = useErrorDialog()
-  useEffect(() => {
-    userStorage.getPrivateProfile(profile).then(setProfile)
-  }, [profile.fullName])
 
   const validate = async () => {
     const { isValid, errors } = profile.validate()
@@ -29,11 +26,20 @@ const EditProfile = props => {
     return isValid && indexIsValid
   }
 
+  const handleProfileChange = newProfile => {
+    if (saving) {
+      return
+    }
+
+    setProfile(newProfile)
+  }
+
   const handleSaveButton = async () => {
     setSaving(true)
     const isValid = await validate()
 
     if (!isValid) {
+      setSaving(false)
       return
     }
 
@@ -55,7 +61,7 @@ const EditProfile = props => {
     <Wrapper>
       <Section style={styles.section}>
         <Section.Row style={styles.centered}>
-          <UserAvatar onChange={setProfile} editable={true} profile={profile} />
+          <UserAvatar onChange={handleProfileChange} editable={true} profile={profile} />
           <CustomButton
             disabled={saving || !isValid}
             loading={saving}
@@ -66,7 +72,7 @@ const EditProfile = props => {
             Save
           </CustomButton>
         </Section.Row>
-        <ProfileDataTable onChange={setProfile} editable={true} errors={errors} profile={profile} />
+        <ProfileDataTable onChange={handleProfileChange} editable={true} errors={errors} profile={profile} />
       </Section>
     </Wrapper>
   )

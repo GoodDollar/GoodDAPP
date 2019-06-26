@@ -41,6 +41,7 @@ const UserAvatar = (props: AvatarProps) => {
       <View style={styles.cropContainer}>
         <CreateAvatar
           onCrop={onChange}
+          mobileScaleSpeed={0.01}
           width={cropSize}
           height={cropSize}
           lineWidth={2}

@@ -13,7 +13,7 @@ export type AvatarProps = {
     avatar: string,
     fullName?: string
   },
-  onChange: any => mixed,
+  onChange?: any => mixed,
   editable?: boolean,
   size?: number
 }
@@ -21,12 +21,12 @@ export type AvatarProps = {
 /**
  * Touchable Users Avatar based on Avatar component
  * @param {AvatarProps} props
- * @param {Object} props.profile]
+ * @param {Object} props.profile
  * @param {string} props.profile.avatar
- * @param {string} [props.profile.fullName]
+ * @param {string} props.profile.fullName
  * @param {any => mixed} props.onChange
- * @param {boolean} [props.editable]
- * @param {Number} [props.size=120]
+ * @param {boolean} props.editable
+ * @param {Number} props.size - defaultValue=120
  * @returns {React.Node}
  */
 const UserAvatar = (props: AvatarProps) => {
@@ -38,12 +38,9 @@ const UserAvatar = (props: AvatarProps) => {
 
   return editable ? (
     <View style={styles.innerAvatar}>
-      <View style={styles.fullNameContainer}>
-        <Section.Title style={styles.fullName}>{profile.fullName}</Section.Title>
-      </View>
       <View style={styles.cropContainer}>
         <CreateAvatar
-          onCrop={avatar => onChange({ ...profile, avatar })}
+          onCrop={onChange}
           width={cropSize}
           height={cropSize}
           lineWidth={2}

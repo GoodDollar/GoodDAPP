@@ -1,4 +1,5 @@
 import Address from './Address'
+import AmountInput from './AmountInput'
 import Avatar from './Avatar'
 import CustomDialog from './CustomDialog'
 import CustomButton, { ButtonProps } from './CustomButton'
@@ -15,6 +16,7 @@ import Wrapper from './Wrapper'
 
 export {
   Address,
+  AmountInput,
   Avatar,
   UserAvatar,
   CustomButton,

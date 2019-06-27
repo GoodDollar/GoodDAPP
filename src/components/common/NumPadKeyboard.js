@@ -9,9 +9,16 @@ type KeyboardKeyProps = {
   onPress: string => void
 }
 
+type CaretPosition = {
+  start: number,
+  end: number
+}
+
 type KeyboardProps = {
   onPress: number => void,
-  amount: number
+  amount: number,
+  caretPosition?: CaretPosition,
+  updateCaretPosition?: CaretPosition => void
 }
 
 type KeyboardRowProps = {
@@ -39,9 +46,17 @@ const KeyboardRow = ({ keys, onPress }: KeyboardRowProps) => (
   </View>
 )
 
-const NumPadKeyboard = ({ onPress, amount }: KeyboardProps) => {
+const NumPadKeyboard = ({ onPress, amount, caretPosition, updateCaretPosition }: KeyboardProps) => {
   const onPressKey = (value: string) => {
-    onPress(Number(`${amount}${value}`))
+    const stringAmount = `${amount}`
+    const updatedValue = caretPosition
+      ? [stringAmount.slice(0, caretPosition.start), value, stringAmount.slice(caretPosition.end)].join('')
+      : `${stringAmount}${value}`
+    onPress(Number(updatedValue))
+    updateCaretPosition({
+      start: caretPosition.start + 1,
+      end: caretPosition.start + 1
+    })
   }
 
   const onBackspaceKey = () => {
@@ -60,6 +75,11 @@ const NumPadKeyboard = ({ onPress, amount }: KeyboardProps) => {
       </View>
     </View>
   )
+}
+
+NumPadKeyboard.defaultProps = {
+  caretPosition: null,
+  updateCaretPosition: () => {}
 }
 
 const styles = StyleSheet.create({

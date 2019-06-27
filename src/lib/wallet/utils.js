@@ -27,7 +27,7 @@ export const numberWithCommas = (gd: string): string => gd.replace(/\B(?=(\d{3})
 
 /**
  * convert gooddollars to wei (0 decimals) use toFixed to overcome javascript precision issues ie 8.95*Math.pow(0.1,2)=8.9500000001
- * @param {number | string} gd
+ * @param {string} gd
  * @returns {number}
  */
 export const gdToWei = (gd: string): number => {
@@ -47,5 +47,5 @@ export const toMask = (gd?: number, settings?: {}): string => {
 export const toRawValue = (masked: string, settings?: {}): number =>
   MaskService.toRawValue('money', masked, getComposedSettings(settings))
 
-export const weiToMask = (wei: number, settings?: {}): string => weiToGd(wei)
-export const maskToWei = (value: string, settings?: {}): number => gdToWei(value)
+export const weiToMask = (wei: number, settings?: {}): string => toMask(weiToGd(wei), settings)
+export const maskToWei = (mask: string, settings?: {}): number => gdToWei(toRawValue(mask, settings))

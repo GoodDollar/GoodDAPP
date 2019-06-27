@@ -12,6 +12,7 @@ import SimpleStore from '../../lib/undux/SimpleStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 
 import { getUserModel, type UserModel } from '../../lib/gundb/UserModel'
+import { fireEvent, initAnalytics } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
 import type { SMSRecord } from './SmsForm'
 import SignupCompleted from './SignupCompleted'
@@ -37,7 +38,6 @@ const SignupWizardNavigator = createSwitchNavigator(
   navigationConfig
 )
 
-declare var amplitude
 const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any }) => {
   const store = SimpleStore.useStore()
 
@@ -68,13 +68,8 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
     }, 300)
   }
   const fireSignupEvent = (event?: string) => {
-    const Amplitude = amplitude.getInstance()
     let curRoute = navigation.state.routes[navigation.state.index]
-    let res = Amplitude.logEvent(`SIGNUP_${event || curRoute.key}`)
-    if (!res) {
-      log.warn('Amplitude event not sent')
-    }
-    log.debug('fired event', `SIGNUP_${event || curRoute.key}`)
+    fireEvent(`SIGNUP_${event || curRoute.key}`)
   }
 
   useEffect(() => {
@@ -83,13 +78,13 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       setLoading(true)
       return navigateWithFocus(navigation.state.routes[0].key)
     }
-    fireSignupEvent('STARTED')
 
     //lazy login in background
     const ready = (async () => {
       const { init } = await import('../../init')
       const login = import('../../lib/login/GoodWalletLogin')
       const { goodWallet, userStorage } = await init()
+      initAnalytics(goodWallet, userStorage).then(_ => fireSignupEvent('STARTED'))
       await login.then(l => l.default.auth())
       return { goodWallet, userStorage }
     })()

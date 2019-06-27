@@ -382,80 +382,40 @@ exports[`Amount matches snapshot 1`] = `
                     }
                   }
                 >
-                  <div
-                    className="css-view-1dbjc4n"
+                  <input
+                    autoCapitalize="sentences"
+                    autoComplete="on"
+                    autoCorrect="on"
+                    autoFocus={true}
+                    className="css-textinput-1cwyjr8"
+                    data-focusable={true}
+                    dir="auto"
+                    disabled={false}
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    onKeyDown={[Function]}
+                    onKeyPress={[Function]}
+                    onSelect={[Function]}
+                    placeholder="0 G$"
+                    readOnly={false}
+                    spellCheck={true}
                     style={
                       Object {
                         "backgroundColor": "rgba(0,0,0,0.00)",
-                        "borderTopLeftRadius": "4px",
-                        "borderTopRightRadius": "4px",
-                        "display": "inline-flex",
+                        "borderBottomColor": "rgba(66,69,74,1.00)",
+                        "borderBottomWidth": "1px",
+                        "fontFamily": "RobotoSlab-Bold",
+                        "fontSize": "18px",
                         "height": "40px",
+                        "letterSpacing": "1.2px",
+                        "textAlign": "center",
                         "width": "100%",
                       }
                     }
-                  >
-                    <div
-                      className="css-view-1dbjc4n"
-                      style={
-                        Object {
-                          "WebkitTransform": "scaleY(0.5)",
-                          "backgroundColor": "rgba(0,0,0,0.26)",
-                          "bottom": "0px",
-                          "display": "inline-flex",
-                          "height": "2px",
-                          "left": "0px",
-                          "position": "absolute",
-                          "right": "0px",
-                          "transform": "scaleY(0.5)",
-                        }
-                      }
-                    />
-                    <input
-                      autoCapitalize="sentences"
-                      autoComplete="on"
-                      autoCorrect="on"
-                      autoFocus={true}
-                      className="css-textinput-1cwyjr8 r-placeholderTextColor-1qzd3f0"
-                      data-focusable={true}
-                      dir="auto"
-                      onBlur={[Function]}
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      onKeyDown={[Function]}
-                      onKeyPress={[Function]}
-                      onSelect={[Function]}
-                      placeholder="0 G$"
-                      readOnly={false}
-                      spellCheck={true}
-                      style={
-                        Object {
-                          "WebkitBoxFlex": 1,
-                          "WebkitFlexGrow": 1,
-                          "color": "rgba(0,0,0,1.00)",
-                          "flexGrow": 1,
-                          "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                          "fontSize": "16px",
-                          "marginBottom": "0px",
-                          "marginLeft": "0px",
-                          "marginRight": "0px",
-                          "marginTop": "0px",
-                          "minHeight": "58px",
-                          "msFlexPositive": 1,
-                          "paddingBottom": "15px",
-                          "paddingLeft": "12px",
-                          "paddingRight": "12px",
-                          "paddingTop": "15px",
-                          "textAlign": "left",
-                          "verticalAlign": "middle",
-                          "zIndex": 1,
-                        }
-                      }
-                      type="text"
-                      value="0.00"
-                      wei={0}
-                    />
-                  </div>
+                    type="text"
+                    value=""
+                  />
                 </div>
               </div>
             </div>

@@ -541,7 +541,7 @@ exports[`Claim matches snapshot 1`] = `
                     }
                   }
                 >
-                  CLAIM YOUR SHARE - 0.00 G$
+                  CLAIM YOUR SHARE - null
                 </span>
               </div>
             </div>

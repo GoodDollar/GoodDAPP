@@ -43,7 +43,7 @@ const EditProfile = props => {
   const handleAvatarPress = event => {
     event.preventDefault()
     event.stopPropagation()
-    screenProps.push(`${profile.avatar ? 'View' : 'Edit'}Avatar`)
+    screenProps.push('EditAvatar')
   }
 
   return (

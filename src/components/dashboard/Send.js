@@ -69,11 +69,10 @@ const ContinueButton = ({ screenProps, to, disabled, checkError }) => (
       }
       log.debug(`Oops, no error and no action`)
     }}
-    mode="contained"
     disabled={disabled}
     style={{ flex: 2 }}
   >
-    NEXT
+    Next
   </CustomButton>
 )
 
@@ -122,7 +121,7 @@ const Send = props => {
     <Wrapper>
       <TopBar push={props.screenProps.push} />
       <Section style={styles.bottomSection}>
-        <View style={styles.topContainer}>
+        <Section.Stack grow={1} justifyContent="space-evenly">
           <Section.Title style={styles.title}>TO WHOM?</Section.Title>
           <View style={styles.iconInputContainer}>
             <View style={styles.pasteIcon}>
@@ -141,17 +140,19 @@ const Send = props => {
           <HelperText type="error" visible={error}>
             {error}
           </HelperText>
-          <Section.Row>
-            <ScanQRButton screenProps={props.screenProps} disabled={!!to} />
-            <GenerateLinkButton screenProps={props.screenProps} disabled={!!to} />
-          </Section.Row>
-        </View>
-        <View style={styles.bottomContainer}>
-          <BackButton mode="text" screenProps={props.screenProps} style={{ flex: 1 }}>
-            Cancel
-          </BackButton>
-          <ContinueButton screenProps={props.screenProps} to={to} disabled={!to} checkError={checkError} />
-        </View>
+        </Section.Stack>
+        <Section.Row grow={2} justifyContent="flex-end">
+          <ScanQRButton screenProps={props.screenProps} disabled={!!to} />
+          <GenerateLinkButton screenProps={props.screenProps} disabled={!!to} />
+        </Section.Row>
+        <Section.Row>
+          <Section.Stack grow={1}>
+            <BackButton screenProps={props.screenProps}>Cancel</BackButton>
+          </Section.Stack>
+          <Section.Stack grow={2}>
+            <ContinueButton screenProps={props.screenProps} to={to} disabled={!to} checkError={checkError} />
+          </Section.Stack>
+        </Section.Row>
       </Section>
     </Wrapper>
   )

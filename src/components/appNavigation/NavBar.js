@@ -1,7 +1,7 @@
 //@flow
 import React from 'react'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import backButton from '../../assets/backButton.png'
+import { Appbar } from 'react-native-paper'
+import { StyleSheet } from 'react-native'
 
 /**
  * @type
@@ -19,44 +19,19 @@ type NavBarProps = {
 class NavBar extends React.Component<NavBarProps> {
   render() {
     return (
-      <View style={styles.navBar}>
-        <View style={styles.left}>
-          {this.props.goBack && <TouchableOpacity style={styles.backButton} onPress={this.props.goBack} />}
-        </View>
-        <Text style={styles.title}>{this.props.title}</Text>
-        <View style={styles.right} />
-      </View>
+      <Appbar.Header dark>
+        {this.props.goBack && <Appbar.BackAction onPress={this.props.goBack} />}
+        <Appbar.Content title={this.props.title} titleStyle={styles.titleStyle} />
+        {this.props.goBack && <Appbar.Action />}
+      </Appbar.Header>
     )
   }
 }
 
 const styles = StyleSheet.create({
-  navBar: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '60px',
-    backgroundColor: '#909090'
-  },
-  title: {
+  titleStyle: {
     textTransform: 'uppercase',
-    fontSize: '18px',
-    flexGrow: 2,
-    textAlign: 'center',
-    color: '#d2d2d2'
-  },
-  backButton: {
-    height: '25px',
-    width: '25px',
-    cursor: 'pointer',
-    backgroundImage: `url(${backButton})`
-  },
-  left: {
-    padding: 10,
-    minWidth: '40px'
-  },
-  right: {
-    minWidth: '40px'
+    textAlign: 'center'
   }
 })
 

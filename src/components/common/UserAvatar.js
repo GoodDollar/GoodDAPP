@@ -30,7 +30,7 @@ export type AvatarProps = {
  * @returns {React.Node}
  */
 const UserAvatar = (props: AvatarProps) => {
-  const { profile, editable, onChange } = props
+  const { profile, editable, onChange, onClose } = props
   let cropSize = isPortrait() ? getScreenWidth() - 70 : getScreenHeight() - 70
   if (cropSize > 320) {
     cropSize = 320
@@ -41,6 +41,7 @@ const UserAvatar = (props: AvatarProps) => {
       <View style={styles.cropContainer}>
         <CreateAvatar
           onCrop={onChange}
+          onClose={onClose}
           mobileScaleSpeed={0.01}
           width={cropSize}
           height={cropSize}

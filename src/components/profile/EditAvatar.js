@@ -32,11 +32,16 @@ const EditAvatar = props => {
     setChanged(true)
   }
 
+  const handleAvatarClose = () => {
+    setAvatar(null)
+    setChanged(true)
+  }
+
   return (
     <Wrapper>
       <Section style={styles.section}>
         <Section.Row style={styles.centered}>
-          <UserAvatar onChange={handleAvatarChange} editable={true} profile={profile} />
+          <UserAvatar onChange={handleAvatarChange} onClose={handleAvatarClose} editable={true} profile={profile} />
         </Section.Row>
         <Section.Row style={styles.centered}>
           <CustomButton disabled={!changed || saving} loading={saving} mode="outlined" onPress={saveAvatar}>

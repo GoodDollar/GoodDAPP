@@ -4,6 +4,7 @@ import { StyleSheet, View } from 'react-native'
 import { AmountInput, Section, TopBar, Wrapper } from '../common'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
 import goodWallet from '../../lib/wallet/GoodWallet'
+import { gdToWei, weiToGd } from '../../lib/wallet/utils'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import { receiveStyles as styles } from './styles'
 
@@ -17,8 +18,9 @@ const RECEIVE_TITLE = 'Receive G$'
 const Amount = (props: AmountProps) => {
   const { screenProps } = props
   const [screenState, setScreenState] = useScreenState(screenProps)
-  const { to, params, amount } = { amount: 0, ...screenState } || {}
-  const [loading, setLoading] = useState(amount <= 0)
+  const { to, params, amount: amountParam } = { amount: 0, ...screenState } || {}
+  const [amount, setAmount] = useState(weiToGd(amountParam))
+  const [loading, setLoading] = useState(amountParam <= 0)
   const [showDialogWithData] = useDialog()
 
   const canContinue = async () => {
@@ -26,21 +28,21 @@ const Amount = (props: AmountProps) => {
       return true
     }
 
-    if (!(await goodWallet.canSend(amount))) {
+    const weiAmount = gdToWei(amount)
+    if (!(await goodWallet.canSend(weiAmount))) {
       showDialogWithData({
         title: 'Cannot send G$',
         message: 'Amount is bigger than balance'
       })
-
       return false
     }
-
     return true
   }
 
   const handleContinue = async () => {
-    setLoading(true)
+    setScreenState({ amount: gdToWei(amount) })
 
+    setLoading(true)
     const can = await canContinue()
     setLoading(false)
 
@@ -48,7 +50,7 @@ const Amount = (props: AmountProps) => {
   }
 
   const handleAmountChange = (value: number) => {
-    setScreenState({ amount: value })
+    setAmount(value)
     setLoading(value <= 0)
   }
 

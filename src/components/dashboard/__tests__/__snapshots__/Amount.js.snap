@@ -429,7 +429,7 @@ exports[`Amount matches snapshot 1`] = `
                         }
                       }
                       type="text"
-                      value=""
+                      value="0.00"
                     />
                   </div>
                 </div>
@@ -519,7 +519,7 @@ exports[`Amount matches snapshot 1`] = `
                           "color": "rgba(66,69,74,1.00)",
                           "fontFamily": "RobotoSlab-Bold",
                           "fontSize": "20px",
-                          "fontWeight": 700,
+                          "fontWeight": "700",
                         }
                       }
                     >
@@ -578,7 +578,7 @@ exports[`Amount matches snapshot 1`] = `
                           "color": "rgba(66,69,74,1.00)",
                           "fontFamily": "RobotoSlab-Bold",
                           "fontSize": "20px",
-                          "fontWeight": 700,
+                          "fontWeight": "700",
                         }
                       }
                     >
@@ -637,7 +637,7 @@ exports[`Amount matches snapshot 1`] = `
                           "color": "rgba(66,69,74,1.00)",
                           "fontFamily": "RobotoSlab-Bold",
                           "fontSize": "20px",
-                          "fontWeight": 700,
+                          "fontWeight": "700",
                         }
                       }
                     >
@@ -718,7 +718,7 @@ exports[`Amount matches snapshot 1`] = `
                           "color": "rgba(66,69,74,1.00)",
                           "fontFamily": "RobotoSlab-Bold",
                           "fontSize": "20px",
-                          "fontWeight": 700,
+                          "fontWeight": "700",
                         }
                       }
                     >
@@ -777,7 +777,7 @@ exports[`Amount matches snapshot 1`] = `
                           "color": "rgba(66,69,74,1.00)",
                           "fontFamily": "RobotoSlab-Bold",
                           "fontSize": "20px",
-                          "fontWeight": 700,
+                          "fontWeight": "700",
                         }
                       }
                     >
@@ -836,7 +836,7 @@ exports[`Amount matches snapshot 1`] = `
                           "color": "rgba(66,69,74,1.00)",
                           "fontFamily": "RobotoSlab-Bold",
                           "fontSize": "20px",
-                          "fontWeight": 700,
+                          "fontWeight": "700",
                         }
                       }
                     >
@@ -917,7 +917,7 @@ exports[`Amount matches snapshot 1`] = `
                           "color": "rgba(66,69,74,1.00)",
                           "fontFamily": "RobotoSlab-Bold",
                           "fontSize": "20px",
-                          "fontWeight": 700,
+                          "fontWeight": "700",
                         }
                       }
                     >
@@ -976,7 +976,7 @@ exports[`Amount matches snapshot 1`] = `
                           "color": "rgba(66,69,74,1.00)",
                           "fontFamily": "RobotoSlab-Bold",
                           "fontSize": "20px",
-                          "fontWeight": 700,
+                          "fontWeight": "700",
                         }
                       }
                     >
@@ -1035,7 +1035,7 @@ exports[`Amount matches snapshot 1`] = `
                           "color": "rgba(66,69,74,1.00)",
                           "fontFamily": "RobotoSlab-Bold",
                           "fontSize": "20px",
-                          "fontWeight": 700,
+                          "fontWeight": "700",
                         }
                       }
                     >
@@ -1116,7 +1116,7 @@ exports[`Amount matches snapshot 1`] = `
                           "color": "rgba(66,69,74,1.00)",
                           "fontFamily": "RobotoSlab-Bold",
                           "fontSize": "20px",
-                          "fontWeight": 700,
+                          "fontWeight": "700",
                         }
                       }
                     >
@@ -1175,7 +1175,7 @@ exports[`Amount matches snapshot 1`] = `
                           "color": "rgba(66,69,74,1.00)",
                           "fontFamily": "RobotoSlab-Bold",
                           "fontSize": "20px",
-                          "fontWeight": 700,
+                          "fontWeight": "700",
                         }
                       }
                     >

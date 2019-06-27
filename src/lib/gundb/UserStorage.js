@@ -511,6 +511,50 @@ export class UserStorage {
   }
 
   /**
+   *
+   * @param {string} field
+   * @param {string} value
+   * @param {string} privacy
+   * @returns {boolean}
+   */
+  async isValidValue(field: string, value: string) {
+    const cleanValue = UserStorage.cleanFieldForIndex(field, value)
+
+    try {
+      const indexValue = await this.gun
+        .get(`users/by${field}`)
+        .get(cleanValue)
+        .then()
+      return !(indexValue && indexValue.pub !== this.gunuser.is.pub)
+    } catch (err) {
+      logger.error('indexProfileField', err)
+      return true
+    }
+  }
+
+  async validateProfile(profile: any) {
+    if (!profile) {
+      return { isValid: false, errors: {} }
+    }
+    const fields = Object.keys(profile).filter(prop => UserStorage.indexableFields[prop])
+
+    const validatedFields = await Promise.all(
+      fields.map(async field => ({ field, valid: await this.isValidValue(field, profile[field]) }))
+    )
+    const errors = validatedFields.reduce((accErrors, curr) => {
+      if (!curr.valid) {
+        accErrors[curr.field] = `Unavailable ${curr.field}`
+      }
+      return accErrors
+    }, {})
+
+    const isValid = validatedFields.every(elem => elem.valid)
+    logger.debug({ fields, validatedFields, errors, isValid })
+
+    return { isValid, errors }
+  }
+
+  /**
    * Set profile field with privacy settings
    *
    * @param {string} field - Profile attribute
@@ -580,11 +624,13 @@ export class UserStorage {
       return Promise.resolve({ err: 'Indexable field cannot be null or empty', ok: 0 })
     }
 
-    const indexNode = this.gun.get(`users/by${field}`).get(cleanValue)
-    logger.debug('indexProfileField', { field, cleanValue, value, privacy })
-
     try {
+      if (!(await this.isValidValue(field, value))) {
+        return Promise.resolve({ err: `Existing index on field ${field}`, ok: 0 })
+      }
+      const indexNode = this.gun.get(`users/by${field}`).get(cleanValue)
       const indexValue = await indexNode.then()
+
       logger.debug('indexProfileField', {
         field,
         value,
@@ -592,19 +638,17 @@ export class UserStorage {
         indexValue: indexValue,
         currentUser: this.gunuser.is.pub
       })
-      if (indexValue && indexValue.pub !== this.gunuser.is.pub) {
-        return Promise.resolve({ err: `Existing index on field ${field}`, ok: 0 })
-      }
+
       if (privacy !== 'public' && indexValue !== undefined) {
         return indexNode.putAck(null)
       }
 
-      const indexResult = indexNode.putAck(this.gunuser)
-
-      // logger.info({ gunResult })
-      return indexResult
+      return indexNode.putAck(this.gunuser)
     } catch (err) {
       logger.error('indexProfileField', err)
+
+      // TODO: this should return unexpected error
+      // return Promise.resolve({ err: `Unexpected Error`, ok: 0 })
     }
   }
 

@@ -9,5 +9,6 @@ export const init = () => {
   return Promise.all([goodWallet.ready, userStorage.ready]).then(async () => {
     global.wallet = goodWallet
     await initAnalytics(goodWallet, userStorage)
+    return { goodWallet, userStorage }
   })
 }

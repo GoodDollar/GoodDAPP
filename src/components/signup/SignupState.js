@@ -12,7 +12,7 @@ import SimpleStore from '../../lib/undux/SimpleStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 
 import { getUserModel, type UserModel } from '../../lib/gundb/UserModel'
-import { fireEvent } from '../../lib/analytics/analytics'
+import { fireEvent, initAnalytics } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
 import type { SMSRecord } from './SmsForm'
 import SignupCompleted from './SignupCompleted'
@@ -78,13 +78,13 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       setLoading(true)
       return navigateWithFocus(navigation.state.routes[0].key)
     }
-    fireSignupEvent('STARTED')
 
     //lazy login in background
     const ready = (async () => {
       const { init } = await import('../../init')
       const login = import('../../lib/login/GoodWalletLogin')
       const { goodWallet, userStorage } = await init()
+      initAnalytics(goodWallet, userStorage).then(_ => fireSignupEvent('STARTED'))
       await login.then(l => l.default.auth())
       return { goodWallet, userStorage }
     })()

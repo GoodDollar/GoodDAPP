@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native-web'
 import { normalize } from 'react-native-elements'
 import CreateAvatar from 'exif-react-avatar-edit'
 import { getScreenHeight, getScreenWidth, isPortrait } from '../../lib/utils/Orientation'
@@ -14,6 +14,8 @@ export type AvatarProps = {
     fullName?: string
   },
   onChange?: any => mixed,
+  onClose?: any => mixed,
+  originalSize?: boolean,
   editable?: boolean,
   size?: number
 }
@@ -25,12 +27,14 @@ export type AvatarProps = {
  * @param {string} props.profile.avatar
  * @param {string} props.profile.fullName
  * @param {any => mixed} props.onChange
+ * @param {any => mixed} props.onClose
+ * @param {boolean} props.originalSize
  * @param {boolean} props.editable
  * @param {Number} props.size - defaultValue=120
  * @returns {React.Node}
  */
 const UserAvatar = (props: AvatarProps) => {
-  const { profile, editable, onChange, onClose } = props
+  const { profile, editable, onChange, onClose, originalSize = false } = props
   let cropSize = isPortrait() ? getScreenWidth() - 70 : getScreenHeight() - 70
   if (cropSize > 320) {
     cropSize = 320
@@ -55,7 +59,7 @@ const UserAvatar = (props: AvatarProps) => {
   ) : (
     <View style={styles.avatar}>
       <View style={styles.innerAvatar}>
-        <Avatar size={120} {...props} source={profile.avatar} />
+        <Avatar size={originalSize ? cropSize : 120} {...props} source={profile.avatar} />
         <Section.Title>{profile.fullName}</Section.Title>
       </View>
     </View>

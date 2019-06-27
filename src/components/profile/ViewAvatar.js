@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import GDStore from '../../lib/undux/GDStore'
-import { Section, UserAvatar } from '../common'
+import { UserAvatar } from '../common'
 
 const TITLE = 'View Avatar'
 
@@ -9,13 +9,13 @@ const ViewAvatar = props => {
   const store = GDStore.useStore()
   const profile = store.get('profile')
 
-  return (
-    <Section>
-      <Section.Row>
-        <UserAvatar profile={profile} onPress={() => props.screenProps.push('EditAvatar')} />
-      </Section.Row>
-    </Section>
-  )
+  const handleAvatarPress = event => {
+    event.preventDefault()
+    event.stopPropagation()
+    props.screenProps.push('EditAvatar')
+  }
+
+  return <UserAvatar profile={profile} onPress={handleAvatarPress} originalSize={true} />
 }
 
 ViewAvatar.navigationOptions = {

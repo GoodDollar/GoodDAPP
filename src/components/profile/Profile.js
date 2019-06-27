@@ -1,10 +1,10 @@
 // @flow
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native-web'
 import Icon from 'react-native-elements/src/icons/Icon'
+import GDStore from '../../lib/undux/GDStore'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { Section, UserAvatar, Wrapper } from '../common'
-import GDStore from '../../lib/undux/GDStore'
 import EditAvatar from './EditAvatar'
 import EditProfile from './EditProfile'
 import ProfileDataTable from './ProfileDataTable'
@@ -24,12 +24,18 @@ const Profile = props => {
   const profile = GDStore.useStore().get('profile')
   const { screenProps } = props
 
+  const handleAvatarPress = event => {
+    event.preventDefault()
+    event.stopPropagation()
+    screenProps.push(`${profile.avatar ? 'View' : 'Edit'}Avatar`)
+  }
+
   return (
     <Wrapper>
       <Section style={styles.section}>
         <Section.Row style={styles.centered}>
           {/* <PrivateIcon onPress={() => log.debug('PrivateIcon')} /> */}
-          <UserAvatar profile={profile} onPress={() => screenProps.push(`${profile.avatar ? 'View' : 'Edit'}Avatar`)} />
+          <UserAvatar profile={profile} onPress={handleAvatarPress} />
           <EditIcon onPress={() => screenProps.push('EditProfile')} />
         </Section.Row>
         <ProfileDataTable profile={profile} />

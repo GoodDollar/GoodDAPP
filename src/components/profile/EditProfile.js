@@ -1,10 +1,10 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { StyleSheet } from 'react-native'
-import { CustomButton, Section, UserAvatar, Wrapper } from '../common'
-import GDStore from '../../lib/undux/GDStore'
+import { StyleSheet } from 'react-native-web'
 import { useWrappedUserStorage } from '../../lib/gundb/useWrappedStorage'
+import GDStore from '../../lib/undux/GDStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
+import { CustomButton, Section, UserAvatar, Wrapper } from '../common'
 import ProfileDataTable from './ProfileDataTable'
 
 const TITLE = 'Edit Profile'
@@ -40,11 +40,17 @@ const EditProfile = props => {
     screenProps.pop()
   }
 
+  const handleAvatarPress = event => {
+    event.preventDefault()
+    event.stopPropagation()
+    screenProps.push(`${profile.avatar ? 'View' : 'Edit'}Avatar`)
+  }
+
   return (
     <Wrapper>
       <Section style={styles.section}>
         <Section.Row style={styles.centered}>
-          <UserAvatar profile={profile} onPress={() => screenProps.push(`${profile.avatar ? 'View' : 'Edit'}Avatar`)} />
+          <UserAvatar profile={profile} onPress={handleAvatarPress} />
           <CustomButton
             disabled={saving}
             loading={saving}

@@ -76,7 +76,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between'
   },
   title: {
-    ...fontStyle
+    ...fontStyle,
+    fontSize: normalize(24),
+    fontWeight: '500',
+    textTransform: 'uppercase'
   },
   text: {
     ...fontStyle,

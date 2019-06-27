@@ -18,6 +18,6 @@ exports[`InputGoodDollar matches snapshot 1`] = `
   readOnly={false}
   spellCheck={true}
   type="text"
-  value="120.02"
+  wei={12002}
 />
 `;

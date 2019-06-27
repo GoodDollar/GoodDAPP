@@ -30,8 +30,8 @@ const AmountInput = ({ amount, handleAmountChange }: AmountInputProps) => {
                 disabled={isMobile}
                 autoFocus
                 style={styles.amountInput}
-                wei={amount}
-                onChangeWei={handleAmountChange}
+                amount={amount}
+                onChangeAmount={handleAmountChange}
                 onSelectionChange={setCaretPosition}
               />
             </Text>
@@ -39,8 +39,8 @@ const AmountInput = ({ amount, handleAmountChange }: AmountInputProps) => {
         </TouchableWithoutFeedback>
       </View>
       <NumPadKeyboard
-        onPress={handleAmountChange}
         amount={amount}
+        onPress={handleAmountChange}
         caretPosition={caretPosition}
         updateCaretPosition={setCaretPosition}
       />

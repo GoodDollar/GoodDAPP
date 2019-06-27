@@ -3,6 +3,7 @@ import React from 'react'
 import { StyleSheet, Text, TouchableHighlight, View } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import backKeyboardButton from '../../assets/backKeyboardButton.png'
+import { moneyRegexp, numberWithCommas } from '../../lib/wallet/utils'
 
 type KeyboardKeyProps = {
   keyValue: string,
@@ -15,8 +16,8 @@ type CaretPosition = {
 }
 
 type KeyboardProps = {
-  onPress: number => void,
-  amount: number,
+  onPress: string => void,
+  amount: string,
   caretPosition?: CaretPosition,
   updateCaretPosition?: CaretPosition => void
 }
@@ -52,16 +53,23 @@ const NumPadKeyboard = ({ onPress, amount, caretPosition, updateCaretPosition }:
     const updatedValue = caretPosition
       ? [stringAmount.slice(0, caretPosition.start), value, stringAmount.slice(caretPosition.end)].join('')
       : `${stringAmount}${value}`
-    onPress(Number(updatedValue))
-    updateCaretPosition({
-      start: caretPosition.start + 1,
-      end: caretPosition.start + 1
-    })
+
+    if (moneyRegexp.test(updatedValue)) {
+      const isDecimal = updatedValue.indexOf('.') > -1
+      if (isDecimal) {
+        const [intValue, decimalVal] = updatedValue.split('.')
+        onPress(`${numberWithCommas(intValue)}.${decimalVal}`)
+      } else {
+        onPress(numberWithCommas(updatedValue))
+      }
+      updateCaretPosition({
+        start: caretPosition.start + 1,
+        end: caretPosition.start + 1
+      })
+    }
   }
 
-  const onBackspaceKey = () => {
-    onPress(Number(`${amount}`.slice(0, -1)))
-  }
+  const onBackspaceKey = () => onPress(`${amount}`.slice(0, -1))
 
   return (
     <View style={styles.keyboard}>
@@ -103,7 +111,7 @@ const styles = StyleSheet.create({
   keyText: {
     fontSize: normalize(20),
     fontFamily: 'RobotoSlab-Bold',
-    fontWeight: 700,
+    fontWeight: '700',
     color: '#42454a'
   },
   backspaceButton: {

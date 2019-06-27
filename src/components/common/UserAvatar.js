@@ -17,7 +17,7 @@ export type AvatarProps = {
   onClose?: any => mixed,
   originalSize?: boolean,
   editable?: boolean,
-  size?: number
+  children?: React.Node
 }
 
 /**
@@ -30,11 +30,11 @@ export type AvatarProps = {
  * @param {any => mixed} props.onClose
  * @param {boolean} props.originalSize
  * @param {boolean} props.editable
- * @param {Number} props.size - defaultValue=120
+ * @param {React.Node} props.children
  * @returns {React.Node}
  */
 const UserAvatar = (props: AvatarProps) => {
-  const { profile, editable, onChange, onClose, originalSize = false } = props
+  const { profile, editable, onChange, onClose, originalSize = false, children } = props
   let cropSize = isPortrait() ? getScreenWidth() - 70 : getScreenHeight() - 70
   if (cropSize > 320) {
     cropSize = 320
@@ -59,7 +59,9 @@ const UserAvatar = (props: AvatarProps) => {
   ) : (
     <View style={styles.avatar}>
       <View style={styles.innerAvatar}>
-        <Avatar size={originalSize ? cropSize : 120} {...props} source={profile.avatar} />
+        <Avatar size={originalSize ? cropSize : 120} {...props} source={profile.avatar}>
+          {children}
+        </Avatar>
         <Section.Title>{profile.fullName}</Section.Title>
       </View>
     </View>

@@ -1,10 +1,11 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { StyleSheet } from 'react-native-web'
+import StyleSheet from 'react-native-web/dist/exports/StyleSheet/StyleSheet'
 import { useWrappedUserStorage } from '../../lib/gundb/useWrappedStorage'
 import GDStore from '../../lib/undux/GDStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import { CustomButton, Section, UserAvatar, Wrapper } from '../common'
+import CameraButton from './CameraButton'
 import ProfileDataTable from './ProfileDataTable'
 
 const TITLE = 'Edit Profile'
@@ -43,6 +44,12 @@ const EditProfile = props => {
   const handleAvatarPress = event => {
     event.preventDefault()
     event.stopPropagation()
+    screenProps.push(`${profile.avatar ? 'View' : 'Edit'}Avatar`)
+  }
+
+  const handleCameraPress = event => {
+    event.preventDefault()
+    event.stopPropagation()
     screenProps.push('EditAvatar')
   }
 
@@ -50,7 +57,9 @@ const EditProfile = props => {
     <Wrapper>
       <Section style={styles.section}>
         <Section.Row style={styles.centered}>
-          <UserAvatar profile={profile} onPress={handleAvatarPress} />
+          <UserAvatar profile={profile} onPress={handleAvatarPress}>
+            <CameraButton handleCameraPress={handleCameraPress} />
+          </UserAvatar>
           <CustomButton
             disabled={saving}
             loading={saving}

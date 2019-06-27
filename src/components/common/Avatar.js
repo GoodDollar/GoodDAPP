@@ -27,6 +27,7 @@ export default (props: AvatarProps) => (
       {...props}
       style={[styles.avatar, props.style]}
     />
+    {props.children}
   </TouchableOpacity>
 )
 

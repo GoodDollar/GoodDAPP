@@ -1,8 +1,7 @@
 // @flow
 import React, { useState } from 'react'
-import { Keyboard, StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native'
-import { isMobile } from 'mobile-device-detect'
-import { InputGoodDollar, NumPadKeyboard, Section, TopBar, Wrapper } from '../common'
+import { StyleSheet, View } from 'react-native'
+import { AmountInput, Section, TopBar, Wrapper } from '../common'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { useDialog } from '../../lib/undux/utils/dialog'
@@ -58,29 +57,7 @@ const Amount = (props: AmountProps) => {
       <TopBar push={screenProps.push} />
       <Section style={customStyles.section}>
         <Section.Row style={styles.sectionRow}>
-          <View style={styles.inputField}>
-            <Section.Title style={styles.headline}>How much?</Section.Title>
-            <View style={styles.amountWrapper}>
-              <TouchableWithoutFeedback
-                onPress={() => (isMobile ? Keyboard.dismiss() : null)}
-                accessible={false}
-                style={styles.section}
-              >
-                <View style={styles.section}>
-                  <Text style={styles.amountInputWrapper}>
-                    <InputGoodDollar
-                      disabled={isMobile}
-                      autoFocus
-                      style={styles.amountInput}
-                      wei={amount}
-                      onChangeWei={handleAmountChange}
-                    />
-                  </Text>
-                </View>
-              </TouchableWithoutFeedback>
-            </View>
-            <NumPadKeyboard onPress={handleAmountChange} amount={amount} />
-          </View>
+          <AmountInput amount={amount} handleAmountChange={handleAmountChange} />
           <View style={styles.buttonGroup}>
             <BackButton mode="text" screenProps={screenProps} style={{ flex: 1 }}>
               Cancel

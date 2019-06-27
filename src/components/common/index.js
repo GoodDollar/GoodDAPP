@@ -6,6 +6,7 @@ import { Provider } from 'react-native-paper'
 import { fontStyle } from './styles'
 
 import Address from './Address'
+import AmountInput from './AmountInput'
 import Avatar from './Avatar'
 import CustomDialog from './CustomDialog'
 import CustomButton from './CustomButton'
@@ -90,6 +91,7 @@ const styles = StyleSheet.create({
 
 export {
   Address,
+  AmountInput,
   Avatar,
   UserAvatar,
   CustomButton,

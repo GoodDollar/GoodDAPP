@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { StyleSheet, TouchableOpacity } from 'react-native-web'
+import { StyleSheet, TouchableOpacity } from 'react-native'
 import { Avatar } from 'react-native-paper'
 
 export type AvatarProps = {

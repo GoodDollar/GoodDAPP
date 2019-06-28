@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { StyleSheet, View } from 'react-native-web'
+import { StyleSheet, View } from 'react-native'
 import Icon from 'react-native-elements/src/icons/Icon'
 import GDStore from '../../lib/undux/GDStore'
 import { createStackNavigator } from '../appNavigation/stackNavigation'

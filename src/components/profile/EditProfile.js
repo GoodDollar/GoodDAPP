@@ -1,6 +1,6 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import StyleSheet from 'react-native-web/dist/exports/StyleSheet/StyleSheet'
+import { StyleSheet } from 'react-native'
 import { useWrappedUserStorage } from '../../lib/gundb/useWrappedStorage'
 import GDStore from '../../lib/undux/GDStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'

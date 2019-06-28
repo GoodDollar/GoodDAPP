@@ -2,7 +2,7 @@
 import React from 'react'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import IconButton from 'react-native-paper/src/components/IconButton'
-import { StyleSheet, View } from 'react-native-web'
+import { StyleSheet, View } from 'react-native'
 
 const CameraButton = ({ handleCameraPress, containerStyles = {}, iconStyles = {} }) => (
   <View style={[cameraStyles.container, containerStyles]}>

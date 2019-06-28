@@ -35,7 +35,7 @@ const InputGoodDollar = (props: Props) => {
 
   const handleValueChange = (text: string) => {
     if (text === '' || moneyRegexp.test(text)) {
-      onChangeAmount(text)
+      onChangeAmount(text.replace(',', '.'))
     }
   }
 

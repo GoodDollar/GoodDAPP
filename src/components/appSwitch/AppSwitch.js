@@ -8,8 +8,7 @@ import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
 import GDStore from '../../lib/undux/GDStore'
 import { checkAuthStatus } from '../../lib/login/checkAuthStatus'
-import { CustomDialog } from '../common'
-import LoadingIndicator from '../common/LoadingIndicator'
+import { CustomDialog, LoadingIndicator } from '../common'
 
 type LoadingProps = {
   navigation: any,

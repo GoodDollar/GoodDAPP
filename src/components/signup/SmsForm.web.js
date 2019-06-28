@@ -5,7 +5,7 @@ import OtpInput from 'react-otp-input'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
-import LoadingIndicator from '../common/LoadingIndicator'
+import LoadingIndicator from '../common/view/LoadingIndicator'
 import { ActionButton, Description, Error, Title, Wrapper } from './components'
 import type { SignupState } from './SignupState'
 const log = logger.child({ from: 'SmsForm.web' })

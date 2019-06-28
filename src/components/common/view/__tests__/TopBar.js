@@ -5,7 +5,7 @@ import { Text } from 'react-native-paper'
 // Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer'
 
-import GDStore from '../../../lib/undux/GDStore'
+import GDStore from '../../../../lib/undux/GDStore'
 import TopBar from '../TopBar'
 
 const { Container } = GDStore

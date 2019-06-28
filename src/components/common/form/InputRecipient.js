@@ -2,8 +2,8 @@ import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Icon, normalize } from 'react-native-elements'
 import { HelperText, TextInput } from 'react-native-paper'
-import Clipboard from '../../lib/utils/Clipboard'
-import logger from '../../lib/logger/pino-logger'
+import Clipboard from '../../../lib/utils/Clipboard'
+import logger from '../../../lib/logger/pino-logger'
 const log = logger.child({ from: 'InputRecipient' })
 
 /**

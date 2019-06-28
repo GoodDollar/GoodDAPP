@@ -3,19 +3,14 @@ import React from 'react'
 // Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer'
 
-import EventDialog from '../EventDialog'
-import { Wrapper } from '../index'
-import { mockEvent } from '../../dashboard/__tests__/__util__'
+import CustomDialog from '../CustomDialog'
+import { Wrapper } from '../../index'
 
-const event = mockEvent('Received')
-
-describe('EventDialog', () => {
+describe('CustomDialog', () => {
   it('renders without errors', () => {
     const tree = renderer.create(
       <Wrapper>
-        <EventDialog visible event={event}>
-          Next
-        </EventDialog>
+        <CustomDialog>Next</CustomDialog>
       </Wrapper>
     )
     expect(tree.toJSON()).toBeTruthy()
@@ -24,9 +19,7 @@ describe('EventDialog', () => {
   it('matches snapshot', () => {
     const component = renderer.create(
       <Wrapper>
-        <EventDialog visible event={event}>
-          Next
-        </EventDialog>
+        <CustomDialog>Next</CustomDialog>
       </Wrapper>
     )
     const tree = component.toJSON()

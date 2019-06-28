@@ -98,7 +98,7 @@ export default class SmsForm extends React.Component<Props, State> {
   }
 
   handleRetry = async () => {
-    this.setState({ sendingCode: true, otp: '' })
+    this.setState({ sendingCode: true, otp: '', errorMessage: '' })
 
     try {
       await API.sendOTP({ ...this.props.screenProps.data })

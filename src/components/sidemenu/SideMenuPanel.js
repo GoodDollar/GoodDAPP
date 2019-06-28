@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { ScrollView, StyleSheet, TouchableOpacity } from 'react-native-web'
+import { ScrollView, StyleSheet, TouchableOpacity } from 'react-native'
 import { Icon, normalize } from 'react-native-elements'
 import { useSidemenu } from '../../lib/undux/utils/sidemenu'
 import { useWrappedApi } from '../../lib/API/useWrappedApi'

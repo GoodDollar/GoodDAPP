@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { ScrollView, StyleSheet, TouchableOpacity } from 'react-native'
+import { ScrollView, StyleSheet, TouchableOpacity } from 'react-native-web'
 import { Icon, normalize } from 'react-native-elements'
 import { useSidemenu } from '../../lib/undux/utils/sidemenu'
 import { useWrappedApi } from '../../lib/API/useWrappedApi'
@@ -32,6 +32,17 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation, s
     action: () => {
       navigation.navigate({
         routeName: 'BackupWallet',
+        type: 'Navigation/NAVIGATE'
+      })
+      hideSidemenu()
+    }
+  },
+  {
+    icon: 'person-add',
+    name: 'Profile Privacy',
+    action: () => {
+      navigation.navigate({
+        routeName: 'ProfilePrivacy',
         type: 'Navigation/NAVIGATE'
       })
       hideSidemenu()

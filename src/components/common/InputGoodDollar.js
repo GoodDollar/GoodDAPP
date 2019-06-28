@@ -1,7 +1,7 @@
 // @flow
 import React, { useState } from 'react'
 import { TextInput } from 'react-native'
-import { moneyRegexp, numberWithCommas } from '../../lib/wallet/utils'
+import { moneyRegexp } from '../../lib/wallet/utils'
 
 type SelectionProp = {
   start: number,
@@ -22,28 +22,6 @@ type SelectionEvent = {
   }
 }
 
-const getUpdatedPosition = (text, inputType, selection) => {
-  let updatedSelection = selection
-  const [integerText] = text.split('.')
-  if (inputType === 'deleteContentBackward') {
-    if (integerText.replace(/,/g, '').length % 3 === 0 && integerText.length > 1) {
-      updatedSelection = {
-        start: selection.start - 1,
-        end: selection.end - 1
-      }
-    }
-  } else if (inputType) {
-    if (integerText.replace(/,/g, '').length % 3 === 1 && integerText.length > 1) {
-      updatedSelection = {
-        start: selection.start + 1,
-        end: selection.end + 1
-      }
-    }
-  }
-
-  return updatedSelection
-}
-
 /**
  * Receives amount and shows as G$ using `TextInput` component (react-native-paper).
  * @param {Props} props
@@ -56,24 +34,14 @@ const InputGoodDollar = (props: Props) => {
   const [selection, setSelection] = useState({ start: 0, end: 0 })
 
   const handleValueChange = (text: string) => {
-    if (text === '') {
+    if (text === '' || moneyRegexp.test(text)) {
       onChangeAmount(text)
-    }
-    if (moneyRegexp.test(text)) {
-      const isDecimal = text.indexOf('.') > -1
-      if (isDecimal) {
-        const [intValue, decimalVal] = text.split('.')
-        onChangeAmount(`${numberWithCommas(intValue)}.${decimalVal}`)
-      } else {
-        onChangeAmount(numberWithCommas(text))
-      }
     }
   }
 
-  const handleSelectionChange = ({ nativeEvent: { text, inputType, selection } }: SelectionEvent) => {
-    const updatedSelection = getUpdatedPosition(text, inputType, selection)
-    setSelection(updatedSelection)
-    onSelectionChange(updatedSelection)
+  const handleSelectionChange = ({ nativeEvent: { selection } }: SelectionEvent) => {
+    setSelection(selection)
+    onSelectionChange(selection)
   }
 
   return (

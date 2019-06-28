@@ -19,7 +19,7 @@ const Amount = (props: AmountProps) => {
   const { screenProps } = props
   const [screenState, setScreenState] = useScreenState(screenProps)
   const { to, params, amount: amountParam } = { amount: 0, ...screenState } || {}
-  const [amount, setAmount] = useState(weiToGd(amountParam))
+  const [amount, setAmount] = useState(amountParam > 0 ? weiToGd(amountParam) : '')
   const [loading, setLoading] = useState(amountParam <= 0)
   const [showDialogWithData] = useDialog()
 

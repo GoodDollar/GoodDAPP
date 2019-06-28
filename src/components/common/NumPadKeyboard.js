@@ -3,7 +3,7 @@ import React from 'react'
 import { StyleSheet, Text, TouchableHighlight, View } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import backKeyboardButton from '../../assets/backKeyboardButton.png'
-import { moneyRegexp, numberWithCommas } from '../../lib/wallet/utils'
+import { moneyRegexp } from '../../lib/wallet/utils'
 
 type KeyboardKeyProps = {
   keyValue: string,
@@ -55,13 +55,7 @@ const NumPadKeyboard = ({ onPress, amount, caretPosition, updateCaretPosition }:
       : `${stringAmount}${value}`
 
     if (moneyRegexp.test(updatedValue)) {
-      const isDecimal = updatedValue.indexOf('.') > -1
-      if (isDecimal) {
-        const [intValue, decimalVal] = updatedValue.split('.')
-        onPress(`${numberWithCommas(intValue)}.${decimalVal}`)
-      } else {
-        onPress(numberWithCommas(updatedValue))
-      }
+      onPress(updatedValue)
       updateCaretPosition({
         start: caretPosition.start + 1,
         end: caretPosition.start + 1
@@ -69,7 +63,17 @@ const NumPadKeyboard = ({ onPress, amount, caretPosition, updateCaretPosition }:
     }
   }
 
-  const onBackspaceKey = () => onPress(`${amount}`.slice(0, -1))
+  const onBackspaceKey = () => {
+    const stringAmount = `${amount}`
+    const updatedValue = caretPosition
+      ? [stringAmount.slice(0, caretPosition.start - 1), stringAmount.slice(caretPosition.end)].join('')
+      : stringAmount.slice(0, -1)
+    onPress(updatedValue)
+    updateCaretPosition({
+      start: caretPosition.start - 1,
+      end: caretPosition.start - 1
+    })
+  }
 
   return (
     <View style={styles.keyboard}>

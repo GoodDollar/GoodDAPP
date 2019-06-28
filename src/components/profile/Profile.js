@@ -6,6 +6,7 @@ import { Section, UserAvatar, Wrapper } from '../common'
 import GDStore from '../../lib/undux/GDStore'
 import EditProfile from './EditProfile'
 import ProfileDataTable from './ProfileDataTable'
+import ProfilePrivacy from './ProfilePrivacy'
 
 const TITLE = 'Profile'
 
@@ -61,4 +62,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default createStackNavigator({ Profile, EditProfile })
+export default createStackNavigator({ Profile, EditProfile, ProfilePrivacy })

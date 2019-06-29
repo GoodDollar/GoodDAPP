@@ -17,10 +17,12 @@ const log = logger.child({ from: TITLE })
 const Mnemonics = () => {
   const [mnemonics, setMnemonics] = useState()
   const store = GDStore.useStore()
+
   const handleChange = (mnemonics: []) => {
     log.info({ mnemonics })
     setMnemonics(mnemonics.join(' '))
   }
+
   const recover = async () => {
     if (!mnemonics || !bip39.validateMnemonic(mnemonics)) {
       store.set('currentScreen')({
@@ -33,13 +35,33 @@ const Mnemonics = () => {
       })
       return
     }
+
     const prevMnemonics = await getMnemonics()
+
     try {
       // We need to try to get a new address using new mnenonics
       await saveMnemonics(mnemonics)
 
-      // There is no error. Reload screen to start with users mnemonics
-      window.location = '/'
+      // We validate that a user was registered for the specified mnemonics
+      const profile = await retrieveCurrentGunProfile()
+
+      if (profile) {
+        // There is no error and Profile exists. Reload screen to start with users mnemonics
+        window.location = '/'
+      } else {
+        log.error('No profile available for mnemonics')
+
+        await saveMnemonics(prevMnemonics)
+
+        store.set('currentScreen')({
+          dialogData: {
+            visible: true,
+            title: 'ERROR',
+            message: 'No user registered for specified mnemonics',
+            dismissText: 'OK'
+          }
+        })
+      }
     } catch (err) {
       log.error(err)
       saveMnemonics(prevMnemonics)
@@ -63,6 +85,25 @@ const Mnemonics = () => {
       </View>
     </View>
   )
+}
+
+/**
+ * Helper to retrieve current mnemonic associated gun's profile
+ * @returns {Promise<Promise<*>|Promise<*>|Promise<any>>}
+ */
+async function retrieveCurrentGunProfile(): Promise<any> {
+  // Instantiate goodWallet to use it as the userStorage constructor param
+  const { GoodWallet } = await import('../../lib/wallet/GoodWallet')
+  const goodWallet = new GoodWallet()
+  await goodWallet.ready
+
+  // Instantiate userStorage with the specified mnemonics
+  const { UserStorage } = await import('../../lib/gundb/UserStorage')
+  const userStorage = new UserStorage(goodWallet)
+  await userStorage.ready
+
+  // returns found profile for specified mnemonics
+  return userStorage.profile.load().then()
 }
 
 Mnemonics.navigationOptions = {

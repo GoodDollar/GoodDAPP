@@ -107,20 +107,19 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       try {
         let { data } = await API.sendOTP(newState)
         if (data.ok === 0) {
-          setLoading(false)
           return showErrorDialog('Sending mobile verification code failed', data.error)
         }
         return navigateWithFocus(nextRoute.key)
       } catch (e) {
         log.error(e)
         showErrorDialog('Sending mobile verification code failed', e)
+      } finally {
         setLoading(false)
       }
     } else if (nextRoute && nextRoute.key === 'EmailConfirmation') {
       try {
         const { data } = await API.sendVerificationEmail(newState)
         if (data.ok === 0) {
-          setLoading(false)
           return showErrorDialog('Failed sending verificaiton email', data.error)
         }
         log.debug('skipping email verification?', { ...data, skip: Config.skipEmailVerification })
@@ -136,16 +135,15 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
           // if email is properly sent, persist current user's information to userStorage
           // await userStorage.setProfile({ ...newState, walletAddress: goodWallet.account })
         }
-        setLoading(false)
         return navigateWithFocus(nextRoute.key)
       } catch (e) {
         log.error(e)
         showErrorDialog('Email verification failed', e)
+      } finally {
         setLoading(false)
       }
     } else {
       if (nextRoute) {
-        setLoading(false)
         return navigateWithFocus(nextRoute.key)
       }
       log.info('Sending new user data', state)
@@ -172,6 +170,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       } catch (e) {
         log.error('New user failure', { e, message: e.message })
         showErrorDialog('New user creation failed', e)
+      } finally {
         setLoading(false)
       }
     }

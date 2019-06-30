@@ -30,9 +30,8 @@ const updateAll = store => {
  * @returns {Promise<void>}
  */
 const onBalanceChange = async (error: {}, events: [] = [], store: Store) => {
-  log.debug('new Transfer events:', { error, events })
-
   if (!error && events.length) {
+    log.debug('new Transfer events:', { error, events })
     await updateAll(store)
   }
 }

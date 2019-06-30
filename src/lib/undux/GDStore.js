@@ -34,7 +34,7 @@ export type StandardFeed = {
     endpoint: {
       address: string,
       fullName: string,
-      avatar: string
+      avatar?: string
     },
     amount: string,
     message: string

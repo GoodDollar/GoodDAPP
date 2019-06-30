@@ -12,25 +12,40 @@ const log = logger.child({ from: TITLE })
 
 const EditProfile = props => {
   const store = GDStore.useStore()
-  const wrappedUserStorage = useWrappedUserStorage()
+  const userStorage = useWrappedUserStorage()
 
   const [profile, setProfile] = useState(store.get('profile'))
   const [saving, setSaving] = useState()
+  const [isValid, setIsValid] = useState()
   const [errors, setErrors] = useState({})
   const [showErrorDialog] = useErrorDialog()
-  useEffect(() => {
-    wrappedUserStorage.getPrivateProfile(profile).then(setProfile)
-  }, [profile.fullName])
 
-  const handleSaveButton = () => {
+  const validate = async () => {
     const { isValid, errors } = profile.validate()
-    setErrors(errors)
-    if (!isValid) {
+    const { isValid: indexIsValid, errors: indexErrors } = await userStorage.validateProfile(profile)
+    setErrors({ ...errors, ...indexErrors })
+    setIsValid(isValid && indexIsValid)
+    return isValid && indexIsValid
+  }
+
+  const handleProfileChange = newProfile => {
+    if (saving) {
       return
     }
 
+    setProfile(newProfile)
+  }
+
+  const handleSaveButton = async () => {
     setSaving(true)
-    wrappedUserStorage
+    const isValid = await validate()
+
+    if (!isValid) {
+      setSaving(false)
+      return
+    }
+
+    userStorage
       .setProfile(profile)
       .catch(err => {
         log.error('Error saving profile', { err, profile })
@@ -39,13 +54,19 @@ const EditProfile = props => {
       .finally(_ => setSaving(false))
     props.screenProps.pop()
   }
+
+  // Validate after saving profile state in order to show errors
+  useEffect(() => {
+    validate()
+  }, [profile])
+
   return (
     <Wrapper>
       <Section style={styles.section}>
         <Section.Row style={styles.centered}>
-          <UserAvatar onChange={setProfile} editable={true} profile={profile} />
+          <UserAvatar onChange={handleProfileChange} editable={true} profile={profile} />
           <CustomButton
-            disabled={saving}
+            disabled={saving || !isValid}
             loading={saving}
             mode="outlined"
             style={styles.saveButton}
@@ -54,7 +75,7 @@ const EditProfile = props => {
             Save
           </CustomButton>
         </Section.Row>
-        <ProfileDataTable onChange={setProfile} editable={true} errors={errors} profile={profile} />
+        <ProfileDataTable onChange={handleProfileChange} editable={true} errors={errors} profile={profile} />
       </Section>
     </Wrapper>
   )

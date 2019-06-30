@@ -45,7 +45,7 @@ export const hideDialog = (store: Store) => {
 
 export const useDialog = () => {
   const store = SimpleStore.useStore()
-  return [showDialogWithData.bind(null, store), hideDialog.bind(null, store)]
+  return [showDialogWithData.bind(null, store), hideDialog.bind(null, store), showDialogForError.bind(null, store)]
 }
 
 export const useErrorDialog = () => {

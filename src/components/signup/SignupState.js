@@ -25,7 +25,7 @@ import NameForm from './NameForm'
 const log = logger.child({ from: 'SignupState' })
 
 export type SignupState = UserModel & SMSRecord
-
+type Ready = Promise<{ goodWallet: any, userStorage: any }>
 const SignupWizardNavigator = createSwitchNavigator(
   {
     Name: NameForm,
@@ -52,7 +52,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
     isEmailConfirmed: false,
     jwt: ''
   }
-  const [ready, setReady] = useState()
+  const [ready, setReady]: [Ready, ((Ready => Ready) | Ready) => void] = useState(Promise.resolve({}))
   const [state, setState] = useState(initialState)
   const [loading, setLoading] = useState(false)
   const [showErrorDialog] = useErrorDialog()
@@ -75,17 +75,22 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   useEffect(() => {
     //don't allow to start signup flow not from begining
     if (navigation.state.index > 0) {
+      log.debug('redirecting to start, got index:', navigation.state.index)
       setLoading(true)
       return navigateWithFocus(navigation.state.routes[0].key)
     }
 
     //lazy login in background
     const ready = (async () => {
+      log.debug('ready: Starting initialization')
       const { init } = await import('../../init')
       const login = import('../../lib/login/GoodWalletLogin')
       const { goodWallet, userStorage } = await init()
       initAnalytics(goodWallet, userStorage).then(_ => fireSignupEvent('STARTED'))
       await login.then(l => l.default.auth())
+
+      //now that we are loggedin, reload api with JWT
+      await API.init()
       return { goodWallet, userStorage }
     })()
     setReady(ready)

@@ -29,7 +29,7 @@ const TITLE = 'Send G$'
 const SendLinkSummary = (props: AmountProps) => {
   const { screenProps } = props
   const [screenState] = useScreenState(screenProps)
-  const [showDialog] = useDialog()
+  const [, , showErrorDialog] = useDialog()
   const [loading, setLoading] = useState(false)
   const [isValid, setIsValid] = useState(screenState.isValid)
   const { amount, reason, to } = screenState
@@ -45,40 +45,48 @@ const SendLinkSummary = (props: AmountProps) => {
   const generateLinkAndSend = async () => {
     try {
       // Generate link deposit
-      const generateLinkResponse = goodWallet.generateLink(amount, reason, extraData => hash => {
-        // Save transaction
-        const transactionEvent: TransactionEvent = {
-          id: hash,
-          date: new Date().toString(),
-          type: 'send',
-          data: {
-            to,
-            reason,
-            amount,
-            ...extraData
+      const generateLinkResponse = await goodWallet.generateLink(
+        amount,
+        reason,
+        ({ paymentLink, code }) => (hash: string) => {
+          // Save transaction
+          const transactionEvent: TransactionEvent = {
+            id: hash,
+            date: new Date().toString(),
+            createdDate: new Date().toString(),
+            type: 'send',
+            status: 'pending',
+            data: {
+              to,
+              reason,
+              amount,
+              paymentLink,
+              code
+            }
           }
+          log.debug('generateLinkAndSend: enqueueTX', { transactionEvent })
+          userStorage.enqueueTX(transactionEvent)
         }
-        log.debug('generateLinkAndSend: enqueueTX', { transactionEvent })
-        userStorage.enqueueTX(transactionEvent)
-      })
+      )
+      log.debug('generateLinkAndSend:', { generateLinkResponse })
       if (generateLinkResponse) {
         try {
           // Generate link deposit
-          const { sendLink } = generateLinkResponse
+          const { paymentLink } = generateLinkResponse
 
           // Show confirmation
-          screenProps.push('SendConfirmation', { sendLink, amount, reason, to })
+          screenProps.push('SendConfirmation', { paymentLink, amount, reason, to })
         } catch (e) {
           log.error(e)
-          const { hashedString } = generateLinkResponse
-          await goodWallet.cancelOtl(hashedString)
-          throw e
+          showErrorDialog('Generating payment failed', e)
+          const { code } = generateLinkResponse
+          await goodWallet.cancelOtl(code)
         }
       } else {
-        throw new Error('Link generation failed')
+        showErrorDialog('Generating payment failed', 'Unknown Error')
       }
     } catch (e) {
-      showDialog({ visible: true, title: 'Error', message: e.message, dismissText: 'OK' })
+      showErrorDialog('Generating payment failed', e)
       log.error(e)
     }
   }

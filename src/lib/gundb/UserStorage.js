@@ -67,8 +67,8 @@ export type FeedEvent = {
   id: string,
   type: string,
   date: string,
-  createdData: string,
-  status: 'pending' | 'completed' | 'error',
+  createdDate?: string,
+  status?: 'pending' | 'completed' | 'error',
   data: any
 }
 
@@ -77,11 +77,13 @@ export type FeedEvent = {
  */
 export type TransactionEvent = FeedEvent & {
   data: {
-    to: string,
-    reason: string,
+    to?: string,
+    from?: string,
+    reason?: string,
     amount: number,
-    sendLink: string,
-    receipt: any
+    paymentLink?: string,
+    code?: string,
+    receipt?: any
   }
 }
 
@@ -167,6 +169,11 @@ export class UserStorage {
    * @instance {Gun}
    */
   feed: Gun
+
+  /**
+   * current feed item
+   */
+  cursor: number = 0
 
   /**
    * In memory array. keep number of events per day
@@ -341,6 +348,7 @@ export class UserStorage {
     } finally {
       release()
     }
+    return {}
   }
 
   sign(msg: any) {
@@ -392,7 +400,8 @@ export class UserStorage {
       return
     }
     delete changed._
-    this.feedIndex = orderBy(toPairs(changed), day => day[0], 'desc')
+    let dayToNumEvents: Array<[string, number]> = toPairs(changed)
+    this.feedIndex = orderBy(dayToNumEvents, day => day[0], 'desc')
     logger.debug('updateFeedIndex', { changed, field, newIndex: this.feedIndex })
   }
 
@@ -796,13 +805,13 @@ export class UserStorage {
    *  with props { id, date, type, data: { amount, message, endpoint: { address, fullName, avatar, withdrawStatus }}}
    */
   async formatEvent(event: FeedEvent): Promise<StandardFeed> {
-    logger.debug('formatEvent', { event })
+    logger.debug('formatEvent: incoming event', { event })
     const { data, type, date, id, status, createdDate } = event
-    const { receiptData, receipt, from, to, sender, amount, reason, generatedString } = data
+    const { receiptData, receipt, from, to, sender, amount, reason, code: withdrawCode } = data
     let avatar, fullName, address, withdrawStatus, initiator
     if (type === 'send') {
       address = this.wallet.wallet.utils.isAddress(to) ? to : (receiptData && receiptData.to) || (receipt && receipt.to)
-      address = UserStorage.cleanFieldForIndex('walletAddress', address)
+      address = address && UserStorage.cleanFieldForIndex('walletAddress', address)
       initiator = to
 
       // eslint-disable-next-line no-empty
@@ -811,13 +820,23 @@ export class UserStorage {
       address = this.wallet.wallet.utils.isAddress(from)
         ? from
         : (receiptData && receiptData.from) || (receipt && receipt.from)
-      address = UserStorage.cleanFieldForIndex('walletAddress', address)
+      address = address && UserStorage.cleanFieldForIndex('walletAddress', address)
       initiator = from
     }
     const initiatorType = initiator && (isMobilePhone(initiator) ? 'mobile' : isEmail(initiator) ? 'email' : undefined)
     const value = (receiptData && receiptData.value) || amount
-    logger.debug('formatEvent:', { id: event.id, type, address, initiator, reason, to, from, receiptData, value })
-    const searchField = `by${initiatorType}`
+    logger.debug('formatEvent: parsed data', {
+      id: event.id,
+      type,
+      address,
+      initiator,
+      reason,
+      to,
+      from,
+      receiptData,
+      value
+    })
+    const searchField = (initiatorType && `by${initiatorType}`) || ''
     const profileByIndex =
       initiatorType &&
       (await this.gun
@@ -849,9 +868,9 @@ export class UserStorage {
         ? `${process.env.PUBLIC_URL}/favicon-96x96.png`
         : undefined)
 
-    if (generatedString) {
+    if (withdrawCode) {
       //check real status only if tx has been confirmed (ie we have a receipt)
-      withdrawStatus = receipt ? await this.wallet.getWithdrawStatus(generatedString) : 'pending'
+      withdrawStatus = receipt ? await this.wallet.getWithdrawStatus(withdrawCode) : 'pending'
     }
 
     return {

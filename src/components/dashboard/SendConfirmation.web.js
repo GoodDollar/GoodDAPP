@@ -24,8 +24,8 @@ const SendConfirmation = ({ screenProps }: ReceiveProps) => {
   const [screenState] = useScreenState(screenProps)
   const [showDialog] = useDialog()
 
-  const { amount, reason, sendLink } = screenState
-  const share = generateSendShareObject(sendLink)
+  const { amount, reason, paymentLink } = screenState
+  const share = generateSendShareObject(paymentLink)
 
   const shareAction = async () => {
     try {
@@ -54,7 +54,7 @@ const SendConfirmation = ({ screenProps }: ReceiveProps) => {
         <View style={styles.topContainer}>
           <Section.Row style={styles.sectionRow}>
             <View style={styles.qrCode}>
-              <QRCode value={sendLink || ''} />
+              <QRCode value={paymentLink || ''} />
             </View>
             <Section.Text style={styles.addressSection}>
               <Text style={styles.url}>{share.url}</Text>
@@ -152,7 +152,7 @@ SendConfirmation.navigationOptions = {
 
 SendConfirmation.shouldNavigateToComponent = props => {
   const { screenState } = props.screenProps
-  return !!screenState.sendLink
+  return !!screenState.paymentLink
 }
 
 export default SendConfirmation

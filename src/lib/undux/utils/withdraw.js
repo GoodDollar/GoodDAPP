@@ -21,23 +21,24 @@ type ReceiptType = {
  * Execute withdraw from a transaction hash, and handle dialogs with process information using Undux
  *
  * @param {Store} store - Undux store
- * @param {string} hash - Transaction hash / event id
+ * @param {string} code - code that unlocks the escrowed payment
  * @returns {Promise} Returns the receipt of the transaction
  */
-export const executeWithdraw = async (store: Store, hash: string, reason: string): Promise<ReceiptType> => {
-  log.info('executeWithdraw', hash, reason)
+export const executeWithdraw = async (store: Store, code: string, reason: string): Promise<ReceiptType> => {
+  log.info('executeWithdraw', code, reason)
   try {
-    const { amount } = await goodWallet.canWithdraw(hash)
+    const { amount, sender } = await goodWallet.canWithdraw(code)
     return new Promise((res, rej) => {
-      goodWallet.withdraw(hash, {
+      goodWallet.withdraw(code, {
         onTransactionHash: transactionHash => {
           const transactionEvent: TransactionEvent = {
             id: transactionHash,
             date: new Date().toString(),
             type: 'withdraw',
             data: {
+              from: sender,
               amount,
-              hash,
+              code,
               reason
             }
           }

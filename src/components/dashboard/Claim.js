@@ -80,6 +80,7 @@ const Claim = ({ navigation, screenProps, ...props }: ClaimProps) => {
             date: new Date().toString(),
             type: 'claim',
             data: {
+              from: 'GoodDollar',
               amount: entitlement
             }
           }

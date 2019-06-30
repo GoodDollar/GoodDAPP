@@ -67,7 +67,7 @@ const Dashboard = props => {
 
   useEffect(() => {
     log.debug('handle links effect dashboard', { params })
-    if (params && params.receiveLink) {
+    if (params && params.paymentCode) {
       handleWithdraw()
     } else if (params && params.event) {
       showNewFeedEvent(params.event)
@@ -140,10 +140,10 @@ const Dashboard = props => {
   }
 
   const handleWithdraw = async () => {
-    const { receiveLink, reason } = props.navigation.state.params
+    const { paymentCode, reason } = props.navigation.state.params
     try {
       showDialog({ title: 'Processing Payment Link...', loading: true, dismissText: 'hold' })
-      await executeWithdraw(store, receiveLink, reason)
+      await executeWithdraw(store, paymentCode, reason)
       hideDialog()
 
       // if (receipt.transactionHash) {

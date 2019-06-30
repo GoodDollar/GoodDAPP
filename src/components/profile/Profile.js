@@ -1,11 +1,14 @@
+// @flow
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import Icon from 'react-native-elements/src/icons/Icon'
+import GDStore from '../../lib/undux/GDStore'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { Section, UserAvatar, Wrapper } from '../common'
-import GDStore from '../../lib/undux/GDStore'
+import EditAvatar from './EditAvatar'
 import EditProfile from './EditProfile'
 import ProfileDataTable from './ProfileDataTable'
+import ViewAvatar from './ViewAvatar'
 
 const TITLE = 'Profile'
 
@@ -20,12 +23,19 @@ const IconButton = ({ onPress, disabled, wrapperStyle, ...iconProps }) => (
 const Profile = props => {
   const profile = GDStore.useStore().get('profile')
   const { screenProps } = props
+
+  const handleAvatarPress = event => {
+    event.preventDefault()
+    event.stopPropagation()
+    screenProps.push(`${profile.avatar ? 'View' : 'Edit'}Avatar`)
+  }
+
   return (
     <Wrapper>
       <Section style={styles.section}>
         <Section.Row style={styles.centered}>
           {/* <PrivateIcon onPress={() => log.debug('PrivateIcon')} /> */}
-          <UserAvatar profile={profile} />
+          <UserAvatar profile={profile} onPress={handleAvatarPress} />
           <EditIcon onPress={() => screenProps.push('EditProfile')} />
         </Section.Row>
         <ProfileDataTable profile={profile} />
@@ -61,4 +71,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default createStackNavigator({ Profile, EditProfile })
+export default createStackNavigator({ Profile, EditProfile, ViewAvatar, EditAvatar })

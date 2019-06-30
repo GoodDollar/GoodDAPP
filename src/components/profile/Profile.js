@@ -8,6 +8,7 @@ import { Section, UserAvatar, Wrapper } from '../common'
 import EditAvatar from './EditAvatar'
 import EditProfile from './EditProfile'
 import ProfileDataTable from './ProfileDataTable'
+import ProfilePrivacy from './ProfilePrivacy'
 import ViewAvatar from './ViewAvatar'
 
 const TITLE = 'Profile'
@@ -71,4 +72,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default createStackNavigator({ Profile, EditProfile, ViewAvatar, EditAvatar })
+export default createStackNavigator({ Profile, EditProfile, ProfilePrivacy, ViewAvatar, EditAvatar })

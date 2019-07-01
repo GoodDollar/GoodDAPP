@@ -4,8 +4,8 @@ import { StyleSheet, View } from 'react-native'
 import { Paragraph } from 'react-native-paper'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import bip39 from 'bip39-light'
+import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import { getMnemonics, saveMnemonics } from '../../lib/wallet/SoftwareWalletProvider'
-import GDStore from '../../lib/undux/GDStore'
 import logger from '../../lib/logger/pino-logger'
 import { CustomButton } from '../common'
 import MnemonicInput from './MnemonicInput'
@@ -16,7 +16,7 @@ const log = logger.child({ from: TITLE })
 
 const Mnemonics = () => {
   const [mnemonics, setMnemonics] = useState()
-  const store = GDStore.useStore()
+  const [showErrorDialog] = useErrorDialog()
 
   const handleChange = (mnemonics: []) => {
     log.info({ mnemonics })
@@ -25,14 +25,7 @@ const Mnemonics = () => {
 
   const recover = async () => {
     if (!mnemonics || !bip39.validateMnemonic(mnemonics)) {
-      store.set('currentScreen')({
-        dialogData: {
-          visible: true,
-          title: 'ERROR',
-          message: 'Invalid Mnenomic',
-          dismissText: 'OK'
-        }
-      })
+      showErrorDialog({ message: 'Invalid Mnemonic' })
       return
     }
 
@@ -49,18 +42,8 @@ const Mnemonics = () => {
         // There is no error and Profile exists. Reload screen to start with users mnemonics
         window.location = '/'
       } else {
-        log.error('No profile available for mnemonics')
-
         await saveMnemonics(prevMnemonics)
-
-        store.set('currentScreen')({
-          dialogData: {
-            visible: true,
-            title: 'ERROR',
-            message: 'No user registered for specified mnemonics',
-            dismissText: 'OK'
-          }
-        })
+        showErrorDialog({ message: 'No user registered for specified mnemonics' })
       }
     } catch (err) {
       log.error(err)

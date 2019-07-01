@@ -1,10 +1,12 @@
+// @flow
 import React, { useEffect, useState } from 'react'
 import { StyleSheet } from 'react-native'
-import { CustomButton, Section, UserAvatar, Wrapper } from '../common'
-import GDStore from '../../lib/undux/GDStore'
 import { useWrappedUserStorage } from '../../lib/gundb/useWrappedStorage'
 import logger from '../../lib/logger/pino-logger'
+import GDStore from '../../lib/undux/GDStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
+import { CustomButton, Section, UserAvatar, Wrapper } from '../common'
+import CameraButton from './CameraButton'
 import ProfileDataTable from './ProfileDataTable'
 
 const TITLE = 'Edit Profile'
@@ -13,6 +15,7 @@ const log = logger.child({ from: TITLE })
 const EditProfile = props => {
   const store = GDStore.useStore()
   const userStorage = useWrappedUserStorage()
+  const { screenProps } = props
 
   const [profile, setProfile] = useState(store.get('profile'))
   const [saving, setSaving] = useState()
@@ -52,7 +55,19 @@ const EditProfile = props => {
         showErrorDialog('Saving profile failed', err)
       })
       .finally(_ => setSaving(false))
-    props.screenProps.pop()
+    screenProps.pop()
+  }
+
+  const handleAvatarPress = event => {
+    event.preventDefault()
+    event.stopPropagation()
+    screenProps.push(`${profile.avatar ? 'View' : 'Edit'}Avatar`)
+  }
+
+  const handleCameraPress = event => {
+    event.preventDefault()
+    event.stopPropagation()
+    screenProps.push('EditAvatar')
   }
 
   // Validate after saving profile state in order to show errors
@@ -64,7 +79,9 @@ const EditProfile = props => {
     <Wrapper>
       <Section style={styles.section}>
         <Section.Row style={styles.centered}>
-          <UserAvatar onChange={handleProfileChange} editable={true} profile={profile} />
+          <UserAvatar onChange={handleProfileChange} editable={true} profile={profile} onPress={handleAvatarPress}>
+            <CameraButton handleCameraPress={handleCameraPress} />
+          </UserAvatar>
           <CustomButton
             disabled={saving || !isValid}
             loading={saving}

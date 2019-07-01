@@ -30,12 +30,26 @@ const ReceiveByQR = ({ screenProps }) => {
         log.debug({ url })
 
         if (url === null) {
-          throw new Error('Invalid QR Code.')
+          store.set('currentScreen')({
+            dialogData: {
+              visible: true,
+              title: 'Error',
+              message: 'Invalid QR Code. Probably this QR code is for sending GD',
+              dismissText: 'Ok'
+            }
+          })
         } else {
           const { receiveLink, reason } = extractQueryParams(url)
 
           if (!receiveLink) {
-            throw new Error('No receiveLink available')
+            store.set('currentScreen')({
+              dialogData: {
+                visible: true,
+                title: 'Error',
+                message: 'Invalid QR Code. Probably this QR code is for sending GD',
+                dismissText: 'Ok'
+              }
+            })
           }
 
           setWithdrawParams({ receiveLink, reason })

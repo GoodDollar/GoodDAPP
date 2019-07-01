@@ -69,10 +69,12 @@ const NumPadKeyboard = ({ onPress, amount, caretPosition, updateCaretPosition }:
       ? [stringAmount.slice(0, caretPosition.start - 1), stringAmount.slice(caretPosition.end)].join('')
       : stringAmount.slice(0, -1)
     onPress(updatedValue)
-    updateCaretPosition({
-      start: caretPosition.start - 1,
-      end: caretPosition.start - 1
-    })
+    if (caretPosition.start) {
+      updateCaretPosition({
+        start: caretPosition.start - 1,
+        end: caretPosition.start - 1
+      })
+    }
   }
 
   return (

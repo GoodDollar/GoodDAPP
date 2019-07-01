@@ -18,17 +18,16 @@ const RECEIVE_TITLE = 'Receive G$'
 const Amount = (props: AmountProps) => {
   const { screenProps } = props
   const [screenState, setScreenState] = useScreenState(screenProps)
-  const { to, params, amount: amountParam } = { amount: 0, ...screenState } || {}
-  const [amount, setAmount] = useState(amountParam > 0 ? weiToGd(amountParam) : '')
-  const [loading, setLoading] = useState(amountParam <= 0)
+  const { to, params, amount } = { amount: 0, ...screenState } || {}
+  const [GDAmount, setGDAmount] = useState(amount > 0 ? weiToGd(amount) : '')
+  const [loading, setLoading] = useState(amount <= 0)
   const [showDialogWithData] = useDialog()
 
-  const canContinue = async () => {
+  const canContinue = async weiAmount => {
     if (params && params.toReceive) {
       return true
     }
 
-    const weiAmount = gdToWei(amount)
     if (!(await goodWallet.canSend(weiAmount))) {
       showDialogWithData({
         title: 'Cannot send G$',
@@ -40,17 +39,18 @@ const Amount = (props: AmountProps) => {
   }
 
   const handleContinue = async () => {
-    setScreenState({ amount: gdToWei(amount) })
+    const weiAmount = gdToWei(GDAmount)
+    setScreenState({ amount: weiAmount })
 
     setLoading(true)
-    const can = await canContinue()
+    const can = await canContinue(weiAmount)
     setLoading(false)
 
     return can
   }
 
-  const handleAmountChange = (value: number) => {
-    setAmount(value)
+  const handleAmountChange = (value: string) => {
+    setGDAmount(value)
     setLoading(value <= 0)
   }
 
@@ -59,7 +59,7 @@ const Amount = (props: AmountProps) => {
       <TopBar push={screenProps.push} />
       <Section style={customStyles.section}>
         <Section.Row style={styles.sectionRow}>
-          <AmountInput amount={amount} handleAmountChange={handleAmountChange} />
+          <AmountInput amount={GDAmount} handleAmountChange={handleAmountChange} />
           <View style={styles.buttonGroup}>
             <BackButton mode="text" screenProps={screenProps} style={{ flex: 1 }}>
               Cancel
@@ -67,7 +67,7 @@ const Amount = (props: AmountProps) => {
             <NextButton
               nextRoutes={screenState.nextRoutes}
               canContinue={handleContinue}
-              values={{ amount, to }}
+              values={{ amount: gdToWei(GDAmount), to }}
               disabled={loading}
               {...props}
             />

@@ -1,6 +1,5 @@
 //@flow
-// eslint-disable-next-line no-unused-vars
-import initGunDB from './lib/gundb/gundb'
+import './lib/gundb/gundb'
 import goodWallet from './lib/wallet/GoodWallet'
 import userStorage from './lib/gundb/UserStorage'
 import { initAnalytics } from './lib/analytics/analytics'

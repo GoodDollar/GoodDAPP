@@ -990,6 +990,16 @@ export class UserStorage {
   }
 
   /**
+   * Checks if the current user was already registered to gunDB
+   * @returns {Promise<boolean>|Promise<boolean>}
+   */
+  async userAlreadyExist(): Promise<boolean> {
+    const profile = await this.profile.load()
+
+    return !!profile
+  }
+
+  /**
    * remove user from indexes when deleting profile
    */
   async deleteProfile(): Promise<boolean> {

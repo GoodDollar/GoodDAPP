@@ -36,7 +36,7 @@ const Mnemonics = () => {
       await saveMnemonics(mnemonics)
 
       // We validate that a user was registered for the specified mnemonics
-      const profile = await retrieveCurrentGunProfile()
+      const profile = await profileExist()
 
       if (profile) {
         // There is no error and Profile exists. Reload screen to start with users mnemonics
@@ -71,22 +71,21 @@ const Mnemonics = () => {
 }
 
 /**
- * Helper to retrieve current mnemonic associated gun's profile
+ * Helper to validate if exist a Gun profile associated to current mnemonic
  * @returns {Promise<Promise<*>|Promise<*>|Promise<any>>}
  */
-async function retrieveCurrentGunProfile(): Promise<any> {
-  // Instantiate goodWallet to use it as the userStorage constructor param
-  const { GoodWallet } = await import('../../lib/wallet/GoodWallet')
-  const goodWallet = new GoodWallet()
-  await goodWallet.ready
+async function profileExist(): Promise<any> {
+  const [{ GoodWallet }, { UserStorage }] = await Promise.all([
+    import('../../lib/wallet/GoodWallet'),
+    import('../../lib/gundb/UserStorage')
+  ])
 
-  // Instantiate userStorage with the specified mnemonics
-  const { UserStorage } = await import('../../lib/gundb/UserStorage')
+  // reinstantiates wallet and userStorage with new mnemonics
+  const goodWallet = new GoodWallet()
   const userStorage = new UserStorage(goodWallet)
   await userStorage.ready
 
-  // returns found profile for specified mnemonics
-  return userStorage.profile.load().then()
+  return userStorage.userAlreadyExist()
 }
 
 Mnemonics.navigationOptions = {

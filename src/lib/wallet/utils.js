@@ -25,9 +25,9 @@ export const weiToGd = (wei: number): number => (wei * Math.pow(0.1, DECIMALS)).
 /**
  * convert gooddollars to wei (0 decimals) use toFixed to overcome javascript precision issues ie 8.95*Math.pow(0.1,2)=8.9500000001
  * @param {string} gd
- * @returns {number}
+ * @returns {string}
  */
-export const gdToWei = (gd: number): number => (gd * Math.pow(10, DECIMALS)).toFixed(0)
+export const gdToWei = (gd: string): string => (gd * Math.pow(10, DECIMALS)).toFixed(0)
 
 const getComposedSettings = (settings?: {} = {}): {} => {
   const { showUnits, ...restSettings } = settings

@@ -11,7 +11,7 @@ const maskSettings = {
   suffixUnit: ''
 }
 
-export const moneyRegexp = new RegExp(`^\\d+([.,]?(\\d{0,${DECIMALS}}))$`)
+export const moneyRegexp = new RegExp(`^(0|([1-9]\\d*))([.,]?(\\d{0,${DECIMALS}}))$`)
 
 export const numberWithCommas = (gd: string): string => gd.replace(/,/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 

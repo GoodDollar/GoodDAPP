@@ -994,7 +994,7 @@ export class UserStorage {
    * @returns {Promise<boolean>|Promise<boolean>}
    */
   async userAlreadyExist(): Promise<boolean> {
-    const profile = await this.profile.load()
+    const profile = await this.profile
 
     return !!profile
   }

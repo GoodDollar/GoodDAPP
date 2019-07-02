@@ -5,7 +5,7 @@ import type { Store } from 'undux'
 
 import { userModelValidations } from '../../lib/gundb/UserModel'
 import userStorage from '../../lib/gundb/UserStorage'
-
+import Config from '../../config/config'
 import GDStore from '../../lib/undux/GDStore'
 import { Title, Wrapper } from './components'
 
@@ -55,7 +55,8 @@ class EmailForm extends React.Component<Props, State> {
 
   checkErrors = async () => {
     const modelErrorMessage = userModelValidations.email(this.state.email)
-    const isValidIndexValue = await userStorage.isValidValue('email', this.state.email)
+    const isValidIndexValue =
+      Config.skipEmailVerification || (await userStorage.isValidValue('email', this.state.email))
     const errorMessage = modelErrorMessage || (isValidIndexValue ? '' : 'Unavailable email')
     this.setState({ errorMessage }, () => this.setState({ isValid: this.state.errorMessage === '' }))
     return errorMessage === ''

@@ -7,6 +7,7 @@ import { userModelValidations } from '../../lib/gundb/UserModel'
 import userStorage from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import api from '../../lib/API/api'
+import Config from '../../config/config'
 import { Description, Title, Wrapper } from './components'
 
 const log = logger.child({ from: 'PhoneForm' })
@@ -70,7 +71,8 @@ class PhoneForm extends React.Component<Props, State> {
 
   checkErrors = async () => {
     const modelErrorMessage = userModelValidations.mobile(this.state.mobile)
-    const isValidIndexValue = await userStorage.isValidValue('mobile', this.state.mobile)
+    const isValidIndexValue =
+      Config.skipMobileVerification || (await userStorage.isValidValue('mobile', this.state.mobile))
     const errorMessage = modelErrorMessage || (isValidIndexValue ? '' : 'Unavailable mobile')
     log.debug({ modelErrorMessage, isValidIndexValue, errorMessage })
     this.setState({ errorMessage }, () => this.setState({ isValid: this.state.errorMessage === '' }))

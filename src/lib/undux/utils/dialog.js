@@ -6,8 +6,14 @@ import pino from '../../logger/pino-logger'
 const log = pino.child({ from: 'dialogs' })
 
 export const showDialogForError = (store: Store, humanError: string, error: Error | ResponseError) => {
-  let message = 'Unknown Error'
-  if (typeof error === 'string') {
+  let message = ''
+  if (error === undefined && humanError && typeof humanError !== 'string') {
+    error = humanError
+    humanError = undefined
+  }
+  if (error === undefined) {
+    message = 'Unknown Error'
+  } else if (typeof error === 'string') {
     message = error
   } else if (error.response && error.response.data) {
     message = error.response.data.message
@@ -16,7 +22,8 @@ export const showDialogForError = (store: Store, humanError: string, error: Erro
   } else if (error.err) {
     message = error.err
   }
-  message = humanError + '\n' + message
+
+  message = humanError ? humanError + '\n' + message : message
   const dialogData = { visible: true, title: 'Error', message, dismissText: 'OK' }
   showDialogWithData(store, dialogData)
 }

@@ -38,6 +38,17 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation, s
     }
   },
   {
+    icon: 'person-add',
+    name: 'Profile Privacy',
+    action: () => {
+      navigation.navigate({
+        routeName: 'ProfilePrivacy',
+        type: 'Navigation/NAVIGATE'
+      })
+      hideSidemenu()
+    }
+  },
+  {
     icon: 'person-pin',
     name: 'Privacy Policy',
     action: () => {

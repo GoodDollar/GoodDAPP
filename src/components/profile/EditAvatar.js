@@ -19,7 +19,9 @@ const EditAvatar = props => {
   const saveAvatar = async () => {
     setSaving(true)
 
-    await wrappedUserStorage.setProfileField('avatar', avatar, 'public').catch(showErrorDialog)
+    await wrappedUserStorage
+      .setProfileField('avatar', avatar, 'public')
+      .catch(e => showErrorDialog('Saving image failed', e))
 
     setSaving(false)
 

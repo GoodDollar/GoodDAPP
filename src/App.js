@@ -2,20 +2,26 @@
 import React from 'react'
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 import PaperProvider from 'react-native-paper/src/core/Provider'
-
-// import { loadReCaptcha } from 'recaptcha-v3-react'
+import DefaultTheme from 'react-native-paper/src/styles/DefaultTheme'
 import SimpleStore from './lib/undux/SimpleStore'
 import RouterSelector from './RouterSelector'
 import { SimpleStoreDialog } from './components/common/CustomDialog'
 import LoadingIndicator from './components/common/LoadingIndicator'
 
+const theme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: '#00AFFF'
+  }
+}
 const App = () => {
   // onRecaptcha = (token: string) => {
   //   userStorage.setProfileField('recaptcha', token, 'private')
   // }
   return (
     <SimpleStore.Container>
-      <PaperProvider>
+      <PaperProvider theme={theme}>
         <SafeAreaView>
           <View style={styles.container}>
             <SimpleStoreDialog />

@@ -136,8 +136,10 @@ exports[`UserAvatar matches snapshot 1`] = `
       style={
         Object {
           "color": "rgba(85,85,85,1.00)",
-          "fontSize": "18px",
+          "fontSize": "24px",
+          "fontWeight": "500",
           "textAlign": "center",
+          "textTransform": "uppercase",
         }
       }
     >

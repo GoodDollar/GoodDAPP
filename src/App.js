@@ -1,12 +1,19 @@
 // @flow
 import React, { Component } from 'react'
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
-import { Provider as PaperProvider } from 'react-native-paper'
+import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper'
 
 // import { loadReCaptcha } from 'recaptcha-v3-react'
 
 import GDStore from './lib/undux/GDStore'
 import { WebRouter } from './Router'
+const theme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: '#00AFFF'
+  }
+}
 
 class App extends Component<{}, { walletReady: boolean, isLoggedIn: boolean, isUserRegistered: boolean }> {
   componentWillMount() {
@@ -29,7 +36,7 @@ class App extends Component<{}, { walletReady: boolean, isLoggedIn: boolean, isU
   render() {
     return (
       <GDStore.Container>
-        <PaperProvider>
+        <PaperProvider theme={theme}>
           <SafeAreaView>
             <View style={styles.container}>
               {/* <ReCaptcha sitekey={Config.recaptcha} action="auth" verifyCallback={this.onRecaptcha} /> */}

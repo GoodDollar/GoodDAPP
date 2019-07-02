@@ -178,7 +178,7 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
     return (
       <View style={styles.dashboardView}>
         <TabsView goTo={navigation.navigate} routes={screenProps.routes} />
-        <Wrapper>
+        <Wrapper backgroundColor="#eeeeee">
           <Section>
             <Section.Row style={styles.centered}>
               <Avatar size={80} source={avatar} onPress={() => screenProps.push('Profile')} />

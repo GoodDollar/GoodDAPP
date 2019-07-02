@@ -1,11 +1,14 @@
 // @flow
 import React from 'react'
-import { StyleSheet } from 'react-native'
-import { Button as BaseButton, Text } from 'react-native-paper'
-import { fontStyle } from './styles'
+import { StyleSheet, View } from 'react-native'
+import { Button as BaseButton, DefaultTheme, Text, withTheme } from 'react-native-paper'
+
+import logger from '../../lib/logger/pino-logger'
+const log = logger.child({ from: 'CustomButton' })
 
 export type ButtonProps = {
   children: any,
+  theme: DefaultTheme,
   disabled?: boolean,
   mode?: string,
   color?: string,
@@ -16,9 +19,17 @@ export type ButtonProps = {
   uppercase?: boolean
 }
 
-const TextContent = ({ children, dark }) => {
+const TextContent = ({ children, dark, uppercase }) => {
   if (typeof children === 'string') {
-    return <Text style={[styles.buttonText, { color: dark && 'white' }]}>{children}</Text>
+    return (
+      <View style={styles.buttonWrapperText}>
+        <Text
+          style={[styles.buttonText, { color: dark && 'white' }, { textTransform: uppercase ? 'uppercase' : 'none' }]}
+        >
+          {children}
+        </Text>
+      </View>
+    )
   }
 
   return children
@@ -38,27 +49,42 @@ const TextContent = ({ children, dark }) => {
  * @param {Object} [props.style] Button style
  * @returns {React.Node}
  */
-const CustomButton = (props: ButtonProps) => (
-  <BaseButton {...props} style={[styles.button, props.style]} disabled={props.loading || props.disabled} compact={true}>
-    <TextContent {...props} />
-  </BaseButton>
-)
+const CustomButton = (props: ButtonProps) => {
+  const { theme, mode, style, children } = props
+  const disabled = props.loading || props.disabled
+  const dark = mode === 'contained'
+  const uppercase = mode !== 'text'
+  log.debug({ theme, mode, disabled, dark, uppercase, props })
+
+  return (
+    <BaseButton
+      {...props}
+      theme={{ ...theme, roundness: 50 }}
+      dark={dark}
+      style={[styles.button, style]}
+      disabled={disabled}
+      uppercase={uppercase}
+      compact
+    >
+      <TextContent dark={dark} uppercase={uppercase}>
+        {children}
+      </TextContent>
+    </BaseButton>
+  )
+}
 
 CustomButton.defaultProps = {
-  color: '#555555',
-  uppercase: true
+  mode: 'contained'
 }
 
 const styles = StyleSheet.create({
   button: {
     justifyContent: 'center'
   },
-  buttonText: {
-    ...fontStyle,
-    fontWeight: 'bold',
-    textTransform: 'uppercase',
-    padding: 0
+  buttonWrapperText: {
+    minHeight: 34,
+    justifyContent: 'center'
   }
 })
 
-export default CustomButton
+export default withTheme(CustomButton)

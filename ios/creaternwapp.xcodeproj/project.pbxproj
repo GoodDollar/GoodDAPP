@@ -63,6 +63,10 @@
 		0A9B5C7A363C4C568CD918F6 /* RobotoSlab-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 707FB96783E347F2B285B5B4 /* RobotoSlab-Regular.ttf */; };
 		6C338BAA3E314E508527A0CE /* RobotoSlabBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 095830F1065C4DBCA14D1909 /* RobotoSlabBold.ttf */; };
 		070F49FF94C54E5199B8ED54 /* RobotoSlabRegular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8AD815768448490698F319E8 /* RobotoSlabRegular.ttf */; };
+		262A40CECF78482FB6F401E7 /* gooddollar.svg in Resources */ = {isa = PBXBuildFile; fileRef = 418F02442C414E4594ECBE13 /* gooddollar.svg */; };
+		01416129984F4B42AA8E94C3 /* gooddollar.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 861B3E81BD5F494B9E743570 /* gooddollar.ttf */; };
+		E1540A33BF384062B32A2E26 /* gooddollar.woff in Resources */ = {isa = PBXBuildFile; fileRef = D02A5B4A70D345259937237E /* gooddollar.woff */; };
+		9A9460017AE54CE6B7F978C6 /* gooddollar.woff2 in Resources */ = {isa = PBXBuildFile; fileRef = AEA557634F8D49A9917D2CE6 /* gooddollar.woff2 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -395,6 +399,10 @@
 		707FB96783E347F2B285B5B4 /* RobotoSlab-Regular.ttf */ = {isa = PBXFileReference; name = "RobotoSlab-Regular.ttf"; path = "../src/assets/fonts/RobotoSlab-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		095830F1065C4DBCA14D1909 /* RobotoSlabBold.ttf */ = {isa = PBXFileReference; name = "RobotoSlabBold.ttf"; path = "../src/assets/fonts/RobotoSlabBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		8AD815768448490698F319E8 /* RobotoSlabRegular.ttf */ = {isa = PBXFileReference; name = "RobotoSlabRegular.ttf"; path = "../src/assets/fonts/RobotoSlabRegular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		418F02442C414E4594ECBE13 /* gooddollar.svg */ = {isa = PBXFileReference; name = "gooddollar.svg"; path = "../src/assets/fonts/gooddollar.svg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		861B3E81BD5F494B9E743570 /* gooddollar.ttf */ = {isa = PBXFileReference; name = "gooddollar.ttf"; path = "../src/assets/fonts/gooddollar.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		D02A5B4A70D345259937237E /* gooddollar.woff */ = {isa = PBXFileReference; name = "gooddollar.woff"; path = "../src/assets/fonts/gooddollar.woff"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		AEA557634F8D49A9917D2CE6 /* gooddollar.woff2 */ = {isa = PBXFileReference; name = "gooddollar.woff2"; path = "../src/assets/fonts/gooddollar.woff2"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -687,6 +695,10 @@
 				707FB96783E347F2B285B5B4 /* RobotoSlab-Regular.ttf */,
 				095830F1065C4DBCA14D1909 /* RobotoSlabBold.ttf */,
 				8AD815768448490698F319E8 /* RobotoSlabRegular.ttf */,
+				418F02442C414E4594ECBE13 /* gooddollar.svg */,
+				861B3E81BD5F494B9E743570 /* gooddollar.ttf */,
+				D02A5B4A70D345259937237E /* gooddollar.woff */,
+				AEA557634F8D49A9917D2CE6 /* gooddollar.woff2 */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1162,6 +1174,10 @@
 				0A9B5C7A363C4C568CD918F6 /* RobotoSlab-Regular.ttf in Resources */,
 				6C338BAA3E314E508527A0CE /* RobotoSlabBold.ttf in Resources */,
 				070F49FF94C54E5199B8ED54 /* RobotoSlabRegular.ttf in Resources */,
+				262A40CECF78482FB6F401E7 /* gooddollar.svg in Resources */,
+				01416129984F4B42AA8E94C3 /* gooddollar.ttf in Resources */,
+				E1540A33BF384062B32A2E26 /* gooddollar.woff in Resources */,
+				9A9460017AE54CE6B7F978C6 /* gooddollar.woff2 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

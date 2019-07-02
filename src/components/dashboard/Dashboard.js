@@ -190,17 +190,31 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
               <BigGoodDollar number={balance} />
             </Section.Row>
             <Section.Row style={styles.buttonRow}>
-              <PushButton routeName={'Send'} screenProps={screenProps} style={styles.leftButton}>
+              <PushButton
+                routeName={'Send'}
+                screenProps={screenProps}
+                style={styles.leftButton}
+                icon="feed-send"
+                iconAlignment="left"
+                iconSize={20}
+              >
                 Send
               </PushButton>
-              <PushButton routeName={'Claim'} screenProps={screenProps}>
+              <PushButton routeName={'Claim'} screenProps={screenProps} style={styles.claimButton}>
                 <Text style={[styles.buttonText]}>Claim</Text>
                 <br />
                 <Text style={[styles.buttonText, styles.grayedOutText]}>
                   +{weiToMask(entitlement, { showUnits: true })}
                 </Text>
               </PushButton>
-              <PushButton routeName={'Receive'} screenProps={screenProps} style={styles.rightButton}>
+              <PushButton
+                routeName={'Receive'}
+                screenProps={screenProps}
+                style={styles.rightButton}
+                icon="feed-receive"
+                iconAlignment="right"
+                iconSize={20}
+              >
                 Receive
               </PushButton>
             </Section.Row>
@@ -232,6 +246,12 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
     textTransform: 'uppercase'
+  },
+  claimButton: {
+    backgroundColor: '#00C3AE',
+    borderRadius: '50%',
+    zIndex: 99,
+    padding: normalize(10)
   },
   buttonRow: {
     alignItems: 'stretch',

@@ -1,32 +1,34 @@
 import Address from './Address'
 import Avatar from './Avatar'
-import CustomDialog from './CustomDialog'
-import CustomButton, { ButtonProps } from './CustomButton'
-import CopyButton from './CopyButton'
-import BigNumber from './BigNumber'
 import BigGoodDollar from './BigGoodDollar'
-import Section from './Section'
-import TopBar from './TopBar'
+import BigNumber from './BigNumber'
+import CopyButton from './CopyButton'
+import CustomButton, { ButtonProps } from './CustomButton'
+import CustomDialog from './CustomDialog'
+import Icon from './Icon'
 import IconButton from './IconButton'
 import InputGoodDollar from './InputGoodDollar'
-import UserAvatar from './UserAvatar'
 import NumPadKeyboard from './NumPadKeyboard'
+import Section from './Section'
+import TopBar from './TopBar'
+import UserAvatar from './UserAvatar'
 import Wrapper from './Wrapper'
 
 export {
   Address,
   Avatar,
-  UserAvatar,
-  CustomButton,
+  BigGoodDollar,
+  BigNumber,
   ButtonProps,
   CopyButton,
-  Wrapper,
-  Section,
-  BigNumber,
-  BigGoodDollar,
-  TopBar,
-  IconButton,
+  CustomButton,
   CustomDialog,
+  Icon,
+  IconButton,
   InputGoodDollar,
-  NumPadKeyboard
+  NumPadKeyboard,
+  Section,
+  TopBar,
+  UserAvatar,
+  Wrapper
 }

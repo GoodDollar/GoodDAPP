@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { StyleSheet, Text, TouchableOpacity } from 'react-native'
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import Icon from 'react-native-elements/src/icons/Icon'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 
@@ -9,6 +9,25 @@ type IconProps = {
   onPress: Function,
   disabled: Boolean,
   name: String
+}
+
+const customIcons = {
+  qrcode: require('../../../assets/icons/qrcode.svg'),
+  link: require('../../../assets/icons/link.svg')
+}
+
+const CustomIcon = (props: any) => {
+  const styles = createStyles(props)
+  const customIcon = customIcons[props.name]
+  if (customIcon) {
+    return (
+      <View style={[styles.imageIcon, { backgroundColor: props.color }]}>
+        <Image source={customIcon} style={{ width: props.size, height: props.size }} />
+      </View>
+    )
+  }
+
+  return <Icon {...props} />
 }
 
 /**
@@ -21,14 +40,16 @@ type IconProps = {
  * @param {String} props.name icon name
  * @returns {React.Node}
  */
-const IconButton = ({ text, onPress, disabled, ...iconProps }: IconProps) => {
-  const styles = createStyles(disabled)
+const IconButton = ({ text, onPress, disabled, name, ...iconProps }: IconProps) => {
+  const styles = createStyles({ disabled })
+
   return (
     <TouchableOpacity style={styles.container} onPress={disabled ? undefined : onPress}>
-      <Icon
-        size={32}
+      <CustomIcon
+        size={35}
         reverse
-        color="white"
+        color="#0C263D"
+        name={name}
         reverseColor={disabled ? 'rgba(0, 0, 0, 0.32)' : '#282c34'}
         {...iconProps}
       />
@@ -37,7 +58,7 @@ const IconButton = ({ text, onPress, disabled, ...iconProps }: IconProps) => {
   )
 }
 
-const createStyles = disabled =>
+const createStyles = ({ disabled }) =>
   StyleSheet.create({
     container: {
       flexDirection: 'column',
@@ -48,6 +69,10 @@ const createStyles = disabled =>
     text: {
       color: disabled ? 'rgba(0, 0, 0, 0.32)' : 'inherit',
       fontSize: normalize(11)
+    },
+    imageIcon: {
+      borderRadius: '50%',
+      padding: normalize(16)
     }
   })
 

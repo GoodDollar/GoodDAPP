@@ -98,19 +98,18 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       try {
         let { data } = await API.sendOTP(newState)
         if (data.ok === 0) {
-          setLoading(false)
           return setError(data.error)
         }
         return navigateWithFocus(nextRoute.key)
       } catch (e) {
         log.error(e)
+      } finally {
         setLoading(false)
       }
     } else if (nextRoute && nextRoute.key === 'EmailConfirmation') {
       try {
         const { data } = await API.sendVerificationEmail(newState)
         if (data.ok === 0) {
-          setLoading(false)
           return setError(data.error)
         }
         log.debug('skipping email verification?', { ...data, skip: Config.skipEmailVerification })
@@ -126,10 +125,10 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
           // if email is properly sent, persist current user's information to userStorage
           await userStorage.setProfile({ ...newState, walletAddress: goodWallet.account })
         }
-        setLoading(false)
         return navigateWithFocus(nextRoute.key)
       } catch (e) {
         log.error(e)
+      } finally {
         setLoading(false)
       }
     } else {
@@ -163,9 +162,9 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
         userStorage.setProfileField('registered', true, 'public')
         navigation.navigate('AppNavigation')
         store.set('isLoggedIn')(true)
-        setLoading(false)
       } catch (error) {
         log.error('New user failure', { error })
+      } finally {
         setLoading(false)
       }
     }

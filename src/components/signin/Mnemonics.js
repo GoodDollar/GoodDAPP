@@ -4,8 +4,8 @@ import { StyleSheet, View } from 'react-native'
 import { Paragraph } from 'react-native-paper'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import bip39 from 'bip39-light'
+import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import { getMnemonics, saveMnemonics } from '../../lib/wallet/SoftwareWalletProvider'
-import GDStore from '../../lib/undux/GDStore'
 import logger from '../../lib/logger/pino-logger'
 import { CustomButton } from '../common'
 import MnemonicInput from './MnemonicInput'
@@ -16,30 +16,35 @@ const log = logger.child({ from: TITLE })
 
 const Mnemonics = () => {
   const [mnemonics, setMnemonics] = useState()
-  const store = GDStore.useStore()
+  const [showErrorDialog] = useErrorDialog()
+
   const handleChange = (mnemonics: []) => {
     log.info({ mnemonics })
     setMnemonics(mnemonics.join(' '))
   }
+
   const recover = async () => {
     if (!mnemonics || !bip39.validateMnemonic(mnemonics)) {
-      store.set('currentScreen')({
-        dialogData: {
-          visible: true,
-          title: 'ERROR',
-          message: 'Invalid Mnenomic',
-          dismissText: 'OK'
-        }
-      })
+      showErrorDialog({ message: 'Invalid Mnemonic' })
       return
     }
+
     const prevMnemonics = await getMnemonics()
+
     try {
       // We need to try to get a new address using new mnenonics
       await saveMnemonics(mnemonics)
 
-      // There is no error. Reload screen to start with users mnemonics
-      window.location = '/'
+      // We validate that a user was registered for the specified mnemonics
+      const profile = await profileExist()
+
+      if (profile) {
+        // There is no error and Profile exists. Reload screen to start with users mnemonics
+        window.location = '/'
+      } else {
+        await saveMnemonics(prevMnemonics)
+        showErrorDialog({ message: 'No user registered for specified mnemonics' })
+      }
     } catch (err) {
       log.error(err)
       saveMnemonics(prevMnemonics)
@@ -63,6 +68,24 @@ const Mnemonics = () => {
       </View>
     </View>
   )
+}
+
+/**
+ * Helper to validate if exist a Gun profile associated to current mnemonic
+ * @returns {Promise<Promise<*>|Promise<*>|Promise<any>>}
+ */
+async function profileExist(): Promise<any> {
+  const [{ GoodWallet }, { UserStorage }] = await Promise.all([
+    import('../../lib/wallet/GoodWallet'),
+    import('../../lib/gundb/UserStorage')
+  ])
+
+  // reinstantiates wallet and userStorage with new mnemonics
+  const goodWallet = new GoodWallet()
+  const userStorage = new UserStorage(goodWallet)
+  await userStorage.ready
+
+  return userStorage.userAlreadyExist()
 }
 
 Mnemonics.navigationOptions = {

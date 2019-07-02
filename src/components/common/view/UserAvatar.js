@@ -13,24 +13,28 @@ export type AvatarProps = {
     avatar: string,
     fullName?: string
   },
-  onChange: any => mixed,
+  onChange?: any => mixed,
+  onClose?: any => mixed,
+  originalSize?: boolean,
   editable?: boolean,
-  size?: number
+  children?: React.Node
 }
 
 /**
  * Touchable Users Avatar based on Avatar component
  * @param {AvatarProps} props
- * @param {Object} props.profile]
+ * @param {Object} props.profile
  * @param {string} props.profile.avatar
- * @param {string} [props.profile.fullName]
+ * @param {string} props.profile.fullName
  * @param {any => mixed} props.onChange
- * @param {boolean} [props.editable]
- * @param {Number} [props.size=120]
+ * @param {any => mixed} props.onClose
+ * @param {boolean} props.originalSize
+ * @param {boolean} props.editable
+ * @param {React.Node} props.children
  * @returns {React.Node}
  */
 const UserAvatar = (props: AvatarProps) => {
-  const { profile, editable, onChange } = props
+  const { profile, editable, onChange, onClose, originalSize = false, children } = props
   let cropSize = isPortrait() ? getScreenWidth() - 70 : getScreenHeight() - 70
   if (cropSize > 320) {
     cropSize = 320
@@ -38,12 +42,11 @@ const UserAvatar = (props: AvatarProps) => {
 
   return editable ? (
     <View style={styles.innerAvatar}>
-      <View style={styles.fullNameContainer}>
-        <Section.Title style={styles.fullName}>{profile.fullName}</Section.Title>
-      </View>
       <View style={styles.cropContainer}>
         <CreateAvatar
-          onCrop={avatar => onChange({ ...profile, avatar })}
+          onCrop={onChange}
+          onClose={onClose}
+          mobileScaleSpeed={0.01}
           width={cropSize}
           height={cropSize}
           lineWidth={2}
@@ -56,7 +59,9 @@ const UserAvatar = (props: AvatarProps) => {
   ) : (
     <View style={styles.avatar}>
       <View style={styles.innerAvatar}>
-        <Avatar size={120} {...props} source={profile.avatar} />
+        <Avatar size={originalSize ? cropSize : 120} {...props} source={profile.avatar}>
+          {children}
+        </Avatar>
         <Section.Title>{profile.fullName}</Section.Title>
       </View>
     </View>

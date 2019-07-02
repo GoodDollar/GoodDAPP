@@ -27,7 +27,7 @@ const ScanQRButton = ({ screenProps, disabled }) => (
  */
 const GenerateLinkButton = ({ screenProps, disabled }) => (
   <IconButton
-    name="code"
+    name="qrcode"
     text="Generate Link"
     disabled={disabled}
     onPress={() => screenProps.push('Amount', { nextRoutes: ['Reason', 'SendLinkSummary'] })}

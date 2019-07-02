@@ -50,6 +50,7 @@ export function Camera(props: CameraProps) {
   useEffect(() => {
     awaitGetUserMedia()
     return () => {
+      log.debug('Unloading video track?', !!this.videoTrack)
       this.videoTrack && this.videoTrack.stop()
       this.videoTrack = null
     }

@@ -40,11 +40,6 @@ class ZoomCapture extends React.Component<ZoomCaptureProps> {
     this.props.onCaptureResult(captureOutcome)
   }
 
-  componentWillUnmount() {
-    log.debug('Unloading video track?', !!this.videoTrack)
-    this.videoTrack && this.videoTrack.stop()
-  }
-
   componentDidMount() {
     if (!this.props.loadedZoom) {
       log.warn('zoomSDK was not loaded into ZoomCapture properly')

@@ -1,9 +1,10 @@
 import React from 'react'
 
-import GDStore from '../../lib/undux/GDStore'
+import GDStore from '../../../lib/undux/GDStore'
+import Section from '../layout/Section'
+
 import Avatar from './Avatar'
 import BigGoodDollar from './BigGoodDollar'
-import Section from './Section'
 
 /**
  * TopBar - used To display contextual information in a small container

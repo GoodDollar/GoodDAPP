@@ -1,7 +1,7 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 
-import GDStore from '../../../lib/undux/GDStore'
+import GDStore from '../../../../lib/undux/GDStore'
 import ScanQRButton from '../ScanQRButton'
 
 const { Container } = GDStore

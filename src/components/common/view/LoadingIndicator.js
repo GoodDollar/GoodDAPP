@@ -4,7 +4,7 @@ import { ActivityIndicator, Colors, Portal } from 'react-native-paper'
 import { StyleSheet, View } from 'react-native-web'
 import type { Store } from 'undux'
 
-import GDStore from '../../lib/undux/GDStore'
+import GDStore from '../../../lib/undux/GDStore'
 
 /**
  * Curried function wich requires an undux Store and then sets the flag to show/hide the LoadingIndicator component

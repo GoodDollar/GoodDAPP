@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`FaceRecognition matches snapshot 1`] = `
+exports[`FaceRecognition Rendering matches snapshot 1`] = `
 <div
   className="css-view-1dbjc4n"
   style={
@@ -132,9 +132,7 @@ exports[`FaceRecognition matches snapshot 1`] = `
             style={
               Object {
                 "color": "rgba(85,85,85,1.00)",
-                "fontSize": "24px",
-                "fontWeight": "500",
-                "marginBottom": "1rem",
+                "fontSize": "18px",
                 "textAlign": "center",
               }
             }
@@ -147,7 +145,7 @@ exports[`FaceRecognition matches snapshot 1`] = `
             style={
               Object {
                 "color": "rgba(85,85,85,1.00)",
-                "fontSize": "18px",
+                "fontSize": "20px",
                 "textAlign": "center",
               }
             }
@@ -179,67 +177,6 @@ exports[`FaceRecognition matches snapshot 1`] = `
             }
           }
         >
-          <div
-            className="css-text-901oao"
-            dir="auto"
-            style={
-              Object {
-                "color": "rgba(85,85,85,1.00)",
-                "direction": "ltr",
-                "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                "fontSize": "14px",
-                "marginBottom": "1rem",
-                "textAlign": "center",
-              }
-            }
-          >
-            By clicking the 'Create a wallet' button, you are accepting our 
-            <span
-              className="css-text-901oao css-textHasAncestor-16my406"
-              data-focusable={true}
-              dir="auto"
-              onClick={[Function]}
-              onKeyDown={[Function]}
-              style={
-                Object {
-                  "color": "rgba(85,85,85,1.00)",
-                  "cursor": "pointer",
-                  "direction": "ltr",
-                  "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                  "fontSize": "14px",
-                  "fontWeight": "bold",
-                  "marginTop": "10px",
-                  "textAlign": "center",
-                }
-              }
-              tabIndex="0"
-            >
-              Terms of Service
-            </span>
-             and 
-            <span
-              className="css-text-901oao css-textHasAncestor-16my406"
-              data-focusable={true}
-              dir="auto"
-              onClick={[Function]}
-              onKeyDown={[Function]}
-              style={
-                Object {
-                  "color": "rgba(85,85,85,1.00)",
-                  "cursor": "pointer",
-                  "direction": "ltr",
-                  "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                  "fontSize": "14px",
-                  "fontWeight": "bold",
-                  "marginTop": "10px",
-                  "textAlign": "center",
-                }
-              }
-              tabIndex="0"
-            >
-              Privacy Policy
-            </span>
-          </div>
           <div
             className="css-view-1dbjc4n"
             style={

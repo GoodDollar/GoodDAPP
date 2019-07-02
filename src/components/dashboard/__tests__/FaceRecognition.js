@@ -2,10 +2,13 @@ import React from 'react'
 import renderer from 'react-test-renderer'
 import { getWebRouterComponentWithMocks } from './__util__'
 
-// Note: test renderer must be required after react-native.
+// eslint-disable-next-line flowtype/no-types-missing-file-annotation
+declare var ZoomSDK: any
 
-describe('FaceRecognition', () => {
+// Note: test renderer must be required after react-native.
+describe('FaceRecognition Rendering', () => {
   it('renders without errors', () => {
+    global.ZoomSDK = {}
     const FaceRecognition = getWebRouterComponentWithMocks('../FaceRecognition/FaceRecognition')
     const tree = renderer.create(<FaceRecognition />)
     expect(tree.toJSON()).toBeTruthy()

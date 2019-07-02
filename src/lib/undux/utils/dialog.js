@@ -4,15 +4,25 @@ import GDStore from '../GDStore'
 import pino from '../../logger/pino-logger'
 const log = pino.child({ from: 'dialogs' })
 
-export const showDialogForError = (store: Store, error: any) => {
-  let message = 'Unknown Error'
-  if (error.response && error.response.data) {
+export const showDialogForError = (store: Store, humanError: string, error: Error | ResponseError) => {
+  let message = ''
+  if (error === undefined && humanError && typeof humanError !== 'string') {
+    error = humanError
+    humanError = undefined
+  }
+  if (error === undefined) {
+    message = 'Unknown Error'
+  } else if (typeof error === 'string') {
+    message = error
+  } else if (error.response && error.response.data) {
     message = error.response.data.message
   } else if (error.message) {
     message = error.message
   } else if (error.err) {
     message = error.err
   }
+
+  message = humanError ? humanError + '\n' + message : message
   const dialogData = { visible: true, title: 'Error', message, dismissText: 'OK' }
   showDialogWithData(store, dialogData)
 }

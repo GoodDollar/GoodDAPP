@@ -1,9 +1,9 @@
+
 var ZoomLocalizationStrings = {
   "feedback_a_little_too_close": "Move Away a Little",
   "feedback_a_little_too_close_tablet": "Move Away a Little",
   "feedback_center_face": "Center Your Face",
   "feedback_face_not_found": "Frame Your Face",
-  "feedback_nice_zoom": "Nice ZoOm!",
   "feedback_move_phone_away": "Move Away",
   "feedback_move_tablet_away": "Move Tablet Away",
   "feedback_move_tablet_closer": "Move Tablet Closer",
@@ -20,5 +20,4 @@ var ZoomLocalizationStrings = {
   "feedback_move_web_closer": "Move Closer",
   "feedback_move_web_even_closer": "Even Closer",
   "feedback_use_even_lighting": "Light Face More Evenly",
-  "feedback_welcome_back": "Welcome Back"
 };

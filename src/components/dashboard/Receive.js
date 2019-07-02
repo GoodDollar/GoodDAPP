@@ -8,9 +8,8 @@ import GDStore from '../../lib/undux/GDStore'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { PushButton } from '../appNavigation/stackNavigation'
-import { Address, CopyButton, CustomButton, Section, Wrapper } from '../common'
-import ScanQRButton from '../common/ScanQRButton'
-import TopBar from '../common/TopBar'
+import { Address, CopyButton, CustomButton, ScanQRButton, Section, TopBar, Wrapper } from '../common'
+
 import { receiveStyles as styles } from './styles'
 
 export type ReceiveProps = {
@@ -56,43 +55,45 @@ const Receive = ({ screenProps }: ReceiveProps) => {
   }
 
   const ShareButton = () => (
-    <CustomButton style={styles.buttonStyle} onPress={shareAction} mode="contained">
+    <CustomButton onPress={shareAction} mode="contained">
       Share your wallet link
     </CustomButton>
   )
 
   return (
-    <Wrapper style={styles.wrapper}>
+    <Wrapper>
       <TopBar hideBalance={false} push={screenProps.push}>
         <ScanQRButton onPress={() => screenProps.push('ReceiveByQR')} />
       </TopBar>
-      <Section style={styles.section}>
-        <Section.Row style={styles.sectionRow}>
+      <Section grow={1}>
+        <Section.Stack grow={1} justifyContent="space-around" alignItems="center">
           <View style={styles.qrCode}>
             <QRCode value={code} />
           </View>
-          <View style={styles.addressSection}>
-            <Section.Text style={styles.secondaryText}>Your G$ wallet address:</Section.Text>
-            <Section.Title style={styles.address}>
+          <Section.Stack>
+            <Section.Text>Your G$ wallet address:</Section.Text>
+            <Section.Title>
               <Address value={account} />
             </Section.Title>
-          </View>
-          {isMobile && navigator.share ? <ShareButton style={styles.shareButton} /> : null}
-        </Section.Row>
+          </Section.Stack>
+        </Section.Stack>
+
+        <Section.Stack alignItems="stretch">
+          {isMobile && navigator.share ? <ShareButton /> : null}
+          <CopyButton mode="outlined" toCopy={account}>
+            Copy address to clipboard
+          </CopyButton>
+          <PushButton
+            dark={false}
+            routeName="Amount"
+            screenProps={screenProps}
+            style={{ marginTop: 10 }}
+            params={{ nextRoutes: ['Reason', 'ReceiveAmount'], params: { toReceive: true } }}
+          >
+            Generate detailed request
+          </PushButton>
+        </Section.Stack>
       </Section>
-      <CopyButton mode="outlined" toCopy={account}>
-        Copy address to clipboard
-      </CopyButton>
-      <PushButton
-        mode="outlined"
-        dark={false}
-        routeName="Amount"
-        screenProps={screenProps}
-        style={{ marginTop: 10 }}
-        params={{ nextRoutes: ['Reason', 'ReceiveAmount'], params: { toReceive: true } }}
-      >
-        Generate detailed request
-      </PushButton>
     </Wrapper>
   )
 }

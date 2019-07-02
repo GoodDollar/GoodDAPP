@@ -61,13 +61,13 @@ const ReceiveAmount = ({ screenProps }: ReceiveProps) => {
   )
 
   return (
-    <Wrapper style={styles.wrapper}>
-      <Section style={styles.section}>
-        <Section.Row style={[styles.sectionRow, { justifyContent: 'space-evenly' }]}>
+    <Wrapper>
+      <Section grow>
+        <Section.Stack justifyContent="space-evenly" grow>
           <View style={styles.qrCode}>
             <QRCode value={code} />
           </View>
-          <View>
+          <Section.Stack>
             <Section.Text style={[styles.lowerSecondaryText]}>This QR code requests exactly</Section.Text>
             <Section.Text style={styles.addressSection}>
               <Text style={styles.url}>{share.url}</Text>
@@ -76,13 +76,15 @@ const ReceiveAmount = ({ screenProps }: ReceiveProps) => {
               <BigGoodDollar style={styles.centered} number={amount} />
             </Section.Text>
             <Section.Text>{reason ? reason : null}</Section.Text>
-          </View>
-        </Section.Row>
-      </Section>
-      {/* <ShareQR>Share QR Code</ShareQR>
+          </Section.Stack>
+        </Section.Stack>
+        <Section.Stack>
+          {/* <ShareQR>Share QR Code</ShareQR>
       <DoneButton style={styles.doneButton} screenProps={screenProps} /> */}
-      {isMobile && navigator.share ? <ShareButton style={styles.shareButton} /> : <CopyButton toCopy={share.url} />}
-      <DoneButton style={styles.buttonStyle} screenProps={screenProps} />
+          {isMobile && navigator.share ? <ShareButton style={styles.shareButton} /> : <CopyButton toCopy={share.url} />}
+          <DoneButton style={styles.buttonStyle} screenProps={screenProps} />
+        </Section.Stack>
+      </Section>
     </Wrapper>
   )
 }

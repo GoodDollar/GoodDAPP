@@ -8,8 +8,8 @@ import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
 import GDStore from '../../lib/undux/GDStore'
 import { checkAuthStatus } from '../../lib/login/checkAuthStatus'
-import { CustomDialog } from '../common'
-import LoadingIndicator from '../common/LoadingIndicator'
+import { CustomDialog, LoadingIndicator } from '../common'
+import zoomSdkLoader from '../dashboard/FaceRecognition/ZoomSdkLoader'
 
 type LoadingProps = {
   navigation: any,
@@ -83,6 +83,10 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
       delay(TIMEOUT)
     ]).then(([authResult]) => authResult)
     let destDetails = await this.getParams()
+    if (!isLoggedInCitizen) {
+      // load Zoom SDK at start so it will be loaded when user gets to FR screen
+      await zoomSdkLoader.load()
+    }
     if (isLoggedIn) {
       if (isLoggedInCitizen) {
         API.verifyTopWallet()

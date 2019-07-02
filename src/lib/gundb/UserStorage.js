@@ -20,6 +20,7 @@ import isMobilePhone from '../validators/isMobilePhone'
 import pino from '../logger/pino-logger'
 import type { StandardFeed } from '../undux/GDStore'
 import API from '../API/api'
+import Config from '../../config/config'
 import { getUserModel, type UserModel } from './UserModel'
 import defaultGun from './gundb'
 const logger = pino.child({ from: 'UserStorage' })
@@ -471,7 +472,9 @@ export class UserStorage {
     const { errors, isValid } = profile.validate()
     if (!isValid) {
       logger.error('setProfile failed:', { errors })
-      throw new Error(errors)
+      if (Config.throwSaveProfileErrors) {
+        throw new Error(errors)
+      }
     }
 
     const profileSettings = {
@@ -495,15 +498,60 @@ export class UserStorage {
             return { err: `failed saving field ${field}` }
           })
         })
-    )
-      .then(results => {
-        const errors = results.filter(ack => ack && ack.err).map(ack => ack.err)
-        if (errors.length > 0) {
-          logger.error('setProfile some fields failed', errors.length, errors)
+    ).then(results => {
+      const errors = results.filter(ack => ack && ack.err).map(ack => ack.err)
+      if (errors.length > 0) {
+        logger.error('setProfile some fields failed', errors.length, errors)
+        if (Config.throwSaveProfileErrors) {
+          throw new Error(errors)
         }
-        return true
-      })
-      .catch(e => logger.error('setProfile Failed', e, e.message))
+      }
+      return true
+    })
+  }
+
+  /**
+   *
+   * @param {string} field
+   * @param {string} value
+   * @param {string} privacy
+   * @returns {boolean}
+   */
+  async isValidValue(field: string, value: string) {
+    const cleanValue = UserStorage.cleanFieldForIndex(field, value)
+
+    try {
+      const indexValue = await this.gun
+        .get(`users/by${field}`)
+        .get(cleanValue)
+        .then()
+      return !(indexValue && indexValue.pub !== this.gunuser.is.pub)
+    } catch (err) {
+      logger.error('indexProfileField', err)
+      return true
+    }
+  }
+
+  async validateProfile(profile: any) {
+    if (!profile) {
+      return { isValid: false, errors: {} }
+    }
+    const fields = Object.keys(profile).filter(prop => UserStorage.indexableFields[prop])
+
+    const validatedFields = await Promise.all(
+      fields.map(async field => ({ field, valid: await this.isValidValue(field, profile[field]) }))
+    )
+    const errors = validatedFields.reduce((accErrors, curr) => {
+      if (!curr.valid) {
+        accErrors[curr.field] = `Unavailable ${curr.field}`
+      }
+      return accErrors
+    }, {})
+
+    const isValid = validatedFields.every(elem => elem.valid)
+    logger.debug({ fields, validatedFields, errors, isValid })
+
+    return { isValid, errors }
   }
 
   /**
@@ -576,11 +624,13 @@ export class UserStorage {
       return Promise.resolve({ err: 'Indexable field cannot be null or empty', ok: 0 })
     }
 
-    const indexNode = this.gun.get(`users/by${field}`).get(cleanValue)
-    logger.debug('indexProfileField', { field, cleanValue, value, privacy })
-
     try {
+      if (!(await this.isValidValue(field, value))) {
+        return Promise.resolve({ err: `Existing index on field ${field}`, ok: 0 })
+      }
+      const indexNode = this.gun.get(`users/by${field}`).get(cleanValue)
       const indexValue = await indexNode.then()
+
       logger.debug('indexProfileField', {
         field,
         value,
@@ -588,19 +638,17 @@ export class UserStorage {
         indexValue: indexValue,
         currentUser: this.gunuser.is.pub
       })
-      if (indexValue && indexValue.pub !== this.gunuser.is.pub) {
-        return Promise.resolve({ err: `Existing index on field ${field}`, ok: 0 })
-      }
+
       if (privacy !== 'public' && indexValue !== undefined) {
         return indexNode.putAck(null)
       }
 
-      const indexResult = indexNode.putAck(this.gunuser)
-
-      // logger.info({ gunResult })
-      return indexResult
+      return indexNode.putAck(this.gunuser)
     } catch (err) {
       logger.error('indexProfileField', err)
+
+      // TODO: this should return unexpected error
+      // return Promise.resolve({ err: `Unexpected Error`, ok: 0 })
     }
   }
 
@@ -702,12 +750,33 @@ export class UserStorage {
   }
 
   /**
+   * Checks if username connected to a profile
+   * @param {string} username
+   */
+  async isUsername(username: string) {
+    let profile = await this.gun.get('users/byusername').get(username)
+    return profile !== undefined
+  }
+
+  /**
    *
    * @param {string} field - Profile field value (email, mobile or wallet address value)
    * @returns { string } address
    */
-  getUserAddress(field: string) {
-    const attr = isMobilePhone(field) ? 'mobile' : isEmail(field) ? 'email' : 'walletAddress'
+  async getUserAddress(field: string) {
+    let attr = undefined
+    if (isMobilePhone(field)) {
+      attr = 'mobile'
+    } else if (isEmail(field)) {
+      attr = 'email'
+    } else if (await this.isUsername(field)) {
+      attr = 'username'
+    } else if (this.wallet.wallet.utils.isAddress(field)) {
+      return field
+    }
+    if (attr === undefined) {
+      return undefined
+    }
     const value = UserStorage.cleanFieldForIndex(attr, field)
 
     return this.gun
@@ -918,6 +987,16 @@ export class UserStorage {
     return new Promise(res => {
       this.profile.load(async profile => res(await this.getPrivateProfile(profile)), { wait: 99 })
     })
+  }
+
+  /**
+   * Checks if the current user was already registered to gunDB
+   * @returns {Promise<boolean>|Promise<boolean>}
+   */
+  async userAlreadyExist(): Promise<boolean> {
+    const profile = await this.profile
+
+    return !!profile
   }
 
   /**

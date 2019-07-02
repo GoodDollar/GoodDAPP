@@ -1,5 +1,6 @@
 import React from 'react'
 import { StyleSheet, TextInput, View } from 'react-native'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { HelperText } from 'react-native-paper'
 import Icon from 'react-native-elements/src/icons/Icon'
@@ -25,41 +26,43 @@ const ProfileDataTable = props => {
   const { profile, onChange, errors: errorsProp, editable } = props
   const errors = errorsProp || {}
   return (
-    <View style={styles.table}>
-      <View style={styles.tableRow}>
-        <ProfileInput
-          placeholder="Choose a Username"
-          value={profile.username}
-          onChange={value => onChange({ ...profile, username: value.target.value })}
-          error={errors.username}
-          disabled={!editable}
-        />
-        <Icon name="person-outline" color="rgb(163, 163, 163)" />
-      </View>
-      <View style={styles.tableRow}>
-        {editable ? (
-          <PhoneInput
-            id="signup_phone"
-            placeholder="Enter phone number"
-            value={profile.mobile}
-            onChange={value => onChange({ ...profile, mobile: value })}
-            error={errors.mobile}
+    <KeyboardAwareScrollView resetScrollToCoords={{ x: 0, y: 0 }} scrollEnabled={false}>
+      <View style={styles.table}>
+        <View style={styles.tableRow}>
+          <ProfileInput
+            placeholder="Choose a Username"
+            value={profile.username}
+            onChange={value => onChange({ ...profile, username: value.target.value })}
+            error={errors.username}
+            disabled={!editable}
           />
-        ) : (
-          <ProfileInput value={profile.mobile} disabled={true} />
-        )}
-        <Icon name="phone" color="rgb(163, 163, 163)" />
+          <Icon name="person-outline" color="rgb(163, 163, 163)" />
+        </View>
+        <View style={styles.tableRow}>
+          {editable ? (
+            <PhoneInput
+              id="signup_phone"
+              placeholder="Enter phone number"
+              value={profile.mobile}
+              onChange={value => onChange({ ...profile, mobile: value })}
+              error={errors.mobile}
+            />
+          ) : (
+            <ProfileInput value={profile.mobile} disabled={true} />
+          )}
+          <Icon name="phone" color="rgb(163, 163, 163)" />
+        </View>
+        <View style={styles.tableRow}>
+          <ProfileInput
+            value={profile.email}
+            onChange={value => onChange({ ...profile, email: value.target.value })}
+            error={errors.email}
+            disabled={!editable}
+          />
+          <Icon name="mail-outline" color="rgb(163, 163, 163)" />
+        </View>
       </View>
-      <View style={styles.tableRow}>
-        <ProfileInput
-          value={profile.email}
-          onChange={value => onChange({ ...profile, email: value.target.value })}
-          error={errors.email}
-          disabled={!editable}
-        />
-        <Icon name="mail-outline" color="rgb(163, 163, 163)" />
-      </View>
-    </View>
+    </KeyboardAwareScrollView>
   )
 }
 

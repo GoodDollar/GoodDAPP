@@ -23,7 +23,7 @@ exports[`SmsForm matches snapshot 1`] = `
       "flexGrow": 1,
       "flexShrink": 1,
       "justifyContent": "space-between",
-      "maxWidth": "500px",
+      "maxWidth": "475px",
       "msFlexAlign": "stretch",
       "msFlexDirection": "column",
       "msFlexNegative": 1,
@@ -96,10 +96,13 @@ exports[`SmsForm matches snapshot 1`] = `
         <input
           className=""
           disabled={false}
+          max={9}
           maxLength="1"
+          min={0}
           onBlur={[Function]}
           onChange={[Function]}
           onFocus={[Function]}
+          onInput={[Function]}
           onKeyDown={[Function]}
           onPaste={[Function]}
           style={
@@ -115,7 +118,8 @@ exports[`SmsForm matches snapshot 1`] = `
               "width": "100%",
             }
           }
-          type="tel"
+          type="number"
+          value=""
         />
       </div>
       <div
@@ -129,10 +133,13 @@ exports[`SmsForm matches snapshot 1`] = `
         <input
           className=""
           disabled={false}
+          max={9}
           maxLength="1"
+          min={0}
           onBlur={[Function]}
           onChange={[Function]}
           onFocus={[Function]}
+          onInput={[Function]}
           onKeyDown={[Function]}
           onPaste={[Function]}
           style={
@@ -148,7 +155,8 @@ exports[`SmsForm matches snapshot 1`] = `
               "width": "100%",
             }
           }
-          type="tel"
+          type="number"
+          value=""
         />
       </div>
       <div
@@ -162,10 +170,13 @@ exports[`SmsForm matches snapshot 1`] = `
         <input
           className=""
           disabled={false}
+          max={9}
           maxLength="1"
+          min={0}
           onBlur={[Function]}
           onChange={[Function]}
           onFocus={[Function]}
+          onInput={[Function]}
           onKeyDown={[Function]}
           onPaste={[Function]}
           style={
@@ -181,7 +192,8 @@ exports[`SmsForm matches snapshot 1`] = `
               "width": "100%",
             }
           }
-          type="tel"
+          type="number"
+          value=""
         />
       </div>
       <div
@@ -195,10 +207,13 @@ exports[`SmsForm matches snapshot 1`] = `
         <input
           className=""
           disabled={false}
+          max={9}
           maxLength="1"
+          min={0}
           onBlur={[Function]}
           onChange={[Function]}
           onFocus={[Function]}
+          onInput={[Function]}
           onKeyDown={[Function]}
           onPaste={[Function]}
           style={
@@ -214,7 +229,8 @@ exports[`SmsForm matches snapshot 1`] = `
               "width": "100%",
             }
           }
-          type="tel"
+          type="number"
+          value=""
         />
       </div>
       <div
@@ -228,10 +244,13 @@ exports[`SmsForm matches snapshot 1`] = `
         <input
           className=""
           disabled={false}
+          max={9}
           maxLength="1"
+          min={0}
           onBlur={[Function]}
           onChange={[Function]}
           onFocus={[Function]}
+          onInput={[Function]}
           onKeyDown={[Function]}
           onPaste={[Function]}
           style={
@@ -247,7 +266,8 @@ exports[`SmsForm matches snapshot 1`] = `
               "width": "100%",
             }
           }
-          type="tel"
+          type="number"
+          value=""
         />
       </div>
       <div
@@ -261,10 +281,13 @@ exports[`SmsForm matches snapshot 1`] = `
         <input
           className=""
           disabled={false}
+          max={9}
           maxLength="1"
+          min={0}
           onBlur={[Function]}
           onChange={[Function]}
           onFocus={[Function]}
+          onInput={[Function]}
           onKeyDown={[Function]}
           onPaste={[Function]}
           style={
@@ -280,7 +303,8 @@ exports[`SmsForm matches snapshot 1`] = `
               "width": "100%",
             }
           }
-          type="tel"
+          type="number"
+          value=""
         />
       </div>
     </div>

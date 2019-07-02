@@ -37,12 +37,12 @@ const GenerateLinkButton = ({ screenProps, disabled }) => (
   />
 )
 
-const validate = to => {
+const validate = async to => {
   if (!to) {
     return null
   }
 
-  if (isMobilePhone(to) || isEmail(to)) {
+  if (isMobilePhone(to) || isEmail(to) || (await userStorage.isUsername(to))) {
     return null
   }
 
@@ -50,7 +50,7 @@ const validate = to => {
     return null
   }
 
-  return `Needs to be a valid wallet address, email or mobile phone (starts with a '+')`
+  return `Needs to be a valid username, email or mobile phone (starts with a '+')`
 }
 
 const ContinueButton = ({ screenProps, to, disabled, checkError }) => (

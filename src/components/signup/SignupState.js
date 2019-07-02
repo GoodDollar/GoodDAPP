@@ -9,8 +9,10 @@ import logger from '../../lib/logger/pino-logger'
 import { useWrappedApi } from '../../lib/API/useWrappedApi'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import userStorage from '../../lib/gundb/UserStorage'
+import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import GDStore from '../../lib/undux/GDStore'
 import { getUserModel, type UserModel } from '../../lib/gundb/UserModel'
+import { fireEvent } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
 import type { SMSRecord } from './SmsForm'
 import SignupCompleted from './SignupCompleted'
@@ -36,7 +38,6 @@ const SignupWizardNavigator = createSwitchNavigator(
   navigationConfig
 )
 
-declare var amplitude
 const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any }) => {
   const API = useWrappedApi()
   const initialState: SignupState = {
@@ -53,13 +54,14 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   const [state, setState] = useState(initialState)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(undefined)
+  const [showErrorDialog] = useErrorDialog()
 
   const store = GDStore.useStore()
 
   // const { loading } = store.get('currentScreen')
 
   function saveProfile() {
-    return userStorage.setProfile({ ...state, walletAddress: goodWallet.account })
+    return userStorage.setProfile({ ...state, walletAddress: goodWallet.account }).catch(showErrorDialog)
   }
 
   const navigateWithFocus = (routeKey: string) => {
@@ -75,13 +77,8 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
     }, 300)
   }
   const fireSignupEvent = (event?: string) => {
-    const Amplitude = amplitude.getInstance()
     let curRoute = navigation.state.routes[navigation.state.index]
-    let res = Amplitude.logEvent(`SIGNUP_${event || curRoute.key}`)
-    if (!res) {
-      log.warn('Amplitude event not sent')
-    }
-    log.debug('fired event', `SIGNUP_${event || curRoute.key}`)
+    fireEvent(`SIGNUP_${event || curRoute.key}`)
   }
 
   useEffect(() => {
@@ -101,19 +98,18 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       try {
         let { data } = await API.sendOTP(newState)
         if (data.ok === 0) {
-          setLoading(false)
           return setError(data.error)
         }
         return navigateWithFocus(nextRoute.key)
       } catch (e) {
         log.error(e)
+      } finally {
         setLoading(false)
       }
     } else if (nextRoute && nextRoute.key === 'EmailConfirmation') {
       try {
         const { data } = await API.sendVerificationEmail(newState)
         if (data.ok === 0) {
-          setLoading(false)
           return setError(data.error)
         }
         log.debug('skipping email verification?', { ...data, skip: Config.skipEmailVerification })
@@ -129,10 +125,10 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
           // if email is properly sent, persist current user's information to userStorage
           await userStorage.setProfile({ ...newState, walletAddress: goodWallet.account })
         }
-        setLoading(false)
         return navigateWithFocus(nextRoute.key)
       } catch (e) {
         log.error(e)
+      } finally {
         setLoading(false)
       }
     } else {
@@ -166,9 +162,9 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
         userStorage.setProfileField('registered', true, 'public')
         navigation.navigate('AppNavigation')
         store.set('isLoggedIn')(true)
-        setLoading(false)
       } catch (error) {
         log.error('New user failure', { error })
+      } finally {
         setLoading(false)
       }
     }

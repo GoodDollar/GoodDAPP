@@ -63,7 +63,7 @@ const Mnemonics = props => {
           <Paragraph style={[styles.fontBase, styles.paragraph]}>Please enter your 12-word passphrase:</Paragraph>
         </View>
         <View style={styles.formContainer}>
-          <MnemonicInput recoveryMode={true} onChange={handleChange} />
+          <MnemonicInput recoveryMode={false} onChange={handleChange} />
         </View>
       </View>
       <View style={styles.bottomContainer}>
@@ -80,14 +80,12 @@ const Mnemonics = props => {
  * @returns {Promise<Promise<*>|Promise<*>|Promise<any>>}
  */
 async function profileExist(): Promise<any> {
-  const [{ GoodWallet }, { UserStorage }] = await Promise.all([
-    import('../../lib/wallet/GoodWallet'),
-    import('../../lib/gundb/UserStorage')
+  const [, userStorage] = await Promise.all([
+    import('../../lib/wallet/GoodWallet').then(_ => _.default),
+    import('../../lib/gundb/UserStorage').then(_ => _.default)
   ])
 
   // reinstantiates wallet and userStorage with new mnemonics
-  const goodWallet = new GoodWallet()
-  const userStorage = new UserStorage(goodWallet)
   await userStorage.ready
 
   return userStorage.userAlreadyExist()

@@ -11,8 +11,10 @@ export const showDialogForError = (store: Store, humanError: string, error: Erro
     error = humanError
     humanError = undefined
   }
-  if (error === undefined) {
+  if (error === undefined && message === undefined) {
     message = 'Unknown Error'
+  } else if (error === undefined) {
+    message = ''
   } else if (typeof error === 'string') {
     message = error
   } else if (error.response && error.response.data) {

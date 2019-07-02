@@ -27,11 +27,6 @@ describe('Mask to Wei', () => {
     const wei = maskToWei('345,12')
     expect(wei).toEqual('34512')
   })
-
-  // it ('should convert empty string to 0', () => {
-  //   const wei = maskToWei('')
-  //   expect(wei).toEqual('NaN')
-  // })
 })
 
 describe('Money regex', () => {
@@ -75,10 +70,15 @@ describe('Money regex', () => {
     expect(isMoney).toBeFalsy()
   })
 
-  // it ('should return false if it is tested with multiple 0 (zeros)', () => {
-  //   const isMoney = moneyRegexp.test('000')
-  //   expect(isMoney).toBeFalsy()
-  // })
+  it('should return false if it is tested with multiple 0 (zeros)', () => {
+    const isMoney = moneyRegexp.test('000')
+    expect(isMoney).toBeFalsy()
+  })
+
+  it('should return false if it is tested with multiple 0 (zeros) leading a number', () => {
+    const isMoney = moneyRegexp.test('000123')
+    expect(isMoney).toBeFalsy()
+  })
 })
 
 describe('Number With Commas', () => {

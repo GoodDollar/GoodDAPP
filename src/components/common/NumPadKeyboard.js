@@ -64,16 +64,17 @@ const NumPadKeyboard = ({ onPress, amount, caretPosition, updateCaretPosition }:
   }
 
   const onBackspaceKey = () => {
-    const stringAmount = `${amount}`
-    const updatedValue = caretPosition
-      ? [stringAmount.slice(0, caretPosition.start - 1), stringAmount.slice(caretPosition.end)].join('')
-      : stringAmount.slice(0, -1)
-    onPress(updatedValue)
-    if (caretPosition.start) {
-      updateCaretPosition({
-        start: caretPosition.start - 1,
-        end: caretPosition.start - 1
-      })
+    if (!caretPosition || caretPosition.end > 0) {
+      const stringAmount = `${amount}`
+      let updatedValue = stringAmount.slice(0, -1)
+      if (caretPosition) {
+        updatedValue = [stringAmount.slice(0, caretPosition.start - 1), stringAmount.slice(caretPosition.end)].join('')
+        updateCaretPosition({
+          start: caretPosition.start - 1,
+          end: caretPosition.start - 1
+        })
+      }
+      onPress(updatedValue)
     }
   }
 

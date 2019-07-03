@@ -279,7 +279,7 @@ exports[`Receive matches snapshot 1`] = `
                 }
               >
                 <div
-                  className="css-text-76zvg2 r-pointerEvents-633pao"
+                  className="css-text-901oao r-pointerEvents-633pao"
                   dir="auto"
                   focusable={false}
                   role="img"
@@ -300,7 +300,7 @@ exports[`Receive matches snapshot 1`] = `
                 </div>
               </div>
               <div
-                className="css-text-76zvg2"
+                className="css-text-901oao"
                 dir="auto"
                 style={
                   Object {
@@ -313,7 +313,7 @@ exports[`Receive matches snapshot 1`] = `
                 }
               >
                 <span
-                  className="css-text-76zvg2 css-textHasAncestor-16my406"
+                  className="css-text-901oao css-textHasAncestor-16my406"
                   dir="auto"
                   style={
                     Object {
@@ -424,7 +424,7 @@ exports[`Receive matches snapshot 1`] = `
               }
             >
               <div
-                className="css-text-76zvg2"
+                className="css-text-901oao"
                 dir="auto"
                 style={
                   Object {
@@ -442,7 +442,7 @@ exports[`Receive matches snapshot 1`] = `
                 Your G$ wallet address:
               </div>
               <div
-                className="css-text-76zvg2"
+                className="css-text-901oao"
                 dir="auto"
                 style={
                   Object {
@@ -457,14 +457,14 @@ exports[`Receive matches snapshot 1`] = `
                 }
               >
                 <span
-                  className="css-text-76zvg2 css-textHasAncestor-16my406"
+                  className="css-text-901oao css-textHasAncestor-16my406"
                   dir="auto"
                 >
                   0x5dfF...E35F
                 </span>
               </div>
               <div
-                className="css-text-76zvg2"
+                className="css-text-901oao"
                 data-focusable={true}
                 dir="auto"
                 onClick={[Function]}
@@ -569,7 +569,7 @@ exports[`Receive matches snapshot 1`] = `
                   }
                 >
                   <div
-                    className="css-text-76zvg2 css-textOneLine-bfa6kz"
+                    className="css-text-901oao css-textOneLine-bfa6kz"
                     dir="auto"
                     style={
                       Object {
@@ -586,7 +586,7 @@ exports[`Receive matches snapshot 1`] = `
                     }
                   >
                     <span
-                      className="css-text-76zvg2 css-textHasAncestor-16my406"
+                      className="css-text-901oao css-textHasAncestor-16my406"
                       dir="auto"
                       style={
                         Object {
@@ -695,7 +695,7 @@ exports[`Receive matches snapshot 1`] = `
               }
             >
               <div
-                className="css-text-76zvg2 css-textOneLine-bfa6kz"
+                className="css-text-901oao css-textOneLine-bfa6kz"
                 dir="auto"
                 style={
                   Object {
@@ -712,7 +712,7 @@ exports[`Receive matches snapshot 1`] = `
                 }
               >
                 <span
-                  className="css-text-76zvg2 css-textHasAncestor-16my406"
+                  className="css-text-901oao css-textHasAncestor-16my406"
                   dir="auto"
                   style={
                     Object {

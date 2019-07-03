@@ -76,7 +76,7 @@ exports[`IconButton disabled matches snapshot 1`] = `
     }
   >
     <div
-      className="css-text-76zvg2"
+      className="css-text-901oao"
       dir="auto"
       style={
         Object {
@@ -93,7 +93,7 @@ exports[`IconButton disabled matches snapshot 1`] = `
     </div>
   </div>
   <div
-    className="css-text-76zvg2"
+    className="css-text-901oao"
     dir="auto"
     style={
       Object {
@@ -183,7 +183,7 @@ exports[`IconButton enabled matches snapshot 1`] = `
     }
   >
     <div
-      className="css-text-76zvg2"
+      className="css-text-901oao"
       dir="auto"
       style={
         Object {
@@ -200,7 +200,7 @@ exports[`IconButton enabled matches snapshot 1`] = `
     </div>
   </div>
   <div
-    className="css-text-76zvg2"
+    className="css-text-901oao"
     dir="auto"
     style={
       Object {

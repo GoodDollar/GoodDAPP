@@ -87,7 +87,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
       </div>
     </div>
     <div
-      className="css-text-76zvg2"
+      className="css-text-901oao"
       dir="auto"
     >
       
@@ -112,7 +112,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
     }
   >
     <div
-      className="css-text-76zvg2"
+      className="css-text-901oao"
       dir="auto"
       style={
         Object {
@@ -123,7 +123,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
       }
     >
       <span
-        className="css-text-76zvg2 css-textHasAncestor-16my406"
+        className="css-text-901oao css-textHasAncestor-16my406"
         dir="auto"
         style={
           Object {
@@ -136,7 +136,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
         :
       </span>
       <span
-        className="css-text-76zvg2 css-textHasAncestor-16my406"
+        className="css-text-901oao css-textHasAncestor-16my406"
         dir="auto"
         style={
           Object {
@@ -148,7 +148,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
       </span>
     </div>
     <div
-      className="css-text-76zvg2"
+      className="css-text-901oao"
       dir="auto"
       style={
         Object {
@@ -217,7 +217,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
         }
       >
         <div
-          className="css-text-76zvg2"
+          className="css-text-901oao"
           dir="auto"
           style={
             Object {
@@ -232,7 +232,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
           0.04
         </div>
         <div
-          className="css-text-76zvg2"
+          className="css-text-901oao"
           dir="auto"
           style={
             Object {
@@ -274,7 +274,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
         }
       >
         <div
-          className="css-text-76zvg2"
+          className="css-text-901oao"
           dir="auto"
           style={
             Object {
@@ -312,7 +312,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
       }
     >
       <div
-        className="css-text-76zvg2"
+        className="css-text-901oao"
         dir="auto"
         style={
           Object {
@@ -416,7 +416,7 @@ exports[`ListEventItem send matches snapshot 1`] = `
       </div>
     </div>
     <div
-      className="css-text-76zvg2"
+      className="css-text-901oao"
       dir="auto"
     >
       
@@ -441,7 +441,7 @@ exports[`ListEventItem send matches snapshot 1`] = `
     }
   >
     <div
-      className="css-text-76zvg2"
+      className="css-text-901oao"
       dir="auto"
       style={
         Object {
@@ -452,7 +452,7 @@ exports[`ListEventItem send matches snapshot 1`] = `
       }
     >
       <span
-        className="css-text-76zvg2 css-textHasAncestor-16my406"
+        className="css-text-901oao css-textHasAncestor-16my406"
         dir="auto"
         style={
           Object {
@@ -465,7 +465,7 @@ exports[`ListEventItem send matches snapshot 1`] = `
         :
       </span>
       <span
-        className="css-text-76zvg2 css-textHasAncestor-16my406"
+        className="css-text-901oao css-textHasAncestor-16my406"
         dir="auto"
         style={
           Object {
@@ -477,7 +477,7 @@ exports[`ListEventItem send matches snapshot 1`] = `
       </span>
     </div>
     <div
-      className="css-text-76zvg2"
+      className="css-text-901oao"
       dir="auto"
       style={
         Object {
@@ -546,7 +546,7 @@ exports[`ListEventItem send matches snapshot 1`] = `
         }
       >
         <div
-          className="css-text-76zvg2"
+          className="css-text-901oao"
           dir="auto"
           style={
             Object {
@@ -561,7 +561,7 @@ exports[`ListEventItem send matches snapshot 1`] = `
           0.04
         </div>
         <div
-          className="css-text-76zvg2"
+          className="css-text-901oao"
           dir="auto"
           style={
             Object {
@@ -603,7 +603,7 @@ exports[`ListEventItem send matches snapshot 1`] = `
         }
       >
         <div
-          className="css-text-76zvg2"
+          className="css-text-901oao"
           dir="auto"
           style={
             Object {
@@ -641,7 +641,7 @@ exports[`ListEventItem send matches snapshot 1`] = `
       }
     >
       <div
-        className="css-text-76zvg2"
+        className="css-text-901oao"
         dir="auto"
         style={
           Object {
@@ -745,7 +745,7 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
       </div>
     </div>
     <div
-      className="css-text-76zvg2"
+      className="css-text-901oao"
       dir="auto"
     >
       
@@ -770,7 +770,7 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
     }
   >
     <div
-      className="css-text-76zvg2"
+      className="css-text-901oao"
       dir="auto"
       style={
         Object {
@@ -781,7 +781,7 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
       }
     >
       <span
-        className="css-text-76zvg2 css-textHasAncestor-16my406"
+        className="css-text-901oao css-textHasAncestor-16my406"
         dir="auto"
         style={
           Object {
@@ -794,7 +794,7 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
         :
       </span>
       <span
-        className="css-text-76zvg2 css-textHasAncestor-16my406"
+        className="css-text-901oao css-textHasAncestor-16my406"
         dir="auto"
         style={
           Object {
@@ -806,7 +806,7 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
       </span>
     </div>
     <div
-      className="css-text-76zvg2"
+      className="css-text-901oao"
       dir="auto"
       style={
         Object {
@@ -875,7 +875,7 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
         }
       >
         <div
-          className="css-text-76zvg2"
+          className="css-text-901oao"
           dir="auto"
           style={
             Object {
@@ -890,7 +890,7 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
           0.04
         </div>
         <div
-          className="css-text-76zvg2"
+          className="css-text-901oao"
           dir="auto"
           style={
             Object {
@@ -932,7 +932,7 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
         }
       >
         <div
-          className="css-text-76zvg2"
+          className="css-text-901oao"
           dir="auto"
           style={
             Object {
@@ -970,7 +970,7 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
       }
     >
       <div
-        className="css-text-76zvg2"
+        className="css-text-901oao"
         dir="auto"
         style={
           Object {

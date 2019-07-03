@@ -10,7 +10,7 @@ exports[`BigGoodDollar matches snapshot 1`] = `
   }
 >
   <div
-    className="css-text-76zvg2"
+    className="css-text-901oao"
     dir="auto"
     style={
       Object {
@@ -25,7 +25,7 @@ exports[`BigGoodDollar matches snapshot 1`] = `
     10.05
   </div>
   <div
-    className="css-text-76zvg2"
+    className="css-text-901oao"
     dir="auto"
     style={
       Object {

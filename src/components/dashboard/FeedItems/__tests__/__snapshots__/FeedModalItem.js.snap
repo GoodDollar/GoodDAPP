@@ -100,7 +100,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
         }
       >
         <div
-          className="css-text-76zvg2"
+          className="css-text-901oao"
           dir="auto"
           style={
             Object {
@@ -131,7 +131,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
           }
         >
           <div
-            className="css-text-76zvg2"
+            className="css-text-901oao"
             dir="auto"
             style={
               Object {
@@ -147,7 +147,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
             0.04
           </div>
           <div
-            className="css-text-76zvg2"
+            className="css-text-901oao"
             dir="auto"
             style={
               Object {
@@ -165,7 +165,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
         </div>
       </div>
       <div
-        className="css-text-76zvg2"
+        className="css-text-901oao"
         dir="auto"
         style={
           Object {
@@ -311,7 +311,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
           </div>
         </div>
         <div
-          className="css-text-76zvg2"
+          className="css-text-901oao"
           dir="auto"
           style={
             Object {
@@ -320,7 +320,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
           }
         >
           <span
-            className="css-text-76zvg2 css-textHasAncestor-16my406"
+            className="css-text-901oao css-textHasAncestor-16my406"
             dir="auto"
             style={
               Object {
@@ -331,7 +331,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
             }
           >
             <span
-              className="css-text-76zvg2 css-textHasAncestor-16my406"
+              className="css-text-901oao css-textHasAncestor-16my406"
               dir="auto"
               style={
                 Object {
@@ -344,7 +344,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
               :
             </span>
             <span
-              className="css-text-76zvg2 css-textHasAncestor-16my406"
+              className="css-text-901oao css-textHasAncestor-16my406"
               dir="auto"
               style={
                 Object {
@@ -370,7 +370,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
         }
       />
       <div
-        className="css-text-76zvg2"
+        className="css-text-901oao"
         dir="auto"
         style={
           Object {
@@ -495,7 +495,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
               }
             >
               <div
-                className="css-text-76zvg2 css-textOneLine-bfa6kz"
+                className="css-text-901oao css-textOneLine-bfa6kz"
                 dir="auto"
                 style={
                   Object {
@@ -512,7 +512,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                 }
               >
                 <span
-                  className="css-text-76zvg2 css-textHasAncestor-16my406"
+                  className="css-text-901oao css-textHasAncestor-16my406"
                   dir="auto"
                   style={
                     Object {
@@ -617,7 +617,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
       }
     >
       <div
-        className="css-text-76zvg2"
+        className="css-text-901oao"
         dir="auto"
         style={
           Object {
@@ -654,7 +654,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
         }
       >
         <div
-          className="css-text-76zvg2"
+          className="css-text-901oao"
           dir="auto"
           style={
             Object {
@@ -685,7 +685,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
           }
         >
           <div
-            className="css-text-76zvg2"
+            className="css-text-901oao"
             dir="auto"
             style={
               Object {
@@ -701,7 +701,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
             0.04
           </div>
           <div
-            className="css-text-76zvg2"
+            className="css-text-901oao"
             dir="auto"
             style={
               Object {
@@ -851,7 +851,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
           </div>
         </div>
         <div
-          className="css-text-76zvg2"
+          className="css-text-901oao"
           dir="auto"
           style={
             Object {
@@ -860,7 +860,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
           }
         >
           <span
-            className="css-text-76zvg2 css-textHasAncestor-16my406"
+            className="css-text-901oao css-textHasAncestor-16my406"
             dir="auto"
             style={
               Object {
@@ -871,7 +871,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
             }
           >
             <span
-              className="css-text-76zvg2 css-textHasAncestor-16my406"
+              className="css-text-901oao css-textHasAncestor-16my406"
               dir="auto"
               style={
                 Object {
@@ -884,7 +884,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
               :
             </span>
             <span
-              className="css-text-76zvg2 css-textHasAncestor-16my406"
+              className="css-text-901oao css-textHasAncestor-16my406"
               dir="auto"
               style={
                 Object {
@@ -910,7 +910,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
         }
       />
       <div
-        className="css-text-76zvg2"
+        className="css-text-901oao"
         dir="auto"
         style={
           Object {
@@ -1035,7 +1035,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
               }
             >
               <div
-                className="css-text-76zvg2 css-textOneLine-bfa6kz"
+                className="css-text-901oao css-textOneLine-bfa6kz"
                 dir="auto"
                 style={
                   Object {
@@ -1052,7 +1052,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                 }
               >
                 <span
-                  className="css-text-76zvg2 css-textHasAncestor-16my406"
+                  className="css-text-901oao css-textHasAncestor-16my406"
                   dir="auto"
                   style={
                     Object {

@@ -11,7 +11,13 @@ const theme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    primary: '#00AFFF'
+    primary: '#00AFFF',
+    text: '#222222'
+  },
+  fonts: {
+    ...DefaultTheme.fonts,
+    slab: 'RobotoSlab-Regular',
+    slabBold: 'RobotoSlab-Bold'
   }
 }
 

@@ -1,12 +1,11 @@
 // @flow
 import React, { Component } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
-import type { Store } from 'undux'
+import { StyleSheet } from 'react-native'
+import { normalize } from 'react-native-elements'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import wrapper from '../../lib/undux/utils/wrapper'
 import GDStore from '../../lib/undux/GDStore'
-import { CustomButton, Section, TopBar, Wrapper } from '../common'
+import { CustomButton, Section, Text, TopBar, Wrapper } from '../common'
 import { weiToMask } from '../../lib/wallet/utils'
 import logger from '../../lib/logger/pino-logger'
 import type { DashboardProps } from './Dashboard'
@@ -101,7 +100,6 @@ class Claim extends Component<ClaimProps, ClaimState> {
         onPress={() => {
           isCitizen ? this.handleClaim() : this.faceRecognition()
         }}
-        style={styles.claimButton}
         loading={this.state.loading}
       >
         {`CLAIM YOUR SHARE - ${weiToMask(entitlement, { showUnits: true })}`}
@@ -111,63 +109,66 @@ class Claim extends Component<ClaimProps, ClaimState> {
     return (
       <Wrapper>
         <TopBar push={screenProps.push} />
-        <Section style={styles.mainContent}>
-          <Section.Text>GoodDollar allows you to collect</Section.Text>
-          <Section.Text>
-            <Text>G$s</Text>
-            <Text style={styles.everyDay}> every day</Text>
-          </Section.Text>
+        <Section.Stack grow={3} justifyContent="flex-start">
+          <Text style={styles.description}>GoodDollar allows you to collect</Text>
+          <Section.Row justifyContent="center">
+            <Text style={styles.descriptionPunch}>1</Text>
+            <Text style={[styles.descriptionPunch, styles.descriptionPunchCurrency]}> G$</Text>
+            <Text style={[styles.descriptionPunch, styles.noTransform]}> Free</Text>
+          </Section.Row>
+          <Section.Row justifyContent="center">
+            <Text style={[styles.descriptionPunch, styles.noTransform]}>Every Day</Text>
+          </Section.Row>
+        </Section.Stack>
+        <Section grow={3} style={styles.extraInfo}>
+          <Section.Row grow={1} style={styles.extraInfoStats} justifyContent="center">
+            <Section.Row alignItems="baseline">
+              <Text color="primary" weight="bold">
+                {claimedToday.people}
+              </Text>
+              <Text> People Claimed </Text>
+              <Text color="primary" weight="bold">
+                {claimedToday.amount}{' '}
+              </Text>
+              <Text color="primary" size={12} weight="bold">
+                G$
+              </Text>
+              <Text> Today!</Text>
+            </Section.Row>
+          </Section.Row>
+          <Section.Stack grow={3} style={styles.extraInfoCountdown} justifyContent="center">
+            <Text>Next daily income:</Text>
+            <Text style={styles.extraInfoCountdownClock}>{nextClaim}</Text>
+          </Section.Stack>
+          {ClaimButton}
         </Section>
-        <Section style={styles.nextIncome}>
-          <Section.Text>
-            {claimedToday.people} PEOPLE CLAIMED {claimedToday.amount} G$ TODAY!
-          </Section.Text>
-        </Section>
-        <Section style={styles.nextIncome}>
-          <Section.Text style={styles.incomeTitle}>Next daily income:</Section.Text>
-          <Section.Text style={styles.time}>{nextClaim}</Section.Text>
-        </Section>
-        {ClaimButton}
-        <View />
       </Wrapper>
     )
   }
 }
 
 const styles = StyleSheet.create({
-  claimButton: {
-    flexGrow: 0,
-    flexShrink: 1
+  description: { fontSize: normalize(16), color: '#ffffff' },
+  descriptionPunch: { fontFamily: 'RobotoSlab-Bold', fontSize: normalize(36), color: '#ffffff' },
+  descriptionPunchCurrency: { fontSize: normalize(20) },
+  noTransform: { textTransform: 'none' },
+  extraInfo: { marginBottom: 0, padding: normalize(8), paddingTop: normalize(8), paddingBottom: normalize(8) },
+  valueHighlight: { fontWeight: 'bold', color: '#00afff' },
+  extraInfoStats: { backgroundColor: '#e0e0e0', borderRadius: normalize(5) },
+  extraInfoStatsCurrency: { fontSize: normalize(12) },
+  extraInfoCountdown: {
+    backgroundColor: '#e0e0e0',
+    marginTop: normalize(8),
+    marginBottom: normalize(16),
+    borderRadius: normalize(5)
   },
-  centered: {
-    justifyContent: 'center',
-    alignItems: 'baseline'
-  },
-  mainContent: {
-    flexGrow: 1,
-    justifyContent: 'center',
-    backgroundColor: 'none'
-  },
-  nextIncome: {
-    justifyContent: 'center'
-  },
-  incomeTitle: {
-    fontSize: normalize(18),
-    textTransform: 'uppercase',
-    fontFamily: 'Roboto, Regular'
-  },
-  time: {
-    fontSize: normalize(36),
-    fontFamily: 'Roboto, Medium'
-  },
-  everyDay: {
-    fontSize: normalize(20)
-  }
+  extraInfoCountdownClock: { fontSize: normalize(36), color: '#00c3ae', fontFamily: 'RobotoSlab-Bold' }
 })
 
 const claim = GDStore.withStore(Claim)
+
 claim.navigationOptions = {
-  title: 'Claim G$'
+  title: 'Claim Daily G$'
 }
 
 export default claim

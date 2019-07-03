@@ -874,13 +874,14 @@ exports[`Dashboard matches snapshot 1`] = `
                                   Object {
                                     "color": "rgba(255,255,255,1.00)",
                                     "fontFamily": "gooddollar",
-                                    "fontSize": "20px",
+                                    "fontSize": "16px",
                                     "fontStyle": "normal",
                                     "fontWeight": "normal",
+                                    "marginRight": "10px",
                                   }
                                 }
                               >
-                                
+                                
                               </span>
                               <div
                                 className="css-view-1dbjc4n"
@@ -1195,13 +1196,14 @@ exports[`Dashboard matches snapshot 1`] = `
                                   Object {
                                     "color": "rgba(255,255,255,1.00)",
                                     "fontFamily": "gooddollar",
-                                    "fontSize": "20px",
+                                    "fontSize": "16px",
                                     "fontStyle": "normal",
                                     "fontWeight": "normal",
+                                    "marginLeft": "10px",
                                   }
                                 }
                               >
-                                
+                                
                               </span>
                             </div>
                           </div>

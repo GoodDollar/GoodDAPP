@@ -2,6 +2,7 @@
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Button as BaseButton, DefaultTheme, Text, withTheme } from 'react-native-paper'
+import normalize from 'react-native-elements/src/helpers/normalizeText'
 import logger from '../../../lib/logger/pino-logger'
 import Icon from '../view/Icon'
 
@@ -54,11 +55,11 @@ type IconButtonProps = {
   size?: number
 }
 
-const IconButton = ({ theme, dark, icon, size }: IconButtonProps) => {
+const IconButton = ({ theme, dark, icon, size, style }: IconButtonProps) => {
   if (typeof icon === 'function') {
     return icon(dark ? theme.colors.surface : theme.colors.primary, size)
   }
-  return <Icon name={icon} color={dark ? theme.colors.surface : theme.colors.primary} size={size || 16} />
+  return <Icon name={icon} color={dark ? theme.colors.surface : theme.colors.primary} size={size || 16} style={style} />
 }
 
 /**
@@ -98,12 +99,14 @@ const CustomButton = (props: ButtonProps) => {
       compact
     >
       {icon && (!iconAlignment || iconAlignment === 'left') && (
-        <IconButton icon={icon} theme={theme} dark={dark} size={iconSize} />
+        <IconButton icon={icon} theme={theme} dark={dark} size={iconSize} style={styles.leftIcon} />
       )}
       <TextContent dark={dark} uppercase={uppercase}>
         {children}
       </TextContent>
-      {icon && iconAlignment === 'right' && <IconButton icon={icon} theme={theme} dark={dark} size={iconSize} />}
+      {icon && iconAlignment === 'right' && (
+        <IconButton icon={icon} theme={theme} dark={dark} size={iconSize} style={styles.rightIcon} />
+      )}
     </BaseButton>
   )
 }
@@ -119,6 +122,12 @@ const styles = StyleSheet.create({
   buttonWrapperText: {
     minHeight: 34,
     justifyContent: 'center'
+  },
+  leftIcon: {
+    marginRight: normalize(10)
+  },
+  rightIcon: {
+    marginLeft: normalize(10)
   }
 })
 

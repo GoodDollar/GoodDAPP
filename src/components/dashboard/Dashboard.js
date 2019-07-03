@@ -194,9 +194,8 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
                 routeName={'Send'}
                 screenProps={screenProps}
                 style={styles.leftButton}
-                icon="feed-send"
+                icon="send"
                 iconAlignment="left"
-                iconSize={20}
               >
                 Send
               </PushButton>
@@ -211,9 +210,8 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
                 routeName={'Receive'}
                 screenProps={screenProps}
                 style={styles.rightButton}
-                icon="feed-receive"
+                icon="receive"
                 iconAlignment="right"
-                iconSize={20}
               >
                 Receive
               </PushButton>

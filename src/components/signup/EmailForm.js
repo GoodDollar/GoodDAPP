@@ -40,8 +40,8 @@ class EmailForm extends React.Component<Props, State> {
     this.setState({ email })
   }
 
-  handleSubmit = () => {
-    const isValid = this.checkErrors()
+  handleSubmit = async () => {
+    const isValid = await this.checkErrors()
     if (isValid) {
       this.props.screenProps.doneCallback({ email: this.state.email })
     }

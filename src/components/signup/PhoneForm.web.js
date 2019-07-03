@@ -56,8 +56,8 @@ class PhoneForm extends React.Component<Props, State> {
     this.setState({ mobile })
   }
 
-  handleSubmit = () => {
-    const isValid = this.checkErrors()
+  handleSubmit = async () => {
+    const isValid = await this.checkErrors()
     if (isValid) {
       this.props.screenProps.doneCallback({ mobile: this.state.mobile })
     }
@@ -74,7 +74,7 @@ class PhoneForm extends React.Component<Props, State> {
     const isValidIndexValue =
       Config.skipMobileVerification || (await userStorage.isValidValue('mobile', this.state.mobile))
     const errorMessage = modelErrorMessage || (isValidIndexValue ? '' : 'Unavailable mobile')
-    log.debug({ modelErrorMessage, isValidIndexValue, errorMessage })
+    log.debug({ modelErrorMessage, isValidIndexValue, errorMessage, Config })
     this.setState({ errorMessage }, () => this.setState({ isValid: this.state.errorMessage === '' }))
     return errorMessage === ''
   }

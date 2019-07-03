@@ -9,8 +9,8 @@ const Config = {
   zoomLicenseKey: process.env.REACT_APP_ZOOM_LICENSE_KEY,
   httpWeb3provider: process.env.REACT_APP_WEB3_RPC,
   recaptcha: '6LeOaJIUAAAAAKB3DlmijMPfX2CBYsve3T2MwlTd',
-  skipEmailVerification: process.env.REACT_APP_SKIP_EMAIL_VERIFICATION || false,
-  skipMobileVerification: process.env.REACT_APP_SKIP_MOBILE_VERIFICATION || false,
+  skipEmailVerification: process.env.REACT_APP_SKIP_EMAIL_VERIFICATION === "true",
+  skipMobileVerification: process.env.REACT_APP_SKIP_MOBILE_VERIFICATION === "true",
   throwSaveProfileErrors: !process.env.REACT_APP_THROW_SAVE_PROFILE_ERRORS || process.env.REACT_APP_THROW_SAVE_PROFILE_ERRORS === "true",
   ethereum: {
     '42': {

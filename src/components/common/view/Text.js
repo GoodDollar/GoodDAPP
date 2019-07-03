@@ -29,7 +29,7 @@ const getStylesFromProps = props => {
     color: theme.colors[color] || color || theme.colors.text,
     textAlign: align || 'center',
     fontWeight: weight || 'normal',
-    fontFamily: family || 'Roboto',
+    fontFamily: theme.fonts[family] || family || 'Roboto',
     fontSize: Number.isFinite(size) ? normalize(size) : normalize(16),
     textTransform: transform || 'none',
     textDecorationStyle: decoration || 'none'

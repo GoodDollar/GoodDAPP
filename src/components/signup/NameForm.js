@@ -3,7 +3,6 @@ import React from 'react'
 import { HelperText, TextInput } from 'react-native-paper'
 
 import { validateFullName } from '../../lib/validators/validateFullName'
-import GDStore from '../../lib/undux/GDStore'
 import { Title, Wrapper } from './components'
 
 type Props = {
@@ -69,6 +68,7 @@ class NameForm extends React.Component<Props, State> {
           onBlur={this.checkErrors}
           error={errorMessage !== ''}
           onKeyPress={this.handleEnter}
+          autoFocus
         />
         <HelperText type="error" visible={errorMessage}>
           {errorMessage}
@@ -78,9 +78,8 @@ class NameForm extends React.Component<Props, State> {
   }
 }
 
-const nameForm = GDStore.withStore(NameForm)
-nameForm.navigationOptions = {
+NameForm.navigationOptions = {
   title: 'Name'
 }
 
-export default nameForm
+export default NameForm

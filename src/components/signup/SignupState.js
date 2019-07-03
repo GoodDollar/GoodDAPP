@@ -6,13 +6,13 @@ import { scrollableContainer } from '../common/styles'
 import NavBar from '../appNavigation/NavBar'
 import { navigationConfig } from '../appNavigation/navigationConfig'
 import logger from '../../lib/logger/pino-logger'
-import { useWrappedApi } from '../../lib/API/useWrappedApi'
-import goodWallet from '../../lib/wallet/GoodWallet'
-import userStorage from '../../lib/gundb/UserStorage'
+
+import API from '../../lib/API/api'
+import SimpleStore from '../../lib/undux/SimpleStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
-import GDStore from '../../lib/undux/GDStore'
+
 import { getUserModel, type UserModel } from '../../lib/gundb/UserModel'
-import { fireEvent } from '../../lib/analytics/analytics'
+import { fireEvent, initAnalytics } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
 import type { SMSRecord } from './SmsForm'
 import SignupCompleted from './SignupCompleted'
@@ -25,7 +25,7 @@ import NameForm from './NameForm'
 const log = logger.child({ from: 'SignupState' })
 
 export type SignupState = UserModel & SMSRecord
-
+type Ready = Promise<{ goodWallet: any, userStorage: any }>
 const SignupWizardNavigator = createSwitchNavigator(
   {
     Name: NameForm,
@@ -39,7 +39,9 @@ const SignupWizardNavigator = createSwitchNavigator(
 )
 
 const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any }) => {
-  const API = useWrappedApi()
+  const store = SimpleStore.useStore()
+
+  // const API = useWrappedApi()
   const initialState: SignupState = {
     ...getUserModel({
       fullName: '',
@@ -50,24 +52,13 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
     isEmailConfirmed: false,
     jwt: ''
   }
-
+  const [ready, setReady]: [Ready, ((Ready => Ready) | Ready) => void] = useState(Promise.resolve({}))
   const [state, setState] = useState(initialState)
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(undefined)
   const [showErrorDialog] = useErrorDialog()
-
-  const store = GDStore.useStore()
-
-  // const { loading } = store.get('currentScreen')
-
-  function saveProfile() {
-    return userStorage.setProfile({ ...state, walletAddress: goodWallet.account }).catch(showErrorDialog)
-  }
 
   const navigateWithFocus = (routeKey: string) => {
     navigation.navigate(routeKey)
-
-    // store.set('currentScreen')({ loading: false })
     setLoading(false)
     setTimeout(() => {
       const el = document.getElementById(routeKey + '_input')
@@ -82,12 +73,30 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   }
 
   useEffect(() => {
-    fireSignupEvent('STARTED')
+    //don't allow to start signup flow not from begining
+    if (navigation.state.index > 0) {
+      log.debug('redirecting to start, got index:', navigation.state.index)
+      setLoading(true)
+      return navigateWithFocus(navigation.state.routes[0].key)
+    }
+
+    //lazy login in background
+    const ready = (async () => {
+      log.debug('ready: Starting initialization')
+      const { init } = await import('../../init')
+      const login = import('../../lib/login/GoodWalletLogin')
+      const { goodWallet, userStorage } = await init()
+      initAnalytics(goodWallet, userStorage).then(_ => fireSignupEvent('STARTED'))
+      await login.then(l => l.default.auth())
+
+      //now that we are loggedin, reload api with JWT
+      await API.init()
+      return { goodWallet, userStorage }
+    })()
+    setReady(ready)
   }, [])
   const done = async (data: { [string]: string }) => {
-    // store.set('currentScreen')({ loading: true })
     setLoading(true)
-    setError()
     fireSignupEvent()
     log.info('signup data:', { data })
     let nextRoute = navigation.state.routes[navigation.state.index + 1]
@@ -98,11 +107,12 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       try {
         let { data } = await API.sendOTP(newState)
         if (data.ok === 0) {
-          return setError(data.error)
+          return showErrorDialog('Sending mobile verification code failed', data.error)
         }
         return navigateWithFocus(nextRoute.key)
       } catch (e) {
         log.error(e)
+        showErrorDialog('Sending mobile verification code failed', e)
       } finally {
         setLoading(false)
       }
@@ -110,7 +120,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       try {
         const { data } = await API.sendVerificationEmail(newState)
         if (data.ok === 0) {
-          return setError(data.error)
+          return showErrorDialog('Failed sending verificaiton email', data.error)
         }
         log.debug('skipping email verification?', { ...data, skip: Config.skipEmailVerification })
         if (Config.skipEmailVerification || data.onlyInEnv) {
@@ -123,47 +133,43 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
           setState({ ...newState, isEmailConfirmed: true })
         } else {
           // if email is properly sent, persist current user's information to userStorage
-          await userStorage.setProfile({ ...newState, walletAddress: goodWallet.account })
+          // await userStorage.setProfile({ ...newState, walletAddress: goodWallet.account })
         }
         return navigateWithFocus(nextRoute.key)
       } catch (e) {
         log.error(e)
+        showErrorDialog('Email verification failed', e)
       } finally {
         setLoading(false)
       }
     } else {
       if (nextRoute) {
-        setLoading(false)
         return navigateWithFocus(nextRoute.key)
       }
-
       log.info('Sending new user data', state)
-
       try {
+        const { goodWallet, userStorage } = await ready
+
         // After sending email to the user for confirmation (transition between Email -> EmailConfirmation)
         // user's profile is persisted (`userStorage.setProfile`).
         // Then, when the user access the application from the link (in EmailConfirmation), data is recovered and
         // saved to the `state`
         await API.addUser(state)
 
+        // Stores creationBlock number into 'lastBlock' feed's node
         await Promise.all([
-          (saveProfile({ registered: true }),
-          userStorage.setProfileField('registered', true),
-          goodWallet.getBlockNumber().then(creationBlock => {
-            // Stores creationBlock number into 'lastBlock' feed's node
-            return userStorage.saveLastBlockNumber(creationBlock.toString())
-          }),
-          AsyncStorage.getItem('GD_USER_MNEMONIC').then(mnemonic => API.sendRecoveryInstructionByEmail(mnemonic)))
+          userStorage.setProfile({ ...state, walletAddress: goodWallet.account }),
+          userStorage.setProfileField('registered', true, 'public'),
+          goodWallet.getBlockNumber().then(creationBlock => userStorage.saveLastBlockNumber(creationBlock.toString())),
+          AsyncStorage.getItem('GD_USER_MNEMONIC').then(mnemonic => API.sendRecoveryInstructionByEmail(mnemonic)),
+          AsyncStorage.setItem('GOODDAPP_isLoggedIn', true)
         ])
 
-        // top wallet of new user
-        // wait for the topping to complete to be able to withdraw
-        // await API.verifyTopWallet()
-        userStorage.setProfileField('registered', true, 'public')
-        navigation.navigate('AppNavigation')
+        //tell App.js we are done here so RouterSelector switches router
         store.set('isLoggedIn')(true)
-      } catch (error) {
-        log.error('New user failure', { error })
+      } catch (e) {
+        log.error('New user failure', { e, message: e.message })
+        showErrorDialog('New user creation failed', e)
       } finally {
         setLoading(false)
       }
@@ -172,7 +178,6 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
 
   const back = () => {
     const nextRoute = navigation.state.routes[navigation.state.index - 1]
-    setError()
     if (nextRoute) {
       navigateWithFocus(nextRoute.key)
     } else {
@@ -187,7 +192,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
         <View style={styles.contentContainer}>
           <SignupWizardNavigator
             navigation={navigation}
-            screenProps={{ ...screenProps, error, data: { ...state, loading }, doneCallback: done, back: back }}
+            screenProps={{ ...screenProps, data: { ...state, loading }, doneCallback: done, back: back }}
           />
         </View>
       </ScrollView>

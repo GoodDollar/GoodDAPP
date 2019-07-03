@@ -5,7 +5,7 @@ import QrReader from 'react-qr-reader'
 
 import logger from '../../lib/logger/pino-logger'
 import { readCode } from '../../lib/share'
-import GDStore from '../../lib/undux/GDStore'
+import SimpleStore from '../../lib/undux/SimpleStore'
 import { wrapFunction } from '../../lib/undux/utils/wrapper'
 import { Section, TopBar, Wrapper } from '../common'
 import { routeAndPathForCode } from './utils/routeAndPathForCode'
@@ -20,7 +20,7 @@ type Props = {
 
 const SendByQR = ({ screenProps }: Props) => {
   const [qrDelay, setQRDelay] = useState(QR_DEFAULT_DELAY)
-  const store = GDStore.useStore()
+  const store = SimpleStore.useStore()
 
   const onDismissDialog = () => setQRDelay(QR_DEFAULT_DELAY)
 

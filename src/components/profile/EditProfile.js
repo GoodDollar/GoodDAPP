@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { StyleSheet } from 'react-native'
 import { useWrappedUserStorage } from '../../lib/gundb/useWrappedStorage'
+import logger from '../../lib/logger/pino-logger'
 import GDStore from '../../lib/undux/GDStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import { CustomButton, Section, UserAvatar, Wrapper } from '../common'
@@ -9,6 +10,7 @@ import CameraButton from './CameraButton'
 import ProfileDataTable from './ProfileDataTable'
 
 const TITLE = 'Edit Profile'
+const log = logger.child({ from: TITLE })
 
 const EditProfile = props => {
   const store = GDStore.useStore()
@@ -48,10 +50,11 @@ const EditProfile = props => {
 
     userStorage
       .setProfile(profile)
-      .catch(showErrorDialog)
-      .finally(r => {
-        setSaving(false)
+      .catch(err => {
+        log.error('Error saving profile', { err, profile })
+        showErrorDialog('Saving profile failed', err)
       })
+      .finally(_ => setSaving(false))
     screenProps.pop()
   }
 
@@ -76,7 +79,7 @@ const EditProfile = props => {
     <Wrapper>
       <Section style={styles.section}>
         <Section.Row style={styles.centered}>
-          <UserAvatar profile={profile} onPress={handleAvatarPress}>
+          <UserAvatar onChange={handleProfileChange} editable={true} profile={profile} onPress={handleAvatarPress}>
             <CameraButton handleCameraPress={handleCameraPress} />
           </UserAvatar>
           <CustomButton

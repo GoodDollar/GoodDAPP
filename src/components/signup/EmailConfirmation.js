@@ -2,11 +2,10 @@
 import React, { useEffect, useState } from 'react'
 import { StyleSheet } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
-import { useWrappedApi } from '../../lib/API/useWrappedApi'
-import { useWrappedUserStorage } from '../../lib/gundb/useWrappedStorage'
+import API from '../../lib/API/api'
+
+// import { useWrappedUserStorage } from '../../lib/gundb/useWrappedStorage'
 import logger from '../../lib/logger/pino-logger'
-import GDStore from '../../lib/undux/GDStore'
-import { setLoadingWithStore } from '../common/view/LoadingIndicator'
 import { Description, LinkButton, Title, Wrapper } from './components'
 
 type Props = {
@@ -18,10 +17,10 @@ const log = logger.child({ from: 'EmailConfirmation' })
 
 const EmailConfirmation = ({ navigation, screenProps }: Props) => {
   const [globalProfile, setGlobalProfile] = useState({})
-  const API = useWrappedApi()
-  const userStorage = useWrappedUserStorage()
-  const setLoading = setLoadingWithStore(GDStore.useStore())
 
+  // const API = useWrappedApi()
+  // const userStorage = useWrappedUserStorage()
+  const setLoading = () => log.warn('implement me')
   useEffect(() => {
     const { params } = navigation.state
 
@@ -30,7 +29,7 @@ const EmailConfirmation = ({ navigation, screenProps }: Props) => {
 
       // recover user's profile persisted to userStorage in SignupState after sending the email
       // done before verifying email to have all the user's information available to display
-      const profile = await userStorage.getProfile()
+      const profile = {} //await userStorage.getProfile()
       setGlobalProfile(profile)
 
       await API.verifyEmail({ code: params.validation })

@@ -2,7 +2,7 @@
 import React from 'react'
 import { Appbar } from 'react-native-paper'
 import { toggleSidemenu } from '../../lib/undux/utils/sidemenu'
-import GDStore from '../../lib/undux/GDStore'
+import SimpleStore from '../../lib/undux/SimpleStore'
 
 type TabViewProps = {
   routes: { [string]: any },
@@ -45,7 +45,7 @@ type TabViewProps = {
 // )
 
 const TabsView = (props: TabViewProps) => {
-  const store = GDStore.useStore()
+  const store = SimpleStore.useStore()
 
   return (
     <Appbar.Header dark>

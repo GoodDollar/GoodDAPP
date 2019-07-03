@@ -1,6 +1,7 @@
 // @flow
 import type { Store } from 'undux'
-import GDStore from '../GDStore'
+import SimpleStore from '../SimpleStore'
+import { type DialogProps } from '../../../components/common/dialogs/CustomDialog'
 import pino from '../../logger/pino-logger'
 const log = pino.child({ from: 'dialogs' })
 
@@ -10,8 +11,10 @@ export const showDialogForError = (store: Store, humanError: string, error: Erro
     error = humanError
     humanError = undefined
   }
-  if (error === undefined) {
+  if (error === undefined && message === undefined) {
     message = 'Unknown Error'
+  } else if (error === undefined) {
+    message = ''
   } else if (typeof error === 'string') {
     message = error
   } else if (error.response && error.response.data) {
@@ -27,7 +30,7 @@ export const showDialogForError = (store: Store, humanError: string, error: Erro
   showDialogWithData(store, dialogData)
 }
 
-export const showDialogWithData = (store: Store, dialogData: {}) => {
+export const showDialogWithData = (store: Store, dialogData: DialogProps) => {
   log.debug('showDialogWithData', { dialogData })
   store.set('currentScreen')({
     ...store.get('currentScreen'),
@@ -50,11 +53,11 @@ export const hideDialog = (store: Store) => {
 }
 
 export const useDialog = () => {
-  const store = GDStore.useStore()
-  return [showDialogWithData.bind(null, store), hideDialog.bind(null, store)]
+  const store = SimpleStore.useStore()
+  return [showDialogWithData.bind(null, store), hideDialog.bind(null, store), showDialogForError.bind(null, store)]
 }
 
 export const useErrorDialog = () => {
-  const store = GDStore.useStore()
+  const store = SimpleStore.useStore()
   return [showDialogForError.bind(null, store), hideDialog.bind(null, store)]
 }

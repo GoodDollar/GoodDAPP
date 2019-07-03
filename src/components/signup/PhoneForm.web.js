@@ -2,7 +2,6 @@
 import React from 'react'
 import PhoneInput from 'react-phone-number-input'
 import './PhoneForm.css'
-import GDStore from '../../lib/undux/GDStore'
 import { userModelValidations } from '../../lib/gundb/UserModel'
 import userStorage from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
@@ -103,4 +102,4 @@ class PhoneForm extends React.Component<Props, State> {
   }
 }
 
-export default GDStore.withStore(PhoneForm)
+export default PhoneForm

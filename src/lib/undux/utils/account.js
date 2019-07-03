@@ -6,7 +6,7 @@ import userStorage from '../../gundb/UserStorage'
 
 const log = logger.child({ from: 'undux/utils/balance' })
 
-const updateAll = (store: Store) => {
+const updateAll = store => {
   return Promise.all([goodWallet.balanceOf(), goodWallet.checkEntitlement()])
     .then(([balance, entitlement]) => {
       const account = store.get('account')
@@ -30,9 +30,8 @@ const updateAll = (store: Store) => {
  * @returns {Promise<void>}
  */
 const onBalanceChange = async (error: {}, events: [] = [], store: Store) => {
-  log.debug('new Transfer events:', { error, events })
-
   if (!error && events.length) {
+    log.debug('new Transfer events:', { error, events })
     await updateAll(store)
   }
 }

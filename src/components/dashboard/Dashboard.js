@@ -1,12 +1,13 @@
 // @flow
-import React, { Component } from 'react'
+import React, { useEffect, useState } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { Portal } from 'react-native-paper'
 import type { Store } from 'undux'
-import throttle from 'lodash/throttle'
 
 import GDStore from '../../lib/undux/GDStore'
+import SimpleStore from '../../lib/undux/SimpleStore'
+import { useDialog } from '../../lib/undux/utils/dialog'
 import { getInitialFeed, getNextFeed, PAGE_SIZE } from '../../lib/undux/utils/feed'
 import { executeWithdraw } from '../../lib/undux/utils/withdraw'
 import { weiToMask } from '../../lib/wallet/utils'
@@ -45,48 +46,50 @@ type DashboardState = {
   currentFeedProps: any
 }
 
-class Dashboard extends Component<DashboardProps, DashboardState> {
-  state = {
+const Dashboard = props => {
+  const store = SimpleStore.useStore()
+  const gdstore = GDStore.useStore()
+  const [showDialog, hideDialog] = useDialog()
+  const [state: DashboardState, setState] = useState({
     horizontal: false,
     currentFeedProps: null,
     feeds: []
-  }
+  })
+  const { params } = props.navigation.state
 
-  componentWillMount() {
-    const { params } = this.props.navigation.state
+  useEffect(() => {
+    log.debug('Dashboard didmount')
     userStorage.feed.get('byid').on(data => {
       log.debug('gun getFeed callback', { data })
-      this.getFeeds()
+      getFeeds()
     }, true)
-    if (params && params.receiveLink) {
-      this.handleWithdraw()
+  }, [])
+
+  useEffect(() => {
+    log.debug('handle links effect dashboard', { params })
+    if (params && params.paymentCode) {
+      handleWithdraw()
     } else if (params && params.event) {
-      this.showNewFeedEvent(params.event)
+      showNewFeedEvent(params.event)
     }
+  }, [params])
 
-    // this.getFeeds()
+  // componentWillUnmount() {
+  //   // TODO: we should be removing the listener in unmount but this causes that you cannot re-subscribe
+  //   // userStorage.feed.get('byid').off()
+  // }
+
+  const getFeeds = () => {
+    getInitialFeed(gdstore)
   }
 
-  componentWillUnmount() {
-    // TODO: we should be removing the listener in unmount but this causes that you cannot re-subscribe
-    // userStorage.feed.get('byid').off()
-  }
-
-  getFeeds = (() => {
-    const get = () => {
-      log.debug('getFeed initial')
-      getInitialFeed(this.props.store)
-    }
-    return throttle(get, 2000, { leading: true })
-  })()
-
-  showEventModal = item => {
-    this.props.screenProps.navigateTo('Home', {
-      event: item.id,
-      receiveLink: undefined,
-      reason: undefined
-    })
-    this.setState({
+  const showEventModal = item => {
+    // props.screenProps.navigateTo('Home', {
+    //   event: item.id,
+    //   receiveLink: undefined,
+    //   reason: undefined
+    // })
+    setState({
       currentFeedProps: {
         item,
         styles: {
@@ -101,129 +104,112 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
           paddingRight: normalize(10),
           backgroundColor: 'rgba(0, 0, 0, 0.7)'
         },
-        onPress: this.closeFeedEvent
+        onPress: closeFeedEvent
       }
     })
   }
 
-  handleFeedSelection = (receipt, horizontal) => {
-    this.showEventModal(receipt)
+  const handleFeedSelection = (receipt, horizontal) => {
+    showEventModal(receipt)
   }
 
-  showNewFeedEvent = async eventId => {
+  const showNewFeedEvent = async eventId => {
     try {
       const item = await userStorage.getFormatedEventById(eventId)
-      log.info({ item })
+      log.info('showNewFeedEvent', { eventId, item })
       if (item) {
-        this.showEventModal(item)
+        showEventModal(item)
       } else {
-        this.props.store.set('currentScreen')({
-          ...this.props.store.get('currentScreen'),
-          dialogData: {
-            visible: true,
-            title: 'Error',
-            message: 'Event does not exist'
-          }
+        showDialog({
+          title: 'Error',
+          message: 'Event does not exist'
         })
       }
     } catch (e) {
-      this.props.store.set('currentScreen')({
-        ...this.props.store.get('currentScreen'),
-        dialogData: {
-          visible: true,
-          title: 'Error',
-          message: 'Event does not exist'
-        }
+      showDialog({
+        title: 'Error',
+        message: 'Event does not exist'
       })
     }
   }
 
-  closeFeedEvent = () => {
-    this.setState(
-      {
-        currentFeedProps: null
-      },
-      () => {
-        this.props.screenProps.navigateTo('Home', {
-          event: undefined,
-          receiveLink: undefined,
-          reason: undefined
-        })
-      }
-    )
+  const closeFeedEvent = () => {
+    setState({
+      currentFeedProps: null
+    })
   }
 
-  handleWithdraw = async () => {
-    const { receiveLink, reason } = this.props.navigation.state.params
-    const { store } = this.props
+  const handleWithdraw = async () => {
+    const { paymentCode, reason } = props.navigation.state.params
     try {
-      const receipt = await executeWithdraw(store, receiveLink, reason)
-      if (receipt.transactionHash) {
-        await this.showNewFeedEvent(receipt.transactionHash)
-      }
+      showDialog({ title: 'Processing Payment Link...', loading: true, dismissText: 'hold' })
+      await executeWithdraw(store, paymentCode, reason)
+      hideDialog()
+
+      // if (receipt.transactionHash) {
+      //   await showNewFeedEvent(receipt.transactionHash)
+      // }
     } catch (e) {
-      log.error(e)
+      showDialog({ title: 'Error', message: e.message })
     }
   }
 
-  render() {
-    const { horizontal, currentFeedProps } = this.state
-    const { screenProps, navigation, store }: DashboardProps = this.props
-    const { balance, entitlement } = store.get('account')
-    const { avatar, fullName } = store.get('profile')
-    const feeds = store.get('feeds')
+  const { horizontal, currentFeedProps } = state
+  const { screenProps, navigation }: DashboardProps = props
+  const { balance, entitlement } = gdstore.get('account')
+  const { avatar, fullName } = gdstore.get('profile')
+  const feeds = gdstore.get('feeds')
 
-    log.info('LOGGER FEEDS', { feeds })
+  log.info('LOGGER FEEDS', { feeds })
 
-    return (
-      <View style={styles.dashboardView}>
-        <TabsView goTo={navigation.navigate} routes={screenProps.routes} />
-        <Wrapper backgroundColor="#eeeeee">
-          <Section>
-            <Section.Row style={styles.centered}>
-              <Avatar size={80} source={avatar} onPress={() => screenProps.push('Profile')} />
-            </Section.Row>
-            <Section.Row style={styles.centered}>
-              <Section.Title>{fullName || ' '}</Section.Title>
-            </Section.Row>
-            <Section.Row style={styles.centered}>
-              <BigGoodDollar number={balance} />
-            </Section.Row>
-            <Section.Row style={styles.buttonRow}>
-              <PushButton routeName={'Send'} screenProps={screenProps} style={styles.leftButton}>
-                Send
-              </PushButton>
-              <PushButton routeName={'Claim'} screenProps={screenProps}>
-                <Text style={[styles.buttonText]}>Claim</Text>
-                <br />
-                <Text style={[styles.buttonText, styles.grayedOutText]}>
-                  +{weiToMask(entitlement, { showUnits: true })}
-                </Text>
-              </PushButton>
-              <PushButton routeName={'Receive'} screenProps={screenProps} style={styles.rightButton}>
-                Receive
-              </PushButton>
-            </Section.Row>
-          </Section>
-          <FeedList
-            horizontal={horizontal}
-            handleFeedSelection={this.handleFeedSelection}
-            fixedHeight
-            virtualized
-            data={feeds}
-            updateData={() => {}}
-            initialNumToRender={PAGE_SIZE}
-            onEndReached={getNextFeed.bind(null, store)}
-          />
-          {currentFeedProps && (
-            <Portal>
-              <FeedModalItem {...currentFeedProps} />
-            </Portal>
-          )}
-        </Wrapper>
-      </View>
-    )
-  }
+  return (
+    <View style={styles.dashboardView}>
+      <TabsView goTo={navigation.navigate} routes={screenProps.routes} />
+      <Wrapper backgroundColor="#eeeeee">
+        <Section>
+          <Section.Row style={styles.centered}>
+            <Avatar size={80} source={avatar} onPress={() => screenProps.push('Profile')} />
+          </Section.Row>
+          <Section.Row style={styles.centered}>
+            <Section.Title>{fullName || ' '}</Section.Title>
+          </Section.Row>
+          <Section.Row style={styles.centered}>
+            <BigGoodDollar number={balance} />
+          </Section.Row>
+          <Section.Row style={styles.buttonRow}>
+            <PushButton routeName={'Send'} screenProps={screenProps} style={styles.leftButton}>
+              Send
+            </PushButton>
+            <PushButton routeName={'Claim'} screenProps={screenProps}>
+              <Text style={[styles.buttonText]}>Claim</Text>
+              <br />
+              <Text style={[styles.buttonText, styles.grayedOutText]}>
+                +{weiToMask(entitlement, { showUnits: true })}
+              </Text>
+            </PushButton>
+            <PushButton routeName={'Receive'} screenProps={screenProps} style={styles.rightButton}>
+              Receive
+            </PushButton>
+          </Section.Row>
+        </Section>
+        <FeedList
+          horizontal={horizontal}
+          handleFeedSelection={handleFeedSelection}
+          fixedHeight
+          virtualized
+          data={feeds}
+          updateData={() => {}}
+          initialNumToRender={PAGE_SIZE}
+          onEndReached={getNextFeed.bind(null, gdstore)}
+        />
+        {currentFeedProps && (
+          <Portal>
+            <FeedModalItem {...currentFeedProps} />
+          </Portal>
+        )}
+      </Wrapper>
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
@@ -264,15 +250,13 @@ const styles = StyleSheet.create({
   }
 })
 
-const dashboard = GDStore.withStore(Dashboard)
-
-dashboard.navigationOptions = {
+Dashboard.navigationOptions = {
   navigationBarHidden: true,
   title: 'Home'
 }
 
 export default createStackNavigator({
-  Home: dashboard,
+  Home: Dashboard,
   Claim,
   Receive,
   Amount,

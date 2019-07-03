@@ -5,11 +5,11 @@ import { Text } from 'react-native-paper'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import logger from '../../lib/logger/pino-logger'
-import { CustomButton } from '../common'
+import CustomButton from '../common/buttons/CustomButton'
 import { Description, LinkButton, Title } from '../signup/components'
 import { fontStyle } from '../common/styles'
 import { PrivacyPolicy, TermsOfUse } from '../webView/webViewInstances'
-
+import Mnemonics from '../signin/Mnemonics'
 type Props = {
   navigation: any,
   screenProps: {
@@ -38,7 +38,7 @@ class Auth extends React.Component<Props> {
   }
 
   handleSignIn = () => {
-    this.props.navigation.navigate('SignIn')
+    this.props.navigation.navigate('Recover')
   }
 
   handleNavigateTermsOfUse = () => this.props.screenProps.push('TermsOfUse')
@@ -133,9 +133,10 @@ const styles = StyleSheet.create({
 
 export default createStackNavigator(
   {
-    Auth,
+    Login: Auth,
     TermsOfUse,
-    PrivacyPolicy
+    PrivacyPolicy,
+    Recover: Mnemonics
   },
   {
     backRouteName: 'Auth'

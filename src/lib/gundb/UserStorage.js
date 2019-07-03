@@ -431,6 +431,13 @@ export class UserStorage {
       .decrypt()
   }
 
+  getProfileFieldDisplayValue(field: string): Promise<ProfileField> {
+    return this.profile
+      .get(field)
+      .get('display')
+      .then()
+  }
+
   /**
    * Returns progfile attribute value
    *

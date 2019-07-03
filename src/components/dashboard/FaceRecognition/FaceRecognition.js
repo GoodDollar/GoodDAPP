@@ -6,6 +6,7 @@ import SimpleStore from '../../../lib/undux/SimpleStore'
 import type { DashboardProps } from '../Dashboard'
 import logger from '../../../lib/logger/pino-logger'
 import { CustomButton, Section, Wrapper } from '../../common'
+import userStorage from '../../../lib/gundb/UserStorage'
 import FRapi from './FaceRecognitionAPI'
 import type FaceRecognitionResponse from './FaceRecognitionAPI'
 import ZoomCapture from './ZoomCapture'
@@ -41,7 +42,8 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     loadingFaceRecognition: false,
     loadingText: '',
     facemap: new Blob([], { type: 'text/plain' }),
-    zoomReady: false
+    zoomReady: false,
+    fullName: ''
   }
 
   loadedZoom: any
@@ -66,8 +68,10 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     }, 0)
   }
 
-  componentDidMount = () => {
+  componentDidMount = async () => {
     this.setWidth()
+    let fullName = await userStorage.getProfileFieldDisplayValue('fullName')
+    this.setState({ fullName })
   }
 
   setWidth = () => {
@@ -118,8 +122,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
   }
 
   render() {
-    const { store }: FaceRecognitionProps = this.props
-    const { fullName } = store.get('profile')
+    const { fullName } = this.state
     const { showZoomCapture, showPreText, loadingFaceRecognition, loadingText } = this.state
 
     return (

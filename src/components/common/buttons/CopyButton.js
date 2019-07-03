@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Icon from 'react-native-elements/src/icons/Icon'
 import { StyleSheet, View } from 'react-native'
 
-import Clipboard from '../../lib/utils/Clipboard'
+import Clipboard from '../../../lib/utils/Clipboard'
 import CustomButton from './CustomButton'
 
 const DoneIcon = ({ disabled, mode }) => {

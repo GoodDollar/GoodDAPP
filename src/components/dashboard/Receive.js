@@ -8,9 +8,8 @@ import GDStore from '../../lib/undux/GDStore'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { PushButton } from '../appNavigation/stackNavigation'
-import { Address, CopyButton, CustomButton, Section, Wrapper } from '../common'
-import ScanQRButton from '../common/ScanQRButton'
-import TopBar from '../common/TopBar'
+import { Address, CopyButton, CustomButton, ScanQRButton, Section, TopBar, Wrapper } from '../common'
+
 import { receiveStyles as styles } from './styles'
 
 export type ReceiveProps = {

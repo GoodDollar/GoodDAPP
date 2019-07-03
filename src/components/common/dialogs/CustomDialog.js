@@ -1,8 +1,8 @@
 // @flow
 import React from 'react'
 import { Dialog, Paragraph, Portal } from 'react-native-paper'
-import SimpleStore from '../../lib/undux/SimpleStore'
-import CustomButton from './CustomButton'
+import SimpleStore from '../../../lib/undux/SimpleStore'
+import CustomButton from '../buttons/CustomButton'
 export type DialogProps = {
   children?: any,
   visible?: boolean,

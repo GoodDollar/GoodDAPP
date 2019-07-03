@@ -1,7 +1,7 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 
-import SimpleStore from '../../../lib/undux/SimpleStore'
+import SimpleStore from '../../../../lib/undux/SimpleStore'
 import LoadingIndicator from '../LoadingIndicator'
 
 // import LoadingIndicator, { setLoadingWithStore } from '../LoadingIndicator'

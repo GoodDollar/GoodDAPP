@@ -77,7 +77,7 @@ export function extractQueryParams(link: string = ''): {} {
 
     // $FlowFixMe
     .map(p => p.split('='))
-
+    .filter(p => p[0] !== '' && p[0] !== undefined)
   return fromPairs(keyValuePairs)
 }
 

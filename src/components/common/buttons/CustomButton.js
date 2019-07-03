@@ -3,7 +3,7 @@ import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Button as BaseButton, DefaultTheme, Text, withTheme } from 'react-native-paper'
 
-import logger from '../../lib/logger/pino-logger'
+import logger from '../../../lib/logger/pino-logger'
 const log = logger.child({ from: 'CustomButton' })
 
 export type ButtonProps = {

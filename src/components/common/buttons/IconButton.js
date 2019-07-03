@@ -12,8 +12,8 @@ type IconProps = {
 }
 
 const customIcons = {
-  qrcode: require('../../assets/icons/qrcode.svg'),
-  link: require('../../assets/icons/link.svg')
+  qrcode: require('../../../assets/icons/qrcode.svg'),
+  link: require('../../../assets/icons/link.svg')
 }
 
 const CustomIcon = (props: any) => {

@@ -1,9 +1,12 @@
 // @flow
 import React from 'react'
-import { StyleSheet, Text, TouchableHighlight, View } from 'react-native'
+import { StyleSheet, TouchableHighlight, View } from 'react-native'
+import { Text } from 'react-native-paper'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { moneyRegexp } from '../../../lib/wallet/utils'
 import backKeyboardButton from '../../../assets/backKeyboardButton.png'
+
+// import Text from './Text'
 
 type KeyboardKeyProps = {
   keyValue: string,

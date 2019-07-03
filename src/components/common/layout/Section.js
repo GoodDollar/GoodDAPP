@@ -1,8 +1,9 @@
 // @flow
 import React, { Component } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { fontStyle } from '../styles'
+import Text from '../view/Text'
 
 const getFlexStylesFromProps = props => {
   const { justifyContent, alignItems, grow } = props

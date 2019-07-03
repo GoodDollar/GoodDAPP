@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { Text } from 'react-native'
+import Text from './Text'
 
 type AddressProps = {
   value: string

@@ -2,7 +2,7 @@
 import QRCode from 'qrcode.react'
 
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { normalize } from 'react-native-elements'
 import { isMobile } from 'mobile-device-detect'
 
@@ -10,7 +10,7 @@ import { generateSendShareObject } from '../../lib/share'
 import GDStore from '../../lib/undux/GDStore'
 
 import { DoneButton, useScreenState } from '../appNavigation/stackNavigation'
-import { BigGoodDollar, CopyButton, CustomButton, Section, TopBar, Wrapper } from '../common'
+import { BigGoodDollar, CopyButton, CustomButton, Section, Text, TopBar, Wrapper } from '../common'
 import { fontStyle } from '../common/styles'
 import './AButton.css'
 import { getScreenHeight } from '../../lib/utils/Orientation'

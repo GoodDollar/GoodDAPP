@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { Image, StyleSheet, View } from 'react-native'
 import { normalize } from 'react-native-elements'
 import splashImage from '../../assets/splash.png'
+import { Text } from '../common'
 
 class Splash extends Component {
   render() {

@@ -1,8 +1,9 @@
 // @flow
 import React from 'react'
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Image, StyleSheet, TouchableOpacity, View } from 'react-native'
 import Icon from 'react-native-elements/src/icons/Icon'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
+import Text from '../view/Text'
 
 type IconProps = {
   text: String,

@@ -370,117 +370,159 @@ exports[`Receive matches snapshot 1`] = `
               "WebkitAlignItems": "center",
               "WebkitBoxAlign": "center",
               "WebkitBoxDirection": "normal",
-              "WebkitBoxFlex": 1,
+              "WebkitBoxFlex": 2,
               "WebkitBoxOrient": "vertical",
               "WebkitBoxPack": "justify",
               "WebkitFlexBasis": "0%",
               "WebkitFlexDirection": "column",
-              "WebkitFlexGrow": 1,
+              "WebkitFlexGrow": 2,
               "WebkitFlexShrink": 1,
               "WebkitJustifyContent": "space-around",
               "alignItems": "center",
               "flexBasis": "0%",
               "flexDirection": "column",
-              "flexGrow": 1,
+              "flexGrow": 2,
               "flexShrink": 1,
               "justifyContent": "space-around",
               "msFlexAlign": "center",
               "msFlexDirection": "column",
               "msFlexNegative": 1,
               "msFlexPack": "distribute",
+              "msFlexPositive": 2,
+              "msFlexPreferredSize": "0%",
+            }
+          }
+        >
+          <div
+            className="css-text-901oao"
+            dir="auto"
+            style={
+              Object {
+                "color": "rgba(85,85,85,1.00)",
+                "fontSize": "14px",
+                "textAlign": "center",
+              }
+            }
+          >
+            Scan this code to transfer G$ directly into your account.
+          </div>
+          <div
+            className="css-view-1dbjc4n"
+            style={
+              Object {
+                "WebkitAlignItems": "center",
+                "WebkitBoxAlign": "center",
+                "WebkitBoxPack": "center",
+                "WebkitJustifyContent": "center",
+                "alignItems": "center",
+                "justifyContent": "center",
+                "msFlexAlign": "center",
+                "msFlexPack": "center",
+              }
+            }
+          >
+            <div
+              className="css-view-1dbjc4n"
+              style={
+                Object {
+                  "borderBottomColor": "rgba(98,0,238,1.00)",
+                  "borderBottomLeftRadius": "5px",
+                  "borderBottomRightRadius": "5px",
+                  "borderBottomWidth": "1px",
+                  "borderLeftColor": "rgba(98,0,238,1.00)",
+                  "borderLeftWidth": "1px",
+                  "borderRightColor": "rgba(98,0,238,1.00)",
+                  "borderRightWidth": "1px",
+                  "borderTopColor": "rgba(98,0,238,1.00)",
+                  "borderTopLeftRadius": "5px",
+                  "borderTopRightRadius": "5px",
+                  "borderTopWidth": "1px",
+                  "paddingBottom": "16px",
+                  "paddingLeft": "16px",
+                  "paddingRight": "16px",
+                  "paddingTop": "16px",
+                }
+              }
+            >
+              <canvas
+                height={128}
+                style={
+                  Object {
+                    "height": 128,
+                    "width": 128,
+                  }
+                }
+                theme={
+                  Object {
+                    "colors": Object {
+                      "accent": "#03dac4",
+                      "backdrop": "rgba(0, 0, 0, 0.5)",
+                      "background": "#f6f6f6",
+                      "disabled": "rgba(0, 0, 0, 0.26)",
+                      "error": "#B00020",
+                      "notification": "#f50057",
+                      "placeholder": "rgba(0, 0, 0, 0.54)",
+                      "primary": "#6200ee",
+                      "surface": "#ffffff",
+                      "text": "#000000",
+                    },
+                    "dark": false,
+                    "fonts": Object {
+                      "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                      "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                      "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                      "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                    },
+                    "roundness": 4,
+                  }
+                }
+                width={128}
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "WebkitAlignItems": "center",
+              "WebkitBoxAlign": "center",
+              "WebkitBoxDirection": "normal",
+              "WebkitBoxFlex": 1,
+              "WebkitBoxOrient": "vertical",
+              "WebkitBoxPack": "center",
+              "WebkitFlexBasis": "0%",
+              "WebkitFlexDirection": "column",
+              "WebkitFlexGrow": 1,
+              "WebkitFlexShrink": 1,
+              "WebkitJustifyContent": "center",
+              "alignItems": "center",
+              "flexBasis": "0%",
+              "flexDirection": "column",
+              "flexGrow": 1,
+              "flexShrink": 1,
+              "justifyContent": "center",
+              "msFlexAlign": "center",
+              "msFlexDirection": "column",
+              "msFlexNegative": 1,
+              "msFlexPack": "center",
               "msFlexPositive": 1,
               "msFlexPreferredSize": "0%",
             }
           }
         >
           <div
-            className="css-view-1dbjc4n"
+            className="css-text-901oao"
+            dir="auto"
             style={
               Object {
-                "borderBottomColor": "rgba(85,85,85,1.00)",
-                "borderBottomLeftRadius": "4px",
-                "borderBottomRightRadius": "4px",
-                "borderBottomWidth": "1px",
-                "borderLeftColor": "rgba(85,85,85,1.00)",
-                "borderLeftWidth": "1px",
-                "borderRightColor": "rgba(85,85,85,1.00)",
-                "borderRightWidth": "1px",
-                "borderTopColor": "rgba(85,85,85,1.00)",
-                "borderTopLeftRadius": "4px",
-                "borderTopRightRadius": "4px",
-                "borderTopWidth": "1px",
-                "marginTop": "0px",
-                "paddingBottom": "1rem",
-                "paddingLeft": "1rem",
-                "paddingRight": "1rem",
-                "paddingTop": "1rem",
+                "color": "rgba(85,85,85,1.00)",
+                "fontSize": "14px",
+                "textAlign": "center",
               }
             }
           >
-            <canvas
-              height={128}
-              style={
-                Object {
-                  "height": 128,
-                  "width": 128,
-                }
-              }
-              width={128}
-            />
-          </div>
-          <div
-            className="css-view-1dbjc4n"
-            style={
-              Object {
-                "WebkitAlignItems": "stretch",
-                "WebkitBoxAlign": "stretch",
-                "WebkitBoxDirection": "normal",
-                "WebkitBoxOrient": "vertical",
-                "WebkitBoxPack": "justify",
-                "WebkitFlexDirection": "column",
-                "WebkitJustifyContent": "space-between",
-                "alignItems": "stretch",
-                "flexDirection": "column",
-                "justifyContent": "space-between",
-                "msFlexAlign": "stretch",
-                "msFlexDirection": "column",
-                "msFlexPack": "justify",
-              }
-            }
-          >
-            <div
-              className="css-text-901oao"
-              dir="auto"
-              style={
-                Object {
-                  "color": "rgba(85,85,85,1.00)",
-                  "fontSize": "14px",
-                  "textAlign": "center",
-                }
-              }
-            >
-              Your G$ wallet address:
-            </div>
-            <div
-              className="css-text-901oao"
-              dir="auto"
-              style={
-                Object {
-                  "color": "rgba(85,85,85,1.00)",
-                  "fontSize": "24px",
-                  "fontWeight": "500",
-                  "textAlign": "center",
-                  "textTransform": "uppercase",
-                }
-              }
-            >
-              <span
-                className="css-text-901oao css-textHasAncestor-16my406"
-                dir="auto"
-              >
-                0x5dfF...E35F
-              </span>
-            </div>
+             - OR - 
           </div>
         </div>
         <div
@@ -608,7 +650,7 @@ exports[`Receive matches snapshot 1`] = `
                         "WebkitJustifyContent": "center",
                         "display": "inline-flex",
                         "justifyContent": "center",
-                        "minHeight": "34px",
+                        "minHeight": "28px",
                         "msFlexPack": "center",
                       }
                     }
@@ -738,7 +780,7 @@ exports[`Receive matches snapshot 1`] = `
                         "WebkitJustifyContent": "center",
                         "display": "inline-flex",
                         "justifyContent": "center",
-                        "minHeight": "34px",
+                        "minHeight": "28px",
                         "msFlexPack": "center",
                       }
                     }

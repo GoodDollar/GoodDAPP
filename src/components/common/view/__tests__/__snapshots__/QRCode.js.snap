@@ -1,0 +1,155 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`QRCode matches snapshot 1`] = `
+<div
+  className="css-view-1dbjc4n"
+  style={
+    Object {
+      "WebkitAlignItems": "center",
+      "WebkitBoxAlign": "center",
+      "WebkitBoxPack": "center",
+      "WebkitJustifyContent": "center",
+      "alignItems": "center",
+      "justifyContent": "center",
+      "msFlexAlign": "center",
+      "msFlexPack": "center",
+    }
+  }
+>
+  <div
+    className="css-view-1dbjc4n"
+    style={
+      Object {
+        "borderBottomColor": "rgba(98,0,238,1.00)",
+        "borderBottomLeftRadius": "5px",
+        "borderBottomRightRadius": "5px",
+        "borderBottomWidth": "1px",
+        "borderLeftColor": "rgba(98,0,238,1.00)",
+        "borderLeftWidth": "1px",
+        "borderRightColor": "rgba(98,0,238,1.00)",
+        "borderRightWidth": "1px",
+        "borderTopColor": "rgba(98,0,238,1.00)",
+        "borderTopLeftRadius": "5px",
+        "borderTopRightRadius": "5px",
+        "borderTopWidth": "1px",
+        "paddingBottom": "16px",
+        "paddingLeft": "16px",
+        "paddingRight": "16px",
+        "paddingTop": "16px",
+      }
+    }
+  >
+    <canvas
+      height={128}
+      style={
+        Object {
+          "height": 128,
+          "width": 128,
+        }
+      }
+      theme={
+        Object {
+          "colors": Object {
+            "accent": "#03dac4",
+            "backdrop": "rgba(0, 0, 0, 0.5)",
+            "background": "#f6f6f6",
+            "disabled": "rgba(0, 0, 0, 0.26)",
+            "error": "#B00020",
+            "notification": "#f50057",
+            "placeholder": "rgba(0, 0, 0, 0.54)",
+            "primary": "#6200ee",
+            "surface": "#ffffff",
+            "text": "#000000",
+          },
+          "dark": false,
+          "fonts": Object {
+            "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+            "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+            "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+            "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+          },
+          "roundness": 4,
+        }
+      }
+      width={128}
+    />
+  </div>
+</div>
+`;
+
+exports[`QRCode matches snapshot 2`] = `
+<div
+  className="css-view-1dbjc4n"
+  style={
+    Object {
+      "WebkitAlignItems": "center",
+      "WebkitBoxAlign": "center",
+      "WebkitBoxPack": "center",
+      "WebkitJustifyContent": "center",
+      "alignItems": "center",
+      "justifyContent": "center",
+      "msFlexAlign": "center",
+      "msFlexPack": "center",
+    }
+  }
+>
+  <div
+    className="css-view-1dbjc4n"
+    style={
+      Object {
+        "borderBottomColor": "rgba(98,0,238,1.00)",
+        "borderBottomLeftRadius": "5px",
+        "borderBottomRightRadius": "5px",
+        "borderBottomWidth": "1px",
+        "borderLeftColor": "rgba(98,0,238,1.00)",
+        "borderLeftWidth": "1px",
+        "borderRightColor": "rgba(98,0,238,1.00)",
+        "borderRightWidth": "1px",
+        "borderTopColor": "rgba(98,0,238,1.00)",
+        "borderTopLeftRadius": "5px",
+        "borderTopRightRadius": "5px",
+        "borderTopWidth": "1px",
+        "paddingBottom": "16px",
+        "paddingLeft": "16px",
+        "paddingRight": "16px",
+        "paddingTop": "16px",
+      }
+    }
+  >
+    <canvas
+      height={128}
+      style={
+        Object {
+          "height": 128,
+          "width": 128,
+        }
+      }
+      theme={
+        Object {
+          "colors": Object {
+            "accent": "#03dac4",
+            "backdrop": "rgba(0, 0, 0, 0.5)",
+            "background": "#f6f6f6",
+            "disabled": "rgba(0, 0, 0, 0.26)",
+            "error": "#B00020",
+            "notification": "#f50057",
+            "placeholder": "rgba(0, 0, 0, 0.54)",
+            "primary": "#6200ee",
+            "surface": "#ffffff",
+            "text": "#000000",
+          },
+          "dark": false,
+          "fonts": Object {
+            "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+            "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+            "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+            "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+          },
+          "roundness": 4,
+        }
+      }
+      width={128}
+    />
+  </div>
+</div>
+`;

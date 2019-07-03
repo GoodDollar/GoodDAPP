@@ -875,7 +875,7 @@ exports[`Dashboard matches snapshot 1`] = `
                                     "WebkitJustifyContent": "center",
                                     "display": "inline-flex",
                                     "justifyContent": "center",
-                                    "minHeight": "34px",
+                                    "minHeight": "28px",
                                     "msFlexPack": "center",
                                   }
                                 }
@@ -1147,7 +1147,7 @@ exports[`Dashboard matches snapshot 1`] = `
                                     "WebkitJustifyContent": "center",
                                     "display": "inline-flex",
                                     "justifyContent": "center",
-                                    "minHeight": "34px",
+                                    "minHeight": "28px",
                                     "msFlexPack": "center",
                                   }
                                 }

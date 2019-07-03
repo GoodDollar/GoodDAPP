@@ -7,6 +7,7 @@ import CopyButton from './buttons/CopyButton'
 import BigNumber from './view/BigNumber'
 import BigGoodDollar from './view/BigGoodDollar'
 import Section from './layout/Section'
+import Text from './view/Text'
 import TopBar from './view/TopBar'
 import IconButton from './buttons/IconButton'
 import ScanQRButton from './buttons/ScanQRButton'
@@ -29,6 +30,7 @@ export {
   BigNumber,
   BigGoodDollar,
   ScanQRButton,
+  Text,
   TopBar,
   IconButton,
   CustomDialog,

@@ -2,10 +2,10 @@
 import React, { useState } from 'react'
 import { Keyboard, Text, TouchableWithoutFeedback, View } from 'react-native'
 import { isMobile } from 'mobile-device-detect'
-import { receiveStyles as styles } from '../dashboard/styles'
-import InputGoodDollar from './InputGoodDollar'
+import { receiveStyles as styles } from '../../dashboard/styles'
+import InputGoodDollar from '../form/InputGoodDollar'
+import Section from '../layout/Section'
 import NumPadKeyboard from './NumPadKeyboard'
-import Section from './Section'
 
 type AmountInputProps = {
   amount: string,

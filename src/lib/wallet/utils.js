@@ -11,19 +11,22 @@ const maskSettings = {
   suffixUnit: ''
 }
 
+export const moneyRegexp = new RegExp(`^(?!0\\d)(0|([1-9])\\d*)([.,]?(\\d{0,${DECIMALS}}))$`)
+export const numberWithCommas = (gd: string): string => gd.replace(/,/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+
 /**
  * convert wei to gooddollars (2 decimals) use toFixed to overcome javascript precision issues ie 8.95*100=894.9999...
  * @param {number} wei
- * @returns {number}
+ * @returns {string}
  */
 export const weiToGd = (wei: number): number => (wei * Math.pow(0.1, DECIMALS)).toFixed(DECIMALS)
 
 /**
  * convert gooddollars to wei (0 decimals) use toFixed to overcome javascript precision issues ie 8.95*Math.pow(0.1,2)=8.9500000001
- * @param {number} gd
- * @returns {number}
+ * @param {string} gd
+ * @returns {string}
  */
-export const gdToWei = (gd: number): number => (gd * Math.pow(10, DECIMALS)).toFixed(0)
+export const gdToWei = (gd: string): string => (gd * Math.pow(10, DECIMALS)).toFixed(0)
 
 const getComposedSettings = (settings?: {} = {}): {} => {
   const { showUnits, ...restSettings } = settings

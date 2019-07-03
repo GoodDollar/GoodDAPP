@@ -73,7 +73,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
 
   componentDidMount = async () => {
     this.setWidth()
-    let fullName = await userStorage.getProfileFieldDisplayValue('fullName')
+    let fullName = (await userStorage.getProfileFieldDisplayValue('fullName')) || ''
     this.setState({ fullName })
   }
 

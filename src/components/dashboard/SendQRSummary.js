@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react'
 import { View } from 'react-native'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
-import GDStore from '../../lib/undux/GDStore'
+import { useDialog } from '../../lib/undux/utils/dialog'
 import { useWrappedGoodWallet } from '../../lib/wallet/useWrappedWallet'
 import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
 import { Avatar, BigGoodDollar, CustomButton, Section, TopBar, Wrapper } from '../common'
@@ -31,7 +31,7 @@ const SendQRSummary = (props: AmountProps) => {
   const { screenProps } = props
   const [screenState] = useScreenState(screenProps)
   const goodWallet = useWrappedGoodWallet()
-  const store = GDStore.useStore()
+  const [showDialog] = useDialog()
   const [loading, setLoading] = useState(false)
   const [isValid, setIsValid] = useState(screenState.isValid)
   const { amount, reason, to } = screenState
@@ -50,10 +50,10 @@ const SendQRSummary = (props: AmountProps) => {
   const faceRecognition = () => {
     return screenProps.push('FaceRecognition', { from: 'SendQRSummary' })
   }
-  const sendGD = async () => {
+  const sendGD = () => {
     try {
       setLoading(true)
-      const receipt = await goodWallet.sendAmount(to, amount, {
+      goodWallet.sendAmount(to, amount, {
         onTransactionHash: hash => {
           log.debug({ hash })
 
@@ -69,21 +69,33 @@ const SendQRSummary = (props: AmountProps) => {
             }
           }
           userStorage.enqueueTX(transactionEvent)
+          showDialog({
+            visible: true,
+            title: 'SUCCESS!',
+            message: 'The G$ was sent successfully',
+            dismissText: 'Yay!',
+            onDismiss: screenProps.goToRoot
+          })
           return hash
-        }
-      })
-      log.debug({ receipt, screenProps })
-      store.set('currentScreen')({
-        dialogData: {
-          visible: true,
-          title: 'SUCCESS!',
-          message: 'The G$ was sent successfully',
-          dismissText: 'Yay!',
-          onDismiss: screenProps.goToRoot
+        },
+        onError: e => {
+          log.error('Send TX failed:', { e, message: e.message })
+          showDialog({
+            visible: true,
+            title: 'Transaction Failed!',
+            message: `There was a problem sending G$. Try again`,
+            dismissText: 'OK'
+          })
         }
       })
     } catch (e) {
-      log.error(e)
+      log.error('Send TX failed:', { e, message: e.message })
+      showDialog({
+        visible: true,
+        title: 'Transaction Failed!',
+        message: `There was a problem sending G$. Try again`,
+        dismissText: 'OK'
+      })
     } finally {
       setLoading(false)
     }

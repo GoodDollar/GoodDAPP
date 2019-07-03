@@ -1,5 +1,6 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
+import { StoresWrapper } from '../../../lib/undux/utils/storeswrapper.js'
 import { getWebRouterComponentWithMocks } from './__util__'
 
 // eslint-disable-next-line flowtype/no-types-missing-file-annotation
@@ -10,13 +11,21 @@ describe('FaceRecognition Rendering', () => {
   it('renders without errors', () => {
     global.ZoomSDK = {}
     const FaceRecognition = getWebRouterComponentWithMocks('../FaceRecognition/FaceRecognition')
-    const tree = renderer.create(<FaceRecognition />)
+    const tree = renderer.create(
+      <StoresWrapper>
+        <FaceRecognition />
+      </StoresWrapper>
+    )
     expect(tree.toJSON()).toBeTruthy()
   })
 
   it('matches snapshot', () => {
     const FaceRecognition = getWebRouterComponentWithMocks('../FaceRecognition/FaceRecognition')
-    const component = renderer.create(<FaceRecognition />)
+    const component = renderer.create(
+      <StoresWrapper>
+        <FaceRecognition />
+      </StoresWrapper>
+    )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

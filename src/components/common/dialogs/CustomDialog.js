@@ -1,9 +1,9 @@
 // @flow
 import React from 'react'
 import { Dialog, Paragraph, Portal } from 'react-native-paper'
+import SimpleStore from '../../../lib/undux/SimpleStore'
 import CustomButton from '../buttons/CustomButton'
-
-type DialogProps = {
+export type DialogProps = {
   children?: any,
   visible?: boolean,
   title?: string,
@@ -38,7 +38,7 @@ const CustomDialog = ({
   loading = false
 }: DialogProps) => (
   <Portal>
-    <Dialog visible={visible} onDismiss={onDismiss} dismissable={true}>
+    <Dialog visible={visible} onDismiss={onCancel || onDismiss} dismissable={true}>
       <Dialog.Title>{title}</Dialog.Title>
       <Dialog.Content>
         {children}
@@ -58,4 +58,19 @@ const CustomDialog = ({
   </Portal>
 )
 
-export default CustomDialog
+const SimpleStoreDialog = () => {
+  const store = SimpleStore.useStore()
+  const { dialogData } = store.get('currentScreen')
+  return (
+    <CustomDialog
+      {...dialogData}
+      onDismiss={(...args) => {
+        const currentDialogData = { ...dialogData }
+        store.set('currentScreen')({ dialogData: { visible: false } })
+        currentDialogData.onDismiss && currentDialogData.onDismiss(currentDialogData)
+      }}
+    />
+  )
+}
+
+export { CustomDialog as default, SimpleStoreDialog }

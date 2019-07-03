@@ -2,14 +2,16 @@
 import React, { createRef } from 'react'
 import { StyleSheet, View } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
-import GDStore from '../../../lib/undux/GDStore'
+import SimpleStore from '../../../lib/undux/SimpleStore'
 import type { DashboardProps } from '../Dashboard'
 import logger from '../../../lib/logger/pino-logger'
 import { CustomButton, Section, Wrapper } from '../../common'
+import userStorage from '../../../lib/gundb/UserStorage'
 import FRapi from './FaceRecognitionAPI'
 import type FaceRecognitionResponse from './FaceRecognitionAPI'
 import ZoomCapture from './ZoomCapture'
 import { type ZoomCaptureResult } from './Zoom'
+import zoomSdkLoader from './ZoomSdkLoader'
 
 const log = logger.child({ from: 'FaceRecognition' })
 
@@ -41,7 +43,9 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     loadingFaceRecognition: false,
     loadingText: '',
     facemap: new Blob([], { type: 'text/plain' }),
-    zoomReady: false
+    zoomReady: false,
+    fullName: '',
+    captureResult: {}
   }
 
   loadedZoom: any
@@ -59,15 +63,18 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     this.timeout && clearTimeout(this.timeout)
   }
 
-  componentWillMount = () => {
+  componentWillMount = async () => {
+    await zoomSdkLoader.ready
     this.loadedZoom = ZoomSDK
     this.timeout = setTimeout(() => {
       this.setState({ zoomReady: true })
     }, 0)
   }
 
-  componentDidMount = () => {
+  componentDidMount = async () => {
     this.setWidth()
+    let fullName = (await userStorage.getProfileFieldDisplayValue('fullName')) || ''
+    this.setState({ fullName })
   }
 
   setWidth = () => {
@@ -118,8 +125,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
   }
 
   render() {
-    const { store }: FaceRecognitionProps = this.props
-    const { fullName } = store.get('profile')
+    const { fullName } = this.state
     const { showZoomCapture, showPreText, loadingFaceRecognition, loadingText } = this.state
 
     return (
@@ -184,4 +190,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default GDStore.withStore(FaceRecognition)
+export default SimpleStore.withStore(FaceRecognition)

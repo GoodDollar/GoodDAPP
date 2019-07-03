@@ -1,6 +1,6 @@
 // @flow
 import type { Store } from 'undux'
-import GDStore from '../GDStore'
+import SimpleStore from '../SimpleStore'
 
 export const showSidemenu = (store: Store) => {
   store.set('sidemenu')({ visible: true })
@@ -15,6 +15,6 @@ export const toggleSidemenu = (store: Store) => {
 }
 
 export const useSidemenu = () => {
-  const store = GDStore.useStore()
+  const store = SimpleStore.useStore()
   return [toggleSidemenu.bind(null, store), hideSidemenu.bind(null, store), showSidemenu.bind(null, store)]
 }

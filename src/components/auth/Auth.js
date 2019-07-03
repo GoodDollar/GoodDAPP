@@ -8,6 +8,7 @@ import { CustomButton, Text } from '../common'
 import { Description, LinkButton, Title } from '../signup/components'
 import { fontStyle } from '../common/styles'
 import { PrivacyPolicy, TermsOfUse } from '../webView/webViewInstances'
+import Mnemonics from '../signin/Mnemonics'
 
 type Props = {
   navigation: any,
@@ -37,7 +38,7 @@ class Auth extends React.Component<Props> {
   }
 
   handleSignIn = () => {
-    this.props.navigation.navigate('SignIn')
+    this.props.navigation.navigate('Recover')
   }
 
   handleNavigateTermsOfUse = () => this.props.screenProps.push('TermsOfUse')
@@ -132,9 +133,10 @@ const styles = StyleSheet.create({
 
 export default createStackNavigator(
   {
-    Auth,
+    Login: Auth,
     TermsOfUse,
-    PrivacyPolicy
+    PrivacyPolicy,
+    Recover: Mnemonics
   },
   {
     backRouteName: 'Auth'

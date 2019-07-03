@@ -11,6 +11,8 @@ declare var ZoomSDK: any
 const licenseKey = Config.zoomLicenseKey
 
 export class ZoomSdkLoader {
+  ready = this.load()
+
   /* Orchestrates zoom loading & initialization process process */
   async load() {
     log.debug('loading zoom sdk..')

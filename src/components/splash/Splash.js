@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import { Image, StyleSheet, View } from 'react-native'
-import { normalize } from 'react-native-elements'
+import normalize from 'react-native-elements/src/helpers/normalizeText'
 import splashImage from '../../assets/splash.png'
 import { Text } from '../common'
 
+//minimize delay <Image> has over web <img>
+Image.prefetch(splashImage)
 class Splash extends Component {
   render() {
     return (

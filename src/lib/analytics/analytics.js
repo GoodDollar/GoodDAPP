@@ -24,7 +24,7 @@ export const initAnalytics = async (goodWallet: GoodWallet, userStorage: UserSto
   log.debug('Initialized analytics:', { Amplitude: Amplitude !== undefined, FS: FS !== undefined })
 }
 
-export const fireEvent = (event: string, data: {}) => {
+export const fireEvent = (event: string, data: {} = {}) => {
   if (Amplitude === undefined) {
     return
   }

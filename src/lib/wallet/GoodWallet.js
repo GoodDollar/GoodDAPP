@@ -342,9 +342,9 @@ export class GoodWallet {
    * Claims tokens for current account
    * @returns {Promise<TransactionReceipt>|Promise<Promise|Q.Promise<TransactionReceipt>|Promise<*>|*>}
    */
-  claim(): Promise<TransactionReceipt> {
+  claim(callbacks: PromiEvents): Promise<TransactionReceipt> {
     try {
-      return this.sendTransaction(this.claimContract.methods.claimTokens())
+      return this.sendTransaction(this.claimContract.methods.claimTokens(), callbacks)
     } catch (e) {
       log.info(e)
       return Promise.reject(e)
@@ -472,23 +472,29 @@ export class GoodWallet {
    * deposits the specified amount to _oneTimeLink_ contract and generates a link that will send the user to a URL to withdraw it
    * @param {number} amount - amount of money to send using OTP
    * @param {string} reason - optional reason for sending the payment (comment)
+   * @param {({ link: string, code: string }) => () => any} getOnTxHash - a callback that returns onTransactionHashHandler based on generated code
    * @param {PromiEvents} events - used to subscribe to onTransactionHash event
-   * @returns {{generatedString, hashedString, sendLink, receipt}}
+   * @returns {{code, hashedCode, paymentLink}}
    */
-  async generateLink(amount: number, reason: string = '', events: PromiEvents) {
+  async generateLink(
+    amount: number,
+    reason: string = '',
+    getOnTxHash: (extraData: { paymentLink: string, code: string }) => (hash: string) => any,
+    events: PromiEvents = defaultPromiEvents
+  ): Promise<{ code: string, hashedCode: string, paymentLink: string }> {
     if (!(await this.canSend(amount))) {
       throw new Error(`Amount is bigger than balance`)
     }
 
-    const generatedString = this.wallet.utils.randomHex(10).replace('0x', '')
-    const hashedString = this.wallet.utils.sha3(generatedString)
+    const code = this.wallet.utils.randomHex(10).replace('0x', '')
+    const hashedCode = this.wallet.utils.sha3(code)
     const otpAddress = get(
       ContractsAddress,
       `${this.network}.OneTimePaymentLinks`,
       OneTimePaymentLinksABI.networks[this.networkId].address
     )
 
-    const deposit = this.oneTimePaymentLinksContract.methods.deposit(this.account, hashedString, amount)
+    const deposit = this.oneTimePaymentLinksContract.methods.deposit(this.account, hashedCode, amount)
     const encodedABI = await deposit.encodeABI()
 
     const transferAndCall = this.tokenContract.methods.transferAndCall(otpAddress, amount, encodedABI)
@@ -499,19 +505,21 @@ export class GoodWallet {
 
     log.debug('generateLink:', { amount })
 
-    const sendLink = generateShareLink('send', {
-      receiveLink: generatedString,
+    const paymentLink = generateShareLink('send', {
+      paymentCode: code,
       reason
     })
 
-    const onTransactionHash = events.onTransactionHash({ sendLink, generatedString })
-    const receipt = await this.sendTransaction(transferAndCall, { onTransactionHash }, { gas })
+    //pass extra data
+    const onTransactionHash = getOnTxHash({ paymentLink, code })
+
+    //dont wait for transaction return immediatly with hash code and link (not using await here)
+    this.sendTransaction(transferAndCall, { onTransactionHash }, { gas })
 
     return {
-      generatedString,
-      hashedString,
-      sendLink,
-      receipt
+      code,
+      hashedCode,
+      paymentLink
     }
   }
 
@@ -520,7 +528,7 @@ export class GoodWallet {
   }
 
   /**
-   * checks against oneTimeLink contract, if the specified link has already been used or not.
+   * checks against oneTimeLink contract, if the specified hash code has already been used to send payment or not.
    * @param {string} link
    * @returns {Promise<boolean>}
    */
@@ -530,12 +538,12 @@ export class GoodWallet {
   }
 
   /**
-   * Checks if getWithdrawAvailablePayment returned a valid payment (BN handle)
+   * Checks if getWithdrawAvailablePayment returned a valid payment (BN handle), positive balance
    * @param {BN} payment
    * @returns boolean
    */
   isWithdrawPaymentAvailable(payment: typeof BN): boolean {
-    return payment.lte(ZERO)
+    return payment.gt(ZERO)
   }
 
   /**
@@ -560,19 +568,13 @@ export class GoodWallet {
   async getWithdrawStatus(otlCode: string): Promise<'Completed' | 'Cancelled' | 'Pending'> {
     const link = this.getWithdrawLink(otlCode)
 
-    // Check link availability
-    const linkUsed = await this.isWithdrawLinkUsed(link)
-    if (linkUsed) {
-      return 'Completed'
-    }
-
     // Check payment availability
     const paymentAvailable = await this.getWithdrawAvailablePayment(link)
     if (this.isWithdrawPaymentAvailable(paymentAvailable)) {
-      return 'Cancelled'
+      return 'Pending'
     }
 
-    return 'Pending'
+    return 'Completed'
   }
 
   /**
@@ -587,13 +589,13 @@ export class GoodWallet {
     // Check link availability
     const linkUsed = await this.isWithdrawLinkUsed(link)
     if (!linkUsed) {
-      throw new Error('invalid link')
+      throw new Error('Could not find payment or incorrect code')
     }
 
     // Check payment availability
     const paymentAvailable = await this.getWithdrawAvailablePayment(link)
-    if (this.isWithdrawPaymentAvailable(paymentAvailable)) {
-      throw new Error('deposit already withdrawn')
+    if (this.isWithdrawPaymentAvailable(paymentAvailable) === false) {
+      throw new Error('Payment already withdrawn')
     }
 
     const sender = await senders(link).call()

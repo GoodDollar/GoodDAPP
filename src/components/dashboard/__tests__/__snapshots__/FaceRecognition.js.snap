@@ -127,7 +127,7 @@ exports[`FaceRecognition Rendering matches snapshot 1`] = `
             }
           }
         >
-          undefined, Just one more thing before we can get started...
+          , Just one more thing before we can get started...
         </div>
         <div
           className="css-text-901oao"

@@ -1,12 +1,13 @@
 // @flow
-import React, { Component } from 'react'
+import React from 'react'
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
-import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper'
+import PaperProvider from 'react-native-paper/src/core/Provider'
+import DefaultTheme from 'react-native-paper/src/styles/DefaultTheme'
+import SimpleStore from './lib/undux/SimpleStore'
+import RouterSelector from './RouterSelector'
+import { SimpleStoreDialog } from './components/common/dialogs/CustomDialog'
+import LoadingIndicator from './components/common/view/LoadingIndicator'
 
-// import { loadReCaptcha } from 'recaptcha-v3-react'
-
-import GDStore from './lib/undux/GDStore'
-import { WebRouter } from './Router'
 const theme = {
   ...DefaultTheme,
   colors: {
@@ -20,39 +21,24 @@ const theme = {
     slabBold: 'RobotoSlab-Bold'
   }
 }
-
-class App extends Component<{}, { walletReady: boolean, isLoggedIn: boolean, isUserRegistered: boolean }> {
-  componentWillMount() {
-    //set wallet as global, even though everyone can import the singleton
-    // loadReCaptcha({
-    //   key: Config.recaptcha,
-    //   id: 'uniqueId'
-    // })
-    //   .then(id => {
-    //     logger.log('ReCaptcha loaded', id)
-    //   })
-    //   .catch((e, id) => {
-    //     logger.error('Error when load ReCaptcha', id, e)
-    //   })
-  }
-
+const App = () => {
   // onRecaptcha = (token: string) => {
   //   userStorage.setProfileField('recaptcha', token, 'private')
   // }
-  render() {
-    return (
-      <GDStore.Container>
-        <PaperProvider theme={theme}>
-          <SafeAreaView>
-            <View style={styles.container}>
-              {/* <ReCaptcha sitekey={Config.recaptcha} action="auth" verifyCallback={this.onRecaptcha} /> */}
-              <WebRouter />
-            </View>
-          </SafeAreaView>
-        </PaperProvider>
-      </GDStore.Container>
-    )
-  }
+  return (
+    <SimpleStore.Container>
+      <PaperProvider theme={theme}>
+        <SafeAreaView>
+          <View style={styles.container}>
+            <SimpleStoreDialog />
+            <LoadingIndicator />
+            {/* <ReCaptcha sitekey={Config.recaptcha} action="auth" verifyCallback={this.onRecaptcha} /> */}
+            <RouterSelector />
+          </View>
+        </SafeAreaView>
+      </PaperProvider>
+    </SimpleStore.Container>
+  )
 }
 
 const styles = StyleSheet.create({

@@ -3,8 +3,10 @@ import React from 'react'
 import PhoneInput from 'react-phone-number-input'
 import './PhoneForm.css'
 import { userModelValidations } from '../../lib/gundb/UserModel'
+import userStorage from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import api from '../../lib/API/api'
+import Config from '../../config/config'
 import { Description, Title, Wrapper } from './components'
 
 const log = logger.child({ from: 'PhoneForm' })
@@ -18,7 +20,8 @@ type Props = {
 export type MobileRecord = {
   mobile: string,
   errorMessage?: string,
-  countryCode?: string | null
+  countryCode?: string | null,
+  isValid: boolean
 }
 
 type State = MobileRecord
@@ -27,10 +30,9 @@ class PhoneForm extends React.Component<Props, State> {
   state = {
     mobile: this.props.screenProps.data.mobile || '',
     errorMessage: '',
-    countryCode: null
+    countryCode: null,
+    isValid: false
   }
-
-  isValid = false
 
   setCountryCode = async () => {
     try {
@@ -53,32 +55,37 @@ class PhoneForm extends React.Component<Props, State> {
     this.setState({ mobile })
   }
 
-  handleSubmit = () => {
-    if (this.isValid) {
+  handleSubmit = async () => {
+    const isValid = await this.checkErrors()
+    if (isValid) {
       this.props.screenProps.doneCallback({ mobile: this.state.mobile })
     }
   }
 
   handleEnter = (event: { nativeEvent: { key: string } }) => {
-    if (event.keyCode === 13 && this.isValid) {
+    if (event.keyCode === 13 && this.state.isValid) {
       this.handleSubmit()
     }
   }
 
-  checkErrors = () => {
-    const errorMessage = userModelValidations.mobile(this.state.mobile)
-    this.setState({ errorMessage })
+  checkErrors = async () => {
+    const modelErrorMessage = userModelValidations.mobile(this.state.mobile)
+    const isValidIndexValue =
+      Config.skipMobileVerification || (await userStorage.isValidValue('mobile', this.state.mobile))
+    const errorMessage = modelErrorMessage || (isValidIndexValue ? '' : 'Unavailable mobile')
+    log.debug({ modelErrorMessage, isValidIndexValue, errorMessage, Config })
+    this.setState({ errorMessage }, () => this.setState({ isValid: this.state.errorMessage === '' }))
+    return errorMessage === ''
   }
 
   render() {
     const errorMessage = this.state.errorMessage || this.props.screenProps.error
     this.props.screenProps.error = undefined
 
-    this.isValid = userModelValidations.mobile(this.state.mobile) === ''
     const { key } = this.props.navigation.state
     const { loading } = this.props.screenProps.data
     return (
-      <Wrapper valid={this.isValid} handleSubmit={this.handleSubmit} loading={loading}>
+      <Wrapper valid={this.state.isValid} handleSubmit={this.handleSubmit} loading={loading}>
         <Title>{`${this.props.screenProps.data.fullName.split(' ')[0]}, \n May we have your number please?`}</Title>
         <PhoneInput
           id={key + '_input'}

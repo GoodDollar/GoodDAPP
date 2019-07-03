@@ -1,5 +1,6 @@
 import Address from './view/Address'
 import Avatar from './view/Avatar'
+import AmountInput from './view/AmountInput'
 import CustomDialog from './dialogs/CustomDialog'
 import CustomButton, { ButtonProps } from './buttons/CustomButton'
 import CopyButton from './buttons/CopyButton'
@@ -17,6 +18,7 @@ import LoadingIndicator from './view/LoadingIndicator'
 
 export {
   Address,
+  AmountInput,
   Avatar,
   UserAvatar,
   CustomButton,

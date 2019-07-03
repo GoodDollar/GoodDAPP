@@ -3,6 +3,8 @@ import React from 'react'
 import { HelperText, TextInput } from 'react-native-paper'
 
 import { userModelValidations } from '../../lib/gundb/UserModel'
+import userStorage from '../../lib/gundb/UserStorage'
+import Config from '../../config/config'
 import { Title, Wrapper } from './components'
 
 type Props = {
@@ -14,7 +16,8 @@ type Props = {
 export type EmailRecord = {
   email: string,
   isEmailConfirmed?: boolean,
-  errorMessage?: string
+  errorMessage?: string,
+  isValid: boolean
 }
 
 type State = EmailRecord & { valid?: boolean }
@@ -22,10 +25,9 @@ type State = EmailRecord & { valid?: boolean }
 class EmailForm extends React.Component<Props, State> {
   state = {
     email: this.props.screenProps.data.email || '',
-    errorMessage: ''
+    errorMessage: '',
+    isValid: false
   }
-
-  isValid = false
 
   handleChange = (email: string) => {
     if (this.state.errorMessage !== '') {
@@ -35,32 +37,39 @@ class EmailForm extends React.Component<Props, State> {
     this.setState({ email })
   }
 
-  handleSubmit = () => {
-    if (this.isValid) {
+  handleSubmit = async () => {
+    const isValid = await this.checkErrors()
+    if (isValid) {
       this.props.screenProps.doneCallback({ email: this.state.email })
     }
   }
 
   handleEnter = (event: { nativeEvent: { key: string } }) => {
-    if (event.nativeEvent.key === 'Enter' && this.isValid) {
+    if (event.nativeEvent.key === 'Enter' && this.state.isValid) {
       this.handleSubmit()
     }
   }
 
-  checkErrors = () => {
-    const errorMessage = userModelValidations.email(this.state.email)
-
-    this.setState({ errorMessage })
+  checkErrors = async () => {
+    const modelErrorMessage = userModelValidations.email(this.state.email)
+    const isValidIndexValue =
+      Config.skipEmailVerification || (await userStorage.isValidValue('email', this.state.email))
+    const errorMessage = modelErrorMessage || (isValidIndexValue ? '' : 'Unavailable email')
+    this.setState({ errorMessage }, () => this.setState({ isValid: this.state.errorMessage === '' }))
+    return errorMessage === ''
   }
 
   render() {
     const errorMessage = this.state.errorMessage || this.props.screenProps.error
     this.props.screenProps.error = undefined
-    this.isValid = userModelValidations.email(this.state.email) === ''
     const { key } = this.props.navigation.state
 
     return (
-      <Wrapper valid={this.isValid} handleSubmit={this.handleSubmit} loading={this.props.screenProps.data.loading}>
+      <Wrapper
+        valid={this.state.isValid}
+        handleSubmit={this.handleSubmit}
+        loading={this.props.screenProps.data.loading}
+      >
         <Title>And which email address should we use to notify you of important activity?</Title>
         <TextInput
           id={key + '_input'}

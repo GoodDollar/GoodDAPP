@@ -2,7 +2,7 @@
 import React from 'react'
 import { StyleSheet, Text, TouchableHighlight, View } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
-import backKeyboardButton from '../../assets/backKeyboardButton.png'
+import backKeyboardButton from '../../../assets/backKeyboardButton.png'
 
 type KeyboardKeyProps = {
   keyValue: string,

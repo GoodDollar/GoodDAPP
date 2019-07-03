@@ -3,9 +3,8 @@ import React from 'react'
 import { View } from 'react-native'
 import { TextInput } from 'react-native-paper'
 
-import { Section, Wrapper } from '../common'
+import { Section, TopBar, Wrapper } from '../common'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
-import TopBar from '../common/TopBar'
 import { receiveStyles as styles } from './styles'
 
 export type AmountProps = {

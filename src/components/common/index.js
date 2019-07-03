@@ -1,18 +1,20 @@
-import Address from './Address'
-import Avatar from './Avatar'
-import BigGoodDollar from './BigGoodDollar'
-import BigNumber from './BigNumber'
-import CopyButton from './CopyButton'
-import CustomButton, { ButtonProps } from './CustomButton'
-import CustomDialog from './CustomDialog'
-import Icon from './Icon'
-import IconButton from './IconButton'
-import InputGoodDollar from './InputGoodDollar'
-import NumPadKeyboard from './NumPadKeyboard'
-import Section from './Section'
-import TopBar from './TopBar'
-import UserAvatar from './UserAvatar'
-import Wrapper from './Wrapper'
+import Address from './view/Address'
+import Avatar from './view/Avatar'
+import BigGoodDollar from './view/BigGoodDollar'
+import BigNumber from './view/BigNumber'
+import CopyButton from './buttons/CopyButton'
+import CustomButton, { ButtonProps } from './buttons/CustomButton'
+import CustomDialog from './dialogs/CustomDialog'
+import Icon from './view/Icon'
+import IconButton from './buttons/IconButton'
+import InputGoodDollar from './form/InputGoodDollar'
+import LoadingIndicator from './view/LoadingIndicator'
+import NumPadKeyboard from './view/NumPadKeyboard'
+import ScanQRButton from './buttons/ScanQRButton'
+import Section from './layout/Section'
+import TopBar from './view/TopBar'
+import UserAvatar from './view/UserAvatar'
+import Wrapper from './layout/Wrapper'
 
 export {
   Address,
@@ -26,7 +28,9 @@ export {
   Icon,
   IconButton,
   InputGoodDollar,
+  LoadingIndicator,
   NumPadKeyboard,
+  ScanQRButton,
   Section,
   TopBar,
   UserAvatar,

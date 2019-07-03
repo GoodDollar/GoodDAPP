@@ -2,8 +2,8 @@
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Button as BaseButton, DefaultTheme, Text, withTheme } from 'react-native-paper'
-import logger from '../../lib/logger/pino-logger'
-import Icon from './Icon'
+import logger from '../../../lib/logger/pino-logger'
+import Icon from '../view/Icon'
 
 const log = logger.child({ from: 'CustomButton' })
 

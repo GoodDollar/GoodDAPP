@@ -867,6 +867,21 @@ exports[`Dashboard matches snapshot 1`] = `
                                 }
                               }
                             >
+                              <span
+                                className="css-text-901oao css-textHasAncestor-16my406"
+                                dir="auto"
+                                style={
+                                  Object {
+                                    "color": "rgba(255,255,255,1.00)",
+                                    "fontFamily": "gooddollar",
+                                    "fontSize": "20px",
+                                    "fontStyle": "normal",
+                                    "fontWeight": "normal",
+                                  }
+                                }
+                              >
+                                
+                              </span>
                               <div
                                 className="css-view-1dbjc4n"
                                 style={
@@ -906,10 +921,10 @@ exports[`Dashboard matches snapshot 1`] = `
                           Object {
                             "WebkitBoxPack": "center",
                             "WebkitJustifyContent": "center",
-                            "backgroundColor": "rgba(98,0,238,1.00)",
+                            "backgroundColor": "rgba(0,195,174,1.00)",
                             "borderBottomColor": "rgba(0,0,0,0.00)",
-                            "borderBottomLeftRadius": "50px",
-                            "borderBottomRightRadius": "50px",
+                            "borderBottomLeftRadius": "50%",
+                            "borderBottomRightRadius": "50%",
                             "borderBottomStyle": "solid",
                             "borderBottomWidth": "0px",
                             "borderLeftColor": "rgba(0,0,0,0.00)",
@@ -919,14 +934,19 @@ exports[`Dashboard matches snapshot 1`] = `
                             "borderRightStyle": "solid",
                             "borderRightWidth": "0px",
                             "borderTopColor": "rgba(0,0,0,0.00)",
-                            "borderTopLeftRadius": "50px",
-                            "borderTopRightRadius": "50px",
+                            "borderTopLeftRadius": "50%",
+                            "borderTopRightRadius": "50%",
                             "borderTopStyle": "solid",
                             "borderTopWidth": "0px",
                             "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
                             "justifyContent": "center",
                             "minWidth": "auto",
                             "msFlexPack": "center",
+                            "paddingBottom": "10px",
+                            "paddingLeft": "10px",
+                            "paddingRight": "10px",
+                            "paddingTop": "10px",
+                            "zIndex": 99,
                           }
                         }
                       >
@@ -1168,6 +1188,21 @@ exports[`Dashboard matches snapshot 1`] = `
                                   Receive
                                 </span>
                               </div>
+                              <span
+                                className="css-text-901oao css-textHasAncestor-16my406"
+                                dir="auto"
+                                style={
+                                  Object {
+                                    "color": "rgba(255,255,255,1.00)",
+                                    "fontFamily": "gooddollar",
+                                    "fontSize": "20px",
+                                    "fontStyle": "normal",
+                                    "fontWeight": "normal",
+                                  }
+                                }
+                              >
+                                
+                              </span>
                             </div>
                           </div>
                         </div>

@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Icon matches snapshot 1`] = `
+<div
+  className="css-text-901oao"
+  dir="auto"
+  style={
+    Object {
+      "color": "rgba(0,0,0,1.00)",
+      "fontFamily": "gooddollar",
+      "fontSize": "16px",
+      "fontStyle": "normal",
+      "fontWeight": "normal",
+    }
+  }
+>
+  
+</div>
+`;

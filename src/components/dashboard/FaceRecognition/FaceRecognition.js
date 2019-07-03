@@ -2,7 +2,7 @@
 import React, { createRef } from 'react'
 import { StyleSheet, View } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
-import GDStore from '../../../lib/undux/GDStore'
+import SimpleStore from '../../../lib/undux/SimpleStore'
 import type { DashboardProps } from '../Dashboard'
 import logger from '../../../lib/logger/pino-logger'
 import { CustomButton, Section, Wrapper } from '../../common'
@@ -184,4 +184,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default GDStore.withStore(FaceRecognition)
+export default SimpleStore.withStore(FaceRecognition)

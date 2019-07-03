@@ -2,79 +2,97 @@
 import React, { useEffect, useState } from 'react'
 import { StyleSheet } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
+import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import goodWallet from '../../lib/wallet/GoodWallet'
-import wrapper from '../../lib/undux/utils/wrapper'
+import logger from '../../lib/logger/pino-logger'
 import GDStore from '../../lib/undux/GDStore'
 import SimpleStore from '../../lib/undux/SimpleStore'
-import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import { useDialog } from '../../lib/undux/utils/dialog'
-import { CustomButton, Section, Text, TopBar, Wrapper } from '../common'
+import wrapper from '../../lib/undux/utils/wrapper'
 import { weiToMask } from '../../lib/wallet/utils'
-import logger from '../../lib/logger/pino-logger'
+import { CustomButton, Section, Text, TopBar, Wrapper } from '../common'
 import type { DashboardProps } from './Dashboard'
 
 type ClaimProps = DashboardProps
 
 type ClaimState = {
-  loading: boolean,
   nextClaim: string,
-  claimedToday: any
+  entitlement: number,
+  claimedToday: {
+    people: string,
+    amount: string
+  }
 }
 
 const log = logger.child({ from: 'Claim' })
 
-const Claim = ({ navigation, screenProps, ...props }: ClaimProps) => {
+const Claim = ({ screenProps }: ClaimProps) => {
   const store = SimpleStore.useStore()
   const gdstore = GDStore.useStore()
+
   const [showDialog] = useDialog()
+  const [loading, setLoading] = useState(false)
+  const [claimInterval, setClaimInterval] = useState(null)
   const [state, setState]: [ClaimState, Function] = useState({
-    loading: false,
-    nextClaim: '23:59:59',
+    nextClaim: '--:--:--',
     entitlement: 0,
     claimedToday: {
       people: '',
       amount: ''
     }
   })
+  const wrappedGoodWallet = wrapper(goodWallet, store)
 
-  let interval = null
-
-  let goodWalletWrapped = wrapper(goodWallet, store)
-
-  const initialize = async () => {
-    //if we returned from facerecoginition then the isValid param would be set
-    //this happens only on first claim
+  // if we returned from facerecoginition then the isValid param would be set
+  // this happens only on first claim
+  const evaluateFRValidity = async () => {
     const isValid = screenProps.screenState && screenProps.screenState.isValid
+
     log.debug('from FR:', { isValid })
+
     if (isValid && (await goodWallet.isCitizen())) {
       handleClaim()
     } else if (isValid === false) {
       screenProps.goToRoot()
     }
-
-    const entitlement = await goodWalletWrapped.checkEntitlement()
-    const [claimedToday, nextClaimDate] = await Promise.all([
-      goodWalletWrapped.getAmountAndQuantityClaimedToday(entitlement),
-      goodWalletWrapped.getNextClaimTime()
-    ])
-    setState({ ...state, claimedToday, entitlement })
-    interval = setInterval(() => {
-      const nextClaim = new Date(nextClaimDate - new Date().getTime()).toISOString().substr(11, 8)
-      setState({ ...state, nextClaim })
-    }, 1000)
   }
 
+  // FR Evaluation
   useEffect(() => {
-    initialize()
-    return () => clearInterval(interval)
+    evaluateFRValidity()
+  }, [])
+
+  const gatherStats = async () => {
+    const entitlement = await wrappedGoodWallet.checkEntitlement()
+
+    const [claimedToday, nextClaimDate] = await Promise.all([
+      wrappedGoodWallet.getAmountAndQuantityClaimedToday(entitlement),
+      wrappedGoodWallet.getNextClaimTime()
+    ])
+
+    setState(prevState => ({ ...prevState, claimedToday, entitlement }))
+
+    setClaimInterval(
+      setInterval(() => {
+        const nextClaim = new Date(nextClaimDate - new Date().getTime()).toISOString().substr(11, 8)
+        setState(prevState => ({ ...prevState, nextClaim }))
+      }, 1000)
+    )
+  }
+
+  // Claim STATS
+  useEffect(() => {
+    gatherStats()
+    return () => clearInterval(claimInterval)
   }, [])
 
   const handleClaim = () => {
-    setState({ ...state, loading: true })
+    setLoading(true)
+
     try {
-      goodWalletWrapped.claim({
+      wrappedGoodWallet.claim({
         onTransactionHash: async hash => {
-          const entitlement = await goodWalletWrapped.checkEntitlement()
+          const entitlement = await wrappedGoodWallet.checkEntitlement()
           const transactionEvent: TransactionEvent = {
             id: hash,
             date: new Date().toString(),
@@ -91,17 +109,18 @@ const Claim = ({ navigation, screenProps, ...props }: ClaimProps) => {
             dismissText: 'Yay!',
             onDismiss: screenProps.goToRoot
           })
-          setState({ ...state, loading: false })
         }
       })
     } catch (e) {
       log.error('claiming failed', e)
+
       showDialog({
         title: 'Claiming Failed',
         message: `${e.message}.\nTry again later.`,
         dismissText: 'OK'
       })
-      setState({ ...state, loading: false })
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -121,7 +140,7 @@ const Claim = ({ navigation, screenProps, ...props }: ClaimProps) => {
       onPress={() => {
         isCitizen ? handleClaim() : faceRecognition()
       }}
-      loading={state.loading}
+      loading={loading}
     >
       {`CLAIM YOUR SHARE - ${weiToMask(entitlement, { showUnits: true })}`}
     </CustomButton>

@@ -11,6 +11,7 @@ import FRapi from './FaceRecognitionAPI'
 import type FaceRecognitionResponse from './FaceRecognitionAPI'
 import ZoomCapture from './ZoomCapture'
 import { type ZoomCaptureResult } from './Zoom'
+import zoomSdkLoader from './ZoomSdkLoader'
 
 const log = logger.child({ from: 'FaceRecognition' })
 
@@ -43,7 +44,8 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     loadingText: '',
     facemap: new Blob([], { type: 'text/plain' }),
     zoomReady: false,
-    fullName: ''
+    fullName: '',
+    captureResult: {}
   }
 
   loadedZoom: any
@@ -61,7 +63,8 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     this.timeout && clearTimeout(this.timeout)
   }
 
-  componentWillMount = () => {
+  componentWillMount = async () => {
+    await zoomSdkLoader.ready
     this.loadedZoom = ZoomSDK
     this.timeout = setTimeout(() => {
       this.setState({ zoomReady: true })

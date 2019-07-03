@@ -1,7 +1,7 @@
 // @flow
 import React, { useState } from 'react'
 import { TextInput } from 'react-native'
-import { moneyRegexp } from '../../lib/wallet/utils'
+import { moneyRegexp } from '../../../lib/wallet/utils'
 
 type SelectionProp = {
   start: number,

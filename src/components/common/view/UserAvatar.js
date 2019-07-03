@@ -3,10 +3,10 @@ import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { normalize } from 'react-native-elements'
 import CreateAvatar from 'exif-react-avatar-edit'
-import { getScreenHeight, getScreenWidth, isPortrait } from '../../lib/utils/Orientation'
+import { getScreenHeight, getScreenWidth, isPortrait } from '../../../lib/utils/Orientation'
 
+import Section from '../layout/Section'
 import Avatar from './Avatar'
-import Section from './Section'
 
 export type AvatarProps = {
   profile: {

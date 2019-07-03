@@ -6,7 +6,7 @@ import { useWrappedApi } from '../../lib/API/useWrappedApi'
 import { useWrappedUserStorage } from '../../lib/gundb/useWrappedStorage'
 import logger from '../../lib/logger/pino-logger'
 import GDStore from '../../lib/undux/GDStore'
-import { setLoadingWithStore } from '../common/LoadingIndicator'
+import { setLoadingWithStore } from '../common/view/LoadingIndicator'
 import { Description, LinkButton, Title, Wrapper } from './components'
 
 type Props = {

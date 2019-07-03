@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import { Dialog, Paragraph, Portal } from 'react-native-paper'
-import CustomButton from './CustomButton'
+import CustomButton from '../buttons/CustomButton'
 
 type DialogProps = {
   children?: any,

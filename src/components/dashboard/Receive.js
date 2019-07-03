@@ -1,16 +1,12 @@
 // @flow
-import QRCode from 'qrcode.react'
 import React, { useMemo } from 'react'
-import { View } from 'react-native'
 import { isMobile } from 'mobile-device-detect'
 import { generateCode, generateReceiveShareObject } from '../../lib/share'
 import GDStore from '../../lib/undux/GDStore'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { PushButton } from '../appNavigation/stackNavigation'
-import { Address, CopyButton, CustomButton, ScanQRButton, Section, TopBar, Wrapper } from '../common'
-
-import { receiveStyles as styles } from './styles'
+import { CopyButton, CustomButton, QRCode, ScanQRButton, Section, TopBar, Wrapper } from '../common'
 
 export type ReceiveProps = {
   screenProps: any,
@@ -66,18 +62,13 @@ const Receive = ({ screenProps }: ReceiveProps) => {
         <ScanQRButton onPress={() => screenProps.push('ReceiveByQR')} />
       </TopBar>
       <Section grow={1}>
-        <Section.Stack grow={1} justifyContent="space-around" alignItems="center">
-          <View style={styles.qrCode}>
-            <QRCode value={code} />
-          </View>
-          <Section.Stack>
-            <Section.Text>Your G$ wallet address:</Section.Text>
-            <Section.Title>
-              <Address value={account} />
-            </Section.Title>
-          </Section.Stack>
+        <Section.Stack grow={2} justifyContent="space-around" alignItems="center">
+          <Section.Text>Scan this code to transfer G$ directly into your account.</Section.Text>
+          <QRCode value={code} />
         </Section.Stack>
-
+        <Section.Stack grow={1} justifyContent="center" alignItems="center">
+          <Section.Text> - OR - </Section.Text>
+        </Section.Stack>
         <Section.Stack alignItems="stretch">
           {isMobile && navigator.share ? <ShareButton /> : null}
           <CopyButton mode="outlined" toCopy={account}>

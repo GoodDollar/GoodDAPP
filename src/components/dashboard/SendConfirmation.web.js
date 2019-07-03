@@ -1,6 +1,4 @@
 // @flow
-import QRCode from 'qrcode.react'
-
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { normalize } from 'react-native-elements'
@@ -8,7 +6,7 @@ import { isMobile } from 'mobile-device-detect'
 import { generateSendShareObject } from '../../lib/share'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import { DoneButton, useScreenState } from '../appNavigation/stackNavigation'
-import { BigGoodDollar, CopyButton, CustomButton, Section, TopBar, Wrapper } from '../common'
+import { BigGoodDollar, CopyButton, CustomButton, QRCode, Section, TopBar, Wrapper } from '../common'
 import { fontStyle } from '../common/styles'
 import './AButton.css'
 import { getScreenHeight } from '../../lib/utils/Orientation'
@@ -53,9 +51,7 @@ const SendConfirmation = ({ screenProps }: ReceiveProps) => {
       <Section style={styles.section}>
         <View style={styles.topContainer}>
           <Section.Row style={styles.sectionRow}>
-            <View style={styles.qrCode}>
-              <QRCode value={paymentLink || ''} />
-            </View>
+            <QRCode value={paymentLink || ''} />
             <Section.Text style={styles.addressSection}>
               <Text style={styles.url}>{share.url}</Text>
             </Section.Text>

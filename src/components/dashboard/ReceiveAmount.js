@@ -1,14 +1,13 @@
 // @flow
 import React, { useMemo } from 'react'
-import { Text, View } from 'react-native'
-import QRCode from 'qrcode.react'
+import { Text } from 'react-native'
 import { isMobile } from 'mobile-device-detect'
 import { useDialog } from '../../lib/undux/utils/dialog'
 
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { generateCode, generateReceiveShareObject } from '../../lib/share'
 import GDStore from '../../lib/undux/GDStore'
-import { BigGoodDollar, CopyButton, CustomButton, Section, Wrapper } from '../common'
+import { BigGoodDollar, CopyButton, CustomButton, QRCode, Section, Wrapper } from '../common'
 import { DoneButton, useScreenState } from '../appNavigation/stackNavigation'
 import { receiveStyles as styles } from './styles'
 
@@ -64,9 +63,7 @@ const ReceiveAmount = ({ screenProps }: ReceiveProps) => {
     <Wrapper>
       <Section grow>
         <Section.Stack justifyContent="space-evenly" grow>
-          <View style={styles.qrCode}>
-            <QRCode value={code} />
-          </View>
+          <QRCode value={code} />
           <Section.Stack>
             <Section.Text style={[styles.lowerSecondaryText]}>This QR code requests exactly</Section.Text>
             <Section.Text style={styles.addressSection}>

@@ -15,6 +15,7 @@ import UserAvatar from './view/UserAvatar'
 import NumPadKeyboard from './view/NumPadKeyboard'
 import Wrapper from './layout/Wrapper'
 import LoadingIndicator from './view/LoadingIndicator'
+import QRCode from './view/QRCode'
 
 export {
   Address,
@@ -34,5 +35,6 @@ export {
   CustomDialog,
   InputGoodDollar,
   NumPadKeyboard,
+  QRCode,
   LoadingIndicator
 }

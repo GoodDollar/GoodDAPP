@@ -1,7 +1,7 @@
 // @flow
 import type { Store } from 'undux'
 import SimpleStore from '../SimpleStore'
-import { type DialogProps } from '../../../components/common/CustomDialog'
+import { type DialogProps } from '../../../components/common/dialogs/CustomDialog'
 import pino from '../../logger/pino-logger'
 const log = pino.child({ from: 'dialogs' })
 

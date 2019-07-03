@@ -5,7 +5,7 @@ import { Paragraph } from 'react-native-paper'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import bip39 from 'bip39-light'
 import logger from '../../lib/logger/pino-logger'
-import CustomButton from '../common/CustomButton'
+import CustomButton from '../common/buttons/CustomButton'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import MnemonicInput from './MnemonicInput'
 

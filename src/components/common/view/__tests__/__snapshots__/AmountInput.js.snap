@@ -23,11 +23,15 @@ exports[`AmountInput matches snapshot 1`] = `
     dir="auto"
     style={
       Object {
+        "WebkitTextDecorationStyle": "none",
         "color": "rgba(85,85,85,1.00)",
+        "direction": "ltr",
+        "fontFamily": "Roboto",
         "fontSize": "24px",
         "fontWeight": "500",
         "marginBottom": "1rem",
         "textAlign": "center",
+        "textDecorationStyle": "none",
         "textTransform": "uppercase",
       }
     }
@@ -220,9 +224,11 @@ exports[`AmountInput matches snapshot 1`] = `
           style={
             Object {
               "color": "rgba(66,69,74,1.00)",
+              "direction": "ltr",
               "fontFamily": "RobotoSlab-Bold",
               "fontSize": "20px",
               "fontWeight": "700",
+              "textAlign": "left",
             }
           }
         >
@@ -279,9 +285,11 @@ exports[`AmountInput matches snapshot 1`] = `
           style={
             Object {
               "color": "rgba(66,69,74,1.00)",
+              "direction": "ltr",
               "fontFamily": "RobotoSlab-Bold",
               "fontSize": "20px",
               "fontWeight": "700",
+              "textAlign": "left",
             }
           }
         >
@@ -338,9 +346,11 @@ exports[`AmountInput matches snapshot 1`] = `
           style={
             Object {
               "color": "rgba(66,69,74,1.00)",
+              "direction": "ltr",
               "fontFamily": "RobotoSlab-Bold",
               "fontSize": "20px",
               "fontWeight": "700",
+              "textAlign": "left",
             }
           }
         >
@@ -419,9 +429,11 @@ exports[`AmountInput matches snapshot 1`] = `
           style={
             Object {
               "color": "rgba(66,69,74,1.00)",
+              "direction": "ltr",
               "fontFamily": "RobotoSlab-Bold",
               "fontSize": "20px",
               "fontWeight": "700",
+              "textAlign": "left",
             }
           }
         >
@@ -478,9 +490,11 @@ exports[`AmountInput matches snapshot 1`] = `
           style={
             Object {
               "color": "rgba(66,69,74,1.00)",
+              "direction": "ltr",
               "fontFamily": "RobotoSlab-Bold",
               "fontSize": "20px",
               "fontWeight": "700",
+              "textAlign": "left",
             }
           }
         >
@@ -537,9 +551,11 @@ exports[`AmountInput matches snapshot 1`] = `
           style={
             Object {
               "color": "rgba(66,69,74,1.00)",
+              "direction": "ltr",
               "fontFamily": "RobotoSlab-Bold",
               "fontSize": "20px",
               "fontWeight": "700",
+              "textAlign": "left",
             }
           }
         >
@@ -618,9 +634,11 @@ exports[`AmountInput matches snapshot 1`] = `
           style={
             Object {
               "color": "rgba(66,69,74,1.00)",
+              "direction": "ltr",
               "fontFamily": "RobotoSlab-Bold",
               "fontSize": "20px",
               "fontWeight": "700",
+              "textAlign": "left",
             }
           }
         >
@@ -677,9 +695,11 @@ exports[`AmountInput matches snapshot 1`] = `
           style={
             Object {
               "color": "rgba(66,69,74,1.00)",
+              "direction": "ltr",
               "fontFamily": "RobotoSlab-Bold",
               "fontSize": "20px",
               "fontWeight": "700",
+              "textAlign": "left",
             }
           }
         >
@@ -736,9 +756,11 @@ exports[`AmountInput matches snapshot 1`] = `
           style={
             Object {
               "color": "rgba(66,69,74,1.00)",
+              "direction": "ltr",
               "fontFamily": "RobotoSlab-Bold",
               "fontSize": "20px",
               "fontWeight": "700",
+              "textAlign": "left",
             }
           }
         >
@@ -817,9 +839,11 @@ exports[`AmountInput matches snapshot 1`] = `
           style={
             Object {
               "color": "rgba(66,69,74,1.00)",
+              "direction": "ltr",
               "fontFamily": "RobotoSlab-Bold",
               "fontSize": "20px",
               "fontWeight": "700",
+              "textAlign": "left",
             }
           }
         >
@@ -876,9 +900,11 @@ exports[`AmountInput matches snapshot 1`] = `
           style={
             Object {
               "color": "rgba(66,69,74,1.00)",
+              "direction": "ltr",
               "fontFamily": "RobotoSlab-Bold",
               "fontSize": "20px",
               "fontWeight": "700",
+              "textAlign": "left",
             }
           }
         >

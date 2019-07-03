@@ -79,10 +79,10 @@ exports[`SendConfirmation matches snapshot 1`] = `
           "msFlexPack": "justify",
           "msFlexPositive": 1,
           "msFlexPreferredSize": "0%",
-          "paddingBottom": "10px",
-          "paddingLeft": "10px",
-          "paddingRight": "10px",
-          "paddingTop": "10px",
+          "paddingBottom": "8px",
+          "paddingLeft": "8px",
+          "paddingRight": "8px",
+          "paddingTop": "8px",
           "width": "100%",
         }
       }
@@ -318,12 +318,18 @@ exports[`SendConfirmation matches snapshot 1`] = `
               dir="auto"
               style={
                 Object {
+                  "WebkitTextDecorationStyle": "none",
                   "color": "rgba(85,85,85,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto",
                   "fontSize": "14px",
+                  "fontWeight": "normal",
                   "marginBottom": "1rem",
                   "marginTop": "1rem",
                   "maxWidth": "100%",
                   "textAlign": "center",
+                  "textDecorationStyle": "none",
+                  "textTransform": "none",
                 }
               }
             >
@@ -332,15 +338,21 @@ exports[`SendConfirmation matches snapshot 1`] = `
                 dir="auto"
                 style={
                   Object {
+                    "WebkitTextDecorationStyle": "none",
                     "color": "rgba(85,85,85,1.00)",
+                    "direction": "ltr",
+                    "fontFamily": "Roboto",
                     "fontSize": "18px",
+                    "fontWeight": "normal",
                     "maxWidth": "100%",
                     "overflowX": "hidden",
                     "overflowY": "hidden",
                     "paddingLeft": "1rem",
                     "paddingRight": "1rem",
                     "textAlign": "center",
+                    "textDecorationStyle": "none",
                     "textOverflow": "ellipsis",
+                    "textTransform": "none",
                     "whiteSpace": "nowrap",
                   }
                 }
@@ -353,9 +365,15 @@ exports[`SendConfirmation matches snapshot 1`] = `
               dir="auto"
               style={
                 Object {
+                  "WebkitTextDecorationStyle": "none",
                   "color": "rgba(85,85,85,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto",
                   "fontSize": "16px",
+                  "fontWeight": "normal",
                   "textAlign": "center",
+                  "textDecorationStyle": "none",
+                  "textTransform": "none",
                 }
               }
             >
@@ -373,11 +391,15 @@ exports[`SendConfirmation matches snapshot 1`] = `
                   dir="auto"
                   style={
                     Object {
+                      "WebkitTextDecorationStyle": "none",
                       "color": "rgba(85,85,85,1.00)",
                       "direction": "ltr",
-                      "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                      "fontFamily": "Roboto",
                       "fontSize": "30px",
+                      "fontWeight": "normal",
                       "textAlign": "right",
+                      "textDecorationStyle": "none",
+                      "textTransform": "none",
                     }
                   }
                 >
@@ -388,11 +410,15 @@ exports[`SendConfirmation matches snapshot 1`] = `
                   dir="auto"
                   style={
                     Object {
+                      "WebkitTextDecorationStyle": "none",
                       "color": "rgba(85,85,85,1.00)",
                       "direction": "ltr",
-                      "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                      "fontFamily": "Roboto",
                       "fontSize": "18px",
+                      "fontWeight": "normal",
                       "textAlign": "right",
+                      "textDecorationStyle": "none",
+                      "textTransform": "none",
                     }
                   }
                 >
@@ -405,9 +431,15 @@ exports[`SendConfirmation matches snapshot 1`] = `
               dir="auto"
               style={
                 Object {
+                  "WebkitTextDecorationStyle": "none",
                   "color": "rgba(85,85,85,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto",
                   "fontSize": "16px",
+                  "fontWeight": "normal",
                   "textAlign": "center",
+                  "textDecorationStyle": "none",
+                  "textTransform": "none",
                 }
               }
             />
@@ -548,10 +580,14 @@ exports[`SendConfirmation matches snapshot 1`] = `
                     dir="auto"
                     style={
                       Object {
+                        "WebkitTextDecorationStyle": "none",
                         "color": "rgba(255,255,255,1.00)",
                         "direction": "ltr",
-                        "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                        "textAlign": "left",
+                        "fontFamily": "Roboto",
+                        "fontSize": "16px",
+                        "fontWeight": "normal",
+                        "textAlign": "center",
+                        "textDecorationStyle": "none",
                         "textTransform": "uppercase",
                       }
                     }
@@ -673,9 +709,13 @@ exports[`SendConfirmation matches snapshot 1`] = `
                     dir="auto"
                     style={
                       Object {
+                        "WebkitTextDecorationStyle": "none",
                         "direction": "ltr",
-                        "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                        "textAlign": "left",
+                        "fontFamily": "Roboto",
+                        "fontSize": "16px",
+                        "fontWeight": "normal",
+                        "textAlign": "center",
+                        "textDecorationStyle": "none",
                         "textTransform": "uppercase",
                       }
                     }

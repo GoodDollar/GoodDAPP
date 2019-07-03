@@ -79,10 +79,10 @@ exports[`FaceRecognition Rendering matches snapshot 1`] = `
           "msFlexPack": "justify",
           "msFlexPositive": 1,
           "msFlexPreferredSize": "0%",
-          "paddingBottom": "10px",
-          "paddingLeft": "10px",
-          "paddingRight": "10px",
-          "paddingTop": "10px",
+          "paddingBottom": "8px",
+          "paddingLeft": "8px",
+          "paddingRight": "8px",
+          "paddingTop": "8px",
           "width": "100%",
         }
       }
@@ -115,10 +115,14 @@ exports[`FaceRecognition Rendering matches snapshot 1`] = `
           dir="auto"
           style={
             Object {
+              "WebkitTextDecorationStyle": "none",
               "color": "rgba(85,85,85,1.00)",
+              "direction": "ltr",
+              "fontFamily": "Roboto",
               "fontSize": "24px",
               "fontWeight": "500",
               "textAlign": "center",
+              "textDecorationStyle": "none",
               "textTransform": "uppercase",
             }
           }
@@ -130,9 +134,15 @@ exports[`FaceRecognition Rendering matches snapshot 1`] = `
           dir="auto"
           style={
             Object {
+              "WebkitTextDecorationStyle": "none",
               "color": "rgba(85,85,85,1.00)",
+              "direction": "ltr",
+              "fontFamily": "Roboto",
               "fontSize": "20px",
+              "fontWeight": "normal",
               "textAlign": "center",
+              "textDecorationStyle": "none",
+              "textTransform": "none",
             }
           }
         >
@@ -342,10 +352,14 @@ exports[`FaceRecognition Rendering matches snapshot 1`] = `
                     dir="auto"
                     style={
                       Object {
+                        "WebkitTextDecorationStyle": "none",
                         "color": "rgba(255,255,255,1.00)",
                         "direction": "ltr",
-                        "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                        "textAlign": "left",
+                        "fontFamily": "Roboto",
+                        "fontSize": "16px",
+                        "fontWeight": "normal",
+                        "textAlign": "center",
+                        "textDecorationStyle": "none",
                         "textTransform": "uppercase",
                       }
                     }

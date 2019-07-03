@@ -64,12 +64,16 @@ exports[`SmsForm matches snapshot 1`] = `
       dir="auto"
       style={
         Object {
+          "WebkitTextDecorationStyle": "none",
           "color": "rgba(85,85,85,1.00)",
           "direction": "ltr",
-          "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+          "fontFamily": "Roboto",
           "fontSize": "24px",
+          "fontWeight": "normal",
           "marginBottom": "30px",
           "textAlign": "center",
+          "textDecorationStyle": "none",
+          "textTransform": "none",
         }
       }
     >
@@ -316,14 +320,18 @@ exports[`SmsForm matches snapshot 1`] = `
         dir="auto"
         style={
           Object {
+            "WebkitTextDecorationStyle": "none",
             "color": "rgba(255,0,0,1.00)",
             "direction": "ltr",
-            "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+            "fontFamily": "Roboto",
             "fontSize": "18px",
+            "fontWeight": "normal",
             "marginBottom": "30px",
             "marginTop": "30px",
             "minHeight": "24px",
             "textAlign": "center",
+            "textDecorationStyle": "none",
+            "textTransform": "none",
           }
         }
       />
@@ -353,12 +361,16 @@ exports[`SmsForm matches snapshot 1`] = `
         dir="auto"
         style={
           Object {
+            "WebkitTextDecorationStyle": "none",
             "color": "rgba(85,85,85,1.00)",
             "direction": "ltr",
-            "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+            "fontFamily": "Roboto",
             "fontSize": "18px",
+            "fontWeight": "normal",
             "marginTop": "30px",
             "textAlign": "center",
+            "textDecorationStyle": "none",
+            "textTransform": "none",
           }
         }
       >

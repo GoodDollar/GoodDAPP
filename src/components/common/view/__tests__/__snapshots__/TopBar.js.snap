@@ -141,11 +141,15 @@ exports[`TopBar matches snapshot with balance 1`] = `
         dir="auto"
         style={
           Object {
+            "WebkitTextDecorationStyle": "none",
             "color": "rgba(85,85,85,1.00)",
             "direction": "ltr",
-            "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+            "fontFamily": "Roboto",
             "fontSize": "30px",
+            "fontWeight": "normal",
             "textAlign": "right",
+            "textDecorationStyle": "none",
+            "textTransform": "none",
           }
         }
       >
@@ -156,11 +160,15 @@ exports[`TopBar matches snapshot with balance 1`] = `
         dir="auto"
         style={
           Object {
+            "WebkitTextDecorationStyle": "none",
             "color": "rgba(85,85,85,1.00)",
             "direction": "ltr",
-            "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+            "fontFamily": "Roboto",
             "fontSize": "18px",
+            "fontWeight": "normal",
             "textAlign": "right",
+            "textDecorationStyle": "none",
+            "textTransform": "none",
           }
         }
       >
@@ -439,10 +447,15 @@ exports[`TopBar should render the children component 1`] = `
         dir="auto"
         style={
           Object {
+            "WebkitTextDecorationStyle": "none",
             "color": "rgba(0,0,0,1.00)",
             "direction": "ltr",
-            "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-            "textAlign": "left",
+            "fontFamily": "Roboto",
+            "fontSize": "16px",
+            "fontWeight": "normal",
+            "textAlign": "center",
+            "textDecorationStyle": "none",
+            "textTransform": "none",
           }
         }
       >

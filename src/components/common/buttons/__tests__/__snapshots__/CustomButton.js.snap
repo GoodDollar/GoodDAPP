@@ -110,10 +110,14 @@ exports[`CustomButton matches snapshot 1`] = `
             dir="auto"
             style={
               Object {
+                "WebkitTextDecorationStyle": "none",
                 "color": "rgba(255,255,255,1.00)",
                 "direction": "ltr",
-                "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                "textAlign": "left",
+                "fontFamily": "Roboto",
+                "fontSize": "16px",
+                "fontWeight": "normal",
+                "textAlign": "center",
+                "textDecorationStyle": "none",
                 "textTransform": "uppercase",
               }
             }

@@ -95,11 +95,16 @@ exports[`ScanQRButton should match snapshot 1`] = `
     dir="auto"
     style={
       Object {
+        "WebkitTextDecorationStyle": "none",
         "color": "rgba(0,0,0,1.00)",
         "direction": "ltr",
-        "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+        "fontFamily": "Roboto",
+        "fontSize": "16px",
+        "fontWeight": "normal",
         "marginLeft": "10px",
-        "textAlign": "left",
+        "textAlign": "center",
+        "textDecorationStyle": "none",
+        "textTransform": "none",
       }
     }
   >
@@ -108,12 +113,16 @@ exports[`ScanQRButton should match snapshot 1`] = `
       dir="auto"
       style={
         Object {
+          "WebkitTextDecorationStyle": "none",
           "color": "rgba(0,0,0,1.00)",
           "direction": "ltr",
           "display": "inlineBlock",
-          "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+          "fontFamily": "Roboto",
           "fontSize": "14px",
-          "textAlign": "left",
+          "fontWeight": "normal",
+          "textAlign": "center",
+          "textDecorationStyle": "none",
+          "textTransform": "none",
         }
       }
     >

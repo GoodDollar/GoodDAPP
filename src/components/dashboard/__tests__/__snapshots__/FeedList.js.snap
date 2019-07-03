@@ -228,9 +228,15 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                   dir="auto"
                   style={
                     Object {
+                      "WebkitTextDecorationStyle": "none",
                       "color": "rgba(163,163,163,1.00)",
+                      "direction": "ltr",
+                      "fontFamily": "Roboto",
                       "fontSize": "10px",
                       "fontWeight": "500",
+                      "textAlign": "center",
+                      "textDecorationStyle": "none",
+                      "textTransform": "none",
                     }
                   }
                 >
@@ -269,15 +275,21 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                         "WebkitFlexBasis": "0%",
                         "WebkitFlexGrow": 1,
                         "WebkitFlexShrink": 1,
+                        "WebkitTextDecorationStyle": "none",
                         "color": "rgba(85,85,85,1.00)",
+                        "direction": "ltr",
                         "flexBasis": "0%",
                         "flexGrow": 1,
                         "flexShrink": 1,
+                        "fontFamily": "Roboto",
                         "fontSize": "20px",
                         "fontWeight": "700",
                         "msFlexNegative": 1,
                         "msFlexPositive": 1,
                         "msFlexPreferredSize": "0%",
+                        "textAlign": "center",
+                        "textDecorationStyle": "none",
+                        "textTransform": "none",
                       }
                     }
                   >
@@ -296,12 +308,15 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                       dir="auto"
                       style={
                         Object {
+                          "WebkitTextDecorationStyle": "none",
                           "color": "rgba(0,0,0,1.00)",
                           "direction": "ltr",
-                          "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                          "fontFamily": "Roboto",
                           "fontSize": "16px",
                           "fontWeight": "bold",
                           "textAlign": "right",
+                          "textDecorationStyle": "none",
+                          "textTransform": "none",
                         }
                       }
                     >
@@ -312,12 +327,15 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                       dir="auto"
                       style={
                         Object {
+                          "WebkitTextDecorationStyle": "none",
                           "color": "rgba(0,0,0,1.00)",
                           "direction": "ltr",
-                          "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                          "fontFamily": "Roboto",
                           "fontSize": "16px",
                           "fontWeight": "bold",
                           "textAlign": "right",
+                          "textDecorationStyle": "none",
+                          "textTransform": "none",
                         }
                       }
                     >
@@ -462,7 +480,16 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                     dir="auto"
                     style={
                       Object {
+                        "WebkitTextDecorationStyle": "none",
+                        "color": "rgba(0,0,0,1.00)",
+                        "direction": "ltr",
+                        "fontFamily": "Roboto",
+                        "fontSize": "16px",
+                        "fontWeight": "normal",
                         "marginLeft": "10px",
+                        "textAlign": "center",
+                        "textDecorationStyle": "none",
+                        "textTransform": "none",
                       }
                     }
                   >
@@ -471,8 +498,14 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                       dir="auto"
                       style={
                         Object {
+                          "WebkitTextDecorationStyle": "none",
                           "color": "rgba(85,85,85,1.00)",
+                          "direction": "ltr",
+                          "fontFamily": "Roboto",
                           "fontSize": "15px",
+                          "fontWeight": "normal",
+                          "textAlign": "center",
+                          "textDecorationStyle": "none",
                           "textTransform": "capitalize",
                         }
                       }
@@ -482,8 +515,15 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                         dir="auto"
                         style={
                           Object {
+                            "WebkitTextDecorationStyle": "none",
+                            "color": "rgba(0,0,0,1.00)",
+                            "direction": "ltr",
+                            "fontFamily": "Roboto",
                             "fontSize": "10px",
                             "fontWeight": "500",
+                            "textAlign": "center",
+                            "textDecorationStyle": "none",
+                            "textTransform": "none",
                           }
                         }
                       >
@@ -495,7 +535,15 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                         dir="auto"
                         style={
                           Object {
+                            "WebkitTextDecorationStyle": "none",
+                            "color": "rgba(0,0,0,1.00)",
+                            "direction": "ltr",
+                            "fontFamily": "Roboto",
+                            "fontSize": "16px",
                             "fontWeight": "700",
+                            "textAlign": "center",
+                            "textDecorationStyle": "none",
+                            "textTransform": "none",
                           }
                         }
                       >
@@ -521,9 +569,14 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                   dir="auto"
                   style={
                     Object {
+                      "WebkitTextDecorationStyle": "none",
                       "color": "rgba(0,0,0,0.54)",
+                      "direction": "ltr",
+                      "fontFamily": "Roboto",
                       "fontSize": "16px",
                       "fontWeight": "500",
+                      "textAlign": "center",
+                      "textDecorationStyle": "none",
                       "textTransform": "capitalize",
                     }
                   }
@@ -676,10 +729,14 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                               dir="auto"
                               style={
                                 Object {
+                                  "WebkitTextDecorationStyle": "none",
                                   "color": "rgba(255,255,255,1.00)",
                                   "direction": "ltr",
-                                  "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                                  "textAlign": "left",
+                                  "fontFamily": "Roboto",
+                                  "fontSize": "16px",
+                                  "fontWeight": "normal",
+                                  "textAlign": "center",
+                                  "textDecorationStyle": "none",
                                   "textTransform": "uppercase",
                                 }
                               }
@@ -824,15 +881,21 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                         "WebkitFlexBasis": "0%",
                         "WebkitFlexGrow": 1,
                         "WebkitFlexShrink": 1,
+                        "WebkitTextDecorationStyle": "none",
                         "color": "rgba(85,85,85,1.00)",
+                        "direction": "ltr",
                         "flexBasis": "0%",
                         "flexGrow": 1,
                         "flexShrink": 1,
+                        "fontFamily": "Roboto",
                         "fontSize": "20px",
                         "fontWeight": "700",
                         "msFlexNegative": 1,
                         "msFlexPositive": 1,
                         "msFlexPreferredSize": "0%",
+                        "textAlign": "center",
+                        "textDecorationStyle": "none",
+                        "textTransform": "none",
                       }
                     }
                   >
@@ -851,12 +914,15 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                       dir="auto"
                       style={
                         Object {
+                          "WebkitTextDecorationStyle": "none",
                           "color": "rgba(0,0,0,1.00)",
                           "direction": "ltr",
-                          "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                          "fontFamily": "Roboto",
                           "fontSize": "16px",
                           "fontWeight": "bold",
                           "textAlign": "right",
+                          "textDecorationStyle": "none",
+                          "textTransform": "none",
                         }
                       }
                     >
@@ -867,12 +933,15 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                       dir="auto"
                       style={
                         Object {
+                          "WebkitTextDecorationStyle": "none",
                           "color": "rgba(0,0,0,1.00)",
                           "direction": "ltr",
-                          "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                          "fontFamily": "Roboto",
                           "fontSize": "16px",
                           "fontWeight": "bold",
                           "textAlign": "right",
+                          "textDecorationStyle": "none",
+                          "textTransform": "none",
                         }
                       }
                     >
@@ -885,10 +954,16 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                   dir="auto"
                   style={
                     Object {
+                      "WebkitTextDecorationStyle": "none",
                       "color": "rgba(163,163,163,1.00)",
+                      "direction": "ltr",
+                      "fontFamily": "Roboto",
                       "fontSize": "10px",
                       "fontWeight": "500",
                       "marginTop": "5px",
+                      "textAlign": "center",
+                      "textDecorationStyle": "none",
+                      "textTransform": "none",
                     }
                   }
                 >
@@ -1031,7 +1106,16 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                     dir="auto"
                     style={
                       Object {
+                        "WebkitTextDecorationStyle": "none",
+                        "color": "rgba(0,0,0,1.00)",
+                        "direction": "ltr",
+                        "fontFamily": "Roboto",
+                        "fontSize": "16px",
+                        "fontWeight": "normal",
                         "marginLeft": "10px",
+                        "textAlign": "center",
+                        "textDecorationStyle": "none",
+                        "textTransform": "none",
                       }
                     }
                   >
@@ -1040,8 +1124,14 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                       dir="auto"
                       style={
                         Object {
+                          "WebkitTextDecorationStyle": "none",
                           "color": "rgba(85,85,85,1.00)",
+                          "direction": "ltr",
+                          "fontFamily": "Roboto",
                           "fontSize": "15px",
+                          "fontWeight": "normal",
+                          "textAlign": "center",
+                          "textDecorationStyle": "none",
                           "textTransform": "capitalize",
                         }
                       }
@@ -1051,8 +1141,15 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                         dir="auto"
                         style={
                           Object {
+                            "WebkitTextDecorationStyle": "none",
+                            "color": "rgba(0,0,0,1.00)",
+                            "direction": "ltr",
+                            "fontFamily": "Roboto",
                             "fontSize": "10px",
                             "fontWeight": "500",
+                            "textAlign": "center",
+                            "textDecorationStyle": "none",
+                            "textTransform": "none",
                           }
                         }
                       >
@@ -1064,7 +1161,15 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                         dir="auto"
                         style={
                           Object {
+                            "WebkitTextDecorationStyle": "none",
+                            "color": "rgba(0,0,0,1.00)",
+                            "direction": "ltr",
+                            "fontFamily": "Roboto",
+                            "fontSize": "16px",
                             "fontWeight": "700",
+                            "textAlign": "center",
+                            "textDecorationStyle": "none",
+                            "textTransform": "none",
                           }
                         }
                       >
@@ -1090,9 +1195,14 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                   dir="auto"
                   style={
                     Object {
+                      "WebkitTextDecorationStyle": "none",
                       "color": "rgba(0,0,0,0.54)",
+                      "direction": "ltr",
+                      "fontFamily": "Roboto",
                       "fontSize": "16px",
                       "fontWeight": "500",
+                      "textAlign": "center",
+                      "textDecorationStyle": "none",
                       "textTransform": "capitalize",
                     }
                   }
@@ -1245,10 +1355,14 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                               dir="auto"
                               style={
                                 Object {
+                                  "WebkitTextDecorationStyle": "none",
                                   "color": "rgba(255,255,255,1.00)",
                                   "direction": "ltr",
-                                  "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                                  "textAlign": "left",
+                                  "fontFamily": "Roboto",
+                                  "fontSize": "16px",
+                                  "fontWeight": "normal",
+                                  "textAlign": "center",
+                                  "textDecorationStyle": "none",
                                   "textTransform": "uppercase",
                                 }
                               }
@@ -1560,6 +1674,19 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                     <div
                       className="css-text-901oao"
                       dir="auto"
+                      style={
+                        Object {
+                          "WebkitTextDecorationStyle": "none",
+                          "color": "rgba(0,0,0,1.00)",
+                          "direction": "ltr",
+                          "fontFamily": "Roboto",
+                          "fontSize": "16px",
+                          "fontWeight": "normal",
+                          "textAlign": "center",
+                          "textDecorationStyle": "none",
+                          "textTransform": "none",
+                        }
+                      }
                     >
                       
 
@@ -1587,8 +1714,14 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                       dir="auto"
                       style={
                         Object {
+                          "WebkitTextDecorationStyle": "none",
                           "color": "rgba(85,85,85,1.00)",
+                          "direction": "ltr",
+                          "fontFamily": "Roboto",
                           "fontSize": "15px",
+                          "fontWeight": "normal",
+                          "textAlign": "center",
+                          "textDecorationStyle": "none",
                           "textTransform": "capitalize",
                         }
                       }
@@ -1598,8 +1731,15 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                         dir="auto"
                         style={
                           Object {
+                            "WebkitTextDecorationStyle": "none",
+                            "color": "rgba(0,0,0,1.00)",
+                            "direction": "ltr",
+                            "fontFamily": "Roboto",
                             "fontSize": "10px",
                             "fontWeight": "500",
+                            "textAlign": "center",
+                            "textDecorationStyle": "none",
+                            "textTransform": "none",
                           }
                         }
                       >
@@ -1611,7 +1751,15 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                         dir="auto"
                         style={
                           Object {
+                            "WebkitTextDecorationStyle": "none",
+                            "color": "rgba(0,0,0,1.00)",
+                            "direction": "ltr",
+                            "fontFamily": "Roboto",
+                            "fontSize": "16px",
                             "fontWeight": "700",
+                            "textAlign": "center",
+                            "textDecorationStyle": "none",
+                            "textTransform": "none",
                           }
                         }
                       >
@@ -1623,9 +1771,15 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                       dir="auto"
                       style={
                         Object {
+                          "WebkitTextDecorationStyle": "none",
                           "color": "rgba(163,163,163,1.00)",
+                          "direction": "ltr",
+                          "fontFamily": "Roboto",
                           "fontSize": "15px",
+                          "fontWeight": "normal",
                           "marginTop": "4px",
+                          "textAlign": "center",
+                          "textDecorationStyle": "none",
                           "textTransform": "capitalize",
                         }
                       }
@@ -1692,11 +1846,15 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                           dir="auto"
                           style={
                             Object {
+                              "WebkitTextDecorationStyle": "none",
                               "color": "rgba(85,85,85,1.00)",
                               "direction": "ltr",
-                              "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                              "fontFamily": "Roboto",
                               "fontSize": "12px",
+                              "fontWeight": "normal",
                               "textAlign": "right",
+                              "textDecorationStyle": "none",
+                              "textTransform": "none",
                             }
                           }
                         >
@@ -1707,11 +1865,15 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                           dir="auto"
                           style={
                             Object {
+                              "WebkitTextDecorationStyle": "none",
                               "color": "rgba(85,85,85,1.00)",
                               "direction": "ltr",
-                              "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                              "fontFamily": "Roboto",
                               "fontSize": "12px",
+                              "fontWeight": "normal",
                               "textAlign": "right",
+                              "textDecorationStyle": "none",
+                              "textTransform": "none",
                             }
                           }
                         >
@@ -1787,9 +1949,16 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                         dir="auto"
                         style={
                           Object {
+                            "WebkitTextDecorationStyle": "none",
                             "color": "rgba(75,75,75,0.80)",
+                            "direction": "ltr",
+                            "fontFamily": "Roboto",
                             "fontSize": "8px",
+                            "fontWeight": "normal",
                             "marginLeft": "auto",
+                            "textAlign": "center",
+                            "textDecorationStyle": "none",
+                            "textTransform": "none",
                           }
                         }
                       >
@@ -1986,6 +2155,19 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                     <div
                       className="css-text-901oao"
                       dir="auto"
+                      style={
+                        Object {
+                          "WebkitTextDecorationStyle": "none",
+                          "color": "rgba(0,0,0,1.00)",
+                          "direction": "ltr",
+                          "fontFamily": "Roboto",
+                          "fontSize": "16px",
+                          "fontWeight": "normal",
+                          "textAlign": "center",
+                          "textDecorationStyle": "none",
+                          "textTransform": "none",
+                        }
+                      }
                     >
                       
 
@@ -2013,8 +2195,14 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                       dir="auto"
                       style={
                         Object {
+                          "WebkitTextDecorationStyle": "none",
                           "color": "rgba(85,85,85,1.00)",
+                          "direction": "ltr",
+                          "fontFamily": "Roboto",
                           "fontSize": "15px",
+                          "fontWeight": "normal",
+                          "textAlign": "center",
+                          "textDecorationStyle": "none",
                           "textTransform": "capitalize",
                         }
                       }
@@ -2024,8 +2212,15 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                         dir="auto"
                         style={
                           Object {
+                            "WebkitTextDecorationStyle": "none",
+                            "color": "rgba(0,0,0,1.00)",
+                            "direction": "ltr",
+                            "fontFamily": "Roboto",
                             "fontSize": "10px",
                             "fontWeight": "500",
+                            "textAlign": "center",
+                            "textDecorationStyle": "none",
+                            "textTransform": "none",
                           }
                         }
                       >
@@ -2037,7 +2232,15 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                         dir="auto"
                         style={
                           Object {
+                            "WebkitTextDecorationStyle": "none",
+                            "color": "rgba(0,0,0,1.00)",
+                            "direction": "ltr",
+                            "fontFamily": "Roboto",
+                            "fontSize": "16px",
                             "fontWeight": "700",
+                            "textAlign": "center",
+                            "textDecorationStyle": "none",
+                            "textTransform": "none",
                           }
                         }
                       >
@@ -2049,9 +2252,15 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                       dir="auto"
                       style={
                         Object {
+                          "WebkitTextDecorationStyle": "none",
                           "color": "rgba(163,163,163,1.00)",
+                          "direction": "ltr",
+                          "fontFamily": "Roboto",
                           "fontSize": "15px",
+                          "fontWeight": "normal",
                           "marginTop": "4px",
+                          "textAlign": "center",
+                          "textDecorationStyle": "none",
                           "textTransform": "capitalize",
                         }
                       }
@@ -2118,11 +2327,15 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                           dir="auto"
                           style={
                             Object {
+                              "WebkitTextDecorationStyle": "none",
                               "color": "rgba(85,85,85,1.00)",
                               "direction": "ltr",
-                              "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                              "fontFamily": "Roboto",
                               "fontSize": "12px",
+                              "fontWeight": "normal",
                               "textAlign": "right",
+                              "textDecorationStyle": "none",
+                              "textTransform": "none",
                             }
                           }
                         >
@@ -2133,11 +2346,15 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                           dir="auto"
                           style={
                             Object {
+                              "WebkitTextDecorationStyle": "none",
                               "color": "rgba(85,85,85,1.00)",
                               "direction": "ltr",
-                              "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                              "fontFamily": "Roboto",
                               "fontSize": "12px",
+                              "fontWeight": "normal",
                               "textAlign": "right",
+                              "textDecorationStyle": "none",
+                              "textTransform": "none",
                             }
                           }
                         >
@@ -2213,9 +2430,16 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                         dir="auto"
                         style={
                           Object {
+                            "WebkitTextDecorationStyle": "none",
                             "color": "rgba(75,75,75,0.80)",
+                            "direction": "ltr",
+                            "fontFamily": "Roboto",
                             "fontSize": "8px",
+                            "fontWeight": "normal",
                             "marginLeft": "auto",
+                            "textAlign": "center",
+                            "textDecorationStyle": "none",
+                            "textTransform": "none",
                           }
                         }
                       >

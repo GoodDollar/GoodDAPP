@@ -502,10 +502,10 @@ exports[`Dashboard matches snapshot 1`] = `
                       "msFlexPack": "justify",
                       "msFlexPositive": 1,
                       "msFlexPreferredSize": "0%",
-                      "paddingBottom": "10px",
-                      "paddingLeft": "10px",
-                      "paddingRight": "10px",
-                      "paddingTop": "10px",
+                      "paddingBottom": "8px",
+                      "paddingLeft": "8px",
+                      "paddingRight": "8px",
+                      "paddingTop": "8px",
                       "width": "100%",
                     }
                   }
@@ -667,10 +667,14 @@ exports[`Dashboard matches snapshot 1`] = `
                         dir="auto"
                         style={
                           Object {
+                            "WebkitTextDecorationStyle": "none",
                             "color": "rgba(85,85,85,1.00)",
+                            "direction": "ltr",
+                            "fontFamily": "Roboto",
                             "fontSize": "24px",
                             "fontWeight": "500",
                             "textAlign": "center",
+                            "textDecorationStyle": "none",
                             "textTransform": "uppercase",
                           }
                         }
@@ -711,11 +715,15 @@ exports[`Dashboard matches snapshot 1`] = `
                           dir="auto"
                           style={
                             Object {
+                              "WebkitTextDecorationStyle": "none",
                               "color": "rgba(85,85,85,1.00)",
                               "direction": "ltr",
-                              "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                              "fontFamily": "Roboto",
                               "fontSize": "30px",
+                              "fontWeight": "normal",
                               "textAlign": "right",
+                              "textDecorationStyle": "none",
+                              "textTransform": "none",
                             }
                           }
                         >
@@ -726,11 +734,15 @@ exports[`Dashboard matches snapshot 1`] = `
                           dir="auto"
                           style={
                             Object {
+                              "WebkitTextDecorationStyle": "none",
                               "color": "rgba(85,85,85,1.00)",
                               "direction": "ltr",
-                              "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                              "fontFamily": "Roboto",
                               "fontSize": "18px",
+                              "fontWeight": "normal",
                               "textAlign": "right",
+                              "textDecorationStyle": "none",
+                              "textTransform": "none",
                             }
                           }
                         >
@@ -885,10 +897,14 @@ exports[`Dashboard matches snapshot 1`] = `
                                   dir="auto"
                                   style={
                                     Object {
+                                      "WebkitTextDecorationStyle": "none",
                                       "color": "rgba(255,255,255,1.00)",
                                       "direction": "ltr",
-                                      "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                                      "textAlign": "left",
+                                      "fontFamily": "Roboto",
+                                      "fontSize": "16px",
+                                      "fontWeight": "normal",
+                                      "textAlign": "center",
+                                      "textDecorationStyle": "none",
                                       "textTransform": "uppercase",
                                     }
                                   }
@@ -1002,9 +1018,14 @@ exports[`Dashboard matches snapshot 1`] = `
                                 dir="auto"
                                 style={
                                   Object {
+                                    "WebkitTextDecorationStyle": "none",
                                     "color": "rgba(255,255,255,1.00)",
+                                    "direction": "ltr",
+                                    "fontFamily": "Roboto",
                                     "fontSize": "16px",
                                     "fontWeight": "bold",
+                                    "textAlign": "center",
+                                    "textDecorationStyle": "none",
                                     "textTransform": "uppercase",
                                   }
                                 }
@@ -1017,9 +1038,14 @@ exports[`Dashboard matches snapshot 1`] = `
                                 dir="auto"
                                 style={
                                   Object {
+                                    "WebkitTextDecorationStyle": "none",
                                     "color": "rgba(213,213,213,1.00)",
+                                    "direction": "ltr",
+                                    "fontFamily": "Roboto",
                                     "fontSize": "10px",
                                     "fontWeight": "bold",
+                                    "textAlign": "center",
+                                    "textDecorationStyle": "none",
                                     "textTransform": "uppercase",
                                   }
                                 }
@@ -1157,10 +1183,14 @@ exports[`Dashboard matches snapshot 1`] = `
                                   dir="auto"
                                   style={
                                     Object {
+                                      "WebkitTextDecorationStyle": "none",
                                       "color": "rgba(255,255,255,1.00)",
                                       "direction": "ltr",
-                                      "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                                      "textAlign": "left",
+                                      "fontFamily": "Roboto",
+                                      "fontSize": "16px",
+                                      "fontWeight": "normal",
+                                      "textAlign": "center",
+                                      "textDecorationStyle": "none",
                                       "textTransform": "uppercase",
                                     }
                                   }

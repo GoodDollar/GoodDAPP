@@ -23,10 +23,14 @@ exports[`Section matches snapshot 1`] = `
     dir="auto"
     style={
       Object {
+        "WebkitTextDecorationStyle": "none",
         "color": "rgba(85,85,85,1.00)",
+        "direction": "ltr",
+        "fontFamily": "Roboto",
         "fontSize": "24px",
         "fontWeight": "500",
         "textAlign": "center",
+        "textDecorationStyle": "none",
         "textTransform": "uppercase",
       }
     }
@@ -58,9 +62,15 @@ exports[`Section matches snapshot 1`] = `
       dir="auto"
       style={
         Object {
+          "WebkitTextDecorationStyle": "none",
           "color": "rgba(85,85,85,1.00)",
+          "direction": "ltr",
+          "fontFamily": "Roboto",
           "fontSize": "14px",
+          "fontWeight": "normal",
           "textAlign": "center",
+          "textDecorationStyle": "none",
+          "textTransform": "none",
         }
       }
     >
@@ -123,10 +133,14 @@ exports[`Section matches snapshot with properties 1`] = `
       dir="auto"
       style={
         Object {
+          "WebkitTextDecorationStyle": "none",
           "color": "rgba(85,85,85,1.00)",
+          "direction": "ltr",
+          "fontFamily": "Roboto",
           "fontSize": "24px",
           "fontWeight": "500",
           "textAlign": "center",
+          "textDecorationStyle": "none",
           "textTransform": "uppercase",
         }
       }
@@ -138,9 +152,15 @@ exports[`Section matches snapshot with properties 1`] = `
       dir="auto"
       style={
         Object {
+          "WebkitTextDecorationStyle": "none",
           "color": "rgba(85,85,85,1.00)",
+          "direction": "ltr",
+          "fontFamily": "Roboto",
           "fontSize": "14px",
+          "fontWeight": "normal",
           "textAlign": "center",
+          "textDecorationStyle": "none",
+          "textTransform": "none",
         }
       }
     >
@@ -172,9 +192,15 @@ exports[`Section matches snapshot with properties 1`] = `
       dir="auto"
       style={
         Object {
+          "WebkitTextDecorationStyle": "none",
           "color": "rgba(85,85,85,1.00)",
+          "direction": "ltr",
+          "fontFamily": "Roboto",
           "fontSize": "14px",
+          "fontWeight": "normal",
           "textAlign": "center",
+          "textDecorationStyle": "none",
+          "textTransform": "none",
         }
       }
     >

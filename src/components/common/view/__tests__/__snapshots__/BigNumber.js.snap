@@ -14,11 +14,15 @@ exports[`BigNumber matches snapshot 1`] = `
     dir="auto"
     style={
       Object {
+        "WebkitTextDecorationStyle": "none",
         "color": "rgba(85,85,85,1.00)",
         "direction": "ltr",
-        "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+        "fontFamily": "Roboto",
         "fontSize": "30px",
+        "fontWeight": "normal",
         "textAlign": "right",
+        "textDecorationStyle": "none",
+        "textTransform": "none",
       }
     }
   >
@@ -29,11 +33,15 @@ exports[`BigNumber matches snapshot 1`] = `
     dir="auto"
     style={
       Object {
+        "WebkitTextDecorationStyle": "none",
         "color": "rgba(85,85,85,1.00)",
         "direction": "ltr",
-        "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+        "fontFamily": "Roboto",
         "fontSize": "18px",
+        "fontWeight": "normal",
         "textAlign": "right",
+        "textDecorationStyle": "none",
+        "textTransform": "none",
       }
     }
   >

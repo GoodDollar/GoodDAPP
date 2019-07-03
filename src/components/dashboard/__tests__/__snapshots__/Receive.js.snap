@@ -79,10 +79,10 @@ exports[`Receive matches snapshot 1`] = `
           "msFlexPack": "justify",
           "msFlexPositive": 1,
           "msFlexPreferredSize": "0%",
-          "paddingBottom": "10px",
-          "paddingLeft": "10px",
-          "paddingRight": "10px",
-          "paddingTop": "10px",
+          "paddingBottom": "8px",
+          "paddingLeft": "8px",
+          "paddingRight": "8px",
+          "paddingTop": "8px",
           "width": "100%",
         }
       }
@@ -308,11 +308,16 @@ exports[`Receive matches snapshot 1`] = `
               dir="auto"
               style={
                 Object {
+                  "WebkitTextDecorationStyle": "none",
                   "color": "rgba(0,0,0,1.00)",
                   "direction": "ltr",
-                  "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                  "fontFamily": "Roboto",
+                  "fontSize": "16px",
+                  "fontWeight": "normal",
                   "marginLeft": "10px",
-                  "textAlign": "left",
+                  "textAlign": "center",
+                  "textDecorationStyle": "none",
+                  "textTransform": "none",
                 }
               }
             >
@@ -321,12 +326,16 @@ exports[`Receive matches snapshot 1`] = `
                 dir="auto"
                 style={
                   Object {
+                    "WebkitTextDecorationStyle": "none",
                     "color": "rgba(0,0,0,1.00)",
                     "direction": "ltr",
                     "display": "inlineBlock",
-                    "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                    "fontFamily": "Roboto",
                     "fontSize": "14px",
-                    "textAlign": "left",
+                    "fontWeight": "normal",
+                    "textAlign": "center",
+                    "textDecorationStyle": "none",
+                    "textTransform": "none",
                   }
                 }
               >
@@ -453,9 +462,15 @@ exports[`Receive matches snapshot 1`] = `
               dir="auto"
               style={
                 Object {
+                  "WebkitTextDecorationStyle": "none",
                   "color": "rgba(85,85,85,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto",
                   "fontSize": "14px",
+                  "fontWeight": "normal",
                   "textAlign": "center",
+                  "textDecorationStyle": "none",
+                  "textTransform": "none",
                 }
               }
             >
@@ -466,10 +481,14 @@ exports[`Receive matches snapshot 1`] = `
               dir="auto"
               style={
                 Object {
+                  "WebkitTextDecorationStyle": "none",
                   "color": "rgba(85,85,85,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto",
                   "fontSize": "24px",
                   "fontWeight": "500",
                   "textAlign": "center",
+                  "textDecorationStyle": "none",
                   "textTransform": "uppercase",
                 }
               }
@@ -477,6 +496,19 @@ exports[`Receive matches snapshot 1`] = `
               <span
                 className="css-text-901oao css-textHasAncestor-16my406"
                 dir="auto"
+                style={
+                  Object {
+                    "WebkitTextDecorationStyle": "none",
+                    "color": "rgba(0,0,0,1.00)",
+                    "direction": "ltr",
+                    "fontFamily": "Roboto",
+                    "fontSize": "16px",
+                    "fontWeight": "normal",
+                    "textAlign": "center",
+                    "textDecorationStyle": "none",
+                    "textTransform": "none",
+                  }
+                }
               >
                 0x5dfF...E35F
               </span>
@@ -618,9 +650,13 @@ exports[`Receive matches snapshot 1`] = `
                       dir="auto"
                       style={
                         Object {
+                          "WebkitTextDecorationStyle": "none",
                           "direction": "ltr",
-                          "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                          "textAlign": "left",
+                          "fontFamily": "Roboto",
+                          "fontSize": "16px",
+                          "fontWeight": "normal",
+                          "textAlign": "center",
+                          "textDecorationStyle": "none",
                           "textTransform": "uppercase",
                         }
                       }
@@ -748,10 +784,14 @@ exports[`Receive matches snapshot 1`] = `
                       dir="auto"
                       style={
                         Object {
+                          "WebkitTextDecorationStyle": "none",
                           "color": "rgba(255,255,255,1.00)",
                           "direction": "ltr",
-                          "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                          "textAlign": "left",
+                          "fontFamily": "Roboto",
+                          "fontSize": "16px",
+                          "fontWeight": "normal",
+                          "textAlign": "center",
+                          "textDecorationStyle": "none",
                           "textTransform": "uppercase",
                         }
                       }

@@ -38,6 +38,19 @@ exports[`ModalReceiveEvent matches snapshot 1`] = `
   <div
     className="css-text-901oao"
     dir="auto"
+    style={
+      Object {
+        "WebkitTextDecorationStyle": "none",
+        "color": "rgba(0,0,0,1.00)",
+        "direction": "ltr",
+        "fontFamily": "Roboto",
+        "fontSize": "16px",
+        "fontWeight": "normal",
+        "textAlign": "center",
+        "textDecorationStyle": "none",
+        "textTransform": "none",
+      }
+    }
   >
     04/01/19 3:03 PM
   </div>
@@ -75,15 +88,21 @@ exports[`ModalReceiveEvent matches snapshot 1`] = `
           "WebkitFlexBasis": "0%",
           "WebkitFlexGrow": 1,
           "WebkitFlexShrink": 1,
+          "WebkitTextDecorationStyle": "none",
           "color": "rgba(0,0,0,1.00)",
+          "direction": "ltr",
           "flexBasis": "0%",
           "flexGrow": 1,
           "flexShrink": 1,
+          "fontFamily": "Roboto",
           "fontSize": "16px",
           "fontWeight": "bold",
           "msFlexNegative": 1,
           "msFlexPositive": 1,
           "msFlexPreferredSize": "0%",
+          "textAlign": "center",
+          "textDecorationStyle": "none",
+          "textTransform": "none",
         }
       }
     >
@@ -102,12 +121,15 @@ exports[`ModalReceiveEvent matches snapshot 1`] = `
         dir="auto"
         style={
           Object {
+            "WebkitTextDecorationStyle": "none",
             "color": "rgba(0,0,0,1.00)",
             "direction": "ltr",
-            "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+            "fontFamily": "Roboto",
             "fontSize": "16px",
             "fontWeight": "bold",
             "textAlign": "right",
+            "textDecorationStyle": "none",
+            "textTransform": "none",
           }
         }
       >
@@ -118,12 +140,15 @@ exports[`ModalReceiveEvent matches snapshot 1`] = `
         dir="auto"
         style={
           Object {
+            "WebkitTextDecorationStyle": "none",
             "color": "rgba(0,0,0,1.00)",
             "direction": "ltr",
-            "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+            "fontFamily": "Roboto",
             "fontSize": "16px",
             "fontWeight": "bold",
             "textAlign": "right",
+            "textDecorationStyle": "none",
+            "textTransform": "none",
           }
         }
       >
@@ -234,7 +259,16 @@ exports[`ModalReceiveEvent matches snapshot 1`] = `
       dir="auto"
       style={
         Object {
+          "WebkitTextDecorationStyle": "none",
+          "color": "rgba(0,0,0,1.00)",
+          "direction": "ltr",
+          "fontFamily": "Roboto",
+          "fontSize": "16px",
+          "fontWeight": "normal",
           "marginLeft": "auto",
+          "textAlign": "center",
+          "textDecorationStyle": "none",
+          "textTransform": "none",
         }
       }
     >
@@ -243,9 +277,16 @@ exports[`ModalReceiveEvent matches snapshot 1`] = `
         dir="auto"
         style={
           Object {
+            "WebkitTextDecorationStyle": "none",
             "color": "rgba(0,0,0,1.00)",
+            "direction": "ltr",
             "display": "inlineBlock",
+            "fontFamily": "Roboto",
             "fontSize": "10px",
+            "fontWeight": "normal",
+            "textAlign": "center",
+            "textDecorationStyle": "none",
+            "textTransform": "none",
           }
         }
       >
@@ -256,9 +297,16 @@ exports[`ModalReceiveEvent matches snapshot 1`] = `
         dir="auto"
         style={
           Object {
+            "WebkitTextDecorationStyle": "none",
             "color": "rgba(0,0,0,1.00)",
+            "direction": "ltr",
             "display": "inlineBlock",
+            "fontFamily": "Roboto",
             "fontSize": "14px",
+            "fontWeight": "normal",
+            "textAlign": "center",
+            "textDecorationStyle": "none",
+            "textTransform": "none",
           }
         }
       >
@@ -281,6 +329,19 @@ exports[`ModalReceiveEvent matches snapshot 1`] = `
   <div
     className="css-text-901oao"
     dir="auto"
+    style={
+      Object {
+        "WebkitTextDecorationStyle": "none",
+        "color": "rgba(0,0,0,1.00)",
+        "direction": "ltr",
+        "fontFamily": "Roboto",
+        "fontSize": "16px",
+        "fontWeight": "normal",
+        "textAlign": "center",
+        "textDecorationStyle": "none",
+        "textTransform": "none",
+      }
+    }
   >
     aaa
   </div>
@@ -430,10 +491,14 @@ exports[`ModalReceiveEvent matches snapshot 1`] = `
                 dir="auto"
                 style={
                   Object {
+                    "WebkitTextDecorationStyle": "none",
                     "color": "rgba(255,255,255,1.00)",
                     "direction": "ltr",
-                    "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                    "textAlign": "left",
+                    "fontFamily": "Roboto",
+                    "fontSize": "16px",
+                    "fontWeight": "normal",
+                    "textAlign": "center",
+                    "textDecorationStyle": "none",
                     "textTransform": "uppercase",
                   }
                 }

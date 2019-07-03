@@ -64,12 +64,16 @@ exports[`PhoneForm matches snapshot 1`] = `
       dir="auto"
       style={
         Object {
+          "WebkitTextDecorationStyle": "none",
           "color": "rgba(85,85,85,1.00)",
           "direction": "ltr",
-          "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+          "fontFamily": "Roboto",
           "fontSize": "24px",
+          "fontWeight": "normal",
           "marginBottom": "30px",
           "textAlign": "center",
+          "textDecorationStyle": "none",
+          "textTransform": "none",
         }
       }
     >
@@ -1656,12 +1660,16 @@ exports[`PhoneForm matches snapshot 1`] = `
       dir="auto"
       style={
         Object {
+          "WebkitTextDecorationStyle": "none",
           "color": "rgba(85,85,85,1.00)",
           "direction": "ltr",
-          "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+          "fontFamily": "Roboto",
           "fontSize": "18px",
+          "fontWeight": "normal",
           "marginTop": "30px",
           "textAlign": "center",
+          "textDecorationStyle": "none",
+          "textTransform": "none",
         }
       }
     >
@@ -1785,9 +1793,10 @@ exports[`PhoneForm matches snapshot 1`] = `
               dir="auto"
               style={
                 Object {
+                  "WebkitTextDecorationStyle": "none",
                   "color": "rgba(255,255,255,1.00)",
                   "direction": "ltr",
-                  "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                  "fontFamily": "Roboto",
                   "fontSize": "18px",
                   "fontWeight": "bold",
                   "paddingBottom": "10px",
@@ -1795,6 +1804,7 @@ exports[`PhoneForm matches snapshot 1`] = `
                   "paddingRight": "10px",
                   "paddingTop": "10px",
                   "textAlign": "center",
+                  "textDecorationStyle": "none",
                   "textTransform": "uppercase",
                 }
               }

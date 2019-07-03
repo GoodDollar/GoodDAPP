@@ -5,8 +5,8 @@ import PaperProvider from 'react-native-paper/src/core/Provider'
 import DefaultTheme from 'react-native-paper/src/styles/DefaultTheme'
 import SimpleStore from './lib/undux/SimpleStore'
 import RouterSelector from './RouterSelector'
-import { SimpleStoreDialog } from './components/common/CustomDialog'
-import LoadingIndicator from './components/common/LoadingIndicator'
+import { SimpleStoreDialog } from './components/common/dialogs/CustomDialog'
+import LoadingIndicator from './components/common/view/LoadingIndicator'
 
 const theme = {
   ...DefaultTheme,

@@ -3,9 +3,6 @@ import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Button as BaseButton, DefaultTheme, Text, withTheme } from 'react-native-paper'
 
-import logger from '../../../lib/logger/pino-logger'
-const log = logger.child({ from: 'CustomButton' })
-
 export type ButtonProps = {
   children: any,
   theme: DefaultTheme,
@@ -54,7 +51,6 @@ const CustomButton = (props: ButtonProps) => {
   const disabled = props.loading || props.disabled
   const dark = mode === 'contained'
   const uppercase = mode !== 'text'
-  log.debug({ theme, mode, disabled, dark, uppercase, props })
 
   return (
     <BaseButton

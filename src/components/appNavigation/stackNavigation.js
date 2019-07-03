@@ -6,7 +6,7 @@ import { createNavigator, Route, SceneView, SwitchRouter } from '@react-navigati
 import SimpleStore from '../../lib/undux/SimpleStore'
 import SideMenuPanel from '../sidemenu/SideMenuPanel'
 import logger from '../../lib/logger/pino-logger'
-import CustomButton from '../common/CustomButton'
+import CustomButton from '../common/buttons/CustomButton'
 import { scrollableContainer } from '../common/styles'
 import NavBar from './NavBar'
 import { navigationOptions } from './navigationConfig'

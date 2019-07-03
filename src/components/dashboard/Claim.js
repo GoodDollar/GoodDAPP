@@ -150,14 +150,24 @@ const Claim = ({ screenProps }: ClaimProps) => {
     <Wrapper>
       <TopBar push={screenProps.push} />
       <Section.Stack grow={3} justifyContent="flex-start">
-        <Text style={styles.description}>GoodDollar allows you to collect</Text>
+        <Text color="surface">GoodDollar allows you to collect</Text>
         <Section.Row justifyContent="center">
-          <Text style={styles.descriptionPunch}>1</Text>
-          <Text style={[styles.descriptionPunch, styles.descriptionPunchCurrency]}> G$</Text>
-          <Text style={[styles.descriptionPunch, styles.noTransform]}> Free</Text>
+          <Text family="slabBold" size={36} color="surface">
+            1
+          </Text>
+          <Text family="slabBold" size={20} color="surface">
+            {' '}
+            G$
+          </Text>
+          <Text family="slabBold" size={36} color="surface">
+            {' '}
+            Free
+          </Text>
         </Section.Row>
         <Section.Row justifyContent="center">
-          <Text style={[styles.descriptionPunch, styles.noTransform]}>Every Day</Text>
+          <Text family="slabBold" size={36} color="surface">
+            Every Day
+          </Text>
         </Section.Row>
       </Section.Stack>
       <Section grow={3} style={styles.extraInfo}>
@@ -178,7 +188,9 @@ const Claim = ({ screenProps }: ClaimProps) => {
         </Section.Row>
         <Section.Stack grow={3} style={styles.extraInfoCountdown} justifyContent="center">
           <Text>Next daily income:</Text>
-          <Text style={styles.extraInfoCountdownClock}>{nextClaim}</Text>
+          <Text family="slabBold" size={36} color="#00c3ae">
+            {nextClaim}
+          </Text>
         </Section.Stack>
         {ClaimButton}
       </Section>
@@ -187,21 +199,14 @@ const Claim = ({ screenProps }: ClaimProps) => {
 }
 
 const styles = StyleSheet.create({
-  description: { fontSize: normalize(16), color: '#ffffff' },
-  descriptionPunch: { fontFamily: 'RobotoSlab-Bold', fontSize: normalize(36), color: '#ffffff' },
-  descriptionPunchCurrency: { fontSize: normalize(20) },
-  noTransform: { textTransform: 'none' },
   extraInfo: { marginBottom: 0, padding: normalize(8), paddingTop: normalize(8), paddingBottom: normalize(8) },
-  valueHighlight: { fontWeight: 'bold', color: '#00afff' },
   extraInfoStats: { backgroundColor: '#e0e0e0', borderRadius: normalize(5) },
-  extraInfoStatsCurrency: { fontSize: normalize(12) },
   extraInfoCountdown: {
     backgroundColor: '#e0e0e0',
     marginTop: normalize(8),
     marginBottom: normalize(16),
     borderRadius: normalize(5)
-  },
-  extraInfoCountdownClock: { fontSize: normalize(36), color: '#00c3ae', fontFamily: 'RobotoSlab-Bold' }
+  }
 })
 
 const claim = GDStore.withStore(Claim)

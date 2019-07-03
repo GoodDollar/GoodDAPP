@@ -263,6 +263,10 @@ export class UserStorage {
     const username = await this.wallet.sign('GoodDollarUser', 'gundb').then(r => r.slice(0, 20))
     const password = await this.wallet.sign('GoodDollarPass', 'gundb').then(r => r.slice(0, 20))
     this.gunuser = this.gun.user()
+    if (this.gunuser.is) {
+      logger.debug('init:', 'logging out first')
+      this.gunuser.leave()
+    }
     return new Promise((res, rej) => {
       this.gunuser.create(username, password, userCreated => {
         logger.debug('gundb user created', userCreated)
@@ -1094,6 +1098,17 @@ export class UserStorage {
 
   getFullProfile(profileNode): Promise<> {
     return this.loadGunField(profileNode)
+  }
+
+  /**
+   * Checks if the current user was already registered to gunDB
+   * @returns {Promise<boolean>|Promise<boolean>}
+   */
+  async userAlreadyExist(): Promise<boolean> {
+    logger.debug('userAlreadyExist', this.profile, await this.profile)
+    const profile = await this.profile
+
+    return !!profile
   }
 
   /**

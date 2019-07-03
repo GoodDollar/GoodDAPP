@@ -9,8 +9,7 @@ import logger from '../../lib/logger/pino-logger'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import { useWrappedGoodWallet } from '../../lib/wallet/useWrappedWallet'
 import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
-import { Avatar, BigGoodDollar, CustomButton, Section, Wrapper } from '../common'
-import TopBar from '../common/TopBar'
+import { Avatar, BigGoodDollar, CustomButton, Section, TopBar, Wrapper } from '../common'
 import { receiveStyles } from './styles'
 
 export type AmountProps = {

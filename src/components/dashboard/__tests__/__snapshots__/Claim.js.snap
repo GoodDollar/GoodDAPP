@@ -9,6 +9,8 @@ exports[`Claim matches snapshot 1`] = `
       "WebkitFlexBasis": "0%",
       "WebkitFlexGrow": 1,
       "WebkitFlexShrink": 1,
+      "backgroundImage": "linear-gradient(to bottom, #00AFFF, #2DC0F7, #28C0EF, #23C0E7, #1EC1DF, #19C1D7, #14C1CF, #0FC2C7, #0FC2C7, #0AC2BF, #05C2B7, #00C3AF)",
+      "display": "flex",
       "flexBasis": "0%",
       "flexGrow": 1,
       "flexShrink": 1,
@@ -22,15 +24,28 @@ exports[`Claim matches snapshot 1`] = `
     className="css-view-1dbjc4n"
     style={
       Object {
+        "WebkitAlignItems": "stretch",
+        "WebkitBoxAlign": "stretch",
+        "WebkitBoxDirection": "normal",
         "WebkitBoxFlex": 1,
+        "WebkitBoxOrient": "horizontal",
+        "WebkitBoxPack": "center",
         "WebkitFlexBasis": "0%",
+        "WebkitFlexDirection": "row",
         "WebkitFlexGrow": 1,
         "WebkitFlexShrink": 1,
+        "WebkitJustifyContent": "center",
+        "alignItems": "stretch",
         "display": "flex",
         "flexBasis": "0%",
+        "flexDirection": "row",
         "flexGrow": 1,
         "flexShrink": 1,
+        "justifyContent": "center",
+        "msFlexAlign": "stretch",
+        "msFlexDirection": "row",
         "msFlexNegative": 1,
+        "msFlexPack": "center",
         "msFlexPositive": 1,
         "msFlexPreferredSize": "0%",
       }
@@ -44,26 +59,31 @@ exports[`Claim matches snapshot 1`] = `
           "WebkitBoxAlign": "stretch",
           "WebkitBoxDirection": "normal",
           "WebkitBoxFlex": 1,
-          "WebkitBoxOrient": "horizontal",
-          "WebkitBoxPack": "center",
+          "WebkitBoxOrient": "vertical",
+          "WebkitBoxPack": "justify",
           "WebkitFlexBasis": "0%",
-          "WebkitFlexDirection": "row",
+          "WebkitFlexDirection": "column",
           "WebkitFlexGrow": 1,
           "WebkitFlexShrink": 1,
-          "WebkitJustifyContent": "center",
+          "WebkitJustifyContent": "space-between",
           "alignItems": "stretch",
           "display": "flex",
           "flexBasis": "0%",
-          "flexDirection": "row",
+          "flexDirection": "column",
           "flexGrow": 1,
           "flexShrink": 1,
-          "justifyContent": "center",
+          "justifyContent": "space-between",
           "msFlexAlign": "stretch",
-          "msFlexDirection": "row",
+          "msFlexDirection": "column",
           "msFlexNegative": 1,
-          "msFlexPack": "center",
+          "msFlexPack": "justify",
           "msFlexPositive": 1,
           "msFlexPreferredSize": "0%",
+          "paddingBottom": "10px",
+          "paddingLeft": "10px",
+          "paddingRight": "10px",
+          "paddingTop": "10px",
+          "width": "100%",
         }
       }
     >
@@ -71,35 +91,16 @@ exports[`Claim matches snapshot 1`] = `
         className="css-view-1dbjc4n"
         style={
           Object {
-            "WebkitAlignItems": "stretch",
-            "WebkitBoxAlign": "stretch",
-            "WebkitBoxDirection": "normal",
-            "WebkitBoxFlex": 1,
-            "WebkitBoxOrient": "vertical",
-            "WebkitBoxPack": "justify",
-            "WebkitFlexBasis": "0%",
-            "WebkitFlexDirection": "column",
-            "WebkitFlexGrow": 1,
-            "WebkitFlexShrink": 1,
-            "WebkitJustifyContent": "space-between",
-            "alignItems": "stretch",
-            "display": "flex",
-            "flexBasis": "0%",
-            "flexDirection": "column",
-            "flexGrow": 1,
-            "flexShrink": 1,
-            "justifyContent": "space-between",
-            "msFlexAlign": "stretch",
-            "msFlexDirection": "column",
-            "msFlexNegative": 1,
-            "msFlexPack": "justify",
-            "msFlexPositive": 1,
-            "msFlexPreferredSize": "0%",
-            "paddingBottom": "1rem",
-            "paddingLeft": "1rem",
-            "paddingRight": "1rem",
-            "paddingTop": "1rem",
-            "width": "100%",
+            "backgroundColor": "rgba(255,255,255,1.00)",
+            "borderBottomLeftRadius": "5px",
+            "borderBottomRightRadius": "5px",
+            "borderTopLeftRadius": "5px",
+            "borderTopRightRadius": "5px",
+            "marginBottom": "15px",
+            "paddingBottom": "15px",
+            "paddingLeft": "10px",
+            "paddingRight": "10px",
+            "paddingTop": "15px",
           }
         }
       >
@@ -107,18 +108,375 @@ exports[`Claim matches snapshot 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
-              "backgroundColor": "rgba(238,238,239,1.00)",
-              "borderBottomLeftRadius": "5px",
-              "borderBottomRightRadius": "5px",
-              "borderTopLeftRadius": "5px",
-              "borderTopRightRadius": "5px",
-              "marginBottom": "15px",
-              "paddingBottom": "15px",
-              "paddingLeft": "10px",
-              "paddingRight": "10px",
-              "paddingTop": "15px",
+              "WebkitAlignItems": "center",
+              "WebkitBoxAlign": "center",
+              "WebkitBoxDirection": "normal",
+              "WebkitBoxOrient": "horizontal",
+              "WebkitBoxPack": "justify",
+              "WebkitFlexDirection": "row",
+              "WebkitJustifyContent": "space-between",
+              "alignItems": "center",
+              "flexDirection": "row",
+              "justifyContent": "space-between",
+              "msFlexAlign": "center",
+              "msFlexDirection": "row",
+              "msFlexPack": "justify",
             }
           }
+        >
+          <div
+            aria-disabled={true}
+            className="css-view-1dbjc4n"
+            disabled={true}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Object {
+                "MozTransitionProperty": "opacity",
+                "MozUserSelect": "none",
+                "WebkitTransitionDuration": "0.15s",
+                "WebkitTransitionProperty": "opacity",
+                "WebkitUserSelect": "none",
+                "backgroundColor": "rgba(0,0,0,0.00)",
+                "msUserSelect": "none",
+                "transitionDuration": "0.15s",
+                "transitionProperty": "opacity",
+                "userSelect": "none",
+              }
+            }
+          >
+            <div
+              className="css-view-1dbjc4n"
+              style={
+                Object {
+                  "backgroundColor": "rgba(255,255,255,1.00)",
+                  "borderBottomColor": "rgba(112,112,112,1.00)",
+                  "borderBottomLeftRadius": "17px",
+                  "borderBottomRightRadius": "17px",
+                  "borderBottomWidth": "1px",
+                  "borderLeftColor": "rgba(112,112,112,1.00)",
+                  "borderLeftWidth": "1px",
+                  "borderRightColor": "rgba(112,112,112,1.00)",
+                  "borderRightWidth": "1px",
+                  "borderTopColor": "rgba(112,112,112,1.00)",
+                  "borderTopLeftRadius": "17px",
+                  "borderTopRightRadius": "17px",
+                  "borderTopWidth": "1px",
+                  "height": "34px",
+                  "width": "34px",
+                }
+              }
+            >
+              <div
+                className="css-view-1dbjc4n"
+                style={
+                  Object {
+                    "WebkitFlexBasis": "auto",
+                    "borderBottomLeftRadius": "17px",
+                    "borderBottomRightRadius": "17px",
+                    "borderTopLeftRadius": "17px",
+                    "borderTopRightRadius": "17px",
+                    "flexBasis": "auto",
+                    "height": "34px",
+                    "msFlexPreferredSize": "auto",
+                    "overflowX": "hidden",
+                    "overflowY": "hidden",
+                    "width": "34px",
+                    "zIndex": 0,
+                  }
+                }
+              >
+                <div
+                  className="css-view-1dbjc4n"
+                  style={
+                    Object {
+                      "backgroundColor": "rgba(0,0,0,0.00)",
+                      "backgroundPosition": "center",
+                      "backgroundRepeat": "no-repeat",
+                      "backgroundSize": "cover",
+                      "bottom": "0px",
+                      "height": "100%",
+                      "left": "0px",
+                      "position": "absolute",
+                      "right": "0px",
+                      "top": "0px",
+                      "width": "100%",
+                      "zIndex": -1,
+                    }
+                  }
+                />
+              </div>
+            </div>
+          </div>
+          <div
+            className="css-view-1dbjc4n"
+            style={
+              Object {
+                "display": "inline-block",
+              }
+            }
+          >
+            <div
+              className="css-text-901oao"
+              dir="auto"
+              style={
+                Object {
+                  "color": "rgba(85,85,85,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                  "fontSize": "30px",
+                  "textAlign": "right",
+                }
+              }
+            >
+              -.--
+            </div>
+            <div
+              className="css-text-901oao"
+              dir="auto"
+              style={
+                Object {
+                  "color": "rgba(85,85,85,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                  "fontSize": "18px",
+                  "textAlign": "right",
+                }
+              }
+            >
+              G$
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="css-view-1dbjc4n"
+        style={
+          Object {
+            "WebkitBoxFlex": 1,
+            "WebkitBoxPack": "center",
+            "WebkitFlexGrow": 1,
+            "WebkitJustifyContent": "center",
+            "borderBottomLeftRadius": "5px",
+            "borderBottomRightRadius": "5px",
+            "borderTopLeftRadius": "5px",
+            "borderTopRightRadius": "5px",
+            "flexGrow": 1,
+            "justifyContent": "center",
+            "marginBottom": "15px",
+            "msFlexPack": "center",
+            "msFlexPositive": 1,
+            "paddingBottom": "15px",
+            "paddingLeft": "10px",
+            "paddingRight": "10px",
+            "paddingTop": "15px",
+          }
+        }
+      >
+        <div
+          className="css-text-901oao"
+          dir="auto"
+          style={
+            Object {
+              "color": "rgba(85,85,85,1.00)",
+              "fontSize": "14px",
+              "textAlign": "center",
+            }
+          }
+        >
+          GoodDollar allows you to collect
+        </div>
+        <div
+          className="css-text-901oao"
+          dir="auto"
+          style={
+            Object {
+              "color": "rgba(85,85,85,1.00)",
+              "fontSize": "14px",
+              "textAlign": "center",
+            }
+          }
+        >
+          <span
+            className="css-text-901oao css-textHasAncestor-16my406"
+            dir="auto"
+          >
+            G$s
+          </span>
+          <span
+            className="css-text-901oao css-textHasAncestor-16my406"
+            dir="auto"
+            style={
+              Object {
+                "fontSize": "20px",
+              }
+            }
+          >
+             every day
+          </span>
+        </div>
+      </div>
+      <div
+        className="css-view-1dbjc4n"
+        style={
+          Object {
+            "WebkitBoxPack": "center",
+            "WebkitJustifyContent": "center",
+            "backgroundColor": "rgba(255,255,255,1.00)",
+            "borderBottomLeftRadius": "5px",
+            "borderBottomRightRadius": "5px",
+            "borderTopLeftRadius": "5px",
+            "borderTopRightRadius": "5px",
+            "justifyContent": "center",
+            "marginBottom": "15px",
+            "msFlexPack": "center",
+            "paddingBottom": "15px",
+            "paddingLeft": "10px",
+            "paddingRight": "10px",
+            "paddingTop": "15px",
+          }
+        }
+      >
+        <div
+          className="css-text-901oao"
+          dir="auto"
+          style={
+            Object {
+              "color": "rgba(85,85,85,1.00)",
+              "fontSize": "14px",
+              "textAlign": "center",
+            }
+          }
+        >
+          
+           PEOPLE CLAIMED 
+          
+           G$ TODAY!
+        </div>
+      </div>
+      <div
+        className="css-view-1dbjc4n"
+        style={
+          Object {
+            "WebkitBoxPack": "center",
+            "WebkitJustifyContent": "center",
+            "backgroundColor": "rgba(255,255,255,1.00)",
+            "borderBottomLeftRadius": "5px",
+            "borderBottomRightRadius": "5px",
+            "borderTopLeftRadius": "5px",
+            "borderTopRightRadius": "5px",
+            "justifyContent": "center",
+            "marginBottom": "15px",
+            "msFlexPack": "center",
+            "paddingBottom": "15px",
+            "paddingLeft": "10px",
+            "paddingRight": "10px",
+            "paddingTop": "15px",
+          }
+        }
+      >
+        <div
+          className="css-text-901oao"
+          dir="auto"
+          style={
+            Object {
+              "color": "rgba(85,85,85,1.00)",
+              "fontFamily": "Roboto, Regular",
+              "fontSize": "18px",
+              "textAlign": "center",
+              "textTransform": "uppercase",
+            }
+          }
+        >
+          Next daily income:
+        </div>
+        <div
+          className="css-text-901oao"
+          dir="auto"
+          style={
+            Object {
+              "color": "rgba(85,85,85,1.00)",
+              "fontFamily": "Roboto, Medium",
+              "fontSize": "36px",
+              "textAlign": "center",
+            }
+          }
+        >
+          23:59:59
+        </div>
+      </div>
+      <div
+        className="css-view-1dbjc4n"
+        style={
+          Object {
+            "WebkitBoxFlex": 0,
+            "WebkitBoxPack": "center",
+            "WebkitFlexGrow": 0,
+            "WebkitFlexShrink": 1,
+            "WebkitJustifyContent": "center",
+            "backgroundColor": "rgba(98,0,238,1.00)",
+            "borderBottomColor": "rgba(0,0,0,0.00)",
+            "borderBottomLeftRadius": "50px",
+            "borderBottomRightRadius": "50px",
+            "borderBottomStyle": "solid",
+            "borderBottomWidth": "0px",
+            "borderLeftColor": "rgba(0,0,0,0.00)",
+            "borderLeftStyle": "solid",
+            "borderLeftWidth": "0px",
+            "borderRightColor": "rgba(0,0,0,0.00)",
+            "borderRightStyle": "solid",
+            "borderRightWidth": "0px",
+            "borderTopColor": "rgba(0,0,0,0.00)",
+            "borderTopLeftRadius": "50px",
+            "borderTopRightRadius": "50px",
+            "borderTopStyle": "solid",
+            "borderTopWidth": "0px",
+            "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
+            "flexGrow": 0,
+            "flexShrink": 1,
+            "justifyContent": "center",
+            "minWidth": "auto",
+            "msFlexNegative": 1,
+            "msFlexPack": "center",
+            "msFlexPositive": 0,
+          }
+        }
+      >
+        <div
+          className="css-cursor-18t94o4 css-view-1dbjc4n"
+          data-focusable={true}
+          disabled={false}
+          onKeyDown={[Function]}
+          onKeyPress={[Function]}
+          onKeyUp={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          role="button"
+          style={
+            Object {
+              "borderBottomLeftRadius": "50px",
+              "borderBottomRightRadius": "50px",
+              "borderTopLeftRadius": "50px",
+              "borderTopRightRadius": "50px",
+              "cursor": "pointer",
+              "msTouchAction": "manipulation",
+              "overflowX": "hidden",
+              "overflowY": "hidden",
+              "position": "relative",
+              "touchAction": "manipulation",
+            }
+          }
+          tabIndex="0"
         >
           <div
             className="css-view-1dbjc4n"
@@ -128,42 +486,32 @@ exports[`Claim matches snapshot 1`] = `
                 "WebkitBoxAlign": "center",
                 "WebkitBoxDirection": "normal",
                 "WebkitBoxOrient": "horizontal",
-                "WebkitBoxPack": "justify",
+                "WebkitBoxPack": "center",
                 "WebkitFlexDirection": "row",
-                "WebkitJustifyContent": "space-between",
+                "WebkitJustifyContent": "center",
                 "alignItems": "center",
                 "flexDirection": "row",
-                "justifyContent": "space-between",
+                "justifyContent": "center",
                 "msFlexAlign": "center",
                 "msFlexDirection": "row",
-                "msFlexPack": "justify",
+                "msFlexPack": "center",
               }
             }
           >
             <div
-              aria-disabled={true}
-              className="css-view-1dbjc4n"
-              disabled={true}
-              onKeyDown={[Function]}
-              onKeyUp={[Function]}
-              onResponderGrant={[Function]}
-              onResponderMove={[Function]}
-              onResponderRelease={[Function]}
-              onResponderTerminate={[Function]}
-              onResponderTerminationRequest={[Function]}
-              onStartShouldSetResponder={[Function]}
+              className="css-text-901oao css-textOneLine-bfa6kz"
+              dir="auto"
               style={
                 Object {
-                  "MozTransitionProperty": "opacity",
-                  "MozUserSelect": "none",
-                  "WebkitTransitionDuration": "0.15s",
-                  "WebkitTransitionProperty": "opacity",
-                  "WebkitUserSelect": "none",
-                  "backgroundColor": "rgba(0,0,0,0.00)",
-                  "msUserSelect": "none",
-                  "transitionDuration": "0.15s",
-                  "transitionProperty": "opacity",
-                  "userSelect": "none",
+                  "color": "rgba(255,255,255,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                  "letterSpacing": "1px",
+                  "marginBottom": "9px",
+                  "marginLeft": "8px",
+                  "marginRight": "8px",
+                  "marginTop": "9px",
+                  "textAlign": "center",
                 }
               }
             >
@@ -171,363 +519,12 @@ exports[`Claim matches snapshot 1`] = `
                 className="css-view-1dbjc4n"
                 style={
                   Object {
-                    "backgroundColor": "rgba(255,255,255,1.00)",
-                    "borderBottomColor": "rgba(112,112,112,1.00)",
-                    "borderBottomLeftRadius": "17px",
-                    "borderBottomRightRadius": "17px",
-                    "borderBottomWidth": "1px",
-                    "borderLeftColor": "rgba(112,112,112,1.00)",
-                    "borderLeftWidth": "1px",
-                    "borderRightColor": "rgba(112,112,112,1.00)",
-                    "borderRightWidth": "1px",
-                    "borderTopColor": "rgba(112,112,112,1.00)",
-                    "borderTopLeftRadius": "17px",
-                    "borderTopRightRadius": "17px",
-                    "borderTopWidth": "1px",
-                    "height": "34px",
-                    "width": "34px",
-                  }
-                }
-              >
-                <div
-                  className="css-view-1dbjc4n"
-                  style={
-                    Object {
-                      "WebkitFlexBasis": "auto",
-                      "borderBottomLeftRadius": "17px",
-                      "borderBottomRightRadius": "17px",
-                      "borderTopLeftRadius": "17px",
-                      "borderTopRightRadius": "17px",
-                      "flexBasis": "auto",
-                      "height": "34px",
-                      "msFlexPreferredSize": "auto",
-                      "overflowX": "hidden",
-                      "overflowY": "hidden",
-                      "width": "34px",
-                      "zIndex": 0,
-                    }
-                  }
-                >
-                  <div
-                    className="css-view-1dbjc4n"
-                    style={
-                      Object {
-                        "backgroundColor": "rgba(0,0,0,0.00)",
-                        "backgroundPosition": "center",
-                        "backgroundRepeat": "no-repeat",
-                        "backgroundSize": "cover",
-                        "bottom": "0px",
-                        "height": "100%",
-                        "left": "0px",
-                        "position": "absolute",
-                        "right": "0px",
-                        "top": "0px",
-                        "width": "100%",
-                        "zIndex": -1,
-                      }
-                    }
-                  />
-                </div>
-              </div>
-            </div>
-            <div
-              className="css-view-1dbjc4n"
-              style={
-                Object {
-                  "display": "inline-block",
-                }
-              }
-            >
-              <div
-                className="css-text-901oao"
-                dir="auto"
-                style={
-                  Object {
-                    "color": "rgba(85,85,85,1.00)",
-                    "direction": "ltr",
-                    "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                    "fontSize": "30px",
-                    "textAlign": "right",
-                  }
-                }
-              >
-                -.--
-              </div>
-              <div
-                className="css-text-901oao"
-                dir="auto"
-                style={
-                  Object {
-                    "color": "rgba(85,85,85,1.00)",
-                    "direction": "ltr",
-                    "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                    "fontSize": "18px",
-                    "textAlign": "right",
-                  }
-                }
-              >
-                G$
-              </div>
-            </div>
-          </div>
-        </div>
-        <div
-          className="css-view-1dbjc4n"
-          style={
-            Object {
-              "WebkitBoxFlex": 1,
-              "WebkitBoxPack": "center",
-              "WebkitFlexGrow": 1,
-              "WebkitJustifyContent": "center",
-              "borderBottomLeftRadius": "5px",
-              "borderBottomRightRadius": "5px",
-              "borderTopLeftRadius": "5px",
-              "borderTopRightRadius": "5px",
-              "flexGrow": 1,
-              "justifyContent": "center",
-              "marginBottom": "15px",
-              "msFlexPack": "center",
-              "msFlexPositive": 1,
-              "paddingBottom": "15px",
-              "paddingLeft": "10px",
-              "paddingRight": "10px",
-              "paddingTop": "15px",
-            }
-          }
-        >
-          <div
-            className="css-text-901oao"
-            dir="auto"
-            style={
-              Object {
-                "color": "rgba(85,85,85,1.00)",
-                "fontSize": "14px",
-                "textAlign": "center",
-              }
-            }
-          >
-            GoodDollar allows you to collect
-          </div>
-          <div
-            className="css-text-901oao"
-            dir="auto"
-            style={
-              Object {
-                "color": "rgba(85,85,85,1.00)",
-                "fontSize": "14px",
-                "textAlign": "center",
-              }
-            }
-          >
-            <span
-              className="css-text-901oao css-textHasAncestor-16my406"
-              dir="auto"
-            >
-              G$s
-            </span>
-            <span
-              className="css-text-901oao css-textHasAncestor-16my406"
-              dir="auto"
-              style={
-                Object {
-                  "fontSize": "20px",
-                }
-              }
-            >
-               every day
-            </span>
-          </div>
-        </div>
-        <div
-          className="css-view-1dbjc4n"
-          style={
-            Object {
-              "WebkitBoxPack": "center",
-              "WebkitJustifyContent": "center",
-              "backgroundColor": "rgba(238,238,239,1.00)",
-              "borderBottomLeftRadius": "5px",
-              "borderBottomRightRadius": "5px",
-              "borderTopLeftRadius": "5px",
-              "borderTopRightRadius": "5px",
-              "justifyContent": "center",
-              "marginBottom": "15px",
-              "msFlexPack": "center",
-              "paddingBottom": "15px",
-              "paddingLeft": "10px",
-              "paddingRight": "10px",
-              "paddingTop": "15px",
-            }
-          }
-        >
-          <div
-            className="css-text-901oao"
-            dir="auto"
-            style={
-              Object {
-                "color": "rgba(85,85,85,1.00)",
-                "fontSize": "14px",
-                "textAlign": "center",
-              }
-            }
-          >
-            
-             PEOPLE CLAIMED 
-            
-             G$ TODAY!
-          </div>
-        </div>
-        <div
-          className="css-view-1dbjc4n"
-          style={
-            Object {
-              "WebkitBoxPack": "center",
-              "WebkitJustifyContent": "center",
-              "backgroundColor": "rgba(238,238,239,1.00)",
-              "borderBottomLeftRadius": "5px",
-              "borderBottomRightRadius": "5px",
-              "borderTopLeftRadius": "5px",
-              "borderTopRightRadius": "5px",
-              "justifyContent": "center",
-              "marginBottom": "15px",
-              "msFlexPack": "center",
-              "paddingBottom": "15px",
-              "paddingLeft": "10px",
-              "paddingRight": "10px",
-              "paddingTop": "15px",
-            }
-          }
-        >
-          <div
-            className="css-text-901oao"
-            dir="auto"
-            style={
-              Object {
-                "color": "rgba(85,85,85,1.00)",
-                "fontFamily": "Roboto, Regular",
-                "fontSize": "18px",
-                "textAlign": "center",
-                "textTransform": "uppercase",
-              }
-            }
-          >
-            Next daily income:
-          </div>
-          <div
-            className="css-text-901oao"
-            dir="auto"
-            style={
-              Object {
-                "color": "rgba(85,85,85,1.00)",
-                "fontFamily": "Roboto, Medium",
-                "fontSize": "36px",
-                "textAlign": "center",
-              }
-            }
-          >
-            23:59:59
-          </div>
-        </div>
-        <div
-          className="css-view-1dbjc4n"
-          style={
-            Object {
-              "WebkitBoxFlex": 0,
-              "WebkitBoxPack": "center",
-              "WebkitFlexGrow": 0,
-              "WebkitFlexShrink": 1,
-              "WebkitJustifyContent": "center",
-              "backgroundColor": "rgba(85,85,85,1.00)",
-              "borderBottomColor": "rgba(0,0,0,0.00)",
-              "borderBottomLeftRadius": "4px",
-              "borderBottomRightRadius": "4px",
-              "borderBottomStyle": "solid",
-              "borderBottomWidth": "0px",
-              "borderLeftColor": "rgba(0,0,0,0.00)",
-              "borderLeftStyle": "solid",
-              "borderLeftWidth": "0px",
-              "borderRightColor": "rgba(0,0,0,0.00)",
-              "borderRightStyle": "solid",
-              "borderRightWidth": "0px",
-              "borderTopColor": "rgba(0,0,0,0.00)",
-              "borderTopLeftRadius": "4px",
-              "borderTopRightRadius": "4px",
-              "borderTopStyle": "solid",
-              "borderTopWidth": "0px",
-              "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
-              "flexGrow": 0,
-              "flexShrink": 1,
-              "justifyContent": "center",
-              "minWidth": "auto",
-              "msFlexNegative": 1,
-              "msFlexPack": "center",
-              "msFlexPositive": 0,
-            }
-          }
-        >
-          <div
-            className="css-cursor-18t94o4 css-view-1dbjc4n"
-            data-focusable={true}
-            disabled={false}
-            onKeyDown={[Function]}
-            onKeyPress={[Function]}
-            onKeyUp={[Function]}
-            onResponderGrant={[Function]}
-            onResponderMove={[Function]}
-            onResponderRelease={[Function]}
-            onResponderTerminate={[Function]}
-            onResponderTerminationRequest={[Function]}
-            onStartShouldSetResponder={[Function]}
-            role="button"
-            style={
-              Object {
-                "borderBottomLeftRadius": "4px",
-                "borderBottomRightRadius": "4px",
-                "borderTopLeftRadius": "4px",
-                "borderTopRightRadius": "4px",
-                "cursor": "pointer",
-                "msTouchAction": "manipulation",
-                "overflowX": "hidden",
-                "overflowY": "hidden",
-                "position": "relative",
-                "touchAction": "manipulation",
-              }
-            }
-            tabIndex="0"
-          >
-            <div
-              className="css-view-1dbjc4n"
-              style={
-                Object {
-                  "WebkitAlignItems": "center",
-                  "WebkitBoxAlign": "center",
-                  "WebkitBoxDirection": "normal",
-                  "WebkitBoxOrient": "horizontal",
-                  "WebkitBoxPack": "center",
-                  "WebkitFlexDirection": "row",
-                  "WebkitJustifyContent": "center",
-                  "alignItems": "center",
-                  "flexDirection": "row",
-                  "justifyContent": "center",
-                  "msFlexAlign": "center",
-                  "msFlexDirection": "row",
-                  "msFlexPack": "center",
-                }
-              }
-            >
-              <div
-                className="css-text-901oao css-textOneLine-bfa6kz"
-                dir="auto"
-                style={
-                  Object {
-                    "color": "rgba(255,255,255,1.00)",
-                    "direction": "ltr",
-                    "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                    "letterSpacing": "1px",
-                    "marginBottom": "9px",
-                    "marginLeft": "8px",
-                    "marginRight": "8px",
-                    "marginTop": "9px",
-                    "textAlign": "center",
+                    "WebkitBoxPack": "center",
+                    "WebkitJustifyContent": "center",
+                    "display": "inline-flex",
+                    "justifyContent": "center",
+                    "minHeight": "34px",
+                    "msFlexPack": "center",
                   }
                 }
               >
@@ -536,15 +533,10 @@ exports[`Claim matches snapshot 1`] = `
                   dir="auto"
                   style={
                     Object {
+                      "color": "rgba(255,255,255,1.00)",
                       "direction": "ltr",
                       "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                      "fontSize": "18px",
-                      "fontWeight": "bold",
-                      "paddingBottom": "0px",
-                      "paddingLeft": "0px",
-                      "paddingRight": "0px",
-                      "paddingTop": "0px",
-                      "textAlign": "center",
+                      "textAlign": "left",
                       "textTransform": "uppercase",
                     }
                   }
@@ -555,10 +547,10 @@ exports[`Claim matches snapshot 1`] = `
             </div>
           </div>
         </div>
-        <div
-          className="css-view-1dbjc4n"
-        />
       </div>
+      <div
+        className="css-view-1dbjc4n"
+      />
     </div>
   </div>
 </div>

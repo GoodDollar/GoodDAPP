@@ -1,13 +1,12 @@
 // @flow
 import React, { Component, useEffect, useState } from 'react'
 import { ScrollView, View } from 'react-native'
-import { Button } from 'react-native-paper'
 import SideMenu from 'react-native-side-menu'
 import { createNavigator, Route, SceneView, SwitchRouter } from '@react-navigation/core'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import SideMenuPanel from '../sidemenu/SideMenuPanel'
 import logger from '../../lib/logger/pino-logger'
-import CustomButton from '../common/CustomButton'
+import CustomButton from '../common/buttons/CustomButton'
 import { scrollableContainer } from '../common/styles'
 import NavBar from './NavBar'
 import { navigationOptions } from './navigationConfig'
@@ -287,19 +286,19 @@ type BackButtonProps = {
  * @param {ButtonProps} props
  */
 export const BackButton = (props: BackButtonProps) => {
-  const { disabled, screenProps, children, mode, color, style } = props
+  const { disabled, screenProps, children, mode, color } = props
 
   return (
-    <Button
+    <CustomButton
+      {...props}
       compact={true}
       mode={mode || 'text'}
-      color={color || '#575757'}
-      style={style}
+      color={color || '#A3A3A3'}
       disabled={disabled}
       onPress={screenProps.goToParent}
     >
       {children}
-    </Button>
+    </CustomButton>
   )
 }
 
@@ -315,16 +314,10 @@ type DoneButtonProps = {
  * @param {ButtonProps} props
  */
 export const DoneButton = (props: DoneButtonProps) => {
-  const { disabled, screenProps, children, mode, color, style } = props
+  const { screenProps, children, mode, color } = props
 
   return (
-    <CustomButton
-      mode={mode || 'outlined'}
-      color={color || '#575757'}
-      style={style}
-      disabled={disabled}
-      onPress={screenProps.goToRoot}
-    >
+    <CustomButton {...props} mode={mode || 'outlined'} color={color || 'red'} onPress={screenProps.goToRoot}>
       {children || 'Done'}
     </CustomButton>
   )

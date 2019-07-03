@@ -320,10 +320,10 @@ exports[`ModalReceiveEvent matches snapshot 1`] = `
         Object {
           "WebkitBoxPack": "center",
           "WebkitJustifyContent": "center",
-          "backgroundColor": "rgba(85,85,85,1.00)",
+          "backgroundColor": "rgba(98,0,238,1.00)",
           "borderBottomColor": "rgba(0,0,0,0.00)",
-          "borderBottomLeftRadius": "4px",
-          "borderBottomRightRadius": "4px",
+          "borderBottomLeftRadius": "50px",
+          "borderBottomRightRadius": "50px",
           "borderBottomStyle": "solid",
           "borderBottomWidth": "0px",
           "borderLeftColor": "rgba(0,0,0,0.00)",
@@ -333,8 +333,8 @@ exports[`ModalReceiveEvent matches snapshot 1`] = `
           "borderRightStyle": "solid",
           "borderRightWidth": "0px",
           "borderTopColor": "rgba(0,0,0,0.00)",
-          "borderTopLeftRadius": "4px",
-          "borderTopRightRadius": "4px",
+          "borderTopLeftRadius": "50px",
+          "borderTopRightRadius": "50px",
           "borderTopStyle": "solid",
           "borderTopWidth": "0px",
           "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
@@ -361,10 +361,10 @@ exports[`ModalReceiveEvent matches snapshot 1`] = `
         role="button"
         style={
           Object {
-            "borderBottomLeftRadius": "4px",
-            "borderBottomRightRadius": "4px",
-            "borderTopLeftRadius": "4px",
-            "borderTopRightRadius": "4px",
+            "borderBottomLeftRadius": "50px",
+            "borderBottomRightRadius": "50px",
+            "borderTopLeftRadius": "50px",
+            "borderTopRightRadius": "50px",
             "cursor": "pointer",
             "msTouchAction": "manipulation",
             "overflowX": "hidden",
@@ -412,26 +412,35 @@ exports[`ModalReceiveEvent matches snapshot 1`] = `
               }
             }
           >
-            <span
-              className="css-text-901oao css-textHasAncestor-16my406"
-              dir="auto"
+            <div
+              className="css-view-1dbjc4n"
               style={
                 Object {
-                  "direction": "ltr",
-                  "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                  "fontSize": "18px",
-                  "fontWeight": "bold",
-                  "paddingBottom": "0px",
-                  "paddingLeft": "0px",
-                  "paddingRight": "0px",
-                  "paddingTop": "0px",
-                  "textAlign": "center",
-                  "textTransform": "uppercase",
+                  "WebkitBoxPack": "center",
+                  "WebkitJustifyContent": "center",
+                  "display": "inline-flex",
+                  "justifyContent": "center",
+                  "minHeight": "34px",
+                  "msFlexPack": "center",
                 }
               }
             >
-              OK
-            </span>
+              <span
+                className="css-text-901oao css-textHasAncestor-16my406"
+                dir="auto"
+                style={
+                  Object {
+                    "color": "rgba(255,255,255,1.00)",
+                    "direction": "ltr",
+                    "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                    "textAlign": "left",
+                    "textTransform": "uppercase",
+                  }
+                }
+              >
+                OK
+              </span>
+            </div>
           </div>
         </div>
       </div>

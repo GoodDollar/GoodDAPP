@@ -139,14 +139,14 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
               dir="auto"
               style={
                 Object {
-                  "WebkitTextDecorationStyle": "none",
                   "color": "rgba(0,0,0,1.00)",
                   "direction": "ltr",
                   "fontFamily": "Roboto",
                   "fontSize": "18px",
                   "fontWeight": "normal",
+                  "lineHeight": "22px",
                   "textAlign": "center",
-                  "textDecorationStyle": "none",
+                  "textDecoration": "none",
                   "textTransform": "none",
                 }
               }
@@ -248,16 +248,16 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                 Object {
                   "WebkitBoxFlex": 2,
                   "WebkitFlexGrow": 2,
-                  "WebkitTextDecorationStyle": "none",
                   "color": "rgba(0,0,0,1.00)",
                   "direction": "ltr",
                   "flexGrow": 2,
                   "fontFamily": "Roboto",
                   "fontSize": "16px",
                   "fontWeight": "normal",
+                  "lineHeight": "22px",
                   "msFlexPositive": 2,
                   "textAlign": "center",
-                  "textDecorationStyle": "none",
+                  "textDecoration": "none",
                   "textTransform": "none",
                 }
               }
@@ -281,14 +281,14 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                 dir="auto"
                 style={
                   Object {
-                    "WebkitTextDecorationStyle": "none",
                     "color": "rgba(0,0,0,1.00)",
                     "direction": "ltr",
                     "fontFamily": "Roboto",
                     "fontSize": "16px",
                     "fontWeight": "normal",
+                    "lineHeight": "22px",
                     "textAlign": "center",
-                    "textDecorationStyle": "none",
+                    "textDecoration": "none",
                     "textTransform": "none",
                   }
                 }
@@ -313,14 +313,14 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                 dir="auto"
                 style={
                   Object {
-                    "WebkitTextDecorationStyle": "none",
                     "color": "rgba(0,0,0,1.00)",
                     "direction": "ltr",
                     "fontFamily": "Roboto",
                     "fontSize": "16px",
                     "fontWeight": "normal",
+                    "lineHeight": "22px",
                     "textAlign": "center",
-                    "textDecorationStyle": "none",
+                    "textDecoration": "none",
                     "textTransform": "none",
                   }
                 }
@@ -345,14 +345,14 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                 dir="auto"
                 style={
                   Object {
-                    "WebkitTextDecorationStyle": "none",
                     "color": "rgba(0,0,0,1.00)",
                     "direction": "ltr",
                     "fontFamily": "Roboto",
                     "fontSize": "16px",
                     "fontWeight": "normal",
+                    "lineHeight": "22px",
                     "textAlign": "center",
-                    "textDecorationStyle": "none",
+                    "textDecoration": "none",
                     "textTransform": "none",
                   }
                 }
@@ -395,16 +395,16 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                   Object {
                     "WebkitBoxFlex": 2,
                     "WebkitFlexGrow": 2,
-                    "WebkitTextDecorationStyle": "none",
                     "color": "rgba(0,0,0,1.00)",
                     "direction": "ltr",
                     "flexGrow": 2,
                     "fontFamily": "Roboto",
                     "fontSize": "16px",
                     "fontWeight": "normal",
+                    "lineHeight": "22px",
                     "msFlexPositive": 2,
                     "textAlign": "center",
-                    "textDecorationStyle": "none",
+                    "textDecoration": "none",
                     "textTransform": "none",
                   }
                 }
@@ -653,16 +653,16 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                   Object {
                     "WebkitBoxFlex": 2,
                     "WebkitFlexGrow": 2,
-                    "WebkitTextDecorationStyle": "none",
                     "color": "rgba(0,0,0,1.00)",
                     "direction": "ltr",
                     "flexGrow": 2,
                     "fontFamily": "Roboto",
                     "fontSize": "16px",
                     "fontWeight": "normal",
+                    "lineHeight": "22px",
                     "msFlexPositive": 2,
                     "textAlign": "center",
-                    "textDecorationStyle": "none",
+                    "textDecoration": "none",
                     "textTransform": "none",
                   }
                 }
@@ -1014,13 +1014,13 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                       dir="auto"
                       style={
                         Object {
-                          "WebkitTextDecorationStyle": "none",
                           "direction": "ltr",
                           "fontFamily": "Roboto",
                           "fontSize": "16px",
                           "fontWeight": "normal",
+                          "lineHeight": "22px",
                           "textAlign": "center",
-                          "textDecorationStyle": "none",
+                          "textDecoration": "none",
                           "textTransform": "none",
                         }
                       }
@@ -1144,14 +1144,14 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                       dir="auto"
                       style={
                         Object {
-                          "WebkitTextDecorationStyle": "none",
                           "color": "rgba(255,255,255,1.00)",
                           "direction": "ltr",
                           "fontFamily": "Roboto",
                           "fontSize": "16px",
                           "fontWeight": "normal",
+                          "lineHeight": "22px",
                           "textAlign": "center",
-                          "textDecorationStyle": "none",
+                          "textDecoration": "none",
                           "textTransform": "uppercase",
                         }
                       }

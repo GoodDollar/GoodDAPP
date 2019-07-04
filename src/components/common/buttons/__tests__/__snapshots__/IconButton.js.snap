@@ -97,14 +97,14 @@ exports[`IconButton disabled matches snapshot 1`] = `
     dir="auto"
     style={
       Object {
-        "WebkitTextDecorationStyle": "none",
         "color": "rgba(0,0,0,0.32)",
         "direction": "ltr",
         "fontFamily": "Roboto",
         "fontSize": "11px",
         "fontWeight": "normal",
+        "lineHeight": "22px",
         "textAlign": "center",
-        "textDecorationStyle": "none",
+        "textDecoration": "none",
         "textTransform": "none",
       }
     }
@@ -211,14 +211,14 @@ exports[`IconButton enabled matches snapshot 1`] = `
     dir="auto"
     style={
       Object {
-        "WebkitTextDecorationStyle": "none",
         "color": "inherit",
         "direction": "ltr",
         "fontFamily": "Roboto",
         "fontSize": "11px",
         "fontWeight": "normal",
+        "lineHeight": "22px",
         "textAlign": "center",
-        "textDecorationStyle": "none",
+        "textDecoration": "none",
         "textTransform": "none",
       }
     }

@@ -83,14 +83,14 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
         dir="auto"
         style={
           Object {
-            "WebkitTextDecorationStyle": "none",
             "color": "rgba(66,69,74,1.00)",
             "direction": "ltr",
             "fontFamily": "RobotoSlab-Bold",
             "fontSize": "20px",
             "fontWeight": "700",
+            "lineHeight": "22px",
             "textAlign": "center",
-            "textDecorationStyle": "none",
+            "textDecoration": "none",
             "textTransform": "none",
           }
         }
@@ -147,14 +147,14 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
         dir="auto"
         style={
           Object {
-            "WebkitTextDecorationStyle": "none",
             "color": "rgba(66,69,74,1.00)",
             "direction": "ltr",
             "fontFamily": "RobotoSlab-Bold",
             "fontSize": "20px",
             "fontWeight": "700",
+            "lineHeight": "22px",
             "textAlign": "center",
-            "textDecorationStyle": "none",
+            "textDecoration": "none",
             "textTransform": "none",
           }
         }
@@ -211,14 +211,14 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
         dir="auto"
         style={
           Object {
-            "WebkitTextDecorationStyle": "none",
             "color": "rgba(66,69,74,1.00)",
             "direction": "ltr",
             "fontFamily": "RobotoSlab-Bold",
             "fontSize": "20px",
             "fontWeight": "700",
+            "lineHeight": "22px",
             "textAlign": "center",
-            "textDecorationStyle": "none",
+            "textDecoration": "none",
             "textTransform": "none",
           }
         }
@@ -297,14 +297,14 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
         dir="auto"
         style={
           Object {
-            "WebkitTextDecorationStyle": "none",
             "color": "rgba(66,69,74,1.00)",
             "direction": "ltr",
             "fontFamily": "RobotoSlab-Bold",
             "fontSize": "20px",
             "fontWeight": "700",
+            "lineHeight": "22px",
             "textAlign": "center",
-            "textDecorationStyle": "none",
+            "textDecoration": "none",
             "textTransform": "none",
           }
         }
@@ -361,14 +361,14 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
         dir="auto"
         style={
           Object {
-            "WebkitTextDecorationStyle": "none",
             "color": "rgba(66,69,74,1.00)",
             "direction": "ltr",
             "fontFamily": "RobotoSlab-Bold",
             "fontSize": "20px",
             "fontWeight": "700",
+            "lineHeight": "22px",
             "textAlign": "center",
-            "textDecorationStyle": "none",
+            "textDecoration": "none",
             "textTransform": "none",
           }
         }
@@ -425,14 +425,14 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
         dir="auto"
         style={
           Object {
-            "WebkitTextDecorationStyle": "none",
             "color": "rgba(66,69,74,1.00)",
             "direction": "ltr",
             "fontFamily": "RobotoSlab-Bold",
             "fontSize": "20px",
             "fontWeight": "700",
+            "lineHeight": "22px",
             "textAlign": "center",
-            "textDecorationStyle": "none",
+            "textDecoration": "none",
             "textTransform": "none",
           }
         }
@@ -511,14 +511,14 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
         dir="auto"
         style={
           Object {
-            "WebkitTextDecorationStyle": "none",
             "color": "rgba(66,69,74,1.00)",
             "direction": "ltr",
             "fontFamily": "RobotoSlab-Bold",
             "fontSize": "20px",
             "fontWeight": "700",
+            "lineHeight": "22px",
             "textAlign": "center",
-            "textDecorationStyle": "none",
+            "textDecoration": "none",
             "textTransform": "none",
           }
         }
@@ -575,14 +575,14 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
         dir="auto"
         style={
           Object {
-            "WebkitTextDecorationStyle": "none",
             "color": "rgba(66,69,74,1.00)",
             "direction": "ltr",
             "fontFamily": "RobotoSlab-Bold",
             "fontSize": "20px",
             "fontWeight": "700",
+            "lineHeight": "22px",
             "textAlign": "center",
-            "textDecorationStyle": "none",
+            "textDecoration": "none",
             "textTransform": "none",
           }
         }
@@ -639,14 +639,14 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
         dir="auto"
         style={
           Object {
-            "WebkitTextDecorationStyle": "none",
             "color": "rgba(66,69,74,1.00)",
             "direction": "ltr",
             "fontFamily": "RobotoSlab-Bold",
             "fontSize": "20px",
             "fontWeight": "700",
+            "lineHeight": "22px",
             "textAlign": "center",
-            "textDecorationStyle": "none",
+            "textDecoration": "none",
             "textTransform": "none",
           }
         }
@@ -725,14 +725,14 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
         dir="auto"
         style={
           Object {
-            "WebkitTextDecorationStyle": "none",
             "color": "rgba(66,69,74,1.00)",
             "direction": "ltr",
             "fontFamily": "RobotoSlab-Bold",
             "fontSize": "20px",
             "fontWeight": "700",
+            "lineHeight": "22px",
             "textAlign": "center",
-            "textDecorationStyle": "none",
+            "textDecoration": "none",
             "textTransform": "none",
           }
         }
@@ -789,14 +789,14 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
         dir="auto"
         style={
           Object {
-            "WebkitTextDecorationStyle": "none",
             "color": "rgba(66,69,74,1.00)",
             "direction": "ltr",
             "fontFamily": "RobotoSlab-Bold",
             "fontSize": "20px",
             "fontWeight": "700",
+            "lineHeight": "22px",
             "textAlign": "center",
-            "textDecorationStyle": "none",
+            "textDecoration": "none",
             "textTransform": "none",
           }
         }

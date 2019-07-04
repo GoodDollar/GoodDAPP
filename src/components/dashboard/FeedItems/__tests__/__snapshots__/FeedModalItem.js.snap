@@ -108,7 +108,6 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
               "WebkitFlexBasis": "0%",
               "WebkitFlexGrow": 1,
               "WebkitFlexShrink": 1,
-              "WebkitTextDecorationStyle": "none",
               "color": "rgba(85,85,85,1.00)",
               "direction": "ltr",
               "flexBasis": "0%",
@@ -117,11 +116,12 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
               "fontFamily": "Roboto",
               "fontSize": "20px",
               "fontWeight": "700",
+              "lineHeight": "22px",
               "msFlexNegative": 1,
               "msFlexPositive": 1,
               "msFlexPreferredSize": "0%",
               "textAlign": "center",
-              "textDecorationStyle": "none",
+              "textDecoration": "none",
               "textTransform": "none",
             }
           }
@@ -141,14 +141,14 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
             dir="auto"
             style={
               Object {
-                "WebkitTextDecorationStyle": "none",
                 "color": "rgba(0,0,0,1.00)",
                 "direction": "ltr",
                 "fontFamily": "Roboto",
                 "fontSize": "16px",
                 "fontWeight": "bold",
+                "lineHeight": "22px",
                 "textAlign": "right",
-                "textDecorationStyle": "none",
+                "textDecoration": "none",
                 "textTransform": "none",
               }
             }
@@ -160,14 +160,14 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
             dir="auto"
             style={
               Object {
-                "WebkitTextDecorationStyle": "none",
                 "color": "rgba(0,0,0,1.00)",
                 "direction": "ltr",
                 "fontFamily": "Roboto",
                 "fontSize": "16px",
                 "fontWeight": "bold",
+                "lineHeight": "22px",
                 "textAlign": "right",
-                "textDecorationStyle": "none",
+                "textDecoration": "none",
                 "textTransform": "none",
               }
             }
@@ -181,15 +181,15 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
         dir="auto"
         style={
           Object {
-            "WebkitTextDecorationStyle": "none",
             "color": "rgba(163,163,163,1.00)",
             "direction": "ltr",
             "fontFamily": "Roboto",
             "fontSize": "10px",
             "fontWeight": "500",
+            "lineHeight": "22px",
             "marginTop": "5px",
             "textAlign": "center",
-            "textDecorationStyle": "none",
+            "textDecoration": "none",
             "textTransform": "none",
           }
         }
@@ -333,15 +333,15 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
           dir="auto"
           style={
             Object {
-              "WebkitTextDecorationStyle": "none",
               "color": "rgba(0,0,0,1.00)",
               "direction": "ltr",
               "fontFamily": "Roboto",
               "fontSize": "16px",
               "fontWeight": "normal",
+              "lineHeight": "22px",
               "marginLeft": "10px",
               "textAlign": "center",
-              "textDecorationStyle": "none",
+              "textDecoration": "none",
               "textTransform": "none",
             }
           }
@@ -351,14 +351,14 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
             dir="auto"
             style={
               Object {
-                "WebkitTextDecorationStyle": "none",
                 "color": "rgba(85,85,85,1.00)",
                 "direction": "ltr",
                 "fontFamily": "Roboto",
                 "fontSize": "15px",
                 "fontWeight": "normal",
+                "lineHeight": "22px",
                 "textAlign": "center",
-                "textDecorationStyle": "none",
+                "textDecoration": "none",
                 "textTransform": "capitalize",
               }
             }
@@ -368,14 +368,14 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
               dir="auto"
               style={
                 Object {
-                  "WebkitTextDecorationStyle": "none",
                   "color": "rgba(0,0,0,1.00)",
                   "direction": "ltr",
                   "fontFamily": "Roboto",
                   "fontSize": "10px",
                   "fontWeight": "500",
+                  "lineHeight": "22px",
                   "textAlign": "center",
-                  "textDecorationStyle": "none",
+                  "textDecoration": "none",
                   "textTransform": "none",
                 }
               }
@@ -388,14 +388,14 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
               dir="auto"
               style={
                 Object {
-                  "WebkitTextDecorationStyle": "none",
                   "color": "rgba(0,0,0,1.00)",
                   "direction": "ltr",
                   "fontFamily": "Roboto",
                   "fontSize": "16px",
                   "fontWeight": "700",
+                  "lineHeight": "22px",
                   "textAlign": "center",
-                  "textDecorationStyle": "none",
+                  "textDecoration": "none",
                   "textTransform": "none",
                 }
               }
@@ -422,14 +422,14 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
         dir="auto"
         style={
           Object {
-            "WebkitTextDecorationStyle": "none",
             "color": "rgba(0,0,0,0.54)",
             "direction": "ltr",
             "fontFamily": "Roboto",
             "fontSize": "16px",
             "fontWeight": "500",
+            "lineHeight": "22px",
             "textAlign": "center",
-            "textDecorationStyle": "none",
+            "textDecoration": "none",
             "textTransform": "capitalize",
           }
         }
@@ -582,14 +582,14 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                     dir="auto"
                     style={
                       Object {
-                        "WebkitTextDecorationStyle": "none",
                         "color": "rgba(255,255,255,1.00)",
                         "direction": "ltr",
                         "fontFamily": "Roboto",
                         "fontSize": "16px",
                         "fontWeight": "normal",
+                        "lineHeight": "22px",
                         "textAlign": "center",
-                        "textDecorationStyle": "none",
+                        "textDecoration": "none",
                         "textTransform": "uppercase",
                       }
                     }
@@ -687,14 +687,14 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
         dir="auto"
         style={
           Object {
-            "WebkitTextDecorationStyle": "none",
             "color": "rgba(163,163,163,1.00)",
             "direction": "ltr",
             "fontFamily": "Roboto",
             "fontSize": "10px",
             "fontWeight": "500",
+            "lineHeight": "22px",
             "textAlign": "center",
-            "textDecorationStyle": "none",
+            "textDecoration": "none",
             "textTransform": "none",
           }
         }
@@ -734,7 +734,6 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
               "WebkitFlexBasis": "0%",
               "WebkitFlexGrow": 1,
               "WebkitFlexShrink": 1,
-              "WebkitTextDecorationStyle": "none",
               "color": "rgba(85,85,85,1.00)",
               "direction": "ltr",
               "flexBasis": "0%",
@@ -743,11 +742,12 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
               "fontFamily": "Roboto",
               "fontSize": "20px",
               "fontWeight": "700",
+              "lineHeight": "22px",
               "msFlexNegative": 1,
               "msFlexPositive": 1,
               "msFlexPreferredSize": "0%",
               "textAlign": "center",
-              "textDecorationStyle": "none",
+              "textDecoration": "none",
               "textTransform": "none",
             }
           }
@@ -767,14 +767,14 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
             dir="auto"
             style={
               Object {
-                "WebkitTextDecorationStyle": "none",
                 "color": "rgba(0,0,0,1.00)",
                 "direction": "ltr",
                 "fontFamily": "Roboto",
                 "fontSize": "16px",
                 "fontWeight": "bold",
+                "lineHeight": "22px",
                 "textAlign": "right",
-                "textDecorationStyle": "none",
+                "textDecoration": "none",
                 "textTransform": "none",
               }
             }
@@ -786,14 +786,14 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
             dir="auto"
             style={
               Object {
-                "WebkitTextDecorationStyle": "none",
                 "color": "rgba(0,0,0,1.00)",
                 "direction": "ltr",
                 "fontFamily": "Roboto",
                 "fontSize": "16px",
                 "fontWeight": "bold",
+                "lineHeight": "22px",
                 "textAlign": "right",
-                "textDecorationStyle": "none",
+                "textDecoration": "none",
                 "textTransform": "none",
               }
             }
@@ -939,15 +939,15 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
           dir="auto"
           style={
             Object {
-              "WebkitTextDecorationStyle": "none",
               "color": "rgba(0,0,0,1.00)",
               "direction": "ltr",
               "fontFamily": "Roboto",
               "fontSize": "16px",
               "fontWeight": "normal",
+              "lineHeight": "22px",
               "marginLeft": "10px",
               "textAlign": "center",
-              "textDecorationStyle": "none",
+              "textDecoration": "none",
               "textTransform": "none",
             }
           }
@@ -957,14 +957,14 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
             dir="auto"
             style={
               Object {
-                "WebkitTextDecorationStyle": "none",
                 "color": "rgba(85,85,85,1.00)",
                 "direction": "ltr",
                 "fontFamily": "Roboto",
                 "fontSize": "15px",
                 "fontWeight": "normal",
+                "lineHeight": "22px",
                 "textAlign": "center",
-                "textDecorationStyle": "none",
+                "textDecoration": "none",
                 "textTransform": "capitalize",
               }
             }
@@ -974,14 +974,14 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
               dir="auto"
               style={
                 Object {
-                  "WebkitTextDecorationStyle": "none",
                   "color": "rgba(0,0,0,1.00)",
                   "direction": "ltr",
                   "fontFamily": "Roboto",
                   "fontSize": "10px",
                   "fontWeight": "500",
+                  "lineHeight": "22px",
                   "textAlign": "center",
-                  "textDecorationStyle": "none",
+                  "textDecoration": "none",
                   "textTransform": "none",
                 }
               }
@@ -994,14 +994,14 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
               dir="auto"
               style={
                 Object {
-                  "WebkitTextDecorationStyle": "none",
                   "color": "rgba(0,0,0,1.00)",
                   "direction": "ltr",
                   "fontFamily": "Roboto",
                   "fontSize": "16px",
                   "fontWeight": "700",
+                  "lineHeight": "22px",
                   "textAlign": "center",
-                  "textDecorationStyle": "none",
+                  "textDecoration": "none",
                   "textTransform": "none",
                 }
               }
@@ -1028,14 +1028,14 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
         dir="auto"
         style={
           Object {
-            "WebkitTextDecorationStyle": "none",
             "color": "rgba(0,0,0,0.54)",
             "direction": "ltr",
             "fontFamily": "Roboto",
             "fontSize": "16px",
             "fontWeight": "500",
+            "lineHeight": "22px",
             "textAlign": "center",
-            "textDecorationStyle": "none",
+            "textDecoration": "none",
             "textTransform": "capitalize",
           }
         }
@@ -1188,14 +1188,14 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                     dir="auto"
                     style={
                       Object {
-                        "WebkitTextDecorationStyle": "none",
                         "color": "rgba(255,255,255,1.00)",
                         "direction": "ltr",
                         "fontFamily": "Roboto",
                         "fontSize": "16px",
                         "fontWeight": "normal",
+                        "lineHeight": "22px",
                         "textAlign": "center",
-                        "textDecorationStyle": "none",
+                        "textDecoration": "none",
                         "textTransform": "uppercase",
                       }
                     }

@@ -96,11 +96,11 @@ exports[`Receive matches snapshot 1`] = `
             "borderBottomRightRadius": "5px",
             "borderTopLeftRadius": "5px",
             "borderTopRightRadius": "5px",
-            "marginBottom": "15px",
-            "paddingBottom": "15px",
-            "paddingLeft": "10px",
-            "paddingRight": "10px",
-            "paddingTop": "15px",
+            "marginBottom": "16px",
+            "paddingBottom": "16px",
+            "paddingLeft": "8px",
+            "paddingRight": "8px",
+            "paddingTop": "16px",
           }
         }
       >
@@ -308,15 +308,15 @@ exports[`Receive matches snapshot 1`] = `
               dir="auto"
               style={
                 Object {
-                  "WebkitTextDecorationStyle": "none",
                   "color": "rgba(0,0,0,1.00)",
                   "direction": "ltr",
                   "fontFamily": "Roboto",
                   "fontSize": "16px",
                   "fontWeight": "normal",
+                  "lineHeight": "22px",
                   "marginLeft": "10px",
                   "textAlign": "center",
-                  "textDecorationStyle": "none",
+                  "textDecoration": "none",
                   "textTransform": "none",
                 }
               }
@@ -326,15 +326,15 @@ exports[`Receive matches snapshot 1`] = `
                 dir="auto"
                 style={
                   Object {
-                    "WebkitTextDecorationStyle": "none",
                     "color": "rgba(0,0,0,1.00)",
                     "direction": "ltr",
                     "display": "inlineBlock",
                     "fontFamily": "Roboto",
                     "fontSize": "14px",
                     "fontWeight": "normal",
+                    "lineHeight": "22px",
                     "textAlign": "center",
-                    "textDecorationStyle": "none",
+                    "textDecoration": "none",
                     "textTransform": "none",
                   }
                 }
@@ -361,14 +361,13 @@ exports[`Receive matches snapshot 1`] = `
             "flexBasis": "0%",
             "flexGrow": 1,
             "flexShrink": 1,
-            "marginBottom": "15px",
             "msFlexNegative": 1,
             "msFlexPositive": 1,
             "msFlexPreferredSize": "0%",
-            "paddingBottom": "15px",
-            "paddingLeft": "10px",
-            "paddingRight": "10px",
-            "paddingTop": "15px",
+            "paddingBottom": "8px",
+            "paddingLeft": "8px",
+            "paddingRight": "8px",
+            "paddingTop": "8px",
           }
         }
       >
@@ -462,14 +461,14 @@ exports[`Receive matches snapshot 1`] = `
               dir="auto"
               style={
                 Object {
-                  "WebkitTextDecorationStyle": "none",
                   "color": "rgba(85,85,85,1.00)",
                   "direction": "ltr",
                   "fontFamily": "Roboto",
                   "fontSize": "14px",
                   "fontWeight": "normal",
+                  "lineHeight": "22px",
                   "textAlign": "center",
-                  "textDecorationStyle": "none",
+                  "textDecoration": "none",
                   "textTransform": "none",
                 }
               }
@@ -481,14 +480,14 @@ exports[`Receive matches snapshot 1`] = `
               dir="auto"
               style={
                 Object {
-                  "WebkitTextDecorationStyle": "none",
                   "color": "rgba(85,85,85,1.00)",
                   "direction": "ltr",
                   "fontFamily": "Roboto",
                   "fontSize": "24px",
                   "fontWeight": "500",
+                  "lineHeight": "22px",
                   "textAlign": "center",
-                  "textDecorationStyle": "none",
+                  "textDecoration": "none",
                   "textTransform": "uppercase",
                 }
               }
@@ -498,14 +497,14 @@ exports[`Receive matches snapshot 1`] = `
                 dir="auto"
                 style={
                   Object {
-                    "WebkitTextDecorationStyle": "none",
                     "color": "rgba(0,0,0,1.00)",
                     "direction": "ltr",
                     "fontFamily": "Roboto",
                     "fontSize": "16px",
                     "fontWeight": "normal",
+                    "lineHeight": "22px",
                     "textAlign": "center",
-                    "textDecorationStyle": "none",
+                    "textDecoration": "none",
                     "textTransform": "none",
                   }
                 }
@@ -650,13 +649,13 @@ exports[`Receive matches snapshot 1`] = `
                       dir="auto"
                       style={
                         Object {
-                          "WebkitTextDecorationStyle": "none",
                           "direction": "ltr",
                           "fontFamily": "Roboto",
                           "fontSize": "16px",
                           "fontWeight": "normal",
+                          "lineHeight": "22px",
                           "textAlign": "center",
-                          "textDecorationStyle": "none",
+                          "textDecoration": "none",
                           "textTransform": "uppercase",
                         }
                       }
@@ -784,14 +783,14 @@ exports[`Receive matches snapshot 1`] = `
                       dir="auto"
                       style={
                         Object {
-                          "WebkitTextDecorationStyle": "none",
                           "color": "rgba(255,255,255,1.00)",
                           "direction": "ltr",
                           "fontFamily": "Roboto",
                           "fontSize": "16px",
                           "fontWeight": "normal",
+                          "lineHeight": "22px",
                           "textAlign": "center",
-                          "textDecorationStyle": "none",
+                          "textDecoration": "none",
                           "textTransform": "uppercase",
                         }
                       }

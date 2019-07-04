@@ -96,11 +96,11 @@ exports[`Claim matches snapshot 1`] = `
             "borderBottomRightRadius": "5px",
             "borderTopLeftRadius": "5px",
             "borderTopRightRadius": "5px",
-            "marginBottom": "15px",
-            "paddingBottom": "15px",
-            "paddingLeft": "10px",
-            "paddingRight": "10px",
-            "paddingTop": "15px",
+            "marginBottom": "16px",
+            "paddingBottom": "16px",
+            "paddingLeft": "8px",
+            "paddingRight": "8px",
+            "paddingTop": "16px",
           }
         }
       >
@@ -227,14 +227,14 @@ exports[`Claim matches snapshot 1`] = `
               dir="auto"
               style={
                 Object {
-                  "WebkitTextDecorationStyle": "none",
                   "color": "rgba(85,85,85,1.00)",
                   "direction": "ltr",
                   "fontFamily": "Roboto",
                   "fontSize": "30px",
                   "fontWeight": "normal",
+                  "lineHeight": "22px",
                   "textAlign": "right",
-                  "textDecorationStyle": "none",
+                  "textDecoration": "none",
                   "textTransform": "none",
                 }
               }
@@ -246,14 +246,14 @@ exports[`Claim matches snapshot 1`] = `
               dir="auto"
               style={
                 Object {
-                  "WebkitTextDecorationStyle": "none",
                   "color": "rgba(85,85,85,1.00)",
                   "direction": "ltr",
                   "fontFamily": "Roboto",
                   "fontSize": "18px",
                   "fontWeight": "normal",
+                  "lineHeight": "22px",
                   "textAlign": "right",
-                  "textDecorationStyle": "none",
+                  "textDecoration": "none",
                   "textTransform": "none",
                 }
               }
@@ -298,14 +298,14 @@ exports[`Claim matches snapshot 1`] = `
           dir="auto"
           style={
             Object {
-              "WebkitTextDecorationStyle": "none",
               "color": "rgba(255,255,255,1.00)",
               "direction": "ltr",
               "fontFamily": "Roboto",
               "fontSize": "16px",
               "fontWeight": "normal",
+              "lineHeight": "22px",
               "textAlign": "center",
-              "textDecorationStyle": "none",
+              "textDecoration": "none",
               "textTransform": "none",
             }
           }
@@ -337,14 +337,14 @@ exports[`Claim matches snapshot 1`] = `
             dir="auto"
             style={
               Object {
-                "WebkitTextDecorationStyle": "none",
                 "color": "rgba(255,255,255,1.00)",
                 "direction": "ltr",
-                "fontFamily": "RobotoSlab-Bold",
+                "fontFamily": "slabBold",
                 "fontSize": "36px",
                 "fontWeight": "normal",
+                "lineHeight": "30px",
                 "textAlign": "center",
-                "textDecorationStyle": "none",
+                "textDecoration": "none",
                 "textTransform": "none",
               }
             }
@@ -356,38 +356,40 @@ exports[`Claim matches snapshot 1`] = `
             dir="auto"
             style={
               Object {
-                "WebkitTextDecorationStyle": "none",
                 "color": "rgba(255,255,255,1.00)",
                 "direction": "ltr",
-                "fontFamily": "RobotoSlab-Bold",
+                "fontFamily": "slabBold",
                 "fontSize": "20px",
                 "fontWeight": "normal",
+                "lineHeight": "1em",
                 "textAlign": "center",
-                "textDecorationStyle": "none",
+                "textDecoration": "none",
                 "textTransform": "none",
               }
             }
           >
-             G$
+             
+            G$
           </div>
           <div
             className="css-text-901oao"
             dir="auto"
             style={
               Object {
-                "WebkitTextDecorationStyle": "none",
                 "color": "rgba(255,255,255,1.00)",
                 "direction": "ltr",
-                "fontFamily": "RobotoSlab-Bold",
+                "fontFamily": "slabBold",
                 "fontSize": "36px",
                 "fontWeight": "normal",
+                "lineHeight": "30px",
                 "textAlign": "center",
-                "textDecorationStyle": "none",
+                "textDecoration": "none",
                 "textTransform": "none",
               }
             }
           >
-             Free
+             
+            Free
           </div>
         </div>
         <div
@@ -415,14 +417,14 @@ exports[`Claim matches snapshot 1`] = `
             dir="auto"
             style={
               Object {
-                "WebkitTextDecorationStyle": "none",
                 "color": "rgba(255,255,255,1.00)",
                 "direction": "ltr",
-                "fontFamily": "RobotoSlab-Bold",
+                "fontFamily": "slabBold",
                 "fontSize": "36px",
                 "fontWeight": "normal",
+                "lineHeight": "30px",
                 "textAlign": "center",
-                "textDecorationStyle": "none",
+                "textDecoration": "none",
                 "textTransform": "none",
               }
             }
@@ -447,7 +449,6 @@ exports[`Claim matches snapshot 1`] = `
             "flexBasis": "0%",
             "flexGrow": 3,
             "flexShrink": 1,
-            "marginBottom": "0px",
             "msFlexNegative": 1,
             "msFlexPositive": 3,
             "msFlexPreferredSize": "0%",
@@ -515,22 +516,20 @@ exports[`Claim matches snapshot 1`] = `
           >
             <div
               className="css-text-901oao"
-              color="primary"
               dir="auto"
               style={
                 Object {
-                  "WebkitTextDecorationStyle": "none",
                   "color": "rgba(98,0,238,1.00)",
                   "direction": "ltr",
                   "fontFamily": "Roboto",
                   "fontSize": "16px",
                   "fontWeight": "bold",
+                  "lineHeight": "22px",
                   "textAlign": "center",
-                  "textDecorationStyle": "none",
+                  "textDecoration": "none",
                   "textTransform": "none",
                 }
               }
-              weight="bold"
             >
               
             </div>
@@ -539,14 +538,14 @@ exports[`Claim matches snapshot 1`] = `
               dir="auto"
               style={
                 Object {
-                  "WebkitTextDecorationStyle": "none",
                   "color": "rgba(0,0,0,1.00)",
                   "direction": "ltr",
                   "fontFamily": "Roboto",
                   "fontSize": "16px",
                   "fontWeight": "normal",
+                  "lineHeight": "22px",
                   "textAlign": "center",
-                  "textDecorationStyle": "none",
+                  "textDecoration": "none",
                   "textTransform": "none",
                 }
               }
@@ -555,45 +554,40 @@ exports[`Claim matches snapshot 1`] = `
             </div>
             <div
               className="css-text-901oao"
-              color="primary"
               dir="auto"
               style={
                 Object {
-                  "WebkitTextDecorationStyle": "none",
                   "color": "rgba(98,0,238,1.00)",
                   "direction": "ltr",
                   "fontFamily": "Roboto",
                   "fontSize": "16px",
                   "fontWeight": "bold",
+                  "lineHeight": "22px",
                   "textAlign": "center",
-                  "textDecorationStyle": "none",
+                  "textDecoration": "none",
                   "textTransform": "none",
                 }
               }
-              weight="bold"
             >
               
                
             </div>
             <div
               className="css-text-901oao"
-              color="primary"
               dir="auto"
-              size={12}
               style={
                 Object {
-                  "WebkitTextDecorationStyle": "none",
                   "color": "rgba(98,0,238,1.00)",
                   "direction": "ltr",
                   "fontFamily": "Roboto",
                   "fontSize": "12px",
                   "fontWeight": "bold",
+                  "lineHeight": "16px",
                   "textAlign": "center",
-                  "textDecorationStyle": "none",
+                  "textDecoration": "none",
                   "textTransform": "none",
                 }
               }
-              weight="bold"
             >
               G$
             </div>
@@ -602,14 +596,14 @@ exports[`Claim matches snapshot 1`] = `
               dir="auto"
               style={
                 Object {
-                  "WebkitTextDecorationStyle": "none",
                   "color": "rgba(0,0,0,1.00)",
                   "direction": "ltr",
                   "fontFamily": "Roboto",
                   "fontSize": "16px",
                   "fontWeight": "normal",
+                  "lineHeight": "22px",
                   "textAlign": "center",
-                  "textDecorationStyle": "none",
+                  "textDecoration": "none",
                   "textTransform": "none",
                 }
               }
@@ -660,14 +654,14 @@ exports[`Claim matches snapshot 1`] = `
             dir="auto"
             style={
               Object {
-                "WebkitTextDecorationStyle": "none",
                 "color": "rgba(0,0,0,1.00)",
                 "direction": "ltr",
                 "fontFamily": "Roboto",
                 "fontSize": "16px",
                 "fontWeight": "normal",
+                "lineHeight": "22px",
                 "textAlign": "center",
-                "textDecorationStyle": "none",
+                "textDecoration": "none",
                 "textTransform": "none",
               }
             }
@@ -679,19 +673,19 @@ exports[`Claim matches snapshot 1`] = `
             dir="auto"
             style={
               Object {
-                "WebkitTextDecorationStyle": "none",
                 "color": "rgba(0,195,174,1.00)",
                 "direction": "ltr",
-                "fontFamily": "RobotoSlab-Bold",
+                "fontFamily": "slabBold",
                 "fontSize": "36px",
                 "fontWeight": "normal",
+                "lineHeight": "30px",
                 "textAlign": "center",
-                "textDecorationStyle": "none",
+                "textDecoration": "none",
                 "textTransform": "none",
               }
             }
           >
-            23:59:59
+            --:--:--
           </div>
         </div>
         <div
@@ -809,14 +803,14 @@ exports[`Claim matches snapshot 1`] = `
                     dir="auto"
                     style={
                       Object {
-                        "WebkitTextDecorationStyle": "none",
                         "color": "rgba(255,255,255,1.00)",
                         "direction": "ltr",
                         "fontFamily": "Roboto",
                         "fontSize": "16px",
                         "fontWeight": "normal",
+                        "lineHeight": "22px",
                         "textAlign": "center",
-                        "textDecorationStyle": "none",
+                        "textDecoration": "none",
                         "textTransform": "uppercase",
                       }
                     }

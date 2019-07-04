@@ -93,14 +93,14 @@ exports[`SideMenuItem matches snapshot 1`] = `
     dir="auto"
     style={
       Object {
-        "WebkitTextDecorationStyle": "none",
         "color": "rgba(0,0,0,1.00)",
         "direction": "ltr",
         "fontFamily": "Roboto",
         "fontSize": "15px",
         "fontWeight": "bold",
+        "lineHeight": "22px",
         "textAlign": "center",
-        "textDecorationStyle": "none",
+        "textDecoration": "none",
         "textTransform": "none",
       }
     }

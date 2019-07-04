@@ -64,15 +64,15 @@ exports[`SmsForm matches snapshot 1`] = `
       dir="auto"
       style={
         Object {
-          "WebkitTextDecorationStyle": "none",
           "color": "rgba(85,85,85,1.00)",
           "direction": "ltr",
           "fontFamily": "Roboto",
           "fontSize": "24px",
           "fontWeight": "normal",
+          "lineHeight": "22px",
           "marginBottom": "30px",
           "textAlign": "center",
-          "textDecorationStyle": "none",
+          "textDecoration": "none",
           "textTransform": "none",
         }
       }
@@ -320,17 +320,17 @@ exports[`SmsForm matches snapshot 1`] = `
         dir="auto"
         style={
           Object {
-            "WebkitTextDecorationStyle": "none",
             "color": "rgba(255,0,0,1.00)",
             "direction": "ltr",
             "fontFamily": "Roboto",
             "fontSize": "18px",
             "fontWeight": "normal",
+            "lineHeight": "22px",
             "marginBottom": "30px",
             "marginTop": "30px",
             "minHeight": "24px",
             "textAlign": "center",
-            "textDecorationStyle": "none",
+            "textDecoration": "none",
             "textTransform": "none",
           }
         }
@@ -361,15 +361,15 @@ exports[`SmsForm matches snapshot 1`] = `
         dir="auto"
         style={
           Object {
-            "WebkitTextDecorationStyle": "none",
             "color": "rgba(85,85,85,1.00)",
             "direction": "ltr",
             "fontFamily": "Roboto",
             "fontSize": "18px",
             "fontWeight": "normal",
+            "lineHeight": "22px",
             "marginTop": "30px",
             "textAlign": "center",
-            "textDecorationStyle": "none",
+            "textDecoration": "none",
             "textTransform": "none",
           }
         }

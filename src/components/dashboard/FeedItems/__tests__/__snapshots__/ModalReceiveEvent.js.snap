@@ -40,14 +40,14 @@ exports[`ModalReceiveEvent matches snapshot 1`] = `
     dir="auto"
     style={
       Object {
-        "WebkitTextDecorationStyle": "none",
         "color": "rgba(0,0,0,1.00)",
         "direction": "ltr",
         "fontFamily": "Roboto",
         "fontSize": "16px",
         "fontWeight": "normal",
+        "lineHeight": "22px",
         "textAlign": "center",
-        "textDecorationStyle": "none",
+        "textDecoration": "none",
         "textTransform": "none",
       }
     }
@@ -88,7 +88,6 @@ exports[`ModalReceiveEvent matches snapshot 1`] = `
           "WebkitFlexBasis": "0%",
           "WebkitFlexGrow": 1,
           "WebkitFlexShrink": 1,
-          "WebkitTextDecorationStyle": "none",
           "color": "rgba(0,0,0,1.00)",
           "direction": "ltr",
           "flexBasis": "0%",
@@ -97,11 +96,12 @@ exports[`ModalReceiveEvent matches snapshot 1`] = `
           "fontFamily": "Roboto",
           "fontSize": "16px",
           "fontWeight": "bold",
+          "lineHeight": "22px",
           "msFlexNegative": 1,
           "msFlexPositive": 1,
           "msFlexPreferredSize": "0%",
           "textAlign": "center",
-          "textDecorationStyle": "none",
+          "textDecoration": "none",
           "textTransform": "none",
         }
       }
@@ -121,14 +121,14 @@ exports[`ModalReceiveEvent matches snapshot 1`] = `
         dir="auto"
         style={
           Object {
-            "WebkitTextDecorationStyle": "none",
             "color": "rgba(0,0,0,1.00)",
             "direction": "ltr",
             "fontFamily": "Roboto",
             "fontSize": "16px",
             "fontWeight": "bold",
+            "lineHeight": "22px",
             "textAlign": "right",
-            "textDecorationStyle": "none",
+            "textDecoration": "none",
             "textTransform": "none",
           }
         }
@@ -140,14 +140,14 @@ exports[`ModalReceiveEvent matches snapshot 1`] = `
         dir="auto"
         style={
           Object {
-            "WebkitTextDecorationStyle": "none",
             "color": "rgba(0,0,0,1.00)",
             "direction": "ltr",
             "fontFamily": "Roboto",
             "fontSize": "16px",
             "fontWeight": "bold",
+            "lineHeight": "22px",
             "textAlign": "right",
-            "textDecorationStyle": "none",
+            "textDecoration": "none",
             "textTransform": "none",
           }
         }
@@ -259,15 +259,15 @@ exports[`ModalReceiveEvent matches snapshot 1`] = `
       dir="auto"
       style={
         Object {
-          "WebkitTextDecorationStyle": "none",
           "color": "rgba(0,0,0,1.00)",
           "direction": "ltr",
           "fontFamily": "Roboto",
           "fontSize": "16px",
           "fontWeight": "normal",
+          "lineHeight": "22px",
           "marginLeft": "auto",
           "textAlign": "center",
-          "textDecorationStyle": "none",
+          "textDecoration": "none",
           "textTransform": "none",
         }
       }
@@ -277,15 +277,15 @@ exports[`ModalReceiveEvent matches snapshot 1`] = `
         dir="auto"
         style={
           Object {
-            "WebkitTextDecorationStyle": "none",
             "color": "rgba(0,0,0,1.00)",
             "direction": "ltr",
             "display": "inlineBlock",
             "fontFamily": "Roboto",
             "fontSize": "10px",
             "fontWeight": "normal",
+            "lineHeight": "22px",
             "textAlign": "center",
-            "textDecorationStyle": "none",
+            "textDecoration": "none",
             "textTransform": "none",
           }
         }
@@ -297,15 +297,15 @@ exports[`ModalReceiveEvent matches snapshot 1`] = `
         dir="auto"
         style={
           Object {
-            "WebkitTextDecorationStyle": "none",
             "color": "rgba(0,0,0,1.00)",
             "direction": "ltr",
             "display": "inlineBlock",
             "fontFamily": "Roboto",
             "fontSize": "14px",
             "fontWeight": "normal",
+            "lineHeight": "22px",
             "textAlign": "center",
-            "textDecorationStyle": "none",
+            "textDecoration": "none",
             "textTransform": "none",
           }
         }
@@ -331,14 +331,14 @@ exports[`ModalReceiveEvent matches snapshot 1`] = `
     dir="auto"
     style={
       Object {
-        "WebkitTextDecorationStyle": "none",
         "color": "rgba(0,0,0,1.00)",
         "direction": "ltr",
         "fontFamily": "Roboto",
         "fontSize": "16px",
         "fontWeight": "normal",
+        "lineHeight": "22px",
         "textAlign": "center",
-        "textDecorationStyle": "none",
+        "textDecoration": "none",
         "textTransform": "none",
       }
     }
@@ -491,14 +491,14 @@ exports[`ModalReceiveEvent matches snapshot 1`] = `
                 dir="auto"
                 style={
                   Object {
-                    "WebkitTextDecorationStyle": "none",
                     "color": "rgba(255,255,255,1.00)",
                     "direction": "ltr",
                     "fontFamily": "Roboto",
                     "fontSize": "16px",
                     "fontWeight": "normal",
+                    "lineHeight": "22px",
                     "textAlign": "center",
-                    "textDecorationStyle": "none",
+                    "textDecoration": "none",
                     "textTransform": "uppercase",
                   }
                 }

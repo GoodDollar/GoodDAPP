@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Reason matches snapshot 1`] = `
+exports[`ReceiveFrom matches snapshot 1`] = `
 <div
   className="css-view-1dbjc4n"
   style={
@@ -326,7 +326,7 @@ exports[`Reason matches snapshot 1`] = `
               }
             }
           >
-            What For?
+            From Who?
           </div>
           <div
             className="css-view-1dbjc4n"

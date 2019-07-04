@@ -1,41 +1,69 @@
 // @flow
 import React from 'react'
-import { Avatar } from 'react-native-paper'
-import { Text, View } from 'react-native-web'
-import { BigGoodDollar } from '../../common/'
+import { Avatar, withTheme } from 'react-native-paper'
+import { Text } from 'react-native-web'
+import normalize from 'react-native-elements/src/helpers/normalizeText'
+import { BigGoodDollar, Section } from '../../common/'
 import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
 import { listStyles } from './EventStyles'
 import type { FeedEventProps } from './EventProps'
 import EventIcon from './EventIcon'
 import EventCounterParty from './EventCounterParty'
+import getEventSettingsByType from './EventSettingsByType'
+
+const getEventItemStyles = color => ({
+  borderRow: {
+    borderBottomColor: color,
+    borderBottomStyle: 'solid',
+    borderBottomWidth: normalize(2),
+    paddingBottom: normalize(4),
+    marginBottom: normalize(4)
+  },
+  goodDollarAmount: {
+    fontSize: normalize(10),
+    fontFamily: 'Roboto-Bold',
+    color
+  }
+})
 
 /**
  * Render list withdraw item for feed list
  * @param {FeedEventProps} feedEvent - feed event
  * @returns {HTMLElement}
  */
-const ListEvent = ({ item: feed }: FeedEventProps) => {
+const ListEvent = ({ item: feed, theme }: FeedEventProps) => {
+  const eventSettings = getEventSettingsByType(theme, feed.type)
+  const styles = getEventItemStyles(eventSettings.color)
   return (
-    <View style={listStyles.innerRow}>
-      <View>
-        <Avatar.Image size={36} style={{ backgroundColor: 'white' }} source={feed.data.endpoint.avatar} />
-        <Text>{`\n`}</Text>
-      </View>
-      <View style={listStyles.rowData}>
-        <EventCounterParty feedItem={feed} />
-        <Text style={listStyles.rowDataSubText}>{feed.data.message}</Text>
-      </View>
-      <View style={listStyles.contentColumn}>
-        <View style={listStyles.rightContentRow}>
-          <BigGoodDollar number={feed.data.amount} elementStyles={listStyles.currency} />
-          <EventIcon type={feed.type} />
-        </View>
-        <View style={listStyles.rightContentRow}>
-          <Text style={listStyles.date}>{getFormattedDateTime(feed.date)}</Text>
-        </View>
-      </View>
-    </View>
+    <Section.Row style={listStyles.innerRow}>
+      <Section.Stack alignItems="left" style={listStyles.avatatBottom}>
+        <Avatar.Image size={34} source={feed.data.endpoint.avatar} />
+      </Section.Stack>
+      <Section.Stack alignItems="right" grow={1} style={listStyles.mainSection}>
+        <Section.Row style={styles.borderRow}>
+          <Section.Stack alignItems="left">
+            <Text style={listStyles.date}>{getFormattedDateTime(feed.date)}</Text>
+          </Section.Stack>
+          <Section.Stack alignItems="right">
+            <BigGoodDollar number={feed.data.amount} elementStyles={styles.goodDollarAmount} />
+          </Section.Stack>
+        </Section.Row>
+        <Section.Row>
+          <Section.Stack alignItems="left" grow={1}>
+            <Section.Row>
+              <EventCounterParty feedItem={feed} />
+            </Section.Row>
+            <Section.Row>
+              <Text style={listStyles.rowDataSubText}>{feed.data.message}</Text>
+            </Section.Row>
+          </Section.Stack>
+          <Section.Stack alignItems="right">
+            <EventIcon type={feed.type} />
+          </Section.Stack>
+        </Section.Row>
+      </Section.Stack>
+    </Section.Row>
   )
 }
 
-export default ListEvent
+export default withTheme(ListEvent)

@@ -68,6 +68,7 @@
 		E1540A33BF384062B32A2E26 /* gooddollar.woff in Resources */ = {isa = PBXBuildFile; fileRef = D02A5B4A70D345259937237E /* gooddollar.woff */; };
 		9A9460017AE54CE6B7F978C6 /* gooddollar.woff2 in Resources */ = {isa = PBXBuildFile; fileRef = AEA557634F8D49A9917D2CE6 /* gooddollar.woff2 */; };
 		1EF184550E7141B28D2F3D00 /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 13825280F12D4C24A54058CC /* Fontisto.ttf */; };
+		867099352FDF4EA7AABB3625 /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1049CD51DAAF40E2B2EAA755 /* Roboto-Bold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -405,6 +406,7 @@
 		D02A5B4A70D345259937237E /* gooddollar.woff */ = {isa = PBXFileReference; name = "gooddollar.woff"; path = "../src/assets/fonts/gooddollar.woff"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		AEA557634F8D49A9917D2CE6 /* gooddollar.woff2 */ = {isa = PBXFileReference; name = "gooddollar.woff2"; path = "../src/assets/fonts/gooddollar.woff2"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		13825280F12D4C24A54058CC /* Fontisto.ttf */ = {isa = PBXFileReference; name = "Fontisto.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		1049CD51DAAF40E2B2EAA755 /* Roboto-Bold.ttf */ = {isa = PBXFileReference; name = "Roboto-Bold.ttf"; path = "../src/assets/fonts/Roboto-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -702,6 +704,7 @@
 				D02A5B4A70D345259937237E /* gooddollar.woff */,
 				AEA557634F8D49A9917D2CE6 /* gooddollar.woff2 */,
 				13825280F12D4C24A54058CC /* Fontisto.ttf */,
+				1049CD51DAAF40E2B2EAA755 /* Roboto-Bold.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1182,6 +1185,7 @@
 				E1540A33BF384062B32A2E26 /* gooddollar.woff in Resources */,
 				9A9460017AE54CE6B7F978C6 /* gooddollar.woff2 in Resources */,
 				1EF184550E7141B28D2F3D00 /* Fontisto.ttf in Resources */,
+				867099352FDF4EA7AABB3625 /* Roboto-Bold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

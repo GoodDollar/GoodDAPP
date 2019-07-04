@@ -2,7 +2,7 @@
 
 exports[`EventCounterParty receive matches snapshot 1`] = `
 <div
-  className="css-text-901oao"
+  className="css-text-901oao css-textOneLine-bfa6kz"
   dir="auto"
   style={
     Object {
@@ -30,18 +30,19 @@ exports[`EventCounterParty receive matches snapshot 1`] = `
     dir="auto"
     style={
       Object {
-        "fontWeight": "700",
+        "fontFamily": "Roboto-Medium",
+        "fontSize": "16px",
       }
     }
   >
-    Misao Matimbo
+     Misao Matimbo
   </span>
 </div>
 `;
 
 exports[`EventCounterParty send matches snapshot 1`] = `
 <div
-  className="css-text-901oao"
+  className="css-text-901oao css-textOneLine-bfa6kz"
   dir="auto"
   style={
     Object {
@@ -69,18 +70,19 @@ exports[`EventCounterParty send matches snapshot 1`] = `
     dir="auto"
     style={
       Object {
-        "fontWeight": "700",
+        "fontFamily": "Roboto-Medium",
+        "fontSize": "16px",
       }
     }
   >
-    Misao Matimbo
+     Misao Matimbo
   </span>
 </div>
 `;
 
 exports[`EventCounterParty withdraw matches snapshot 1`] = `
 <div
-  className="css-text-901oao"
+  className="css-text-901oao css-textOneLine-bfa6kz"
   dir="auto"
   style={
     Object {
@@ -108,11 +110,12 @@ exports[`EventCounterParty withdraw matches snapshot 1`] = `
     dir="auto"
     style={
       Object {
-        "fontWeight": "700",
+        "fontFamily": "Roboto-Medium",
+        "fontSize": "16px",
       }
     }
   >
-    Misao Matimbo
+     Misao Matimbo
   </span>
 </div>
 `;

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text } from 'react-native-web'
+import { Text } from 'react-native'
 import { listStyles } from './EventStyles'
 
 const EventCounterParty = ({ feedItem }) => {
@@ -9,9 +9,9 @@ const EventCounterParty = ({ feedItem }) => {
       ? ` by link - ${feedItem.data.endpoint.withdrawStatus}`
       : ''
   return (
-    <Text style={listStyles.rowDataText}>
+    <Text style={listStyles.rowDataText} numberOfLines={1} ellipsizeMode="tail">
       <Text style={listStyles.direction}>{direction}:</Text>
-      <Text style={listStyles.fullName}>{`${feedItem.data.endpoint.fullName}${withdrawStatusText}`}</Text>
+      <Text style={listStyles.fullName}>{` ${feedItem.data.endpoint.fullName}${withdrawStatusText}`}</Text>
     </Text>
   )
 }

@@ -320,12 +320,12 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
           }
         >
           <span
-            className="css-text-901oao css-textHasAncestor-16my406"
+            className="css-text-901oao css-textHasAncestor-16my406 css-textOneLine-bfa6kz"
             dir="auto"
             style={
               Object {
                 "color": "rgba(85,85,85,1.00)",
-                "fontSize": "15px",
+                "fontSize": "16px",
                 "textTransform": "capitalize",
               }
             }
@@ -335,7 +335,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
               dir="auto"
               style={
                 Object {
-                  "fontSize": "10px",
+                  "fontSize": "8px",
                   "fontWeight": "500",
                 }
               }
@@ -348,11 +348,12 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
               dir="auto"
               style={
                 Object {
-                  "fontWeight": "700",
+                  "fontFamily": "Roboto-Medium",
+                  "fontSize": "16px",
                 }
               }
             >
-              Misao Matimbo
+               Misao Matimbo
             </span>
           </span>
         </div>
@@ -869,12 +870,12 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
           }
         >
           <span
-            className="css-text-901oao css-textHasAncestor-16my406"
+            className="css-text-901oao css-textHasAncestor-16my406 css-textOneLine-bfa6kz"
             dir="auto"
             style={
               Object {
                 "color": "rgba(85,85,85,1.00)",
-                "fontSize": "15px",
+                "fontSize": "16px",
                 "textTransform": "capitalize",
               }
             }
@@ -884,7 +885,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
               dir="auto"
               style={
                 Object {
-                  "fontSize": "10px",
+                  "fontSize": "8px",
                   "fontWeight": "500",
                 }
               }
@@ -897,11 +898,12 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
               dir="auto"
               style={
                 Object {
-                  "fontWeight": "700",
+                  "fontFamily": "Roboto-Medium",
+                  "fontSize": "16px",
                 }
               }
             >
-              Misao Matimbo
+               Misao Matimbo
             </span>
           </span>
         </div>

@@ -41,6 +41,14 @@ a {
 }
 
 @font-face {
+  font-family: 'Roboto-Bold';
+  src: url('./assets/fonts/Roboto-Bold.ttf');
+  src: url('./assets/fonts/Roboto-Bold.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
   font-family: 'Roboto-Medium';
   src: url('./assets/fonts/Roboto-Medium.ttf');
   src: url('./assets/fonts/Roboto-Medium.ttf') format('truetype');

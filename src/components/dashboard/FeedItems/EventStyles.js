@@ -12,23 +12,32 @@ export const listStyles = StyleSheet.create({
     shadowOffset: { width: 0, height: normalize(2) },
     shadowOpacity: 0.16,
     shadowRadius: normalize(4),
-    elevation: 1
+    elevation: 1,
+    height: normalize(84),
+    maxHeight: normalize(84)
   },
   rowContent: {
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
-    paddingLeft: normalize(8)
+    paddingLeft: normalize(8),
+    paddingRight: normalize(4)
+  },
+  avatatBottom: {
+    alignSelf: 'flex-end'
+  },
+  mainSection: {
+    marginLeft: normalize(4)
   },
   rowContentBorder: {
     backgroundRepeat: 'no-repeat',
-    backgroundSize: 'contain',
     height: '100%',
     left: 0,
     position: 'absolute',
     right: 0,
     top: 0,
-    width: normalize(8)
+    width: normalize(8),
+    backgroundSize: 'initial'
   },
   innerRow: {
     padding: normalize(4),
@@ -53,20 +62,18 @@ export const listStyles = StyleSheet.create({
     color: '#555'
   },
   rowDataSubText: {
-    fontSize: normalize(16),
+    fontSize: normalize(10),
     color: '#A3A3A3',
     marginTop: 4,
     textTransform: 'capitalize'
-  },
-  currency: {
-    fontSize: normalize(12)
   },
   direction: {
     fontWeight: '500',
     fontSize: normalize(8)
   },
   fullName: {
-    fontWeight: '700'
+    fontFamily: 'Roboto-Medium',
+    fontSize: normalize(16)
   },
   contentColumn: {
     flexDirection: 'column',
@@ -82,9 +89,10 @@ export const listStyles = StyleSheet.create({
     alignItems: 'center'
   },
   date: {
-    fontSize: normalize(8),
+    fontSize: normalize(10),
     color: 'rgba(75, 75, 75, 0.8)',
-    marginLeft: 'auto'
+    marginLeft: 'auto',
+    fontFamily: 'Roboto-Regular'
   },
   eventIcon: {
     marginRight: 0

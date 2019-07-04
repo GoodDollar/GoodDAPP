@@ -1,25 +1,10 @@
 import React from 'react'
 import { TouchableHighlight, View } from 'react-native'
-import redBorder from '../../../assets/feeds/red-border.png'
-import greenBorder from '../../../assets/feeds/green-border.png'
-import purpleBorder from '../../../assets/feeds/purple-border.png'
-import orangeBorder from '../../../assets/feeds/orange-border.png'
-import lightBlueBorder from '../../../assets/feeds/light-blue-border.png'
+import { withTheme } from 'react-native-paper'
+import wavePattern from '../../../assets/wave.svg'
 import ListEventItem from './ListEventItem'
+import getEventSettingsByType from './EventSettingsByType'
 import { listStyles } from './EventStyles'
-
-const colorsByType = {
-  send: redBorder,
-  receive: greenBorder,
-  withdraw: greenBorder,
-  message: purpleBorder,
-  notification: orangeBorder,
-  feedback: lightBlueBorder
-}
-
-const getBorderImage = type => ({
-  backgroundImage: `url(${colorsByType[type]})`
-})
 
 /**
  * Render list item according to the type for feed list
@@ -27,7 +12,10 @@ const getBorderImage = type => ({
  * @returns {HTMLElement}
  */
 const FeedListItem = props => {
-  const imageStyle = getBorderImage(props.item.type)
+  const imageStyle = {
+    backgroundColor: getEventSettingsByType(props.theme, props.item.type).color,
+    backgroundImage: `url(${wavePattern})`
+  }
   return (
     <TouchableHighlight
       onPress={() => props.onPress(props.item.id)}
@@ -45,4 +33,4 @@ const FeedListItem = props => {
   )
 }
 
-export default FeedListItem
+export default withTheme(FeedListItem)

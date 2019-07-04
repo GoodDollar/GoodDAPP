@@ -28,18 +28,38 @@ exports[`ListEventItem receive matches snapshot 1`] = `
 >
   <div
     className="css-view-1dbjc4n"
+    style={
+      Object {
+        "WebkitAlignItems": "left",
+        "WebkitAlignSelf": "flex-end",
+        "WebkitBoxAlign": "left",
+        "WebkitBoxDirection": "normal",
+        "WebkitBoxOrient": "vertical",
+        "WebkitBoxPack": "justify",
+        "WebkitFlexDirection": "column",
+        "WebkitJustifyContent": "space-between",
+        "alignItems": "left",
+        "alignSelf": "flex-end",
+        "flexDirection": "column",
+        "justifyContent": "space-between",
+        "msFlexAlign": "left",
+        "msFlexDirection": "column",
+        "msFlexItemAlign": "end",
+        "msFlexPack": "justify",
+      }
+    }
   >
     <div
       className="css-view-1dbjc4n"
       style={
         Object {
-          "backgroundColor": "rgba(255,255,255,1.00)",
-          "borderBottomLeftRadius": "18px",
-          "borderBottomRightRadius": "18px",
-          "borderTopLeftRadius": "18px",
-          "borderTopRightRadius": "18px",
-          "height": "36px",
-          "width": "36px",
+          "backgroundColor": "rgba(98,0,238,1.00)",
+          "borderBottomLeftRadius": "17px",
+          "borderBottomRightRadius": "17px",
+          "borderTopLeftRadius": "17px",
+          "borderTopRightRadius": "17px",
+          "height": "34px",
+          "width": "34px",
         }
       }
     >
@@ -48,16 +68,16 @@ exports[`ListEventItem receive matches snapshot 1`] = `
         style={
           Object {
             "WebkitFlexBasis": "auto",
-            "borderBottomLeftRadius": "18px",
-            "borderBottomRightRadius": "18px",
-            "borderTopLeftRadius": "18px",
-            "borderTopRightRadius": "18px",
+            "borderBottomLeftRadius": "17px",
+            "borderBottomRightRadius": "17px",
+            "borderTopLeftRadius": "17px",
+            "borderTopRightRadius": "17px",
             "flexBasis": "auto",
-            "height": "36px",
+            "height": "34px",
             "msFlexPreferredSize": "auto",
             "overflowX": "hidden",
             "overflowY": "hidden",
-            "width": "36px",
+            "width": "34px",
             "zIndex": 0,
           }
         }
@@ -90,105 +110,35 @@ exports[`ListEventItem receive matches snapshot 1`] = `
         />
       </div>
     </div>
-    <div
-      className="css-text-901oao"
-      dir="auto"
-    >
-      
-
-    </div>
   </div>
   <div
     className="css-view-1dbjc4n"
     style={
       Object {
+        "WebkitAlignItems": "right",
+        "WebkitBoxAlign": "right",
+        "WebkitBoxDirection": "normal",
         "WebkitBoxFlex": 1,
+        "WebkitBoxOrient": "vertical",
+        "WebkitBoxPack": "justify",
         "WebkitFlexBasis": "0%",
+        "WebkitFlexDirection": "column",
         "WebkitFlexGrow": 1,
         "WebkitFlexShrink": 1,
+        "WebkitJustifyContent": "space-between",
+        "alignItems": "right",
         "flexBasis": "0%",
+        "flexDirection": "column",
         "flexGrow": 1,
         "flexShrink": 1,
+        "justifyContent": "space-between",
+        "marginLeft": "4px",
+        "msFlexAlign": "right",
+        "msFlexDirection": "column",
         "msFlexNegative": 1,
+        "msFlexPack": "justify",
         "msFlexPositive": 1,
         "msFlexPreferredSize": "0%",
-      }
-    }
-  >
-    <div
-      className="css-text-901oao"
-      dir="auto"
-      style={
-        Object {
-          "color": "rgba(85,85,85,1.00)",
-          "fontSize": "16px",
-          "textTransform": "capitalize",
-        }
-      }
-    >
-      <span
-        className="css-text-901oao css-textHasAncestor-16my406"
-        dir="auto"
-        style={
-          Object {
-            "fontSize": "8px",
-            "fontWeight": "500",
-          }
-        }
-      >
-        From
-        :
-      </span>
-      <span
-        className="css-text-901oao css-textHasAncestor-16my406"
-        dir="auto"
-        style={
-          Object {
-            "fontWeight": "700",
-          }
-        }
-      >
-        Misao Matimbo
-      </span>
-    </div>
-    <div
-      className="css-text-901oao"
-      dir="auto"
-      style={
-        Object {
-          "color": "rgba(163,163,163,1.00)",
-          "fontSize": "16px",
-          "marginTop": "4px",
-          "textTransform": "capitalize",
-        }
-      }
-    >
-      aaa
-    </div>
-  </div>
-  <div
-    className="css-view-1dbjc4n"
-    style={
-      Object {
-        "WebkitAlignItems": "flex-end",
-        "WebkitBoxAlign": "end",
-        "WebkitBoxDirection": "normal",
-        "WebkitBoxOrient": "vertical",
-        "WebkitBoxPack": "end",
-        "WebkitFlexDirection": "column",
-        "WebkitJustifyContent": "flex-end",
-        "alignItems": "flex-end",
-        "borderBottomWidth": "0px",
-        "flexDirection": "column",
-        "justifyContent": "flex-end",
-        "marginBottom": "0px",
-        "msFlexAlign": "end",
-        "msFlexDirection": "column",
-        "msFlexPack": "end",
-        "paddingBottom": "0px",
-        "paddingLeft": "0px",
-        "paddingRight": "0px",
-        "paddingTop": "0px",
       }
     }
   >
@@ -200,15 +150,19 @@ exports[`ListEventItem receive matches snapshot 1`] = `
           "WebkitBoxAlign": "center",
           "WebkitBoxDirection": "normal",
           "WebkitBoxOrient": "horizontal",
-          "WebkitBoxPack": "end",
+          "WebkitBoxPack": "justify",
           "WebkitFlexDirection": "row",
-          "WebkitJustifyContent": "flex-end",
+          "WebkitJustifyContent": "space-between",
           "alignItems": "center",
+          "borderBottomStyle": "solid",
+          "borderBottomWidth": "2px",
           "flexDirection": "row",
-          "justifyContent": "flex-end",
+          "justifyContent": "space-between",
+          "marginBottom": "4px",
           "msFlexAlign": "center",
           "msFlexDirection": "row",
-          "msFlexPack": "end",
+          "msFlexPack": "justify",
+          "paddingBottom": "4px",
         }
       }
     >
@@ -216,7 +170,19 @@ exports[`ListEventItem receive matches snapshot 1`] = `
         className="css-view-1dbjc4n"
         style={
           Object {
-            "display": "inline-block",
+            "WebkitAlignItems": "left",
+            "WebkitBoxAlign": "left",
+            "WebkitBoxDirection": "normal",
+            "WebkitBoxOrient": "vertical",
+            "WebkitBoxPack": "justify",
+            "WebkitFlexDirection": "column",
+            "WebkitJustifyContent": "space-between",
+            "alignItems": "left",
+            "flexDirection": "column",
+            "justifyContent": "space-between",
+            "msFlexAlign": "left",
+            "msFlexDirection": "column",
+            "msFlexPack": "justify",
           }
         }
       >
@@ -225,50 +191,73 @@ exports[`ListEventItem receive matches snapshot 1`] = `
           dir="auto"
           style={
             Object {
-              "color": "rgba(85,85,85,1.00)",
-              "direction": "ltr",
-              "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-              "fontSize": "12px",
-              "textAlign": "right",
+              "color": "rgba(75,75,75,0.80)",
+              "fontFamily": "Roboto-Regular",
+              "fontSize": "10px",
+              "marginLeft": "auto",
             }
           }
         >
-          0.04
-        </div>
-        <div
-          className="css-text-901oao"
-          dir="auto"
-          style={
-            Object {
-              "color": "rgba(85,85,85,1.00)",
-              "direction": "ltr",
-              "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-              "fontSize": "12px",
-              "textAlign": "right",
-            }
-          }
-        >
-          G$
+          04/01/19 3:03 PM
         </div>
       </div>
       <div
-        className="css-text-901oao"
-        containerStyle={
-          Object {
-            "marginRight": 0,
-          }
-        }
-        dir="auto"
+        className="css-view-1dbjc4n"
         style={
           Object {
-            "fontFamily": "gooddollar",
-            "fontSize": "34px",
-            "fontStyle": "normal",
-            "fontWeight": "normal",
+            "WebkitAlignItems": "right",
+            "WebkitBoxAlign": "right",
+            "WebkitBoxDirection": "normal",
+            "WebkitBoxOrient": "vertical",
+            "WebkitBoxPack": "justify",
+            "WebkitFlexDirection": "column",
+            "WebkitJustifyContent": "space-between",
+            "alignItems": "right",
+            "flexDirection": "column",
+            "justifyContent": "space-between",
+            "msFlexAlign": "right",
+            "msFlexDirection": "column",
+            "msFlexPack": "justify",
           }
         }
       >
-        
+        <div
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "display": "inline-block",
+            }
+          }
+        >
+          <div
+            className="css-text-901oao"
+            dir="auto"
+            style={
+              Object {
+                "direction": "ltr",
+                "fontFamily": "Roboto-Bold",
+                "fontSize": "10px",
+                "textAlign": "right",
+              }
+            }
+          >
+            0.04
+          </div>
+          <div
+            className="css-text-901oao"
+            dir="auto"
+            style={
+              Object {
+                "direction": "ltr",
+                "fontFamily": "Roboto-Bold",
+                "fontSize": "10px",
+                "textAlign": "right",
+              }
+            }
+          >
+            G$
+          </div>
+        </div>
       </div>
     </div>
     <div
@@ -279,30 +268,181 @@ exports[`ListEventItem receive matches snapshot 1`] = `
           "WebkitBoxAlign": "center",
           "WebkitBoxDirection": "normal",
           "WebkitBoxOrient": "horizontal",
-          "WebkitBoxPack": "end",
+          "WebkitBoxPack": "justify",
           "WebkitFlexDirection": "row",
-          "WebkitJustifyContent": "flex-end",
+          "WebkitJustifyContent": "space-between",
           "alignItems": "center",
           "flexDirection": "row",
-          "justifyContent": "flex-end",
+          "justifyContent": "space-between",
           "msFlexAlign": "center",
           "msFlexDirection": "row",
-          "msFlexPack": "end",
+          "msFlexPack": "justify",
         }
       }
     >
       <div
-        className="css-text-901oao"
-        dir="auto"
+        className="css-view-1dbjc4n"
         style={
           Object {
-            "color": "rgba(75,75,75,0.80)",
-            "fontSize": "8px",
-            "marginLeft": "auto",
+            "WebkitAlignItems": "left",
+            "WebkitBoxAlign": "left",
+            "WebkitBoxDirection": "normal",
+            "WebkitBoxFlex": 1,
+            "WebkitBoxOrient": "vertical",
+            "WebkitBoxPack": "justify",
+            "WebkitFlexBasis": "0%",
+            "WebkitFlexDirection": "column",
+            "WebkitFlexGrow": 1,
+            "WebkitFlexShrink": 1,
+            "WebkitJustifyContent": "space-between",
+            "alignItems": "left",
+            "flexBasis": "0%",
+            "flexDirection": "column",
+            "flexGrow": 1,
+            "flexShrink": 1,
+            "justifyContent": "space-between",
+            "msFlexAlign": "left",
+            "msFlexDirection": "column",
+            "msFlexNegative": 1,
+            "msFlexPack": "justify",
+            "msFlexPositive": 1,
+            "msFlexPreferredSize": "0%",
           }
         }
       >
-        04/01/19 3:03 PM
+        <div
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "WebkitAlignItems": "center",
+              "WebkitBoxAlign": "center",
+              "WebkitBoxDirection": "normal",
+              "WebkitBoxOrient": "horizontal",
+              "WebkitBoxPack": "justify",
+              "WebkitFlexDirection": "row",
+              "WebkitJustifyContent": "space-between",
+              "alignItems": "center",
+              "flexDirection": "row",
+              "justifyContent": "space-between",
+              "msFlexAlign": "center",
+              "msFlexDirection": "row",
+              "msFlexPack": "justify",
+            }
+          }
+        >
+          <div
+            className="css-text-901oao css-textOneLine-bfa6kz"
+            dir="auto"
+            style={
+              Object {
+                "color": "rgba(85,85,85,1.00)",
+                "fontSize": "16px",
+                "textTransform": "capitalize",
+              }
+            }
+          >
+            <span
+              className="css-text-901oao css-textHasAncestor-16my406"
+              dir="auto"
+              style={
+                Object {
+                  "fontSize": "8px",
+                  "fontWeight": "500",
+                }
+              }
+            >
+              From
+              :
+            </span>
+            <span
+              className="css-text-901oao css-textHasAncestor-16my406"
+              dir="auto"
+              style={
+                Object {
+                  "fontFamily": "Roboto-Medium",
+                  "fontSize": "16px",
+                }
+              }
+            >
+               Misao Matimbo
+            </span>
+          </div>
+        </div>
+        <div
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "WebkitAlignItems": "center",
+              "WebkitBoxAlign": "center",
+              "WebkitBoxDirection": "normal",
+              "WebkitBoxOrient": "horizontal",
+              "WebkitBoxPack": "justify",
+              "WebkitFlexDirection": "row",
+              "WebkitJustifyContent": "space-between",
+              "alignItems": "center",
+              "flexDirection": "row",
+              "justifyContent": "space-between",
+              "msFlexAlign": "center",
+              "msFlexDirection": "row",
+              "msFlexPack": "justify",
+            }
+          }
+        >
+          <div
+            className="css-text-901oao"
+            dir="auto"
+            style={
+              Object {
+                "color": "rgba(163,163,163,1.00)",
+                "fontSize": "10px",
+                "marginTop": "4px",
+                "textTransform": "capitalize",
+              }
+            }
+          >
+            aaa
+          </div>
+        </div>
+      </div>
+      <div
+        className="css-view-1dbjc4n"
+        style={
+          Object {
+            "WebkitAlignItems": "right",
+            "WebkitBoxAlign": "right",
+            "WebkitBoxDirection": "normal",
+            "WebkitBoxOrient": "vertical",
+            "WebkitBoxPack": "justify",
+            "WebkitFlexDirection": "column",
+            "WebkitJustifyContent": "space-between",
+            "alignItems": "right",
+            "flexDirection": "column",
+            "justifyContent": "space-between",
+            "msFlexAlign": "right",
+            "msFlexDirection": "column",
+            "msFlexPack": "justify",
+          }
+        }
+      >
+        <div
+          className="css-text-901oao"
+          containerStyle={
+            Object {
+              "marginRight": 0,
+            }
+          }
+          dir="auto"
+          style={
+            Object {
+              "fontFamily": "gooddollar",
+              "fontSize": "34px",
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+            }
+          }
+        >
+          
+        </div>
       </div>
     </div>
   </div>
@@ -337,18 +477,38 @@ exports[`ListEventItem send matches snapshot 1`] = `
 >
   <div
     className="css-view-1dbjc4n"
+    style={
+      Object {
+        "WebkitAlignItems": "left",
+        "WebkitAlignSelf": "flex-end",
+        "WebkitBoxAlign": "left",
+        "WebkitBoxDirection": "normal",
+        "WebkitBoxOrient": "vertical",
+        "WebkitBoxPack": "justify",
+        "WebkitFlexDirection": "column",
+        "WebkitJustifyContent": "space-between",
+        "alignItems": "left",
+        "alignSelf": "flex-end",
+        "flexDirection": "column",
+        "justifyContent": "space-between",
+        "msFlexAlign": "left",
+        "msFlexDirection": "column",
+        "msFlexItemAlign": "end",
+        "msFlexPack": "justify",
+      }
+    }
   >
     <div
       className="css-view-1dbjc4n"
       style={
         Object {
-          "backgroundColor": "rgba(255,255,255,1.00)",
-          "borderBottomLeftRadius": "18px",
-          "borderBottomRightRadius": "18px",
-          "borderTopLeftRadius": "18px",
-          "borderTopRightRadius": "18px",
-          "height": "36px",
-          "width": "36px",
+          "backgroundColor": "rgba(98,0,238,1.00)",
+          "borderBottomLeftRadius": "17px",
+          "borderBottomRightRadius": "17px",
+          "borderTopLeftRadius": "17px",
+          "borderTopRightRadius": "17px",
+          "height": "34px",
+          "width": "34px",
         }
       }
     >
@@ -357,16 +517,16 @@ exports[`ListEventItem send matches snapshot 1`] = `
         style={
           Object {
             "WebkitFlexBasis": "auto",
-            "borderBottomLeftRadius": "18px",
-            "borderBottomRightRadius": "18px",
-            "borderTopLeftRadius": "18px",
-            "borderTopRightRadius": "18px",
+            "borderBottomLeftRadius": "17px",
+            "borderBottomRightRadius": "17px",
+            "borderTopLeftRadius": "17px",
+            "borderTopRightRadius": "17px",
             "flexBasis": "auto",
-            "height": "36px",
+            "height": "34px",
             "msFlexPreferredSize": "auto",
             "overflowX": "hidden",
             "overflowY": "hidden",
-            "width": "36px",
+            "width": "34px",
             "zIndex": 0,
           }
         }
@@ -399,105 +559,35 @@ exports[`ListEventItem send matches snapshot 1`] = `
         />
       </div>
     </div>
-    <div
-      className="css-text-901oao"
-      dir="auto"
-    >
-      
-
-    </div>
   </div>
   <div
     className="css-view-1dbjc4n"
     style={
       Object {
+        "WebkitAlignItems": "right",
+        "WebkitBoxAlign": "right",
+        "WebkitBoxDirection": "normal",
         "WebkitBoxFlex": 1,
+        "WebkitBoxOrient": "vertical",
+        "WebkitBoxPack": "justify",
         "WebkitFlexBasis": "0%",
+        "WebkitFlexDirection": "column",
         "WebkitFlexGrow": 1,
         "WebkitFlexShrink": 1,
+        "WebkitJustifyContent": "space-between",
+        "alignItems": "right",
         "flexBasis": "0%",
+        "flexDirection": "column",
         "flexGrow": 1,
         "flexShrink": 1,
+        "justifyContent": "space-between",
+        "marginLeft": "4px",
+        "msFlexAlign": "right",
+        "msFlexDirection": "column",
         "msFlexNegative": 1,
+        "msFlexPack": "justify",
         "msFlexPositive": 1,
         "msFlexPreferredSize": "0%",
-      }
-    }
-  >
-    <div
-      className="css-text-901oao"
-      dir="auto"
-      style={
-        Object {
-          "color": "rgba(85,85,85,1.00)",
-          "fontSize": "16px",
-          "textTransform": "capitalize",
-        }
-      }
-    >
-      <span
-        className="css-text-901oao css-textHasAncestor-16my406"
-        dir="auto"
-        style={
-          Object {
-            "fontSize": "8px",
-            "fontWeight": "500",
-          }
-        }
-      >
-        To
-        :
-      </span>
-      <span
-        className="css-text-901oao css-textHasAncestor-16my406"
-        dir="auto"
-        style={
-          Object {
-            "fontWeight": "700",
-          }
-        }
-      >
-        Misao Matimbo
-      </span>
-    </div>
-    <div
-      className="css-text-901oao"
-      dir="auto"
-      style={
-        Object {
-          "color": "rgba(163,163,163,1.00)",
-          "fontSize": "16px",
-          "marginTop": "4px",
-          "textTransform": "capitalize",
-        }
-      }
-    >
-      aaa
-    </div>
-  </div>
-  <div
-    className="css-view-1dbjc4n"
-    style={
-      Object {
-        "WebkitAlignItems": "flex-end",
-        "WebkitBoxAlign": "end",
-        "WebkitBoxDirection": "normal",
-        "WebkitBoxOrient": "vertical",
-        "WebkitBoxPack": "end",
-        "WebkitFlexDirection": "column",
-        "WebkitJustifyContent": "flex-end",
-        "alignItems": "flex-end",
-        "borderBottomWidth": "0px",
-        "flexDirection": "column",
-        "justifyContent": "flex-end",
-        "marginBottom": "0px",
-        "msFlexAlign": "end",
-        "msFlexDirection": "column",
-        "msFlexPack": "end",
-        "paddingBottom": "0px",
-        "paddingLeft": "0px",
-        "paddingRight": "0px",
-        "paddingTop": "0px",
       }
     }
   >
@@ -509,15 +599,19 @@ exports[`ListEventItem send matches snapshot 1`] = `
           "WebkitBoxAlign": "center",
           "WebkitBoxDirection": "normal",
           "WebkitBoxOrient": "horizontal",
-          "WebkitBoxPack": "end",
+          "WebkitBoxPack": "justify",
           "WebkitFlexDirection": "row",
-          "WebkitJustifyContent": "flex-end",
+          "WebkitJustifyContent": "space-between",
           "alignItems": "center",
+          "borderBottomStyle": "solid",
+          "borderBottomWidth": "2px",
           "flexDirection": "row",
-          "justifyContent": "flex-end",
+          "justifyContent": "space-between",
+          "marginBottom": "4px",
           "msFlexAlign": "center",
           "msFlexDirection": "row",
-          "msFlexPack": "end",
+          "msFlexPack": "justify",
+          "paddingBottom": "4px",
         }
       }
     >
@@ -525,7 +619,19 @@ exports[`ListEventItem send matches snapshot 1`] = `
         className="css-view-1dbjc4n"
         style={
           Object {
-            "display": "inline-block",
+            "WebkitAlignItems": "left",
+            "WebkitBoxAlign": "left",
+            "WebkitBoxDirection": "normal",
+            "WebkitBoxOrient": "vertical",
+            "WebkitBoxPack": "justify",
+            "WebkitFlexDirection": "column",
+            "WebkitJustifyContent": "space-between",
+            "alignItems": "left",
+            "flexDirection": "column",
+            "justifyContent": "space-between",
+            "msFlexAlign": "left",
+            "msFlexDirection": "column",
+            "msFlexPack": "justify",
           }
         }
       >
@@ -534,50 +640,73 @@ exports[`ListEventItem send matches snapshot 1`] = `
           dir="auto"
           style={
             Object {
-              "color": "rgba(85,85,85,1.00)",
-              "direction": "ltr",
-              "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-              "fontSize": "12px",
-              "textAlign": "right",
+              "color": "rgba(75,75,75,0.80)",
+              "fontFamily": "Roboto-Regular",
+              "fontSize": "10px",
+              "marginLeft": "auto",
             }
           }
         >
-          0.04
-        </div>
-        <div
-          className="css-text-901oao"
-          dir="auto"
-          style={
-            Object {
-              "color": "rgba(85,85,85,1.00)",
-              "direction": "ltr",
-              "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-              "fontSize": "12px",
-              "textAlign": "right",
-            }
-          }
-        >
-          G$
+          04/01/19 3:03 PM
         </div>
       </div>
       <div
-        className="css-text-901oao"
-        containerStyle={
-          Object {
-            "marginRight": 0,
-          }
-        }
-        dir="auto"
+        className="css-view-1dbjc4n"
         style={
           Object {
-            "fontFamily": "gooddollar",
-            "fontSize": "34px",
-            "fontStyle": "normal",
-            "fontWeight": "normal",
+            "WebkitAlignItems": "right",
+            "WebkitBoxAlign": "right",
+            "WebkitBoxDirection": "normal",
+            "WebkitBoxOrient": "vertical",
+            "WebkitBoxPack": "justify",
+            "WebkitFlexDirection": "column",
+            "WebkitJustifyContent": "space-between",
+            "alignItems": "right",
+            "flexDirection": "column",
+            "justifyContent": "space-between",
+            "msFlexAlign": "right",
+            "msFlexDirection": "column",
+            "msFlexPack": "justify",
           }
         }
       >
-        
+        <div
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "display": "inline-block",
+            }
+          }
+        >
+          <div
+            className="css-text-901oao"
+            dir="auto"
+            style={
+              Object {
+                "direction": "ltr",
+                "fontFamily": "Roboto-Bold",
+                "fontSize": "10px",
+                "textAlign": "right",
+              }
+            }
+          >
+            0.04
+          </div>
+          <div
+            className="css-text-901oao"
+            dir="auto"
+            style={
+              Object {
+                "direction": "ltr",
+                "fontFamily": "Roboto-Bold",
+                "fontSize": "10px",
+                "textAlign": "right",
+              }
+            }
+          >
+            G$
+          </div>
+        </div>
       </div>
     </div>
     <div
@@ -588,30 +717,181 @@ exports[`ListEventItem send matches snapshot 1`] = `
           "WebkitBoxAlign": "center",
           "WebkitBoxDirection": "normal",
           "WebkitBoxOrient": "horizontal",
-          "WebkitBoxPack": "end",
+          "WebkitBoxPack": "justify",
           "WebkitFlexDirection": "row",
-          "WebkitJustifyContent": "flex-end",
+          "WebkitJustifyContent": "space-between",
           "alignItems": "center",
           "flexDirection": "row",
-          "justifyContent": "flex-end",
+          "justifyContent": "space-between",
           "msFlexAlign": "center",
           "msFlexDirection": "row",
-          "msFlexPack": "end",
+          "msFlexPack": "justify",
         }
       }
     >
       <div
-        className="css-text-901oao"
-        dir="auto"
+        className="css-view-1dbjc4n"
         style={
           Object {
-            "color": "rgba(75,75,75,0.80)",
-            "fontSize": "8px",
-            "marginLeft": "auto",
+            "WebkitAlignItems": "left",
+            "WebkitBoxAlign": "left",
+            "WebkitBoxDirection": "normal",
+            "WebkitBoxFlex": 1,
+            "WebkitBoxOrient": "vertical",
+            "WebkitBoxPack": "justify",
+            "WebkitFlexBasis": "0%",
+            "WebkitFlexDirection": "column",
+            "WebkitFlexGrow": 1,
+            "WebkitFlexShrink": 1,
+            "WebkitJustifyContent": "space-between",
+            "alignItems": "left",
+            "flexBasis": "0%",
+            "flexDirection": "column",
+            "flexGrow": 1,
+            "flexShrink": 1,
+            "justifyContent": "space-between",
+            "msFlexAlign": "left",
+            "msFlexDirection": "column",
+            "msFlexNegative": 1,
+            "msFlexPack": "justify",
+            "msFlexPositive": 1,
+            "msFlexPreferredSize": "0%",
           }
         }
       >
-        04/01/19 3:03 PM
+        <div
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "WebkitAlignItems": "center",
+              "WebkitBoxAlign": "center",
+              "WebkitBoxDirection": "normal",
+              "WebkitBoxOrient": "horizontal",
+              "WebkitBoxPack": "justify",
+              "WebkitFlexDirection": "row",
+              "WebkitJustifyContent": "space-between",
+              "alignItems": "center",
+              "flexDirection": "row",
+              "justifyContent": "space-between",
+              "msFlexAlign": "center",
+              "msFlexDirection": "row",
+              "msFlexPack": "justify",
+            }
+          }
+        >
+          <div
+            className="css-text-901oao css-textOneLine-bfa6kz"
+            dir="auto"
+            style={
+              Object {
+                "color": "rgba(85,85,85,1.00)",
+                "fontSize": "16px",
+                "textTransform": "capitalize",
+              }
+            }
+          >
+            <span
+              className="css-text-901oao css-textHasAncestor-16my406"
+              dir="auto"
+              style={
+                Object {
+                  "fontSize": "8px",
+                  "fontWeight": "500",
+                }
+              }
+            >
+              To
+              :
+            </span>
+            <span
+              className="css-text-901oao css-textHasAncestor-16my406"
+              dir="auto"
+              style={
+                Object {
+                  "fontFamily": "Roboto-Medium",
+                  "fontSize": "16px",
+                }
+              }
+            >
+               Misao Matimbo
+            </span>
+          </div>
+        </div>
+        <div
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "WebkitAlignItems": "center",
+              "WebkitBoxAlign": "center",
+              "WebkitBoxDirection": "normal",
+              "WebkitBoxOrient": "horizontal",
+              "WebkitBoxPack": "justify",
+              "WebkitFlexDirection": "row",
+              "WebkitJustifyContent": "space-between",
+              "alignItems": "center",
+              "flexDirection": "row",
+              "justifyContent": "space-between",
+              "msFlexAlign": "center",
+              "msFlexDirection": "row",
+              "msFlexPack": "justify",
+            }
+          }
+        >
+          <div
+            className="css-text-901oao"
+            dir="auto"
+            style={
+              Object {
+                "color": "rgba(163,163,163,1.00)",
+                "fontSize": "10px",
+                "marginTop": "4px",
+                "textTransform": "capitalize",
+              }
+            }
+          >
+            aaa
+          </div>
+        </div>
+      </div>
+      <div
+        className="css-view-1dbjc4n"
+        style={
+          Object {
+            "WebkitAlignItems": "right",
+            "WebkitBoxAlign": "right",
+            "WebkitBoxDirection": "normal",
+            "WebkitBoxOrient": "vertical",
+            "WebkitBoxPack": "justify",
+            "WebkitFlexDirection": "column",
+            "WebkitJustifyContent": "space-between",
+            "alignItems": "right",
+            "flexDirection": "column",
+            "justifyContent": "space-between",
+            "msFlexAlign": "right",
+            "msFlexDirection": "column",
+            "msFlexPack": "justify",
+          }
+        }
+      >
+        <div
+          className="css-text-901oao"
+          containerStyle={
+            Object {
+              "marginRight": 0,
+            }
+          }
+          dir="auto"
+          style={
+            Object {
+              "fontFamily": "gooddollar",
+              "fontSize": "34px",
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+            }
+          }
+        >
+          
+        </div>
       </div>
     </div>
   </div>
@@ -646,18 +926,38 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
 >
   <div
     className="css-view-1dbjc4n"
+    style={
+      Object {
+        "WebkitAlignItems": "left",
+        "WebkitAlignSelf": "flex-end",
+        "WebkitBoxAlign": "left",
+        "WebkitBoxDirection": "normal",
+        "WebkitBoxOrient": "vertical",
+        "WebkitBoxPack": "justify",
+        "WebkitFlexDirection": "column",
+        "WebkitJustifyContent": "space-between",
+        "alignItems": "left",
+        "alignSelf": "flex-end",
+        "flexDirection": "column",
+        "justifyContent": "space-between",
+        "msFlexAlign": "left",
+        "msFlexDirection": "column",
+        "msFlexItemAlign": "end",
+        "msFlexPack": "justify",
+      }
+    }
   >
     <div
       className="css-view-1dbjc4n"
       style={
         Object {
-          "backgroundColor": "rgba(255,255,255,1.00)",
-          "borderBottomLeftRadius": "18px",
-          "borderBottomRightRadius": "18px",
-          "borderTopLeftRadius": "18px",
-          "borderTopRightRadius": "18px",
-          "height": "36px",
-          "width": "36px",
+          "backgroundColor": "rgba(98,0,238,1.00)",
+          "borderBottomLeftRadius": "17px",
+          "borderBottomRightRadius": "17px",
+          "borderTopLeftRadius": "17px",
+          "borderTopRightRadius": "17px",
+          "height": "34px",
+          "width": "34px",
         }
       }
     >
@@ -666,16 +966,16 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
         style={
           Object {
             "WebkitFlexBasis": "auto",
-            "borderBottomLeftRadius": "18px",
-            "borderBottomRightRadius": "18px",
-            "borderTopLeftRadius": "18px",
-            "borderTopRightRadius": "18px",
+            "borderBottomLeftRadius": "17px",
+            "borderBottomRightRadius": "17px",
+            "borderTopLeftRadius": "17px",
+            "borderTopRightRadius": "17px",
             "flexBasis": "auto",
-            "height": "36px",
+            "height": "34px",
             "msFlexPreferredSize": "auto",
             "overflowX": "hidden",
             "overflowY": "hidden",
-            "width": "36px",
+            "width": "34px",
             "zIndex": 0,
           }
         }
@@ -708,105 +1008,35 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
         />
       </div>
     </div>
-    <div
-      className="css-text-901oao"
-      dir="auto"
-    >
-      
-
-    </div>
   </div>
   <div
     className="css-view-1dbjc4n"
     style={
       Object {
+        "WebkitAlignItems": "right",
+        "WebkitBoxAlign": "right",
+        "WebkitBoxDirection": "normal",
         "WebkitBoxFlex": 1,
+        "WebkitBoxOrient": "vertical",
+        "WebkitBoxPack": "justify",
         "WebkitFlexBasis": "0%",
+        "WebkitFlexDirection": "column",
         "WebkitFlexGrow": 1,
         "WebkitFlexShrink": 1,
+        "WebkitJustifyContent": "space-between",
+        "alignItems": "right",
         "flexBasis": "0%",
+        "flexDirection": "column",
         "flexGrow": 1,
         "flexShrink": 1,
+        "justifyContent": "space-between",
+        "marginLeft": "4px",
+        "msFlexAlign": "right",
+        "msFlexDirection": "column",
         "msFlexNegative": 1,
+        "msFlexPack": "justify",
         "msFlexPositive": 1,
         "msFlexPreferredSize": "0%",
-      }
-    }
-  >
-    <div
-      className="css-text-901oao"
-      dir="auto"
-      style={
-        Object {
-          "color": "rgba(85,85,85,1.00)",
-          "fontSize": "16px",
-          "textTransform": "capitalize",
-        }
-      }
-    >
-      <span
-        className="css-text-901oao css-textHasAncestor-16my406"
-        dir="auto"
-        style={
-          Object {
-            "fontSize": "8px",
-            "fontWeight": "500",
-          }
-        }
-      >
-        From
-        :
-      </span>
-      <span
-        className="css-text-901oao css-textHasAncestor-16my406"
-        dir="auto"
-        style={
-          Object {
-            "fontWeight": "700",
-          }
-        }
-      >
-        Misao Matimbo
-      </span>
-    </div>
-    <div
-      className="css-text-901oao"
-      dir="auto"
-      style={
-        Object {
-          "color": "rgba(163,163,163,1.00)",
-          "fontSize": "16px",
-          "marginTop": "4px",
-          "textTransform": "capitalize",
-        }
-      }
-    >
-      aaa
-    </div>
-  </div>
-  <div
-    className="css-view-1dbjc4n"
-    style={
-      Object {
-        "WebkitAlignItems": "flex-end",
-        "WebkitBoxAlign": "end",
-        "WebkitBoxDirection": "normal",
-        "WebkitBoxOrient": "vertical",
-        "WebkitBoxPack": "end",
-        "WebkitFlexDirection": "column",
-        "WebkitJustifyContent": "flex-end",
-        "alignItems": "flex-end",
-        "borderBottomWidth": "0px",
-        "flexDirection": "column",
-        "justifyContent": "flex-end",
-        "marginBottom": "0px",
-        "msFlexAlign": "end",
-        "msFlexDirection": "column",
-        "msFlexPack": "end",
-        "paddingBottom": "0px",
-        "paddingLeft": "0px",
-        "paddingRight": "0px",
-        "paddingTop": "0px",
       }
     }
   >
@@ -818,15 +1048,19 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
           "WebkitBoxAlign": "center",
           "WebkitBoxDirection": "normal",
           "WebkitBoxOrient": "horizontal",
-          "WebkitBoxPack": "end",
+          "WebkitBoxPack": "justify",
           "WebkitFlexDirection": "row",
-          "WebkitJustifyContent": "flex-end",
+          "WebkitJustifyContent": "space-between",
           "alignItems": "center",
+          "borderBottomStyle": "solid",
+          "borderBottomWidth": "2px",
           "flexDirection": "row",
-          "justifyContent": "flex-end",
+          "justifyContent": "space-between",
+          "marginBottom": "4px",
           "msFlexAlign": "center",
           "msFlexDirection": "row",
-          "msFlexPack": "end",
+          "msFlexPack": "justify",
+          "paddingBottom": "4px",
         }
       }
     >
@@ -834,7 +1068,19 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
         className="css-view-1dbjc4n"
         style={
           Object {
-            "display": "inline-block",
+            "WebkitAlignItems": "left",
+            "WebkitBoxAlign": "left",
+            "WebkitBoxDirection": "normal",
+            "WebkitBoxOrient": "vertical",
+            "WebkitBoxPack": "justify",
+            "WebkitFlexDirection": "column",
+            "WebkitJustifyContent": "space-between",
+            "alignItems": "left",
+            "flexDirection": "column",
+            "justifyContent": "space-between",
+            "msFlexAlign": "left",
+            "msFlexDirection": "column",
+            "msFlexPack": "justify",
           }
         }
       >
@@ -843,50 +1089,73 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
           dir="auto"
           style={
             Object {
-              "color": "rgba(85,85,85,1.00)",
-              "direction": "ltr",
-              "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-              "fontSize": "12px",
-              "textAlign": "right",
+              "color": "rgba(75,75,75,0.80)",
+              "fontFamily": "Roboto-Regular",
+              "fontSize": "10px",
+              "marginLeft": "auto",
             }
           }
         >
-          0.04
-        </div>
-        <div
-          className="css-text-901oao"
-          dir="auto"
-          style={
-            Object {
-              "color": "rgba(85,85,85,1.00)",
-              "direction": "ltr",
-              "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-              "fontSize": "12px",
-              "textAlign": "right",
-            }
-          }
-        >
-          G$
+          04/01/19 3:03 PM
         </div>
       </div>
       <div
-        className="css-text-901oao"
-        containerStyle={
-          Object {
-            "marginRight": 0,
-          }
-        }
-        dir="auto"
+        className="css-view-1dbjc4n"
         style={
           Object {
-            "fontFamily": "gooddollar",
-            "fontSize": "34px",
-            "fontStyle": "normal",
-            "fontWeight": "normal",
+            "WebkitAlignItems": "right",
+            "WebkitBoxAlign": "right",
+            "WebkitBoxDirection": "normal",
+            "WebkitBoxOrient": "vertical",
+            "WebkitBoxPack": "justify",
+            "WebkitFlexDirection": "column",
+            "WebkitJustifyContent": "space-between",
+            "alignItems": "right",
+            "flexDirection": "column",
+            "justifyContent": "space-between",
+            "msFlexAlign": "right",
+            "msFlexDirection": "column",
+            "msFlexPack": "justify",
           }
         }
       >
-        
+        <div
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "display": "inline-block",
+            }
+          }
+        >
+          <div
+            className="css-text-901oao"
+            dir="auto"
+            style={
+              Object {
+                "direction": "ltr",
+                "fontFamily": "Roboto-Bold",
+                "fontSize": "10px",
+                "textAlign": "right",
+              }
+            }
+          >
+            0.04
+          </div>
+          <div
+            className="css-text-901oao"
+            dir="auto"
+            style={
+              Object {
+                "direction": "ltr",
+                "fontFamily": "Roboto-Bold",
+                "fontSize": "10px",
+                "textAlign": "right",
+              }
+            }
+          >
+            G$
+          </div>
+        </div>
       </div>
     </div>
     <div
@@ -897,30 +1166,181 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
           "WebkitBoxAlign": "center",
           "WebkitBoxDirection": "normal",
           "WebkitBoxOrient": "horizontal",
-          "WebkitBoxPack": "end",
+          "WebkitBoxPack": "justify",
           "WebkitFlexDirection": "row",
-          "WebkitJustifyContent": "flex-end",
+          "WebkitJustifyContent": "space-between",
           "alignItems": "center",
           "flexDirection": "row",
-          "justifyContent": "flex-end",
+          "justifyContent": "space-between",
           "msFlexAlign": "center",
           "msFlexDirection": "row",
-          "msFlexPack": "end",
+          "msFlexPack": "justify",
         }
       }
     >
       <div
-        className="css-text-901oao"
-        dir="auto"
+        className="css-view-1dbjc4n"
         style={
           Object {
-            "color": "rgba(75,75,75,0.80)",
-            "fontSize": "8px",
-            "marginLeft": "auto",
+            "WebkitAlignItems": "left",
+            "WebkitBoxAlign": "left",
+            "WebkitBoxDirection": "normal",
+            "WebkitBoxFlex": 1,
+            "WebkitBoxOrient": "vertical",
+            "WebkitBoxPack": "justify",
+            "WebkitFlexBasis": "0%",
+            "WebkitFlexDirection": "column",
+            "WebkitFlexGrow": 1,
+            "WebkitFlexShrink": 1,
+            "WebkitJustifyContent": "space-between",
+            "alignItems": "left",
+            "flexBasis": "0%",
+            "flexDirection": "column",
+            "flexGrow": 1,
+            "flexShrink": 1,
+            "justifyContent": "space-between",
+            "msFlexAlign": "left",
+            "msFlexDirection": "column",
+            "msFlexNegative": 1,
+            "msFlexPack": "justify",
+            "msFlexPositive": 1,
+            "msFlexPreferredSize": "0%",
           }
         }
       >
-        04/01/19 3:03 PM
+        <div
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "WebkitAlignItems": "center",
+              "WebkitBoxAlign": "center",
+              "WebkitBoxDirection": "normal",
+              "WebkitBoxOrient": "horizontal",
+              "WebkitBoxPack": "justify",
+              "WebkitFlexDirection": "row",
+              "WebkitJustifyContent": "space-between",
+              "alignItems": "center",
+              "flexDirection": "row",
+              "justifyContent": "space-between",
+              "msFlexAlign": "center",
+              "msFlexDirection": "row",
+              "msFlexPack": "justify",
+            }
+          }
+        >
+          <div
+            className="css-text-901oao css-textOneLine-bfa6kz"
+            dir="auto"
+            style={
+              Object {
+                "color": "rgba(85,85,85,1.00)",
+                "fontSize": "16px",
+                "textTransform": "capitalize",
+              }
+            }
+          >
+            <span
+              className="css-text-901oao css-textHasAncestor-16my406"
+              dir="auto"
+              style={
+                Object {
+                  "fontSize": "8px",
+                  "fontWeight": "500",
+                }
+              }
+            >
+              From
+              :
+            </span>
+            <span
+              className="css-text-901oao css-textHasAncestor-16my406"
+              dir="auto"
+              style={
+                Object {
+                  "fontFamily": "Roboto-Medium",
+                  "fontSize": "16px",
+                }
+              }
+            >
+               Misao Matimbo
+            </span>
+          </div>
+        </div>
+        <div
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "WebkitAlignItems": "center",
+              "WebkitBoxAlign": "center",
+              "WebkitBoxDirection": "normal",
+              "WebkitBoxOrient": "horizontal",
+              "WebkitBoxPack": "justify",
+              "WebkitFlexDirection": "row",
+              "WebkitJustifyContent": "space-between",
+              "alignItems": "center",
+              "flexDirection": "row",
+              "justifyContent": "space-between",
+              "msFlexAlign": "center",
+              "msFlexDirection": "row",
+              "msFlexPack": "justify",
+            }
+          }
+        >
+          <div
+            className="css-text-901oao"
+            dir="auto"
+            style={
+              Object {
+                "color": "rgba(163,163,163,1.00)",
+                "fontSize": "10px",
+                "marginTop": "4px",
+                "textTransform": "capitalize",
+              }
+            }
+          >
+            aaa
+          </div>
+        </div>
+      </div>
+      <div
+        className="css-view-1dbjc4n"
+        style={
+          Object {
+            "WebkitAlignItems": "right",
+            "WebkitBoxAlign": "right",
+            "WebkitBoxDirection": "normal",
+            "WebkitBoxOrient": "vertical",
+            "WebkitBoxPack": "justify",
+            "WebkitFlexDirection": "column",
+            "WebkitJustifyContent": "space-between",
+            "alignItems": "right",
+            "flexDirection": "column",
+            "justifyContent": "space-between",
+            "msFlexAlign": "right",
+            "msFlexDirection": "column",
+            "msFlexPack": "justify",
+          }
+        }
+      >
+        <div
+          className="css-text-901oao"
+          containerStyle={
+            Object {
+              "marginRight": 0,
+            }
+          }
+          dir="auto"
+          style={
+            Object {
+              "fontFamily": "gooddollar",
+              "fontSize": "34px",
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+            }
+          }
+        >
+          
+        </div>
       </div>
     </div>
   </div>

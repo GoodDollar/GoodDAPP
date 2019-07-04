@@ -38,9 +38,9 @@ const TopBar = ({ hideBalance, push, children }) => {
 
 const styles = StyleSheet.create({
   topBar: {
-    paddingTop: normalize(16),
-    paddingBottom: normalize(16),
-    marginBottom: normalize(16)
+    paddingTop: normalize(8),
+    paddingBottom: normalize(8),
+    marginBottom: normalize(8)
   }
 })
 

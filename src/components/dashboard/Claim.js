@@ -1,7 +1,8 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { StyleSheet } from 'react-native'
+import { Image, StyleSheet } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
+import illustration from '../../assets/Claim/illustration.png'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import logger from '../../lib/logger/pino-logger'
@@ -25,6 +26,8 @@ type ClaimState = {
 }
 
 const log = logger.child({ from: 'Claim' })
+
+Image.prefetch(illustration)
 
 const Claim = ({ screenProps }: ClaimProps) => {
   const store = SimpleStore.useStore()
@@ -149,69 +152,78 @@ const Claim = ({ screenProps }: ClaimProps) => {
   return (
     <Wrapper>
       <TopBar push={screenProps.push} />
-      <Section.Stack grow={3} justifyContent="flex-start">
-        <Text color="surface">GoodDollar allows you to collect</Text>
-        <Section.Row justifyContent="center">
-          <Text fontFamily="slabBold" fontSize={36} color="surface">
-            1
-          </Text>
-          <Text fontFamily="slabBold" fontSize={20} color="surface">
-            {' '}
-            G$
-          </Text>
-          <Text fontFamily="slabBold" fontSize={36} color="surface">
-            {' '}
-            Free
-          </Text>
-        </Section.Row>
-        <Section.Row justifyContent="center">
-          <Text fontFamily="slabBold" fontSize={36} color="surface">
-            Every Day
-          </Text>
-        </Section.Row>
-      </Section.Stack>
-      <Section grow={3}>
-        <Section.Row grow={1} style={styles.extraInfoStats} justifyContent="center">
-          <Section.Row alignItems="baseline">
-            <Text color="primary" fontWeight="bold">
-              {claimedToday.people}
+      <Section grow>
+        <Section.Stack grow={4} justifyContent="flex-start">
+          <Text>GoodDollar allows you to collect</Text>
+          <Section.Row justifyContent="center">
+            <Text fontFamily="slabBold" fontSize={36} color="#00c3ae">
+              1
             </Text>
-            <Text> People Claimed </Text>
-            <Text color="primary" fontWeight="bold">
-              {claimedToday.amount}{' '}
-            </Text>
-            <Text color="primary" fontSize={12} fontWeight="bold">
+            <Text fontFamily="slabBold" fontSize={20} color="#00c3ae">
+              {' '}
               G$
             </Text>
-            <Text> Today!</Text>
+            <Text fontFamily="slabBold" fontSize={36} color="#00c3ae">
+              {' '}
+              Free
+            </Text>
           </Section.Row>
-        </Section.Row>
-        <Section.Stack grow={3} style={styles.extraInfoCountdown} justifyContent="center">
-          <Text>Next daily income:</Text>
-          <Text fontFamily="slabBold" fontSize={36} color="#00c3ae">
-            {nextClaim}
-          </Text>
+          <Section.Row justifyContent="center">
+            <Text fontFamily="slabBold" fontSize={36} color="#00c3ae">
+              Every Day
+            </Text>
+          </Section.Row>
+          <Image source={illustration} style={styles.illustration} resizeMode="contain" />
         </Section.Stack>
-        {ClaimButton}
+        <Section grow={3} style={styles.extraInfo}>
+          <Section.Row grow={1} style={styles.extraInfoStats} justifyContent="center">
+            <Section.Row alignItems="baseline">
+              <Text color="primary" fontWeight="bold">
+                {claimedToday.people}
+              </Text>
+              <Text> People Claimed </Text>
+              <Text color="primary" fontWeight="bold">
+                {claimedToday.amount}{' '}
+              </Text>
+              <Text color="primary" fontSize={12} fontWeight="bold">
+                G$
+              </Text>
+              <Text> Today!</Text>
+            </Section.Row>
+          </Section.Row>
+          <Section.Stack grow={2} style={styles.extraInfoCountdown} justifyContent="center">
+            <Text>Next daily income:</Text>
+            <Text fontFamily="slabBold" fontSize={36} color="#00c3ae">
+              {nextClaim}
+            </Text>
+          </Section.Stack>
+          {ClaimButton}
+        </Section>
       </Section>
     </Wrapper>
   )
 }
 
 const styles = StyleSheet.create({
+  illustration: {
+    marginTop: normalize(16),
+    minWidth: normalize(229),
+    maxWidth: '100%',
+    minHeight: normalize(159)
+  },
+  extraInfo: { padding: 0 },
   extraInfoStats: { backgroundColor: '#e0e0e0', borderRadius: normalize(5) },
   extraInfoCountdown: {
     backgroundColor: '#e0e0e0',
+    margin: 0,
     marginTop: normalize(8),
-    marginBottom: normalize(16),
+    marginBottom: normalize(8),
     borderRadius: normalize(5)
   }
 })
 
-const claim = GDStore.withStore(Claim)
-
-claim.navigationOptions = {
+Claim.navigationOptions = {
   title: 'Claim Daily G$'
 }
 
-export default claim
+export default Claim

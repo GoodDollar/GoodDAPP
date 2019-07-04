@@ -9,6 +9,7 @@ import { CustomButton, Section, Wrapper } from '../../common'
 import FRapi from './FaceRecognitionAPI'
 import type FaceRecognitionResponse from './FaceRecognitionAPI'
 import ZoomCapture from './ZoomCapture'
+import GuidedFR from './GuidedFRProcessResults'
 import { type ZoomCaptureResult } from './Zoom'
 
 const log = logger.child({ from: 'FaceRecognition' })
@@ -20,6 +21,8 @@ type FaceRecognitionProps = DashboardProps & {}
 type State = DashboardState & {
   showPreText: boolean,
   showZoomCapture: boolean,
+  showGuidedFR: boolean,
+  sessionId: string,
   loadingFaceRecognition: boolean,
   loadingText: string,
   facemap: Blob,
@@ -38,6 +41,8 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
   state = {
     showPreText: true,
     showZoomCapture: false,
+    showGuidedFR: false,
+    sessionId: undefined,
     loadingFaceRecognition: false,
     loadingText: '',
     facemap: new Blob([], { type: 'text/plain' }),
@@ -89,6 +94,8 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     log.debug('Sending capture result to server', captureResult)
     this.setState({
       showZoomCapture: false,
+      showGuidedFR: true,
+      sessionId: captureResult.sessionId,
       loadingFaceRecognition: true,
       loadingText: 'Analyzing Face Recognition..'
     })
@@ -120,7 +127,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
   render() {
     const { store }: FaceRecognitionProps = this.props
     const { fullName } = store.get('profile')
-    const { showZoomCapture, showPreText, loadingFaceRecognition, loadingText } = this.state
+    const { showZoomCapture, showPreText, loadingFaceRecognition, loadingText, showGuidedFR, sessionId } = this.state
 
     return (
       <Wrapper>
@@ -152,6 +159,8 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
             {loadingText}
           </CustomButton>
         )}
+
+        {showGuidedFR && <GuidedFR sessionId={sessionId} />}
 
         <ZoomCapture
           height={this.height}

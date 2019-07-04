@@ -1,20 +1,21 @@
 // @flow
 import React, { useState } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { AsyncStorage, StyleSheet, View } from 'react-native'
 import { Paragraph } from 'react-native-paper'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import bip39 from 'bip39-light'
-import { useErrorDialog } from '../../lib/undux/utils/dialog'
-import { getMnemonics, saveMnemonics } from '../../lib/wallet/SoftwareWalletProvider'
 import logger from '../../lib/logger/pino-logger'
-import { CustomButton } from '../common'
+import CustomButton from '../common/buttons/CustomButton'
+import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import MnemonicInput from './MnemonicInput'
 
 //const TITLE = 'Recover my wallet'
 const TITLE = 'Recover'
 const log = logger.child({ from: TITLE })
 
-const Mnemonics = () => {
+const Mnemonics = props => {
+  //lazy load heavy wallet stuff for fast initial app load (part of initial routes)
+  const mnemonicsHelpers = import('../../lib/wallet/SoftwareWalletProvider')
   const [mnemonics, setMnemonics] = useState()
   const [showErrorDialog] = useErrorDialog()
 
@@ -25,10 +26,11 @@ const Mnemonics = () => {
 
   const recover = async () => {
     if (!mnemonics || !bip39.validateMnemonic(mnemonics)) {
-      showErrorDialog({ message: 'Invalid Mnemonic' })
+      showErrorDialog('Invalid Mnemonic')
       return
     }
 
+    const { getMnemonics, saveMnemonics } = await mnemonicsHelpers
     const prevMnemonics = await getMnemonics()
 
     try {
@@ -39,14 +41,17 @@ const Mnemonics = () => {
       const profile = await profileExist()
 
       if (profile) {
+        await AsyncStorage.setItem('GOODDAPP_isLoggedIn', true)
+
         // There is no error and Profile exists. Reload screen to start with users mnemonics
         window.location = '/'
       } else {
         await saveMnemonics(prevMnemonics)
-        showErrorDialog({ message: 'No user registered for specified mnemonics' })
+        showErrorDialog("Mnemonic doesn't match any existing account.")
       }
     } catch (err) {
       log.error(err)
+      showErrorDialog('Error recovering account', err)
       saveMnemonics(prevMnemonics)
     }
   }
@@ -58,7 +63,7 @@ const Mnemonics = () => {
           <Paragraph style={[styles.fontBase, styles.paragraph]}>Please enter your 12-word passphrase:</Paragraph>
         </View>
         <View style={styles.formContainer}>
-          <MnemonicInput onChange={handleChange} />
+          <MnemonicInput recoveryMode={false} onChange={handleChange} />
         </View>
       </View>
       <View style={styles.bottomContainer}>
@@ -75,14 +80,12 @@ const Mnemonics = () => {
  * @returns {Promise<Promise<*>|Promise<*>|Promise<any>>}
  */
 async function profileExist(): Promise<any> {
-  const [{ GoodWallet }, { UserStorage }] = await Promise.all([
-    import('../../lib/wallet/GoodWallet'),
-    import('../../lib/gundb/UserStorage')
+  const [, userStorage] = await Promise.all([
+    import('../../lib/wallet/GoodWallet').then(_ => _.default),
+    import('../../lib/gundb/UserStorage').then(_ => _.default)
   ])
 
   // reinstantiates wallet and userStorage with new mnemonics
-  const goodWallet = new GoodWallet()
-  const userStorage = new UserStorage(goodWallet)
   await userStorage.ready
 
   return userStorage.userAlreadyExist()

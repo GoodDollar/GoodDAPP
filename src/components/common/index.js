@@ -1,5 +1,6 @@
 import Address from './view/Address'
 import Avatar from './view/Avatar'
+import AmountInput from './view/AmountInput'
 import BigGoodDollar from './view/BigGoodDollar'
 import BigNumber from './view/BigNumber'
 import ClaimButton from './buttons/ClaimButton'
@@ -19,6 +20,7 @@ import Wrapper from './layout/Wrapper'
 
 export {
   Address,
+  AmountInput,
   Avatar,
   BigGoodDollar,
   BigNumber,

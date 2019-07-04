@@ -1,5 +1,5 @@
 // @flow
-import { createConnectedStore, type StoreDefinition, withReduxDevtools } from 'undux'
+import { createConnectedStore, type StoreDefinition } from 'undux'
 import compose from 'lodash/fp/compose'
 import effects from '../../lib/undux/effects'
 import withPinoLogger from './plugins/logger'
@@ -23,25 +23,6 @@ type Account = {
 }
 
 /**
- * Dialog data. This is being used to show a dialog across the app
- * @type
- */
-type DialogData = {
-  visible: boolean,
-  title?: string,
-  message?: string
-}
-
-/**
- * Current screen state data
- * @type
- */
-type CurrentScreen = {
-  dialogData?: DialogData,
-  loading: boolean
-}
-
-/**
  * StandardFeed element. It's being used to show the feed on dashboard
  * @type
  */
@@ -53,19 +34,11 @@ export type StandardFeed = {
     endpoint: {
       address: string,
       fullName: string,
-      avatar: string
+      avatar?: string
     },
     amount: string,
     message: string
   }
-}
-
-/**
- * Loading indicator screen status. In true means that there is a loading overlay over the current screen
- * @type
- */
-type LoadingIndicator = {
-  loading: boolean
 }
 
 /**
@@ -75,11 +48,9 @@ type LoadingIndicator = {
 export type State = {
   balanceUpdate: BalanceUpdate,
   account: Account,
-  currentScreen: CurrentScreen,
   destinationPath: string,
   feeds: StandardFeed[],
-  feedLoading: Boolean,
-  loadingIndicator: LoadingIndicator
+  feedLoading: Boolean
 }
 
 /**
@@ -97,22 +68,10 @@ const initialState: State = {
   },
   isLoggedInCitizen: false,
   isLoggedIn: false,
-  currentScreen: {
-    dialogData: {
-      visible: false
-    },
-    loading: false
-  },
   profile: {},
   destinationPath: '',
   feeds: [],
-  loadingIndicator: {
-    loading: false
-  },
-  feedLoading: false,
-  sidemenu: {
-    visible: false
-  }
+  feedLoading: false
 }
 
 /**
@@ -123,8 +82,7 @@ const GDStore: StoreDefinition<State> = createConnectedStore(
   initialState,
   compose(
     effects,
-    withPinoLogger,
-    withReduxDevtools
+    withPinoLogger
   )
 )
 

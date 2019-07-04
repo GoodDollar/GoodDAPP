@@ -21,54 +21,37 @@ type ReceiptType = {
  * Execute withdraw from a transaction hash, and handle dialogs with process information using Undux
  *
  * @param {Store} store - Undux store
- * @param {string} hash - Transaction hash / event id
+ * @param {string} code - code that unlocks the escrowed payment
  * @returns {Promise} Returns the receipt of the transaction
  */
-export const executeWithdraw = async (store: Store, hash: string, reason: string): Promise<ReceiptType> => {
-  log.info('executeWithdraw', hash, reason)
+export const executeWithdraw = async (store: Store, code: string, reason: string): Promise<ReceiptType> => {
+  log.info('executeWithdraw', code, reason)
   try {
-    const { amount } = await goodWallet.canWithdraw(hash)
-    store.set('currentScreen')({
-      ...store.get('currentScreen'),
-      dialogData: {
-        visible: true,
-        title: 'Processing withrawal...',
-        loading: true,
-        dismissText: 'hold'
-      }
-    })
-    const receipt = await goodWallet.withdraw(hash, {
-      onTransactionHash: transactionHash => {
-        const transactionEvent: TransactionEvent = {
-          id: transactionHash,
-          date: new Date().toString(),
-          type: 'withdraw',
-          data: {
-            amount,
-            hash,
-            reason
+    const { amount, sender } = await goodWallet.canWithdraw(code)
+    return new Promise((res, rej) => {
+      goodWallet.withdraw(code, {
+        onTransactionHash: transactionHash => {
+          const transactionEvent: TransactionEvent = {
+            id: transactionHash,
+            date: new Date().toString(),
+            type: 'withdraw',
+            data: {
+              from: sender,
+              amount,
+              code,
+              reason
+            }
           }
+          userStorage.enqueueTX(transactionEvent)
+          res(transactionHash)
+        },
+        onError: e => {
+          rej(e)
         }
-        userStorage.enqueueTX(transactionEvent)
-      }
+      })
     })
-    store.set('currentScreen')({
-      ...store.get('currentScreen'),
-      dialogData: {
-        visible: false
-      }
-    })
-    return receipt
   } catch (e) {
     log.error({ e })
-    store.set('currentScreen')({
-      ...store.get('currentScreen'),
-      dialogData: {
-        visible: true,
-        title: 'Error',
-        message: e.message
-      }
-    })
-    return {}
+    throw e
   }
 }

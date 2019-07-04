@@ -2,6 +2,7 @@
 import React from 'react'
 import { StyleSheet, Text, TouchableHighlight, View } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
+import { moneyRegexp } from '../../../lib/wallet/utils'
 import backKeyboardButton from '../../../assets/backKeyboardButton.png'
 
 type KeyboardKeyProps = {
@@ -9,9 +10,16 @@ type KeyboardKeyProps = {
   onPress: string => void
 }
 
+type CaretPosition = {
+  start: number,
+  end: number
+}
+
 type KeyboardProps = {
-  onPress: number => void,
-  amount: number
+  onPress: string => void,
+  amount: string,
+  caretPosition?: CaretPosition,
+  updateCaretPosition?: CaretPosition => void
 }
 
 type KeyboardRowProps = {
@@ -39,13 +47,35 @@ const KeyboardRow = ({ keys, onPress }: KeyboardRowProps) => (
   </View>
 )
 
-const NumPadKeyboard = ({ onPress, amount }: KeyboardProps) => {
+const NumPadKeyboard = ({ onPress, amount, caretPosition, updateCaretPosition }: KeyboardProps) => {
   const onPressKey = (value: string) => {
-    onPress(Number(`${amount}${value}`))
+    const stringAmount = `${amount}`
+    const updatedValue = caretPosition
+      ? [stringAmount.slice(0, caretPosition.start), value, stringAmount.slice(caretPosition.end)].join('')
+      : `${stringAmount}${value}`
+
+    if (moneyRegexp.test(updatedValue)) {
+      onPress(updatedValue)
+      updateCaretPosition({
+        start: caretPosition.start + 1,
+        end: caretPosition.start + 1
+      })
+    }
   }
 
   const onBackspaceKey = () => {
-    onPress(Number(`${amount}`.slice(0, -1)))
+    if (!caretPosition || caretPosition.end > 0) {
+      const stringAmount = `${amount}`
+      let updatedValue = stringAmount.slice(0, -1)
+      if (caretPosition) {
+        updatedValue = [stringAmount.slice(0, caretPosition.start - 1), stringAmount.slice(caretPosition.end)].join('')
+        updateCaretPosition({
+          start: caretPosition.start - 1,
+          end: caretPosition.start - 1
+        })
+      }
+      onPress(updatedValue)
+    }
   }
 
   return (
@@ -60,6 +90,11 @@ const NumPadKeyboard = ({ onPress, amount }: KeyboardProps) => {
       </View>
     </View>
   )
+}
+
+NumPadKeyboard.defaultProps = {
+  caretPosition: null,
+  updateCaretPosition: () => {}
 }
 
 const styles = StyleSheet.create({
@@ -83,7 +118,7 @@ const styles = StyleSheet.create({
   keyText: {
     fontSize: normalize(20),
     fontFamily: 'RobotoSlab-Bold',
-    fontWeight: 700,
+    fontWeight: '700',
     color: '#42454a'
   },
   backspaceButton: {

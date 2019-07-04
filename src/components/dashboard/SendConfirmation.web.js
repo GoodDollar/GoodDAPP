@@ -5,10 +5,8 @@ import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { normalize } from 'react-native-elements'
 import { isMobile } from 'mobile-device-detect'
-
 import { generateSendShareObject } from '../../lib/share'
-import GDStore from '../../lib/undux/GDStore'
-
+import { useDialog } from '../../lib/undux/utils/dialog'
 import { DoneButton, useScreenState } from '../appNavigation/stackNavigation'
 import { BigGoodDollar, CopyButton, CustomButton, Section, TopBar, Wrapper } from '../common'
 import { fontStyle } from '../common/styles'
@@ -24,23 +22,21 @@ export type ReceiveProps = {
 const SEND_TITLE = 'Send G$'
 const SendConfirmation = ({ screenProps }: ReceiveProps) => {
   const [screenState] = useScreenState(screenProps)
-  const store = GDStore.useStore()
+  const [showDialog] = useDialog()
 
-  const { amount, reason, sendLink } = screenState
-  const share = generateSendShareObject(sendLink)
+  const { amount, reason, paymentLink } = screenState
+  const share = generateSendShareObject(paymentLink)
 
   const shareAction = async () => {
     try {
       await navigator.share(share)
     } catch (e) {
-      store.set('currentScreen')({
-        dialogData: {
-          visible: true,
-          title: 'Error',
-          message:
-            'There was a problem triggering share action. You can still copy the link in tapping on "Copy link to clipboard"',
-          dismissText: 'Ok'
-        }
+      showDialog({
+        visible: true,
+        title: 'Error',
+        message:
+          'There was a problem triggering share action. You can still copy the link in tapping on "Copy link to clipboard"',
+        dismissText: 'Ok'
       })
     }
   }
@@ -58,7 +54,7 @@ const SendConfirmation = ({ screenProps }: ReceiveProps) => {
         <View style={styles.topContainer}>
           <Section.Row style={styles.sectionRow}>
             <View style={styles.qrCode}>
-              <QRCode value={sendLink || ''} />
+              <QRCode value={paymentLink || ''} />
             </View>
             <Section.Text style={styles.addressSection}>
               <Text style={styles.url}>{share.url}</Text>
@@ -156,7 +152,7 @@ SendConfirmation.navigationOptions = {
 
 SendConfirmation.shouldNavigateToComponent = props => {
   const { screenState } = props.screenProps
-  return !!screenState.sendLink
+  return !!screenState.paymentLink
 }
 
 export default SendConfirmation

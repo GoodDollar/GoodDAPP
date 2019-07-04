@@ -234,9 +234,14 @@ describe('UserStorage', () => {
 
   it('updates first event', async () => {
     await userStorage.updateFeedEvent(event)
-
-    let updatedEvent = { ...event, date: new Date('2019-01-01').toString(), data: { foo: 'zar', extra: 'bar' } }
+    await delay(0)
+    let updatedEvent = {
+      ...event,
+      date: new Date('2019-01-01').toString(),
+      data: { foo: 'updates first event', extra: 'bar' }
+    }
     await userStorage.updateFeedEvent(updatedEvent)
+    await delay(100)
     const index = await userStorage.feed
       .get('index')
       .once()

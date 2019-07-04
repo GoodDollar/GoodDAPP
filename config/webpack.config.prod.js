@@ -187,7 +187,7 @@ module.exports = {
     // https://medium.com/webpack/webpack-4-code-splitting-chunk-graph-and-the-splitchunks-optimization-be739a861366
     splitChunks: {
       chunks: 'all',
-      name: false
+      name: true
     },
     // Keep the runtime chunk seperated to enable long term caching
     // https://twitter.com/wSokra/status/969679223278505985
@@ -262,9 +262,9 @@ module.exports = {
         use: {
           loader: 'file-loader',
           options: {
-            name: '[name].[ext]',
-          },
-        },
+            name: '[name].[ext]'
+          }
+        }
       },
       {
         // "oneOf" will traverse all following loaders until one will

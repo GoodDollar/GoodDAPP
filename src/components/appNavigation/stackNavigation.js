@@ -3,8 +3,7 @@ import React, { Component, useEffect, useState } from 'react'
 import { ScrollView, View } from 'react-native'
 import SideMenu from 'react-native-side-menu'
 import { createNavigator, Route, SceneView, SwitchRouter } from '@react-navigation/core'
-import GDStore from '../../lib/undux/GDStore'
-import { toggleSidemenu } from '../../lib/undux/utils/sidemenu'
+import SimpleStore from '../../lib/undux/SimpleStore'
 import SideMenuPanel from '../sidemenu/SideMenuPanel'
 import logger from '../../lib/logger/pino-logger'
 import CustomButton, { type ButtonProps } from '../common/buttons/CustomButton'
@@ -26,7 +25,7 @@ type AppViewProps = {
   navigation: any,
   navigationConfig: any,
   screenProps: any,
-  store: GDStore
+  store: SimpleStore
 }
 
 type AppViewState = {
@@ -180,8 +179,6 @@ class AppView extends Component<AppViewProps, AppViewState> {
     this.setState(state => ({ currentState: { ...state.currentState, ...data } }))
   }
 
-  handleSidemenuVisibility = () => toggleSidemenu(this.props.store)
-
   render() {
     const { descriptors, navigation, navigationConfig, screenProps: incomingScreenProps, store } = this.props
     const activeKey = navigation.state.routes[navigation.state.index].key
@@ -199,7 +196,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
       setScreenState: this.setScreenState,
       toggleMenu: () => this.drawer.open()
     }
-    log.info('stackNavigation Render: FIXME rerender', descriptor, activeKey, this.props, this.state)
+    log.info('stackNavigation Render: FIXME rerender', descriptor, activeKey)
     const Component = this.getComponent(descriptor.getComponent(), { screenProps })
     const pageTitle = title || activeKey
     const open = store.get('sidemenu').visible
@@ -230,7 +227,7 @@ export const createStackNavigator = (routes: any, navigationConfig: any) => {
     backRouteName: 'Home'
   }
 
-  return createNavigator(GDStore.withStore(AppView), SwitchRouter(routes), {
+  return createNavigator(SimpleStore.withStore(AppView), SwitchRouter(routes), {
     ...defaultNavigationConfig,
     ...navigationConfig,
     navigationOptions

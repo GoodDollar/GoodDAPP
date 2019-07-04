@@ -4,7 +4,7 @@ import { ActivityIndicator, Colors, Portal } from 'react-native-paper'
 import { StyleSheet, View } from 'react-native-web'
 import type { Store } from 'undux'
 
-import GDStore from '../../../lib/undux/GDStore'
+import SimpleStore from '../../../lib/undux/SimpleStore'
 
 /**
  * Curried function wich requires an undux Store and then sets the flag to show/hide the LoadingIndicator component
@@ -18,6 +18,16 @@ export const setLoadingWithStore = (store: Store) => (to: boolean) => {
   store.set('loadingIndicator')(loadingIndicator)
 }
 
+export const Indicator = ({ loading }) => (
+  <Portal>
+    {loading ? (
+      <View style={styles.screen}>
+        <ActivityIndicator animating={loading} color={Colors.lightBlue800} />
+      </View>
+    ) : null}
+  </Portal>
+)
+
 /**
  * Provides a `LoadingIndicator` component which renders an ActivityIndicator over a semi-transparent background.
  * @param {object} props - an object with props
@@ -26,19 +36,10 @@ export const setLoadingWithStore = (store: Store) => (to: boolean) => {
  * @constructor
  */
 const LoadingIndicator = ({ force }) => {
-  const store = GDStore.useStore()
+  const store = SimpleStore.useStore()
   const loading = store.get('loadingIndicator').loading || force
-  return (
-    <Portal>
-      {loading ? (
-        <View style={styles.screen}>
-          <ActivityIndicator animating={loading} color={Colors.lightBlue800} />
-        </View>
-      ) : null}
-    </Portal>
-  )
+  return <Indicator loading={loading} />
 }
-
 const styles = StyleSheet.create({
   screen: {
     position: 'absolute',
@@ -53,4 +54,13 @@ const styles = StyleSheet.create({
   }
 })
 
-export default LoadingIndicator
+const suspenseWithIndicator = (child, props) => {
+  const Child = React.lazy(() => child)
+  const Loading = <Indicator loading={true} />
+  return (
+    <React.Suspense fallback={Loading}>
+      <Child {...props} />
+    </React.Suspense>
+  )
+}
+export { LoadingIndicator as default, suspenseWithIndicator }

@@ -152,20 +152,20 @@ const Claim = ({ screenProps }: ClaimProps) => {
       <Section.Stack grow={3} justifyContent="flex-start">
         <Text color="surface">GoodDollar allows you to collect</Text>
         <Section.Row justifyContent="center">
-          <Text family="slabBold" size={36} color="surface">
+          <Text fontFamily="slabBold" fontSize={36} color="surface">
             1
           </Text>
-          <Text family="slabBold" size={20} color="surface">
+          <Text fontFamily="slabBold" fontSize={20} color="surface">
             {' '}
             G$
           </Text>
-          <Text family="slabBold" size={36} color="surface">
+          <Text fontFamily="slabBold" fontSize={36} color="surface">
             {' '}
             Free
           </Text>
         </Section.Row>
         <Section.Row justifyContent="center">
-          <Text family="slabBold" size={36} color="surface">
+          <Text fontFamily="slabBold" fontSize={36} color="surface">
             Every Day
           </Text>
         </Section.Row>
@@ -173,14 +173,14 @@ const Claim = ({ screenProps }: ClaimProps) => {
       <Section grow={3} style={styles.extraInfo}>
         <Section.Row grow={1} style={styles.extraInfoStats} justifyContent="center">
           <Section.Row alignItems="baseline">
-            <Text color="primary" weight="bold">
+            <Text color="primary" fontWeight="bold">
               {claimedToday.people}
             </Text>
             <Text> People Claimed </Text>
-            <Text color="primary" weight="bold">
+            <Text color="primary" fontWeight="bold">
               {claimedToday.amount}{' '}
             </Text>
-            <Text color="primary" size={12} weight="bold">
+            <Text color="primary" fontSize={12} fontWeight="bold">
               G$
             </Text>
             <Text> Today!</Text>
@@ -188,7 +188,7 @@ const Claim = ({ screenProps }: ClaimProps) => {
         </Section.Row>
         <Section.Stack grow={3} style={styles.extraInfoCountdown} justifyContent="center">
           <Text>Next daily income:</Text>
-          <Text family="slabBold" size={36} color="#00c3ae">
+          <Text fontFamily="slabBold" fontSize={36} color="#00c3ae">
             {nextClaim}
           </Text>
         </Section.Stack>

@@ -16,23 +16,67 @@ class Text extends React.Component {
   }
 
   render() {
-    const { style, theme, ...rest } = this.props
+    const {
+      style,
+      theme,
+      color,
+      textAlign,
+      fontWeight,
+      fontFamily,
+      fontSize,
+      lineHeight,
+      textDecorationLine,
+      textTransform,
+      ...rest
+    } = this.props
 
     return <PaperText {...rest} ref={c => (this._root = c)} style={[getStylesFromProps(this.props), style]} />
   }
 }
 
-const getStylesFromProps = props => {
-  const { theme, color, align, weight, family, transform, size, decoration } = props
+/**
+ * Returns the linespacing associated to the font-size based on guidelines
+ * Defaults to 1em if size is not in the list
+ * @param {number} fontSize
+ * @returns {*|string}
+ */
+const relatedLineSpacing = fontSize =>
+  ({
+    8: normalize(14),
+    10: normalize(14),
+    12: normalize(16),
+    14: normalize(20),
+    16: normalize(22),
+    18: normalize(24),
+    22: normalize(30),
+    24: normalize(30),
+    36: normalize(30),
+    42: normalize(30)
+  }[fontSize] || '1em')
+
+const getStylesFromProps = ({
+  theme,
+  color,
+  textAlign,
+  fontWeight,
+  fontFamily,
+  fontSize,
+  lineHeight,
+  textDecorationLine,
+  textTransform
+}) => {
+  const calculatedFontSize = Number.isFinite(fontSize) ? normalize(fontSize) : normalize(16)
+  const calculatedLineHeight = lineHeight || relatedLineSpacing(calculatedFontSize)
 
   return {
     color: theme.colors[color] || color || theme.colors.text,
-    textAlign: align || 'center',
-    fontWeight: weight || 'normal',
-    fontFamily: theme.fonts[family] || family || 'Roboto',
-    fontSize: Number.isFinite(size) ? normalize(size) : normalize(16),
-    textTransform: transform || 'none',
-    textDecorationStyle: decoration || 'none'
+    textAlign: textAlign || 'center',
+    fontWeight: fontWeight || 'normal',
+    fontFamily: theme.fonts[fontFamily] || fontFamily || 'Roboto',
+    fontSize: calculatedFontSize,
+    lineHeight: calculatedLineHeight,
+    textTransform: textTransform || 'none',
+    textDecorationLine: textDecorationLine || 'none'
   }
 }
 

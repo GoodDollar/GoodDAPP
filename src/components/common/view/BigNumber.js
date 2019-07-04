@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
   },
   bigNumber: {
     ...fontStyle,
-    fontSize: normalize(30),
+    fontSize: normalize(48),
     textAlign: 'right'
   },
   bigNumberUnit: {

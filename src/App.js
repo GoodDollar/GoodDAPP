@@ -11,7 +11,12 @@ const theme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    primary: '#00AFFF'
+    primary: '#00AFFF',
+    receive: '#00c3ae',
+    send: '#fa6c77',
+    message: '#9f6a9d',
+    notification: '#f8af40',
+    feedback: '#00afff'
   }
 }
 

@@ -18,6 +18,10 @@ exports[`ListEventItem receive matches snapshot 1`] = `
       "msFlexAlign": "center",
       "msFlexDirection": "row",
       "msFlexPack": "center",
+      "paddingBottom": "4px",
+      "paddingLeft": "4px",
+      "paddingRight": "4px",
+      "paddingTop": "4px",
       "width": "100%",
     }
   }
@@ -117,7 +121,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
       style={
         Object {
           "color": "rgba(85,85,85,1.00)",
-          "fontSize": "15px",
+          "fontSize": "16px",
           "textTransform": "capitalize",
         }
       }
@@ -127,7 +131,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
         dir="auto"
         style={
           Object {
-            "fontSize": "10px",
+            "fontSize": "8px",
             "fontWeight": "500",
           }
         }
@@ -153,7 +157,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
       style={
         Object {
           "color": "rgba(163,163,163,1.00)",
-          "fontSize": "15px",
+          "fontSize": "16px",
           "marginTop": "4px",
           "textTransform": "capitalize",
         }
@@ -248,47 +252,23 @@ exports[`ListEventItem receive matches snapshot 1`] = `
         </div>
       </div>
       <div
-        className="css-view-1dbjc4n"
+        className="css-text-901oao"
+        containerStyle={
+          Object {
+            "marginRight": 0,
+          }
+        }
+        dir="auto"
         style={
           Object {
-            "WebkitAlignItems": "center",
-            "WebkitBoxAlign": "center",
-            "WebkitBoxPack": "center",
-            "WebkitJustifyContent": "center",
-            "alignItems": "center",
-            "backgroundColor": "rgba(255,255,255,1.00)",
-            "borderBottomLeftRadius": "20px",
-            "borderBottomRightRadius": "20px",
-            "borderTopLeftRadius": "20px",
-            "borderTopRightRadius": "20px",
-            "height": "36px",
-            "justifyContent": "center",
-            "marginBottom": "7px",
-            "marginLeft": "7px",
-            "marginRight": "0px",
-            "marginTop": "7px",
-            "msFlexAlign": "center",
-            "msFlexPack": "center",
-            "width": "36px",
+            "fontFamily": "gooddollar",
+            "fontSize": "34px",
+            "fontStyle": "normal",
+            "fontWeight": "normal",
           }
         }
       >
-        <div
-          className="css-text-901oao"
-          dir="auto"
-          style={
-            Object {
-              "backgroundColor": "rgba(0,0,0,0.00)",
-              "color": "rgba(85,85,85,1.00)",
-              "fontFamily": "MaterialIcons",
-              "fontSize": "16px",
-              "fontStyle": "normal",
-              "fontWeight": "normal",
-            }
-          }
-        >
-          
-        </div>
+        
       </div>
     </div>
     <div
@@ -347,6 +327,10 @@ exports[`ListEventItem send matches snapshot 1`] = `
       "msFlexAlign": "center",
       "msFlexDirection": "row",
       "msFlexPack": "center",
+      "paddingBottom": "4px",
+      "paddingLeft": "4px",
+      "paddingRight": "4px",
+      "paddingTop": "4px",
       "width": "100%",
     }
   }
@@ -446,7 +430,7 @@ exports[`ListEventItem send matches snapshot 1`] = `
       style={
         Object {
           "color": "rgba(85,85,85,1.00)",
-          "fontSize": "15px",
+          "fontSize": "16px",
           "textTransform": "capitalize",
         }
       }
@@ -456,7 +440,7 @@ exports[`ListEventItem send matches snapshot 1`] = `
         dir="auto"
         style={
           Object {
-            "fontSize": "10px",
+            "fontSize": "8px",
             "fontWeight": "500",
           }
         }
@@ -482,7 +466,7 @@ exports[`ListEventItem send matches snapshot 1`] = `
       style={
         Object {
           "color": "rgba(163,163,163,1.00)",
-          "fontSize": "15px",
+          "fontSize": "16px",
           "marginTop": "4px",
           "textTransform": "capitalize",
         }
@@ -577,47 +561,23 @@ exports[`ListEventItem send matches snapshot 1`] = `
         </div>
       </div>
       <div
-        className="css-view-1dbjc4n"
+        className="css-text-901oao"
+        containerStyle={
+          Object {
+            "marginRight": 0,
+          }
+        }
+        dir="auto"
         style={
           Object {
-            "WebkitAlignItems": "center",
-            "WebkitBoxAlign": "center",
-            "WebkitBoxPack": "center",
-            "WebkitJustifyContent": "center",
-            "alignItems": "center",
-            "backgroundColor": "rgba(255,255,255,1.00)",
-            "borderBottomLeftRadius": "20px",
-            "borderBottomRightRadius": "20px",
-            "borderTopLeftRadius": "20px",
-            "borderTopRightRadius": "20px",
-            "height": "36px",
-            "justifyContent": "center",
-            "marginBottom": "7px",
-            "marginLeft": "7px",
-            "marginRight": "0px",
-            "marginTop": "7px",
-            "msFlexAlign": "center",
-            "msFlexPack": "center",
-            "width": "36px",
+            "fontFamily": "gooddollar",
+            "fontSize": "34px",
+            "fontStyle": "normal",
+            "fontWeight": "normal",
           }
         }
       >
-        <div
-          className="css-text-901oao"
-          dir="auto"
-          style={
-            Object {
-              "backgroundColor": "rgba(0,0,0,0.00)",
-              "color": "rgba(85,85,85,1.00)",
-              "fontFamily": "MaterialIcons",
-              "fontSize": "16px",
-              "fontStyle": "normal",
-              "fontWeight": "normal",
-            }
-          }
-        >
-          
-        </div>
+        
       </div>
     </div>
     <div
@@ -676,6 +636,10 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
       "msFlexAlign": "center",
       "msFlexDirection": "row",
       "msFlexPack": "center",
+      "paddingBottom": "4px",
+      "paddingLeft": "4px",
+      "paddingRight": "4px",
+      "paddingTop": "4px",
       "width": "100%",
     }
   }
@@ -775,7 +739,7 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
       style={
         Object {
           "color": "rgba(85,85,85,1.00)",
-          "fontSize": "15px",
+          "fontSize": "16px",
           "textTransform": "capitalize",
         }
       }
@@ -785,7 +749,7 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
         dir="auto"
         style={
           Object {
-            "fontSize": "10px",
+            "fontSize": "8px",
             "fontWeight": "500",
           }
         }
@@ -811,7 +775,7 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
       style={
         Object {
           "color": "rgba(163,163,163,1.00)",
-          "fontSize": "15px",
+          "fontSize": "16px",
           "marginTop": "4px",
           "textTransform": "capitalize",
         }
@@ -906,47 +870,23 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
         </div>
       </div>
       <div
-        className="css-view-1dbjc4n"
+        className="css-text-901oao"
+        containerStyle={
+          Object {
+            "marginRight": 0,
+          }
+        }
+        dir="auto"
         style={
           Object {
-            "WebkitAlignItems": "center",
-            "WebkitBoxAlign": "center",
-            "WebkitBoxPack": "center",
-            "WebkitJustifyContent": "center",
-            "alignItems": "center",
-            "backgroundColor": "rgba(255,255,255,1.00)",
-            "borderBottomLeftRadius": "20px",
-            "borderBottomRightRadius": "20px",
-            "borderTopLeftRadius": "20px",
-            "borderTopRightRadius": "20px",
-            "height": "36px",
-            "justifyContent": "center",
-            "marginBottom": "7px",
-            "marginLeft": "7px",
-            "marginRight": "0px",
-            "marginTop": "7px",
-            "msFlexAlign": "center",
-            "msFlexPack": "center",
-            "width": "36px",
+            "fontFamily": "gooddollar",
+            "fontSize": "34px",
+            "fontStyle": "normal",
+            "fontWeight": "normal",
           }
         }
       >
-        <div
-          className="css-text-901oao"
-          dir="auto"
-          style={
-            Object {
-              "backgroundColor": "rgba(0,0,0,0.00)",
-              "color": "rgba(85,85,85,1.00)",
-              "fontFamily": "MaterialIcons",
-              "fontSize": "16px",
-              "fontStyle": "normal",
-              "fontWeight": "normal",
-            }
-          }
-        >
-          
-        </div>
+        
       </div>
     </div>
     <div

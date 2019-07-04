@@ -7,7 +7,7 @@ exports[`EventCounterParty receive matches snapshot 1`] = `
   style={
     Object {
       "color": "rgba(85,85,85,1.00)",
-      "fontSize": "15px",
+      "fontSize": "16px",
       "textTransform": "capitalize",
     }
   }
@@ -17,7 +17,7 @@ exports[`EventCounterParty receive matches snapshot 1`] = `
     dir="auto"
     style={
       Object {
-        "fontSize": "10px",
+        "fontSize": "8px",
         "fontWeight": "500",
       }
     }
@@ -46,7 +46,7 @@ exports[`EventCounterParty send matches snapshot 1`] = `
   style={
     Object {
       "color": "rgba(85,85,85,1.00)",
-      "fontSize": "15px",
+      "fontSize": "16px",
       "textTransform": "capitalize",
     }
   }
@@ -56,7 +56,7 @@ exports[`EventCounterParty send matches snapshot 1`] = `
     dir="auto"
     style={
       Object {
-        "fontSize": "10px",
+        "fontSize": "8px",
         "fontWeight": "500",
       }
     }
@@ -85,7 +85,7 @@ exports[`EventCounterParty withdraw matches snapshot 1`] = `
   style={
     Object {
       "color": "rgba(85,85,85,1.00)",
-      "fontSize": "15px",
+      "fontSize": "16px",
       "textTransform": "capitalize",
     }
   }
@@ -95,7 +95,7 @@ exports[`EventCounterParty withdraw matches snapshot 1`] = `
     dir="auto"
     style={
       Object {
-        "fontSize": "10px",
+        "fontSize": "8px",
         "fontWeight": "500",
       }
     }

@@ -206,7 +206,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   verticalList: {
-    backgroundColor: '#fff',
     width: '100%',
     maxWidth: '100vw'
   },

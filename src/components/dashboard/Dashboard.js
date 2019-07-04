@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { Portal } from 'react-native-paper'
 import type { Store } from 'undux'
@@ -12,7 +12,7 @@ import { executeWithdraw } from '../../lib/undux/utils/withdraw'
 import { weiToMask } from '../../lib/wallet/utils'
 import { createStackNavigator, PushButton } from '../appNavigation/stackNavigation'
 import TabsView from '../appNavigation/TabsView'
-import { Avatar, BigGoodDollar, Section, Wrapper } from '../common'
+import { Avatar, BigGoodDollar, ClaimButton, Section, Wrapper } from '../common'
 import logger from '../../lib/logger/pino-logger'
 import userStorage from '../../lib/gundb/UserStorage'
 import { PrivacyPolicy, Support, TermsOfUse } from '../webView/webViewInstances'
@@ -170,7 +170,7 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
     const { horizontal, currentFeedProps } = this.state
     const { screenProps, navigation, store }: DashboardProps = this.props
     const { balance, entitlement } = store.get('account')
-    const { avatar, fullName } = store.get('profile')
+    const { avatar } = store.get('profile')
     const feeds = store.get('feeds')
 
     log.info('LOGGER FEEDS', { feeds })
@@ -180,16 +180,15 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
         <TabsView goTo={navigation.navigate} routes={screenProps.routes} />
         <Wrapper backgroundColor="#eeeeee">
           <Section>
-            <Section.Row style={styles.centered}>
-              <Avatar size={80} source={avatar} onPress={() => screenProps.push('Profile')} />
+            <Section.Row>
+              <Section.Stack alignItems="left">
+                <Avatar size={42} source={avatar} onPress={() => screenProps.push('Profile')} />
+              </Section.Stack>
+              <Section.Stack alignItems="right">
+                <BigGoodDollar number={balance} />
+              </Section.Stack>
             </Section.Row>
-            <Section.Row style={styles.centered}>
-              <Section.Title>{fullName || ' '}</Section.Title>
-            </Section.Row>
-            <Section.Row style={styles.centered}>
-              <BigGoodDollar number={balance} />
-            </Section.Row>
-            <Section.Row style={styles.buttonRow}>
+            <Section.Row style={styles.buttonsRow}>
               <PushButton
                 routeName={'Send'}
                 screenProps={screenProps}
@@ -199,13 +198,7 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
               >
                 Send
               </PushButton>
-              <PushButton routeName={'Claim'} screenProps={screenProps} style={styles.claimButton}>
-                <Text style={[styles.buttonText]}>Claim</Text>
-                <br />
-                <Text style={[styles.buttonText, styles.grayedOutText]}>
-                  +{weiToMask(entitlement, { showUnits: true })}
-                </Text>
-              </PushButton>
+              <ClaimButton screenProps={screenProps} amount={weiToMask(entitlement, { showUnits: true })} />
               <PushButton
                 routeName={'Receive'}
                 screenProps={screenProps}
@@ -239,33 +232,17 @@ class Dashboard extends Component<DashboardProps, DashboardState> {
 }
 
 const styles = StyleSheet.create({
-  buttonText: {
-    fontSize: normalize(16),
-    color: 'white',
-    fontWeight: 'bold',
-    textTransform: 'uppercase'
-  },
-  claimButton: {
-    backgroundColor: '#00C3AE',
-    borderRadius: '50%',
-    zIndex: 99,
-    padding: normalize(10)
-  },
-  buttonRow: {
-    alignItems: 'stretch',
+  buttonsRow: {
+    alignItems: 'space-between',
     marginTop: normalize(10)
-  },
-  grayedOutText: {
-    color: '#d5d5d5',
-    fontSize: normalize(10)
   },
   leftButton: {
     flex: 1,
-    marginRight: normalize(10)
+    marginRight: normalize(20)
   },
   rightButton: {
     flex: 1,
-    marginLeft: normalize(10)
+    marginLeft: normalize(20)
   },
   dashboardView: {
     flex: 1

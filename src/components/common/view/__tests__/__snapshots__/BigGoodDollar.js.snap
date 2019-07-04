@@ -17,7 +17,7 @@ exports[`BigGoodDollar matches snapshot 1`] = `
         "color": "rgba(85,85,85,1.00)",
         "direction": "ltr",
         "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-        "fontSize": "30px",
+        "fontSize": "48px",
         "textAlign": "right",
       }
     }

@@ -1,22 +1,37 @@
 import { StyleSheet } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
+
 export const listStyles = StyleSheet.create({
   row: {
     flexDirection: 'row',
-    marginBottom: 5,
-    backgroundColor: 'rgb(238, 238, 239)',
+    marginBottom: normalize(4),
+    backgroundColor: '#fff',
     borderRadius: normalize(8),
-    overflow: 'hidden'
+    overflow: 'hidden',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: normalize(2) },
+    shadowOpacity: 0.16,
+    shadowRadius: normalize(4),
+    elevation: 1
   },
   rowContent: {
-    padding: normalize(5),
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
-    borderLeftWidth: normalize(8),
-    borderLeftColor: 'rgb(186, 186, 186)'
+    paddingLeft: normalize(8)
+  },
+  rowContentBorder: {
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'contain',
+    height: '100%',
+    left: 0,
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    width: normalize(8)
   },
   innerRow: {
+    padding: normalize(4),
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
@@ -33,12 +48,12 @@ export const listStyles = StyleSheet.create({
     flex: 1
   },
   rowDataText: {
-    fontSize: normalize(15),
+    fontSize: normalize(16),
     textTransform: 'capitalize',
     color: '#555'
   },
   rowDataSubText: {
-    fontSize: normalize(15),
+    fontSize: normalize(16),
     color: '#A3A3A3',
     marginTop: 4,
     textTransform: 'capitalize'
@@ -48,7 +63,7 @@ export const listStyles = StyleSheet.create({
   },
   direction: {
     fontWeight: '500',
-    fontSize: normalize(10)
+    fontSize: normalize(8)
   },
   fullName: {
     fontWeight: '700'

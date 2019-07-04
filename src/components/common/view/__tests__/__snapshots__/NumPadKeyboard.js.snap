@@ -83,12 +83,15 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
         dir="auto"
         style={
           Object {
+            "WebkitTextDecorationStyle": "none",
             "color": "rgba(66,69,74,1.00)",
             "direction": "ltr",
             "fontFamily": "RobotoSlab-Bold",
             "fontSize": "20px",
             "fontWeight": "700",
-            "textAlign": "left",
+            "textAlign": "center",
+            "textDecorationStyle": "none",
+            "textTransform": "none",
           }
         }
       >
@@ -144,12 +147,15 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
         dir="auto"
         style={
           Object {
+            "WebkitTextDecorationStyle": "none",
             "color": "rgba(66,69,74,1.00)",
             "direction": "ltr",
             "fontFamily": "RobotoSlab-Bold",
             "fontSize": "20px",
             "fontWeight": "700",
-            "textAlign": "left",
+            "textAlign": "center",
+            "textDecorationStyle": "none",
+            "textTransform": "none",
           }
         }
       >
@@ -205,12 +211,15 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
         dir="auto"
         style={
           Object {
+            "WebkitTextDecorationStyle": "none",
             "color": "rgba(66,69,74,1.00)",
             "direction": "ltr",
             "fontFamily": "RobotoSlab-Bold",
             "fontSize": "20px",
             "fontWeight": "700",
-            "textAlign": "left",
+            "textAlign": "center",
+            "textDecorationStyle": "none",
+            "textTransform": "none",
           }
         }
       >
@@ -288,12 +297,15 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
         dir="auto"
         style={
           Object {
+            "WebkitTextDecorationStyle": "none",
             "color": "rgba(66,69,74,1.00)",
             "direction": "ltr",
             "fontFamily": "RobotoSlab-Bold",
             "fontSize": "20px",
             "fontWeight": "700",
-            "textAlign": "left",
+            "textAlign": "center",
+            "textDecorationStyle": "none",
+            "textTransform": "none",
           }
         }
       >
@@ -349,12 +361,15 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
         dir="auto"
         style={
           Object {
+            "WebkitTextDecorationStyle": "none",
             "color": "rgba(66,69,74,1.00)",
             "direction": "ltr",
             "fontFamily": "RobotoSlab-Bold",
             "fontSize": "20px",
             "fontWeight": "700",
-            "textAlign": "left",
+            "textAlign": "center",
+            "textDecorationStyle": "none",
+            "textTransform": "none",
           }
         }
       >
@@ -410,12 +425,15 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
         dir="auto"
         style={
           Object {
+            "WebkitTextDecorationStyle": "none",
             "color": "rgba(66,69,74,1.00)",
             "direction": "ltr",
             "fontFamily": "RobotoSlab-Bold",
             "fontSize": "20px",
             "fontWeight": "700",
-            "textAlign": "left",
+            "textAlign": "center",
+            "textDecorationStyle": "none",
+            "textTransform": "none",
           }
         }
       >
@@ -493,12 +511,15 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
         dir="auto"
         style={
           Object {
+            "WebkitTextDecorationStyle": "none",
             "color": "rgba(66,69,74,1.00)",
             "direction": "ltr",
             "fontFamily": "RobotoSlab-Bold",
             "fontSize": "20px",
             "fontWeight": "700",
-            "textAlign": "left",
+            "textAlign": "center",
+            "textDecorationStyle": "none",
+            "textTransform": "none",
           }
         }
       >
@@ -554,12 +575,15 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
         dir="auto"
         style={
           Object {
+            "WebkitTextDecorationStyle": "none",
             "color": "rgba(66,69,74,1.00)",
             "direction": "ltr",
             "fontFamily": "RobotoSlab-Bold",
             "fontSize": "20px",
             "fontWeight": "700",
-            "textAlign": "left",
+            "textAlign": "center",
+            "textDecorationStyle": "none",
+            "textTransform": "none",
           }
         }
       >
@@ -615,12 +639,15 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
         dir="auto"
         style={
           Object {
+            "WebkitTextDecorationStyle": "none",
             "color": "rgba(66,69,74,1.00)",
             "direction": "ltr",
             "fontFamily": "RobotoSlab-Bold",
             "fontSize": "20px",
             "fontWeight": "700",
-            "textAlign": "left",
+            "textAlign": "center",
+            "textDecorationStyle": "none",
+            "textTransform": "none",
           }
         }
       >
@@ -698,12 +725,15 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
         dir="auto"
         style={
           Object {
+            "WebkitTextDecorationStyle": "none",
             "color": "rgba(66,69,74,1.00)",
             "direction": "ltr",
             "fontFamily": "RobotoSlab-Bold",
             "fontSize": "20px",
             "fontWeight": "700",
-            "textAlign": "left",
+            "textAlign": "center",
+            "textDecorationStyle": "none",
+            "textTransform": "none",
           }
         }
       >
@@ -759,12 +789,15 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
         dir="auto"
         style={
           Object {
+            "WebkitTextDecorationStyle": "none",
             "color": "rgba(66,69,74,1.00)",
             "direction": "ltr",
             "fontFamily": "RobotoSlab-Bold",
             "fontSize": "20px",
             "fontWeight": "700",
-            "textAlign": "left",
+            "textAlign": "center",
+            "textDecorationStyle": "none",
+            "textTransform": "none",
           }
         }
       >

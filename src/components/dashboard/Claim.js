@@ -170,7 +170,7 @@ const Claim = ({ screenProps }: ClaimProps) => {
           </Text>
         </Section.Row>
       </Section.Stack>
-      <Section grow={3} style={styles.extraInfo}>
+      <Section grow={3}>
         <Section.Row grow={1} style={styles.extraInfoStats} justifyContent="center">
           <Section.Row alignItems="baseline">
             <Text color="primary" fontWeight="bold">
@@ -199,7 +199,6 @@ const Claim = ({ screenProps }: ClaimProps) => {
 }
 
 const styles = StyleSheet.create({
-  extraInfo: { marginBottom: 0, padding: normalize(8), paddingTop: normalize(8), paddingBottom: normalize(8) },
   extraInfoStats: { backgroundColor: '#e0e0e0', borderRadius: normalize(5) },
   extraInfoCountdown: {
     backgroundColor: '#e0e0e0',

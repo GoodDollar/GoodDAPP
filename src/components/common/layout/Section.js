@@ -61,10 +61,7 @@ const styles = StyleSheet.create({
   section: {
     backgroundColor: '#ffffff',
     borderRadius: normalize(5),
-    padding: normalize(10),
-    paddingTop: normalize(15),
-    paddingBottom: normalize(15),
-    marginBottom: normalize(15)
+    padding: normalize(8)
   },
   sectionRow: {
     flexDirection: 'row',

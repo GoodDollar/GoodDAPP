@@ -55,11 +55,11 @@ const Receive = ({ screenProps, ...props }: ReceiveProps) => {
         <Section.Stack alignItems="stretch">
           <PushButton
             dark={false}
-            routeName="Amount"
+            routeName="ReceiveFrom"
             mode="outlined"
             screenProps={screenProps}
             style={{ marginTop: 10 }}
-            params={{ nextRoutes: ['Reason', 'ReceiveAmount'], params: { toReceive: true } }}
+            params={{ nextRoutes: ['Amount', 'Reason', 'ReceiveAmount'], params: { toReceive: true } }}
           >
             Request specific amount
           </PushButton>

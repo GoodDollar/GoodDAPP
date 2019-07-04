@@ -40,8 +40,8 @@ const Claim = ({ screenProps }: ClaimProps) => {
     nextClaim: '--:--:--',
     entitlement: 0,
     claimedToday: {
-      people: '',
-      amount: ''
+      people: '--',
+      amount: '--'
     }
   })
   const wrappedGoodWallet = wrapper(goodWallet, store)
@@ -65,7 +65,11 @@ const Claim = ({ screenProps }: ClaimProps) => {
     evaluateFRValidity()
   }, [])
 
+  const getNextClaim = nextClaimDate => new Date(nextClaimDate - new Date().getTime()).toISOString().substr(11, 8)
+
   const gatherStats = async () => {
+    store.set('loadingIndicator')({ loading: true })
+
     const entitlement = await wrappedGoodWallet.checkEntitlement()
 
     const [claimedToday, nextClaimDate] = await Promise.all([
@@ -73,11 +77,13 @@ const Claim = ({ screenProps }: ClaimProps) => {
       wrappedGoodWallet.getNextClaimTime()
     ])
 
-    setState(prevState => ({ ...prevState, claimedToday, entitlement }))
+    setState(prevState => ({ ...prevState, claimedToday, entitlement, nextClaim: getNextClaim(nextClaimDate) }))
+
+    store.set('loadingIndicator')({ loading: false })
 
     setClaimInterval(
       setInterval(() => {
-        const nextClaim = new Date(nextClaimDate - new Date().getTime()).toISOString().substr(11, 8)
+        const nextClaim = getNextClaim(nextClaimDate)
         setState(prevState => ({ ...prevState, nextClaim }))
       }, 1000)
     )

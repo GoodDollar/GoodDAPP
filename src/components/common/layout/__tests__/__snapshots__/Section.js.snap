@@ -26,6 +26,7 @@ exports[`Section matches snapshot 1`] = `
         "color": "rgba(85,85,85,1.00)",
         "fontSize": "24px",
         "fontWeight": "500",
+        "marginBottom": "8px",
         "textAlign": "center",
         "textTransform": "uppercase",
       }
@@ -126,6 +127,7 @@ exports[`Section matches snapshot with properties 1`] = `
           "color": "rgba(85,85,85,1.00)",
           "fontSize": "24px",
           "fontWeight": "500",
+          "marginBottom": "8px",
           "textAlign": "center",
           "textTransform": "uppercase",
         }

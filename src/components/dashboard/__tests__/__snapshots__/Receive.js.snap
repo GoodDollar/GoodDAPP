@@ -370,25 +370,25 @@ exports[`Receive matches snapshot 1`] = `
               "WebkitAlignItems": "center",
               "WebkitBoxAlign": "center",
               "WebkitBoxDirection": "normal",
-              "WebkitBoxFlex": 2,
+              "WebkitBoxFlex": 3,
               "WebkitBoxOrient": "vertical",
               "WebkitBoxPack": "justify",
               "WebkitFlexBasis": "0%",
               "WebkitFlexDirection": "column",
-              "WebkitFlexGrow": 2,
+              "WebkitFlexGrow": 3,
               "WebkitFlexShrink": 1,
               "WebkitJustifyContent": "space-around",
               "alignItems": "center",
               "flexBasis": "0%",
               "flexDirection": "column",
-              "flexGrow": 2,
+              "flexGrow": 3,
               "flexShrink": 1,
               "justifyContent": "space-around",
               "msFlexAlign": "center",
               "msFlexDirection": "column",
               "msFlexNegative": 1,
               "msFlexPack": "distribute",
-              "msFlexPositive": 2,
+              "msFlexPositive": 3,
               "msFlexPreferredSize": "0%",
             }
           }
@@ -404,7 +404,7 @@ exports[`Receive matches snapshot 1`] = `
               }
             }
           >
-            Scan this code to transfer G$ directly into your account.
+            Let someone scan your wallet address 
           </div>
           <div
             className="css-view-1dbjc4n"
@@ -570,6 +570,7 @@ exports[`Receive matches snapshot 1`] = `
                 "borderTopWidth": "1px",
                 "boxShadow": "0px 0px 0px rgba(0,0,0,0.24)",
                 "justifyContent": "center",
+                "marginTop": "10px",
                 "minWidth": "auto",
                 "msFlexPack": "center",
               }
@@ -667,7 +668,7 @@ exports[`Receive matches snapshot 1`] = `
                         }
                       }
                     >
-                      Copy address to clipboard
+                      Request specific amount
                     </span>
                   </div>
                 </div>
@@ -699,7 +700,6 @@ exports[`Receive matches snapshot 1`] = `
                 "borderTopWidth": "0px",
                 "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
                 "justifyContent": "center",
-                "marginTop": "10px",
                 "minWidth": "auto",
                 "msFlexPack": "center",
               }
@@ -798,7 +798,7 @@ exports[`Receive matches snapshot 1`] = `
                         }
                       }
                     >
-                      Generate detailed request
+                      Share your wallet link
                     </span>
                   </div>
                 </div>

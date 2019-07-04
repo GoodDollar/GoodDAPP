@@ -68,7 +68,7 @@ const Receive = ({ screenProps, ...props }: ReceiveProps) => {
               {SHARE_TEXT}
             </CustomButton>
           ) : (
-            <CopyButton style={styles.marginTop} toCopy={account}>
+            <CopyButton style={styles.marginTop} toCopy={account} onPressDone={screenProps.goToRoot}>
               {SHARE_TEXT}
             </CopyButton>
           )}

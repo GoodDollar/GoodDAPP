@@ -8,7 +8,9 @@ import goodWallet from '../../lib/wallet/GoodWallet'
 import { generateCode, generateReceiveShareObject } from '../../lib/share'
 import GDStore from '../../lib/undux/GDStore'
 import { BigGoodDollar, CopyButton, CustomButton, QRCode, Section, Wrapper } from '../common'
-import { DoneButton, useScreenState } from '../appNavigation/stackNavigation'
+import DoneButton from '../common/buttons/DoneButton'
+
+import { useScreenState } from '../appNavigation/stackNavigation'
 import { receiveStyles as styles } from './styles'
 
 export type ReceiveProps = {

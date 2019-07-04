@@ -1,6 +1,7 @@
 // @flow
 import React from 'react'
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
+import normalize from 'react-native-elements/src/helpers/normalizeText'
 import PaperProvider from 'react-native-paper/src/core/Provider'
 import DefaultTheme from 'react-native-paper/src/styles/DefaultTheme'
 import SimpleStore from './lib/undux/SimpleStore'
@@ -13,7 +14,8 @@ const theme = {
   colors: {
     ...DefaultTheme.colors,
     primary: '#00AFFF'
-  }
+  },
+  defaultMargin: normalize(8)
 }
 const App = () => {
   // onRecaptcha = (token: string) => {

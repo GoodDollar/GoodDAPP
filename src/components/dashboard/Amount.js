@@ -1,6 +1,5 @@
 // @flow
 import React, { useState } from 'react'
-import { StyleSheet, View } from 'react-native'
 import { AmountInput, Section, TopBar, Wrapper } from '../common'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
 import goodWallet from '../../lib/wallet/GoodWallet'
@@ -55,35 +54,29 @@ const Amount = (props: AmountProps) => {
   }
 
   return (
-    <Wrapper style={styles.wrapper}>
+    <Wrapper>
       <TopBar push={screenProps.push} />
-      <Section style={customStyles.section}>
-        <Section.Row style={styles.sectionRow}>
+      <Section grow>
+        <Section.Title style={styles.headline}>How much?</Section.Title>
+        <Section.Stack grow justifyContent="flex-start">
           <AmountInput amount={GDAmount} handleAmountChange={handleAmountChange} />
-          <View style={styles.buttonGroup}>
-            <BackButton mode="text" screenProps={screenProps} style={{ flex: 1 }}>
-              Cancel
-            </BackButton>
-            <NextButton
-              nextRoutes={screenState.nextRoutes}
-              canContinue={handleContinue}
-              values={{ amount: gdToWei(GDAmount), to }}
-              disabled={loading}
-              {...props}
-            />
-          </View>
+        </Section.Stack>
+        <Section.Row>
+          <BackButton mode="text" screenProps={screenProps} style={{ flex: 1 }}>
+            Cancel
+          </BackButton>
+          <NextButton
+            nextRoutes={screenState.nextRoutes}
+            canContinue={handleContinue}
+            values={{ amount: gdToWei(GDAmount), to }}
+            disabled={loading}
+            {...props}
+          />
         </Section.Row>
       </Section>
     </Wrapper>
   )
 }
-
-const customStyles = StyleSheet.create({
-  section: {
-    flex: 1,
-    backgroundColor: '#fff'
-  }
-})
 
 Amount.navigationOptions = {
   title: RECEIVE_TITLE

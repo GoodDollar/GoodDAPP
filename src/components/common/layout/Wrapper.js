@@ -1,6 +1,7 @@
 // @flow
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
+import { normalize } from 'react-native-elements'
 
 const Wrapper = (props: any) => {
   const backgroundStyle = props.backgroundColor
@@ -40,7 +41,7 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
     flexDirection: 'column',
     width: '100%',
-    padding: 10
+    padding: normalize(8)
   }
 })
 

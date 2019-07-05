@@ -24,10 +24,14 @@ exports[`AmountInput matches snapshot 1`] = `
     style={
       Object {
         "color": "rgba(85,85,85,1.00)",
+        "direction": "ltr",
+        "fontFamily": "Roboto",
         "fontSize": "24px",
         "fontWeight": "500",
+        "lineHeight": "22px",
         "marginBottom": "1rem",
         "textAlign": "center",
+        "textDecoration": "none",
         "textTransform": "uppercase",
       }
     }
@@ -220,9 +224,14 @@ exports[`AmountInput matches snapshot 1`] = `
           style={
             Object {
               "color": "rgba(66,69,74,1.00)",
+              "direction": "ltr",
               "fontFamily": "RobotoSlab-Bold",
               "fontSize": "20px",
               "fontWeight": "700",
+              "lineHeight": "22px",
+              "textAlign": "center",
+              "textDecoration": "none",
+              "textTransform": "none",
             }
           }
         >
@@ -279,9 +288,14 @@ exports[`AmountInput matches snapshot 1`] = `
           style={
             Object {
               "color": "rgba(66,69,74,1.00)",
+              "direction": "ltr",
               "fontFamily": "RobotoSlab-Bold",
               "fontSize": "20px",
               "fontWeight": "700",
+              "lineHeight": "22px",
+              "textAlign": "center",
+              "textDecoration": "none",
+              "textTransform": "none",
             }
           }
         >
@@ -338,9 +352,14 @@ exports[`AmountInput matches snapshot 1`] = `
           style={
             Object {
               "color": "rgba(66,69,74,1.00)",
+              "direction": "ltr",
               "fontFamily": "RobotoSlab-Bold",
               "fontSize": "20px",
               "fontWeight": "700",
+              "lineHeight": "22px",
+              "textAlign": "center",
+              "textDecoration": "none",
+              "textTransform": "none",
             }
           }
         >
@@ -419,9 +438,14 @@ exports[`AmountInput matches snapshot 1`] = `
           style={
             Object {
               "color": "rgba(66,69,74,1.00)",
+              "direction": "ltr",
               "fontFamily": "RobotoSlab-Bold",
               "fontSize": "20px",
               "fontWeight": "700",
+              "lineHeight": "22px",
+              "textAlign": "center",
+              "textDecoration": "none",
+              "textTransform": "none",
             }
           }
         >
@@ -478,9 +502,14 @@ exports[`AmountInput matches snapshot 1`] = `
           style={
             Object {
               "color": "rgba(66,69,74,1.00)",
+              "direction": "ltr",
               "fontFamily": "RobotoSlab-Bold",
               "fontSize": "20px",
               "fontWeight": "700",
+              "lineHeight": "22px",
+              "textAlign": "center",
+              "textDecoration": "none",
+              "textTransform": "none",
             }
           }
         >
@@ -537,9 +566,14 @@ exports[`AmountInput matches snapshot 1`] = `
           style={
             Object {
               "color": "rgba(66,69,74,1.00)",
+              "direction": "ltr",
               "fontFamily": "RobotoSlab-Bold",
               "fontSize": "20px",
               "fontWeight": "700",
+              "lineHeight": "22px",
+              "textAlign": "center",
+              "textDecoration": "none",
+              "textTransform": "none",
             }
           }
         >
@@ -618,9 +652,14 @@ exports[`AmountInput matches snapshot 1`] = `
           style={
             Object {
               "color": "rgba(66,69,74,1.00)",
+              "direction": "ltr",
               "fontFamily": "RobotoSlab-Bold",
               "fontSize": "20px",
               "fontWeight": "700",
+              "lineHeight": "22px",
+              "textAlign": "center",
+              "textDecoration": "none",
+              "textTransform": "none",
             }
           }
         >
@@ -677,9 +716,14 @@ exports[`AmountInput matches snapshot 1`] = `
           style={
             Object {
               "color": "rgba(66,69,74,1.00)",
+              "direction": "ltr",
               "fontFamily": "RobotoSlab-Bold",
               "fontSize": "20px",
               "fontWeight": "700",
+              "lineHeight": "22px",
+              "textAlign": "center",
+              "textDecoration": "none",
+              "textTransform": "none",
             }
           }
         >
@@ -736,9 +780,14 @@ exports[`AmountInput matches snapshot 1`] = `
           style={
             Object {
               "color": "rgba(66,69,74,1.00)",
+              "direction": "ltr",
               "fontFamily": "RobotoSlab-Bold",
               "fontSize": "20px",
               "fontWeight": "700",
+              "lineHeight": "22px",
+              "textAlign": "center",
+              "textDecoration": "none",
+              "textTransform": "none",
             }
           }
         >
@@ -817,9 +866,14 @@ exports[`AmountInput matches snapshot 1`] = `
           style={
             Object {
               "color": "rgba(66,69,74,1.00)",
+              "direction": "ltr",
               "fontFamily": "RobotoSlab-Bold",
               "fontSize": "20px",
               "fontWeight": "700",
+              "lineHeight": "22px",
+              "textAlign": "center",
+              "textDecoration": "none",
+              "textTransform": "none",
             }
           }
         >
@@ -876,9 +930,14 @@ exports[`AmountInput matches snapshot 1`] = `
           style={
             Object {
               "color": "rgba(66,69,74,1.00)",
+              "direction": "ltr",
               "fontFamily": "RobotoSlab-Bold",
               "fontSize": "20px",
               "fontWeight": "700",
+              "lineHeight": "22px",
+              "textAlign": "center",
+              "textDecoration": "none",
+              "textTransform": "none",
             }
           }
         >

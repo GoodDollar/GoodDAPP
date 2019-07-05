@@ -1,13 +1,12 @@
 // @flow
 import React, { Component, useEffect, useState } from 'react'
-import { ScrollView, View } from 'react-native'
+
 import SideMenu from 'react-native-side-menu'
 import { createNavigator, Route, SceneView, SwitchRouter } from '@react-navigation/core'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import SideMenuPanel from '../sidemenu/SideMenuPanel'
 import logger from '../../lib/logger/pino-logger'
 import CustomButton from '../common/buttons/CustomButton'
-import { scrollableContainer } from '../common/styles'
 import NavBar from './NavBar'
 import { navigationOptions } from './navigationConfig'
 
@@ -203,14 +202,10 @@ class AppView extends Component<AppViewProps, AppViewState> {
     const menu = open ? <SideMenuPanel navigation={navigation} /> : null
     return (
       <React.Fragment>
-        {!navigationBarHidden && <NavBar goBack={backButtonHidden ? undefined : this.pop} title={pageTitle} />}
-        <View style={{ backgroundColor: '#fff', flex: 1 }}>
-          <SideMenu menu={menu} menuPosition="right" isOpen={store.get('sidemenu').visible}>
-            <ScrollView contentContainerStyle={scrollableContainer}>
-              <SceneView navigation={descriptor.navigation} component={Component} screenProps={screenProps} />
-            </ScrollView>
-          </SideMenu>
-        </View>
+        <SideMenu menu={menu} menuPosition="right" isOpen={store.get('sidemenu').visible}>
+          {!navigationBarHidden && <NavBar goBack={backButtonHidden ? undefined : this.pop} title={pageTitle} />}
+          <SceneView navigation={descriptor.navigation} component={Component} screenProps={screenProps} />
+        </SideMenu>
       </React.Fragment>
     )
   }

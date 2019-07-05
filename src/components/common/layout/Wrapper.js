@@ -1,6 +1,7 @@
 // @flow
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
+import { paddings } from '../../theme/styles'
 
 const Wrapper = (props: any) => {
   const backgroundStyle = props.backgroundColor
@@ -11,36 +12,18 @@ const Wrapper = (props: any) => {
       }
 
   return (
-    <View style={[styles.container, backgroundStyle]}>
-      <View style={styles.contentContainer}>
-        <View style={[styles.wrapper, props.style]} {...props}>
-          {props.children}
-        </View>
-      </View>
+    <View style={[styles.container, backgroundStyle, props.style]} {...props}>
+      {props.children}
     </View>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    display: 'flex'
-  },
-  contentContainer: {
-    justifyContent: 'center',
-    flexDirection: 'row',
-    flex: 1,
-    alignItems: 'stretch',
-    display: 'flex'
-  },
-  wrapper: {
     display: 'flex',
     flex: 1,
-    justifyContent: 'space-between',
-    alignItems: 'stretch',
     flexDirection: 'column',
-    width: '100%',
-    padding: 10
+    padding: paddings.mainContainerPadding
   }
 })
 

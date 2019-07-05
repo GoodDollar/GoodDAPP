@@ -4,6 +4,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { Portal } from 'react-native-paper'
 import type { Store } from 'undux'
+import { colors } from '../theme/styles'
 
 import GDStore from '../../lib/undux/GDStore'
 import SimpleStore from '../../lib/undux/SimpleStore'
@@ -165,7 +166,7 @@ const Dashboard = props => {
   return (
     <View style={styles.dashboardView}>
       <TabsView goTo={navigation.navigate} routes={screenProps.routes} />
-      <Wrapper backgroundColor="#eeeeee">
+      <Wrapper backgroundColor={colors.lightGray}>
         <Section>
           <Section.Row style={styles.centered}>
             <Avatar size={80} source={avatar} onPress={() => screenProps.push('Profile')} />

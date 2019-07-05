@@ -3,6 +3,7 @@ import React from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import Icon from 'react-native-elements/src/icons/Icon'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
+import { colors } from '../../theme/styles'
 
 type IconProps = {
   text: String,
@@ -48,7 +49,7 @@ const IconButton = ({ text, onPress, disabled, name, ...iconProps }: IconProps) 
       <CustomIcon
         size={35}
         reverse
-        color="#0C263D"
+        color={colors.darkBlue}
         name={name}
         reverseColor={disabled ? 'rgba(0, 0, 0, 0.32)' : '#282c34'}
         {...iconProps}

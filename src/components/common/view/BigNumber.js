@@ -3,7 +3,7 @@ import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Text } from 'react-native-paper'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
-import { fontStyle } from '../styles'
+import { fontStyle } from '../../theme/styles'
 
 /**
  * Receives a number and a unit to display

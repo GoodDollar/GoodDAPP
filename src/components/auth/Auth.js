@@ -7,9 +7,10 @@ import { createStackNavigator } from '../appNavigation/stackNavigation'
 import logger from '../../lib/logger/pino-logger'
 import CustomButton from '../common/buttons/CustomButton'
 import { Description, LinkButton, Title } from '../signup/components'
-import { fontStyle } from '../common/styles'
+import { fontStyle } from '../theme/styles'
 import { PrivacyPolicy, TermsOfUse } from '../webView/webViewInstances'
 import Mnemonics from '../signin/Mnemonics'
+
 type Props = {
   navigation: any,
   screenProps: {

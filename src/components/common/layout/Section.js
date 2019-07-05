@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
-import { fontStyle } from '../styles'
+import { fontStyle } from '../../theme/styles'
 
 const getFlexStylesFromProps = props => {
   const { justifyContent, alignItems, grow } = props
@@ -58,7 +58,7 @@ export default class Section extends Component<any> {
 
 const styles = StyleSheet.create({
   section: {
-    backgroundColor: '#ffffff',
+    backgroundColor: '#fff',
     borderRadius: normalize(5),
     padding: normalize(10),
     paddingTop: normalize(15),

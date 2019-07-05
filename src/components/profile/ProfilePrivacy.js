@@ -9,6 +9,7 @@ import userStorage from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import { BackButton } from '../appNavigation/stackNavigation'
 import { CustomButton, CustomDialog, Wrapper } from '../common'
+import { colors } from '../theme/styles'
 
 const TITLE = 'PROFILE PRIVACY'
 const log = logger.child({ from: 'ProfilePrivacy' })
@@ -135,7 +136,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    borderBottomColor: '#eeeeee',
+    borderBottomColor: colors.lightGray,
     borderBottomStyle: 'solid',
     borderBottomWidth: 1,
     padding: '10px'

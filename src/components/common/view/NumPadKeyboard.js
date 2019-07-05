@@ -4,6 +4,7 @@ import { StyleSheet, Text, TouchableHighlight, View } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { moneyRegexp } from '../../../lib/wallet/utils'
 import backKeyboardButton from '../../../assets/backKeyboardButton.png'
+import { colors } from '../../theme/styles'
 
 type KeyboardKeyProps = {
   keyValue: string,
@@ -29,7 +30,12 @@ type KeyboardRowProps = {
 
 const KeyboardKey = ({ keyValue, onPress }: KeyboardKeyProps) => {
   return (
-    <TouchableHighlight style={styles.key} onPress={() => onPress(keyValue)} activeOpacity={0.8} underlayColor="#eee">
+    <TouchableHighlight
+      activeOpacity={0.8}
+      onPress={() => onPress(keyValue)}
+      style={styles.key}
+      underlayColor={colors.lightGray}
+    >
       {keyValue === 'backspace' ? (
         <View style={styles.backspaceButton} />
       ) : (
@@ -119,7 +125,7 @@ const styles = StyleSheet.create({
     fontSize: normalize(20),
     fontFamily: 'RobotoSlab-Bold',
     fontWeight: '700',
-    color: '#42454a'
+    color: colors.darkGray
   },
   backspaceButton: {
     backgroundImage: `url(${backKeyboardButton})`,

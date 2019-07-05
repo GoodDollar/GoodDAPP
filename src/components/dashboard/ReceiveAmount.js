@@ -61,21 +61,19 @@ const ReceiveAmount = ({ screenProps, ...props }: ReceiveProps) => {
   return (
     <Wrapper>
       <Section justifyContent="space-between" grow>
-        <Section.Stack grow>
-          <Section.Title>Summary</Section.Title>
-        </Section.Stack>
-        <Section.Stack grow justifyContent="flex-start">
+        <Section.Title>Summary</Section.Title>
+        <Section.Stack grow justifyContent="center">
           <Section.Row style={styles.tableRow}>
-            <Section.Text>From:</Section.Text>
-            <Section.Text>{fromWho}</Section.Text>
+            <Section.Text style={styles.tableRowLabel}>From:</Section.Text>
+            <Section.Text style={styles.name}>{fromWho}</Section.Text>
           </Section.Row>
           <Section.Row style={styles.tableRow}>
-            <Section.Text>Amount:</Section.Text>
-            <BigGoodDollar number={amount} />
+            <Section.Text style={styles.tableRowLabel}>Amount:</Section.Text>
+            <BigGoodDollar elementStyles={styles.bigGoodDollar} number={amount} />
           </Section.Row>
           <Section.Row style={styles.tableRow}>
-            <Section.Text>For:</Section.Text>
-            <Section.Text>{reason}</Section.Text>
+            <Section.Text style={styles.tableRowLabel}>For:</Section.Text>
+            <Section.Text style={styles.reason}>{reason}</Section.Text>
           </Section.Row>
         </Section.Stack>
         {confirmed ? (
@@ -115,22 +113,28 @@ const getStylesFromProps = props => {
   const { theme } = props
   log.debug({ theme })
   return StyleSheet.create({
-    qrCode: {
-      padding: normalize(16),
-      borderColor: theme.colors.primary,
-      borderWidth: 1,
-      borderRadius: normalize(5)
-    },
-    qrWrapper: {
-      justifyContent: 'center',
-      alignItems: 'center'
-    },
     tableRow: {
-      borderBottomColor: theme.colors.placeholder,
-      borderBottomWidth: normalize(2),
+      // TODO: see where should we take this color from
+      borderBottomColor: '#CBCBCB',
+      borderBottomWidth: normalize(1),
       borderBottomStyle: 'solid',
       marginTop: theme.defaultMargin * 2,
       alignItems: 'baseline'
+    },
+
+    // TODO: all this properties can be removed once we merge Text component in
+    tableRowLabel: {
+      color: '#A3A3A3'
+    },
+    bigGoodDollar: {
+      color: theme.colors.primary
+    },
+    name: {
+      fontSize: normalize(24),
+      fontWeight: 'bold'
+    },
+    reason: {
+      fontSize: normalize(16)
     }
   })
 }

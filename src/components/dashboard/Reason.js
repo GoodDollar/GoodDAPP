@@ -16,7 +16,7 @@ const SendReason = (props: AmountProps) => {
   const { screenProps } = props
 
   const [screenState, setScreenState] = useScreenState(screenProps)
-  const { amount, reason, to } = screenState
+  const { reason, ...restState } = screenState
 
   return (
     <Wrapper>
@@ -40,7 +40,7 @@ const SendReason = (props: AmountProps) => {
           <Section.Stack grow={2}>
             <NextButton
               nextRoutes={screenState.nextRoutes}
-              values={{ amount, reason, to }}
+              values={{ ...restState, reason }}
               {...props}
               label={reason ? 'Next' : 'Skip'}
             />

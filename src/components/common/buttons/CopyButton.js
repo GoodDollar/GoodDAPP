@@ -12,6 +12,9 @@ const DONE = 'DONE'
 const CopyButton = ({ toCopy, children, onPressDone, ...props }) => {
   const mode = props.mode || 'contained'
   const [state, setState] = useState(NOT_COPIED)
+
+  const onCopiedStatePress = onPressDone && (() => setState(DONE))
+
   switch (state) {
     case DONE: {
       return (
@@ -22,7 +25,7 @@ const CopyButton = ({ toCopy, children, onPressDone, ...props }) => {
     }
     case COPIED: {
       return (
-        <CustomButton mode={mode} onPress={() => setState(DONE)} {...props}>
+        <CustomButton mode={mode} onPress={onCopiedStatePress} {...props}>
           <View style={styles.iconButtonWrapper}>
             <Icon size={16} name="done" color="white" />
           </View>

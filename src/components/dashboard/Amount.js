@@ -17,7 +17,7 @@ const RECEIVE_TITLE = 'Receive G$'
 const Amount = (props: AmountProps) => {
   const { screenProps } = props
   const [screenState, setScreenState] = useScreenState(screenProps)
-  const { to, params, amount } = { amount: 0, ...screenState } || {}
+  const { params, amount, ...restState } = { amount: 0, ...screenState } || {}
   const [GDAmount, setGDAmount] = useState(amount > 0 ? weiToGd(amount) : '')
   const [loading, setLoading] = useState(amount <= 0)
   const [showDialogWithData] = useDialog()
@@ -62,16 +62,20 @@ const Amount = (props: AmountProps) => {
           <AmountInput amount={GDAmount} handleAmountChange={handleAmountChange} />
         </Section.Stack>
         <Section.Row>
-          <BackButton mode="text" screenProps={screenProps} style={{ flex: 1 }}>
-            Cancel
-          </BackButton>
-          <NextButton
-            nextRoutes={screenState.nextRoutes}
-            canContinue={handleContinue}
-            values={{ amount: gdToWei(GDAmount), to }}
-            disabled={loading}
-            {...props}
-          />
+          <Section.Stack grow={1}>
+            <BackButton mode="text" screenProps={screenProps} style={{ flex: 1 }}>
+              Cancel
+            </BackButton>
+          </Section.Stack>
+          <Section.Stack grow={2}>
+            <NextButton
+              nextRoutes={screenState.nextRoutes}
+              canContinue={handleContinue}
+              values={{ ...restState, amount: gdToWei(GDAmount) }}
+              disabled={loading}
+              {...props}
+            />
+          </Section.Stack>
         </Section.Row>
       </Section>
     </Wrapper>

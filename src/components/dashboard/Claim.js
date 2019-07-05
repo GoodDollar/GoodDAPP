@@ -95,11 +95,28 @@ const Claim = ({ screenProps }: ClaimProps) => {
     return () => clearInterval(claimInterval)
   }, [])
 
-  const handleClaim = () => {
+  const handleClaim = async () => {
     setLoading(true)
 
+    showDialog({
+      title: `YOUR G$\nIS ON IT'S WAY...`,
+      message: 'please wait while processing...',
+      loading,
+      dismissText: 'OK'
+    })
+
+    const success = setTimeout(() => {
+      setLoading(false)
+
+      showDialog({
+        title: 'SUCCESS!',
+        message: `You've claimed your G$`,
+        dismissText: 'Yay!'
+      })
+    }, 3000)
+
     try {
-      wrappedGoodWallet.claim({
+      await goodWallet.claim({
         onTransactionHash: async hash => {
           const entitlement = await wrappedGoodWallet.checkEntitlement()
           const transactionEvent: TransactionEvent = {
@@ -112,24 +129,19 @@ const Claim = ({ screenProps }: ClaimProps) => {
             }
           }
           userStorage.enqueueTX(transactionEvent)
-          showDialog({
-            title: 'SUCCESS!',
-            message: `You've claimed your G$`,
-            dismissText: 'Yay!',
-            onDismiss: screenProps.goToRoot
-          })
         }
       })
     } catch (e) {
       log.error('claiming failed', e)
+
+      clearTimeout(success)
+      setLoading(false)
 
       showDialog({
         title: 'Claiming Failed',
         message: `${e.message}.\nTry again later.`,
         dismissText: 'OK'
       })
-    } finally {
-      setLoading(false)
     }
   }
 

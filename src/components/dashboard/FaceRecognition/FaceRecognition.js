@@ -1,7 +1,8 @@
 // @flow
 import React, { createRef } from 'react'
-import { StyleSheet } from 'react-native'
+import { Image, StyleSheet } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
+import illustration from '../../../assets/FaceRecognition/illustration.png'
 import SimpleStore from '../../../lib/undux/SimpleStore'
 import type { DashboardProps } from '../Dashboard'
 import logger from '../../../lib/logger/pino-logger'
@@ -29,6 +30,8 @@ type State = DashboardState & {
   intendedAction: string,
   captureResult: ZoomCaptureResult
 }
+
+Image.prefetch(illustration)
 
 /**
  * Responsible to orchestrate FaceReco process, using the following modules: ZoomCapture & FRapi.
@@ -142,7 +145,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
           <Section grow alignItems="center" justifyContent="space-between">
             <Section.Stack grow justifyContent="center" alignItems="center">
               <Text fontSize={24} textAlign="center">{`${name},\nbefore we can get started...`}</Text>
-              <Section.Row style={styles.picturePlaceholder} />
+              <Image source={illustration} style={styles.illustration} resizeMode="contain" />
               <Section.Row style={styles.privacyPolicyDisclaimer} justifyContent="center" alignItems="center">
                 <Text color="primary" textAlign="justify" fontWeight="bold">
                   {`Since it's your first time ${intendedAction} G$, we need to make sure it's really you. Learn more about our `}
@@ -184,7 +187,12 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
 }
 
 const styles = StyleSheet.create({
-  picturePlaceholder: { height: normalize(180) },
+  illustration: {
+    marginTop: normalize(16),
+    minWidth: normalize(204),
+    maxWidth: '100%',
+    minHeight: normalize(152)
+  },
   privacyPolicyDisclaimer: {
     width: '80%',
     borderTopWidth: normalize(2),
@@ -195,7 +203,8 @@ const styles = StyleSheet.create({
     borderBottomColor: '#00AFFF',
     padding: normalize(12),
     paddingTop: normalize(24),
-    paddingBottom: normalize(24)
+    paddingBottom: normalize(24),
+    marginTop: normalize(24)
   },
   button: { width: '100%' }
 })

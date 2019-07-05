@@ -175,23 +175,46 @@ before we can get started...
             className="css-view-1dbjc4n"
             style={
               Object {
-                "WebkitAlignItems": "center",
-                "WebkitBoxAlign": "center",
-                "WebkitBoxDirection": "normal",
-                "WebkitBoxOrient": "horizontal",
-                "WebkitBoxPack": "justify",
-                "WebkitFlexDirection": "row",
-                "WebkitJustifyContent": "space-between",
-                "alignItems": "center",
-                "flexDirection": "row",
-                "height": "180px",
-                "justifyContent": "space-between",
-                "msFlexAlign": "center",
-                "msFlexDirection": "row",
-                "msFlexPack": "justify",
+                "WebkitFlexBasis": "auto",
+                "flexBasis": "auto",
+                "marginTop": "16px",
+                "maxWidth": "100%",
+                "minHeight": "152px",
+                "minWidth": "204px",
+                "msFlexPreferredSize": "auto",
+                "overflowX": "hidden",
+                "overflowY": "hidden",
+                "zIndex": 0,
               }
             }
-          />
+          >
+            <div
+              className="css-view-1dbjc4n"
+              style={
+                Object {
+                  "backgroundColor": "rgba(0,0,0,0.00)",
+                  "backgroundImage": "url(\\"illustration.png\\")",
+                  "backgroundPosition": "center",
+                  "backgroundRepeat": "no-repeat",
+                  "backgroundSize": "contain",
+                  "bottom": "0px",
+                  "height": "100%",
+                  "left": "0px",
+                  "position": "absolute",
+                  "right": "0px",
+                  "top": "0px",
+                  "width": "100%",
+                  "zIndex": -1,
+                }
+              }
+            />
+            <img
+              alt=""
+              className="css-accessibilityImage-9pa8cd"
+              draggable={false}
+              src="illustration.png"
+            />
+          </div>
           <div
             className="css-view-1dbjc4n"
             style={
@@ -212,6 +235,7 @@ before we can get started...
                 "borderTopWidth": "2px",
                 "flexDirection": "row",
                 "justifyContent": "center",
+                "marginTop": "24px",
                 "msFlexAlign": "center",
                 "msFlexDirection": "row",
                 "msFlexPack": "center",

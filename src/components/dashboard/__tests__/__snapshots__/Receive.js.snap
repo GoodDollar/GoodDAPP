@@ -96,11 +96,11 @@ exports[`Receive matches snapshot 1`] = `
             "borderBottomRightRadius": "5px",
             "borderTopLeftRadius": "5px",
             "borderTopRightRadius": "5px",
-            "marginBottom": "16px",
-            "paddingBottom": "16px",
+            "marginBottom": "8px",
+            "paddingBottom": "8px",
             "paddingLeft": "8px",
             "paddingRight": "8px",
-            "paddingTop": "16px",
+            "paddingTop": "8px",
           }
         }
       >

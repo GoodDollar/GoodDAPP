@@ -1,13 +1,14 @@
 // @flow
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import OtpInput from 'react-otp-input'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
-import LoadingIndicator from '../common/view/LoadingIndicator'
+import { LoadingIndicator, Text } from '../common'
 import { ActionButton, Description, Error, Title, Wrapper } from './components'
 import type { SignupState } from './SignupState'
+
 const log = logger.child({ from: 'SmsForm.web' })
 
 type Props = {

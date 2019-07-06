@@ -1,11 +1,12 @@
 // @flow
 
 import React, { createRef, useEffect, useState } from 'react'
-import { StyleSheet, Text, TextInput, View } from 'react-native'
+import { StyleSheet, TextInput, View } from 'react-native'
 import { normalize } from 'react-native-elements'
 import values from 'lodash/values'
 import logger from '../../lib/logger/pino-logger'
 import { getScreenHeight } from '../../lib/utils/Orientation'
+import { Text } from '../common'
 
 const height = getScreenHeight()
 

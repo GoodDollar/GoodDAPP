@@ -1,6 +1,6 @@
 // @flow
 import React, { useMemo } from 'react'
-import { Text, View } from 'react-native'
+import { View } from 'react-native'
 import QRCode from 'qrcode.react'
 import { isMobile } from 'mobile-device-detect'
 import { useDialog } from '../../lib/undux/utils/dialog'
@@ -8,7 +8,7 @@ import { useDialog } from '../../lib/undux/utils/dialog'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { generateCode, generateReceiveShareObject } from '../../lib/share'
 import GDStore from '../../lib/undux/GDStore'
-import { BigGoodDollar, CopyButton, CustomButton, Section, Wrapper } from '../common'
+import { BigGoodDollar, CopyButton, CustomButton, Section, Text, Wrapper } from '../common'
 import { DoneButton, useScreenState } from '../appNavigation/stackNavigation'
 import { receiveStyles as styles } from './styles'
 

@@ -502,10 +502,10 @@ exports[`AppNavigation matches snapshot 1`] = `
                       "msFlexPack": "justify",
                       "msFlexPositive": 1,
                       "msFlexPreferredSize": "0%",
-                      "paddingBottom": "10px",
-                      "paddingLeft": "10px",
-                      "paddingRight": "10px",
-                      "paddingTop": "10px",
+                      "paddingBottom": "8px",
+                      "paddingLeft": "8px",
+                      "paddingRight": "8px",
+                      "paddingTop": "8px",
                       "width": "100%",
                     }
                   }
@@ -519,11 +519,10 @@ exports[`AppNavigation matches snapshot 1`] = `
                         "borderBottomRightRadius": "5px",
                         "borderTopLeftRadius": "5px",
                         "borderTopRightRadius": "5px",
-                        "marginBottom": "15px",
-                        "paddingBottom": "15px",
-                        "paddingLeft": "10px",
-                        "paddingRight": "10px",
-                        "paddingTop": "15px",
+                        "paddingBottom": "8px",
+                        "paddingLeft": "8px",
+                        "paddingRight": "8px",
+                        "paddingTop": "8px",
                       }
                     }
                   >
@@ -668,9 +667,13 @@ exports[`AppNavigation matches snapshot 1`] = `
                         style={
                           Object {
                             "color": "rgba(85,85,85,1.00)",
+                            "direction": "ltr",
+                            "fontFamily": "Roboto",
                             "fontSize": "24px",
                             "fontWeight": "500",
+                            "lineHeight": "22px",
                             "textAlign": "center",
+                            "textDecoration": "none",
                             "textTransform": "uppercase",
                           }
                         }
@@ -713,9 +716,13 @@ exports[`AppNavigation matches snapshot 1`] = `
                             Object {
                               "color": "rgba(85,85,85,1.00)",
                               "direction": "ltr",
-                              "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                              "fontFamily": "Roboto",
                               "fontSize": "30px",
+                              "fontWeight": "normal",
+                              "lineHeight": "22px",
                               "textAlign": "right",
+                              "textDecoration": "none",
+                              "textTransform": "none",
                             }
                           }
                         >
@@ -728,9 +735,13 @@ exports[`AppNavigation matches snapshot 1`] = `
                             Object {
                               "color": "rgba(85,85,85,1.00)",
                               "direction": "ltr",
-                              "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                              "fontFamily": "Roboto",
                               "fontSize": "18px",
+                              "fontWeight": "normal",
+                              "lineHeight": "22px",
                               "textAlign": "right",
+                              "textDecoration": "none",
+                              "textTransform": "none",
                             }
                           }
                         >
@@ -887,8 +898,12 @@ exports[`AppNavigation matches snapshot 1`] = `
                                     Object {
                                       "color": "rgba(255,255,255,1.00)",
                                       "direction": "ltr",
-                                      "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                                      "textAlign": "left",
+                                      "fontFamily": "Roboto",
+                                      "fontSize": "16px",
+                                      "fontWeight": "normal",
+                                      "lineHeight": "22px",
+                                      "textAlign": "center",
+                                      "textDecoration": "none",
                                       "textTransform": "uppercase",
                                     }
                                   }
@@ -1003,8 +1018,13 @@ exports[`AppNavigation matches snapshot 1`] = `
                                 style={
                                   Object {
                                     "color": "rgba(255,255,255,1.00)",
+                                    "direction": "ltr",
+                                    "fontFamily": "Roboto",
                                     "fontSize": "16px",
                                     "fontWeight": "bold",
+                                    "lineHeight": "22px",
+                                    "textAlign": "center",
+                                    "textDecoration": "none",
                                     "textTransform": "uppercase",
                                   }
                                 }
@@ -1018,8 +1038,13 @@ exports[`AppNavigation matches snapshot 1`] = `
                                 style={
                                   Object {
                                     "color": "rgba(213,213,213,1.00)",
+                                    "direction": "ltr",
+                                    "fontFamily": "Roboto",
                                     "fontSize": "10px",
                                     "fontWeight": "bold",
+                                    "lineHeight": "22px",
+                                    "textAlign": "center",
+                                    "textDecoration": "none",
                                     "textTransform": "uppercase",
                                   }
                                 }
@@ -1159,8 +1184,12 @@ exports[`AppNavigation matches snapshot 1`] = `
                                     Object {
                                       "color": "rgba(255,255,255,1.00)",
                                       "direction": "ltr",
-                                      "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                                      "textAlign": "left",
+                                      "fontFamily": "Roboto",
+                                      "fontSize": "16px",
+                                      "fontWeight": "normal",
+                                      "lineHeight": "22px",
+                                      "textAlign": "center",
+                                      "textDecoration": "none",
                                       "textTransform": "uppercase",
                                     }
                                   }

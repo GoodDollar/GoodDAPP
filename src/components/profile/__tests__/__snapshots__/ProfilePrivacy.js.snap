@@ -79,10 +79,10 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
           "msFlexPack": "justify",
           "msFlexPositive": 1,
           "msFlexPreferredSize": "0%",
-          "paddingBottom": "10px",
-          "paddingLeft": "10px",
-          "paddingRight": "10px",
-          "paddingTop": "10px",
+          "paddingBottom": "8px",
+          "paddingLeft": "8px",
+          "paddingRight": "8px",
+          "paddingTop": "8px",
           "width": "100%",
         }
       }
@@ -141,9 +141,13 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                 Object {
                   "color": "rgba(0,0,0,1.00)",
                   "direction": "ltr",
-                  "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                  "fontFamily": "Roboto",
                   "fontSize": "18px",
-                  "textAlign": "left",
+                  "fontWeight": "normal",
+                  "lineHeight": "22px",
+                  "textAlign": "center",
+                  "textDecoration": "none",
+                  "textTransform": "none",
                 }
               }
             >
@@ -247,9 +251,14 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                   "color": "rgba(0,0,0,1.00)",
                   "direction": "ltr",
                   "flexGrow": 2,
-                  "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                  "fontFamily": "Roboto",
+                  "fontSize": "16px",
+                  "fontWeight": "normal",
+                  "lineHeight": "22px",
                   "msFlexPositive": 2,
-                  "textAlign": "left",
+                  "textAlign": "center",
+                  "textDecoration": "none",
+                  "textTransform": "none",
                 }
               }
             >
@@ -274,8 +283,13 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                   Object {
                     "color": "rgba(0,0,0,1.00)",
                     "direction": "ltr",
-                    "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                    "textAlign": "left",
+                    "fontFamily": "Roboto",
+                    "fontSize": "16px",
+                    "fontWeight": "normal",
+                    "lineHeight": "22px",
+                    "textAlign": "center",
+                    "textDecoration": "none",
+                    "textTransform": "none",
                   }
                 }
               >
@@ -301,8 +315,13 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                   Object {
                     "color": "rgba(0,0,0,1.00)",
                     "direction": "ltr",
-                    "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                    "textAlign": "left",
+                    "fontFamily": "Roboto",
+                    "fontSize": "16px",
+                    "fontWeight": "normal",
+                    "lineHeight": "22px",
+                    "textAlign": "center",
+                    "textDecoration": "none",
+                    "textTransform": "none",
                   }
                 }
               >
@@ -328,8 +347,13 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                   Object {
                     "color": "rgba(0,0,0,1.00)",
                     "direction": "ltr",
-                    "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                    "textAlign": "left",
+                    "fontFamily": "Roboto",
+                    "fontSize": "16px",
+                    "fontWeight": "normal",
+                    "lineHeight": "22px",
+                    "textAlign": "center",
+                    "textDecoration": "none",
+                    "textTransform": "none",
                   }
                 }
               >
@@ -374,9 +398,14 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                     "color": "rgba(0,0,0,1.00)",
                     "direction": "ltr",
                     "flexGrow": 2,
-                    "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                    "fontFamily": "Roboto",
+                    "fontSize": "16px",
+                    "fontWeight": "normal",
+                    "lineHeight": "22px",
                     "msFlexPositive": 2,
-                    "textAlign": "left",
+                    "textAlign": "center",
+                    "textDecoration": "none",
+                    "textTransform": "none",
                   }
                 }
               >
@@ -627,9 +656,14 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                     "color": "rgba(0,0,0,1.00)",
                     "direction": "ltr",
                     "flexGrow": 2,
-                    "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                    "fontFamily": "Roboto",
+                    "fontSize": "16px",
+                    "fontWeight": "normal",
+                    "lineHeight": "22px",
                     "msFlexPositive": 2,
-                    "textAlign": "left",
+                    "textAlign": "center",
+                    "textDecoration": "none",
+                    "textTransform": "none",
                   }
                 }
               >
@@ -981,8 +1015,12 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                       style={
                         Object {
                           "direction": "ltr",
-                          "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                          "textAlign": "left",
+                          "fontFamily": "Roboto",
+                          "fontSize": "16px",
+                          "fontWeight": "normal",
+                          "lineHeight": "22px",
+                          "textAlign": "center",
+                          "textDecoration": "none",
                           "textTransform": "none",
                         }
                       }
@@ -1108,8 +1146,12 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                         Object {
                           "color": "rgba(255,255,255,1.00)",
                           "direction": "ltr",
-                          "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                          "textAlign": "left",
+                          "fontFamily": "Roboto",
+                          "fontSize": "16px",
+                          "fontWeight": "normal",
+                          "lineHeight": "22px",
+                          "textAlign": "center",
+                          "textDecoration": "none",
                           "textTransform": "uppercase",
                         }
                       }

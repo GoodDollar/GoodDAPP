@@ -98,7 +98,14 @@ exports[`IconButton disabled matches snapshot 1`] = `
     style={
       Object {
         "color": "rgba(0,0,0,0.32)",
+        "direction": "ltr",
+        "fontFamily": "Roboto",
         "fontSize": "11px",
+        "fontWeight": "normal",
+        "lineHeight": "22px",
+        "textAlign": "center",
+        "textDecoration": "none",
+        "textTransform": "none",
       }
     }
   >
@@ -205,7 +212,14 @@ exports[`IconButton enabled matches snapshot 1`] = `
     style={
       Object {
         "color": "inherit",
+        "direction": "ltr",
+        "fontFamily": "Roboto",
         "fontSize": "11px",
+        "fontWeight": "normal",
+        "lineHeight": "22px",
+        "textAlign": "center",
+        "textDecoration": "none",
+        "textTransform": "none",
       }
     }
   >

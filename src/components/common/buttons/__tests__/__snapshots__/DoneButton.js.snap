@@ -118,8 +118,12 @@ exports[`DoneButton matches snapshot 1`] = `
               Object {
                 "color": "rgba(255,255,255,1.00)",
                 "direction": "ltr",
-                "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                "textAlign": "left",
+                "fontFamily": "Roboto",
+                "fontSize": "16px",
+                "fontWeight": "normal",
+                "lineHeight": "22px",
+                "textAlign": "center",
+                "textDecoration": "none",
                 "textTransform": "uppercase",
               }
             }

@@ -79,10 +79,10 @@ exports[`Amount matches snapshot 1`] = `
           "msFlexPack": "justify",
           "msFlexPositive": 1,
           "msFlexPreferredSize": "0%",
-          "paddingBottom": "10px",
-          "paddingLeft": "10px",
-          "paddingRight": "10px",
-          "paddingTop": "10px",
+          "paddingBottom": "8px",
+          "paddingLeft": "8px",
+          "paddingRight": "8px",
+          "paddingTop": "8px",
           "width": "100%",
         }
       }
@@ -96,11 +96,11 @@ exports[`Amount matches snapshot 1`] = `
             "borderBottomRightRadius": "5px",
             "borderTopLeftRadius": "5px",
             "borderTopRightRadius": "5px",
-            "marginBottom": "15px",
-            "paddingBottom": "15px",
-            "paddingLeft": "10px",
-            "paddingRight": "10px",
-            "paddingTop": "15px",
+            "marginBottom": "8px",
+            "paddingBottom": "8px",
+            "paddingLeft": "8px",
+            "paddingRight": "8px",
+            "paddingTop": "8px",
           }
         }
       >
@@ -229,9 +229,13 @@ exports[`Amount matches snapshot 1`] = `
                 Object {
                   "color": "rgba(85,85,85,1.00)",
                   "direction": "ltr",
-                  "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                  "fontFamily": "Roboto",
                   "fontSize": "30px",
+                  "fontWeight": "normal",
+                  "lineHeight": "22px",
                   "textAlign": "right",
+                  "textDecoration": "none",
+                  "textTransform": "none",
                 }
               }
             >
@@ -244,9 +248,13 @@ exports[`Amount matches snapshot 1`] = `
                 Object {
                   "color": "rgba(85,85,85,1.00)",
                   "direction": "ltr",
-                  "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                  "fontFamily": "Roboto",
                   "fontSize": "18px",
+                  "fontWeight": "normal",
+                  "lineHeight": "22px",
                   "textAlign": "right",
+                  "textDecoration": "none",
+                  "textTransform": "none",
                 }
               }
             >
@@ -271,14 +279,13 @@ exports[`Amount matches snapshot 1`] = `
             "flexBasis": "0%",
             "flexGrow": 1,
             "flexShrink": 1,
-            "marginBottom": "15px",
             "msFlexNegative": 1,
             "msFlexPositive": 1,
             "msFlexPreferredSize": "0%",
-            "paddingBottom": "15px",
-            "paddingLeft": "10px",
-            "paddingRight": "10px",
-            "paddingTop": "15px",
+            "paddingBottom": "8px",
+            "paddingLeft": "8px",
+            "paddingRight": "8px",
+            "paddingTop": "8px",
           }
         }
       >
@@ -288,10 +295,14 @@ exports[`Amount matches snapshot 1`] = `
           style={
             Object {
               "color": "rgba(85,85,85,1.00)",
+              "direction": "ltr",
+              "fontFamily": "Roboto",
               "fontSize": "24px",
               "fontWeight": "500",
+              "lineHeight": "22px",
               "marginBottom": "1rem",
               "textAlign": "center",
+              "textDecoration": "none",
               "textTransform": "uppercase",
             }
           }
@@ -531,9 +542,14 @@ exports[`Amount matches snapshot 1`] = `
                     style={
                       Object {
                         "color": "rgba(66,69,74,1.00)",
+                        "direction": "ltr",
                         "fontFamily": "RobotoSlab-Bold",
                         "fontSize": "20px",
                         "fontWeight": "700",
+                        "lineHeight": "22px",
+                        "textAlign": "center",
+                        "textDecoration": "none",
+                        "textTransform": "none",
                       }
                     }
                   >
@@ -590,9 +606,14 @@ exports[`Amount matches snapshot 1`] = `
                     style={
                       Object {
                         "color": "rgba(66,69,74,1.00)",
+                        "direction": "ltr",
                         "fontFamily": "RobotoSlab-Bold",
                         "fontSize": "20px",
                         "fontWeight": "700",
+                        "lineHeight": "22px",
+                        "textAlign": "center",
+                        "textDecoration": "none",
+                        "textTransform": "none",
                       }
                     }
                   >
@@ -649,9 +670,14 @@ exports[`Amount matches snapshot 1`] = `
                     style={
                       Object {
                         "color": "rgba(66,69,74,1.00)",
+                        "direction": "ltr",
                         "fontFamily": "RobotoSlab-Bold",
                         "fontSize": "20px",
                         "fontWeight": "700",
+                        "lineHeight": "22px",
+                        "textAlign": "center",
+                        "textDecoration": "none",
+                        "textTransform": "none",
                       }
                     }
                   >
@@ -730,9 +756,14 @@ exports[`Amount matches snapshot 1`] = `
                     style={
                       Object {
                         "color": "rgba(66,69,74,1.00)",
+                        "direction": "ltr",
                         "fontFamily": "RobotoSlab-Bold",
                         "fontSize": "20px",
                         "fontWeight": "700",
+                        "lineHeight": "22px",
+                        "textAlign": "center",
+                        "textDecoration": "none",
+                        "textTransform": "none",
                       }
                     }
                   >
@@ -789,9 +820,14 @@ exports[`Amount matches snapshot 1`] = `
                     style={
                       Object {
                         "color": "rgba(66,69,74,1.00)",
+                        "direction": "ltr",
                         "fontFamily": "RobotoSlab-Bold",
                         "fontSize": "20px",
                         "fontWeight": "700",
+                        "lineHeight": "22px",
+                        "textAlign": "center",
+                        "textDecoration": "none",
+                        "textTransform": "none",
                       }
                     }
                   >
@@ -848,9 +884,14 @@ exports[`Amount matches snapshot 1`] = `
                     style={
                       Object {
                         "color": "rgba(66,69,74,1.00)",
+                        "direction": "ltr",
                         "fontFamily": "RobotoSlab-Bold",
                         "fontSize": "20px",
                         "fontWeight": "700",
+                        "lineHeight": "22px",
+                        "textAlign": "center",
+                        "textDecoration": "none",
+                        "textTransform": "none",
                       }
                     }
                   >
@@ -929,9 +970,14 @@ exports[`Amount matches snapshot 1`] = `
                     style={
                       Object {
                         "color": "rgba(66,69,74,1.00)",
+                        "direction": "ltr",
                         "fontFamily": "RobotoSlab-Bold",
                         "fontSize": "20px",
                         "fontWeight": "700",
+                        "lineHeight": "22px",
+                        "textAlign": "center",
+                        "textDecoration": "none",
+                        "textTransform": "none",
                       }
                     }
                   >
@@ -988,9 +1034,14 @@ exports[`Amount matches snapshot 1`] = `
                     style={
                       Object {
                         "color": "rgba(66,69,74,1.00)",
+                        "direction": "ltr",
                         "fontFamily": "RobotoSlab-Bold",
                         "fontSize": "20px",
                         "fontWeight": "700",
+                        "lineHeight": "22px",
+                        "textAlign": "center",
+                        "textDecoration": "none",
+                        "textTransform": "none",
                       }
                     }
                   >
@@ -1047,9 +1098,14 @@ exports[`Amount matches snapshot 1`] = `
                     style={
                       Object {
                         "color": "rgba(66,69,74,1.00)",
+                        "direction": "ltr",
                         "fontFamily": "RobotoSlab-Bold",
                         "fontSize": "20px",
                         "fontWeight": "700",
+                        "lineHeight": "22px",
+                        "textAlign": "center",
+                        "textDecoration": "none",
+                        "textTransform": "none",
                       }
                     }
                   >
@@ -1128,9 +1184,14 @@ exports[`Amount matches snapshot 1`] = `
                     style={
                       Object {
                         "color": "rgba(66,69,74,1.00)",
+                        "direction": "ltr",
                         "fontFamily": "RobotoSlab-Bold",
                         "fontSize": "20px",
                         "fontWeight": "700",
+                        "lineHeight": "22px",
+                        "textAlign": "center",
+                        "textDecoration": "none",
+                        "textTransform": "none",
                       }
                     }
                   >
@@ -1187,9 +1248,14 @@ exports[`Amount matches snapshot 1`] = `
                     style={
                       Object {
                         "color": "rgba(66,69,74,1.00)",
+                        "direction": "ltr",
                         "fontFamily": "RobotoSlab-Bold",
                         "fontSize": "20px",
                         "fontWeight": "700",
+                        "lineHeight": "22px",
+                        "textAlign": "center",
+                        "textDecoration": "none",
+                        "textTransform": "none",
                       }
                     }
                   >
@@ -1428,8 +1494,12 @@ exports[`Amount matches snapshot 1`] = `
                         style={
                           Object {
                             "direction": "ltr",
-                            "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                            "textAlign": "left",
+                            "fontFamily": "Roboto",
+                            "fontSize": "16px",
+                            "fontWeight": "normal",
+                            "lineHeight": "22px",
+                            "textAlign": "center",
+                            "textDecoration": "none",
                             "textTransform": "none",
                           }
                         }
@@ -1592,8 +1662,12 @@ exports[`Amount matches snapshot 1`] = `
                           Object {
                             "color": "rgba(255,255,255,1.00)",
                             "direction": "ltr",
-                            "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                            "textAlign": "left",
+                            "fontFamily": "Roboto",
+                            "fontSize": "16px",
+                            "fontWeight": "normal",
+                            "lineHeight": "22px",
+                            "textAlign": "center",
+                            "textDecoration": "none",
                             "textTransform": "uppercase",
                           }
                         }

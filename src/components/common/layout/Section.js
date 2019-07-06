@@ -1,8 +1,9 @@
 // @flow
 import React, { Component } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { fontStyle } from '../styles'
+import Text from '../view/Text'
 
 const getFlexStylesFromProps = props => {
   const { justifyContent, alignItems, grow } = props
@@ -60,10 +61,7 @@ const styles = StyleSheet.create({
   section: {
     backgroundColor: '#ffffff',
     borderRadius: normalize(5),
-    padding: normalize(10),
-    paddingTop: normalize(15),
-    paddingBottom: normalize(15),
-    marginBottom: normalize(15)
+    padding: normalize(8)
   },
   sectionRow: {
     flexDirection: 'row',

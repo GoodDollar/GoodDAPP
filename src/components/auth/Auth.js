@@ -1,15 +1,15 @@
 // @flow
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
-import { Text } from 'react-native-paper'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import logger from '../../lib/logger/pino-logger'
-import CustomButton from '../common/buttons/CustomButton'
+import { CustomButton, Text } from '../common'
 import { Description, LinkButton, Title } from '../signup/components'
 import { fontStyle } from '../common/styles'
 import { PrivacyPolicy, TermsOfUse } from '../webView/webViewInstances'
 import Mnemonics from '../signin/Mnemonics'
+
 type Props = {
   navigation: any,
   screenProps: {

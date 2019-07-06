@@ -1,8 +1,8 @@
 // @flow
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
-import { Avatar, BigGoodDollar, CustomButton } from '../../common'
+import { Avatar, BigGoodDollar, CustomButton, Text } from '../../common'
 import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
 import type { FeedEventProps } from './EventProps'
 import EventCounterParty from './EventCounterParty'

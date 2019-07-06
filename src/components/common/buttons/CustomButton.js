@@ -1,7 +1,8 @@
 // @flow
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
-import { Button as BaseButton, DefaultTheme, Text, withTheme } from 'react-native-paper'
+import { Button as BaseButton, DefaultTheme, withTheme } from 'react-native-paper'
+import Text from '../view/Text'
 
 export type ButtonProps = {
   children: any,

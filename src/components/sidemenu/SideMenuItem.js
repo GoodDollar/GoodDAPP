@@ -1,7 +1,8 @@
 // @flow
 import React from 'react'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import { Icon, normalize } from 'react-native-elements'
+import { Text } from '../common'
 
 export type SideMenuItemProps = {
   icon: string,

@@ -13,9 +13,15 @@ const theme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    primary: '#00AFFF'
+    primary: '#00AFFF',
+    text: '#222222'
   },
-  defaultMargin: normalize(8)
+  defaultMargin: normalize(8),
+  fonts: {
+    ...DefaultTheme.fonts,
+    slab: 'RobotoSlab-Regular',
+    slabBold: 'RobotoSlab-Bold'
+  }
 }
 const App = () => {
   // onRecaptcha = (token: string) => {

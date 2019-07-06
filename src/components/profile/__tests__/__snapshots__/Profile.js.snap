@@ -490,10 +490,10 @@ Array [
                       "msFlexPack": "justify",
                       "msFlexPositive": 1,
                       "msFlexPreferredSize": "0%",
-                      "paddingBottom": "10px",
-                      "paddingLeft": "10px",
-                      "paddingRight": "10px",
-                      "paddingTop": "10px",
+                      "paddingBottom": "8px",
+                      "paddingLeft": "8px",
+                      "paddingRight": "8px",
+                      "paddingTop": "8px",
                       "width": "100%",
                     }
                   }
@@ -509,10 +509,10 @@ Array [
                         "borderTopRightRadius": "5px",
                         "marginBottom": "auto",
                         "minHeight": "100%",
-                        "paddingBottom": "15px",
+                        "paddingBottom": "8px",
                         "paddingLeft": "1em",
                         "paddingRight": "1em",
-                        "paddingTop": "15px",
+                        "paddingTop": "8px",
                       }
                     }
                   >
@@ -675,10 +675,14 @@ Array [
                             style={
                               Object {
                                 "color": "rgba(85,85,85,1.00)",
+                                "direction": "ltr",
+                                "fontFamily": "Roboto",
                                 "fontSize": "24px",
                                 "fontWeight": "500",
+                                "lineHeight": "22px",
                                 "marginBottom": "8px",
                                 "textAlign": "center",
+                                "textDecoration": "none",
                                 "textTransform": "uppercase",
                               }
                             }

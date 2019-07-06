@@ -12,16 +12,16 @@ function isFunction(functionToCheck) {
  * @param {*} withStyleSheet wheather should or shouldn't be the result wrapped with `StyleSheet.create`
  */
 export const withStyles = (mapThemeToStyles, withStyleSheet = true) => Component => {
-  return props => {
-    const WrappedComponent = withTheme(Component)
+  return withTheme(props => {
+    console.info({ props, Component })
 
     if (!isFunction(mapThemeToStyles)) {
-      return <WrappedComponent {...props} />
+      return <Component {...props} />
     }
 
     const stylesObject = mapThemeToStyles(props)
     const styles = withStyleSheet ? StyleSheet.create(stylesObject) : stylesObject
 
-    return <WrappedComponent {...props} styles={styles} />
-  }
+    return <Component {...props} styles={styles} />
+  })
 }

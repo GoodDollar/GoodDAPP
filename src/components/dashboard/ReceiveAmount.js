@@ -8,7 +8,7 @@ import { useErrorDialog } from '../../lib/undux/utils/dialog'
 
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { generateCode, generateReceiveShareObject } from '../../lib/share'
-import { BigGoodDollar, CopyButton, CustomButton, Section, Wrapper } from '../common'
+import { BigGoodDollar, CopyButton, CustomButton, Section, TopBar, Wrapper } from '../common'
 import DoneButton from '../common/buttons/DoneButton'
 import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
 import logger from '../../lib/logger/pino-logger'
@@ -60,6 +60,7 @@ const ReceiveAmount = ({ screenProps, ...props }: ReceiveProps) => {
 
   return (
     <Wrapper>
+      <TopBar push={screenProps.push} />
       <Section justifyContent="space-between" grow>
         <Section.Title>Summary</Section.Title>
         <Section.Stack grow justifyContent="center">
@@ -79,7 +80,7 @@ const ReceiveAmount = ({ screenProps, ...props }: ReceiveProps) => {
         {confirmed ? (
           <Section.Stack>
             <CopyButton toCopy={share.url} />
-            <DoneButton screenProps={screenProps} />
+            <DoneButton style={styles.doneButton} screenProps={screenProps} />
           </Section.Stack>
         ) : (
           <Section.Row>
@@ -135,6 +136,9 @@ const getStylesFromProps = props => {
     },
     reason: {
       fontSize: normalize(16)
+    },
+    doneButton: {
+      marginTop: theme.defaultMargin
     }
   })
 }

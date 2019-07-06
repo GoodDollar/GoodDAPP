@@ -12,16 +12,28 @@ function isFunction(functionToCheck) {
  * @param {*} withStyleSheet wheather should or shouldn't be the result wrapped with `StyleSheet.create`
  */
 export const withStyles = (mapThemeToStyles, withStyleSheet = true) => Component => {
-  return withTheme(props => {
-    console.info({ props, Component })
+  class WrappedComponent extends React.Component {
+    _root
 
-    if (!isFunction(mapThemeToStyles)) {
-      return <Component {...props} />
+    /**
+     * @internal
+     * Required for when the component is wrapped inside a TouchableOpacity* element
+     * https://facebook.github.io/react-native/docs/direct-manipulation
+     */
+    setNativeProps(...args) {
+      return this._root && this._root.setNativeProps(...args)
     }
 
-    const stylesObject = mapThemeToStyles(props)
-    const styles = withStyleSheet ? StyleSheet.create(stylesObject) : stylesObject
+    render() {
+      if (!isFunction(mapThemeToStyles)) {
+        return <Component ref={c => (this._root = c)} {...this.props} />
+      }
 
-    return <Component {...props} styles={styles} />
-  })
+      const stylesObject = mapThemeToStyles(this.props)
+      const styles = withStyleSheet ? StyleSheet.create(stylesObject) : stylesObject
+
+      return <Component ref={c => (this._root = c)} {...this.props} styles={styles} />
+    }
+  }
+  return withTheme(WrappedComponent)
 }

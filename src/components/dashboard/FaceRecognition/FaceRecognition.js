@@ -6,6 +6,7 @@ import GDStore from '../../../lib/undux/GDStore'
 import type { DashboardProps } from '../Dashboard'
 import logger from '../../../lib/logger/pino-logger'
 import { CustomButton, Section, Wrapper } from '../../common'
+import userStorage, { UserStorage } from '../../../lib/gundb/UserStorage'
 import FRapi from './FaceRecognitionAPI'
 import type FaceRecognitionResponse from './FaceRecognitionAPI'
 import ZoomCapture from './ZoomCapture'
@@ -22,6 +23,7 @@ type State = DashboardState & {
   showPreText: boolean,
   showZoomCapture: boolean,
   showGuidedFR: boolean,
+  userStorage: UserStorage,
   sessionId: string,
   loadingFaceRecognition: boolean,
   loadingText: string,
@@ -95,6 +97,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     this.setState({
       showZoomCapture: false,
       showGuidedFR: true,
+      userStorage: userStorage,
       sessionId: captureResult.sessionId,
       loadingFaceRecognition: true,
       loadingText: 'Analyzing Face Recognition..'
@@ -109,6 +112,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
   }
 
   showFRError = (error: string) => {
+    this.setState({ showGuidedFR: false })
     this.props.store.set('currentScreen')({
       dialogData: {
         visible: true,
@@ -127,7 +131,15 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
   render() {
     const { store }: FaceRecognitionProps = this.props
     const { fullName } = store.get('profile')
-    const { showZoomCapture, showPreText, loadingFaceRecognition, loadingText, showGuidedFR, sessionId } = this.state
+    const {
+      showZoomCapture,
+      showPreText,
+      loadingFaceRecognition,
+      loadingText,
+      showGuidedFR,
+      sessionId,
+      userStorage
+    } = this.state
 
     return (
       <Wrapper>
@@ -142,6 +154,8 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
             </Section.Text>
           </View>
         )}
+        {showGuidedFR && <GuidedFR sessionId={sessionId} userStorage={userStorage} />}
+
         {showPreText && (
           <View style={styles.bottomContainer}>
             <CustomButton
@@ -159,9 +173,6 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
             {loadingText}
           </CustomButton>
         )}
-
-        {showGuidedFR && <GuidedFR sessionId={sessionId} />}
-
         <ZoomCapture
           height={this.height}
           screenProps={this.screenProps}

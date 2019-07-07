@@ -1,7 +1,8 @@
 // @flow
 import React from 'react'
 import { normalize } from 'react-native-elements'
-import { Text as PaperText, withTheme } from 'react-native-paper'
+import { Text as PaperText } from 'react-native-paper'
+import { withStyles } from '../../../lib/styles'
 
 class Text extends React.Component {
   _root
@@ -18,6 +19,7 @@ class Text extends React.Component {
   render() {
     const {
       style,
+      styles,
       theme,
       color,
       textAlign,
@@ -30,7 +32,7 @@ class Text extends React.Component {
       ...rest
     } = this.props
 
-    return <PaperText {...rest} ref={c => (this._root = c)} style={[getStylesFromProps(this.props), style]} />
+    return <PaperText {...rest} ref={c => (this._root = c)} style={[styles.text, style]} />
   }
 }
 
@@ -69,15 +71,17 @@ const getStylesFromProps = ({
   const calculatedLineHeight = lineHeight || relatedLineSpacing(calculatedFontSize)
 
   return {
-    color: theme.colors[color] || color || theme.colors.text,
-    textAlign: textAlign || 'center',
-    fontWeight: fontWeight || 'normal',
-    fontFamily: theme.fonts[fontFamily] || fontFamily || 'Roboto',
-    fontSize: calculatedFontSize,
-    lineHeight: calculatedLineHeight,
-    textTransform: textTransform || 'none',
-    textDecorationLine: textDecorationLine || 'none'
+    text: {
+      color: theme.colors[color] || color || theme.colors.text,
+      textAlign: textAlign || 'center',
+      fontWeight: fontWeight || 'normal',
+      fontFamily: theme.fonts[fontFamily] || fontFamily || 'Roboto',
+      fontSize: calculatedFontSize,
+      lineHeight: calculatedLineHeight,
+      textTransform: textTransform || 'none',
+      textDecorationLine: textDecorationLine || 'none'
+    }
   }
 }
 
-export default withTheme(Text)
+export default withStyles(getStylesFromProps)(Text)

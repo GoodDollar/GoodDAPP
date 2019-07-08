@@ -179,6 +179,19 @@ class AppView extends Component<AppViewProps, AppViewState> {
     this.setState(state => ({ currentState: { ...state.currentState, ...data } }))
   }
 
+  /**
+   * Based on the value returned by the onChange callback sets the simpleStore sidemenu visibility value
+   * @param {boolean} visible
+   */
+  sideMenuSwap = visible => {
+    const { store } = this.props
+    const sidemenu = store.get('sidemenu')
+
+    sidemenu.visible = visible
+
+    store.set('sidemenu')(sidemenu)
+  }
+
   render() {
     const { descriptors, navigation, navigationConfig, screenProps: incomingScreenProps, store } = this.props
     const activeKey = navigation.state.routes[navigation.state.index].key
@@ -193,8 +206,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
       navigateTo: this.navigateTo,
       pop: this.pop,
       screenState: this.state.currentState,
-      setScreenState: this.setScreenState,
-      toggleMenu: () => this.drawer.open()
+      setScreenState: this.setScreenState
     }
     log.info('stackNavigation Render: FIXME rerender', descriptor, activeKey)
     const Component = this.getComponent(descriptor.getComponent(), { screenProps })
@@ -205,7 +217,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
       <React.Fragment>
         {!navigationBarHidden && <NavBar goBack={backButtonHidden ? undefined : this.pop} title={pageTitle} />}
         <View style={{ backgroundColor: '#fff', flex: 1 }}>
-          <SideMenu menu={menu} menuPosition="right" isOpen={store.get('sidemenu').visible}>
+          <SideMenu menu={menu} menuPosition="right" isOpen={open} disableGestures={true} onChange={this.sideMenuSwap}>
             <ScrollView contentContainerStyle={scrollableContainer}>
               <SceneView navigation={descriptor.navigation} component={Component} screenProps={screenProps} />
             </ScrollView>

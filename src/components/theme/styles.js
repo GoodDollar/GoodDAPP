@@ -11,7 +11,8 @@ export const colors = {
   orange: '#F8AF40',
   primary: '#00AFFF',
   purple: '#9F6A9D',
-  red: '#FA6C77'
+  red: '#FA6C77',
+  text: '#222'
 }
 
 export const paddings = {
@@ -32,6 +33,12 @@ export const theme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    primary: colors.primary
+    primary: colors.primary,
+    text: colors.text
+  },
+  fonts: {
+    ...DefaultTheme.fonts,
+    slab: 'RobotoSlab-Regular',
+    slabBold: 'RobotoSlab-Bold'
   }
 }

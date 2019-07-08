@@ -2,17 +2,18 @@
 import QRCode from 'qrcode.react'
 
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { normalize } from 'react-native-elements'
 import { isMobile } from 'mobile-device-detect'
 import { generateSendShareObject } from '../../lib/share'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import { DoneButton, useScreenState } from '../appNavigation/stackNavigation'
-import { BigGoodDollar, CopyButton, CustomButton, Section, TopBar, Wrapper } from '../common'
+import { BigGoodDollar, CopyButton, CustomButton, Section, Text, TopBar, Wrapper } from '../common'
 import { fontStyle } from '../theme/styles'
-import './AButton.css'
 import { getScreenHeight } from '../../lib/utils/Orientation'
 import { receiveStyles } from './styles'
+
+import './AButton.css'
 
 export type ReceiveProps = {
   screenProps: any,

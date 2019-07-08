@@ -1,11 +1,12 @@
 // @flow
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
-import { Dialog, Paragraph, Portal, Text } from 'react-native-paper'
+import { Dialog, Paragraph, Portal } from 'react-native-paper'
 import type { TransactionEvent } from '../../../lib/gundb/UserStorage'
 import { Avatar, BigGoodDollar } from '..'
 import CustomButton from '../buttons/CustomButton'
 import Section from '../layout/Section'
+import Text from '../view/Text'
 
 export type EventDialogProps = {
   visible: boolean,

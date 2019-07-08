@@ -23,7 +23,8 @@ const styles = StyleSheet.create({
     display: 'flex',
     flex: 1,
     flexDirection: 'column',
-    padding: paddings.mainContainerPadding
+    padding: paddings.mainContainerPadding,
+    width: '100%'
   }
 })
 

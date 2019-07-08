@@ -5,7 +5,9 @@ import { AsyncStorage } from 'react-native'
 const updateLoggedIn: Effects<State> = async (store: Store) => {
   const isLoggedIn = await AsyncStorage.getItem('GOODDAPP_isLoggedIn').then(JSON.parse)
   const curStatus = store.get('isLoggedIn')
-  if (isLoggedIn !== curStatus) store.set('isLoggedIn')(isLoggedIn)
+  if (isLoggedIn !== curStatus) {
+    store.set('isLoggedIn')(isLoggedIn)
+  }
 
   return store
 }

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text } from 'react-native-web'
+import { Text } from '../../common'
 import { listStyles } from './EventStyles'
 
 const EventCounterParty = ({ feedItem }) => {

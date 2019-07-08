@@ -1,8 +1,8 @@
 // @flow
 import React from 'react'
 import { Avatar } from 'react-native-paper'
-import { Text, View } from 'react-native-web'
-import { BigGoodDollar } from '../../common/'
+import { View } from 'react-native-web'
+import { BigGoodDollar, Text } from '../../common'
 import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
 import { listStyles } from './EventStyles'
 import type { FeedEventProps } from './EventProps'

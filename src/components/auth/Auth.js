@@ -9,16 +9,13 @@ import { Description, LinkButton, Title } from '../signup/components'
 import { PrivacyPolicy, TermsOfUse } from '../webView/webViewInstances'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
-
 type Props = {
   navigation: any,
   screenProps: {
     push: Function
   }
 }
-
 const log = logger.child({ from: 'Auth' })
-
 class Auth extends React.Component<Props> {
   handleSignUp = () => {
     this.props.navigation.navigate('Signup')
@@ -46,6 +43,7 @@ class Auth extends React.Component<Props> {
   handleNavigatePrivacyPolicy = () => this.props.screenProps.push('PrivacyPolicy')
 
   render() {
+    const { styles, ...rest } = this.props
     const {
       acceptTermsLink,
       acceptTermsText,
@@ -55,10 +53,8 @@ class Auth extends React.Component<Props> {
       signInLink,
       title,
       topContainer,
-      wrapper,
-      ...rest
-    } = this.props
-
+      wrapper
+    } = styles
     return (
       <View style={wrapper} {...rest}>
         <View style={topContainer}>
@@ -89,12 +85,6 @@ class Auth extends React.Component<Props> {
     )
   }
 }
-
-Auth.navigationOptions = {
-  title: 'Auth',
-  navigationBarHidden: true
-}
-
 const getStylesFromProps = ({ theme }) => {
   return {
     wrapper: {
@@ -145,17 +135,19 @@ const getStylesFromProps = ({ theme }) => {
     }
   }
 }
-
-export default withStyles(getStylesFromProps)(
-  createStackNavigator(
-    {
-      Login: Auth,
-      TermsOfUse,
-      PrivacyPolicy,
-      Recover: Mnemonics
-    },
-    {
-      backRouteName: 'Auth'
-    }
-  )
+const auth = withStyles(getStylesFromProps)(Auth)
+auth.navigationOptions = {
+  title: 'Auth',
+  navigationBarHidden: true
+}
+export default createStackNavigator(
+  {
+    Login: auth,
+    TermsOfUse,
+    PrivacyPolicy,
+    Recover: Mnemonics
+  },
+  {
+    backRouteName: 'Auth'
+  }
 )

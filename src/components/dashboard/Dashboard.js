@@ -223,7 +223,7 @@ const Dashboard = props => {
 
 const styles = StyleSheet.create({
   buttonsRow: {
-    alignItems: 'center',
+    alignItems: 'stretch',
     marginTop: normalize(10)
   },
   leftButton: {

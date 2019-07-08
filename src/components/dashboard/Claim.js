@@ -3,13 +3,12 @@ import React, { useEffect, useState } from 'react'
 import { Image, StyleSheet } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import illustration from '../../assets/Claim/illustration.png'
-import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
-import goodWallet from '../../lib/wallet/GoodWallet'
 import logger from '../../lib/logger/pino-logger'
 import GDStore from '../../lib/undux/GDStore'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import wrapper from '../../lib/undux/utils/wrapper'
+import goodWallet from '../../lib/wallet/GoodWallet'
 import { weiToMask } from '../../lib/wallet/utils'
 import { CustomButton, Section, Text, TopBar, Wrapper } from '../common'
 import type { DashboardProps } from './Dashboard'
@@ -116,21 +115,7 @@ const Claim = ({ screenProps }: ClaimProps) => {
     }, 3000)
 
     try {
-      await goodWallet.claim({
-        onTransactionHash: async hash => {
-          const entitlement = await wrappedGoodWallet.checkEntitlement()
-          const transactionEvent: TransactionEvent = {
-            id: hash,
-            date: new Date().toString(),
-            type: 'claim',
-            data: {
-              from: 'GoodDollar',
-              amount: entitlement
-            }
-          }
-          userStorage.enqueueTX(transactionEvent)
-        }
-      })
+      await goodWallet.claim()
     } catch (e) {
       log.error('claiming failed', e)
 

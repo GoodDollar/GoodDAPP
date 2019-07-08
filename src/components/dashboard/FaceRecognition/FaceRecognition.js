@@ -110,7 +110,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     let result: FaceRecognitionResponse = await FRapi.performFaceRecognition(captureResult)
     this.setState({ loadingFaceRecognition: false })
     if (!result || !result.ok) {
-      this.showFRError(result.error)
+      // this.showFRError(result.error) // TODO: rami
     } else {
       this.props.screenProps.pop({ isValid: true })
     }

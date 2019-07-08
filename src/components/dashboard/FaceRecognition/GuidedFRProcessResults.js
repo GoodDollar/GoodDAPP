@@ -1,55 +1,48 @@
 //@flow
 import React, { useEffect, useState } from 'react'
-import { Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
+import normalize from 'react-native-elements/src/helpers/normalizeText'
+import { CustomButton, Section } from '../../common'
 import logger from '../../../lib/logger/pino-logger'
-
-//import { useDialog } from '../../../lib/undux/utils/dialog'
 
 const log = logger.child({ from: 'GuidedFRProcessResults' })
 
 const GuidedFRProcessResults = props => {
-  const [progressTextS, setText] = useState('starting...')
+  const [progressTextS, setText] = useState('')
+  const [processStatus, setStatus] = useState({
+    isDuplicate: undefined,
+    enrollResult: undefined,
+    livenessPassed: undefined,
+    whitelisted: undefined
+  })
 
   const updateProgress = data => {
-    log.debug('updating progress')
-    log.debug({ data })
+    logger.debug('updating progress')
+    logger.debug({ data })
 
-    let progressText = ''
-    progressText += '1. Looking for duplicates photos...'
+    let explanation = ''
+    setStatus({ ...data })
+
+    logger.debug('analyzed data,', { processStatus })
 
     if (data && data.isDuplicate) {
-      progressText += ' X'
-      setText(progressText)
+      explanation = 'Your are already in the database'
+      setText(explanation)
+
       return
     }
-    progressText += ' Success '
 
-    progressText += '2. Checking enrollment result...'
-
-    log.debug('before enroll result', { progressText })
-    if (data && !data.enrollResult) {
-      progressText += ' X'
-      setText(progressText)
-      return
-    }
-    progressText += ' Success '
-
-    progressText += 'Checking liveness...'
-
-    log.debug('before liveness result', { progressText })
+    log.debug('before enroll result', { explanation })
     if (data && !data.livenessPassed) {
-      progressText += ' X'
-      setText(progressText)
+      explanation = 'Please improve your conditions'
+      setText(explanation)
       return
     }
-    progressText += ' Success '
-    log.info({ progressText })
-    setText(progressText)
 
-    /*showDialogWithData({
-      title: 'Progress',
-      message: progressText
-    })*/
+    log.debug('before liveness result', { explanation })
+
+    log.info({ explanation })
+    setText(explanation)
   }
 
   // let [showDialogWithData] = useDialog()
@@ -69,11 +62,99 @@ const GuidedFRProcessResults = props => {
     }
   }, [])
 
+  const isProcessFailed =
+    processStatus.isDuplicate ||
+    !processStatus.enrollResult ||
+    !processStatus.livenessPassed ||
+    !processStatus.whitelisted
+
+  logger.debug('processStatus', { processStatus })
+
   return (
     <View>
-      <Text>{progressTextS}</Text>
+      <View style={styles.topContainer}>
+        <Section.Title style={styles.mainTitle}>{`Analyzing Results...`}</Section.Title>
+        {processStatus.isDuplicate != undefined && (
+          <Section.Text
+            style={processStatus.isDuplicate ? styles.textFailure : styles.textSuccess}
+          >{`Checking for duplicates...`}</Section.Text>
+        )}
+        {processStatus.isDuplicate != undefined && (
+          <Section.Text style={styles.waitingAnimation}>{`....`}</Section.Text>
+        )}
+        <Section.Text style={processStatus.isDuplicate ? styles.logoFail : styles.logoSuccess}>{`logo`}</Section.Text>
+
+        {processStatus.enrollResult != undefined && (
+          <Section.Text
+            style={processStatus.enrollResult.alreadyEnrolled ? styles.textFailure : styles.textSuccess}
+          >{`Enrolling...`}</Section.Text>
+        )}
+        {processStatus.enrollResult != undefined && (
+          <Section.Text style={styles.waitingAnimation}>{`....`}</Section.Text>
+        )}
+
+        <Section.Text
+          style={
+            processStatus.enrollResult && processStatus.enrollResult.alreadyEnrolled
+              ? styles.logoFailure
+              : styles.logoSuccess
+          }
+        >{`logo`}</Section.Text>
+
+        {processStatus.livenessPassed != undefined && (
+          <Section.Text
+            style={processStatus.livenessPassed ? styles.textSuccess : styles.textFailure}
+          >{`Checking liveness...`}</Section.Text>
+        )}
+        {processStatus.livenessPassed != undefined && (
+          <Section.Text style={styles.waitingAnimation}>{`....`}</Section.Text>
+        )}
+
+        <Section.Text
+          style={processStatus.livenessPassed ? styles.logoSuccess : styles.logoFailure}
+        >{`logo`}</Section.Text>
+
+        {processStatus.whitelisted != undefined && (
+          <Section.Text
+            style={processStatus.whitelisted ? styles.textSuccess : styles.textFailure}
+          >{`Registering account...`}</Section.Text>
+        )}
+        {processStatus.whitelisted != undefined && (
+          <Section.Text style={styles.waitingAnimation}>{`....`}</Section.Text>
+        )}
+
+        <Section.Text
+          style={processStatus.whitelisted ? styles.logoSuccess : styles.logoFailure}
+        >{`logo`}</Section.Text>
+      </View>
+
+      {isProcessFailed && (
+        <CustomButton mode="contained" loading={true} onPress={() => {}}>
+          {`Please Try Again`}
+        </CustomButton>
+      )}
     </View>
   )
 }
 
+const styles = StyleSheet.create({
+  description: {
+    fontSize: normalize(20)
+  },
+  mainTitle: {
+    color: '#42454A'
+  },
+  textSuccess: {
+    color: '#42454A'
+  },
+  textFailure: {
+    color: '#CBCBCB'
+  },
+  logoFailure: {
+    color: 'red'
+  },
+  logoSuccess: {
+    color: 'green'
+  }
+})
 export default GuidedFRProcessResults

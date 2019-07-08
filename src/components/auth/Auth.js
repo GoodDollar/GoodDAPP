@@ -9,12 +9,15 @@ import { Description, LinkButton, Title } from '../signup/components'
 import { PrivacyPolicy, TermsOfUse } from '../webView/webViewInstances'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
+
 type Props = {
   navigation: any,
   screenProps: {
     push: Function
-  }
+  },
+  styles: any
 }
+
 const log = logger.child({ from: 'Auth' })
 class Auth extends React.Component<Props> {
   handleSignUp = () => {
@@ -88,6 +91,7 @@ class Auth extends React.Component<Props> {
 const getStylesFromProps = ({ theme }) => {
   return {
     wrapper: {
+      backgroundColor: '#fff',
       display: 'flex',
       flex: 1,
       height: '100%',

@@ -2,16 +2,17 @@
 import React, { createRef } from 'react'
 import { StyleSheet, View } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
-import GDStore from '../../../lib/undux/GDStore'
+import SimpleStore from '../../../lib/undux/SimpleStore'
 import type { DashboardProps } from '../Dashboard'
 import logger from '../../../lib/logger/pino-logger'
 import { CustomButton, Section, Wrapper } from '../../common'
-import userStorage, { UserStorage } from '../../../lib/gundb/UserStorage'
+import userStorage from '../../../lib/gundb/UserStorage'
 import FRapi from './FaceRecognitionAPI'
 import type FaceRecognitionResponse from './FaceRecognitionAPI'
 import ZoomCapture from './ZoomCapture'
 import GuidedFR from './GuidedFRProcessResults'
 import { type ZoomCaptureResult } from './Zoom'
+import zoomSdkLoader from './ZoomSdkLoader'
 
 const log = logger.child({ from: 'FaceRecognition' })
 
@@ -19,16 +20,16 @@ declare var ZoomSDK: any
 
 type FaceRecognitionProps = DashboardProps & {}
 
-type State = DashboardState & {
+type State = {
   showPreText: boolean,
   showZoomCapture: boolean,
   showGuidedFR: boolean,
-  userStorage: UserStorage,
-  sessionId: string,
+  sessionId: string | void,
   loadingFaceRecognition: boolean,
   loadingText: string,
   facemap: Blob,
   zoomReady: boolean,
+  fullName: string,
   captureResult: ZoomCaptureResult
 }
 
@@ -48,7 +49,9 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     loadingFaceRecognition: false,
     loadingText: '',
     facemap: new Blob([], { type: 'text/plain' }),
-    zoomReady: false
+    zoomReady: false,
+    fullName: '',
+    captureResult: {}
   }
 
   loadedZoom: any
@@ -66,15 +69,18 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     this.timeout && clearTimeout(this.timeout)
   }
 
-  componentWillMount = () => {
+  componentWillMount = async () => {
+    await zoomSdkLoader.ready
     this.loadedZoom = ZoomSDK
     this.timeout = setTimeout(() => {
       this.setState({ zoomReady: true })
     }, 0)
   }
 
-  componentDidMount = () => {
+  componentDidMount = async () => {
     this.setWidth()
+    let fullName = (await userStorage.getProfileFieldDisplayValue('fullName')) || ''
+    this.setState({ fullName })
   }
 
   setWidth = () => {
@@ -87,7 +93,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     this.height = 1280
   }
 
-  onCaptureResult = (captureResult: ZoomCaptureResult) => {
+  onCaptureResult = (captureResult?: ZoomCaptureResult): void => {
     log.debug('zoom capture completed', { captureResult })
     this.startFRProcessOnServer(captureResult)
   }
@@ -97,7 +103,6 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     this.setState({
       showZoomCapture: false,
       showGuidedFR: true,
-      userStorage: userStorage,
       sessionId: captureResult.sessionId,
       loadingFaceRecognition: true,
       loadingText: 'Analyzing Face Recognition..'
@@ -129,8 +134,6 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
   }
 
   render() {
-    const { store }: FaceRecognitionProps = this.props
-    const { fullName } = store.get('profile')
     const {
       showZoomCapture,
       showPreText,
@@ -138,7 +141,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
       loadingText,
       showGuidedFR,
       sessionId,
-      userStorage
+      fullName
     } = this.state
 
     return (
@@ -175,7 +178,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
         )}
         <ZoomCapture
           height={this.height}
-          screenProps={this.screenProps}
+          screenProps={this.props.screenProps}
           onCaptureResult={this.onCaptureResult}
           showZoomCapture={showZoomCapture}
           loadedZoom={this.loadedZoom}
@@ -204,4 +207,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default GDStore.withStore(FaceRecognition)
+export default SimpleStore.withStore(FaceRecognition)

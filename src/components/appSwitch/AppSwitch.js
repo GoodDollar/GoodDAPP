@@ -1,76 +1,62 @@
 // @flow
-import React from 'react'
+import React, { useEffect } from 'react'
 import { AsyncStorage } from 'react-native'
 import { SceneView } from '@react-navigation/core'
 import some from 'lodash/some'
-import type { Store } from 'undux'
 import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
+import SimpleStore from '../../lib/undux/SimpleStore'
 import GDStore from '../../lib/undux/GDStore'
-import { checkAuthStatus } from '../../lib/login/checkAuthStatus'
-import { CustomDialog } from '../common'
-import LoadingIndicator from '../common/LoadingIndicator'
+import { updateAll as updateWalletStatus } from '../../lib/undux/utils/account'
+import { checkAuthStatus as getLoginState } from '../../lib/login/checkAuthStatus'
 import zoomSdkLoader from '../dashboard/FaceRecognition/ZoomSdkLoader'
 
 type LoadingProps = {
   navigation: any,
-  descriptors: any,
-  store: Store
+  descriptors: any
 }
 
 const log = logger.child({ from: 'AppSwitch' })
 
-function delay(t, v) {
-  return new Promise(function(resolve) {
-    setTimeout(resolve.bind(null, v), t)
-  })
-}
-const TIMEOUT = 1000
-
 /**
  * The main app route rendering component. Here we decide where to go depending on the user's credentials status
  */
-class AppSwitch extends React.Component<LoadingProps, {}> {
-  /**
-   * Triggers the required actions before navigating to any app's page
-   * @param {LoadingProps} props
-   */
-  constructor(props: LoadingProps) {
-    super(props)
-    this.ready = false
-    this.checkAuthStatus().then(r => {
-      this.ready = true
-      this.forceUpdate()
-    })
-  }
+const AppSwitch = (props: LoadingProps) => {
+  const store = SimpleStore.useStore()
+  const gdstore = GDStore.useStore()
 
-  getParams = async () => {
-    const { router, state } = this.props.navigation
-    const navInfo = router.getPathAndParamsForState(state)
-    const destinationPath = await AsyncStorage.getItem('destinationPath')
-    log.debug('getParams', { destinationPath, navInfo, router, state })
-    if (Object.keys(navInfo.params).length && !destinationPath) {
-      const app = router.getActionForPathAndParams(navInfo.path)
+  /*
+  Check if user is incoming with a URL with action details, such as payment link or email confirmation
+  */
+  const getParams = async () => {
+    const { router, state } = props.navigation
+
+    // const navInfo = router.getPathAndParamsForState(state)
+    const destinationPath = await AsyncStorage.getItem('destinationPath').then(JSON.parse)
+    AsyncStorage.removeItem('destinationPath')
+    log.debug('getParams', { destinationPath, router, state })
+    if (destinationPath) {
+      const app = router.getActionForPathAndParams(destinationPath.path)
       const destRoute = actions => (some(actions, 'action') ? destRoute(actions.action) : actions.action)
-      const destData = { ...destRoute(app), params: navInfo.params }
+      const destData = { ...destRoute(app), params: destinationPath.params }
       return destData
-    } else if (destinationPath) {
-      return JSON.parse(destinationPath)
     }
     return undefined
   }
 
-  //TODO: add shouldComponentUpdate to rerender only on route change/dialog?
-  async componentDidUpdate() {
+  /*
+  If a user has a saved destination path from before logging in or from inside-app (receipt view?)
+  He won't be redirected in checkAuthStatus since it is called on didmount effect and won't happen after
+  user completes signup and becomes loggedin which just updates this component
+*/
+  const navigateToUrlAction = async () => {
     log.info('didUpdate')
-    const destinationPath = await AsyncStorage.getItem('destinationPath')
+    let destDetails = await getParams()
 
     //once user logs in we can redirect him to saved destinationpath
-    if (destinationPath && this.props.store.get('isLoggedIn')) {
-      const destDetails = JSON.parse(destinationPath)
-      await AsyncStorage.removeItem('destinationPath')
+    if (destDetails) {
       log.debug('destinationPath found:', destDetails)
-      return this.props.navigation.navigate(destDetails)
+      return props.navigation.navigate(destDetails)
     }
   }
 
@@ -78,77 +64,75 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
    * Check's users' current auth status
    * @returns {Promise<void>}
    */
-  checkAuthStatus = async () => {
-    const { credsOrError, isLoggedInCitizen, isLoggedIn } = await Promise.all([
-      checkAuthStatus(this.props.store),
-      delay(TIMEOUT)
-    ]).then(([authResult]) => authResult)
-    let destDetails = await this.getParams()
+  const initialize = async () => {
+    //after dynamic routes update, if user arrived here, then he is already loggedin
+    //initialize the citizen status and wallet status
+    const { isLoggedInCitizen, isLoggedIn } = await Promise.all([getLoginState(), updateWalletStatus(gdstore)]).then(
+      ([authResult, _]) => authResult
+    )
+    gdstore.set('isLoggedIn')(isLoggedIn)
+    gdstore.set('isLoggedInCitizen')(isLoggedInCitizen)
+    isLoggedInCitizen ? API.verifyTopWallet() : Promise.resolve()
     if (!isLoggedInCitizen) {
       // load Zoom SDK at start so it will be loaded when user gets to FR screen
       await zoomSdkLoader.load()
     }
-    if (isLoggedIn) {
-      if (isLoggedInCitizen) {
-        API.verifyTopWallet()
-      }
 
-      if (destDetails) {
-        this.props.navigation.navigate(destDetails)
-        return AsyncStorage.removeItem('destinationPath')
-      }
-      this.props.navigation.navigate('AppNavigation')
-    } else {
-      const { jwt } = credsOrError
-      if (jwt) {
-        log.debug('New account, not verified, or did not finish signup', jwt)
-
-        //for new accounts check if link is email validation if so
-        //redirect to continue signup flow
-        if (destDetails) {
-          log.debug('destinationPath details found', destDetails)
-          if (destDetails.params.validation) {
-            log.debug('destinationPath redirecting to email validation')
-            this.props.navigation.navigate(destDetails)
-            return
-          }
-          log.debug('destinationPath saving details')
-
-          //for non loggedin users, store non email validation params to the destinationPath for later
-          //to be used once signed in
-          const destinationPath = JSON.stringify(destDetails)
-          AsyncStorage.setItem('destinationPath', destinationPath)
-        }
-        this.props.navigation.navigate('Auth')
-      } else {
-        // TODO: handle other statuses (4xx, 5xx), consider exponential backoff
-        log.error('Failed to sign in', credsOrError)
-        this.props.navigation.navigate('Auth')
-      }
-    }
+    // if (isLoggedIn) {
+    //   if (destDetails) {
+    //     props.navigation.navigate(destDetails)
+    //     return AsyncStorage.removeItem('destinationPath')
+    //   } else props.navigation.navigate('AppNavigation')
+    // } else {
+    //   const { jwt } = credsOrError
+    //   if (jwt) {
+    //     log.debug('New account, not verified, or did not finish signup', jwt)
+    //     //for new accounts check if link is email validation if so
+    //     //redirect to continue signup flow
+    //     if (destDetails) {
+    //       log.debug('destinationPath details found', destDetails)
+    //       if (destDetails.params.validation) {
+    //         log.debug('destinationPath redirecting to email validation')
+    //         props.navigation.navigate(destDetails)
+    //         return
+    //       }
+    //       log.debug('destinationPath saving details')
+    //       //for non loggedin users, store non email validation params to the destinationPath for later
+    //       //to be used once signed in
+    //       const destinationPath = JSON.stringify(destDetails)
+    //       AsyncStorage.setItem('destinationPath', destinationPath)
+    //     }
+    //     props.navigation.navigate('Auth')
+    //   } else {
+    //     // TODO: handle other statuses (4xx, 5xx), consider exponential backoff
+    //     log.error('Failed to sign in', credsOrError)
+    //     props.navigation.navigate('Auth')
+    //   }
+    // }
   }
 
-  render() {
-    const { descriptors, navigation, store } = this.props
-    const activeKey = navigation.state.routes[navigation.state.index].key
-    const descriptor = descriptors[activeKey]
-    const { dialogData } = store.get('currentScreen')
-
-    return (
-      <React.Fragment>
-        <CustomDialog
-          {...dialogData}
-          onDismiss={(...args) => {
-            const currentDialogData = { ...dialogData }
-            store.set('currentScreen')({ dialogData: { visible: false } })
-            currentDialogData.onDismiss && currentDialogData.onDismiss(currentDialogData)
-          }}
-        />
-        <LoadingIndicator force={!this.ready} />
-        <SceneView navigation={descriptor.navigation} component={descriptor.getComponent()} />
-      </React.Fragment>
-    )
+  const init = async () => {
+    store.set('loadingIndicator')({ loading: true })
+    await initialize()
+    store.set('loadingIndicator')({ loading: false })
   }
+  useEffect(() => {
+    init()
+    navigateToUrlAction()
+  }, [])
+
+  // useEffect(() => {
+
+  // })
+
+  const { descriptors, navigation } = props
+  const activeKey = navigation.state.routes[navigation.state.index].key
+  const descriptor = descriptors[activeKey]
+  return (
+    <React.Fragment>
+      <SceneView navigation={descriptor.navigation} component={descriptor.getComponent()} />
+    </React.Fragment>
+  )
 }
 
-export default GDStore.withStore(AppSwitch)
+export default AppSwitch

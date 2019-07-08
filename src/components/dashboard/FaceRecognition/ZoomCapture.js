@@ -2,18 +2,15 @@
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Section } from '../../common'
-import type { DashboardProps } from '../Dashboard'
 import logger from '../../../lib/logger/pino-logger'
 import { Camera, getResponsiveVideoDimensions } from './Camera.web'
 import { capture, type ZoomCaptureResult } from './Zoom'
 
 const log = logger.child({ from: 'ZoomCapture' })
-type ZoomCaptureProps = DashboardProps & {
+type ZoomCaptureProps = {
   screenProps: any,
-  loadedZoom: Boolean,
-  showZoomCapture: Boolean,
-  height: number,
-  width: number,
+  loadedZoom: boolean,
+  showZoomCapture: boolean,
   onCaptureResult: (captureResult?: ZoomCaptureResult) => void,
   onError: (error: string) => void
 }

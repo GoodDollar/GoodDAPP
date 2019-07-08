@@ -15,8 +15,7 @@ class LoginService {
 
   toSign: string = 'Login to GoodDAPP'
 
-  constructor(userStorage) {
-    this.userStorage = userStorage
+  constructor() {
     this.getJWT().then(jwt => (this.jwt = jwt))
     this.getCredentials().then(c => (this.credentials = c))
   }
@@ -60,8 +59,6 @@ class LoginService {
     }
 
     let creds = await this.login()
-    creds.profileSignature = await this.userStorage.sign(LoginService.toSign + creds.nonce)
-    creds.profilePublickey = this.userStorage.user.pub
     log.info('signed message', creds)
     this.storeCredentials(creds)
 

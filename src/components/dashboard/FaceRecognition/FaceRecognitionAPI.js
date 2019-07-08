@@ -9,7 +9,7 @@ type FaceRecognitionResponse = {
   ok: boolean,
   livenessPassed?: boolean,
   isDuplicate?: boolean,
-  enrollResult?: object | false
+  enrollResult?: any | false
 }
 
 type FaceRecognitionAPIResponse = {

@@ -67,9 +67,9 @@ describe('Dialog', () => {
     const error = {
       message
     }
-    showDialogForError(store, error)
+    showDialogForError(store, 'human readable', error)
     expect(store.get('currentScreen')).toEqual({
-      dialogData: { visible: true, title: 'Error', message, dismissText: 'OK' }
+      dialogData: { visible: true, title: 'Error', message: `human readable\n${message}`, dismissText: 'OK' }
     })
   })
 
@@ -79,9 +79,9 @@ describe('Dialog', () => {
     const error = {
       err
     }
-    showDialogForError(store, error)
+    showDialogForError(store, 'human readable', error)
     expect(store.get('currentScreen')).toEqual({
-      dialogData: { visible: true, title: 'Error', message: err, dismissText: 'OK' }
+      dialogData: { visible: true, title: 'Error', message: `human readable\n${err}`, dismissText: 'OK' }
     })
   })
 
@@ -95,9 +95,9 @@ describe('Dialog', () => {
         }
       }
     }
-    showDialogForError(store, error)
+    showDialogForError(store, 'human readable', error)
     expect(store.get('currentScreen')).toEqual({
-      dialogData: { visible: true, title: 'Error', message, dismissText: 'OK' }
+      dialogData: { visible: true, title: 'Error', message: `human readable\n${message}`, dismissText: 'OK' }
     })
   })
 })

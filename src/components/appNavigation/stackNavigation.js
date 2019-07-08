@@ -1,14 +1,12 @@
 // @flow
 import React, { Component, useEffect, useState } from 'react'
 import { ScrollView, View } from 'react-native'
-import { Button } from 'react-native-paper'
 import SideMenu from 'react-native-side-menu'
 import { createNavigator, Route, SceneView, SwitchRouter } from '@react-navigation/core'
-import GDStore from '../../lib/undux/GDStore'
-import { toggleSidemenu } from '../../lib/undux/utils/sidemenu'
+import SimpleStore from '../../lib/undux/SimpleStore'
 import SideMenuPanel from '../sidemenu/SideMenuPanel'
 import logger from '../../lib/logger/pino-logger'
-import { type ButtonProps, CustomButton } from '../common'
+import CustomButton from '../common/buttons/CustomButton'
 import { scrollableContainer } from '../common/styles'
 import NavBar from './NavBar'
 import { navigationOptions } from './navigationConfig'
@@ -27,7 +25,7 @@ type AppViewProps = {
   navigation: any,
   navigationConfig: any,
   screenProps: any,
-  store: GDStore
+  store: SimpleStore
 }
 
 type AppViewState = {
@@ -181,8 +179,6 @@ class AppView extends Component<AppViewProps, AppViewState> {
     this.setState(state => ({ currentState: { ...state.currentState, ...data } }))
   }
 
-  handleSidemenuVisibility = () => toggleSidemenu(this.props.store)
-
   render() {
     const { descriptors, navigation, navigationConfig, screenProps: incomingScreenProps, store } = this.props
     const activeKey = navigation.state.routes[navigation.state.index].key
@@ -200,7 +196,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
       setScreenState: this.setScreenState,
       toggleMenu: () => this.drawer.open()
     }
-    log.info('stackNavigation Render: FIXME rerender', descriptor, activeKey, this.props, this.state)
+    log.info('stackNavigation Render: FIXME rerender', descriptor, activeKey)
     const Component = this.getComponent(descriptor.getComponent(), { screenProps })
     const pageTitle = title || activeKey
     const open = store.get('sidemenu').visible
@@ -231,7 +227,7 @@ export const createStackNavigator = (routes: any, navigationConfig: any) => {
     backRouteName: 'Home'
   }
 
-  return createNavigator(GDStore.withStore(AppView), SwitchRouter(routes), {
+  return createNavigator(SimpleStore.withStore(AppView), SwitchRouter(routes), {
     ...defaultNavigationConfig,
     ...navigationConfig,
     navigationOptions
@@ -290,19 +286,19 @@ type BackButtonProps = {
  * @param {ButtonProps} props
  */
 export const BackButton = (props: BackButtonProps) => {
-  const { disabled, screenProps, children, mode, color, style } = props
+  const { disabled, screenProps, children, mode, color } = props
 
   return (
-    <Button
+    <CustomButton
+      {...props}
       compact={true}
       mode={mode || 'text'}
-      color={color || '#575757'}
-      style={style}
+      color={color || '#A3A3A3'}
       disabled={disabled}
       onPress={screenProps.goToParent}
     >
       {children}
-    </Button>
+    </CustomButton>
   )
 }
 
@@ -318,16 +314,10 @@ type DoneButtonProps = {
  * @param {ButtonProps} props
  */
 export const DoneButton = (props: DoneButtonProps) => {
-  const { disabled, screenProps, children, mode, color, style } = props
+  const { screenProps, children, mode, color } = props
 
   return (
-    <CustomButton
-      mode={mode || 'outlined'}
-      color={color || '#575757'}
-      style={style}
-      disabled={disabled}
-      onPress={screenProps.goToRoot}
-    >
+    <CustomButton {...props} mode={mode || 'outlined'} color={color || 'red'} onPress={screenProps.goToRoot}>
       {children || 'Done'}
     </CustomButton>
   )

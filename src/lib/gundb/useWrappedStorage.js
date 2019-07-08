@@ -1,8 +1,8 @@
-import GDStore from '../undux/GDStore'
+import SimpleStore from '../undux/SimpleStore'
 import wrapper from '../undux/utils/wrapper'
 import userStorage from './UserStorage'
 
 export const useWrappedUserStorage = () => {
-  const store = GDStore.useStore()
+  const store = SimpleStore.useStore()
   return wrapper(userStorage, store)
 }

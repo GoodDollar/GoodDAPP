@@ -75,7 +75,13 @@ export const receiveStyles = StyleSheet.create({
   amountInput: {
     backgroundColor: 'transparent',
     height: normalize(40),
-    width: '100%'
+    width: '100%',
+    textAlign: 'center',
+    fontSize: normalize(18),
+    fontFamily: 'RobotoSlab-Bold',
+    letterSpacing: normalize(1.2),
+    borderBottomColor: '#42454A',
+    borderBottomWidth: StyleSheet.hairlineWidth
   },
   amountInputWrapper: {
     fontSize: normalize(26),

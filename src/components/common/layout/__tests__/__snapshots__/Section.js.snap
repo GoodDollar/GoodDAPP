@@ -1,0 +1,185 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Section matches snapshot 1`] = `
+<div
+  className="css-view-1dbjc4n"
+  style={
+    Object {
+      "backgroundColor": "rgba(255,255,255,1.00)",
+      "borderBottomLeftRadius": "5px",
+      "borderBottomRightRadius": "5px",
+      "borderTopLeftRadius": "5px",
+      "borderTopRightRadius": "5px",
+      "marginBottom": "15px",
+      "paddingBottom": "15px",
+      "paddingLeft": "10px",
+      "paddingRight": "10px",
+      "paddingTop": "15px",
+    }
+  }
+>
+  <div
+    className="css-text-901oao"
+    dir="auto"
+    style={
+      Object {
+        "color": "rgba(85,85,85,1.00)",
+        "fontSize": "24px",
+        "fontWeight": "500",
+        "textAlign": "center",
+        "textTransform": "uppercase",
+      }
+    }
+  >
+    GoodDollar is a good economy, each day you can collect your part in the economy
+  </div>
+  <div
+    className="css-view-1dbjc4n"
+    style={
+      Object {
+        "WebkitAlignItems": "center",
+        "WebkitBoxAlign": "center",
+        "WebkitBoxDirection": "normal",
+        "WebkitBoxOrient": "horizontal",
+        "WebkitBoxPack": "justify",
+        "WebkitFlexDirection": "row",
+        "WebkitJustifyContent": "space-between",
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "space-between",
+        "msFlexAlign": "center",
+        "msFlexDirection": "row",
+        "msFlexPack": "justify",
+      }
+    }
+  >
+    <div
+      className="css-text-901oao"
+      dir="auto"
+      style={
+        Object {
+          "color": "rgba(85,85,85,1.00)",
+          "fontSize": "14px",
+          "textAlign": "center",
+        }
+      }
+    >
+      TODAY'S DAILY INCOME 
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Section matches snapshot with properties 1`] = `
+<div
+  className="css-view-1dbjc4n"
+  style={
+    Object {
+      "backgroundColor": "rgba(255,255,255,1.00)",
+      "borderBottomLeftRadius": "5px",
+      "borderBottomRightRadius": "5px",
+      "borderTopLeftRadius": "5px",
+      "borderTopRightRadius": "5px",
+      "marginBottom": "15px",
+      "paddingBottom": "15px",
+      "paddingLeft": "10px",
+      "paddingRight": "10px",
+      "paddingTop": "15px",
+    }
+  }
+>
+  <div
+    className="css-view-1dbjc4n"
+    style={
+      Object {
+        "WebkitAlignItems": "stretch",
+        "WebkitBoxAlign": "stretch",
+        "WebkitBoxDirection": "normal",
+        "WebkitBoxFlex": 1,
+        "WebkitBoxOrient": "vertical",
+        "WebkitBoxPack": "justify",
+        "WebkitFlexBasis": "0%",
+        "WebkitFlexDirection": "column",
+        "WebkitFlexGrow": 1,
+        "WebkitFlexShrink": 1,
+        "WebkitJustifyContent": "space-between",
+        "alignItems": "stretch",
+        "flexBasis": "0%",
+        "flexDirection": "column",
+        "flexGrow": 1,
+        "flexShrink": 1,
+        "justifyContent": "space-between",
+        "msFlexAlign": "stretch",
+        "msFlexDirection": "column",
+        "msFlexNegative": 1,
+        "msFlexPack": "justify",
+        "msFlexPositive": 1,
+        "msFlexPreferredSize": "0%",
+      }
+    }
+  >
+    <div
+      className="css-text-901oao"
+      dir="auto"
+      style={
+        Object {
+          "color": "rgba(85,85,85,1.00)",
+          "fontSize": "24px",
+          "fontWeight": "500",
+          "textAlign": "center",
+          "textTransform": "uppercase",
+        }
+      }
+    >
+      Title
+    </div>
+    <div
+      className="css-text-901oao"
+      dir="auto"
+      style={
+        Object {
+          "color": "rgba(85,85,85,1.00)",
+          "fontSize": "14px",
+          "textAlign": "center",
+        }
+      }
+    >
+      Second text
+    </div>
+  </div>
+  <div
+    className="css-view-1dbjc4n"
+    style={
+      Object {
+        "WebkitAlignItems": "flex-end",
+        "WebkitBoxAlign": "end",
+        "WebkitBoxDirection": "normal",
+        "WebkitBoxOrient": "horizontal",
+        "WebkitBoxPack": "justify",
+        "WebkitFlexDirection": "row",
+        "WebkitJustifyContent": "space-between",
+        "alignItems": "flex-end",
+        "flexDirection": "row",
+        "justifyContent": "space-between",
+        "msFlexAlign": "end",
+        "msFlexDirection": "row",
+        "msFlexPack": "justify",
+      }
+    }
+  >
+    <div
+      className="css-text-901oao"
+      dir="auto"
+      style={
+        Object {
+          "color": "rgba(85,85,85,1.00)",
+          "fontSize": "14px",
+          "textAlign": "center",
+        }
+      }
+    >
+      TODAY'S DAILY INCOME 
+    </div>
+  </div>
+</div>
+`;

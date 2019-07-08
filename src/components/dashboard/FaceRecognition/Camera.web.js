@@ -60,20 +60,24 @@ export function Camera(props: CameraProps) {
     const constraints = acceptableConstraints[currentConstraintIndex]
 
     try {
-      return await window.navigator.mediaDevices.getUserMedia(constraints)
+      log.debug('getStream', constraints)
+      let device = await window.navigator.mediaDevices.getUserMedia(constraints)
+      log.debug('getStream success:', device)
+      return device
     } catch (e) {
+      log.error('getStream failed', constraints)
+
       currentConstraintIndex++
 
       if (currentConstraintIndex >= acceptableConstraints.length) {
         let error =
           'Unable to get a video stream. Please ensure you give permission to this website to access your camera, and have a 720p+ camera plugged in'
         log.error(error)
-        props.onError(error)
         throw new Error(error)
       }
 
-      log.error('Unknown error in getStream()', e)
-      props.onError('General Error')
+      log.warn('Failed getting stream', constraints, e)
+
       return getStream()
     }
   }
@@ -105,11 +109,8 @@ export function Camera(props: CameraProps) {
 
       if (!videoPlayerRef || !videoPlayerRef.current) {
         let error = 'No video player found'
-        log.error(error)
-        props.onError(error)
         throw new Error(error)
       }
-
       const videoTrack = stream.getVideoTracks()[0]
       this.videoTrack = videoTrack
       videoPlayerRef.current.srcObject = stream
@@ -120,7 +121,6 @@ export function Camera(props: CameraProps) {
     } catch (error) {
       log.error(error)
       props.onError(error)
-      throw new Error(error)
     }
   }
 

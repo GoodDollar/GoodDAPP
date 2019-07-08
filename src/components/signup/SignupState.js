@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from 'react'
 import { AsyncStorage, ScrollView, StyleSheet, View } from 'react-native'
 import { createSwitchNavigator } from '@react-navigation/core'
-import { scrollableContainer } from '../theme/styles'
 import NavBar from '../appNavigation/NavBar'
 import { navigationConfig } from '../appNavigation/navigationConfig'
 import logger from '../../lib/logger/pino-logger'
@@ -185,11 +184,13 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
     }
   }
 
+  const { container, scrollableContainer, contentContainer } = styles
+
   return (
-    <View style={styles.container}>
+    <View style={container}>
       <NavBar goBack={back} title={'Sign Up'} />
       <ScrollView contentContainerStyle={scrollableContainer}>
-        <View style={styles.contentContainer}>
+        <View style={contentContainer}>
           <SignupWizardNavigator
             navigation={navigation}
             screenProps={{ ...screenProps, data: { ...state, loading }, doneCallback: done, back: back }}
@@ -204,8 +205,17 @@ Signup.router = SignupWizardNavigator.router
 Signup.navigationOptions = SignupWizardNavigator.navigationOptions
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
-  contentContainer: { justifyContent: 'center', flexDirection: 'row', flex: 1 }
+  container: {
+    flex: 1
+  },
+  contentContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center'
+  },
+  scrollableContainer: {
+    flexGrow: 1
+  }
 })
 
 export default Signup

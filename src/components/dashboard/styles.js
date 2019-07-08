@@ -1,6 +1,6 @@
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { StyleSheet } from 'react-native'
-import { colors, fontStyle } from '../theme/styles'
+import { theme } from '../theme/styles'
 import { getScreenHeight } from '../../lib/utils/Orientation'
 
 const isMobileHeight = getScreenHeight() < 680
@@ -44,7 +44,7 @@ export const receiveStyles = StyleSheet.create({
     fontSize: normalize(16)
   },
   headline: {
-    ...fontStyle,
+    ...theme.fontStyle,
     textTransform: 'uppercase',
     marginBottom: '1rem',
     fontSize: normalize(24)
@@ -60,7 +60,7 @@ export const receiveStyles = StyleSheet.create({
     justifyContent: 'space-between'
   },
   amountLabel: {
-    ...fontStyle,
+    ...theme.fontStyle,
     fontSize: normalize(32)
   },
   amountSymbol: {
@@ -79,7 +79,7 @@ export const receiveStyles = StyleSheet.create({
     fontSize: normalize(18),
     fontFamily: 'RobotoSlab-Bold',
     letterSpacing: normalize(1.2),
-    borderBottomColor: colors.darkGray,
+    borderBottomColor: theme.colors.darkGray,
     borderBottomWidth: StyleSheet.hairlineWidth
   },
   amountInputWrapper: {

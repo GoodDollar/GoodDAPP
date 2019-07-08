@@ -1,14 +1,14 @@
 // @flow
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
-import { createStackNavigator } from '../appNavigation/stackNavigation'
+import { View } from 'react-native'
+import Mnemonics from '../signin/Mnemonics'
 import logger from '../../lib/logger/pino-logger'
 import { CustomButton, Text } from '../common'
 import { Description, LinkButton, Title } from '../signup/components'
-import { fontStyle } from '../theme/styles'
 import { PrivacyPolicy, TermsOfUse } from '../webView/webViewInstances'
-import Mnemonics from '../signin/Mnemonics'
+import { createStackNavigator } from '../appNavigation/stackNavigation'
+import { withStyles } from '../../lib/styles'
 
 type Props = {
   navigation: any,
@@ -46,29 +46,42 @@ class Auth extends React.Component<Props> {
   handleNavigatePrivacyPolicy = () => this.props.screenProps.push('PrivacyPolicy')
 
   render() {
+    const {
+      acceptTermsLink,
+      acceptTermsText,
+      bottomContainer,
+      buttonLayout,
+      paragraph,
+      signInLink,
+      title,
+      topContainer,
+      wrapper,
+      ...rest
+    } = this.props
+
     return (
-      <View style={styles.wrapper}>
-        <View style={styles.topContainer}>
-          <Title style={styles.title}>Just a heads up!</Title>
-          <Description style={styles.paragraph}>
+      <View style={wrapper} {...rest}>
+        <View style={topContainer}>
+          <Title style={title}>Just a heads up!</Title>
+          <Description style={paragraph}>
             {`All tokens in the Alpha are "test tokens".\nThey have NO real value.\nThey will be deleted at the end of the Alpha.`}
           </Description>
         </View>
-        <View style={styles.bottomContainer}>
-          <Text style={styles.acceptTermsText}>
+        <View style={bottomContainer}>
+          <Text style={acceptTermsText}>
             {`By clicking the 'Create a wallet' button, you are accepting our `}
-            <LinkButton style={styles.acceptTermsLink} onPress={this.handleNavigateTermsOfUse}>
+            <LinkButton style={acceptTermsLink} onPress={this.handleNavigateTermsOfUse}>
               Terms of Service
             </LinkButton>
             {` and `}
-            <LinkButton style={styles.acceptTermsLink} onPress={this.handleNavigatePrivacyPolicy}>
+            <LinkButton style={acceptTermsLink} onPress={this.handleNavigatePrivacyPolicy}>
               Privacy Policy
             </LinkButton>
           </Text>
-          <CustomButton style={styles.buttonLayout} mode="contained" onPress={this.handleSignUp}>
+          <CustomButton style={buttonLayout} mode="contained" onPress={this.handleSignUp}>
             Create a wallet
           </CustomButton>
-          <Text style={styles.signInLink} onPress={this.handleSignIn}>
+          <Text style={signInLink} onPress={this.handleSignIn}>
             Already have a wallet?
           </Text>
         </View>
@@ -82,63 +95,67 @@ Auth.navigationOptions = {
   navigationBarHidden: true
 }
 
-const styles = StyleSheet.create({
-  wrapper: {
-    display: 'flex',
-    flex: 1,
-    height: '100%',
-    paddingLeft: '4%',
-    paddingRight: '4%'
-  },
-  topContainer: {
-    flexGrow: 1,
-    display: 'flex',
-    justifyContent: 'center'
-  },
-  bottomContainer: {
-    marginBottom: 30,
-    paddingTop: 30
-  },
-  title: {
-    marginBottom: 0
-  },
-  paragraph: {
-    ...fontStyle,
-    marginLeft: 0,
-    marginRight: 0,
-    fontSize: normalize(16),
-    lineHeight: '1.3em',
-    fontWeight: '500'
-  },
-  buttonLayout: {
-    padding: normalize(5),
-    marginTop: normalize(20),
-    marginBottom: normalize(20)
-  },
-  signInLink: {
-    ...fontStyle,
-    textDecorationLine: 'underline',
-    fontSize: normalize(16)
-  },
-  acceptTermsText: {
-    ...fontStyle,
-    fontSize: normalize(12)
-  },
-  acceptTermsLink: {
-    ...fontStyle,
-    fontSize: normalize(12),
-    fontWeight: 'bold'
+const getStylesFromProps = ({ theme }) => {
+  return {
+    wrapper: {
+      display: 'flex',
+      flex: 1,
+      height: '100%',
+      paddingLeft: '4%',
+      paddingRight: '4%'
+    },
+    topContainer: {
+      flexGrow: 1,
+      display: 'flex',
+      justifyContent: 'center'
+    },
+    bottomContainer: {
+      marginBottom: 30,
+      paddingTop: 30
+    },
+    title: {
+      marginBottom: 0
+    },
+    paragraph: {
+      ...theme.fontStyle,
+      marginLeft: 0,
+      marginRight: 0,
+      fontSize: normalize(16),
+      lineHeight: '1.3em',
+      fontWeight: '500'
+    },
+    buttonLayout: {
+      padding: normalize(5),
+      marginTop: normalize(20),
+      marginBottom: normalize(20)
+    },
+    signInLink: {
+      ...theme.fontStyle,
+      textDecorationLine: 'underline',
+      fontSize: normalize(16)
+    },
+    acceptTermsText: {
+      ...theme.fontStyle,
+      fontSize: normalize(12)
+    },
+    acceptTermsLink: {
+      ...theme.fontStyle,
+      fontSize: normalize(12),
+      fontWeight: 'bold'
+    }
   }
-})
+}
 
-export default createStackNavigator(
-  {
-    Login: Auth,
-    TermsOfUse,
-    PrivacyPolicy,
-    Recover: Mnemonics
-  },
-  {
-    backRouteName: 'Auth'
-  }
+export default withStyles(getStylesFromProps)(
+  createStackNavigator(
+    {
+      Login: Auth,
+      TermsOfUse,
+      PrivacyPolicy,
+      Recover: Mnemonics
+    },
+    {
+      backRouteName: 'Auth'
+    }
+  )
 )

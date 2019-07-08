@@ -78,7 +78,8 @@ const styles = StyleSheet.create({
     fontSize: normalize(24),
     fontWeight: '500',
     textTransform: 'uppercase',
-    marginBottom: normalize(8)
+    marginBottom: normalize(16),
+    marginTop: normalize(16)
   },
   text: {
     ...fontStyle,

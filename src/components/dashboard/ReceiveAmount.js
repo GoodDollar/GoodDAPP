@@ -9,7 +9,6 @@ import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { generateCode, generateReceiveShareObject } from '../../lib/share'
 import { BigGoodDollar, CopyButton, CustomButton, Section, TopBar, Wrapper } from '../common'
-import DoneButton from '../common/buttons/DoneButton'
 import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
 import logger from '../../lib/logger/pino-logger'
 const log = logger.child({ from: 'ReceiveAmount' })
@@ -79,8 +78,7 @@ const ReceiveAmount = ({ screenProps, ...props }: ReceiveProps) => {
         </Section.Stack>
         {confirmed ? (
           <Section.Stack>
-            <CopyButton toCopy={share.url} />
-            <DoneButton style={styles.doneButton} screenProps={screenProps} />
+            <CopyButton toCopy={share.url} onPressDone={screenProps.goToRoot} />
           </Section.Stack>
         ) : (
           <Section.Row>

@@ -782,6 +782,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                             "msFlexPack": "center",
                             "msFlexPositive": 1,
                             "msFlexPreferredSize": "0%",
+                            "paddingRight": "20px",
                           }
                         }
                       >
@@ -1028,8 +1029,10 @@ exports[`AppNavigation matches snapshot 1`] = `
                                   style={
                                     Object {
                                       "color": "rgba(255,255,255,1.00)",
+                                      "fontFamily": "Roboto-Medium",
                                       "fontSize": "16px",
-                                      "fontWeight": "bold",
+                                      "marginLeft": "0px",
+                                      "marginRight": "0px",
                                       "textTransform": "uppercase",
                                     }
                                   }
@@ -1079,6 +1082,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                             "msFlexPack": "center",
                             "msFlexPositive": 1,
                             "msFlexPreferredSize": "0%",
+                            "paddingLeft": "20px",
                           }
                         }
                       >

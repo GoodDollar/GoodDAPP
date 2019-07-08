@@ -171,10 +171,10 @@ const Dashboard = props => {
             </>
           ) : (
             <Section.Row>
-              <Section.Stack alignItems="left">
+              <Section.Stack alignItems="flex-start">
                 <Avatar size={42} source={avatar} onPress={() => screenProps.push('Profile')} />
               </Section.Stack>
-              <Section.Stack alignItems="right">
+              <Section.Stack alignItems="flex-end">
                 <BigGoodDollar number={balance} />
               </Section.Stack>
             </Section.Row>
@@ -223,16 +223,18 @@ const Dashboard = props => {
 
 const styles = StyleSheet.create({
   buttonsRow: {
-    alignItems: 'space-between',
+    alignItems: 'center',
     marginTop: normalize(10)
   },
   leftButton: {
     flex: 1,
-    marginRight: normalize(20)
+    marginRight: normalize(20),
+    paddingRight: normalize(20)
   },
   rightButton: {
     flex: 1,
-    marginLeft: normalize(20)
+    marginLeft: normalize(20),
+    paddingLeft: normalize(20)
   },
   dashboardView: {
     flex: 1

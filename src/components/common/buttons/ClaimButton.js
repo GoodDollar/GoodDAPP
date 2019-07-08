@@ -17,9 +17,10 @@ const ClaimButton = ({ screenProps, amount }) => (
 const styles = StyleSheet.create({
   buttonText: {
     fontSize: normalize(16),
-    color: 'white',
-    fontWeight: 'bold',
-    textTransform: 'uppercase'
+    color: '#fff',
+    fontFamily: 'Roboto-Medium',
+    textTransform: 'uppercase',
+    marginHorizontal: 0
   },
   claimContainer: {
     padding: normalize(3),
@@ -29,13 +30,21 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: '50%',
     top: '50%',
-    transform: 'translate(-50%, -50%)'
+    transform: [
+      {
+        translateX: '-50%'
+      },
+      {
+        translateY: '-50%'
+      }
+    ]
   },
   claimButton: {
     backgroundColor: '#00C3AE',
     borderRadius: '50%',
     height: normalize(70),
-    width: normalize(70)
+    width: normalize(70),
+    marginHorizontal: 0
   },
   grayedOutText: {
     color: '#d5d5d5',

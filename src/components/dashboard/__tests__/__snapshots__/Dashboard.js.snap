@@ -551,17 +551,17 @@ exports[`Dashboard matches snapshot 1`] = `
                         className="css-view-1dbjc4n"
                         style={
                           Object {
-                            "WebkitAlignItems": "left",
-                            "WebkitBoxAlign": "left",
+                            "WebkitAlignItems": "flex-start",
+                            "WebkitBoxAlign": "start",
                             "WebkitBoxDirection": "normal",
                             "WebkitBoxOrient": "vertical",
                             "WebkitBoxPack": "justify",
                             "WebkitFlexDirection": "column",
                             "WebkitJustifyContent": "space-between",
-                            "alignItems": "left",
+                            "alignItems": "flex-start",
                             "flexDirection": "column",
                             "justifyContent": "space-between",
-                            "msFlexAlign": "left",
+                            "msFlexAlign": "start",
                             "msFlexDirection": "column",
                             "msFlexPack": "justify",
                           }
@@ -666,17 +666,17 @@ exports[`Dashboard matches snapshot 1`] = `
                         className="css-view-1dbjc4n"
                         style={
                           Object {
-                            "WebkitAlignItems": "right",
-                            "WebkitBoxAlign": "right",
+                            "WebkitAlignItems": "flex-end",
+                            "WebkitBoxAlign": "end",
                             "WebkitBoxDirection": "normal",
                             "WebkitBoxOrient": "vertical",
                             "WebkitBoxPack": "justify",
                             "WebkitFlexDirection": "column",
                             "WebkitJustifyContent": "space-between",
-                            "alignItems": "right",
+                            "alignItems": "flex-end",
                             "flexDirection": "column",
                             "justifyContent": "space-between",
-                            "msFlexAlign": "right",
+                            "msFlexAlign": "end",
                             "msFlexDirection": "column",
                             "msFlexPack": "justify",
                           }
@@ -782,6 +782,7 @@ exports[`Dashboard matches snapshot 1`] = `
                             "msFlexPack": "center",
                             "msFlexPositive": 1,
                             "msFlexPreferredSize": "0%",
+                            "paddingRight": "20px",
                           }
                         }
                       >
@@ -1028,8 +1029,10 @@ exports[`Dashboard matches snapshot 1`] = `
                                   style={
                                     Object {
                                       "color": "rgba(255,255,255,1.00)",
+                                      "fontFamily": "Roboto-Medium",
                                       "fontSize": "16px",
-                                      "fontWeight": "bold",
+                                      "marginLeft": "0px",
+                                      "marginRight": "0px",
                                       "textTransform": "uppercase",
                                     }
                                   }
@@ -1079,6 +1082,7 @@ exports[`Dashboard matches snapshot 1`] = `
                             "msFlexPack": "center",
                             "msFlexPositive": 1,
                             "msFlexPreferredSize": "0%",
+                            "paddingLeft": "20px",
                           }
                         }
                       >

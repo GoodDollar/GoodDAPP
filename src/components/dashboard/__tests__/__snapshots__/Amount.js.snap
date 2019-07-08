@@ -301,6 +301,7 @@ exports[`Amount matches snapshot 1`] = `
               "fontWeight": "500",
               "lineHeight": "22px",
               "marginBottom": "1rem",
+              "marginTop": "16px",
               "textAlign": "center",
               "textDecoration": "none",
               "textTransform": "uppercase",

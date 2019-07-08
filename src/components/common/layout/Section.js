@@ -1,8 +1,7 @@
 // @flow
 import React, { Component } from 'react'
-import { View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
-import { withStyles } from '../../../lib/styles'
 import SectionRow from './SectionRow'
 import SectionStack from './SectionStack'
 import SectionTitle from './SectionTitle'
@@ -23,22 +22,18 @@ class Section extends Component<any> {
   static Separator = Separator
 
   render() {
-    const { styles } = this.props
-
     return (
       <View style={[styles.section, getFlexStylesFromProps(this.props), this.props.style]}>{this.props.children}</View>
     )
   }
 }
 
-const getStylesFromProps = ({ theme }) => {
-  return {
-    section: {
-      backgroundColor: '#fff',
-      borderRadius: normalize(5),
-      padding: normalize(8)
-    }
+const styles = StyleSheet.create({
+  section: {
+    backgroundColor: '#fff',
+    borderRadius: normalize(5),
+    padding: normalize(8)
   }
-}
+})
 
-export default withStyles(getStylesFromProps)(Section)
+export default Section

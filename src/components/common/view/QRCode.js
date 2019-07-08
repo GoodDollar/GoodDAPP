@@ -1,12 +1,11 @@
 // @flow
 import React from 'react'
 import QRCodeReact from 'qrcode.react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
-import { withTheme } from 'react-native-paper'
+import { withStyles } from '../../../lib/styles'
 
-const QRCode = (props: any) => {
-  const styles = getStylesFromProps(props)
+const QRCode = ({ styles, ...props }: any) => {
   return (
     <View style={styles.qrWrapper}>
       <View style={styles.qrCode}>
@@ -16,12 +15,8 @@ const QRCode = (props: any) => {
   )
 }
 
-export default withTheme(QRCode)
-
-const getStylesFromProps = props => {
-  const { theme } = props
-
-  return StyleSheet.create({
+const getStylesFromProps = ({ theme }) => {
+  return {
     qrCode: {
       padding: normalize(16),
       borderColor: theme.colors.primary,
@@ -32,5 +27,7 @@ const getStylesFromProps = props => {
       justifyContent: 'center',
       alignItems: 'center'
     }
-  })
+  }
 }
+
+export default withStyles(getStylesFromProps)(QRCode)

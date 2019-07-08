@@ -1,17 +1,14 @@
 // @flow
 import React, { useEffect, useMemo, useState } from 'react'
-import { StyleSheet } from 'react-native'
 import { isMobile } from 'mobile-device-detect'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
-import { withTheme } from 'react-native-paper'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { generateCode, generateReceiveShareObject } from '../../lib/share'
 import { BigGoodDollar, CopyButton, CustomButton, Section, TopBar, Wrapper } from '../common'
 import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
-import logger from '../../lib/logger/pino-logger'
-const log = logger.child({ from: 'ReceiveAmount' })
+import { withStyles } from '../../lib/styles'
 
 export type ReceiveProps = {
   screenProps: any,
@@ -106,12 +103,8 @@ ReceiveAmount.shouldNavigateToComponent = props => {
   return !!screenState.nextRoutes && screenState.amount
 }
 
-export default withTheme(ReceiveAmount)
-
-const getStylesFromProps = props => {
-  const { theme } = props
-  log.debug({ theme })
-  return StyleSheet.create({
+const getStylesFromProps = ({ theme }) => {
+  return {
     tableRow: {
       // TODO: see where should we take this color from
       borderBottomColor: '#CBCBCB',
@@ -138,5 +131,7 @@ const getStylesFromProps = props => {
     doneButton: {
       marginTop: theme.defaultMargin
     }
-  })
+  }
 }
+
+export default withStyles(getStylesFromProps)(ReceiveAmount)

@@ -1,7 +1,5 @@
 // @flow
 import React, { useMemo } from 'react'
-import { StyleSheet } from 'react-native'
-import { withTheme } from 'react-native-paper'
 import { isMobile } from 'mobile-device-detect'
 import { generateCode, generateReceiveShareObject } from '../../lib/share'
 
@@ -9,16 +7,18 @@ import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { PushButton } from '../appNavigation/stackNavigation'
 import { CopyButton, CustomButton, QRCode, ScanQRButton, Section, TopBar, Wrapper } from '../common'
+import { withStyles } from '../../lib/styles'
 
 export type ReceiveProps = {
   screenProps: any,
-  navigation: any
+  navigation: any,
+  styles: any
 }
 
 const RECEIVE_TITLE = 'Receive G$'
 const SHARE_TEXT = 'Share your wallet link'
 
-const Receive = ({ screenProps, ...props }: ReceiveProps) => {
+const Receive = ({ screenProps, styles, ...props }: ReceiveProps) => {
   const { account, networkId } = goodWallet
 
   const [showErrorDialog] = useErrorDialog()
@@ -27,7 +27,6 @@ const Receive = ({ screenProps, ...props }: ReceiveProps) => {
 
   const code = useMemo(() => generateCode(account, networkId, amount, reason), [account, networkId, amount, reason])
   const share = useMemo(() => generateReceiveShareObject(code), [code])
-  const styles = getStylesFromProps(props)
 
   const shareAction = async () => {
     try {
@@ -82,16 +81,15 @@ Receive.navigationOptions = {
   title: RECEIVE_TITLE
 }
 
-const getStylesFromProps = props => {
-  const { theme } = props
-  return StyleSheet.create({
+const getStylesFromProps = ({ theme }) => {
+  return {
     marginTop: {
       marginTop: theme.defaultMargin
     },
     marginBottom: {
       marginBottom: theme.defaultMargin
     }
-  })
+  }
 }
 
-export default withTheme(Receive)
+export default withStyles(getStylesFromProps)(Receive)

@@ -85,11 +85,11 @@ Auth.navigationOptions = {
 
 const styles = StyleSheet.create({
   wrapper: {
+    display: 'flex',
+    flex: 1,
     height: '100%',
     paddingLeft: '4%',
-    paddingRight: '4%',
-    display: 'flex',
-    flex: 1
+    paddingRight: '4%'
   },
   topContainer: {
     flexGrow: 1,

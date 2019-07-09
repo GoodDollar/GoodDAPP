@@ -5,7 +5,7 @@ import normalize from 'react-native-elements/src/helpers/normalizeText'
 import SimpleStore from '../../../lib/undux/SimpleStore'
 import type { DashboardProps } from '../Dashboard'
 import logger from '../../../lib/logger/pino-logger'
-import { CustomButton, Section, Wrapper } from '../../common'
+import { Section, Wrapper } from '../../common'
 import userStorage from '../../../lib/gundb/UserStorage'
 import FRapi from './FaceRecognitionAPI'
 import type FaceRecognitionResponse from './FaceRecognitionAPI'
@@ -42,8 +42,8 @@ type State = {
  **/
 class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
   state = {
-    showPreText: true,
-    showZoomCapture: false,
+    showPreText: false,
+    showZoomCapture: true,
     showGuidedFR: false,
     sessionId: undefined,
     loadingFaceRecognition: false,
@@ -94,6 +94,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
   }
 
   onCaptureResult = (captureResult?: ZoomCaptureResult): void => {
+    //TODO: rami check uninitilized, return
     log.debug('zoom capture completed', { captureResult })
     this.startFRProcessOnServer(captureResult)
   }
@@ -137,8 +138,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     const {
       showZoomCapture,
       showPreText,
-      loadingFaceRecognition,
-      loadingText,
+
       showGuidedFR,
       sessionId,
       fullName
@@ -158,28 +158,11 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
         )}
         {showGuidedFR && <GuidedFR sessionId={sessionId} userStorage={userStorage} />}
 
-        {showPreText && (
-          <View style={styles.bottomContainer}>
-            <CustomButton
-              mode="contained"
-              disabled={this.state.zoomReady === false}
-              onPress={this.showFaceRecognition}
-              loading={this.state.zoomReady === false || loadingFaceRecognition}
-            >
-              Quick Face Recognition
-            </CustomButton>
-          </View>
-        )}
-        {loadingFaceRecognition && (
-          <CustomButton mode="contained" loading={true} onPress={() => {}}>
-            {loadingText}
-          </CustomButton>
-        )}
         <ZoomCapture
           height={this.height}
           screenProps={this.props.screenProps}
           onCaptureResult={this.onCaptureResult}
-          showZoomCapture={showZoomCapture}
+          showZoomCapture={this.state.zoomReady && showZoomCapture}
           loadedZoom={this.loadedZoom}
           onError={this.showFRError}
         />

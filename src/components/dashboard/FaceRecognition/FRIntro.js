@@ -4,9 +4,11 @@ import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { CustomButton, Section, Wrapper } from '../../common'
 import Divider from '../../../assets/Dividers - Long Line - Stroke Width 2 - Round Cap - Light Blue.svg'
 import SmileyHug from '../../../assets/smileyhug.svg'
+import GDStore from '../../../lib/undux/GDStore'
 
 const FRIntro = props => {
-  let fullName = 'John'
+  const store = GDStore.useStore()
+  const { fullName } = store.get('profile')
   const gotoFR = () => props.screenProps.push('FaceRecognition')
   return (
     <Wrapper>

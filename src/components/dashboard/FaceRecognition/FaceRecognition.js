@@ -1,11 +1,9 @@
 // @flow
 import React, { createRef } from 'react'
-import { StyleSheet, View } from 'react-native'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
 import SimpleStore from '../../../lib/undux/SimpleStore'
 import type { DashboardProps } from '../Dashboard'
 import logger from '../../../lib/logger/pino-logger'
-import { Section, Wrapper } from '../../common'
+import { Wrapper } from '../../common'
 import userStorage from '../../../lib/gundb/UserStorage'
 import FRapi from './FaceRecognitionAPI'
 import type FaceRecognitionResponse from './FaceRecognitionAPI'
@@ -21,7 +19,6 @@ declare var ZoomSDK: any
 type FaceRecognitionProps = DashboardProps & {}
 
 type State = {
-  showPreText: boolean,
   showZoomCapture: boolean,
   showGuidedFR: boolean,
   sessionId: string | void,
@@ -29,7 +26,6 @@ type State = {
   loadingText: string,
   facemap: Blob,
   zoomReady: boolean,
-  fullName: string,
   captureResult: ZoomCaptureResult
 }
 
@@ -125,37 +121,16 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
         title: 'Please try again',
         message: `FaceRecognition failed. Reason: ${error}. Please try again`,
         dismissText: 'Retry',
-        onDismiss: this.setState({ showPreText: true }) // reload.
+        onDismiss: this.setState() // reload.
       }
     })
   }
 
-  showFaceRecognition = () => {
-    this.setState(prevState => ({ showZoomCapture: true, showPreText: false }))
-  }
-
   render() {
-    const {
-      showZoomCapture,
-      showPreText,
-
-      showGuidedFR,
-      sessionId,
-      fullName
-    } = this.state
+    const { showZoomCapture, showGuidedFR, sessionId } = this.state
 
     return (
       <Wrapper>
-        {showPreText && (
-          <View style={styles.topContainer}>
-            <Section.Title
-              style={styles.mainTitle}
-            >{`${fullName}, Lets verify you are a living and unique special human being that you are!`}</Section.Title>
-            <Section.Text style={styles.description}>
-              {`For GoodDollar to succeed we need to make sure every person in our community registered only once for UBI. No BOTS allowed!`}
-            </Section.Text>
-          </View>
-        )}
         {showGuidedFR && <GuidedFR sessionId={sessionId} userStorage={userStorage} />}
 
         <ZoomCapture
@@ -170,32 +145,5 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     )
   }
 }
-
-const styles = StyleSheet.create({
-  topContainer: {
-    display: 'flex',
-    backgroundColor: 'white',
-    height: '100%',
-    flex: 1,
-    flexGrow: 1,
-    flexShrink: 0,
-    justifyContent: 'space-evenly',
-    paddingTop: normalize(30)
-  },
-  bottomContainer: {
-    display: 'flex',
-    flex: 1,
-    paddingTop: normalize(20),
-    justifyContent: 'flex-end'
-  },
-  description: {
-    fontSize: normalize(20)
-  },
-  mainTitle: {
-    fontFamily: 'Roboto-Medium',
-    fontSize: normalize(24),
-    color: '#42454A'
-  }
-})
 
 export default SimpleStore.withStore(FaceRecognition)

@@ -57,7 +57,6 @@ const Receive = ({ screenProps, styles, ...props }: ReceiveProps) => {
             routeName="ReceiveFrom"
             mode="outlined"
             screenProps={screenProps}
-            style={{ marginTop: 10 }}
             params={{ nextRoutes: ['Amount', 'Reason', 'ReceiveAmount'], params: { toReceive: true } }}
           >
             Request specific amount
@@ -84,10 +83,10 @@ Receive.navigationOptions = {
 const getStylesFromProps = ({ theme }) => {
   return {
     marginTop: {
-      marginTop: theme.defaultMargin
+      marginTop: theme.paddings.defaultMargin
     },
     marginBottom: {
-      marginBottom: theme.defaultMargin
+      marginBottom: theme.paddings.defaultMargin
     }
   }
 }

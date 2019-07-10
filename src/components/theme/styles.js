@@ -23,7 +23,8 @@ export const theme = {
     slabBold: 'RobotoSlab-Bold'
   },
   paddings: {
-    mainContainerPadding: normalize(8)
+    mainContainerPadding: normalize(8),
+    defaultMargin: normalize(8)
   },
   fontStyle: {
     color: '#555',

@@ -372,6 +372,7 @@ exports[`Receive matches snapshot 1`] = `
               "fontSize": "14px",
               "fontWeight": "normal",
               "lineHeight": "22px",
+              "marginBottom": "8px",
               "textAlign": "center",
               "textDecoration": "none",
               "textTransform": "none",
@@ -464,6 +465,7 @@ exports[`Receive matches snapshot 1`] = `
                     "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                   },
                   "paddings": Object {
+                    "defaultMargin": 8,
                     "mainContainerPadding": 8,
                   },
                   "roundness": 4,
@@ -569,7 +571,6 @@ exports[`Receive matches snapshot 1`] = `
               "borderTopWidth": "1px",
               "boxShadow": "0px 0px 0px rgba(0,0,0,0.24)",
               "justifyContent": "center",
-              "marginTop": "10px",
               "minWidth": "auto",
               "msFlexPack": "center",
             }
@@ -703,6 +704,7 @@ exports[`Receive matches snapshot 1`] = `
               "borderTopWidth": "0px",
               "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
               "justifyContent": "center",
+              "marginTop": "8px",
               "minWidth": "auto",
               "msFlexPack": "center",
             }

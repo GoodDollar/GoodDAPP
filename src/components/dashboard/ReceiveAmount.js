@@ -110,7 +110,7 @@ const getStylesFromProps = ({ theme }) => {
       borderBottomColor: '#CBCBCB',
       borderBottomWidth: normalize(1),
       borderBottomStyle: 'solid',
-      marginTop: theme.defaultMargin * 2,
+      marginTop: theme.paddings.defaultMargin * 2,
       alignItems: 'baseline'
     },
 
@@ -129,7 +129,7 @@ const getStylesFromProps = ({ theme }) => {
       fontSize: normalize(16)
     },
     doneButton: {
-      marginTop: theme.defaultMargin
+      marginTop: theme.paddings.defaultMargin
     }
   }
 }

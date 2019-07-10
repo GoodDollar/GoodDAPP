@@ -1,7 +1,8 @@
 // @flow
 import React from 'react'
-import { StyleSheet, TouchableOpacity, View } from 'react-native'
+import { TouchableOpacity, View } from 'react-native'
 import { Icon, normalize } from 'react-native-elements'
+import { withStyles } from '../../lib/styles'
 import { Text } from '../common'
 
 export type SideMenuItemProps = {
@@ -10,30 +11,32 @@ export type SideMenuItemProps = {
   action: Function
 }
 
-const SideMenuItem = ({ icon, name, action }: SideMenuItemProps) => (
+const SideMenuItem = ({ icon, name, action, styles, theme }: SideMenuItemProps) => (
   <TouchableOpacity style={styles.clickableRow} onPress={action}>
     <View style={styles.menuIcon}>
-      <Icon name={icon} size={20} />
+      <Icon name={icon} size={24} color={theme.colors.primary} />
     </View>
-    <Text style={styles.menuItem}>{name}</Text>
+    <Text fontSize={14} color={theme.colors.darkGray}>
+      {name}
+    </Text>
   </TouchableOpacity>
 )
 
-const styles = StyleSheet.create({
+const sideMenuItemStyles = ({ theme }) => ({
   clickableRow: {
+    borderBottomWidth: normalize(1),
+    borderBottomColor: theme.colors.lightGray,
+    borderBottomStyle: 'solid',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    marginVertical: normalize(20),
-    cursor: 'pointer'
-  },
-  menuItem: {
-    fontWeight: 'bold',
-    fontSize: normalize(15)
+    cursor: 'pointer',
+    paddingVertical: normalize(14)
   },
   menuIcon: {
-    marginHorizontal: normalize(20)
+    marginLeft: normalize(8),
+    marginRight: normalize(20)
   }
 })
 
-export default SideMenuItem
+export default withStyles(sideMenuItemStyles)(SideMenuItem)

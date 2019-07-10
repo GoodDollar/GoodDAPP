@@ -1,7 +1,7 @@
 import React from 'react'
 import { TouchableHighlight, View } from 'react-native'
-import { withTheme } from 'react-native-paper'
 import wavePattern from '../../../assets/wave.svg'
+import { withStyles } from '../../../lib/styles'
 import ListEventItem from './ListEventItem'
 import getEventSettingsByType from './EventSettingsByType'
 import { listStyles } from './EventStyles'
@@ -12,10 +12,12 @@ import { listStyles } from './EventStyles'
  * @returns {HTMLElement}
  */
 const FeedListItem = props => {
+  const { theme, item } = props
   const imageStyle = {
-    backgroundColor: getEventSettingsByType(props.theme, props.item.type).color,
+    backgroundColor: getEventSettingsByType(theme, item.type).color,
     backgroundImage: `url(${wavePattern})`
   }
+
   return (
     <TouchableHighlight
       onPress={() => props.onPress(props.item.id)}
@@ -33,4 +35,8 @@ const FeedListItem = props => {
   )
 }
 
-export default withTheme(FeedListItem)
+const getStylesFromProps = ({ theme }) => {
+  return {}
+}
+
+export default withStyles(getStylesFromProps)(FeedListItem)

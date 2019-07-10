@@ -83,18 +83,6 @@ const Dashboard = props => {
     setState({
       currentFeedProps: {
         item,
-        styles: {
-          flex: 1,
-          alignSelf: 'flex-start',
-          height: '100vh',
-          position: 'absolute',
-          width: '100%',
-          paddingTop: normalize(30),
-          paddingBottom: normalize(30),
-          paddingLeft: normalize(10),
-          paddingRight: normalize(10),
-          backgroundColor: 'rgba(0, 0, 0, 0.7)'
-        },
         onPress: closeFeedEvent
       }
     })

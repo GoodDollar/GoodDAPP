@@ -83,7 +83,6 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
         dir="auto"
         style={
           Object {
-            "color": "rgba(66,69,74,1.00)",
             "direction": "ltr",
             "fontFamily": "RobotoSlab-Bold",
             "fontSize": "20px",
@@ -147,7 +146,6 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
         dir="auto"
         style={
           Object {
-            "color": "rgba(66,69,74,1.00)",
             "direction": "ltr",
             "fontFamily": "RobotoSlab-Bold",
             "fontSize": "20px",
@@ -211,7 +209,6 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
         dir="auto"
         style={
           Object {
-            "color": "rgba(66,69,74,1.00)",
             "direction": "ltr",
             "fontFamily": "RobotoSlab-Bold",
             "fontSize": "20px",
@@ -297,7 +294,6 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
         dir="auto"
         style={
           Object {
-            "color": "rgba(66,69,74,1.00)",
             "direction": "ltr",
             "fontFamily": "RobotoSlab-Bold",
             "fontSize": "20px",
@@ -361,7 +357,6 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
         dir="auto"
         style={
           Object {
-            "color": "rgba(66,69,74,1.00)",
             "direction": "ltr",
             "fontFamily": "RobotoSlab-Bold",
             "fontSize": "20px",
@@ -425,7 +420,6 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
         dir="auto"
         style={
           Object {
-            "color": "rgba(66,69,74,1.00)",
             "direction": "ltr",
             "fontFamily": "RobotoSlab-Bold",
             "fontSize": "20px",
@@ -511,7 +505,6 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
         dir="auto"
         style={
           Object {
-            "color": "rgba(66,69,74,1.00)",
             "direction": "ltr",
             "fontFamily": "RobotoSlab-Bold",
             "fontSize": "20px",
@@ -575,7 +568,6 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
         dir="auto"
         style={
           Object {
-            "color": "rgba(66,69,74,1.00)",
             "direction": "ltr",
             "fontFamily": "RobotoSlab-Bold",
             "fontSize": "20px",
@@ -639,7 +631,6 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
         dir="auto"
         style={
           Object {
-            "color": "rgba(66,69,74,1.00)",
             "direction": "ltr",
             "fontFamily": "RobotoSlab-Bold",
             "fontSize": "20px",
@@ -725,7 +716,6 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
         dir="auto"
         style={
           Object {
-            "color": "rgba(66,69,74,1.00)",
             "direction": "ltr",
             "fontFamily": "RobotoSlab-Bold",
             "fontSize": "20px",
@@ -789,7 +779,6 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
         dir="auto"
         style={
           Object {
-            "color": "rgba(66,69,74,1.00)",
             "direction": "ltr",
             "fontFamily": "RobotoSlab-Bold",
             "fontSize": "20px",

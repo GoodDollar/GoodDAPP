@@ -22,7 +22,7 @@ exports[`Section matches snapshot 1`] = `
     dir="auto"
     style={
       Object {
-        "color": "rgba(85,85,85,1.00)",
+        "color": "rgba(0,0,0,1.00)",
         "direction": "ltr",
         "fontFamily": "Roboto",
         "fontSize": "24px",
@@ -63,7 +63,7 @@ exports[`Section matches snapshot 1`] = `
       dir="auto"
       style={
         Object {
-          "color": "rgba(85,85,85,1.00)",
+          "color": "rgba(0,0,0,1.00)",
           "direction": "ltr",
           "fontFamily": "Roboto",
           "fontSize": "14px",
@@ -133,7 +133,7 @@ exports[`Section matches snapshot with properties 1`] = `
       dir="auto"
       style={
         Object {
-          "color": "rgba(85,85,85,1.00)",
+          "color": "rgba(0,0,0,1.00)",
           "direction": "ltr",
           "fontFamily": "Roboto",
           "fontSize": "24px",
@@ -154,7 +154,7 @@ exports[`Section matches snapshot with properties 1`] = `
       dir="auto"
       style={
         Object {
-          "color": "rgba(85,85,85,1.00)",
+          "color": "rgba(0,0,0,1.00)",
           "direction": "ltr",
           "fontFamily": "Roboto",
           "fontSize": "14px",
@@ -194,7 +194,7 @@ exports[`Section matches snapshot with properties 1`] = `
       dir="auto"
       style={
         Object {
-          "color": "rgba(85,85,85,1.00)",
+          "color": "rgba(0,0,0,1.00)",
           "direction": "ltr",
           "fontFamily": "Roboto",
           "fontSize": "14px",

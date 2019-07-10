@@ -29,7 +29,7 @@ exports[`IconButton disabled matches snapshot 1`] = `
       "WebkitTransitionProperty": "opacity",
       "WebkitUserSelect": "none",
       "alignItems": "center",
-      "cursor": "inherit",
+      "cursor": "pointer",
       "flexBasis": "0%",
       "flexDirection": "column",
       "flexGrow": 1,
@@ -58,12 +58,12 @@ exports[`IconButton disabled matches snapshot 1`] = `
         "WebkitBoxPack": "center",
         "WebkitJustifyContent": "center",
         "alignItems": "center",
-        "backgroundColor": "rgba(12,38,61,1.00)",
-        "borderBottomLeftRadius": "39px",
-        "borderBottomRightRadius": "39px",
-        "borderTopLeftRadius": "39px",
-        "borderTopRightRadius": "39px",
-        "height": "74px",
+        "backgroundColor": "rgba(0,0,0,1.00)",
+        "borderBottomLeftRadius": "28px",
+        "borderBottomRightRadius": "28px",
+        "borderTopLeftRadius": "28px",
+        "borderTopRightRadius": "28px",
+        "height": "52px",
         "justifyContent": "center",
         "marginBottom": "7px",
         "marginLeft": "7px",
@@ -71,7 +71,7 @@ exports[`IconButton disabled matches snapshot 1`] = `
         "marginTop": "7px",
         "msFlexAlign": "center",
         "msFlexPack": "center",
-        "width": "74px",
+        "width": "52px",
       }
     }
   >
@@ -83,13 +83,13 @@ exports[`IconButton disabled matches snapshot 1`] = `
           "backgroundColor": "rgba(0,0,0,0.00)",
           "color": "rgba(0,0,0,0.32)",
           "fontFamily": "MaterialIcons",
-          "fontSize": "35px",
+          "fontSize": "24px",
           "fontStyle": "normal",
           "fontWeight": "normal",
         }
       }
     >
-      
+      
     </div>
   </div>
   <div
@@ -172,12 +172,12 @@ exports[`IconButton enabled matches snapshot 1`] = `
         "WebkitBoxPack": "center",
         "WebkitJustifyContent": "center",
         "alignItems": "center",
-        "backgroundColor": "rgba(12,38,61,1.00)",
-        "borderBottomLeftRadius": "39px",
-        "borderBottomRightRadius": "39px",
-        "borderTopLeftRadius": "39px",
-        "borderTopRightRadius": "39px",
-        "height": "74px",
+        "backgroundColor": "rgba(0,0,0,1.00)",
+        "borderBottomLeftRadius": "28px",
+        "borderBottomRightRadius": "28px",
+        "borderTopLeftRadius": "28px",
+        "borderTopRightRadius": "28px",
+        "height": "52px",
         "justifyContent": "center",
         "marginBottom": "7px",
         "marginLeft": "7px",
@@ -185,7 +185,7 @@ exports[`IconButton enabled matches snapshot 1`] = `
         "marginTop": "7px",
         "msFlexAlign": "center",
         "msFlexPack": "center",
-        "width": "74px",
+        "width": "52px",
       }
     }
   >
@@ -197,13 +197,13 @@ exports[`IconButton enabled matches snapshot 1`] = `
           "backgroundColor": "rgba(0,0,0,0.00)",
           "color": "rgba(40,44,52,1.00)",
           "fontFamily": "MaterialIcons",
-          "fontSize": "35px",
+          "fontSize": "24px",
           "fontStyle": "normal",
           "fontWeight": "normal",
         }
       }
     >
-      
+      
     </div>
   </div>
   <div

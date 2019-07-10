@@ -203,7 +203,6 @@ exports[`AmountInput matches snapshot 1`] = `
           dir="auto"
           style={
             Object {
-              "color": "rgba(66,69,74,1.00)",
               "direction": "ltr",
               "fontFamily": "RobotoSlab-Bold",
               "fontSize": "20px",
@@ -267,7 +266,6 @@ exports[`AmountInput matches snapshot 1`] = `
           dir="auto"
           style={
             Object {
-              "color": "rgba(66,69,74,1.00)",
               "direction": "ltr",
               "fontFamily": "RobotoSlab-Bold",
               "fontSize": "20px",
@@ -331,7 +329,6 @@ exports[`AmountInput matches snapshot 1`] = `
           dir="auto"
           style={
             Object {
-              "color": "rgba(66,69,74,1.00)",
               "direction": "ltr",
               "fontFamily": "RobotoSlab-Bold",
               "fontSize": "20px",
@@ -417,7 +414,6 @@ exports[`AmountInput matches snapshot 1`] = `
           dir="auto"
           style={
             Object {
-              "color": "rgba(66,69,74,1.00)",
               "direction": "ltr",
               "fontFamily": "RobotoSlab-Bold",
               "fontSize": "20px",
@@ -481,7 +477,6 @@ exports[`AmountInput matches snapshot 1`] = `
           dir="auto"
           style={
             Object {
-              "color": "rgba(66,69,74,1.00)",
               "direction": "ltr",
               "fontFamily": "RobotoSlab-Bold",
               "fontSize": "20px",
@@ -545,7 +540,6 @@ exports[`AmountInput matches snapshot 1`] = `
           dir="auto"
           style={
             Object {
-              "color": "rgba(66,69,74,1.00)",
               "direction": "ltr",
               "fontFamily": "RobotoSlab-Bold",
               "fontSize": "20px",
@@ -631,7 +625,6 @@ exports[`AmountInput matches snapshot 1`] = `
           dir="auto"
           style={
             Object {
-              "color": "rgba(66,69,74,1.00)",
               "direction": "ltr",
               "fontFamily": "RobotoSlab-Bold",
               "fontSize": "20px",
@@ -695,7 +688,6 @@ exports[`AmountInput matches snapshot 1`] = `
           dir="auto"
           style={
             Object {
-              "color": "rgba(66,69,74,1.00)",
               "direction": "ltr",
               "fontFamily": "RobotoSlab-Bold",
               "fontSize": "20px",
@@ -759,7 +751,6 @@ exports[`AmountInput matches snapshot 1`] = `
           dir="auto"
           style={
             Object {
-              "color": "rgba(66,69,74,1.00)",
               "direction": "ltr",
               "fontFamily": "RobotoSlab-Bold",
               "fontSize": "20px",
@@ -845,7 +836,6 @@ exports[`AmountInput matches snapshot 1`] = `
           dir="auto"
           style={
             Object {
-              "color": "rgba(66,69,74,1.00)",
               "direction": "ltr",
               "fontFamily": "RobotoSlab-Bold",
               "fontSize": "20px",
@@ -909,7 +899,6 @@ exports[`AmountInput matches snapshot 1`] = `
           dir="auto"
           style={
             Object {
-              "color": "rgba(66,69,74,1.00)",
               "direction": "ltr",
               "fontFamily": "RobotoSlab-Bold",
               "fontSize": "20px",

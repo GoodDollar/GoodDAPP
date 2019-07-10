@@ -347,14 +347,14 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
           }
         >
           <span
-            className="css-text-901oao css-textHasAncestor-16my406"
+            className="css-text-901oao css-textHasAncestor-16my406 css-textOneLine-bfa6kz"
             dir="auto"
             style={
               Object {
                 "color": "rgba(85,85,85,1.00)",
                 "direction": "ltr",
                 "fontFamily": "Roboto",
-                "fontSize": "15px",
+                "fontSize": "16px",
                 "fontWeight": "normal",
                 "lineHeight": "22px",
                 "textAlign": "center",
@@ -371,7 +371,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                   "color": "rgba(0,0,0,1.00)",
                   "direction": "ltr",
                   "fontFamily": "Roboto",
-                  "fontSize": "10px",
+                  "fontSize": "8px",
                   "fontWeight": "500",
                   "lineHeight": "22px",
                   "textAlign": "center",
@@ -390,9 +390,9 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                 Object {
                   "color": "rgba(0,0,0,1.00)",
                   "direction": "ltr",
-                  "fontFamily": "Roboto",
+                  "fontFamily": "Roboto-Medium",
                   "fontSize": "16px",
-                  "fontWeight": "700",
+                  "fontWeight": "normal",
                   "lineHeight": "22px",
                   "textAlign": "center",
                   "textDecoration": "none",
@@ -400,7 +400,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                 }
               }
             >
-              Misao Matimbo
+               Misao Matimbo
             </span>
           </span>
         </div>
@@ -584,12 +584,8 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                       Object {
                         "color": "rgba(255,255,255,1.00)",
                         "direction": "ltr",
-                        "fontFamily": "Roboto",
-                        "fontSize": "16px",
-                        "fontWeight": "normal",
-                        "lineHeight": "22px",
-                        "textAlign": "center",
-                        "textDecoration": "none",
+                        "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                        "textAlign": "left",
                         "textTransform": "uppercase",
                       }
                     }
@@ -953,14 +949,14 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
           }
         >
           <span
-            className="css-text-901oao css-textHasAncestor-16my406"
+            className="css-text-901oao css-textHasAncestor-16my406 css-textOneLine-bfa6kz"
             dir="auto"
             style={
               Object {
                 "color": "rgba(85,85,85,1.00)",
                 "direction": "ltr",
                 "fontFamily": "Roboto",
-                "fontSize": "15px",
+                "fontSize": "16px",
                 "fontWeight": "normal",
                 "lineHeight": "22px",
                 "textAlign": "center",
@@ -977,7 +973,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                   "color": "rgba(0,0,0,1.00)",
                   "direction": "ltr",
                   "fontFamily": "Roboto",
-                  "fontSize": "10px",
+                  "fontSize": "8px",
                   "fontWeight": "500",
                   "lineHeight": "22px",
                   "textAlign": "center",
@@ -996,9 +992,9 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                 Object {
                   "color": "rgba(0,0,0,1.00)",
                   "direction": "ltr",
-                  "fontFamily": "Roboto",
+                  "fontFamily": "Roboto-Medium",
                   "fontSize": "16px",
-                  "fontWeight": "700",
+                  "fontWeight": "normal",
                   "lineHeight": "22px",
                   "textAlign": "center",
                   "textDecoration": "none",
@@ -1006,7 +1002,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                 }
               }
             >
-              Misao Matimbo
+               Misao Matimbo
             </span>
           </span>
         </div>
@@ -1190,12 +1186,8 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                       Object {
                         "color": "rgba(255,255,255,1.00)",
                         "direction": "ltr",
-                        "fontFamily": "Roboto",
-                        "fontSize": "16px",
-                        "fontWeight": "normal",
-                        "lineHeight": "22px",
-                        "textAlign": "center",
-                        "textDecoration": "none",
+                        "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                        "textAlign": "left",
                         "textTransform": "uppercase",
                       }
                     }

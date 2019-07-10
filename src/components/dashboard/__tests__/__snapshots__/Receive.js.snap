@@ -321,13 +321,14 @@ exports[`Receive matches snapshot 1`] = `
           "flexBasis": "0%",
           "flexGrow": 1,
           "flexShrink": 1,
+          "marginBottom": "15px",
           "msFlexNegative": 1,
           "msFlexPositive": 1,
           "msFlexPreferredSize": "0%",
-          "paddingBottom": "8px",
+          "paddingBottom": "15px",
           "paddingLeft": "8px",
           "paddingRight": "8px",
-          "paddingTop": "8px",
+          "paddingTop": "15px",
         }
       }
     >
@@ -610,12 +611,8 @@ exports[`Receive matches snapshot 1`] = `
                     style={
                       Object {
                         "direction": "ltr",
-                        "fontFamily": "Roboto",
-                        "fontSize": "16px",
-                        "fontWeight": "normal",
-                        "lineHeight": "22px",
-                        "textAlign": "center",
-                        "textDecoration": "none",
+                        "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                        "textAlign": "left",
                         "textTransform": "uppercase",
                       }
                     }
@@ -745,12 +742,8 @@ exports[`Receive matches snapshot 1`] = `
                       Object {
                         "color": "rgba(255,255,255,1.00)",
                         "direction": "ltr",
-                        "fontFamily": "Roboto",
-                        "fontSize": "16px",
-                        "fontWeight": "normal",
-                        "lineHeight": "22px",
-                        "textAlign": "center",
-                        "textDecoration": "none",
+                        "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                        "textAlign": "left",
                         "textTransform": "uppercase",
                       }
                     }

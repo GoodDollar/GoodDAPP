@@ -413,10 +413,10 @@ exports[`Profile matches snapshot 1`] = `
               "borderTopRightRadius": "5px",
               "marginBottom": "auto",
               "minHeight": "100%",
-              "paddingBottom": "8px",
+              "paddingBottom": "15px",
               "paddingLeft": "1em",
               "paddingRight": "1em",
-              "paddingTop": "8px",
+              "paddingTop": "15px",
             }
           }
         >

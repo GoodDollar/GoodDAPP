@@ -1,5 +1,9 @@
 const getEventSettingsByType = (theme, type) => {
   const colorsByType = {
+    claim: {
+      color: theme.colors.receive,
+      name: 'claim-filled'
+    },
     send: {
       color: theme.colors.send,
       name: 'send-filled'

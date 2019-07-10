@@ -200,13 +200,14 @@ exports[`SendConfirmation matches snapshot 1`] = `
           "flexGrow": 1,
           "flexShrink": 1,
           "justifyContent": "space-between",
+          "marginBottom": "15px",
           "msFlexAlign": "center",
           "msFlexLinePack": "stretch",
           "msFlexNegative": 1,
           "msFlexPack": "justify",
           "msFlexPositive": 1,
           "msFlexPreferredSize": "0%",
-          "paddingBottom": "8px",
+          "paddingBottom": "15px",
           "paddingLeft": "8px",
           "paddingRight": "8px",
           "paddingTop": "22px",
@@ -353,7 +354,7 @@ exports[`SendConfirmation matches snapshot 1`] = `
                     "color": "rgba(85,85,85,1.00)",
                     "direction": "ltr",
                     "fontFamily": "Roboto",
-                    "fontSize": "30px",
+                    "fontSize": "48px",
                     "fontWeight": "normal",
                     "lineHeight": "22px",
                     "textAlign": "right",
@@ -541,12 +542,8 @@ exports[`SendConfirmation matches snapshot 1`] = `
                     Object {
                       "color": "rgba(255,255,255,1.00)",
                       "direction": "ltr",
-                      "fontFamily": "Roboto",
-                      "fontSize": "16px",
-                      "fontWeight": "normal",
-                      "lineHeight": "22px",
-                      "textAlign": "center",
-                      "textDecoration": "none",
+                      "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                      "textAlign": "left",
                       "textTransform": "uppercase",
                     }
                   }
@@ -669,12 +666,8 @@ exports[`SendConfirmation matches snapshot 1`] = `
                   style={
                     Object {
                       "direction": "ltr",
-                      "fontFamily": "Roboto",
-                      "fontSize": "16px",
-                      "fontWeight": "normal",
-                      "lineHeight": "22px",
-                      "textAlign": "center",
-                      "textDecoration": "none",
+                      "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                      "textAlign": "left",
                       "textTransform": "uppercase",
                     }
                   }

@@ -69,15 +69,16 @@ exports[`FaceRecognition Rendering matches snapshot 1`] = `
           "flexGrow": 1,
           "flexShrink": 1,
           "justifyContent": "space-between",
+          "marginBottom": "15px",
           "msFlexAlign": "center",
           "msFlexNegative": 1,
           "msFlexPack": "justify",
           "msFlexPositive": 1,
           "msFlexPreferredSize": "0%",
-          "paddingBottom": "8px",
+          "paddingBottom": "15px",
           "paddingLeft": "8px",
           "paddingRight": "8px",
-          "paddingTop": "8px",
+          "paddingTop": "15px",
         }
       }
     >
@@ -435,12 +436,8 @@ before we can get started...
                     Object {
                       "color": "rgba(255,255,255,1.00)",
                       "direction": "ltr",
-                      "fontFamily": "Roboto",
-                      "fontSize": "16px",
-                      "fontWeight": "normal",
-                      "lineHeight": "22px",
-                      "textAlign": "center",
-                      "textDecoration": "none",
+                      "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                      "textAlign": "left",
                       "textTransform": "uppercase",
                     }
                   }

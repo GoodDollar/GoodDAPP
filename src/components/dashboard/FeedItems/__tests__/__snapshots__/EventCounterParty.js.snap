@@ -2,14 +2,14 @@
 
 exports[`EventCounterParty receive matches snapshot 1`] = `
 <div
-  className="css-text-901oao"
+  className="css-text-901oao css-textOneLine-bfa6kz"
   dir="auto"
   style={
     Object {
       "color": "rgba(85,85,85,1.00)",
       "direction": "ltr",
       "fontFamily": "Roboto",
-      "fontSize": "15px",
+      "fontSize": "16px",
       "fontWeight": "normal",
       "lineHeight": "22px",
       "textAlign": "center",
@@ -26,7 +26,7 @@ exports[`EventCounterParty receive matches snapshot 1`] = `
         "color": "rgba(0,0,0,1.00)",
         "direction": "ltr",
         "fontFamily": "Roboto",
-        "fontSize": "10px",
+        "fontSize": "8px",
         "fontWeight": "500",
         "lineHeight": "22px",
         "textAlign": "center",
@@ -45,9 +45,9 @@ exports[`EventCounterParty receive matches snapshot 1`] = `
       Object {
         "color": "rgba(0,0,0,1.00)",
         "direction": "ltr",
-        "fontFamily": "Roboto",
+        "fontFamily": "Roboto-Medium",
         "fontSize": "16px",
-        "fontWeight": "700",
+        "fontWeight": "normal",
         "lineHeight": "22px",
         "textAlign": "center",
         "textDecoration": "none",
@@ -55,21 +55,21 @@ exports[`EventCounterParty receive matches snapshot 1`] = `
       }
     }
   >
-    Misao Matimbo
+     Misao Matimbo
   </span>
 </div>
 `;
 
 exports[`EventCounterParty send matches snapshot 1`] = `
 <div
-  className="css-text-901oao"
+  className="css-text-901oao css-textOneLine-bfa6kz"
   dir="auto"
   style={
     Object {
       "color": "rgba(85,85,85,1.00)",
       "direction": "ltr",
       "fontFamily": "Roboto",
-      "fontSize": "15px",
+      "fontSize": "16px",
       "fontWeight": "normal",
       "lineHeight": "22px",
       "textAlign": "center",
@@ -86,7 +86,7 @@ exports[`EventCounterParty send matches snapshot 1`] = `
         "color": "rgba(0,0,0,1.00)",
         "direction": "ltr",
         "fontFamily": "Roboto",
-        "fontSize": "10px",
+        "fontSize": "8px",
         "fontWeight": "500",
         "lineHeight": "22px",
         "textAlign": "center",
@@ -105,9 +105,9 @@ exports[`EventCounterParty send matches snapshot 1`] = `
       Object {
         "color": "rgba(0,0,0,1.00)",
         "direction": "ltr",
-        "fontFamily": "Roboto",
+        "fontFamily": "Roboto-Medium",
         "fontSize": "16px",
-        "fontWeight": "700",
+        "fontWeight": "normal",
         "lineHeight": "22px",
         "textAlign": "center",
         "textDecoration": "none",
@@ -115,21 +115,21 @@ exports[`EventCounterParty send matches snapshot 1`] = `
       }
     }
   >
-    Misao Matimbo
+     Misao Matimbo
   </span>
 </div>
 `;
 
 exports[`EventCounterParty withdraw matches snapshot 1`] = `
 <div
-  className="css-text-901oao"
+  className="css-text-901oao css-textOneLine-bfa6kz"
   dir="auto"
   style={
     Object {
       "color": "rgba(85,85,85,1.00)",
       "direction": "ltr",
       "fontFamily": "Roboto",
-      "fontSize": "15px",
+      "fontSize": "16px",
       "fontWeight": "normal",
       "lineHeight": "22px",
       "textAlign": "center",
@@ -146,7 +146,7 @@ exports[`EventCounterParty withdraw matches snapshot 1`] = `
         "color": "rgba(0,0,0,1.00)",
         "direction": "ltr",
         "fontFamily": "Roboto",
-        "fontSize": "10px",
+        "fontSize": "8px",
         "fontWeight": "500",
         "lineHeight": "22px",
         "textAlign": "center",
@@ -165,9 +165,9 @@ exports[`EventCounterParty withdraw matches snapshot 1`] = `
       Object {
         "color": "rgba(0,0,0,1.00)",
         "direction": "ltr",
-        "fontFamily": "Roboto",
+        "fontFamily": "Roboto-Medium",
         "fontSize": "16px",
-        "fontWeight": "700",
+        "fontWeight": "normal",
         "lineHeight": "22px",
         "textAlign": "center",
         "textDecoration": "none",
@@ -175,7 +175,7 @@ exports[`EventCounterParty withdraw matches snapshot 1`] = `
       }
     }
   >
-    Misao Matimbo
+     Misao Matimbo
   </span>
 </div>
 `;

@@ -22,7 +22,6 @@ type State = {
   showZoomCapture: boolean,
   showGuidedFR: boolean,
   sessionId: string | void,
-  loadingFaceRecognition: boolean,
   loadingText: string,
   facemap: Blob,
   zoomReady: boolean,
@@ -40,9 +39,8 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
   state = {
     showPreText: false,
     showZoomCapture: true,
-    showGuidedFR: true,
+    showGuidedFR: false,
     sessionId: undefined,
-    loadingFaceRecognition: false,
     loadingText: '',
     facemap: new Blob([], { type: 'text/plain' }),
     zoomReady: false,
@@ -94,44 +92,67 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
   }
 
   startFRProcessOnServer = async (captureResult: ZoomCaptureResult) => {
-    log.debug('Sending capture result to server', captureResult)
-    this.setState({
-      showZoomCapture: false,
-      showGuidedFR: true,
-      sessionId: captureResult.sessionId,
-      loadingFaceRecognition: true,
-      loadingText: 'Analyzing Face Recognition..'
-    })
-    let result: FaceRecognitionResponse = await FRapi.performFaceRecognition(captureResult)
-    this.setState({ loadingFaceRecognition: false })
-    if (!result || !result.ok) {
-      // this.showFRError(result.error) // TODO: rami
-    } else {
-      this.props.screenProps.pop({ isValid: true })
+    try {
+      log.debug('Sending capture result to server', captureResult)
+      this.setState({
+        showZoomCapture: false,
+        showGuidedFR: true,
+        sessionId: captureResult.sessionId
+      })
+      let result: FaceRecognitionResponse = await FRapi.performFaceRecognition(captureResult)
+      log.debug('FR API:', { result })
+      if (!result || !result.ok) {
+        log.error('FR API call failed:', { result })
+        this.showFRError(result.error) // TODO: rami
+      }
+    } catch (e) {
+      log.error('FR API call failed:', e, e.message)
+      this.showFRError(e.message)
     }
   }
 
   showFRError = (error: string) => {
-    this.setState({ showGuidedFR: false })
-    this.props.store.set('currentScreen')({
-      dialogData: {
-        visible: true,
-        title: 'Please try again',
-        message: `FaceRecognition failed. Reason: ${error}. Please try again`,
-        dismissText: 'Retry',
-        onDismiss: this.setState() // reload.
+    this.setState(
+      {
+        showZoomCapture: false,
+        showGuidedFR: false,
+        sessionId: undefined
+      },
+      () => {
+        this.props.store.set('currentScreen')({
+          dialogData: {
+            visible: true,
+            title: 'Please try again',
+            message: `FaceRecognition failed. Reason: ${error}. Please try again`,
+            dismissText: 'Retry',
+            onDismiss: () =>
+              this.setState({
+                showZoomCapture: true
+              }) // reload.
+          }
+        })
       }
-    })
+    )
+  }
+
+  retry = () => {
+    this.setState({ showGuidedFR: false, sessionId: undefined, showZoomCapture: true })
+  }
+
+  done = () => {
+    this.props.screenProps.pop({ isValid: true })
   }
 
   render() {
     const { showZoomCapture, showGuidedFR, sessionId } = this.state
-
+    log.debug('Render:', { showZoomCapture })
     return (
       <Wrapper>
-        {showGuidedFR && <GuidedFR sessionId={sessionId} userStorage={userStorage} />}
+        {showGuidedFR && (
+          <GuidedFR sessionId={sessionId} userStorage={userStorage} retry={this.retry} done={this.done} />
+        )}
 
-        {showGuidedFR === false && (
+        {this.state.zoomReady && showZoomCapture && (
           <ZoomCapture
             height={this.height}
             screenProps={this.props.screenProps}

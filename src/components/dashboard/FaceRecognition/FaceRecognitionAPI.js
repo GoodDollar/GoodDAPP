@@ -57,30 +57,24 @@ export const FaceRecognitionAPI = {
 
   onFaceRecognitionResponse(result: FaceRecognitionResponse): FaceRecognitionAPIResponse {
     log.info({ result })
-    if (
-      !result ||
-      !result.ok ||
-      result.livenessPassed === false ||
-      result.isDuplicate === true ||
-      result.enrollResult === false ||
-      result.enrollResult.ok === 0
-    ) {
+    if (!result || !result.ok) {
       return this.onFaceRecognitionFailure(result)
-    } else if (result.ok && result.enrollResult) {
+    } else if (result.ok) {
       return this.onFaceRecognitionSuccess(result)
     }
 
-    log.error('uknown error', { result }) // TODO: handle general error
+    log.error('unknown error', { result }) // TODO: handle general error
     this.onFaceRecognitionFailure(result)
 
     return { ok: 0, error: 'General Error' }
   },
 
   async onFaceRecognitionSuccess(res: FaceRecognitionResponse) {
-    log.info('user passed Face Recognition successfully, res:')
+    log.info('Face Recognition finished successfull', { res })
     log.debug({ res })
     try {
-      await userStorage.setProfileField('zoomEnrollmentId', res.enrollResult.enrollmentIdentifier, 'private')
+      res.enrollResult &&
+        (await userStorage.setProfileField('zoomEnrollmentId', res.enrollResult.enrollmentIdentifier, 'private'))
       return { ok: 1 }
     } catch (e) {
       log.error('failed to save zoomEnrollmentId:', res.enrollResult.enrollmentIdentifier, e) // TODO: handle what happens if the facemap was not saved successfully to the user storage
@@ -95,12 +89,6 @@ export const FaceRecognitionAPI = {
       reason = 'General Error'
     } else if (result.error) {
       reason = result.error
-    } else if (result.livenessPassed === false) {
-      reason = 'Liveness Failed'
-    } else if (result.isDuplicate) {
-      reason = 'Face Already Exist'
-    } else {
-      reason = 'Enrollment Failed'
     }
 
     return { ok: 0, error: reason }

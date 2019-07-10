@@ -1,40 +1,28 @@
 // @flow
 import React from 'react'
-import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
+import { Platform, SafeAreaView, StyleSheet } from 'react-native'
 import PaperProvider from 'react-native-paper/src/core/Provider'
-import DefaultTheme from 'react-native-paper/src/styles/DefaultTheme'
+import { theme } from './components/theme/styles'
 import SimpleStore from './lib/undux/SimpleStore'
 import RouterSelector from './RouterSelector'
 import { SimpleStoreDialog } from './components/common/dialogs/CustomDialog'
 import LoadingIndicator from './components/common/view/LoadingIndicator'
 
-const theme = {
-  ...DefaultTheme,
-  colors: {
-    ...DefaultTheme.colors,
-    primary: '#00AFFF',
-    text: '#222222'
-  },
-  fonts: {
-    ...DefaultTheme.fonts,
-    slab: 'RobotoSlab-Regular',
-    slabBold: 'RobotoSlab-Bold'
-  }
-}
 const App = () => {
   // onRecaptcha = (token: string) => {
   //   userStorage.setProfileField('recaptcha', token, 'private')
   // }
+
   return (
     <SimpleStore.Container>
       <PaperProvider theme={theme}>
-        <SafeAreaView>
-          <View style={styles.container}>
+        <SafeAreaView style={styles.safeAreaView}>
+          <React.Fragment>
             <SimpleStoreDialog />
             <LoadingIndicator />
             {/* <ReCaptcha sitekey={Config.recaptcha} action="auth" verifyCallback={this.onRecaptcha} /> */}
             <RouterSelector />
-          </View>
+          </React.Fragment>
         </SafeAreaView>
       </PaperProvider>
     </SimpleStore.Container>
@@ -42,16 +30,8 @@ const App = () => {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    width: '100%',
-    height: '100%',
-    margin: 0,
-    padding: 0,
-    position: 'fixed',
-    maxWidth: '475px',
-    alignSelf: 'center',
-    backgroundColor: '#fff'
+  safeAreaView: {
+    flexGrow: 1
   }
 })
 

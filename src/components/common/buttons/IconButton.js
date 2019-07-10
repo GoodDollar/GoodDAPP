@@ -1,34 +1,16 @@
 // @flow
 import React from 'react'
-import { Image, StyleSheet, TouchableOpacity, View } from 'react-native'
-import Icon from 'react-native-elements/src/icons/Icon'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
+import { TouchableOpacity } from 'react-native'
 import Text from '../view/Text'
+import { withStyles } from '../../../lib/styles'
+import CustomIcon from './CustomIcon'
 
 type IconProps = {
   text: String,
   onPress: Function,
   disabled: Boolean,
   name: String
-}
-
-const customIcons = {
-  qrcode: require('../../../assets/icons/qrcode.svg'),
-  link: require('../../../assets/icons/link.svg')
-}
-
-const CustomIcon = (props: any) => {
-  const styles = createStyles(props)
-  const customIcon = customIcons[props.name]
-  if (customIcon) {
-    return (
-      <View style={[styles.imageIcon, { backgroundColor: props.color }]}>
-        <Image source={customIcon} style={{ width: props.size, height: props.size }} />
-      </View>
-    )
-  }
-
-  return <Icon {...props} />
 }
 
 /**
@@ -41,40 +23,39 @@ const CustomIcon = (props: any) => {
  * @param {String} props.name icon name
  * @returns {React.Node}
  */
-const IconButton = ({ text, onPress, disabled, name, ...iconProps }: IconProps) => {
-  const styles = createStyles({ disabled })
-
+const IconButton = ({ styles, theme, text, onPress, disabled, name, ...iconProps }: IconProps) => {
   return (
-    <TouchableOpacity style={styles.container} onPress={disabled ? undefined : onPress}>
+    <TouchableOpacity
+      cursor={disabled ? 'inherit' : 'pointer'}
+      onPress={disabled ? undefined : onPress}
+      style={styles.container}
+    >
       <CustomIcon
-        size={35}
-        reverse
-        color="#0C263D"
+        color={theme.colors.darkBlue}
         name={name}
+        reverse
         reverseColor={disabled ? 'rgba(0, 0, 0, 0.32)' : '#282c34'}
+        size={35}
         {...iconProps}
       />
-      <Text style={styles.text}>{text}</Text>
+      <Text style={styles.text} color={disabled ? 'rgba(0, 0, 0, 0.32)' : 'inherit'}>
+        {text}
+      </Text>
     </TouchableOpacity>
   )
 }
 
-const createStyles = ({ disabled }) =>
-  StyleSheet.create({
+const getStylesFromProps = ({ theme }) => {
+  return {
     container: {
       flexDirection: 'column',
       alignItems: 'center',
-      flex: 1,
-      cursor: disabled ? 'inherit' : 'pointer'
+      flex: 1
     },
     text: {
-      color: disabled ? 'rgba(0, 0, 0, 0.32)' : 'inherit',
       fontSize: normalize(11)
-    },
-    imageIcon: {
-      borderRadius: '50%',
-      padding: normalize(16)
     }
-  })
+  }
+}
 
-export default IconButton
+export default withStyles(getStylesFromProps)(IconButton)

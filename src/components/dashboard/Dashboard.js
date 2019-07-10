@@ -165,7 +165,7 @@ const Dashboard = props => {
   return (
     <View style={styles.dashboardView}>
       <TabsView goTo={navigation.navigate} routes={screenProps.routes} />
-      <Wrapper backgroundColor="#eeeeee">
+      <Wrapper backgroundColor="#EEE">
         <Section>
           <Section.Row style={styles.centered}>
             <Avatar size={80} source={avatar} onPress={() => screenProps.push('Profile')} />

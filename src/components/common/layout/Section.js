@@ -32,7 +32,10 @@ const styles = StyleSheet.create({
   section: {
     backgroundColor: '#fff',
     borderRadius: normalize(5),
-    padding: normalize(8)
+    padding: normalize(8),
+    paddingTop: normalize(15),
+    paddingBottom: normalize(15),
+    marginBottom: normalize(15)
   }
 })
 

@@ -19,7 +19,7 @@ type NavBarProps = {
 class NavBar extends React.Component<NavBarProps> {
   render() {
     return (
-      <Appbar.Header dark>
+      <Appbar.Header dark style={styles.topbarStyles}>
         {this.props.goBack && <Appbar.BackAction onPress={this.props.goBack} />}
         <Appbar.Content title={this.props.title} titleStyle={styles.titleStyle} />
         {this.props.goBack && <Appbar.Action />}
@@ -30,8 +30,12 @@ class NavBar extends React.Component<NavBarProps> {
 
 const styles = StyleSheet.create({
   titleStyle: {
-    textTransform: 'uppercase',
     textAlign: 'center',
+    textTransform: 'uppercase',
+  },
+  topbarStyles: {
+    flexGrow: 0,
+    flexShrink: 0,
   },
 })
 

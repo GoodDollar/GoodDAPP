@@ -1,9 +1,11 @@
 import { createSwitchNavigator } from '@react-navigation/core'
 import { createBrowserApp } from '@react-navigation/web'
 import React from 'react'
+import { Provider as PaperProvider } from 'react-native-paper'
+import renderer from 'react-test-renderer'
+import { theme } from '../../theme/styles'
 
 // Note: test renderer must be required after react-native.
-import renderer from 'react-test-renderer'
 
 import { StoresWrapper } from '../../../lib/undux/utils/storeswrapper.js'
 
@@ -20,9 +22,11 @@ class AppNavigation extends React.Component<AppNavigationProps, AppNavigationSta
 
   render() {
     return (
-      <StoresWrapper>
-        <AppNavigator navigation={this.props.navigation} screenProps={{ routes }} />
-      </StoresWrapper>
+      <PaperProvider theme={theme}>
+        <StoresWrapper>
+          <AppNavigator navigation={this.props.navigation} screenProps={{ routes }} />
+        </StoresWrapper>
+      </PaperProvider>
     )
   }
 }

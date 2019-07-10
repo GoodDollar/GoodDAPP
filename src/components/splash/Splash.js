@@ -26,15 +26,16 @@ Splash.navigationOptions = {
 
 const styles = StyleSheet.create({
   logo: {
-    minWidth: 212,
     maxWidth: '100%',
     minHeight: 256,
+    minWidth: 212,
   },
   screen: {
-    display: 'flex',
-    justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#fff',
+    display: 'flex',
     height: '100%',
+    justifyContent: 'center',
   },
   splashText: {
     fontSize: normalize(22),

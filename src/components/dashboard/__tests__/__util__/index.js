@@ -1,6 +1,8 @@
+import React from 'react'
 import { createSwitchNavigator } from '@react-navigation/core'
 import { createBrowserApp } from '@react-navigation/web'
-import React from 'react'
+import { Provider as PaperProvider } from 'react-native-paper'
+import { theme } from '../../../theme/styles'
 import * as libShare from '../../../../lib/share'
 import GDStore from '../../../../lib/undux/GDStore'
 const { Container } = GDStore
@@ -19,9 +21,11 @@ export const getComponentWithMocks = componentPath => {
 }
 
 const withContainer = Component => props => (
-  <Container>
-    <Component {...props} />
-  </Container>
+  <PaperProvider theme={theme}>
+    <Container>
+      <Component {...props} />
+    </Container>
+  </PaperProvider>
 )
 
 export const getWebRouterComponentWithRoutes = routes => {

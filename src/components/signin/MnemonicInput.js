@@ -2,7 +2,7 @@
 
 import React, { createRef, useEffect, useState } from 'react'
 import { StyleSheet, Text, TextInput, View } from 'react-native'
-import { normalize } from 'react-native-elements'
+import normalize from 'react-native-elements/src/helpers/normalizeText'
 import values from 'lodash/values'
 import logger from '../../lib/logger/pino-logger'
 import { getScreenHeight } from '../../lib/utils/Orientation'

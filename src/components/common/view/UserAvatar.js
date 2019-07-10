@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
-import { normalize } from 'react-native-elements'
+import normalize from 'react-native-elements/src/helpers/normalizeText'
 import CreateAvatar from 'exif-react-avatar-edit'
 import { getScreenHeight, getScreenWidth, isPortrait } from '../../../lib/utils/Orientation'
 

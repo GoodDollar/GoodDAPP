@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Paragraph } from 'react-native-paper'
-import { normalize } from 'react-native-elements'
+import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { getMnemonics, getMnemonicsObject } from '../../lib/wallet/SoftwareWalletProvider'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import MnemonicInput from '../signin/MnemonicInput'

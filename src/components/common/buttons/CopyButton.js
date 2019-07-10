@@ -45,6 +45,6 @@ export default CopyButton
 const styles = StyleSheet.create({
   iconButtonWrapper: {
     flexDirection: 'column',
-    alignItems: 'center'
-  }
+    alignItems: 'center',
+  },
 })

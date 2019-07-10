@@ -14,14 +14,14 @@ const log = logger.child({ from: 'PhoneForm' })
 type Props = {
   doneCallback: ({ phone: string }) => null,
   screenProps: any,
-  navigation: any
+  navigation: any,
 }
 
 export type MobileRecord = {
   mobile: string,
   errorMessage?: string,
   countryCode?: string | null,
-  isValid: boolean
+  isValid: boolean,
 }
 
 type State = MobileRecord
@@ -31,7 +31,7 @@ class PhoneForm extends React.Component<Props, State> {
     mobile: this.props.screenProps.data.mobile || '',
     errorMessage: '',
     countryCode: null,
-    isValid: false
+    isValid: false,
   }
 
   setCountryCode = async () => {

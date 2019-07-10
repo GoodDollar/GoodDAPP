@@ -15,7 +15,7 @@ const MAX_WORDS = 12
 
 type Props = {
   onChange?: Function,
-  recoveryMode: any
+  recoveryMode: any,
 }
 
 const isValidWord = word => {
@@ -39,7 +39,7 @@ const MnemonicInput = (props: Props) => {
       log.info({
         recoveryMode: props.recoveryMode,
         different: state !== props.recoveryMode,
-        state
+        state,
       })
       setState(props.recoveryMode)
     }
@@ -104,7 +104,7 @@ const MnemonicInput = (props: Props) => {
 }
 
 MnemonicInput.defaultProps = {
-  onChange: (words: any) => {}
+  onChange: (words: any) => {},
 }
 
 const styles = StyleSheet.create({
@@ -112,13 +112,13 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   inputContainer: {
     width: '45%',
     marginTop: normalize(10),
     height: normalize(height >= 640 ? 40 : 35),
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   input: {
     backgroundColor: '#fff',
@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
     paddingLeft: normalize(16),
     flex: 1,
     width: '100%',
-    marginLeft: '-1px'
+    marginLeft: '-1px',
   },
   prevNumber: {
     borderColor: '#555',
@@ -143,8 +143,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: '0 8px',
-    backgroundColor: '#d2d2d2'
-  }
+    backgroundColor: '#d2d2d2',
+  },
 })
 
 export default MnemonicInput

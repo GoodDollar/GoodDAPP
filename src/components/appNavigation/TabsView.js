@@ -6,7 +6,7 @@ import SimpleStore from '../../lib/undux/SimpleStore'
 
 type TabViewProps = {
   routes: { [string]: any },
-  goTo: (routeKey: string) => void
+  goTo: (routeKey: string) => void,
 }
 
 // TODO: Decide if makes sense keep this to add tab behavior again

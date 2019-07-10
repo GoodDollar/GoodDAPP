@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-end',
     alignItems: 'center',
-    padding: 10
+    padding: 10,
   },
   actionButton: {
     padding: 10,
@@ -41,13 +41,13 @@ const styles = StyleSheet.create({
     width: 80,
     backgroundColor: '#808080',
     marginRight: 5,
-    marginLeft: 5
+    marginLeft: 5,
   },
   actionButtonDestructive: {
-    backgroundColor: '#ff4b21'
+    backgroundColor: '#ff4b21',
   },
   actionButtonText: {
     color: 'white',
-    textAlign: 'center'
-  }
+    textAlign: 'center',
+  },
 })

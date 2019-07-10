@@ -18,7 +18,7 @@ const privacyOptions = ['private', 'masked', 'public']
 const tips = {
   private: 'Nobody will be able to see your field, nor to find you searching by it.',
   masked: 'Your field will be partially visible (e.g.: ****ple@***.com). Nobody will be able to search you by it.',
-  public: 'Your field is publicly available. Anybody will be able to find you by it.'
+  public: 'Your field is publicly available. Anybody will be able to find you by it.',
 }
 
 // fields to manage privacy of
@@ -60,7 +60,7 @@ const ProfilePrivacy = props => {
       // filters out fields to be updated
       const toUpdate = updatableValues().map(field => ({
         update: userStorage.setProfileFieldPrivacy(field, privacy[field]),
-        field
+        field,
       }))
 
       // updates fields
@@ -127,7 +127,7 @@ const ProfilePrivacy = props => {
 }
 
 ProfilePrivacy.navigationOptions = {
-  title: TITLE
+  title: TITLE,
 }
 
 const styles = StyleSheet.create({
@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
     borderBottomColor: '#eeeeee',
     borderBottomStyle: 'solid',
     borderBottomWidth: 1,
-    padding: '10px'
+    padding: '10px',
   },
   growOne: { flexGrow: 1 },
   growTwo: { flexGrow: 2 },
@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
   subtitle: { fontSize: normalize(18) },
   buttonsRow: { display: 'flex', flexDirection: 'row', alignItems: 'center', height: '8%', width: '96%' },
   dialogTipItem: { display: 'flex', flexOrientation: 'column', marginBottom: normalize(20) },
-  dialogTipItemTitle: { fontWeight: 'bold', color: '#00afff', fontSize: normalize(18) }
+  dialogTipItemTitle: { fontWeight: 'bold', color: '#00afff', fontSize: normalize(18) },
 })
 
 /**

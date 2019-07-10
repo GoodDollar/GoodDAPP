@@ -4,7 +4,7 @@ import Wallet from 'ethereumjs-wallet'
 import logger from '../logger/pino-logger'
 
 type WalletsCollection = {
-  [key: string]: Wallet // Associative array
+  [key: string]: Wallet, // Associative array
 }
 class MultipleAddressWallet {
   ready: Promise<Web3>

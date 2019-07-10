@@ -33,7 +33,7 @@ const SignupWizardNavigator = createSwitchNavigator(
     SMS: SmsForm,
     Email: EmailForm,
     EmailConfirmation,
-    SignupCompleted
+    SignupCompleted,
   },
   navigationConfig
 )
@@ -46,11 +46,11 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
     ...getUserModel({
       fullName: '',
       email: '',
-      mobile: ''
+      mobile: '',
     }),
     smsValidated: false,
     isEmailConfirmed: false,
-    jwt: ''
+    jwt: '',
   }
   const [ready, setReady]: [Ready, ((Ready => Ready) | Ready) => void] = useState(Promise.resolve({}))
   const [state, setState] = useState(initialState)
@@ -162,7 +162,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
           userStorage.setProfileField('registered', true, 'public'),
           goodWallet.getBlockNumber().then(creationBlock => userStorage.saveLastBlockNumber(creationBlock.toString())),
           AsyncStorage.getItem('GD_USER_MNEMONIC').then(mnemonic => API.sendRecoveryInstructionByEmail(mnemonic)),
-          AsyncStorage.setItem('GOODDAPP_isLoggedIn', true)
+          AsyncStorage.setItem('GOODDAPP_isLoggedIn', true),
         ])
 
         //tell App.js we are done here so RouterSelector switches router
@@ -205,7 +205,7 @@ Signup.navigationOptions = SignupWizardNavigator.navigationOptions
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  contentContainer: { justifyContent: 'center', flexDirection: 'row', flex: 1 }
+  contentContainer: { justifyContent: 'center', flexDirection: 'row', flex: 1 },
 })
 
 export default Signup

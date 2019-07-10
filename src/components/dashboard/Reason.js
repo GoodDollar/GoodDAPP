@@ -9,7 +9,7 @@ import { receiveStyles as styles } from './styles'
 
 export type AmountProps = {
   screenProps: any,
-  navigation: any
+  navigation: any,
 }
 
 const TITLE = 'Send G$'
@@ -52,7 +52,7 @@ const SendReason = (props: AmountProps) => {
 }
 
 SendReason.navigationOptions = {
-  title: TITLE
+  title: TITLE,
 }
 
 SendReason.shouldNavigateToComponent = props => {

@@ -13,13 +13,13 @@ const theme = {
   colors: {
     ...DefaultTheme.colors,
     primary: '#00AFFF',
-    text: '#222222'
+    text: '#222222',
   },
   fonts: {
     ...DefaultTheme.fonts,
     slab: 'RobotoSlab-Regular',
-    slabBold: 'RobotoSlab-Bold'
-  }
+    slabBold: 'RobotoSlab-Bold',
+  },
 }
 const App = () => {
   // onRecaptcha = (token: string) => {
@@ -51,8 +51,8 @@ const styles = StyleSheet.create({
     position: 'fixed',
     maxWidth: '475px',
     alignSelf: 'center',
-    backgroundColor: '#fff'
-  }
+    backgroundColor: '#fff',
+  },
 })
 
 let hotWrapper = () => () => App

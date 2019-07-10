@@ -36,5 +36,5 @@ export {
   CustomDialog,
   InputGoodDollar,
   NumPadKeyboard,
-  LoadingIndicator
+  LoadingIndicator,
 }

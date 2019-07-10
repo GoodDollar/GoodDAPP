@@ -16,7 +16,7 @@ import { receiveStyles } from './styles'
 
 export type ReceiveProps = {
   screenProps: any,
-  navigation: any
+  navigation: any,
 }
 
 const SEND_TITLE = 'Send G$'
@@ -36,7 +36,7 @@ const SendConfirmation = ({ screenProps }: ReceiveProps) => {
         title: 'Error',
         message:
           'There was a problem triggering share action. You can still copy the link in tapping on "Copy link to clipboard"',
-        dismissText: 'Ok'
+        dismissText: 'Ok',
       })
     }
   }
@@ -86,37 +86,37 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     alignContent: 'stretch',
-    paddingTop: normalize(22)
+    paddingTop: normalize(22),
   },
   sectionRow: {
     flexDirection: 'column',
     justifyContent: 'space-between',
-    height: '100%'
+    height: '100%',
   },
   sectionTop: {
     flex: 2,
     flexDirection: 'column',
     maxWidth: '100%',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   buttonGroup: {
     width: '100%',
     flexDirection: 'column',
     marginTop: getScreenHeight() > 600 ? '1rem' : 0,
     display: 'flex',
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
   },
   qrCode: {
     marginTop: getScreenHeight() > 600 ? '2rem' : 0,
     padding: '1rem',
     borderColor: '#555',
     borderWidth: 1,
-    borderRadius: '4px'
+    borderRadius: '4px',
   },
   addressSection: {
     marginBottom: '1rem',
     marginTop: '1rem',
-    maxWidth: '100%'
+    maxWidth: '100%',
   },
   url: {
     ...fontStyle,
@@ -125,29 +125,29 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     maxWidth: '100%',
     paddingLeft: '1rem',
-    paddingRight: '1rem'
+    paddingRight: '1rem',
   },
   shareButton: {
-    marginTop: 0
+    marginTop: 0,
   },
   doneButton: {
-    marginTop: '1em'
+    marginTop: '1em',
   },
   secondaryText: {
     margin: '1rem',
     color: '#555555',
     fontSize: normalize(14),
-    textTransform: 'uppercase'
+    textTransform: 'uppercase',
   },
   reasonText: {
     color: '#555555',
-    fontSize: normalize(16)
-  }
+    fontSize: normalize(16),
+  },
 })
 
 SendConfirmation.navigationOptions = {
   title: SEND_TITLE,
-  backButtonHidden: true
+  backButtonHidden: true,
 }
 
 SendConfirmation.shouldNavigateToComponent = props => {

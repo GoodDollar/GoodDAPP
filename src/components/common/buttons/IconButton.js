@@ -9,12 +9,12 @@ type IconProps = {
   text: String,
   onPress: Function,
   disabled: Boolean,
-  name: String
+  name: String,
 }
 
 const customIcons = {
   qrcode: require('../../../assets/icons/qrcode.svg'),
-  link: require('../../../assets/icons/link.svg')
+  link: require('../../../assets/icons/link.svg'),
 }
 
 const CustomIcon = (props: any) => {
@@ -65,16 +65,16 @@ const createStyles = ({ disabled }) =>
       flexDirection: 'column',
       alignItems: 'center',
       flex: 1,
-      cursor: disabled ? 'inherit' : 'pointer'
+      cursor: disabled ? 'inherit' : 'pointer',
     },
     text: {
       color: disabled ? 'rgba(0, 0, 0, 0.32)' : 'inherit',
-      fontSize: normalize(11)
+      fontSize: normalize(11),
     },
     imageIcon: {
       borderRadius: '50%',
-      padding: normalize(16)
-    }
+      padding: normalize(16),
+    },
   })
 
 export default IconButton

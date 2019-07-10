@@ -13,7 +13,7 @@ const FeedListItem = props => {
     <TouchableHighlight
       onPress={() => props.onPress(props.item.id)}
       tvParallaxProperties={{
-        pressMagnification: 1.1
+        pressMagnification: 1.1,
       }}
       style={listStyles.row}
       activeOpacity={0.1}

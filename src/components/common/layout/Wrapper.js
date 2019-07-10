@@ -8,7 +8,7 @@ const Wrapper = (props: any) => {
     ? { backgroundColor: props.backgroundColor }
     : {
         backgroundImage:
-          'linear-gradient(to bottom, #00AFFF, #2DC0F7, #28C0EF, #23C0E7, #1EC1DF, #19C1D7, #14C1CF, #0FC2C7, #0FC2C7, #0AC2BF, #05C2B7, #00C3AF)'
+          'linear-gradient(to bottom, #00AFFF, #2DC0F7, #28C0EF, #23C0E7, #1EC1DF, #19C1D7, #14C1CF, #0FC2C7, #0FC2C7, #0AC2BF, #05C2B7, #00C3AF)',
       }
 
   return (
@@ -25,14 +25,14 @@ const Wrapper = (props: any) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    display: 'flex'
+    display: 'flex',
   },
   contentContainer: {
     justifyContent: 'center',
     flexDirection: 'row',
     flex: 1,
     alignItems: 'stretch',
-    display: 'flex'
+    display: 'flex',
   },
   wrapper: {
     display: 'flex',
@@ -41,8 +41,8 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
     flexDirection: 'column',
     width: '100%',
-    padding: normalize(8)
-  }
+    padding: normalize(8),
+  },
 })
 
 export default Wrapper

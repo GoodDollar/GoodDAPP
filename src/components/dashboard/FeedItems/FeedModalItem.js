@@ -54,11 +54,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignSelf: 'flex-start', // Necessary for touch highlight
     width: '95vw',
-    marginRight: normalize(10)
+    marginRight: normalize(10),
   },
   fullHeight: {
     height: '100%',
-    flex: 1
+    flex: 1,
   },
   modal: {
     flex: 1,
@@ -69,73 +69,73 @@ const styles = StyleSheet.create({
     borderTopWidth: 0,
     borderBottomWidth: 0,
     padding: normalize(30),
-    borderColor: '#c9c8c9'
+    borderColor: '#c9c8c9',
   },
   dateText: {
     fontSize: normalize(10),
     color: '#A3A3A3',
-    fontWeight: '500'
+    fontWeight: '500',
   },
   bottomDate: {
-    marginTop: normalize(5)
+    marginTop: normalize(5),
   },
   buttonsRow: {
     flexDirection: 'row',
     flex: 1,
     alignItems: 'flex-end',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   rightButton: {
     marginLeft: 'auto',
-    minWidth: normalize(80)
+    minWidth: normalize(80),
   },
   row: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: 'white',
-    paddingHorizontal: 0
+    paddingHorizontal: 0,
   },
   title: {
     paddingTop: '2em',
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
   },
   leftMargin: {
-    marginLeft: normalize(10)
+    marginLeft: normalize(10),
   },
   leftTitle: {
     color: '#555',
     flex: 1,
     fontWeight: '700',
-    fontSize: normalize(20)
+    fontSize: normalize(20),
   },
   rightTitle: {
     fontSize: normalize(16),
     color: 'black',
     fontWeight: 'bold',
-    textAlign: 'right'
+    textAlign: 'right',
   },
   hrLine: {
     borderBottomColor: '#c9c8c9',
     borderBottomWidth: StyleSheet.hairlineWidth,
     width: '100%',
     marginBottom: normalize(10),
-    marginTop: normalize(10)
+    marginTop: normalize(10),
   },
   currency: {
     fontSize: normalize(16),
     color: 'black',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   reason: {
     color: 'rgba(0, 0, 0, 0.54)',
     fontSize: normalize(16),
     fontWeight: '500',
-    textTransform: 'capitalize'
+    textTransform: 'capitalize',
   },
   avatarColor: {
     backgroundColor: '#BBB',
-    borderRadius: '50%'
-  }
+    borderRadius: '50%',
+  },
 })
 
 export default FeedModalItem

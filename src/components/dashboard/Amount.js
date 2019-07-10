@@ -10,7 +10,7 @@ import { receiveStyles as styles } from './styles'
 
 export type AmountProps = {
   screenProps: any,
-  navigation: any
+  navigation: any,
 }
 
 const RECEIVE_TITLE = 'Receive G$'
@@ -31,7 +31,7 @@ const Amount = (props: AmountProps) => {
     if (!(await goodWallet.canSend(weiAmount))) {
       showDialogWithData({
         title: 'Cannot send G$',
-        message: 'Amount is bigger than balance'
+        message: 'Amount is bigger than balance',
       })
       return false
     }
@@ -81,12 +81,12 @@ const Amount = (props: AmountProps) => {
 const customStyles = StyleSheet.create({
   section: {
     flex: 1,
-    backgroundColor: '#fff'
-  }
+    backgroundColor: '#fff',
+  },
 })
 
 Amount.navigationOptions = {
-  title: RECEIVE_TITLE
+  title: RECEIVE_TITLE,
 }
 
 Amount.shouldNavigateToComponent = props => {

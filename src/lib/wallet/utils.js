@@ -8,7 +8,7 @@ const maskSettings = {
   separator: '.',
   delimiter: ',',
   unit: '',
-  suffixUnit: ''
+  suffixUnit: '',
 }
 
 export const moneyRegexp = new RegExp(`^(?!0\\d)(0|([1-9])\\d*)([.,]?(\\d{0,${DECIMALS}}))$`)

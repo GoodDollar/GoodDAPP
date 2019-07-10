@@ -21,8 +21,8 @@ type ClaimState = {
   entitlement: number,
   claimedToday: {
     people: string,
-    amount: string
-  }
+    amount: string,
+  },
 }
 
 const log = logger.child({ from: 'Claim' })
@@ -41,8 +41,8 @@ const Claim = ({ screenProps }: ClaimProps) => {
     entitlement: 0,
     claimedToday: {
       people: '--',
-      amount: '--'
-    }
+      amount: '--',
+    },
   })
   const wrappedGoodWallet = wrapper(goodWallet, store)
 
@@ -74,7 +74,7 @@ const Claim = ({ screenProps }: ClaimProps) => {
 
     const [claimedToday, nextClaimDate] = await Promise.all([
       wrappedGoodWallet.getAmountAndQuantityClaimedToday(entitlement),
-      wrappedGoodWallet.getNextClaimTime()
+      wrappedGoodWallet.getNextClaimTime(),
     ])
 
     setState(prevState => ({ ...prevState, claimedToday, entitlement, nextClaim: getNextClaim(nextClaimDate) }))
@@ -102,7 +102,7 @@ const Claim = ({ screenProps }: ClaimProps) => {
       title: `YOUR G$\nIS ON IT'S WAY...`,
       message: 'please wait while processing...',
       loading,
-      dismissText: 'OK'
+      dismissText: 'OK',
     })
 
     const success = setTimeout(() => {
@@ -111,7 +111,7 @@ const Claim = ({ screenProps }: ClaimProps) => {
       showDialog({
         title: 'SUCCESS!',
         message: `You've claimed your G$`,
-        dismissText: 'Yay!'
+        dismissText: 'Yay!',
       })
     }, 3000)
 
@@ -125,11 +125,11 @@ const Claim = ({ screenProps }: ClaimProps) => {
             type: 'claim',
             data: {
               from: 'GoodDollar',
-              amount: entitlement
-            }
+              amount: entitlement,
+            },
           }
           userStorage.enqueueTX(transactionEvent)
-        }
+        },
       })
     } catch (e) {
       log.error('claiming failed', e)
@@ -140,7 +140,7 @@ const Claim = ({ screenProps }: ClaimProps) => {
       showDialog({
         title: 'Claiming Failed',
         message: `${e.message}.\nTry again later.`,
-        dismissText: 'OK'
+        dismissText: 'OK',
       })
     }
   }
@@ -227,7 +227,7 @@ const styles = StyleSheet.create({
     marginTop: normalize(16),
     minWidth: normalize(229),
     maxWidth: '100%',
-    minHeight: normalize(159)
+    minHeight: normalize(159),
   },
   extraInfo: { padding: 0 },
   extraInfoStats: { backgroundColor: '#e0e0e0', borderRadius: normalize(5) },
@@ -236,12 +236,12 @@ const styles = StyleSheet.create({
     margin: 0,
     marginTop: normalize(8),
     marginBottom: normalize(8),
-    borderRadius: normalize(5)
-  }
+    borderRadius: normalize(5),
+  },
 })
 
 Claim.navigationOptions = {
-  title: 'Claim Daily G$'
+  title: 'Claim Daily G$',
 }
 
 export default Claim

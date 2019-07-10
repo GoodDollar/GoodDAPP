@@ -13,8 +13,8 @@ import Mnemonics from '../signin/Mnemonics'
 type Props = {
   navigation: any,
   screenProps: {
-    push: Function
-  }
+    push: Function,
+  },
 }
 
 const log = logger.child({ from: 'Auth' })
@@ -79,7 +79,7 @@ class Auth extends React.Component<Props> {
 
 Auth.navigationOptions = {
   title: 'Auth',
-  navigationBarHidden: true
+  navigationBarHidden: true,
 }
 
 const styles = StyleSheet.create({
@@ -88,19 +88,19 @@ const styles = StyleSheet.create({
     paddingLeft: '4%',
     paddingRight: '4%',
     display: 'flex',
-    flex: 1
+    flex: 1,
   },
   topContainer: {
     flexGrow: 1,
     display: 'flex',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   bottomContainer: {
     marginBottom: 30,
-    paddingTop: 30
+    paddingTop: 30,
   },
   title: {
-    marginBottom: 0
+    marginBottom: 0,
   },
   paragraph: {
     ...fontStyle,
@@ -108,27 +108,27 @@ const styles = StyleSheet.create({
     marginRight: 0,
     fontSize: normalize(16),
     lineHeight: '1.3em',
-    fontWeight: '500'
+    fontWeight: '500',
   },
   buttonLayout: {
     padding: normalize(5),
     marginTop: normalize(20),
-    marginBottom: normalize(20)
+    marginBottom: normalize(20),
   },
   signInLink: {
     ...fontStyle,
     textDecorationLine: 'underline',
-    fontSize: normalize(16)
+    fontSize: normalize(16),
   },
   acceptTermsText: {
     ...fontStyle,
-    fontSize: normalize(12)
+    fontSize: normalize(12),
   },
   acceptTermsLink: {
     ...fontStyle,
     fontSize: normalize(12),
-    fontWeight: 'bold'
-  }
+    fontWeight: 'bold',
+  },
 })
 
 export default createStackNavigator(
@@ -136,9 +136,9 @@ export default createStackNavigator(
     Login: Auth,
     TermsOfUse,
     PrivacyPolicy,
-    Recover: Mnemonics
+    Recover: Mnemonics,
   },
   {
-    backRouteName: 'Auth'
+    backRouteName: 'Auth',
   }
 )

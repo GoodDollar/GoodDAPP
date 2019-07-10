@@ -23,17 +23,17 @@ const BigNumber = (props: any) => (
 
 const styles = StyleSheet.create({
   bigNumberWrapper: {
-    display: 'inline-block'
+    display: 'inline-block',
   },
   bigNumber: {
     ...fontStyle,
     fontSize: normalize(30),
-    textAlign: 'right'
+    textAlign: 'right',
   },
   bigNumberUnit: {
     ...fontStyle,
-    textAlign: 'right'
-  }
+    textAlign: 'right',
+  },
 })
 
 export default BigNumber

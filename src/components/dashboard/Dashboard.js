@@ -37,13 +37,13 @@ const log = logger.child({ from: 'Dashboard' })
 export type DashboardProps = {
   screenProps: any,
   navigation: any,
-  store: Store
+  store: Store,
 }
 
 type DashboardState = {
   horizontal: boolean,
   feeds: any[],
-  currentFeedProps: any
+  currentFeedProps: any,
 }
 
 const Dashboard = props => {
@@ -53,7 +53,7 @@ const Dashboard = props => {
   const [state: DashboardState, setState] = useState({
     horizontal: false,
     currentFeedProps: null,
-    feeds: []
+    feeds: [],
   })
   const { params } = props.navigation.state
 
@@ -102,10 +102,10 @@ const Dashboard = props => {
           paddingBottom: normalize(30),
           paddingLeft: normalize(10),
           paddingRight: normalize(10),
-          backgroundColor: 'rgba(0, 0, 0, 0.7)'
+          backgroundColor: 'rgba(0, 0, 0, 0.7)',
         },
-        onPress: closeFeedEvent
-      }
+        onPress: closeFeedEvent,
+      },
     })
   }
 
@@ -122,20 +122,20 @@ const Dashboard = props => {
       } else {
         showDialog({
           title: 'Error',
-          message: 'Event does not exist'
+          message: 'Event does not exist',
         })
       }
     } catch (e) {
       showDialog({
         title: 'Error',
-        message: 'Event does not exist'
+        message: 'Event does not exist',
       })
     }
   }
 
   const closeFeedEvent = () => {
     setState({
-      currentFeedProps: null
+      currentFeedProps: null,
     })
   }
 
@@ -217,42 +217,42 @@ const styles = StyleSheet.create({
     fontSize: normalize(16),
     color: 'white',
     fontWeight: 'bold',
-    textTransform: 'uppercase'
+    textTransform: 'uppercase',
   },
   buttonRow: {
     alignItems: 'stretch',
-    marginTop: normalize(10)
+    marginTop: normalize(10),
   },
   grayedOutText: {
     color: '#d5d5d5',
-    fontSize: normalize(10)
+    fontSize: normalize(10),
   },
   leftButton: {
     flex: 1,
-    marginRight: normalize(10)
+    marginRight: normalize(10),
   },
   rightButton: {
     flex: 1,
-    marginLeft: normalize(10)
+    marginLeft: normalize(10),
   },
   dashboardView: {
-    flex: 1
+    flex: 1,
   },
   centered: {
     justifyContent: 'center',
-    alignItems: 'baseline'
+    alignItems: 'baseline',
   },
   centering: {
     alignItems: 'center',
     justifyContent: 'center',
     padding: 8,
-    height: '256px'
-  }
+    height: '256px',
+  },
 })
 
 Dashboard.navigationOptions = {
   navigationBarHidden: true,
-  title: 'Home'
+  title: 'Home',
 }
 
 export default createStackNavigator({
@@ -271,5 +271,5 @@ export default createStackNavigator({
   SendQRSummary,
   PP: PrivacyPolicy,
   TOU: TermsOfUse,
-  Support
+  Support,
 })

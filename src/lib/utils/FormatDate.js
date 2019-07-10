@@ -11,6 +11,6 @@ export const getFormattedDateTime = (stringDate: string) =>
       month: '2-digit',
       year: '2-digit',
       hour: '2-digit',
-      minute: '2-digit'
+      minute: '2-digit',
     })
     .replace(',', '')

@@ -9,7 +9,7 @@ import NumPadKeyboard from './NumPadKeyboard'
 
 type AmountInputProps = {
   amount: string,
-  handleAmountChange: string => void
+  handleAmountChange: string => void,
 }
 
 const AmountInput = ({ amount, handleAmountChange }: AmountInputProps) => {

@@ -14,7 +14,7 @@ import { receiveStyles as styles } from './styles'
 
 export type ReceiveProps = {
   screenProps: any,
-  navigation: any
+  navigation: any,
 }
 
 const RECEIVE_TITLE = 'Receive G$'
@@ -33,7 +33,7 @@ const Receive = ({ screenProps }: ReceiveProps) => {
     } catch (e) {
       showDialogWithData({
         title: 'Error',
-        message: e.message
+        message: e.message,
       })
     }
   }, [code])
@@ -48,8 +48,8 @@ const Receive = ({ screenProps }: ReceiveProps) => {
           title: 'Error',
           message:
             'There was a problem triggering share action. You can still copy the link in tapping on "Copy link to clipboard"',
-          dismissText: 'Ok'
-        }
+          dismissText: 'Ok',
+        },
       })
     }
   }
@@ -99,7 +99,7 @@ const Receive = ({ screenProps }: ReceiveProps) => {
 }
 
 Receive.navigationOptions = {
-  title: RECEIVE_TITLE
+  title: RECEIVE_TITLE,
 }
 
 export default Receive

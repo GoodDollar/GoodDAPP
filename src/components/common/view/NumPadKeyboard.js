@@ -8,24 +8,24 @@ import Text from './Text'
 
 type KeyboardKeyProps = {
   keyValue: string,
-  onPress: string => void
+  onPress: string => void,
 }
 
 type CaretPosition = {
   start: number,
-  end: number
+  end: number,
 }
 
 type KeyboardProps = {
   onPress: string => void,
   amount: string,
   caretPosition?: CaretPosition,
-  updateCaretPosition?: CaretPosition => void
+  updateCaretPosition?: CaretPosition => void,
 }
 
 type KeyboardRowProps = {
   onPress: string => void,
-  keys: Array<string>
+  keys: Array<string>,
 }
 
 const KeyboardKey = ({ keyValue, onPress }: KeyboardKeyProps) => {
@@ -59,7 +59,7 @@ const NumPadKeyboard = ({ onPress, amount, caretPosition, updateCaretPosition }:
       onPress(updatedValue)
       updateCaretPosition({
         start: caretPosition.start + 1,
-        end: caretPosition.start + 1
+        end: caretPosition.start + 1,
       })
     }
   }
@@ -72,7 +72,7 @@ const NumPadKeyboard = ({ onPress, amount, caretPosition, updateCaretPosition }:
         updatedValue = [stringAmount.slice(0, caretPosition.start - 1), stringAmount.slice(caretPosition.end)].join('')
         updateCaretPosition({
           start: caretPosition.start - 1,
-          end: caretPosition.start - 1
+          end: caretPosition.start - 1,
         })
       }
       onPress(updatedValue)
@@ -95,32 +95,32 @@ const NumPadKeyboard = ({ onPress, amount, caretPosition, updateCaretPosition }:
 
 NumPadKeyboard.defaultProps = {
   caretPosition: null,
-  updateCaretPosition: () => {}
+  updateCaretPosition: () => {},
 }
 
 const styles = StyleSheet.create({
   keyboard: {
     display: 'flex',
-    padding: normalize(10)
+    padding: normalize(10),
   },
   row: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   key: {
     display: 'flex',
     alignItems: 'center',
     flex: 1,
     padding: normalize(15),
-    cursor: 'pointer'
+    cursor: 'pointer',
   },
   keyText: {
     fontSize: normalize(20),
     fontFamily: 'RobotoSlab-Bold',
     fontWeight: '700',
-    color: '#42454a'
+    color: '#42454a',
   },
   backspaceButton: {
     backgroundImage: `url(${backKeyboardButton})`,
@@ -128,8 +128,8 @@ const styles = StyleSheet.create({
     width: normalize(25),
     backgroundSize: 'contain',
     backgroundRepeat: 'no-repeat',
-    cursor: 'pointer'
-  }
+    cursor: 'pointer',
+  },
 })
 
 export default NumPadKeyboard

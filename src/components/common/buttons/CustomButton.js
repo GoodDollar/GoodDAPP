@@ -14,7 +14,7 @@ export type ButtonProps = {
   style?: any,
   onPress: any,
   loading?: boolean,
-  uppercase?: boolean
+  uppercase?: boolean,
 }
 
 const TextContent = ({ children, dark, uppercase }) => {
@@ -71,17 +71,17 @@ const CustomButton = (props: ButtonProps) => {
 }
 
 CustomButton.defaultProps = {
-  mode: 'contained'
+  mode: 'contained',
 }
 
 const styles = StyleSheet.create({
   button: {
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   buttonWrapperText: {
     minHeight: 34,
-    justifyContent: 'center'
-  }
+    justifyContent: 'center',
+  },
 })
 
 export default withTheme(CustomButton)

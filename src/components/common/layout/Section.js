@@ -61,26 +61,26 @@ const styles = StyleSheet.create({
   section: {
     backgroundColor: '#ffffff',
     borderRadius: normalize(5),
-    padding: normalize(8)
+    padding: normalize(8),
   },
   sectionRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   sectionStack: {
     flexDirection: 'column',
     alignItems: 'stretch',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   title: {
     ...fontStyle,
     fontSize: normalize(24),
     fontWeight: '500',
-    textTransform: 'uppercase'
+    textTransform: 'uppercase',
   },
   text: {
     ...fontStyle,
-    fontSize: normalize(14)
-  }
+    fontSize: normalize(14),
+  },
 })

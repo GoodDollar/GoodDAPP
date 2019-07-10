@@ -10,14 +10,14 @@ import { Title, Wrapper } from './components'
 type Props = {
   doneCallback: ({ email: string }) => null,
   screenProps: any,
-  navigation: any
+  navigation: any,
 }
 
 export type EmailRecord = {
   email: string,
   isEmailConfirmed?: boolean,
   errorMessage?: string,
-  isValid: boolean
+  isValid: boolean,
 }
 
 type State = EmailRecord & { valid?: boolean }
@@ -26,7 +26,7 @@ class EmailForm extends React.Component<Props, State> {
   state = {
     email: this.props.screenProps.data.email || '',
     errorMessage: '',
-    isValid: false
+    isValid: false,
   }
 
   handleChange = (email: string) => {

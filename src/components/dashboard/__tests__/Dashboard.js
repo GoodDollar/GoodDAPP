@@ -11,7 +11,7 @@ import userStorage from '../../../lib/gundb/UserStorage'
 import { getComponentWithMocks } from './__util__'
 
 const routes = {
-  Dashboard: getComponentWithMocks('../Dashboard')
+  Dashboard: getComponentWithMocks('../Dashboard'),
 }
 
 const AppNavigator = createSwitchNavigator(routes)

@@ -109,14 +109,20 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
               "WebkitFlexGrow": 1,
               "WebkitFlexShrink": 1,
               "color": "rgba(85,85,85,1.00)",
+              "direction": "ltr",
               "flexBasis": "0%",
               "flexGrow": 1,
               "flexShrink": 1,
+              "fontFamily": "Roboto",
               "fontSize": "20px",
               "fontWeight": "700",
+              "lineHeight": "22px",
               "msFlexNegative": 1,
               "msFlexPositive": 1,
               "msFlexPreferredSize": "0%",
+              "textAlign": "center",
+              "textDecoration": "none",
+              "textTransform": "none",
             }
           }
         >
@@ -137,10 +143,13 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
               Object {
                 "color": "rgba(0,0,0,1.00)",
                 "direction": "ltr",
-                "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                "fontFamily": "Roboto",
                 "fontSize": "16px",
                 "fontWeight": "bold",
+                "lineHeight": "22px",
                 "textAlign": "right",
+                "textDecoration": "none",
+                "textTransform": "none",
               }
             }
           >
@@ -153,10 +162,13 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
               Object {
                 "color": "rgba(0,0,0,1.00)",
                 "direction": "ltr",
-                "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                "fontFamily": "Roboto",
                 "fontSize": "16px",
                 "fontWeight": "bold",
+                "lineHeight": "22px",
                 "textAlign": "right",
+                "textDecoration": "none",
+                "textTransform": "none",
               }
             }
           >
@@ -170,9 +182,15 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
         style={
           Object {
             "color": "rgba(163,163,163,1.00)",
+            "direction": "ltr",
+            "fontFamily": "Roboto",
             "fontSize": "10px",
             "fontWeight": "500",
+            "lineHeight": "22px",
             "marginTop": "5px",
+            "textAlign": "center",
+            "textDecoration": "none",
+            "textTransform": "none",
           }
         }
       >
@@ -315,17 +333,32 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
           dir="auto"
           style={
             Object {
+              "color": "rgba(0,0,0,1.00)",
+              "direction": "ltr",
+              "fontFamily": "Roboto",
+              "fontSize": "16px",
+              "fontWeight": "normal",
+              "lineHeight": "22px",
               "marginLeft": "10px",
+              "textAlign": "center",
+              "textDecoration": "none",
+              "textTransform": "none",
             }
           }
         >
           <span
-            className="css-text-901oao css-textHasAncestor-16my406 css-textOneLine-bfa6kz"
+            className="css-text-901oao css-textHasAncestor-16my406"
             dir="auto"
             style={
               Object {
                 "color": "rgba(85,85,85,1.00)",
-                "fontSize": "16px",
+                "direction": "ltr",
+                "fontFamily": "Roboto",
+                "fontSize": "15px",
+                "fontWeight": "normal",
+                "lineHeight": "22px",
+                "textAlign": "center",
+                "textDecoration": "none",
                 "textTransform": "capitalize",
               }
             }
@@ -335,8 +368,15 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
               dir="auto"
               style={
                 Object {
-                  "fontSize": "8px",
+                  "color": "rgba(0,0,0,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto",
+                  "fontSize": "10px",
                   "fontWeight": "500",
+                  "lineHeight": "22px",
+                  "textAlign": "center",
+                  "textDecoration": "none",
+                  "textTransform": "none",
                 }
               }
             >
@@ -348,12 +388,19 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
               dir="auto"
               style={
                 Object {
-                  "fontFamily": "Roboto-Medium",
+                  "color": "rgba(0,0,0,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto",
                   "fontSize": "16px",
+                  "fontWeight": "700",
+                  "lineHeight": "22px",
+                  "textAlign": "center",
+                  "textDecoration": "none",
+                  "textTransform": "none",
                 }
               }
             >
-               Misao Matimbo
+              Misao Matimbo
             </span>
           </span>
         </div>
@@ -376,8 +423,13 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
         style={
           Object {
             "color": "rgba(0,0,0,0.54)",
+            "direction": "ltr",
+            "fontFamily": "Roboto",
             "fontSize": "16px",
             "fontWeight": "500",
+            "lineHeight": "22px",
+            "textAlign": "center",
+            "textDecoration": "none",
             "textTransform": "capitalize",
           }
         }
@@ -532,8 +584,12 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                       Object {
                         "color": "rgba(255,255,255,1.00)",
                         "direction": "ltr",
-                        "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                        "textAlign": "left",
+                        "fontFamily": "Roboto",
+                        "fontSize": "16px",
+                        "fontWeight": "normal",
+                        "lineHeight": "22px",
+                        "textAlign": "center",
+                        "textDecoration": "none",
                         "textTransform": "uppercase",
                       }
                     }
@@ -632,8 +688,14 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
         style={
           Object {
             "color": "rgba(163,163,163,1.00)",
+            "direction": "ltr",
+            "fontFamily": "Roboto",
             "fontSize": "10px",
             "fontWeight": "500",
+            "lineHeight": "22px",
+            "textAlign": "center",
+            "textDecoration": "none",
+            "textTransform": "none",
           }
         }
       >
@@ -673,14 +735,20 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
               "WebkitFlexGrow": 1,
               "WebkitFlexShrink": 1,
               "color": "rgba(85,85,85,1.00)",
+              "direction": "ltr",
               "flexBasis": "0%",
               "flexGrow": 1,
               "flexShrink": 1,
+              "fontFamily": "Roboto",
               "fontSize": "20px",
               "fontWeight": "700",
+              "lineHeight": "22px",
               "msFlexNegative": 1,
               "msFlexPositive": 1,
               "msFlexPreferredSize": "0%",
+              "textAlign": "center",
+              "textDecoration": "none",
+              "textTransform": "none",
             }
           }
         >
@@ -701,10 +769,13 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
               Object {
                 "color": "rgba(0,0,0,1.00)",
                 "direction": "ltr",
-                "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                "fontFamily": "Roboto",
                 "fontSize": "16px",
                 "fontWeight": "bold",
+                "lineHeight": "22px",
                 "textAlign": "right",
+                "textDecoration": "none",
+                "textTransform": "none",
               }
             }
           >
@@ -717,10 +788,13 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
               Object {
                 "color": "rgba(0,0,0,1.00)",
                 "direction": "ltr",
-                "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                "fontFamily": "Roboto",
                 "fontSize": "16px",
                 "fontWeight": "bold",
+                "lineHeight": "22px",
                 "textAlign": "right",
+                "textDecoration": "none",
+                "textTransform": "none",
               }
             }
           >
@@ -865,17 +939,32 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
           dir="auto"
           style={
             Object {
+              "color": "rgba(0,0,0,1.00)",
+              "direction": "ltr",
+              "fontFamily": "Roboto",
+              "fontSize": "16px",
+              "fontWeight": "normal",
+              "lineHeight": "22px",
               "marginLeft": "10px",
+              "textAlign": "center",
+              "textDecoration": "none",
+              "textTransform": "none",
             }
           }
         >
           <span
-            className="css-text-901oao css-textHasAncestor-16my406 css-textOneLine-bfa6kz"
+            className="css-text-901oao css-textHasAncestor-16my406"
             dir="auto"
             style={
               Object {
                 "color": "rgba(85,85,85,1.00)",
-                "fontSize": "16px",
+                "direction": "ltr",
+                "fontFamily": "Roboto",
+                "fontSize": "15px",
+                "fontWeight": "normal",
+                "lineHeight": "22px",
+                "textAlign": "center",
+                "textDecoration": "none",
                 "textTransform": "capitalize",
               }
             }
@@ -885,8 +974,15 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
               dir="auto"
               style={
                 Object {
-                  "fontSize": "8px",
+                  "color": "rgba(0,0,0,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto",
+                  "fontSize": "10px",
                   "fontWeight": "500",
+                  "lineHeight": "22px",
+                  "textAlign": "center",
+                  "textDecoration": "none",
+                  "textTransform": "none",
                 }
               }
             >
@@ -898,12 +994,19 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
               dir="auto"
               style={
                 Object {
-                  "fontFamily": "Roboto-Medium",
+                  "color": "rgba(0,0,0,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto",
                   "fontSize": "16px",
+                  "fontWeight": "700",
+                  "lineHeight": "22px",
+                  "textAlign": "center",
+                  "textDecoration": "none",
+                  "textTransform": "none",
                 }
               }
             >
-               Misao Matimbo
+              Misao Matimbo
             </span>
           </span>
         </div>
@@ -926,8 +1029,13 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
         style={
           Object {
             "color": "rgba(0,0,0,0.54)",
+            "direction": "ltr",
+            "fontFamily": "Roboto",
             "fontSize": "16px",
             "fontWeight": "500",
+            "lineHeight": "22px",
+            "textAlign": "center",
+            "textDecoration": "none",
             "textTransform": "capitalize",
           }
         }
@@ -1082,8 +1190,12 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                       Object {
                         "color": "rgba(255,255,255,1.00)",
                         "direction": "ltr",
-                        "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                        "textAlign": "left",
+                        "fontFamily": "Roboto",
+                        "fontSize": "16px",
+                        "fontWeight": "normal",
+                        "lineHeight": "22px",
+                        "textAlign": "center",
+                        "textDecoration": "none",
                         "textTransform": "uppercase",
                       }
                     }

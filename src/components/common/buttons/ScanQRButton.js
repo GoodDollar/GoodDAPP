@@ -2,7 +2,8 @@
 import React from 'react'
 import { StyleSheet, TouchableOpacity } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
-import { Avatar, Text } from 'react-native-paper'
+import { Avatar } from 'react-native-paper'
+import Text from '../view/Text'
 
 type Props = {
   disabled?: boolean,

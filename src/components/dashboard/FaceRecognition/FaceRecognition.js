@@ -1,11 +1,12 @@
 // @flow
 import React, { createRef } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { Image, StyleSheet } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
+import illustration from '../../../assets/FaceRecognition/illustration.png'
 import SimpleStore from '../../../lib/undux/SimpleStore'
 import type { DashboardProps } from '../Dashboard'
 import logger from '../../../lib/logger/pino-logger'
-import { CustomButton, Section, Wrapper } from '../../common'
+import { CustomButton, Section, Text, Wrapper } from '../../common'
 import userStorage from '../../../lib/gundb/UserStorage'
 import FRapi from './FaceRecognitionAPI'
 import type FaceRecognitionResponse from './FaceRecognitionAPI'
@@ -26,8 +27,11 @@ type State = DashboardState & {
   loadingText: string,
   facemap: Blob,
   zoomReady: boolean,
+  intendedAction: string,
   captureResult: ZoomCaptureResult
 }
+
+Image.prefetch(illustration)
 
 /**
  * Responsible to orchestrate FaceReco process, using the following modules: ZoomCapture & FRapi.
@@ -44,7 +48,8 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     loadingText: '',
     facemap: new Blob([], { type: 'text/plain' }),
     zoomReady: false,
-    fullName: '',
+    name: '',
+    intendedAction: '',
     captureResult: {}
   }
 
@@ -64,6 +69,10 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
   }
 
   componentWillMount = async () => {
+    const name = (await userStorage.getProfileFieldDisplayValue('fullName')).split(' ').shift() || 'NoName'
+    const intendedAction = this.props.screenProps.screenState.from === 'Claim' ? 'claiming' : 'sending'
+    this.setState({ name, intendedAction })
+
     await zoomSdkLoader.ready
     this.loadedZoom = ZoomSDK
     this.timeout = setTimeout(() => {
@@ -71,10 +80,8 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     }, 0)
   }
 
-  componentDidMount = async () => {
+  componentDidMount = () => {
     this.setWidth()
-    let fullName = (await userStorage.getProfileFieldDisplayValue('fullName')) || ''
-    this.setState({ fullName })
   }
 
   setWidth = () => {
@@ -124,70 +131,88 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     this.setState(prevState => ({ showZoomCapture: true, showPreText: false }))
   }
 
+  showPrivacyPolicy = () => {
+    this.props.screenProps.push('PP')
+  }
+
   render() {
-    const { fullName } = this.state
+    const { intendedAction, name } = this.state
     const { showZoomCapture, showPreText, loadingFaceRecognition, loadingText } = this.state
 
     return (
       <Wrapper>
-        {showPreText && (
-          <View style={styles.topContainer}>
-            <Section.Title
-              style={styles.mainTitle}
-            >{`${fullName}, Just one more thing before we can get started...`}</Section.Title>
-            <Section.Text style={styles.description}>
-              {`Since it's your first time sending G$, we need to make sure it's really
-              you and prevent other people from creating multiple accounts.`}
-            </Section.Text>
-          </View>
-        )}
-        {showPreText && (
-          <View style={styles.bottomContainer}>
+        {showPreText ? (
+          <Section grow alignItems="center" justifyContent="space-between">
+            <Section.Stack grow justifyContent="center" alignItems="center">
+              <Text fontSize={24} textAlign="center">{`${name},\nbefore we can get started...`}</Text>
+              <Image source={illustration} style={styles.illustration} resizeMode="contain" />
+              <Section.Row style={styles.privacyPolicyDisclaimer} justifyContent="center" alignItems="center">
+                <Text color="primary" textAlign="justify" fontWeight="bold">
+                  {`Since it's your first time ${intendedAction} G$, we need to make sure it's really you. Learn more about our `}
+                  <Text
+                    color="primary"
+                    fontWeight="bold"
+                    textDecorationLine="underline"
+                    onPress={this.showPrivacyPolicy}
+                  >
+                    privacy policy
+                  </Text>
+                  .
+                </Text>
+              </Section.Row>
+            </Section.Stack>
             <CustomButton
               mode="contained"
               disabled={this.state.zoomReady === false}
-              onPress={this.showFaceRecognition}
+              onPress={loadingFaceRecognition ? () => {} : this.showFaceRecognition}
               loading={this.state.zoomReady === false || loadingFaceRecognition}
+              style={styles.button}
             >
-              Quick Face Recognition
+              {loadingFaceRecognition ? loadingText : 'Quick Face Recognition'}
             </CustomButton>
-          </View>
+          </Section>
+        ) : (
+          <ZoomCapture
+            height={this.height}
+            screenProps={this.screenProps}
+            onCaptureResult={this.onCaptureResult}
+            showZoomCapture={showZoomCapture}
+            loadedZoom={this.loadedZoom}
+            onError={this.showFRError}
+          />
         )}
-        {loadingFaceRecognition && (
-          <CustomButton mode="contained" loading={true} onPress={() => {}}>
-            {loadingText}
-          </CustomButton>
-        )}
-
-        <ZoomCapture
-          height={this.height}
-          screenProps={this.screenProps}
-          onCaptureResult={this.onCaptureResult}
-          showZoomCapture={showZoomCapture}
-          loadedZoom={this.loadedZoom}
-          onError={this.showFRError}
-        />
       </Wrapper>
     )
   }
 }
 
 const styles = StyleSheet.create({
-  topContainer: {
-    display: 'flex',
-    flex: 1,
-    justifyContent: 'space-evenly',
-    paddingTop: normalize(30)
+  illustration: {
+    marginTop: normalize(16),
+    minWidth: normalize(204),
+    maxWidth: '100%',
+    minHeight: normalize(152)
   },
-  bottomContainer: {
-    display: 'flex',
-    flex: 1,
-    paddingTop: normalize(20),
-    justifyContent: 'flex-end'
+  privacyPolicyDisclaimer: {
+    width: '80%',
+    borderTopWidth: normalize(2),
+    borderTopStyle: 'solid',
+    borderTopColor: '#00AFFF',
+    borderBottomWidth: normalize(2),
+    borderBottomStyle: 'solid',
+    borderBottomColor: '#00AFFF',
+    padding: normalize(12),
+    paddingTop: normalize(24),
+    paddingBottom: normalize(24),
+    marginTop: normalize(24)
   },
-  description: {
-    fontSize: normalize(20)
-  }
+  button: { width: '100%' }
 })
 
-export default SimpleStore.withStore(FaceRecognition)
+const faceRecognition = SimpleStore.withStore(FaceRecognition)
+
+faceRecognition.navigationOptions = {
+  title: 'Face Recognition'
+}
+
+export default faceRecognition

@@ -1,12 +1,12 @@
 import React from 'react'
 import { View } from 'react-native'
-import { Text } from 'react-native-paper'
 
 // Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer'
 
 import GDStore from '../../../../lib/undux/GDStore'
 import TopBar from '../TopBar'
+import Text from '../Text'
 
 const { Container } = GDStore
 

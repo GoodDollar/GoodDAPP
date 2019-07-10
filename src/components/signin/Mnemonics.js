@@ -80,13 +80,15 @@ const Mnemonics = props => {
  * @returns {Promise<Promise<*>|Promise<*>|Promise<any>>}
  */
 async function profileExist(): Promise<any> {
-  const [, userStorage] = await Promise.all([
+  const [wallet, userStorage] = await Promise.all([
     import('../../lib/wallet/GoodWallet').then(_ => _.default),
     import('../../lib/gundb/UserStorage').then(_ => _.default)
   ])
 
+  await wallet.init()
+
   // reinstantiates wallet and userStorage with new mnemonics
-  await userStorage.ready
+  await userStorage.init()
 
   return userStorage.userAlreadyExist()
 }

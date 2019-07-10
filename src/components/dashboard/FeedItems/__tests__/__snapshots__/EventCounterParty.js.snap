@@ -2,12 +2,18 @@
 
 exports[`EventCounterParty receive matches snapshot 1`] = `
 <div
-  className="css-text-901oao css-textOneLine-bfa6kz"
+  className="css-text-901oao"
   dir="auto"
   style={
     Object {
       "color": "rgba(85,85,85,1.00)",
-      "fontSize": "16px",
+      "direction": "ltr",
+      "fontFamily": "Roboto",
+      "fontSize": "15px",
+      "fontWeight": "normal",
+      "lineHeight": "22px",
+      "textAlign": "center",
+      "textDecoration": "none",
       "textTransform": "capitalize",
     }
   }
@@ -17,8 +23,15 @@ exports[`EventCounterParty receive matches snapshot 1`] = `
     dir="auto"
     style={
       Object {
-        "fontSize": "8px",
+        "color": "rgba(0,0,0,1.00)",
+        "direction": "ltr",
+        "fontFamily": "Roboto",
+        "fontSize": "10px",
         "fontWeight": "500",
+        "lineHeight": "22px",
+        "textAlign": "center",
+        "textDecoration": "none",
+        "textTransform": "none",
       }
     }
   >
@@ -30,24 +43,37 @@ exports[`EventCounterParty receive matches snapshot 1`] = `
     dir="auto"
     style={
       Object {
-        "fontFamily": "Roboto-Medium",
+        "color": "rgba(0,0,0,1.00)",
+        "direction": "ltr",
+        "fontFamily": "Roboto",
         "fontSize": "16px",
+        "fontWeight": "700",
+        "lineHeight": "22px",
+        "textAlign": "center",
+        "textDecoration": "none",
+        "textTransform": "none",
       }
     }
   >
-     Misao Matimbo
+    Misao Matimbo
   </span>
 </div>
 `;
 
 exports[`EventCounterParty send matches snapshot 1`] = `
 <div
-  className="css-text-901oao css-textOneLine-bfa6kz"
+  className="css-text-901oao"
   dir="auto"
   style={
     Object {
       "color": "rgba(85,85,85,1.00)",
-      "fontSize": "16px",
+      "direction": "ltr",
+      "fontFamily": "Roboto",
+      "fontSize": "15px",
+      "fontWeight": "normal",
+      "lineHeight": "22px",
+      "textAlign": "center",
+      "textDecoration": "none",
       "textTransform": "capitalize",
     }
   }
@@ -57,8 +83,15 @@ exports[`EventCounterParty send matches snapshot 1`] = `
     dir="auto"
     style={
       Object {
-        "fontSize": "8px",
+        "color": "rgba(0,0,0,1.00)",
+        "direction": "ltr",
+        "fontFamily": "Roboto",
+        "fontSize": "10px",
         "fontWeight": "500",
+        "lineHeight": "22px",
+        "textAlign": "center",
+        "textDecoration": "none",
+        "textTransform": "none",
       }
     }
   >
@@ -70,24 +103,37 @@ exports[`EventCounterParty send matches snapshot 1`] = `
     dir="auto"
     style={
       Object {
-        "fontFamily": "Roboto-Medium",
+        "color": "rgba(0,0,0,1.00)",
+        "direction": "ltr",
+        "fontFamily": "Roboto",
         "fontSize": "16px",
+        "fontWeight": "700",
+        "lineHeight": "22px",
+        "textAlign": "center",
+        "textDecoration": "none",
+        "textTransform": "none",
       }
     }
   >
-     Misao Matimbo
+    Misao Matimbo
   </span>
 </div>
 `;
 
 exports[`EventCounterParty withdraw matches snapshot 1`] = `
 <div
-  className="css-text-901oao css-textOneLine-bfa6kz"
+  className="css-text-901oao"
   dir="auto"
   style={
     Object {
       "color": "rgba(85,85,85,1.00)",
-      "fontSize": "16px",
+      "direction": "ltr",
+      "fontFamily": "Roboto",
+      "fontSize": "15px",
+      "fontWeight": "normal",
+      "lineHeight": "22px",
+      "textAlign": "center",
+      "textDecoration": "none",
       "textTransform": "capitalize",
     }
   }
@@ -97,8 +143,15 @@ exports[`EventCounterParty withdraw matches snapshot 1`] = `
     dir="auto"
     style={
       Object {
-        "fontSize": "8px",
+        "color": "rgba(0,0,0,1.00)",
+        "direction": "ltr",
+        "fontFamily": "Roboto",
+        "fontSize": "10px",
         "fontWeight": "500",
+        "lineHeight": "22px",
+        "textAlign": "center",
+        "textDecoration": "none",
+        "textTransform": "none",
       }
     }
   >
@@ -110,12 +163,19 @@ exports[`EventCounterParty withdraw matches snapshot 1`] = `
     dir="auto"
     style={
       Object {
-        "fontFamily": "Roboto-Medium",
+        "color": "rgba(0,0,0,1.00)",
+        "direction": "ltr",
+        "fontFamily": "Roboto",
         "fontSize": "16px",
+        "fontWeight": "700",
+        "lineHeight": "22px",
+        "textAlign": "center",
+        "textDecoration": "none",
+        "textTransform": "none",
       }
     }
   >
-     Misao Matimbo
+    Misao Matimbo
   </span>
 </div>
 `;

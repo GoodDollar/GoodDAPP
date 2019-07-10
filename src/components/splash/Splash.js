@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { Image, StyleSheet, View } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import splashImage from '../../assets/splash.png'
+import { Text } from '../common'
 
 //minimize delay <Image> has over web <img>
 Image.prefetch(splashImage)
@@ -25,15 +26,16 @@ Splash.navigationOptions = {
 
 const styles = StyleSheet.create({
   logo: {
-    minWidth: 212,
     maxWidth: '100%',
-    minHeight: 256
+    minHeight: 256,
+    minWidth: 212
   },
   screen: {
-    display: 'flex',
-    justifyContent: 'center',
     alignItems: 'center',
-    height: '100%'
+    backgroundColor: '#fff',
+    display: 'flex',
+    height: '100%',
+    justifyContent: 'center'
   },
   splashText: {
     fontSize: normalize(22),

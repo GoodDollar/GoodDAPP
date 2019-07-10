@@ -1,15 +1,14 @@
 // @flow
 import React, { Component, useEffect, useState } from 'react'
-import { ScrollView, View } from 'react-native'
 import SideMenu from 'react-native-side-menu'
 import { createNavigator, Route, SceneView, SwitchRouter } from '@react-navigation/core'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import SideMenuPanel from '../sidemenu/SideMenuPanel'
 import logger from '../../lib/logger/pino-logger'
 import CustomButton, { type ButtonProps } from '../common/buttons/CustomButton'
-import { scrollableContainer } from '../common/styles'
 import NavBar from './NavBar'
 import { navigationOptions } from './navigationConfig'
+import { PushButton } from './PushButton'
 
 export const DEFAULT_PARAMS = {
   event: undefined,
@@ -203,14 +202,10 @@ class AppView extends Component<AppViewProps, AppViewState> {
     const menu = open ? <SideMenuPanel navigation={navigation} /> : null
     return (
       <React.Fragment>
-        {!navigationBarHidden && <NavBar goBack={backButtonHidden ? undefined : this.pop} title={pageTitle} />}
-        <View style={{ backgroundColor: '#fff', flex: 1 }}>
-          <SideMenu menu={menu} menuPosition="right" isOpen={store.get('sidemenu').visible}>
-            <ScrollView contentContainerStyle={scrollableContainer}>
-              <SceneView navigation={descriptor.navigation} component={Component} screenProps={screenProps} />
-            </ScrollView>
-          </SideMenu>
-        </View>
+        <SideMenu menu={menu} menuPosition="right" isOpen={store.get('sidemenu').visible}>
+          {!navigationBarHidden && <NavBar goBack={backButtonHidden ? undefined : this.pop} title={pageTitle} />}
+          <SceneView navigation={descriptor.navigation} component={Component} screenProps={screenProps} />
+        </SideMenu>
       </React.Fragment>
     )
   }
@@ -232,46 +227,6 @@ export const createStackNavigator = (routes: any, navigationConfig: any) => {
     ...navigationConfig,
     navigationOptions
   })
-}
-
-type PushButtonProps = {
-  ...ButtonProps,
-  routeName: Route,
-  params?: any,
-  screenProps: { push: (routeName: string, params: any) => void },
-  canContinue?: Function
-}
-
-/**
- * PushButton
- * This button gets the push action from screenProps. Is meant to be used inside a stackNavigator
- * @param routeName
- * @param screenProps
- * @param params
- * @param {ButtonProps} props
- */
-export const PushButton = ({ routeName, screenProps, canContinue, params, ...props }: PushButtonProps) => {
-  const shouldContinue = async () => {
-    if (canContinue === undefined) {
-      return true
-    }
-
-    const result = await canContinue()
-    return result
-  }
-
-  return (
-    <CustomButton
-      {...props}
-      onPress={async () => screenProps && (await shouldContinue()) && screenProps.push(routeName, params)}
-    />
-  )
-}
-
-PushButton.defaultProps = {
-  mode: 'contained',
-  dark: true,
-  canContinue: () => true
 }
 
 type BackButtonProps = {

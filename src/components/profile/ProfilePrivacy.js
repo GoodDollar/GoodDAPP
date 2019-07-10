@@ -3,12 +3,14 @@ import startCase from 'lodash/startCase'
 import React, { useEffect, useState } from 'react'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import Icon from 'react-native-elements/src/icons/Icon'
-import { RadioButton, Text } from 'react-native-paper'
-import { StyleSheet, TouchableOpacity, View } from 'react-native'
+import { RadioButton } from 'react-native-paper'
+import { TouchableOpacity, View } from 'react-native'
 import userStorage from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import { BackButton } from '../appNavigation/stackNavigation'
-import { CustomButton, CustomDialog, Wrapper } from '../common'
+import { withStyles } from '../../lib/styles'
+import { CustomButton, CustomDialog, Text, Wrapper } from '../common'
+import OptionsRow from './OptionsRow'
 
 const TITLE = 'PROFILE PRIVACY'
 const log = logger.child({ from: 'ProfilePrivacy' })
@@ -31,6 +33,7 @@ const ProfilePrivacy = props => {
   const [privacy, setPrivacy] = useState(initialState)
   const [loading, setLoading] = useState(false)
   const [showTips, setShowTips] = useState(false)
+  const { styles } = props
 
   useEffect(() => {
     // looks for the users fields' privacy
@@ -130,28 +133,6 @@ ProfilePrivacy.navigationOptions = {
   title: TITLE
 }
 
-const styles = StyleSheet.create({
-  optionsRowContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderBottomColor: '#eeeeee',
-    borderBottomStyle: 'solid',
-    borderBottomWidth: 1,
-    padding: '10px'
-  },
-  growOne: { flexGrow: 1 },
-  growTwo: { flexGrow: 2 },
-  growThree: { flexGrow: 3 },
-  optionsRowTitle: { width: '15%', alignItems: 'center' },
-  mainContainer: { display: 'flex', flexDirection: 'column', height: '100%' },
-  subtitleRow: { display: 'flow', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: '16%' },
-  subtitle: { fontSize: normalize(18) },
-  buttonsRow: { display: 'flex', flexDirection: 'row', alignItems: 'center', height: '8%', width: '96%' },
-  dialogTipItem: { display: 'flex', flexOrientation: 'column', marginBottom: normalize(20) },
-  dialogTipItemTitle: { fontWeight: 'bold', color: '#00afff', fontSize: normalize(18) }
-})
-
 /**
  * InfoIcon component
  * @param onPress
@@ -164,22 +145,63 @@ const InfoIcon = ({ onPress }) => (
   </TouchableOpacity>
 )
 
-/**
- * OptionsRow component
- * @param title
- * @returns {React.Node}
- * @constructor
- */
-const OptionsRow = ({ title = '' }) => (
-  <View style={styles.optionsRowContainer}>
-    <Text style={styles.growTwo}>{title}</Text>
+const getStylesFromProps = ({ theme }) => {
+  return {
+    optionsRowContainer: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      borderBottomColor: theme.colors.lightGray,
+      borderBottomStyle: 'solid',
+      borderBottomWidth: 1,
+      padding: '10px'
+    },
+    growOne: {
+      flexGrow: 1
+    },
+    growTwo: {
+      flexGrow: 2
+    },
+    growThree: {
+      flexGrow: 3
+    },
+    optionsRowTitle: {
+      width: '15%',
+      alignItems: 'center'
+    },
+    mainContainer: {
+      display: 'flex',
+      flexDirection: 'column',
+      height: '100%'
+    },
+    subtitleRow: {
+      display: 'flow',
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+      height: '16%'
+    },
+    subtitle: {
+      fontSize: normalize(18)
+    },
+    buttonsRow: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      height: '8%',
+      width: '96%'
+    },
+    dialogTipItem: {
+      display: 'flex',
+      flexOrientation: 'column',
+      marginBottom: normalize(20)
+    },
+    dialogTipItemTitle: {
+      fontWeight: 'bold',
+      color: '#00afff',
+      fontSize: normalize(18)
+    }
+  }
+}
 
-    {privacyOptions.map(privacy => (
-      <View style={styles.optionsRowTitle} key={privacy}>
-        {title === '' ? <Text>{startCase(privacy)}</Text> : <RadioButton value={privacy} />}
-      </View>
-    ))}
-  </View>
-)
-
-export default ProfilePrivacy
+export default withStyles(getStylesFromProps)(ProfilePrivacy)

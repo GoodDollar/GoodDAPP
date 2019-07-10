@@ -4,5 +4,18 @@ exports[`Address matches snapshot 1`] = `
 <div
   className="css-text-901oao"
   dir="auto"
+  style={
+    Object {
+      "color": "rgba(0,0,0,1.00)",
+      "direction": "ltr",
+      "fontFamily": "Roboto",
+      "fontSize": "16px",
+      "fontWeight": "normal",
+      "lineHeight": "22px",
+      "textAlign": "center",
+      "textDecoration": "none",
+      "textTransform": "none",
+    }
+  }
 />
 `;

@@ -7,7 +7,7 @@ import { generateCode, generateReceiveShareObject } from '../../lib/share'
 import GDStore from '../../lib/undux/GDStore'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import goodWallet from '../../lib/wallet/GoodWallet'
-import { PushButton } from '../appNavigation/stackNavigation'
+import { PushButton } from '../appNavigation/PushButton'
 import { Address, CopyButton, CustomButton, ScanQRButton, Section, TopBar, Wrapper } from '../common'
 
 import { receiveStyles as styles } from './styles'

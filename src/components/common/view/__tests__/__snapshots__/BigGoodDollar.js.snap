@@ -14,11 +14,15 @@ exports[`BigGoodDollar matches snapshot 1`] = `
     dir="auto"
     style={
       Object {
-        "color": "rgba(85,85,85,1.00)",
+        "color": "rgba(0,0,0,1.00)",
         "direction": "ltr",
-        "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-        "fontSize": "48px",
+        "fontFamily": "Roboto",
+        "fontSize": "30px",
+        "fontWeight": "normal",
+        "lineHeight": "22px",
         "textAlign": "right",
+        "textDecoration": "none",
+        "textTransform": "none",
       }
     }
   >
@@ -29,11 +33,15 @@ exports[`BigGoodDollar matches snapshot 1`] = `
     dir="auto"
     style={
       Object {
-        "color": "rgba(85,85,85,1.00)",
+        "color": "rgba(0,0,0,1.00)",
         "direction": "ltr",
-        "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-        "fontSize": "18px",
+        "fontFamily": "Roboto",
+        "fontSize": "16px",
+        "fontWeight": "normal",
+        "lineHeight": "22px",
         "textAlign": "right",
+        "textDecoration": "none",
+        "textTransform": "none",
       }
     }
   >

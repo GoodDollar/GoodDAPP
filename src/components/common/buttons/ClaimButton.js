@@ -2,7 +2,7 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
-import { PushButton } from '../../appNavigation/stackNavigation'
+import { PushButton } from '../../appNavigation/PushButton'
 
 const ClaimButton = ({ screenProps, amount }) => (
   <View style={styles.claimContainer}>

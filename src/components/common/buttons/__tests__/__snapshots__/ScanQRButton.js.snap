@@ -97,9 +97,14 @@ exports[`ScanQRButton should match snapshot 1`] = `
       Object {
         "color": "rgba(0,0,0,1.00)",
         "direction": "ltr",
-        "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+        "fontFamily": "Roboto",
+        "fontSize": "16px",
+        "fontWeight": "normal",
+        "lineHeight": "22px",
         "marginLeft": "10px",
-        "textAlign": "left",
+        "textAlign": "center",
+        "textDecoration": "none",
+        "textTransform": "none",
       }
     }
   >
@@ -111,9 +116,13 @@ exports[`ScanQRButton should match snapshot 1`] = `
           "color": "rgba(0,0,0,1.00)",
           "direction": "ltr",
           "display": "inlineBlock",
-          "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+          "fontFamily": "Roboto",
           "fontSize": "14px",
-          "textAlign": "left",
+          "fontWeight": "normal",
+          "lineHeight": "22px",
+          "textAlign": "center",
+          "textDecoration": "none",
+          "textTransform": "none",
         }
       }
     >

@@ -11,7 +11,8 @@ import { useDialog } from '../../lib/undux/utils/dialog'
 import { getInitialFeed, getNextFeed, PAGE_SIZE } from '../../lib/undux/utils/feed'
 import { executeWithdraw } from '../../lib/undux/utils/withdraw'
 import { weiToMask } from '../../lib/wallet/utils'
-import { createStackNavigator, PushButton } from '../appNavigation/stackNavigation'
+import { createStackNavigator } from '../appNavigation/stackNavigation'
+import { PushButton } from '../appNavigation/PushButton'
 import TabsView from '../appNavigation/TabsView'
 import { Avatar, BigGoodDollar, ClaimButton, Section, Wrapper } from '../common'
 import logger from '../../lib/logger/pino-logger'
@@ -155,7 +156,7 @@ const Dashboard = props => {
   return (
     <View style={styles.dashboardView}>
       <TabsView goTo={navigation.navigate} routes={screenProps.routes} />
-      <Wrapper backgroundColor="#eeeeee">
+      <Wrapper backgroundColor="#EEE">
         <Section>
           {scrollPos < 100 ? (
             <>

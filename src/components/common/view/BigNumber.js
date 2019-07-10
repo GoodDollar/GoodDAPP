@@ -1,9 +1,9 @@
 // @flow
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
-import { Text } from 'react-native-paper'
+import { View } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
-import { fontStyle } from '../styles'
+import { withStyles } from '../../../lib/styles'
+import Text from './Text'
 
 /**
  * Receives a number and a unit to display
@@ -14,26 +14,34 @@ import { fontStyle } from '../styles'
  * @param {Object} [props.style] Outer element style
  * @returns {React.Node}
  */
-const BigNumber = (props: any) => (
-  <View style={[styles.bigNumberWrapper, props.style]}>
-    <Text style={[styles.bigNumber, props.elementStyles]}>{props.number}</Text>
-    <Text style={[styles.bigNumberUnit, props.elementStyles]}>{props.unit}</Text>
-  </View>
-)
+class BigNumber extends React.Component {
+  render() {
+    const { elementStyles, number, unit, style, styles } = this.props
 
-const styles = StyleSheet.create({
-  bigNumberWrapper: {
-    display: 'inline-block'
-  },
-  bigNumber: {
-    ...fontStyle,
-    fontSize: normalize(48),
-    textAlign: 'right'
-  },
-  bigNumberUnit: {
-    ...fontStyle,
-    textAlign: 'right'
+    return (
+      <View style={[styles.bigNumberWrapper, style]}>
+        <Text style={[styles.bigNumber, elementStyles]}>{number}</Text>
+        <Text style={[styles.bigNumberUnit, elementStyles]}>{unit}</Text>
+      </View>
+    )
   }
-})
+}
 
-export default BigNumber
+const getStylesFromProps = ({ theme }) => {
+  return {
+    bigNumberWrapper: {
+      display: 'inline-block'
+    },
+    bigNumber: {
+      ...theme.fontStyle,
+      fontSize: normalize(48),
+      textAlign: 'right'
+    },
+    bigNumberUnit: {
+      ...theme.fontStyle,
+      textAlign: 'right'
+    }
+  }
+}
+
+export default withStyles(getStylesFromProps)(BigNumber)

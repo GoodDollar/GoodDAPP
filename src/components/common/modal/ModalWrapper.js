@@ -3,10 +3,14 @@ import React from 'react'
 import { Image, StyleSheet, TouchableOpacity, View } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { withStyles } from '../../../lib/styles'
+import wavePattern from '../../../assets/wave.svg'
+import getEventSettingsByType from '../../dashboard/FeedItems/EventSettingsByType'
 
 const ModalWrapper = (props: any) => {
-  const { onClose = true, styles, children, showJaggedEdge = false } = props
+  const { styles, children, theme, onClose, type = '#dfdfdf', showJaggedEdge = false } = props
   const closeButton = require('./img/close.png')
+
+  const borderColor = { backgroundColor: getEventSettingsByType(theme, type).color }
 
   return (
     <View style={styles.modalOverlay}>
@@ -16,7 +20,9 @@ const ModalWrapper = (props: any) => {
         </TouchableOpacity>
       ) : null}
       <View style={styles.modalContainer}>
-        <View style={[styles.modalLeftBorder, showJaggedEdge ? styles.modalLeftBorderAddMarginBottom : '']} />
+        <View
+          style={[styles.modalLeftBorder, borderColor, showJaggedEdge ? styles.modalLeftBorderAddMarginBottom : '']}
+        />
         <View style={styles.modalContents}>
           <View
             style={[styles.modalInnerContents, showJaggedEdge ? styles.modalContainerStraightenBottomRightEdge : '']}
@@ -60,7 +66,6 @@ const getStylesFromProps = ({ theme }) => {
       display: 'flex',
       flexDirection: 'row',
       flexGrow: 1,
-      height: '100%',
       position: 'relative',
       zIndex: lowZIndex
     },
@@ -78,7 +83,8 @@ const getStylesFromProps = ({ theme }) => {
       borderBottomRightRadius: '0'
     },
     modalLeftBorder: {
-      backgroundColor: '#ff0000',
+      backgroundImage: `url(${wavePattern})`,
+      backgroundRepeat: 'repeat-Y',
       borderBottomLeftRadius: theme.modals.borderRadius,
       borderTopLeftRadius: theme.modals.borderRadius,
       flexGrow: 1,

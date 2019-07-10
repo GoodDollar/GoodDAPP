@@ -1,11 +1,11 @@
 // @flow
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
+import { StyleSheet, View } from 'react-native'
 import { Avatar, BigGoodDollar, CustomButton, Text } from '../../common'
+import ModalWrapper from '../../common/modal/ModalWrapper'
 import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
 import { withStyles } from '../../../lib/styles'
-import ModalWrapper from '../../common/modal/ModalWrapper'
 import type { FeedEventProps } from './EventProps'
 import EventCounterParty from './EventCounterParty'
 
@@ -21,7 +21,7 @@ const FeedModalItem = (props: FeedEventProps) => {
   }
 
   return (
-    <ModalWrapper onClose={buttonPress} showJaggedEdge={true}>
+    <ModalWrapper onClose={buttonPress} showJaggedEdge={false} type={item.type}>
       <React.Fragment>
         {['send', 'empty'].indexOf(item.type) === -1 && (
           <Text style={styles.dateText}>{getFormattedDateTime(item.date)}</Text>

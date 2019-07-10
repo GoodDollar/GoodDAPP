@@ -64,7 +64,7 @@ export const listStyles = StyleSheet.create({
   rowDataSubText: {
     fontSize: normalize(10),
     color: '#A3A3A3',
-    marginTop: 4,
+    marginTop: normalize(4),
     textTransform: 'capitalize'
   },
   direction: {
@@ -96,6 +96,16 @@ export const listStyles = StyleSheet.create({
   },
   eventIcon: {
     marginRight: 0
+  },
+  emptyBlock: {
+    backgroundColor: '#eee'
+  },
+  emptyBlockBorderRow: {
+    borderBottomColor: '#eee',
+    borderBottomStyle: 'solid',
+    borderBottomWidth: normalize(2),
+    paddingBottom: normalize(4),
+    marginBottom: normalize(4)
   }
 })
 

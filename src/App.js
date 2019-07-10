@@ -17,7 +17,8 @@ const theme = {
     send: '#fa6c77',
     message: '#9f6a9d',
     notification: '#f8af40',
-    feedback: '#00afff'
+    feedback: '#00afff',
+    empty: '#eee'
   }
 }
 const App = () => {

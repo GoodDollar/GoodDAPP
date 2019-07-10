@@ -12,35 +12,42 @@ import EventCounterParty from './EventCounterParty'
  * @param {FeedEventProps} props - feed event
  * @returns {HTMLElement}
  */
-const FeedModalItem = (props: FeedEventProps) => (
-  <View style={props.styles ? [styles.horizItem, props.styles] : styles.horizItem}>
-    <View style={styles.fullHeight}>
-      <View style={styles.modal}>
-        {props.item.type !== 'send' && <Text style={styles.dateText}>{getFormattedDateTime(props.item.date)}</Text>}
-        <View style={[styles.row, styles.title]}>
-          {props.item.data.endpoint.title && <Text style={styles.leftTitle}>{props.item.data.endpoint.title}</Text>}
-          <Text style={styles.leftTitle}>
-            {props.item.type === 'send' ? 'Sent G$' : 'Received G$'}
-            {props.item.type === 'send' && props.item.data.endpoint.withdrawStatus && (
-              <Text> by link - {props.item.data.endpoint.withdrawStatus}</Text>
-            )}
-          </Text>
-          <BigGoodDollar number={props.item.data.amount} elementStyles={styles.currency} />
-        </View>
-        {props.item.type === 'send' && (
-          <Text style={[styles.dateText, styles.bottomDate]}>{getFormattedDateTime(props.item.date)}</Text>
+const FeedModalItem = ({ styles, item, onPress }: FeedEventProps) => (
+  <View style={styles ? [customStyles.horizItem, styles] : customStyles.horizItem}>
+    <View style={customStyles.fullHeight}>
+      <View style={customStyles.modal}>
+        {['send', 'empty'].indexOf(item.type) === -1 && (
+          <Text style={customStyles.dateText}>{getFormattedDateTime(item.date)}</Text>
         )}
-        <View style={styles.hrLine} />
-        <View style={styles.row}>
-          <Avatar style={styles.avatarColor} source={props.item.data.endpoint.avatar} />
-          <Text style={styles.leftMargin}>
-            <EventCounterParty feedItem={props.item} />
-          </Text>
+        {item.data && (
+          <View style={[customStyles.row, customStyles.title]}>
+            {item.data.endpoint && item.data.endpoint.title && (
+              <Text style={customStyles.leftTitle}>{item.data.endpoint.title}</Text>
+            )}
+            <Text style={customStyles.leftTitle}>
+              {item.type === 'send' ? 'Sent G$' : 'Received G$'}
+              {item.type === 'send' && item.data.endpoint.withdrawStatus && (
+                <Text> by link - {item.data.endpoint.withdrawStatus}</Text>
+              )}
+            </Text>
+            <BigGoodDollar number={item.data.amount} elementStyles={customStyles.currency} />
+          </View>
+        )}
+        {item.type === 'send' && (
+          <Text style={[customStyles.dateText, customStyles.bottomDate]}>{getFormattedDateTime(item.date)}</Text>
+        )}
+        <View style={customStyles.hrLine} />
+        <View style={customStyles.row}>
+          <Avatar
+            style={customStyles.avatarColor}
+            source={item.data && item.data.endpoint && item.data.endpoint.avatar}
+          />
+          <Text style={customStyles.leftMargin}>{item.data && <EventCounterParty feedItem={item} />}</Text>
         </View>
-        <View style={styles.hrLine} />
-        {props.item.data.message ? <Text style={styles.reason}>{props.item.data.message}</Text> : null}
-        <View style={styles.buttonsRow}>
-          <CustomButton mode="contained" style={styles.rightButton} onPress={() => props.onPress(props.item.id)}>
+        <View style={customStyles.hrLine} />
+        {item.data && item.data.message ? <Text style={customStyles.reason}>{item.data.message}</Text> : null}
+        <View style={customStyles.buttonsRow}>
+          <CustomButton mode="contained" style={customStyles.rightButton} onPress={() => onPress(item.id)}>
             OK
           </CustomButton>
         </View>
@@ -49,7 +56,7 @@ const FeedModalItem = (props: FeedEventProps) => (
   </View>
 )
 
-const styles = StyleSheet.create({
+const customStyles = StyleSheet.create({
   horizItem: {
     flex: 1,
     alignSelf: 'flex-start', // Necessary for touch highlight

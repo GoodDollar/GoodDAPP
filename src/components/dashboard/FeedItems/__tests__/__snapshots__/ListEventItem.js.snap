@@ -30,19 +30,19 @@ exports[`ListEventItem receive matches snapshot 1`] = `
     className="css-view-1dbjc4n"
     style={
       Object {
-        "WebkitAlignItems": "left",
+        "WebkitAlignItems": "flex-start",
         "WebkitAlignSelf": "flex-end",
-        "WebkitBoxAlign": "left",
+        "WebkitBoxAlign": "start",
         "WebkitBoxDirection": "normal",
         "WebkitBoxOrient": "vertical",
         "WebkitBoxPack": "justify",
         "WebkitFlexDirection": "column",
         "WebkitJustifyContent": "space-between",
-        "alignItems": "left",
+        "alignItems": "flex-start",
         "alignSelf": "flex-end",
         "flexDirection": "column",
         "justifyContent": "space-between",
-        "msFlexAlign": "left",
+        "msFlexAlign": "start",
         "msFlexDirection": "column",
         "msFlexItemAlign": "end",
         "msFlexPack": "justify",
@@ -115,8 +115,8 @@ exports[`ListEventItem receive matches snapshot 1`] = `
     className="css-view-1dbjc4n"
     style={
       Object {
-        "WebkitAlignItems": "right",
-        "WebkitBoxAlign": "right",
+        "WebkitAlignItems": "stretch",
+        "WebkitBoxAlign": "stretch",
         "WebkitBoxDirection": "normal",
         "WebkitBoxFlex": 1,
         "WebkitBoxOrient": "vertical",
@@ -126,14 +126,14 @@ exports[`ListEventItem receive matches snapshot 1`] = `
         "WebkitFlexGrow": 1,
         "WebkitFlexShrink": 1,
         "WebkitJustifyContent": "space-between",
-        "alignItems": "right",
+        "alignItems": "stretch",
         "flexBasis": "0%",
         "flexDirection": "column",
         "flexGrow": 1,
         "flexShrink": 1,
         "justifyContent": "space-between",
         "marginLeft": "4px",
-        "msFlexAlign": "right",
+        "msFlexAlign": "stretch",
         "msFlexDirection": "column",
         "msFlexNegative": 1,
         "msFlexPack": "justify",
@@ -170,17 +170,17 @@ exports[`ListEventItem receive matches snapshot 1`] = `
         className="css-view-1dbjc4n"
         style={
           Object {
-            "WebkitAlignItems": "left",
-            "WebkitBoxAlign": "left",
+            "WebkitAlignItems": "flex-start",
+            "WebkitBoxAlign": "start",
             "WebkitBoxDirection": "normal",
             "WebkitBoxOrient": "vertical",
             "WebkitBoxPack": "justify",
             "WebkitFlexDirection": "column",
             "WebkitJustifyContent": "space-between",
-            "alignItems": "left",
+            "alignItems": "flex-start",
             "flexDirection": "column",
             "justifyContent": "space-between",
-            "msFlexAlign": "left",
+            "msFlexAlign": "start",
             "msFlexDirection": "column",
             "msFlexPack": "justify",
           }
@@ -205,17 +205,17 @@ exports[`ListEventItem receive matches snapshot 1`] = `
         className="css-view-1dbjc4n"
         style={
           Object {
-            "WebkitAlignItems": "right",
-            "WebkitBoxAlign": "right",
+            "WebkitAlignItems": "flex-end",
+            "WebkitBoxAlign": "end",
             "WebkitBoxDirection": "normal",
             "WebkitBoxOrient": "vertical",
             "WebkitBoxPack": "justify",
             "WebkitFlexDirection": "column",
             "WebkitJustifyContent": "space-between",
-            "alignItems": "right",
+            "alignItems": "flex-end",
             "flexDirection": "column",
             "justifyContent": "space-between",
-            "msFlexAlign": "right",
+            "msFlexAlign": "end",
             "msFlexDirection": "column",
             "msFlexPack": "justify",
           }
@@ -284,8 +284,8 @@ exports[`ListEventItem receive matches snapshot 1`] = `
         className="css-view-1dbjc4n"
         style={
           Object {
-            "WebkitAlignItems": "left",
-            "WebkitBoxAlign": "left",
+            "WebkitAlignItems": "flex-start",
+            "WebkitBoxAlign": "start",
             "WebkitBoxDirection": "normal",
             "WebkitBoxFlex": 1,
             "WebkitBoxOrient": "vertical",
@@ -295,13 +295,13 @@ exports[`ListEventItem receive matches snapshot 1`] = `
             "WebkitFlexGrow": 1,
             "WebkitFlexShrink": 1,
             "WebkitJustifyContent": "space-between",
-            "alignItems": "left",
+            "alignItems": "flex-start",
             "flexBasis": "0%",
             "flexDirection": "column",
             "flexGrow": 1,
             "flexShrink": 1,
             "justifyContent": "space-between",
-            "msFlexAlign": "left",
+            "msFlexAlign": "start",
             "msFlexDirection": "column",
             "msFlexNegative": 1,
             "msFlexPack": "justify",
@@ -408,17 +408,17 @@ exports[`ListEventItem receive matches snapshot 1`] = `
         className="css-view-1dbjc4n"
         style={
           Object {
-            "WebkitAlignItems": "right",
-            "WebkitBoxAlign": "right",
+            "WebkitAlignItems": "flex-end",
+            "WebkitBoxAlign": "end",
             "WebkitBoxDirection": "normal",
             "WebkitBoxOrient": "vertical",
             "WebkitBoxPack": "justify",
             "WebkitFlexDirection": "column",
             "WebkitJustifyContent": "space-between",
-            "alignItems": "right",
+            "alignItems": "flex-end",
             "flexDirection": "column",
             "justifyContent": "space-between",
-            "msFlexAlign": "right",
+            "msFlexAlign": "end",
             "msFlexDirection": "column",
             "msFlexPack": "justify",
           }
@@ -426,11 +426,6 @@ exports[`ListEventItem receive matches snapshot 1`] = `
       >
         <div
           className="css-text-901oao"
-          containerStyle={
-            Object {
-              "marginRight": 0,
-            }
-          }
           dir="auto"
           style={
             Object {
@@ -438,6 +433,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
               "fontSize": "34px",
               "fontStyle": "normal",
               "fontWeight": "normal",
+              "marginRight": "0px",
             }
           }
         >
@@ -479,19 +475,19 @@ exports[`ListEventItem send matches snapshot 1`] = `
     className="css-view-1dbjc4n"
     style={
       Object {
-        "WebkitAlignItems": "left",
+        "WebkitAlignItems": "flex-start",
         "WebkitAlignSelf": "flex-end",
-        "WebkitBoxAlign": "left",
+        "WebkitBoxAlign": "start",
         "WebkitBoxDirection": "normal",
         "WebkitBoxOrient": "vertical",
         "WebkitBoxPack": "justify",
         "WebkitFlexDirection": "column",
         "WebkitJustifyContent": "space-between",
-        "alignItems": "left",
+        "alignItems": "flex-start",
         "alignSelf": "flex-end",
         "flexDirection": "column",
         "justifyContent": "space-between",
-        "msFlexAlign": "left",
+        "msFlexAlign": "start",
         "msFlexDirection": "column",
         "msFlexItemAlign": "end",
         "msFlexPack": "justify",
@@ -564,8 +560,8 @@ exports[`ListEventItem send matches snapshot 1`] = `
     className="css-view-1dbjc4n"
     style={
       Object {
-        "WebkitAlignItems": "right",
-        "WebkitBoxAlign": "right",
+        "WebkitAlignItems": "stretch",
+        "WebkitBoxAlign": "stretch",
         "WebkitBoxDirection": "normal",
         "WebkitBoxFlex": 1,
         "WebkitBoxOrient": "vertical",
@@ -575,14 +571,14 @@ exports[`ListEventItem send matches snapshot 1`] = `
         "WebkitFlexGrow": 1,
         "WebkitFlexShrink": 1,
         "WebkitJustifyContent": "space-between",
-        "alignItems": "right",
+        "alignItems": "stretch",
         "flexBasis": "0%",
         "flexDirection": "column",
         "flexGrow": 1,
         "flexShrink": 1,
         "justifyContent": "space-between",
         "marginLeft": "4px",
-        "msFlexAlign": "right",
+        "msFlexAlign": "stretch",
         "msFlexDirection": "column",
         "msFlexNegative": 1,
         "msFlexPack": "justify",
@@ -619,17 +615,17 @@ exports[`ListEventItem send matches snapshot 1`] = `
         className="css-view-1dbjc4n"
         style={
           Object {
-            "WebkitAlignItems": "left",
-            "WebkitBoxAlign": "left",
+            "WebkitAlignItems": "flex-start",
+            "WebkitBoxAlign": "start",
             "WebkitBoxDirection": "normal",
             "WebkitBoxOrient": "vertical",
             "WebkitBoxPack": "justify",
             "WebkitFlexDirection": "column",
             "WebkitJustifyContent": "space-between",
-            "alignItems": "left",
+            "alignItems": "flex-start",
             "flexDirection": "column",
             "justifyContent": "space-between",
-            "msFlexAlign": "left",
+            "msFlexAlign": "start",
             "msFlexDirection": "column",
             "msFlexPack": "justify",
           }
@@ -654,17 +650,17 @@ exports[`ListEventItem send matches snapshot 1`] = `
         className="css-view-1dbjc4n"
         style={
           Object {
-            "WebkitAlignItems": "right",
-            "WebkitBoxAlign": "right",
+            "WebkitAlignItems": "flex-end",
+            "WebkitBoxAlign": "end",
             "WebkitBoxDirection": "normal",
             "WebkitBoxOrient": "vertical",
             "WebkitBoxPack": "justify",
             "WebkitFlexDirection": "column",
             "WebkitJustifyContent": "space-between",
-            "alignItems": "right",
+            "alignItems": "flex-end",
             "flexDirection": "column",
             "justifyContent": "space-between",
-            "msFlexAlign": "right",
+            "msFlexAlign": "end",
             "msFlexDirection": "column",
             "msFlexPack": "justify",
           }
@@ -733,8 +729,8 @@ exports[`ListEventItem send matches snapshot 1`] = `
         className="css-view-1dbjc4n"
         style={
           Object {
-            "WebkitAlignItems": "left",
-            "WebkitBoxAlign": "left",
+            "WebkitAlignItems": "flex-start",
+            "WebkitBoxAlign": "start",
             "WebkitBoxDirection": "normal",
             "WebkitBoxFlex": 1,
             "WebkitBoxOrient": "vertical",
@@ -744,13 +740,13 @@ exports[`ListEventItem send matches snapshot 1`] = `
             "WebkitFlexGrow": 1,
             "WebkitFlexShrink": 1,
             "WebkitJustifyContent": "space-between",
-            "alignItems": "left",
+            "alignItems": "flex-start",
             "flexBasis": "0%",
             "flexDirection": "column",
             "flexGrow": 1,
             "flexShrink": 1,
             "justifyContent": "space-between",
-            "msFlexAlign": "left",
+            "msFlexAlign": "start",
             "msFlexDirection": "column",
             "msFlexNegative": 1,
             "msFlexPack": "justify",
@@ -857,17 +853,17 @@ exports[`ListEventItem send matches snapshot 1`] = `
         className="css-view-1dbjc4n"
         style={
           Object {
-            "WebkitAlignItems": "right",
-            "WebkitBoxAlign": "right",
+            "WebkitAlignItems": "flex-end",
+            "WebkitBoxAlign": "end",
             "WebkitBoxDirection": "normal",
             "WebkitBoxOrient": "vertical",
             "WebkitBoxPack": "justify",
             "WebkitFlexDirection": "column",
             "WebkitJustifyContent": "space-between",
-            "alignItems": "right",
+            "alignItems": "flex-end",
             "flexDirection": "column",
             "justifyContent": "space-between",
-            "msFlexAlign": "right",
+            "msFlexAlign": "end",
             "msFlexDirection": "column",
             "msFlexPack": "justify",
           }
@@ -875,11 +871,6 @@ exports[`ListEventItem send matches snapshot 1`] = `
       >
         <div
           className="css-text-901oao"
-          containerStyle={
-            Object {
-              "marginRight": 0,
-            }
-          }
           dir="auto"
           style={
             Object {
@@ -887,6 +878,7 @@ exports[`ListEventItem send matches snapshot 1`] = `
               "fontSize": "34px",
               "fontStyle": "normal",
               "fontWeight": "normal",
+              "marginRight": "0px",
             }
           }
         >
@@ -928,19 +920,19 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
     className="css-view-1dbjc4n"
     style={
       Object {
-        "WebkitAlignItems": "left",
+        "WebkitAlignItems": "flex-start",
         "WebkitAlignSelf": "flex-end",
-        "WebkitBoxAlign": "left",
+        "WebkitBoxAlign": "start",
         "WebkitBoxDirection": "normal",
         "WebkitBoxOrient": "vertical",
         "WebkitBoxPack": "justify",
         "WebkitFlexDirection": "column",
         "WebkitJustifyContent": "space-between",
-        "alignItems": "left",
+        "alignItems": "flex-start",
         "alignSelf": "flex-end",
         "flexDirection": "column",
         "justifyContent": "space-between",
-        "msFlexAlign": "left",
+        "msFlexAlign": "start",
         "msFlexDirection": "column",
         "msFlexItemAlign": "end",
         "msFlexPack": "justify",
@@ -1013,8 +1005,8 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
     className="css-view-1dbjc4n"
     style={
       Object {
-        "WebkitAlignItems": "right",
-        "WebkitBoxAlign": "right",
+        "WebkitAlignItems": "stretch",
+        "WebkitBoxAlign": "stretch",
         "WebkitBoxDirection": "normal",
         "WebkitBoxFlex": 1,
         "WebkitBoxOrient": "vertical",
@@ -1024,14 +1016,14 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
         "WebkitFlexGrow": 1,
         "WebkitFlexShrink": 1,
         "WebkitJustifyContent": "space-between",
-        "alignItems": "right",
+        "alignItems": "stretch",
         "flexBasis": "0%",
         "flexDirection": "column",
         "flexGrow": 1,
         "flexShrink": 1,
         "justifyContent": "space-between",
         "marginLeft": "4px",
-        "msFlexAlign": "right",
+        "msFlexAlign": "stretch",
         "msFlexDirection": "column",
         "msFlexNegative": 1,
         "msFlexPack": "justify",
@@ -1068,17 +1060,17 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
         className="css-view-1dbjc4n"
         style={
           Object {
-            "WebkitAlignItems": "left",
-            "WebkitBoxAlign": "left",
+            "WebkitAlignItems": "flex-start",
+            "WebkitBoxAlign": "start",
             "WebkitBoxDirection": "normal",
             "WebkitBoxOrient": "vertical",
             "WebkitBoxPack": "justify",
             "WebkitFlexDirection": "column",
             "WebkitJustifyContent": "space-between",
-            "alignItems": "left",
+            "alignItems": "flex-start",
             "flexDirection": "column",
             "justifyContent": "space-between",
-            "msFlexAlign": "left",
+            "msFlexAlign": "start",
             "msFlexDirection": "column",
             "msFlexPack": "justify",
           }
@@ -1103,17 +1095,17 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
         className="css-view-1dbjc4n"
         style={
           Object {
-            "WebkitAlignItems": "right",
-            "WebkitBoxAlign": "right",
+            "WebkitAlignItems": "flex-end",
+            "WebkitBoxAlign": "end",
             "WebkitBoxDirection": "normal",
             "WebkitBoxOrient": "vertical",
             "WebkitBoxPack": "justify",
             "WebkitFlexDirection": "column",
             "WebkitJustifyContent": "space-between",
-            "alignItems": "right",
+            "alignItems": "flex-end",
             "flexDirection": "column",
             "justifyContent": "space-between",
-            "msFlexAlign": "right",
+            "msFlexAlign": "end",
             "msFlexDirection": "column",
             "msFlexPack": "justify",
           }
@@ -1182,8 +1174,8 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
         className="css-view-1dbjc4n"
         style={
           Object {
-            "WebkitAlignItems": "left",
-            "WebkitBoxAlign": "left",
+            "WebkitAlignItems": "flex-start",
+            "WebkitBoxAlign": "start",
             "WebkitBoxDirection": "normal",
             "WebkitBoxFlex": 1,
             "WebkitBoxOrient": "vertical",
@@ -1193,13 +1185,13 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
             "WebkitFlexGrow": 1,
             "WebkitFlexShrink": 1,
             "WebkitJustifyContent": "space-between",
-            "alignItems": "left",
+            "alignItems": "flex-start",
             "flexBasis": "0%",
             "flexDirection": "column",
             "flexGrow": 1,
             "flexShrink": 1,
             "justifyContent": "space-between",
-            "msFlexAlign": "left",
+            "msFlexAlign": "start",
             "msFlexDirection": "column",
             "msFlexNegative": 1,
             "msFlexPack": "justify",
@@ -1306,17 +1298,17 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
         className="css-view-1dbjc4n"
         style={
           Object {
-            "WebkitAlignItems": "right",
-            "WebkitBoxAlign": "right",
+            "WebkitAlignItems": "flex-end",
+            "WebkitBoxAlign": "end",
             "WebkitBoxDirection": "normal",
             "WebkitBoxOrient": "vertical",
             "WebkitBoxPack": "justify",
             "WebkitFlexDirection": "column",
             "WebkitJustifyContent": "space-between",
-            "alignItems": "right",
+            "alignItems": "flex-end",
             "flexDirection": "column",
             "justifyContent": "space-between",
-            "msFlexAlign": "right",
+            "msFlexAlign": "end",
             "msFlexDirection": "column",
             "msFlexPack": "justify",
           }
@@ -1324,11 +1316,6 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
       >
         <div
           className="css-text-901oao"
-          containerStyle={
-            Object {
-              "marginRight": 0,
-            }
-          }
           dir="auto"
           style={
             Object {
@@ -1336,6 +1323,7 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
               "fontSize": "34px",
               "fontStyle": "normal",
               "fontWeight": "normal",
+              "marginRight": "0px",
             }
           }
         >

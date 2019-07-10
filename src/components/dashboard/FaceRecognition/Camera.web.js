@@ -48,13 +48,17 @@ export function Camera(props: CameraProps) {
   ]
 
   useEffect(() => {
+    log.debug('mounting camera', videoPlayerRef)
+    if (videoPlayerRef === null) {
+      return
+    }
     awaitGetUserMedia()
     return () => {
       log.debug('Unloading video track?', !!this.videoTrack)
       this.videoTrack && this.videoTrack.stop()
       this.videoTrack = null
     }
-  }, [])
+  }, [videoPlayerRef])
 
   const getStream = async (): Promise<MediaStream> => {
     const constraints = acceptableConstraints[currentConstraintIndex]

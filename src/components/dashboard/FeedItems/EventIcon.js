@@ -6,7 +6,7 @@ import getEventSettingsByType from './EventSettingsByType'
 
 const EventIcon = ({ type, theme }) => {
   const icon = getEventSettingsByType(theme, type)
-  return <Icon color={icon.color} size={34} name={icon.name} containerStyle={listStyles.eventIcon} />
+  return <Icon color={icon.color} size={34} name={icon.name} style={listStyles.eventIcon} />
 }
 
 export default withTheme(EventIcon)

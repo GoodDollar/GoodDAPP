@@ -9,6 +9,7 @@ import type { FeedEventProps } from './EventProps'
 import EventIcon from './EventIcon'
 import EventCounterParty from './EventCounterParty'
 import getEventSettingsByType from './EventSettingsByType'
+import EmptyEventFeed from './EmptyEventFeed'
 
 const getEventItemStyles = color => ({
   borderRow: {
@@ -33,22 +34,26 @@ const getEventItemStyles = color => ({
 const ListEvent = ({ item: feed, theme }: FeedEventProps) => {
   const eventSettings = getEventSettingsByType(theme, feed.type)
   const styles = getEventItemStyles(eventSettings.color)
+
+  if (feed.type === 'empty') {
+    return <EmptyEventFeed />
+  }
   return (
     <Section.Row style={listStyles.innerRow}>
-      <Section.Stack alignItems="left" style={listStyles.avatatBottom}>
+      <Section.Stack alignItems="flex-start" style={listStyles.avatatBottom}>
         <Avatar.Image size={34} source={feed.data.endpoint.avatar} />
       </Section.Stack>
-      <Section.Stack alignItems="right" grow={1} style={listStyles.mainSection}>
+      <Section.Stack grow={1} style={listStyles.mainSection}>
         <Section.Row style={styles.borderRow}>
-          <Section.Stack alignItems="left">
+          <Section.Stack alignItems="flex-start">
             <Text style={listStyles.date}>{getFormattedDateTime(feed.date)}</Text>
           </Section.Stack>
-          <Section.Stack alignItems="right">
+          <Section.Stack alignItems="flex-end">
             <BigGoodDollar number={feed.data.amount} elementStyles={styles.goodDollarAmount} />
           </Section.Stack>
         </Section.Row>
         <Section.Row>
-          <Section.Stack alignItems="left" grow={1}>
+          <Section.Stack alignItems="flex-start" grow={1}>
             <Section.Row>
               <EventCounterParty feedItem={feed} />
             </Section.Row>
@@ -56,7 +61,7 @@ const ListEvent = ({ item: feed, theme }: FeedEventProps) => {
               <Text style={listStyles.rowDataSubText}>{feed.data.message}</Text>
             </Section.Row>
           </Section.Stack>
-          <Section.Stack alignItems="right">
+          <Section.Stack alignItems="flex-end">
             <EventIcon type={feed.type} />
           </Section.Stack>
         </Section.Row>

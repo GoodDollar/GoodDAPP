@@ -20,7 +20,8 @@ export const theme = {
     receive: '#00c3ae',
     red: '#FA6C77',
     send: '#fa6c77',
-    text: '#222'
+    text: '#222',
+    empty: '#eee'
   },
   fonts: {
     ...DefaultTheme.fonts,

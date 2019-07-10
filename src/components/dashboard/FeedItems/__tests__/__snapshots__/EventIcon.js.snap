@@ -3,11 +3,6 @@
 exports[`EventIcon - Receive matches snapshot 1`] = `
 <div
   className="css-text-901oao"
-  containerStyle={
-    Object {
-      "marginRight": 0,
-    }
-  }
   dir="auto"
   style={
     Object {
@@ -15,6 +10,7 @@ exports[`EventIcon - Receive matches snapshot 1`] = `
       "fontSize": "34px",
       "fontStyle": "normal",
       "fontWeight": "normal",
+      "marginRight": "0px",
     }
   }
 >
@@ -25,11 +21,6 @@ exports[`EventIcon - Receive matches snapshot 1`] = `
 exports[`EventIcon - Send matches snapshot 1`] = `
 <div
   className="css-text-901oao"
-  containerStyle={
-    Object {
-      "marginRight": 0,
-    }
-  }
   dir="auto"
   style={
     Object {
@@ -37,6 +28,7 @@ exports[`EventIcon - Send matches snapshot 1`] = `
       "fontSize": "34px",
       "fontStyle": "normal",
       "fontWeight": "normal",
+      "marginRight": "0px",
     }
   }
 >
@@ -47,11 +39,6 @@ exports[`EventIcon - Send matches snapshot 1`] = `
 exports[`EventIcon - Withdraw matches snapshot 1`] = `
 <div
   className="css-text-901oao"
-  containerStyle={
-    Object {
-      "marginRight": 0,
-    }
-  }
   dir="auto"
   style={
     Object {
@@ -59,6 +46,7 @@ exports[`EventIcon - Withdraw matches snapshot 1`] = `
       "fontSize": "34px",
       "fontStyle": "normal",
       "fontWeight": "normal",
+      "marginRight": "0px",
     }
   }
 >

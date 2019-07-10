@@ -23,6 +23,9 @@ const getEventSettingsByType = (theme, type) => {
     feedback: {
       color: theme.colors.feedback,
       name: 'system-filled'
+    },
+    empty: {
+      color: theme.colors.empty
     }
   }
   return colorsByType[type]

@@ -83,7 +83,7 @@ const MnemonicInput = (props: Props) => {
   }
 
   return (
-    <View style={styles.inputsContainer}>
+    <>
       {[...Array(MAX_WORDS).keys()].map(key => (
         <View key={key} style={styles.inputContainer}>
           <View style={styles.prevNumber}>
@@ -99,7 +99,7 @@ const MnemonicInput = (props: Props) => {
           />
         </View>
       ))}
-    </View>
+    </>
   )
 }
 
@@ -108,12 +108,6 @@ MnemonicInput.defaultProps = {
 }
 
 const styles = StyleSheet.create({
-  inputsContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between'
-  },
   inputContainer: {
     width: '45%',
     marginTop: normalize(10),

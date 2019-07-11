@@ -58,7 +58,9 @@ const ListEvent = ({ item: feed, theme }: FeedEventProps) => {
               <EventCounterParty feedItem={feed} />
             </Section.Row>
             <Section.Row>
-              <Text style={listStyles.rowDataSubText}>{feed.data.message}</Text>
+              <Text numberOfLines="2" style={listStyles.rowDataSubText}>
+                {feed.data.message}
+              </Text>
             </Section.Row>
           </Section.Stack>
           <Section.Stack alignItems="flex-end">

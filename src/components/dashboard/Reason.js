@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import { View } from 'react-native'
-import { TextInput } from 'react-native-paper'
+import InputText from '../common/form/InputText'
 
 import { Section, TopBar, Wrapper } from '../common'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
@@ -27,7 +27,7 @@ const SendReason = (props: AmountProps) => {
         <Section.Row style={styles.sectionRow}>
           <View style={styles.inputField}>
             <Section.Title style={styles.headline}>What For?</Section.Title>
-            <TextInput
+            <InputText
               autoFocus
               value={reason}
               onChangeText={reason => setScreenState({ reason })}

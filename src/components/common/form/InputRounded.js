@@ -12,12 +12,12 @@ import { HelperText } from 'react-native-paper'
  * @param {React.Node} props.children
  * @returns {React.Node}
  */
-const InputRounded = ({ icon, error, ...inputProps }) => (
+const InputRounded = ({ icon, iconColor, error, ...inputProps }) => (
   <View style={styles.inputContainer}>
     <View style={styles.iconInputContainer}>
       <TextInput style={styles.input} {...inputProps} />
       <View style={styles.suffixIcon}>
-        <Icon size={normalize(16)} color="#282c34" name={icon} />
+        <Icon size={normalize(16)} color={iconColor || '#282c34'} name={icon} />
       </View>
     </View>
     <HelperText type="error" visible={error} style={styles.error}>
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
   },
   iconInputContainer: {
     position: 'relative',
-    borderColor: '#CBCBCB',
+    borderColor: '#cbcbcb',
     borderWidth: StyleSheet.hairlineWidth,
     borderRadius: normalize(24),
     paddingHorizontal: normalize(24),

@@ -1,19 +1,13 @@
 import React from 'react'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { withTheme } from 'react-native-paper'
 import Icon from 'react-native-elements/src/icons/Icon'
-
 import PhoneInput from 'react-phone-number-input'
 import './ProfileDataTablePhoneInput.css'
-import { getScreenWidth } from '../../lib/utils/Orientation'
-
-import logger from '../../lib/logger/pino-logger'
 import { InputRounded, Section } from '../common'
 import './PhoneInput.css'
 
-logger.info('width', { width: getScreenWidth() })
-
-const ProfileDataTable = props => {
-  const { profile, onChange, errors: errorsProp, editable } = props
+const ProfileDataTable = ({ profile, onChange, errors: errorsProp, editable, theme }) => {
   const errors = errorsProp || {}
   return (
     <Section.Stack justifyContent="flex-end" style={{ marginTop: 'auto' }}>
@@ -26,6 +20,7 @@ const ProfileDataTable = props => {
             error={errors.username}
             disabled={!editable}
             icon="person-outline"
+            iconColor={theme.colors.primary}
           />
         </Section.Row>
         <Section.Row>
@@ -47,6 +42,7 @@ const ProfileDataTable = props => {
               error={errors.mobile}
               disabled={true}
               icon="phone"
+              iconColor={theme.colors.primary}
             />
           )}
         </Section.Row>
@@ -58,6 +54,7 @@ const ProfileDataTable = props => {
             error={errors.email}
             disabled={!editable}
             icon="mail-outline"
+            iconColor={theme.colors.primary}
           />
         </Section.Row>
       </KeyboardAwareScrollView>
@@ -65,4 +62,4 @@ const ProfileDataTable = props => {
   )
 }
 
-export default ProfileDataTable
+export default withTheme(ProfileDataTable)

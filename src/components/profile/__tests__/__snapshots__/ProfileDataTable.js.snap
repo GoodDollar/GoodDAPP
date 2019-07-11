@@ -195,7 +195,7 @@ exports[`ProfileDataTable matches snapshot 1`] = `
                   style={
                     Object {
                       "backgroundColor": "rgba(0,0,0,0.00)",
-                      "color": "rgba(40,44,52,1.00)",
+                      "color": "rgba(98,0,238,1.00)",
                       "fontFamily": "MaterialIcons",
                       "fontSize": "16px",
                       "fontStyle": "normal",
@@ -363,7 +363,7 @@ exports[`ProfileDataTable matches snapshot 1`] = `
                   style={
                     Object {
                       "backgroundColor": "rgba(0,0,0,0.00)",
-                      "color": "rgba(40,44,52,1.00)",
+                      "color": "rgba(98,0,238,1.00)",
                       "fontFamily": "MaterialIcons",
                       "fontSize": "16px",
                       "fontStyle": "normal",
@@ -531,7 +531,7 @@ exports[`ProfileDataTable matches snapshot 1`] = `
                   style={
                     Object {
                       "backgroundColor": "rgba(0,0,0,0.00)",
-                      "color": "rgba(40,44,52,1.00)",
+                      "color": "rgba(98,0,238,1.00)",
                       "fontFamily": "MaterialIcons",
                       "fontSize": "16px",
                       "fontStyle": "normal",
@@ -765,7 +765,7 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                   style={
                     Object {
                       "backgroundColor": "rgba(0,0,0,0.00)",
-                      "color": "rgba(40,44,52,1.00)",
+                      "color": "rgba(98,0,238,1.00)",
                       "fontFamily": "MaterialIcons",
                       "fontSize": "16px",
                       "fontStyle": "normal",
@@ -2562,7 +2562,7 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                   style={
                     Object {
                       "backgroundColor": "rgba(0,0,0,0.00)",
-                      "color": "rgba(40,44,52,1.00)",
+                      "color": "rgba(98,0,238,1.00)",
                       "fontFamily": "MaterialIcons",
                       "fontSize": "16px",
                       "fontStyle": "normal",
@@ -2796,7 +2796,7 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                   style={
                     Object {
                       "backgroundColor": "rgba(0,0,0,0.00)",
-                      "color": "rgba(40,44,52,1.00)",
+                      "color": "rgba(98,0,238,1.00)",
                       "fontFamily": "MaterialIcons",
                       "fontSize": "16px",
                       "fontStyle": "normal",
@@ -4598,7 +4598,7 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                   style={
                     Object {
                       "backgroundColor": "rgba(0,0,0,0.00)",
-                      "color": "rgba(40,44,52,1.00)",
+                      "color": "rgba(98,0,238,1.00)",
                       "fontFamily": "MaterialIcons",
                       "fontSize": "16px",
                       "fontStyle": "normal",

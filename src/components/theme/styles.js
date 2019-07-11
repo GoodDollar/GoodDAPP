@@ -24,7 +24,8 @@ export const theme = {
     slabBold: 'RobotoSlab-Bold'
   },
   paddings: {
-    mainContainerPadding: normalize(8)
+    mainContainerPadding: normalize(8),
+    defaultMargin: normalize(8)
   },
   sizes: {
     default: normalize(8),

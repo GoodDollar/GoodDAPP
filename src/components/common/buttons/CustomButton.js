@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   buttonWrapperText: {
-    minHeight: 34,
+    minHeight: 28,
     justifyContent: 'center'
   }
 })

@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import { HelperText, TextInput } from 'react-native-paper'
-
+import debounce from 'lodash/debounce'
 import { userModelValidations } from '../../lib/gundb/UserModel'
 import userStorage from '../../lib/gundb/UserStorage'
 import Config from '../../config/config'
@@ -30,9 +30,7 @@ class EmailForm extends React.Component<Props, State> {
   }
 
   handleChange = (email: string) => {
-    if (this.state.errorMessage !== '') {
-      this.setState({ errorMessage: undefined })
-    }
+    this.checkErrorsSlow()
 
     this.setState({ email })
   }
@@ -59,6 +57,8 @@ class EmailForm extends React.Component<Props, State> {
     return errorMessage === ''
   }
 
+  checkErrorsSlow = debounce(this.checkErrors, 500)
+
   render() {
     const errorMessage = this.state.errorMessage || this.props.screenProps.error
     this.props.screenProps.error = undefined
@@ -75,7 +75,6 @@ class EmailForm extends React.Component<Props, State> {
           id={key + '_input'}
           value={this.state.email}
           onChangeText={this.handleChange}
-          onBlur={this.checkErrors}
           keyboardType="email-address"
           error={errorMessage !== ''}
           onKeyPress={this.handleEnter}

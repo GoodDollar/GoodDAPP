@@ -5,47 +5,65 @@ exports[`BigGoodDollar matches snapshot 1`] = `
   className="css-view-1dbjc4n"
   style={
     Object {
-      "display": "inline-block",
+      "WebkitBoxFlex": 1,
+      "WebkitFlexBasis": "0%",
+      "WebkitFlexGrow": 1,
+      "WebkitFlexShrink": 1,
+      "flexBasis": "0%",
+      "flexGrow": 1,
+      "flexShrink": 1,
+      "msFlexNegative": 1,
+      "msFlexPositive": 1,
+      "msFlexPreferredSize": "0%",
     }
   }
 >
   <div
-    className="css-text-901oao"
-    dir="auto"
+    className="css-view-1dbjc4n"
     style={
       Object {
-        "color": "rgba(0,0,0,1.00)",
-        "direction": "ltr",
-        "fontFamily": "Roboto",
-        "fontSize": "48px",
-        "fontWeight": "normal",
-        "lineHeight": "22px",
-        "textAlign": "right",
-        "textDecoration": "none",
-        "textTransform": "none",
+        "display": "inline-block",
       }
     }
   >
-    10.05
-  </div>
-  <div
-    className="css-text-901oao"
-    dir="auto"
-    style={
-      Object {
-        "color": "rgba(0,0,0,1.00)",
-        "direction": "ltr",
-        "fontFamily": "Roboto",
-        "fontSize": "16px",
-        "fontWeight": "normal",
-        "lineHeight": "22px",
-        "textAlign": "right",
-        "textDecoration": "none",
-        "textTransform": "none",
+    <div
+      className="css-text-901oao"
+      dir="auto"
+      style={
+        Object {
+          "color": "rgba(85,85,85,1.00)",
+          "direction": "ltr",
+          "fontFamily": "Roboto",
+          "fontSize": "48px",
+          "fontWeight": "normal",
+          "lineHeight": "22px",
+          "textAlign": "right",
+          "textDecoration": "none",
+          "textTransform": "none",
+        }
       }
-    }
-  >
-    G$
+    >
+      10.05
+    </div>
+    <div
+      className="css-text-901oao"
+      dir="auto"
+      style={
+        Object {
+          "color": "rgba(85,85,85,1.00)",
+          "direction": "ltr",
+          "fontFamily": "Roboto",
+          "fontSize": "18px",
+          "fontWeight": "normal",
+          "lineHeight": "22px",
+          "textAlign": "right",
+          "textDecoration": "none",
+          "textTransform": "none",
+        }
+      }
+    >
+      G$
+    </div>
   </div>
 </div>
 `;

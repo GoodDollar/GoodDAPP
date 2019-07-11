@@ -6,17 +6,18 @@ import React from 'react'
 import renderer from 'react-test-renderer'
 import ModalSendEvent from '../ModalSendEvent'
 import { generateFeedItemProps } from '../../__tests__/__util__'
+import { withThemeProvider } from '../../../../__tests__/__util__'
 
 describe('ModalSendEvent', () => {
-  // const ModalSendEvent = getComponentWithMock('../ModalSendEvent', 'send')
+  const WrappedModalSendEvent = withThemeProvider(ModalSendEvent)
   const props = generateFeedItemProps('send')
   it('renders without errors', () => {
-    const tree = renderer.create(<ModalSendEvent {...props} />)
+    const tree = renderer.create(<WrappedModalSendEvent {...props} />)
     expect(tree.toJSON()).toBeTruthy()
   })
 
   it('matches snapshot', () => {
-    const component = renderer.create(<ModalSendEvent {...props} />)
+    const component = renderer.create(<WrappedModalSendEvent {...props} />)
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

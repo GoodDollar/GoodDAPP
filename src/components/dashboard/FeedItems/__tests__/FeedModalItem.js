@@ -6,32 +6,33 @@ import React from 'react'
 import renderer from 'react-test-renderer'
 import FeedModalItem from '../FeedModalItem'
 import { generateFeedItemProps } from '../../__tests__/__util__'
+import { withThemeProvider } from '../../../../__tests__/__util__'
 
 describe('FeedModalItem - Withdraw', () => {
-  // const FeedModalWithdraw = getComponentWithMock('../FeedModalItem', 'withdraw')
+  const WrappedFeedModalItem = withThemeProvider(FeedModalItem)
   const props = generateFeedItemProps('withdraw')
   it('renders without errors', () => {
-    const tree = renderer.create(<FeedModalItem {...props} />)
+    const tree = renderer.create(<WrappedFeedModalItem {...props} />)
     expect(tree.toJSON()).toBeTruthy()
   })
 
   it('matches snapshot', () => {
-    const component = renderer.create(<FeedModalItem {...props} />)
+    const component = renderer.create(<WrappedFeedModalItem {...props} />)
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
 })
 
 describe('FeedModalItem - Send', () => {
-  // const FeedModalSend = getComponentWithMock('../FeedModalItem', 'send')
+  const WrappedFeedModalItem = withThemeProvider(FeedModalItem)
   const props = generateFeedItemProps('send')
   it('renders without errors', () => {
-    const tree = renderer.create(<FeedModalItem {...props} />)
+    const tree = renderer.create(<WrappedFeedModalItem {...props} />)
     expect(tree.toJSON()).toBeTruthy()
   })
 
   it('matches snapshot', () => {
-    const component = renderer.create(<FeedModalItem {...props} />)
+    const component = renderer.create(<WrappedFeedModalItem {...props} />)
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

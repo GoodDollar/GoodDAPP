@@ -387,6 +387,7 @@ exports[`Reason matches snapshot 1`] = `
                   "textAlign": "center",
                 },
                 "fonts": Object {
+                  "bold": "Roboto-Bold",
                   "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                   "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                   "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",

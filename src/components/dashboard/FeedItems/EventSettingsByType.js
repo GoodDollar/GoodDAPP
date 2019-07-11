@@ -1,35 +1,35 @@
 const getEventSettingsByType = (theme, type) => {
   const colorsByType = {
     claim: {
-      color: theme.colors.receive,
+      color: theme.colors.green,
       name: 'claim-filled'
     },
     send: {
-      color: theme.colors.send,
+      color: theme.colors.red,
       name: 'send-filled'
     },
     receive: {
-      color: theme.colors.receive,
+      color: theme.colors.green,
       name: 'claim-filled'
     },
     withdraw: {
-      color: theme.colors.receive,
+      color: theme.colors.green,
       name: 'receive-filled'
     },
     message: {
-      color: theme.colors.message,
+      color: theme.colors.purple,
       name: 'social-good-filled'
     },
     notification: {
-      color: theme.colors.notification,
+      color: theme.colors.orange,
       name: 'clock-filled'
     },
     feedback: {
-      color: theme.colors.feedback,
+      color: theme.colors.primary,
       name: 'system-filled'
     },
     empty: {
-      color: theme.colors.empty
+      color: theme.colors.lightGray
     }
   }
   return colorsByType[type]

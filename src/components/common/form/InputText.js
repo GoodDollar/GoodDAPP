@@ -1,7 +1,6 @@
 // @flow
 import React from 'react'
-import { TextInput } from 'react-native'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
+import { StyleSheet, TextInput } from 'react-native'
 import { withStyles } from '../../../lib/styles'
 
 const InputText = (props: any) => {
@@ -15,7 +14,7 @@ const getStylesFromProps = ({ theme }) => {
       fontStyle: theme.fonts.slab,
       color: theme.colors.darkGray,
       borderBottomStyle: 'solid',
-      borderBottomWidth: normalize(1),
+      borderBottomWidth: StyleSheet.hairlineWidth,
       padding: theme.sizes.default,
       borderBottomColor: theme.colors.darkGray
     }

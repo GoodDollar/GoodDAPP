@@ -769,7 +769,7 @@ exports[`Dashboard matches snapshot 1`] = `
                             "fontSize": "16px",
                             "fontStyle": "normal",
                             "fontWeight": "normal",
-                            "marginRight": "10px",
+                            "marginRight": "8px",
                           }
                         }
                       >
@@ -1100,7 +1100,7 @@ exports[`Dashboard matches snapshot 1`] = `
                             "fontSize": "16px",
                             "fontStyle": "normal",
                             "fontWeight": "normal",
-                            "marginLeft": "10px",
+                            "marginLeft": "8px",
                           }
                         }
                       >

@@ -17,7 +17,7 @@ exports[`FeedActions matches snapshot 1`] = `
       "WebkitFlexShrink": 1,
       "WebkitJustifyContent": "flex-end",
       "alignItems": "center",
-      "backgroundColor": "rgba(250,108,119,1.00)",
+      "backgroundColor": "rgba(255,255,255,1.00)",
       "borderBottomLeftRadius": "8px",
       "borderBottomRightRadius": "8px",
       "borderTopLeftRadius": "8px",

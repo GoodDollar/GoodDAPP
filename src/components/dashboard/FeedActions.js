@@ -13,7 +13,7 @@ import type { FeedEventProps } from './FeedItems/EventProps'
  * @returns React element with actions
  */
 export default ({ item }: FeedEventProps) => (
-  <View style={styles.actionsContainer}>
+  <View style={item && item.type !== 'empty' ? styles.actionsContainer : styles.emptyActionsContainer}>
     {item && item.type !== 'empty' && (
       <TouchableHighlight
         onPress={() => {
@@ -41,6 +41,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: normalize(8),
     backgroundColor: '#fa6c77',
+    borderRadius: normalize(8),
+    height: normalize(84),
+    maxHeight: normalize(84)
+  },
+  emptyActionsContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    padding: normalize(8),
+    backgroundColor: '#fff',
     borderRadius: normalize(8),
     height: normalize(84),
     maxHeight: normalize(84)

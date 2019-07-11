@@ -1,7 +1,7 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 import InputText from '../InputText'
-import { withThemeProvider } from './__util__'
+import { withThemeProvider } from '../../../../__tests__/__util__'
 
 // Note: test renderer must be required after react-native.
 

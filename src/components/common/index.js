@@ -10,6 +10,7 @@ import Section from './layout/Section'
 import Text from './view/Text'
 import TopBar from './view/TopBar'
 import IconButton from './buttons/IconButton'
+import InputRounded from './form/InputRounded'
 import ScanQRButton from './buttons/ScanQRButton'
 import InputGoodDollar from './form/InputGoodDollar'
 import UserAvatar from './view/UserAvatar'
@@ -33,6 +34,7 @@ export {
   Text,
   TopBar,
   IconButton,
+  InputRounded,
   CustomDialog,
   InputGoodDollar,
   NumPadKeyboard,

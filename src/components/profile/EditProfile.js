@@ -24,7 +24,7 @@ const EditProfile = props => {
   const [showErrorDialog] = useErrorDialog()
 
   const validate = async () => {
-    const { isValid, errors } = profile.validate()
+    const { isValid, errors } = profile.validate && profile.validate()
     const { isValid: indexIsValid, errors: indexErrors } = await userStorage.validateProfile(profile)
     setErrors({ ...errors, ...indexErrors })
     setIsValid(isValid && indexIsValid)

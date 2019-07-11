@@ -1,9 +1,10 @@
 // @flow
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
-import { normalize } from 'react-native-elements'
+import { View } from 'react-native'
+import normalize from 'react-native-elements/src/helpers/normalizeText'
 import CreateAvatar from 'exif-react-avatar-edit'
 import { getScreenHeight, getScreenWidth, isPortrait } from '../../../lib/utils/Orientation'
+import { withStyles } from '../../../lib/styles'
 
 import Section from '../layout/Section'
 import Avatar from './Avatar'
@@ -34,7 +35,7 @@ export type AvatarProps = {
  * @returns {React.Node}
  */
 const UserAvatar = (props: AvatarProps) => {
-  const { profile, editable, onChange, onClose, originalSize = false, children } = props
+  const { profile, editable, onChange, onClose, originalSize = false, children, styles, containerStyle } = props
   let cropSize = isPortrait() ? getScreenWidth() - 70 : getScreenHeight() - 70
   if (cropSize > 320) {
     cropSize = 320
@@ -58,38 +59,37 @@ const UserAvatar = (props: AvatarProps) => {
     </View>
   ) : (
     <View style={styles.avatar}>
-      <View style={styles.innerAvatar}>
-        <Avatar size={originalSize ? cropSize : 120} {...props} source={profile.avatar}>
+      <View style={[styles.innerAvatar, containerStyle]}>
+        <Avatar size={originalSize ? cropSize : normalize(136)} {...props} source={profile.avatar}>
           {children}
         </Avatar>
-        <Section.Title>{profile.fullName}</Section.Title>
+        <Section.Title style={styles.fullNameContainer}>{profile.fullName}</Section.Title>
       </View>
     </View>
   )
 }
 
-const styles = StyleSheet.create({
+const getStylesFromProps = ({ theme }) => ({
   avatar: {
-    marginTop: normalize(50),
-    flex: 1,
     justifyContent: 'center',
     flexDirection: 'row'
   },
   innerAvatar: {
-    flexDirection: 'column'
+    flexDirection: 'column',
+    alignItems: 'center'
   },
   fullNameContainer: {
-    padding: 10
+    paddingTop: theme.paddings.mainContainerPadding
   },
   fullName: {
     textAlign: 'left'
   },
   cropContainer: {
-    marginTop: normalize(5),
+    marginTop: theme.paddings.mainContainerPadding,
     flex: 1,
     justifyContent: 'center',
     flexDirection: 'row'
   }
 })
 
-export default UserAvatar
+export default withStyles(getStylesFromProps)(UserAvatar)

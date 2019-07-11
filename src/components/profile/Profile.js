@@ -13,11 +13,13 @@ import ViewAvatar from './ViewAvatar'
 
 const TITLE = 'Profile'
 
+const PrivateIcon = props => <IconButton {...props} wrapperStyle={styles.iconLeft} name="person-outline" />
+
 const EditIcon = props => <IconButton {...props} wrapperStyle={styles.iconRight} name="edit" />
 
 const IconButton = ({ onPress, disabled, wrapperStyle, ...iconProps }) => (
   <View style={[styles.icon, wrapperStyle]}>
-    <Icon onPress={onPress} raised color="rgb(85, 85, 85)" {...iconProps} />
+    <Icon onPress={onPress} color="#0C263D" {...iconProps} reverse size={20} />
   </View>
 )
 
@@ -35,7 +37,7 @@ const Profile = props => {
     <Wrapper>
       <Section style={styles.section}>
         <Section.Row style={styles.centered}>
-          {/* <PrivateIcon onPress={() => log.debug('PrivateIcon')} /> */}
+          <PrivateIcon onPress={() => screenProps.push('ProfilePrivacy')} />
           <UserAvatar profile={profile} onPress={handleAvatarPress} />
           <EditIcon onPress={() => screenProps.push('EditProfile')} />
         </Section.Row>
@@ -52,7 +54,7 @@ Profile.navigationOptions = {
 const styles = StyleSheet.create({
   centered: {
     justifyContent: 'center',
-    alignItems: 'flex-start'
+    alignItems: 'center'
   },
   section: {
     paddingLeft: '1em',

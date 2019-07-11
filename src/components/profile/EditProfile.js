@@ -1,11 +1,12 @@
 // @flow
 import React, { useEffect, useState } from 'react'
 import { StyleSheet } from 'react-native'
+import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { useWrappedUserStorage } from '../../lib/gundb/useWrappedStorage'
 import logger from '../../lib/logger/pino-logger'
 import GDStore from '../../lib/undux/GDStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
-import { CustomButton, Section, UserAvatar, Wrapper } from '../common'
+import { CustomButton, Section, Text, UserAvatar, Wrapper } from '../common'
 import CameraButton from './CameraButton'
 import ProfileDataTable from './ProfileDataTable'
 
@@ -24,11 +25,14 @@ const EditProfile = props => {
   const [showErrorDialog] = useErrorDialog()
 
   const validate = async () => {
-    const { isValid, errors } = profile.validate && profile.validate()
-    const { isValid: indexIsValid, errors: indexErrors } = await userStorage.validateProfile(profile)
-    setErrors({ ...errors, ...indexErrors })
-    setIsValid(isValid && indexIsValid)
-    return isValid && indexIsValid
+    if (profile && profile.validate) {
+      const { isValid, errors } = profile.validate()
+      const { isValid: indexIsValid, errors: indexErrors } = await userStorage.validateProfile(profile)
+      setErrors({ ...errors, ...indexErrors })
+      setIsValid(isValid && indexIsValid)
+      return isValid && indexIsValid
+    }
+    return false
   }
 
   const handleProfileChange = newProfile => {
@@ -79,17 +83,20 @@ const EditProfile = props => {
     <Wrapper>
       <Section style={styles.section}>
         <Section.Row style={styles.centered}>
-          <UserAvatar onChange={handleProfileChange} editable={true} profile={profile} onPress={handleAvatarPress}>
+          <UserAvatar profile={profile} onPress={handleAvatarPress}>
             <CameraButton handleCameraPress={handleCameraPress} />
           </UserAvatar>
           <CustomButton
             disabled={saving || !isValid}
             loading={saving}
-            mode="outlined"
             style={styles.saveButton}
             onPress={handleSaveButton}
+            color="#0C263D"
+            contentStyle={styles.saveButtonContent}
           >
-            Save
+            <Text color="#fff" textTransform="uppercase" fontSize={normalize(14)}>
+              Save
+            </Text>
           </CustomButton>
         </Section.Row>
         <ProfileDataTable onChange={handleProfileChange} editable={true} errors={errors} profile={profile} />
@@ -105,7 +112,8 @@ EditProfile.navigationOptions = {
 const styles = StyleSheet.create({
   section: {
     paddingLeft: '1em',
-    paddingRight: '1em'
+    paddingRight: '1em',
+    flex: 1
   },
   centered: {
     justifyContent: 'center',
@@ -114,7 +122,14 @@ const styles = StyleSheet.create({
   saveButton: {
     position: 'absolute',
     top: 0,
-    right: 0
+    right: 0,
+    paddingHorizontal: normalize(16),
+    marginVertical: 0,
+    fontSize: normalize(14)
+  },
+  saveButtonContent: {
+    maxHeight: 30,
+    marginVertical: 0
   }
 })
 

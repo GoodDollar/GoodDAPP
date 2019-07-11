@@ -14,7 +14,7 @@ import { HelperText } from 'react-native-paper'
  */
 const InputRounded = ({ icon, iconColor, error, ...inputProps }) => (
   <View style={styles.inputContainer}>
-    <View style={styles.iconInputContainer}>
+    <View style={inputProps.disabled ? styles.inputText : styles.iconInputContainer}>
       <TextInput style={styles.input} {...inputProps} />
       <View style={styles.suffixIcon}>
         <Icon size={normalize(16)} color={iconColor || '#282c34'} name={icon} />
@@ -36,6 +36,13 @@ const styles = StyleSheet.create({
     borderColor: '#cbcbcb',
     borderWidth: StyleSheet.hairlineWidth,
     borderRadius: normalize(24),
+    paddingHorizontal: normalize(24),
+    paddingVertical: 0
+  },
+  inputText: {
+    position: 'relative',
+    borderBottomColor: '#cbcbcb',
+    borderBottomWidth: StyleSheet.hairlineWidth,
     paddingHorizontal: normalize(24),
     paddingVertical: 0
   },

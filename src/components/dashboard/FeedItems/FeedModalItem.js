@@ -8,6 +8,7 @@ import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
 import { withStyles } from '../../../lib/styles'
 import type { FeedEventProps } from './EventProps'
 import EventCounterParty from './EventCounterParty'
+import getEventSettingsByType from './EventSettingsByType'
 
 /**
  * Render modal item according to the type for feed list in horizontal view
@@ -15,13 +16,18 @@ import EventCounterParty from './EventCounterParty'
  * @returns {HTMLElement}
  */
 const FeedModalItem = (props: FeedEventProps) => {
-  const { item, onPress, styles } = props
+  const { item, onPress, styles, theme } = props
   const buttonPress = () => {
     onPress(item.id)
   }
 
   return (
-    <ModalWrapper onClose={buttonPress} showJaggedEdge={false} type={item.type}>
+    <ModalWrapper
+      leftBorderColor={getEventSettingsByType(theme, item.type).color}
+      onClose={buttonPress}
+      showJaggedEdge={false}
+      type={item.type}
+    >
       <React.Fragment>
         {['send', 'empty'].indexOf(item.type) === -1 && (
           <Text style={styles.dateText}>{getFormattedDateTime(item.date)}</Text>

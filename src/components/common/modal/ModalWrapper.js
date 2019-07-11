@@ -4,13 +4,11 @@ import { Image, StyleSheet, TouchableOpacity, View } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { withStyles } from '../../../lib/styles'
 import wavePattern from '../../../assets/wave.svg'
-import getEventSettingsByType from '../../dashboard/FeedItems/EventSettingsByType'
 
 const ModalWrapper = (props: any) => {
-  const { styles, children, theme, onClose, type = '#dfdfdf', showJaggedEdge = false } = props
+  const { styles, children, theme, onClose, leftBorderColor = theme.colors.lightGray, showJaggedEdge = false } = props
   const closeButton = require('./img/close.png')
-
-  const borderColor = { backgroundColor: getEventSettingsByType(theme, type).color }
+  const borderColor = { backgroundColor: leftBorderColor }
 
   return (
     <View style={styles.modalOverlay}>

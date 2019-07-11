@@ -9,6 +9,12 @@ import GDStore from '../../../lib/undux/GDStore'
 const FRIntro = props => {
   const store = GDStore.useStore()
   const { fullName } = store.get('profile')
+
+  const isValid = props.screenProps.screenState && props.screenProps.screenState.isValid
+
+  if (isValid) {
+    props.screenProps.pop({ isValid: true })
+  }
   const gotoFR = () => props.screenProps.push('FaceRecognition')
   return (
     <Wrapper>

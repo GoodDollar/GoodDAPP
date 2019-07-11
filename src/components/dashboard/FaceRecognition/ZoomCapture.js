@@ -54,7 +54,7 @@ class ZoomCapture extends React.Component<ZoomCaptureProps> {
   componentWillUnmount() {
     if (this.props.loadedZoom) {
       log.warn('zoomSDK was loaded, canceling zoom capture')
-      this.zoom.cancel()
+      this.zoom && this.zoom.cancel()
     }
   }
 

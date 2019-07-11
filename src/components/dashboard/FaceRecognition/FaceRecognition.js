@@ -40,7 +40,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
   state = {
     showPreText: false,
     showZoomCapture: true,
-    showGuidedFR: false,
+    showGuidedFR: true,
     sessionId: undefined,
     loadingFaceRecognition: false,
     loadingText: '',
@@ -127,14 +127,16 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
       <Wrapper>
         {showGuidedFR && <GuidedFR sessionId={sessionId} userStorage={userStorage} />}
 
-        <ZoomCapture
-          height={this.height}
-          screenProps={this.screenProps}
-          onCaptureResult={this.onCaptureResult}
-          showZoomCapture={this.state.zoomReady && showZoomCapture}
-          loadedZoom={this.loadedZoom}
-          onError={this.showFRError}
-        />
+        {showGuidedFR === false && (
+          <ZoomCapture
+            height={this.height}
+            screenProps={this.props.screenProps}
+            onCaptureResult={this.onCaptureResult}
+            showZoomCapture={this.state.zoomReady && showZoomCapture}
+            loadedZoom={this.loadedZoom}
+            onError={this.showFRError}
+          />
+        )}
       </Wrapper>
     )
   }

@@ -103,7 +103,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     let result: FaceRecognitionResponse = await FRapi.performFaceRecognition(captureResult)
     this.setState({ loadingFaceRecognition: false })
     if (!result || !result.ok) {
-      this.showFRError(result.error)
+      // this.showFRError(result.error) // TODO: rami
     } else {
       this.props.screenProps.pop({ isValid: true })
     }
@@ -145,10 +145,9 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
           <View style={styles.topContainer}>
             <Section.Title
               style={styles.mainTitle}
-            >{`${fullName}, Just one more thing before we can get started...`}</Section.Title>
+            >{`${fullName}, Lets verify you are a living and unique special human being that you are!`}</Section.Title>
             <Section.Text style={styles.description}>
-              {`Since it's your first time sending G$, we need to make sure it's really
-              you and prevent other people from creating multiple accounts.`}
+              {`For GoodDollar to succeed we need to make sure every person in our community registered only once for UBI. No BOTS allowed!`}
             </Section.Text>
           </View>
         )}
@@ -187,7 +186,11 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
 const styles = StyleSheet.create({
   topContainer: {
     display: 'flex',
+    backgroundColor: 'white',
+    height: '100%',
     flex: 1,
+    flexGrow: 1,
+    flexShrink: 0,
     justifyContent: 'space-evenly',
     paddingTop: normalize(30)
   },
@@ -199,6 +202,11 @@ const styles = StyleSheet.create({
   },
   description: {
     fontSize: normalize(20)
+  },
+  mainTitle: {
+    fontFamily: 'Roboto-Medium',
+    fontSize: normalize(24),
+    color: '#42454A'
   }
 })
 

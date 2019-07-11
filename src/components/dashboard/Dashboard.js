@@ -16,6 +16,7 @@ import { Avatar, BigGoodDollar, Section, Wrapper } from '../common'
 import Amount from './Amount'
 import Claim from './Claim'
 import FaceRecognition from './FaceRecognition/FaceRecognition'
+import FRIntro from './FaceRecognition/FRIntro'
 import FeedList from './FeedList'
 import FeedModalItem from './FeedItems/FeedModalItem'
 import Reason from './Reason'
@@ -281,6 +282,7 @@ export default createStackNavigator({
   SendLinkSummary,
   SendConfirmation,
   FaceRecognition,
+  FRIntro,
   SendByQR,
   ReceiveByQR,
   SendQRSummary,

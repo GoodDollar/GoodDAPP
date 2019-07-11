@@ -39,7 +39,7 @@ exports[`Dashboard matches snapshot 1`] = `
       style={
         Object {
           "bottom": "0px",
-          "left": "341.33333333333337px",
+          "left": "784px",
           "position": "absolute",
           "right": "0px",
           "top": "0px",

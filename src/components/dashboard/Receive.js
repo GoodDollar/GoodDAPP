@@ -45,7 +45,7 @@ const Receive = ({ screenProps, styles, ...props }: ReceiveProps) => {
       </TopBar>
       <Section grow>
         <Section.Stack grow={3} justifyContent="space-around" alignItems="center">
-          <Section.Text style={styles.marginBottom}>Let someone scan your wallet address </Section.Text>
+          <Section.Text style={styles.mainText}>Let someone scan your wallet address </Section.Text>
           <QRCode value={code} />
         </Section.Stack>
         <Section.Stack grow={1} justifyContent="center" alignItems="center">
@@ -62,11 +62,11 @@ const Receive = ({ screenProps, styles, ...props }: ReceiveProps) => {
             Request specific amount
           </PushButton>
           {isMobile && navigator.share ? (
-            <CustomButton style={styles.marginTop} onPress={shareAction}>
+            <CustomButton style={styles.shareButton} onPress={shareAction}>
               {SHARE_TEXT}
             </CustomButton>
           ) : (
-            <CopyButton style={styles.marginTop} toCopy={account} onPressDone={screenProps.goToRoot}>
+            <CopyButton style={styles.shareButton} toCopy={account} onPressDone={screenProps.goToRoot}>
               {SHARE_TEXT}
             </CopyButton>
           )}
@@ -82,10 +82,10 @@ Receive.navigationOptions = {
 
 const getStylesFromProps = ({ theme }) => {
   return {
-    marginTop: {
+    shareButton: {
       marginTop: theme.paddings.defaultMargin
     },
-    marginBottom: {
+    mainText: {
       marginBottom: theme.paddings.defaultMargin
     }
   }

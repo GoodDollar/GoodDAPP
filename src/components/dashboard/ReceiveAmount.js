@@ -25,7 +25,13 @@ const ReceiveAmount = ({ screenProps, ...props }: ReceiveProps) => {
   const [confirmed, setConfirmed] = useState()
   const [finished, setFinished] = useState()
 
-  const code = useMemo(() => generateCode(account, networkId, amount, reason), [account, networkId, amount, reason])
+  const code = useMemo(() => generateCode(account, networkId, amount, reason, fromWho), [
+    account,
+    networkId,
+    amount,
+    reason,
+    fromWho
+  ])
   const share = useMemo(() => generateReceiveShareObject(code), [code])
   const styles = getStylesFromProps(props)
 
@@ -62,7 +68,9 @@ const ReceiveAmount = ({ screenProps, ...props }: ReceiveProps) => {
         <Section.Stack grow justifyContent="center">
           <Section.Row style={styles.tableRow}>
             <Section.Text style={styles.tableRowLabel}>From:</Section.Text>
-            <Section.Text style={styles.name}>{fromWho}</Section.Text>
+            <Section.Text fontSize={24} fontWeight="bold">
+              {fromWho}
+            </Section.Text>
           </Section.Row>
           <Section.Row style={styles.tableRow}>
             <Section.Text style={styles.tableRowLabel}>Amount:</Section.Text>
@@ -70,7 +78,7 @@ const ReceiveAmount = ({ screenProps, ...props }: ReceiveProps) => {
           </Section.Row>
           <Section.Row style={styles.tableRow}>
             <Section.Text style={styles.tableRowLabel}>For:</Section.Text>
-            <Section.Text style={styles.reason}>{reason}</Section.Text>
+            <Section.Text fontSize={16}>{reason}</Section.Text>
           </Section.Row>
         </Section.Stack>
         {confirmed ? (
@@ -120,10 +128,6 @@ const getStylesFromProps = ({ theme }) => {
     },
     bigGoodDollar: {
       color: theme.colors.primary
-    },
-    name: {
-      fontSize: normalize(24),
-      fontWeight: 'bold'
     },
     reason: {
       fontSize: normalize(16)

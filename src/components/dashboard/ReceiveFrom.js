@@ -16,6 +16,7 @@ const ReceiveFrom = (props: AmountProps) => {
   const { screenProps } = props
 
   const [screenState, setScreenState] = useScreenState(screenProps)
+  const { params } = screenState || {}
   const { fromWho } = screenState
 
   return (
@@ -40,7 +41,7 @@ const ReceiveFrom = (props: AmountProps) => {
           <Section.Stack grow={2}>
             <NextButton
               nextRoutes={screenState.nextRoutes}
-              values={{ fromWho }}
+              values={{ params, fromWho }}
               {...props}
               label={fromWho ? 'Next' : 'Skip'}
             />

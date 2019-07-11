@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
-import { StyleSheet, View } from 'react-native'
+import { Image, View } from 'react-native'
 import { Avatar, BigGoodDollar, CustomButton, Text } from '../../common'
 import ModalWrapper from '../../common/modal/ModalWrapper'
 import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
@@ -9,6 +9,7 @@ import { withStyles } from '../../../lib/styles'
 import type { FeedEventProps } from './EventProps'
 import EventCounterParty from './EventCounterParty'
 import getEventSettingsByType from './EventSettingsByType'
+import EventIcon from './EventIcon'
 
 /**
  * Render modal item according to the type for feed list in horizontal view
@@ -20,42 +21,40 @@ const FeedModalItem = (props: FeedEventProps) => {
   const buttonPress = () => {
     onPress(item.id)
   }
+  const itemType = item.type
+  const mainColor = getEventSettingsByType(theme, itemType).color
+  const getImageByType = type => {
+    return (
+      {
+        claim: require('./img/receive.png'),
+        receive: require('./img/receive.png'),
+        send: require('./img/send.png')
+      }[type] || null
+    )
+  }
 
   return (
-    <ModalWrapper
-      leftBorderColor={getEventSettingsByType(theme, item.type).color}
-      onClose={buttonPress}
-      showJaggedEdge={false}
-      type={item.type}
-    >
+    <ModalWrapper leftBorderColor={mainColor} onClose={buttonPress} showJaggedEdge={true}>
       <React.Fragment>
-        {['send', 'empty'].indexOf(item.type) === -1 && (
-          <Text style={styles.dateText}>{getFormattedDateTime(item.date)}</Text>
-        )}
-        {item.data && (
-          <View style={[styles.row, styles.title]}>
-            {item.data.endpoint && item.data.endpoint.title && (
-              <Text style={styles.leftTitle}>{item.data.endpoint.title}</Text>
-            )}
-            <Text style={styles.leftTitle}>
-              {item.type === 'send' ? 'Sent G$' : 'Received G$'}
-              {item.type === 'send' && item.data.endpoint.withdrawStatus && (
-                <Text> by link - {item.data.endpoint.withdrawStatus}</Text>
-              )}
-            </Text>
-            <BigGoodDollar number={item.data.amount} elementStyles={styles.currency} />
+        {getImageByType(itemType) ? (
+          <View style={styles.mainImageContainer}>
+            <Image style={styles.mainImage} source={getImageByType(itemType)} />
           </View>
-        )}
-        {item.type === 'send' && (
-          <Text style={[styles.dateText, styles.bottomDate]}>{getFormattedDateTime(item.date)}</Text>
-        )}
-        <View style={styles.hrLine} />
-        <View style={styles.row}>
-          <Avatar style={styles.avatarColor} source={item.data && item.data.endpoint && item.data.endpoint.avatar} />
-          <Text style={styles.leftMargin}>{item.data && <EventCounterParty feedItem={item} />}</Text>
+        ) : null}
+        <View style={styles.dateAndAmount}>
+          <Text style={styles.date}>{getFormattedDateTime(item.date)}</Text>
+          <BigGoodDollar number={item.data.amount} elementStyles={[styles.amount, { color: mainColor }]} />
         </View>
-        <View style={styles.hrLine} />
-        {item.data && item.data.message ? <Text style={styles.reason}>{item.data.message}</Text> : null}
+        <View style={[styles.transactionDetails, { borderColor: mainColor }]}>
+          <Avatar source={item.data && item.data.endpoint && item.data.endpoint.avatar} style={styles.avatar} />
+          <Text style={styles.details}>{item.data && <EventCounterParty feedItem={item} />}</Text>
+          <EventIcon type={itemType} style={styles.icon} />
+        </View>
+        {item.data.message ? (
+          <View style={styles.messageContainer}>
+            <Text style={styles.message}>{item.data.message}</Text>
+          </View>
+        ) : null}
         <View style={styles.buttonsRow}>
           <CustomButton mode="contained" style={styles.rightButton} onPress={buttonPress}>
             OK
@@ -68,19 +67,62 @@ const FeedModalItem = (props: FeedEventProps) => {
 
 const getStylesFromProps = ({ theme }) => {
   return {
-    horizItem: {
-      alignSelf: 'flex-start', // Necessary for touch highlight
-      flex: 1,
-      marginRight: normalize(10),
-      width: '95vw'
+    mainImageContainer: {
+      display: 'flex',
+      flexGrow: 0,
+      flexShrink: 0,
+      justifyContent: 'center',
+      flexDirection: 'row',
+      marginBottom: normalize(15)
     },
-    dateText: {
-      color: '#A3A3A3',
-      fontSize: normalize(10),
-      fontWeight: '500'
+    mainImage: {
+      height: normalize(110),
+      width: normalize(70)
     },
-    bottomDate: {
-      marginTop: normalize(5)
+    dateAndAmount: {
+      alignItems: 'center',
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      marginBottom: normalize(12)
+    },
+    date: {
+      color: theme.colors.darkGray,
+      fontSize: normalize(10)
+    },
+    amount: {
+      fontFamily: 'Roboto-Bold',
+      fontSize: normalize(22),
+      fontWeight: '700'
+    },
+    transactionDetails: {
+      alignItems: 'center',
+      borderBottomWidth: normalize(2),
+      borderTopWidth: normalize(2),
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'flex-start',
+      marginBottom: normalize(18),
+      paddingBottom: normalize(14),
+      paddingTop: normalize(14)
+    },
+    avatar: {
+      backgroundColor: theme.colors.lightGray,
+      borderRadius: '50%',
+      height: normalize(34),
+      marginRight: normalize(7),
+      width: normalize(34)
+    },
+    icon: {
+      marginLeft: 'auto'
+    },
+    messageContainer: {
+      flex: 1
+    },
+    message: {
+      color: theme.colors.darkGray,
+      fontSize: normalize(14),
+      textAlign: 'left'
     },
     buttonsRow: {
       alignItems: 'flex-end',
@@ -91,53 +133,6 @@ const getStylesFromProps = ({ theme }) => {
     rightButton: {
       marginLeft: 'auto',
       minWidth: normalize(80)
-    },
-    row: {
-      alignItems: 'center',
-      backgroundColor: 'white',
-      flexDirection: 'row',
-      paddingHorizontal: 0
-    },
-    title: {
-      justifyContent: 'flex-end',
-      paddingTop: '2em'
-    },
-    leftMargin: {
-      marginLeft: normalize(10)
-    },
-    leftTitle: {
-      color: '#555',
-      flex: 1,
-      fontSize: normalize(20),
-      fontWeight: '700'
-    },
-    rightTitle: {
-      fontSize: normalize(16),
-      color: '#000',
-      fontWeight: '700',
-      textAlign: 'right'
-    },
-    hrLine: {
-      borderBottomColor: '#c9c8c9',
-      borderBottomWidth: StyleSheet.hairlineWidth,
-      width: '100%',
-      marginBottom: normalize(10),
-      marginTop: normalize(10)
-    },
-    currency: {
-      fontSize: normalize(16),
-      color: 'black',
-      fontWeight: '700'
-    },
-    reason: {
-      color: 'rgba(0, 0, 0, 0.54)',
-      fontSize: normalize(16),
-      fontWeight: '500',
-      textTransform: 'capitalize'
-    },
-    avatarColor: {
-      backgroundColor: '#BBB',
-      borderRadius: '50%'
     }
   }
 }

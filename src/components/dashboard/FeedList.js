@@ -7,8 +7,8 @@ import pino from '../../lib/logger/pino-logger'
 import FeedActions from './FeedActions'
 import FeedListItem from './FeedItems/FeedListItem'
 import FeedModalItem from './FeedItems/FeedModalItem'
-const log = pino.child({ from: 'FeedListView' })
 
+const log = pino.child({ from: 'FeedListView' })
 const SCREEN_SIZE = {
   width: 200,
   height: 72

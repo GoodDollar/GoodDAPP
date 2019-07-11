@@ -58,24 +58,12 @@ export const listStyles = StyleSheet.create({
   rowData: {
     flex: 1
   },
-  rowDataText: {
-    color: '#555',
-    fontSize: normalize(16),
-    textTransform: 'capitalize'
-  },
   rowDataSubText: {
     color: '#A3A3A3',
     fontSize: normalize(10),
     marginTop: normalize(4),
+    textAlign: 'left',
     textTransform: 'capitalize'
-  },
-  direction: {
-    fontWeight: '500',
-    fontSize: normalize(8)
-  },
-  fullName: {
-    fontFamily: 'Roboto-Medium',
-    fontSize: normalize(16)
   },
   contentColumn: {
     alignItems: 'flex-end',

@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { Image, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { Image, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { withStyles } from '../../../lib/styles'
 import wavePattern from '../../../assets/wave.svg'
@@ -11,26 +11,28 @@ const ModalWrapper = (props: any) => {
   const borderColor = { backgroundColor: leftBorderColor }
 
   return (
-    <View style={styles.modalOverlay}>
-      {onClose ? (
-        <TouchableOpacity style={styles.modalCloseImageContainer} onPress={onClose}>
-          <Image style={styles.modalCloseImage} source={closeButton} />
-        </TouchableOpacity>
-      ) : null}
-      <View style={styles.modalContainer}>
-        <View
-          style={[styles.modalLeftBorder, borderColor, showJaggedEdge ? styles.modalLeftBorderAddMarginBottom : '']}
-        />
-        <View style={styles.modalContents}>
+    <ScrollView>
+      <View style={styles.modalOverlay}>
+        {onClose ? (
+          <TouchableOpacity style={styles.modalCloseImageContainer} onPress={onClose}>
+            <Image style={styles.modalCloseImage} source={closeButton} />
+          </TouchableOpacity>
+        ) : null}
+        <View style={styles.modalContainer}>
           <View
-            style={[styles.modalInnerContents, showJaggedEdge ? styles.modalContainerStraightenBottomRightEdge : '']}
-          >
-            {children}
+            style={[styles.modalLeftBorder, borderColor, showJaggedEdge ? styles.modalLeftBorderAddMarginBottom : '']}
+          />
+          <View style={styles.modalContents}>
+            <View
+              style={[styles.modalInnerContents, showJaggedEdge ? styles.modalContainerStraightenBottomRightEdge : '']}
+            >
+              {children}
+            </View>
+            {showJaggedEdge ? <View style={styles.jaggedEdge} /> : null}
           </View>
-          {showJaggedEdge ? <View style={styles.jaggedEdge} /> : null}
         </View>
       </View>
-    </View>
+    </ScrollView>
   )
 }
 
@@ -43,6 +45,7 @@ const getStylesFromProps = ({ theme }) => {
       backgroundColor: theme.modals.overlayBackgroundColor,
       flexGrow: 1,
       flexShrink: 0,
+      height: '100vh',
       paddingBottom: theme.modals.overlayVerticalPadding,
       paddingLeft: theme.modals.overlayHorizontalPadding,
       paddingRight: theme.modals.overlayHorizontalPadding,
@@ -96,7 +99,8 @@ const getStylesFromProps = ({ theme }) => {
       marginBottom: theme.modals.jaggedEdgeSize
     },
     modalContents: {
-      flexGrow: 1
+      flexGrow: 1,
+      width: '97%'
     },
     jaggedEdge: {
       backgroundImage: `linear-gradient(45deg, transparent 75%, ${

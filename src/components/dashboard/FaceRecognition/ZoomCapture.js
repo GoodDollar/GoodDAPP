@@ -66,14 +66,7 @@ class ZoomCapture extends React.Component<ZoomCaptureProps> {
           <Section style={styles.bottomSection}>
             <div id="zoom-parent-container" style={getVideoContainerStyles()}>
               <div id="zoom-interface-container" style={{ position: 'absolute' }} />
-              {
-                <Camera
-                  height={this.props.height}
-                  width={this.props.width}
-                  onCameraLoad={this.captureUserMediaZoom}
-                  onError={this.props.onError}
-                />
-              }
+              {<Camera onCameraLoad={this.captureUserMediaZoom} onError={this.props.onError} />}
             </div>
           </Section>
         </View>

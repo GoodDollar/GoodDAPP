@@ -3,6 +3,8 @@ import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Button as BaseButton, DefaultTheme, Text, withTheme } from 'react-native-paper'
 
+// import normalize from 'react-native-elements/src/helpers/normalizeText'
+
 export type ButtonProps = {
   children: any,
   theme: DefaultTheme,
@@ -16,12 +18,17 @@ export type ButtonProps = {
   uppercase?: boolean
 }
 
-const TextContent = ({ children, dark, uppercase }) => {
+const TextContent = ({ children, dark, uppercase, style }) => {
   if (typeof children === 'string') {
     return (
       <View style={styles.buttonWrapperText}>
         <Text
-          style={[styles.buttonText, { color: dark && 'white' }, { textTransform: uppercase ? 'uppercase' : 'none' }]}
+          style={[
+            styles.buttonText,
+            { color: dark && 'white' },
+            { textTransform: uppercase ? 'uppercase' : 'none' },
+            style
+          ]}
         >
           {children}
         </Text>
@@ -47,7 +54,7 @@ const TextContent = ({ children, dark, uppercase }) => {
  * @returns {React.Node}
  */
 const CustomButton = (props: ButtonProps) => {
-  const { theme, mode, style, children } = props
+  const { theme, mode, style, children, textStyle } = props
   const disabled = props.loading || props.disabled
   const dark = mode === 'contained'
   const uppercase = mode !== 'text'
@@ -62,7 +69,7 @@ const CustomButton = (props: ButtonProps) => {
       uppercase={uppercase}
       compact
     >
-      <TextContent dark={dark} uppercase={uppercase}>
+      <TextContent dark={dark} uppercase={uppercase} style={textStyle}>
         {children}
       </TextContent>
     </BaseButton>
@@ -80,6 +87,10 @@ const styles = StyleSheet.create({
   buttonWrapperText: {
     minHeight: 34,
     justifyContent: 'center'
+  },
+  buttonText: {
+    fontFamily: 'Roboto-Medium',
+    fontSize: 14
   }
 })
 

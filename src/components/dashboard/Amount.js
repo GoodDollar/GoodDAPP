@@ -1,6 +1,5 @@
 // @flow
 import React, { useState } from 'react'
-import { StyleSheet, View } from 'react-native'
 import { AmountInput, Section, TopBar, Wrapper } from '../common'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
 import goodWallet from '../../lib/wallet/GoodWallet'
@@ -18,7 +17,7 @@ const RECEIVE_TITLE = 'Receive G$'
 const Amount = (props: AmountProps) => {
   const { screenProps } = props
   const [screenState, setScreenState] = useScreenState(screenProps)
-  const { to, params, amount } = { amount: 0, ...screenState } || {}
+  const { params, amount, ...restState } = { amount: 0, ...screenState } || {}
   const [GDAmount, setGDAmount] = useState(amount > 0 ? weiToGd(amount) : '')
   const [loading, setLoading] = useState(amount <= 0)
   const [showDialogWithData] = useDialog()
@@ -55,35 +54,33 @@ const Amount = (props: AmountProps) => {
   }
 
   return (
-    <Wrapper style={styles.wrapper}>
+    <Wrapper>
       <TopBar push={screenProps.push} />
-      <Section style={customStyles.section}>
-        <Section.Row style={styles.sectionRow}>
+      <Section grow>
+        <Section.Title style={styles.headline}>How much?</Section.Title>
+        <Section.Stack grow justifyContent="flex-start">
           <AmountInput amount={GDAmount} handleAmountChange={handleAmountChange} />
-          <View style={styles.buttonGroup}>
+        </Section.Stack>
+        <Section.Row>
+          <Section.Stack grow={1}>
             <BackButton mode="text" screenProps={screenProps} style={{ flex: 1 }}>
               Cancel
             </BackButton>
+          </Section.Stack>
+          <Section.Stack grow={2}>
             <NextButton
               nextRoutes={screenState.nextRoutes}
               canContinue={handleContinue}
-              values={{ amount: gdToWei(GDAmount), to }}
+              values={{ ...restState, amount: gdToWei(GDAmount) }}
               disabled={loading}
               {...props}
             />
-          </View>
+          </Section.Stack>
         </Section.Row>
       </Section>
     </Wrapper>
   )
 }
-
-const customStyles = StyleSheet.create({
-  section: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-})
 
 Amount.navigationOptions = {
   title: RECEIVE_TITLE,

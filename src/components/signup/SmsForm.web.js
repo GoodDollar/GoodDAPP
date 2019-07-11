@@ -36,7 +36,6 @@ export default class SmsForm extends React.Component<Props, State> {
   state = {
     smsValidated: false,
     sentSMS: false,
-    valid: false,
     errorMessage: '',
     sendingCode: false,
     renderButton: false,
@@ -71,15 +70,16 @@ export default class SmsForm extends React.Component<Props, State> {
         await this.verifyOTP(otpValue)
         this.setState({
           valid: true,
-          loading: false,
         })
         this.handleSubmit()
       } catch (e) {
         log.error({ e })
+
         this.setState({
-          errorMessage: e.response.data.message,
-          loading: false,
+          errorMessage: e.message || e.response.data.message,
         })
+      } finally {
+        this.setState({ loading: false })
       }
     } else {
       this.setState({
@@ -105,15 +105,18 @@ export default class SmsForm extends React.Component<Props, State> {
       await API.sendOTP({ ...this.props.screenProps.data })
     } catch (e) {
       log.error(e)
+      this.setState({
+        errorMessage: e.message || e.response.data.message,
+      })
     }
     this.setState({ sendingCode: false, renderButton: false }, this.displayDelayedRenderButton)
   }
 
   render() {
-    const { valid, errorMessage, sendingCode, renderButton, loading, otp } = this.state
+    const { errorMessage, sendingCode, renderButton, loading, otp } = this.state
 
     return (
-      <Wrapper valid={valid} handleSubmit={this.handleSubmit} footerComponent={() => <React.Fragment />}>
+      <Wrapper handleSubmit={this.handleSubmit} footerComponent={() => <React.Fragment />}>
         <Title>{'Enter the verification code \n sent to your phone'}</Title>
         <OtpInput
           containerStyle={{

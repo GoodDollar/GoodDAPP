@@ -260,6 +260,8 @@ exports[`Send matches snapshot 1`] = `
             "fontSize": "24px",
             "fontWeight": "500",
             "lineHeight": "22px",
+            "marginBottom": "16px",
+            "marginTop": "16px",
             "textAlign": "center",
             "textDecoration": "none",
             "textTransform": "uppercase",
@@ -411,7 +413,7 @@ exports[`Send matches snapshot 1`] = `
               autoComplete="on"
               autoCorrect="on"
               autoFocus={true}
-              className="css-textinput-1cwyjr8 r-placeholderTextColor-1qzd3f0"
+              className="css-textinput-1cwyjr8 r-placeholderTextColor-1xktb6b"
               data-focusable={true}
               dir="auto"
               onBlur={[Function]}
@@ -892,7 +894,7 @@ exports[`Send matches snapshot 1`] = `
                         "WebkitJustifyContent": "center",
                         "display": "inline-flex",
                         "justifyContent": "center",
-                        "minHeight": "34px",
+                        "minHeight": "28px",
                         "msFlexPack": "center",
                       }
                     }
@@ -1059,7 +1061,7 @@ exports[`Send matches snapshot 1`] = `
                         "WebkitJustifyContent": "center",
                         "display": "inline-flex",
                         "justifyContent": "center",
-                        "minHeight": "34px",
+                        "minHeight": "28px",
                         "msFlexPack": "center",
                       }
                     }

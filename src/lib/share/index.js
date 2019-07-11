@@ -16,10 +16,16 @@ import isMobilePhone from '../validators/isMobilePhone'
  * @param reason - reason to be attached to the generated MNID code
  * @returns {string} - 'MNID|amount'|'MNID'
  */
-export function generateCode(address: string, networkId: number, amount: number, reason: string) {
+export function generateCode(
+  address: string,
+  networkId: number,
+  amount: number,
+  reason: string,
+  counterPartyDisplayName: string
+) {
   const mnid = encode({ address, network: `0x${networkId.toString(16)}` })
 
-  return `${mnid}|${amount}|${reason}`
+  return `${mnid}|${amount}|${reason}|${counterPartyDisplayName}`
 }
 
 /**

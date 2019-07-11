@@ -1,97 +1,75 @@
 // @flow
-import QRCode from 'qrcode.react'
 import React, { useMemo } from 'react'
-import { View } from 'react-native'
 import { isMobile } from 'mobile-device-detect'
 import { generateCode, generateReceiveShareObject } from '../../lib/share'
-import GDStore from '../../lib/undux/GDStore'
-import { useDialog } from '../../lib/undux/utils/dialog'
+
+import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { PushButton } from '../appNavigation/stackNavigation'
-import { Address, CopyButton, CustomButton, ScanQRButton, Section, TopBar, Wrapper } from '../common'
-
-import { receiveStyles as styles } from './styles'
+import { CopyButton, CustomButton, QRCode, ScanQRButton, Section, TopBar, Wrapper } from '../common'
+import { withStyles } from '../../lib/styles'
 
 export type ReceiveProps = {
   screenProps: any,
   navigation: any,
+  styles: any,
 }
 
 const RECEIVE_TITLE = 'Receive G$'
+const SHARE_TEXT = 'Share your wallet link'
 
-const Receive = ({ screenProps }: ReceiveProps) => {
+const Receive = ({ screenProps, styles, ...props }: ReceiveProps) => {
   const { account, networkId } = goodWallet
-  const [showDialogWithData] = useDialog()
-  const store = GDStore.useStore()
+
+  const [showErrorDialog] = useErrorDialog()
   const amount = 0
   const reason = ''
 
   const code = useMemo(() => generateCode(account, networkId, amount, reason), [account, networkId, amount, reason])
-  const share = useMemo(() => {
-    try {
-      return generateReceiveShareObject(code)
-    } catch (e) {
-      showDialogWithData({
-        title: 'Error',
-        message: e.message,
-      })
-    }
-  }, [code])
+  const share = useMemo(() => generateReceiveShareObject(code), [code])
 
   const shareAction = async () => {
     try {
       await navigator.share(share)
     } catch (e) {
-      store.set('currentScreen')({
-        dialogData: {
-          visible: true,
-          title: 'Error',
-          message:
-            'There was a problem triggering share action. You can still copy the link in tapping on "Copy link to clipboard"',
-          dismissText: 'Ok',
-        },
-      })
+      if (e.name !== 'AbortError') {
+        showErrorDialog(e)
+      }
     }
   }
-
-  const ShareButton = () => (
-    <CustomButton onPress={shareAction} mode="contained">
-      Share your wallet link
-    </CustomButton>
-  )
 
   return (
     <Wrapper>
       <TopBar hideBalance={false} push={screenProps.push}>
         <ScanQRButton onPress={() => screenProps.push('ReceiveByQR')} />
       </TopBar>
-      <Section grow={1}>
-        <Section.Stack grow={1} justifyContent="space-around" alignItems="center">
-          <View style={styles.qrCode}>
-            <QRCode value={code} />
-          </View>
-          <Section.Stack>
-            <Section.Text>Your G$ wallet address:</Section.Text>
-            <Section.Title>
-              <Address value={account} />
-            </Section.Title>
-          </Section.Stack>
+      <Section grow>
+        <Section.Stack grow={3} justifyContent="space-around" alignItems="center">
+          <Section.Text style={styles.mainText}>Let someone scan your wallet address </Section.Text>
+          <QRCode value={code} />
         </Section.Stack>
-
+        <Section.Stack grow={1} justifyContent="center" alignItems="center">
+          <Section.Text> - OR - </Section.Text>
+        </Section.Stack>
         <Section.Stack alignItems="stretch">
-          {isMobile && navigator.share ? <ShareButton /> : null}
-          <CopyButton mode="outlined" toCopy={account}>
-            Copy address to clipboard
-          </CopyButton>
           <PushButton
             dark={false}
-            routeName="Amount"
+            routeName="ReceiveFrom"
+            mode="outlined"
             screenProps={screenProps}
-            style={{ marginTop: 10 }}
-            params={{ nextRoutes: ['Reason', 'ReceiveAmount'], params: { toReceive: true } }}
+            params={{ nextRoutes: ['Amount', 'Reason', 'ReceiveAmount'], params: { toReceive: true } }}
           >
-            Generate detailed request
+            Request specific amount
           </PushButton>
+          {isMobile && navigator.share ? (
+            <CustomButton style={styles.shareButton} onPress={shareAction}>
+              {SHARE_TEXT}
+            </CustomButton>
+          ) : (
+            <CopyButton style={styles.shareButton} toCopy={account} onPressDone={screenProps.goToRoot}>
+              {SHARE_TEXT}
+            </CopyButton>
+          )}
         </Section.Stack>
       </Section>
     </Wrapper>
@@ -102,4 +80,15 @@ Receive.navigationOptions = {
   title: RECEIVE_TITLE,
 }
 
-export default Receive
+const getStylesFromProps = ({ theme }) => {
+  return {
+    shareButton: {
+      marginTop: theme.paddings.defaultMargin,
+    },
+    mainText: {
+      marginBottom: theme.paddings.defaultMargin,
+    },
+  }
+}
+
+export default withStyles(getStylesFromProps)(Receive)

@@ -10,25 +10,26 @@ export type AmountProps = {
   navigation: any,
 }
 
-const TITLE = 'Send G$'
+const TITLE = 'Receive G$'
 
-const SendReason = (props: AmountProps) => {
+const ReceiveFrom = (props: AmountProps) => {
   const { screenProps } = props
 
   const [screenState, setScreenState] = useScreenState(screenProps)
-  const { reason, ...restState } = screenState
+  const { params } = screenState || {}
+  const { fromWho } = screenState
 
   return (
     <Wrapper>
       <TopBar push={screenProps.push} />
       <Section grow>
         <Section.Stack grow justifyContent="flex-start">
-          <Section.Title>What For?</Section.Title>
+          <Section.Title>From Who?</Section.Title>
           <InputText
             autoFocus
-            value={reason}
-            onChangeText={reason => setScreenState({ reason })}
-            placeholder="Add a message"
+            value={fromWho}
+            onChangeText={fromWho => setScreenState({ fromWho })}
+            placeholder="Enter the recipient name"
           />
         </Section.Stack>
         <Section.Row>
@@ -40,9 +41,9 @@ const SendReason = (props: AmountProps) => {
           <Section.Stack grow={2}>
             <NextButton
               nextRoutes={screenState.nextRoutes}
-              values={{ ...restState, reason }}
+              values={{ params, fromWho }}
               {...props}
-              label={reason ? 'Next' : 'Skip'}
+              label={fromWho ? 'Next' : 'Skip'}
             />
           </Section.Stack>
         </Section.Row>
@@ -51,13 +52,13 @@ const SendReason = (props: AmountProps) => {
   )
 }
 
-SendReason.navigationOptions = {
+ReceiveFrom.navigationOptions = {
   title: TITLE,
 }
 
-SendReason.shouldNavigateToComponent = props => {
+ReceiveFrom.shouldNavigateToComponent = props => {
   const { screenState } = props.screenProps
-  return screenState.amount >= 0 && screenState.nextRoutes
+  return screenState.nextRoutes
 }
 
-export default SendReason
+export default ReceiveFrom

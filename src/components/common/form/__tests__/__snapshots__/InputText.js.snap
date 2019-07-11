@@ -1,0 +1,234 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`InputText empty matches snapshot 1`] = `
+<div
+  className="css-view-1dbjc4n"
+  style={
+    Object {
+      "WebkitBoxFlex": 1,
+      "WebkitFlexBasis": "0%",
+      "WebkitFlexGrow": 1,
+      "WebkitFlexShrink": 1,
+      "flexBasis": "0%",
+      "flexGrow": 1,
+      "flexShrink": 1,
+      "msFlexNegative": 1,
+      "msFlexPositive": 1,
+      "msFlexPreferredSize": "0%",
+    }
+  }
+>
+  <input
+    autoCapitalize="sentences"
+    autoComplete="on"
+    autoCorrect="on"
+    className="css-textinput-1cwyjr8"
+    data-focusable={true}
+    dir="auto"
+    onBlur={[Function]}
+    onChange={[Function]}
+    onFocus={[Function]}
+    onKeyDown={[Function]}
+    onKeyPress={[Function]}
+    onSelect={[Function]}
+    readOnly={false}
+    spellCheck={true}
+    style={
+      Object {
+        "borderBottomColor": "rgba(66,69,74,1.00)",
+        "borderBottomStyle": "solid",
+        "borderBottomWidth": "1px",
+        "color": "rgba(66,69,74,1.00)",
+        "fontSize": "18px",
+        "fontStyle": "RobotoSlab-Regular",
+        "paddingBottom": "8px",
+        "paddingLeft": "8px",
+        "paddingRight": "8px",
+        "paddingTop": "8px",
+        "textAlign": "center",
+      }
+    }
+    styles={
+      Object {
+        "input": Object {
+          "borderBottomColor": "#42454A",
+          "borderBottomStyle": "solid",
+          "borderBottomWidth": 1,
+          "color": "#42454A",
+          "fontSize": 18,
+          "fontStyle": "RobotoSlab-Regular",
+          "padding": 8,
+          "textAlign": "center",
+        },
+      }
+    }
+    theme={
+      Object {
+        "colors": Object {
+          "accent": "#03dac4",
+          "backdrop": "rgba(0, 0, 0, 0.5)",
+          "background": "#f6f6f6",
+          "blue": "#006EA0",
+          "darkBlue": "#0C263D",
+          "darkGray": "#42454A",
+          "disabled": "rgba(0, 0, 0, 0.26)",
+          "error": "#B00020",
+          "gray50Percent": "#CBCBCB",
+          "green": "#00C3AE",
+          "lightGray": "#EEE",
+          "notification": "#f50057",
+          "orange": "#F8AF40",
+          "placeholder": "#CBCBCB",
+          "primary": "#00AFFF",
+          "purple": "#9F6A9D",
+          "red": "#FA6C77",
+          "surface": "#ffffff",
+          "text": "#222",
+        },
+        "dark": false,
+        "fontStyle": Object {
+          "color": "#555",
+          "fontSize": 18,
+          "textAlign": "center",
+        },
+        "fonts": Object {
+          "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+          "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+          "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+          "slab": "RobotoSlab-Regular",
+          "slabBold": "RobotoSlab-Bold",
+          "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+        },
+        "paddings": Object {
+          "defaultMargin": 8,
+          "mainContainerPadding": 8,
+        },
+        "roundness": 4,
+        "sizes": Object {
+          "default": 8,
+          "defaultDouble": 16,
+          "defaultHalf": 4,
+        },
+      }
+    }
+    type="text"
+  />
+</div>
+`;
+
+exports[`InputText matches snapshot 1`] = `
+<div
+  className="css-view-1dbjc4n"
+  style={
+    Object {
+      "WebkitBoxFlex": 1,
+      "WebkitFlexBasis": "0%",
+      "WebkitFlexGrow": 1,
+      "WebkitFlexShrink": 1,
+      "flexBasis": "0%",
+      "flexGrow": 1,
+      "flexShrink": 1,
+      "msFlexNegative": 1,
+      "msFlexPositive": 1,
+      "msFlexPreferredSize": "0%",
+    }
+  }
+>
+  <input
+    autoCapitalize="sentences"
+    autoComplete="on"
+    autoCorrect="on"
+    className="css-textinput-1cwyjr8"
+    data-focusable={true}
+    dir="auto"
+    onBlur={[Function]}
+    onChange={[Function]}
+    onFocus={[Function]}
+    onKeyDown={[Function]}
+    onKeyPress={[Function]}
+    onSelect={[Function]}
+    readOnly={false}
+    spellCheck={true}
+    style={
+      Object {
+        "borderBottomColor": "rgba(66,69,74,1.00)",
+        "borderBottomStyle": "solid",
+        "borderBottomWidth": "1px",
+        "color": "rgba(66,69,74,1.00)",
+        "fontSize": "18px",
+        "fontStyle": "RobotoSlab-Regular",
+        "paddingBottom": "8px",
+        "paddingLeft": "8px",
+        "paddingRight": "8px",
+        "paddingTop": "8px",
+        "textAlign": "center",
+      }
+    }
+    styles={
+      Object {
+        "input": Object {
+          "borderBottomColor": "#42454A",
+          "borderBottomStyle": "solid",
+          "borderBottomWidth": 1,
+          "color": "#42454A",
+          "fontSize": 18,
+          "fontStyle": "RobotoSlab-Regular",
+          "padding": 8,
+          "textAlign": "center",
+        },
+      }
+    }
+    theme={
+      Object {
+        "colors": Object {
+          "accent": "#03dac4",
+          "backdrop": "rgba(0, 0, 0, 0.5)",
+          "background": "#f6f6f6",
+          "blue": "#006EA0",
+          "darkBlue": "#0C263D",
+          "darkGray": "#42454A",
+          "disabled": "rgba(0, 0, 0, 0.26)",
+          "error": "#B00020",
+          "gray50Percent": "#CBCBCB",
+          "green": "#00C3AE",
+          "lightGray": "#EEE",
+          "notification": "#f50057",
+          "orange": "#F8AF40",
+          "placeholder": "#CBCBCB",
+          "primary": "#00AFFF",
+          "purple": "#9F6A9D",
+          "red": "#FA6C77",
+          "surface": "#ffffff",
+          "text": "#222",
+        },
+        "dark": false,
+        "fontStyle": Object {
+          "color": "#555",
+          "fontSize": 18,
+          "textAlign": "center",
+        },
+        "fonts": Object {
+          "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+          "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+          "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+          "slab": "RobotoSlab-Regular",
+          "slabBold": "RobotoSlab-Bold",
+          "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+        },
+        "paddings": Object {
+          "defaultMargin": 8,
+          "mainContainerPadding": 8,
+        },
+        "roundness": 4,
+        "sizes": Object {
+          "default": 8,
+          "defaultDouble": 16,
+          "defaultHalf": 4,
+        },
+      }
+    }
+    type="text"
+    value="Text"
+  />
+</div>
+`;

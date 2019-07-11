@@ -5,7 +5,6 @@ const listRowMaxHeight = normalize(84)
 
 export const listStyles = StyleSheet.create({
   row: {
-    backgroundColor: '#fff',
     borderRadius: normalize(8),
     elevation: 1,
     flexDirection: 'row',
@@ -20,6 +19,7 @@ export const listStyles = StyleSheet.create({
   },
   rowContent: {
     alignItems: 'center',
+    backgroundColor: '#fff',
     flex: 1,
     justifyContent: 'center',
     paddingLeft: normalize(8),

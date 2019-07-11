@@ -20,14 +20,13 @@ const FeedListItem = props => {
 
   return (
     <TouchableHighlight
+      activeOpacity={0.5}
       onPress={() => props.onPress(props.item.id)}
-      tvParallaxProperties={{
-        pressMagnification: 1.1
-      }}
       style={listStyles.row}
-      activeOpacity={0.1}
+      tvParallaxProperties={{ pressMagnification: 1.1 }}
+      underlayColor={theme.colors.lightGray}
     >
-      <View style={listStyles.rowContent}>
+      <View style={[listStyles.rowContent]}>
         <View style={[listStyles.rowContentBorder, imageStyle]} />
         <ListEventItem {...props} />
       </View>

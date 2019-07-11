@@ -1,10 +1,9 @@
 // @flow
 import React from 'react'
-import { withStyles } from '../../../lib/styles'
 import Text from '../view/Text'
 
 const SectionText = (props: any) => {
-  return <Text {...props} />
+  return <Text color="darkGray" fontSize={14} style={props.style} {...props} />
 }
 
-export default withStyles()(SectionText)
+export default SectionText

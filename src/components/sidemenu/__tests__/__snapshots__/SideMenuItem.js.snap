@@ -95,12 +95,11 @@ exports[`SideMenuItem matches snapshot 1`] = `
     dir="auto"
     style={
       Object {
-        "color": "rgba(0,0,0,1.00)",
         "direction": "ltr",
         "fontFamily": "Roboto",
-        "fontSize": "14px",
+        "fontSize": "16px",
         "fontWeight": "normal",
-        "lineHeight": "20px",
+        "lineHeight": "22px",
         "textAlign": "center",
         "textDecoration": "none",
         "textTransform": "none",

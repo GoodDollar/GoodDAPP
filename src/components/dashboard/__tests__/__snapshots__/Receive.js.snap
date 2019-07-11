@@ -443,7 +443,7 @@ exports[`Receive matches snapshot 1`] = `
                     "lightGray": "#EEE",
                     "notification": "#f50057",
                     "orange": "#F8AF40",
-                    "placeholder": "rgba(0, 0, 0, 0.54)",
+                    "placeholder": "#CBCBCB",
                     "primary": "#00AFFF",
                     "purple": "#9F6A9D",
                     "red": "#FA6C77",
@@ -469,6 +469,11 @@ exports[`Receive matches snapshot 1`] = `
                     "mainContainerPadding": 8,
                   },
                   "roundness": 4,
+                  "sizes": Object {
+                    "default": 8,
+                    "defaultDouble": 16,
+                    "defaultHalf": 4,
+                  },
                 }
               }
               width={128}

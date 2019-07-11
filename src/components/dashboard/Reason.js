@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { TextInput } from 'react-native-paper'
+import InputText from '../common/form/InputText'
 
 import { Section, TopBar, Wrapper } from '../common'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
@@ -24,7 +24,7 @@ const SendReason = (props: AmountProps) => {
       <Section grow>
         <Section.Stack grow justifyContent="flex-start">
           <Section.Title>What For?</Section.Title>
-          <TextInput
+          <InputText
             autoFocus
             value={reason}
             onChangeText={reason => setScreenState({ reason })}

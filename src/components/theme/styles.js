@@ -11,6 +11,7 @@ export const theme = {
     darkBlue: '#0C263D',
     darkGray: '#42454A',
     gray50Percent: '#CBCBCB',
+    placeholder: '#CBCBCB',
     green: '#00C3AE',
     lightGray: '#EEE',
     orange: '#F8AF40',
@@ -25,6 +26,11 @@ export const theme = {
   paddings: {
     mainContainerPadding: normalize(8),
     defaultMargin: normalize(8)
+  },
+  sizes: {
+    default: normalize(8),
+    defaultDouble: normalize(16),
+    defaultHalf: normalize(4)
   },
   fontStyle: {
     color: '#555',

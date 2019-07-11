@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { TextInput } from 'react-native-paper'
+import InputText from '../common/form/InputText'
 
 import { Section, TopBar, Wrapper } from '../common'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
@@ -24,11 +24,11 @@ const ReceiveFrom = (props: AmountProps) => {
       <Section grow>
         <Section.Stack grow justifyContent="flex-start">
           <Section.Title>From Who?</Section.Title>
-          <TextInput
+          <InputText
             autoFocus
             value={fromWho}
             onChangeText={fromWho => setScreenState({ fromWho })}
-            placeholder="Add a message"
+            placeholder="Enter the recipient name"
           />
         </Section.Stack>
         <Section.Row>

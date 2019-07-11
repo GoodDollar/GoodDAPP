@@ -300,74 +300,103 @@ exports[`ReceiveFrom matches snapshot 1`] = `
         >
           From Who?
         </div>
-        <div
-          className="css-view-1dbjc4n"
+        <input
+          autoCapitalize="sentences"
+          autoComplete="on"
+          autoCorrect="on"
+          autoFocus={true}
+          className="css-textinput-1cwyjr8"
+          data-focusable={true}
+          dir="auto"
+          onBlur={[Function]}
+          onChange={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          onKeyPress={[Function]}
+          onSelect={[Function]}
+          placeholder="Enter the recipient name"
+          readOnly={false}
+          spellCheck={true}
           style={
             Object {
-              "backgroundColor": "rgba(231,231,231,1.00)",
-              "borderTopLeftRadius": "4px",
-              "borderTopRightRadius": "4px",
+              "borderBottomColor": "rgba(66,69,74,1.00)",
+              "borderBottomStyle": "solid",
+              "borderBottomWidth": "1px",
+              "color": "rgba(66,69,74,1.00)",
+              "fontSize": "18px",
+              "fontStyle": "RobotoSlab-Regular",
+              "paddingBottom": "8px",
+              "paddingLeft": "8px",
+              "paddingRight": "8px",
+              "paddingTop": "8px",
+              "textAlign": "center",
             }
           }
-        >
-          <div
-            className="css-view-1dbjc4n"
-            style={
-              Object {
-                "WebkitTransform": "scaleY(0.5)",
-                "backgroundColor": "rgba(0,0,0,0.26)",
-                "bottom": "0px",
-                "height": "2px",
-                "left": "0px",
-                "position": "absolute",
-                "right": "0px",
-                "transform": "scaleY(0.5)",
-              }
+          styles={
+            Object {
+              "input": Object {
+                "borderBottomColor": "#42454A",
+                "borderBottomStyle": "solid",
+                "borderBottomWidth": 1,
+                "color": "#42454A",
+                "fontSize": 18,
+                "fontStyle": "RobotoSlab-Regular",
+                "padding": 8,
+                "textAlign": "center",
+              },
             }
-          />
-          <input
-            autoCapitalize="sentences"
-            autoComplete="on"
-            autoCorrect="on"
-            autoFocus={true}
-            className="css-textinput-1cwyjr8 r-placeholderTextColor-1qzd3f0"
-            data-focusable={true}
-            dir="auto"
-            onBlur={[Function]}
-            onChange={[Function]}
-            onFocus={[Function]}
-            onKeyDown={[Function]}
-            onKeyPress={[Function]}
-            onSelect={[Function]}
-            placeholder="Add a message"
-            readOnly={false}
-            spellCheck={true}
-            style={
-              Object {
-                "WebkitBoxFlex": 1,
-                "WebkitFlexGrow": 1,
-                "color": "rgba(34,34,34,1.00)",
-                "flexGrow": 1,
-                "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                "fontSize": "16px",
-                "marginBottom": "0px",
-                "marginLeft": "0px",
-                "marginRight": "0px",
-                "marginTop": "0px",
-                "minHeight": "58px",
-                "msFlexPositive": 1,
-                "paddingBottom": "15px",
-                "paddingLeft": "12px",
-                "paddingRight": "12px",
-                "paddingTop": "15px",
-                "textAlign": "left",
-                "verticalAlign": "middle",
-                "zIndex": 1,
-              }
+          }
+          theme={
+            Object {
+              "colors": Object {
+                "accent": "#03dac4",
+                "backdrop": "rgba(0, 0, 0, 0.5)",
+                "background": "#f6f6f6",
+                "blue": "#006EA0",
+                "darkBlue": "#0C263D",
+                "darkGray": "#42454A",
+                "disabled": "rgba(0, 0, 0, 0.26)",
+                "error": "#B00020",
+                "gray50Percent": "#CBCBCB",
+                "green": "#00C3AE",
+                "lightGray": "#EEE",
+                "notification": "#f50057",
+                "orange": "#F8AF40",
+                "placeholder": "#CBCBCB",
+                "primary": "#00AFFF",
+                "purple": "#9F6A9D",
+                "red": "#FA6C77",
+                "surface": "#ffffff",
+                "text": "#222",
+              },
+              "dark": false,
+              "fontStyle": Object {
+                "color": "#555",
+                "fontSize": 18,
+                "textAlign": "center",
+              },
+              "fonts": Object {
+                "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                "slab": "RobotoSlab-Regular",
+                "slabBold": "RobotoSlab-Bold",
+                "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              },
+              "paddings": Object {
+                "defaultMargin": 8,
+                "mainContainerPadding": 8,
+              },
+              "roundness": 4,
+              "sizes": Object {
+                "default": 8,
+                "defaultDouble": 16,
+                "defaultHalf": 4,
+              },
             }
-            type="text"
-          />
-        </div>
+          }
+          type="text"
+        />
       </div>
       <div
         className="css-view-1dbjc4n"

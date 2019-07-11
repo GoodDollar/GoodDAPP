@@ -35,7 +35,6 @@ const getComposedSettings = (settings?: {} = {}): {} => {
 }
 
 export const toMask = (gd?: number, settings?: {}): string => {
-  console.info({ gd })
   const precision = gd && gd % 1 != 0 ? maskSettings.precision : 0
   return gd ? MaskService.toMask('money', gd, { ...getComposedSettings(settings), precision }) : null
 }

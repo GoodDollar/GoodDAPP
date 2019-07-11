@@ -243,14 +243,13 @@ exports[`Reason matches snapshot 1`] = `
           "flexBasis": "0%",
           "flexGrow": 1,
           "flexShrink": 1,
-          "marginBottom": "15px",
           "msFlexNegative": 1,
           "msFlexPositive": 1,
           "msFlexPreferredSize": "0%",
-          "paddingBottom": "15px",
+          "paddingBottom": "8px",
           "paddingLeft": "8px",
           "paddingRight": "8px",
-          "paddingTop": "15px",
+          "paddingTop": "8px",
         }
       }
     >

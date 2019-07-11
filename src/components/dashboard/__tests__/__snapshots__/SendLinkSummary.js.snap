@@ -402,12 +402,12 @@ exports[`SendLinkSummary matches snapshot 1`] = `
           dir="auto"
           style={
             Object {
-              "color": "rgba(85,85,85,1.00)",
+              "color": "rgba(66,69,74,1.00)",
               "direction": "ltr",
               "fontFamily": "Roboto",
               "fontSize": "16px",
               "fontWeight": "normal",
-              "lineHeight": "22px",
+              "lineHeight": "20px",
               "textAlign": "center",
               "textDecoration": "none",
               "textTransform": "none",
@@ -468,12 +468,12 @@ exports[`SendLinkSummary matches snapshot 1`] = `
           dir="auto"
           style={
             Object {
-              "color": "rgba(85,85,85,1.00)",
+              "color": "rgba(66,69,74,1.00)",
               "direction": "ltr",
               "fontFamily": "Roboto",
               "fontSize": "16px",
               "fontWeight": "normal",
-              "lineHeight": "22px",
+              "lineHeight": "20px",
               "textAlign": "center",
               "textDecoration": "none",
               "textTransform": "none",

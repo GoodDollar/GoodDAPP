@@ -14,7 +14,7 @@ import MnemonicInput from './MnemonicInput'
 const TITLE = 'Recover'
 const log = logger.child({ from: TITLE })
 
-const Mnemonics = ({ styles, theme }) => {
+const Mnemonics = ({ styles }) => {
   //lazy load heavy wallet stuff for fast initial app load (part of initial routes)
   const mnemonicsHelpers = import('../../lib/wallet/SoftwareWalletProvider')
   const [mnemonics, setMnemonics] = useState()
@@ -61,9 +61,7 @@ const Mnemonics = ({ styles, theme }) => {
     <Section grow={5} style={styles.wrapper}>
       <Section.Stack grow style={styles.instructions} justifyContent="space-around">
         <Text fontWeight="bold" fontSize={22}>{`Please enter your\n12-word pass phrase:`}</Text>
-        <Text color={theme.colors.gray50Percent} fontSize={14}>
-          You can copy-paste it from your backup email
-        </Text>
+        <Text color="gray50Percent">You can copy-paste it from your backup email</Text>
       </Section.Stack>
       <Section.Stack grow={4} justifyContent="space-between" style={styles.inputsContainer}>
         <MnemonicInput recoveryMode={false} onChange={handleChange} />

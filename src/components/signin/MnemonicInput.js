@@ -22,7 +22,7 @@ const isValidWord = word => {
   return word !== ''
 }
 
-const MnemonicInput = ({ onChange, recoveryMode, styles, theme }: Props) => {
+const MnemonicInput = ({ onChange, recoveryMode, styles }: Props) => {
   const [state, setState] = useState({})
   const refs = {}
 
@@ -87,7 +87,7 @@ const MnemonicInput = ({ onChange, recoveryMode, styles, theme }: Props) => {
       {[...Array(MAX_WORDS).keys()].map(key => (
         <View key={key} style={styles.inputContainer}>
           <View style={styles.prevNumber}>
-            <Text color={theme.colors.surface}>{key + 1}</Text>
+            <Text color="surface">{key + 1}</Text>
           </View>
           <TextInput
             value={state[key] || ''}

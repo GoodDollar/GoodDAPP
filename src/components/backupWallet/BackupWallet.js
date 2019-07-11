@@ -47,7 +47,7 @@ const BackupWallet = ({ screenProps, styles, theme }: BackupWalletProps) => {
         <MnemonicInput recoveryMode={mnemonics} />
       </Section.Stack>
       <Section.Stack grow style={styles.bottomContainer} justifyContent="space-between">
-        <Text color={theme.colors.primary} onPress={sendRecoveryEmail}>
+        <Text color="primary" onPress={sendRecoveryEmail}>
           Resend backup email
         </Text>
         <CustomButton color={theme.colors.primary} onPress={screenProps.pop}>

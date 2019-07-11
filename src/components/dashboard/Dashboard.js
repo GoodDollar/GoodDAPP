@@ -180,7 +180,7 @@ const Dashboard = props => {
               </Section.Stack>
             </Section.Row>
           )}
-          <Section.Row style={styles.buttonsRow}>
+          <Section.Row style={styles.buttonsRow} alignItems="stretch">
             <PushButton
               routeName={'Send'}
               screenProps={screenProps}
@@ -226,7 +226,6 @@ const Dashboard = props => {
 
 const styles = StyleSheet.create({
   buttonsRow: {
-    alignItems: 'stretch',
     marginVertical: normalize(8)
   },
   leftButton: {

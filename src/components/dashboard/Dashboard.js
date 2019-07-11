@@ -160,13 +160,13 @@ const Dashboard = props => {
         <Section>
           {scrollPos < 100 ? (
             <>
-              <Section.Row style={styles.centered}>
+              <Section.Row justifyContent="center" alignItems="baseline">
                 <Avatar size={80} source={avatar} onPress={() => screenProps.push('Profile')} />
               </Section.Row>
-              <Section.Row style={styles.centered}>
+              <Section.Row justifyContent="center" alignItems="baseline">
                 <Section.Title>{fullName || ' '}</Section.Title>
               </Section.Row>
-              <Section.Row style={styles.centered}>
+              <Section.Row justifyContent="center" alignItems="baseline">
                 <BigGoodDollar number={balance} />
               </Section.Row>
             </>
@@ -202,16 +202,18 @@ const Dashboard = props => {
             </PushButton>
           </Section.Row>
         </Section>
-        <FeedList
-          horizontal={horizontal}
-          handleFeedSelection={handleFeedSelection}
-          fixedHeight
-          virtualized
-          data={feeds}
-          updateData={() => {}}
-          initialNumToRender={PAGE_SIZE}
-          onEndReached={getNextFeed.bind(null, store)}
-        />
+        <View style={styles.marginTop}>
+          <FeedList
+            horizontal={horizontal}
+            handleFeedSelection={handleFeedSelection}
+            fixedHeight
+            virtualized
+            data={feeds}
+            updateData={() => {}}
+            initialNumToRender={PAGE_SIZE}
+            onEndReached={getNextFeed.bind(null, store)}
+          />
+        </View>
         {currentFeedProps && (
           <Portal>
             <FeedModalItem {...currentFeedProps} />
@@ -225,24 +227,23 @@ const Dashboard = props => {
 const styles = StyleSheet.create({
   buttonsRow: {
     alignItems: 'stretch',
-    marginTop: normalize(10)
+    marginVertical: normalize(8)
   },
   leftButton: {
     flex: 1,
-    marginRight: normalize(20),
-    paddingRight: normalize(20)
+    marginRight: normalize(16),
+    paddingRight: normalize(16)
   },
   rightButton: {
     flex: 1,
-    marginLeft: normalize(20),
-    paddingLeft: normalize(20)
+    marginLeft: normalize(16),
+    paddingLeft: normalize(16)
   },
   dashboardView: {
     flex: 1
   },
-  centered: {
-    justifyContent: 'center',
-    alignItems: 'baseline'
+  marginTop: {
+    marginTop: normalize(8)
   },
   centering: {
     alignItems: 'center',

@@ -2,9 +2,8 @@
 import QRCode from 'qrcode.react'
 import React, { useCallback, useEffect, useState } from 'react'
 import { Clipboard, StyleSheet, Text, View } from 'react-native'
-import { normalize } from 'react-native-elements'
 import { isMobile } from 'mobile-device-detect'
-
+import normalize from 'react-native-elements/src/helpers/normalizeText'
 import logger from '../../lib/logger/pino-logger'
 import { generateHrefLinks, generateShareObject } from '../../lib/share'
 import GDStore from '../../lib/undux/GDStore'

@@ -2,17 +2,14 @@
 import React, { useState, useEffect } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Paragraph } from 'react-native-paper'
-import { normalize } from 'react-native-elements'
+import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { getMnemonics, getMnemonicsObject } from '../../lib/wallet/SoftwareWalletProvider'
-import logger from '../../lib/logger/pino-logger'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import MnemonicInput from '../signin/MnemonicInput'
 import { CustomButton } from '../common'
 import { useWrappedApi } from '../../lib/API/useWrappedApi'
 
 const TITLE = 'Back up your wallet'
-
-const log = logger.child({ from: TITLE })
 
 type BackupWalletProps = {
   screenProps: any

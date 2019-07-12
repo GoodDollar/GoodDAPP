@@ -1,15 +1,6 @@
 // @flow
 import React, { PureComponent } from 'react'
-import {
-  ActivityIndicator,
-  Animated,
-  Dimensions,
-  FlatList,
-  StyleSheet,
-  SwipeableFlatList,
-  Text,
-  View
-} from 'react-native'
+import { ActivityIndicator, Animated, Dimensions, FlatList, StyleSheet, SwipeableFlatList, View } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import GDStore from '../../lib/undux/GDStore'
 import pino from '../../lib/logger/pino-logger'
@@ -28,6 +19,8 @@ const VIEWABILITY_CONFIG = {
   viewAreaCoveragePercentThreshold: 100,
   waitForInteraction: true
 }
+
+const emptyFeed = { type: 'empty' }
 
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList)
 const AnimatedSwipeableFlatList = Animated.createAnimatedComponent(SwipeableFlatList)
@@ -92,8 +85,10 @@ class FeedList extends PureComponent<FeedListProps, FeedListState> {
 
   pressItem = (item, index: number) => () => {
     const { handleFeedSelection, horizontal } = this.props
-    handleFeedSelection(item, !horizontal)
-    this.scrollToItem(item)
+    if (item.type !== 'empty') {
+      handleFeedSelection(item, !horizontal)
+      this.scrollToItem(item)
+    }
   }
 
   flatListRef = null
@@ -114,13 +109,15 @@ class FeedList extends PureComponent<FeedListProps, FeedListState> {
   renderList = (feeds: any, loading: boolean) => {
     const { fixedHeight, onEndReached, initialNumToRender, horizontal } = this.props
 
+    // eslint-disable-next-line no-console
+    console.log('RenderList', { feeds, loading, horizontal })
     if (horizontal) {
       return (
         <View style={styles.horizontalContainer}>
           {loading ? <ActivityIndicator style={styles.loading} animating={true} color="gray" size="large" /> : null}
           <AnimatedFlatList
             initialNumToRender={5}
-            data={feeds}
+            data={feeds && feeds.length ? feeds : [emptyFeed]}
             getItemLayout={fixedHeight ? this.getItemLayout : undefined}
             horizontal={horizontal}
             key={(horizontal ? 'h' : 'v') + (fixedHeight ? 'f' : 'd')}
@@ -141,12 +138,11 @@ class FeedList extends PureComponent<FeedListProps, FeedListState> {
     }
     return (
       <View style={styles.verticalContainer}>
-        {loading ? <ActivityIndicator style={styles.loading} animating={true} color="gray" size="large" /> : null}
         <AnimatedSwipeableFlatList
           bounceFirstRowOnMount={true}
           maxSwipeDistance={160}
           initialNumToRender={initialNumToRender || 10}
-          data={feeds}
+          data={feeds && feeds.length ? [...feeds, emptyFeed] : [emptyFeed]}
           getItemLayout={fixedHeight ? this.getItemLayout : undefined}
           horizontal={horizontal}
           key={(horizontal ? 'h' : 'v') + (fixedHeight ? 'f' : 'd')}
@@ -170,17 +166,7 @@ class FeedList extends PureComponent<FeedListProps, FeedListState> {
     const { data } = this.props
     const feeds = data && data instanceof Array && data.length ? data : undefined
     const loading = this.props.store.get('feedLoading')
-    return feeds ? (
-      this.renderList(feeds, loading)
-    ) : (
-      <View style={styles.verticalContainer}>
-        {loading ? (
-          <ActivityIndicator animating={true} color="gray" size="large" />
-        ) : (
-          <Text style={{ textAlign: 'center' }}>Feed is empty.</Text>
-        )}
-      </View>
-    )
+    return this.renderList(feeds, loading)
   }
 }
 
@@ -206,7 +192,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   verticalList: {
-    backgroundColor: '#fff',
     width: '100%',
     maxWidth: '100vw'
   },

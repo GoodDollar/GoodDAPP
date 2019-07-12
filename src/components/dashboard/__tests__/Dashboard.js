@@ -1,15 +1,10 @@
 import { createSwitchNavigator } from '@react-navigation/core'
 import { createBrowserApp } from '@react-navigation/web'
 import React from 'react'
-import { Provider as PaperProvider } from 'react-native-paper'
 import renderer from 'react-test-renderer'
-import { theme } from '../../theme/styles'
-
-// Note: test renderer must be required after react-native.
-
 import { StoresWrapper } from '../../../lib/undux/utils/storeswrapper.js'
-
 import userStorage from '../../../lib/gundb/UserStorage'
+import { withThemeProvider } from '../../../__tests__/__util__'
 import { getComponentWithMocks } from './__util__'
 
 const routes = {
@@ -21,12 +16,11 @@ class AppNavigation extends React.Component<AppNavigationProps, AppNavigationSta
   static router = AppNavigator.router
 
   render() {
+    const WrappedAppNavigator = withThemeProvider(AppNavigator)
     return (
-      <PaperProvider theme={theme}>
-        <StoresWrapper>
-          <AppNavigator navigation={this.props.navigation} screenProps={{ routes }} />
-        </StoresWrapper>
-      </PaperProvider>
+      <StoresWrapper>
+        <WrappedAppNavigator navigation={this.props.navigation} screenProps={{ routes }} />
+      </StoresWrapper>
     )
   }
 }

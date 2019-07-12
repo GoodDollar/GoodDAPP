@@ -5,7 +5,7 @@ import { generateCode, generateReceiveShareObject } from '../../lib/share'
 
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import goodWallet from '../../lib/wallet/GoodWallet'
-import { PushButton } from '../appNavigation/stackNavigation'
+import { PushButton } from '../appNavigation/PushButton'
 import { CopyButton, CustomButton, QRCode, ScanQRButton, Section, TopBar, Wrapper } from '../common'
 import { withStyles } from '../../lib/styles'
 
@@ -80,15 +80,13 @@ Receive.navigationOptions = {
   title: RECEIVE_TITLE,
 }
 
-const getStylesFromProps = ({ theme }) => {
-  return {
-    shareButton: {
-      marginTop: theme.paddings.defaultMargin,
-    },
-    mainText: {
-      marginBottom: theme.paddings.defaultMargin,
-    },
-  }
-}
+const getStylesFromProps = ({ theme }) => ({
+  shareButton: {
+    marginTop: theme.paddings.defaultMargin,
+  },
+  mainText: {
+    marginBottom: theme.paddings.defaultMargin,
+  },
+})
 
 export default withStyles(getStylesFromProps)(Receive)

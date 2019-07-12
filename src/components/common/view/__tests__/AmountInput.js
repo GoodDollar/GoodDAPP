@@ -3,7 +3,7 @@ import renderer from 'react-test-renderer'
 import AmountInput from '../AmountInput'
 
 describe('AmountInput', () => {
-  let amount = 14
+  let amount = '14'
   const handleAmountChange = value => {
     amount = value
   }

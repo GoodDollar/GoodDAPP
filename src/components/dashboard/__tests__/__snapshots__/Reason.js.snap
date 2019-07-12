@@ -190,7 +190,7 @@ exports[`Reason matches snapshot 1`] = `
                 "color": "rgba(85,85,85,1.00)",
                 "direction": "ltr",
                 "fontFamily": "Roboto",
-                "fontSize": "30px",
+                "fontSize": "48px",
                 "fontWeight": "normal",
                 "lineHeight": "22px",
                 "textAlign": "right",
@@ -376,6 +376,7 @@ exports[`Reason matches snapshot 1`] = `
                 "textAlign": "center",
               },
               "fonts": Object {
+                "bold": "Roboto-Bold",
                 "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                 "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                 "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
@@ -558,12 +559,8 @@ exports[`Reason matches snapshot 1`] = `
                       style={
                         Object {
                           "direction": "ltr",
-                          "fontFamily": "Roboto",
-                          "fontSize": "16px",
-                          "fontWeight": "normal",
-                          "lineHeight": "22px",
-                          "textAlign": "center",
-                          "textDecoration": "none",
+                          "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                          "textAlign": "left",
                           "textTransform": "none",
                         }
                       }
@@ -726,12 +723,8 @@ exports[`Reason matches snapshot 1`] = `
                         Object {
                           "color": "rgba(255,255,255,1.00)",
                           "direction": "ltr",
-                          "fontFamily": "Roboto",
-                          "fontSize": "16px",
-                          "fontWeight": "normal",
-                          "lineHeight": "22px",
-                          "textAlign": "center",
-                          "textDecoration": "none",
+                          "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                          "textAlign": "left",
                           "textTransform": "uppercase",
                         }
                       }

@@ -11,9 +11,10 @@ import { useDialog } from '../../lib/undux/utils/dialog'
 import { getInitialFeed, getNextFeed, PAGE_SIZE } from '../../lib/undux/utils/feed'
 import { executeWithdraw } from '../../lib/undux/utils/withdraw'
 import { weiToMask } from '../../lib/wallet/utils'
-import { createStackNavigator, PushButton } from '../appNavigation/stackNavigation'
+import { createStackNavigator } from '../appNavigation/stackNavigation'
+import { PushButton } from '../appNavigation/PushButton'
 import TabsView from '../appNavigation/TabsView'
-import { Avatar, BigGoodDollar, Section, Text, Wrapper } from '../common'
+import { Avatar, BigGoodDollar, ClaimButton, Section, Wrapper } from '../common'
 import logger from '../../lib/logger/pino-logger'
 import userStorage from '../../lib/gundb/UserStorage'
 import { PrivacyPolicy, Support, TermsOfUse } from '../webView/webViewInstances'
@@ -75,21 +76,11 @@ const Dashboard = props => {
     }
   }, [params])
 
-  // componentWillUnmount() {
-  //   // TODO: we should be removing the listener in unmount but this causes that you cannot re-subscribe
-  //   // userStorage.feed.get('byid').off()
-  // }
-
   const getFeeds = () => {
     getInitialFeed(gdstore)
   }
 
   const showEventModal = item => {
-    // props.screenProps.navigateTo('Home', {
-    //   event: item.id,
-    //   receiveLink: undefined,
-    //   reason: undefined
-    // })
     setState({
       currentFeedProps: {
         item,
@@ -135,9 +126,7 @@ const Dashboard = props => {
   }
 
   const closeFeedEvent = () => {
-    setState({
-      currentFeedProps: null,
-    })
+    setState({ currentFeedProps: null })
   }
 
   const handleWithdraw = async () => {
@@ -161,48 +150,71 @@ const Dashboard = props => {
   const { avatar, fullName } = gdstore.get('profile')
   const feeds = gdstore.get('feeds')
 
-  log.info('LOGGER FEEDS', { feeds })
+  // TODO: Calculate scroll position to update Dashboard avatar, name and gd amount view
+  const scrollPos = 100
 
+  log.info('LOGGER FEEDS', { feeds })
   return (
     <View style={styles.dashboardView}>
       <TabsView goTo={navigation.navigate} routes={screenProps.routes} />
       <Wrapper backgroundColor="#EEE">
         <Section>
-          <Section.Row style={styles.centered}>
-            <Avatar size={80} source={avatar} onPress={() => screenProps.push('Profile')} />
-          </Section.Row>
-          <Section.Row style={styles.centered}>
-            <Section.Title>{fullName || ' '}</Section.Title>
-          </Section.Row>
-          <Section.Row style={styles.centered}>
-            <BigGoodDollar number={balance} />
-          </Section.Row>
-          <Section.Row style={styles.buttonRow}>
-            <PushButton routeName={'Send'} screenProps={screenProps} style={styles.leftButton}>
+          {scrollPos < 100 ? (
+            <>
+              <Section.Row justifyContent="center" alignItems="baseline">
+                <Avatar size={80} source={avatar} onPress={() => screenProps.push('Profile')} />
+              </Section.Row>
+              <Section.Row justifyContent="center" alignItems="baseline">
+                <Section.Title>{fullName || ' '}</Section.Title>
+              </Section.Row>
+              <Section.Row justifyContent="center" alignItems="baseline">
+                <BigGoodDollar number={balance} />
+              </Section.Row>
+            </>
+          ) : (
+            <Section.Row>
+              <Section.Stack alignItems="flex-start">
+                <Avatar size={42} source={avatar} onPress={() => screenProps.push('Profile')} />
+              </Section.Stack>
+              <Section.Stack alignItems="flex-end">
+                <BigGoodDollar number={balance} />
+              </Section.Stack>
+            </Section.Row>
+          )}
+          <Section.Row style={styles.buttonsRow} alignItems="stretch">
+            <PushButton
+              routeName={'Send'}
+              screenProps={screenProps}
+              style={styles.leftButton}
+              icon="send"
+              iconAlignment="left"
+            >
               Send
             </PushButton>
-            <PushButton routeName={'Claim'} screenProps={screenProps}>
-              <Text style={[styles.buttonText]}>Claim</Text>
-              <br />
-              <Text style={[styles.buttonText, styles.grayedOutText]}>
-                +{weiToMask(entitlement, { showUnits: true })}
-              </Text>
-            </PushButton>
-            <PushButton routeName={'Receive'} screenProps={screenProps} style={styles.rightButton}>
+            <ClaimButton screenProps={screenProps} amount={weiToMask(entitlement, { showUnits: true })} />
+            <PushButton
+              routeName={'Receive'}
+              screenProps={screenProps}
+              style={styles.rightButton}
+              icon="receive"
+              iconAlignment="right"
+            >
               Receive
             </PushButton>
           </Section.Row>
         </Section>
-        <FeedList
-          horizontal={horizontal}
-          handleFeedSelection={handleFeedSelection}
-          fixedHeight
-          virtualized
-          data={feeds}
-          updateData={() => {}}
-          initialNumToRender={PAGE_SIZE}
-          onEndReached={getNextFeed.bind(null, gdstore)}
-        />
+        <View style={styles.marginTop}>
+          <FeedList
+            horizontal={horizontal}
+            handleFeedSelection={handleFeedSelection}
+            fixedHeight
+            virtualized
+            data={feeds}
+            updateData={() => {}}
+            initialNumToRender={PAGE_SIZE}
+            onEndReached={getNextFeed.bind(null, store)}
+          />
+        </View>
         {currentFeedProps && (
           <Portal>
             <FeedModalItem {...currentFeedProps} />
@@ -214,34 +226,24 @@ const Dashboard = props => {
 }
 
 const styles = StyleSheet.create({
-  buttonText: {
-    fontSize: normalize(16),
-    color: 'white',
-    fontWeight: 'bold',
-    textTransform: 'uppercase',
-  },
-  buttonRow: {
-    alignItems: 'stretch',
-    marginTop: normalize(10),
-  },
-  grayedOutText: {
-    color: '#d5d5d5',
-    fontSize: normalize(10),
+  buttonsRow: {
+    marginVertical: normalize(8),
   },
   leftButton: {
     flex: 1,
-    marginRight: normalize(10),
+    marginRight: normalize(16),
+    paddingRight: normalize(16),
   },
   rightButton: {
     flex: 1,
-    marginLeft: normalize(10),
+    marginLeft: normalize(16),
+    paddingLeft: normalize(16),
   },
   dashboardView: {
     flex: 1,
   },
-  centered: {
-    justifyContent: 'center',
-    alignItems: 'baseline',
+  marginTop: {
+    marginTop: normalize(8),
   },
   centering: {
     alignItems: 'center',

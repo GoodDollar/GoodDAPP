@@ -65,60 +65,39 @@ exports[`AmountInput matches snapshot 1`] = `
         }
       }
     >
-      <div
-        className="css-text-901oao"
+      <input
+        autoCapitalize="sentences"
+        autoComplete="on"
+        autoCorrect="on"
+        autoFocus={true}
+        className="css-textinput-1cwyjr8"
+        data-focusable={true}
         dir="auto"
+        disabled={false}
+        onBlur={[Function]}
+        onChange={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onKeyPress={[Function]}
+        onSelect={[Function]}
+        placeholder="0 G$"
+        readOnly={false}
+        spellCheck={true}
         style={
           Object {
-            "WebkitBoxFlex": 1,
-            "WebkitFlexGrow": 1,
-            "WebkitFlexShrink": 1,
-            "flexGrow": 1,
-            "flexShrink": 1,
-            "fontSize": "26px",
-            "lineHeight": "40px",
-            "msFlexNegative": 1,
-            "msFlexPositive": 1,
-            "textAlign": "right",
-            "whiteSpace": "normal",
+            "backgroundColor": "rgba(0,0,0,0.00)",
+            "borderBottomWidth": "1px",
+            "fontFamily": "RobotoSlab-Bold",
+            "fontSize": "18px",
+            "height": "40px",
+            "letterSpacing": "1.2px",
+            "textAlign": "center",
+            "width": "100%",
           }
         }
-      >
-        <input
-          autoCapitalize="sentences"
-          autoComplete="on"
-          autoCorrect="on"
-          autoFocus={true}
-          className="css-textinput-1cwyjr8"
-          data-focusable={true}
-          dir="auto"
-          disabled={false}
-          onBlur={[Function]}
-          onChange={[Function]}
-          onFocus={[Function]}
-          onKeyDown={[Function]}
-          onKeyPress={[Function]}
-          onSelect={[Function]}
-          placeholder="0 G$"
-          readOnly={false}
-          spellCheck={true}
-          style={
-            Object {
-              "backgroundColor": "rgba(0,0,0,0.00)",
-              "borderBottomColor": "rgba(66,69,74,1.00)",
-              "borderBottomWidth": "1px",
-              "fontFamily": "RobotoSlab-Bold",
-              "fontSize": "18px",
-              "height": "40px",
-              "letterSpacing": "1.2px",
-              "textAlign": "center",
-              "width": "100%",
-            }
-          }
-          type="text"
-          value="14"
-        />
-      </div>
+        type="text"
+        value="14"
+      />
     </div>
   </div>
   <div

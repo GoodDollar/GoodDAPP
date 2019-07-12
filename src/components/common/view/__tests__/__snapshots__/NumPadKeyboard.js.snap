@@ -871,8 +871,8 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
               "backgroundRepeat": "no-repeat",
               "backgroundSize": "contain",
               "cursor": "pointer",
-              "height": "25px",
-              "width": "25px",
+              "height": "30px",
+              "width": "40px",
             }
           }
         />

@@ -16,8 +16,8 @@ const getStylesFromProps = ({ theme }) => {
       borderBottomStyle: 'solid',
       borderBottomWidth: StyleSheet.hairlineWidth,
       padding: theme.sizes.default,
-      borderBottomColor: theme.colors.darkGray
-    }
+      borderBottomColor: theme.colors.darkGray,
+    },
   }
 }
 

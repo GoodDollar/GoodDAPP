@@ -21,31 +21,31 @@ class Splash extends Component {
 }
 
 Splash.navigationOptions = {
-  title: 'GoodDollar | Welcome'
+  title: 'GoodDollar | Welcome',
 }
 
 const styles = StyleSheet.create({
   logo: {
     maxWidth: '100%',
     minHeight: 256,
-    minWidth: 212
+    minWidth: 212,
   },
   screen: {
     alignItems: 'center',
     backgroundColor: '#fff',
     display: 'flex',
     height: '100%',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   splashText: {
     fontSize: normalize(22),
     marginHorizontal: '1.2em',
     textAlign: 'center',
-    lineHeight: normalize(30)
+    lineHeight: normalize(30),
   },
   boldText: {
-    fontWeight: '700'
-  }
+    fontWeight: '700',
+  },
 })
 
 export default Splash

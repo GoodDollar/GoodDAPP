@@ -49,7 +49,7 @@ const EditAvatar = props => {
 }
 
 EditAvatar.navigationOptions = {
-  title: TITLE
+  title: TITLE,
 }
 
 export default EditAvatar

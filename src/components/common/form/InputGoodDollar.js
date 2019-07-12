@@ -5,21 +5,21 @@ import { moneyRegexp } from '../../../lib/wallet/utils'
 
 type SelectionProp = {
   start: number,
-  end: number
+  end: number,
 }
 
 type Props = {
   onChangeAmount: number => void,
   amount: number,
-  onSelectionChange?: SelectionProp => void
+  onSelectionChange?: SelectionProp => void,
 }
 
 type SelectionEvent = {
   nativeEvent: {
     selection: SelectionProp,
     text: string,
-    inputType: string
-  }
+    inputType: string,
+  },
 }
 
 /**
@@ -57,7 +57,7 @@ const InputGoodDollar = (props: Props) => {
 }
 
 InputGoodDollar.defaultProps = {
-  onSelectionChange: () => {}
+  onSelectionChange: () => {},
 }
 
 export default InputGoodDollar

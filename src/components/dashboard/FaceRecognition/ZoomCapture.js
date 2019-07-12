@@ -15,7 +15,7 @@ type ZoomCaptureProps = DashboardProps & {
   height: number,
   width: number,
   onCaptureResult: (captureResult?: ZoomCaptureResult) => void,
-  onError: (error: string) => void
+  onError: (error: string) => void,
 }
 
 /**
@@ -73,8 +73,8 @@ class ZoomCapture extends React.Component<ZoomCaptureProps> {
 const styles = StyleSheet.create({
   bottomSection: {
     flex: 1,
-    backgroundColor: '#fff'
-  }
+    backgroundColor: '#fff',
+  },
 })
 
 const getVideoContainerStyles = () => ({
@@ -82,7 +82,7 @@ const getVideoContainerStyles = () => ({
   marginLeft: 'auto',
   marginRight: 'auto',
   marginTop: 0,
-  marginBottom: 0
+  marginBottom: 0,
 })
 
 export default ZoomCapture

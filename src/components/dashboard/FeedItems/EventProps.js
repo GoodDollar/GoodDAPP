@@ -9,12 +9,12 @@ export type FeedEventProps = {
         title: string,
         withdrawStatus: string,
         avatar: string,
-        fullName: string
+        fullName: string,
       },
-      message: string
+      message: string,
     },
-    type: string
+    type: string,
   },
   styles?: any,
-  onPress?: (feed: number) => any
+  onPress?: (feed: number) => any,
 }

@@ -13,7 +13,7 @@ import zoomSdkLoader from '../dashboard/FaceRecognition/ZoomSdkLoader'
 
 type LoadingProps = {
   navigation: any,
-  descriptors: any
+  descriptors: any,
 }
 
 const log = logger.child({ from: 'AppSwitch' })

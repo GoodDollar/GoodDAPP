@@ -7,7 +7,7 @@ type PushButtonProps = {
   routeName: Route,
   params?: any,
   screenProps: { push: (routeName: string, params: any) => void },
-  canContinue?: Function
+  canContinue?: Function,
 }
 
 /**
@@ -39,5 +39,5 @@ export const PushButton = ({ routeName, screenProps, canContinue, params, ...pro
 PushButton.defaultProps = {
   mode: 'contained',
   dark: true,
-  canContinue: () => true
+  canContinue: () => true,
 }

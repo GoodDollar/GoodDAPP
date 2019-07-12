@@ -21,8 +21,8 @@ const getStylesFromProps = ({ theme }) => {
       fontWeight: '500',
       textTransform: 'uppercase',
       marginBottom: normalize(16),
-      marginTop: normalize(16)
-    }
+      marginTop: normalize(16),
+    },
   }
 }
 

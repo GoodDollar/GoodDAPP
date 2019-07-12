@@ -13,7 +13,7 @@ describe('isValidUsername', () => {
     { username: '__username__', validity: true },
     { username: 'username-123', validity: false },
     { username: 'username@123', validity: false },
-    { username: '@', validity: false }
+    { username: '@', validity: false },
   ]
 
   testCases.forEach(({ username, validity }) => {

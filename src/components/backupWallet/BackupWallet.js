@@ -12,7 +12,7 @@ import { useWrappedApi } from '../../lib/API/useWrappedApi'
 const TITLE = 'Back up your wallet'
 
 type BackupWalletProps = {
-  screenProps: any
+  screenProps: any,
 }
 
 const BackupWallet = ({ screenProps }: BackupWalletProps) => {
@@ -34,7 +34,7 @@ const BackupWallet = ({ screenProps }: BackupWalletProps) => {
     await API.sendRecoveryInstructionByEmail(currentMnemonics)
     showDialogWithData({
       title: 'Backup Your Wallet',
-      message: 'We sent an email with recovery instructions for your wallet'
+      message: 'We sent an email with recovery instructions for your wallet',
     })
   }
 
@@ -61,7 +61,7 @@ const BackupWallet = ({ screenProps }: BackupWalletProps) => {
 }
 
 BackupWallet.navigationOptions = {
-  title: TITLE
+  title: TITLE,
 }
 
 const styles = StyleSheet.create({
@@ -70,37 +70,37 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     display: 'flex',
     padding: '1em',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   topContainer: {
     flex: 2,
     display: 'flex',
     justifyContent: 'center',
     padding: 0,
-    margin: 0
+    margin: 0,
   },
   bottomContainer: {
     display: 'flex',
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
   },
   fontBase: {
     color: '#555555',
-    textAlign: 'center'
+    textAlign: 'center',
   },
   inputs: {
     width: '0.45vw',
     height: '2rem',
     margin: '0 1rem',
     fontSize: '1rem',
-    borderRadius: 4
+    borderRadius: 4,
   },
   paragraph: {
     fontSize: normalize(18),
-    lineHeight: '1.2em'
+    lineHeight: '1.2em',
   },
   doneButton: {
-    marginTop: '1em'
-  }
+    marginTop: '1em',
+  },
 })
 
 export default BackupWallet

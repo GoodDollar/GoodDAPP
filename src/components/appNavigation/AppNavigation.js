@@ -18,19 +18,19 @@ import { navigationOptions } from './navigationConfig'
  */
 type AppNavigationProps = {
   navigation: any,
-  store: Store
+  store: Store,
 }
 
 const routes = {
   Dashboard: {
     screen: Dashboard,
     icon: homeIcon,
-    display: false
+    display: false,
   },
   Profile: {
     screen: Profile,
-    display: false
-  }
+    display: false,
+  },
 }
 
 const initialRouteName = 'Dashboard'

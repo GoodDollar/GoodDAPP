@@ -13,7 +13,7 @@ import { routeAndPathForCode } from './utils/routeAndPathForCode'
 const log = logger.child({ from: 'SendByQR.web' })
 
 type Props = {
-  screenProps: any
+  screenProps: any,
 }
 
 const SendByQR = ({ screenProps }: Props) => {
@@ -51,15 +51,15 @@ const SendByQR = ({ screenProps }: Props) => {
 const styles = StyleSheet.create({
   centered: {
     justifyContent: 'center',
-    alignItems: 'baseline'
+    alignItems: 'baseline',
   },
   bottomSection: {
-    flex: 1
-  }
+    flex: 1,
+  },
 })
 
 SendByQR.navigationOptions = {
-  title: 'Scan QR Code'
+  title: 'Scan QR Code',
 }
 
 export default SendByQR

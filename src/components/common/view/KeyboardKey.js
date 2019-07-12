@@ -8,7 +8,7 @@ import Text from './Text'
 
 type KeyboardKeyProps = {
   keyValue: string,
-  onPress: string => void
+  onPress: string => void,
 }
 
 const KeyboardKey = ({ keyValue, onPress, styles, theme }: KeyboardKeyProps) => {
@@ -35,13 +35,13 @@ const getStylesFromProps = ({ theme }) => {
       alignItems: 'center',
       flex: 1,
       padding: normalize(15),
-      cursor: 'pointer'
+      cursor: 'pointer',
     },
     keyText: {
       fontSize: normalize(20),
       fontFamily: 'RobotoSlab-Bold',
       fontWeight: '700',
-      color: theme.colors.darkGray
+      color: theme.colors.darkGray,
     },
     backspaceButton: {
       backgroundImage: `url(${backKeyboardButton})`,
@@ -49,8 +49,8 @@ const getStylesFromProps = ({ theme }) => {
       width: normalize(25),
       backgroundSize: 'contain',
       backgroundRepeat: 'no-repeat',
-      cursor: 'pointer'
-    }
+      cursor: 'pointer',
+    },
   }
 }
 

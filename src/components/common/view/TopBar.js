@@ -40,8 +40,8 @@ const styles = StyleSheet.create({
   topBar: {
     paddingTop: normalize(8),
     paddingBottom: normalize(8),
-    marginBottom: normalize(8)
-  }
+    marginBottom: normalize(8),
+  },
 })
 
 export default TopBar

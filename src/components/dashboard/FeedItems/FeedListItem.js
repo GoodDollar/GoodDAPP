@@ -15,13 +15,13 @@ const FeedListItem = props => {
   const { theme, item, onPress, styles } = props
   const imageStyle = {
     backgroundColor: getEventSettingsByType(theme, item.type).color,
-    backgroundImage: `url(${wavePattern})`
+    backgroundImage: `url(${wavePattern})`,
   }
   return (
     <TouchableHighlight
       onPress={() => onPress(item.id)}
       tvParallaxProperties={{
-        pressMagnification: 1.1
+        pressMagnification: 1.1,
       }}
       style={styles.row}
       activeOpacity={0.1}
@@ -44,20 +44,20 @@ const getStylesFromProps = ({ theme }) => ({
     shadowColor: theme.colors.text,
     shadowOffset: {
       width: 0,
-      height: normalize(2)
+      height: normalize(2),
     },
     shadowOpacity: 0.16,
     shadowRadius: normalize(4),
     elevation: 1,
     height: normalize(84),
-    maxHeight: normalize(84)
+    maxHeight: normalize(84),
   },
   rowContent: {
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
     paddingLeft: theme.paddings.mainContainerPadding,
-    paddingRight: normalize(4)
+    paddingRight: normalize(4),
   },
   rowContentBorder: {
     backgroundRepeat: 'no-repeat',
@@ -67,8 +67,8 @@ const getStylesFromProps = ({ theme }) => ({
     right: 0,
     top: 0,
     width: normalize(8),
-    backgroundSize: 'initial'
-  }
+    backgroundSize: 'initial',
+  },
 })
 
 export default withStyles(getStylesFromProps)(FeedListItem)

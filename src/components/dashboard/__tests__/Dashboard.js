@@ -8,7 +8,7 @@ import { withThemeProvider } from '../../../__tests__/__util__'
 import { getComponentWithMocks } from './__util__'
 
 const routes = {
-  Dashboard: getComponentWithMocks('../Dashboard')
+  Dashboard: getComponentWithMocks('../Dashboard'),
 }
 
 const AppNavigator = createSwitchNavigator(routes)

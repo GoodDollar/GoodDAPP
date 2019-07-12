@@ -13,10 +13,10 @@ const AppNavigator = createNavigator(
   SwitchRouter(
     {
       BackupWallet,
-      AppNavigation
+      AppNavigation,
     },
     {
-      initialRouteName: 'AppNavigation'
+      initialRouteName: 'AppNavigation',
     },
     navigationConfig
   ),

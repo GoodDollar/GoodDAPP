@@ -15,12 +15,12 @@ type Props = {
   phone: string,
   data: SignupState,
   doneCallback: ({ isPhoneVerified: boolean }) => null,
-  screenProps: any
+  screenProps: any,
 }
 
 export type SMSRecord = {
   smsValidated: boolean,
-  sentSMS?: boolean
+  sentSMS?: boolean,
 }
 
 type State = SMSRecord & {
@@ -29,7 +29,7 @@ type State = SMSRecord & {
   sendingCode: boolean,
   renderButton: boolean,
   loading: boolean,
-  otp: string | number
+  otp: string | number,
 }
 
 export default class SmsForm extends React.Component<Props, State> {
@@ -40,7 +40,7 @@ export default class SmsForm extends React.Component<Props, State> {
     sendingCode: false,
     renderButton: false,
     loading: false,
-    otp: ''
+    otp: '',
   }
 
   numInputs: number = 6
@@ -64,19 +64,19 @@ export default class SmsForm extends React.Component<Props, State> {
     if (otpValue.length === this.numInputs) {
       this.setState({
         loading: true,
-        otp
+        otp,
       })
       try {
         await this.verifyOTP(otpValue)
         this.setState({
-          valid: true
+          valid: true,
         })
         this.handleSubmit()
       } catch (e) {
         log.error({ e })
 
         this.setState({
-          errorMessage: e.message || e.response.data.message
+          errorMessage: e.message || e.response.data.message,
         })
       } finally {
         this.setState({ loading: false })
@@ -84,7 +84,7 @@ export default class SmsForm extends React.Component<Props, State> {
     } else {
       this.setState({
         errorMessage: '',
-        otp
+        otp,
       })
     }
   }
@@ -106,7 +106,7 @@ export default class SmsForm extends React.Component<Props, State> {
     } catch (e) {
       log.error(e)
       this.setState({
-        errorMessage: e.message || e.response.data.message
+        errorMessage: e.message || e.response.data.message,
       })
     }
     this.setState({ sendingCode: false, renderButton: false }, this.displayDelayedRenderButton)
@@ -120,7 +120,7 @@ export default class SmsForm extends React.Component<Props, State> {
         <Title>{'Enter the verification code \n sent to your phone'}</Title>
         <OtpInput
           containerStyle={{
-            justifyContent: 'space-evenly'
+            justifyContent: 'space-evenly',
           }}
           inputStyle={inputStyle}
           shouldAutoFocus
@@ -154,19 +154,19 @@ export default class SmsForm extends React.Component<Props, State> {
 
 const styles = StyleSheet.create({
   informativeParagraph: {
-    margin: '1em'
+    margin: '1em',
   },
   buttonWrapper: {
     alignContent: 'stretch',
     flexDirection: 'column',
     display: 'flex',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   button: {
     justifyContent: 'center',
     width: '100%',
-    height: normalize(60)
-  }
+    height: normalize(60),
+  },
 })
 
 const inputStyle = {
@@ -177,11 +177,11 @@ const inputStyle = {
   borderTop: 'none',
   borderRight: 'none',
   borderLeft: 'none',
-  borderBottom: '1px solid #555'
+  borderBottom: '1px solid #555',
 }
 
 const errorStyle = {
   ...inputStyle,
   borderBottom: '1px solid red',
-  color: 'red'
+  color: 'red',
 }

@@ -7,7 +7,7 @@ export type AvatarProps = {
   onPress?: () => {},
   source?: string,
   style?: {},
-  size?: number
+  size?: number,
 }
 
 /**
@@ -33,11 +33,11 @@ export default (props: AvatarProps) => (
 
 const styles = StyleSheet.create({
   avatarContainer: {
-    backgroundColor: 'rgba(0,0,0,0)'
+    backgroundColor: 'rgba(0,0,0,0)',
   },
   avatar: {
     backgroundColor: 'white',
     borderColor: '#707070',
-    borderWidth: StyleSheet.hairlineWidth
-  }
+    borderWidth: StyleSheet.hairlineWidth,
+  },
 })

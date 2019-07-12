@@ -9,7 +9,7 @@ import isValidUsername from '../validators/isValidUsername'
  */
 type Validation = {
   isValid: boolean,
-  errors: {}
+  errors: {},
 }
 
 /**
@@ -19,7 +19,7 @@ type Validation = {
 export type ModelValidator = {
   isValid: (key: string) => boolean,
   getErrors: (key: string) => {},
-  validate: (key: string) => Validation
+  validate: (key: string) => Validation,
 }
 
 /**
@@ -73,7 +73,7 @@ const getUsernameErrorMessage = (username: string) => {
 export const userModelValidations = {
   email: getEmailErrorMessage,
   mobile: getMobileErrorMessage,
-  username: getUsernameErrorMessage
+  username: getUsernameErrorMessage,
 }
 
 /**
@@ -95,11 +95,11 @@ export const getUserModel = (record: UserRecord): UserModel => {
       return {
         email: userModelValidations.email(this.email),
         mobile: userModelValidations.mobile(this.mobile),
-        username: userModelValidations.username(this.username)
+        username: userModelValidations.username(this.username),
       }
     },
     validate: function() {
       return { isValid: this.isValid(), errors: this.getErrors() }
-    }
+    },
   }
 }

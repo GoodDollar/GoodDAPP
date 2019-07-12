@@ -28,7 +28,7 @@ export const getWebRouterComponentWithMocks = (componentPath, data) => {
   const Component = require(`../${componentPath}`).default
 
   const routes = {
-    Component
+    Component,
   }
 
   return getWebRouterComponentWithRoutes(routes, data)

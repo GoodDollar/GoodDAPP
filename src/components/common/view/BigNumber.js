@@ -30,17 +30,17 @@ class BigNumber extends React.Component {
 const getStylesFromProps = ({ theme }) => {
   return {
     bigNumberWrapper: {
-      display: 'inline-block'
+      display: 'inline-block',
     },
     bigNumber: {
       ...theme.fontStyle,
       fontSize: normalize(48),
-      textAlign: 'right'
+      textAlign: 'right',
     },
     bigNumberUnit: {
       ...theme.fontStyle,
-      textAlign: 'right'
-    }
+      textAlign: 'right',
+    },
   }
 }
 

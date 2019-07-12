@@ -10,7 +10,7 @@ type IconProps = {
   text: String,
   onPress: Function,
   disabled: Boolean,
-  name: String
+  name: String,
 }
 
 /**
@@ -50,11 +50,11 @@ const getStylesFromProps = ({ theme }) => {
     container: {
       flexDirection: 'column',
       alignItems: 'center',
-      flex: 1
+      flex: 1,
     },
     text: {
-      fontSize: normalize(11)
-    }
+      fontSize: normalize(11),
+    },
   }
 }
 

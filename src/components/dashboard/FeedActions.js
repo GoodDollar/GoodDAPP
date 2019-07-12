@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     height: normalize(84),
     justifyContent: 'flex-end',
     maxHeight: normalize(84),
-    padding: normalize(8)
+    padding: normalize(8),
   },
   emptyActionsContainer: {
     alignItems: 'center',
@@ -54,10 +54,10 @@ const styles = StyleSheet.create({
     height: normalize(84),
     justifyContent: 'flex-end',
     maxHeight: normalize(84),
-    padding: normalize(8)
+    padding: normalize(8),
   },
   actionButtonText: {
     color: '#fff',
-    textAlign: 'center'
-  }
+    textAlign: 'center',
+  },
 })

@@ -6,7 +6,7 @@ describe('generateShareLink', () => {
     // Given
     const action = 'share'
     const params = {
-      key: 'value'
+      key: 'value',
     }
 
     // When
@@ -40,7 +40,7 @@ describe('generateShareLink', () => {
     // Given
     const action = 'send'
     const params = {
-      key: 'value'
+      key: 'value',
     }
 
     // When
@@ -54,7 +54,7 @@ describe('generateShareLink', () => {
     // Given
     const action = 'receive'
     const params = {
-      key: 'value'
+      key: 'value',
     }
 
     // When
@@ -71,7 +71,7 @@ describe('generateShareLink', () => {
       key: 'value',
       key2: 'value2',
       key3: 'value3',
-      key4: 'value4'
+      key4: 'value4',
     }
 
     // When

@@ -7,7 +7,7 @@ import CustomButton, { type ButtonProps } from './CustomButton'
 type DoneButtonProps = {
   ...ButtonProps,
   routeName?: Route,
-  screenProps: { goToRoot: () => void }
+  screenProps: { goToRoot: () => void },
 }
 
 /**

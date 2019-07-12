@@ -11,7 +11,7 @@ export type DialogProps = {
   dismissText?: string,
   onDismiss?: () => void,
   loading?: boolean,
-  onCancel?: () => void
+  onCancel?: () => void,
 }
 
 /**
@@ -35,7 +35,7 @@ const CustomDialog = ({
   dismissText,
   onDismiss,
   onCancel = null,
-  loading = false
+  loading = false,
 }: DialogProps) => (
   <Portal>
     <Dialog visible={visible} onDismiss={onCancel || onDismiss} dismissable={true}>

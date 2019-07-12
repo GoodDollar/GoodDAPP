@@ -24,7 +24,7 @@ const ViewAvatar = props => {
 }
 
 ViewAvatar.navigationOptions = {
-  title: TITLE
+  title: TITLE,
 }
 
 export default ViewAvatar

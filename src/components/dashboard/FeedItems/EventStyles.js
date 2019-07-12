@@ -11,50 +11,50 @@ export const modalStyles = StyleSheet.create({
     borderTopWidth: normalize(2),
     borderBottomWidth: normalize(2),
     padding: normalize(30),
-    borderColor: '#c9c8c9'
+    borderColor: '#c9c8c9',
   },
   row: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: 'white',
     justifyContent: 'flex-end',
-    padding: 0
+    padding: 0,
   },
   leftMargin: {
-    marginLeft: 'auto'
+    marginLeft: 'auto',
   },
   leftTitle: {
     fontSize: normalize(16),
     color: 'black',
     fontWeight: 'bold',
-    flex: 1
+    flex: 1,
   },
   rightTitle: {
     fontSize: normalize(16),
     color: 'black',
     fontWeight: 'bold',
-    textAlign: 'right'
+    textAlign: 'right',
   },
   hrLine: {
     borderBottomColor: '#c9c8c9',
     borderBottomWidth: normalize(1),
     width: '100%',
     marginBottom: normalize(10),
-    marginTop: normalize(10)
+    marginTop: normalize(10),
   },
   label: {
     fontSize: normalize(10),
     color: 'black',
-    display: 'inlineBlock'
+    display: 'inlineBlock',
   },
   name: {
     fontSize: normalize(14),
     color: 'black',
-    display: 'inlineBlock'
+    display: 'inlineBlock',
   },
   currency: {
     fontSize: normalize(16),
     color: 'black',
-    fontWeight: 'bold'
-  }
+    fontWeight: 'bold',
+  },
 })

@@ -59,13 +59,13 @@ const getStylesFromProps = ({ theme }) => ({
     flexDirection: 'row',
     justifyContent: 'center',
     padding: normalize(8),
-    width: '100%'
+    width: '100%',
   },
   avatarBottom: {
-    alignSelf: 'flex-end'
+    alignSelf: 'flex-end',
   },
   mainSection: {
-    marginLeft: normalize(8)
+    marginLeft: normalize(8),
   },
   borderRow: {
     alignItems: 'center',
@@ -74,25 +74,25 @@ const getStylesFromProps = ({ theme }) => ({
     display: 'flex',
     justifyContent: 'space-between',
     marginBottom: normalize(8),
-    paddingBottom: normalize(5)
+    paddingBottom: normalize(5),
   },
   date: {
     color: theme.colors.lighterGray,
     fontFamily: theme.fonts.regular,
     fontSize: normalize(10),
-    marginTop: normalize(2)
+    marginTop: normalize(2),
   },
   bigNumberStyles: {
     fontSize: normalize(15),
-    fontFamily: theme.fonts.bold
+    fontFamily: theme.fonts.bold,
   },
   bigNumberUnitStyles: {
     fontSize: normalize(10),
-    fontFamily: theme.fonts.bold
+    fontFamily: theme.fonts.bold,
   },
   bottomInfo: {
     alignItems: 'flex-start',
-    flexShrink: 1
+    flexShrink: 1,
   },
   mainInfo: {
     alignItems: 'flex-start',
@@ -101,10 +101,10 @@ const getStylesFromProps = ({ theme }) => ({
     flexGrow: 1,
     flexShrink: 1,
     justifyContent: 'flex-end',
-    marginTop: 'auto'
+    marginTop: 'auto',
   },
   feedItem: {
-    marginTop: 'auto'
+    marginTop: 'auto',
   },
   message: {
     color: theme.colors.lighterGray,
@@ -112,8 +112,8 @@ const getStylesFromProps = ({ theme }) => ({
     marginTop: normalize(5),
     paddingRight: normalize(5),
     textAlign: 'left',
-    textTransform: 'capitalize'
-  }
+    textTransform: 'capitalize',
+  },
 })
 
 export default withStyles(getStylesFromProps)(ListEvent)

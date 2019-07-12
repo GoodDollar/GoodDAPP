@@ -21,15 +21,15 @@ const getStylesFromProps = ({ theme }) => ({
   rowDataText: {
     fontSize: normalize(16),
     textTransform: 'capitalize',
-    color: theme.fontStyle.color
+    color: theme.fontStyle.color,
   },
   direction: {
-    fontSize: normalize(8)
+    fontSize: normalize(8),
   },
   fullName: {
     fontFamily: theme.fonts.medium,
-    fontSize: normalize(16)
-  }
+    fontSize: normalize(16),
+  },
 })
 
 export default withStyles(getStylesFromProps)(EventCounterParty)

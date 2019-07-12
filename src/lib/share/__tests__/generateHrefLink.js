@@ -9,11 +9,11 @@ describe('generateHrefLink', () => {
     const shareObj = {
       title,
       text: 'You got G$. To withdraw open:',
-      url
+      url,
     }
     const viaEmail = {
       link: `mailto:${to}?subject=${title}&body=You got G$. To withdraw open:\n${url}`,
-      description: 'e-mail'
+      description: 'e-mail',
     }
 
     // When
@@ -29,7 +29,7 @@ describe('generateHrefLink', () => {
     const url = 'https://example.com/myLink'
     const shareObj = {
       text: 'You got G$. To withdraw open:',
-      url
+      url,
     }
     const viaSMS = { link: `sms:${to}?body=You got G$. To withdraw open:\n${url}`, description: 'sms' }
 

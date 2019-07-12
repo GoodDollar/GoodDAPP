@@ -28,7 +28,7 @@ const FeedModalItem = (props: FeedEventProps) => {
       {
         claim: require('./img/receive.png'),
         receive: require('./img/receive.png'),
-        send: require('./img/send.png')
+        send: require('./img/send.png'),
       }[type] || null
     )
   }
@@ -78,33 +78,33 @@ const getStylesFromProps = ({ theme }) => {
       flexShrink: 0,
       justifyContent: 'center',
       flexDirection: 'row',
-      marginBottom: normalize(15)
+      marginBottom: normalize(15),
     },
     mainImage: {
       height: normalize(110),
-      width: normalize(70)
+      width: normalize(70),
     },
     dateAndAmount: {
       alignItems: 'center',
       display: 'flex',
       flexDirection: 'row',
       justifyContent: 'space-between',
-      marginBottom: normalize(12)
+      marginBottom: normalize(12),
     },
     date: {
       color: theme.colors.darkGray,
-      fontSize: normalize(10)
+      fontSize: normalize(10),
     },
     bigNumberStyles: {
       fontFamily: 'Roboto-Bold',
       fontSize: normalize(22),
       fontWeight: '700',
-      marginRight: normalize(3)
+      marginRight: normalize(3),
     },
     bigNumberUnitStyles: {
       fontFamily: 'Roboto-Bold',
       fontSize: normalize(12),
-      fontWeight: '700'
+      fontWeight: '700',
     },
     transactionDetails: {
       alignItems: 'center',
@@ -115,36 +115,36 @@ const getStylesFromProps = ({ theme }) => {
       justifyContent: 'flex-start',
       marginBottom: normalize(18),
       paddingBottom: normalize(14),
-      paddingTop: normalize(14)
+      paddingTop: normalize(14),
     },
     avatar: {
       backgroundColor: theme.colors.lightGray,
       borderRadius: '50%',
       height: normalize(34),
       marginRight: normalize(7),
-      width: normalize(34)
+      width: normalize(34),
     },
     icon: {
-      marginLeft: 'auto'
+      marginLeft: 'auto',
     },
     messageContainer: {
-      flex: 1
+      flex: 1,
     },
     message: {
       color: theme.colors.darkGray,
       fontSize: normalize(14),
-      textAlign: 'left'
+      textAlign: 'left',
     },
     buttonsRow: {
       alignItems: 'flex-end',
       flex: 1,
       flexDirection: 'row',
-      justifyContent: 'space-between'
+      justifyContent: 'space-between',
     },
     rightButton: {
       marginLeft: 'auto',
-      minWidth: normalize(80)
-    }
+      minWidth: normalize(80),
+    },
   }
 }
 

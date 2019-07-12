@@ -20,7 +20,7 @@ const privacyOptions = ['private', 'masked', 'public']
 const tips = {
   private: 'Nobody will be able to see your field, nor to find you searching by it.',
   masked: 'Your field will be partially visible (e.g.: ****ple@***.com). Nobody will be able to search you by it.',
-  public: 'Your field is publicly available. Anybody will be able to find you by it.'
+  public: 'Your field is publicly available. Anybody will be able to find you by it.',
 }
 
 // fields to manage privacy of
@@ -63,7 +63,7 @@ const ProfilePrivacy = props => {
       // filters out fields to be updated
       const toUpdate = updatableValues().map(field => ({
         update: userStorage.setProfileFieldPrivacy(field, privacy[field]),
-        field
+        field,
       }))
 
       // updates fields
@@ -130,7 +130,7 @@ const ProfilePrivacy = props => {
 }
 
 ProfilePrivacy.navigationOptions = {
-  title: TITLE
+  title: TITLE,
 }
 
 /**
@@ -154,53 +154,53 @@ const getStylesFromProps = ({ theme }) => {
       borderBottomColor: theme.colors.lightGray,
       borderBottomStyle: 'solid',
       borderBottomWidth: 1,
-      padding: '10px'
+      padding: '10px',
     },
     growOne: {
-      flexGrow: 1
+      flexGrow: 1,
     },
     growTwo: {
-      flexGrow: 2
+      flexGrow: 2,
     },
     growThree: {
-      flexGrow: 3
+      flexGrow: 3,
     },
     optionsRowTitle: {
       width: '15%',
-      alignItems: 'center'
+      alignItems: 'center',
     },
     mainContainer: {
       display: 'flex',
       flexDirection: 'column',
-      height: '100%'
+      height: '100%',
     },
     subtitleRow: {
       display: 'flow',
       flexDirection: 'row',
       justifyContent: 'center',
       alignItems: 'center',
-      height: '16%'
+      height: '16%',
     },
     subtitle: {
-      fontSize: normalize(18)
+      fontSize: normalize(18),
     },
     buttonsRow: {
       display: 'flex',
       flexDirection: 'row',
       alignItems: 'center',
       height: '8%',
-      width: '96%'
+      width: '96%',
     },
     dialogTipItem: {
       display: 'flex',
       flexOrientation: 'column',
-      marginBottom: normalize(20)
+      marginBottom: normalize(20),
     },
     dialogTipItemTitle: {
       fontWeight: 'bold',
       color: '#00afff',
-      fontSize: normalize(18)
-    }
+      fontSize: normalize(18),
+    },
   }
 }
 

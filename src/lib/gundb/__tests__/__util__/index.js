@@ -11,7 +11,7 @@ type UserRecord = {
   smsValidated?: boolean,
   isEmailConfirmed?: boolean,
   otp?: { code: number, expirationDate: number },
-  emailVerification?: { code: string, expirationDate: number }
+  emailVerification?: { code: string, expirationDate: number },
 }
 
 export const addUser = (user: UserRecord): Promise<boolean> => {
@@ -29,7 +29,7 @@ export const updateUser = async (user: UserRecord): Promise<boolean> => {
   return Promise.all([
     setProfileFieldIndex(usersCol, userId, 'email', email),
     setProfileFieldIndex(usersCol, userId, 'mobile', mobile),
-    setProfileFieldIndex(usersCol, userId, 'walletAddress', walletAddress)
+    setProfileFieldIndex(usersCol, userId, 'walletAddress', walletAddress),
   ]).then(r => true)
 }
 
@@ -40,8 +40,8 @@ export const generateDisplayPrivacyUserProfile = (user: UserRecord) => {
       ...user,
       fullName: fullName ? { display: fullName, privacy: 'public' } : undefined,
       email: email ? { display: email, privacy: 'masked' } : undefined,
-      mobile: mobile ? { display: mobile, privacy: 'masked' } : undefined
-    }
+      mobile: mobile ? { display: mobile, privacy: 'masked' } : undefined,
+    },
   }
 }
 

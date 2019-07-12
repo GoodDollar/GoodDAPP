@@ -10,7 +10,7 @@ import SimpleStore from '../../lib/undux/SimpleStore'
 import SideMenuItem from './SideMenuItem'
 
 type SideMenuPanelProps = {
-  navigation: any
+  navigation: any,
 }
 
 const log = logger.child({ from: 'SideMenuPanel' })
@@ -21,10 +21,10 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation, s
     action: () => {
       navigation.navigate({
         routeName: 'Profile',
-        type: 'Navigation/NAVIGATE'
+        type: 'Navigation/NAVIGATE',
       })
       hideSidemenu()
-    }
+    },
   },
   {
     icon: 'lock',
@@ -32,10 +32,10 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation, s
     action: () => {
       navigation.navigate({
         routeName: 'BackupWallet',
-        type: 'Navigation/NAVIGATE'
+        type: 'Navigation/NAVIGATE',
       })
       hideSidemenu()
-    }
+    },
   },
   {
     icon: 'person-add',
@@ -43,10 +43,10 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation, s
     action: () => {
       navigation.navigate({
         routeName: 'ProfilePrivacy',
-        type: 'Navigation/NAVIGATE'
+        type: 'Navigation/NAVIGATE',
       })
       hideSidemenu()
-    }
+    },
   },
   {
     icon: 'person-pin',
@@ -54,7 +54,7 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation, s
     action: () => {
       navigation.navigate('PP')
       hideSidemenu()
-    }
+    },
   },
   {
     icon: 'announcement',
@@ -62,7 +62,7 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation, s
     action: () => {
       navigation.navigate('TOU')
       hideSidemenu()
-    }
+    },
   },
 
   // {
@@ -79,7 +79,7 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation, s
     action: () => {
       navigation.navigate('Support')
       hideSidemenu()
-    }
+    },
   },
 
   // {
@@ -105,10 +105,10 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation, s
             .catch(e => log.error('Error deleting account', e))
           store.set('loadingIndicator')({ loading: false })
           window.location = '/'
-        }
+        },
       })
-    }
-  }
+    },
+  },
 ]
 
 const SideMenuPanel = ({ navigation }: SideMenuPanelProps) => {
@@ -138,8 +138,8 @@ const styles = StyleSheet.create({
     marginVertical: normalize(20),
     marginLeft: 'auto',
     marginRight: normalize(20),
-    cursor: 'pointer'
-  }
+    cursor: 'pointer',
+  },
 })
 
 export default SideMenuPanel

@@ -20,13 +20,13 @@ export type ButtonProps = {
   uppercase?: boolean,
   icon?: string | IconFunction,
   iconAlignment?: string,
-  iconSize?: number
+  iconSize?: number,
 }
 
 type TextContentProps = {
   children: any,
   dark?: boolean,
-  uppercase?: boolean
+  uppercase?: boolean,
 }
 
 const TextContent = ({ children, dark, uppercase }: TextContentProps) => {
@@ -49,7 +49,7 @@ type IconButtonProps = {
   theme: DefaultTheme,
   dark?: boolean,
   icon?: string | IconFunction,
-  size?: number
+  size?: number,
 }
 
 const IconButton = ({ theme, dark, icon, size, style }: IconButtonProps) => {
@@ -107,23 +107,23 @@ const CustomButton = (props: ButtonProps) => {
 }
 
 CustomButton.defaultProps = {
-  mode: 'contained'
+  mode: 'contained',
 }
 
 const styles = StyleSheet.create({
   button: {
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   buttonWrapperText: {
     minHeight: 28,
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   leftIcon: {
-    marginRight: normalize(8)
+    marginRight: normalize(8),
   },
   rightIcon: {
-    marginLeft: normalize(8)
-  }
+    marginLeft: normalize(8),
+  },
 })
 
 export default withTheme(CustomButton)

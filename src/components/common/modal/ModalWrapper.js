@@ -50,18 +50,18 @@ const getStylesFromProps = ({ theme }) => {
       paddingLeft: theme.modals.overlayHorizontalPadding,
       paddingRight: theme.modals.overlayHorizontalPadding,
       paddingTop: theme.modals.overlayVerticalPadding,
-      width: '100vw'
+      width: '100vw',
     },
     modalCloseImageContainer: {
       position: 'relative',
-      zIndex: mediumZIndex
+      zIndex: mediumZIndex,
     },
     modalCloseImage: {
       height: normalize(37),
       marginBottom: -normalize(37 / 2),
       marginLeft: 'auto',
       marginRight: -normalize(37 / 2),
-      width: normalize(37)
+      width: normalize(37),
     },
     modalContainer: {
       display: 'flex',
@@ -69,7 +69,7 @@ const getStylesFromProps = ({ theme }) => {
       flexGrow: 1,
       position: 'relative',
       width: '100%',
-      zIndex: lowZIndex
+      zIndex: lowZIndex,
     },
     modalInnerContents: {
       backgroundColor: theme.modals.backgroundColor,
@@ -79,10 +79,10 @@ const getStylesFromProps = ({ theme }) => {
       flexGrow: 1,
       padding: theme.modals.contentPadding,
       position: 'relative',
-      zIndex: lowZIndex
+      zIndex: lowZIndex,
     },
     modalContainerStraightenBottomRightEdge: {
-      borderBottomRightRadius: '0'
+      borderBottomRightRadius: '0',
     },
     modalLeftBorder: {
       backgroundImage: `url(${wavePattern})`,
@@ -94,14 +94,14 @@ const getStylesFromProps = ({ theme }) => {
       maxWidth: theme.modals.borderLeftWidth,
       minWidth: theme.modals.borderLeftWidth,
       position: 'relative',
-      zIndex: mediumZIndex
+      zIndex: mediumZIndex,
     },
     modalLeftBorderAddMarginBottom: {
-      marginBottom: theme.modals.jaggedEdgeSize
+      marginBottom: theme.modals.jaggedEdgeSize,
     },
     modalContents: {
       flexGrow: 1,
-      flexShrink: 1
+      flexShrink: 1,
     },
     jaggedEdge: {
       backgroundImage: `linear-gradient(45deg, transparent 75%, ${
@@ -113,73 +113,73 @@ const getStylesFromProps = ({ theme }) => {
       height: theme.modals.jaggedEdgeSize,
       position: 'relative',
       width: '100%',
-      zIndex: mediumZIndex
+      zIndex: mediumZIndex,
     },
     dateText: {
       color: '#A3A3A3',
       fontSize: normalize(10),
-      fontWeight: '500'
+      fontWeight: '500',
     },
     bottomDate: {
-      marginTop: normalize(5)
+      marginTop: normalize(5),
     },
     buttonsRow: {
       alignItems: 'flex-end',
       flex: 1,
       flexDirection: 'row',
-      justifyContent: 'space-between'
+      justifyContent: 'space-between',
     },
     rightButton: {
       marginLeft: 'auto',
-      minWidth: normalize(80)
+      minWidth: normalize(80),
     },
     row: {
       alignItems: 'center',
       backgroundColor: 'white',
       flexDirection: 'row',
-      paddingHorizontal: 0
+      paddingHorizontal: 0,
     },
     title: {
       justifyContent: 'flex-end',
-      paddingTop: '2em'
+      paddingTop: '2em',
     },
     leftMargin: {
-      marginLeft: normalize(10)
+      marginLeft: normalize(10),
     },
     leftTitle: {
       color: '#555',
       flex: 1,
       fontSize: normalize(20),
-      fontWeight: '700'
+      fontWeight: '700',
     },
     rightTitle: {
       fontSize: normalize(16),
       color: '#000',
       fontWeight: '700',
-      textAlign: 'right'
+      textAlign: 'right',
     },
     hrLine: {
       borderBottomColor: '#c9c8c9',
       borderBottomWidth: StyleSheet.hairlineWidth,
       width: '100%',
       marginBottom: normalize(10),
-      marginTop: normalize(10)
+      marginTop: normalize(10),
     },
     currency: {
       fontSize: normalize(16),
       color: 'black',
-      fontWeight: '700'
+      fontWeight: '700',
     },
     reason: {
       color: 'rgba(0, 0, 0, 0.54)',
       fontSize: normalize(16),
       fontWeight: '500',
-      textTransform: 'capitalize'
+      textTransform: 'capitalize',
     },
     avatarColor: {
       backgroundColor: '#BBB',
-      borderRadius: '50%'
-    }
+      borderRadius: '50%',
+    },
   }
 }
 

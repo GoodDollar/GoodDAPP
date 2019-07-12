@@ -59,7 +59,7 @@ class SoftwareWalletProvider {
     defaultGasPrice: 1000000,
     transactionBlockTimeout: 2,
     transactionConfirmationBlocks: 1,
-    transactionPollingTimeout: 30
+    transactionPollingTimeout: 30,
   }
 
   conf: WalletConfig

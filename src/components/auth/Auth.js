@@ -13,9 +13,9 @@ import { withStyles } from '../../lib/styles'
 type Props = {
   navigation: any,
   screenProps: {
-    push: Function
+    push: Function,
   },
-  styles: any
+  styles: any,
 }
 
 const log = logger.child({ from: 'Auth' })
@@ -56,7 +56,7 @@ class Auth extends React.Component<Props> {
       signInLink,
       title,
       topContainer,
-      wrapper
+      wrapper,
     } = styles
     return (
       <View style={wrapper} {...rest}>
@@ -96,19 +96,19 @@ const getStylesFromProps = ({ theme }) => {
       flex: 1,
       height: '100%',
       paddingLeft: '4%',
-      paddingRight: '4%'
+      paddingRight: '4%',
     },
     topContainer: {
       flexGrow: 1,
       display: 'flex',
-      justifyContent: 'center'
+      justifyContent: 'center',
     },
     bottomContainer: {
       marginBottom: 30,
-      paddingTop: 30
+      paddingTop: 30,
     },
     title: {
-      marginBottom: 0
+      marginBottom: 0,
     },
     paragraph: {
       ...theme.fontStyle,
@@ -116,42 +116,42 @@ const getStylesFromProps = ({ theme }) => {
       marginRight: 0,
       fontSize: normalize(16),
       lineHeight: '1.3em',
-      fontWeight: '500'
+      fontWeight: '500',
     },
     buttonLayout: {
       padding: normalize(5),
       marginTop: normalize(20),
-      marginBottom: normalize(20)
+      marginBottom: normalize(20),
     },
     signInLink: {
       ...theme.fontStyle,
       textDecorationLine: 'underline',
-      fontSize: normalize(16)
+      fontSize: normalize(16),
     },
     acceptTermsText: {
       ...theme.fontStyle,
-      fontSize: normalize(12)
+      fontSize: normalize(12),
     },
     acceptTermsLink: {
       ...theme.fontStyle,
       fontSize: normalize(12),
-      fontWeight: 'bold'
-    }
+      fontWeight: 'bold',
+    },
   }
 }
 const auth = withStyles(getStylesFromProps)(Auth)
 auth.navigationOptions = {
   title: 'Auth',
-  navigationBarHidden: true
+  navigationBarHidden: true,
 }
 export default createStackNavigator(
   {
     Login: auth,
     TermsOfUse,
     PrivacyPolicy,
-    Recover: Mnemonics
+    Recover: Mnemonics,
   },
   {
-    backRouteName: 'Auth'
+    backRouteName: 'Auth',
   }
 )

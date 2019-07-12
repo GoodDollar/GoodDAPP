@@ -39,13 +39,13 @@ const log = logger.child({ from: 'Dashboard' })
 export type DashboardProps = {
   screenProps: any,
   navigation: any,
-  store: Store
+  store: Store,
 }
 
 type DashboardState = {
   horizontal: boolean,
   feeds: any[],
-  currentFeedProps: any
+  currentFeedProps: any,
 }
 
 const Dashboard = props => {
@@ -55,7 +55,7 @@ const Dashboard = props => {
   const [state: DashboardState, setState] = useState({
     horizontal: false,
     currentFeedProps: null,
-    feeds: []
+    feeds: [],
   })
   const { params } = props.navigation.state
 
@@ -84,8 +84,8 @@ const Dashboard = props => {
     setState({
       currentFeedProps: {
         item,
-        onPress: closeFeedEvent
-      }
+        onPress: closeFeedEvent,
+      },
     })
   }
 
@@ -102,13 +102,13 @@ const Dashboard = props => {
       } else {
         showDialog({
           title: 'Error',
-          message: 'Event does not exist'
+          message: 'Event does not exist',
         })
       }
     } catch (e) {
       showDialog({
         title: 'Error',
-        message: 'Event does not exist'
+        message: 'Event does not exist',
       })
     }
   }
@@ -223,46 +223,46 @@ const Dashboard = props => {
 
 const styles = StyleSheet.create({
   buttonsRow: {
-    marginVertical: normalize(8)
+    marginVertical: normalize(8),
   },
   leftButton: {
     flex: 1,
     marginRight: normalize(16),
-    paddingRight: normalize(16)
+    paddingRight: normalize(16),
   },
   rightButton: {
     flex: 1,
     marginLeft: normalize(16),
-    paddingLeft: normalize(16)
+    paddingLeft: normalize(16),
   },
   dashboardView: {
-    flex: 1
+    flex: 1,
   },
   marginTop: {
-    marginTop: normalize(8)
+    marginTop: normalize(8),
   },
   centering: {
     alignItems: 'center',
     justifyContent: 'center',
     padding: 8,
-    height: '256px'
+    height: '256px',
   },
   bigNumberStyles: {
     fontFamily: 'Roboto-Bold',
     fontSize: normalize(36),
     fontWeight: '700',
-    marginRight: normalize(3)
+    marginRight: normalize(3),
   },
   bigNumberUnitStyles: {
     fontFamily: 'Roboto-Bold',
     fontSize: normalize(18),
-    fontWeight: '700'
-  }
+    fontWeight: '700',
+  },
 })
 
 Dashboard.navigationOptions = {
   navigationBarHidden: true,
-  title: 'Home'
+  title: 'Home',
 }
 
 export default createStackNavigator({
@@ -282,5 +282,5 @@ export default createStackNavigator({
   SendQRSummary,
   PP: PrivacyPolicy,
   TOU: TermsOfUse,
-  Support
+  Support,
 })

@@ -16,14 +16,14 @@ export type Credentials = {
   profileSignature?: string, //signed with address of user profile on GunDB
   profilePublickey?: string, //public key of user profile on gundb
   nonce?: string,
-  jwt?: string
+  jwt?: string,
 }
 
 export type UserRecord = NameRecord &
   EmailRecord &
   MobileRecord &
   Credentials & {
-    username?: string
+    username?: string,
   }
 
 /**
@@ -50,7 +50,7 @@ class API {
       let instance: AxiosInstance = axios.create({
         baseURL: Config.serverUrl,
         timeout: 30000,
-        headers: { Authorization: `Bearer ${this.jwt || ''}` }
+        headers: { Authorization: `Bearer ${this.jwt || ''}` },
       })
       instance.interceptors.request.use(
         req => {
@@ -191,8 +191,8 @@ class API {
     return this.client
       .post('/verify/facerecognition', req, {
         headers: {
-          'Content-Type': `multipart/form-data;`
-        }
+          'Content-Type': `multipart/form-data;`,
+        },
       })
       .then(r => {
         if (r.data.onlyInEnv) {

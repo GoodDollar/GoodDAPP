@@ -115,19 +115,11 @@ exports[`SendConfirmation matches snapshot 1`] = `
             className="css-view-1dbjc4n"
             style={
               Object {
-                "backgroundColor": "rgba(255,255,255,1.00)",
-                "borderBottomColor": "rgba(112,112,112,1.00)",
+                "backgroundColor": "rgba(238,238,238,1.00)",
                 "borderBottomLeftRadius": "17px",
                 "borderBottomRightRadius": "17px",
-                "borderBottomWidth": "1px",
-                "borderLeftColor": "rgba(112,112,112,1.00)",
-                "borderLeftWidth": "1px",
-                "borderRightColor": "rgba(112,112,112,1.00)",
-                "borderRightWidth": "1px",
-                "borderTopColor": "rgba(112,112,112,1.00)",
                 "borderTopLeftRadius": "17px",
                 "borderTopRightRadius": "17px",
-                "borderTopWidth": "1px",
                 "height": "34px",
                 "width": "34px",
               }
@@ -285,6 +277,9 @@ exports[`SendConfirmation matches snapshot 1`] = `
                 }
                 theme={
                   Object {
+                    "borders": Object {
+                      "defaultBorderColor": "#c9c8c9",
+                    },
                     "colors": Object {
                       "accent": "#03dac4",
                       "backdrop": "rgba(0, 0, 0, 0.5)",
@@ -297,6 +292,7 @@ exports[`SendConfirmation matches snapshot 1`] = `
                       "gray50Percent": "#CBCBCB",
                       "green": "#00C3AE",
                       "lightGray": "#EEE",
+                      "lighterGray": "#A3A3A3",
                       "notification": "#f50057",
                       "orange": "#F8AF40",
                       "placeholder": "#CBCBCB",
@@ -307,6 +303,11 @@ exports[`SendConfirmation matches snapshot 1`] = `
                       "text": "#222",
                     },
                     "dark": false,
+                    "feedItems": Object {
+                      "borderRadius": 8,
+                      "height": 84,
+                      "itemBackgroundColor": "#fff",
+                    },
                     "fontStyle": Object {
                       "color": "#555",
                       "fontSize": 18,
@@ -320,6 +321,16 @@ exports[`SendConfirmation matches snapshot 1`] = `
                       "slab": "RobotoSlab-Regular",
                       "slabBold": "RobotoSlab-Bold",
                       "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                    },
+                    "modals": Object {
+                      "backgroundColor": "#fff",
+                      "borderLeftWidth": 10,
+                      "borderRadius": 5,
+                      "contentPadding": 16,
+                      "jaggedEdgeSize": 15,
+                      "overlayBackgroundColor": "rgba(255, 255, 255, 0.8)",
+                      "overlayHorizontalPadding": 20,
+                      "overlayVerticalPadding": 30,
                     },
                     "paddings": Object {
                       "defaultMargin": 8,

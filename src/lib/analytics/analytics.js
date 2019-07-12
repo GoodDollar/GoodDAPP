@@ -12,9 +12,9 @@ export const initAnalytics = async (goodWallet: GoodWallet, userStorage: UserSto
     global.Rollbar.configure({
       payload: {
         person: {
-          id: emailOrId
-        }
-      }
+          id: emailOrId,
+        },
+      },
     })
   }
   FS = window.FS

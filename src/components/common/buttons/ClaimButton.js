@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontFamily: 'Roboto-Medium',
     textTransform: 'uppercase',
-    marginHorizontal: 0
+    marginHorizontal: 0,
   },
   claimContainer: {
     padding: normalize(3),
@@ -32,24 +32,24 @@ const styles = StyleSheet.create({
     top: '50%',
     transform: [
       {
-        translateX: '-50%'
+        translateX: '-50%',
       },
       {
-        translateY: '-50%'
-      }
-    ]
+        translateY: '-50%',
+      },
+    ],
   },
   claimButton: {
     backgroundColor: '#00C3AE',
     borderRadius: '50%',
     height: normalize(70),
     width: normalize(70),
-    marginHorizontal: 0
+    marginHorizontal: 0,
   },
   grayedOutText: {
     color: '#d5d5d5',
-    fontSize: normalize(10)
-  }
+    fontSize: normalize(10),
+  },
 })
 
 export default ClaimButton

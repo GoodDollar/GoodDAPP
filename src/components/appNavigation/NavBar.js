@@ -8,7 +8,7 @@ import { StyleSheet } from 'react-native'
  */
 type NavBarProps = {
   goBack?: () => void,
-  title: string
+  title: string,
 }
 
 /**
@@ -31,12 +31,12 @@ class NavBar extends React.Component<NavBarProps> {
 const styles = StyleSheet.create({
   titleStyle: {
     textAlign: 'center',
-    textTransform: 'uppercase'
+    textTransform: 'uppercase',
   },
   topbarStyles: {
     flexGrow: 0,
-    flexShrink: 0
-  }
+    flexShrink: 0,
+  },
 })
 
 export default NavBar

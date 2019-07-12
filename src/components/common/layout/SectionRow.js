@@ -18,8 +18,8 @@ const getStylesFromProps = ({ theme }) => {
     sectionRow: {
       flexDirection: 'row',
       alignItems: 'center',
-      justifyContent: 'space-between'
-    }
+      justifyContent: 'space-between',
+    },
   }
 }
 

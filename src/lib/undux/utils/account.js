@@ -37,7 +37,7 @@ const onBalanceChange = async (error: {}, events: [] = [], store: Store) => {
 }
 
 const status = {
-  started: false
+  started: false,
 }
 
 /**

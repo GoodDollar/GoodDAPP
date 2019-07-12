@@ -2,7 +2,7 @@ import pino from 'pino'
 import Config from '../../config/config'
 declare var Rollbar
 const logger = pino({
-  level: Config.logLevel
+  level: Config.logLevel,
 })
 logger.debug = logger.info
 let error = logger.error

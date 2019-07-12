@@ -7,7 +7,7 @@ import { withStyles } from '../'
 
 describe('withStyles', () => {
   const theme = {
-    color: 'red'
+    color: 'red',
   }
 
   const MockComponent = ({ styles, theme }) => {
@@ -42,7 +42,7 @@ describe('withStyles', () => {
     const mapThemeToStyles = props => {
       return {
         color: theme.color,
-        otherProperty: 'fixed-value'
+        otherProperty: 'fixed-value',
       }
     }
 
@@ -57,9 +57,9 @@ describe('withStyles', () => {
       JSON.stringify({
         styles: {
           color: 'red',
-          otherProperty: 'fixed-value'
+          otherProperty: 'fixed-value',
         },
-        theme
+        theme,
       })
     )
   })
@@ -69,8 +69,8 @@ describe('withStyles', () => {
       return {
         button: {
           color: theme.color,
-          backgroundColor: 'black'
-        }
+          backgroundColor: 'black',
+        },
       }
     }
 
@@ -86,10 +86,10 @@ describe('withStyles', () => {
         styles: {
           button: {
             color: 'red',
-            backgroundColor: 'black'
-          }
+            backgroundColor: 'black',
+          },
         },
-        theme
+        theme,
       })
     )
   })
@@ -99,8 +99,8 @@ describe('withStyles', () => {
       return {
         button: {
           color: theme.color,
-          misspeled: 'black'
-        }
+          misspeled: 'black',
+        },
       }
     }
 
@@ -115,10 +115,10 @@ describe('withStyles', () => {
       JSON.stringify({
         styles: {
           button: {
-            color: 'red'
-          }
+            color: 'red',
+          },
         },
-        theme
+        theme,
       })
     )
   })

@@ -1,6 +1,8 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
-import CopyButton from '../CopyButton'
+import ImportedCopyButton from '../CopyButton'
+import { withThemeProvider } from '../../../../__tests__/__util__'
+const CopyButton = withThemeProvider(ImportedCopyButton)
 
 // Note: test renderer must be required after react-native.
 

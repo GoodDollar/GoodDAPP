@@ -64,36 +64,36 @@ const getStylesFromProps = ({ theme }) => ({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    width: '100%'
+    width: '100%',
   },
   avatatBottom: {
-    alignSelf: 'flex-end'
+    alignSelf: 'flex-end',
   },
   mainSection: {
-    marginLeft: normalize(4)
+    marginLeft: normalize(4),
   },
   borderRow: {
     borderBottomStyle: 'solid',
     borderBottomWidth: normalize(2),
     paddingBottom: normalize(4),
-    marginBottom: normalize(4)
+    marginBottom: normalize(4),
   },
   date: {
     fontSize: normalize(10),
     color: 'rgba(75, 75, 75, 0.8)',
     marginLeft: 'auto',
-    fontFamily: theme.fonts.regular
+    fontFamily: theme.fonts.regular,
   },
   goodDollarAmount: {
     fontSize: normalize(10),
-    fontFamily: theme.fonts.bold
+    fontFamily: theme.fonts.bold,
   },
   rowDataSubText: {
     fontSize: normalize(10),
     color: '#A3A3A3',
     marginTop: normalize(4),
-    textTransform: 'capitalize'
-  }
+    textTransform: 'capitalize',
+  },
 })
 
 export default withStyles(getStylesFromProps)(ListEvent)

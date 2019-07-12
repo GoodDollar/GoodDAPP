@@ -1,7 +1,10 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
-import { PushButton } from '../PushButton'
-import { NextButton } from '../stackNavigation'
+import { PushButton as ImportedPushButton } from '../PushButton'
+import { NextButton as ImportedNextButton } from '../stackNavigation'
+import { withThemeProvider } from '../../../__tests__/__util__'
+const PushButton = withThemeProvider(ImportedPushButton)
+const NextButton = withThemeProvider(ImportedNextButton)
 
 // Note: test renderer must be required after react-native.
 

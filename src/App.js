@@ -31,8 +31,8 @@ const App = () => {
 
 const styles = StyleSheet.create({
   safeAreaView: {
-    flexGrow: 1
-  }
+    flexGrow: 1,
+  },
 })
 
 let hotWrapper = () => () => App

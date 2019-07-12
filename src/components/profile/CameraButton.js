@@ -24,9 +24,9 @@ const cameraStyles = StyleSheet.create({
     width: normalize(36),
     height: normalize(36),
     left: 0,
-    bottom: 0
+    bottom: 0,
   },
-  icon: { position: 'absolute', left: normalize(-6), top: normalize(-5) }
+  icon: { position: 'absolute', left: normalize(-6), top: normalize(-5) },
 })
 
 export default CameraButton

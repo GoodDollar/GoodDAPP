@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     marginTop: normalize(20),
     borderTopStyle: 'solid',
     borderTopColor: '#d2d2d2',
-    borderTopWidth: StyleSheet.hairlineWidth
+    borderTopWidth: StyleSheet.hairlineWidth,
   },
   tableRow: {
     paddingBottom: normalize(5),
@@ -81,17 +81,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     borderBottomStyle: 'solid',
     borderBottomColor: '#d2d2d2',
-    borderBottomWidth: StyleSheet.hairlineWidth
+    borderBottomWidth: StyleSheet.hairlineWidth,
   },
   tableRowInput: {
     flex: 1,
     overflow: 'hidden',
-    borderBottomWidth: 0
+    borderBottomWidth: 0,
   },
   inputWrapper: {
     flex: 1,
     marginLeft: normalize(1),
-    paddingRight: normalize(5)
+    paddingRight: normalize(5),
   },
   textInput: {
     height: normalize(30),
@@ -99,12 +99,12 @@ const styles = StyleSheet.create({
     borderWidth: 0,
     fontSize: normalize(16),
     textAlign: 'left',
-    color: '#555555'
+    color: '#555555',
   },
   error: {
     paddingRight: 0,
-    textAlign: 'left'
-  }
+    textAlign: 'left',
+  },
 })
 
 export default ProfileDataTable

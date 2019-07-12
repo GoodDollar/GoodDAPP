@@ -11,13 +11,13 @@ import Avatar from './Avatar'
 export type AvatarProps = {
   profile: {
     avatar: string,
-    fullName?: string
+    fullName?: string,
   },
   onChange?: any => mixed,
   onClose?: any => mixed,
   originalSize?: boolean,
   editable?: boolean,
-  children?: React.Node
+  children?: React.Node,
 }
 
 /**
@@ -73,23 +73,23 @@ const styles = StyleSheet.create({
     marginTop: normalize(50),
     flex: 1,
     justifyContent: 'center',
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   innerAvatar: {
-    flexDirection: 'column'
+    flexDirection: 'column',
   },
   fullNameContainer: {
-    padding: 10
+    padding: 10,
   },
   fullName: {
-    textAlign: 'left'
+    textAlign: 'left',
   },
   cropContainer: {
     marginTop: normalize(5),
     flex: 1,
     justifyContent: 'center',
-    flexDirection: 'row'
-  }
+    flexDirection: 'row',
+  },
 })
 
 export default UserAvatar

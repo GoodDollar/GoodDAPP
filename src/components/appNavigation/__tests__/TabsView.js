@@ -9,11 +9,11 @@ import Profile from '../../profile/Profile'
 describe('TabsView', () => {
   const routes = {
     Dashboard: {
-      screen: Dashboard
+      screen: Dashboard,
     },
     Profile: {
-      screen: Profile
-    }
+      screen: Profile,
+    },
   }
 
   it('renders without errors', () => {

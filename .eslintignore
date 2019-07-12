@@ -1,7 +1,7 @@
 .vscode
 android
 assets
-config
+/config
 flow-typed
 scripts
 public/ZoomAuthentication.js

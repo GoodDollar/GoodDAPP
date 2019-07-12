@@ -1,8 +1,8 @@
 // @flow
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
-import { Button as BaseButton, DefaultTheme, Text, withTheme } from 'react-native-paper'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
+import { View } from 'react-native'
+import { Button as BaseButton, DefaultTheme, Text } from 'react-native-paper'
+import { withStyles } from '../../../lib/styles'
 import Icon from '../view/Icon'
 
 type IconFunction = (string, number) => React.Node
@@ -20,16 +20,40 @@ export type ButtonProps = {
   uppercase?: boolean,
   icon?: string | IconFunction,
   iconAlignment?: string,
-  iconSize?: number
+  iconSize?: number,
+  styles?: any,
 }
 
 type TextContentProps = {
   children: any,
   dark?: boolean,
-  uppercase?: boolean
+  uppercase?: boolean,
+  styles: any,
 }
 
-const TextContent = ({ children, dark, uppercase }: TextContentProps) => {
+const mapPropsToStyles = ({ theme }) => ({
+  button: {
+    justifyContent: 'center',
+    borderColor: theme.colors.primary,
+  },
+  buttonWrapperText: {
+    minHeight: 28,
+    justifyContent: 'center',
+  },
+  leftIcon: {
+    marginRight: theme.sizes.default,
+  },
+  rightIcon: {
+    marginLeft: theme.sizes.default,
+  },
+  buttonText: {
+    fontWeight: 'bold',
+    lineHeight: 0,
+    paddingTop: 1,
+  },
+})
+
+const TextContent = withStyles(mapPropsToStyles)(({ children, dark, uppercase, styles }: TextContentProps) => {
   if (typeof children === 'string') {
     return (
       <View style={styles.buttonWrapperText}>
@@ -43,13 +67,13 @@ const TextContent = ({ children, dark, uppercase }: TextContentProps) => {
   }
 
   return children
-}
+})
 
 type IconButtonProps = {
   theme: DefaultTheme,
   dark?: boolean,
   icon?: string | IconFunction,
-  size?: number
+  size?: number,
 }
 
 const IconButton = ({ theme, dark, icon, size, style }: IconButtonProps) => {
@@ -77,7 +101,7 @@ const IconButton = ({ theme, dark, icon, size, style }: IconButtonProps) => {
  * @returns {React.Node}
  */
 const CustomButton = (props: ButtonProps) => {
-  const { theme, mode, style, children, icon, iconAlignment, iconSize, ...buttonProps } = props
+  const { theme, mode, style, children, icon, iconAlignment, iconSize, styles, ...buttonProps } = props
   const disabled = props.loading || props.disabled
   const dark = mode === 'contained'
   const uppercase = mode !== 'text'
@@ -107,23 +131,7 @@ const CustomButton = (props: ButtonProps) => {
 }
 
 CustomButton.defaultProps = {
-  mode: 'contained'
+  mode: 'contained',
 }
 
-const styles = StyleSheet.create({
-  button: {
-    justifyContent: 'center'
-  },
-  buttonWrapperText: {
-    minHeight: 28,
-    justifyContent: 'center'
-  },
-  leftIcon: {
-    marginRight: normalize(8)
-  },
-  rightIcon: {
-    marginLeft: normalize(8)
-  }
-})
-
-export default withTheme(CustomButton)
+export default withStyles(mapPropsToStyles)(CustomButton)

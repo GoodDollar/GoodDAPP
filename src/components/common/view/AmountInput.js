@@ -1,5 +1,5 @@
 // @flow
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Keyboard, TouchableWithoutFeedback, View } from 'react-native'
 import { isMobile } from 'mobile-device-detect'
 import InputGoodDollar from '../form/InputGoodDollar'
@@ -10,11 +10,16 @@ import NumPadKeyboard from './NumPadKeyboard'
 type AmountInputProps = {
   amount: string,
   handleAmountChange: Function,
-  styles: any
+  styles: any,
 }
 
 const AmountInput = ({ amount, handleAmountChange, styles, error }: AmountInputProps) => {
-  const [caretPosition, setCaretPosition] = useState({ start: 0, end: 0 })
+  const [caretPosition, setCaretPosition] = useState()
+
+  useEffect(() => {
+    const lastPos = amount.toString().length - 1
+    setCaretPosition({ start: lastPos, end: lastPos })
+  }, [])
 
   return (
     <View style={styles.wrapper}>
@@ -26,6 +31,7 @@ const AmountInput = ({ amount, handleAmountChange, styles, error }: AmountInputP
         >
           <InputGoodDollar
             style={error ? styles.errorInput : {}}
+            selection={caretPosition}
             disabled={isMobile}
             autoFocus
             amount={amount}
@@ -51,16 +57,16 @@ const mapPropsToStyles = ({ theme }) => {
       width: '100%',
       display: 'flex',
       justifyContent: 'space-between',
-      flex: 1
+      flex: 1,
     },
     errorText: {
       color: theme.colors.error,
-      marginTop: theme.sizes.default
+      marginTop: theme.sizes.default,
     },
     errorInput: {
       color: theme.colors.error,
-      borderBottomColor: theme.colors.error
-    }
+      borderBottomColor: theme.colors.error,
+    },
   }
 }
 

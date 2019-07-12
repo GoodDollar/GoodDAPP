@@ -9,12 +9,12 @@ type FaceRecognitionResponse = {
   ok: boolean,
   livenessPassed?: boolean,
   isDuplicate?: boolean,
-  enrollResult?: object | false
+  enrollResult?: object | false,
 }
 
 type FaceRecognitionAPIResponse = {
   ok: boolean,
-  error: string
+  error: string,
 }
 
 const log = logger.child({ from: 'FaceRecognitionAPI' })
@@ -104,7 +104,7 @@ export const FaceRecognitionAPI = {
     }
 
     return { ok: 0, error: reason }
-  }
+  },
 }
 
 export default FaceRecognitionAPI

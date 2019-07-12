@@ -10,7 +10,7 @@ import { Description, LinkButton, Title, Wrapper } from './components'
 
 type Props = {
   screenProps: any,
-  navigation: any
+  navigation: any,
 }
 
 const log = logger.child({ from: 'EmailConfirmation' })
@@ -76,12 +76,12 @@ const EmailConfirmation = ({ navigation, screenProps }: Props) => {
 const styles = StyleSheet.create({
   description: {
     marginBottom: normalize(20),
-    fontSize: normalize(24)
+    fontSize: normalize(24),
   },
   link: {
     fontSize: normalize(15),
-    opacity: '0.6'
-  }
+    opacity: '0.6',
+  },
 })
 
 export default EmailConfirmation

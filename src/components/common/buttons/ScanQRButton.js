@@ -8,7 +8,7 @@ import Text from '../view/Text'
 type Props = {
   disabled?: boolean,
   style?: { row?: {}, icon?: {}, legendWrapper?: {}, legend?: {} },
-  onPress: any
+  onPress: any,
 }
 
 const ScanQRButton = ({ onPress, ...screenProps }: Props) => {
@@ -29,19 +29,19 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-end',
-    padding: 0
+    padding: 0,
   },
   icon: {
-    backgroundColor: 'white'
+    backgroundColor: 'white',
   },
   legendWrapper: {
-    marginLeft: '10px'
+    marginLeft: '10px',
   },
   legend: {
     fontSize: normalize(14),
     color: 'black',
-    display: 'inlineBlock'
-  }
+    display: 'inlineBlock',
+  },
 })
 
 export default ScanQRButton

@@ -99,23 +99,23 @@ const EditProfile = props => {
 }
 
 EditProfile.navigationOptions = {
-  title: TITLE
+  title: TITLE,
 }
 
 const styles = StyleSheet.create({
   section: {
     paddingLeft: '1em',
-    paddingRight: '1em'
+    paddingRight: '1em',
   },
   centered: {
     justifyContent: 'center',
-    alignItems: 'flex-start'
+    alignItems: 'flex-start',
   },
   saveButton: {
     position: 'absolute',
     top: 0,
-    right: 0
-  }
+    right: 0,
+  },
 })
 
 export default EditProfile

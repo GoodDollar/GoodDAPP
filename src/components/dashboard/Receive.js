@@ -12,7 +12,7 @@ import { withStyles } from '../../lib/styles'
 export type ReceiveProps = {
   screenProps: any,
   navigation: any,
-  styles: any
+  styles: any,
 }
 
 const RECEIVE_TITLE = 'Receive G$'
@@ -77,16 +77,16 @@ const Receive = ({ screenProps, styles, ...props }: ReceiveProps) => {
 }
 
 Receive.navigationOptions = {
-  title: RECEIVE_TITLE
+  title: RECEIVE_TITLE,
 }
 
 const getStylesFromProps = ({ theme }) => ({
   shareButton: {
-    marginTop: theme.paddings.defaultMargin
+    marginTop: theme.paddings.defaultMargin,
   },
   mainText: {
-    marginBottom: theme.paddings.defaultMargin
-  }
+    marginBottom: theme.paddings.defaultMargin,
+  },
 })
 
 export default withStyles(getStylesFromProps)(Receive)

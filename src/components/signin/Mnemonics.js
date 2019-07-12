@@ -82,7 +82,7 @@ const Mnemonics = props => {
 async function profileExist(): Promise<any> {
   const [wallet, userStorage] = await Promise.all([
     import('../../lib/wallet/GoodWallet').then(_ => _.default),
-    import('../../lib/gundb/UserStorage').then(_ => _.default)
+    import('../../lib/gundb/UserStorage').then(_ => _.default),
   ])
 
   await wallet.init()
@@ -94,7 +94,7 @@ async function profileExist(): Promise<any> {
 }
 
 Mnemonics.navigationOptions = {
-  title: TITLE
+  title: TITLE,
 }
 
 const styles = StyleSheet.create({
@@ -103,34 +103,34 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     display: 'flex',
     padding: '1em',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   topContainer: {
     flex: 2,
     display: 'flex',
     justifyContent: 'center',
     padding: 0,
-    margin: 0
+    margin: 0,
   },
   bottomContainer: {
     display: 'flex',
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
   },
   fontBase: {
     color: '#555555',
-    textAlign: 'center'
+    textAlign: 'center',
   },
   inputs: {
     width: '0.45vw',
     height: '2rem',
     margin: '0 1rem',
     fontSize: '1rem',
-    borderRadius: 4
+    borderRadius: 4,
   },
   paragraph: {
     fontSize: normalize(18),
-    lineHeight: '1.2em'
-  }
+    lineHeight: '1.2em',
+  },
 })
 
 export default Mnemonics

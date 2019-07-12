@@ -17,26 +17,26 @@ export const theme = {
     purple: '#9F6A9D',
     red: '#FA6C77',
     text: '#222',
-    error: '#FA6C77'
+    error: '#FA6C77',
   },
   fonts: {
     ...DefaultTheme.fonts,
     slab: 'RobotoSlab-Regular',
     slabBold: 'RobotoSlab-Bold',
-    bold: 'Roboto-Bold'
+    bold: 'Roboto-Bold',
   },
   paddings: {
     mainContainerPadding: normalize(8),
-    defaultMargin: normalize(8)
+    defaultMargin: normalize(8),
   },
   sizes: {
     default: normalize(8),
     defaultDouble: normalize(16),
-    defaultHalf: normalize(4)
+    defaultHalf: normalize(4),
   },
   fontStyle: {
     color: '#555',
     fontSize: normalize(18),
-    textAlign: 'center'
-  }
+    textAlign: 'center',
+  },
 }

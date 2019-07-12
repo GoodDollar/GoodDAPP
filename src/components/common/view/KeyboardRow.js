@@ -6,7 +6,7 @@ import KeyboardKey from './KeyboardKey'
 
 type KeyboardRowProps = {
   onPress: string => void,
-  keys: Array<string>
+  keys: Array<string>,
 }
 
 const KeyboardRow = ({ keys, onPress, styles }: KeyboardRowProps) => (
@@ -23,8 +23,8 @@ const getStylesFromProps = ({ theme }) => {
       display: 'flex',
       flexDirection: 'row',
       alignItems: 'center',
-      justifyContent: 'space-between'
-    }
+      justifyContent: 'space-between',
+    },
   }
 }
 

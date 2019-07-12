@@ -9,10 +9,10 @@ import Auth from './components/auth/Auth'
 const router = createSwitchNavigator(
   {
     Auth,
-    Signup
+    Signup,
   },
   {
-    initialRouteName: 'Auth'
+    initialRouteName: 'Auth',
   }
 )
 let WebRouter

@@ -14,7 +14,7 @@ describe('FeedList', () => {
     fixedHeight: true,
     virtualized: true,
     updateData: () => {},
-    onEndReached: () => {}
+    onEndReached: () => {},
   }
 
   describe('Horizontal rendering', () => {
@@ -53,8 +53,8 @@ describe('FeedList', () => {
           { ...mockEvent('withdraw') },
           {
             ...mockEvent('send'),
-            id: '0x9812619905da200c4effe8cd2ca4b2b31eeddf133f8fd283069d2e5aec3b9f88'
-          }
+            id: '0x9812619905da200c4effe8cd2ca4b2b31eeddf133f8fd283069d2e5aec3b9f88',
+          },
         ]
       })
 
@@ -115,8 +115,8 @@ describe('FeedList', () => {
           { ...mockEvent('withdraw') },
           {
             ...mockEvent('send'),
-            id: '0x9812619905da200c4effe8cd2ca4b2b31eeddf133f8fd283069d2e5aec3b9f88'
-          }
+            id: '0x9812619905da200c4effe8cd2ca4b2b31eeddf133f8fd283069d2e5aec3b9f88',
+          },
         ]
       })
 

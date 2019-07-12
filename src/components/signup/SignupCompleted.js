@@ -3,7 +3,7 @@ import React from 'react'
 import { Title, Wrapper } from './components'
 
 type Props = {
-  screenProps: any
+  screenProps: any,
 }
 type State = {}
 export default class SignupCompleted extends React.Component<Props, State> {

@@ -7,7 +7,7 @@ import { gdToWei, weiToGd } from '../../lib/wallet/utils'
 
 export type AmountProps = {
   screenProps: any,
-  navigation: any
+  navigation: any,
 }
 
 const RECEIVE_TITLE = 'Receive G$'
@@ -79,7 +79,7 @@ const Amount = (props: AmountProps) => {
 }
 
 Amount.navigationOptions = {
-  title: RECEIVE_TITLE
+  title: RECEIVE_TITLE,
 }
 
 Amount.shouldNavigateToComponent = props => {

@@ -11,7 +11,7 @@ describe('UserAvatar', () => {
   const profile = {
     fullName: 'John Doe',
     email: 'a****a@aaa.com',
-    mobile: '*********444'
+    mobile: '*********444',
   }
 
   it('renders without errors', () => {

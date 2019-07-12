@@ -8,7 +8,7 @@ import InputText from './InputText'
 
 type SelectionProp = {
   start: number,
-  end: number
+  end: number,
 }
 
 type Props = {
@@ -16,15 +16,15 @@ type Props = {
   amount: number,
   onSelectionChange?: SelectionProp => void,
   style?: any,
-  styles?: any
+  styles?: any,
 }
 
 type SelectionEvent = {
   nativeEvent: {
     selection: SelectionProp,
     text: string,
-    inputType: string
-  }
+    inputType: string,
+  },
 }
 
 /**
@@ -62,15 +62,15 @@ const InputGoodDollar = (props: Props) => {
 }
 
 InputGoodDollar.defaultProps = {
-  onSelectionChange: () => {}
+  onSelectionChange: () => {},
 }
 
 const getStylesFromProps = () => ({
   input: {
     fontSize: normalize(36),
     fontWeight: 'bold',
-    letterSpacing: normalize(1.2)
-  }
+    letterSpacing: normalize(1.2),
+  },
 })
 
 export default withStyles(getStylesFromProps)(InputGoodDollar)

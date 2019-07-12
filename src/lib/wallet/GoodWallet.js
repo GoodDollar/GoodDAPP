@@ -37,8 +37,8 @@ type EventLog = {
   blockNumber: number,
   raw?: {
     data: string,
-    topics: any[]
-  }
+    topics: any[],
+  },
 }
 
 type Log = {
@@ -49,7 +49,7 @@ type Log = {
   transactionIndex: number,
   transactionHash: string,
   blockHash: string,
-  blockNumber: number
+  blockNumber: number,
 }
 
 type TransactionReceipt = {
@@ -66,27 +66,27 @@ type TransactionReceipt = {
   logs: Log[],
   logsBloom: string,
   events?: {
-    [eventName: string]: EventLog
-  }
+    [eventName: string]: EventLog,
+  },
 }
 
 type PromiEvents = {
   onTransactionHash?: Function,
   onReceipt?: Function,
   onConfirmation?: Function,
-  onError?: Function
+  onError?: Function,
 }
 
 type GasValues = {
   gas?: number,
-  gasPrice?: number
+  gasPrice?: number,
 }
 
 const defaultPromiEvents: PromiEvents = {
   onTransactionHash: () => {},
   onReceipt: () => {},
   onConfirmation: () => {},
-  onError: () => {}
+  onError: () => {},
 }
 
 export class GoodWallet {
@@ -98,7 +98,7 @@ export class GoodWallet {
     eth: 2,
     donate: 3,
     login: 4,
-    zoomId: 5
+    zoomId: 5,
   }
 
   ready: Promise<Web3>
@@ -188,7 +188,7 @@ export class GoodWallet {
           ReserveABI.abi,
           get(ContractsAddress, `${this.network}.GoodDollarReserve`, ReserveABI.networks[this.networkId].address),
           {
-            from: this.account
+            from: this.account,
           }
         )
 
@@ -201,7 +201,7 @@ export class GoodWallet {
             OneTimePaymentLinksABI.networks[this.networkId].address
           ),
           {
-            from: this.account
+            from: this.account,
           }
         )
         abiDecoder.addABI(OneTimePaymentLinksABI.abi)
@@ -236,7 +236,7 @@ export class GoodWallet {
       const fromEventsFilter = {
         fromBlock,
         toBlock,
-        filter: { from: this.wallet.utils.toChecksumAddress(this.account) }
+        filter: { from: this.wallet.utils.toChecksumAddress(this.account) },
       }
       const fromEventsPromise = contract
         .getPastEvents(event, fromEventsFilter)
@@ -267,7 +267,7 @@ export class GoodWallet {
       const toEventsFilter = {
         fromBlock,
         toBlock,
-        filter: { to: this.wallet.utils.toChecksumAddress(this.account) }
+        filter: { to: this.wallet.utils.toChecksumAddress(this.account) },
       }
       const toEventsPromise = contract
         .getPastEvents(event, toEventsFilter)
@@ -301,7 +301,7 @@ export class GoodWallet {
     const INTERVAL = BLOCK_COUNT * BLOCK_TIME
     log.trace('listenTxUpdates setting timeout. processed:', {
       fromBlock: fromBlock && fromBlock.toString(),
-      toBlock: toBlock && toBlock.toString()
+      toBlock: toBlock && toBlock.toString(),
     })
     blockIntervalCallback && blockIntervalCallback({ fromBlock: fromBlock.toNumber(), toBlock: toBlock.toNumber() })
     setTimeout(() => {
@@ -361,7 +361,7 @@ export class GoodWallet {
     const amount = people.toNumber() * entitlement.toNumber()
     return {
       people: numeral(people.toNumber()).format('0b'),
-      amount: numeral(amount).format('0b')
+      amount: numeral(amount).format('0b'),
     }
   }
 
@@ -507,7 +507,7 @@ export class GoodWallet {
 
     const paymentLink = generateShareLink('send', {
       paymentCode: code,
-      reason
+      reason,
     })
 
     //pass extra data
@@ -519,7 +519,7 @@ export class GoodWallet {
     return {
       code,
       hashedCode,
-      paymentLink
+      paymentLink,
     }
   }
 
@@ -601,7 +601,7 @@ export class GoodWallet {
     const sender = await senders(link).call()
     return {
       amount: paymentAvailable.toString(),
-      sender
+      sender,
     }
   }
 

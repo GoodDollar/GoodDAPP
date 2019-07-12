@@ -10,14 +10,14 @@ import KeyboardRow from './KeyboardRow'
 
 type CaretPosition = {
   start: number,
-  end: number
+  end: number,
 }
 
 type KeyboardProps = {
   onPress: string => void,
   amount: string,
   caretPosition?: CaretPosition,
-  updateCaretPosition?: CaretPosition => void
+  updateCaretPosition?: CaretPosition => void,
 }
 
 const NumPadKeyboard = ({ onPress, amount, caretPosition, updateCaretPosition, styles }: KeyboardProps) => {
@@ -31,7 +31,7 @@ const NumPadKeyboard = ({ onPress, amount, caretPosition, updateCaretPosition, s
       onPress(updatedValue)
       updateCaretPosition({
         start: caretPosition.start + 1,
-        end: caretPosition.start + 1
+        end: caretPosition.start + 1,
       })
     }
   }
@@ -44,7 +44,7 @@ const NumPadKeyboard = ({ onPress, amount, caretPosition, updateCaretPosition, s
         updatedValue = [stringAmount.slice(0, caretPosition.start - 1), stringAmount.slice(caretPosition.end)].join('')
         updateCaretPosition({
           start: caretPosition.start - 1,
-          end: caretPosition.start - 1
+          end: caretPosition.start - 1,
         })
       }
       onPress(updatedValue)
@@ -67,7 +67,7 @@ const NumPadKeyboard = ({ onPress, amount, caretPosition, updateCaretPosition, s
 
 NumPadKeyboard.defaultProps = {
   caretPosition: null,
-  updateCaretPosition: () => {}
+  updateCaretPosition: () => {},
 }
 
 const getStylesFromProps = ({ theme }) => {
@@ -75,13 +75,13 @@ const getStylesFromProps = ({ theme }) => {
     keyboard: {
       display: 'flex',
       marginBottom: theme.sizes.default,
-      marginTop: theme.sizes.defaultDouble
+      marginTop: theme.sizes.defaultDouble,
     },
     row: {
       display: 'flex',
       flexDirection: 'row',
       alignItems: 'center',
-      justifyContent: 'space-between'
+      justifyContent: 'space-between',
     },
     backspaceButton: {
       backgroundImage: `url(${backKeyboardButton})`,
@@ -89,8 +89,8 @@ const getStylesFromProps = ({ theme }) => {
       width: normalize(25),
       backgroundSize: 'contain',
       backgroundRepeat: 'no-repeat',
-      cursor: 'pointer'
-    }
+      cursor: 'pointer',
+    },
   }
 }
 

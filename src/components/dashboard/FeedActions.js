@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fa6c77',
     borderRadius: normalize(8),
     height: normalize(84),
-    maxHeight: normalize(84)
+    maxHeight: normalize(84),
   },
   emptyActionsContainer: {
     flex: 1,
@@ -54,10 +54,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: normalize(8),
     height: normalize(84),
-    maxHeight: normalize(84)
+    maxHeight: normalize(84),
   },
   actionButtonText: {
     color: 'white',
-    textAlign: 'center'
-  }
+    textAlign: 'center',
+  },
 })

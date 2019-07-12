@@ -53,7 +53,7 @@ const relatedLineSpacing = fontSize =>
     22: normalize(30),
     24: normalize(30),
     36: normalize(30),
-    42: normalize(30)
+    42: normalize(30),
   }[fontSize] || '1em')
 
 const getStylesFromProps = ({
@@ -65,7 +65,7 @@ const getStylesFromProps = ({
   fontSize,
   lineHeight,
   textDecorationLine,
-  textTransform
+  textTransform,
 }) => {
   const calculatedFontSize = Number.isFinite(fontSize) ? normalize(fontSize) : normalize(16)
   const calculatedLineHeight = lineHeight || relatedLineSpacing(calculatedFontSize)
@@ -79,8 +79,8 @@ const getStylesFromProps = ({
       fontSize: calculatedFontSize,
       lineHeight: calculatedLineHeight,
       textTransform: textTransform || 'none',
-      textDecorationLine: textDecorationLine || 'none'
-    }
+      textDecorationLine: textDecorationLine || 'none',
+    },
   }
 }
 

@@ -6,7 +6,7 @@ describe('UserModel', () => {
   beforeEach(() => {
     validProfile = {
       email: 'john@doe.com',
-      mobile: '+22222222222'
+      mobile: '+22222222222',
     }
   })
   it('Valid Profile isValid() should be true', () => {

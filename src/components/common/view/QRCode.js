@@ -21,12 +21,12 @@ const getStylesFromProps = ({ theme }) => {
       padding: normalize(16),
       borderColor: theme.colors.primary,
       borderWidth: 1,
-      borderRadius: normalize(5)
+      borderRadius: normalize(5),
     },
     qrWrapper: {
       justifyContent: 'center',
-      alignItems: 'center'
-    }
+      alignItems: 'center',
+    },
   }
 }
 

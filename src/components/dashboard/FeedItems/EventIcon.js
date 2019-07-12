@@ -10,8 +10,8 @@ const EventIcon = ({ type, theme, styles }) => {
 
 const getStylesFromProps = ({ theme }) => ({
   eventIcon: {
-    marginRight: 0
-  }
+    marginRight: 0,
+  },
 })
 
 export default withStyles(getStylesFromProps)(EventIcon)

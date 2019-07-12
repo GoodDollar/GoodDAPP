@@ -16,7 +16,9 @@ const SideMenuItem = ({ icon, name, action, styles, theme }: SideMenuItemProps) 
     <View style={styles.menuIcon}>
       <Icon name={icon} size={24} color={theme.colors.primary} />
     </View>
-    <Text color="darkGray">{name}</Text>
+    <Text color="darkGray" fontFamily="medium" textAlign="left">
+      {name}
+    </Text>
   </TouchableOpacity>
 )
 
@@ -29,11 +31,15 @@ const sideMenuItemStyles = ({ theme }) => ({
     alignItems: 'center',
     justifyContent: 'flex-start',
     cursor: 'pointer',
-    paddingVertical: normalize(14)
+    padding: normalize(16),
+    paddingLeft: 0
   },
   menuIcon: {
     marginLeft: normalize(8),
     marginRight: normalize(20)
+  },
+  menuText: {
+    paddingRight: normalize(16)
   }
 })
 

@@ -214,14 +214,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
     const menu = open ? <SideMenuPanel navigation={navigation} /> : null
     return (
       <React.Fragment>
-        <SideMenu
-          menu={menu}
-          menuPosition="right"
-          isOpen={open}
-          disableGestures={true}
-          onChange={this.sideMenuSwap}
-          openMenuOffset={240}
-        >
+        <SideMenu menu={menu} menuPosition="right" isOpen={open} disableGestures={true} onChange={this.sideMenuSwap}>
           {!navigationBarHidden && <NavBar goBack={backButtonHidden ? undefined : this.pop} title={pageTitle} />}
           <SceneView navigation={descriptor.navigation} component={Component} screenProps={screenProps} />
         </SideMenu>

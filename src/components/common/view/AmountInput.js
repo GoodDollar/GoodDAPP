@@ -4,7 +4,6 @@ import { Keyboard, Text, TouchableWithoutFeedback, View } from 'react-native'
 import { isMobile } from 'mobile-device-detect'
 import { receiveStyles as styles } from '../../dashboard/styles'
 import InputGoodDollar from '../form/InputGoodDollar'
-import Section from '../layout/Section'
 import NumPadKeyboard from './NumPadKeyboard'
 
 type AmountInputProps = {
@@ -17,7 +16,6 @@ const AmountInput = ({ amount, handleAmountChange }: AmountInputProps) => {
 
   return (
     <View style={styles.inputField}>
-      <Section.Title style={styles.headline}>How much?</Section.Title>
       <View style={styles.amountWrapper}>
         <TouchableWithoutFeedback
           onPress={() => (isMobile ? Keyboard.dismiss() : null)}

@@ -23,12 +23,13 @@ describe('generateCode', () => {
     const networkId = 121
     const amount = 1000
     const reason = 'test encode'
+    const counterPartyDisplayName = 'Counterparty Name'
     const mnid = encode({ address, network: `0x${networkId.toString(16)}` })
 
     // When
-    const code = generateCode(address, networkId, amount, reason)
+    const code = generateCode(address, networkId, amount, reason, counterPartyDisplayName)
 
     // Then
-    expect(`${mnid}|${amount}|${reason}`).toEqual(code)
+    expect(`${mnid}|${amount}|${reason}|${counterPartyDisplayName}`).toEqual(code)
   })
 })

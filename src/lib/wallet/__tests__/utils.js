@@ -96,12 +96,12 @@ describe('Number With Commas', () => {
 describe('To mask', () => {
   it('should convert wei to masked value with decimals', () => {
     const wei = toMask(3451234)
-    expect(wei).toEqual('3,451,234.00')
+    expect(wei).toEqual('3,451,234')
   })
 
   it('should convert wei to integer masked value', () => {
     const wei = toMask(3451200)
-    expect(wei).toEqual('3,451,200.00')
+    expect(wei).toEqual('3,451,200')
   })
 
   it('should convert 0 to empty null', () => {
@@ -135,12 +135,12 @@ describe('Wei to GD', () => {
 
   it('should convert wei to gooddollars as integer value with decimals ', () => {
     const wei = weiToGd('1200')
-    expect(wei).toEqual('12.00')
+    expect(wei).toEqual('12')
   })
 
   it('should convert 0 to empty string', () => {
     const wei = weiToGd('0')
-    expect(wei).toEqual('0.00')
+    expect(wei).toEqual('0')
   })
 })
 
@@ -152,11 +152,11 @@ describe('Wei to Mask', () => {
 
   it('should convert wei to integer masked value', () => {
     const wei = weiToMask(3451200)
-    expect(wei).toEqual('34,512.00')
+    expect(wei).toEqual('34,512')
   })
 
   it('should convert 0 to empty string', () => {
     const wei = weiToMask(0)
-    expect(wei).toEqual('0.00')
+    expect(wei).toEqual('0')
   })
 })

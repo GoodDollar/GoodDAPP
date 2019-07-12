@@ -190,7 +190,7 @@ exports[`Send matches snapshot 1`] = `
                 "color": "rgba(85,85,85,1.00)",
                 "direction": "ltr",
                 "fontFamily": "Roboto",
-                "fontSize": "30px",
+                "fontSize": "48px",
                 "fontWeight": "normal",
                 "lineHeight": "22px",
                 "textAlign": "right",
@@ -260,6 +260,8 @@ exports[`Send matches snapshot 1`] = `
             "fontSize": "24px",
             "fontWeight": "500",
             "lineHeight": "22px",
+            "marginBottom": "16px",
+            "marginTop": "16px",
             "textAlign": "center",
             "textDecoration": "none",
             "textTransform": "uppercase",
@@ -411,7 +413,7 @@ exports[`Send matches snapshot 1`] = `
               autoComplete="on"
               autoCorrect="on"
               autoFocus={true}
-              className="css-textinput-1cwyjr8 r-placeholderTextColor-1qzd3f0"
+              className="css-textinput-1cwyjr8 r-placeholderTextColor-1xktb6b"
               data-focusable={true}
               dir="auto"
               onBlur={[Function]}
@@ -892,7 +894,7 @@ exports[`Send matches snapshot 1`] = `
                         "WebkitJustifyContent": "center",
                         "display": "inline-flex",
                         "justifyContent": "center",
-                        "minHeight": "34px",
+                        "minHeight": "28px",
                         "msFlexPack": "center",
                       }
                     }
@@ -903,12 +905,8 @@ exports[`Send matches snapshot 1`] = `
                       style={
                         Object {
                           "direction": "ltr",
-                          "fontFamily": "Roboto",
-                          "fontSize": "16px",
-                          "fontWeight": "normal",
-                          "lineHeight": "22px",
-                          "textAlign": "center",
-                          "textDecoration": "none",
+                          "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                          "textAlign": "left",
                           "textTransform": "none",
                         }
                       }
@@ -1059,7 +1057,7 @@ exports[`Send matches snapshot 1`] = `
                         "WebkitJustifyContent": "center",
                         "display": "inline-flex",
                         "justifyContent": "center",
-                        "minHeight": "34px",
+                        "minHeight": "28px",
                         "msFlexPack": "center",
                       }
                     }
@@ -1071,12 +1069,8 @@ exports[`Send matches snapshot 1`] = `
                         Object {
                           "color": "rgba(255,255,255,1.00)",
                           "direction": "ltr",
-                          "fontFamily": "Roboto",
-                          "fontSize": "16px",
-                          "fontWeight": "normal",
-                          "lineHeight": "22px",
-                          "textAlign": "center",
-                          "textDecoration": "none",
+                          "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                          "textAlign": "left",
                           "textTransform": "uppercase",
                         }
                       }

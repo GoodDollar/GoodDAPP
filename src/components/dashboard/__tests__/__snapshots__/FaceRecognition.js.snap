@@ -423,7 +423,7 @@ before we can get started...
                     "WebkitJustifyContent": "center",
                     "display": "inline-flex",
                     "justifyContent": "center",
-                    "minHeight": "34px",
+                    "minHeight": "28px",
                     "msFlexPack": "center",
                   }
                 }
@@ -435,12 +435,8 @@ before we can get started...
                     Object {
                       "color": "rgba(255,255,255,1.00)",
                       "direction": "ltr",
-                      "fontFamily": "Roboto",
-                      "fontSize": "16px",
-                      "fontWeight": "normal",
-                      "lineHeight": "22px",
-                      "textAlign": "center",
-                      "textDecoration": "none",
+                      "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                      "textAlign": "left",
                       "textTransform": "uppercase",
                     }
                   }

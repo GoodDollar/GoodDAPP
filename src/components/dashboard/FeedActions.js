@@ -35,29 +35,29 @@ export default ({ item }: FeedEventProps) => (
 
 const styles = StyleSheet.create({
   actionsContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
     alignItems: 'center',
-    padding: normalize(8),
     backgroundColor: '#fa6c77',
     borderRadius: normalize(8),
-    height: normalize(84),
-    maxHeight: normalize(84)
-  },
-  emptyActionsContainer: {
     flex: 1,
     flexDirection: 'row',
+    height: normalize(80),
     justifyContent: 'flex-end',
+    maxHeight: normalize(80),
+    padding: normalize(8)
+  },
+  emptyActionsContainer: {
     alignItems: 'center',
-    padding: normalize(8),
     backgroundColor: '#fff',
     borderRadius: normalize(8),
-    height: normalize(84),
-    maxHeight: normalize(84)
+    flex: 1,
+    flexDirection: 'row',
+    height: normalize(80),
+    justifyContent: 'flex-end',
+    maxHeight: normalize(80),
+    padding: normalize(8)
   },
   actionButtonText: {
-    color: 'white',
+    color: '#fff',
     textAlign: 'center'
   }
 })

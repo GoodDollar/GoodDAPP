@@ -15,6 +15,7 @@ export const theme = {
     placeholder: '#CBCBCB',
     green: '#00C3AE',
     lightGray: '#EEE',
+    lighterGray: '#A3A3A3',
     orange: '#F8AF40',
     primary: '#00AFFF',
     purple: '#9F6A9D',
@@ -50,5 +51,10 @@ export const theme = {
     contentPadding: normalize(16),
     borderRadius: normalize(5),
     borderLeftWidth: normalize(10)
+  },
+  feedItems: {
+    borderRadius: normalize(8),
+    itemBackgroundColor: '#fff',
+    height: normalize(80)
   }
 }

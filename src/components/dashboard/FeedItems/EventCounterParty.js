@@ -9,7 +9,6 @@ const EventCounterParty = ({ feedItem, styles }) => {
     feedItem.type === 'send' && feedItem.data.endpoint.withdrawStatus
       ? ` by link - ${feedItem.data.endpoint.withdrawStatus}`
       : ''
-
   return (
     <Text style={styles.rowDataText} numberOfLines={1} ellipsizeMode="tail">
       <Text style={styles.direction}>{direction}:</Text>
@@ -18,24 +17,19 @@ const EventCounterParty = ({ feedItem, styles }) => {
   )
 }
 
-const getStylesFromProps = ({ theme }) => {
-  return {
-    row: {
-      alignItems: 'flex-end',
-      color: theme.colors.darkGray,
-      display: 'flex',
-      flexDirection: 'row'
-    },
-    direction: {
-      fontSize: normalize(10),
-      fontWeight: '500'
-    },
-    fullName: {
-      fontFamily: 'Roboto-Medium',
-      fontSize: normalize(16),
-      fontWeight: '500'
-    }
+const getStylesFromProps = ({ theme }) => ({
+  rowDataText: {
+    fontSize: normalize(16),
+    textTransform: 'capitalize',
+    color: theme.fontStyle.color
+  },
+  direction: {
+    fontSize: normalize(8)
+  },
+  fullName: {
+    fontFamily: theme.fonts.medium,
+    fontSize: normalize(16)
   }
-}
+})
 
 export default withStyles(getStylesFromProps)(EventCounterParty)

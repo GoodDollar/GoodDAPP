@@ -24,7 +24,8 @@ export const theme = {
   fonts: {
     ...DefaultTheme.fonts,
     slab: 'RobotoSlab-Regular',
-    slabBold: 'RobotoSlab-Bold'
+    slabBold: 'RobotoSlab-Bold',
+    bold: 'Roboto-Bold'
   },
   paddings: {
     mainContainerPadding: normalize(8)

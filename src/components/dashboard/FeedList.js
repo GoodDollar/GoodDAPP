@@ -85,8 +85,10 @@ class FeedList extends PureComponent<FeedListProps, FeedListState> {
 
   pressItem = (item, index: number) => () => {
     const { handleFeedSelection, horizontal } = this.props
-    handleFeedSelection(item, !horizontal)
-    this.scrollToItem(item)
+    if (item.type !== 'empty') {
+      handleFeedSelection(item, !horizontal)
+      this.scrollToItem(item)
+    }
   }
 
   flatListRef = null

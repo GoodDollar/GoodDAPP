@@ -1,12 +1,17 @@
 import React from 'react'
-import { withTheme } from 'react-native-paper'
 import { Icon } from '../../common'
-import { listStyles } from './EventStyles'
+import { withStyles } from '../../../lib/styles'
 import getEventSettingsByType from './EventSettingsByType'
 
-const EventIcon = ({ type, theme, style }) => {
+const EventIcon = ({ type, theme, styles }) => {
   const icon = getEventSettingsByType(theme, type)
-  return <Icon color={icon.color} size={34} name={icon.name} style={[listStyles.eventIcon, style]} />
+  return <Icon color={icon.color} size={34} name={icon.name} style={styles.eventIcon} />
 }
 
-export default withTheme(EventIcon)
+const getStylesFromProps = ({ theme }) => ({
+  eventIcon: {
+    marginRight: 0
+  }
+})
+
+export default withStyles(getStylesFromProps)(EventIcon)

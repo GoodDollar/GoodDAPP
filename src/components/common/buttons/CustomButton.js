@@ -119,10 +119,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   leftIcon: {
-    marginRight: normalize(10)
+    marginRight: normalize(8)
   },
   rightIcon: {
-    marginLeft: normalize(10)
+    marginLeft: normalize(8)
   }
 })
 

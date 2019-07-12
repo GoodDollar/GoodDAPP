@@ -20,16 +20,18 @@ const privacyOptions = ['private', 'masked', 'public']
  */
 const OptionsRow = ({ title = '', styles, theme }) => (
   <View style={styles.optionsRowContainer}>
-    <Text style={styles.growTwo} textAlign="left" fontSize={16}>
+    <Text style={styles.growTwo} textAlign="left" color={theme.colors.gray} fontFamily="medium">
       {title}
     </Text>
 
     {privacyOptions.map(privacy => (
       <View style={styles.optionsRowTitle} key={privacy}>
         {title === '' ? (
-          <Text>{startCase(privacy)}</Text>
+          <Text size={14} color={theme.colors.gray}>
+            {startCase(privacy)}
+          </Text>
         ) : (
-          <RadioButton value={privacy} uncheckedColor={theme.colors.darkGray} color={theme.colors.primary} />
+          <RadioButton value={privacy} uncheckedColor={theme.colors.gray} color={theme.colors.primary} />
         )}
       </View>
     ))}
@@ -44,7 +46,7 @@ const getStylesFromProps = ({ theme }) => {
       alignItems: 'center',
       borderBottomStyle: 'solid',
       borderBottomColor: theme.colors.lightGray,
-      borderBottomWidth: normalize(2),
+      borderBottomWidth: normalize(1), // not using StyleSheet.hairlineWidth as it's not being visible
       padding: theme.paddings.mainContainerPadding
     },
     growTwo: {
@@ -52,6 +54,7 @@ const getStylesFromProps = ({ theme }) => {
     },
     optionsRowTitle: {
       width: '15%',
+      minWidth: normalize(60),
       alignItems: 'center'
     }
   }

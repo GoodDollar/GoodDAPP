@@ -33,7 +33,7 @@ const ProfilePrivacy = props => {
   const [privacy, setPrivacy] = useState(initialState)
   const [loading, setLoading] = useState(false)
   const [showTips, setShowTips] = useState(false)
-  const { styles } = props
+  const { screenProps, styles, theme } = props
 
   useEffect(() => {
     // looks for the users fields' privacy
@@ -82,10 +82,10 @@ const ProfilePrivacy = props => {
     <Section grow style={styles.wrapper}>
       <Section.Stack grow>
         <Section.Row grow justifyContent="center" style={styles.subtitleRow}>
-          <Section.Text fontSize={16} fontWeight="bold">
+          <Section.Text fontSize={16} fontWeight="bold" color={theme.colors.gray}>
             Manage your profile privacy
           </Section.Text>
-          <InfoIcon onPress={() => setShowTips(true)} />
+          <InfoIcon color={theme.colors.primary} onPress={() => setShowTips(true)} />
         </Section.Row>
 
         <Section style={styles.optionsRowContainer}>
@@ -104,7 +104,7 @@ const ProfilePrivacy = props => {
       </Section.Stack>
 
       <Section.Row grow alignItems="flex-end" style={styles.buttonsRow}>
-        <BackButton mode="text" screenProps={props.screenProps} style={styles.growOne}>
+        <BackButton mode="text" screenProps={screenProps} style={styles.growOne}>
           Cancel
         </BackButton>
         <CustomButton
@@ -133,20 +133,24 @@ const ProfilePrivacy = props => {
 
 /**
  * InfoIcon component
- * @param onPress
+ * @param {object} props
+ * @param {string} props.color
+ * @param {Function} props.onPress
+ * @param {number} props.size
  * @returns {ReactNode}
  * @constructor
  */
-const InfoIcon = ({ onPress }) => (
+const InfoIcon = ({ color, onPress, size }) => (
   <TouchableOpacity onPress={onPress}>
-    <Icon size={24} color="blue" name="info" />
+    <Icon size={size || 24} color={color} name="info" />
   </TouchableOpacity>
 )
 
 const getStylesFromProps = ({ theme }) => {
   return {
     wrapper: {
-      borderRadius: 0
+      borderRadius: 0,
+      padding: 0
     },
     optionsRowContainer: {
       padding: 0,
@@ -162,7 +166,8 @@ const getStylesFromProps = ({ theme }) => {
       height: '16%'
     },
     buttonsRow: {
-      marginBottom: theme.paddings.mainContainerPadding
+      marginHorizontal: theme.paddings.mainContainerPadding,
+      marginBottom: normalize(16)
     },
     dialogTipItem: {
       marginBottom: normalize(20)

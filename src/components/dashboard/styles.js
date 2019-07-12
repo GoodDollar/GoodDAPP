@@ -54,41 +54,12 @@ export const receiveStyles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: '1rem'
   },
-  inputField: {
-    width: '100%',
-    flexDirection: 'column',
-    justifyContent: 'space-between'
-  },
   amountLabel: {
     ...theme.fontStyle,
     fontSize: normalize(32)
   },
   amountSymbol: {
     fontSize: normalize(12)
-  },
-  amountWrapper: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignContent: 'center'
-  },
-  amountInput: {
-    backgroundColor: 'transparent',
-    height: normalize(40),
-    width: '100%',
-    textAlign: 'center',
-    fontSize: normalize(18),
-    fontFamily: 'RobotoSlab-Bold',
-    letterSpacing: normalize(1.2),
-    borderBottomColor: theme.colors.darkGray,
-    borderBottomWidth: StyleSheet.hairlineWidth
-  },
-  amountInputWrapper: {
-    fontSize: normalize(26),
-    lineHeight: normalize(40),
-    whiteSpace: 'normal',
-    flexShrink: 1,
-    flexGrow: 1,
-    textAlign: 'right'
   },
   shareQRButton: {
     width: '100%'

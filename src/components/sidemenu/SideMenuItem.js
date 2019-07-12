@@ -8,7 +8,7 @@ import { Text } from '../common'
 export type SideMenuItemProps = {
   icon: string,
   name: string,
-  action: Function
+  action: Function,
 }
 
 const SideMenuItem = ({ icon, name, action, styles, theme }: SideMenuItemProps) => (
@@ -32,15 +32,15 @@ const sideMenuItemStyles = ({ theme }) => ({
     justifyContent: 'flex-start',
     cursor: 'pointer',
     padding: normalize(16),
-    paddingLeft: 0
+    paddingLeft: 0,
   },
   menuIcon: {
     marginLeft: normalize(8),
-    marginRight: normalize(20)
+    marginRight: normalize(20),
   },
   menuText: {
-    paddingRight: normalize(16)
-  }
+    paddingRight: normalize(16),
+  },
 })
 
 export default withStyles(sideMenuItemStyles)(SideMenuItem)

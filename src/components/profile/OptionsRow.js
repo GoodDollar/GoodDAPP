@@ -47,16 +47,16 @@ const getStylesFromProps = ({ theme }) => {
       borderBottomStyle: 'solid',
       borderBottomColor: theme.colors.lightGray,
       borderBottomWidth: normalize(1), // not using StyleSheet.hairlineWidth as it's not being visible
-      padding: theme.paddings.mainContainerPadding
+      padding: theme.paddings.mainContainerPadding,
     },
     growTwo: {
-      flexGrow: 2
+      flexGrow: 2,
     },
     optionsRowTitle: {
       width: '15%',
       minWidth: normalize(60),
-      alignItems: 'center'
-    }
+      alignItems: 'center',
+    },
   }
 }
 

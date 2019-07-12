@@ -12,7 +12,7 @@ const TITLE = 'Backup my wallet'
 
 type BackupWalletProps = {
   styles: {},
-  theme: {}
+  theme: {},
 }
 
 const BackupWallet = ({ screenProps, styles, theme }: BackupWalletProps) => {
@@ -34,7 +34,7 @@ const BackupWallet = ({ screenProps, styles, theme }: BackupWalletProps) => {
     await API.sendRecoveryInstructionByEmail(currentMnemonics)
     showDialogWithData({
       title: 'Backup Your Wallet',
-      message: 'We sent an email with recovery instructions for your wallet'
+      message: 'We sent an email with recovery instructions for your wallet',
     })
   }
 
@@ -60,26 +60,26 @@ const BackupWallet = ({ screenProps, styles, theme }: BackupWalletProps) => {
 
 const backupWalletStyles = ({ theme }) => ({
   wrapper: {
-    borderRadius: 0
+    borderRadius: 0,
   },
   instructions: {
-    marginVertical: normalize(theme.paddings.mainContainerPadding)
+    marginVertical: normalize(theme.paddings.mainContainerPadding),
   },
   inputsContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     marginVertical: normalize(theme.paddings.mainContainerPadding),
-    marginHorizontal: normalize(theme.paddings.mainContainerPadding)
+    marginHorizontal: normalize(theme.paddings.mainContainerPadding),
   },
   bottomContainer: {
-    marginVertical: normalize(theme.paddings.mainContainerPadding)
-  }
+    marginVertical: normalize(theme.paddings.mainContainerPadding),
+  },
 })
 
 const backupWallet = withStyles(backupWalletStyles)(BackupWallet)
 
 backupWallet.navigationOptions = {
-  title: TITLE
+  title: TITLE,
 }
 
 export default backupWallet

@@ -20,7 +20,7 @@ const privacyOptions = ['private', 'masked', 'public']
 const tips = {
   private: 'Nobody will be able to see your field, nor to find you searching by it.',
   masked: 'Your field will be partially visible (e.g.: ****ple@***.com). Nobody will be able to search you by it.',
-  public: 'Your field is publicly available. Anybody will be able to find you by it.'
+  public: 'Your field is publicly available. Anybody will be able to find you by it.',
 }
 
 // fields to manage privacy of
@@ -63,7 +63,7 @@ const ProfilePrivacy = props => {
       // filters out fields to be updated
       const toUpdate = updatableValues().map(field => ({
         update: userStorage.setProfileFieldPrivacy(field, privacy[field]),
-        field
+        field,
       }))
 
       // updates fields
@@ -150,35 +150,35 @@ const getStylesFromProps = ({ theme }) => {
   return {
     wrapper: {
       borderRadius: 0,
-      padding: 0
+      padding: 0,
     },
     optionsRowContainer: {
       padding: 0,
-      height: '70%'
+      height: '70%',
     },
     growOne: {
-      flexGrow: 1
+      flexGrow: 1,
     },
     growThree: {
-      flexGrow: 3
+      flexGrow: 3,
     },
     subtitleRow: {
-      height: '16%'
+      height: '16%',
     },
     buttonsRow: {
       marginHorizontal: theme.paddings.mainContainerPadding,
-      marginBottom: normalize(16)
+      marginBottom: normalize(16),
     },
     dialogTipItem: {
-      marginBottom: normalize(20)
-    }
+      marginBottom: normalize(20),
+    },
   }
 }
 
 const profilePrivacy = withStyles(getStylesFromProps)(ProfilePrivacy)
 
 profilePrivacy.navigationOptions = {
-  title: TITLE
+  title: TITLE,
 }
 
 export default profilePrivacy

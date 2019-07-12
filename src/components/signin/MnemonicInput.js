@@ -15,7 +15,7 @@ const MAX_WORDS = 12
 
 type Props = {
   onChange?: Function,
-  recoveryMode: any
+  recoveryMode: any,
 }
 
 const isValidWord = word => {
@@ -39,7 +39,7 @@ const MnemonicInput = ({ onChange, recoveryMode, styles }: Props) => {
       log.info({
         recoveryMode: recoveryMode,
         different: state !== recoveryMode,
-        state
+        state,
       })
       setState(recoveryMode)
     }
@@ -104,7 +104,7 @@ const MnemonicInput = ({ onChange, recoveryMode, styles }: Props) => {
 }
 
 MnemonicInput.defaultProps = {
-  onChange: (words: any) => {}
+  onChange: (words: any) => {},
 }
 
 const mnemonicInputStyles = ({ theme }) => ({
@@ -112,7 +112,7 @@ const mnemonicInputStyles = ({ theme }) => ({
     width: '45%',
     marginTop: normalize(10),
     height: normalize(height >= 640 ? 44 : 36),
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   input: {
     backgroundColor: theme.colors.surface,
@@ -124,7 +124,7 @@ const mnemonicInputStyles = ({ theme }) => ({
     paddingLeft: normalize(16),
     width: normalize(94),
     justifyContent: 'center',
-    flex: 1
+    flex: 1,
   },
   prevNumber: {
     backgroundColor: theme.colors.primary,
@@ -137,8 +137,8 @@ const mnemonicInputStyles = ({ theme }) => ({
     height: normalize(height >= 640 ? 44 : 36),
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: '0 8px'
-  }
+    paddingHorizontal: '0 8px',
+  },
 })
 
 export default withStyles(mnemonicInputStyles)(MnemonicInput)

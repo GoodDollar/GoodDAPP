@@ -82,7 +82,7 @@ const Mnemonics = ({ styles }) => {
 async function profileExist(): Promise<any> {
   const [wallet, userStorage] = await Promise.all([
     import('../../lib/wallet/GoodWallet').then(_ => _.default),
-    import('../../lib/gundb/UserStorage').then(_ => _.default)
+    import('../../lib/gundb/UserStorage').then(_ => _.default),
   ])
 
   await wallet.init()
@@ -94,25 +94,25 @@ async function profileExist(): Promise<any> {
 }
 
 Mnemonics.navigationOptions = {
-  title: TITLE
+  title: TITLE,
 }
 
 const mnemonicsStyles = ({ theme }) => ({
   wrapper: {
-    borderRadius: 0
+    borderRadius: 0,
   },
   instructions: {
-    marginVertical: normalize(theme.paddings.mainContainerPadding)
+    marginVertical: normalize(theme.paddings.mainContainerPadding),
   },
   inputsContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     marginVertical: normalize(theme.paddings.mainContainerPadding),
-    marginHorizontal: normalize(theme.paddings.mainContainerPadding)
+    marginHorizontal: normalize(theme.paddings.mainContainerPadding),
   },
   bottomContainer: {
-    marginVertical: normalize(theme.paddings.mainContainerPadding)
-  }
+    marginVertical: normalize(theme.paddings.mainContainerPadding),
+  },
 })
 
 export default withStyles(mnemonicsStyles)(Mnemonics)

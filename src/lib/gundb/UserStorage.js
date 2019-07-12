@@ -999,7 +999,7 @@ export class UserStorage {
    * @returns {Promise<FeedEvent>}
    */
   async peekTX(eventId: string): Promise<FeedEvent> {
-    const feedItem = await this.feed.get('queue').get(event.id)
+    const feedItem = await this.feed.get('queue').get(eventId)
     return feedItem
   }
 

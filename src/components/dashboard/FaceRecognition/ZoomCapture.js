@@ -7,6 +7,10 @@ import { Camera, getResponsiveVideoDimensions } from './Camera.web'
 import Zoom, { type ZoomCaptureResult } from './Zoom'
 
 const log = logger.child({ from: 'ZoomCapture' })
+
+// TODO: Rami - what is type compared to class?
+//TODO: Rami - should I handle onEror and create a class instead of type?
+
 type ZoomCaptureProps = {
   screenProps: any,
   loadedZoom: boolean,
@@ -32,6 +36,8 @@ class ZoomCapture extends React.Component<ZoomCaptureProps> {
       log.debug('zoom performs capture..')
       let zoomSDK = this.props.loadedZoom
       this.zoom = new Zoom(zoomSDK, track)
+
+      //TODO: Rami - can captureOutcome come with errors inside
       captureOutcome = await this.zoom.capture() // TODO: handle capture errors.
       log.info({ captureOutcome })
       if (captureOutcome) {
@@ -39,6 +45,10 @@ class ZoomCapture extends React.Component<ZoomCaptureProps> {
       }
     } catch (e) {
       log.error(`Failed on capture, error: ${e}`)
+      let params = { error: e }
+
+      // (1)  Rami - go to error screen
+      this.props.screenProps.push('FRError', params)
     }
   }
 

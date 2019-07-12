@@ -43,7 +43,12 @@ const FeedModalItem = (props: FeedEventProps) => {
         ) : null}
         <View style={styles.dateAndAmount}>
           <Text style={styles.date}>{getFormattedDateTime(item.date)}</Text>
-          <BigGoodDollar number={item.data.amount} elementStyles={[styles.amount, { color: mainColor }]} />
+          <BigGoodDollar
+            bigNumberStyles={styles.bigNumberStyles}
+            bigNumberUnitStyles={styles.bigNumberUnitStyles}
+            color={mainColor}
+            number={item.data.amount}
+          />
         </View>
         <View style={[styles.transactionDetails, { borderColor: mainColor }]}>
           <Avatar source={item.data && item.data.endpoint && item.data.endpoint.avatar} style={styles.avatar} />
@@ -90,9 +95,15 @@ const getStylesFromProps = ({ theme }) => {
       color: theme.colors.darkGray,
       fontSize: normalize(10)
     },
-    amount: {
+    bigNumberStyles: {
       fontFamily: 'Roboto-Bold',
       fontSize: normalize(22),
+      fontWeight: '700',
+      marginRight: normalize(3)
+    },
+    bigNumberUnitStyles: {
+      fontFamily: 'Roboto-Bold',
+      fontSize: normalize(12),
       fontWeight: '700'
     },
     transactionDetails: {

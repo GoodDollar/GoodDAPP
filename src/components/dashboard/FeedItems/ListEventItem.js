@@ -32,7 +32,8 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
           <Text style={styles.date}>{getFormattedDateTime(feed.date)}</Text>
           <BigGoodDollar
             color={eventSettings.color}
-            elementStyles={styles.goodDollarAmount}
+            bigNumberStyles={styles.bigNumberStyles}
+            bigNumberUnitStyles={styles.bigNumberUnitStyles}
             number={feed.data.amount}
           />
         </Section.Row>
@@ -81,8 +82,12 @@ const getStylesFromProps = ({ theme }) => ({
     fontSize: normalize(10),
     marginTop: normalize(2)
   },
-  goodDollarAmount: {
+  bigNumberStyles: {
     fontSize: normalize(15),
+    fontFamily: theme.fonts.bold
+  },
+  bigNumberUnitStyles: {
+    fontSize: normalize(10),
     fontFamily: theme.fonts.bold
   },
   bottomInfo: {

@@ -40,9 +40,9 @@ const styles = StyleSheet.create({
     borderRadius: normalize(8),
     flex: 1,
     flexDirection: 'row',
-    height: normalize(80),
+    height: normalize(84),
     justifyContent: 'flex-end',
-    maxHeight: normalize(80),
+    maxHeight: normalize(84),
     padding: normalize(8)
   },
   emptyActionsContainer: {
@@ -51,9 +51,9 @@ const styles = StyleSheet.create({
     borderRadius: normalize(8),
     flex: 1,
     flexDirection: 'row',
-    height: normalize(80),
+    height: normalize(84),
     justifyContent: 'flex-end',
-    maxHeight: normalize(80),
+    maxHeight: normalize(84),
     padding: normalize(8)
   },
   actionButtonText: {

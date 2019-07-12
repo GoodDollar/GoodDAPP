@@ -55,6 +55,6 @@ export const theme = {
   feedItems: {
     borderRadius: normalize(8),
     itemBackgroundColor: '#fff',
-    height: normalize(80)
+    height: normalize(84)
   }
 }

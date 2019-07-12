@@ -34,7 +34,7 @@ const getStylesFromProps = ({ theme }) => {
       display: 'flex',
       alignItems: 'center',
       flex: 1,
-      padding: normalize(15),
+      padding: normalize(20),
       cursor: 'pointer'
     },
     keyText: {

@@ -16,7 +16,8 @@ export const theme = {
     primary: '#00AFFF',
     purple: '#9F6A9D',
     red: '#FA6C77',
-    text: '#222'
+    text: '#222',
+    error: '#FA6C77'
   },
   fonts: {
     ...DefaultTheme.fonts,

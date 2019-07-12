@@ -34,7 +34,7 @@ const getStylesFromProps = ({ theme }) => {
       display: 'flex',
       alignItems: 'center',
       flex: 1,
-      padding: normalize(15),
+      padding: normalize(20),
       cursor: 'pointer',
     },
     keyText: {
@@ -45,8 +45,8 @@ const getStylesFromProps = ({ theme }) => {
     },
     backspaceButton: {
       backgroundImage: `url(${backKeyboardButton})`,
-      height: normalize(25),
-      width: normalize(25),
+      height: normalize(30),
+      width: normalize(40),
       backgroundSize: 'contain',
       backgroundRepeat: 'no-repeat',
       cursor: 'pointer',

@@ -286,7 +286,7 @@ exports[`SendLinkSummary matches snapshot 1`] = `
               "fontWeight": "500",
               "lineHeight": "22px",
               "marginBottom": "1rem",
-              "marginTop": "16px",
+              "marginTop": "8px",
               "textAlign": "center",
               "textDecoration": "none",
               "textTransform": "uppercase",

@@ -68,6 +68,7 @@ const getStylesFromProps = ({ theme }) => {
       flexDirection: 'row',
       flexGrow: 1,
       position: 'relative',
+      width: '100%',
       zIndex: lowZIndex
     },
     modalInnerContents: {
@@ -100,7 +101,7 @@ const getStylesFromProps = ({ theme }) => {
     },
     modalContents: {
       flexGrow: 1,
-      width: '97%'
+      flexShrink: 1
     },
     jaggedEdge: {
       backgroundImage: `linear-gradient(45deg, transparent 75%, ${

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Reason matches snapshot 1`] = `
+exports[`ReceiveFrom matches snapshot 1`] = `
 <div
   className="css-view-1dbjc4n"
   style={
@@ -298,7 +298,7 @@ exports[`Reason matches snapshot 1`] = `
             }
           }
         >
-          What For?
+          From Who?
         </div>
         <input
           autoCapitalize="sentences"
@@ -314,7 +314,7 @@ exports[`Reason matches snapshot 1`] = `
           onKeyDown={[Function]}
           onKeyPress={[Function]}
           onSelect={[Function]}
-          placeholder="Add a message"
+          placeholder="Enter the recipient name"
           readOnly={false}
           spellCheck={true}
           style={

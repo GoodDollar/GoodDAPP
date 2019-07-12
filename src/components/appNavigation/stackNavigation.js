@@ -257,27 +257,6 @@ export const BackButton = (props: BackButtonProps) => {
   )
 }
 
-type DoneButtonProps = {
-  ...ButtonProps,
-  routeName?: Route,
-  screenProps: { goToRoot: () => void }
-}
-
-/**
- * BackButton
- * This button gets the goToParent action from screenProps. Is meant to be used inside a stackNavigator
- * @param {ButtonProps} props
- */
-export const DoneButton = (props: DoneButtonProps) => {
-  const { screenProps, children, mode, color } = props
-
-  return (
-    <CustomButton {...props} mode={mode || 'outlined'} color={color || 'red'} onPress={screenProps.goToRoot}>
-      {children || 'Done'}
-    </CustomButton>
-  )
-}
-
 type NextButtonProps = {
   ...ButtonProps,
   values: {},

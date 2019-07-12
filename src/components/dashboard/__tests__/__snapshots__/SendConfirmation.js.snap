@@ -241,48 +241,113 @@ exports[`SendConfirmation matches snapshot 1`] = `
             className="css-view-1dbjc4n"
             style={
               Object {
-                "borderBottomColor": "rgba(85,85,85,1.00)",
-                "borderBottomLeftRadius": "4px",
-                "borderBottomRightRadius": "4px",
-                "borderBottomWidth": "1px",
-                "borderLeftColor": "rgba(85,85,85,1.00)",
-                "borderLeftWidth": "1px",
-                "borderRightColor": "rgba(85,85,85,1.00)",
-                "borderRightWidth": "1px",
-                "borderTopColor": "rgba(85,85,85,1.00)",
-                "borderTopLeftRadius": "4px",
-                "borderTopRightRadius": "4px",
-                "borderTopWidth": "1px",
-                "marginTop": "0px",
-                "paddingBottom": "1rem",
-                "paddingLeft": "1rem",
-                "paddingRight": "1rem",
-                "paddingTop": "1rem",
+                "WebkitAlignItems": "center",
+                "WebkitBoxAlign": "center",
+                "WebkitBoxPack": "center",
+                "WebkitJustifyContent": "center",
+                "alignItems": "center",
+                "justifyContent": "center",
+                "msFlexAlign": "center",
+                "msFlexPack": "center",
               }
             }
           >
-            <canvas
-              height={128}
+            <div
+              className="css-view-1dbjc4n"
               style={
                 Object {
-                  "height": 128,
-                  "width": 128,
+                  "borderBottomColor": "rgba(0,175,255,1.00)",
+                  "borderBottomLeftRadius": "5px",
+                  "borderBottomRightRadius": "5px",
+                  "borderBottomWidth": "1px",
+                  "borderLeftColor": "rgba(0,175,255,1.00)",
+                  "borderLeftWidth": "1px",
+                  "borderRightColor": "rgba(0,175,255,1.00)",
+                  "borderRightWidth": "1px",
+                  "borderTopColor": "rgba(0,175,255,1.00)",
+                  "borderTopLeftRadius": "5px",
+                  "borderTopRightRadius": "5px",
+                  "borderTopWidth": "1px",
+                  "paddingBottom": "16px",
+                  "paddingLeft": "16px",
+                  "paddingRight": "16px",
+                  "paddingTop": "16px",
                 }
               }
-              width={128}
-            />
+            >
+              <canvas
+                height={128}
+                style={
+                  Object {
+                    "height": 128,
+                    "width": 128,
+                  }
+                }
+                theme={
+                  Object {
+                    "colors": Object {
+                      "accent": "#03dac4",
+                      "backdrop": "rgba(0, 0, 0, 0.5)",
+                      "background": "#f6f6f6",
+                      "blue": "#006EA0",
+                      "darkBlue": "#0C263D",
+                      "darkGray": "#42454A",
+                      "disabled": "rgba(0, 0, 0, 0.26)",
+                      "error": "#B00020",
+                      "gray50Percent": "#CBCBCB",
+                      "green": "#00C3AE",
+                      "lightGray": "#EEE",
+                      "notification": "#f50057",
+                      "orange": "#F8AF40",
+                      "placeholder": "#CBCBCB",
+                      "primary": "#00AFFF",
+                      "purple": "#9F6A9D",
+                      "red": "#FA6C77",
+                      "surface": "#ffffff",
+                      "text": "#222",
+                    },
+                    "dark": false,
+                    "fontStyle": Object {
+                      "color": "#555",
+                      "fontSize": 18,
+                      "textAlign": "center",
+                    },
+                    "fonts": Object {
+                      "bold": "Roboto-Bold",
+                      "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                      "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                      "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                      "slab": "RobotoSlab-Regular",
+                      "slabBold": "RobotoSlab-Bold",
+                      "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                    },
+                    "paddings": Object {
+                      "defaultMargin": 8,
+                      "mainContainerPadding": 8,
+                    },
+                    "roundness": 4,
+                    "sizes": Object {
+                      "default": 8,
+                      "defaultDouble": 16,
+                      "defaultHalf": 4,
+                    },
+                  }
+                }
+                width={128}
+              />
+            </div>
           </div>
           <div
             className="css-text-901oao"
             dir="auto"
             style={
               Object {
-                "color": "rgba(85,85,85,1.00)",
+                "color": "rgba(66,69,74,1.00)",
                 "direction": "ltr",
                 "fontFamily": "Roboto",
                 "fontSize": "14px",
                 "fontWeight": "normal",
-                "lineHeight": "22px",
+                "lineHeight": "20px",
                 "marginBottom": "1rem",
                 "marginTop": "1rem",
                 "maxWidth": "100%",
@@ -329,7 +394,7 @@ exports[`SendConfirmation matches snapshot 1`] = `
                 "fontFamily": "Roboto",
                 "fontSize": "16px",
                 "fontWeight": "normal",
-                "lineHeight": "22px",
+                "lineHeight": "20px",
                 "textAlign": "center",
                 "textDecoration": "none",
                 "textTransform": "none",
@@ -395,7 +460,7 @@ exports[`SendConfirmation matches snapshot 1`] = `
                 "fontFamily": "Roboto",
                 "fontSize": "16px",
                 "fontWeight": "normal",
-                "lineHeight": "22px",
+                "lineHeight": "20px",
                 "textAlign": "center",
                 "textDecoration": "none",
                 "textTransform": "none",
@@ -529,7 +594,7 @@ exports[`SendConfirmation matches snapshot 1`] = `
                     "WebkitJustifyContent": "center",
                     "display": "inline-flex",
                     "justifyContent": "center",
-                    "minHeight": "34px",
+                    "minHeight": "28px",
                     "msFlexPack": "center",
                   }
                 }
@@ -560,24 +625,24 @@ exports[`SendConfirmation matches snapshot 1`] = `
           Object {
             "WebkitBoxPack": "center",
             "WebkitJustifyContent": "center",
-            "backgroundColor": "rgba(0,0,0,0.00)",
-            "borderBottomColor": "rgba(0,0,0,0.29)",
+            "backgroundColor": "rgba(0,175,255,1.00)",
+            "borderBottomColor": "rgba(0,0,0,0.00)",
             "borderBottomLeftRadius": "50px",
             "borderBottomRightRadius": "50px",
             "borderBottomStyle": "solid",
-            "borderBottomWidth": "1px",
-            "borderLeftColor": "rgba(0,0,0,0.29)",
+            "borderBottomWidth": "0px",
+            "borderLeftColor": "rgba(0,0,0,0.00)",
             "borderLeftStyle": "solid",
-            "borderLeftWidth": "1px",
-            "borderRightColor": "rgba(0,0,0,0.29)",
+            "borderLeftWidth": "0px",
+            "borderRightColor": "rgba(0,0,0,0.00)",
             "borderRightStyle": "solid",
-            "borderRightWidth": "1px",
-            "borderTopColor": "rgba(0,0,0,0.29)",
+            "borderRightWidth": "0px",
+            "borderTopColor": "rgba(0,0,0,0.00)",
             "borderTopLeftRadius": "50px",
             "borderTopRightRadius": "50px",
             "borderTopStyle": "solid",
-            "borderTopWidth": "1px",
-            "boxShadow": "0px 0px 0px rgba(0,0,0,0.24)",
+            "borderTopWidth": "0px",
+            "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
             "justifyContent": "center",
             "marginTop": "1em",
             "minWidth": "auto",
@@ -634,7 +699,7 @@ exports[`SendConfirmation matches snapshot 1`] = `
               dir="auto"
               style={
                 Object {
-                  "color": "rgba(255,0,0,1.00)",
+                  "color": "rgba(255,255,255,1.00)",
                   "direction": "ltr",
                   "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                   "letterSpacing": "1px",
@@ -654,7 +719,7 @@ exports[`SendConfirmation matches snapshot 1`] = `
                     "WebkitJustifyContent": "center",
                     "display": "inline-flex",
                     "justifyContent": "center",
-                    "minHeight": "34px",
+                    "minHeight": "28px",
                     "msFlexPack": "center",
                   }
                 }
@@ -664,6 +729,7 @@ exports[`SendConfirmation matches snapshot 1`] = `
                   dir="auto"
                   style={
                     Object {
+                      "color": "rgba(255,255,255,1.00)",
                       "direction": "ltr",
                       "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                       "textAlign": "left",

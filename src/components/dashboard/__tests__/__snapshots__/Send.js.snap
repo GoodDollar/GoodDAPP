@@ -260,6 +260,8 @@ exports[`Send matches snapshot 1`] = `
             "fontSize": "24px",
             "fontWeight": "500",
             "lineHeight": "22px",
+            "marginBottom": "16px",
+            "marginTop": "16px",
             "textAlign": "center",
             "textDecoration": "none",
             "textTransform": "uppercase",
@@ -892,7 +894,7 @@ exports[`Send matches snapshot 1`] = `
                         "WebkitJustifyContent": "center",
                         "display": "inline-flex",
                         "justifyContent": "center",
-                        "minHeight": "34px",
+                        "minHeight": "28px",
                         "msFlexPack": "center",
                       }
                     }
@@ -1055,7 +1057,7 @@ exports[`Send matches snapshot 1`] = `
                         "WebkitJustifyContent": "center",
                         "display": "inline-flex",
                         "justifyContent": "center",
-                        "minHeight": "34px",
+                        "minHeight": "28px",
                         "msFlexPack": "center",
                       }
                     }

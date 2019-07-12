@@ -25,6 +25,7 @@ import FeedList from './FeedList'
 import FeedModalItem from './FeedItems/FeedModalItem'
 import Reason from './Reason'
 import Receive from './Receive'
+import ReceiveFrom from './ReceiveFrom'
 import ReceiveAmount from './ReceiveAmount'
 import SendByQR from './SendByQR'
 import ReceiveByQR from './ReceiveByQR'
@@ -168,7 +169,7 @@ const Dashboard = props => {
               </Section.Stack>
             </Section.Row>
           )}
-          <Section.Row style={styles.buttonsRow}>
+          <Section.Row style={styles.buttonsRow} alignItems="stretch">
             <PushButton
               routeName={'Send'}
               screenProps={screenProps}
@@ -214,7 +215,6 @@ const Dashboard = props => {
 
 const styles = StyleSheet.create({
   buttonsRow: {
-    alignItems: 'stretch',
     marginVertical: normalize(8)
   },
   leftButton: {
@@ -250,6 +250,7 @@ export default createStackNavigator({
   Home: Dashboard,
   Claim,
   Receive,
+  ReceiveFrom,
   Amount,
   Reason,
   ReceiveAmount,

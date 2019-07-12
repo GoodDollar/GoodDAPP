@@ -12,6 +12,7 @@ import IconButton from './buttons/IconButton'
 import InputGoodDollar from './form/InputGoodDollar'
 import LoadingIndicator from './view/LoadingIndicator'
 import NumPadKeyboard from './view/NumPadKeyboard'
+import QRCode from './view/QRCode'
 import ScanQRButton from './buttons/ScanQRButton'
 import Section from './layout/Section'
 import Text from './view/Text'
@@ -35,6 +36,7 @@ export {
   InputGoodDollar,
   LoadingIndicator,
   NumPadKeyboard,
+  QRCode,
   ScanQRButton,
   Section,
   Text,

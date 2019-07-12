@@ -495,7 +495,7 @@ exports[`FeedList Horizontal rendering With empty data matches snapshot 1`] = `
                                   "WebkitJustifyContent": "center",
                                   "display": "inline-flex",
                                   "justifyContent": "center",
-                                  "minHeight": "34px",
+                                  "minHeight": "28px",
                                   "msFlexPack": "center",
                                 }
                               }
@@ -1231,7 +1231,7 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                                   "WebkitJustifyContent": "center",
                                   "display": "inline-flex",
                                   "justifyContent": "center",
-                                  "minHeight": "34px",
+                                  "minHeight": "28px",
                                   "msFlexPack": "center",
                                 }
                               }
@@ -1853,7 +1853,7 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                                   "WebkitJustifyContent": "center",
                                   "display": "inline-flex",
                                   "justifyContent": "center",
-                                  "minHeight": "34px",
+                                  "minHeight": "28px",
                                   "msFlexPack": "center",
                                 }
                               }

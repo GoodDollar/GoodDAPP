@@ -25,6 +25,7 @@ import FeedList from './FeedList'
 import FeedModalItem from './FeedItems/FeedModalItem'
 import Reason from './Reason'
 import Receive from './Receive'
+import ReceiveFrom from './ReceiveFrom'
 import ReceiveAmount from './ReceiveAmount'
 import SendByQR from './SendByQR'
 import ReceiveByQR from './ReceiveByQR'
@@ -261,6 +262,7 @@ export default createStackNavigator({
   Home: Dashboard,
   Claim,
   Receive,
+  ReceiveFrom,
   Amount,
   Reason,
   ReceiveAmount,

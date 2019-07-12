@@ -101,6 +101,7 @@ exports[`InputText empty matches snapshot 1`] = `
           "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
         },
         "paddings": Object {
+          "defaultMargin": 8,
           "mainContainerPadding": 8,
         },
         "roundness": 4,
@@ -217,6 +218,7 @@ exports[`InputText matches snapshot 1`] = `
           "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
         },
         "paddings": Object {
+          "defaultMargin": 8,
           "mainContainerPadding": 8,
         },
         "roundness": 4,

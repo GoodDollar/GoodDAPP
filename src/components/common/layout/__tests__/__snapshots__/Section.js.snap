@@ -28,6 +28,8 @@ exports[`Section matches snapshot 1`] = `
         "fontSize": "24px",
         "fontWeight": "500",
         "lineHeight": "22px",
+        "marginBottom": "16px",
+        "marginTop": "16px",
         "textAlign": "center",
         "textDecoration": "none",
         "textTransform": "uppercase",
@@ -61,12 +63,11 @@ exports[`Section matches snapshot 1`] = `
       dir="auto"
       style={
         Object {
-          "color": "rgba(0,0,0,1.00)",
           "direction": "ltr",
           "fontFamily": "Roboto",
           "fontSize": "14px",
           "fontWeight": "normal",
-          "lineHeight": "22px",
+          "lineHeight": "20px",
           "textAlign": "center",
           "textDecoration": "none",
           "textTransform": "none",
@@ -137,6 +138,8 @@ exports[`Section matches snapshot with properties 1`] = `
           "fontSize": "24px",
           "fontWeight": "500",
           "lineHeight": "22px",
+          "marginBottom": "16px",
+          "marginTop": "16px",
           "textAlign": "center",
           "textDecoration": "none",
           "textTransform": "uppercase",
@@ -150,12 +153,11 @@ exports[`Section matches snapshot with properties 1`] = `
       dir="auto"
       style={
         Object {
-          "color": "rgba(0,0,0,1.00)",
           "direction": "ltr",
           "fontFamily": "Roboto",
           "fontSize": "14px",
           "fontWeight": "normal",
-          "lineHeight": "22px",
+          "lineHeight": "20px",
           "textAlign": "center",
           "textDecoration": "none",
           "textTransform": "none",
@@ -190,12 +192,11 @@ exports[`Section matches snapshot with properties 1`] = `
       dir="auto"
       style={
         Object {
-          "color": "rgba(0,0,0,1.00)",
           "direction": "ltr",
           "fontFamily": "Roboto",
           "fontSize": "14px",
           "fontWeight": "normal",
-          "lineHeight": "22px",
+          "lineHeight": "20px",
           "textAlign": "center",
           "textDecoration": "none",
           "textTransform": "none",

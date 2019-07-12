@@ -156,7 +156,11 @@ const Dashboard = props => {
                 <Section.Title>{fullName || ' '}</Section.Title>
               </Section.Row>
               <Section.Row justifyContent="center" alignItems="baseline">
-                <BigGoodDollar number={balance} />
+                <BigGoodDollar
+                  bigNumberStyles={styles.bigNumberStyles}
+                  bigNumberUnitStyles={styles.bigNumberUnitStyles}
+                  number={balance}
+                />
               </Section.Row>
             </>
           ) : (
@@ -165,7 +169,11 @@ const Dashboard = props => {
                 <Avatar size={42} source={avatar} onPress={() => screenProps.push('Profile')} />
               </Section.Stack>
               <Section.Stack alignItems="flex-end">
-                <BigGoodDollar number={balance} />
+                <BigGoodDollar
+                  bigNumberStyles={styles.bigNumberStyles}
+                  bigNumberUnitStyles={styles.bigNumberUnitStyles}
+                  number={balance}
+                />
               </Section.Stack>
             </Section.Row>
           )}
@@ -238,6 +246,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 8,
     height: '256px'
+  },
+  bigNumberStyles: {
+    fontFamily: 'Roboto-Bold',
+    fontSize: normalize(36),
+    fontWeight: '700',
+    marginRight: normalize(3)
+  },
+  bigNumberUnitStyles: {
+    fontFamily: 'Roboto-Bold',
+    fontSize: normalize(18),
+    fontWeight: '700'
   }
 })
 

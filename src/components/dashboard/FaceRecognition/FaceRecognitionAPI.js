@@ -91,6 +91,7 @@ export const FaceRecognitionAPI = {
       reason = result.error
     }
 
+    //TODO: Rami - should i handle this error as well, or is it on Liav's verification screen
     return { ok: 0, error: reason }
   }
 }

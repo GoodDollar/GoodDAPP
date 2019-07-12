@@ -106,6 +106,11 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
   }
 
   showFRError = (error: string) => {
+    this.setState({ showZoomCapture: false, showGuidedFR: false, sessionId: undefined })
+    this.props.screenProps.push('FRError', { error })
+
+    // TODO: Rami not relevant - remove?
+
     this.setState(
       {
         showZoomCapture: false,

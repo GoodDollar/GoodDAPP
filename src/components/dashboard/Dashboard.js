@@ -17,6 +17,7 @@ import Amount from './Amount'
 import Claim from './Claim'
 import FaceRecognition from './FaceRecognition/FaceRecognition'
 import FRIntro from './FaceRecognition/FRIntro'
+import FRError from './FaceRecognition/FRError'
 import FeedList from './FeedList'
 import FeedModalItem from './FeedItems/FeedModalItem'
 import Reason from './Reason'
@@ -281,6 +282,7 @@ export default createStackNavigator({
   Send,
   SendLinkSummary,
   SendConfirmation,
+  FRError,
   FaceRecognition,
   FRIntro,
   SendByQR,

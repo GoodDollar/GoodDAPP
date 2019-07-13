@@ -2,14 +2,13 @@
 import startCase from 'lodash/startCase'
 import React, { useEffect, useState } from 'react'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
-import Icon from 'react-native-elements/src/icons/Icon'
 import { RadioButton } from 'react-native-paper'
 import { TouchableOpacity } from 'react-native'
 import userStorage from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import { BackButton } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
-import { CustomButton, CustomDialog, Section, Text } from '../common'
+import { CustomButton, CustomDialog, Icon, Section, Text } from '../common'
 import OptionsRow from './OptionsRow'
 
 const TITLE = 'PROFILE PRIVACY'
@@ -85,7 +84,7 @@ const ProfilePrivacy = props => {
           <Section.Text fontSize={16} fontWeight="bold" color={theme.colors.gray}>
             Manage your profile privacy
           </Section.Text>
-          <InfoIcon color={theme.colors.primary} onPress={() => setShowTips(true)} />
+          <InfoIcon style={styles.infoIcon} color={theme.colors.primary} onPress={() => setShowTips(true)} />
         </Section.Row>
 
         <Section style={styles.optionsRowContainer}>
@@ -140,9 +139,9 @@ const ProfilePrivacy = props => {
  * @returns {ReactNode}
  * @constructor
  */
-const InfoIcon = ({ color, onPress, size }) => (
-  <TouchableOpacity onPress={onPress}>
-    <Icon size={size || 24} color={color} name="info" />
+const InfoIcon = ({ color, onPress, size, style }) => (
+  <TouchableOpacity onPress={onPress} style={style}>
+    <Icon size={size || 16} color={color} name="system-filled" />
   </TouchableOpacity>
 )
 
@@ -151,6 +150,9 @@ const getStylesFromProps = ({ theme }) => {
     wrapper: {
       borderRadius: 0,
       padding: 0,
+    },
+    infoIcon: {
+      marginLeft: '0.5em',
     },
     optionsRowContainer: {
       padding: 0,

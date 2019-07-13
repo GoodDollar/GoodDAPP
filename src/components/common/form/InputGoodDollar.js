@@ -17,7 +17,6 @@ type Props = {
   onSelectionChange?: SelectionProp => void,
   style?: any,
   styles?: any,
-  selection?: any,
 }
 
 type SelectionEvent = {
@@ -37,7 +36,7 @@ type SelectionEvent = {
  */
 const InputGoodDollar = (props: Props) => {
   const { onChangeAmount, amount, onSelectionChange, style, styles, ...rest } = props
-  const [selection, setSelection] = useState(props.selection)
+  const [selection, setSelection] = useState({ start: 0, end: 0 })
 
   const handleValueChange = (text: string) => {
     if (text === '' || moneyRegexp.test(text)) {

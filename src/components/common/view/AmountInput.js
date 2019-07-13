@@ -1,5 +1,5 @@
 // @flow
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Keyboard, TouchableWithoutFeedback, View } from 'react-native'
 import { isMobile } from 'mobile-device-detect'
 import InputGoodDollar from '../form/InputGoodDollar'
@@ -14,12 +14,7 @@ type AmountInputProps = {
 }
 
 const AmountInput = ({ amount, handleAmountChange, styles, error }: AmountInputProps) => {
-  const [caretPosition, setCaretPosition] = useState()
-
-  useEffect(() => {
-    const lastPos = amount.toString().length - 1
-    setCaretPosition({ start: lastPos, end: lastPos })
-  }, [])
+  const [caretPosition, setCaretPosition] = useState({ start: 0, end: 0 })
 
   return (
     <View style={styles.wrapper}>
@@ -31,7 +26,6 @@ const AmountInput = ({ amount, handleAmountChange, styles, error }: AmountInputP
         >
           <InputGoodDollar
             style={error ? styles.errorInput : {}}
-            selection={caretPosition}
             disabled={isMobile}
             autoFocus
             amount={amount}

@@ -17,7 +17,7 @@ type SideMenuPanelProps = {
 const log = logger.child({ from: 'SideMenuPanel' })
 const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation, store }) => [
   {
-    icon: 'person',
+    icon: 'profile',
     name: 'Your profile',
     action: () => {
       navigation.navigate({
@@ -39,7 +39,7 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation, s
     },
   },
   {
-    icon: 'person-add',
+    icon: 'privacy',
     name: 'Profile Privacy',
     action: () => {
       navigation.navigate({
@@ -50,7 +50,7 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation, s
     },
   },
   {
-    icon: 'person-pin',
+    icon: 'faq',
     name: 'Privacy Policy',
     action: () => {
       navigation.navigate('PP')
@@ -58,7 +58,7 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation, s
     },
   },
   {
-    icon: 'announcement',
+    icon: 'notifications',
     name: 'Terms of Use',
     action: () => {
       navigation.navigate('TOU')
@@ -75,7 +75,7 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation, s
   //   name: 'Send Feedback'
   // },
   {
-    icon: 'comment',
+    icon: 'feedback',
     name: 'Support',
     action: () => {
       navigation.navigate('Support')
@@ -88,7 +88,7 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation, s
   //   name: 'About'
   // },
   {
-    icon: 'delete',
+    icon: 'trash',
     name: 'Delete Account',
     action: () => {
       showDialog({

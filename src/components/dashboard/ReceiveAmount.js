@@ -41,7 +41,7 @@ const AmountRow = props => {
   return (
     <Section.Row style={styles.tableRow}>
       <Section.Text style={styles.tableRowLabel}>Amount:</Section.Text>
-      <BigGoodDollar elementStyles={styles.bigGoodDollar} number={amount} />
+      <BigGoodDollar elementStyles={styles.bigGoodDollar} number={amount} color={styles.bigGoodDollar.color} />
     </Section.Row>
   )
 }
@@ -146,11 +146,12 @@ const getStylesFromProps = ({ theme }) => {
   return {
     tableRow: {
       // TODO: see where should we take this color from
-      borderBottomColor: '#CBCBCB',
+      borderBottomColor: theme.colors.gray50Percent,
       borderBottomWidth: normalize(1),
       borderBottomStyle: 'solid',
       marginTop: theme.paddings.defaultMargin * 2,
       alignItems: 'baseline',
+      paddingBottom: normalize(8),
     },
 
     // TODO: all this properties can be removed once we merge Text component in
@@ -159,6 +160,8 @@ const getStylesFromProps = ({ theme }) => {
     },
     bigGoodDollar: {
       color: theme.colors.primary,
+      fontSize: normalize(24),
+      fontFamily: theme.fonts.bold,
     },
     reason: {
       fontSize: normalize(16),

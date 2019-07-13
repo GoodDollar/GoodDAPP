@@ -1,7 +1,10 @@
 // @flow
 import React, { useState } from 'react'
-import { TextInput } from 'react-native'
+import normalize from 'react-native-elements/src/helpers/normalizeText'
+
 import { moneyRegexp } from '../../../lib/wallet/utils'
+import { withStyles } from '../../../lib/styles'
+import InputText from './InputText'
 
 type SelectionProp = {
   start: number,
@@ -12,6 +15,8 @@ type Props = {
   onChangeAmount: number => void,
   amount: number,
   onSelectionChange?: SelectionProp => void,
+  style?: any,
+  styles?: any,
 }
 
 type SelectionEvent = {
@@ -30,7 +35,7 @@ type SelectionEvent = {
  * @returns {React.Node}
  */
 const InputGoodDollar = (props: Props) => {
-  const { onChangeAmount, amount, onSelectionChange, ...rest } = props
+  const { onChangeAmount, amount, onSelectionChange, style, styles, ...rest } = props
   const [selection, setSelection] = useState({ start: 0, end: 0 })
 
   const handleValueChange = (text: string) => {
@@ -43,10 +48,10 @@ const InputGoodDollar = (props: Props) => {
     setSelection(selection)
     onSelectionChange(selection)
   }
-
   return (
-    <TextInput
+    <InputText
       {...rest}
+      style={[style, styles.input]}
       selection={selection}
       onSelectionChange={handleSelectionChange}
       value={amount}
@@ -60,4 +65,12 @@ InputGoodDollar.defaultProps = {
   onSelectionChange: () => {},
 }
 
-export default InputGoodDollar
+const getStylesFromProps = () => ({
+  input: {
+    fontSize: normalize(36),
+    fontWeight: 'bold',
+    letterSpacing: normalize(1.2),
+  },
+})
+
+export default withStyles(getStylesFromProps)(InputGoodDollar)

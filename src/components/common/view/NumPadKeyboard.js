@@ -74,26 +74,14 @@ const getStylesFromProps = ({ theme }) => {
   return {
     keyboard: {
       display: 'flex',
-      padding: normalize(10),
+      marginBottom: theme.sizes.default,
+      marginTop: theme.sizes.defaultDouble,
     },
     row: {
       display: 'flex',
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-between',
-    },
-    key: {
-      display: 'flex',
-      alignItems: 'center',
-      flex: 1,
-      padding: normalize(15),
-      cursor: 'pointer',
-    },
-    keyText: {
-      fontSize: normalize(20),
-      fontFamily: 'RobotoSlab-Bold',
-      fontWeight: '700',
-      color: theme.colors.darkGray,
     },
     backspaceButton: {
       backgroundImage: `url(${backKeyboardButton})`,

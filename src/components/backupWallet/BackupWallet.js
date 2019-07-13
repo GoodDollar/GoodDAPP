@@ -5,7 +5,7 @@ import { useWrappedApi } from '../../lib/API/useWrappedApi'
 import { withStyles } from '../../lib/styles'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import { getMnemonics, getMnemonicsObject } from '../../lib/wallet/SoftwareWalletProvider'
-import { CustomButton, Section, Text } from '../common'
+import { CustomButton, Section } from '../common'
 import MnemonicInput from '../signin/MnemonicInput'
 
 const TITLE = 'Backup my wallet'
@@ -46,13 +46,11 @@ const BackupWallet = ({ screenProps, styles, theme }: BackupWalletProps) => {
       <Section.Stack grow={4} justifyContent="space-between" style={styles.inputsContainer}>
         <MnemonicInput recoveryMode={mnemonics} />
       </Section.Stack>
-      <Section.Stack grow style={styles.bottomContainer} justifyContent="space-between">
-        <Text color="primary" onPress={sendRecoveryEmail}>
+      <Section.Stack grow style={styles.bottomContainer} justifyContent="space-between" alignItems="stretch">
+        <CustomButton mode="text" compact={true} onPress={sendRecoveryEmail}>
           Resend backup email
-        </Text>
-        <CustomButton color={theme.colors.primary} onPress={screenProps.pop}>
-          Done
         </CustomButton>
+        <CustomButton onPress={screenProps.pop}>Done</CustomButton>
       </Section.Stack>
     </Section>
   )
@@ -63,16 +61,19 @@ const backupWalletStyles = ({ theme }) => ({
     borderRadius: 0,
   },
   instructions: {
-    marginVertical: normalize(theme.paddings.mainContainerPadding),
+    marginVertical: theme.paddings.defaultMargin,
   },
   inputsContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginVertical: normalize(theme.paddings.mainContainerPadding),
-    marginHorizontal: normalize(theme.paddings.mainContainerPadding),
+    margin: theme.paddings.defaultMargin,
+    overflowY: 'auto',
   },
   bottomContainer: {
-    marginVertical: normalize(theme.paddings.mainContainerPadding),
+    backgroundColor: theme.colors.surface,
+    maxHeight: normalize(100),
+    minHeight: normalize(100),
+    marginBottom: theme.paddings.defaultMargin,
   },
 })
 

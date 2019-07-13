@@ -137,7 +137,7 @@ const mnemonicInputStyles = ({ theme }) => ({
     height: normalize(height >= 640 ? 44 : 36),
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: '0 8px',
+    paddingHorizontal: theme.paddings.mainContainerPadding,
   },
 })
 

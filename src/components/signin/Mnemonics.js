@@ -68,7 +68,7 @@ const Mnemonics = ({ styles }) => {
       </Section.Stack>
       <Section.Stack grow style={styles.bottomContainer} justifyContent="flex-end">
         <CustomButton mode="contained" onPress={recover} disabled={!mnemonics}>
-          RECOVER MY WALLET
+          Recover my wallet
         </CustomButton>
       </Section.Stack>
     </Section>
@@ -102,16 +102,20 @@ const mnemonicsStyles = ({ theme }) => ({
     borderRadius: 0,
   },
   instructions: {
-    marginVertical: normalize(theme.paddings.mainContainerPadding),
+    marginVertical: theme.paddings.defaultMargin,
   },
   inputsContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginVertical: normalize(theme.paddings.mainContainerPadding),
-    marginHorizontal: normalize(theme.paddings.mainContainerPadding),
+    marginHorizontal: theme.paddings.defaultMargin,
+    marginVertical: theme.paddings.defaultMargin,
+    overflowY: 'auto',
   },
   bottomContainer: {
-    marginVertical: normalize(theme.paddings.mainContainerPadding),
+    backgroundColor: theme.colors.surface,
+    marginBottom: theme.paddings.defaultMargin,
+    maxHeight: normalize(50),
+    minHeight: normalize(50),
   },
 })
 

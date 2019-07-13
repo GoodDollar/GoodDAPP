@@ -152,12 +152,12 @@ exports[`UserAvatar matches snapshot 1`] = `
         dir="auto"
         style={
           Object {
-            "color": "rgba(85,85,85,1.00)",
+            "color": "rgba(66,69,74,1.00)",
             "direction": "ltr",
-            "fontFamily": "Roboto",
-            "fontSize": "24px",
-            "fontWeight": "500",
-            "lineHeight": "22px",
+            "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+            "fontSize": "22px",
+            "fontWeight": "normal",
+            "lineHeight": "30px",
             "marginBottom": "8px",
             "marginTop": "8px",
             "textAlign": "center",

@@ -10,7 +10,7 @@ import NumPadKeyboard from './NumPadKeyboard'
 type AmountInputProps = {
   amount: string,
   handleAmountChange: Function,
-  styles: any
+  styles: any,
 }
 
 const AmountInput = ({ amount, handleAmountChange, styles, error }: AmountInputProps) => {
@@ -51,16 +51,16 @@ const mapPropsToStyles = ({ theme }) => {
       width: '100%',
       display: 'flex',
       justifyContent: 'space-between',
-      flex: 1
+      flex: 1,
     },
     errorText: {
       color: theme.colors.error,
-      marginTop: theme.sizes.default
+      marginTop: theme.sizes.default,
     },
     errorInput: {
       color: theme.colors.error,
-      borderBottomColor: theme.colors.error
-    }
+      borderBottomColor: theme.colors.error,
+    },
   }
 }
 

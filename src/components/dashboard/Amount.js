@@ -51,7 +51,7 @@ const Amount = (props: AmountProps) => {
 
   return (
     <Wrapper>
-      <TopBar push={screenProps.push} />
+      <TopBar push={screenProps.push} hideBalance />
       <Section grow>
         <Section.Title>How much?</Section.Title>
         <Section.Stack grow justifyContent="flex-start">

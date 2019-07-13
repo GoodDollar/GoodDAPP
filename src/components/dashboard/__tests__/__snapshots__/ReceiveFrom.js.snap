@@ -57,10 +57,10 @@ exports[`ReceiveFrom matches snapshot 1`] = `
           "borderTopLeftRadius": "5px",
           "borderTopRightRadius": "5px",
           "marginBottom": "8px",
-          "paddingBottom": "8px",
-          "paddingLeft": "8px",
-          "paddingRight": "8px",
-          "paddingTop": "8px",
+          "paddingBottom": "10px",
+          "paddingLeft": "10px",
+          "paddingRight": "10px",
+          "paddingTop": "10px",
         }
       }
     >
@@ -117,19 +117,19 @@ exports[`ReceiveFrom matches snapshot 1`] = `
               Object {
                 "backgroundColor": "rgba(255,255,255,1.00)",
                 "borderBottomColor": "rgba(112,112,112,1.00)",
-                "borderBottomLeftRadius": "17px",
-                "borderBottomRightRadius": "17px",
+                "borderBottomLeftRadius": "21px",
+                "borderBottomRightRadius": "21px",
                 "borderBottomWidth": "1px",
                 "borderLeftColor": "rgba(112,112,112,1.00)",
                 "borderLeftWidth": "1px",
                 "borderRightColor": "rgba(112,112,112,1.00)",
                 "borderRightWidth": "1px",
                 "borderTopColor": "rgba(112,112,112,1.00)",
-                "borderTopLeftRadius": "17px",
-                "borderTopRightRadius": "17px",
+                "borderTopLeftRadius": "21px",
+                "borderTopRightRadius": "21px",
                 "borderTopWidth": "1px",
-                "height": "34px",
-                "width": "34px",
+                "height": "42px",
+                "width": "42px",
               }
             }
           >
@@ -138,16 +138,16 @@ exports[`ReceiveFrom matches snapshot 1`] = `
               style={
                 Object {
                   "WebkitFlexBasis": "auto",
-                  "borderBottomLeftRadius": "17px",
-                  "borderBottomRightRadius": "17px",
-                  "borderTopLeftRadius": "17px",
-                  "borderTopRightRadius": "17px",
+                  "borderBottomLeftRadius": "21px",
+                  "borderBottomRightRadius": "21px",
+                  "borderTopLeftRadius": "21px",
+                  "borderTopRightRadius": "21px",
                   "flexBasis": "auto",
-                  "height": "34px",
+                  "height": "42px",
                   "msFlexPreferredSize": "auto",
                   "overflowX": "hidden",
                   "overflowY": "hidden",
-                  "width": "34px",
+                  "width": "42px",
                   "zIndex": 0,
                 }
               }
@@ -174,53 +174,6 @@ exports[`ReceiveFrom matches snapshot 1`] = `
             </div>
           </div>
         </div>
-        <div
-          className="css-view-1dbjc4n"
-          style={
-            Object {
-              "display": "inline-block",
-            }
-          }
-        >
-          <div
-            className="css-text-901oao"
-            dir="auto"
-            style={
-              Object {
-                "color": "rgba(85,85,85,1.00)",
-                "direction": "ltr",
-                "fontFamily": "Roboto",
-                "fontSize": "48px",
-                "fontWeight": "normal",
-                "lineHeight": "22px",
-                "textAlign": "right",
-                "textDecoration": "none",
-                "textTransform": "none",
-              }
-            }
-          >
-            -.--
-          </div>
-          <div
-            className="css-text-901oao"
-            dir="auto"
-            style={
-              Object {
-                "color": "rgba(85,85,85,1.00)",
-                "direction": "ltr",
-                "fontFamily": "Roboto",
-                "fontSize": "18px",
-                "fontWeight": "normal",
-                "lineHeight": "22px",
-                "textAlign": "right",
-                "textDecoration": "none",
-                "textTransform": "none",
-              }
-            }
-          >
-            G$
-          </div>
-        </div>
       </div>
     </div>
     <div
@@ -242,10 +195,10 @@ exports[`ReceiveFrom matches snapshot 1`] = `
           "msFlexNegative": 1,
           "msFlexPositive": 1,
           "msFlexPreferredSize": "0%",
-          "paddingBottom": "8px",
-          "paddingLeft": "8px",
-          "paddingRight": "8px",
-          "paddingTop": "8px",
+          "paddingBottom": "16px",
+          "paddingLeft": "12px",
+          "paddingRight": "12px",
+          "paddingTop": "16px",
         }
       }
     >
@@ -284,12 +237,12 @@ exports[`ReceiveFrom matches snapshot 1`] = `
           dir="auto"
           style={
             Object {
-              "color": "rgba(85,85,85,1.00)",
+              "color": "rgba(66,69,74,1.00)",
               "direction": "ltr",
-              "fontFamily": "Roboto",
-              "fontSize": "24px",
-              "fontWeight": "500",
-              "lineHeight": "22px",
+              "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "fontSize": "22px",
+              "fontWeight": "normal",
+              "lineHeight": "30px",
               "marginBottom": "8px",
               "marginTop": "8px",
               "textAlign": "center",
@@ -325,6 +278,7 @@ exports[`ReceiveFrom matches snapshot 1`] = `
               "color": "rgba(66,69,74,1.00)",
               "fontFamily": "RobotoSlab-Regular",
               "fontSize": "18px",
+              "marginTop": "16px",
               "paddingBottom": "4px",
               "paddingLeft": "4px",
               "paddingRight": "4px",

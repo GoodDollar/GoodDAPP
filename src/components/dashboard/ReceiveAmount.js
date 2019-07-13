@@ -17,6 +17,48 @@ export type ReceiveProps = {
 
 const RECEIVE_TITLE = 'Receive G$'
 
+const FromRow = props => {
+  const { styles, counterPartyDisplayName } = props
+  if (!counterPartyDisplayName) {
+    return null
+  }
+
+  return (
+    <Section.Row style={styles.tableRow}>
+      <Section.Text style={styles.tableRowLabel}>From:</Section.Text>
+      <Section.Text fontSize={24} fontWeight="bold">
+        {counterPartyDisplayName}
+      </Section.Text>
+    </Section.Row>
+  )
+}
+
+const AmountRow = props => {
+  const { amount, styles } = props
+  if (!amount) {
+    return null
+  }
+  return (
+    <Section.Row style={styles.tableRow}>
+      <Section.Text style={styles.tableRowLabel}>Amount:</Section.Text>
+      <BigGoodDollar elementStyles={styles.bigGoodDollar} number={amount} />
+    </Section.Row>
+  )
+}
+
+const ReasonRow = props => {
+  const { reason, styles } = props
+  if (!reason) {
+    return null
+  }
+  return (
+    <Section.Row style={styles.tableRow}>
+      <Section.Text style={styles.tableRowLabel}>For:</Section.Text>
+      <Section.Text fontSize={16}>{reason}</Section.Text>
+    </Section.Row>
+  )
+}
+
 const ReceiveAmount = ({ screenProps, ...props }: ReceiveProps) => {
   const { account, networkId } = goodWallet
   const [screenState] = useScreenState(screenProps)
@@ -62,24 +104,13 @@ const ReceiveAmount = ({ screenProps, ...props }: ReceiveProps) => {
 
   return (
     <Wrapper>
-      <TopBar push={screenProps.push} />
+      <TopBar push={screenProps.push} hideBalance />
       <Section justifyContent="space-between" grow>
         <Section.Title>Summary</Section.Title>
         <Section.Stack grow justifyContent="center">
-          <Section.Row style={styles.tableRow}>
-            <Section.Text style={styles.tableRowLabel}>From:</Section.Text>
-            <Section.Text fontSize={24} fontWeight="bold">
-              {fromWho}
-            </Section.Text>
-          </Section.Row>
-          <Section.Row style={styles.tableRow}>
-            <Section.Text style={styles.tableRowLabel}>Amount:</Section.Text>
-            <BigGoodDollar elementStyles={styles.bigGoodDollar} number={amount} />
-          </Section.Row>
-          <Section.Row style={styles.tableRow}>
-            <Section.Text style={styles.tableRowLabel}>For:</Section.Text>
-            <Section.Text fontSize={16}>{reason}</Section.Text>
-          </Section.Row>
+          <FromRow counterPartyDisplayName={fromWho} styles={styles} />
+          <AmountRow amount={amount} styles={styles} />
+          <ReasonRow reason={reason} styles={styles} />
         </Section.Stack>
         {confirmed ? (
           <Section.Stack>

@@ -57,10 +57,10 @@ exports[`Receive matches snapshot 1`] = `
           "borderTopLeftRadius": "5px",
           "borderTopRightRadius": "5px",
           "marginBottom": "8px",
-          "paddingBottom": "8px",
-          "paddingLeft": "8px",
-          "paddingRight": "8px",
-          "paddingTop": "8px",
+          "paddingBottom": "10px",
+          "paddingLeft": "10px",
+          "paddingRight": "10px",
+          "paddingTop": "10px",
         }
       }
     >
@@ -117,19 +117,19 @@ exports[`Receive matches snapshot 1`] = `
               Object {
                 "backgroundColor": "rgba(255,255,255,1.00)",
                 "borderBottomColor": "rgba(112,112,112,1.00)",
-                "borderBottomLeftRadius": "17px",
-                "borderBottomRightRadius": "17px",
+                "borderBottomLeftRadius": "21px",
+                "borderBottomRightRadius": "21px",
                 "borderBottomWidth": "1px",
                 "borderLeftColor": "rgba(112,112,112,1.00)",
                 "borderLeftWidth": "1px",
                 "borderRightColor": "rgba(112,112,112,1.00)",
                 "borderRightWidth": "1px",
                 "borderTopColor": "rgba(112,112,112,1.00)",
-                "borderTopLeftRadius": "17px",
-                "borderTopRightRadius": "17px",
+                "borderTopLeftRadius": "21px",
+                "borderTopRightRadius": "21px",
                 "borderTopWidth": "1px",
-                "height": "34px",
-                "width": "34px",
+                "height": "42px",
+                "width": "42px",
               }
             }
           >
@@ -138,16 +138,16 @@ exports[`Receive matches snapshot 1`] = `
               style={
                 Object {
                   "WebkitFlexBasis": "auto",
-                  "borderBottomLeftRadius": "17px",
-                  "borderBottomRightRadius": "17px",
-                  "borderTopLeftRadius": "17px",
-                  "borderTopRightRadius": "17px",
+                  "borderBottomLeftRadius": "21px",
+                  "borderBottomRightRadius": "21px",
+                  "borderTopLeftRadius": "21px",
+                  "borderTopRightRadius": "21px",
                   "flexBasis": "auto",
-                  "height": "34px",
+                  "height": "42px",
                   "msFlexPreferredSize": "auto",
                   "overflowX": "hidden",
                   "overflowY": "hidden",
-                  "width": "34px",
+                  "width": "42px",
                   "zIndex": 0,
                 }
               }
@@ -221,86 +221,56 @@ exports[`Receive matches snapshot 1`] = `
           tabIndex="0"
         >
           <div
-            className="css-view-1dbjc4n"
-            style={
-              Object {
-                "WebkitAlignItems": "center",
-                "WebkitBoxAlign": "center",
-                "WebkitBoxPack": "center",
-                "WebkitJustifyContent": "center",
-                "alignItems": "center",
-                "backgroundColor": "rgba(255,255,255,1.00)",
-                "borderBottomLeftRadius": "24px",
-                "borderBottomRightRadius": "24px",
-                "borderTopLeftRadius": "24px",
-                "borderTopRightRadius": "24px",
-                "height": "48px",
-                "justifyContent": "center",
-                "msFlexAlign": "center",
-                "msFlexPack": "center",
-                "width": "48px",
-              }
-            }
-          >
-            <div
-              className="css-text-901oao r-pointerEvents-633pao"
-              dir="auto"
-              focusable={false}
-              role="img"
-              style={
-                Object {
-                  "WebkitTransform": "scaleX(1)",
-                  "backgroundColor": "rgba(0,0,0,0.00)",
-                  "color": "rgba(0,0,0,0.54)",
-                  "fontFamily": "MaterialIcons",
-                  "fontSize": "28.799999999999997px",
-                  "fontStyle": "normal",
-                  "fontWeight": "normal",
-                  "transform": "scaleX(1)",
-                }
-              }
-            >
-              
-            </div>
-          </div>
-          <div
             className="css-text-901oao"
             dir="auto"
             style={
               Object {
-                "color": "rgba(34,34,34,1.00)",
+                "color": "rgba(12,38,61,1.00)",
                 "direction": "ltr",
-                "fontFamily": "Roboto",
-                "fontSize": "16px",
+                "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                "fontSize": "14px",
                 "fontWeight": "normal",
-                "lineHeight": "22px",
-                "marginLeft": "10px",
+                "lineHeight": "20px",
                 "textAlign": "center",
                 "textDecoration": "none",
                 "textTransform": "none",
               }
             }
           >
-            <span
-              className="css-text-901oao css-textHasAncestor-16my406"
+            Scan QR Code
+          </div>
+          <div
+            className="css-view-1dbjc4n"
+            style={
+              Object {
+                "backgroundColor": "rgba(12,38,61,1.00)",
+                "borderBottomLeftRadius": "50%",
+                "borderBottomRightRadius": "50%",
+                "borderTopLeftRadius": "50%",
+                "borderTopRightRadius": "50%",
+                "marginLeft": "8px",
+                "paddingBottom": "8px",
+                "paddingLeft": "8px",
+                "paddingRight": "8px",
+                "paddingTop": "8px",
+              }
+            }
+          >
+            <div
+              className="css-text-901oao"
               dir="auto"
               style={
                 Object {
-                  "color": "rgba(0,0,0,1.00)",
-                  "direction": "ltr",
-                  "display": "inlineBlock",
-                  "fontFamily": "Roboto",
-                  "fontSize": "14px",
+                  "color": "rgba(255,255,255,1.00)",
+                  "fontFamily": "gooddollar",
+                  "fontSize": "30px",
+                  "fontStyle": "normal",
                   "fontWeight": "normal",
-                  "lineHeight": "22px",
-                  "textAlign": "center",
-                  "textDecoration": "none",
-                  "textTransform": "none",
                 }
               }
             >
-              Scan QR Code
-            </span>
+              
+            </div>
           </div>
         </div>
       </div>
@@ -324,10 +294,10 @@ exports[`Receive matches snapshot 1`] = `
           "msFlexNegative": 1,
           "msFlexPositive": 1,
           "msFlexPreferredSize": "0%",
-          "paddingBottom": "8px",
-          "paddingLeft": "8px",
-          "paddingRight": "8px",
-          "paddingTop": "8px",
+          "paddingBottom": "16px",
+          "paddingLeft": "12px",
+          "paddingRight": "12px",
+          "paddingTop": "16px",
         }
       }
     >
@@ -709,7 +679,7 @@ exports[`Receive matches snapshot 1`] = `
               "borderTopWidth": "0px",
               "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
               "justifyContent": "center",
-              "marginTop": "8px",
+              "marginTop": "16px",
               "minWidth": "auto",
               "msFlexPack": "center",
             }

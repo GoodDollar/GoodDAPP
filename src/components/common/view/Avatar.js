@@ -22,7 +22,7 @@ export type AvatarProps = {
 export default (props: AvatarProps) => (
   <TouchableOpacity onPress={props.onPress} style={[styles.avatarContainer, props.style]} disabled={!props.onPress}>
     <Avatar.Image
-      size={34}
+      size={42}
       source={props.source ? { uri: props.source } : undefined}
       {...props}
       style={[styles.avatar, props.style]}

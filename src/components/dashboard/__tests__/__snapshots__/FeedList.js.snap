@@ -282,8 +282,8 @@ exports[`FeedList Horizontal rendering With empty data matches snapshot 1`] = `
                             "borderTopLeftRadius": "50%",
                             "borderTopRightRadius": "50%",
                             "borderTopWidth": "1px",
-                            "height": "34px",
-                            "width": "34px",
+                            "height": "42px",
+                            "width": "42px",
                           }
                         }
                       >
@@ -292,16 +292,16 @@ exports[`FeedList Horizontal rendering With empty data matches snapshot 1`] = `
                           style={
                             Object {
                               "WebkitFlexBasis": "auto",
-                              "borderBottomLeftRadius": "17px",
-                              "borderBottomRightRadius": "17px",
-                              "borderTopLeftRadius": "17px",
-                              "borderTopRightRadius": "17px",
+                              "borderBottomLeftRadius": "21px",
+                              "borderBottomRightRadius": "21px",
+                              "borderTopLeftRadius": "21px",
+                              "borderTopRightRadius": "21px",
                               "flexBasis": "auto",
-                              "height": "34px",
+                              "height": "42px",
                               "msFlexPreferredSize": "auto",
                               "overflowX": "hidden",
                               "overflowY": "hidden",
-                              "width": "34px",
+                              "width": "42px",
                               "zIndex": 0,
                             }
                           }
@@ -937,8 +937,8 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                             "borderTopLeftRadius": "50%",
                             "borderTopRightRadius": "50%",
                             "borderTopWidth": "1px",
-                            "height": "34px",
-                            "width": "34px",
+                            "height": "42px",
+                            "width": "42px",
                           }
                         }
                       >
@@ -947,16 +947,16 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                           style={
                             Object {
                               "WebkitFlexBasis": "auto",
-                              "borderBottomLeftRadius": "17px",
-                              "borderBottomRightRadius": "17px",
-                              "borderTopLeftRadius": "17px",
-                              "borderTopRightRadius": "17px",
+                              "borderBottomLeftRadius": "21px",
+                              "borderBottomRightRadius": "21px",
+                              "borderTopLeftRadius": "21px",
+                              "borderTopRightRadius": "21px",
                               "flexBasis": "auto",
-                              "height": "34px",
+                              "height": "42px",
                               "msFlexPreferredSize": "auto",
                               "overflowX": "hidden",
                               "overflowY": "hidden",
-                              "width": "34px",
+                              "width": "42px",
                               "zIndex": 0,
                             }
                           }
@@ -1562,8 +1562,8 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                             "borderTopLeftRadius": "50%",
                             "borderTopRightRadius": "50%",
                             "borderTopWidth": "1px",
-                            "height": "34px",
-                            "width": "34px",
+                            "height": "42px",
+                            "width": "42px",
                           }
                         }
                       >
@@ -1572,16 +1572,16 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                           style={
                             Object {
                               "WebkitFlexBasis": "auto",
-                              "borderBottomLeftRadius": "17px",
-                              "borderBottomRightRadius": "17px",
-                              "borderTopLeftRadius": "17px",
-                              "borderTopRightRadius": "17px",
+                              "borderBottomLeftRadius": "21px",
+                              "borderBottomRightRadius": "21px",
+                              "borderTopLeftRadius": "21px",
+                              "borderTopRightRadius": "21px",
                               "flexBasis": "auto",
-                              "height": "34px",
+                              "height": "42px",
                               "msFlexPreferredSize": "auto",
                               "overflowX": "hidden",
                               "overflowY": "hidden",
-                              "width": "34px",
+                              "width": "42px",
                               "zIndex": 0,
                             }
                           }

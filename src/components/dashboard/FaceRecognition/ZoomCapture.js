@@ -1,7 +1,8 @@
 // @flow
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
-import { Section } from '../../common'
+
+// import { Section } from '../../common'
 import logger from '../../../lib/logger/pino-logger'
 import { Camera, getResponsiveVideoDimensions } from './Camera.web'
 import Zoom, { type ZoomCaptureResult } from './Zoom'
@@ -14,7 +15,6 @@ const log = logger.child({ from: 'ZoomCapture' })
 type ZoomCaptureProps = {
   screenProps: any,
   loadedZoom: boolean,
-  showZoomCapture: boolean,
   onCaptureResult: (captureResult?: ZoomCaptureResult) => void,
   onError: (error: string) => void
 }
@@ -45,10 +45,7 @@ class ZoomCapture extends React.Component<ZoomCaptureProps> {
       }
     } catch (e) {
       log.error(`Failed on capture, error: ${e}`)
-      let params = { error: e }
-
-      // (1)  Rami - go to error screen
-      this.props.screenProps.push('FRError', params)
+      this.props.onError(e)
     }
   }
 
@@ -66,18 +63,15 @@ class ZoomCapture extends React.Component<ZoomCaptureProps> {
   }
 
   render() {
-    const showZoomCapture = this.props.showZoomCapture
     return (
-      showZoomCapture && (
-        <View>
-          <Section style={styles.bottomSection}>
-            <div id="zoom-parent-container" style={getVideoContainerStyles()}>
-              <div id="zoom-interface-container" style={{ position: 'absolute' }} />
-              {<Camera onCameraLoad={this.captureUserMediaZoom} onError={this.props.onError} />}
-            </div>
-          </Section>
+      <View>
+        <View style={styles.bottomSection}>
+          <div id="zoom-parent-container" style={getVideoContainerStyles()}>
+            <div id="zoom-interface-container" style={{ position: 'absolute' }} />
+            {<Camera onCameraLoad={this.captureUserMediaZoom} onError={this.props.onError} />}
+          </div>
         </View>
-      )
+      </View>
     )
   }
 }
@@ -85,7 +79,9 @@ class ZoomCapture extends React.Component<ZoomCaptureProps> {
 const styles = StyleSheet.create({
   bottomSection: {
     flex: 1,
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
+    padding: 5,
+    borderRadius: 5
   }
 })
 

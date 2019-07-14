@@ -1,21 +1,31 @@
 import React from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
+import { isIOS, isMobileSafari } from 'mobile-device-detect'
+
 import { CustomButton, Section, Wrapper } from '../../common'
 import Divider from '../../../assets/Dividers - Long Line - Stroke Width 2 - Round Cap - Light Blue.svg'
 import SmileyHug from '../../../assets/smileyhug.svg'
 import GDStore from '../../../lib/undux/GDStore'
 
+import logger from '../../../lib/logger/pino-logger'
+
+const log = logger.child({ from: 'FRIntro' })
 const FRIntro = props => {
   const store = GDStore.useStore()
   const { fullName } = store.get('profile')
 
+  const isUnsupported = isIOS && isMobileSafari === false
   const isValid = props.screenProps.screenState && props.screenProps.screenState.isValid
 
+  log.debug({ isIOS, isMobileSafari })
+  if (isUnsupported) {
+    props.screenProps.navigateTo('UnsupportedDevice', { reason: 'isNotMobileSafari' })
+  }
   if (isValid) {
     props.screenProps.pop({ isValid: true })
   }
-  const gotoFR = () => props.screenProps.push('FaceRecognition')
+  const gotoFR = () => props.screenProps.navigateTo('FaceRecognition')
   return (
     <Wrapper>
       <View style={styles.topContainer}>
@@ -72,7 +82,8 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     flexShrink: 0,
     justifyContent: 'space-evenly',
-    paddingTop: normalize(33)
+    paddingTop: normalize(33),
+    borderRadius: 5
   },
   bottomContainer: {
     display: 'flex',
@@ -85,6 +96,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Roboto',
     fontWeight: 'bold',
     color: '#00AFFF',
+    verticalAlign: 'text-top',
     paddingTop: normalize(25),
     paddingBottom: normalize(25)
   },
@@ -96,4 +108,8 @@ const styles = StyleSheet.create({
   }
 })
 
+FRIntro.navigationOptions = {
+  title: 'Face Matching',
+  navigationBarHidden: false
+}
 export default FRIntro

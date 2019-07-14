@@ -22,6 +22,7 @@ import Claim from './Claim'
 import FaceRecognition from './FaceRecognition/FaceRecognition'
 import FRIntro from './FaceRecognition/FRIntro'
 import FRError from './FaceRecognition/FRError'
+import UnsupportedDevice from './FaceRecognition/UnsupportedDevice'
 import FeedList from './FeedList'
 import FeedModalItem from './FeedItems/FeedModalItem'
 import Reason from './Reason'
@@ -270,6 +271,7 @@ export default createStackNavigator({
   FRError,
   FaceRecognition,
   FRIntro,
+  UnsupportedDevice,
   SendByQR,
   ReceiveByQR,
   SendQRSummary,

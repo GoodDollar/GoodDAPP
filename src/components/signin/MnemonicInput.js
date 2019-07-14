@@ -14,7 +14,8 @@ const MAX_WORDS = 12
 
 type Props = {
   onChange?: Function,
-  recoveryMode: any
+  recoveryMode: any,
+  default?: string
 }
 
 const isValidWord = word => {
@@ -80,6 +81,12 @@ const MnemonicInput = (props: Props) => {
       setState(newState)
     }
   }
+
+  useEffect(() => {
+    if (props.default) {
+      setWord(0)(props.default)
+    }
+  }, [])
 
   return (
     <View style={styles.inputsContainer}>

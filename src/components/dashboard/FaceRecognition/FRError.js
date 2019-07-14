@@ -1,32 +1,39 @@
 import React from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
+import get from 'lodash/get'
 import { CustomButton, Section, Wrapper } from '../../common'
 import Divider from '../../../assets/Dividers - Long Line - Stroke Width 2 - Round Cap - Light Blue.svg'
-import SmileyHug from '../../../assets/smileyhug.svg'
+import Oops from '../../../assets/oops.svg'
 import GDStore from '../../../lib/undux/GDStore'
 import SimpleStore from '../../../lib/undux/SimpleStore'
 import logger from '../../../lib/logger/pino-logger'
-
 const log = logger.child({ from: 'FRError' })
 
 const FRError = props => {
   const store = GDStore.useStore()
   const { fullName } = store.get('profile')
 
-  const isValid = props.screenProps.screenState && props.screenProps.screenState.isValid
-  const isError = props.screenProps.screenState && props.screenProps.screenState.error
-  let error = 'Unknown Error'
+  const isValid = get(props, 'screenProps.screenState.isValid', undefined)
 
-  if (isError) {
-    error = props.screenProps.screenState.error
+  let reason = get(props, 'screenProps.screenState.error', '')
+  if (reason instanceof Error) {
+    reason = reason.message
   }
+  log.debug({ props, reason })
+
+  //is the error mesage something we want to show to the user? currently only camera related
+  const isRelevantError = reason.match(/camera/i)
+  let error = isRelevantError
+    ? reason
+    : "You see, it's not that easy to capture your beauty :)\nSo, let's give it another shot..."
+
   if (isValid) {
-    props.screenProps.pop({ isValid: true })
+    props.screenProps.pop({ isValid })
   }
+
   const gotoFR = () => {
-    props.screenProps.pop({ isValid: true })
-    props.screenProps.push('FaceRecognition')
+    props.screenProps.navigateTo('FaceRecognition')
   }
 
   log.debug(props.screenProps)
@@ -45,7 +52,7 @@ const FRError = props => {
           }}
         >
           <Section.Title style={styles.mainTitle}> {`${fullName},\nSomething went wrong on our side...`}</Section.Title>
-          <Image source={SmileyHug} resizeMode={'center'} style={{ height: normalize(152) }} />
+          <Image source={Oops} resizeMode={'center'} style={{ height: normalize(146) }} />
           <Section
             style={{
               paddingBottom: 0,
@@ -55,7 +62,7 @@ const FRError = props => {
           >
             <Image source={Divider} style={{ height: normalize(2) }} />
             <Section.Text style={styles.description}>
-              <Text style={{ fontWeight: 'normal' }}> {`\n${error}`} </Text>
+              <Text style={{ fontWeight: 'normal' }}> {`${error}`} </Text>
             </Section.Text>
             <Image source={Divider} style={{ height: normalize(2) }} />
           </Section>
@@ -81,7 +88,8 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     flexShrink: 0,
     justifyContent: 'space-evenly',
-    paddingTop: normalize(33)
+    paddingTop: normalize(33),
+    borderRadius: 5
   },
   bottomContainer: {
     display: 'flex',
@@ -95,7 +103,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#00AFFF',
     paddingTop: normalize(25),
-    paddingBottom: normalize(25)
+    paddingBottom: normalize(25),
+    verticalAlign: 'text-top'
   },
   mainTitle: {
     fontFamily: 'Roboto-Medium',
@@ -105,4 +114,8 @@ const styles = StyleSheet.create({
   }
 })
 
+FRError.navigationOptions = {
+  title: 'Face Matching',
+  navigationBarHidden: false
+}
 export default SimpleStore.withStore(FRError)

@@ -4,6 +4,7 @@ import { AsyncStorage, StyleSheet, View } from 'react-native'
 import { Paragraph } from 'react-native-paper'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import bip39 from 'bip39-light'
+import get from 'lodash/get'
 import logger from '../../lib/logger/pino-logger'
 import CustomButton from '../common/buttons/CustomButton'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
@@ -56,6 +57,8 @@ const Mnemonics = props => {
     }
   }
 
+  const incomingMnemonic = get(props, 'navigation.state.params.mnemonic', undefined)
+
   return (
     <View style={styles.wrapper}>
       <View style={styles.topContainer}>
@@ -63,7 +66,7 @@ const Mnemonics = props => {
           <Paragraph style={[styles.fontBase, styles.paragraph]}>Please enter your 12-word passphrase:</Paragraph>
         </View>
         <View style={styles.formContainer}>
-          <MnemonicInput recoveryMode={false} onChange={handleChange} />
+          <MnemonicInput recoveryMode={false} onChange={handleChange} default={incomingMnemonic} />
         </View>
       </View>
       <View style={styles.bottomContainer}>

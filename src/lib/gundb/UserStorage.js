@@ -253,6 +253,33 @@ export class UserStorage {
       })
   }
 
+  gunAuth(username: string, password: string): Promise<any> {
+    return new Promise((res, rej) => {
+      this.gunuser.auth(username, password, user => {
+        logger.debug('gundb auth', user)
+        if (user.err) {
+          return rej(user.err)
+        }
+        res(user)
+      })
+    })
+  }
+
+  gunCreate(username: string, password: string): Promise<any> {
+    return new Promise((res, rej) => {
+      this.gunuser.create(username, password, user => {
+        logger.debug('gundb user created', user)
+
+        //if username exists its not an error we can create
+        //multiple accounts under same username
+        // if (user.err) {
+        //   return rej(user.err)
+        // }
+        res(user)
+      })
+    })
+  }
+
   /**
    * Initialize wallet, gundb user, feed and subscribe to events
    */
@@ -267,44 +294,49 @@ export class UserStorage {
       logger.debug('init:', 'logging out first')
       this.gunuser.leave()
     }
-    return new Promise((res, rej) => {
-      this.gunuser.create(username, password, userCreated => {
-        logger.debug('gundb user created', userCreated)
+    const existingUsername = await this.gun.get('~@' + username)
+    logger.debug('init existing username:', { existingUsername })
+    let loggedInPromise
+    if (existingUsername) {
+      loggedInPromise = this.gunAuth(username, password).catch(e =>
+        this.gunCreate(username, password).then(r => this.gunAuth(username, password))
+      )
+    } else {
+      loggedInPromise = this.gunCreate(username, password).then(r => this.gunAuth(username, password))
+    }
 
-        //auth.then - doesnt seem to work server side in tests
-        this.gunuser.auth(username, password, user => {
-          if (user.err) {
-            return rej(user.err)
-          }
-          this.user = this.gunuser.is
-          this.profile = this.gunuser.get('profile')
-          this.profile.open(doc => {
-            this._lastProfileUpdate = doc
-            this.subscribersProfileUpdates.forEach(callback => callback(doc))
-          })
-          logger.debug('init to events')
-
-          this.initFeed()
-
-          //save ref to user
-          this.gun
-            .get('users')
-            .get(this.gunuser.is.pub)
-            .put(this.gunuser)
-          logger.debug('GunDB logged in', { username, pubkey: this.wallet.account, user: this.user.sea })
-          logger.debug('subscribing')
-
-          this.wallet.subscribeToEvent('receive', (err, events) => {
-            logger.debug({ err, events }, 'receive')
-          })
-          this.wallet.subscribeToEvent('send', (err, events) => {
-            logger.debug({ err, events }, 'send')
-          })
-          this.wallet.subscribeToEvent('receiptUpdated', receipt => this.handleReceiptUpdated(receipt))
-          this.wallet.subscribeToEvent('receiptReceived', receipt => this.handleReceiptUpdated(receipt))
-          res(true)
-        })
+    return new Promise(async (res, rej) => {
+      let user = await loggedInPromise.catch(e => rej(e))
+      if (user === undefined) {
+        return
+      }
+      this.user = this.gunuser.is
+      this.profile = this.gunuser.get('profile')
+      this.profile.open(doc => {
+        this._lastProfileUpdate = doc
+        this.subscribersProfileUpdates.forEach(callback => callback(doc))
       })
+      logger.debug('init to events')
+
+      this.initFeed()
+
+      //save ref to user
+      this.gun
+        .get('users')
+        .get(this.gunuser.is.pub)
+        .put(this.gunuser)
+      logger.debug('GunDB logged in', { username, pubkey: this.wallet.account, user: user })
+      logger.debug('subscribing')
+
+      this.wallet.subscribeToEvent('receive', (err, events) => {
+        logger.debug({ err, events }, 'receive')
+      })
+      this.wallet.subscribeToEvent('send', (err, events) => {
+        logger.debug({ err, events }, 'send')
+      })
+      this.wallet.subscribeToEvent('receiptUpdated', receipt => this.handleReceiptUpdated(receipt))
+      this.wallet.subscribeToEvent('receiptReceived', receipt => this.handleReceiptUpdated(receipt))
+      res(true)
     })
   }
 

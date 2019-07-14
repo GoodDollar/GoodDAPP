@@ -42,7 +42,7 @@ const SendQRSummary = (props: AmountProps) => {
   }, [to])
 
   const faceRecognition = () => {
-    return screenProps.push('FaceRecognition', { from: 'SendQRSummary' })
+    return screenProps.push('FRIntro', { from: 'SendQRSummary' })
   }
   const sendGD = async () => {
     try {

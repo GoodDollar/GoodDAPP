@@ -34,7 +34,7 @@ const SendLinkSummary = (props: AmountProps) => {
   const { amount, reason, to } = screenState
 
   const faceRecognition = () => {
-    return screenProps.push('FaceRecognition', { from: 'SendLinkSummary' })
+    return screenProps.push('FRIntro', { from: 'SendLinkSummary' })
   }
 
   /**

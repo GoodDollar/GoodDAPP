@@ -71,24 +71,28 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     }, 0)
   }
 
-  componentDidMount = () => {
-    this.setWidth()
-  }
+  componentDidMount = () => {}
 
+  /**
+   *  unused
+   */
   setWidth = () => {
     const containerWidth =
-      (this.containerRef && this.containerRef.current && this.containerRef.current.offsetWidth) || this.width
+      (this.containerRef && this.containerRef.current && this.containerRef.current.offsetWidth) || 300
     this.width = Math.min(this.width, containerWidth)
     this.height = window.innerHeight > window.innerWidth ? this.width * 1.77777778 : this.width * 0.5625
-
-    this.width = 720
-    this.height = 1280
+    log.debug({ containerWidth, width: this.width, height: this.height })
   }
 
   onCaptureResult = (captureResult?: ZoomCaptureResult): void => {
     //TODO: rami check uninitilized, return
     log.debug('zoom capture completed', { captureResult })
-    this.startFRProcessOnServer(captureResult)
+    if (captureResult === undefined) {
+      log.error('empty capture result')
+      this.showFRError('empty capture result')
+    } else {
+      this.startFRProcessOnServer(captureResult)
+    }
   }
 
   startFRProcessOnServer = async (captureResult: ZoomCaptureResult) => {
@@ -111,33 +115,10 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     }
   }
 
-  showFRError = (error: string) => {
-    this.setState({ showZoomCapture: false, showGuidedFR: false, sessionId: undefined })
-    this.props.screenProps.push('FRError', { error })
-
-    // TODO: Rami not relevant - remove?
-
-    this.setState(
-      {
-        showZoomCapture: false,
-        showGuidedFR: false,
-        sessionId: undefined
-      },
-      () => {
-        this.props.store.set('currentScreen')({
-          dialogData: {
-            visible: true,
-            title: 'Please try again',
-            message: `FaceRecognition failed. Reason: ${error}. Please try again`,
-            dismissText: 'Retry',
-            onDismiss: () =>
-              this.setState({
-                showZoomCapture: true
-              }) // reload.
-          }
-        })
-      }
-    )
+  showFRError = (error: string | Error) => {
+    this.setState({ showZoomCapture: false, showGuidedFR: false, sessionId: undefined }, () => {
+      this.props.screenProps.navigateTo('FRError', { error })
+    })
   }
 
   retry = () => {
@@ -159,7 +140,6 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
 
         {this.state.zoomReady && showZoomCapture && (
           <ZoomCapture
-            height={this.height}
             screenProps={this.props.screenProps}
             onCaptureResult={this.onCaptureResult}
             showZoomCapture={this.state.zoomReady && showZoomCapture}
@@ -172,4 +152,9 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
   }
 }
 
-export default SimpleStore.withStore(FaceRecognition)
+const FRWithStore = SimpleStore.withStore(FaceRecognition)
+FRWithStore.navigationOptions = {
+  title: 'Face Matching',
+  navigationBarHidden: false
+}
+export default FRWithStore

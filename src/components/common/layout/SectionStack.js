@@ -18,8 +18,8 @@ const getStylesFromProps = ({ theme }) => {
     sectionStack: {
       flexDirection: 'column',
       alignItems: 'stretch',
-      justifyContent: 'space-between'
-    }
+      justifyContent: 'space-between',
+    },
   }
 }
 

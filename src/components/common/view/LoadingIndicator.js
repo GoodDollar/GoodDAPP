@@ -50,8 +50,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     height: '100%',
-    backgroundColor: 'rgba(255, 255, 255, 0.8)'
-  }
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+  },
 })
 
 const suspenseWithIndicator = (child, props) => {

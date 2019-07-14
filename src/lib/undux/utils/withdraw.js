@@ -14,7 +14,7 @@ type ReceiptType = {
   blockNumber: number,
   from: string,
   to: string,
-  status: boolean
+  status: boolean,
 }
 
 /**
@@ -39,15 +39,15 @@ export const executeWithdraw = async (store: Store, code: string, reason: string
               from: sender,
               amount,
               code,
-              reason
-            }
+              reason,
+            },
           }
           userStorage.enqueueTX(transactionEvent)
           res(transactionHash)
         },
         onError: e => {
           rej(e)
-        }
+        },
       })
     })
   } catch (e) {

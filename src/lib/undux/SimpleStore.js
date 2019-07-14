@@ -9,7 +9,7 @@ import { AsyncStorage } from 'react-native'
 type DialogData = {
   visible: boolean,
   title?: string,
-  message?: string
+  message?: string,
 }
 
 /**
@@ -18,7 +18,7 @@ type DialogData = {
  */
 type CurrentScreen = {
   dialogData?: DialogData,
-  loading: boolean
+  loading: boolean,
 }
 
 /**
@@ -26,7 +26,7 @@ type CurrentScreen = {
  * @type
  */
 type LoadingIndicator = {
-  loading: boolean
+  loading: boolean,
 }
 
 /**
@@ -40,8 +40,8 @@ export type State = {
   isLoggedInCitizen: boolean,
   isLoggedIn: boolean,
   sidemenu: {
-    visible: boolean
-  }
+    visible: boolean,
+  },
 }
 
 /**
@@ -53,17 +53,17 @@ const initialState: State = {
   isLoggedIn: false,
   currentScreen: {
     dialogData: {
-      visible: false
+      visible: false,
     },
-    loading: false
+    loading: false,
   },
   destinationPath: '',
   loadingIndicator: {
-    loading: false
+    loading: false,
   },
   sidemenu: {
-    visible: false
-  }
+    visible: false,
+  },
 }
 
 /**

@@ -9,73 +9,46 @@ exports[`ModalReceiveEvent matches snapshot 1`] = `
       "WebkitFlexBasis": "0%",
       "WebkitFlexGrow": 1,
       "WebkitFlexShrink": 1,
-      "backgroundColor": "rgba(255,255,255,1.00)",
-      "borderBottomColor": "rgba(201,200,201,1.00)",
-      "borderBottomLeftRadius": "4px",
-      "borderBottomRightRadius": "4px",
-      "borderBottomWidth": "0px",
-      "borderLeftColor": "rgba(201,200,201,1.00)",
-      "borderLeftWidth": "10px",
-      "borderRightColor": "rgba(201,200,201,1.00)",
-      "borderRightWidth": "0px",
-      "borderTopColor": "rgba(201,200,201,1.00)",
-      "borderTopLeftRadius": "4px",
-      "borderTopRightRadius": "4px",
-      "borderTopWidth": "0px",
       "flexBasis": "0%",
       "flexGrow": 1,
       "flexShrink": 1,
       "msFlexNegative": 1,
       "msFlexPositive": 1,
       "msFlexPreferredSize": "0%",
-      "paddingBottom": "30px",
-      "paddingLeft": "30px",
-      "paddingRight": "30px",
-      "paddingTop": "30px",
     }
   }
 >
   <div
-    className="css-text-901oao"
-    dir="auto"
-    style={
-      Object {
-        "color": "rgba(0,0,0,1.00)",
-        "direction": "ltr",
-        "fontFamily": "Roboto",
-        "fontSize": "16px",
-        "fontWeight": "normal",
-        "lineHeight": "22px",
-        "textAlign": "center",
-        "textDecoration": "none",
-        "textTransform": "none",
-      }
-    }
-  >
-    04/01/19 3:03 PM
-  </div>
-  <div
     className="css-view-1dbjc4n"
     style={
       Object {
-        "WebkitAlignItems": "center",
-        "WebkitBoxAlign": "center",
-        "WebkitBoxDirection": "normal",
-        "WebkitBoxOrient": "horizontal",
-        "WebkitBoxPack": "end",
-        "WebkitFlexDirection": "row",
-        "WebkitJustifyContent": "flex-end",
-        "alignItems": "center",
+        "WebkitBoxFlex": 1,
+        "WebkitFlexBasis": "0%",
+        "WebkitFlexGrow": 1,
+        "WebkitFlexShrink": 1,
         "backgroundColor": "rgba(255,255,255,1.00)",
-        "flexDirection": "row",
-        "justifyContent": "flex-end",
-        "msFlexAlign": "center",
-        "msFlexDirection": "row",
-        "msFlexPack": "end",
-        "paddingBottom": "0px",
-        "paddingLeft": "0px",
-        "paddingRight": "0px",
-        "paddingTop": "0px",
+        "borderBottomColor": "rgba(201,200,201,1.00)",
+        "borderBottomLeftRadius": "4px",
+        "borderBottomRightRadius": "4px",
+        "borderBottomWidth": "0px",
+        "borderLeftColor": "rgba(201,200,201,1.00)",
+        "borderLeftWidth": "10px",
+        "borderRightColor": "rgba(201,200,201,1.00)",
+        "borderRightWidth": "0px",
+        "borderTopColor": "rgba(201,200,201,1.00)",
+        "borderTopLeftRadius": "4px",
+        "borderTopRightRadius": "4px",
+        "borderTopWidth": "0px",
+        "flexBasis": "0%",
+        "flexGrow": 1,
+        "flexShrink": 1,
+        "msFlexNegative": 1,
+        "msFlexPositive": 1,
+        "msFlexPreferredSize": "0%",
+        "paddingBottom": "30px",
+        "paddingLeft": "30px",
+        "paddingRight": "30px",
+        "paddingTop": "30px",
       }
     }
   >
@@ -84,35 +57,42 @@ exports[`ModalReceiveEvent matches snapshot 1`] = `
       dir="auto"
       style={
         Object {
-          "WebkitBoxFlex": 1,
-          "WebkitFlexBasis": "0%",
-          "WebkitFlexGrow": 1,
-          "WebkitFlexShrink": 1,
-          "color": "rgba(0,0,0,1.00)",
+          "color": "rgba(34,34,34,1.00)",
           "direction": "ltr",
-          "flexBasis": "0%",
-          "flexGrow": 1,
-          "flexShrink": 1,
           "fontFamily": "Roboto",
           "fontSize": "16px",
-          "fontWeight": "bold",
+          "fontWeight": "normal",
           "lineHeight": "22px",
-          "msFlexNegative": 1,
-          "msFlexPositive": 1,
-          "msFlexPreferredSize": "0%",
           "textAlign": "center",
           "textDecoration": "none",
           "textTransform": "none",
         }
       }
     >
-      Received G$
+      04/01/19 3:03 PM
     </div>
     <div
       className="css-view-1dbjc4n"
       style={
         Object {
-          "display": "inline-block",
+          "WebkitAlignItems": "center",
+          "WebkitBoxAlign": "center",
+          "WebkitBoxDirection": "normal",
+          "WebkitBoxOrient": "horizontal",
+          "WebkitBoxPack": "end",
+          "WebkitFlexDirection": "row",
+          "WebkitJustifyContent": "flex-end",
+          "alignItems": "center",
+          "backgroundColor": "rgba(255,255,255,1.00)",
+          "flexDirection": "row",
+          "justifyContent": "flex-end",
+          "msFlexAlign": "center",
+          "msFlexDirection": "row",
+          "msFlexPack": "end",
+          "paddingBottom": "0px",
+          "paddingLeft": "0px",
+          "paddingRight": "0px",
+          "paddingTop": "0px",
         }
       }
     >
@@ -121,89 +101,112 @@ exports[`ModalReceiveEvent matches snapshot 1`] = `
         dir="auto"
         style={
           Object {
+            "WebkitBoxFlex": 1,
+            "WebkitFlexBasis": "0%",
+            "WebkitFlexGrow": 1,
+            "WebkitFlexShrink": 1,
             "color": "rgba(0,0,0,1.00)",
             "direction": "ltr",
+            "flexBasis": "0%",
+            "flexGrow": 1,
+            "flexShrink": 1,
             "fontFamily": "Roboto",
             "fontSize": "16px",
             "fontWeight": "bold",
             "lineHeight": "22px",
-            "textAlign": "right",
+            "msFlexNegative": 1,
+            "msFlexPositive": 1,
+            "msFlexPreferredSize": "0%",
+            "textAlign": "center",
             "textDecoration": "none",
             "textTransform": "none",
           }
         }
       >
-        0.04
+        Received G$
       </div>
       <div
-        className="css-text-901oao"
-        dir="auto"
+        className="css-view-1dbjc4n"
         style={
           Object {
-            "color": "rgba(0,0,0,1.00)",
-            "direction": "ltr",
-            "fontFamily": "Roboto",
-            "fontSize": "16px",
-            "fontWeight": "bold",
-            "lineHeight": "22px",
-            "textAlign": "right",
-            "textDecoration": "none",
-            "textTransform": "none",
+            "display": "inline-block",
           }
         }
       >
-        G$
+        <div
+          className="css-text-901oao"
+          dir="auto"
+          style={
+            Object {
+              "color": "rgba(85,85,85,1.00)",
+              "direction": "ltr",
+              "fontFamily": "Roboto",
+              "fontSize": "16px",
+              "fontWeight": "bold",
+              "lineHeight": "22px",
+              "textAlign": "right",
+              "textDecoration": "none",
+              "textTransform": "none",
+            }
+          }
+        >
+          0.04
+        </div>
+        <div
+          className="css-text-901oao"
+          dir="auto"
+          style={
+            Object {
+              "color": "rgba(85,85,85,1.00)",
+              "direction": "ltr",
+              "fontFamily": "Roboto",
+              "fontSize": "16px",
+              "fontWeight": "bold",
+              "lineHeight": "22px",
+              "textAlign": "right",
+              "textDecoration": "none",
+              "textTransform": "none",
+            }
+          }
+        >
+          G$
+        </div>
       </div>
     </div>
-  </div>
-  <div
-    className="css-view-1dbjc4n"
-    style={
-      Object {
-        "borderBottomColor": "rgba(201,200,201,1.00)",
-        "borderBottomWidth": "1px",
-        "marginBottom": "10px",
-        "marginTop": "10px",
-        "width": "100%",
-      }
-    }
-  />
-  <div
-    className="css-view-1dbjc4n"
-    style={
-      Object {
-        "WebkitAlignItems": "center",
-        "WebkitBoxAlign": "center",
-        "WebkitBoxDirection": "normal",
-        "WebkitBoxOrient": "horizontal",
-        "WebkitBoxPack": "end",
-        "WebkitFlexDirection": "row",
-        "WebkitJustifyContent": "flex-end",
-        "alignItems": "center",
-        "backgroundColor": "rgba(255,255,255,1.00)",
-        "flexDirection": "row",
-        "justifyContent": "flex-end",
-        "msFlexAlign": "center",
-        "msFlexDirection": "row",
-        "msFlexPack": "end",
-        "paddingBottom": "0px",
-        "paddingLeft": "0px",
-        "paddingRight": "0px",
-        "paddingTop": "0px",
-      }
-    }
-  >
     <div
       className="css-view-1dbjc4n"
       style={
         Object {
+          "borderBottomColor": "rgba(201,200,201,1.00)",
+          "borderBottomWidth": "1px",
+          "marginBottom": "10px",
+          "marginTop": "10px",
+          "width": "100%",
+        }
+      }
+    />
+    <div
+      className="css-view-1dbjc4n"
+      style={
+        Object {
+          "WebkitAlignItems": "center",
+          "WebkitBoxAlign": "center",
+          "WebkitBoxDirection": "normal",
+          "WebkitBoxOrient": "horizontal",
+          "WebkitBoxPack": "end",
+          "WebkitFlexDirection": "row",
+          "WebkitJustifyContent": "flex-end",
+          "alignItems": "center",
           "backgroundColor": "rgba(255,255,255,1.00)",
-          "borderBottomLeftRadius": "24px",
-          "borderBottomRightRadius": "24px",
-          "borderTopLeftRadius": "24px",
-          "borderTopRightRadius": "24px",
-          "height": "48px",
-          "width": "48px",
+          "flexDirection": "row",
+          "justifyContent": "flex-end",
+          "msFlexAlign": "center",
+          "msFlexDirection": "row",
+          "msFlexPack": "end",
+          "paddingBottom": "0px",
+          "paddingLeft": "0px",
+          "paddingRight": "0px",
+          "paddingTop": "0px",
         }
       }
     >
@@ -211,18 +214,13 @@ exports[`ModalReceiveEvent matches snapshot 1`] = `
         className="css-view-1dbjc4n"
         style={
           Object {
-            "WebkitFlexBasis": "auto",
+            "backgroundColor": "rgba(255,255,255,1.00)",
             "borderBottomLeftRadius": "24px",
             "borderBottomRightRadius": "24px",
             "borderTopLeftRadius": "24px",
             "borderTopRightRadius": "24px",
-            "flexBasis": "auto",
             "height": "48px",
-            "msFlexPreferredSize": "auto",
-            "overflowX": "hidden",
-            "overflowY": "hidden",
             "width": "48px",
-            "zIndex": 0,
           }
         }
       >
@@ -230,281 +228,300 @@ exports[`ModalReceiveEvent matches snapshot 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
-              "backgroundColor": "rgba(0,0,0,0.00)",
-              "backgroundImage": "url(\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAkCAIAAAB0Xu9BAAAABGdBTUEAALGPC/xhBQAAAuNJREFUWEetmD1WHDEQhDdxRMYlnBFyBIccgdQhKVcgJeQMpE5JSTd2uqnvIGpVUqmm9TPrffD0eLMzUn+qVnXPwiFd/PP6eLh47v7EaazbmxsOxjhTT88z9hV7GoNF1cUCvN7TTPv/gf/+uQPm862MWTL6fff4HfDx4S79/oVAlAUwqOmYR0rnazuFnhfOy/ErMKkcBFOr1vOjUi2MFn4nuMil6OPh5eGANLhW3y6u3aH7ijEDCxgCvzFmimvc95TekZLyMSeJC68Bkw0kqUy1K87FlpGZqsGFCyqEtQNDdFUtFctTiuhnPKNysid/WFEFLE2O102XJdEE+8IgeuGsjeJyGHm/xHvQ3JtKVsGGp85g9rK6xMHtvHO9+WACYjk5vkVM6XQ6OZubCJvTfPicYPeHO2AKFl5NuF5UK1VDUbeLxh2BcRGKTQE3irHm3+vPj6cfCod50Eqv5QxtwBQUGhZhbrGVuRia1B4MNp6edwBxld2sl1splfHCwfsvCZfrCQyWmX10djjOlWJSSy3VQlS6LmfrgNvaieRWx1LZ6s9co+P0DLsy3OdLU3lWRclQsVcHJBcUQ0k9/WVVrmpRzYQzpgAdQcAXxZzUnFX3proannrYH+Vq6KkLi+UkarH09mC8YPr2RMWOlEqFkQClsykGEv7CqCUbXcG8+SaGvJ4a8d4y6epND+pEhxoN0vWUu5ntXlFb5/JT7JfJJqoTdy9u9qc7ax3xJRHqJLADWEl23cFWl4K9fvoaCJ2BHpmJ3s3z+O0U/DmzdMjB9alWZtg4e3yxzPa7lUR7nkvxLHO9+tvJX3mtSDpwX8GajB283I8R8a7D2MhUZr1iNWdny256yYLd52DwRYBtRMvE7rsmtxIUE+zLKQCDO4jlxB6CZ8M17GhuY+XTE8vNhQiIiSE82ZsGwk1pht4ZSpT0YVpon6EvevOXXH8JxVR78QzNuamupW/7UB7wO/+7sG5V4ekXb4cL5Lyv+4IAAAAASUVORK5CYII=\\")",
-              "backgroundPosition": "center",
-              "backgroundRepeat": "no-repeat",
-              "backgroundSize": "cover",
-              "bottom": "0px",
-              "height": "100%",
-              "left": "0px",
-              "position": "absolute",
-              "right": "0px",
-              "top": "0px",
-              "width": "100%",
-              "zIndex": -1,
+              "WebkitFlexBasis": "auto",
+              "borderBottomLeftRadius": "24px",
+              "borderBottomRightRadius": "24px",
+              "borderTopLeftRadius": "24px",
+              "borderTopRightRadius": "24px",
+              "flexBasis": "auto",
+              "height": "48px",
+              "msFlexPreferredSize": "auto",
+              "overflowX": "hidden",
+              "overflowY": "hidden",
+              "width": "48px",
+              "zIndex": 0,
             }
           }
-        />
-        <img
-          alt=""
-          className="css-accessibilityImage-9pa8cd"
-          draggable={false}
-          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAkCAIAAAB0Xu9BAAAABGdBTUEAALGPC/xhBQAAAuNJREFUWEetmD1WHDEQhDdxRMYlnBFyBIccgdQhKVcgJeQMpE5JSTd2uqnvIGpVUqmm9TPrffD0eLMzUn+qVnXPwiFd/PP6eLh47v7EaazbmxsOxjhTT88z9hV7GoNF1cUCvN7TTPv/gf/+uQPm862MWTL6fff4HfDx4S79/oVAlAUwqOmYR0rnazuFnhfOy/ErMKkcBFOr1vOjUi2MFn4nuMil6OPh5eGANLhW3y6u3aH7ijEDCxgCvzFmimvc95TekZLyMSeJC68Bkw0kqUy1K87FlpGZqsGFCyqEtQNDdFUtFctTiuhnPKNysid/WFEFLE2O102XJdEE+8IgeuGsjeJyGHm/xHvQ3JtKVsGGp85g9rK6xMHtvHO9+WACYjk5vkVM6XQ6OZubCJvTfPicYPeHO2AKFl5NuF5UK1VDUbeLxh2BcRGKTQE3irHm3+vPj6cfCod50Eqv5QxtwBQUGhZhbrGVuRia1B4MNp6edwBxld2sl1splfHCwfsvCZfrCQyWmX10djjOlWJSSy3VQlS6LmfrgNvaieRWx1LZ6s9co+P0DLsy3OdLU3lWRclQsVcHJBcUQ0k9/WVVrmpRzYQzpgAdQcAXxZzUnFX3proannrYH+Vq6KkLi+UkarH09mC8YPr2RMWOlEqFkQClsykGEv7CqCUbXcG8+SaGvJ4a8d4y6epND+pEhxoN0vWUu5ntXlFb5/JT7JfJJqoTdy9u9qc7ax3xJRHqJLADWEl23cFWl4K9fvoaCJ2BHpmJ3s3z+O0U/DmzdMjB9alWZtg4e3yxzPa7lUR7nkvxLHO9+tvJX3mtSDpwX8GajB283I8R8a7D2MhUZr1iNWdny256yYLd52DwRYBtRMvE7rsmtxIUE+zLKQCDO4jlxB6CZ8M17GhuY+XTE8vNhQiIiSE82ZsGwk1pht4ZSpT0YVpon6EvevOXXH8JxVR78QzNuamupW/7UB7wO/+7sG5V4ekXb4cL5Lyv+4IAAAAASUVORK5CYII="
-        />
+        >
+          <div
+            className="css-view-1dbjc4n"
+            style={
+              Object {
+                "backgroundColor": "rgba(0,0,0,0.00)",
+                "backgroundImage": "url(\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAkCAIAAAB0Xu9BAAAABGdBTUEAALGPC/xhBQAAAuNJREFUWEetmD1WHDEQhDdxRMYlnBFyBIccgdQhKVcgJeQMpE5JSTd2uqnvIGpVUqmm9TPrffD0eLMzUn+qVnXPwiFd/PP6eLh47v7EaazbmxsOxjhTT88z9hV7GoNF1cUCvN7TTPv/gf/+uQPm862MWTL6fff4HfDx4S79/oVAlAUwqOmYR0rnazuFnhfOy/ErMKkcBFOr1vOjUi2MFn4nuMil6OPh5eGANLhW3y6u3aH7ijEDCxgCvzFmimvc95TekZLyMSeJC68Bkw0kqUy1K87FlpGZqsGFCyqEtQNDdFUtFctTiuhnPKNysid/WFEFLE2O102XJdEE+8IgeuGsjeJyGHm/xHvQ3JtKVsGGp85g9rK6xMHtvHO9+WACYjk5vkVM6XQ6OZubCJvTfPicYPeHO2AKFl5NuF5UK1VDUbeLxh2BcRGKTQE3irHm3+vPj6cfCod50Eqv5QxtwBQUGhZhbrGVuRia1B4MNp6edwBxld2sl1splfHCwfsvCZfrCQyWmX10djjOlWJSSy3VQlS6LmfrgNvaieRWx1LZ6s9co+P0DLsy3OdLU3lWRclQsVcHJBcUQ0k9/WVVrmpRzYQzpgAdQcAXxZzUnFX3proannrYH+Vq6KkLi+UkarH09mC8YPr2RMWOlEqFkQClsykGEv7CqCUbXcG8+SaGvJ4a8d4y6epND+pEhxoN0vWUu5ntXlFb5/JT7JfJJqoTdy9u9qc7ax3xJRHqJLADWEl23cFWl4K9fvoaCJ2BHpmJ3s3z+O0U/DmzdMjB9alWZtg4e3yxzPa7lUR7nkvxLHO9+tvJX3mtSDpwX8GajB283I8R8a7D2MhUZr1iNWdny256yYLd52DwRYBtRMvE7rsmtxIUE+zLKQCDO4jlxB6CZ8M17GhuY+XTE8vNhQiIiSE82ZsGwk1pht4ZSpT0YVpon6EvevOXXH8JxVR78QzNuamupW/7UB7wO/+7sG5V4ekXb4cL5Lyv+4IAAAAASUVORK5CYII=\\")",
+                "backgroundPosition": "center",
+                "backgroundRepeat": "no-repeat",
+                "backgroundSize": "cover",
+                "bottom": "0px",
+                "height": "100%",
+                "left": "0px",
+                "position": "absolute",
+                "right": "0px",
+                "top": "0px",
+                "width": "100%",
+                "zIndex": -1,
+              }
+            }
+          />
+          <img
+            alt=""
+            className="css-accessibilityImage-9pa8cd"
+            draggable={false}
+            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAkCAIAAAB0Xu9BAAAABGdBTUEAALGPC/xhBQAAAuNJREFUWEetmD1WHDEQhDdxRMYlnBFyBIccgdQhKVcgJeQMpE5JSTd2uqnvIGpVUqmm9TPrffD0eLMzUn+qVnXPwiFd/PP6eLh47v7EaazbmxsOxjhTT88z9hV7GoNF1cUCvN7TTPv/gf/+uQPm862MWTL6fff4HfDx4S79/oVAlAUwqOmYR0rnazuFnhfOy/ErMKkcBFOr1vOjUi2MFn4nuMil6OPh5eGANLhW3y6u3aH7ijEDCxgCvzFmimvc95TekZLyMSeJC68Bkw0kqUy1K87FlpGZqsGFCyqEtQNDdFUtFctTiuhnPKNysid/WFEFLE2O102XJdEE+8IgeuGsjeJyGHm/xHvQ3JtKVsGGp85g9rK6xMHtvHO9+WACYjk5vkVM6XQ6OZubCJvTfPicYPeHO2AKFl5NuF5UK1VDUbeLxh2BcRGKTQE3irHm3+vPj6cfCod50Eqv5QxtwBQUGhZhbrGVuRia1B4MNp6edwBxld2sl1splfHCwfsvCZfrCQyWmX10djjOlWJSSy3VQlS6LmfrgNvaieRWx1LZ6s9co+P0DLsy3OdLU3lWRclQsVcHJBcUQ0k9/WVVrmpRzYQzpgAdQcAXxZzUnFX3proannrYH+Vq6KkLi+UkarH09mC8YPr2RMWOlEqFkQClsykGEv7CqCUbXcG8+SaGvJ4a8d4y6epND+pEhxoN0vWUu5ntXlFb5/JT7JfJJqoTdy9u9qc7ax3xJRHqJLADWEl23cFWl4K9fvoaCJ2BHpmJ3s3z+O0U/DmzdMjB9alWZtg4e3yxzPa7lUR7nkvxLHO9+tvJX3mtSDpwX8GajB283I8R8a7D2MhUZr1iNWdny256yYLd52DwRYBtRMvE7rsmtxIUE+zLKQCDO4jlxB6CZ8M17GhuY+XTE8vNhQiIiSE82ZsGwk1pht4ZSpT0YVpon6EvevOXXH8JxVR78QzNuamupW/7UB7wO/+7sG5V4ekXb4cL5Lyv+4IAAAAASUVORK5CYII="
+          />
+        </div>
+      </div>
+      <div
+        className="css-text-901oao"
+        dir="auto"
+        style={
+          Object {
+            "color": "rgba(34,34,34,1.00)",
+            "direction": "ltr",
+            "fontFamily": "Roboto",
+            "fontSize": "16px",
+            "fontWeight": "normal",
+            "lineHeight": "22px",
+            "marginLeft": "auto",
+            "textAlign": "center",
+            "textDecoration": "none",
+            "textTransform": "none",
+          }
+        }
+      >
+        <span
+          className="css-text-901oao css-textHasAncestor-16my406"
+          dir="auto"
+          style={
+            Object {
+              "color": "rgba(0,0,0,1.00)",
+              "direction": "ltr",
+              "display": "inlineBlock",
+              "fontFamily": "Roboto",
+              "fontSize": "10px",
+              "fontWeight": "normal",
+              "lineHeight": "22px",
+              "textAlign": "center",
+              "textDecoration": "none",
+              "textTransform": "none",
+            }
+          }
+        >
+          From:
+        </span>
+        <span
+          className="css-text-901oao css-textHasAncestor-16my406"
+          dir="auto"
+          style={
+            Object {
+              "color": "rgba(0,0,0,1.00)",
+              "direction": "ltr",
+              "display": "inlineBlock",
+              "fontFamily": "Roboto",
+              "fontSize": "14px",
+              "fontWeight": "normal",
+              "lineHeight": "22px",
+              "textAlign": "center",
+              "textDecoration": "none",
+              "textTransform": "none",
+            }
+          }
+        >
+          Misao Matimbo
+        </span>
       </div>
     </div>
+    <div
+      className="css-view-1dbjc4n"
+      style={
+        Object {
+          "borderBottomColor": "rgba(201,200,201,1.00)",
+          "borderBottomWidth": "1px",
+          "marginBottom": "10px",
+          "marginTop": "10px",
+          "width": "100%",
+        }
+      }
+    />
     <div
       className="css-text-901oao"
       dir="auto"
       style={
         Object {
-          "color": "rgba(0,0,0,1.00)",
+          "color": "rgba(34,34,34,1.00)",
           "direction": "ltr",
           "fontFamily": "Roboto",
           "fontSize": "16px",
           "fontWeight": "normal",
           "lineHeight": "22px",
-          "marginLeft": "auto",
           "textAlign": "center",
           "textDecoration": "none",
           "textTransform": "none",
         }
       }
     >
-      <span
-        className="css-text-901oao css-textHasAncestor-16my406"
-        dir="auto"
-        style={
-          Object {
-            "color": "rgba(0,0,0,1.00)",
-            "direction": "ltr",
-            "display": "inlineBlock",
-            "fontFamily": "Roboto",
-            "fontSize": "10px",
-            "fontWeight": "normal",
-            "lineHeight": "22px",
-            "textAlign": "center",
-            "textDecoration": "none",
-            "textTransform": "none",
-          }
-        }
-      >
-        From:
-      </span>
-      <span
-        className="css-text-901oao css-textHasAncestor-16my406"
-        dir="auto"
-        style={
-          Object {
-            "color": "rgba(0,0,0,1.00)",
-            "direction": "ltr",
-            "display": "inlineBlock",
-            "fontFamily": "Roboto",
-            "fontSize": "14px",
-            "fontWeight": "normal",
-            "lineHeight": "22px",
-            "textAlign": "center",
-            "textDecoration": "none",
-            "textTransform": "none",
-          }
-        }
-      >
-        Misao Matimbo
-      </span>
+      aaa
     </div>
-  </div>
-  <div
-    className="css-view-1dbjc4n"
-    style={
-      Object {
-        "borderBottomColor": "rgba(201,200,201,1.00)",
-        "borderBottomWidth": "1px",
-        "marginBottom": "10px",
-        "marginTop": "10px",
-        "width": "100%",
-      }
-    }
-  />
-  <div
-    className="css-text-901oao"
-    dir="auto"
-    style={
-      Object {
-        "color": "rgba(0,0,0,1.00)",
-        "direction": "ltr",
-        "fontFamily": "Roboto",
-        "fontSize": "16px",
-        "fontWeight": "normal",
-        "lineHeight": "22px",
-        "textAlign": "center",
-        "textDecoration": "none",
-        "textTransform": "none",
-      }
-    }
-  >
-    aaa
-  </div>
-  <div
-    className="css-view-1dbjc4n"
-    style={
-      Object {
-        "WebkitAlignItems": "flex-end",
-        "WebkitBoxAlign": "end",
-        "WebkitBoxDirection": "normal",
-        "WebkitBoxFlex": 1,
-        "WebkitBoxOrient": "horizontal",
-        "WebkitBoxPack": "justify",
-        "WebkitFlexBasis": "0%",
-        "WebkitFlexDirection": "row",
-        "WebkitFlexGrow": 1,
-        "WebkitFlexShrink": 1,
-        "WebkitJustifyContent": "space-between",
-        "alignItems": "flex-end",
-        "flexBasis": "0%",
-        "flexDirection": "row",
-        "flexGrow": 1,
-        "flexShrink": 1,
-        "justifyContent": "space-between",
-        "msFlexAlign": "end",
-        "msFlexDirection": "row",
-        "msFlexNegative": 1,
-        "msFlexPack": "justify",
-        "msFlexPositive": 1,
-        "msFlexPreferredSize": "0%",
-      }
-    }
-  >
     <div
       className="css-view-1dbjc4n"
       style={
         Object {
-          "WebkitBoxPack": "center",
-          "WebkitJustifyContent": "center",
-          "backgroundColor": "rgba(98,0,238,1.00)",
-          "borderBottomColor": "rgba(0,0,0,0.00)",
-          "borderBottomLeftRadius": "50px",
-          "borderBottomRightRadius": "50px",
-          "borderBottomStyle": "solid",
-          "borderBottomWidth": "0px",
-          "borderLeftColor": "rgba(0,0,0,0.00)",
-          "borderLeftStyle": "solid",
-          "borderLeftWidth": "0px",
-          "borderRightColor": "rgba(0,0,0,0.00)",
-          "borderRightStyle": "solid",
-          "borderRightWidth": "0px",
-          "borderTopColor": "rgba(0,0,0,0.00)",
-          "borderTopLeftRadius": "50px",
-          "borderTopRightRadius": "50px",
-          "borderTopStyle": "solid",
-          "borderTopWidth": "0px",
-          "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
-          "justifyContent": "center",
-          "marginLeft": "auto",
-          "minWidth": "80px",
-          "msFlexPack": "center",
+          "WebkitAlignItems": "flex-end",
+          "WebkitBoxAlign": "end",
+          "WebkitBoxDirection": "normal",
+          "WebkitBoxFlex": 1,
+          "WebkitBoxOrient": "horizontal",
+          "WebkitBoxPack": "justify",
+          "WebkitFlexBasis": "0%",
+          "WebkitFlexDirection": "row",
+          "WebkitFlexGrow": 1,
+          "WebkitFlexShrink": 1,
+          "WebkitJustifyContent": "space-between",
+          "alignItems": "flex-end",
+          "flexBasis": "0%",
+          "flexDirection": "row",
+          "flexGrow": 1,
+          "flexShrink": 1,
+          "justifyContent": "space-between",
+          "msFlexAlign": "end",
+          "msFlexDirection": "row",
+          "msFlexNegative": 1,
+          "msFlexPack": "justify",
+          "msFlexPositive": 1,
+          "msFlexPreferredSize": "0%",
         }
       }
     >
       <div
-        className="css-cursor-18t94o4 css-view-1dbjc4n"
-        data-focusable={true}
-        disabled={false}
-        onKeyDown={[Function]}
-        onKeyPress={[Function]}
-        onKeyUp={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
-        role="button"
+        className="css-view-1dbjc4n"
         style={
           Object {
+            "WebkitBoxPack": "center",
+            "WebkitJustifyContent": "center",
+            "backgroundColor": "rgba(0,175,255,1.00)",
+            "borderBottomColor": "rgba(0,175,255,1.00)",
             "borderBottomLeftRadius": "50px",
             "borderBottomRightRadius": "50px",
+            "borderBottomStyle": "solid",
+            "borderBottomWidth": "0px",
+            "borderLeftColor": "rgba(0,175,255,1.00)",
+            "borderLeftStyle": "solid",
+            "borderLeftWidth": "0px",
+            "borderRightColor": "rgba(0,175,255,1.00)",
+            "borderRightStyle": "solid",
+            "borderRightWidth": "0px",
+            "borderTopColor": "rgba(0,175,255,1.00)",
             "borderTopLeftRadius": "50px",
             "borderTopRightRadius": "50px",
-            "cursor": "pointer",
-            "msTouchAction": "manipulation",
-            "overflowX": "hidden",
-            "overflowY": "hidden",
-            "position": "relative",
-            "touchAction": "manipulation",
+            "borderTopStyle": "solid",
+            "borderTopWidth": "0px",
+            "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
+            "justifyContent": "center",
+            "marginLeft": "auto",
+            "minWidth": "80px",
+            "msFlexPack": "center",
           }
         }
-        tabIndex="0"
       >
         <div
-          className="css-view-1dbjc4n"
+          className="css-cursor-18t94o4 css-view-1dbjc4n"
+          data-focusable={true}
+          disabled={false}
+          onKeyDown={[Function]}
+          onKeyPress={[Function]}
+          onKeyUp={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          role="button"
           style={
             Object {
-              "WebkitAlignItems": "center",
-              "WebkitBoxAlign": "center",
-              "WebkitBoxDirection": "normal",
-              "WebkitBoxOrient": "horizontal",
-              "WebkitBoxPack": "center",
-              "WebkitFlexDirection": "row",
-              "WebkitJustifyContent": "center",
-              "alignItems": "center",
-              "flexDirection": "row",
-              "justifyContent": "center",
-              "msFlexAlign": "center",
-              "msFlexDirection": "row",
-              "msFlexPack": "center",
+              "borderBottomLeftRadius": "50px",
+              "borderBottomRightRadius": "50px",
+              "borderTopLeftRadius": "50px",
+              "borderTopRightRadius": "50px",
+              "cursor": "pointer",
+              "msTouchAction": "manipulation",
+              "overflowX": "hidden",
+              "overflowY": "hidden",
+              "position": "relative",
+              "touchAction": "manipulation",
             }
           }
+          tabIndex="0"
         >
           <div
-            className="css-text-901oao css-textOneLine-bfa6kz"
-            dir="auto"
+            className="css-view-1dbjc4n"
             style={
               Object {
-                "color": "rgba(255,255,255,1.00)",
-                "direction": "ltr",
-                "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                "letterSpacing": "1px",
-                "marginBottom": "9px",
-                "marginLeft": "8px",
-                "marginRight": "8px",
-                "marginTop": "9px",
-                "textAlign": "center",
+                "WebkitAlignItems": "center",
+                "WebkitBoxAlign": "center",
+                "WebkitBoxDirection": "normal",
+                "WebkitBoxOrient": "horizontal",
+                "WebkitBoxPack": "center",
+                "WebkitFlexDirection": "row",
+                "WebkitJustifyContent": "center",
+                "alignItems": "center",
+                "flexDirection": "row",
+                "justifyContent": "center",
+                "msFlexAlign": "center",
+                "msFlexDirection": "row",
+                "msFlexPack": "center",
               }
             }
           >
             <div
-              className="css-view-1dbjc4n"
+              className="css-text-901oao css-textOneLine-bfa6kz"
+              dir="auto"
               style={
                 Object {
-                  "WebkitBoxPack": "center",
-                  "WebkitJustifyContent": "center",
-                  "display": "inline-flex",
-                  "justifyContent": "center",
-                  "minHeight": "28px",
-                  "msFlexPack": "center",
+                  "color": "rgba(255,255,255,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                  "letterSpacing": "1px",
+                  "marginBottom": "9px",
+                  "marginLeft": "8px",
+                  "marginRight": "8px",
+                  "marginTop": "9px",
+                  "textAlign": "center",
                 }
               }
             >
-              <span
-                className="css-text-901oao css-textHasAncestor-16my406"
-                dir="auto"
+              <div
+                className="css-view-1dbjc4n"
                 style={
                   Object {
-                    "color": "rgba(255,255,255,1.00)",
-                    "direction": "ltr",
-                    "fontFamily": "Roboto",
-                    "fontSize": "16px",
-                    "fontWeight": "normal",
-                    "lineHeight": "22px",
-                    "textAlign": "center",
-                    "textDecoration": "none",
-                    "textTransform": "uppercase",
+                    "WebkitBoxPack": "center",
+                    "WebkitJustifyContent": "center",
+                    "display": "inline-flex",
+                    "justifyContent": "center",
+                    "minHeight": "28px",
+                    "msFlexPack": "center",
                   }
                 }
               >
-                OK
-              </span>
+                <span
+                  className="css-text-901oao css-textHasAncestor-16my406"
+                  dir="auto"
+                  style={
+                    Object {
+                      "color": "rgba(255,255,255,1.00)",
+                      "direction": "ltr",
+                      "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                      "fontWeight": "bold",
+                      "lineHeight": "0px",
+                      "paddingTop": "1px",
+                      "textAlign": "left",
+                      "textTransform": "uppercase",
+                    }
+                  }
+                >
+                  OK
+                </span>
+              </div>
             </div>
           </div>
         </div>

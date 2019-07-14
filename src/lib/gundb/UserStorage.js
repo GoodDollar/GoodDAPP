@@ -37,7 +37,7 @@ export type GunDBUser = {
   alias: string,
   epub: string,
   pub: string,
-  sea: any
+  sea: any,
 }
 
 /**
@@ -47,7 +47,7 @@ type FieldPrivacy = 'private' | 'public' | 'masked'
 
 type ACK = {
   ok: number,
-  err: string
+  err: string,
 }
 type EncryptedField = any
 
@@ -57,7 +57,7 @@ type EncryptedField = any
 export type ProfileField = {
   value: EncryptedField,
   display: string,
-  privacy: FieldPrivacy
+  privacy: FieldPrivacy,
 }
 
 /**
@@ -69,7 +69,7 @@ export type FeedEvent = {
   date: string,
   createdDate?: string,
   status?: 'pending' | 'completed' | 'error',
-  data: any
+  data: any,
 }
 
 /**
@@ -83,8 +83,8 @@ export type TransactionEvent = FeedEvent & {
     amount: number,
     paymentLink?: string,
     code?: string,
-    receipt?: any
-  }
+    receipt?: any,
+  },
 }
 
 /**
@@ -127,7 +127,7 @@ export const getReceiveDataFromReceipt = (receipt: any) => {
 
 export const getOperationType = (data: any, account: string) => {
   const EVENT_TYPES = {
-    PaymentWithdraw: 'withdraw'
+    PaymentWithdraw: 'withdraw',
   }
 
   const operationType = data.from && data.from.toLowerCase() === account ? 'send' : 'receive'
@@ -203,7 +203,7 @@ export class UserStorage {
     mobile: true,
     phone: true,
     walletAddress: true,
-    username: true
+    username: true,
   }
 
   /**
@@ -358,7 +358,7 @@ export class UserStorage {
       const feedEvent = (await this.getFeedItemByTransactionHash(receipt.transactionHash)) || {
         id: receipt.transactionHash,
         createdDate: new Date().toString(),
-        type: getOperationType(data, this.wallet.account)
+        type: getOperationType(data, this.wallet.account),
       }
 
       //merge incoming receipt data into existing event
@@ -371,8 +371,8 @@ export class UserStorage {
           ...feedEvent.data,
           ...initialEvent.data,
           receiptData: data,
-          receipt
-        }
+          receipt,
+        },
       }
       logger.debug('handleReceiptUpdated receiptReceived', { initialEvent, feedEvent, receipt, data, updatedFeedEvent })
       if (isEqual(feedEvent, updatedFeedEvent) === false) {
@@ -549,7 +549,7 @@ export class UserStorage {
       mobile: { defaultPrivacy: 'public' },
       avatar: { defaultPrivacy: 'public' },
       walletAddress: { defaultPrivacy: 'public' },
-      username: { defaultPrivacy: 'public' }
+      username: { defaultPrivacy: 'public' },
     }
     const getPrivacy = async field => {
       const currentPrivacy = await this.profile.get(field).get('privacy')
@@ -666,8 +666,8 @@ export class UserStorage {
         .secretAck(value),
       this.profile.get(field).putAck({
         display,
-        privacy
-      })
+        privacy,
+      }),
     ]).then(arr => arr[1])
   }
 
@@ -702,7 +702,7 @@ export class UserStorage {
         value,
         privacy,
         indexValue: indexValue,
-        currentUser: this.gunuser.is.pub
+        currentUser: this.gunuser.is.pub,
       })
 
       if (privacy !== 'public' && indexValue !== undefined) {
@@ -921,7 +921,7 @@ export class UserStorage {
       to,
       from,
       receiptData,
-      value
+      value,
     })
     const searchField = (initiatorType && `by${initiatorType}`) || ''
     const profileByIndex =
@@ -971,11 +971,11 @@ export class UserStorage {
           address: sender,
           fullName,
           avatar,
-          withdrawStatus
+          withdrawStatus,
         },
         amount: value,
-        message: reason
-      }
+        message: reason,
+      },
     }
   }
 
@@ -1185,24 +1185,24 @@ export class UserStorage {
       API.deleteAccount(goodWallet.getAccountForType('zoomId'))
         .then(r => get(r, 'data.results'))
         .catch(e => ({
-          server: 'failed'
+          server: 'failed',
         })),
       this.deleteProfile()
         .then(r => ({
-          profile: 'ok'
+          profile: 'ok',
         }))
         .catch(r => ({
-          profile: 'failed'
+          profile: 'failed',
         })),
       this.gunuser
         .get('feed')
         .put(null)
         .then(r => ({
-          feed: 'ok'
+          feed: 'ok',
         }))
         .catch(r => ({
-          feed: 'failed'
-        }))
+          feed: 'failed',
+        })),
     ])
 
     //Issue with gun delete()

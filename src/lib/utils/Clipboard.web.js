@@ -23,7 +23,7 @@ const Clipboard = {
   setString: (text: string) => {
     log.debug('setString', text)
     NativeClipboard.setString(text)
-  }
+  },
 }
 
 export default Clipboard

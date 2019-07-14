@@ -13,6 +13,6 @@ export const checkAuthStatus = async () => {
   return {
     credsOrError,
     isLoggedInCitizen,
-    isLoggedIn
+    isLoggedIn,
   }
 }

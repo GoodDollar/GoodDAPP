@@ -59,8 +59,8 @@ const CopyButton = ({ toCopy, children, onPressDone, ...props }) => {
 const styles = StyleSheet.create({
   iconButtonWrapper: {
     minHeight: 28,
-    justifyContent: 'center'
-  }
+    justifyContent: 'center',
+  },
 })
 
 export default CopyButton

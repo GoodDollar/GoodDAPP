@@ -1,20 +1,20 @@
 // @flow
 import React, { Component, useEffect, useState } from 'react'
-
 import SideMenu from 'react-native-side-menu'
 import { createNavigator, Route, SceneView, SwitchRouter } from '@react-navigation/core'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import SideMenuPanel from '../sidemenu/SideMenuPanel'
 import logger from '../../lib/logger/pino-logger'
-import CustomButton from '../common/buttons/CustomButton'
+import CustomButton, { type ButtonProps } from '../common/buttons/CustomButton'
 import NavBar from './NavBar'
 import { navigationOptions } from './navigationConfig'
+import { PushButton } from './PushButton'
 
 export const DEFAULT_PARAMS = {
   event: undefined,
   receiveLink: undefined,
   reason: undefined,
-  code: undefined
+  code: undefined,
 }
 
 const log = logger.child({ from: 'stackNavigation' })
@@ -24,12 +24,12 @@ type AppViewProps = {
   navigation: any,
   navigationConfig: any,
   screenProps: any,
-  store: SimpleStore
+  store: SimpleStore,
 }
 
 type AppViewState = {
   stack: Array<any>,
-  currentState: any
+  currentState: any,
 }
 
 /**
@@ -41,7 +41,7 @@ type AppViewState = {
 class AppView extends Component<AppViewProps, AppViewState> {
   state = {
     stack: [],
-    currentState: {}
+    currentState: {},
   }
 
   /**
@@ -111,10 +111,10 @@ class AppView extends Component<AppViewProps, AppViewState> {
             ...state.stack,
             {
               route,
-              state: state.currentState
-            }
+              state: state.currentState,
+            },
           ],
-          currentState: { ...params, route }
+          currentState: { ...params, route },
         }
       },
       state => {
@@ -132,13 +132,13 @@ class AppView extends Component<AppViewProps, AppViewState> {
     this.trans = true
     this.setState({
       stack: [],
-      currentState: {}
+      currentState: {},
     })
 
     const route = navigation.state.routes[0]
     route.params = {
       ...route.params,
-      ...DEFAULT_PARAMS
+      ...DEFAULT_PARAMS,
     }
 
     navigation.navigate(route)
@@ -152,7 +152,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
     this.props.navigation.navigate({
       routeName,
       params,
-      type: 'Navigation/NAVIGATE'
+      type: 'Navigation/NAVIGATE',
     })
   }
 
@@ -193,7 +193,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
       pop: this.pop,
       screenState: this.state.currentState,
       setScreenState: this.setScreenState,
-      toggleMenu: () => this.drawer.open()
+      toggleMenu: () => this.drawer.open(),
     }
     log.info('stackNavigation Render: FIXME rerender', descriptor, activeKey)
     const Component = this.getComponent(descriptor.getComponent(), { screenProps })
@@ -219,60 +219,20 @@ class AppView extends Component<AppViewProps, AppViewState> {
  */
 export const createStackNavigator = (routes: any, navigationConfig: any) => {
   const defaultNavigationConfig = {
-    backRouteName: 'Home'
+    backRouteName: 'Home',
   }
 
   return createNavigator(SimpleStore.withStore(AppView), SwitchRouter(routes), {
     ...defaultNavigationConfig,
     ...navigationConfig,
-    navigationOptions
+    navigationOptions,
   })
-}
-
-type PushButtonProps = {
-  ...ButtonProps,
-  routeName: Route,
-  params?: any,
-  screenProps: { push: (routeName: string, params: any) => void },
-  canContinue?: Function
-}
-
-/**
- * PushButton
- * This button gets the push action from screenProps. Is meant to be used inside a stackNavigator
- * @param routeName
- * @param screenProps
- * @param params
- * @param {ButtonProps} props
- */
-export const PushButton = ({ routeName, screenProps, canContinue, params, ...props }: PushButtonProps) => {
-  const shouldContinue = async () => {
-    if (canContinue === undefined) {
-      return true
-    }
-
-    const result = await canContinue()
-    return result
-  }
-
-  return (
-    <CustomButton
-      {...props}
-      onPress={async () => screenProps && (await shouldContinue()) && screenProps.push(routeName, params)}
-    />
-  )
-}
-
-PushButton.defaultProps = {
-  mode: 'contained',
-  dark: true,
-  canContinue: () => true
 }
 
 type BackButtonProps = {
   ...ButtonProps,
   routeName?: Route,
-  screenProps: { goToParent: () => void }
+  screenProps: { goToParent: () => void },
 }
 
 /**
@@ -303,7 +263,7 @@ type NextButtonProps = {
   screenProps: { push: (routeName: string, params: any) => void },
   nextRoutes: [string],
   label?: string,
-  canContinue?: Function
+  canContinue?: Function,
 }
 
 /**
@@ -318,7 +278,7 @@ export const NextButton = ({
   screenProps,
   nextRoutes: nextRoutesParam,
   label,
-  canContinue
+  canContinue,
 }: NextButtonProps) => {
   const [next, ...nextRoutes] = nextRoutesParam ? nextRoutesParam : []
   return (

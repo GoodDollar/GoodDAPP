@@ -5,14 +5,14 @@ import { generateCode, generateReceiveShareObject } from '../../lib/share'
 
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import goodWallet from '../../lib/wallet/GoodWallet'
-import { PushButton } from '../appNavigation/stackNavigation'
+import { PushButton } from '../appNavigation/PushButton'
 import { CopyButton, CustomButton, QRCode, ScanQRButton, Section, TopBar, Wrapper } from '../common'
 import { withStyles } from '../../lib/styles'
 
 export type ReceiveProps = {
   screenProps: any,
   navigation: any,
-  styles: any
+  styles: any,
 }
 
 const RECEIVE_TITLE = 'Receive G$'
@@ -77,18 +77,16 @@ const Receive = ({ screenProps, styles, ...props }: ReceiveProps) => {
 }
 
 Receive.navigationOptions = {
-  title: RECEIVE_TITLE
+  title: RECEIVE_TITLE,
 }
 
-const getStylesFromProps = ({ theme }) => {
-  return {
-    shareButton: {
-      marginTop: theme.paddings.defaultMargin
-    },
-    mainText: {
-      marginBottom: theme.paddings.defaultMargin
-    }
-  }
-}
+const getStylesFromProps = ({ theme }) => ({
+  shareButton: {
+    marginTop: theme.paddings.defaultMargin,
+  },
+  mainText: {
+    marginBottom: theme.paddings.defaultMargin,
+  },
+})
 
 export default withStyles(getStylesFromProps)(Receive)

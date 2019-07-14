@@ -10,7 +10,7 @@ export default WebViewScreen
 export const createWebViewScreen = (source, title) => {
   const CurrentWebView = () => <WebViewScreen source={source} />
   CurrentWebView.navigationOptions = {
-    title
+    title,
   }
   return CurrentWebView
 }

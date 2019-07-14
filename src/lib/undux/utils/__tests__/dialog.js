@@ -11,7 +11,7 @@ const createStore = (intialValues = {}) => {
       return value => {
         this.values[key] = value
       }
-    }
+    },
   }
 }
 
@@ -19,14 +19,14 @@ describe('Dialog', () => {
   it('show dialog with data', () => {
     const store = createStore()
     const data = {
-      title: 'Title'
+      title: 'Title',
     }
     showDialogWithData(store, data)
     expect(store.get('currentScreen')).toEqual({
       dialogData: {
         ...data,
-        visible: true
-      }
+        visible: true,
+      },
     })
   })
 
@@ -35,29 +35,29 @@ describe('Dialog', () => {
     hideDialog(store)
     expect(store.get('currentScreen')).toEqual({
       dialogData: {
-        visible: false
-      }
+        visible: false,
+      },
     })
   })
 
   it('show dialog with data and then hide it', () => {
     const store = createStore()
     const data = {
-      title: 'Title'
+      title: 'Title',
     }
     showDialogWithData(store, data)
     expect(store.get('currentScreen')).toEqual({
       dialogData: {
         ...data,
-        visible: true
-      }
+        visible: true,
+      },
     })
 
     hideDialog(store)
     expect(store.get('currentScreen')).toEqual({
       dialogData: {
-        visible: false
-      }
+        visible: false,
+      },
     })
   })
 
@@ -65,11 +65,11 @@ describe('Dialog', () => {
     const store = createStore()
     const message = 'Error message'
     const error = {
-      message
+      message,
     }
     showDialogForError(store, 'human readable', error)
     expect(store.get('currentScreen')).toEqual({
-      dialogData: { visible: true, title: 'Error', message: `human readable\n${message}`, dismissText: 'OK' }
+      dialogData: { visible: true, title: 'Error', message: `human readable\n${message}`, dismissText: 'OK' },
     })
   })
 
@@ -77,11 +77,11 @@ describe('Dialog', () => {
     const store = createStore()
     const err = 'Error message'
     const error = {
-      err
+      err,
     }
     showDialogForError(store, 'human readable', error)
     expect(store.get('currentScreen')).toEqual({
-      dialogData: { visible: true, title: 'Error', message: `human readable\n${err}`, dismissText: 'OK' }
+      dialogData: { visible: true, title: 'Error', message: `human readable\n${err}`, dismissText: 'OK' },
     })
   })
 
@@ -91,13 +91,13 @@ describe('Dialog', () => {
     const error = {
       response: {
         data: {
-          message
-        }
-      }
+          message,
+        },
+      },
     }
     showDialogForError(store, 'human readable', error)
     expect(store.get('currentScreen')).toEqual({
-      dialogData: { visible: true, title: 'Error', message: `human readable\n${message}`, dismissText: 'OK' }
+      dialogData: { visible: true, title: 'Error', message: `human readable\n${message}`, dismissText: 'OK' },
     })
   })
 })

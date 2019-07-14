@@ -6,7 +6,7 @@ export type CodeType = {
   networkId: number,
   address: string,
   amount: number,
-  reason: string
+  reason: string,
 }
 
 /**
@@ -37,13 +37,13 @@ export const routeAndPathForCode = async (screen: string, code: CodeType | null)
       if (!amount) {
         return {
           route: 'Amount',
-          params: { to: address, nextRoutes: ['Reason', 'SendQRSummary'] }
+          params: { to: address, nextRoutes: ['Reason', 'SendQRSummary'] },
         }
       }
 
       return {
         route: 'SendQRSummary',
-        params: { to: address, amount, reason: reason || 'From QR with Amount' }
+        params: { to: address, amount, reason: reason || 'From QR with Amount' },
       }
     default:
       throw new Error('Invalid screen specified.')

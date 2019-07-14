@@ -77,6 +77,7 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done }: any) =
   log.debug({ sessionId })
 
   useEffect(() => {
+    log.debug('subscriping to gun updates:', { sessionId })
     gun.get(sessionId).on(updateProgress, false)
     return () => {
       log.debug('Removing FR guided progress listener for sessionId ', sessionId)
@@ -216,7 +217,8 @@ const styles = StyleSheet.create({
     height: '100%',
     flex: 1,
     justifyContent: 'space-evenly',
-    paddingTop: 33
+    paddingTop: 33,
+    borderRadius: 5
   },
   mainTitle: {
     fontFamily: 'Roboto-Medium',

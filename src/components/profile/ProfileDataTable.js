@@ -81,12 +81,12 @@ const getStylesFromProps = ({ theme }) => {
     borderedTopStyle: {
       borderTopColor: theme.colors.gray50Percent,
       borderTopWidth: 1,
-      paddingTop: theme.paddings.mainContainerPadding
+      paddingTop: theme.paddings.mainContainerPadding,
     },
     phoneIcon: {
       position: 'absolute',
-      right: normalize(24)
-    }
+      right: normalize(24),
+    },
   }
 }
 

@@ -41,7 +41,7 @@ const mediumZIndex = 5
 const getStylesFromProps = ({ theme }) => {
   return {
     modalOverlay: {
-      alignSelf: 'flex-start',
+      alignSelf: 'center',
       backgroundColor: theme.modals.overlayBackgroundColor,
       flexGrow: 1,
       flexShrink: 0,
@@ -51,6 +51,7 @@ const getStylesFromProps = ({ theme }) => {
       paddingRight: theme.modals.overlayHorizontalPadding,
       paddingTop: theme.modals.overlayVerticalPadding,
       width: '100vw',
+      maxWidth: '475px',
     },
     modalCloseImageContainer: {
       position: 'relative',
@@ -107,7 +108,7 @@ const getStylesFromProps = ({ theme }) => {
       backgroundImage: `linear-gradient(45deg, transparent 75%, ${
         theme.modals.backgroundColor
       } 76%), linear-gradient(-45deg, transparent 75%, ${theme.modals.backgroundColor} 76%)`,
-      backgroundPosition: '0 0',
+      backgroundPositionX: '-6px 0',
       backgroundRepeat: 'repeat-x',
       backgroundSize: `${theme.modals.jaggedEdgeSize}px`,
       height: theme.modals.jaggedEdgeSize,

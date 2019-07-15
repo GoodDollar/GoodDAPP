@@ -20,7 +20,7 @@ const VIEWABILITY_CONFIG = {
   waitForInteraction: true,
 }
 
-const emptyFeed = { type: 'empty' }
+const emptyFeed = { type: 'empty', data: {} }
 
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList)
 const AnimatedSwipeableFlatList = Animated.createAnimatedComponent(SwipeableFlatList)

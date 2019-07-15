@@ -21,7 +21,7 @@ const ReceiveFrom = (props: AmountProps) => {
 
   return (
     <Wrapper>
-      <TopBar push={screenProps.push} hideBalance />
+      <TopBar push={screenProps.push} />
       <Section grow>
         <Section.Stack grow justifyContent="flex-start">
           <Section.Title>From Who?</Section.Title>

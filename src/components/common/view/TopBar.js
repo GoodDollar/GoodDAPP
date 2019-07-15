@@ -23,7 +23,7 @@ const TopBar = ({ hideBalance, push, children }) => {
 
   return (
     <Section style={styles.topBar}>
-      <Section.Row>
+      <Section.Row style={styles.row}>
         <Avatar source={avatar} onPress={push && (() => push('Profile'))} />
         {/*
          if children exist, it will be rendered
@@ -42,6 +42,9 @@ const styles = StyleSheet.create({
     paddingTop: normalize(10),
     paddingBottom: normalize(10),
     marginBottom: normalize(8),
+  },
+  row: {
+    alignItems: 'center',
   },
 })
 

@@ -12,7 +12,7 @@ export type AmountProps = {
   stlyes?: any,
 }
 
-const TITLE = 'Send G$'
+const TITLE = 'Receive G$'
 
 const SendReason = (props: AmountProps) => {
   const { screenProps } = props
@@ -22,7 +22,7 @@ const SendReason = (props: AmountProps) => {
 
   return (
     <Wrapper>
-      <TopBar push={screenProps.push} hideBalance />
+      <TopBar push={screenProps.push} />
       <Section grow>
         <Section.Stack grow justifyContent="flex-start">
           <Section.Title>What For?</Section.Title>

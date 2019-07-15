@@ -8,6 +8,7 @@ export const theme = {
     blue: '#006EA0',
     darkBlue: '#0C263D',
     darkGray: '#42454A',
+    gray80Percent: '#A3A3A3',
     gray50Percent: '#CBCBCB',
     placeholder: '#CBCBCB',
     green: '#00C3AE',

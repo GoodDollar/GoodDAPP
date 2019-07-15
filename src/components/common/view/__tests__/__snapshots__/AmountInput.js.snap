@@ -115,6 +115,7 @@ exports[`AmountInput matches snapshot 1`] = `
               "disabled": "rgba(0, 0, 0, 0.26)",
               "error": "#FA6C77",
               "gray50Percent": "#CBCBCB",
+              "gray80Percent": "#A3A3A3",
               "green": "#00C3AE",
               "lightGray": "#EEE",
               "notification": "#f50057",

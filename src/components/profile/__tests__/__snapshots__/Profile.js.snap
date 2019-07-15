@@ -531,11 +531,25 @@ exports[`Profile matches snapshot 1`] = `
                 className="css-view-1dbjc4n"
                 style={
                   Object {
+                    "WebkitAlignItems": "center",
+                    "WebkitBoxAlign": "center",
                     "WebkitBoxDirection": "normal",
+                    "WebkitBoxFlex": 1,
                     "WebkitBoxOrient": "vertical",
+                    "WebkitFlexBasis": "0%",
                     "WebkitFlexDirection": "column",
+                    "WebkitFlexGrow": 1,
+                    "WebkitFlexShrink": 1,
+                    "alignItems": "center",
+                    "flexBasis": "0%",
                     "flexDirection": "column",
+                    "flexGrow": 1,
+                    "flexShrink": 1,
+                    "msFlexAlign": "center",
                     "msFlexDirection": "column",
+                    "msFlexNegative": 1,
+                    "msFlexPositive": 1,
+                    "msFlexPreferredSize": "0%",
                   }
                 }
               >

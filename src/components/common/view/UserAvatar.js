@@ -76,6 +76,8 @@ const getStylesFromProps = ({ theme }) => ({
   },
   innerAvatar: {
     flexDirection: 'column',
+    alignItems: 'center',
+    flex: 1,
   },
   fullNameContainer: {
     paddingTop: theme.paddings.mainContainerPadding,

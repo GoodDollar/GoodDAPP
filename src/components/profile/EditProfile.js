@@ -98,7 +98,7 @@ const EditProfile = ({ screenProps, theme, styles }) => {
             color={theme.colors.darkBlue}
             contentStyle={styles.saveButtonContent}
           >
-            <Text color="surface" textTransform="uppercase" fontSize={8}>
+            <Text color="surface" textTransform="uppercase" fontSize={14}>
               Save
             </Text>
           </CustomButton>

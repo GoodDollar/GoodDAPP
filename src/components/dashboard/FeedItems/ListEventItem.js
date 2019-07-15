@@ -27,7 +27,7 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
       <Section.Stack alignItems="flex-start" style={styles.avatatBottom}>
         <Avatar.Image size={34} source={feed.data.endpoint.avatar} />
       </Section.Stack>
-      <Section.Stack grow={1} style={styles.mainSection}>
+      <Section.Stack grow style={styles.mainSection}>
         <Section.Row style={[styles.borderRow, { borderBottomColor: eventSettings.color }]}>
           <Section.Stack alignItems="flex-start">
             <Text style={styles.date}>{getFormattedDateTime(feed.date)}</Text>
@@ -41,7 +41,7 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
           </Section.Stack>
         </Section.Row>
         <Section.Row>
-          <Section.Stack alignItems="flex-start" grow={1}>
+          <Section.Stack alignItems="flex-start" grow>
             <Section.Row>
               <EventCounterParty feedItem={feed} />
             </Section.Row>
@@ -90,8 +90,7 @@ const getStylesFromProps = ({ theme }) => ({
   },
   rowDataSubText: {
     fontSize: normalize(10),
-    color: '#A3A3A3',
-    marginTop: normalize(4),
+    color: theme.colors.gray80Percent,
     textTransform: 'capitalize',
   },
 })

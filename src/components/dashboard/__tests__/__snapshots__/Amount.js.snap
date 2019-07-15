@@ -252,8 +252,8 @@ exports[`Amount matches snapshot 1`] = `
             "fontSize": "24px",
             "fontWeight": "500",
             "lineHeight": "22px",
-            "marginBottom": "1rem",
-            "marginTop": "16px",
+            "marginBottom": "8px",
+            "marginTop": "8px",
             "textAlign": "center",
             "textDecoration": "none",
             "textTransform": "uppercase",
@@ -296,131 +296,166 @@ exports[`Amount matches snapshot 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
-              "WebkitBoxDirection": "normal",
-              "WebkitBoxOrient": "vertical",
+              "WebkitBoxFlex": 1,
               "WebkitBoxPack": "justify",
-              "WebkitFlexDirection": "column",
+              "WebkitFlexBasis": "0%",
+              "WebkitFlexGrow": 1,
+              "WebkitFlexShrink": 1,
               "WebkitJustifyContent": "space-between",
-              "flexDirection": "column",
+              "display": "flex",
+              "flexBasis": "0%",
+              "flexGrow": 1,
+              "flexShrink": 1,
               "justifyContent": "space-between",
-              "msFlexDirection": "column",
+              "msFlexNegative": 1,
               "msFlexPack": "justify",
+              "msFlexPositive": 1,
+              "msFlexPreferredSize": "0%",
               "width": "100%",
             }
           }
         >
           <div
             className="css-view-1dbjc4n"
-            style={
-              Object {
-                "WebkitAlignContent": "center",
-                "WebkitBoxDirection": "normal",
-                "WebkitBoxOrient": "horizontal",
-                "WebkitBoxPack": "center",
-                "WebkitFlexDirection": "row",
-                "WebkitJustifyContent": "center",
-                "alignContent": "center",
-                "flexDirection": "row",
-                "justifyContent": "center",
-                "msFlexDirection": "row",
-                "msFlexLinePack": "center",
-                "msFlexPack": "center",
-              }
-            }
           >
-            <div
-              className="css-view-1dbjc4n"
+            <input
+              autoCapitalize="sentences"
+              autoComplete="on"
+              autoCorrect="on"
+              autoFocus={true}
+              className="css-textinput-1cwyjr8"
+              dir="auto"
+              disabled={false}
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
               onKeyDown={[Function]}
+              onKeyPress={[Function]}
               onKeyUp={[Function]}
               onResponderGrant={[Function]}
               onResponderMove={[Function]}
               onResponderRelease={[Function]}
               onResponderTerminate={[Function]}
               onResponderTerminationRequest={[Function]}
+              onSelect={[Function]}
               onStartShouldSetResponder={[Function]}
+              placeholder="0 G$"
+              readOnly={false}
+              spellCheck={true}
               style={
                 Object {
-                  "WebkitBoxFlex": 1,
-                  "WebkitFlexBasis": "0%",
-                  "WebkitFlexGrow": 1,
-                  "WebkitFlexShrink": 1,
+                  "borderBottomColor": "rgba(66,69,74,1.00)",
+                  "borderBottomStyle": "solid",
+                  "borderBottomWidth": "1px",
+                  "color": "rgba(66,69,74,1.00)",
                   "cursor": "pointer",
-                  "flexBasis": "0%",
-                  "flexGrow": 1,
-                  "flexShrink": 1,
-                  "msFlexNegative": 1,
-                  "msFlexPositive": 1,
-                  "msFlexPreferredSize": "0%",
+                  "fontFamily": "RobotoSlab-Regular",
+                  "fontSize": "36px",
+                  "fontWeight": "bold",
+                  "letterSpacing": "1.2px",
                   "msTouchAction": "manipulation",
+                  "paddingBottom": "4px",
+                  "paddingLeft": "4px",
+                  "paddingRight": "4px",
+                  "paddingTop": "4px",
+                  "textAlign": "center",
                   "touchAction": "manipulation",
                 }
               }
-            >
-              <div
-                className="css-text-901oao"
-                dir="auto"
-                style={
-                  Object {
-                    "WebkitBoxFlex": 1,
-                    "WebkitFlexGrow": 1,
-                    "WebkitFlexShrink": 1,
-                    "flexGrow": 1,
-                    "flexShrink": 1,
-                    "fontSize": "26px",
-                    "lineHeight": "40px",
-                    "msFlexNegative": 1,
-                    "msFlexPositive": 1,
-                    "textAlign": "right",
-                    "whiteSpace": "normal",
-                  }
+              styles={
+                Object {
+                  "input": Object {
+                    "borderBottomColor": "#42454A",
+                    "borderBottomStyle": "solid",
+                    "borderBottomWidth": 1,
+                    "color": "#42454A",
+                    "fontFamily": "RobotoSlab-Regular",
+                    "fontSize": 18,
+                    "padding": 4,
+                    "textAlign": "center",
+                  },
                 }
-              >
-                <input
-                  autoCapitalize="sentences"
-                  autoComplete="on"
-                  autoCorrect="on"
-                  autoFocus={true}
-                  className="css-textinput-1cwyjr8"
-                  data-focusable={true}
-                  dir="auto"
-                  disabled={false}
-                  onBlur={[Function]}
-                  onChange={[Function]}
-                  onFocus={[Function]}
-                  onKeyDown={[Function]}
-                  onKeyPress={[Function]}
-                  onSelect={[Function]}
-                  placeholder="0 G$"
-                  readOnly={false}
-                  spellCheck={true}
-                  style={
-                    Object {
-                      "backgroundColor": "rgba(0,0,0,0.00)",
-                      "borderBottomColor": "rgba(66,69,74,1.00)",
-                      "borderBottomWidth": "1px",
-                      "fontFamily": "RobotoSlab-Bold",
-                      "fontSize": "18px",
-                      "height": "40px",
-                      "letterSpacing": "1.2px",
-                      "textAlign": "center",
-                      "width": "100%",
-                    }
-                  }
-                  type="text"
-                  value=""
-                />
-              </div>
-            </div>
+              }
+              tabIndex="-1"
+              theme={
+                Object {
+                  "colors": Object {
+                    "accent": "#03dac4",
+                    "backdrop": "rgba(0, 0, 0, 0.5)",
+                    "background": "#f6f6f6",
+                    "blue": "#006EA0",
+                    "darkBlue": "#0C263D",
+                    "darkGray": "#42454A",
+                    "disabled": "rgba(0, 0, 0, 0.26)",
+                    "error": "#FA6C77",
+                    "gray50Percent": "#CBCBCB",
+                    "green": "#00C3AE",
+                    "lightGray": "#EEE",
+                    "notification": "#f50057",
+                    "orange": "#F8AF40",
+                    "placeholder": "#CBCBCB",
+                    "primary": "#00AFFF",
+                    "purple": "#9F6A9D",
+                    "red": "#FA6C77",
+                    "surface": "#ffffff",
+                    "text": "#222",
+                  },
+                  "dark": false,
+                  "fontStyle": Object {
+                    "color": "#555",
+                    "fontSize": 18,
+                    "textAlign": "center",
+                  },
+                  "fonts": Object {
+                    "bold": "Roboto-Bold",
+                    "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                    "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                    "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                    "slab": "RobotoSlab-Regular",
+                    "slabBold": "RobotoSlab-Bold",
+                    "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                  },
+                  "paddings": Object {
+                    "defaultMargin": 8,
+                    "mainContainerPadding": 8,
+                  },
+                  "roundness": 4,
+                  "sizes": Object {
+                    "default": 8,
+                    "defaultDouble": 16,
+                    "defaultHalf": 4,
+                  },
+                }
+              }
+              type="text"
+              value=""
+            />
+            <div
+              className="css-text-901oao"
+              dir="auto"
+              style={
+                Object {
+                  "color": "rgba(250,108,119,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto",
+                  "fontSize": "16px",
+                  "fontWeight": "normal",
+                  "lineHeight": "22px",
+                  "marginTop": "8px",
+                  "textAlign": "center",
+                  "textDecoration": "none",
+                  "textTransform": "none",
+                }
+              }
+            />
           </div>
           <div
             className="css-view-1dbjc4n"
             style={
               Object {
                 "display": "flex",
-                "paddingBottom": "10px",
-                "paddingLeft": "10px",
-                "paddingRight": "10px",
-                "paddingTop": "10px",
+                "marginBottom": "8px",
+                "marginTop": "16px",
               }
             }
           >
@@ -479,10 +514,10 @@ exports[`Amount matches snapshot 1`] = `
                     "msFlexPreferredSize": "0%",
                     "msTouchAction": "manipulation",
                     "msUserSelect": "none",
-                    "paddingBottom": "15px",
-                    "paddingLeft": "15px",
-                    "paddingRight": "15px",
-                    "paddingTop": "15px",
+                    "paddingBottom": "20px",
+                    "paddingLeft": "20px",
+                    "paddingRight": "20px",
+                    "paddingTop": "20px",
                     "touchAction": "manipulation",
                     "userSelect": "none",
                   }
@@ -543,10 +578,10 @@ exports[`Amount matches snapshot 1`] = `
                     "msFlexPreferredSize": "0%",
                     "msTouchAction": "manipulation",
                     "msUserSelect": "none",
-                    "paddingBottom": "15px",
-                    "paddingLeft": "15px",
-                    "paddingRight": "15px",
-                    "paddingTop": "15px",
+                    "paddingBottom": "20px",
+                    "paddingLeft": "20px",
+                    "paddingRight": "20px",
+                    "paddingTop": "20px",
                     "touchAction": "manipulation",
                     "userSelect": "none",
                   }
@@ -607,10 +642,10 @@ exports[`Amount matches snapshot 1`] = `
                     "msFlexPreferredSize": "0%",
                     "msTouchAction": "manipulation",
                     "msUserSelect": "none",
-                    "paddingBottom": "15px",
-                    "paddingLeft": "15px",
-                    "paddingRight": "15px",
-                    "paddingTop": "15px",
+                    "paddingBottom": "20px",
+                    "paddingLeft": "20px",
+                    "paddingRight": "20px",
+                    "paddingTop": "20px",
                     "touchAction": "manipulation",
                     "userSelect": "none",
                   }
@@ -693,10 +728,10 @@ exports[`Amount matches snapshot 1`] = `
                     "msFlexPreferredSize": "0%",
                     "msTouchAction": "manipulation",
                     "msUserSelect": "none",
-                    "paddingBottom": "15px",
-                    "paddingLeft": "15px",
-                    "paddingRight": "15px",
-                    "paddingTop": "15px",
+                    "paddingBottom": "20px",
+                    "paddingLeft": "20px",
+                    "paddingRight": "20px",
+                    "paddingTop": "20px",
                     "touchAction": "manipulation",
                     "userSelect": "none",
                   }
@@ -757,10 +792,10 @@ exports[`Amount matches snapshot 1`] = `
                     "msFlexPreferredSize": "0%",
                     "msTouchAction": "manipulation",
                     "msUserSelect": "none",
-                    "paddingBottom": "15px",
-                    "paddingLeft": "15px",
-                    "paddingRight": "15px",
-                    "paddingTop": "15px",
+                    "paddingBottom": "20px",
+                    "paddingLeft": "20px",
+                    "paddingRight": "20px",
+                    "paddingTop": "20px",
                     "touchAction": "manipulation",
                     "userSelect": "none",
                   }
@@ -821,10 +856,10 @@ exports[`Amount matches snapshot 1`] = `
                     "msFlexPreferredSize": "0%",
                     "msTouchAction": "manipulation",
                     "msUserSelect": "none",
-                    "paddingBottom": "15px",
-                    "paddingLeft": "15px",
-                    "paddingRight": "15px",
-                    "paddingTop": "15px",
+                    "paddingBottom": "20px",
+                    "paddingLeft": "20px",
+                    "paddingRight": "20px",
+                    "paddingTop": "20px",
                     "touchAction": "manipulation",
                     "userSelect": "none",
                   }
@@ -907,10 +942,10 @@ exports[`Amount matches snapshot 1`] = `
                     "msFlexPreferredSize": "0%",
                     "msTouchAction": "manipulation",
                     "msUserSelect": "none",
-                    "paddingBottom": "15px",
-                    "paddingLeft": "15px",
-                    "paddingRight": "15px",
-                    "paddingTop": "15px",
+                    "paddingBottom": "20px",
+                    "paddingLeft": "20px",
+                    "paddingRight": "20px",
+                    "paddingTop": "20px",
                     "touchAction": "manipulation",
                     "userSelect": "none",
                   }
@@ -971,10 +1006,10 @@ exports[`Amount matches snapshot 1`] = `
                     "msFlexPreferredSize": "0%",
                     "msTouchAction": "manipulation",
                     "msUserSelect": "none",
-                    "paddingBottom": "15px",
-                    "paddingLeft": "15px",
-                    "paddingRight": "15px",
-                    "paddingTop": "15px",
+                    "paddingBottom": "20px",
+                    "paddingLeft": "20px",
+                    "paddingRight": "20px",
+                    "paddingTop": "20px",
                     "touchAction": "manipulation",
                     "userSelect": "none",
                   }
@@ -1035,10 +1070,10 @@ exports[`Amount matches snapshot 1`] = `
                     "msFlexPreferredSize": "0%",
                     "msTouchAction": "manipulation",
                     "msUserSelect": "none",
-                    "paddingBottom": "15px",
-                    "paddingLeft": "15px",
-                    "paddingRight": "15px",
-                    "paddingTop": "15px",
+                    "paddingBottom": "20px",
+                    "paddingLeft": "20px",
+                    "paddingRight": "20px",
+                    "paddingTop": "20px",
                     "touchAction": "manipulation",
                     "userSelect": "none",
                   }
@@ -1121,10 +1156,10 @@ exports[`Amount matches snapshot 1`] = `
                     "msFlexPreferredSize": "0%",
                     "msTouchAction": "manipulation",
                     "msUserSelect": "none",
-                    "paddingBottom": "15px",
-                    "paddingLeft": "15px",
-                    "paddingRight": "15px",
-                    "paddingTop": "15px",
+                    "paddingBottom": "20px",
+                    "paddingLeft": "20px",
+                    "paddingRight": "20px",
+                    "paddingTop": "20px",
                     "touchAction": "manipulation",
                     "userSelect": "none",
                   }
@@ -1185,10 +1220,10 @@ exports[`Amount matches snapshot 1`] = `
                     "msFlexPreferredSize": "0%",
                     "msTouchAction": "manipulation",
                     "msUserSelect": "none",
-                    "paddingBottom": "15px",
-                    "paddingLeft": "15px",
-                    "paddingRight": "15px",
-                    "paddingTop": "15px",
+                    "paddingBottom": "20px",
+                    "paddingLeft": "20px",
+                    "paddingRight": "20px",
+                    "paddingTop": "20px",
                     "touchAction": "manipulation",
                     "userSelect": "none",
                   }
@@ -1249,10 +1284,10 @@ exports[`Amount matches snapshot 1`] = `
                     "msFlexPreferredSize": "0%",
                     "msTouchAction": "manipulation",
                     "msUserSelect": "none",
-                    "paddingBottom": "15px",
-                    "paddingLeft": "15px",
-                    "paddingRight": "15px",
-                    "paddingTop": "15px",
+                    "paddingBottom": "20px",
+                    "paddingLeft": "20px",
+                    "paddingRight": "20px",
+                    "paddingTop": "20px",
                     "touchAction": "manipulation",
                     "userSelect": "none",
                   }
@@ -1267,8 +1302,8 @@ exports[`Amount matches snapshot 1`] = `
                       "backgroundRepeat": "no-repeat",
                       "backgroundSize": "contain",
                       "cursor": "pointer",
-                      "height": "25px",
-                      "width": "25px",
+                      "height": "30px",
+                      "width": "40px",
                     }
                   }
                 />

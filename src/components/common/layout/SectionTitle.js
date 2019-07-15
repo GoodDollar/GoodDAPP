@@ -20,8 +20,8 @@ const getStylesFromProps = ({ theme }) => {
       fontSize: normalize(24),
       fontWeight: '500',
       textTransform: 'uppercase',
-      marginBottom: normalize(16),
-      marginTop: normalize(16),
+      marginBottom: normalize(8),
+      marginTop: normalize(8),
     },
   }
 }

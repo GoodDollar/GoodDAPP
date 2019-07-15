@@ -288,7 +288,7 @@ exports[`SendConfirmation matches snapshot 1`] = `
                       "darkBlue": "#0C263D",
                       "darkGray": "#42454A",
                       "disabled": "rgba(0, 0, 0, 0.26)",
-                      "error": "#B00020",
+                      "error": "#FA6C77",
                       "gray50Percent": "#CBCBCB",
                       "green": "#00C3AE",
                       "lightGray": "#EEE",

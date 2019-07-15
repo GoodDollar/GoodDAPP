@@ -4,18 +4,18 @@ import { StyleSheet, TextInput } from 'react-native'
 import { withStyles } from '../../../lib/styles'
 
 const InputText = (props: any) => {
-  return <TextInput style={props.styles.input} {...props} />
+  return <TextInput {...props} style={[props.styles.input, props.style]} />
 }
 
 const getStylesFromProps = ({ theme }) => {
   return {
     input: {
       ...theme.fontStyle,
-      fontStyle: theme.fonts.slab,
+      fontFamily: theme.fonts.slab,
       color: theme.colors.darkGray,
       borderBottomStyle: 'solid',
       borderBottomWidth: StyleSheet.hairlineWidth,
-      padding: theme.sizes.default,
+      padding: theme.sizes.defaultHalf,
       borderBottomColor: theme.colors.darkGray,
     },
   }

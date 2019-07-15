@@ -114,8 +114,9 @@ const styles = StyleSheet.create({
   }
 })
 
+const FRErrorWithStore = SimpleStore.withStore(FRError)
 FRError.navigationOptions = {
-  title: 'Face Matching',
+  title: 'Ooops...',
   navigationBarHidden: false
 }
-export default SimpleStore.withStore(FRError)
+export default FRErrorWithStore

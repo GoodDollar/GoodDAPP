@@ -36,8 +36,8 @@ const ModalWrapper = (props: any) => {
   )
 }
 
-const lowZIndex = '1'
-const mediumZIndex = '5'
+const lowZIndex = 1
+const mediumZIndex = 5
 const getStylesFromProps = ({ theme }) => {
   return {
     modalOverlay: {

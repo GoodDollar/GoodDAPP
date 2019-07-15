@@ -27,16 +27,20 @@ exports[`SideMenuItem matches snapshot 1`] = `
       "WebkitTransitionProperty": "opacity",
       "WebkitUserSelect": "none",
       "alignItems": "center",
+      "borderBottomStyle": "solid",
+      "borderBottomWidth": "1px",
       "cursor": "pointer",
       "flexDirection": "row",
       "justifyContent": "flex-start",
-      "marginBottom": "20px",
-      "marginTop": "20px",
       "msFlexAlign": "center",
       "msFlexDirection": "row",
       "msFlexPack": "start",
       "msTouchAction": "manipulation",
       "msUserSelect": "none",
+      "paddingBottom": "16px",
+      "paddingLeft": "0px",
+      "paddingRight": "16px",
+      "paddingTop": "16px",
       "touchAction": "manipulation",
       "transitionDuration": "0.15s",
       "transitionProperty": "opacity",
@@ -49,43 +53,25 @@ exports[`SideMenuItem matches snapshot 1`] = `
     className="css-view-1dbjc4n"
     style={
       Object {
-        "marginLeft": "20px",
+        "marginLeft": "8px",
         "marginRight": "20px",
       }
     }
   >
     <div
-      className="css-view-1dbjc4n"
+      className="css-text-901oao"
+      dir="auto"
       style={
         Object {
-          "WebkitAlignItems": "center",
-          "WebkitBoxAlign": "center",
-          "WebkitBoxPack": "center",
-          "WebkitJustifyContent": "center",
-          "alignItems": "center",
-          "backgroundColor": "rgba(0,0,0,0.00)",
-          "justifyContent": "center",
-          "msFlexAlign": "center",
-          "msFlexPack": "center",
+          "color": "rgba(98,0,238,1.00)",
+          "fontFamily": "gooddollar",
+          "fontSize": "24px",
+          "fontStyle": "normal",
+          "fontWeight": "normal",
         }
       }
     >
-      <div
-        className="css-text-901oao"
-        dir="auto"
-        style={
-          Object {
-            "backgroundColor": "rgba(0,0,0,0.00)",
-            "color": "rgba(0,0,0,1.00)",
-            "fontFamily": "MaterialIcons",
-            "fontSize": "20px",
-            "fontStyle": "normal",
-            "fontWeight": "normal",
-          }
-        }
-      >
-        
-      </div>
+      ?
     </div>
   </div>
   <div
@@ -93,13 +79,12 @@ exports[`SideMenuItem matches snapshot 1`] = `
     dir="auto"
     style={
       Object {
-        "color": "rgba(0,0,0,1.00)",
         "direction": "ltr",
-        "fontFamily": "Roboto",
-        "fontSize": "15px",
-        "fontWeight": "bold",
+        "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+        "fontSize": "16px",
+        "fontWeight": "normal",
         "lineHeight": "22px",
-        "textAlign": "center",
+        "textAlign": "left",
         "textDecoration": "none",
         "textTransform": "none",
       }

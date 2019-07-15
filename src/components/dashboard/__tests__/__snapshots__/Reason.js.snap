@@ -362,6 +362,7 @@ exports[`Reason matches snapshot 1`] = `
                 "darkGray": "#42454A",
                 "disabled": "rgba(0, 0, 0, 0.26)",
                 "error": "#FA6C77",
+                "gray": "#555",
                 "gray50Percent": "#CBCBCB",
                 "green": "#00C3AE",
                 "lightGray": "#EEE",

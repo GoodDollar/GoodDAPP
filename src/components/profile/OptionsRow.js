@@ -2,6 +2,7 @@
 import startCase from 'lodash/startCase'
 import React from 'react'
 import { View } from 'react-native'
+import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { RadioButton } from 'react-native-paper'
 import { withStyles } from '../../lib/styles'
 import { Text } from '../common'
@@ -11,17 +12,27 @@ const privacyOptions = ['private', 'masked', 'public']
 
 /**
  * OptionsRow component
- * @param title
+ * @param {object} props
+ * @param {string} props.title
+ * @param {object} props.styles
  * @returns {React.Node}
  * @constructor
  */
-const OptionsRow = ({ title = '', styles }) => (
+const OptionsRow = ({ title = '', styles, theme }) => (
   <View style={styles.optionsRowContainer}>
-    <Text style={styles.growTwo}>{title}</Text>
+    <Text style={styles.growTwo} textAlign="left" color={theme.colors.gray} fontFamily="medium">
+      {title}
+    </Text>
 
     {privacyOptions.map(privacy => (
       <View style={styles.optionsRowTitle} key={privacy}>
-        {title === '' ? <Text>{startCase(privacy)}</Text> : <RadioButton value={privacy} />}
+        {title === '' ? (
+          <Text size={14} color={theme.colors.gray}>
+            {startCase(privacy)}
+          </Text>
+        ) : (
+          <RadioButton value={privacy} uncheckedColor={theme.colors.gray} color={theme.colors.primary} />
+        )}
       </View>
     ))}
   </View>
@@ -33,16 +44,17 @@ const getStylesFromProps = ({ theme }) => {
       display: 'flex',
       flexDirection: 'row',
       alignItems: 'center',
-      borderBottomColor: theme.colors.lightGray,
       borderBottomStyle: 'solid',
-      borderBottomWidth: 1,
-      padding: '10px',
+      borderBottomColor: theme.colors.lightGray,
+      borderBottomWidth: normalize(1), // not using StyleSheet.hairlineWidth as it's not being visible
+      padding: theme.paddings.mainContainerPadding,
     },
     growTwo: {
       flexGrow: 2,
     },
     optionsRowTitle: {
       width: '15%',
+      minWidth: normalize(60),
       alignItems: 'center',
     },
   }

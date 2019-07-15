@@ -160,7 +160,7 @@ export const getResponsiveVideoDimensions = () => {
 
   //our max width is 475 and we have (10+5)*2 padding
   const containerWidth = Math.min(475, width) - 30
-  const containerHeight = containerWidth * 0.666 * 1.777778
+  const containerHeight = height * 0.666
   if (height > containerWidth) {
     return {
       width: 'auto',

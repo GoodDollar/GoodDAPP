@@ -37,8 +37,8 @@ const getStylesFromProps = ({ theme }) => {
       width: normalize(90),
     },
     errorIcon: {
-      height: normalize(49),
-      width: normalize(36),
+      height: normalize(23),
+      width: normalize(23),
     },
   }
 }

@@ -132,7 +132,7 @@ class ZoomCapture extends React.Component<ZoomCaptureProps> {
     log.debug('camera ready')
     this.videoTrack = track
     try {
-      log.debug('zoom performs capture..')
+      log.debug('zoom initializes capture..')
       let zoomSDK = this.props.loadedZoom
       this.zoom = new Zoom(zoomSDK, track)
       await this.zoom.ready

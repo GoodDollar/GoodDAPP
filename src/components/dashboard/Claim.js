@@ -15,7 +15,6 @@ import { CustomButton, Section, Text, TopBar, Wrapper } from '../common'
 import type { DashboardProps } from './Dashboard'
 
 type ClaimProps = DashboardProps
-
 type ClaimState = {
   nextClaim: string,
   entitlement: number,
@@ -95,6 +94,15 @@ const Claim = ({ screenProps }: ClaimProps) => {
     return () => clearInterval(claimInterval)
   }, [])
 
+  useEffect(() => {
+    showDialog({
+      title: `YOUR G$\nIS ON IT'S WAY...`,
+      message: 'please wait while processing...',
+      loading,
+      dismissText: 'OK',
+    })
+  }, [])
+
   const handleClaim = async () => {
     setLoading(true)
 
@@ -130,7 +138,7 @@ const Claim = ({ screenProps }: ClaimProps) => {
         })
       } else {
         showDialog({
-          title: 'Caliming Failed',
+          title: 'Claiming Failed',
           message: 'Something went wrong with the transaction.\nSee feed details for further information.',
           dismissText: 'OK',
         })
@@ -158,13 +166,13 @@ const Claim = ({ screenProps }: ClaimProps) => {
 
   const ClaimButton = (
     <CustomButton
-      disabled={entitlement <= 0}
-      mode="contained"
       compact={true}
+      disabled={entitlement <= 0}
+      loading={loading}
+      mode="contained"
       onPress={() => {
         isCitizen ? handleClaim() : faceRecognition()
       }}
-      loading={loading}
     >
       {`CLAIM YOUR SHARE - ${weiToMask(entitlement, { showUnits: true })}`}
     </CustomButton>

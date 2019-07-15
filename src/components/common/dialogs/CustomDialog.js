@@ -29,13 +29,13 @@ export type DialogProps = {
  */
 const CustomDialog = ({
   children = null,
-  visible,
-  title,
-  message = null,
   dismissText,
-  onDismiss,
-  onCancel = null,
   loading = false,
+  message = null,
+  onCancel = null,
+  onDismiss,
+  title,
+  visible,
 }: DialogProps) => (
   <Portal>
     <Dialog visible={visible} onDismiss={onCancel || onDismiss} dismissable={true}>

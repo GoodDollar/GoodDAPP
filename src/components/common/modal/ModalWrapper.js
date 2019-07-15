@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { Image, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { Image, ScrollView, TouchableOpacity, View } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { withStyles } from '../../../lib/styles'
 import wavePattern from '../../../assets/wave.svg'
@@ -114,71 +114,6 @@ const getStylesFromProps = ({ theme }) => {
       position: 'relative',
       width: '100%',
       zIndex: mediumZIndex,
-    },
-    dateText: {
-      color: '#A3A3A3',
-      fontSize: normalize(10),
-      fontWeight: '500',
-    },
-    bottomDate: {
-      marginTop: normalize(5),
-    },
-    buttonsRow: {
-      alignItems: 'flex-end',
-      flex: 1,
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-    },
-    rightButton: {
-      marginLeft: 'auto',
-      minWidth: normalize(80),
-    },
-    row: {
-      alignItems: 'center',
-      backgroundColor: 'white',
-      flexDirection: 'row',
-      paddingHorizontal: 0,
-    },
-    title: {
-      justifyContent: 'flex-end',
-      paddingTop: '2em',
-    },
-    leftMargin: {
-      marginLeft: normalize(10),
-    },
-    leftTitle: {
-      color: '#555',
-      flex: 1,
-      fontSize: normalize(20),
-      fontWeight: '700',
-    },
-    rightTitle: {
-      fontSize: normalize(16),
-      color: '#000',
-      fontWeight: '700',
-      textAlign: 'right',
-    },
-    hrLine: {
-      borderBottomColor: '#c9c8c9',
-      borderBottomWidth: StyleSheet.hairlineWidth,
-      width: '100%',
-      marginBottom: normalize(10),
-      marginTop: normalize(10),
-    },
-    currency: {
-      fontSize: normalize(16),
-      color: 'black',
-      fontWeight: '700',
-    },
-    reason: {
-      color: 'rgba(0, 0, 0, 0.54)',
-      fontSize: normalize(16),
-      fontWeight: '500',
-      textTransform: 'capitalize',
-    },
-    avatarColor: {
-      backgroundColor: '#BBB',
-      borderRadius: '50%',
     },
   }
 }

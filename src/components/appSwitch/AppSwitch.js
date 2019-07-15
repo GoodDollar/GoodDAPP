@@ -149,7 +149,7 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
           }}
         />
         <LoadingIndicator force={!this.ready} />
-        <SceneView navigation={descriptor.navigation} component={descriptor.getComponent()} />
+        {this.ready ? <SceneView navigation={descriptor.navigation} component={descriptor.getComponent()} /> : null}
       </React.Fragment>
     )
   }

@@ -32,19 +32,11 @@ exports[`Avatar matches snapshot 1`] = `
     className="css-view-1dbjc4n"
     style={
       Object {
-        "backgroundColor": "rgba(255,255,255,1.00)",
-        "borderBottomColor": "rgba(112,112,112,1.00)",
+        "backgroundColor": "rgba(238,238,238,1.00)",
         "borderBottomLeftRadius": "17px",
         "borderBottomRightRadius": "17px",
-        "borderBottomWidth": "1px",
-        "borderLeftColor": "rgba(112,112,112,1.00)",
-        "borderLeftWidth": "1px",
-        "borderRightColor": "rgba(112,112,112,1.00)",
-        "borderRightWidth": "1px",
-        "borderTopColor": "rgba(112,112,112,1.00)",
         "borderTopLeftRadius": "17px",
         "borderTopRightRadius": "17px",
-        "borderTopWidth": "1px",
         "height": "36px",
         "width": "36px",
       }

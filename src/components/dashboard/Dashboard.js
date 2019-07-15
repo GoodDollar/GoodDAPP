@@ -84,18 +84,6 @@ const Dashboard = props => {
     setState({
       currentFeedProps: {
         item,
-        styles: {
-          flex: 1,
-          alignSelf: 'flex-start',
-          height: '100vh',
-          position: 'absolute',
-          width: '100%',
-          paddingTop: normalize(30),
-          paddingBottom: normalize(30),
-          paddingLeft: normalize(10),
-          paddingRight: normalize(10),
-          backgroundColor: 'rgba(0, 0, 0, 0.7)',
-        },
         onPress: closeFeedEvent,
       },
     })
@@ -168,7 +156,11 @@ const Dashboard = props => {
                 <Section.Title>{fullName || ' '}</Section.Title>
               </Section.Row>
               <Section.Row justifyContent="center" alignItems="baseline">
-                <BigGoodDollar number={balance} />
+                <BigGoodDollar
+                  bigNumberStyles={styles.bigNumberStyles}
+                  bigNumberUnitStyles={styles.bigNumberUnitStyles}
+                  number={balance}
+                />
               </Section.Row>
             </>
           ) : (
@@ -177,7 +169,11 @@ const Dashboard = props => {
                 <Avatar size={42} source={avatar} onPress={() => screenProps.push('Profile')} />
               </Section.Stack>
               <Section.Stack alignItems="flex-end">
-                <BigGoodDollar number={balance} />
+                <BigGoodDollar
+                  bigNumberStyles={styles.bigNumberStyles}
+                  bigNumberUnitStyles={styles.bigNumberUnitStyles}
+                  number={balance}
+                />
               </Section.Stack>
             </Section.Row>
           )}
@@ -250,6 +246,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 8,
     height: '256px',
+  },
+  bigNumberStyles: {
+    fontFamily: 'RobotoSlab-Bold',
+    fontSize: normalize(36),
+    marginRight: normalize(4),
+  },
+  bigNumberUnitStyles: {
+    fontFamily: 'RobotoSlab-Bold',
+    fontSize: normalize(18),
   },
 })
 

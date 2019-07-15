@@ -1,12 +1,13 @@
 // @flow
 import React from 'react'
-import { ScrollView, StyleSheet, TouchableOpacity } from 'react-native'
+import { ScrollView, TouchableOpacity, View } from 'react-native'
 import { Icon, normalize } from 'react-native-elements'
-import { useSidemenu } from '../../lib/undux/utils/sidemenu'
 import { useWrappedApi } from '../../lib/API/useWrappedApi'
-import { useDialog } from '../../lib/undux/utils/dialog'
 import logger from '../../lib/logger/pino-logger'
+import { withStyles } from '../../lib/styles'
 import SimpleStore from '../../lib/undux/SimpleStore'
+import { useDialog } from '../../lib/undux/utils/dialog'
+import { useSidemenu } from '../../lib/undux/utils/sidemenu'
 import SideMenuItem from './SideMenuItem'
 
 type SideMenuPanelProps = {
@@ -16,7 +17,7 @@ type SideMenuPanelProps = {
 const log = logger.child({ from: 'SideMenuPanel' })
 const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation, store }) => [
   {
-    icon: 'person',
+    icon: 'profile',
     name: 'Your profile',
     action: () => {
       navigation.navigate({
@@ -38,7 +39,7 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation, s
     },
   },
   {
-    icon: 'person-add',
+    icon: 'privacy',
     name: 'Profile Privacy',
     action: () => {
       navigation.navigate({
@@ -49,7 +50,7 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation, s
     },
   },
   {
-    icon: 'person-pin',
+    icon: 'faq',
     name: 'Privacy Policy',
     action: () => {
       navigation.navigate('PP')
@@ -57,7 +58,7 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation, s
     },
   },
   {
-    icon: 'announcement',
+    icon: 'notifications',
     name: 'Terms of Use',
     action: () => {
       navigation.navigate('TOU')
@@ -74,7 +75,7 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation, s
   //   name: 'Send Feedback'
   // },
   {
-    icon: 'comment',
+    icon: 'feedback',
     name: 'Support',
     action: () => {
       navigation.navigate('Support')
@@ -87,7 +88,7 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation, s
   //   name: 'About'
   // },
   {
-    icon: 'delete',
+    icon: 'trash',
     name: 'Delete Account',
     action: () => {
       showDialog({
@@ -111,7 +112,7 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation, s
   },
 ]
 
-const SideMenuPanel = ({ navigation }: SideMenuPanelProps) => {
+const SideMenuPanel = ({ navigation, styles, theme }: SideMenuPanelProps) => {
   const API = useWrappedApi()
   const store = SimpleStore.useStore()
 
@@ -121,25 +122,33 @@ const SideMenuPanel = ({ navigation }: SideMenuPanelProps) => {
   return (
     <ScrollView>
       <TouchableOpacity style={styles.closeIconRow} onPress={toggleSidemenu}>
-        <Icon name="close" />
+        <Icon name="close" size={20} color={theme.colors.gray50Percent} />
       </TouchableOpacity>
-      {MENU_ITEMS.map(item => (
-        <SideMenuItem key={item.name} {...item} />
-      ))}
+      <View style={styles.listContainer}>
+        {MENU_ITEMS.map(item => (
+          <SideMenuItem key={item.name} {...item} />
+        ))}
+      </View>
     </ScrollView>
   )
 }
 
-const styles = StyleSheet.create({
+const sideMenuPanelStyles = ({ theme }) => ({
   closeIconRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'flex-start',
-    marginVertical: normalize(20),
-    marginLeft: 'auto',
-    marginRight: normalize(20),
+    justifyContent: 'flex-end',
+    paddingTop: normalize(18),
+    paddingBottom: normalize(32),
+    marginHorizontal: normalize(16),
     cursor: 'pointer',
+  },
+  listContainer: {
+    borderTopWidth: normalize(1),
+    borderTopColor: theme.colors.lightGray,
+    borderTopStyle: 'solid',
+    marginHorizontal: normalize(16),
   },
 })
 
-export default SideMenuPanel
+export default withStyles(sideMenuPanelStyles)(SideMenuPanel)

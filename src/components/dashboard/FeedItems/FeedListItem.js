@@ -19,12 +19,11 @@ const FeedListItem = props => {
   }
   return (
     <TouchableHighlight
+      activeOpacity={0.5}
       onPress={() => onPress(item.id)}
-      tvParallaxProperties={{
-        pressMagnification: 1.1,
-      }}
       style={styles.row}
-      activeOpacity={0.1}
+      tvParallaxProperties={{ pressMagnification: 1.1 }}
+      underlayColor={theme.colors.lightGray}
     >
       <View style={styles.rowContent}>
         <View style={[styles.rowContentBorder, imageStyle]} />
@@ -36,38 +35,38 @@ const FeedListItem = props => {
 
 const getStylesFromProps = ({ theme }) => ({
   row: {
+    borderRadius: theme.feedItems.borderRadius,
     flexDirection: 'row',
-    marginBottom: normalize(4),
-    backgroundColor: theme.colors.surface,
-    borderRadius: normalize(8),
+    marginBottom: normalize(6),
     overflow: 'hidden',
     shadowColor: theme.colors.text,
     shadowOffset: {
       width: 0,
       height: normalize(2),
     },
+    elevation: 1,
+    minHeight: theme.feedItems.height,
+    maxHeight: theme.feedItems.height,
     shadowOpacity: 0.16,
     shadowRadius: normalize(4),
-    elevation: 1,
-    height: normalize(84),
-    maxHeight: normalize(84),
   },
   rowContent: {
-    justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: theme.feedItems.itemBackgroundColor,
     flex: 1,
+    justifyContent: 'center',
     paddingLeft: theme.paddings.mainContainerPadding,
     paddingRight: normalize(4),
   },
   rowContentBorder: {
     backgroundRepeat: 'no-repeat',
+    backgroundSize: 'initial',
     height: '100%',
     left: 0,
     position: 'absolute',
     right: 0,
     top: 0,
     width: normalize(8),
-    backgroundSize: 'initial',
   },
 })
 

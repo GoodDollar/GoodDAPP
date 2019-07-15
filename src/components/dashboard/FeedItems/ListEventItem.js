@@ -24,30 +24,25 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
   }
   return (
     <Section.Row style={styles.innerRow}>
-      <Section.Stack alignItems="flex-start" style={styles.avatatBottom}>
+      <Section.Stack alignItems="flex-start" style={styles.avatarBottom}>
         <Avatar.Image size={34} source={feed.data.endpoint.avatar} />
       </Section.Stack>
       <Section.Stack grow={1} style={styles.mainSection}>
         <Section.Row style={[styles.borderRow, { borderBottomColor: eventSettings.color }]}>
-          <Section.Stack alignItems="flex-start">
-            <Text style={styles.date}>{getFormattedDateTime(feed.date)}</Text>
-          </Section.Stack>
-          <Section.Stack alignItems="flex-end">
-            <BigGoodDollar
-              number={feed.data.amount}
-              color={eventSettings.color}
-              elementStyles={styles.goodDollarAmount}
-            />
-          </Section.Stack>
+          <Text style={styles.date}>{getFormattedDateTime(feed.date)}</Text>
+          <BigGoodDollar
+            color={eventSettings.color}
+            bigNumberStyles={styles.bigNumberStyles}
+            bigNumberUnitStyles={styles.bigNumberUnitStyles}
+            number={feed.data.amount}
+          />
         </Section.Row>
-        <Section.Row>
-          <Section.Stack alignItems="flex-start" grow={1}>
-            <Section.Row>
-              <EventCounterParty feedItem={feed} />
-            </Section.Row>
-            <Section.Row>
-              <Text style={styles.rowDataSubText}>{feed.data.message}</Text>
-            </Section.Row>
+        <Section.Row style={styles.bottomInfo}>
+          <Section.Stack style={styles.mainInfo}>
+            <EventCounterParty style={styles.feedItem} feedItem={feed} />
+            <Text numberOfLines={1} style={styles.message}>
+              {feed.data.message}
+            </Text>
           </Section.Stack>
           <Section.Stack alignItems="flex-end">
             <EventIcon type={feed.type} />
@@ -60,38 +55,62 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
 
 const getStylesFromProps = ({ theme }) => ({
   innerRow: {
-    padding: normalize(4),
+    alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center',
+    padding: normalize(8),
     width: '100%',
   },
-  avatatBottom: {
+  avatarBottom: {
     alignSelf: 'flex-end',
   },
   mainSection: {
-    marginLeft: normalize(4),
+    marginLeft: normalize(8),
   },
   borderRow: {
+    alignItems: 'center',
     borderBottomStyle: 'solid',
     borderBottomWidth: normalize(2),
+    display: 'flex',
+    justifyContent: 'space-between',
+    marginBottom: normalize(8),
     paddingBottom: normalize(4),
-    marginBottom: normalize(4),
   },
   date: {
-    fontSize: normalize(10),
-    color: 'rgba(75, 75, 75, 0.8)',
-    marginLeft: 'auto',
+    color: theme.colors.lighterGray,
     fontFamily: theme.fonts.regular,
-  },
-  goodDollarAmount: {
     fontSize: normalize(10),
-    fontFamily: theme.fonts.bold,
+    marginTop: normalize(2),
   },
-  rowDataSubText: {
+  bigNumberStyles: {
+    fontSize: normalize(15),
+  },
+  bigNumberUnitStyles: {
     fontSize: normalize(10),
-    color: '#A3A3A3',
+  },
+  bottomInfo: {
+    alignItems: 'flex-start',
+    flexShrink: 1,
+  },
+  mainInfo: {
+    alignItems: 'flex-start',
+    display: 'flex',
+    flexDirection: 'column',
+    flexGrow: 1,
+    flexShrink: 1,
+    justifyContent: 'flex-end',
+    marginTop: 'auto',
+  },
+  feedItem: {
+    marginTop: 'auto',
+    paddingRight: normalize(4),
+  },
+  message: {
+    color: theme.colors.lighterGray,
+    fontSize: normalize(10),
     marginTop: normalize(4),
+    paddingRight: normalize(4),
+    textAlign: 'left',
     textTransform: 'capitalize',
   },
 })

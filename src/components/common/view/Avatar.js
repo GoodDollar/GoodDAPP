@@ -20,7 +20,13 @@ export type AvatarProps = {
  * @returns {React.Node}
  */
 export default (props: AvatarProps) => (
-  <TouchableOpacity onPress={props.onPress} style={[styles.avatarContainer, props.style]} disabled={!props.onPress}>
+  <TouchableOpacity
+    activeOpacity={0.5}
+    disabled={!props.onPress}
+    onPress={props.onPress}
+    style={[styles.avatarContainer, props.style]}
+    underlayColor="#fff"
+  >
     <Avatar.Image
       size={42}
       source={props.source ? { uri: props.source } : undefined}
@@ -36,8 +42,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0)',
   },
   avatar: {
-    backgroundColor: 'white',
-    borderColor: '#707070',
-    borderWidth: StyleSheet.hairlineWidth,
+    backgroundColor: '#eee',
   },
 })

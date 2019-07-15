@@ -16,5 +16,6 @@ export type FeedEventProps = {
     type: string,
   },
   styles?: any,
+  theme?: any,
   onPress?: (feed: number) => any,
 }

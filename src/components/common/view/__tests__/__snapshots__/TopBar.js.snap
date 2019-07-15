@@ -86,19 +86,11 @@ exports[`TopBar matches snapshot with balance 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
-              "backgroundColor": "rgba(255,255,255,1.00)",
-              "borderBottomColor": "rgba(112,112,112,1.00)",
+              "backgroundColor": "rgba(238,238,238,1.00)",
               "borderBottomLeftRadius": "21px",
               "borderBottomRightRadius": "21px",
-              "borderBottomWidth": "1px",
-              "borderLeftColor": "rgba(112,112,112,1.00)",
-              "borderLeftWidth": "1px",
-              "borderRightColor": "rgba(112,112,112,1.00)",
-              "borderRightWidth": "1px",
-              "borderTopColor": "rgba(112,112,112,1.00)",
               "borderTopLeftRadius": "21px",
               "borderTopRightRadius": "21px",
-              "borderTopWidth": "1px",
               "height": "42px",
               "width": "42px",
             }
@@ -149,7 +141,16 @@ exports[`TopBar matches snapshot with balance 1`] = `
         className="css-view-1dbjc4n"
         style={
           Object {
-            "display": "inline-block",
+            "WebkitAlignItems": "flex-end",
+            "WebkitBoxAlign": "end",
+            "WebkitBoxDirection": "normal",
+            "WebkitBoxOrient": "horizontal",
+            "WebkitFlexDirection": "row",
+            "alignItems": "flex-end",
+            "display": "flex",
+            "flexDirection": "row",
+            "msFlexAlign": "end",
+            "msFlexDirection": "row",
           }
         }
       >
@@ -160,10 +161,11 @@ exports[`TopBar matches snapshot with balance 1`] = `
             Object {
               "color": "rgba(85,85,85,1.00)",
               "direction": "ltr",
-              "fontFamily": "Roboto",
-              "fontSize": "48px",
-              "fontWeight": "normal",
+              "fontFamily": "Roboto-Bold",
+              "fontSize": "44px",
+              "fontWeight": "700",
               "lineHeight": "22px",
+              "marginRight": "4px",
               "textAlign": "right",
               "textDecoration": "none",
               "textTransform": "none",
@@ -179,9 +181,9 @@ exports[`TopBar matches snapshot with balance 1`] = `
             Object {
               "color": "rgba(85,85,85,1.00)",
               "direction": "ltr",
-              "fontFamily": "Roboto",
-              "fontSize": "18px",
-              "fontWeight": "normal",
+              "fontFamily": "Roboto-Bold",
+              "fontSize": "22px",
+              "fontWeight": "700",
               "lineHeight": "22px",
               "textAlign": "right",
               "textDecoration": "none",
@@ -283,19 +285,11 @@ exports[`TopBar matches snapshot without balance 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
-              "backgroundColor": "rgba(255,255,255,1.00)",
-              "borderBottomColor": "rgba(112,112,112,1.00)",
+              "backgroundColor": "rgba(238,238,238,1.00)",
               "borderBottomLeftRadius": "21px",
               "borderBottomRightRadius": "21px",
-              "borderBottomWidth": "1px",
-              "borderLeftColor": "rgba(112,112,112,1.00)",
-              "borderLeftWidth": "1px",
-              "borderRightColor": "rgba(112,112,112,1.00)",
-              "borderRightWidth": "1px",
-              "borderTopColor": "rgba(112,112,112,1.00)",
               "borderTopLeftRadius": "21px",
               "borderTopRightRadius": "21px",
-              "borderTopWidth": "1px",
               "height": "42px",
               "width": "42px",
             }
@@ -433,19 +427,11 @@ exports[`TopBar should render the children component 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
-              "backgroundColor": "rgba(255,255,255,1.00)",
-              "borderBottomColor": "rgba(112,112,112,1.00)",
+              "backgroundColor": "rgba(238,238,238,1.00)",
               "borderBottomLeftRadius": "21px",
               "borderBottomRightRadius": "21px",
-              "borderBottomWidth": "1px",
-              "borderLeftColor": "rgba(112,112,112,1.00)",
-              "borderLeftWidth": "1px",
-              "borderRightColor": "rgba(112,112,112,1.00)",
-              "borderRightWidth": "1px",
-              "borderTopColor": "rgba(112,112,112,1.00)",
               "borderTopLeftRadius": "21px",
               "borderTopRightRadius": "21px",
-              "borderTopWidth": "1px",
               "height": "42px",
               "width": "42px",
             }

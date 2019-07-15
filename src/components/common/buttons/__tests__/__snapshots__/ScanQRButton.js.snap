@@ -71,7 +71,7 @@ exports[`ScanQRButton should match snapshot 1`] = `
         Object {
           "color": "rgba(12,38,61,1.00)",
           "direction": "ltr",
-          "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+          "fontFamily": "Roboto-Medium",
           "fontSize": "14px",
           "fontWeight": "normal",
           "lineHeight": "20px",

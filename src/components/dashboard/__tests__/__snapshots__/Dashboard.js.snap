@@ -260,7 +260,7 @@ exports[`Dashboard matches snapshot 1`] = `
                   Object {
                     "color": "rgba(255,255,255,1.00)",
                     "direction": "ltr",
-                    "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                    "fontFamily": "Roboto-Medium",
                     "fontSize": "20px",
                     "textAlign": "left",
                   }
@@ -499,19 +499,11 @@ exports[`Dashboard matches snapshot 1`] = `
                     className="css-view-1dbjc4n"
                     style={
                       Object {
-                        "backgroundColor": "rgba(255,255,255,1.00)",
-                        "borderBottomColor": "rgba(112,112,112,1.00)",
+                        "backgroundColor": "rgba(238,238,238,1.00)",
                         "borderBottomLeftRadius": "21px",
                         "borderBottomRightRadius": "21px",
-                        "borderBottomWidth": "1px",
-                        "borderLeftColor": "rgba(112,112,112,1.00)",
-                        "borderLeftWidth": "1px",
-                        "borderRightColor": "rgba(112,112,112,1.00)",
-                        "borderRightWidth": "1px",
-                        "borderTopColor": "rgba(112,112,112,1.00)",
                         "borderTopLeftRadius": "21px",
                         "borderTopRightRadius": "21px",
-                        "borderTopWidth": "1px",
                         "height": "42px",
                         "width": "42px",
                       }
@@ -583,7 +575,16 @@ exports[`Dashboard matches snapshot 1`] = `
                   className="css-view-1dbjc4n"
                   style={
                     Object {
-                      "display": "inline-block",
+                      "WebkitAlignItems": "flex-end",
+                      "WebkitBoxAlign": "end",
+                      "WebkitBoxDirection": "normal",
+                      "WebkitBoxOrient": "horizontal",
+                      "WebkitFlexDirection": "row",
+                      "alignItems": "flex-end",
+                      "display": "flex",
+                      "flexDirection": "row",
+                      "msFlexAlign": "end",
+                      "msFlexDirection": "row",
                     }
                   }
                 >
@@ -594,10 +595,11 @@ exports[`Dashboard matches snapshot 1`] = `
                       Object {
                         "color": "rgba(85,85,85,1.00)",
                         "direction": "ltr",
-                        "fontFamily": "Roboto",
-                        "fontSize": "48px",
-                        "fontWeight": "normal",
+                        "fontFamily": "RobotoSlab-Bold",
+                        "fontSize": "36px",
+                        "fontWeight": "700",
                         "lineHeight": "22px",
+                        "marginRight": "4px",
                         "textAlign": "right",
                         "textDecoration": "none",
                         "textTransform": "none",
@@ -613,9 +615,9 @@ exports[`Dashboard matches snapshot 1`] = `
                       Object {
                         "color": "rgba(85,85,85,1.00)",
                         "direction": "ltr",
-                        "fontFamily": "Roboto",
+                        "fontFamily": "RobotoSlab-Bold",
                         "fontSize": "18px",
-                        "fontWeight": "normal",
+                        "fontWeight": "700",
                         "lineHeight": "22px",
                         "textAlign": "right",
                         "textDecoration": "none",
@@ -749,7 +751,7 @@ exports[`Dashboard matches snapshot 1`] = `
                         Object {
                           "color": "rgba(255,255,255,1.00)",
                           "direction": "ltr",
-                          "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                          "fontFamily": "Roboto-Medium",
                           "letterSpacing": "1px",
                           "marginBottom": "9px",
                           "marginLeft": "8px",
@@ -795,7 +797,7 @@ exports[`Dashboard matches snapshot 1`] = `
                             Object {
                               "color": "rgba(255,255,255,1.00)",
                               "direction": "ltr",
-                              "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                              "fontFamily": "Roboto",
                               "fontWeight": "bold",
                               "lineHeight": "0px",
                               "paddingTop": "1px",
@@ -924,7 +926,7 @@ exports[`Dashboard matches snapshot 1`] = `
                           Object {
                             "color": "rgba(255,255,255,1.00)",
                             "direction": "ltr",
-                            "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                            "fontFamily": "Roboto-Medium",
                             "letterSpacing": "1px",
                             "marginBottom": "9px",
                             "marginLeft": "8px",
@@ -1054,7 +1056,7 @@ exports[`Dashboard matches snapshot 1`] = `
                         Object {
                           "color": "rgba(255,255,255,1.00)",
                           "direction": "ltr",
-                          "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                          "fontFamily": "Roboto-Medium",
                           "letterSpacing": "1px",
                           "marginBottom": "9px",
                           "marginLeft": "8px",
@@ -1084,7 +1086,7 @@ exports[`Dashboard matches snapshot 1`] = `
                             Object {
                               "color": "rgba(255,255,255,1.00)",
                               "direction": "ltr",
-                              "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                              "fontFamily": "Roboto",
                               "fontWeight": "bold",
                               "lineHeight": "0px",
                               "paddingTop": "1px",
@@ -1238,7 +1240,7 @@ exports[`Dashboard matches snapshot 1`] = `
                               "WebkitBoxOrient": "horizontal",
                               "WebkitFlexDirection": "row",
                               "WebkitUserSelect": "none",
-                              "backgroundColor": "rgba(255,255,255,1.00)",
+                              "backgroundColor": "rgba(0,0,0,0.00)",
                               "borderBottomLeftRadius": "8px",
                               "borderBottomRightRadius": "8px",
                               "borderTopLeftRadius": "8px",
@@ -1246,9 +1248,9 @@ exports[`Dashboard matches snapshot 1`] = `
                               "boxShadow": "0px 2px 4px rgba(34,34,34,0.16)",
                               "cursor": "pointer",
                               "flexDirection": "row",
-                              "height": "84px",
-                              "marginBottom": "4px",
+                              "marginBottom": "6px",
                               "maxHeight": "84px",
+                              "minHeight": "84px",
                               "msFlexDirection": "row",
                               "msTouchAction": "manipulation",
                               "msUserSelect": "none",
@@ -1273,6 +1275,7 @@ exports[`Dashboard matches snapshot 1`] = `
                                 "WebkitFlexShrink": 1,
                                 "WebkitJustifyContent": "center",
                                 "alignItems": "center",
+                                "backgroundColor": "rgba(255,255,255,1.00)",
                                 "flexBasis": "0%",
                                 "flexGrow": 1,
                                 "flexShrink": 1,

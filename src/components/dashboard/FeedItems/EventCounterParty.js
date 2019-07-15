@@ -19,9 +19,9 @@ const EventCounterParty = ({ feedItem, styles, style }) => {
 
 const getStylesFromProps = ({ theme }) => ({
   rowDataText: {
+    color: theme.fontStyle.color,
     fontSize: normalize(16),
     textTransform: 'capitalize',
-    color: theme.fontStyle.color,
   },
   direction: {
     fontSize: normalize(8),

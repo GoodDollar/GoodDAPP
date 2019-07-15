@@ -105,6 +105,7 @@ const getStylesFromProps = ({ theme }) => ({
   },
   feedItem: {
     marginTop: 'auto',
+    paddingRight: normalize(4),
   },
   message: {
     color: theme.colors.lighterGray,

@@ -1,9 +1,25 @@
 // @flow
-import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import React, { useState } from 'react'
+import { Image, StyleSheet, View } from 'react-native'
+import { Text } from 'react-native-paper'
+import normalize from 'react-native-elements/src/helpers/normalizeText'
+import { isMobile } from 'mobile-device-detect'
+
+import { CustomButton } from '../../common'
 
 // import { Section } from '../../common'
 import logger from '../../../lib/logger/pino-logger'
+import WebcamGood from '../../../assets/zoom/webcam_good_ok.png'
+import WebcamBad from '../../../assets/zoom/webcam_bad_ok.png'
+import MobileAngleGood from '../../../assets/zoom/zoom-face-guy-angle-good-phone.png'
+import MobileAngleBad from '../../../assets/zoom/zoom-face-guy-angle-bad-phone.png'
+import WebAngleGood from '../../../assets/zoom/zoom-face-guy-angle-good-web.png'
+import WebAngleOk from '../../../assets/zoom/zoom-face-guy-angle-ok-web.png'
+import WebAngleBad from '../../../assets/zoom/zoom-face-guy-angle-bad-web.png'
+import LightingBad1 from '../../../assets/zoom/zoom-face-guy-lighting-back-web.png'
+import LightingBad2 from '../../../assets/zoom/zoom-face-guy-lighting-side-web.png'
+import LightingGood from '../../../assets/zoom/zoom-face-guy-lighting-good-web.png'
+
 import { Camera, getResponsiveVideoDimensions } from './Camera.web'
 import Zoom, { type ZoomCaptureResult } from './Zoom'
 
@@ -19,6 +35,85 @@ type ZoomCaptureProps = {
   onError: (error: string) => void
 }
 
+const HelperWizard = props => {
+  const { done } = props
+  const [step, setStep] = useState(0)
+  const nextStep = () => setStep(step + 1)
+  let text, imgs
+  switch (step) {
+    case 0:
+      if (isMobile) {
+        nextStep()
+      } else {
+        text = 'Center Your Webcam'
+        imgs = (
+          <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+            <Image
+              source={WebcamBad}
+              resizeMode={'contain'}
+              style={{ margin: normalize(15), width: '100%', height: normalize(120) }}
+            />
+            <Image
+              source={WebcamGood}
+              resizeMode={'contain'}
+              style={{ margin: normalize(15), width: '100%', height: normalize(120) }}
+            />
+          </View>
+        )
+      }
+      break
+    case 1:
+      text = 'Ensure Camera At Eye Level'
+      if (isMobile) {
+        imgs = (
+          <View style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+            <Image source={MobileAngleGood} resizeMode={'contain'} style={{ width: '100%', height: normalize(75) }} />
+            <Image source={MobileAngleBad} resizeMode={'contain'} style={{ width: '100%', height: normalize(75) }} />
+          </View>
+        )
+      } else {
+        imgs = (
+          <View style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+            <Image source={WebAngleGood} resizeMode={'contain'} style={{ width: '100%', height: normalize(75) }} />
+            <Image source={WebAngleOk} resizeMode={'contain'} style={{ width: '100%', height: normalize(75) }} />
+            <Image source={WebAngleBad} resizeMode={'contain'} style={{ width: '100%', height: normalize(75) }} />
+          </View>
+        )
+      }
+      break
+    case 2:
+      text = 'Light Your Face Evenly'
+      imgs = (
+        <View style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+          <Image source={LightingGood} resizeMode={'contain'} style={{ width: '100%', height: normalize(75) }} />
+          <Image source={LightingBad1} resizeMode={'contain'} style={{ width: '100%', height: normalize(75) }} />
+          <Image source={LightingBad2} resizeMode={'contain'} style={{ width: '100%', height: normalize(75) }} />
+        </View>
+      )
+      break
+    case 3:
+      done()
+      break
+  }
+  if (step === 3) {
+    return null
+  }
+  return (
+    <View style={{ zIndex: 10, justifyContent: 'space-evenly', height: '100%' }}>
+      <Text style={{ fontFamily: 'Roboto-Medium', fontSize: normalize(20), color: 'white' }}>{text}</Text>
+      {imgs}
+      <CustomButton
+        style={{ borderColor: 'white', borderWidth: 2, fontColor: 'white' }}
+        mode={'outlined'}
+        onPress={nextStep}
+        textStyle={{ color: 'white' }}
+      >
+        OK
+      </CustomButton>
+    </View>
+  )
+}
+
 /**
  * Responsible for Zoom client SDK triggering:
  * 1. Calls zoom.capture() on the camera capture (Recieved from Camera component)
@@ -29,15 +124,24 @@ class ZoomCapture extends React.Component<ZoomCaptureProps> {
 
   zoom: Zoom
 
-  captureUserMediaZoom = async (track: MediaStreamTrack) => {
+  cameraReady = async (track: MediaStreamTrack) => {
+    log.debug('camera ready')
     this.videoTrack = track
-    let captureOutcome: ZoomCaptureResult
     try {
       log.debug('zoom performs capture..')
       let zoomSDK = this.props.loadedZoom
       this.zoom = new Zoom(zoomSDK, track)
+      await this.zoom.ready
+    } catch (e) {
+      log.error(`Failed on capture, error: ${e}`)
+      this.props.onError(e)
+    }
+  }
 
-      //TODO: Rami - can captureOutcome come with errors inside
+  captureUserMediaZoom = async () => {
+    let captureOutcome: ZoomCaptureResult
+    try {
+      log.debug('zoom performs capture..')
       captureOutcome = await this.zoom.capture() // TODO: handle capture errors.
       log.info({ captureOutcome })
       if (captureOutcome) {
@@ -67,8 +171,12 @@ class ZoomCapture extends React.Component<ZoomCaptureProps> {
       <View>
         <View style={styles.bottomSection}>
           <div id="zoom-parent-container" style={getVideoContainerStyles()}>
+            <View id="background" style={styles.background} />
+            <View id="helper" style={styles.helper}>
+              <HelperWizard done={this.captureUserMediaZoom} />
+            </View>
             <div id="zoom-interface-container" style={{ position: 'absolute' }} />
-            {<Camera onCameraLoad={this.captureUserMediaZoom} onError={this.props.onError} />}
+            {<Camera onCameraLoad={this.cameraReady} onError={this.props.onError} />}
           </div>
         </View>
       </View>
@@ -82,6 +190,30 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     padding: 5,
     borderRadius: 5
+  },
+  helper: {
+    position: 'absolute',
+    top: 0,
+    zIndex: 10,
+    width: '100%',
+    height: '100%',
+    display: 'flex',
+    justifyContent: 'space-around',
+    alignItems: 'center'
+  },
+  background: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    zIndex: 8,
+    borderWidth: 5,
+    borderColor: 'white',
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'rgba(13, 165, 177, 0.5)',
+    borderRadius: 5,
+    background:
+      'linear-gradient(to right, rgba(9, 181, 163, .5), rgba(18, 146, 193, .95)) no-repeat center center fixed'
   }
 })
 

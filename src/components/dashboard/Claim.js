@@ -51,7 +51,7 @@ class Claim extends Component<ClaimProps, {}> {
     }
   }
   faceRecognition = () => {
-    this.props.screenProps.push('FaceRecognition', { from: 'Claim' })
+    this.props.screenProps.push('FRIntro', { from: 'Claim' })
   }
 
   render() {

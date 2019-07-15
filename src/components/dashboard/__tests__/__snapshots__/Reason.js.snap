@@ -166,6 +166,63 @@ exports[`Reason matches snapshot 1`] = `
             </div>
           </div>
         </div>
+        <div
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "WebkitAlignItems": "baseline",
+              "WebkitBoxAlign": "baseline",
+              "WebkitBoxDirection": "normal",
+              "WebkitBoxOrient": "horizontal",
+              "WebkitFlexDirection": "row",
+              "alignItems": "baseline",
+              "display": "flex",
+              "flexDirection": "row",
+              "msFlexAlign": "baseline",
+              "msFlexDirection": "row",
+            }
+          }
+        >
+          <div
+            className="css-text-901oao"
+            dir="auto"
+            style={
+              Object {
+                "color": "rgba(85,85,85,1.00)",
+                "direction": "ltr",
+                "fontFamily": "Roboto-Bold",
+                "fontSize": "40px",
+                "fontWeight": "700",
+                "lineHeight": "auto",
+                "marginRight": "4px",
+                "textAlign": "right",
+                "textDecoration": "none",
+                "textTransform": "none",
+              }
+            }
+          >
+            -.--
+          </div>
+          <div
+            className="css-text-901oao"
+            dir="auto"
+            style={
+              Object {
+                "color": "rgba(85,85,85,1.00)",
+                "direction": "ltr",
+                "fontFamily": "Roboto-Bold",
+                "fontSize": "22px",
+                "fontWeight": "700",
+                "lineHeight": "auto",
+                "textAlign": "right",
+                "textDecoration": "none",
+                "textTransform": "none",
+              }
+            }
+          >
+            G$
+          </div>
+        </div>
       </div>
     </div>
     <div

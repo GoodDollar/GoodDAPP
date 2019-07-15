@@ -418,15 +418,15 @@ exports[`SendConfirmation matches snapshot 1`] = `
               className="css-view-1dbjc4n"
               style={
                 Object {
-                  "WebkitAlignItems": "flex-end",
-                  "WebkitBoxAlign": "end",
+                  "WebkitAlignItems": "baseline",
+                  "WebkitBoxAlign": "baseline",
                   "WebkitBoxDirection": "normal",
                   "WebkitBoxOrient": "horizontal",
                   "WebkitFlexDirection": "row",
-                  "alignItems": "flex-end",
+                  "alignItems": "baseline",
                   "display": "flex",
                   "flexDirection": "row",
-                  "msFlexAlign": "end",
+                  "msFlexAlign": "baseline",
                   "msFlexDirection": "row",
                 }
               }
@@ -439,9 +439,9 @@ exports[`SendConfirmation matches snapshot 1`] = `
                     "color": "rgba(85,85,85,1.00)",
                     "direction": "ltr",
                     "fontFamily": "Roboto-Bold",
-                    "fontSize": "44px",
+                    "fontSize": "40px",
                     "fontWeight": "700",
-                    "lineHeight": "22px",
+                    "lineHeight": "auto",
                     "marginRight": "4px",
                     "textAlign": "right",
                     "textDecoration": "none",
@@ -461,7 +461,7 @@ exports[`SendConfirmation matches snapshot 1`] = `
                     "fontFamily": "Roboto-Bold",
                     "fontSize": "22px",
                     "fontWeight": "700",
-                    "lineHeight": "22px",
+                    "lineHeight": "auto",
                     "textAlign": "right",
                     "textDecoration": "none",
                     "textTransform": "none",

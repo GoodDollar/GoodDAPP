@@ -105,6 +105,9 @@ exports[`AmountInput matches snapshot 1`] = `
         tabIndex="-1"
         theme={
           Object {
+            "borders": Object {
+              "defaultBorderColor": "#c9c8c9",
+            },
             "colors": Object {
               "accent": "#03dac4",
               "backdrop": "rgba(0, 0, 0, 0.5)",
@@ -118,6 +121,7 @@ exports[`AmountInput matches snapshot 1`] = `
               "gray50Percent": "#CBCBCB",
               "green": "#00C3AE",
               "lightGray": "#EEE",
+              "lighterGray": "#A3A3A3",
               "notification": "#f50057",
               "orange": "#F8AF40",
               "placeholder": "#CBCBCB",
@@ -128,6 +132,11 @@ exports[`AmountInput matches snapshot 1`] = `
               "text": "#222",
             },
             "dark": false,
+            "feedItems": Object {
+              "borderRadius": 8,
+              "height": 84,
+              "itemBackgroundColor": "#fff",
+            },
             "fontStyle": Object {
               "color": "#555",
               "fontSize": 18,
@@ -136,11 +145,21 @@ exports[`AmountInput matches snapshot 1`] = `
             "fonts": Object {
               "bold": "Roboto-Bold",
               "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-              "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-              "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "medium": "Roboto-Medium",
+              "regular": "Roboto",
               "slab": "RobotoSlab-Regular",
               "slabBold": "RobotoSlab-Bold",
               "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+            },
+            "modals": Object {
+              "backgroundColor": "#fff",
+              "borderLeftWidth": 10,
+              "borderRadius": 5,
+              "contentPadding": 16,
+              "jaggedEdgeSize": 15,
+              "overlayBackgroundColor": "rgba(255, 255, 255, 0.8)",
+              "overlayHorizontalPadding": 20,
+              "overlayVerticalPadding": 30,
             },
             "paddings": Object {
               "defaultMargin": 8,

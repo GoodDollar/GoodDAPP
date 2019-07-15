@@ -222,7 +222,7 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                 "color": "rgba(85,85,85,1.00)",
                 "direction": "ltr",
                 "flexGrow": 2,
-                "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                "fontFamily": "Roboto-Medium",
                 "fontSize": "16px",
                 "fontWeight": "normal",
                 "lineHeight": "22px",
@@ -372,7 +372,7 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                 "color": "rgba(85,85,85,1.00)",
                 "direction": "ltr",
                 "flexGrow": 2,
-                "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                "fontFamily": "Roboto-Medium",
                 "fontSize": "16px",
                 "fontWeight": "normal",
                 "lineHeight": "22px",
@@ -633,7 +633,7 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                 "color": "rgba(85,85,85,1.00)",
                 "direction": "ltr",
                 "flexGrow": 2,
-                "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                "fontFamily": "Roboto-Medium",
                 "fontSize": "16px",
                 "fontWeight": "normal",
                 "lineHeight": "22px",
@@ -980,7 +980,7 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                 Object {
                   "color": "rgba(163,163,163,1.00)",
                   "direction": "ltr",
-                  "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                  "fontFamily": "Roboto-Medium",
                   "letterSpacing": "1px",
                   "marginBottom": "9px",
                   "marginLeft": "8px",
@@ -1009,7 +1009,7 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                   style={
                     Object {
                       "direction": "ltr",
-                      "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                      "fontFamily": "Roboto",
                       "fontWeight": "bold",
                       "lineHeight": "0px",
                       "paddingTop": "1px",
@@ -1109,7 +1109,7 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                 Object {
                   "color": "rgba(0,0,0,0.32)",
                   "direction": "ltr",
-                  "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                  "fontFamily": "Roboto-Medium",
                   "letterSpacing": "1px",
                   "marginBottom": "9px",
                   "marginLeft": "8px",
@@ -1139,7 +1139,7 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                     Object {
                       "color": "rgba(255,255,255,1.00)",
                       "direction": "ltr",
-                      "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                      "fontFamily": "Roboto",
                       "fontWeight": "bold",
                       "lineHeight": "0px",
                       "paddingTop": "1px",

@@ -16,12 +16,13 @@ import Text from './Text'
  */
 class BigNumber extends React.Component {
   render() {
-    const { elementStyles, number, unit, style, color, theme, styles } = this.props
-
+    const { bigNumberStyles, bigNumberUnitStyles, number, unit, style, color, theme, styles } = this.props
     return (
       <View style={[styles.bigNumberWrapper, style]}>
-        <Text style={[styles.bigNumber, elementStyles, { color: color || theme.fontStyle.color }]}>{number}</Text>
-        <Text style={[styles.bigNumberUnit, elementStyles, { color: color || theme.fontStyle.color }]}>{unit}</Text>
+        <Text style={[styles.bigNumber, bigNumberStyles, { color: color || theme.fontStyle.color }]}>{number}</Text>
+        <Text style={[styles.bigNumberUnit, bigNumberUnitStyles, { color: color || theme.fontStyle.color }]}>
+          {unit}
+        </Text>
       </View>
     )
   }
@@ -30,15 +31,21 @@ class BigNumber extends React.Component {
 const getStylesFromProps = ({ theme }) => {
   return {
     bigNumberWrapper: {
-      display: 'inline-block',
+      alignItems: 'flex-end',
+      display: 'flex',
+      flexDirection: 'row',
     },
     bigNumber: {
-      ...theme.fontStyle,
-      fontSize: normalize(48),
+      fontFamily: theme.fonts.bold,
+      fontSize: normalize(44),
+      fontWeight: '700',
+      marginRight: normalize(4),
       textAlign: 'right',
     },
     bigNumberUnit: {
-      ...theme.fontStyle,
+      fontFamily: theme.fonts.bold,
+      fontSize: normalize(22),
+      fontWeight: '700',
       textAlign: 'right',
     },
   }

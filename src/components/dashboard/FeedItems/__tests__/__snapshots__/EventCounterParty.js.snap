@@ -62,7 +62,7 @@ exports[`EventCounterParty receive matches snapshot 1`] = `
         Object {
           "color": "rgba(34,34,34,1.00)",
           "direction": "ltr",
-          "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+          "fontFamily": "Roboto-Medium",
           "fontSize": "16px",
           "fontWeight": "normal",
           "lineHeight": "22px",
@@ -140,7 +140,7 @@ exports[`EventCounterParty send matches snapshot 1`] = `
         Object {
           "color": "rgba(34,34,34,1.00)",
           "direction": "ltr",
-          "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+          "fontFamily": "Roboto-Medium",
           "fontSize": "16px",
           "fontWeight": "normal",
           "lineHeight": "22px",
@@ -218,7 +218,7 @@ exports[`EventCounterParty withdraw matches snapshot 1`] = `
         Object {
           "color": "rgba(34,34,34,1.00)",
           "direction": "ltr",
-          "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+          "fontFamily": "Roboto-Medium",
           "fontSize": "16px",
           "fontWeight": "normal",
           "lineHeight": "22px",

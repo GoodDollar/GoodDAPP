@@ -7,8 +7,8 @@ import pino from '../../lib/logger/pino-logger'
 import FeedActions from './FeedActions'
 import FeedListItem from './FeedItems/FeedListItem'
 import FeedModalItem from './FeedItems/FeedModalItem'
-const log = pino.child({ from: 'FeedListView' })
 
+const log = pino.child({ from: 'FeedListView' })
 const SCREEN_SIZE = {
   width: 200,
   height: 72,
@@ -20,7 +20,7 @@ const VIEWABILITY_CONFIG = {
   waitForInteraction: true,
 }
 
-const emptyFeed = { type: 'empty' }
+const emptyFeed = { type: 'empty', data: {} }
 
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList)
 const AnimatedSwipeableFlatList = Animated.createAnimatedComponent(SwipeableFlatList)
@@ -116,21 +116,21 @@ class FeedList extends PureComponent<FeedListProps, FeedListState> {
         <View style={styles.horizontalContainer}>
           {loading ? <ActivityIndicator style={styles.loading} animating={true} color="gray" size="large" /> : null}
           <AnimatedFlatList
-            initialNumToRender={5}
+            contentContainerStyle={styles.horizontalList}
             data={feeds && feeds.length ? feeds : [emptyFeed]}
             getItemLayout={fixedHeight ? this.getItemLayout : undefined}
             horizontal={horizontal}
+            initialNumToRender={5}
             key={(horizontal ? 'h' : 'v') + (fixedHeight ? 'f' : 'd')}
-            keyboardShouldPersistTaps="always"
             keyboardDismissMode="on-drag"
+            keyboardShouldPersistTaps="always"
             legacyImplementation={false}
             numColumns={1}
-            pagingEnabled={true}
             onEndReached={onEndReached}
+            pagingEnabled={true}
             ref={ref => (this.flatListRef = ref)}
             refreshing={false}
             renderItem={this.renderItemComponent}
-            contentContainerStyle={styles.horizontalList}
             viewabilityConfig={VIEWABILITY_CONFIG}
           />
         </View>
@@ -140,23 +140,23 @@ class FeedList extends PureComponent<FeedListProps, FeedListState> {
       <View style={styles.verticalContainer}>
         <AnimatedSwipeableFlatList
           bounceFirstRowOnMount={true}
-          maxSwipeDistance={160}
-          initialNumToRender={initialNumToRender || 10}
+          contentContainerStyle={styles.verticalList}
           data={feeds && feeds.length ? [...feeds, emptyFeed] : [emptyFeed]}
           getItemLayout={fixedHeight ? this.getItemLayout : undefined}
           horizontal={horizontal}
+          initialNumToRender={initialNumToRender || 10}
           key={(horizontal ? 'h' : 'v') + (fixedHeight ? 'f' : 'd')}
-          keyboardShouldPersistTaps="always"
           keyboardDismissMode="on-drag"
+          keyboardShouldPersistTaps="always"
           legacyImplementation={false}
+          maxSwipeDistance={160}
           numColumns={1}
           onEndReached={onEndReached}
           ref={ref => (this.swipeableFlatListRef = ref)}
           refreshing={false}
           renderItem={this.renderItemComponent}
-          contentContainerStyle={styles.verticalList}
-          viewabilityConfig={VIEWABILITY_CONFIG}
           renderQuickActions={FeedActions}
+          viewabilityConfig={VIEWABILITY_CONFIG}
         />
       </View>
     )

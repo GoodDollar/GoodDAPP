@@ -1,11 +1,10 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { StyleSheet } from 'react-native'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { useWrappedUserStorage } from '../../lib/gundb/useWrappedStorage'
 import logger from '../../lib/logger/pino-logger'
 import GDStore from '../../lib/undux/GDStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
+import { withStyles } from '../../lib/styles'
 import { CustomButton, Section, Text, UserAvatar, Wrapper } from '../common'
 import CameraButton from './CameraButton'
 import ProfileDataTable from './ProfileDataTable'
@@ -13,18 +12,23 @@ import ProfileDataTable from './ProfileDataTable'
 const TITLE = 'Edit Profile'
 const log = logger.child({ from: TITLE })
 
-const EditProfile = props => {
+const EditProfile = ({ screenProps, theme, styles }) => {
   const store = GDStore.useStore()
   const userStorage = useWrappedUserStorage()
-  const { screenProps } = props
+  const storedProfile = store.get('profile')
 
-  const [profile, setProfile] = useState(store.get('profile'))
+  const [profile, setProfile] = useState(storedProfile)
   const [saving, setSaving] = useState()
   const [isValid, setIsValid] = useState()
   const [errors, setErrors] = useState({})
   const [showErrorDialog] = useErrorDialog()
 
+  useEffect(() => {
+    setProfile(storedProfile)
+  }, [storedProfile])
+
   const validate = async () => {
+    log.info({ validate: profile })
     if (profile && profile.validate) {
       const { isValid, errors } = profile.validate()
       const { isValid: indexIsValid, errors: indexErrors } = await userStorage.validateProfile(profile)
@@ -91,10 +95,10 @@ const EditProfile = props => {
             loading={saving}
             style={styles.saveButton}
             onPress={handleSaveButton}
-            color="#0C263D"
+            color={theme.colors.darkBlue}
             contentStyle={styles.saveButtonContent}
           >
-            <Text color="#fff" textTransform="uppercase" fontSize={normalize(14)}>
+            <Text color="surface" textTransform="uppercase" fontSize={8}>
               Save
             </Text>
           </CustomButton>
@@ -109,7 +113,7 @@ EditProfile.navigationOptions = {
   title: TITLE
 }
 
-const styles = StyleSheet.create({
+const getStylesFromProps = ({ theme }) => ({
   section: {
     paddingLeft: '1em',
     paddingRight: '1em',
@@ -123,9 +127,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     right: 0,
-    paddingHorizontal: normalize(16),
-    marginVertical: 0,
-    fontSize: normalize(14)
+    paddingHorizontal: theme.sizes.defaultDouble,
+    marginVertical: 0
   },
   saveButtonContent: {
     maxHeight: 30,
@@ -133,4 +136,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default EditProfile
+export default withStyles(getStylesFromProps)(EditProfile)

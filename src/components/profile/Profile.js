@@ -1,6 +1,7 @@
 // @flow
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
+import { withTheme } from 'react-native-paper'
 import Icon from 'react-native-elements/src/icons/Icon'
 import GDStore from '../../lib/undux/GDStore'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
@@ -13,15 +14,17 @@ import ViewAvatar from './ViewAvatar'
 
 const TITLE = 'Profile'
 
-const PrivateIcon = props => <IconButton {...props} wrapperStyle={styles.iconLeft} name="person-outline" />
+const PrivateIcon = props => <ThemedIconButton {...props} wrapperStyle={styles.iconLeft} name="person-outline" />
 
-const EditIcon = props => <IconButton {...props} wrapperStyle={styles.iconRight} name="edit" />
+const EditIcon = props => <ThemedIconButton {...props} wrapperStyle={styles.iconRight} name="edit" />
 
-const IconButton = ({ onPress, disabled, wrapperStyle, ...iconProps }) => (
+const IconButton = ({ onPress, disabled, wrapperStyle, theme, ...iconProps }) => (
   <View style={[styles.icon, wrapperStyle]}>
-    <Icon onPress={onPress} color="#0C263D" {...iconProps} reverse size={20} />
+    <Icon onPress={onPress} color={theme.colors.darkBlue} {...iconProps} reverse size={20} />
   </View>
 )
+
+const ThemedIconButton = withTheme(IconButton)
 
 const Profile = props => {
   const profile = GDStore.useStore().get('profile')
@@ -36,7 +39,7 @@ const Profile = props => {
   return (
     <Wrapper>
       <Section style={styles.section}>
-        <Section.Row style={styles.centered}>
+        <Section.Row justifyContent="center" alignItems="center">
           <PrivateIcon onPress={() => screenProps.push('ProfilePrivacy')} />
           <UserAvatar profile={profile} onPress={handleAvatarPress} />
           <EditIcon onPress={() => screenProps.push('EditProfile')} />
@@ -52,10 +55,6 @@ Profile.navigationOptions = {
 }
 
 const styles = StyleSheet.create({
-  centered: {
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
   section: {
     paddingLeft: '1em',
     paddingRight: '1em',

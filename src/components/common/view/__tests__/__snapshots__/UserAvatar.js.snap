@@ -94,8 +94,8 @@ exports[`UserAvatar matches snapshot 1`] = `
               "borderTopLeftRadius": "68px",
               "borderTopRightRadius": "68px",
               "borderTopWidth": "1px",
-              "height": "136px",
-              "width": "136px",
+              "height": "138px",
+              "width": "138px",
             }
           }
         >
@@ -151,6 +151,8 @@ exports[`UserAvatar matches snapshot 1`] = `
             "fontSize": "24px",
             "fontWeight": "500",
             "lineHeight": "22px",
+            "marginBottom": "16px",
+            "marginTop": "16px",
             "paddingTop": "8px",
             "textAlign": "center",
             "textDecoration": "none",

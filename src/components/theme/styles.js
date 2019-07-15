@@ -5,25 +5,33 @@ export const theme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    primary: '#00AFFF',
-    text: '#222',
     blue: '#006EA0',
     darkBlue: '#0C263D',
     darkGray: '#42454A',
     gray50Percent: '#CBCBCB',
+    placeholder: '#CBCBCB',
     green: '#00C3AE',
     lightGray: '#EEE',
     orange: '#F8AF40',
+    primary: '#00AFFF',
     purple: '#9F6A9D',
-    red: '#FA6C77'
+    red: '#FA6C77',
+    text: '#222'
   },
   fonts: {
     ...DefaultTheme.fonts,
     slab: 'RobotoSlab-Regular',
-    slabBold: 'RobotoSlab-Bold'
+    slabBold: 'RobotoSlab-Bold',
+    bold: 'Roboto-Bold'
   },
   paddings: {
-    mainContainerPadding: normalize(8)
+    mainContainerPadding: normalize(8),
+    defaultMargin: normalize(8)
+  },
+  sizes: {
+    default: normalize(8),
+    defaultDouble: normalize(16),
+    defaultHalf: normalize(4)
   },
   fontStyle: {
     color: '#555',

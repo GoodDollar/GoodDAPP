@@ -25,22 +25,18 @@ exports[`Amount matches snapshot 1`] = `
         "WebkitBoxDirection": "normal",
         "WebkitBoxFlex": 1,
         "WebkitBoxOrient": "vertical",
-        "WebkitBoxPack": "start",
         "WebkitFlexBasis": "0%",
         "WebkitFlexDirection": "column",
         "WebkitFlexGrow": 1,
         "WebkitFlexShrink": 1,
-        "WebkitJustifyContent": "flex-start",
         "backgroundImage": "linear-gradient(to bottom, #00AFFF, #2DC0F7, #28C0EF, #23C0E7, #1EC1DF, #19C1D7, #14C1CF, #0FC2C7, #0FC2C7, #0AC2BF, #05C2B7, #00C3AF)",
         "display": "flex",
         "flexBasis": "0%",
         "flexDirection": "column",
         "flexGrow": 1,
         "flexShrink": 1,
-        "justifyContent": "flex-start",
         "msFlexDirection": "column",
         "msFlexNegative": 1,
-        "msFlexPack": "start",
         "msFlexPositive": 1,
         "msFlexPreferredSize": "0%",
         "paddingBottom": "8px",
@@ -132,8 +128,8 @@ exports[`Amount matches snapshot 1`] = `
                 "borderTopLeftRadius": "17px",
                 "borderTopRightRadius": "17px",
                 "borderTopWidth": "1px",
-                "height": "34px",
-                "width": "34px",
+                "height": "36px",
+                "width": "36px",
               }
             }
           >
@@ -194,7 +190,7 @@ exports[`Amount matches snapshot 1`] = `
                 "color": "rgba(85,85,85,1.00)",
                 "direction": "ltr",
                 "fontFamily": "Roboto",
-                "fontSize": "30px",
+                "fontSize": "48px",
                 "fontWeight": "normal",
                 "lineHeight": "22px",
                 "textAlign": "right",
@@ -254,23 +250,53 @@ exports[`Amount matches snapshot 1`] = `
       }
     >
       <div
+        className="css-text-901oao"
+        dir="auto"
+        style={
+          Object {
+            "color": "rgba(85,85,85,1.00)",
+            "direction": "ltr",
+            "fontFamily": "Roboto",
+            "fontSize": "24px",
+            "fontWeight": "500",
+            "lineHeight": "22px",
+            "marginBottom": "1rem",
+            "marginTop": "16px",
+            "textAlign": "center",
+            "textDecoration": "none",
+            "textTransform": "uppercase",
+          }
+        }
+      >
+        How much?
+      </div>
+      <div
         className="css-view-1dbjc4n"
         style={
           Object {
-            "WebkitAlignItems": "center",
-            "WebkitBoxAlign": "center",
+            "WebkitAlignItems": "stretch",
+            "WebkitBoxAlign": "stretch",
             "WebkitBoxDirection": "normal",
+            "WebkitBoxFlex": 1,
             "WebkitBoxOrient": "vertical",
-            "WebkitBoxPack": "justify",
+            "WebkitBoxPack": "start",
+            "WebkitFlexBasis": "0%",
             "WebkitFlexDirection": "column",
-            "WebkitJustifyContent": "space-between",
-            "alignItems": "center",
+            "WebkitFlexGrow": 1,
+            "WebkitFlexShrink": 1,
+            "WebkitJustifyContent": "flex-start",
+            "alignItems": "stretch",
+            "flexBasis": "0%",
             "flexDirection": "column",
-            "height": "100%",
-            "justifyContent": "space-between",
-            "msFlexAlign": "center",
+            "flexGrow": 1,
+            "flexShrink": 1,
+            "justifyContent": "flex-start",
+            "msFlexAlign": "stretch",
             "msFlexDirection": "column",
-            "msFlexPack": "justify",
+            "msFlexNegative": 1,
+            "msFlexPack": "start",
+            "msFlexPositive": 1,
+            "msFlexPreferredSize": "0%",
           }
         }
       >
@@ -291,26 +317,6 @@ exports[`Amount matches snapshot 1`] = `
             }
           }
         >
-          <div
-            className="css-text-901oao"
-            dir="auto"
-            style={
-              Object {
-                "color": "rgba(85,85,85,1.00)",
-                "direction": "ltr",
-                "fontFamily": "Roboto",
-                "fontSize": "24px",
-                "fontWeight": "500",
-                "lineHeight": "22px",
-                "marginBottom": "1rem",
-                "textAlign": "center",
-                "textDecoration": "none",
-                "textTransform": "uppercase",
-              }
-            }
-          >
-            How much?
-          </div>
           <div
             className="css-view-1dbjc4n"
             style={
@@ -1278,17 +1284,54 @@ exports[`Amount matches snapshot 1`] = `
             </div>
           </div>
         </div>
+      </div>
+      <div
+        className="css-view-1dbjc4n"
+        style={
+          Object {
+            "WebkitAlignItems": "center",
+            "WebkitBoxAlign": "center",
+            "WebkitBoxDirection": "normal",
+            "WebkitBoxOrient": "horizontal",
+            "WebkitBoxPack": "justify",
+            "WebkitFlexDirection": "row",
+            "WebkitJustifyContent": "space-between",
+            "alignItems": "center",
+            "flexDirection": "row",
+            "justifyContent": "space-between",
+            "msFlexAlign": "center",
+            "msFlexDirection": "row",
+            "msFlexPack": "justify",
+          }
+        }
+      >
         <div
           className="css-view-1dbjc4n"
           style={
             Object {
+              "WebkitAlignItems": "stretch",
+              "WebkitBoxAlign": "stretch",
               "WebkitBoxDirection": "normal",
-              "WebkitBoxOrient": "horizontal",
-              "WebkitFlexDirection": "row",
-              "flexDirection": "row",
-              "marginTop": "1rem",
-              "msFlexDirection": "row",
-              "width": "100%",
+              "WebkitBoxFlex": 1,
+              "WebkitBoxOrient": "vertical",
+              "WebkitBoxPack": "justify",
+              "WebkitFlexBasis": "0%",
+              "WebkitFlexDirection": "column",
+              "WebkitFlexGrow": 1,
+              "WebkitFlexShrink": 1,
+              "WebkitJustifyContent": "space-between",
+              "alignItems": "stretch",
+              "flexBasis": "0%",
+              "flexDirection": "column",
+              "flexGrow": 1,
+              "flexShrink": 1,
+              "justifyContent": "space-between",
+              "msFlexAlign": "stretch",
+              "msFlexDirection": "column",
+              "msFlexNegative": 1,
+              "msFlexPack": "justify",
+              "msFlexPositive": 1,
+              "msFlexPreferredSize": "0%",
             }
           }
         >
@@ -1401,7 +1444,7 @@ exports[`Amount matches snapshot 1`] = `
                         "WebkitJustifyContent": "center",
                         "display": "inline-flex",
                         "justifyContent": "center",
-                        "minHeight": "34px",
+                        "minHeight": "28px",
                         "msFlexPack": "center",
                       }
                     }
@@ -1412,12 +1455,8 @@ exports[`Amount matches snapshot 1`] = `
                       style={
                         Object {
                           "direction": "ltr",
-                          "fontFamily": "Roboto",
-                          "fontSize": "16px",
-                          "fontWeight": "normal",
-                          "lineHeight": "22px",
-                          "textAlign": "center",
-                          "textDecoration": "none",
+                          "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                          "textAlign": "left",
                           "textTransform": "none",
                         }
                       }
@@ -1429,6 +1468,37 @@ exports[`Amount matches snapshot 1`] = `
               </div>
             </div>
           </div>
+        </div>
+        <div
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "WebkitAlignItems": "stretch",
+              "WebkitBoxAlign": "stretch",
+              "WebkitBoxDirection": "normal",
+              "WebkitBoxFlex": 2,
+              "WebkitBoxOrient": "vertical",
+              "WebkitBoxPack": "justify",
+              "WebkitFlexBasis": "0%",
+              "WebkitFlexDirection": "column",
+              "WebkitFlexGrow": 2,
+              "WebkitFlexShrink": 1,
+              "WebkitJustifyContent": "space-between",
+              "alignItems": "stretch",
+              "flexBasis": "0%",
+              "flexDirection": "column",
+              "flexGrow": 2,
+              "flexShrink": 1,
+              "justifyContent": "space-between",
+              "msFlexAlign": "stretch",
+              "msFlexDirection": "column",
+              "msFlexNegative": 1,
+              "msFlexPack": "justify",
+              "msFlexPositive": 2,
+              "msFlexPreferredSize": "0%",
+            }
+          }
+        >
           <div
             className="css-view-1dbjc4n"
             style={
@@ -1537,7 +1607,7 @@ exports[`Amount matches snapshot 1`] = `
                         "WebkitJustifyContent": "center",
                         "display": "inline-flex",
                         "justifyContent": "center",
-                        "minHeight": "34px",
+                        "minHeight": "28px",
                         "msFlexPack": "center",
                       }
                     }
@@ -1549,12 +1619,8 @@ exports[`Amount matches snapshot 1`] = `
                         Object {
                           "color": "rgba(255,255,255,1.00)",
                           "direction": "ltr",
-                          "fontFamily": "Roboto",
-                          "fontSize": "16px",
-                          "fontWeight": "normal",
-                          "lineHeight": "22px",
-                          "textAlign": "center",
-                          "textDecoration": "none",
+                          "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                          "textAlign": "left",
                           "textTransform": "uppercase",
                         }
                       }

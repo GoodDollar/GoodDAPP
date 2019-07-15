@@ -591,8 +591,8 @@ exports[`Profile matches snapshot 1`] = `
                         "borderTopLeftRadius": "68px",
                         "borderTopRightRadius": "68px",
                         "borderTopWidth": "1px",
-                        "height": "136px",
-                        "width": "136px",
+                        "height": "138px",
+                        "width": "138px",
                       }
                     }
                   >
@@ -648,6 +648,8 @@ exports[`Profile matches snapshot 1`] = `
                       "fontSize": "24px",
                       "fontWeight": "500",
                       "lineHeight": "22px",
+                      "marginBottom": "16px",
+                      "marginTop": "16px",
                       "paddingTop": "8px",
                       "textAlign": "center",
                       "textDecoration": "none",
@@ -848,8 +850,8 @@ exports[`Profile matches snapshot 1`] = `
                           "borderBottomColor": "rgba(203,203,203,1.00)",
                           "borderBottomWidth": "1px",
                           "paddingBottom": "0px",
-                          "paddingLeft": "24px",
-                          "paddingRight": "24px",
+                          "paddingLeft": "40px",
+                          "paddingRight": "40px",
                           "paddingTop": "0px",
                           "position": "relative",
                         }
@@ -896,7 +898,7 @@ exports[`Profile matches snapshot 1`] = `
                         className="css-view-1dbjc4n"
                         style={
                           Object {
-                            "paddingTop": "10px",
+                            "paddingTop": "8px",
                             "position": "absolute",
                             "right": "24px",
                             "zIndex": 1,
@@ -1005,8 +1007,8 @@ exports[`Profile matches snapshot 1`] = `
                           "borderBottomColor": "rgba(203,203,203,1.00)",
                           "borderBottomWidth": "1px",
                           "paddingBottom": "0px",
-                          "paddingLeft": "24px",
-                          "paddingRight": "24px",
+                          "paddingLeft": "40px",
+                          "paddingRight": "40px",
                           "paddingTop": "0px",
                           "position": "relative",
                         }
@@ -1053,7 +1055,7 @@ exports[`Profile matches snapshot 1`] = `
                         className="css-view-1dbjc4n"
                         style={
                           Object {
-                            "paddingTop": "10px",
+                            "paddingTop": "8px",
                             "position": "absolute",
                             "right": "24px",
                             "zIndex": 1,
@@ -1162,8 +1164,8 @@ exports[`Profile matches snapshot 1`] = `
                           "borderBottomColor": "rgba(203,203,203,1.00)",
                           "borderBottomWidth": "1px",
                           "paddingBottom": "0px",
-                          "paddingLeft": "24px",
-                          "paddingRight": "24px",
+                          "paddingLeft": "40px",
+                          "paddingRight": "40px",
                           "paddingTop": "0px",
                           "position": "relative",
                         }
@@ -1210,7 +1212,7 @@ exports[`Profile matches snapshot 1`] = `
                         className="css-view-1dbjc4n"
                         style={
                           Object {
-                            "paddingTop": "10px",
+                            "paddingTop": "8px",
                             "position": "absolute",
                             "right": "24px",
                             "zIndex": 1,

@@ -3,24 +3,32 @@ import React from 'react'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import Icon from 'react-native-elements/src/icons/Icon'
 import { StyleSheet, View } from 'react-native'
+import { withTheme } from 'react-native-paper'
 import GDStore from '../../lib/undux/GDStore'
 import { Section, UserAvatar, Wrapper } from '../common'
 import CameraButton from './CameraButton'
 
 const TITLE = 'View Avatar'
 
-const CloseButton = ({ handlePress, containerStyles = {}, iconStyles = {} }) => (
+const CloseButton = ({ handlePress, containerStyles, iconStyles, theme }) => (
   <View style={[styles.container, containerStyles]}>
     <Icon
       onPress={handlePress}
       size={normalize(20)}
-      color="#0C263D"
+      color={theme.colors.darkBlue}
       name="close"
       reverse
       containerStyle={styles.icon}
     />
   </View>
 )
+
+CloseButton.defaultProps = {
+  containerStyles: {},
+  iconStyles: {}
+}
+
+const ThemedCloseButton = withTheme(CloseButton)
 
 const ViewAvatar = props => {
   const store = GDStore.useStore()
@@ -42,7 +50,7 @@ const ViewAvatar = props => {
     <Wrapper>
       <Section style={styles.section}>
         <UserAvatar profile={profile} originalSize={true} containerStyle={styles.avatarContainer}>
-          <CloseButton handlePress={handleClosePress} />
+          <ThemedCloseButton handlePress={handleClosePress} />
           <CameraButton containerStyles={styles.cameraButton} handleCameraPress={handleCameraPress} />
         </UserAvatar>
       </Section>

@@ -137,8 +137,8 @@ exports[`ProfileDataTable matches snapshot 1`] = `
                   "borderBottomColor": "rgba(203,203,203,1.00)",
                   "borderBottomWidth": "1px",
                   "paddingBottom": "0px",
-                  "paddingLeft": "24px",
-                  "paddingRight": "24px",
+                  "paddingLeft": "40px",
+                  "paddingRight": "40px",
                   "paddingTop": "0px",
                   "position": "relative",
                 }
@@ -185,7 +185,7 @@ exports[`ProfileDataTable matches snapshot 1`] = `
                 className="css-view-1dbjc4n"
                 style={
                   Object {
-                    "paddingTop": "10px",
+                    "paddingTop": "8px",
                     "position": "absolute",
                     "right": "24px",
                     "zIndex": 1,
@@ -294,8 +294,8 @@ exports[`ProfileDataTable matches snapshot 1`] = `
                   "borderBottomColor": "rgba(203,203,203,1.00)",
                   "borderBottomWidth": "1px",
                   "paddingBottom": "0px",
-                  "paddingLeft": "24px",
-                  "paddingRight": "24px",
+                  "paddingLeft": "40px",
+                  "paddingRight": "40px",
                   "paddingTop": "0px",
                   "position": "relative",
                 }
@@ -343,7 +343,7 @@ exports[`ProfileDataTable matches snapshot 1`] = `
                 className="css-view-1dbjc4n"
                 style={
                   Object {
-                    "paddingTop": "10px",
+                    "paddingTop": "8px",
                     "position": "absolute",
                     "right": "24px",
                     "zIndex": 1,
@@ -452,8 +452,8 @@ exports[`ProfileDataTable matches snapshot 1`] = `
                   "borderBottomColor": "rgba(203,203,203,1.00)",
                   "borderBottomWidth": "1px",
                   "paddingBottom": "0px",
-                  "paddingLeft": "24px",
-                  "paddingRight": "24px",
+                  "paddingLeft": "40px",
+                  "paddingRight": "40px",
                   "paddingTop": "0px",
                   "position": "relative",
                 }
@@ -501,7 +501,7 @@ exports[`ProfileDataTable matches snapshot 1`] = `
                 className="css-view-1dbjc4n"
                 style={
                   Object {
-                    "paddingTop": "10px",
+                    "paddingTop": "8px",
                     "position": "absolute",
                     "right": "24px",
                     "zIndex": 1,
@@ -715,8 +715,8 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                   "borderTopRightRadius": "24px",
                   "borderTopWidth": "1px",
                   "paddingBottom": "0px",
-                  "paddingLeft": "24px",
-                  "paddingRight": "24px",
+                  "paddingLeft": "40px",
+                  "paddingRight": "40px",
                   "paddingTop": "0px",
                   "position": "relative",
                 }
@@ -762,7 +762,7 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                 className="css-view-1dbjc4n"
                 style={
                   Object {
-                    "paddingTop": "10px",
+                    "paddingTop": "8px",
                     "position": "absolute",
                     "right": "24px",
                     "zIndex": 1,
@@ -907,7 +907,12 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
               }
             >
               <div
-                className="react-phone-number-input flex width"
+                className="react-phone-number-input"
+                style={
+                  Object {
+                    "borderColor": "#CBCBCB",
+                  }
+                }
               >
                 <div
                   className="react-phone-number-input__row"
@@ -2496,7 +2501,7 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                     "msFlexAlign": "center",
                     "msFlexPack": "center",
                     "position": "absolute",
-                    "right": "16px",
+                    "right": "24px",
                   }
                 }
               >
@@ -2626,8 +2631,8 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                   "borderTopRightRadius": "24px",
                   "borderTopWidth": "1px",
                   "paddingBottom": "0px",
-                  "paddingLeft": "24px",
-                  "paddingRight": "24px",
+                  "paddingLeft": "40px",
+                  "paddingRight": "40px",
                   "paddingTop": "0px",
                   "position": "relative",
                 }
@@ -2674,7 +2679,7 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                 className="css-view-1dbjc4n"
                 style={
                   Object {
-                    "paddingTop": "10px",
+                    "paddingTop": "8px",
                     "position": "absolute",
                     "right": "24px",
                     "zIndex": 1,
@@ -2888,8 +2893,8 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                   "borderTopRightRadius": "24px",
                   "borderTopWidth": "1px",
                   "paddingBottom": "0px",
-                  "paddingLeft": "24px",
-                  "paddingRight": "24px",
+                  "paddingLeft": "40px",
+                  "paddingRight": "40px",
                   "paddingTop": "0px",
                   "position": "relative",
                 }
@@ -2935,7 +2940,7 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                 className="css-view-1dbjc4n"
                 style={
                   Object {
-                    "paddingTop": "10px",
+                    "paddingTop": "8px",
                     "position": "absolute",
                     "right": "24px",
                     "zIndex": 1,
@@ -3080,7 +3085,12 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
               }
             >
               <div
-                className="react-phone-number-input react-phone-number-input--invalid flex width"
+                className="react-phone-number-input"
+                style={
+                  Object {
+                    "borderColor": "#FA6C77",
+                  }
+                }
               >
                 <div
                   className="react-phone-number-input__row"
@@ -4642,7 +4652,7 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                   </div>
                   <input
                     autoComplete="tel"
-                    className="react-phone-number-input__input react-phone-number-input__phone react-phone-number-input__input--invalid"
+                    className="react-phone-number-input__input react-phone-number-input__phone"
                     disabled={false}
                     id="signup_phone"
                     onBlur={[Function]}
@@ -4653,11 +4663,6 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                     type="tel"
                     value="2222222222222"
                   />
-                </div>
-                <div
-                  className="react-phone-number-input__error"
-                >
-                  error
                 </div>
               </div>
               <div
@@ -4674,7 +4679,7 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                     "msFlexAlign": "center",
                     "msFlexPack": "center",
                     "position": "absolute",
-                    "right": "16px",
+                    "right": "24px",
                   }
                 }
               >
@@ -4793,21 +4798,21 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
               className="css-view-1dbjc4n"
               style={
                 Object {
-                  "borderBottomColor": "rgba(203,203,203,1.00)",
+                  "borderBottomColor": "rgba(250,108,119,1.00)",
                   "borderBottomLeftRadius": "24px",
                   "borderBottomRightRadius": "24px",
                   "borderBottomWidth": "1px",
-                  "borderLeftColor": "rgba(203,203,203,1.00)",
+                  "borderLeftColor": "rgba(250,108,119,1.00)",
                   "borderLeftWidth": "1px",
-                  "borderRightColor": "rgba(203,203,203,1.00)",
+                  "borderRightColor": "rgba(250,108,119,1.00)",
                   "borderRightWidth": "1px",
-                  "borderTopColor": "rgba(203,203,203,1.00)",
+                  "borderTopColor": "rgba(250,108,119,1.00)",
                   "borderTopLeftRadius": "24px",
                   "borderTopRightRadius": "24px",
                   "borderTopWidth": "1px",
                   "paddingBottom": "0px",
-                  "paddingLeft": "24px",
-                  "paddingRight": "24px",
+                  "paddingLeft": "40px",
+                  "paddingRight": "40px",
                   "paddingTop": "0px",
                   "position": "relative",
                 }
@@ -4854,7 +4859,7 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                 className="css-view-1dbjc4n"
                 style={
                   Object {
-                    "paddingTop": "10px",
+                    "paddingTop": "8px",
                     "position": "absolute",
                     "right": "24px",
                     "zIndex": 1,

@@ -132,8 +132,8 @@ exports[`SendLinkSummary matches snapshot 1`] = `
                 "borderTopLeftRadius": "17px",
                 "borderTopRightRadius": "17px",
                 "borderTopWidth": "1px",
-                "height": "34px",
-                "width": "34px",
+                "height": "36px",
+                "width": "36px",
               }
             }
           >
@@ -194,7 +194,7 @@ exports[`SendLinkSummary matches snapshot 1`] = `
                 "color": "rgba(85,85,85,1.00)",
                 "direction": "ltr",
                 "fontFamily": "Roboto",
-                "fontSize": "30px",
+                "fontSize": "48px",
                 "fontWeight": "normal",
                 "lineHeight": "22px",
                 "textAlign": "right",
@@ -286,6 +286,7 @@ exports[`SendLinkSummary matches snapshot 1`] = `
               "fontWeight": "500",
               "lineHeight": "22px",
               "marginBottom": "1rem",
+              "marginTop": "16px",
               "textAlign": "center",
               "textDecoration": "none",
               "textTransform": "uppercase",
@@ -349,8 +350,8 @@ exports[`SendLinkSummary matches snapshot 1`] = `
                   "borderTopLeftRadius": "55px",
                   "borderTopRightRadius": "55px",
                   "borderTopWidth": "1px",
-                  "height": "110px",
-                  "width": "110px",
+                  "height": "112px",
+                  "width": "112px",
                 }
               }
             >
@@ -401,12 +402,12 @@ exports[`SendLinkSummary matches snapshot 1`] = `
           dir="auto"
           style={
             Object {
-              "color": "rgba(85,85,85,1.00)",
+              "color": "rgba(66,69,74,1.00)",
               "direction": "ltr",
               "fontFamily": "Roboto",
               "fontSize": "16px",
               "fontWeight": "normal",
-              "lineHeight": "22px",
+              "lineHeight": "20px",
               "textAlign": "center",
               "textDecoration": "none",
               "textTransform": "none",
@@ -430,7 +431,7 @@ exports[`SendLinkSummary matches snapshot 1`] = `
                   "color": "rgba(85,85,85,1.00)",
                   "direction": "ltr",
                   "fontFamily": "Roboto",
-                  "fontSize": "30px",
+                  "fontSize": "48px",
                   "fontWeight": "normal",
                   "lineHeight": "22px",
                   "textAlign": "right",
@@ -467,12 +468,12 @@ exports[`SendLinkSummary matches snapshot 1`] = `
           dir="auto"
           style={
             Object {
-              "color": "rgba(85,85,85,1.00)",
+              "color": "rgba(66,69,74,1.00)",
               "direction": "ltr",
               "fontFamily": "Roboto",
               "fontSize": "16px",
               "fontWeight": "normal",
-              "lineHeight": "22px",
+              "lineHeight": "20px",
               "textAlign": "center",
               "textDecoration": "none",
               "textTransform": "none",
@@ -602,7 +603,7 @@ exports[`SendLinkSummary matches snapshot 1`] = `
                         "WebkitJustifyContent": "center",
                         "display": "inline-flex",
                         "justifyContent": "center",
-                        "minHeight": "34px",
+                        "minHeight": "28px",
                         "msFlexPack": "center",
                       }
                     }
@@ -613,12 +614,8 @@ exports[`SendLinkSummary matches snapshot 1`] = `
                       style={
                         Object {
                           "direction": "ltr",
-                          "fontFamily": "Roboto",
-                          "fontSize": "16px",
-                          "fontWeight": "normal",
-                          "lineHeight": "22px",
-                          "textAlign": "center",
-                          "textDecoration": "none",
+                          "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                          "textAlign": "left",
                           "textTransform": "none",
                         }
                       }
@@ -745,7 +742,7 @@ exports[`SendLinkSummary matches snapshot 1`] = `
                         "WebkitJustifyContent": "center",
                         "display": "inline-flex",
                         "justifyContent": "center",
-                        "minHeight": "34px",
+                        "minHeight": "28px",
                         "msFlexPack": "center",
                       }
                     }
@@ -757,12 +754,8 @@ exports[`SendLinkSummary matches snapshot 1`] = `
                         Object {
                           "color": "rgba(255,255,255,1.00)",
                           "direction": "ltr",
-                          "fontFamily": "Roboto",
-                          "fontSize": "16px",
-                          "fontWeight": "normal",
-                          "lineHeight": "22px",
-                          "textAlign": "center",
-                          "textDecoration": "none",
+                          "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                          "textAlign": "left",
                           "textTransform": "uppercase",
                         }
                       }

@@ -5,16 +5,16 @@ exports[`TopBar matches snapshot with balance 1`] = `
   className="css-view-1dbjc4n"
   style={
     Object {
-      "backgroundColor": "rgba(255,255,255,1.00)",
-      "borderBottomLeftRadius": "5px",
-      "borderBottomRightRadius": "5px",
-      "borderTopLeftRadius": "5px",
-      "borderTopRightRadius": "5px",
-      "marginBottom": "8px",
-      "paddingBottom": "8px",
-      "paddingLeft": "8px",
-      "paddingRight": "8px",
-      "paddingTop": "8px",
+      "WebkitBoxFlex": 1,
+      "WebkitFlexBasis": "0%",
+      "WebkitFlexGrow": 1,
+      "WebkitFlexShrink": 1,
+      "flexBasis": "0%",
+      "flexGrow": 1,
+      "flexShrink": 1,
+      "msFlexNegative": 1,
+      "msFlexPositive": 1,
+      "msFlexPreferredSize": "0%",
     }
   }
 >
@@ -22,68 +22,63 @@ exports[`TopBar matches snapshot with balance 1`] = `
     className="css-view-1dbjc4n"
     style={
       Object {
-        "WebkitAlignItems": "center",
-        "WebkitBoxAlign": "center",
-        "WebkitBoxDirection": "normal",
-        "WebkitBoxOrient": "horizontal",
-        "WebkitBoxPack": "justify",
-        "WebkitFlexDirection": "row",
-        "WebkitJustifyContent": "space-between",
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "space-between",
-        "msFlexAlign": "center",
-        "msFlexDirection": "row",
-        "msFlexPack": "justify",
+        "backgroundColor": "rgba(255,255,255,1.00)",
+        "borderBottomLeftRadius": "5px",
+        "borderBottomRightRadius": "5px",
+        "borderTopLeftRadius": "5px",
+        "borderTopRightRadius": "5px",
+        "marginBottom": "8px",
+        "paddingBottom": "8px",
+        "paddingLeft": "8px",
+        "paddingRight": "8px",
+        "paddingTop": "8px",
       }
     }
   >
     <div
-      aria-disabled={true}
       className="css-view-1dbjc4n"
-      disabled={true}
-      onKeyDown={[Function]}
-      onKeyUp={[Function]}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
       style={
         Object {
-          "MozTransitionProperty": "opacity",
-          "MozUserSelect": "none",
-          "WebkitTransitionDuration": "0.15s",
-          "WebkitTransitionProperty": "opacity",
-          "WebkitUserSelect": "none",
-          "backgroundColor": "rgba(0,0,0,0.00)",
-          "msUserSelect": "none",
-          "transitionDuration": "0.15s",
-          "transitionProperty": "opacity",
-          "userSelect": "none",
+          "WebkitAlignItems": "center",
+          "WebkitBoxAlign": "center",
+          "WebkitBoxDirection": "normal",
+          "WebkitBoxOrient": "horizontal",
+          "WebkitBoxPack": "justify",
+          "WebkitFlexDirection": "row",
+          "WebkitJustifyContent": "space-between",
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "space-between",
+          "msFlexAlign": "center",
+          "msFlexDirection": "row",
+          "msFlexPack": "justify",
         }
       }
     >
       <div
+        aria-disabled={true}
         className="css-view-1dbjc4n"
+        disabled={true}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
         style={
           Object {
-            "backgroundColor": "rgba(255,255,255,1.00)",
-            "borderBottomColor": "rgba(112,112,112,1.00)",
-            "borderBottomLeftRadius": "17px",
-            "borderBottomRightRadius": "17px",
-            "borderBottomWidth": "1px",
-            "borderLeftColor": "rgba(112,112,112,1.00)",
-            "borderLeftWidth": "1px",
-            "borderRightColor": "rgba(112,112,112,1.00)",
-            "borderRightWidth": "1px",
-            "borderTopColor": "rgba(112,112,112,1.00)",
-            "borderTopLeftRadius": "17px",
-            "borderTopRightRadius": "17px",
-            "borderTopWidth": "1px",
-            "height": "34px",
-            "width": "34px",
+            "MozTransitionProperty": "opacity",
+            "MozUserSelect": "none",
+            "WebkitTransitionDuration": "0.15s",
+            "WebkitTransitionProperty": "opacity",
+            "WebkitUserSelect": "none",
+            "backgroundColor": "rgba(0,0,0,0.00)",
+            "msUserSelect": "none",
+            "transitionDuration": "0.15s",
+            "transitionProperty": "opacity",
+            "userSelect": "none",
           }
         }
       >
@@ -91,18 +86,21 @@ exports[`TopBar matches snapshot with balance 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
-              "WebkitFlexBasis": "auto",
+              "backgroundColor": "rgba(255,255,255,1.00)",
+              "borderBottomColor": "rgba(112,112,112,1.00)",
               "borderBottomLeftRadius": "17px",
               "borderBottomRightRadius": "17px",
+              "borderBottomWidth": "1px",
+              "borderLeftColor": "rgba(112,112,112,1.00)",
+              "borderLeftWidth": "1px",
+              "borderRightColor": "rgba(112,112,112,1.00)",
+              "borderRightWidth": "1px",
+              "borderTopColor": "rgba(112,112,112,1.00)",
               "borderTopLeftRadius": "17px",
               "borderTopRightRadius": "17px",
-              "flexBasis": "auto",
-              "height": "34px",
-              "msFlexPreferredSize": "auto",
-              "overflowX": "hidden",
-              "overflowY": "hidden",
-              "width": "34px",
-              "zIndex": 0,
+              "borderTopWidth": "1px",
+              "height": "36px",
+              "width": "36px",
             }
           }
         >
@@ -110,69 +108,89 @@ exports[`TopBar matches snapshot with balance 1`] = `
             className="css-view-1dbjc4n"
             style={
               Object {
-                "backgroundColor": "rgba(0,0,0,0.00)",
-                "backgroundPosition": "center",
-                "backgroundRepeat": "no-repeat",
-                "backgroundSize": "cover",
-                "bottom": "0px",
-                "height": "100%",
-                "left": "0px",
-                "position": "absolute",
-                "right": "0px",
-                "top": "0px",
-                "width": "100%",
-                "zIndex": -1,
+                "WebkitFlexBasis": "auto",
+                "borderBottomLeftRadius": "17px",
+                "borderBottomRightRadius": "17px",
+                "borderTopLeftRadius": "17px",
+                "borderTopRightRadius": "17px",
+                "flexBasis": "auto",
+                "height": "34px",
+                "msFlexPreferredSize": "auto",
+                "overflowX": "hidden",
+                "overflowY": "hidden",
+                "width": "34px",
+                "zIndex": 0,
               }
             }
-          />
+          >
+            <div
+              className="css-view-1dbjc4n"
+              style={
+                Object {
+                  "backgroundColor": "rgba(0,0,0,0.00)",
+                  "backgroundPosition": "center",
+                  "backgroundRepeat": "no-repeat",
+                  "backgroundSize": "cover",
+                  "bottom": "0px",
+                  "height": "100%",
+                  "left": "0px",
+                  "position": "absolute",
+                  "right": "0px",
+                  "top": "0px",
+                  "width": "100%",
+                  "zIndex": -1,
+                }
+              }
+            />
+          </div>
         </div>
       </div>
-    </div>
-    <div
-      className="css-view-1dbjc4n"
-      style={
-        Object {
-          "display": "inline-block",
-        }
-      }
-    >
       <div
-        className="css-text-901oao"
-        dir="auto"
+        className="css-view-1dbjc4n"
         style={
           Object {
-            "color": "rgba(0,0,0,1.00)",
-            "direction": "ltr",
-            "fontFamily": "Roboto",
-            "fontSize": "30px",
-            "fontWeight": "normal",
-            "lineHeight": "22px",
-            "textAlign": "right",
-            "textDecoration": "none",
-            "textTransform": "none",
+            "display": "inline-block",
           }
         }
       >
-        -.--
-      </div>
-      <div
-        className="css-text-901oao"
-        dir="auto"
-        style={
-          Object {
-            "color": "rgba(0,0,0,1.00)",
-            "direction": "ltr",
-            "fontFamily": "Roboto",
-            "fontSize": "16px",
-            "fontWeight": "normal",
-            "lineHeight": "22px",
-            "textAlign": "right",
-            "textDecoration": "none",
-            "textTransform": "none",
+        <div
+          className="css-text-901oao"
+          dir="auto"
+          style={
+            Object {
+              "color": "rgba(85,85,85,1.00)",
+              "direction": "ltr",
+              "fontFamily": "Roboto",
+              "fontSize": "48px",
+              "fontWeight": "normal",
+              "lineHeight": "22px",
+              "textAlign": "right",
+              "textDecoration": "none",
+              "textTransform": "none",
+            }
           }
-        }
-      >
-        G$
+        >
+          -.--
+        </div>
+        <div
+          className="css-text-901oao"
+          dir="auto"
+          style={
+            Object {
+              "color": "rgba(85,85,85,1.00)",
+              "direction": "ltr",
+              "fontFamily": "Roboto",
+              "fontSize": "18px",
+              "fontWeight": "normal",
+              "lineHeight": "22px",
+              "textAlign": "right",
+              "textDecoration": "none",
+              "textTransform": "none",
+            }
+          }
+        >
+          G$
+        </div>
       </div>
     </div>
   </div>
@@ -184,16 +202,16 @@ exports[`TopBar matches snapshot without balance 1`] = `
   className="css-view-1dbjc4n"
   style={
     Object {
-      "backgroundColor": "rgba(255,255,255,1.00)",
-      "borderBottomLeftRadius": "5px",
-      "borderBottomRightRadius": "5px",
-      "borderTopLeftRadius": "5px",
-      "borderTopRightRadius": "5px",
-      "marginBottom": "8px",
-      "paddingBottom": "8px",
-      "paddingLeft": "8px",
-      "paddingRight": "8px",
-      "paddingTop": "8px",
+      "WebkitBoxFlex": 1,
+      "WebkitFlexBasis": "0%",
+      "WebkitFlexGrow": 1,
+      "WebkitFlexShrink": 1,
+      "flexBasis": "0%",
+      "flexGrow": 1,
+      "flexShrink": 1,
+      "msFlexNegative": 1,
+      "msFlexPositive": 1,
+      "msFlexPreferredSize": "0%",
     }
   }
 >
@@ -201,68 +219,63 @@ exports[`TopBar matches snapshot without balance 1`] = `
     className="css-view-1dbjc4n"
     style={
       Object {
-        "WebkitAlignItems": "center",
-        "WebkitBoxAlign": "center",
-        "WebkitBoxDirection": "normal",
-        "WebkitBoxOrient": "horizontal",
-        "WebkitBoxPack": "justify",
-        "WebkitFlexDirection": "row",
-        "WebkitJustifyContent": "space-between",
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "space-between",
-        "msFlexAlign": "center",
-        "msFlexDirection": "row",
-        "msFlexPack": "justify",
+        "backgroundColor": "rgba(255,255,255,1.00)",
+        "borderBottomLeftRadius": "5px",
+        "borderBottomRightRadius": "5px",
+        "borderTopLeftRadius": "5px",
+        "borderTopRightRadius": "5px",
+        "marginBottom": "8px",
+        "paddingBottom": "8px",
+        "paddingLeft": "8px",
+        "paddingRight": "8px",
+        "paddingTop": "8px",
       }
     }
   >
     <div
-      aria-disabled={true}
       className="css-view-1dbjc4n"
-      disabled={true}
-      onKeyDown={[Function]}
-      onKeyUp={[Function]}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
       style={
         Object {
-          "MozTransitionProperty": "opacity",
-          "MozUserSelect": "none",
-          "WebkitTransitionDuration": "0.15s",
-          "WebkitTransitionProperty": "opacity",
-          "WebkitUserSelect": "none",
-          "backgroundColor": "rgba(0,0,0,0.00)",
-          "msUserSelect": "none",
-          "transitionDuration": "0.15s",
-          "transitionProperty": "opacity",
-          "userSelect": "none",
+          "WebkitAlignItems": "center",
+          "WebkitBoxAlign": "center",
+          "WebkitBoxDirection": "normal",
+          "WebkitBoxOrient": "horizontal",
+          "WebkitBoxPack": "justify",
+          "WebkitFlexDirection": "row",
+          "WebkitJustifyContent": "space-between",
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "space-between",
+          "msFlexAlign": "center",
+          "msFlexDirection": "row",
+          "msFlexPack": "justify",
         }
       }
     >
       <div
+        aria-disabled={true}
         className="css-view-1dbjc4n"
+        disabled={true}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
         style={
           Object {
-            "backgroundColor": "rgba(255,255,255,1.00)",
-            "borderBottomColor": "rgba(112,112,112,1.00)",
-            "borderBottomLeftRadius": "17px",
-            "borderBottomRightRadius": "17px",
-            "borderBottomWidth": "1px",
-            "borderLeftColor": "rgba(112,112,112,1.00)",
-            "borderLeftWidth": "1px",
-            "borderRightColor": "rgba(112,112,112,1.00)",
-            "borderRightWidth": "1px",
-            "borderTopColor": "rgba(112,112,112,1.00)",
-            "borderTopLeftRadius": "17px",
-            "borderTopRightRadius": "17px",
-            "borderTopWidth": "1px",
-            "height": "34px",
-            "width": "34px",
+            "MozTransitionProperty": "opacity",
+            "MozUserSelect": "none",
+            "WebkitTransitionDuration": "0.15s",
+            "WebkitTransitionProperty": "opacity",
+            "WebkitUserSelect": "none",
+            "backgroundColor": "rgba(0,0,0,0.00)",
+            "msUserSelect": "none",
+            "transitionDuration": "0.15s",
+            "transitionProperty": "opacity",
+            "userSelect": "none",
           }
         }
       >
@@ -270,18 +283,21 @@ exports[`TopBar matches snapshot without balance 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
-              "WebkitFlexBasis": "auto",
+              "backgroundColor": "rgba(255,255,255,1.00)",
+              "borderBottomColor": "rgba(112,112,112,1.00)",
               "borderBottomLeftRadius": "17px",
               "borderBottomRightRadius": "17px",
+              "borderBottomWidth": "1px",
+              "borderLeftColor": "rgba(112,112,112,1.00)",
+              "borderLeftWidth": "1px",
+              "borderRightColor": "rgba(112,112,112,1.00)",
+              "borderRightWidth": "1px",
+              "borderTopColor": "rgba(112,112,112,1.00)",
               "borderTopLeftRadius": "17px",
               "borderTopRightRadius": "17px",
-              "flexBasis": "auto",
-              "height": "34px",
-              "msFlexPreferredSize": "auto",
-              "overflowX": "hidden",
-              "overflowY": "hidden",
-              "width": "34px",
-              "zIndex": 0,
+              "borderTopWidth": "1px",
+              "height": "36px",
+              "width": "36px",
             }
           }
         >
@@ -289,21 +305,41 @@ exports[`TopBar matches snapshot without balance 1`] = `
             className="css-view-1dbjc4n"
             style={
               Object {
-                "backgroundColor": "rgba(0,0,0,0.00)",
-                "backgroundPosition": "center",
-                "backgroundRepeat": "no-repeat",
-                "backgroundSize": "cover",
-                "bottom": "0px",
-                "height": "100%",
-                "left": "0px",
-                "position": "absolute",
-                "right": "0px",
-                "top": "0px",
-                "width": "100%",
-                "zIndex": -1,
+                "WebkitFlexBasis": "auto",
+                "borderBottomLeftRadius": "17px",
+                "borderBottomRightRadius": "17px",
+                "borderTopLeftRadius": "17px",
+                "borderTopRightRadius": "17px",
+                "flexBasis": "auto",
+                "height": "34px",
+                "msFlexPreferredSize": "auto",
+                "overflowX": "hidden",
+                "overflowY": "hidden",
+                "width": "34px",
+                "zIndex": 0,
               }
             }
-          />
+          >
+            <div
+              className="css-view-1dbjc4n"
+              style={
+                Object {
+                  "backgroundColor": "rgba(0,0,0,0.00)",
+                  "backgroundPosition": "center",
+                  "backgroundRepeat": "no-repeat",
+                  "backgroundSize": "cover",
+                  "bottom": "0px",
+                  "height": "100%",
+                  "left": "0px",
+                  "position": "absolute",
+                  "right": "0px",
+                  "top": "0px",
+                  "width": "100%",
+                  "zIndex": -1,
+                }
+              }
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -316,16 +352,16 @@ exports[`TopBar should render the children component 1`] = `
   className="css-view-1dbjc4n"
   style={
     Object {
-      "backgroundColor": "rgba(255,255,255,1.00)",
-      "borderBottomLeftRadius": "5px",
-      "borderBottomRightRadius": "5px",
-      "borderTopLeftRadius": "5px",
-      "borderTopRightRadius": "5px",
-      "marginBottom": "8px",
-      "paddingBottom": "8px",
-      "paddingLeft": "8px",
-      "paddingRight": "8px",
-      "paddingTop": "8px",
+      "WebkitBoxFlex": 1,
+      "WebkitFlexBasis": "0%",
+      "WebkitFlexGrow": 1,
+      "WebkitFlexShrink": 1,
+      "flexBasis": "0%",
+      "flexGrow": 1,
+      "flexShrink": 1,
+      "msFlexNegative": 1,
+      "msFlexPositive": 1,
+      "msFlexPreferredSize": "0%",
     }
   }
 >
@@ -333,68 +369,63 @@ exports[`TopBar should render the children component 1`] = `
     className="css-view-1dbjc4n"
     style={
       Object {
-        "WebkitAlignItems": "center",
-        "WebkitBoxAlign": "center",
-        "WebkitBoxDirection": "normal",
-        "WebkitBoxOrient": "horizontal",
-        "WebkitBoxPack": "justify",
-        "WebkitFlexDirection": "row",
-        "WebkitJustifyContent": "space-between",
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "space-between",
-        "msFlexAlign": "center",
-        "msFlexDirection": "row",
-        "msFlexPack": "justify",
+        "backgroundColor": "rgba(255,255,255,1.00)",
+        "borderBottomLeftRadius": "5px",
+        "borderBottomRightRadius": "5px",
+        "borderTopLeftRadius": "5px",
+        "borderTopRightRadius": "5px",
+        "marginBottom": "8px",
+        "paddingBottom": "8px",
+        "paddingLeft": "8px",
+        "paddingRight": "8px",
+        "paddingTop": "8px",
       }
     }
   >
     <div
-      aria-disabled={true}
       className="css-view-1dbjc4n"
-      disabled={true}
-      onKeyDown={[Function]}
-      onKeyUp={[Function]}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
       style={
         Object {
-          "MozTransitionProperty": "opacity",
-          "MozUserSelect": "none",
-          "WebkitTransitionDuration": "0.15s",
-          "WebkitTransitionProperty": "opacity",
-          "WebkitUserSelect": "none",
-          "backgroundColor": "rgba(0,0,0,0.00)",
-          "msUserSelect": "none",
-          "transitionDuration": "0.15s",
-          "transitionProperty": "opacity",
-          "userSelect": "none",
+          "WebkitAlignItems": "center",
+          "WebkitBoxAlign": "center",
+          "WebkitBoxDirection": "normal",
+          "WebkitBoxOrient": "horizontal",
+          "WebkitBoxPack": "justify",
+          "WebkitFlexDirection": "row",
+          "WebkitJustifyContent": "space-between",
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "space-between",
+          "msFlexAlign": "center",
+          "msFlexDirection": "row",
+          "msFlexPack": "justify",
         }
       }
     >
       <div
+        aria-disabled={true}
         className="css-view-1dbjc4n"
+        disabled={true}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
         style={
           Object {
-            "backgroundColor": "rgba(255,255,255,1.00)",
-            "borderBottomColor": "rgba(112,112,112,1.00)",
-            "borderBottomLeftRadius": "17px",
-            "borderBottomRightRadius": "17px",
-            "borderBottomWidth": "1px",
-            "borderLeftColor": "rgba(112,112,112,1.00)",
-            "borderLeftWidth": "1px",
-            "borderRightColor": "rgba(112,112,112,1.00)",
-            "borderRightWidth": "1px",
-            "borderTopColor": "rgba(112,112,112,1.00)",
-            "borderTopLeftRadius": "17px",
-            "borderTopRightRadius": "17px",
-            "borderTopWidth": "1px",
-            "height": "34px",
-            "width": "34px",
+            "MozTransitionProperty": "opacity",
+            "MozUserSelect": "none",
+            "WebkitTransitionDuration": "0.15s",
+            "WebkitTransitionProperty": "opacity",
+            "WebkitUserSelect": "none",
+            "backgroundColor": "rgba(0,0,0,0.00)",
+            "msUserSelect": "none",
+            "transitionDuration": "0.15s",
+            "transitionProperty": "opacity",
+            "userSelect": "none",
           }
         }
       >
@@ -402,18 +433,21 @@ exports[`TopBar should render the children component 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
-              "WebkitFlexBasis": "auto",
+              "backgroundColor": "rgba(255,255,255,1.00)",
+              "borderBottomColor": "rgba(112,112,112,1.00)",
               "borderBottomLeftRadius": "17px",
               "borderBottomRightRadius": "17px",
+              "borderBottomWidth": "1px",
+              "borderLeftColor": "rgba(112,112,112,1.00)",
+              "borderLeftWidth": "1px",
+              "borderRightColor": "rgba(112,112,112,1.00)",
+              "borderRightWidth": "1px",
+              "borderTopColor": "rgba(112,112,112,1.00)",
               "borderTopLeftRadius": "17px",
               "borderTopRightRadius": "17px",
-              "flexBasis": "auto",
-              "height": "34px",
-              "msFlexPreferredSize": "auto",
-              "overflowX": "hidden",
-              "overflowY": "hidden",
-              "width": "34px",
-              "zIndex": 0,
+              "borderTopWidth": "1px",
+              "height": "36px",
+              "width": "36px",
             }
           }
         >
@@ -421,45 +455,65 @@ exports[`TopBar should render the children component 1`] = `
             className="css-view-1dbjc4n"
             style={
               Object {
-                "backgroundColor": "rgba(0,0,0,0.00)",
-                "backgroundPosition": "center",
-                "backgroundRepeat": "no-repeat",
-                "backgroundSize": "cover",
-                "bottom": "0px",
-                "height": "100%",
-                "left": "0px",
-                "position": "absolute",
-                "right": "0px",
-                "top": "0px",
-                "width": "100%",
-                "zIndex": -1,
+                "WebkitFlexBasis": "auto",
+                "borderBottomLeftRadius": "17px",
+                "borderBottomRightRadius": "17px",
+                "borderTopLeftRadius": "17px",
+                "borderTopRightRadius": "17px",
+                "flexBasis": "auto",
+                "height": "34px",
+                "msFlexPreferredSize": "auto",
+                "overflowX": "hidden",
+                "overflowY": "hidden",
+                "width": "34px",
+                "zIndex": 0,
               }
             }
-          />
+          >
+            <div
+              className="css-view-1dbjc4n"
+              style={
+                Object {
+                  "backgroundColor": "rgba(0,0,0,0.00)",
+                  "backgroundPosition": "center",
+                  "backgroundRepeat": "no-repeat",
+                  "backgroundSize": "cover",
+                  "bottom": "0px",
+                  "height": "100%",
+                  "left": "0px",
+                  "position": "absolute",
+                  "right": "0px",
+                  "top": "0px",
+                  "width": "100%",
+                  "zIndex": -1,
+                }
+              }
+            />
+          </div>
         </div>
       </div>
-    </div>
-    <div
-      className="css-view-1dbjc4n"
-    >
       <div
-        className="css-text-901oao"
-        dir="auto"
-        style={
-          Object {
-            "color": "rgba(0,0,0,1.00)",
-            "direction": "ltr",
-            "fontFamily": "Roboto",
-            "fontSize": "16px",
-            "fontWeight": "normal",
-            "lineHeight": "22px",
-            "textAlign": "center",
-            "textDecoration": "none",
-            "textTransform": "none",
-          }
-        }
+        className="css-view-1dbjc4n"
       >
-        Children element
+        <div
+          className="css-text-901oao"
+          dir="auto"
+          style={
+            Object {
+              "color": "rgba(34,34,34,1.00)",
+              "direction": "ltr",
+              "fontFamily": "Roboto",
+              "fontSize": "16px",
+              "fontWeight": "normal",
+              "lineHeight": "22px",
+              "textAlign": "center",
+              "textDecoration": "none",
+              "textTransform": "none",
+            }
+          }
+        >
+          Children element
+        </div>
       </div>
     </div>
   </div>

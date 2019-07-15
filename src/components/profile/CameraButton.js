@@ -1,23 +1,34 @@
 // @flow
 import React from 'react'
+import { StyleSheet, View } from 'react-native'
+import { withTheme } from 'react-native-paper'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import Icon from 'react-native-elements/src/icons/Icon'
-import { StyleSheet, View } from 'react-native'
 
-const CameraButton = ({ handleCameraPress, containerStyles = {}, iconStyles = {} }) => (
-  <View style={[cameraStyles.container, containerStyles]}>
+type CameraButtonProps = {
+  handleCameraPress: any => void,
+  containerStyles: any,
+  theme: any
+}
+
+const CameraButton = ({ handleCameraPress, containerStyles, theme }: CameraButtonProps) => (
+  <View style={[styles.container, containerStyles]}>
     <Icon
       onPress={handleCameraPress}
       size={normalize(20)}
-      color="#0C263D"
+      color={theme.colors.darkBlue}
       name="photo-camera"
       reverse
-      containerStyle={cameraStyles.icon}
+      containerStyle={styles.icon}
     />
   </View>
 )
 
-const cameraStyles = StyleSheet.create({
+CameraButton.defaultProps = {
+  containerStyles: {}
+}
+
+const styles = StyleSheet.create({
   container: {
     position: 'absolute',
     left: 0,
@@ -29,4 +40,4 @@ const cameraStyles = StyleSheet.create({
   }
 })
 
-export default CameraButton
+export default withTheme(CameraButton)

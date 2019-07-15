@@ -1,6 +1,7 @@
 // @flow
 import React, { useState } from 'react'
 import { StyleSheet } from 'react-native'
+import { withTheme } from 'react-native-paper'
 import { useWrappedUserStorage } from '../../lib/gundb/useWrappedStorage'
 import GDStore from '../../lib/undux/GDStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
@@ -8,7 +9,7 @@ import { CustomButton, Section, UserAvatar, Wrapper } from '../common'
 
 const TITLE = 'Edit Avatar'
 
-const EditAvatar = props => {
+const EditAvatar = ({ screenProps, theme }) => {
   const store = GDStore.useStore()
   const wrappedUserStorage = useWrappedUserStorage()
   const profile = store.get('profile')
@@ -25,8 +26,7 @@ const EditAvatar = props => {
       .catch(e => showErrorDialog('Saving image failed', e))
 
     setSaving(false)
-
-    props.screenProps.pop()
+    screenProps.pop()
   }
 
   const handleAvatarChange = avatar => {
@@ -45,8 +45,13 @@ const EditAvatar = props => {
         <Section.Row>
           <UserAvatar onChange={handleAvatarChange} onClose={handleAvatarClose} editable={true} profile={profile} />
         </Section.Row>
-        <Section.Stack justifyContent="flex-end" grow={1}>
-          <CustomButton disabled={!changed || saving} loading={saving} onPress={saveAvatar} color="#0C263D">
+        <Section.Stack justifyContent="flex-end" grow>
+          <CustomButton
+            disabled={!changed || saving}
+            loading={saving}
+            onPress={saveAvatar}
+            color={theme.colors.darkBlue}
+          >
             Save
           </CustomButton>
         </Section.Stack>
@@ -67,4 +72,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default EditAvatar
+export default withTheme(EditAvatar)

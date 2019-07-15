@@ -16,7 +16,7 @@ const ProfileDataTable = ({ profile, onChange, errors: errorsProp, editable, the
       <KeyboardAwareScrollView resetScrollToCoords={{ x: 0, y: 0 }} scrollEnabled={false}>
         <Section.Row style={!editable && styles.borderedTopStyle}>
           <InputRounded
-            onChange={value => onChange({ ...profile, email: value.target.value })}
+            onChange={username => onChange({ ...profile, username })}
             placeholder="Choose a Username"
             value={profile.username}
             error={errors.username}
@@ -27,15 +27,14 @@ const ProfileDataTable = ({ profile, onChange, errors: errorsProp, editable, the
         </Section.Row>
         <Section.Row>
           {editable ? (
-            <Section.Stack grow={1}>
-              <Section.Row grow={1}>
+            <Section.Stack grow>
+              <Section.Row grow>
                 <PhoneInput
                   id="signup_phone"
                   placeholder="Enter phone number"
                   value={profile.mobile}
                   onChange={value => onChange({ ...profile, mobile: value })}
-                  error={errors.mobile}
-                  className={styles.phoneInput}
+                  style={{ borderColor: errors.mobile ? theme.colors.red : theme.colors.gray50Percent }}
                 />
                 <Icon
                   name="phone"
@@ -44,7 +43,7 @@ const ProfileDataTable = ({ profile, onChange, errors: errorsProp, editable, the
                   containerStyle={styles.phoneIcon}
                 />
               </Section.Row>
-              <Section.Row grow={1}>
+              <Section.Row grow>
                 <HelperText type="error" visible={errors.mobile} style={styles.error}>
                   {errors.mobile}
                 </HelperText>
@@ -63,7 +62,7 @@ const ProfileDataTable = ({ profile, onChange, errors: errorsProp, editable, the
         </Section.Row>
         <Section.Row>
           <InputRounded
-            onChange={value => onChange({ ...profile, email: value.target.value })}
+            onChange={email => onChange({ ...profile, email })}
             placeholder="Add your Email"
             value={profile.email}
             error={errors.email}
@@ -86,11 +85,7 @@ const getStylesFromProps = ({ theme }) => {
     },
     phoneIcon: {
       position: 'absolute',
-      right: normalize(16)
-    },
-    phoneInput: {
-      flex: 1,
-      width: '100%'
+      right: normalize(24)
     }
   }
 }

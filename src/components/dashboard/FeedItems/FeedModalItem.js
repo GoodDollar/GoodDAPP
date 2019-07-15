@@ -99,15 +99,11 @@ const getStylesFromProps = ({ theme }) => {
       fontSize: normalize(10),
     },
     bigNumberStyles: {
-      fontFamily: 'Roboto-Bold',
       fontSize: normalize(22),
-      fontWeight: '700',
-      marginRight: normalize(3),
+      marginRight: normalize(4),
     },
     bigNumberUnitStyles: {
-      fontFamily: 'Roboto-Bold',
       fontSize: normalize(12),
-      fontWeight: '700',
     },
     transactionDetails: {
       alignItems: 'center',

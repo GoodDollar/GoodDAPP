@@ -248,15 +248,13 @@ const styles = StyleSheet.create({
     height: '256px',
   },
   bigNumberStyles: {
-    fontFamily: 'Roboto-Bold',
+    fontFamily: 'RobotoSlab-Bold',
     fontSize: normalize(36),
-    fontWeight: '700',
-    marginRight: normalize(3),
+    marginRight: normalize(4),
   },
   bigNumberUnitStyles: {
-    fontFamily: 'Roboto-Bold',
+    fontFamily: 'RobotoSlab-Bold',
     fontSize: normalize(18),
-    fontWeight: '700',
   },
 })
 

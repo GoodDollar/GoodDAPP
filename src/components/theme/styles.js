@@ -28,6 +28,8 @@ export const theme = {
     slab: 'RobotoSlab-Regular',
     slabBold: 'RobotoSlab-Bold',
     bold: 'Roboto-Bold',
+    medium: 'Roboto-Medium',
+    regular: 'Roboto',
   },
   paddings: {
     mainContainerPadding: normalize(8),

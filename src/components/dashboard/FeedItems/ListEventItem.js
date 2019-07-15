@@ -84,11 +84,9 @@ const getStylesFromProps = ({ theme }) => ({
   },
   bigNumberStyles: {
     fontSize: normalize(15),
-    fontFamily: theme.fonts.bold,
   },
   bigNumberUnitStyles: {
     fontSize: normalize(10),
-    fontFamily: theme.fonts.bold,
   },
   bottomInfo: {
     alignItems: 'flex-start',

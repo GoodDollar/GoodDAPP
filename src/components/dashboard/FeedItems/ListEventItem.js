@@ -74,7 +74,7 @@ const getStylesFromProps = ({ theme }) => ({
     display: 'flex',
     justifyContent: 'space-between',
     marginBottom: normalize(8),
-    paddingBottom: normalize(5),
+    paddingBottom: normalize(4),
   },
   date: {
     color: theme.colors.lighterGray,
@@ -108,8 +108,8 @@ const getStylesFromProps = ({ theme }) => ({
   message: {
     color: theme.colors.lighterGray,
     fontSize: normalize(10),
-    marginTop: normalize(5),
-    paddingRight: normalize(5),
+    marginTop: normalize(4),
+    paddingRight: normalize(4),
     textAlign: 'left',
     textTransform: 'capitalize',
   },

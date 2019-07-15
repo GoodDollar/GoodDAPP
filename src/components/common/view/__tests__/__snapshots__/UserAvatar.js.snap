@@ -38,14 +38,10 @@ exports[`UserAvatar matches snapshot 1`] = `
       className="css-view-1dbjc4n"
       style={
         Object {
-          "WebkitAlignItems": "center",
-          "WebkitBoxAlign": "center",
           "WebkitBoxDirection": "normal",
           "WebkitBoxOrient": "vertical",
           "WebkitFlexDirection": "column",
-          "alignItems": "center",
           "flexDirection": "column",
-          "msFlexAlign": "center",
           "msFlexDirection": "column",
         }
       }
@@ -151,8 +147,8 @@ exports[`UserAvatar matches snapshot 1`] = `
             "fontSize": "24px",
             "fontWeight": "500",
             "lineHeight": "22px",
-            "marginBottom": "16px",
-            "marginTop": "16px",
+            "marginBottom": "8px",
+            "marginTop": "8px",
             "paddingTop": "8px",
             "textAlign": "center",
             "textDecoration": "none",

@@ -36,15 +36,15 @@ const getStylesFromProps = ({ theme }) => {
       borderBottomColor: theme.colors.lightGray,
       borderBottomStyle: 'solid',
       borderBottomWidth: 1,
-      padding: '10px'
+      padding: '10px',
     },
     growTwo: {
-      flexGrow: 2
+      flexGrow: 2,
     },
     optionsRowTitle: {
       width: '15%',
-      alignItems: 'center'
-    }
+      alignItems: 'center',
+    },
   }
 }
 

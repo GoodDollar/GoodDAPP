@@ -12,7 +12,7 @@ import { withStyles } from '../../lib/styles'
 
 export type ReceiveProps = {
   screenProps: any,
-  navigation: any
+  navigation: any,
 }
 
 const RECEIVE_TITLE = 'Receive G$'
@@ -30,7 +30,7 @@ const ReceiveAmount = ({ screenProps, ...props }: ReceiveProps) => {
     networkId,
     amount,
     reason,
-    fromWho
+    fromWho,
   ])
   const share = useMemo(() => generateReceiveShareObject(code), [code])
   const styles = getStylesFromProps(props)
@@ -103,7 +103,7 @@ const ReceiveAmount = ({ screenProps, ...props }: ReceiveProps) => {
 }
 
 ReceiveAmount.navigationOptions = {
-  title: RECEIVE_TITLE
+  title: RECEIVE_TITLE,
 }
 
 ReceiveAmount.shouldNavigateToComponent = props => {
@@ -119,22 +119,22 @@ const getStylesFromProps = ({ theme }) => {
       borderBottomWidth: normalize(1),
       borderBottomStyle: 'solid',
       marginTop: theme.paddings.defaultMargin * 2,
-      alignItems: 'baseline'
+      alignItems: 'baseline',
     },
 
     // TODO: all this properties can be removed once we merge Text component in
     tableRowLabel: {
-      color: '#A3A3A3'
+      color: '#A3A3A3',
     },
     bigGoodDollar: {
-      color: theme.colors.primary
+      color: theme.colors.primary,
     },
     reason: {
-      fontSize: normalize(16)
+      fontSize: normalize(16),
     },
     doneButton: {
-      marginTop: theme.paddings.defaultMargin
-    }
+      marginTop: theme.paddings.defaultMargin,
+    },
   }
 }
 

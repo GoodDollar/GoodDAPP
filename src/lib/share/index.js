@@ -47,7 +47,7 @@ export function readCode(code: string) {
     networkId: parseInt(network),
     address,
     amount: amount ? amount : undefined,
-    reason
+    reason,
   }
 }
 
@@ -90,7 +90,7 @@ export function extractQueryParams(link: string = ''): {} {
 type ShareObject = {
   title: string,
   text: string,
-  url: string
+  url: string,
 }
 
 /**
@@ -102,7 +102,7 @@ export function generateShareObject(title: string, text: string, url: string): S
   return {
     title,
     text,
-    url: encodeURI(url)
+    url: encodeURI(url),
   }
 }
 
@@ -122,7 +122,7 @@ export function generateReceiveShareObject(code: string): ShareObject {
 
 type HrefLinkProps = {
   link: string,
-  description: string
+  description: string,
 }
 
 /**
@@ -157,7 +157,7 @@ export function generateShareLink(action: ActionType = 'receive', params: {} = {
   // depending on the action, routes may vary
   const destination = {
     receive: 'Send',
-    send: 'Home'
+    send: 'Home',
   }[action]
 
   // creates query params from params object

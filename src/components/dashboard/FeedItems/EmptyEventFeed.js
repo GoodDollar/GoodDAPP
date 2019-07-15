@@ -11,14 +11,14 @@ const EmptyBlock = ({ width, height, borderRadius, style, theme }) => {
     height: normalize(height),
     width: normalize(width),
     borderRadius,
-    backgroundColor: theme.colors.lightGray
+    backgroundColor: theme.colors.lightGray,
   }
   return <View style={[customStyle, style]} />
 }
 
 EmptyBlock.defaultProps = {
   width: normalize(74),
-  height: normalize(10)
+  height: normalize(10),
 }
 
 const EmptyBlockThemed = withTheme(EmptyBlock)
@@ -62,24 +62,24 @@ const getStylesFromProps = ({ theme }) => ({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    width: '100%'
+    width: '100%',
   },
   avatatBottom: {
-    alignSelf: 'flex-end'
+    alignSelf: 'flex-end',
   },
   mainSection: {
-    marginLeft: normalize(4)
+    marginLeft: normalize(4),
   },
   emptyBlockBorderRow: {
     borderBottomColor: theme.colors.lightGray,
     borderBottomStyle: 'solid',
     borderBottomWidth: normalize(2),
     paddingBottom: normalize(4),
-    marginBottom: normalize(4)
+    marginBottom: normalize(4),
   },
   emptyBlockMargin: {
-    marginTop: normalize(4)
-  }
+    marginTop: normalize(4),
+  },
 })
 
 export default withStyles(getStylesFromProps)(FeedListItem)

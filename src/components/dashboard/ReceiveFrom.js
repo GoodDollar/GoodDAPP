@@ -7,7 +7,7 @@ import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNa
 
 export type AmountProps = {
   screenProps: any,
-  navigation: any
+  navigation: any,
 }
 
 const TITLE = 'Receive G$'
@@ -53,7 +53,7 @@ const ReceiveFrom = (props: AmountProps) => {
 }
 
 ReceiveFrom.navigationOptions = {
-  title: TITLE
+  title: TITLE,
 }
 
 ReceiveFrom.shouldNavigateToComponent = props => {

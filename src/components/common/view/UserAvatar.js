@@ -12,13 +12,13 @@ import Avatar from './Avatar'
 export type AvatarProps = {
   profile: {
     avatar: string,
-    fullName?: string
+    fullName?: string,
   },
   onChange?: any => mixed,
   onClose?: any => mixed,
   originalSize?: boolean,
   editable?: boolean,
-  children?: React.Node
+  children?: React.Node,
 }
 
 /**
@@ -72,24 +72,23 @@ const UserAvatar = (props: AvatarProps) => {
 const getStylesFromProps = ({ theme }) => ({
   avatar: {
     justifyContent: 'center',
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   innerAvatar: {
     flexDirection: 'column',
-    alignItems: 'center'
   },
   fullNameContainer: {
-    paddingTop: theme.paddings.mainContainerPadding
+    paddingTop: theme.paddings.mainContainerPadding,
   },
   fullName: {
-    textAlign: 'left'
+    textAlign: 'left',
   },
   cropContainer: {
     marginTop: theme.paddings.mainContainerPadding,
     flex: 1,
     justifyContent: 'center',
-    flexDirection: 'row'
-  }
+    flexDirection: 'row',
+  },
 })
 
 export default withStyles(getStylesFromProps)(UserAvatar)

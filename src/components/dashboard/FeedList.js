@@ -11,13 +11,13 @@ const log = pino.child({ from: 'FeedListView' })
 
 const SCREEN_SIZE = {
   width: 200,
-  height: 72
+  height: 72,
 }
 
 const VIEWABILITY_CONFIG = {
   minimumViewTime: 3000,
   viewAreaCoveragePercentThreshold: 100,
-  waitForInteraction: true
+  waitForInteraction: true,
 }
 
 const emptyFeed = { type: 'empty' }
@@ -37,23 +37,23 @@ export type FeedListProps = {
   store: GDStore,
   handleFeedSelection: Function,
   horizontal: boolean,
-  selectedFeed: ?string
+  selectedFeed: ?string,
 }
 
 type FeedListState = {
   debug: boolean,
   inverted: boolean,
   filterText: '',
-  logViewable: boolean
+  logViewable: boolean,
 }
 
 type ItemComponentProps = {
   item: any,
   separators: {
     highlight: any,
-    unhighlight: any
+    unhighlight: any,
   },
-  index: number
+  index: number,
 }
 
 class FeedList extends PureComponent<FeedListProps, FeedListState> {
@@ -61,7 +61,7 @@ class FeedList extends PureComponent<FeedListProps, FeedListState> {
     debug: false,
     inverted: false,
     filterText: '',
-    logViewable: false
+    logViewable: false,
   }
 
   componentDidUpdate(prevProps) {
@@ -101,7 +101,7 @@ class FeedList extends PureComponent<FeedListProps, FeedListState> {
       item,
       separators,
       onPress: this.pressItem(item, index + 1),
-      fixedHeight
+      fixedHeight,
     }
     return horizontal ? <FeedModalItem {...itemProps} /> : <FeedListItem {...itemProps} />
   }
@@ -172,7 +172,7 @@ class FeedList extends PureComponent<FeedListProps, FeedListState> {
 
 const styles = StyleSheet.create({
   loading: {
-    marginTop: normalize(10)
+    marginTop: normalize(10),
   },
   horizontalContainer: {
     backgroundColor: 'rgba(0, 0, 0, 0.7)',
@@ -184,34 +184,34 @@ const styles = StyleSheet.create({
     paddingHorizontal: normalize(10),
     paddingVertical: normalize(20),
     position: 'fixed',
-    height
+    height,
   },
   verticalContainer: {
     backgroundColor: '#efeff4',
     flex: 1,
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   verticalList: {
     width: '100%',
-    maxWidth: '100vw'
+    maxWidth: '100vw',
   },
   horizontalList: {
     width: '100%',
     maxWidth: '100vw',
-    flex: 1
+    flex: 1,
   },
   options: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   searchRow: {
-    paddingHorizontal: normalize(10)
+    paddingHorizontal: normalize(10),
   },
   itemSeparator: {
     height: StyleSheet.hairlineWidth,
-    backgroundColor: 'rgb(200, 199, 204)'
-  }
+    backgroundColor: 'rgb(200, 199, 204)',
+  },
 })
 
 export default GDStore.withStore(FeedList)

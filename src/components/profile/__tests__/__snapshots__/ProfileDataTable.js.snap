@@ -233,7 +233,7 @@ exports[`ProfileDataTable matches snapshot 1`] = `
               style={
                 Object {
                   "WebkitTransform": "translateY(0px)",
-                  "color": "rgba(176,0,32,1.00)",
+                  "color": "rgba(250,108,119,1.00)",
                   "direction": "ltr",
                   "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                   "fontSize": "12px",
@@ -391,7 +391,7 @@ exports[`ProfileDataTable matches snapshot 1`] = `
               style={
                 Object {
                   "WebkitTransform": "translateY(0px)",
-                  "color": "rgba(176,0,32,1.00)",
+                  "color": "rgba(250,108,119,1.00)",
                   "direction": "ltr",
                   "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                   "fontSize": "12px",
@@ -549,7 +549,7 @@ exports[`ProfileDataTable matches snapshot 1`] = `
               style={
                 Object {
                   "WebkitTransform": "translateY(0px)",
-                  "color": "rgba(176,0,32,1.00)",
+                  "color": "rgba(250,108,119,1.00)",
                   "direction": "ltr",
                   "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                   "fontSize": "12px",
@@ -810,7 +810,7 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
               style={
                 Object {
                   "WebkitTransform": "translateY(0px)",
-                  "color": "rgba(176,0,32,1.00)",
+                  "color": "rgba(250,108,119,1.00)",
                   "direction": "ltr",
                   "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                   "fontSize": "12px",
@@ -2559,7 +2559,7 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                 style={
                   Object {
                     "WebkitTransform": "translateY(0px)",
-                    "color": "rgba(176,0,32,1.00)",
+                    "color": "rgba(250,108,119,1.00)",
                     "direction": "ltr",
                     "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                     "fontSize": "12px",
@@ -2727,7 +2727,7 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
               style={
                 Object {
                   "WebkitTransform": "translateY(0px)",
-                  "color": "rgba(176,0,32,1.00)",
+                  "color": "rgba(250,108,119,1.00)",
                   "direction": "ltr",
                   "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                   "fontSize": "12px",
@@ -2988,7 +2988,7 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
               style={
                 Object {
                   "WebkitTransform": "translateY(0px)",
-                  "color": "rgba(176,0,32,1.00)",
+                  "color": "rgba(250,108,119,1.00)",
                   "direction": "ltr",
                   "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                   "fontSize": "12px",
@@ -4737,7 +4737,7 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                 style={
                   Object {
                     "WebkitTransform": "translateY(0px)",
-                    "color": "rgba(176,0,32,1.00)",
+                    "color": "rgba(250,108,119,1.00)",
                     "direction": "ltr",
                     "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                     "fontSize": "12px",
@@ -4907,7 +4907,7 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
               style={
                 Object {
                   "WebkitTransform": "translateY(0px)",
-                  "color": "rgba(176,0,32,1.00)",
+                  "color": "rgba(250,108,119,1.00)",
                   "direction": "ltr",
                   "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                   "fontSize": "12px",

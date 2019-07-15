@@ -531,14 +531,10 @@ exports[`Profile matches snapshot 1`] = `
                 className="css-view-1dbjc4n"
                 style={
                   Object {
-                    "WebkitAlignItems": "center",
-                    "WebkitBoxAlign": "center",
                     "WebkitBoxDirection": "normal",
                     "WebkitBoxOrient": "vertical",
                     "WebkitFlexDirection": "column",
-                    "alignItems": "center",
                     "flexDirection": "column",
-                    "msFlexAlign": "center",
                     "msFlexDirection": "column",
                   }
                 }
@@ -648,8 +644,8 @@ exports[`Profile matches snapshot 1`] = `
                       "fontSize": "24px",
                       "fontWeight": "500",
                       "lineHeight": "22px",
-                      "marginBottom": "16px",
-                      "marginTop": "16px",
+                      "marginBottom": "8px",
+                      "marginTop": "8px",
                       "paddingTop": "8px",
                       "textAlign": "center",
                       "textDecoration": "none",
@@ -946,7 +942,7 @@ exports[`Profile matches snapshot 1`] = `
                       style={
                         Object {
                           "WebkitTransform": "translateY(0px)",
-                          "color": "rgba(176,0,32,1.00)",
+                          "color": "rgba(250,108,119,1.00)",
                           "direction": "ltr",
                           "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                           "fontSize": "12px",
@@ -1103,7 +1099,7 @@ exports[`Profile matches snapshot 1`] = `
                       style={
                         Object {
                           "WebkitTransform": "translateY(0px)",
-                          "color": "rgba(176,0,32,1.00)",
+                          "color": "rgba(250,108,119,1.00)",
                           "direction": "ltr",
                           "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                           "fontSize": "12px",
@@ -1260,7 +1256,7 @@ exports[`Profile matches snapshot 1`] = `
                       style={
                         Object {
                           "WebkitTransform": "translateY(0px)",
-                          "color": "rgba(176,0,32,1.00)",
+                          "color": "rgba(250,108,119,1.00)",
                           "direction": "ltr",
                           "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                           "fontSize": "12px",

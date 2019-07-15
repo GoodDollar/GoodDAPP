@@ -1,7 +1,9 @@
 import React from 'react'
 
 import renderer from 'react-test-renderer'
-import DoneButton from '../DoneButton'
+import ImportedDoneButton from '../DoneButton'
+import { withThemeProvider } from '../../../../__tests__/__util__'
+const DoneButton = withThemeProvider(ImportedDoneButton)
 
 // Note: test renderer must be required after react-native.
 

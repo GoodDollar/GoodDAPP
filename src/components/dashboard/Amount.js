@@ -4,12 +4,10 @@ import { AmountInput, Section, TopBar, Wrapper } from '../common'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { gdToWei, weiToGd } from '../../lib/wallet/utils'
-import { useDialog } from '../../lib/undux/utils/dialog'
-import { receiveStyles as styles } from './styles'
 
 export type AmountProps = {
   screenProps: any,
-  navigation: any
+  navigation: any,
 }
 
 const RECEIVE_TITLE = 'Receive G$'
@@ -20,7 +18,7 @@ const Amount = (props: AmountProps) => {
   const { params, amount, ...restState } = { amount: 0, ...screenState } || {}
   const [GDAmount, setGDAmount] = useState(amount > 0 ? weiToGd(amount) : '')
   const [loading, setLoading] = useState(amount <= 0)
-  const [showDialogWithData] = useDialog()
+  const [error, setError] = useState()
 
   const canContinue = async weiAmount => {
     if (params && params.toReceive) {
@@ -28,21 +26,19 @@ const Amount = (props: AmountProps) => {
     }
 
     if (!(await goodWallet.canSend(weiAmount))) {
-      showDialogWithData({
-        title: 'Cannot send G$',
-        message: 'Amount is bigger than balance'
-      })
+      setError(`Sorry, you don't have enough G$`)
       return false
     }
     return true
   }
 
   const handleContinue = async () => {
+    setLoading(true)
+
     const weiAmount = gdToWei(GDAmount)
     setScreenState({ amount: weiAmount })
-
-    setLoading(true)
     const can = await canContinue(weiAmount)
+
     setLoading(false)
 
     return can
@@ -57,9 +53,9 @@ const Amount = (props: AmountProps) => {
     <Wrapper>
       <TopBar push={screenProps.push} />
       <Section grow>
-        <Section.Title style={styles.headline}>How much?</Section.Title>
+        <Section.Title>How much?</Section.Title>
         <Section.Stack grow justifyContent="flex-start">
-          <AmountInput amount={GDAmount} handleAmountChange={handleAmountChange} />
+          <AmountInput amount={GDAmount} handleAmountChange={handleAmountChange} error={error} />
         </Section.Stack>
         <Section.Row>
           <Section.Stack grow={1}>
@@ -83,7 +79,7 @@ const Amount = (props: AmountProps) => {
 }
 
 Amount.navigationOptions = {
-  title: RECEIVE_TITLE
+  title: RECEIVE_TITLE,
 }
 
 Amount.shouldNavigateToComponent = props => {

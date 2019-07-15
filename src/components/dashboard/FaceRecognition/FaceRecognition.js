@@ -28,7 +28,7 @@ type State = DashboardState & {
   facemap: Blob,
   zoomReady: boolean,
   intendedAction: string,
-  captureResult: ZoomCaptureResult
+  captureResult: ZoomCaptureResult,
 }
 
 Image.prefetch(illustration)
@@ -50,7 +50,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     zoomReady: false,
     name: '',
     intendedAction: '',
-    captureResult: {}
+    captureResult: {},
   }
 
   loadedZoom: any
@@ -104,7 +104,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     this.setState({
       showZoomCapture: false,
       loadingFaceRecognition: true,
-      loadingText: 'Analyzing Face Recognition..'
+      loadingText: 'Analyzing Face Recognition..',
     })
     let result: FaceRecognitionResponse = await FRapi.performFaceRecognition(captureResult)
     this.setState({ loadingFaceRecognition: false })
@@ -122,8 +122,8 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
         title: 'Please try again',
         message: `FaceRecognition failed. Reason: ${error}. Please try again`,
         dismissText: 'Retry',
-        onDismiss: this.setState({ showPreText: true }) // reload.
-      }
+        onDismiss: this.setState({ showPreText: true }), // reload.
+      },
     })
   }
 
@@ -191,7 +191,7 @@ const styles = StyleSheet.create({
     marginTop: normalize(16),
     minWidth: normalize(204),
     maxWidth: '100%',
-    minHeight: normalize(152)
+    minHeight: normalize(152),
   },
   privacyPolicyDisclaimer: {
     width: '80%',
@@ -204,15 +204,15 @@ const styles = StyleSheet.create({
     padding: normalize(12),
     paddingTop: normalize(24),
     paddingBottom: normalize(24),
-    marginTop: normalize(24)
+    marginTop: normalize(24),
   },
-  button: { width: '100%' }
+  button: { width: '100%' },
 })
 
 const faceRecognition = SimpleStore.withStore(FaceRecognition)
 
 faceRecognition.navigationOptions = {
-  title: 'Face Recognition'
+  title: 'Face Recognition',
 }
 
 export default faceRecognition

@@ -25,7 +25,7 @@ const CloseButton = ({ handlePress, containerStyles, iconStyles, theme }) => (
 
 CloseButton.defaultProps = {
   containerStyles: {},
-  iconStyles: {}
+  iconStyles: {},
 }
 
 const ThemedCloseButton = withTheme(CloseButton)
@@ -59,31 +59,31 @@ const ViewAvatar = props => {
 }
 
 ViewAvatar.navigationOptions = {
-  title: TITLE
+  title: TITLE,
 }
 
 const styles = StyleSheet.create({
   section: {
-    flex: 1
+    flex: 1,
   },
   avatarContainer: {
-    flex: 1
+    flex: 1,
   },
   cameraButton: {
     left: 'inherit',
     bottom: 'inherit',
     top: 0,
-    right: 0
+    right: 0,
   },
   container: {
     position: 'absolute',
     left: 0,
-    top: 0
+    top: 0,
   },
   icon: {
     marginHorizontal: 0,
-    marginVertical: 0
-  }
+    marginVertical: 0,
+  },
 })
 
 export default ViewAvatar

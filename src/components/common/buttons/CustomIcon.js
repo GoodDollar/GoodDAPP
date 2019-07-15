@@ -7,7 +7,7 @@ import { withStyles } from '../../../lib/styles'
 
 const customIcons = {
   qrcode: require('../../../assets/icons/qrcode.svg'),
-  link: require('../../../assets/icons/link.svg')
+  link: require('../../../assets/icons/link.svg'),
 }
 
 const CustomIcon = ({ styles, name, color, size, ...props }) => {
@@ -28,8 +28,8 @@ const getStylesFromProps = ({ theme }) => {
   return {
     imageIcon: {
       borderRadius: '50%',
-      padding: normalize(16)
-    }
+      padding: normalize(16),
+    },
   }
 }
 

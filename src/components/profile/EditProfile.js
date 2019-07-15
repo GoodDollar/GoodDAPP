@@ -110,30 +110,30 @@ const EditProfile = ({ screenProps, theme, styles }) => {
 }
 
 EditProfile.navigationOptions = {
-  title: TITLE
+  title: TITLE,
 }
 
 const getStylesFromProps = ({ theme }) => ({
   section: {
     paddingLeft: '1em',
     paddingRight: '1em',
-    flex: 1
+    flex: 1,
   },
   centered: {
     justifyContent: 'center',
-    alignItems: 'flex-start'
+    alignItems: 'flex-start',
   },
   saveButton: {
     position: 'absolute',
     top: 0,
     right: 0,
     paddingHorizontal: theme.sizes.defaultDouble,
-    marginVertical: 0
+    marginVertical: 0,
   },
   saveButtonContent: {
     maxHeight: 30,
-    marginVertical: 0
-  }
+    marginVertical: 0,
+  },
 })
 
 export default withStyles(getStylesFromProps)(EditProfile)

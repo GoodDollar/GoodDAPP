@@ -35,8 +35,8 @@ const ReceiveByQR = ({ screenProps }) => {
               visible: true,
               title: 'Error',
               message: 'Invalid QR Code. Probably this QR code is for sending GD',
-              dismissText: 'Ok'
-            }
+              dismissText: 'Ok',
+            },
           })
         } else {
           const { receiveLink, reason } = extractQueryParams(url)
@@ -47,8 +47,8 @@ const ReceiveByQR = ({ screenProps }) => {
                 visible: true,
                 title: 'Error',
                 message: 'Invalid QR Code. Probably this QR code is for sending GD',
-                dismissText: 'Ok'
-              }
+                dismissText: 'Ok',
+              },
             })
           }
 
@@ -68,7 +68,7 @@ const ReceiveByQR = ({ screenProps }) => {
       screenProps.navigateTo('Home', {
         event: receipt.transactionHash,
         receiveLink: undefined,
-        reason: undefined
+        reason: undefined,
       })
     }
   }
@@ -103,15 +103,15 @@ const ReceiveByQR = ({ screenProps }) => {
 const styles = StyleSheet.create({
   centered: {
     justifyContent: 'center',
-    alignItems: 'baseline'
+    alignItems: 'baseline',
   },
   bottomSection: {
-    flex: 1
-  }
+    flex: 1,
+  },
 })
 
 ReceiveByQR.navigationOptions = {
-  title: 'Scan QR Code'
+  title: 'Scan QR Code',
 }
 
 export default ReceiveByQR

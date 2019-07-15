@@ -7,7 +7,7 @@ export type AvatarProps = {
   onPress?: () => {},
   source?: string,
   style?: {},
-  size?: number
+  size?: number,
 }
 
 /**
@@ -32,18 +32,18 @@ const CustomAvatar = (props: AvatarProps) => (
 )
 
 CustomAvatar.defaultProps = {
-  size: 34
+  size: 34,
 }
 
 const styles = StyleSheet.create({
   avatarContainer: {
-    backgroundColor: 'rgba(0,0,0,0)'
+    backgroundColor: 'rgba(0,0,0,0)',
   },
   avatar: {
     backgroundColor: 'white',
     borderColor: '#707070',
-    borderWidth: StyleSheet.hairlineWidth
-  }
+    borderWidth: StyleSheet.hairlineWidth,
+  },
 })
 
 export default CustomAvatar

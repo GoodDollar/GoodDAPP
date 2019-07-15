@@ -44,5 +44,5 @@ export {
   Text,
   TopBar,
   UserAvatar,
-  Wrapper
+  Wrapper,
 }

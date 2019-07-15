@@ -8,22 +8,22 @@ import { Title, Wrapper } from './components'
 type Props = {
   doneCallback: ({ name: string }) => null,
   screenProps: any,
-  navigation: any
+  navigation: any,
 }
 
 type State = {
   errorMessage: string,
-  fullName: string
+  fullName: string,
 }
 
 export type NameRecord = {
-  fullName: string
+  fullName: string,
 }
 
 class NameForm extends React.Component<Props, State> {
   state = {
     errorMessage: '',
-    fullName: this.props.screenProps.data.fullName || ''
+    fullName: this.props.screenProps.data.fullName || '',
   }
 
   isValid = false
@@ -79,7 +79,7 @@ class NameForm extends React.Component<Props, State> {
 }
 
 NameForm.navigationOptions = {
-  title: 'Name'
+  title: 'Name',
 }
 
 export default NameForm

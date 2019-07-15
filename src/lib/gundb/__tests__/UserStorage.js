@@ -16,12 +16,12 @@ let event3 = { id: 'xyz3', date: new Date('2019-01-01T14:00:00.000Z').toString()
 let mergedEvent = {
   id: 'xyz',
   date: new Date('2019-01-01').toString(),
-  data: { foo: 'zar', unchanged: 'zar', extra: 'bar' }
+  data: { foo: 'zar', unchanged: 'zar', extra: 'bar' },
 }
 let event4 = {
   id: 'xyz4',
   date: new Date('2019-01-02T10:00:00.000Z').toString(),
-  data: { foo: 'bar', unchanged: 'zar' }
+  data: { foo: 'bar', unchanged: 'zar' },
 }
 
 describe('UserStorage', () => {
@@ -101,21 +101,21 @@ describe('UserStorage', () => {
         fullName: 'Kevin Bardi',
         username: 'kvardi',
         mobile: '22233445566',
-        email: 'kevin.bardi@altoros.com'
+        email: 'kevin.bardi@altoros.com',
       })
       await addUser({
         identifier: 'ghijkl',
         walletAddress: 'walletghijkl',
         fullName: 'Fernando Greco',
         mobile: '22244556677',
-        email: 'fernando.greco@altoros.com'
+        email: 'fernando.greco@altoros.com',
       })
       await addUser({
         identifier: 'mnopqr',
         walletAddress: 'walletmnopqr',
         fullName: 'Dario Miñones',
         mobile: '22255667788',
-        email: 'dario.minones@altoros.com'
+        email: 'dario.minones@altoros.com',
       })
     })
 
@@ -238,7 +238,7 @@ describe('UserStorage', () => {
     let updatedEvent = {
       ...event,
       date: new Date('2019-01-01').toString(),
-      data: { foo: 'updates first event', extra: 'bar' }
+      data: { foo: 'updates first event', extra: 'bar' },
     }
     await userStorage.updateFeedEvent(updatedEvent)
     await delay(100)
@@ -301,8 +301,8 @@ describe('UserStorage', () => {
         reason: 'For the pizza',
         amount: 3,
         sendLink: 'http://fake.link/string',
-        receipt: { foo: 'foo', blockNumber: 123 }
-      }
+        receipt: { foo: 'foo', blockNumber: 123 },
+      },
     }
     await userStorage.updateFeedEvent(transactionEvent)
     const index = await userStorage.feed
@@ -318,7 +318,7 @@ describe('UserStorage', () => {
     let updates = [
       userStorage.setProfileField('email', 'johndoe@blah.com', 'masked'),
       userStorage.setProfileField('name', 'hadar2', 'public'),
-      userStorage.setProfileField('id', 'z123', 'private')
+      userStorage.setProfileField('id', 'z123', 'private'),
     ]
     await Promise.all(updates)
 
@@ -342,7 +342,7 @@ describe('UserStorage', () => {
       userStorage.setProfileField('phone', '+22222222222', 'public'),
       userStorage.setProfileField('email', 'johndoe@blah.com', 'masked'),
       userStorage.setProfileField('name', 'hadar2', 'public'),
-      userStorage.setProfileField('id', 'z123', 'private')
+      userStorage.setProfileField('id', 'z123', 'private'),
     ]
 
     await Promise.all(updates)
@@ -354,7 +354,7 @@ describe('UserStorage', () => {
         email: 'j*****e@blah.com',
         phone: '+22222222222',
         mobile: '+22222222222',
-        x: ''
+        x: '',
       })
       done()
     })
@@ -367,7 +367,7 @@ describe('UserStorage', () => {
       userStorage.setProfileField('phone', '+22222222222', 'public'),
       userStorage.setProfileField('email', 'johndoe@blah.com', 'masked'),
       userStorage.setProfileField('name', 'hadar2', 'public'),
-      userStorage.setProfileField('id', 'z123', 'private')
+      userStorage.setProfileField('id', 'z123', 'private'),
     ]
     await Promise.all(updates)
     await userStorage.subscribeProfileUpdates(profile => {
@@ -380,7 +380,7 @@ describe('UserStorage', () => {
           email: 'johndoe@blah.com',
           phone: '+22222222222',
           mobile: '+22222222222',
-          x: ''
+          x: '',
         })
         done()
       })
@@ -392,7 +392,7 @@ describe('UserStorage', () => {
     let updates = [
       userStorage.setProfileField('fullName', 'Old Name', 'public'),
       userStorage.setProfileField('mobile', '+22222222211', 'masked'),
-      userStorage.setProfileField('email', 'new@domain.com', 'masked')
+      userStorage.setProfileField('email', 'new@domain.com', 'masked'),
     ]
     await delay(200)
     await Promise.all(updates)
@@ -400,7 +400,7 @@ describe('UserStorage', () => {
       fullName: 'New Name',
       email: 'new@email.com',
       mobile: '+22222222222',
-      username: 'hadar2'
+      username: 'hadar2',
     }
     const profile = getUserModel(profileData)
     const result = await userStorage.setProfile(profile)
@@ -416,7 +416,7 @@ describe('UserStorage', () => {
         fullName: 'New Name',
         email: 'n*w@email.com',
         mobile: '********2222',
-        username: 'hadar2'
+        username: 'hadar2',
       })
       done()
     })
@@ -448,7 +448,7 @@ describe('UserStorage', () => {
       fullName: 'New Name',
       email: 'new@email.com',
       mobile: '+22222222222',
-      username: 'notTaken'
+      username: 'notTaken',
     })
     await gun
       .get(`users/byusername`)
@@ -462,7 +462,7 @@ describe('UserStorage', () => {
         ...profileModel,
         username: 'taken',
         email: 'diferent@email.com',
-        mobile: '+22222222221'
+        mobile: '+22222222221',
       })
     } catch (e) {
       expect(e).toEqual(new Error(['Existing index on field username']))
@@ -497,17 +497,17 @@ describe('UserStorage', () => {
             events: [
               { name: 'from', type: 'address', value: '0x7aa689d96362de59b78c2f184f840dbdab9270e0' },
               { name: 'to', type: 'address', value: '0x90e5c2433a1fbab3c9d350bcffe2e73ac479941d' },
-              { name: 'value', type: 'uint256', value: '15' }
+              { name: 'value', type: 'uint256', value: '15' },
             ],
-            address: '0x88ceB1769E0F8304b9981F0CB23C3192361d6873'
-          }
-        ]
+            address: '0x88ceB1769E0F8304b9981F0CB23C3192361d6873',
+          },
+        ],
       }
       const result = getReceiveDataFromReceipt(receipt)
       expect(result).toMatchObject({
         from: '0x7aa689d96362de59b78c2f184f840dbdab9270e0',
         to: '0x90e5c2433a1fbab3c9d350bcffe2e73ac479941d',
-        value: '15'
+        value: '15',
       })
     })
 
@@ -519,26 +519,26 @@ describe('UserStorage', () => {
             events: [
               { name: 'from', type: 'address', value: '0x7aa689d96362de59b78c2f184f840dbdab9270e0' },
               { name: 'to', type: 'address', value: '0x90e5c2433a1fbab3c9d350bcffe2e73ac479941d' },
-              { name: 'value', type: 'uint256', value: '15' }
+              { name: 'value', type: 'uint256', value: '15' },
             ],
-            address: '0x88ceB1769E0F8304b9981F0CB23C3192361d6873'
+            address: '0x88ceB1769E0F8304b9981F0CB23C3192361d6873',
           },
           {
             name: 'PaymentWithdraw',
             events: [
               { name: 'from', type: 'address', value: '0x7aa689d96362de59b78c2f184f840dbdab9270e0' },
               { name: 'to', type: 'address', value: '0x90e5c2433a1fbab3c9d350bcffe2e73ac479941d' },
-              { name: 'value', type: 'uint256', value: '15' }
+              { name: 'value', type: 'uint256', value: '15' },
             ],
-            address: '0x88ceB1769E0F8304b9981F0CB23C3192361d6873'
-          }
-        ]
+            address: '0x88ceB1769E0F8304b9981F0CB23C3192361d6873',
+          },
+        ],
       }
       const result = getReceiveDataFromReceipt(receipt)
       expect(result).toMatchObject({
         from: '0x7aa689d96362de59b78c2f184f840dbdab9270e0',
         to: '0x90e5c2433a1fbab3c9d350bcffe2e73ac479941d',
-        value: '15'
+        value: '15',
       })
     })
 
@@ -550,26 +550,26 @@ describe('UserStorage', () => {
             events: [
               { name: 'from', type: 'address', value: '0x7aa689d96362de59b78c2f184f840dbdab9270e0' },
               { name: 'to', type: 'address', value: '0x90e5c2433a1fbab3c9d350bcffe2e73ac479941d' },
-              { name: 'value', type: 'uint256', value: '15' }
+              { name: 'value', type: 'uint256', value: '15' },
             ],
-            address: '0x88ceB1769E0F8304b9981F0CB23C3192361d6873'
+            address: '0x88ceB1769E0F8304b9981F0CB23C3192361d6873',
           },
           {
             name: 'Transfer',
             events: [
               { name: 'from', type: 'address', value: '0x7aa689d96362de59b78c2f184f840dbdab9270e0' },
               { name: 'to', type: 'address', value: '0x90e5c2433a1fbab3c9d350bcffe2e73ac479941d' },
-              { name: 'value', type: 'uint256', value: '1500' }
+              { name: 'value', type: 'uint256', value: '1500' },
             ],
-            address: '0x88ceB1769E0F8304b9981F0CB23C3192361d6873'
-          }
-        ]
+            address: '0x88ceB1769E0F8304b9981F0CB23C3192361d6873',
+          },
+        ],
       }
       const result = getReceiveDataFromReceipt(receipt)
       expect(result).toMatchObject({
         from: '0x7aa689d96362de59b78c2f184f840dbdab9270e0',
         to: '0x90e5c2433a1fbab3c9d350bcffe2e73ac479941d',
-        value: '1500'
+        value: '1500',
       })
     })
 
@@ -581,32 +581,32 @@ describe('UserStorage', () => {
             events: [
               { name: 'from', type: 'address', value: '0x7aa689d96362de59b78c2f184f840dbdab9270e0' },
               { name: 'to', type: 'address', value: '0x90e5c2433a1fbab3c9d350bcffe2e73ac479941d' },
-              { name: 'value', type: 'uint256', value: '20' }
+              { name: 'value', type: 'uint256', value: '20' },
             ],
-            address: '0x88ceB1769E0F8304b9981F0CB23C3192361d6873'
+            address: '0x88ceB1769E0F8304b9981F0CB23C3192361d6873',
           },
           {
             name: 'Transfer',
             events: [
               { name: 'from', type: 'address', value: '0x7aa689d96362de59b78c2f184f840dbdab9270e0' },
               { name: 'to', type: 'address', value: '0x90e5c2433a1fbab3c9d350bcffe2e73ac479941d' },
-              { name: 'value', type: 'uint256', value: '1' }
+              { name: 'value', type: 'uint256', value: '1' },
             ],
-            address: '0x88ceB1769E0F8304b9981F0CB23C3192361d6873'
-          }
-        ]
+            address: '0x88ceB1769E0F8304b9981F0CB23C3192361d6873',
+          },
+        ],
       }
       const result = getReceiveDataFromReceipt(receipt)
       expect(result).toMatchObject({
         from: '0x7aa689d96362de59b78c2f184f840dbdab9270e0',
         to: '0x90e5c2433a1fbab3c9d350bcffe2e73ac479941d',
-        value: '20'
+        value: '20',
       })
     })
 
     it('empty logs should return empty object', () => {
       const receipt = {
-        logs: []
+        logs: [],
       }
       const result = getReceiveDataFromReceipt(receipt)
       expect(result).toMatchObject({})
@@ -623,7 +623,7 @@ describe('UserStorage', () => {
 describe('getOperationType', () => {
   it('PaymentWithdraw should be withdraw', () => {
     const event = {
-      name: 'PaymentWithdraw'
+      name: 'PaymentWithdraw',
     }
     expect(getOperationType(event, 'account1')).toBe('withdraw')
   })
@@ -631,7 +631,7 @@ describe('getOperationType', () => {
   it('PaymentWithdraw with any from should be withdraw', () => {
     const event = {
       name: 'PaymentWithdraw',
-      from: 'account1'
+      from: 'account1',
     }
     expect(getOperationType(event, 'account1')).toBe('withdraw')
   })
@@ -639,7 +639,7 @@ describe('getOperationType', () => {
   it('from equal to account should be send', () => {
     const event = {
       name: 'Transfer',
-      from: 'account1'
+      from: 'account1',
     }
     expect(getOperationType(event, 'account1')).toBe('send')
   })
@@ -647,7 +647,7 @@ describe('getOperationType', () => {
   it('from different to account should be receive', () => {
     const event = {
       name: 'Transfer',
-      from: 'account2'
+      from: 'account2',
     }
     expect(getOperationType(event, 'account1')).toBe('receive')
   })
@@ -656,7 +656,7 @@ describe('getOperationType', () => {
 describe('getOperationType', () => {
   it('PaymentWithdraw should be withdraw', () => {
     const event = {
-      name: 'PaymentWithdraw'
+      name: 'PaymentWithdraw',
     }
     expect(getOperationType(event, 'account1')).toBe('withdraw')
   })
@@ -664,7 +664,7 @@ describe('getOperationType', () => {
   it('PaymentWithdraw with any from should be withdraw', () => {
     const event = {
       name: 'PaymentWithdraw',
-      from: 'account1'
+      from: 'account1',
     }
     expect(getOperationType(event, 'account1')).toBe('withdraw')
   })
@@ -672,7 +672,7 @@ describe('getOperationType', () => {
   it('from equal to account should be send', () => {
     const event = {
       name: 'Transfer',
-      from: 'account1'
+      from: 'account1',
     }
     expect(getOperationType(event, 'account1')).toBe('send')
   })
@@ -680,7 +680,7 @@ describe('getOperationType', () => {
   it('from different to account should be receive', () => {
     const event = {
       name: 'Transfer',
-      from: 'account2'
+      from: 'account2',
     }
     expect(getOperationType(event, 'account1')).toBe('receive')
   })
@@ -690,7 +690,7 @@ describe('users index', () => {
   const unavailableProfile = {
     email: 'username@unavailable.com',
     mobile: '22222222220',
-    username: 'unavailable'
+    username: 'unavailable',
   }
   beforeAll(async done => {
     await userStorage.wallet.ready
@@ -753,7 +753,7 @@ describe('users index', () => {
   it('validateProfile should return isValid=false when field is being used and error only in that field', async () => {
     const { isValid, errors } = await userStorage.validateProfile({
       email: unavailableProfile.email,
-      username: 'newUsername'
+      username: 'newUsername',
     })
     expect(isValid).toBeFalsy()
     expect(errors).toEqual({ email: 'Unavailable email' })

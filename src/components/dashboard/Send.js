@@ -90,7 +90,7 @@ const Send = props => {
           showDialogWithData({
             title: 'Error',
             message,
-            onDismiss: screenProps.goToRoot
+            onDismiss: screenProps.goToRoot,
           })
         })
     }
@@ -135,7 +135,7 @@ const Send = props => {
 }
 
 Send.navigationOptions = {
-  title: SEND_TITLE
+  title: SEND_TITLE,
 }
 
 export default Send

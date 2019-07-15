@@ -8,7 +8,7 @@ import Icon from 'react-native-elements/src/icons/Icon'
 type CameraButtonProps = {
   handleCameraPress: any => void,
   containerStyles: any,
-  theme: any
+  theme: any,
 }
 
 const CameraButton = ({ handleCameraPress, containerStyles, theme }: CameraButtonProps) => (
@@ -25,19 +25,19 @@ const CameraButton = ({ handleCameraPress, containerStyles, theme }: CameraButto
 )
 
 CameraButton.defaultProps = {
-  containerStyles: {}
+  containerStyles: {},
 }
 
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
     left: 0,
-    bottom: 0
+    bottom: 0,
   },
   icon: {
     marginHorizontal: 0,
-    marginVertical: 0
-  }
+    marginVertical: 0,
+  },
 })
 
 export default withTheme(CameraButton)

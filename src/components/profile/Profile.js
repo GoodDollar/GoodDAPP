@@ -51,7 +51,7 @@ const Profile = props => {
 }
 
 Profile.navigationOptions = {
-  title: TITLE
+  title: TITLE,
 }
 
 const styles = StyleSheet.create({
@@ -59,18 +59,18 @@ const styles = StyleSheet.create({
     paddingLeft: '1em',
     paddingRight: '1em',
     marginBottom: 'auto',
-    minHeight: '100%'
+    minHeight: '100%',
   },
   icon: {
     top: 0,
-    position: 'absolute'
+    position: 'absolute',
   },
   iconRight: {
-    right: 0
+    right: 0,
   },
   iconLeft: {
-    left: 0
-  }
+    left: 0,
+  },
 })
 
 export default createStackNavigator({ Profile, EditProfile, ProfilePrivacy, ViewAvatar, EditAvatar })

@@ -61,15 +61,15 @@ const EditAvatar = ({ screenProps, theme }) => {
 }
 
 EditAvatar.navigationOptions = {
-  title: TITLE
+  title: TITLE,
 }
 
 const styles = StyleSheet.create({
   section: {
     paddingLeft: '1em',
     paddingRight: '1em',
-    flex: 1
-  }
+    flex: 1,
+  },
 })
 
 export default withTheme(EditAvatar)

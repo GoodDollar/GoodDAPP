@@ -14,7 +14,7 @@ export const DEFAULT_PARAMS = {
   event: undefined,
   receiveLink: undefined,
   reason: undefined,
-  code: undefined
+  code: undefined,
 }
 
 const log = logger.child({ from: 'stackNavigation' })
@@ -24,12 +24,12 @@ type AppViewProps = {
   navigation: any,
   navigationConfig: any,
   screenProps: any,
-  store: SimpleStore
+  store: SimpleStore,
 }
 
 type AppViewState = {
   stack: Array<any>,
-  currentState: any
+  currentState: any,
 }
 
 /**
@@ -41,7 +41,7 @@ type AppViewState = {
 class AppView extends Component<AppViewProps, AppViewState> {
   state = {
     stack: [],
-    currentState: {}
+    currentState: {},
   }
 
   /**
@@ -111,10 +111,10 @@ class AppView extends Component<AppViewProps, AppViewState> {
             ...state.stack,
             {
               route,
-              state: state.currentState
-            }
+              state: state.currentState,
+            },
           ],
-          currentState: { ...params, route }
+          currentState: { ...params, route },
         }
       },
       state => {
@@ -132,13 +132,13 @@ class AppView extends Component<AppViewProps, AppViewState> {
     this.trans = true
     this.setState({
       stack: [],
-      currentState: {}
+      currentState: {},
     })
 
     const route = navigation.state.routes[0]
     route.params = {
       ...route.params,
-      ...DEFAULT_PARAMS
+      ...DEFAULT_PARAMS,
     }
 
     navigation.navigate(route)
@@ -152,7 +152,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
     this.props.navigation.navigate({
       routeName,
       params,
-      type: 'Navigation/NAVIGATE'
+      type: 'Navigation/NAVIGATE',
     })
   }
 
@@ -193,7 +193,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
       pop: this.pop,
       screenState: this.state.currentState,
       setScreenState: this.setScreenState,
-      toggleMenu: () => this.drawer.open()
+      toggleMenu: () => this.drawer.open(),
     }
     log.info('stackNavigation Render: FIXME rerender', descriptor, activeKey)
     const Component = this.getComponent(descriptor.getComponent(), { screenProps })
@@ -219,20 +219,20 @@ class AppView extends Component<AppViewProps, AppViewState> {
  */
 export const createStackNavigator = (routes: any, navigationConfig: any) => {
   const defaultNavigationConfig = {
-    backRouteName: 'Home'
+    backRouteName: 'Home',
   }
 
   return createNavigator(SimpleStore.withStore(AppView), SwitchRouter(routes), {
     ...defaultNavigationConfig,
     ...navigationConfig,
-    navigationOptions
+    navigationOptions,
   })
 }
 
 type BackButtonProps = {
   ...ButtonProps,
   routeName?: Route,
-  screenProps: { goToParent: () => void }
+  screenProps: { goToParent: () => void },
 }
 
 /**
@@ -263,7 +263,7 @@ type NextButtonProps = {
   screenProps: { push: (routeName: string, params: any) => void },
   nextRoutes: [string],
   label?: string,
-  canContinue?: Function
+  canContinue?: Function,
 }
 
 /**
@@ -278,7 +278,7 @@ export const NextButton = ({
   screenProps,
   nextRoutes: nextRoutesParam,
   label,
-  canContinue
+  canContinue,
 }: NextButtonProps) => {
   const [next, ...nextRoutes] = nextRoutesParam ? nextRoutesParam : []
   return (

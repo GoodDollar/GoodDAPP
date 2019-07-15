@@ -27,7 +27,7 @@ export class GoodWalletLogin extends LoginService {
       gdSignature,
       profilePublickey,
       profileSignature,
-      nonce
+      nonce,
     }
 
     log.info('returning creds', { creds })

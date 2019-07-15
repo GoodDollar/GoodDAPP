@@ -9,6 +9,8 @@ import Address from './Address'
 import Avatar from './Avatar'
 import CustomDialog from './CustomDialog'
 import CustomButton from './CustomButton'
+import CopyButton from './buttons/CopyButton'
+
 import BigNumber from './BigNumber'
 import BigGoodDollar from './BigGoodDollar'
 import Section from './Section'
@@ -43,7 +45,7 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
     flexDirection: 'column',
     width: '100%',
-    padding: '1rem'
+    padding: 10
   },
   section: {
     backgroundColor: '#eeeeef',
@@ -91,6 +93,7 @@ export {
   Avatar,
   UserAvatar,
   CustomButton,
+  CopyButton,
   Wrapper,
   Section,
   BigNumber,

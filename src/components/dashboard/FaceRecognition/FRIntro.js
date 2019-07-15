@@ -61,8 +61,10 @@ const FRIntro = props => {
             <Image source={Divider} style={{ height: normalize(2) }} />
           </Section>
         </Section>
-        <Section>
-          <CustomButton onPress={gotoFR}>Face CAPTCHA Verification</CustomButton>
+        <Section style={{ backgroundColor: 'white' }}>
+          <CustomButton mode={'contained'} onPress={gotoFR}>
+            Face CAPTCHA Verification
+          </CustomButton>
         </Section>
       </View>
     </Wrapper>

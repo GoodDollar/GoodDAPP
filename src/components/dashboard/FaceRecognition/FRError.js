@@ -6,7 +6,6 @@ import { CustomButton, Section, Wrapper } from '../../common'
 import Divider from '../../../assets/Dividers - Long Line - Stroke Width 2 - Round Cap - Light Blue.svg'
 import Oops from '../../../assets/oops.svg'
 import GDStore from '../../../lib/undux/GDStore'
-import SimpleStore from '../../../lib/undux/SimpleStore'
 import logger from '../../../lib/logger/pino-logger'
 const log = logger.child({ from: 'FRError' })
 
@@ -26,7 +25,7 @@ const FRError = props => {
   const isRelevantError = reason.match(/camera/i)
   let error = isRelevantError
     ? reason
-    : "You see, it's not that easy to capture your beauty :)\nSo, let's give it another shot..."
+    : "You see, it's not that easy to capture your beauty :)\nSo, let's give it another shot..."
 
   if (isValid) {
     props.screenProps.pop({ isValid })
@@ -48,7 +47,8 @@ const FRError = props => {
             paddingLeft: normalize(44),
             paddingRight: normalize(44),
             justifyContent: 'space-evenly',
-            flex: 1
+            flex: 1,
+            backgroundColor: 'white'
           }}
         >
           <Section.Title style={styles.mainTitle}> {`${fullName},\nSomething went wrong on our side...`}</Section.Title>
@@ -57,7 +57,8 @@ const FRError = props => {
             style={{
               paddingBottom: 0,
               paddingTop: 0,
-              marginBottom: 0
+              marginBottom: 0,
+              backgroundColor: ' white'
             }}
           >
             <Image source={Divider} style={{ height: normalize(2) }} />
@@ -114,8 +115,9 @@ const styles = StyleSheet.create({
   }
 })
 
-FRError.navigationOptions = {
-  title: 'Face Matching',
+const FRErrorWithStore = GDStore.withStore(FRError)
+FRErrorWithStore.navigationOptions = {
+  title: 'Ooops...',
   navigationBarHidden: false
 }
-export default SimpleStore.withStore(FRError)
+export default FRErrorWithStore

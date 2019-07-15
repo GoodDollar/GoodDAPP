@@ -1,10 +1,10 @@
 // @flow
-
+import values from 'lodash/values'
 import React, { createRef, useEffect, useState } from 'react'
 import { StyleSheet, TextInput, View } from 'react-native'
-import { normalize } from 'react-native-elements'
-import values from 'lodash/values'
+import normalize from 'react-native-elements/src/helpers/normalizeText'
 import logger from '../../lib/logger/pino-logger'
+import { withStyles } from '../../lib/styles'
 import { getScreenHeight } from '../../lib/utils/Orientation'
 import { Text } from '../common'
 
@@ -22,7 +22,7 @@ const isValidWord = word => {
   return word !== ''
 }
 
-const MnemonicInput = (props: Props) => {
+const MnemonicInput = ({ onChange, recoveryMode, styles }: Props) => {
   const [state, setState] = useState({})
   const refs = {}
 
@@ -35,23 +35,23 @@ const MnemonicInput = (props: Props) => {
   }, [state])
 
   useEffect(() => {
-    if (props.recoveryMode && state !== props.recoveryMode) {
+    if (recoveryMode && state !== recoveryMode) {
       log.info({
-        recoveryMode: props.recoveryMode,
-        different: state !== props.recoveryMode,
+        recoveryMode: recoveryMode,
+        different: state !== recoveryMode,
         state,
       })
-      setState(props.recoveryMode)
+      setState(recoveryMode)
     }
-  }, [props.recoveryMode])
+  }, [recoveryMode])
 
   const handleChange = () => {
     // Each time the state is updated we check if there is a valid mnemonic and execute onChange callback
     const wordsArray = values(state)
     if (wordsArray.length === MAX_WORDS && wordsArray.every(isValidWord)) {
-      props.onChange(wordsArray)
+      onChange(wordsArray)
     } else {
-      props.onChange([])
+      onChange([])
     }
   }
 
@@ -83,11 +83,11 @@ const MnemonicInput = (props: Props) => {
   }
 
   return (
-    <View style={styles.inputsContainer}>
+    <>
       {[...Array(MAX_WORDS).keys()].map(key => (
         <View key={key} style={styles.inputContainer}>
           <View style={styles.prevNumber}>
-            <Text>{key + 1}</Text>
+            <Text color="surface">{key + 1}</Text>
           </View>
           <TextInput
             value={state[key] || ''}
@@ -95,11 +95,11 @@ const MnemonicInput = (props: Props) => {
             style={styles.input}
             onChange={e => setWord(key)(e.target.value)}
             ref={refs[key]}
-            editable={!props.recoveryMode}
+            editable={!recoveryMode}
           />
         </View>
       ))}
-    </View>
+    </>
   )
 }
 
@@ -107,44 +107,38 @@ MnemonicInput.defaultProps = {
   onChange: (words: any) => {},
 }
 
-const styles = StyleSheet.create({
-  inputsContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-  },
+const mnemonicInputStyles = ({ theme }) => ({
   inputContainer: {
     width: '45%',
     marginTop: normalize(10),
-    height: normalize(height >= 640 ? 40 : 35),
+    height: normalize(height >= 640 ? 44 : 36),
     flexDirection: 'row',
   },
   input: {
-    backgroundColor: '#fff',
-    borderColor: '#555',
+    backgroundColor: theme.colors.surface,
+    borderColor: theme.colors.primary,
     borderWidth: StyleSheet.hairlineWidth,
-    borderTopRightRadius: normalize(5),
-    borderBottomRightRadius: normalize(5),
-    height: normalize(height >= 640 ? 40 : 35),
-    justifyContent: 'center',
+    borderTopRightRadius: normalize(22),
+    borderBottomRightRadius: normalize(22),
+    height: normalize(height >= 640 ? 44 : 36),
     paddingLeft: normalize(16),
+    width: normalize(94),
+    justifyContent: 'center',
     flex: 1,
-    width: '100%',
-    marginLeft: '-1px',
   },
   prevNumber: {
-    borderColor: '#555',
+    backgroundColor: theme.colors.primary,
+    borderColor: theme.colors.primary,
     borderWidth: StyleSheet.hairlineWidth,
-    borderTopLeftRadius: normalize(5),
-    borderBottomLeftRadius: normalize(5),
+    borderTopLeftRadius: normalize(22),
+    borderBottomLeftRadius: normalize(22),
     display: 'flex',
-    width: normalize(30),
+    width: normalize(32),
+    height: normalize(height >= 640 ? 44 : 36),
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: '0 8px',
-    backgroundColor: '#d2d2d2',
+    paddingHorizontal: theme.paddings.mainContainerPadding,
   },
 })
 
-export default MnemonicInput
+export default withStyles(mnemonicInputStyles)(MnemonicInput)

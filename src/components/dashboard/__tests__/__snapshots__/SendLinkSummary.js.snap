@@ -174,7 +174,16 @@ exports[`SendLinkSummary matches snapshot 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
-              "display": "inline-block",
+              "WebkitAlignItems": "flex-end",
+              "WebkitBoxAlign": "end",
+              "WebkitBoxDirection": "normal",
+              "WebkitBoxOrient": "horizontal",
+              "WebkitFlexDirection": "row",
+              "alignItems": "flex-end",
+              "display": "flex",
+              "flexDirection": "row",
+              "msFlexAlign": "end",
+              "msFlexDirection": "row",
             }
           }
         >
@@ -185,10 +194,11 @@ exports[`SendLinkSummary matches snapshot 1`] = `
               Object {
                 "color": "rgba(85,85,85,1.00)",
                 "direction": "ltr",
-                "fontFamily": "Roboto",
-                "fontSize": "48px",
-                "fontWeight": "normal",
+                "fontFamily": "Roboto-Bold",
+                "fontSize": "44px",
+                "fontWeight": "700",
                 "lineHeight": "22px",
+                "marginRight": "4px",
                 "textAlign": "right",
                 "textDecoration": "none",
                 "textTransform": "none",
@@ -204,9 +214,9 @@ exports[`SendLinkSummary matches snapshot 1`] = `
               Object {
                 "color": "rgba(85,85,85,1.00)",
                 "direction": "ltr",
-                "fontFamily": "Roboto",
-                "fontSize": "18px",
-                "fontWeight": "normal",
+                "fontFamily": "Roboto-Bold",
+                "fontSize": "22px",
+                "fontWeight": "700",
                 "lineHeight": "22px",
                 "textAlign": "right",
                 "textDecoration": "none",
@@ -403,7 +413,16 @@ exports[`SendLinkSummary matches snapshot 1`] = `
             className="css-view-1dbjc4n"
             style={
               Object {
-                "display": "inline-block",
+                "WebkitAlignItems": "flex-end",
+                "WebkitBoxAlign": "end",
+                "WebkitBoxDirection": "normal",
+                "WebkitBoxOrient": "horizontal",
+                "WebkitFlexDirection": "row",
+                "alignItems": "flex-end",
+                "display": "flex",
+                "flexDirection": "row",
+                "msFlexAlign": "end",
+                "msFlexDirection": "row",
               }
             }
           >
@@ -414,10 +433,11 @@ exports[`SendLinkSummary matches snapshot 1`] = `
                 Object {
                   "color": "rgba(85,85,85,1.00)",
                   "direction": "ltr",
-                  "fontFamily": "Roboto",
-                  "fontSize": "48px",
-                  "fontWeight": "normal",
+                  "fontFamily": "Roboto-Bold",
+                  "fontSize": "44px",
+                  "fontWeight": "700",
                   "lineHeight": "22px",
+                  "marginRight": "4px",
                   "textAlign": "right",
                   "textDecoration": "none",
                   "textTransform": "none",
@@ -433,9 +453,9 @@ exports[`SendLinkSummary matches snapshot 1`] = `
                 Object {
                   "color": "rgba(85,85,85,1.00)",
                   "direction": "ltr",
-                  "fontFamily": "Roboto",
-                  "fontSize": "18px",
-                  "fontWeight": "normal",
+                  "fontFamily": "Roboto-Bold",
+                  "fontSize": "22px",
+                  "fontWeight": "700",
                   "lineHeight": "22px",
                   "textAlign": "right",
                   "textDecoration": "none",
@@ -569,7 +589,7 @@ exports[`SendLinkSummary matches snapshot 1`] = `
                     Object {
                       "color": "rgba(163,163,163,1.00)",
                       "direction": "ltr",
-                      "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                      "fontFamily": "Roboto-Medium",
                       "letterSpacing": "1px",
                       "marginBottom": "9px",
                       "marginLeft": "8px",
@@ -598,7 +618,7 @@ exports[`SendLinkSummary matches snapshot 1`] = `
                       style={
                         Object {
                           "direction": "ltr",
-                          "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                          "fontFamily": "Roboto",
                           "fontWeight": "bold",
                           "lineHeight": "0px",
                           "paddingTop": "1px",
@@ -711,7 +731,7 @@ exports[`SendLinkSummary matches snapshot 1`] = `
                     Object {
                       "color": "rgba(255,255,255,1.00)",
                       "direction": "ltr",
-                      "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                      "fontFamily": "Roboto-Medium",
                       "letterSpacing": "1px",
                       "marginBottom": "9px",
                       "marginLeft": "8px",
@@ -741,7 +761,7 @@ exports[`SendLinkSummary matches snapshot 1`] = `
                         Object {
                           "color": "rgba(255,255,255,1.00)",
                           "direction": "ltr",
-                          "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                          "fontFamily": "Roboto",
                           "fontWeight": "bold",
                           "lineHeight": "0px",
                           "paddingTop": "1px",

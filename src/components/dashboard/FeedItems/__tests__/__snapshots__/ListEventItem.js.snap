@@ -181,7 +181,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
             "msFlexAlign": "center",
             "msFlexDirection": "row",
             "msFlexPack": "justify",
-            "paddingBottom": "5px",
+            "paddingBottom": "4px",
           }
         }
       >
@@ -192,7 +192,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
             Object {
               "color": "rgba(163,163,163,1.00)",
               "direction": "ltr",
-              "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "fontFamily": "Roboto",
               "fontSize": "10px",
               "fontWeight": "normal",
               "lineHeight": "22px",
@@ -209,7 +209,16 @@ exports[`ListEventItem receive matches snapshot 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
-              "display": "inline-block",
+              "WebkitAlignItems": "flex-end",
+              "WebkitBoxAlign": "end",
+              "WebkitBoxDirection": "normal",
+              "WebkitBoxOrient": "horizontal",
+              "WebkitFlexDirection": "row",
+              "alignItems": "flex-end",
+              "display": "flex",
+              "flexDirection": "row",
+              "msFlexAlign": "end",
+              "msFlexDirection": "row",
             }
           }
         >
@@ -222,8 +231,9 @@ exports[`ListEventItem receive matches snapshot 1`] = `
                 "direction": "ltr",
                 "fontFamily": "Roboto-Bold",
                 "fontSize": "15px",
-                "fontWeight": "normal",
+                "fontWeight": "700",
                 "lineHeight": "22px",
+                "marginRight": "4px",
                 "textAlign": "right",
                 "textDecoration": "none",
                 "textTransform": "none",
@@ -241,7 +251,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
                 "direction": "ltr",
                 "fontFamily": "Roboto-Bold",
                 "fontSize": "10px",
-                "fontWeight": "normal",
+                "fontWeight": "700",
                 "lineHeight": "22px",
                 "textAlign": "right",
                 "textDecoration": "none",
@@ -317,6 +327,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
                 "fontWeight": "normal",
                 "lineHeight": "22px",
                 "marginTop": "auto",
+                "paddingRight": "4px",
                 "textAlign": "center",
                 "textDecoration": "none",
                 "textTransform": "capitalize",
@@ -350,7 +361,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
                 Object {
                   "color": "rgba(34,34,34,1.00)",
                   "direction": "ltr",
-                  "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                  "fontFamily": "Roboto-Medium",
                   "fontSize": "16px",
                   "fontWeight": "normal",
                   "lineHeight": "22px",
@@ -374,8 +385,8 @@ exports[`ListEventItem receive matches snapshot 1`] = `
                 "fontSize": "10px",
                 "fontWeight": "normal",
                 "lineHeight": "22px",
-                "marginTop": "5px",
-                "paddingRight": "5px",
+                "marginTop": "4px",
+                "paddingRight": "4px",
                 "textAlign": "left",
                 "textDecoration": "none",
                 "textTransform": "capitalize",
@@ -609,7 +620,7 @@ exports[`ListEventItem send matches snapshot 1`] = `
             "msFlexAlign": "center",
             "msFlexDirection": "row",
             "msFlexPack": "justify",
-            "paddingBottom": "5px",
+            "paddingBottom": "4px",
           }
         }
       >
@@ -620,7 +631,7 @@ exports[`ListEventItem send matches snapshot 1`] = `
             Object {
               "color": "rgba(163,163,163,1.00)",
               "direction": "ltr",
-              "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "fontFamily": "Roboto",
               "fontSize": "10px",
               "fontWeight": "normal",
               "lineHeight": "22px",
@@ -637,7 +648,16 @@ exports[`ListEventItem send matches snapshot 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
-              "display": "inline-block",
+              "WebkitAlignItems": "flex-end",
+              "WebkitBoxAlign": "end",
+              "WebkitBoxDirection": "normal",
+              "WebkitBoxOrient": "horizontal",
+              "WebkitFlexDirection": "row",
+              "alignItems": "flex-end",
+              "display": "flex",
+              "flexDirection": "row",
+              "msFlexAlign": "end",
+              "msFlexDirection": "row",
             }
           }
         >
@@ -650,8 +670,9 @@ exports[`ListEventItem send matches snapshot 1`] = `
                 "direction": "ltr",
                 "fontFamily": "Roboto-Bold",
                 "fontSize": "15px",
-                "fontWeight": "normal",
+                "fontWeight": "700",
                 "lineHeight": "22px",
+                "marginRight": "4px",
                 "textAlign": "right",
                 "textDecoration": "none",
                 "textTransform": "none",
@@ -669,7 +690,7 @@ exports[`ListEventItem send matches snapshot 1`] = `
                 "direction": "ltr",
                 "fontFamily": "Roboto-Bold",
                 "fontSize": "10px",
-                "fontWeight": "normal",
+                "fontWeight": "700",
                 "lineHeight": "22px",
                 "textAlign": "right",
                 "textDecoration": "none",
@@ -745,6 +766,7 @@ exports[`ListEventItem send matches snapshot 1`] = `
                 "fontWeight": "normal",
                 "lineHeight": "22px",
                 "marginTop": "auto",
+                "paddingRight": "4px",
                 "textAlign": "center",
                 "textDecoration": "none",
                 "textTransform": "capitalize",
@@ -778,7 +800,7 @@ exports[`ListEventItem send matches snapshot 1`] = `
                 Object {
                   "color": "rgba(34,34,34,1.00)",
                   "direction": "ltr",
-                  "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                  "fontFamily": "Roboto-Medium",
                   "fontSize": "16px",
                   "fontWeight": "normal",
                   "lineHeight": "22px",
@@ -802,8 +824,8 @@ exports[`ListEventItem send matches snapshot 1`] = `
                 "fontSize": "10px",
                 "fontWeight": "normal",
                 "lineHeight": "22px",
-                "marginTop": "5px",
-                "paddingRight": "5px",
+                "marginTop": "4px",
+                "paddingRight": "4px",
                 "textAlign": "left",
                 "textDecoration": "none",
                 "textTransform": "capitalize",
@@ -1037,7 +1059,7 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
             "msFlexAlign": "center",
             "msFlexDirection": "row",
             "msFlexPack": "justify",
-            "paddingBottom": "5px",
+            "paddingBottom": "4px",
           }
         }
       >
@@ -1048,7 +1070,7 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
             Object {
               "color": "rgba(163,163,163,1.00)",
               "direction": "ltr",
-              "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "fontFamily": "Roboto",
               "fontSize": "10px",
               "fontWeight": "normal",
               "lineHeight": "22px",
@@ -1065,7 +1087,16 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
-              "display": "inline-block",
+              "WebkitAlignItems": "flex-end",
+              "WebkitBoxAlign": "end",
+              "WebkitBoxDirection": "normal",
+              "WebkitBoxOrient": "horizontal",
+              "WebkitFlexDirection": "row",
+              "alignItems": "flex-end",
+              "display": "flex",
+              "flexDirection": "row",
+              "msFlexAlign": "end",
+              "msFlexDirection": "row",
             }
           }
         >
@@ -1078,8 +1109,9 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
                 "direction": "ltr",
                 "fontFamily": "Roboto-Bold",
                 "fontSize": "15px",
-                "fontWeight": "normal",
+                "fontWeight": "700",
                 "lineHeight": "22px",
+                "marginRight": "4px",
                 "textAlign": "right",
                 "textDecoration": "none",
                 "textTransform": "none",
@@ -1097,7 +1129,7 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
                 "direction": "ltr",
                 "fontFamily": "Roboto-Bold",
                 "fontSize": "10px",
-                "fontWeight": "normal",
+                "fontWeight": "700",
                 "lineHeight": "22px",
                 "textAlign": "right",
                 "textDecoration": "none",
@@ -1173,6 +1205,7 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
                 "fontWeight": "normal",
                 "lineHeight": "22px",
                 "marginTop": "auto",
+                "paddingRight": "4px",
                 "textAlign": "center",
                 "textDecoration": "none",
                 "textTransform": "capitalize",
@@ -1206,7 +1239,7 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
                 Object {
                   "color": "rgba(34,34,34,1.00)",
                   "direction": "ltr",
-                  "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                  "fontFamily": "Roboto-Medium",
                   "fontSize": "16px",
                   "fontWeight": "normal",
                   "lineHeight": "22px",
@@ -1230,8 +1263,8 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
                 "fontSize": "10px",
                 "fontWeight": "normal",
                 "lineHeight": "22px",
-                "marginTop": "5px",
-                "paddingRight": "5px",
+                "marginTop": "4px",
+                "paddingRight": "4px",
                 "textAlign": "left",
                 "textDecoration": "none",
                 "textTransform": "capitalize",

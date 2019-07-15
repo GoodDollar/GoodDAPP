@@ -45,6 +45,9 @@ export const theme = {
     fontSize: normalize(18),
     textAlign: 'center',
   },
+  backdrop: {
+    backgroundColor: 'rgba(255, 0, 0, 0.8)',
+  },
   modals: {
     overlayBackgroundColor: 'rgba(255, 255, 255, 0.8)',
     overlayHorizontalPadding: normalize(20),

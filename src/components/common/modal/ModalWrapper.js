@@ -17,7 +17,7 @@ const ModalWrapper = (props: any) => {
     <ScrollView>
       <ModalOverlay>
         {onClose ? <ModalCloseButton onClose={onClose} /> : null}
-        <ModalContainer style={styles.modalContainer}>
+        <ModalContainer>
           <ModalLeftBorder
             borderColor={leftBorderColor}
             style={[showJaggedEdge ? styles.modalLeftBorderAddMarginBottom : '']}

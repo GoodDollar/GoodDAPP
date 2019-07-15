@@ -96,18 +96,22 @@ const HelperWizard = props => {
     return null
   }
   return (
-    <View style={{ zIndex: 10, justifyContent: 'space-evenly', height: '100%' }}>
-      <Text style={{ fontFamily: 'Roboto-Medium', fontSize: normalize(20), color: 'white' }}>{text}</Text>
-      {imgs}
-      <CustomButton
-        style={{ borderColor: 'white', borderWidth: 2, fontColor: 'white' }}
-        mode={'outlined'}
-        onPress={nextStep}
-        textStyle={{ color: 'white' }}
-      >
-        OK
-      </CustomButton>
-    </View>
+    <React.Fragment>
+      <View id="background" style={styles.background} />
+      <View style={{ zIndex: 10, justifyContent: 'space-evenly', height: '100%' }}>
+        <Text style={{ fontFamily: 'Roboto-Medium', fontSize: normalize(20), color: 'white' }}>{text}</Text>
+        {imgs}
+        <CustomButton
+          style={{ borderColor: 'white', borderWidth: 2, fontColor: 'white' }}
+          mode={'outlined'}
+          dark={true}
+          onPress={nextStep}
+          textStyle={{ color: 'white' }}
+        >
+          OK
+        </CustomButton>
+      </View>
+    </React.Fragment>
   )
 }
 
@@ -168,7 +172,6 @@ class ZoomCapture extends React.Component<ZoomCaptureProps> {
       <View>
         <View style={styles.bottomSection}>
           <div id="zoom-parent-container" style={getVideoContainerStyles()}>
-            <View id="background" style={styles.background} />
             <View id="helper" style={styles.helper}>
               <HelperWizard done={this.captureUserMediaZoom} />
             </View>
@@ -201,7 +204,7 @@ const styles = StyleSheet.create({
   background: {
     position: 'absolute',
     top: 0,
-    left: 0,
+    left: -5,
     zIndex: 8,
     borderWidth: 5,
     borderColor: 'white',

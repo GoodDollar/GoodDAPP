@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { AsyncStorage, Image, StyleSheet, Text, View } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
+import { isMobile } from 'mobile-device-detect'
+
 import get from 'lodash/get'
 import QRCode from 'qrcode.react'
 import Config from '../../../config/config'
@@ -8,7 +10,6 @@ import { CopyButton, Section, Wrapper } from '../../common'
 import Divider from '../../../assets/Dividers - Long Line - Stroke Width 2 - Round Cap - Light Blue.svg'
 import Oops from '../../../assets/oops.svg'
 import GDStore from '../../../lib/undux/GDStore'
-import SimpleStore from '../../../lib/undux/SimpleStore'
 import logger from '../../../lib/logger/pino-logger'
 
 const log = logger.child({ from: 'UnsupportedDevice' })
@@ -23,7 +24,7 @@ const UnsupportedDevice = props => {
   log.debug({ reason })
 
   let error =
-    "In order to continue, it's best you'll switch to your mobile device, also for best experience use Chrome/Safari browser."
+    "In order to continue, it's best you switch to your mobile device, also for best experience use Chrome/Safari browser."
   let title = `${fullName},\nWe need to talk...`
   switch (reason) {
     case 'isNotMobileSafari':
@@ -45,7 +46,7 @@ const UnsupportedDevice = props => {
   }, [])
 
   const qrCode =
-    code === undefined ? null : (
+    isMobile === true || code === undefined ? null : (
       <React.Fragment>
         <Text style={{ alignSelf: 'center', fontFamily: 'Roboto' }}>Scan via your mobile</Text>
         <View
@@ -66,14 +67,14 @@ const UnsupportedDevice = props => {
     )
 
   const copyCode =
-    code === undefined ? null : (
+    isMobile === false || code === undefined ? null : (
       <View>
         <CopyButton mode="contained" toCopy={code}>
           Copy Link To Safari
         </CopyButton>
       </View>
     )
-  const codeAction = reason === 'isNotMobileSafari' ? copyCode : qrCode
+  const codeAction = isMobile ? copyCode : qrCode
   return (
     <Wrapper>
       <View style={styles.topContainer}>
@@ -151,7 +152,7 @@ const styles = StyleSheet.create({
   }
 })
 
-const UDWithStore = SimpleStore.withStore(UnsupportedDevice)
+const UDWithStore = GDStore.withStore(UnsupportedDevice)
 UDWithStore.navigationOptions = {
   title: 'Unsupported Device',
   navigationBarHidden: false

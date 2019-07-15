@@ -106,7 +106,7 @@ const Claim = ({ navigation, screenProps, ...props }: ClaimProps) => {
   }
 
   const faceRecognition = () => {
-    screenProps.push('FaceRecognition', { from: 'Claim' })
+    screenProps.push('FRIntro', { from: 'Claim' })
   }
 
   const { entitlement } = gdstore.get('account')

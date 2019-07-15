@@ -17,6 +17,7 @@ const getStylesFromProps = ({ theme }) => {
       flexGrow: 1,
       flexShrink: 0,
       height: '100vh',
+      maxWidth: '475px',
       paddingBottom: theme.modals.overlayVerticalPadding,
       paddingLeft: theme.modals.overlayHorizontalPadding,
       paddingRight: theme.modals.overlayHorizontalPadding,

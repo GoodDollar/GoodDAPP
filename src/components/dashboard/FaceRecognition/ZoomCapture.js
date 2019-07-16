@@ -12,10 +12,12 @@ import logger from '../../../lib/logger/pino-logger'
 import WebcamGood from '../../../assets/zoom/webcam_good_ok.png'
 import WebcamBad from '../../../assets/zoom/webcam_bad_ok.png'
 import MobileAngleGood from '../../../assets/zoom/zoom-face-guy-angle-good-phone.png'
-import MobileAngleBad from '../../../assets/zoom/zoom-face-guy-angle-bad-phone.png'
+
+// import MobileAngleBad from '../../../assets/zoom/zoom-face-guy-angle-bad-phone.png'
 import WebAngleGood from '../../../assets/zoom/zoom-face-guy-angle-good-web.png'
-import WebAngleOk from '../../../assets/zoom/zoom-face-guy-angle-ok-web.png'
-import WebAngleBad from '../../../assets/zoom/zoom-face-guy-angle-bad-web.png'
+
+// import WebAngleOk from '../../../assets/zoom/zoom-face-guy-angle-ok-web.png'
+// import WebAngleBad from '../../../assets/zoom/zoom-face-guy-angle-bad-web.png'
 import LightingBad1 from '../../../assets/zoom/zoom-face-guy-lighting-back-web.png'
 import LightingBad2 from '../../../assets/zoom/zoom-face-guy-lighting-side-web.png'
 import LightingGood from '../../../assets/zoom/zoom-face-guy-lighting-good-web.png'
@@ -42,7 +44,7 @@ const HelperWizard = props => {
       if (isMobile) {
         nextStep()
       } else {
-        text = 'Center Your Webcam'
+        text = 'Center your webcam'
         imgs = (
           <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
             <Image
@@ -60,31 +62,31 @@ const HelperWizard = props => {
       }
       break
     case 1:
-      text = 'Ensure Camera At Eye Level'
+      text = 'Ensure camera is at eye level'
       if (isMobile) {
         imgs = (
           <View style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
             <Image source={MobileAngleGood} resizeMode={'contain'} style={{ width: '100%', height: normalize(75) }} />
-            <Image source={MobileAngleBad} resizeMode={'contain'} style={{ width: '100%', height: normalize(75) }} />
+            {/* <Image source={MobileAngleBad} resizeMode={'contain'} style={{ width: '100%', height: normalize(75) }} /> */}
           </View>
         )
       } else {
         imgs = (
           <View style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
             <Image source={WebAngleGood} resizeMode={'contain'} style={{ width: '100%', height: normalize(75) }} />
-            <Image source={WebAngleOk} resizeMode={'contain'} style={{ width: '100%', height: normalize(75) }} />
-            <Image source={WebAngleBad} resizeMode={'contain'} style={{ width: '100%', height: normalize(75) }} />
+            {/* <Image source={WebAngleOk} resizeMode={'contain'} style={{ width: '100%', height: normalize(75) }} />
+            <Image source={WebAngleBad} resizeMode={'contain'} style={{ width: '100%', height: normalize(75) }} /> */}
           </View>
         )
       }
       break
     case 2:
-      text = 'Light Your Face Evenly'
+      text = 'Light your face evenly'
       imgs = (
         <View style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-          <Image source={LightingGood} resizeMode={'contain'} style={{ width: '100%', height: normalize(75) }} />
-          <Image source={LightingBad1} resizeMode={'contain'} style={{ width: '100%', height: normalize(75) }} />
           <Image source={LightingBad2} resizeMode={'contain'} style={{ width: '100%', height: normalize(75) }} />
+          <Image source={LightingBad1} resizeMode={'contain'} style={{ width: '100%', height: normalize(75) }} />
+          <Image source={LightingGood} resizeMode={'contain'} style={{ width: '100%', height: normalize(75) }} />
         </View>
       )
       break

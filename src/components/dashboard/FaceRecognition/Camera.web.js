@@ -144,7 +144,7 @@ export function Camera(props: CameraProps) {
   )
 }
 
-export const getResponsiveVideoDimensionsOld = () => {
+export const getResponsiveVideoDimensions = () => {
   const { width, height } = Dimensions.get('window')
 
   const defaultHeight = height - 124 > 360 && width < 690
@@ -155,7 +155,7 @@ export const getResponsiveVideoDimensionsOld = () => {
   }
 }
 
-export const getResponsiveVideoDimensions = () => {
+export const getResponsiveVideoDimensionsNew = () => {
   const { width, height } = Dimensions.get('window')
 
   //our max width is 475 and we have (10+5)*2 padding

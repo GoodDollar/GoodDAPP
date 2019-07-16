@@ -13,6 +13,7 @@ export const theme = {
     darkGray: '#42454A',
     gray: '#555',
     gray50Percent: '#CBCBCB',
+    gray80Percent: '#A3A3A3',
     placeholder: '#CBCBCB',
     green: '#00C3AE',
     lightGray: '#EEE',

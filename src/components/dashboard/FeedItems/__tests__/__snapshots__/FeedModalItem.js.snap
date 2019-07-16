@@ -485,13 +485,12 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                       style={
                         Object {
                           "backgroundColor": "rgba(238,238,238,1.00)",
-                          "borderBottomLeftRadius": "50%",
-                          "borderBottomRightRadius": "50%",
-                          "borderTopLeftRadius": "50%",
-                          "borderTopRightRadius": "50%",
-                          "height": "34px",
-                          "marginRight": "7px",
-                          "width": "34px",
+                          "borderBottomLeftRadius": "21px",
+                          "borderBottomRightRadius": "21px",
+                          "borderTopLeftRadius": "21px",
+                          "borderTopRightRadius": "21px",
+                          "height": "44px",
+                          "width": "44px",
                         }
                       }
                     >
@@ -1263,13 +1262,12 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                       style={
                         Object {
                           "backgroundColor": "rgba(238,238,238,1.00)",
-                          "borderBottomLeftRadius": "50%",
-                          "borderBottomRightRadius": "50%",
-                          "borderTopLeftRadius": "50%",
-                          "borderTopRightRadius": "50%",
-                          "height": "34px",
-                          "marginRight": "7px",
-                          "width": "34px",
+                          "borderBottomLeftRadius": "21px",
+                          "borderBottomRightRadius": "21px",
+                          "borderTopLeftRadius": "21px",
+                          "borderTopRightRadius": "21px",
+                          "height": "44px",
+                          "width": "44px",
                         }
                       }
                     >

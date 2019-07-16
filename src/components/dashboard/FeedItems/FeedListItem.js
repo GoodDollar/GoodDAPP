@@ -49,6 +49,7 @@ const getStylesFromProps = ({ theme }) => ({
     maxHeight: theme.feedItems.height,
     shadowOpacity: 0.16,
     shadowRadius: normalize(4),
+    marginHorizontal: theme.sizes.default,
   },
   rowContent: {
     alignItems: 'center',

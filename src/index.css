@@ -39,6 +39,13 @@ a {
   text-decoration: inherit; /* no underline */
 }
 
+input:focus {
+  border-color: inherit;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  outline: none;
+}
+
 @font-face {
   font-family: 'RobotoSlab-Bold';
   src: url('./assets/fonts/RobotoSlab-Bold.ttf');

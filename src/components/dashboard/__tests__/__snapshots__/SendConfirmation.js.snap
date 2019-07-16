@@ -120,8 +120,8 @@ exports[`SendConfirmation matches snapshot 1`] = `
                 "borderBottomRightRadius": "21px",
                 "borderTopLeftRadius": "21px",
                 "borderTopRightRadius": "21px",
-                "height": "42px",
-                "width": "42px",
+                "height": "44px",
+                "width": "44px",
               }
             }
           >
@@ -294,6 +294,7 @@ exports[`SendConfirmation matches snapshot 1`] = `
                       "error": "#FA6C77",
                       "gray": "#555",
                       "gray50Percent": "#CBCBCB",
+                      "gray80Percent": "#A3A3A3",
                       "green": "#00C3AE",
                       "lightGray": "#EEE",
                       "lighterGray": "#A3A3A3",

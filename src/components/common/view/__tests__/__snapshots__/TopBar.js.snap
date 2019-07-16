@@ -91,8 +91,8 @@ exports[`TopBar matches snapshot with balance 1`] = `
               "borderBottomRightRadius": "21px",
               "borderTopLeftRadius": "21px",
               "borderTopRightRadius": "21px",
-              "height": "42px",
-              "width": "42px",
+              "height": "44px",
+              "width": "44px",
             }
           }
         >
@@ -290,8 +290,8 @@ exports[`TopBar matches snapshot without balance 1`] = `
               "borderBottomRightRadius": "21px",
               "borderTopLeftRadius": "21px",
               "borderTopRightRadius": "21px",
-              "height": "42px",
-              "width": "42px",
+              "height": "44px",
+              "width": "44px",
             }
           }
         >
@@ -432,8 +432,8 @@ exports[`TopBar should render the children component 1`] = `
               "borderBottomRightRadius": "21px",
               "borderTopLeftRadius": "21px",
               "borderTopRightRadius": "21px",
-              "height": "42px",
-              "width": "42px",
+              "height": "44px",
+              "width": "44px",
             }
           }
         >

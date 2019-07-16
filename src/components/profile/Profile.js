@@ -1,6 +1,7 @@
 // @flow
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
+import { withTheme } from 'react-native-paper'
 import Icon from 'react-native-elements/src/icons/Icon'
 import GDStore from '../../lib/undux/GDStore'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
@@ -13,13 +14,17 @@ import ViewAvatar from './ViewAvatar'
 
 const TITLE = 'Profile'
 
-const EditIcon = props => <IconButton {...props} wrapperStyle={styles.iconRight} name="edit" />
+const PrivateIcon = props => <ThemedIconButton {...props} wrapperStyle={styles.iconLeft} name="person-outline" />
 
-const IconButton = ({ onPress, disabled, wrapperStyle, ...iconProps }) => (
+const EditIcon = props => <ThemedIconButton {...props} wrapperStyle={styles.iconRight} name="edit" />
+
+const IconButton = ({ onPress, disabled, wrapperStyle, theme, ...iconProps }) => (
   <View style={[styles.icon, wrapperStyle]}>
-    <Icon onPress={onPress} raised color="rgb(85, 85, 85)" {...iconProps} />
+    <Icon onPress={onPress} color={theme.colors.darkBlue} {...iconProps} reverse size={20} />
   </View>
 )
+
+const ThemedIconButton = withTheme(IconButton)
 
 const Profile = props => {
   const profile = GDStore.useStore().get('profile')
@@ -34,8 +39,8 @@ const Profile = props => {
   return (
     <Wrapper>
       <Section style={styles.section}>
-        <Section.Row style={styles.centered}>
-          {/* <PrivateIcon onPress={() => log.debug('PrivateIcon')} /> */}
+        <Section.Row justifyContent="center" alignItems="center">
+          <PrivateIcon onPress={() => screenProps.push('ProfilePrivacy')} />
           <UserAvatar profile={profile} onPress={handleAvatarPress} />
           <EditIcon onPress={() => screenProps.push('EditProfile')} />
         </Section.Row>
@@ -50,10 +55,6 @@ Profile.navigationOptions = {
 }
 
 const styles = StyleSheet.create({
-  centered: {
-    justifyContent: 'center',
-    alignItems: 'flex-start',
-  },
   section: {
     paddingLeft: '1em',
     paddingRight: '1em',

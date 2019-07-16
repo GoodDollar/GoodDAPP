@@ -69,6 +69,7 @@ const initialState: State = {
   isLoggedInCitizen: false,
   isLoggedIn: false,
   profile: {},
+  privateProfile: {},
   destinationPath: '',
   feeds: [],
   feedLoading: false,

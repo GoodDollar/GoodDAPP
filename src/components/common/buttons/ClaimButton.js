@@ -40,8 +40,8 @@ const styles = StyleSheet.create({
   claimButton: {
     backgroundColor: '#00C3AE',
     borderRadius: '50%',
-    height: normalize(70),
-    width: normalize(70),
+    height: normalize(72),
+    width: normalize(72),
     marginHorizontal: 0,
   },
   grayedOutText: {

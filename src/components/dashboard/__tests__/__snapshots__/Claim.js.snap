@@ -120,8 +120,8 @@ exports[`Claim matches snapshot 1`] = `
                 "borderBottomRightRadius": "21px",
                 "borderTopLeftRadius": "21px",
                 "borderTopRightRadius": "21px",
-                "height": "42px",
-                "width": "42px",
+                "height": "44px",
+                "width": "44px",
               }
             }
           >

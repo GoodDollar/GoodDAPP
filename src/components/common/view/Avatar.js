@@ -19,7 +19,7 @@ export type AvatarProps = {
  * @param {Number} [props.size=34]
  * @returns {React.Node}
  */
-export default (props: AvatarProps) => (
+const CustomAvatar = (props: AvatarProps) => (
   <TouchableOpacity
     activeOpacity={0.5}
     disabled={!props.onPress}
@@ -28,14 +28,18 @@ export default (props: AvatarProps) => (
     underlayColor="#fff"
   >
     <Avatar.Image
-      size={42}
+      size={props.size}
       source={props.source ? { uri: props.source } : undefined}
       {...props}
-      style={[styles.avatar, props.style]}
+      style={[styles.avatar, { width: `${props.size + 2}px`, height: `${props.size + 2}px` }]}
     />
     {props.children}
   </TouchableOpacity>
 )
+
+CustomAvatar.defaultProps = {
+  size: 42,
+}
 
 const styles = StyleSheet.create({
   avatarContainer: {
@@ -45,3 +49,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#eee',
   },
 })
+
+export default CustomAvatar

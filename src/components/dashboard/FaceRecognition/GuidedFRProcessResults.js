@@ -33,7 +33,7 @@ const FRStep = ({ title, isActive, status, paddingBottom }) => {
     </View>
   )
 }
-const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done }: any) => {
+const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigation }: any) => {
   const store = GDStore.useStore()
   const { fullName } = store.get('profile')
 
@@ -98,6 +98,13 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done }: any) =
       setStatus({ ...processStatus, isProfileSaved: false })
     }
   }
+
+  const gotoRecover = () => {
+    navigation.push('Recover')
+  }
+  const gotoSupport = () => {
+    navigation.push('Support')
+  }
   useEffect(() => {
     //done save profile and call done callback
     if (processStatus.isWhitelisted) {
@@ -132,15 +139,33 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done }: any) =
 
   let helpText
   if (processStatus.isNotDuplicate === false) {
-    helpText =
-      'Someone that looks just like you already registred!\n\n\
-A. If you already opened an account in the past use the "Recover Wallet" option\n\n\
-B. Do you have a twin?!?! Contact Us!'
+    helpText = (
+      <View>
+        <Text style={styles.textHelp}>
+          {'You look very familiar...\nIt seems you already have a wallet,\nyou can:\n\n'}
+        </Text>
+        <Text style={styles.textHelp}>
+          A.{' '}
+          <Text style={[styles.helpLink, styles.textHelp]} onPress={gotoRecover}>
+            Recover previous wallet
+          </Text>
+          {'\n'}
+        </Text>
+        <Text style={styles.textHelp}>
+          B.{' '}
+          <Text style={[styles.helpLink, styles.textHelp]} onPress={gotoSupport}>
+            Contact support
+          </Text>
+          {'\n'}
+        </Text>
+      </View>
+    )
   } else if (processStatus.isLive === false) {
-    helpText = 'Try to improve the conditions\n\n\
-A. straight face\n\n\
-B. aducate lightning\n\n\
-C. eyes visible'
+    helpText =
+      'We could not verify you are a living person. Funny hu? please make sure:\n\n\
+A. Center your webcam\n\
+B. Ensure camera is at eye level\n\
+C. Light your face evenly'
   } else if (isProcessFailed) {
     helpText = 'Something went wrong, please try again...'
   }
@@ -169,7 +194,7 @@ C. eyes visible'
             flexGrow: 0
           }}
         >
-          <Image source={Divider} style={{ height: 2 }} />
+          <Image source={Divider} resizeMode={'cover'} style={{ width: 'auto', height: 2 }} />
           <View style={{ marginBottom: 22, marginTop: 22 }}>
             <FRStep
               title={'Checking duplicates'}
@@ -198,7 +223,7 @@ C. eyes visible'
               paddingBottom={0}
             />
           </View>
-          <Image source={Divider} style={{ height: 2 }} />
+          <Image source={Divider} resizeMode={'cover'} style={{ height: 2 }} />
         </View>
         <View style={{ flexShrink: 0 }}>
           <Text style={styles.textHelp}>{helpText}</Text>
@@ -265,6 +290,10 @@ const styles = StyleSheet.create({
     fontSize: normalize(16),
     color: '#FA6C77',
     textTransform: 'none'
+  },
+  helpLink: {
+    fontWeight: 'bold',
+    textDecorationLine: 'underline'
   },
   textGood: {
     fontFamily: 'Roboto-medium',

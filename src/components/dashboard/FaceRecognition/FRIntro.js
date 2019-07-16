@@ -35,8 +35,8 @@ const FRIntro = props => {
             paddingBottom: 0,
             paddingTop: 0,
             marginBottom: 0,
-            paddingLeft: normalize(44),
-            paddingRight: normalize(44),
+            paddingLeft: '10%',
+            paddingRight: '10%',
             justifyContent: 'space-evenly',
             flex: 1
           }}

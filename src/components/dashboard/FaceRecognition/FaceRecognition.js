@@ -129,7 +129,13 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     return (
       <Wrapper>
         {showGuidedFR && (
-          <GuidedFR sessionId={sessionId} userStorage={userStorage} retry={this.retry} done={this.done} />
+          <GuidedFR
+            sessionId={sessionId}
+            userStorage={userStorage}
+            retry={this.retry}
+            done={this.done}
+            navigation={this.props.screenProps}
+          />
         )}
 
         {this.state.zoomReady && showZoomCapture && (
@@ -148,7 +154,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
 
 const FRWithStore = GDStore.withStore(FaceRecognition)
 FRWithStore.navigationOptions = {
-  title: 'Face Matching',
+  title: 'Face Verification',
   navigationBarHidden: false
 }
 export default FRWithStore

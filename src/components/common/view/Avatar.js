@@ -28,7 +28,7 @@ export default (props: AvatarProps) => (
     underlayColor="#fff"
   >
     <Avatar.Image
-      size={34}
+      size={42}
       source={props.source ? { uri: props.source } : undefined}
       {...props}
       style={[styles.avatar, props.style]}

@@ -41,7 +41,7 @@ exports[`InputGoodDollar matches snapshot 1`] = `
         "borderBottomWidth": "1px",
         "color": "rgba(66,69,74,1.00)",
         "fontFamily": "RobotoSlab-Regular",
-        "fontSize": "36px",
+        "fontSize": "32px",
         "fontWeight": "bold",
         "letterSpacing": "1.2px",
         "paddingBottom": "4px",
@@ -132,6 +132,7 @@ exports[`InputGoodDollar matches snapshot 1`] = `
         },
         "roundness": 4,
         "sizes": Object {
+          "borderRadius": 5,
           "default": 8,
           "defaultDouble": 16,
           "defaultHalf": 4,
@@ -186,7 +187,7 @@ exports[`InputGoodDollar matches snapshot 2`] = `
         "borderBottomWidth": "1px",
         "color": "rgba(66,69,74,1.00)",
         "fontFamily": "RobotoSlab-Regular",
-        "fontSize": "36px",
+        "fontSize": "32px",
         "fontWeight": "bold",
         "letterSpacing": "1.2px",
         "paddingBottom": "4px",
@@ -277,6 +278,7 @@ exports[`InputGoodDollar matches snapshot 2`] = `
         },
         "roundness": 4,
         "sizes": Object {
+          "borderRadius": 5,
           "default": 8,
           "defaultDouble": 16,
           "defaultHalf": 4,

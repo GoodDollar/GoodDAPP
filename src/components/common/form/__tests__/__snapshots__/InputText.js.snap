@@ -129,6 +129,7 @@ exports[`InputText empty matches snapshot 1`] = `
         },
         "roundness": 4,
         "sizes": Object {
+          "borderRadius": 5,
           "default": 8,
           "defaultDouble": 16,
           "defaultHalf": 4,
@@ -269,6 +270,7 @@ exports[`InputText matches snapshot 1`] = `
         },
         "roundness": 4,
         "sizes": Object {
+          "borderRadius": 5,
           "default": 8,
           "defaultDouble": 16,
           "defaultHalf": 4,

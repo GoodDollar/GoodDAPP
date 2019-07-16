@@ -67,7 +67,7 @@ InputGoodDollar.defaultProps = {
 
 const getStylesFromProps = () => ({
   input: {
-    fontSize: normalize(36),
+    fontSize: normalize(32),
     fontWeight: 'bold',
     letterSpacing: normalize(1.2),
   },

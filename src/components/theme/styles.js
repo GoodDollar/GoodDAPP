@@ -40,6 +40,7 @@ export const theme = {
     default: normalize(8),
     defaultDouble: normalize(16),
     defaultHalf: normalize(4),
+    borderRadius: normalize(5),
   },
   fontStyle: {
     color: '#555',

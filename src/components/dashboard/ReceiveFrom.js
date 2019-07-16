@@ -4,7 +4,7 @@ import InputText from '../common/form/InputText'
 
 import { Section, TopBar, Wrapper } from '../common'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
-
+import { withStyles } from '../../lib/styles'
 export type AmountProps = {
   screenProps: any,
   navigation: any,
@@ -27,6 +27,7 @@ const ReceiveFrom = (props: AmountProps) => {
           <Section.Title>From Who?</Section.Title>
           <InputText
             autoFocus
+            style={props.styles.input}
             value={fromWho}
             onChangeText={fromWho => setScreenState({ fromWho })}
             placeholder="Enter the recipient name"
@@ -61,4 +62,4 @@ ReceiveFrom.shouldNavigateToComponent = props => {
   return screenState.nextRoutes
 }
 
-export default ReceiveFrom
+export default withStyles(({ theme }) => ({ input: { marginTop: theme.sizes.defaultDouble } }))(ReceiveFrom)

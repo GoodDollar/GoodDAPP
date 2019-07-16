@@ -82,10 +82,10 @@ Receive.navigationOptions = {
 
 const getStylesFromProps = ({ theme }) => ({
   shareButton: {
-    marginTop: theme.paddings.defaultMargin,
+    marginTop: theme.sizes.defaultDouble,
   },
   mainText: {
-    marginBottom: theme.paddings.defaultMargin,
+    marginBottom: theme.sizes.default,
   },
 })
 

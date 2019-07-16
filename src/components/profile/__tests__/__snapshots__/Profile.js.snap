@@ -413,10 +413,10 @@ exports[`Profile matches snapshot 1`] = `
               "borderTopRightRadius": "5px",
               "marginBottom": "auto",
               "minHeight": "100%",
-              "paddingBottom": "8px",
+              "paddingBottom": "16px",
               "paddingLeft": "1em",
               "paddingRight": "1em",
-              "paddingTop": "8px",
+              "paddingTop": "16px",
             }
           }
         >
@@ -570,12 +570,12 @@ exports[`Profile matches snapshot 1`] = `
                   dir="auto"
                   style={
                     Object {
-                      "color": "rgba(85,85,85,1.00)",
+                      "color": "rgba(66,69,74,1.00)",
                       "direction": "ltr",
-                      "fontFamily": "Roboto",
-                      "fontSize": "24px",
-                      "fontWeight": "500",
-                      "lineHeight": "22px",
+                      "fontFamily": "Roboto-Medium",
+                      "fontSize": "22px",
+                      "fontWeight": "normal",
+                      "lineHeight": "30px",
                       "marginBottom": "8px",
                       "marginTop": "8px",
                       "textAlign": "center",

@@ -57,10 +57,10 @@ exports[`Reason matches snapshot 1`] = `
           "borderTopLeftRadius": "5px",
           "borderTopRightRadius": "5px",
           "marginBottom": "8px",
-          "paddingBottom": "10px",
-          "paddingLeft": "10px",
-          "paddingRight": "10px",
-          "paddingTop": "10px",
+          "paddingBottom": "16px",
+          "paddingLeft": "12px",
+          "paddingRight": "12px",
+          "paddingTop": "16px",
         }
       }
     >
@@ -413,6 +413,7 @@ exports[`Reason matches snapshot 1`] = `
               },
               "roundness": 4,
               "sizes": Object {
+                "borderRadius": 5,
                 "default": 8,
                 "defaultDouble": 16,
                 "defaultHalf": 4,

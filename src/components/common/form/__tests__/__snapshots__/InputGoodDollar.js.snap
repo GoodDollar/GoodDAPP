@@ -129,6 +129,7 @@ exports[`InputGoodDollar matches snapshot 1`] = `
         },
         "roundness": 4,
         "sizes": Object {
+          "borderRadius": 5,
           "default": 8,
           "defaultDouble": 16,
           "defaultHalf": 4,
@@ -271,6 +272,7 @@ exports[`InputGoodDollar matches snapshot 2`] = `
         },
         "roundness": 4,
         "sizes": Object {
+          "borderRadius": 5,
           "default": 8,
           "defaultDouble": 16,
           "defaultHalf": 4,

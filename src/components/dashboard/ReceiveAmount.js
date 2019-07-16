@@ -11,7 +11,7 @@ import { withStyles } from '../../lib/styles'
 export type ReceiveProps = {
   screenProps: any,
   navigation: any,
-  theme?: any,
+  theme: any,
 }
 
 const RECEIVE_TITLE = 'Receive G$'
@@ -110,9 +110,9 @@ const getStylesFromProps = ({ theme }) => {
       borderBottomColor: theme.colors.gray50Percent,
       borderBottomWidth: normalize(1),
       borderBottomStyle: 'solid',
-      marginTop: theme.paddings.defaultMargin * 2,
+      marginTop: theme.sizes.defaultDouble,
       alignItems: 'baseline',
-      paddingBottom: normalize(8),
+      paddingBottom: theme.sizes.default,
     },
 
     // TODO: all this properties can be removed once we merge Text component in
@@ -128,7 +128,7 @@ const getStylesFromProps = ({ theme }) => {
       fontSize: normalize(16),
     },
     doneButton: {
-      marginTop: theme.paddings.defaultMargin,
+      marginTop: theme.sizes.default,
     },
   }
 }

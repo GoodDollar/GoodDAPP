@@ -39,7 +39,7 @@ const getStylesFromProps = ({ theme }) => {
       fontFamily: theme.fonts.bold,
       fontSize: normalize(40),
       fontWeight: '700',
-      marginRight: normalize(4),
+      marginRight: theme.sizes.defaultHalf,
       textAlign: 'right',
       lineHeight: 'auto',
     },

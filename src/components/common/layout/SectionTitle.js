@@ -1,6 +1,5 @@
 // @flow
 import React from 'react'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { withStyles } from '../../../lib/styles'
 import Text from '../view/Text'
 
@@ -23,8 +22,8 @@ const SectionTitle = (props: any) => {
 const getStylesFromProps = ({ theme }) => {
   return {
     title: {
-      marginBottom: normalize(8),
-      marginTop: normalize(8),
+      marginBottom: theme.sizes.default,
+      marginTop: theme.sizes.default,
     },
   }
 }

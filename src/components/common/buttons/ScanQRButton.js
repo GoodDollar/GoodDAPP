@@ -1,7 +1,6 @@
 // @flow
 import React from 'react'
 import { TouchableOpacity, View } from 'react-native'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
 import Icon from '../view/Icon'
 import Text from '../view/Text'
 import { withStyles } from '../../../lib/styles'
@@ -39,7 +38,7 @@ const mapPropsToStyle = ({ theme }) => ({
   iconWrapper: {
     backgroundColor: theme.colors.darkBlue,
     borderRadius: '50%',
-    padding: normalize(8),
+    padding: theme.sizes.default,
     marginLeft: theme.sizes.default,
   },
   icon: {

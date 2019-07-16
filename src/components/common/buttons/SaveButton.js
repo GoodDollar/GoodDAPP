@@ -8,18 +8,46 @@ import CustomButton from './CustomButton'
 const NOT_SAVED = 'NOT_SAVED'
 const SAVING = 'SAVING'
 const DONE = 'DONE'
-const TRANSITION_TIME = 1500
+const TRANSITION_TIME = 1000
 
-const SaveButton = ({ children, onPress, onPressDone, loadingDelay, doneDelay, styles, theme, ...props }) => {
+type SaveButtonProps = {
+  children?: any,
+  beforeSave?: () => boolean,
+  onPress: () => void,
+  onPressDone?: () => void,
+  loadingDelay?: number,
+  doneDelay?: number,
+  styles: any,
+  theme: any,
+  style?: any,
+  color?: string,
+}
+
+const SaveButton = ({
+  children,
+  beforeSave,
+  onPress,
+  onPressDone,
+  loadingDelay,
+  doneDelay,
+  styles,
+  theme,
+  ...props
+}: SaveButtonProps) => {
   const [state, setState] = useState(NOT_SAVED)
 
   const pressAndNextState = async () => {
     setState(SAVING)
-    await onPress()
-    setTimeout(() => {
-      setState(DONE)
-      setTimeout(() => onPressDone(), doneDelay)
-    }, loadingDelay)
+    const isValid = await beforeSave()
+    if (isValid) {
+      onPress()
+      setTimeout(() => {
+        setState(DONE)
+        setTimeout(onPressDone, doneDelay)
+      }, loadingDelay)
+    } else {
+      setState(NOT_SAVED)
+    }
   }
 
   return (
@@ -43,6 +71,7 @@ const SaveButton = ({ children, onPress, onPressDone, loadingDelay, doneDelay, s
 
 SaveButton.defaultProps = {
   mode: 'contained',
+  beforeSave: () => true,
   loadingDelay: TRANSITION_TIME,
   doneDelay: TRANSITION_TIME,
   onPressDone: () => {},

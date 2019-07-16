@@ -15,7 +15,7 @@ const log = logger.child({ from: TITLE })
 const EditProfile = ({ screenProps, theme, styles }) => {
   const store = GDStore.useStore()
   const userStorage = useWrappedUserStorage()
-  const storedProfile = store.get('profile')
+  const storedProfile = store.get('privateProfile')
 
   const [profile, setProfile] = useState(storedProfile)
   const [saving, setSaving] = useState()
@@ -93,7 +93,12 @@ const EditProfile = ({ screenProps, theme, styles }) => {
           <UserAvatar profile={profile} onPress={handleAvatarPress}>
             <CameraButton handleCameraPress={handleCameraPress} />
           </UserAvatar>
-          <SaveButton disabled={saving || !isValid} onPress={handleSaveButton} onPressDone={onProfileSaved} />
+          <SaveButton
+            disabled={saving || !isValid}
+            beforeSave={validate}
+            onPress={handleSaveButton}
+            onPressDone={onProfileSaved}
+          />
         </Section.Row>
         <ProfileDataTable onChange={handleProfileChange} editable={true} errors={errors} profile={profile} />
       </Section>

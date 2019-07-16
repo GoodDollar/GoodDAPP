@@ -26,7 +26,7 @@ const FRIntro = props => {
     props.screenProps.pop({ isValid: true })
   }
   const gotoPrivacyArticle = () => props.screenProps.push('PrivacyPolicy')
-  const gotoFR = () => props.screenProps.navigateTo('FaceRecognition')
+  const gotoFR = () => props.screenProps.navigateTo('FaceVerification')
   return (
     <Wrapper>
       <View style={styles.topContainer}>

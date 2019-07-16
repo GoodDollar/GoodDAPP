@@ -285,7 +285,7 @@ export default createStackNavigator({
   SendLinkSummary,
   SendConfirmation,
   FRError,
-  FaceRecognition,
+  FaceVerification: FaceRecognition,
   FRIntro,
   UnsupportedDevice,
   SendByQR,

@@ -6,7 +6,6 @@ import { CustomButton, Section, Wrapper } from '../../common'
 import Divider from '../../../assets/Dividers - Long Line - Stroke Width 2 - Round Cap - Light Blue.svg'
 import Oops from '../../../assets/oops.svg'
 import GDStore from '../../../lib/undux/GDStore'
-import SimpleStore from '../../../lib/undux/SimpleStore'
 import logger from '../../../lib/logger/pino-logger'
 const log = logger.child({ from: 'FRError' })
 
@@ -114,9 +113,8 @@ const styles = StyleSheet.create({
   }
 })
 
-const FRErrorWithStore = SimpleStore.withStore(FRError)
 FRError.navigationOptions = {
   title: 'Face Verifcation',
   navigationBarHidden: false
 }
-export default FRErrorWithStore
+export default FRError

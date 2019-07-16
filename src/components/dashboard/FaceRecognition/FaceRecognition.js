@@ -1,6 +1,5 @@
 // @flow
 import React, { createRef } from 'react'
-import SimpleStore from '../../../lib/undux/SimpleStore'
 import type { DashboardProps } from '../Dashboard'
 import logger from '../../../lib/logger/pino-logger'
 import { Wrapper } from '../../common'
@@ -158,9 +157,8 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
   }
 }
 
-const FRWithStore = SimpleStore.withStore(FaceRecognition)
-FRWithStore.navigationOptions = {
+FaceRecognition.navigationOptions = {
   title: 'Face Verification',
   navigationBarHidden: false
 }
-export default FRWithStore
+export default FaceRecognition

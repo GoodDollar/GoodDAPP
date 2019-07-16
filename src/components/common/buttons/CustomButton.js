@@ -108,14 +108,14 @@ const CustomButton = (props: ButtonProps) => {
 
   return (
     <BaseButton
-      {...buttonProps}
-      theme={{ ...theme, roundness: 50 }}
+      compact
       dark={dark}
+      disabled={disabled}
       mode={mode}
       style={[styles.button, style]}
-      disabled={disabled}
+      theme={{ ...theme, roundness: 50 }}
       uppercase={uppercase}
-      compact
+      {...buttonProps}
     >
       {icon && (!iconAlignment || iconAlignment === 'left') && (
         <IconButton icon={icon} theme={theme} dark={dark} size={iconSize} style={styles.leftIcon} />

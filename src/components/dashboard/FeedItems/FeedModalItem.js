@@ -34,7 +34,7 @@ const FeedModalItem = (props: FeedEventProps) => {
   }
 
   return (
-    <ModalWrapper leftBorderColor={mainColor} onClose={buttonPress} showJaggedEdge={true}>
+    <ModalWrapper leftBorderColor={mainColor} onClose={buttonPress} showJaggedEdge={true} fullHeight={true}>
       <React.Fragment>
         {getImageByType(itemType) ? (
           <View style={styles.mainImageContainer}>

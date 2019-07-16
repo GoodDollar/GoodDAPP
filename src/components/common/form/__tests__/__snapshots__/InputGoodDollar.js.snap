@@ -67,6 +67,9 @@ exports[`InputGoodDollar matches snapshot 1`] = `
     }
     theme={
       Object {
+        "backdrop": Object {
+          "backgroundColor": "rgba(255, 0, 0, 0.8)",
+        },
         "borders": Object {
           "defaultBorderColor": "#c9c8c9",
         },
@@ -210,6 +213,9 @@ exports[`InputGoodDollar matches snapshot 2`] = `
     }
     theme={
       Object {
+        "backdrop": Object {
+          "backgroundColor": "rgba(255, 0, 0, 0.8)",
+        },
         "borders": Object {
           "defaultBorderColor": "#c9c8c9",
         },

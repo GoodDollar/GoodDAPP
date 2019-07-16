@@ -12,10 +12,12 @@ import { useDialog } from '../../lib/undux/utils/dialog'
 import wrapper from '../../lib/undux/utils/wrapper'
 import { weiToMask } from '../../lib/wallet/utils'
 import { CustomButton, Section, Text, TopBar, Wrapper } from '../common'
+import ErrorIcon from '../common/modal/ErrorIcon'
+import LoadingIcon from '../common/modal/LoadingIcon'
+import SuccessIcon from '../common/modal/SuccessIcon'
 import type { DashboardProps } from './Dashboard'
 
 type ClaimProps = DashboardProps
-
 type ClaimState = {
   nextClaim: string,
   entitlement: number,
@@ -99,10 +101,11 @@ const Claim = ({ screenProps }: ClaimProps) => {
     setLoading(true)
 
     showDialog({
-      title: `YOUR G$\nIS ON IT'S WAY...`,
-      message: 'please wait while processing...',
-      loading,
       dismissText: 'OK',
+      loading,
+      message: 'please wait while processing...',
+      image: <LoadingIcon />,
+      title: `YOUR G$\nIS ON IT'S WAY...`,
     })
 
     try {
@@ -124,24 +127,30 @@ const Claim = ({ screenProps }: ClaimProps) => {
 
       if (receipt.status) {
         showDialog({
-          title: 'SUCCESS!',
-          message: `You've claimed your G$`,
           dismissText: 'Yay!',
+          image: <SuccessIcon />,
+          message: `You've claimed your G$`,
+          title: 'SUCCESS!',
+          type: 'success',
         })
       } else {
         showDialog({
-          title: 'Caliming Failed',
-          message: 'Something went wrong with the transaction.\nSee feed details for further information.',
           dismissText: 'OK',
+          image: <ErrorIcon />,
+          message: 'Something went wrong with the transaction.\nSee feed details for further information.',
+          title: 'Claiming Failed',
+          type: 'error',
         })
       }
     } catch (e) {
       log.error('claiming failed', e)
 
       showDialog({
-        title: 'Claiming Failed',
-        message: `${e.message}.\nTry again later.`,
         dismissText: 'OK',
+        image: <ErrorIcon />,
+        message: `${e.message}.\nTry again later.`,
+        title: 'Claiming Failed',
+        type: 'error',
       })
     } finally {
       setLoading(false)
@@ -158,13 +167,13 @@ const Claim = ({ screenProps }: ClaimProps) => {
 
   const ClaimButton = (
     <CustomButton
-      disabled={entitlement <= 0}
-      mode="contained"
       compact={true}
+      disabled={entitlement <= 0}
+      loading={loading}
+      mode="contained"
       onPress={() => {
         isCitizen ? handleClaim() : faceRecognition()
       }}
-      loading={loading}
     >
       {`CLAIM YOUR SHARE - ${weiToMask(entitlement, { showUnits: true })}`}
     </CustomButton>
@@ -202,7 +211,7 @@ const Claim = ({ screenProps }: ClaimProps) => {
               <Text color="primary" fontWeight="bold">
                 {claimedToday.people}
               </Text>
-              <Text> People Claimed </Text>
+              <Text>People Claimed</Text>
               <Text color="primary" fontWeight="bold">
                 {claimedToday.amount}{' '}
               </Text>

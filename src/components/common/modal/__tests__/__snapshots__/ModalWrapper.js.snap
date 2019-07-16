@@ -1,0 +1,373 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ModalWrapper matches snapshot 1`] = `
+<div
+  className="css-view-1dbjc4n"
+  style={
+    Object {
+      "WebkitBoxFlex": 1,
+      "WebkitFlexBasis": "0%",
+      "WebkitFlexGrow": 1,
+      "WebkitFlexShrink": 1,
+      "flexBasis": "0%",
+      "flexGrow": 1,
+      "flexShrink": 1,
+      "msFlexNegative": 1,
+      "msFlexPositive": 1,
+      "msFlexPreferredSize": "0%",
+    }
+  }
+>
+  <div
+    className="css-view-1dbjc4n"
+    onResponderGrant={[Function]}
+    onResponderReject={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onScroll={[Function]}
+    onScrollShouldSetResponder={[Function]}
+    onStartShouldSetResponder={[Function]}
+    onStartShouldSetResponderCapture={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
+    onWheel={[Function]}
+    style={
+      Object {
+        "WebkitBoxDirection": "normal",
+        "WebkitBoxFlex": 1,
+        "WebkitBoxOrient": "vertical",
+        "WebkitFlexDirection": "column",
+        "WebkitFlexGrow": 1,
+        "WebkitFlexShrink": 1,
+        "WebkitOverflowScrolling": "touch",
+        "WebkitTransform": "translateZ(0px)",
+        "flexDirection": "column",
+        "flexGrow": 1,
+        "flexShrink": 1,
+        "msFlexDirection": "column",
+        "msFlexNegative": 1,
+        "msFlexPositive": 1,
+        "overflowX": "hidden",
+        "overflowY": "auto",
+        "transform": "translateZ(0px)",
+      }
+    }
+  >
+    <div
+      className="css-view-1dbjc4n"
+    >
+      <div
+        className="css-view-1dbjc4n"
+        style={
+          Object {
+            "WebkitAlignSelf": "flex-start",
+            "alignSelf": "flex-start",
+            "backgroundColor": "rgba(255,255,255,0.80)",
+            "height": "100vh",
+            "msFlexItemAlign": "start",
+            "width": "100vw",
+          }
+        }
+      >
+        <div
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "WebkitAlignSelf": "center",
+              "WebkitBoxFlex": 1,
+              "WebkitFlexGrow": 1,
+              "WebkitFlexShrink": 0,
+              "alignSelf": "center",
+              "flexGrow": 1,
+              "flexShrink": 0,
+              "maxWidth": "475px",
+              "msFlexItemAlign": "center",
+              "msFlexNegative": 0,
+              "msFlexPositive": 1,
+              "paddingBottom": "30px",
+              "paddingLeft": "20px",
+              "paddingRight": "20px",
+              "paddingTop": "30px",
+              "width": "100%",
+            }
+          }
+        >
+          <div
+            className="css-view-1dbjc4n"
+            style={
+              Object {
+                "WebkitBoxDirection": "normal",
+                "WebkitBoxOrient": "horizontal",
+                "WebkitFlexDirection": "row",
+                "display": "flex",
+                "flexDirection": "row",
+                "msFlexDirection": "row",
+                "position": "relative",
+                "width": "100%",
+                "zIndex": 1,
+              }
+            }
+          >
+            <div
+              className="css-view-1dbjc4n"
+              style={
+                Object {
+                  "WebkitBoxFlex": 1,
+                  "WebkitFlexGrow": 1,
+                  "WebkitFlexShrink": 0,
+                  "backgroundColor": "rgba(238,238,238,1.00)",
+                  "backgroundImage": "url(wave.svg)",
+                  "backgroundRepeat": "repeat-y",
+                  "borderBottomLeftRadius": "5px",
+                  "borderTopLeftRadius": "5px",
+                  "flexGrow": 1,
+                  "flexShrink": 0,
+                  "maxWidth": "10px",
+                  "minWidth": "10px",
+                  "msFlexNegative": 0,
+                  "msFlexPositive": 1,
+                  "position": "relative",
+                  "zIndex": 5,
+                }
+              }
+            />
+            <div
+              className="css-view-1dbjc4n"
+              style={
+                Object {
+                  "WebkitBoxFlex": 1,
+                  "WebkitFlexGrow": 1,
+                  "WebkitFlexShrink": 1,
+                  "flexGrow": 1,
+                  "flexShrink": 1,
+                  "msFlexNegative": 1,
+                  "msFlexPositive": 1,
+                }
+              }
+            >
+              <div
+                className="css-view-1dbjc4n"
+                style={
+                  Object {
+                    "WebkitBoxFlex": 1,
+                    "WebkitFlexGrow": 1,
+                    "backgroundColor": "rgba(255,255,255,1.00)",
+                    "borderBottomRightRadius": "5px",
+                    "borderTopRightRadius": "5px",
+                    "boxShadow": "0 19px 38px rgba(0, 0, 0, 0.5)",
+                    "flexGrow": 1,
+                    "msFlexPositive": 1,
+                    "paddingBottom": "16px",
+                    "paddingLeft": "16px",
+                    "paddingRight": "16px",
+                    "paddingTop": "16px",
+                    "position": "relative",
+                    "zIndex": 1,
+                  }
+                }
+              >
+                Testing
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`ModalWrapper matches snapshot with properties 1`] = `
+<div
+  className="css-view-1dbjc4n"
+  style={
+    Object {
+      "WebkitBoxFlex": 1,
+      "WebkitFlexBasis": "0%",
+      "WebkitFlexGrow": 1,
+      "WebkitFlexShrink": 1,
+      "flexBasis": "0%",
+      "flexGrow": 1,
+      "flexShrink": 1,
+      "msFlexNegative": 1,
+      "msFlexPositive": 1,
+      "msFlexPreferredSize": "0%",
+    }
+  }
+>
+  <div
+    className="css-view-1dbjc4n"
+    onResponderGrant={[Function]}
+    onResponderReject={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onScroll={[Function]}
+    onScrollShouldSetResponder={[Function]}
+    onStartShouldSetResponder={[Function]}
+    onStartShouldSetResponderCapture={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
+    onWheel={[Function]}
+    style={
+      Object {
+        "WebkitBoxDirection": "normal",
+        "WebkitBoxFlex": 1,
+        "WebkitBoxOrient": "vertical",
+        "WebkitFlexDirection": "column",
+        "WebkitFlexGrow": 1,
+        "WebkitFlexShrink": 1,
+        "WebkitOverflowScrolling": "touch",
+        "WebkitTransform": "translateZ(0px)",
+        "flexDirection": "column",
+        "flexGrow": 1,
+        "flexShrink": 1,
+        "msFlexDirection": "column",
+        "msFlexNegative": 1,
+        "msFlexPositive": 1,
+        "overflowX": "hidden",
+        "overflowY": "auto",
+        "transform": "translateZ(0px)",
+      }
+    }
+  >
+    <div
+      className="css-view-1dbjc4n"
+    >
+      <div
+        className="css-view-1dbjc4n"
+        style={
+          Object {
+            "WebkitAlignSelf": "flex-start",
+            "alignSelf": "flex-start",
+            "backgroundColor": "rgba(255,255,255,0.80)",
+            "height": "100vh",
+            "msFlexItemAlign": "start",
+            "width": "100vw",
+          }
+        }
+      >
+        <div
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "WebkitAlignSelf": "center",
+              "WebkitBoxFlex": 1,
+              "WebkitFlexGrow": 1,
+              "WebkitFlexShrink": 0,
+              "alignSelf": "center",
+              "flexGrow": 1,
+              "flexShrink": 0,
+              "maxWidth": "475px",
+              "msFlexItemAlign": "center",
+              "msFlexNegative": 0,
+              "msFlexPositive": 1,
+              "paddingBottom": "30px",
+              "paddingLeft": "20px",
+              "paddingRight": "20px",
+              "paddingTop": "30px",
+              "width": "100%",
+            }
+          }
+        >
+          <div
+            className="css-view-1dbjc4n"
+            style={
+              Object {
+                "WebkitBoxDirection": "normal",
+                "WebkitBoxOrient": "horizontal",
+                "WebkitFlexDirection": "row",
+                "display": "flex",
+                "flexDirection": "row",
+                "msFlexDirection": "row",
+                "position": "relative",
+                "width": "100%",
+                "zIndex": 1,
+              }
+            }
+          >
+            <div
+              className="css-view-1dbjc4n"
+              style={
+                Object {
+                  "WebkitBoxFlex": 1,
+                  "WebkitFlexGrow": 1,
+                  "WebkitFlexShrink": 0,
+                  "backgroundColor": "rgba(238,238,238,1.00)",
+                  "backgroundImage": "url(wave.svg)",
+                  "backgroundRepeat": "repeat-y",
+                  "borderBottomLeftRadius": "5px",
+                  "borderTopLeftRadius": "5px",
+                  "flexGrow": 1,
+                  "flexShrink": 0,
+                  "marginBottom": "15px",
+                  "maxWidth": "10px",
+                  "minWidth": "10px",
+                  "msFlexNegative": 0,
+                  "msFlexPositive": 1,
+                  "position": "relative",
+                  "zIndex": 5,
+                }
+              }
+            />
+            <div
+              className="css-view-1dbjc4n"
+              style={
+                Object {
+                  "WebkitBoxFlex": 1,
+                  "WebkitFlexGrow": 1,
+                  "WebkitFlexShrink": 1,
+                  "flexGrow": 1,
+                  "flexShrink": 1,
+                  "msFlexNegative": 1,
+                  "msFlexPositive": 1,
+                }
+              }
+            >
+              <div
+                className="css-view-1dbjc4n"
+                style={
+                  Object {
+                    "WebkitBoxFlex": 1,
+                    "WebkitFlexGrow": 1,
+                    "backgroundColor": "rgba(255,255,255,1.00)",
+                    "borderBottomRightRadius": "0",
+                    "borderTopRightRadius": "5px",
+                    "boxShadow": "0 19px 38px rgba(0, 0, 0, 0.5)",
+                    "flexGrow": 1,
+                    "msFlexPositive": 1,
+                    "paddingBottom": "16px",
+                    "paddingLeft": "16px",
+                    "paddingRight": "16px",
+                    "paddingTop": "16px",
+                    "position": "relative",
+                    "zIndex": 1,
+                  }
+                }
+              >
+                Testing
+              </div>
+              <div
+                className="css-view-1dbjc4n"
+                style={
+                  Object {
+                    "backgroundImage": "linear-gradient(45deg, transparent 75%, #fff 76%), linear-gradient(-45deg, transparent 75%, #fff 76%)",
+                    "backgroundPosition": "0 0",
+                    "backgroundRepeat": "repeat-x",
+                    "backgroundSize": "15px",
+                    "height": "15px",
+                    "position": "relative",
+                    "width": "100%",
+                    "zIndex": 5,
+                  }
+                }
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

@@ -8,8 +8,6 @@ const ClaimButton = ({ screenProps, amount }) => (
   <View style={styles.claimContainer}>
     <PushButton routeName={'Claim'} screenProps={screenProps} style={styles.claimButton}>
       <Text style={styles.buttonText}>Claim</Text>
-      {/* <br />
-      <Text style={[styles.buttonText, styles.grayedOutText]}>+{amount}</Text> */}
     </PushButton>
   </View>
 )

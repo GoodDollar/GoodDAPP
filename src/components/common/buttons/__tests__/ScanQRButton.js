@@ -2,7 +2,9 @@ import React from 'react'
 import renderer from 'react-test-renderer'
 
 import GDStore from '../../../../lib/undux/GDStore'
-import ScanQRButton from '../ScanQRButton'
+import ImportedScanQRButton from '../ScanQRButton'
+import { withThemeProvider } from '../../../../__tests__/__util__'
+const ScanQRButton = withThemeProvider(ImportedScanQRButton)
 
 const { Container } = GDStore
 

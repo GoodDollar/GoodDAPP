@@ -28,10 +28,10 @@ exports[`TopBar matches snapshot with balance 1`] = `
         "borderTopLeftRadius": "5px",
         "borderTopRightRadius": "5px",
         "marginBottom": "8px",
-        "paddingBottom": "8px",
-        "paddingLeft": "8px",
-        "paddingRight": "8px",
-        "paddingTop": "8px",
+        "paddingBottom": "16px",
+        "paddingLeft": "12px",
+        "paddingRight": "12px",
+        "paddingTop": "16px",
       }
     }
   >
@@ -87,12 +87,12 @@ exports[`TopBar matches snapshot with balance 1`] = `
           style={
             Object {
               "backgroundColor": "rgba(238,238,238,1.00)",
-              "borderBottomLeftRadius": "17px",
-              "borderBottomRightRadius": "17px",
-              "borderTopLeftRadius": "17px",
-              "borderTopRightRadius": "17px",
-              "height": "34px",
-              "width": "34px",
+              "borderBottomLeftRadius": "21px",
+              "borderBottomRightRadius": "21px",
+              "borderTopLeftRadius": "21px",
+              "borderTopRightRadius": "21px",
+              "height": "42px",
+              "width": "42px",
             }
           }
         >
@@ -101,16 +101,16 @@ exports[`TopBar matches snapshot with balance 1`] = `
             style={
               Object {
                 "WebkitFlexBasis": "auto",
-                "borderBottomLeftRadius": "17px",
-                "borderBottomRightRadius": "17px",
-                "borderTopLeftRadius": "17px",
-                "borderTopRightRadius": "17px",
+                "borderBottomLeftRadius": "21px",
+                "borderBottomRightRadius": "21px",
+                "borderTopLeftRadius": "21px",
+                "borderTopRightRadius": "21px",
                 "flexBasis": "auto",
-                "height": "34px",
+                "height": "42px",
                 "msFlexPreferredSize": "auto",
                 "overflowX": "hidden",
                 "overflowY": "hidden",
-                "width": "34px",
+                "width": "42px",
                 "zIndex": 0,
               }
             }
@@ -141,15 +141,15 @@ exports[`TopBar matches snapshot with balance 1`] = `
         className="css-view-1dbjc4n"
         style={
           Object {
-            "WebkitAlignItems": "flex-end",
-            "WebkitBoxAlign": "end",
+            "WebkitAlignItems": "baseline",
+            "WebkitBoxAlign": "baseline",
             "WebkitBoxDirection": "normal",
             "WebkitBoxOrient": "horizontal",
             "WebkitFlexDirection": "row",
-            "alignItems": "flex-end",
+            "alignItems": "baseline",
             "display": "flex",
             "flexDirection": "row",
-            "msFlexAlign": "end",
+            "msFlexAlign": "baseline",
             "msFlexDirection": "row",
           }
         }
@@ -162,9 +162,9 @@ exports[`TopBar matches snapshot with balance 1`] = `
               "color": "rgba(85,85,85,1.00)",
               "direction": "ltr",
               "fontFamily": "Roboto-Bold",
-              "fontSize": "44px",
+              "fontSize": "40px",
               "fontWeight": "700",
-              "lineHeight": "22px",
+              "lineHeight": "auto",
               "marginRight": "4px",
               "textAlign": "right",
               "textDecoration": "none",
@@ -184,7 +184,7 @@ exports[`TopBar matches snapshot with balance 1`] = `
               "fontFamily": "Roboto-Bold",
               "fontSize": "22px",
               "fontWeight": "700",
-              "lineHeight": "22px",
+              "lineHeight": "auto",
               "textAlign": "right",
               "textDecoration": "none",
               "textTransform": "none",
@@ -227,10 +227,10 @@ exports[`TopBar matches snapshot without balance 1`] = `
         "borderTopLeftRadius": "5px",
         "borderTopRightRadius": "5px",
         "marginBottom": "8px",
-        "paddingBottom": "8px",
-        "paddingLeft": "8px",
-        "paddingRight": "8px",
-        "paddingTop": "8px",
+        "paddingBottom": "16px",
+        "paddingLeft": "12px",
+        "paddingRight": "12px",
+        "paddingTop": "16px",
       }
     }
   >
@@ -286,12 +286,12 @@ exports[`TopBar matches snapshot without balance 1`] = `
           style={
             Object {
               "backgroundColor": "rgba(238,238,238,1.00)",
-              "borderBottomLeftRadius": "17px",
-              "borderBottomRightRadius": "17px",
-              "borderTopLeftRadius": "17px",
-              "borderTopRightRadius": "17px",
-              "height": "34px",
-              "width": "34px",
+              "borderBottomLeftRadius": "21px",
+              "borderBottomRightRadius": "21px",
+              "borderTopLeftRadius": "21px",
+              "borderTopRightRadius": "21px",
+              "height": "42px",
+              "width": "42px",
             }
           }
         >
@@ -300,16 +300,16 @@ exports[`TopBar matches snapshot without balance 1`] = `
             style={
               Object {
                 "WebkitFlexBasis": "auto",
-                "borderBottomLeftRadius": "17px",
-                "borderBottomRightRadius": "17px",
-                "borderTopLeftRadius": "17px",
-                "borderTopRightRadius": "17px",
+                "borderBottomLeftRadius": "21px",
+                "borderBottomRightRadius": "21px",
+                "borderTopLeftRadius": "21px",
+                "borderTopRightRadius": "21px",
                 "flexBasis": "auto",
-                "height": "34px",
+                "height": "42px",
                 "msFlexPreferredSize": "auto",
                 "overflowX": "hidden",
                 "overflowY": "hidden",
-                "width": "34px",
+                "width": "42px",
                 "zIndex": 0,
               }
             }
@@ -369,10 +369,10 @@ exports[`TopBar should render the children component 1`] = `
         "borderTopLeftRadius": "5px",
         "borderTopRightRadius": "5px",
         "marginBottom": "8px",
-        "paddingBottom": "8px",
-        "paddingLeft": "8px",
-        "paddingRight": "8px",
-        "paddingTop": "8px",
+        "paddingBottom": "16px",
+        "paddingLeft": "12px",
+        "paddingRight": "12px",
+        "paddingTop": "16px",
       }
     }
   >
@@ -428,12 +428,12 @@ exports[`TopBar should render the children component 1`] = `
           style={
             Object {
               "backgroundColor": "rgba(238,238,238,1.00)",
-              "borderBottomLeftRadius": "17px",
-              "borderBottomRightRadius": "17px",
-              "borderTopLeftRadius": "17px",
-              "borderTopRightRadius": "17px",
-              "height": "34px",
-              "width": "34px",
+              "borderBottomLeftRadius": "21px",
+              "borderBottomRightRadius": "21px",
+              "borderTopLeftRadius": "21px",
+              "borderTopRightRadius": "21px",
+              "height": "42px",
+              "width": "42px",
             }
           }
         >
@@ -442,16 +442,16 @@ exports[`TopBar should render the children component 1`] = `
             style={
               Object {
                 "WebkitFlexBasis": "auto",
-                "borderBottomLeftRadius": "17px",
-                "borderBottomRightRadius": "17px",
-                "borderTopLeftRadius": "17px",
-                "borderTopRightRadius": "17px",
+                "borderBottomLeftRadius": "21px",
+                "borderBottomRightRadius": "21px",
+                "borderTopLeftRadius": "21px",
+                "borderTopRightRadius": "21px",
                 "flexBasis": "auto",
-                "height": "34px",
+                "height": "42px",
                 "msFlexPreferredSize": "auto",
                 "overflowX": "hidden",
                 "overflowY": "hidden",
-                "width": "34px",
+                "width": "42px",
                 "zIndex": 0,
               }
             }

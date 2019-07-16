@@ -417,10 +417,10 @@ exports[`AppNavigation matches snapshot 1`] = `
                 "borderBottomRightRadius": "5px",
                 "borderTopLeftRadius": "5px",
                 "borderTopRightRadius": "5px",
-                "paddingBottom": "8px",
-                "paddingLeft": "8px",
-                "paddingRight": "8px",
-                "paddingTop": "8px",
+                "paddingBottom": "16px",
+                "paddingLeft": "12px",
+                "paddingRight": "12px",
+                "paddingTop": "16px",
               }
             }
           >
@@ -575,15 +575,15 @@ exports[`AppNavigation matches snapshot 1`] = `
                   className="css-view-1dbjc4n"
                   style={
                     Object {
-                      "WebkitAlignItems": "flex-end",
-                      "WebkitBoxAlign": "end",
+                      "WebkitAlignItems": "baseline",
+                      "WebkitBoxAlign": "baseline",
                       "WebkitBoxDirection": "normal",
                       "WebkitBoxOrient": "horizontal",
                       "WebkitFlexDirection": "row",
-                      "alignItems": "flex-end",
+                      "alignItems": "baseline",
                       "display": "flex",
                       "flexDirection": "row",
-                      "msFlexAlign": "end",
+                      "msFlexAlign": "baseline",
                       "msFlexDirection": "row",
                     }
                   }
@@ -598,7 +598,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                         "fontFamily": "RobotoSlab-Bold",
                         "fontSize": "36px",
                         "fontWeight": "700",
-                        "lineHeight": "22px",
+                        "lineHeight": "auto",
                         "marginRight": "4px",
                         "textAlign": "right",
                         "textDecoration": "none",
@@ -618,7 +618,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                         "fontFamily": "RobotoSlab-Bold",
                         "fontSize": "18px",
                         "fontWeight": "700",
-                        "lineHeight": "22px",
+                        "lineHeight": "auto",
                         "textAlign": "right",
                         "textDecoration": "none",
                         "textTransform": "none",

@@ -31,22 +31,24 @@ class BigNumber extends React.Component {
 const getStylesFromProps = ({ theme }) => {
   return {
     bigNumberWrapper: {
-      alignItems: 'flex-end',
+      alignItems: 'baseline',
       display: 'flex',
       flexDirection: 'row',
     },
     bigNumber: {
       fontFamily: theme.fonts.bold,
-      fontSize: normalize(44),
+      fontSize: normalize(40),
       fontWeight: '700',
-      marginRight: normalize(4),
+      marginRight: theme.sizes.defaultHalf,
       textAlign: 'right',
+      lineHeight: 'auto',
     },
     bigNumberUnit: {
       fontFamily: theme.fonts.bold,
       fontSize: normalize(22),
       fontWeight: '700',
       textAlign: 'right',
+      lineHeight: 'auto',
     },
   }
 }

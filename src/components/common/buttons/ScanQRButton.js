@@ -1,29 +1,33 @@
 // @flow
 import React from 'react'
-import { StyleSheet, TouchableOpacity } from 'react-native'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
-import { Avatar } from 'react-native-paper'
+import { TouchableOpacity, View } from 'react-native'
+import Icon from '../view/Icon'
 import Text from '../view/Text'
+import { withStyles } from '../../../lib/styles'
 
 type Props = {
   disabled?: boolean,
   style?: { row?: {}, icon?: {}, legendWrapper?: {}, legend?: {} },
   onPress: any,
+  styles: any,
+  theme: any,
 }
 
-const ScanQRButton = ({ onPress, ...screenProps }: Props) => {
+const ScanQRButton = ({ onPress, styles, theme, ...screenProps }: Props) => {
   const { disabled, style = {} } = screenProps
   return (
     <TouchableOpacity style={[styles.row, style.row]} onPress={disabled ? undefined : onPress}>
-      <Avatar.Icon size={48} style={[styles.icon, style.icon]} icon="code" />
-      <Text style={[styles.legendWrapper, style.legendWrapper]}>
-        <Text style={[styles.legend, style.legend]}>Scan QR Code</Text>
+      <Text color={theme.colors.darkBlue} fontSize={14} fontFamily="medium">
+        Scan QR Code
       </Text>
+      <View style={styles.iconWrapper}>
+        <Icon name="qrcode" color="white" size={30} />
+      </View>
     </TouchableOpacity>
   )
 }
 
-const styles = StyleSheet.create({
+const mapPropsToStyle = ({ theme }) => ({
   row: {
     cursor: 'pointer',
     flexDirection: 'row',
@@ -31,17 +35,15 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     padding: 0,
   },
+  iconWrapper: {
+    backgroundColor: theme.colors.darkBlue,
+    borderRadius: '50%',
+    padding: theme.sizes.default,
+    marginLeft: theme.sizes.default,
+  },
   icon: {
     backgroundColor: 'white',
   },
-  legendWrapper: {
-    marginLeft: '10px',
-  },
-  legend: {
-    fontSize: normalize(14),
-    color: 'black',
-    display: 'inlineBlock',
-  },
 })
 
-export default ScanQRButton
+export default withStyles(mapPropsToStyle)(ScanQRButton)

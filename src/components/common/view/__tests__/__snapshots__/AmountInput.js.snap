@@ -76,7 +76,7 @@ exports[`AmountInput matches snapshot 1`] = `
             "color": "rgba(66,69,74,1.00)",
             "cursor": "pointer",
             "fontFamily": "RobotoSlab-Regular",
-            "fontSize": "36px",
+            "fontSize": "32px",
             "fontWeight": "bold",
             "letterSpacing": "1.2px",
             "msTouchAction": "manipulation",
@@ -167,6 +167,7 @@ exports[`AmountInput matches snapshot 1`] = `
             },
             "roundness": 4,
             "sizes": Object {
+              "borderRadius": 5,
               "default": 8,
               "defaultDouble": 16,
               "defaultHalf": 4,

@@ -3,123 +3,78 @@
 exports[`ScanQRButton should match snapshot 1`] = `
 <div
   className="css-view-1dbjc4n"
-  data-focusable={true}
-  onKeyDown={[Function]}
-  onKeyUp={[Function]}
-  onResponderGrant={[Function]}
-  onResponderMove={[Function]}
-  onResponderRelease={[Function]}
-  onResponderTerminate={[Function]}
-  onResponderTerminationRequest={[Function]}
-  onStartShouldSetResponder={[Function]}
   style={
     Object {
-      "MozTransitionProperty": "opacity",
-      "MozUserSelect": "none",
-      "WebkitAlignItems": "center",
-      "WebkitBoxAlign": "center",
-      "WebkitBoxDirection": "normal",
-      "WebkitBoxOrient": "horizontal",
-      "WebkitBoxPack": "end",
-      "WebkitFlexDirection": "row",
-      "WebkitJustifyContent": "flex-end",
-      "WebkitTransitionDuration": "0.15s",
-      "WebkitTransitionProperty": "opacity",
-      "WebkitUserSelect": "none",
-      "alignItems": "center",
-      "cursor": "pointer",
-      "flexDirection": "row",
-      "justifyContent": "flex-end",
-      "msFlexAlign": "center",
-      "msFlexDirection": "row",
-      "msFlexPack": "end",
-      "msTouchAction": "manipulation",
-      "msUserSelect": "none",
-      "paddingBottom": "0px",
-      "paddingLeft": "0px",
-      "paddingRight": "0px",
-      "paddingTop": "0px",
-      "touchAction": "manipulation",
-      "transitionDuration": "0.15s",
-      "transitionProperty": "opacity",
-      "userSelect": "none",
+      "WebkitBoxFlex": 1,
+      "WebkitFlexBasis": "0%",
+      "WebkitFlexGrow": 1,
+      "WebkitFlexShrink": 1,
+      "flexBasis": "0%",
+      "flexGrow": 1,
+      "flexShrink": 1,
+      "msFlexNegative": 1,
+      "msFlexPositive": 1,
+      "msFlexPreferredSize": "0%",
     }
   }
-  tabIndex="0"
 >
   <div
     className="css-view-1dbjc4n"
+    data-focusable={true}
+    onKeyDown={[Function]}
+    onKeyUp={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
     style={
       Object {
+        "MozTransitionProperty": "opacity",
+        "MozUserSelect": "none",
         "WebkitAlignItems": "center",
         "WebkitBoxAlign": "center",
-        "WebkitBoxPack": "center",
-        "WebkitJustifyContent": "center",
+        "WebkitBoxDirection": "normal",
+        "WebkitBoxOrient": "horizontal",
+        "WebkitBoxPack": "end",
+        "WebkitFlexDirection": "row",
+        "WebkitJustifyContent": "flex-end",
+        "WebkitTransitionDuration": "0.15s",
+        "WebkitTransitionProperty": "opacity",
+        "WebkitUserSelect": "none",
         "alignItems": "center",
-        "backgroundColor": "rgba(255,255,255,1.00)",
-        "borderBottomLeftRadius": "24px",
-        "borderBottomRightRadius": "24px",
-        "borderTopLeftRadius": "24px",
-        "borderTopRightRadius": "24px",
-        "height": "48px",
-        "justifyContent": "center",
+        "cursor": "pointer",
+        "flexDirection": "row",
+        "justifyContent": "flex-end",
         "msFlexAlign": "center",
-        "msFlexPack": "center",
-        "width": "48px",
+        "msFlexDirection": "row",
+        "msFlexPack": "end",
+        "msTouchAction": "manipulation",
+        "msUserSelect": "none",
+        "paddingBottom": "0px",
+        "paddingLeft": "0px",
+        "paddingRight": "0px",
+        "paddingTop": "0px",
+        "touchAction": "manipulation",
+        "transitionDuration": "0.15s",
+        "transitionProperty": "opacity",
+        "userSelect": "none",
       }
     }
+    tabIndex="0"
   >
     <div
-      className="css-text-901oao r-pointerEvents-633pao"
-      dir="auto"
-      focusable={false}
-      role="img"
-      style={
-        Object {
-          "WebkitTransform": "scaleX(1)",
-          "backgroundColor": "rgba(0,0,0,0.00)",
-          "color": "rgba(0,0,0,0.54)",
-          "fontFamily": "MaterialIcons",
-          "fontSize": "28.799999999999997px",
-          "fontStyle": "normal",
-          "fontWeight": "normal",
-          "transform": "scaleX(1)",
-        }
-      }
-    >
-      
-    </div>
-  </div>
-  <div
-    className="css-text-901oao"
-    dir="auto"
-    style={
-      Object {
-        "color": "rgba(0,0,0,1.00)",
-        "direction": "ltr",
-        "fontFamily": "Roboto",
-        "fontSize": "16px",
-        "fontWeight": "normal",
-        "lineHeight": "22px",
-        "marginLeft": "10px",
-        "textAlign": "center",
-        "textDecoration": "none",
-        "textTransform": "none",
-      }
-    }
-  >
-    <span
-      className="css-text-901oao css-textHasAncestor-16my406"
+      className="css-text-901oao"
       dir="auto"
       style={
         Object {
-          "color": "rgba(0,0,0,1.00)",
+          "color": "rgba(12,38,61,1.00)",
           "direction": "ltr",
-          "display": "inlineBlock",
-          "fontFamily": "Roboto",
+          "fontFamily": "Roboto-Medium",
           "fontSize": "14px",
           "fontWeight": "normal",
-          "lineHeight": "22px",
+          "lineHeight": "20px",
           "textAlign": "center",
           "textDecoration": "none",
           "textTransform": "none",
@@ -127,7 +82,40 @@ exports[`ScanQRButton should match snapshot 1`] = `
       }
     >
       Scan QR Code
-    </span>
+    </div>
+    <div
+      className="css-view-1dbjc4n"
+      style={
+        Object {
+          "backgroundColor": "rgba(12,38,61,1.00)",
+          "borderBottomLeftRadius": "50%",
+          "borderBottomRightRadius": "50%",
+          "borderTopLeftRadius": "50%",
+          "borderTopRightRadius": "50%",
+          "marginLeft": "8px",
+          "paddingBottom": "8px",
+          "paddingLeft": "8px",
+          "paddingRight": "8px",
+          "paddingTop": "8px",
+        }
+      }
+    >
+      <div
+        className="css-text-901oao"
+        dir="auto"
+        style={
+          Object {
+            "color": "rgba(255,255,255,1.00)",
+            "fontFamily": "gooddollar",
+            "fontSize": "30px",
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        
+      </div>
+    </div>
   </div>
 </div>
 `;

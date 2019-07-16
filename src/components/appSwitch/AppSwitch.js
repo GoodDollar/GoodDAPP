@@ -118,6 +118,7 @@ class AppSwitch extends React.Component<LoadingProps, {}> {
           //for non loggedin users, store non email validation params to the destinationPath for later
           //to be used once signed in
           const destinationPath = JSON.stringify(destDetails)
+          if (destDetails.routeName === 'Mnemonics') return
           AsyncStorage.setItem('destinationPath', destinationPath)
         }
         this.props.navigation.navigate('Auth')

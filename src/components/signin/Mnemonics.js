@@ -12,13 +12,17 @@ import GDStore from '../../lib/undux/GDStore'
 import logger from '../../lib/logger/pino-logger'
 import MnemonicInput from './MnemonicInput'
 import { CustomButton } from '../common'
-
+import get from 'lodash/get'
 const log = logger.child({ from: 'Mnemonics' })
 
 const Mnemonics = props => {
   const [mnemonics, setMnemonics] = useState()
   const goodWallet = useWrappedGoodWallet()
   const store = GDStore.useStore()
+
+  const incomingMnemonic = get(props, 'navigation.state.params.mnemonic', undefined)
+
+  log.debug(props)
   const handleChange = (mnemonics: []) => {
     log.info({ mnemonics })
     setMnemonics(mnemonics.join(' '))
@@ -57,7 +61,7 @@ const Mnemonics = props => {
         </View>
 
         <View style={styles.formContainer}>
-          <MnemonicInput onChange={handleChange} />
+          <MnemonicInput onChange={handleChange} default={incomingMnemonic} />
         </View>
       </View>
       <View style={styles.bottomContainer}>

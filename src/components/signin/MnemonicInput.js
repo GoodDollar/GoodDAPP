@@ -75,6 +75,12 @@ const MnemonicInput = (props: Props) => {
     }
   }
 
+  useEffect(() => {
+    if (props.default) {
+      setWord(0)(props.default)
+    }
+  }, [])
+
   return (
     <View style={styles.inputsContainer}>
       {[...Array(MAX_WORDS).keys()].map(key => (

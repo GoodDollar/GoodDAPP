@@ -221,8 +221,8 @@ const styles = StyleSheet.create({
 
 const getVideoContainerStyles = () => ({
   ...getResponsiveVideoDimensions(),
-  marginLeft: 'auto',
-  marginRight: 'auto',
+  marginLeft: '0',
+  marginRight: '0',
   marginTop: 0,
   marginBottom: 0
 })

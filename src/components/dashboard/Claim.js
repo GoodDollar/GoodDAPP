@@ -12,9 +12,9 @@ import { useDialog } from '../../lib/undux/utils/dialog'
 import wrapper from '../../lib/undux/utils/wrapper'
 import { weiToMask } from '../../lib/wallet/utils'
 import { CustomButton, Section, Text, TopBar, Wrapper } from '../common'
-import ErrorIcon from '../common/icons/ErrorIcon/index'
-import LoadingIcon from '../common/icons/LoadingIcon/index'
-import SuccessIcon from '../common/icons/SuccessIcon/index'
+import ErrorIcon from '../common/modal/ErrorIcon'
+import LoadingIcon from '../common/modal/LoadingIcon'
+import SuccessIcon from '../common/modal/SuccessIcon'
 import type { DashboardProps } from './Dashboard'
 
 type ClaimProps = DashboardProps

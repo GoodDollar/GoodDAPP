@@ -1,17 +1,17 @@
 // @flow
 import React from 'react'
-import { Image, View } from 'react-native'
+import { View } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
-import { withStyles } from '../../../../lib/styles'
+import { withStyles } from '../../../lib/styles'
+import Icon from '../view/Icon'
 
 const SuccessIcon = props => {
-  const { styles, style } = props
-  const image = require('./img/SuccessIcon.png')
+  const { styles, style, theme } = props
 
   return (
     <View style={[styles.successIconContainer, style]}>
       <View style={styles.successIconFrame}>
-        <Image style={styles.successIcon} source={image} />
+        <Icon name="success" color={theme.colors.primary} size={30} />
       </View>
     </View>
   )
@@ -35,10 +35,6 @@ const getStylesFromProps = ({ theme }) => {
       height: normalize(90),
       justifyContent: 'center',
       width: normalize(90),
-    },
-    successIcon: {
-      height: normalize(49),
-      width: normalize(36),
     },
   }
 }

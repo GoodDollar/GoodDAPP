@@ -1,17 +1,17 @@
 // @flow
 import React from 'react'
-import { Image, View } from 'react-native'
+import { View } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
-import { withStyles } from '../../../../lib/styles'
+import { withStyles } from '../../../lib/styles'
+import Icon from '../view/Icon'
 
 const ErrorIcon = props => {
   const { styles, style } = props
-  const image = require('./img/ErrorIcon.png')
 
   return (
     <View style={[styles.errorIconContainer, style]}>
       <View style={styles.errorIconFrame}>
-        <Image style={styles.errorIcon} source={image} />
+        <Icon name="close" color={props.theme.colors.error} size={30} />
       </View>
     </View>
   )
@@ -35,10 +35,6 @@ const getStylesFromProps = ({ theme }) => {
       height: normalize(90),
       justifyContent: 'center',
       width: normalize(90),
-    },
-    errorIcon: {
-      height: normalize(23),
-      width: normalize(23),
     },
   }
 }

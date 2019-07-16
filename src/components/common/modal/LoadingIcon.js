@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { Animated, Easing, View } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
-import { withStyles } from '../../../../lib/styles'
+import { withStyles } from '../../../lib/styles'
 
 const LoadingIcon = props => {
   const [rotateValue] = useState(new Animated.Value(0))

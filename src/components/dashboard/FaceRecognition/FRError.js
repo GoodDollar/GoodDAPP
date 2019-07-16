@@ -27,7 +27,7 @@ const FRError = props => {
   let error = isRelevantError
     ? reason
     : "You see, it's not that easy to capture your beauty :)\nSo, let's give it another shot..."
-
+  let title = isRelevantError ? 'Something went wrong...' : 'Something went wrong on our side...'
   if (isValid) {
     props.screenProps.pop({ isValid })
   }
@@ -51,7 +51,7 @@ const FRError = props => {
             flex: 1
           }}
         >
-          <Section.Title style={styles.mainTitle}> {`${fullName},\nSomething went wrong on our side...`}</Section.Title>
+          <Section.Title style={styles.mainTitle}> {`${fullName},\n${title}`}</Section.Title>
           <Image source={Oops} resizeMode={'center'} style={{ height: normalize(146) }} />
           <Section
             style={{
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
 
 const FRErrorWithStore = SimpleStore.withStore(FRError)
 FRError.navigationOptions = {
-  title: 'Ooops...',
+  title: 'Face Verifcation',
   navigationBarHidden: false
 }
 export default FRErrorWithStore

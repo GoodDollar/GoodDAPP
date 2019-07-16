@@ -57,7 +57,7 @@ export function Camera(props: CameraProps) {
 
     //prevent landscape
     if (isMobile && width > height) {
-      return props.onError('Camera should be in portrait mode, please rotate your mobile.')
+      return props.onError('Please make sure your mobile is in portrait mode and try again.')
     }
     awaitGetUserMedia()
     return () => {

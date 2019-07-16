@@ -25,6 +25,7 @@ const FRIntro = props => {
   if (isValid) {
     props.screenProps.pop({ isValid: true })
   }
+  const gotoPrivacyArticle = () => props.screenProps.push('PrivacyPolicy')
   const gotoFR = () => props.screenProps.navigateTo('FaceRecognition')
   return (
     <Wrapper>
@@ -41,7 +42,7 @@ const FRIntro = props => {
           }}
         >
           <Section.Title style={styles.mainTitle}>
-            {`${fullName},\nLets verify you are a living and unique special human being that you are!`}
+            {`${fullName},\nLets make sure you are\na real live person!`}
           </Section.Title>
           <Image source={SmileyHug} resizeMode={'center'} style={{ height: normalize(152) }} />
           <Section
@@ -53,16 +54,19 @@ const FRIntro = props => {
           >
             <Image source={Divider} style={{ height: normalize(2) }} />
             <Section.Text style={styles.description}>
-              For GoodDollar to succeed
+              Since this is your first transaction
               <Text style={{ fontWeight: 'normal' }}>
-                {`\nwe need to make sure every person in our community registered only once for UBI. No BOTS allowed!`}
+                {`\nWe will take a short video of you\nto prevent duplicate accounts.\n\n`}
+              </Text>
+              <Text style={{ fontWeight: 'bold', textDecorationLine: 'underline' }} onPress={gotoPrivacyArticle}>
+                {'Learn more'}
               </Text>
             </Section.Text>
             <Image source={Divider} style={{ height: normalize(2) }} />
           </Section>
         </Section>
         <Section>
-          <CustomButton onPress={gotoFR}>Face CAPTCHA Verification</CustomButton>
+          <CustomButton onPress={gotoFR}>OK, Verify me</CustomButton>
         </Section>
       </View>
     </Wrapper>
@@ -109,7 +113,7 @@ const styles = StyleSheet.create({
 })
 
 FRIntro.navigationOptions = {
-  title: 'Face Matching',
+  title: 'Face Verification',
   navigationBarHidden: false
 }
 export default FRIntro

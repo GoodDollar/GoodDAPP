@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { AsyncStorage, Image, StyleSheet, Text, View } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
-import { isMobile } from 'mobile-device-detect'
+import { isIOS, isMobile } from 'mobile-device-detect'
 
 import get from 'lodash/get'
 import QRCode from 'qrcode.react'
@@ -9,13 +9,13 @@ import Config from '../../../config/config'
 import { CopyButton, Section, Wrapper } from '../../common'
 import Divider from '../../../assets/Dividers - Long Line - Stroke Width 2 - Round Cap - Light Blue.svg'
 import Oops from '../../../assets/oops.svg'
-import SimpleStore from '../../../lib/undux/SimpleStore'
+import GDStore from '../../../lib/undux/GDStore'
 import logger from '../../../lib/logger/pino-logger'
 
 const log = logger.child({ from: 'UnsupportedDevice' })
 
 const UnsupportedDevice = props => {
-  const store = SimpleStore.useStore()
+  const store = GDStore.useStore()
   const [code, setCode] = useState(undefined)
   const { fullName } = store.get('profile')
 
@@ -26,10 +26,14 @@ const UnsupportedDevice = props => {
   let error =
     "In order to continue, it's best you switch to your mobile device, also for best experience use Chrome/Safari browser."
   let title = `${fullName},\nWe need to talk...`
+  if (isIOS) {
+    title = `${fullName},\niPhones are great, but...`
+  }
   switch (reason) {
+    default:
     case 'isNotMobileSafari':
-      error = 'In order to continue please use the Safari browser.\nPress the button then paste the link in Safari'
-      title = `${fullName},\niPhone is the best, but...`
+      error =
+        'In order to continue, you will need to switch to your Safari browser.\nJust copy and paste the link into Safari.'
       break
   }
 
@@ -70,7 +74,7 @@ const UnsupportedDevice = props => {
     isMobile === false || code === undefined ? null : (
       <View>
         <CopyButton mode="contained" toCopy={code}>
-          Copy Link To Safari
+          Copy Link
         </CopyButton>
       </View>
     )
@@ -152,9 +156,8 @@ const styles = StyleSheet.create({
   }
 })
 
-const UDWithStore = SimpleStore.withStore(UnsupportedDevice)
-UDWithStore.navigationOptions = {
-  title: 'Unsupported Device',
+UnsupportedDevice.navigationOptions = {
+  title: 'Face Verification',
   navigationBarHidden: false
 }
-export default UDWithStore
+export default UnsupportedDevice

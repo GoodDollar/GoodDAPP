@@ -843,6 +843,7 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                 style={
                   Object {
                     "borderColor": "#CBCBCB",
+                    "color": "#222",
                   }
                 }
               >
@@ -2965,10 +2966,11 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
               }
             >
               <div
-                className="react-phone-number-input"
+                className="react-phone-number-input react-phone-number-input--invalid"
                 style={
                   Object {
                     "borderColor": "#FA6C77",
+                    "color": "#FA6C77",
                   }
                 }
               >
@@ -4532,7 +4534,7 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                   </div>
                   <input
                     autoComplete="tel"
-                    className="react-phone-number-input__input react-phone-number-input__phone"
+                    className="react-phone-number-input__input react-phone-number-input__phone react-phone-number-input__input--invalid"
                     disabled={false}
                     id="signup_phone"
                     onBlur={[Function]}
@@ -4543,6 +4545,11 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                     type="tel"
                     value="2222222222222"
                   />
+                </div>
+                <div
+                  className="react-phone-number-input__error"
+                >
+                  error
                 </div>
               </div>
               <div
@@ -4704,6 +4711,7 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                     "WebkitFlexGrow": 1,
                     "WebkitFlexShrink": 1,
                     "backgroundColor": "inherit",
+                    "color": "rgba(250,108,119,1.00)",
                     "flexBasis": "0%",
                     "flexGrow": 1,
                     "flexShrink": 1,

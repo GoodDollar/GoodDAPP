@@ -33,7 +33,11 @@ const ProfileDataTable = ({ profile, onChange, errors: errorsProp, editable, the
                   placeholder="Enter phone number"
                   value={profile.mobile}
                   onChange={value => onChange({ ...profile, mobile: value })}
-                  style={{ borderColor: errors.mobile ? theme.colors.red : theme.colors.gray50Percent }}
+                  error={errors.mobile}
+                  style={{
+                    borderColor: errors.mobile ? theme.colors.red : theme.colors.gray50Percent,
+                    color: errors.mobile ? theme.colors.red : theme.colors.text,
+                  }}
                 />
                 <Icon
                   name="phone"

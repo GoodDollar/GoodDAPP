@@ -16,6 +16,10 @@
   color: #000;
 }
 
+.react-phone-number-input__input.react-phone-number-input__input--invalid {
+  color: #FA6C77;
+}
+
 .react-phone-number-input__icon {
   border-radius: 2px;
 }
@@ -33,6 +37,7 @@
 }
 
 .react-phone-number-input__error {
+  display: none;
   text-align: right;
   font-size: 12px;
   font-family: Roboto, 'Helvetica Neue', Helvetica, Arial, sans-serif;

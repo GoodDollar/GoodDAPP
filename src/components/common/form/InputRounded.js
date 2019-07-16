@@ -23,7 +23,7 @@ const InputRounded = ({ styles, theme, icon, iconColor, error, onChange, ...inpu
       <View
         style={inputProps.disabled ? styles.inputText : error ? styles.errorInputContainer : styles.iconInputContainer}
       >
-        <TextInput style={styles.input} {...inputProps} onChange={handleChange} />
+        <TextInput style={error ? styles.inputError : styles.input} {...inputProps} onChange={handleChange} />
         <View style={styles.suffixIcon}>
           <Icon
             size={normalize(16)}
@@ -44,6 +44,14 @@ const getStylesFromProps = ({ theme }) => {
     position: 'relative',
     paddingHorizontal: normalize(40),
     paddingVertical: 0,
+  }
+  const input = {
+    flex: 1,
+    backgroundColor: 'inherit',
+    border: 0,
+    lineHeight: normalize(36),
+    fontSize: normalize(14),
+    fontFamily: theme.fonts.regular,
   }
   return {
     inputContainer: {
@@ -67,13 +75,10 @@ const getStylesFromProps = ({ theme }) => {
       borderBottomColor: theme.colors.gray50Percent,
       borderBottomWidth: 1,
     },
-    input: {
-      flex: 1,
-      backgroundColor: 'inherit',
-      border: 0,
-      lineHeight: normalize(36),
-      fontSize: normalize(14),
-      fontFamily: theme.fonts.regular,
+    input,
+    inputError: {
+      ...input,
+      color: theme.colors.red,
     },
     suffixIcon: {
       position: 'absolute',

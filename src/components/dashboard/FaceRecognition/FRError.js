@@ -115,9 +115,8 @@ const styles = StyleSheet.create({
   }
 })
 
-const FRErrorWithStore = GDStore.withStore(FRError)
-FRErrorWithStore.navigationOptions = {
+FRError.navigationOptions = {
   title: 'Face Verifcation',
   navigationBarHidden: false
 }
-export default FRErrorWithStore
+export default FRError

@@ -1,6 +1,5 @@
 // @flow
 import React, { createRef } from 'react'
-import GDStore from '../../../lib/undux/GDStore'
 import type { DashboardProps } from '../Dashboard'
 import logger from '../../../lib/logger/pino-logger'
 import { Wrapper } from '../../common'
@@ -152,9 +151,8 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
   }
 }
 
-const FRWithStore = GDStore.withStore(FaceRecognition)
-FRWithStore.navigationOptions = {
+FaceRecognition.navigationOptions = {
   title: 'Face Verification',
   navigationBarHidden: false
 }
-export default FRWithStore
+export default FaceRecognition

@@ -1,15 +1,11 @@
 // @flow
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
-import { Dialog, Paragraph, Portal } from 'react-native-paper'
+import { StyleSheet, Text, View } from 'react-native'
+import { Paragraph, Portal } from 'react-native-paper'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import SimpleStore from '../../../lib/undux/SimpleStore'
 import CustomButton from '../buttons/CustomButton'
-import ModalCloseButton from '../modal/ModalCloseButton'
-import ModalLeftBorder from '../modal/ModalLeftBorder'
-import ModalContents from '../modal/ModalContents'
-import ModalInnerContents from '../modal/ModalInnerContents'
-import ModalContainer from '../modal/ModalContainer'
+import ModalWrapper from '../modal/ModalWrapper'
 import { theme } from '../../theme/styles'
 
 export type DialogProps = {
@@ -49,41 +45,44 @@ const CustomDialog = ({
   title,
   type = 'common',
   visible,
-}: DialogProps) => (
-  <Portal>
-    <Dialog style={styles.clearDialogStyles} visible={visible} onDismiss={onCancel || onDismiss} dismissable={true}>
-      {onCancel || onDismiss ? <ModalCloseButton onClose={onCancel || onDismiss} /> : null}
-      <ModalContainer>
-        <ModalLeftBorder style={{ backgroundColor: getColorFromType(type) }} />
-        <ModalContents>
-          <ModalInnerContents>
-            <Dialog.Title style={styles.title}>{title}</Dialog.Title>
-            <View style={styles.content}>
-              {children}
-              {image ? image : null}
-              {message && <Paragraph style={styles.paragraph}>{message}</Paragraph>}
-            </View>
-            <Dialog.Actions style={styles.buttonsContainer}>
-              {onCancel && (
-                <CustomButton disabled={loading} loading={loading} onPress={onCancel}>
-                  Cancel
-                </CustomButton>
-              )}
+}: DialogProps) => {
+  return visible ? (
+    <Portal>
+      <ModalWrapper onClose={onCancel || onDismiss} leftBorderColor={getColorFromType(type)}>
+        <React.Fragment>
+          <Text style={styles.title}>{title}</Text>
+          <View style={styles.content}>
+            {children}
+            {image ? image : null}
+            {message && <Paragraph style={styles.paragraph}>{message}</Paragraph>}
+          </View>
+          <View style={styles.buttonsContainer}>
+            {onCancel && (
               <CustomButton
+                color={theme.colors.lighterGray}
                 disabled={loading}
                 loading={loading}
-                onPress={onDismiss}
-                style={[styles.buttonOK, { backgroundColor: getColorFromType(type) }]}
+                mode="text"
+                onPress={onCancel}
+                style={styles.buttonCancel}
               >
-                {dismissText || 'Done'}
+                Cancel
               </CustomButton>
-            </Dialog.Actions>
-          </ModalInnerContents>
-        </ModalContents>
-      </ModalContainer>
-    </Dialog>
-  </Portal>
-)
+            )}
+            <CustomButton
+              disabled={loading}
+              loading={loading}
+              onPress={onDismiss}
+              style={[styles.buttonOK, { backgroundColor: getColorFromType(type) }]}
+            >
+              {dismissText || 'Done'}
+            </CustomButton>
+          </View>
+        </React.Fragment>
+      </ModalWrapper>
+    </Portal>
+  ) : null
+}
 
 const getColorFromType = (type: string) => {
   return (
@@ -110,15 +109,12 @@ const SimpleStoreDialog = () => {
 }
 
 const styles = StyleSheet.create({
-  clearDialogStyles: {
-    backgroundColor: 'transparent',
-    padding: 0,
-  },
   title: {
     color: theme.colors.darkGray,
     fontFamily: theme.fonts.slabBold,
     fontSize: normalize(24),
     marginBottom: normalize(16),
+    paddingTop: normalize(16),
     textAlign: 'center',
   },
   paragraph: {
@@ -134,10 +130,17 @@ const styles = StyleSheet.create({
     padding: 0,
   },
   buttonsContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     paddingLeft: 0,
     paddingRight: 0,
   },
+  buttonCancel: {
+    minWidth: normalize(80),
+  },
   buttonOK: {
+    marginLeft: 'auto',
     minWidth: normalize(80),
   },
 })

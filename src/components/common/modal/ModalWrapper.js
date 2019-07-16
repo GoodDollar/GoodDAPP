@@ -11,13 +11,13 @@ import ModalInnerContents from './ModalInnerContents'
 import ModalContainer from './ModalContainer'
 
 const ModalWrapper = (props: any) => {
-  const { styles, children, onClose, leftBorderColor, showJaggedEdge = false } = props
+  const { styles, children, onClose, leftBorderColor, showJaggedEdge = false, fullHeight = false } = props
 
   return (
     <ScrollView>
       <ModalOverlay>
         {onClose ? <ModalCloseButton onClose={onClose} /> : null}
-        <ModalContainer>
+        <ModalContainer fullHeight={fullHeight}>
           <ModalLeftBorder
             borderColor={leftBorderColor}
             style={[showJaggedEdge ? styles.modalLeftBorderAddMarginBottom : '']}

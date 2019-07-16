@@ -5,9 +5,9 @@ import { withStyles } from '../../../lib/styles'
 import { lowZIndex } from './styles'
 
 const ModalContainer = (props: any) => {
-  const { styles, children, style } = props
+  const { styles, children, style, fullHeight } = props
 
-  return <View style={[styles.modalContainer, style]}>{children}</View>
+  return <View style={[styles.modalContainer, fullHeight && { flexGrow: 1 }, style]}>{children}</View>
 }
 
 const getStylesFromProps = ({ theme }) => {
@@ -15,7 +15,6 @@ const getStylesFromProps = ({ theme }) => {
     modalContainer: {
       display: 'flex',
       flexDirection: 'row',
-      flexGrow: 1,
       position: 'relative',
       width: '100%',
       zIndex: lowZIndex,

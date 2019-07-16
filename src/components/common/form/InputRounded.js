@@ -25,7 +25,11 @@ const InputRounded = ({ styles, theme, icon, iconColor, error, onChange, ...inpu
       >
         <TextInput style={styles.input} {...inputProps} onChange={handleChange} />
         <View style={styles.suffixIcon}>
-          <Icon size={normalize(16)} color={iconColor || theme.colors.gray50Percent} name={icon} />
+          <Icon
+            size={normalize(16)}
+            color={error ? theme.colors.red : iconColor || theme.colors.gray50Percent}
+            name={icon}
+          />
         </View>
       </View>
       <HelperText type="error" visible={error} style={styles.error}>

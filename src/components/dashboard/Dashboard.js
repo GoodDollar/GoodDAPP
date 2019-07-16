@@ -13,6 +13,8 @@ import { weiToMask } from '../../lib/wallet/utils'
 import { createStackNavigator, PushButton } from '../appNavigation/stackNavigation'
 import TabsView from '../appNavigation/TabsView'
 import { Avatar, BigGoodDollar, Section, Wrapper } from '../common'
+import { PrivacyArticle, PrivacyPolicy, Support, TermsOfUse } from '../webView/webViewInstances'
+import Mnemonics from '../signin/Mnemonics'
 import Amount from './Amount'
 import Claim from './Claim'
 import FaceRecognition from './FaceRecognition/FaceRecognition'
@@ -32,7 +34,6 @@ import SendLinkSummary from './SendLinkSummary'
 import SendQRSummary from './SendQRSummary'
 import logger from '../../lib/logger/pino-logger'
 import userStorage from '../../lib/gundb/UserStorage'
-import { TermsOfUse, PrivacyPolicy, Support } from '../webView/webViewInstances'
 
 const log = logger.child({ from: 'Dashboard' })
 
@@ -291,6 +292,8 @@ export default createStackNavigator({
   ReceiveByQR,
   SendQRSummary,
   PP: PrivacyPolicy,
+  PrivacyArticle,
   TOU: TermsOfUse,
-  Support
+  Support,
+  Recover: Mnemonics
 })

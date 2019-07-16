@@ -6,7 +6,7 @@
     "npm": "6.x"
   },
   "scripts": {
-    "start": "serve -l $PORT build",
+    "start": "serve -s -l $PORT build",
     "analyze:sme": "source-map-explorer 'build/static/js/*.js'",
     "analyze": "webpack-bundle-analyzer 'build/bundle-stats.json'",
     "start:local": "npm link @gooddollar/goodcontracts && npm start",

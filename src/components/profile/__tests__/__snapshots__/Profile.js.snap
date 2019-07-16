@@ -886,6 +886,7 @@ exports[`Profile matches snapshot 1`] = `
                             "flexBasis": "0%",
                             "flexGrow": 1,
                             "flexShrink": 1,
+                            "fontFamily": "Roboto",
                             "fontSize": "14px",
                             "lineHeight": "36px",
                             "msFlexNegative": 1,
@@ -908,37 +909,19 @@ exports[`Profile matches snapshot 1`] = `
                         }
                       >
                         <div
-                          className="css-view-1dbjc4n"
+                          className="css-text-901oao"
+                          dir="auto"
                           style={
                             Object {
-                              "WebkitAlignItems": "center",
-                              "WebkitBoxAlign": "center",
-                              "WebkitBoxPack": "center",
-                              "WebkitJustifyContent": "center",
-                              "alignItems": "center",
-                              "backgroundColor": "rgba(0,0,0,0.00)",
-                              "justifyContent": "center",
-                              "msFlexAlign": "center",
-                              "msFlexPack": "center",
+                              "color": "rgba(0,175,255,1.00)",
+                              "fontFamily": "gooddollar",
+                              "fontSize": "16px",
+                              "fontStyle": "normal",
+                              "fontWeight": "normal",
                             }
                           }
                         >
-                          <div
-                            className="css-text-901oao"
-                            dir="auto"
-                            style={
-                              Object {
-                                "backgroundColor": "rgba(0,0,0,0.00)",
-                                "color": "rgba(0,175,255,1.00)",
-                                "fontFamily": "MaterialIcons",
-                                "fontSize": "16px",
-                                "fontStyle": "normal",
-                                "fontWeight": "normal",
-                              }
-                            }
-                          >
-                            
-                          </div>
+                          
                         </div>
                       </div>
                     </div>
@@ -1043,6 +1026,7 @@ exports[`Profile matches snapshot 1`] = `
                             "flexBasis": "0%",
                             "flexGrow": 1,
                             "flexShrink": 1,
+                            "fontFamily": "Roboto",
                             "fontSize": "14px",
                             "lineHeight": "36px",
                             "msFlexNegative": 1,
@@ -1065,37 +1049,19 @@ exports[`Profile matches snapshot 1`] = `
                         }
                       >
                         <div
-                          className="css-view-1dbjc4n"
+                          className="css-text-901oao"
+                          dir="auto"
                           style={
                             Object {
-                              "WebkitAlignItems": "center",
-                              "WebkitBoxAlign": "center",
-                              "WebkitBoxPack": "center",
-                              "WebkitJustifyContent": "center",
-                              "alignItems": "center",
-                              "backgroundColor": "rgba(0,0,0,0.00)",
-                              "justifyContent": "center",
-                              "msFlexAlign": "center",
-                              "msFlexPack": "center",
+                              "color": "rgba(0,175,255,1.00)",
+                              "fontFamily": "gooddollar",
+                              "fontSize": "16px",
+                              "fontStyle": "normal",
+                              "fontWeight": "normal",
                             }
                           }
                         >
-                          <div
-                            className="css-text-901oao"
-                            dir="auto"
-                            style={
-                              Object {
-                                "backgroundColor": "rgba(0,0,0,0.00)",
-                                "color": "rgba(0,175,255,1.00)",
-                                "fontFamily": "MaterialIcons",
-                                "fontSize": "16px",
-                                "fontStyle": "normal",
-                                "fontWeight": "normal",
-                              }
-                            }
-                          >
-                            
-                          </div>
+                          
                         </div>
                       </div>
                     </div>
@@ -1200,6 +1166,7 @@ exports[`Profile matches snapshot 1`] = `
                             "flexBasis": "0%",
                             "flexGrow": 1,
                             "flexShrink": 1,
+                            "fontFamily": "Roboto",
                             "fontSize": "14px",
                             "lineHeight": "36px",
                             "msFlexNegative": 1,
@@ -1222,37 +1189,19 @@ exports[`Profile matches snapshot 1`] = `
                         }
                       >
                         <div
-                          className="css-view-1dbjc4n"
+                          className="css-text-901oao"
+                          dir="auto"
                           style={
                             Object {
-                              "WebkitAlignItems": "center",
-                              "WebkitBoxAlign": "center",
-                              "WebkitBoxPack": "center",
-                              "WebkitJustifyContent": "center",
-                              "alignItems": "center",
-                              "backgroundColor": "rgba(0,0,0,0.00)",
-                              "justifyContent": "center",
-                              "msFlexAlign": "center",
-                              "msFlexPack": "center",
+                              "color": "rgba(0,175,255,1.00)",
+                              "fontFamily": "gooddollar",
+                              "fontSize": "16px",
+                              "fontStyle": "normal",
+                              "fontWeight": "normal",
                             }
                           }
                         >
-                          <div
-                            className="css-text-901oao"
-                            dir="auto"
-                            style={
-                              Object {
-                                "backgroundColor": "rgba(0,0,0,0.00)",
-                                "color": "rgba(0,175,255,1.00)",
-                                "fontFamily": "MaterialIcons",
-                                "fontSize": "16px",
-                                "fontStyle": "normal",
-                                "fontWeight": "normal",
-                              }
-                            }
-                          >
-                            
-                          </div>
+                          
                         </div>
                       </div>
                     </div>

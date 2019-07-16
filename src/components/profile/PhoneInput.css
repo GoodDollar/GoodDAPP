@@ -10,7 +10,8 @@
   height: 30px;
   background: transparent;
   border: none;
-  font-size: 13px;
+  font-size: 14px;
+  font-family: 'Roboto';
   text-align: left;
   color: #555555;
 }

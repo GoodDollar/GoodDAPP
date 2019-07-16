@@ -1,9 +1,9 @@
 import React from 'react'
 import { TextInput, View } from 'react-native'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
-import Icon from 'react-native-elements/src/icons/Icon'
 import { HelperText } from 'react-native-paper'
+import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { withStyles } from '../../../lib/styles'
+import Icon from '../view/Icon'
 
 /**
  * TopBar - used To display contextual information in a small container
@@ -69,6 +69,7 @@ const getStylesFromProps = ({ theme }) => {
       border: 0,
       lineHeight: normalize(36),
       fontSize: normalize(14),
+      fontFamily: theme.fonts.regular,
     },
     suffixIcon: {
       position: 'absolute',

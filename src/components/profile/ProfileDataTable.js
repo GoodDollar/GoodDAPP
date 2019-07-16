@@ -1,11 +1,10 @@
 import React from 'react'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import Icon from 'react-native-elements/src/icons/Icon'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { HelperText } from 'react-native-paper'
 import PhoneInput from 'react-phone-number-input'
 import './ProfileDataTablePhoneInput.css'
-import { InputRounded, Section } from '../common'
+import { Icon, InputRounded, Section } from '../common'
 import { withStyles } from '../../lib/styles'
 import './PhoneInput.css'
 
@@ -21,7 +20,7 @@ const ProfileDataTable = ({ profile, onChange, errors: errorsProp, editable, the
             value={profile.username}
             error={errors.username}
             disabled={!editable}
-            icon="person-outline"
+            icon="privacy"
             iconColor={theme.colors.primary}
           />
         </Section.Row>
@@ -38,9 +37,9 @@ const ProfileDataTable = ({ profile, onChange, errors: errorsProp, editable, the
                 />
                 <Icon
                   name="phone"
-                  size={normalize(16)}
-                  color={theme.colors.primary}
-                  containerStyle={styles.phoneIcon}
+                  size={normalize(18)}
+                  color={errors.mobile ? theme.colors.red : theme.colors.primary}
+                  style={styles.phoneIcon}
                 />
               </Section.Row>
               <Section.Row grow>
@@ -67,7 +66,7 @@ const ProfileDataTable = ({ profile, onChange, errors: errorsProp, editable, the
             value={profile.email}
             error={errors.email}
             disabled={!editable}
-            icon="mail-outline"
+            icon="envelope"
             iconColor={theme.colors.primary}
           />
         </Section.Row>
@@ -85,7 +84,7 @@ const getStylesFromProps = ({ theme }) => {
     },
     phoneIcon: {
       position: 'absolute',
-      right: normalize(24),
+      right: normalize(26),
     },
   }
 }

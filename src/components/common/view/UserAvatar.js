@@ -1,7 +1,6 @@
 // @flow
 import React from 'react'
 import { View } from 'react-native'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
 import CreateAvatar from 'exif-react-avatar-edit'
 import { getScreenHeight, getScreenWidth, isPortrait } from '../../../lib/utils/Orientation'
 import { withStyles } from '../../../lib/styles'
@@ -60,7 +59,7 @@ const UserAvatar = (props: AvatarProps) => {
   ) : (
     <View style={styles.avatar}>
       <View style={[styles.innerAvatar, containerStyle]}>
-        <Avatar size={originalSize ? cropSize : normalize(136)} {...props} source={profile.avatar}>
+        <Avatar size={originalSize ? cropSize : 136} {...props} source={profile.avatar}>
           {children}
         </Avatar>
         <Section.Title style={styles.fullNameContainer}>{profile.fullName}</Section.Title>

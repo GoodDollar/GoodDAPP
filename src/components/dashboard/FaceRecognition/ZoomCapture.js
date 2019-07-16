@@ -191,7 +191,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     padding: 5,
-    borderRadius: 5
+    borderRadius: 5,
+    minHeight: 400
   },
   helper: {
     position: 'absolute',

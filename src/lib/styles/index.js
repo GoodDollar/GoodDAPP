@@ -35,5 +35,12 @@ export const withStyles = (mapThemeToStyles, withStyleSheet = true) => Component
       return <Component ref={c => (this._root = c)} {...this.props} styles={styles} />
     }
   }
+
+  // Adding static methods to new wrapped component
+  Object.getOwnPropertyNames(Component)
+    .filter(prop => isFunction(Component[prop]))
+    .forEach(staticMethod => (WrappedComponent[staticMethod] = Component[staticMethod]))
+  WrappedComponent.navigationOptions = Component.navigationOptions
+
   return withTheme(WrappedComponent)
 }

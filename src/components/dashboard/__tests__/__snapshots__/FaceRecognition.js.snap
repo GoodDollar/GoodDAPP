@@ -74,10 +74,10 @@ exports[`FaceRecognition Rendering matches snapshot 1`] = `
           "msFlexPack": "justify",
           "msFlexPositive": 1,
           "msFlexPreferredSize": "0%",
-          "paddingBottom": "8px",
-          "paddingLeft": "8px",
-          "paddingRight": "8px",
-          "paddingTop": "8px",
+          "paddingBottom": "16px",
+          "paddingLeft": "12px",
+          "paddingRight": "12px",
+          "paddingTop": "16px",
         }
       }
     >

@@ -28,6 +28,7 @@ import Reason from './Reason'
 import Receive from './Receive'
 import ReceiveFrom from './ReceiveFrom'
 import ReceiveAmount from './ReceiveAmount'
+import ReceiveConfirmation from './ReceiveConfirmation'
 import SendByQR from './SendByQR'
 import ReceiveByQR from './ReceiveByQR'
 import Send from './Send'
@@ -278,6 +279,7 @@ export default createStackNavigator({
   Amount,
   Reason,
   ReceiveAmount,
+  ReceiveConfirmation,
   Send,
   SendLinkSummary,
   SendConfirmation,

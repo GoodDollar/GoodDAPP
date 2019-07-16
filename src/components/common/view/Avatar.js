@@ -38,7 +38,7 @@ const CustomAvatar = (props: AvatarProps) => (
 )
 
 CustomAvatar.defaultProps = {
-  size: 34,
+  size: 42,
 }
 
 const styles = StyleSheet.create({

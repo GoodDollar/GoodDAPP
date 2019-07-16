@@ -4,13 +4,15 @@ import InputText from '../common/form/InputText'
 
 import { Section, TopBar, Wrapper } from '../common'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
+import { withStyles } from '../../lib/styles'
 
 export type AmountProps = {
   screenProps: any,
   navigation: any,
+  stlyes?: any,
 }
 
-const TITLE = 'Send G$'
+const TITLE = 'Receive G$'
 
 const SendReason = (props: AmountProps) => {
   const { screenProps } = props
@@ -26,6 +28,7 @@ const SendReason = (props: AmountProps) => {
           <Section.Title>What For?</Section.Title>
           <InputText
             autoFocus
+            style={props.styles.input}
             value={reason}
             onChangeText={reason => setScreenState({ reason })}
             placeholder="Add a message"
@@ -60,4 +63,4 @@ SendReason.shouldNavigateToComponent = props => {
   return screenState.amount >= 0 && screenState.nextRoutes
 }
 
-export default SendReason
+export default withStyles(({ theme }) => ({ input: { marginTop: theme.sizes.defaultDouble } }))(SendReason)

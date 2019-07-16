@@ -396,15 +396,15 @@ exports[`FeedList Horizontal rendering With empty data matches snapshot 1`] = `
                             className="css-view-1dbjc4n"
                             style={
                               Object {
-                                "WebkitAlignItems": "flex-end",
-                                "WebkitBoxAlign": "end",
+                                "WebkitAlignItems": "baseline",
+                                "WebkitBoxAlign": "baseline",
                                 "WebkitBoxDirection": "normal",
                                 "WebkitBoxOrient": "horizontal",
                                 "WebkitFlexDirection": "row",
-                                "alignItems": "flex-end",
+                                "alignItems": "baseline",
                                 "display": "flex",
                                 "flexDirection": "row",
-                                "msFlexAlign": "end",
+                                "msFlexAlign": "baseline",
                                 "msFlexDirection": "row",
                               }
                             }
@@ -419,7 +419,7 @@ exports[`FeedList Horizontal rendering With empty data matches snapshot 1`] = `
                                   "fontFamily": "Roboto-Bold",
                                   "fontSize": "22px",
                                   "fontWeight": "700",
-                                  "lineHeight": "22px",
+                                  "lineHeight": "auto",
                                   "marginRight": "4px",
                                   "textAlign": "right",
                                   "textDecoration": "none",
@@ -439,7 +439,7 @@ exports[`FeedList Horizontal rendering With empty data matches snapshot 1`] = `
                                   "fontFamily": "Roboto-Bold",
                                   "fontSize": "12px",
                                   "fontWeight": "700",
-                                  "lineHeight": "22px",
+                                  "lineHeight": "auto",
                                   "textAlign": "right",
                                   "textDecoration": "none",
                                   "textTransform": "none",
@@ -519,12 +519,12 @@ exports[`FeedList Horizontal rendering With empty data matches snapshot 1`] = `
                               style={
                                 Object {
                                   "backgroundColor": "rgba(238,238,238,1.00)",
-                                  "borderBottomLeftRadius": "17px",
-                                  "borderBottomRightRadius": "17px",
-                                  "borderTopLeftRadius": "17px",
-                                  "borderTopRightRadius": "17px",
-                                  "height": "36px",
-                                  "width": "36px",
+                                  "borderBottomLeftRadius": "21px",
+                                  "borderBottomRightRadius": "21px",
+                                  "borderTopLeftRadius": "21px",
+                                  "borderTopRightRadius": "21px",
+                                  "height": "44px",
+                                  "width": "44px",
                                 }
                               }
                             >
@@ -533,16 +533,16 @@ exports[`FeedList Horizontal rendering With empty data matches snapshot 1`] = `
                                 style={
                                   Object {
                                     "WebkitFlexBasis": "auto",
-                                    "borderBottomLeftRadius": "17px",
-                                    "borderBottomRightRadius": "17px",
-                                    "borderTopLeftRadius": "17px",
-                                    "borderTopRightRadius": "17px",
+                                    "borderBottomLeftRadius": "21px",
+                                    "borderBottomRightRadius": "21px",
+                                    "borderTopLeftRadius": "21px",
+                                    "borderTopRightRadius": "21px",
                                     "flexBasis": "auto",
-                                    "height": "34px",
+                                    "height": "42px",
                                     "msFlexPreferredSize": "auto",
                                     "overflowX": "hidden",
                                     "overflowY": "hidden",
-                                    "width": "34px",
+                                    "width": "42px",
                                     "zIndex": 0,
                                   }
                                 }
@@ -1176,15 +1176,15 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                             className="css-view-1dbjc4n"
                             style={
                               Object {
-                                "WebkitAlignItems": "flex-end",
-                                "WebkitBoxAlign": "end",
+                                "WebkitAlignItems": "baseline",
+                                "WebkitBoxAlign": "baseline",
                                 "WebkitBoxDirection": "normal",
                                 "WebkitBoxOrient": "horizontal",
                                 "WebkitFlexDirection": "row",
-                                "alignItems": "flex-end",
+                                "alignItems": "baseline",
                                 "display": "flex",
                                 "flexDirection": "row",
-                                "msFlexAlign": "end",
+                                "msFlexAlign": "baseline",
                                 "msFlexDirection": "row",
                               }
                             }
@@ -1199,7 +1199,7 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                                   "fontFamily": "Roboto-Bold",
                                   "fontSize": "22px",
                                   "fontWeight": "700",
-                                  "lineHeight": "22px",
+                                  "lineHeight": "auto",
                                   "marginRight": "4px",
                                   "textAlign": "right",
                                   "textDecoration": "none",
@@ -1219,7 +1219,7 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                                   "fontFamily": "Roboto-Bold",
                                   "fontSize": "12px",
                                   "fontWeight": "700",
-                                  "lineHeight": "22px",
+                                  "lineHeight": "auto",
                                   "textAlign": "right",
                                   "textDecoration": "none",
                                   "textTransform": "none",
@@ -1299,12 +1299,12 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                               style={
                                 Object {
                                   "backgroundColor": "rgba(238,238,238,1.00)",
-                                  "borderBottomLeftRadius": "17px",
-                                  "borderBottomRightRadius": "17px",
-                                  "borderTopLeftRadius": "17px",
-                                  "borderTopRightRadius": "17px",
-                                  "height": "36px",
-                                  "width": "36px",
+                                  "borderBottomLeftRadius": "21px",
+                                  "borderBottomRightRadius": "21px",
+                                  "borderTopLeftRadius": "21px",
+                                  "borderTopRightRadius": "21px",
+                                  "height": "44px",
+                                  "width": "44px",
                                 }
                               }
                             >
@@ -1313,16 +1313,16 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                                 style={
                                   Object {
                                     "WebkitFlexBasis": "auto",
-                                    "borderBottomLeftRadius": "17px",
-                                    "borderBottomRightRadius": "17px",
-                                    "borderTopLeftRadius": "17px",
-                                    "borderTopRightRadius": "17px",
+                                    "borderBottomLeftRadius": "21px",
+                                    "borderBottomRightRadius": "21px",
+                                    "borderTopLeftRadius": "21px",
+                                    "borderTopRightRadius": "21px",
                                     "flexBasis": "auto",
-                                    "height": "34px",
+                                    "height": "42px",
                                     "msFlexPreferredSize": "auto",
                                     "overflowX": "hidden",
                                     "overflowY": "hidden",
-                                    "width": "34px",
+                                    "width": "42px",
                                     "zIndex": 0,
                                   }
                                 }
@@ -2009,15 +2009,15 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                             className="css-view-1dbjc4n"
                             style={
                               Object {
-                                "WebkitAlignItems": "flex-end",
-                                "WebkitBoxAlign": "end",
+                                "WebkitAlignItems": "baseline",
+                                "WebkitBoxAlign": "baseline",
                                 "WebkitBoxDirection": "normal",
                                 "WebkitBoxOrient": "horizontal",
                                 "WebkitFlexDirection": "row",
-                                "alignItems": "flex-end",
+                                "alignItems": "baseline",
                                 "display": "flex",
                                 "flexDirection": "row",
-                                "msFlexAlign": "end",
+                                "msFlexAlign": "baseline",
                                 "msFlexDirection": "row",
                               }
                             }
@@ -2032,7 +2032,7 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                                   "fontFamily": "Roboto-Bold",
                                   "fontSize": "22px",
                                   "fontWeight": "700",
-                                  "lineHeight": "22px",
+                                  "lineHeight": "auto",
                                   "marginRight": "4px",
                                   "textAlign": "right",
                                   "textDecoration": "none",
@@ -2052,7 +2052,7 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                                   "fontFamily": "Roboto-Bold",
                                   "fontSize": "12px",
                                   "fontWeight": "700",
-                                  "lineHeight": "22px",
+                                  "lineHeight": "auto",
                                   "textAlign": "right",
                                   "textDecoration": "none",
                                   "textTransform": "none",
@@ -2132,12 +2132,12 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                               style={
                                 Object {
                                   "backgroundColor": "rgba(238,238,238,1.00)",
-                                  "borderBottomLeftRadius": "17px",
-                                  "borderBottomRightRadius": "17px",
-                                  "borderTopLeftRadius": "17px",
-                                  "borderTopRightRadius": "17px",
-                                  "height": "36px",
-                                  "width": "36px",
+                                  "borderBottomLeftRadius": "21px",
+                                  "borderBottomRightRadius": "21px",
+                                  "borderTopLeftRadius": "21px",
+                                  "borderTopRightRadius": "21px",
+                                  "height": "44px",
+                                  "width": "44px",
                                 }
                               }
                             >
@@ -2146,16 +2146,16 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                                 style={
                                   Object {
                                     "WebkitFlexBasis": "auto",
-                                    "borderBottomLeftRadius": "17px",
-                                    "borderBottomRightRadius": "17px",
-                                    "borderTopLeftRadius": "17px",
-                                    "borderTopRightRadius": "17px",
+                                    "borderBottomLeftRadius": "21px",
+                                    "borderBottomRightRadius": "21px",
+                                    "borderTopLeftRadius": "21px",
+                                    "borderTopRightRadius": "21px",
                                     "flexBasis": "auto",
-                                    "height": "34px",
+                                    "height": "42px",
                                     "msFlexPreferredSize": "auto",
                                     "overflowX": "hidden",
                                     "overflowY": "hidden",
-                                    "width": "34px",
+                                    "width": "42px",
                                     "zIndex": 0,
                                   }
                                 }
@@ -3408,15 +3408,15 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                           className="css-view-1dbjc4n"
                           style={
                             Object {
-                              "WebkitAlignItems": "flex-end",
-                              "WebkitBoxAlign": "end",
+                              "WebkitAlignItems": "baseline",
+                              "WebkitBoxAlign": "baseline",
                               "WebkitBoxDirection": "normal",
                               "WebkitBoxOrient": "horizontal",
                               "WebkitFlexDirection": "row",
-                              "alignItems": "flex-end",
+                              "alignItems": "baseline",
                               "display": "flex",
                               "flexDirection": "row",
-                              "msFlexAlign": "end",
+                              "msFlexAlign": "baseline",
                               "msFlexDirection": "row",
                             }
                           }
@@ -3431,7 +3431,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                                 "fontFamily": "Roboto-Bold",
                                 "fontSize": "15px",
                                 "fontWeight": "700",
-                                "lineHeight": "22px",
+                                "lineHeight": "auto",
                                 "marginRight": "4px",
                                 "textAlign": "right",
                                 "textDecoration": "none",
@@ -3451,7 +3451,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                                 "fontFamily": "Roboto-Bold",
                                 "fontSize": "10px",
                                 "fontWeight": "700",
-                                "lineHeight": "22px",
+                                "lineHeight": "auto",
                                 "textAlign": "right",
                                 "textDecoration": "none",
                                 "textTransform": "none",
@@ -3954,15 +3954,15 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                           className="css-view-1dbjc4n"
                           style={
                             Object {
-                              "WebkitAlignItems": "flex-end",
-                              "WebkitBoxAlign": "end",
+                              "WebkitAlignItems": "baseline",
+                              "WebkitBoxAlign": "baseline",
                               "WebkitBoxDirection": "normal",
                               "WebkitBoxOrient": "horizontal",
                               "WebkitFlexDirection": "row",
-                              "alignItems": "flex-end",
+                              "alignItems": "baseline",
                               "display": "flex",
                               "flexDirection": "row",
-                              "msFlexAlign": "end",
+                              "msFlexAlign": "baseline",
                               "msFlexDirection": "row",
                             }
                           }
@@ -3977,7 +3977,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                                 "fontFamily": "Roboto-Bold",
                                 "fontSize": "15px",
                                 "fontWeight": "700",
-                                "lineHeight": "22px",
+                                "lineHeight": "auto",
                                 "marginRight": "4px",
                                 "textAlign": "right",
                                 "textDecoration": "none",
@@ -3997,7 +3997,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                                 "fontFamily": "Roboto-Bold",
                                 "fontSize": "10px",
                                 "fontWeight": "700",
-                                "lineHeight": "22px",
+                                "lineHeight": "auto",
                                 "textAlign": "right",
                                 "textDecoration": "none",
                                 "textTransform": "none",

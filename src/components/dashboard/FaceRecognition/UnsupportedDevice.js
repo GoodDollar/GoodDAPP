@@ -39,7 +39,7 @@ const UnsupportedDevice = props => {
 
   const generateQRCode = async () => {
     const mnemonic = await AsyncStorage.getItem('GD_USER_MNEMONIC')
-    const url = `${Config.publicUrl}/Auth/Recover/?mnemonic=${mnemonic}`
+    const url = `${Config.publicUrl}/SignIn/Mnemonics/?mnemonic=${mnemonic}`
     const code = encodeURI(url)
     log.debug({ code })
     setCode(code)

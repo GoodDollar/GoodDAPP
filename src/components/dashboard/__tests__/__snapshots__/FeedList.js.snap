@@ -172,17 +172,17 @@ exports[`FeedList Horizontal rendering With empty data matches snapshot 1`] = `
                   className="css-view-1dbjc4n"
                   style={
                     Object {
-                      "WebkitAlignSelf": "center",
+                      "WebkitAlignSelf": "flex-start",
                       "WebkitBoxFlex": 1,
                       "WebkitFlexGrow": 1,
                       "WebkitFlexShrink": 0,
-                      "alignSelf": "center",
+                      "alignSelf": "flex-start",
                       "backgroundColor": "rgba(255,255,255,0.80)",
                       "flexGrow": 1,
                       "flexShrink": 0,
                       "height": "100vh",
                       "maxWidth": "475px",
-                      "msFlexItemAlign": "center",
+                      "msFlexItemAlign": "start",
                       "msFlexNegative": 0,
                       "msFlexPositive": 1,
                       "paddingBottom": "30px",
@@ -299,7 +299,7 @@ exports[`FeedList Horizontal rendering With empty data matches snapshot 1`] = `
                           "WebkitFlexShrink": 0,
                           "backgroundColor": "rgba(238,238,238,1.00)",
                           "backgroundImage": "url(wave.svg)",
-                          "backgroundRepeat": "repeat-Y",
+                          "backgroundRepeat": "repeat-y",
                           "borderBottomLeftRadius": "5px",
                           "borderTopLeftRadius": "5px",
                           "flexGrow": 1,
@@ -757,6 +757,7 @@ exports[`FeedList Horizontal rendering With empty data matches snapshot 1`] = `
                         style={
                           Object {
                             "backgroundImage": "linear-gradient(45deg, transparent 75%, #fff 76%), linear-gradient(-45deg, transparent 75%, #fff 76%)",
+                            "backgroundPosition": "0 0",
                             "backgroundRepeat": "repeat-x",
                             "backgroundSize": "15px",
                             "height": "15px",
@@ -951,17 +952,17 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                   className="css-view-1dbjc4n"
                   style={
                     Object {
-                      "WebkitAlignSelf": "center",
+                      "WebkitAlignSelf": "flex-start",
                       "WebkitBoxFlex": 1,
                       "WebkitFlexGrow": 1,
                       "WebkitFlexShrink": 0,
-                      "alignSelf": "center",
+                      "alignSelf": "flex-start",
                       "backgroundColor": "rgba(255,255,255,0.80)",
                       "flexGrow": 1,
                       "flexShrink": 0,
                       "height": "100vh",
                       "maxWidth": "475px",
-                      "msFlexItemAlign": "center",
+                      "msFlexItemAlign": "start",
                       "msFlexNegative": 0,
                       "msFlexPositive": 1,
                       "paddingBottom": "30px",
@@ -1078,7 +1079,7 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                           "WebkitFlexShrink": 0,
                           "backgroundColor": "rgba(0,195,174,1.00)",
                           "backgroundImage": "url(wave.svg)",
-                          "backgroundRepeat": "repeat-Y",
+                          "backgroundRepeat": "repeat-y",
                           "borderBottomLeftRadius": "5px",
                           "borderTopLeftRadius": "5px",
                           "flexGrow": 1,
@@ -1638,6 +1639,7 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                         style={
                           Object {
                             "backgroundImage": "linear-gradient(45deg, transparent 75%, #fff 76%), linear-gradient(-45deg, transparent 75%, #fff 76%)",
+                            "backgroundPosition": "0 0",
                             "backgroundRepeat": "repeat-x",
                             "backgroundSize": "15px",
                             "height": "15px",
@@ -1717,17 +1719,17 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                   className="css-view-1dbjc4n"
                   style={
                     Object {
-                      "WebkitAlignSelf": "center",
+                      "WebkitAlignSelf": "flex-start",
                       "WebkitBoxFlex": 1,
                       "WebkitFlexGrow": 1,
                       "WebkitFlexShrink": 0,
-                      "alignSelf": "center",
+                      "alignSelf": "flex-start",
                       "backgroundColor": "rgba(255,255,255,0.80)",
                       "flexGrow": 1,
                       "flexShrink": 0,
                       "height": "100vh",
                       "maxWidth": "475px",
-                      "msFlexItemAlign": "center",
+                      "msFlexItemAlign": "start",
                       "msFlexNegative": 0,
                       "msFlexPositive": 1,
                       "paddingBottom": "30px",
@@ -1844,7 +1846,7 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                           "WebkitFlexShrink": 0,
                           "backgroundColor": "rgba(250,108,119,1.00)",
                           "backgroundImage": "url(wave.svg)",
-                          "backgroundRepeat": "repeat-Y",
+                          "backgroundRepeat": "repeat-y",
                           "borderBottomLeftRadius": "5px",
                           "borderTopLeftRadius": "5px",
                           "flexGrow": 1,
@@ -2472,6 +2474,7 @@ exports[`FeedList Horizontal rendering With feed data matches snapshot 1`] = `
                         style={
                           Object {
                             "backgroundImage": "linear-gradient(45deg, transparent 75%, #fff 76%), linear-gradient(-45deg, transparent 75%, #fff 76%)",
+                            "backgroundPosition": "0 0",
                             "backgroundRepeat": "repeat-x",
                             "backgroundSize": "15px",
                             "height": "15px",

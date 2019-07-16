@@ -3,9 +3,11 @@ const Config = {
   logLevel: process.env.REACT_APP_LOG_LEVEL || 'debug',
   serverUrl: process.env.REACT_APP_SERVER_URL || 'http://localhost:3003',
   publicUrl: process.env.REACT_APP_PUBLIC_URL || (window && window.location && window.location.origin),
+  gunPublicUrl: process.env.REACT_APP_GUN_PUBLIC_URL || process.env.REACT_APP_SERVER_URL + '/gun',
   infuraKey: process.env.REACT_APP_INFURA_KEY,
   network: process.env.REACT_APP_NETWORK || 'fuse',
   zoomLicenseKey: process.env.REACT_APP_ZOOM_LICENSE_KEY,
+  httpWeb3provider: process.env.REACT_APP_WEB3_RPC,
   recaptcha: '6LeOaJIUAAAAAKB3DlmijMPfX2CBYsve3T2MwlTd',
   skipEmailVerification: process.env.REACT_APP_SKIP_EMAIL_VERIFICATION || false,
   ethereum: {

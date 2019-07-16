@@ -68,9 +68,11 @@ const FRError = props => {
             <Image source={Divider} style={{ height: normalize(2) }} />
           </Section>
         </Section>
-        <Section>
-          <CustomButton onPress={gotoFR}>PLEASE TRY AGAIN</CustomButton>
-        </Section>
+        <View>
+          <CustomButton onPress={gotoFR} mode={'contained'}>
+            PLEASE TRY AGAIN
+          </CustomButton>
+        </View>
       </View>
     </Wrapper>
   )
@@ -89,7 +91,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     flexShrink: 0,
     justifyContent: 'space-evenly',
-    paddingTop: normalize(33),
+    paddingTop: 0,
     borderRadius: 5
   },
   bottomContainer: {

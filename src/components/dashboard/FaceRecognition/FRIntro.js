@@ -38,7 +38,8 @@ const FRIntro = props => {
             paddingLeft: '10%',
             paddingRight: '10%',
             justifyContent: 'space-evenly',
-            flex: 1
+            flex: 1,
+            backgroundColor: 'white'
           }}
         >
           <Section.Title style={styles.mainTitle}>
@@ -49,7 +50,8 @@ const FRIntro = props => {
             style={{
               paddingBottom: 0,
               paddingTop: 0,
-              marginBottom: 0
+              marginBottom: 0,
+              backgroundColor: 'white'
             }}
           >
             <Image source={Divider} style={{ height: normalize(2) }} />
@@ -65,11 +67,11 @@ const FRIntro = props => {
             <Image source={Divider} style={{ height: normalize(2) }} />
           </Section>
         </Section>
-        <Section style={{ backgroundColor: 'white' }}>
+        <View style={{ backgroundColor: 'white' }}>
           <CustomButton mode={'contained'} onPress={gotoFR}>
             OK, Verify me
           </CustomButton>
-        </Section>
+        </View>
       </View>
     </Wrapper>
   )
@@ -88,7 +90,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     flexShrink: 0,
     justifyContent: 'space-evenly',
-    paddingTop: normalize(33),
+    paddingTop: 0,
     borderRadius: 5
   },
   bottomContainer: {
@@ -104,7 +106,8 @@ const styles = StyleSheet.create({
     color: '#00AFFF',
     verticalAlign: 'text-top',
     paddingTop: normalize(25),
-    paddingBottom: normalize(25)
+    paddingBottom: normalize(25),
+    backgroundColor: 'white'
   },
   mainTitle: {
     fontFamily: 'Roboto-Medium',

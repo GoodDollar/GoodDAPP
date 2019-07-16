@@ -122,11 +122,11 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
   log.debug('processStatus', { processStatus, isProcessSuccess, isProcessFailed })
 
   let retryButtonOrNull = isProcessFailed ? (
-    <Section>
-      <CustomButton style={styles.button} onPress={retry}>
+    <View>
+      <CustomButton style={styles.button} mode={'contained'} onPress={retry}>
         Please Try Again
       </CustomButton>
-    </Section>
+    </View>
   ) : null
 
   let lookingGood =
@@ -179,6 +179,7 @@ C. Light your face evenly'
           paddingLeft: 44,
           paddingRight: 44,
           justifyContent: 'space-around',
+          backgroundColor: 'white',
           flex: 1
         }}
       >
@@ -242,7 +243,7 @@ const styles = StyleSheet.create({
     height: '100%',
     flex: 1,
     justifyContent: 'space-evenly',
-    paddingTop: 33,
+    paddingTop: 0,
     borderRadius: 5
   },
   mainTitle: {

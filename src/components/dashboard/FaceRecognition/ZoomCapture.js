@@ -66,14 +66,14 @@ const HelperWizard = props => {
       if (isMobile) {
         imgs = (
           <View style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-            <Image source={MobileAngleGood} resizeMode={'contain'} style={{ width: '100%', height: normalize(55) }} />
+            <Image source={MobileAngleGood} resizeMode={'contain'} style={{ width: '100%', height: normalize(75) }} />
             {/* <Image source={MobileAngleBad} resizeMode={'contain'} style={{ width: '100%', height: normalize(75) }} /> */}
           </View>
         )
       } else {
         imgs = (
           <View style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-            <Image source={WebAngleGood} resizeMode={'contain'} style={{ width: '100%', height: normalize(55) }} />
+            <Image source={WebAngleGood} resizeMode={'contain'} style={{ width: '100%', height: normalize(75) }} />
             {/* <Image source={WebAngleOk} resizeMode={'contain'} style={{ width: '100%', height: normalize(75) }} />
             <Image source={WebAngleBad} resizeMode={'contain'} style={{ width: '100%', height: normalize(75) }} /> */}
           </View>
@@ -84,9 +84,9 @@ const HelperWizard = props => {
       text = 'Light your face evenly'
       imgs = (
         <View style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-          <Image source={LightingBad2} resizeMode={'contain'} style={{ width: '100%', height: normalize(55) }} />
-          <Image source={LightingBad1} resizeMode={'contain'} style={{ width: '100%', height: normalize(55) }} />
-          <Image source={LightingGood} resizeMode={'contain'} style={{ width: '100%', height: normalize(55) }} />
+          <Image source={LightingBad2} resizeMode={'contain'} style={{ width: '100%', height: normalize(75) }} />
+          <Image source={LightingBad1} resizeMode={'contain'} style={{ width: '100%', height: normalize(75) }} />
+          <Image source={LightingGood} resizeMode={'contain'} style={{ width: '100%', height: normalize(75) }} />
         </View>
       )
       break

@@ -90,6 +90,7 @@ const UnsupportedDevice = props => {
             paddingLeft: '10%',
             paddingRight: '10%',
             justifyContent: 'space-evenly',
+            backgroundColor: 'white',
             flex: 1
           }}
         >
@@ -100,7 +101,8 @@ const UnsupportedDevice = props => {
               padding: 0,
               paddingBottom: 0,
               paddingTop: 0,
-              marginBottom: 0
+              marginBottom: 0,
+              backgroundColor: 'white'
             }}
           >
             <Image source={Divider} style={{ height: normalize(2) }} />
@@ -110,7 +112,7 @@ const UnsupportedDevice = props => {
             <Image source={Divider} style={{ height: normalize(2) }} />
           </Section>
         </Section>
-        <Section>{codeAction}</Section>
+        <View>{codeAction}</View>
       </View>
     </Wrapper>
   )
@@ -129,7 +131,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     flexShrink: 0,
     justifyContent: 'space-evenly',
-    paddingTop: normalize(33),
+    paddingTop: 0,
     borderRadius: 5
   },
   bottomContainer: {

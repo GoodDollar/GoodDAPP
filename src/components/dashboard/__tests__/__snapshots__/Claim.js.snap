@@ -582,7 +582,7 @@ exports[`Claim matches snapshot 1`] = `
                 }
               }
             >
-               People Claimed 
+              People Claimed
             </div>
             <div
               className="css-text-901oao"

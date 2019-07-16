@@ -97,16 +97,6 @@ const Claim = ({ screenProps }: ClaimProps) => {
     return () => clearInterval(claimInterval)
   }, [])
 
-  useEffect(() => {
-    showDialog({
-      dismissText: 'OK',
-      loading,
-      message: 'please wait while processing...',
-      image: <LoadingIcon />,
-      title: `YOUR G$\nIS ON IT'S WAY...`,
-    })
-  }, [])
-
   const handleClaim = async () => {
     setLoading(true)
 

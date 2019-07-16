@@ -6,7 +6,11 @@ import { withStyles } from '../../../lib/styles'
 const ModalOverlay = (props: any) => {
   const { styles, children, style } = props
 
-  return <View style={[styles.modalOverlay, style]}>{children}</View>
+  return (
+    <View style={styles.modalOverlay}>
+      <View style={[styles.modalInnerWrapper, style]}>{children}</View>
+    </View>
+  )
 }
 
 const getStylesFromProps = ({ theme }) => {
@@ -14,15 +18,19 @@ const getStylesFromProps = ({ theme }) => {
     modalOverlay: {
       alignSelf: 'flex-start',
       backgroundColor: theme.modals.overlayBackgroundColor,
+      height: '100vh',
+      width: '100vw',
+    },
+    modalInnerWrapper: {
+      alignSelf: 'center',
+      maxWidth: '475px',
       flexGrow: 1,
       flexShrink: 0,
-      height: '100vh',
-      maxWidth: '475px',
+      width: '100%',
       paddingBottom: theme.modals.overlayVerticalPadding,
       paddingLeft: theme.modals.overlayHorizontalPadding,
       paddingRight: theme.modals.overlayHorizontalPadding,
       paddingTop: theme.modals.overlayVerticalPadding,
-      width: '100vw',
     },
   }
 }

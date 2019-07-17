@@ -148,10 +148,16 @@ export const getResponsiveVideoDimensions = () => {
   const { width, height } = Dimensions.get('window')
 
   const defaultHeight = height - 124 > 360 && width < 690
+  if (isMobile) {
+    return {
+      height: defaultHeight ? normalize(360) : 'auto',
+      maxHeight: defaultHeight ? normalize(360) : height - 124,
+      width: defaultHeight ? 'auto' : '100%'
+    }
+  }
   return {
-    height: defaultHeight ? normalize(360) : 'auto',
-    maxHeight: defaultHeight ? normalize(360) : height - 124,
-    width: defaultHeight ? 'auto' : '100%'
+    height: height * 0.5,
+    width: 'auto'
   }
 }
 

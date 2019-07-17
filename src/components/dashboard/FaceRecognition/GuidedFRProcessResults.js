@@ -1,6 +1,6 @@
 //@flow
 import React, { useEffect, useState } from 'react'
-import { Image, StyleSheet, View } from 'react-native'
+import { Image, StyleSheet, View, ActivityIndicator } from 'react-native'
 import { Text } from 'react-native-paper'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { CustomButton, Section } from '../../common'
@@ -17,9 +17,12 @@ const log = logger.child({ from: 'GuidedFRProcessResults' })
 
 const FRStep = ({ title, isActive, status, paddingBottom }) => {
   paddingBottom = paddingBottom === undefined ? 12 : paddingBottom
-  let statusColor = status === true ? 'success' : 'failure'
-  let statusIcon = <Image source={status ? Check : Cross} resizeMode={'center'} style={{ height: 14 }} />
-
+  let statusColor = status === true ? 'success' : status === false ? 'failure' : 'none'
+  let statusIcon =
+    status === undefined ? null : <Image source={status ? Check : Cross} resizeMode={'center'} style={{ height: 14 }} />
+  let spinner = status === undefined && isActive === true ? <ActivityIndicator color={'gray'} /> : null
+  let iconOrSpinner =
+    statusIcon || spinner ? <View style={[styles[statusColor], styles.statusIcon]}>{statusIcon || spinner}</View> : null
   //not active use grey otherwise based on status
   let textStyle = isActive === false ? styles.textInactive : status === false ? styles.textError : styles.textActive
   log.debug('FRStep', { title, status, isActive, statusColor, textStyle })
@@ -29,7 +32,7 @@ const FRStep = ({ title, isActive, status, paddingBottom }) => {
         <Text style={textStyle}>{title}</Text>
       </View>
       {/* {isActive ? <Text>.....</Text> : null} */}
-      {status === undefined ? null : <View style={[styles[statusColor], styles.statusIcon]}>{statusIcon}</View>}
+      {iconOrSpinner}
     </View>
   )
 }

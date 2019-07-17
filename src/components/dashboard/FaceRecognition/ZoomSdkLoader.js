@@ -15,7 +15,10 @@ export class ZoomSdkLoader {
   async load() {
     log.debug('loading zoom sdk..')
     try {
-      await this.loadZoomSDK()
+      if (ZoomSDK === undefined) {
+        log.debug('using loadjs to load ZoomSDK')
+        await this.loadZoomSDK()
+      }
       this.loadedZoom = ZoomSDK
       log.info('ZoomSDK loaded', this.loadedZoom)
       this.loadedZoom.zoomResourceDirectory('/ZoomAuthentication.js/resources/')

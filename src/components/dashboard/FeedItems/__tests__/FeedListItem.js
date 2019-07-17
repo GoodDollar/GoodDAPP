@@ -2,32 +2,35 @@ import React from 'react'
 import renderer from 'react-test-renderer'
 import FeedListItem from '../FeedListItem'
 import { generateFeedItemProps } from '../../__tests__/__util__'
+import { withThemeProvider } from '../../../../__tests__/__util__'
 
 // Note: test renderer must be required after react-native.
 
 describe('FeedListItem - Withdraw', () => {
+  const WrappedFeedListItem = withThemeProvider(FeedListItem)
   const props = generateFeedItemProps('withdraw')
   it('renders without errors', () => {
-    const tree = renderer.create(<FeedListItem {...props} />)
+    const tree = renderer.create(<WrappedFeedListItem {...props} />)
     expect(tree.toJSON()).toBeTruthy()
   })
 
   it('matches snapshot', () => {
-    const component = renderer.create(<FeedListItem {...props} />)
+    const component = renderer.create(<WrappedFeedListItem {...props} />)
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
 })
 
 describe('FeedListItem - Send', () => {
+  const WrappedFeedListItem = withThemeProvider(FeedListItem)
   const props = generateFeedItemProps('send')
   it('renders without errors', () => {
-    const tree = renderer.create(<FeedListItem {...props} />)
+    const tree = renderer.create(<WrappedFeedListItem {...props} />)
     expect(tree.toJSON()).toBeTruthy()
   })
 
   it('matches snapshot', () => {
-    const component = renderer.create(<FeedListItem {...props} />)
+    const component = renderer.create(<WrappedFeedListItem {...props} />)
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

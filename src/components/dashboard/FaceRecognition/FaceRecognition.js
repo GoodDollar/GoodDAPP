@@ -24,7 +24,7 @@ type State = {
   loadingText: string,
   facemap: Blob,
   zoomReady: boolean,
-  captureResult: ZoomCaptureResult
+  captureResult: ZoomCaptureResult,
 }
 
 /**
@@ -43,8 +43,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     loadingText: '',
     facemap: new Blob([], { type: 'text/plain' }),
     zoomReady: false,
-    fullName: '',
-    captureResult: {}
+    captureResult: {},
   }
 
   loadedZoom: any
@@ -100,7 +99,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
       this.setState({
         showZoomCapture: false,
         showGuidedFR: true,
-        sessionId: captureResult.sessionId
+        sessionId: captureResult.sessionId,
       })
       let result: FaceRecognitionResponse = await FRapi.performFaceRecognition(captureResult)
       log.debug('FR API:', { result })
@@ -159,6 +158,6 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
 
 FaceRecognition.navigationOptions = {
   title: 'Face Verification',
-  navigationBarHidden: false
+  navigationBarHidden: false,
 }
 export default FaceRecognition

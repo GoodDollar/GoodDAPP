@@ -5,39 +5,75 @@ exports[`BigGoodDollar matches snapshot 1`] = `
   className="css-view-1dbjc4n"
   style={
     Object {
-      "display": "inline-block",
+      "WebkitBoxFlex": 1,
+      "WebkitFlexBasis": "0%",
+      "WebkitFlexGrow": 1,
+      "WebkitFlexShrink": 1,
+      "flexBasis": "0%",
+      "flexGrow": 1,
+      "flexShrink": 1,
+      "msFlexNegative": 1,
+      "msFlexPositive": 1,
+      "msFlexPreferredSize": "0%",
     }
   }
 >
   <div
-    className="css-text-901oao"
-    dir="auto"
+    className="css-view-1dbjc4n"
     style={
       Object {
-        "color": "rgba(85,85,85,1.00)",
-        "direction": "ltr",
-        "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-        "fontSize": "30px",
-        "textAlign": "right",
+        "WebkitAlignItems": "baseline",
+        "WebkitBoxAlign": "baseline",
+        "WebkitBoxDirection": "normal",
+        "WebkitBoxOrient": "horizontal",
+        "WebkitFlexDirection": "row",
+        "alignItems": "baseline",
+        "display": "flex",
+        "flexDirection": "row",
+        "msFlexAlign": "baseline",
+        "msFlexDirection": "row",
       }
     }
   >
-    10.05
-  </div>
-  <div
-    className="css-text-901oao"
-    dir="auto"
-    style={
-      Object {
-        "color": "rgba(85,85,85,1.00)",
-        "direction": "ltr",
-        "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-        "fontSize": "18px",
-        "textAlign": "right",
+    <div
+      className="css-text-901oao"
+      dir="auto"
+      style={
+        Object {
+          "color": "rgba(85,85,85,1.00)",
+          "direction": "ltr",
+          "fontFamily": "Roboto-Bold",
+          "fontSize": "40px",
+          "fontWeight": "700",
+          "lineHeight": "auto",
+          "marginRight": "4px",
+          "textAlign": "right",
+          "textDecoration": "none",
+          "textTransform": "none",
+        }
       }
-    }
-  >
-    G$
+    >
+      10.05
+    </div>
+    <div
+      className="css-text-901oao"
+      dir="auto"
+      style={
+        Object {
+          "color": "rgba(85,85,85,1.00)",
+          "direction": "ltr",
+          "fontFamily": "Roboto-Bold",
+          "fontSize": "22px",
+          "fontWeight": "700",
+          "lineHeight": "auto",
+          "textAlign": "right",
+          "textDecoration": "none",
+          "textTransform": "none",
+        }
+      }
+    >
+      G$
+    </div>
   </div>
 </div>
 `;

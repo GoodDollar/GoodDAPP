@@ -1,38 +1,50 @@
 import Address from './view/Address'
-import Avatar from './view/Avatar'
 import AmountInput from './view/AmountInput'
-import CustomDialog from './dialogs/CustomDialog'
-import CustomButton, { ButtonProps } from './buttons/CustomButton'
-import CopyButton from './buttons/CopyButton'
-import BigNumber from './view/BigNumber'
+import Avatar from './view/Avatar'
 import BigGoodDollar from './view/BigGoodDollar'
-import Section from './layout/Section'
-import TopBar from './view/TopBar'
+import BigNumber from './view/BigNumber'
+import ClaimButton from './buttons/ClaimButton'
+import CopyButton from './buttons/CopyButton'
+import CustomButton, { ButtonProps } from './buttons/CustomButton'
+import CustomDialog from './dialogs/CustomDialog'
+import Icon from './view/Icon'
 import IconButton from './buttons/IconButton'
-import ScanQRButton from './buttons/ScanQRButton'
 import InputGoodDollar from './form/InputGoodDollar'
-import UserAvatar from './view/UserAvatar'
-import NumPadKeyboard from './view/NumPadKeyboard'
-import Wrapper from './layout/Wrapper'
+import InputRounded from './form/InputRounded'
 import LoadingIndicator from './view/LoadingIndicator'
+import NumPadKeyboard from './view/NumPadKeyboard'
+import QRCode from './view/QRCode'
+import SaveButton from './buttons/SaveButton'
+import ScanQRButton from './buttons/ScanQRButton'
+import Section from './layout/Section'
+import Text from './view/Text'
+import TopBar from './view/TopBar'
+import UserAvatar from './view/UserAvatar'
+import Wrapper from './layout/Wrapper'
 
 export {
   Address,
   AmountInput,
   Avatar,
-  UserAvatar,
-  CustomButton,
-  ButtonProps,
-  CopyButton,
-  Wrapper,
-  Section,
-  BigNumber,
   BigGoodDollar,
-  ScanQRButton,
-  TopBar,
-  IconButton,
+  BigNumber,
+  ButtonProps,
+  ClaimButton,
+  CopyButton,
+  CustomButton,
   CustomDialog,
+  Icon,
+  IconButton,
   InputGoodDollar,
+  InputRounded,
+  LoadingIndicator,
   NumPadKeyboard,
-  LoadingIndicator
+  QRCode,
+  SaveButton,
+  ScanQRButton,
+  Section,
+  Text,
+  TopBar,
+  UserAvatar,
+  Wrapper,
 }

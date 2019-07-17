@@ -10,8 +10,8 @@ export type ZoomCaptureResult = {
   facemap: Blob,
   auditTrailImage: Blob,
   faceMetrics: {
-    auditTrail: string[]
-  }
+    auditTrail: string[],
+  },
 }
 
 const log = logger.child({ from: 'Zoom' })

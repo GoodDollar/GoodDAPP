@@ -1,21 +1,21 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, View } from 'react-native'
-import { Paragraph } from 'react-native-paper'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
-import { getMnemonics, getMnemonicsObject } from '../../lib/wallet/SoftwareWalletProvider'
-import { useDialog } from '../../lib/undux/utils/dialog'
-import MnemonicInput from '../signin/MnemonicInput'
-import { CustomButton } from '../common'
 import { useWrappedApi } from '../../lib/API/useWrappedApi'
+import { withStyles } from '../../lib/styles'
+import { useDialog } from '../../lib/undux/utils/dialog'
+import { getMnemonics, getMnemonicsObject } from '../../lib/wallet/SoftwareWalletProvider'
+import { CustomButton, Section } from '../common'
+import MnemonicInput from '../signin/MnemonicInput'
 
-const TITLE = 'Back up your wallet'
+const TITLE = 'Backup my wallet'
 
 type BackupWalletProps = {
-  screenProps: any
+  styles: {},
+  theme: {},
 }
 
-const BackupWallet = ({ screenProps }: BackupWalletProps) => {
+const BackupWallet = ({ screenProps, styles, theme }: BackupWalletProps) => {
   const [showDialogWithData] = useDialog()
   const [mnemonics, setMnemonics] = useState('')
   const API = useWrappedApi()
@@ -34,73 +34,53 @@ const BackupWallet = ({ screenProps }: BackupWalletProps) => {
     await API.sendRecoveryInstructionByEmail(currentMnemonics)
     showDialogWithData({
       title: 'Backup Your Wallet',
-      message: 'We sent an email with recovery instructions for your wallet'
+      message: 'We sent an email with recovery instructions for your wallet',
     })
   }
 
   return (
-    <View style={styles.wrapper}>
-      <View style={styles.topContainer}>
-        <View style={styles.textContainer}>
-          <Paragraph style={[styles.fontBase, styles.paragraph]}>
-            Please write down your 12-word passphrase and keep it in a secure location so you can restore your wallet
-            anytime.
-          </Paragraph>
-        </View>
-        <View style={styles.formContainer}>
-          <MnemonicInput recoveryMode={mnemonics} />
-        </View>
-      </View>
-      <View style={styles.bottomContainer}>
-        <CustomButton mode="outlined" onPress={sendRecoveryEmail} color="#575757">
-          RESEND BACKUP EMAIL
+    <Section grow={5} style={styles.wrapper}>
+      <Section.Text grow fontWeight="bold" fontSize={16} style={styles.instructions}>
+        {`please save your 12-word pass phrase\nand keep it in a secure location\nso you can recover your wallet anytime`}
+      </Section.Text>
+      <Section.Stack grow={4} justifyContent="space-between" style={styles.inputsContainer}>
+        <MnemonicInput recoveryMode={mnemonics} />
+      </Section.Stack>
+      <Section.Stack grow style={styles.bottomContainer} justifyContent="space-between" alignItems="stretch">
+        <CustomButton mode="text" compact={true} onPress={sendRecoveryEmail}>
+          Resend backup email
         </CustomButton>
-      </View>
-    </View>
+        <CustomButton onPress={screenProps.pop}>Done</CustomButton>
+      </Section.Stack>
+    </Section>
   )
 }
 
-BackupWallet.navigationOptions = {
-  title: TITLE
-}
-
-const styles = StyleSheet.create({
+const backupWalletStyles = ({ theme }) => ({
   wrapper: {
-    flex: 1,
-    flexDirection: 'column',
-    display: 'flex',
-    padding: '1em',
-    justifyContent: 'space-between'
+    borderRadius: 0,
   },
-  topContainer: {
-    flex: 2,
-    display: 'flex',
-    justifyContent: 'center',
-    padding: 0,
-    margin: 0
+  instructions: {
+    marginVertical: theme.paddings.defaultMargin,
+  },
+  inputsContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    margin: theme.paddings.defaultMargin,
+    overflowY: 'auto',
   },
   bottomContainer: {
-    display: 'flex',
-    justifyContent: 'flex-end'
+    backgroundColor: theme.colors.surface,
+    maxHeight: normalize(100),
+    minHeight: normalize(100),
+    marginBottom: theme.paddings.defaultMargin,
   },
-  fontBase: {
-    color: '#555555',
-    textAlign: 'center'
-  },
-  inputs: {
-    width: '0.45vw',
-    height: '2rem',
-    margin: '0 1rem',
-    fontSize: '1rem',
-    borderRadius: 4
-  },
-  paragraph: {
-    fontSize: normalize(18),
-    lineHeight: '1.2em'
-  },
-  doneButton: {
-    marginTop: '1em'
-  }
 })
 
-export default BackupWallet
+const backupWallet = withStyles(backupWalletStyles)(BackupWallet)
+
+backupWallet.navigationOptions = {
+  title: TITLE,
+}
+
+export default backupWallet

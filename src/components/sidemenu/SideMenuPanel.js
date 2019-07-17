@@ -1,30 +1,31 @@
 // @flow
 import React from 'react'
-import { ScrollView, StyleSheet, TouchableOpacity } from 'react-native'
+import { ScrollView, TouchableOpacity, View } from 'react-native'
 import { Icon, normalize } from 'react-native-elements'
-import { useSidemenu } from '../../lib/undux/utils/sidemenu'
 import { useWrappedApi } from '../../lib/API/useWrappedApi'
-import { useDialog } from '../../lib/undux/utils/dialog'
 import logger from '../../lib/logger/pino-logger'
+import { withStyles } from '../../lib/styles'
 import SimpleStore from '../../lib/undux/SimpleStore'
+import { useDialog } from '../../lib/undux/utils/dialog'
+import { useSidemenu } from '../../lib/undux/utils/sidemenu'
 import SideMenuItem from './SideMenuItem'
 
 type SideMenuPanelProps = {
-  navigation: any
+  navigation: any,
 }
 
 const log = logger.child({ from: 'SideMenuPanel' })
 const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation, store }) => [
   {
-    icon: 'person',
+    icon: 'profile',
     name: 'Your profile',
     action: () => {
       navigation.navigate({
         routeName: 'Profile',
-        type: 'Navigation/NAVIGATE'
+        type: 'Navigation/NAVIGATE',
       })
       hideSidemenu()
-    }
+    },
   },
   {
     icon: 'lock',
@@ -32,37 +33,37 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation, s
     action: () => {
       navigation.navigate({
         routeName: 'BackupWallet',
-        type: 'Navigation/NAVIGATE'
+        type: 'Navigation/NAVIGATE',
       })
       hideSidemenu()
-    }
+    },
   },
   {
-    icon: 'person-add',
+    icon: 'privacy',
     name: 'Profile Privacy',
     action: () => {
       navigation.navigate({
         routeName: 'ProfilePrivacy',
-        type: 'Navigation/NAVIGATE'
+        type: 'Navigation/NAVIGATE',
       })
       hideSidemenu()
-    }
+    },
   },
   {
-    icon: 'person-pin',
+    icon: 'faq',
     name: 'Privacy Policy',
     action: () => {
       navigation.navigate('PP')
       hideSidemenu()
-    }
+    },
   },
   {
-    icon: 'announcement',
+    icon: 'notifications',
     name: 'Terms of Use',
     action: () => {
       navigation.navigate('TOU')
       hideSidemenu()
-    }
+    },
   },
 
   // {
@@ -74,12 +75,12 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation, s
   //   name: 'Send Feedback'
   // },
   {
-    icon: 'comment',
+    icon: 'feedback',
     name: 'Support',
     action: () => {
       navigation.navigate('Support')
       hideSidemenu()
-    }
+    },
   },
 
   // {
@@ -87,7 +88,7 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation, s
   //   name: 'About'
   // },
   {
-    icon: 'delete',
+    icon: 'trash',
     name: 'Delete Account',
     action: () => {
       showDialog({
@@ -105,13 +106,13 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation, s
             .catch(e => log.error('Error deleting account', e))
           store.set('loadingIndicator')({ loading: false })
           window.location = '/'
-        }
+        },
       })
-    }
-  }
+    },
+  },
 ]
 
-const SideMenuPanel = ({ navigation }: SideMenuPanelProps) => {
+const SideMenuPanel = ({ navigation, styles, theme }: SideMenuPanelProps) => {
   const API = useWrappedApi()
   const store = SimpleStore.useStore()
 
@@ -121,25 +122,33 @@ const SideMenuPanel = ({ navigation }: SideMenuPanelProps) => {
   return (
     <ScrollView>
       <TouchableOpacity style={styles.closeIconRow} onPress={toggleSidemenu}>
-        <Icon name="close" />
+        <Icon name="close" size={20} color={theme.colors.gray50Percent} />
       </TouchableOpacity>
-      {MENU_ITEMS.map(item => (
-        <SideMenuItem key={item.name} {...item} />
-      ))}
+      <View style={styles.listContainer}>
+        {MENU_ITEMS.map(item => (
+          <SideMenuItem key={item.name} {...item} />
+        ))}
+      </View>
     </ScrollView>
   )
 }
 
-const styles = StyleSheet.create({
+const sideMenuPanelStyles = ({ theme }) => ({
   closeIconRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'flex-start',
-    marginVertical: normalize(20),
-    marginLeft: 'auto',
-    marginRight: normalize(20),
-    cursor: 'pointer'
-  }
+    justifyContent: 'flex-end',
+    paddingTop: normalize(18),
+    paddingBottom: normalize(32),
+    marginHorizontal: normalize(16),
+    cursor: 'pointer',
+  },
+  listContainer: {
+    borderTopWidth: normalize(1),
+    borderTopColor: theme.colors.lightGray,
+    borderTopStyle: 'solid',
+    marginHorizontal: normalize(16),
+  },
 })
 
-export default SideMenuPanel
+export default withStyles(sideMenuPanelStyles)(SideMenuPanel)

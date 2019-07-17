@@ -5,34 +5,61 @@ exports[`FeedActions matches snapshot 1`] = `
   className="css-view-1dbjc4n"
   style={
     Object {
-      "WebkitAlignItems": "center",
-      "WebkitBoxAlign": "center",
-      "WebkitBoxDirection": "normal",
       "WebkitBoxFlex": 1,
-      "WebkitBoxOrient": "horizontal",
-      "WebkitBoxPack": "end",
       "WebkitFlexBasis": "0%",
-      "WebkitFlexDirection": "row",
       "WebkitFlexGrow": 1,
       "WebkitFlexShrink": 1,
-      "WebkitJustifyContent": "flex-end",
-      "alignItems": "center",
       "flexBasis": "0%",
-      "flexDirection": "row",
       "flexGrow": 1,
       "flexShrink": 1,
-      "justifyContent": "flex-end",
-      "msFlexAlign": "center",
-      "msFlexDirection": "row",
       "msFlexNegative": 1,
-      "msFlexPack": "end",
       "msFlexPositive": 1,
       "msFlexPreferredSize": "0%",
-      "paddingBottom": "10px",
-      "paddingLeft": "10px",
-      "paddingRight": "10px",
-      "paddingTop": "10px",
     }
   }
-/>
+>
+  <div
+    className="css-view-1dbjc4n"
+    style={
+      Object {
+        "WebkitAlignItems": "center",
+        "WebkitBoxAlign": "center",
+        "WebkitBoxDirection": "normal",
+        "WebkitBoxFlex": 1,
+        "WebkitBoxOrient": "horizontal",
+        "WebkitBoxPack": "end",
+        "WebkitFlexBasis": "0%",
+        "WebkitFlexDirection": "row",
+        "WebkitFlexGrow": 1,
+        "WebkitFlexShrink": 1,
+        "WebkitJustifyContent": "flex-end",
+        "alignItems": "center",
+        "backgroundColor": "rgba(255,255,255,1.00)",
+        "borderBottomLeftRadius": "8px",
+        "borderBottomRightRadius": "8px",
+        "borderTopLeftRadius": "8px",
+        "borderTopRightRadius": "8px",
+        "flexBasis": "0%",
+        "flexDirection": "row",
+        "flexGrow": 1,
+        "flexShrink": 1,
+        "height": "84px",
+        "justifyContent": "flex-end",
+        "marginLeft": "8px",
+        "marginRight": "8px",
+        "maxHeight": "84px",
+        "msFlexAlign": "center",
+        "msFlexDirection": "row",
+        "msFlexNegative": 1,
+        "msFlexPack": "end",
+        "msFlexPositive": 1,
+        "msFlexPreferredSize": "0%",
+        "paddingBottom": "8px",
+        "paddingLeft": "8px",
+        "paddingRight": "8px",
+        "paddingTop": "8px",
+      }
+    }
+  />
+</div>
 `;

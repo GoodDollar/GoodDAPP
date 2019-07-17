@@ -1,17 +1,18 @@
 // @flow
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
-import { Dialog, Paragraph, Portal, Text } from 'react-native-paper'
+import { Dialog, Paragraph, Portal } from 'react-native-paper'
 import type { TransactionEvent } from '../../../lib/gundb/UserStorage'
 import { Avatar, BigGoodDollar } from '..'
 import CustomButton from '../buttons/CustomButton'
 import Section from '../layout/Section'
+import Text from '../view/Text'
 
 export type EventDialogProps = {
   visible: boolean,
   event: TransactionEvent,
   reason?: string,
-  onDismiss?: () => void
+  onDismiss?: () => void,
 }
 
 /**
@@ -26,7 +27,7 @@ export type EventDialogProps = {
 const EventDialog = ({ visible, event, onDismiss, reason }: EventDialogProps) => {
   const {
     date,
-    data: { amount, sender, name }
+    data: { amount, sender, name },
   } = event
 
   const dateOptions = {
@@ -35,7 +36,7 @@ const EventDialog = ({ visible, event, onDismiss, reason }: EventDialogProps) =>
     year: 'numeric',
     hour12: false,
     hour: '2-digit',
-    minute: '2-digit'
+    minute: '2-digit',
   }
 
   const customDate = new Date(date).toLocaleString(navigator.language, dateOptions)
@@ -78,43 +79,43 @@ const EventDialog = ({ visible, event, onDismiss, reason }: EventDialogProps) =>
 
 const styles = StyleSheet.create({
   italicParagraph: {
-    fontStyle: 'italic'
+    fontStyle: 'italic',
   },
   avatar: {
-    backgroundColor: '#777'
+    backgroundColor: '#777',
   },
   sender: {
-    color: '#555'
+    color: '#555',
   },
   senderSection: {
     backgroundColor: '#fff',
-    marginBottom: '0'
+    marginBottom: '0',
   },
   senderView: {
     borderBottomColor: '#333',
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderTopColor: '#333',
-    borderTopWidth: StyleSheet.hairlineWidth
+    borderTopWidth: StyleSheet.hairlineWidth,
   },
   gd: {
     color: '#555',
     fontSize: '1.2em',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   amount: {
     color: '#555',
     fontSize: '1em',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   gdSection: {
     backgroundColor: '#fff',
     paddingTop: '1em',
-    paddingBottom: '0'
+    paddingBottom: '0',
   },
   date: {
     color: '#888888',
-    fontSize: '0.7em'
-  }
+    fontSize: '0.7em',
+  },
 })
 
 export default EventDialog

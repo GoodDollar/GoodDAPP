@@ -1,101 +1,136 @@
 // @flow
-import React, { useMemo } from 'react'
-import { Text, View } from 'react-native'
-import QRCode from 'qrcode.react'
-import { isMobile } from 'mobile-device-detect'
-import { useDialog } from '../../lib/undux/utils/dialog'
+import React from 'react'
+import normalize from 'react-native-elements/src/helpers/normalizeText'
 
-import goodWallet from '../../lib/wallet/GoodWallet'
-import { generateCode, generateReceiveShareObject } from '../../lib/share'
-import GDStore from '../../lib/undux/GDStore'
-import { BigGoodDollar, CopyButton, CustomButton, Section, Wrapper } from '../common'
-import { DoneButton, useScreenState } from '../appNavigation/stackNavigation'
-import { receiveStyles as styles } from './styles'
+import { BigGoodDollar, Section, TopBar, Wrapper } from '../common'
+import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
+import { PushButton } from '../appNavigation/PushButton'
+
+import { withStyles } from '../../lib/styles'
 
 export type ReceiveProps = {
   screenProps: any,
-  navigation: any
+  navigation: any,
+  theme: any,
 }
 
 const RECEIVE_TITLE = 'Receive G$'
 
-const ReceiveAmount = ({ screenProps }: ReceiveProps) => {
-  const { account, networkId } = goodWallet
-  const [screenState] = useScreenState(screenProps)
-  const [showDialogWithData] = useDialog()
-  const store = GDStore.useStore()
-  const { amount, reason } = screenState
-
-  const code = useMemo(() => generateCode(account, networkId, amount, reason), [account, networkId, amount, reason])
-  const share = useMemo(() => {
-    try {
-      return generateReceiveShareObject(code)
-    } catch (e) {
-      showDialogWithData({
-        title: 'Error',
-        message: e.message
-      })
-    }
-  }, [code])
-
-  const shareAction = async () => {
-    try {
-      await navigator.share(share)
-    } catch (e) {
-      store.set('currentScreen')({
-        dialogData: {
-          visible: true,
-          title: 'Error',
-          message:
-            'There was a problem triggering share action. You can still copy the link in tapping on "Copy link to clipboard"',
-          dismissText: 'Ok'
-        }
-      })
-    }
+const FromRow = props => {
+  const { styles, counterPartyDisplayName } = props
+  if (!counterPartyDisplayName) {
+    return null
   }
 
-  const ShareButton = () => (
-    <CustomButton style={styles.buttonStyle} onPress={shareAction} mode="contained">
-      Share link
-    </CustomButton>
+  return (
+    <Section.Row style={styles.tableRow}>
+      <Section.Text style={styles.tableRowLabel}>From:</Section.Text>
+      <Section.Text fontSize={24} fontWeight="bold">
+        {counterPartyDisplayName}
+      </Section.Text>
+    </Section.Row>
   )
+}
+
+const AmountRow = props => {
+  const { amount, styles } = props
+  if (!amount) {
+    return null
+  }
+  return (
+    <Section.Row style={styles.tableRow}>
+      <Section.Text style={styles.tableRowLabel}>Amount:</Section.Text>
+      <BigGoodDollar elementStyles={styles.bigGoodDollar} number={amount} color={styles.bigGoodDollar.color} />
+    </Section.Row>
+  )
+}
+
+const ReasonRow = props => {
+  const { reason, styles } = props
+  if (!reason) {
+    return null
+  }
+  return (
+    <Section.Row style={styles.tableRow}>
+      <Section.Text style={styles.tableRowLabel}>For:</Section.Text>
+      <Section.Text fontSize={16}>{reason}</Section.Text>
+    </Section.Row>
+  )
+}
+
+const ReceiveAmount = ({ screenProps, ...props }: ReceiveProps) => {
+  const [screenState] = useScreenState(screenProps)
+  const { amount, reason, fromWho } = screenState
+  const styles = getStylesFromProps(props)
 
   return (
     <Wrapper>
-      <Section grow>
-        <Section.Stack justifyContent="space-evenly" grow>
-          <View style={styles.qrCode}>
-            <QRCode value={code} />
-          </View>
-          <Section.Stack>
-            <Section.Text style={[styles.lowerSecondaryText]}>This QR code requests exactly</Section.Text>
-            <Section.Text style={styles.addressSection}>
-              <Text style={styles.url}>{share.url}</Text>
-            </Section.Text>
-            <Section.Text>
-              <BigGoodDollar style={styles.centered} number={amount} />
-            </Section.Text>
-            <Section.Text>{reason ? reason : null}</Section.Text>
+      <TopBar push={screenProps.push} />
+      <Section justifyContent="space-between" grow>
+        <Section.Title>Summary</Section.Title>
+        <Section.Stack grow justifyContent="center">
+          <FromRow counterPartyDisplayName={fromWho} styles={styles} />
+          <AmountRow amount={amount} styles={styles} />
+          <ReasonRow reason={reason} styles={styles} />
+        </Section.Stack>
+        <Section.Row>
+          <Section.Stack grow={1}>
+            <BackButton mode="text" screenProps={screenProps}>
+              Cancel
+            </BackButton>
           </Section.Stack>
-        </Section.Stack>
-        <Section.Stack>
-          {/* <ShareQR>Share QR Code</ShareQR>
-      <DoneButton style={styles.doneButton} screenProps={screenProps} /> */}
-          {isMobile && navigator.share ? <ShareButton style={styles.shareButton} /> : <CopyButton toCopy={share.url} />}
-          <DoneButton style={styles.buttonStyle} screenProps={screenProps} />
-        </Section.Stack>
+          <Section.Stack grow={2}>
+            <PushButton
+              routeName="ReceiveConfirmation"
+              screenProps={screenProps}
+              params={{ reason, amount, counterPartyDisplayName: fromWho }}
+            >
+              Confirm
+            </PushButton>
+          </Section.Stack>
+        </Section.Row>
       </Section>
     </Wrapper>
   )
 }
 
 ReceiveAmount.navigationOptions = {
-  title: RECEIVE_TITLE
+  title: RECEIVE_TITLE,
 }
 
 ReceiveAmount.shouldNavigateToComponent = props => {
   const { screenState } = props.screenProps
-  return !!screenState.nextRoutes && screenState.amount
+  return screenState.amount
 }
 
-export default ReceiveAmount
+const getStylesFromProps = ({ theme }) => {
+  return {
+    tableRow: {
+      // TODO: see where should we take this color from
+      borderBottomColor: theme.colors.gray50Percent,
+      borderBottomWidth: normalize(1),
+      borderBottomStyle: 'solid',
+      marginTop: theme.sizes.defaultDouble,
+      alignItems: 'baseline',
+      paddingBottom: theme.sizes.default,
+    },
+
+    // TODO: all this properties can be removed once we merge Text component in
+    tableRowLabel: {
+      color: '#A3A3A3',
+    },
+    bigGoodDollar: {
+      color: theme.colors.primary,
+      fontSize: normalize(24),
+      fontFamily: theme.fonts.bold,
+    },
+    reason: {
+      fontSize: normalize(16),
+    },
+    doneButton: {
+      marginTop: theme.sizes.default,
+    },
+  }
+}
+
+export default withStyles(getStylesFromProps)(ReceiveAmount)

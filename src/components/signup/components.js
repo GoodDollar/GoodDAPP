@@ -1,15 +1,16 @@
 // @flow
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
-import { Button, Text } from 'react-native-paper'
+import { Button } from 'react-native-paper'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
+import { Text } from '../common'
 
 export const NextButton = (props: {
   valid?: boolean,
   handleSubmit: () => any,
   styles?: any,
   children: any,
-  loading?: boolean
+  loading?: boolean,
 }) => (
   <Button
     style={[props.styles || {}, styles.continueButton]}
@@ -29,7 +30,7 @@ export const ActionButton = (props: {
   handleSubmit: () => any,
   styles?: any,
   children: any,
-  loading?: boolean
+  loading?: boolean,
 }) => (
   <Button
     style={[styles.actionButton, props.styles || {}]}
@@ -84,7 +85,7 @@ export const Error = (props: any) => (
 const fontStyle = {
   color: '#555',
   fontSize: normalize(18),
-  textAlign: 'center'
+  textAlign: 'center',
 }
 
 const styles = StyleSheet.create({
@@ -93,7 +94,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
     textTransform: 'uppercase',
-    padding: normalize(10)
+    padding: normalize(10),
   },
   wrapper: {
     display: 'flex',
@@ -102,54 +103,54 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'stretch',
     flexDirection: 'column',
-    padding: normalize(20)
+    padding: normalize(20),
   },
   linkButton: {
     color: '#555',
     fontSize: normalize(18),
     textAlign: 'center',
-    marginTop: normalize(10)
+    marginTop: normalize(10),
   },
   topContainer: {
     flex: 1,
     justifyContent: 'space-evenly',
-    paddingTop: normalize(30)
+    paddingTop: normalize(30),
   },
   bottomContainer: {
     display: 'flex',
     flex: 1,
     paddingTop: normalize(20),
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
   },
   continueButton: {
     marginBottom: '10px',
     paddingTop: 5,
-    paddingBottom: 5
+    paddingBottom: 5,
   },
   actionButton: {
     borderStyle: 'solid',
     borderColor: '#555',
     borderWidth: 1,
     backgroundColor: 'white',
-    borderRadius: 5
+    borderRadius: 5,
   },
   actionButtonText: {
-    color: '#555'
+    color: '#555',
   },
   title: {
     ...fontStyle,
     fontSize: normalize(24),
-    marginBottom: normalize(30)
+    marginBottom: normalize(30),
   },
   description: {
     ...fontStyle,
-    marginTop: normalize(30)
+    marginTop: normalize(30),
   },
   errorWrapper: {},
   error: {
     ...fontStyle,
     color: 'red',
     marginVertical: normalize(30),
-    minHeight: normalize(24)
-  }
+    minHeight: normalize(24),
+  },
 })

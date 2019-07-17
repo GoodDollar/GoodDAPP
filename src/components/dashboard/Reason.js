@@ -1,50 +1,53 @@
 // @flow
 import React from 'react'
-import { View } from 'react-native'
-import { TextInput } from 'react-native-paper'
+import InputText from '../common/form/InputText'
 
 import { Section, TopBar, Wrapper } from '../common'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
-import { receiveStyles as styles } from './styles'
+import { withStyles } from '../../lib/styles'
 
 export type AmountProps = {
   screenProps: any,
-  navigation: any
+  navigation: any,
+  stlyes?: any,
 }
 
-const TITLE = 'Send G$'
+const TITLE = 'Receive G$'
 
 const SendReason = (props: AmountProps) => {
   const { screenProps } = props
 
   const [screenState, setScreenState] = useScreenState(screenProps)
-  const { amount, reason, to } = screenState
+  const { reason, ...restState } = screenState
 
   return (
-    <Wrapper style={styles.wrapper}>
+    <Wrapper>
       <TopBar push={screenProps.push} />
-      <Section style={styles.section}>
-        <Section.Row style={styles.sectionRow}>
-          <View style={styles.inputField}>
-            <Section.Title style={styles.headline}>What For?</Section.Title>
-            <TextInput
-              autoFocus
-              value={reason}
-              onChangeText={reason => setScreenState({ reason })}
-              placeholder="Add a message"
-            />
-          </View>
-          <View style={styles.buttonGroup}>
-            <BackButton mode="text" screenProps={screenProps} style={{ flex: 1 }}>
+      <Section grow>
+        <Section.Stack grow justifyContent="flex-start">
+          <Section.Title>What For?</Section.Title>
+          <InputText
+            autoFocus
+            style={props.styles.input}
+            value={reason}
+            onChangeText={reason => setScreenState({ reason })}
+            placeholder="Add a message"
+          />
+        </Section.Stack>
+        <Section.Row>
+          <Section.Stack grow={1}>
+            <BackButton mode="text" screenProps={screenProps}>
               Cancel
             </BackButton>
+          </Section.Stack>
+          <Section.Stack grow={2}>
             <NextButton
               nextRoutes={screenState.nextRoutes}
-              values={{ amount, reason, to }}
+              values={{ ...restState, reason }}
               {...props}
               label={reason ? 'Next' : 'Skip'}
             />
-          </View>
+          </Section.Stack>
         </Section.Row>
       </Section>
     </Wrapper>
@@ -52,7 +55,7 @@ const SendReason = (props: AmountProps) => {
 }
 
 SendReason.navigationOptions = {
-  title: TITLE
+  title: TITLE,
 }
 
 SendReason.shouldNavigateToComponent = props => {
@@ -60,4 +63,4 @@ SendReason.shouldNavigateToComponent = props => {
   return screenState.amount >= 0 && screenState.nextRoutes
 }
 
-export default SendReason
+export default withStyles(({ theme }) => ({ input: { marginTop: theme.sizes.defaultDouble } }))(SendReason)

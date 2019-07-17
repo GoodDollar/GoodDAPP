@@ -1,9 +1,9 @@
 // @flow
 import React from 'react'
-import { Text } from 'react-native'
+import Text from './Text'
 
 type AddressProps = {
-  value: string
+  value: string,
 }
 
 const Address = React.memo(({ value }: AddressProps) => (

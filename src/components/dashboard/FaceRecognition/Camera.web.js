@@ -11,7 +11,7 @@ type CameraProps = {
   width: number,
   height: number,
   onCameraLoad: (track: MediaStreamTrack) => Promise<void>,
-  onError: (result: string) => void
+  onError: (result: string) => void,
 }
 
 /**
@@ -26,25 +26,25 @@ export function Camera(props: CameraProps) {
       video: {
         width: { exact: 1280 },
         height: { exact: 720 },
-        facingMode: 'user'
-      }
+        facingMode: 'user',
+      },
     },
     {
       audio: false,
       video: {
         width: { exact: 640 },
         height: { exact: 360 },
-        facingMode: 'user'
-      }
+        facingMode: 'user',
+      },
     },
     {
       audio: false,
       video: {
         width: { exact: 1920 },
         height: { exact: 1080 },
-        facingMode: 'user'
-      }
-    }
+        facingMode: 'user',
+      },
+    },
   ]
 
   useEffect(() => {
@@ -100,14 +100,14 @@ export function Camera(props: CameraProps) {
       /* REQUIRED - handle flipping of ZoOm interface.  users of selfie-style interfaces are trained to see their mirror image */
       transform: 'scaleX(-1)',
       overflow: 'hidden',
-      justifySelf: 'center'
+      justifySelf: 'center',
     },
     videoContainer: {
       display: 'grid',
       justifyContent: 'center',
       alignContent: 'center',
-      overflow: 'hidden'
-    }
+      overflow: 'hidden',
+    },
   }
 
   const awaitGetUserMedia = async () => {
@@ -151,7 +151,7 @@ export const getResponsiveVideoDimensions = () => {
   return {
     height: defaultHeight ? normalize(360) : 'auto',
     maxHeight: defaultHeight ? normalize(360) : height - 124,
-    width: defaultHeight ? 'auto' : '100%'
+    width: defaultHeight ? 'auto' : '100%',
   }
 }
 
@@ -168,11 +168,11 @@ export const getResponsiveVideoDimensionsNew = () => {
   if (height > containerWidth) {
     return {
       width: 'auto',
-      height: containerHeight
+      height: containerHeight,
     }
   }
   return {
     width: containerWidth,
-    height: 'auto'
+    height: 'auto',
   }
 }

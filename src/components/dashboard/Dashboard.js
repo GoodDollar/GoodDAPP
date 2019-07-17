@@ -1,6 +1,6 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { ScrollView, View } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { Portal } from 'react-native-paper'
 import type { Store } from 'undux'
@@ -11,12 +11,14 @@ import { useDialog } from '../../lib/undux/utils/dialog'
 import { getInitialFeed, getNextFeed, PAGE_SIZE } from '../../lib/undux/utils/feed'
 import { executeWithdraw } from '../../lib/undux/utils/withdraw'
 import { weiToMask } from '../../lib/wallet/utils'
-import { createStackNavigator, PushButton } from '../appNavigation/stackNavigation'
+import { createStackNavigator } from '../appNavigation/stackNavigation'
+import { PushButton } from '../appNavigation/PushButton'
 import TabsView from '../appNavigation/TabsView'
-import { Avatar, BigGoodDollar, Section, Wrapper } from '../common'
+import { Avatar, BigGoodDollar, ClaimButton, Section, Wrapper } from '../common'
 import logger from '../../lib/logger/pino-logger'
 import userStorage from '../../lib/gundb/UserStorage'
 import { PrivacyArticle, PrivacyPolicy, Support, TermsOfUse } from '../webView/webViewInstances'
+import { withStyles } from '../../lib/styles'
 import Mnemonics from '../signin/Mnemonics'
 import Amount from './Amount'
 import Claim from './Claim'
@@ -28,7 +30,9 @@ import FeedList from './FeedList'
 import FeedModalItem from './FeedItems/FeedModalItem'
 import Reason from './Reason'
 import Receive from './Receive'
+import ReceiveFrom from './ReceiveFrom'
 import ReceiveAmount from './ReceiveAmount'
+import ReceiveConfirmation from './ReceiveConfirmation'
 import SendByQR from './SendByQR'
 import ReceiveByQR from './ReceiveByQR'
 import Send from './Send'
@@ -41,13 +45,13 @@ const log = logger.child({ from: 'Dashboard' })
 export type DashboardProps = {
   screenProps: any,
   navigation: any,
-  store: Store
+  store: Store,
 }
 
 type DashboardState = {
   horizontal: boolean,
   feeds: any[],
-  currentFeedProps: any
+  currentFeedProps: any,
 }
 
 const Dashboard = props => {
@@ -57,7 +61,7 @@ const Dashboard = props => {
   const [state: DashboardState, setState] = useState({
     horizontal: false,
     currentFeedProps: null,
-    feeds: []
+    feeds: [],
   })
   const { params } = props.navigation.state
 
@@ -78,38 +82,16 @@ const Dashboard = props => {
     }
   }, [params])
 
-  // componentWillUnmount() {
-  //   // TODO: we should be removing the listener in unmount but this causes that you cannot re-subscribe
-  //   // userStorage.feed.get('byid').off()
-  // }
-
   const getFeeds = () => {
     getInitialFeed(gdstore)
   }
 
   const showEventModal = item => {
-    // props.screenProps.navigateTo('Home', {
-    //   event: item.id,
-    //   receiveLink: undefined,
-    //   reason: undefined
-    // })
     setState({
       currentFeedProps: {
         item,
-        styles: {
-          flex: 1,
-          alignSelf: 'flex-start',
-          height: '100vh',
-          position: 'absolute',
-          width: '100%',
-          paddingTop: normalize(30),
-          paddingBottom: normalize(30),
-          paddingLeft: normalize(10),
-          paddingRight: normalize(10),
-          backgroundColor: 'rgba(0, 0, 0, 0.7)'
-        },
-        onPress: closeFeedEvent
-      }
+        onPress: closeFeedEvent,
+      },
     })
   }
 
@@ -126,21 +108,19 @@ const Dashboard = props => {
       } else {
         showDialog({
           title: 'Error',
-          message: 'Event does not exist'
+          message: 'Event does not exist',
         })
       }
     } catch (e) {
       showDialog({
         title: 'Error',
-        message: 'Event does not exist'
+        message: 'Event does not exist',
       })
     }
   }
 
   const closeFeedEvent = () => {
-    setState({
-      currentFeedProps: null
-    })
+    setState({ currentFeedProps: null })
   }
 
   const handleWithdraw = async () => {
@@ -159,53 +139,84 @@ const Dashboard = props => {
   }
 
   const { horizontal, currentFeedProps } = state
-  const { screenProps, navigation }: DashboardProps = props
+  const { screenProps, navigation, styles, theme }: DashboardProps = props
   const { balance, entitlement } = gdstore.get('account')
   const { avatar, fullName } = gdstore.get('profile')
   const feeds = gdstore.get('feeds')
 
-  log.info('LOGGER FEEDS', { feeds })
+  // TODO: Calculate scroll position to update Dashboard avatar, name and gd amount view
+  const scrollPos = 100
 
+  log.info('LOGGER FEEDS', { feeds })
   return (
     <View style={styles.dashboardView}>
       <TabsView goTo={navigation.navigate} routes={screenProps.routes} />
-      <Wrapper backgroundColor="#eeeeee">
+      <Wrapper backgroundColor={theme.colors.lightGray} style={styles.dashboardWrapper}>
         <Section>
-          <Section.Row style={styles.centered}>
-            <Avatar size={80} source={avatar} onPress={() => screenProps.push('Profile')} />
-          </Section.Row>
-          <Section.Row style={styles.centered}>
-            <Section.Title>{fullName || ' '}</Section.Title>
-          </Section.Row>
-          <Section.Row style={styles.centered}>
-            <BigGoodDollar number={balance} />
-          </Section.Row>
-          <Section.Row style={styles.buttonRow}>
-            <PushButton routeName={'Send'} screenProps={screenProps} style={styles.leftButton}>
+          {scrollPos < 100 ? (
+            <>
+              <Section.Row justifyContent="center" alignItems="baseline">
+                <Avatar size={80} source={avatar} onPress={() => screenProps.push('Profile')} />
+              </Section.Row>
+              <Section.Row justifyContent="center" alignItems="baseline">
+                <Section.Title>{fullName || ' '}</Section.Title>
+              </Section.Row>
+              <Section.Row justifyContent="center" alignItems="baseline">
+                <BigGoodDollar
+                  bigNumberStyles={styles.bigNumberStyles}
+                  bigNumberUnitStyles={styles.bigNumberUnitStyles}
+                  number={balance}
+                />
+              </Section.Row>
+            </>
+          ) : (
+            <Section.Row>
+              <Section.Stack alignItems="flex-start">
+                <Avatar size={42} source={avatar} onPress={() => screenProps.push('Profile')} />
+              </Section.Stack>
+              <Section.Stack alignItems="flex-end">
+                <BigGoodDollar
+                  bigNumberStyles={styles.bigNumberStyles}
+                  bigNumberUnitStyles={styles.bigNumberUnitStyles}
+                  number={balance}
+                />
+              </Section.Stack>
+            </Section.Row>
+          )}
+          <Section.Row style={styles.buttonsRow} alignItems="stretch">
+            <PushButton
+              routeName={'Send'}
+              screenProps={screenProps}
+              style={styles.leftButton}
+              icon="send"
+              iconAlignment="left"
+            >
               Send
             </PushButton>
-            <PushButton routeName={'Claim'} screenProps={screenProps}>
-              <Text style={[styles.buttonText]}>Claim</Text>
-              <br />
-              <Text style={[styles.buttonText, styles.grayedOutText]}>
-                +{weiToMask(entitlement, { showUnits: true })}
-              </Text>
-            </PushButton>
-            <PushButton routeName={'Receive'} screenProps={screenProps} style={styles.rightButton}>
+            <ClaimButton screenProps={screenProps} amount={weiToMask(entitlement, { showUnits: true })} />
+            <PushButton
+              routeName={'Receive'}
+              screenProps={screenProps}
+              style={styles.rightButton}
+              icon="receive"
+              iconAlignment="right"
+            >
               Receive
             </PushButton>
           </Section.Row>
         </Section>
-        <FeedList
-          horizontal={horizontal}
-          handleFeedSelection={handleFeedSelection}
-          fixedHeight
-          virtualized
-          data={feeds}
-          updateData={() => {}}
-          initialNumToRender={PAGE_SIZE}
-          onEndReached={getNextFeed.bind(null, gdstore)}
-        />
+        <ScrollView style={styles.scrollList}>
+          <FeedList
+            horizontal={horizontal}
+            handleFeedSelection={handleFeedSelection}
+            fixedHeight
+            virtualized
+            data={feeds}
+            updateData={() => {}}
+            initialNumToRender={PAGE_SIZE}
+            onEndReached={getNextFeed.bind(null, store)}
+          />
+        </ScrollView>
         {currentFeedProps && (
           <Portal>
             <FeedModalItem {...currentFeedProps} />
@@ -216,56 +227,63 @@ const Dashboard = props => {
   )
 }
 
-const styles = StyleSheet.create({
-  buttonText: {
-    fontSize: normalize(16),
-    color: 'white',
-    fontWeight: 'bold',
-    textTransform: 'uppercase'
-  },
-  buttonRow: {
-    alignItems: 'stretch',
-    marginTop: normalize(10)
-  },
-  grayedOutText: {
-    color: '#d5d5d5',
-    fontSize: normalize(10)
+const getStylesFromProps = ({ theme }) => ({
+  buttonsRow: {
+    marginVertical: theme.sizes.default,
   },
   leftButton: {
     flex: 1,
-    marginRight: normalize(10)
+    marginRight: theme.sizes.defaultDouble,
+    paddingRight: theme.sizes.defaultDouble,
   },
   rightButton: {
     flex: 1,
-    marginLeft: normalize(10)
+    marginLeft: theme.sizes.defaultDouble,
+    paddingLeft: theme.sizes.defaultDouble,
   },
   dashboardView: {
-    flex: 1
+    flex: 1,
   },
-  centered: {
-    justifyContent: 'center',
-    alignItems: 'baseline'
+  dashboardWrapper: {
+    paddingHorizontal: 0,
+  },
+  scrollList: {
+    marginTop: theme.sizes.default,
+    overflowX: 'visible',
   },
   centering: {
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 8,
-    height: '256px'
-  }
+    padding: theme.sizes.default,
+    height: '256px',
+  },
+  bigNumberStyles: {
+    fontFamily: 'RobotoSlab-Bold',
+    fontSize: normalize(36),
+    marginRight: theme.sizes.defaultHalf,
+  },
+  bigNumberUnitStyles: {
+    fontFamily: 'RobotoSlab-Bold',
+    fontSize: normalize(18),
+  },
 })
 
 Dashboard.navigationOptions = {
   navigationBarHidden: true,
-  title: 'Home'
+  title: 'Home',
 }
 
+const WrappedDashboard = withStyles(getStylesFromProps)(Dashboard)
+
 export default createStackNavigator({
-  Home: Dashboard,
+  Home: WrappedDashboard,
   Claim,
   Receive,
+  ReceiveFrom,
   Amount,
   Reason,
   ReceiveAmount,
+  ReceiveConfirmation,
   Send,
   SendLinkSummary,
   SendConfirmation,
@@ -280,5 +298,5 @@ export default createStackNavigator({
   PrivacyArticle,
   TOU: TermsOfUse,
   Support,
-  Recover: Mnemonics
+  Recover: Mnemonics,
 })

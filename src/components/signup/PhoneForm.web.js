@@ -1,6 +1,7 @@
 // @flow
 import React from 'react'
 import PhoneInput from 'react-phone-number-input'
+import debounce from 'lodash/debounce'
 import './PhoneForm.css'
 import { userModelValidations } from '../../lib/gundb/UserModel'
 import userStorage from '../../lib/gundb/UserStorage'
@@ -14,14 +15,14 @@ const log = logger.child({ from: 'PhoneForm' })
 type Props = {
   doneCallback: ({ phone: string }) => null,
   screenProps: any,
-  navigation: any
+  navigation: any,
 }
 
 export type MobileRecord = {
   mobile: string,
   errorMessage?: string,
   countryCode?: string | null,
-  isValid: boolean
+  isValid: boolean,
 }
 
 type State = MobileRecord
@@ -31,7 +32,7 @@ class PhoneForm extends React.Component<Props, State> {
     mobile: this.props.screenProps.data.mobile || '',
     errorMessage: '',
     countryCode: null,
-    isValid: false
+    isValid: false,
   }
 
   setCountryCode = async () => {
@@ -48,9 +49,7 @@ class PhoneForm extends React.Component<Props, State> {
   }
 
   handleChange = (mobile: string) => {
-    if (this.state.errorMessage !== '') {
-      this.setState({ errorMessage: '' })
-    }
+    this.checkErrorsSlow()
 
     this.setState({ mobile })
   }
@@ -74,9 +73,11 @@ class PhoneForm extends React.Component<Props, State> {
       Config.skipMobileVerification || (await userStorage.isValidValue('mobile', this.state.mobile))
     const errorMessage = modelErrorMessage || (isValidIndexValue ? '' : 'Unavailable mobile')
     log.debug({ modelErrorMessage, isValidIndexValue, errorMessage, Config })
-    this.setState({ errorMessage }, () => this.setState({ isValid: this.state.errorMessage === '' }))
+    this.setState({ errorMessage, isValid: errorMessage === '' })
     return errorMessage === ''
   }
+
+  checkErrorsSlow = debounce(this.checkErrors, 500)
 
   render() {
     const errorMessage = this.state.errorMessage || this.props.screenProps.error
@@ -91,7 +92,6 @@ class PhoneForm extends React.Component<Props, State> {
           id={key + '_input'}
           value={this.state.mobile}
           onChange={this.handleChange}
-          onBlur={this.checkErrors}
           error={errorMessage}
           onKeyDown={this.handleEnter}
           country={this.state.countryCode}

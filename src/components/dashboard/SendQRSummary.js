@@ -14,7 +14,7 @@ import { receiveStyles } from './styles'
 
 export type AmountProps = {
   screenProps: any,
-  navigation: any
+  navigation: any,
 }
 
 const TITLE = 'Send G$'
@@ -65,8 +65,8 @@ const SendQRSummary = (props: AmountProps) => {
             data: {
               to,
               reason,
-              amount
-            }
+              amount,
+            },
           }
           userStorage.enqueueTX(transactionEvent)
           showDialog({
@@ -74,7 +74,7 @@ const SendQRSummary = (props: AmountProps) => {
             title: 'SUCCESS!',
             message: 'The G$ was sent successfully',
             dismissText: 'Yay!',
-            onDismiss: screenProps.goToRoot
+            onDismiss: screenProps.goToRoot,
           })
           return hash
         },
@@ -84,9 +84,9 @@ const SendQRSummary = (props: AmountProps) => {
             visible: true,
             title: 'Transaction Failed!',
             message: `There was a problem sending G$. Try again`,
-            dismissText: 'OK'
+            dismissText: 'OK',
           })
-        }
+        },
       })
     } catch (e) {
       log.error('Send TX failed:', { e, message: e.message })
@@ -94,7 +94,7 @@ const SendQRSummary = (props: AmountProps) => {
         visible: true,
         title: 'Transaction Failed!',
         message: `There was a problem sending G$. Try again`,
-        dismissText: 'OK'
+        dismissText: 'OK',
       })
     } finally {
       setLoading(false)
@@ -150,22 +150,22 @@ const SendQRSummary = (props: AmountProps) => {
 const styles = {
   ...receiveStyles,
   headline: {
-    textTransform: 'uppercase'
+    textTransform: 'uppercase',
   },
   sectionTo: {
-    alignItems: 'center'
+    alignItems: 'center',
   },
   toText: {
     marginTop: '1rem',
-    marginBottom: '1rem'
+    marginBottom: '1rem',
   },
   avatar: {
-    backgroundColor: 'white'
-  }
+    backgroundColor: 'white',
+  },
 }
 
 SendQRSummary.navigationOptions = {
-  title: TITLE
+  title: TITLE,
 }
 
 SendQRSummary.shouldNavigateToComponent = props => {

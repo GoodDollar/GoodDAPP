@@ -9,12 +9,12 @@ type FaceRecognitionResponse = {
   ok: boolean,
   livenessPassed?: boolean,
   isDuplicate?: boolean,
-  enrollResult?: any | false
+  enrollResult?: any | false,
 }
 
 type FaceRecognitionAPIResponse = {
   ok: boolean,
-  error: string
+  error: string,
 }
 
 const log = logger.child({ from: 'FaceRecognitionAPI' })
@@ -72,12 +72,13 @@ export const FaceRecognitionAPI = {
   async onFaceRecognitionSuccess(res: FaceRecognitionResponse) {
     log.info('Face Recognition finished successfull', { res })
     log.debug({ res })
+    let identifier = await goodWallet.getAccountForType('zoomId')
+
     try {
-      res.enrollResult &&
-        (await userStorage.setProfileField('zoomEnrollmentId', res.enrollResult.enrollmentIdentifier, 'private'))
+      res.enrollResult && (await userStorage.setProfileField('zoomEnrollmentId', identifier, 'private'))
       return { ok: 1 }
     } catch (e) {
-      log.error('failed to save zoomEnrollmentId:', res.enrollResult.enrollmentIdentifier, e) // TODO: handle what happens if the facemap was not saved successfully to the user storage
+      log.error('failed to save zoomEnrollmentId:', identifier, e) // TODO: handle what happens if the facemap was not saved successfully to the user storage
       return { ok: 0, error: 'failed to save capture information to user profile' }
     }
   },
@@ -93,7 +94,7 @@ export const FaceRecognitionAPI = {
 
     //TODO: Rami - should i handle this error as well, or is it on Liav's verification screen
     return { ok: 0, error: reason }
-  }
+  },
 }
 
 export default FaceRecognitionAPI

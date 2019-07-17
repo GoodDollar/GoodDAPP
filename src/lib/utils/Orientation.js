@@ -15,7 +15,7 @@ const listenOrientationChange = callback => {
     callback({
       portrait: isPortrait(),
       height: getScreenHeight(),
-      width: getScreenWidth()
+      width: getScreenWidth(),
     })
   })
 }

@@ -1,41 +1,48 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { StyleSheet } from 'react-native'
 import { useWrappedUserStorage } from '../../lib/gundb/useWrappedStorage'
 import logger from '../../lib/logger/pino-logger'
 import GDStore from '../../lib/undux/GDStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
-import { CustomButton, Section, UserAvatar, Wrapper } from '../common'
+import { withStyles } from '../../lib/styles'
+import { SaveButton, Section, UserAvatar, Wrapper } from '../common'
 import CameraButton from './CameraButton'
 import ProfileDataTable from './ProfileDataTable'
 
 const TITLE = 'Edit Profile'
 const log = logger.child({ from: TITLE })
 
-const EditProfile = props => {
+const EditProfile = ({ screenProps, theme, styles }) => {
   const store = GDStore.useStore()
   const userStorage = useWrappedUserStorage()
-  const { screenProps } = props
+  const storedProfile = store.get('privateProfile')
 
-  const [profile, setProfile] = useState(store.get('profile'))
+  const [profile, setProfile] = useState(storedProfile)
   const [saving, setSaving] = useState()
   const [isValid, setIsValid] = useState()
   const [errors, setErrors] = useState({})
   const [showErrorDialog] = useErrorDialog()
 
+  useEffect(() => {
+    setProfile(storedProfile)
+  }, [storedProfile])
+
   const validate = async () => {
-    const { isValid, errors } = profile.validate()
-    const { isValid: indexIsValid, errors: indexErrors } = await userStorage.validateProfile(profile)
-    setErrors({ ...errors, ...indexErrors })
-    setIsValid(isValid && indexIsValid)
-    return isValid && indexIsValid
+    log.info({ validate: profile })
+    if (profile && profile.validate) {
+      const { isValid, errors } = profile.validate()
+      const { isValid: indexIsValid, errors: indexErrors } = await userStorage.validateProfile(profile)
+      setErrors({ ...errors, ...indexErrors })
+      setIsValid(isValid && indexIsValid)
+      return isValid && indexIsValid
+    }
+    return false
   }
 
   const handleProfileChange = newProfile => {
     if (saving) {
       return
     }
-
     setProfile(newProfile)
   }
 
@@ -48,13 +55,17 @@ const EditProfile = props => {
       return
     }
 
-    userStorage
+    return userStorage
       .setProfile(profile)
       .catch(err => {
         log.error('Error saving profile', { err, profile })
         showErrorDialog('Saving profile failed', err)
       })
       .finally(_ => setSaving(false))
+  }
+
+  const onProfileSaved = () => {
+    log.info('called??')
     screenProps.pop()
   }
 
@@ -77,20 +88,17 @@ const EditProfile = props => {
 
   return (
     <Wrapper>
-      <Section style={styles.section}>
-        <Section.Row style={styles.centered}>
-          <UserAvatar onChange={handleProfileChange} editable={true} profile={profile} onPress={handleAvatarPress}>
+      <Section style={styles.section} grow>
+        <Section.Row justifyContent="center" alignItems="flex-start">
+          <UserAvatar profile={profile} onPress={handleAvatarPress}>
             <CameraButton handleCameraPress={handleCameraPress} />
           </UserAvatar>
-          <CustomButton
+          <SaveButton
             disabled={saving || !isValid}
-            loading={saving}
-            mode="outlined"
-            style={styles.saveButton}
+            beforeSave={validate}
             onPress={handleSaveButton}
-          >
-            Save
-          </CustomButton>
+            onPressDone={onProfileSaved}
+          />
         </Section.Row>
         <ProfileDataTable onChange={handleProfileChange} editable={true} errors={errors} profile={profile} />
       </Section>
@@ -99,23 +107,14 @@ const EditProfile = props => {
 }
 
 EditProfile.navigationOptions = {
-  title: TITLE
+  title: TITLE,
 }
 
-const styles = StyleSheet.create({
+const getStylesFromProps = ({ theme }) => ({
   section: {
     paddingLeft: '1em',
-    paddingRight: '1em'
+    paddingRight: '1em',
   },
-  centered: {
-    justifyContent: 'center',
-    alignItems: 'flex-start'
-  },
-  saveButton: {
-    position: 'absolute',
-    top: 0,
-    right: 0
-  }
 })
 
-export default EditProfile
+export default withStyles(getStylesFromProps)(EditProfile)

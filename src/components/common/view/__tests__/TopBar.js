@@ -1,20 +1,23 @@
 import React from 'react'
 import { View } from 'react-native'
-import { Text } from 'react-native-paper'
 
 // Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer'
 
 import GDStore from '../../../../lib/undux/GDStore'
+import { withThemeProvider } from '../../../../__tests__/__util__'
 import TopBar from '../TopBar'
+import Text from '../Text'
 
 const { Container } = GDStore
 
 describe('TopBar', () => {
+  const WrappedTopBar = withThemeProvider(TopBar)
+
   it('renders without errors', () => {
     const tree = renderer.create(
       <Container>
-        <TopBar />
+        <WrappedTopBar />
       </Container>
     )
     expect(tree.toJSON()).toBeTruthy()
@@ -23,7 +26,7 @@ describe('TopBar', () => {
   it('matches snapshot without balance', () => {
     const component = renderer.create(
       <Container>
-        <TopBar hideBalance />
+        <WrappedTopBar hideBalance />
       </Container>
     )
     const tree = component.toJSON()
@@ -33,7 +36,7 @@ describe('TopBar', () => {
   it('matches snapshot with balance', () => {
     const component = renderer.create(
       <Container>
-        <TopBar />
+        <WrappedTopBar />
       </Container>
     )
     const tree = component.toJSON()
@@ -44,11 +47,11 @@ describe('TopBar', () => {
     // Given
     const component = renderer.create(
       <Container>
-        <TopBar>
+        <WrappedTopBar>
           <View>
             <Text>Children element</Text>
           </View>
-        </TopBar>
+        </WrappedTopBar>
       </Container>
     )
 

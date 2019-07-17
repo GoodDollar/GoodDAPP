@@ -78,6 +78,11 @@
 		<string>RobotoSlab-Regular.ttf</string>
 		<string>RobotoSlabBold.ttf</string>
 		<string>RobotoSlabRegular.ttf</string>
+		<string>gooddollar.ttf</string>
+		<string>gooddollar.woff</string>
+		<string>gooddollar.woff2</string>
+		<string>Fontisto.ttf</string>
+		<string>Roboto-Bold.ttf</string>
 	</array>
 	<key>NSCameraUsageDescription</key>
 	<string>GDWallet needs to access your camera to be able to scan the QR codes</string>

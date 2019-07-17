@@ -7,7 +7,7 @@ export type AvatarProps = {
   onPress?: () => {},
   source?: string,
   style?: {},
-  size?: number
+  size?: number,
 }
 
 /**
@@ -19,25 +19,35 @@ export type AvatarProps = {
  * @param {Number} [props.size=34]
  * @returns {React.Node}
  */
-export default (props: AvatarProps) => (
-  <TouchableOpacity onPress={props.onPress} style={[styles.avatarContainer, props.style]} disabled={!props.onPress}>
+const CustomAvatar = (props: AvatarProps) => (
+  <TouchableOpacity
+    activeOpacity={0.5}
+    disabled={!props.onPress}
+    onPress={props.onPress}
+    style={[styles.avatarContainer, props.style]}
+    underlayColor="#fff"
+  >
     <Avatar.Image
-      size={34}
+      size={props.size}
       source={props.source ? { uri: props.source } : undefined}
       {...props}
-      style={[styles.avatar, props.style]}
+      style={[styles.avatar, { width: `${props.size + 2}px`, height: `${props.size + 2}px` }]}
     />
     {props.children}
   </TouchableOpacity>
 )
 
+CustomAvatar.defaultProps = {
+  size: 42,
+}
+
 const styles = StyleSheet.create({
   avatarContainer: {
-    backgroundColor: 'rgba(0,0,0,0)'
+    backgroundColor: 'rgba(0,0,0,0)',
   },
   avatar: {
-    backgroundColor: 'white',
-    borderColor: '#707070',
-    borderWidth: StyleSheet.hairlineWidth
-  }
+    backgroundColor: '#eee',
+  },
 })
+
+export default CustomAvatar

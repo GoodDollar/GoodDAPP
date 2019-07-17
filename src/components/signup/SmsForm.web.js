@@ -1,25 +1,26 @@
 // @flow
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import OtpInput from 'react-otp-input'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
-import LoadingIndicator from '../common/view/LoadingIndicator'
+import { LoadingIndicator, Text } from '../common'
 import { ActionButton, Description, Error, Title, Wrapper } from './components'
 import type { SignupState } from './SignupState'
+
 const log = logger.child({ from: 'SmsForm.web' })
 
 type Props = {
   phone: string,
   data: SignupState,
   doneCallback: ({ isPhoneVerified: boolean }) => null,
-  screenProps: any
+  screenProps: any,
 }
 
 export type SMSRecord = {
   smsValidated: boolean,
-  sentSMS?: boolean
+  sentSMS?: boolean,
 }
 
 type State = SMSRecord & {
@@ -28,19 +29,18 @@ type State = SMSRecord & {
   sendingCode: boolean,
   renderButton: boolean,
   loading: boolean,
-  otp: string | number
+  otp: string | number,
 }
 
 export default class SmsForm extends React.Component<Props, State> {
   state = {
     smsValidated: false,
     sentSMS: false,
-    valid: false,
     errorMessage: '',
     sendingCode: false,
     renderButton: false,
     loading: false,
-    otp: ''
+    otp: '',
   }
 
   numInputs: number = 6
@@ -64,26 +64,27 @@ export default class SmsForm extends React.Component<Props, State> {
     if (otpValue.length === this.numInputs) {
       this.setState({
         loading: true,
-        otp
+        otp,
       })
       try {
         await this.verifyOTP(otpValue)
         this.setState({
           valid: true,
-          loading: false
         })
         this.handleSubmit()
       } catch (e) {
         log.error({ e })
+
         this.setState({
-          errorMessage: e.response.data.message,
-          loading: false
+          errorMessage: e.message || e.response.data.message,
         })
+      } finally {
+        this.setState({ loading: false })
       }
     } else {
       this.setState({
         errorMessage: '',
-        otp
+        otp,
       })
     }
   }
@@ -104,19 +105,22 @@ export default class SmsForm extends React.Component<Props, State> {
       await API.sendOTP({ ...this.props.screenProps.data })
     } catch (e) {
       log.error(e)
+      this.setState({
+        errorMessage: e.message || e.response.data.message,
+      })
     }
     this.setState({ sendingCode: false, renderButton: false }, this.displayDelayedRenderButton)
   }
 
   render() {
-    const { valid, errorMessage, sendingCode, renderButton, loading, otp } = this.state
+    const { errorMessage, sendingCode, renderButton, loading, otp } = this.state
 
     return (
-      <Wrapper valid={valid} handleSubmit={this.handleSubmit} footerComponent={() => <React.Fragment />}>
+      <Wrapper handleSubmit={this.handleSubmit} footerComponent={() => <React.Fragment />}>
         <Title>{'Enter the verification code \n sent to your phone'}</Title>
         <OtpInput
           containerStyle={{
-            justifyContent: 'space-evenly'
+            justifyContent: 'space-evenly',
           }}
           inputStyle={inputStyle}
           shouldAutoFocus
@@ -150,19 +154,19 @@ export default class SmsForm extends React.Component<Props, State> {
 
 const styles = StyleSheet.create({
   informativeParagraph: {
-    margin: '1em'
+    margin: '1em',
   },
   buttonWrapper: {
     alignContent: 'stretch',
     flexDirection: 'column',
     display: 'flex',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   button: {
     justifyContent: 'center',
     width: '100%',
-    height: normalize(60)
-  }
+    height: normalize(60),
+  },
 })
 
 const inputStyle = {
@@ -173,11 +177,11 @@ const inputStyle = {
   borderTop: 'none',
   borderRight: 'none',
   borderLeft: 'none',
-  borderBottom: '1px solid #555'
+  borderBottom: '1px solid #555',
 }
 
 const errorStyle = {
   ...inputStyle,
   borderBottom: '1px solid red',
-  color: 'red'
+  color: 'red',
 }

@@ -1,107 +1,159 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { Image, StyleSheet } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
+import illustration from '../../assets/Claim/illustration.png'
+import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import goodWallet from '../../lib/wallet/GoodWallet'
-import wrapper from '../../lib/undux/utils/wrapper'
+import logger from '../../lib/logger/pino-logger'
 import GDStore from '../../lib/undux/GDStore'
 import SimpleStore from '../../lib/undux/SimpleStore'
-import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import { useDialog } from '../../lib/undux/utils/dialog'
-import { CustomButton, Section, TopBar, Wrapper } from '../common'
+import wrapper from '../../lib/undux/utils/wrapper'
 import { weiToMask } from '../../lib/wallet/utils'
-import logger from '../../lib/logger/pino-logger'
+import { CustomButton, Section, Text, TopBar, Wrapper } from '../common'
+import ErrorIcon from '../common/modal/ErrorIcon'
+import LoadingIcon from '../common/modal/LoadingIcon'
+import SuccessIcon from '../common/modal/SuccessIcon'
 import type { DashboardProps } from './Dashboard'
 
 type ClaimProps = DashboardProps
-
 type ClaimState = {
-  loading: boolean,
   nextClaim: string,
-  claimedToday: any
+  entitlement: number,
+  claimedToday: {
+    people: string,
+    amount: string,
+  },
 }
 
 const log = logger.child({ from: 'Claim' })
 
-const Claim = ({ navigation, screenProps, ...props }: ClaimProps) => {
+Image.prefetch(illustration)
+
+const Claim = ({ screenProps }: ClaimProps) => {
   const store = SimpleStore.useStore()
   const gdstore = GDStore.useStore()
+
   const [showDialog] = useDialog()
-  const [state: ClaimState, setState] = useState({
-    loading: false,
-    nextClaim: '23:59:59',
+  const [loading, setLoading] = useState(false)
+  const [claimInterval, setClaimInterval] = useState(null)
+  const [state, setState]: [ClaimState, Function] = useState({
+    nextClaim: '--:--:--',
     entitlement: 0,
     claimedToday: {
-      people: '',
-      amount: ''
-    }
+      people: '--',
+      amount: '--',
+    },
   })
+  const wrappedGoodWallet = wrapper(goodWallet, store)
 
-  let interval = null
-
-  let goodWalletWrapped = wrapper(goodWallet, store)
-
-  const initialize = async () => {
-    //if we returned from facerecoginition then the isValid param would be set
-    //this happens only on first claim
+  // if we returned from facerecoginition then the isValid param would be set
+  // this happens only on first claim
+  const evaluateFRValidity = async () => {
     const isValid = screenProps.screenState && screenProps.screenState.isValid
+
     log.debug('from FR:', { isValid })
+
     if (isValid && (await goodWallet.isCitizen())) {
       handleClaim()
     } else if (isValid === false) {
       screenProps.goToRoot()
     }
-
-    const entitlement = await goodWalletWrapped.checkEntitlement()
-    const [claimedToday, nextClaimDate] = await Promise.all([
-      goodWalletWrapped.getAmountAndQuantityClaimedToday(entitlement),
-      goodWalletWrapped.getNextClaimTime()
-    ])
-    setState({ ...state, claimedToday, entitlement })
-    interval = setInterval(() => {
-      const nextClaim = new Date(nextClaimDate - new Date().getTime()).toISOString().substr(11, 8)
-      setState({ ...state, nextClaim })
-    }, 1000)
   }
 
+  // FR Evaluation
   useEffect(() => {
-    initialize()
-    return () => clearInterval(interval)
+    evaluateFRValidity()
   }, [])
 
-  const handleClaim = () => {
-    setState({ ...state, loading: true })
+  const getNextClaim = nextClaimDate => new Date(nextClaimDate - new Date().getTime()).toISOString().substr(11, 8)
+
+  const gatherStats = async () => {
+    store.set('loadingIndicator')({ loading: true })
+
+    const entitlement = await wrappedGoodWallet.checkEntitlement()
+
+    const [claimedToday, nextClaimDate] = await Promise.all([
+      wrappedGoodWallet.getAmountAndQuantityClaimedToday(entitlement),
+      wrappedGoodWallet.getNextClaimTime(),
+    ])
+
+    setState(prevState => ({ ...prevState, claimedToday, entitlement, nextClaim: getNextClaim(nextClaimDate) }))
+
+    store.set('loadingIndicator')({ loading: false })
+
+    setClaimInterval(
+      setInterval(() => {
+        const nextClaim = getNextClaim(nextClaimDate)
+        setState(prevState => ({ ...prevState, nextClaim }))
+      }, 1000)
+    )
+  }
+
+  // Claim STATS
+  useEffect(() => {
+    gatherStats()
+    return () => clearInterval(claimInterval)
+  }, [])
+
+  const handleClaim = async () => {
+    setLoading(true)
+
+    showDialog({
+      dismissText: 'OK',
+      loading,
+      message: 'please wait while processing...',
+      image: <LoadingIcon />,
+      title: `YOUR G$\nIS ON IT'S WAY...`,
+    })
+
     try {
-      goodWalletWrapped.claim({
+      const receipt = await goodWallet.claim({
         onTransactionHash: async hash => {
-          const entitlement = await goodWalletWrapped.checkEntitlement()
+          const entitlement = await wrappedGoodWallet.checkEntitlement()
           const transactionEvent: TransactionEvent = {
             id: hash,
             date: new Date().toString(),
             type: 'claim',
             data: {
               from: 'GoodDollar',
-              amount: entitlement
-            }
+              amount: entitlement,
+            },
           }
           userStorage.enqueueTX(transactionEvent)
-          showDialog({
-            title: 'SUCCESS!',
-            message: `You've claimed your G$`,
-            dismissText: 'Yay!',
-            onDismiss: screenProps.goToRoot
-          })
-          setState({ ...state, loading: false })
-        }
+        },
       })
+
+      if (receipt.status) {
+        showDialog({
+          dismissText: 'Yay!',
+          image: <SuccessIcon />,
+          message: `You've claimed your G$`,
+          title: 'SUCCESS!',
+          type: 'success',
+        })
+      } else {
+        showDialog({
+          dismissText: 'OK',
+          image: <ErrorIcon />,
+          message: 'Something went wrong with the transaction.\nSee feed details for further information.',
+          title: 'Claiming Failed',
+          type: 'error',
+        })
+      }
     } catch (e) {
       log.error('claiming failed', e)
+
       showDialog({
-        title: 'Claiming Failed',
+        dismissText: 'OK',
+        image: <ErrorIcon />,
         message: `${e.message}.\nTry again later.`,
-        dismissText: 'OK'
+        title: 'Claiming Failed',
+        type: 'error',
       })
-      setState({ ...state, loading: false })
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -115,14 +167,13 @@ const Claim = ({ navigation, screenProps, ...props }: ClaimProps) => {
 
   const ClaimButton = (
     <CustomButton
-      disabled={entitlement <= 0}
-      mode="contained"
       compact={true}
+      disabled={entitlement <= 0}
+      loading={loading}
+      mode="contained"
       onPress={() => {
         isCitizen ? handleClaim() : faceRecognition()
       }}
-      style={styles.claimButton}
-      loading={state.loading}
     >
       {`CLAIM YOUR SHARE - ${weiToMask(entitlement, { showUnits: true })}`}
     </CustomButton>
@@ -131,62 +182,78 @@ const Claim = ({ navigation, screenProps, ...props }: ClaimProps) => {
   return (
     <Wrapper>
       <TopBar push={screenProps.push} />
-      <Section style={styles.mainContent}>
-        <Section.Text>GoodDollar allows you to collect</Section.Text>
-        <Section.Text>
-          <Text>G$s</Text>
-          <Text style={styles.everyDay}> every day</Text>
-        </Section.Text>
+      <Section grow>
+        <Section.Stack grow={4} justifyContent="flex-start">
+          <Text>GoodDollar allows you to collect</Text>
+          <Section.Row justifyContent="center">
+            <Text fontFamily="slabBold" fontSize={36} color="#00c3ae">
+              1
+            </Text>
+            <Text fontFamily="slabBold" fontSize={20} color="#00c3ae">
+              {' '}
+              G$
+            </Text>
+            <Text fontFamily="slabBold" fontSize={36} color="#00c3ae">
+              {' '}
+              Free
+            </Text>
+          </Section.Row>
+          <Section.Row justifyContent="center">
+            <Text fontFamily="slabBold" fontSize={36} color="#00c3ae">
+              Every Day
+            </Text>
+          </Section.Row>
+          <Image source={illustration} style={styles.illustration} resizeMode="contain" />
+        </Section.Stack>
+        <Section grow={3} style={styles.extraInfo}>
+          <Section.Row grow={1} style={styles.extraInfoStats} justifyContent="center">
+            <Section.Row alignItems="baseline">
+              <Text color="primary" fontWeight="bold">
+                {claimedToday.people}
+              </Text>
+              <Text>People Claimed</Text>
+              <Text color="primary" fontWeight="bold">
+                {claimedToday.amount}{' '}
+              </Text>
+              <Text color="primary" fontSize={12} fontWeight="bold">
+                G$
+              </Text>
+              <Text> Today!</Text>
+            </Section.Row>
+          </Section.Row>
+          <Section.Stack grow={2} style={styles.extraInfoCountdown} justifyContent="center">
+            <Text>Next daily income:</Text>
+            <Text fontFamily="slabBold" fontSize={36} color="#00c3ae">
+              {nextClaim}
+            </Text>
+          </Section.Stack>
+          {ClaimButton}
+        </Section>
       </Section>
-      <Section style={styles.nextIncome}>
-        <Section.Text>
-          {claimedToday.people} PEOPLE CLAIMED {claimedToday.amount} G$ TODAY!
-        </Section.Text>
-      </Section>
-      <Section style={styles.nextIncome}>
-        <Section.Text style={styles.incomeTitle}>Next daily income:</Section.Text>
-        <Section.Text style={styles.time}>{nextClaim}</Section.Text>
-      </Section>
-      {ClaimButton}
-      <View />
     </Wrapper>
   )
 }
 
 const styles = StyleSheet.create({
-  claimButton: {
-    flexGrow: 0,
-    flexShrink: 1
+  illustration: {
+    marginTop: normalize(16),
+    minWidth: normalize(229),
+    maxWidth: '100%',
+    minHeight: normalize(159),
   },
-  centered: {
-    justifyContent: 'center',
-    alignItems: 'baseline'
+  extraInfo: { padding: 0 },
+  extraInfoStats: { backgroundColor: '#e0e0e0', borderRadius: normalize(5) },
+  extraInfoCountdown: {
+    backgroundColor: '#e0e0e0',
+    margin: 0,
+    marginTop: normalize(8),
+    marginBottom: normalize(8),
+    borderRadius: normalize(5),
   },
-  mainContent: {
-    flexGrow: 1,
-    justifyContent: 'center',
-    backgroundColor: 'none'
-  },
-  nextIncome: {
-    justifyContent: 'center'
-  },
-  incomeTitle: {
-    fontSize: normalize(18),
-    textTransform: 'uppercase',
-    fontFamily: 'Roboto, Regular'
-  },
-  time: {
-    fontSize: normalize(36),
-    fontFamily: 'Roboto, Medium'
-  },
-  everyDay: {
-    fontSize: normalize(20)
-  }
 })
 
-const claim = GDStore.withStore(Claim)
-claim.navigationOptions = {
-  title: 'Claim G$'
+Claim.navigationOptions = {
+  title: 'Claim Daily G$',
 }
 
-export default claim
+export default Claim

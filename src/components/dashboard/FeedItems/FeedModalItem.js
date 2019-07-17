@@ -1,141 +1,150 @@
 // @flow
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
-import { Avatar, BigGoodDollar, CustomButton } from '../../common'
+import { Image, View } from 'react-native'
+import { Avatar, BigGoodDollar, CustomButton, Text } from '../../common'
+import ModalWrapper from '../../common/modal/ModalWrapper'
 import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
+import { withStyles } from '../../../lib/styles'
 import type { FeedEventProps } from './EventProps'
 import EventCounterParty from './EventCounterParty'
+import getEventSettingsByType from './EventSettingsByType'
+import EventIcon from './EventIcon'
 
 /**
  * Render modal item according to the type for feed list in horizontal view
  * @param {FeedEventProps} props - feed event
  * @returns {HTMLElement}
  */
-const FeedModalItem = (props: FeedEventProps) => (
-  <View style={props.styles ? [styles.horizItem, props.styles] : styles.horizItem}>
-    <View style={styles.fullHeight}>
-      <View style={styles.modal}>
-        {props.item.type !== 'send' && <Text style={styles.dateText}>{getFormattedDateTime(props.item.date)}</Text>}
-        <View style={[styles.row, styles.title]}>
-          {props.item.data.endpoint.title && <Text style={styles.leftTitle}>{props.item.data.endpoint.title}</Text>}
-          <Text style={styles.leftTitle}>
-            {props.item.type === 'send' ? 'Sent G$' : 'Received G$'}
-            {props.item.type === 'send' && props.item.data.endpoint.withdrawStatus && (
-              <Text> by link - {props.item.data.endpoint.withdrawStatus}</Text>
-            )}
-          </Text>
-          <BigGoodDollar number={props.item.data.amount} elementStyles={styles.currency} />
+const FeedModalItem = (props: FeedEventProps) => {
+  const { item, onPress, styles, theme } = props
+  const buttonPress = () => {
+    onPress(item.id)
+  }
+  const itemType = item.type
+  const mainColor = getEventSettingsByType(theme, itemType).color
+  const getImageByType = type => {
+    return (
+      {
+        claim: require('./img/receive.png'),
+        receive: require('./img/receive.png'),
+        send: require('./img/send.png'),
+      }[type] || null
+    )
+  }
+
+  return (
+    <ModalWrapper leftBorderColor={mainColor} onClose={buttonPress} showJaggedEdge={true} fullHeight={true}>
+      <React.Fragment>
+        {getImageByType(itemType) ? (
+          <View style={styles.mainImageContainer}>
+            <Image style={styles.mainImage} source={getImageByType(itemType)} />
+          </View>
+        ) : null}
+        <View style={styles.dateAndAmount}>
+          <Text style={styles.date}>{getFormattedDateTime(item.date)}</Text>
+          <BigGoodDollar
+            bigNumberStyles={styles.bigNumberStyles}
+            bigNumberUnitStyles={styles.bigNumberUnitStyles}
+            color={mainColor}
+            number={item.data.amount}
+          />
         </View>
-        {props.item.type === 'send' && (
-          <Text style={[styles.dateText, styles.bottomDate]}>{getFormattedDateTime(props.item.date)}</Text>
-        )}
-        <View style={styles.hrLine} />
-        <View style={styles.row}>
-          <Avatar style={styles.avatarColor} source={props.item.data.endpoint.avatar} />
-          <Text style={styles.leftMargin}>
-            <EventCounterParty feedItem={props.item} />
-          </Text>
+        <View style={[styles.transactionDetails, { borderColor: mainColor }]}>
+          <Avatar source={item.data && item.data.endpoint && item.data.endpoint.avatar} style={styles.avatar} />
+          {item.data && item.data.endpoint && <EventCounterParty style={styles.feedItem} feedItem={item} />}
+          <EventIcon type={itemType} style={styles.icon} />
         </View>
-        <View style={styles.hrLine} />
-        {props.item.data.message ? <Text style={styles.reason}>{props.item.data.message}</Text> : null}
+        {item.data.message ? (
+          <View style={styles.messageContainer}>
+            <Text style={styles.message}>{item.data.message}</Text>
+          </View>
+        ) : null}
         <View style={styles.buttonsRow}>
-          <CustomButton mode="contained" style={styles.rightButton} onPress={() => props.onPress(props.item.id)}>
+          <CustomButton mode="contained" style={styles.rightButton} onPress={buttonPress}>
             OK
           </CustomButton>
         </View>
-      </View>
-    </View>
-  </View>
-)
+      </React.Fragment>
+    </ModalWrapper>
+  )
+}
 
-const styles = StyleSheet.create({
-  horizItem: {
-    flex: 1,
-    alignSelf: 'flex-start', // Necessary for touch highlight
-    width: '95vw',
-    marginRight: normalize(10)
-  },
-  fullHeight: {
-    height: '100%',
-    flex: 1
-  },
-  modal: {
-    flex: 1,
-    backgroundColor: '#fff',
-    borderRadius: normalize(4),
-    borderLeftWidth: normalize(10),
-    borderRightWidth: 0,
-    borderTopWidth: 0,
-    borderBottomWidth: 0,
-    padding: normalize(30),
-    borderColor: '#c9c8c9'
-  },
-  dateText: {
-    fontSize: normalize(10),
-    color: '#A3A3A3',
-    fontWeight: '500'
-  },
-  bottomDate: {
-    marginTop: normalize(5)
-  },
-  buttonsRow: {
-    flexDirection: 'row',
-    flex: 1,
-    alignItems: 'flex-end',
-    justifyContent: 'space-between'
-  },
-  rightButton: {
-    marginLeft: 'auto',
-    minWidth: normalize(80)
-  },
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'white',
-    paddingHorizontal: 0
-  },
-  title: {
-    paddingTop: '2em',
-    justifyContent: 'flex-end'
-  },
-  leftMargin: {
-    marginLeft: normalize(10)
-  },
-  leftTitle: {
-    color: '#555',
-    flex: 1,
-    fontWeight: '700',
-    fontSize: normalize(20)
-  },
-  rightTitle: {
-    fontSize: normalize(16),
-    color: 'black',
-    fontWeight: 'bold',
-    textAlign: 'right'
-  },
-  hrLine: {
-    borderBottomColor: '#c9c8c9',
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    width: '100%',
-    marginBottom: normalize(10),
-    marginTop: normalize(10)
-  },
-  currency: {
-    fontSize: normalize(16),
-    color: 'black',
-    fontWeight: 'bold'
-  },
-  reason: {
-    color: 'rgba(0, 0, 0, 0.54)',
-    fontSize: normalize(16),
-    fontWeight: '500',
-    textTransform: 'capitalize'
-  },
-  avatarColor: {
-    backgroundColor: '#BBB',
-    borderRadius: '50%'
+const getStylesFromProps = ({ theme }) => {
+  return {
+    mainImageContainer: {
+      display: 'flex',
+      flexGrow: 0,
+      flexShrink: 0,
+      justifyContent: 'center',
+      flexDirection: 'row',
+      marginBottom: normalize(15),
+    },
+    mainImage: {
+      height: normalize(110),
+      width: normalize(70),
+    },
+    dateAndAmount: {
+      alignItems: 'center',
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      marginBottom: normalize(12),
+    },
+    feedItem: {
+      paddingRight: normalize(4),
+    },
+    date: {
+      color: theme.colors.darkGray,
+      fontSize: normalize(10),
+    },
+    bigNumberStyles: {
+      fontSize: normalize(22),
+      marginRight: normalize(4),
+    },
+    bigNumberUnitStyles: {
+      fontSize: normalize(12),
+    },
+    transactionDetails: {
+      alignItems: 'center',
+      borderBottomWidth: normalize(2),
+      borderTopWidth: normalize(2),
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'flex-start',
+      marginBottom: normalize(18),
+      paddingBottom: normalize(14),
+      paddingTop: normalize(14),
+    },
+    avatar: {
+      backgroundColor: theme.colors.lightGray,
+      borderRadius: '50%',
+      height: normalize(34),
+      marginRight: normalize(7),
+      width: normalize(34),
+    },
+    icon: {
+      marginLeft: 'auto',
+    },
+    messageContainer: {
+      flex: 1,
+    },
+    message: {
+      color: theme.colors.darkGray,
+      fontSize: normalize(14),
+      textAlign: 'left',
+    },
+    buttonsRow: {
+      alignItems: 'flex-end',
+      flex: 1,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+    },
+    rightButton: {
+      marginLeft: 'auto',
+      minWidth: normalize(80),
+    },
   }
-})
+}
 
-export default FeedModalItem
+export default withStyles(getStylesFromProps)(FeedModalItem)

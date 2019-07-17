@@ -1,9 +1,9 @@
 // @flow
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
-import { Text } from 'react-native-paper'
+import { View } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
-import { fontStyle } from '../styles'
+import { withStyles } from '../../../lib/styles'
+import Text from './Text'
 
 /**
  * Receives a number and a unit to display
@@ -14,26 +14,43 @@ import { fontStyle } from '../styles'
  * @param {Object} [props.style] Outer element style
  * @returns {React.Node}
  */
-const BigNumber = (props: any) => (
-  <View style={[styles.bigNumberWrapper, props.style]}>
-    <Text style={[styles.bigNumber, props.elementStyles]}>{props.number}</Text>
-    <Text style={[styles.bigNumberUnit, props.elementStyles]}>{props.unit}</Text>
-  </View>
-)
-
-const styles = StyleSheet.create({
-  bigNumberWrapper: {
-    display: 'inline-block'
-  },
-  bigNumber: {
-    ...fontStyle,
-    fontSize: normalize(30),
-    textAlign: 'right'
-  },
-  bigNumberUnit: {
-    ...fontStyle,
-    textAlign: 'right'
+class BigNumber extends React.Component {
+  render() {
+    const { bigNumberStyles, bigNumberUnitStyles, number, unit, style, color, theme, styles } = this.props
+    return (
+      <View style={[styles.bigNumberWrapper, style]}>
+        <Text style={[styles.bigNumber, bigNumberStyles, { color: color || theme.fontStyle.color }]}>{number}</Text>
+        <Text style={[styles.bigNumberUnit, bigNumberUnitStyles, { color: color || theme.fontStyle.color }]}>
+          {unit}
+        </Text>
+      </View>
+    )
   }
-})
+}
 
-export default BigNumber
+const getStylesFromProps = ({ theme }) => {
+  return {
+    bigNumberWrapper: {
+      alignItems: 'baseline',
+      display: 'flex',
+      flexDirection: 'row',
+    },
+    bigNumber: {
+      fontFamily: theme.fonts.bold,
+      fontSize: normalize(40),
+      fontWeight: '700',
+      marginRight: theme.sizes.defaultHalf,
+      textAlign: 'right',
+      lineHeight: 'auto',
+    },
+    bigNumberUnit: {
+      fontFamily: theme.fonts.bold,
+      fontSize: normalize(22),
+      fontWeight: '700',
+      textAlign: 'right',
+      lineHeight: 'auto',
+    },
+  }
+}
+
+export default withStyles(getStylesFromProps)(BigNumber)

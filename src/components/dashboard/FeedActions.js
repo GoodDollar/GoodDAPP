@@ -1,8 +1,9 @@
 // @flow
 import React from 'react'
-import { StyleSheet } from 'react-native'
-import { Alert, Text, TouchableHighlight, View } from 'react-native-web'
-import goodWallet from '../../lib/wallet/GoodWallet'
+import { Alert, TouchableHighlight, View } from 'react-native-web'
+import normalize from 'react-native-elements/src/helpers/normalizeText'
+import { withStyles } from '../../lib/styles'
+import { Icon, Section, Text } from '../common'
 import type { FeedEventProps } from './FeedItems/EventProps'
 
 /**
@@ -11,42 +12,43 @@ import type { FeedEventProps } from './FeedItems/EventProps'
  * @param {FeedEventProps} feedItem - Contains the feed item
  * @returns React element with actions
  */
-export default ({ item }: FeedEventProps) => (
-  <View style={styles.actionsContainer}>
-    {item && !goodWallet.wallet.utils.isHexStrict(item.id) && (
+const FeedActions = ({ item, styles, theme }: FeedEventProps) => (
+  <Section.Row
+    style={[
+      styles.actionsContainer,
+      { backgroundColor: item && item.type !== 'empty' ? theme.colors.red : theme.colors.surface },
+    ]}
+    alignItems="center"
+    justifyContent="flex-end"
+    grow
+  >
+    {item && item.type !== 'empty' && (
       <TouchableHighlight
-        style={[styles.actionButton, styles.actionButtonDestructive]}
         onPress={() => {
           Alert.alert('Tips', 'You could do something with this remove action!')
         }}
       >
-        <Text style={styles.actionButtonText}>Delete</Text>
+        <View>
+          <Section.Row justifyContent="center">
+            <Icon name="close" color={theme.colors.surface} />
+          </Section.Row>
+          <Section.Row justifyContent="center">
+            <Text color="surface">Delete</Text>
+          </Section.Row>
+        </View>
       </TouchableHighlight>
     )}
-  </View>
+  </Section.Row>
 )
 
-const styles = StyleSheet.create({
+const getStylesFromProps = ({ theme }) => ({
   actionsContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    padding: 10
+    borderRadius: normalize(8),
+    height: normalize(84),
+    maxHeight: normalize(84),
+    padding: theme.sizes.default,
+    marginHorizontal: theme.sizes.default,
   },
-  actionButton: {
-    padding: 10,
-    borderRadius: 6,
-    width: 80,
-    backgroundColor: '#808080',
-    marginRight: 5,
-    marginLeft: 5
-  },
-  actionButtonDestructive: {
-    backgroundColor: '#ff4b21'
-  },
-  actionButtonText: {
-    color: 'white',
-    textAlign: 'center'
-  }
 })
+
+export default withStyles(getStylesFromProps)(FeedActions)

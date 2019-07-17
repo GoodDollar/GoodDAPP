@@ -1,53 +1,26 @@
 // @flow
 import React from 'react'
-import { StyleSheet, Text, TouchableHighlight, View } from 'react-native'
+import { View } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { moneyRegexp } from '../../../lib/wallet/utils'
 import backKeyboardButton from '../../../assets/backKeyboardButton.png'
-
-type KeyboardKeyProps = {
-  keyValue: string,
-  onPress: string => void
-}
+import { withStyles } from '../../../lib/styles'
+import KeyboardKey from './KeyboardKey'
+import KeyboardRow from './KeyboardRow'
 
 type CaretPosition = {
   start: number,
-  end: number
+  end: number,
 }
 
 type KeyboardProps = {
   onPress: string => void,
   amount: string,
   caretPosition?: CaretPosition,
-  updateCaretPosition?: CaretPosition => void
+  updateCaretPosition?: CaretPosition => void,
 }
 
-type KeyboardRowProps = {
-  onPress: string => void,
-  keys: Array<string>
-}
-
-const KeyboardKey = ({ keyValue, onPress }: KeyboardKeyProps) => {
-  return (
-    <TouchableHighlight style={styles.key} onPress={() => onPress(keyValue)} activeOpacity={0.8} underlayColor="#eee">
-      {keyValue === 'backspace' ? (
-        <View style={styles.backspaceButton} />
-      ) : (
-        <Text style={styles.keyText}>{keyValue}</Text>
-      )}
-    </TouchableHighlight>
-  )
-}
-
-const KeyboardRow = ({ keys, onPress }: KeyboardRowProps) => (
-  <View style={styles.row}>
-    {keys.map(key => (
-      <KeyboardKey keyValue={key} onPress={onPress} key={key} />
-    ))}
-  </View>
-)
-
-const NumPadKeyboard = ({ onPress, amount, caretPosition, updateCaretPosition }: KeyboardProps) => {
+const NumPadKeyboard = ({ onPress, amount, caretPosition, updateCaretPosition, styles }: KeyboardProps) => {
   const onPressKey = (value: string) => {
     const stringAmount = `${amount}`
     const updatedValue = caretPosition
@@ -58,7 +31,7 @@ const NumPadKeyboard = ({ onPress, amount, caretPosition, updateCaretPosition }:
       onPress(updatedValue)
       updateCaretPosition({
         start: caretPosition.start + 1,
-        end: caretPosition.start + 1
+        end: caretPosition.start + 1,
       })
     }
   }
@@ -71,7 +44,7 @@ const NumPadKeyboard = ({ onPress, amount, caretPosition, updateCaretPosition }:
         updatedValue = [stringAmount.slice(0, caretPosition.start - 1), stringAmount.slice(caretPosition.end)].join('')
         updateCaretPosition({
           start: caretPosition.start - 1,
-          end: caretPosition.start - 1
+          end: caretPosition.start - 1,
         })
       }
       onPress(updatedValue)
@@ -94,41 +67,31 @@ const NumPadKeyboard = ({ onPress, amount, caretPosition, updateCaretPosition }:
 
 NumPadKeyboard.defaultProps = {
   caretPosition: null,
-  updateCaretPosition: () => {}
+  updateCaretPosition: () => {},
 }
 
-const styles = StyleSheet.create({
-  keyboard: {
-    display: 'flex',
-    padding: normalize(10)
-  },
-  row: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between'
-  },
-  key: {
-    display: 'flex',
-    alignItems: 'center',
-    flex: 1,
-    padding: normalize(15),
-    cursor: 'pointer'
-  },
-  keyText: {
-    fontSize: normalize(20),
-    fontFamily: 'RobotoSlab-Bold',
-    fontWeight: '700',
-    color: '#42454a'
-  },
-  backspaceButton: {
-    backgroundImage: `url(${backKeyboardButton})`,
-    height: normalize(25),
-    width: normalize(25),
-    backgroundSize: 'contain',
-    backgroundRepeat: 'no-repeat',
-    cursor: 'pointer'
+const getStylesFromProps = ({ theme }) => {
+  return {
+    keyboard: {
+      display: 'flex',
+      marginBottom: theme.sizes.default,
+      marginTop: theme.sizes.defaultDouble,
+    },
+    row: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+    },
+    backspaceButton: {
+      backgroundImage: `url(${backKeyboardButton})`,
+      height: normalize(25),
+      width: normalize(25),
+      backgroundSize: 'contain',
+      backgroundRepeat: 'no-repeat',
+      cursor: 'pointer',
+    },
   }
-})
+}
 
-export default NumPadKeyboard
+export default withStyles(getStylesFromProps)(NumPadKeyboard)

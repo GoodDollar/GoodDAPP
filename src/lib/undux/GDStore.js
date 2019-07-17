@@ -9,7 +9,7 @@ import withPinoLogger from './plugins/logger'
  * @type
  */
 type BalanceUpdate = {
-  running: boolean
+  running: boolean,
 }
 
 /**
@@ -19,7 +19,7 @@ type BalanceUpdate = {
 type Account = {
   balance: ?string,
   entitlement: ?string,
-  ready: false
+  ready: false,
 }
 
 /**
@@ -34,11 +34,11 @@ export type StandardFeed = {
     endpoint: {
       address: string,
       fullName: string,
-      avatar?: string
+      avatar?: string,
     },
     amount: string,
-    message: string
-  }
+    message: string,
+  },
 }
 
 /**
@@ -50,7 +50,7 @@ export type State = {
   account: Account,
   destinationPath: string,
   feeds: StandardFeed[],
-  feedLoading: Boolean
+  feedLoading: Boolean,
 }
 
 /**
@@ -59,19 +59,20 @@ export type State = {
  */
 const initialState: State = {
   balanceUpdate: {
-    running: false
+    running: false,
   },
   account: {
     balance: undefined,
     entitlement: undefined,
-    ready: false
+    ready: false,
   },
   isLoggedInCitizen: false,
   isLoggedIn: false,
   profile: {},
+  privateProfile: {},
   destinationPath: '',
   feeds: [],
-  feedLoading: false
+  feedLoading: false,
 }
 
 /**

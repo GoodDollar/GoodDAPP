@@ -46,7 +46,7 @@ const ReceiveByQR = ({ screenProps }) => {
       screenProps.navigateTo('Home', {
         event: receipt.transactionHash,
         receiveLink: undefined,
-        reason: undefined
+        reason: undefined,
       })
     }
   }
@@ -72,15 +72,15 @@ const ReceiveByQR = ({ screenProps }) => {
 const styles = StyleSheet.create({
   centered: {
     justifyContent: 'center',
-    alignItems: 'baseline'
+    alignItems: 'baseline',
   },
   bottomSection: {
-    flex: 1
-  }
+    flex: 1,
+  },
 })
 
 ReceiveByQR.navigationOptions = {
-  title: 'Scan QR Code'
+  title: 'Scan QR Code',
 }
 
 export default ReceiveByQR

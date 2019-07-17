@@ -1,20 +1,21 @@
 // @flow
-import React, { useState } from 'react'
-import { AsyncStorage, StyleSheet, View } from 'react-native'
-import { Paragraph } from 'react-native-paper'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
 import bip39 from 'bip39-light'
 import get from 'lodash/get'
+import React, { useState } from 'react'
+import { AsyncStorage } from 'react-native'
+import normalize from 'react-native-elements/src/helpers/normalizeText'
 import logger from '../../lib/logger/pino-logger'
-import CustomButton from '../common/buttons/CustomButton'
+import { withStyles } from '../../lib/styles'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
+import { Section, Text } from '../common'
+import CustomButton from '../common/buttons/CustomButton'
 import MnemonicInput from './MnemonicInput'
 
 //const TITLE = 'Recover my wallet'
 const TITLE = 'Recover'
 const log = logger.child({ from: TITLE })
 
-const Mnemonics = props => {
+const Mnemonics = ({ navigation, styles }) => {
   //lazy load heavy wallet stuff for fast initial app load (part of initial routes)
   const mnemonicsHelpers = import('../../lib/wallet/SoftwareWalletProvider')
   const [mnemonics, setMnemonics] = useState()
@@ -57,24 +58,23 @@ const Mnemonics = props => {
     }
   }
 
-  const incomingMnemonic = get(props, 'navigation.state.params.mnemonic', undefined)
+  const incomingMnemonic = get(navigation, 'state.params.mnemonic', undefined)
 
   return (
-    <View style={styles.wrapper}>
-      <View style={styles.topContainer}>
-        <View style={styles.textContainer}>
-          <Paragraph style={[styles.fontBase, styles.paragraph]}>Please enter your 12-word passphrase:</Paragraph>
-        </View>
-        <View style={styles.formContainer}>
-          <MnemonicInput recoveryMode={false} onChange={handleChange} default={incomingMnemonic} />
-        </View>
-      </View>
-      <View style={styles.bottomContainer}>
+    <Section grow={5} style={styles.wrapper}>
+      <Section.Stack grow style={styles.instructions} justifyContent="space-around">
+        <Text fontWeight="bold" fontSize={22}>{`Please enter your\n12-word pass phrase:`}</Text>
+        <Text color="gray50Percent">You can copy-paste it from your backup email</Text>
+      </Section.Stack>
+      <Section.Stack grow={4} justifyContent="space-between" style={styles.inputsContainer}>
+        <MnemonicInput recoveryMode={false} onChange={handleChange} seed={incomingMnemonic} />
+      </Section.Stack>
+      <Section.Stack grow style={styles.bottomContainer} justifyContent="flex-end">
         <CustomButton mode="contained" onPress={recover} disabled={!mnemonics}>
-          RECOVER MY WALLET
+          Recover my wallet
         </CustomButton>
-      </View>
-    </View>
+      </Section.Stack>
+    </Section>
   )
 }
 
@@ -83,55 +83,43 @@ const Mnemonics = props => {
  * @returns {Promise<Promise<*>|Promise<*>|Promise<any>>}
  */
 async function profileExist(): Promise<any> {
-  const [, userStorage] = await Promise.all([
+  const [wallet, userStorage] = await Promise.all([
     import('../../lib/wallet/GoodWallet').then(_ => _.default),
-    import('../../lib/gundb/UserStorage').then(_ => _.default)
+    import('../../lib/gundb/UserStorage').then(_ => _.default),
   ])
 
+  await wallet.init()
+
   // reinstantiates wallet and userStorage with new mnemonics
-  await userStorage.ready
+  await userStorage.init()
 
   return userStorage.userAlreadyExist()
 }
 
 Mnemonics.navigationOptions = {
-  title: TITLE
+  title: TITLE,
 }
 
-const styles = StyleSheet.create({
+const mnemonicsStyles = ({ theme }) => ({
   wrapper: {
-    flex: 1,
-    flexDirection: 'column',
-    display: 'flex',
-    padding: '1em',
-    justifyContent: 'space-between'
+    borderRadius: 0,
   },
-  topContainer: {
-    flex: 2,
-    display: 'flex',
-    justifyContent: 'center',
-    padding: 0,
-    margin: 0
+  instructions: {
+    marginVertical: theme.paddings.defaultMargin,
+  },
+  inputsContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginHorizontal: theme.paddings.defaultMargin,
+    marginVertical: theme.paddings.defaultMargin,
+    overflowY: 'auto',
   },
   bottomContainer: {
-    display: 'flex',
-    justifyContent: 'flex-end'
+    backgroundColor: theme.colors.surface,
+    marginBottom: theme.paddings.defaultMargin,
+    maxHeight: normalize(50),
+    minHeight: normalize(50),
   },
-  fontBase: {
-    color: '#555555',
-    textAlign: 'center'
-  },
-  inputs: {
-    width: '0.45vw',
-    height: '2rem',
-    margin: '0 1rem',
-    fontSize: '1rem',
-    borderRadius: 4
-  },
-  paragraph: {
-    fontSize: normalize(18),
-    lineHeight: '1.2em'
-  }
 })
 
-export default Mnemonics
+export default withStyles(mnemonicsStyles)(Mnemonics)

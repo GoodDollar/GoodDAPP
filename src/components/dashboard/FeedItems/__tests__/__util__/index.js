@@ -6,10 +6,10 @@ export const getMockedEvent = (componentPath, event) => {
   // Will then mock the LocalizeContext module being used in our LanguageSelector component
   jest.doMock('../../../../../lib/share', () => {
     console.info({
-      generateEvent: () => event
+      generateEvent: () => event,
     })
     return {
-      generateEvent: () => event
+      generateEvent: () => event,
     }
   })
 

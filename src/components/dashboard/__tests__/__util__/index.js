@@ -1,8 +1,9 @@
+import React from 'react'
 import { createSwitchNavigator } from '@react-navigation/core'
 import { createBrowserApp } from '@react-navigation/web'
-import React from 'react'
 import * as libShare from '../../../../lib/share'
 import GDStore from '../../../../lib/undux/GDStore'
+import { withThemeProvider } from '../../../../__tests__/__util__'
 const { Container } = GDStore
 
 export const getComponentWithMocks = componentPath => {
@@ -10,7 +11,7 @@ export const getComponentWithMocks = componentPath => {
   jest.doMock('../../../../lib/share', () => {
     return {
       ...libShare,
-      generateCode: () => '0xfakeAddress'
+      generateCode: () => '0xfakeAddress',
     }
   })
 
@@ -18,11 +19,14 @@ export const getComponentWithMocks = componentPath => {
   return require(`../${componentPath}`).default
 }
 
-const withContainer = Component => props => (
-  <Container>
-    <Component {...props} />
-  </Container>
-)
+const withContainer = Component => props => {
+  const WrappedComponent = withThemeProvider(Component)
+  return (
+    <Container>
+      <WrappedComponent {...props} />
+    </Container>
+  )
+}
 
 export const getWebRouterComponentWithRoutes = routes => {
   const AppNavigator = createSwitchNavigator(routes)
@@ -42,7 +46,7 @@ export const getWebRouterComponentWithMocks = componentPath => {
   const Component = getComponentWithMocks(componentPath)
 
   const routes = {
-    Component
+    Component,
   }
 
   return getWebRouterComponentWithRoutes(routes)
@@ -64,16 +68,16 @@ export const mockEvent = type => ({
       address: undefined,
       avatar:
         'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAkCAIAAAB0Xu9BAAAABGdBTUEAALGPC/xhBQAAAuNJREFUWEetmD1WHDEQhDdxRMYlnBFyBIccgdQhKVcgJeQMpE5JSTd2uqnvIGpVUqmm9TPrffD0eLMzUn+qVnXPwiFd/PP6eLh47v7EaazbmxsOxjhTT88z9hV7GoNF1cUCvN7TTPv/gf/+uQPm862MWTL6fff4HfDx4S79/oVAlAUwqOmYR0rnazuFnhfOy/ErMKkcBFOr1vOjUi2MFn4nuMil6OPh5eGANLhW3y6u3aH7ijEDCxgCvzFmimvc95TekZLyMSeJC68Bkw0kqUy1K87FlpGZqsGFCyqEtQNDdFUtFctTiuhnPKNysid/WFEFLE2O102XJdEE+8IgeuGsjeJyGHm/xHvQ3JtKVsGGp85g9rK6xMHtvHO9+WACYjk5vkVM6XQ6OZubCJvTfPicYPeHO2AKFl5NuF5UK1VDUbeLxh2BcRGKTQE3irHm3+vPj6cfCod50Eqv5QxtwBQUGhZhbrGVuRia1B4MNp6edwBxld2sl1splfHCwfsvCZfrCQyWmX10djjOlWJSSy3VQlS6LmfrgNvaieRWx1LZ6s9co+P0DLsy3OdLU3lWRclQsVcHJBcUQ0k9/WVVrmpRzYQzpgAdQcAXxZzUnFX3proannrYH+Vq6KkLi+UkarH09mC8YPr2RMWOlEqFkQClsykGEv7CqCUbXcG8+SaGvJ4a8d4y6epND+pEhxoN0vWUu5ntXlFb5/JT7JfJJqoTdy9u9qc7ax3xJRHqJLADWEl23cFWl4K9fvoaCJ2BHpmJ3s3z+O0U/DmzdMjB9alWZtg4e3yxzPa7lUR7nkvxLHO9+tvJX3mtSDpwX8GajB283I8R8a7D2MhUZr1iNWdny256yYLd52DwRYBtRMvE7rsmtxIUE+zLKQCDO4jlxB6CZ8M17GhuY+XTE8vNhQiIiSE82ZsGwk1pht4ZSpT0YVpon6EvevOXXH8JxVR78QzNuamupW/7UB7wO/+7sG5V4ekXb4cL5Lyv+4IAAAAASUVORK5CYII=',
-      fullName: 'Misao Matimbo'
-    }
-  }
+      fullName: 'Misao Matimbo',
+    },
+  },
 })
 
 export const generateFeedItemProps = type => ({
   item: mockEvent(type),
   separators: {
     highlight: () => {},
-    unhighlight: () => {}
+    unhighlight: () => {},
   },
-  onPress: () => {}
+  onPress: () => {},
 })

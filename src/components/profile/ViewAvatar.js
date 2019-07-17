@@ -1,10 +1,34 @@
 // @flow
 import React from 'react'
+import normalize from 'react-native-elements/src/helpers/normalizeText'
+import Icon from 'react-native-elements/src/icons/Icon'
+import { StyleSheet, View } from 'react-native'
+import { withTheme } from 'react-native-paper'
 import GDStore from '../../lib/undux/GDStore'
-import { UserAvatar } from '../common'
+import { Section, UserAvatar, Wrapper } from '../common'
 import CameraButton from './CameraButton'
 
 const TITLE = 'View Avatar'
+
+const CloseButton = ({ handlePress, containerStyles, iconStyles, theme }) => (
+  <View style={[styles.container, containerStyles]}>
+    <Icon
+      onPress={handlePress}
+      size={normalize(20)}
+      color={theme.colors.darkBlue}
+      name="close"
+      reverse
+      containerStyle={styles.icon}
+    />
+  </View>
+)
+
+CloseButton.defaultProps = {
+  containerStyles: {},
+  iconStyles: {},
+}
+
+const ThemedCloseButton = withTheme(CloseButton)
 
 const ViewAvatar = props => {
   const store = GDStore.useStore()
@@ -16,15 +40,50 @@ const ViewAvatar = props => {
     props.screenProps.push('EditAvatar')
   }
 
+  const handleClosePress = event => {
+    event.preventDefault()
+    event.stopPropagation()
+    props.screenProps.push('Profile')
+  }
+
   return (
-    <UserAvatar profile={profile} originalSize={true}>
-      <CameraButton containerStyles={{ left: '10%', bottom: '10%' }} handleCameraPress={handleCameraPress} />
-    </UserAvatar>
+    <Wrapper>
+      <Section style={styles.section}>
+        <UserAvatar profile={profile} originalSize={true} containerStyle={styles.avatarContainer}>
+          <ThemedCloseButton handlePress={handleClosePress} />
+          <CameraButton containerStyles={styles.cameraButton} handleCameraPress={handleCameraPress} />
+        </UserAvatar>
+      </Section>
+    </Wrapper>
   )
 }
 
 ViewAvatar.navigationOptions = {
-  title: TITLE
+  title: TITLE,
 }
+
+const styles = StyleSheet.create({
+  section: {
+    flex: 1,
+  },
+  avatarContainer: {
+    flex: 1,
+  },
+  cameraButton: {
+    left: 'inherit',
+    bottom: 'inherit',
+    top: 0,
+    right: 0,
+  },
+  container: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+  },
+  icon: {
+    marginHorizontal: 0,
+    marginVertical: 0,
+  },
+})
 
 export default ViewAvatar

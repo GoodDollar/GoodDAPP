@@ -1,16 +1,13 @@
 // @flow
 import React, { useState } from 'react'
-import { StyleSheet, View } from 'react-native'
 import { AmountInput, Section, TopBar, Wrapper } from '../common'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { gdToWei, weiToGd } from '../../lib/wallet/utils'
-import { useDialog } from '../../lib/undux/utils/dialog'
-import { receiveStyles as styles } from './styles'
 
 export type AmountProps = {
   screenProps: any,
-  navigation: any
+  navigation: any,
 }
 
 const RECEIVE_TITLE = 'Receive G$'
@@ -18,10 +15,10 @@ const RECEIVE_TITLE = 'Receive G$'
 const Amount = (props: AmountProps) => {
   const { screenProps } = props
   const [screenState, setScreenState] = useScreenState(screenProps)
-  const { to, params, amount } = { amount: 0, ...screenState } || {}
+  const { params, amount, ...restState } = { amount: 0, ...screenState } || {}
   const [GDAmount, setGDAmount] = useState(amount > 0 ? weiToGd(amount) : '')
   const [loading, setLoading] = useState(amount <= 0)
-  const [showDialogWithData] = useDialog()
+  const [error, setError] = useState()
 
   const canContinue = async weiAmount => {
     if (params && params.toReceive) {
@@ -29,21 +26,19 @@ const Amount = (props: AmountProps) => {
     }
 
     if (!(await goodWallet.canSend(weiAmount))) {
-      showDialogWithData({
-        title: 'Cannot send G$',
-        message: 'Amount is bigger than balance'
-      })
+      setError(`Sorry, you don't have enough G$`)
       return false
     }
     return true
   }
 
   const handleContinue = async () => {
+    setLoading(true)
+
     const weiAmount = gdToWei(GDAmount)
     setScreenState({ amount: weiAmount })
-
-    setLoading(true)
     const can = await canContinue(weiAmount)
+
     setLoading(false)
 
     return can
@@ -55,38 +50,36 @@ const Amount = (props: AmountProps) => {
   }
 
   return (
-    <Wrapper style={styles.wrapper}>
+    <Wrapper>
       <TopBar push={screenProps.push} />
-      <Section style={customStyles.section}>
-        <Section.Row style={styles.sectionRow}>
-          <AmountInput amount={GDAmount} handleAmountChange={handleAmountChange} />
-          <View style={styles.buttonGroup}>
+      <Section grow>
+        <Section.Title>How much?</Section.Title>
+        <Section.Stack grow justifyContent="flex-start">
+          <AmountInput amount={GDAmount} handleAmountChange={handleAmountChange} error={error} />
+        </Section.Stack>
+        <Section.Row>
+          <Section.Stack grow={1}>
             <BackButton mode="text" screenProps={screenProps} style={{ flex: 1 }}>
               Cancel
             </BackButton>
+          </Section.Stack>
+          <Section.Stack grow={2}>
             <NextButton
               nextRoutes={screenState.nextRoutes}
               canContinue={handleContinue}
-              values={{ amount: gdToWei(GDAmount), to }}
+              values={{ ...restState, amount: gdToWei(GDAmount) }}
               disabled={loading}
               {...props}
             />
-          </View>
+          </Section.Stack>
         </Section.Row>
       </Section>
     </Wrapper>
   )
 }
 
-const customStyles = StyleSheet.create({
-  section: {
-    flex: 1,
-    backgroundColor: '#fff'
-  }
-})
-
 Amount.navigationOptions = {
-  title: RECEIVE_TITLE
+  title: RECEIVE_TITLE,
 }
 
 Amount.shouldNavigateToComponent = props => {

@@ -2,6 +2,7 @@ node_modules/
 build/
 coverage/
 .env
+.env.staging
 secrets.json
 cli-commands.txt
 tree.txt

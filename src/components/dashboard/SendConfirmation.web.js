@@ -1,26 +1,26 @@
 // @flow
-import QRCode from 'qrcode.react'
-
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { View } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { isMobile } from 'mobile-device-detect'
 import { generateSendShareObject } from '../../lib/share'
 import { useDialog } from '../../lib/undux/utils/dialog'
-import { DoneButton, useScreenState } from '../appNavigation/stackNavigation'
-import { BigGoodDollar, CopyButton, CustomButton, Section, TopBar, Wrapper } from '../common'
-import { fontStyle } from '../common/styles'
-import './AButton.css'
+import { useScreenState } from '../appNavigation/stackNavigation'
+import { BigGoodDollar, CopyButton, CustomButton, QRCode, Section, Text, TopBar, Wrapper } from '../common'
+import DoneButton from '../common/buttons/DoneButton'
+import { withStyles } from '../../lib/styles'
 import { getScreenHeight } from '../../lib/utils/Orientation'
-import { receiveStyles } from './styles'
+
+import './AButton.css'
 
 export type ReceiveProps = {
   screenProps: any,
-  navigation: any
+  navigation: any,
+  styles: any,
 }
 
 const SEND_TITLE = 'Send G$'
-const SendConfirmation = ({ screenProps }: ReceiveProps) => {
+const SendConfirmation = ({ screenProps, styles }: ReceiveProps) => {
   const [screenState] = useScreenState(screenProps)
   const [showDialog] = useDialog()
 
@@ -36,7 +36,7 @@ const SendConfirmation = ({ screenProps }: ReceiveProps) => {
         title: 'Error',
         message:
           'There was a problem triggering share action. You can still copy the link in tapping on "Copy link to clipboard"',
-        dismissText: 'Ok'
+        dismissText: 'Ok',
       })
     }
   }
@@ -53,9 +53,7 @@ const SendConfirmation = ({ screenProps }: ReceiveProps) => {
       <Section style={styles.section}>
         <View style={styles.topContainer}>
           <Section.Row style={styles.sectionRow}>
-            <View style={styles.qrCode}>
-              <QRCode value={paymentLink || ''} />
-            </View>
+            <QRCode value={paymentLink || ''} />
             <Section.Text style={styles.addressSection}>
               <Text style={styles.url}>{share.url}</Text>
             </Section.Text>
@@ -79,75 +77,9 @@ const SendConfirmation = ({ screenProps }: ReceiveProps) => {
   )
 }
 
-const styles = StyleSheet.create({
-  ...receiveStyles,
-  section: {
-    flex: 1,
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    alignContent: 'stretch',
-    paddingTop: normalize(22)
-  },
-  sectionRow: {
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    height: '100%'
-  },
-  sectionTop: {
-    flex: 2,
-    flexDirection: 'column',
-    maxWidth: '100%',
-    alignItems: 'center'
-  },
-  buttonGroup: {
-    width: '100%',
-    flexDirection: 'column',
-    marginTop: getScreenHeight() > 600 ? '1rem' : 0,
-    display: 'flex',
-    justifyContent: 'flex-end'
-  },
-  qrCode: {
-    marginTop: getScreenHeight() > 600 ? '2rem' : 0,
-    padding: '1rem',
-    borderColor: '#555',
-    borderWidth: 1,
-    borderRadius: '4px'
-  },
-  addressSection: {
-    marginBottom: '1rem',
-    marginTop: '1rem',
-    maxWidth: '100%'
-  },
-  url: {
-    ...fontStyle,
-    whiteSpace: 'nowrap',
-    textOverflow: 'ellipsis',
-    overflow: 'hidden',
-    maxWidth: '100%',
-    paddingLeft: '1rem',
-    paddingRight: '1rem'
-  },
-  shareButton: {
-    marginTop: 0
-  },
-  doneButton: {
-    marginTop: '1em'
-  },
-  secondaryText: {
-    margin: '1rem',
-    color: '#555555',
-    fontSize: normalize(14),
-    textTransform: 'uppercase'
-  },
-  reasonText: {
-    color: '#555555',
-    fontSize: normalize(16)
-  }
-})
-
 SendConfirmation.navigationOptions = {
   title: SEND_TITLE,
-  backButtonHidden: true
+  backButtonHidden: true,
 }
 
 SendConfirmation.shouldNavigateToComponent = props => {
@@ -155,4 +87,71 @@ SendConfirmation.shouldNavigateToComponent = props => {
   return !!screenState.paymentLink
 }
 
-export default SendConfirmation
+const getStylesFromProps = ({ theme }) => {
+  return {
+    section: {
+      flex: 1,
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      alignContent: 'stretch',
+      paddingTop: normalize(22),
+    },
+    sectionRow: {
+      flexDirection: 'column',
+      justifyContent: 'space-between',
+      height: '100%',
+    },
+    sectionTop: {
+      flex: 2,
+      flexDirection: 'column',
+      maxWidth: '100%',
+      alignItems: 'center',
+    },
+    buttonGroup: {
+      width: '100%',
+      flexDirection: 'column',
+      marginTop: getScreenHeight() > 600 ? '1rem' : 0,
+      display: 'flex',
+      justifyContent: 'flex-end',
+    },
+    qrCode: {
+      marginTop: getScreenHeight() > 600 ? '2rem' : 0,
+      padding: '1rem',
+      borderColor: '#555',
+      borderWidth: 1,
+      borderRadius: '4px',
+    },
+    addressSection: {
+      marginBottom: '1rem',
+      marginTop: '1rem',
+      maxWidth: '100%',
+    },
+    url: {
+      ...theme.fontStyle,
+      whiteSpace: 'nowrap',
+      textOverflow: 'ellipsis',
+      overflow: 'hidden',
+      maxWidth: '100%',
+      paddingLeft: '1rem',
+      paddingRight: '1rem',
+    },
+    shareButton: {
+      marginTop: 0,
+    },
+    doneButton: {
+      marginTop: '1em',
+    },
+    secondaryText: {
+      margin: '1rem',
+      color: '#555',
+      fontSize: normalize(14),
+      textTransform: 'uppercase',
+    },
+    reasonText: {
+      color: '#555',
+      fontSize: normalize(16),
+    },
+  }
+}
+
+export default withStyles(getStylesFromProps)(SendConfirmation)

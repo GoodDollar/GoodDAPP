@@ -1,21 +1,20 @@
 // @flow
 import React, { Component, useEffect, useState } from 'react'
-import { ScrollView, View } from 'react-native'
 import SideMenu from 'react-native-side-menu'
 import { createNavigator, Route, SceneView, SwitchRouter } from '@react-navigation/core'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import SideMenuPanel from '../sidemenu/SideMenuPanel'
 import logger from '../../lib/logger/pino-logger'
-import CustomButton from '../common/buttons/CustomButton'
-import { scrollableContainer } from '../common/styles'
+import CustomButton, { type ButtonProps } from '../common/buttons/CustomButton'
 import NavBar from './NavBar'
 import { navigationOptions } from './navigationConfig'
+import { PushButton } from './PushButton'
 
 export const DEFAULT_PARAMS = {
   event: undefined,
   receiveLink: undefined,
   reason: undefined,
-  code: undefined
+  code: undefined,
 }
 
 const log = logger.child({ from: 'stackNavigation' })
@@ -25,12 +24,12 @@ type AppViewProps = {
   navigation: any,
   navigationConfig: any,
   screenProps: any,
-  store: SimpleStore
+  store: SimpleStore,
 }
 
 type AppViewState = {
   stack: Array<any>,
-  currentState: any
+  currentState: any,
 }
 
 /**
@@ -42,7 +41,7 @@ type AppViewState = {
 class AppView extends Component<AppViewProps, AppViewState> {
   state = {
     stack: [],
-    currentState: {}
+    currentState: {},
   }
 
   /**
@@ -112,10 +111,10 @@ class AppView extends Component<AppViewProps, AppViewState> {
             ...state.stack,
             {
               route,
-              state: state.currentState
-            }
+              state: state.currentState,
+            },
           ],
-          currentState: { ...params, route }
+          currentState: { ...params, route },
         }
       },
       state => {
@@ -133,13 +132,13 @@ class AppView extends Component<AppViewProps, AppViewState> {
     this.trans = true
     this.setState({
       stack: [],
-      currentState: {}
+      currentState: {},
     })
 
     const route = navigation.state.routes[0]
     route.params = {
       ...route.params,
-      ...DEFAULT_PARAMS
+      ...DEFAULT_PARAMS,
     }
 
     navigation.navigate(route)
@@ -157,7 +156,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
       (state, props) => {
         return {
           stack: state.stack,
-          currentState: { ...params, route }
+          currentState: { ...params, route },
         }
       },
       state => {
@@ -189,6 +188,19 @@ class AppView extends Component<AppViewProps, AppViewState> {
     this.setState(state => ({ currentState: { ...state.currentState, ...data } }))
   }
 
+  /**
+   * Based on the value returned by the onChange callback sets the simpleStore sidemenu visibility value
+   * @param {boolean} visible
+   */
+  sideMenuSwap = visible => {
+    const { store } = this.props
+    const sidemenu = store.get('sidemenu')
+
+    sidemenu.visible = visible
+
+    store.set('sidemenu')(sidemenu)
+  }
+
   render() {
     const { descriptors, navigation, navigationConfig, screenProps: incomingScreenProps, store } = this.props
     const activeKey = navigation.state.routes[navigation.state.index].key
@@ -204,7 +216,6 @@ class AppView extends Component<AppViewProps, AppViewState> {
       pop: this.pop,
       screenState: this.state.currentState,
       setScreenState: this.setScreenState,
-      toggleMenu: () => this.drawer.open()
     }
     log.info('stackNavigation Render: FIXME rerender', descriptor, activeKey)
     const Component = this.getComponent(descriptor.getComponent(), { screenProps })
@@ -213,14 +224,10 @@ class AppView extends Component<AppViewProps, AppViewState> {
     const menu = open ? <SideMenuPanel navigation={navigation} /> : null
     return (
       <React.Fragment>
-        {!navigationBarHidden && <NavBar goBack={backButtonHidden ? undefined : this.pop} title={pageTitle} />}
-        <View style={{ backgroundColor: '#fff', flex: 1 }}>
-          <SideMenu menu={menu} menuPosition="right" isOpen={store.get('sidemenu').visible}>
-            <ScrollView contentContainerStyle={scrollableContainer}>
-              <SceneView navigation={descriptor.navigation} component={Component} screenProps={screenProps} />
-            </ScrollView>
-          </SideMenu>
-        </View>
+        <SideMenu menu={menu} menuPosition="right" isOpen={open} disableGestures={true} onChange={this.sideMenuSwap}>
+          {!navigationBarHidden && <NavBar goBack={backButtonHidden ? undefined : this.pop} title={pageTitle} />}
+          <SceneView navigation={descriptor.navigation} component={Component} screenProps={screenProps} />
+        </SideMenu>
       </React.Fragment>
     )
   }
@@ -234,60 +241,20 @@ class AppView extends Component<AppViewProps, AppViewState> {
  */
 export const createStackNavigator = (routes: any, navigationConfig: any) => {
   const defaultNavigationConfig = {
-    backRouteName: 'Home'
+    backRouteName: 'Home',
   }
 
   return createNavigator(SimpleStore.withStore(AppView), SwitchRouter(routes), {
     ...defaultNavigationConfig,
     ...navigationConfig,
-    navigationOptions
+    navigationOptions,
   })
-}
-
-type PushButtonProps = {
-  ...ButtonProps,
-  routeName: Route,
-  params?: any,
-  screenProps: { push: (routeName: string, params: any) => void },
-  canContinue?: Function
-}
-
-/**
- * PushButton
- * This button gets the push action from screenProps. Is meant to be used inside a stackNavigator
- * @param routeName
- * @param screenProps
- * @param params
- * @param {ButtonProps} props
- */
-export const PushButton = ({ routeName, screenProps, canContinue, params, ...props }: PushButtonProps) => {
-  const shouldContinue = async () => {
-    if (canContinue === undefined) {
-      return true
-    }
-
-    const result = await canContinue()
-    return result
-  }
-
-  return (
-    <CustomButton
-      {...props}
-      onPress={async () => screenProps && (await shouldContinue()) && screenProps.push(routeName, params)}
-    />
-  )
-}
-
-PushButton.defaultProps = {
-  mode: 'contained',
-  dark: true,
-  canContinue: () => true
 }
 
 type BackButtonProps = {
   ...ButtonProps,
   routeName?: Route,
-  screenProps: { goToParent: () => void }
+  screenProps: { goToParent: () => void },
 }
 
 /**
@@ -312,34 +279,13 @@ export const BackButton = (props: BackButtonProps) => {
   )
 }
 
-type DoneButtonProps = {
-  ...ButtonProps,
-  routeName?: Route,
-  screenProps: { goToRoot: () => void }
-}
-
-/**
- * BackButton
- * This button gets the goToParent action from screenProps. Is meant to be used inside a stackNavigator
- * @param {ButtonProps} props
- */
-export const DoneButton = (props: DoneButtonProps) => {
-  const { screenProps, children, mode, color } = props
-
-  return (
-    <CustomButton {...props} mode={mode || 'outlined'} color={color || 'red'} onPress={screenProps.goToRoot}>
-      {children || 'Done'}
-    </CustomButton>
-  )
-}
-
 type NextButtonProps = {
   ...ButtonProps,
   values: {},
   screenProps: { push: (routeName: string, params: any) => void },
   nextRoutes: [string],
   label?: string,
-  canContinue?: Function
+  canContinue?: Function,
 }
 
 /**
@@ -354,7 +300,7 @@ export const NextButton = ({
   screenProps,
   nextRoutes: nextRoutesParam,
   label,
-  canContinue
+  canContinue,
 }: NextButtonProps) => {
   const [next, ...nextRoutes] = nextRoutesParam ? nextRoutesParam : []
   return (

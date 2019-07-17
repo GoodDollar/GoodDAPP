@@ -1,4 +1,6 @@
 import React from 'react'
+import normalize from 'react-native-elements/src/helpers/normalizeText'
+import { StyleSheet } from 'react-native'
 
 import GDStore from '../../../lib/undux/GDStore'
 import Section from '../layout/Section'
@@ -20,8 +22,8 @@ const TopBar = ({ hideBalance, push, children }) => {
   const { avatar } = store.get('profile')
 
   return (
-    <Section>
-      <Section.Row>
+    <Section style={styles.topBar}>
+      <Section.Row alignItems="center">
         <Avatar source={avatar} onPress={push && (() => push('Profile'))} />
         {/*
          if children exist, it will be rendered
@@ -33,5 +35,12 @@ const TopBar = ({ hideBalance, push, children }) => {
     </Section>
   )
 }
+
+const styles = StyleSheet.create({
+  topBar: {
+    padding: normalize(12),
+    marginBottom: normalize(8),
+  },
+})
 
 export default TopBar

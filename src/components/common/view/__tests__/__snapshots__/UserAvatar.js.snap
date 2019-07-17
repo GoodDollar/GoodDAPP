@@ -5,24 +5,14 @@ exports[`UserAvatar matches snapshot 1`] = `
   className="css-view-1dbjc4n"
   style={
     Object {
-      "WebkitBoxDirection": "normal",
       "WebkitBoxFlex": 1,
-      "WebkitBoxOrient": "horizontal",
-      "WebkitBoxPack": "center",
       "WebkitFlexBasis": "0%",
-      "WebkitFlexDirection": "row",
       "WebkitFlexGrow": 1,
       "WebkitFlexShrink": 1,
-      "WebkitJustifyContent": "center",
       "flexBasis": "0%",
-      "flexDirection": "row",
       "flexGrow": 1,
       "flexShrink": 1,
-      "justifyContent": "center",
-      "marginTop": "50px",
-      "msFlexDirection": "row",
       "msFlexNegative": 1,
-      "msFlexPack": "center",
       "msFlexPositive": 1,
       "msFlexPreferredSize": "0%",
     }
@@ -33,59 +23,67 @@ exports[`UserAvatar matches snapshot 1`] = `
     style={
       Object {
         "WebkitBoxDirection": "normal",
-        "WebkitBoxOrient": "vertical",
-        "WebkitFlexDirection": "column",
-        "flexDirection": "column",
-        "msFlexDirection": "column",
+        "WebkitBoxOrient": "horizontal",
+        "WebkitBoxPack": "center",
+        "WebkitFlexDirection": "row",
+        "WebkitJustifyContent": "center",
+        "flexDirection": "row",
+        "justifyContent": "center",
+        "msFlexDirection": "row",
+        "msFlexPack": "center",
       }
     }
   >
     <div
-      aria-disabled={true}
       className="css-view-1dbjc4n"
-      disabled={true}
-      onKeyDown={[Function]}
-      onKeyUp={[Function]}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
       style={
         Object {
-          "MozTransitionProperty": "opacity",
-          "MozUserSelect": "none",
-          "WebkitTransitionDuration": "0.15s",
-          "WebkitTransitionProperty": "opacity",
-          "WebkitUserSelect": "none",
-          "backgroundColor": "rgba(0,0,0,0.00)",
-          "msUserSelect": "none",
-          "transitionDuration": "0.15s",
-          "transitionProperty": "opacity",
-          "userSelect": "none",
+          "WebkitAlignItems": "center",
+          "WebkitBoxAlign": "center",
+          "WebkitBoxDirection": "normal",
+          "WebkitBoxFlex": 1,
+          "WebkitBoxOrient": "vertical",
+          "WebkitFlexBasis": "0%",
+          "WebkitFlexDirection": "column",
+          "WebkitFlexGrow": 1,
+          "WebkitFlexShrink": 1,
+          "alignItems": "center",
+          "flexBasis": "0%",
+          "flexDirection": "column",
+          "flexGrow": 1,
+          "flexShrink": 1,
+          "msFlexAlign": "center",
+          "msFlexDirection": "column",
+          "msFlexNegative": 1,
+          "msFlexPositive": 1,
+          "msFlexPreferredSize": "0%",
         }
       }
     >
       <div
+        aria-disabled={true}
         className="css-view-1dbjc4n"
+        disabled={true}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
         style={
           Object {
-            "backgroundColor": "rgba(255,255,255,1.00)",
-            "borderBottomColor": "rgba(112,112,112,1.00)",
-            "borderBottomLeftRadius": "60px",
-            "borderBottomRightRadius": "60px",
-            "borderBottomWidth": "1px",
-            "borderLeftColor": "rgba(112,112,112,1.00)",
-            "borderLeftWidth": "1px",
-            "borderRightColor": "rgba(112,112,112,1.00)",
-            "borderRightWidth": "1px",
-            "borderTopColor": "rgba(112,112,112,1.00)",
-            "borderTopLeftRadius": "60px",
-            "borderTopRightRadius": "60px",
-            "borderTopWidth": "1px",
-            "height": "120px",
-            "width": "120px",
+            "MozTransitionProperty": "opacity",
+            "MozUserSelect": "none",
+            "WebkitTransitionDuration": "0.15s",
+            "WebkitTransitionProperty": "opacity",
+            "WebkitUserSelect": "none",
+            "backgroundColor": "rgba(0,0,0,0.00)",
+            "msUserSelect": "none",
+            "transitionDuration": "0.15s",
+            "transitionProperty": "opacity",
+            "userSelect": "none",
           }
         }
       >
@@ -93,18 +91,13 @@ exports[`UserAvatar matches snapshot 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
-              "WebkitFlexBasis": "auto",
-              "borderBottomLeftRadius": "60px",
-              "borderBottomRightRadius": "60px",
-              "borderTopLeftRadius": "60px",
-              "borderTopRightRadius": "60px",
-              "flexBasis": "auto",
-              "height": "120px",
-              "msFlexPreferredSize": "auto",
-              "overflowX": "hidden",
-              "overflowY": "hidden",
-              "width": "120px",
-              "zIndex": 0,
+              "backgroundColor": "rgba(238,238,238,1.00)",
+              "borderBottomLeftRadius": "68px",
+              "borderBottomRightRadius": "68px",
+              "borderTopLeftRadius": "68px",
+              "borderTopRightRadius": "68px",
+              "height": "138px",
+              "width": "138px",
             }
           }
         >
@@ -112,38 +105,65 @@ exports[`UserAvatar matches snapshot 1`] = `
             className="css-view-1dbjc4n"
             style={
               Object {
-                "backgroundColor": "rgba(0,0,0,0.00)",
-                "backgroundPosition": "center",
-                "backgroundRepeat": "no-repeat",
-                "backgroundSize": "cover",
-                "bottom": "0px",
-                "height": "100%",
-                "left": "0px",
-                "position": "absolute",
-                "right": "0px",
-                "top": "0px",
-                "width": "100%",
-                "zIndex": -1,
+                "WebkitFlexBasis": "auto",
+                "borderBottomLeftRadius": "68px",
+                "borderBottomRightRadius": "68px",
+                "borderTopLeftRadius": "68px",
+                "borderTopRightRadius": "68px",
+                "flexBasis": "auto",
+                "height": "136px",
+                "msFlexPreferredSize": "auto",
+                "overflowX": "hidden",
+                "overflowY": "hidden",
+                "width": "136px",
+                "zIndex": 0,
               }
             }
-          />
+          >
+            <div
+              className="css-view-1dbjc4n"
+              style={
+                Object {
+                  "backgroundColor": "rgba(0,0,0,0.00)",
+                  "backgroundPosition": "center",
+                  "backgroundRepeat": "no-repeat",
+                  "backgroundSize": "cover",
+                  "bottom": "0px",
+                  "height": "100%",
+                  "left": "0px",
+                  "position": "absolute",
+                  "right": "0px",
+                  "top": "0px",
+                  "width": "100%",
+                  "zIndex": -1,
+                }
+              }
+            />
+          </div>
         </div>
       </div>
-    </div>
-    <div
-      className="css-text-901oao"
-      dir="auto"
-      style={
-        Object {
-          "color": "rgba(85,85,85,1.00)",
-          "fontSize": "24px",
-          "fontWeight": "500",
-          "textAlign": "center",
-          "textTransform": "uppercase",
+      <div
+        className="css-text-901oao"
+        dir="auto"
+        style={
+          Object {
+            "color": "rgba(66,69,74,1.00)",
+            "direction": "ltr",
+            "fontFamily": "Roboto-Medium",
+            "fontSize": "22px",
+            "fontWeight": "normal",
+            "lineHeight": "30px",
+            "marginBottom": "8px",
+            "marginTop": "8px",
+            "paddingTop": "8px",
+            "textAlign": "center",
+            "textDecoration": "none",
+            "textTransform": "uppercase",
+          }
         }
-      }
-    >
-      John Doe
+      >
+        John Doe
+      </div>
     </div>
   </div>
 </div>

@@ -1,50 +1,66 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Icon from 'react-native-elements/src/icons/Icon'
 import { StyleSheet, View } from 'react-native'
 
 import Clipboard from '../../../lib/utils/Clipboard'
 import CustomButton from './CustomButton'
 
-const DoneIcon = ({ disabled, mode }) => {
-  const primaryColor = 'white'
-  const secondaryColor = disabled ? 'rgba(0, 0, 0, 0.32)' : '#282c34'
-  return (
-    <Icon
-      size={16}
-      name="done"
-      reverse
-      color={mode === 'contained' ? secondaryColor : primaryColor}
-      reverseColor={mode === 'contained' ? primaryColor : secondaryColor}
-    />
-  )
-}
+const NOT_COPIED = 'NOT_COPIED'
+const COPIED = 'COPIED'
+const DONE = 'DONE'
+const TRANSITION_TIME = 1000
 
-const CopyButton = ({ toCopy, children, ...props }) => {
+const CopyButton = ({ toCopy, children, onPressDone, ...props }) => {
   const mode = props.mode || 'contained'
-  const [copied, setCopied] = useState(false)
-  return copied ? (
-    <View style={styles.iconButtonWrapper}>
-      <DoneIcon mode={mode} />
-    </View>
-  ) : (
-    <CustomButton
-      mode={mode}
-      onPress={() => {
-        Clipboard.setString(toCopy)
-        setCopied(true)
-      }}
-      {...props}
-    >
-      {children || 'Copy to Clipboard'}
-    </CustomButton>
-  )
-}
+  const [state, setState] = useState(NOT_COPIED)
 
-export default CopyButton
+  const transitionToState = () => setState(onPressDone ? DONE : NOT_COPIED)
+
+  useEffect(() => {
+    if (state === 'COPIED') {
+      setTimeout(transitionToState, TRANSITION_TIME)
+    }
+  }, [state])
+
+  switch (state) {
+    case DONE: {
+      return (
+        <CustomButton mode={mode} onPress={onPressDone} {...props}>
+          Done
+        </CustomButton>
+      )
+    }
+    case COPIED: {
+      return (
+        <CustomButton mode={mode} {...props}>
+          <View style={styles.iconButtonWrapper}>
+            <Icon size={16} name="done" color="white" />
+          </View>
+        </CustomButton>
+      )
+    }
+    default: {
+      return (
+        <CustomButton
+          mode={mode}
+          onPress={() => {
+            Clipboard.setString(toCopy)
+            setState(COPIED)
+          }}
+          {...props}
+        >
+          {children || 'Copy to Clipboard'}
+        </CustomButton>
+      )
+    }
+  }
+}
 
 const styles = StyleSheet.create({
   iconButtonWrapper: {
-    flexDirection: 'column',
-    alignItems: 'center'
-  }
+    minHeight: 28,
+    justifyContent: 'center',
+  },
 })
+
+export default CopyButton

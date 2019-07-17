@@ -34,7 +34,7 @@ type ZoomCaptureProps = {
   screenProps: any,
   loadedZoom: boolean,
   onCaptureResult: (captureResult?: ZoomCaptureResult) => void,
-  onError: (error: string) => void
+  onError: (error: string) => void,
 }
 
 const HelperWizard = props => {
@@ -195,7 +195,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     padding: 5,
     borderRadius: 5,
-    minHeight: 400
+    minHeight: 400,
   },
   helper: {
     position: 'absolute',
@@ -205,7 +205,7 @@ const styles = StyleSheet.create({
     height: '100%',
     display: 'flex',
     justifyContent: 'space-around',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   background: {
     position: 'absolute',
@@ -219,8 +219,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(13, 165, 177, 0.5)',
     borderRadius: 5,
     background:
-      'linear-gradient(to right, rgba(9, 181, 163, .5), rgba(18, 146, 193, .95)) no-repeat center center fixed'
-  }
+      'linear-gradient(to right, rgba(9, 181, 163, .5), rgba(18, 146, 193, .95)) no-repeat center center fixed',
+  },
 })
 
 const getVideoContainerStyles = () => ({
@@ -228,7 +228,7 @@ const getVideoContainerStyles = () => ({
   marginLeft: '0',
   marginRight: '0',
   marginTop: 0,
-  marginBottom: 0
+  marginBottom: 0,
 })
 
 export default ZoomCapture

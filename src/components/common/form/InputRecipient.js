@@ -49,20 +49,20 @@ const InputRecipient = props => {
 const styles = StyleSheet.create({
   iconInputContainer: {
     display: 'inline-flex',
-    position: 'relative'
+    position: 'relative',
   },
   input: {
     flex: 1,
     backgroundColor: 'inherit',
-    marginTop: normalize(10)
+    marginTop: normalize(10),
   },
   pasteIcon: {
     position: 'absolute',
     cursor: 'pointer',
     right: 0,
     paddingTop: normalize(30),
-    zIndex: 1
-  }
+    zIndex: 1,
+  },
 })
 
 export default InputRecipient

@@ -14,7 +14,7 @@ const log = logger.child({ from: 'SendLinkSummary' })
 
 export type AmountProps = {
   screenProps: any,
-  navigation: any
+  navigation: any,
 }
 
 const TITLE = 'Send G$'
@@ -60,8 +60,8 @@ const SendLinkSummary = (props: AmountProps) => {
               reason,
               amount,
               paymentLink,
-              code
-            }
+              code,
+            },
           }
           log.debug('generateLinkAndSend: enqueueTX', { transactionEvent })
           userStorage.enqueueTX(transactionEvent)
@@ -143,19 +143,19 @@ const SendLinkSummary = (props: AmountProps) => {
 const styles = {
   ...receiveStyles,
   sectionTo: {
-    alignItems: 'center'
+    alignItems: 'center',
   },
   toText: {
     marginTop: '1rem',
-    marginBottom: '1rem'
+    marginBottom: '1rem',
   },
   reason: {
-    fontSize: normalize(16)
-  }
+    fontSize: normalize(16),
+  },
 }
 
 SendLinkSummary.navigationOptions = {
-  title: TITLE
+  title: TITLE,
 }
 
 SendLinkSummary.shouldNavigateToComponent = props => {

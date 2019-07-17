@@ -1,17 +1,14 @@
 import { createSwitchNavigator } from '@react-navigation/core'
 import { createBrowserApp } from '@react-navigation/web'
 import React from 'react'
-
-// Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer'
-
 import { StoresWrapper } from '../../../lib/undux/utils/storeswrapper.js'
-
 import userStorage from '../../../lib/gundb/UserStorage'
+import { withThemeProvider } from '../../../__tests__/__util__'
 import { getComponentWithMocks } from './__util__'
 
 const routes = {
-  Dashboard: getComponentWithMocks('../Dashboard')
+  Dashboard: getComponentWithMocks('../Dashboard'),
 }
 
 const AppNavigator = createSwitchNavigator(routes)
@@ -19,9 +16,10 @@ class AppNavigation extends React.Component<AppNavigationProps, AppNavigationSta
   static router = AppNavigator.router
 
   render() {
+    const WrappedAppNavigator = withThemeProvider(AppNavigator)
     return (
       <StoresWrapper>
-        <AppNavigator navigation={this.props.navigation} screenProps={{ routes }} />
+        <WrappedAppNavigator navigation={this.props.navigation} screenProps={{ routes }} />
       </StoresWrapper>
     )
   }

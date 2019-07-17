@@ -9,8 +9,6 @@ exports[`FaceRecognition Rendering matches snapshot 1`] = `
       "WebkitFlexBasis": "0%",
       "WebkitFlexGrow": 1,
       "WebkitFlexShrink": 1,
-      "backgroundImage": "linear-gradient(to bottom, #00AFFF, #2DC0F7, #28C0EF, #23C0E7, #1EC1DF, #19C1D7, #14C1CF, #0FC2C7, #0FC2C7, #0AC2BF, #05C2B7, #00C3AF)",
-      "display": "flex",
       "flexBasis": "0%",
       "flexGrow": 1,
       "flexShrink": 1,
@@ -24,30 +22,28 @@ exports[`FaceRecognition Rendering matches snapshot 1`] = `
     className="css-view-1dbjc4n"
     style={
       Object {
-        "WebkitAlignItems": "stretch",
-        "WebkitBoxAlign": "stretch",
         "WebkitBoxDirection": "normal",
         "WebkitBoxFlex": 1,
-        "WebkitBoxOrient": "horizontal",
-        "WebkitBoxPack": "center",
+        "WebkitBoxOrient": "vertical",
         "WebkitFlexBasis": "0%",
-        "WebkitFlexDirection": "row",
+        "WebkitFlexDirection": "column",
         "WebkitFlexGrow": 1,
         "WebkitFlexShrink": 1,
-        "WebkitJustifyContent": "center",
-        "alignItems": "stretch",
+        "backgroundImage": "linear-gradient(to bottom, #00AFFF, #2DC0F7, #28C0EF, #23C0E7, #1EC1DF, #19C1D7, #14C1CF, #0FC2C7, #0FC2C7, #0AC2BF, #05C2B7, #00C3AF)",
         "display": "flex",
         "flexBasis": "0%",
-        "flexDirection": "row",
+        "flexDirection": "column",
         "flexGrow": 1,
         "flexShrink": 1,
-        "justifyContent": "center",
-        "msFlexAlign": "stretch",
-        "msFlexDirection": "row",
+        "msFlexDirection": "column",
         "msFlexNegative": 1,
-        "msFlexPack": "center",
         "msFlexPositive": 1,
         "msFlexPreferredSize": "0%",
+        "paddingBottom": "8px",
+        "paddingLeft": "8px",
+        "paddingRight": "8px",
+        "paddingTop": "8px",
+        "width": "100%",
       }
     }
   >
@@ -55,35 +51,33 @@ exports[`FaceRecognition Rendering matches snapshot 1`] = `
       className="css-view-1dbjc4n"
       style={
         Object {
-          "WebkitAlignItems": "stretch",
-          "WebkitBoxAlign": "stretch",
-          "WebkitBoxDirection": "normal",
+          "WebkitAlignItems": "center",
+          "WebkitBoxAlign": "center",
           "WebkitBoxFlex": 1,
-          "WebkitBoxOrient": "vertical",
           "WebkitBoxPack": "justify",
           "WebkitFlexBasis": "0%",
-          "WebkitFlexDirection": "column",
           "WebkitFlexGrow": 1,
           "WebkitFlexShrink": 1,
           "WebkitJustifyContent": "space-between",
-          "alignItems": "stretch",
-          "display": "flex",
+          "alignItems": "center",
+          "backgroundColor": "rgba(255,255,255,1.00)",
+          "borderBottomLeftRadius": "5px",
+          "borderBottomRightRadius": "5px",
+          "borderTopLeftRadius": "5px",
+          "borderTopRightRadius": "5px",
           "flexBasis": "0%",
-          "flexDirection": "column",
           "flexGrow": 1,
           "flexShrink": 1,
           "justifyContent": "space-between",
-          "msFlexAlign": "stretch",
-          "msFlexDirection": "column",
+          "msFlexAlign": "center",
           "msFlexNegative": 1,
           "msFlexPack": "justify",
           "msFlexPositive": 1,
           "msFlexPreferredSize": "0%",
-          "paddingBottom": "10px",
-          "paddingLeft": "10px",
-          "paddingRight": "10px",
-          "paddingTop": "10px",
-          "width": "100%",
+          "paddingBottom": "16px",
+          "paddingLeft": "12px",
+          "paddingRight": "12px",
+          "paddingTop": "16px",
         }
       }
     >
@@ -91,22 +85,29 @@ exports[`FaceRecognition Rendering matches snapshot 1`] = `
         className="css-view-1dbjc4n"
         style={
           Object {
+            "WebkitAlignItems": "center",
+            "WebkitBoxAlign": "center",
+            "WebkitBoxDirection": "normal",
             "WebkitBoxFlex": 1,
-            "WebkitBoxPack": "space-evenly",
+            "WebkitBoxOrient": "vertical",
+            "WebkitBoxPack": "center",
             "WebkitFlexBasis": "0%",
+            "WebkitFlexDirection": "column",
             "WebkitFlexGrow": 1,
             "WebkitFlexShrink": 1,
-            "WebkitJustifyContent": "space-evenly",
-            "display": "flex",
+            "WebkitJustifyContent": "center",
+            "alignItems": "center",
             "flexBasis": "0%",
+            "flexDirection": "column",
             "flexGrow": 1,
             "flexShrink": 1,
-            "justifyContent": "space-evenly",
+            "justifyContent": "center",
+            "msFlexAlign": "center",
+            "msFlexDirection": "column",
             "msFlexNegative": 1,
-            "msFlexPack": "space-evenly",
+            "msFlexPack": "center",
             "msFlexPositive": 1,
             "msFlexPreferredSize": "0%",
-            "paddingTop": "30px",
           }
         }
       >
@@ -115,244 +116,336 @@ exports[`FaceRecognition Rendering matches snapshot 1`] = `
           dir="auto"
           style={
             Object {
-              "color": "rgba(85,85,85,1.00)",
+              "color": "rgba(34,34,34,1.00)",
+              "direction": "ltr",
+              "fontFamily": "Roboto",
               "fontSize": "24px",
-              "fontWeight": "500",
+              "fontWeight": "normal",
+              "lineHeight": "30px",
               "textAlign": "center",
-              "textTransform": "uppercase",
+              "textDecoration": "none",
+              "textTransform": "none",
             }
           }
         >
-          , Just one more thing before we can get started...
+          ,
+before we can get started...
         </div>
         <div
-          className="css-text-901oao"
-          dir="auto"
+          className="css-view-1dbjc4n"
           style={
             Object {
-              "color": "rgba(85,85,85,1.00)",
-              "fontSize": "20px",
-              "textAlign": "center",
+              "WebkitFlexBasis": "auto",
+              "flexBasis": "auto",
+              "marginTop": "16px",
+              "maxWidth": "100%",
+              "minHeight": "152px",
+              "minWidth": "204px",
+              "msFlexPreferredSize": "auto",
+              "overflowX": "hidden",
+              "overflowY": "hidden",
+              "zIndex": 0,
             }
           }
         >
-          Since it's your first time sending G$, we need to make sure it's really
-              you and prevent other people from creating multiple accounts.
+          <div
+            className="css-view-1dbjc4n"
+            style={
+              Object {
+                "backgroundColor": "rgba(0,0,0,0.00)",
+                "backgroundImage": "url(\\"illustration.png\\")",
+                "backgroundPosition": "center",
+                "backgroundRepeat": "no-repeat",
+                "backgroundSize": "contain",
+                "bottom": "0px",
+                "height": "100%",
+                "left": "0px",
+                "position": "absolute",
+                "right": "0px",
+                "top": "0px",
+                "width": "100%",
+                "zIndex": -1,
+              }
+            }
+          />
+          <img
+            alt=""
+            className="css-accessibilityImage-9pa8cd"
+            draggable={false}
+            src="illustration.png"
+          />
+        </div>
+        <div
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "WebkitAlignItems": "center",
+              "WebkitBoxAlign": "center",
+              "WebkitBoxDirection": "normal",
+              "WebkitBoxOrient": "horizontal",
+              "WebkitBoxPack": "center",
+              "WebkitFlexDirection": "row",
+              "WebkitJustifyContent": "center",
+              "alignItems": "center",
+              "borderBottomColor": "rgba(0,175,255,1.00)",
+              "borderBottomStyle": "solid",
+              "borderBottomWidth": "2px",
+              "borderTopColor": "rgba(0,175,255,1.00)",
+              "borderTopStyle": "solid",
+              "borderTopWidth": "2px",
+              "flexDirection": "row",
+              "justifyContent": "center",
+              "marginTop": "24px",
+              "msFlexAlign": "center",
+              "msFlexDirection": "row",
+              "msFlexPack": "center",
+              "paddingBottom": "24px",
+              "paddingLeft": "12px",
+              "paddingRight": "12px",
+              "paddingTop": "24px",
+              "width": "80%",
+            }
+          }
+        >
+          <div
+            className="css-text-901oao"
+            dir="auto"
+            style={
+              Object {
+                "color": "rgba(0,175,255,1.00)",
+                "direction": "ltr",
+                "fontFamily": "Roboto",
+                "fontSize": "16px",
+                "fontWeight": "bold",
+                "lineHeight": "22px",
+                "textAlign": "justify",
+                "textDecoration": "none",
+                "textTransform": "none",
+              }
+            }
+          >
+            Since it's your first time  G$, we need to make sure it's really you. Learn more about our 
+            <span
+              className="css-text-901oao css-textHasAncestor-16my406"
+              data-focusable={true}
+              dir="auto"
+              onClick={[Function]}
+              onKeyDown={[Function]}
+              style={
+                Object {
+                  "color": "rgba(0,175,255,1.00)",
+                  "cursor": "pointer",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto",
+                  "fontSize": "16px",
+                  "fontWeight": "bold",
+                  "lineHeight": "22px",
+                  "textAlign": "center",
+                  "textDecoration": "underline",
+                  "textTransform": "none",
+                }
+              }
+              tabIndex="0"
+            >
+              privacy policy
+            </span>
+            .
+          </div>
         </div>
       </div>
       <div
         className="css-view-1dbjc4n"
         style={
           Object {
-            "WebkitBoxFlex": 1,
-            "WebkitBoxPack": "end",
-            "WebkitFlexBasis": "0%",
-            "WebkitFlexGrow": 1,
-            "WebkitFlexShrink": 1,
-            "WebkitJustifyContent": "flex-end",
-            "display": "flex",
-            "flexBasis": "0%",
-            "flexGrow": 1,
-            "flexShrink": 1,
-            "justifyContent": "flex-end",
-            "msFlexNegative": 1,
-            "msFlexPack": "end",
-            "msFlexPositive": 1,
-            "msFlexPreferredSize": "0%",
-            "paddingTop": "20px",
+            "WebkitBoxPack": "center",
+            "WebkitJustifyContent": "center",
+            "backgroundColor": "rgba(0,0,0,0.12)",
+            "borderBottomColor": "rgba(0,175,255,1.00)",
+            "borderBottomLeftRadius": "50px",
+            "borderBottomRightRadius": "50px",
+            "borderBottomStyle": "solid",
+            "borderBottomWidth": "0px",
+            "borderLeftColor": "rgba(0,175,255,1.00)",
+            "borderLeftStyle": "solid",
+            "borderLeftWidth": "0px",
+            "borderRightColor": "rgba(0,175,255,1.00)",
+            "borderRightStyle": "solid",
+            "borderRightWidth": "0px",
+            "borderTopColor": "rgba(0,175,255,1.00)",
+            "borderTopLeftRadius": "50px",
+            "borderTopRightRadius": "50px",
+            "borderTopStyle": "solid",
+            "borderTopWidth": "0px",
+            "justifyContent": "center",
+            "minWidth": "auto",
+            "msFlexPack": "center",
+            "width": "100%",
           }
         }
       >
         <div
+          aria-disabled={true}
           className="css-view-1dbjc4n"
+          disabled={true}
+          onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          role="button"
           style={
             Object {
-              "WebkitBoxPack": "center",
-              "WebkitJustifyContent": "center",
-              "backgroundColor": "rgba(0,0,0,0.12)",
-              "borderBottomColor": "rgba(0,0,0,0.00)",
               "borderBottomLeftRadius": "50px",
               "borderBottomRightRadius": "50px",
-              "borderBottomStyle": "solid",
-              "borderBottomWidth": "0px",
-              "borderLeftColor": "rgba(0,0,0,0.00)",
-              "borderLeftStyle": "solid",
-              "borderLeftWidth": "0px",
-              "borderRightColor": "rgba(0,0,0,0.00)",
-              "borderRightStyle": "solid",
-              "borderRightWidth": "0px",
-              "borderTopColor": "rgba(0,0,0,0.00)",
               "borderTopLeftRadius": "50px",
               "borderTopRightRadius": "50px",
-              "borderTopStyle": "solid",
-              "borderTopWidth": "0px",
-              "justifyContent": "center",
-              "minWidth": "auto",
-              "msFlexPack": "center",
+              "overflowX": "hidden",
+              "overflowY": "hidden",
+              "position": "relative",
             }
           }
         >
           <div
-            aria-disabled={true}
             className="css-view-1dbjc4n"
-            disabled={true}
-            onKeyDown={[Function]}
-            onKeyUp={[Function]}
-            onResponderGrant={[Function]}
-            onResponderMove={[Function]}
-            onResponderTerminate={[Function]}
-            onResponderTerminationRequest={[Function]}
-            onStartShouldSetResponder={[Function]}
-            role="button"
             style={
               Object {
-                "borderBottomLeftRadius": "50px",
-                "borderBottomRightRadius": "50px",
-                "borderTopLeftRadius": "50px",
-                "borderTopRightRadius": "50px",
-                "overflowX": "hidden",
-                "overflowY": "hidden",
-                "position": "relative",
+                "WebkitAlignItems": "center",
+                "WebkitBoxAlign": "center",
+                "WebkitBoxDirection": "normal",
+                "WebkitBoxOrient": "horizontal",
+                "WebkitBoxPack": "center",
+                "WebkitFlexDirection": "row",
+                "WebkitJustifyContent": "center",
+                "alignItems": "center",
+                "flexDirection": "row",
+                "justifyContent": "center",
+                "msFlexAlign": "center",
+                "msFlexDirection": "row",
+                "msFlexPack": "center",
               }
             }
           >
             <div
+              aria-valuemax="1"
+              aria-valuemin="0"
               className="css-view-1dbjc4n"
+              role="progressbar"
               style={
                 Object {
                   "WebkitAlignItems": "center",
                   "WebkitBoxAlign": "center",
-                  "WebkitBoxDirection": "normal",
-                  "WebkitBoxOrient": "horizontal",
                   "WebkitBoxPack": "center",
-                  "WebkitFlexDirection": "row",
                   "WebkitJustifyContent": "center",
                   "alignItems": "center",
-                  "flexDirection": "row",
                   "justifyContent": "center",
+                  "marginLeft": "12px",
+                  "marginRight": "-4px",
                   "msFlexAlign": "center",
-                  "msFlexDirection": "row",
                   "msFlexPack": "center",
+                  "width": "16px",
                 }
               }
             >
               <div
-                aria-valuemax="1"
-                aria-valuemin="0"
-                className="css-view-1dbjc4n"
-                role="progressbar"
+                className="css-view-1dbjc4n r-animationKeyframes-127358a"
                 style={
                   Object {
-                    "WebkitAlignItems": "center",
-                    "WebkitBoxAlign": "center",
-                    "WebkitBoxPack": "center",
-                    "WebkitJustifyContent": "center",
-                    "alignItems": "center",
-                    "justifyContent": "center",
-                    "marginLeft": "12px",
-                    "marginRight": "-4px",
-                    "msFlexAlign": "center",
-                    "msFlexPack": "center",
-                    "width": "16px",
+                    "WebkitAnimationDuration": "0.75s",
+                    "WebkitAnimationIterationCount": "infinite",
+                    "WebkitAnimationTimingFunction": "linear",
+                    "animationDuration": "0.75s",
+                    "animationIterationCount": "infinite",
+                    "animationTimingFunction": "linear",
+                    "height": "20px",
+                    "width": "20px",
                   }
                 }
               >
-                <div
-                  className="css-view-1dbjc4n r-animationKeyframes-127358a"
-                  style={
-                    Object {
-                      "WebkitAnimationDuration": "0.75s",
-                      "WebkitAnimationIterationCount": "infinite",
-                      "WebkitAnimationTimingFunction": "linear",
-                      "animationDuration": "0.75s",
-                      "animationIterationCount": "infinite",
-                      "animationTimingFunction": "linear",
-                      "height": "20px",
-                      "width": "20px",
-                    }
-                  }
+                <svg
+                  height="100%"
+                  viewBox="0 0 32 32"
+                  width="100%"
                 >
-                  <svg
-                    height="100%"
-                    viewBox="0 0 32 32"
-                    width="100%"
-                  >
-                    <circle
-                      cx="16"
-                      cy="16"
-                      fill="none"
-                      r="14"
-                      strokeWidth="4"
-                      style={
-                        Object {
-                          "opacity": 0.2,
-                          "stroke": "rgba(0, 0, 0, 0.32)",
-                        }
-                      }
-                    />
-                    <circle
-                      cx="16"
-                      cy="16"
-                      fill="none"
-                      r="14"
-                      strokeWidth="4"
-                      style={
-                        Object {
-                          "stroke": "rgba(0, 0, 0, 0.32)",
-                          "strokeDasharray": 80,
-                          "strokeDashoffset": 60,
-                        }
-                      }
-                    />
-                  </svg>
-                </div>
-              </div>
-              <div
-                className="css-text-901oao css-textOneLine-bfa6kz"
-                dir="auto"
-                style={
-                  Object {
-                    "color": "rgba(0,0,0,0.32)",
-                    "direction": "ltr",
-                    "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                    "letterSpacing": "1px",
-                    "marginBottom": "9px",
-                    "marginLeft": "8px",
-                    "marginRight": "8px",
-                    "marginTop": "9px",
-                    "textAlign": "center",
-                  }
-                }
-              >
-                <div
-                  className="css-view-1dbjc4n"
-                  style={
-                    Object {
-                      "WebkitBoxPack": "center",
-                      "WebkitJustifyContent": "center",
-                      "display": "inline-flex",
-                      "justifyContent": "center",
-                      "minHeight": "34px",
-                      "msFlexPack": "center",
-                    }
-                  }
-                >
-                  <span
-                    className="css-text-901oao css-textHasAncestor-16my406"
-                    dir="auto"
+                  <circle
+                    cx="16"
+                    cy="16"
+                    fill="none"
+                    r="14"
+                    strokeWidth="4"
                     style={
                       Object {
-                        "color": "rgba(255,255,255,1.00)",
-                        "direction": "ltr",
-                        "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                        "textAlign": "left",
-                        "textTransform": "uppercase",
+                        "opacity": 0.2,
+                        "stroke": "rgba(0, 0, 0, 0.32)",
                       }
                     }
-                  >
-                    Quick Face Recognition
-                  </span>
-                </div>
+                  />
+                  <circle
+                    cx="16"
+                    cy="16"
+                    fill="none"
+                    r="14"
+                    strokeWidth="4"
+                    style={
+                      Object {
+                        "stroke": "rgba(0, 0, 0, 0.32)",
+                        "strokeDasharray": 80,
+                        "strokeDashoffset": 60,
+                      }
+                    }
+                  />
+                </svg>
+              </div>
+            </div>
+            <div
+              className="css-text-901oao css-textOneLine-bfa6kz"
+              dir="auto"
+              style={
+                Object {
+                  "color": "rgba(0,0,0,0.32)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto-Medium",
+                  "letterSpacing": "1px",
+                  "marginBottom": "9px",
+                  "marginLeft": "8px",
+                  "marginRight": "8px",
+                  "marginTop": "9px",
+                  "textAlign": "center",
+                }
+              }
+            >
+              <div
+                className="css-view-1dbjc4n"
+                style={
+                  Object {
+                    "WebkitBoxPack": "center",
+                    "WebkitJustifyContent": "center",
+                    "display": "inline-flex",
+                    "justifyContent": "center",
+                    "minHeight": "28px",
+                    "msFlexPack": "center",
+                  }
+                }
+              >
+                <span
+                  className="css-text-901oao css-textHasAncestor-16my406"
+                  dir="auto"
+                  style={
+                    Object {
+                      "color": "rgba(255,255,255,1.00)",
+                      "direction": "ltr",
+                      "fontFamily": "Roboto",
+                      "fontWeight": "bold",
+                      "lineHeight": "0px",
+                      "paddingTop": "1px",
+                      "textAlign": "left",
+                      "textTransform": "uppercase",
+                    }
+                  }
+                >
+                  Quick Face Recognition
+                </span>
               </div>
             </div>
           </div>

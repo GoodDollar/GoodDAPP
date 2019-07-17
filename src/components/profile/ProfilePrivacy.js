@@ -2,13 +2,14 @@
 import startCase from 'lodash/startCase'
 import React, { useEffect, useState } from 'react'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
-import Icon from 'react-native-elements/src/icons/Icon'
-import { RadioButton, Text } from 'react-native-paper'
-import { StyleSheet, TouchableOpacity, View } from 'react-native'
+import { RadioButton } from 'react-native-paper'
+import { TouchableOpacity } from 'react-native'
 import userStorage from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import { BackButton } from '../appNavigation/stackNavigation'
-import { CustomButton, CustomDialog, Wrapper } from '../common'
+import { withStyles } from '../../lib/styles'
+import { CustomButton, CustomDialog, Icon, Section, Text } from '../common'
+import OptionsRow from './OptionsRow'
 
 const TITLE = 'PROFILE PRIVACY'
 const log = logger.child({ from: 'ProfilePrivacy' })
@@ -18,19 +19,20 @@ const privacyOptions = ['private', 'masked', 'public']
 const tips = {
   private: 'Nobody will be able to see your field, nor to find you searching by it.',
   masked: 'Your field will be partially visible (e.g.: ****ple@***.com). Nobody will be able to search you by it.',
-  public: 'Your field is publicly available. Anybody will be able to find you by it.'
+  public: 'Your field is publicly available. Anybody will be able to find you by it.',
 }
 
 // fields to manage privacy of
 const profileFields = ['mobile', 'email']
 const initialState = profileFields.reduce((acc, field) => ({ ...acc, [`${field}`]: '' }), {})
-const titles = { mobile: 'Phone number:', email: 'Email:' }
+const titles = { mobile: 'Phone number', email: 'Email' }
 
 const ProfilePrivacy = props => {
   const [initialPrivacy, setInitialPrivacy] = useState(initialState)
   const [privacy, setPrivacy] = useState(initialState)
   const [loading, setLoading] = useState(false)
   const [showTips, setShowTips] = useState(false)
+  const { screenProps, styles, theme } = props
 
   useEffect(() => {
     // looks for the users fields' privacy
@@ -60,7 +62,7 @@ const ProfilePrivacy = props => {
       // filters out fields to be updated
       const toUpdate = updatableValues().map(field => ({
         update: userStorage.setProfileFieldPrivacy(field, privacy[field]),
-        field
+        field,
       }))
 
       // updates fields
@@ -76,110 +78,109 @@ const ProfilePrivacy = props => {
   }
 
   return (
-    <Wrapper>
-      <View style={styles.mainContainer}>
-        <View style={styles.growTwo}>
-          <View style={styles.subtitleRow}>
-            <Text style={styles.subtitle}>Manage your profile privacy</Text>
-            <InfoIcon onPress={() => setShowTips(true)} />
-          </View>
+    <Section grow style={styles.wrapper}>
+      <Section.Stack grow>
+        <Section.Row grow justifyContent="center" style={styles.subtitleRow}>
+          <Section.Text fontSize={16} fontWeight="bold" color={theme.colors.gray}>
+            Manage your profile privacy
+          </Section.Text>
+          <InfoIcon style={styles.infoIcon} color={theme.colors.primary} onPress={() => setShowTips(true)} />
+        </Section.Row>
 
+        <Section style={styles.optionsRowContainer}>
           <OptionsRow />
 
-          <View>
-            {profileFields.map(field => (
-              <RadioButton.Group
-                onValueChange={value => setPrivacy(prevState => ({ ...prevState, [`${field}`]: value }))}
-                value={privacy[field]}
-                key={field}
-              >
-                <OptionsRow title={titles[field]} />
-              </RadioButton.Group>
-            ))}
-          </View>
-        </View>
+          {profileFields.map(field => (
+            <RadioButton.Group
+              onValueChange={value => setPrivacy(prevState => ({ ...prevState, [`${field}`]: value }))}
+              value={privacy[field]}
+              key={field}
+            >
+              <OptionsRow title={titles[field]} />
+            </RadioButton.Group>
+          ))}
+        </Section>
+      </Section.Stack>
 
-        <View style={styles.buttonsRow}>
-          <BackButton mode="text" screenProps={props.screenProps} style={styles.growOne}>
-            Cancel
-          </BackButton>
-          <CustomButton
-            onPress={handleSave}
-            mode="contained"
-            loading={loading}
-            disabled={updatableValues().length === 0}
-            style={styles.growThree}
-          >
-            Save
-          </CustomButton>
-        </View>
-      </View>
+      <Section.Row grow alignItems="flex-end" style={styles.buttonsRow}>
+        <BackButton mode="text" screenProps={screenProps} style={styles.growOne}>
+          Cancel
+        </BackButton>
+        <CustomButton
+          onPress={handleSave}
+          mode="contained"
+          loading={loading}
+          disabled={updatableValues().length === 0}
+          style={styles.growThree}
+        >
+          Save
+        </CustomButton>
+      </Section.Row>
       <CustomDialog visible={showTips} onDismiss={() => setShowTips(false)} title="TIPS" dismissText="Ok">
         {privacyOptions.map(field => (
-          <View key={field} style={styles.dialogTipItem}>
-            <Text style={styles.dialogTipItemTitle}>{startCase(field)}</Text>
+          <Section.Stack grow key={field} style={styles.dialogTipItem}>
+            <Text fontSize={18} color="primary" textAlign="left">
+              {startCase(field)}
+            </Text>
             <Text>{tips[field]}</Text>
-          </View>
+          </Section.Stack>
         ))}
       </CustomDialog>
-    </Wrapper>
+    </Section>
   )
 }
 
-ProfilePrivacy.navigationOptions = {
-  title: TITLE
-}
-
-const styles = StyleSheet.create({
-  optionsRowContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderBottomColor: '#eeeeee',
-    borderBottomStyle: 'solid',
-    borderBottomWidth: 1,
-    padding: '10px'
-  },
-  growOne: { flexGrow: 1 },
-  growTwo: { flexGrow: 2 },
-  growThree: { flexGrow: 3 },
-  optionsRowTitle: { width: '15%', alignItems: 'center' },
-  mainContainer: { display: 'flex', flexDirection: 'column', height: '100%' },
-  subtitleRow: { display: 'flow', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: '16%' },
-  subtitle: { fontSize: normalize(18) },
-  buttonsRow: { display: 'flex', flexDirection: 'row', alignItems: 'center', height: '8%', width: '96%' },
-  dialogTipItem: { display: 'flex', flexOrientation: 'column', marginBottom: normalize(20) },
-  dialogTipItemTitle: { fontWeight: 'bold', color: '#00afff', fontSize: normalize(18) }
-})
-
 /**
  * InfoIcon component
- * @param onPress
+ * @param {object} props
+ * @param {string} props.color
+ * @param {Function} props.onPress
+ * @param {number} props.size
  * @returns {ReactNode}
  * @constructor
  */
-const InfoIcon = ({ onPress }) => (
-  <TouchableOpacity onPress={onPress}>
-    <Icon size={24} color="blue" name="info" />
+const InfoIcon = ({ color, onPress, size, style }) => (
+  <TouchableOpacity onPress={onPress} style={style}>
+    <Icon size={size || 16} color={color} name="system-filled" />
   </TouchableOpacity>
 )
 
-/**
- * OptionsRow component
- * @param title
- * @returns {React.Node}
- * @constructor
- */
-const OptionsRow = ({ title = '' }) => (
-  <View style={styles.optionsRowContainer}>
-    <Text style={styles.growTwo}>{title}</Text>
+const getStylesFromProps = ({ theme }) => {
+  return {
+    wrapper: {
+      borderRadius: 0,
+      padding: 0,
+    },
+    infoIcon: {
+      marginLeft: '0.5em',
+    },
+    optionsRowContainer: {
+      padding: 0,
+      height: '70%',
+    },
+    growOne: {
+      flexGrow: 1,
+    },
+    growThree: {
+      flexGrow: 3,
+    },
+    subtitleRow: {
+      height: '16%',
+    },
+    buttonsRow: {
+      marginHorizontal: theme.paddings.mainContainerPadding,
+      marginBottom: normalize(16),
+    },
+    dialogTipItem: {
+      marginBottom: normalize(20),
+    },
+  }
+}
 
-    {privacyOptions.map(privacy => (
-      <View style={styles.optionsRowTitle} key={privacy}>
-        {title === '' ? <Text>{startCase(privacy)}</Text> : <RadioButton value={privacy} />}
-      </View>
-    ))}
-  </View>
-)
+const profilePrivacy = withStyles(getStylesFromProps)(ProfilePrivacy)
 
-export default ProfilePrivacy
+profilePrivacy.navigationOptions = {
+  title: TITLE,
+}
+
+export default profilePrivacy

@@ -17,11 +17,15 @@ import TabsView from '../appNavigation/TabsView'
 import { Avatar, BigGoodDollar, ClaimButton, Section, Wrapper } from '../common'
 import logger from '../../lib/logger/pino-logger'
 import userStorage from '../../lib/gundb/UserStorage'
+import { PrivacyArticle, PrivacyPolicy, Support, TermsOfUse } from '../webView/webViewInstances'
 import { withStyles } from '../../lib/styles'
-import { PrivacyPolicy, Support, TermsOfUse } from '../webView/webViewInstances'
+import Mnemonics from '../signin/Mnemonics'
 import Amount from './Amount'
 import Claim from './Claim'
 import FaceRecognition from './FaceRecognition/FaceRecognition'
+import FRIntro from './FaceRecognition/FRIntro'
+import FRError from './FaceRecognition/FRError'
+import UnsupportedDevice from './FaceRecognition/UnsupportedDevice'
 import FeedList from './FeedList'
 import FeedModalItem from './FeedItems/FeedModalItem'
 import Reason from './Reason'
@@ -283,11 +287,16 @@ export default createStackNavigator({
   Send,
   SendLinkSummary,
   SendConfirmation,
-  FaceRecognition,
+  FRError,
+  FaceVerification: FaceRecognition,
+  FRIntro,
+  UnsupportedDevice,
   SendByQR,
   ReceiveByQR,
   SendQRSummary,
   PP: PrivacyPolicy,
+  PrivacyArticle,
   TOU: TermsOfUse,
   Support,
+  Recover: Mnemonics,
 })

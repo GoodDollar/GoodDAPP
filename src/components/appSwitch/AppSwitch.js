@@ -112,7 +112,7 @@ const AppSwitch = (props: LoadingProps) => {
   }
 
   const init = async () => {
-    store.set('loadingIndicator')({ loading: true })
+    // store.set('loadingIndicator')({ loading: true })
     await initialize()
     store.set('loadingIndicator')({ loading: false })
   }

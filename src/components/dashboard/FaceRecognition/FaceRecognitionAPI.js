@@ -2,14 +2,13 @@
 import API from '../../../lib/API/api'
 import logger from '../../../lib/logger/pino-logger'
 import goodWallet from '../../../lib/wallet/GoodWallet'
-import userStorage from '../../../lib/gundb/UserStorage'
 import { type ZoomCaptureResult } from './Zoom'
 
 type FaceRecognitionResponse = {
   ok: boolean,
   livenessPassed?: boolean,
   isDuplicate?: boolean,
-  enrollResult?: object | false,
+  enrollResult?: any | false,
 }
 
 type FaceRecognitionAPIResponse = {
@@ -57,35 +56,22 @@ export const FaceRecognitionAPI = {
 
   onFaceRecognitionResponse(result: FaceRecognitionResponse): FaceRecognitionAPIResponse {
     log.info({ result })
-    if (
-      !result ||
-      !result.ok ||
-      result.livenessPassed === false ||
-      result.isDuplicate === true ||
-      result.enrollResult === false ||
-      result.enrollResult.ok === 0
-    ) {
+    if (!result || !result.ok) {
       return this.onFaceRecognitionFailure(result)
-    } else if (result.ok && result.enrollResult) {
+    } else if (result.ok) {
       return this.onFaceRecognitionSuccess(result)
     }
 
-    log.error('uknown error', { result }) // TODO: handle general error
+    log.error('unknown error', { result }) // TODO: handle general error
     this.onFaceRecognitionFailure(result)
 
     return { ok: 0, error: 'General Error' }
   },
 
-  async onFaceRecognitionSuccess(res: FaceRecognitionResponse) {
-    log.info('user passed Face Recognition successfully, res:')
+  onFaceRecognitionSuccess(res: FaceRecognitionResponse) {
+    log.info('Face Recognition finished successfull', { res })
     log.debug({ res })
-    try {
-      await userStorage.setProfileField('zoomEnrollmentId', res.enrollResult.enrollmentIdentifier, 'private')
-      return { ok: 1 }
-    } catch (e) {
-      log.error('failed to save zoomEnrollmentId:', res.enrollResult.enrollmentIdentifier, e) // TODO: handle what happens if the facemap was not saved successfully to the user storage
-      return { ok: 0, error: 'failed to save capture information to user profile' }
-    }
+    return { ok: 1, ...res }
   },
 
   onFaceRecognitionFailure(result: FaceRecognitionResponse) {
@@ -95,14 +81,9 @@ export const FaceRecognitionAPI = {
       reason = 'General Error'
     } else if (result.error) {
       reason = result.error
-    } else if (result.livenessPassed === false) {
-      reason = 'Liveness Failed'
-    } else if (result.isDuplicate) {
-      reason = 'Face Already Exist'
-    } else {
-      reason = 'Enrollment Failed'
     }
 
+    //TODO: Rami - should i handle this error as well, or is it on Liav's verification screen
     return { ok: 0, error: reason }
   },
 }

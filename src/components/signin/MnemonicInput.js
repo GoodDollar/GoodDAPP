@@ -16,13 +16,15 @@ const MAX_WORDS = 12
 type Props = {
   onChange?: Function,
   recoveryMode: any,
+  styles: any,
+  seed?: string,
 }
 
 const isValidWord = word => {
   return word !== ''
 }
 
-const MnemonicInput = ({ onChange, recoveryMode, styles }: Props) => {
+const MnemonicInput = ({ onChange, recoveryMode, styles, seed }: Props) => {
   const [state, setState] = useState({})
   const refs = {}
 
@@ -81,6 +83,12 @@ const MnemonicInput = ({ onChange, recoveryMode, styles }: Props) => {
       setState(newState)
     }
   }
+
+  useEffect(() => {
+    if (seed) {
+      setWord(0)(seed)
+    }
+  }, [])
 
   return (
     <>

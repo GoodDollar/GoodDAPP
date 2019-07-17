@@ -15,16 +15,40 @@ export type ZoomCaptureResult = {
 }
 
 const log = logger.child({ from: 'Zoom' })
-export const capture = (zoomSDK: any, videoTrack: MediaStreamTrack): Promise<ZoomCaptureResult> =>
-  new Promise((resolve, reject) => {
-    let ZoomSDK = zoomSDK
-    log.info('ZoomSDK = ', { ZoomSDK })
-    ZoomSDK.prepareInterface('zoom-interface-container', 'zoom-video-element', (prepareInterfaceResult: any) => {
-      if (prepareInterfaceResult !== ZoomSDK.ZoomTypes.ZoomPrepareInterfaceResult.Success) {
-        return reject(new Error(`unable to prepare zoom interface: ${prepareInterfaceResult}`))
-      }
 
-      const zoomSession = new ZoomSDK.ZoomSession((result: ZoomCaptureResult) => {
+class Zoom {
+  ready: Promise<any>
+
+  zoomSDK: any
+
+  zoomSession: any
+
+  videoTrack: MediaStreamTrack
+
+  constructor(zoomSDK: any, videoTrack: MediaStreamTrack) {
+    this.zoomSDK = zoomSDK
+    this.videoTrack = videoTrack
+    this.ready = new Promise((resolve, reject) => {
+      let ZoomSDK = zoomSDK
+      log.info('ZoomSDK = ', { ZoomSDK })
+      ZoomSDK.prepareInterface('zoom-interface-container', 'zoom-video-element', (prepareInterfaceResult: any) => {
+        if (prepareInterfaceResult !== ZoomSDK.ZoomTypes.ZoomPrepareInterfaceResult.Success) {
+          return reject(new Error(`unable to prepare zoom interface: ${prepareInterfaceResult}`))
+        }
+        resolve()
+      })
+    })
+  }
+
+  async capture() {
+    await this.ready
+    let ZoomSDK = this.zoomSDK
+    const res = new Promise((resolve, reject) => {
+      this.zoomSession = new ZoomSDK.ZoomSession((result: ZoomCaptureResult) => {
+        if (result.status === ZoomSDK.ZoomTypes.ZoomCaptureResult.ProgramaticallyCancelled) {
+          return resolve()
+        }
+
         if (result.status !== ZoomSDK.ZoomTypes.ZoomCaptureResult.SessionCompleted || !result.facemap) {
           return reject(new Error(`unsuccessful capture result: ${result.status}`))
         }
@@ -32,10 +56,17 @@ export const capture = (zoomSDK: any, videoTrack: MediaStreamTrack): Promise<Zoo
         auditTrailImageToBlob(result.faceMetrics.auditTrail[0])
           .then(auditTrailImage => resolve({ ...result, auditTrailImage }))
           .catch(() => resolve(result))
-      }, videoTrack)
-
-      zoomSession.capture()
+      }, this.videoTrack)
+      this.zoomSession.capture()
     })
-  })
+    return res
+  }
+
+  async cancel() {
+    await this.ready.catch(_ => _)
+    this.zoomSession && this.zoomSession.cancel()
+  }
+}
 
 const auditTrailImageToBlob = async (auditTrailImage: string): Promise<Blob> => (await fetch(auditTrailImage)).blob() // because this is a data url (it's all local) - efficent way to convert to binary process
+export default Zoom

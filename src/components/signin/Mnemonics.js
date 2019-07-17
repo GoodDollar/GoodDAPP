@@ -1,5 +1,6 @@
 // @flow
 import bip39 from 'bip39-light'
+import get from 'lodash/get'
 import React, { useState } from 'react'
 import { AsyncStorage } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
@@ -14,7 +15,7 @@ import MnemonicInput from './MnemonicInput'
 const TITLE = 'Recover'
 const log = logger.child({ from: TITLE })
 
-const Mnemonics = ({ styles }) => {
+const Mnemonics = ({ navigation, styles }) => {
   //lazy load heavy wallet stuff for fast initial app load (part of initial routes)
   const mnemonicsHelpers = import('../../lib/wallet/SoftwareWalletProvider')
   const [mnemonics, setMnemonics] = useState()
@@ -57,6 +58,8 @@ const Mnemonics = ({ styles }) => {
     }
   }
 
+  const incomingMnemonic = get(navigation, 'state.params.mnemonic', undefined)
+
   return (
     <Section grow={5} style={styles.wrapper}>
       <Section.Stack grow style={styles.instructions} justifyContent="space-around">
@@ -64,7 +67,7 @@ const Mnemonics = ({ styles }) => {
         <Text color="gray50Percent">You can copy-paste it from your backup email</Text>
       </Section.Stack>
       <Section.Stack grow={4} justifyContent="space-between" style={styles.inputsContainer}>
-        <MnemonicInput recoveryMode={false} onChange={handleChange} />
+        <MnemonicInput recoveryMode={false} onChange={handleChange} seed={incomingMnemonic} />
       </Section.Stack>
       <Section.Stack grow style={styles.bottomContainer} justifyContent="flex-end">
         <CustomButton mode="contained" onPress={recover} disabled={!mnemonics}>

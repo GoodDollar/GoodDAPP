@@ -2,10 +2,10 @@
 import { Dimensions } from 'react-native'
 import React, { createRef, useEffect } from 'react'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
+import { isMobile } from 'mobile-device-detect'
 import logger from '../../../lib/logger/pino-logger'
 
 const log = logger.child({ from: 'Camera' })
-const { width, height } = Dimensions.get('window')
 
 type CameraProps = {
   width: number,
@@ -48,13 +48,24 @@ export function Camera(props: CameraProps) {
   ]
 
   useEffect(() => {
+    log.debug('mounting camera', videoPlayerRef)
+    if (videoPlayerRef === null) {
+      return
+    }
+    const { width, height } = Dimensions.get('window')
+    log.debug({ width, height })
+
+    //prevent landscape
+    if (isMobile && width > height) {
+      return props.onError('Please make sure your mobile is in portrait mode and try again.')
+    }
     awaitGetUserMedia()
     return () => {
       log.debug('Unloading video track?', !!this.videoTrack)
       this.videoTrack && this.videoTrack.stop()
       this.videoTrack = null
     }
-  }, [])
+  }, [videoPlayerRef])
 
   const getStream = async (): Promise<MediaStream> => {
     const constraints = acceptableConstraints[currentConstraintIndex]
@@ -134,10 +145,40 @@ export function Camera(props: CameraProps) {
 }
 
 export const getResponsiveVideoDimensions = () => {
+  const { width, height } = Dimensions.get('window')
+
   const defaultHeight = height - 124 > 360 && width < 690
+  if (isMobile) {
+    return {
+      height: defaultHeight ? normalize(360) : 'auto',
+      maxHeight: defaultHeight ? normalize(360) : height - 124,
+      width: defaultHeight ? 'auto' : '100%',
+    }
+  }
   return {
-    height: defaultHeight ? normalize(360) : 'auto',
-    maxHeight: defaultHeight ? normalize(360) : height - 124,
-    width: defaultHeight ? 'auto' : '100%',
+    height: height * 0.5,
+    width: 'auto',
+  }
+}
+
+export const getResponsiveVideoDimensionsNew = () => {
+  const { width, height } = Dimensions.get('window')
+
+  //our max width is 475 and we have (10+5)*2 padding
+  const containerWidth = Math.min(475, width) - 30
+  const containerHeight = (containerWidth / 2) * 1.77777778
+
+  log.debug({ containerHeight, containerWidth })
+
+  //we transpose the video so height is width
+  if (height > containerWidth) {
+    return {
+      width: 'auto',
+      height: containerHeight,
+    }
+  }
+  return {
+    width: containerWidth,
+    height: 'auto',
   }
 }

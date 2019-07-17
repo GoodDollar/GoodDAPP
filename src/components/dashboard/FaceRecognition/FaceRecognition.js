@@ -1,15 +1,13 @@
 // @flow
 import React, { createRef } from 'react'
-import { Image, StyleSheet } from 'react-native'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
-import illustration from '../../../assets/FaceRecognition/illustration.png'
-import SimpleStore from '../../../lib/undux/SimpleStore'
+import get from 'lodash/get'
 import type { DashboardProps } from '../Dashboard'
 import logger from '../../../lib/logger/pino-logger'
-import { CustomButton, Section, Text, Wrapper } from '../../common'
+import { Wrapper } from '../../common'
 import userStorage from '../../../lib/gundb/UserStorage'
 import FRapi from './FaceRecognitionAPI'
 import type FaceRecognitionResponse from './FaceRecognitionAPI'
+import GuidedFR from './GuidedFRProcessResults'
 import ZoomCapture from './ZoomCapture'
 import { type ZoomCaptureResult } from './Zoom'
 import zoomSdkLoader from './ZoomSdkLoader'
@@ -20,18 +18,16 @@ declare var ZoomSDK: any
 
 type FaceRecognitionProps = DashboardProps & {}
 
-type State = DashboardState & {
-  showPreText: boolean,
+type State = {
   showZoomCapture: boolean,
-  loadingFaceRecognition: boolean,
+  showGuidedFR: boolean,
+  sessionId: string | void,
   loadingText: string,
   facemap: Blob,
   zoomReady: boolean,
-  intendedAction: string,
   captureResult: ZoomCaptureResult,
+  isWhitelisted: boolean | void,
 }
-
-Image.prefetch(illustration)
 
 /**
  * Responsible to orchestrate FaceReco process, using the following modules: ZoomCapture & FRapi.
@@ -42,15 +38,15 @@ Image.prefetch(illustration)
  **/
 class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
   state = {
-    showPreText: true,
-    showZoomCapture: false,
-    loadingFaceRecognition: false,
+    showPreText: false,
+    showZoomCapture: true,
+    showGuidedFR: false,
+    sessionId: undefined,
     loadingText: '',
     facemap: new Blob([], { type: 'text/plain' }),
     zoomReady: false,
-    name: '',
-    intendedAction: '',
     captureResult: {},
+    isWhitelisted: undefined,
   }
 
   loadedZoom: any
@@ -69,10 +65,6 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
   }
 
   componentWillMount = async () => {
-    const name = (await userStorage.getProfileFieldDisplayValue('fullName')).split(' ').shift() || 'NoName'
-    const intendedAction = this.props.screenProps.screenState.from === 'Claim' ? 'claiming' : 'sending'
-    this.setState({ name, intendedAction })
-
     await zoomSdkLoader.ready
     this.loadedZoom = ZoomSDK
     this.timeout = setTimeout(() => {
@@ -80,103 +72,89 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     }, 0)
   }
 
-  componentDidMount = () => {
-    this.setWidth()
-  }
+  componentDidMount = () => {}
 
+  /**
+   *  unused
+   */
   setWidth = () => {
     const containerWidth =
-      (this.containerRef && this.containerRef.current && this.containerRef.current.offsetWidth) || this.width
+      (this.containerRef && this.containerRef.current && this.containerRef.current.offsetWidth) || 300
     this.width = Math.min(this.width, containerWidth)
     this.height = window.innerHeight > window.innerWidth ? this.width * 1.77777778 : this.width * 0.5625
-
-    this.width = 720
-    this.height = 1280
+    log.debug({ containerWidth, width: this.width, height: this.height })
   }
 
-  onCaptureResult = (captureResult: ZoomCaptureResult) => {
+  onCaptureResult = (captureResult?: ZoomCaptureResult): void => {
+    //TODO: rami check uninitilized, return
     log.debug('zoom capture completed', { captureResult })
-    this.startFRProcessOnServer(captureResult)
-  }
-
-  startFRProcessOnServer = async (captureResult: ZoomCaptureResult) => {
-    log.debug('Sending capture result to server', captureResult)
-    this.setState({
-      showZoomCapture: false,
-      loadingFaceRecognition: true,
-      loadingText: 'Analyzing Face Recognition..',
-    })
-    let result: FaceRecognitionResponse = await FRapi.performFaceRecognition(captureResult)
-    this.setState({ loadingFaceRecognition: false })
-    if (!result || !result.ok) {
-      this.showFRError(result.error)
+    if (captureResult === undefined) {
+      log.error('empty capture result')
+      this.showFRError('empty capture result')
     } else {
-      this.props.screenProps.pop({ isValid: true })
+      this.startFRProcessOnServer(captureResult)
     }
   }
 
-  showFRError = (error: string) => {
-    this.props.store.set('currentScreen')({
-      dialogData: {
-        visible: true,
-        title: 'Please try again',
-        message: `FaceRecognition failed. Reason: ${error}. Please try again`,
-        dismissText: 'Retry',
-        onDismiss: this.setState({ showPreText: true }), // reload.
-      },
+  startFRProcessOnServer = async (captureResult: ZoomCaptureResult) => {
+    try {
+      log.debug('Sending capture result to server', captureResult)
+      this.setState({
+        showZoomCapture: false,
+        showGuidedFR: true,
+        sessionId: captureResult.sessionId,
+      })
+      let result: FaceRecognitionResponse = await FRapi.performFaceRecognition(captureResult)
+      log.debug('FR API:', { result })
+      if (!result || !result.ok) {
+        log.error('FR API call failed:', { result })
+        this.showFRError(result.error) // TODO: rami
+      } else if (get(result, 'enrollResult.enrollmentIdentifier', undefined)) {
+        this.setState({ ...this.state, isWhitelisted: true })
+      } else {
+        this.setState({ ...this.state, isWhitelisted: false })
+      }
+    } catch (e) {
+      log.error('FR API call failed:', e, e.message)
+      this.showFRError(e.message)
+    }
+  }
+
+  showFRError = (error: string | Error) => {
+    this.setState({ showZoomCapture: false, showGuidedFR: false, sessionId: undefined }, () => {
+      this.props.screenProps.navigateTo('FRError', { error })
     })
   }
 
-  showFaceRecognition = () => {
-    this.setState(prevState => ({ showZoomCapture: true, showPreText: false }))
+  retry = () => {
+    this.setState({ showGuidedFR: false, sessionId: undefined, showZoomCapture: true })
   }
 
-  showPrivacyPolicy = () => {
-    this.props.screenProps.push('PP')
+  done = () => {
+    this.props.screenProps.pop({ isValid: true })
   }
 
   render() {
-    const { intendedAction, name } = this.state
-    const { showZoomCapture, showPreText, loadingFaceRecognition, loadingText } = this.state
-
+    const { showZoomCapture, showGuidedFR, sessionId, isWhitelisted } = this.state
+    log.debug('Render:', { showZoomCapture })
     return (
       <Wrapper>
-        {showPreText ? (
-          <Section grow alignItems="center" justifyContent="space-between">
-            <Section.Stack grow justifyContent="center" alignItems="center">
-              <Text fontSize={24} textAlign="center">{`${name},\nbefore we can get started...`}</Text>
-              <Image source={illustration} style={styles.illustration} resizeMode="contain" />
-              <Section.Row style={styles.privacyPolicyDisclaimer} justifyContent="center" alignItems="center">
-                <Text color="primary" textAlign="justify" fontWeight="bold">
-                  {`Since it's your first time ${intendedAction} G$, we need to make sure it's really you. Learn more about our `}
-                  <Text
-                    color="primary"
-                    fontWeight="bold"
-                    textDecorationLine="underline"
-                    onPress={this.showPrivacyPolicy}
-                  >
-                    privacy policy
-                  </Text>
-                  .
-                </Text>
-              </Section.Row>
-            </Section.Stack>
-            <CustomButton
-              mode="contained"
-              disabled={this.state.zoomReady === false}
-              onPress={loadingFaceRecognition ? () => {} : this.showFaceRecognition}
-              loading={this.state.zoomReady === false || loadingFaceRecognition}
-              style={styles.button}
-            >
-              {loadingFaceRecognition ? loadingText : 'Quick Face Recognition'}
-            </CustomButton>
-          </Section>
-        ) : (
+        {showGuidedFR && (
+          <GuidedFR
+            sessionId={sessionId}
+            userStorage={userStorage}
+            retry={this.retry}
+            done={this.done}
+            navigation={this.props.screenProps}
+            isWhitelisted={isWhitelisted}
+          />
+        )}
+
+        {this.state.zoomReady && showZoomCapture && (
           <ZoomCapture
-            height={this.height}
-            screenProps={this.screenProps}
+            screenProps={this.props.screenProps}
             onCaptureResult={this.onCaptureResult}
-            showZoomCapture={showZoomCapture}
+            showZoomCapture={this.state.zoomReady && showZoomCapture}
             loadedZoom={this.loadedZoom}
             onError={this.showFRError}
           />
@@ -186,33 +164,8 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
   }
 }
 
-const styles = StyleSheet.create({
-  illustration: {
-    marginTop: normalize(16),
-    minWidth: normalize(204),
-    maxWidth: '100%',
-    minHeight: normalize(152),
-  },
-  privacyPolicyDisclaimer: {
-    width: '80%',
-    borderTopWidth: normalize(2),
-    borderTopStyle: 'solid',
-    borderTopColor: '#00AFFF',
-    borderBottomWidth: normalize(2),
-    borderBottomStyle: 'solid',
-    borderBottomColor: '#00AFFF',
-    padding: normalize(12),
-    paddingTop: normalize(24),
-    paddingBottom: normalize(24),
-    marginTop: normalize(24),
-  },
-  button: { width: '100%' },
-})
-
-const faceRecognition = SimpleStore.withStore(FaceRecognition)
-
-faceRecognition.navigationOptions = {
-  title: 'Face Recognition',
+FaceRecognition.navigationOptions = {
+  title: 'Face Verification',
+  navigationBarHidden: false,
 }
-
-export default faceRecognition
+export default FaceRecognition

@@ -25,7 +25,7 @@ const FRIntro = props => {
   if (isValid) {
     props.screenProps.pop({ isValid: true })
   }
-  const gotoPrivacyArticle = () => props.screenProps.push('PrivacyPolicy')
+  const gotoPrivacyArticle = () => props.screenProps.push('PP')
   const gotoFR = () => props.screenProps.navigateTo('FaceVerification')
   return (
     <Wrapper>

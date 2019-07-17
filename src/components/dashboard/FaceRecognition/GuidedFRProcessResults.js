@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { ActivityIndicator, Image, StyleSheet, View } from 'react-native'
 import { Text } from 'react-native-paper'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
+import find from 'lodash/find'
 import { CustomButton, Section } from '../../common'
 import logger from '../../../lib/logger/pino-logger'
 import goodWallet from '../../../lib/wallet/GoodWallet'
@@ -119,10 +120,11 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
 
   //API call finished, so it will pass isWhitelisted to us
   //this is a backup incase the gundb messaging doesnt work
-  if (processStatus.isWhitelisted === undefined && isWhitelisted) {
+  const gunOK = find(processStatus, (v, k) => v !== undefined)
+  if (gunOK === undefined && isWhitelisted) {
     processStatus.isWhitelisted = true
     saveProfileAndDone()
-  } else if (processStatus.isWhitelisted === undefined && isWhitelisted === false) {
+  } else if (gunOK === undefined && isWhitelisted === false) {
     processStatus.isWhitelisted = false
   }
 

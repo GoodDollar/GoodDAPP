@@ -112,11 +112,10 @@ const IconButton = ({ theme, dark, icon, size, style }: IconButtonProps) => {
  * @returns {React.Node}
  */
 const CustomButton = (props: ButtonProps) => {
-  const { theme, mode, style, children, icon, iconAlignment, iconSize, styles, ...buttonProps } = props
+  const { theme, mode, style, children, icon, iconAlignment, iconSize, styles, textStyle, ...buttonProps } = props
   const disabled = props.loading || props.disabled
   const dark = mode === 'contained'
   const uppercase = mode !== 'text'
-
   return (
     <BaseButton
       compact
@@ -131,7 +130,7 @@ const CustomButton = (props: ButtonProps) => {
       {icon && (!iconAlignment || iconAlignment === 'left') && (
         <IconButton icon={icon} theme={theme} dark={dark} size={iconSize} style={styles.leftIcon} />
       )}
-      <TextContent dark={dark} uppercase={uppercase} textStyle={styles.text}>
+      <TextContent dark={dark} uppercase={uppercase} textStyle={textStyle}>
         {children}
       </TextContent>
       {icon && iconAlignment === 'right' && (

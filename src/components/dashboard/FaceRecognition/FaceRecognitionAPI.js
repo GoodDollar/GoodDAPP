@@ -2,7 +2,6 @@
 import API from '../../../lib/API/api'
 import logger from '../../../lib/logger/pino-logger'
 import goodWallet from '../../../lib/wallet/GoodWallet'
-import userStorage from '../../../lib/gundb/UserStorage'
 import { type ZoomCaptureResult } from './Zoom'
 
 type FaceRecognitionResponse = {
@@ -69,18 +68,10 @@ export const FaceRecognitionAPI = {
     return { ok: 0, error: 'General Error' }
   },
 
-  async onFaceRecognitionSuccess(res: FaceRecognitionResponse) {
+  onFaceRecognitionSuccess(res: FaceRecognitionResponse) {
     log.info('Face Recognition finished successfull', { res })
     log.debug({ res })
-    let identifier = await goodWallet.getAccountForType('zoomId')
-
-    try {
-      res.enrollResult && (await userStorage.setProfileField('zoomEnrollmentId', identifier, 'private'))
-      return { ok: 1 }
-    } catch (e) {
-      log.error('failed to save zoomEnrollmentId:', identifier, e) // TODO: handle what happens if the facemap was not saved successfully to the user storage
-      return { ok: 0, error: 'failed to save capture information to user profile' }
-    }
+    return { ok: 1, ...res }
   },
 
   onFaceRecognitionFailure(result: FaceRecognitionResponse) {

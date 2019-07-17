@@ -1,6 +1,6 @@
 //@flow
 import React, { useEffect, useState } from 'react'
-import { Image, StyleSheet, View, ActivityIndicator } from 'react-native'
+import { ActivityIndicator, Image, StyleSheet, View } from 'react-native'
 import { Text } from 'react-native-paper'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { CustomButton, Section } from '../../common'
@@ -23,6 +23,7 @@ const FRStep = ({ title, isActive, status, paddingBottom }) => {
   let spinner = status === undefined && isActive === true ? <ActivityIndicator color={'gray'} /> : null
   let iconOrSpinner =
     statusIcon || spinner ? <View style={[styles[statusColor], styles.statusIcon]}>{statusIcon || spinner}</View> : null
+
   //not active use grey otherwise based on status
   let textStyle = isActive === false ? styles.textInactive : status === false ? styles.textError : styles.textActive
   log.debug('FRStep', { title, status, isActive, statusColor, textStyle })
@@ -36,7 +37,7 @@ const FRStep = ({ title, isActive, status, paddingBottom }) => {
     </View>
   )
 }
-const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigation }: any) => {
+const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigation, isWhitelisted }: any) => {
   const store = GDStore.useStore()
   const { fullName } = store.get('profile')
 
@@ -44,7 +45,7 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
     isNotDuplicate: undefined,
     isEnrolled: undefined,
     isLive: undefined,
-    isWhitelisted: undefined
+    isWhitelisted: undefined,
   })
 
   const updateProgress = data => {
@@ -77,7 +78,7 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
 
   // let [showDialogWithData] = useDialog()
   let gun = userStorage.gun
-  log.debug({ sessionId })
+  log.debug({ sessionId, isWhitelisted })
 
   useEffect(() => {
     log.debug('subscriping to gun updates:', { sessionId })
@@ -92,6 +93,7 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
 
   const saveProfileAndDone = async () => {
     try {
+      log.debug('savingProfileAndDone')
       let account = await goodWallet.getAccountForType('zoomId')
       await userStorage.setProfileField('zoomEnrollmentId', account, 'private')
       setStatus({ ...processStatus, isProfileSaved: true })
@@ -114,6 +116,16 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
       saveProfileAndDone()
     }
   }, [processStatus.isWhitelisted])
+
+  //API call finished, so it will pass isWhitelisted to us
+  //this is a backup incase the gundb messaging doesnt work
+  if (processStatus.isWhitelisted === undefined && isWhitelisted) {
+    processStatus.isWhitelisted = true
+    saveProfileAndDone()
+  } else if (processStatus.isWhitelisted === undefined && isWhitelisted === false) {
+    processStatus.isWhitelisted = false
+  }
+
   const isProcessFailed =
     processStatus.isNotDuplicate === false ||
     processStatus.isEnrolled === false ||
@@ -182,7 +194,7 @@ C. Light your face evenly'
           paddingLeft: 44,
           paddingRight: 44,
           justifyContent: 'space-around',
-          flex: 1
+          flex: 1,
         }}
       >
         <Section.Title style={styles.mainTitle}>
@@ -194,7 +206,7 @@ C. Light your face evenly'
             paddingTop: 0,
             marginBottom: 0,
             padding: 0,
-            flexGrow: 0
+            flexGrow: 0,
           }}
         >
           <Image source={Divider} resizeMode={'cover'} style={{ width: 'auto', height: 2 }} />
@@ -246,7 +258,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-evenly',
     paddingTop: 33,
-    borderRadius: 5
+    borderRadius: 5,
   },
   mainTitle: {
     fontFamily: 'Roboto-Medium',
@@ -255,14 +267,14 @@ const styles = StyleSheet.create({
     textTransform: 'none',
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   button: {
     fontFamily: 'Roboto-Medium',
-    fontSize: normalize(16)
+    fontSize: normalize(16),
   },
   statusIcon: {
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   textActive: {
     fontFamily: 'Roboto-Medium',
@@ -270,7 +282,7 @@ const styles = StyleSheet.create({
     color: '#42454A',
     textTransform: 'none',
     verticalAlign: 'middle',
-    lineHeight: 28
+    lineHeight: 28,
   },
   textInactive: {
     fontFamily: 'Roboto',
@@ -278,7 +290,7 @@ const styles = StyleSheet.create({
     color: '#CBCBCB',
     textTransform: 'none',
     verticalAlign: 'middle',
-    lineHeight: 28
+    lineHeight: 28,
   },
   textError: {
     fontFamily: 'Roboto-Medium',
@@ -286,36 +298,37 @@ const styles = StyleSheet.create({
     color: '#FA6C77',
     textTransform: 'none',
     verticalAlign: 'middle',
-    lineHeight: 28
+    lineHeight: 28,
   },
   textHelp: {
     fontFamily: 'Roboto',
     fontSize: normalize(16),
     color: '#FA6C77',
-    textTransform: 'none'
+    textTransform: 'none',
   },
   helpLink: {
     fontWeight: 'bold',
-    textDecorationLine: 'underline'
+    textDecorationLine: 'underline',
   },
   textGood: {
     fontFamily: 'Roboto-medium',
     fontSize: normalize(24),
     textTransform: 'none',
-    textAlign: 'center'
+    textAlign: 'center',
   },
   success: {
     width: 28,
     height: 28,
     borderRadius: '50%',
-    backgroundColor: '#00C3AE'
+    backgroundColor: '#00C3AE',
   },
   failure: {
     width: 28,
     height: 28,
     borderRadius: '50%',
     backgroundColor: '#FA6C77',
-    flexGrow: 0
-  }
+    flexGrow: 0,
+  },
 })
+
 export default GuidedFRProcessResults

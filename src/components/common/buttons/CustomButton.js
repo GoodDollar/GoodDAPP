@@ -131,7 +131,7 @@ const CustomButton = (props: ButtonProps) => {
       {icon && (!iconAlignment || iconAlignment === 'left') && (
         <IconButton icon={icon} theme={theme} dark={dark} size={iconSize} style={styles.leftIcon} />
       )}
-      <TextContent dark={dark} uppercase={uppercase} textStyle={style.text}>
+      <TextContent dark={dark} uppercase={uppercase} textStyle={styles.text}>
         {children}
       </TextContent>
       {icon && iconAlignment === 'right' && (

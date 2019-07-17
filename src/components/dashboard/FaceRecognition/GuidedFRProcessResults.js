@@ -1,6 +1,6 @@
 //@flow
 import React, { useEffect, useState } from 'react'
-import { Image, StyleSheet, View, ActivityIndicator } from 'react-native'
+import { ActivityIndicator, Image, StyleSheet, View } from 'react-native'
 import { Text } from 'react-native-paper'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { CustomButton, Section } from '../../common'
@@ -23,6 +23,7 @@ const FRStep = ({ title, isActive, status, paddingBottom }) => {
   let spinner = status === undefined && isActive === true ? <ActivityIndicator color={'gray'} /> : null
   let iconOrSpinner =
     statusIcon || spinner ? <View style={[styles[statusColor], styles.statusIcon]}>{statusIcon || spinner}</View> : null
+
   //not active use grey otherwise based on status
   let textStyle = isActive === false ? styles.textInactive : status === false ? styles.textError : styles.textActive
   log.debug('FRStep', { title, status, isActive, statusColor, textStyle })
@@ -36,7 +37,7 @@ const FRStep = ({ title, isActive, status, paddingBottom }) => {
     </View>
   )
 }
-const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigation }: any) => {
+const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigation, isWhitelisted }: any) => {
   const store = GDStore.useStore()
   const { fullName } = store.get('profile')
 
@@ -77,7 +78,7 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
 
   // let [showDialogWithData] = useDialog()
   let gun = userStorage.gun
-  log.debug({ sessionId })
+  log.debug({ sessionId, isWhitelisted })
 
   useEffect(() => {
     log.debug('subscriping to gun updates:', { sessionId })
@@ -92,6 +93,7 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
 
   const saveProfileAndDone = async () => {
     try {
+      log.debug('savingProfileAndDone')
       let account = await goodWallet.getAccountForType('zoomId')
       await userStorage.setProfileField('zoomEnrollmentId', account, 'private')
       setStatus({ ...processStatus, isProfileSaved: true })
@@ -114,6 +116,16 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
       saveProfileAndDone()
     }
   }, [processStatus.isWhitelisted])
+
+  //API call finished, so it will pass isWhitelisted to us
+  //this is a backup incase the gundb messaging doesnt work
+  if (processStatus.isWhitelisted === undefined && isWhitelisted) {
+    processStatus.isWhitelisted = true
+    saveProfileAndDone()
+  } else if (processStatus.isWhitelisted === undefined && isWhitelisted === false) {
+    processStatus.isWhitelisted = false
+  }
+
   const isProcessFailed =
     processStatus.isNotDuplicate === false ||
     processStatus.isEnrolled === false ||
@@ -319,4 +331,5 @@ const styles = StyleSheet.create({
     flexGrow: 0
   }
 })
+
 export default GuidedFRProcessResults

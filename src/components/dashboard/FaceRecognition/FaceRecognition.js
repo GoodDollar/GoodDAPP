@@ -1,13 +1,14 @@
 // @flow
 import React, { createRef } from 'react'
+import get from 'lodash/get'
 import type { DashboardProps } from '../Dashboard'
 import logger from '../../../lib/logger/pino-logger'
 import { Wrapper } from '../../common'
 import userStorage from '../../../lib/gundb/UserStorage'
 import FRapi from './FaceRecognitionAPI'
 import type FaceRecognitionResponse from './FaceRecognitionAPI'
-import ZoomCapture from './ZoomCapture'
 import GuidedFR from './GuidedFRProcessResults'
+import ZoomCapture from './ZoomCapture'
 import { type ZoomCaptureResult } from './Zoom'
 
 const log = logger.child({ from: 'FaceRecognition' })
@@ -23,7 +24,8 @@ type State = {
   loadingText: string,
   facemap: Blob,
   zoomReady: boolean,
-  captureResult: ZoomCaptureResult
+  captureResult: ZoomCaptureResult,
+  isWhitelisted: boolean | void
 }
 
 /**
@@ -41,7 +43,9 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     sessionId: undefined,
     loadingText: '',
     facemap: new Blob([], { type: 'text/plain' }),
-    zoomReady: false
+    zoomReady: false,
+    captureResult: {},
+    isWhitelisted: undefined
   }
 
   loadedZoom: any
@@ -101,6 +105,10 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
       if (!result || !result.ok) {
         log.error('FR API call failed:', { result })
         this.showFRError(result.error) // TODO: rami
+      } else if (get(result, 'enrollResult.enrollmentIdentifier', undefined)) {
+        this.setState({ ...this.state, isWhitelisted: true })
+      } else {
+        this.setState({ ...this.state, isWhitelisted: false })
       }
     } catch (e) {
       log.error('FR API call failed:', e, e.message)
@@ -123,7 +131,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
   }
 
   render() {
-    const { showZoomCapture, showGuidedFR, sessionId } = this.state
+    const { showZoomCapture, showGuidedFR, sessionId, isWhitelisted } = this.state
     log.debug('Render:', { showZoomCapture })
     return (
       <Wrapper>
@@ -134,6 +142,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
             retry={this.retry}
             done={this.done}
             navigation={this.props.screenProps}
+            isWhitelisted={isWhitelisted}
           />
         )}
 

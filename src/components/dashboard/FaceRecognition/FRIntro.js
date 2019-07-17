@@ -25,7 +25,7 @@ const FRIntro = props => {
   if (isValid) {
     props.screenProps.pop({ isValid: true })
   }
-  const gotoPrivacyArticle = () => props.screenProps.push('PrivacyPolicy')
+  const gotoPrivacyArticle = () => props.screenProps.push('PP')
   const gotoFR = () => props.screenProps.navigateTo('FaceVerification')
   return (
     <Wrapper>
@@ -38,7 +38,7 @@ const FRIntro = props => {
             paddingLeft: '10%',
             paddingRight: '10%',
             justifyContent: 'space-evenly',
-            flex: 1
+            flex: 1,
           }}
         >
           <Section.Title style={styles.mainTitle}>
@@ -49,7 +49,7 @@ const FRIntro = props => {
             style={{
               paddingBottom: 0,
               paddingTop: 0,
-              marginBottom: 0
+              marginBottom: 0,
             }}
           >
             <Image source={Divider} style={{ height: normalize(2) }} />
@@ -74,7 +74,7 @@ const FRIntro = props => {
 }
 FRIntro.navigationOptions = {
   navigationBarHidden: false,
-  title: 'Face Verification'
+  title: 'Face Verification',
 }
 
 const styles = StyleSheet.create({
@@ -87,13 +87,13 @@ const styles = StyleSheet.create({
     flexShrink: 0,
     justifyContent: 'space-evenly',
     paddingTop: normalize(33),
-    borderRadius: 5
+    borderRadius: 5,
   },
   bottomContainer: {
     display: 'flex',
     flex: 1,
     paddingTop: normalize(20),
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
   },
   description: {
     fontSize: normalize(16),
@@ -102,18 +102,18 @@ const styles = StyleSheet.create({
     color: '#00AFFF',
     verticalAlign: 'text-top',
     paddingTop: normalize(25),
-    paddingBottom: normalize(25)
+    paddingBottom: normalize(25),
   },
   mainTitle: {
     fontFamily: 'Roboto-Medium',
     fontSize: normalize(24),
     color: '#42454A',
-    textTransform: 'none'
-  }
+    textTransform: 'none',
+  },
 })
 
 FRIntro.navigationOptions = {
   title: 'Face Verification',
-  navigationBarHidden: false
+  navigationBarHidden: false,
 }
 export default FRIntro

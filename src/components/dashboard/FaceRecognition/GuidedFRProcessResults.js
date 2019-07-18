@@ -16,12 +16,13 @@ import GDStore from '../../../lib/undux/GDStore'
 
 const log = logger.child({ from: 'GuidedFRProcessResults' })
 
-const FRStep = ({ title, isActive, status, paddingBottom }) => {
+const FRStep = ({ title, isActive, status, isProcessFailed, paddingBottom }) => {
   paddingBottom = paddingBottom === undefined ? 12 : paddingBottom
   let statusColor = status === true ? 'success' : status === false ? 'failure' : 'none'
   let statusIcon =
     status === undefined ? null : <Image source={status ? Check : Cross} resizeMode={'center'} style={{ height: 14 }} />
-  let spinner = status === undefined && isActive === true ? <ActivityIndicator color={'gray'} /> : null
+  let spinner =
+    isProcessFailed !== true && status === undefined && isActive === true ? <ActivityIndicator color={'gray'} /> : null
   let iconOrSpinner =
     statusIcon || spinner ? <View style={[styles[statusColor], styles.statusIcon]}>{statusIcon || spinner}</View> : null
 
@@ -33,7 +34,6 @@ const FRStep = ({ title, isActive, status, paddingBottom }) => {
       <View style={{ flexGrow: 2 }}>
         <Text style={textStyle}>{title}</Text>
       </View>
-      {/* {isActive ? <Text>.....</Text> : null} */}
       {iconOrSpinner}
     </View>
   )
@@ -43,6 +43,7 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
   const { fullName } = store.get('profile')
 
   const [processStatus, setStatus] = useState({
+    isStarted: undefined,
     isNotDuplicate: undefined,
     isEnrolled: undefined,
     isLive: undefined,
@@ -217,6 +218,7 @@ C. Light your face evenly'
               title={'Checking duplicates'}
               isActive={true}
               status={isProcessSuccess || processStatus.isNotDuplicate}
+              isProcessFailed={isProcessFailed}
             />
             <FRStep
               title={'Checking liveness'}
@@ -225,11 +227,13 @@ C. Light your face evenly'
                 (processStatus.isNotDuplicate !== undefined && processStatus.isNotDuplicate === true)
               }
               status={isProcessSuccess || processStatus.isLive}
+              isProcessFailed={isProcessFailed}
             />
             <FRStep
               title={'Validating identity'}
               isActive={isProcessSuccess || (processStatus.isLive !== undefined && processStatus.isLive === true)}
               status={isProcessSuccess || processStatus.isWhitelisted}
+              isProcessFailed={isProcessFailed}
             />
             <FRStep
               title={'Updating profile'}
@@ -237,6 +241,7 @@ C. Light your face evenly'
                 isProcessSuccess || (processStatus.isWhitelisted !== undefined && processStatus.isWhitelisted === true)
               }
               status={isProcessSuccess || processStatus.isProfileSaved}
+              isProcessFailed={isProcessFailed}
               paddingBottom={0}
             />
           </View>

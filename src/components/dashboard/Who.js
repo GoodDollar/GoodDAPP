@@ -2,34 +2,38 @@
 import React from 'react'
 import InputText from '../common/form/InputText'
 
-import { Section, TopBar, Wrapper } from '../common'
+import { ScanQRButton, Section, TopBar, Wrapper } from '../common'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
+import { ACTION_RECEIVE, navigationOptions } from './utils/sendReceiveFlow'
+
 export type AmountProps = {
   screenProps: any,
   navigation: any,
 }
 
-const TITLE = 'Receive G$'
-
-const ReceiveFrom = (props: AmountProps) => {
+const Who = (props: AmountProps) => {
   const { screenProps } = props
 
   const [screenState, setScreenState] = useScreenState(screenProps)
-  const { params } = screenState || {}
-  const { fromWho } = screenState
+  const { params } = props.navigation.state
+  const text = params.action === ACTION_RECEIVE ? 'From Who?' : 'Send To?'
+  const { counterPartyDisplayName } = screenState
+  console.info('Component props -> ', { props, params, text })
 
   return (
     <Wrapper>
-      <TopBar push={screenProps.push} />
+      <TopBar push={screenProps.push}>
+        {params.action !== ACTION_RECEIVE && <ScanQRButton onPress={() => screenProps.push('SendByQR')} />}
+      </TopBar>
       <Section grow>
         <Section.Stack grow justifyContent="flex-start">
-          <Section.Title>From Who?</Section.Title>
+          <Section.Title>{text}</Section.Title>
           <InputText
             autoFocus
             style={props.styles.input}
-            value={fromWho}
-            onChangeText={fromWho => setScreenState({ fromWho })}
+            value={counterPartyDisplayName}
+            onChangeText={counterPartyDisplayName => setScreenState({ counterPartyDisplayName })}
             placeholder="Enter the recipient name"
           />
         </Section.Stack>
@@ -42,9 +46,9 @@ const ReceiveFrom = (props: AmountProps) => {
           <Section.Stack grow={2}>
             <NextButton
               nextRoutes={screenState.nextRoutes}
-              values={{ params, fromWho }}
+              values={{ params, counterPartyDisplayName }}
               {...props}
-              label={fromWho ? 'Next' : 'Skip'}
+              label={counterPartyDisplayName ? 'Next' : 'Skip'}
             />
           </Section.Stack>
         </Section.Row>
@@ -53,13 +57,11 @@ const ReceiveFrom = (props: AmountProps) => {
   )
 }
 
-ReceiveFrom.navigationOptions = {
-  title: TITLE,
-}
+Who.navigationOptions = navigationOptions
 
-ReceiveFrom.shouldNavigateToComponent = props => {
+Who.shouldNavigateToComponent = props => {
   const { screenState } = props.screenProps
   return screenState.nextRoutes
 }
 
-export default withStyles(({ theme }) => ({ input: { marginTop: theme.sizes.defaultDouble } }))(ReceiveFrom)
+export default withStyles(({ theme }) => ({ input: { marginTop: theme.sizes.defaultDouble } }))(Who)

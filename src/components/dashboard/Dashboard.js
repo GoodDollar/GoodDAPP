@@ -25,9 +25,9 @@ import FeedList from './FeedList'
 import FeedModalItem from './FeedItems/FeedModalItem'
 import Reason from './Reason'
 import Receive from './Receive'
-import ReceiveFrom from './ReceiveFrom'
-import ReceiveAmount from './ReceiveAmount'
-import ReceiveConfirmation from './ReceiveConfirmation'
+import Who from './Who'
+import ReceiveSummary from './ReceiveSummary'
+import Confirmation from './Confirmation'
 import SendByQR from './SendByQR'
 import ReceiveByQR from './ReceiveByQR'
 import Send from './Send'
@@ -180,11 +180,15 @@ const Dashboard = props => {
           )}
           <Section.Row style={styles.buttonsRow} alignItems="stretch">
             <PushButton
-              routeName={'Send'}
+              routeName="Who"
               screenProps={screenProps}
               style={styles.leftButton}
               icon="send"
               iconAlignment="left"
+              params={{
+                nextRoutes: ['Amount', 'Reason', 'SendLinkSummary', 'SendConfirmation'],
+                params: { action: 'Send' },
+              }}
             >
               Send
             </PushButton>
@@ -268,11 +272,23 @@ export default createStackNavigator({
   Home: Dashboard,
   Claim,
   Receive,
-  ReceiveFrom,
-  Amount,
-  Reason,
-  ReceiveAmount,
-  ReceiveConfirmation,
+  Who: {
+    screen: Who,
+    path: ':action/Who',
+  },
+  Amount: {
+    screen: Amount,
+    path: ':action/Amount',
+  },
+  Reason: {
+    screen: Reason,
+    path: ':action/Reason',
+  },
+  ReceiveSummary,
+  Confirmation: {
+    screen: Confirmation,
+    path: ':action/Confirmation',
+  },
   Send,
   SendLinkSummary,
   SendConfirmation,

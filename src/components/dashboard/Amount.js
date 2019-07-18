@@ -4,32 +4,38 @@ import { AmountInput, Section, TopBar, Wrapper } from '../common'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { gdToWei, weiToGd } from '../../lib/wallet/utils'
+import { ACTION_RECEIVE, navigationOptions } from './utils/sendReceiveFlow'
 
 export type AmountProps = {
   screenProps: any,
   navigation: any,
 }
 
-const RECEIVE_TITLE = 'Receive G$'
-
 const Amount = (props: AmountProps) => {
   const { screenProps } = props
   const [screenState, setScreenState] = useScreenState(screenProps)
-  const { params, amount, ...restState } = { amount: 0, ...screenState } || {}
+  const { params } = props.navigation.state
+  const { amount, ...restState } = { amount: 0, ...screenState } || {}
   const [GDAmount, setGDAmount] = useState(amount > 0 ? weiToGd(amount) : '')
   const [loading, setLoading] = useState(amount <= 0)
   const [error, setError] = useState()
 
   const canContinue = async weiAmount => {
-    if (params && params.toReceive) {
+    if (params && params.action === ACTION_RECEIVE) {
       return true
     }
+    console.info('canContiniue?', { weiAmount, params })
+    try {
+      if (await goodWallet.canSend(weiAmount)) {
+        return true
+      }
 
-    if (!(await goodWallet.canSend(weiAmount))) {
       setError(`Sorry, you don't have enough G$`)
       return false
+    } catch (e) {
+      setError(e.message)
+      return false
     }
-    return true
   }
 
   const handleContinue = async () => {
@@ -67,7 +73,7 @@ const Amount = (props: AmountProps) => {
             <NextButton
               nextRoutes={screenState.nextRoutes}
               canContinue={handleContinue}
-              values={{ ...restState, amount: gdToWei(GDAmount) }}
+              values={{ ...restState, amount: gdToWei(GDAmount), params }}
               disabled={loading}
               {...props}
             />
@@ -78,9 +84,7 @@ const Amount = (props: AmountProps) => {
   )
 }
 
-Amount.navigationOptions = {
-  title: RECEIVE_TITLE,
-}
+Amount.navigationOptions = navigationOptions
 
 Amount.shouldNavigateToComponent = props => {
   const { screenState } = props.screenProps

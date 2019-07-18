@@ -82,11 +82,13 @@ class AppView extends Component<AppViewProps, AppViewState> {
    */
   pop = (params?: any) => {
     const { navigation } = this.props
+
     const nextRoute = this.state.stack.pop()
     if (nextRoute) {
       this.trans = true
+      const { params: navigationParams } = nextRoute.state
       this.setState({ currentState: { ...nextRoute.state, ...params, route: nextRoute.route } }, () => {
-        navigation.navigate(nextRoute.route)
+        navigation.navigate(nextRoute.route, navigationParams)
         this.trans = false
       })
     } else if (navigation.state.index === 0) {
@@ -102,6 +104,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
    */
   push = (nextRoute, params) => {
     const { navigation } = this.props
+    const { params: navigationParams } = params || {}
     const route = navigation.state.routes[navigation.state.index].key
     this.trans = true
     this.setState(
@@ -118,7 +121,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
         }
       },
       state => {
-        navigation.navigate(nextRoute)
+        navigation.navigate(nextRoute, navigationParams)
         this.trans = false
       }
     )

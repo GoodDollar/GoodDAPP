@@ -1,5 +1,8 @@
 // @flow
 import React, { useEffect, useState } from 'react'
+import { isMobile } from 'mobile-device-detect'
+
+import { generateSendShareObject } from '../../lib/share'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import { useDialog } from '../../lib/undux/utils/dialog'
@@ -25,13 +28,49 @@ export type AmountProps = {
 const SendLinkSummary = (props: AmountProps) => {
   const { screenProps } = props
   const [screenState] = useScreenState(screenProps)
-  const [, , showErrorDialog] = useDialog()
+  const [showDialog, , showErrorDialog] = useDialog()
   const [loading, setLoading] = useState(false)
   const [isValid, setIsValid] = useState(screenState.isValid)
   const { amount, reason, counterPartyDisplayName } = screenState
 
   const faceRecognition = () => {
     return screenProps.push('FRIntro', { from: 'SendLinkSummary' })
+  }
+
+  const shareAction = async paymentLink => {
+    const share = generateSendShareObject(paymentLink)
+    try {
+      await navigator.share(share)
+    } catch (e) {
+      showDialog({
+        visible: true,
+        title: 'Error',
+        message:
+          'There was a problem triggering share action. You can still copy the link in tapping on "Copy link to clipboard"',
+        dismissText: 'Ok',
+        onDismiss: () =>
+          screenProps.push('SendConfirmation', {
+            paymentLink,
+            amount,
+            reason,
+            counterPartyDisplayName,
+          }),
+      })
+    }
+  }
+
+  const doConfirm = paymentLink => {
+    if (isMobile && navigator.share) {
+      shareAction(paymentLink)
+    } else {
+      // Show confirmation
+      screenProps.push('SendConfirmation', {
+        paymentLink,
+        amount,
+        reason,
+        counterPartyDisplayName,
+      })
+    }
   }
 
   /**
@@ -70,14 +109,7 @@ const SendLinkSummary = (props: AmountProps) => {
           // Generate link deposit
           const { paymentLink } = generateLinkResponse
 
-          // Show confirmation
-          screenProps.push('Confirmation', {
-            code: paymentLink,
-            amount,
-            reason,
-            counterPartyDisplayName,
-            params: { action: 'Send' },
-          })
+          doConfirm(paymentLink)
         } catch (e) {
           log.error(e)
           showErrorDialog('Generating payment failed', e)

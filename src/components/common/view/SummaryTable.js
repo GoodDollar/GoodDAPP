@@ -47,6 +47,13 @@ const ReasonRow = props => {
   )
 }
 
+/**
+ *
+ * @param {any} props.styles injected via `withStyles`
+ * @param {String} props.counterPartyDisplayName
+ * @param {String} props.amount
+ * @param {Boolean} props.actionReceive if true text is for receive summary
+ */
 const SummaryTable = ({ styles, counterPartyDisplayName, amount, reason, actionReceive }) => (
   <Section.Stack grow justifyContent="center">
     <WhoRow counterPartyDisplayName={counterPartyDisplayName} styles={styles} actionReceive={actionReceive} />

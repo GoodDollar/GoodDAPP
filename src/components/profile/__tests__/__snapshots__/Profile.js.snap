@@ -650,8 +650,6 @@ exports[`Profile matches snapshot 1`] = `
                       "fontSize": "24px",
                       "fontWeight": "normal",
                       "lineHeight": "30px",
-                      "marginBottom": "8px",
-                      "marginTop": "8px",
                       "paddingTop": "8px",
                       "textAlign": "center",
                       "textDecoration": "none",

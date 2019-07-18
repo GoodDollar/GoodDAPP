@@ -1,6 +1,6 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { ScrollView, View } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { Portal } from 'react-native-paper'
 import type { Store } from 'undux'
@@ -17,10 +17,15 @@ import TabsView from '../appNavigation/TabsView'
 import { Avatar, BigGoodDollar, ClaimButton, Section, Wrapper } from '../common'
 import logger from '../../lib/logger/pino-logger'
 import userStorage from '../../lib/gundb/UserStorage'
-import { PrivacyPolicy, Support, TermsOfUse } from '../webView/webViewInstances'
+import { PrivacyArticle, PrivacyPolicy, Support, TermsOfUse } from '../webView/webViewInstances'
+import { withStyles } from '../../lib/styles'
+import Mnemonics from '../signin/Mnemonics'
 import Amount from './Amount'
 import Claim from './Claim'
 import FaceRecognition from './FaceRecognition/FaceRecognition'
+import FRIntro from './FaceRecognition/FRIntro'
+import FRError from './FaceRecognition/FRError'
+import UnsupportedDevice from './FaceRecognition/UnsupportedDevice'
 import FeedList from './FeedList'
 import FeedModalItem from './FeedItems/FeedModalItem'
 import Reason from './Reason'
@@ -134,7 +139,7 @@ const Dashboard = props => {
   }
 
   const { horizontal, currentFeedProps } = state
-  const { screenProps, navigation }: DashboardProps = props
+  const { screenProps, navigation, styles, theme }: DashboardProps = props
   const { balance, entitlement } = gdstore.get('account')
   const { avatar, fullName } = gdstore.get('profile')
   const feeds = gdstore.get('feeds')
@@ -146,7 +151,7 @@ const Dashboard = props => {
   return (
     <View style={styles.dashboardView}>
       <TabsView goTo={navigation.navigate} routes={screenProps.routes} />
-      <Wrapper backgroundColor="#EEE">
+      <Wrapper backgroundColor={theme.colors.lightGray} style={styles.dashboardWrapper}>
         <Section>
           {scrollPos < 100 ? (
             <>
@@ -204,7 +209,7 @@ const Dashboard = props => {
             </PushButton>
           </Section.Row>
         </Section>
-        <View style={styles.marginTop}>
+        <ScrollView style={styles.scrollList}>
           <FeedList
             horizontal={horizontal}
             handleFeedSelection={handleFeedSelection}
@@ -215,7 +220,7 @@ const Dashboard = props => {
             initialNumToRender={PAGE_SIZE}
             onEndReached={getNextFeed.bind(null, store)}
           />
-        </View>
+        </ScrollView>
         {currentFeedProps && (
           <Portal>
             <FeedModalItem {...currentFeedProps} />
@@ -226,36 +231,40 @@ const Dashboard = props => {
   )
 }
 
-const styles = StyleSheet.create({
+const getStylesFromProps = ({ theme }) => ({
   buttonsRow: {
-    marginVertical: normalize(8),
+    marginVertical: theme.sizes.default,
   },
   leftButton: {
     flex: 1,
-    marginRight: normalize(16),
-    paddingRight: normalize(16),
+    marginRight: theme.sizes.defaultDouble,
+    paddingRight: theme.sizes.defaultDouble,
   },
   rightButton: {
     flex: 1,
-    marginLeft: normalize(16),
-    paddingLeft: normalize(16),
+    marginLeft: theme.sizes.defaultDouble,
+    paddingLeft: theme.sizes.defaultDouble,
   },
   dashboardView: {
     flex: 1,
   },
-  marginTop: {
-    marginTop: normalize(8),
+  dashboardWrapper: {
+    paddingHorizontal: 0,
+  },
+  scrollList: {
+    marginTop: theme.sizes.default,
+    overflowX: 'visible',
   },
   centering: {
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 8,
+    padding: theme.sizes.default,
     height: '256px',
   },
   bigNumberStyles: {
     fontFamily: 'RobotoSlab-Bold',
     fontSize: normalize(36),
-    marginRight: normalize(4),
+    marginRight: theme.sizes.defaultHalf,
   },
   bigNumberUnitStyles: {
     fontFamily: 'RobotoSlab-Bold',
@@ -268,8 +277,10 @@ Dashboard.navigationOptions = {
   title: 'Home',
 }
 
+const WrappedDashboard = withStyles(getStylesFromProps)(Dashboard)
+
 export default createStackNavigator({
-  Home: Dashboard,
+  Home: WrappedDashboard,
   Claim,
   Receive,
   Who: {
@@ -292,11 +303,16 @@ export default createStackNavigator({
   Send,
   SendLinkSummary,
   SendConfirmation,
-  FaceRecognition,
+  FRError,
+  FaceVerification: FaceRecognition,
+  FRIntro,
+  UnsupportedDevice,
   SendByQR,
   ReceiveByQR,
   SendQRSummary,
   PP: PrivacyPolicy,
+  PrivacyArticle,
   TOU: TermsOfUse,
   Support,
+  Recover: Mnemonics,
 })

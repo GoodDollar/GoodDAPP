@@ -15,12 +15,15 @@ export class ZoomSdkLoader {
 
   /* Orchestrates zoom loading & initialization process process */
   async load() {
-    log.debug('loading zoom sdk..')
+    log.debug('loading zoom sdk..', { ZoomLoader: this })
     try {
-      await this.loadZoomSDK()
+      if (window.ZoomSDK === undefined) {
+        log.debug('using loadjs to load ZoomSDK')
+        await this.loadZoomSDK()
+      }
       this.loadedZoom = ZoomSDK
       log.info('ZoomSDK loaded', this.loadedZoom)
-      this.loadedZoom.zoomResourceDirectory('/ZoomAuthentication.js/resources')
+      this.loadedZoom.zoomResourceDirectory('/ZoomAuthentication.js/resources/')
       await this.initializeAndPreload(this.loadedZoom) // TODO: what  to do in case of init errors?
       log.info('ZoomSDK initialized and preloaded', this.loadedZoom)
       return this.loadedZoom

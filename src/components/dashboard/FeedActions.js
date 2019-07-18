@@ -1,9 +1,9 @@
 // @flow
 import React from 'react'
-import { StyleSheet } from 'react-native'
-import { Alert, Text, TouchableHighlight, View } from 'react-native-web'
+import { Alert, TouchableHighlight, View } from 'react-native-web'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
-import { Icon, Section } from '../common'
+import { withStyles } from '../../lib/styles'
+import { Icon, Section, Text } from '../common'
 import type { FeedEventProps } from './FeedItems/EventProps'
 
 /**
@@ -12,8 +12,16 @@ import type { FeedEventProps } from './FeedItems/EventProps'
  * @param {FeedEventProps} feedItem - Contains the feed item
  * @returns React element with actions
  */
-export default ({ item }: FeedEventProps) => (
-  <View style={item && item.type !== 'empty' ? styles.actionsContainer : styles.emptyActionsContainer}>
+const FeedActions = ({ item, styles, theme }: FeedEventProps) => (
+  <Section.Row
+    style={[
+      styles.actionsContainer,
+      { backgroundColor: item && item.type !== 'empty' ? theme.colors.red : theme.colors.surface },
+    ]}
+    alignItems="center"
+    justifyContent="flex-end"
+    grow
+  >
     {item && item.type !== 'empty' && (
       <TouchableHighlight
         onPress={() => {
@@ -22,42 +30,25 @@ export default ({ item }: FeedEventProps) => (
       >
         <View>
           <Section.Row justifyContent="center">
-            <Icon name="close" color="#fff" />
+            <Icon name="close" color={theme.colors.surface} />
           </Section.Row>
           <Section.Row justifyContent="center">
-            <Text style={styles.actionButtonText}>Delete</Text>
+            <Text color="surface">Delete</Text>
           </Section.Row>
         </View>
       </TouchableHighlight>
     )}
-  </View>
+  </Section.Row>
 )
 
-const styles = StyleSheet.create({
+const getStylesFromProps = ({ theme }) => ({
   actionsContainer: {
-    alignItems: 'center',
-    backgroundColor: '#fa6c77',
     borderRadius: normalize(8),
-    flex: 1,
-    flexDirection: 'row',
     height: normalize(84),
-    justifyContent: 'flex-end',
     maxHeight: normalize(84),
-    padding: normalize(8),
-  },
-  emptyActionsContainer: {
-    alignItems: 'center',
-    backgroundColor: '#fff',
-    borderRadius: normalize(8),
-    flex: 1,
-    flexDirection: 'row',
-    height: normalize(84),
-    justifyContent: 'flex-end',
-    maxHeight: normalize(84),
-    padding: normalize(8),
-  },
-  actionButtonText: {
-    color: '#fff',
-    textAlign: 'center',
+    padding: theme.sizes.default,
+    marginHorizontal: theme.sizes.default,
   },
 })
+
+export default withStyles(getStylesFromProps)(FeedActions)

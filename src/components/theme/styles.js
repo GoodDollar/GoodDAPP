@@ -13,6 +13,7 @@ export const theme = {
     darkGray: '#42454A',
     gray: '#555',
     gray50Percent: '#CBCBCB',
+    gray80Percent: '#A3A3A3',
     placeholder: '#CBCBCB',
     green: '#00C3AE',
     lightGray: '#EEE',
@@ -46,6 +47,9 @@ export const theme = {
     color: '#555',
     fontSize: normalize(18),
     textAlign: 'center',
+  },
+  backdrop: {
+    backgroundColor: 'rgba(255, 0, 0, 0.8)',
   },
   modals: {
     overlayBackgroundColor: 'rgba(255, 255, 255, 0.8)',

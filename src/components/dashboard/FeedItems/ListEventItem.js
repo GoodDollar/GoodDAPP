@@ -27,7 +27,7 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
       <Section.Stack alignItems="flex-start" style={styles.avatarBottom}>
         <Avatar.Image size={34} source={feed.data.endpoint.avatar} />
       </Section.Stack>
-      <Section.Stack grow={1} style={styles.mainSection}>
+      <Section.Stack grow style={styles.mainSection}>
         <Section.Row style={[styles.borderRow, { borderBottomColor: eventSettings.color }]}>
           <Text style={styles.date}>{getFormattedDateTime(feed.date)}</Text>
           <BigGoodDollar
@@ -37,7 +37,7 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
             number={feed.data.amount}
           />
         </Section.Row>
-        <Section.Row style={styles.bottomInfo}>
+        <Section.Row style={styles.bottomInfo} alignItems="flex-start">
           <Section.Stack style={styles.mainInfo}>
             <EventCounterParty style={styles.feedItem} feedItem={feed} />
             <Text numberOfLines={1} style={styles.message}>
@@ -53,6 +53,15 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
   )
 }
 
+// <Section.Row>
+//   <Section.Stack alignItems="flex-start" grow>
+//     <Section.Row>
+//       <EventCounterParty feedItem={feed} />
+//     </Section.Row>
+//     <Section.Row>
+//       <Text style={styles.rowDataSubText}>{feed.data.message}</Text>
+//     </Section.Row>
+
 const getStylesFromProps = ({ theme }) => ({
   innerRow: {
     alignItems: 'center',
@@ -60,6 +69,7 @@ const getStylesFromProps = ({ theme }) => ({
     justifyContent: 'center',
     padding: normalize(8),
     width: '100%',
+    flex: 1,
   },
   avatarBottom: {
     alignSelf: 'flex-end',
@@ -89,7 +99,6 @@ const getStylesFromProps = ({ theme }) => ({
     fontSize: normalize(10),
   },
   bottomInfo: {
-    alignItems: 'flex-start',
     flexShrink: 1,
   },
   mainInfo: {
@@ -99,18 +108,15 @@ const getStylesFromProps = ({ theme }) => ({
     flexGrow: 1,
     flexShrink: 1,
     justifyContent: 'flex-end',
-    marginTop: 'auto',
+    marginVertical: 'auto',
   },
   feedItem: {
     marginTop: 'auto',
     paddingRight: normalize(4),
   },
   message: {
-    color: theme.colors.lighterGray,
     fontSize: normalize(10),
-    marginTop: normalize(4),
-    paddingRight: normalize(4),
-    textAlign: 'left',
+    color: theme.colors.gray80Percent,
     textTransform: 'capitalize',
   },
 })

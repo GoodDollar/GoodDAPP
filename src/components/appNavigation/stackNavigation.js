@@ -151,12 +151,22 @@ class AppView extends Component<AppViewProps, AppViewState> {
   /**
    * Navigates to specific screen with custom parameters as query string.
    */
-  navigateTo = (routeName: string, params: any) => {
-    this.props.navigation.navigate({
-      routeName,
-      params,
-      type: 'Navigation/NAVIGATE',
-    })
+  navigateTo = (nextRoute: string, params: any) => {
+    const { navigation } = this.props
+    const route = navigation.state.routes[navigation.state.index].key
+    this.trans = true
+    this.setState(
+      (state, props) => {
+        return {
+          stack: state.stack,
+          currentState: { ...params, route },
+        }
+      },
+      state => {
+        navigation.navigate(nextRoute)
+        this.trans = false
+      }
+    )
   }
 
   /**

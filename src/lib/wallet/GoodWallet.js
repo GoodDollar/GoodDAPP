@@ -352,12 +352,13 @@ export class GoodWallet {
   }
 
   async getNextClaimTime(): Promise<any> {
-    const lastClaim = await this.claimContract.methods.getLastClaimed().call()
+    const lastClaim = (await this.claimContract.methods.getLastClaimed().call()) || ZERO
     return (lastClaim.toNumber() + DAY_IN_SECONDS) * MILLISECONDS
   }
 
   async getAmountAndQuantityClaimedToday(entitlement: BN): Promise<any> {
-    const people = await this.identityContract.methods.whiteListedCount().call()
+    const people = (await this.identityContract.methods.whiteListedCount().call()) || ZERO
+
     const amount = people.toNumber() * entitlement.toNumber()
     return {
       people: numeral(people.toNumber()).format('0b'),
@@ -365,8 +366,8 @@ export class GoodWallet {
     }
   }
 
-  checkEntitlement(): Promise<number> {
-    return this.claimContract.methods.checkEntitlement().call()
+  async checkEntitlement(): Promise<number> {
+    return (await this.claimContract.methods.checkEntitlement().call()) || ZERO
   }
 
   /**

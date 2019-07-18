@@ -23,25 +23,14 @@ exports[`UserAvatar matches snapshot 1`] = `
     style={
       Object {
         "WebkitBoxDirection": "normal",
-        "WebkitBoxFlex": 1,
         "WebkitBoxOrient": "horizontal",
         "WebkitBoxPack": "center",
-        "WebkitFlexBasis": "0%",
         "WebkitFlexDirection": "row",
-        "WebkitFlexGrow": 1,
-        "WebkitFlexShrink": 1,
         "WebkitJustifyContent": "center",
-        "flexBasis": "0%",
         "flexDirection": "row",
-        "flexGrow": 1,
-        "flexShrink": 1,
         "justifyContent": "center",
-        "marginTop": "50px",
         "msFlexDirection": "row",
-        "msFlexNegative": 1,
         "msFlexPack": "center",
-        "msFlexPositive": 1,
-        "msFlexPreferredSize": "0%",
       }
     }
   >
@@ -49,11 +38,25 @@ exports[`UserAvatar matches snapshot 1`] = `
       className="css-view-1dbjc4n"
       style={
         Object {
+          "WebkitAlignItems": "center",
+          "WebkitBoxAlign": "center",
           "WebkitBoxDirection": "normal",
+          "WebkitBoxFlex": 1,
           "WebkitBoxOrient": "vertical",
+          "WebkitFlexBasis": "0%",
           "WebkitFlexDirection": "column",
+          "WebkitFlexGrow": 1,
+          "WebkitFlexShrink": 1,
+          "alignItems": "center",
+          "flexBasis": "0%",
           "flexDirection": "column",
+          "flexGrow": 1,
+          "flexShrink": 1,
+          "msFlexAlign": "center",
           "msFlexDirection": "column",
+          "msFlexNegative": 1,
+          "msFlexPositive": 1,
+          "msFlexPreferredSize": "0%",
         }
       }
     >
@@ -89,12 +92,12 @@ exports[`UserAvatar matches snapshot 1`] = `
           style={
             Object {
               "backgroundColor": "rgba(238,238,238,1.00)",
-              "borderBottomLeftRadius": "60px",
-              "borderBottomRightRadius": "60px",
-              "borderTopLeftRadius": "60px",
-              "borderTopRightRadius": "60px",
-              "height": "120px",
-              "width": "120px",
+              "borderBottomLeftRadius": "68px",
+              "borderBottomRightRadius": "68px",
+              "borderTopLeftRadius": "68px",
+              "borderTopRightRadius": "68px",
+              "height": "138px",
+              "width": "138px",
             }
           }
         >
@@ -103,16 +106,16 @@ exports[`UserAvatar matches snapshot 1`] = `
             style={
               Object {
                 "WebkitFlexBasis": "auto",
-                "borderBottomLeftRadius": "60px",
-                "borderBottomRightRadius": "60px",
-                "borderTopLeftRadius": "60px",
-                "borderTopRightRadius": "60px",
+                "borderBottomLeftRadius": "68px",
+                "borderBottomRightRadius": "68px",
+                "borderTopLeftRadius": "68px",
+                "borderTopRightRadius": "68px",
                 "flexBasis": "auto",
-                "height": "120px",
+                "height": "136px",
                 "msFlexPreferredSize": "auto",
                 "overflowX": "hidden",
                 "overflowY": "hidden",
-                "width": "120px",
+                "width": "136px",
                 "zIndex": 0,
               }
             }
@@ -152,6 +155,7 @@ exports[`UserAvatar matches snapshot 1`] = `
             "lineHeight": "30px",
             "marginBottom": "8px",
             "marginTop": "8px",
+            "paddingTop": "8px",
             "textAlign": "center",
             "textDecoration": "none",
             "textTransform": "uppercase",

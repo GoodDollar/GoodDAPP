@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import { View } from 'react-native'
-import { normalize } from 'react-native-elements'
+import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { isMobile } from 'mobile-device-detect'
 import { generateSendShareObject } from '../../lib/share'
 import { useDialog } from '../../lib/undux/utils/dialog'

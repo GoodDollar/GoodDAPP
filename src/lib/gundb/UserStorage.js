@@ -463,7 +463,7 @@ export class UserStorage {
       .decrypt()
   }
 
-  getProfileFieldDisplayValue(field: string): Promise<ProfileField> {
+  getProfileFieldDisplayValue(field: string): Promise<string> {
     return this.profile
       .get(field)
       .get('display')

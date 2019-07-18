@@ -8,8 +8,6 @@ const ClaimButton = ({ screenProps, amount }) => (
   <View style={styles.claimContainer}>
     <PushButton routeName={'Claim'} screenProps={screenProps} style={styles.claimButton}>
       <Text style={styles.buttonText}>Claim</Text>
-      {/* <br />
-      <Text style={[styles.buttonText, styles.grayedOutText]}>+{amount}</Text> */}
     </PushButton>
   </View>
 )
@@ -42,8 +40,8 @@ const styles = StyleSheet.create({
   claimButton: {
     backgroundColor: '#00C3AE',
     borderRadius: '50%',
-    height: normalize(70),
-    width: normalize(70),
+    height: normalize(72),
+    width: normalize(72),
     marginHorizontal: 0,
   },
   grayedOutText: {

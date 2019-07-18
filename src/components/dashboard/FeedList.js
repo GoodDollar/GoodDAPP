@@ -1,9 +1,10 @@
 // @flow
 import React, { PureComponent } from 'react'
-import { ActivityIndicator, Animated, Dimensions, FlatList, StyleSheet, SwipeableFlatList, View } from 'react-native'
+import { ActivityIndicator, Animated, Dimensions, FlatList, SwipeableFlatList, View } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import GDStore from '../../lib/undux/GDStore'
 import pino from '../../lib/logger/pino-logger'
+import { withStyles } from '../../lib/styles'
 import FeedActions from './FeedActions'
 import FeedListItem from './FeedItems/FeedListItem'
 import FeedModalItem from './FeedItems/FeedModalItem'
@@ -79,7 +80,7 @@ class FeedList extends PureComponent<FeedListProps, FeedListState> {
   getItemLayout = (data: any, index: number) => {
     const [length, separator, header] = this.props.horizontal
       ? [SCREEN_SIZE.width, 0, 100]
-      : [SCREEN_SIZE.height, StyleSheet.hairlineWidth, 30]
+      : [SCREEN_SIZE.height, 1, 30]
     return { index, length, offset: (length + separator) * index + header }
   }
 
@@ -106,8 +107,10 @@ class FeedList extends PureComponent<FeedListProps, FeedListState> {
     return horizontal ? <FeedModalItem {...itemProps} /> : <FeedListItem {...itemProps} />
   }
 
+  renderQuickActions = ({ item }) => <FeedActions item={item} />
+
   renderList = (feeds: any, loading: boolean) => {
-    const { fixedHeight, onEndReached, initialNumToRender, horizontal } = this.props
+    const { fixedHeight, onEndReached, initialNumToRender, horizontal, styles } = this.props
 
     // eslint-disable-next-line no-console
     console.log('RenderList', { feeds, loading, horizontal })
@@ -155,7 +158,7 @@ class FeedList extends PureComponent<FeedListProps, FeedListState> {
           ref={ref => (this.swipeableFlatListRef = ref)}
           refreshing={false}
           renderItem={this.renderItemComponent}
-          renderQuickActions={FeedActions}
+          renderQuickActions={this.renderQuickActions}
           viewabilityConfig={VIEWABILITY_CONFIG}
         />
       </View>
@@ -170,9 +173,9 @@ class FeedList extends PureComponent<FeedListProps, FeedListState> {
   }
 }
 
-const styles = StyleSheet.create({
+const getStylesFromProps = ({ theme }) => ({
   loading: {
-    marginTop: normalize(10),
+    marginTop: normalize(8),
   },
   horizontalContainer: {
     backgroundColor: 'rgba(0, 0, 0, 0.7)',
@@ -181,7 +184,6 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    paddingHorizontal: normalize(10),
     paddingVertical: normalize(20),
     position: 'fixed',
     height,
@@ -199,6 +201,7 @@ const styles = StyleSheet.create({
     width: '100%',
     maxWidth: '100vw',
     flex: 1,
+    padding: theme.sizes.defaultHalf,
   },
   options: {
     flexDirection: 'row',
@@ -206,12 +209,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   searchRow: {
-    paddingHorizontal: normalize(10),
+    paddingHorizontal: theme.sizes.default,
   },
   itemSeparator: {
-    height: StyleSheet.hairlineWidth,
+    height: 1,
     backgroundColor: 'rgb(200, 199, 204)',
   },
 })
 
-export default GDStore.withStore(FeedList)
+export default GDStore.withStore(withStyles(getStylesFromProps)(FeedList))

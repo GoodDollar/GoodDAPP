@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from 'react'
 import { AsyncStorage, ScrollView, StyleSheet, View } from 'react-native'
 import { createSwitchNavigator } from '@react-navigation/core'
+import { isMobileSafari } from 'mobile-device-detect'
+
 import NavBar from '../appNavigation/NavBar'
 import { navigationConfig } from '../appNavigation/navigationConfig'
 import logger from '../../lib/logger/pino-logger'
@@ -51,7 +53,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
     isEmailConfirmed: false,
     jwt: '',
   }
-  const [ready, setReady]: [Ready, ((Ready => Ready) | Ready) => void] = useState(Promise.resolve({}))
+  const [ready, setReady]: [Ready, ((Ready => Ready) | Ready) => void] = useState()
   const [state, setState] = useState(initialState)
   const [loading, setLoading] = useState(false)
   const [showErrorDialog] = useErrorDialog()
@@ -59,12 +61,14 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   const navigateWithFocus = (routeKey: string) => {
     navigation.navigate(routeKey)
     setLoading(false)
-    setTimeout(() => {
-      const el = document.getElementById(routeKey + '_input')
-      if (el) {
-        el.focus()
-      }
-    }, 300)
+    if (isMobileSafari || routeKey === 'Phone') {
+      setTimeout(() => {
+        const el = document.getElementById(routeKey + '_input')
+        if (el) {
+          el.focus()
+        }
+      }, 300)
+    }
   }
   const fireSignupEvent = (event?: string) => {
     let curRoute = navigation.state.routes[navigation.state.index]

@@ -5,15 +5,15 @@ import Section from '../layout/Section'
 import { withStyles } from '../../../lib/styles'
 import BigGoodDollar from './BigGoodDollar'
 
-const FromRow = props => {
-  const { styles, counterPartyDisplayName } = props
+const WhoRow = props => {
+  const { styles, counterPartyDisplayName, actionReceive } = props
   if (!counterPartyDisplayName) {
     return null
   }
 
   return (
     <Section.Row style={styles.tableRow}>
-      <Section.Text style={styles.tableRowLabel}>From:</Section.Text>
+      <Section.Text style={styles.tableRowLabel}>{actionReceive ? 'From:' : 'To:'}</Section.Text>
       <Section.Text fontSize={24} fontWeight="bold">
         {counterPartyDisplayName}
       </Section.Text>
@@ -47,9 +47,9 @@ const ReasonRow = props => {
   )
 }
 
-const SummaryTable = ({ styles, counterPartyDisplayName, amount, reason }) => (
+const SummaryTable = ({ styles, counterPartyDisplayName, amount, reason, actionReceive }) => (
   <Section.Stack grow justifyContent="center">
-    <FromRow counterPartyDisplayName={counterPartyDisplayName} styles={styles} />
+    <WhoRow counterPartyDisplayName={counterPartyDisplayName} styles={styles} actionReceive={actionReceive} />
     <AmountRow amount={amount} styles={styles} />
     <ReasonRow reason={reason} styles={styles} />
   </Section.Stack>

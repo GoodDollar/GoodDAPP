@@ -22,7 +22,6 @@ const ReceiveAmount = ({ screenProps, ...props }: ReceiveProps) => {
   const { params } = props.navigation.state
 
   const { amount, reason, counterPartyDisplayName } = screenState
-  const styles = getStylesFromProps(props)
 
   const { account, networkId } = goodWallet
   const code = useMemo(() => generateCode(account, networkId, amount, reason, counterPartyDisplayName), [
@@ -39,7 +38,7 @@ const ReceiveAmount = ({ screenProps, ...props }: ReceiveProps) => {
       <Section justifyContent="space-between" grow>
         <Section.Title>Summary</Section.Title>
         <SummaryTable
-          styles={styles}
+          actionReceive={true}
           counterPartyDisplayName={counterPartyDisplayName}
           amount={amount}
           reason={reason}
@@ -72,12 +71,4 @@ ReceiveAmount.shouldNavigateToComponent = props => {
   return screenState.amount
 }
 
-const getStylesFromProps = ({ theme }) => {
-  return {
-    doneButton: {
-      marginTop: theme.sizes.default,
-    },
-  }
-}
-
-export default withStyles(getStylesFromProps)(ReceiveAmount)
+export default withStyles()(ReceiveAmount)

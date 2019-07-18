@@ -1,14 +1,13 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { View } from 'react-native'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
-import { Avatar, BigGoodDollar, CustomButton, Section, TopBar, Wrapper } from '../common'
-import { receiveStyles } from './styles'
+import { CustomButton, Section, TopBar, Wrapper } from '../common'
+import SummaryTable from '../common/view/SummaryTable'
+import { SEND_TITLE } from './utils/sendReceiveFlow'
 
 const log = logger.child({ from: 'SendLinkSummary' })
 
@@ -16,8 +15,6 @@ export type AmountProps = {
   screenProps: any,
   navigation: any,
 }
-
-const TITLE = 'Send G$'
 
 /**
  * Screen that shows transaction summary for a send link action
@@ -31,7 +28,7 @@ const SendLinkSummary = (props: AmountProps) => {
   const [, , showErrorDialog] = useDialog()
   const [loading, setLoading] = useState(false)
   const [isValid, setIsValid] = useState(screenState.isValid)
-  const { amount, reason, to } = screenState
+  const { amount, reason, counterPartyDisplayName } = screenState
 
   const faceRecognition = () => {
     return screenProps.push('FRIntro', { from: 'SendLinkSummary' })
@@ -56,7 +53,7 @@ const SendLinkSummary = (props: AmountProps) => {
             type: 'send',
             status: 'pending',
             data: {
-              to,
+              counterPartyDisplayName,
               reason,
               amount,
               paymentLink,
@@ -74,7 +71,7 @@ const SendLinkSummary = (props: AmountProps) => {
           const { paymentLink } = generateLinkResponse
 
           // Show confirmation
-          screenProps.push('SendConfirmation', { paymentLink, amount, reason, to })
+          screenProps.push('SendConfirmation', { paymentLink, amount, reason, counterPartyDisplayName })
         } catch (e) {
           log.error(e)
           showErrorDialog('Generating payment failed', e)
@@ -111,51 +108,32 @@ const SendLinkSummary = (props: AmountProps) => {
     }
     return () => setIsValid(undefined)
   }, [isValid])
+
   return (
-    <Wrapper style={styles.wrapper}>
+    <Wrapper>
       <TopBar push={screenProps.push} />
-      <Section style={styles.section}>
-        <Section.Row style={styles.sectionRow}>
-          <Section.Title style={styles.headline}>SUMMARY</Section.Title>
-          <View style={styles.sectionTo}>
-            <Avatar size={110} />
-            {to && <Section.Text style={styles.toText}>{`To: ${to}`}</Section.Text>}
-          </View>
-          <Section.Text style={styles.reason}>
-            {`Here's `}
-            <BigGoodDollar number={amount} />
-          </Section.Text>
-          <Section.Text style={styles.reason}>{reason && `For ${reason}`}</Section.Text>
-          <View style={styles.buttonGroup}>
-            <BackButton mode="text" screenProps={screenProps} style={{ flex: 1 }}>
+      <Section grow>
+        <Section.Title>SUMMARY</Section.Title>
+        <SummaryTable counterPartyDisplayName={counterPartyDisplayName} amount={amount} reason={reason} />
+        <Section.Row>
+          <Section.Stack grow={1}>
+            <BackButton mode="text" screenProps={screenProps}>
               Cancel
             </BackButton>
-            <CustomButton mode="contained" onPress={handleContinue} style={{ flex: 2 }} disabled={loading}>
+          </Section.Stack>
+          <Section.Stack grow={2}>
+            <CustomButton onPress={handleContinue} disabled={loading}>
               Confirm
             </CustomButton>
-          </View>
+          </Section.Stack>
         </Section.Row>
       </Section>
     </Wrapper>
   )
 }
 
-const styles = {
-  ...receiveStyles,
-  sectionTo: {
-    alignItems: 'center',
-  },
-  toText: {
-    marginTop: '1rem',
-    marginBottom: '1rem',
-  },
-  reason: {
-    fontSize: normalize(16),
-  },
-}
-
 SendLinkSummary.navigationOptions = {
-  title: TITLE,
+  title: SEND_TITLE,
 }
 
 SendLinkSummary.shouldNavigateToComponent = props => {

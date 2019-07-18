@@ -90,7 +90,7 @@ exports[`SummaryTable matches snapshot 1`] = `
           }
         }
       >
-        From:
+        To:
       </div>
       <div
         className="css-text-901oao"

@@ -17,14 +17,14 @@ const Who = (props: AmountProps) => {
 
   const [screenState, setScreenState] = useScreenState(screenProps)
   const { params } = props.navigation.state
-  const text = params.action === ACTION_RECEIVE ? 'From Who?' : 'Send To?'
+  const text = params && params.action === ACTION_RECEIVE ? 'From Who?' : 'Send To?'
   const { counterPartyDisplayName } = screenState
   console.info('Component props -> ', { props, params, text })
 
   return (
     <Wrapper>
       <TopBar push={screenProps.push}>
-        {params.action !== ACTION_RECEIVE && <ScanQRButton onPress={() => screenProps.push('SendByQR')} />}
+        {params && params.action !== ACTION_RECEIVE && <ScanQRButton onPress={() => screenProps.push('SendByQR')} />}
       </TopBar>
       <Section grow>
         <Section.Stack grow justifyContent="flex-start">

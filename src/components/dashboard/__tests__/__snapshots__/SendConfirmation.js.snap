@@ -57,10 +57,10 @@ exports[`SendConfirmation matches snapshot 1`] = `
           "borderTopLeftRadius": "5px",
           "borderTopRightRadius": "5px",
           "marginBottom": "8px",
-          "paddingBottom": "16px",
+          "paddingBottom": "12px",
           "paddingLeft": "12px",
           "paddingRight": "12px",
-          "paddingTop": "16px",
+          "paddingTop": "12px",
         }
       }
     >
@@ -440,7 +440,7 @@ exports[`SendConfirmation matches snapshot 1`] = `
                     "color": "rgba(85,85,85,1.00)",
                     "direction": "ltr",
                     "fontFamily": "Roboto-Bold",
-                    "fontSize": "40px",
+                    "fontSize": "36px",
                     "fontWeight": "700",
                     "lineHeight": "auto",
                     "marginRight": "4px",

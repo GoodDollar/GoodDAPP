@@ -1,9 +1,13 @@
+//@flow
 import React from 'react'
 import renderer from 'react-test-renderer'
 import { StoresWrapper } from '../../../lib/undux/utils/storeswrapper.js'
 import { getWebRouterComponentWithMocks } from './__util__'
 
-// eslint-disable-next-line flowtype/no-types-missing-file-annotation
+jest.mock('../FaceRecognition/ZoomSdkLoader', () => ({
+  ready: Promise.resolve(),
+}))
+
 declare var ZoomSDK: any
 
 // Note: test renderer must be required after react-native.

@@ -3,7 +3,7 @@ import React, { useMemo } from 'react'
 import { isMobile } from 'mobile-device-detect'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 
-import { generateReceiveShareObject } from '../../lib/share'
+import { generateReceiveShareObject, generateSendShareObject } from '../../lib/share'
 import { BigGoodDollar, CopyButton, CustomButton, QRCode, Section, TopBar, Wrapper } from '../common'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 
@@ -21,8 +21,12 @@ const ReceiveConfirmation = ({ screenProps, styles, ...props }: ReceiveProps) =>
   const [screenState] = useScreenState(screenProps)
   const { amount, code, reason, counterPartyDisplayName } = screenState
   const [showErrorDialog] = useErrorDialog()
+  const { params } = props.navigation.state
 
-  const share = useMemo(() => generateReceiveShareObject(code), [code])
+  const share = useMemo(
+    () => (params.action === ACTION_RECEIVE ? generateReceiveShareObject(code) : generateSendShareObject(code)),
+    [code]
+  )
 
   const shareAction = async () => {
     try {

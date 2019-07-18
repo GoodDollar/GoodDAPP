@@ -515,7 +515,7 @@ export class GoodWallet {
     const onTransactionHash = getOnTxHash({ paymentLink, code })
 
     //dont wait for transaction return immediatly with hash code and link (not using await here)
-    this.sendTransaction(transferAndCall, { onTransactionHash }, { gas })
+    this.sendTransaction(transferAndCall, { onTransactionHash, onError: error => log.debug({ error }) }, { gas })
 
     return {
       code,

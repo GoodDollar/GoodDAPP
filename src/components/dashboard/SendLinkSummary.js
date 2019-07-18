@@ -41,10 +41,10 @@ const SendLinkSummary = (props: AmountProps) => {
   const generateLinkAndSend = async () => {
     try {
       // Generate link deposit
-      const generateLinkResponse = await goodWallet.generateLink(
-        amount,
-        reason,
-        ({ paymentLink, code }) => (hash: string) => {
+      const generateLinkResponse = await goodWallet
+        .generateLink(amount, reason, ({ paymentLink, code }) => (hash: string) => {
+          log.debug({ hash })
+
           // Save transaction
           const transactionEvent: TransactionEvent = {
             id: hash,
@@ -62,8 +62,8 @@ const SendLinkSummary = (props: AmountProps) => {
           }
           log.debug('generateLinkAndSend: enqueueTX', { transactionEvent })
           userStorage.enqueueTX(transactionEvent)
-        }
-      )
+        })
+        .catch(e => showErrorDialog('Generating payment failed', e))
       log.debug('generateLinkAndSend:', { generateLinkResponse })
       if (generateLinkResponse) {
         try {
@@ -71,7 +71,13 @@ const SendLinkSummary = (props: AmountProps) => {
           const { paymentLink } = generateLinkResponse
 
           // Show confirmation
-          screenProps.push('SendConfirmation', { paymentLink, amount, reason, counterPartyDisplayName })
+          screenProps.push('Confirmation', {
+            code: paymentLink,
+            amount,
+            reason,
+            counterPartyDisplayName,
+            params: { action: 'Send' },
+          })
         } catch (e) {
           log.error(e)
           showErrorDialog('Generating payment failed', e)

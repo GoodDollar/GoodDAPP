@@ -170,7 +170,7 @@ exports[`EmailForm matches snapshot 1`] = `
                   "marginTop": "8px",
                   "textAlign": "center",
                   "textDecoration": "none",
-                  "textTransform": "uppercase",
+                  "textTransform": "none",
                 }
               }
             >

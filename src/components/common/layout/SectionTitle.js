@@ -7,12 +7,12 @@ const SectionTitle = (props: any) => {
   const { styles } = props
   return (
     <Text
-      {...props}
+      textTransform="uppercase"
       style={[styles.title, props.style]}
       color="darkGray"
       fontSize={22}
       fontFamily="medium"
-      textTransform="uppercase"
+      {...props}
     >
       {props.children}
     </Text>

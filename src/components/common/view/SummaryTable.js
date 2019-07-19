@@ -76,7 +76,7 @@ const getStylesFromProps = ({ theme }) => {
 
     // TODO: all this properties can be removed once we merge Text component in
     tableRowLabel: {
-      color: '#A3A3A3',
+      color: theme.colors.gray80Percent,
     },
     bigGoodDollar: {
       color: theme.colors.primary,

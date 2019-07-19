@@ -74,12 +74,12 @@ const Summary = ({ screenProps, ...props }: ReceiveProps) => {
           <ReasonRow reason={reason} styles={styles} />
         </Section.Stack>
         <Section.Row>
-          <Section.Stack grow={1}>
+          <Section.Row grow={1} justifyContent="flex-start">
             <BackButton mode="text" screenProps={screenProps}>
               Cancel
             </BackButton>
-          </Section.Stack>
-          <Section.Stack grow={2}>
+          </Section.Row>
+          <Section.Stack grow={3}>
             <NextButton
               nextRoutes={screenState.nextRoutes}
               values={{ reason, amount, counterPartyDisplayName, params }}

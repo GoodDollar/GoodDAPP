@@ -115,12 +115,12 @@ const SendQRSummary = (props: AmountProps) => {
         <Section.Title>Summary</Section.Title>
         <SummaryTable counterPartyDisplayName={profile.name} amount={amount} reason={reason} />
         <Section.Row>
-          <Section.Stack grow={1}>
+          <Section.Row grow={1} justifyContent="flex-start">
             <BackButton mode="text" screenProps={screenProps}>
               Cancel
             </BackButton>
-          </Section.Stack>
-          <Section.Stack grow={1}>
+          </Section.Row>
+          <Section.Stack grow={3}>
             <CustomButton
               mode="contained"
               onPress={async () => {

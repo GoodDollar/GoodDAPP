@@ -140,12 +140,12 @@ const SendLinkSummary = (props: AmountProps) => {
         <Section.Title>SUMMARY</Section.Title>
         <SummaryTable counterPartyDisplayName={counterPartyDisplayName} amount={amount} reason={reason} />
         <Section.Row>
-          <Section.Stack grow={1}>
+          <Section.Row grow={1} justifyContent="flex-start">
             <BackButton mode="text" screenProps={screenProps}>
               Cancel
             </BackButton>
-          </Section.Stack>
-          <Section.Stack grow={2}>
+          </Section.Row>
+          <Section.Stack grow={3}>
             <CustomButton onPress={isCitizen ? handleConfirm : faceRecognition} disabled={isCitizen === undefined}>
               Confirm
             </CustomButton>

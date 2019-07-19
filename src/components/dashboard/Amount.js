@@ -64,12 +64,12 @@ const Amount = (props: AmountProps) => {
           <AmountInput amount={GDAmount} handleAmountChange={handleAmountChange} error={error} />
         </Section.Stack>
         <Section.Row>
-          <Section.Stack grow={1}>
-            <BackButton mode="text" screenProps={screenProps} style={{ flex: 1 }}>
+          <Section.Row grow={1} justifyContent="flex-start">
+            <BackButton mode="text" screenProps={screenProps}>
               Cancel
             </BackButton>
-          </Section.Stack>
-          <Section.Stack grow={2}>
+          </Section.Row>
+          <Section.Stack grow={3}>
             <NextButton
               nextRoutes={screenState.nextRoutes}
               canContinue={handleContinue}

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { ActivityIndicator, Image, StyleSheet, View } from 'react-native'
 import { Text } from 'react-native-paper'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
+import find from 'lodash/find'
 import { CustomButton, Section } from '../../common'
 import logger from '../../../lib/logger/pino-logger'
 import goodWallet from '../../../lib/wallet/GoodWallet'
@@ -15,12 +16,13 @@ import GDStore from '../../../lib/undux/GDStore'
 
 const log = logger.child({ from: 'GuidedFRProcessResults' })
 
-const FRStep = ({ title, isActive, status, paddingBottom }) => {
+const FRStep = ({ title, isActive, status, isProcessFailed, paddingBottom }) => {
   paddingBottom = paddingBottom === undefined ? 12 : paddingBottom
   let statusColor = status === true ? 'success' : status === false ? 'failure' : 'none'
   let statusIcon =
     status === undefined ? null : <Image source={status ? Check : Cross} resizeMode={'center'} style={{ height: 14 }} />
-  let spinner = status === undefined && isActive === true ? <ActivityIndicator color={'gray'} /> : null
+  let spinner =
+    isProcessFailed !== true && status === undefined && isActive === true ? <ActivityIndicator color={'gray'} /> : null
   let iconOrSpinner =
     statusIcon || spinner ? <View style={[styles[statusColor], styles.statusIcon]}>{statusIcon || spinner}</View> : null
 
@@ -32,7 +34,6 @@ const FRStep = ({ title, isActive, status, paddingBottom }) => {
       <View style={{ flexGrow: 2 }}>
         <Text style={textStyle}>{title}</Text>
       </View>
-      {/* {isActive ? <Text>.....</Text> : null} */}
       {iconOrSpinner}
     </View>
   )
@@ -42,6 +43,7 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
   const { fullName } = store.get('profile')
 
   const [processStatus, setStatus] = useState({
+    isStarted: undefined,
     isNotDuplicate: undefined,
     isEnrolled: undefined,
     isLive: undefined,
@@ -119,10 +121,11 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
 
   //API call finished, so it will pass isWhitelisted to us
   //this is a backup incase the gundb messaging doesnt work
-  if (processStatus.isWhitelisted === undefined && isWhitelisted) {
+  const gunOK = find(processStatus, (v, k) => v !== undefined)
+  if (gunOK === undefined && isWhitelisted) {
     processStatus.isWhitelisted = true
     saveProfileAndDone()
-  } else if (processStatus.isWhitelisted === undefined && isWhitelisted === false) {
+  } else if (gunOK === undefined && isWhitelisted === false) {
     processStatus.isWhitelisted = false
   }
 
@@ -215,6 +218,7 @@ C. Light your face evenly'
               title={'Checking duplicates'}
               isActive={true}
               status={isProcessSuccess || processStatus.isNotDuplicate}
+              isProcessFailed={isProcessFailed}
             />
             <FRStep
               title={'Checking liveness'}
@@ -223,11 +227,13 @@ C. Light your face evenly'
                 (processStatus.isNotDuplicate !== undefined && processStatus.isNotDuplicate === true)
               }
               status={isProcessSuccess || processStatus.isLive}
+              isProcessFailed={isProcessFailed}
             />
             <FRStep
               title={'Validating identity'}
               isActive={isProcessSuccess || (processStatus.isLive !== undefined && processStatus.isLive === true)}
               status={isProcessSuccess || processStatus.isWhitelisted}
+              isProcessFailed={isProcessFailed}
             />
             <FRStep
               title={'Updating profile'}
@@ -235,6 +241,7 @@ C. Light your face evenly'
                 isProcessSuccess || (processStatus.isWhitelisted !== undefined && processStatus.isWhitelisted === true)
               }
               status={isProcessSuccess || processStatus.isProfileSaved}
+              isProcessFailed={isProcessFailed}
               paddingBottom={0}
             />
           </View>

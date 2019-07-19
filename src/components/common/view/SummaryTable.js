@@ -29,7 +29,12 @@ const AmountRow = props => {
   return (
     <Section.Row style={styles.tableRow}>
       <Section.Text style={styles.tableRowLabel}>Amount:</Section.Text>
-      <BigGoodDollar elementStyles={styles.bigGoodDollar} number={amount} color={styles.bigGoodDollar.color} />
+      <BigGoodDollar
+        bigNumberStyles={styles.bigGoodDollar}
+        bigNumberUnitStyles={styles.bigGoodDollarUnit}
+        number={amount}
+        color={props.theme.colors.primary}
+      />
     </Section.Row>
   )
 }
@@ -54,10 +59,10 @@ const ReasonRow = props => {
  * @param {String} props.amount
  * @param {Boolean} props.actionReceive if true text is for receive summary
  */
-const SummaryTable = ({ styles, counterPartyDisplayName, amount, reason, actionReceive }) => (
+const SummaryTable = ({ styles, counterPartyDisplayName, amount, reason, actionReceive, theme }) => (
   <Section.Stack grow justifyContent="center">
     <WhoRow counterPartyDisplayName={counterPartyDisplayName} styles={styles} actionReceive={actionReceive} />
-    <AmountRow amount={amount} styles={styles} />
+    <AmountRow amount={amount} styles={styles} theme={theme} />
     <ReasonRow reason={reason} styles={styles} />
   </Section.Stack>
 )
@@ -81,6 +86,11 @@ const getStylesFromProps = ({ theme }) => {
     bigGoodDollar: {
       color: theme.colors.primary,
       fontSize: normalize(24),
+      fontFamily: theme.fonts.bold,
+    },
+    bigGoodDollarUnit: {
+      color: theme.colors.primary,
+      fontSize: normalize(14),
       fontFamily: theme.fonts.bold,
     },
     reason: {

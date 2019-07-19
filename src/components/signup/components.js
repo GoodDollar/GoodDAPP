@@ -1,9 +1,8 @@
 // @flow
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
-import { Button } from 'react-native-paper'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
-import { Text } from '../common'
+import { CustomButton, Section, Text, Wrapper } from '../common'
 
 export const NextButton = (props: {
   valid?: boolean,
@@ -12,17 +11,14 @@ export const NextButton = (props: {
   children: any,
   loading?: boolean,
 }) => (
-  <Button
-    style={[props.styles || {}, styles.continueButton]}
-    mode="contained"
-    color="#555555"
-    dark={true}
+  <CustomButton
+    style={[styles.nextButton, props.styles]}
     disabled={!props.valid || props.loading}
     loading={props.loading}
     onPress={props.handleSubmit}
   >
     <Text style={styles.buttonText}>{props.children}</Text>
-  </Button>
+  </CustomButton>
 )
 
 export const ActionButton = (props: {
@@ -32,7 +28,7 @@ export const ActionButton = (props: {
   children: any,
   loading?: boolean,
 }) => (
-  <Button
+  <CustomButton
     style={[styles.actionButton, props.styles || {}]}
     mode="outlined"
     color="#555"
@@ -41,28 +37,30 @@ export const ActionButton = (props: {
     onPress={props.handleSubmit}
   >
     <Text style={styles.actionButtonText}>{props.children}</Text>
-  </Button>
+  </CustomButton>
 )
 
 const Footer = (props: { valid?: boolean, submitText?: string, handleSubmit: () => any, loading?: boolean }) => {
   return (
-    <React.Fragment>
-      <NextButton valid={props.valid} handleSubmit={props.handleSubmit} loading={props.loading}>
-        {props.submitText || 'Next'}
-      </NextButton>
-    </React.Fragment>
+    <NextButton valid={props.valid} handleSubmit={props.handleSubmit} loading={props.loading}>
+      {props.submitText || 'Next'}
+    </NextButton>
   )
 }
 
-export const Wrapper = (props: any) => {
+export const CustomWrapper = (props: any) => {
   const { footerComponent: FooterComponent } = props
   return (
-    <View style={styles.wrapper} {...props}>
-      <View style={styles.topContainer}>{props.children}</View>
-      <View style={styles.bottomContainer}>
-        {FooterComponent ? <FooterComponent {...props} /> : <Footer {...props} />}
-      </View>
-    </View>
+    <Wrapper backgroundColor="#fff" style={{ padding: normalize(16) }}>
+      <Section grow style={{ padding: 0 }}>
+        <Section.Stack grow justifyContent="space-evenly">
+          {props.children}
+        </Section.Stack>
+        <Section.Row justifyContent="flex-end">
+          {FooterComponent ? <FooterComponent {...props} /> : <Footer {...props} />}
+        </Section.Row>
+      </Section>
+    </Wrapper>
   )
 }
 
@@ -89,6 +87,13 @@ const fontStyle = {
 }
 
 const styles = StyleSheet.create({
+  wrapperSection: {
+    paddingVertical: normalize(8),
+  },
+  nextButton: {
+    flex: 1,
+    paddingVertical: normalize(4),
+  },
   buttonText: {
     ...fontStyle,
     color: 'white',
@@ -121,11 +126,6 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: normalize(20),
     justifyContent: 'flex-end',
-  },
-  continueButton: {
-    marginBottom: '10px',
-    paddingTop: 5,
-    paddingBottom: 5,
   },
   actionButton: {
     borderStyle: 'solid',

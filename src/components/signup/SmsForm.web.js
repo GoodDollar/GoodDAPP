@@ -1,15 +1,20 @@
 // @flow
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import OtpInput from 'react-otp-input'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
-import { LoadingIndicator, Text } from '../common'
-import { ActionButton, Description, Error, Title, Wrapper } from './components'
+import { withStyles } from '../../lib/styles'
+import { CustomButton, Icon, LoadingIndicator, Section } from '../common'
+import { CustomWrapper, Error } from './components'
 import type { SignupState } from './SignupState'
 
 const log = logger.child({ from: 'SmsForm.web' })
+
+const DONE = 'DONE'
+const WAIT = 'WAIT'
+const PENDING = 'PENDING'
 
 type Props = {
   phone: string,
@@ -32,7 +37,7 @@ type State = SMSRecord & {
   otp: string | number,
 }
 
-export default class SmsForm extends React.Component<Props, State> {
+class SmsForm extends React.Component<Props, State> {
   state = {
     smsValidated: false,
     sentSMS: false,
@@ -40,6 +45,7 @@ export default class SmsForm extends React.Component<Props, State> {
     sendingCode: false,
     renderButton: false,
     loading: false,
+    valid: false,
     otp: '',
   }
 
@@ -90,7 +96,9 @@ export default class SmsForm extends React.Component<Props, State> {
   }
 
   handleSubmit = () => {
-    this.props.screenProps.doneCallback({ smsValidated: true })
+    setTimeout(() => {
+      this.props.screenProps.doneCallback({ smsValidated: true })
+    }, 1000)
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -113,46 +121,69 @@ export default class SmsForm extends React.Component<Props, State> {
   }
 
   render() {
-    const { errorMessage, sendingCode, renderButton, loading, otp } = this.state
+    const { errorMessage, renderButton, loading, otp, valid } = this.state
+    const { styles } = this.props
 
     return (
-      <Wrapper handleSubmit={this.handleSubmit} footerComponent={() => <React.Fragment />}>
-        <Title>{'Enter the verification code \n sent to your phone'}</Title>
-        <OtpInput
-          containerStyle={{
-            justifyContent: 'space-evenly',
-          }}
-          inputStyle={inputStyle}
-          shouldAutoFocus
-          numInputs={this.numInputs}
-          onChange={this.handleChange}
-          isInputNum={true}
-          hasErrored={errorMessage !== ''}
-          errorStyle={errorStyle}
-          value={otp}
-        />
-        <Error>{errorMessage !== '' && errorMessage}</Error>
-        <View style={styles.buttonWrapper}>
-          {renderButton ? (
-            <ActionButton
-              styles={styles.button}
-              loading={sendingCode}
-              handleSubmit={this.handleRetry}
-              disabled={sendingCode}
-            >
-              <Text>Send me the code again</Text>
-            </ActionButton>
-          ) : (
-            <Description>Please wait a few seconds until the SMS arrives</Description>
-          )}
-        </View>
+      <CustomWrapper handleSubmit={this.handleSubmit} footerComponent={() => <React.Fragment />}>
+        <Section.Stack grow justifyContent="flex-start">
+          <Section.Row justifyContent="center" style={styles.row}>
+            <Section.Title textTransform="none">{'Enter the verification code \n sent to your phone'}</Section.Title>
+          </Section.Row>
+          <Section.Row justifyContent="center">
+            <OtpInput
+              containerStyle={{
+                justifyContent: 'space-evenly',
+              }}
+              inputStyle={inputStyle}
+              shouldAutoFocus
+              numInputs={this.numInputs}
+              onChange={this.handleChange}
+              isInputNum={true}
+              hasErrored={errorMessage !== ''}
+              errorStyle={errorStyle}
+              value={otp}
+            />
+            <Error>{errorMessage !== '' && errorMessage}</Error>
+          </Section.Row>
+          <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
+            <SMSAction
+              status={valid ? DONE : renderButton ? PENDING : WAIT}
+              handleRetry={this.handleRetry}
+              styles={styles}
+            />
+          </Section.Row>
+        </Section.Stack>
         <LoadingIndicator force={loading} />
-      </Wrapper>
+      </CustomWrapper>
     )
   }
 }
 
-const styles = StyleSheet.create({
+const SMSAction = ({ status, handleRetry, styles }) => {
+  if (status === DONE) {
+    return (
+      <CustomButton>
+        <View style={styles.iconButtonWrapper}>
+          <Icon size={16} name="success" color="white" />
+        </View>
+      </CustomButton>
+    )
+  } else if (status === WAIT) {
+    return (
+      <Section.Text fontFamily="regular" fontSize={14} color="gray80Percent">
+        Please wait a few seconds until the SMS arrives
+      </Section.Text>
+    )
+  }
+  return (
+    <Section.Text fontFamily="medium" fontSize={14} color="primary" onPress={handleRetry}>
+      Send me the code again
+    </Section.Text>
+  )
+}
+
+const getStylesFromProps = ({ theme }) => ({
   informativeParagraph: {
     margin: '1em',
   },
@@ -166,6 +197,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: '100%',
     height: normalize(60),
+  },
+  row: {
+    marginVertical: theme.sizes.defaultQuadruple,
   },
 })
 
@@ -185,3 +219,5 @@ const errorStyle = {
   borderBottom: '1px solid red',
   color: 'red',
 }
+
+export default withStyles(getStylesFromProps)(SmsForm)

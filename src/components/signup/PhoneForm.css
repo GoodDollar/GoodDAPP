@@ -1,13 +1,20 @@
 @import url('~react-phone-number-input/style.css');
 
 .react-phone-number-input {
-  width: auto !important;
+  width: 100% !important;
 }
 
 .react-phone-number-input__row .react-phone-number-input__input {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.26);
+  border-bottom: 1px solid rgb(0, 0, 0);
 }
 
 .react-phone-number-input__row .react-phone-number-input__input.react-phone-number-input__input--invalid {
   border-bottom: 1px solid #D30F00;
+}
+
+.react-phone-number-input__icon {
+  border: 0;
+  border-radius: 2px;
+  width: 1.85em;
+  height: 1.42em;
 }

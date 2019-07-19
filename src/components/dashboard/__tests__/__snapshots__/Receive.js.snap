@@ -461,6 +461,7 @@ exports[`Receive matches snapshot 1`] = `
                     "default": 8,
                     "defaultDouble": 16,
                     "defaultHalf": 4,
+                    "defaultQuadruple": 32,
                   },
                 }
               }

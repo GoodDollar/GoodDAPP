@@ -17,7 +17,7 @@ export class ZoomSdkLoader {
   async load() {
     log.debug('loading zoom sdk..', { ZoomLoader: this })
     try {
-      if (window.ZoomSDK === undefined) {
+      if (window.ZoomSDK === undefined && global.ZoomSDK === undefined) {
         log.debug('using loadjs to load ZoomSDK')
         await this.loadZoomSDK()
       }

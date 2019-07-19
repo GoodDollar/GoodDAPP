@@ -5,17 +5,17 @@ import InputText from '../common/form/InputText'
 import { Section, TopBar, Wrapper } from '../common'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
+import { navigationOptions } from './utils/sendReceiveFlow'
 
 export type AmountProps = {
   screenProps: any,
   navigation: any,
-  stlyes?: any,
+  styles: any,
 }
-
-const TITLE = 'Receive G$'
 
 const SendReason = (props: AmountProps) => {
   const { screenProps } = props
+  const { params } = props.navigation.state
 
   const [screenState, setScreenState] = useScreenState(screenProps)
   const { reason, ...restState } = screenState
@@ -35,15 +35,15 @@ const SendReason = (props: AmountProps) => {
           />
         </Section.Stack>
         <Section.Row>
-          <Section.Stack grow={1}>
+          <Section.Row grow={1} justifyContent="flex-start">
             <BackButton mode="text" screenProps={screenProps}>
               Cancel
             </BackButton>
-          </Section.Stack>
-          <Section.Stack grow={2}>
+          </Section.Row>
+          <Section.Stack grow={3}>
             <NextButton
               nextRoutes={screenState.nextRoutes}
-              values={{ ...restState, reason }}
+              values={{ ...restState, reason, params }}
               {...props}
               label={reason ? 'Next' : 'Skip'}
             />
@@ -54,9 +54,7 @@ const SendReason = (props: AmountProps) => {
   )
 }
 
-SendReason.navigationOptions = {
-  title: TITLE,
-}
+SendReason.navigationOptions = navigationOptions
 
 SendReason.shouldNavigateToComponent = props => {
   const { screenState } = props.screenProps

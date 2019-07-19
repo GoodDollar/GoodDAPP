@@ -29,8 +29,9 @@ const SendLinkSummary = (props: AmountProps) => {
   const { screenProps } = props
   const [screenState] = useScreenState(screenProps)
   const [showDialog, , showErrorDialog] = useDialog()
-  const [loading, setLoading] = useState(false)
-  const [isValid, setIsValid] = useState(screenState.isValid)
+
+  const [isCitizen, setIsCitizen] = useState()
+  const [shared, setShared] = useState(false)
   const { amount, reason, counterPartyDisplayName } = screenState
 
   const faceRecognition = () => {
@@ -41,25 +42,36 @@ const SendLinkSummary = (props: AmountProps) => {
     const share = generateSendShareObject(paymentLink)
     try {
       await navigator.share(share)
+      setShared(true)
     } catch (e) {
-      showDialog({
-        visible: true,
-        title: 'Error',
-        message:
-          'There was a problem triggering share action. You can still copy the link in tapping on "Copy link to clipboard"',
-        dismissText: 'Ok',
-        onDismiss: () =>
-          screenProps.push('SendConfirmation', {
-            paymentLink,
-            amount,
-            reason,
-            counterPartyDisplayName,
-          }),
-      })
+      if (e.name !== 'AbortError') {
+        showDialog({
+          title: 'There was a problem triggering share action.',
+          message: `You can still copy the link in tapping on "Copy link to clipboard". \n Error ${e.name}: ${
+            e.message
+          }`,
+          dismissText: 'Ok',
+          onDismiss: () =>
+            screenProps.push('SendConfirmation', {
+              paymentLink,
+              amount,
+              reason,
+              counterPartyDisplayName,
+            }),
+        })
+      }
     }
   }
 
-  const doConfirm = paymentLink => {
+  // Going to root after shared
+  useEffect(() => {
+    if (shared) {
+      screenProps.goToRoot()
+    }
+  }, [shared])
+
+  const handleConfirm = () => {
+    const paymentLink = generateLink()
     if (isMobile && navigator.share) {
       shareAction(paymentLink)
     } else {
@@ -77,11 +89,13 @@ const SendLinkSummary = (props: AmountProps) => {
    * Generates link to send and call send email/sms action
    * @throws Error if link cannot be send
    */
-  const generateLinkAndSend = async () => {
+  const generateLink = () => {
     try {
       // Generate link deposit
-      const generateLinkResponse = await goodWallet
-        .generateLink(amount, reason, ({ paymentLink, code }) => (hash: string) => {
+      const generateLinkResponse = goodWallet.generateLink(
+        amount,
+        reason,
+        ({ paymentLink, code }) => (hash: string) => {
           log.debug({ hash })
 
           // Save transaction
@@ -101,51 +115,23 @@ const SendLinkSummary = (props: AmountProps) => {
           }
           log.debug('generateLinkAndSend: enqueueTX', { transactionEvent })
           userStorage.enqueueTX(transactionEvent)
-        })
-        .catch(e => showErrorDialog('Generating payment failed', e))
+        }
+      )
       log.debug('generateLinkAndSend:', { generateLinkResponse })
       if (generateLinkResponse) {
-        try {
-          // Generate link deposit
-          const { paymentLink } = generateLinkResponse
-
-          doConfirm(paymentLink)
-        } catch (e) {
-          log.error(e)
-          showErrorDialog('Generating payment failed', e)
-          const { code } = generateLinkResponse
-          await goodWallet.cancelOtl(code)
-        }
-      } else {
-        showErrorDialog('Generating payment failed', 'Unknown Error')
+        const { paymentLink } = generateLinkResponse
+        return paymentLink
       }
+      showErrorDialog('Generating payment failed', 'Unknown Error')
     } catch (e) {
       showErrorDialog('Generating payment failed', e)
       log.error(e)
     }
   }
 
-  const handleContinue = async () => {
-    setLoading(true)
-
-    const isCitizen = await goodWallet.isCitizen()
-
-    if (isCitizen) {
-      await generateLinkAndSend()
-      setLoading(false)
-    } else {
-      faceRecognition()
-    }
-  }
-
   useEffect(() => {
-    if (isValid === true) {
-      generateLinkAndSend()
-    } else if (isValid === false) {
-      screenProps.goToRoot()
-    }
-    return () => setIsValid(undefined)
-  }, [isValid])
+    goodWallet.isCitizen().then(setIsCitizen)
+  }, [isCitizen])
 
   return (
     <Wrapper>
@@ -160,7 +146,7 @@ const SendLinkSummary = (props: AmountProps) => {
             </BackButton>
           </Section.Stack>
           <Section.Stack grow={2}>
-            <CustomButton onPress={handleContinue} disabled={loading}>
+            <CustomButton onPress={isCitizen ? handleConfirm : faceRecognition} disabled={isCitizen === undefined}>
               Confirm
             </CustomButton>
           </Section.Stack>

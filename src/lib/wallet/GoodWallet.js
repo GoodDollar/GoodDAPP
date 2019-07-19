@@ -469,26 +469,11 @@ export class GoodWallet {
     return parseInt(amount) <= parseInt(balance)
   }
 
-  /**
-   * deposits the specified amount to _oneTimeLink_ contract and generates a link that will send the user to a URL to withdraw it
-   * @param {number} amount - amount of money to send using OTP
-   * @param {string} reason - optional reason for sending the payment (comment)
-   * @param {({ link: string, code: string }) => () => any} getOnTxHash - a callback that returns onTransactionHashHandler based on generated code
-   * @param {PromiEvents} events - used to subscribe to onTransactionHash event
-   * @returns {{code, hashedCode, paymentLink}}
-   */
-  async generateLink(
-    amount: number,
-    reason: string = '',
-    getOnTxHash: (extraData: { paymentLink: string, code: string }) => (hash: string) => any,
-    events: PromiEvents = defaultPromiEvents
-  ): Promise<{ code: string, hashedCode: string, paymentLink: string }> {
+  async depositToHash(amount: number, hashedCode: string, events: PromiEvents): any {
     if (!(await this.canSend(amount))) {
       throw new Error(`Amount is bigger than balance`)
     }
 
-    const code = this.wallet.utils.randomHex(10).replace('0x', '')
-    const hashedCode = this.wallet.utils.sha3(code)
     const otpAddress = get(
       ContractsAddress,
       `${this.network}.OneTimePaymentLinks`,
@@ -504,6 +489,27 @@ export class GoodWallet {
     // https://github.com/trufflesuite/ganache-core/issues/417
     const gas: number = 200000 //Math.floor((await transferAndCall.estimateGas().catch(this.handleError)) * 2)
 
+    //dont wait for transaction return immediatly with hash code and link (not using await here)
+    return this.sendTransaction(transferAndCall, events, { gas })
+  }
+
+  /**
+   * deposits the specified amount to _oneTimeLink_ contract and generates a link that will send the user to a URL to withdraw it
+   * @param {number} amount - amount of money to send using OTP
+   * @param {string} reason - optional reason for sending the payment (comment)
+   * @param {({ link: string, code: string }) => () => any} getOnTxHash - a callback that returns onTransactionHashHandler based on generated code
+   * @param {PromiEvents} events - used to subscribe to onTransactionHash event
+   * @returns {{code, hashedCode, paymentLink}}
+   */
+  generateLink(
+    amount: number,
+    reason: string = '',
+    getOnTxHash: (extraData: { paymentLink: string, code: string }) => (hash: string) => any,
+    events: PromiEvents = defaultPromiEvents
+  ): { code: string, hashedCode: string, paymentLink: string } {
+    const code = this.wallet.utils.randomHex(10).replace('0x', '')
+    const hashedCode = this.wallet.utils.sha3(code)
+
     log.debug('generateLink:', { amount })
 
     const paymentLink = generateShareLink('send', {
@@ -514,8 +520,7 @@ export class GoodWallet {
     //pass extra data
     const onTransactionHash = getOnTxHash({ paymentLink, code })
 
-    //dont wait for transaction return immediatly with hash code and link (not using await here)
-    this.sendTransaction(transferAndCall, { onTransactionHash, onError: error => log.debug({ error }) }, { gas })
+    this.depositToHash(amount, hashedCode, { ...events, onTransactionHash })
 
     return {
       code,

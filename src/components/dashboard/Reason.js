@@ -2,7 +2,8 @@
 import React from 'react'
 import InputText from '../common/form/InputText'
 
-import { Section, TopBar, Wrapper } from '../common'
+import { Section, Wrapper } from '../common'
+import TopBar from '../common/view/TopBar'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
 

@@ -2,7 +2,8 @@
 import React from 'react'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 
-import { BigGoodDollar, Section, TopBar, Wrapper } from '../common'
+import { BigGoodDollar, Section, Wrapper } from '../common'
+import TopBar from '../common/view/TopBar'
 import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
 import { PushButton } from '../appNavigation/PushButton'
 

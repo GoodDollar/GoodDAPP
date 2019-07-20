@@ -1,6 +1,7 @@
 // @flow
 import React, { useState } from 'react'
-import { AmountInput, Section, TopBar, Wrapper } from '../common'
+import { AmountInput, Section, Wrapper } from '../common'
+import TopBar from '../common/view/TopBar'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { gdToWei, weiToGd } from '../../lib/wallet/utils'

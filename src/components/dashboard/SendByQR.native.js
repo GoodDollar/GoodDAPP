@@ -7,7 +7,8 @@ import logger from '../../lib/logger/pino-logger'
 import { readCode } from '../../lib/share'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { wrapFunction } from '../../lib/undux/utils/wrapper'
-import { Section, TopBar, Wrapper } from '../common'
+import { Section, Wrapper } from '../common'
+import TopBar from '../common/view/TopBar'
 import { routeAndPathForCode } from './utils/routeAndPathForCode'
 
 const log = logger.child({ from: 'SendByQR.web' })

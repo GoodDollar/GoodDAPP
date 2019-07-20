@@ -7,7 +7,9 @@ import normalize from 'react-native-elements/src/helpers/normalizeText'
 import logger from '../../lib/logger/pino-logger'
 import { withStyles } from '../../lib/styles'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
-import { Section, Text } from '../common'
+import Text from '../common/view/Text'
+import Section from '../common/layout/Section'
+
 import CustomButton from '../common/buttons/CustomButton'
 import MnemonicInput from './MnemonicInput'
 
@@ -58,6 +60,25 @@ const Mnemonics = ({ navigation, styles }) => {
     }
   }
 
+  /**
+   * Helper to validate if exist a Gun profile associated to current mnemonic
+   * @returns {Promise<Promise<*>|Promise<*>|Promise<any>>}
+   */
+  async function profileExist(): Promise<any> {
+    const [Wallet, UserStorage] = await Promise.all([
+      import('../../lib/wallet/GoodWalletClass').then(_ => _.GoodWallet),
+      import('../../lib/gundb/UserStorageClass').then(_ => _.UserStorage),
+    ])
+    const wallet = new Wallet({ mnemonic: mnemonics })
+    await wallet.init()
+    const userStorage = new UserStorage(wallet)
+
+    // reinstantiates wallet and userStorage with new mnemonics
+    await userStorage.init()
+
+    return userStorage.userAlreadyExist()
+  }
+
   const incomingMnemonic = get(navigation, 'state.params.mnemonic', undefined)
 
   return (
@@ -76,24 +97,6 @@ const Mnemonics = ({ navigation, styles }) => {
       </Section.Stack>
     </Section>
   )
-}
-
-/**
- * Helper to validate if exist a Gun profile associated to current mnemonic
- * @returns {Promise<Promise<*>|Promise<*>|Promise<any>>}
- */
-async function profileExist(): Promise<any> {
-  const [wallet, userStorage] = await Promise.all([
-    import('../../lib/wallet/GoodWallet').then(_ => _.default),
-    import('../../lib/gundb/UserStorage').then(_ => _.default),
-  ])
-
-  await wallet.init()
-
-  // reinstantiates wallet and userStorage with new mnemonics
-  await userStorage.init()
-
-  return userStorage.userAlreadyExist()
 }
 
 Mnemonics.navigationOptions = {

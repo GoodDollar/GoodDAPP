@@ -5,7 +5,8 @@ import normalize from 'react-native-elements/src/helpers/normalizeText'
 
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { generateCode, generateReceiveShareObject } from '../../lib/share'
-import { BigGoodDollar, CopyButton, CustomButton, QRCode, Section, TopBar, Wrapper } from '../common'
+import { BigGoodDollar, CopyButton, CustomButton, QRCode, Section, Wrapper } from '../common'
+import TopBar from '../common/view/TopBar'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 
 import { useScreenState } from '../appNavigation/stackNavigation'

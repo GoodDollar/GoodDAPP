@@ -7,7 +7,8 @@ import logger from '../../lib/logger/pino-logger'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
-import { Avatar, BigGoodDollar, CustomButton, Section, TopBar, Wrapper } from '../common'
+import { Avatar, BigGoodDollar, CustomButton, Section, Wrapper } from '../common'
+import TopBar from '../common/view/TopBar'
 import { receiveStyles } from './styles'
 
 const log = logger.child({ from: 'SendLinkSummary' })

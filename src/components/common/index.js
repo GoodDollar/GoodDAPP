@@ -18,7 +18,6 @@ import SaveButton from './buttons/SaveButton'
 import ScanQRButton from './buttons/ScanQRButton'
 import Section from './layout/Section'
 import Text from './view/Text'
-import TopBar from './view/TopBar'
 import UserAvatar from './view/UserAvatar'
 import Wrapper from './layout/Wrapper'
 
@@ -44,7 +43,6 @@ export {
   ScanQRButton,
   Section,
   Text,
-  TopBar,
   UserAvatar,
   Wrapper,
 }

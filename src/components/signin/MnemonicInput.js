@@ -6,7 +6,7 @@ import normalize from 'react-native-elements/src/helpers/normalizeText'
 import logger from '../../lib/logger/pino-logger'
 import { withStyles } from '../../lib/styles'
 import { getScreenHeight } from '../../lib/utils/Orientation'
-import { Text } from '../common'
+import Text from '../common/view/Text'
 
 const height = getScreenHeight()
 

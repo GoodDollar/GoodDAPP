@@ -7,9 +7,14 @@ const Config = {
   infuraKey: process.env.REACT_APP_INFURA_KEY,
   network: process.env.REACT_APP_NETWORK || 'fuse',
   zoomLicenseKey: process.env.REACT_APP_ZOOM_LICENSE_KEY,
+  amplitudeKey: process.env.REACT_APP_AMPLITUDE_API_KEY,
+  rollbarKey: process.env.REACT_APP_ROLLBAR_API_KEY,
   httpWeb3provider: process.env.REACT_APP_WEB3_RPC,
   recaptcha: '6LeOaJIUAAAAAKB3DlmijMPfX2CBYsve3T2MwlTd',
-  skipEmailVerification: process.env.REACT_APP_SKIP_EMAIL_VERIFICATION || false,
+  skipEmailVerification: process.env.REACT_APP_SKIP_EMAIL_VERIFICATION === 'true',
+  skipMobileVerification: process.env.REACT_APP_SKIP_MOBILE_VERIFICATION === 'true',
+  throwSaveProfileErrors:
+    !process.env.REACT_APP_THROW_SAVE_PROFILE_ERRORS || process.env.REACT_APP_THROW_SAVE_PROFILE_ERRORS === 'true',
   ethereum: {
     '42': {
       network_id: 42,

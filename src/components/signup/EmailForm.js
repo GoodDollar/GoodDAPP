@@ -3,7 +3,7 @@ import React from 'react'
 import { HelperText, TextInput } from 'react-native-paper'
 import debounce from 'lodash/debounce'
 import { userModelValidations } from '../../lib/gundb/UserModel'
-import userStorage from '../../lib/gundb/UserStorage'
+import { UserStorage } from '../../lib/gundb/UserStorageClass'
 import Config from '../../config/config'
 import { Title, Wrapper } from './components'
 
@@ -51,7 +51,7 @@ class EmailForm extends React.Component<Props, State> {
   checkErrors = async () => {
     const modelErrorMessage = userModelValidations.email(this.state.email)
     const isValidIndexValue =
-      Config.skipEmailVerification || (await userStorage.isValidValue('email', this.state.email))
+      Config.skipEmailVerification || (await UserStorage.isValidValue('email', this.state.email))
     const errorMessage = modelErrorMessage || (isValidIndexValue ? '' : 'Unavailable email')
     this.setState({ errorMessage }, () => this.setState({ isValid: this.state.errorMessage === '' }))
     return errorMessage === ''

@@ -4,7 +4,7 @@ import PhoneInput from 'react-phone-number-input'
 import debounce from 'lodash/debounce'
 import './PhoneForm.css'
 import { userModelValidations } from '../../lib/gundb/UserModel'
-import userStorage from '../../lib/gundb/UserStorage'
+import { UserStorage } from '../../lib/gundb/UserStorageClass'
 import logger from '../../lib/logger/pino-logger'
 import api from '../../lib/API/api'
 import Config from '../../config/config'
@@ -70,7 +70,7 @@ class PhoneForm extends React.Component<Props, State> {
   checkErrors = async () => {
     const modelErrorMessage = userModelValidations.mobile(this.state.mobile)
     const isValidIndexValue =
-      Config.skipMobileVerification || (await userStorage.isValidValue('mobile', this.state.mobile))
+      Config.skipMobileVerification || (await UserStorage.isValidValue('mobile', this.state.mobile))
     const errorMessage = modelErrorMessage || (isValidIndexValue ? '' : 'Unavailable mobile')
     log.debug({ modelErrorMessage, isValidIndexValue, errorMessage, Config })
     this.setState({ errorMessage, isValid: errorMessage === '' })

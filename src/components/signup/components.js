@@ -2,7 +2,7 @@
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Button } from 'react-native-paper'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
+import normalize from '../../lib/utils/normalizeText'
 import Text from '../common/view/Text'
 
 export const NextButton = (props: {

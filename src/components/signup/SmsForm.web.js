@@ -2,7 +2,7 @@
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import OtpInput from 'react-otp-input'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
+import normalize from '../../lib/utils/normalizeText'
 import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
 import Text from '../common/view/Text'

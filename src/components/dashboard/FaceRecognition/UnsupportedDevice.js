@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { AsyncStorage, Image, StyleSheet, Text, View } from 'react-native'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { isIOS, isMobile } from 'mobile-device-detect'
 
 import get from 'lodash/get'
 import QRCode from 'qrcode.react'
+import normalize from '../../../lib/utils/normalizeText'
 import Config from '../../../config/config'
 import { CopyButton, Section, Wrapper } from '../../common'
 import Divider from '../../../assets/Dividers - Long Line - Stroke Width 2 - Round Cap - Light Blue.svg'
@@ -62,7 +62,7 @@ const UnsupportedDevice = props => {
             borderRadius: normalize(5),
             borderWidth: 1,
             padding: normalize(4),
-            marginTop: normalize(8)
+            marginTop: normalize(8),
           }}
         >
           <QRCode value={code} size={111} />
@@ -90,7 +90,7 @@ const UnsupportedDevice = props => {
             paddingLeft: '10%',
             paddingRight: '10%',
             justifyContent: 'space-evenly',
-            flex: 1
+            flex: 1,
           }}
         >
           <Section.Title style={styles.mainTitle}> {title}</Section.Title>
@@ -100,7 +100,7 @@ const UnsupportedDevice = props => {
               padding: 0,
               paddingBottom: 0,
               paddingTop: 0,
-              marginBottom: 0
+              marginBottom: 0,
             }}
           >
             <Image source={Divider} style={{ height: normalize(2) }} />
@@ -117,7 +117,7 @@ const UnsupportedDevice = props => {
 }
 UnsupportedDevice.navigationOptions = {
   navigationBarHidden: false,
-  title: 'Friendly Suggestion'
+  title: 'Friendly Suggestion',
 }
 
 const styles = StyleSheet.create({
@@ -130,13 +130,13 @@ const styles = StyleSheet.create({
     flexShrink: 0,
     justifyContent: 'space-evenly',
     paddingTop: normalize(33),
-    borderRadius: 5
+    borderRadius: 5,
   },
   bottomContainer: {
     display: 'flex',
     flex: 1,
     paddingTop: normalize(20),
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
   },
   description: {
     fontSize: normalize(16),
@@ -146,18 +146,18 @@ const styles = StyleSheet.create({
     padding: 0,
     paddingTop: normalize(15),
     paddingBottom: normalize(15),
-    verticalAlign: 'text-top'
+    verticalAlign: 'text-top',
   },
   mainTitle: {
     fontFamily: 'Roboto-Medium',
     fontSize: normalize(24),
     color: '#42454A',
-    textTransform: 'none'
-  }
+    textTransform: 'none',
+  },
 })
 
 UnsupportedDevice.navigationOptions = {
   title: 'Face Verification',
-  navigationBarHidden: false
+  navigationBarHidden: false,
 }
 export default UnsupportedDevice

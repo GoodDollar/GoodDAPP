@@ -1,7 +1,7 @@
 // @flow
 import React, { useEffect, useState } from 'react'
 import { Image, StyleSheet } from 'react-native'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
+import normalize from '../../lib/utils/normalizeText'
 import illustration from '../../assets/Claim/illustration.png'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import goodWallet from '../../lib/wallet/GoodWallet'

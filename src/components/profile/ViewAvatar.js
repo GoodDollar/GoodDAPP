@@ -1,9 +1,9 @@
 // @flow
 import React from 'react'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
 import Icon from 'react-native-elements/src/icons/Icon'
 import { StyleSheet, View } from 'react-native'
 import { withTheme } from 'react-native-paper'
+import normalize from '../../lib/utils/normalizeText'
 import GDStore from '../../lib/undux/GDStore'
 import { Section, UserAvatar, Wrapper } from '../common'
 import CameraButton from './CameraButton'

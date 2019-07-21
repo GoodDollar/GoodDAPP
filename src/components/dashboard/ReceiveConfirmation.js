@@ -1,7 +1,7 @@
 // @flow
 import React, { useMemo } from 'react'
 import { isMobile } from 'mobile-device-detect'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
+import normalize from '../../lib/utils/normalizeText'
 
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { generateCode, generateReceiveShareObject } from '../../lib/share'

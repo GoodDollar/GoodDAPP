@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
+import normalize from '../../lib/utils/normalizeText'
 
 import { BigGoodDollar, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'

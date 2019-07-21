@@ -1,6 +1,6 @@
 import React from 'react'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { StyleSheet } from 'react-native'
+import normalize from '../../../lib/utils/normalizeText'
 
 import GDStore from '../../../lib/undux/GDStore'
 import Section from '../layout/Section'

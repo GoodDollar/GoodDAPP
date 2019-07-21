@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import { Alert, TouchableHighlight, View } from 'react-native-web'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
+import normalize from '../../lib/utils/normalizeText'
 import { withStyles } from '../../lib/styles'
 import { Icon, Section, Text } from '../common'
 import type { FeedEventProps } from './FeedItems/EventProps'

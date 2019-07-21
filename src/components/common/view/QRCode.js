@@ -2,7 +2,7 @@
 import React from 'react'
 import QRCodeReact from 'qrcode.react'
 import { View } from 'react-native'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
+import normalize from '../../../lib/utils/normalizeText'
 import { withStyles } from '../../../lib/styles'
 
 const QRCode = ({ styles, ...props }: any) => {

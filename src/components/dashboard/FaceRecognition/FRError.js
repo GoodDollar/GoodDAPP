@@ -1,7 +1,7 @@
 import React from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
 import get from 'lodash/get'
+import normalize from '../../../lib/utils/normalizeText'
 import { CustomButton, Section, Wrapper } from '../../common'
 import Divider from '../../../assets/Dividers - Long Line - Stroke Width 2 - Round Cap - Light Blue.svg'
 import Oops from '../../../assets/oops.svg'
@@ -47,7 +47,7 @@ const FRError = props => {
             paddingLeft: normalize(44),
             paddingRight: normalize(44),
             justifyContent: 'space-evenly',
-            flex: 1
+            flex: 1,
           }}
         >
           <Section.Title style={styles.mainTitle}> {`${fullName},\n${title}`}</Section.Title>
@@ -56,7 +56,7 @@ const FRError = props => {
             style={{
               paddingBottom: 0,
               paddingTop: 0,
-              marginBottom: 0
+              marginBottom: 0,
             }}
           >
             <Image source={Divider} style={{ height: normalize(2) }} />
@@ -75,7 +75,7 @@ const FRError = props => {
 }
 FRError.navigationOptions = {
   navigationBarHidden: false,
-  title: 'Face Verification'
+  title: 'Face Verification',
 }
 
 const styles = StyleSheet.create({
@@ -88,13 +88,13 @@ const styles = StyleSheet.create({
     flexShrink: 0,
     justifyContent: 'space-evenly',
     paddingTop: normalize(33),
-    borderRadius: 5
+    borderRadius: 5,
   },
   bottomContainer: {
     display: 'flex',
     flex: 1,
     paddingTop: normalize(20),
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
   },
   description: {
     fontSize: normalize(16),
@@ -103,18 +103,18 @@ const styles = StyleSheet.create({
     color: '#00AFFF',
     paddingTop: normalize(25),
     paddingBottom: normalize(25),
-    verticalAlign: 'text-top'
+    verticalAlign: 'text-top',
   },
   mainTitle: {
     fontFamily: 'Roboto-Medium',
     fontSize: normalize(24),
     color: '#42454A',
-    textTransform: 'none'
-  }
+    textTransform: 'none',
+  },
 })
 
 FRError.navigationOptions = {
   title: 'Face Verifcation',
-  navigationBarHidden: false
+  navigationBarHidden: false,
 }
 export default FRError

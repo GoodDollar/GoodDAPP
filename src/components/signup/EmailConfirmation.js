@@ -1,7 +1,7 @@
 // @flow
 import React, { useEffect, useState } from 'react'
 import { StyleSheet } from 'react-native'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
+import normalize from '../../lib/utils/normalizeText'
 import API from '../../lib/API/api'
 
 // import { useWrappedUserStorage } from '../../lib/gundb/useWrappedStorage'

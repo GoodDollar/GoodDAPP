@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Image, StyleSheet, View } from 'react-native'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
+import normalize from '../../lib/utils/normalizeText'
 import splashImage from '../../assets/splash.png'
 import Text from '../common/view/Text'
 

@@ -70,7 +70,7 @@ Array [
       />
     </div>
     <div
-      className="css-text-901oao"
+      className="css-text-76zvg2"
       dir="auto"
       style={
         Object {
@@ -319,10 +319,10 @@ Array [
                         "msFlexPack": "justify",
                         "msFlexPositive": 1,
                         "msFlexPreferredSize": "0%",
-                        "paddingBottom": "1rem",
-                        "paddingLeft": "1rem",
-                        "paddingRight": "1rem",
-                        "paddingTop": "1rem",
+                        "paddingBottom": "10px",
+                        "paddingLeft": "10px",
+                        "paddingRight": "10px",
+                        "paddingTop": "10px",
                         "width": "100%",
                       }
                     }
@@ -495,7 +495,7 @@ Array [
                               </div>
                             </div>
                             <div
-                              className="css-text-901oao"
+                              className="css-text-76zvg2"
                               dir="auto"
                               style={
                                 Object {
@@ -561,7 +561,7 @@ Array [
                             tabIndex="0"
                           >
                             <div
-                              className="css-text-901oao"
+                              className="css-text-76zvg2"
                               dir="auto"
                               style={
                                 Object {
@@ -667,7 +667,7 @@ Array [
                               type="text"
                             />
                             <div
-                              className="css-text-901oao"
+                              className="css-text-76zvg2"
                               dir="auto"
                               style={
                                 Object {
@@ -704,7 +704,7 @@ Array [
                             }
                           >
                             <div
-                              className="css-text-901oao"
+                              className="css-text-76zvg2"
                               dir="auto"
                               style={
                                 Object {
@@ -794,7 +794,7 @@ Array [
                               type="text"
                             />
                             <div
-                              className="css-text-901oao"
+                              className="css-text-76zvg2"
                               dir="auto"
                               style={
                                 Object {
@@ -831,7 +831,7 @@ Array [
                             }
                           >
                             <div
-                              className="css-text-901oao"
+                              className="css-text-76zvg2"
                               dir="auto"
                               style={
                                 Object {
@@ -921,7 +921,7 @@ Array [
                               type="text"
                             />
                             <div
-                              className="css-text-901oao"
+                              className="css-text-76zvg2"
                               dir="auto"
                               style={
                                 Object {
@@ -958,7 +958,7 @@ Array [
                             }
                           >
                             <div
-                              className="css-text-901oao"
+                              className="css-text-76zvg2"
                               dir="auto"
                               style={
                                 Object {

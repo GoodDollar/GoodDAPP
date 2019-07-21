@@ -95,10 +95,10 @@ exports[`CustomDialog matches snapshot 1`] = `
             "msFlexPack": "justify",
             "msFlexPositive": 1,
             "msFlexPreferredSize": "0%",
-            "paddingBottom": "1rem",
-            "paddingLeft": "1rem",
-            "paddingRight": "1rem",
-            "paddingTop": "1rem",
+            "paddingBottom": "10px",
+            "paddingLeft": "10px",
+            "paddingRight": "10px",
+            "paddingTop": "10px",
             "width": "100%",
           }
         }

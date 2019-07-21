@@ -60,7 +60,7 @@ exports[`SmsForm matches snapshot 1`] = `
     }
   >
     <div
-      className="css-text-901oao"
+      className="css-text-76zvg2"
       dir="auto"
       style={
         Object {
@@ -96,13 +96,10 @@ exports[`SmsForm matches snapshot 1`] = `
         <input
           className=""
           disabled={false}
-          max={9}
           maxLength="1"
-          min={0}
           onBlur={[Function]}
           onChange={[Function]}
           onFocus={[Function]}
-          onInput={[Function]}
           onKeyDown={[Function]}
           onPaste={[Function]}
           style={
@@ -118,8 +115,7 @@ exports[`SmsForm matches snapshot 1`] = `
               "width": "100%",
             }
           }
-          type="number"
-          value=""
+          type="tel"
         />
       </div>
       <div
@@ -133,13 +129,10 @@ exports[`SmsForm matches snapshot 1`] = `
         <input
           className=""
           disabled={false}
-          max={9}
           maxLength="1"
-          min={0}
           onBlur={[Function]}
           onChange={[Function]}
           onFocus={[Function]}
-          onInput={[Function]}
           onKeyDown={[Function]}
           onPaste={[Function]}
           style={
@@ -155,8 +148,7 @@ exports[`SmsForm matches snapshot 1`] = `
               "width": "100%",
             }
           }
-          type="number"
-          value=""
+          type="tel"
         />
       </div>
       <div
@@ -170,13 +162,10 @@ exports[`SmsForm matches snapshot 1`] = `
         <input
           className=""
           disabled={false}
-          max={9}
           maxLength="1"
-          min={0}
           onBlur={[Function]}
           onChange={[Function]}
           onFocus={[Function]}
-          onInput={[Function]}
           onKeyDown={[Function]}
           onPaste={[Function]}
           style={
@@ -192,8 +181,7 @@ exports[`SmsForm matches snapshot 1`] = `
               "width": "100%",
             }
           }
-          type="number"
-          value=""
+          type="tel"
         />
       </div>
       <div
@@ -207,13 +195,10 @@ exports[`SmsForm matches snapshot 1`] = `
         <input
           className=""
           disabled={false}
-          max={9}
           maxLength="1"
-          min={0}
           onBlur={[Function]}
           onChange={[Function]}
           onFocus={[Function]}
-          onInput={[Function]}
           onKeyDown={[Function]}
           onPaste={[Function]}
           style={
@@ -229,8 +214,7 @@ exports[`SmsForm matches snapshot 1`] = `
               "width": "100%",
             }
           }
-          type="number"
-          value=""
+          type="tel"
         />
       </div>
       <div
@@ -244,13 +228,10 @@ exports[`SmsForm matches snapshot 1`] = `
         <input
           className=""
           disabled={false}
-          max={9}
           maxLength="1"
-          min={0}
           onBlur={[Function]}
           onChange={[Function]}
           onFocus={[Function]}
-          onInput={[Function]}
           onKeyDown={[Function]}
           onPaste={[Function]}
           style={
@@ -266,8 +247,7 @@ exports[`SmsForm matches snapshot 1`] = `
               "width": "100%",
             }
           }
-          type="number"
-          value=""
+          type="tel"
         />
       </div>
       <div
@@ -281,13 +261,10 @@ exports[`SmsForm matches snapshot 1`] = `
         <input
           className=""
           disabled={false}
-          max={9}
           maxLength="1"
-          min={0}
           onBlur={[Function]}
           onChange={[Function]}
           onFocus={[Function]}
-          onInput={[Function]}
           onKeyDown={[Function]}
           onPaste={[Function]}
           style={
@@ -303,8 +280,7 @@ exports[`SmsForm matches snapshot 1`] = `
               "width": "100%",
             }
           }
-          type="number"
-          value=""
+          type="tel"
         />
       </div>
     </div>
@@ -312,7 +288,7 @@ exports[`SmsForm matches snapshot 1`] = `
       className="css-view-1dbjc4n"
     >
       <div
-        className="css-text-901oao"
+        className="css-text-76zvg2"
         dir="auto"
         style={
           Object {
@@ -349,7 +325,7 @@ exports[`SmsForm matches snapshot 1`] = `
       }
     >
       <div
-        className="css-text-901oao"
+        className="css-text-76zvg2"
         dir="auto"
         style={
           Object {

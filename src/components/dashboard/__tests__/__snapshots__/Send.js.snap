@@ -95,10 +95,10 @@ exports[`Send matches snapshot 1`] = `
             "msFlexPack": "justify",
             "msFlexPositive": 1,
             "msFlexPreferredSize": "0%",
-            "paddingBottom": "1rem",
-            "paddingLeft": "1rem",
-            "paddingRight": "1rem",
-            "paddingTop": "1rem",
+            "paddingBottom": "10px",
+            "paddingLeft": "10px",
+            "paddingRight": "10px",
+            "paddingTop": "10px",
             "width": "100%",
           }
         }
@@ -239,7 +239,7 @@ exports[`Send matches snapshot 1`] = `
               }
             >
               <div
-                className="css-text-901oao"
+                className="css-text-76zvg2"
                 dir="auto"
                 style={
                   Object {
@@ -254,7 +254,7 @@ exports[`Send matches snapshot 1`] = `
                 -.--
               </div>
               <div
-                className="css-text-901oao"
+                className="css-text-76zvg2"
                 dir="auto"
                 style={
                   Object {
@@ -320,7 +320,7 @@ exports[`Send matches snapshot 1`] = `
             }
           >
             <div
-              className="css-text-901oao"
+              className="css-text-76zvg2"
               dir="auto"
               style={
                 Object {
@@ -388,7 +388,7 @@ exports[`Send matches snapshot 1`] = `
                   tabIndex="0"
                 >
                   <div
-                    className="css-text-901oao"
+                    className="css-text-76zvg2"
                     dir="auto"
                     style={
                       Object {
@@ -486,7 +486,7 @@ exports[`Send matches snapshot 1`] = `
               </div>
             </div>
             <div
-              className="css-text-901oao"
+              className="css-text-76zvg2"
               dir="auto"
               style={
                 Object {
@@ -600,7 +600,7 @@ exports[`Send matches snapshot 1`] = `
                   }
                 >
                   <div
-                    className="css-text-901oao"
+                    className="css-text-76zvg2"
                     dir="auto"
                     style={
                       Object {
@@ -617,7 +617,7 @@ exports[`Send matches snapshot 1`] = `
                   </div>
                 </div>
                 <div
-                  className="css-text-901oao"
+                  className="css-text-76zvg2"
                   dir="auto"
                   style={
                     Object {
@@ -704,7 +704,7 @@ exports[`Send matches snapshot 1`] = `
                   }
                 >
                   <div
-                    className="css-text-901oao"
+                    className="css-text-76zvg2"
                     dir="auto"
                     style={
                       Object {
@@ -721,7 +721,7 @@ exports[`Send matches snapshot 1`] = `
                   </div>
                 </div>
                 <div
-                  className="css-text-901oao"
+                  className="css-text-76zvg2"
                   dir="auto"
                   style={
                     Object {
@@ -830,7 +830,7 @@ exports[`Send matches snapshot 1`] = `
                   }
                 >
                   <div
-                    className="css-text-901oao css-textOneLine-bfa6kz"
+                    className="css-text-76zvg2 css-textOneLine-bfa6kz"
                     dir="auto"
                     style={
                       Object {
@@ -935,7 +935,7 @@ exports[`Send matches snapshot 1`] = `
                   }
                 >
                   <div
-                    className="css-text-901oao css-textOneLine-bfa6kz"
+                    className="css-text-76zvg2 css-textOneLine-bfa6kz"
                     dir="auto"
                     style={
                       Object {
@@ -952,7 +952,7 @@ exports[`Send matches snapshot 1`] = `
                     }
                   >
                     <span
-                      className="css-text-901oao css-textHasAncestor-16my406"
+                      className="css-text-76zvg2 css-textHasAncestor-16my406"
                       dir="auto"
                       style={
                         Object {

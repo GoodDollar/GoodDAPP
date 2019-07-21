@@ -28,7 +28,7 @@ exports[`EventIcon - Receive matches snapshot 1`] = `
   }
 >
   <div
-    className="css-text-901oao"
+    className="css-text-76zvg2"
     dir="auto"
     style={
       Object {
@@ -74,7 +74,7 @@ exports[`EventIcon - Send matches snapshot 1`] = `
   }
 >
   <div
-    className="css-text-901oao"
+    className="css-text-76zvg2"
     dir="auto"
     style={
       Object {
@@ -120,7 +120,7 @@ exports[`EventIcon - Withdraw matches snapshot 1`] = `
   }
 >
   <div
-    className="css-text-901oao"
+    className="css-text-76zvg2"
     dir="auto"
     style={
       Object {

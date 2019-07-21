@@ -98,6 +98,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
     })()
     setReady(ready)
   }, [])
+
   const done = async (data: { [string]: string }) => {
     setLoading(true)
     fireSignupEvent()
@@ -145,22 +146,20 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       } finally {
         setLoading(false)
       }
-    } else {
-      if (nextRoute) {
-        return navigateWithFocus(nextRoute.key)
-      }
+    } else if (nextRoute && nextRoute.key === 'SignupCompleted') {
       log.info('Sending new user data', state)
       try {
         const { goodWallet, userStorage } = await ready
 
+        // TODO: this comment is incorrect until we restore email verificaiton requirement
         // After sending email to the user for confirmation (transition between Email -> EmailConfirmation)
         // user's profile is persisted (`userStorage.setProfile`).
         // Then, when the user access the application from the link (in EmailConfirmation), data is recovered and
         // saved to the `state`
-        await API.addUser(state)
 
         // Stores creationBlock number into 'lastBlock' feed's node
         await Promise.all([
+          API.addUser(state),
           userStorage.setProfile({ ...state, walletAddress: goodWallet.account }),
           userStorage.setProfileField('registered', true, 'public'),
           goodWallet.getBlockNumber().then(creationBlock => userStorage.saveLastBlockNumber(creationBlock.toString())),
@@ -175,6 +174,10 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
         showErrorDialog('New user creation failed', e)
       } finally {
         setLoading(false)
+      }
+    } else {
+      if (nextRoute) {
+        return navigateWithFocus(nextRoute.key)
       }
     }
   }

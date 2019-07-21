@@ -730,7 +730,7 @@ describe('users index', () => {
   })
 
   it('isValidValue should return true', async () => {
-    const isValidValue = await userStorage.isValidValue('email', 'test@test.com')
+    const isValidValue = await userStorage.constructor.isValidValue('email', 'test@test.com')
     expect(isValidValue).toBeTruthy()
   })
 
@@ -747,9 +747,9 @@ describe('users index', () => {
   })
 
   it('validateProfile should return isValid=false when field is being used', async () => {
-    expect(await userStorage.isValidValue('email', unavailableProfile.email)).toBeFalsy()
-    expect(await userStorage.isValidValue('mobile', unavailableProfile.mobile)).toBeFalsy()
-    expect(await userStorage.isValidValue('username', unavailableProfile.username)).toBeFalsy()
+    expect(await userStorage.constructor.isValidValue('email', unavailableProfile.email)).toBeFalsy()
+    expect(await userStorage.constructor.isValidValue('mobile', unavailableProfile.mobile)).toBeFalsy()
+    expect(await userStorage.constructor.isValidValue('username', unavailableProfile.username)).toBeFalsy()
   })
 
   it('validateProfile should return isValid=false when field is being used and error only in that field', async () => {

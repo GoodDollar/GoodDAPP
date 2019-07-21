@@ -1,5 +1,5 @@
 const Config = {
-  env: process.env.REACT_ENV || 'development',
+  env: process.env.REACT_APP_ENV || 'development',
   logLevel: process.env.REACT_APP_LOG_LEVEL || 'debug',
   serverUrl: process.env.REACT_APP_SERVER_URL || 'http://localhost:3003',
   publicUrl: process.env.REACT_APP_PUBLIC_URL || (window && window.location && window.location.origin),
@@ -45,5 +45,5 @@ const Config = {
 
 // Forcing value as number, if not MNID encoder/decoder may fail
 // Config.networkId = Config.ethereum[Config.networkId].network_id
-
+console.log({ Config })
 export default Config

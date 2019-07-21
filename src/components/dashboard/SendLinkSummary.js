@@ -1,14 +1,16 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { View } from 'react-native'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
+import { isMobile } from 'mobile-device-detect'
+
+import { generateSendShareObject } from '../../lib/share'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
-import { Avatar, BigGoodDollar, CustomButton, Section, TopBar, Wrapper } from '../common'
-import { receiveStyles } from './styles'
+import { CustomButton, Section, TopBar, Wrapper } from '../common'
+import SummaryTable from '../common/view/SummaryTable'
+import { SEND_TITLE } from './utils/sendReceiveFlow'
 
 const log = logger.child({ from: 'SendLinkSummary' })
 
@@ -16,8 +18,6 @@ export type AmountProps = {
   screenProps: any,
   navigation: any,
 }
-
-const TITLE = 'Send G$'
 
 /**
  * Screen that shows transaction summary for a send link action
@@ -28,26 +28,76 @@ const TITLE = 'Send G$'
 const SendLinkSummary = (props: AmountProps) => {
   const { screenProps } = props
   const [screenState] = useScreenState(screenProps)
-  const [, , showErrorDialog] = useDialog()
-  const [loading, setLoading] = useState(false)
-  const [isValid, setIsValid] = useState(screenState.isValid)
-  const { amount, reason, to } = screenState
+  const [showDialog, , showErrorDialog] = useDialog()
+
+  const [isCitizen, setIsCitizen] = useState()
+  const [shared, setShared] = useState(false)
+  const { amount, reason, counterPartyDisplayName } = screenState
 
   const faceRecognition = () => {
     return screenProps.push('FRIntro', { from: 'SendLinkSummary' })
+  }
+
+  const shareAction = async paymentLink => {
+    const share = generateSendShareObject(paymentLink)
+    try {
+      await navigator.share(share)
+      setShared(true)
+    } catch (e) {
+      if (e.name !== 'AbortError') {
+        showDialog({
+          title: 'There was a problem triggering share action.',
+          message: `You can still copy the link in tapping on "Copy link to clipboard". \n Error ${e.name}: ${
+            e.message
+          }`,
+          dismissText: 'Ok',
+          onDismiss: () =>
+            screenProps.push('SendConfirmation', {
+              paymentLink,
+              amount,
+              reason,
+              counterPartyDisplayName,
+            }),
+        })
+      }
+    }
+  }
+
+  // Going to root after shared
+  useEffect(() => {
+    if (shared) {
+      screenProps.goToRoot()
+    }
+  }, [shared])
+
+  const handleConfirm = () => {
+    const paymentLink = generateLink()
+    if (isMobile && navigator.share) {
+      shareAction(paymentLink)
+    } else {
+      // Show confirmation
+      screenProps.push('SendConfirmation', {
+        paymentLink,
+        amount,
+        reason,
+        counterPartyDisplayName,
+      })
+    }
   }
 
   /**
    * Generates link to send and call send email/sms action
    * @throws Error if link cannot be send
    */
-  const generateLinkAndSend = async () => {
+  const generateLink = () => {
     try {
       // Generate link deposit
-      const generateLinkResponse = await goodWallet.generateLink(
+      const generateLinkResponse = goodWallet.generateLink(
         amount,
         reason,
         ({ paymentLink, code }) => (hash: string) => {
+          log.debug({ hash })
+
           // Save transaction
           const transactionEvent: TransactionEvent = {
             id: hash,
@@ -56,7 +106,7 @@ const SendLinkSummary = (props: AmountProps) => {
             type: 'send',
             status: 'pending',
             data: {
-              to,
+              counterPartyDisplayName,
               reason,
               amount,
               paymentLink,
@@ -69,93 +119,45 @@ const SendLinkSummary = (props: AmountProps) => {
       )
       log.debug('generateLinkAndSend:', { generateLinkResponse })
       if (generateLinkResponse) {
-        try {
-          // Generate link deposit
-          const { paymentLink } = generateLinkResponse
-
-          // Show confirmation
-          screenProps.push('SendConfirmation', { paymentLink, amount, reason, to })
-        } catch (e) {
-          log.error(e)
-          showErrorDialog('Generating payment failed', e)
-          const { code } = generateLinkResponse
-          await goodWallet.cancelOtl(code)
-        }
-      } else {
-        showErrorDialog('Generating payment failed', 'Unknown Error')
+        const { paymentLink } = generateLinkResponse
+        return paymentLink
       }
+      showErrorDialog('Generating payment failed', 'Unknown Error')
     } catch (e) {
       showErrorDialog('Generating payment failed', e)
       log.error(e)
     }
   }
 
-  const handleContinue = async () => {
-    setLoading(true)
-
-    const isCitizen = await goodWallet.isCitizen()
-
-    if (isCitizen) {
-      await generateLinkAndSend()
-      setLoading(false)
-    } else {
-      faceRecognition()
-    }
-  }
-
   useEffect(() => {
-    if (isValid === true) {
-      generateLinkAndSend()
-    } else if (isValid === false) {
-      screenProps.goToRoot()
-    }
-    return () => setIsValid(undefined)
-  }, [isValid])
+    goodWallet.isCitizen().then(setIsCitizen)
+  }, [isCitizen])
+
   return (
-    <Wrapper style={styles.wrapper}>
+    <Wrapper>
       <TopBar push={screenProps.push} />
-      <Section style={styles.section}>
-        <Section.Row style={styles.sectionRow}>
-          <Section.Title style={styles.headline}>SUMMARY</Section.Title>
-          <View style={styles.sectionTo}>
-            <Avatar size={110} />
-            {to && <Section.Text style={styles.toText}>{`To: ${to}`}</Section.Text>}
-          </View>
-          <Section.Text style={styles.reason}>
-            {`Here's `}
-            <BigGoodDollar number={amount} />
-          </Section.Text>
-          <Section.Text style={styles.reason}>{reason && `For ${reason}`}</Section.Text>
-          <View style={styles.buttonGroup}>
-            <BackButton mode="text" screenProps={screenProps} style={{ flex: 1 }}>
+      <Section grow>
+        <Section.Title>SUMMARY</Section.Title>
+        <SummaryTable counterPartyDisplayName={counterPartyDisplayName} amount={amount} reason={reason} />
+        <Section.Row>
+          <Section.Row grow={1} justifyContent="flex-start">
+            <BackButton mode="text" screenProps={screenProps}>
               Cancel
             </BackButton>
-            <CustomButton mode="contained" onPress={handleContinue} style={{ flex: 2 }} disabled={loading}>
+          </Section.Row>
+          <Section.Stack grow={3}>
+            <CustomButton onPress={isCitizen ? handleConfirm : faceRecognition} disabled={isCitizen === undefined}>
               Confirm
             </CustomButton>
-          </View>
+          </Section.Stack>
         </Section.Row>
       </Section>
     </Wrapper>
   )
 }
 
-const styles = {
-  ...receiveStyles,
-  sectionTo: {
-    alignItems: 'center',
-  },
-  toText: {
-    marginTop: '1rem',
-    marginBottom: '1rem',
-  },
-  reason: {
-    fontSize: normalize(16),
-  },
-}
-
 SendLinkSummary.navigationOptions = {
-  title: TITLE,
+  title: SEND_TITLE,
 }
 
 SendLinkSummary.shouldNavigateToComponent = props => {

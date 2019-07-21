@@ -43,7 +43,7 @@ exports[`BigNumber matches snapshot 1`] = `
           "color": "rgba(85,85,85,1.00)",
           "direction": "ltr",
           "fontFamily": "Roboto-Bold",
-          "fontSize": "40px",
+          "fontSize": "36px",
           "fontWeight": "700",
           "lineHeight": "auto",
           "marginRight": "4px",

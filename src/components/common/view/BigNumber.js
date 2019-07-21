@@ -37,7 +37,7 @@ const getStylesFromProps = ({ theme }) => {
     },
     bigNumber: {
       fontFamily: theme.fonts.bold,
-      fontSize: normalize(40),
+      fontSize: normalize(36),
       fontWeight: '700',
       marginRight: theme.sizes.defaultHalf,
       textAlign: 'right',

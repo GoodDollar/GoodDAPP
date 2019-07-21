@@ -16,6 +16,7 @@ import get from 'lodash/get'
 import Config from '../../config/config'
 import logger from '../../lib/logger/pino-logger'
 import { generateShareLink } from '../share'
+import API from '../../lib/API/api'
 import WalletFactory from './WalletFactory'
 
 const log = logger.child({ from: 'GoodWallet' })
@@ -672,6 +673,20 @@ export class GoodWallet {
   }
 
   /**
+   * Helper to check if user has enough native token balance, if not try to ask server to topwallet
+   * @param {number} wei
+   */
+  async verifyHasGas(wei: number) {
+    let nativeBalance = await this.wallet.eth.getBalance(this.account)
+    if (nativeBalance > wei) {
+      return true
+    }
+    const toppingRes = await API.verifyTopWallet()
+    nativeBalance = await this.wallet.eth.getBalance(this.account)
+    return toppingRes.ok && nativeBalance > wei
+  }
+
+  /**
    * Helper function to handle a tx Send call
    * @param tx
    * @param {PromiEvents} txCallbacks
@@ -692,7 +707,10 @@ export class GoodWallet {
     const { onTransactionHash, onReceipt, onConfirmation, onError } = { ...defaultPromiEvents, ...txCallbacks }
     gas = gas || (await tx.estimateGas().catch(this.handleError))
     gasPrice = gasPrice || this.gasPrice
-
+    const hasGas = await this.verifyHasGas(gas * gasPrice)
+    if (hasGas === false) {
+      return Promise.reject('Reached daily transactions limit or not a citizen').catch(this.handleError)
+    }
     log.debug({ gas, gasPrice })
     return (
       new Promise((res, rej) => {

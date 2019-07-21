@@ -23,7 +23,7 @@ export const initAnalytics = async (goodWallet: GoodWallet, userStorage: UserSto
     })
   }
 
-  if (global.Amplitude && Config.amplitudeKey) {
+  if (global.amplitude && Config.amplitudeKey) {
     Amplitude = global.amplitude.getInstance()
     Amplitude.init(Config.amplitudeKey)
     Amplitude && Amplitude.setUserId(emailOrId)

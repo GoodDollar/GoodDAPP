@@ -1,7 +1,9 @@
 // @flow
 import gun from '../gundb'
 
-import userStorage, { getOperationType, getReceiveDataFromReceipt, type TransactionEvent } from '../UserStorage'
+import userStorage from '../UserStorage'
+import { getOperationType, getReceiveDataFromReceipt, type TransactionEvent } from '../UserStorageClass'
+
 import { getUserModel } from '../UserModel'
 import { addUser } from './__util__/index'
 

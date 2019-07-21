@@ -14,10 +14,10 @@ export default class SignupCompleted extends React.Component<Props, State> {
   render() {
     return (
       <Wrapper
-        valid={true}
         handleSubmit={this.handleSubmit}
         submitText="Let's start!"
         loading={this.props.screenProps.data.loading}
+        valid={this.props.screenProps.data.createError !== true}
       >
         <Title>{`That's great, you're all set.\nThanks ${this.props.screenProps.data.fullName.split(' ')[0]}!`}</Title>
       </Wrapper>

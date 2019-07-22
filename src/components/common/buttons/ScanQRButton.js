@@ -21,7 +21,7 @@ const ScanQRButton = ({ onPress, styles, theme, ...screenProps }: Props) => {
         Scan QR Code
       </Text>
       <View style={styles.iconWrapper}>
-        <Icon name="qrcode" color="white" size={30} />
+        <Icon name="qrcode" color="white" size={28} />
       </View>
     </TouchableOpacity>
   )
@@ -38,7 +38,11 @@ const mapPropsToStyle = ({ theme }) => ({
   iconWrapper: {
     backgroundColor: theme.colors.darkBlue,
     borderRadius: '50%',
-    padding: theme.sizes.default,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 42,
+    width: 42,
     marginLeft: theme.sizes.default,
   },
   icon: {

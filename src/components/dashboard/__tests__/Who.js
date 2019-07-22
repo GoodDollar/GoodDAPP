@@ -5,16 +5,16 @@ import renderer from 'react-test-renderer'
 
 import { getWebRouterComponentWithMocks } from './__util__'
 
-describe('ReceiveFrom', () => {
+describe('Who', () => {
   it('renders without errors', () => {
-    const ReceiveFrom = getWebRouterComponentWithMocks('../ReceiveFrom')
-    const tree = renderer.create(<ReceiveFrom />)
+    const Who = getWebRouterComponentWithMocks('../Who')
+    const tree = renderer.create(<Who />)
     expect(tree.toJSON()).toBeTruthy()
   })
 
   it('matches snapshot', () => {
-    const ReceiveFrom = getWebRouterComponentWithMocks('../ReceiveFrom')
-    const component = renderer.create(<ReceiveFrom />)
+    const Who = getWebRouterComponentWithMocks('../Who')
+    const component = renderer.create(<Who />)
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

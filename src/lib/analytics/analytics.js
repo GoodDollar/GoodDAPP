@@ -30,7 +30,7 @@ export const initAnalytics = async (goodWallet: GoodWallet, userStorage: UserSto
   }
 
   if (global.FS) {
-    FS = window.FS
+    FS = global.FS
     FS.identify(emailOrId, {})
   }
   log.debug('Initialized analytics:', {

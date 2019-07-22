@@ -40,7 +40,6 @@ const HelperWizard = props => {
   const [step, setStep] = useState(0)
   const nextStep = () => setStep(step + 1)
   if (skip) {
-    done()
     return null
   }
   let text, imgs
@@ -140,6 +139,9 @@ class ZoomCapture extends React.Component<ZoomCaptureProps> {
       let zoomSDK = this.props.loadedZoom
       this.zoom = new Zoom(zoomSDK, track)
       await this.zoom.ready
+      if (this.props.showHelper === false) {
+        this.captureUserMediaZoom()
+      }
     } catch (e) {
       log.error(`Failed on capture, error: ${e}`)
       this.props.onError(e)

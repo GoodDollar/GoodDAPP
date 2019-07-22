@@ -48,7 +48,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     zoomReady: false,
     captureResult: {},
     isWhitelisted: undefined,
-    showHelper: true
+    showHelper: get(this.props, 'screenProps.screenState.showHelper', true)
   }
 
   loadedZoom: any
@@ -145,7 +145,6 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
 
   render() {
     const { showZoomCapture, showGuidedFR, sessionId, isAPISuccess } = this.state
-    log.debug('Render:', { showZoomCapture })
     return (
       <Wrapper>
         {showGuidedFR && (

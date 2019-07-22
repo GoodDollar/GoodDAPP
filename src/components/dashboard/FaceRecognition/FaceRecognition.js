@@ -106,9 +106,9 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
         log.error('FR API call failed:', { result })
         this.showFRError(result.error) // TODO: rami
       } else if (get(result, 'enrollResult.enrollmentIdentifier', undefined)) {
-        this.setState({ ...this.state, isWhitelisted: true })
+        this.setState({ ...this.state, isAPISuccess: true })
       } else {
-        this.setState({ ...this.state, isWhitelisted: false })
+        this.setState({ ...this.state, isAPISuccess: false })
       }
     } catch (e) {
       log.error('FR API call failed:', e, e.message)
@@ -123,7 +123,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
   }
 
   retry = () => {
-    this.setState({ showGuidedFR: false, sessionId: undefined, showZoomCapture: true })
+    this.setState({ showGuidedFR: false, sessionId: undefined, showZoomCapture: true, isAPISuccess: undefined })
   }
 
   done = () => {
@@ -131,7 +131,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
   }
 
   render() {
-    const { showZoomCapture, showGuidedFR, sessionId, isWhitelisted } = this.state
+    const { showZoomCapture, showGuidedFR, sessionId, isAPISuccess } = this.state
     log.debug('Render:', { showZoomCapture })
     return (
       <Wrapper>
@@ -142,7 +142,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
             retry={this.retry}
             done={this.done}
             navigation={this.props.screenProps}
-            isWhitelisted={isWhitelisted}
+            isAPISuccess={isAPISuccess}
           />
         )}
 

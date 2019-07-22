@@ -5,7 +5,6 @@ import { View } from 'react-native'
 import Mnemonics from '../signin/Mnemonics'
 import logger from '../../lib/logger/pino-logger'
 import { CustomButton, Section, Text, Wrapper } from '../common'
-import { LinkButton } from '../signup/components'
 import { PrivacyPolicy, TermsOfUse } from '../webView/webViewInstances'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
@@ -66,13 +65,13 @@ class Auth extends React.Component<Props> {
         <View style={styles.bottomContainer}>
           <Text fontFamily="regular" fontSize={12} color="gray80Percent">
             {`By clicking the 'Create a wallet' button,\n you are accepting our\n`}
-            <LinkButton style={styles.acceptTermsLink} onPress={this.handleNavigateTermsOfUse}>
+            <Section.Text style={styles.acceptTermsLink} onPress={this.handleNavigateTermsOfUse}>
               Terms of Service
-            </LinkButton>
+            </Section.Text>
             {` and `}
-            <LinkButton style={styles.acceptTermsLink} onPress={this.handleNavigatePrivacyPolicy}>
+            <Section.Text style={styles.acceptTermsLink} onPress={this.handleNavigatePrivacyPolicy}>
               Privacy Policy
-            </LinkButton>
+            </Section.Text>
           </Text>
           <CustomButton style={styles.buttonLayout} onPress={this.handleSignUp}>
             Create a wallet
@@ -85,6 +84,7 @@ class Auth extends React.Component<Props> {
     )
   }
 }
+
 const getStylesFromProps = ({ theme }) => {
   return {
     mainWrapper: {
@@ -117,6 +117,8 @@ const getStylesFromProps = ({ theme }) => {
       color: theme.colors.gray80Percent,
       fontSize: normalize(12),
       fontFamily: theme.fonts.bold,
+      textAlign: 'center',
+      marginTop: theme.sizes.default,
     },
   }
 }

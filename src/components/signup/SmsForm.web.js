@@ -6,8 +6,12 @@ import normalize from 'react-native-elements/src/helpers/normalizeText'
 import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
 import { withStyles } from '../../lib/styles'
-import { CustomButton, Icon, LoadingIndicator, Section } from '../common'
-import { CustomWrapper, Error } from './components'
+import CustomButton from '../common/buttons/CustomButton'
+import Icon from '../common/view/Icon'
+import LoadingIndicator from '../common/view/LoadingIndicator'
+import Section from '../common/layout/Section'
+import { ErrorText } from '../common/form/InputText'
+import CustomWrapper from './signUpWrapper'
 import type { SignupState } from './SignupState'
 
 const log = logger.child({ from: 'SmsForm.web' })
@@ -144,7 +148,7 @@ class SmsForm extends React.Component<Props, State> {
               errorStyle={errorStyle}
               value={otp}
             />
-            <Error>{errorMessage !== '' && errorMessage}</Error>
+            <ErrorText>{errorMessage !== '' && errorMessage}</ErrorText>
           </Section.Row>
           <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
             <SMSAction

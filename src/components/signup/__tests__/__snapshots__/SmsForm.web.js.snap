@@ -431,29 +431,25 @@ exports[`SmsForm matches snapshot 1`] = `
               </div>
             </div>
             <div
-              className="css-view-1dbjc4n"
-            >
-              <div
-                className="css-text-901oao"
-                dir="auto"
-                style={
-                  Object {
-                    "color": "rgba(255,0,0,1.00)",
-                    "direction": "ltr",
-                    "fontFamily": "Roboto",
-                    "fontSize": "18px",
-                    "fontWeight": "normal",
-                    "lineHeight": "22px",
-                    "marginBottom": "30px",
-                    "marginTop": "30px",
-                    "minHeight": "24px",
-                    "textAlign": "center",
-                    "textDecoration": "none",
-                    "textTransform": "none",
-                  }
+              className="css-text-901oao"
+              dir="auto"
+              style={
+                Object {
+                  "WebkitTransform": "translateY(0px)",
+                  "color": "rgba(250,108,119,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto",
+                  "fontSize": "12px",
+                  "opacity": 0,
+                  "paddingBottom": "4px",
+                  "paddingLeft": "0px",
+                  "paddingRight": "12px",
+                  "paddingTop": "4px",
+                  "textAlign": "center",
+                  "transform": "translateY(0px)",
                 }
-              />
-            </div>
+              }
+            />
           </div>
           <div
             className="css-view-1dbjc4n"

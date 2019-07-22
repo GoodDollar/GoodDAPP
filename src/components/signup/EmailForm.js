@@ -5,8 +5,9 @@ import { userModelValidations } from '../../lib/gundb/UserModel'
 import userStorage from '../../lib/gundb/UserStorage'
 import { withStyles } from '../../lib/styles'
 import Config from '../../config/config'
-import { InputText, Section } from '../common'
-import { CustomWrapper } from './components'
+import InputText from '../common/form/InputText'
+import Section from '../common/layout/Section'
+import CustomWrapper from './signUpWrapper'
 
 type Props = {
   doneCallback: ({ email: string }) => null,
@@ -86,6 +87,7 @@ class EmailForm extends React.Component<Props, State> {
               keyboardType="email-address"
               onKeyPress={this.handleEnter}
               error={errorMessage}
+              onCleanUpField={this.handleChange}
               autoFocus
             />
           </Section.Row>

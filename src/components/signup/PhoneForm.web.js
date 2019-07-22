@@ -9,8 +9,8 @@ import logger from '../../lib/logger/pino-logger'
 import api from '../../lib/API/api'
 import { withStyles } from '../../lib/styles'
 import Config from '../../config/config'
-import { Section } from '../common'
-import { CustomWrapper } from './components'
+import Section from '../common/layout/Section'
+import CustomWrapper from './signUpWrapper'
 
 const log = logger.child({ from: 'PhoneForm' })
 

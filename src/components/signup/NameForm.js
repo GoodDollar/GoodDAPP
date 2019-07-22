@@ -2,8 +2,9 @@
 import React from 'react'
 import { validateFullName } from '../../lib/validators/validateFullName'
 import { withStyles } from '../../lib/styles'
-import { InputText, Section } from '../common'
-import { CustomWrapper } from './components'
+import InputText from '../common/form/InputText'
+import Section from '../common/layout/Section'
+import CustomWrapper from './signUpWrapper'
 
 type Props = {
   doneCallback: ({ name: string }) => null,
@@ -55,6 +56,10 @@ class NameForm extends React.Component<Props, State> {
     }
   }
 
+  cleanUpField = fullName => {
+    this.setState({ fullName }, this.checkErrors)
+  }
+
   render() {
     const { fullName, errorMessage } = this.state
     const { key } = this.props.navigation.state
@@ -73,6 +78,7 @@ class NameForm extends React.Component<Props, State> {
               onBlur={this.checkErrors}
               error={errorMessage}
               onKeyPress={this.handleEnter}
+              onCleanUpField={this.cleanUpField}
               autoFocus
             />
           </Section.Row>

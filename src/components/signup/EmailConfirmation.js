@@ -2,12 +2,11 @@
 import React, { useEffect, useState } from 'react'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import API from '../../lib/API/api'
-
-// import { useWrappedUserStorage } from '../../lib/gundb/useWrappedStorage'
 import logger from '../../lib/logger/pino-logger'
 import { withStyles } from '../../lib/styles'
-import { Section, Wrapper } from '../common'
-import { CustomWrapper } from './components'
+import Section from '../common/layout/Section'
+import Wrapper from '../common/layout/Wrapper'
+import CustomWrapper from './signUpWrapper'
 
 type Props = {
   screenProps: any,
@@ -67,7 +66,7 @@ const EmailConfirmation = ({ navigation, screenProps, styles }: Props) => {
         </Section.Row>
       )}
     >
-      <Section.Stack grow justifyContent="space-between" style={styles.row}>
+      <Section grow justifyContent="space-between" style={styles.row}>
         <Section grow>
           <Section.Row justifyContent="center">
             <Section.Text fontFamily="medium" fontSize={16} color="darkGray">
@@ -87,7 +86,7 @@ const EmailConfirmation = ({ navigation, screenProps, styles }: Props) => {
             </Section.Text>
           </Section.Row>
         </Wrapper>
-      </Section.Stack>
+      </Section>
     </CustomWrapper>
   )
 }
@@ -98,7 +97,8 @@ const getStylesFromProps = ({ theme }) => ({
     alignItems: 'center',
   },
   row: {
-    marginVertical: theme.sizes.defaultQuadruple,
+    marginVertical: theme.sizes.defaultDouble,
+    paddingHorizontal: 0,
   },
 })
 

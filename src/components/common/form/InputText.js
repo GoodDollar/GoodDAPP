@@ -1,47 +1,67 @@
 // @flow
 import React from 'react'
-import { StyleSheet, TextInput, View } from 'react-native'
-import { HelperText } from 'react-native-paper'
+import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native'
+import HelperText from 'react-native-paper/src/components/HelperText'
+import normalize from 'react-native-elements/src/helpers/normalizeText'
+import Icon from '../view/Icon'
 import { withStyles } from '../../../lib/styles'
 
-const InputText = ({ error, styles, style, ...props }: any) => {
+const InputText = ({ error, onCleanUpField, styles, theme, style, ...props }: any) => {
+  const inputColor = error ? theme.colors.red : theme.colors.darkGray
+  const inputStyle = {
+    color: inputColor,
+    borderBottomColor: inputColor,
+  }
   return (
     <View style={styles.view}>
       <View style={styles.view}>
-        <TextInput {...props} style={[error ? styles.inputError : styles.input, style]} />
+        <TextInput {...props} style={[styles.input, inputStyle, style]} />
+        {onCleanUpField && (
+          <TouchableOpacity style={styles.suffixIcon} onPress={() => onCleanUpField('')}>
+            <Icon size={normalize(16)} color={inputColor} name="close" />
+          </TouchableOpacity>
+        )}
       </View>
-      <HelperText type="error" visible={error} style={styles.error}>
-        {error}
-      </HelperText>
+      <ErrorText error={error} />
     </View>
   )
 }
 
-const getStylesFromProps = ({ theme }) => {
-  const input = {
+const ErrorComponent = ({ error, styles }) => (
+  <HelperText type="error" style={[styles.error, { opacity: error ? 1 : 0 }]}>
+    {error}
+  </HelperText>
+)
+
+const getStylesFromProps = ({ theme }) => ({
+  input: {
     ...theme.fontStyle,
     fontFamily: theme.fonts.slab,
     color: theme.colors.darkGray,
     borderBottomStyle: 'solid',
     borderBottomWidth: StyleSheet.hairlineWidth,
-    padding: theme.sizes.defaultHalf,
+    paddingVertical: theme.sizes.defaultHalf,
+    paddingHorizontal: theme.sizes.defaultQuadruple,
     borderBottomColor: theme.colors.darkGray,
-  }
-  return {
-    input,
-    inputError: {
-      ...input,
-      color: theme.colors.red,
-      borderBottomColor: theme.colors.red,
-    },
-    view: {
-      flex: 1,
-    },
-    error: {
-      paddingLeft: 0,
-      textAlign: 'left',
-    },
-  }
-}
+  },
+  view: {
+    flex: 1,
+  },
+  suffixIcon: {
+    position: 'absolute',
+    right: theme.sizes.default,
+    paddingTop: theme.paddings.mainContainerPadding,
+    zIndex: 1,
+  },
+})
+
+const getErrorStylesFromProps = ({ theme }) => ({
+  error: {
+    paddingLeft: 0,
+    textAlign: 'center',
+  },
+})
+
+export const ErrorText = withStyles(getErrorStylesFromProps)(ErrorComponent)
 
 export default withStyles(getStylesFromProps)(InputText)

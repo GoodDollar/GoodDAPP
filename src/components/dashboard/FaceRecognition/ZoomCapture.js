@@ -35,12 +35,17 @@ type ZoomCaptureProps = {
   loadedZoom: boolean,
   onCaptureResult: (captureResult?: ZoomCaptureResult) => void,
   onError: (error: string) => void,
+  showHelper: boolean,
 }
 
 const HelperWizard = props => {
-  const { done } = props
+  const { done, skip } = props
   const [step, setStep] = useState(0)
   const nextStep = () => setStep(step + 1)
+  if (skip) {
+    done()
+    return null
+  }
   let text, imgs
   switch (step) {
     case 0:
@@ -178,7 +183,7 @@ class ZoomCapture extends React.Component<ZoomCaptureProps> {
         <View style={styles.bottomSection}>
           <div id="zoom-parent-container" style={getVideoContainerStyles()}>
             <View id="helper" style={styles.helper}>
-              <HelperWizard done={this.captureUserMediaZoom} />
+              <HelperWizard done={this.captureUserMediaZoom} skip={this.props.showHelper === false} />
             </View>
             <div id="zoom-interface-container" style={{ position: 'absolute' }} />
             {<Camera onCameraLoad={this.cameraReady} onError={this.props.onError} />}

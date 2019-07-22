@@ -46,6 +46,13 @@ input:focus {
   outline: none;
 }
 
+input:-webkit-autofill,
+input:-internal-autofill-selected,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  background-color: #fff !important;
+}
+
 @font-face {
   font-family: 'RobotoSlab-Bold';
   src: url('./assets/fonts/RobotoSlab-Bold.ttf');

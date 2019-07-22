@@ -16,7 +16,7 @@ const InputText = ({ error, onCleanUpField, styles, theme, style, ...props }: an
     <View style={styles.view}>
       <View style={styles.view}>
         <TextInput {...props} style={[styles.input, inputStyle, style]} />
-        {onCleanUpField && (
+        {onCleanUpField && error !== '' && (
           <TouchableOpacity style={styles.suffixIcon} onPress={() => onCleanUpField('')}>
             <Icon size={normalize(16)} color={inputColor} name="close" />
           </TouchableOpacity>
@@ -38,6 +38,7 @@ const getStylesFromProps = ({ theme }) => ({
     ...theme.fontStyle,
     fontFamily: theme.fonts.slab,
     color: theme.colors.darkGray,
+    backgroundColor: theme.colors.surface,
     borderBottomStyle: 'solid',
     borderBottomWidth: StyleSheet.hairlineWidth,
     paddingVertical: theme.sizes.defaultHalf,

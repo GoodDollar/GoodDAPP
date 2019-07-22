@@ -56,10 +56,6 @@ class NameForm extends React.Component<Props, State> {
     }
   }
 
-  cleanUpField = fullName => {
-    this.setState({ fullName }, this.checkErrors)
-  }
-
   render() {
     const { fullName, errorMessage } = this.state
     const { key } = this.props.navigation.state
@@ -78,7 +74,7 @@ class NameForm extends React.Component<Props, State> {
               onBlur={this.checkErrors}
               error={errorMessage}
               onKeyPress={this.handleEnter}
-              onCleanUpField={this.cleanUpField}
+              onCleanUpField={this.handleChange}
               autoFocus
             />
           </Section.Row>

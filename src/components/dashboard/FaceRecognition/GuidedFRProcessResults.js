@@ -4,6 +4,7 @@ import { ActivityIndicator, Image, StyleSheet, View } from 'react-native'
 import { Text } from 'react-native-paper'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import find from 'lodash/find'
+import findKey from 'lodash/findKey'
 import mapValues from 'lodash/mapValues'
 import { CustomButton, Section } from '../../common'
 import logger from '../../../lib/logger/pino-logger'
@@ -14,6 +15,7 @@ import Check from '../../../assets/Icons - Success - White.svg'
 import Cross from '../../../assets/Icons - Close X - White.svg'
 import LookingGood from '../../../assets/LookingGood.svg'
 import GDStore from '../../../lib/undux/GDStore'
+import { fireEvent } from '../../../lib/analytics/analytics'
 
 const log = logger.child({ from: 'GuidedFRProcessResults' })
 
@@ -55,6 +57,10 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
     log.debug('updating progress', { data })
 
     // let explanation = ''
+    let failedFR = findKey(data, (v, k) => v === false)
+    if (failedFR) {
+      fireEvent(`FR_Failed`, { failedFR })
+    }
     setStatus({ ...processStatus, ...data })
 
     // log.debug('analyzed data,', { processStatus })

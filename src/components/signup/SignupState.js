@@ -20,6 +20,8 @@ import type { SMSRecord } from './SmsForm'
 import GDStore from '../../lib/undux/GDStore'
 import { getUserModel, type UserModel } from '../../lib/gundb/UserModel'
 import Config from '../../config/config'
+import { fireEvent } from '../../../lib/analytics/analytics'
+
 const log = logger.child({ from: 'SignupState' })
 
 export type SignupState = UserModel & SMSRecord
@@ -33,7 +35,6 @@ const SignupWizardNavigator = createSwitchNavigator({
   SignupCompleted
 })
 
-declare var amplitude
 const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any }) => {
   const API = useWrappedApi()
   const initialState: SignupState = {
@@ -68,11 +69,8 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
     }, 300)
   }
   const fireSignupEvent = (event?: string) => {
-    const Amplitude = amplitude.getInstance()
     let curRoute = navigation.state.routes[navigation.state.index]
-    let res = Amplitude.logEvent(`SIGNUP_${event || curRoute.key}`)
-    if (!res) log.warn('Amplitude event not sent')
-    console.log('fired event', `SIGNUP_${event || curRoute.key}`)
+    let res = fireEvent(`SIGNUP_${event || curRoute.key}`)
   }
 
   useEffect(() => {

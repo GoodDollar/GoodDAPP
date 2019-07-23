@@ -15,6 +15,7 @@ import values from 'lodash/values'
 import get from 'lodash/get'
 import Config from '../../config/config'
 import logger from '../../lib/logger/pino-logger'
+import API from '../../lib/API/api'
 import { generateShareLink } from '../share'
 import WalletFactory from './WalletFactory'
 
@@ -470,25 +471,16 @@ export class GoodWallet {
   }
 
   /**
-   * deposits the specified amount to _oneTimeLink_ contract and generates a link that will send the user to a URL to withdraw it
-   * @param {number} amount - amount of money to send using OTP
-   * @param {string} reason - optional reason for sending the payment (comment)
-   * @param {({ link: string, code: string }) => () => any} getOnTxHash - a callback that returns onTransactionHashHandler based on generated code
-   * @param {PromiEvents} events - used to subscribe to onTransactionHash event
-   * @returns {{code, hashedCode, paymentLink}}
+   * perform transaction to deposit amount into the OneTimePaymentLink contract
+   * @param {number} amount
+   * @param {string} hashedCode
+   * @param {PromieEvents} events
    */
-  async generateLink(
-    amount: number,
-    reason: string = '',
-    getOnTxHash: (extraData: { paymentLink: string, code: string }) => (hash: string) => any,
-    events: PromiEvents = defaultPromiEvents
-  ): Promise<{ code: string, hashedCode: string, paymentLink: string }> {
+  async depositToHash(amount: number, hashedCode: string, events: PromiEvents): any {
     if (!(await this.canSend(amount))) {
       throw new Error(`Amount is bigger than balance`)
     }
 
-    const code = this.wallet.utils.randomHex(10).replace('0x', '')
-    const hashedCode = this.wallet.utils.sha3(code)
     const otpAddress = get(
       ContractsAddress,
       `${this.network}.OneTimePaymentLinks`,
@@ -504,6 +496,27 @@ export class GoodWallet {
     // https://github.com/trufflesuite/ganache-core/issues/417
     const gas: number = 200000 //Math.floor((await transferAndCall.estimateGas().catch(this.handleError)) * 2)
 
+    //dont wait for transaction return immediatly with hash code and link (not using await here)
+    return this.sendTransaction(transferAndCall, events, { gas })
+  }
+
+  /**
+   * deposits the specified amount to _oneTimeLink_ contract and generates a link that will send the user to a URL to withdraw it
+   * @param {number} amount - amount of money to send using OTP
+   * @param {string} reason - optional reason for sending the payment (comment)
+   * @param {({ link: string, code: string }) => () => any} getOnTxHash - a callback that returns onTransactionHashHandler based on generated code
+   * @param {PromiEvents} events - used to subscribe to onTransactionHash event
+   * @returns {{code, hashedCode, paymentLink}}
+   */
+  generateLink(
+    amount: number,
+    reason: string = '',
+    getOnTxHash: (extraData: { paymentLink: string, code: string }) => (hash: string) => any,
+    events: PromiEvents = defaultPromiEvents
+  ): { code: string, hashedCode: string, paymentLink: string } {
+    const code = this.wallet.utils.randomHex(10).replace('0x', '')
+    const hashedCode = this.wallet.utils.sha3(code)
+
     log.debug('generateLink:', { amount })
 
     const paymentLink = generateShareLink('send', {
@@ -514,8 +527,7 @@ export class GoodWallet {
     //pass extra data
     const onTransactionHash = getOnTxHash({ paymentLink, code })
 
-    //dont wait for transaction return immediatly with hash code and link (not using await here)
-    this.sendTransaction(transferAndCall, { onTransactionHash }, { gas })
+    this.depositToHash(amount, hashedCode, { ...events, onTransactionHash })
 
     return {
       code,
@@ -667,6 +679,20 @@ export class GoodWallet {
   }
 
   /**
+   * Helper to check if user has enough native token balance, if not try to ask server to topwallet
+   * @param {number} wei
+   */
+  async verifyHasGas(wei: number) {
+    let nativeBalance = await this.wallet.eth.getBalance(this.account)
+    if (nativeBalance > wei) {
+      return true
+    }
+    const toppingRes = await API.verifyTopWallet()
+    nativeBalance = await this.wallet.eth.getBalance(this.account)
+    return toppingRes.ok && nativeBalance > wei
+  }
+
+  /**
    * Helper function to handle a tx Send call
    * @param tx
    * @param {PromiEvents} txCallbacks
@@ -687,6 +713,11 @@ export class GoodWallet {
     const { onTransactionHash, onReceipt, onConfirmation, onError } = { ...defaultPromiEvents, ...txCallbacks }
     gas = gas || (await tx.estimateGas().catch(this.handleError))
     gasPrice = gasPrice || this.gasPrice
+
+    const hasGas = await this.verifyHasGas(gas * gasPrice)
+    if (hasGas === false) {
+      return Promise.reject('Reached daily transactions limit or not a citizen').catch(this.handleError)
+    }
 
     log.debug({ gas, gasPrice })
     return (

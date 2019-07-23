@@ -56,6 +56,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   const [ready, setReady]: [Ready, ((Ready => Ready) | Ready) => void] = useState()
   const [state, setState] = useState(initialState)
   const [loading, setLoading] = useState(false)
+  const [countryCode, setCountryCode] = useState(undefined)
   const [createError, setCreateError] = useState(false)
 
   const [showErrorDialog] = useErrorDialog()
@@ -77,6 +78,14 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
     fireEvent(`SIGNUP_${event || curRoute.key}`)
   }
 
+  const getCountryCode = async () => {
+    try {
+      const { data } = await API.getLocation()
+      data && setCountryCode(data.country)
+    } catch (e) {
+      log.error('Could not get user location', e)
+    }
+  }
   useEffect(() => {
     //don't allow to start signup flow not from begining
     if (navigation.state.index > 0) {
@@ -84,6 +93,9 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       setLoading(true)
       return navigateWithFocus(navigation.state.routes[0].key)
     }
+
+    //get user country code for phone
+    getCountryCode()
 
     //lazy login in background
     const ready = (async () => {
@@ -217,7 +229,12 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
         <View style={contentContainer}>
           <SignupWizardNavigator
             navigation={navigation}
-            screenProps={{ ...screenProps, data: { ...state, loading, createError }, doneCallback: done, back: back }}
+            screenProps={{
+              ...screenProps,
+              data: { ...state, loading, createError, countryCode },
+              doneCallback: done,
+              back: back,
+            }}
           />
         </View>
       </ScrollView>

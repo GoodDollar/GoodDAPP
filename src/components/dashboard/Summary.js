@@ -4,10 +4,10 @@ import normalize from '../../lib/utils/normalizeText'
 
 import { BigGoodDollar, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
-import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
-import { PushButton } from '../appNavigation/PushButton'
+import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
 
 import { withStyles } from '../../lib/styles'
+import { ACTION_RECEIVE, navigationOptions } from './utils/sendReceiveFlow'
 
 export type ReceiveProps = {
   screenProps: any,
@@ -15,19 +15,17 @@ export type ReceiveProps = {
   theme: any,
 }
 
-const RECEIVE_TITLE = 'Receive G$'
-
-const FromRow = props => {
-  const { styles, counterPartyDisplayName } = props
-  if (!counterPartyDisplayName) {
+const CounterPartyRow = props => {
+  const { styles, displayName, action } = props
+  if (!displayName) {
     return null
   }
 
   return (
     <Section.Row style={styles.tableRow}>
-      <Section.Text style={styles.tableRowLabel}>From:</Section.Text>
+      <Section.Text style={styles.tableRowLabel}>{action === ACTION_RECEIVE ? 'From:' : 'To:'}</Section.Text>
       <Section.Text fontSize={24} fontWeight="bold">
-        {counterPartyDisplayName}
+        {displayName}
       </Section.Text>
     </Section.Row>
   )
@@ -59,9 +57,11 @@ const ReasonRow = props => {
   )
 }
 
-const ReceiveAmount = ({ screenProps, ...props }: ReceiveProps) => {
+const Summary = ({ screenProps, ...props }: ReceiveProps) => {
   const [screenState] = useScreenState(screenProps)
-  const { amount, reason, fromWho } = screenState
+  const { params } = props.navigation.state
+
+  const { amount, reason, counterPartyDisplayName } = screenState
   const styles = getStylesFromProps(props)
 
   return (
@@ -70,24 +70,23 @@ const ReceiveAmount = ({ screenProps, ...props }: ReceiveProps) => {
       <Section justifyContent="space-between" grow>
         <Section.Title>Summary</Section.Title>
         <Section.Stack grow justifyContent="center">
-          <FromRow counterPartyDisplayName={fromWho} styles={styles} />
+          <CounterPartyRow displayName={counterPartyDisplayName} styles={styles} action={params.action} />
           <AmountRow amount={amount} styles={styles} />
           <ReasonRow reason={reason} styles={styles} />
         </Section.Stack>
         <Section.Row>
-          <Section.Stack grow={1}>
+          <Section.Row grow={1} justifyContent="flex-start">
             <BackButton mode="text" screenProps={screenProps}>
               Cancel
             </BackButton>
-          </Section.Stack>
-          <Section.Stack grow={2}>
-            <PushButton
-              routeName="ReceiveConfirmation"
+          </Section.Row>
+          <Section.Stack grow={3}>
+            <NextButton
+              nextRoutes={screenState.nextRoutes}
+              values={{ reason, amount, counterPartyDisplayName, params }}
               screenProps={screenProps}
-              params={{ reason, amount, counterPartyDisplayName: fromWho }}
-            >
-              Confirm
-            </PushButton>
+              label={'Confirm'}
+            />
           </Section.Stack>
         </Section.Row>
       </Section>
@@ -95,11 +94,9 @@ const ReceiveAmount = ({ screenProps, ...props }: ReceiveProps) => {
   )
 }
 
-ReceiveAmount.navigationOptions = {
-  title: RECEIVE_TITLE,
-}
+Summary.navigationOptions = navigationOptions
 
-ReceiveAmount.shouldNavigateToComponent = props => {
+Summary.shouldNavigateToComponent = props => {
   const { screenState } = props.screenProps
   return screenState.amount
 }
@@ -134,4 +131,4 @@ const getStylesFromProps = ({ theme }) => {
   }
 }
 
-export default withStyles(getStylesFromProps)(ReceiveAmount)
+export default withStyles(getStylesFromProps)(Summary)

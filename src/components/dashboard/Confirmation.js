@@ -2,15 +2,14 @@
 import React, { useMemo } from 'react'
 import { isMobile } from 'mobile-device-detect'
 import normalize from '../../lib/utils/normalizeText'
-
-import goodWallet from '../../lib/wallet/GoodWallet'
-import { generateCode, generateReceiveShareObject } from '../../lib/share'
+import { generateReceiveShareObject, generateSendShareObject } from '../../lib/share'
 import { BigGoodDollar, CopyButton, CustomButton, QRCode, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 
 import { useScreenState } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
+import { ACTION_RECEIVE, navigationOptions } from './utils/sendReceiveFlow'
 
 export type ReceiveProps = {
   screenProps: any,
@@ -18,22 +17,16 @@ export type ReceiveProps = {
   styles: any,
 }
 
-const RECEIVE_TITLE = 'Receive G$'
-
 const ReceiveConfirmation = ({ screenProps, styles, ...props }: ReceiveProps) => {
-  const { account, networkId } = goodWallet
   const [screenState] = useScreenState(screenProps)
-  const { amount, reason, counterPartyDisplayName } = screenState
+  const { amount, code, reason, counterPartyDisplayName } = screenState
   const [showErrorDialog] = useErrorDialog()
+  const { params } = props.navigation.state
 
-  const code = useMemo(() => generateCode(account, networkId, amount, reason, counterPartyDisplayName), [
-    account,
-    networkId,
-    amount,
-    reason,
-    counterPartyDisplayName,
-  ])
-  const share = useMemo(() => generateReceiveShareObject(code), [code])
+  const share = useMemo(
+    () => (params.action === ACTION_RECEIVE ? generateReceiveShareObject(code) : generateSendShareObject(code)),
+    [code]
+  )
 
   const shareAction = async () => {
     try {
@@ -53,10 +46,11 @@ const ReceiveConfirmation = ({ screenProps, styles, ...props }: ReceiveProps) =>
           <QRCode value={code} />
         </Section.Stack>
         <Section.Stack grow justifyContent="center" alignItems="center">
-          <Section.Text style={[styles.textRow]}>Request exactly</Section.Text>
+          <Section.Text style={[styles.textRow]}>{ACTION_RECEIVE ? 'Request exactly' : 'Send exactly'}</Section.Text>
           {counterPartyDisplayName && (
             <Section.Text style={[styles.textRow]}>
-              From: <Section.Text style={styles.counterPartyDisplayName}>{counterPartyDisplayName}</Section.Text>
+              {ACTION_RECEIVE ? 'From: ' : 'To: '}
+              <Section.Text style={styles.counterPartyDisplayName}>{counterPartyDisplayName}</Section.Text>
             </Section.Text>
           )}
           {amount && (
@@ -83,9 +77,7 @@ const ReceiveConfirmation = ({ screenProps, styles, ...props }: ReceiveProps) =>
   )
 }
 
-ReceiveConfirmation.navigationOptions = {
-  title: RECEIVE_TITLE,
-}
+ReceiveConfirmation.navigationOptions = navigationOptions
 
 ReceiveConfirmation.shouldNavigateToComponent = props => {
   const { screenState } = props.screenProps

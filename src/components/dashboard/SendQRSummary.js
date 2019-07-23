@@ -3,22 +3,20 @@
  * @file Displays a summary when sending G$ directly to a blockchain address
  */
 import React, { useEffect, useState } from 'react'
-import { View } from 'react-native'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import { useWrappedGoodWallet } from '../../lib/wallet/useWrappedWallet'
 import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
-import { Avatar, BigGoodDollar, CustomButton, Section, Wrapper } from '../common'
+import { CustomButton, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
-import { receiveStyles } from './styles'
+import SummaryTable from '../common/view/SummaryTable'
+import { SEND_TITLE } from './utils/sendReceiveFlow'
 
 export type AmountProps = {
   screenProps: any,
   navigation: any,
 }
-
-const TITLE = 'Send G$'
 
 const log = logger.child({ from: 'SendQRSummary' })
 
@@ -112,61 +110,36 @@ const SendQRSummary = (props: AmountProps) => {
     return () => setIsValid(undefined)
   }, [isValid])
   return (
-    <Wrapper style={styles.wrapper}>
+    <Wrapper>
       <TopBar push={screenProps.push} />
-      <Section style={styles.section}>
-        <Section.Row style={styles.sectionRow}>
-          <Section.Title style={styles.headline}>Summary</Section.Title>
-          <View style={styles.sectionTo}>
-            <Avatar size={90} style={styles.avatar} source={profile && profile.avatar} />
-            {to && <Section.Text style={styles.toText}>{`To: ${to}`}</Section.Text>}
-            {profile.name && <Section.Text style={styles.toText}>{`Name: ${profile.name}`}</Section.Text>}
-          </View>
-          <Section.Text>
-            {`Here's `}
-            <BigGoodDollar number={amount} />
-          </Section.Text>
-          <Section.Text>{reason ? reason : null}</Section.Text>
-          <View style={styles.buttonGroup}>
-            <BackButton mode="text" screenProps={screenProps} style={{ flex: 1 }}>
+      <Section grow>
+        <Section.Title>Summary</Section.Title>
+        <SummaryTable counterPartyDisplayName={profile.name} amount={amount} reason={reason} />
+        <Section.Row>
+          <Section.Row grow={1} justifyContent="flex-start">
+            <BackButton mode="text" screenProps={screenProps}>
               Cancel
             </BackButton>
+          </Section.Row>
+          <Section.Stack grow={3}>
             <CustomButton
               mode="contained"
               onPress={async () => {
                 ;(await goodWallet.isCitizen()) ? sendGD() : faceRecognition()
               }}
-              style={{ flex: 2 }}
               loading={loading}
             >
               Confirm
             </CustomButton>
-          </View>
+          </Section.Stack>
         </Section.Row>
       </Section>
     </Wrapper>
   )
 }
 
-const styles = {
-  ...receiveStyles,
-  headline: {
-    textTransform: 'uppercase',
-  },
-  sectionTo: {
-    alignItems: 'center',
-  },
-  toText: {
-    marginTop: '1rem',
-    marginBottom: '1rem',
-  },
-  avatar: {
-    backgroundColor: 'white',
-  },
-}
-
 SendQRSummary.navigationOptions = {
-  title: TITLE,
+  title: SEND_TITLE,
 }
 
 SendQRSummary.shouldNavigateToComponent = props => {

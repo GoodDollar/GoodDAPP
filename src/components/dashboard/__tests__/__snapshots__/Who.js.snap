@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ReceiveFrom matches snapshot 1`] = `
+exports[`Who matches snapshot 1`] = `
 <div
   className="css-view-1dbjc4n"
   style={
@@ -57,10 +57,10 @@ exports[`ReceiveFrom matches snapshot 1`] = `
           "borderTopLeftRadius": "5px",
           "borderTopRightRadius": "5px",
           "marginBottom": "8px",
-          "paddingBottom": "16px",
+          "paddingBottom": "12px",
           "paddingLeft": "12px",
           "paddingRight": "12px",
-          "paddingTop": "16px",
+          "paddingTop": "12px",
         }
       }
     >
@@ -191,7 +191,7 @@ exports[`ReceiveFrom matches snapshot 1`] = `
                 "color": "rgba(85,85,85,1.00)",
                 "direction": "ltr",
                 "fontFamily": "Roboto-Bold",
-                "fontSize": "40px",
+                "fontSize": "36px",
                 "fontWeight": "700",
                 "lineHeight": "auto",
                 "marginRight": "4px",
@@ -289,7 +289,7 @@ exports[`ReceiveFrom matches snapshot 1`] = `
               "color": "rgba(66,69,74,1.00)",
               "direction": "ltr",
               "fontFamily": "Roboto-Medium",
-              "fontSize": "22px",
+              "fontSize": "24px",
               "fontWeight": "normal",
               "lineHeight": "30px",
               "marginBottom": "8px",
@@ -300,7 +300,7 @@ exports[`ReceiveFrom matches snapshot 1`] = `
             }
           }
         >
-          From Who?
+          Send To?
         </div>
         <input
           autoCapitalize="sentences"
@@ -451,27 +451,27 @@ exports[`ReceiveFrom matches snapshot 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
-              "WebkitAlignItems": "stretch",
-              "WebkitBoxAlign": "stretch",
+              "WebkitAlignItems": "center",
+              "WebkitBoxAlign": "center",
               "WebkitBoxDirection": "normal",
               "WebkitBoxFlex": 1,
-              "WebkitBoxOrient": "vertical",
-              "WebkitBoxPack": "justify",
+              "WebkitBoxOrient": "horizontal",
+              "WebkitBoxPack": "start",
               "WebkitFlexBasis": "0%",
-              "WebkitFlexDirection": "column",
+              "WebkitFlexDirection": "row",
               "WebkitFlexGrow": 1,
               "WebkitFlexShrink": 1,
-              "WebkitJustifyContent": "space-between",
-              "alignItems": "stretch",
+              "WebkitJustifyContent": "flex-start",
+              "alignItems": "center",
               "flexBasis": "0%",
-              "flexDirection": "column",
+              "flexDirection": "row",
               "flexGrow": 1,
               "flexShrink": 1,
-              "justifyContent": "space-between",
-              "msFlexAlign": "stretch",
-              "msFlexDirection": "column",
+              "justifyContent": "flex-start",
+              "msFlexAlign": "center",
+              "msFlexDirection": "row",
               "msFlexNegative": 1,
-              "msFlexPack": "justify",
+              "msFlexPack": "start",
               "msFlexPositive": 1,
               "msFlexPreferredSize": "0%",
             }
@@ -611,25 +611,25 @@ exports[`ReceiveFrom matches snapshot 1`] = `
               "WebkitAlignItems": "stretch",
               "WebkitBoxAlign": "stretch",
               "WebkitBoxDirection": "normal",
-              "WebkitBoxFlex": 2,
+              "WebkitBoxFlex": 3,
               "WebkitBoxOrient": "vertical",
               "WebkitBoxPack": "justify",
               "WebkitFlexBasis": "0%",
               "WebkitFlexDirection": "column",
-              "WebkitFlexGrow": 2,
+              "WebkitFlexGrow": 3,
               "WebkitFlexShrink": 1,
               "WebkitJustifyContent": "space-between",
               "alignItems": "stretch",
               "flexBasis": "0%",
               "flexDirection": "column",
-              "flexGrow": 2,
+              "flexGrow": 3,
               "flexShrink": 1,
               "justifyContent": "space-between",
               "msFlexAlign": "stretch",
               "msFlexDirection": "column",
               "msFlexNegative": 1,
               "msFlexPack": "justify",
-              "msFlexPositive": 2,
+              "msFlexPositive": 3,
               "msFlexPreferredSize": "0%",
             }
           }

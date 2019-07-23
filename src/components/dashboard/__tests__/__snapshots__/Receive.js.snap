@@ -57,10 +57,10 @@ exports[`Receive matches snapshot 1`] = `
           "borderTopLeftRadius": "5px",
           "borderTopRightRadius": "5px",
           "marginBottom": "8px",
-          "paddingBottom": "16px",
+          "paddingBottom": "12px",
           "paddingLeft": "12px",
           "paddingRight": "12px",
-          "paddingTop": "16px",
+          "paddingTop": "12px",
         }
       }
     >
@@ -235,16 +235,23 @@ exports[`Receive matches snapshot 1`] = `
             className="css-view-1dbjc4n"
             style={
               Object {
+                "WebkitAlignItems": "center",
+                "WebkitBoxAlign": "center",
+                "WebkitBoxPack": "center",
+                "WebkitJustifyContent": "center",
+                "alignItems": "center",
                 "backgroundColor": "rgba(12,38,61,1.00)",
                 "borderBottomLeftRadius": "50%",
                 "borderBottomRightRadius": "50%",
                 "borderTopLeftRadius": "50%",
                 "borderTopRightRadius": "50%",
+                "display": "flex",
+                "height": "42px",
+                "justifyContent": "center",
                 "marginLeft": "8px",
-                "paddingBottom": "8px",
-                "paddingLeft": "8px",
-                "paddingRight": "8px",
-                "paddingTop": "8px",
+                "msFlexAlign": "center",
+                "msFlexPack": "center",
+                "width": "42px",
               }
             }
           >
@@ -255,7 +262,7 @@ exports[`Receive matches snapshot 1`] = `
                 Object {
                   "color": "rgba(255,255,255,1.00)",
                   "fontFamily": "gooddollar",
-                  "fontSize": "30px",
+                  "fontSize": "28px",
                   "fontStyle": "normal",
                   "fontWeight": "normal",
                 }

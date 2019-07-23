@@ -18,7 +18,6 @@ export default class SignupCompleted extends React.Component<Props, State> {
   render() {
     return (
       <CustomWrapper
-        valid={true}
         handleSubmit={this.handleSubmit}
         submitText="Let's start!"
         loading={this.props.screenProps.data.loading}

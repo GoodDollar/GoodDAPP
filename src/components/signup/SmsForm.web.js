@@ -45,7 +45,7 @@ class SmsForm extends React.Component<Props, State> {
   state = {
     smsValidated: false,
     sentSMS: false,
-    errorMessage: '',
+    errorMessage: 'Opps there is a wrong numb',
     sendingCode: false,
     renderButton: false,
     loading: false,
@@ -134,7 +134,7 @@ class SmsForm extends React.Component<Props, State> {
           <Section.Row justifyContent="center" style={styles.row}>
             <Section.Title textTransform="none">{'Enter the verification code \n sent to your phone'}</Section.Title>
           </Section.Row>
-          <Section.Row justifyContent="center">
+          <Section.Stack justifyContent="center">
             <OtpInput
               containerStyle={{
                 justifyContent: 'space-evenly',
@@ -149,7 +149,7 @@ class SmsForm extends React.Component<Props, State> {
               value={otp}
             />
             <ErrorText error={errorMessage} />
-          </Section.Row>
+          </Section.Stack>
           <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
             <SMSAction
               status={valid ? DONE : renderButton ? PENDING : WAIT}

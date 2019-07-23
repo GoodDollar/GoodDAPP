@@ -7,6 +7,7 @@ import logger from '../../lib/logger/pino-logger'
 import CustomButton from '../common/buttons/CustomButton'
 import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
+import Text from '../common/view/Text'
 import { PrivacyPolicy, TermsOfUse } from '../webView/webViewInstances'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
@@ -65,22 +66,22 @@ class Auth extends React.Component<Props> {
           </Wrapper>
         </Section>
         <View style={styles.bottomContainer}>
-          <Section.Text fontFamily="regular" fontSize={12} color="gray80Percent">
+          <Text fontFamily="regular" fontSize={12} color="gray80Percent">
             {`By clicking the 'Create a wallet' button,\n you are accepting our\n`}
-            <Section.Text style={styles.acceptTermsLink} onPress={this.handleNavigateTermsOfUse}>
+            <Text style={styles.acceptTermsLink} onPress={this.handleNavigateTermsOfUse}>
               Terms of Use
-            </Section.Text>
+            </Text>
             {` and `}
-            <Section.Text style={styles.acceptTermsLink} onPress={this.handleNavigatePrivacyPolicy}>
+            <Text style={styles.acceptTermsLink} onPress={this.handleNavigatePrivacyPolicy}>
               Privacy Policy
-            </Section.Text>
-          </Section.Text>
+            </Text>
+          </Text>
           <CustomButton style={styles.buttonLayout} onPress={this.handleSignUp}>
             Create a wallet
           </CustomButton>
-          <Section.Text fontFamily="medium" fontSize={14} color="primary" onPress={this.handleSignIn}>
+          <Text fontFamily="medium" fontSize={14} color="primary" onPress={this.handleSignIn}>
             {`Already have a wallet? `}
-            <Section.Text
+            <Text
               fontFamily="medium"
               fontSize={14}
               color="primary"
@@ -88,8 +89,8 @@ class Auth extends React.Component<Props> {
               style={styles.underlined}
             >
               Login
-            </Section.Text>
-          </Section.Text>
+            </Text>
+          </Text>
         </View>
       </Wrapper>
     )

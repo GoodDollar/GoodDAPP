@@ -182,18 +182,18 @@ exports[`SmsForm matches snapshot 1`] = `
             className="css-view-1dbjc4n"
             style={
               Object {
-                "WebkitAlignItems": "center",
-                "WebkitBoxAlign": "center",
+                "WebkitAlignItems": "stretch",
+                "WebkitBoxAlign": "stretch",
                 "WebkitBoxDirection": "normal",
-                "WebkitBoxOrient": "horizontal",
+                "WebkitBoxOrient": "vertical",
                 "WebkitBoxPack": "center",
-                "WebkitFlexDirection": "row",
+                "WebkitFlexDirection": "column",
                 "WebkitJustifyContent": "center",
-                "alignItems": "center",
-                "flexDirection": "row",
+                "alignItems": "stretch",
+                "flexDirection": "column",
                 "justifyContent": "center",
-                "msFlexAlign": "center",
-                "msFlexDirection": "row",
+                "msFlexAlign": "stretch",
+                "msFlexDirection": "column",
                 "msFlexPack": "center",
               }
             }
@@ -229,10 +229,11 @@ exports[`SmsForm matches snapshot 1`] = `
                   onPaste={[Function]}
                   style={
                     Object {
-                      "borderBottom": "1px solid #555",
+                      "borderBottom": "1px solid red",
                       "borderLeft": "none",
                       "borderRight": "none",
                       "borderTop": "none",
+                      "color": "red",
                       "fontSize": "1.5rem",
                       "height": "3rem",
                       "margin": "0 0.5rem",
@@ -266,10 +267,11 @@ exports[`SmsForm matches snapshot 1`] = `
                   onPaste={[Function]}
                   style={
                     Object {
-                      "borderBottom": "1px solid #555",
+                      "borderBottom": "1px solid red",
                       "borderLeft": "none",
                       "borderRight": "none",
                       "borderTop": "none",
+                      "color": "red",
                       "fontSize": "1.5rem",
                       "height": "3rem",
                       "margin": "0 0.5rem",
@@ -303,10 +305,11 @@ exports[`SmsForm matches snapshot 1`] = `
                   onPaste={[Function]}
                   style={
                     Object {
-                      "borderBottom": "1px solid #555",
+                      "borderBottom": "1px solid red",
                       "borderLeft": "none",
                       "borderRight": "none",
                       "borderTop": "none",
+                      "color": "red",
                       "fontSize": "1.5rem",
                       "height": "3rem",
                       "margin": "0 0.5rem",
@@ -340,10 +343,11 @@ exports[`SmsForm matches snapshot 1`] = `
                   onPaste={[Function]}
                   style={
                     Object {
-                      "borderBottom": "1px solid #555",
+                      "borderBottom": "1px solid red",
                       "borderLeft": "none",
                       "borderRight": "none",
                       "borderTop": "none",
+                      "color": "red",
                       "fontSize": "1.5rem",
                       "height": "3rem",
                       "margin": "0 0.5rem",
@@ -377,10 +381,11 @@ exports[`SmsForm matches snapshot 1`] = `
                   onPaste={[Function]}
                   style={
                     Object {
-                      "borderBottom": "1px solid #555",
+                      "borderBottom": "1px solid red",
                       "borderLeft": "none",
                       "borderRight": "none",
                       "borderTop": "none",
+                      "color": "red",
                       "fontSize": "1.5rem",
                       "height": "3rem",
                       "margin": "0 0.5rem",
@@ -414,10 +419,11 @@ exports[`SmsForm matches snapshot 1`] = `
                   onPaste={[Function]}
                   style={
                     Object {
-                      "borderBottom": "1px solid #555",
+                      "borderBottom": "1px solid red",
                       "borderLeft": "none",
                       "borderRight": "none",
                       "borderTop": "none",
+                      "color": "red",
                       "fontSize": "1.5rem",
                       "height": "3rem",
                       "margin": "0 0.5rem",
@@ -440,7 +446,7 @@ exports[`SmsForm matches snapshot 1`] = `
                   "direction": "ltr",
                   "fontFamily": "Roboto",
                   "fontSize": "12px",
-                  "opacity": 0,
+                  "opacity": 1,
                   "paddingBottom": "4px",
                   "paddingLeft": "0px",
                   "paddingRight": "12px",
@@ -450,7 +456,7 @@ exports[`SmsForm matches snapshot 1`] = `
                 }
               }
             >
-              
+              Opps there is a wrong numb
             </div>
           </div>
           <div

@@ -4,22 +4,18 @@ import { View } from 'react-native'
 import { withStyles } from '../../../lib/styles'
 import { lowZIndex } from './styles'
 
-const ModalContainer = (props: any) => {
-  const { styles, children, style, fullHeight } = props
+const ModalContainer = ({ styles, children, style, fullHeight }: any) => (
+  <View style={[styles.modalContainer, fullHeight && { flexGrow: 1 }, style]}>{children}</View>
+)
 
-  return <View style={[styles.modalContainer, fullHeight && { flexGrow: 1 }, style]}>{children}</View>
-}
-
-const getStylesFromProps = ({ theme }) => {
-  return {
-    modalContainer: {
-      display: 'flex',
-      flexDirection: 'row',
-      position: 'relative',
-      width: '100%',
-      zIndex: lowZIndex,
-    },
-  }
-}
+const getStylesFromProps = ({ theme }) => ({
+  modalContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    position: 'relative',
+    width: '100%',
+    zIndex: lowZIndex,
+  },
+})
 
 export default withStyles(getStylesFromProps)(ModalContainer)

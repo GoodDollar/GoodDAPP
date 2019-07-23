@@ -22,6 +22,7 @@ export default class SignupCompleted extends React.Component<Props, State> {
         handleSubmit={this.handleSubmit}
         submitText="Let's start!"
         loading={this.props.screenProps.data.loading}
+        valid={this.props.screenProps.data.createError !== true}
       >
         <Text fontFamily="medium" fontSize={22} color="darkGray">
           {`Thanks ${this.props.screenProps.data.fullName.split(' ')[0]}\nYou're all set`}

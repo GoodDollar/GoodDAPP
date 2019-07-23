@@ -18,127 +18,95 @@ exports[`InputText empty matches snapshot 1`] = `
     }
   }
 >
-  <input
-    autoCapitalize="sentences"
-    autoComplete="on"
-    autoCorrect="on"
-    className="css-textinput-1cwyjr8"
-    data-focusable={true}
-    dir="auto"
-    onBlur={[Function]}
-    onChange={[Function]}
-    onFocus={[Function]}
-    onKeyDown={[Function]}
-    onKeyPress={[Function]}
-    onSelect={[Function]}
-    readOnly={false}
-    spellCheck={true}
+  <div
+    className="css-view-1dbjc4n"
     style={
       Object {
-        "borderBottomColor": "rgba(66,69,74,1.00)",
-        "borderBottomStyle": "solid",
-        "borderBottomWidth": "1px",
-        "color": "rgba(66,69,74,1.00)",
-        "fontFamily": "RobotoSlab-Regular",
-        "fontSize": "18px",
-        "paddingBottom": "4px",
-        "paddingLeft": "4px",
-        "paddingRight": "4px",
-        "paddingTop": "4px",
-        "textAlign": "center",
+        "WebkitBoxFlex": 1,
+        "WebkitFlexBasis": "0%",
+        "WebkitFlexGrow": 1,
+        "WebkitFlexShrink": 1,
+        "flexBasis": "0%",
+        "flexGrow": 1,
+        "flexShrink": 1,
+        "msFlexNegative": 1,
+        "msFlexPositive": 1,
+        "msFlexPreferredSize": "0%",
       }
     }
-    styles={
-      Object {
-        "input": Object {
-          "borderBottomColor": "#42454A",
-          "borderBottomStyle": "solid",
-          "borderBottomWidth": 1,
-          "color": "#42454A",
-          "fontFamily": "RobotoSlab-Regular",
-          "fontSize": 18,
-          "padding": 4,
+  >
+    <div
+      className="css-view-1dbjc4n"
+      style={
+        Object {
+          "WebkitBoxFlex": 1,
+          "WebkitFlexBasis": "0%",
+          "WebkitFlexGrow": 1,
+          "WebkitFlexShrink": 1,
+          "flexBasis": "0%",
+          "flexGrow": 1,
+          "flexShrink": 1,
+          "msFlexNegative": 1,
+          "msFlexPositive": 1,
+          "msFlexPreferredSize": "0%",
+        }
+      }
+    >
+      <input
+        autoCapitalize="sentences"
+        autoComplete="on"
+        autoCorrect="on"
+        className="css-textinput-1cwyjr8"
+        data-focusable={true}
+        dir="auto"
+        onBlur={[Function]}
+        onChange={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onKeyPress={[Function]}
+        onSelect={[Function]}
+        readOnly={false}
+        spellCheck={true}
+        style={
+          Object {
+            "backgroundColor": "rgba(255,255,255,1.00)",
+            "borderBottomColor": "rgba(66,69,74,1.00)",
+            "borderBottomStyle": "solid",
+            "borderBottomWidth": "1px",
+            "color": "rgba(66,69,74,1.00)",
+            "fontFamily": "RobotoSlab-Regular",
+            "fontSize": "18px",
+            "paddingBottom": "4px",
+            "paddingLeft": "32px",
+            "paddingRight": "32px",
+            "paddingTop": "4px",
+            "textAlign": "center",
+          }
+        }
+        type="text"
+      />
+    </div>
+    <div
+      className="css-text-901oao"
+      dir="auto"
+      style={
+        Object {
+          "WebkitTransform": "translateY(0px)",
+          "color": "rgba(250,108,119,1.00)",
+          "direction": "ltr",
+          "fontFamily": "Roboto",
+          "fontSize": "12px",
+          "opacity": 0,
+          "paddingBottom": "4px",
+          "paddingLeft": "0px",
+          "paddingRight": "12px",
+          "paddingTop": "4px",
           "textAlign": "center",
-        },
+          "transform": "translateY(0px)",
+        }
       }
-    }
-    theme={
-      Object {
-        "backdrop": Object {
-          "backgroundColor": "rgba(255, 0, 0, 0.8)",
-        },
-        "borders": Object {
-          "defaultBorderColor": "#c9c8c9",
-        },
-        "colors": Object {
-          "accent": "#03dac4",
-          "backdrop": "rgba(0, 0, 0, 0.5)",
-          "background": "#f6f6f6",
-          "blue": "#006EA0",
-          "darkBlue": "#0C263D",
-          "darkGray": "#42454A",
-          "disabled": "rgba(0, 0, 0, 0.26)",
-          "error": "#FA6C77",
-          "gray": "#555",
-          "gray50Percent": "#CBCBCB",
-          "gray80Percent": "#A3A3A3",
-          "green": "#00C3AE",
-          "lightGray": "#EEE",
-          "lighterGray": "#A3A3A3",
-          "notification": "#f50057",
-          "orange": "#F8AF40",
-          "placeholder": "#CBCBCB",
-          "primary": "#00AFFF",
-          "purple": "#9F6A9D",
-          "red": "#FA6C77",
-          "surface": "#ffffff",
-          "text": "#222",
-        },
-        "dark": false,
-        "feedItems": Object {
-          "borderRadius": 8,
-          "height": 84,
-          "itemBackgroundColor": "#fff",
-        },
-        "fontStyle": Object {
-          "color": "#555",
-          "fontSize": 18,
-          "textAlign": "center",
-        },
-        "fonts": Object {
-          "bold": "Roboto-Bold",
-          "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-          "medium": "Roboto-Medium",
-          "regular": "Roboto",
-          "slab": "RobotoSlab-Regular",
-          "slabBold": "RobotoSlab-Bold",
-          "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-        },
-        "modals": Object {
-          "backgroundColor": "#fff",
-          "borderLeftWidth": 10,
-          "borderRadius": 5,
-          "contentPadding": 16,
-          "jaggedEdgeSize": 15,
-          "overlayBackgroundColor": "rgba(255, 255, 255, 0.8)",
-          "overlayHorizontalPadding": 20,
-          "overlayVerticalPadding": 30,
-        },
-        "paddings": Object {
-          "defaultMargin": 8,
-          "mainContainerPadding": 8,
-        },
-        "roundness": 4,
-        "sizes": Object {
-          "borderRadius": 5,
-          "default": 8,
-          "defaultDouble": 16,
-          "defaultHalf": 4,
-        },
-      }
-    }
-    type="text"
-  />
+    />
+  </div>
 </div>
 `;
 
@@ -160,127 +128,95 @@ exports[`InputText matches snapshot 1`] = `
     }
   }
 >
-  <input
-    autoCapitalize="sentences"
-    autoComplete="on"
-    autoCorrect="on"
-    className="css-textinput-1cwyjr8"
-    data-focusable={true}
-    dir="auto"
-    onBlur={[Function]}
-    onChange={[Function]}
-    onFocus={[Function]}
-    onKeyDown={[Function]}
-    onKeyPress={[Function]}
-    onSelect={[Function]}
-    readOnly={false}
-    spellCheck={true}
+  <div
+    className="css-view-1dbjc4n"
     style={
       Object {
-        "borderBottomColor": "rgba(66,69,74,1.00)",
-        "borderBottomStyle": "solid",
-        "borderBottomWidth": "1px",
-        "color": "rgba(66,69,74,1.00)",
-        "fontFamily": "RobotoSlab-Regular",
-        "fontSize": "18px",
-        "paddingBottom": "4px",
-        "paddingLeft": "4px",
-        "paddingRight": "4px",
-        "paddingTop": "4px",
-        "textAlign": "center",
+        "WebkitBoxFlex": 1,
+        "WebkitFlexBasis": "0%",
+        "WebkitFlexGrow": 1,
+        "WebkitFlexShrink": 1,
+        "flexBasis": "0%",
+        "flexGrow": 1,
+        "flexShrink": 1,
+        "msFlexNegative": 1,
+        "msFlexPositive": 1,
+        "msFlexPreferredSize": "0%",
       }
     }
-    styles={
-      Object {
-        "input": Object {
-          "borderBottomColor": "#42454A",
-          "borderBottomStyle": "solid",
-          "borderBottomWidth": 1,
-          "color": "#42454A",
-          "fontFamily": "RobotoSlab-Regular",
-          "fontSize": 18,
-          "padding": 4,
+  >
+    <div
+      className="css-view-1dbjc4n"
+      style={
+        Object {
+          "WebkitBoxFlex": 1,
+          "WebkitFlexBasis": "0%",
+          "WebkitFlexGrow": 1,
+          "WebkitFlexShrink": 1,
+          "flexBasis": "0%",
+          "flexGrow": 1,
+          "flexShrink": 1,
+          "msFlexNegative": 1,
+          "msFlexPositive": 1,
+          "msFlexPreferredSize": "0%",
+        }
+      }
+    >
+      <input
+        autoCapitalize="sentences"
+        autoComplete="on"
+        autoCorrect="on"
+        className="css-textinput-1cwyjr8"
+        data-focusable={true}
+        dir="auto"
+        onBlur={[Function]}
+        onChange={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onKeyPress={[Function]}
+        onSelect={[Function]}
+        readOnly={false}
+        spellCheck={true}
+        style={
+          Object {
+            "backgroundColor": "rgba(255,255,255,1.00)",
+            "borderBottomColor": "rgba(66,69,74,1.00)",
+            "borderBottomStyle": "solid",
+            "borderBottomWidth": "1px",
+            "color": "rgba(66,69,74,1.00)",
+            "fontFamily": "RobotoSlab-Regular",
+            "fontSize": "18px",
+            "paddingBottom": "4px",
+            "paddingLeft": "32px",
+            "paddingRight": "32px",
+            "paddingTop": "4px",
+            "textAlign": "center",
+          }
+        }
+        type="text"
+        value="Text"
+      />
+    </div>
+    <div
+      className="css-text-901oao"
+      dir="auto"
+      style={
+        Object {
+          "WebkitTransform": "translateY(0px)",
+          "color": "rgba(250,108,119,1.00)",
+          "direction": "ltr",
+          "fontFamily": "Roboto",
+          "fontSize": "12px",
+          "opacity": 0,
+          "paddingBottom": "4px",
+          "paddingLeft": "0px",
+          "paddingRight": "12px",
+          "paddingTop": "4px",
           "textAlign": "center",
-        },
+          "transform": "translateY(0px)",
+        }
       }
-    }
-    theme={
-      Object {
-        "backdrop": Object {
-          "backgroundColor": "rgba(255, 0, 0, 0.8)",
-        },
-        "borders": Object {
-          "defaultBorderColor": "#c9c8c9",
-        },
-        "colors": Object {
-          "accent": "#03dac4",
-          "backdrop": "rgba(0, 0, 0, 0.5)",
-          "background": "#f6f6f6",
-          "blue": "#006EA0",
-          "darkBlue": "#0C263D",
-          "darkGray": "#42454A",
-          "disabled": "rgba(0, 0, 0, 0.26)",
-          "error": "#FA6C77",
-          "gray": "#555",
-          "gray50Percent": "#CBCBCB",
-          "gray80Percent": "#A3A3A3",
-          "green": "#00C3AE",
-          "lightGray": "#EEE",
-          "lighterGray": "#A3A3A3",
-          "notification": "#f50057",
-          "orange": "#F8AF40",
-          "placeholder": "#CBCBCB",
-          "primary": "#00AFFF",
-          "purple": "#9F6A9D",
-          "red": "#FA6C77",
-          "surface": "#ffffff",
-          "text": "#222",
-        },
-        "dark": false,
-        "feedItems": Object {
-          "borderRadius": 8,
-          "height": 84,
-          "itemBackgroundColor": "#fff",
-        },
-        "fontStyle": Object {
-          "color": "#555",
-          "fontSize": 18,
-          "textAlign": "center",
-        },
-        "fonts": Object {
-          "bold": "Roboto-Bold",
-          "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-          "medium": "Roboto-Medium",
-          "regular": "Roboto",
-          "slab": "RobotoSlab-Regular",
-          "slabBold": "RobotoSlab-Bold",
-          "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-        },
-        "modals": Object {
-          "backgroundColor": "#fff",
-          "borderLeftWidth": 10,
-          "borderRadius": 5,
-          "contentPadding": 16,
-          "jaggedEdgeSize": 15,
-          "overlayBackgroundColor": "rgba(255, 255, 255, 0.8)",
-          "overlayHorizontalPadding": 20,
-          "overlayVerticalPadding": 30,
-        },
-        "paddings": Object {
-          "defaultMargin": 8,
-          "mainContainerPadding": 8,
-        },
-        "roundness": 4,
-        "sizes": Object {
-          "borderRadius": 5,
-          "default": 8,
-          "defaultDouble": 16,
-          "defaultHalf": 4,
-        },
-      }
-    }
-    type="text"
-    value="Text"
-  />
+    />
+  </div>
 </div>
 `;

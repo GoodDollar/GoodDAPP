@@ -2,6 +2,7 @@ import { createSwitchNavigator } from '@react-navigation/core'
 import { createBrowserApp } from '@react-navigation/web'
 import React from 'react'
 import renderer from 'react-test-renderer'
+import { withThemeProvider } from '../../../__tests__/__util__'
 import { StoresWrapper } from '../../../lib/undux/utils/storeswrapper.js'
 
 // Note: test renderer must be required after react-native.
@@ -10,7 +11,7 @@ import SmsForm from '../SmsForm.web'
 
 describe('SmsForm', () => {
   it('renders without errors', () => {
-    const WebRouter = createBrowserApp(createSwitchNavigator({ SmsForm }))
+    const WebRouter = withThemeProvider(createBrowserApp(createSwitchNavigator({ SmsForm })))
     const tree = renderer.create(
       <StoresWrapper>
         <WebRouter />
@@ -20,7 +21,7 @@ describe('SmsForm', () => {
   })
 
   it('matches snapshot', () => {
-    const WebRouter = createBrowserApp(createSwitchNavigator({ SmsForm }))
+    const WebRouter = withThemeProvider(createBrowserApp(createSwitchNavigator({ SmsForm })))
     const component = renderer.create(
       <StoresWrapper>
         <WebRouter />

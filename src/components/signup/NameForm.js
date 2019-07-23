@@ -1,14 +1,16 @@
 // @flow
 import React from 'react'
-import { HelperText, TextInput } from 'react-native-paper'
-
 import { validateFullName } from '../../lib/validators/validateFullName'
-import { Title, Wrapper } from './components'
+import { withStyles } from '../../lib/styles'
+import InputText from '../common/form/InputText'
+import Section from '../common/layout/Section'
+import CustomWrapper from './signUpWrapper'
 
 type Props = {
   doneCallback: ({ name: string }) => null,
   screenProps: any,
   navigation: any,
+  styles: any,
 }
 
 type State = {
@@ -59,21 +61,25 @@ class NameForm extends React.Component<Props, State> {
     const { key } = this.props.navigation.state
     this.isValid = validateFullName(fullName) === ''
     return (
-      <Wrapper valid={this.isValid} handleSubmit={this.handleSubmit}>
-        <Title>{'Hi, \n Please enter your full name'}</Title>
-        <TextInput
-          id={key + '_input'}
-          value={fullName}
-          onChangeText={this.handleChange}
-          onBlur={this.checkErrors}
-          error={errorMessage !== ''}
-          onKeyPress={this.handleEnter}
-          autoFocus
-        />
-        <HelperText type="error" visible={errorMessage}>
-          {errorMessage}
-        </HelperText>
-      </Wrapper>
+      <CustomWrapper valid={this.isValid} handleSubmit={this.handleSubmit}>
+        <Section.Stack grow justifyContent="flex-start">
+          <Section.Row justifyContent="center" style={this.props.styles.row}>
+            <Section.Title textTransform="none">{'Hi, Please enter your full name'}</Section.Title>
+          </Section.Row>
+          <Section.Row justifyContent="center">
+            <InputText
+              id={key + '_input'}
+              value={fullName}
+              onChangeText={this.handleChange}
+              onBlur={this.checkErrors}
+              error={errorMessage}
+              onKeyPress={this.handleEnter}
+              onCleanUpField={this.handleChange}
+              autoFocus
+            />
+          </Section.Row>
+        </Section.Stack>
+      </CustomWrapper>
     )
   }
 }
@@ -82,4 +88,10 @@ NameForm.navigationOptions = {
   title: 'Name',
 }
 
-export default NameForm
+const getStylesFromProps = ({ theme }) => ({
+  row: {
+    marginVertical: theme.sizes.defaultQuadruple,
+  },
+})
+
+export default withStyles(getStylesFromProps)(NameForm)

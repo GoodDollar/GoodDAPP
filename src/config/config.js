@@ -45,5 +45,4 @@ const Config = {
 
 // Forcing value as number, if not MNID encoder/decoder may fail
 // Config.networkId = Config.ethereum[Config.networkId].network_id
-console.log({ Config })
 export default Config

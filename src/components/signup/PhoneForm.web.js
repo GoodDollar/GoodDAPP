@@ -7,8 +7,10 @@ import { userModelValidations } from '../../lib/gundb/UserModel'
 import userStorage from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import api from '../../lib/API/api'
+import { withStyles } from '../../lib/styles'
 import Config from '../../config/config'
-import { Description, Title, Wrapper } from './components'
+import Section from '../common/layout/Section'
+import CustomWrapper from './signUpWrapper'
 
 const log = logger.child({ from: 'PhoneForm' })
 
@@ -84,22 +86,44 @@ class PhoneForm extends React.Component<Props, State> {
     this.props.screenProps.error = undefined
 
     const { key } = this.props.navigation.state
+    const { styles } = this.props
     const { loading } = this.props.screenProps.data
     return (
-      <Wrapper valid={this.state.isValid} handleSubmit={this.handleSubmit} loading={loading}>
-        <Title>{`${this.props.screenProps.data.fullName.split(' ')[0]}, \n May we have your number please?`}</Title>
-        <PhoneInput
-          id={key + '_input'}
-          value={this.state.mobile}
-          onChange={this.handleChange}
-          error={errorMessage}
-          onKeyDown={this.handleEnter}
-          country={this.state.countryCode}
-        />
-        <Description>A verification code will be sent to this number</Description>
-      </Wrapper>
+      <CustomWrapper valid={this.state.isValid} handleSubmit={this.handleSubmit} loading={loading}>
+        <Section.Stack grow justifyContent="flex-start" style={styles.row}>
+          <Section.Row justifyContent="center">
+            <Section.Title textTransform="none">
+              {`${this.props.screenProps.data.fullName.split(' ')[0]}, May we have your number please?`}
+            </Section.Title>
+          </Section.Row>
+          <Section.Row justifyContent="center" style={styles.row}>
+            <PhoneInput
+              id={key + '_input'}
+              value={this.state.mobile}
+              onChange={this.handleChange}
+              error={errorMessage}
+              onKeyDown={this.handleEnter}
+              country={this.state.countryCode}
+            />
+          </Section.Row>
+          <Section.Row justifyContent="center" style={styles.bottomText}>
+            <Section.Text fontFamily="regular" fontSize={14} color="gray80Percent">
+              A verification code will be sent to this number
+            </Section.Text>
+          </Section.Row>
+        </Section.Stack>
+      </CustomWrapper>
     )
   }
 }
 
-export default PhoneForm
+const getStylesFromProps = ({ theme }) => ({
+  bottomText: {
+    marginTop: 'auto',
+  },
+  row: {
+    marginVertical: theme.sizes.defaultQuadruple,
+  },
+})
+
+export default withStyles(getStylesFromProps)(PhoneForm)

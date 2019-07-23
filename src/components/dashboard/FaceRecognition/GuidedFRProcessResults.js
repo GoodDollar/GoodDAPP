@@ -4,13 +4,13 @@ import { ActivityIndicator, Image, StyleSheet, View } from 'react-native'
 import { Text } from 'react-native-paper'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import find from 'lodash/find'
-import { CustomButton, Section } from '../../common'
+import CustomButton from '../../common/buttons/CustomButton'
+import Section from '../../common/layout/Section'
+import Icon from '../../common/view/Icon'
 import Separator from '../../common/layout/Separator'
 import logger from '../../../lib/logger/pino-logger'
 import goodWallet from '../../../lib/wallet/GoodWallet'
 import userStorage from '../../../lib/gundb/UserStorage'
-import Check from '../../../assets/Icons - Success - White.svg'
-import Cross from '../../../assets/Icons - Close X - White.svg'
 import LookingGood from '../../../assets/LookingGood.svg'
 import GDStore from '../../../lib/undux/GDStore'
 
@@ -20,7 +20,9 @@ const FRStep = ({ title, isActive, status, isProcessFailed, paddingBottom }) => 
   paddingBottom = paddingBottom === undefined ? 12 : paddingBottom
   let statusColor = status === true ? 'success' : status === false ? 'failure' : 'none'
   let statusIcon =
-    status === undefined ? null : <Image source={status ? Check : Cross} resizeMode={'center'} style={{ height: 14 }} />
+    status === undefined ? null : (
+      <Icon name={status ? 'success' : 'close'} size={14} color="#fff" style={{ textAlign: 'center' }} />
+    )
   let spinner =
     isProcessFailed !== true && status === undefined && isActive === true ? <ActivityIndicator color={'gray'} /> : null
   let iconOrSpinner =

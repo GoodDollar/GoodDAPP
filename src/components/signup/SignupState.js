@@ -115,15 +115,18 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       // Then, when the user access the application from the link (in EmailConfirmation), data is recovered and
       // saved to the `state`
 
+      //first need to add user to our database
       // Stores creationBlock number into 'lastBlock' feed's node
       await Promise.all([
-        API.addUser(state),
+        await API.addUser(state),
         userStorage.setProfile({ ...state, walletAddress: goodWallet.account }),
         userStorage.setProfileField('registered', true, 'public'),
         goodWallet.getBlockNumber().then(creationBlock => userStorage.saveLastBlockNumber(creationBlock.toString())),
-        AsyncStorage.getItem('GD_USER_MNEMONIC').then(mnemonic => API.sendRecoveryInstructionByEmail(mnemonic)),
       ])
-      await AsyncStorage.setItem('GOODDAPP_isLoggedIn', true)
+
+      //need to wait for API.addUser but we dont need to wait for it to finish
+      AsyncStorage.getItem('GD_USER_MNEMONIC').then(mnemonic => API.sendRecoveryInstructionByEmail(mnemonic)),
+        await AsyncStorage.setItem('GOODDAPP_isLoggedIn', true)
       log.debug('New user created')
     } catch (e) {
       log.error('New user failure', { e, message: e.message })

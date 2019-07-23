@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { View } from 'react-native'
+import { ScrollView, View } from 'react-native'
 import { withStyles } from '../../../lib/styles'
 
 class Wrapper extends React.Component {
@@ -14,8 +14,10 @@ class Wrapper extends React.Component {
         }
 
     return (
-      <View style={[styles.container, backgroundStyle, style]} {...rest}>
-        {children}
+      <View data-name="viewWrapper" style={[styles.container, backgroundStyle, style]} {...rest}>
+        <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollableView}>
+          {children}
+        </ScrollView>
       </View>
     )
   }
@@ -29,6 +31,16 @@ const getStylesFromProps = ({ theme }) => {
       flexDirection: 'column',
       padding: theme.paddings.mainContainerPadding,
       width: '100%',
+      position: 'relative',
+    },
+    scrollView: {
+      display: 'flex',
+      flexGrow: 1,
+    },
+    scrollableView: {
+      flexGrow: 1,
+      display: 'flex',
+      height: '100%',
     },
   }
 }

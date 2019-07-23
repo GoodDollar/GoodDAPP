@@ -20,6 +20,7 @@ exports[`EventDialog matches snapshot 1`] = `
 >
   <div
     className="css-view-1dbjc4n"
+    data-name="viewWrapper"
     style={
       Object {
         "WebkitBoxDirection": "normal",
@@ -43,9 +44,62 @@ exports[`EventDialog matches snapshot 1`] = `
         "paddingLeft": "8px",
         "paddingRight": "8px",
         "paddingTop": "8px",
+        "position": "relative",
         "width": "100%",
       }
     }
-  />
+  >
+    <div
+      className="css-view-1dbjc4n"
+      onResponderGrant={[Function]}
+      onResponderReject={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onScroll={[Function]}
+      onScrollShouldSetResponder={[Function]}
+      onStartShouldSetResponder={[Function]}
+      onStartShouldSetResponderCapture={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      onWheel={[Function]}
+      style={
+        Object {
+          "WebkitBoxDirection": "normal",
+          "WebkitBoxFlex": 1,
+          "WebkitBoxOrient": "vertical",
+          "WebkitFlexDirection": "column",
+          "WebkitFlexGrow": 1,
+          "WebkitFlexShrink": 1,
+          "WebkitOverflowScrolling": "touch",
+          "WebkitTransform": "translateZ(0px)",
+          "display": "flex",
+          "flexDirection": "column",
+          "flexGrow": 1,
+          "flexShrink": 1,
+          "msFlexDirection": "column",
+          "msFlexNegative": 1,
+          "msFlexPositive": 1,
+          "overflowX": "hidden",
+          "overflowY": "auto",
+          "transform": "translateZ(0px)",
+        }
+      }
+    >
+      <div
+        className="css-view-1dbjc4n"
+        style={
+          Object {
+            "WebkitBoxFlex": 1,
+            "WebkitFlexGrow": 1,
+            "display": "flex",
+            "flexGrow": 1,
+            "height": "100%",
+            "msFlexPositive": 1,
+          }
+        }
+      />
+    </div>
+  </div>
 </div>
 `;

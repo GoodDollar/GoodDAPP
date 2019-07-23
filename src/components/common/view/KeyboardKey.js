@@ -21,7 +21,7 @@ const KeyboardKey = ({ keyValue, onPress, styles, theme }: KeyboardKeyProps) => 
     >
       {keyValue === 'backspace' ? (
         <View style={styles.backspaceButton}>
-          <Icon name="backspace" color={theme.colors.darkGray} size={14} />
+          <Icon name="backspace" color={theme.colors.darkGray} size={18} style={{ textAlign: 'center' }} />
         </View>
       ) : (
         <Text style={styles.keyText}>{keyValue}</Text>
@@ -51,6 +51,7 @@ const getStylesFromProps = ({ theme }) => {
       backgroundSize: 'contain',
       backgroundRepeat: 'no-repeat',
       cursor: 'pointer',
+      justifyContent: 'center',
     },
   }
 }

@@ -5,10 +5,10 @@ import { Text } from 'react-native-paper'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import find from 'lodash/find'
 import { CustomButton, Section } from '../../common'
+import Separator from '../../common/layout/Separator'
 import logger from '../../../lib/logger/pino-logger'
 import goodWallet from '../../../lib/wallet/GoodWallet'
 import userStorage from '../../../lib/gundb/UserStorage'
-import Divider from '../../../assets/Dividers - Long Line - Stroke Width 2 - Round Cap - Light Blue.svg'
 import Check from '../../../assets/Icons - Success - White.svg'
 import Cross from '../../../assets/Icons - Close X - White.svg'
 import LookingGood from '../../../assets/LookingGood.svg'
@@ -212,7 +212,7 @@ C. Light your face evenly'
             flexGrow: 0,
           }}
         >
-          <Image source={Divider} resizeMode={'cover'} style={{ width: 'auto', height: 2 }} />
+          <Separator width={2} />
           <View style={{ marginBottom: 22, marginTop: 22 }}>
             <FRStep
               title={'Checking duplicates'}
@@ -245,7 +245,7 @@ C. Light your face evenly'
               paddingBottom={0}
             />
           </View>
-          <Image source={Divider} resizeMode={'cover'} style={{ height: 2 }} />
+          <Separator width={2} />
         </View>
         <View style={{ flexShrink: 0 }}>
           <Text style={styles.textHelp}>{helpText}</Text>

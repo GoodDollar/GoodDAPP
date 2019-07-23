@@ -7,9 +7,8 @@ import SectionRow from './SectionRow'
 import SectionStack from './SectionStack'
 import SectionTitle from './SectionTitle'
 import SectionText from './SectionText'
+import Separator from './Separator'
 import { getFlexStylesFromProps } from './SectionUtils'
-
-const Separator = () => <hr style={{ width: '100%' }} />
 
 const SectionComponent = props => {
   const { styles, children, style } = props
@@ -18,8 +17,7 @@ const SectionComponent = props => {
 
 const mapPropsToStyles = ({ theme }) => ({
   section: {
-    backgroundColor: '#fff',
-
+    backgroundColor: theme.colors.surface,
     borderRadius: theme.sizes.borderRadius,
     padding: normalize(12),
     paddingTop: theme.sizes.defaultDouble,

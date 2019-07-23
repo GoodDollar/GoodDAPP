@@ -34,7 +34,7 @@ class PhoneForm extends React.Component<Props, State> {
     mobile: this.props.screenProps.data.mobile || '',
     errorMessage: '',
     countryCode: null,
-    isValid: false,
+    isValid: true,
   }
 
   setCountryCode = async () => {

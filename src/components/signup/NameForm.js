@@ -1,5 +1,6 @@
 // @flow
 import React from 'react'
+import debounce from 'lodash/debounce'
 import { validateFullName } from '../../lib/validators/validateFullName'
 import { withStyles } from '../../lib/styles'
 import InputText from '../common/form/InputText'
@@ -26,32 +27,34 @@ class NameForm extends React.Component<Props, State> {
   state = {
     errorMessage: '',
     fullName: this.props.screenProps.data.fullName || '',
+    isValid: true,
   }
 
-  isValid = false
+  input = undefined
 
   handleChange = (fullName: string) => {
-    if (this.state.errorMessage !== '') {
-      this.setState({ errorMessage: '' })
-    }
-
+    this.checkErrorsSlow()
     this.setState({ fullName })
   }
 
   handleSubmit = () => {
     const { fullName } = this.state
-    if (this.isValid) {
+    const isValid = this.checkErrors()
+    if (isValid) {
       this.props.screenProps.doneCallback({ fullName })
     }
   }
 
   checkErrors = () => {
     const errorMessage = validateFullName(this.state.fullName)
-    this.setState({ errorMessage })
+    this.setState({ errorMessage, isValid: errorMessage === '' })
+    return errorMessage === ''
   }
 
+  checkErrorsSlow = debounce(this.checkErrors, 500)
+
   handleEnter = (event: { nativeEvent: { key: string } }) => {
-    if (event.nativeEvent.key === 'Enter' && this.isValid) {
+    if (event.nativeEvent.key === 'Enter') {
       this.handleSubmit()
     }
   }
@@ -59,9 +62,8 @@ class NameForm extends React.Component<Props, State> {
   render() {
     const { fullName, errorMessage } = this.state
     const { key } = this.props.navigation.state
-    this.isValid = validateFullName(fullName) === ''
     return (
-      <CustomWrapper valid={this.isValid} handleSubmit={this.handleSubmit}>
+      <CustomWrapper valid={this.state.isValid} handleSubmit={this.handleSubmit}>
         <Section.Stack grow justifyContent="flex-start">
           <Section.Row justifyContent="center" style={this.props.styles.row}>
             <Section.Title textTransform="none">{'Hi, Please enter your full name'}</Section.Title>
@@ -71,7 +73,6 @@ class NameForm extends React.Component<Props, State> {
               id={key + '_input'}
               value={fullName}
               onChangeText={this.handleChange}
-              onBlur={this.checkErrors}
               error={errorMessage}
               onKeyPress={this.handleEnter}
               onCleanUpField={this.handleChange}

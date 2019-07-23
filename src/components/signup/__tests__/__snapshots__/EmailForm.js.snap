@@ -174,8 +174,47 @@ exports[`EmailForm matches snapshot 1`] = `
                 }
               }
             >
-              Please enter your email,
- we will only notify you with important activity
+              Please enter your email
+            </div>
+          </div>
+          <div
+            className="css-view-1dbjc4n"
+            style={
+              Object {
+                "WebkitAlignItems": "center",
+                "WebkitBoxAlign": "center",
+                "WebkitBoxDirection": "normal",
+                "WebkitBoxOrient": "horizontal",
+                "WebkitBoxPack": "center",
+                "WebkitFlexDirection": "row",
+                "WebkitJustifyContent": "center",
+                "alignItems": "center",
+                "flexDirection": "row",
+                "justifyContent": "center",
+                "msFlexAlign": "center",
+                "msFlexDirection": "row",
+                "msFlexPack": "center",
+              }
+            }
+          >
+            <div
+              className="css-text-901oao"
+              dir="auto"
+              style={
+                Object {
+                  "color": "rgba(163,163,163,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto",
+                  "fontSize": "14px",
+                  "fontWeight": "normal",
+                  "lineHeight": "20px",
+                  "textAlign": "center",
+                  "textDecoration": "none",
+                  "textTransform": "none",
+                }
+              }
+            >
+              we will only notify you with important activity
             </div>
           </div>
           <div
@@ -380,7 +419,7 @@ exports[`EmailForm matches snapshot 1`] = `
                 }
               }
             >
-              We respect your privacy and will never sell or give away your info to any third party
+              We respect your privacy and will never sell or give away your info to any third party.
             </div>
           </div>
         </div>

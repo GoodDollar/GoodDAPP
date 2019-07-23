@@ -148,7 +148,7 @@ class SmsForm extends React.Component<Props, State> {
               errorStyle={errorStyle}
               value={otp}
             />
-            <ErrorText>{errorMessage !== '' && errorMessage}</ErrorText>
+            <ErrorText error={errorMessage} />
           </Section.Row>
           <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
             <SMSAction

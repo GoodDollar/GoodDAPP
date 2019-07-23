@@ -4,7 +4,9 @@ import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { View } from 'react-native'
 import Mnemonics from '../signin/Mnemonics'
 import logger from '../../lib/logger/pino-logger'
-import { CustomButton, Section, Text, Wrapper } from '../common'
+import CustomButton from '../common/buttons/CustomButton'
+import Section from '../common/layout/Section'
+import Wrapper from '../common/layout/Wrapper'
 import { PrivacyPolicy, TermsOfUse } from '../webView/webViewInstances'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
@@ -63,22 +65,31 @@ class Auth extends React.Component<Props> {
           </Wrapper>
         </Section>
         <View style={styles.bottomContainer}>
-          <Text fontFamily="regular" fontSize={12} color="gray80Percent">
+          <Section.Text fontFamily="regular" fontSize={12} color="gray80Percent">
             {`By clicking the 'Create a wallet' button,\n you are accepting our\n`}
             <Section.Text style={styles.acceptTermsLink} onPress={this.handleNavigateTermsOfUse}>
-              Terms of Service
+              Terms of Use
             </Section.Text>
             {` and `}
             <Section.Text style={styles.acceptTermsLink} onPress={this.handleNavigatePrivacyPolicy}>
               Privacy Policy
             </Section.Text>
-          </Text>
+          </Section.Text>
           <CustomButton style={styles.buttonLayout} onPress={this.handleSignUp}>
             Create a wallet
           </CustomButton>
-          <Text fontFamily="medium" fontSize={14} color="primary" onPress={this.handleSignIn}>
-            Already have a wallet?
-          </Text>
+          <Section.Text fontFamily="medium" fontSize={14} color="primary" onPress={this.handleSignIn}>
+            {`Already have a wallet? `}
+            <Section.Text
+              fontFamily="medium"
+              fontSize={14}
+              color="primary"
+              onPress={this.handleSignIn}
+              style={styles.underlined}
+            >
+              Login
+            </Section.Text>
+          </Section.Text>
         </View>
       </Wrapper>
     )
@@ -119,6 +130,10 @@ const getStylesFromProps = ({ theme }) => {
       fontFamily: theme.fonts.bold,
       textAlign: 'center',
       marginTop: theme.sizes.default,
+      textDecorationLine: 'underline',
+    },
+    underlined: {
+      textDecorationLine: 'underline',
     },
   }
 }

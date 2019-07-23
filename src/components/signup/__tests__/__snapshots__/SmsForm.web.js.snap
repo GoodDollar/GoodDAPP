@@ -449,7 +449,9 @@ exports[`SmsForm matches snapshot 1`] = `
                   "transform": "translateY(0px)",
                 }
               }
-            />
+            >
+              
+            </div>
           </div>
           <div
             className="css-view-1dbjc4n"

@@ -24,7 +24,7 @@ export default class SignupCompleted extends React.Component<Props, State> {
         loading={this.props.screenProps.data.loading}
       >
         <Text fontFamily="medium" fontSize={22} color="darkGray">
-          {`Thanks ${this.props.screenProps.data.fullName.split(' ')[0]} \n You're all set`}
+          {`Thanks ${this.props.screenProps.data.fullName.split(' ')[0]}\nYou're all set`}
         </Text>
         <Image source={illustration} style={styles.illustration} resizeMode="contain" />
       </CustomWrapper>

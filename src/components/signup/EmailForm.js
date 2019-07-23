@@ -75,9 +75,12 @@ class EmailForm extends React.Component<Props, State> {
       >
         <Section.Stack grow justifyContent="flex-start" style={styles.row}>
           <Section.Row justifyContent="center">
-            <Section.Title textTransform="none">
-              {`Please enter your email,\n we will only notify you with important activity`}
-            </Section.Title>
+            <Section.Title textTransform="none">Please enter your email</Section.Title>
+          </Section.Row>
+          <Section.Row justifyContent="center">
+            <Section.Text fontFamily="regular" fontSize={14} color="gray80Percent">
+              we will only notify you with important activity
+            </Section.Text>
           </Section.Row>
           <Section.Row justifyContent="center" style={styles.row}>
             <InputText
@@ -93,7 +96,7 @@ class EmailForm extends React.Component<Props, State> {
           </Section.Row>
           <Section.Row justifyContent="flex-end" style={styles.bottomText}>
             <Section.Text fontFamily="regular" fontSize={14} color="gray80Percent">
-              We respect your privacy and will never sell or give away your info to any third party
+              We respect your privacy and will never sell or give away your info to any third party.
             </Section.Text>
           </Section.Row>
         </Section.Stack>

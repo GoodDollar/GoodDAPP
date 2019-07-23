@@ -233,7 +233,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
               ...screenProps,
               data: { ...state, loading, createError, countryCode },
               doneCallback: done,
-              back: back,
+              back,
             }}
           />
         </View>

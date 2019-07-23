@@ -1,6 +1,10 @@
 // @flow
 import React from 'react'
-import { Title, Wrapper } from './components'
+import { Image, StyleSheet } from 'react-native'
+import normalize from '../../lib/utils/normalizeText'
+import illustration from '../../assets/Signup/illustration.svg'
+import Text from '../common/view/Text'
+import CustomWrapper from './signUpWrapper'
 
 type Props = {
   screenProps: any,
@@ -13,14 +17,25 @@ export default class SignupCompleted extends React.Component<Props, State> {
 
   render() {
     return (
-      <Wrapper
-        valid={true}
+      <CustomWrapper
         handleSubmit={this.handleSubmit}
         submitText="Let's start!"
         loading={this.props.screenProps.data.loading}
+        valid={this.props.screenProps.data.createError !== true}
       >
-        <Title>{`That's great, you're all set.\nThanks ${this.props.screenProps.data.fullName.split(' ')[0]}!`}</Title>
-      </Wrapper>
+        <Text fontFamily="medium" fontSize={22} color="darkGray">
+          {`Thanks ${this.props.screenProps.data.fullName.split(' ')[0]}\nYou're all set`}
+        </Text>
+        <Image source={illustration} style={styles.illustration} resizeMode="contain" />
+      </CustomWrapper>
     )
   }
 }
+
+const styles = StyleSheet.create({
+  illustration: {
+    minWidth: normalize(220),
+    maxWidth: '100%',
+    minHeight: normalize(260),
+  },
+})

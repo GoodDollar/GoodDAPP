@@ -34,15 +34,13 @@ const ModalWrapper = (props: any) => {
   )
 }
 
-const getStylesFromProps = ({ theme }) => {
-  return {
-    modalContainerStraightenBottomRightEdge: {
-      borderBottomRightRadius: '0',
-    },
-    modalLeftBorderAddMarginBottom: {
-      marginBottom: theme.modals.jaggedEdgeSize,
-    },
-  }
-}
+const getStylesFromProps = ({ theme }) => ({
+  modalContainerStraightenBottomRightEdge: {
+    borderBottomRightRadius: '0',
+  },
+  modalLeftBorderAddMarginBottom: {
+    marginBottom: theme.modals.jaggedEdgeSize,
+  },
+})
 
 export default withStyles(getStylesFromProps)(ModalWrapper)

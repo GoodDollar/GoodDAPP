@@ -4,9 +4,8 @@ import { Animated, Easing, View } from 'react-native'
 import normalize from '../../../lib/utils/normalizeText'
 import { withStyles } from '../../../lib/styles'
 
-const LoadingIcon = props => {
+const LoadingIcon = ({ styles, style }) => {
   const [rotateValue] = useState(new Animated.Value(0))
-  const { styles, style } = props
   const image = require('./img/LoadingIcon.png')
 
   useEffect(() => {
@@ -42,19 +41,17 @@ const LoadingIcon = props => {
   )
 }
 
-const getStylesFromProps = ({ theme }) => {
-  return {
-    loadingIconContainer: {
-      display: 'flex',
-      flexDirection: 'row',
-      justifyContent: 'center',
-      marginBottom: normalize(16),
-    },
-    loadingIcon: {
-      height: normalize(90),
-      width: normalize(90),
-    },
-  }
-}
+const getStylesFromProps = ({ theme }) => ({
+  loadingIconContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginBottom: normalize(16),
+  },
+  loadingIcon: {
+    height: normalize(90),
+    width: normalize(90),
+  },
+})
 
 export default withStyles(getStylesFromProps)(LoadingIcon)

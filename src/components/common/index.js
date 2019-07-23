@@ -11,6 +11,7 @@ import Icon from './view/Icon'
 import IconButton from './buttons/IconButton'
 import InputGoodDollar from './form/InputGoodDollar'
 import InputRounded from './form/InputRounded'
+import InputText from './form/InputText'
 import LoadingIndicator from './view/LoadingIndicator'
 import NumPadKeyboard from './view/NumPadKeyboard'
 import QRCode from './view/QRCode'
@@ -36,6 +37,7 @@ export {
   IconButton,
   InputGoodDollar,
   InputRounded,
+  InputText,
   LoadingIndicator,
   NumPadKeyboard,
   QRCode,

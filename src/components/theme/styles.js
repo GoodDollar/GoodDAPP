@@ -40,6 +40,7 @@ export const theme = {
   sizes: {
     default: normalize(8),
     defaultDouble: normalize(16),
+    defaultQuadruple: normalize(32),
     defaultHalf: normalize(4),
     borderRadius: normalize(5),
   },

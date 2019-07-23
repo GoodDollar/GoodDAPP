@@ -16,20 +16,18 @@ const ModalCloseButton = (props: any) => {
   )
 }
 
-const getStylesFromProps = ({ theme }) => {
-  return {
-    modalCloseImageContainer: {
-      position: 'relative',
-      zIndex: mediumZIndex,
-    },
-    modalCloseImage: {
-      height: normalize(37),
-      marginBottom: -normalize(37 / 2),
-      marginLeft: 'auto',
-      marginRight: -normalize(37 / 2),
-      width: normalize(37),
-    },
-  }
-}
+const getStylesFromProps = ({ theme }) => ({
+  modalCloseImageContainer: {
+    position: 'relative',
+    zIndex: mediumZIndex,
+  },
+  modalCloseImage: {
+    height: normalize(37),
+    marginBottom: -normalize(37 / 2),
+    marginLeft: 'auto',
+    marginRight: -normalize(37 / 2),
+    width: normalize(37),
+  },
+})
 
 export default withStyles(getStylesFromProps)(ModalCloseButton)

@@ -5,6 +5,7 @@ import type { DashboardProps } from '../Dashboard'
 import logger from '../../../lib/logger/pino-logger'
 import { Wrapper } from '../../common'
 import userStorage from '../../../lib/gundb/UserStorage'
+import { fireEvent } from '../../../lib/analytics/analytics'
 import FRapi from './FaceRecognitionAPI'
 import type FaceRecognitionResponse from './FaceRecognitionAPI'
 import GuidedFR from './GuidedFRProcessResults'
@@ -27,6 +28,7 @@ type State = {
   zoomReady: boolean,
   captureResult: ZoomCaptureResult,
   isWhitelisted: boolean | void,
+  showHelper: boolean,
 }
 
 /**
@@ -47,6 +49,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
     zoomReady: false,
     captureResult: {},
     isWhitelisted: undefined,
+    showHelper: get(this.props, 'screenProps.screenState.showHelper', true),
   }
 
   loadedZoom: any
@@ -88,6 +91,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
   onCaptureResult = (captureResult?: ZoomCaptureResult): void => {
     //TODO: rami check uninitilized, return
     log.debug('zoom capture completed', { captureResult })
+    fireEvent('FR_Capture')
     if (captureResult === undefined) {
       log.error('empty capture result')
       this.showFRError('empty capture result')
@@ -110,9 +114,9 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
         log.error('FR API call failed:', { result })
         this.showFRError(result.error) // TODO: rami
       } else if (get(result, 'enrollResult.enrollmentIdentifier', undefined)) {
-        this.setState({ ...this.state, isWhitelisted: true })
+        this.setState({ ...this.state, isAPISuccess: true })
       } else {
-        this.setState({ ...this.state, isWhitelisted: false })
+        this.setState({ ...this.state, isAPISuccess: false })
       }
     } catch (e) {
       log.error('FR API call failed:', e, e.message)
@@ -121,22 +125,30 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
   }
 
   showFRError = (error: string | Error) => {
+    fireEvent('FR_Error')
     this.setState({ showZoomCapture: false, showGuidedFR: false, sessionId: undefined }, () => {
       this.props.screenProps.navigateTo('FRError', { error })
     })
   }
 
   retry = () => {
-    this.setState({ showGuidedFR: false, sessionId: undefined, showZoomCapture: true })
+    fireEvent('FR_Retry')
+    this.setState({
+      showGuidedFR: false,
+      sessionId: undefined,
+      showZoomCapture: true,
+      isAPISuccess: undefined,
+      showHelper: false,
+    })
   }
 
   done = () => {
+    fireEvent('FR_Success')
     this.props.screenProps.pop({ isValid: true })
   }
 
   render() {
-    const { showZoomCapture, showGuidedFR, sessionId, isWhitelisted } = this.state
-    log.debug('Render:', { showZoomCapture })
+    const { showZoomCapture, showGuidedFR, sessionId, isAPISuccess } = this.state
     return (
       <Wrapper>
         {showGuidedFR && (
@@ -146,7 +158,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
             retry={this.retry}
             done={this.done}
             navigation={this.props.screenProps}
-            isWhitelisted={isWhitelisted}
+            isAPISuccess={isAPISuccess}
           />
         )}
 
@@ -157,6 +169,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
             showZoomCapture={this.state.zoomReady && showZoomCapture}
             loadedZoom={this.loadedZoom}
             onError={this.showFRError}
+            showHelper={this.state.showHelper}
           />
         )}
       </Wrapper>

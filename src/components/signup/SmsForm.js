@@ -1,11 +1,9 @@
 // @flow
 import React from 'react'
-import { View } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
 import { withStyles } from '../../lib/styles'
-import CustomButton from '../common/buttons/CustomButton'
 import Icon from '../common/view/Icon'
 import LoadingIndicator from '../common/view/LoadingIndicator'
 import Section from '../common/layout/Section'
@@ -146,11 +144,7 @@ class SmsForm extends React.Component<Props, State> {
             <ErrorText error={errorMessage} />
           </Section.Stack>
           <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
-            <SMSAction
-              status={resentCode ? DONE : renderButton ? PENDING : WAIT}
-              handleRetry={this.handleRetry}
-              styles={styles}
-            />
+            <SMSAction status={resentCode ? DONE : renderButton ? PENDING : WAIT} handleRetry={this.handleRetry} />
           </Section.Row>
         </Section.Stack>
         <LoadingIndicator force={loading} />
@@ -159,15 +153,9 @@ class SmsForm extends React.Component<Props, State> {
   }
 }
 
-const SMSAction = ({ status, handleRetry, styles }) => {
+const SMSAction = ({ status, handleRetry }) => {
   if (status === DONE) {
-    return (
-      <CustomButton>
-        <View style={styles.iconButtonWrapper}>
-          <Icon size={16} name="success" color="white" />
-        </View>
-      </CustomButton>
-    )
+    return <Icon size={16} name="success" color="blue" />
   } else if (status === WAIT) {
     return (
       <Section.Text fontFamily="regular" fontSize={14} color="gray80Percent">

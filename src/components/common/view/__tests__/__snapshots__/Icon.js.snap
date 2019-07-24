@@ -6,7 +6,7 @@ exports[`Icon matches snapshot 1`] = `
   dir="auto"
   style={
     Object {
-      "color": "rgba(0,0,0,1.00)",
+      "color": "rgba(98,0,238,1.00)",
       "fontFamily": "gooddollar",
       "fontSize": "16px",
       "fontStyle": "normal",

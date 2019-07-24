@@ -912,7 +912,7 @@ export class UserStorage {
   async formatEvent(event: FeedEvent): Promise<StandardFeed> {
     logger.debug('formatEvent: incoming event', { event })
     const { data, type, date, id, status, createdDate } = event
-    const { receiptData, receipt, from, to, sender, amount, reason, code: withdrawCode } = data
+    const { receiptData, receipt, from, to, counterPartyDisplayName, sender, amount, reason, code: withdrawCode } = data
     let avatar, fullName, address, withdrawStatus, initiator
     if (type === 'send') {
       address = this.wallet.wallet.utils.isAddress(to) ? to : (receiptData && receiptData.to) || (receipt && receipt.to)
@@ -937,10 +937,12 @@ export class UserStorage {
       initiator,
       reason,
       to,
+      counterPartyDisplayName,
       from,
       receiptData,
       value,
     })
+    const defaultDisplayName = counterPartyDisplayName || 'Unknown'
     const searchField = (initiatorType && `by${initiatorType}`) || ''
     const profileByIndex =
       initiatorType &&
@@ -962,7 +964,7 @@ export class UserStorage {
           .get('display')
           .then())) ||
       (initiatorType && initiator) ||
-      (type === 'claim' || address === '0x0000000000000000000000000000000000000000' ? 'GoodDollar' : 'Unknown')
+      (type === 'claim' || address === '0x0000000000000000000000000000000000000000' ? 'GoodDollar' : defaultDisplayName)
     avatar =
       (profileToShow &&
         (await profileToShow

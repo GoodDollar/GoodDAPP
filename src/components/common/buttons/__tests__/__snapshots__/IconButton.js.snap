@@ -51,45 +51,50 @@ exports[`IconButton disabled matches snapshot 1`] = `
 >
   <div
     className="css-view-1dbjc4n"
-    style={
-      Object {
-        "WebkitAlignItems": "center",
-        "WebkitBoxAlign": "center",
-        "WebkitBoxPack": "center",
-        "WebkitJustifyContent": "center",
-        "alignItems": "center",
-        "backgroundColor": "rgba(0,0,0,1.00)",
-        "borderBottomLeftRadius": "28px",
-        "borderBottomRightRadius": "28px",
-        "borderTopLeftRadius": "28px",
-        "borderTopRightRadius": "28px",
-        "height": "52px",
-        "justifyContent": "center",
-        "marginBottom": "7px",
-        "marginLeft": "7px",
-        "marginRight": "7px",
-        "marginTop": "7px",
-        "msFlexAlign": "center",
-        "msFlexPack": "center",
-        "width": "52px",
-      }
-    }
   >
     <div
-      className="css-text-901oao"
-      dir="auto"
+      className="css-view-1dbjc4n"
       style={
         Object {
-          "backgroundColor": "rgba(0,0,0,0.00)",
-          "color": "rgba(0,0,0,0.32)",
-          "fontFamily": "MaterialIcons",
-          "fontSize": "24px",
-          "fontStyle": "normal",
-          "fontWeight": "normal",
+          "WebkitAlignItems": "center",
+          "WebkitBoxAlign": "center",
+          "WebkitBoxPack": "center",
+          "WebkitJustifyContent": "center",
+          "alignItems": "center",
+          "backgroundColor": "rgba(0,0,0,1.00)",
+          "borderBottomLeftRadius": "28px",
+          "borderBottomRightRadius": "28px",
+          "borderTopLeftRadius": "28px",
+          "borderTopRightRadius": "28px",
+          "height": "52px",
+          "justifyContent": "center",
+          "marginBottom": "7px",
+          "marginLeft": "7px",
+          "marginRight": "7px",
+          "marginTop": "7px",
+          "msFlexAlign": "center",
+          "msFlexPack": "center",
+          "width": "52px",
         }
       }
     >
-      
+      <div
+        className="css-text-901oao"
+        data-testid="iconIcon"
+        dir="auto"
+        style={
+          Object {
+            "backgroundColor": "rgba(0,0,0,0.00)",
+            "color": "rgba(0,0,0,0.32)",
+            "fontFamily": "MaterialIcons",
+            "fontSize": "24px",
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        
+      </div>
     </div>
   </div>
   <div
@@ -165,45 +170,50 @@ exports[`IconButton enabled matches snapshot 1`] = `
 >
   <div
     className="css-view-1dbjc4n"
-    style={
-      Object {
-        "WebkitAlignItems": "center",
-        "WebkitBoxAlign": "center",
-        "WebkitBoxPack": "center",
-        "WebkitJustifyContent": "center",
-        "alignItems": "center",
-        "backgroundColor": "rgba(0,0,0,1.00)",
-        "borderBottomLeftRadius": "28px",
-        "borderBottomRightRadius": "28px",
-        "borderTopLeftRadius": "28px",
-        "borderTopRightRadius": "28px",
-        "height": "52px",
-        "justifyContent": "center",
-        "marginBottom": "7px",
-        "marginLeft": "7px",
-        "marginRight": "7px",
-        "marginTop": "7px",
-        "msFlexAlign": "center",
-        "msFlexPack": "center",
-        "width": "52px",
-      }
-    }
   >
     <div
-      className="css-text-901oao"
-      dir="auto"
+      className="css-view-1dbjc4n"
       style={
         Object {
-          "backgroundColor": "rgba(0,0,0,0.00)",
-          "color": "rgba(40,44,52,1.00)",
-          "fontFamily": "MaterialIcons",
-          "fontSize": "24px",
-          "fontStyle": "normal",
-          "fontWeight": "normal",
+          "WebkitAlignItems": "center",
+          "WebkitBoxAlign": "center",
+          "WebkitBoxPack": "center",
+          "WebkitJustifyContent": "center",
+          "alignItems": "center",
+          "backgroundColor": "rgba(0,0,0,1.00)",
+          "borderBottomLeftRadius": "28px",
+          "borderBottomRightRadius": "28px",
+          "borderTopLeftRadius": "28px",
+          "borderTopRightRadius": "28px",
+          "height": "52px",
+          "justifyContent": "center",
+          "marginBottom": "7px",
+          "marginLeft": "7px",
+          "marginRight": "7px",
+          "marginTop": "7px",
+          "msFlexAlign": "center",
+          "msFlexPack": "center",
+          "width": "52px",
         }
       }
     >
-      
+      <div
+        className="css-text-901oao"
+        data-testid="iconIcon"
+        dir="auto"
+        style={
+          Object {
+            "backgroundColor": "rgba(0,0,0,0.00)",
+            "color": "rgba(40,44,52,1.00)",
+            "fontFamily": "MaterialIcons",
+            "fontSize": "24px",
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        
+      </div>
     </div>
   </div>
   <div

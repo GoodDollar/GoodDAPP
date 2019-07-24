@@ -1,7 +1,6 @@
 // @flow
 import React from 'react'
 import { View } from 'react-native'
-import OtpInput from 'react-otp-input'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
@@ -11,10 +10,11 @@ import Icon from '../common/view/Icon'
 import LoadingIndicator from '../common/view/LoadingIndicator'
 import Section from '../common/layout/Section'
 import { ErrorText } from '../common/form/InputText'
+import OtpInput from '../common/form/OtpInput'
 import CustomWrapper from './signUpWrapper'
 import type { SignupState } from './SignupState'
 
-const log = logger.child({ from: 'SmsForm.web' })
+const log = logger.child({ from: 'SmsForm' })
 
 const DONE = 'DONE'
 const WAIT = 'WAIT'
@@ -135,16 +135,12 @@ class SmsForm extends React.Component<Props, State> {
           </Section.Row>
           <Section.Stack justifyContent="center">
             <OtpInput
-              containerStyle={{
-                justifyContent: 'space-evenly',
-              }}
-              inputStyle={inputStyle}
               shouldAutoFocus
               numInputs={this.numInputs}
               onChange={this.handleChange}
               isInputNum={true}
               hasErrored={errorMessage !== ''}
-              errorStyle={errorStyle}
+              errorStyle={styles.errorStyle}
               value={otp}
             />
             <ErrorText error={errorMessage} />
@@ -204,23 +200,11 @@ const getStylesFromProps = ({ theme }) => ({
   row: {
     marginVertical: theme.sizes.defaultQuadruple,
   },
+  errorStyle: {
+    borderBottomWidth: 1,
+    borderBottomColor: theme.colors.red,
+    color: theme.colors.red,
+  },
 })
-
-const inputStyle = {
-  width: '100%',
-  height: '3rem',
-  margin: '0 0.5rem',
-  fontSize: '1.5rem',
-  borderTop: 'none',
-  borderRight: 'none',
-  borderLeft: 'none',
-  borderBottom: '1px solid #555',
-}
-
-const errorStyle = {
-  ...inputStyle,
-  borderBottom: '1px solid red',
-  color: 'red',
-}
 
 export default withStyles(getStylesFromProps)(SmsForm)

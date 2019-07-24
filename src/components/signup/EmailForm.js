@@ -1,11 +1,13 @@
 // @flow
 import React from 'react'
-import { HelperText, TextInput } from 'react-native-paper'
 import debounce from 'lodash/debounce'
 import { userModelValidations } from '../../lib/gundb/UserModel'
 import userStorage from '../../lib/gundb/UserStorage'
+import { withStyles } from '../../lib/styles'
 import Config from '../../config/config'
-import { Title, Wrapper } from './components'
+import InputText from '../common/form/InputText'
+import Section from '../common/layout/Section'
+import CustomWrapper from './signUpWrapper'
 
 type Props = {
   doneCallback: ({ email: string }) => null,
@@ -63,29 +65,53 @@ class EmailForm extends React.Component<Props, State> {
     const errorMessage = this.state.errorMessage || this.props.screenProps.error
     this.props.screenProps.error = undefined
     const { key } = this.props.navigation.state
+    const { styles } = this.props
 
     return (
-      <Wrapper
+      <CustomWrapper
         valid={this.state.isValid}
         handleSubmit={this.handleSubmit}
         loading={this.props.screenProps.data.loading}
       >
-        <Title>And which email address should we use to notify you of important activity?</Title>
-        <TextInput
-          id={key + '_input'}
-          value={this.state.email}
-          onChangeText={this.handleChange}
-          keyboardType="email-address"
-          error={errorMessage !== ''}
-          onKeyPress={this.handleEnter}
-          autoFocus
-        />
-        <HelperText type="error" visible={errorMessage}>
-          {errorMessage}
-        </HelperText>
-      </Wrapper>
+        <Section.Stack grow justifyContent="flex-start" style={styles.row}>
+          <Section.Row justifyContent="center">
+            <Section.Title textTransform="none">Please enter your email</Section.Title>
+          </Section.Row>
+          <Section.Row justifyContent="center">
+            <Section.Text fontFamily="regular" fontSize={14} color="gray80Percent">
+              we will only notify you with important activity
+            </Section.Text>
+          </Section.Row>
+          <Section.Row justifyContent="center" style={styles.row}>
+            <InputText
+              id={key + '_input'}
+              value={this.state.email}
+              onChangeText={this.handleChange}
+              keyboardType="email-address"
+              onKeyPress={this.handleEnter}
+              error={errorMessage}
+              onCleanUpField={this.handleChange}
+              autoFocus
+            />
+          </Section.Row>
+          <Section.Row justifyContent="flex-end" style={styles.bottomText}>
+            <Section.Text fontFamily="regular" fontSize={14} color="gray80Percent">
+              We respect your privacy and will never sell or give away your info to any third party.
+            </Section.Text>
+          </Section.Row>
+        </Section.Stack>
+      </CustomWrapper>
     )
   }
 }
 
-export default EmailForm
+const getStylesFromProps = ({ theme }) => ({
+  bottomText: {
+    marginTop: 'auto',
+  },
+  row: {
+    marginVertical: theme.sizes.defaultQuadruple,
+  },
+})
+
+export default withStyles(getStylesFromProps)(EmailForm)

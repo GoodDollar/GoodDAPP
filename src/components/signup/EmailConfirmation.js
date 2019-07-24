@@ -1,12 +1,12 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { StyleSheet } from 'react-native'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import API from '../../lib/API/api'
-
-// import { useWrappedUserStorage } from '../../lib/gundb/useWrappedStorage'
 import logger from '../../lib/logger/pino-logger'
-import { Description, LinkButton, Title, Wrapper } from './components'
+import { withStyles } from '../../lib/styles'
+import Section from '../common/layout/Section'
+import Wrapper from '../common/layout/Wrapper'
+import CustomWrapper from './signUpWrapper'
 
 type Props = {
   screenProps: any,
@@ -15,7 +15,7 @@ type Props = {
 
 const log = logger.child({ from: 'EmailConfirmation' })
 
-const EmailConfirmation = ({ navigation, screenProps }: Props) => {
+const EmailConfirmation = ({ navigation, screenProps, styles }: Props) => {
   const [globalProfile, setGlobalProfile] = useState({})
 
   // const API = useWrappedApi()
@@ -56,32 +56,50 @@ const EmailConfirmation = ({ navigation, screenProps }: Props) => {
   }
 
   return (
-    <>
-      <Wrapper
-        handleSubmit={handleSubmit}
-        footerComponent={props => (
-          <React.Fragment>
-            <Description style={styles.description}>{'Please approve the email in order to continue'}</Description>
-            <LinkButton onPress={handleResend} styles={styles.link}>{`I haven't received an email`}</LinkButton>
-          </React.Fragment>
-        )}
-      >
-        <Description>{"We've sent an email to:"}</Description>
-        <Title>{globalProfile.email || screenProps.data.email}</Title>
-      </Wrapper>
-    </>
+    <CustomWrapper
+      handleSubmit={handleSubmit}
+      footerComponent={props => (
+        <Section.Row justifyContent="center" grow>
+          <Section.Text fontFamily="medium" fontSize={14} color="primary" onPress={handleResend}>
+            {`I haven't received an email`}
+          </Section.Text>
+        </Section.Row>
+      )}
+    >
+      <Section grow justifyContent="space-between" style={styles.row}>
+        <Section grow>
+          <Section.Row justifyContent="center">
+            <Section.Text fontFamily="medium" fontSize={16} color="darkGray">
+              {`We've sent an email to:`}
+            </Section.Text>
+          </Section.Row>
+          <Section.Row justifyContent="center">
+            <Section.Text fontFamily="slab" fontSize={22} color="darkGray">
+              {globalProfile.email || screenProps.data.email}
+            </Section.Text>
+          </Section.Row>
+        </Section>
+        <Wrapper style={styles.containerPadding}>
+          <Section.Row justifyContent="center" grow>
+            <Section.Text fontFamily="slab" fontSize={22} color="surface">
+              {`In order to continue, \n go to your e-mail app and confirm registration`}
+            </Section.Text>
+          </Section.Row>
+        </Wrapper>
+      </Section>
+    </CustomWrapper>
   )
 }
 
-const styles = StyleSheet.create({
-  description: {
-    marginBottom: normalize(20),
-    fontSize: normalize(24),
+const getStylesFromProps = ({ theme }) => ({
+  containerPadding: {
+    padding: normalize(28),
+    alignItems: 'center',
   },
-  link: {
-    fontSize: normalize(15),
-    opacity: '0.6',
+  row: {
+    marginVertical: theme.sizes.defaultDouble,
+    paddingHorizontal: 0,
   },
 })
 
-export default EmailConfirmation
+export default withStyles(getStylesFromProps)(EmailConfirmation)

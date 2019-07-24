@@ -4,8 +4,10 @@ import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { View } from 'react-native'
 import Mnemonics from '../signin/Mnemonics'
 import logger from '../../lib/logger/pino-logger'
-import { CustomButton, Text } from '../common'
-import { Description, LinkButton, Title } from '../signup/components'
+import CustomButton from '../common/buttons/CustomButton'
+import Section from '../common/layout/Section'
+import Wrapper from '../common/layout/Wrapper'
+import Text from '../common/view/Text'
 import { PrivacyPolicy, TermsOfUse } from '../webView/webViewInstances'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
@@ -46,96 +48,93 @@ class Auth extends React.Component<Props> {
   handleNavigatePrivacyPolicy = () => this.props.screenProps.push('PrivacyPolicy')
 
   render() {
-    const { styles, ...rest } = this.props
-    const {
-      acceptTermsLink,
-      acceptTermsText,
-      bottomContainer,
-      buttonLayout,
-      paragraph,
-      signInLink,
-      title,
-      topContainer,
-      wrapper,
-    } = styles
+    const { styles } = this.props
     return (
-      <View style={wrapper} {...rest}>
-        <View style={topContainer}>
-          <Title style={title}>Just a heads up!</Title>
-          <Description style={paragraph}>
-            {`All tokens in the Alpha are "test tokens".\nThey have NO real value.\nThey will be deleted at the end of the Alpha.`}
-          </Description>
-        </View>
-        <View style={bottomContainer}>
-          <Text style={acceptTermsText}>
-            {`By clicking the 'Create a wallet' button, you are accepting our `}
-            <LinkButton style={acceptTermsLink} onPress={this.handleNavigateTermsOfUse}>
-              Terms of Service
-            </LinkButton>
+      <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
+        <Section justifyContent="space-between" style={styles.mainSection}>
+          <Wrapper style={styles.containerPadding}>
+            <Section.Row alignItems="center" justifyContent="center" style={styles.topRow}>
+              <Section.Text color="surface" fontFamily="slab" fontSize={22}>
+                {`Alpha tokens are \n for test use only!`}
+              </Section.Text>
+            </Section.Row>
+            <Section.Row alignItems="center" justifyContent="center" style={styles.bottomRow}>
+              <Section.Text color="surface" fontFamily="medium" fontSize={16}>
+                {`They have NO real value. \n And will be deleted at the end of the Alpha.`}
+              </Section.Text>
+            </Section.Row>
+          </Wrapper>
+        </Section>
+        <View style={styles.bottomContainer}>
+          <Text fontFamily="regular" fontSize={12} color="gray80Percent">
+            {`By clicking the 'Create a wallet' button,\n you are accepting our\n`}
+            <Text style={styles.acceptTermsLink} onPress={this.handleNavigateTermsOfUse}>
+              Terms of Use
+            </Text>
             {` and `}
-            <LinkButton style={acceptTermsLink} onPress={this.handleNavigatePrivacyPolicy}>
+            <Text style={styles.acceptTermsLink} onPress={this.handleNavigatePrivacyPolicy}>
               Privacy Policy
-            </LinkButton>
+            </Text>
           </Text>
-          <CustomButton style={buttonLayout} mode="contained" onPress={this.handleSignUp}>
+          <CustomButton style={styles.buttonLayout} onPress={this.handleSignUp}>
             Create a wallet
           </CustomButton>
-          <Text style={signInLink} onPress={this.handleSignIn}>
-            Already have a wallet?
+          <Text fontFamily="medium" fontSize={14} color="primary" onPress={this.handleSignIn}>
+            {`Already have a wallet? `}
+            <Text
+              fontFamily="medium"
+              fontSize={14}
+              color="primary"
+              onPress={this.handleSignIn}
+              style={styles.underlined}
+            >
+              Login
+            </Text>
           </Text>
         </View>
-      </View>
+      </Wrapper>
     )
   }
 }
+
 const getStylesFromProps = ({ theme }) => {
   return {
-    wrapper: {
-      backgroundColor: '#fff',
-      display: 'flex',
-      flex: 1,
-      height: '100%',
-      paddingLeft: '4%',
-      paddingRight: '4%',
+    mainWrapper: {
+      paddingHorizontal: 0,
     },
-    topContainer: {
-      flexGrow: 1,
-      display: 'flex',
-      justifyContent: 'center',
+    mainSection: {
+      marginVertical: 'auto',
+      paddingHorizontal: 0,
+    },
+    containerPadding: {
+      padding: normalize(28),
+      alignItems: 'center',
+    },
+    topRow: {
+      borderBottomColor: theme.colors.surface,
+      borderBottomWidth: 1,
+      paddingBottom: theme.sizes.defaultDouble,
+      maxWidth: normalize(276),
+    },
+    bottomRow: {
+      paddingTop: theme.sizes.defaultDouble,
     },
     bottomContainer: {
-      marginBottom: 30,
-      paddingTop: 30,
-    },
-    title: {
-      marginBottom: 0,
-    },
-    paragraph: {
-      ...theme.fontStyle,
-      marginLeft: 0,
-      marginRight: 0,
-      fontSize: normalize(16),
-      lineHeight: '1.3em',
-      fontWeight: '500',
+      padding: theme.sizes.defaultDouble,
     },
     buttonLayout: {
-      padding: normalize(5),
-      marginTop: normalize(20),
-      marginBottom: normalize(20),
-    },
-    signInLink: {
-      ...theme.fontStyle,
-      textDecorationLine: 'underline',
-      fontSize: normalize(16),
-    },
-    acceptTermsText: {
-      ...theme.fontStyle,
-      fontSize: normalize(12),
+      marginVertical: normalize(20),
     },
     acceptTermsLink: {
-      ...theme.fontStyle,
+      color: theme.colors.gray80Percent,
       fontSize: normalize(12),
-      fontWeight: 'bold',
+      fontFamily: theme.fonts.bold,
+      textAlign: 'center',
+      marginTop: theme.sizes.default,
+      textDecorationLine: 'underline',
+    },
+    underlined: {
+      textDecorationLine: 'underline',
     },
   }
 }

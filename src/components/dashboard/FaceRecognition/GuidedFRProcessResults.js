@@ -4,6 +4,8 @@ import { ActivityIndicator, Image, StyleSheet, View } from 'react-native'
 import { Text } from 'react-native-paper'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import find from 'lodash/find'
+import findKey from 'lodash/findKey'
+import mapValues from 'lodash/mapValues'
 import CustomButton from '../../common/buttons/CustomButton'
 import Section from '../../common/layout/Section'
 import Icon from '../../common/view/Icon'
@@ -13,6 +15,7 @@ import goodWallet from '../../../lib/wallet/GoodWallet'
 import userStorage from '../../../lib/gundb/UserStorage'
 import LookingGood from '../../../assets/LookingGood.svg'
 import GDStore from '../../../lib/undux/GDStore'
+import { fireEvent } from '../../../lib/analytics/analytics'
 
 const log = logger.child({ from: 'GuidedFRProcessResults' })
 
@@ -40,7 +43,7 @@ const FRStep = ({ title, isActive, status, isProcessFailed, paddingBottom }) => 
     </View>
   )
 }
-const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigation, isWhitelisted }: any) => {
+const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigation, isAPISuccess }: any) => {
   const store = GDStore.useStore()
   const { fullName } = store.get('profile')
 
@@ -50,12 +53,17 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
     isEnrolled: undefined,
     isLive: undefined,
     isWhitelisted: undefined,
+    isProfileSaved: undefined,
   })
 
   const updateProgress = data => {
     log.debug('updating progress', { data })
 
     // let explanation = ''
+    let failedFR = findKey(data, (v, k) => v === false)
+    if (failedFR) {
+      fireEvent(`FR_Failed`, { failedFR })
+    }
     setStatus({ ...processStatus, ...data })
 
     // log.debug('analyzed data,', { processStatus })
@@ -82,7 +90,7 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
 
   // let [showDialogWithData] = useDialog()
   let gun = userStorage.gun
-  log.debug({ sessionId, isWhitelisted })
+  log.debug({ sessionId, isAPISuccess })
 
   useEffect(() => {
     log.debug('subscriping to gun updates:', { sessionId })
@@ -114,6 +122,7 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
   const gotoSupport = () => {
     navigation.push('Support')
   }
+
   useEffect(() => {
     //done save profile and call done callback
     if (processStatus.isWhitelisted) {
@@ -121,15 +130,19 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
     }
   }, [processStatus.isWhitelisted])
 
-  //API call finished, so it will pass isWhitelisted to us
-  //this is a backup incase the gundb messaging doesnt work
-  const gunOK = find(processStatus, (v, k) => v !== undefined)
-  if (gunOK === undefined && isWhitelisted) {
-    processStatus.isWhitelisted = true
-    saveProfileAndDone()
-  } else if (gunOK === undefined && isWhitelisted === false) {
-    processStatus.isWhitelisted = false
-  }
+  useEffect(() => {
+    if (isAPISuccess === undefined) {
+      return
+    }
+
+    //API call finished, so it will pass isWhitelisted to us
+    //this is a backup incase the gundb messaging doesnt work
+    const gunOK = find(processStatus, (v, k) => v !== undefined)
+    if (gunOK === undefined) {
+      const newStatus = mapValues(processStatus, v => false)
+      setStatus({ ...newStatus, isWhitelisted: isAPISuccess, useAPIResult: true })
+    }
+  }, [isAPISuccess])
 
   const isProcessFailed =
     processStatus.isNotDuplicate === false ||
@@ -158,7 +171,9 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
     ) : null
 
   let helpText
-  if (processStatus.isNotDuplicate === false) {
+  if (processStatus.useAPIResult && isAPISuccess === false) {
+    helpText = 'Something went wrong, please try again...'
+  } else if (processStatus.isNotDuplicate === false) {
     helpText = (
       <View>
         <Text style={styles.textHelp}>
@@ -184,7 +199,7 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
     helpText =
       'We could not verify you are a living person. Funny hu? please make sure:\n\n\
 A. Center your webcam\n\
-B. Ensure camera is at eye level\n\
+B. Camera is at eye level\n\
 C. Light your face evenly'
   } else if (isProcessFailed) {
     helpText = 'Something went wrong, please try again...'
@@ -225,6 +240,7 @@ C. Light your face evenly'
             <FRStep
               title={'Checking liveness'}
               isActive={
+                isProcessFailed ||
                 isProcessSuccess ||
                 (processStatus.isNotDuplicate !== undefined && processStatus.isNotDuplicate === true)
               }
@@ -233,14 +249,20 @@ C. Light your face evenly'
             />
             <FRStep
               title={'Validating identity'}
-              isActive={isProcessSuccess || (processStatus.isLive !== undefined && processStatus.isLive === true)}
+              isActive={
+                isProcessFailed ||
+                isProcessSuccess ||
+                (processStatus.isLive !== undefined && processStatus.isLive === true)
+              }
               status={isProcessSuccess || processStatus.isWhitelisted}
               isProcessFailed={isProcessFailed}
             />
             <FRStep
               title={'Updating profile'}
               isActive={
-                isProcessSuccess || (processStatus.isWhitelisted !== undefined && processStatus.isWhitelisted === true)
+                isProcessFailed ||
+                isProcessSuccess ||
+                (processStatus.isWhitelisted !== undefined && processStatus.isWhitelisted === true)
               }
               status={isProcessSuccess || processStatus.isProfileSaved}
               isProcessFailed={isProcessFailed}

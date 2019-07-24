@@ -56,6 +56,9 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   const [ready, setReady]: [Ready, ((Ready => Ready) | Ready) => void] = useState()
   const [state, setState] = useState(initialState)
   const [loading, setLoading] = useState(false)
+  const [countryCode, setCountryCode] = useState(undefined)
+  const [createError, setCreateError] = useState(false)
+
   const [showErrorDialog] = useErrorDialog()
 
   const navigateWithFocus = (routeKey: string) => {
@@ -75,6 +78,14 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
     fireEvent(`SIGNUP_${event || curRoute.key}`)
   }
 
+  const getCountryCode = async () => {
+    try {
+      const { data } = await API.getLocation()
+      data && setCountryCode(data.country)
+    } catch (e) {
+      log.error('Could not get user location', e)
+    }
+  }
   useEffect(() => {
     //don't allow to start signup flow not from begining
     if (navigation.state.index > 0) {
@@ -82,6 +93,9 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       setLoading(true)
       return navigateWithFocus(navigation.state.routes[0].key)
     }
+
+    //get user country code for phone
+    getCountryCode()
 
     //lazy login in background
     const ready = (async () => {
@@ -98,6 +112,42 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
     })()
     setReady(ready)
   }, [])
+
+  const finishRegistration = async () => {
+    setCreateError(false)
+    setLoading(true)
+
+    log.info('Sending new user data', state)
+    try {
+      const { goodWallet, userStorage } = await ready
+
+      // TODO: this comment is incorrect until we restore email verificaiton requirement
+      // After sending email to the user for confirmation (transition between Email -> EmailConfirmation)
+      // user's profile is persisted (`userStorage.setProfile`).
+      // Then, when the user access the application from the link (in EmailConfirmation), data is recovered and
+      // saved to the `state`
+
+      //first need to add user to our database
+      // Stores creationBlock number into 'lastBlock' feed's node
+      await Promise.all([
+        await API.addUser(state),
+        userStorage.setProfile({ ...state, walletAddress: goodWallet.account }),
+        userStorage.setProfileField('registered', true, 'public'),
+        goodWallet.getBlockNumber().then(creationBlock => userStorage.saveLastBlockNumber(creationBlock.toString())),
+      ])
+
+      //need to wait for API.addUser but we dont need to wait for it to finish
+      AsyncStorage.getItem('GD_USER_MNEMONIC').then(mnemonic => API.sendRecoveryInstructionByEmail(mnemonic)),
+        await AsyncStorage.setItem('GOODDAPP_isLoggedIn', true)
+      log.debug('New user created')
+    } catch (e) {
+      log.error('New user failure', { e, message: e.message })
+      showErrorDialog('New user creation failed, please go back and try again', e)
+      setCreateError(true)
+    } finally {
+      setLoading(false)
+    }
+  }
   const done = async (data: { [string]: string }) => {
     setLoading(true)
     fireSignupEvent()
@@ -149,33 +199,9 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       if (nextRoute) {
         return navigateWithFocus(nextRoute.key)
       }
-      log.info('Sending new user data', state)
-      try {
-        const { goodWallet, userStorage } = await ready
 
-        // After sending email to the user for confirmation (transition between Email -> EmailConfirmation)
-        // user's profile is persisted (`userStorage.setProfile`).
-        // Then, when the user access the application from the link (in EmailConfirmation), data is recovered and
-        // saved to the `state`
-        await API.addUser(state)
-
-        // Stores creationBlock number into 'lastBlock' feed's node
-        await Promise.all([
-          userStorage.setProfile({ ...state, walletAddress: goodWallet.account }),
-          userStorage.setProfileField('registered', true, 'public'),
-          goodWallet.getBlockNumber().then(creationBlock => userStorage.saveLastBlockNumber(creationBlock.toString())),
-          AsyncStorage.getItem('GD_USER_MNEMONIC').then(mnemonic => API.sendRecoveryInstructionByEmail(mnemonic)),
-          AsyncStorage.setItem('GOODDAPP_isLoggedIn', true),
-        ])
-
-        //tell App.js we are done here so RouterSelector switches router
-        store.set('isLoggedIn')(true)
-      } catch (e) {
-        log.error('New user failure', { e, message: e.message })
-        showErrorDialog('New user creation failed', e)
-      } finally {
-        setLoading(false)
-      }
+      //tell App.js we are done here so RouterSelector switches router
+      store.set('isLoggedIn')(true)
     }
   }
 
@@ -188,6 +214,12 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
     }
   }
 
+  useEffect(() => {
+    const curRoute = navigation.state.routes[navigation.state.index]
+    if (curRoute && curRoute.key === 'SignupCompleted') {
+      finishRegistration()
+    }
+  }, [navigation.state.index])
   const { container, scrollableContainer, contentContainer } = styles
 
   return (
@@ -197,7 +229,12 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
         <View style={contentContainer}>
           <SignupWizardNavigator
             navigation={navigation}
-            screenProps={{ ...screenProps, data: { ...state, loading }, doneCallback: done, back: back }}
+            screenProps={{
+              ...screenProps,
+              data: { ...state, loading, createError, countryCode },
+              doneCallback: done,
+              back,
+            }}
           />
         </View>
       </ScrollView>

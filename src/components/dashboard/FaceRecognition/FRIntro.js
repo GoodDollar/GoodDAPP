@@ -7,6 +7,7 @@ import { CustomButton, Section, Wrapper } from '../../common'
 import Separator from '../../common/layout/Separator'
 import SmileyHug from '../../../assets/smileyhug.svg'
 import GDStore from '../../../lib/undux/GDStore'
+import { fireEvent } from '../../../lib/analytics/analytics'
 
 import logger from '../../../lib/logger/pino-logger'
 
@@ -24,6 +25,8 @@ const FRIntro = props => {
   }
   if (isValid) {
     props.screenProps.pop({ isValid: true })
+  } else {
+    fireEvent('FR_Intro')
   }
   const gotoPrivacyArticle = () => props.screenProps.push('PP')
   const gotoFR = () => props.screenProps.navigateTo('FaceVerification')

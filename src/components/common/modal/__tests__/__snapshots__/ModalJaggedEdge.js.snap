@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ModalJaggedEdge matches snapshot 1`] = `
+<div
+  className="css-view-1dbjc4n"
+  style={
+    Object {
+      "WebkitBoxFlex": 1,
+      "WebkitFlexBasis": "0%",
+      "WebkitFlexGrow": 1,
+      "WebkitFlexShrink": 1,
+      "flexBasis": "0%",
+      "flexGrow": 1,
+      "flexShrink": 1,
+      "msFlexNegative": 1,
+      "msFlexPositive": 1,
+      "msFlexPreferredSize": "0%",
+    }
+  }
+>
+  <div
+    className="css-view-1dbjc4n"
+    style={
+      Object {
+        "backgroundImage": "linear-gradient(45deg, transparent 75%, #fff 76%), linear-gradient(-45deg, transparent 75%, #fff 76%)",
+        "backgroundPosition": "0 0",
+        "backgroundRepeat": "repeat-x",
+        "backgroundSize": "15px",
+        "height": "15px",
+        "position": "relative",
+        "width": "100%",
+        "zIndex": 5,
+      }
+    }
+  />
+</div>
+`;

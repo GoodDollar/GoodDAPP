@@ -1,5 +1,4 @@
 // @flow
-// import Icon from 'react-native-elements/src/icons/Icon'
 import React from 'react'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { View } from 'react-native'

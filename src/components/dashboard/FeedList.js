@@ -112,8 +112,6 @@ class FeedList extends PureComponent<FeedListProps, FeedListState> {
   renderList = (feeds: any, loading: boolean) => {
     const { fixedHeight, onEndReached, initialNumToRender, horizontal, styles } = this.props
 
-    // eslint-disable-next-line no-console
-    console.log('RenderList', { feeds, loading, horizontal })
     if (horizontal) {
       return (
         <View style={styles.horizontalContainer}>

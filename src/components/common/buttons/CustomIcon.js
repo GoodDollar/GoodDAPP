@@ -1,8 +1,8 @@
 // @flow
 import React from 'react'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { View } from 'react-native'
 import Icon from '../view/Icon'
+import normalize from '../../../lib/utils/normalizeText'
 import { withStyles } from '../../../lib/styles'
 
 const CustomIcon = ({ styles, theme, name, color, size, reverse, reverseColor }) => (

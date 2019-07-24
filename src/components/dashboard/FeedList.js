@@ -1,7 +1,7 @@
 // @flow
 import React, { PureComponent } from 'react'
 import { ActivityIndicator, Animated, Dimensions, FlatList, SwipeableFlatList, View } from 'react-native'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
+import normalize from '../../lib/utils/normalizeText'
 import GDStore from '../../lib/undux/GDStore'
 import pino from '../../lib/logger/pino-logger'
 import { withStyles } from '../../lib/styles'

@@ -7,7 +7,7 @@ import Icon from '../view/Icon'
 
 type IconFunction = (string, number) => React.Node
 
-// import normalize from 'react-native-elements/src/helpers/normalizeText'
+// import normalize from '../../../lib/utils/normalizeText'
 
 export type ButtonProps = {
   children: any,

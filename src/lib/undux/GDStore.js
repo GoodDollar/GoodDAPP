@@ -2,6 +2,7 @@
 import { createConnectedStore, type StoreDefinition } from 'undux'
 import compose from 'lodash/fp/compose'
 import effects from '../../lib/undux/effects'
+import type { StandardFeed } from '../gundb/UserStorageClass'
 import withPinoLogger from './plugins/logger'
 
 /**
@@ -20,25 +21,6 @@ type Account = {
   balance: ?string,
   entitlement: ?string,
   ready: false,
-}
-
-/**
- * StandardFeed element. It's being used to show the feed on dashboard
- * @type
- */
-export type StandardFeed = {
-  id: string,
-  date: number,
-  type: string, // 'message' | 'withdraw' | 'send',
-  data: {
-    endpoint: {
-      address: string,
-      fullName: string,
-      avatar?: string,
-    },
-    amount: string,
-    message: string,
-  },
 }
 
 /**

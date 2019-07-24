@@ -1,6 +1,6 @@
 // @flow
 import React, { useState } from 'react'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
+import normalize from '../../../lib/utils/normalizeText'
 
 import { moneyRegexp } from '../../../lib/wallet/utils'
 import { withStyles } from '../../../lib/styles'

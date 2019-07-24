@@ -1,6 +1,6 @@
 // @flow
 import type { Credentials } from '../API/api'
-import { GoodWallet, default as wallet } from '../wallet/GoodWallet'
+import { default as wallet } from '../wallet/GoodWallet'
 import logger from '../logger/pino-logger'
 import { default as defaultStorage } from '../gundb/UserStorage'
 import LoginService from './LoginService'

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { isIOS, isMobileSafari } from 'mobile-device-detect'
+import normalize from '../../../lib/utils/normalizeText'
 
 import { CustomButton, Section, Wrapper } from '../../common'
 import Separator from '../../common/layout/Separator'

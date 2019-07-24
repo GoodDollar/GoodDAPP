@@ -1,7 +1,8 @@
 // @flow
 import React, { useMemo } from 'react'
 
-import { Section, TopBar, Wrapper } from '../common'
+import { Section, Wrapper } from '../common'
+import TopBar from '../common/view/TopBar'
 import SummaryTable from '../common/view/SummaryTable'
 import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
 import { PushButton } from '../appNavigation/PushButton'

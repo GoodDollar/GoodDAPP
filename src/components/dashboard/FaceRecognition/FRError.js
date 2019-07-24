@@ -1,7 +1,7 @@
 import React from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
 import get from 'lodash/get'
+import normalize from '../../../lib/utils/normalizeText'
 import { CustomButton, Section, Wrapper } from '../../common'
 import Separator from '../../common/layout/Separator'
 import Oops from '../../../assets/oops.svg'

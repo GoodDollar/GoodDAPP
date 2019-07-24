@@ -1,7 +1,8 @@
 // @flow
 import React from 'react'
 import { useScreenState } from '../appNavigation/stackNavigation'
-import { CopyButton, Section, TopBar, Wrapper } from '../common'
+import { CopyButton, Section, Wrapper } from '../common'
+import TopBar from '../common/view/TopBar'
 import { withStyles } from '../../lib/styles'
 import SummaryTable from '../common/view/SummaryTable'
 import { SEND_TITLE } from './utils/sendReceiveFlow'

@@ -5,14 +5,14 @@ import { Text } from 'react-native-paper'
 import find from 'lodash/find'
 import findKey from 'lodash/findKey'
 import mapValues from 'lodash/mapValues'
+import CustomButton from '../../common/buttons/CustomButton'
+import Section from '../../common/layout/Section'
+import Icon from '../../common/view/Icon'
+import Separator from '../../common/layout/Separator'
 import normalize from '../../../lib/utils/normalizeText'
-import { CustomButton, Section } from '../../common'
 import logger from '../../../lib/logger/pino-logger'
 import goodWallet from '../../../lib/wallet/GoodWallet'
 import userStorage from '../../../lib/gundb/UserStorage'
-import Divider from '../../../assets/Dividers - Long Line - Stroke Width 2 - Round Cap - Light Blue.svg'
-import Check from '../../../assets/Icons - Success - White.svg'
-import Cross from '../../../assets/Icons - Close X - White.svg'
 import LookingGood from '../../../assets/LookingGood.svg'
 import GDStore from '../../../lib/undux/GDStore'
 import { fireEvent } from '../../../lib/analytics/analytics'
@@ -23,7 +23,9 @@ const FRStep = ({ title, isActive, status, isProcessFailed, paddingBottom }) => 
   paddingBottom = paddingBottom === undefined ? 12 : paddingBottom
   let statusColor = status === true ? 'success' : status === false ? 'failure' : 'none'
   let statusIcon =
-    status === undefined ? null : <Image source={status ? Check : Cross} resizeMode={'center'} style={{ height: 14 }} />
+    status === undefined ? null : (
+      <Icon name={status ? 'success' : 'close'} size={14} color="#fff" style={{ textAlign: 'center' }} />
+    )
   let spinner =
     isProcessFailed !== true && status === undefined && isActive === true ? <ActivityIndicator color={'gray'} /> : null
   let iconOrSpinner =
@@ -227,7 +229,7 @@ C. Light your face evenly'
             flexGrow: 0,
           }}
         >
-          <Image source={Divider} resizeMode={'cover'} style={{ width: 'auto', height: 2 }} />
+          <Separator width={2} />
           <View style={{ marginBottom: 22, marginTop: 22 }}>
             <FRStep
               title={'Checking duplicates'}
@@ -267,7 +269,7 @@ C. Light your face evenly'
               paddingBottom={0}
             />
           </View>
-          <Image source={Divider} resizeMode={'cover'} style={{ height: 2 }} />
+          <Separator width={2} />
         </View>
         <View style={{ flexShrink: 0 }}>
           <Text style={styles.textHelp}>{helpText}</Text>

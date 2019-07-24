@@ -1,9 +1,7 @@
 // @flow
 import React from 'react'
 import { View } from 'react-native'
-import normalize from '../../../lib/utils/normalizeText'
 import { moneyRegexp } from '../../../lib/wallet/utils'
-import backKeyboardButton from '../../../assets/backKeyboardButton.png'
 import { withStyles } from '../../../lib/styles'
 import KeyboardKey from './KeyboardKey'
 import KeyboardRow from './KeyboardRow'
@@ -82,14 +80,6 @@ const getStylesFromProps = ({ theme }) => {
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-between',
-    },
-    backspaceButton: {
-      backgroundImage: `url(${backKeyboardButton})`,
-      height: normalize(25),
-      width: normalize(25),
-      backgroundSize: 'contain',
-      backgroundRepeat: 'no-repeat',
-      cursor: 'pointer',
     },
   }
 }

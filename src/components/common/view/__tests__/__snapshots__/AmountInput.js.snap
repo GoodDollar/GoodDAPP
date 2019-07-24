@@ -1017,15 +1017,35 @@ exports[`AmountInput matches snapshot 1`] = `
             className="css-view-1dbjc4n"
             style={
               Object {
-                "backgroundImage": "url(backKeyboardButton.png)",
+                "WebkitBoxPack": "center",
+                "WebkitJustifyContent": "center",
                 "backgroundRepeat": "no-repeat",
                 "backgroundSize": "contain",
                 "cursor": "pointer",
                 "height": "30px",
+                "justifyContent": "center",
+                "msFlexPack": "center",
                 "width": "40px",
               }
             }
-          />
+          >
+            <div
+              className="css-text-901oao"
+              dir="auto"
+              style={
+                Object {
+                  "color": "rgba(66,69,74,1.00)",
+                  "fontFamily": "gooddollar",
+                  "fontSize": "18px",
+                  "fontStyle": "normal",
+                  "fontWeight": "normal",
+                  "textAlign": "center",
+                }
+              }
+            >
+              
+            </div>
+          </div>
         </div>
       </div>
     </div>

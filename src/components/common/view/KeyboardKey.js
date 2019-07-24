@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import { TouchableHighlight, View } from 'react-native'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
+import normalize from '../../../lib/utils/normalizeText'
 import backKeyboardButton from '../../../assets/backKeyboardButton.png'
 import { withStyles } from '../../../lib/styles'
 import Text from './Text'

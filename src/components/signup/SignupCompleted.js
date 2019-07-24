@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import { Image, StyleSheet } from 'react-native'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
+import normalize from '../../lib/utils/normalizeText'
 import illustration from '../../assets/Signup/illustration.svg'
 import Text from '../common/view/Text'
 import CustomWrapper from './signUpWrapper'

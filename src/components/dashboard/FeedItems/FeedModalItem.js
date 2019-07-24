@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { Image, View } from 'react-native'
+import normalize from '../../../lib/utils/normalizeText'
 import { Avatar, BigGoodDollar, CustomButton, Text } from '../../common'
 import ModalWrapper from '../../common/modal/ModalWrapper'
 import { getFormattedDateTime } from '../../../lib/utils/FormatDate'

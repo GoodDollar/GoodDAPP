@@ -1,7 +1,8 @@
 // @flow
 import React from 'react'
 import { ScrollView, TouchableOpacity, View } from 'react-native'
-import { Icon, normalize } from 'react-native-elements'
+import IconE from 'react-native-elements/src/icons/Icon'
+import normalize from '../../lib/utils/normalizeText'
 import { useWrappedApi } from '../../lib/API/useWrappedApi'
 import logger from '../../lib/logger/pino-logger'
 import { withStyles } from '../../lib/styles'
@@ -122,7 +123,7 @@ const SideMenuPanel = ({ navigation, styles, theme }: SideMenuPanelProps) => {
   return (
     <ScrollView>
       <TouchableOpacity style={styles.closeIconRow} onPress={toggleSidemenu}>
-        <Icon name="close" size={20} color={theme.colors.gray50Percent} />
+        <IconE name="close" size={20} color={theme.colors.gray50Percent} />
       </TouchableOpacity>
       <View style={styles.listContainer}>
         {MENU_ITEMS.map(item => (

@@ -38,7 +38,7 @@ export const FaceRecognitionAPI = {
       let res = await API.performFaceRecognition(req)
       return this.onFaceRecognitionResponse(res.data)
     } catch (e) {
-      log.warn('General Error in FaceRecognition', e)
+      log.error('General Error in FaceRecognition', e, e.message)
       return { ok: 0, error: 'Failed to perform face recognition on server' }
     }
   },
@@ -70,7 +70,6 @@ export const FaceRecognitionAPI = {
 
   onFaceRecognitionSuccess(res: FaceRecognitionResponse) {
     log.info('Face Recognition finished successfull', { res })
-    log.debug({ res })
     return { ok: 1, ...res }
   },
 

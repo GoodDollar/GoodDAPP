@@ -7,7 +7,8 @@ import { extractQueryParams, readReceiveLink } from '../../lib/share'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { wrapFunction } from '../../lib/undux/utils/wrapper'
 import { executeWithdraw } from '../../lib/undux/utils/withdraw'
-import { Section, TopBar, Wrapper } from '../common'
+import { Section, Wrapper } from '../common'
+import TopBar from '../common/view/TopBar'
 
 const log = logger.child({ from: 'ReceiveByQR.web' })
 

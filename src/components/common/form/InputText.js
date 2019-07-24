@@ -6,7 +6,7 @@ import normalize from '../../../lib/utils/normalizeText'
 import Icon from '../view/Icon'
 import { withStyles } from '../../../lib/styles'
 
-const InputText = ({ error, onCleanUpField, styles, theme, style, ...props }: any) => {
+const InputText = ({ error, onCleanUpField, styles, theme, style, getRef, ...props }: any) => {
   const inputColor = error ? theme.colors.red : theme.colors.darkGray
   const inputStyle = {
     color: inputColor,
@@ -15,7 +15,7 @@ const InputText = ({ error, onCleanUpField, styles, theme, style, ...props }: an
   return (
     <View style={styles.view}>
       <View style={styles.view}>
-        <TextInput {...props} style={[styles.input, inputStyle, style]} />
+        <TextInput {...props} ref={getRef} style={[styles.input, inputStyle, style]} />
         {onCleanUpField && error !== '' && (
           <TouchableOpacity style={styles.suffixIcon} onPress={() => onCleanUpField('')}>
             <Icon size={normalize(16)} color={inputColor} name="close" />

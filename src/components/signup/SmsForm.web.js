@@ -33,7 +33,6 @@ export type SMSRecord = {
 }
 
 type State = SMSRecord & {
-  valid?: boolean,
   errorMessage: string,
   sendingCode: boolean,
   renderButton: boolean,
@@ -45,12 +44,12 @@ class SmsForm extends React.Component<Props, State> {
   state = {
     smsValidated: false,
     sentSMS: false,
-    errorMessage: 'Opps there is a wrong numb',
+    errorMessage: '',
     sendingCode: false,
     renderButton: false,
+    resentCode: false,
     loading: false,
-    valid: false,
-    otp: '',
+    otp: undefined,
   }
 
   numInputs: number = 6
@@ -66,7 +65,7 @@ class SmsForm extends React.Component<Props, State> {
   displayDelayedRenderButton = () => {
     setTimeout(() => {
       this.setState({ renderButton: true })
-    }, 7000)
+    }, 10000)
   }
 
   handleChange = async (otp: string | number) => {
@@ -78,9 +77,6 @@ class SmsForm extends React.Component<Props, State> {
       })
       try {
         await this.verifyOTP(otpValue)
-        this.setState({
-          valid: true,
-        })
         this.handleSubmit()
       } catch (e) {
         log.error({ e })
@@ -100,9 +96,7 @@ class SmsForm extends React.Component<Props, State> {
   }
 
   handleSubmit = () => {
-    setTimeout(() => {
-      this.props.screenProps.doneCallback({ smsValidated: true })
-    }, 1000)
+    this.props.screenProps.doneCallback({ smsValidated: true })
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -115,17 +109,22 @@ class SmsForm extends React.Component<Props, State> {
 
     try {
       await API.sendOTP({ ...this.props.screenProps.data })
+      this.setState({ sendingCode: false, renderButton: false, resentCode: true }, this.displayDelayedRenderButton)
+
+      //turn checkmark back into regular resend text
+      setTimeout(() => this.setState({ ...this.state, resentCode: false }), 2000)
     } catch (e) {
       log.error(e)
       this.setState({
         errorMessage: e.message || e.response.data.message,
+        sendingCode: false,
+        renderButton: true,
       })
     }
-    this.setState({ sendingCode: false, renderButton: false }, this.displayDelayedRenderButton)
   }
 
   render() {
-    const { errorMessage, renderButton, loading, otp, valid } = this.state
+    const { errorMessage, renderButton, loading, otp, resentCode } = this.state
     const { styles } = this.props
 
     return (
@@ -152,7 +151,7 @@ class SmsForm extends React.Component<Props, State> {
           </Section.Stack>
           <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
             <SMSAction
-              status={valid ? DONE : renderButton ? PENDING : WAIT}
+              status={resentCode ? DONE : renderButton ? PENDING : WAIT}
               handleRetry={this.handleRetry}
               styles={styles}
             />

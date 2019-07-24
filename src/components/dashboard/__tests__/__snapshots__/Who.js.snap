@@ -258,26 +258,16 @@ exports[`Who matches snapshot 1`] = `
             "WebkitAlignItems": "stretch",
             "WebkitBoxAlign": "stretch",
             "WebkitBoxDirection": "normal",
-            "WebkitBoxFlex": 1,
             "WebkitBoxOrient": "vertical",
             "WebkitBoxPack": "start",
-            "WebkitFlexBasis": "0%",
             "WebkitFlexDirection": "column",
-            "WebkitFlexGrow": 1,
-            "WebkitFlexShrink": 1,
             "WebkitJustifyContent": "flex-start",
             "alignItems": "stretch",
-            "flexBasis": "0%",
             "flexDirection": "column",
-            "flexGrow": 1,
-            "flexShrink": 1,
             "justifyContent": "flex-start",
             "msFlexAlign": "stretch",
             "msFlexDirection": "column",
-            "msFlexNegative": 1,
             "msFlexPack": "start",
-            "msFlexPositive": 1,
-            "msFlexPreferredSize": "0%",
           }
         }
       >
@@ -371,6 +361,7 @@ exports[`Who matches snapshot 1`] = `
                 }
               }
               type="text"
+              value={null}
             />
           </div>
           <div
@@ -399,19 +390,29 @@ exports[`Who matches snapshot 1`] = `
         className="css-view-1dbjc4n"
         style={
           Object {
-            "WebkitAlignItems": "center",
-            "WebkitBoxAlign": "center",
+            "WebkitAlignItems": "flex-end",
+            "WebkitBoxAlign": "end",
             "WebkitBoxDirection": "normal",
+            "WebkitBoxFlex": 1,
             "WebkitBoxOrient": "horizontal",
             "WebkitBoxPack": "justify",
+            "WebkitFlexBasis": "0%",
             "WebkitFlexDirection": "row",
+            "WebkitFlexGrow": 1,
+            "WebkitFlexShrink": 1,
             "WebkitJustifyContent": "space-between",
-            "alignItems": "center",
+            "alignItems": "flex-end",
+            "flexBasis": "0%",
             "flexDirection": "row",
+            "flexGrow": 1,
+            "flexShrink": 1,
             "justifyContent": "space-between",
-            "msFlexAlign": "center",
+            "msFlexAlign": "end",
             "msFlexDirection": "row",
+            "msFlexNegative": 1,
             "msFlexPack": "justify",
+            "msFlexPositive": 1,
+            "msFlexPreferredSize": "0%",
           }
         }
       >

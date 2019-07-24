@@ -26,20 +26,14 @@ exports[`CustomDialog matches snapshot 1`] = `
         "WebkitBoxDirection": "normal",
         "WebkitBoxFlex": 1,
         "WebkitBoxOrient": "vertical",
-        "WebkitFlexBasis": "0%",
         "WebkitFlexDirection": "column",
         "WebkitFlexGrow": 1,
-        "WebkitFlexShrink": 1,
         "backgroundImage": "linear-gradient(to bottom, #00AFFF, #2DC0F7, #28C0EF, #23C0E7, #1EC1DF, #19C1D7, #14C1CF, #0FC2C7, #0FC2C7, #0AC2BF, #05C2B7, #00C3AF)",
         "display": "flex",
-        "flexBasis": "0%",
         "flexDirection": "column",
         "flexGrow": 1,
-        "flexShrink": 1,
         "msFlexDirection": "column",
-        "msFlexNegative": 1,
         "msFlexPositive": 1,
-        "msFlexPreferredSize": "0%",
         "paddingBottom": "8px",
         "paddingLeft": "8px",
         "paddingRight": "8px",
@@ -48,58 +42,6 @@ exports[`CustomDialog matches snapshot 1`] = `
         "width": "100%",
       }
     }
-  >
-    <div
-      className="css-view-1dbjc4n"
-      onResponderGrant={[Function]}
-      onResponderReject={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onScroll={[Function]}
-      onScrollShouldSetResponder={[Function]}
-      onStartShouldSetResponder={[Function]}
-      onStartShouldSetResponderCapture={[Function]}
-      onTouchEnd={[Function]}
-      onTouchMove={[Function]}
-      onTouchStart={[Function]}
-      onWheel={[Function]}
-      style={
-        Object {
-          "WebkitBoxDirection": "normal",
-          "WebkitBoxFlex": 1,
-          "WebkitBoxOrient": "vertical",
-          "WebkitFlexDirection": "column",
-          "WebkitFlexGrow": 1,
-          "WebkitFlexShrink": 1,
-          "WebkitOverflowScrolling": "touch",
-          "WebkitTransform": "translateZ(0px)",
-          "display": "flex",
-          "flexDirection": "column",
-          "flexGrow": 1,
-          "flexShrink": 1,
-          "msFlexDirection": "column",
-          "msFlexNegative": 1,
-          "msFlexPositive": 1,
-          "overflowX": "hidden",
-          "overflowY": "auto",
-          "transform": "translateZ(0px)",
-        }
-      }
-    >
-      <div
-        className="css-view-1dbjc4n"
-        style={
-          Object {
-            "WebkitBoxFlex": 1,
-            "WebkitFlexGrow": 1,
-            "display": "flex",
-            "flexGrow": 1,
-            "height": "100%",
-            "msFlexPositive": 1,
-          }
-        }
-      />
-    </div>
-  </div>
+  />
 </div>
 `;

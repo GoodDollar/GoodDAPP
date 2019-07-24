@@ -26,20 +26,14 @@ exports[`SmsForm matches snapshot 1`] = `
         "WebkitBoxDirection": "normal",
         "WebkitBoxFlex": 1,
         "WebkitBoxOrient": "vertical",
-        "WebkitFlexBasis": "0%",
         "WebkitFlexDirection": "column",
         "WebkitFlexGrow": 1,
-        "WebkitFlexShrink": 1,
         "backgroundColor": "rgba(255,255,255,1.00)",
         "display": "flex",
-        "flexBasis": "0%",
         "flexDirection": "column",
         "flexGrow": 1,
-        "flexShrink": 1,
         "msFlexDirection": "column",
-        "msFlexNegative": 1,
         "msFlexPositive": 1,
-        "msFlexPreferredSize": "0%",
         "paddingBottom": "16px",
         "paddingLeft": "16px",
         "paddingRight": "16px",
@@ -51,38 +45,21 @@ exports[`SmsForm matches snapshot 1`] = `
   >
     <div
       className="css-view-1dbjc4n"
-      onResponderGrant={[Function]}
-      onResponderReject={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onScroll={[Function]}
-      onScrollShouldSetResponder={[Function]}
-      onStartShouldSetResponder={[Function]}
-      onStartShouldSetResponderCapture={[Function]}
-      onTouchEnd={[Function]}
-      onTouchMove={[Function]}
-      onTouchStart={[Function]}
-      onWheel={[Function]}
       style={
         Object {
-          "WebkitBoxDirection": "normal",
           "WebkitBoxFlex": 1,
-          "WebkitBoxOrient": "vertical",
-          "WebkitFlexDirection": "column",
           "WebkitFlexGrow": 1,
-          "WebkitFlexShrink": 1,
-          "WebkitOverflowScrolling": "touch",
-          "WebkitTransform": "translateZ(0px)",
-          "display": "flex",
-          "flexDirection": "column",
+          "backgroundColor": "rgba(255,255,255,1.00)",
+          "borderBottomLeftRadius": "5px",
+          "borderBottomRightRadius": "5px",
+          "borderTopLeftRadius": "5px",
+          "borderTopRightRadius": "5px",
           "flexGrow": 1,
-          "flexShrink": 1,
-          "msFlexDirection": "column",
-          "msFlexNegative": 1,
           "msFlexPositive": 1,
-          "overflowX": "hidden",
-          "overflowY": "auto",
-          "transform": "translateZ(0px)",
+          "paddingBottom": "16px",
+          "paddingLeft": "0px",
+          "paddingRight": "0px",
+          "paddingTop": "16px",
         }
       }
     >
@@ -90,11 +67,22 @@ exports[`SmsForm matches snapshot 1`] = `
         className="css-view-1dbjc4n"
         style={
           Object {
+            "WebkitAlignItems": "stretch",
+            "WebkitBoxAlign": "stretch",
+            "WebkitBoxDirection": "normal",
             "WebkitBoxFlex": 1,
+            "WebkitBoxOrient": "vertical",
+            "WebkitBoxPack": "space-evenly",
+            "WebkitFlexDirection": "column",
             "WebkitFlexGrow": 1,
-            "display": "flex",
+            "WebkitJustifyContent": "space-evenly",
+            "alignItems": "stretch",
+            "flexDirection": "column",
             "flexGrow": 1,
-            "height": "100%",
+            "justifyContent": "space-evenly",
+            "msFlexAlign": "stretch",
+            "msFlexDirection": "column",
+            "msFlexPack": "space-evenly",
             "msFlexPositive": 1,
           }
         }
@@ -103,19 +91,23 @@ exports[`SmsForm matches snapshot 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
+              "WebkitAlignItems": "stretch",
+              "WebkitBoxAlign": "stretch",
+              "WebkitBoxDirection": "normal",
               "WebkitBoxFlex": 1,
+              "WebkitBoxOrient": "vertical",
+              "WebkitBoxPack": "start",
+              "WebkitFlexDirection": "column",
               "WebkitFlexGrow": 1,
-              "backgroundColor": "rgba(255,255,255,1.00)",
-              "borderBottomLeftRadius": "5px",
-              "borderBottomRightRadius": "5px",
-              "borderTopLeftRadius": "5px",
-              "borderTopRightRadius": "5px",
+              "WebkitJustifyContent": "flex-start",
+              "alignItems": "stretch",
+              "flexDirection": "column",
               "flexGrow": 1,
+              "justifyContent": "flex-start",
+              "msFlexAlign": "stretch",
+              "msFlexDirection": "column",
+              "msFlexPack": "start",
               "msFlexPositive": 1,
-              "paddingBottom": "16px",
-              "paddingLeft": "0px",
-              "paddingRight": "0px",
-              "paddingTop": "16px",
             }
           }
         >
@@ -123,412 +115,320 @@ exports[`SmsForm matches snapshot 1`] = `
             className="css-view-1dbjc4n"
             style={
               Object {
-                "WebkitAlignItems": "stretch",
-                "WebkitBoxAlign": "stretch",
+                "WebkitAlignItems": "center",
+                "WebkitBoxAlign": "center",
                 "WebkitBoxDirection": "normal",
-                "WebkitBoxFlex": 1,
-                "WebkitBoxOrient": "vertical",
-                "WebkitBoxPack": "space-evenly",
-                "WebkitFlexDirection": "column",
-                "WebkitFlexGrow": 1,
-                "WebkitJustifyContent": "space-evenly",
-                "alignItems": "stretch",
-                "flexDirection": "column",
-                "flexGrow": 1,
-                "justifyContent": "space-evenly",
-                "msFlexAlign": "stretch",
-                "msFlexDirection": "column",
-                "msFlexPack": "space-evenly",
-                "msFlexPositive": 1,
+                "WebkitBoxOrient": "horizontal",
+                "WebkitBoxPack": "center",
+                "WebkitFlexDirection": "row",
+                "WebkitJustifyContent": "center",
+                "alignItems": "center",
+                "flexDirection": "row",
+                "justifyContent": "center",
+                "marginBottom": "32px",
+                "marginTop": "32px",
+                "msFlexAlign": "center",
+                "msFlexDirection": "row",
+                "msFlexPack": "center",
               }
             }
           >
             <div
-              className="css-view-1dbjc4n"
+              className="css-text-901oao"
+              dir="auto"
               style={
                 Object {
-                  "WebkitAlignItems": "stretch",
-                  "WebkitBoxAlign": "stretch",
-                  "WebkitBoxDirection": "normal",
-                  "WebkitBoxFlex": 1,
-                  "WebkitBoxOrient": "vertical",
-                  "WebkitBoxPack": "start",
-                  "WebkitFlexDirection": "column",
-                  "WebkitFlexGrow": 1,
-                  "WebkitJustifyContent": "flex-start",
-                  "alignItems": "stretch",
-                  "flexDirection": "column",
-                  "flexGrow": 1,
-                  "justifyContent": "flex-start",
-                  "msFlexAlign": "stretch",
-                  "msFlexDirection": "column",
-                  "msFlexPack": "start",
-                  "msFlexPositive": 1,
+                  "color": "rgba(66,69,74,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto-Medium",
+                  "fontSize": "24px",
+                  "fontWeight": "normal",
+                  "lineHeight": "30px",
+                  "marginBottom": "8px",
+                  "marginTop": "8px",
+                  "textAlign": "center",
+                  "textDecoration": "none",
+                  "textTransform": "none",
+                }
+              }
+            >
+              Enter the verification code 
+ sent to your phone
+            </div>
+          </div>
+          <div
+            className="css-view-1dbjc4n"
+            style={
+              Object {
+                "WebkitAlignItems": "stretch",
+                "WebkitBoxAlign": "stretch",
+                "WebkitBoxDirection": "normal",
+                "WebkitBoxOrient": "vertical",
+                "WebkitBoxPack": "center",
+                "WebkitFlexDirection": "column",
+                "WebkitJustifyContent": "center",
+                "alignItems": "stretch",
+                "flexDirection": "column",
+                "justifyContent": "center",
+                "msFlexAlign": "stretch",
+                "msFlexDirection": "column",
+                "msFlexPack": "center",
+              }
+            }
+          >
+            <div
+              className={false}
+              style={
+                Object {
+                  "display": "flex",
+                  "justifyContent": "space-evenly",
                 }
               }
             >
               <div
-                className="css-view-1dbjc4n"
                 style={
                   Object {
-                    "WebkitAlignItems": "center",
-                    "WebkitBoxAlign": "center",
-                    "WebkitBoxDirection": "normal",
-                    "WebkitBoxOrient": "horizontal",
-                    "WebkitBoxPack": "center",
-                    "WebkitFlexDirection": "row",
-                    "WebkitJustifyContent": "center",
                     "alignItems": "center",
-                    "flexDirection": "row",
-                    "justifyContent": "center",
-                    "marginBottom": "32px",
-                    "marginTop": "32px",
-                    "msFlexAlign": "center",
-                    "msFlexDirection": "row",
-                    "msFlexPack": "center",
+                    "display": "flex",
                   }
                 }
               >
-                <div
-                  className="css-text-901oao"
-                  dir="auto"
+                <input
+                  className=""
+                  disabled={false}
+                  max={9}
+                  maxLength="1"
+                  min={0}
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onFocus={[Function]}
+                  onInput={[Function]}
+                  onKeyDown={[Function]}
+                  onPaste={[Function]}
                   style={
                     Object {
-                      "color": "rgba(66,69,74,1.00)",
-                      "direction": "ltr",
-                      "fontFamily": "Roboto-Medium",
-                      "fontSize": "24px",
-                      "fontWeight": "normal",
-                      "lineHeight": "30px",
-                      "marginBottom": "8px",
-                      "marginTop": "8px",
+                      "borderBottom": "1px solid #555",
+                      "borderLeft": "none",
+                      "borderRight": "none",
+                      "borderTop": "none",
+                      "fontSize": "1.5rem",
+                      "height": "3rem",
+                      "margin": "0 0.5rem",
                       "textAlign": "center",
-                      "textDecoration": "none",
-                      "textTransform": "none",
+                      "width": "100%",
                     }
                   }
-                >
-                  Enter the verification code 
- sent to your phone
-                </div>
+                  type="number"
+                  value=""
+                />
               </div>
               <div
-                className="css-view-1dbjc4n"
                 style={
                   Object {
-                    "WebkitAlignItems": "stretch",
-                    "WebkitBoxAlign": "stretch",
-                    "WebkitBoxDirection": "normal",
-                    "WebkitBoxOrient": "vertical",
-                    "WebkitBoxPack": "center",
-                    "WebkitFlexDirection": "column",
-                    "WebkitJustifyContent": "center",
-                    "alignItems": "stretch",
-                    "flexDirection": "column",
-                    "justifyContent": "center",
-                    "msFlexAlign": "stretch",
-                    "msFlexDirection": "column",
-                    "msFlexPack": "center",
+                    "alignItems": "center",
+                    "display": "flex",
                   }
                 }
               >
-                <div
-                  className={false}
+                <input
+                  className=""
+                  disabled={false}
+                  max={9}
+                  maxLength="1"
+                  min={0}
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onFocus={[Function]}
+                  onInput={[Function]}
+                  onKeyDown={[Function]}
+                  onPaste={[Function]}
                   style={
                     Object {
-                      "display": "flex",
-                      "justifyContent": "space-evenly",
-                    }
-                  }
-                >
-                  <div
-                    style={
-                      Object {
-                        "alignItems": "center",
-                        "display": "flex",
-                      }
-                    }
-                  >
-                    <input
-                      className=""
-                      disabled={false}
-                      max={9}
-                      maxLength="1"
-                      min={0}
-                      onBlur={[Function]}
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      onInput={[Function]}
-                      onKeyDown={[Function]}
-                      onPaste={[Function]}
-                      style={
-                        Object {
-                          "borderBottom": "1px solid #555",
-                          "borderLeft": "none",
-                          "borderRight": "none",
-                          "borderTop": "none",
-                          "fontSize": "1.5rem",
-                          "height": "3rem",
-                          "margin": "0 0.5rem",
-                          "textAlign": "center",
-                          "width": "100%",
-                        }
-                      }
-                      type="number"
-                      value=""
-                    />
-                  </div>
-                  <div
-                    style={
-                      Object {
-                        "alignItems": "center",
-                        "display": "flex",
-                      }
-                    }
-                  >
-                    <input
-                      className=""
-                      disabled={false}
-                      max={9}
-                      maxLength="1"
-                      min={0}
-                      onBlur={[Function]}
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      onInput={[Function]}
-                      onKeyDown={[Function]}
-                      onPaste={[Function]}
-                      style={
-                        Object {
-                          "borderBottom": "1px solid #555",
-                          "borderLeft": "none",
-                          "borderRight": "none",
-                          "borderTop": "none",
-                          "fontSize": "1.5rem",
-                          "height": "3rem",
-                          "margin": "0 0.5rem",
-                          "textAlign": "center",
-                          "width": "100%",
-                        }
-                      }
-                      type="number"
-                      value=""
-                    />
-                  </div>
-                  <div
-                    style={
-                      Object {
-                        "alignItems": "center",
-                        "display": "flex",
-                      }
-                    }
-                  >
-                    <input
-                      className=""
-                      disabled={false}
-                      max={9}
-                      maxLength="1"
-                      min={0}
-                      onBlur={[Function]}
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      onInput={[Function]}
-                      onKeyDown={[Function]}
-                      onPaste={[Function]}
-                      style={
-                        Object {
-                          "borderBottom": "1px solid #555",
-                          "borderLeft": "none",
-                          "borderRight": "none",
-                          "borderTop": "none",
-                          "fontSize": "1.5rem",
-                          "height": "3rem",
-                          "margin": "0 0.5rem",
-                          "textAlign": "center",
-                          "width": "100%",
-                        }
-                      }
-                      type="number"
-                      value=""
-                    />
-                  </div>
-                  <div
-                    style={
-                      Object {
-                        "alignItems": "center",
-                        "display": "flex",
-                      }
-                    }
-                  >
-                    <input
-                      className=""
-                      disabled={false}
-                      max={9}
-                      maxLength="1"
-                      min={0}
-                      onBlur={[Function]}
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      onInput={[Function]}
-                      onKeyDown={[Function]}
-                      onPaste={[Function]}
-                      style={
-                        Object {
-                          "borderBottom": "1px solid #555",
-                          "borderLeft": "none",
-                          "borderRight": "none",
-                          "borderTop": "none",
-                          "fontSize": "1.5rem",
-                          "height": "3rem",
-                          "margin": "0 0.5rem",
-                          "textAlign": "center",
-                          "width": "100%",
-                        }
-                      }
-                      type="number"
-                      value=""
-                    />
-                  </div>
-                  <div
-                    style={
-                      Object {
-                        "alignItems": "center",
-                        "display": "flex",
-                      }
-                    }
-                  >
-                    <input
-                      className=""
-                      disabled={false}
-                      max={9}
-                      maxLength="1"
-                      min={0}
-                      onBlur={[Function]}
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      onInput={[Function]}
-                      onKeyDown={[Function]}
-                      onPaste={[Function]}
-                      style={
-                        Object {
-                          "borderBottom": "1px solid #555",
-                          "borderLeft": "none",
-                          "borderRight": "none",
-                          "borderTop": "none",
-                          "fontSize": "1.5rem",
-                          "height": "3rem",
-                          "margin": "0 0.5rem",
-                          "textAlign": "center",
-                          "width": "100%",
-                        }
-                      }
-                      type="number"
-                      value=""
-                    />
-                  </div>
-                  <div
-                    style={
-                      Object {
-                        "alignItems": "center",
-                        "display": "flex",
-                      }
-                    }
-                  >
-                    <input
-                      className=""
-                      disabled={false}
-                      max={9}
-                      maxLength="1"
-                      min={0}
-                      onBlur={[Function]}
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      onInput={[Function]}
-                      onKeyDown={[Function]}
-                      onPaste={[Function]}
-                      style={
-                        Object {
-                          "borderBottom": "1px solid #555",
-                          "borderLeft": "none",
-                          "borderRight": "none",
-                          "borderTop": "none",
-                          "fontSize": "1.5rem",
-                          "height": "3rem",
-                          "margin": "0 0.5rem",
-                          "textAlign": "center",
-                          "width": "100%",
-                        }
-                      }
-                      type="number"
-                      value=""
-                    />
-                  </div>
-                </div>
-                <div
-                  className="css-text-901oao"
-                  dir="auto"
-                  style={
-                    Object {
-                      "WebkitTransform": "translateY(0px)",
-                      "color": "rgba(250,108,119,1.00)",
-                      "direction": "ltr",
-                      "fontFamily": "Roboto",
-                      "fontSize": "12px",
-                      "opacity": 0,
-                      "paddingBottom": "4px",
-                      "paddingLeft": "0px",
-                      "paddingRight": "12px",
-                      "paddingTop": "4px",
+                      "borderBottom": "1px solid #555",
+                      "borderLeft": "none",
+                      "borderRight": "none",
+                      "borderTop": "none",
+                      "fontSize": "1.5rem",
+                      "height": "3rem",
+                      "margin": "0 0.5rem",
                       "textAlign": "center",
-                      "transform": "translateY(0px)",
+                      "width": "100%",
                     }
                   }
-                >
-                  
-                </div>
+                  type="number"
+                  value=""
+                />
               </div>
               <div
-                className="css-view-1dbjc4n"
                 style={
                   Object {
-                    "WebkitAlignItems": "center",
-                    "WebkitBoxAlign": "center",
-                    "WebkitBoxDirection": "normal",
-                    "WebkitBoxOrient": "horizontal",
-                    "WebkitBoxPack": "center",
-                    "WebkitFlexDirection": "row",
-                    "WebkitJustifyContent": "center",
                     "alignItems": "center",
-                    "flexDirection": "row",
-                    "justifyContent": "center",
-                    "marginBottom": "32px",
-                    "marginTop": "32px",
-                    "msFlexAlign": "center",
-                    "msFlexDirection": "row",
-                    "msFlexPack": "center",
+                    "display": "flex",
                   }
                 }
               >
-                <div
-                  className="css-text-901oao"
-                  dir="auto"
+                <input
+                  className=""
+                  disabled={false}
+                  max={9}
+                  maxLength="1"
+                  min={0}
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onFocus={[Function]}
+                  onInput={[Function]}
+                  onKeyDown={[Function]}
+                  onPaste={[Function]}
                   style={
                     Object {
-                      "color": "rgba(163,163,163,1.00)",
-                      "direction": "ltr",
-                      "fontFamily": "Roboto",
-                      "fontSize": "14px",
-                      "fontWeight": "normal",
-                      "lineHeight": "20px",
+                      "borderBottom": "1px solid #555",
+                      "borderLeft": "none",
+                      "borderRight": "none",
+                      "borderTop": "none",
+                      "fontSize": "1.5rem",
+                      "height": "3rem",
+                      "margin": "0 0.5rem",
                       "textAlign": "center",
-                      "textDecoration": "none",
-                      "textTransform": "none",
+                      "width": "100%",
                     }
                   }
-                >
-                  Please wait a few seconds until the SMS arrives
-                </div>
+                  type="number"
+                  value=""
+                />
               </div>
+              <div
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "display": "flex",
+                  }
+                }
+              >
+                <input
+                  className=""
+                  disabled={false}
+                  max={9}
+                  maxLength="1"
+                  min={0}
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onFocus={[Function]}
+                  onInput={[Function]}
+                  onKeyDown={[Function]}
+                  onPaste={[Function]}
+                  style={
+                    Object {
+                      "borderBottom": "1px solid #555",
+                      "borderLeft": "none",
+                      "borderRight": "none",
+                      "borderTop": "none",
+                      "fontSize": "1.5rem",
+                      "height": "3rem",
+                      "margin": "0 0.5rem",
+                      "textAlign": "center",
+                      "width": "100%",
+                    }
+                  }
+                  type="number"
+                  value=""
+                />
+              </div>
+              <div
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "display": "flex",
+                  }
+                }
+              >
+                <input
+                  className=""
+                  disabled={false}
+                  max={9}
+                  maxLength="1"
+                  min={0}
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onFocus={[Function]}
+                  onInput={[Function]}
+                  onKeyDown={[Function]}
+                  onPaste={[Function]}
+                  style={
+                    Object {
+                      "borderBottom": "1px solid #555",
+                      "borderLeft": "none",
+                      "borderRight": "none",
+                      "borderTop": "none",
+                      "fontSize": "1.5rem",
+                      "height": "3rem",
+                      "margin": "0 0.5rem",
+                      "textAlign": "center",
+                      "width": "100%",
+                    }
+                  }
+                  type="number"
+                  value=""
+                />
+              </div>
+              <div
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "display": "flex",
+                  }
+                }
+              >
+                <input
+                  className=""
+                  disabled={false}
+                  max={9}
+                  maxLength="1"
+                  min={0}
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onFocus={[Function]}
+                  onInput={[Function]}
+                  onKeyDown={[Function]}
+                  onPaste={[Function]}
+                  style={
+                    Object {
+                      "borderBottom": "1px solid #555",
+                      "borderLeft": "none",
+                      "borderRight": "none",
+                      "borderTop": "none",
+                      "fontSize": "1.5rem",
+                      "height": "3rem",
+                      "margin": "0 0.5rem",
+                      "textAlign": "center",
+                      "width": "100%",
+                    }
+                  }
+                  type="number"
+                  value=""
+                />
+              </div>
+            </div>
+            <div
+              className="css-text-901oao"
+              dir="auto"
+              style={
+                Object {
+                  "WebkitTransform": "translateY(0px)",
+                  "color": "rgba(250,108,119,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto",
+                  "fontSize": "12px",
+                  "opacity": 0,
+                  "paddingBottom": "4px",
+                  "paddingLeft": "0px",
+                  "paddingRight": "12px",
+                  "paddingTop": "4px",
+                  "textAlign": "center",
+                  "transform": "translateY(0px)",
+                }
+              }
+            >
+              
             </div>
           </div>
           <div
@@ -539,20 +439,62 @@ exports[`SmsForm matches snapshot 1`] = `
                 "WebkitBoxAlign": "center",
                 "WebkitBoxDirection": "normal",
                 "WebkitBoxOrient": "horizontal",
-                "WebkitBoxPack": "end",
+                "WebkitBoxPack": "center",
                 "WebkitFlexDirection": "row",
-                "WebkitJustifyContent": "flex-end",
+                "WebkitJustifyContent": "center",
                 "alignItems": "center",
                 "flexDirection": "row",
-                "justifyContent": "flex-end",
+                "justifyContent": "center",
+                "marginBottom": "32px",
+                "marginTop": "32px",
                 "msFlexAlign": "center",
                 "msFlexDirection": "row",
-                "msFlexPack": "end",
+                "msFlexPack": "center",
               }
             }
-          />
+          >
+            <div
+              className="css-text-901oao"
+              dir="auto"
+              style={
+                Object {
+                  "color": "rgba(163,163,163,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto",
+                  "fontSize": "14px",
+                  "fontWeight": "normal",
+                  "lineHeight": "20px",
+                  "textAlign": "center",
+                  "textDecoration": "none",
+                  "textTransform": "none",
+                }
+              }
+            >
+              Please wait a few seconds until the SMS arrives
+            </div>
+          </div>
         </div>
       </div>
+      <div
+        className="css-view-1dbjc4n"
+        style={
+          Object {
+            "WebkitAlignItems": "center",
+            "WebkitBoxAlign": "center",
+            "WebkitBoxDirection": "normal",
+            "WebkitBoxOrient": "horizontal",
+            "WebkitBoxPack": "end",
+            "WebkitFlexDirection": "row",
+            "WebkitJustifyContent": "flex-end",
+            "alignItems": "center",
+            "flexDirection": "row",
+            "justifyContent": "flex-end",
+            "msFlexAlign": "center",
+            "msFlexDirection": "row",
+            "msFlexPack": "end",
+          }
+        }
+      />
     </div>
   </div>
 </div>

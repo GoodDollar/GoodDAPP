@@ -209,7 +209,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
     const { descriptors, navigation, navigationConfig, screenProps: incomingScreenProps, store } = this.props
     const activeKey = navigation.state.routes[navigation.state.index].key
     const descriptor = descriptors[activeKey]
-    const { title, navigationBar, navigationBarHidden, backButtonHidden } = descriptor.options
+    const { title, navigationBar: NavigationBar, navigationBarHidden, backButtonHidden } = descriptor.options
     const screenProps = {
       ...incomingScreenProps,
       navigationConfig,
@@ -226,15 +226,15 @@ class AppView extends Component<AppViewProps, AppViewState> {
     const pageTitle = title || activeKey
     const open = store.get('sidemenu').visible
     const menu = open ? <SideMenuPanel navigation={navigation} /> : null
-    const NavigationBar = !navigationBarHidden && navigationBar
     return (
       <React.Fragment>
         <SideMenu menu={menu} menuPosition="right" isOpen={open} disableGestures={true} onChange={this.sideMenuSwap}>
-          {NavigationBar ? (
-            <NavigationBar />
-          ) : (
-            <NavBar goBack={backButtonHidden ? undefined : this.pop} title={pageTitle} />
-          )}
+          {!navigationBarHidden &&
+            (NavigationBar ? (
+              <NavigationBar />
+            ) : (
+              <NavBar goBack={backButtonHidden ? undefined : this.pop} title={pageTitle} />
+            ))}
           <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollableView}>
             <SceneView navigation={descriptor.navigation} component={Component} screenProps={screenProps} />
           </ScrollView>

@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { TouchableOpacity } from 'react-native'
+import normalize from '../../../lib/utils/normalizeText'
 import Text from '../view/Text'
 import { withStyles } from '../../../lib/styles'
 import CustomIcon from './CustomIcon'

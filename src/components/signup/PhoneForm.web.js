@@ -4,9 +4,8 @@ import PhoneInput from 'react-phone-number-input'
 import debounce from 'lodash/debounce'
 import './PhoneForm.css'
 import { userModelValidations } from '../../lib/gundb/UserModel'
-import userStorage from '../../lib/gundb/UserStorage'
+import { UserStorage } from '../../lib/gundb/UserStorageClass'
 import logger from '../../lib/logger/pino-logger'
-import api from '../../lib/API/api'
 import { withStyles } from '../../lib/styles'
 import Config from '../../config/config'
 import Section from '../common/layout/Section'
@@ -33,21 +32,8 @@ class PhoneForm extends React.Component<Props, State> {
   state = {
     mobile: this.props.screenProps.data.mobile || '',
     errorMessage: '',
-    countryCode: null,
-    isValid: false,
-  }
-
-  setCountryCode = async () => {
-    try {
-      const { data } = await api.getLocation()
-      this.setState({ countryCode: data.country })
-    } catch (e) {
-      log.error('Could not get user location', e)
-    }
-  }
-
-  componentDidMount() {
-    this.setCountryCode()
+    countryCode: this.props.screenProps.data.countryCode,
+    isValid: true,
   }
 
   handleChange = (mobile: string) => {
@@ -72,7 +58,7 @@ class PhoneForm extends React.Component<Props, State> {
   checkErrors = async () => {
     const modelErrorMessage = userModelValidations.mobile(this.state.mobile)
     const isValidIndexValue =
-      Config.skipMobileVerification || (await userStorage.isValidValue('mobile', this.state.mobile))
+      Config.skipMobileVerification || (await UserStorage.isValidValue('mobile', this.state.mobile))
     const errorMessage = modelErrorMessage || (isValidIndexValue ? '' : 'Unavailable mobile')
     log.debug({ modelErrorMessage, isValidIndexValue, errorMessage, Config })
     this.setState({ errorMessage, isValid: errorMessage === '' })

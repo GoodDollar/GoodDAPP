@@ -1,8 +1,8 @@
 // @flow
 import { Dimensions } from 'react-native'
 import React, { createRef, useEffect } from 'react'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { isMobile } from 'mobile-device-detect'
+import normalize from '../../../lib/utils/normalizeText'
 import logger from '../../../lib/logger/pino-logger'
 
 const log = logger.child({ from: 'Camera' })
@@ -19,7 +19,6 @@ type CameraProps = {
  */
 export function Camera(props: CameraProps) {
   let videoPlayerRef = createRef<HTMLVideoElement>()
-  let currentConstraintIndex = 0
   const acceptableConstraints: MediaStreamConstraints[] = [
     {
       audio: false,
@@ -68,29 +67,22 @@ export function Camera(props: CameraProps) {
   }, [videoPlayerRef])
 
   const getStream = async (): Promise<MediaStream> => {
-    const constraints = acceptableConstraints[currentConstraintIndex]
-
-    try {
-      log.debug('getStream', constraints)
-      let device = await window.navigator.mediaDevices.getUserMedia(constraints)
-      log.debug('getStream success:', device)
-      return device
-    } catch (e) {
-      log.error('getStream failed', constraints)
-
-      currentConstraintIndex++
-
-      if (currentConstraintIndex >= acceptableConstraints.length) {
-        let error =
-          'Unable to get a video stream. Please ensure you give permission to this website to access your camera, and have a 720p+ camera plugged in'
-        log.error(error)
-        throw new Error(error)
+    for (let i = 0; i < acceptableConstraints.length; i++) {
+      const constraints = acceptableConstraints[i]
+      try {
+        log.debug('getStream', constraints)
+        //eslint-disable-next-line
+        let device = await window.navigator.mediaDevices.getUserMedia(constraints)
+        log.debug('getStream success:', device)
+        return device
+      } catch (e) {
+        log.warn('Failed getting stream', constraints, e)
       }
-
-      log.warn('Failed getting stream', constraints, e)
-
-      return getStream()
     }
+    let error =
+      'Unable to get a video stream. Please ensure you give permission to this website to access your camera, and have a 720p+ camera plugged in'
+    log.error('No valid stream found', error)
+    throw new Error(error)
   }
 
   const styles = {
@@ -130,7 +122,7 @@ export function Camera(props: CameraProps) {
         props.onCameraLoad(videoTrack)
       })
     } catch (error) {
-      log.error(error)
+      log.error('getUserMedia failed:', error)
       props.onError(error)
     }
   }

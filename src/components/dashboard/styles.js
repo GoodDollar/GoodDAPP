@@ -1,5 +1,5 @@
-import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { StyleSheet } from 'react-native'
+import normalize from '../../lib/utils/normalizeText'
 import { theme } from '../theme/styles'
 import { getScreenHeight } from '../../lib/utils/Orientation'
 

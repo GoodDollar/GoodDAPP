@@ -1,5 +1,5 @@
 import React from 'react'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
+import normalize from '../../../lib/utils/normalizeText'
 import { Text } from '../../common'
 import { withStyles } from '../../../lib/styles'
 

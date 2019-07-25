@@ -1,9 +1,9 @@
 // @flow
 import React, { useEffect, useState } from 'react'
 import { ScrollView, View } from 'react-native'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { Portal } from 'react-native-paper'
 import type { Store } from 'undux'
+import normalize from '../../lib/utils/normalizeText'
 
 import GDStore from '../../lib/undux/GDStore'
 import SimpleStore from '../../lib/undux/SimpleStore'

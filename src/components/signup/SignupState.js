@@ -56,6 +56,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   const [ready, setReady]: [Ready, ((Ready => Ready) | Ready) => void] = useState()
   const [state, setState] = useState(initialState)
   const [loading, setLoading] = useState(false)
+  const [countryCode, setCountryCode] = useState(undefined)
   const [createError, setCreateError] = useState(false)
 
   const [showErrorDialog] = useErrorDialog()
@@ -77,6 +78,14 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
     fireEvent(`SIGNUP_${event || curRoute.key}`)
   }
 
+  const getCountryCode = async () => {
+    try {
+      const { data } = await API.getLocation()
+      data && setCountryCode(data.country)
+    } catch (e) {
+      log.error('Could not get user location', e)
+    }
+  }
   useEffect(() => {
     //don't allow to start signup flow not from begining
     if (navigation.state.index > 0) {
@@ -84,6 +93,9 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       setLoading(true)
       return navigateWithFocus(navigation.state.routes[0].key)
     }
+
+    //get user country code for phone
+    getCountryCode()
 
     //lazy login in background
     const ready = (async () => {
@@ -115,15 +127,18 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       // Then, when the user access the application from the link (in EmailConfirmation), data is recovered and
       // saved to the `state`
 
+      //first need to add user to our database
       // Stores creationBlock number into 'lastBlock' feed's node
       await Promise.all([
-        API.addUser(state),
+        await API.addUser(state),
         userStorage.setProfile({ ...state, walletAddress: goodWallet.account }),
         userStorage.setProfileField('registered', true, 'public'),
         goodWallet.getBlockNumber().then(creationBlock => userStorage.saveLastBlockNumber(creationBlock.toString())),
-        AsyncStorage.getItem('GD_USER_MNEMONIC').then(mnemonic => API.sendRecoveryInstructionByEmail(mnemonic)),
       ])
-      await AsyncStorage.setItem('GOODDAPP_isLoggedIn', true)
+
+      //need to wait for API.addUser but we dont need to wait for it to finish
+      AsyncStorage.getItem('GD_USER_MNEMONIC').then(mnemonic => API.sendRecoveryInstructionByEmail(mnemonic)),
+        await AsyncStorage.setItem('GOODDAPP_isLoggedIn', true)
       log.debug('New user created')
     } catch (e) {
       log.error('New user failure', { e, message: e.message })
@@ -214,7 +229,12 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
         <View style={contentContainer}>
           <SignupWizardNavigator
             navigation={navigation}
-            screenProps={{ ...screenProps, data: { ...state, loading, createError }, doneCallback: done, back: back }}
+            screenProps={{
+              ...screenProps,
+              data: { ...state, loading, createError, countryCode },
+              doneCallback: done,
+              back,
+            }}
           />
         </View>
       </ScrollView>

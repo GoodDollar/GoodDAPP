@@ -13,9 +13,9 @@ Image.prefetch(goodDollarImage)
 Image.prefetch(wavePattern)
 
 const Splash = () => (
-  <Wrapper style={styles.container}>
-    <Wrapper style={styles.wrapper}>
-      <Section style={styles.content} grow justifyContent="space-between">
+  <Wrapper style={styles.wrapper}>
+    <Section style={styles.container}>
+      <Section.Stack style={styles.content} grow justifyContent="space-between">
         <Section.Text fontSize={22} fontFamily="regular" color="darkBlue">
           {`Welcome and thank you\nfor participating in GoodDollar's\n`}
           <Section.Text fontSize={22} fontFamily="bold" color="darkBlue">
@@ -27,8 +27,8 @@ const Splash = () => (
         <Section.Text fontSize={22} fontFamily="regular" color="darkBlue">
           V2.0
         </Section.Text>
-      </Section>
-    </Wrapper>
+      </Section.Stack>
+    </Section>
   </Wrapper>
 )
 
@@ -37,20 +37,21 @@ Splash.navigationOptions = {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  wrapper: {
     padding: 0,
   },
-  wrapper: {
+  container: {
     alignItems: 'center',
     justifyContent: 'center',
     backgroundImage: `url(${wavePattern})`,
     backgroundRepeat: 'repeat-y',
+    backgroundColor: 'transparent',
     backgroundSize: 'cover',
     transform: 'rotateY(180deg)',
+    flex: 1,
   },
   content: {
     transform: 'rotateY(180deg)',
-    backgroundColor: 'transparent',
     marginVertical: '10vh',
   },
   logo: {

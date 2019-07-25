@@ -1,6 +1,6 @@
 import React from 'react'
 import { Image, StyleSheet } from 'react-native'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
+import normalize from '../../lib/utils/normalizeText'
 import splashImage from '../../assets/Splash/logo.svg'
 import goodDollarImage from '../../assets/Splash/goodDollar.svg'
 import wavePattern from '../../assets/wave.svg'

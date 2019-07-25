@@ -70,7 +70,7 @@ const InputText = ({ error, onCleanUpField, styles, theme, style, getRef, ...pro
 
 const ErrorComponent = ({ error, styles }) => (
   <HelperText type="error" style={[styles.error, { opacity: error ? 1 : 0 }]}>
-    {error}
+    {error || 'I'}
   </HelperText>
 )
 
@@ -88,6 +88,7 @@ const getStylesFromProps = ({ theme }) => ({
   },
   view: {
     flex: 1,
+    marginBottom: theme.sizes.default,
   },
   suffixIcon: {
     position: 'absolute',

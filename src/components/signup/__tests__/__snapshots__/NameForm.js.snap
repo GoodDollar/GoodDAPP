@@ -258,6 +258,7 @@ exports[`NameForm matches snapshot 1`] = `
                     "direction": "ltr",
                     "fontFamily": "Roboto",
                     "fontSize": "12px",
+                    "height": "18px",
                     "opacity": 0,
                     "paddingBottom": "4px",
                     "paddingLeft": "0px",
@@ -268,7 +269,7 @@ exports[`NameForm matches snapshot 1`] = `
                   }
                 }
               >
-                I
+                
               </div>
             </div>
           </div>
@@ -701,6 +702,7 @@ exports[`NameForm matches snapshot with empty value 1`] = `
                     "direction": "ltr",
                     "fontFamily": "Roboto",
                     "fontSize": "12px",
+                    "height": "18px",
                     "opacity": 0,
                     "paddingBottom": "4px",
                     "paddingLeft": "0px",
@@ -711,7 +713,7 @@ exports[`NameForm matches snapshot with empty value 1`] = `
                   }
                 }
               >
-                I
+                
               </div>
             </div>
           </div>

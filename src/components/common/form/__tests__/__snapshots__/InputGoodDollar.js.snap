@@ -102,6 +102,7 @@ exports[`InputGoodDollar matches snapshot 1`] = `
           "direction": "ltr",
           "fontFamily": "Roboto",
           "fontSize": "12px",
+          "height": "18px",
           "opacity": 0,
           "paddingBottom": "4px",
           "paddingLeft": "0px",
@@ -111,9 +112,7 @@ exports[`InputGoodDollar matches snapshot 1`] = `
           "transform": "translateY(0px)",
         }
       }
-    >
-      I
-    </div>
+    />
   </div>
 </div>
 `;
@@ -220,6 +219,7 @@ exports[`InputGoodDollar matches snapshot 2`] = `
           "direction": "ltr",
           "fontFamily": "Roboto",
           "fontSize": "12px",
+          "height": "18px",
           "opacity": 1,
           "paddingBottom": "4px",
           "paddingLeft": "0px",

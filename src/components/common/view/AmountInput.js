@@ -33,7 +33,7 @@ const AmountInput = ({ amount, handleAmountChange, styles, error }: AmountInputP
             onSelectionChange={setCaretPosition}
           />
         </TouchableWithoutFeedback>
-        <Text style={styles.errorText}>{error}</Text>
+        <Text style={[styles.errorText, { opacity: error ? 1 : 0 }]}>{error || 'I'}</Text>
       </View>
       <NumPadKeyboard
         amount={amount}

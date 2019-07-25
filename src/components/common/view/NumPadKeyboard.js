@@ -76,6 +76,10 @@ const getStylesFromProps = ({ theme }) => {
       display: 'flex',
       marginBottom: theme.sizes.default,
       marginTop: theme.sizes.defaultDouble,
+      maxHeight: normalize(250),
+      flexGrow: 1,
+      overflow: 'hidden',
+      justifyContent: 'space-between',
     },
     row: {
       display: 'flex',

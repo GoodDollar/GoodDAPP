@@ -248,6 +248,8 @@ const styles = StyleSheet.create({
   scrollView: {
     display: 'flex',
     flexGrow: 1,
+    backgroundImage:
+      'linear-gradient(to bottom, #00AFFF, #2DC0F7, #28C0EF, #23C0E7, #1EC1DF, #19C1D7, #14C1CF, #0FC2C7, #0FC2C7, #0AC2BF, #05C2B7, #00C3AF)',
   },
   scrollableView: {
     flexGrow: 1,

@@ -1,12 +1,30 @@
 // @flow
-import React from 'react'
+import React, { useEffect } from 'react'
+import { isMobileSafari } from 'mobile-device-detect'
+
 import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native'
 import HelperText from 'react-native-paper/src/components/HelperText'
 import normalize from 'react-native-elements/src/helpers/normalizeText'
+import SimpleStore from '../../../lib/undux/SimpleStore'
 import Icon from '../view/Icon'
 import { withStyles } from '../../../lib/styles'
 
 const InputText = ({ error, onCleanUpField, styles, theme, style, getRef, ...props }: any) => {
+  const simpleStore = SimpleStore.useStore()
+
+  const onFocusMobileSafari = () => {
+    console.info('onFocus')
+    window.scrollTo(0, 0)
+    document.body.scrollTop = 0
+    simpleStore.set('isMobileSafariKeyboardShown')(true)
+  }
+
+  const onBlurMobileSafari = () => simpleStore.set('isMobileSafariKeyboardShown')(false)
+
+  useEffect(() => {
+    return () => simpleStore.set('isMobileSafariKeyboardShown')(false)
+  }, [])
+
   const inputColor = error ? theme.colors.red : theme.colors.darkGray
   const inputStyle = {
     color: inputColor,
@@ -15,7 +33,27 @@ const InputText = ({ error, onCleanUpField, styles, theme, style, getRef, ...pro
   return (
     <View style={styles.view}>
       <View style={styles.view}>
-        <TextInput {...props} ref={getRef} style={[styles.input, inputStyle, style]} />
+        <TextInput
+          {...props}
+          ref={getRef}
+          style={[styles.input, inputStyle, style]}
+          onFocus={() => {
+            if (isMobileSafari) {
+              onFocusMobileSafari()
+            }
+            if (props.onFocus) {
+              props.onFocus()
+            }
+          }}
+          onBlur={() => {
+            if (onBlurMobileSafari) {
+              onBlurMobileSafari()
+            }
+            if (props.onBlur) {
+              props.onBlur()
+            }
+          }}
+        />
         {onCleanUpField && error !== '' && (
           <TouchableOpacity style={styles.suffixIcon} onPress={() => onCleanUpField('')}>
             <Icon size={normalize(16)} color={inputColor} name="close" />

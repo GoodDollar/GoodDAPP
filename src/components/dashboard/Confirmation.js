@@ -1,10 +1,10 @@
 // @flow
 import React, { useMemo } from 'react'
 import { isMobile } from 'mobile-device-detect'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
-
+import normalize from '../../lib/utils/normalizeText'
 import { generateReceiveShareObject, generateSendShareObject } from '../../lib/share'
-import { BigGoodDollar, CopyButton, CustomButton, QRCode, Section, TopBar, Wrapper } from '../common'
+import { BigGoodDollar, CopyButton, CustomButton, QRCode, Section, Wrapper } from '../common'
+import TopBar from '../common/view/TopBar'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 
 import { useScreenState } from '../appNavigation/stackNavigation'

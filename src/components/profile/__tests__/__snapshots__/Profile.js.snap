@@ -452,62 +452,68 @@ exports[`Profile matches snapshot 1`] = `
             >
               <div
                 className="css-view-1dbjc4n"
-                data-focusable={true}
-                onKeyDown={[Function]}
-                onKeyUp={[Function]}
-                onResponderGrant={[Function]}
-                onResponderMove={[Function]}
-                onResponderRelease={[Function]}
-                onResponderTerminate={[Function]}
-                onResponderTerminationRequest={[Function]}
-                onStartShouldSetResponder={[Function]}
-                style={
-                  Object {
-                    "MozUserSelect": "none",
-                    "WebkitAlignItems": "center",
-                    "WebkitBoxAlign": "center",
-                    "WebkitBoxPack": "center",
-                    "WebkitJustifyContent": "center",
-                    "WebkitUserSelect": "none",
-                    "alignItems": "center",
-                    "backgroundColor": "rgba(12,38,61,1.00)",
-                    "borderBottomLeftRadius": "24px",
-                    "borderBottomRightRadius": "24px",
-                    "borderTopLeftRadius": "24px",
-                    "borderTopRightRadius": "24px",
-                    "cursor": "pointer",
-                    "height": "44px",
-                    "justifyContent": "center",
-                    "marginBottom": "7px",
-                    "marginLeft": "7px",
-                    "marginRight": "7px",
-                    "marginTop": "7px",
-                    "msFlexAlign": "center",
-                    "msFlexPack": "center",
-                    "msTouchAction": "manipulation",
-                    "msUserSelect": "none",
-                    "touchAction": "manipulation",
-                    "userSelect": "none",
-                    "width": "44px",
-                  }
-                }
-                tabIndex="0"
               >
                 <div
-                  className="css-text-901oao"
-                  dir="auto"
+                  className="css-view-1dbjc4n"
+                  data-focusable={true}
+                  disabled={false}
+                  onKeyDown={[Function]}
+                  onKeyUp={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
                   style={
                     Object {
-                      "backgroundColor": "rgba(0,0,0,0.00)",
-                      "color": "rgba(255,255,255,1.00)",
-                      "fontFamily": "MaterialIcons",
-                      "fontSize": "20px",
-                      "fontStyle": "normal",
-                      "fontWeight": "normal",
+                      "MozUserSelect": "none",
+                      "WebkitAlignItems": "center",
+                      "WebkitBoxAlign": "center",
+                      "WebkitBoxPack": "center",
+                      "WebkitJustifyContent": "center",
+                      "WebkitUserSelect": "none",
+                      "alignItems": "center",
+                      "backgroundColor": "rgba(12,38,61,1.00)",
+                      "borderBottomLeftRadius": "24px",
+                      "borderBottomRightRadius": "24px",
+                      "borderTopLeftRadius": "24px",
+                      "borderTopRightRadius": "24px",
+                      "cursor": "pointer",
+                      "height": "44px",
+                      "justifyContent": "center",
+                      "marginBottom": "7px",
+                      "marginLeft": "7px",
+                      "marginRight": "7px",
+                      "marginTop": "7px",
+                      "msFlexAlign": "center",
+                      "msFlexPack": "center",
+                      "msTouchAction": "manipulation",
+                      "msUserSelect": "none",
+                      "touchAction": "manipulation",
+                      "userSelect": "none",
+                      "width": "44px",
                     }
                   }
+                  tabIndex="0"
                 >
-                  
+                  <div
+                    className="css-text-901oao"
+                    data-testid="iconIcon"
+                    dir="auto"
+                    style={
+                      Object {
+                        "backgroundColor": "rgba(0,0,0,0.00)",
+                        "color": "rgba(255,255,255,1.00)",
+                        "fontFamily": "MaterialIcons",
+                        "fontSize": "20px",
+                        "fontStyle": "normal",
+                        "fontWeight": "normal",
+                      }
+                    }
+                  >
+                    
+                  </div>
                 </div>
               </div>
             </div>
@@ -671,62 +677,68 @@ exports[`Profile matches snapshot 1`] = `
             >
               <div
                 className="css-view-1dbjc4n"
-                data-focusable={true}
-                onKeyDown={[Function]}
-                onKeyUp={[Function]}
-                onResponderGrant={[Function]}
-                onResponderMove={[Function]}
-                onResponderRelease={[Function]}
-                onResponderTerminate={[Function]}
-                onResponderTerminationRequest={[Function]}
-                onStartShouldSetResponder={[Function]}
-                style={
-                  Object {
-                    "MozUserSelect": "none",
-                    "WebkitAlignItems": "center",
-                    "WebkitBoxAlign": "center",
-                    "WebkitBoxPack": "center",
-                    "WebkitJustifyContent": "center",
-                    "WebkitUserSelect": "none",
-                    "alignItems": "center",
-                    "backgroundColor": "rgba(12,38,61,1.00)",
-                    "borderBottomLeftRadius": "24px",
-                    "borderBottomRightRadius": "24px",
-                    "borderTopLeftRadius": "24px",
-                    "borderTopRightRadius": "24px",
-                    "cursor": "pointer",
-                    "height": "44px",
-                    "justifyContent": "center",
-                    "marginBottom": "7px",
-                    "marginLeft": "7px",
-                    "marginRight": "7px",
-                    "marginTop": "7px",
-                    "msFlexAlign": "center",
-                    "msFlexPack": "center",
-                    "msTouchAction": "manipulation",
-                    "msUserSelect": "none",
-                    "touchAction": "manipulation",
-                    "userSelect": "none",
-                    "width": "44px",
-                  }
-                }
-                tabIndex="0"
               >
                 <div
-                  className="css-text-901oao"
-                  dir="auto"
+                  className="css-view-1dbjc4n"
+                  data-focusable={true}
+                  disabled={false}
+                  onKeyDown={[Function]}
+                  onKeyUp={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
                   style={
                     Object {
-                      "backgroundColor": "rgba(0,0,0,0.00)",
-                      "color": "rgba(255,255,255,1.00)",
-                      "fontFamily": "MaterialIcons",
-                      "fontSize": "20px",
-                      "fontStyle": "normal",
-                      "fontWeight": "normal",
+                      "MozUserSelect": "none",
+                      "WebkitAlignItems": "center",
+                      "WebkitBoxAlign": "center",
+                      "WebkitBoxPack": "center",
+                      "WebkitJustifyContent": "center",
+                      "WebkitUserSelect": "none",
+                      "alignItems": "center",
+                      "backgroundColor": "rgba(12,38,61,1.00)",
+                      "borderBottomLeftRadius": "24px",
+                      "borderBottomRightRadius": "24px",
+                      "borderTopLeftRadius": "24px",
+                      "borderTopRightRadius": "24px",
+                      "cursor": "pointer",
+                      "height": "44px",
+                      "justifyContent": "center",
+                      "marginBottom": "7px",
+                      "marginLeft": "7px",
+                      "marginRight": "7px",
+                      "marginTop": "7px",
+                      "msFlexAlign": "center",
+                      "msFlexPack": "center",
+                      "msTouchAction": "manipulation",
+                      "msUserSelect": "none",
+                      "touchAction": "manipulation",
+                      "userSelect": "none",
+                      "width": "44px",
                     }
                   }
+                  tabIndex="0"
                 >
-                  
+                  <div
+                    className="css-text-901oao"
+                    data-testid="iconIcon"
+                    dir="auto"
+                    style={
+                      Object {
+                        "backgroundColor": "rgba(0,0,0,0.00)",
+                        "color": "rgba(255,255,255,1.00)",
+                        "fontFamily": "MaterialIcons",
+                        "fontSize": "20px",
+                        "fontStyle": "normal",
+                        "fontWeight": "normal",
+                      }
+                    }
+                  >
+                    
+                  </div>
                 </div>
               </div>
             </div>

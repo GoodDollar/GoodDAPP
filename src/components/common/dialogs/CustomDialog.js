@@ -2,7 +2,7 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { Paragraph, Portal } from 'react-native-paper'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
+import normalize from '../../../lib/utils/normalizeText'
 import SimpleStore from '../../../lib/undux/SimpleStore'
 import CustomButton from '../buttons/CustomButton'
 import ModalWrapper from '../modal/ModalWrapper'

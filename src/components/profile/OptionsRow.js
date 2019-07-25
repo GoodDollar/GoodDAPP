@@ -2,8 +2,8 @@
 import startCase from 'lodash/startCase'
 import React from 'react'
 import { View } from 'react-native'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { RadioButton } from 'react-native-paper'
+import normalize from '../../lib/utils/normalizeText'
 import { withStyles } from '../../lib/styles'
 import { Text } from '../common'
 

@@ -1,6 +1,6 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
+import normalize from '../../lib/utils/normalizeText'
 import API from '../../lib/API/api'
 import logger from '../../lib/logger/pino-logger'
 import { withStyles } from '../../lib/styles'

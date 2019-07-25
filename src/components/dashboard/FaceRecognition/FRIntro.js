@@ -1,10 +1,10 @@
 import React from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { isIOS, isMobileSafari } from 'mobile-device-detect'
+import normalize from '../../../lib/utils/normalizeText'
 
 import { CustomButton, Section, Wrapper } from '../../common'
-import Divider from '../../../assets/Dividers - Long Line - Stroke Width 2 - Round Cap - Light Blue.svg'
+import Separator from '../../common/layout/Separator'
 import SmileyHug from '../../../assets/smileyhug.svg'
 import GDStore from '../../../lib/undux/GDStore'
 import { fireEvent } from '../../../lib/analytics/analytics'
@@ -55,7 +55,7 @@ const FRIntro = props => {
               marginBottom: 0,
             }}
           >
-            <Image source={Divider} style={{ height: normalize(2) }} />
+            <Separator width={2} />
             <Section.Text style={styles.description}>
               Since this is your first transaction
               <Text style={{ fontWeight: 'normal' }}>
@@ -65,7 +65,7 @@ const FRIntro = props => {
                 {'Learn more'}
               </Text>
             </Section.Text>
-            <Image source={Divider} style={{ height: normalize(2) }} />
+            <Separator width={2} />
           </Section>
         </Section>
         <Section>

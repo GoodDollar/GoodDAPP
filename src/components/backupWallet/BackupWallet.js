@@ -1,6 +1,6 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
+import normalize from '../../lib/utils/normalizeText'
 import { useWrappedApi } from '../../lib/API/useWrappedApi'
 import { withStyles } from '../../lib/styles'
 import { useDialog } from '../../lib/undux/utils/dialog'

@@ -1,9 +1,9 @@
 // @flow
 import startCase from 'lodash/startCase'
 import React, { useEffect, useState } from 'react'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { RadioButton } from 'react-native-paper'
 import { TouchableOpacity } from 'react-native'
+import normalize from '../../lib/utils/normalizeText'
 import userStorage from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import { BackButton } from '../appNavigation/stackNavigation'

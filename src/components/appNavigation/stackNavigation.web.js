@@ -1,6 +1,7 @@
 // @flow
 import React, { Component, useEffect, useState } from 'react'
-import SideMenu from 'react-native-side-menu'
+import { View } from 'react-native'
+import SideMenu from 'react-native-side-menu-gooddapp'
 import { createNavigator, Route, SceneView, SwitchRouter } from '@react-navigation/core'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import SideMenuPanel from '../sidemenu/SideMenuPanel'
@@ -9,6 +10,7 @@ import CustomButton, { type ButtonProps } from '../common/buttons/CustomButton'
 import NavBar from './NavBar'
 import { navigationOptions } from './navigationConfig'
 import { PushButton } from './PushButton'
+import './blurFx.css'
 
 export const DEFAULT_PARAMS = {
   event: undefined,
@@ -18,6 +20,9 @@ export const DEFAULT_PARAMS = {
 }
 
 const log = logger.child({ from: 'stackNavigation' })
+
+const sideMenuContainer = { display: 'none', zIndex: 100 }
+const fullScreenContainer = { top: 0, left: 0, bottom: 0, right: 0, position: 'absolute' }
 
 type AppViewProps = {
   descriptors: any,
@@ -225,12 +230,23 @@ class AppView extends Component<AppViewProps, AppViewState> {
     const pageTitle = title || activeKey
     const open = store.get('sidemenu').visible
     const menu = open ? <SideMenuPanel navigation={navigation} /> : null
+    const menuStyle = open ? { display: 'block', ...fullScreenContainer } : {}
+
     return (
       <React.Fragment>
-        <SideMenu menu={menu} menuPosition="right" isOpen={open} disableGestures={true} onChange={this.sideMenuSwap}>
+        <View style={[sideMenuContainer, menuStyle]}>
+          <SideMenu
+            menu={menu}
+            menuPosition="right"
+            isOpen={open}
+            disableGestures={true}
+            onChange={this.sideMenuSwap}
+          />
+        </View>
+        <div style={fullScreenContainer} className={open ? 'blurFx' : ''}>
           {!navigationBarHidden && <NavBar goBack={backButtonHidden ? undefined : this.pop} title={pageTitle} />}
           <SceneView navigation={descriptor.navigation} component={Component} screenProps={screenProps} />
-        </SideMenu>
+        </div>
       </React.Fragment>
     )
   }

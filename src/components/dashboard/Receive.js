@@ -6,7 +6,8 @@ import { generateCode, generateReceiveShareObject } from '../../lib/share'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { PushButton } from '../appNavigation/PushButton'
-import { CopyButton, CustomButton, QRCode, ScanQRButton, Section, TopBar, Wrapper } from '../common'
+import { CopyButton, CustomButton, QRCode, ScanQRButton, Section, Wrapper } from '../common'
+import TopBar from '../common/view/TopBar'
 import { withStyles } from '../../lib/styles'
 
 export type ReceiveProps = {

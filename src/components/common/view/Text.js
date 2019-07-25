@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
-import { normalize } from 'react-native-elements'
 import { Text as PaperText } from 'react-native-paper'
+import normalize from '../../../lib/utils/normalizeText'
 import { withStyles } from '../../../lib/styles'
 
 class Text extends React.Component {

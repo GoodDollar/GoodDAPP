@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { AsyncStorage, Image, StyleSheet, Text, View } from 'react-native'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { isIOS, isMobile } from 'mobile-device-detect'
 
 import get from 'lodash/get'
 import QRCode from 'qrcode.react'
+import normalize from '../../../lib/utils/normalizeText'
 import Config from '../../../config/config'
 import { CopyButton, Section, Wrapper } from '../../common'
-import Divider from '../../../assets/Dividers - Long Line - Stroke Width 2 - Round Cap - Light Blue.svg'
+import Separator from '../../common/layout/Separator'
 import Oops from '../../../assets/oops.svg'
 import GDStore from '../../../lib/undux/GDStore'
 import logger from '../../../lib/logger/pino-logger'
@@ -105,11 +105,11 @@ const UnsupportedDevice = props => {
               marginBottom: 0,
             }}
           >
-            <Image source={Divider} style={{ height: normalize(2) }} />
+            <Separator width={2} />
             <Section.Text style={styles.description}>
               <Text style={{ fontWeight: 'normal' }}> {`${error}`} </Text>
             </Section.Text>
-            <Image source={Divider} style={{ height: normalize(2) }} />
+            <Separator width={2} />
           </Section>
         </Section>
         <Section>{codeAction}</Section>

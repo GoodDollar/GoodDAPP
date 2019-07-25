@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import { Image, TouchableOpacity } from 'react-native'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
+import normalize from '../../../lib/utils/normalizeText'
 import { withStyles } from '../../../lib/styles'
 import { mediumZIndex } from './styles'
 

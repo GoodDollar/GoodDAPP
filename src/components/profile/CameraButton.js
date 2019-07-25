@@ -2,8 +2,9 @@
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { withTheme } from 'react-native-paper'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
+// eslint-disable-next-line import/no-named-as-default
 import Icon from 'react-native-elements/src/icons/Icon'
+import normalize from '../../lib/utils/normalizeText'
 
 type CameraButtonProps = {
   handleCameraPress: any => void,

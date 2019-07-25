@@ -14,9 +14,9 @@ let SignupRouter = React.lazy(() =>
 )
 let AppRouter = React.lazy(() => {
   log.debug('initializing storage and wallet...')
-  let walletAndStorageReady = import(/* webpackChunkName: "init", webpackPrefetch: true */ './init')
+  let walletAndStorageReady = import(/* webpackChunkName: "init" */ './init')
   let p2 = walletAndStorageReady.then(({ init, _ }) => init()).then(_ => log.debug('storage and wallet ready'))
-  return Promise.all([p2, import(/* webpackChunkName: "router", webpackPrefetch: true */ './Router')])
+  return Promise.all([p2, import(/* webpackChunkName: "router" */ './Router')])
     .then(r => {
       log.debug('router ready')
       return r

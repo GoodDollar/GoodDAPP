@@ -1,7 +1,7 @@
 // @flow
 import React, { useEffect, useState } from 'react'
 import { Animated, Easing, View } from 'react-native'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
+import normalize from '../../../lib/utils/normalizeText'
 import { withStyles } from '../../../lib/styles'
 
 const LoadingIcon = ({ styles, style }) => {

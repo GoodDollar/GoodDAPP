@@ -1,6 +1,5 @@
 // @flow
 import React from 'react'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { View } from 'react-native'
 import Mnemonics from '../signin/Mnemonics'
 import logger from '../../lib/logger/pino-logger'
@@ -11,6 +10,7 @@ import Text from '../common/view/Text'
 import { PrivacyPolicy, TermsOfUse } from '../webView/webViewInstances'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
+import normalize from '../../lib/utils/normalizeText'
 
 type Props = {
   navigation: any,

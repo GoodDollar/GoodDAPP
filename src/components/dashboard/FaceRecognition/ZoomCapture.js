@@ -2,8 +2,8 @@
 import React, { useState } from 'react'
 import { Image, StyleSheet, View } from 'react-native'
 import { Text } from 'react-native-paper'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { isMobile } from 'mobile-device-detect'
+import normalize from '../../../lib/utils/normalizeText'
 
 import { CustomButton } from '../../common'
 

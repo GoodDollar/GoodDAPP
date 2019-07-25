@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import { Avatar } from 'react-native-paper'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
+import normalize from '../../../lib/utils/normalizeText'
 import { BigGoodDollar, Section, Text } from '../../common'
 import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
 import { withStyles } from '../../../lib/styles'

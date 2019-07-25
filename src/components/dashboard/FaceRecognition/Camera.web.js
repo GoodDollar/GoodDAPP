@@ -1,8 +1,8 @@
 // @flow
 import { Dimensions } from 'react-native'
 import React, { createRef, useEffect } from 'react'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
 import { isMobile } from 'mobile-device-detect'
+import normalize from '../../../lib/utils/normalizeText'
 import logger from '../../../lib/logger/pino-logger'
 
 const log = logger.child({ from: 'Camera' })

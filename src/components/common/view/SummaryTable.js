@@ -1,6 +1,5 @@
 import React from 'react'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
-
+import normalize from '../../../lib/utils/normalizeText'
 import Section from '../layout/Section'
 import { withStyles } from '../../../lib/styles'
 import BigGoodDollar from './BigGoodDollar'

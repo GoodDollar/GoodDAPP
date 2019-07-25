@@ -1,9 +1,9 @@
 // @flow
 import React from 'react'
 import { TouchableHighlight, View } from 'react-native'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
-import backKeyboardButton from '../../../assets/backKeyboardButton.png'
+import normalize from '../../../lib/utils/normalizeText'
 import { withStyles } from '../../../lib/styles'
+import Icon from './Icon'
 import Text from './Text'
 
 type KeyboardKeyProps = {
@@ -20,7 +20,9 @@ const KeyboardKey = ({ keyValue, onPress, styles, theme }: KeyboardKeyProps) => 
       underlayColor={theme.colors.lightGray}
     >
       {keyValue === 'backspace' ? (
-        <View style={styles.backspaceButton} />
+        <View style={styles.backspaceButton}>
+          <Icon name="backspace" color={theme.colors.darkGray} size={18} style={{ textAlign: 'center' }} />
+        </View>
       ) : (
         <Text style={styles.keyText}>{keyValue}</Text>
       )}
@@ -43,12 +45,12 @@ const getStylesFromProps = ({ theme }) => {
       color: theme.colors.darkGray,
     },
     backspaceButton: {
-      backgroundImage: `url(${backKeyboardButton})`,
       height: normalize(30),
       width: normalize(40),
       backgroundSize: 'contain',
       backgroundRepeat: 'no-repeat',
       cursor: 'pointer',
+      justifyContent: 'center',
     },
   }
 }

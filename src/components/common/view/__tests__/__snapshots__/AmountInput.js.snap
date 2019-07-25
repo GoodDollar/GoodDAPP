@@ -55,6 +55,7 @@ exports[`AmountInput matches snapshot 1`] = `
             "flexBasis": "0%",
             "flexGrow": 1,
             "flexShrink": 1,
+            "marginBottom": "8px",
             "msFlexNegative": 1,
             "msFlexPositive": 1,
             "msFlexPreferredSize": "0%",
@@ -72,6 +73,7 @@ exports[`AmountInput matches snapshot 1`] = `
               "flexBasis": "0%",
               "flexGrow": 1,
               "flexShrink": 1,
+              "marginBottom": "8px",
               "msFlexNegative": 1,
               "msFlexPositive": 1,
               "msFlexPreferredSize": "0%",
@@ -147,7 +149,9 @@ exports[`AmountInput matches snapshot 1`] = `
               "transform": "translateY(0px)",
             }
           }
-        />
+        >
+          I
+        </div>
       </div>
       <div
         className="css-text-901oao"
@@ -983,15 +987,35 @@ exports[`AmountInput matches snapshot 1`] = `
             className="css-view-1dbjc4n"
             style={
               Object {
-                "backgroundImage": "url(backKeyboardButton.png)",
+                "WebkitBoxPack": "center",
+                "WebkitJustifyContent": "center",
                 "backgroundRepeat": "no-repeat",
                 "backgroundSize": "contain",
                 "cursor": "pointer",
                 "height": "30px",
+                "justifyContent": "center",
+                "msFlexPack": "center",
                 "width": "40px",
               }
             }
-          />
+          >
+            <div
+              className="css-text-901oao"
+              dir="auto"
+              style={
+                Object {
+                  "color": "rgba(66,69,74,1.00)",
+                  "fontFamily": "gooddollar",
+                  "fontSize": "18px",
+                  "fontStyle": "normal",
+                  "fontWeight": "normal",
+                  "textAlign": "center",
+                }
+              }
+            >
+              
+            </div>
+          </div>
         </div>
       </div>
     </div>

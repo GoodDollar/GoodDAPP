@@ -186,6 +186,7 @@ exports[`NameForm matches snapshot 1`] = `
                   "flexBasis": "0%",
                   "flexGrow": 1,
                   "flexShrink": 1,
+                  "marginBottom": "8px",
                   "msFlexNegative": 1,
                   "msFlexPositive": 1,
                   "msFlexPreferredSize": "0%",
@@ -203,6 +204,7 @@ exports[`NameForm matches snapshot 1`] = `
                     "flexBasis": "0%",
                     "flexGrow": 1,
                     "flexShrink": 1,
+                    "marginBottom": "8px",
                     "msFlexNegative": 1,
                     "msFlexPositive": 1,
                     "msFlexPreferredSize": "0%",
@@ -266,7 +268,7 @@ exports[`NameForm matches snapshot 1`] = `
                   }
                 }
               >
-                
+                I
               </div>
             </div>
           </div>
@@ -627,6 +629,7 @@ exports[`NameForm matches snapshot with empty value 1`] = `
                   "flexBasis": "0%",
                   "flexGrow": 1,
                   "flexShrink": 1,
+                  "marginBottom": "8px",
                   "msFlexNegative": 1,
                   "msFlexPositive": 1,
                   "msFlexPreferredSize": "0%",
@@ -644,6 +647,7 @@ exports[`NameForm matches snapshot with empty value 1`] = `
                     "flexBasis": "0%",
                     "flexGrow": 1,
                     "flexShrink": 1,
+                    "marginBottom": "8px",
                     "msFlexNegative": 1,
                     "msFlexPositive": 1,
                     "msFlexPreferredSize": "0%",
@@ -707,7 +711,7 @@ exports[`NameForm matches snapshot with empty value 1`] = `
                   }
                 }
               >
-                
+                I
               </div>
             </div>
           </div>

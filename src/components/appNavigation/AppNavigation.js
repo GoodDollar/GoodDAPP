@@ -3,9 +3,6 @@ import { createSwitchNavigator } from '@react-navigation/core'
 import React, { useEffect } from 'react'
 import type { Store } from 'undux'
 
-// TODO: Should we do this diferently?
-import homeIcon from '../../assets/homeIcon.png'
-
 import GDStore from '../../lib/undux/GDStore'
 import SimpleStore from '../../lib/undux/SimpleStore'
 
@@ -24,7 +21,6 @@ type AppNavigationProps = {
 const routes = {
   Dashboard: {
     screen: Dashboard,
-    icon: homeIcon,
     display: false,
   },
   Profile: {

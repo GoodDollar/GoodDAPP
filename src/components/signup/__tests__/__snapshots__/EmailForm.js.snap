@@ -228,6 +228,7 @@ exports[`EmailForm matches snapshot 1`] = `
                   "flexBasis": "0%",
                   "flexGrow": 1,
                   "flexShrink": 1,
+                  "marginBottom": "8px",
                   "msFlexNegative": 1,
                   "msFlexPositive": 1,
                   "msFlexPreferredSize": "0%",
@@ -245,6 +246,7 @@ exports[`EmailForm matches snapshot 1`] = `
                     "flexBasis": "0%",
                     "flexGrow": 1,
                     "flexShrink": 1,
+                    "marginBottom": "8px",
                     "msFlexNegative": 1,
                     "msFlexPositive": 1,
                     "msFlexPreferredSize": "0%",
@@ -356,7 +358,9 @@ exports[`EmailForm matches snapshot 1`] = `
                     "transform": "translateY(0px)",
                   }
                 }
-              />
+              >
+                I
+              </div>
             </div>
           </div>
           <div

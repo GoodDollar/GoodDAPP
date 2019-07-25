@@ -4,7 +4,7 @@ import { isMobileSafari } from 'mobile-device-detect'
 
 import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native'
 import HelperText from 'react-native-paper/src/components/HelperText'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
+import normalize from '../../../lib/utils/normalizeText'
 import SimpleStore from '../../../lib/undux/SimpleStore'
 import Icon from '../view/Icon'
 import { withStyles } from '../../../lib/styles'

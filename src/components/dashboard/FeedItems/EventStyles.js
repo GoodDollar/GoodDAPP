@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native'
-import normalize from 'react-native-elements/src/helpers/normalizeText'
+import normalize from '../../../lib/utils/normalizeText'
 
 export const modalStyles = StyleSheet.create({
   modal: {

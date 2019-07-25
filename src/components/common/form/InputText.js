@@ -8,6 +8,7 @@ import normalize from 'react-native-elements/src/helpers/normalizeText'
 import SimpleStore from '../../../lib/undux/SimpleStore'
 import Icon from '../view/Icon'
 import { withStyles } from '../../../lib/styles'
+import Config from '../../../config/config'
 
 const InputText = ({ error, onCleanUpField, styles, theme, style, getRef, ...props }: any) => {
   const simpleStore = SimpleStore.useStore()
@@ -30,6 +31,8 @@ const InputText = ({ error, onCleanUpField, styles, theme, style, getRef, ...pro
     color: inputColor,
     borderBottomColor: inputColor,
   }
+
+  const shouldChangeSizeOnKeyboardShown = isMobileSafari && simpleStore.set && Config.safariMobileKeyboardGuidedSize
   return (
     <View style={styles.view}>
       <View style={styles.view}>
@@ -38,7 +41,7 @@ const InputText = ({ error, onCleanUpField, styles, theme, style, getRef, ...pro
           ref={getRef}
           style={[styles.input, inputStyle, style]}
           onFocus={() => {
-            if (isMobileSafari) {
+            if (shouldChangeSizeOnKeyboardShown) {
               onFocusMobileSafari()
             }
             if (props.onFocus) {
@@ -46,7 +49,7 @@ const InputText = ({ error, onCleanUpField, styles, theme, style, getRef, ...pro
             }
           }}
           onBlur={() => {
-            if (onBlurMobileSafari) {
+            if (shouldChangeSizeOnKeyboardShown) {
               onBlurMobileSafari()
             }
             if (props.onBlur) {

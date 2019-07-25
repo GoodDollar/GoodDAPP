@@ -3,11 +3,10 @@ import React from 'react'
 import { View } from 'react-native'
 import { withStyles } from '../../../lib/styles'
 import SimpleStore from '../../../lib/undux/SimpleStore'
-import Config from '../../../config/config'
 
 const Wrapper = props => {
   const simpleStore = SimpleStore.useStore()
-  const shouldGrow = !simpleStore.get('isMobileSafariKeyboardShown') || !Config.safariMobileKeyboardGuidedSize
+  const shouldGrow = simpleStore.get && !simpleStore.get('isMobileSafariKeyboardShown')
 
   const growStyle = { flexGrow: shouldGrow ? 1 : 0 }
 

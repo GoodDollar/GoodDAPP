@@ -209,7 +209,13 @@ class AppView extends Component<AppViewProps, AppViewState> {
     const { descriptors, navigation, navigationConfig, screenProps: incomingScreenProps, store } = this.props
     const activeKey = navigation.state.routes[navigation.state.index].key
     const descriptor = descriptors[activeKey]
-    const { title, navigationBar: NavigationBar, navigationBarHidden, backButtonHidden } = descriptor.options
+    const {
+      title,
+      navigationBar: NavigationBar,
+      navigationBarHidden,
+      backButtonHidden,
+      disableScroll,
+    } = descriptor.options
     const screenProps = {
       ...incomingScreenProps,
       navigationConfig,
@@ -235,9 +241,13 @@ class AppView extends Component<AppViewProps, AppViewState> {
             ) : (
               <NavBar goBack={backButtonHidden ? undefined : this.pop} title={pageTitle} />
             ))}
-          <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollableView}>
+          {disableScroll ? (
             <SceneView navigation={descriptor.navigation} component={Component} screenProps={screenProps} />
-          </ScrollView>
+          ) : (
+            <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollableView}>
+              <SceneView navigation={descriptor.navigation} component={Component} screenProps={screenProps} />
+            </ScrollView>
+          )}
         </SideMenu>
       </React.Fragment>
     )

@@ -208,7 +208,7 @@ const Dashboard = props => {
             </PushButton>
           </Section.Row>
         </Section>
-        <ScrollView style={styles.scrollList}>
+        <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollableView}>
           <FeedList
             horizontal={horizontal}
             handleFeedSelection={handleFeedSelection}
@@ -245,14 +245,21 @@ const getStylesFromProps = ({ theme }) => ({
     paddingLeft: theme.sizes.defaultDouble,
   },
   dashboardView: {
-    flex: 1,
+    flexGrow: 1,
   },
   dashboardWrapper: {
     paddingHorizontal: 0,
   },
-  scrollList: {
+  scrollView: {
     marginTop: theme.sizes.default,
-    overflowX: 'visible',
+    display: 'flex',
+    flexGrow: 1,
+    height: 1,
+  },
+  scrollableView: {
+    flexGrow: 1,
+    display: 'flex',
+    height: '100%',
   },
   centering: {
     alignItems: 'center',
@@ -275,6 +282,7 @@ Dashboard.navigationOptions = ({ navigation, screenProps }) => {
   return {
     navigationBar: () => <TabsView goTo={navigation.navigate} routes={screenProps.routes} />,
     title: 'Home',
+    disableScroll: true,
   }
 }
 

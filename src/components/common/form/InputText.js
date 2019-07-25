@@ -70,7 +70,7 @@ const InputText = ({ error, onCleanUpField, styles, theme, style, getRef, ...pro
 
 const ErrorComponent = ({ error, styles }) => (
   <HelperText type="error" style={[styles.error, { opacity: error ? 1 : 0 }]}>
-    {error || 'I'}
+    {error}
   </HelperText>
 )
 
@@ -102,6 +102,7 @@ const getErrorStylesFromProps = ({ theme }) => ({
   error: {
     paddingLeft: 0,
     textAlign: 'center',
+    height: normalize(18),
   },
 })
 

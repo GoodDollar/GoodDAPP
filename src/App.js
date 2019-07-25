@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { Platform, StyleSheet, View } from 'react-native'
+import { Platform, SafeAreaView, StyleSheet } from 'react-native'
 import PaperProvider from 'react-native-paper/src/core/Provider'
 import { theme } from './components/theme/styles'
 import SimpleStore from './lib/undux/SimpleStore'
@@ -16,14 +16,14 @@ const App = () => {
   return (
     <SimpleStore.Container>
       <PaperProvider theme={theme}>
-        <View style={styles.safeAreaView}>
+        <SafeAreaView style={styles.safeAreaView}>
           <React.Fragment>
             <SimpleStoreDialog />
             <LoadingIndicator />
             {/* <ReCaptcha sitekey={Config.recaptcha} action="auth" verifyCallback={this.onRecaptcha} /> */}
             <RouterSelector />
           </React.Fragment>
-        </View>
+        </SafeAreaView>
       </PaperProvider>
     </SimpleStore.Container>
   )

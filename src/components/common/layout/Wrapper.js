@@ -11,7 +11,12 @@ const Wrapper = props => {
   const growStyle = { flexGrow: shouldGrow ? 1 : 0 }
 
   const { backgroundColor, children, style, styles, ...rest } = props
-  const backgroundStyle = backgroundColor ? { backgroundColor } : {}
+  const backgroundStyle = backgroundColor
+    ? { backgroundColor: backgroundColor }
+    : {
+        backgroundImage:
+          'linear-gradient(to bottom, #00AFFF, #2DC0F7, #28C0EF, #23C0E7, #1EC1DF, #19C1D7, #14C1CF, #0FC2C7, #0FC2C7, #0AC2BF, #05C2B7, #00C3AF)',
+      }
 
   return (
     <View data-name="viewWrapper" style={[styles.container, backgroundStyle, growStyle, style]} {...rest}>

@@ -3,7 +3,6 @@ import React from 'react'
 import { View } from 'react-native'
 import { moneyRegexp } from '../../../lib/wallet/utils'
 import { withStyles } from '../../../lib/styles'
-import normalize from '../../../lib/utils/normalizeText'
 import KeyboardKey from './KeyboardKey'
 import KeyboardRow from './KeyboardRow'
 
@@ -75,7 +74,7 @@ const getStylesFromProps = ({ theme }) => {
       display: 'flex',
       marginBottom: theme.sizes.default,
       marginTop: theme.sizes.defaultDouble,
-      maxHeight: normalize(250),
+      maxHeight: 250,
       flexGrow: 1,
       overflow: 'hidden',
       justifyContent: 'space-between',

@@ -4,7 +4,6 @@ import { Keyboard, TouchableWithoutFeedback, View } from 'react-native'
 import { isMobile } from 'mobile-device-detect'
 import InputGoodDollar from '../form/InputGoodDollar'
 import { withStyles } from '../../../lib/styles'
-import Text from '../view/Text'
 import NumPadKeyboard from './NumPadKeyboard'
 
 type AmountInputProps = {
@@ -31,9 +30,9 @@ const AmountInput = ({ amount, handleAmountChange, styles, error }: AmountInputP
             amount={amount}
             onChangeAmount={handleAmountChange}
             onSelectionChange={setCaretPosition}
+            error={error}
           />
         </TouchableWithoutFeedback>
-        <Text style={[styles.errorText, { opacity: error ? 1 : 0 }]}>{error || 'I'}</Text>
       </View>
       <NumPadKeyboard
         amount={amount}
@@ -52,10 +51,6 @@ const mapPropsToStyles = ({ theme }) => {
       display: 'flex',
       justifyContent: 'space-between',
       flex: 1,
-    },
-    errorText: {
-      color: theme.colors.error,
-      marginTop: theme.sizes.default,
     },
     errorInput: {
       color: theme.colors.error,

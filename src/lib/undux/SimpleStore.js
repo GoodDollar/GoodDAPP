@@ -4,7 +4,7 @@ import { AsyncStorage } from 'react-native'
 
 /**
  * Dialog data. This is being used to show a dialog across the app
- * @type
+ * @type {{visible: boolean}, {title?: string}, {message?: string}}
  */
 type DialogData = {
   visible: boolean,
@@ -14,7 +14,7 @@ type DialogData = {
 
 /**
  * Current screen state data
- * @type
+ * @type {{dialogData?: DialogData}, {loading: boolean}}
  */
 type CurrentScreen = {
   dialogData?: DialogData,
@@ -23,7 +23,7 @@ type CurrentScreen = {
 
 /**
  * Loading indicator screen status. In true means that there is a loading overlay over the current screen
- * @type
+ * @type {{loading: boolean}}
  */
 type LoadingIndicator = {
   loading: boolean,
@@ -31,7 +31,14 @@ type LoadingIndicator = {
 
 /**
  * Type definition for the global store
- * @type
+ * @type {
+   {currentScreen: CurrentScreen},
+   {destinationPath: string},
+   {loadingIndicator: LoadingIndicator},
+   {isLoggedInCitizen: boolean},
+   {isLoggedIn: boolean},
+   {sidemenu: { visible: boolean }}
+  }
  */
 export type State = {
   currentScreen: CurrentScreen,

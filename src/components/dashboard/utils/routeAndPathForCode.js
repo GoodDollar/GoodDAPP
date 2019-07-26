@@ -1,6 +1,7 @@
 // @flow
 import { getNetworkName } from '../../../lib/constants/network'
 import goodWallet from '../../../lib/wallet/GoodWallet'
+import { ACTION_SEND } from './sendReceiveFlow'
 
 export type CodeType = {
   networkId: number,
@@ -33,18 +34,21 @@ export const routeAndPathForCode = async (screen: string, code: CodeType | null)
 
   switch (screen) {
     case 'sendByQR':
-    case 'send':
+    case 'send': {
+      const params = { action: ACTION_SEND }
       if (!amount) {
         return {
           route: 'Amount',
-          params: { to: address, nextRoutes: ['Reason', 'SendQRSummary'] },
+          params: { to: address, nextRoutes: ['Reason', 'SendQRSummary'], params },
         }
       }
 
       return {
         route: 'SendQRSummary',
-        params: { to: address, amount, reason: reason || 'From QR with Amount' },
+        params: { to: address, amount, reason: reason || 'From QR with Amount', params },
       }
+    }
+
     default:
       throw new Error('Invalid screen specified.')
   }

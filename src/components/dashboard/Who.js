@@ -39,7 +39,7 @@ const Who = (props: AmountProps) => {
   return (
     <Wrapper>
       <TopBar push={screenProps.push}>
-        {isReceive && <ScanQRButton onPress={() => screenProps.push('SendByQR')} />}
+        {!isReceive && <ScanQRButton onPress={() => screenProps.push('SendByQR')} />}
       </TopBar>
       <Section grow>
         <Section.Stack justifyContent="flex-start">

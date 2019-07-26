@@ -50,15 +50,24 @@ const FeedModalList = ({
   const flatListRef: AnimatedFlatList = useRef(null)
 
   useEffect(() => {
-    const item = data.find(item => item.transactionHash === selectedFeed)
-    const index = data.findIndex(item => item.transactionHash === selectedFeed)
+    const item = data.find(item => item.id === selectedFeed.id)
+    const index = data.findIndex(item => item.id === selectedFeed.id)
     scrollToItem(item, index)
   }, [selectedFeed, flatListRef])
 
   const scrollToItem = (item: any, index: number) => {
-    flatListRef && flatListRef.current && flatListRef.scrollToItem({ animated: true, item, viewPosition: 0.5 })
+    // eslint-disable-next-line no-console
+    console.log('Reference', {
+      item,
+      flatListRef,
+      index,
+      selectedFeed,
+    })
 
-    // flatListRef && flatListRef.current && flatListRef.scrollToIndex({ animated: true, index, viewPosition: 0.5 })
+    // flatListRef && flatListRef.current && flatListRef.current.scrollToItem({ animated: true, item, viewPosition: 0.5 })
+    flatListRef &&
+      flatListRef.current &&
+      flatListRef.current.scrollToIndex({ animated: true, index, viewPosition: 0.5 })
   }
 
   const getItemLayout = (_: any, index: number) => {

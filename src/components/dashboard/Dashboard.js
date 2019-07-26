@@ -48,9 +48,8 @@ export type DashboardProps = {
 }
 
 type DashboardState = {
-  horizontal: boolean,
   feeds: any[],
-  currentFeedProps: any,
+  currentFeed: any,
 }
 
 const Dashboard = props => {
@@ -58,8 +57,7 @@ const Dashboard = props => {
   const gdstore = GDStore.useStore()
   const [showDialog, hideDialog] = useDialog()
   const [state: DashboardState, setState] = useState({
-    horizontal: false,
-    currentFeedProps: null,
+    currentFeed: null,
     feeds: [],
   })
   const { params } = props.navigation.state
@@ -85,18 +83,12 @@ const Dashboard = props => {
     getInitialFeed(gdstore)
   }
 
-  const showEventModal = item => {
-    setState({
-      currentFeedProps: {
-        item,
-        onPress: closeFeedEvent,
-      },
-    })
+  const showEventModal = currentFeed => {
+    setState({ currentFeed })
   }
 
   const handleFeedSelection = (receipt, horizontal) => {
-    showEventModal(receipt)
-    setState({ horizontal: !state.horizontal })
+    showEventModal(horizontal ? receipt : null)
   }
 
   const showNewFeedEvent = async eventId => {
@@ -119,26 +111,18 @@ const Dashboard = props => {
     }
   }
 
-  const closeFeedEvent = () => {
-    setState({ currentFeedProps: null })
-  }
-
   const handleWithdraw = async () => {
     const { paymentCode, reason } = props.navigation.state.params
     try {
       showDialog({ title: 'Processing Payment Link...', loading: true, dismissText: 'hold' })
       await executeWithdraw(store, paymentCode, reason)
       hideDialog()
-
-      // if (receipt.transactionHash) {
-      //   await showNewFeedEvent(receipt.transactionHash)
-      // }
     } catch (e) {
       showDialog({ title: 'Error', message: e.message })
     }
   }
 
-  const { horizontal } = state
+  const { currentFeed } = state
   const { screenProps, navigation, styles, theme }: DashboardProps = props
   const { balance, entitlement } = gdstore.get('account')
   const { avatar, fullName } = gdstore.get('profile')
@@ -216,11 +200,12 @@ const Dashboard = props => {
           initialNumToRender={PAGE_SIZE}
           onEndReached={getNextFeed.bind(null, store)}
         />
-        {horizontal && (
+        {currentFeed && (
           <FeedModalList
             handleFeedSelection={handleFeedSelection}
             data={feeds}
             updateData={() => {}}
+            selectedFeed={currentFeed}
             initialNumToRender={PAGE_SIZE}
             onEndReached={getNextFeed.bind(null, store)}
           />

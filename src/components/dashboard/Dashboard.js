@@ -1,7 +1,6 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { ScrollView, View } from 'react-native'
-import { Portal } from 'react-native-paper'
+import { View } from 'react-native'
 import type { Store } from 'undux'
 import normalize from '../../lib/utils/normalizeText'
 
@@ -27,7 +26,7 @@ import FRIntro from './FaceRecognition/FRIntro'
 import FRError from './FaceRecognition/FRError'
 import UnsupportedDevice from './FaceRecognition/UnsupportedDevice'
 import FeedList from './FeedList'
-import FeedModalItem from './FeedItems/FeedModalItem'
+import FeedModalList from './FeedModalList'
 import Reason from './Reason'
 import Receive from './Receive'
 import Who from './Who'
@@ -97,6 +96,7 @@ const Dashboard = props => {
 
   const handleFeedSelection = (receipt, horizontal) => {
     showEventModal(receipt)
+    setState({ horizontal: !state.horizontal })
   }
 
   const showNewFeedEvent = async eventId => {
@@ -138,7 +138,7 @@ const Dashboard = props => {
     }
   }
 
-  const { horizontal, currentFeedProps } = state
+  const { horizontal } = state
   const { screenProps, navigation, styles, theme }: DashboardProps = props
   const { balance, entitlement } = gdstore.get('account')
   const { avatar, fullName } = gdstore.get('profile')
@@ -209,22 +209,21 @@ const Dashboard = props => {
             </PushButton>
           </Section.Row>
         </Section>
-        <ScrollView style={styles.scrollList}>
-          <FeedList
-            horizontal={horizontal}
+        <FeedList
+          handleFeedSelection={handleFeedSelection}
+          data={feeds}
+          updateData={() => {}}
+          initialNumToRender={PAGE_SIZE}
+          onEndReached={getNextFeed.bind(null, store)}
+        />
+        {horizontal && (
+          <FeedModalList
             handleFeedSelection={handleFeedSelection}
-            fixedHeight
-            virtualized
             data={feeds}
             updateData={() => {}}
             initialNumToRender={PAGE_SIZE}
             onEndReached={getNextFeed.bind(null, store)}
           />
-        </ScrollView>
-        {currentFeedProps && (
-          <Portal>
-            <FeedModalItem {...currentFeedProps} />
-          </Portal>
         )}
       </Wrapper>
     </View>
@@ -250,10 +249,6 @@ const getStylesFromProps = ({ theme }) => ({
   },
   dashboardWrapper: {
     paddingHorizontal: 0,
-  },
-  scrollList: {
-    marginTop: theme.sizes.default,
-    overflowX: 'visible',
   },
   centering: {
     alignItems: 'center',

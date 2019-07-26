@@ -39,6 +39,7 @@ import Send from './Send'
 import SendConfirmation from './SendConfirmation'
 import SendLinkSummary from './SendLinkSummary'
 import SendQRSummary from './SendQRSummary'
+import { ACTION_SEND } from './utils/sendReceiveFlow'
 
 const log = logger.child({ from: 'Dashboard' })
 
@@ -295,14 +296,17 @@ export default createStackNavigator({
   Who: {
     screen: Who,
     path: ':action/Who',
+    params: { action: ACTION_SEND },
   },
   Amount: {
     screen: Amount,
     path: ':action/Amount',
+    params: { action: ACTION_SEND },
   },
   Reason: {
     screen: Reason,
     path: ':action/Reason',
+    params: { action: ACTION_SEND },
   },
   ReceiveSummary,
   Confirmation: {

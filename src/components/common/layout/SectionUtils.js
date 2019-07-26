@@ -1,7 +1,7 @@
 // @flow
 export const getFlexStylesFromProps = props => {
   const { justifyContent, alignItems, grow } = props
-  const flex = Number.isFinite(grow) ? grow : grow ? 1 : undefined
+  const flexGrow = Number.isFinite(grow) ? grow : grow ? 1 : undefined
 
   let styles = {}
   if (justifyContent) {
@@ -10,8 +10,8 @@ export const getFlexStylesFromProps = props => {
   if (alignItems) {
     styles.alignItems = alignItems
   }
-  if (flex) {
-    styles.flex = flex
+  if (flexGrow) {
+    styles.flexGrow = flexGrow
   }
   return styles
 }

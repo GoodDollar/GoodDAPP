@@ -55,6 +55,7 @@ exports[`AmountInput matches snapshot 1`] = `
             "flexBasis": "0%",
             "flexGrow": 1,
             "flexShrink": 1,
+            "marginBottom": "8px",
             "msFlexNegative": 1,
             "msFlexPositive": 1,
             "msFlexPreferredSize": "0%",
@@ -72,6 +73,7 @@ exports[`AmountInput matches snapshot 1`] = `
               "flexBasis": "0%",
               "flexGrow": 1,
               "flexShrink": 1,
+              "marginBottom": "8px",
               "msFlexNegative": 1,
               "msFlexPositive": 1,
               "msFlexPreferredSize": "0%",
@@ -138,6 +140,7 @@ exports[`AmountInput matches snapshot 1`] = `
               "direction": "ltr",
               "fontFamily": "Roboto",
               "fontSize": "12px",
+              "height": "18px",
               "opacity": 0,
               "paddingBottom": "4px",
               "paddingLeft": "0px",
@@ -149,32 +152,25 @@ exports[`AmountInput matches snapshot 1`] = `
           }
         />
       </div>
-      <div
-        className="css-text-901oao"
-        dir="auto"
-        style={
-          Object {
-            "color": "rgba(250,108,119,1.00)",
-            "direction": "ltr",
-            "fontFamily": "Roboto",
-            "fontSize": "16px",
-            "fontWeight": "normal",
-            "lineHeight": "22px",
-            "marginTop": "8px",
-            "textAlign": "center",
-            "textDecoration": "none",
-            "textTransform": "none",
-          }
-        }
-      />
     </div>
     <div
       className="css-view-1dbjc4n"
       style={
         Object {
+          "WebkitBoxFlex": 1,
+          "WebkitBoxPack": "justify",
+          "WebkitFlexGrow": 1,
+          "WebkitJustifyContent": "space-between",
           "display": "flex",
+          "flexGrow": 1,
+          "justifyContent": "space-between",
           "marginBottom": "8px",
           "marginTop": "16px",
+          "maxHeight": "250px",
+          "msFlexPack": "justify",
+          "msFlexPositive": 1,
+          "overflowX": "hidden",
+          "overflowY": "hidden",
         }
       }
     >
@@ -233,10 +229,6 @@ exports[`AmountInput matches snapshot 1`] = `
               "msFlexPreferredSize": "0%",
               "msTouchAction": "manipulation",
               "msUserSelect": "none",
-              "paddingBottom": "20px",
-              "paddingLeft": "20px",
-              "paddingRight": "20px",
-              "paddingTop": "20px",
               "touchAction": "manipulation",
               "userSelect": "none",
             }
@@ -297,10 +289,6 @@ exports[`AmountInput matches snapshot 1`] = `
               "msFlexPreferredSize": "0%",
               "msTouchAction": "manipulation",
               "msUserSelect": "none",
-              "paddingBottom": "20px",
-              "paddingLeft": "20px",
-              "paddingRight": "20px",
-              "paddingTop": "20px",
               "touchAction": "manipulation",
               "userSelect": "none",
             }
@@ -361,10 +349,6 @@ exports[`AmountInput matches snapshot 1`] = `
               "msFlexPreferredSize": "0%",
               "msTouchAction": "manipulation",
               "msUserSelect": "none",
-              "paddingBottom": "20px",
-              "paddingLeft": "20px",
-              "paddingRight": "20px",
-              "paddingTop": "20px",
               "touchAction": "manipulation",
               "userSelect": "none",
             }
@@ -447,10 +431,6 @@ exports[`AmountInput matches snapshot 1`] = `
               "msFlexPreferredSize": "0%",
               "msTouchAction": "manipulation",
               "msUserSelect": "none",
-              "paddingBottom": "20px",
-              "paddingLeft": "20px",
-              "paddingRight": "20px",
-              "paddingTop": "20px",
               "touchAction": "manipulation",
               "userSelect": "none",
             }
@@ -511,10 +491,6 @@ exports[`AmountInput matches snapshot 1`] = `
               "msFlexPreferredSize": "0%",
               "msTouchAction": "manipulation",
               "msUserSelect": "none",
-              "paddingBottom": "20px",
-              "paddingLeft": "20px",
-              "paddingRight": "20px",
-              "paddingTop": "20px",
               "touchAction": "manipulation",
               "userSelect": "none",
             }
@@ -575,10 +551,6 @@ exports[`AmountInput matches snapshot 1`] = `
               "msFlexPreferredSize": "0%",
               "msTouchAction": "manipulation",
               "msUserSelect": "none",
-              "paddingBottom": "20px",
-              "paddingLeft": "20px",
-              "paddingRight": "20px",
-              "paddingTop": "20px",
               "touchAction": "manipulation",
               "userSelect": "none",
             }
@@ -661,10 +633,6 @@ exports[`AmountInput matches snapshot 1`] = `
               "msFlexPreferredSize": "0%",
               "msTouchAction": "manipulation",
               "msUserSelect": "none",
-              "paddingBottom": "20px",
-              "paddingLeft": "20px",
-              "paddingRight": "20px",
-              "paddingTop": "20px",
               "touchAction": "manipulation",
               "userSelect": "none",
             }
@@ -725,10 +693,6 @@ exports[`AmountInput matches snapshot 1`] = `
               "msFlexPreferredSize": "0%",
               "msTouchAction": "manipulation",
               "msUserSelect": "none",
-              "paddingBottom": "20px",
-              "paddingLeft": "20px",
-              "paddingRight": "20px",
-              "paddingTop": "20px",
               "touchAction": "manipulation",
               "userSelect": "none",
             }
@@ -789,10 +753,6 @@ exports[`AmountInput matches snapshot 1`] = `
               "msFlexPreferredSize": "0%",
               "msTouchAction": "manipulation",
               "msUserSelect": "none",
-              "paddingBottom": "20px",
-              "paddingLeft": "20px",
-              "paddingRight": "20px",
-              "paddingTop": "20px",
               "touchAction": "manipulation",
               "userSelect": "none",
             }
@@ -875,10 +835,6 @@ exports[`AmountInput matches snapshot 1`] = `
               "msFlexPreferredSize": "0%",
               "msTouchAction": "manipulation",
               "msUserSelect": "none",
-              "paddingBottom": "20px",
-              "paddingLeft": "20px",
-              "paddingRight": "20px",
-              "paddingTop": "20px",
               "touchAction": "manipulation",
               "userSelect": "none",
             }
@@ -939,10 +895,6 @@ exports[`AmountInput matches snapshot 1`] = `
               "msFlexPreferredSize": "0%",
               "msTouchAction": "manipulation",
               "msUserSelect": "none",
-              "paddingBottom": "20px",
-              "paddingLeft": "20px",
-              "paddingRight": "20px",
-              "paddingTop": "20px",
               "touchAction": "manipulation",
               "userSelect": "none",
             }
@@ -1003,10 +955,6 @@ exports[`AmountInput matches snapshot 1`] = `
               "msFlexPreferredSize": "0%",
               "msTouchAction": "manipulation",
               "msUserSelect": "none",
-              "paddingBottom": "20px",
-              "paddingLeft": "20px",
-              "paddingRight": "20px",
-              "paddingTop": "20px",
               "touchAction": "manipulation",
               "userSelect": "none",
             }

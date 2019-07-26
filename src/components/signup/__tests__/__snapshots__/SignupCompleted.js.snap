@@ -20,29 +20,25 @@ exports[`SignupCompleted matches snapshot 1`] = `
 >
   <div
     className="css-view-1dbjc4n"
+    data-name="viewWrapper"
     style={
       Object {
         "WebkitBoxDirection": "normal",
-        "WebkitBoxFlex": 1,
+        "WebkitBoxFlex": 0,
         "WebkitBoxOrient": "vertical",
-        "WebkitFlexBasis": "0%",
         "WebkitFlexDirection": "column",
-        "WebkitFlexGrow": 1,
-        "WebkitFlexShrink": 1,
+        "WebkitFlexGrow": 0,
         "backgroundColor": "rgba(255,255,255,1.00)",
         "display": "flex",
-        "flexBasis": "0%",
         "flexDirection": "column",
-        "flexGrow": 1,
-        "flexShrink": 1,
+        "flexGrow": 0,
         "msFlexDirection": "column",
-        "msFlexNegative": 1,
-        "msFlexPositive": 1,
-        "msFlexPreferredSize": "0%",
+        "msFlexPositive": 0,
         "paddingBottom": "16px",
         "paddingLeft": "16px",
         "paddingRight": "16px",
         "paddingTop": "16px",
+        "position": "relative",
         "width": "100%",
       }
     }
@@ -52,20 +48,14 @@ exports[`SignupCompleted matches snapshot 1`] = `
       style={
         Object {
           "WebkitBoxFlex": 1,
-          "WebkitFlexBasis": "0%",
           "WebkitFlexGrow": 1,
-          "WebkitFlexShrink": 1,
           "backgroundColor": "rgba(255,255,255,1.00)",
           "borderBottomLeftRadius": "5px",
           "borderBottomRightRadius": "5px",
           "borderTopLeftRadius": "5px",
           "borderTopRightRadius": "5px",
-          "flexBasis": "0%",
           "flexGrow": 1,
-          "flexShrink": 1,
-          "msFlexNegative": 1,
           "msFlexPositive": 1,
-          "msFlexPreferredSize": "0%",
           "paddingBottom": "16px",
           "paddingLeft": "0px",
           "paddingRight": "0px",
@@ -83,23 +73,17 @@ exports[`SignupCompleted matches snapshot 1`] = `
             "WebkitBoxFlex": 1,
             "WebkitBoxOrient": "vertical",
             "WebkitBoxPack": "space-evenly",
-            "WebkitFlexBasis": "0%",
             "WebkitFlexDirection": "column",
             "WebkitFlexGrow": 1,
-            "WebkitFlexShrink": 1,
             "WebkitJustifyContent": "space-evenly",
             "alignItems": "stretch",
-            "flexBasis": "0%",
             "flexDirection": "column",
             "flexGrow": 1,
-            "flexShrink": 1,
             "justifyContent": "space-evenly",
             "msFlexAlign": "stretch",
             "msFlexDirection": "column",
-            "msFlexNegative": 1,
             "msFlexPack": "space-evenly",
             "msFlexPositive": 1,
-            "msFlexPreferredSize": "0%",
           }
         }
       >

@@ -1,5 +1,6 @@
 // @flow
 import React, { useEffect, useState } from 'react'
+import debounce from 'lodash/debounce'
 import { useWrappedUserStorage } from '../../lib/gundb/useWrappedStorage'
 import logger from '../../lib/logger/pino-logger'
 import GDStore from '../../lib/undux/GDStore'
@@ -27,7 +28,7 @@ const EditProfile = ({ screenProps, theme, styles }) => {
     setProfile(storedProfile)
   }, [storedProfile])
 
-  const validate = async () => {
+  const validate = debounce(async () => {
     log.info({ validate: profile })
     if (profile && profile.validate) {
       const { isValid, errors } = profile.validate()
@@ -37,7 +38,7 @@ const EditProfile = ({ screenProps, theme, styles }) => {
       return isValid && indexIsValid
     }
     return false
-  }
+  }, 500)
 
   const handleProfileChange = newProfile => {
     if (saving) {

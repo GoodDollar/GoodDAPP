@@ -1,6 +1,7 @@
 // @flow
 import React from 'react'
 import { Image, StyleSheet } from 'react-native'
+import { getFirstWord } from '../../lib/utils/getFirstWord'
 import normalize from '../../lib/utils/normalizeText'
 import illustration from '../../assets/Signup/illustration.svg'
 import Text from '../common/view/Text'
@@ -16,15 +17,16 @@ export default class SignupCompleted extends React.Component<Props, State> {
   }
 
   render() {
+    const { createError, fullName, loading } = this.props.screenProps.data
     return (
       <CustomWrapper
         handleSubmit={this.handleSubmit}
         submitText="Let's start!"
-        loading={this.props.screenProps.data.loading}
-        valid={this.props.screenProps.data.createError !== true}
+        loading={loading}
+        valid={createError !== true}
       >
         <Text fontFamily="medium" fontSize={22} color="darkGray">
-          {`Thanks ${this.props.screenProps.data.fullName.split(' ')[0]}\nYou're all set`}
+          {`Thanks ${getFirstWord(fullName)}\nYou're all set`}
         </Text>
         <Image source={illustration} style={styles.illustration} resizeMode="contain" />
       </CustomWrapper>

@@ -1,6 +1,7 @@
 import React from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { isIOS, isMobileSafari } from 'mobile-device-detect'
+import { getFirstWord } from '../../../lib/utils/getFirstWord'
 import normalize from '../../../lib/utils/normalizeText'
 
 import { CustomButton, Section, Wrapper } from '../../common'
@@ -45,7 +46,7 @@ const FRIntro = props => {
           }}
         >
           <Section.Title style={styles.mainTitle}>
-            {`${fullName},\nLets make sure you are\na real live person!`}
+            {`${getFirstWord(fullName)},\nLets make sure you are\na real live person!`}
           </Section.Title>
           <Image source={SmileyHug} resizeMode={'center'} style={{ height: normalize(152) }} />
           <Section

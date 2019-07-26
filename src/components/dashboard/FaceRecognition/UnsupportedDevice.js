@@ -4,6 +4,7 @@ import { isIOS, isMobile } from 'mobile-device-detect'
 
 import get from 'lodash/get'
 import QRCode from 'qrcode.react'
+import { getFirstWord } from '../../../lib/utils/getFirstWord'
 import normalize from '../../../lib/utils/normalizeText'
 import Config from '../../../config/config'
 import { CopyButton, Section, Wrapper } from '../../common'
@@ -26,9 +27,9 @@ const UnsupportedDevice = props => {
 
   let error =
     "In order to continue, it's best you switch to your mobile device, also for best experience use Chrome/Safari browser."
-  let title = `${fullName},\nWe need to talk...`
+  let title = `${getFirstWord(fullName)},\nWe need to talk...`
   if (isIOS) {
-    title = `${fullName},\niPhones are great, but...`
+    title = `${getFirstWord(fullName)},\niPhones are great, but...`
   }
   switch (reason) {
     default:

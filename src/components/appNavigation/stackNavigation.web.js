@@ -1,7 +1,7 @@
 // @flow
 import React, { Component, useEffect, useState } from 'react'
-import { View } from 'react-native'
-import SideMenu from 'react-native-side-menu-gooddapp'
+import { ScrollView, StyleSheet } from 'react-native'
+import SideMenu from 'react-native-side-menu'
 import { createNavigator, Route, SceneView, SwitchRouter } from '@react-navigation/core'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import SideMenuPanel from '../sidemenu/SideMenuPanel'
@@ -10,7 +10,6 @@ import CustomButton, { type ButtonProps } from '../common/buttons/CustomButton'
 import NavBar from './NavBar'
 import { navigationOptions } from './navigationConfig'
 import { PushButton } from './PushButton'
-import './blurFx.css'
 
 export const DEFAULT_PARAMS = {
   event: undefined,
@@ -20,9 +19,6 @@ export const DEFAULT_PARAMS = {
 }
 
 const log = logger.child({ from: 'stackNavigation' })
-
-const sideMenuContainer = { display: 'none', zIndex: 100 }
-const fullScreenContainer = { top: 0, left: 0, bottom: 0, right: 0, position: 'absolute' }
 
 type AppViewProps = {
   descriptors: any,
@@ -213,7 +209,13 @@ class AppView extends Component<AppViewProps, AppViewState> {
     const { descriptors, navigation, navigationConfig, screenProps: incomingScreenProps, store } = this.props
     const activeKey = navigation.state.routes[navigation.state.index].key
     const descriptor = descriptors[activeKey]
-    const { title, navigationBarHidden, backButtonHidden } = descriptor.options
+    const {
+      title,
+      navigationBar: NavigationBar,
+      navigationBarHidden,
+      backButtonHidden,
+      disableScroll,
+    } = descriptor.options
     const screenProps = {
       ...incomingScreenProps,
       navigationConfig,
@@ -230,27 +232,39 @@ class AppView extends Component<AppViewProps, AppViewState> {
     const pageTitle = title || activeKey
     const open = store.get('sidemenu').visible
     const menu = open ? <SideMenuPanel navigation={navigation} /> : null
-    const menuStyle = open ? { display: 'block', ...fullScreenContainer } : {}
-
     return (
       <React.Fragment>
-        <View style={[sideMenuContainer, menuStyle]}>
-          <SideMenu
-            menu={menu}
-            menuPosition="right"
-            isOpen={open}
-            disableGestures={true}
-            onChange={this.sideMenuSwap}
-          />
-        </View>
-        <div style={fullScreenContainer} className={open ? 'blurFx' : ''}>
-          {!navigationBarHidden && <NavBar goBack={backButtonHidden ? undefined : this.pop} title={pageTitle} />}
-          <SceneView navigation={descriptor.navigation} component={Component} screenProps={screenProps} />
-        </div>
+        <SideMenu menu={menu} menuPosition="right" isOpen={open} disableGestures={true} onChange={this.sideMenuSwap}>
+          {!navigationBarHidden &&
+            (NavigationBar ? (
+              <NavigationBar />
+            ) : (
+              <NavBar goBack={backButtonHidden ? undefined : this.pop} title={pageTitle} />
+            ))}
+          {disableScroll ? (
+            <SceneView navigation={descriptor.navigation} component={Component} screenProps={screenProps} />
+          ) : (
+            <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollableView}>
+              <SceneView navigation={descriptor.navigation} component={Component} screenProps={screenProps} />
+            </ScrollView>
+          )}
+        </SideMenu>
       </React.Fragment>
     )
   }
 }
+
+const styles = StyleSheet.create({
+  scrollView: {
+    display: 'flex',
+    flexGrow: 1,
+  },
+  scrollableView: {
+    flexGrow: 1,
+    display: 'flex',
+    height: '100%',
+  },
+})
 
 /**
  * Returns a navigator with a navbar wrapping the routes.

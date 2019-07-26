@@ -60,6 +60,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   const [createError, setCreateError] = useState(false)
 
   const [showErrorDialog] = useErrorDialog()
+  const shouldGrow = store.get && !store.get('isMobileSafariKeyboardShown')
 
   const navigateWithFocus = (routeKey: string) => {
     navigation.navigate(routeKey)
@@ -220,10 +221,10 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       finishRegistration()
     }
   }, [navigation.state.index])
-  const { container, scrollableContainer, contentContainer } = styles
+  const { scrollableContainer, contentContainer } = styles
 
   return (
-    <View style={container}>
+    <View style={{ flexGrow: shouldGrow ? 1 : 0 }}>
       <NavBar goBack={back} title={'Sign Up'} />
       <ScrollView contentContainerStyle={scrollableContainer}>
         <View style={contentContainer}>
@@ -246,11 +247,8 @@ Signup.router = SignupWizardNavigator.router
 Signup.navigationOptions = SignupWizardNavigator.navigationOptions
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
   contentContainer: {
-    flex: 1,
+    flexGrow: 1,
     flexDirection: 'row',
     justifyContent: 'center',
   },

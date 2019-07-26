@@ -27,10 +27,11 @@ const Who = (props: AmountProps) => {
 
   const [screenState] = useScreenState(screenProps)
   const { params } = props.navigation.state
-  const text = params && params.action === ACTION_RECEIVE ? 'From Who?' : 'Send To?'
+  const isReceive = params && params.action === ACTION_RECEIVE
   const { counterPartyDisplayName } = screenState
 
-  const getErrorFunction = params && params.action === ACTION_RECEIVE ? () => null : getError
+  const text = isReceive ? 'From Who?' : 'Send To?'
+  const getErrorFunction = isReceive ? () => null : getError
   const [state, setValue] = useValidatedValueState(counterPartyDisplayName, getErrorFunction)
 
   console.info('Component props -> ', { props, params, text, state })
@@ -38,7 +39,7 @@ const Who = (props: AmountProps) => {
   return (
     <Wrapper>
       <TopBar push={screenProps.push}>
-        {params && params.action !== ACTION_RECEIVE && <ScanQRButton onPress={() => screenProps.push('SendByQR')} />}
+        {isReceive && <ScanQRButton onPress={() => screenProps.push('SendByQR')} />}
       </TopBar>
       <Section grow>
         <Section.Stack justifyContent="flex-start">
@@ -64,7 +65,7 @@ const Who = (props: AmountProps) => {
               values={{ params, counterPartyDisplayName }}
               canContinue={() => state.isValid}
               {...props}
-              label={state.value ? 'Next' : 'Skip'}
+              label={state.value || isReceive ? 'Next' : 'Skip'}
               disabled={!state.isValid}
             />
           </Section.Stack>

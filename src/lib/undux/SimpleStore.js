@@ -1,6 +1,7 @@
 // @flow
 import { createConnectedStore } from 'undux'
 import { AsyncStorage } from 'react-native'
+import withPinoLogger from './plugins/logger'
 
 /**
  * Dialog data. This is being used to show a dialog across the app
@@ -42,6 +43,7 @@ export type State = {
   sidemenu: {
     visible: boolean,
   },
+  isMobileSafariKeyboardShown: boolean,
 }
 
 /**
@@ -64,6 +66,7 @@ const initialState: State = {
   sidemenu: {
     visible: false,
   },
+  isMobileSafariKeyboardShown: false,
 }
 
 /**
@@ -74,7 +77,7 @@ let SimpleStore: UnduxStore = createConnectedStore(initialState) // default valu
 const initStore = async () => {
   let isLoggedIn = await AsyncStorage.getItem('GOODDAPP_isLoggedIn').then(JSON.parse)
   initialState.isLoggedIn = isLoggedIn
-  SimpleStore = createConnectedStore(initialState)
+  SimpleStore = createConnectedStore(initialState, withPinoLogger)
   return SimpleStore
 }
 export { initStore, SimpleStore as default }

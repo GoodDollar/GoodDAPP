@@ -22,9 +22,20 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
     className="css-view-1dbjc4n"
     style={
       Object {
+        "WebkitBoxFlex": 1,
+        "WebkitBoxPack": "justify",
+        "WebkitFlexGrow": 1,
+        "WebkitJustifyContent": "space-between",
         "display": "flex",
+        "flexGrow": 1,
+        "justifyContent": "space-between",
         "marginBottom": "8px",
         "marginTop": "16px",
+        "maxHeight": "250px",
+        "msFlexPack": "justify",
+        "msFlexPositive": 1,
+        "overflowX": "hidden",
+        "overflowY": "hidden",
       }
     }
   >
@@ -83,10 +94,6 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
             "msFlexPreferredSize": "0%",
             "msTouchAction": "manipulation",
             "msUserSelect": "none",
-            "paddingBottom": "20px",
-            "paddingLeft": "20px",
-            "paddingRight": "20px",
-            "paddingTop": "20px",
             "touchAction": "manipulation",
             "userSelect": "none",
           }
@@ -147,10 +154,6 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
             "msFlexPreferredSize": "0%",
             "msTouchAction": "manipulation",
             "msUserSelect": "none",
-            "paddingBottom": "20px",
-            "paddingLeft": "20px",
-            "paddingRight": "20px",
-            "paddingTop": "20px",
             "touchAction": "manipulation",
             "userSelect": "none",
           }
@@ -211,10 +214,6 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
             "msFlexPreferredSize": "0%",
             "msTouchAction": "manipulation",
             "msUserSelect": "none",
-            "paddingBottom": "20px",
-            "paddingLeft": "20px",
-            "paddingRight": "20px",
-            "paddingTop": "20px",
             "touchAction": "manipulation",
             "userSelect": "none",
           }
@@ -297,10 +296,6 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
             "msFlexPreferredSize": "0%",
             "msTouchAction": "manipulation",
             "msUserSelect": "none",
-            "paddingBottom": "20px",
-            "paddingLeft": "20px",
-            "paddingRight": "20px",
-            "paddingTop": "20px",
             "touchAction": "manipulation",
             "userSelect": "none",
           }
@@ -361,10 +356,6 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
             "msFlexPreferredSize": "0%",
             "msTouchAction": "manipulation",
             "msUserSelect": "none",
-            "paddingBottom": "20px",
-            "paddingLeft": "20px",
-            "paddingRight": "20px",
-            "paddingTop": "20px",
             "touchAction": "manipulation",
             "userSelect": "none",
           }
@@ -425,10 +416,6 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
             "msFlexPreferredSize": "0%",
             "msTouchAction": "manipulation",
             "msUserSelect": "none",
-            "paddingBottom": "20px",
-            "paddingLeft": "20px",
-            "paddingRight": "20px",
-            "paddingTop": "20px",
             "touchAction": "manipulation",
             "userSelect": "none",
           }
@@ -511,10 +498,6 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
             "msFlexPreferredSize": "0%",
             "msTouchAction": "manipulation",
             "msUserSelect": "none",
-            "paddingBottom": "20px",
-            "paddingLeft": "20px",
-            "paddingRight": "20px",
-            "paddingTop": "20px",
             "touchAction": "manipulation",
             "userSelect": "none",
           }
@@ -575,10 +558,6 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
             "msFlexPreferredSize": "0%",
             "msTouchAction": "manipulation",
             "msUserSelect": "none",
-            "paddingBottom": "20px",
-            "paddingLeft": "20px",
-            "paddingRight": "20px",
-            "paddingTop": "20px",
             "touchAction": "manipulation",
             "userSelect": "none",
           }
@@ -639,10 +618,6 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
             "msFlexPreferredSize": "0%",
             "msTouchAction": "manipulation",
             "msUserSelect": "none",
-            "paddingBottom": "20px",
-            "paddingLeft": "20px",
-            "paddingRight": "20px",
-            "paddingTop": "20px",
             "touchAction": "manipulation",
             "userSelect": "none",
           }
@@ -725,10 +700,6 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
             "msFlexPreferredSize": "0%",
             "msTouchAction": "manipulation",
             "msUserSelect": "none",
-            "paddingBottom": "20px",
-            "paddingLeft": "20px",
-            "paddingRight": "20px",
-            "paddingTop": "20px",
             "touchAction": "manipulation",
             "userSelect": "none",
           }
@@ -789,10 +760,6 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
             "msFlexPreferredSize": "0%",
             "msTouchAction": "manipulation",
             "msUserSelect": "none",
-            "paddingBottom": "20px",
-            "paddingLeft": "20px",
-            "paddingRight": "20px",
-            "paddingTop": "20px",
             "touchAction": "manipulation",
             "userSelect": "none",
           }
@@ -853,10 +820,6 @@ exports[`NumPadKeyboard matches snapshot 1`] = `
             "msFlexPreferredSize": "0%",
             "msTouchAction": "manipulation",
             "msUserSelect": "none",
-            "paddingBottom": "20px",
-            "paddingLeft": "20px",
-            "paddingRight": "20px",
-            "paddingTop": "20px",
             "touchAction": "manipulation",
             "userSelect": "none",
           }

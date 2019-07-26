@@ -139,7 +139,7 @@ const Dashboard = props => {
   }
 
   const { horizontal, currentFeedProps } = state
-  const { screenProps, navigation, styles, theme }: DashboardProps = props
+  const { screenProps, styles, theme }: DashboardProps = props
   const { balance, entitlement } = gdstore.get('account')
   const { avatar, fullName } = gdstore.get('profile')
   const feeds = gdstore.get('feeds')
@@ -150,7 +150,6 @@ const Dashboard = props => {
   log.info('LOGGER FEEDS', { feeds })
   return (
     <View style={styles.dashboardView}>
-      <TabsView goTo={navigation.navigate} routes={screenProps.routes} />
       <Wrapper backgroundColor={theme.colors.lightGray} style={styles.dashboardWrapper}>
         <Section>
           {scrollPos < 100 ? (
@@ -209,7 +208,7 @@ const Dashboard = props => {
             </PushButton>
           </Section.Row>
         </Section>
-        <ScrollView style={styles.scrollList}>
+        <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollableView}>
           <FeedList
             horizontal={horizontal}
             handleFeedSelection={handleFeedSelection}
@@ -246,14 +245,21 @@ const getStylesFromProps = ({ theme }) => ({
     paddingLeft: theme.sizes.defaultDouble,
   },
   dashboardView: {
-    flex: 1,
+    flexGrow: 1,
   },
   dashboardWrapper: {
     paddingHorizontal: 0,
   },
-  scrollList: {
+  scrollView: {
     marginTop: theme.sizes.default,
-    overflowX: 'visible',
+    display: 'flex',
+    flexGrow: 1,
+    height: 1,
+  },
+  scrollableView: {
+    flexGrow: 1,
+    display: 'flex',
+    height: '100%',
   },
   centering: {
     alignItems: 'center',
@@ -272,9 +278,12 @@ const getStylesFromProps = ({ theme }) => ({
   },
 })
 
-Dashboard.navigationOptions = {
-  navigationBarHidden: true,
-  title: 'Home',
+Dashboard.navigationOptions = ({ navigation, screenProps }) => {
+  return {
+    navigationBar: () => <TabsView goTo={navigation.navigate} routes={screenProps.routes} />,
+    title: 'Home',
+    disableScroll: true,
+  }
 }
 
 const WrappedDashboard = withStyles(getStylesFromProps)(Dashboard)

@@ -52,10 +52,6 @@ exports[`KeyboardKey matches snapshot 1`] = `
         "msFlexPreferredSize": "0%",
         "msTouchAction": "manipulation",
         "msUserSelect": "none",
-        "paddingBottom": "20px",
-        "paddingLeft": "20px",
-        "paddingRight": "20px",
-        "paddingTop": "20px",
         "touchAction": "manipulation",
         "userSelect": "none",
       }

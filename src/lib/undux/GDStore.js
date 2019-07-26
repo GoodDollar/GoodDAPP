@@ -7,7 +7,7 @@ import withPinoLogger from './plugins/logger'
 
 /**
  * Wheather the balance update is running or not
- * @type
+ * @type {{running: boolean}}
  */
 type BalanceUpdate = {
   running: boolean,
@@ -15,7 +15,7 @@ type BalanceUpdate = {
 
 /**
  * Account data
- * @type
+ * @type {{balance: ?string}, {entitlement: ?string}, {ready: false}}
  */
 type Account = {
   balance: ?string,
@@ -25,7 +25,13 @@ type Account = {
 
 /**
  * Type definition for the global store
- * @type
+ * @type {
+    {balanceUpdate: BalanceUpdate},
+    {account: Account},
+    {destinationPath: string},
+    {feeds: StandardFeed[]},
+    {feedLoading: Boolean}
+  }
  */
 export type State = {
   balanceUpdate: BalanceUpdate,

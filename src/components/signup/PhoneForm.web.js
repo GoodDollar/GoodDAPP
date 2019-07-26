@@ -8,6 +8,7 @@ import { UserStorage } from '../../lib/gundb/UserStorageClass'
 import logger from '../../lib/logger/pino-logger'
 import { withStyles } from '../../lib/styles'
 import Config from '../../config/config'
+import { getFirstWord } from '../../lib/utils/getFirstWord'
 import Section from '../common/layout/Section'
 import CustomWrapper from './signUpWrapper'
 
@@ -73,13 +74,14 @@ class PhoneForm extends React.Component<Props, State> {
 
     const { key } = this.props.navigation.state
     const { styles } = this.props
-    const { loading } = this.props.screenProps.data
+    const { fullName, loading } = this.props.screenProps.data
+
     return (
       <CustomWrapper valid={this.state.isValid} handleSubmit={this.handleSubmit} loading={loading}>
         <Section.Stack grow justifyContent="flex-start" style={styles.row}>
           <Section.Row justifyContent="center">
             <Section.Title textTransform="none">
-              {`${this.props.screenProps.data.fullName.split(' ')[0]}, May we have your number please?`}
+              {`${getFirstWord(fullName)}, May we have your number please?`}
             </Section.Title>
           </Section.Row>
           <Section.Row justifyContent="center" style={styles.row}>

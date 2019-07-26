@@ -1,6 +1,7 @@
 import React from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import get from 'lodash/get'
+import { getFirstWord } from '../../../lib/utils/getFirstWord'
 import normalize from '../../../lib/utils/normalizeText'
 import { CustomButton, Section, Wrapper } from '../../common'
 import Separator from '../../common/layout/Separator'
@@ -50,7 +51,7 @@ const FRError = props => {
             flex: 1,
           }}
         >
-          <Section.Title style={styles.mainTitle}> {`${fullName},\n${title}`}</Section.Title>
+          <Section.Title style={styles.mainTitle}> {`${getFirstWord(fullName)},\n${title}`}</Section.Title>
           <Image source={Oops} resizeMode={'center'} style={{ height: normalize(146) }} />
           <Section
             style={{

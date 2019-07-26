@@ -7,7 +7,7 @@ import { StoresWrapper } from '../../../lib/undux/utils/storeswrapper.js'
 
 // Note: test renderer must be required after react-native.
 
-import SmsForm from '../SmsForm.web'
+import SmsForm from '../SmsForm'
 
 describe('SmsForm', () => {
   it('renders without errors', () => {

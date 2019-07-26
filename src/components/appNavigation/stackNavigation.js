@@ -1,5 +1,6 @@
 // @flow
 import React, { Component, useEffect, useState } from 'react'
+import { ScrollView, StyleSheet } from 'react-native'
 import SideMenu from 'react-native-side-menu'
 import { createNavigator, Route, SceneView, SwitchRouter } from '@react-navigation/core'
 import SimpleStore from '../../lib/undux/SimpleStore'
@@ -208,7 +209,13 @@ class AppView extends Component<AppViewProps, AppViewState> {
     const { descriptors, navigation, navigationConfig, screenProps: incomingScreenProps, store } = this.props
     const activeKey = navigation.state.routes[navigation.state.index].key
     const descriptor = descriptors[activeKey]
-    const { title, navigationBarHidden, backButtonHidden } = descriptor.options
+    const {
+      title,
+      navigationBar: NavigationBar,
+      navigationBarHidden,
+      backButtonHidden,
+      disableScroll,
+    } = descriptor.options
     const screenProps = {
       ...incomingScreenProps,
       navigationConfig,
@@ -228,13 +235,36 @@ class AppView extends Component<AppViewProps, AppViewState> {
     return (
       <React.Fragment>
         <SideMenu menu={menu} menuPosition="right" isOpen={open} disableGestures={true} onChange={this.sideMenuSwap}>
-          {!navigationBarHidden && <NavBar goBack={backButtonHidden ? undefined : this.pop} title={pageTitle} />}
-          <SceneView navigation={descriptor.navigation} component={Component} screenProps={screenProps} />
+          {!navigationBarHidden &&
+            (NavigationBar ? (
+              <NavigationBar />
+            ) : (
+              <NavBar goBack={backButtonHidden ? undefined : this.pop} title={pageTitle} />
+            ))}
+          {disableScroll ? (
+            <SceneView navigation={descriptor.navigation} component={Component} screenProps={screenProps} />
+          ) : (
+            <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollableView}>
+              <SceneView navigation={descriptor.navigation} component={Component} screenProps={screenProps} />
+            </ScrollView>
+          )}
         </SideMenu>
       </React.Fragment>
     )
   }
 }
+
+const styles = StyleSheet.create({
+  scrollView: {
+    display: 'flex',
+    flexGrow: 1,
+  },
+  scrollableView: {
+    flexGrow: 1,
+    display: 'flex',
+    height: '100%',
+  },
+})
 
 /**
  * Returns a navigator with a navbar wrapping the routes.

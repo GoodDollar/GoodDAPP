@@ -52,7 +52,9 @@ const FeedModalList = ({
   useEffect(() => {
     const item = data.find(item => item.id === selectedFeed.id)
     const index = data.findIndex(item => item.id === selectedFeed.id)
-    scrollToItem(item, index)
+    setTimeout(() => {
+      scrollToItem(item, index)
+    }, 1000)
   }, [selectedFeed, flatListRef])
 
   const scrollToItem = (item: any, index: number) => {
@@ -65,9 +67,7 @@ const FeedModalList = ({
     })
 
     // flatListRef && flatListRef.current && flatListRef.current.scrollToItem({ animated: true, item, viewPosition: 0.5 })
-    flatListRef &&
-      flatListRef.current &&
-      flatListRef.current.scrollToIndex({ animated: true, index, viewPosition: 0.5 })
+    flatListRef && flatListRef.scrollToIndex({ animated: true, index, viewPosition: 0.5 })
   }
 
   const getItemLayout = (_: any, index: number) => {
@@ -96,6 +96,7 @@ const FeedModalList = ({
           getItemLayout={getItemLayout}
           initialNumToRender={5}
           key="hf"
+          keyExtractor={feed => feed.id}
           keyboardDismissMode="on-drag"
           keyboardShouldPersistTaps="always"
           legacyImplementation={false}
@@ -125,6 +126,7 @@ const getStylesFromProps = ({ theme }) => ({
     padding: 0,
     position: 'fixed',
     height: '100vh',
+    width: '100%',
   },
   horizontalList: {
     width: '100%',

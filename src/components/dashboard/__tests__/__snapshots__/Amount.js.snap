@@ -20,29 +20,25 @@ exports[`Amount matches snapshot 1`] = `
 >
   <div
     className="css-view-1dbjc4n"
+    data-name="viewWrapper"
     style={
       Object {
         "WebkitBoxDirection": "normal",
-        "WebkitBoxFlex": 1,
+        "WebkitBoxFlex": 0,
         "WebkitBoxOrient": "vertical",
-        "WebkitFlexBasis": "0%",
         "WebkitFlexDirection": "column",
-        "WebkitFlexGrow": 1,
-        "WebkitFlexShrink": 1,
+        "WebkitFlexGrow": 0,
         "backgroundImage": "linear-gradient(to bottom, #00AFFF, #2DC0F7, #28C0EF, #23C0E7, #1EC1DF, #19C1D7, #14C1CF, #0FC2C7, #0FC2C7, #0AC2BF, #05C2B7, #00C3AF)",
         "display": "flex",
-        "flexBasis": "0%",
         "flexDirection": "column",
-        "flexGrow": 1,
-        "flexShrink": 1,
+        "flexGrow": 0,
         "msFlexDirection": "column",
-        "msFlexNegative": 1,
-        "msFlexPositive": 1,
-        "msFlexPreferredSize": "0%",
+        "msFlexPositive": 0,
         "paddingBottom": "8px",
         "paddingLeft": "8px",
         "paddingRight": "8px",
         "paddingTop": "8px",
+        "position": "relative",
         "width": "100%",
       }
     }
@@ -230,20 +226,14 @@ exports[`Amount matches snapshot 1`] = `
       style={
         Object {
           "WebkitBoxFlex": 1,
-          "WebkitFlexBasis": "0%",
           "WebkitFlexGrow": 1,
-          "WebkitFlexShrink": 1,
           "backgroundColor": "rgba(255,255,255,1.00)",
           "borderBottomLeftRadius": "5px",
           "borderBottomRightRadius": "5px",
           "borderTopLeftRadius": "5px",
           "borderTopRightRadius": "5px",
-          "flexBasis": "0%",
           "flexGrow": 1,
-          "flexShrink": 1,
-          "msFlexNegative": 1,
           "msFlexPositive": 1,
-          "msFlexPreferredSize": "0%",
           "paddingBottom": "16px",
           "paddingLeft": "12px",
           "paddingRight": "12px",
@@ -282,23 +272,17 @@ exports[`Amount matches snapshot 1`] = `
             "WebkitBoxFlex": 1,
             "WebkitBoxOrient": "vertical",
             "WebkitBoxPack": "start",
-            "WebkitFlexBasis": "0%",
             "WebkitFlexDirection": "column",
             "WebkitFlexGrow": 1,
-            "WebkitFlexShrink": 1,
             "WebkitJustifyContent": "flex-start",
             "alignItems": "stretch",
-            "flexBasis": "0%",
             "flexDirection": "column",
             "flexGrow": 1,
-            "flexShrink": 1,
             "justifyContent": "flex-start",
             "msFlexAlign": "stretch",
             "msFlexDirection": "column",
-            "msFlexNegative": 1,
             "msFlexPack": "start",
             "msFlexPositive": 1,
-            "msFlexPreferredSize": "0%",
           }
         }
       >
@@ -339,6 +323,7 @@ exports[`Amount matches snapshot 1`] = `
                   "flexBasis": "0%",
                   "flexGrow": 1,
                   "flexShrink": 1,
+                  "marginBottom": "8px",
                   "msFlexNegative": 1,
                   "msFlexPositive": 1,
                   "msFlexPreferredSize": "0%",
@@ -356,6 +341,7 @@ exports[`Amount matches snapshot 1`] = `
                     "flexBasis": "0%",
                     "flexGrow": 1,
                     "flexShrink": 1,
+                    "marginBottom": "8px",
                     "msFlexNegative": 1,
                     "msFlexPositive": 1,
                     "msFlexPreferredSize": "0%",
@@ -422,6 +408,7 @@ exports[`Amount matches snapshot 1`] = `
                     "direction": "ltr",
                     "fontFamily": "Roboto",
                     "fontSize": "12px",
+                    "height": "18px",
                     "opacity": 0,
                     "paddingBottom": "4px",
                     "paddingLeft": "0px",
@@ -433,32 +420,25 @@ exports[`Amount matches snapshot 1`] = `
                 }
               />
             </div>
-            <div
-              className="css-text-901oao"
-              dir="auto"
-              style={
-                Object {
-                  "color": "rgba(250,108,119,1.00)",
-                  "direction": "ltr",
-                  "fontFamily": "Roboto",
-                  "fontSize": "16px",
-                  "fontWeight": "normal",
-                  "lineHeight": "22px",
-                  "marginTop": "8px",
-                  "textAlign": "center",
-                  "textDecoration": "none",
-                  "textTransform": "none",
-                }
-              }
-            />
           </div>
           <div
             className="css-view-1dbjc4n"
             style={
               Object {
+                "WebkitBoxFlex": 1,
+                "WebkitBoxPack": "justify",
+                "WebkitFlexGrow": 1,
+                "WebkitJustifyContent": "space-between",
                 "display": "flex",
+                "flexGrow": 1,
+                "justifyContent": "space-between",
                 "marginBottom": "8px",
                 "marginTop": "16px",
+                "maxHeight": "250px",
+                "msFlexPack": "justify",
+                "msFlexPositive": 1,
+                "overflowX": "hidden",
+                "overflowY": "hidden",
               }
             }
           >
@@ -517,10 +497,6 @@ exports[`Amount matches snapshot 1`] = `
                     "msFlexPreferredSize": "0%",
                     "msTouchAction": "manipulation",
                     "msUserSelect": "none",
-                    "paddingBottom": "20px",
-                    "paddingLeft": "20px",
-                    "paddingRight": "20px",
-                    "paddingTop": "20px",
                     "touchAction": "manipulation",
                     "userSelect": "none",
                   }
@@ -581,10 +557,6 @@ exports[`Amount matches snapshot 1`] = `
                     "msFlexPreferredSize": "0%",
                     "msTouchAction": "manipulation",
                     "msUserSelect": "none",
-                    "paddingBottom": "20px",
-                    "paddingLeft": "20px",
-                    "paddingRight": "20px",
-                    "paddingTop": "20px",
                     "touchAction": "manipulation",
                     "userSelect": "none",
                   }
@@ -645,10 +617,6 @@ exports[`Amount matches snapshot 1`] = `
                     "msFlexPreferredSize": "0%",
                     "msTouchAction": "manipulation",
                     "msUserSelect": "none",
-                    "paddingBottom": "20px",
-                    "paddingLeft": "20px",
-                    "paddingRight": "20px",
-                    "paddingTop": "20px",
                     "touchAction": "manipulation",
                     "userSelect": "none",
                   }
@@ -731,10 +699,6 @@ exports[`Amount matches snapshot 1`] = `
                     "msFlexPreferredSize": "0%",
                     "msTouchAction": "manipulation",
                     "msUserSelect": "none",
-                    "paddingBottom": "20px",
-                    "paddingLeft": "20px",
-                    "paddingRight": "20px",
-                    "paddingTop": "20px",
                     "touchAction": "manipulation",
                     "userSelect": "none",
                   }
@@ -795,10 +759,6 @@ exports[`Amount matches snapshot 1`] = `
                     "msFlexPreferredSize": "0%",
                     "msTouchAction": "manipulation",
                     "msUserSelect": "none",
-                    "paddingBottom": "20px",
-                    "paddingLeft": "20px",
-                    "paddingRight": "20px",
-                    "paddingTop": "20px",
                     "touchAction": "manipulation",
                     "userSelect": "none",
                   }
@@ -859,10 +819,6 @@ exports[`Amount matches snapshot 1`] = `
                     "msFlexPreferredSize": "0%",
                     "msTouchAction": "manipulation",
                     "msUserSelect": "none",
-                    "paddingBottom": "20px",
-                    "paddingLeft": "20px",
-                    "paddingRight": "20px",
-                    "paddingTop": "20px",
                     "touchAction": "manipulation",
                     "userSelect": "none",
                   }
@@ -945,10 +901,6 @@ exports[`Amount matches snapshot 1`] = `
                     "msFlexPreferredSize": "0%",
                     "msTouchAction": "manipulation",
                     "msUserSelect": "none",
-                    "paddingBottom": "20px",
-                    "paddingLeft": "20px",
-                    "paddingRight": "20px",
-                    "paddingTop": "20px",
                     "touchAction": "manipulation",
                     "userSelect": "none",
                   }
@@ -1009,10 +961,6 @@ exports[`Amount matches snapshot 1`] = `
                     "msFlexPreferredSize": "0%",
                     "msTouchAction": "manipulation",
                     "msUserSelect": "none",
-                    "paddingBottom": "20px",
-                    "paddingLeft": "20px",
-                    "paddingRight": "20px",
-                    "paddingTop": "20px",
                     "touchAction": "manipulation",
                     "userSelect": "none",
                   }
@@ -1073,10 +1021,6 @@ exports[`Amount matches snapshot 1`] = `
                     "msFlexPreferredSize": "0%",
                     "msTouchAction": "manipulation",
                     "msUserSelect": "none",
-                    "paddingBottom": "20px",
-                    "paddingLeft": "20px",
-                    "paddingRight": "20px",
-                    "paddingTop": "20px",
                     "touchAction": "manipulation",
                     "userSelect": "none",
                   }
@@ -1159,10 +1103,6 @@ exports[`Amount matches snapshot 1`] = `
                     "msFlexPreferredSize": "0%",
                     "msTouchAction": "manipulation",
                     "msUserSelect": "none",
-                    "paddingBottom": "20px",
-                    "paddingLeft": "20px",
-                    "paddingRight": "20px",
-                    "paddingTop": "20px",
                     "touchAction": "manipulation",
                     "userSelect": "none",
                   }
@@ -1223,10 +1163,6 @@ exports[`Amount matches snapshot 1`] = `
                     "msFlexPreferredSize": "0%",
                     "msTouchAction": "manipulation",
                     "msUserSelect": "none",
-                    "paddingBottom": "20px",
-                    "paddingLeft": "20px",
-                    "paddingRight": "20px",
-                    "paddingTop": "20px",
                     "touchAction": "manipulation",
                     "userSelect": "none",
                   }
@@ -1287,10 +1223,6 @@ exports[`Amount matches snapshot 1`] = `
                     "msFlexPreferredSize": "0%",
                     "msTouchAction": "manipulation",
                     "msUserSelect": "none",
-                    "paddingBottom": "20px",
-                    "paddingLeft": "20px",
-                    "paddingRight": "20px",
-                    "paddingTop": "20px",
                     "touchAction": "manipulation",
                     "userSelect": "none",
                   }
@@ -1365,23 +1297,17 @@ exports[`Amount matches snapshot 1`] = `
               "WebkitBoxFlex": 1,
               "WebkitBoxOrient": "horizontal",
               "WebkitBoxPack": "start",
-              "WebkitFlexBasis": "0%",
               "WebkitFlexDirection": "row",
               "WebkitFlexGrow": 1,
-              "WebkitFlexShrink": 1,
               "WebkitJustifyContent": "flex-start",
               "alignItems": "center",
-              "flexBasis": "0%",
               "flexDirection": "row",
               "flexGrow": 1,
-              "flexShrink": 1,
               "justifyContent": "flex-start",
               "msFlexAlign": "center",
               "msFlexDirection": "row",
-              "msFlexNegative": 1,
               "msFlexPack": "start",
               "msFlexPositive": 1,
-              "msFlexPreferredSize": "0%",
             }
           }
         >
@@ -1522,23 +1448,17 @@ exports[`Amount matches snapshot 1`] = `
               "WebkitBoxFlex": 3,
               "WebkitBoxOrient": "vertical",
               "WebkitBoxPack": "justify",
-              "WebkitFlexBasis": "0%",
               "WebkitFlexDirection": "column",
               "WebkitFlexGrow": 3,
-              "WebkitFlexShrink": 1,
               "WebkitJustifyContent": "space-between",
               "alignItems": "stretch",
-              "flexBasis": "0%",
               "flexDirection": "column",
               "flexGrow": 3,
-              "flexShrink": 1,
               "justifyContent": "space-between",
               "msFlexAlign": "stretch",
               "msFlexDirection": "column",
-              "msFlexNegative": 1,
               "msFlexPack": "justify",
               "msFlexPositive": 3,
-              "msFlexPreferredSize": "0%",
             }
           }
         >

@@ -5,6 +5,7 @@ import { Text } from 'react-native-paper'
 import find from 'lodash/find'
 import findKey from 'lodash/findKey'
 import mapValues from 'lodash/mapValues'
+import { getFirstWord } from '../../../lib/utils/getFirstWord'
 import CustomButton from '../../common/buttons/CustomButton'
 import Section from '../../common/layout/Section'
 import Icon from '../../common/view/Icon'
@@ -165,7 +166,7 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
   let lookingGood =
     isProcessFailed === false && processStatus.isProfileSaved ? (
       <View style={{ flexShrink: 0 }}>
-        <Text style={styles.textGood}>{`Looking Good ${fullName}`}</Text>
+        <Text style={styles.textGood}>{`Looking Good ${getFirstWord(fullName)}`}</Text>
         <Image source={LookingGood} resizeMode={'center'} style={{ marginTop: 36, height: normalize(135) }} />
       </View>
     ) : null

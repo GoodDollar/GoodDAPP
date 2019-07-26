@@ -47,11 +47,11 @@ const styles = StyleSheet.create({
     backgroundRepeat: 'repeat-y',
     backgroundColor: 'transparent',
     backgroundSize: 'cover',
-    transform: 'rotateY(180deg)',
+    transform: [{ rotateY: '180deg' }],
     flex: 1,
   },
   content: {
-    transform: 'rotateY(180deg)',
+    transform: [{ rotateY: '180deg' }],
     marginVertical: '10vh',
   },
   logo: {

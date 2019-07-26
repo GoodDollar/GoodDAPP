@@ -42,14 +42,16 @@ exports[`FeedList Vertical rendering With empty data matches snapshot 1`] = `
         "WebkitFlexShrink": 1,
         "WebkitOverflowScrolling": "touch",
         "WebkitTransform": "translateZ(0px)",
+        "display": "flex",
         "flexDirection": "column",
         "flexGrow": 1,
         "flexShrink": 1,
+        "height": "1px",
         "marginTop": "8px",
         "msFlexDirection": "column",
         "msFlexNegative": 1,
         "msFlexPositive": 1,
-        "overflowX": "visible",
+        "overflowX": "hidden",
         "overflowY": "auto",
         "transform": "translateZ(0px)",
       }
@@ -57,6 +59,16 @@ exports[`FeedList Vertical rendering With empty data matches snapshot 1`] = `
   >
     <div
       className="css-view-1dbjc4n"
+      style={
+        Object {
+          "WebkitBoxFlex": 1,
+          "WebkitFlexGrow": 1,
+          "display": "flex",
+          "flexGrow": 1,
+          "height": "100%",
+          "msFlexPositive": 1,
+        }
+      }
     >
       <div
         className="css-view-1dbjc4n"
@@ -585,14 +597,16 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
         "WebkitFlexShrink": 1,
         "WebkitOverflowScrolling": "touch",
         "WebkitTransform": "translateZ(0px)",
+        "display": "flex",
         "flexDirection": "column",
         "flexGrow": 1,
         "flexShrink": 1,
+        "height": "1px",
         "marginTop": "8px",
         "msFlexDirection": "column",
         "msFlexNegative": 1,
         "msFlexPositive": 1,
-        "overflowX": "visible",
+        "overflowX": "hidden",
         "overflowY": "auto",
         "transform": "translateZ(0px)",
       }
@@ -600,6 +614,16 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
   >
     <div
       className="css-view-1dbjc4n"
+      style={
+        Object {
+          "WebkitBoxFlex": 1,
+          "WebkitFlexGrow": 1,
+          "display": "flex",
+          "flexGrow": 1,
+          "height": "100%",
+          "msFlexPositive": 1,
+        }
+      }
     >
       <div
         className="css-view-1dbjc4n"

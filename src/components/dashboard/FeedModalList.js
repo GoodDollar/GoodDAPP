@@ -1,11 +1,13 @@
 // @flow
-import React, { useEffect, useRef } from 'react'
-import { ActivityIndicator, Animated, FlatList, View } from 'react-native'
+import React, { createRef, useEffect } from 'react'
+import { Dimensions, FlatList, View } from 'react-native'
 import { Portal } from 'react-native-paper'
 import normalize from '../../lib/utils/normalizeText'
 import GDStore from '../../lib/undux/GDStore'
 import { withStyles } from '../../lib/styles'
 import FeedModalItem from './FeedItems/FeedModalItem'
+
+const { width } = Dimensions.get('window')
 
 const VIEWABILITY_CONFIG = {
   minimumViewTime: 3000,
@@ -14,8 +16,6 @@ const VIEWABILITY_CONFIG = {
 }
 
 const emptyFeed = { type: 'empty', data: {} }
-
-const AnimatedFlatList = Animated.createAnimatedComponent(FlatList)
 
 export type FeedModalListProps = {
   data: any,
@@ -47,36 +47,20 @@ const FeedModalList = ({
   selectedFeed,
   styles,
 }: FeedModalListProps) => {
-  const flatListRef: AnimatedFlatList = useRef(null)
+  const flatListRef = createRef()
 
   useEffect(() => {
-    const item = data.find(item => item.id === selectedFeed.id)
-    const index = data.findIndex(item => item.id === selectedFeed.id)
+    const index = selectedFeed ? data.findIndex(item => item.id === selectedFeed.id) : 0
     setTimeout(() => {
-      scrollToItem(item, index)
-    }, 1000)
+      flatListRef &&
+        flatListRef.current &&
+        flatListRef.current.scrollToOffset({ animated: true, offset: width * index })
+    }, 200)
   }, [selectedFeed, flatListRef])
 
-  const scrollToItem = (item: any, index: number) => {
-    // eslint-disable-next-line no-console
-    console.log('Reference', {
-      item,
-      flatListRef,
-      index,
-      selectedFeed,
-    })
-
-    // flatListRef && flatListRef.current && flatListRef.current.scrollToItem({ animated: true, item, viewPosition: 0.5 })
-    flatListRef && flatListRef.scrollToIndex({ animated: true, index, viewPosition: 0.5 })
-  }
-
   const getItemLayout = (_: any, index: number) => {
-    const [length, separator, header] = [200, 0, 100]
-    return {
-      index,
-      length,
-      offset: (length + separator) * index + header,
-    }
+    const length = 200
+    return { index, length, offset: length * index + 100 }
   }
 
   const renderItemComponent = ({ item, separators, index }: ItemComponentProps) => (
@@ -84,21 +68,14 @@ const FeedModalList = ({
   )
 
   const feeds = data && data instanceof Array && data.length ? data : undefined
-  const loading = store.get('feedLoading')
-
   return (
     <Portal>
       <View style={styles.horizontalContainer}>
-        {loading ? <ActivityIndicator style={styles.loading} animating={true} color="gray" size="large" /> : null}
-        <AnimatedFlatList
+        <FlatList
           contentContainerStyle={styles.horizontalList}
           data={feeds && feeds.length ? feeds : [emptyFeed]}
           getItemLayout={getItemLayout}
-          initialNumToRender={5}
-          key="hf"
-          keyExtractor={feed => feed.id}
-          keyboardDismissMode="on-drag"
-          keyboardShouldPersistTaps="always"
+          initialNumToRender={selectedFeed ? Math.abs(data.findIndex(item => item.id === selectedFeed.id)) : 1}
           legacyImplementation={false}
           numColumns={1}
           onEndReached={onEndReached}

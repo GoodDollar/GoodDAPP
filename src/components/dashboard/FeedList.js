@@ -72,7 +72,7 @@ const FeedList = ({
   const feeds = data && data instanceof Array && data.length ? data : undefined
 
   return (
-    <ScrollView style={styles.scrollList}>
+    <ScrollView style={styles.scrollList} contentContainerStyle={styles.scrollableView}>
       <View style={styles.verticalContainer}>
         <AnimatedSwipeableFlatList
           bounceFirstRowOnMount={true}
@@ -109,7 +109,14 @@ const getStylesFromProps = ({ theme }) => ({
   },
   scrollList: {
     marginTop: theme.sizes.default,
-    overflowX: 'visible',
+    display: 'flex',
+    flexGrow: 1,
+    height: 1,
+  },
+  scrollableView: {
+    flexGrow: 1,
+    display: 'flex',
+    height: '100%',
   },
 })
 

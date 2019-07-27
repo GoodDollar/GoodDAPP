@@ -22,7 +22,12 @@ exports[`AppNavigation matches snapshot 1`] = `
     className="css-view-1dbjc4n"
     style={
       Object {
-        "display": "block",
+        "bottom": "0px",
+        "display": "none",
+        "left": "0px",
+        "position": "absolute",
+        "right": "0px",
+        "top": "0px",
         "zIndex": 100,
       }
     }
@@ -106,7 +111,9 @@ exports[`AppNavigation matches snapshot 1`] = `
     style={
       Object {
         "bottom": 0,
-        "display": "contents",
+        "display": "flex",
+        "flexDirection": "column",
+        "flexGrow": 1,
         "left": 0,
         "position": "absolute",
         "right": 0,

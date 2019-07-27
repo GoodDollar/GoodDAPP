@@ -1,4 +1,3 @@
 .blurFx {
-  display: block !important;
   filter: blur(5px);
 }

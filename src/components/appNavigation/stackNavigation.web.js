@@ -265,13 +265,18 @@ class AppView extends Component<AppViewProps, AppViewState> {
   }
 }
 
-const fullScreenContainer = {
+const fullScreen = {
   top: 0,
   left: 0,
   bottom: 0,
   right: 0,
   position: 'absolute',
-  display: 'contents',
+}
+const fullScreenContainer = {
+  ...fullScreen,
+  display: 'flex',
+  flexGrow: 1,
+  flexDirection: 'column',
 }
 
 const styles = StyleSheet.create({
@@ -285,11 +290,11 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   sideMenuContainer: {
-    display: 'block',
+    ...fullScreen,
+    display: 'none',
     zIndex: 100,
   },
   menuOpenStyle: {
-    ...fullScreenContainer,
     display: 'block',
   },
 })

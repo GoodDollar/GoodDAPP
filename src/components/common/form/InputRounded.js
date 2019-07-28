@@ -48,7 +48,7 @@ const getStylesFromProps = ({ theme }) => {
   const input = {
     flex: 1,
     backgroundColor: 'inherit',
-    border: 0,
+    borderWidth: 0,
     lineHeight: normalize(36),
     fontSize: normalize(14),
     fontFamily: theme.fonts.regular,

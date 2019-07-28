@@ -70,12 +70,9 @@ const Mnemonics = ({ navigation, styles }) => {
       import('../../lib/gundb/UserStorageClass').then(_ => _.UserStorage),
     ])
     const wallet = new Wallet({ mnemonic: mnemonics })
-    await wallet.init()
+    await wallet.ready
     const userStorage = new UserStorage(wallet)
-
-    // reinstantiates wallet and userStorage with new mnemonics
-    await userStorage.init()
-
+    await userStorage.ready
     return userStorage.userAlreadyExist()
   }
 

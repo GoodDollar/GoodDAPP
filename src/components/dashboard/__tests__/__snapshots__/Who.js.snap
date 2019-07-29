@@ -402,7 +402,6 @@ exports[`Who matches snapshot 1`] = `
                 }
               }
               type="text"
-              value={null}
             />
           </div>
           <div

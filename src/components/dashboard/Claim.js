@@ -252,6 +252,8 @@ const getStylesFromProps = ({ theme }) => ({
     fontSize: normalize(20),
   },
   illustration: {
+    flexGrow: 0,
+    flexShrink: 0,
     marginBottom: 8,
     marginTop: -80,
     maxWidth: '100%',

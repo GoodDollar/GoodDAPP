@@ -1,10 +1,9 @@
 // @flow
-import React, { createRef, useEffect } from 'react'
+import React, { createRef, useEffect, useState } from 'react'
 import { Dimensions, FlatList, View } from 'react-native'
 import { Portal } from 'react-native-paper'
-import normalize from '../../lib/utils/normalizeText'
-import GDStore from '../../lib/undux/GDStore'
 import { withStyles } from '../../lib/styles'
+import { Indicator } from '../common/view/LoadingIndicator'
 import FeedModalItem from './FeedItems/FeedModalItem'
 
 const { width } = Dimensions.get('window')
@@ -22,7 +21,6 @@ export type FeedModalListProps = {
   updateData: any,
   onEndReached: any,
   initialNumToRender: ?number,
-  store: GDStore,
   handleFeedSelection: Function,
   selectedFeed: ?string,
   styles: Object,
@@ -42,21 +40,22 @@ const FeedModalList = ({
   updateData,
   onEndReached,
   initialNumToRender,
-  store,
   handleFeedSelection,
   selectedFeed,
   styles,
 }: FeedModalListProps) => {
   const flatListRef = createRef()
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const index = selectedFeed ? data.findIndex(item => item.id === selectedFeed.id) : 0
     setTimeout(() => {
       flatListRef &&
         flatListRef.current &&
-        flatListRef.current.scrollToOffset({ animated: true, offset: width * index })
+        flatListRef.current.scrollToOffset({ animated: false, offset: width * index })
+      setLoading(false)
     }, 200)
-  }, [selectedFeed, flatListRef])
+  }, [selectedFeed])
 
   const getItemLayout = (_: any, index: number) => {
     const length = 200
@@ -70,6 +69,7 @@ const FeedModalList = ({
   const feeds = data && data instanceof Array && data.length ? data : undefined
   return (
     <Portal>
+      <Indicator loading={loading} />
       <View style={styles.horizontalContainer}>
         <FlatList
           contentContainerStyle={styles.horizontalList}
@@ -92,11 +92,8 @@ const FeedModalList = ({
 }
 
 const getStylesFromProps = ({ theme }) => ({
-  loading: {
-    marginTop: normalize(8),
-  },
   horizontalContainer: {
-    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    backgroundColor: theme.modals.overlayBackgroundColor,
     flex: 1,
     top: 0,
     left: 0,
@@ -112,4 +109,4 @@ const getStylesFromProps = ({ theme }) => ({
   },
 })
 
-export default GDStore.withStore(withStyles(getStylesFromProps)(FeedModalList))
+export default withStyles(getStylesFromProps)(FeedModalList)

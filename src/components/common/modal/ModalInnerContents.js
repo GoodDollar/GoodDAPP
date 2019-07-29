@@ -13,7 +13,7 @@ const getStylesFromProps = ({ theme }) => ({
     backgroundColor: theme.modals.backgroundColor,
     borderBottomRightRadius: theme.modals.borderRadius,
     borderTopRightRadius: theme.modals.borderRadius,
-    boxShadow: '0 19px 38px rgba(0, 0, 0, 0.5)',
+    boxShadow: '0 20px 24px rgba(0, 0, 0, 0.5)',
     flexGrow: 1,
     padding: theme.modals.contentPadding,
     position: 'relative',

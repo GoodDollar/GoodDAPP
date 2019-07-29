@@ -312,7 +312,7 @@ export class GoodWallet {
   }
 
   subscribeToOTPLEvents(fromBlock: BN, toBlock: BN) {
-    const event = 'PaymentWithdraw'
+    const event = 'allEvents'
     const contract = this.oneTimePaymentLinksContract
 
     //Get transfers from this account
@@ -328,11 +328,11 @@ export class GoodWallet {
         return { error: e }
       })
       .then(res => {
-        if (res.length == 0) {
+        if (res.error || res.length == 0) {
           return
         }
         log.debug("subscribeOTPL got 'from' events", { res })
-        let events = res.error ? [] : res
+        let events = res.filter(_ => _.event === 'PaymentWithdraw' || _.event == 'PaymentCancel')
         const uniqEvents = uniqBy(events, 'transactionHash')
         uniqEvents.forEach(event => {
           this.getReceiptWithLogs(event.transactionHash)

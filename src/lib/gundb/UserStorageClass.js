@@ -136,7 +136,7 @@ export const getReceiveDataFromReceipt = (receipt: any) => {
     'value'
   )
   const withdrawLog = logs.find(log => {
-    return log && log.name === 'PaymentWithdraw'
+    return log && (log.name === 'PaymentWithdraw' || log.name == 'PaymentCancel')
   })
   logger.debug('getReceiveDataFromReceipt', { logs: receipt.logs, transferLog, withdrawLog })
   const log = withdrawLog || transferLog
@@ -363,7 +363,7 @@ export class UserStorage {
     //receipt received via websockets/polling need mutex to prevent race
     //with enqueing the initial TX data
     const data = getReceiveDataFromReceipt(receipt)
-    if (data.name === 'PaymentWithdraw' && data.from === data.to) {
+    if (data.name === 'PaymentCancel' || (data.name === 'PaymentWithdraw' && data.from === data.to)) {
       logger.debug('handleReceiptUpdated: skipping self withdrawn payment link (cancelled)', { data, receipt })
       return {}
     }
@@ -431,7 +431,7 @@ export class UserStorage {
       const feedEvent = await this.getFeedItemByTransactionHash(originalTXHash)
 
       //if we withdrawn the payment link then its canceled
-      const otplStatus = data.to === data.from ? 'cancelled' : 'completed'
+      const otplStatus = data.name === 'PaymentCancel' || data.to === data.from ? 'cancelled' : 'completed'
 
       feedEvent.data.to = data.to
       feedEvent.data.otplReceipt = receipt

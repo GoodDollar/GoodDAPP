@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import React, { useEffect } from 'react'
 import InputText from '../common/form/InputText'
 
 import { ScanQRButton, Section, Wrapper } from '../common'
@@ -25,7 +25,7 @@ const getError = value => {
 const Who = (props: AmountProps) => {
   const { screenProps } = props
 
-  const [screenState] = useScreenState(screenProps)
+  const [screenState, setScreenState] = useScreenState(screenProps)
   const { params } = props.navigation.state
   const isReceive = params && params.action === ACTION_RECEIVE
   const { counterPartyDisplayName } = screenState
@@ -34,6 +34,9 @@ const Who = (props: AmountProps) => {
   const getErrorFunction = isReceive ? () => null : getError
   const [state, setValue] = useValidatedValueState(counterPartyDisplayName, getErrorFunction)
 
+  useEffect(() => {
+    setScreenState({ counterPartyDisplayName: state.value })
+  }, [state.value])
   console.info('Component props -> ', { props, params, text, state })
 
   return (
@@ -61,10 +64,10 @@ const Who = (props: AmountProps) => {
           </Section.Row>
           <Section.Stack grow={3}>
             <NextButton
-              nextRoutes={screenState.nextRoutes}
-              values={{ params, counterPartyDisplayName }}
-              canContinue={() => state.isValid}
               {...props}
+              nextRoutes={screenState.nextRoutes}
+              values={{ params, counterPartyDisplayName: state.value }}
+              canContinue={() => state.isValid}
               label={state.value || isReceive ? 'Next' : 'Skip'}
               disabled={!state.isValid}
             />

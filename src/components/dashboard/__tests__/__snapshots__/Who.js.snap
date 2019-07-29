@@ -164,59 +164,108 @@ exports[`Who matches snapshot 1`] = `
         </div>
         <div
           className="css-view-1dbjc4n"
+          data-focusable={true}
+          onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
           style={
             Object {
-              "WebkitAlignItems": "baseline",
-              "WebkitBoxAlign": "baseline",
+              "MozTransitionProperty": "opacity",
+              "MozUserSelect": "none",
+              "WebkitAlignItems": "center",
+              "WebkitBoxAlign": "center",
               "WebkitBoxDirection": "normal",
               "WebkitBoxOrient": "horizontal",
+              "WebkitBoxPack": "end",
               "WebkitFlexDirection": "row",
-              "alignItems": "baseline",
-              "display": "flex",
+              "WebkitJustifyContent": "flex-end",
+              "WebkitTransitionDuration": "0.15s",
+              "WebkitTransitionProperty": "opacity",
+              "WebkitUserSelect": "none",
+              "alignItems": "center",
+              "cursor": "pointer",
               "flexDirection": "row",
-              "msFlexAlign": "baseline",
+              "justifyContent": "flex-end",
+              "msFlexAlign": "center",
               "msFlexDirection": "row",
+              "msFlexPack": "end",
+              "msTouchAction": "manipulation",
+              "msUserSelect": "none",
+              "paddingBottom": "0px",
+              "paddingLeft": "0px",
+              "paddingRight": "0px",
+              "paddingTop": "0px",
+              "touchAction": "manipulation",
+              "transitionDuration": "0.15s",
+              "transitionProperty": "opacity",
+              "userSelect": "none",
             }
           }
+          tabIndex="0"
         >
           <div
             className="css-text-901oao"
             dir="auto"
             style={
               Object {
-                "color": "rgba(85,85,85,1.00)",
+                "color": "rgba(12,38,61,1.00)",
                 "direction": "ltr",
-                "fontFamily": "Roboto-Bold",
-                "fontSize": "36px",
-                "fontWeight": "700",
-                "lineHeight": "auto",
-                "marginRight": "4px",
-                "textAlign": "right",
+                "fontFamily": "Roboto-Medium",
+                "fontSize": "14px",
+                "fontWeight": "normal",
+                "lineHeight": "20px",
+                "textAlign": "center",
                 "textDecoration": "none",
                 "textTransform": "none",
               }
             }
           >
-            -.--
+            Scan QR Code
           </div>
           <div
-            className="css-text-901oao"
-            dir="auto"
+            className="css-view-1dbjc4n"
             style={
               Object {
-                "color": "rgba(85,85,85,1.00)",
-                "direction": "ltr",
-                "fontFamily": "Roboto-Bold",
-                "fontSize": "22px",
-                "fontWeight": "700",
-                "lineHeight": "auto",
-                "textAlign": "right",
-                "textDecoration": "none",
-                "textTransform": "none",
+                "WebkitAlignItems": "center",
+                "WebkitBoxAlign": "center",
+                "WebkitBoxPack": "center",
+                "WebkitJustifyContent": "center",
+                "alignItems": "center",
+                "backgroundColor": "rgba(12,38,61,1.00)",
+                "borderBottomLeftRadius": "50%",
+                "borderBottomRightRadius": "50%",
+                "borderTopLeftRadius": "50%",
+                "borderTopRightRadius": "50%",
+                "display": "flex",
+                "height": "42px",
+                "justifyContent": "center",
+                "marginLeft": "8px",
+                "msFlexAlign": "center",
+                "msFlexPack": "center",
+                "width": "42px",
               }
             }
           >
-            G$
+            <div
+              className="css-text-901oao"
+              dir="auto"
+              style={
+                Object {
+                  "color": "rgba(255,255,255,1.00)",
+                  "fontFamily": "gooddollar",
+                  "fontSize": "28px",
+                  "fontStyle": "normal",
+                  "fontWeight": "normal",
+                }
+              }
+            >
+              
+            </div>
           </div>
         </div>
       </div>
@@ -353,7 +402,6 @@ exports[`Who matches snapshot 1`] = `
                 }
               }
               type="text"
-              value={null}
             />
           </div>
           <div

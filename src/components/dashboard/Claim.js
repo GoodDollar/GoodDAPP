@@ -73,8 +73,6 @@ const Claim = props => {
   const getNextClaim = nextClaimDate => new Date(nextClaimDate - new Date().getTime()).toISOString().substr(11, 8)
 
   const gatherStats = async () => {
-    store.set('loadingIndicator')({ loading: true })
-
     const entitlement = await wrappedGoodWallet.checkEntitlement()
 
     const [claimedToday, nextClaimDate] = await Promise.all([
@@ -83,8 +81,6 @@ const Claim = props => {
     ])
 
     setState(prevState => ({ ...prevState, claimedToday, entitlement, nextClaim: getNextClaim(nextClaimDate) }))
-
-    store.set('loadingIndicator')({ loading: false })
 
     setClaimInterval(
       setInterval(() => {

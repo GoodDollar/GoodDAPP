@@ -230,6 +230,7 @@ export class GoodWallet {
       return ZERO
     })
     if (toBlock.gt(fromBlock)) {
+      this.subscribeToOTPLEvents(fromBlock, toBlock)
       const event = 'Transfer'
       const contract = this.erc20Contract
 
@@ -308,6 +309,42 @@ export class GoodWallet {
     setTimeout(() => {
       this.listenTxUpdates(toBlock, blockIntervalCallback)
     }, INTERVAL)
+  }
+
+  subscribeToOTPLEvents(fromBlock: BN, toBlock: BN) {
+    const event = 'PaymentWithdraw'
+    const contract = this.oneTimePaymentLinksContract
+
+    //Get transfers from this account
+    const fromEventsFilter = {
+      fromBlock,
+      toBlock,
+      filter: { from: this.wallet.utils.toChecksumAddress(this.account) },
+    }
+    const fromEventsPromise = contract
+      .getPastEvents(event, fromEventsFilter)
+      .catch(e => {
+        log.error('subscribeOTPL fromEventsPromise failed:', { e, fromEventsFilter })
+        return { error: e }
+      })
+      .then(res => {
+        if (res.length == 0) {
+          return
+        }
+        log.debug("subscribeOTPL got 'from' events", { res })
+        let events = res.error ? [] : res
+        const uniqEvents = uniqBy(events, 'transactionHash')
+        uniqEvents.forEach(event => {
+          this.getReceiptWithLogs(event.transactionHash)
+            .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['otplUpdated']))
+            .catch(err => log.error('send event get/send receipt failed:', err))
+        })
+      })
+      .catch(e => {
+        log.error('listenTxUpdates fromEventsPromise unexpected error:', { e })
+      })
+
+    return fromEventsPromise
   }
 
   /**

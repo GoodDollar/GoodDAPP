@@ -35,7 +35,7 @@ const useValidatedValueState = (initialValue: State, getError: (value: any) => E
     return { error, isValid, dirty }
   }
 
-  function init({ value }: ValueState): State {
+  function init(value: any): State {
     return { value, ...getErrorStateForValue(initialErrorState, value) }
   }
 
@@ -48,13 +48,16 @@ const useValidatedValueState = (initialValue: State, getError: (value: any) => E
         return { error, isValid, dirty, value }
       }
       case 'RESET':
-        return init({ value })
+        return init(value)
       default:
         throw new Error(`Unsupported Action: ${action.type}`)
     }
   }
 
-  const [state, dispatch] = useReducer(reducer, initialErrorState, init)
+  const [state, dispatch] = useReducer(reducer, {
+    value: initialValue,
+    ...getErrorStateForValue(initialErrorState, initialValue),
+  })
   const setValue = (value: any) => dispatch({ type: 'SET_VALUE', payload: { value } })
   const resetValue = (value: any) => dispatch({ type: 'RESET' })
 

@@ -86,7 +86,7 @@ export type FeedEvent = {
   type: string,
   date: string,
   createdDate?: string,
-  status?: 'pending' | 'completed' | 'error',
+  status?: 'pending' | 'completed' | 'error' | 'cancelled' | 'deleted',
   data: any,
 }
 
@@ -352,6 +352,7 @@ export class UserStorage {
       this.wallet.subscribeToEvent('send', (err, events) => {
         logger.debug({ err, events }, 'send')
       })
+      this.wallet.subscribeToEvent('otplUpdated', receipt => this.handleOTPLUpdated(receipt))
       this.wallet.subscribeToEvent('receiptUpdated', receipt => this.handleReceiptUpdated(receipt))
       this.wallet.subscribeToEvent('receiptReceived', receipt => this.handleReceiptUpdated(receipt))
       res(true)
@@ -361,15 +362,19 @@ export class UserStorage {
   async handleReceiptUpdated(receipt: any): Promise<FeedEvent> {
     //receipt received via websockets/polling need mutex to prevent race
     //with enqueing the initial TX data
+    const data = getReceiveDataFromReceipt(receipt)
+    if (data.name === 'PaymentWithdraw' && data.from === data.to) {
+      logger.debug('handleReceiptUpdated: skipping self withdrawn payment link (cancelled)', { data, receipt })
+      return {}
+    }
     const release = await this.feedMutex.lock()
     try {
-      const data = getReceiveDataFromReceipt(receipt)
       logger.debug('handleReceiptUpdated', { data, receipt })
 
       //get initial TX data from queue, if not in queue then it must be a receive TX ie
       //not initiated by user
       //other option is that TX was processed on another wallet instance
-      const initialEvent = (await this.dequeueTX(receipt.transactionHash)) || {}
+      const initialEvent = (await this.dequeueTX(receipt.transactionHash)) || { data: {} }
       logger.debug('handleReceiptUpdated got enqueued event:', { id: receipt.transactionHash, initialEvent })
 
       //get existing or make a new event
@@ -399,6 +404,45 @@ export class UserStorage {
       return updatedFeedEvent
     } catch (error) {
       logger.error('handleReceiptUpdated', error)
+    } finally {
+      release()
+    }
+    return {}
+  }
+
+  /**
+   * callback to use when we get a transaction that withdrawn our payment link
+   * @param {*} receipt
+   */
+  async handleOTPLUpdated(receipt: any): Promise<FeedEvent> {
+    //receipt received via websockets/polling need mutex to prevent race
+    //with enqueing the initial TX data
+    const release = await this.feedMutex.lock()
+    try {
+      const data = getReceiveDataFromReceipt(receipt)
+      logger.debug('handleOTPLUpdated', { data, receipt })
+
+      //get our tx that created the payment link
+      const originalTXHash = await this.getTransactionHashByCode(data.hash)
+      if (originalTXHash === undefined) {
+        logger.error('handleOTPLUpdated: Original payment link TX not found', { data })
+        return
+      }
+      const feedEvent = await this.getFeedItemByTransactionHash(originalTXHash)
+
+      //if we withdrawn the payment link then its canceled
+      const otplStatus = data.to === data.from ? 'cancelled' : 'completed'
+
+      feedEvent.data.to = data.to
+      feedEvent.data.otplReceipt = receipt
+      feedEvent.data.otplData = data
+      feedEvent.status = feedEvent.data.otplStatus = otplStatus
+      feedEvent.date = new Date().toString()
+      logger.debug('handleOTPLUpdated receiptReceived', { feedEvent, otplStatus, receipt, data })
+      await this.updateFeedEvent(feedEvent)
+      return feedEvent
+    } catch (error) {
+      logger.error('handleOTPLUpdated', error)
     } finally {
       release()
     }
@@ -807,7 +851,11 @@ export class UserStorage {
    */
   async getFormattedEvents(numResults: number, reset?: boolean): Promise<Array<StandardFeed>> {
     const feed = await this.getFeedPage(numResults, reset)
-    return Promise.all(feed.filter(feedItem => feedItem.data).map(this.formatEvent))
+    return Promise.all(
+      feed
+        .filter(feedItem => feedItem.data && ['deleted', 'cancelled'].includes(feedItem.status) === false)
+        .map(this.formatEvent)
+    )
   }
 
   async getFormatedEventById(id: string): Promise<StandardFeed> {
@@ -910,9 +958,20 @@ export class UserStorage {
    *  with props { id, date, type, data: { amount, message, endpoint: { address, fullName, avatar, withdrawStatus }}}
    */
   async formatEvent(event: FeedEvent): Promise<StandardFeed> {
-    logger.debug('formatEvent: incoming event', { event })
+    logger.debug('formatEvent: incoming event', event.id, { event })
     const { data, type, date, id, status, createdDate } = event
-    const { receiptData, receipt, from, to, counterPartyDisplayName, sender, amount, reason, code: withdrawCode } = data
+    const {
+      receiptData,
+      receipt,
+      from,
+      to,
+      counterPartyDisplayName,
+      sender,
+      amount,
+      reason,
+      code: withdrawCode,
+      otplStatus,
+    } = data
     let avatar, fullName, address, withdrawStatus, initiator
     if (type === 'send') {
       address = this.wallet.wallet.utils.isAddress(to) ? to : (receiptData && receiptData.to) || (receipt && receipt.to)
@@ -977,13 +1036,20 @@ export class UserStorage {
 
     if (withdrawCode) {
       //check real status only if tx has been confirmed (ie we have a receipt)
-      withdrawStatus = receipt ? await this.wallet.getWithdrawStatus(withdrawCode) : 'pending'
+      withdrawStatus = otplStatus ? otplStatus : 'pending'
     }
 
+    let displayType = type
+    switch (type) {
+      case 'send':
+        displayType += withdrawStatus
+        break
+    }
     return {
       id: id,
       date: new Date(date).getTime(),
       type: type,
+      displayType,
       status,
       createdDate,
       data: {
@@ -1084,8 +1150,15 @@ export class UserStorage {
       }
     }
 
-    // Saving eventFeed by id
+    //saving index by onetime code so we can retrieve and update it once withdrawn
+    if (event.type == 'send' && event.data.code) {
+      const hashedCode = this.wallet.wallet.utils.sha3(event.data.code)
+      this.feed.get('codeToTxHash').put({ [hashedCode]: event.id })
+    }
+
     logger.debug('updateFeedEvent starting encrypt')
+
+    // Saving eventFeed by id
     const eventAck = this.feed
       .get('byid')
       .get(event.id)
@@ -1095,7 +1168,6 @@ export class UserStorage {
         logger.error('updateFeedEvent failedEncrypt byId:', e, event)
         return { err: e.message }
       })
-
     const saveAck = this.feed
       .get(day)
       .put(JSON.stringify(dayEventsArr))
@@ -1108,17 +1180,25 @@ export class UserStorage {
       .then()
       .catch(err => logger.error('updateFeedEvent daySize', err))
 
-    let blockAck = Promise.resolve()
-    if (event.data && event.data.receipt) {
-      blockAck = this.saveLastBlockNumber(event.data.receipt.blockNumber)
-    }
-
-    const result = await Promise.all([saveAck, ack, eventAck, blockAck])
+    const result = await Promise.all([saveAck, ack, eventAck])
       .then(arr => {
         return event
       })
       .catch(err => logger.error('savingIndex', err))
     return result
+  }
+
+  /**
+   * get transaction id from one time payment link code
+   * when a transaction to otpl is made and has the "code" field we index by it.
+   * @param {string} hashedCode sha3 of the code
+   * @returns transaction id that generated the code
+   */
+  getTransactionHashByCode(hashedCode: string): Promise<string> {
+    return this.feed
+      .get('codeToTxHash')
+      .get(hashedCode)
+      .then()
   }
 
   /**

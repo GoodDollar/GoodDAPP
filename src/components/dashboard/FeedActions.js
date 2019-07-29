@@ -1,7 +1,6 @@
 // @flow
 import React from 'react'
 import { Alert, TouchableHighlight, View } from 'react-native-web'
-import normalize from '../../lib/utils/normalizeText'
 import { withStyles } from '../../lib/styles'
 import { Icon, Section, Text } from '../common'
 import type { FeedEventProps } from './FeedItems/EventProps'
@@ -43,9 +42,9 @@ const FeedActions = ({ item, styles, theme }: FeedEventProps) => (
 
 const getStylesFromProps = ({ theme }) => ({
   actionsContainer: {
-    borderRadius: normalize(8),
-    height: normalize(84),
-    maxHeight: normalize(84),
+    borderRadius: 8,
+    height: 84,
+    maxHeight: 84,
     padding: theme.sizes.default,
     marginHorizontal: theme.sizes.default,
   },

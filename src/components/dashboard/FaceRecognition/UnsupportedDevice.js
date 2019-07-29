@@ -62,10 +62,10 @@ const UnsupportedDevice = props => {
             alignItems: 'center',
             alignSelf: 'center',
             borderColor: '#00AFFF',
-            borderRadius: normalize(5),
+            borderRadius: 5,
             borderWidth: 1,
-            padding: normalize(4),
-            marginTop: normalize(8),
+            padding: 4,
+            marginTop: 8,
           }}
         >
           <QRCode value={code} size={111} />
@@ -97,7 +97,7 @@ const UnsupportedDevice = props => {
           }}
         >
           <Section.Title style={styles.mainTitle}> {title}</Section.Title>
-          <Image source={Oops} resizeMode={'center'} style={{ height: normalize(146) }} />
+          <Image source={Oops} resizeMode={'center'} style={{ height: 146 }} />
           <Section
             style={{
               padding: 0,
@@ -132,13 +132,13 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     flexShrink: 0,
     justifyContent: 'space-evenly',
-    paddingTop: normalize(33),
+    paddingTop: 33,
     borderRadius: 5,
   },
   bottomContainer: {
     display: 'flex',
     flex: 1,
-    paddingTop: normalize(20),
+    paddingTop: 20,
     justifyContent: 'flex-end',
   },
   description: {
@@ -147,8 +147,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#00AFFF',
     padding: 0,
-    paddingTop: normalize(15),
-    paddingBottom: normalize(15),
+    paddingTop: 15,
+    paddingBottom: 15,
     verticalAlign: 'text-top',
   },
   mainTitle: {

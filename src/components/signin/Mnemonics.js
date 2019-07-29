@@ -3,7 +3,6 @@ import bip39 from 'bip39-light'
 import get from 'lodash/get'
 import React, { useState } from 'react'
 import { AsyncStorage } from 'react-native'
-import normalize from '../../lib/utils/normalizeText'
 import logger from '../../lib/logger/pino-logger'
 import { withStyles } from '../../lib/styles'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
@@ -120,8 +119,8 @@ const mnemonicsStyles = ({ theme }) => ({
   bottomContainer: {
     backgroundColor: theme.colors.surface,
     marginBottom: theme.paddings.defaultMargin,
-    maxHeight: normalize(50),
-    minHeight: normalize(50),
+    maxHeight: 50,
+    minHeight: 50,
   },
 })
 

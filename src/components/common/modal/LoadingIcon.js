@@ -1,7 +1,6 @@
 // @flow
 import React, { useEffect, useState } from 'react'
 import { Animated, Easing, View } from 'react-native'
-import normalize from '../../../lib/utils/normalizeText'
 import { withStyles } from '../../../lib/styles'
 
 const LoadingIcon = ({ styles, style }) => {
@@ -46,11 +45,11 @@ const getStylesFromProps = ({ theme }) => ({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
-    marginBottom: normalize(16),
+    marginBottom: 16,
   },
   loadingIcon: {
-    height: normalize(90),
-    width: normalize(90),
+    height: 90,
+    width: 90,
   },
 })
 

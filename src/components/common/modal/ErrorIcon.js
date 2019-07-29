@@ -1,7 +1,6 @@
 // @flow
 import React from 'react'
 import { View } from 'react-native'
-import normalize from '../../../lib/utils/normalizeText'
 import { withStyles } from '../../../lib/styles'
 import Icon from '../view/Icon'
 
@@ -18,18 +17,18 @@ const getStylesFromProps = ({ theme }) => ({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
-    marginBottom: normalize(16),
+    marginBottom: 16,
   },
   errorIconFrame: {
     alignItems: 'center',
     borderColor: theme.colors.red,
     borderRadius: '50%',
-    borderWidth: normalize(3),
+    borderWidth: 3,
     display: 'flex',
     flexDirection: 'row',
-    height: normalize(90),
+    height: 90,
     justifyContent: 'center',
-    width: normalize(90),
+    width: 90,
   },
 })
 

@@ -1,6 +1,5 @@
 import React from 'react'
 import { Image, StyleSheet } from 'react-native'
-import normalize from '../../lib/utils/normalizeText'
 import splashImage from '../../assets/Splash/logo.svg'
 import goodDollarImage from '../../assets/Splash/goodDollar.svg'
 import wavePattern from '../../assets/wave.svg'
@@ -56,13 +55,13 @@ const styles = StyleSheet.create({
   },
   logo: {
     maxWidth: '100%',
-    minHeight: normalize(135),
-    minWidth: normalize(135),
+    minHeight: 135,
+    minWidth: 135,
   },
   goodDollar: {
     maxWidth: '100%',
-    minHeight: normalize(30),
-    minWidth: normalize(212),
+    minHeight: 30,
+    minWidth: 212,
   },
 })
 

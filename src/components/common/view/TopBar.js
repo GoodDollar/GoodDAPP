@@ -1,10 +1,7 @@
 import React from 'react'
 import { StyleSheet } from 'react-native'
-import normalize from '../../../lib/utils/normalizeText'
-
 import GDStore from '../../../lib/undux/GDStore'
 import Section from '../layout/Section'
-
 import Avatar from './Avatar'
 import BigGoodDollar from './BigGoodDollar'
 
@@ -38,11 +35,11 @@ const TopBar = ({ hideBalance, push, children }) => {
 
 const styles = StyleSheet.create({
   topBar: {
-    paddingTop: normalize(12),
-    paddingBottom: normalize(12),
-    paddingRight: normalize(12),
-    paddingLeft: normalize(12),
-    marginBottom: normalize(8),
+    marginBottom: 8,
+    paddingBottom: 8,
+    paddingLeft: 12,
+    paddingRight: 8,
+    paddingTop: 8,
   },
 })
 

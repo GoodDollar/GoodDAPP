@@ -167,7 +167,7 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
     isProcessFailed === false && processStatus.isProfileSaved ? (
       <View style={{ flexShrink: 0 }}>
         <Text style={styles.textGood}>{`Looking Good ${getFirstWord(fullName)}`}</Text>
-        <Image source={LookingGood} resizeMode={'center'} style={{ marginTop: 36, height: normalize(135) }} />
+        <Image source={LookingGood} resizeMode={'center'} style={{ marginTop: 36, height: 135 }} />
       </View>
     ) : null
 

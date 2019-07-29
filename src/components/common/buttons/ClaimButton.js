@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 0,
   },
   claimContainer: {
-    padding: normalize(3),
+    padding: 3,
     backgroundColor: '#fff',
     zIndex: 99,
     borderRadius: '50%',
@@ -41,8 +41,8 @@ const styles = StyleSheet.create({
   claimButton: {
     backgroundColor: '#00C3AE',
     borderRadius: '50%',
-    height: normalize(72),
-    width: normalize(72),
+    height: 72,
+    width: 72,
     marginHorizontal: 0,
   },
   grayedOutText: {

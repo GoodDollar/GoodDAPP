@@ -1,7 +1,6 @@
 // @flow
 import React from 'react'
 import { Image, TouchableOpacity } from 'react-native'
-import normalize from '../../../lib/utils/normalizeText'
 import { withStyles } from '../../../lib/styles'
 import { mediumZIndex } from './styles'
 
@@ -22,11 +21,11 @@ const getStylesFromProps = ({ theme }) => ({
     zIndex: mediumZIndex,
   },
   modalCloseImage: {
-    height: normalize(37),
-    marginBottom: -normalize(37 / 2),
+    height: 37,
+    marginBottom: -(37 / 2),
     marginLeft: 'auto',
-    marginRight: -normalize(37 / 2),
-    width: normalize(37),
+    marginRight: -(37 / 2),
+    width: 37,
   },
 })
 

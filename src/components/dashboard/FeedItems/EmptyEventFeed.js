@@ -2,23 +2,22 @@
 import React from 'react'
 import { View } from 'react-native'
 import { withTheme } from 'react-native-paper'
-import normalize from '../../../lib/utils/normalizeText'
 import { Section } from '../../common/'
 import { withStyles } from '../../../lib/styles'
 
 const EmptyBlock = ({ width, height, borderRadius, style, theme }) => {
   const customStyle = {
-    height: normalize(height),
-    width: normalize(width),
-    borderRadius,
     backgroundColor: theme.colors.lightGray,
+    borderRadius,
+    height: height,
+    width: width,
   }
   return <View style={[customStyle, style]} />
 }
 
 EmptyBlock.defaultProps = {
-  width: normalize(74),
-  height: normalize(10),
+  height: 10,
+  width: 74,
 }
 
 const EmptyBlockThemed = withTheme(EmptyBlock)
@@ -58,7 +57,7 @@ const FeedListItem = ({ styles }) => (
 
 const getStylesFromProps = ({ theme }) => ({
   innerRow: {
-    padding: normalize(4),
+    padding: 4,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
@@ -68,17 +67,17 @@ const getStylesFromProps = ({ theme }) => ({
     alignSelf: 'flex-end',
   },
   mainSection: {
-    marginLeft: normalize(4),
+    marginLeft: 4,
   },
   emptyBlockBorderRow: {
     borderBottomColor: theme.colors.lightGray,
     borderBottomStyle: 'solid',
-    borderBottomWidth: normalize(2),
-    paddingBottom: normalize(4),
-    marginBottom: normalize(4),
+    borderBottomWidth: 2,
+    paddingBottom: 4,
+    marginBottom: 4,
   },
   emptyBlockMargin: {
-    marginTop: normalize(4),
+    marginTop: 4,
   },
 })
 

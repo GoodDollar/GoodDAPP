@@ -1,6 +1,5 @@
 import React from 'react'
 import { View } from 'react-native'
-import normalize from '../../../lib/utils/normalizeText'
 import { withStyles } from '../../../lib/styles'
 
 const Separator = ({ color, width, style, theme }) => (
@@ -8,7 +7,7 @@ const Separator = ({ color, width, style, theme }) => (
     style={[
       {
         borderBottomColor: theme.colors[color] || color || theme.colors.primary,
-        borderBottomWidth: normalize(width),
+        borderBottomWidth: width,
       },
       style,
     ]}

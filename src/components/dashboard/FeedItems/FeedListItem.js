@@ -1,6 +1,5 @@
 import React from 'react'
 import { TouchableHighlight, View } from 'react-native'
-import normalize from '../../../lib/utils/normalizeText'
 import { withStyles } from '../../../lib/styles'
 import wavePattern from '../../../assets/wave.svg'
 import ListEventItem from './ListEventItem'
@@ -37,18 +36,18 @@ const getStylesFromProps = ({ theme }) => ({
   row: {
     borderRadius: theme.feedItems.borderRadius,
     flexDirection: 'row',
-    marginBottom: normalize(6),
+    marginBottom: 6,
     overflow: 'hidden',
     shadowColor: theme.colors.text,
     shadowOffset: {
       width: 0,
-      height: normalize(2),
+      height: 2,
     },
     elevation: 1,
     minHeight: theme.feedItems.height,
     maxHeight: theme.feedItems.height,
     shadowOpacity: 0.16,
-    shadowRadius: normalize(4),
+    shadowRadius: 4,
     marginHorizontal: theme.sizes.default,
   },
   rowContent: {
@@ -57,7 +56,7 @@ const getStylesFromProps = ({ theme }) => ({
     flex: 1,
     justifyContent: 'center',
     paddingLeft: theme.paddings.mainContainerPadding,
-    paddingRight: normalize(4),
+    paddingRight: 4,
   },
   rowContentBorder: {
     backgroundRepeat: 'no-repeat',
@@ -67,7 +66,7 @@ const getStylesFromProps = ({ theme }) => ({
     position: 'absolute',
     right: 0,
     top: 0,
-    width: normalize(8),
+    width: 8,
   },
 })
 

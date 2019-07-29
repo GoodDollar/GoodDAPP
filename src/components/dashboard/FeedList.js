@@ -1,7 +1,6 @@
 // @flow
 import React, { PureComponent } from 'react'
 import { ActivityIndicator, Animated, Dimensions, FlatList, SwipeableFlatList, View } from 'react-native'
-import normalize from '../../lib/utils/normalizeText'
 import GDStore from '../../lib/undux/GDStore'
 import pino from '../../lib/logger/pino-logger'
 import { withStyles } from '../../lib/styles'
@@ -173,7 +172,7 @@ class FeedList extends PureComponent<FeedListProps, FeedListState> {
 
 const getStylesFromProps = ({ theme }) => ({
   loading: {
-    marginTop: normalize(8),
+    marginTop: 8,
   },
   horizontalContainer: {
     backgroundColor: 'rgba(0, 0, 0, 0.7)',
@@ -182,7 +181,7 @@ const getStylesFromProps = ({ theme }) => ({
     left: 0,
     right: 0,
     bottom: 0,
-    paddingVertical: normalize(20),
+    paddingVertical: 20,
     position: 'fixed',
     height,
   },

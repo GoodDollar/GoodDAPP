@@ -1,8 +1,6 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { Image, StyleSheet } from 'react-native'
-import normalize from '../../lib/utils/normalizeText'
-import illustration from '../../assets/Claim/illustration.png'
+import { Image, View } from 'react-native'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import logger from '../../lib/logger/pino-logger'
@@ -11,11 +9,13 @@ import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import wrapper from '../../lib/undux/utils/wrapper'
 import { weiToMask } from '../../lib/wallet/utils'
-import { CustomButton, Section, Text, Wrapper } from '../common'
+import { CustomButton, Text, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import ErrorIcon from '../common/modal/ErrorIcon'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import SuccessIcon from '../common/modal/SuccessIcon'
+import { withStyles } from '../../lib/styles'
+import normalize from '../../lib/utils/normalizeText'
 import type { DashboardProps } from './Dashboard'
 
 type ClaimProps = DashboardProps
@@ -29,10 +29,12 @@ type ClaimState = {
 }
 
 const log = logger.child({ from: 'Claim' })
+const illustration = require('../../assets/Claim/illustration.png')
 
 Image.prefetch(illustration)
 
-const Claim = ({ screenProps }: ClaimProps) => {
+const Claim = props => {
+  const { screenProps, styles }: ClaimProps = props
   const store = SimpleStore.useStore()
   const gdstore = GDStore.useStore()
 
@@ -183,73 +185,146 @@ const Claim = ({ screenProps }: ClaimProps) => {
   return (
     <Wrapper>
       <TopBar push={screenProps.push} />
-      <Section grow>
-        <Section.Stack grow={4} justifyContent="flex-start">
-          <Text>GoodDollar allows you to collect</Text>
-          <Section.Row justifyContent="center">
-            <Text fontFamily="slabBold" fontSize={36} color="#00c3ae">
-              1
-            </Text>
-            <Text fontFamily="slabBold" fontSize={20} color="#00c3ae">
-              {' '}
-              G$
-            </Text>
-            <Text fontFamily="slabBold" fontSize={36} color="#00c3ae">
-              {' '}
-              Free
-            </Text>
-          </Section.Row>
-          <Section.Row justifyContent="center">
-            <Text fontFamily="slabBold" fontSize={36} color="#00c3ae">
-              Every Day
-            </Text>
-          </Section.Row>
+      <View style={[styles.mainContainer]}>
+        <View style={[styles.mainText]}>
+          <Text style={[styles.mainTextTitle]}>GoodDollar allows you to collect</Text>
+          <Text style={[styles.mainTextBigMarginBottom]}>
+            <Text style={[styles.mainTextBig]}>1</Text>
+            <Text style={[styles.mainTextSmall]}> G$</Text>
+            <Text style={[styles.mainTextBig]}> Free</Text>
+          </Text>
+          <Text style={[styles.mainTextBig]}>Every Day</Text>
+        </View>
+
+        <View style={[styles.extraInfo]}>
           <Image source={illustration} style={styles.illustration} resizeMode="contain" />
-        </Section.Stack>
-        <Section grow={3} style={styles.extraInfo}>
-          <Section.Row grow={1} style={styles.extraInfoStats} justifyContent="center">
-            <Section.Row alignItems="baseline">
-              <Text color="primary" fontWeight="bold">
-                {claimedToday.people}
+          <View style={styles.extraInfoStats}>
+            <Text>
+              <Text style={[styles.extraInfoStatsText, styles.textBold, styles.textPrimary]}>
+                {claimedToday.people}{' '}
               </Text>
-              <Text>People Claimed</Text>
-              <Text color="primary" fontWeight="bold">
-                {claimedToday.amount}{' '}
+              <Text style={[styles.extraInfoStatsText]}>People Claimed </Text>
+              <Text style={[styles.extraInfoStatsText, styles.textBold, styles.textPrimary]}>
+                {claimedToday.amount}
               </Text>
-              <Text color="primary" fontSize={12} fontWeight="bold">
-                G$
+              <Text
+                style={[styles.extraInfoStatsText, styles.textBold, styles.textPrimary, styles.extraInfoStatsSmallText]}
+              >
+                G${' '}
               </Text>
-              <Text> Today!</Text>
-            </Section.Row>
-          </Section.Row>
-          <Section.Stack grow={2} style={styles.extraInfoCountdown} justifyContent="center">
-            <Text>Next daily income:</Text>
-            <Text fontFamily="slabBold" fontSize={36} color="#00c3ae">
-              {nextClaim}
+              <Text style={[styles.extraInfoStatsText]}>Today!</Text>
             </Text>
-          </Section.Stack>
+          </View>
+          <View style={[styles.extraInfoCountdown]}>
+            <Text style={[styles.extraInfoCountdownTitle]}>Next Daily Income:</Text>
+            <Text style={[styles.extraInfoCountdownNumber]}>{nextClaim}</Text>
+          </View>
           {ClaimButton}
-        </Section>
-      </Section>
+        </View>
+      </View>
     </Wrapper>
   )
 }
 
-const styles = StyleSheet.create({
-  illustration: {
-    marginTop: normalize(16),
-    minWidth: normalize(229),
-    maxWidth: '100%',
-    minHeight: normalize(159),
+const getStylesFromProps = ({ theme }) => ({
+  mainContainer: {
+    flexGrow: 1,
   },
-  extraInfo: { padding: 0 },
-  extraInfoStats: { backgroundColor: '#e0e0e0', borderRadius: normalize(5) },
+  mainText: {
+    alignItems: 'center',
+    flexDirection: 'column',
+    marginBottom: 65,
+    paddingTop: 16,
+  },
+  mainTextTitle: {
+    color: '#fff',
+    fontFamily: 'Roboto',
+    fontSize: normalize(15.5),
+    marginBottom: 12,
+  },
+  mainTextBig: {
+    color: '#fff',
+    fontFamily: 'RobotoSlab-Bold',
+    fontSize: normalize(36),
+  },
+  mainTextBigMarginBottom: {
+    marginBottom: 4,
+  },
+  mainTextSmall: {
+    color: '#fff',
+    fontFamily: 'RobotoSlab-Bold',
+    fontSize: normalize(20),
+  },
+  illustration: {
+    marginBottom: 8,
+    marginTop: -80,
+    maxWidth: '100%',
+    minHeight: 159,
+    minWidth: 229,
+  },
+  extraInfo: {
+    backgroundColor: '#fff',
+    borderRadius: theme.sizes.borderRadius,
+    flexGrow: 1,
+    flexShrink: 1,
+    minHeight: 0,
+    paddingBottom: 16,
+    paddingLeft: 8,
+    paddingRight: 8,
+    paddingTop: 16,
+  },
+  extraInfoStats: {
+    alignItems: 'center',
+    backgroundColor: theme.colors.lightGray,
+    borderRadius: theme.sizes.borderRadius,
+    flexGrow: 1,
+    justifyContent: 'center',
+    paddingBottom: 8,
+    paddingLeft: 4,
+    paddingRight: 4,
+    paddingTop: 8,
+    marginLeft: 0,
+    marginRight: 0,
+    marginBottom: 8,
+    marginTop: 0,
+  },
+  extraInfoStatsText: {
+    fontFamily: 'Roboto',
+    fontSize: normalize(15.5),
+  },
+  extraInfoStatsSmallText: {
+    fontSize: normalize(10),
+  },
+  textBold: {
+    fontFamily: 'Roboto-Bold',
+  },
+  textPrimary: {
+    color: theme.colors.primary,
+  },
   extraInfoCountdown: {
-    backgroundColor: '#e0e0e0',
-    margin: 0,
-    marginTop: normalize(8),
-    marginBottom: normalize(8),
-    borderRadius: normalize(5),
+    alignItems: 'center',
+    backgroundColor: theme.colors.lightGray,
+    borderRadius: theme.sizes.borderRadius,
+    flexDirection: 'column',
+    flexGrow: 2,
+    justifyContent: 'center',
+    marginBottom: 16,
+    marginLeft: 0,
+    marginRight: 0,
+    marginTop: 0,
+    paddingBottom: 8,
+    paddingLeft: 4,
+    paddingRight: 4,
+    paddingTop: 8,
+  },
+  extraInfoCountdownTitle: {
+    fontFamily: 'Roboto',
+    fontSize: normalize(15.5),
+  },
+  extraInfoCountdownNumber: {
+    color: theme.colors.green,
+    fontFamily: 'RobotoSlab-Bold',
+    fontSize: normalize(36),
   },
 })
 
@@ -257,4 +332,4 @@ Claim.navigationOptions = {
   title: 'Claim Daily G$',
 }
 
-export default Claim
+export default withStyles(getStylesFromProps)(Claim)

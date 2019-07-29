@@ -48,7 +48,7 @@ const FRIntro = props => {
           <Section.Title style={styles.mainTitle}>
             {`${getFirstWord(fullName)},\nLets make sure you are\na real live person!`}
           </Section.Title>
-          <Image source={SmileyHug} resizeMode={'center'} style={{ height: normalize(152) }} />
+          <Image source={SmileyHug} resizeMode={'center'} style={{ height: 152 }} />
           <Section
             style={{
               paddingBottom: 0,
@@ -90,13 +90,13 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     flexShrink: 0,
     justifyContent: 'space-evenly',
-    paddingTop: normalize(33),
+    paddingTop: 33,
     borderRadius: 5,
   },
   bottomContainer: {
     display: 'flex',
     flex: 1,
-    paddingTop: normalize(20),
+    paddingTop: 20,
     justifyContent: 'flex-end',
   },
   description: {
@@ -105,8 +105,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#00AFFF',
     verticalAlign: 'text-top',
-    paddingTop: normalize(25),
-    paddingBottom: normalize(25),
+    paddingTop: 25,
+    paddingBottom: 25,
   },
   mainTitle: {
     fontFamily: 'Roboto-Medium',

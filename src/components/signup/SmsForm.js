@@ -1,6 +1,5 @@
 // @flow
 import React from 'react'
-import normalize from '../../lib/utils/normalizeText'
 import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
 import { withStyles } from '../../lib/styles'
@@ -183,7 +182,7 @@ const getStylesFromProps = ({ theme }) => ({
   button: {
     justifyContent: 'center',
     width: '100%',
-    height: normalize(60),
+    height: 60,
   },
   row: {
     marginVertical: theme.sizes.defaultQuadruple,

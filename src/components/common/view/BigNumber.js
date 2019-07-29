@@ -1,7 +1,6 @@
 // @flow
 import React from 'react'
 import { View } from 'react-native'
-import normalize from '../../../lib/utils/normalizeText'
 import { withStyles } from '../../../lib/styles'
 import Text from './Text'
 
@@ -37,18 +36,16 @@ const getStylesFromProps = ({ theme }) => {
     },
     bigNumber: {
       fontFamily: theme.fonts.bold,
-      fontSize: normalize(36),
+      fontSize: 36,
       fontWeight: '700',
-      marginRight: theme.sizes.defaultHalf,
+      marginRight: 2,
       textAlign: 'right',
-      lineHeight: 'auto',
     },
     bigNumberUnit: {
       fontFamily: theme.fonts.bold,
-      fontSize: normalize(22),
+      fontSize: 18,
       fontWeight: '700',
       textAlign: 'right',
-      lineHeight: 'auto',
     },
   }
 }

@@ -113,8 +113,8 @@ const styles = StyleSheet.create({
     color: theme.colors.darkGray,
     fontFamily: theme.fonts.slabBold,
     fontSize: normalize(24),
-    marginBottom: normalize(16),
-    paddingTop: normalize(16),
+    marginBottom: 16,
+    paddingTop: 16,
     textAlign: 'center',
   },
   paragraph: {
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     flexGrow: 1,
-    marginBottom: normalize(40),
+    marginBottom: 40,
     padding: 0,
   },
   buttonsContainer: {
@@ -137,11 +137,11 @@ const styles = StyleSheet.create({
     paddingRight: 0,
   },
   buttonCancel: {
-    minWidth: normalize(80),
+    minWidth: 80,
   },
   buttonOK: {
     marginLeft: 'auto',
-    minWidth: normalize(80),
+    minWidth: 80,
   },
 })
 

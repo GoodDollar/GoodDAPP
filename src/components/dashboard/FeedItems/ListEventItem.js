@@ -67,7 +67,7 @@ const getStylesFromProps = ({ theme }) => ({
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'center',
-    padding: normalize(8),
+    padding: 8,
     width: '100%',
     flex: 1,
   },
@@ -75,22 +75,22 @@ const getStylesFromProps = ({ theme }) => ({
     alignSelf: 'flex-end',
   },
   mainSection: {
-    marginLeft: normalize(8),
+    marginLeft: 8,
   },
   borderRow: {
     alignItems: 'center',
     borderBottomStyle: 'solid',
-    borderBottomWidth: normalize(2),
+    borderBottomWidth: 2,
     display: 'flex',
     justifyContent: 'space-between',
-    marginBottom: normalize(8),
-    paddingBottom: normalize(4),
+    marginBottom: 8,
+    paddingBottom: 4,
   },
   date: {
     color: theme.colors.lighterGray,
     fontFamily: theme.fonts.regular,
     fontSize: normalize(10),
-    marginTop: normalize(2),
+    marginTop: 2,
   },
   bigNumberStyles: {
     fontSize: normalize(15),
@@ -112,7 +112,7 @@ const getStylesFromProps = ({ theme }) => ({
   },
   feedItem: {
     marginTop: 'auto',
-    paddingRight: normalize(4),
+    paddingRight: 4,
   },
   message: {
     fontSize: normalize(10),

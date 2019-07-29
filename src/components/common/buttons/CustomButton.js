@@ -4,44 +4,49 @@ import { View } from 'react-native'
 import { Button as BaseButton, DefaultTheme, Text } from 'react-native-paper'
 import { withStyles } from '../../../lib/styles'
 import Icon from '../view/Icon'
+import normalize from '../../../lib/utils/normalizeText'
 
 type IconFunction = (string, number) => React.Node
 
-// import normalize from '../../../lib/utils/normalizeText'
-
 export type ButtonProps = {
   children: any,
-  theme: DefaultTheme,
-  disabled?: boolean,
-  mode?: string,
   color?: string,
   dark?: boolean,
-  style?: any,
-  onPress: any,
-  loading?: boolean,
-  uppercase?: boolean,
+  disabled?: boolean,
   icon?: string | IconFunction,
   iconAlignment?: string,
   iconSize?: number,
+  loading?: boolean,
+  mode?: string,
+  onPress: any,
+  style?: any,
   styles?: any,
+  theme: DefaultTheme,
+  uppercase?: boolean,
 }
 
 type TextContentProps = {
   children: any,
   dark?: boolean,
-  uppercase?: boolean,
   styles: any,
   textStyle: any,
+  uppercase?: boolean,
 }
 
 const mapPropsToStyles = ({ theme }) => ({
   button: {
-    justifyContent: 'center',
+    alignItems: 'center',
     borderColor: theme.colors.primary,
+    justifyContent: 'center',
+    minHeight: 44,
   },
   buttonWrapperText: {
-    minHeight: 28,
+    alignItems: 'center',
     justifyContent: 'center',
+    paddingBottom: 0,
+    paddingLeft: 4,
+    paddingRight: 4,
+    paddingTop: 0,
   },
   leftIcon: {
     marginRight: theme.sizes.default,
@@ -50,7 +55,9 @@ const mapPropsToStyles = ({ theme }) => ({
     marginLeft: theme.sizes.default,
   },
   buttonText: {
-    fontWeight: 'bold',
+    fontFamily: 'Roboto-Medium',
+    fontSize: normalize(16),
+    fontWeight: 500,
     lineHeight: 0,
     paddingTop: 1,
   },

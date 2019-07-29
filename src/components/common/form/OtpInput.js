@@ -39,6 +39,7 @@ type SingleOtpInputProps = {
   isInputNum?: boolean,
   value?: string,
   styles: Object,
+  placeholder: string,
 }
 
 const getSingleOtpInputStylesFromProps = ({ theme }) => ({
@@ -77,6 +78,7 @@ const SingleOtpInput = withStyles(getSingleOtpInputStylesFromProps)((props: Sing
     isInputNum,
     value,
     styles,
+    placeholder,
     ...rest
   } = props
 
@@ -98,7 +100,7 @@ const SingleOtpInput = withStyles(getSingleOtpInputStylesFromProps)((props: Sing
     }
   }, [focus])
 
-  const numValueLimits = isInputNum ? { min: 0, max: 9 } : {}
+  const numValueLimits = isInputNum ? { min: 0, max: 9, pattern: /\d/g } : {}
   const inputStyles = [styles.input, inputStyle]
   if (focus && focusStyle) {
     inputStyles.push(focusStyle)
@@ -119,7 +121,9 @@ const SingleOtpInput = withStyles(getSingleOtpInputStylesFromProps)((props: Sing
         ref={inputRef => (input = inputRef)}
         disabled={isDisabled}
         value={value ? value : ''}
-        placeholder="*"
+        placeholder={placeholder}
+        keyboardType={isInputNum ? 'phone-pad' : 'default'}
+        returnKeyType="done"
         {...rest}
       />
       {!isLastChild && separator}
@@ -142,6 +146,7 @@ const OtpInput = (props: Props) => {
     shouldAutoFocus,
     isInputNum,
     containerStyle,
+    placeholder,
     styles,
   } = props
 
@@ -255,6 +260,7 @@ const OtpInput = (props: Props) => {
           errorStyle={errorStyle}
           shouldAutoFocus={shouldAutoFocus}
           isInputNum={isInputNum}
+          placeholder={placeholder}
         />
       )
     }

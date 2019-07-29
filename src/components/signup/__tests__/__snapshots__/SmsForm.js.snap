@@ -236,6 +236,7 @@ exports[`SmsForm matches snapshot 1`] = `
                   onKeyPress={[Function]}
                   onPaste={[Function]}
                   onSelect={[Function]}
+                  pattern={/\\\\d/g}
                   placeholder="*"
                   readOnly={false}
                   spellCheck={true}
@@ -330,7 +331,7 @@ exports[`SmsForm matches snapshot 1`] = `
                       },
                     }
                   }
-                  type="text"
+                  type="tel"
                   value=""
                 />
               </div>
@@ -377,6 +378,7 @@ exports[`SmsForm matches snapshot 1`] = `
                   onKeyPress={[Function]}
                   onPaste={[Function]}
                   onSelect={[Function]}
+                  pattern={/\\\\d/g}
                   placeholder="*"
                   readOnly={false}
                   spellCheck={true}
@@ -471,7 +473,7 @@ exports[`SmsForm matches snapshot 1`] = `
                       },
                     }
                   }
-                  type="text"
+                  type="tel"
                   value=""
                 />
               </div>
@@ -518,6 +520,7 @@ exports[`SmsForm matches snapshot 1`] = `
                   onKeyPress={[Function]}
                   onPaste={[Function]}
                   onSelect={[Function]}
+                  pattern={/\\\\d/g}
                   placeholder="*"
                   readOnly={false}
                   spellCheck={true}
@@ -612,7 +615,7 @@ exports[`SmsForm matches snapshot 1`] = `
                       },
                     }
                   }
-                  type="text"
+                  type="tel"
                   value=""
                 />
               </div>
@@ -659,6 +662,7 @@ exports[`SmsForm matches snapshot 1`] = `
                   onKeyPress={[Function]}
                   onPaste={[Function]}
                   onSelect={[Function]}
+                  pattern={/\\\\d/g}
                   placeholder="*"
                   readOnly={false}
                   spellCheck={true}
@@ -753,7 +757,7 @@ exports[`SmsForm matches snapshot 1`] = `
                       },
                     }
                   }
-                  type="text"
+                  type="tel"
                   value=""
                 />
               </div>
@@ -800,6 +804,7 @@ exports[`SmsForm matches snapshot 1`] = `
                   onKeyPress={[Function]}
                   onPaste={[Function]}
                   onSelect={[Function]}
+                  pattern={/\\\\d/g}
                   placeholder="*"
                   readOnly={false}
                   spellCheck={true}
@@ -894,7 +899,7 @@ exports[`SmsForm matches snapshot 1`] = `
                       },
                     }
                   }
-                  type="text"
+                  type="tel"
                   value=""
                 />
               </div>
@@ -941,6 +946,7 @@ exports[`SmsForm matches snapshot 1`] = `
                   onKeyPress={[Function]}
                   onPaste={[Function]}
                   onSelect={[Function]}
+                  pattern={/\\\\d/g}
                   placeholder="*"
                   readOnly={false}
                   spellCheck={true}
@@ -1035,7 +1041,7 @@ exports[`SmsForm matches snapshot 1`] = `
                       },
                     }
                   }
-                  type="text"
+                  type="tel"
                   value=""
                 />
               </div>

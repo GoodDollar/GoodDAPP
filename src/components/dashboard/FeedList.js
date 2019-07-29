@@ -150,7 +150,7 @@ class FeedList extends PureComponent<FeedListProps, FeedListState> {
           keyboardDismissMode="on-drag"
           keyboardShouldPersistTaps="always"
           legacyImplementation={false}
-          maxSwipeDistance={160}
+          maxSwipeDistance={80}
           numColumns={1}
           onEndReached={onEndReached}
           ref={ref => (this.swipeableFlatListRef = ref)}

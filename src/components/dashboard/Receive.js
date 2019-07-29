@@ -6,7 +6,7 @@ import { generateCode, generateReceiveShareObject } from '../../lib/share'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { PushButton } from '../appNavigation/PushButton'
-import { CopyButton, CustomButton, QRCode, Section, Wrapper } from '../common'
+import { CopyButton, CustomButton, QRCode, ScanQRButton, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import { withStyles } from '../../lib/styles'
 
@@ -41,7 +41,9 @@ const Receive = ({ screenProps, styles, ...props }: ReceiveProps) => {
 
   return (
     <Wrapper>
-      <TopBar hideBalance push={screenProps.push} />
+      <TopBar hideBalance={false} push={screenProps.push}>
+        <ScanQRButton onPress={() => screenProps.push('ReceiveByQR')} />
+      </TopBar>
       <Section grow>
         <Section.Stack grow={3} justifyContent="space-around" alignItems="center">
           <Section.Text style={styles.mainText}>Let someone scan your wallet address </Section.Text>

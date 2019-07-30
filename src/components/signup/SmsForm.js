@@ -135,10 +135,11 @@ class SmsForm extends React.Component<Props, State> {
               shouldAutoFocus
               numInputs={this.numInputs}
               onChange={this.handleChange}
-              isInputNum={true}
+              isInputNum
               hasErrored={errorMessage !== ''}
               errorStyle={styles.errorStyle}
               value={otp}
+              placeholder="*"
             />
             <ErrorText error={errorMessage} />
           </Section.Stack>

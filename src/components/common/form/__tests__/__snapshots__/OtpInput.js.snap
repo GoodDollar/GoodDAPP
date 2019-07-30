@@ -67,9 +67,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
         data-focusable={true}
         dir="auto"
         disabled={false}
-        max={9}
         maxLength="1"
-        min={0}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -78,7 +76,6 @@ exports[`OtpInput empty matches snapshot 1`] = `
         onKeyPress={[Function]}
         onPaste={[Function]}
         onSelect={[Function]}
-        placeholder="*"
         readOnly={false}
         spellCheck={true}
         style={
@@ -172,7 +169,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
             },
           }
         }
-        type="text"
+        type="tel"
         value=""
       />
     </div>
@@ -208,9 +205,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
         data-focusable={true}
         dir="auto"
         disabled={false}
-        max={9}
         maxLength="1"
-        min={0}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -219,7 +214,6 @@ exports[`OtpInput empty matches snapshot 1`] = `
         onKeyPress={[Function]}
         onPaste={[Function]}
         onSelect={[Function]}
-        placeholder="*"
         readOnly={false}
         spellCheck={true}
         style={
@@ -313,7 +307,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
             },
           }
         }
-        type="text"
+        type="tel"
         value=""
       />
     </div>
@@ -349,9 +343,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
         data-focusable={true}
         dir="auto"
         disabled={false}
-        max={9}
         maxLength="1"
-        min={0}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -360,7 +352,6 @@ exports[`OtpInput empty matches snapshot 1`] = `
         onKeyPress={[Function]}
         onPaste={[Function]}
         onSelect={[Function]}
-        placeholder="*"
         readOnly={false}
         spellCheck={true}
         style={
@@ -454,7 +445,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
             },
           }
         }
-        type="text"
+        type="tel"
         value=""
       />
     </div>
@@ -490,9 +481,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
         data-focusable={true}
         dir="auto"
         disabled={false}
-        max={9}
         maxLength="1"
-        min={0}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -501,7 +490,6 @@ exports[`OtpInput empty matches snapshot 1`] = `
         onKeyPress={[Function]}
         onPaste={[Function]}
         onSelect={[Function]}
-        placeholder="*"
         readOnly={false}
         spellCheck={true}
         style={
@@ -595,7 +583,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
             },
           }
         }
-        type="text"
+        type="tel"
         value=""
       />
     </div>
@@ -631,9 +619,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
         data-focusable={true}
         dir="auto"
         disabled={false}
-        max={9}
         maxLength="1"
-        min={0}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -642,7 +628,6 @@ exports[`OtpInput empty matches snapshot 1`] = `
         onKeyPress={[Function]}
         onPaste={[Function]}
         onSelect={[Function]}
-        placeholder="*"
         readOnly={false}
         spellCheck={true}
         style={
@@ -736,7 +721,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
             },
           }
         }
-        type="text"
+        type="tel"
         value=""
       />
     </div>
@@ -772,9 +757,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
         data-focusable={true}
         dir="auto"
         disabled={false}
-        max={9}
         maxLength="1"
-        min={0}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -783,7 +766,6 @@ exports[`OtpInput empty matches snapshot 1`] = `
         onKeyPress={[Function]}
         onPaste={[Function]}
         onSelect={[Function]}
-        placeholder="*"
         readOnly={false}
         spellCheck={true}
         style={
@@ -877,7 +859,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
             },
           }
         }
-        type="text"
+        type="tel"
         value=""
       />
     </div>
@@ -961,7 +943,6 @@ exports[`OtpInput matches snapshot 1`] = `
         onKeyPress={[Function]}
         onPaste={[Function]}
         onSelect={[Function]}
-        placeholder="*"
         readOnly={false}
         spellCheck={true}
         style={
@@ -1100,7 +1081,6 @@ exports[`OtpInput matches snapshot 1`] = `
         onKeyPress={[Function]}
         onPaste={[Function]}
         onSelect={[Function]}
-        placeholder="*"
         readOnly={false}
         spellCheck={true}
         style={
@@ -1239,7 +1219,6 @@ exports[`OtpInput matches snapshot 1`] = `
         onKeyPress={[Function]}
         onPaste={[Function]}
         onSelect={[Function]}
-        placeholder="*"
         readOnly={false}
         spellCheck={true}
         style={
@@ -1378,7 +1357,6 @@ exports[`OtpInput matches snapshot 1`] = `
         onKeyPress={[Function]}
         onPaste={[Function]}
         onSelect={[Function]}
-        placeholder="*"
         readOnly={false}
         spellCheck={true}
         style={
@@ -1517,7 +1495,6 @@ exports[`OtpInput matches snapshot 1`] = `
         onKeyPress={[Function]}
         onPaste={[Function]}
         onSelect={[Function]}
-        placeholder="*"
         readOnly={false}
         spellCheck={true}
         style={
@@ -1656,7 +1633,6 @@ exports[`OtpInput matches snapshot 1`] = `
         onKeyPress={[Function]}
         onPaste={[Function]}
         onSelect={[Function]}
-        placeholder="*"
         readOnly={false}
         spellCheck={true}
         style={
@@ -1825,9 +1801,7 @@ exports[`OtpInput number matches snapshot 1`] = `
         data-focusable={true}
         dir="auto"
         disabled={false}
-        max={9}
         maxLength="1"
-        min={0}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -1836,7 +1810,6 @@ exports[`OtpInput number matches snapshot 1`] = `
         onKeyPress={[Function]}
         onPaste={[Function]}
         onSelect={[Function]}
-        placeholder="*"
         readOnly={false}
         spellCheck={true}
         style={
@@ -1930,7 +1903,7 @@ exports[`OtpInput number matches snapshot 1`] = `
             },
           }
         }
-        type="text"
+        type="tel"
         value="1"
       />
     </div>
@@ -1966,9 +1939,7 @@ exports[`OtpInput number matches snapshot 1`] = `
         data-focusable={true}
         dir="auto"
         disabled={false}
-        max={9}
         maxLength="1"
-        min={0}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -1977,7 +1948,6 @@ exports[`OtpInput number matches snapshot 1`] = `
         onKeyPress={[Function]}
         onPaste={[Function]}
         onSelect={[Function]}
-        placeholder="*"
         readOnly={false}
         spellCheck={true}
         style={
@@ -2071,7 +2041,7 @@ exports[`OtpInput number matches snapshot 1`] = `
             },
           }
         }
-        type="text"
+        type="tel"
         value="2"
       />
     </div>
@@ -2107,9 +2077,7 @@ exports[`OtpInput number matches snapshot 1`] = `
         data-focusable={true}
         dir="auto"
         disabled={false}
-        max={9}
         maxLength="1"
-        min={0}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -2118,7 +2086,6 @@ exports[`OtpInput number matches snapshot 1`] = `
         onKeyPress={[Function]}
         onPaste={[Function]}
         onSelect={[Function]}
-        placeholder="*"
         readOnly={false}
         spellCheck={true}
         style={
@@ -2212,7 +2179,7 @@ exports[`OtpInput number matches snapshot 1`] = `
             },
           }
         }
-        type="text"
+        type="tel"
         value="3"
       />
     </div>
@@ -2248,9 +2215,7 @@ exports[`OtpInput number matches snapshot 1`] = `
         data-focusable={true}
         dir="auto"
         disabled={false}
-        max={9}
         maxLength="1"
-        min={0}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -2259,7 +2224,6 @@ exports[`OtpInput number matches snapshot 1`] = `
         onKeyPress={[Function]}
         onPaste={[Function]}
         onSelect={[Function]}
-        placeholder="*"
         readOnly={false}
         spellCheck={true}
         style={
@@ -2353,7 +2317,7 @@ exports[`OtpInput number matches snapshot 1`] = `
             },
           }
         }
-        type="text"
+        type="tel"
         value="4"
       />
     </div>
@@ -2389,9 +2353,7 @@ exports[`OtpInput number matches snapshot 1`] = `
         data-focusable={true}
         dir="auto"
         disabled={false}
-        max={9}
         maxLength="1"
-        min={0}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -2400,7 +2362,6 @@ exports[`OtpInput number matches snapshot 1`] = `
         onKeyPress={[Function]}
         onPaste={[Function]}
         onSelect={[Function]}
-        placeholder="*"
         readOnly={false}
         spellCheck={true}
         style={
@@ -2494,7 +2455,7 @@ exports[`OtpInput number matches snapshot 1`] = `
             },
           }
         }
-        type="text"
+        type="tel"
         value=""
       />
     </div>
@@ -2530,9 +2491,7 @@ exports[`OtpInput number matches snapshot 1`] = `
         data-focusable={true}
         dir="auto"
         disabled={false}
-        max={9}
         maxLength="1"
-        min={0}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -2541,7 +2500,6 @@ exports[`OtpInput number matches snapshot 1`] = `
         onKeyPress={[Function]}
         onPaste={[Function]}
         onSelect={[Function]}
-        placeholder="*"
         readOnly={false}
         spellCheck={true}
         style={
@@ -2635,7 +2593,7 @@ exports[`OtpInput number matches snapshot 1`] = `
             },
           }
         }
-        type="text"
+        type="tel"
         value=""
       />
     </div>

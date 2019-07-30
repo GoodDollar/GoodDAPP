@@ -9,9 +9,11 @@ import FeedListItem from './FeedItems/FeedListItem'
 import FeedModalItem from './FeedItems/FeedModalItem'
 
 const log = pino.child({ from: 'FeedListView' })
+const { width, height } = Dimensions.get('window')
+
 const SCREEN_SIZE = {
   width: 200,
-  height: 72,
+  height: 70,
 }
 
 const VIEWABILITY_CONFIG = {
@@ -21,11 +23,10 @@ const VIEWABILITY_CONFIG = {
 }
 
 const emptyFeed = { type: 'empty', data: {} }
-
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList)
 const AnimatedSwipeableFlatList = Animated.createAnimatedComponent(SwipeableFlatList)
 
-const { height } = Dimensions.get('window')
+const relativeWidth = num => Math.ceil((width * num) / 100)
 
 export type FeedListProps = {
   fixedHeight: boolean,
@@ -149,7 +150,7 @@ class FeedList extends PureComponent<FeedListProps, FeedListState> {
           keyboardDismissMode="on-drag"
           keyboardShouldPersistTaps="always"
           legacyImplementation={false}
-          maxSwipeDistance={160}
+          maxSwipeDistance={relativeWidth(25)}
           numColumns={1}
           onEndReached={onEndReached}
           ref={ref => (this.swipeableFlatListRef = ref)}

@@ -105,7 +105,7 @@ const Claim = props => {
       loading,
       message: 'please wait while processing...',
       image: <LoadingIcon />,
-      title: `YOUR G$\nIS ON IT'S WAY...`,
+      title: `YOUR G$\nIS ON ITS WAY...`,
     })
 
     try {

@@ -86,13 +86,13 @@ const getStylesFromProps = ({ theme }) => ({
     paddingBottom: theme.sizes.defaultDouble,
     paddingLeft: theme.sizes.default,
     paddingRight: theme.sizes.default,
-    paddingTop: theme.sizes.defaultDouble,
+    paddingTop: theme.sizes.defaultDouble * 2,
   },
   mainContent: {
     flexGrow: 1,
     justifyContent: 'center',
-    paddingLeft: theme.sizes.default * 3,
-    paddingRight: theme.sizes.default * 3,
+    paddingLeft: theme.sizes.defaultDouble,
+    paddingRight: theme.sizes.defaultDouble,
   },
   mainTitle: {
     color: theme.colors.darkGray,
@@ -111,6 +111,8 @@ const getStylesFromProps = ({ theme }) => ({
   },
   descriptionContainer: {
     paddingBottom: theme.sizes.defaultDouble,
+    paddingLeft: 4,
+    paddingRight: 4,
     paddingTop: theme.sizes.defaultDouble,
   },
   description: {

@@ -46,9 +46,10 @@ const Mnemonics = ({ navigation, styles }) => {
 
       if (profile) {
         await AsyncStorage.setItem('GOODDAPP_isLoggedIn', true)
+        const incomingRedirectUrl = get(navigation, 'state.params.redirect', '/')
 
         // There is no error and Profile exists. Reload screen to start with users mnemonics
-        window.location = '/'
+        window.location = incomingRedirectUrl
       } else {
         await saveMnemonics(prevMnemonics)
         showErrorDialog("Mnemonic doesn't match any existing account.")

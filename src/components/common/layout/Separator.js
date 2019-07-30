@@ -6,8 +6,9 @@ const Separator = ({ color, width, style, theme }) => (
   <View
     style={[
       {
-        borderBottomColor: theme.colors[color] || color || theme.colors.primary,
-        borderBottomWidth: width,
+        backgroundColor: theme.colors[color] || color || theme.colors.primary,
+        borderRadius: width / 2,
+        height: width,
       },
       style,
     ]}

@@ -43,6 +43,10 @@ const mapPropsToStyles = ({ theme }) => ({
   buttonWrapperText: {
     alignItems: 'center',
     justifyContent: 'center',
+    marginBottom: 0,
+    marginLeft: 0,
+    marginTop: 0,
+    marginRight: 0,
     paddingBottom: 0,
     paddingLeft: 4,
     paddingRight: 4,
@@ -58,7 +62,6 @@ const mapPropsToStyles = ({ theme }) => ({
     fontFamily: 'Roboto-Medium',
     fontSize: normalize(16),
     fontWeight: 500,
-    lineHeight: 0,
     paddingTop: 1,
   },
 })

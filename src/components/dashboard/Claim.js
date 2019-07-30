@@ -1,6 +1,6 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { Image, View } from 'react-native'
+import { Image } from 'react-native'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import logger from '../../lib/logger/pino-logger'
@@ -9,13 +9,14 @@ import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import wrapper from '../../lib/undux/utils/wrapper'
 import { weiToMask } from '../../lib/wallet/utils'
-import { CustomButton, Text, Wrapper } from '../common'
+import { CustomButton, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import ErrorIcon from '../common/modal/ErrorIcon'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import SuccessIcon from '../common/modal/SuccessIcon'
 import { withStyles } from '../../lib/styles'
 import normalize from '../../lib/utils/normalizeText'
+import Section from '../common/layout/Section'
 import type { DashboardProps } from './Dashboard'
 
 type ClaimProps = DashboardProps
@@ -181,61 +182,65 @@ const Claim = props => {
   return (
     <Wrapper>
       <TopBar push={screenProps.push} />
-      <View style={[styles.mainContainer]}>
-        <View style={[styles.mainText]}>
-          <Text style={[styles.mainTextTitle]}>GoodDollar allows you to collect</Text>
-          <Text style={[styles.mainTextBigMarginBottom]}>
-            <Text style={[styles.mainTextBig]}>1</Text>
-            <Text style={[styles.mainTextSmall]}> G$</Text>
-            <Text style={[styles.mainTextBig]}> Free</Text>
-          </Text>
-          <Text style={[styles.mainTextBig]}>Every Day</Text>
-        </View>
-
-        <View style={[styles.extraInfo]}>
+      <Section style={[styles.mainContainer]}>
+        <Section.Stack style={[styles.mainText]}>
+          <Section.Text style={[styles.mainTextTitle]}>GoodDollar allows you to collect</Section.Text>
+          <Section.Text style={[styles.mainTextBigMarginBottom]}>
+            <Section.Text style={[styles.mainTextBig]}>1</Section.Text>
+            <Section.Text style={[styles.mainTextSmall]}> G$</Section.Text>
+            <Section.Text style={[styles.mainTextBig]}> Free</Section.Text>
+          </Section.Text>
+          <Section.Text style={[styles.mainTextBig]}>Every Day</Section.Text>
+        </Section.Stack>
+        <Section.Stack style={[styles.extraInfo]}>
           <Image source={illustration} style={styles.illustration} resizeMode="contain" />
-          <View style={styles.extraInfoStats}>
-            <Text>
-              <Text style={[styles.extraInfoStatsText, styles.textBold, styles.textPrimary]}>
+          <Section.Row style={styles.extraInfoStats}>
+            <Section.Text>
+              <Section.Text style={[styles.extraInfoStatsText, styles.textBold, styles.textPrimary]}>
                 {claimedToday.people}{' '}
-              </Text>
-              <Text style={[styles.extraInfoStatsText]}>People Claimed </Text>
-              <Text style={[styles.extraInfoStatsText, styles.textBold, styles.textPrimary]}>
+              </Section.Text>
+              <Section.Text style={[styles.extraInfoStatsText]}>People Claimed </Section.Text>
+              <Section.Text style={[styles.extraInfoStatsText, styles.textBold, styles.textPrimary]}>
                 {claimedToday.amount}
-              </Text>
-              <Text
+              </Section.Text>
+              <Section.Text
                 style={[styles.extraInfoStatsText, styles.textBold, styles.textPrimary, styles.extraInfoStatsSmallText]}
               >
                 G${' '}
-              </Text>
-              <Text style={[styles.extraInfoStatsText]}>Today!</Text>
-            </Text>
-          </View>
-          <View style={[styles.extraInfoCountdown]}>
-            <Text style={[styles.extraInfoCountdownTitle]}>Next Daily Income:</Text>
-            <Text style={[styles.extraInfoCountdownNumber]}>{nextClaim}</Text>
-          </View>
+              </Section.Text>
+              <Section.Text style={[styles.extraInfoStatsText]}>Today!</Section.Text>
+            </Section.Text>
+          </Section.Row>
+          <Section.Stack style={[styles.extraInfoCountdown]}>
+            <Section.Text style={[styles.extraInfoCountdownTitle]}>Next Daily Income:</Section.Text>
+            <Section.Text style={[styles.extraInfoCountdownNumber]}>{nextClaim}</Section.Text>
+          </Section.Stack>
           {ClaimButton}
-        </View>
-      </View>
+        </Section.Stack>
+      </Section>
     </Wrapper>
   )
 }
 
 const getStylesFromProps = ({ theme }) => ({
   mainContainer: {
+    backgroundColor: 'transparent',
     flexGrow: 1,
+    paddingBottom: 0,
+    paddingLeft: 0,
+    paddingRight: 0,
+    paddingTop: 0,
   },
   mainText: {
     alignItems: 'center',
     flexDirection: 'column',
-    marginBottom: 65,
-    paddingTop: 16,
+    marginBottom: 64,
+    paddingTop: theme.sizes.defaultDouble,
   },
   mainTextTitle: {
     color: '#fff',
     fontFamily: 'Roboto',
-    fontSize: normalize(15.5),
+    fontSize: normalize(16),
     marginBottom: 12,
   },
   mainTextBig: {
@@ -254,7 +259,7 @@ const getStylesFromProps = ({ theme }) => ({
   illustration: {
     flexGrow: 0,
     flexShrink: 0,
-    marginBottom: 8,
+    marginBottom: theme.sizes.default,
     marginTop: -80,
     maxWidth: '100%',
     minHeight: 159,
@@ -266,10 +271,10 @@ const getStylesFromProps = ({ theme }) => ({
     flexGrow: 1,
     flexShrink: 1,
     minHeight: 0,
-    paddingBottom: 16,
-    paddingLeft: 8,
-    paddingRight: 8,
-    paddingTop: 16,
+    paddingBottom: theme.sizes.defaultDouble,
+    paddingLeft: theme.sizes.default,
+    paddingRight: theme.sizes.default,
+    paddingTop: theme.sizes.defaultDouble,
   },
   extraInfoStats: {
     alignItems: 'center',
@@ -277,13 +282,13 @@ const getStylesFromProps = ({ theme }) => ({
     borderRadius: theme.sizes.borderRadius,
     flexGrow: 1,
     justifyContent: 'center',
-    paddingBottom: 8,
+    paddingBottom: theme.sizes.default,
     paddingLeft: 4,
     paddingRight: 4,
-    paddingTop: 8,
+    paddingTop: theme.sizes.default,
     marginLeft: 0,
     marginRight: 0,
-    marginBottom: 8,
+    marginBottom: theme.sizes.default,
     marginTop: 0,
   },
   extraInfoStatsText: {
@@ -306,18 +311,19 @@ const getStylesFromProps = ({ theme }) => ({
     flexDirection: 'column',
     flexGrow: 2,
     justifyContent: 'center',
-    marginBottom: 16,
+    marginBottom: theme.sizes.defaultDouble,
     marginLeft: 0,
     marginRight: 0,
     marginTop: 0,
-    paddingBottom: 8,
+    paddingBottom: theme.sizes.default,
     paddingLeft: 4,
     paddingRight: 4,
-    paddingTop: 8,
+    paddingTop: theme.sizes.default,
   },
   extraInfoCountdownTitle: {
     fontFamily: 'Roboto',
-    fontSize: normalize(15.5),
+    fontSize: normalize(16),
+    marginBottom: 4,
   },
   extraInfoCountdownNumber: {
     color: theme.colors.green,

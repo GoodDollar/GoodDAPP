@@ -31,9 +31,9 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
         <Section.Row style={[styles.borderRow, { borderBottomColor: eventSettings.color }]}>
           <Text style={styles.date}>{getFormattedDateTime(feed.date)}</Text>
           <BigGoodDollar
-            color={eventSettings.color}
             bigNumberStyles={styles.bigNumberStyles}
             bigNumberUnitStyles={styles.bigNumberUnitStyles}
+            color={eventSettings.color}
             number={feed.data.amount}
           />
         </Section.Row>
@@ -53,23 +53,14 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
   )
 }
 
-// <Section.Row>
-//   <Section.Stack alignItems="flex-start" grow>
-//     <Section.Row>
-//       <EventCounterParty feedItem={feed} />
-//     </Section.Row>
-//     <Section.Row>
-//       <Text style={styles.rowDataSubText}>{feed.data.message}</Text>
-//     </Section.Row>
-
 const getStylesFromProps = ({ theme }) => ({
   innerRow: {
     alignItems: 'center',
+    flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
     padding: 8,
     width: '100%',
-    flex: 1,
   },
   avatarBottom: {
     alignSelf: 'flex-end',

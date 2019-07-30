@@ -57,8 +57,8 @@ exports[`SignupCompleted matches snapshot 1`] = `
           "flexGrow": 1,
           "msFlexPositive": 1,
           "paddingBottom": "16px",
-          "paddingLeft": "0px",
-          "paddingRight": "0px",
+          "paddingLeft": "12px",
+          "paddingRight": "12px",
           "paddingTop": "16px",
         }
       }
@@ -175,12 +175,15 @@ You're all set
           className="css-view-1dbjc4n"
           style={
             Object {
+              "WebkitAlignItems": "center",
+              "WebkitBoxAlign": "center",
               "WebkitBoxFlex": 1,
               "WebkitBoxPack": "center",
               "WebkitFlexBasis": "0%",
               "WebkitFlexGrow": 1,
               "WebkitFlexShrink": 1,
               "WebkitJustifyContent": "center",
+              "alignItems": "center",
               "backgroundColor": "rgba(0,175,255,1.00)",
               "borderBottomColor": "rgba(0,175,255,1.00)",
               "borderBottomLeftRadius": "50px",
@@ -203,11 +206,15 @@ You're all set
               "flexGrow": 1,
               "flexShrink": 1,
               "justifyContent": "center",
+              "minHeight": "44px",
               "minWidth": "auto",
+              "msFlexAlign": "center",
               "msFlexNegative": 1,
               "msFlexPack": "center",
               "msFlexPositive": 1,
               "msFlexPreferredSize": "0%",
+              "paddingLeft": "0px",
+              "paddingRight": "0px",
             }
           }
         >
@@ -278,38 +285,39 @@ You're all set
                   }
                 }
               >
-                <div
-                  className="css-view-1dbjc4n"
+                <span
+                  className="css-text-901oao css-textHasAncestor-16my406"
+                  dir="auto"
                   style={
                     Object {
+                      "WebkitAlignItems": "center",
+                      "WebkitBoxAlign": "center",
                       "WebkitBoxPack": "center",
                       "WebkitJustifyContent": "center",
-                      "display": "inline-flex",
+                      "alignItems": "center",
+                      "color": "rgba(255,255,255,1.00)",
+                      "direction": "ltr",
+                      "fontFamily": "Roboto-Medium",
+                      "fontSize": "16px",
+                      "fontWeight": "500",
                       "justifyContent": "center",
-                      "minHeight": "28px",
+                      "marginBottom": "0px",
+                      "marginLeft": "0px",
+                      "marginRight": "0px",
+                      "marginTop": "0px",
+                      "msFlexAlign": "center",
                       "msFlexPack": "center",
+                      "paddingBottom": "0px",
+                      "paddingLeft": "0px",
+                      "paddingRight": "0px",
+                      "paddingTop": "1px",
+                      "textAlign": "left",
+                      "textTransform": "uppercase",
                     }
                   }
                 >
-                  <span
-                    className="css-text-901oao css-textHasAncestor-16my406"
-                    dir="auto"
-                    style={
-                      Object {
-                        "color": "rgba(255,255,255,1.00)",
-                        "direction": "ltr",
-                        "fontFamily": "Roboto",
-                        "fontWeight": "bold",
-                        "lineHeight": "0px",
-                        "paddingTop": "1px",
-                        "textAlign": "left",
-                        "textTransform": "uppercase",
-                      }
-                    }
-                  >
-                    Let's start!
-                  </span>
-                </div>
+                  Let's start!
+                </span>
               </div>
             </div>
           </div>

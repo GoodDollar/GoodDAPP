@@ -57,8 +57,8 @@ exports[`SmsForm matches snapshot 1`] = `
           "flexGrow": 1,
           "msFlexPositive": 1,
           "paddingBottom": "16px",
-          "paddingLeft": "0px",
-          "paddingRight": "0px",
+          "paddingLeft": "12px",
+          "paddingRight": "12px",
           "paddingTop": "16px",
         }
       }

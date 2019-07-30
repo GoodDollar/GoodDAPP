@@ -645,8 +645,8 @@ exports[`Profile matches snapshot 1`] = `
                             "borderBottomRightRadius": "68px",
                             "borderTopLeftRadius": "68px",
                             "borderTopRightRadius": "68px",
-                            "height": "138px",
-                            "width": "138px",
+                            "height": "136",
+                            "width": "136",
                           }
                         }
                       >

@@ -312,7 +312,6 @@ export class GoodWallet {
   }
 
   subscribeToOTPLEvents(fromBlock: BN, toBlock: BN) {
-    const event = 'allEvents'
     const contract = this.oneTimePaymentLinksContract
 
     //Get transfers from this account
@@ -321,14 +320,25 @@ export class GoodWallet {
       toBlock,
       filter: { from: this.wallet.utils.toChecksumAddress(this.account) },
     }
-    const fromEventsPromise = contract
-      .getPastEvents(event, fromEventsFilter)
-      .catch(e => {
-        log.error('subscribeOTPL fromEventsPromise failed:', { e, fromEventsFilter })
-        return { error: e }
-      })
-      .then(res => {
-        if (res.error || res.length == 0) {
+    const fromEventsPromise = Promise.all([
+      contract
+        .getPastEvents('PaymentWithdraw', fromEventsFilter)
+        .catch(e => {
+          log.error('subscribeOTPL fromEventsPromise failed:', { e, fromEventsFilter })
+          return { error: e }
+        })
+        .then(res => (res.error ? [] : res)),
+      contract
+        .getPastEvents('PaymentCancel', fromEventsFilter)
+        .catch(e => {
+          log.error('subscribeOTPL fromEventsPromise failed:', { e, fromEventsFilter })
+          return { error: e }
+        })
+        .then(res => (res.error ? [] : res)),
+    ])
+      .then(([res1, res2]) => {
+        const res = res1.concat(res2)
+        if (res.length == 0) {
           return
         }
         log.debug("subscribeOTPL got 'from' events", { res })

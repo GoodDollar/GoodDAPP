@@ -21,6 +21,7 @@ const getStylesFromProps = ({ theme }) => ({
   rowDataText: {
     color: theme.fontStyle.color,
     fontSize: normalize(16),
+    textAlign: 'left',
     textTransform: 'capitalize',
   },
   direction: {

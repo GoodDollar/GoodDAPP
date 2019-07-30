@@ -1,7 +1,5 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { ScrollView } from 'react-native'
-import { Portal } from 'react-native-paper'
 import type { Store } from 'undux'
 import normalize from '../../lib/utils/normalizeText'
 import GDStore from '../../lib/undux/GDStore'
@@ -26,7 +24,7 @@ import FRIntro from './FaceRecognition/FRIntro'
 import FRError from './FaceRecognition/FRError'
 import UnsupportedDevice from './FaceRecognition/UnsupportedDevice'
 import FeedList from './FeedList'
-import FeedModalItem from './FeedItems/FeedModalItem'
+import FeedModalList from './FeedModalList'
 import Reason from './Reason'
 import Receive from './Receive'
 import Who from './Who'
@@ -43,15 +41,15 @@ import { ACTION_SEND } from './utils/sendReceiveFlow'
 const log = logger.child({ from: 'Dashboard' })
 
 export type DashboardProps = {
-  screenProps: any,
   navigation: any,
+  screenProps: any,
   store: Store,
+  styles?: any,
 }
 
 type DashboardState = {
-  horizontal: boolean,
   feeds: any[],
-  currentFeedProps: any,
+  currentFeed: any,
 }
 
 const Dashboard = props => {
@@ -59,8 +57,7 @@ const Dashboard = props => {
   const gdstore = GDStore.useStore()
   const [showDialog, hideDialog] = useDialog()
   const [state: DashboardState, setState] = useState({
-    horizontal: false,
-    currentFeedProps: null,
+    currentFeed: null,
     feeds: [],
   })
   const { params } = props.navigation.state
@@ -86,17 +83,12 @@ const Dashboard = props => {
     getInitialFeed(gdstore)
   }
 
-  const showEventModal = item => {
-    setState({
-      currentFeedProps: {
-        item,
-        onPress: closeFeedEvent,
-      },
-    })
+  const showEventModal = currentFeed => {
+    setState({ currentFeed })
   }
 
   const handleFeedSelection = (receipt, horizontal) => {
-    showEventModal(receipt)
+    showEventModal(horizontal ? receipt : null)
   }
 
   const showNewFeedEvent = async eventId => {
@@ -119,26 +111,18 @@ const Dashboard = props => {
     }
   }
 
-  const closeFeedEvent = () => {
-    setState({ currentFeedProps: null })
-  }
-
   const handleWithdraw = async () => {
     const { paymentCode, reason } = props.navigation.state.params
     try {
       showDialog({ title: 'Processing Payment Link...', loading: true, dismissText: 'hold' })
       await executeWithdraw(store, paymentCode, reason)
       hideDialog()
-
-      // if (receipt.transactionHash) {
-      //   await showNewFeedEvent(receipt.transactionHash)
-      // }
     } catch (e) {
       showDialog({ title: 'Error', message: e.message })
     }
   }
 
-  const { horizontal, currentFeedProps } = state
+  const { currentFeed } = state
   const { screenProps, styles }: DashboardProps = props
   const { balance, entitlement } = gdstore.get('account')
   const { avatar, fullName } = gdstore.get('profile')
@@ -146,8 +130,8 @@ const Dashboard = props => {
 
   // TODO: Calculate scroll position to update Dashboard avatar, name and gd amount view
   const scrollPos = 100
-  log.info('LOGGER FEEDS', { feeds })
 
+  log.info('LOGGER FEEDS', { feeds })
   return (
     <Wrapper style={styles.dashboardWrapper}>
       <Section style={[styles.topInfo]}>
@@ -202,22 +186,22 @@ const Dashboard = props => {
           </PushButton>
         </Section.Row>
       </Section>
-      <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollableView}>
-        <FeedList
+      <FeedList
+        data={feeds}
+        handleFeedSelection={handleFeedSelection}
+        initialNumToRender={PAGE_SIZE}
+        onEndReached={getNextFeed.bind(null, store)}
+        updateData={() => {}}
+      />
+      {currentFeed && (
+        <FeedModalList
           data={feeds}
-          fixedHeight
           handleFeedSelection={handleFeedSelection}
-          horizontal={horizontal}
           initialNumToRender={PAGE_SIZE}
           onEndReached={getNextFeed.bind(null, store)}
+          selectedFeed={currentFeed}
           updateData={() => {}}
-          virtualized
         />
-      </ScrollView>
-      {currentFeedProps && (
-        <Portal>
-          <FeedModalItem {...currentFeedProps} />
-        </Portal>
       )}
     </Wrapper>
   )
@@ -307,22 +291,6 @@ const getStylesFromProps = ({ theme }) => ({
     marginLeft: 24,
     paddingLeft: 0,
     paddingRight: theme.sizes.defaultHalf,
-  },
-  scrollView: {
-    display: 'flex',
-    flexGrow: 1,
-    height: 1,
-  },
-  scrollableView: {
-    flexGrow: 1,
-    display: 'flex',
-    height: '100%',
-  },
-  centering: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: theme.sizes.default,
-    height: '256px',
   },
   bigNumberVerticalStyles: {
     fontFamily: 'RobotoSlab-Bold',

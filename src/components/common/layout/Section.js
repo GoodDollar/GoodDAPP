@@ -11,8 +11,12 @@ import Separator from './Separator'
 import { getFlexStylesFromProps } from './SectionUtils'
 
 const SectionComponent = props => {
-  const { styles, children, style } = props
-  return <View style={[styles.section, getFlexStylesFromProps(props), style]}>{children}</View>
+  const { styles, children, style, ...rest } = props
+  return (
+    <View style={[styles.section, getFlexStylesFromProps(props), style]} props={rest}>
+      {children}
+    </View>
+  )
 }
 
 const mapPropsToStyles = ({ theme }) => ({

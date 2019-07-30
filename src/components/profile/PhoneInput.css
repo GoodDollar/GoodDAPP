@@ -9,7 +9,7 @@
 .react-phone-number-input__input {
   height: 30px;
   background: transparent;
-  borderwidth: 0;
+  border-width: 0;
   font-size: 14px;
   font-family: 'Roboto';
   text-align: left;

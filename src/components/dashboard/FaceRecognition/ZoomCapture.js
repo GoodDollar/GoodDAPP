@@ -193,7 +193,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     padding: 5,
     borderRadius: 5,
-    minHeight: 400,
   },
   helper: {
     position: 'absolute',
@@ -216,8 +215,13 @@ const styles = StyleSheet.create({
     height: '100%',
     backgroundColor: 'rgba(13, 165, 177, 0.5)',
     borderRadius: 5,
-    background:
-      'linear-gradient(to right, rgba(9, 181, 163, .5), rgba(18, 146, 193, .95)) no-repeat center center fixed',
+
+    // background:
+    //   'linear-gradient(to right, rgba(9, 181, 163, .5), rgba(18, 146, 193, .95)) no-repeat center center fixed',
+    backgroundImage: 'linear-gradient(to right, rgba(9, 181, 163, .5), rgba(18, 146, 193, .95))',
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center center',
+    backgroundAttachment: 'fixed',
   },
 })
 

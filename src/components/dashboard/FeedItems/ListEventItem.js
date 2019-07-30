@@ -30,6 +30,9 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
       <View grow style={styles.mainContents}>
         <View style={[styles.dateAndValue, { borderBottomColor: eventSettings.color }]}>
           <Text style={styles.date}>{getFormattedDateTime(feed.date)}</Text>
+          {eventSettings && eventSettings.actionSymbol && (
+            <Text style={[styles.actionSymbol, { color: eventSettings.color }]}>{eventSettings.actionSymbol}</Text>
+          )}
           <BigGoodDollar
             bigNumberStyles={styles.bigNumberStyles}
             bigNumberUnitStyles={styles.bigNumberUnitStyles}
@@ -83,6 +86,11 @@ const getStylesFromProps = ({ theme }) => ({
     fontFamily: theme.fonts.regular,
     fontSize: normalize(10),
     marginTop: 2,
+  },
+  actionSymbol: {
+    fontFamily: 'Roboto-Bold',
+    fontSize: normalize(15),
+    marginLeft: 'auto',
   },
   bigNumberStyles: {
     fontSize: normalize(15),

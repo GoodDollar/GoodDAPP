@@ -1,10 +1,9 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { ScrollView, View } from 'react-native'
+import { ScrollView } from 'react-native'
 import { Portal } from 'react-native-paper'
 import type { Store } from 'undux'
 import normalize from '../../lib/utils/normalizeText'
-
 import GDStore from '../../lib/undux/GDStore'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog } from '../../lib/undux/utils/dialog'
@@ -140,122 +139,180 @@ const Dashboard = props => {
   }
 
   const { horizontal, currentFeedProps } = state
-  const { screenProps, styles, theme }: DashboardProps = props
+  const { screenProps, styles }: DashboardProps = props
   const { balance, entitlement } = gdstore.get('account')
   const { avatar, fullName } = gdstore.get('profile')
   const feeds = gdstore.get('feeds')
 
   // TODO: Calculate scroll position to update Dashboard avatar, name and gd amount view
   const scrollPos = 100
-
   log.info('LOGGER FEEDS', { feeds })
+
   return (
-    <View style={styles.dashboardView}>
-      <Wrapper backgroundColor={theme.colors.lightGray} style={styles.dashboardWrapper}>
-        <Section>
-          {scrollPos < 100 ? (
-            <>
-              <Section.Row justifyContent="center" alignItems="baseline">
-                <Avatar size={80} source={avatar} onPress={() => screenProps.push('Profile')} />
-              </Section.Row>
-              <Section.Row justifyContent="center" alignItems="baseline">
-                <Section.Title>{fullName || ' '}</Section.Title>
-              </Section.Row>
-              <Section.Row justifyContent="center" alignItems="baseline">
-                <BigGoodDollar
-                  bigNumberStyles={styles.bigNumberStyles}
-                  bigNumberUnitStyles={styles.bigNumberUnitStyles}
-                  number={balance}
-                />
-              </Section.Row>
-            </>
-          ) : (
-            <Section.Row>
-              <Section.Stack alignItems="flex-start">
-                <Avatar size={42} source={avatar} onPress={() => screenProps.push('Profile')} />
-              </Section.Stack>
-              <Section.Stack alignItems="flex-end">
-                <BigGoodDollar
-                  bigNumberStyles={styles.bigNumberStyles}
-                  bigNumberUnitStyles={styles.bigNumberUnitStyles}
-                  number={balance}
-                />
-              </Section.Stack>
-            </Section.Row>
-          )}
-          <Section.Row style={styles.buttonsRow} alignItems="stretch">
-            <PushButton
-              routeName="Who"
-              screenProps={screenProps}
-              style={styles.leftButton}
-              icon="send"
-              iconAlignment="left"
-              params={{
-                nextRoutes: ['Amount', 'Reason', 'SendLinkSummary', 'SendConfirmation'],
-                params: { action: 'Send' },
-              }}
-            >
-              Send
-            </PushButton>
-            <ClaimButton screenProps={screenProps} amount={weiToMask(entitlement, { showUnits: true })} />
-            <PushButton
-              routeName={'Receive'}
-              screenProps={screenProps}
-              style={styles.rightButton}
-              icon="receive"
-              iconAlignment="right"
-            >
-              Receive
-            </PushButton>
-          </Section.Row>
-        </Section>
-        <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollableView}>
-          <FeedList
-            horizontal={horizontal}
-            handleFeedSelection={handleFeedSelection}
-            fixedHeight
-            virtualized
-            data={feeds}
-            updateData={() => {}}
-            initialNumToRender={PAGE_SIZE}
-            onEndReached={getNextFeed.bind(null, store)}
-          />
-        </ScrollView>
-        {currentFeedProps && (
-          <Portal>
-            <FeedModalItem {...currentFeedProps} />
-          </Portal>
+    <Wrapper style={styles.dashboardWrapper}>
+      <Section style={[styles.topInfo]}>
+        {scrollPos < 100 ? (
+          <Section style={[styles.userInfo, styles.userInfoVertical]}>
+            <Avatar onPress={() => screenProps.push('Profile')} size={68} source={avatar} style={[styles.avatarBig]} />
+            <Section.Title style={[styles.userName]}>{fullName || ' '}</Section.Title>
+            <BigGoodDollar
+              bigNumberStyles={styles.bigNumberVerticalStyles}
+              bigNumberUnitStyles={styles.bigNumberUnitStyles}
+              number={balance}
+            />
+          </Section>
+        ) : (
+          <Section style={[styles.userInfo, styles.userInfoHorizontal]}>
+            <Avatar
+              onPress={() => screenProps.push('Profile')}
+              size={42}
+              source={avatar}
+              style={[styles.avatarSmall]}
+            />
+            <BigGoodDollar
+              bigNumberStyles={styles.bigNumberStyles}
+              bigNumberUnitStyles={styles.bigNumberUnitStyles}
+              number={balance}
+            />
+          </Section>
         )}
-      </Wrapper>
-    </View>
+        <Section.Row style={styles.buttonsRow}>
+          <PushButton
+            icon="send"
+            iconAlignment="left"
+            routeName="Who"
+            screenProps={screenProps}
+            style={[styles.leftButton, { elevation: 0 }]}
+            params={{
+              nextRoutes: ['Amount', 'Reason', 'SendLinkSummary', 'SendConfirmation'],
+              params: { action: 'Send' },
+            }}
+          >
+            Send
+          </PushButton>
+          <ClaimButton screenProps={screenProps} amount={weiToMask(entitlement, { showUnits: true })} />
+          <PushButton
+            icon="receive"
+            iconAlignment="right"
+            routeName={'Receive'}
+            screenProps={screenProps}
+            style={[styles.rightButton, { elevation: 0 }]}
+          >
+            Receive
+          </PushButton>
+        </Section.Row>
+      </Section>
+      <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollableView}>
+        <FeedList
+          data={feeds}
+          fixedHeight
+          handleFeedSelection={handleFeedSelection}
+          horizontal={horizontal}
+          initialNumToRender={PAGE_SIZE}
+          onEndReached={getNextFeed.bind(null, store)}
+          updateData={() => {}}
+          virtualized
+        />
+      </ScrollView>
+      {currentFeedProps && (
+        <Portal>
+          <FeedModalItem {...currentFeedProps} />
+        </Portal>
+      )}
+    </Wrapper>
   )
 }
 
 const getStylesFromProps = ({ theme }) => ({
+  dashboardWrapper: {
+    backgroundImage: 'none',
+    backgroundColor: theme.colors.lightGray,
+    flexGrow: 1,
+    paddingLeft: 0,
+    paddingRight: 0,
+    paddingTop: 0,
+  },
+  topInfo: {
+    borderTopLeftRadius: 0,
+    borderTopRightRadius: 0,
+    marginBottom: 0,
+    marginLeft: theme.sizes.default,
+    marginRight: theme.sizes.default,
+    paddingBottom: theme.sizes.default,
+    paddingLeft: theme.sizes.default,
+    paddingRight: theme.sizes.default,
+    paddingTop: theme.sizes.defaultDouble,
+  },
+  userInfo: {
+    backgroundColor: 'transparent',
+    marginBottom: theme.sizes.defaultDouble,
+  },
+  userInfoVertical: {
+    alignItems: 'center',
+    paddingLeft: 0,
+    paddingRight: 0,
+    paddingBottom: 0,
+    paddingTop: 0,
+    flexDirection: 'column',
+    justifyContent: 'center',
+  },
+  userInfoHorizontal: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingBottom: 0,
+    paddingLeft: 0,
+    paddingRight: 0,
+    paddingTop: 0,
+  },
+  avatarBig: {
+    borderRadius: '50%',
+    height: 68,
+    marginBottom: 12,
+    width: 68,
+  },
+  avatarSmall: {
+    borderRadius: '50%',
+    height: 42,
+    margin: 0,
+    width: 42,
+  },
+  userName: {
+    color: theme.colors.gray80Percent,
+    fontFamily: 'RobotoSlab-Regular',
+    fontSize: normalize(18),
+    marginBottom: theme.sizes.defaultDouble,
+  },
   buttonsRow: {
-    marginVertical: theme.sizes.default,
+    alignItems: 'center',
+    height: 70,
+    justifyContent: 'space-between',
+    marginBottom: 0,
+    marginTop: 0,
   },
   leftButton: {
+    alignItems: 'flex-start',
     flex: 1,
-    marginRight: theme.sizes.defaultDouble,
-    paddingRight: theme.sizes.defaultDouble,
+    height: 44,
+    justifyContent: 'center',
+    marginRight: 24,
+    paddingLeft: theme.sizes.defaultHalf,
+    paddingRight: 0,
   },
   rightButton: {
+    alignItems: 'flex-end',
     flex: 1,
-    marginLeft: theme.sizes.defaultDouble,
-    paddingLeft: theme.sizes.defaultDouble,
-  },
-  dashboardView: {
-    flexGrow: 1,
-  },
-  dashboardWrapper: {
-    paddingHorizontal: 0,
+    height: 44,
+    justifyContent: 'center',
+    marginLeft: 24,
+    paddingLeft: 0,
+    paddingRight: theme.sizes.defaultHalf,
   },
   scrollView: {
-    marginTop: theme.sizes.default,
     display: 'flex',
     flexGrow: 1,
     height: 1,
+    paddingTop: theme.sizes.default,
   },
   scrollableView: {
     flexGrow: 1,
@@ -267,6 +324,11 @@ const getStylesFromProps = ({ theme }) => ({
     justifyContent: 'center',
     padding: theme.sizes.default,
     height: '256px',
+  },
+  bigNumberVerticalStyles: {
+    fontFamily: 'RobotoSlab-Bold',
+    fontSize: normalize(42),
+    marginRight: theme.sizes.defaultHalf,
   },
   bigNumberStyles: {
     fontFamily: 'RobotoSlab-Bold',

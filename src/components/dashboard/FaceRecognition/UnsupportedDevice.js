@@ -149,7 +149,6 @@ const styles = StyleSheet.create({
     padding: 0,
     paddingTop: 15,
     paddingBottom: 15,
-    verticalAlign: 'text-top',
   },
   mainTitle: {
     fontFamily: 'Roboto-Medium',

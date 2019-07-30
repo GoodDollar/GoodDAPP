@@ -104,7 +104,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     paddingBottom: 25,
     paddingTop: 25,
-    verticalAlign: 'text-top',
   },
   mainTitle: {
     fontFamily: 'Roboto-Medium',

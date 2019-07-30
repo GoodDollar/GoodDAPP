@@ -119,12 +119,12 @@ const getStylesFromProps = ({ theme }) => ({
     color: theme.colors.primary,
     fontFamily: 'Roboto',
     fontSize: normalize(16),
-    fontWeight: 400,
+    fontWeight: '400',
     lineHeight: normalize(20),
   },
   descriptionBold: {
     fontFamily: 'Roboto-Bold',
-    fontWeight: 700,
+    fontWeight: '700',
   },
   descriptionUnderline: {
     textDecoration: 'underline',

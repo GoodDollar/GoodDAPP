@@ -313,7 +313,6 @@ const styles = StyleSheet.create({
     fontSize: normalize(16),
     color: '#42454A',
     textTransform: 'none',
-    verticalAlign: 'middle',
     lineHeight: 28,
   },
   textInactive: {
@@ -321,7 +320,6 @@ const styles = StyleSheet.create({
     fontSize: normalize(16),
     color: '#CBCBCB',
     textTransform: 'none',
-    verticalAlign: 'middle',
     lineHeight: 28,
   },
   textError: {
@@ -329,7 +327,6 @@ const styles = StyleSheet.create({
     fontSize: normalize(16),
     color: '#FA6C77',
     textTransform: 'none',
-    verticalAlign: 'middle',
     lineHeight: 28,
   },
   textHelp: {

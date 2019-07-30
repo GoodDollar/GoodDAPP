@@ -176,14 +176,14 @@ const getStylesFromProps = ({ theme }) => ({
   },
   horizontalContainer: {
     backgroundColor: 'rgba(0, 0, 0, 0.7)',
-    flex: 1,
-    top: 0,
-    left: 0,
-    right: 0,
     bottom: 0,
+    flex: 1,
+    height,
+    left: 0,
     paddingVertical: 20,
     position: 'fixed',
-    height,
+    right: 0,
+    top: 0,
   },
   verticalContainer: {
     backgroundColor: '#efeff4',
@@ -191,26 +191,26 @@ const getStylesFromProps = ({ theme }) => ({
     justifyContent: 'center',
   },
   verticalList: {
-    width: '100%',
     maxWidth: '100vw',
+    width: '100%',
   },
   horizontalList: {
-    width: '100%',
-    maxWidth: '100vw',
     flex: 1,
+    maxWidth: '100vw',
     padding: theme.sizes.defaultHalf,
+    width: '100%',
   },
   options: {
+    alignItems: 'center',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    alignItems: 'center',
   },
   searchRow: {
     paddingHorizontal: theme.sizes.default,
   },
   itemSeparator: {
-    height: 1,
     backgroundColor: 'rgb(200, 199, 204)',
+    height: 1,
   },
 })
 

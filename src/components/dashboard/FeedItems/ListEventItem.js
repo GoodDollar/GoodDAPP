@@ -1,8 +1,9 @@
 // @flow
 import React from 'react'
+import { View } from 'react-native'
 import { Avatar } from 'react-native-paper'
 import normalize from '../../../lib/utils/normalizeText'
-import { BigGoodDollar, Section, Text } from '../../common'
+import { BigGoodDollar, Text } from '../../common'
 import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
 import { withStyles } from '../../../lib/styles'
 import type { FeedEventProps } from './EventProps'
@@ -22,13 +23,12 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
   if (feed.type === 'empty') {
     return <EmptyEventFeed />
   }
+
   return (
-    <Section.Row style={styles.innerRow}>
-      <Section.Stack alignItems="flex-start" style={styles.avatarBottom}>
-        <Avatar.Image size={34} source={feed.data.endpoint.avatar} />
-      </Section.Stack>
-      <Section.Stack grow style={styles.mainSection}>
-        <Section.Row style={[styles.borderRow, { borderBottomColor: eventSettings.color }]}>
+    <View style={styles.innerRow}>
+      <Avatar.Image size={34} style={[styles.avatarBottom]} source={feed.data.endpoint.avatar} />
+      <View grow style={styles.mainContents}>
+        <View style={[styles.dateAndValue, { borderBottomColor: eventSettings.color }]}>
           <Text style={styles.date}>{getFormattedDateTime(feed.date)}</Text>
           <BigGoodDollar
             bigNumberStyles={styles.bigNumberStyles}
@@ -36,46 +36,47 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
             color={eventSettings.color}
             number={feed.data.amount}
           />
-        </Section.Row>
-        <Section.Row style={styles.bottomInfo} alignItems="flex-start">
-          <Section.Stack style={styles.mainInfo}>
+        </View>
+        <View style={styles.transferInfo} alignItems="flex-start">
+          <View style={styles.mainInfo}>
             <EventCounterParty style={styles.feedItem} feedItem={feed} />
             <Text numberOfLines={1} style={styles.message}>
               {feed.data.message}
             </Text>
-          </Section.Stack>
-          <Section.Stack alignItems="flex-end">
-            <EventIcon type={feed.type} />
-          </Section.Stack>
-        </Section.Row>
-      </Section.Stack>
-    </Section.Row>
+          </View>
+          <EventIcon type={feed.type} />
+        </View>
+      </View>
+    </View>
   )
 }
 
 const getStylesFromProps = ({ theme }) => ({
   innerRow: {
     alignItems: 'center',
-    flex: 1,
     flexDirection: 'row',
+    flexGrow: 1,
     justifyContent: 'center',
-    padding: 8,
+    padding: theme.sizes.default,
     width: '100%',
   },
   avatarBottom: {
-    alignSelf: 'flex-end',
+    marginTop: 'auto',
   },
-  mainSection: {
-    marginLeft: 8,
+  mainContents: {
+    flexGrow: 1,
+    flexShrink: 1,
+    height: '100%',
+    marginLeft: theme.sizes.default,
   },
-  borderRow: {
+  dateAndValue: {
     alignItems: 'center',
     borderBottomStyle: 'solid',
     borderBottomWidth: 2,
     display: 'flex',
+    flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 8,
-    paddingBottom: 4,
+    paddingBottom: theme.sizes.default,
   },
   date: {
     color: theme.colors.lighterGray,
@@ -85,12 +86,17 @@ const getStylesFromProps = ({ theme }) => ({
   },
   bigNumberStyles: {
     fontSize: normalize(15),
+    marginRight: 4,
   },
   bigNumberUnitStyles: {
     fontSize: normalize(10),
   },
-  bottomInfo: {
+  transferInfo: {
+    display: 'flex',
+    flexDirection: 'row',
     flexShrink: 1,
+    marginTop: 'auto',
+    paddingTop: theme.sizes.defaultHalf,
   },
   mainInfo: {
     alignItems: 'flex-start',
@@ -99,16 +105,18 @@ const getStylesFromProps = ({ theme }) => ({
     flexGrow: 1,
     flexShrink: 1,
     justifyContent: 'flex-end',
-    marginVertical: 'auto',
+    marginBottom: 0,
+    marginRight: theme.sizes.default,
+    marginTop: 0,
   },
   feedItem: {
-    marginTop: 'auto',
-    paddingRight: 4,
+    marginBottom: theme.sizes.defaultHalf,
   },
   message: {
     fontSize: normalize(10),
     color: theme.colors.gray80Percent,
     textTransform: 'capitalize',
+    paddingBottom: theme.sizes.defaultHalf,
   },
 })
 

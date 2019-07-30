@@ -24,7 +24,7 @@ const getStylesFromProps = ({ theme }) => ({
     textTransform: 'capitalize',
   },
   direction: {
-    fontSize: normalize(8),
+    fontSize: normalize(10),
   },
   fullName: {
     fontFamily: theme.fonts.medium,

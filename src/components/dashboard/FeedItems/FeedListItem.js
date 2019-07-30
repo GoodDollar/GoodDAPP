@@ -36,7 +36,7 @@ const getStylesFromProps = ({ theme }) => ({
   row: {
     borderRadius: theme.feedItems.borderRadius,
     flexDirection: 'row',
-    marginBottom: 8,
+    marginTop: theme.sizes.default,
     overflow: 'hidden',
     shadowColor: theme.colors.text,
     shadowOffset: {

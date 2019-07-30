@@ -15,7 +15,10 @@ const FeedActions = ({ item, styles, theme }: FeedEventProps) => (
   <Section.Row
     style={[
       styles.actionsContainer,
-      { backgroundColor: item && item.type !== 'empty' ? theme.colors.red : theme.colors.surface },
+      {
+        backgroundColor: item && item.type !== 'empty' ? theme.colors.red : theme.colors.surface,
+        marginTop: theme.sizes.default,
+      },
     ]}
     alignItems="center"
     justifyContent="flex-end"

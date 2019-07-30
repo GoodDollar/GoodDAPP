@@ -245,7 +245,7 @@ const getStylesFromProps = ({ theme }) => ({
   },
   userInfo: {
     backgroundColor: 'transparent',
-    marginBottom: theme.sizes.defaultDouble,
+    marginBottom: 12,
   },
   userInfoVertical: {
     alignItems: 'center',
@@ -312,7 +312,6 @@ const getStylesFromProps = ({ theme }) => ({
     display: 'flex',
     flexGrow: 1,
     height: 1,
-    paddingTop: theme.sizes.default,
   },
   scrollableView: {
     flexGrow: 1,

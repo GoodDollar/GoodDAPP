@@ -102,9 +102,10 @@ const Claim = props => {
 
     showDialog({
       dismissText: 'OK',
+      image: <LoadingIcon />,
       loading,
       message: 'please wait while processing...',
-      image: <LoadingIcon />,
+      showButtons: false,
       title: `YOUR G$\nIS ON ITS WAY...`,
     })
 

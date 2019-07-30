@@ -225,9 +225,7 @@ exports[`SmsForm matches snapshot 1`] = `
                   data-focusable={true}
                   dir="auto"
                   disabled={false}
-                  max={9}
                   maxLength="1"
-                  min={0}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
@@ -330,7 +328,7 @@ exports[`SmsForm matches snapshot 1`] = `
                       },
                     }
                   }
-                  type="text"
+                  type="tel"
                   value=""
                 />
               </div>
@@ -366,9 +364,7 @@ exports[`SmsForm matches snapshot 1`] = `
                   data-focusable={true}
                   dir="auto"
                   disabled={false}
-                  max={9}
                   maxLength="1"
-                  min={0}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
@@ -471,7 +467,7 @@ exports[`SmsForm matches snapshot 1`] = `
                       },
                     }
                   }
-                  type="text"
+                  type="tel"
                   value=""
                 />
               </div>
@@ -507,9 +503,7 @@ exports[`SmsForm matches snapshot 1`] = `
                   data-focusable={true}
                   dir="auto"
                   disabled={false}
-                  max={9}
                   maxLength="1"
-                  min={0}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
@@ -612,7 +606,7 @@ exports[`SmsForm matches snapshot 1`] = `
                       },
                     }
                   }
-                  type="text"
+                  type="tel"
                   value=""
                 />
               </div>
@@ -648,9 +642,7 @@ exports[`SmsForm matches snapshot 1`] = `
                   data-focusable={true}
                   dir="auto"
                   disabled={false}
-                  max={9}
                   maxLength="1"
-                  min={0}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
@@ -753,7 +745,7 @@ exports[`SmsForm matches snapshot 1`] = `
                       },
                     }
                   }
-                  type="text"
+                  type="tel"
                   value=""
                 />
               </div>
@@ -789,9 +781,7 @@ exports[`SmsForm matches snapshot 1`] = `
                   data-focusable={true}
                   dir="auto"
                   disabled={false}
-                  max={9}
                   maxLength="1"
-                  min={0}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
@@ -894,7 +884,7 @@ exports[`SmsForm matches snapshot 1`] = `
                       },
                     }
                   }
-                  type="text"
+                  type="tel"
                   value=""
                 />
               </div>
@@ -930,9 +920,7 @@ exports[`SmsForm matches snapshot 1`] = `
                   data-focusable={true}
                   dir="auto"
                   disabled={false}
-                  max={9}
                   maxLength="1"
-                  min={0}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
@@ -1035,7 +1023,7 @@ exports[`SmsForm matches snapshot 1`] = `
                       },
                     }
                   }
-                  type="text"
+                  type="tel"
                   value=""
                 />
               </div>

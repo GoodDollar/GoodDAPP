@@ -820,6 +820,8 @@ export class UserStorage {
     })
     this.cursor += daysToTake.length
 
+    //TODO: WTF does this work?!?! if we JSON.stringify teh day index content how come we don't need to JSON.parse it?
+    //this works in the unit tests also
     let promises: Array<Promise<Array<FeedEvent>>> = daysToTake.map(day => {
       return this.feed
         .get(day[0])

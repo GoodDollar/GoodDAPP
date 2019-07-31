@@ -9,7 +9,7 @@ const ClaimButton = props => {
   const { screenProps, styles } = props
 
   return (
-    <PushButton routeName={'Claim'} screenProps={screenProps} style={[styles.claimButton, { elevation: 0 }]}>
+    <PushButton routeName={'Claim'} screenProps={screenProps} style={[styles.claimButton]}>
       <Text style={styles.buttonText}>Claim</Text>
     </PushButton>
   )
@@ -32,6 +32,7 @@ const getStylesFromProps = ({ theme }) => ({
     height: 72,
     left: '50%',
     marginHorizontal: 0,
+    elevation: 0,
     padding: 3,
     position: 'absolute',
     top: '50%',

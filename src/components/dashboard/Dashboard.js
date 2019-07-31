@@ -166,7 +166,7 @@ const Dashboard = props => {
             iconAlignment="left"
             routeName="Who"
             screenProps={screenProps}
-            style={[styles.leftButton, { elevation: 0 }]}
+            style={[styles.leftButton]}
             params={{
               nextRoutes: ['Amount', 'Reason', 'SendLinkSummary', 'SendConfirmation'],
               params: { action: 'Send' },
@@ -180,7 +180,7 @@ const Dashboard = props => {
             iconAlignment="right"
             routeName={'Receive'}
             screenProps={screenProps}
-            style={[styles.rightButton, { elevation: 0 }]}
+            style={[styles.rightButton]}
           >
             Receive
           </PushButton>
@@ -280,6 +280,7 @@ const getStylesFromProps = ({ theme }) => ({
     height: 44,
     justifyContent: 'center',
     marginRight: 24,
+    elevation: 0,
     paddingLeft: theme.sizes.defaultHalf,
     paddingRight: 0,
   },
@@ -289,21 +290,22 @@ const getStylesFromProps = ({ theme }) => ({
     height: 44,
     justifyContent: 'center',
     marginLeft: 24,
+    elevation: 0,
     paddingLeft: 0,
     paddingRight: theme.sizes.defaultHalf,
   },
   bigNumberVerticalStyles: {
-    fontFamily: 'RobotoSlab-Bold',
+    fontFamily: theme.fonts.slab,
     fontSize: normalize(42),
     marginRight: theme.sizes.defaultHalf,
   },
   bigNumberStyles: {
-    fontFamily: 'RobotoSlab-Bold',
+    fontFamily: theme.fonts.slab,
     fontSize: normalize(36),
     marginRight: theme.sizes.defaultHalf,
   },
   bigNumberUnitStyles: {
-    fontFamily: 'RobotoSlab-Bold',
+    fontFamily: theme.fonts.slab,
     fontSize: normalize(18),
   },
 })

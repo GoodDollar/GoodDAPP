@@ -57,7 +57,7 @@ const FeedListItem = ({ styles }) => (
 
 const getStylesFromProps = ({ theme }) => ({
   innerRow: {
-    padding: 4,
+    padding: theme.sizes.defaultHalf,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
@@ -67,17 +67,17 @@ const getStylesFromProps = ({ theme }) => ({
     alignSelf: 'flex-end',
   },
   mainSection: {
-    marginLeft: 4,
+    marginLeft: theme.sizes.defaultHalf,
   },
   emptyBlockBorderRow: {
     borderBottomColor: theme.colors.lightGray,
     borderBottomStyle: 'solid',
     borderBottomWidth: 2,
-    paddingBottom: 4,
-    marginBottom: 4,
+    paddingBottom: theme.sizes.defaultHalf,
+    marginBottom: theme.sizes.defaultHalf,
   },
   emptyBlockMargin: {
-    marginTop: 4,
+    marginTop: theme.sizes.defaultHalf,
   },
 })
 

@@ -76,7 +76,7 @@ FRIntro.navigationOptions = {
 const getStylesFromProps = ({ theme }) => ({
   topContainer: {
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: theme.colors.surface,
     borderRadius: theme.sizes.borderRadius,
     display: 'flex',
     flexDirection: 'column',
@@ -111,19 +111,19 @@ const getStylesFromProps = ({ theme }) => ({
   },
   descriptionContainer: {
     paddingBottom: theme.sizes.defaultDouble,
-    paddingLeft: 4,
-    paddingRight: 4,
+    paddingLeft: theme.sizes.defaultHalf,
+    paddingRight: theme.sizes.defaultHalf,
     paddingTop: theme.sizes.defaultDouble,
   },
   description: {
     color: theme.colors.primary,
-    fontFamily: 'Roboto',
+    fontFamily: theme.fonts.regular,
     fontSize: normalize(16),
     fontWeight: '400',
     lineHeight: normalize(20),
   },
   descriptionBold: {
-    fontFamily: 'Roboto-Bold',
+    fontFamily: theme.fonts.bold,
     fontWeight: '700',
   },
   descriptionUnderline: {

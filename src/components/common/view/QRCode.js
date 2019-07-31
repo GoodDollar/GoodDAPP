@@ -20,7 +20,7 @@ const getStylesFromProps = ({ theme }) => {
       borderColor: theme.colors.primary,
       borderRadius: 5,
       borderWidth: 1,
-      padding: 16,
+      padding: theme.sizes.defaultDouble,
     },
     qrWrapper: {
       justifyContent: 'center',

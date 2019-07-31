@@ -118,7 +118,7 @@ const mnemonicInputStyles = ({ theme }) => ({
   inputContainer: {
     flexDirection: 'row',
     height: height >= 640 ? 44 : 36,
-    marginTop: 8,
+    marginTop: theme.sizes.default,
     width: '45%',
   },
   input: {
@@ -130,7 +130,7 @@ const mnemonicInputStyles = ({ theme }) => ({
     flex: 1,
     height: height >= 640 ? 44 : 36,
     justifyContent: 'center',
-    paddingLeft: 16,
+    paddingLeft: theme.sizes.defaultDouble,
     width: 94,
   },
   prevNumber: {

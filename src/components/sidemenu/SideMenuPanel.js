@@ -138,16 +138,16 @@ const sideMenuPanelStyles = ({ theme }) => ({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-end',
-    paddingTop: 18,
-    paddingBottom: 32,
-    marginHorizontal: 16,
+    paddingTop: theme.sizes.defaultDouble,
+    paddingBottom: theme.sizes.defaultQuadruple,
+    marginHorizontal: theme.sizes.defaultDouble,
     cursor: 'pointer',
   },
   listContainer: {
     borderTopWidth: 1,
     borderTopColor: theme.colors.lightGray,
     borderTopStyle: 'solid',
-    marginHorizontal: 16,
+    marginHorizontal: theme.sizes.defaultDouble,
   },
 })
 

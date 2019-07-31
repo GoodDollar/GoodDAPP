@@ -2,6 +2,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { withStyles } from '../../../lib/styles'
+import normalize from '../../../lib/utils/normalizeText'
 import Text from './Text'
 
 /**
@@ -36,14 +37,14 @@ const getStylesFromProps = ({ theme }) => {
     },
     bigNumber: {
       fontFamily: theme.fonts.bold,
-      fontSize: 36,
+      fontSize: normalize(36),
       fontWeight: '700',
       marginRight: 2,
       textAlign: 'right',
     },
     bigNumberUnit: {
       fontFamily: theme.fonts.bold,
-      fontSize: 18,
+      fontSize: normalize(18),
       fontWeight: '700',
       textAlign: 'right',
     },

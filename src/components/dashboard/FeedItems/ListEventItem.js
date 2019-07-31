@@ -88,13 +88,13 @@ const getStylesFromProps = ({ theme }) => ({
     marginTop: 2,
   },
   actionSymbol: {
-    fontFamily: 'Roboto-Bold',
+    fontFamily: theme.fonts.bold,
     fontSize: normalize(15),
     marginLeft: 'auto',
   },
   bigNumberStyles: {
     fontSize: normalize(15),
-    marginRight: 4,
+    marginRight: theme.sizes.defaultHalf,
   },
   bigNumberUnitStyles: {
     fontSize: normalize(10),

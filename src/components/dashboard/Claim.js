@@ -240,21 +240,21 @@ const getStylesFromProps = ({ theme }) => ({
   },
   mainTextTitle: {
     color: '#fff',
-    fontFamily: 'Roboto',
+    fontFamily: theme.fonts.regular,
     fontSize: normalize(16),
     marginBottom: 12,
   },
   mainTextBig: {
     color: '#fff',
-    fontFamily: 'RobotoSlab-Bold',
+    fontFamily: theme.fonts.slabBold,
     fontSize: normalize(36),
   },
   mainTextBigMarginBottom: {
-    marginBottom: 4,
+    marginBottom: theme.sizes.defaultHalf,
   },
   mainTextSmall: {
     color: '#fff',
-    fontFamily: 'RobotoSlab-Bold',
+    fontFamily: theme.fonts.slabBold,
     fontSize: normalize(20),
   },
   illustration: {
@@ -284,8 +284,8 @@ const getStylesFromProps = ({ theme }) => ({
     flexGrow: 1,
     justifyContent: 'center',
     paddingBottom: theme.sizes.default,
-    paddingLeft: 4,
-    paddingRight: 4,
+    paddingLeft: theme.sizes.defaultHalf,
+    paddingRight: theme.sizes.defaultHalf,
     paddingTop: theme.sizes.default,
     marginLeft: 0,
     marginRight: 0,
@@ -293,14 +293,14 @@ const getStylesFromProps = ({ theme }) => ({
     marginTop: 0,
   },
   extraInfoStatsText: {
-    fontFamily: 'Roboto',
+    fontFamily: theme.fonts.regular,
     fontSize: normalize(15.5),
   },
   extraInfoStatsSmallText: {
     fontSize: normalize(10),
   },
   textBold: {
-    fontFamily: 'Roboto-Bold',
+    fontFamily: theme.fonts.bold,
   },
   textPrimary: {
     color: theme.colors.primary,
@@ -317,18 +317,18 @@ const getStylesFromProps = ({ theme }) => ({
     marginRight: 0,
     marginTop: 0,
     paddingBottom: theme.sizes.default,
-    paddingLeft: 4,
-    paddingRight: 4,
+    paddingLeft: theme.sizes.defaultHalf,
+    paddingRight: theme.sizes.defaultHalf,
     paddingTop: theme.sizes.default,
   },
   extraInfoCountdownTitle: {
-    fontFamily: 'Roboto',
+    fontFamily: theme.fonts.regular,
     fontSize: normalize(16),
-    marginBottom: 4,
+    marginBottom: theme.sizes.default,
   },
   extraInfoCountdownNumber: {
     color: theme.colors.green,
-    fontFamily: 'RobotoSlab-Bold',
+    fontFamily: theme.fonts.slabBold,
     fontSize: normalize(36),
   },
 })

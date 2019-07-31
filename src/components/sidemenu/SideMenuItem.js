@@ -30,15 +30,15 @@ const sideMenuItemStyles = ({ theme }) => ({
     alignItems: 'center',
     justifyContent: 'flex-start',
     cursor: 'pointer',
-    padding: 16,
+    padding: theme.sizes.defaultDouble,
     paddingLeft: 0,
   },
   menuIcon: {
-    marginLeft: 8,
+    marginLeft: theme.sizes.default,
     marginRight: 20,
   },
   menuText: {
-    paddingRight: 16,
+    paddingRight: theme.sizes.defaultDouble,
   },
 })
 

@@ -117,7 +117,7 @@ exports[`WrappedSaveButton matches snapshot 1`] = `
             Object {
               "color": "rgba(255,255,255,1.00)",
               "direction": "ltr",
-              "fontFamily": "Roboto-Medium",
+              "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
               "letterSpacing": "1px",
               "marginBottom": "9px",
               "marginLeft": "8px",
@@ -271,7 +271,7 @@ exports[`WrappedSaveButton matches snapshot 2`] = `
             Object {
               "color": "rgba(12,38,61,1.00)",
               "direction": "ltr",
-              "fontFamily": "Roboto-Medium",
+              "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
               "letterSpacing": "1px",
               "marginBottom": "9px",
               "marginLeft": "8px",
@@ -425,7 +425,7 @@ exports[`WrappedSaveButton matches snapshot 3`] = `
             Object {
               "color": "rgba(255,255,255,1.00)",
               "direction": "ltr",
-              "fontFamily": "Roboto-Medium",
+              "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
               "letterSpacing": "1px",
               "marginBottom": "9px",
               "marginLeft": "8px",
@@ -579,7 +579,7 @@ exports[`WrappedSaveButton matches snapshot 4`] = `
             Object {
               "color": "rgba(255,255,255,1.00)",
               "direction": "ltr",
-              "fontFamily": "Roboto-Medium",
+              "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
               "letterSpacing": "1px",
               "marginBottom": "9px",
               "marginLeft": "8px",

@@ -1,0 +1,48 @@
+{
+    "baseUrl": "https://goodqa.netlify.com",
+    "env": {    
+        "wordsForSuccessfullLogin": [
+            "rabbit", "have", "citizen ", 
+            "fossil", "tuition", "vivid", 
+            "near", "bronze", "fault", 
+            "myth", "mention", "rib"
+        ],
+        "wordsForUnsuccessfullLogin": {
+            "withChangedWord": [
+                "hello", "have", "citizen ",
+                "fossil", "tuition", "vivid", 
+                "near", "bronze", "fault", 
+                "myth", "mention", "rib"
+            ],
+            "withNumbers": [
+                "rabbit", "have2", "citizen ", 
+                "fossil", "tuition", "vivid", 
+                "near", "bronze", "fault", 
+                "myth", "mention", "rib"
+            ],
+            "withSymbols": [
+                "rabbit", "have", "citizen ", 
+                "fossil", "tuition$", "vivid", 
+                "near", "bronze", "fault", 
+                "myth", "mention", "rib"
+            ],
+            "withChangedLetter": [
+                "gabbit", "have", "citizen ", 
+                "fossil", "tuition", "vivid", 
+                "near", "bronze", "fault", 
+                "myth", "mention", "rib"
+            ],
+            "withChangedOrder": [
+                "rib", "have", "citizen ", 
+                "fossil", "tuition", "vivid", 
+                "near", "bronze", "fault", 
+                "myth", "mention", "rabbit"
+            ],
+            "withCapitalize": [
+                "rabbit", "have", "citizen ", 
+                "fossil", "tuition", "vivid", 
+                "near", "Bronze", "fault", 
+                "myth", "mention", "rib"]
+        }
+    }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "cypress_gooddollar",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "cypress": "npx cypress open"
+  },
+  "author": "Andrew",
+  "license": "ISC",
+  "devDependencies": {
+    "cypress": "^3.4.0"
+  }
+}

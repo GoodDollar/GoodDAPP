@@ -96,7 +96,7 @@ const getStylesFromProps = ({ theme }) => ({
   },
   mainTitle: {
     color: theme.colors.darkGray,
-    fontFamily: 'Roboto-Medium',
+    fontFamily: theme.fonts.medium,
     fontSize: normalize(24),
     marginBottom: 28,
     textTransform: 'none',

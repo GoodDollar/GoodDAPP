@@ -58,7 +58,7 @@ const getStylesFromProps = ({ theme }) => ({
   },
   action: {
     color: '#fff',
-    fontFamily: theme.fonts.roboto,
+    fontFamily: theme.fonts.default,
     fontSize: normalize(14),
     fontWeight: '500',
     lineHeight: normalize(14),

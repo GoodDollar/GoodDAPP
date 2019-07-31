@@ -49,7 +49,7 @@ const getStylesFromProps = ({ theme }) => {
     backgroundColor: 'inherit',
     borderWidth: 0,
     flex: 1,
-    fontFamily: theme.fonts.regular,
+    fontFamily: theme.fonts.default,
     fontSize: normalize(14),
     fontWeight: '400',
     lineHeight: 36,

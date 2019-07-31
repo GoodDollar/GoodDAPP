@@ -18,7 +18,7 @@ const ClaimButton = props => {
 const getStylesFromProps = ({ theme }) => ({
   buttonText: {
     color: '#fff',
-    fontFamily: theme.fonts.roboto,
+    fontFamily: theme.fonts.default,
     fontSize: normalize(16),
     fontWeight: '500',
     margin: 0,

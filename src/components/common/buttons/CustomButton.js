@@ -50,7 +50,7 @@ const mapPropsToStyles = ({ theme }) => ({
   },
   buttonText: {
     alignItems: 'center',
-    fontFamily: theme.fonts.roboto,
+    fontFamily: theme.fonts.default,
     fontSize: normalize(16),
     fontWeight: '500',
     justifyContent: 'center',

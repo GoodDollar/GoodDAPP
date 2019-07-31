@@ -298,18 +298,18 @@ const getStylesFromProps = ({ theme }) => ({
     fontFamily: theme.fonts.slab,
     fontSize: normalize(42),
     marginRight: theme.sizes.defaultHalf,
-    fontWeight: '400',
+    fontWeight: '700',
   },
   bigNumberStyles: {
     fontFamily: theme.fonts.slab,
     fontSize: normalize(36),
     marginRight: theme.sizes.defaultHalf,
-    fontWeight: '400',
+    fontWeight: '700',
   },
   bigNumberUnitStyles: {
     fontFamily: theme.fonts.slab,
     fontSize: normalize(18),
-    fontWeight: '400',
+    fontWeight: '700',
   },
 })
 

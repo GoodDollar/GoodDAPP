@@ -27,7 +27,7 @@ export const theme = {
   },
   fonts: {
     ...DefaultTheme.fonts,
-    regular: 'Roboto',
+    default: 'Roboto',
     slab: 'Roboto Slab',
   },
   paddings: {

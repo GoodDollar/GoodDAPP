@@ -96,12 +96,12 @@ const getStylesFromProps = ({ theme }) => {
       marginTop: theme.paddings.defaultMargin,
     },
     bigGoodDollar: {
-      fontFamily: theme.fonts.roboto,
+      fontFamily: theme.fonts.default,
       fontSize: normalize(28),
       fontWeight: '700',
     },
     bigGoodDollarUnit: {
-      fontFamily: theme.fonts.roboto,
+      fontFamily: theme.fonts.default,
       fontSize: normalize(16),
       fontWeight: '700',
     },

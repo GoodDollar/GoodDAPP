@@ -127,7 +127,7 @@ const getStylesFromProps = ({ theme }) => {
     },
     acceptTermsLink: {
       color: theme.colors.gray80Percent,
-      fontFamily: theme.fonts.roboto,
+      fontFamily: theme.fonts.default,
       fontSize: normalize(12),
       fontWeight: '700',
       marginTop: theme.sizes.default,

@@ -119,7 +119,7 @@ const getStylesFromProps = ({ theme }) => {
     },
     bigGoodDollar: {
       color: theme.colors.primary,
-      fontFamily: theme.fonts.roboto,
+      fontFamily: theme.fonts.default,
       fontSize: normalize(24),
       fontWeight: '700',
     },

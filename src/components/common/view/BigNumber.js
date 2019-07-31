@@ -36,14 +36,14 @@ const getStylesFromProps = ({ theme }) => {
       flexDirection: 'row',
     },
     bigNumber: {
-      fontFamily: theme.fonts.roboto,
+      fontFamily: theme.fonts.slab,
       fontSize: normalize(36),
       fontWeight: '700',
       marginRight: 2,
       textAlign: 'right',
     },
     bigNumberUnit: {
-      fontFamily: theme.fonts.roboto,
+      fontFamily: theme.fonts.slab,
       fontSize: normalize(18),
       fontWeight: '700',
       textAlign: 'right',

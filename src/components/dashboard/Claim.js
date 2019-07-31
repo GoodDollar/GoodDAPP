@@ -240,7 +240,7 @@ const getStylesFromProps = ({ theme }) => ({
   },
   mainTextTitle: {
     color: '#fff',
-    fontFamily: theme.fonts.regular,
+    fontFamily: theme.fonts.default,
     fontSize: normalize(16),
     fontWeight: '400',
     marginBottom: 12,
@@ -296,7 +296,7 @@ const getStylesFromProps = ({ theme }) => ({
     marginTop: 0,
   },
   extraInfoStatsText: {
-    fontFamily: theme.fonts.regular,
+    fontFamily: theme.fonts.default,
     fontSize: normalize(15.5),
     fontWeight: '400',
   },
@@ -304,7 +304,7 @@ const getStylesFromProps = ({ theme }) => ({
     fontSize: normalize(10),
   },
   textBold: {
-    fontFamily: theme.fonts.roboto,
+    fontFamily: theme.fonts.default,
     fontWeight: '700',
   },
   textPrimary: {
@@ -327,7 +327,7 @@ const getStylesFromProps = ({ theme }) => ({
     paddingTop: theme.sizes.default,
   },
   extraInfoCountdownTitle: {
-    fontFamily: theme.fonts.regular,
+    fontFamily: theme.fonts.default,
     fontSize: normalize(16),
     fontWeight: '400',
     marginBottom: theme.sizes.default,

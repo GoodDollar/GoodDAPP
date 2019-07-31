@@ -1,7 +1,8 @@
 import StartPage from '../PageObjects/StartPage'
 import LoginPage from '../PageObjects/LoginPage'
 import HomePage from '../PageObjects/HomePage'
-import ProfileEditPage from '../PageObjects/ProfileEditPage';
+import EditProfilePage from '../PageObjects/EditProfilePage'
+import ProfilePage from '../PageObjects/ProfilePage';
 
 
 
@@ -16,33 +17,82 @@ describe('Test case 2: Profile editing', () => {
             LoginPage.mnemonicInputs.eq(i).type(wordsForSuccessfullLogin[i]);
         }
         LoginPage.recoverWalletButton.click();
+        cy.wait(5000)
     });
 
 
     it('Elements are present at the home page', () => {
 
-        HomePage.homePageIdentificator.should('be.visible');
-        for( let i = 1; i < 7; i++) {
-            HomePage.interactableElements.eq(i).should('be.visible');
-        }
+        HomePage.profileAvatar.should('be.visible');
+        HomePage.sendButton.should('be.visible');
+        HomePage.claimButton.should('be.visible');
+        HomePage.receiveButton.should('be.visible');
+
         HomePage.optionsButton.click( {force: true} );
         for( let i = 0; i < 7; i++) {
             HomePage.options.eq(i).should('be.visible');
         }
-
-    });
-
-    it('Able to upload avatar', () => {
-
+        HomePage.closeOptionsButton.click();
         HomePage.profileAvatar.click();
-        ProfileEditPage.profileSettingsButton.click();
-        ProfileEditPage.header.should('contain', 'Edit Profile');
-        ProfileEditPage.nameInput.should('be.visible');
-        ProfileEditPage.phoneInput.should('be.visible');
-        ProfileEditPage.emailInput.should('be.visible');        
+        cy.wait(5000)
+        ProfilePage.EditProfileButton.click();
+        EditProfilePage.pageHeader.should('contain', 'Edit Profile');
+        EditProfilePage.nameInput.should('be.visible');
+        EditProfilePage.phoneInput.should('be.visible');
+        EditProfilePage.emailInput.should('be.visible');    
+        EditProfilePage.avatarDiv.should('be.visible');
+        EditProfilePage.saveButton.should('be.visible');   
 
-        
-    });
+    }); 
+
+    // it('User is able to upload avatar', () => {
+
+    //     cy.wait(10000)
+    //     HomePage.profileAvatar.click();
+    //     cy.wait(10000)
+    //     ProfilePage.avatarDiv.click();
+
+    //     const selector = 'input[type="file"]';
+    //     const fixturePath = 'smile.png';
+    //     const type = 'image/png';
+
+    //     cy.get(selector)
+    //         .then(subject => cy.window()
+    //         .then(win => cy.fixture(fixturePath, 'base64')
+    //             .then(Cypress.Blob.base64StringToBlob)
+    //             .then((blob) => {
+    //                 const el = subject[0]
+    //                 const testFile = new win.File([blob], name, { type })
+    //                 const dataTransfer = new win.DataTransfer()
+    //                 dataTransfer.items.add(testFile)
+    //                 el.files = dataTransfer.files
+    //                 cy.wrap(subject).trigger('change', { force: true })}
+    //             )
+    //         )
+    //     )
+    //     .then(()=>cy.get('canvas').should('have.length', 1));
+    //     ProfileEditPage.saveAvatarButton.click();
+    //     cy.wait(10000)
+    //     ProfileEditPage.uploadedAvatar.should('be.visible')
+    //     ProfileEditPage.uploadedAvatar.click();
+    //     ProfileEditPage.selectAvatarButton.click();
+    //     cy.wait(10000)
+    //     ProfileEditPage.clearAvatarButton.click();
+    //     ProfileEditPage.saveAvatarButton.click();
+
+    // });
+
+    // it('User is able to edit input fields', () => {
+
+    //     HomePage.profileAvatar.click();
+    //     ProfileEditPage.profileSettingsButton.click();
+    //     ProfileEditPage.nameInput.type('Username');
+
+    // }); 
+
+    // it.only('Negative cases', () => {
+
+    // });
 
 
   

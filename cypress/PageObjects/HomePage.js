@@ -1,11 +1,15 @@
 class HomePage {
 
-    get homePageIdentificator() {
-        return cy.get('.r-146eth8.r-u8s1d.r-1v2oles.r-desppf.r-dvx3qi', { timeout: 10000 })
+    get sendButton() {
+        return cy.xpath('//*[@id="root"]/div[1]/div/div/div[2]/div[2]/div/div[1]/div[2]/div[1]/div', { timeout: 10000 })
     }
 
-    get interactableElements() {
-        return cy.get('div[data-focusable="true"]', { timeout: 10000})
+    get claimButton() {
+        return cy.xpath('//*[@id="root"]/div[1]/div/div/div[2]/div[2]/div/div[1]/div[2]/div[2]/div/div', { timeout: 10000 })
+    }
+
+    get receiveButton() {
+        return cy.xpath('//*[@id="root"]/div[1]/div/div/div[2]/div[2]/div/div[1]/div[2]/div[3]/div', { timeout: 10000 })
     }
 
     get optionsButton() {
@@ -17,8 +21,16 @@ class HomePage {
     }
 
     get profileAvatar() {
-        return cy.get('.r-ipm5af.r-13qz1uu.r-1wyyakw', { timeout: 10000 })
+        return cy.xpath('//*[@id="root"]/div[1]/div/div/div[2]/div[2]/div/div[1]/div[1]/div[1]/div/div/div/div', { timeout: 10000 })
     }
+
+    get closeOptionsButton() {
+        return cy.get('.css-901oao.r-1niwhzg.r-adyw6z.r-1it3c9n', { timeout: 10000 })
+    }
+
+    
+
+   
 
    
 

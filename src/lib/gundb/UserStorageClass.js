@@ -1130,6 +1130,26 @@ export class UserStorage {
    */
   async updateFeedEvent(event: FeedEvent, previouseventDate: string | void): Promise<FeedEvent> {
     logger.debug('updateFeedEvent:', { event })
+
+    //saving index by onetime code so we can retrieve and update it once withdrawn
+    //or skip own withdraw
+    if (event.type == 'send' && event.data.code) {
+      const hashedCode = this.wallet.wallet.utils.sha3(event.data.code)
+      this.feed.get('codeToTxHash').put({ [hashedCode]: event.id })
+    } else if (event.type == 'withdraw' && event.data.code) {
+      //are we withdrawing our own link?
+      const hashedCode = this.wallet.wallet.utils.sha3(event.data.code)
+      const ownlink = await this.feed.get('codeToTxHash').get(hashedCode)
+      if (ownlink) {
+        logger.debug('updateFeedEvent: skipping own link withdraw', { event })
+        this.feed
+          .get('queue')
+          .get(event.id)
+          .put(null)
+        return event
+      }
+    }
+
     let date = new Date(event.date)
 
     // force valid dates
@@ -1167,24 +1187,6 @@ export class UserStorage {
         dayEventsArr.splice(insertPos, 0, eventIndexItem)
       } else {
         dayEventsArr.unshift(eventIndexItem)
-      }
-    }
-
-    //saving index by onetime code so we can retrieve and update it once withdrawn
-    if (event.type == 'send' && event.data.code) {
-      const hashedCode = this.wallet.wallet.utils.sha3(event.data.code)
-      this.feed.get('codeToTxHash').put({ [hashedCode]: event.id })
-    } else if (event.type == 'withdraw' && event.data.code) {
-      //are we withdrawing our own link?
-      const hashedCode = this.wallet.wallet.utils.sha3(event.data.code)
-      const ownlink = await this.feed.get('codeToTxHash').get(hashedCode)
-      if (ownlink) {
-        logger.debug('updateFeedEvent: skipping own link withdraw', { event })
-        this.feed
-          .get('queue')
-          .get(event.id)
-          .put(null)
-        return event
       }
     }
 

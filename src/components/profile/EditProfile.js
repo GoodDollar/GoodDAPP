@@ -28,15 +28,28 @@ const EditProfile = ({ screenProps, theme, styles }) => {
     setProfile(storedProfile)
   }, [storedProfile])
 
+  const handleErrors = (errors, isValid) => {
+    setErrors(errors)
+    setIsValid(isValid)
+    return isValid
+  }
+
   const validate = debounce(async () => {
     log.info({ validate: profile })
+
     if (profile && profile.validate) {
       const { isValid, errors } = profile.validate()
+
+      // first we validate that the user-entered data is valid. If not, we inform the user about it
+      if (!isValid) {
+        return handleErrors(errors, isValid)
+      }
+
+      // then we check that the data is not already in use
       const { isValid: indexIsValid, errors: indexErrors } = await userStorage.validateProfile(profile)
-      setErrors({ ...errors, ...indexErrors })
-      setIsValid(isValid && indexIsValid)
-      return isValid && indexIsValid
+      return handleErrors({ ...errors, ...indexErrors }, isValid && indexIsValid)
     }
+
     return false
   }, 500)
 

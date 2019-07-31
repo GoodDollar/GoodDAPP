@@ -1,12 +1,13 @@
 import StartPage from '../PageObjects/StartPage'
 import LoginPage from '../PageObjects/LoginPage'
 import HomePage from '../PageObjects/HomePage'
+import ProfileEditPage from '../PageObjects/ProfileEditPage';
 
 
 
-describe('Test case 2: Elements presence in user profile', () => {
+describe('Test case 2: Profile editing', () => {
 
-    before('authorization', () => {     
+    beforeEach('authorization', () => {     
         StartPage.open();
         StartPage.loginLink.click();  
         
@@ -29,6 +30,18 @@ describe('Test case 2: Elements presence in user profile', () => {
             HomePage.options.eq(i).should('be.visible');
         }
 
+    });
+
+    it('Able to upload avatar', () => {
+
+        HomePage.profileAvatar.click();
+        ProfileEditPage.profileSettingsButton.click();
+        ProfileEditPage.header.should('contain', 'Edit Profile');
+        ProfileEditPage.nameInput.should('be.visible');
+        ProfileEditPage.phoneInput.should('be.visible');
+        ProfileEditPage.emailInput.should('be.visible');        
+
+        
     });
 
 

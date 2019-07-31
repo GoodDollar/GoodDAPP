@@ -21,7 +21,7 @@ describe('Test case 2: Elements presence in user profile', () => {
     it('Avatar uploading', () => {
 
         HomePage.profileAvatar.click()
-        // Test
+        // Test 
 
     });
 

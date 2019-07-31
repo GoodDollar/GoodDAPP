@@ -96,8 +96,8 @@ exports[`UserAvatar matches snapshot 1`] = `
               "borderBottomRightRadius": "68px",
               "borderTopLeftRadius": "68px",
               "borderTopRightRadius": "68px",
-              "height": "136",
-              "width": "136",
+              "height": "136px",
+              "width": "136px",
             }
           }
         >

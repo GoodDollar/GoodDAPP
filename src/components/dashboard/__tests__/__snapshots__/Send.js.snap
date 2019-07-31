@@ -116,8 +116,8 @@ exports[`Send matches snapshot 1`] = `
                 "borderBottomRightRadius": "21px",
                 "borderTopLeftRadius": "21px",
                 "borderTopRightRadius": "21px",
-                "height": "42",
-                "width": "42",
+                "height": "42px",
+                "width": "42px",
               }
             }
           >

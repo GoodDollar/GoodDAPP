@@ -1,7 +1,6 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { ScrollView, View } from 'react-native'
-import { Portal } from 'react-native-paper'
+import { View } from 'react-native'
 import type { Store } from 'undux'
 import normalize from '../../lib/utils/normalizeText'
 
@@ -27,7 +26,7 @@ import FRIntro from './FaceRecognition/FRIntro'
 import FRError from './FaceRecognition/FRError'
 import UnsupportedDevice from './FaceRecognition/UnsupportedDevice'
 import FeedList from './FeedList'
-import FeedModalItem from './FeedItems/FeedModalItem'
+import FeedModalList from './FeedModalList'
 import Reason from './Reason'
 import Receive from './Receive'
 import Who from './Who'
@@ -39,6 +38,7 @@ import Send from './Send'
 import SendConfirmation from './SendConfirmation'
 import SendLinkSummary from './SendLinkSummary'
 import SendQRSummary from './SendQRSummary'
+import { ACTION_SEND } from './utils/sendReceiveFlow'
 
 const log = logger.child({ from: 'Dashboard' })
 
@@ -49,9 +49,8 @@ export type DashboardProps = {
 }
 
 type DashboardState = {
-  horizontal: boolean,
   feeds: any[],
-  currentFeedProps: any,
+  currentFeed: any,
 }
 
 const Dashboard = props => {
@@ -59,8 +58,7 @@ const Dashboard = props => {
   const gdstore = GDStore.useStore()
   const [showDialog, hideDialog] = useDialog()
   const [state: DashboardState, setState] = useState({
-    horizontal: false,
-    currentFeedProps: null,
+    currentFeed: null,
     feeds: [],
   })
   const { params } = props.navigation.state
@@ -86,17 +84,12 @@ const Dashboard = props => {
     getInitialFeed(gdstore)
   }
 
-  const showEventModal = item => {
-    setState({
-      currentFeedProps: {
-        item,
-        onPress: closeFeedEvent,
-      },
-    })
+  const showEventModal = currentFeed => {
+    setState({ currentFeed })
   }
 
   const handleFeedSelection = (receipt, horizontal) => {
-    showEventModal(receipt)
+    showEventModal(horizontal ? receipt : null)
   }
 
   const showNewFeedEvent = async eventId => {
@@ -119,26 +112,18 @@ const Dashboard = props => {
     }
   }
 
-  const closeFeedEvent = () => {
-    setState({ currentFeedProps: null })
-  }
-
   const handleWithdraw = async () => {
     const { paymentCode, reason } = props.navigation.state.params
     try {
       showDialog({ title: 'Processing Payment Link...', loading: true, dismissText: 'hold' })
       await executeWithdraw(store, paymentCode, reason)
       hideDialog()
-
-      // if (receipt.transactionHash) {
-      //   await showNewFeedEvent(receipt.transactionHash)
-      // }
     } catch (e) {
       showDialog({ title: 'Error', message: e.message })
     }
   }
 
-  const { horizontal, currentFeedProps } = state
+  const { currentFeed } = state
   const { screenProps, styles, theme }: DashboardProps = props
   const { balance, entitlement } = gdstore.get('account')
   const { avatar, fullName } = gdstore.get('profile')
@@ -208,22 +193,22 @@ const Dashboard = props => {
             </PushButton>
           </Section.Row>
         </Section>
-        <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollableView}>
-          <FeedList
-            horizontal={horizontal}
+        <FeedList
+          handleFeedSelection={handleFeedSelection}
+          data={feeds}
+          updateData={() => {}}
+          initialNumToRender={PAGE_SIZE}
+          onEndReached={getNextFeed.bind(null, store)}
+        />
+        {currentFeed && (
+          <FeedModalList
             handleFeedSelection={handleFeedSelection}
-            fixedHeight
-            virtualized
             data={feeds}
             updateData={() => {}}
+            selectedFeed={currentFeed}
             initialNumToRender={PAGE_SIZE}
             onEndReached={getNextFeed.bind(null, store)}
           />
-        </ScrollView>
-        {currentFeedProps && (
-          <Portal>
-            <FeedModalItem {...currentFeedProps} />
-          </Portal>
         )}
       </Wrapper>
     </View>
@@ -249,17 +234,6 @@ const getStylesFromProps = ({ theme }) => ({
   },
   dashboardWrapper: {
     paddingHorizontal: 0,
-  },
-  scrollView: {
-    marginTop: theme.sizes.default,
-    display: 'flex',
-    flexGrow: 1,
-    height: 1,
-  },
-  scrollableView: {
-    flexGrow: 1,
-    display: 'flex',
-    height: '100%',
   },
   centering: {
     alignItems: 'center',
@@ -295,14 +269,17 @@ export default createStackNavigator({
   Who: {
     screen: Who,
     path: ':action/Who',
+    params: { action: ACTION_SEND },
   },
   Amount: {
     screen: Amount,
     path: ':action/Amount',
+    params: { action: ACTION_SEND },
   },
   Reason: {
     screen: Reason,
     path: ':action/Reason',
+    params: { action: ACTION_SEND },
   },
   ReceiveSummary,
   Confirmation: {

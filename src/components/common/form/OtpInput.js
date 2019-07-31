@@ -39,6 +39,8 @@ type SingleOtpInputProps = {
   isInputNum?: boolean,
   value?: string,
   styles: Object,
+  placeholder: string,
+  onChange: any,
 }
 
 const getSingleOtpInputStylesFromProps = ({ theme }) => ({
@@ -62,24 +64,7 @@ const getSingleOtpInputStylesFromProps = ({ theme }) => ({
   },
 })
 
-const SingleOtpInput = withStyles(getSingleOtpInputStylesFromProps)((props: SingleOtpInputProps) => {
-  const {
-    separator,
-    isLastChild,
-    inputStyle,
-    focus,
-    isDisabled,
-    hasErrored,
-    errorStyle,
-    focusStyle,
-    disabledStyle,
-    shouldAutoFocus,
-    isInputNum,
-    value,
-    styles,
-    ...rest
-  } = props
-
+const Input = ({ min, max, pattern, focus, shouldAutoFocus, onChange, ...props }) => {
   let input: ?HTMLInputElement = null
 
   // Focus on first render
@@ -98,7 +83,38 @@ const SingleOtpInput = withStyles(getSingleOtpInputStylesFromProps)((props: Sing
     }
   }, [focus])
 
-  const numValueLimits = isInputNum ? { min: 0, max: 9 } : {}
+  const handleValidation = (value: number | string): boolean =>
+    (!min || value >= min) && (!max || value <= max) && (!pattern || pattern.test(value))
+
+  const handleOnChange = (e: Object) => {
+    e.preventDefault()
+    const value = e.target.value
+    const isValid = handleValidation(value)
+    if (isValid && onChange) {
+      onChange(value)
+    }
+  }
+  return <TextInput {...props} onChange={handleOnChange} ref={inputRef => (input = inputRef)} />
+}
+
+const SingleOtpInput = withStyles(getSingleOtpInputStylesFromProps)((props: SingleOtpInputProps) => {
+  const {
+    separator,
+    isLastChild,
+    inputStyle,
+    focus,
+    isDisabled,
+    hasErrored,
+    errorStyle,
+    focusStyle,
+    disabledStyle,
+    isInputNum,
+    value,
+    styles,
+    placeholder,
+    ...rest
+  } = props
+
   const inputStyles = [styles.input, inputStyle]
   if (focus && focusStyle) {
     inputStyles.push(focusStyle)
@@ -109,19 +125,30 @@ const SingleOtpInput = withStyles(getSingleOtpInputStylesFromProps)((props: Sing
   if (hasErrored && errorStyle) {
     inputStyles.push(errorStyle)
   }
+  const inputProps = {
+    style: inputStyles,
+    maxLength: '1',
+    disabled: isDisabled,
+    value: value || '',
+    returnKeyType: 'next',
+    placeholder,
+    focus,
+  }
+  const inputValidations = isInputNum
+    ? {
+        min: 0,
+        max: 9,
+        pattern: /\d/g,
+        type: 'number',
+        keyboardType: 'phone-pad',
+      }
+    : {
+        type: 'tel',
+        keyboardType: 'default',
+      }
   return (
     <View style={styles.singleOtpInputContainer}>
-      <TextInput
-        style={inputStyles}
-        type={isInputNum ? 'number' : 'tel'}
-        {...numValueLimits}
-        maxLength="1"
-        ref={inputRef => (input = inputRef)}
-        disabled={isDisabled}
-        value={value ? value : ''}
-        placeholder="*"
-        {...rest}
-      />
+      <Input {...inputProps} {...inputValidations} {...rest} />
       {!isLastChild && separator}
     </View>
   )
@@ -142,6 +169,7 @@ const OtpInput = (props: Props) => {
     shouldAutoFocus,
     isInputNum,
     containerStyle,
+    placeholder,
     styles,
   } = props
 
@@ -162,7 +190,9 @@ const OtpInput = (props: Props) => {
   }
 
   // Focus on next input
-  const focusNextInput = () => focusInput(activeInput + 1)
+  const focusNextInput = () => {
+    focusInput(activeInput + 1)
+  }
 
   // Focus on previous input
   const focusPrevInput = () => focusInput(activeInput - 1)
@@ -194,9 +224,9 @@ const OtpInput = (props: Props) => {
     handleOtpChange(otp)
   }
 
-  const handleOnChange = (e: Object) => {
-    changeCodeAtFocus(e.target.value)
-    if (e.target.value !== '') {
+  const handleOnChange = (value: string) => {
+    changeCodeAtFocus(value)
+    if (value !== '') {
       focusNextInput()
     }
   }
@@ -255,6 +285,7 @@ const OtpInput = (props: Props) => {
           errorStyle={errorStyle}
           shouldAutoFocus={shouldAutoFocus}
           isInputNum={isInputNum}
+          placeholder={placeholder}
         />
       )
     }

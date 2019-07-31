@@ -17,6 +17,7 @@ import SuccessIcon from '../common/modal/SuccessIcon'
 import { withStyles } from '../../lib/styles'
 import normalize from '../../lib/utils/normalizeText'
 import Section from '../common/layout/Section'
+import illustration from '../../assets/Claim/illustration.svg'
 import type { DashboardProps } from './Dashboard'
 
 type ClaimProps = DashboardProps
@@ -30,7 +31,6 @@ type ClaimState = {
 }
 
 const log = logger.child({ from: 'Claim' })
-const illustration = require('../../assets/Claim/illustration.png')
 
 Image.prefetch(illustration)
 

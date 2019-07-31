@@ -9,8 +9,7 @@ import { CustomButton, Section, Wrapper } from '../../common'
 import { fireEvent } from '../../../lib/analytics/analytics'
 import { getFirstWord } from '../../../lib/utils/getFirstWord'
 import { withStyles } from '../../../lib/styles'
-
-const illustration = require('../../../assets/FaceRecognition/illustration.png')
+import illustration from '../../../assets/FaceRecognition/illustration.svg'
 
 Image.prefetch(illustration)
 

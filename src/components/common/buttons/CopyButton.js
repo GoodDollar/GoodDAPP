@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import Icon from 'react-native-elements/src/icons/Icon'
+import { Icon } from 'react-native-elements/src/icons/Icon'
 import { StyleSheet, View } from 'react-native'
 
 import Clipboard from '../../../lib/utils/Clipboard'

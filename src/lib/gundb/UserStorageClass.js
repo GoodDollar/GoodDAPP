@@ -274,7 +274,7 @@ export class UserStorage {
   gunAuth(username: string, password: string): Promise<any> {
     return new Promise((res, rej) => {
       this.gunuser.auth(username, password, user => {
-        logger.debug('gundb auth', user)
+        logger.debug('gundb auth', user.err)
         if (user.err) {
           return rej(user.err)
         }
@@ -343,7 +343,7 @@ export class UserStorage {
         .get('users')
         .get(this.gunuser.is.pub)
         .put(this.gunuser)
-      logger.debug('GunDB logged in', { username, pubkey: this.wallet.account, user: user })
+      logger.debug('GunDB logged in', { username, pubkey: this.wallet.account })
       logger.debug('subscribing')
 
       this.wallet.subscribeToEvent('receive', (err, events) => {
@@ -399,7 +399,7 @@ export class UserStorage {
       }
       logger.debug('handleReceiptUpdated receiptReceived', { initialEvent, feedEvent, receipt, data, updatedFeedEvent })
       if (isEqual(feedEvent, updatedFeedEvent) === false) {
-        await this.updateFeedEvent(updatedFeedEvent)
+        await this.updateFeedEvent(updatedFeedEvent, feedEvent.date)
       }
       return updatedFeedEvent
     } catch (error) {
@@ -432,14 +432,14 @@ export class UserStorage {
 
       //if we withdrawn the payment link then its canceled
       const otplStatus = data.name === 'PaymentCancel' || data.to === data.from ? 'cancelled' : 'completed'
-
+      const prevDate = feedEvent.date
       feedEvent.data.to = data.to
       feedEvent.data.otplReceipt = receipt
       feedEvent.data.otplData = data
       feedEvent.status = feedEvent.data.otplStatus = otplStatus
       feedEvent.date = new Date().toString()
       logger.debug('handleOTPLUpdated receiptReceived', { feedEvent, otplStatus, receipt, data })
-      await this.updateFeedEvent(feedEvent)
+      await this.updateFeedEvent(feedEvent, prevDate)
       return feedEvent
     } catch (error) {
       logger.error('handleOTPLUpdated', error)
@@ -831,7 +831,6 @@ export class UserStorage {
     })
 
     const eventsIndex = flatten(await Promise.all(promises))
-
     return Promise.all(
       eventsIndex
         .filter(_ => _.id)
@@ -1127,13 +1126,32 @@ export class UserStorage {
    * @param {FeedEvent} event - Event to be updated
    * @returns {Promise} Promise with updated feed
    */
-  async updateFeedEvent(event: FeedEvent): Promise<FeedEvent> {
+  async updateFeedEvent(event: FeedEvent, previouseventDate: string | void): Promise<FeedEvent> {
     logger.debug('updateFeedEvent:', { event })
     let date = new Date(event.date)
 
     // force valid dates
     date = isValidDate(date) ? date : new Date()
     let day = `${date.toISOString().slice(0, 10)}`
+
+    //check if we need to update the day index location
+    if (previouseventDate) {
+      let prevdate = new Date(previouseventDate)
+      prevdate = isValidDate(prevdate) ? prevdate : date
+      let prevday = `${prevdate.toISOString().slice(0, 10)}`
+      if (day !== prevday) {
+        let dayEventsArr = (await this.feed.get(prevday)) || []
+        let removePos = dayEventsArr.findIndex(e => e.id === event.id)
+        if (removePos >= 0) {
+          dayEventsArr.splice(removePos, 1)
+          this.feed.get(prevday).put(JSON.stringify(dayEventsArr))
+          this.feed
+            .get('index')
+            .get(prevday)
+            .put(dayEventsArr.length)
+        }
+      }
+    }
 
     // Update dates index
     let dayEventsArr = (await this.feed.get(day).then()) || []
@@ -1154,6 +1172,18 @@ export class UserStorage {
     if (event.type == 'send' && event.data.code) {
       const hashedCode = this.wallet.wallet.utils.sha3(event.data.code)
       this.feed.get('codeToTxHash').put({ [hashedCode]: event.id })
+    } else if (event.type == 'withdraw' && event.data.code) {
+      //are we withdrawing our own link?
+      const hashedCode = this.wallet.wallet.utils.sha3(event.data.code)
+      const ownlink = await this.feed.get('codeToTxHash').get(hashedCode)
+      if (ownlink) {
+        logger.debug('updateFeedEvent: skipping own link withdraw', { event })
+        this.feed
+          .get('queue')
+          .get(event.id)
+          .put(null)
+        return event
+      }
     }
 
     logger.debug('updateFeedEvent starting encrypt')

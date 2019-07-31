@@ -2,7 +2,6 @@
 import React from 'react'
 import { Image, StyleSheet } from 'react-native'
 import { getFirstWord } from '../../lib/utils/getFirstWord'
-import normalize from '../../lib/utils/normalizeText'
 import illustration from '../../assets/Signup/illustration.svg'
 import Text from '../common/view/Text'
 import CustomWrapper from './signUpWrapper'
@@ -36,8 +35,8 @@ export default class SignupCompleted extends React.Component<Props, State> {
 
 const styles = StyleSheet.create({
   illustration: {
-    minWidth: normalize(220),
+    minWidth: 220,
     maxWidth: '100%',
-    minHeight: normalize(260),
+    minHeight: 260,
   },
 })

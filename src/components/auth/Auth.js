@@ -107,14 +107,14 @@ const getStylesFromProps = ({ theme }) => {
       paddingHorizontal: 0,
     },
     containerPadding: {
-      padding: normalize(28),
+      padding: 28,
       alignItems: 'center',
     },
     topRow: {
       borderBottomColor: theme.colors.surface,
       borderBottomWidth: 1,
       paddingBottom: theme.sizes.defaultDouble,
-      maxWidth: normalize(276),
+      maxWidth: 276,
     },
     bottomRow: {
       paddingTop: theme.sizes.defaultDouble,
@@ -123,7 +123,7 @@ const getStylesFromProps = ({ theme }) => {
       padding: theme.sizes.defaultDouble,
     },
     buttonLayout: {
-      marginVertical: normalize(20),
+      marginVertical: 20,
     },
     acceptTermsLink: {
       color: theme.colors.gray80Percent,

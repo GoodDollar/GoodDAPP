@@ -45,12 +45,12 @@ const getStylesFromProps = ({ theme }) => {
       color: theme.colors.darkGray,
     },
     backspaceButton: {
-      height: normalize(30),
-      width: normalize(40),
-      backgroundSize: 'contain',
       backgroundRepeat: 'no-repeat',
+      backgroundSize: 'contain',
       cursor: 'pointer',
+      height: 30,
       justifyContent: 'center',
+      width: 40,
     },
   }
 }

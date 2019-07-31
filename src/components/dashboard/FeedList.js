@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { Animated, ScrollView, SwipeableFlatList, View } from 'react-native'
+import { Animated, Dimensions, ScrollView, SwipeableFlatList, View } from 'react-native'
 import GDStore from '../../lib/undux/GDStore'
 import { withStyles } from '../../lib/styles'
 import FeedActions from './FeedActions'
@@ -11,9 +11,8 @@ const VIEWABILITY_CONFIG = {
   viewAreaCoveragePercentThreshold: 100,
   waitForInteraction: true,
 }
-
+const { width } = Dimensions.get('window')
 const emptyFeed = { type: 'empty', data: {} }
-
 const AnimatedSwipeableFlatList = Animated.createAnimatedComponent(SwipeableFlatList)
 
 export type FeedListProps = {
@@ -37,16 +36,18 @@ type ItemComponentProps = {
   index: number,
 }
 
+const relativeWidth = num => Math.ceil((width * num) / 100)
+
 const FeedList = ({
   data,
-  updateData,
-  onEndReached,
-  initialNumToRender,
-  store,
   handleFeedSelection,
   horizontal,
+  initialNumToRender,
+  onEndReached,
   selectedFeed,
+  store,
   styles,
+  updateData,
 }: FeedListProps) => {
   const getItemLayout = (_: any, index: number) => {
     const [length, separator, header] = [72, 1, 30]
@@ -84,7 +85,7 @@ const FeedList = ({
           keyboardDismissMode="on-drag"
           keyboardShouldPersistTaps="always"
           legacyImplementation={false}
-          maxSwipeDistance={160}
+          maxSwipeDistance={relativeWidth(25)}
           numColumns={1}
           onEndReached={onEndReached}
           refreshing={false}
@@ -104,18 +105,17 @@ const getStylesFromProps = ({ theme }) => ({
     justifyContent: 'center',
   },
   verticalList: {
-    width: '100%',
     maxWidth: '100vw',
+    width: '100%',
   },
   scrollList: {
-    marginTop: theme.sizes.default,
     display: 'flex',
     flexGrow: 1,
     height: 1,
   },
   scrollableView: {
-    flexGrow: 1,
     display: 'flex',
+    flexGrow: 1,
     height: '100%',
   },
 })

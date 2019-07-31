@@ -100,9 +100,9 @@ const getStylesFromProps = ({ theme }) => ({
 
 const getErrorStylesFromProps = ({ theme }) => ({
   error: {
+    height: 18,
     paddingLeft: 0,
     textAlign: 'center',
-    height: normalize(18),
   },
 })
 

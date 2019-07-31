@@ -4,10 +4,11 @@ import CustomButton, { type ButtonProps } from '../common/buttons/CustomButton'
 
 type PushButtonProps = {
   ...ButtonProps,
-  routeName: Route,
-  params?: any,
-  screenProps: { push: (routeName: string, params: any) => void },
   canContinue?: Function,
+  params?: any,
+  routeName: Route,
+  screenProps: { push: (routeName: string, params: any) => void },
+  style?: any,
 }
 
 /**
@@ -30,8 +31,8 @@ export const PushButton = ({ routeName, screenProps, canContinue, params, ...pro
 
   return (
     <CustomButton
-      {...props}
       onPress={async () => screenProps && (await shouldContinue()) && screenProps.push(routeName, params)}
+      {...props}
     />
   )
 }

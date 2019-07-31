@@ -30,8 +30,8 @@ const CustomAvatar = (props: AvatarProps) => (
     <Avatar.Image
       size={props.size}
       source={props.source ? { uri: props.source } : undefined}
+      style={[styles.avatar, { width: props.size, height: props.size }]}
       {...props}
-      style={[styles.avatar, { width: `${props.size + 2}px`, height: `${props.size + 2}px` }]}
     />
     {props.children}
   </TouchableOpacity>

@@ -1,7 +1,6 @@
 // @flow
 import React from 'react'
 import { Alert, TouchableHighlight, View } from 'react-native-web'
-import normalize from '../../lib/utils/normalizeText'
 import { withStyles } from '../../lib/styles'
 import { Icon, Section, Text } from '../common'
 import type { FeedEventProps } from './FeedItems/EventProps'
@@ -16,7 +15,10 @@ const FeedActions = ({ item, styles, theme }: FeedEventProps) => (
   <Section.Row
     style={[
       styles.actionsContainer,
-      { backgroundColor: item && item.type !== 'empty' ? theme.colors.red : theme.colors.surface },
+      {
+        backgroundColor: item && item.type !== 'empty' ? theme.colors.red : theme.colors.surface,
+        marginTop: theme.sizes.default,
+      },
     ]}
     alignItems="center"
     justifyContent="flex-end"
@@ -43,9 +45,9 @@ const FeedActions = ({ item, styles, theme }: FeedEventProps) => (
 
 const getStylesFromProps = ({ theme }) => ({
   actionsContainer: {
-    borderRadius: normalize(8),
-    height: normalize(84),
-    maxHeight: normalize(84),
+    borderRadius: 8,
+    height: 84,
+    maxHeight: 84,
     padding: theme.sizes.default,
     marginHorizontal: theme.sizes.default,
   },

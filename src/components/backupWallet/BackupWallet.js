@@ -1,6 +1,5 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import normalize from '../../lib/utils/normalizeText'
 import { useWrappedApi } from '../../lib/API/useWrappedApi'
 import { withStyles } from '../../lib/styles'
 import { useDialog } from '../../lib/undux/utils/dialog'
@@ -71,8 +70,8 @@ const backupWalletStyles = ({ theme }) => ({
   },
   bottomContainer: {
     backgroundColor: theme.colors.surface,
-    maxHeight: normalize(100),
-    minHeight: normalize(100),
+    maxHeight: 100,
+    minHeight: 100,
     marginBottom: theme.paddings.defaultMargin,
   },
 })

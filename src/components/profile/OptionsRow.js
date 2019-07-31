@@ -3,7 +3,6 @@ import startCase from 'lodash/startCase'
 import React from 'react'
 import { View } from 'react-native'
 import { RadioButton } from 'react-native-paper'
-import normalize from '../../lib/utils/normalizeText'
 import { withStyles } from '../../lib/styles'
 import { Text } from '../common'
 
@@ -46,7 +45,7 @@ const getStylesFromProps = ({ theme }) => {
       alignItems: 'center',
       borderBottomStyle: 'solid',
       borderBottomColor: theme.colors.lightGray,
-      borderBottomWidth: normalize(1), // not using StyleSheet.hairlineWidth as it's not being visible
+      borderBottomWidth: 1,
       padding: theme.paddings.mainContainerPadding,
     },
     growTwo: {
@@ -54,7 +53,7 @@ const getStylesFromProps = ({ theme }) => {
     },
     optionsRowTitle: {
       width: '15%',
-      minWidth: normalize(60),
+      minWidth: 60,
       alignItems: 'center',
     },
   }

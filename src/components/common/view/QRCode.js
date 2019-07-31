@@ -2,7 +2,6 @@
 import React from 'react'
 import QRCodeReact from 'qrcode.react'
 import { View } from 'react-native'
-import normalize from '../../../lib/utils/normalizeText'
 import { withStyles } from '../../../lib/styles'
 
 const QRCode = ({ styles, ...props }: any) => {
@@ -18,10 +17,10 @@ const QRCode = ({ styles, ...props }: any) => {
 const getStylesFromProps = ({ theme }) => {
   return {
     qrCode: {
-      padding: normalize(16),
       borderColor: theme.colors.primary,
+      borderRadius: 5,
       borderWidth: 1,
-      borderRadius: normalize(5),
+      padding: theme.sizes.defaultDouble,
     },
     qrWrapper: {
       justifyContent: 'center',

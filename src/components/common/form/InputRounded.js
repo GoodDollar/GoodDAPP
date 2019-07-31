@@ -41,17 +41,17 @@ const InputRounded = ({ styles, theme, icon, iconColor, error, onChange, ...inpu
 
 const getStylesFromProps = ({ theme }) => {
   const defaultInputContainer = {
-    position: 'relative',
-    paddingHorizontal: normalize(40),
+    paddingHorizontal: 40,
     paddingVertical: 0,
+    position: 'relative',
   }
   const input = {
-    flex: 1,
     backgroundColor: 'inherit',
     borderWidth: 0,
-    lineHeight: normalize(36),
-    fontSize: normalize(14),
+    flex: 1,
     fontFamily: theme.fonts.regular,
+    fontSize: normalize(14),
+    lineHeight: 36,
   }
   return {
     inputContainer: {
@@ -60,15 +60,15 @@ const getStylesFromProps = ({ theme }) => {
     },
     errorInputContainer: {
       ...defaultInputContainer,
-      borderRadius: normalize(24),
-      borderWidth: 1,
       borderColor: theme.colors.red,
+      borderRadius: 24,
+      borderWidth: 1,
     },
     iconInputContainer: {
       ...defaultInputContainer,
-      borderRadius: normalize(24),
-      borderWidth: 1,
       borderColor: theme.colors.gray50Percent,
+      borderRadius: 24,
+      borderWidth: 1,
     },
     inputText: {
       ...defaultInputContainer,
@@ -81,9 +81,9 @@ const getStylesFromProps = ({ theme }) => {
       color: theme.colors.red,
     },
     suffixIcon: {
-      position: 'absolute',
-      right: normalize(24),
       paddingTop: theme.paddings.mainContainerPadding,
+      position: 'absolute',
+      right: 24,
       zIndex: 1,
     },
     error: {

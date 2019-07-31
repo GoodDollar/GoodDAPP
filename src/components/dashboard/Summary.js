@@ -106,7 +106,7 @@ const getStylesFromProps = ({ theme }) => {
     tableRow: {
       // TODO: see where should we take this color from
       borderBottomColor: theme.colors.gray50Percent,
-      borderBottomWidth: normalize(1),
+      borderBottomWidth: 1,
       borderBottomStyle: 'solid',
       marginTop: theme.sizes.defaultDouble,
       alignItems: 'baseline',

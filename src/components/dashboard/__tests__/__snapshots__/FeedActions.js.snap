@@ -43,6 +43,7 @@ exports[`FeedActions matches snapshot 1`] = `
         "justifyContent": "flex-end",
         "marginLeft": "8px",
         "marginRight": "8px",
+        "marginTop": "8px",
         "maxHeight": "84px",
         "msFlexAlign": "center",
         "msFlexDirection": "row",

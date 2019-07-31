@@ -51,6 +51,7 @@ const getStylesFromProps = ({ theme }) => {
     flex: 1,
     fontFamily: theme.fonts.regular,
     fontSize: normalize(14),
+    fontWeight: '400',
     lineHeight: 36,
   }
   return {

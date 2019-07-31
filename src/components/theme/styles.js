@@ -27,15 +27,12 @@ export const theme = {
   },
   fonts: {
     ...DefaultTheme.fonts,
-    slab: 'RobotoSlab-Regular',
-    slabBold: 'RobotoSlab-Bold',
-    bold: 'Roboto-Bold',
-    medium: 'Roboto-Medium',
     regular: 'Roboto',
+    slab: 'Roboto Slab',
   },
   paddings: {
-    mainContainerPadding: 8,
     defaultMargin: 8,
+    mainContainerPadding: 8,
   },
   sizes: {
     default: 8,

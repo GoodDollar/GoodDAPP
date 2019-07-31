@@ -127,10 +127,11 @@ const getStylesFromProps = ({ theme }) => {
     },
     acceptTermsLink: {
       color: theme.colors.gray80Percent,
+      fontFamily: theme.fonts.roboto,
       fontSize: normalize(12),
-      fontFamily: theme.fonts.bold,
-      textAlign: 'center',
+      fontWeight: '700',
       marginTop: theme.sizes.default,
+      textAlign: 'center',
       textDecorationLine: 'underline',
     },
     underlined: {

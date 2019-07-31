@@ -28,8 +28,9 @@ const getStylesFromProps = ({ theme }) => ({
     fontSize: normalize(10),
   },
   fullName: {
-    fontFamily: theme.fonts.medium,
+    fontFamily: theme.fonts.roboto,
     fontSize: normalize(16),
+    fontWeight: '500',
   },
 })
 

@@ -242,20 +242,23 @@ const getStylesFromProps = ({ theme }) => ({
     color: '#fff',
     fontFamily: theme.fonts.regular,
     fontSize: normalize(16),
+    fontWeight: '400',
     marginBottom: 12,
   },
   mainTextBig: {
     color: '#fff',
-    fontFamily: theme.fonts.slabBold,
+    fontFamily: theme.fonts.slab,
     fontSize: normalize(36),
+    fontWeight: '700',
   },
   mainTextBigMarginBottom: {
     marginBottom: theme.sizes.defaultHalf,
   },
   mainTextSmall: {
     color: '#fff',
-    fontFamily: theme.fonts.slabBold,
+    fontFamily: theme.fonts.slab,
     fontSize: normalize(20),
+    fontWeight: '700',
   },
   illustration: {
     flexGrow: 0,
@@ -295,12 +298,14 @@ const getStylesFromProps = ({ theme }) => ({
   extraInfoStatsText: {
     fontFamily: theme.fonts.regular,
     fontSize: normalize(15.5),
+    fontWeight: '400',
   },
   extraInfoStatsSmallText: {
     fontSize: normalize(10),
   },
   textBold: {
-    fontFamily: theme.fonts.bold,
+    fontFamily: theme.fonts.roboto,
+    fontWeight: '700',
   },
   textPrimary: {
     color: theme.colors.primary,
@@ -324,12 +329,14 @@ const getStylesFromProps = ({ theme }) => ({
   extraInfoCountdownTitle: {
     fontFamily: theme.fonts.regular,
     fontSize: normalize(16),
+    fontWeight: '400',
     marginBottom: theme.sizes.default,
   },
   extraInfoCountdownNumber: {
     color: theme.colors.green,
-    fontFamily: theme.fonts.slabBold,
+    fontFamily: theme.fonts.slab,
     fontSize: normalize(36),
+    fontWeight: '700',
   },
 })
 

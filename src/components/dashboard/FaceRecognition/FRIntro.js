@@ -95,8 +95,9 @@ const getStylesFromProps = ({ theme }) => ({
   },
   mainTitle: {
     color: theme.colors.darkGray,
-    fontFamily: theme.fonts.medium,
+    fontFamily: theme.fonts.roboto,
     fontSize: normalize(24),
+    fontWeight: '500',
     marginBottom: 28,
     textTransform: 'none',
   },
@@ -122,7 +123,7 @@ const getStylesFromProps = ({ theme }) => ({
     lineHeight: normalize(20),
   },
   descriptionBold: {
-    fontFamily: theme.fonts.bold,
+    fontFamily: theme.fonts.roboto,
     fontWeight: '700',
   },
   descriptionUnderline: {

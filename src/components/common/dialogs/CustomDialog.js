@@ -115,8 +115,9 @@ const SimpleStoreDialog = () => {
 const styles = StyleSheet.create({
   title: {
     color: theme.colors.darkGray,
-    fontFamily: theme.fonts.slabBold,
+    fontFamily: theme.fonts.slab,
     fontSize: normalize(24),
+    fontWeight: '700',
     marginBottom: 16,
     paddingTop: 16,
     textAlign: 'center',

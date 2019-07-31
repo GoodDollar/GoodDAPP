@@ -85,11 +85,13 @@ const getStylesFromProps = ({ theme }) => ({
     color: theme.colors.lighterGray,
     fontFamily: theme.fonts.regular,
     fontSize: normalize(10),
+    fontWeight: '400',
     marginTop: 2,
   },
   actionSymbol: {
-    fontFamily: theme.fonts.bold,
+    fontFamily: theme.fonts.roboto,
     fontSize: normalize(15),
+    fontWeight: '700',
     marginLeft: 'auto',
   },
   bigNumberStyles: {

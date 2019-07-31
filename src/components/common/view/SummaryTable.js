@@ -85,12 +85,14 @@ const getStylesFromProps = ({ theme }) => {
     bigGoodDollar: {
       color: theme.colors.primary,
       fontSize: normalize(24),
-      fontFamily: theme.fonts.bold,
+      fontFamily: theme.fonts.roboto,
+      fontWeight: '700',
     },
     bigGoodDollarUnit: {
       color: theme.colors.primary,
       fontSize: normalize(14),
-      fontFamily: theme.fonts.bold,
+      fontFamily: theme.fonts.roboto,
+      fontWeight: '700',
     },
     reason: {
       fontSize: normalize(16),

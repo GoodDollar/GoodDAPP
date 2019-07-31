@@ -46,6 +46,9 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation, s
       navigation.navigate({
         routeName: 'ProfilePrivacy',
         type: 'Navigation/NAVIGATE',
+        params: {
+          backPage: 'Dashboard',
+        },
       })
       hideSidemenu()
     },

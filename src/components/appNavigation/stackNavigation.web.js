@@ -1,7 +1,7 @@
 // @flow
 import React, { Component, useEffect, useState } from 'react'
-import { ScrollView, StyleSheet } from 'react-native'
-import SideMenu from 'react-native-side-menu'
+import { ScrollView, StyleSheet, View } from 'react-native'
+import SideMenu from 'react-native-side-menu-gooddapp'
 import { createNavigator, Route, SceneView, SwitchRouter } from '@react-navigation/core'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import SideMenuPanel from '../sidemenu/SideMenuPanel'
@@ -10,6 +10,7 @@ import CustomButton, { type ButtonProps } from '../common/buttons/CustomButton'
 import NavBar from './NavBar'
 import { navigationOptions } from './navigationConfig'
 import { PushButton } from './PushButton'
+import './blurFx.css'
 
 export const DEFAULT_PARAMS = {
   event: undefined,
@@ -241,9 +242,19 @@ class AppView extends Component<AppViewProps, AppViewState> {
     const pageTitle = title || activeKey
     const open = store.get('sidemenu').visible
     const menu = open ? <SideMenuPanel navigation={navigation} /> : null
+
     return (
       <React.Fragment>
-        <SideMenu menu={menu} menuPosition="right" isOpen={open} disableGestures={true} onChange={this.sideMenuSwap}>
+        <View style={[styles.sideMenuContainer, open ? styles.menuOpenStyle : {}]}>
+          <SideMenu
+            menu={menu}
+            menuPosition="right"
+            isOpen={open}
+            disableGestures={true}
+            onChange={this.sideMenuSwap}
+          />
+        </View>
+        <div style={fullScreenContainer} className={open ? 'blurFx' : ''}>
           {!navigationBarHidden &&
             (NavigationBar ? (
               <NavigationBar />
@@ -257,10 +268,24 @@ class AppView extends Component<AppViewProps, AppViewState> {
               <SceneView navigation={descriptor.navigation} component={Component} screenProps={screenProps} />
             </ScrollView>
           )}
-        </SideMenu>
+        </div>
       </React.Fragment>
     )
   }
+}
+
+const fullScreen = {
+  top: 0,
+  left: 0,
+  bottom: 0,
+  right: 0,
+  position: 'absolute',
+}
+const fullScreenContainer = {
+  ...fullScreen,
+  display: 'flex',
+  flexGrow: 1,
+  flexDirection: 'column',
 }
 
 const styles = StyleSheet.create({
@@ -272,6 +297,14 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     display: 'flex',
     height: '100%',
+  },
+  sideMenuContainer: {
+    ...fullScreen,
+    transform: [{ translateX: '200vw' }],
+    zIndex: 100,
+  },
+  menuOpenStyle: {
+    transform: [{ translateX: '0vh' }],
   },
 })
 

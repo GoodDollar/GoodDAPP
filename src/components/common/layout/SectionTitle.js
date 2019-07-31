@@ -10,7 +10,7 @@ const SectionTitle = (props: any) => {
       style={[styles.title, props.style]}
       color="darkGray"
       fontSize={24}
-      fontFamily="medium"
+      fontWeight="500"
       textTransform="uppercase"
       {...props}
     >

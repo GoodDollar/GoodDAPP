@@ -19,7 +19,7 @@ const privacyOptions = ['private', 'masked', 'public']
  */
 const OptionsRow = ({ title = '', styles, theme }) => (
   <View style={styles.optionsRowContainer}>
-    <Text style={styles.growTwo} textAlign="left" color={theme.colors.gray} fontFamily="medium">
+    <Text style={styles.growTwo} textAlign="left" color={theme.colors.gray} fontWeight="500">
       {title}
     </Text>
 

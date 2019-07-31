@@ -95,7 +95,7 @@ class PhoneForm extends React.Component<Props, State> {
             />
           </Section.Row>
           <Section.Row justifyContent="center" style={styles.bottomText}>
-            <Section.Text fontFamily="regular" fontSize={14} color="gray80Percent">
+            <Section.Text fontSize={14} color="gray80Percent">
               A verification code will be sent to this number
             </Section.Text>
           </Section.Row>

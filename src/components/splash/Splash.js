@@ -15,15 +15,15 @@ const Splash = () => (
   <Wrapper style={styles.wrapper}>
     <Section style={styles.container}>
       <Section.Stack style={styles.content} grow justifyContent="space-between">
-        <Section.Text fontSize={22} fontFamily="regular" color="darkBlue">
+        <Section.Text fontSize={22} color="darkBlue">
           {`Welcome and thank you\nfor participating in GoodDollar's\n`}
-          <Section.Text fontSize={22} fontFamily="bold" color="darkBlue">
+          <Section.Text fontSize={22} fontWeight="700" color="darkBlue">
             Early Access Alpha
           </Section.Text>
         </Section.Text>
         <Image source={splashImage} style={styles.logo} resizeMode="contain" />
         <Image source={goodDollarImage} style={styles.goodDollar} resizeMode="contain" />
-        <Section.Text fontSize={22} fontFamily="regular" color="darkBlue">
+        <Section.Text fontSize={22} color="darkBlue">
           V2.0
         </Section.Text>
       </Section.Stack>

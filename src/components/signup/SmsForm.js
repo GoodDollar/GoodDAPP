@@ -158,13 +158,13 @@ const SMSAction = ({ status, handleRetry }) => {
     return <Icon size={16} name="success" color="blue" />
   } else if (status === WAIT) {
     return (
-      <Section.Text fontFamily="regular" fontSize={14} color="gray80Percent">
+      <Section.Text fontSize={14} color="gray80Percent">
         Please wait a few seconds until the SMS arrives
       </Section.Text>
     )
   }
   return (
-    <Section.Text fontFamily="medium" fontSize={14} color="primary" onPress={handleRetry}>
+    <Section.Text fontWeight="500" fontSize={14} color="primary" onPress={handleRetry}>
       Send me the code again
     </Section.Text>
   )

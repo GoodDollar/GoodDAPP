@@ -15,7 +15,7 @@ const SideMenuItem = ({ icon, name, action, styles, theme }: SideMenuItemProps) 
     <View style={styles.menuIcon}>
       <Icon name={icon} size={24} color={theme.colors.primary} />
     </View>
-    <Text color="darkGray" fontFamily="medium" textAlign="left">
+    <Text color="darkGray" fontWeight="500" textAlign="left">
       {name}
     </Text>
   </TouchableOpacity>

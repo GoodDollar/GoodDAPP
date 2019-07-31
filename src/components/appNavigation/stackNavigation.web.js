@@ -291,11 +291,11 @@ const styles = StyleSheet.create({
   },
   sideMenuContainer: {
     ...fullScreen,
-    display: 'none',
+    transform: [{ translateX: '200vw' }],
     zIndex: 100,
   },
   menuOpenStyle: {
-    display: 'block',
+    transform: [{ translateX: '0vh' }],
   },
 })
 

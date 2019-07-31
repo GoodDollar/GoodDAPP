@@ -3,6 +3,7 @@
  * @file Displays a summary when sending G$ directly to a blockchain address
  */
 import React, { useEffect, useState } from 'react'
+import { StyleSheet } from 'react-native'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import { useDialog } from '../../lib/undux/utils/dialog'
@@ -114,6 +115,11 @@ const SendQRSummary = (props: AmountProps) => {
       <TopBar push={screenProps.push} />
       <Section grow>
         <Section.Title>Summary</Section.Title>
+        <Section.Row justifyContent="center">
+          <Section.Text color="gray80Percent" style={styles.descriptionText} fontSize={16}>
+            * the transaction may take a few seconds to be complete
+          </Section.Text>
+        </Section.Row>
         <SummaryTable counterPartyDisplayName={profile.name} amount={amount} reason={reason} />
         <Section.Row>
           <Section.Row grow={1} justifyContent="flex-start">
@@ -137,6 +143,10 @@ const SendQRSummary = (props: AmountProps) => {
     </Wrapper>
   )
 }
+
+const styles = StyleSheet.create({
+  descriptionText: { maxWidth: 210 },
+})
 
 SendQRSummary.navigationOptions = {
   title: SEND_TITLE,

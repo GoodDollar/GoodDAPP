@@ -34,10 +34,23 @@ exports[`AppNavigation matches snapshot 1`] = `
     }
   >
     <div
-      className="css-view-1dbjc4n r-bottom-1p0dtai r-justifyContent-1777fci r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af"
+      className="css-view-1dbjc4n"
+      style={
+        Object {
+          "WebkitBoxPack": "center",
+          "WebkitJustifyContent": "center",
+          "bottom": "0px",
+          "justifyContent": "center",
+          "left": "0px",
+          "msFlexPack": "center",
+          "position": "absolute",
+          "right": "0px",
+          "top": "0px",
+        }
+      }
     >
       <div
-        className="css-view-1dbjc4n r-left-1d2f490 r-position-u8s1d r-top-ipm5af"
+        className="css-view-1dbjc4n"
         onMoveShouldSetResponder={[Function]}
         onMoveShouldSetResponderCapture={[Function]}
         onResponderEnd={[Function]}
@@ -62,21 +75,32 @@ exports[`AppNavigation matches snapshot 1`] = `
             "flexGrow": 1,
             "flexShrink": 1,
             "height": "768px",
+            "left": "0px",
             "msFlexNegative": 1,
             "msFlexPositive": 1,
             "msFlexPreferredSize": "0%",
             "overflowX": "hidden",
             "overflowY": "hidden",
+            "position": "absolute",
+            "top": "0px",
             "transform": "translateX([object Object])",
             "width": "1024px",
           }
         }
       >
         <div
-          className="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderBottomLeftRadius-re1h2s r-borderTopLeftRadius-1as3g83 r-bottom-1p0dtai r-boxShadow-2h404j r-position-u8s1d r-right-zchlnj r-top-ipm5af"
+          className="css-view-1dbjc4n"
           style={
             Object {
+              "backgroundColor": "rgba(255,255,255,1.00)",
+              "borderBottomLeftRadius": "5px",
+              "borderTopLeftRadius": "5px",
+              "bottom": "0px",
+              "boxShadow": "rgba(0, 0, 0, 0.5) 0px 0px 30px",
               "left": "341.33333333333337px",
+              "position": "absolute",
+              "right": "0px",
+              "top": "0px",
             }
           }
         />

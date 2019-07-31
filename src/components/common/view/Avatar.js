@@ -30,7 +30,7 @@ const CustomAvatar = (props: AvatarProps) => (
     <Avatar.Image
       size={props.size}
       source={props.source ? { uri: props.source } : undefined}
-      style={[styles.avatar, { width: `${props.size}`, height: `${props.size}` }]}
+      style={[styles.avatar, { width: props.size, height: props.size }]}
       {...props}
     />
     {props.children}

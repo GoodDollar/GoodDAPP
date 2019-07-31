@@ -4,6 +4,7 @@ import { View } from 'react-native'
 import CreateAvatar from 'exif-react-avatar-edit'
 import { getScreenHeight, getScreenWidth, isPortrait } from '../../../lib/utils/Orientation'
 import { withStyles } from '../../../lib/styles'
+import normalize from '../../../lib/utils/normalizeText'
 
 import Section from '../layout/Section'
 import Avatar from './Avatar'
@@ -44,15 +45,15 @@ const UserAvatar = (props: AvatarProps) => {
     <View style={styles.innerAvatar}>
       <View style={styles.cropContainer}>
         <CreateAvatar
-          onCrop={onChange}
-          onClose={onClose}
-          mobileScaleSpeed={0.01}
-          width={cropSize}
           height={cropSize}
           lineWidth={2}
           minCropRadius={15}
+          mobileScaleSpeed={0.01}
+          onClose={onClose}
+          onCrop={onChange}
           shadingOpacity={0.8}
           src={profile.avatar ? profile.avatar : undefined}
+          width={cropSize}
         />
       </View>
     </View>
@@ -70,25 +71,28 @@ const UserAvatar = (props: AvatarProps) => {
 
 const getStylesFromProps = ({ theme }) => ({
   avatar: {
-    justifyContent: 'center',
     flexDirection: 'row',
+    justifyContent: 'center',
   },
   innerAvatar: {
-    flexDirection: 'column',
     alignItems: 'center',
     flex: 1,
+    flexDirection: 'column',
   },
   fullNameContainer: {
-    paddingTop: theme.paddings.mainContainerPadding,
+    fontFamily: theme.fonts.slab,
+    fontSize: normalize(22),
+    fontWeight: '400',
+    marginTop: theme.sizes.default,
   },
   fullName: {
     textAlign: 'left',
   },
   cropContainer: {
-    marginTop: theme.paddings.mainContainerPadding,
     flex: 1,
-    justifyContent: 'center',
     flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: theme.paddings.mainContainerPadding,
   },
 })
 

@@ -7,10 +7,10 @@ const SectionTitle = (props: any) => {
   const { styles } = props
   return (
     <Text
-      style={[styles.title, props.style]}
       color="darkGray"
       fontSize={24}
       fontWeight="500"
+      style={[styles.title, props.style]}
       textTransform="uppercase"
       {...props}
     >

@@ -56,10 +56,10 @@ Profile.navigationOptions = {
 
 const styles = StyleSheet.create({
   section: {
-    paddingLeft: '1em',
-    paddingRight: '1em',
     marginBottom: 'auto',
     minHeight: '100%',
+    paddingLeft: '1em',
+    paddingRight: '1em',
   },
   icon: {
     top: 0,

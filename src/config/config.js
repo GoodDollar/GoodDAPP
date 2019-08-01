@@ -1,5 +1,6 @@
 const Config = {
   env: process.env.REACT_APP_ENV || 'development',
+  version: process.env.VERSION,
   logLevel: process.env.REACT_APP_LOG_LEVEL || 'debug',
   serverUrl: process.env.REACT_APP_SERVER_URL || 'http://localhost:3003',
   gunPublicUrl: process.env.REACT_APP_GUN_PUBLIC_URL || 'http://localhost:3003/gun',

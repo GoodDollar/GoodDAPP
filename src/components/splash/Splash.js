@@ -5,6 +5,7 @@ import goodDollarImage from '../../assets/Splash/goodDollar.svg'
 import wavePattern from '../../assets/wave.svg'
 import Wrapper from '../common/layout/Wrapper'
 import Section from '../common/layout/Section'
+import Config from '../../config/config'
 
 //minimize delay <Image> has over web <img>
 Image.prefetch(splashImage)
@@ -24,7 +25,7 @@ const Splash = () => (
         <Image source={splashImage} style={styles.logo} resizeMode="contain" />
         <Image source={goodDollarImage} style={styles.goodDollar} resizeMode="contain" />
         <Section.Text fontSize={22} color="darkBlue">
-          V2.0
+          {Config.version}
         </Section.Text>
       </Section.Stack>
     </Section>

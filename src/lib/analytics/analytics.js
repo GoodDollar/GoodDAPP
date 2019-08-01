@@ -40,10 +40,11 @@ export const initAnalytics = async (goodWallet: GoodWallet, userStorage: UserSto
   })
 }
 
-export const fireEvent = (event: string, data: {} = {}) => {
+export const fireEvent = (event: string, data: any = {}) => {
   if (Amplitude === undefined) {
     return
   }
+  data.version = Config.version
   let res = Amplitude.logEvent(event, data)
 
   if (res === undefined) {

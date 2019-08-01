@@ -28,7 +28,7 @@ const EditProfile = ({ screenProps, theme, styles }) => {
 
   useEffect(() => {
     setProfile(storedProfile)
-  }, [storedProfile])
+  }, [isEqual(profile, {}) && storedProfile])
 
   const handleErrors = (errors, isValid) => {
     setErrors(errors)

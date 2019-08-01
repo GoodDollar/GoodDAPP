@@ -45,6 +45,7 @@ const getStylesFromProps = ({ theme }) => ({
     },
     elevation: 1,
     marginHorizontal: theme.sizes.default,
+    height: theme.feedItems.height,
     maxHeight: theme.feedItems.height,
     minHeight: theme.feedItems.height,
     shadowOpacity: 0.16,
@@ -56,7 +57,6 @@ const getStylesFromProps = ({ theme }) => ({
     flex: 1,
     justifyContent: 'center',
     paddingLeft: theme.paddings.mainContainerPadding,
-    paddingRight: 4,
   },
   rowContentBorder: {
     backgroundRepeat: 'repeat-y',

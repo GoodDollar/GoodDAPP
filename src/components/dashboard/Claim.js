@@ -8,12 +8,10 @@ import GDStore from '../../lib/undux/GDStore'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import wrapper from '../../lib/undux/utils/wrapper'
-import { weiToMask } from '../../lib/wallet/utils'
+import { weiToGd } from '../../lib/wallet/utils'
 import { CustomButton, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
-import ErrorIcon from '../common/modal/ErrorIcon'
 import LoadingIcon from '../common/modal/LoadingIcon'
-import SuccessIcon from '../common/modal/SuccessIcon'
 import { withStyles } from '../../lib/styles'
 import normalize from '../../lib/utils/normalizeText'
 import Section from '../common/layout/Section'
@@ -38,13 +36,13 @@ const Claim = props => {
   const { screenProps, styles }: ClaimProps = props
   const store = SimpleStore.useStore()
   const gdstore = GDStore.useStore()
-
+  const { entitlement } = gdstore.get('account')
   const [showDialog] = useDialog()
   const [loading, setLoading] = useState(false)
   const [claimInterval, setClaimInterval] = useState(null)
   const [state, setState]: [ClaimState, Function] = useState({
     nextClaim: '--:--:--',
-    entitlement: 0,
+    entitlement: entitlement || 0,
     claimedToday: {
       people: '--',
       amount: '--',
@@ -74,8 +72,6 @@ const Claim = props => {
   const getNextClaim = nextClaimDate => new Date(nextClaimDate - new Date().getTime()).toISOString().substr(11, 8)
 
   const gatherStats = async () => {
-    const entitlement = await wrappedGoodWallet.checkEntitlement()
-
     const [claimedToday, nextClaimDate] = await Promise.all([
       wrappedGoodWallet.getAmountAndQuantityClaimedToday(entitlement),
       wrappedGoodWallet.getNextClaimTime(),
@@ -93,9 +89,12 @@ const Claim = props => {
 
   // Claim STATS
   useEffect(() => {
+    if (entitlement === undefined) {
+      return
+    }
     gatherStats()
-    return () => clearInterval(claimInterval)
-  }, [])
+    return () => claimInterval && clearInterval(claimInterval)
+  }, [entitlement])
 
   const handleClaim = async () => {
     setLoading(true)
@@ -111,8 +110,7 @@ const Claim = props => {
 
     try {
       const receipt = await goodWallet.claim({
-        onTransactionHash: async hash => {
-          const entitlement = await wrappedGoodWallet.checkEntitlement()
+        onTransactionHash: hash => {
           const transactionEvent: TransactionEvent = {
             id: hash,
             date: new Date().toString(),
@@ -129,27 +127,26 @@ const Claim = props => {
       if (receipt.status) {
         showDialog({
           dismissText: 'Yay!',
-          image: <SuccessIcon />,
           message: `You've claimed your G$`,
           title: 'SUCCESS!',
           type: 'success',
+          onDismiss: () => screenProps.goToRoot(),
         })
       } else {
         showDialog({
           dismissText: 'OK',
-          image: <ErrorIcon />,
           message: 'Something went wrong with the transaction.\nSee feed details for further information.',
           title: 'Claiming Failed',
           type: 'error',
         })
       }
     } catch (e) {
-      log.error('claiming failed', e)
+      log.error('claiming failed', e.message, e)
 
       showDialog({
         dismissText: 'OK',
-        image: <ErrorIcon />,
-        message: `${e.message}.\nTry again later.`,
+        message: e.message,
+        boldMessage: `Try again later.`,
         title: 'Claiming Failed',
         type: 'error',
       })
@@ -162,7 +159,6 @@ const Claim = props => {
     screenProps.push('FRIntro', { from: 'Claim' })
   }
 
-  const { entitlement } = gdstore.get('account')
   const isCitizen = gdstore.get('isLoggedInCitizen')
   const { nextClaim, claimedToday } = state
 
@@ -176,7 +172,7 @@ const Claim = props => {
         isCitizen ? handleClaim() : faceRecognition()
       }}
     >
-      {`CLAIM YOUR SHARE - ${weiToMask(entitlement, { showUnits: true })}`}
+      {`CLAIM YOUR SHARE - ${weiToGd(entitlement)} G$`}
     </CustomButton>
   )
 

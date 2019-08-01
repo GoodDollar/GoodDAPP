@@ -1,11 +1,12 @@
 // @flow
 import React from 'react'
 import { View } from 'react-native'
-import { Avatar } from 'react-native-paper'
 import normalize from '../../../lib/utils/normalizeText'
-import { BigGoodDollar, Text } from '../../common'
 import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
 import { withStyles } from '../../../lib/styles'
+import Avatar from '../../common/view/Avatar'
+import BigGoodDollar from '../../common/view/BigGoodDollar'
+import Text from '../../common/view/Text'
 import type { FeedEventProps } from './EventProps'
 import EventIcon from './EventIcon'
 import EventCounterParty from './EventCounterParty'
@@ -26,7 +27,11 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
 
   return (
     <View style={styles.innerRow}>
-      <Avatar.Image size={34} style={[styles.avatarBottom]} source={feed.data.endpoint.avatar} />
+      <Avatar
+        size={34}
+        style={[styles.avatarBottom]}
+        source={feed.data && feed.data.endpoint && feed.data.endpoint.avatar}
+      />
       <View grow style={styles.mainContents}>
         <View style={[styles.dateAndValue, { borderBottomColor: eventSettings.color }]}>
           <Text style={styles.date}>{getFormattedDateTime(feed.date)}</Text>

@@ -126,6 +126,7 @@ exports[`TopBar matches snapshot with balance 1`] = `
               style={
                 Object {
                   "backgroundColor": "rgba(0,0,0,0.00)",
+                  "backgroundImage": "url(\\"unknownProfile.svg\\")",
                   "backgroundPosition": "center",
                   "backgroundRepeat": "no-repeat",
                   "backgroundSize": "cover",
@@ -139,6 +140,12 @@ exports[`TopBar matches snapshot with balance 1`] = `
                   "zIndex": -1,
                 }
               }
+            />
+            <img
+              alt=""
+              className="css-accessibilityImage-9pa8cd"
+              draggable={false}
+              src="unknownProfile.svg"
             />
           </div>
         </div>
@@ -331,6 +338,7 @@ exports[`TopBar matches snapshot without balance 1`] = `
               style={
                 Object {
                   "backgroundColor": "rgba(0,0,0,0.00)",
+                  "backgroundImage": "url(\\"unknownProfile.svg\\")",
                   "backgroundPosition": "center",
                   "backgroundRepeat": "no-repeat",
                   "backgroundSize": "cover",
@@ -344,6 +352,12 @@ exports[`TopBar matches snapshot without balance 1`] = `
                   "zIndex": -1,
                 }
               }
+            />
+            <img
+              alt=""
+              className="css-accessibilityImage-9pa8cd"
+              draggable={false}
+              src="unknownProfile.svg"
             />
           </div>
         </div>
@@ -479,6 +493,7 @@ exports[`TopBar should render the children component 1`] = `
               style={
                 Object {
                   "backgroundColor": "rgba(0,0,0,0.00)",
+                  "backgroundImage": "url(\\"unknownProfile.svg\\")",
                   "backgroundPosition": "center",
                   "backgroundRepeat": "no-repeat",
                   "backgroundSize": "cover",
@@ -492,6 +507,12 @@ exports[`TopBar should render the children component 1`] = `
                   "zIndex": -1,
                 }
               }
+            />
+            <img
+              alt=""
+              className="css-accessibilityImage-9pa8cd"
+              draggable={false}
+              src="unknownProfile.svg"
             />
           </div>
         </div>

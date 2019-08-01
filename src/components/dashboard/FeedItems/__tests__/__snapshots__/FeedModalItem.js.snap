@@ -500,16 +500,16 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                         style={
                           Object {
                             "WebkitFlexBasis": "auto",
-                            "borderBottomLeftRadius": "21px",
-                            "borderBottomRightRadius": "21px",
-                            "borderTopLeftRadius": "21px",
-                            "borderTopRightRadius": "21px",
+                            "borderBottomLeftRadius": "17px",
+                            "borderBottomRightRadius": "17px",
+                            "borderTopLeftRadius": "17px",
+                            "borderTopRightRadius": "17px",
                             "flexBasis": "auto",
-                            "height": "42px",
+                            "height": "34px",
                             "msFlexPreferredSize": "auto",
                             "overflowX": "hidden",
                             "overflowY": "hidden",
-                            "width": "42px",
+                            "width": "34px",
                             "zIndex": 0,
                           }
                         }
@@ -1286,16 +1286,16 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                         style={
                           Object {
                             "WebkitFlexBasis": "auto",
-                            "borderBottomLeftRadius": "21px",
-                            "borderBottomRightRadius": "21px",
-                            "borderTopLeftRadius": "21px",
-                            "borderTopRightRadius": "21px",
+                            "borderBottomLeftRadius": "17px",
+                            "borderBottomRightRadius": "17px",
+                            "borderTopLeftRadius": "17px",
+                            "borderTopRightRadius": "17px",
                             "flexBasis": "auto",
-                            "height": "42px",
+                            "height": "34px",
                             "msFlexPreferredSize": "auto",
                             "overflowX": "hidden",
                             "overflowY": "hidden",
-                            "width": "42px",
+                            "width": "34px",
                             "zIndex": 0,
                           }
                         }

@@ -36,9 +36,15 @@ const EditProfile = ({ screenProps, theme, styles }) => {
     debounce(async (profile, storedProfile, setIsPristine, setErrors, setIsValid) => {
       if (profile && profile.validate) {
         try {
-          const isNotModified = isEqualWith(storedProfile, profile, (x, y) =>
-            typeof x === 'function' ? true : undefined
-          )
+          const isNotModified = isEqualWith(storedProfile, profile, (x, y, k) => {
+            if (typeof x === 'function') {
+              return true
+            }
+            if (['string', 'number'].includes(typeof x)) {
+              return x.toString() === y.toString()
+            }
+            return undefined
+          })
           const { isValid, errors } = profile.validate()
           const { isValid: isValidIndex, errors: errorsIndex } = await userStorage.validateProfile(profile)
           setErrors(merge(errors, errorsIndex))

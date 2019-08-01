@@ -47,34 +47,38 @@ const EditProfile = ({ screenProps, theme, styles }) => {
           })
           const { isValid, errors } = profile.validate()
           const { isValid: isValidIndex, errors: errorsIndex } = await userStorage.validateProfile(profile)
+          const valid = isValid && isValidIndex
 
           setErrors(merge(errors, errorsIndex))
-          setIsValid(isValid && isValidIndex)
+          setIsValid(valid)
           setIsPristine(pristine)
+
+          return valid
         } catch (e) {
           log.error('validate profile failed', e, e.message)
           showErrorDialog('Unexpected error while validating profile', e)
+          return false
         }
       }
+      return false
     }, 500),
     []
   )
 
   const handleProfileChange = newProfile => {
-    //immediatly mark as invalid
-    setIsValid(false)
     if (saving) {
       return
     }
     setProfile(newProfile)
   }
 
-  const handleSaveButton = () => {
+  const handleSaveButton = async () => {
     setSaving(true)
 
-    if (!isValid) {
+    // with flush triggers immediate call for the validation
+    if (!(await validate.flush())) {
       setSaving(false)
-      return
+      return false
     }
 
     return userStorage
@@ -82,6 +86,7 @@ const EditProfile = ({ screenProps, theme, styles }) => {
       .catch(err => {
         log.error('Error saving profile', { err, profile })
         showErrorDialog('Unexpected error while saving profile', err)
+        return false
       })
       .finally(_ => setSaving(false))
   }

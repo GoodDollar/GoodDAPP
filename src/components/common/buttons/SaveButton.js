@@ -26,12 +26,16 @@ const SaveButton = ({ children, onPress, onPressDone, doneDelay, styles, theme, 
   const [state, setState] = useState(NOT_SAVED)
 
   const pressAndNextState = async () => {
-    console.info('here, pressAndNextState', SAVING)
     setState(SAVING)
-    await onPress()
-    setState(DONE)
 
-    setTimeout(onPressDone, doneDelay)
+    const result = await onPress()
+
+    if (result === false) {
+      setState(NOT_SAVED)
+    } else {
+      setState(DONE)
+      setTimeout(onPressDone, doneDelay)
+    }
   }
 
   return (

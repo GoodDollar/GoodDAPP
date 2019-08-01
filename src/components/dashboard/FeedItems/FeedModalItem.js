@@ -53,7 +53,11 @@ const FeedModalItem = (props: FeedEventProps) => {
           />
         </View>
         <View style={[styles.transactionDetails, { borderColor: mainColor }]}>
-          <Avatar source={item.data && item.data.endpoint && item.data.endpoint.avatar} style={styles.avatar} />
+          <Avatar
+            size={34}
+            source={item.data && item.data.endpoint && item.data.endpoint.avatar}
+            style={styles.avatar}
+          />
           {item.data && item.data.endpoint && <EventCounterParty style={styles.feedItem} feedItem={item} />}
           <EventIcon type={itemType} style={styles.icon} />
         </View>
@@ -94,7 +98,8 @@ const getStylesFromProps = ({ theme }) => {
       marginBottom: 12,
     },
     feedItem: {
-      paddingRight: 4,
+      paddingLeft: theme.sizes.default,
+      paddingRight: theme.sizes.defaultHalf,
     },
     date: {
       color: theme.colors.darkGray,
@@ -117,13 +122,6 @@ const getStylesFromProps = ({ theme }) => {
       marginBottom: 18,
       paddingBottom: 14,
       paddingTop: 14,
-    },
-    avatar: {
-      backgroundColor: theme.colors.lightGray,
-      borderRadius: '50%',
-      height: 34,
-      marginRight: 7,
-      width: 34,
     },
     icon: {
       marginLeft: 'auto',

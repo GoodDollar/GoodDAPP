@@ -66,7 +66,7 @@ const Dashboard = props => {
     log.debug('Dashboard didmount')
     userStorage.feed.get('byid').on(data => {
       log.debug('gun getFeed callback', { data })
-      getFeeds()
+      getInitialFeed(gdstore)
     }, true)
   }, [])
 
@@ -78,10 +78,6 @@ const Dashboard = props => {
       showNewFeedEvent(params.event)
     }
   }, [params])
-
-  const getFeeds = () => {
-    getInitialFeed(gdstore)
-  }
 
   const showEventModal = currentFeed => {
     setState({ currentFeed })
@@ -131,7 +127,7 @@ const Dashboard = props => {
   // TODO: Calculate scroll position to update Dashboard avatar, name and gd amount view
   const scrollPos = 100
 
-  log.info('LOGGER FEEDS', { feeds })
+  log.info('LOGGER FEEDS', { props })
   return (
     <Wrapper style={styles.dashboardWrapper}>
       <Section style={[styles.topInfo]}>

@@ -2,7 +2,6 @@ import React from 'react'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { HelperText } from 'react-native-paper'
 import PhoneInput from 'react-phone-number-input'
-import normalize from '../../lib/utils/normalizeText'
 import './ProfileDataTablePhoneInput.css'
 import { Icon, InputRounded, Section } from '../common'
 import { withStyles } from '../../lib/styles'
@@ -41,7 +40,7 @@ const ProfileDataTable = ({ profile, onChange, errors: errorsProp, editable, the
                 />
                 <Icon
                   name="phone"
-                  size={normalize(18)}
+                  size={18}
                   color={errors.mobile ? theme.colors.red : theme.colors.primary}
                   style={styles.phoneIcon}
                 />
@@ -88,7 +87,7 @@ const getStylesFromProps = ({ theme }) => {
     },
     phoneIcon: {
       position: 'absolute',
-      right: normalize(26),
+      right: 26,
     },
   }
 }

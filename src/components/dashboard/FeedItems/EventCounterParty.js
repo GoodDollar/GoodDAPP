@@ -21,14 +21,16 @@ const getStylesFromProps = ({ theme }) => ({
   rowDataText: {
     color: theme.fontStyle.color,
     fontSize: normalize(16),
+    textAlign: 'left',
     textTransform: 'capitalize',
   },
   direction: {
-    fontSize: normalize(8),
+    fontSize: normalize(10),
   },
   fullName: {
-    fontFamily: theme.fonts.medium,
+    fontFamily: theme.fonts.default,
     fontSize: normalize(16),
+    fontWeight: '500',
   },
 })
 

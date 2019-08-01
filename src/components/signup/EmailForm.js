@@ -79,7 +79,7 @@ class EmailForm extends React.Component<Props, State> {
             <Section.Title textTransform="none">Please enter your email</Section.Title>
           </Section.Row>
           <Section.Row justifyContent="center">
-            <Section.Text fontFamily="regular" fontSize={14} color="gray80Percent">
+            <Section.Text fontSize={14} color="gray80Percent">
               we will only notify you with important activity
             </Section.Text>
           </Section.Row>
@@ -96,7 +96,7 @@ class EmailForm extends React.Component<Props, State> {
             />
           </Section.Row>
           <Section.Row justifyContent="flex-end" style={styles.bottomText}>
-            <Section.Text fontFamily="regular" fontSize={14} color="gray80Percent">
+            <Section.Text fontSize={14} color="gray80Percent">
               We respect your privacy and will never sell or give away your info to any third party.
             </Section.Text>
           </Section.Row>

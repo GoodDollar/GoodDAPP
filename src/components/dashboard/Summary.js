@@ -106,7 +106,7 @@ const getStylesFromProps = ({ theme }) => {
     tableRow: {
       // TODO: see where should we take this color from
       borderBottomColor: theme.colors.gray50Percent,
-      borderBottomWidth: normalize(1),
+      borderBottomWidth: 1,
       borderBottomStyle: 'solid',
       marginTop: theme.sizes.defaultDouble,
       alignItems: 'baseline',
@@ -119,8 +119,9 @@ const getStylesFromProps = ({ theme }) => {
     },
     bigGoodDollar: {
       color: theme.colors.primary,
+      fontFamily: theme.fonts.default,
       fontSize: normalize(24),
-      fontFamily: theme.fonts.bold,
+      fontWeight: '700',
     },
     reason: {
       fontSize: normalize(16),

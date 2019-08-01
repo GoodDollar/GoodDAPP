@@ -16,6 +16,7 @@ export type DialogProps = {
   message?: string,
   onCancel?: () => void,
   onDismiss?: () => void,
+  showButtons?: boolean,
   title?: string,
   type?: string,
   visible?: boolean,
@@ -42,6 +43,7 @@ const CustomDialog = ({
   message = null,
   onCancel = null,
   onDismiss,
+  showButtons = true,
   title,
   type = 'common',
   visible,
@@ -56,28 +58,30 @@ const CustomDialog = ({
             {image ? image : null}
             {message && <Paragraph style={styles.paragraph}>{message}</Paragraph>}
           </View>
-          <View style={styles.buttonsContainer}>
-            {onCancel && (
+          {showButtons ? (
+            <View style={styles.buttonsContainer}>
+              {onCancel && (
+                <CustomButton
+                  color={theme.colors.lighterGray}
+                  disabled={loading}
+                  loading={loading}
+                  mode="text"
+                  onPress={onCancel}
+                  style={styles.buttonCancel}
+                >
+                  Cancel
+                </CustomButton>
+              )}
               <CustomButton
-                color={theme.colors.lighterGray}
                 disabled={loading}
                 loading={loading}
-                mode="text"
-                onPress={onCancel}
-                style={styles.buttonCancel}
+                onPress={onDismiss}
+                style={[styles.buttonOK, { backgroundColor: getColorFromType(type) }]}
               >
-                Cancel
+                {dismissText || 'Done'}
               </CustomButton>
-            )}
-            <CustomButton
-              disabled={loading}
-              loading={loading}
-              onPress={onDismiss}
-              style={[styles.buttonOK, { backgroundColor: getColorFromType(type) }]}
-            >
-              {dismissText || 'Done'}
-            </CustomButton>
-          </View>
+            </View>
+          ) : null}
         </React.Fragment>
       </ModalWrapper>
     </Portal>
@@ -111,10 +115,11 @@ const SimpleStoreDialog = () => {
 const styles = StyleSheet.create({
   title: {
     color: theme.colors.darkGray,
-    fontFamily: theme.fonts.slabBold,
+    fontFamily: theme.fonts.slab,
     fontSize: normalize(24),
-    marginBottom: normalize(16),
-    paddingTop: normalize(16),
+    fontWeight: '700',
+    marginBottom: 16,
+    paddingTop: 16,
     textAlign: 'center',
   },
   paragraph: {
@@ -126,7 +131,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     flexGrow: 1,
-    marginBottom: normalize(40),
+    marginBottom: 40,
     padding: 0,
   },
   buttonsContainer: {
@@ -137,11 +142,11 @@ const styles = StyleSheet.create({
     paddingRight: 0,
   },
   buttonCancel: {
-    minWidth: normalize(80),
+    minWidth: 80,
   },
   buttonOK: {
     marginLeft: 'auto',
-    minWidth: normalize(80),
+    minWidth: 80,
   },
 })
 

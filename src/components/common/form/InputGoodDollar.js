@@ -69,7 +69,7 @@ const getStylesFromProps = () => ({
   input: {
     fontSize: normalize(32),
     fontWeight: 'bold',
-    letterSpacing: normalize(1.2),
+    letterSpacing: 1.2,
   },
 })
 

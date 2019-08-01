@@ -1,7 +1,6 @@
 // @flow
 import React from 'react'
 import { TouchableOpacity, View } from 'react-native'
-import normalize from '../../lib/utils/normalizeText'
 import { withStyles } from '../../lib/styles'
 import { Icon, Text } from '../common'
 
@@ -16,7 +15,7 @@ const SideMenuItem = ({ icon, name, action, styles, theme }: SideMenuItemProps) 
     <View style={styles.menuIcon}>
       <Icon name={icon} size={24} color={theme.colors.primary} />
     </View>
-    <Text color="darkGray" fontFamily="medium" textAlign="left">
+    <Text color="darkGray" fontWeight="500" textAlign="left">
       {name}
     </Text>
   </TouchableOpacity>
@@ -24,22 +23,22 @@ const SideMenuItem = ({ icon, name, action, styles, theme }: SideMenuItemProps) 
 
 const sideMenuItemStyles = ({ theme }) => ({
   clickableRow: {
-    borderBottomWidth: normalize(1),
+    borderBottomWidth: 1,
     borderBottomColor: theme.colors.lightGray,
     borderBottomStyle: 'solid',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-start',
     cursor: 'pointer',
-    padding: normalize(16),
+    padding: theme.sizes.defaultDouble,
     paddingLeft: 0,
   },
   menuIcon: {
-    marginLeft: normalize(8),
-    marginRight: normalize(20),
+    marginLeft: theme.sizes.default,
+    marginRight: 20,
   },
   menuText: {
-    paddingRight: normalize(16),
+    paddingRight: theme.sizes.defaultDouble,
   },
 })
 

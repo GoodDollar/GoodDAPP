@@ -315,7 +315,7 @@ exports[`Profile matches snapshot 1`] = `
               Object {
                 "color": "rgba(255,255,255,1.00)",
                 "direction": "ltr",
-                "fontFamily": "Roboto-Medium",
+                "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                 "fontSize": "20px",
                 "textAlign": "center",
                 "textTransform": "uppercase",
@@ -661,7 +661,6 @@ exports[`Profile matches snapshot 1`] = `
                         "WebkitTransitionDuration": "0.15s",
                         "WebkitTransitionProperty": "opacity",
                         "WebkitUserSelect": "none",
-                        "backgroundColor": "rgba(0,0,0,0.00)",
                         "cursor": "pointer",
                         "msTouchAction": "manipulation",
                         "msUserSelect": "none",
@@ -677,13 +676,20 @@ exports[`Profile matches snapshot 1`] = `
                       className="css-view-1dbjc4n"
                       style={
                         Object {
-                          "backgroundColor": "rgba(238,238,238,1.00)",
+                          "borderBottomColor": "rgba(163,163,163,1.00)",
                           "borderBottomLeftRadius": "68px",
                           "borderBottomRightRadius": "68px",
+                          "borderBottomWidth": "1px",
+                          "borderLeftColor": "rgba(163,163,163,1.00)",
+                          "borderLeftWidth": "1px",
+                          "borderRightColor": "rgba(163,163,163,1.00)",
+                          "borderRightWidth": "1px",
+                          "borderTopColor": "rgba(163,163,163,1.00)",
                           "borderTopLeftRadius": "68px",
                           "borderTopRightRadius": "68px",
-                          "height": "138px",
-                          "width": "138px",
+                          "borderTopWidth": "1px",
+                          "height": "136px",
+                          "width": "136px",
                         }
                       }
                     >
@@ -735,11 +741,11 @@ exports[`Profile matches snapshot 1`] = `
                       Object {
                         "color": "rgba(66,69,74,1.00)",
                         "direction": "ltr",
-                        "fontFamily": "Roboto-Medium",
-                        "fontSize": "24px",
-                        "fontWeight": "normal",
+                        "fontFamily": "Roboto Slab",
+                        "fontSize": "22px",
+                        "fontWeight": "400",
                         "lineHeight": "30px",
-                        "paddingTop": "8px",
+                        "marginTop": "8px",
                         "textAlign": "center",
                         "textDecoration": "none",
                         "textTransform": "uppercase",
@@ -903,7 +909,6 @@ exports[`Profile matches snapshot 1`] = `
                         "WebkitFlexDirection": "row",
                         "WebkitJustifyContent": "space-between",
                         "alignItems": "center",
-                        "borderTopColor": "rgba(203,203,203,1.00)",
                         "borderTopWidth": "1px",
                         "flexDirection": "row",
                         "justifyContent": "space-between",
@@ -936,7 +941,6 @@ exports[`Profile matches snapshot 1`] = `
                         className="css-view-1dbjc4n"
                         style={
                           Object {
-                            "borderBottomColor": "rgba(203,203,203,1.00)",
                             "borderBottomWidth": "1px",
                             "paddingBottom": "0px",
                             "paddingLeft": "40px",
@@ -979,6 +983,7 @@ exports[`Profile matches snapshot 1`] = `
                               "flexShrink": 1,
                               "fontFamily": "Roboto",
                               "fontSize": "14px",
+                              "fontWeight": "400",
                               "lineHeight": "36px",
                               "msFlexNegative": 1,
                               "msFlexPositive": 1,
@@ -1024,7 +1029,7 @@ exports[`Profile matches snapshot 1`] = `
                             "WebkitTransform": "translateY(0px)",
                             "color": "rgba(250,108,119,1.00)",
                             "direction": "ltr",
-                            "fontFamily": "Roboto",
+                            "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                             "fontSize": "12px",
                             "opacity": 1,
                             "paddingBottom": "4px",
@@ -1080,7 +1085,6 @@ exports[`Profile matches snapshot 1`] = `
                         className="css-view-1dbjc4n"
                         style={
                           Object {
-                            "borderBottomColor": "rgba(203,203,203,1.00)",
                             "borderBottomWidth": "1px",
                             "paddingBottom": "0px",
                             "paddingLeft": "40px",
@@ -1123,6 +1127,7 @@ exports[`Profile matches snapshot 1`] = `
                               "flexShrink": 1,
                               "fontFamily": "Roboto",
                               "fontSize": "14px",
+                              "fontWeight": "400",
                               "lineHeight": "36px",
                               "msFlexNegative": 1,
                               "msFlexPositive": 1,
@@ -1168,7 +1173,7 @@ exports[`Profile matches snapshot 1`] = `
                             "WebkitTransform": "translateY(0px)",
                             "color": "rgba(250,108,119,1.00)",
                             "direction": "ltr",
-                            "fontFamily": "Roboto",
+                            "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                             "fontSize": "12px",
                             "opacity": 1,
                             "paddingBottom": "4px",
@@ -1224,7 +1229,6 @@ exports[`Profile matches snapshot 1`] = `
                         className="css-view-1dbjc4n"
                         style={
                           Object {
-                            "borderBottomColor": "rgba(203,203,203,1.00)",
                             "borderBottomWidth": "1px",
                             "paddingBottom": "0px",
                             "paddingLeft": "40px",
@@ -1267,6 +1271,7 @@ exports[`Profile matches snapshot 1`] = `
                               "flexShrink": 1,
                               "fontFamily": "Roboto",
                               "fontSize": "14px",
+                              "fontWeight": "400",
                               "lineHeight": "36px",
                               "msFlexNegative": 1,
                               "msFlexPositive": 1,
@@ -1312,7 +1317,7 @@ exports[`Profile matches snapshot 1`] = `
                             "WebkitTransform": "translateY(0px)",
                             "color": "rgba(250,108,119,1.00)",
                             "direction": "ltr",
-                            "fontFamily": "Roboto",
+                            "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                             "fontSize": "12px",
                             "opacity": 1,
                             "paddingBottom": "4px",

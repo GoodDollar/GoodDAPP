@@ -2,7 +2,7 @@
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { withTheme } from 'react-native-paper'
-import Icon from 'react-native-elements/src/icons/Icon'
+import { Icon } from 'react-native-elements/src/icons/Icon'
 import GDStore from '../../lib/undux/GDStore'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { Section, UserAvatar, Wrapper } from '../common'
@@ -56,10 +56,10 @@ Profile.navigationOptions = {
 
 const styles = StyleSheet.create({
   section: {
-    paddingLeft: '1em',
-    paddingRight: '1em',
     marginBottom: 'auto',
     minHeight: '100%',
+    paddingLeft: '1em',
+    paddingRight: '1em',
   },
   icon: {
     top: 0,

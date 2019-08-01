@@ -204,7 +204,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                   "borderTopLeftRadius": "5px",
                   "flexGrow": 1,
                   "flexShrink": 0,
-                  "marginBottom": "15px",
+                  "marginBottom": "16px",
                   "maxWidth": "10px",
                   "minWidth": "10px",
                   "msFlexNegative": 0,
@@ -294,7 +294,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                       style={
                         Object {
                           "backgroundColor": "rgba(0,0,0,0.00)",
-                          "backgroundImage": "url(\\"send.png\\")",
+                          "backgroundImage": "url(\\"send.svg\\")",
                           "backgroundPosition": "center",
                           "backgroundRepeat": "no-repeat",
                           "backgroundSize": "cover",
@@ -313,7 +313,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                       alt=""
                       className="css-accessibilityImage-9pa8cd"
                       draggable={false}
-                      src="send.png"
+                      src="send.svg"
                     />
                   </div>
                 </div>
@@ -382,10 +382,10 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                         Object {
                           "color": "rgba(250,108,119,1.00)",
                           "direction": "ltr",
-                          "fontFamily": "Roboto-Bold",
+                          "fontFamily": "Roboto Slab",
                           "fontSize": "22px",
                           "fontWeight": "700",
-                          "lineHeight": "auto",
+                          "lineHeight": "22px",
                           "marginRight": "4px",
                           "textAlign": "right",
                           "textDecoration": "none",
@@ -402,10 +402,10 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                         Object {
                           "color": "rgba(250,108,119,1.00)",
                           "direction": "ltr",
-                          "fontFamily": "Roboto-Bold",
+                          "fontFamily": "Roboto Slab",
                           "fontSize": "12px",
                           "fontWeight": "700",
-                          "lineHeight": "auto",
+                          "lineHeight": "22px",
                           "textAlign": "right",
                           "textDecoration": "none",
                           "textTransform": "none",
@@ -465,12 +465,18 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                         "WebkitTransitionDuration": "0.15s",
                         "WebkitTransitionProperty": "opacity",
                         "WebkitUserSelect": "none",
-                        "backgroundColor": "rgba(0,0,0,0.00)",
+                        "backgroundColor": "rgba(238,238,238,1.00)",
+                        "borderBottomLeftRadius": "50%",
+                        "borderBottomRightRadius": "50%",
+                        "borderTopLeftRadius": "50%",
+                        "borderTopRightRadius": "50%",
+                        "height": "34px",
                         "marginRight": "7px",
                         "msUserSelect": "none",
                         "transitionDuration": "0.15s",
                         "transitionProperty": "opacity",
                         "userSelect": "none",
+                        "width": "34px",
                       }
                     }
                   >
@@ -479,12 +485,13 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                       style={
                         Object {
                           "backgroundColor": "rgba(238,238,238,1.00)",
-                          "borderBottomLeftRadius": "17px",
-                          "borderBottomRightRadius": "17px",
-                          "borderTopLeftRadius": "17px",
-                          "borderTopRightRadius": "17px",
-                          "height": "36px",
-                          "width": "36px",
+                          "borderBottomLeftRadius": "50%",
+                          "borderBottomRightRadius": "50%",
+                          "borderTopLeftRadius": "50%",
+                          "borderTopRightRadius": "50%",
+                          "height": "34px",
+                          "marginRight": "7px",
+                          "width": "34px",
                         }
                       }
                     >
@@ -548,7 +555,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                         "fontWeight": "normal",
                         "lineHeight": "22px",
                         "paddingRight": "4px",
-                        "textAlign": "center",
+                        "textAlign": "left",
                         "textDecoration": "none",
                         "textTransform": "capitalize",
                       }
@@ -562,7 +569,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                           "color": "rgba(34,34,34,1.00)",
                           "direction": "ltr",
                           "fontFamily": "Roboto",
-                          "fontSize": "8px",
+                          "fontSize": "10px",
                           "fontWeight": "normal",
                           "lineHeight": "22px",
                           "textAlign": "center",
@@ -581,9 +588,9 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                         Object {
                           "color": "rgba(34,34,34,1.00)",
                           "direction": "ltr",
-                          "fontFamily": "Roboto-Medium",
+                          "fontFamily": "Roboto",
                           "fontSize": "16px",
-                          "fontWeight": "normal",
+                          "fontWeight": "500",
                           "lineHeight": "22px",
                           "textAlign": "center",
                           "textDecoration": "none",
@@ -683,8 +690,11 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                     className="css-view-1dbjc4n"
                     style={
                       Object {
+                        "WebkitAlignItems": "center",
+                        "WebkitBoxAlign": "center",
                         "WebkitBoxPack": "center",
                         "WebkitJustifyContent": "center",
+                        "alignItems": "center",
                         "backgroundColor": "rgba(0,175,255,1.00)",
                         "borderBottomColor": "rgba(0,175,255,1.00)",
                         "borderBottomLeftRadius": "50px",
@@ -705,8 +715,12 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                         "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
                         "justifyContent": "center",
                         "marginLeft": "auto",
+                        "minHeight": "44px",
                         "minWidth": "80px",
+                        "msFlexAlign": "center",
                         "msFlexPack": "center",
+                        "paddingLeft": "0px",
+                        "paddingRight": "0px",
                       }
                     }
                   >
@@ -767,7 +781,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                             Object {
                               "color": "rgba(255,255,255,1.00)",
                               "direction": "ltr",
-                              "fontFamily": "Roboto-Medium",
+                              "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                               "letterSpacing": "1px",
                               "marginBottom": "9px",
                               "marginLeft": "8px",
@@ -777,38 +791,39 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                             }
                           }
                         >
-                          <div
-                            className="css-view-1dbjc4n"
+                          <span
+                            className="css-text-901oao css-textHasAncestor-16my406"
+                            dir="auto"
                             style={
                               Object {
+                                "WebkitAlignItems": "center",
+                                "WebkitBoxAlign": "center",
                                 "WebkitBoxPack": "center",
                                 "WebkitJustifyContent": "center",
-                                "display": "inline-flex",
+                                "alignItems": "center",
+                                "color": "rgba(255,255,255,1.00)",
+                                "direction": "ltr",
+                                "fontFamily": "Roboto",
+                                "fontSize": "16px",
+                                "fontWeight": "500",
                                 "justifyContent": "center",
-                                "minHeight": "28px",
+                                "marginBottom": "0px",
+                                "marginLeft": "0px",
+                                "marginRight": "0px",
+                                "marginTop": "0px",
+                                "msFlexAlign": "center",
                                 "msFlexPack": "center",
+                                "paddingBottom": "0px",
+                                "paddingLeft": "0px",
+                                "paddingRight": "0px",
+                                "paddingTop": "1px",
+                                "textAlign": "left",
+                                "textTransform": "uppercase",
                               }
                             }
                           >
-                            <span
-                              className="css-text-901oao css-textHasAncestor-16my406"
-                              dir="auto"
-                              style={
-                                Object {
-                                  "color": "rgba(255,255,255,1.00)",
-                                  "direction": "ltr",
-                                  "fontFamily": "Roboto",
-                                  "fontWeight": "bold",
-                                  "lineHeight": "0px",
-                                  "paddingTop": "1px",
-                                  "textAlign": "left",
-                                  "textTransform": "uppercase",
-                                }
-                              }
-                            >
-                              OK
-                            </span>
-                          </div>
+                            OK
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -819,11 +834,11 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                 className="css-view-1dbjc4n"
                 style={
                   Object {
-                    "backgroundImage": "linear-gradient(45deg, transparent 75%, #fff 76%), linear-gradient(-45deg, transparent 75%, #fff 76%)",
-                    "backgroundPosition": "0 0",
+                    "backgroundImage": "linear-gradient(40deg, transparent 75%, #fff 76%), linear-gradient(-40deg, transparent 75%, #fff 76%)",
+                    "backgroundPosition": "-8px 0",
                     "backgroundRepeat": "repeat-x",
-                    "backgroundSize": "15px",
-                    "height": "15px",
+                    "backgroundSize": "16px",
+                    "height": "16px",
                     "position": "relative",
                     "width": "100%",
                     "zIndex": 5,
@@ -1043,7 +1058,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                   "borderTopLeftRadius": "5px",
                   "flexGrow": 1,
                   "flexShrink": 0,
-                  "marginBottom": "15px",
+                  "marginBottom": "16px",
                   "maxWidth": "10px",
                   "minWidth": "10px",
                   "msFlexNegative": 0,
@@ -1153,10 +1168,10 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                         Object {
                           "color": "rgba(0,195,174,1.00)",
                           "direction": "ltr",
-                          "fontFamily": "Roboto-Bold",
+                          "fontFamily": "Roboto Slab",
                           "fontSize": "22px",
                           "fontWeight": "700",
-                          "lineHeight": "auto",
+                          "lineHeight": "22px",
                           "marginRight": "4px",
                           "textAlign": "right",
                           "textDecoration": "none",
@@ -1173,10 +1188,10 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                         Object {
                           "color": "rgba(0,195,174,1.00)",
                           "direction": "ltr",
-                          "fontFamily": "Roboto-Bold",
+                          "fontFamily": "Roboto Slab",
                           "fontSize": "12px",
                           "fontWeight": "700",
-                          "lineHeight": "auto",
+                          "lineHeight": "22px",
                           "textAlign": "right",
                           "textDecoration": "none",
                           "textTransform": "none",
@@ -1236,12 +1251,18 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                         "WebkitTransitionDuration": "0.15s",
                         "WebkitTransitionProperty": "opacity",
                         "WebkitUserSelect": "none",
-                        "backgroundColor": "rgba(0,0,0,0.00)",
+                        "backgroundColor": "rgba(238,238,238,1.00)",
+                        "borderBottomLeftRadius": "50%",
+                        "borderBottomRightRadius": "50%",
+                        "borderTopLeftRadius": "50%",
+                        "borderTopRightRadius": "50%",
+                        "height": "34px",
                         "marginRight": "7px",
                         "msUserSelect": "none",
                         "transitionDuration": "0.15s",
                         "transitionProperty": "opacity",
                         "userSelect": "none",
+                        "width": "34px",
                       }
                     }
                   >
@@ -1250,12 +1271,13 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                       style={
                         Object {
                           "backgroundColor": "rgba(238,238,238,1.00)",
-                          "borderBottomLeftRadius": "17px",
-                          "borderBottomRightRadius": "17px",
-                          "borderTopLeftRadius": "17px",
-                          "borderTopRightRadius": "17px",
-                          "height": "36px",
-                          "width": "36px",
+                          "borderBottomLeftRadius": "50%",
+                          "borderBottomRightRadius": "50%",
+                          "borderTopLeftRadius": "50%",
+                          "borderTopRightRadius": "50%",
+                          "height": "34px",
+                          "marginRight": "7px",
+                          "width": "34px",
                         }
                       }
                     >
@@ -1319,7 +1341,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                         "fontWeight": "normal",
                         "lineHeight": "22px",
                         "paddingRight": "4px",
-                        "textAlign": "center",
+                        "textAlign": "left",
                         "textDecoration": "none",
                         "textTransform": "capitalize",
                       }
@@ -1333,7 +1355,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                           "color": "rgba(34,34,34,1.00)",
                           "direction": "ltr",
                           "fontFamily": "Roboto",
-                          "fontSize": "8px",
+                          "fontSize": "10px",
                           "fontWeight": "normal",
                           "lineHeight": "22px",
                           "textAlign": "center",
@@ -1352,9 +1374,9 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                         Object {
                           "color": "rgba(34,34,34,1.00)",
                           "direction": "ltr",
-                          "fontFamily": "Roboto-Medium",
+                          "fontFamily": "Roboto",
                           "fontSize": "16px",
-                          "fontWeight": "normal",
+                          "fontWeight": "500",
                           "lineHeight": "22px",
                           "textAlign": "center",
                           "textDecoration": "none",
@@ -1454,8 +1476,11 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                     className="css-view-1dbjc4n"
                     style={
                       Object {
+                        "WebkitAlignItems": "center",
+                        "WebkitBoxAlign": "center",
                         "WebkitBoxPack": "center",
                         "WebkitJustifyContent": "center",
+                        "alignItems": "center",
                         "backgroundColor": "rgba(0,175,255,1.00)",
                         "borderBottomColor": "rgba(0,175,255,1.00)",
                         "borderBottomLeftRadius": "50px",
@@ -1476,8 +1501,12 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                         "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
                         "justifyContent": "center",
                         "marginLeft": "auto",
+                        "minHeight": "44px",
                         "minWidth": "80px",
+                        "msFlexAlign": "center",
                         "msFlexPack": "center",
+                        "paddingLeft": "0px",
+                        "paddingRight": "0px",
                       }
                     }
                   >
@@ -1538,7 +1567,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                             Object {
                               "color": "rgba(255,255,255,1.00)",
                               "direction": "ltr",
-                              "fontFamily": "Roboto-Medium",
+                              "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                               "letterSpacing": "1px",
                               "marginBottom": "9px",
                               "marginLeft": "8px",
@@ -1548,38 +1577,39 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                             }
                           }
                         >
-                          <div
-                            className="css-view-1dbjc4n"
+                          <span
+                            className="css-text-901oao css-textHasAncestor-16my406"
+                            dir="auto"
                             style={
                               Object {
+                                "WebkitAlignItems": "center",
+                                "WebkitBoxAlign": "center",
                                 "WebkitBoxPack": "center",
                                 "WebkitJustifyContent": "center",
-                                "display": "inline-flex",
+                                "alignItems": "center",
+                                "color": "rgba(255,255,255,1.00)",
+                                "direction": "ltr",
+                                "fontFamily": "Roboto",
+                                "fontSize": "16px",
+                                "fontWeight": "500",
                                 "justifyContent": "center",
-                                "minHeight": "28px",
+                                "marginBottom": "0px",
+                                "marginLeft": "0px",
+                                "marginRight": "0px",
+                                "marginTop": "0px",
+                                "msFlexAlign": "center",
                                 "msFlexPack": "center",
+                                "paddingBottom": "0px",
+                                "paddingLeft": "0px",
+                                "paddingRight": "0px",
+                                "paddingTop": "1px",
+                                "textAlign": "left",
+                                "textTransform": "uppercase",
                               }
                             }
                           >
-                            <span
-                              className="css-text-901oao css-textHasAncestor-16my406"
-                              dir="auto"
-                              style={
-                                Object {
-                                  "color": "rgba(255,255,255,1.00)",
-                                  "direction": "ltr",
-                                  "fontFamily": "Roboto",
-                                  "fontWeight": "bold",
-                                  "lineHeight": "0px",
-                                  "paddingTop": "1px",
-                                  "textAlign": "left",
-                                  "textTransform": "uppercase",
-                                }
-                              }
-                            >
-                              OK
-                            </span>
-                          </div>
+                            OK
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -1590,11 +1620,11 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                 className="css-view-1dbjc4n"
                 style={
                   Object {
-                    "backgroundImage": "linear-gradient(45deg, transparent 75%, #fff 76%), linear-gradient(-45deg, transparent 75%, #fff 76%)",
-                    "backgroundPosition": "0 0",
+                    "backgroundImage": "linear-gradient(40deg, transparent 75%, #fff 76%), linear-gradient(-40deg, transparent 75%, #fff 76%)",
+                    "backgroundPosition": "-8px 0",
                     "backgroundRepeat": "repeat-x",
-                    "backgroundSize": "15px",
-                    "height": "15px",
+                    "backgroundSize": "16px",
+                    "height": "16px",
                     "position": "relative",
                     "width": "100%",
                     "zIndex": 5,

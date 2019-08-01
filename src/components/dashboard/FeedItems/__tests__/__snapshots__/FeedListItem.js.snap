@@ -44,9 +44,9 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
         "boxShadow": "0px 2px 4px rgba(34,34,34,0.16)",
         "cursor": "pointer",
         "flexDirection": "row",
-        "marginBottom": "6px",
         "marginLeft": "8px",
         "marginRight": "8px",
+        "marginTop": "8px",
         "maxHeight": "84px",
         "minHeight": "84px",
         "msFlexDirection": "row",
@@ -93,15 +93,15 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
         style={
           Object {
             "backgroundColor": "rgba(250,108,119,1.00)",
-            "backgroundImage": "url(wave.svg)",
-            "backgroundRepeat": "no-repeat",
+            "backgroundImage": "url(feedListItemPattern.svg)",
+            "backgroundRepeat": "repeat-y",
             "backgroundSize": "initial",
             "height": "100%",
             "left": "0px",
             "position": "absolute",
             "right": "0px",
             "top": "0px",
-            "width": "8px",
+            "width": "10px",
           }
         }
       />
@@ -115,23 +115,17 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
             "WebkitBoxFlex": 1,
             "WebkitBoxOrient": "horizontal",
             "WebkitBoxPack": "center",
-            "WebkitFlexBasis": "0%",
             "WebkitFlexDirection": "row",
             "WebkitFlexGrow": 1,
-            "WebkitFlexShrink": 1,
             "WebkitJustifyContent": "center",
             "alignItems": "center",
-            "flexBasis": "0%",
             "flexDirection": "row",
             "flexGrow": 1,
-            "flexShrink": 1,
             "justifyContent": "center",
             "msFlexAlign": "center",
             "msFlexDirection": "row",
-            "msFlexNegative": 1,
             "msFlexPack": "center",
             "msFlexPositive": 1,
-            "msFlexPreferredSize": "0%",
             "paddingBottom": "8px",
             "paddingLeft": "8px",
             "paddingRight": "8px",
@@ -141,52 +135,44 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
         }
       >
         <div
+          aria-disabled={true}
           className="css-view-1dbjc4n"
+          disabled={true}
+          onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
           style={
             Object {
-              "WebkitAlignItems": "flex-start",
-              "WebkitAlignSelf": "flex-end",
-              "WebkitBoxAlign": "start",
-              "WebkitBoxDirection": "normal",
-              "WebkitBoxOrient": "vertical",
-              "WebkitBoxPack": "justify",
-              "WebkitFlexDirection": "column",
-              "WebkitJustifyContent": "space-between",
-              "alignItems": "flex-start",
-              "alignSelf": "flex-end",
-              "flexDirection": "column",
-              "justifyContent": "space-between",
-              "msFlexAlign": "start",
-              "msFlexDirection": "column",
-              "msFlexItemAlign": "end",
-              "msFlexPack": "justify",
+              "MozTransitionProperty": "opacity",
+              "MozUserSelect": "none",
+              "WebkitTransitionDuration": "0.15s",
+              "WebkitTransitionProperty": "opacity",
+              "WebkitUserSelect": "none",
+              "marginTop": "auto",
+              "msUserSelect": "none",
+              "transitionDuration": "0.15s",
+              "transitionProperty": "opacity",
+              "userSelect": "none",
             }
           }
         >
           <div
-            aria-disabled={true}
             className="css-view-1dbjc4n"
-            disabled={true}
-            onKeyDown={[Function]}
-            onKeyUp={[Function]}
-            onResponderGrant={[Function]}
-            onResponderMove={[Function]}
-            onResponderRelease={[Function]}
-            onResponderTerminate={[Function]}
-            onResponderTerminationRequest={[Function]}
-            onStartShouldSetResponder={[Function]}
             style={
               Object {
-                "MozTransitionProperty": "opacity",
-                "MozUserSelect": "none",
-                "WebkitTransitionDuration": "0.15s",
-                "WebkitTransitionProperty": "opacity",
-                "WebkitUserSelect": "none",
-                "backgroundColor": "rgba(0,0,0,0.00)",
-                "msUserSelect": "none",
-                "transitionDuration": "0.15s",
-                "transitionProperty": "opacity",
-                "userSelect": "none",
+                "backgroundColor": "rgba(0,175,255,1.00)",
+                "borderBottomLeftRadius": "17px",
+                "borderBottomRightRadius": "17px",
+                "borderTopLeftRadius": "17px",
+                "borderTopRightRadius": "17px",
+                "height": "34px",
+                "marginTop": "auto",
+                "width": "34px",
               }
             }
           >
@@ -194,13 +180,18 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
               className="css-view-1dbjc4n"
               style={
                 Object {
-                  "backgroundColor": "rgba(238,238,238,1.00)",
+                  "WebkitFlexBasis": "auto",
                   "borderBottomLeftRadius": "17px",
                   "borderBottomRightRadius": "17px",
                   "borderTopLeftRadius": "17px",
                   "borderTopRightRadius": "17px",
-                  "height": "36px",
-                  "width": "36px",
+                  "flexBasis": "auto",
+                  "height": "34px",
+                  "msFlexPreferredSize": "auto",
+                  "overflowX": "hidden",
+                  "overflowY": "hidden",
+                  "width": "34px",
+                  "zIndex": 0,
                 }
               }
             >
@@ -208,48 +199,28 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
                 className="css-view-1dbjc4n"
                 style={
                   Object {
-                    "WebkitFlexBasis": "auto",
-                    "borderBottomLeftRadius": "17px",
-                    "borderBottomRightRadius": "17px",
-                    "borderTopLeftRadius": "17px",
-                    "borderTopRightRadius": "17px",
-                    "flexBasis": "auto",
-                    "height": "34px",
-                    "msFlexPreferredSize": "auto",
-                    "overflowX": "hidden",
-                    "overflowY": "hidden",
-                    "width": "34px",
-                    "zIndex": 0,
+                    "backgroundColor": "rgba(0,0,0,0.00)",
+                    "backgroundImage": "url(\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAkCAIAAAB0Xu9BAAAABGdBTUEAALGPC/xhBQAAAuNJREFUWEetmD1WHDEQhDdxRMYlnBFyBIccgdQhKVcgJeQMpE5JSTd2uqnvIGpVUqmm9TPrffD0eLMzUn+qVnXPwiFd/PP6eLh47v7EaazbmxsOxjhTT88z9hV7GoNF1cUCvN7TTPv/gf/+uQPm862MWTL6fff4HfDx4S79/oVAlAUwqOmYR0rnazuFnhfOy/ErMKkcBFOr1vOjUi2MFn4nuMil6OPh5eGANLhW3y6u3aH7ijEDCxgCvzFmimvc95TekZLyMSeJC68Bkw0kqUy1K87FlpGZqsGFCyqEtQNDdFUtFctTiuhnPKNysid/WFEFLE2O102XJdEE+8IgeuGsjeJyGHm/xHvQ3JtKVsGGp85g9rK6xMHtvHO9+WACYjk5vkVM6XQ6OZubCJvTfPicYPeHO2AKFl5NuF5UK1VDUbeLxh2BcRGKTQE3irHm3+vPj6cfCod50Eqv5QxtwBQUGhZhbrGVuRia1B4MNp6edwBxld2sl1splfHCwfsvCZfrCQyWmX10djjOlWJSSy3VQlS6LmfrgNvaieRWx1LZ6s9co+P0DLsy3OdLU3lWRclQsVcHJBcUQ0k9/WVVrmpRzYQzpgAdQcAXxZzUnFX3proannrYH+Vq6KkLi+UkarH09mC8YPr2RMWOlEqFkQClsykGEv7CqCUbXcG8+SaGvJ4a8d4y6epND+pEhxoN0vWUu5ntXlFb5/JT7JfJJqoTdy9u9qc7ax3xJRHqJLADWEl23cFWl4K9fvoaCJ2BHpmJ3s3z+O0U/DmzdMjB9alWZtg4e3yxzPa7lUR7nkvxLHO9+tvJX3mtSDpwX8GajB283I8R8a7D2MhUZr1iNWdny256yYLd52DwRYBtRMvE7rsmtxIUE+zLKQCDO4jlxB6CZ8M17GhuY+XTE8vNhQiIiSE82ZsGwk1pht4ZSpT0YVpon6EvevOXXH8JxVR78QzNuamupW/7UB7wO/+7sG5V4ekXb4cL5Lyv+4IAAAAASUVORK5CYII=\\")",
+                    "backgroundPosition": "center",
+                    "backgroundRepeat": "no-repeat",
+                    "backgroundSize": "cover",
+                    "bottom": "0px",
+                    "height": "100%",
+                    "left": "0px",
+                    "position": "absolute",
+                    "right": "0px",
+                    "top": "0px",
+                    "width": "100%",
+                    "zIndex": -1,
                   }
                 }
-              >
-                <div
-                  className="css-view-1dbjc4n"
-                  style={
-                    Object {
-                      "backgroundColor": "rgba(0,0,0,0.00)",
-                      "backgroundImage": "url(\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAkCAIAAAB0Xu9BAAAABGdBTUEAALGPC/xhBQAAAuNJREFUWEetmD1WHDEQhDdxRMYlnBFyBIccgdQhKVcgJeQMpE5JSTd2uqnvIGpVUqmm9TPrffD0eLMzUn+qVnXPwiFd/PP6eLh47v7EaazbmxsOxjhTT88z9hV7GoNF1cUCvN7TTPv/gf/+uQPm862MWTL6fff4HfDx4S79/oVAlAUwqOmYR0rnazuFnhfOy/ErMKkcBFOr1vOjUi2MFn4nuMil6OPh5eGANLhW3y6u3aH7ijEDCxgCvzFmimvc95TekZLyMSeJC68Bkw0kqUy1K87FlpGZqsGFCyqEtQNDdFUtFctTiuhnPKNysid/WFEFLE2O102XJdEE+8IgeuGsjeJyGHm/xHvQ3JtKVsGGp85g9rK6xMHtvHO9+WACYjk5vkVM6XQ6OZubCJvTfPicYPeHO2AKFl5NuF5UK1VDUbeLxh2BcRGKTQE3irHm3+vPj6cfCod50Eqv5QxtwBQUGhZhbrGVuRia1B4MNp6edwBxld2sl1splfHCwfsvCZfrCQyWmX10djjOlWJSSy3VQlS6LmfrgNvaieRWx1LZ6s9co+P0DLsy3OdLU3lWRclQsVcHJBcUQ0k9/WVVrmpRzYQzpgAdQcAXxZzUnFX3proannrYH+Vq6KkLi+UkarH09mC8YPr2RMWOlEqFkQClsykGEv7CqCUbXcG8+SaGvJ4a8d4y6epND+pEhxoN0vWUu5ntXlFb5/JT7JfJJqoTdy9u9qc7ax3xJRHqJLADWEl23cFWl4K9fvoaCJ2BHpmJ3s3z+O0U/DmzdMjB9alWZtg4e3yxzPa7lUR7nkvxLHO9+tvJX3mtSDpwX8GajB283I8R8a7D2MhUZr1iNWdny256yYLd52DwRYBtRMvE7rsmtxIUE+zLKQCDO4jlxB6CZ8M17GhuY+XTE8vNhQiIiSE82ZsGwk1pht4ZSpT0YVpon6EvevOXXH8JxVR78QzNuamupW/7UB7wO/+7sG5V4ekXb4cL5Lyv+4IAAAAASUVORK5CYII=\\")",
-                      "backgroundPosition": "center",
-                      "backgroundRepeat": "no-repeat",
-                      "backgroundSize": "cover",
-                      "bottom": "0px",
-                      "height": "100%",
-                      "left": "0px",
-                      "position": "absolute",
-                      "right": "0px",
-                      "top": "0px",
-                      "width": "100%",
-                      "zIndex": -1,
-                    }
-                  }
-                />
-                <img
-                  alt=""
-                  className="css-accessibilityImage-9pa8cd"
-                  draggable={false}
-                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAkCAIAAAB0Xu9BAAAABGdBTUEAALGPC/xhBQAAAuNJREFUWEetmD1WHDEQhDdxRMYlnBFyBIccgdQhKVcgJeQMpE5JSTd2uqnvIGpVUqmm9TPrffD0eLMzUn+qVnXPwiFd/PP6eLh47v7EaazbmxsOxjhTT88z9hV7GoNF1cUCvN7TTPv/gf/+uQPm862MWTL6fff4HfDx4S79/oVAlAUwqOmYR0rnazuFnhfOy/ErMKkcBFOr1vOjUi2MFn4nuMil6OPh5eGANLhW3y6u3aH7ijEDCxgCvzFmimvc95TekZLyMSeJC68Bkw0kqUy1K87FlpGZqsGFCyqEtQNDdFUtFctTiuhnPKNysid/WFEFLE2O102XJdEE+8IgeuGsjeJyGHm/xHvQ3JtKVsGGp85g9rK6xMHtvHO9+WACYjk5vkVM6XQ6OZubCJvTfPicYPeHO2AKFl5NuF5UK1VDUbeLxh2BcRGKTQE3irHm3+vPj6cfCod50Eqv5QxtwBQUGhZhbrGVuRia1B4MNp6edwBxld2sl1splfHCwfsvCZfrCQyWmX10djjOlWJSSy3VQlS6LmfrgNvaieRWx1LZ6s9co+P0DLsy3OdLU3lWRclQsVcHJBcUQ0k9/WVVrmpRzYQzpgAdQcAXxZzUnFX3proannrYH+Vq6KkLi+UkarH09mC8YPr2RMWOlEqFkQClsykGEv7CqCUbXcG8+SaGvJ4a8d4y6epND+pEhxoN0vWUu5ntXlFb5/JT7JfJJqoTdy9u9qc7ax3xJRHqJLADWEl23cFWl4K9fvoaCJ2BHpmJ3s3z+O0U/DmzdMjB9alWZtg4e3yxzPa7lUR7nkvxLHO9+tvJX3mtSDpwX8GajB283I8R8a7D2MhUZr1iNWdny256yYLd52DwRYBtRMvE7rsmtxIUE+zLKQCDO4jlxB6CZ8M17GhuY+XTE8vNhQiIiSE82ZsGwk1pht4ZSpT0YVpon6EvevOXXH8JxVR78QzNuamupW/7UB7wO/+7sG5V4ekXb4cL5Lyv+4IAAAAASUVORK5CYII="
-                />
-              </div>
+              />
+              <img
+                alt=""
+                className="css-accessibilityImage-9pa8cd"
+                draggable={false}
+                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAkCAIAAAB0Xu9BAAAABGdBTUEAALGPC/xhBQAAAuNJREFUWEetmD1WHDEQhDdxRMYlnBFyBIccgdQhKVcgJeQMpE5JSTd2uqnvIGpVUqmm9TPrffD0eLMzUn+qVnXPwiFd/PP6eLh47v7EaazbmxsOxjhTT88z9hV7GoNF1cUCvN7TTPv/gf/+uQPm862MWTL6fff4HfDx4S79/oVAlAUwqOmYR0rnazuFnhfOy/ErMKkcBFOr1vOjUi2MFn4nuMil6OPh5eGANLhW3y6u3aH7ijEDCxgCvzFmimvc95TekZLyMSeJC68Bkw0kqUy1K87FlpGZqsGFCyqEtQNDdFUtFctTiuhnPKNysid/WFEFLE2O102XJdEE+8IgeuGsjeJyGHm/xHvQ3JtKVsGGp85g9rK6xMHtvHO9+WACYjk5vkVM6XQ6OZubCJvTfPicYPeHO2AKFl5NuF5UK1VDUbeLxh2BcRGKTQE3irHm3+vPj6cfCod50Eqv5QxtwBQUGhZhbrGVuRia1B4MNp6edwBxld2sl1splfHCwfsvCZfrCQyWmX10djjOlWJSSy3VQlS6LmfrgNvaieRWx1LZ6s9co+P0DLsy3OdLU3lWRclQsVcHJBcUQ0k9/WVVrmpRzYQzpgAdQcAXxZzUnFX3proannrYH+Vq6KkLi+UkarH09mC8YPr2RMWOlEqFkQClsykGEv7CqCUbXcG8+SaGvJ4a8d4y6epND+pEhxoN0vWUu5ntXlFb5/JT7JfJJqoTdy9u9qc7ax3xJRHqJLADWEl23cFWl4K9fvoaCJ2BHpmJ3s3z+O0U/DmzdMjB9alWZtg4e3yxzPa7lUR7nkvxLHO9+tvJX3mtSDpwX8GajB283I8R8a7D2MhUZr1iNWdny256yYLd52DwRYBtRMvE7rsmtxIUE+zLKQCDO4jlxB6CZ8M17GhuY+XTE8vNhQiIiSE82ZsGwk1pht4ZSpT0YVpon6EvevOXXH8JxVR78QzNuamupW/7UB7wO/+7sG5V4ekXb4cL5Lyv+4IAAAAASUVORK5CYII="
+              />
             </div>
           </div>
         </div>
@@ -257,23 +228,14 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
-              "WebkitAlignItems": "stretch",
-              "WebkitBoxAlign": "stretch",
-              "WebkitBoxDirection": "normal",
               "WebkitBoxFlex": 1,
-              "WebkitBoxOrient": "vertical",
-              "WebkitBoxPack": "justify",
-              "WebkitFlexDirection": "column",
               "WebkitFlexGrow": 1,
-              "WebkitJustifyContent": "space-between",
-              "alignItems": "stretch",
-              "flexDirection": "column",
+              "WebkitFlexShrink": 1,
               "flexGrow": 1,
-              "justifyContent": "space-between",
+              "flexShrink": 1,
+              "height": "100%",
               "marginLeft": "8px",
-              "msFlexAlign": "stretch",
-              "msFlexDirection": "column",
-              "msFlexPack": "justify",
+              "msFlexNegative": 1,
               "msFlexPositive": 1,
             }
           }
@@ -296,11 +258,10 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
                 "display": "flex",
                 "flexDirection": "row",
                 "justifyContent": "space-between",
-                "marginBottom": "8px",
                 "msFlexAlign": "center",
                 "msFlexDirection": "row",
                 "msFlexPack": "justify",
-                "paddingBottom": "4px",
+                "paddingBottom": "8px",
               }
             }
           >
@@ -313,7 +274,7 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
                   "direction": "ltr",
                   "fontFamily": "Roboto",
                   "fontSize": "10px",
-                  "fontWeight": "normal",
+                  "fontWeight": "400",
                   "lineHeight": "22px",
                   "marginTop": "2px",
                   "textAlign": "center",
@@ -323,6 +284,26 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
               }
             >
               04/01/19 3:03 PM
+            </div>
+            <div
+              className="css-text-901oao"
+              dir="auto"
+              style={
+                Object {
+                  "color": "rgba(250,108,119,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto",
+                  "fontSize": "15px",
+                  "fontWeight": "700",
+                  "lineHeight": "22px",
+                  "marginLeft": "auto",
+                  "textAlign": "center",
+                  "textDecoration": "none",
+                  "textTransform": "none",
+                }
+              }
+            >
+              -
             </div>
             <div
               className="css-view-1dbjc4n"
@@ -348,10 +329,10 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
                   Object {
                     "color": "rgba(250,108,119,1.00)",
                     "direction": "ltr",
-                    "fontFamily": "Roboto-Bold",
+                    "fontFamily": "Roboto Slab",
                     "fontSize": "15px",
                     "fontWeight": "700",
-                    "lineHeight": "auto",
+                    "lineHeight": "22px",
                     "marginRight": "4px",
                     "textAlign": "right",
                     "textDecoration": "none",
@@ -368,10 +349,10 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
                   Object {
                     "color": "rgba(250,108,119,1.00)",
                     "direction": "ltr",
-                    "fontFamily": "Roboto-Bold",
+                    "fontFamily": "Roboto Slab",
                     "fontSize": "10px",
                     "fontWeight": "700",
-                    "lineHeight": "auto",
+                    "lineHeight": "22px",
                     "textAlign": "right",
                     "textDecoration": "none",
                     "textTransform": "none",
@@ -386,22 +367,17 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
             className="css-view-1dbjc4n"
             style={
               Object {
-                "WebkitAlignItems": "flex-start",
-                "WebkitBoxAlign": "start",
                 "WebkitBoxDirection": "normal",
                 "WebkitBoxOrient": "horizontal",
-                "WebkitBoxPack": "justify",
                 "WebkitFlexDirection": "row",
                 "WebkitFlexShrink": 1,
-                "WebkitJustifyContent": "space-between",
-                "alignItems": "flex-start",
+                "display": "flex",
                 "flexDirection": "row",
                 "flexShrink": 1,
-                "justifyContent": "space-between",
-                "msFlexAlign": "start",
+                "marginTop": "auto",
                 "msFlexDirection": "row",
                 "msFlexNegative": 1,
-                "msFlexPack": "justify",
+                "paddingTop": "4px",
               }
             }
           >
@@ -425,8 +401,9 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
                   "flexGrow": 1,
                   "flexShrink": 1,
                   "justifyContent": "flex-end",
-                  "marginBottom": "auto",
-                  "marginTop": "auto",
+                  "marginBottom": "0px",
+                  "marginRight": "8px",
+                  "marginTop": "0px",
                   "msFlexAlign": "start",
                   "msFlexDirection": "column",
                   "msFlexNegative": 1,
@@ -446,9 +423,8 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
                     "fontSize": "16px",
                     "fontWeight": "normal",
                     "lineHeight": "22px",
-                    "marginTop": "auto",
-                    "paddingRight": "4px",
-                    "textAlign": "center",
+                    "marginBottom": "4px",
+                    "textAlign": "left",
                     "textDecoration": "none",
                     "textTransform": "capitalize",
                   }
@@ -462,7 +438,7 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
                       "color": "rgba(34,34,34,1.00)",
                       "direction": "ltr",
                       "fontFamily": "Roboto",
-                      "fontSize": "8px",
+                      "fontSize": "10px",
                       "fontWeight": "normal",
                       "lineHeight": "22px",
                       "textAlign": "center",
@@ -481,9 +457,9 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
                     Object {
                       "color": "rgba(34,34,34,1.00)",
                       "direction": "ltr",
-                      "fontFamily": "Roboto-Medium",
+                      "fontFamily": "Roboto",
                       "fontSize": "16px",
-                      "fontWeight": "normal",
+                      "fontWeight": "500",
                       "lineHeight": "22px",
                       "textAlign": "center",
                       "textDecoration": "none",
@@ -505,6 +481,7 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
                     "fontSize": "10px",
                     "fontWeight": "normal",
                     "lineHeight": "22px",
+                    "paddingBottom": "4px",
                     "textAlign": "center",
                     "textDecoration": "none",
                     "textTransform": "capitalize",
@@ -515,41 +492,20 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
               </div>
             </div>
             <div
-              className="css-view-1dbjc4n"
+              className="css-text-901oao"
+              dir="auto"
               style={
                 Object {
-                  "WebkitAlignItems": "flex-end",
-                  "WebkitBoxAlign": "end",
-                  "WebkitBoxDirection": "normal",
-                  "WebkitBoxOrient": "vertical",
-                  "WebkitBoxPack": "justify",
-                  "WebkitFlexDirection": "column",
-                  "WebkitJustifyContent": "space-between",
-                  "alignItems": "flex-end",
-                  "flexDirection": "column",
-                  "justifyContent": "space-between",
-                  "msFlexAlign": "end",
-                  "msFlexDirection": "column",
-                  "msFlexPack": "justify",
+                  "color": "rgba(250,108,119,1.00)",
+                  "fontFamily": "gooddollar",
+                  "fontSize": "34px",
+                  "fontStyle": "normal",
+                  "fontWeight": "normal",
+                  "marginRight": "0px",
                 }
               }
             >
-              <div
-                className="css-text-901oao"
-                dir="auto"
-                style={
-                  Object {
-                    "color": "rgba(250,108,119,1.00)",
-                    "fontFamily": "gooddollar",
-                    "fontSize": "34px",
-                    "fontStyle": "normal",
-                    "fontWeight": "normal",
-                    "marginRight": "0px",
-                  }
-                }
-              >
-                
-              </div>
+              
             </div>
           </div>
         </div>
@@ -603,9 +559,9 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
         "boxShadow": "0px 2px 4px rgba(34,34,34,0.16)",
         "cursor": "pointer",
         "flexDirection": "row",
-        "marginBottom": "6px",
         "marginLeft": "8px",
         "marginRight": "8px",
+        "marginTop": "8px",
         "maxHeight": "84px",
         "minHeight": "84px",
         "msFlexDirection": "row",
@@ -652,15 +608,15 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
         style={
           Object {
             "backgroundColor": "rgba(0,195,174,1.00)",
-            "backgroundImage": "url(wave.svg)",
-            "backgroundRepeat": "no-repeat",
+            "backgroundImage": "url(feedListItemPattern.svg)",
+            "backgroundRepeat": "repeat-y",
             "backgroundSize": "initial",
             "height": "100%",
             "left": "0px",
             "position": "absolute",
             "right": "0px",
             "top": "0px",
-            "width": "8px",
+            "width": "10px",
           }
         }
       />
@@ -674,23 +630,17 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
             "WebkitBoxFlex": 1,
             "WebkitBoxOrient": "horizontal",
             "WebkitBoxPack": "center",
-            "WebkitFlexBasis": "0%",
             "WebkitFlexDirection": "row",
             "WebkitFlexGrow": 1,
-            "WebkitFlexShrink": 1,
             "WebkitJustifyContent": "center",
             "alignItems": "center",
-            "flexBasis": "0%",
             "flexDirection": "row",
             "flexGrow": 1,
-            "flexShrink": 1,
             "justifyContent": "center",
             "msFlexAlign": "center",
             "msFlexDirection": "row",
-            "msFlexNegative": 1,
             "msFlexPack": "center",
             "msFlexPositive": 1,
-            "msFlexPreferredSize": "0%",
             "paddingBottom": "8px",
             "paddingLeft": "8px",
             "paddingRight": "8px",
@@ -700,52 +650,44 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
         }
       >
         <div
+          aria-disabled={true}
           className="css-view-1dbjc4n"
+          disabled={true}
+          onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
           style={
             Object {
-              "WebkitAlignItems": "flex-start",
-              "WebkitAlignSelf": "flex-end",
-              "WebkitBoxAlign": "start",
-              "WebkitBoxDirection": "normal",
-              "WebkitBoxOrient": "vertical",
-              "WebkitBoxPack": "justify",
-              "WebkitFlexDirection": "column",
-              "WebkitJustifyContent": "space-between",
-              "alignItems": "flex-start",
-              "alignSelf": "flex-end",
-              "flexDirection": "column",
-              "justifyContent": "space-between",
-              "msFlexAlign": "start",
-              "msFlexDirection": "column",
-              "msFlexItemAlign": "end",
-              "msFlexPack": "justify",
+              "MozTransitionProperty": "opacity",
+              "MozUserSelect": "none",
+              "WebkitTransitionDuration": "0.15s",
+              "WebkitTransitionProperty": "opacity",
+              "WebkitUserSelect": "none",
+              "marginTop": "auto",
+              "msUserSelect": "none",
+              "transitionDuration": "0.15s",
+              "transitionProperty": "opacity",
+              "userSelect": "none",
             }
           }
         >
           <div
-            aria-disabled={true}
             className="css-view-1dbjc4n"
-            disabled={true}
-            onKeyDown={[Function]}
-            onKeyUp={[Function]}
-            onResponderGrant={[Function]}
-            onResponderMove={[Function]}
-            onResponderRelease={[Function]}
-            onResponderTerminate={[Function]}
-            onResponderTerminationRequest={[Function]}
-            onStartShouldSetResponder={[Function]}
             style={
               Object {
-                "MozTransitionProperty": "opacity",
-                "MozUserSelect": "none",
-                "WebkitTransitionDuration": "0.15s",
-                "WebkitTransitionProperty": "opacity",
-                "WebkitUserSelect": "none",
-                "backgroundColor": "rgba(0,0,0,0.00)",
-                "msUserSelect": "none",
-                "transitionDuration": "0.15s",
-                "transitionProperty": "opacity",
-                "userSelect": "none",
+                "backgroundColor": "rgba(0,175,255,1.00)",
+                "borderBottomLeftRadius": "17px",
+                "borderBottomRightRadius": "17px",
+                "borderTopLeftRadius": "17px",
+                "borderTopRightRadius": "17px",
+                "height": "34px",
+                "marginTop": "auto",
+                "width": "34px",
               }
             }
           >
@@ -753,13 +695,18 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
               className="css-view-1dbjc4n"
               style={
                 Object {
-                  "backgroundColor": "rgba(238,238,238,1.00)",
+                  "WebkitFlexBasis": "auto",
                   "borderBottomLeftRadius": "17px",
                   "borderBottomRightRadius": "17px",
                   "borderTopLeftRadius": "17px",
                   "borderTopRightRadius": "17px",
-                  "height": "36px",
-                  "width": "36px",
+                  "flexBasis": "auto",
+                  "height": "34px",
+                  "msFlexPreferredSize": "auto",
+                  "overflowX": "hidden",
+                  "overflowY": "hidden",
+                  "width": "34px",
+                  "zIndex": 0,
                 }
               }
             >
@@ -767,48 +714,28 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
                 className="css-view-1dbjc4n"
                 style={
                   Object {
-                    "WebkitFlexBasis": "auto",
-                    "borderBottomLeftRadius": "17px",
-                    "borderBottomRightRadius": "17px",
-                    "borderTopLeftRadius": "17px",
-                    "borderTopRightRadius": "17px",
-                    "flexBasis": "auto",
-                    "height": "34px",
-                    "msFlexPreferredSize": "auto",
-                    "overflowX": "hidden",
-                    "overflowY": "hidden",
-                    "width": "34px",
-                    "zIndex": 0,
+                    "backgroundColor": "rgba(0,0,0,0.00)",
+                    "backgroundImage": "url(\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAkCAIAAAB0Xu9BAAAABGdBTUEAALGPC/xhBQAAAuNJREFUWEetmD1WHDEQhDdxRMYlnBFyBIccgdQhKVcgJeQMpE5JSTd2uqnvIGpVUqmm9TPrffD0eLMzUn+qVnXPwiFd/PP6eLh47v7EaazbmxsOxjhTT88z9hV7GoNF1cUCvN7TTPv/gf/+uQPm862MWTL6fff4HfDx4S79/oVAlAUwqOmYR0rnazuFnhfOy/ErMKkcBFOr1vOjUi2MFn4nuMil6OPh5eGANLhW3y6u3aH7ijEDCxgCvzFmimvc95TekZLyMSeJC68Bkw0kqUy1K87FlpGZqsGFCyqEtQNDdFUtFctTiuhnPKNysid/WFEFLE2O102XJdEE+8IgeuGsjeJyGHm/xHvQ3JtKVsGGp85g9rK6xMHtvHO9+WACYjk5vkVM6XQ6OZubCJvTfPicYPeHO2AKFl5NuF5UK1VDUbeLxh2BcRGKTQE3irHm3+vPj6cfCod50Eqv5QxtwBQUGhZhbrGVuRia1B4MNp6edwBxld2sl1splfHCwfsvCZfrCQyWmX10djjOlWJSSy3VQlS6LmfrgNvaieRWx1LZ6s9co+P0DLsy3OdLU3lWRclQsVcHJBcUQ0k9/WVVrmpRzYQzpgAdQcAXxZzUnFX3proannrYH+Vq6KkLi+UkarH09mC8YPr2RMWOlEqFkQClsykGEv7CqCUbXcG8+SaGvJ4a8d4y6epND+pEhxoN0vWUu5ntXlFb5/JT7JfJJqoTdy9u9qc7ax3xJRHqJLADWEl23cFWl4K9fvoaCJ2BHpmJ3s3z+O0U/DmzdMjB9alWZtg4e3yxzPa7lUR7nkvxLHO9+tvJX3mtSDpwX8GajB283I8R8a7D2MhUZr1iNWdny256yYLd52DwRYBtRMvE7rsmtxIUE+zLKQCDO4jlxB6CZ8M17GhuY+XTE8vNhQiIiSE82ZsGwk1pht4ZSpT0YVpon6EvevOXXH8JxVR78QzNuamupW/7UB7wO/+7sG5V4ekXb4cL5Lyv+4IAAAAASUVORK5CYII=\\")",
+                    "backgroundPosition": "center",
+                    "backgroundRepeat": "no-repeat",
+                    "backgroundSize": "cover",
+                    "bottom": "0px",
+                    "height": "100%",
+                    "left": "0px",
+                    "position": "absolute",
+                    "right": "0px",
+                    "top": "0px",
+                    "width": "100%",
+                    "zIndex": -1,
                   }
                 }
-              >
-                <div
-                  className="css-view-1dbjc4n"
-                  style={
-                    Object {
-                      "backgroundColor": "rgba(0,0,0,0.00)",
-                      "backgroundImage": "url(\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAkCAIAAAB0Xu9BAAAABGdBTUEAALGPC/xhBQAAAuNJREFUWEetmD1WHDEQhDdxRMYlnBFyBIccgdQhKVcgJeQMpE5JSTd2uqnvIGpVUqmm9TPrffD0eLMzUn+qVnXPwiFd/PP6eLh47v7EaazbmxsOxjhTT88z9hV7GoNF1cUCvN7TTPv/gf/+uQPm862MWTL6fff4HfDx4S79/oVAlAUwqOmYR0rnazuFnhfOy/ErMKkcBFOr1vOjUi2MFn4nuMil6OPh5eGANLhW3y6u3aH7ijEDCxgCvzFmimvc95TekZLyMSeJC68Bkw0kqUy1K87FlpGZqsGFCyqEtQNDdFUtFctTiuhnPKNysid/WFEFLE2O102XJdEE+8IgeuGsjeJyGHm/xHvQ3JtKVsGGp85g9rK6xMHtvHO9+WACYjk5vkVM6XQ6OZubCJvTfPicYPeHO2AKFl5NuF5UK1VDUbeLxh2BcRGKTQE3irHm3+vPj6cfCod50Eqv5QxtwBQUGhZhbrGVuRia1B4MNp6edwBxld2sl1splfHCwfsvCZfrCQyWmX10djjOlWJSSy3VQlS6LmfrgNvaieRWx1LZ6s9co+P0DLsy3OdLU3lWRclQsVcHJBcUQ0k9/WVVrmpRzYQzpgAdQcAXxZzUnFX3proannrYH+Vq6KkLi+UkarH09mC8YPr2RMWOlEqFkQClsykGEv7CqCUbXcG8+SaGvJ4a8d4y6epND+pEhxoN0vWUu5ntXlFb5/JT7JfJJqoTdy9u9qc7ax3xJRHqJLADWEl23cFWl4K9fvoaCJ2BHpmJ3s3z+O0U/DmzdMjB9alWZtg4e3yxzPa7lUR7nkvxLHO9+tvJX3mtSDpwX8GajB283I8R8a7D2MhUZr1iNWdny256yYLd52DwRYBtRMvE7rsmtxIUE+zLKQCDO4jlxB6CZ8M17GhuY+XTE8vNhQiIiSE82ZsGwk1pht4ZSpT0YVpon6EvevOXXH8JxVR78QzNuamupW/7UB7wO/+7sG5V4ekXb4cL5Lyv+4IAAAAASUVORK5CYII=\\")",
-                      "backgroundPosition": "center",
-                      "backgroundRepeat": "no-repeat",
-                      "backgroundSize": "cover",
-                      "bottom": "0px",
-                      "height": "100%",
-                      "left": "0px",
-                      "position": "absolute",
-                      "right": "0px",
-                      "top": "0px",
-                      "width": "100%",
-                      "zIndex": -1,
-                    }
-                  }
-                />
-                <img
-                  alt=""
-                  className="css-accessibilityImage-9pa8cd"
-                  draggable={false}
-                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAkCAIAAAB0Xu9BAAAABGdBTUEAALGPC/xhBQAAAuNJREFUWEetmD1WHDEQhDdxRMYlnBFyBIccgdQhKVcgJeQMpE5JSTd2uqnvIGpVUqmm9TPrffD0eLMzUn+qVnXPwiFd/PP6eLh47v7EaazbmxsOxjhTT88z9hV7GoNF1cUCvN7TTPv/gf/+uQPm862MWTL6fff4HfDx4S79/oVAlAUwqOmYR0rnazuFnhfOy/ErMKkcBFOr1vOjUi2MFn4nuMil6OPh5eGANLhW3y6u3aH7ijEDCxgCvzFmimvc95TekZLyMSeJC68Bkw0kqUy1K87FlpGZqsGFCyqEtQNDdFUtFctTiuhnPKNysid/WFEFLE2O102XJdEE+8IgeuGsjeJyGHm/xHvQ3JtKVsGGp85g9rK6xMHtvHO9+WACYjk5vkVM6XQ6OZubCJvTfPicYPeHO2AKFl5NuF5UK1VDUbeLxh2BcRGKTQE3irHm3+vPj6cfCod50Eqv5QxtwBQUGhZhbrGVuRia1B4MNp6edwBxld2sl1splfHCwfsvCZfrCQyWmX10djjOlWJSSy3VQlS6LmfrgNvaieRWx1LZ6s9co+P0DLsy3OdLU3lWRclQsVcHJBcUQ0k9/WVVrmpRzYQzpgAdQcAXxZzUnFX3proannrYH+Vq6KkLi+UkarH09mC8YPr2RMWOlEqFkQClsykGEv7CqCUbXcG8+SaGvJ4a8d4y6epND+pEhxoN0vWUu5ntXlFb5/JT7JfJJqoTdy9u9qc7ax3xJRHqJLADWEl23cFWl4K9fvoaCJ2BHpmJ3s3z+O0U/DmzdMjB9alWZtg4e3yxzPa7lUR7nkvxLHO9+tvJX3mtSDpwX8GajB283I8R8a7D2MhUZr1iNWdny256yYLd52DwRYBtRMvE7rsmtxIUE+zLKQCDO4jlxB6CZ8M17GhuY+XTE8vNhQiIiSE82ZsGwk1pht4ZSpT0YVpon6EvevOXXH8JxVR78QzNuamupW/7UB7wO/+7sG5V4ekXb4cL5Lyv+4IAAAAASUVORK5CYII="
-                />
-              </div>
+              />
+              <img
+                alt=""
+                className="css-accessibilityImage-9pa8cd"
+                draggable={false}
+                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAkCAIAAAB0Xu9BAAAABGdBTUEAALGPC/xhBQAAAuNJREFUWEetmD1WHDEQhDdxRMYlnBFyBIccgdQhKVcgJeQMpE5JSTd2uqnvIGpVUqmm9TPrffD0eLMzUn+qVnXPwiFd/PP6eLh47v7EaazbmxsOxjhTT88z9hV7GoNF1cUCvN7TTPv/gf/+uQPm862MWTL6fff4HfDx4S79/oVAlAUwqOmYR0rnazuFnhfOy/ErMKkcBFOr1vOjUi2MFn4nuMil6OPh5eGANLhW3y6u3aH7ijEDCxgCvzFmimvc95TekZLyMSeJC68Bkw0kqUy1K87FlpGZqsGFCyqEtQNDdFUtFctTiuhnPKNysid/WFEFLE2O102XJdEE+8IgeuGsjeJyGHm/xHvQ3JtKVsGGp85g9rK6xMHtvHO9+WACYjk5vkVM6XQ6OZubCJvTfPicYPeHO2AKFl5NuF5UK1VDUbeLxh2BcRGKTQE3irHm3+vPj6cfCod50Eqv5QxtwBQUGhZhbrGVuRia1B4MNp6edwBxld2sl1splfHCwfsvCZfrCQyWmX10djjOlWJSSy3VQlS6LmfrgNvaieRWx1LZ6s9co+P0DLsy3OdLU3lWRclQsVcHJBcUQ0k9/WVVrmpRzYQzpgAdQcAXxZzUnFX3proannrYH+Vq6KkLi+UkarH09mC8YPr2RMWOlEqFkQClsykGEv7CqCUbXcG8+SaGvJ4a8d4y6epND+pEhxoN0vWUu5ntXlFb5/JT7JfJJqoTdy9u9qc7ax3xJRHqJLADWEl23cFWl4K9fvoaCJ2BHpmJ3s3z+O0U/DmzdMjB9alWZtg4e3yxzPa7lUR7nkvxLHO9+tvJX3mtSDpwX8GajB283I8R8a7D2MhUZr1iNWdny256yYLd52DwRYBtRMvE7rsmtxIUE+zLKQCDO4jlxB6CZ8M17GhuY+XTE8vNhQiIiSE82ZsGwk1pht4ZSpT0YVpon6EvevOXXH8JxVR78QzNuamupW/7UB7wO/+7sG5V4ekXb4cL5Lyv+4IAAAAASUVORK5CYII="
+              />
             </div>
           </div>
         </div>
@@ -816,23 +743,14 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
-              "WebkitAlignItems": "stretch",
-              "WebkitBoxAlign": "stretch",
-              "WebkitBoxDirection": "normal",
               "WebkitBoxFlex": 1,
-              "WebkitBoxOrient": "vertical",
-              "WebkitBoxPack": "justify",
-              "WebkitFlexDirection": "column",
               "WebkitFlexGrow": 1,
-              "WebkitJustifyContent": "space-between",
-              "alignItems": "stretch",
-              "flexDirection": "column",
+              "WebkitFlexShrink": 1,
               "flexGrow": 1,
-              "justifyContent": "space-between",
+              "flexShrink": 1,
+              "height": "100%",
               "marginLeft": "8px",
-              "msFlexAlign": "stretch",
-              "msFlexDirection": "column",
-              "msFlexPack": "justify",
+              "msFlexNegative": 1,
               "msFlexPositive": 1,
             }
           }
@@ -855,11 +773,10 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
                 "display": "flex",
                 "flexDirection": "row",
                 "justifyContent": "space-between",
-                "marginBottom": "8px",
                 "msFlexAlign": "center",
                 "msFlexDirection": "row",
                 "msFlexPack": "justify",
-                "paddingBottom": "4px",
+                "paddingBottom": "8px",
               }
             }
           >
@@ -872,7 +789,7 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
                   "direction": "ltr",
                   "fontFamily": "Roboto",
                   "fontSize": "10px",
-                  "fontWeight": "normal",
+                  "fontWeight": "400",
                   "lineHeight": "22px",
                   "marginTop": "2px",
                   "textAlign": "center",
@@ -882,6 +799,26 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
               }
             >
               04/01/19 3:03 PM
+            </div>
+            <div
+              className="css-text-901oao"
+              dir="auto"
+              style={
+                Object {
+                  "color": "rgba(0,195,174,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto",
+                  "fontSize": "15px",
+                  "fontWeight": "700",
+                  "lineHeight": "22px",
+                  "marginLeft": "auto",
+                  "textAlign": "center",
+                  "textDecoration": "none",
+                  "textTransform": "none",
+                }
+              }
+            >
+              +
             </div>
             <div
               className="css-view-1dbjc4n"
@@ -907,10 +844,10 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
                   Object {
                     "color": "rgba(0,195,174,1.00)",
                     "direction": "ltr",
-                    "fontFamily": "Roboto-Bold",
+                    "fontFamily": "Roboto Slab",
                     "fontSize": "15px",
                     "fontWeight": "700",
-                    "lineHeight": "auto",
+                    "lineHeight": "22px",
                     "marginRight": "4px",
                     "textAlign": "right",
                     "textDecoration": "none",
@@ -927,10 +864,10 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
                   Object {
                     "color": "rgba(0,195,174,1.00)",
                     "direction": "ltr",
-                    "fontFamily": "Roboto-Bold",
+                    "fontFamily": "Roboto Slab",
                     "fontSize": "10px",
                     "fontWeight": "700",
-                    "lineHeight": "auto",
+                    "lineHeight": "22px",
                     "textAlign": "right",
                     "textDecoration": "none",
                     "textTransform": "none",
@@ -945,22 +882,17 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
             className="css-view-1dbjc4n"
             style={
               Object {
-                "WebkitAlignItems": "flex-start",
-                "WebkitBoxAlign": "start",
                 "WebkitBoxDirection": "normal",
                 "WebkitBoxOrient": "horizontal",
-                "WebkitBoxPack": "justify",
                 "WebkitFlexDirection": "row",
                 "WebkitFlexShrink": 1,
-                "WebkitJustifyContent": "space-between",
-                "alignItems": "flex-start",
+                "display": "flex",
                 "flexDirection": "row",
                 "flexShrink": 1,
-                "justifyContent": "space-between",
-                "msFlexAlign": "start",
+                "marginTop": "auto",
                 "msFlexDirection": "row",
                 "msFlexNegative": 1,
-                "msFlexPack": "justify",
+                "paddingTop": "4px",
               }
             }
           >
@@ -984,8 +916,9 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
                   "flexGrow": 1,
                   "flexShrink": 1,
                   "justifyContent": "flex-end",
-                  "marginBottom": "auto",
-                  "marginTop": "auto",
+                  "marginBottom": "0px",
+                  "marginRight": "8px",
+                  "marginTop": "0px",
                   "msFlexAlign": "start",
                   "msFlexDirection": "column",
                   "msFlexNegative": 1,
@@ -1005,9 +938,8 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
                     "fontSize": "16px",
                     "fontWeight": "normal",
                     "lineHeight": "22px",
-                    "marginTop": "auto",
-                    "paddingRight": "4px",
-                    "textAlign": "center",
+                    "marginBottom": "4px",
+                    "textAlign": "left",
                     "textDecoration": "none",
                     "textTransform": "capitalize",
                   }
@@ -1021,7 +953,7 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
                       "color": "rgba(34,34,34,1.00)",
                       "direction": "ltr",
                       "fontFamily": "Roboto",
-                      "fontSize": "8px",
+                      "fontSize": "10px",
                       "fontWeight": "normal",
                       "lineHeight": "22px",
                       "textAlign": "center",
@@ -1040,9 +972,9 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
                     Object {
                       "color": "rgba(34,34,34,1.00)",
                       "direction": "ltr",
-                      "fontFamily": "Roboto-Medium",
+                      "fontFamily": "Roboto",
                       "fontSize": "16px",
-                      "fontWeight": "normal",
+                      "fontWeight": "500",
                       "lineHeight": "22px",
                       "textAlign": "center",
                       "textDecoration": "none",
@@ -1064,6 +996,7 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
                     "fontSize": "10px",
                     "fontWeight": "normal",
                     "lineHeight": "22px",
+                    "paddingBottom": "4px",
                     "textAlign": "center",
                     "textDecoration": "none",
                     "textTransform": "capitalize",
@@ -1074,41 +1007,20 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
               </div>
             </div>
             <div
-              className="css-view-1dbjc4n"
+              className="css-text-901oao"
+              dir="auto"
               style={
                 Object {
-                  "WebkitAlignItems": "flex-end",
-                  "WebkitBoxAlign": "end",
-                  "WebkitBoxDirection": "normal",
-                  "WebkitBoxOrient": "vertical",
-                  "WebkitBoxPack": "justify",
-                  "WebkitFlexDirection": "column",
-                  "WebkitJustifyContent": "space-between",
-                  "alignItems": "flex-end",
-                  "flexDirection": "column",
-                  "justifyContent": "space-between",
-                  "msFlexAlign": "end",
-                  "msFlexDirection": "column",
-                  "msFlexPack": "justify",
+                  "color": "rgba(0,195,174,1.00)",
+                  "fontFamily": "gooddollar",
+                  "fontSize": "34px",
+                  "fontStyle": "normal",
+                  "fontWeight": "normal",
+                  "marginRight": "0px",
                 }
               }
             >
-              <div
-                className="css-text-901oao"
-                dir="auto"
-                style={
-                  Object {
-                    "color": "rgba(0,195,174,1.00)",
-                    "fontFamily": "gooddollar",
-                    "fontSize": "34px",
-                    "fontStyle": "normal",
-                    "fontWeight": "normal",
-                    "marginRight": "0px",
-                  }
-                }
-              >
-                
-              </div>
+              
             </div>
           </div>
         </div>

@@ -137,9 +137,9 @@ for participating in GoodDollar's
               Object {
                 "color": "rgba(12,38,61,1.00)",
                 "direction": "ltr",
-                "fontFamily": "Roboto-Bold",
+                "fontFamily": "Roboto",
                 "fontSize": "22px",
-                "fontWeight": "normal",
+                "fontWeight": "700",
                 "lineHeight": "30px",
                 "textAlign": "center",
                 "textDecoration": "none",
@@ -253,7 +253,7 @@ for participating in GoodDollar's
             }
           }
         >
-          V2.0
+          Vv0
         </div>
       </div>
     </div>

@@ -1,47 +1,46 @@
 // @flow
 import React from 'react'
-import { View } from 'react-native'
 import { Button as BaseButton, DefaultTheme, Text } from 'react-native-paper'
 import { withStyles } from '../../../lib/styles'
 import Icon from '../view/Icon'
+import normalize from '../../../lib/utils/normalizeText'
 
 type IconFunction = (string, number) => React.Node
 
-// import normalize from '../../../lib/utils/normalizeText'
-
 export type ButtonProps = {
   children: any,
-  theme: DefaultTheme,
-  disabled?: boolean,
-  mode?: string,
   color?: string,
   dark?: boolean,
-  style?: any,
-  onPress: any,
-  loading?: boolean,
-  uppercase?: boolean,
+  disabled?: boolean,
   icon?: string | IconFunction,
   iconAlignment?: string,
   iconSize?: number,
+  loading?: boolean,
+  mode?: string,
+  onPress: any,
+  style?: any,
   styles?: any,
+  textStyle?: any,
+  theme: DefaultTheme,
+  uppercase?: boolean,
 }
 
 type TextContentProps = {
   children: any,
   dark?: boolean,
-  uppercase?: boolean,
   styles: any,
   textStyle: any,
+  uppercase?: boolean,
 }
 
 const mapPropsToStyles = ({ theme }) => ({
-  button: {
-    justifyContent: 'center',
+  buttonStyle: {
+    alignItems: 'center',
     borderColor: theme.colors.primary,
-  },
-  buttonWrapperText: {
-    minHeight: 28,
     justifyContent: 'center',
+    minHeight: 44,
+    paddingLeft: 0,
+    paddingRight: 0,
   },
   leftIcon: {
     marginRight: theme.sizes.default,
@@ -50,8 +49,18 @@ const mapPropsToStyles = ({ theme }) => ({
     marginLeft: theme.sizes.default,
   },
   buttonText: {
-    fontWeight: 'bold',
-    lineHeight: 0,
+    alignItems: 'center',
+    fontFamily: theme.fonts.default,
+    fontSize: normalize(16),
+    fontWeight: '500',
+    justifyContent: 'center',
+    marginBottom: 0,
+    marginLeft: 0,
+    marginRight: 0,
+    marginTop: 0,
+    paddingBottom: 0,
+    paddingLeft: 0,
+    paddingRight: 0,
     paddingTop: 1,
   },
 })
@@ -60,18 +69,16 @@ const TextContent = withStyles(mapPropsToStyles)(
   ({ children, dark, uppercase, styles, textStyle }: TextContentProps) => {
     if (typeof children === 'string') {
       return (
-        <View style={styles.buttonWrapperText}>
-          <Text
-            style={[
-              styles.buttonText,
-              { color: dark && 'white' },
-              { textTransform: uppercase ? 'uppercase' : 'none' },
-              textStyle,
-            ]}
-          >
-            {children}
-          </Text>
-        </View>
+        <Text
+          style={[
+            styles.buttonText,
+            { color: dark && 'white' },
+            { textTransform: uppercase ? 'uppercase' : 'none' },
+            textStyle,
+          ]}
+        >
+          {children}
+        </Text>
       )
     }
 
@@ -80,11 +87,11 @@ const TextContent = withStyles(mapPropsToStyles)(
 )
 
 type IconButtonProps = {
-  theme: DefaultTheme,
   dark?: boolean,
   icon?: string | IconFunction,
   size: number,
   style: any,
+  theme: DefaultTheme,
 }
 
 const IconButton = ({ theme, dark, icon, size, style }: IconButtonProps) => {
@@ -122,7 +129,7 @@ const CustomButton = (props: ButtonProps) => {
       dark={dark}
       disabled={disabled}
       mode={mode}
-      style={[styles.button, style]}
+      style={[styles.buttonStyle, style]}
       theme={{ ...theme, roundness: 50 }}
       uppercase={uppercase}
       {...buttonProps}

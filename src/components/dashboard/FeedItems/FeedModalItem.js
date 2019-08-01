@@ -14,6 +14,8 @@ import type { FeedEventProps } from './EventProps'
 import EventCounterParty from './EventCounterParty'
 import getEventSettingsByType from './EventSettingsByType'
 import EventIcon from './EventIcon'
+import receiveIllustation from './img/receive.svg'
+import sendIllustration from './img/send.svg'
 
 /**
  * Render modal item according to the type for feed list in horizontal view
@@ -30,9 +32,9 @@ const FeedModalItem = (props: FeedEventProps) => {
   const getImageByType = type => {
     return (
       {
-        claim: require('./img/receive.png'),
-        receive: require('./img/receive.png'),
-        send: require('./img/send.png'),
+        claim: receiveIllustation,
+        receive: receiveIllustation,
+        send: sendIllustration,
       }[type] || null
     )
   }
@@ -88,21 +90,21 @@ const getStylesFromProps = ({ theme }) => {
       flexShrink: 0,
       justifyContent: 'center',
       flexDirection: 'row',
-      marginBottom: normalize(15),
+      marginBottom: 15,
     },
     mainImage: {
-      height: normalize(110),
-      width: normalize(70),
+      height: 110,
+      width: 70,
     },
     dateAndAmount: {
       alignItems: 'center',
       display: 'flex',
       flexDirection: 'row',
       justifyContent: 'space-between',
-      marginBottom: normalize(12),
+      marginBottom: 12,
     },
     feedItem: {
-      paddingRight: normalize(4),
+      paddingRight: 4,
     },
     date: {
       color: theme.colors.darkGray,
@@ -110,24 +112,28 @@ const getStylesFromProps = ({ theme }) => {
     },
     bigNumberStyles: {
       fontSize: normalize(22),
-      marginRight: normalize(4),
+      marginRight: 4,
     },
     bigNumberUnitStyles: {
       fontSize: normalize(12),
     },
     transactionDetails: {
       alignItems: 'center',
-      borderBottomWidth: normalize(2),
-      borderTopWidth: normalize(2),
+      borderBottomWidth: 2,
+      borderTopWidth: 2,
       display: 'flex',
       flexDirection: 'row',
       justifyContent: 'flex-start',
-      marginBottom: normalize(18),
-      paddingBottom: normalize(14),
-      paddingTop: normalize(14),
+      marginBottom: 18,
+      paddingBottom: 14,
+      paddingTop: 14,
     },
     avatar: {
-      marginRight: normalize(7),
+      backgroundColor: theme.colors.lightGray,
+      borderRadius: '50%',
+      height: 34,
+      marginRight: 7,
+      width: 34,
     },
     icon: {
       marginLeft: 'auto',
@@ -148,7 +154,7 @@ const getStylesFromProps = ({ theme }) => {
     },
     rightButton: {
       marginLeft: 'auto',
-      minWidth: normalize(80),
+      minWidth: 80,
     },
   }
 }

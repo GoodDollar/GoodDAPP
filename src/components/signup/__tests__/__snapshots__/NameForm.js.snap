@@ -57,8 +57,8 @@ exports[`NameForm matches snapshot 1`] = `
           "flexGrow": 1,
           "msFlexPositive": 1,
           "paddingBottom": "16px",
-          "paddingLeft": "0px",
-          "paddingRight": "0px",
+          "paddingLeft": "12px",
+          "paddingRight": "12px",
           "paddingTop": "16px",
         }
       }
@@ -140,9 +140,9 @@ exports[`NameForm matches snapshot 1`] = `
                 Object {
                   "color": "rgba(66,69,74,1.00)",
                   "direction": "ltr",
-                  "fontFamily": "Roboto-Medium",
+                  "fontFamily": "Roboto",
                   "fontSize": "24px",
-                  "fontWeight": "normal",
+                  "fontWeight": "500",
                   "lineHeight": "30px",
                   "marginBottom": "8px",
                   "marginTop": "8px",
@@ -235,7 +235,7 @@ exports[`NameForm matches snapshot 1`] = `
                       "borderBottomStyle": "solid",
                       "borderBottomWidth": "1px",
                       "color": "rgba(66,69,74,1.00)",
-                      "fontFamily": "RobotoSlab-Regular",
+                      "fontFamily": "Roboto Slab",
                       "fontSize": "18px",
                       "paddingBottom": "4px",
                       "paddingLeft": "32px",
@@ -256,7 +256,7 @@ exports[`NameForm matches snapshot 1`] = `
                     "WebkitTransform": "translateY(0px)",
                     "color": "rgba(250,108,119,1.00)",
                     "direction": "ltr",
-                    "fontFamily": "Roboto",
+                    "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                     "fontSize": "12px",
                     "height": "18px",
                     "opacity": 0,
@@ -299,12 +299,15 @@ exports[`NameForm matches snapshot 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
+              "WebkitAlignItems": "center",
+              "WebkitBoxAlign": "center",
               "WebkitBoxFlex": 1,
               "WebkitBoxPack": "center",
               "WebkitFlexBasis": "0%",
               "WebkitFlexGrow": 1,
               "WebkitFlexShrink": 1,
               "WebkitJustifyContent": "center",
+              "alignItems": "center",
               "backgroundColor": "rgba(0,175,255,1.00)",
               "borderBottomColor": "rgba(0,175,255,1.00)",
               "borderBottomLeftRadius": "50px",
@@ -327,11 +330,15 @@ exports[`NameForm matches snapshot 1`] = `
               "flexGrow": 1,
               "flexShrink": 1,
               "justifyContent": "center",
+              "minHeight": "44px",
               "minWidth": "auto",
+              "msFlexAlign": "center",
               "msFlexNegative": 1,
               "msFlexPack": "center",
               "msFlexPositive": 1,
               "msFlexPreferredSize": "0%",
+              "paddingLeft": "0px",
+              "paddingRight": "0px",
             }
           }
         >
@@ -392,7 +399,7 @@ exports[`NameForm matches snapshot 1`] = `
                   Object {
                     "color": "rgba(255,255,255,1.00)",
                     "direction": "ltr",
-                    "fontFamily": "Roboto-Medium",
+                    "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                     "letterSpacing": "1px",
                     "marginBottom": "9px",
                     "marginLeft": "8px",
@@ -402,38 +409,39 @@ exports[`NameForm matches snapshot 1`] = `
                   }
                 }
               >
-                <div
-                  className="css-view-1dbjc4n"
+                <span
+                  className="css-text-901oao css-textHasAncestor-16my406"
+                  dir="auto"
                   style={
                     Object {
+                      "WebkitAlignItems": "center",
+                      "WebkitBoxAlign": "center",
                       "WebkitBoxPack": "center",
                       "WebkitJustifyContent": "center",
-                      "display": "inline-flex",
+                      "alignItems": "center",
+                      "color": "rgba(255,255,255,1.00)",
+                      "direction": "ltr",
+                      "fontFamily": "Roboto",
+                      "fontSize": "16px",
+                      "fontWeight": "500",
                       "justifyContent": "center",
-                      "minHeight": "28px",
+                      "marginBottom": "0px",
+                      "marginLeft": "0px",
+                      "marginRight": "0px",
+                      "marginTop": "0px",
+                      "msFlexAlign": "center",
                       "msFlexPack": "center",
+                      "paddingBottom": "0px",
+                      "paddingLeft": "0px",
+                      "paddingRight": "0px",
+                      "paddingTop": "1px",
+                      "textAlign": "left",
+                      "textTransform": "uppercase",
                     }
                   }
                 >
-                  <span
-                    className="css-text-901oao css-textHasAncestor-16my406"
-                    dir="auto"
-                    style={
-                      Object {
-                        "color": "rgba(255,255,255,1.00)",
-                        "direction": "ltr",
-                        "fontFamily": "Roboto",
-                        "fontWeight": "bold",
-                        "lineHeight": "0px",
-                        "paddingTop": "1px",
-                        "textAlign": "left",
-                        "textTransform": "uppercase",
-                      }
-                    }
-                  >
-                    Next
-                  </span>
-                </div>
+                  Next
+                </span>
               </div>
             </div>
           </div>
@@ -501,8 +509,8 @@ exports[`NameForm matches snapshot with empty value 1`] = `
           "flexGrow": 1,
           "msFlexPositive": 1,
           "paddingBottom": "16px",
-          "paddingLeft": "0px",
-          "paddingRight": "0px",
+          "paddingLeft": "12px",
+          "paddingRight": "12px",
           "paddingTop": "16px",
         }
       }
@@ -584,9 +592,9 @@ exports[`NameForm matches snapshot with empty value 1`] = `
                 Object {
                   "color": "rgba(66,69,74,1.00)",
                   "direction": "ltr",
-                  "fontFamily": "Roboto-Medium",
+                  "fontFamily": "Roboto",
                   "fontSize": "24px",
-                  "fontWeight": "normal",
+                  "fontWeight": "500",
                   "lineHeight": "30px",
                   "marginBottom": "8px",
                   "marginTop": "8px",
@@ -679,7 +687,7 @@ exports[`NameForm matches snapshot with empty value 1`] = `
                       "borderBottomStyle": "solid",
                       "borderBottomWidth": "1px",
                       "color": "rgba(66,69,74,1.00)",
-                      "fontFamily": "RobotoSlab-Regular",
+                      "fontFamily": "Roboto Slab",
                       "fontSize": "18px",
                       "paddingBottom": "4px",
                       "paddingLeft": "32px",
@@ -700,7 +708,7 @@ exports[`NameForm matches snapshot with empty value 1`] = `
                     "WebkitTransform": "translateY(0px)",
                     "color": "rgba(250,108,119,1.00)",
                     "direction": "ltr",
-                    "fontFamily": "Roboto",
+                    "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                     "fontSize": "12px",
                     "height": "18px",
                     "opacity": 0,
@@ -743,12 +751,15 @@ exports[`NameForm matches snapshot with empty value 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
+              "WebkitAlignItems": "center",
+              "WebkitBoxAlign": "center",
               "WebkitBoxFlex": 1,
               "WebkitBoxPack": "center",
               "WebkitFlexBasis": "0%",
               "WebkitFlexGrow": 1,
               "WebkitFlexShrink": 1,
               "WebkitJustifyContent": "center",
+              "alignItems": "center",
               "backgroundColor": "rgba(0,175,255,1.00)",
               "borderBottomColor": "rgba(0,175,255,1.00)",
               "borderBottomLeftRadius": "50px",
@@ -771,11 +782,15 @@ exports[`NameForm matches snapshot with empty value 1`] = `
               "flexGrow": 1,
               "flexShrink": 1,
               "justifyContent": "center",
+              "minHeight": "44px",
               "minWidth": "auto",
+              "msFlexAlign": "center",
               "msFlexNegative": 1,
               "msFlexPack": "center",
               "msFlexPositive": 1,
               "msFlexPreferredSize": "0%",
+              "paddingLeft": "0px",
+              "paddingRight": "0px",
             }
           }
         >
@@ -836,7 +851,7 @@ exports[`NameForm matches snapshot with empty value 1`] = `
                   Object {
                     "color": "rgba(255,255,255,1.00)",
                     "direction": "ltr",
-                    "fontFamily": "Roboto-Medium",
+                    "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                     "letterSpacing": "1px",
                     "marginBottom": "9px",
                     "marginLeft": "8px",
@@ -846,38 +861,39 @@ exports[`NameForm matches snapshot with empty value 1`] = `
                   }
                 }
               >
-                <div
-                  className="css-view-1dbjc4n"
+                <span
+                  className="css-text-901oao css-textHasAncestor-16my406"
+                  dir="auto"
                   style={
                     Object {
+                      "WebkitAlignItems": "center",
+                      "WebkitBoxAlign": "center",
                       "WebkitBoxPack": "center",
                       "WebkitJustifyContent": "center",
-                      "display": "inline-flex",
+                      "alignItems": "center",
+                      "color": "rgba(255,255,255,1.00)",
+                      "direction": "ltr",
+                      "fontFamily": "Roboto",
+                      "fontSize": "16px",
+                      "fontWeight": "500",
                       "justifyContent": "center",
-                      "minHeight": "28px",
+                      "marginBottom": "0px",
+                      "marginLeft": "0px",
+                      "marginRight": "0px",
+                      "marginTop": "0px",
+                      "msFlexAlign": "center",
                       "msFlexPack": "center",
+                      "paddingBottom": "0px",
+                      "paddingLeft": "0px",
+                      "paddingRight": "0px",
+                      "paddingTop": "1px",
+                      "textAlign": "left",
+                      "textTransform": "uppercase",
                     }
                   }
                 >
-                  <span
-                    className="css-text-901oao css-textHasAncestor-16my406"
-                    dir="auto"
-                    style={
-                      Object {
-                        "color": "rgba(255,255,255,1.00)",
-                        "direction": "ltr",
-                        "fontFamily": "Roboto",
-                        "fontWeight": "bold",
-                        "lineHeight": "0px",
-                        "paddingTop": "1px",
-                        "textAlign": "left",
-                        "textTransform": "uppercase",
-                      }
-                    }
-                  >
-                    Next
-                  </span>
-                </div>
+                  Next
+                </span>
               </div>
             </div>
           </div>

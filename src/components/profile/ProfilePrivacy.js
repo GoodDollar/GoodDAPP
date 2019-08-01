@@ -3,7 +3,6 @@ import startCase from 'lodash/startCase'
 import React, { useEffect, useState } from 'react'
 import { RadioButton } from 'react-native-paper'
 import { TouchableOpacity } from 'react-native'
-import normalize from '../../lib/utils/normalizeText'
 import userStorage from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import { BackButton } from '../appNavigation/stackNavigation'
@@ -169,10 +168,10 @@ const getStylesFromProps = ({ theme }) => {
     },
     buttonsRow: {
       marginHorizontal: theme.paddings.mainContainerPadding,
-      marginBottom: normalize(16),
+      marginBottom: 16,
     },
     dialogTipItem: {
-      marginBottom: normalize(20),
+      marginBottom: 20,
     },
   }
 }

@@ -95,8 +95,8 @@ const EditProfile = ({ screenProps, theme, styles }) => {
             <CameraButton handleCameraPress={handleCameraPress} />
           </UserAvatar>
           <SaveButton
-            disabled={saving || !isValid}
             beforeSave={validate}
+            disabled={saving || !isValid}
             onPress={handleSaveButton}
             onPressDone={onProfileSaved}
           />

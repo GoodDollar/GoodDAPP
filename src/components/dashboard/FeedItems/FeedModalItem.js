@@ -7,7 +7,6 @@ import BigGoodDollar from '../../common/view/BigGoodDollar'
 import CustomButton from '../../common/buttons/CustomButton'
 import Text from '../../common/view/Text'
 import ModalWrapper from '../../common/modal/ModalWrapper'
-import unknownProfile from '../../../assets/unknownProfile.svg'
 import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
 import { withStyles } from '../../../lib/styles'
 import type { FeedEventProps } from './EventProps'
@@ -58,9 +57,7 @@ const FeedModalItem = (props: FeedEventProps) => {
         </View>
         <View style={[styles.transactionDetails, { borderColor: mainColor }]}>
           <Avatar
-            source={
-              item.data && item.data.endpoint && item.data.endpoint.avatar ? item.data.endpoint.avatar : unknownProfile
-            }
+            source={item.data && item.data.endpoint && item.data.endpoint.avatar}
             size={34}
             style={styles.avatar}
           />

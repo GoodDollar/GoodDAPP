@@ -2,7 +2,6 @@
 import React from 'react'
 import { View } from 'react-native'
 import normalize from '../../../lib/utils/normalizeText'
-import unknownProfile from '../../../assets/unknownProfile.svg'
 import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
 import { withStyles } from '../../../lib/styles'
 import Avatar from '../../common/view/Avatar'
@@ -31,9 +30,7 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
       <Avatar
         size={34}
         style={[styles.avatarBottom]}
-        source={
-          feed.data && feed.data.endpoint && feed.data.endpoint.avatar ? feed.data.endpoint.avatar : unknownProfile
-        }
+        source={feed.data && feed.data.endpoint && feed.data.endpoint.avatar}
       />
       <View grow style={styles.mainContents}>
         <View style={[styles.dateAndValue, { borderBottomColor: eventSettings.color }]}>

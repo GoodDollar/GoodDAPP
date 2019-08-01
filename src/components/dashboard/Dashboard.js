@@ -20,7 +20,6 @@ import logger from '../../lib/logger/pino-logger'
 import userStorage from '../../lib/gundb/UserStorage'
 import { PrivacyArticle, PrivacyPolicy, Support, TermsOfUse } from '../webView/webViewInstances'
 import { withStyles } from '../../lib/styles'
-import unknownProfile from '../../assets/unknownProfile.svg'
 import Mnemonics from '../signin/Mnemonics'
 import Amount from './Amount'
 import Claim from './Claim'
@@ -142,12 +141,7 @@ const Dashboard = props => {
       <Section style={[styles.topInfo]}>
         {scrollPos < 100 ? (
           <Section style={[styles.userInfo, styles.userInfoVertical]}>
-            <Avatar
-              onPress={() => screenProps.push('Profile')}
-              size={68}
-              source={avatar || unknownProfile}
-              style={[styles.avatarBig]}
-            />
+            <Avatar onPress={() => screenProps.push('Profile')} size={68} source={avatar} style={[styles.avatarBig]} />
             <Section.Title style={[styles.userName]}>{fullName || ' '}</Section.Title>
             <BigGoodDollar
               bigNumberStyles={styles.bigNumberVerticalStyles}
@@ -160,7 +154,7 @@ const Dashboard = props => {
             <Avatar
               onPress={() => screenProps.push('Profile')}
               size={42}
-              source={avatar || unknownProfile}
+              source={avatar}
               style={[styles.avatarSmall]}
             />
             <BigGoodDollar

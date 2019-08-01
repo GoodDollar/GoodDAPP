@@ -2,6 +2,7 @@
 import React from 'react'
 import { TouchableOpacity } from 'react-native'
 import { Avatar } from 'react-native-paper'
+import unknownProfile from '../../../assets/unknownProfile.svg'
 import { withStyles } from '../../../lib/styles'
 
 export type AvatarProps = {
@@ -34,9 +35,9 @@ const CustomAvatar = (props: AvatarProps) => {
     >
       <Avatar.Image
         size={props.size}
-        source={props.source ? { uri: props.source } : undefined}
         style={[styles.avatar, { width: props.size, height: props.size }]}
         {...props}
+        source={{ uri: props.source || unknownProfile }}
       />
       {props.children}
     </TouchableOpacity>

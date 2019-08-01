@@ -22,8 +22,11 @@ exports[`WrappedSaveButton matches snapshot 1`] = `
     className="css-view-1dbjc4n"
     style={
       Object {
+        "WebkitAlignItems": "center",
+        "WebkitBoxAlign": "center",
         "WebkitBoxPack": "center",
         "WebkitJustifyContent": "center",
+        "alignItems": "center",
         "backgroundColor": "rgba(12,38,61,1.00)",
         "borderBottomColor": "rgba(0,175,255,1.00)",
         "borderBottomLeftRadius": "50px",
@@ -45,10 +48,12 @@ exports[`WrappedSaveButton matches snapshot 1`] = `
         "justifyContent": "center",
         "marginBottom": "0px",
         "marginTop": "0px",
+        "minHeight": "44px",
         "minWidth": "auto",
+        "msFlexAlign": "center",
         "msFlexPack": "center",
-        "paddingLeft": "16px",
-        "paddingRight": "16px",
+        "paddingLeft": "0px",
+        "paddingRight": "0px",
         "position": "absolute",
         "right": "0px",
         "top": "0px",
@@ -112,7 +117,7 @@ exports[`WrappedSaveButton matches snapshot 1`] = `
             Object {
               "color": "rgba(255,255,255,1.00)",
               "direction": "ltr",
-              "fontFamily": "Roboto-Medium",
+              "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
               "letterSpacing": "1px",
               "marginBottom": "9px",
               "marginLeft": "8px",
@@ -171,8 +176,11 @@ exports[`WrappedSaveButton matches snapshot 2`] = `
     className="css-view-1dbjc4n"
     style={
       Object {
+        "WebkitAlignItems": "center",
+        "WebkitBoxAlign": "center",
         "WebkitBoxPack": "center",
         "WebkitJustifyContent": "center",
+        "alignItems": "center",
         "backgroundColor": "rgba(0,0,0,0.00)",
         "borderBottomColor": "rgba(0,175,255,1.00)",
         "borderBottomLeftRadius": "50px",
@@ -194,10 +202,12 @@ exports[`WrappedSaveButton matches snapshot 2`] = `
         "justifyContent": "center",
         "marginBottom": "0px",
         "marginTop": "0px",
+        "minHeight": "44px",
         "minWidth": "auto",
+        "msFlexAlign": "center",
         "msFlexPack": "center",
-        "paddingLeft": "16px",
-        "paddingRight": "16px",
+        "paddingLeft": "0px",
+        "paddingRight": "0px",
         "position": "absolute",
         "right": "0px",
         "top": "0px",
@@ -261,7 +271,7 @@ exports[`WrappedSaveButton matches snapshot 2`] = `
             Object {
               "color": "rgba(12,38,61,1.00)",
               "direction": "ltr",
-              "fontFamily": "Roboto-Medium",
+              "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
               "letterSpacing": "1px",
               "marginBottom": "9px",
               "marginLeft": "8px",
@@ -320,8 +330,11 @@ exports[`WrappedSaveButton matches snapshot 3`] = `
     className="css-view-1dbjc4n"
     style={
       Object {
+        "WebkitAlignItems": "center",
+        "WebkitBoxAlign": "center",
         "WebkitBoxPack": "center",
         "WebkitJustifyContent": "center",
+        "alignItems": "center",
         "backgroundColor": "rgba(204,204,204,1.00)",
         "borderBottomColor": "rgba(0,175,255,1.00)",
         "borderBottomLeftRadius": "50px",
@@ -343,10 +356,12 @@ exports[`WrappedSaveButton matches snapshot 3`] = `
         "justifyContent": "center",
         "marginBottom": "0px",
         "marginTop": "0px",
+        "minHeight": "44px",
         "minWidth": "auto",
+        "msFlexAlign": "center",
         "msFlexPack": "center",
-        "paddingLeft": "16px",
-        "paddingRight": "16px",
+        "paddingLeft": "0px",
+        "paddingRight": "0px",
         "position": "absolute",
         "right": "0px",
         "top": "0px",
@@ -410,7 +425,7 @@ exports[`WrappedSaveButton matches snapshot 3`] = `
             Object {
               "color": "rgba(255,255,255,1.00)",
               "direction": "ltr",
-              "fontFamily": "Roboto-Medium",
+              "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
               "letterSpacing": "1px",
               "marginBottom": "9px",
               "marginLeft": "8px",
@@ -469,8 +484,11 @@ exports[`WrappedSaveButton matches snapshot 4`] = `
     className="css-view-1dbjc4n"
     style={
       Object {
+        "WebkitAlignItems": "center",
+        "WebkitBoxAlign": "center",
         "WebkitBoxPack": "center",
         "WebkitJustifyContent": "center",
+        "alignItems": "center",
         "backgroundColor": "rgba(12,38,61,1.00)",
         "borderBottomColor": "rgba(0,175,255,1.00)",
         "borderBottomLeftRadius": "50px",
@@ -492,10 +510,12 @@ exports[`WrappedSaveButton matches snapshot 4`] = `
         "justifyContent": "center",
         "marginBottom": "0px",
         "marginTop": "0px",
+        "minHeight": "44px",
         "minWidth": "auto",
+        "msFlexAlign": "center",
         "msFlexPack": "center",
-        "paddingLeft": "16px",
-        "paddingRight": "16px",
+        "paddingLeft": "0px",
+        "paddingRight": "0px",
         "position": "absolute",
         "right": "0px",
         "top": "0px",
@@ -559,7 +579,7 @@ exports[`WrappedSaveButton matches snapshot 4`] = `
             Object {
               "color": "rgba(255,255,255,1.00)",
               "direction": "ltr",
-              "fontFamily": "Roboto-Medium",
+              "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
               "letterSpacing": "1px",
               "marginBottom": "9px",
               "marginLeft": "8px",

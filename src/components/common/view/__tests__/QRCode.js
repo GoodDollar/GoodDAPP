@@ -1,23 +1,24 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 import QRCode from '../QRCode'
+import { withThemeProvider } from '../../../../__tests__/__util__'
 
-// Note: test renderer must be required after react-native.
+const QRCodeWithTheme = withThemeProvider(QRCode)
 
 describe('QRCode', () => {
   it('renders without errors', () => {
-    const tree = renderer.create(<QRCode value={'code'} />)
+    const tree = renderer.create(<QRCodeWithTheme value={'code'} />)
     expect(tree.toJSON()).toBeTruthy()
   })
 
   it('matches snapshot', () => {
-    const component = renderer.create(<QRCode value={'code'} />)
+    const component = renderer.create(<QRCodeWithTheme value={'code'} />)
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
 
   it('matches snapshot', () => {
-    const component = renderer.create(<QRCode value={''} />)
+    const component = renderer.create(<QRCodeWithTheme value={''} />)
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

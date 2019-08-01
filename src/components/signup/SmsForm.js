@@ -1,6 +1,5 @@
 // @flow
 import React from 'react'
-import normalize from '../../lib/utils/normalizeText'
 import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
 import { withStyles } from '../../lib/styles'
@@ -159,13 +158,13 @@ const SMSAction = ({ status, handleRetry }) => {
     return <Icon size={16} name="success" color="blue" />
   } else if (status === WAIT) {
     return (
-      <Section.Text fontFamily="regular" fontSize={14} color="gray80Percent">
+      <Section.Text fontSize={14} color="gray80Percent">
         Please wait a few seconds until the SMS arrives
       </Section.Text>
     )
   }
   return (
-    <Section.Text fontFamily="medium" fontSize={14} color="primary" onPress={handleRetry}>
+    <Section.Text fontWeight="500" fontSize={14} color="primary" onPress={handleRetry}>
       Send me the code again
     </Section.Text>
   )
@@ -184,7 +183,7 @@ const getStylesFromProps = ({ theme }) => ({
   button: {
     justifyContent: 'center',
     width: '100%',
-    height: normalize(60),
+    height: 60,
   },
   row: {
     marginVertical: theme.sizes.defaultQuadruple,

@@ -33,7 +33,7 @@ const FRError = props => {
   }
 
   const gotoFR = () => {
-    props.screenProps.navigateTo('FaceVerification', { showHelper: false })
+    props.screenProps.navigateTo('FaceVerification', { showHelper: true })
   }
 
   log.debug(props.screenProps)
@@ -42,17 +42,17 @@ const FRError = props => {
       <View style={styles.topContainer}>
         <Section
           style={{
-            paddingBottom: 0,
-            paddingTop: 0,
-            marginBottom: 0,
-            paddingLeft: normalize(44),
-            paddingRight: normalize(44),
-            justifyContent: 'space-evenly',
             flex: 1,
+            justifyContent: 'space-evenly',
+            marginBottom: 0,
+            paddingBottom: 0,
+            paddingLeft: 44,
+            paddingRight: 44,
+            paddingTop: 0,
           }}
         >
           <Section.Title style={styles.mainTitle}> {`${getFirstWord(fullName)},\n${title}`}</Section.Title>
-          <Image source={Oops} resizeMode={'center'} style={{ height: normalize(146) }} />
+          <Image source={Oops} resizeMode={'center'} style={{ height: 146 }} />
           <Section
             style={{
               paddingBottom: 0,
@@ -88,27 +88,26 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     flexShrink: 0,
     justifyContent: 'space-evenly',
-    paddingTop: normalize(33),
+    paddingTop: 33,
     borderRadius: 5,
   },
   bottomContainer: {
     display: 'flex',
     flex: 1,
-    paddingTop: normalize(20),
+    paddingTop: 20,
     justifyContent: 'flex-end',
   },
   description: {
-    fontSize: normalize(16),
-    fontFamily: 'Roboto',
-    fontWeight: 'bold',
     color: '#00AFFF',
-    paddingTop: normalize(25),
-    paddingBottom: normalize(25),
-    verticalAlign: 'text-top',
+    fontFamily: 'Roboto',
+    fontSize: normalize(16),
+    fontWeight: 'bold',
+    paddingBottom: 25,
+    paddingTop: 25,
   },
   mainTitle: {
     fontFamily: 'Roboto-Medium',
-    fontSize: normalize(24),
+    fontSize: 24,
     color: '#42454A',
     textTransform: 'none',
   },

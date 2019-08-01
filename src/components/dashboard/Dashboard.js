@@ -1,9 +1,7 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { View } from 'react-native'
 import type { Store } from 'undux'
 import normalize from '../../lib/utils/normalizeText'
-
 import GDStore from '../../lib/undux/GDStore'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog } from '../../lib/undux/utils/dialog'
@@ -43,9 +41,10 @@ import { ACTION_SEND } from './utils/sendReceiveFlow'
 const log = logger.child({ from: 'Dashboard' })
 
 export type DashboardProps = {
-  screenProps: any,
   navigation: any,
+  screenProps: any,
   store: Store,
+  styles?: any,
 }
 
 type DashboardState = {
@@ -124,7 +123,7 @@ const Dashboard = props => {
   }
 
   const { currentFeed } = state
-  const { screenProps, styles, theme }: DashboardProps = props
+  const { screenProps, styles }: DashboardProps = props
   const { balance, entitlement } = gdstore.get('account')
   const { avatar, fullName } = gdstore.get('profile')
   const feeds = gdstore.get('feeds')
@@ -134,121 +133,183 @@ const Dashboard = props => {
 
   log.info('LOGGER FEEDS', { feeds })
   return (
-    <View style={styles.dashboardView}>
-      <Wrapper backgroundColor={theme.colors.lightGray} style={styles.dashboardWrapper}>
-        <Section>
-          {scrollPos < 100 ? (
-            <>
-              <Section.Row justifyContent="center" alignItems="baseline">
-                <Avatar size={80} source={avatar} onPress={() => screenProps.push('Profile')} />
-              </Section.Row>
-              <Section.Row justifyContent="center" alignItems="baseline">
-                <Section.Title>{fullName || ' '}</Section.Title>
-              </Section.Row>
-              <Section.Row justifyContent="center" alignItems="baseline">
-                <BigGoodDollar
-                  bigNumberStyles={styles.bigNumberStyles}
-                  bigNumberUnitStyles={styles.bigNumberUnitStyles}
-                  number={balance}
-                />
-              </Section.Row>
-            </>
-          ) : (
-            <Section.Row>
-              <Section.Stack alignItems="flex-start">
-                <Avatar size={42} source={avatar} onPress={() => screenProps.push('Profile')} />
-              </Section.Stack>
-              <Section.Stack alignItems="flex-end">
-                <BigGoodDollar
-                  bigNumberStyles={styles.bigNumberStyles}
-                  bigNumberUnitStyles={styles.bigNumberUnitStyles}
-                  number={balance}
-                />
-              </Section.Stack>
-            </Section.Row>
-          )}
-          <Section.Row style={styles.buttonsRow} alignItems="stretch">
-            <PushButton
-              routeName="Who"
-              screenProps={screenProps}
-              style={styles.leftButton}
-              icon="send"
-              iconAlignment="left"
-              params={{
-                nextRoutes: ['Amount', 'Reason', 'SendLinkSummary', 'SendConfirmation'],
-                params: { action: 'Send' },
-              }}
-            >
-              Send
-            </PushButton>
-            <ClaimButton screenProps={screenProps} amount={weiToMask(entitlement, { showUnits: true })} />
-            <PushButton
-              routeName={'Receive'}
-              screenProps={screenProps}
-              style={styles.rightButton}
-              icon="receive"
-              iconAlignment="right"
-            >
-              Receive
-            </PushButton>
-          </Section.Row>
-        </Section>
-        <FeedList
-          handleFeedSelection={handleFeedSelection}
+    <Wrapper style={styles.dashboardWrapper}>
+      <Section style={[styles.topInfo]}>
+        {scrollPos < 100 ? (
+          <Section style={[styles.userInfo, styles.userInfoVertical]}>
+            <Avatar onPress={() => screenProps.push('Profile')} size={68} source={avatar} style={[styles.avatarBig]} />
+            <Section.Title style={[styles.userName]}>{fullName || ' '}</Section.Title>
+            <BigGoodDollar
+              bigNumberStyles={styles.bigNumberVerticalStyles}
+              bigNumberUnitStyles={styles.bigNumberUnitStyles}
+              number={balance}
+            />
+          </Section>
+        ) : (
+          <Section style={[styles.userInfo, styles.userInfoHorizontal]}>
+            <Avatar
+              onPress={() => screenProps.push('Profile')}
+              size={42}
+              source={avatar}
+              style={[styles.avatarSmall]}
+            />
+            <BigGoodDollar
+              bigNumberStyles={styles.bigNumberStyles}
+              bigNumberUnitStyles={styles.bigNumberUnitStyles}
+              number={balance}
+            />
+          </Section>
+        )}
+        <Section.Row style={styles.buttonsRow}>
+          <PushButton
+            icon="send"
+            iconAlignment="left"
+            routeName="Who"
+            screenProps={screenProps}
+            style={[styles.leftButton]}
+            params={{
+              nextRoutes: ['Amount', 'Reason', 'SendLinkSummary', 'SendConfirmation'],
+              params: { action: 'Send' },
+            }}
+          >
+            Send
+          </PushButton>
+          <ClaimButton screenProps={screenProps} amount={weiToMask(entitlement, { showUnits: true })} />
+          <PushButton
+            icon="receive"
+            iconAlignment="right"
+            routeName={'Receive'}
+            screenProps={screenProps}
+            style={[styles.rightButton]}
+          >
+            Receive
+          </PushButton>
+        </Section.Row>
+      </Section>
+      <FeedList
+        data={feeds}
+        handleFeedSelection={handleFeedSelection}
+        initialNumToRender={PAGE_SIZE}
+        onEndReached={getNextFeed.bind(null, store)}
+        updateData={() => {}}
+      />
+      {currentFeed && (
+        <FeedModalList
           data={feeds}
-          updateData={() => {}}
+          handleFeedSelection={handleFeedSelection}
           initialNumToRender={PAGE_SIZE}
           onEndReached={getNextFeed.bind(null, store)}
+          selectedFeed={currentFeed}
+          updateData={() => {}}
         />
-        {currentFeed && (
-          <FeedModalList
-            handleFeedSelection={handleFeedSelection}
-            data={feeds}
-            updateData={() => {}}
-            selectedFeed={currentFeed}
-            initialNumToRender={PAGE_SIZE}
-            onEndReached={getNextFeed.bind(null, store)}
-          />
-        )}
-      </Wrapper>
-    </View>
+      )}
+    </Wrapper>
   )
 }
 
 const getStylesFromProps = ({ theme }) => ({
+  dashboardWrapper: {
+    backgroundImage: 'none',
+    backgroundColor: theme.colors.lightGray,
+    flexGrow: 1,
+    paddingLeft: 0,
+    paddingRight: 0,
+    paddingTop: 0,
+  },
+  topInfo: {
+    borderTopLeftRadius: 0,
+    borderTopRightRadius: 0,
+    marginBottom: 0,
+    marginLeft: theme.sizes.default,
+    marginRight: theme.sizes.default,
+    paddingBottom: theme.sizes.default,
+    paddingLeft: theme.sizes.default,
+    paddingRight: theme.sizes.default,
+    paddingTop: theme.sizes.defaultDouble,
+  },
+  userInfo: {
+    backgroundColor: 'transparent',
+    marginBottom: 12,
+  },
+  userInfoVertical: {
+    alignItems: 'center',
+    paddingLeft: 0,
+    paddingRight: 0,
+    paddingBottom: 0,
+    paddingTop: 0,
+    flexDirection: 'column',
+    justifyContent: 'center',
+  },
+  userInfoHorizontal: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingBottom: 0,
+    paddingLeft: 0,
+    paddingRight: 0,
+    paddingTop: 0,
+  },
+  avatarBig: {
+    borderRadius: '50%',
+    height: 68,
+    marginBottom: 12,
+    width: 68,
+  },
+  avatarSmall: {
+    borderRadius: '50%',
+    height: 42,
+    margin: 0,
+    width: 42,
+  },
+  userName: {
+    color: theme.colors.gray80Percent,
+    fontFamily: 'RobotoSlab-Regular',
+    fontSize: normalize(18),
+    marginBottom: theme.sizes.defaultDouble,
+  },
   buttonsRow: {
-    marginVertical: theme.sizes.default,
+    alignItems: 'center',
+    height: 70,
+    justifyContent: 'space-between',
+    marginBottom: 0,
+    marginTop: 0,
   },
   leftButton: {
+    alignItems: 'flex-start',
     flex: 1,
-    marginRight: theme.sizes.defaultDouble,
-    paddingRight: theme.sizes.defaultDouble,
+    height: 44,
+    justifyContent: 'center',
+    marginRight: 24,
+    elevation: 0,
+    paddingLeft: theme.sizes.defaultHalf,
+    paddingRight: 0,
   },
   rightButton: {
+    alignItems: 'flex-end',
     flex: 1,
-    marginLeft: theme.sizes.defaultDouble,
-    paddingLeft: theme.sizes.defaultDouble,
-  },
-  dashboardView: {
-    flexGrow: 1,
-  },
-  dashboardWrapper: {
-    paddingHorizontal: 0,
-  },
-  centering: {
-    alignItems: 'center',
+    height: 44,
     justifyContent: 'center',
-    padding: theme.sizes.default,
-    height: '256px',
+    marginLeft: 24,
+    elevation: 0,
+    paddingLeft: 0,
+    paddingRight: theme.sizes.defaultHalf,
+  },
+  bigNumberVerticalStyles: {
+    fontFamily: theme.fonts.slab,
+    fontSize: normalize(42),
+    marginRight: theme.sizes.defaultHalf,
+    fontWeight: '700',
   },
   bigNumberStyles: {
-    fontFamily: 'RobotoSlab-Bold',
+    fontFamily: theme.fonts.slab,
     fontSize: normalize(36),
     marginRight: theme.sizes.defaultHalf,
+    fontWeight: '700',
   },
   bigNumberUnitStyles: {
-    fontFamily: 'RobotoSlab-Bold',
+    fontFamily: theme.fonts.slab,
     fontSize: normalize(18),
+    fontWeight: '700',
   },
 })
 

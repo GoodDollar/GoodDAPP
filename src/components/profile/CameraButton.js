@@ -4,7 +4,6 @@ import { StyleSheet, View } from 'react-native'
 import { withTheme } from 'react-native-paper'
 // eslint-disable-next-line import/no-named-as-default
 import Icon from 'react-native-elements/src/icons/Icon'
-import normalize from '../../lib/utils/normalizeText'
 
 type CameraButtonProps = {
   handleCameraPress: any => void,
@@ -16,7 +15,7 @@ const CameraButton = ({ handleCameraPress, containerStyles, theme }: CameraButto
   <View style={[styles.container, containerStyles]}>
     <Icon
       onPress={handleCameraPress}
-      size={normalize(20)}
+      size={20}
       color={theme.colors.darkBlue}
       name="photo-camera"
       reverse

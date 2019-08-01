@@ -2,7 +2,6 @@
 import React from 'react'
 import { ScrollView, TouchableOpacity, View } from 'react-native'
 import IconE from 'react-native-elements/src/icons/Icon'
-import normalize from '../../lib/utils/normalizeText'
 import { useWrappedApi } from '../../lib/API/useWrappedApi'
 import logger from '../../lib/logger/pino-logger'
 import { withStyles } from '../../lib/styles'
@@ -46,6 +45,9 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation, s
       navigation.navigate({
         routeName: 'ProfilePrivacy',
         type: 'Navigation/NAVIGATE',
+        params: {
+          backPage: 'Dashboard',
+        },
       })
       hideSidemenu()
     },
@@ -139,16 +141,16 @@ const sideMenuPanelStyles = ({ theme }) => ({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-end',
-    paddingTop: normalize(18),
-    paddingBottom: normalize(32),
-    marginHorizontal: normalize(16),
+    paddingTop: theme.sizes.defaultDouble,
+    paddingBottom: theme.sizes.defaultQuadruple,
+    marginHorizontal: theme.sizes.defaultDouble,
     cursor: 'pointer',
   },
   listContainer: {
-    borderTopWidth: normalize(1),
+    borderTopWidth: 1,
     borderTopColor: theme.colors.lightGray,
     borderTopStyle: 'solid',
-    marginHorizontal: normalize(16),
+    marginHorizontal: theme.sizes.defaultDouble,
   },
 })
 

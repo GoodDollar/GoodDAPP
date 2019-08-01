@@ -167,7 +167,7 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
     isProcessFailed === false && processStatus.isProfileSaved ? (
       <View style={{ flexShrink: 0 }}>
         <Text style={styles.textGood}>{`Looking Good ${getFirstWord(fullName)}`}</Text>
-        <Image source={LookingGood} resizeMode={'center'} style={{ marginTop: 36, height: normalize(135) }} />
+        <Image source={LookingGood} resizeMode={'center'} style={{ marginTop: 36, height: 135 }} />
       </View>
     ) : null
 
@@ -313,7 +313,6 @@ const styles = StyleSheet.create({
     fontSize: normalize(16),
     color: '#42454A',
     textTransform: 'none',
-    verticalAlign: 'middle',
     lineHeight: 28,
   },
   textInactive: {
@@ -321,7 +320,6 @@ const styles = StyleSheet.create({
     fontSize: normalize(16),
     color: '#CBCBCB',
     textTransform: 'none',
-    verticalAlign: 'middle',
     lineHeight: 28,
   },
   textError: {
@@ -329,7 +327,6 @@ const styles = StyleSheet.create({
     fontSize: normalize(16),
     color: '#FA6C77',
     textTransform: 'none',
-    verticalAlign: 'middle',
     lineHeight: 28,
   },
   textHelp: {

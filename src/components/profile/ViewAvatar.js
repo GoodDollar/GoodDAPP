@@ -4,7 +4,6 @@ import React from 'react'
 import Icon from 'react-native-elements/src/icons/Icon'
 import { StyleSheet, View } from 'react-native'
 import { withTheme } from 'react-native-paper'
-import normalize from '../../lib/utils/normalizeText'
 import GDStore from '../../lib/undux/GDStore'
 import { Section, UserAvatar, Wrapper } from '../common'
 import CameraButton from './CameraButton'
@@ -15,7 +14,7 @@ const CloseButton = ({ handlePress, containerStyles, iconStyles, theme }) => (
   <View style={[styles.container, containerStyles]}>
     <Icon
       onPress={handlePress}
-      size={normalize(20)}
+      size={20}
       color={theme.colors.darkBlue}
       name="close"
       reverse

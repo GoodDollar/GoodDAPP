@@ -1,9 +1,9 @@
 // @flow
 import React from 'react'
 import { Alert, TouchableHighlight, View } from 'react-native-web'
-import normalize from '../../lib/utils/normalizeText'
 import { withStyles } from '../../lib/styles'
-import { Icon, Section, Text } from '../common'
+import { Icon, Text } from '../common'
+import normalize from '../../lib/utils/normalizeText'
 import type { FeedEventProps } from './FeedItems/EventProps'
 
 /**
@@ -13,14 +13,13 @@ import type { FeedEventProps } from './FeedItems/EventProps'
  * @returns React element with actions
  */
 const FeedActions = ({ item, styles, theme }: FeedEventProps) => (
-  <Section.Row
+  <View
     style={[
       styles.actionsContainer,
-      { backgroundColor: item && item.type !== 'empty' ? theme.colors.red : theme.colors.surface },
+      {
+        backgroundColor: item && item.type !== 'empty' ? theme.colors.red : theme.colors.surface,
+      },
     ]}
-    alignItems="center"
-    justifyContent="flex-end"
-    grow
   >
     {item && item.type !== 'empty' && (
       <TouchableHighlight
@@ -28,26 +27,42 @@ const FeedActions = ({ item, styles, theme }: FeedEventProps) => (
           Alert.alert('Tips', 'You could do something with this remove action!')
         }}
       >
-        <View>
-          <Section.Row justifyContent="center">
-            <Icon name="close" color={theme.colors.surface} />
-          </Section.Row>
-          <Section.Row justifyContent="center">
-            <Text color="surface">Delete</Text>
-          </Section.Row>
+        <View style={styles.actionsContainerInner}>
+          <Icon name="close" color={theme.colors.surface} />
+          <Text style={[styles.action]}>Delete</Text>
         </View>
       </TouchableHighlight>
     )}
-  </Section.Row>
+  </View>
 )
 
 const getStylesFromProps = ({ theme }) => ({
   actionsContainer: {
-    borderRadius: normalize(8),
-    height: normalize(84),
-    maxHeight: normalize(84),
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'flex-end',
+    borderBottomRightRadius: theme.feedItems.borderRadius,
+    borderTopRightRadius: theme.feedItems.borderRadius,
+    height: theme.feedItems.height,
+    marginTop: theme.sizes.default,
+    marginRight: theme.sizes.default,
+    maxHeight: theme.feedItems.height,
     padding: theme.sizes.default,
-    marginHorizontal: theme.sizes.default,
+    width: 122,
+  },
+  actionsContainerInner: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  action: {
+    color: '#fff',
+    fontFamily: theme.fonts.default,
+    fontSize: normalize(14),
+    fontWeight: '500',
+    lineHeight: normalize(14),
+    marginTop: theme.sizes.default,
   },
 })
 

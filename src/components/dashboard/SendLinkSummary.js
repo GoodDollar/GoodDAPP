@@ -1,5 +1,6 @@
 // @flow
 import React, { useEffect, useState } from 'react'
+import { StyleSheet } from 'react-native'
 import { isMobile } from 'mobile-device-detect'
 
 import { generateSendShareObject } from '../../lib/share'
@@ -139,6 +140,12 @@ const SendLinkSummary = (props: AmountProps) => {
       <TopBar push={screenProps.push} />
       <Section grow>
         <Section.Title>SUMMARY</Section.Title>
+        <Section.Row justifyContent="center">
+          <Section.Text color="gray80Percent" style={styles.descriptionText} fontSize={16}>
+            * the transaction may take a few seconds to be complete
+          </Section.Text>
+        </Section.Row>
+
         <SummaryTable counterPartyDisplayName={counterPartyDisplayName} amount={amount} reason={reason} />
         <Section.Row>
           <Section.Row grow={1} justifyContent="flex-start">
@@ -156,6 +163,10 @@ const SendLinkSummary = (props: AmountProps) => {
     </Wrapper>
   )
 }
+
+const styles = StyleSheet.create({
+  descriptionText: { maxWidth: 210 },
+})
 
 SendLinkSummary.navigationOptions = {
   title: SEND_TITLE,

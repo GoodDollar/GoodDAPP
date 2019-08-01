@@ -138,7 +138,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
       sessionId: undefined,
       showZoomCapture: true,
       isAPISuccess: undefined,
-      showHelper: false,
+      showHelper: true,
     })
   }
 

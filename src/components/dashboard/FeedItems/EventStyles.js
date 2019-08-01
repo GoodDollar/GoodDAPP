@@ -5,12 +5,12 @@ export const modalStyles = StyleSheet.create({
   modal: {
     flex: 1,
     backgroundColor: '#fff',
-    borderRadius: normalize(4),
-    borderLeftWidth: normalize(10),
-    borderRightWidth: normalize(2),
-    borderTopWidth: normalize(2),
-    borderBottomWidth: normalize(2),
-    padding: normalize(30),
+    borderRadius: 4,
+    borderLeftWidth: 10,
+    borderRightWidth: 2,
+    borderTopWidth: 2,
+    borderBottomWidth: 2,
+    padding: 30,
     borderColor: '#c9c8c9',
   },
   row: {
@@ -37,10 +37,10 @@ export const modalStyles = StyleSheet.create({
   },
   hrLine: {
     borderBottomColor: '#c9c8c9',
-    borderBottomWidth: normalize(1),
+    borderBottomWidth: 1,
     width: '100%',
-    marginBottom: normalize(10),
-    marginTop: normalize(10),
+    marginBottom: 10,
+    marginTop: 10,
   },
   label: {
     fontSize: normalize(10),

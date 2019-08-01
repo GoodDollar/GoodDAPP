@@ -32,8 +32,8 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
         "flexGrow": 1,
         "msFlexPositive": 1,
         "paddingBottom": "16px",
-        "paddingLeft": "0px",
-        "paddingRight": "0px",
+        "paddingLeft": "12px",
+        "paddingRight": "12px",
         "paddingTop": "16px",
       }
     }
@@ -164,8 +164,8 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
             "borderTopRightRadius": "5px",
             "height": "70%",
             "paddingBottom": "16px",
-            "paddingLeft": "0px",
-            "paddingRight": "0px",
+            "paddingLeft": "12px",
+            "paddingRight": "12px",
             "paddingTop": "16px",
           }
         }
@@ -204,9 +204,9 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                 "color": "rgba(85,85,85,1.00)",
                 "direction": "ltr",
                 "flexGrow": 2,
-                "fontFamily": "Roboto-Medium",
+                "fontFamily": "Roboto",
                 "fontSize": "16px",
-                "fontWeight": "normal",
+                "fontWeight": "500",
                 "lineHeight": "22px",
                 "msFlexPositive": 2,
                 "textAlign": "left",
@@ -354,9 +354,9 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                 "color": "rgba(85,85,85,1.00)",
                 "direction": "ltr",
                 "flexGrow": 2,
-                "fontFamily": "Roboto-Medium",
+                "fontFamily": "Roboto",
                 "fontSize": "16px",
-                "fontWeight": "normal",
+                "fontWeight": "500",
                 "lineHeight": "22px",
                 "msFlexPositive": 2,
                 "textAlign": "left",
@@ -615,9 +615,9 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                 "color": "rgba(85,85,85,1.00)",
                 "direction": "ltr",
                 "flexGrow": 2,
-                "fontFamily": "Roboto-Medium",
+                "fontFamily": "Roboto",
                 "fontSize": "16px",
-                "fontWeight": "normal",
+                "fontWeight": "500",
                 "lineHeight": "22px",
                 "msFlexPositive": 2,
                 "textAlign": "left",
@@ -875,10 +875,13 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
         className="css-view-1dbjc4n"
         style={
           Object {
+            "WebkitAlignItems": "center",
+            "WebkitBoxAlign": "center",
             "WebkitBoxFlex": 1,
             "WebkitBoxPack": "center",
             "WebkitFlexGrow": 1,
             "WebkitJustifyContent": "center",
+            "alignItems": "center",
             "backgroundColor": "rgba(0,0,0,0.00)",
             "borderBottomColor": "rgba(0,175,255,1.00)",
             "borderBottomLeftRadius": "50px",
@@ -899,9 +902,13 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
             "boxShadow": "0px 0px 0px rgba(0,0,0,0.24)",
             "flexGrow": 1,
             "justifyContent": "center",
+            "minHeight": "44px",
             "minWidth": "auto",
+            "msFlexAlign": "center",
             "msFlexPack": "center",
             "msFlexPositive": 1,
+            "paddingLeft": "0px",
+            "paddingRight": "0px",
           }
         }
       >
@@ -956,7 +963,7 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                 Object {
                   "color": "rgba(163,163,163,1.00)",
                   "direction": "ltr",
-                  "fontFamily": "Roboto-Medium",
+                  "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                   "letterSpacing": "1px",
                   "marginBottom": "9px",
                   "marginLeft": "8px",
@@ -966,37 +973,38 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                 }
               }
             >
-              <div
-                className="css-view-1dbjc4n"
+              <span
+                className="css-text-901oao css-textHasAncestor-16my406"
+                dir="auto"
                 style={
                   Object {
+                    "WebkitAlignItems": "center",
+                    "WebkitBoxAlign": "center",
                     "WebkitBoxPack": "center",
                     "WebkitJustifyContent": "center",
-                    "display": "inline-flex",
+                    "alignItems": "center",
+                    "direction": "ltr",
+                    "fontFamily": "Roboto",
+                    "fontSize": "16px",
+                    "fontWeight": "500",
                     "justifyContent": "center",
-                    "minHeight": "28px",
+                    "marginBottom": "0px",
+                    "marginLeft": "0px",
+                    "marginRight": "0px",
+                    "marginTop": "0px",
+                    "msFlexAlign": "center",
                     "msFlexPack": "center",
+                    "paddingBottom": "0px",
+                    "paddingLeft": "0px",
+                    "paddingRight": "0px",
+                    "paddingTop": "1px",
+                    "textAlign": "left",
+                    "textTransform": "none",
                   }
                 }
               >
-                <span
-                  className="css-text-901oao css-textHasAncestor-16my406"
-                  dir="auto"
-                  style={
-                    Object {
-                      "direction": "ltr",
-                      "fontFamily": "Roboto",
-                      "fontWeight": "bold",
-                      "lineHeight": "0px",
-                      "paddingTop": "1px",
-                      "textAlign": "left",
-                      "textTransform": "none",
-                    }
-                  }
-                >
-                  Cancel
-                </span>
-              </div>
+                Cancel
+              </span>
             </div>
           </div>
         </div>
@@ -1005,10 +1013,13 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
         className="css-view-1dbjc4n"
         style={
           Object {
+            "WebkitAlignItems": "center",
+            "WebkitBoxAlign": "center",
             "WebkitBoxFlex": 3,
             "WebkitBoxPack": "center",
             "WebkitFlexGrow": 3,
             "WebkitJustifyContent": "center",
+            "alignItems": "center",
             "backgroundColor": "rgba(0,0,0,0.12)",
             "borderBottomColor": "rgba(0,175,255,1.00)",
             "borderBottomLeftRadius": "50px",
@@ -1028,9 +1039,13 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
             "borderTopWidth": "0px",
             "flexGrow": 3,
             "justifyContent": "center",
+            "minHeight": "44px",
             "minWidth": "auto",
+            "msFlexAlign": "center",
             "msFlexPack": "center",
             "msFlexPositive": 3,
+            "paddingLeft": "0px",
+            "paddingRight": "0px",
           }
         }
       >
@@ -1085,7 +1100,7 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                 Object {
                   "color": "rgba(0,0,0,0.32)",
                   "direction": "ltr",
-                  "fontFamily": "Roboto-Medium",
+                  "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                   "letterSpacing": "1px",
                   "marginBottom": "9px",
                   "marginLeft": "8px",
@@ -1095,38 +1110,39 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                 }
               }
             >
-              <div
-                className="css-view-1dbjc4n"
+              <span
+                className="css-text-901oao css-textHasAncestor-16my406"
+                dir="auto"
                 style={
                   Object {
+                    "WebkitAlignItems": "center",
+                    "WebkitBoxAlign": "center",
                     "WebkitBoxPack": "center",
                     "WebkitJustifyContent": "center",
-                    "display": "inline-flex",
+                    "alignItems": "center",
+                    "color": "rgba(255,255,255,1.00)",
+                    "direction": "ltr",
+                    "fontFamily": "Roboto",
+                    "fontSize": "16px",
+                    "fontWeight": "500",
                     "justifyContent": "center",
-                    "minHeight": "28px",
+                    "marginBottom": "0px",
+                    "marginLeft": "0px",
+                    "marginRight": "0px",
+                    "marginTop": "0px",
+                    "msFlexAlign": "center",
                     "msFlexPack": "center",
+                    "paddingBottom": "0px",
+                    "paddingLeft": "0px",
+                    "paddingRight": "0px",
+                    "paddingTop": "1px",
+                    "textAlign": "left",
+                    "textTransform": "uppercase",
                   }
                 }
               >
-                <span
-                  className="css-text-901oao css-textHasAncestor-16my406"
-                  dir="auto"
-                  style={
-                    Object {
-                      "color": "rgba(255,255,255,1.00)",
-                      "direction": "ltr",
-                      "fontFamily": "Roboto",
-                      "fontWeight": "bold",
-                      "lineHeight": "0px",
-                      "paddingTop": "1px",
-                      "textAlign": "left",
-                      "textTransform": "uppercase",
-                    }
-                  }
-                >
-                  Save
-                </span>
-              </div>
+                Save
+              </span>
             </div>
           </div>
         </div>

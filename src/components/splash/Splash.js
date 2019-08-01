@@ -1,11 +1,11 @@
 import React from 'react'
 import { Image, StyleSheet } from 'react-native'
-import normalize from '../../lib/utils/normalizeText'
 import splashImage from '../../assets/Splash/logo.svg'
 import goodDollarImage from '../../assets/Splash/goodDollar.svg'
 import wavePattern from '../../assets/wave.svg'
 import Wrapper from '../common/layout/Wrapper'
 import Section from '../common/layout/Section'
+import Config from '../../config/config'
 
 //minimize delay <Image> has over web <img>
 Image.prefetch(splashImage)
@@ -16,16 +16,16 @@ const Splash = () => (
   <Wrapper style={styles.wrapper}>
     <Section style={styles.container}>
       <Section.Stack style={styles.content} grow justifyContent="space-between">
-        <Section.Text fontSize={22} fontFamily="regular" color="darkBlue">
+        <Section.Text fontSize={22} color="darkBlue">
           {`Welcome and thank you\nfor participating in GoodDollar's\n`}
-          <Section.Text fontSize={22} fontFamily="bold" color="darkBlue">
+          <Section.Text fontSize={22} fontWeight="700" color="darkBlue">
             Early Access Alpha
           </Section.Text>
         </Section.Text>
         <Image source={splashImage} style={styles.logo} resizeMode="contain" />
         <Image source={goodDollarImage} style={styles.goodDollar} resizeMode="contain" />
-        <Section.Text fontSize={22} fontFamily="regular" color="darkBlue">
-          V2.0
+        <Section.Text fontSize={22} color="darkBlue">
+          {`V${Config.version}`}
         </Section.Text>
       </Section.Stack>
     </Section>
@@ -56,13 +56,13 @@ const styles = StyleSheet.create({
   },
   logo: {
     maxWidth: '100%',
-    minHeight: normalize(135),
-    minWidth: normalize(135),
+    minHeight: 135,
+    minWidth: 135,
   },
   goodDollar: {
     maxWidth: '100%',
-    minHeight: normalize(30),
-    minWidth: normalize(212),
+    minHeight: 30,
+    minWidth: 212,
   },
 })
 

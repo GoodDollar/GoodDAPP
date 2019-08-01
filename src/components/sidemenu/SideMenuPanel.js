@@ -56,8 +56,8 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation, s
     icon: 'faq',
     name: 'FAQ',
     action: () => {
-      navigation.navigate('PP')
-      hideSidemenu()
+      // navigation.navigate('FAQ')
+      // hideSidemenu()
     },
   },
   {
@@ -87,6 +87,16 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation, s
   {
     icon: 'gooddollar',
     name: 'About',
+    action: () => {
+      navigation.navigate({
+        routeName: 'About',
+        type: 'Navigation/NAVIGATE',
+        params: {
+          backPage: 'Dashboard',
+        },
+      })
+      hideSidemenu()
+    },
   },
   {
     icon: 'trash',

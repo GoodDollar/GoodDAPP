@@ -7,7 +7,7 @@ import { extractQueryParams, readReceiveLink } from '../../lib/share'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { wrapFunction } from '../../lib/undux/utils/wrapper'
 import { executeWithdraw } from '../../lib/undux/utils/withdraw'
-import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
+import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import { Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 
@@ -19,7 +19,6 @@ const ReceiveByQR = ({ screenProps }) => {
   const [qrDelay, setQRDelay] = useState(QR_DEFAULT_DELAY)
   const [withdrawParams, setWithdrawParams] = useState({ receiveLink: '', reason: '' })
   const store = SimpleStore.useStore()
-  const [showDialog] = useDialog()
   const [showErrorDialog] = useErrorDialog()
 
   const onDismissDialog = () => setQRDelay(QR_DEFAULT_DELAY)
@@ -34,22 +33,12 @@ const ReceiveByQR = ({ screenProps }) => {
         log.debug({ url })
 
         if (url === null) {
-          showDialog({
-            title: 'Error',
-            message: 'Invalid QR Code. Probably this QR code is for sending GD',
-            dismissText: 'Ok',
-            type: 'error',
-          })
+          showErrorDialog('Invalid QR Code. Probably this QR code is for sending GD')
         } else {
           const { receiveLink, reason } = extractQueryParams(url)
 
           if (!receiveLink) {
-            showDialog({
-              title: 'Error',
-              message: 'Invalid QR Code. Probably this QR code is for sending GD',
-              dismissText: 'Ok',
-              type: 'error',
-            })
+            showErrorDialog('Invalid QR Code. Probably this QR code is for sending GD')
           }
 
           setWithdrawParams({ receiveLink, reason })

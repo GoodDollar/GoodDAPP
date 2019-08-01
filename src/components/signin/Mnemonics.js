@@ -20,6 +20,7 @@ const Mnemonics = ({ navigation, styles }) => {
   //lazy load heavy wallet stuff for fast initial app load (part of initial routes)
   const mnemonicsHelpers = import('../../lib/wallet/SoftwareWalletProvider')
   const [mnemonics, setMnemonics] = useState()
+  const [isRecovering, setRecovering] = useState(false)
   const [showErrorDialog] = useErrorDialog()
 
   const handleChange = (mnemonics: []) => {
@@ -28,8 +29,10 @@ const Mnemonics = ({ navigation, styles }) => {
   }
 
   const recover = async () => {
+    setRecovering(true)
     if (!mnemonics || !bip39.validateMnemonic(mnemonics)) {
       showErrorDialog('Invalid Mnemonic')
+      setRecovering(false)
       return
     }
 
@@ -57,6 +60,8 @@ const Mnemonics = ({ navigation, styles }) => {
       log.error(err)
       showErrorDialog('Error recovering account', err)
       saveMnemonics(prevMnemonics)
+    } finally {
+      setRecovering(false)
     }
   }
 
@@ -88,7 +93,7 @@ const Mnemonics = ({ navigation, styles }) => {
         <MnemonicInput recoveryMode={false} onChange={handleChange} seed={incomingMnemonic} />
       </Section.Stack>
       <Section.Stack grow style={styles.bottomContainer} justifyContent="flex-end">
-        <CustomButton mode="contained" onPress={recover} disabled={!mnemonics}>
+        <CustomButton mode="contained" onPress={recover} disabled={isRecovering || !mnemonics}>
           Recover my wallet
         </CustomButton>
       </Section.Stack>

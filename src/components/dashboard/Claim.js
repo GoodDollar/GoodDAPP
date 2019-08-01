@@ -17,6 +17,7 @@ import SuccessIcon from '../common/modal/SuccessIcon'
 import { withStyles } from '../../lib/styles'
 import normalize from '../../lib/utils/normalizeText'
 import Section from '../common/layout/Section'
+import illustration from '../../assets/Claim/illustration.svg'
 import type { DashboardProps } from './Dashboard'
 
 type ClaimProps = DashboardProps
@@ -30,7 +31,6 @@ type ClaimState = {
 }
 
 const log = logger.child({ from: 'Claim' })
-const illustration = require('../../assets/Claim/illustration.png')
 
 Image.prefetch(illustration)
 
@@ -240,22 +240,25 @@ const getStylesFromProps = ({ theme }) => ({
   },
   mainTextTitle: {
     color: '#fff',
-    fontFamily: theme.fonts.regular,
+    fontFamily: theme.fonts.default,
     fontSize: normalize(16),
+    fontWeight: '400',
     marginBottom: 12,
   },
   mainTextBig: {
     color: '#fff',
-    fontFamily: theme.fonts.slabBold,
+    fontFamily: theme.fonts.slab,
     fontSize: normalize(36),
+    fontWeight: '700',
   },
   mainTextBigMarginBottom: {
     marginBottom: theme.sizes.defaultHalf,
   },
   mainTextSmall: {
     color: '#fff',
-    fontFamily: theme.fonts.slabBold,
+    fontFamily: theme.fonts.slab,
     fontSize: normalize(20),
+    fontWeight: '700',
   },
   illustration: {
     flexGrow: 0,
@@ -293,14 +296,16 @@ const getStylesFromProps = ({ theme }) => ({
     marginTop: 0,
   },
   extraInfoStatsText: {
-    fontFamily: theme.fonts.regular,
+    fontFamily: theme.fonts.default,
     fontSize: normalize(15.5),
+    fontWeight: '400',
   },
   extraInfoStatsSmallText: {
     fontSize: normalize(10),
   },
   textBold: {
-    fontFamily: theme.fonts.bold,
+    fontFamily: theme.fonts.default,
+    fontWeight: '700',
   },
   textPrimary: {
     color: theme.colors.primary,
@@ -322,14 +327,16 @@ const getStylesFromProps = ({ theme }) => ({
     paddingTop: theme.sizes.default,
   },
   extraInfoCountdownTitle: {
-    fontFamily: theme.fonts.regular,
+    fontFamily: theme.fonts.default,
     fontSize: normalize(16),
+    fontWeight: '400',
     marginBottom: theme.sizes.default,
   },
   extraInfoCountdownNumber: {
     color: theme.colors.green,
-    fontFamily: theme.fonts.slabBold,
+    fontFamily: theme.fonts.slab,
     fontSize: normalize(36),
+    fontWeight: '700',
   },
 })
 

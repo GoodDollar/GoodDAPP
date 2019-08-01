@@ -10,6 +10,8 @@ import type { FeedEventProps } from './EventProps'
 import EventCounterParty from './EventCounterParty'
 import getEventSettingsByType from './EventSettingsByType'
 import EventIcon from './EventIcon'
+import receiveIllustation from './img/receive.svg'
+import sendIllustration from './img/send.svg'
 
 /**
  * Render modal item according to the type for feed list in horizontal view
@@ -26,9 +28,9 @@ const FeedModalItem = (props: FeedEventProps) => {
   const getImageByType = type => {
     return (
       {
-        claim: require('./img/receive.png'),
-        receive: require('./img/receive.png'),
-        send: require('./img/send.png'),
+        claim: receiveIllustation,
+        receive: receiveIllustation,
+        send: sendIllustration,
       }[type] || null
     )
   }

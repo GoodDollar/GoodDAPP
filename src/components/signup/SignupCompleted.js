@@ -24,7 +24,7 @@ export default class SignupCompleted extends React.Component<Props, State> {
         loading={loading}
         valid={createError !== true}
       >
-        <Text fontFamily="medium" fontSize={22} color="darkGray">
+        <Text fontWeight="500" fontSize={22} color="darkGray">
           {`Thanks ${getFirstWord(fullName)}\nYou're all set`}
         </Text>
         <Image source={illustration} style={styles.illustration} resizeMode="contain" />

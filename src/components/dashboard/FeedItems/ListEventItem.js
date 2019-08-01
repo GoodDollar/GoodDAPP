@@ -83,13 +83,15 @@ const getStylesFromProps = ({ theme }) => ({
   },
   date: {
     color: theme.colors.lighterGray,
-    fontFamily: theme.fonts.regular,
+    fontFamily: theme.fonts.default,
     fontSize: normalize(10),
+    fontWeight: '400',
     marginTop: 2,
   },
   actionSymbol: {
-    fontFamily: theme.fonts.bold,
+    fontFamily: theme.fonts.default,
     fontSize: normalize(15),
+    fontWeight: '700',
     marginLeft: 'auto',
   },
   bigNumberStyles: {

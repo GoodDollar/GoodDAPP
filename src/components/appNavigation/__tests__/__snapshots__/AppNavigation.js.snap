@@ -280,7 +280,7 @@ exports[`AppNavigation matches snapshot 1`] = `
               Object {
                 "color": "rgba(255,255,255,1.00)",
                 "direction": "ltr",
-                "fontFamily": "Roboto-Medium",
+                "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                 "fontSize": "20px",
                 "textAlign": "left",
               }
@@ -493,7 +493,6 @@ exports[`AppNavigation matches snapshot 1`] = `
                 "WebkitTransitionDuration": "0.15s",
                 "WebkitTransitionProperty": "opacity",
                 "WebkitUserSelect": "none",
-                "backgroundColor": "rgba(0,0,0,0.00)",
                 "borderBottomLeftRadius": "50%",
                 "borderBottomRightRadius": "50%",
                 "borderTopLeftRadius": "50%",
@@ -598,7 +597,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                 Object {
                   "color": "rgba(85,85,85,1.00)",
                   "direction": "ltr",
-                  "fontFamily": "RobotoSlab-Regular",
+                  "fontFamily": "Roboto Slab",
                   "fontSize": "36px",
                   "fontWeight": "700",
                   "lineHeight": "22px",
@@ -618,7 +617,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                 Object {
                   "color": "rgba(85,85,85,1.00)",
                   "direction": "ltr",
-                  "fontFamily": "RobotoSlab-Regular",
+                  "fontFamily": "Roboto Slab",
                   "fontSize": "18px",
                   "fontWeight": "700",
                   "lineHeight": "22px",
@@ -760,7 +759,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                     Object {
                       "color": "rgba(255,255,255,1.00)",
                       "direction": "ltr",
-                      "fontFamily": "Roboto-Medium",
+                      "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                       "letterSpacing": "1px",
                       "marginBottom": "9px",
                       "marginLeft": "8px",
@@ -798,7 +797,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                         "alignItems": "center",
                         "color": "rgba(255,255,255,1.00)",
                         "direction": "ltr",
-                        "fontFamily": "Roboto-Medium",
+                        "fontFamily": "Roboto",
                         "fontSize": "16px",
                         "fontWeight": "500",
                         "justifyContent": "center",
@@ -928,7 +927,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                     Object {
                       "color": "rgba(255,255,255,1.00)",
                       "direction": "ltr",
-                      "fontFamily": "Roboto-Medium",
+                      "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                       "letterSpacing": "1px",
                       "marginBottom": "9px",
                       "marginLeft": "8px",
@@ -944,7 +943,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                     style={
                       Object {
                         "color": "rgba(255,255,255,1.00)",
-                        "fontFamily": "Roboto-Medium",
+                        "fontFamily": "Roboto",
                         "fontSize": "16px",
                         "fontWeight": "500",
                         "marginBottom": "0px",
@@ -1066,7 +1065,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                     Object {
                       "color": "rgba(255,255,255,1.00)",
                       "direction": "ltr",
-                      "fontFamily": "Roboto-Medium",
+                      "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                       "letterSpacing": "1px",
                       "marginBottom": "9px",
                       "marginLeft": "8px",
@@ -1088,7 +1087,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                         "alignItems": "center",
                         "color": "rgba(255,255,255,1.00)",
                         "direction": "ltr",
-                        "fontFamily": "Roboto-Medium",
+                        "fontFamily": "Roboto",
                         "fontSize": "16px",
                         "fontWeight": "500",
                         "justifyContent": "center",

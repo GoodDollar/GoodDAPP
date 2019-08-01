@@ -99,7 +99,6 @@ exports[`SendConfirmation matches snapshot 1`] = `
               "WebkitTransitionDuration": "0.15s",
               "WebkitTransitionProperty": "opacity",
               "WebkitUserSelect": "none",
-              "backgroundColor": "rgba(0,0,0,0.00)",
               "msUserSelect": "none",
               "transitionDuration": "0.15s",
               "transitionProperty": "opacity",
@@ -111,11 +110,18 @@ exports[`SendConfirmation matches snapshot 1`] = `
             className="css-view-1dbjc4n"
             style={
               Object {
-                "backgroundColor": "rgba(238,238,238,1.00)",
+                "borderBottomColor": "rgba(163,163,163,1.00)",
                 "borderBottomLeftRadius": "21px",
                 "borderBottomRightRadius": "21px",
+                "borderBottomWidth": "1px",
+                "borderLeftColor": "rgba(163,163,163,1.00)",
+                "borderLeftWidth": "1px",
+                "borderRightColor": "rgba(163,163,163,1.00)",
+                "borderRightWidth": "1px",
+                "borderTopColor": "rgba(163,163,163,1.00)",
                 "borderTopLeftRadius": "21px",
                 "borderTopRightRadius": "21px",
+                "borderTopWidth": "1px",
                 "height": "42px",
                 "width": "42px",
               }
@@ -191,9 +197,9 @@ exports[`SendConfirmation matches snapshot 1`] = `
           Object {
             "color": "rgba(66,69,74,1.00)",
             "direction": "ltr",
-            "fontFamily": "Roboto-Medium",
+            "fontFamily": "Roboto",
             "fontSize": "24px",
-            "fontWeight": "normal",
+            "fontWeight": "500",
             "lineHeight": "30px",
             "marginBottom": "8px",
             "marginTop": "8px",
@@ -342,7 +348,7 @@ exports[`SendConfirmation matches snapshot 1`] = `
                 Object {
                   "color": "rgba(255,255,255,1.00)",
                   "direction": "ltr",
-                  "fontFamily": "Roboto-Medium",
+                  "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                   "letterSpacing": "1px",
                   "marginBottom": "9px",
                   "marginLeft": "8px",
@@ -364,7 +370,7 @@ exports[`SendConfirmation matches snapshot 1`] = `
                     "alignItems": "center",
                     "color": "rgba(255,255,255,1.00)",
                     "direction": "ltr",
-                    "fontFamily": "Roboto-Medium",
+                    "fontFamily": "Roboto",
                     "fontSize": "16px",
                     "fontWeight": "500",
                     "justifyContent": "center",

@@ -9,8 +9,7 @@ import { CustomButton, Section, Wrapper } from '../../common'
 import { fireEvent } from '../../../lib/analytics/analytics'
 import { getFirstWord } from '../../../lib/utils/getFirstWord'
 import { withStyles } from '../../../lib/styles'
-
-const illustration = require('../../../assets/FaceRecognition/illustration.png')
+import illustration from '../../../assets/FaceRecognition/illustration.svg'
 
 Image.prefetch(illustration)
 
@@ -96,8 +95,9 @@ const getStylesFromProps = ({ theme }) => ({
   },
   mainTitle: {
     color: theme.colors.darkGray,
-    fontFamily: theme.fonts.medium,
+    fontFamily: theme.fonts.default,
     fontSize: normalize(24),
+    fontWeight: '500',
     marginBottom: 28,
     textTransform: 'none',
   },
@@ -117,13 +117,13 @@ const getStylesFromProps = ({ theme }) => ({
   },
   description: {
     color: theme.colors.primary,
-    fontFamily: theme.fonts.regular,
+    fontFamily: theme.fonts.default,
     fontSize: normalize(16),
     fontWeight: '400',
     lineHeight: normalize(20),
   },
   descriptionBold: {
-    fontFamily: theme.fonts.bold,
+    fontFamily: theme.fonts.default,
     fontWeight: '700',
   },
   descriptionUnderline: {

@@ -59,7 +59,7 @@ const EmailConfirmation = ({ navigation, screenProps, styles }: Props) => {
       handleSubmit={handleSubmit}
       footerComponent={props => (
         <Section.Row justifyContent="center" grow>
-          <Section.Text fontFamily="medium" fontSize={14} color="primary" onPress={handleResend}>
+          <Section.Text fontWeight="500" fontSize={14} color="primary" onPress={handleResend}>
             {`I haven't received an email`}
           </Section.Text>
         </Section.Row>
@@ -68,7 +68,7 @@ const EmailConfirmation = ({ navigation, screenProps, styles }: Props) => {
       <Section grow justifyContent="space-between" style={styles.row}>
         <Section grow>
           <Section.Row justifyContent="center">
-            <Section.Text fontFamily="medium" fontSize={16} color="darkGray">
+            <Section.Text fontWeight="500" fontSize={16} color="darkGray">
               {`We've sent an email to:`}
             </Section.Text>
           </Section.Row>

@@ -36,7 +36,7 @@ const EditProfile = ({ screenProps, theme, styles }) => {
     debounce(async (profile, storedProfile, setIsPristine, setErrors, setIsValid) => {
       if (profile && profile.validate) {
         try {
-          const isNotModified = isEqualWith(storedProfile, profile, (x, y, k) => {
+          const pristine = isEqualWith(storedProfile, profile, (x, y) => {
             if (typeof x === 'function') {
               return true
             }
@@ -47,9 +47,10 @@ const EditProfile = ({ screenProps, theme, styles }) => {
           })
           const { isValid, errors } = profile.validate()
           const { isValid: isValidIndex, errors: errorsIndex } = await userStorage.validateProfile(profile)
+
           setErrors(merge(errors, errorsIndex))
           setIsValid(isValid && isValidIndex)
-          setIsPristine(isNotModified)
+          setIsPristine(pristine)
         } catch (e) {
           log.error('validate profile failed', e, e.message)
           showErrorDialog('Unexpected error while validating profile', e)

@@ -3,7 +3,7 @@ import isValidUsername from '../isValidUsername'
 describe('isValidUsername', () => {
   // Given
   const testCases = [
-    { username: '', validity: true },
+    { username: '', validity: false },
     { username: '_', validity: true },
     { username: 'username', validity: true },
     { username: 'Username', validity: true },

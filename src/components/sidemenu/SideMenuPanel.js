@@ -93,6 +93,8 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation, s
   {
     icon: 'trash',
     name: 'Delete Account',
+    location: 'bottom',
+    color: 'red',
     action: () => {
       showDialog({
         title: 'Delete Account',
@@ -123,7 +125,7 @@ const SideMenuPanel = ({ navigation, styles, theme }: SideMenuPanelProps) => {
   const [showDialog, hideDialog] = useDialog()
   const MENU_ITEMS = getMenuItems({ API, hideSidemenu, showDialog, hideDialog, navigation, store })
   return (
-    <ScrollView>
+    <ScrollView contentContainerStyle={styles.scrollableContainer}>
       <TouchableOpacity style={styles.closeIconRow} onPress={toggleSidemenu}>
         <IconE name="close" size={20} color={theme.colors.gray50Percent} />
       </TouchableOpacity>
@@ -137,7 +139,11 @@ const SideMenuPanel = ({ navigation, styles, theme }: SideMenuPanelProps) => {
 }
 
 const sideMenuPanelStyles = ({ theme }) => ({
+  scrollableContainer: {
+    flexGrow: 1,
+  },
   closeIconRow: {
+    flex: -1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-end',
@@ -145,8 +151,10 @@ const sideMenuPanelStyles = ({ theme }) => ({
     paddingBottom: theme.sizes.defaultQuadruple,
     marginHorizontal: theme.sizes.defaultDouble,
     cursor: 'pointer',
+    minHeight: 20,
   },
   listContainer: {
+    flexGrow: 1,
     borderTopWidth: 1,
     borderTopColor: theme.colors.lightGray,
     borderTopStyle: 'solid',

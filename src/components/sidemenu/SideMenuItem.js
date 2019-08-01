@@ -10,12 +10,12 @@ export type SideMenuItemProps = {
   action: Function,
 }
 
-const SideMenuItem = ({ icon, name, action, styles, theme }: SideMenuItemProps) => (
-  <TouchableOpacity style={styles.clickableRow} onPress={action}>
+const SideMenuItem = ({ icon, name, location, color, action, styles, theme }: SideMenuItemProps) => (
+  <TouchableOpacity style={[styles.clickableRow, location === 'bottom' ? styles.alignBottom : {}]} onPress={action}>
     <View style={styles.menuIcon}>
-      <Icon name={icon} size={24} color={theme.colors.primary} />
+      <Icon name={icon} size={24} color={color === undefined ? theme.colors.primary : theme.colors[color]} />
     </View>
-    <Text color="darkGray" fontWeight="500" textAlign="left">
+    <Text color={color === undefined ? 'darkGray' : color} fontWeight="500" textAlign="left">
       {name}
     </Text>
   </TouchableOpacity>
@@ -36,9 +36,14 @@ const sideMenuItemStyles = ({ theme }) => ({
   menuIcon: {
     marginLeft: theme.sizes.default,
     marginRight: 20,
+    width: 20,
   },
   menuText: {
     paddingRight: theme.sizes.defaultDouble,
+  },
+  alignBottom: {
+    color: 'red',
+    marginTop: 'auto',
   },
 })
 

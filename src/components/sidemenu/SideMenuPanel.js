@@ -18,7 +18,7 @@ const log = logger.child({ from: 'SideMenuPanel' })
 const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation, store }) => [
   {
     icon: 'profile',
-    name: 'Your profile',
+    name: 'My profile',
     action: () => {
       navigation.navigate({
         routeName: 'Profile',
@@ -29,7 +29,7 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation, s
   },
   {
     icon: 'lock',
-    name: 'Backup Your Wallet',
+    name: 'Backup Wallet',
     action: () => {
       navigation.navigate({
         routeName: 'BackupWallet',
@@ -54,9 +54,17 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation, s
   },
   {
     icon: 'faq',
-    name: 'Privacy Policy',
+    name: 'FAQ',
     action: () => {
       navigation.navigate('PP')
+      hideSidemenu()
+    },
+  },
+  {
+    icon: 'feedback',
+    name: 'Support / Feedback',
+    action: () => {
+      navigation.navigate('Support')
       hideSidemenu()
     },
   },
@@ -68,28 +76,18 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation, s
       hideSidemenu()
     },
   },
-
-  // {
-  //   icon: 'notifications',
-  //   name: 'Notification Settings'
-  // },
-  // {
-  //   icon: 'person',
-  //   name: 'Send Feedback'
-  // },
   {
-    icon: 'feedback',
-    name: 'Support',
+    icon: 'faq',
+    name: 'Privacy Policy',
     action: () => {
-      navigation.navigate('Support')
+      navigation.navigate('PP')
       hideSidemenu()
     },
   },
-
-  // {
-  //   icon: 'question-answer',
-  //   name: 'About'
-  // },
+  {
+    icon: 'gooddollar',
+    name: 'About',
+  },
   {
     icon: 'trash',
     name: 'Delete Account',

@@ -638,7 +638,7 @@ export class UserStorage {
     }, {})
 
     const isValid = validatedFields.every(elem => elem.valid)
-    logger.debug({ fields, validatedFields, errors, isValid })
+    logger.debug({ fields, validatedFields, errors, isValid, profile })
 
     return { isValid, errors }
   }

@@ -30,12 +30,6 @@ const EditProfile = ({ screenProps, theme, styles }) => {
     setProfile(storedProfile)
   }, [isEqual(profile, {}) && storedProfile])
 
-  const handleErrors = (errors, isValid) => {
-    setErrors(errors)
-    setIsValid(isValid)
-    return isValid
-  }
-
   const validatePristine = () => {
     const stored = {
       username: `${storedProfile.username}`,
@@ -57,9 +51,12 @@ const EditProfile = ({ screenProps, theme, styles }) => {
   const validate = debounce(async () => {
     if (profile && profile.validate) {
       validatePristine()
+
       const { isValid, errors } = profile.validate()
       const { isValid: isValidIndex, errors: errorsIndex } = await userStorage.validateProfile(profile)
-      handleErrors(merge(errors, errorsIndex), isValid && isValidIndex)
+
+      setErrors(merge(errors, errorsIndex))
+      setIsValid(isValid && isValidIndex)
     }
   }, 500)
 

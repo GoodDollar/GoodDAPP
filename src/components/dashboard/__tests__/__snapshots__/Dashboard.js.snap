@@ -556,6 +556,7 @@ exports[`Dashboard matches snapshot 1`] = `
                   style={
                     Object {
                       "backgroundColor": "rgba(0,0,0,0.00)",
+                      "backgroundImage": "url(\\"unknownProfile.svg\\")",
                       "backgroundPosition": "center",
                       "backgroundRepeat": "no-repeat",
                       "backgroundSize": "cover",
@@ -569,6 +570,12 @@ exports[`Dashboard matches snapshot 1`] = `
                       "zIndex": -1,
                     }
                   }
+                />
+                <img
+                  alt=""
+                  className="css-accessibilityImage-9pa8cd"
+                  draggable={false}
+                  src="unknownProfile.svg"
                 />
               </div>
             </div>

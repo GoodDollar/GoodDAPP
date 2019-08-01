@@ -54,6 +54,10 @@ input:-webkit-autofill:focus {
   background-color: #fff !important;
 }
 
+button {
+  outline: none;
+}
+
 @font-face {
   font-family: 'gooddollar';
   src: url('./assets/fonts/gooddollar.eot');

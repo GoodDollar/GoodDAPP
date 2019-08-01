@@ -1,6 +1,8 @@
 // @flow
 import React, { useEffect, useState } from 'react'
 import debounce from 'lodash/debounce'
+import isEqual from 'lodash/isEqual'
+import merge from 'lodash/merge'
 import { useWrappedUserStorage } from '../../lib/gundb/useWrappedStorage'
 import logger from '../../lib/logger/pino-logger'
 import GDStore from '../../lib/undux/GDStore'
@@ -14,13 +16,13 @@ const TITLE = 'Edit Profile'
 const log = logger.child({ from: TITLE })
 
 const EditProfile = ({ screenProps, theme, styles }) => {
-  const store = GDStore.useStore()
   const userStorage = useWrappedUserStorage()
-  const storedProfile = store.get('privateProfile')
+  const storedProfile = GDStore.useStore().get('privateProfile')
 
   const [profile, setProfile] = useState(storedProfile)
-  const [saving, setSaving] = useState()
-  const [isValid, setIsValid] = useState()
+  const [saving, setSaving] = useState(false)
+  const [isValid, setIsValid] = useState(true)
+  const [isPristine, setIsPristine] = useState(true)
   const [errors, setErrors] = useState({})
   const [showErrorDialog] = useErrorDialog()
 
@@ -34,23 +36,31 @@ const EditProfile = ({ screenProps, theme, styles }) => {
     return isValid
   }
 
-  const validate = debounce(async () => {
-    log.info({ validate: profile })
-
-    if (profile && profile.validate) {
-      const { isValid, errors } = profile.validate()
-
-      // first we validate that the user-entered data is valid. If not, we inform the user about it
-      if (!isValid) {
-        return handleErrors(errors, isValid)
-      }
-
-      // then we check that the data is not already in use
-      const { isValid: indexIsValid, errors: indexErrors } = await userStorage.validateProfile(profile)
-      return handleErrors({ ...errors, ...indexErrors }, isValid && indexIsValid)
+  const validatePristine = () => {
+    const stored = {
+      username: `${storedProfile.username}`,
+      email: storedProfile.email,
+      fullName: storedProfile.fullName,
+      mobile: storedProfile.mobile,
+      walletAddress: storedProfile.walletAddress,
     }
+    const modified = {
+      username: `${profile.username}`,
+      email: profile.email,
+      fullName: profile.fullName,
+      mobile: profile.mobile,
+      walletAddress: profile.walletAddress,
+    }
+    setIsPristine(isEqual(stored, modified))
+  }
 
-    return false
+  const validate = debounce(async () => {
+    if (profile && profile.validate) {
+      validatePristine()
+      const { isValid, errors } = profile.validate()
+      const { isValid: isValidIndex, errors: errorsIndex } = await userStorage.validateProfile(profile)
+      handleErrors(merge(errors, errorsIndex), isValid && isValidIndex)
+    }
   }, 500)
 
   const handleProfileChange = newProfile => {
@@ -60,9 +70,8 @@ const EditProfile = ({ screenProps, theme, styles }) => {
     setProfile(newProfile)
   }
 
-  const handleSaveButton = async () => {
+  const handleSaveButton = () => {
     setSaving(true)
-    const isValid = await validate()
 
     if (!isValid) {
       setSaving(false)
@@ -79,7 +88,6 @@ const EditProfile = ({ screenProps, theme, styles }) => {
   }
 
   const onProfileSaved = () => {
-    log.info('called??')
     screenProps.pop()
   }
 
@@ -108,8 +116,7 @@ const EditProfile = ({ screenProps, theme, styles }) => {
             <CameraButton handleCameraPress={handleCameraPress} />
           </UserAvatar>
           <SaveButton
-            disabled={saving || !isValid}
-            beforeSave={validate}
+            disabled={isPristine || saving || !isValid}
             onPress={handleSaveButton}
             onPressDone={onProfileSaved}
           />

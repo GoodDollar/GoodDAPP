@@ -238,7 +238,7 @@ export class UserStorage {
     if (field === 'mobile' || field === 'phone') {
       return value.replace(/[_+-\s]+/g, '')
     }
-    return value.toLowerCase()
+    return `${value}`.toLowerCase()
   }
 
   /**
@@ -603,6 +603,11 @@ export class UserStorage {
    */
   static async isValidValue(field: string, value: string) {
     const cleanValue = UserStorage.cleanFieldForIndex(field, value)
+
+    if (!cleanValue) {
+      logger.error('indexProfileField - value is empty', cleanValue)
+      return false
+    }
 
     try {
       const indexValue = await global.gun

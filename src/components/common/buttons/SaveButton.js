@@ -15,7 +15,6 @@ type SaveButtonProps = {
   beforeSave?: () => boolean,
   onPress: () => void,
   onPressDone?: () => void,
-  loadingDelay?: number,
   doneDelay?: number,
   styles: any,
   theme: any,
@@ -23,31 +22,16 @@ type SaveButtonProps = {
   color?: string,
 }
 
-const SaveButton = ({
-  children,
-  beforeSave,
-  onPress,
-  onPressDone,
-  loadingDelay,
-  doneDelay,
-  styles,
-  theme,
-  ...props
-}: SaveButtonProps) => {
+const SaveButton = ({ children, onPress, onPressDone, doneDelay, styles, theme, ...props }: SaveButtonProps) => {
   const [state, setState] = useState(NOT_SAVED)
 
   const pressAndNextState = async () => {
+    console.info('here, pressAndNextState', SAVING)
     setState(SAVING)
-    const isValid = await beforeSave()
-    if (isValid) {
-      onPress()
-      setTimeout(() => {
-        setState(DONE)
-        setTimeout(onPressDone, doneDelay)
-      }, loadingDelay)
-    } else {
-      setState(NOT_SAVED)
-    }
+    await onPress()
+    setState(DONE)
+
+    setTimeout(onPressDone, doneDelay)
   }
 
   return (
@@ -71,8 +55,6 @@ const SaveButton = ({
 
 SaveButton.defaultProps = {
   mode: 'contained',
-  beforeSave: () => true,
-  loadingDelay: TRANSITION_TIME,
   doneDelay: TRANSITION_TIME,
   onPressDone: () => {},
 }

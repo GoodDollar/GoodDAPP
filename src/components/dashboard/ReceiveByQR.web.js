@@ -38,6 +38,7 @@ const ReceiveByQR = ({ screenProps }) => {
             title: 'Error',
             message: 'Invalid QR Code. Probably this QR code is for sending GD',
             dismissText: 'Ok',
+            type: 'error',
           })
         } else {
           const { receiveLink, reason } = extractQueryParams(url)
@@ -47,6 +48,7 @@ const ReceiveByQR = ({ screenProps }) => {
               title: 'Error',
               message: 'Invalid QR Code. Probably this QR code is for sending GD',
               dismissText: 'Ok',
+              type: 'error',
             })
           }
 

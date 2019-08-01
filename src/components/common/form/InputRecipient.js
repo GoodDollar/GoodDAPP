@@ -55,13 +55,13 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     backgroundColor: 'inherit',
-    marginTop: normalize(10),
+    marginTop: 10,
   },
   pasteIcon: {
     position: 'absolute',
     cursor: 'pointer',
     right: 0,
-    paddingTop: normalize(30),
+    paddingTop: 30,
     zIndex: 1,
   },
 })

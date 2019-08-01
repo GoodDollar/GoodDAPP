@@ -2,7 +2,6 @@
 import values from 'lodash/values'
 import React, { createRef, useEffect, useState } from 'react'
 import { StyleSheet, TextInput, View } from 'react-native'
-import normalize from '../../lib/utils/normalizeText'
 import logger from '../../lib/logger/pino-logger'
 import { withStyles } from '../../lib/styles'
 import { getScreenHeight } from '../../lib/utils/Orientation'
@@ -117,32 +116,32 @@ MnemonicInput.defaultProps = {
 
 const mnemonicInputStyles = ({ theme }) => ({
   inputContainer: {
-    width: '45%',
-    marginTop: normalize(10),
-    height: normalize(height >= 640 ? 44 : 36),
     flexDirection: 'row',
+    height: height >= 640 ? 44 : 36,
+    marginTop: theme.sizes.default,
+    width: '45%',
   },
   input: {
     backgroundColor: theme.colors.surface,
+    borderBottomRightRadius: 22,
     borderColor: theme.colors.primary,
+    borderTopRightRadius: 22,
     borderWidth: StyleSheet.hairlineWidth,
-    borderTopRightRadius: normalize(22),
-    borderBottomRightRadius: normalize(22),
-    height: normalize(height >= 640 ? 44 : 36),
-    paddingLeft: normalize(16),
-    width: normalize(94),
-    justifyContent: 'center',
     flex: 1,
+    height: height >= 640 ? 44 : 36,
+    justifyContent: 'center',
+    paddingLeft: theme.sizes.defaultDouble,
+    width: 94,
   },
   prevNumber: {
     backgroundColor: theme.colors.primary,
     borderColor: theme.colors.primary,
     borderWidth: StyleSheet.hairlineWidth,
-    borderTopLeftRadius: normalize(22),
-    borderBottomLeftRadius: normalize(22),
+    borderTopLeftRadius: 22,
+    borderBottomLeftRadius: 22,
     display: 'flex',
-    width: normalize(32),
-    height: normalize(height >= 640 ? 44 : 36),
+    width: 32,
+    height: height >= 640 ? 44 : 36,
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: theme.paddings.mainContainerPadding,

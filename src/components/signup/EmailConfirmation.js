@@ -1,6 +1,5 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import normalize from '../../lib/utils/normalizeText'
 import API from '../../lib/API/api'
 import logger from '../../lib/logger/pino-logger'
 import { withStyles } from '../../lib/styles'
@@ -60,7 +59,7 @@ const EmailConfirmation = ({ navigation, screenProps, styles }: Props) => {
       handleSubmit={handleSubmit}
       footerComponent={props => (
         <Section.Row justifyContent="center" grow>
-          <Section.Text fontFamily="medium" fontSize={14} color="primary" onPress={handleResend}>
+          <Section.Text fontWeight="500" fontSize={14} color="primary" onPress={handleResend}>
             {`I haven't received an email`}
           </Section.Text>
         </Section.Row>
@@ -69,7 +68,7 @@ const EmailConfirmation = ({ navigation, screenProps, styles }: Props) => {
       <Section grow justifyContent="space-between" style={styles.row}>
         <Section grow>
           <Section.Row justifyContent="center">
-            <Section.Text fontFamily="medium" fontSize={16} color="darkGray">
+            <Section.Text fontWeight="500" fontSize={16} color="darkGray">
               {`We've sent an email to:`}
             </Section.Text>
           </Section.Row>
@@ -93,7 +92,10 @@ const EmailConfirmation = ({ navigation, screenProps, styles }: Props) => {
 
 const getStylesFromProps = ({ theme }) => ({
   containerPadding: {
-    padding: normalize(28),
+    paddingTop: 28,
+    paddingBottom: 28,
+    paddingLeft: 28,
+    paddingRight: 28,
     alignItems: 'center',
   },
   row: {

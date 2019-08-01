@@ -9,7 +9,7 @@
 .react-phone-number-input__input {
   height: 30px;
   background: transparent;
-  border: none;
+  border-width: 0;
   font-size: 14px;
   font-family: 'Roboto';
   text-align: left;
@@ -17,7 +17,7 @@
 }
 
 .react-phone-number-input__input.react-phone-number-input__input--invalid {
-  color: #FA6C77;
+  color: #fa6c77;
 }
 
 .react-phone-number-input__icon {

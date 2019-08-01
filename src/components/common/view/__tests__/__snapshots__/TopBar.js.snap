@@ -28,10 +28,10 @@ exports[`TopBar matches snapshot with balance 1`] = `
         "borderTopLeftRadius": "5px",
         "borderTopRightRadius": "5px",
         "marginBottom": "8px",
-        "paddingBottom": "12px",
+        "paddingBottom": "8px",
         "paddingLeft": "12px",
-        "paddingRight": "12px",
-        "paddingTop": "12px",
+        "paddingRight": "8px",
+        "paddingTop": "8px",
       }
     }
   >
@@ -74,7 +74,6 @@ exports[`TopBar matches snapshot with balance 1`] = `
             "WebkitTransitionDuration": "0.15s",
             "WebkitTransitionProperty": "opacity",
             "WebkitUserSelect": "none",
-            "backgroundColor": "rgba(0,0,0,0.00)",
             "msUserSelect": "none",
             "transitionDuration": "0.15s",
             "transitionProperty": "opacity",
@@ -86,13 +85,20 @@ exports[`TopBar matches snapshot with balance 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
-              "backgroundColor": "rgba(238,238,238,1.00)",
+              "borderBottomColor": "rgba(163,163,163,1.00)",
               "borderBottomLeftRadius": "21px",
               "borderBottomRightRadius": "21px",
+              "borderBottomWidth": "1px",
+              "borderLeftColor": "rgba(163,163,163,1.00)",
+              "borderLeftWidth": "1px",
+              "borderRightColor": "rgba(163,163,163,1.00)",
+              "borderRightWidth": "1px",
+              "borderTopColor": "rgba(163,163,163,1.00)",
               "borderTopLeftRadius": "21px",
               "borderTopRightRadius": "21px",
-              "height": "44px",
-              "width": "44px",
+              "borderTopWidth": "1px",
+              "height": "42px",
+              "width": "42px",
             }
           }
         >
@@ -120,6 +126,7 @@ exports[`TopBar matches snapshot with balance 1`] = `
               style={
                 Object {
                   "backgroundColor": "rgba(0,0,0,0.00)",
+                  "backgroundImage": "url(\\"unknownProfile.svg\\")",
                   "backgroundPosition": "center",
                   "backgroundRepeat": "no-repeat",
                   "backgroundSize": "cover",
@@ -133,6 +140,12 @@ exports[`TopBar matches snapshot with balance 1`] = `
                   "zIndex": -1,
                 }
               }
+            />
+            <img
+              alt=""
+              className="css-accessibilityImage-9pa8cd"
+              draggable={false}
+              src="unknownProfile.svg"
             />
           </div>
         </div>
@@ -161,11 +174,11 @@ exports[`TopBar matches snapshot with balance 1`] = `
             Object {
               "color": "rgba(85,85,85,1.00)",
               "direction": "ltr",
-              "fontFamily": "Roboto-Bold",
+              "fontFamily": "Roboto Slab",
               "fontSize": "36px",
               "fontWeight": "700",
-              "lineHeight": "auto",
-              "marginRight": "4px",
+              "lineHeight": "22px",
+              "marginRight": "2px",
               "textAlign": "right",
               "textDecoration": "none",
               "textTransform": "none",
@@ -181,10 +194,10 @@ exports[`TopBar matches snapshot with balance 1`] = `
             Object {
               "color": "rgba(85,85,85,1.00)",
               "direction": "ltr",
-              "fontFamily": "Roboto-Bold",
-              "fontSize": "22px",
+              "fontFamily": "Roboto Slab",
+              "fontSize": "18px",
               "fontWeight": "700",
-              "lineHeight": "auto",
+              "lineHeight": "22px",
               "textAlign": "right",
               "textDecoration": "none",
               "textTransform": "none",
@@ -227,10 +240,10 @@ exports[`TopBar matches snapshot without balance 1`] = `
         "borderTopLeftRadius": "5px",
         "borderTopRightRadius": "5px",
         "marginBottom": "8px",
-        "paddingBottom": "12px",
+        "paddingBottom": "8px",
         "paddingLeft": "12px",
-        "paddingRight": "12px",
-        "paddingTop": "12px",
+        "paddingRight": "8px",
+        "paddingTop": "8px",
       }
     }
   >
@@ -273,7 +286,6 @@ exports[`TopBar matches snapshot without balance 1`] = `
             "WebkitTransitionDuration": "0.15s",
             "WebkitTransitionProperty": "opacity",
             "WebkitUserSelect": "none",
-            "backgroundColor": "rgba(0,0,0,0.00)",
             "msUserSelect": "none",
             "transitionDuration": "0.15s",
             "transitionProperty": "opacity",
@@ -285,13 +297,20 @@ exports[`TopBar matches snapshot without balance 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
-              "backgroundColor": "rgba(238,238,238,1.00)",
+              "borderBottomColor": "rgba(163,163,163,1.00)",
               "borderBottomLeftRadius": "21px",
               "borderBottomRightRadius": "21px",
+              "borderBottomWidth": "1px",
+              "borderLeftColor": "rgba(163,163,163,1.00)",
+              "borderLeftWidth": "1px",
+              "borderRightColor": "rgba(163,163,163,1.00)",
+              "borderRightWidth": "1px",
+              "borderTopColor": "rgba(163,163,163,1.00)",
               "borderTopLeftRadius": "21px",
               "borderTopRightRadius": "21px",
-              "height": "44px",
-              "width": "44px",
+              "borderTopWidth": "1px",
+              "height": "42px",
+              "width": "42px",
             }
           }
         >
@@ -319,6 +338,7 @@ exports[`TopBar matches snapshot without balance 1`] = `
               style={
                 Object {
                   "backgroundColor": "rgba(0,0,0,0.00)",
+                  "backgroundImage": "url(\\"unknownProfile.svg\\")",
                   "backgroundPosition": "center",
                   "backgroundRepeat": "no-repeat",
                   "backgroundSize": "cover",
@@ -332,6 +352,12 @@ exports[`TopBar matches snapshot without balance 1`] = `
                   "zIndex": -1,
                 }
               }
+            />
+            <img
+              alt=""
+              className="css-accessibilityImage-9pa8cd"
+              draggable={false}
+              src="unknownProfile.svg"
             />
           </div>
         </div>
@@ -369,10 +395,10 @@ exports[`TopBar should render the children component 1`] = `
         "borderTopLeftRadius": "5px",
         "borderTopRightRadius": "5px",
         "marginBottom": "8px",
-        "paddingBottom": "12px",
+        "paddingBottom": "8px",
         "paddingLeft": "12px",
-        "paddingRight": "12px",
-        "paddingTop": "12px",
+        "paddingRight": "8px",
+        "paddingTop": "8px",
       }
     }
   >
@@ -415,7 +441,6 @@ exports[`TopBar should render the children component 1`] = `
             "WebkitTransitionDuration": "0.15s",
             "WebkitTransitionProperty": "opacity",
             "WebkitUserSelect": "none",
-            "backgroundColor": "rgba(0,0,0,0.00)",
             "msUserSelect": "none",
             "transitionDuration": "0.15s",
             "transitionProperty": "opacity",
@@ -427,13 +452,20 @@ exports[`TopBar should render the children component 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
-              "backgroundColor": "rgba(238,238,238,1.00)",
+              "borderBottomColor": "rgba(163,163,163,1.00)",
               "borderBottomLeftRadius": "21px",
               "borderBottomRightRadius": "21px",
+              "borderBottomWidth": "1px",
+              "borderLeftColor": "rgba(163,163,163,1.00)",
+              "borderLeftWidth": "1px",
+              "borderRightColor": "rgba(163,163,163,1.00)",
+              "borderRightWidth": "1px",
+              "borderTopColor": "rgba(163,163,163,1.00)",
               "borderTopLeftRadius": "21px",
               "borderTopRightRadius": "21px",
-              "height": "44px",
-              "width": "44px",
+              "borderTopWidth": "1px",
+              "height": "42px",
+              "width": "42px",
             }
           }
         >
@@ -461,6 +493,7 @@ exports[`TopBar should render the children component 1`] = `
               style={
                 Object {
                   "backgroundColor": "rgba(0,0,0,0.00)",
+                  "backgroundImage": "url(\\"unknownProfile.svg\\")",
                   "backgroundPosition": "center",
                   "backgroundRepeat": "no-repeat",
                   "backgroundSize": "cover",
@@ -474,6 +507,12 @@ exports[`TopBar should render the children component 1`] = `
                   "zIndex": -1,
                 }
               }
+            />
+            <img
+              alt=""
+              className="css-accessibilityImage-9pa8cd"
+              draggable={false}
+              src="unknownProfile.svg"
             />
           </div>
         </div>

@@ -3,94 +3,114 @@
 exports[`SideMenuItem matches snapshot 1`] = `
 <div
   className="css-view-1dbjc4n"
-  data-focusable={true}
-  onKeyDown={[Function]}
-  onKeyUp={[Function]}
-  onResponderGrant={[Function]}
-  onResponderMove={[Function]}
-  onResponderRelease={[Function]}
-  onResponderTerminate={[Function]}
-  onResponderTerminationRequest={[Function]}
-  onStartShouldSetResponder={[Function]}
   style={
     Object {
-      "MozTransitionProperty": "opacity",
-      "MozUserSelect": "none",
-      "WebkitAlignItems": "center",
-      "WebkitBoxAlign": "center",
-      "WebkitBoxDirection": "normal",
-      "WebkitBoxOrient": "horizontal",
-      "WebkitBoxPack": "start",
-      "WebkitFlexDirection": "row",
-      "WebkitJustifyContent": "flex-start",
-      "WebkitTransitionDuration": "0.15s",
-      "WebkitTransitionProperty": "opacity",
-      "WebkitUserSelect": "none",
-      "alignItems": "center",
-      "borderBottomStyle": "solid",
-      "borderBottomWidth": "1px",
-      "cursor": "pointer",
-      "flexDirection": "row",
-      "justifyContent": "flex-start",
-      "msFlexAlign": "center",
-      "msFlexDirection": "row",
-      "msFlexPack": "start",
-      "msTouchAction": "manipulation",
-      "msUserSelect": "none",
-      "paddingBottom": "16px",
-      "paddingLeft": "0px",
-      "paddingRight": "16px",
-      "paddingTop": "16px",
-      "touchAction": "manipulation",
-      "transitionDuration": "0.15s",
-      "transitionProperty": "opacity",
-      "userSelect": "none",
+      "WebkitBoxFlex": 1,
+      "WebkitFlexBasis": "0%",
+      "WebkitFlexGrow": 1,
+      "WebkitFlexShrink": 1,
+      "flexBasis": "0%",
+      "flexGrow": 1,
+      "flexShrink": 1,
+      "msFlexNegative": 1,
+      "msFlexPositive": 1,
+      "msFlexPreferredSize": "0%",
     }
   }
-  tabIndex="0"
 >
   <div
     className="css-view-1dbjc4n"
+    data-focusable={true}
+    onKeyDown={[Function]}
+    onKeyUp={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
     style={
       Object {
-        "marginLeft": "8px",
-        "marginRight": "20px",
+        "MozTransitionProperty": "opacity",
+        "MozUserSelect": "none",
+        "WebkitAlignItems": "center",
+        "WebkitBoxAlign": "center",
+        "WebkitBoxDirection": "normal",
+        "WebkitBoxOrient": "horizontal",
+        "WebkitBoxPack": "start",
+        "WebkitFlexDirection": "row",
+        "WebkitJustifyContent": "flex-start",
+        "WebkitTransitionDuration": "0.15s",
+        "WebkitTransitionProperty": "opacity",
+        "WebkitUserSelect": "none",
+        "alignItems": "center",
+        "borderBottomColor": "rgba(238,238,238,1.00)",
+        "borderBottomStyle": "solid",
+        "borderBottomWidth": "1px",
+        "cursor": "pointer",
+        "flexDirection": "row",
+        "justifyContent": "flex-start",
+        "msFlexAlign": "center",
+        "msFlexDirection": "row",
+        "msFlexPack": "start",
+        "msTouchAction": "manipulation",
+        "msUserSelect": "none",
+        "paddingBottom": "16px",
+        "paddingLeft": "0px",
+        "paddingRight": "16px",
+        "paddingTop": "16px",
+        "touchAction": "manipulation",
+        "transitionDuration": "0.15s",
+        "transitionProperty": "opacity",
+        "userSelect": "none",
       }
     }
+    tabIndex="0"
   >
+    <div
+      className="css-view-1dbjc4n"
+      style={
+        Object {
+          "marginLeft": "8px",
+          "marginRight": "20px",
+        }
+      }
+    >
+      <div
+        className="css-text-901oao"
+        dir="auto"
+        style={
+          Object {
+            "color": "rgba(0,175,255,1.00)",
+            "fontFamily": "gooddollar",
+            "fontSize": "24px",
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          }
+        }
+      >
+        ?
+      </div>
+    </div>
     <div
       className="css-text-901oao"
       dir="auto"
       style={
         Object {
-          "color": "rgba(98,0,238,1.00)",
-          "fontFamily": "gooddollar",
-          "fontSize": "24px",
-          "fontStyle": "normal",
-          "fontWeight": "normal",
+          "color": "rgba(66,69,74,1.00)",
+          "direction": "ltr",
+          "fontFamily": "Roboto",
+          "fontSize": "16px",
+          "fontWeight": "500",
+          "lineHeight": "22px",
+          "textAlign": "left",
+          "textDecoration": "none",
+          "textTransform": "none",
         }
       }
     >
-      ?
+      Profile
     </div>
-  </div>
-  <div
-    className="css-text-901oao"
-    dir="auto"
-    style={
-      Object {
-        "direction": "ltr",
-        "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-        "fontSize": "16px",
-        "fontWeight": "normal",
-        "lineHeight": "22px",
-        "textAlign": "left",
-        "textDecoration": "none",
-        "textTransform": "none",
-      }
-    }
-  >
-    Profile
   </div>
 </div>
 `;

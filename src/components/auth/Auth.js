@@ -59,14 +59,14 @@ class Auth extends React.Component<Props> {
               </Section.Text>
             </Section.Row>
             <Section.Row alignItems="center" justifyContent="center" style={styles.bottomRow}>
-              <Section.Text color="surface" fontFamily="medium" fontSize={16}>
+              <Section.Text color="surface" fontWeight="500" fontSize={16}>
                 {`They have NO real value. \n And will be deleted at the end of the Alpha.`}
               </Section.Text>
             </Section.Row>
           </Wrapper>
         </Section>
         <View style={styles.bottomContainer}>
-          <Text fontFamily="regular" fontSize={12} color="gray80Percent">
+          <Text fontSize={12} color="gray80Percent">
             {`By clicking the 'Create a wallet' button,\n you are accepting our\n`}
             <Text style={styles.acceptTermsLink} onPress={this.handleNavigateTermsOfUse}>
               Terms of Use
@@ -79,15 +79,9 @@ class Auth extends React.Component<Props> {
           <CustomButton style={styles.buttonLayout} onPress={this.handleSignUp}>
             Create a wallet
           </CustomButton>
-          <Text fontFamily="medium" fontSize={14} color="primary" onPress={this.handleSignIn}>
+          <Text fontWeight="500" fontSize={14} color="primary" onPress={this.handleSignIn}>
             {`Already have a wallet? `}
-            <Text
-              fontFamily="medium"
-              fontSize={14}
-              color="primary"
-              onPress={this.handleSignIn}
-              style={styles.underlined}
-            >
+            <Text fontWeight="500" fontSize={14} color="primary" onPress={this.handleSignIn} style={styles.underlined}>
               Login
             </Text>
           </Text>
@@ -107,14 +101,14 @@ const getStylesFromProps = ({ theme }) => {
       paddingHorizontal: 0,
     },
     containerPadding: {
-      padding: normalize(28),
+      padding: 28,
       alignItems: 'center',
     },
     topRow: {
       borderBottomColor: theme.colors.surface,
       borderBottomWidth: 1,
       paddingBottom: theme.sizes.defaultDouble,
-      maxWidth: normalize(276),
+      maxWidth: 276,
     },
     bottomRow: {
       paddingTop: theme.sizes.defaultDouble,
@@ -123,14 +117,15 @@ const getStylesFromProps = ({ theme }) => {
       padding: theme.sizes.defaultDouble,
     },
     buttonLayout: {
-      marginVertical: normalize(20),
+      marginVertical: 20,
     },
     acceptTermsLink: {
       color: theme.colors.gray80Percent,
+      fontFamily: theme.fonts.default,
       fontSize: normalize(12),
-      fontFamily: theme.fonts.bold,
-      textAlign: 'center',
+      fontWeight: '700',
       marginTop: theme.sizes.default,
+      textAlign: 'center',
       textDecorationLine: 'underline',
     },
     underlined: {

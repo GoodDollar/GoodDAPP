@@ -7,6 +7,7 @@ import { extractQueryParams, readReceiveLink } from '../../lib/share'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { wrapFunction } from '../../lib/undux/utils/wrapper'
 import { executeWithdraw } from '../../lib/undux/utils/withdraw'
+import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import { Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 
@@ -18,6 +19,7 @@ const ReceiveByQR = ({ screenProps }) => {
   const [qrDelay, setQRDelay] = useState(QR_DEFAULT_DELAY)
   const [withdrawParams, setWithdrawParams] = useState({ receiveLink: '', reason: '' })
   const store = SimpleStore.useStore()
+  const [showErrorDialog] = useErrorDialog()
 
   const onDismissDialog = () => setQRDelay(QR_DEFAULT_DELAY)
 
@@ -31,26 +33,12 @@ const ReceiveByQR = ({ screenProps }) => {
         log.debug({ url })
 
         if (url === null) {
-          store.set('currentScreen')({
-            dialogData: {
-              visible: true,
-              title: 'Error',
-              message: 'Invalid QR Code. Probably this QR code is for sending GD',
-              dismissText: 'Ok',
-            },
-          })
+          showErrorDialog('Invalid QR Code. Probably this QR code is for sending GD')
         } else {
           const { receiveLink, reason } = extractQueryParams(url)
 
           if (!receiveLink) {
-            store.set('currentScreen')({
-              dialogData: {
-                visible: true,
-                title: 'Error',
-                message: 'Invalid QR Code. Probably this QR code is for sending GD',
-                dismissText: 'Ok',
-              },
-            })
+            showErrorDialog('Invalid QR Code. Probably this QR code is for sending GD')
           }
 
           setWithdrawParams({ receiveLink, reason })
@@ -65,12 +53,16 @@ const ReceiveByQR = ({ screenProps }) => {
 
   const runWithdraw = async () => {
     if (withdrawParams.receiveLink) {
-      const receipt = await executeWithdraw(store, withdrawParams.receiveLink)
-      screenProps.navigateTo('Home', {
-        event: receipt.transactionHash,
-        receiveLink: undefined,
-        reason: undefined,
-      })
+      try {
+        const receipt = await executeWithdraw(store, withdrawParams.receiveLink)
+        screenProps.navigateTo('Home', {
+          event: receipt.transactionHash,
+          receiveLink: undefined,
+          reason: undefined,
+        })
+      } catch (e) {
+        showErrorDialog(e)
+      }
     }
   }
 

@@ -67,9 +67,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
         data-focusable={true}
         dir="auto"
         disabled={false}
-        max={9}
         maxLength="1"
-        min={0}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -78,7 +76,6 @@ exports[`OtpInput empty matches snapshot 1`] = `
         onKeyPress={[Function]}
         onPaste={[Function]}
         onSelect={[Function]}
-        placeholder="*"
         readOnly={false}
         spellCheck={true}
         style={
@@ -114,9 +111,9 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "disabled": "rgba(0, 0, 0, 0.26)",
               "error": "#FA6C77",
               "gray": "#555",
-              "gray50Percent": "#CBCBCB",
               "gray80Percent": "#A3A3A3",
               "green": "#00C3AE",
+              "jaggedEdgeSize": "#CBCBCB",
               "lightGray": "#EEE",
               "lighterGray": "#A3A3A3",
               "notification": "#f50057",
@@ -140,12 +137,11 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "textAlign": "center",
             },
             "fonts": Object {
-              "bold": "Roboto-Bold",
+              "default": "Roboto",
               "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-              "medium": "Roboto-Medium",
-              "regular": "Roboto",
-              "slab": "RobotoSlab-Regular",
-              "slabBold": "RobotoSlab-Bold",
+              "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "slab": "Roboto Slab",
               "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
             },
             "modals": Object {
@@ -153,7 +149,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "borderLeftWidth": 10,
               "borderRadius": 5,
               "contentPadding": 16,
-              "jaggedEdgeSize": 15,
+              "jaggedEdgeSize": 16,
               "overlayBackgroundColor": "rgba(255, 255, 255, 0.8)",
               "overlayHorizontalPadding": 20,
               "overlayVerticalPadding": 30,
@@ -172,7 +168,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
             },
           }
         }
-        type="text"
+        type="tel"
         value=""
       />
     </div>
@@ -208,9 +204,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
         data-focusable={true}
         dir="auto"
         disabled={false}
-        max={9}
         maxLength="1"
-        min={0}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -219,7 +213,6 @@ exports[`OtpInput empty matches snapshot 1`] = `
         onKeyPress={[Function]}
         onPaste={[Function]}
         onSelect={[Function]}
-        placeholder="*"
         readOnly={false}
         spellCheck={true}
         style={
@@ -255,9 +248,9 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "disabled": "rgba(0, 0, 0, 0.26)",
               "error": "#FA6C77",
               "gray": "#555",
-              "gray50Percent": "#CBCBCB",
               "gray80Percent": "#A3A3A3",
               "green": "#00C3AE",
+              "jaggedEdgeSize": "#CBCBCB",
               "lightGray": "#EEE",
               "lighterGray": "#A3A3A3",
               "notification": "#f50057",
@@ -281,12 +274,11 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "textAlign": "center",
             },
             "fonts": Object {
-              "bold": "Roboto-Bold",
+              "default": "Roboto",
               "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-              "medium": "Roboto-Medium",
-              "regular": "Roboto",
-              "slab": "RobotoSlab-Regular",
-              "slabBold": "RobotoSlab-Bold",
+              "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "slab": "Roboto Slab",
               "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
             },
             "modals": Object {
@@ -294,7 +286,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "borderLeftWidth": 10,
               "borderRadius": 5,
               "contentPadding": 16,
-              "jaggedEdgeSize": 15,
+              "jaggedEdgeSize": 16,
               "overlayBackgroundColor": "rgba(255, 255, 255, 0.8)",
               "overlayHorizontalPadding": 20,
               "overlayVerticalPadding": 30,
@@ -313,7 +305,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
             },
           }
         }
-        type="text"
+        type="tel"
         value=""
       />
     </div>
@@ -349,9 +341,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
         data-focusable={true}
         dir="auto"
         disabled={false}
-        max={9}
         maxLength="1"
-        min={0}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -360,7 +350,6 @@ exports[`OtpInput empty matches snapshot 1`] = `
         onKeyPress={[Function]}
         onPaste={[Function]}
         onSelect={[Function]}
-        placeholder="*"
         readOnly={false}
         spellCheck={true}
         style={
@@ -396,9 +385,9 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "disabled": "rgba(0, 0, 0, 0.26)",
               "error": "#FA6C77",
               "gray": "#555",
-              "gray50Percent": "#CBCBCB",
               "gray80Percent": "#A3A3A3",
               "green": "#00C3AE",
+              "jaggedEdgeSize": "#CBCBCB",
               "lightGray": "#EEE",
               "lighterGray": "#A3A3A3",
               "notification": "#f50057",
@@ -422,12 +411,11 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "textAlign": "center",
             },
             "fonts": Object {
-              "bold": "Roboto-Bold",
+              "default": "Roboto",
               "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-              "medium": "Roboto-Medium",
-              "regular": "Roboto",
-              "slab": "RobotoSlab-Regular",
-              "slabBold": "RobotoSlab-Bold",
+              "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "slab": "Roboto Slab",
               "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
             },
             "modals": Object {
@@ -435,7 +423,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "borderLeftWidth": 10,
               "borderRadius": 5,
               "contentPadding": 16,
-              "jaggedEdgeSize": 15,
+              "jaggedEdgeSize": 16,
               "overlayBackgroundColor": "rgba(255, 255, 255, 0.8)",
               "overlayHorizontalPadding": 20,
               "overlayVerticalPadding": 30,
@@ -454,7 +442,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
             },
           }
         }
-        type="text"
+        type="tel"
         value=""
       />
     </div>
@@ -490,9 +478,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
         data-focusable={true}
         dir="auto"
         disabled={false}
-        max={9}
         maxLength="1"
-        min={0}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -501,7 +487,6 @@ exports[`OtpInput empty matches snapshot 1`] = `
         onKeyPress={[Function]}
         onPaste={[Function]}
         onSelect={[Function]}
-        placeholder="*"
         readOnly={false}
         spellCheck={true}
         style={
@@ -537,9 +522,9 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "disabled": "rgba(0, 0, 0, 0.26)",
               "error": "#FA6C77",
               "gray": "#555",
-              "gray50Percent": "#CBCBCB",
               "gray80Percent": "#A3A3A3",
               "green": "#00C3AE",
+              "jaggedEdgeSize": "#CBCBCB",
               "lightGray": "#EEE",
               "lighterGray": "#A3A3A3",
               "notification": "#f50057",
@@ -563,12 +548,11 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "textAlign": "center",
             },
             "fonts": Object {
-              "bold": "Roboto-Bold",
+              "default": "Roboto",
               "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-              "medium": "Roboto-Medium",
-              "regular": "Roboto",
-              "slab": "RobotoSlab-Regular",
-              "slabBold": "RobotoSlab-Bold",
+              "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "slab": "Roboto Slab",
               "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
             },
             "modals": Object {
@@ -576,7 +560,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "borderLeftWidth": 10,
               "borderRadius": 5,
               "contentPadding": 16,
-              "jaggedEdgeSize": 15,
+              "jaggedEdgeSize": 16,
               "overlayBackgroundColor": "rgba(255, 255, 255, 0.8)",
               "overlayHorizontalPadding": 20,
               "overlayVerticalPadding": 30,
@@ -595,7 +579,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
             },
           }
         }
-        type="text"
+        type="tel"
         value=""
       />
     </div>
@@ -631,9 +615,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
         data-focusable={true}
         dir="auto"
         disabled={false}
-        max={9}
         maxLength="1"
-        min={0}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -642,7 +624,6 @@ exports[`OtpInput empty matches snapshot 1`] = `
         onKeyPress={[Function]}
         onPaste={[Function]}
         onSelect={[Function]}
-        placeholder="*"
         readOnly={false}
         spellCheck={true}
         style={
@@ -678,9 +659,9 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "disabled": "rgba(0, 0, 0, 0.26)",
               "error": "#FA6C77",
               "gray": "#555",
-              "gray50Percent": "#CBCBCB",
               "gray80Percent": "#A3A3A3",
               "green": "#00C3AE",
+              "jaggedEdgeSize": "#CBCBCB",
               "lightGray": "#EEE",
               "lighterGray": "#A3A3A3",
               "notification": "#f50057",
@@ -704,12 +685,11 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "textAlign": "center",
             },
             "fonts": Object {
-              "bold": "Roboto-Bold",
+              "default": "Roboto",
               "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-              "medium": "Roboto-Medium",
-              "regular": "Roboto",
-              "slab": "RobotoSlab-Regular",
-              "slabBold": "RobotoSlab-Bold",
+              "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "slab": "Roboto Slab",
               "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
             },
             "modals": Object {
@@ -717,7 +697,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "borderLeftWidth": 10,
               "borderRadius": 5,
               "contentPadding": 16,
-              "jaggedEdgeSize": 15,
+              "jaggedEdgeSize": 16,
               "overlayBackgroundColor": "rgba(255, 255, 255, 0.8)",
               "overlayHorizontalPadding": 20,
               "overlayVerticalPadding": 30,
@@ -736,7 +716,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
             },
           }
         }
-        type="text"
+        type="tel"
         value=""
       />
     </div>
@@ -772,9 +752,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
         data-focusable={true}
         dir="auto"
         disabled={false}
-        max={9}
         maxLength="1"
-        min={0}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -783,7 +761,6 @@ exports[`OtpInput empty matches snapshot 1`] = `
         onKeyPress={[Function]}
         onPaste={[Function]}
         onSelect={[Function]}
-        placeholder="*"
         readOnly={false}
         spellCheck={true}
         style={
@@ -819,9 +796,9 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "disabled": "rgba(0, 0, 0, 0.26)",
               "error": "#FA6C77",
               "gray": "#555",
-              "gray50Percent": "#CBCBCB",
               "gray80Percent": "#A3A3A3",
               "green": "#00C3AE",
+              "jaggedEdgeSize": "#CBCBCB",
               "lightGray": "#EEE",
               "lighterGray": "#A3A3A3",
               "notification": "#f50057",
@@ -845,12 +822,11 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "textAlign": "center",
             },
             "fonts": Object {
-              "bold": "Roboto-Bold",
+              "default": "Roboto",
               "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-              "medium": "Roboto-Medium",
-              "regular": "Roboto",
-              "slab": "RobotoSlab-Regular",
-              "slabBold": "RobotoSlab-Bold",
+              "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "slab": "Roboto Slab",
               "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
             },
             "modals": Object {
@@ -858,7 +834,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "borderLeftWidth": 10,
               "borderRadius": 5,
               "contentPadding": 16,
-              "jaggedEdgeSize": 15,
+              "jaggedEdgeSize": 16,
               "overlayBackgroundColor": "rgba(255, 255, 255, 0.8)",
               "overlayHorizontalPadding": 20,
               "overlayVerticalPadding": 30,
@@ -877,7 +853,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
             },
           }
         }
-        type="text"
+        type="tel"
         value=""
       />
     </div>
@@ -961,7 +937,6 @@ exports[`OtpInput matches snapshot 1`] = `
         onKeyPress={[Function]}
         onPaste={[Function]}
         onSelect={[Function]}
-        placeholder="*"
         readOnly={false}
         spellCheck={true}
         style={
@@ -997,9 +972,9 @@ exports[`OtpInput matches snapshot 1`] = `
               "disabled": "rgba(0, 0, 0, 0.26)",
               "error": "#FA6C77",
               "gray": "#555",
-              "gray50Percent": "#CBCBCB",
               "gray80Percent": "#A3A3A3",
               "green": "#00C3AE",
+              "jaggedEdgeSize": "#CBCBCB",
               "lightGray": "#EEE",
               "lighterGray": "#A3A3A3",
               "notification": "#f50057",
@@ -1023,12 +998,11 @@ exports[`OtpInput matches snapshot 1`] = `
               "textAlign": "center",
             },
             "fonts": Object {
-              "bold": "Roboto-Bold",
+              "default": "Roboto",
               "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-              "medium": "Roboto-Medium",
-              "regular": "Roboto",
-              "slab": "RobotoSlab-Regular",
-              "slabBold": "RobotoSlab-Bold",
+              "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "slab": "Roboto Slab",
               "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
             },
             "modals": Object {
@@ -1036,7 +1010,7 @@ exports[`OtpInput matches snapshot 1`] = `
               "borderLeftWidth": 10,
               "borderRadius": 5,
               "contentPadding": 16,
-              "jaggedEdgeSize": 15,
+              "jaggedEdgeSize": 16,
               "overlayBackgroundColor": "rgba(255, 255, 255, 0.8)",
               "overlayHorizontalPadding": 20,
               "overlayVerticalPadding": 30,
@@ -1100,7 +1074,6 @@ exports[`OtpInput matches snapshot 1`] = `
         onKeyPress={[Function]}
         onPaste={[Function]}
         onSelect={[Function]}
-        placeholder="*"
         readOnly={false}
         spellCheck={true}
         style={
@@ -1136,9 +1109,9 @@ exports[`OtpInput matches snapshot 1`] = `
               "disabled": "rgba(0, 0, 0, 0.26)",
               "error": "#FA6C77",
               "gray": "#555",
-              "gray50Percent": "#CBCBCB",
               "gray80Percent": "#A3A3A3",
               "green": "#00C3AE",
+              "jaggedEdgeSize": "#CBCBCB",
               "lightGray": "#EEE",
               "lighterGray": "#A3A3A3",
               "notification": "#f50057",
@@ -1162,12 +1135,11 @@ exports[`OtpInput matches snapshot 1`] = `
               "textAlign": "center",
             },
             "fonts": Object {
-              "bold": "Roboto-Bold",
+              "default": "Roboto",
               "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-              "medium": "Roboto-Medium",
-              "regular": "Roboto",
-              "slab": "RobotoSlab-Regular",
-              "slabBold": "RobotoSlab-Bold",
+              "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "slab": "Roboto Slab",
               "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
             },
             "modals": Object {
@@ -1175,7 +1147,7 @@ exports[`OtpInput matches snapshot 1`] = `
               "borderLeftWidth": 10,
               "borderRadius": 5,
               "contentPadding": 16,
-              "jaggedEdgeSize": 15,
+              "jaggedEdgeSize": 16,
               "overlayBackgroundColor": "rgba(255, 255, 255, 0.8)",
               "overlayHorizontalPadding": 20,
               "overlayVerticalPadding": 30,
@@ -1239,7 +1211,6 @@ exports[`OtpInput matches snapshot 1`] = `
         onKeyPress={[Function]}
         onPaste={[Function]}
         onSelect={[Function]}
-        placeholder="*"
         readOnly={false}
         spellCheck={true}
         style={
@@ -1275,9 +1246,9 @@ exports[`OtpInput matches snapshot 1`] = `
               "disabled": "rgba(0, 0, 0, 0.26)",
               "error": "#FA6C77",
               "gray": "#555",
-              "gray50Percent": "#CBCBCB",
               "gray80Percent": "#A3A3A3",
               "green": "#00C3AE",
+              "jaggedEdgeSize": "#CBCBCB",
               "lightGray": "#EEE",
               "lighterGray": "#A3A3A3",
               "notification": "#f50057",
@@ -1301,12 +1272,11 @@ exports[`OtpInput matches snapshot 1`] = `
               "textAlign": "center",
             },
             "fonts": Object {
-              "bold": "Roboto-Bold",
+              "default": "Roboto",
               "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-              "medium": "Roboto-Medium",
-              "regular": "Roboto",
-              "slab": "RobotoSlab-Regular",
-              "slabBold": "RobotoSlab-Bold",
+              "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "slab": "Roboto Slab",
               "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
             },
             "modals": Object {
@@ -1314,7 +1284,7 @@ exports[`OtpInput matches snapshot 1`] = `
               "borderLeftWidth": 10,
               "borderRadius": 5,
               "contentPadding": 16,
-              "jaggedEdgeSize": 15,
+              "jaggedEdgeSize": 16,
               "overlayBackgroundColor": "rgba(255, 255, 255, 0.8)",
               "overlayHorizontalPadding": 20,
               "overlayVerticalPadding": 30,
@@ -1378,7 +1348,6 @@ exports[`OtpInput matches snapshot 1`] = `
         onKeyPress={[Function]}
         onPaste={[Function]}
         onSelect={[Function]}
-        placeholder="*"
         readOnly={false}
         spellCheck={true}
         style={
@@ -1414,9 +1383,9 @@ exports[`OtpInput matches snapshot 1`] = `
               "disabled": "rgba(0, 0, 0, 0.26)",
               "error": "#FA6C77",
               "gray": "#555",
-              "gray50Percent": "#CBCBCB",
               "gray80Percent": "#A3A3A3",
               "green": "#00C3AE",
+              "jaggedEdgeSize": "#CBCBCB",
               "lightGray": "#EEE",
               "lighterGray": "#A3A3A3",
               "notification": "#f50057",
@@ -1440,12 +1409,11 @@ exports[`OtpInput matches snapshot 1`] = `
               "textAlign": "center",
             },
             "fonts": Object {
-              "bold": "Roboto-Bold",
+              "default": "Roboto",
               "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-              "medium": "Roboto-Medium",
-              "regular": "Roboto",
-              "slab": "RobotoSlab-Regular",
-              "slabBold": "RobotoSlab-Bold",
+              "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "slab": "Roboto Slab",
               "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
             },
             "modals": Object {
@@ -1453,7 +1421,7 @@ exports[`OtpInput matches snapshot 1`] = `
               "borderLeftWidth": 10,
               "borderRadius": 5,
               "contentPadding": 16,
-              "jaggedEdgeSize": 15,
+              "jaggedEdgeSize": 16,
               "overlayBackgroundColor": "rgba(255, 255, 255, 0.8)",
               "overlayHorizontalPadding": 20,
               "overlayVerticalPadding": 30,
@@ -1517,7 +1485,6 @@ exports[`OtpInput matches snapshot 1`] = `
         onKeyPress={[Function]}
         onPaste={[Function]}
         onSelect={[Function]}
-        placeholder="*"
         readOnly={false}
         spellCheck={true}
         style={
@@ -1553,9 +1520,9 @@ exports[`OtpInput matches snapshot 1`] = `
               "disabled": "rgba(0, 0, 0, 0.26)",
               "error": "#FA6C77",
               "gray": "#555",
-              "gray50Percent": "#CBCBCB",
               "gray80Percent": "#A3A3A3",
               "green": "#00C3AE",
+              "jaggedEdgeSize": "#CBCBCB",
               "lightGray": "#EEE",
               "lighterGray": "#A3A3A3",
               "notification": "#f50057",
@@ -1579,12 +1546,11 @@ exports[`OtpInput matches snapshot 1`] = `
               "textAlign": "center",
             },
             "fonts": Object {
-              "bold": "Roboto-Bold",
+              "default": "Roboto",
               "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-              "medium": "Roboto-Medium",
-              "regular": "Roboto",
-              "slab": "RobotoSlab-Regular",
-              "slabBold": "RobotoSlab-Bold",
+              "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "slab": "Roboto Slab",
               "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
             },
             "modals": Object {
@@ -1592,7 +1558,7 @@ exports[`OtpInput matches snapshot 1`] = `
               "borderLeftWidth": 10,
               "borderRadius": 5,
               "contentPadding": 16,
-              "jaggedEdgeSize": 15,
+              "jaggedEdgeSize": 16,
               "overlayBackgroundColor": "rgba(255, 255, 255, 0.8)",
               "overlayHorizontalPadding": 20,
               "overlayVerticalPadding": 30,
@@ -1656,7 +1622,6 @@ exports[`OtpInput matches snapshot 1`] = `
         onKeyPress={[Function]}
         onPaste={[Function]}
         onSelect={[Function]}
-        placeholder="*"
         readOnly={false}
         spellCheck={true}
         style={
@@ -1692,9 +1657,9 @@ exports[`OtpInput matches snapshot 1`] = `
               "disabled": "rgba(0, 0, 0, 0.26)",
               "error": "#FA6C77",
               "gray": "#555",
-              "gray50Percent": "#CBCBCB",
               "gray80Percent": "#A3A3A3",
               "green": "#00C3AE",
+              "jaggedEdgeSize": "#CBCBCB",
               "lightGray": "#EEE",
               "lighterGray": "#A3A3A3",
               "notification": "#f50057",
@@ -1718,12 +1683,11 @@ exports[`OtpInput matches snapshot 1`] = `
               "textAlign": "center",
             },
             "fonts": Object {
-              "bold": "Roboto-Bold",
+              "default": "Roboto",
               "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-              "medium": "Roboto-Medium",
-              "regular": "Roboto",
-              "slab": "RobotoSlab-Regular",
-              "slabBold": "RobotoSlab-Bold",
+              "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "slab": "Roboto Slab",
               "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
             },
             "modals": Object {
@@ -1731,7 +1695,7 @@ exports[`OtpInput matches snapshot 1`] = `
               "borderLeftWidth": 10,
               "borderRadius": 5,
               "contentPadding": 16,
-              "jaggedEdgeSize": 15,
+              "jaggedEdgeSize": 16,
               "overlayBackgroundColor": "rgba(255, 255, 255, 0.8)",
               "overlayHorizontalPadding": 20,
               "overlayVerticalPadding": 30,
@@ -1825,9 +1789,7 @@ exports[`OtpInput number matches snapshot 1`] = `
         data-focusable={true}
         dir="auto"
         disabled={false}
-        max={9}
         maxLength="1"
-        min={0}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -1836,7 +1798,6 @@ exports[`OtpInput number matches snapshot 1`] = `
         onKeyPress={[Function]}
         onPaste={[Function]}
         onSelect={[Function]}
-        placeholder="*"
         readOnly={false}
         spellCheck={true}
         style={
@@ -1872,9 +1833,9 @@ exports[`OtpInput number matches snapshot 1`] = `
               "disabled": "rgba(0, 0, 0, 0.26)",
               "error": "#FA6C77",
               "gray": "#555",
-              "gray50Percent": "#CBCBCB",
               "gray80Percent": "#A3A3A3",
               "green": "#00C3AE",
+              "jaggedEdgeSize": "#CBCBCB",
               "lightGray": "#EEE",
               "lighterGray": "#A3A3A3",
               "notification": "#f50057",
@@ -1898,12 +1859,11 @@ exports[`OtpInput number matches snapshot 1`] = `
               "textAlign": "center",
             },
             "fonts": Object {
-              "bold": "Roboto-Bold",
+              "default": "Roboto",
               "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-              "medium": "Roboto-Medium",
-              "regular": "Roboto",
-              "slab": "RobotoSlab-Regular",
-              "slabBold": "RobotoSlab-Bold",
+              "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "slab": "Roboto Slab",
               "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
             },
             "modals": Object {
@@ -1911,7 +1871,7 @@ exports[`OtpInput number matches snapshot 1`] = `
               "borderLeftWidth": 10,
               "borderRadius": 5,
               "contentPadding": 16,
-              "jaggedEdgeSize": 15,
+              "jaggedEdgeSize": 16,
               "overlayBackgroundColor": "rgba(255, 255, 255, 0.8)",
               "overlayHorizontalPadding": 20,
               "overlayVerticalPadding": 30,
@@ -1930,7 +1890,7 @@ exports[`OtpInput number matches snapshot 1`] = `
             },
           }
         }
-        type="text"
+        type="tel"
         value="1"
       />
     </div>
@@ -1966,9 +1926,7 @@ exports[`OtpInput number matches snapshot 1`] = `
         data-focusable={true}
         dir="auto"
         disabled={false}
-        max={9}
         maxLength="1"
-        min={0}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -1977,7 +1935,6 @@ exports[`OtpInput number matches snapshot 1`] = `
         onKeyPress={[Function]}
         onPaste={[Function]}
         onSelect={[Function]}
-        placeholder="*"
         readOnly={false}
         spellCheck={true}
         style={
@@ -2013,9 +1970,9 @@ exports[`OtpInput number matches snapshot 1`] = `
               "disabled": "rgba(0, 0, 0, 0.26)",
               "error": "#FA6C77",
               "gray": "#555",
-              "gray50Percent": "#CBCBCB",
               "gray80Percent": "#A3A3A3",
               "green": "#00C3AE",
+              "jaggedEdgeSize": "#CBCBCB",
               "lightGray": "#EEE",
               "lighterGray": "#A3A3A3",
               "notification": "#f50057",
@@ -2039,12 +1996,11 @@ exports[`OtpInput number matches snapshot 1`] = `
               "textAlign": "center",
             },
             "fonts": Object {
-              "bold": "Roboto-Bold",
+              "default": "Roboto",
               "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-              "medium": "Roboto-Medium",
-              "regular": "Roboto",
-              "slab": "RobotoSlab-Regular",
-              "slabBold": "RobotoSlab-Bold",
+              "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "slab": "Roboto Slab",
               "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
             },
             "modals": Object {
@@ -2052,7 +2008,7 @@ exports[`OtpInput number matches snapshot 1`] = `
               "borderLeftWidth": 10,
               "borderRadius": 5,
               "contentPadding": 16,
-              "jaggedEdgeSize": 15,
+              "jaggedEdgeSize": 16,
               "overlayBackgroundColor": "rgba(255, 255, 255, 0.8)",
               "overlayHorizontalPadding": 20,
               "overlayVerticalPadding": 30,
@@ -2071,7 +2027,7 @@ exports[`OtpInput number matches snapshot 1`] = `
             },
           }
         }
-        type="text"
+        type="tel"
         value="2"
       />
     </div>
@@ -2107,9 +2063,7 @@ exports[`OtpInput number matches snapshot 1`] = `
         data-focusable={true}
         dir="auto"
         disabled={false}
-        max={9}
         maxLength="1"
-        min={0}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -2118,7 +2072,6 @@ exports[`OtpInput number matches snapshot 1`] = `
         onKeyPress={[Function]}
         onPaste={[Function]}
         onSelect={[Function]}
-        placeholder="*"
         readOnly={false}
         spellCheck={true}
         style={
@@ -2154,9 +2107,9 @@ exports[`OtpInput number matches snapshot 1`] = `
               "disabled": "rgba(0, 0, 0, 0.26)",
               "error": "#FA6C77",
               "gray": "#555",
-              "gray50Percent": "#CBCBCB",
               "gray80Percent": "#A3A3A3",
               "green": "#00C3AE",
+              "jaggedEdgeSize": "#CBCBCB",
               "lightGray": "#EEE",
               "lighterGray": "#A3A3A3",
               "notification": "#f50057",
@@ -2180,12 +2133,11 @@ exports[`OtpInput number matches snapshot 1`] = `
               "textAlign": "center",
             },
             "fonts": Object {
-              "bold": "Roboto-Bold",
+              "default": "Roboto",
               "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-              "medium": "Roboto-Medium",
-              "regular": "Roboto",
-              "slab": "RobotoSlab-Regular",
-              "slabBold": "RobotoSlab-Bold",
+              "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "slab": "Roboto Slab",
               "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
             },
             "modals": Object {
@@ -2193,7 +2145,7 @@ exports[`OtpInput number matches snapshot 1`] = `
               "borderLeftWidth": 10,
               "borderRadius": 5,
               "contentPadding": 16,
-              "jaggedEdgeSize": 15,
+              "jaggedEdgeSize": 16,
               "overlayBackgroundColor": "rgba(255, 255, 255, 0.8)",
               "overlayHorizontalPadding": 20,
               "overlayVerticalPadding": 30,
@@ -2212,7 +2164,7 @@ exports[`OtpInput number matches snapshot 1`] = `
             },
           }
         }
-        type="text"
+        type="tel"
         value="3"
       />
     </div>
@@ -2248,9 +2200,7 @@ exports[`OtpInput number matches snapshot 1`] = `
         data-focusable={true}
         dir="auto"
         disabled={false}
-        max={9}
         maxLength="1"
-        min={0}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -2259,7 +2209,6 @@ exports[`OtpInput number matches snapshot 1`] = `
         onKeyPress={[Function]}
         onPaste={[Function]}
         onSelect={[Function]}
-        placeholder="*"
         readOnly={false}
         spellCheck={true}
         style={
@@ -2295,9 +2244,9 @@ exports[`OtpInput number matches snapshot 1`] = `
               "disabled": "rgba(0, 0, 0, 0.26)",
               "error": "#FA6C77",
               "gray": "#555",
-              "gray50Percent": "#CBCBCB",
               "gray80Percent": "#A3A3A3",
               "green": "#00C3AE",
+              "jaggedEdgeSize": "#CBCBCB",
               "lightGray": "#EEE",
               "lighterGray": "#A3A3A3",
               "notification": "#f50057",
@@ -2321,12 +2270,11 @@ exports[`OtpInput number matches snapshot 1`] = `
               "textAlign": "center",
             },
             "fonts": Object {
-              "bold": "Roboto-Bold",
+              "default": "Roboto",
               "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-              "medium": "Roboto-Medium",
-              "regular": "Roboto",
-              "slab": "RobotoSlab-Regular",
-              "slabBold": "RobotoSlab-Bold",
+              "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "slab": "Roboto Slab",
               "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
             },
             "modals": Object {
@@ -2334,7 +2282,7 @@ exports[`OtpInput number matches snapshot 1`] = `
               "borderLeftWidth": 10,
               "borderRadius": 5,
               "contentPadding": 16,
-              "jaggedEdgeSize": 15,
+              "jaggedEdgeSize": 16,
               "overlayBackgroundColor": "rgba(255, 255, 255, 0.8)",
               "overlayHorizontalPadding": 20,
               "overlayVerticalPadding": 30,
@@ -2353,7 +2301,7 @@ exports[`OtpInput number matches snapshot 1`] = `
             },
           }
         }
-        type="text"
+        type="tel"
         value="4"
       />
     </div>
@@ -2389,9 +2337,7 @@ exports[`OtpInput number matches snapshot 1`] = `
         data-focusable={true}
         dir="auto"
         disabled={false}
-        max={9}
         maxLength="1"
-        min={0}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -2400,7 +2346,6 @@ exports[`OtpInput number matches snapshot 1`] = `
         onKeyPress={[Function]}
         onPaste={[Function]}
         onSelect={[Function]}
-        placeholder="*"
         readOnly={false}
         spellCheck={true}
         style={
@@ -2436,9 +2381,9 @@ exports[`OtpInput number matches snapshot 1`] = `
               "disabled": "rgba(0, 0, 0, 0.26)",
               "error": "#FA6C77",
               "gray": "#555",
-              "gray50Percent": "#CBCBCB",
               "gray80Percent": "#A3A3A3",
               "green": "#00C3AE",
+              "jaggedEdgeSize": "#CBCBCB",
               "lightGray": "#EEE",
               "lighterGray": "#A3A3A3",
               "notification": "#f50057",
@@ -2462,12 +2407,11 @@ exports[`OtpInput number matches snapshot 1`] = `
               "textAlign": "center",
             },
             "fonts": Object {
-              "bold": "Roboto-Bold",
+              "default": "Roboto",
               "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-              "medium": "Roboto-Medium",
-              "regular": "Roboto",
-              "slab": "RobotoSlab-Regular",
-              "slabBold": "RobotoSlab-Bold",
+              "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "slab": "Roboto Slab",
               "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
             },
             "modals": Object {
@@ -2475,7 +2419,7 @@ exports[`OtpInput number matches snapshot 1`] = `
               "borderLeftWidth": 10,
               "borderRadius": 5,
               "contentPadding": 16,
-              "jaggedEdgeSize": 15,
+              "jaggedEdgeSize": 16,
               "overlayBackgroundColor": "rgba(255, 255, 255, 0.8)",
               "overlayHorizontalPadding": 20,
               "overlayVerticalPadding": 30,
@@ -2494,7 +2438,7 @@ exports[`OtpInput number matches snapshot 1`] = `
             },
           }
         }
-        type="text"
+        type="tel"
         value=""
       />
     </div>
@@ -2530,9 +2474,7 @@ exports[`OtpInput number matches snapshot 1`] = `
         data-focusable={true}
         dir="auto"
         disabled={false}
-        max={9}
         maxLength="1"
-        min={0}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -2541,7 +2483,6 @@ exports[`OtpInput number matches snapshot 1`] = `
         onKeyPress={[Function]}
         onPaste={[Function]}
         onSelect={[Function]}
-        placeholder="*"
         readOnly={false}
         spellCheck={true}
         style={
@@ -2577,9 +2518,9 @@ exports[`OtpInput number matches snapshot 1`] = `
               "disabled": "rgba(0, 0, 0, 0.26)",
               "error": "#FA6C77",
               "gray": "#555",
-              "gray50Percent": "#CBCBCB",
               "gray80Percent": "#A3A3A3",
               "green": "#00C3AE",
+              "jaggedEdgeSize": "#CBCBCB",
               "lightGray": "#EEE",
               "lighterGray": "#A3A3A3",
               "notification": "#f50057",
@@ -2603,12 +2544,11 @@ exports[`OtpInput number matches snapshot 1`] = `
               "textAlign": "center",
             },
             "fonts": Object {
-              "bold": "Roboto-Bold",
+              "default": "Roboto",
               "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-              "medium": "Roboto-Medium",
-              "regular": "Roboto",
-              "slab": "RobotoSlab-Regular",
-              "slabBold": "RobotoSlab-Bold",
+              "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "slab": "Roboto Slab",
               "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
             },
             "modals": Object {
@@ -2616,7 +2556,7 @@ exports[`OtpInput number matches snapshot 1`] = `
               "borderLeftWidth": 10,
               "borderRadius": 5,
               "contentPadding": 16,
-              "jaggedEdgeSize": 15,
+              "jaggedEdgeSize": 16,
               "overlayBackgroundColor": "rgba(255, 255, 255, 0.8)",
               "overlayHorizontalPadding": 20,
               "overlayVerticalPadding": 30,
@@ -2635,7 +2575,7 @@ exports[`OtpInput number matches snapshot 1`] = `
             },
           }
         }
-        type="text"
+        type="tel"
         value=""
       />
     </div>

@@ -1,7 +1,6 @@
 // @flow
 import React from 'react'
 import { View } from 'react-native'
-import normalize from '../../../lib/utils/normalizeText'
 import { withStyles } from '../../../lib/styles'
 import SectionRow from './SectionRow'
 import SectionStack from './SectionStack'
@@ -11,15 +10,20 @@ import Separator from './Separator'
 import { getFlexStylesFromProps } from './SectionUtils'
 
 const SectionComponent = props => {
-  const { styles, children, style } = props
-  return <View style={[styles.section, getFlexStylesFromProps(props), style]}>{children}</View>
+  const { styles, children, style, ...rest } = props
+  return (
+    <View style={[styles.section, getFlexStylesFromProps(props), style]} props={rest}>
+      {children}
+    </View>
+  )
 }
 
 const mapPropsToStyles = ({ theme }) => ({
   section: {
     backgroundColor: theme.colors.surface,
     borderRadius: theme.sizes.borderRadius,
-    padding: normalize(12),
+    paddingLeft: 12,
+    paddingRight: 12,
     paddingTop: theme.sizes.defaultDouble,
     paddingBottom: theme.sizes.defaultDouble,
   },

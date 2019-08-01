@@ -3,7 +3,6 @@ import bip39 from 'bip39-light'
 import get from 'lodash/get'
 import React, { useState } from 'react'
 import { AsyncStorage } from 'react-native'
-import normalize from '../../lib/utils/normalizeText'
 import logger from '../../lib/logger/pino-logger'
 import { withStyles } from '../../lib/styles'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
@@ -46,9 +45,10 @@ const Mnemonics = ({ navigation, styles }) => {
 
       if (profile) {
         await AsyncStorage.setItem('GOODDAPP_isLoggedIn', true)
+        const incomingRedirectUrl = get(navigation, 'state.params.redirect', '/')
 
         // There is no error and Profile exists. Reload screen to start with users mnemonics
-        window.location = '/'
+        window.location = incomingRedirectUrl
       } else {
         await saveMnemonics(prevMnemonics)
         showErrorDialog("Mnemonic doesn't match any existing account.")
@@ -70,12 +70,9 @@ const Mnemonics = ({ navigation, styles }) => {
       import('../../lib/gundb/UserStorageClass').then(_ => _.UserStorage),
     ])
     const wallet = new Wallet({ mnemonic: mnemonics })
-    await wallet.init()
+    await wallet.ready
     const userStorage = new UserStorage(wallet)
-
-    // reinstantiates wallet and userStorage with new mnemonics
-    await userStorage.init()
-
+    await userStorage.ready
     return userStorage.userAlreadyExist()
   }
 
@@ -120,8 +117,8 @@ const mnemonicsStyles = ({ theme }) => ({
   bottomContainer: {
     backgroundColor: theme.colors.surface,
     marginBottom: theme.paddings.defaultMargin,
-    maxHeight: normalize(50),
-    minHeight: normalize(50),
+    maxHeight: 50,
+    minHeight: 50,
   },
 })
 

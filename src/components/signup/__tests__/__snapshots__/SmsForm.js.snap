@@ -57,8 +57,8 @@ exports[`SmsForm matches snapshot 1`] = `
           "flexGrow": 1,
           "msFlexPositive": 1,
           "paddingBottom": "16px",
-          "paddingLeft": "0px",
-          "paddingRight": "0px",
+          "paddingLeft": "12px",
+          "paddingRight": "12px",
           "paddingTop": "16px",
         }
       }
@@ -140,9 +140,9 @@ exports[`SmsForm matches snapshot 1`] = `
                 Object {
                   "color": "rgba(66,69,74,1.00)",
                   "direction": "ltr",
-                  "fontFamily": "Roboto-Medium",
+                  "fontFamily": "Roboto",
                   "fontSize": "24px",
-                  "fontWeight": "normal",
+                  "fontWeight": "500",
                   "lineHeight": "30px",
                   "marginBottom": "8px",
                   "marginTop": "8px",
@@ -225,9 +225,7 @@ exports[`SmsForm matches snapshot 1`] = `
                   data-focusable={true}
                   dir="auto"
                   disabled={false}
-                  max={9}
                   maxLength="1"
-                  min={0}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
@@ -272,9 +270,9 @@ exports[`SmsForm matches snapshot 1`] = `
                         "disabled": "rgba(0, 0, 0, 0.26)",
                         "error": "#FA6C77",
                         "gray": "#555",
-                        "gray50Percent": "#CBCBCB",
                         "gray80Percent": "#A3A3A3",
                         "green": "#00C3AE",
+                        "jaggedEdgeSize": "#CBCBCB",
                         "lightGray": "#EEE",
                         "lighterGray": "#A3A3A3",
                         "notification": "#f50057",
@@ -298,12 +296,11 @@ exports[`SmsForm matches snapshot 1`] = `
                         "textAlign": "center",
                       },
                       "fonts": Object {
-                        "bold": "Roboto-Bold",
+                        "default": "Roboto",
                         "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                        "medium": "Roboto-Medium",
-                        "regular": "Roboto",
-                        "slab": "RobotoSlab-Regular",
-                        "slabBold": "RobotoSlab-Bold",
+                        "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                        "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                        "slab": "Roboto Slab",
                         "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                       },
                       "modals": Object {
@@ -311,7 +308,7 @@ exports[`SmsForm matches snapshot 1`] = `
                         "borderLeftWidth": 10,
                         "borderRadius": 5,
                         "contentPadding": 16,
-                        "jaggedEdgeSize": 15,
+                        "jaggedEdgeSize": 16,
                         "overlayBackgroundColor": "rgba(255, 255, 255, 0.8)",
                         "overlayHorizontalPadding": 20,
                         "overlayVerticalPadding": 30,
@@ -330,7 +327,7 @@ exports[`SmsForm matches snapshot 1`] = `
                       },
                     }
                   }
-                  type="text"
+                  type="tel"
                   value=""
                 />
               </div>
@@ -366,9 +363,7 @@ exports[`SmsForm matches snapshot 1`] = `
                   data-focusable={true}
                   dir="auto"
                   disabled={false}
-                  max={9}
                   maxLength="1"
-                  min={0}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
@@ -413,9 +408,9 @@ exports[`SmsForm matches snapshot 1`] = `
                         "disabled": "rgba(0, 0, 0, 0.26)",
                         "error": "#FA6C77",
                         "gray": "#555",
-                        "gray50Percent": "#CBCBCB",
                         "gray80Percent": "#A3A3A3",
                         "green": "#00C3AE",
+                        "jaggedEdgeSize": "#CBCBCB",
                         "lightGray": "#EEE",
                         "lighterGray": "#A3A3A3",
                         "notification": "#f50057",
@@ -439,12 +434,11 @@ exports[`SmsForm matches snapshot 1`] = `
                         "textAlign": "center",
                       },
                       "fonts": Object {
-                        "bold": "Roboto-Bold",
+                        "default": "Roboto",
                         "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                        "medium": "Roboto-Medium",
-                        "regular": "Roboto",
-                        "slab": "RobotoSlab-Regular",
-                        "slabBold": "RobotoSlab-Bold",
+                        "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                        "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                        "slab": "Roboto Slab",
                         "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                       },
                       "modals": Object {
@@ -452,7 +446,7 @@ exports[`SmsForm matches snapshot 1`] = `
                         "borderLeftWidth": 10,
                         "borderRadius": 5,
                         "contentPadding": 16,
-                        "jaggedEdgeSize": 15,
+                        "jaggedEdgeSize": 16,
                         "overlayBackgroundColor": "rgba(255, 255, 255, 0.8)",
                         "overlayHorizontalPadding": 20,
                         "overlayVerticalPadding": 30,
@@ -471,7 +465,7 @@ exports[`SmsForm matches snapshot 1`] = `
                       },
                     }
                   }
-                  type="text"
+                  type="tel"
                   value=""
                 />
               </div>
@@ -507,9 +501,7 @@ exports[`SmsForm matches snapshot 1`] = `
                   data-focusable={true}
                   dir="auto"
                   disabled={false}
-                  max={9}
                   maxLength="1"
-                  min={0}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
@@ -554,9 +546,9 @@ exports[`SmsForm matches snapshot 1`] = `
                         "disabled": "rgba(0, 0, 0, 0.26)",
                         "error": "#FA6C77",
                         "gray": "#555",
-                        "gray50Percent": "#CBCBCB",
                         "gray80Percent": "#A3A3A3",
                         "green": "#00C3AE",
+                        "jaggedEdgeSize": "#CBCBCB",
                         "lightGray": "#EEE",
                         "lighterGray": "#A3A3A3",
                         "notification": "#f50057",
@@ -580,12 +572,11 @@ exports[`SmsForm matches snapshot 1`] = `
                         "textAlign": "center",
                       },
                       "fonts": Object {
-                        "bold": "Roboto-Bold",
+                        "default": "Roboto",
                         "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                        "medium": "Roboto-Medium",
-                        "regular": "Roboto",
-                        "slab": "RobotoSlab-Regular",
-                        "slabBold": "RobotoSlab-Bold",
+                        "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                        "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                        "slab": "Roboto Slab",
                         "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                       },
                       "modals": Object {
@@ -593,7 +584,7 @@ exports[`SmsForm matches snapshot 1`] = `
                         "borderLeftWidth": 10,
                         "borderRadius": 5,
                         "contentPadding": 16,
-                        "jaggedEdgeSize": 15,
+                        "jaggedEdgeSize": 16,
                         "overlayBackgroundColor": "rgba(255, 255, 255, 0.8)",
                         "overlayHorizontalPadding": 20,
                         "overlayVerticalPadding": 30,
@@ -612,7 +603,7 @@ exports[`SmsForm matches snapshot 1`] = `
                       },
                     }
                   }
-                  type="text"
+                  type="tel"
                   value=""
                 />
               </div>
@@ -648,9 +639,7 @@ exports[`SmsForm matches snapshot 1`] = `
                   data-focusable={true}
                   dir="auto"
                   disabled={false}
-                  max={9}
                   maxLength="1"
-                  min={0}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
@@ -695,9 +684,9 @@ exports[`SmsForm matches snapshot 1`] = `
                         "disabled": "rgba(0, 0, 0, 0.26)",
                         "error": "#FA6C77",
                         "gray": "#555",
-                        "gray50Percent": "#CBCBCB",
                         "gray80Percent": "#A3A3A3",
                         "green": "#00C3AE",
+                        "jaggedEdgeSize": "#CBCBCB",
                         "lightGray": "#EEE",
                         "lighterGray": "#A3A3A3",
                         "notification": "#f50057",
@@ -721,12 +710,11 @@ exports[`SmsForm matches snapshot 1`] = `
                         "textAlign": "center",
                       },
                       "fonts": Object {
-                        "bold": "Roboto-Bold",
+                        "default": "Roboto",
                         "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                        "medium": "Roboto-Medium",
-                        "regular": "Roboto",
-                        "slab": "RobotoSlab-Regular",
-                        "slabBold": "RobotoSlab-Bold",
+                        "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                        "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                        "slab": "Roboto Slab",
                         "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                       },
                       "modals": Object {
@@ -734,7 +722,7 @@ exports[`SmsForm matches snapshot 1`] = `
                         "borderLeftWidth": 10,
                         "borderRadius": 5,
                         "contentPadding": 16,
-                        "jaggedEdgeSize": 15,
+                        "jaggedEdgeSize": 16,
                         "overlayBackgroundColor": "rgba(255, 255, 255, 0.8)",
                         "overlayHorizontalPadding": 20,
                         "overlayVerticalPadding": 30,
@@ -753,7 +741,7 @@ exports[`SmsForm matches snapshot 1`] = `
                       },
                     }
                   }
-                  type="text"
+                  type="tel"
                   value=""
                 />
               </div>
@@ -789,9 +777,7 @@ exports[`SmsForm matches snapshot 1`] = `
                   data-focusable={true}
                   dir="auto"
                   disabled={false}
-                  max={9}
                   maxLength="1"
-                  min={0}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
@@ -836,9 +822,9 @@ exports[`SmsForm matches snapshot 1`] = `
                         "disabled": "rgba(0, 0, 0, 0.26)",
                         "error": "#FA6C77",
                         "gray": "#555",
-                        "gray50Percent": "#CBCBCB",
                         "gray80Percent": "#A3A3A3",
                         "green": "#00C3AE",
+                        "jaggedEdgeSize": "#CBCBCB",
                         "lightGray": "#EEE",
                         "lighterGray": "#A3A3A3",
                         "notification": "#f50057",
@@ -862,12 +848,11 @@ exports[`SmsForm matches snapshot 1`] = `
                         "textAlign": "center",
                       },
                       "fonts": Object {
-                        "bold": "Roboto-Bold",
+                        "default": "Roboto",
                         "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                        "medium": "Roboto-Medium",
-                        "regular": "Roboto",
-                        "slab": "RobotoSlab-Regular",
-                        "slabBold": "RobotoSlab-Bold",
+                        "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                        "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                        "slab": "Roboto Slab",
                         "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                       },
                       "modals": Object {
@@ -875,7 +860,7 @@ exports[`SmsForm matches snapshot 1`] = `
                         "borderLeftWidth": 10,
                         "borderRadius": 5,
                         "contentPadding": 16,
-                        "jaggedEdgeSize": 15,
+                        "jaggedEdgeSize": 16,
                         "overlayBackgroundColor": "rgba(255, 255, 255, 0.8)",
                         "overlayHorizontalPadding": 20,
                         "overlayVerticalPadding": 30,
@@ -894,7 +879,7 @@ exports[`SmsForm matches snapshot 1`] = `
                       },
                     }
                   }
-                  type="text"
+                  type="tel"
                   value=""
                 />
               </div>
@@ -930,9 +915,7 @@ exports[`SmsForm matches snapshot 1`] = `
                   data-focusable={true}
                   dir="auto"
                   disabled={false}
-                  max={9}
                   maxLength="1"
-                  min={0}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
@@ -977,9 +960,9 @@ exports[`SmsForm matches snapshot 1`] = `
                         "disabled": "rgba(0, 0, 0, 0.26)",
                         "error": "#FA6C77",
                         "gray": "#555",
-                        "gray50Percent": "#CBCBCB",
                         "gray80Percent": "#A3A3A3",
                         "green": "#00C3AE",
+                        "jaggedEdgeSize": "#CBCBCB",
                         "lightGray": "#EEE",
                         "lighterGray": "#A3A3A3",
                         "notification": "#f50057",
@@ -1003,12 +986,11 @@ exports[`SmsForm matches snapshot 1`] = `
                         "textAlign": "center",
                       },
                       "fonts": Object {
-                        "bold": "Roboto-Bold",
+                        "default": "Roboto",
                         "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                        "medium": "Roboto-Medium",
-                        "regular": "Roboto",
-                        "slab": "RobotoSlab-Regular",
-                        "slabBold": "RobotoSlab-Bold",
+                        "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                        "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                        "slab": "Roboto Slab",
                         "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                       },
                       "modals": Object {
@@ -1016,7 +998,7 @@ exports[`SmsForm matches snapshot 1`] = `
                         "borderLeftWidth": 10,
                         "borderRadius": 5,
                         "contentPadding": 16,
-                        "jaggedEdgeSize": 15,
+                        "jaggedEdgeSize": 16,
                         "overlayBackgroundColor": "rgba(255, 255, 255, 0.8)",
                         "overlayHorizontalPadding": 20,
                         "overlayVerticalPadding": 30,
@@ -1035,7 +1017,7 @@ exports[`SmsForm matches snapshot 1`] = `
                       },
                     }
                   }
-                  type="text"
+                  type="tel"
                   value=""
                 />
               </div>
@@ -1048,7 +1030,7 @@ exports[`SmsForm matches snapshot 1`] = `
                   "WebkitTransform": "translateY(0px)",
                   "color": "rgba(250,108,119,1.00)",
                   "direction": "ltr",
-                  "fontFamily": "Roboto",
+                  "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                   "fontSize": "12px",
                   "height": "18px",
                   "opacity": 0,

@@ -62,4 +62,3 @@ $ npm run coverage
 ## More
 
 This repository was initiated with [create-react-native-web-app](readme_crnwa.md), please check the [original readme file](readme_crnwa.md) for more information.
-

@@ -2,7 +2,6 @@
 import { Dimensions } from 'react-native'
 import React, { createRef, useEffect } from 'react'
 import { isMobile } from 'mobile-device-detect'
-import normalize from '../../../lib/utils/normalizeText'
 import logger from '../../../lib/logger/pino-logger'
 
 const log = logger.child({ from: 'Camera' })
@@ -142,8 +141,8 @@ export const getResponsiveVideoDimensions = () => {
   const defaultHeight = height - 124 > 360 && width < 690
   if (isMobile) {
     return {
-      height: defaultHeight ? normalize(360) : 'auto',
-      maxHeight: defaultHeight ? normalize(360) : height - 124,
+      height: defaultHeight ? 360 : 'auto',
+      maxHeight: defaultHeight ? 360 : height - 124,
       width: defaultHeight ? 'auto' : '100%',
     }
   }

@@ -1,6 +1,6 @@
 {
   "name": "@gooddollar/gooddapp",
-  "version": "0.2.1",
+  "version": "0.3.1",
   "engines": {
     "node": "10.x",
     "npm": "6.x"
@@ -91,7 +91,7 @@
     "react-native-paper": "^2.11.0",
     "react-native-qrcode-scanner": "^1.1.2",
     "react-native-recaptcha-v3": "0.0.16",
-    "react-native-side-menu": "^1.1.3",
+    "react-native-side-menu-gooddapp": "^2.0.2",
     "react-native-vector-icons": "^6.6.0",
     "react-native-web": "^0.11.4",
     "react-native-web-webview": "^0.2.8",

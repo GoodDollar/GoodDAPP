@@ -33,7 +33,7 @@ const FRError = props => {
   }
 
   const gotoFR = () => {
-    props.screenProps.navigateTo('FaceVerification', { showHelper: false })
+    props.screenProps.navigateTo('FaceVerification', { showHelper: true })
   }
 
   log.debug(props.screenProps)

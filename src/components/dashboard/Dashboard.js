@@ -13,11 +13,16 @@ import { weiToMask } from '../../lib/wallet/utils'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { PushButton } from '../appNavigation/PushButton'
 import TabsView from '../appNavigation/TabsView'
-import { Avatar, BigGoodDollar, ClaimButton, Section, Wrapper } from '../common'
+import Avatar from '../common/view/Avatar'
+import BigGoodDollar from '../common/view/BigGoodDollar'
+import ClaimButton from '../common/buttons/ClaimButton'
+import Section from '../common/layout/Section'
+import Wrapper from '../common/layout/Wrapper'
 import logger from '../../lib/logger/pino-logger'
 import userStorage from '../../lib/gundb/UserStorage'
 import { PrivacyArticle, PrivacyPolicy, Support, TermsOfUse } from '../webView/webViewInstances'
 import { withStyles } from '../../lib/styles'
+import unknownProfile from '../../assets/unknownProfile.svg'
 import Mnemonics from '../signin/Mnemonics'
 import Amount from './Amount'
 import Claim from './Claim'
@@ -140,7 +145,7 @@ const Dashboard = props => {
           {scrollPos < 100 ? (
             <>
               <Section.Row justifyContent="center" alignItems="baseline">
-                <Avatar size={80} source={avatar} onPress={() => screenProps.push('Profile')} />
+                <Avatar size={80} source={avatar || unknownProfile} onPress={() => screenProps.push('Profile')} />
               </Section.Row>
               <Section.Row justifyContent="center" alignItems="baseline">
                 <Section.Title>{fullName || ' '}</Section.Title>
@@ -156,7 +161,7 @@ const Dashboard = props => {
           ) : (
             <Section.Row>
               <Section.Stack alignItems="flex-start">
-                <Avatar size={42} source={avatar} onPress={() => screenProps.push('Profile')} />
+                <Avatar size={42} source={avatar || unknownProfile} onPress={() => screenProps.push('Profile')} />
               </Section.Stack>
               <Section.Stack alignItems="flex-end">
                 <BigGoodDollar

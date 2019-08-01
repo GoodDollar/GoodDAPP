@@ -22,7 +22,7 @@ const FeedActions = ({ item, styles, theme }: FeedEventProps) => (
     justifyContent="flex-end"
     grow
   >
-    {item && item.type !== 'empty' && (
+    {item && item.type !== 'empty' && item.id && item.id.indexOf('0x') === -1 && (
       <TouchableHighlight
         onPress={() => {
           Alert.alert('Tips', 'You could do something with this remove action!')

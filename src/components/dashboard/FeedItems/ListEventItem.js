@@ -1,10 +1,13 @@
 // @flow
 import React from 'react'
-import { Avatar } from 'react-native-paper'
 import normalize from '../../../lib/utils/normalizeText'
-import { BigGoodDollar, Section, Text } from '../../common'
+import unknownProfile from '../../../assets/unknownProfile.svg'
 import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
 import { withStyles } from '../../../lib/styles'
+import Avatar from '../../common/view/Avatar'
+import BigGoodDollar from '../../common/view/BigGoodDollar'
+import Section from '../../common/layout/Section'
+import Text from '../../common/view/Text'
 import type { FeedEventProps } from './EventProps'
 import EventIcon from './EventIcon'
 import EventCounterParty from './EventCounterParty'
@@ -25,7 +28,12 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
   return (
     <Section.Row style={styles.innerRow}>
       <Section.Stack alignItems="flex-start" style={styles.avatarBottom}>
-        <Avatar.Image size={34} source={feed.data.endpoint.avatar} />
+        <Avatar
+          size={34}
+          source={
+            feed.data && feed.data.endpoint && feed.data.endpoint.avatar ? feed.data.endpoint.avatar : unknownProfile
+          }
+        />
       </Section.Stack>
       <Section.Stack grow style={styles.mainSection}>
         <Section.Row style={[styles.borderRow, { borderBottomColor: eventSettings.color }]}>

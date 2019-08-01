@@ -2,8 +2,12 @@
 import React from 'react'
 import { Image, View } from 'react-native'
 import normalize from '../../../lib/utils/normalizeText'
-import { Avatar, BigGoodDollar, CustomButton, Text } from '../../common'
+import Avatar from '../../common/view/Avatar'
+import BigGoodDollar from '../../common/view/BigGoodDollar'
+import CustomButton from '../../common/buttons/CustomButton'
+import Text from '../../common/view/Text'
 import ModalWrapper from '../../common/modal/ModalWrapper'
+import unknownProfile from '../../../assets/unknownProfile.svg'
 import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
 import { withStyles } from '../../../lib/styles'
 import type { FeedEventProps } from './EventProps'
@@ -51,7 +55,13 @@ const FeedModalItem = (props: FeedEventProps) => {
           />
         </View>
         <View style={[styles.transactionDetails, { borderColor: mainColor }]}>
-          <Avatar source={item.data && item.data.endpoint && item.data.endpoint.avatar} style={styles.avatar} />
+          <Avatar
+            source={
+              item.data && item.data.endpoint && item.data.endpoint.avatar ? item.data.endpoint.avatar : unknownProfile
+            }
+            size={34}
+            style={styles.avatar}
+          />
           {item.data && item.data.endpoint && <EventCounterParty style={styles.feedItem} feedItem={item} />}
           <EventIcon type={itemType} style={styles.icon} />
         </View>
@@ -117,11 +127,7 @@ const getStylesFromProps = ({ theme }) => {
       paddingTop: normalize(14),
     },
     avatar: {
-      backgroundColor: theme.colors.lightGray,
-      borderRadius: '50%',
-      height: normalize(34),
       marginRight: normalize(7),
-      width: normalize(34),
     },
     icon: {
       marginLeft: 'auto',

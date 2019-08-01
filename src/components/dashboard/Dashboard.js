@@ -6,7 +6,7 @@ import normalize from '../../lib/utils/normalizeText'
 
 import GDStore from '../../lib/undux/GDStore'
 import SimpleStore from '../../lib/undux/SimpleStore'
-import { useDialog } from '../../lib/undux/utils/dialog'
+import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
 import { getInitialFeed, getNextFeed, PAGE_SIZE } from '../../lib/undux/utils/feed'
 import { executeWithdraw } from '../../lib/undux/utils/withdraw'
 import { weiToMask } from '../../lib/wallet/utils'
@@ -57,6 +57,7 @@ const Dashboard = props => {
   const store = SimpleStore.useStore()
   const gdstore = GDStore.useStore()
   const [showDialog, hideDialog] = useDialog()
+  const [showErrorDialog] = useErrorDialog()
   const [state: DashboardState, setState] = useState({
     currentFeed: null,
     feeds: [],
@@ -119,7 +120,7 @@ const Dashboard = props => {
       await executeWithdraw(store, paymentCode, reason)
       hideDialog()
     } catch (e) {
-      showDialog({ title: 'Error', message: e.message })
+      showErrorDialog(e)
     }
   }
 

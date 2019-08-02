@@ -105,7 +105,7 @@ exports[`UserAvatar matches snapshot 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
-              "backgroundColor": "rgba(0,175,255,1.00)",
+              "backgroundColor": "rgba(0,0,0,0.00)",
               "borderBottomLeftRadius": "67px",
               "borderBottomRightRadius": "67px",
               "borderTopLeftRadius": "67px",

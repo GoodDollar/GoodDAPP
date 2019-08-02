@@ -226,17 +226,18 @@ const OtpInput = (props: Props) => {
 
   const handleOnChange = (value: string) => {
     changeCodeAtFocus(value)
-    if (value !== '') {
-      focusNextInput()
-    }
+    focusNextInput()
   }
 
   // Handle cases of backspace, delete, left arrow, right arrow
   const handleOnKeyPress = (e: Object) => {
     if (e.keyCode === BACKSPACE || e.key === 'Backspace') {
       e.preventDefault()
-      changeCodeAtFocus('')
-      focusPrevInput()
+      if (e.target.value === '') {
+        focusPrevInput()
+      } else {
+        changeCodeAtFocus('')
+      }
     } else if (e.keyCode === DELETE || e.key === 'Delete') {
       e.preventDefault()
       changeCodeAtFocus('')

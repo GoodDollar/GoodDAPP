@@ -79,10 +79,25 @@ exports[`UserAvatar matches snapshot 1`] = `
             "WebkitTransitionDuration": "0.15s",
             "WebkitTransitionProperty": "opacity",
             "WebkitUserSelect": "none",
+            "backgroundColor": "rgba(203,203,203,1.00)",
+            "borderBottomColor": "rgba(163,163,163,1.00)",
+            "borderBottomLeftRadius": "68px",
+            "borderBottomRightRadius": "68px",
+            "borderBottomWidth": "1px",
+            "borderLeftColor": "rgba(163,163,163,1.00)",
+            "borderLeftWidth": "1px",
+            "borderRightColor": "rgba(163,163,163,1.00)",
+            "borderRightWidth": "1px",
+            "borderTopColor": "rgba(163,163,163,1.00)",
+            "borderTopLeftRadius": "68px",
+            "borderTopRightRadius": "68px",
+            "borderTopWidth": "1px",
+            "height": "136px",
             "msUserSelect": "none",
             "transitionDuration": "0.15s",
             "transitionProperty": "opacity",
             "userSelect": "none",
+            "width": "136px",
           }
         }
       >
@@ -90,20 +105,13 @@ exports[`UserAvatar matches snapshot 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
-              "borderBottomColor": "rgba(163,163,163,1.00)",
-              "borderBottomLeftRadius": "68px",
-              "borderBottomRightRadius": "68px",
-              "borderBottomWidth": "1px",
-              "borderLeftColor": "rgba(163,163,163,1.00)",
-              "borderLeftWidth": "1px",
-              "borderRightColor": "rgba(163,163,163,1.00)",
-              "borderRightWidth": "1px",
-              "borderTopColor": "rgba(163,163,163,1.00)",
-              "borderTopLeftRadius": "68px",
-              "borderTopRightRadius": "68px",
-              "borderTopWidth": "1px",
-              "height": "136px",
-              "width": "136px",
+              "backgroundColor": "rgba(0,175,255,1.00)",
+              "borderBottomLeftRadius": "67px",
+              "borderBottomRightRadius": "67px",
+              "borderTopLeftRadius": "67px",
+              "borderTopRightRadius": "67px",
+              "height": "134px",
+              "width": "134px",
             }
           }
         >
@@ -112,16 +120,16 @@ exports[`UserAvatar matches snapshot 1`] = `
             style={
               Object {
                 "WebkitFlexBasis": "auto",
-                "borderBottomLeftRadius": "68px",
-                "borderBottomRightRadius": "68px",
-                "borderTopLeftRadius": "68px",
-                "borderTopRightRadius": "68px",
+                "borderBottomLeftRadius": "67px",
+                "borderBottomRightRadius": "67px",
+                "borderTopLeftRadius": "67px",
+                "borderTopRightRadius": "67px",
                 "flexBasis": "auto",
-                "height": "136px",
+                "height": "134px",
                 "msFlexPreferredSize": "auto",
                 "overflowX": "hidden",
                 "overflowY": "hidden",
-                "width": "136px",
+                "width": "134px",
                 "zIndex": 0,
               }
             }

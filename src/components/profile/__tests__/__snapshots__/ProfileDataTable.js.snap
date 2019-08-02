@@ -95,6 +95,7 @@ exports[`ProfileDataTable matches snapshot 1`] = `
               "WebkitFlexDirection": "row",
               "WebkitJustifyContent": "space-between",
               "alignItems": "center",
+              "borderTopColor": "rgba(203,203,203,1.00)",
               "borderTopWidth": "1px",
               "flexDirection": "row",
               "justifyContent": "space-between",
@@ -127,6 +128,7 @@ exports[`ProfileDataTable matches snapshot 1`] = `
               className="css-view-1dbjc4n"
               style={
                 Object {
+                  "borderBottomColor": "rgba(203,203,203,1.00)",
                   "borderBottomWidth": "1px",
                   "paddingBottom": "0px",
                   "paddingLeft": "40px",
@@ -271,6 +273,7 @@ exports[`ProfileDataTable matches snapshot 1`] = `
               className="css-view-1dbjc4n"
               style={
                 Object {
+                  "borderBottomColor": "rgba(203,203,203,1.00)",
                   "borderBottomWidth": "1px",
                   "paddingBottom": "0px",
                   "paddingLeft": "40px",
@@ -416,6 +419,7 @@ exports[`ProfileDataTable matches snapshot 1`] = `
               className="css-view-1dbjc4n"
               style={
                 Object {
+                  "borderBottomColor": "rgba(203,203,203,1.00)",
                   "borderBottomWidth": "1px",
                   "paddingBottom": "0px",
                   "paddingLeft": "40px",
@@ -650,11 +654,15 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
               className="css-view-1dbjc4n"
               style={
                 Object {
+                  "borderBottomColor": "rgba(203,203,203,1.00)",
                   "borderBottomLeftRadius": "24px",
                   "borderBottomRightRadius": "24px",
                   "borderBottomWidth": "1px",
+                  "borderLeftColor": "rgba(203,203,203,1.00)",
                   "borderLeftWidth": "1px",
+                  "borderRightColor": "rgba(203,203,203,1.00)",
                   "borderRightWidth": "1px",
+                  "borderTopColor": "rgba(203,203,203,1.00)",
                   "borderTopLeftRadius": "24px",
                   "borderTopRightRadius": "24px",
                   "borderTopWidth": "1px",
@@ -830,7 +838,7 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                 className="react-phone-number-input"
                 style={
                   Object {
-                    "borderColor": undefined,
+                    "borderColor": "#CBCBCB",
                     "color": "#222",
                   }
                 }
@@ -2515,11 +2523,15 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
               className="css-view-1dbjc4n"
               style={
                 Object {
+                  "borderBottomColor": "rgba(203,203,203,1.00)",
                   "borderBottomLeftRadius": "24px",
                   "borderBottomRightRadius": "24px",
                   "borderBottomWidth": "1px",
+                  "borderLeftColor": "rgba(203,203,203,1.00)",
                   "borderLeftWidth": "1px",
+                  "borderRightColor": "rgba(203,203,203,1.00)",
                   "borderRightWidth": "1px",
+                  "borderTopColor": "rgba(203,203,203,1.00)",
                   "borderTopLeftRadius": "24px",
                   "borderTopRightRadius": "24px",
                   "borderTopWidth": "1px",
@@ -2755,11 +2767,15 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
               className="css-view-1dbjc4n"
               style={
                 Object {
+                  "borderBottomColor": "rgba(203,203,203,1.00)",
                   "borderBottomLeftRadius": "24px",
                   "borderBottomRightRadius": "24px",
                   "borderBottomWidth": "1px",
+                  "borderLeftColor": "rgba(203,203,203,1.00)",
                   "borderLeftWidth": "1px",
+                  "borderRightColor": "rgba(203,203,203,1.00)",
                   "borderRightWidth": "1px",
+                  "borderTopColor": "rgba(203,203,203,1.00)",
                   "borderTopLeftRadius": "24px",
                   "borderTopRightRadius": "24px",
                   "borderTopWidth": "1px",

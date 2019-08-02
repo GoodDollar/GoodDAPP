@@ -2,7 +2,7 @@
 import React, { useMemo } from 'react'
 import { isMobile } from 'mobile-device-detect'
 import { generateCode, generateReceiveShareObject } from '../../lib/share'
-
+import GDStore from '../../lib/undux/GDStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { PushButton } from '../appNavigation/PushButton'
@@ -20,6 +20,7 @@ const RECEIVE_TITLE = 'Receive G$'
 const SHARE_TEXT = 'Share your wallet link'
 
 const Receive = ({ screenProps, styles, ...props }: ReceiveProps) => {
+  const profile = GDStore.useStore().get('profile')
   const { account, networkId } = goodWallet
 
   const [showErrorDialog] = useErrorDialog()
@@ -27,7 +28,7 @@ const Receive = ({ screenProps, styles, ...props }: ReceiveProps) => {
   const reason = ''
 
   const code = useMemo(() => generateCode(account, networkId, amount, reason), [account, networkId, amount, reason])
-  const share = useMemo(() => generateReceiveShareObject(code), [code])
+  const share = useMemo(() => generateReceiveShareObject(code, amount, profile.fullName), [code])
 
   const shareAction = async () => {
     try {

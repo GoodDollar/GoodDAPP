@@ -97,6 +97,7 @@ const getStylesFromProps = ({ theme }) => {
       paddingHorizontal: 0,
     },
     mainSection: {
+      marginHorizontal: -theme.sizes.defaultDouble,
       marginVertical: 'auto',
       paddingHorizontal: 0,
     },

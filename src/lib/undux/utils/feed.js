@@ -1,11 +1,65 @@
 // @flow
 import type { Store } from 'undux'
 import throttle from 'lodash/throttle'
+import Config from '../../../config/config'
 import userStorage from '../../gundb/UserStorage'
 import pino from '../../logger/pino-logger'
 const logger = pino.child({ from: 'feeds' })
 
 export const PAGE_SIZE = 10
+
+const getMockFeeds = () => {
+  return Config.withMockedFeeds
+    ? [
+        {
+          id: '0x03edf991983463f446cb0d60156e832583306f09123918f69800b2aa864d5e93',
+          date: 1564769764000,
+          type: 'message',
+          createdDate: 'Fri Aug 02 2019 15:15:44 GMT-0300 (Argentina Standard Time)',
+          status: 'completed',
+          data: {
+            message:
+              '"I can buy food for my children!"\nNairobi, Kenya - 24,600 people are using GD today to buy essential commodities... ',
+            endpoint: {
+              fullName: 'Maisao Matimbo (Kenya)',
+              avatar: null,
+              address: null,
+            },
+          },
+        },
+        {
+          id: '0x03edf991983463f446cb0d60156e832583306f09281918f69800b2aa864d5e98',
+          date: 1564769764000,
+          type: 'invite',
+          createdDate: 'Fri Aug 02 2019 15:15:44 GMT-0300 (Argentina Standard Time)',
+          status: 'completed',
+          data: {
+            message:
+              'Send Invites to get more people connected on GoodDollar. You will earn GD and also Help other people to earn.',
+            endpoint: {
+              fullName: 'Invite friends to GoodDollar',
+              avatar: null,
+              address: null,
+            },
+          },
+        },
+        {
+          id: '0x03edf991983463f446cb0d60156e111111111f09281918f69800b2aa864d5e98',
+          date: 1564769764000,
+          type: 'feedback',
+          createdDate: 'Fri Aug 02 2019 15:15:44 GMT-0300 (Argentina Standard Time)',
+          status: 'completed',
+          data: {
+            message: 'How likely are you to recommend GoodDollar to a friend or colleague?',
+            endpoint: {
+              avatar: null,
+              address: null,
+            },
+          },
+        },
+      ]
+    : []
+}
 
 const getInitial = async (store: Store) => {
   logger.debug('getFeed')
@@ -13,9 +67,10 @@ const getInitial = async (store: Store) => {
   const feeds = await userStorage
     .getFormattedEvents(PAGE_SIZE, true)
     .catch(err => logger.error('getInitialFeed -> ', err))
-  logger.debug('getFeed done')
+  logger.info({ feeds })
+  const mockedFeeds = getMockFeeds()
   store.set('feedLoading')(false)
-  store.set('feeds')(feeds)
+  store.set('feeds')(feeds.concat(mockedFeeds))
 }
 
 export const getNextFeed = async (store: Store) => {

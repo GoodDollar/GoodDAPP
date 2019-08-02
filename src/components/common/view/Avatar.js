@@ -33,7 +33,12 @@ const CustomAvatar = (props: AvatarProps) => {
       style={[styles.avatarContainer, { width: size, height: size, borderRadius: size / 2 }, style]}
       underlayColor="#fff"
     >
-      <Avatar.Image size={size - 2} source={{ uri: source || unknownProfile }} {...restProps} />
+      <Avatar.Image
+        size={size - 2}
+        source={{ uri: source || unknownProfile }}
+        style={{ backgroundColor: 'rgba(0, 0, 0, 0)' }}
+        {...restProps}
+      />
       {props.children}
     </TouchableOpacity>
   )

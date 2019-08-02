@@ -6,10 +6,16 @@ import CircleButtonWrapper from './CircleButtonWrapper'
 type CameraButtonProps = {
   handleCameraPress: any => void,
   styles?: any,
+  style?: any,
 }
 
-const CameraButton = ({ handleCameraPress, styles }: CameraButtonProps) => (
-  <CircleButtonWrapper iconSize={22} iconName={'camera'} style={[styles.container]} onPress={handleCameraPress} />
+const CameraButton = ({ handleCameraPress, styles, style }: CameraButtonProps) => (
+  <CircleButtonWrapper
+    iconSize={22}
+    iconName={'camera'}
+    style={[styles.container, style]}
+    onPress={handleCameraPress}
+  />
 )
 
 const getStylesFromProps = ({ theme }) => ({

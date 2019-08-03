@@ -1,7 +1,6 @@
 // @flow
 import React, { useEffect } from 'react'
 import { isMobileSafari } from 'mobile-device-detect'
-
 import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native'
 import HelperText from 'react-native-paper/src/components/HelperText'
 import normalize from '../../../lib/utils/normalizeText'
@@ -28,8 +27,9 @@ const InputText = ({ error, onCleanUpField, styles, theme, style, getRef, ...pro
 
   const inputColor = error ? theme.colors.red : theme.colors.darkGray
   const inputStyle = {
-    color: inputColor,
     borderBottomColor: inputColor,
+    color: inputColor,
+    placeholderTextColor: theme.colors.gray50Percent,
   }
 
   const shouldChangeSizeOnKeyboardShown = isMobileSafari && simpleStore.set && Config.safariMobileKeyboardGuidedSize
@@ -77,23 +77,23 @@ const ErrorComponent = ({ error, styles }) => (
 const getStylesFromProps = ({ theme }) => ({
   input: {
     ...theme.fontStyle,
-    fontFamily: theme.fonts.slab,
-    color: theme.colors.darkGray,
     backgroundColor: theme.colors.surface,
+    borderBottomColor: theme.colors.darkGray,
     borderBottomStyle: 'solid',
     borderBottomWidth: StyleSheet.hairlineWidth,
-    paddingVertical: theme.sizes.defaultHalf,
+    color: theme.colors.darkGray,
+    fontFamily: theme.fonts.slab,
     paddingHorizontal: theme.sizes.defaultQuadruple,
-    borderBottomColor: theme.colors.darkGray,
+    paddingVertical: theme.sizes.defaultHalf,
   },
   view: {
     flex: 1,
     marginBottom: theme.sizes.default,
   },
   suffixIcon: {
+    paddingTop: theme.paddings.mainContainerPadding,
     position: 'absolute',
     right: theme.sizes.default,
-    paddingTop: theme.paddings.mainContainerPadding,
     zIndex: 1,
   },
 })

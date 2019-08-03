@@ -138,8 +138,7 @@ EditProfile.navigationOptions = {
 
 const getStylesFromProps = ({ theme }) => ({
   section: {
-    paddingLeft: '1em',
-    paddingRight: '1em',
+    padding: theme.sizes.defaultDouble,
   },
 })
 

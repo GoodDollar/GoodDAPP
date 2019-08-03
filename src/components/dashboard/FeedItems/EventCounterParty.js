@@ -20,7 +20,7 @@ const EventCounterParty = ({ feedItem, styles, style }) => {
 const getStylesFromProps = ({ theme }) => ({
   rowDataText: {
     color: theme.fontStyle.color,
-    fontSize: normalize(16),
+    lineHeight: normalize(16),
     textAlign: 'left',
     textTransform: 'capitalize',
   },
@@ -31,6 +31,7 @@ const getStylesFromProps = ({ theme }) => ({
     fontFamily: theme.fonts.default,
     fontSize: normalize(16),
     fontWeight: '500',
+    lineHeight: normalize(16),
   },
 })
 

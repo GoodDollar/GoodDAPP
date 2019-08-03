@@ -106,8 +106,12 @@ export function generateShareObject(title: string, text: string, url: string): S
   }
 }
 
-export function generateSendShareObject(url: string): ShareObject {
-  return generateShareObject('Sending G$ via GoodDollar App', 'You have received G$. To withdraw open:', url)
+export function generateSendShareObject(url: string, amount: number, name: string): ShareObject {
+  return generateShareObject(
+    'Sending G$ via GoodDollar App',
+    `You've received ${amount} G$ from ${name}. To withdraw open:`,
+    url
+  )
 }
 
 /**
@@ -115,9 +119,13 @@ export function generateSendShareObject(url: string): ShareObject {
  * @param code - code returned by `generateCode`
  * @returns {string} - URL to use to share/receive GDs
  */
-export function generateReceiveShareObject(code: string): ShareObject {
+export function generateReceiveShareObject(code: string, amount: number, name: string): ShareObject {
   const url = generateShareLink('receive', { code })
-  return generateShareObject('Sending G$ via GoodDollar App', 'To send me G$ open:', url)
+  return generateShareObject(
+    'Sending G$ via GoodDollar App',
+    `You've got a request from ${name} for ${amount} G$. To transfer open:`,
+    url
+  )
 }
 
 type HrefLinkProps = {

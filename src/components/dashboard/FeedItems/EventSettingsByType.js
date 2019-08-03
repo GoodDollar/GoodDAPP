@@ -35,6 +35,7 @@ const getEventSettingsByType = (theme, type) => {
         name: 'clock-filled',
       },
       sendpending: {
+        actionSymbol: '-',
         color: theme.colors.orange,
         name: 'clock-filled',
       },

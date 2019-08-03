@@ -749,7 +749,7 @@ exports[`Profile matches snapshot 1`] = `
                         "marginTop": "8px",
                         "textAlign": "center",
                         "textDecoration": "none",
-                        "textTransform": "uppercase",
+                        "textTransform": "none",
                       }
                     }
                   />
@@ -896,14 +896,11 @@ exports[`Profile matches snapshot 1`] = `
                         "WebkitFlexDirection": "row",
                         "WebkitJustifyContent": "space-between",
                         "alignItems": "center",
-                        "borderTopColor": "rgba(203,203,203,1.00)",
-                        "borderTopWidth": "1px",
                         "flexDirection": "row",
                         "justifyContent": "space-between",
                         "msFlexAlign": "center",
                         "msFlexDirection": "row",
                         "msFlexPack": "justify",
-                        "paddingTop": "8px",
                       }
                     }
                   >
@@ -929,11 +926,21 @@ exports[`Profile matches snapshot 1`] = `
                         className="css-view-1dbjc4n"
                         style={
                           Object {
-                            "borderBottomColor": "rgba(203,203,203,1.00)",
+                            "borderBottomColor": "rgba(0,0,0,0.00)",
+                            "borderBottomLeftRadius": "24px",
+                            "borderBottomRightRadius": "24px",
                             "borderBottomWidth": "1px",
+                            "borderLeftColor": "rgba(0,0,0,0.00)",
+                            "borderLeftWidth": "1px",
+                            "borderRightColor": "rgba(0,0,0,0.00)",
+                            "borderRightWidth": "1px",
+                            "borderTopColor": "rgba(238,238,238,1.00)",
+                            "borderTopLeftRadius": "0px",
+                            "borderTopRightRadius": "0px",
+                            "borderTopWidth": "1px",
                             "paddingBottom": "0px",
-                            "paddingLeft": "40px",
-                            "paddingRight": "40px",
+                            "paddingLeft": "32px",
+                            "paddingRight": "32px",
                             "paddingTop": "0px",
                             "position": "relative",
                           }
@@ -944,7 +951,7 @@ exports[`Profile matches snapshot 1`] = `
                           autoCapitalize="sentences"
                           autoComplete="on"
                           autoCorrect="on"
-                          className="css-textinput-1cwyjr8"
+                          className="css-textinput-1cwyjr8 r-placeholderTextColor-1xktb6b"
                           dir="auto"
                           disabled={true}
                           onBlur={[Function]}
@@ -962,11 +969,8 @@ exports[`Profile matches snapshot 1`] = `
                               "WebkitFlexBasis": "0%",
                               "WebkitFlexGrow": 1,
                               "WebkitFlexShrink": 1,
-                              "backgroundColor": "inherit",
-                              "borderBottomWidth": "0px",
-                              "borderLeftWidth": "0px",
-                              "borderRightWidth": "0px",
-                              "borderTopWidth": "0px",
+                              "backgroundColor": "rgba(0,0,0,0.00)",
+                              "color": "rgba(66,69,74,1.00)",
                               "flexBasis": "0%",
                               "flexGrow": 1,
                               "flexShrink": 1,
@@ -986,9 +990,19 @@ exports[`Profile matches snapshot 1`] = `
                           className="css-view-1dbjc4n"
                           style={
                             Object {
-                              "paddingTop": "8px",
+                              "WebkitAlignItems": "center",
+                              "WebkitBoxAlign": "center",
+                              "WebkitBoxPack": "center",
+                              "WebkitJustifyContent": "center",
+                              "alignItems": "center",
+                              "display": "flex",
+                              "height": "100%",
+                              "justifyContent": "center",
+                              "msFlexAlign": "center",
+                              "msFlexPack": "center",
                               "position": "absolute",
-                              "right": "24px",
+                              "right": "0px",
+                              "width": "32px",
                               "zIndex": 1,
                             }
                           }
@@ -1000,7 +1014,7 @@ exports[`Profile matches snapshot 1`] = `
                               Object {
                                 "color": "rgba(0,175,255,1.00)",
                                 "fontFamily": "gooddollar",
-                                "fontSize": "16px",
+                                "fontSize": "22px",
                                 "fontStyle": "normal",
                                 "fontWeight": "normal",
                               }
@@ -1010,26 +1024,6 @@ exports[`Profile matches snapshot 1`] = `
                           </div>
                         </div>
                       </div>
-                      <div
-                        className="css-text-901oao"
-                        dir="auto"
-                        style={
-                          Object {
-                            "WebkitTransform": "translateY(0px)",
-                            "color": "rgba(250,108,119,1.00)",
-                            "direction": "ltr",
-                            "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                            "fontSize": "12px",
-                            "opacity": 1,
-                            "paddingBottom": "4px",
-                            "paddingLeft": "12px",
-                            "paddingRight": "0px",
-                            "paddingTop": "4px",
-                            "textAlign": "left",
-                            "transform": "translateY(0px)",
-                          }
-                        }
-                      />
                     </div>
                   </div>
                   <div
@@ -1074,11 +1068,21 @@ exports[`Profile matches snapshot 1`] = `
                         className="css-view-1dbjc4n"
                         style={
                           Object {
-                            "borderBottomColor": "rgba(203,203,203,1.00)",
+                            "borderBottomColor": "rgba(0,0,0,0.00)",
+                            "borderBottomLeftRadius": "24px",
+                            "borderBottomRightRadius": "24px",
                             "borderBottomWidth": "1px",
+                            "borderLeftColor": "rgba(0,0,0,0.00)",
+                            "borderLeftWidth": "1px",
+                            "borderRightColor": "rgba(0,0,0,0.00)",
+                            "borderRightWidth": "1px",
+                            "borderTopColor": "rgba(238,238,238,1.00)",
+                            "borderTopLeftRadius": "0px",
+                            "borderTopRightRadius": "0px",
+                            "borderTopWidth": "1px",
                             "paddingBottom": "0px",
-                            "paddingLeft": "40px",
-                            "paddingRight": "40px",
+                            "paddingLeft": "32px",
+                            "paddingRight": "32px",
                             "paddingTop": "0px",
                             "position": "relative",
                           }
@@ -1089,7 +1093,7 @@ exports[`Profile matches snapshot 1`] = `
                           autoCapitalize="sentences"
                           autoComplete="on"
                           autoCorrect="on"
-                          className="css-textinput-1cwyjr8"
+                          className="css-textinput-1cwyjr8 r-placeholderTextColor-1xktb6b"
                           dir="auto"
                           disabled={true}
                           onBlur={[Function]}
@@ -1107,11 +1111,8 @@ exports[`Profile matches snapshot 1`] = `
                               "WebkitFlexBasis": "0%",
                               "WebkitFlexGrow": 1,
                               "WebkitFlexShrink": 1,
-                              "backgroundColor": "inherit",
-                              "borderBottomWidth": "0px",
-                              "borderLeftWidth": "0px",
-                              "borderRightWidth": "0px",
-                              "borderTopWidth": "0px",
+                              "backgroundColor": "rgba(0,0,0,0.00)",
+                              "color": "rgba(66,69,74,1.00)",
                               "flexBasis": "0%",
                               "flexGrow": 1,
                               "flexShrink": 1,
@@ -1131,9 +1132,19 @@ exports[`Profile matches snapshot 1`] = `
                           className="css-view-1dbjc4n"
                           style={
                             Object {
-                              "paddingTop": "8px",
+                              "WebkitAlignItems": "center",
+                              "WebkitBoxAlign": "center",
+                              "WebkitBoxPack": "center",
+                              "WebkitJustifyContent": "center",
+                              "alignItems": "center",
+                              "display": "flex",
+                              "height": "100%",
+                              "justifyContent": "center",
+                              "msFlexAlign": "center",
+                              "msFlexPack": "center",
                               "position": "absolute",
-                              "right": "24px",
+                              "right": "0px",
+                              "width": "32px",
                               "zIndex": 1,
                             }
                           }
@@ -1145,7 +1156,7 @@ exports[`Profile matches snapshot 1`] = `
                               Object {
                                 "color": "rgba(0,175,255,1.00)",
                                 "fontFamily": "gooddollar",
-                                "fontSize": "16px",
+                                "fontSize": "28px",
                                 "fontStyle": "normal",
                                 "fontWeight": "normal",
                               }
@@ -1155,26 +1166,6 @@ exports[`Profile matches snapshot 1`] = `
                           </div>
                         </div>
                       </div>
-                      <div
-                        className="css-text-901oao"
-                        dir="auto"
-                        style={
-                          Object {
-                            "WebkitTransform": "translateY(0px)",
-                            "color": "rgba(250,108,119,1.00)",
-                            "direction": "ltr",
-                            "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                            "fontSize": "12px",
-                            "opacity": 1,
-                            "paddingBottom": "4px",
-                            "paddingLeft": "12px",
-                            "paddingRight": "0px",
-                            "paddingTop": "4px",
-                            "textAlign": "left",
-                            "transform": "translateY(0px)",
-                          }
-                        }
-                      />
                     </div>
                   </div>
                   <div
@@ -1189,6 +1180,8 @@ exports[`Profile matches snapshot 1`] = `
                         "WebkitFlexDirection": "row",
                         "WebkitJustifyContent": "space-between",
                         "alignItems": "center",
+                        "borderBottomColor": "rgba(238,238,238,1.00)",
+                        "borderBottomWidth": "1px",
                         "flexDirection": "row",
                         "justifyContent": "space-between",
                         "msFlexAlign": "center",
@@ -1219,11 +1212,21 @@ exports[`Profile matches snapshot 1`] = `
                         className="css-view-1dbjc4n"
                         style={
                           Object {
-                            "borderBottomColor": "rgba(203,203,203,1.00)",
+                            "borderBottomColor": "rgba(0,0,0,0.00)",
+                            "borderBottomLeftRadius": "24px",
+                            "borderBottomRightRadius": "24px",
                             "borderBottomWidth": "1px",
+                            "borderLeftColor": "rgba(0,0,0,0.00)",
+                            "borderLeftWidth": "1px",
+                            "borderRightColor": "rgba(0,0,0,0.00)",
+                            "borderRightWidth": "1px",
+                            "borderTopColor": "rgba(238,238,238,1.00)",
+                            "borderTopLeftRadius": "0px",
+                            "borderTopRightRadius": "0px",
+                            "borderTopWidth": "1px",
                             "paddingBottom": "0px",
-                            "paddingLeft": "40px",
-                            "paddingRight": "40px",
+                            "paddingLeft": "32px",
+                            "paddingRight": "32px",
                             "paddingTop": "0px",
                             "position": "relative",
                           }
@@ -1234,7 +1237,7 @@ exports[`Profile matches snapshot 1`] = `
                           autoCapitalize="sentences"
                           autoComplete="on"
                           autoCorrect="on"
-                          className="css-textinput-1cwyjr8"
+                          className="css-textinput-1cwyjr8 r-placeholderTextColor-1xktb6b"
                           dir="auto"
                           disabled={true}
                           onBlur={[Function]}
@@ -1252,11 +1255,8 @@ exports[`Profile matches snapshot 1`] = `
                               "WebkitFlexBasis": "0%",
                               "WebkitFlexGrow": 1,
                               "WebkitFlexShrink": 1,
-                              "backgroundColor": "inherit",
-                              "borderBottomWidth": "0px",
-                              "borderLeftWidth": "0px",
-                              "borderRightWidth": "0px",
-                              "borderTopWidth": "0px",
+                              "backgroundColor": "rgba(0,0,0,0.00)",
+                              "color": "rgba(66,69,74,1.00)",
                               "flexBasis": "0%",
                               "flexGrow": 1,
                               "flexShrink": 1,
@@ -1276,9 +1276,19 @@ exports[`Profile matches snapshot 1`] = `
                           className="css-view-1dbjc4n"
                           style={
                             Object {
-                              "paddingTop": "8px",
+                              "WebkitAlignItems": "center",
+                              "WebkitBoxAlign": "center",
+                              "WebkitBoxPack": "center",
+                              "WebkitJustifyContent": "center",
+                              "alignItems": "center",
+                              "display": "flex",
+                              "height": "100%",
+                              "justifyContent": "center",
+                              "msFlexAlign": "center",
+                              "msFlexPack": "center",
                               "position": "absolute",
-                              "right": "24px",
+                              "right": "0px",
+                              "width": "32px",
                               "zIndex": 1,
                             }
                           }
@@ -1290,7 +1300,7 @@ exports[`Profile matches snapshot 1`] = `
                               Object {
                                 "color": "rgba(0,175,255,1.00)",
                                 "fontFamily": "gooddollar",
-                                "fontSize": "16px",
+                                "fontSize": "20px",
                                 "fontStyle": "normal",
                                 "fontWeight": "normal",
                               }
@@ -1300,26 +1310,6 @@ exports[`Profile matches snapshot 1`] = `
                           </div>
                         </div>
                       </div>
-                      <div
-                        className="css-text-901oao"
-                        dir="auto"
-                        style={
-                          Object {
-                            "WebkitTransform": "translateY(0px)",
-                            "color": "rgba(250,108,119,1.00)",
-                            "direction": "ltr",
-                            "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                            "fontSize": "12px",
-                            "opacity": 1,
-                            "paddingBottom": "4px",
-                            "paddingLeft": "12px",
-                            "paddingRight": "0px",
-                            "paddingTop": "4px",
-                            "textAlign": "left",
-                            "transform": "translateY(0px)",
-                          }
-                        }
-                      />
                     </div>
                   </div>
                 </div>

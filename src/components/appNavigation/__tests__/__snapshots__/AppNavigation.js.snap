@@ -1318,7 +1318,6 @@ exports[`AppNavigation matches snapshot 1`] = `
                             "marginRight": "8px",
                             "marginTop": "8px",
                             "maxHeight": "84px",
-                            "minHeight": "84px",
                             "msFlexDirection": "row",
                             "msTouchAction": "manipulation",
                             "msUserSelect": "none",

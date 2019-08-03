@@ -125,7 +125,7 @@ exports[`Who matches snapshot 1`] = `
             className="css-view-1dbjc4n"
             style={
               Object {
-                "backgroundColor": "rgba(0,175,255,1.00)",
+                "backgroundColor": "rgba(0,0,0,0.00)",
                 "borderBottomLeftRadius": "20px",
                 "borderBottomRightRadius": "20px",
                 "borderTopLeftRadius": "20px",

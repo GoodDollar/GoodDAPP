@@ -243,7 +243,7 @@ export class GoodWallet {
       const fromEventsPromise = contract
         .getPastEvents(event, fromEventsFilter)
         .catch(e => {
-          log.error('listenTxUpdates fromEventsPromise failed:', { e, fromEventsFilter })
+          log.warn('listenTxUpdates fromEventsPromise failed:', { e, fromEventsFilter })
           return { error: e }
         })
         .then(res => {
@@ -274,7 +274,7 @@ export class GoodWallet {
       const toEventsPromise = contract
         .getPastEvents(event, toEventsFilter)
         .catch(e => {
-          log.error('listenTxUpdates toEventsPromise failed:', { e, toEventsFilter })
+          log.warn('listenTxUpdates toEventsPromise failed:', { e, toEventsFilter })
           return { error: e }
         })
         .then(res => {
@@ -324,14 +324,14 @@ export class GoodWallet {
       contract
         .getPastEvents('PaymentWithdraw', fromEventsFilter)
         .catch(e => {
-          log.error('subscribeOTPL fromEventsPromise failed:', { e, fromEventsFilter })
+          log.warn('subscribeOTPL fromEventsPromise failed:', { e, fromEventsFilter })
           return { error: e }
         })
         .then(res => (res.error ? [] : res)),
       contract
         .getPastEvents('PaymentCancel', fromEventsFilter)
         .catch(e => {
-          log.error('subscribeOTPL fromEventsPromise failed:', { e, fromEventsFilter })
+          log.warn('subscribeOTPL fromEventsPromise failed:', { e, fromEventsFilter })
           return { error: e }
         })
         .then(res => (res.error ? [] : res)),

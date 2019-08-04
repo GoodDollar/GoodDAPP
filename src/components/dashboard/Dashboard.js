@@ -4,14 +4,18 @@ import type { Store } from 'undux'
 import normalize from '../../lib/utils/normalizeText'
 import GDStore from '../../lib/undux/GDStore'
 import SimpleStore from '../../lib/undux/SimpleStore'
-import { useDialog } from '../../lib/undux/utils/dialog'
+import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
 import { getInitialFeed, getNextFeed, PAGE_SIZE } from '../../lib/undux/utils/feed'
 import { executeWithdraw } from '../../lib/undux/utils/withdraw'
 import { weiToMask } from '../../lib/wallet/utils'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { PushButton } from '../appNavigation/PushButton'
 import TabsView from '../appNavigation/TabsView'
-import { Avatar, BigGoodDollar, ClaimButton, Section, Wrapper } from '../common'
+import Avatar from '../common/view/Avatar'
+import BigGoodDollar from '../common/view/BigGoodDollar'
+import ClaimButton from '../common/buttons/ClaimButton'
+import Section from '../common/layout/Section'
+import Wrapper from '../common/layout/Wrapper'
 import logger from '../../lib/logger/pino-logger'
 import userStorage from '../../lib/gundb/UserStorage'
 import { PrivacyArticle, PrivacyPolicy, Support, TermsOfUse } from '../webView/webViewInstances'
@@ -56,6 +60,7 @@ const Dashboard = props => {
   const store = SimpleStore.useStore()
   const gdstore = GDStore.useStore()
   const [showDialog, hideDialog] = useDialog()
+  const [showErrorDialog] = useErrorDialog()
   const [state: DashboardState, setState] = useState({
     currentFeed: null,
     feeds: [],
@@ -114,7 +119,7 @@ const Dashboard = props => {
       await executeWithdraw(store, paymentCode, reason)
       hideDialog()
     } catch (e) {
-      showDialog({ title: 'Error', message: e.message })
+      showErrorDialog(e)
     }
   }
 

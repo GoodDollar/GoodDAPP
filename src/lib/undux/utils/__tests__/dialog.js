@@ -72,9 +72,9 @@ describe('Dialog', () => {
       dialogData: {
         visible: true,
         title: 'Error',
-        type: 'error',
         message: `human readable\n${message}`,
         dismissText: 'OK',
+        type: 'error',
       },
     })
   })
@@ -90,9 +90,9 @@ describe('Dialog', () => {
       dialogData: {
         visible: true,
         title: 'Error',
-        type: 'error',
         message: `human readable\n${err}`,
         dismissText: 'OK',
+        type: 'error',
       },
     })
   })
@@ -112,9 +112,9 @@ describe('Dialog', () => {
       dialogData: {
         visible: true,
         title: 'Error',
-        type: 'error',
         message: `human readable\n${message}`,
         dismissText: 'OK',
+        type: 'error',
       },
     })
   })

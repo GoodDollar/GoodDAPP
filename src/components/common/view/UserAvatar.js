@@ -84,6 +84,7 @@ const getStylesFromProps = ({ theme }) => ({
     fontSize: normalize(22),
     fontWeight: '400',
     marginTop: theme.sizes.default,
+    textTransform: 'none',
   },
   fullName: {
     textAlign: 'left',

@@ -1,34 +1,21 @@
 // @flow
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
-import { withTheme } from 'react-native-paper'
-import { Icon } from 'react-native-elements/src/icons/Icon'
 import GDStore from '../../lib/undux/GDStore'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { Section, UserAvatar, Wrapper } from '../common'
+import { withStyles } from '../../lib/styles'
 import EditAvatar from './EditAvatar'
 import EditProfile from './EditProfile'
 import ProfileDataTable from './ProfileDataTable'
 import ProfilePrivacy from './ProfilePrivacy'
 import ViewAvatar from './ViewAvatar'
+import CircleButtonWrapper from './CircleButtonWrapper'
 
 const TITLE = 'Profile'
 
-const PrivateIcon = props => <ThemedIconButton {...props} wrapperStyle={styles.iconLeft} name="person-outline" />
-
-const EditIcon = props => <ThemedIconButton {...props} wrapperStyle={styles.iconRight} name="edit" />
-
-const IconButton = ({ onPress, disabled, wrapperStyle, theme, ...iconProps }) => (
-  <View style={[styles.icon, wrapperStyle]}>
-    <Icon onPress={onPress} color={theme.colors.darkBlue} {...iconProps} reverse size={20} />
-  </View>
-)
-
-const ThemedIconButton = withTheme(IconButton)
-
-const Profile = props => {
+const ProfileWrapper = props => {
   const profile = GDStore.useStore().get('profile')
-  const { screenProps } = props
+  const { screenProps, styles } = props
 
   const handleAvatarPress = event => {
     event.preventDefault()
@@ -39,10 +26,15 @@ const Profile = props => {
   return (
     <Wrapper>
       <Section style={styles.section}>
-        <Section.Row justifyContent="center" alignItems="center">
-          <PrivateIcon onPress={() => screenProps.push('ProfilePrivacy')} />
+        <Section.Row justifyContent="space-between" alignItems="flex-start">
+          <CircleButtonWrapper iconName={'privacy'} iconSize={23} onPress={() => screenProps.push('ProfilePrivacy')} />
           <UserAvatar profile={profile} onPress={handleAvatarPress} />
-          <EditIcon onPress={() => screenProps.push('EditProfile')} />
+          <CircleButtonWrapper
+            iconName={'edit'}
+            iconSize={25}
+            onPress={() => screenProps.push('EditProfile')}
+            style={[styles.iconRight]}
+          />
         </Section.Row>
         <ProfileDataTable profile={profile} />
       </Section>
@@ -50,27 +42,20 @@ const Profile = props => {
   )
 }
 
-Profile.navigationOptions = {
+ProfileWrapper.navigationOptions = {
   title: TITLE,
 }
 
-const styles = StyleSheet.create({
+const getStylesFromProps = ({ theme }) => ({
   section: {
-    marginBottom: 'auto',
-    minHeight: '100%',
-    paddingLeft: '1em',
-    paddingRight: '1em',
-  },
-  icon: {
-    top: 0,
-    position: 'absolute',
+    flexGrow: 1,
+    padding: theme.sizes.defaultDouble,
   },
   iconRight: {
-    right: 0,
-  },
-  iconLeft: {
-    left: 0,
+    transform: [{ rotateY: '180deg' }],
   },
 })
+
+const Profile = withStyles(getStylesFromProps)(ProfileWrapper)
 
 export default createStackNavigator({ Profile, EditProfile, ProfilePrivacy, ViewAvatar, EditAvatar })

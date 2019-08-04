@@ -24,12 +24,10 @@ const getError = value => {
 
 const Who = (props: AmountProps) => {
   const { screenProps } = props
-
   const [screenState, setScreenState] = useScreenState(screenProps)
   const { params } = props.navigation.state
   const isReceive = params && params.action === ACTION_RECEIVE
   const { counterPartyDisplayName } = screenState
-
   const text = isReceive ? 'From Who?' : 'Send To?'
   const getErrorFunction = isReceive ? () => null : getError
   const [state, setValue] = useValidatedValueState(counterPartyDisplayName, getErrorFunction)
@@ -49,11 +47,11 @@ const Who = (props: AmountProps) => {
           <Section.Title>{text}</Section.Title>
           <InputText
             autoFocus
-            style={props.styles.input}
-            value={state.value}
             error={state.error}
             onChangeText={setValue}
             placeholder="Enter the recipient name"
+            style={props.styles.input}
+            value={state.value}
           />
         </Section.Stack>
         <Section.Row grow alignItems="flex-end">

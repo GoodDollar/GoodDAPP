@@ -1,7 +1,11 @@
 // @flow
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import debounce from 'lodash/debounce'
-import { useWrappedUserStorage } from '../../lib/gundb/useWrappedStorage'
+import isEqualWith from 'lodash/isEqualWith'
+import isEqual from 'lodash/isEqual'
+
+import merge from 'lodash/merge'
+import userStorage from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import GDStore from '../../lib/undux/GDStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
@@ -15,30 +19,51 @@ const log = logger.child({ from: TITLE })
 
 const EditProfile = ({ screenProps, theme, styles }) => {
   const store = GDStore.useStore()
-  const userStorage = useWrappedUserStorage()
   const storedProfile = store.get('privateProfile')
-
   const [profile, setProfile] = useState(storedProfile)
-  const [saving, setSaving] = useState()
-  const [isValid, setIsValid] = useState()
+  const [saving, setSaving] = useState(false)
+  const [isValid, setIsValid] = useState(true)
+  const [isPristine, setIsPristine] = useState(true)
   const [errors, setErrors] = useState({})
   const [showErrorDialog] = useErrorDialog()
 
+  //initialize profile value for first time from storedprofile
   useEffect(() => {
     setProfile(storedProfile)
-  }, [storedProfile])
+  }, [isEqual(profile, {}) && storedProfile])
 
-  const validate = debounce(async () => {
-    log.info({ validate: profile })
-    if (profile && profile.validate) {
-      const { isValid, errors } = profile.validate()
-      const { isValid: indexIsValid, errors: indexErrors } = await userStorage.validateProfile(profile)
-      setErrors({ ...errors, ...indexErrors })
-      setIsValid(isValid && indexIsValid)
-      return isValid && indexIsValid
-    }
-    return false
-  }, 500)
+  const validate = useCallback(
+    debounce(async (profile, storedProfile, setIsPristine, setErrors, setIsValid) => {
+      if (profile && profile.validate) {
+        try {
+          const pristine = isEqualWith(storedProfile, profile, (x, y) => {
+            if (typeof x === 'function') {
+              return true
+            }
+            if (['string', 'number'].includes(typeof x)) {
+              return x.toString() === y.toString()
+            }
+            return undefined
+          })
+          const { isValid, errors } = profile.validate()
+          const { isValid: isValidIndex, errors: errorsIndex } = await userStorage.validateProfile(profile)
+          const valid = isValid && isValidIndex
+
+          setErrors(merge(errors, errorsIndex))
+          setIsValid(valid)
+          setIsPristine(pristine)
+
+          return valid
+        } catch (e) {
+          log.error('validate profile failed', e, e.message)
+          showErrorDialog('Unexpected error while validating profile', e)
+          return false
+        }
+      }
+      return false
+    }, 500),
+    []
+  )
 
   const handleProfileChange = newProfile => {
     if (saving) {
@@ -49,24 +74,24 @@ const EditProfile = ({ screenProps, theme, styles }) => {
 
   const handleSaveButton = async () => {
     setSaving(true)
-    const isValid = await validate()
 
-    if (!isValid) {
+    // with flush triggers immediate call for the validation
+    if (!(await validate.flush())) {
       setSaving(false)
-      return
+      return false
     }
 
     return userStorage
       .setProfile(profile)
       .catch(err => {
         log.error('Error saving profile', { err, profile })
-        showErrorDialog('Saving profile failed', err)
+        showErrorDialog('Unexpected error while saving profile', err)
+        return false
       })
       .finally(_ => setSaving(false))
   }
 
   const onProfileSaved = () => {
-    log.info('called??')
     screenProps.pop()
   }
 
@@ -84,7 +109,8 @@ const EditProfile = ({ screenProps, theme, styles }) => {
 
   // Validate after saving profile state in order to show errors
   useEffect(() => {
-    validate()
+    //need to pass parameters into memoized debounced method otherwise setX hooks wont work
+    validate(profile, storedProfile, setIsPristine, setErrors, setIsValid)
   }, [profile])
 
   return (
@@ -95,8 +121,7 @@ const EditProfile = ({ screenProps, theme, styles }) => {
             <CameraButton handleCameraPress={handleCameraPress} />
           </UserAvatar>
           <SaveButton
-            disabled={saving || !isValid}
-            beforeSave={validate}
+            disabled={isPristine || saving || !isValid}
             onPress={handleSaveButton}
             onPressDone={onProfileSaved}
           />
@@ -113,8 +138,7 @@ EditProfile.navigationOptions = {
 
 const getStylesFromProps = ({ theme }) => ({
   section: {
-    paddingLeft: '1em',
-    paddingRight: '1em',
+    padding: theme.sizes.defaultDouble,
   },
 })
 

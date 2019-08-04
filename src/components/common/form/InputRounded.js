@@ -13,7 +13,7 @@ import Icon from '../view/Icon'
  * @param {React.Node} props.children
  * @returns {React.Node}
  */
-const InputRounded = ({ styles, theme, icon, iconColor, error, onChange, ...inputProps }) => {
+const InputRounded = ({ styles, theme, icon, iconSize, iconColor, error, onChange, ...inputProps }) => {
   const handleChange = event => {
     onChange(event.target.value)
   }
@@ -23,37 +23,47 @@ const InputRounded = ({ styles, theme, icon, iconColor, error, onChange, ...inpu
       <View
         style={inputProps.disabled ? styles.inputText : error ? styles.errorInputContainer : styles.iconInputContainer}
       >
-        <TextInput style={error ? styles.inputError : styles.input} {...inputProps} onChange={handleChange} />
+        <TextInput
+          onChange={handleChange}
+          placeholderTextColor={theme.colors.gray50Percent}
+          style={error ? styles.inputError : styles.input}
+          {...inputProps}
+        />
         <View style={styles.suffixIcon}>
           <Icon
-            size={normalize(16)}
             color={error ? theme.colors.red : iconColor || theme.colors.gray50Percent}
             name={icon}
+            size={iconSize}
           />
         </View>
       </View>
-      <HelperText type="error" visible={error} style={styles.error}>
-        {error}
-      </HelperText>
+      {error ? (
+        <HelperText type="error" style={styles.error}>
+          {error}
+        </HelperText>
+      ) : null}
     </View>
   )
 }
 
 const getStylesFromProps = ({ theme }) => {
   const defaultInputContainer = {
-    paddingHorizontal: 40,
+    paddingHorizontal: 32,
     paddingVertical: 0,
     position: 'relative',
+    borderRadius: 24,
+    borderWidth: 1,
   }
   const input = {
-    backgroundColor: 'inherit',
-    borderWidth: 0,
+    color: theme.colors.darkGray,
+    backgroundColor: 'transparent',
     flex: 1,
     fontFamily: theme.fonts.default,
     fontSize: normalize(14),
     fontWeight: '400',
     lineHeight: 36,
   }
+
   return {
     inputContainer: {
       display: 'inline-flex',
@@ -62,19 +72,21 @@ const getStylesFromProps = ({ theme }) => {
     errorInputContainer: {
       ...defaultInputContainer,
       borderColor: theme.colors.red,
-      borderRadius: 24,
-      borderWidth: 1,
+      lineHeight: 0,
     },
     iconInputContainer: {
       ...defaultInputContainer,
-      borderColor: theme.colors.gray50Percent,
-      borderRadius: 24,
-      borderWidth: 1,
+      borderColor: theme.colors.lightGray,
+      marginBottom: theme.sizes.default,
     },
     inputText: {
       ...defaultInputContainer,
-      borderBottomColor: theme.colors.gray50Percent,
-      borderBottomWidth: 1,
+      borderBottomColor: 'transparent',
+      borderLeftColor: 'transparent',
+      borderRightColor: 'transparent',
+      borderTopColor: theme.colors.lightGray,
+      borderTopLeftRadius: 0,
+      borderTopRightRadius: 0,
     },
     input,
     inputError: {
@@ -82,9 +94,13 @@ const getStylesFromProps = ({ theme }) => {
       color: theme.colors.red,
     },
     suffixIcon: {
-      paddingTop: theme.paddings.mainContainerPadding,
+      alignItems: 'center',
+      display: 'flex',
+      height: '100%',
+      justifyContent: 'center',
       position: 'absolute',
-      right: 24,
+      right: 0,
+      width: defaultInputContainer.paddingHorizontal,
       zIndex: 1,
     },
     error: {

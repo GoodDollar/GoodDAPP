@@ -1146,6 +1146,10 @@ export class UserStorage {
 
   async getProfile(): Promise<any> {
     const encryptedProfile = await this.loadGunField(this.profile)
+    if (encryptedProfile === undefined) {
+      logger.error('getProfile: profile node undefined')
+      return {}
+    }
     const fullProfile = this.getPrivateProfile(encryptedProfile)
     return fullProfile
   }
@@ -1166,6 +1170,10 @@ export class UserStorage {
 
   async getPublicProfile(): Promise<any> {
     const encryptedProfile = await this.loadGunField(this.profile)
+    if (encryptedProfile === undefined) {
+      logger.error('getPublicProfile: profile node undefined')
+      return {}
+    }
     const fullProfile = this.getDisplayProfile(encryptedProfile)
     return fullProfile
   }

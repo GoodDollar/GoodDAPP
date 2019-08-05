@@ -3,7 +3,6 @@ import React from 'react'
 import { Alert, TouchableOpacity, View } from 'react-native-web'
 import { withStyles } from '../../lib/styles'
 import { Icon, Text } from '../common'
-import normalize from '../../lib/utils/normalizeText'
 import type { FeedEventProps } from './FeedItems/EventProps'
 
 /**
@@ -28,7 +27,9 @@ const FeedActions = ({ item, styles, theme }: FeedEventProps) => {
         <TouchableOpacity onPress={handleActionPress}>
           <View style={styles.actionsContainerInner}>
             <Icon name="close" color={theme.colors.surface} />
-            <Text style={[styles.action]}>{actionLabel({ canDelete, canCancel })}</Text>
+            <Text style={[styles.action]} fontSize={14} fontWeight="500" color="surface">
+              {actionLabel({ canDelete, canCancel })}
+            </Text>
           </View>
         </TouchableOpacity>
       )}
@@ -69,11 +70,6 @@ const getStylesFromProps = ({ theme }) => ({
     justifyContent: 'center',
   },
   action: {
-    color: '#fff',
-    fontFamily: theme.fonts.default,
-    fontSize: normalize(14),
-    fontWeight: '500',
-    lineHeight: normalize(14),
     marginTop: theme.sizes.default,
     paddingHorizontal: theme.sizes.default,
   },

@@ -69,6 +69,9 @@ class API {
         error => {
           // Do something with response error
           log.error('axios response error', { error })
+          if (error.response.data) {
+            return Promise.reject(error.response.data)
+          }
           return Promise.reject(error)
         }
       )

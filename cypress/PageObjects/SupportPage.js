@@ -32,6 +32,10 @@ class SupportPage {
         return '.menu-item';
     }
 
+    get helpFormSuccessMessage() {
+        return cy.get('#mauticform_communitygdsupportrequestform_message', {timeout:10000})
+    }
+
     
 
   

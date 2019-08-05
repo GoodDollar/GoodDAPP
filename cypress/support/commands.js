@@ -26,7 +26,7 @@
 Cypress.Commands.add('iframe', { prevSubject: 'element' }, $iframe => {
     return new Cypress.Promise(resolve => {
         $iframe.on('load', () => {
-            resolve($iframe.contents().find('body'));
+            resolve($iframe.contents({ timeout: 10000 }).find('body', { timeout: 10000 }));
         });
     });
 });

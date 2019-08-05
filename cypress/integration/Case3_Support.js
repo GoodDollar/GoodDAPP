@@ -28,12 +28,14 @@ describe('Test case 3: Support', () => {
         SupportPage.pageHeader.should('contain', 'Feedback & Support');
         SupportPage.iframe.should('be.visible');
     
-        SupportPage.iframe.iframe().find(SupportPage.helpFormEmail, {timeout:10000}).should('be.visible');
-        SupportPage.iframe.iframe().find(SupportPage.submitHelpFormButton, {timeout:10000}).should('be.visible');
-        SupportPage.iframe.iframe().find(SupportPage.helpFormTextArea, {timeout:10000}).should('be.visible');
+        SupportPage.iframe.iframe().find(SupportPage.helpFormEmail, {timeout:10000}).clear({force:true});
+        SupportPage.iframe.iframe().find(SupportPage.helpFormEmail, {timeout:10000}).type('andrey.holenkov@qatestlab.eu', {force:true});   
+        SupportPage.iframe.iframe().find(SupportPage.helpFormTextArea, {timeout:10000}).type('Test message', {force:true});
+        SupportPage.iframe.iframe().find(SupportPage.submitHelpFormButton, {timeout:10000}).click({force:true});
+        SupportPage.helpFormSuccessMessage.should('contain', 'Thank you, your support request has been received.');
 
         for(let i = 0; i < 11; i++) {
-            SupportPage.iframe.iframe().find(SupportPage.footerLinks).eq(i).should('be.visible');
+            SupportPage.iframe.iframe().find(SupportPage.footerLinks, { timeout: 10000 }).eq(i).should('be.visible');
         }
 
 

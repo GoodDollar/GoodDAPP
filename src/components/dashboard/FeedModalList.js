@@ -1,12 +1,11 @@
 // @flow
 import React, { createRef, useEffect, useState } from 'react'
-import { Dimensions, FlatList, View } from 'react-native'
+import { FlatList, View } from 'react-native'
 import { Portal } from 'react-native-paper'
 import { withStyles } from '../../lib/styles'
+import { getScreenWidth } from '../../lib/utils/Orientation'
 import { Indicator } from '../common/view/LoadingIndicator'
 import FeedModalItem from './FeedItems/FeedModalItem'
-
-const { width } = Dimensions.get('window')
 
 const VIEWABILITY_CONFIG = {
   minimumViewTime: 3000,
@@ -46,20 +45,31 @@ const FeedModalList = ({
 }: FeedModalListProps) => {
   const flatListRef = createRef()
   const [loading, setLoading] = useState(true)
+  const [offset, setOffset] = useState()
+  const screenWidth = getScreenWidth()
 
   useEffect(() => {
     const index = selectedFeed ? data.findIndex(item => item.id === selectedFeed.id) : 0
-    setTimeout(() => {
-      flatListRef &&
-        flatListRef.current &&
-        flatListRef.current.scrollToOffset({ animated: false, offset: width * index })
+    setOffset(screenWidth * index)
+  }, [screenWidth, selectedFeed])
+
+  useEffect(() => {
+    if (offset === undefined) {
+      return
+    }
+
+    if (offset <= 0) {
       setLoading(false)
-    }, 200)
-  }, [selectedFeed])
+    } else {
+      setTimeout(() => {
+        flatListRef && flatListRef.current && flatListRef.current.scrollToOffset({ animated: false, offset })
+      }, 0)
+    }
+  }, [offset, flatListRef])
 
   const getItemLayout = (_: any, index: number) => {
-    const length = 200
-    return { index, length, offset: length * index + 100 }
+    const length = screenWidth
+    return { index, length, offset: length * index }
   }
 
   const renderItemComponent = ({ item, separators, index }: ItemComponentProps) => (
@@ -70,8 +80,14 @@ const FeedModalList = ({
   return (
     <Portal>
       <Indicator loading={loading} />
-      <View style={styles.horizontalContainer}>
+      <View style={[styles.horizontalContainer, { opacity: loading ? 0 : 1 }]}>
         <FlatList
+          onScroll={({ nativeEvent }) => {
+            const { contentOffset } = nativeEvent
+            if (contentOffset.x === offset) {
+              setLoading(false)
+            }
+          }}
           contentContainerStyle={styles.horizontalList}
           data={feeds && feeds.length ? feeds : [emptyFeed]}
           getItemLayout={getItemLayout}

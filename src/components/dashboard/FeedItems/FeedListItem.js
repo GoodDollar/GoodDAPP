@@ -12,8 +12,9 @@ import getEventSettingsByType from './EventSettingsByType'
  */
 const FeedListItem = props => {
   const { theme, item, onPress, styles } = props
+  const itemStyle = getEventSettingsByType(theme, item.displayType || item.type)
   const imageStyle = {
-    backgroundColor: getEventSettingsByType(theme, item.type).color,
+    backgroundColor: itemStyle.color,
     backgroundImage: `url(${wavePattern})`,
   }
   return (

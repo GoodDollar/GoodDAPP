@@ -19,9 +19,10 @@ import EmptyEventFeed from './EmptyEventFeed'
  * @returns {HTMLElement}
  */
 const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
-  const eventSettings = getEventSettingsByType(theme, feed.type)
+  const itemType = feed.displayType || feed.type
+  const eventSettings = getEventSettingsByType(theme, itemType)
 
-  if (feed.type === 'empty') {
+  if (itemType === 'empty') {
     return <EmptyEventFeed />
   }
 
@@ -52,7 +53,7 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
               {feed.data.message}
             </Text>
           </View>
-          <EventIcon style={[styles.typeIcon]} type={feed.type} />
+          <EventIcon style={[styles.typeIcon]} type={itemType} />
         </View>
       </View>
     </View>

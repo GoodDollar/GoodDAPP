@@ -102,7 +102,7 @@ const HelperWizard = props => {
         <Text style={{ fontFamily: 'Roboto-Medium', fontSize: 20, color: 'white' }}>{text}</Text>
         {imgs}
         <CustomButton
-          style={{ borderColor: 'white', borderWidth: 2, fontColor: 'white' }}
+          style={{ borderColor: 'white', borderWidth: 2 }}
           mode={'outlined'}
           dark={true}
           onPress={nextStep}

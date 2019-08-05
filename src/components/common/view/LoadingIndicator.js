@@ -18,19 +18,24 @@ export const setLoadingWithStore = (store: Store) => (to: boolean) => {
   store.set('loadingIndicator')(loadingIndicator)
 }
 
-const getStylesFromProps = ({ theme }) => ({
-  screen: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '100%',
-    height: '100%',
-    backgroundColor: theme.modals.overlayBackgroundColor,
-  },
-})
+const getStylesFromProps = ({ theme }) => {
+  const backgroundColor =
+    theme && theme.modals && theme.modals.overlayBackgroundColor ? theme.modals.overlayBackgroundColor : 'transparent'
+
+  return {
+    screen: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      width: '100%',
+      height: '100%',
+      backgroundColor,
+    },
+  }
+}
 
 export const Indicator = withStyles(getStylesFromProps)(({ styles, loading }) => (
   <Portal>

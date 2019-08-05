@@ -25,11 +25,11 @@ class SupportPage {
     }
 
     get footerLinks() {
-        return cy.get('#footer a', { timeout: 10000 })
+        return '#footer a';
     }
     
     get headerLinks() {
-        return cy.get('.menu-item', { timeout: 10000})
+        return '.menu-item';
     }
 
     

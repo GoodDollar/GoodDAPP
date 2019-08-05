@@ -622,7 +622,7 @@ export class UserStorage {
         .filter(key => profile[key])
         .map(async field => {
           return this.setProfileField(field, profile[field], await getPrivacy(field)).catch(e => {
-            logger.error('setProfile field failed:', field)
+            logger.error('setProfile field failed:', field, e.message, e)
             return { err: `failed saving field ${field}` }
           })
         })
@@ -1260,6 +1260,10 @@ export class UserStorage {
 
   async getProfile(): Promise<any> {
     const encryptedProfile = await this.loadGunField(this.profile)
+    if (encryptedProfile === undefined) {
+      logger.error('getProfile: profile node undefined')
+      return {}
+    }
     const fullProfile = this.getPrivateProfile(encryptedProfile)
     return fullProfile
   }
@@ -1274,8 +1278,18 @@ export class UserStorage {
     })
   }
 
-  getFullProfile(profileNode): Promise<> {
+  getEncryptedProfile(profileNode): Promise<> {
     return this.loadGunField(profileNode)
+  }
+
+  async getPublicProfile(): Promise<any> {
+    const encryptedProfile = await this.loadGunField(this.profile)
+    if (encryptedProfile === undefined) {
+      logger.error('getPublicProfile: profile node undefined')
+      return {}
+    }
+    const fullProfile = this.getDisplayProfile(encryptedProfile)
+    return fullProfile
   }
 
   /**

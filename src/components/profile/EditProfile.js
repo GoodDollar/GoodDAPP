@@ -32,6 +32,17 @@ const EditProfile = ({ screenProps, theme, styles }) => {
     setProfile(storedProfile)
   }, [isEqual(profile, {}) && storedProfile])
 
+  const updateProfile = async () => {
+    const profile = await userStorage.getProfile()
+    store.set('privateProfile')(profile)
+  }
+
+  useEffect(() => {
+    if (isEqual(storedProfile, {})) {
+      updateProfile()
+    }
+  }, [])
+
   const validate = useCallback(
     debounce(async (profile, storedProfile, setIsPristine, setErrors, setIsValid) => {
       if (profile && profile.validate) {

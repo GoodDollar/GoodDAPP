@@ -129,7 +129,7 @@ const SingleOtpInput = withStyles(getSingleOtpInputStylesFromProps)((props: Sing
     style: inputStyles,
     maxLength: '1',
     disabled: isDisabled,
-    value: value || '',
+    value: value && value !== ' ' ? value : '',
     returnKeyType: 'next',
     placeholder,
     focus,
@@ -198,9 +198,12 @@ const OtpInput = (props: Props) => {
   const focusPrevInput = () => focusInput(activeInput - 1)
 
   // Change OTP value at focused input
-  const changeCodeAtFocus = (value: string) => {
+  const changeCodeAtFocus = (inputValue: string) => {
     const otp = getOtpValue()
-    otp[activeInput] = value[0]
+    while (otp.length < activeInput) {
+      otp.push(' ')
+    }
+    otp[activeInput] = inputValue[0]
     handleOtpChange(otp)
   }
 
@@ -224,8 +227,8 @@ const OtpInput = (props: Props) => {
     handleOtpChange(otp)
   }
 
-  const handleOnChange = (value: string) => {
-    changeCodeAtFocus(value)
+  const handleOnChange = (inputValue: string) => {
+    changeCodeAtFocus(inputValue)
     focusNextInput()
   }
 

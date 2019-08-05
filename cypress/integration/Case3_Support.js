@@ -27,9 +27,11 @@ describe('Test case 3: Support', () => {
         HomePage.options.eq(5).click( {force: true} );
         SupportPage.pageHeader.should('contain', 'Feedback & Support');
         SupportPage.iframe.should('be.visible');
+
+ 
         
-        SupportPage.iframe.iframe().find(SupportPage.helpFormEmail).should('be.visible');
-        SupportPage.iframe.iframe().find(SupportPage.submitHelpFormButton).should('be.visible');
+        SupportPage.iframe.iframe().find(SupportPage.helpFormEmail, {timeout:10000}).should('be.visible');
+        SupportPage.iframe.iframe().find(SupportPage.submitHelpFormButton, {timeout:10000}).should('be.visible');
         SupportPage.iframe.iframe().find(SupportPage.helpFormTextArea, {timeout:10000}).should('be.visible');
         
 

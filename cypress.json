@@ -1,6 +1,5 @@
 {
     "chromeWebSecurity": false,
-    "defaultCommandTimeout": 5000,
     "env": {    
         "wordsForSuccessfullLogin": [
             "rabbit", "have", "citizen", 

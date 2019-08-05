@@ -23,13 +23,31 @@
 //
 // -- This is will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
-Cypress.Commands.add('iframe', { prevSubject: 'element' }, $iframe => {
-    return new Cypress.Promise(resolve => {
-        $iframe.on('load', () => {
-            resolve($iframe.contents().find('body'));
-        });
-    });
-});
+// Cypress.Commands.add('iframe', { prevSubject: 'element' }, $iframe => {
+//     return new Cypress.Promise(resolve => {
+//         $iframe.on('load', () => {
+//             resolve($iframe.contents().find('body'));
+//         });
+//     });
+// });
+
+// Cypress.Commands.add('iframe', {prevSubject: 'element'}, (iframe) => {
+//     const iframeDoc = iframe[0].contentDocument;
+
+//     return new Cypress.Promise(resolve => {
+//         const resolveWithBody = () => {
+//             resolve(iframe.contents().find('body'))
+//         };
+
+//         if ( 'complete' === iframeDoc.readyState ) {
+//             resolveWithBody();
+//         }
+
+//         iframe.on('load', () => {
+//             resolveWithBody();
+//         })
+//     })
+// });
 
 
 // Cypress.Commands.add('iframe', { prevSubject: 'element' }, ($iframe, selector) => {

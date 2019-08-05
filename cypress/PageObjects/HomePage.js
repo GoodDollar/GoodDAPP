@@ -13,7 +13,7 @@ class HomePage {
     }
 
     get optionsButton() {
-        return cy.get('div[role=button]', { timeout: 10000 }).eq(1)
+        return cy.xpath('//*[@id="root"]/div[1]/div/div[2]/div[1]/div/div[3]', { timeout: 10000 })
     }
 
     get options() {
@@ -21,22 +21,12 @@ class HomePage {
     }
 
     get profileAvatar() {
-        return cy.xpath('//*[@id="root"]/div[1]/div/div/div[2]/div[2]/div/div[1]/div[1]/div[1]/div/div/div/div', { timeout: 10000 })
+        return cy.get('img[alt]', { timeout: 10000 }).eq(0);
     }
 
     get closeOptionsButton() {
         return cy.get('.css-901oao.r-1niwhzg.r-adyw6z.r-1it3c9n', { timeout: 10000 })
     }
-
-
-    
-
-   
-
-   
-
-
-
 
 
 }

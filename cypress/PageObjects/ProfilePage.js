@@ -21,7 +21,7 @@ class ProfilePage {
     }
 
     get EditProfileButton() {
-        return cy.xpath('//*[@id="root"]/div[1]/div/div/div[2]/div[2]/div/div/div/div[1]/div[3]/div/div', { timeout: 14000 })
+        return cy.get('div[data-focusable]', { timeout: 10000 }).eq(4)
     }
     
 }

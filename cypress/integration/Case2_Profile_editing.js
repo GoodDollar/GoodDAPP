@@ -76,13 +76,17 @@ describe('Test case 2: Profile editing', () => {
 
     });
 
-    // it('User is able to edit input fields', () => {
+    it.only('User is able to edit input fields', () => {
 
-    //     HomePage.profileAvatar.click();
-    //     ProfileEditPage.profileSettingsButton.click();
-    //     ProfileEditPage.nameInput.type('Username');
+        HomePage.optionsButton.click({force:true});
+        HomePage.options.eq(0).click();
+        ProfilePage.EditProfileButton.click({force:true});
+        cy.wait(5000)
+        EditProfilePage.nameInput.clear();
+        EditProfilePage.nameInput.type('Username');
+        EditProfilePage.saveButton.click({force:true});
 
-    // }); 
+    }); 
 
     // it.only('Negative cases', () => {
 

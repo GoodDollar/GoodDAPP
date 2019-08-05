@@ -17,7 +17,7 @@ class EditProfilePage {
     }
 
     get saveButton() {
-        return cy.xpath('//*[@id="root"]/div[1]/div/div/div[2]/div[2]/div/div/div/div[1]/div[2]/div/div/div/span', { timeout: 10000 })
+        return cy.get('div[role=button]', { timeout: 10000 }).eq(2)
     }
 
     get pageHeader() {

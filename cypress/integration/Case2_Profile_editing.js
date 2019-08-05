@@ -21,7 +21,7 @@ describe('Test case 2: Profile editing', () => {
     });
 
 
-    it('Elements are present at the home page', () => {
+    it('Elements are present', () => {
 
         HomePage.profileAvatar.should('be.visible');
         HomePage.sendButton.should('be.visible');
@@ -32,9 +32,7 @@ describe('Test case 2: Profile editing', () => {
         for( let i = 0; i < 7; i++) {
             HomePage.options.eq(i).should('be.visible');
         }
-        HomePage.closeOptionsButton.click();
-        HomePage.profileAvatar.click();
-        cy.wait(5000)
+        HomePage.options.eq(0).click();
         ProfilePage.EditProfileButton.click();
         EditProfilePage.pageHeader.should('contain', 'Edit Profile');
         EditProfilePage.nameInput.should('be.visible');
@@ -45,42 +43,38 @@ describe('Test case 2: Profile editing', () => {
 
     }); 
 
-    // it('User is able to upload avatar', () => {
+    it('User is able to upload avatar', () => {
 
-    //     cy.wait(10000)
-    //     HomePage.profileAvatar.click();
-    //     cy.wait(10000)
-    //     ProfilePage.avatarDiv.click();
+        HomePage.profileAvatar.click();
+        ProfilePage.avatarDiv.click();
 
-    //     const selector = 'input[type="file"]';
-    //     const fixturePath = 'smile.png';
-    //     const type = 'image/png';
+        const selector = 'input[type="file"]';
+        const fixturePath = 'smile.png';
+        const type = 'image/png';
 
-    //     cy.get(selector)
-    //         .then(subject => cy.window()
-    //         .then(win => cy.fixture(fixturePath, 'base64')
-    //             .then(Cypress.Blob.base64StringToBlob)
-    //             .then((blob) => {
-    //                 const el = subject[0]
-    //                 const testFile = new win.File([blob], name, { type })
-    //                 const dataTransfer = new win.DataTransfer()
-    //                 dataTransfer.items.add(testFile)
-    //                 el.files = dataTransfer.files
-    //                 cy.wrap(subject).trigger('change', { force: true })}
-    //             )
-    //         )
-    //     )
-    //     .then(()=>cy.get('canvas').should('have.length', 1));
-    //     ProfileEditPage.saveAvatarButton.click();
-    //     cy.wait(10000)
-    //     ProfileEditPage.uploadedAvatar.should('be.visible')
-    //     ProfileEditPage.uploadedAvatar.click();
-    //     ProfileEditPage.selectAvatarButton.click();
-    //     cy.wait(10000)
-    //     ProfileEditPage.clearAvatarButton.click();
-    //     ProfileEditPage.saveAvatarButton.click();
+        cy.get(selector)
+            .then(subject => cy.window()
+            .then(win => cy.fixture(fixturePath, 'base64')
+                .then(Cypress.Blob.base64StringToBlob)
+                .then((blob) => {
+                    const el = subject[0]
+                    const testFile = new win.File([blob], name, { type })
+                    const dataTransfer = new win.DataTransfer()
+                    dataTransfer.items.add(testFile)
+                    el.files = dataTransfer.files
+                    cy.wrap(subject).trigger('change', { force: true })}
+                )
+            )
+        )
+        .then(()=>cy.get('canvas').should('have.length', 1));
+        EditProfilePage.saveAvatarButton.click();
+        EditProfilePage.uploadedAvatar.should('be.visible')
+        EditProfilePage.uploadedAvatar.click();
+        EditProfilePage.selectAvatarButton.click();
+        EditProfilePage.clearAvatarButton.click();
+        EditProfilePage.saveAvatarButton.click();
 
-    // });
+    });
 
     // it('User is able to edit input fields', () => {
 

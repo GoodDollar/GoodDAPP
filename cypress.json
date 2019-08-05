@@ -1,8 +1,9 @@
 {
-    "baseUrl": "https://goodqa.netlify.com",
+    "chromeWebSecurity": false,
+    "defaultCommandTimeout": 5000,
     "env": {    
         "wordsForSuccessfullLogin": [
-            "rabbit", "have", "citizen ", 
+            "rabbit", "have", "citizen", 
             "fossil", "tuition", "vivid", 
             "near", "bronze", "fault", 
             "myth", "mention", "rib"
@@ -43,6 +44,12 @@
                 "fossil", "tuition", "vivid", 
                 "near", "Bronze", "fault", 
                 "myth", "mention", "rib"]
-        }
+        },
+        "anotherAccountWords": [
+            "flavor", "brief", "kind",
+            "royal","suspect","slam",
+            "ethics","arm","voice",
+            "faint","update","potato"
+        ]
     }
 }

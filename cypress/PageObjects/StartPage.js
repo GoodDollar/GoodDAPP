@@ -9,7 +9,7 @@ class StartPage {
     }
 
     open() {
-        cy.visit('/');
+        cy.visit('https://goodqa.netlify.com/');
     }
 
 }

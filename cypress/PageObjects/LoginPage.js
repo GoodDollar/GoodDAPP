@@ -5,7 +5,7 @@ class LoginPage {
     }
 
     get recoverWalletButton() {
-        return cy.get('.r-qvk6io.r-njp1lv.r-tsynxw', { timeout: 10000 } )
+        return cy.xpath('/html/body/div/div[1]/div/div[2]/div[2]/div/div/div[3]/div', { timeout: 10000 } )
     }
 
     get errorWindow() {

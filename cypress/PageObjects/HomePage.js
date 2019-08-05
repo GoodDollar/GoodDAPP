@@ -1,7 +1,7 @@
 class HomePage {
 
     get sendButton() {
-        return cy.xpath('//*[@id="root"]/div[1]/div/div/div[2]/div[2]/div/div[1]/div[2]/div[1]/div', { timeout: 10000 })
+        return cy.get('div[role=button]', { timeout: 10000 }).eq(2)
     }
 
     get claimButton() {
@@ -13,7 +13,7 @@ class HomePage {
     }
 
     get optionsButton() {
-        return cy.get('.r-bnwqim.r-1otgn73.r-1iww7jx', { timeout: 10000 })
+        return cy.get('div[role=button]', { timeout: 10000 }).eq(1)
     }
 
     get options() {
@@ -27,6 +27,7 @@ class HomePage {
     get closeOptionsButton() {
         return cy.get('.css-901oao.r-1niwhzg.r-adyw6z.r-1it3c9n', { timeout: 10000 })
     }
+
 
     
 

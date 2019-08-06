@@ -14,14 +14,14 @@ const ViewAvatar = props => {
   const profile = store.get('profile')
 
   const handleCameraPress = event => {
-    event.preventDefault()
-    event.stopPropagation()
+    // event.preventDefault()
+    // event.stopPropagation()
     props.screenProps.push('EditAvatar')
   }
 
   const handleClosePress = event => {
-    event.preventDefault()
-    event.stopPropagation()
+    // event.preventDefault()
+    // event.stopPropagation()
     props.screenProps.push('Profile')
   }
 

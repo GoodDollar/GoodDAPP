@@ -56,7 +56,13 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose }) => {
           <CustomButton mode="text" style={styles.button} onPress={handleModalClose}>
             Later
           </CustomButton>
-          <CustomButton mode="contained" style={styles.rightButton} onPress={invitePeople}>
+          <CustomButton
+            mode="contained"
+            style={styles.rightButton}
+            onPress={invitePeople}
+            iconAlignment="right"
+            icon="invite"
+          >
             Invite
           </CustomButton>
         </View>

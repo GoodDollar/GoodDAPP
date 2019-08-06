@@ -72,8 +72,8 @@ const FeedModalItem = (props: FeedEventProps) => {
         </View>
       </View>
       <View style={styles.buttonsRow}>
-        <CustomButton mode="outlined" style={styles.rightButton} onPress={buttonPress}>
-          Later
+        <CustomButton mode="text" style={styles.button} onPress={buttonPress} color={theme.colors.gray80Percent}>
+          LATER
         </CustomButton>
       </View>
     </React.Fragment>
@@ -142,12 +142,11 @@ const getStylesFromProps = ({ theme }) => {
       alignItems: 'flex-end',
       flex: 1,
       flexDirection: 'row',
-      justifyContent: 'flex-end',
+      justifyContent: 'center',
       marginTop: theme.sizes.defaultDouble,
     },
-    rightButton: {
+    button: {
       minWidth: 80,
-      marginLeft: 'auto',
     },
   }
 }

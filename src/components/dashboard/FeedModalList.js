@@ -44,23 +44,30 @@ const FeedModalList = ({
   styles,
 }: FeedModalListProps) => {
   const flatListRef = createRef()
+
+  // Component is in loading state until matches the offset for the selected item
   const [loading, setLoading] = useState(true)
   const [offset, setOffset] = useState()
   const screenWidth = getScreenWidth()
 
+  // When screenWidth or selectedFeed changes needs to recalculate the offset
   useEffect(() => {
     const index = selectedFeed ? data.findIndex(item => item.id === selectedFeed.id) : 0
     setOffset(screenWidth * index)
   }, [screenWidth, selectedFeed])
 
+  // When target offset changes (by the prev useEffect) scrollToOffset
   useEffect(() => {
     if (offset === undefined) {
       return
     }
 
+    // If offset is 0 we don't need to scroll, just set to false
     if (offset <= 0) {
       setLoading(false)
     } else {
+      // Fire scrollToOffset within a delay to ensure the action is executed.
+      // https://stackoverflow.com/questions/40200660/react-native-scrollto-with-interactionmanager-not-working
       setTimeout(() => {
         flatListRef && flatListRef.current && flatListRef.current.scrollToOffset({ animated: false, offset })
       }, 0)
@@ -83,8 +90,8 @@ const FeedModalList = ({
       <View style={[styles.horizontalContainer, { opacity: loading ? 0 : 1 }]}>
         <FlatList
           onScroll={({ nativeEvent }) => {
-            const { contentOffset } = nativeEvent
-            if (contentOffset.x === offset) {
+            // when nativeEvent contentOffset reaches target offset setLoading to false, we stopped scrolling
+            if (nativeEvent.contentOffset.x === offset) {
               setLoading(false)
             }
           }}

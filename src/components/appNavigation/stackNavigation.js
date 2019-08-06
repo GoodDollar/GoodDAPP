@@ -257,7 +257,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
             onChange={this.sideMenuSwap}
           />
         </View>
-        <Blurred blur={open || dialogVisible || currentFeed}>
+        <Blurred style={fullScreenContainer} blur={open || dialogVisible || currentFeed}>
           {!navigationBarHidden &&
             (NavigationBar ? (
               <NavigationBar />
@@ -277,6 +277,20 @@ class AppView extends Component<AppViewProps, AppViewState> {
   }
 }
 
+const fullScreen = {
+  top: 0,
+  left: 0,
+  bottom: 0,
+  right: 0,
+  position: 'absolute',
+}
+const fullScreenContainer = {
+  ...fullScreen,
+  display: 'flex',
+  flexGrow: 1,
+  flexDirection: 'column',
+}
+
 const styles = StyleSheet.create({
   scrollView: {
     display: 'flex',
@@ -288,11 +302,7 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   sideMenuContainer: {
-    top: 0,
-    left: 0,
-    bottom: 0,
-    right: 0,
-    position: 'absolute',
+    ...fullScreen,
     transform: [{ translateX: '200vw' }],
     zIndex: 100,
   },

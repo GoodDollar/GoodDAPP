@@ -36,15 +36,19 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
       <View grow style={styles.mainContents}>
         <View style={[styles.dateAndValue, { borderBottomColor: eventSettings.color }]}>
           <Text style={styles.date}>{getFormattedDateTime(feed.date)}</Text>
-          {eventSettings && eventSettings.actionSymbol && (
-            <Text style={[styles.actionSymbol, { color: eventSettings.color }]}>{eventSettings.actionSymbol}</Text>
+          {!eventSettings.withoutAmount && (
+            <React.Fragment>
+              {eventSettings && eventSettings.actionSymbol && (
+                <Text style={[styles.actionSymbol, { color: eventSettings.color }]}>{eventSettings.actionSymbol}</Text>
+              )}
+              <BigGoodDollar
+                bigNumberStyles={styles.bigNumberStyles}
+                bigNumberUnitStyles={styles.bigNumberUnitStyles}
+                color={eventSettings.color}
+                number={feed.data.amount}
+              />
+            </React.Fragment>
           )}
-          <BigGoodDollar
-            bigNumberStyles={styles.bigNumberStyles}
-            bigNumberUnitStyles={styles.bigNumberUnitStyles}
-            color={eventSettings.color}
-            number={feed.data.amount}
-          />
         </View>
         <View style={styles.transferInfo} alignItems="flex-start">
           <View style={styles.mainInfo}>

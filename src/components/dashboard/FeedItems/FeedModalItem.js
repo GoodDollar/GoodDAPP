@@ -4,9 +4,9 @@ import { View } from 'react-native'
 import normalize from '../../../lib/utils/normalizeText'
 import Avatar from '../../common/view/Avatar'
 import BigGoodDollar from '../../common/view/BigGoodDollar'
-import CustomButton from '../../common/buttons/CustomButton'
 import Text from '../../common/view/Text'
 import ModalWrapper from '../../common/modal/ModalWrapper'
+import ModalActionsByFeedType from '../../common/modal/ModalActionsByFeedType'
 import TopImage from '../../common/modal/ModalTopImage'
 import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
 import { withStyles } from '../../../lib/styles'
@@ -76,12 +76,7 @@ const FeedModalItem = (props: FeedEventProps) => {
               </Text>
             </View>
           )}
-          {/* <ModalActionsByFeedType item={item} /> */}
-          <View style={styles.buttonsRow}>
-            <CustomButton mode="contained" style={styles.rightButton} onPress={buttonPress}>
-              OK
-            </CustomButton>
-          </View>
+          <ModalActionsByFeedType item={item} handleModalClose={buttonPress} />
         </React.Fragment>
       )}
     </ModalWrapper>
@@ -152,10 +147,6 @@ const getStylesFromProps = ({ theme }) => {
       fontSize: normalize(22),
       fontWeight: '700',
       marginLeft: 'auto',
-    },
-    rightButton: {
-      marginLeft: 'auto',
-      minWidth: 80,
     },
   }
 }

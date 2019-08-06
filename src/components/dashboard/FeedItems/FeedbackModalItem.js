@@ -72,7 +72,7 @@ const FeedModalItem = (props: FeedEventProps) => {
         </View>
       </View>
       <View style={styles.buttonsRow}>
-        <CustomButton mode="contained" style={styles.rightButton} onPress={buttonPress}>
+        <CustomButton mode="outlined" style={styles.rightButton} onPress={buttonPress}>
           Later
         </CustomButton>
       </View>
@@ -142,11 +142,12 @@ const getStylesFromProps = ({ theme }) => {
       alignItems: 'flex-end',
       flex: 1,
       flexDirection: 'row',
-      justifyContent: 'center',
+      justifyContent: 'flex-end',
       marginTop: theme.sizes.defaultDouble,
     },
     rightButton: {
       minWidth: 80,
+      marginLeft: 'auto',
     },
   }
 }

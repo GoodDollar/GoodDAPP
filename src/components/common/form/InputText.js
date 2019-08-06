@@ -29,7 +29,6 @@ const InputText = ({ error, onCleanUpField, styles, theme, style, getRef, ...pro
   const inputStyle = {
     borderBottomColor: inputColor,
     color: inputColor,
-    placeholderTextColor: theme.colors.gray50Percent,
   }
 
   const shouldChangeSizeOnKeyboardShown = isMobileSafari && simpleStore.set && Config.safariMobileKeyboardGuidedSize
@@ -40,6 +39,7 @@ const InputText = ({ error, onCleanUpField, styles, theme, style, getRef, ...pro
           {...props}
           ref={getRef}
           style={[styles.input, inputStyle, style]}
+          placeholderTextColor={theme.colors.gray50Percent}
           onFocus={() => {
             if (shouldChangeSizeOnKeyboardShown) {
               onFocusMobileSafari()

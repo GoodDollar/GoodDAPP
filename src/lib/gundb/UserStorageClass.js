@@ -590,18 +590,19 @@ export class UserStorage {
    * It saves only known profile fields
    *
    * @param {UserModel} profile - User profile
+   * @param {boolean} update - are we updating, if so validate only non empty fields
    * @returns {Promise} Promise with profile settings updates and privacy validations
    * @throws Error if profile is invalid
    */
-  setProfile(profile: UserModel) {
+  setProfile(profile: UserModel, update: boolean = false): Promise<> {
     if (profile && !profile.validate) {
       profile = getUserModel(profile)
     }
-    const { errors, isValid } = profile.validate()
+    const { errors, isValid } = profile.validate(update)
     if (!isValid) {
       logger.error('setProfile failed:', { errors })
       if (Config.throwSaveProfileErrors) {
-        throw new Error(errors)
+        return Promise.reject(errors)
       }
     }
 
@@ -631,7 +632,7 @@ export class UserStorage {
       if (errors.length > 0) {
         logger.error('setProfile some fields failed', errors.length, errors)
         if (Config.throwSaveProfileErrors) {
-          throw new Error(errors)
+          return Promise.reject(errors)
         }
       }
       return true
@@ -726,16 +727,16 @@ export class UserStorage {
       }
     }
 
-    return Promise.all([
-      this.profile
-        .get(field)
-        .get('value')
-        .secretAck(value),
+    return Promise.race([
       this.profile.get(field).putAck({
         display,
         privacy,
       }),
-    ]).then(arr => arr[1])
+      this.profile
+        .get(field)
+        .get('value')
+        .secretAck(value),
+    ])
   }
 
   /**

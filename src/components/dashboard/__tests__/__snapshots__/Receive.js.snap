@@ -687,6 +687,7 @@ exports[`Receive matches snapshot 1`] = `
         </div>
         <div
           className="css-view-1dbjc4n"
+          data-gdtype="copybutton"
           style={
             Object {
               "WebkitAlignItems": "center",

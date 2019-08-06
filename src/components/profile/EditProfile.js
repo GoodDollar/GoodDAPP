@@ -95,7 +95,7 @@ const EditProfile = ({ screenProps, theme, styles }) => {
 
     //create profile only with updated/new fields so we don't resave data
     const toupdate = pickBy(profile, (v, k) => {
-      if (typeof x === 'function') {
+      if (typeof v === 'function') {
         return true
       }
       if (storedProfile[k] === undefined) {

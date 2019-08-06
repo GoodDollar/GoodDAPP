@@ -115,13 +115,19 @@ const ProfilePrivacy = props => {
           Save
         </CustomButton>
       </Section.Row>
-      <CustomDialog visible={showTips} onDismiss={() => setShowTips(false)} title="TIPS" dismissText="Ok">
+      <CustomDialog
+        visible={showTips}
+        onDismiss={() => setShowTips(false)}
+        title="TIPS"
+        dismissText="Ok"
+        image={<React.Fragment />}
+      >
         {privacyOptions.map(field => (
           <Section.Stack grow key={field} style={styles.dialogTipItem}>
-            <Text fontSize={18} color="primary" textAlign="left">
+            <Text fontWeight={700} fontSize={18} color="primary" textAlign="left">
               {startCase(field)}
             </Text>
-            <Text>{tips[field]}</Text>
+            <Text textAlign="left">{tips[field]}</Text>
           </Section.Stack>
         ))}
       </CustomDialog>

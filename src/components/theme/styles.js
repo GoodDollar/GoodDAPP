@@ -12,7 +12,7 @@ export const theme = {
     darkBlue: '#0C263D',
     darkGray: '#42454A',
     gray: '#555',
-    jaggedEdgeSize: '#CBCBCB',
+    gray50Percent: '#CBCBCB',
     gray80Percent: '#A3A3A3',
     placeholder: '#CBCBCB',
     green: '#00C3AE',

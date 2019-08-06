@@ -44,11 +44,11 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
         "boxShadow": "0px 2px 4px rgba(34,34,34,0.16)",
         "cursor": "pointer",
         "flexDirection": "row",
+        "height": "84px",
         "marginLeft": "8px",
         "marginRight": "8px",
         "marginTop": "8px",
         "maxHeight": "84px",
-        "minHeight": "84px",
         "msFlexDirection": "row",
         "msTouchAction": "manipulation",
         "msUserSelect": "none",
@@ -84,7 +84,6 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
           "msFlexPositive": 1,
           "msFlexPreferredSize": "0%",
           "paddingLeft": "8px",
-          "paddingRight": "4px",
         }
       }
     >
@@ -122,6 +121,7 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
             "flexDirection": "row",
             "flexGrow": 1,
             "justifyContent": "center",
+            "maxHeight": "100%",
             "msFlexAlign": "center",
             "msFlexDirection": "row",
             "msFlexPack": "center",
@@ -153,11 +153,26 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
               "WebkitTransitionDuration": "0.15s",
               "WebkitTransitionProperty": "opacity",
               "WebkitUserSelect": "none",
+              "backgroundColor": "rgba(203,203,203,1.00)",
+              "borderBottomColor": "rgba(163,163,163,1.00)",
+              "borderBottomLeftRadius": "17px",
+              "borderBottomRightRadius": "17px",
+              "borderBottomWidth": "1px",
+              "borderLeftColor": "rgba(163,163,163,1.00)",
+              "borderLeftWidth": "1px",
+              "borderRightColor": "rgba(163,163,163,1.00)",
+              "borderRightWidth": "1px",
+              "borderTopColor": "rgba(163,163,163,1.00)",
+              "borderTopLeftRadius": "17px",
+              "borderTopRightRadius": "17px",
+              "borderTopWidth": "1px",
+              "height": "34px",
               "marginTop": "auto",
               "msUserSelect": "none",
               "transitionDuration": "0.15s",
               "transitionProperty": "opacity",
               "userSelect": "none",
+              "width": "34px",
             }
           }
         >
@@ -165,14 +180,13 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
             className="css-view-1dbjc4n"
             style={
               Object {
-                "backgroundColor": "rgba(0,175,255,1.00)",
-                "borderBottomLeftRadius": "17px",
-                "borderBottomRightRadius": "17px",
-                "borderTopLeftRadius": "17px",
-                "borderTopRightRadius": "17px",
-                "height": "34px",
-                "marginTop": "auto",
-                "width": "34px",
+                "backgroundColor": "rgba(0,0,0,0.00)",
+                "borderBottomLeftRadius": "16px",
+                "borderBottomRightRadius": "16px",
+                "borderTopLeftRadius": "16px",
+                "borderTopRightRadius": "16px",
+                "height": "32px",
+                "width": "32px",
               }
             }
           >
@@ -181,16 +195,16 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
               style={
                 Object {
                   "WebkitFlexBasis": "auto",
-                  "borderBottomLeftRadius": "17px",
-                  "borderBottomRightRadius": "17px",
-                  "borderTopLeftRadius": "17px",
-                  "borderTopRightRadius": "17px",
+                  "borderBottomLeftRadius": "16px",
+                  "borderBottomRightRadius": "16px",
+                  "borderTopLeftRadius": "16px",
+                  "borderTopRightRadius": "16px",
                   "flexBasis": "auto",
-                  "height": "34px",
+                  "height": "32px",
                   "msFlexPreferredSize": "auto",
                   "overflowX": "hidden",
                   "overflowY": "hidden",
-                  "width": "34px",
+                  "width": "32px",
                   "zIndex": 0,
                 }
               }
@@ -250,6 +264,7 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
                 "WebkitBoxOrient": "horizontal",
                 "WebkitBoxPack": "justify",
                 "WebkitFlexDirection": "row",
+                "WebkitFlexShrink": 1,
                 "WebkitJustifyContent": "space-between",
                 "alignItems": "center",
                 "borderBottomColor": "rgba(250,108,119,1.00)",
@@ -257,11 +272,13 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
                 "borderBottomWidth": "2px",
                 "display": "flex",
                 "flexDirection": "row",
+                "flexShrink": 1,
                 "justifyContent": "space-between",
                 "msFlexAlign": "center",
                 "msFlexDirection": "row",
+                "msFlexNegative": 1,
                 "msFlexPack": "justify",
-                "paddingBottom": "8px",
+                "paddingBottom": "4px",
               }
             }
           >
@@ -417,13 +434,16 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
                 dir="auto"
                 style={
                   Object {
+                    "WebkitFlexShrink": 0,
                     "color": "rgba(85,85,85,1.00)",
                     "direction": "ltr",
+                    "flexShrink": 0,
                     "fontFamily": "Roboto",
                     "fontSize": "16px",
                     "fontWeight": "normal",
-                    "lineHeight": "22px",
-                    "marginBottom": "4px",
+                    "height": "22px",
+                    "lineHeight": "16px",
+                    "msFlexNegative": 0,
                     "textAlign": "left",
                     "textDecoration": "none",
                     "textTransform": "capitalize",
@@ -459,7 +479,7 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
                       "fontFamily": "Roboto",
                       "fontSize": "16px",
                       "fontWeight": "500",
-                      "lineHeight": "22px",
+                      "lineHeight": "16px",
                       "textAlign": "center",
                       "textDecoration": "none",
                       "textTransform": "none",
@@ -474,12 +494,15 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
                 dir="auto"
                 style={
                   Object {
+                    "WebkitFlexShrink": 0,
                     "color": "rgba(163,163,163,1.00)",
                     "direction": "ltr",
+                    "flexShrink": 0,
                     "fontFamily": "Roboto",
                     "fontSize": "10px",
                     "fontWeight": "normal",
-                    "lineHeight": "22px",
+                    "lineHeight": "10px",
+                    "msFlexNegative": 0,
                     "paddingBottom": "4px",
                     "textAlign": "center",
                     "textDecoration": "none",
@@ -501,6 +524,7 @@ exports[`FeedListItem - Send matches snapshot 1`] = `
                   "fontStyle": "normal",
                   "fontWeight": "normal",
                   "marginRight": "0px",
+                  "marginTop": "auto",
                 }
               }
             >
@@ -558,11 +582,11 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
         "boxShadow": "0px 2px 4px rgba(34,34,34,0.16)",
         "cursor": "pointer",
         "flexDirection": "row",
+        "height": "84px",
         "marginLeft": "8px",
         "marginRight": "8px",
         "marginTop": "8px",
         "maxHeight": "84px",
-        "minHeight": "84px",
         "msFlexDirection": "row",
         "msTouchAction": "manipulation",
         "msUserSelect": "none",
@@ -598,7 +622,6 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
           "msFlexPositive": 1,
           "msFlexPreferredSize": "0%",
           "paddingLeft": "8px",
-          "paddingRight": "4px",
         }
       }
     >
@@ -636,6 +659,7 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
             "flexDirection": "row",
             "flexGrow": 1,
             "justifyContent": "center",
+            "maxHeight": "100%",
             "msFlexAlign": "center",
             "msFlexDirection": "row",
             "msFlexPack": "center",
@@ -667,11 +691,26 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
               "WebkitTransitionDuration": "0.15s",
               "WebkitTransitionProperty": "opacity",
               "WebkitUserSelect": "none",
+              "backgroundColor": "rgba(203,203,203,1.00)",
+              "borderBottomColor": "rgba(163,163,163,1.00)",
+              "borderBottomLeftRadius": "17px",
+              "borderBottomRightRadius": "17px",
+              "borderBottomWidth": "1px",
+              "borderLeftColor": "rgba(163,163,163,1.00)",
+              "borderLeftWidth": "1px",
+              "borderRightColor": "rgba(163,163,163,1.00)",
+              "borderRightWidth": "1px",
+              "borderTopColor": "rgba(163,163,163,1.00)",
+              "borderTopLeftRadius": "17px",
+              "borderTopRightRadius": "17px",
+              "borderTopWidth": "1px",
+              "height": "34px",
               "marginTop": "auto",
               "msUserSelect": "none",
               "transitionDuration": "0.15s",
               "transitionProperty": "opacity",
               "userSelect": "none",
+              "width": "34px",
             }
           }
         >
@@ -679,14 +718,13 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
             className="css-view-1dbjc4n"
             style={
               Object {
-                "backgroundColor": "rgba(0,175,255,1.00)",
-                "borderBottomLeftRadius": "17px",
-                "borderBottomRightRadius": "17px",
-                "borderTopLeftRadius": "17px",
-                "borderTopRightRadius": "17px",
-                "height": "34px",
-                "marginTop": "auto",
-                "width": "34px",
+                "backgroundColor": "rgba(0,0,0,0.00)",
+                "borderBottomLeftRadius": "16px",
+                "borderBottomRightRadius": "16px",
+                "borderTopLeftRadius": "16px",
+                "borderTopRightRadius": "16px",
+                "height": "32px",
+                "width": "32px",
               }
             }
           >
@@ -695,16 +733,16 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
               style={
                 Object {
                   "WebkitFlexBasis": "auto",
-                  "borderBottomLeftRadius": "17px",
-                  "borderBottomRightRadius": "17px",
-                  "borderTopLeftRadius": "17px",
-                  "borderTopRightRadius": "17px",
+                  "borderBottomLeftRadius": "16px",
+                  "borderBottomRightRadius": "16px",
+                  "borderTopLeftRadius": "16px",
+                  "borderTopRightRadius": "16px",
                   "flexBasis": "auto",
-                  "height": "34px",
+                  "height": "32px",
                   "msFlexPreferredSize": "auto",
                   "overflowX": "hidden",
                   "overflowY": "hidden",
-                  "width": "34px",
+                  "width": "32px",
                   "zIndex": 0,
                 }
               }
@@ -764,6 +802,7 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
                 "WebkitBoxOrient": "horizontal",
                 "WebkitBoxPack": "justify",
                 "WebkitFlexDirection": "row",
+                "WebkitFlexShrink": 1,
                 "WebkitJustifyContent": "space-between",
                 "alignItems": "center",
                 "borderBottomColor": "rgba(0,195,174,1.00)",
@@ -771,11 +810,13 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
                 "borderBottomWidth": "2px",
                 "display": "flex",
                 "flexDirection": "row",
+                "flexShrink": 1,
                 "justifyContent": "space-between",
                 "msFlexAlign": "center",
                 "msFlexDirection": "row",
+                "msFlexNegative": 1,
                 "msFlexPack": "justify",
-                "paddingBottom": "8px",
+                "paddingBottom": "4px",
               }
             }
           >
@@ -931,13 +972,16 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
                 dir="auto"
                 style={
                   Object {
+                    "WebkitFlexShrink": 0,
                     "color": "rgba(85,85,85,1.00)",
                     "direction": "ltr",
+                    "flexShrink": 0,
                     "fontFamily": "Roboto",
                     "fontSize": "16px",
                     "fontWeight": "normal",
-                    "lineHeight": "22px",
-                    "marginBottom": "4px",
+                    "height": "22px",
+                    "lineHeight": "16px",
+                    "msFlexNegative": 0,
                     "textAlign": "left",
                     "textDecoration": "none",
                     "textTransform": "capitalize",
@@ -973,7 +1017,7 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
                       "fontFamily": "Roboto",
                       "fontSize": "16px",
                       "fontWeight": "500",
-                      "lineHeight": "22px",
+                      "lineHeight": "16px",
                       "textAlign": "center",
                       "textDecoration": "none",
                       "textTransform": "none",
@@ -988,12 +1032,15 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
                 dir="auto"
                 style={
                   Object {
+                    "WebkitFlexShrink": 0,
                     "color": "rgba(163,163,163,1.00)",
                     "direction": "ltr",
+                    "flexShrink": 0,
                     "fontFamily": "Roboto",
                     "fontSize": "10px",
                     "fontWeight": "normal",
-                    "lineHeight": "22px",
+                    "lineHeight": "10px",
+                    "msFlexNegative": 0,
                     "paddingBottom": "4px",
                     "textAlign": "center",
                     "textDecoration": "none",
@@ -1015,6 +1062,7 @@ exports[`FeedListItem - Withdraw matches snapshot 1`] = `
                   "fontStyle": "normal",
                   "fontWeight": "normal",
                   "marginRight": "0px",
+                  "marginTop": "auto",
                 }
               }
             >

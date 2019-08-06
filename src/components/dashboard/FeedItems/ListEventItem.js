@@ -19,9 +19,10 @@ import EmptyEventFeed from './EmptyEventFeed'
  * @returns {HTMLElement}
  */
 const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
-  const eventSettings = getEventSettingsByType(theme, feed.type)
+  const itemType = feed.displayType || feed.type
+  const eventSettings = getEventSettingsByType(theme, itemType)
 
-  if (feed.type === 'empty') {
+  if (itemType === 'empty') {
     return <EmptyEventFeed />
   }
 
@@ -52,7 +53,7 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
               {feed.data.message}
             </Text>
           </View>
-          <EventIcon type={feed.type} />
+          <EventIcon style={[styles.typeIcon]} type={itemType} />
         </View>
       </View>
     </View>
@@ -65,6 +66,7 @@ const getStylesFromProps = ({ theme }) => ({
     flexDirection: 'row',
     flexGrow: 1,
     justifyContent: 'center',
+    maxHeight: '100%',
     padding: theme.sizes.default,
     width: '100%',
   },
@@ -83,8 +85,9 @@ const getStylesFromProps = ({ theme }) => ({
     borderBottomWidth: 2,
     display: 'flex',
     flexDirection: 'row',
+    flexShrink: 1,
     justifyContent: 'space-between',
-    paddingBottom: theme.sizes.default,
+    paddingBottom: theme.sizes.defaultHalf,
   },
   date: {
     color: theme.colors.lighterGray,
@@ -125,13 +128,19 @@ const getStylesFromProps = ({ theme }) => ({
     marginTop: 0,
   },
   feedItem: {
-    marginBottom: theme.sizes.defaultHalf,
+    flexShrink: 0,
+    height: 22,
   },
   message: {
-    fontSize: normalize(10),
     color: theme.colors.gray80Percent,
-    textTransform: 'capitalize',
+    fontSize: normalize(10),
     paddingBottom: theme.sizes.defaultHalf,
+    textTransform: 'capitalize',
+    flexShrink: 0,
+    lineHeight: normalize(10),
+  },
+  typeIcon: {
+    marginTop: 'auto',
   },
 })
 

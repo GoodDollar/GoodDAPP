@@ -5,6 +5,8 @@ import { Paragraph, Portal } from 'react-native-paper'
 import normalize from '../../../lib/utils/normalizeText'
 import SimpleStore from '../../../lib/undux/SimpleStore'
 import CustomButton from '../buttons/CustomButton'
+import ErrorIcon from '../modal/ErrorIcon'
+import SuccessIcon from '../modal/SuccessIcon'
 import ModalWrapper from '../modal/ModalWrapper'
 import { theme } from '../../theme/styles'
 
@@ -14,6 +16,7 @@ export type DialogProps = {
   image?: any,
   loading?: boolean,
   message?: string,
+  boldMessage?: string,
   onCancel?: () => void,
   onDismiss?: () => void,
   showButtons?: boolean,
@@ -41,6 +44,7 @@ const CustomDialog = ({
   image,
   loading = false,
   message = null,
+  boldMessage = null,
   onCancel = null,
   onDismiss,
   showButtons = true,
@@ -48,15 +52,23 @@ const CustomDialog = ({
   type = 'common',
   visible,
 }: DialogProps) => {
+  const defaultImage = type === 'error' ? <ErrorIcon /> : <SuccessIcon />
+  const modalColor = getColorFromType(type)
+  const textColor = {
+    color: type === 'error' ? theme.colors.red : theme.colors.darkGray,
+  }
   return visible ? (
     <Portal>
-      <ModalWrapper onClose={onCancel || onDismiss} leftBorderColor={getColorFromType(type)}>
+      <ModalWrapper onClose={onCancel || onDismiss} leftBorderColor={modalColor}>
         <React.Fragment>
-          <Text style={styles.title}>{title}</Text>
+          <Text style={[styles.title, textColor]}>{title}</Text>
           <View style={styles.content}>
             {children}
-            {image ? image : null}
-            {message && <Paragraph style={styles.paragraph}>{message}</Paragraph>}
+            {image ? image : defaultImage}
+            {message && <Paragraph style={[styles.paragraph, textColor]}>{message}</Paragraph>}
+            {boldMessage && (
+              <Paragraph style={[styles.paragraph, { fontWeight: '700' }, textColor]}>{boldMessage}</Paragraph>
+            )}
           </View>
           {showButtons ? (
             <View style={styles.buttonsContainer}>
@@ -72,12 +84,7 @@ const CustomDialog = ({
                   Cancel
                 </CustomButton>
               )}
-              <CustomButton
-                disabled={loading}
-                loading={loading}
-                onPress={onDismiss}
-                style={[styles.buttonOK, { backgroundColor: getColorFromType(type) }]}
-              >
+              <CustomButton disabled={loading} loading={loading} onPress={onDismiss} style={[styles.buttonOK]}>
                 {dismissText || 'Done'}
               </CustomButton>
             </View>

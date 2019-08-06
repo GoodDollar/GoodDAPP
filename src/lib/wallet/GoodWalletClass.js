@@ -230,6 +230,7 @@ export class GoodWallet {
       return ZERO
     })
     if (toBlock.gt(fromBlock)) {
+      this.subscribeToOTPLEvents(fromBlock, toBlock)
       const event = 'Transfer'
       const contract = this.erc20Contract
 
@@ -242,7 +243,7 @@ export class GoodWallet {
       const fromEventsPromise = contract
         .getPastEvents(event, fromEventsFilter)
         .catch(e => {
-          log.error('listenTxUpdates fromEventsPromise failed:', { e, fromEventsFilter })
+          log.warn('listenTxUpdates fromEventsPromise failed:', { e, fromEventsFilter })
           return { error: e }
         })
         .then(res => {
@@ -273,7 +274,7 @@ export class GoodWallet {
       const toEventsPromise = contract
         .getPastEvents(event, toEventsFilter)
         .catch(e => {
-          log.error('listenTxUpdates toEventsPromise failed:', { e, toEventsFilter })
+          log.warn('listenTxUpdates toEventsPromise failed:', { e, toEventsFilter })
           return { error: e }
         })
         .then(res => {
@@ -308,6 +309,52 @@ export class GoodWallet {
     setTimeout(() => {
       this.listenTxUpdates(toBlock, blockIntervalCallback)
     }, INTERVAL)
+  }
+
+  subscribeToOTPLEvents(fromBlock: BN, toBlock: BN) {
+    const contract = this.oneTimePaymentLinksContract
+
+    //Get transfers from this account
+    const fromEventsFilter = {
+      fromBlock,
+      toBlock,
+      filter: { from: this.wallet.utils.toChecksumAddress(this.account) },
+    }
+    const fromEventsPromise = Promise.all([
+      contract
+        .getPastEvents('PaymentWithdraw', fromEventsFilter)
+        .catch(e => {
+          log.warn('subscribeOTPL fromEventsPromise failed:', { e, fromEventsFilter })
+          return { error: e }
+        })
+        .then(res => (res.error ? [] : res)),
+      contract
+        .getPastEvents('PaymentCancel', fromEventsFilter)
+        .catch(e => {
+          log.warn('subscribeOTPL fromEventsPromise failed:', { e, fromEventsFilter })
+          return { error: e }
+        })
+        .then(res => (res.error ? [] : res)),
+    ])
+      .then(([res1, res2]) => {
+        const res = res1.concat(res2)
+        if (res.length == 0) {
+          return
+        }
+        log.debug("subscribeOTPL got 'from' events", { res })
+        let events = res.filter(_ => _.event === 'PaymentWithdraw' || _.event == 'PaymentCancel')
+        const uniqEvents = uniqBy(events, 'transactionHash')
+        uniqEvents.forEach(event => {
+          this.getReceiptWithLogs(event.transactionHash)
+            .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['otplUpdated']))
+            .catch(err => log.error('send event get/send receipt failed:', err))
+        })
+      })
+      .catch(e => {
+        log.error('listenTxUpdates fromEventsPromise unexpected error:', { e })
+      })
+
+    return fromEventsPromise
   }
 
   /**

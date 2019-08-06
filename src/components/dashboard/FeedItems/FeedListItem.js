@@ -12,8 +12,9 @@ import getEventSettingsByType from './EventSettingsByType'
  */
 const FeedListItem = props => {
   const { theme, item, onPress, styles } = props
+  const itemStyle = getEventSettingsByType(theme, item.displayType || item.type)
   const imageStyle = {
-    backgroundColor: getEventSettingsByType(theme, item.type).color,
+    backgroundColor: itemStyle.color,
     backgroundImage: `url(${wavePattern})`,
   }
   return (
@@ -44,9 +45,9 @@ const getStylesFromProps = ({ theme }) => ({
       height: 2,
     },
     elevation: 1,
+    height: theme.feedItems.height,
     marginHorizontal: theme.sizes.default,
     maxHeight: theme.feedItems.height,
-    minHeight: theme.feedItems.height,
     shadowOpacity: 0.16,
     shadowRadius: 4,
   },
@@ -56,7 +57,6 @@ const getStylesFromProps = ({ theme }) => ({
     flex: 1,
     justifyContent: 'center',
     paddingLeft: theme.paddings.mainContainerPadding,
-    paddingRight: 4,
   },
   rowContentBorder: {
     backgroundRepeat: 'repeat-y',

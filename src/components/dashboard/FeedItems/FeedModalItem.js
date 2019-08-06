@@ -7,8 +7,6 @@ import BigGoodDollar from '../../common/view/BigGoodDollar'
 import CustomButton from '../../common/buttons/CustomButton'
 import Text from '../../common/view/Text'
 import ModalWrapper from '../../common/modal/ModalWrapper'
-
-// import ModalActionsByFeedType from '../../common/modal/ModalActionsByFeedType'
 import TopImage from '../../common/modal/ModalTopImage'
 import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
 import { withStyles } from '../../../lib/styles'
@@ -28,7 +26,7 @@ const FeedModalItem = (props: FeedEventProps) => {
   const buttonPress = () => {
     onPress(item.id)
   }
-  const itemType = item.type
+  const itemType = item.displayType || item.type
   const eventSettings = getEventSettingsByType(theme, itemType)
   const mainColor = eventSettings.color
 

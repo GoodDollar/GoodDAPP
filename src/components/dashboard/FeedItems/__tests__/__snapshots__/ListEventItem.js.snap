@@ -35,6 +35,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
         "flexDirection": "row",
         "flexGrow": 1,
         "justifyContent": "center",
+        "maxHeight": "100%",
         "msFlexAlign": "center",
         "msFlexDirection": "row",
         "msFlexPack": "center",
@@ -66,11 +67,26 @@ exports[`ListEventItem receive matches snapshot 1`] = `
           "WebkitTransitionDuration": "0.15s",
           "WebkitTransitionProperty": "opacity",
           "WebkitUserSelect": "none",
+          "backgroundColor": "rgba(203,203,203,1.00)",
+          "borderBottomColor": "rgba(163,163,163,1.00)",
+          "borderBottomLeftRadius": "17px",
+          "borderBottomRightRadius": "17px",
+          "borderBottomWidth": "1px",
+          "borderLeftColor": "rgba(163,163,163,1.00)",
+          "borderLeftWidth": "1px",
+          "borderRightColor": "rgba(163,163,163,1.00)",
+          "borderRightWidth": "1px",
+          "borderTopColor": "rgba(163,163,163,1.00)",
+          "borderTopLeftRadius": "17px",
+          "borderTopRightRadius": "17px",
+          "borderTopWidth": "1px",
+          "height": "34px",
           "marginTop": "auto",
           "msUserSelect": "none",
           "transitionDuration": "0.15s",
           "transitionProperty": "opacity",
           "userSelect": "none",
+          "width": "34px",
         }
       }
     >
@@ -78,14 +94,13 @@ exports[`ListEventItem receive matches snapshot 1`] = `
         className="css-view-1dbjc4n"
         style={
           Object {
-            "backgroundColor": "rgba(0,175,255,1.00)",
-            "borderBottomLeftRadius": "17px",
-            "borderBottomRightRadius": "17px",
-            "borderTopLeftRadius": "17px",
-            "borderTopRightRadius": "17px",
-            "height": "34px",
-            "marginTop": "auto",
-            "width": "34px",
+            "backgroundColor": "rgba(0,0,0,0.00)",
+            "borderBottomLeftRadius": "16px",
+            "borderBottomRightRadius": "16px",
+            "borderTopLeftRadius": "16px",
+            "borderTopRightRadius": "16px",
+            "height": "32px",
+            "width": "32px",
           }
         }
       >
@@ -94,16 +109,16 @@ exports[`ListEventItem receive matches snapshot 1`] = `
           style={
             Object {
               "WebkitFlexBasis": "auto",
-              "borderBottomLeftRadius": "17px",
-              "borderBottomRightRadius": "17px",
-              "borderTopLeftRadius": "17px",
-              "borderTopRightRadius": "17px",
+              "borderBottomLeftRadius": "16px",
+              "borderBottomRightRadius": "16px",
+              "borderTopLeftRadius": "16px",
+              "borderTopRightRadius": "16px",
               "flexBasis": "auto",
-              "height": "34px",
+              "height": "32px",
               "msFlexPreferredSize": "auto",
               "overflowX": "hidden",
               "overflowY": "hidden",
-              "width": "34px",
+              "width": "32px",
               "zIndex": 0,
             }
           }
@@ -163,6 +178,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
             "WebkitBoxOrient": "horizontal",
             "WebkitBoxPack": "justify",
             "WebkitFlexDirection": "row",
+            "WebkitFlexShrink": 1,
             "WebkitJustifyContent": "space-between",
             "alignItems": "center",
             "borderBottomColor": "rgba(0,187,165,1.00)",
@@ -170,11 +186,13 @@ exports[`ListEventItem receive matches snapshot 1`] = `
             "borderBottomWidth": "2px",
             "display": "flex",
             "flexDirection": "row",
+            "flexShrink": 1,
             "justifyContent": "space-between",
             "msFlexAlign": "center",
             "msFlexDirection": "row",
+            "msFlexNegative": 1,
             "msFlexPack": "justify",
-            "paddingBottom": "8px",
+            "paddingBottom": "4px",
           }
         }
       >
@@ -330,13 +348,16 @@ exports[`ListEventItem receive matches snapshot 1`] = `
             dir="auto"
             style={
               Object {
+                "WebkitFlexShrink": 0,
                 "color": "rgba(85,85,85,1.00)",
                 "direction": "ltr",
+                "flexShrink": 0,
                 "fontFamily": "Roboto",
                 "fontSize": "16px",
                 "fontWeight": "normal",
-                "lineHeight": "22px",
-                "marginBottom": "4px",
+                "height": "22px",
+                "lineHeight": "16px",
+                "msFlexNegative": 0,
                 "textAlign": "left",
                 "textDecoration": "none",
                 "textTransform": "capitalize",
@@ -372,7 +393,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
                   "fontFamily": "Roboto",
                   "fontSize": "16px",
                   "fontWeight": "500",
-                  "lineHeight": "22px",
+                  "lineHeight": "16px",
                   "textAlign": "center",
                   "textDecoration": "none",
                   "textTransform": "none",
@@ -387,12 +408,15 @@ exports[`ListEventItem receive matches snapshot 1`] = `
             dir="auto"
             style={
               Object {
+                "WebkitFlexShrink": 0,
                 "color": "rgba(163,163,163,1.00)",
                 "direction": "ltr",
+                "flexShrink": 0,
                 "fontFamily": "Roboto",
                 "fontSize": "10px",
                 "fontWeight": "normal",
-                "lineHeight": "22px",
+                "lineHeight": "10px",
+                "msFlexNegative": 0,
                 "paddingBottom": "4px",
                 "textAlign": "center",
                 "textDecoration": "none",
@@ -414,6 +438,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
               "fontStyle": "normal",
               "fontWeight": "normal",
               "marginRight": "0px",
+              "marginTop": "auto",
             }
           }
         >
@@ -460,6 +485,7 @@ exports[`ListEventItem send matches snapshot 1`] = `
         "flexDirection": "row",
         "flexGrow": 1,
         "justifyContent": "center",
+        "maxHeight": "100%",
         "msFlexAlign": "center",
         "msFlexDirection": "row",
         "msFlexPack": "center",
@@ -491,11 +517,26 @@ exports[`ListEventItem send matches snapshot 1`] = `
           "WebkitTransitionDuration": "0.15s",
           "WebkitTransitionProperty": "opacity",
           "WebkitUserSelect": "none",
+          "backgroundColor": "rgba(203,203,203,1.00)",
+          "borderBottomColor": "rgba(163,163,163,1.00)",
+          "borderBottomLeftRadius": "17px",
+          "borderBottomRightRadius": "17px",
+          "borderBottomWidth": "1px",
+          "borderLeftColor": "rgba(163,163,163,1.00)",
+          "borderLeftWidth": "1px",
+          "borderRightColor": "rgba(163,163,163,1.00)",
+          "borderRightWidth": "1px",
+          "borderTopColor": "rgba(163,163,163,1.00)",
+          "borderTopLeftRadius": "17px",
+          "borderTopRightRadius": "17px",
+          "borderTopWidth": "1px",
+          "height": "34px",
           "marginTop": "auto",
           "msUserSelect": "none",
           "transitionDuration": "0.15s",
           "transitionProperty": "opacity",
           "userSelect": "none",
+          "width": "34px",
         }
       }
     >
@@ -503,14 +544,13 @@ exports[`ListEventItem send matches snapshot 1`] = `
         className="css-view-1dbjc4n"
         style={
           Object {
-            "backgroundColor": "rgba(0,175,255,1.00)",
-            "borderBottomLeftRadius": "17px",
-            "borderBottomRightRadius": "17px",
-            "borderTopLeftRadius": "17px",
-            "borderTopRightRadius": "17px",
-            "height": "34px",
-            "marginTop": "auto",
-            "width": "34px",
+            "backgroundColor": "rgba(0,0,0,0.00)",
+            "borderBottomLeftRadius": "16px",
+            "borderBottomRightRadius": "16px",
+            "borderTopLeftRadius": "16px",
+            "borderTopRightRadius": "16px",
+            "height": "32px",
+            "width": "32px",
           }
         }
       >
@@ -519,16 +559,16 @@ exports[`ListEventItem send matches snapshot 1`] = `
           style={
             Object {
               "WebkitFlexBasis": "auto",
-              "borderBottomLeftRadius": "17px",
-              "borderBottomRightRadius": "17px",
-              "borderTopLeftRadius": "17px",
-              "borderTopRightRadius": "17px",
+              "borderBottomLeftRadius": "16px",
+              "borderBottomRightRadius": "16px",
+              "borderTopLeftRadius": "16px",
+              "borderTopRightRadius": "16px",
               "flexBasis": "auto",
-              "height": "34px",
+              "height": "32px",
               "msFlexPreferredSize": "auto",
               "overflowX": "hidden",
               "overflowY": "hidden",
-              "width": "34px",
+              "width": "32px",
               "zIndex": 0,
             }
           }
@@ -588,6 +628,7 @@ exports[`ListEventItem send matches snapshot 1`] = `
             "WebkitBoxOrient": "horizontal",
             "WebkitBoxPack": "justify",
             "WebkitFlexDirection": "row",
+            "WebkitFlexShrink": 1,
             "WebkitJustifyContent": "space-between",
             "alignItems": "center",
             "borderBottomColor": "rgba(250,108,119,1.00)",
@@ -595,11 +636,13 @@ exports[`ListEventItem send matches snapshot 1`] = `
             "borderBottomWidth": "2px",
             "display": "flex",
             "flexDirection": "row",
+            "flexShrink": 1,
             "justifyContent": "space-between",
             "msFlexAlign": "center",
             "msFlexDirection": "row",
+            "msFlexNegative": 1,
             "msFlexPack": "justify",
-            "paddingBottom": "8px",
+            "paddingBottom": "4px",
           }
         }
       >
@@ -755,13 +798,16 @@ exports[`ListEventItem send matches snapshot 1`] = `
             dir="auto"
             style={
               Object {
+                "WebkitFlexShrink": 0,
                 "color": "rgba(85,85,85,1.00)",
                 "direction": "ltr",
+                "flexShrink": 0,
                 "fontFamily": "Roboto",
                 "fontSize": "16px",
                 "fontWeight": "normal",
-                "lineHeight": "22px",
-                "marginBottom": "4px",
+                "height": "22px",
+                "lineHeight": "16px",
+                "msFlexNegative": 0,
                 "textAlign": "left",
                 "textDecoration": "none",
                 "textTransform": "capitalize",
@@ -797,7 +843,7 @@ exports[`ListEventItem send matches snapshot 1`] = `
                   "fontFamily": "Roboto",
                   "fontSize": "16px",
                   "fontWeight": "500",
-                  "lineHeight": "22px",
+                  "lineHeight": "16px",
                   "textAlign": "center",
                   "textDecoration": "none",
                   "textTransform": "none",
@@ -812,12 +858,15 @@ exports[`ListEventItem send matches snapshot 1`] = `
             dir="auto"
             style={
               Object {
+                "WebkitFlexShrink": 0,
                 "color": "rgba(163,163,163,1.00)",
                 "direction": "ltr",
+                "flexShrink": 0,
                 "fontFamily": "Roboto",
                 "fontSize": "10px",
                 "fontWeight": "normal",
-                "lineHeight": "22px",
+                "lineHeight": "10px",
+                "msFlexNegative": 0,
                 "paddingBottom": "4px",
                 "textAlign": "center",
                 "textDecoration": "none",
@@ -839,6 +888,7 @@ exports[`ListEventItem send matches snapshot 1`] = `
               "fontStyle": "normal",
               "fontWeight": "normal",
               "marginRight": "0px",
+              "marginTop": "auto",
             }
           }
         >
@@ -885,6 +935,7 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
         "flexDirection": "row",
         "flexGrow": 1,
         "justifyContent": "center",
+        "maxHeight": "100%",
         "msFlexAlign": "center",
         "msFlexDirection": "row",
         "msFlexPack": "center",
@@ -916,11 +967,26 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
           "WebkitTransitionDuration": "0.15s",
           "WebkitTransitionProperty": "opacity",
           "WebkitUserSelect": "none",
+          "backgroundColor": "rgba(203,203,203,1.00)",
+          "borderBottomColor": "rgba(163,163,163,1.00)",
+          "borderBottomLeftRadius": "17px",
+          "borderBottomRightRadius": "17px",
+          "borderBottomWidth": "1px",
+          "borderLeftColor": "rgba(163,163,163,1.00)",
+          "borderLeftWidth": "1px",
+          "borderRightColor": "rgba(163,163,163,1.00)",
+          "borderRightWidth": "1px",
+          "borderTopColor": "rgba(163,163,163,1.00)",
+          "borderTopLeftRadius": "17px",
+          "borderTopRightRadius": "17px",
+          "borderTopWidth": "1px",
+          "height": "34px",
           "marginTop": "auto",
           "msUserSelect": "none",
           "transitionDuration": "0.15s",
           "transitionProperty": "opacity",
           "userSelect": "none",
+          "width": "34px",
         }
       }
     >
@@ -928,14 +994,13 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
         className="css-view-1dbjc4n"
         style={
           Object {
-            "backgroundColor": "rgba(0,175,255,1.00)",
-            "borderBottomLeftRadius": "17px",
-            "borderBottomRightRadius": "17px",
-            "borderTopLeftRadius": "17px",
-            "borderTopRightRadius": "17px",
-            "height": "34px",
-            "marginTop": "auto",
-            "width": "34px",
+            "backgroundColor": "rgba(0,0,0,0.00)",
+            "borderBottomLeftRadius": "16px",
+            "borderBottomRightRadius": "16px",
+            "borderTopLeftRadius": "16px",
+            "borderTopRightRadius": "16px",
+            "height": "32px",
+            "width": "32px",
           }
         }
       >
@@ -944,16 +1009,16 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
           style={
             Object {
               "WebkitFlexBasis": "auto",
-              "borderBottomLeftRadius": "17px",
-              "borderBottomRightRadius": "17px",
-              "borderTopLeftRadius": "17px",
-              "borderTopRightRadius": "17px",
+              "borderBottomLeftRadius": "16px",
+              "borderBottomRightRadius": "16px",
+              "borderTopLeftRadius": "16px",
+              "borderTopRightRadius": "16px",
               "flexBasis": "auto",
-              "height": "34px",
+              "height": "32px",
               "msFlexPreferredSize": "auto",
               "overflowX": "hidden",
               "overflowY": "hidden",
-              "width": "34px",
+              "width": "32px",
               "zIndex": 0,
             }
           }
@@ -1013,6 +1078,7 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
             "WebkitBoxOrient": "horizontal",
             "WebkitBoxPack": "justify",
             "WebkitFlexDirection": "row",
+            "WebkitFlexShrink": 1,
             "WebkitJustifyContent": "space-between",
             "alignItems": "center",
             "borderBottomColor": "rgba(0,195,174,1.00)",
@@ -1020,11 +1086,13 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
             "borderBottomWidth": "2px",
             "display": "flex",
             "flexDirection": "row",
+            "flexShrink": 1,
             "justifyContent": "space-between",
             "msFlexAlign": "center",
             "msFlexDirection": "row",
+            "msFlexNegative": 1,
             "msFlexPack": "justify",
-            "paddingBottom": "8px",
+            "paddingBottom": "4px",
           }
         }
       >
@@ -1180,13 +1248,16 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
             dir="auto"
             style={
               Object {
+                "WebkitFlexShrink": 0,
                 "color": "rgba(85,85,85,1.00)",
                 "direction": "ltr",
+                "flexShrink": 0,
                 "fontFamily": "Roboto",
                 "fontSize": "16px",
                 "fontWeight": "normal",
-                "lineHeight": "22px",
-                "marginBottom": "4px",
+                "height": "22px",
+                "lineHeight": "16px",
+                "msFlexNegative": 0,
                 "textAlign": "left",
                 "textDecoration": "none",
                 "textTransform": "capitalize",
@@ -1222,7 +1293,7 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
                   "fontFamily": "Roboto",
                   "fontSize": "16px",
                   "fontWeight": "500",
-                  "lineHeight": "22px",
+                  "lineHeight": "16px",
                   "textAlign": "center",
                   "textDecoration": "none",
                   "textTransform": "none",
@@ -1237,12 +1308,15 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
             dir="auto"
             style={
               Object {
+                "WebkitFlexShrink": 0,
                 "color": "rgba(163,163,163,1.00)",
                 "direction": "ltr",
+                "flexShrink": 0,
                 "fontFamily": "Roboto",
                 "fontSize": "10px",
                 "fontWeight": "normal",
-                "lineHeight": "22px",
+                "lineHeight": "10px",
+                "msFlexNegative": 0,
                 "paddingBottom": "4px",
                 "textAlign": "center",
                 "textDecoration": "none",
@@ -1264,6 +1338,7 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
               "fontStyle": "normal",
               "fontWeight": "normal",
               "marginRight": "0px",
+              "marginTop": "auto",
             }
           }
         >

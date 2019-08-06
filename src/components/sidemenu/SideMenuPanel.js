@@ -1,13 +1,13 @@
 // @flow
 import React from 'react'
 import { ScrollView, TouchableOpacity, View } from 'react-native'
-import IconE from 'react-native-elements/src/icons/Icon'
 import { useWrappedApi } from '../../lib/API/useWrappedApi'
 import logger from '../../lib/logger/pino-logger'
 import { withStyles } from '../../lib/styles'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import { useSidemenu } from '../../lib/undux/utils/sidemenu'
+import { Icon } from '../common'
 import SideMenuItem from './SideMenuItem'
 
 type SideMenuPanelProps = {
@@ -135,7 +135,7 @@ const SideMenuPanel = ({ navigation, styles, theme }: SideMenuPanelProps) => {
   return (
     <ScrollView contentContainerStyle={styles.scrollableContainer}>
       <TouchableOpacity style={styles.closeIconRow} onPress={toggleSidemenu}>
-        <IconE name="close" size={20} color={theme.colors.gray50Percent} />
+        <Icon name="close" size={20} color={theme.colors.lighterGray} />
       </TouchableOpacity>
       <View style={styles.listContainer}>
         {MENU_ITEMS.map(item => (

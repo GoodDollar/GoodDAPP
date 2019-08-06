@@ -106,10 +106,12 @@ export function generateShareObject(title: string, text: string, url: string): S
   }
 }
 
-export function generateSendShareObject(url: string, amount: number, name: string): ShareObject {
+export function generateSendShareObject(url: string, amount: number, to: string, from: string): ShareObject {
   return generateShareObject(
     'Sending G$ via GoodDollar App',
-    `You've got a request from ${name} for ${amount} G$. To transfer open:`,
+    to
+      ? `${to}, You've received ${amount} G$ from ${from}. To withdraw open:`
+      : `You've received ${amount} G$ from ${from}. To withdraw open:`,
     url
   )
 }
@@ -119,11 +121,13 @@ export function generateSendShareObject(url: string, amount: number, name: strin
  * @param code - code returned by `generateCode`
  * @returns {string} - URL to use to share/receive GDs
  */
-export function generateReceiveShareObject(code: string, amount: number, name: string): ShareObject {
+export function generateReceiveShareObject(code: string, amount: number, to: string, from: string): ShareObject {
   const url = generateShareLink('receive', { code })
   return generateShareObject(
     'Sending G$ via GoodDollar App',
-    `You've received ${amount} G$ from ${name}. To withdraw open:`,
+    to
+      ? `${to}, You've got a request from ${from} for ${amount} G$. To transfer open:`
+      : `You've got a request from ${from} for ${amount} G$. To transfer open:`,
     url
   )
 }

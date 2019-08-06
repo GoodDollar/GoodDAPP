@@ -53,7 +53,7 @@ export const theme = {
   modals: {
     overlayBackgroundColor: 'rgba(255, 255, 255, 0.8)',
     overlayHorizontalPadding: 20,
-    overlayVerticalPadding: 20,
+    overlayVerticalPadding: 65,
     backgroundColor: '#fff',
     jaggedEdgeSize: 16,
     contentPadding: 16,

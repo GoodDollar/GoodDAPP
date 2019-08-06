@@ -415,6 +415,7 @@ exports[`Receive matches snapshot 1`] = `
                     "green": "#00C3AE",
                     "jaggedEdgeSize": "#CBCBCB",
                     "lightGray": "#EEE",
+                    "lightGreen": "#00BBA5",
                     "lighterGray": "#A3A3A3",
                     "notification": "#f50057",
                     "orange": "#F8AF40",
@@ -452,7 +453,7 @@ exports[`Receive matches snapshot 1`] = `
                     "jaggedEdgeSize": 16,
                     "overlayBackgroundColor": "rgba(255, 255, 255, 0.8)",
                     "overlayHorizontalPadding": 20,
-                    "overlayVerticalPadding": 30,
+                    "overlayVerticalPadding": 65,
                   },
                   "paddings": Object {
                     "defaultMargin": 8,

@@ -319,48 +319,45 @@ export class GoodWallet {
     }, INTERVAL)
   }
 
+  subscribeToOTPLWithdrawEvents(fromBlock: BN, toBlock: BN) {
+    const filter = { from: this.wallet.utils.toChecksumAddress(this.account) }
+
+    return this.oneTimePaymentLinksContract
+      .getPastEvents('PaymentWithdraw', { fromBlock, toBlock, filter })
+      .catch(e => {
+        log.error('subscribeOTPL fromEventsPromise failed:', { e, filters: { fromBlock, toBlock, filter } })
+        return { error: e }
+      })
+      .then(res => (res.error ? [] : res))
+  }
+
+  subscribeToOTPLCancelEvents(fromBlock: BN, toBlock: BN) {
+    const filter = { from: this.wallet.utils.toChecksumAddress(this.account) }
+
+    return this.oneTimePaymentLinksContract
+      .getPastEvents('PaymentCancel', { fromBlock, toBlock, filter })
+      .catch(e => {
+        log.error('subscribeOTPL fromEventsPromise failed:', { e, filters: { fromBlock, toBlock, filter } })
+        return { error: e }
+      })
+      .then(res => (res.error ? [] : res))
+  }
+
   subscribeToOTPLEvents(fromBlock: BN, toBlock: BN) {
-    console.info('-------- calling --------')
-    const contract = this.oneTimePaymentLinksContract
-
-    //Get transfers from this account
-    const fromEventsFilter = {
-      fromBlock,
-      toBlock,
-      filter: { from: this.wallet.utils.toChecksumAddress(this.account) },
-    }
-
-    const paymentWithdrawEvents = contract
-      .getPastEvents('PaymentWithdraw', fromEventsFilter)
-      .catch(e => {
-        log.error('subscribeOTPL fromEventsPromise failed:', { e, fromEventsFilter })
-        return { error: e }
-      })
-      .then(res => (res.error ? [] : res))
-
-    const PaymentCancelEvents = contract
-      .getPastEvents('PaymentCancel', fromEventsFilter)
-      .catch(e => {
-        log.error('subscribeOTPL fromEventsPromise failed:', { e, fromEventsFilter })
-        return { error: e }
-      })
-      .then(res => (res.error ? [] : res))
-
-    return Promise.all([paymentWithdrawEvents, PaymentCancelEvents])
-      .then(([res1, res2]) => {
-        const res = res1.concat(res2)
-
-        console.info('------ responses ------', res, fromBlock.toNumber(), toBlock.toNumber())
+    return Promise.all([
+      this.subscribeToOTPLWithdrawEvents(fromBlock, toBlock),
+      this.subscribeToOTPLCancelEvents(fromBlock, toBlock),
+    ])
+      .then(([withdraw, cancel]) => {
+        const res = withdraw.concat(cancel)
 
         if (!res.length) {
           return
         }
 
-        log.debug("subscribeOTPL got 'from' events", { res })
+        log.info("subscribeOTPL got 'from' events", { res })
 
         const events = res.filter(({ event }) => event === 'PaymentWithdraw' || event === 'PaymentCancel')
-
-        log.debug('here, subscribeOTPL', events)
 
         uniqBy(events, 'transactionHash').forEach(event => {
           this.getReceiptWithLogs(event.transactionHash)

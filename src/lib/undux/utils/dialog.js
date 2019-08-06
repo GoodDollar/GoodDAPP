@@ -26,7 +26,7 @@ export const showDialogForError = (store: Store, humanError: string, error: Erro
   }
 
   message = humanError ? humanError + '\n' + message : message
-  const dialogData = { visible: true, title: 'Error', message, dismissText: 'OK' }
+  const dialogData = { visible: true, title: 'Error', message, dismissText: 'OK', type: 'error' }
   showDialogWithData(store, dialogData)
 }
 

@@ -2,7 +2,10 @@
 import React from 'react'
 import { Image, View } from 'react-native'
 import normalize from '../../../lib/utils/normalizeText'
-import { Avatar, BigGoodDollar, CustomButton, Text } from '../../common'
+import Avatar from '../../common/view/Avatar'
+import BigGoodDollar from '../../common/view/BigGoodDollar'
+import CustomButton from '../../common/buttons/CustomButton'
+import Text from '../../common/view/Text'
 import ModalWrapper from '../../common/modal/ModalWrapper'
 import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
 import { withStyles } from '../../../lib/styles'
@@ -23,7 +26,7 @@ const FeedModalItem = (props: FeedEventProps) => {
   const buttonPress = () => {
     onPress(item.id)
   }
-  const itemType = item.type
+  const itemType = item.displayType || item.type
   const mainColor = getEventSettingsByType(theme, itemType).color
   const getImageByType = type => {
     return (
@@ -53,7 +56,11 @@ const FeedModalItem = (props: FeedEventProps) => {
           />
         </View>
         <View style={[styles.transactionDetails, { borderColor: mainColor }]}>
-          <Avatar source={item.data && item.data.endpoint && item.data.endpoint.avatar} style={styles.avatar} />
+          <Avatar
+            source={item.data && item.data.endpoint && item.data.endpoint.avatar}
+            size={34}
+            style={styles.avatar}
+          />
           {item.data && item.data.endpoint && <EventCounterParty style={styles.feedItem} feedItem={item} />}
           <EventIcon type={itemType} style={styles.icon} />
         </View>

@@ -11,6 +11,11 @@ const getEventSettingsByType = (theme, type) => {
         color: theme.colors.red,
         name: 'send-filled',
       },
+      sendcompleted: {
+        actionSymbol: '-',
+        color: theme.colors.red,
+        name: 'send-filled',
+      },
       receive: {
         actionSymbol: '+',
         color: theme.colors.green,
@@ -25,7 +30,11 @@ const getEventSettingsByType = (theme, type) => {
         color: theme.colors.purple,
         name: 'social-good-filled',
       },
-      notification: {
+      sendcancelled: {
+        color: theme.colors.orange,
+        name: 'clock-filled',
+      },
+      sendpending: {
         color: theme.colors.orange,
         name: 'clock-filled',
       },

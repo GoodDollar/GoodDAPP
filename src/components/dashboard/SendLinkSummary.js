@@ -41,7 +41,7 @@ const SendLinkSummary = (props: AmountProps) => {
   }
 
   const shareAction = async paymentLink => {
-    const share = generateSendShareObject(paymentLink)
+    const share = generateSendShareObject(paymentLink, amount, counterPartyDisplayName)
     try {
       await navigator.share(share)
       setShared(true)

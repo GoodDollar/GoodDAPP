@@ -24,7 +24,10 @@ const ReceiveConfirmation = ({ screenProps, styles, ...props }: ReceiveProps) =>
   const { params } = props.navigation.state
 
   const share = useMemo(
-    () => (params.action === ACTION_RECEIVE ? generateReceiveShareObject(code) : generateSendShareObject(code)),
+    () =>
+      params.action === ACTION_RECEIVE
+        ? generateReceiveShareObject(code, amount, counterPartyDisplayName)
+        : generateSendShareObject(code, amount, counterPartyDisplayName),
     [code]
   )
 

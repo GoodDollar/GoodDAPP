@@ -25,14 +25,14 @@ const CopyButton = ({ toCopy, children, onPressDone, ...props }) => {
   switch (state) {
     case DONE: {
       return (
-        <CustomButton mode={mode} onPress={onPressDone} {...props}>
+        <CustomButton data-gdtype={'copybutton-done'} data-url={toCopy} mode={mode} onPress={onPressDone} {...props}>
           Done
         </CustomButton>
       )
     }
     case COPIED: {
       return (
-        <CustomButton mode={mode} {...props}>
+        <CustomButton data-gdtype={'copybutton-copied'} mode={mode} {...props}>
           <View style={styles.iconButtonWrapper}>
             <Icon size={16} name="done" color="white" />
           </View>
@@ -42,6 +42,7 @@ const CopyButton = ({ toCopy, children, onPressDone, ...props }) => {
     default: {
       return (
         <CustomButton
+          data-gdtype={'copybutton'}
           mode={mode}
           onPress={() => {
             Clipboard.setString(toCopy)

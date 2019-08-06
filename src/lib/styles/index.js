@@ -13,6 +13,17 @@ function isFunction(functionToCheck) {
  */
 export const withStyles = (mapThemeToStyles, withStyleSheet = true) => Component => {
   class WrappedComponent extends React.Component {
+    constructor(props) {
+      super(props)
+      this.props = props
+      if (isFunction(mapThemeToStyles)) {
+        const stylesObject = mapThemeToStyles(this.props)
+        this.styles = withStyleSheet ? StyleSheet.create(stylesObject) : stylesObject
+      } else {
+        this.styles = {}
+      }
+    }
+
     _root
 
     /**
@@ -29,10 +40,7 @@ export const withStyles = (mapThemeToStyles, withStyleSheet = true) => Component
         return <Component ref={c => (this._root = c)} {...this.props} />
       }
 
-      const stylesObject = mapThemeToStyles(this.props)
-      const styles = withStyleSheet ? StyleSheet.create(stylesObject) : stylesObject
-
-      return <Component ref={c => (this._root = c)} {...this.props} styles={styles} />
+      return <Component ref={c => (this._root = c)} {...this.props} styles={this.styles} />
     }
   }
 

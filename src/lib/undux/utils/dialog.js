@@ -23,6 +23,10 @@ export const showDialogForError = (store: Store, humanError: string, error: Erro
     message = error.message
   } else if (error.err) {
     message = error.err
+  } else if (typeof error === 'object') {
+    message = Object.values(error).join('\n')
+  } else if (error.length) {
+    message = error.join('\n')
   }
 
   message = humanError ? humanError + '\n' + message : message

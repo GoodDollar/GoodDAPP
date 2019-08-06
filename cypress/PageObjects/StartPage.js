@@ -5,7 +5,7 @@ class StartPage {
     }
 
     get loginLink() {
-        return cy.get('.r-rjixqe.r-q4m81j.r-13wfysu.r-3twk1y', { timeout: 10000 } );
+        return cy.xpath('/html/body/div/div[1]/div/div[2]/div/div/div/div[2]/div[3]', { timeout: 10000 } );
     }
 
     open() {

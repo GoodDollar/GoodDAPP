@@ -33,7 +33,9 @@ describe('Test case 2: Profile editing', () => {
             HomePage.options.eq(i).should('be.visible');
         }
         HomePage.options.eq(0).click();
+        cy.wait(5000)
         ProfilePage.EditProfileButton.click();
+        cy.wait(5000)
         EditProfilePage.pageHeader.should('contain', 'Edit Profile');
         EditProfilePage.nameInput.should('be.visible');
         EditProfilePage.phoneInput.should('be.visible');
@@ -46,7 +48,7 @@ describe('Test case 2: Profile editing', () => {
     it('User is able to upload avatar', () => {
 
         HomePage.profileAvatar.click();
-        ProfilePage.avatarDiv.click();
+        ProfilePage.avatarDiv.click({multiple: true});
 
         const selector = 'input[type="file"]';
         const fixturePath = 'smile.png';
@@ -66,7 +68,7 @@ describe('Test case 2: Profile editing', () => {
                 )
             )
         )
-        .then(()=>cy.get('canvas').should('have.length', 1));
+        .then(()=>cy.get('canvas').should('be.visible', 1));
         EditProfilePage.saveAvatarButton.click();
         EditProfilePage.uploadedAvatar.should('be.visible')
         EditProfilePage.uploadedAvatar.click();
@@ -76,21 +78,68 @@ describe('Test case 2: Profile editing', () => {
 
     });
 
-    it.only('User is able to edit input fields', () => {
+    it('User is able to edit input fields', () => {
 
         HomePage.optionsButton.click({force:true});
-        HomePage.options.eq(0).click();
-        ProfilePage.EditProfileButton.click({force:true});
-        cy.wait(5000)
+        HomePage.options.eq(0).click({force:true});
+        cy.wait(3000);
+        ProfilePage.EditProfileButton.click({force:true, timeout:10000});
+        cy.wait(3000);
+
+        EditProfilePage.nameInput.clear({timeout:10000});
+        EditProfilePage.phoneInput.clear({timeout:10000});
+        EditProfilePage.emailInput.clear({timeout:10000});
+        EditProfilePage.nameInput.type('RandomUsername', {force: true});
+        EditProfilePage.phoneInput.type('+380983611328', {force: true});
+        EditProfilePage.emailInput.type('holenkov.andrew@qatestlab.eu', {force: true});
+
+
+        cy.wait(5000);
+        EditProfilePage.saveButton.click();
+        cy.wait(5000);
+
+
+        ProfilePage.nameInput.should('have.value', 'RandomUsername');
+        ProfilePage.phoneInput.should('have.value', '+380983611328');
+        ProfilePage.emailInput.should('have.value', 'holenkov.andrew@qatestlab.eu');
+
+
+        ProfilePage.EditProfileButton.click();
+        cy.wait(3000);
         EditProfilePage.nameInput.clear();
-        EditProfilePage.nameInput.type('Username');
-        EditProfilePage.saveButton.click({force:true});
+        EditProfilePage.nameInput.type('AndrewLebowski'); 
+        EditProfilePage.phoneInput.clear();  
+        cy.contains('OK').click();
+        EditProfilePage.phoneInput.type('+380983611320');
+        EditProfilePage.emailInput.clear();
+        EditProfilePage.emailInput.type('andrey.holenkov@qatestlab.eu');
+        cy.wait(3000)
+        EditProfilePage.saveButton.click();
 
     }); 
 
-    // it.only('Negative cases', () => {
+    it('User is unable to type invalid data', () => {
 
-    // });
+        HomePage.optionsButton.click({force:true});
+        HomePage.options.eq(0).click({force:true});
+        cy.wait(3000);
+        ProfilePage.EditProfileButton.click({force:true, timeout:10000});
+        cy.wait(3000);
+
+        EditProfilePage.nameInput.clear({timeout:10000});
+        EditProfilePage.phoneInput.clear({timeout:10000});
+        EditProfilePage.emailInput.clear({timeout:10000});
+        EditProfilePage.nameInput.type('Random Username', {force: true});
+        EditProfilePage.phoneInput.type('+999999999999', {force: true});
+        EditProfilePage.emailInput.type('incorrect@email', {force: true});
+
+        EditProfilePage.wrongNameErrorDiv.should('contain', 'Must contain only letters (a-z), numbers (0-9) and underscore (_)');
+        EditProfilePage.phoneInput.should('have.class', 'react-phone-number-input__input--invalid')
+        EditProfilePage.wrongEmailErrorDiv.should('contain', 'Enter a valid format: yourname@example.com');
+
+        EditProfilePage.saveButton.should('not.be.enabled');
+
+    });
 
 
   

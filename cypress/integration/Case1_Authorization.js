@@ -12,7 +12,7 @@ function typeInputValues( values , isCorrect) {
         if(isCorrect) {
             LoginPage.recoverWalletButton.click();
             cy.wait(7000);
-            HomePage.homePageIdentificator.should('be.visible');
+            HomePage.profileAvatar.should('be.visible');
         } else {
             LoginPage.errorWindow.should('be.visible');
             cy.contains('OK').click();
@@ -30,7 +30,7 @@ describe('Test case 1: authorization with mnemonicshttps://goodqa.netlify.com/',
         StartPage.loginLink.should('be.visible');  
 
         StartPage.loginLink.click();  
-        cy.url().should('eq', Cypress.config().baseUrl + '/Auth/Recover');   
+        LoginPage.pageHeader.should('contain', 'Recover');
         LoginPage.mnemonicInputs.should('be.visible');
     })
 

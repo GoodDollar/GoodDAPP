@@ -25,10 +25,11 @@ describe('Test case 4: Profile privacy', () => {
     it('User should be able to change privacy lvl', () => {
 
         HomePage.profileAvatar.click();
-        ProfilePage.phoneInput.should('have.value', '+380983611321');
+        ProfilePage.phoneInput.should('have.value', '+380983611320');
         ProfilePage.emailInput.should('have.value', 'andrey.holenkov@qatestlab.eu');
 
         ProfilePage.profilePrivacyButton.click();
+        cy.wait(7000)
         ProfilePrivacyPage.pageHeader.should('contain', 'PROFILE PRIVACY');
 
         ProfilePrivacyPage.muskedNumberButton.click();
@@ -36,7 +37,7 @@ describe('Test case 4: Profile privacy', () => {
         ProfilePrivacyPage.saveButton.click();
         ProfilePrivacyPage.backButton.click();
 
-        ProfilePage.phoneInput.should('have.value', '*********1321');
+        ProfilePage.phoneInput.should('have.value', '*********130');
         ProfilePage.emailInput.should('have.value', 'a*************v@qatestlab.eu');
         ProfilePage.profilePrivacyButton.click();
 

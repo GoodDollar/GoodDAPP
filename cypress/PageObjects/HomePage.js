@@ -1,19 +1,19 @@
 class HomePage {
 
+    get optionsButton() {
+        return cy.get('div[role=button]', { timeout: 10000 }).eq(1)
+    }
+
     get sendButton() {
         return cy.get('div[role=button]', { timeout: 10000 }).eq(2)
     }
 
     get claimButton() {
-        return cy.xpath('//*[@id="root"]/div[1]/div/div/div[2]/div[2]/div/div[1]/div[2]/div[2]/div/div', { timeout: 10000 })
+        return cy.get('div[role=button]', { timeout: 10000 }).eq(3)
     }
 
     get receiveButton() {
-        return cy.xpath('//*[@id="root"]/div[1]/div/div/div[2]/div[2]/div/div[1]/div[2]/div[3]/div', { timeout: 10000 })
-    }
-
-    get optionsButton() {
-        return cy.xpath('//*[@id="root"]/div[1]/div/div[2]/div[1]/div/div[3]', { timeout: 10000 })
+        return cy.get('div[role=button]', { timeout: 10000 }).eq(4)
     }
 
     get options() {
@@ -25,9 +25,8 @@ class HomePage {
     }
 
     get closeOptionsButton() {
-        return cy.get('.css-901oao.r-1niwhzg.r-adyw6z.r-1it3c9n', { timeout: 10000 })
+        return cy.get('[dir=auto]', { timeout: 10000 }).eq(0)
     }
-
 
 }
 

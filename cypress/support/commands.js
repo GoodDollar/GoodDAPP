@@ -23,13 +23,38 @@
 //
 // -- This is will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
-Cypress.Commands.add('iframe', { prevSubject: 'element' }, $iframe => {
-    return new Cypress.Promise(resolve => {
-        $iframe.on('load', () => {
-            resolve($iframe.contents({ timeout: 10000 }).find('body', { timeout: 10000 }));
-        });
-    });
-});
+// Cypress.Commands.add('iframe', { prevSubject: 'element' }, $iframe => {
+//     return new Cypress.Promise(resolve => {
+//         $iframe.on('load', () => {
+//             resolve(
+//                 $iframe.contents().find('body')
+                
+//             );
+//         });
+//     });
+// });
+
+// Cypress.Commands.add("checkIframeData", (iframeSelector, ) => {
+//     cy.get(iframeSelector)
+//         .then((iframe) => new Promise(resolve => setTimeout(() => resolve(iframe), 7500)))
+//         .then(function (iframe) {
+//             const body = iframe.contents().find('body');
+
+
+
+//             // cy.wrap(body.find(ordersPage.nameOnCardValue)).type(creditCard.name);
+//             // cy.wrap(body.find(ordersPage.cardNumberValue)).type(creditCard.cardNumber);
+//             // cy.wrap(body.find(ordersPage.expirationDateValue)).type(creditCard.expiration);
+//             // cy.wrap(body.find(ordersPage.cvV2Value)).type(creditCard.cvv);
+//             // cy.wrap(body.find(ordersPage.phoneNumberValue)).type(creditCard.phone);
+//             // cy.wrap(body.find(ordersPage.billingAddressValue)).type(creditCard.address);
+//             // cy.wrap(body.find(ordersPage.cityValue)).type(creditCard.city);
+//             // cy.wrap(body.find(ordersPage.stateValue)).type(`${creditCard.state}{enter}`, {force: true});
+//             // cy.wrap(body.find(ordersPage.zipCodeValue)).type(creditCard.zip);
+//             // cy.wrap(body.find(ordersPage.addCard)).click();
+//         })
+// });
+
 
 // Cypress.Commands.add('iframe', {prevSubject: 'element'}, (iframe) => {
 //     const iframeDoc = iframe[0].contentDocument;

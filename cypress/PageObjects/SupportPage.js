@@ -4,10 +4,6 @@ class SupportPage {
         return cy.get('h1[role=heading]', { timeout: 10000 })
     }
 
-    get optionsButton() {
-        return cy.get('a[href="#"]', { timeout: 10000 })
-    }
-
     get iframe() {
         return cy.get('iframe[src="https://community.gooddollar.org/support/"]', { timeout: 10000 })
     }
@@ -24,21 +20,35 @@ class SupportPage {
         return '#mauticform_input_communitygdsupportrequestform_submit';
     }
 
-    get footerLinks() {
+    get helpFormSuccessMessage() {
+        return '#mauticform_communitygdsupportrequestform_message';
+    }
+
+    get subscribeLinks() {
         return '#footer a';
     }
-    
-    get headerLinks() {
-        return '.menu-item';
+
+    get subscribeFormName() {
+        return '#mauticform_input_communitygdfooternlregistration_first_name';
     }
 
-    get helpFormSuccessMessage() {
-        return cy.get('#mauticform_communitygdsupportrequestform_message', {timeout:10000})
+    get subscribeFormSurname() {
+        return '#mauticform_input_communitygdfooternlregistration_last_name';
     }
 
-    
+    get subscribeFormEmail() {
+        return '#mauticform_input_communitygdfooternlregistration_email';
+    }
 
-  
+    get submitSubscribeFormButton() {
+        return '#mauticform_input_communitygdfooternlregistration_submit'
+    }
+    
+    get subscribeFormSuccessMessage() {
+        return '#mauticform_communitygdfooternlregistration_message';
+    }
+    
+    
 }
 
 export default new SupportPage

@@ -27,33 +27,40 @@ describe('Test case 3: Support', () => {
         HomePage.options.eq(5).click( {force: true} );
         SupportPage.pageHeader.should('contain', 'Feedback & Support');
         SupportPage.iframe.should('be.visible');
-    
-        SupportPage.iframe.iframe().find(SupportPage.helpFormEmail, {timeout:10000}).clear({force:true});
-        SupportPage.iframe.iframe().find(SupportPage.helpFormEmail, {timeout:10000}).type('andrey.holenkov@qatestlab.eu', {force:true});   
-        SupportPage.iframe.iframe().find(SupportPage.helpFormTextArea, {timeout:10000}).type('Test message', {force:true});
-        SupportPage.iframe.iframe().find(SupportPage.submitHelpFormButton, {timeout:10000}).click({force:true});
-        SupportPage.helpFormSuccessMessage.should('contain', 'Thank you, your support request has been received.');
 
-        for(let i = 0; i < 11; i++) {
-            SupportPage.iframe.iframe().find(SupportPage.footerLinks, { timeout: 10000 }).eq(i).should('be.visible');
-        }
+        SupportPage.iframe
+            .then((iframe) => new Promise(resolve => setTimeout(() => resolve(iframe), 7500)))
+            .then(function (iframe) {
+                const body = iframe.contents().find('body');
 
-
-        // for(let i = 0; i < 8; i++) {
-        //     SupportPage.iframe.iframe().find(SupportPage.headerLinks).eq(i).should('be.visible');
-        // }
-
+                cy.wrap(body.find(SupportPage.helpFormEmail)).should('be.visible');
+                cy.wrap(body.find(SupportPage.helpFormTextArea)).should('be.visible');
+                cy.wrap(body.find(SupportPage.submitHelpFormButton)).should('be.visible');
+                cy.wrap(body.find(SupportPage.helpFormEmail)).clear().type('andrey.holenkov@qatestlab.eu');
+                cy.wrap(body.find(SupportPage.helpFormTextArea)).type('Test message');
+                cy.wrap(body.find(SupportPage.submitHelpFormButton)).click();
+                cy.wait(5000)
+                cy.wrap(body.find(SupportPage.helpFormSuccessMessage)).should('contain', 'Thank you, your support request has been received.');
 
 
-       
-          
+                cy.wrap(body.find(SupportPage.subscribeFormName)).should('be.visible');
+                cy.wrap(body.find(SupportPage.subscribeFormSurname)).should('be.visible');
+                cy.wrap(body.find(SupportPage.subscribeFormEmail)).should('be.visible');
+                cy.wrap(body.find(SupportPage.subscribeFormName)).type('Andrew')
+                cy.wrap(body.find(SupportPage.subscribeFormSurname)).type('Golenkov')
+                cy.wrap(body.find(SupportPage.subscribeFormEmail)).type('andrey.holenkov@qatestlab.eu')
+                cy.wrap(body.find(SupportPage.submitSubscribeFormButton)).click();
+                cy.wait(5000)
+                cy.wrap(body.find(SupportPage.subscribeFormSuccessMessage)).should('contain', 'Thank you for subscribing.');
 
-   
-       
 
+                for( let i = 0; i < 11; i++ ) {
+                    cy.wrap(body.find(SupportPage.subscribeLinks)).eq(i).should('be.visible');
+                    cy.wrap(body.find(SupportPage.subscribeLinks)).eq(i).click();         
+                };
+
+            });
 
     });
 
-  
-
-})
+});

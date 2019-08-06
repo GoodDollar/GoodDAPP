@@ -6,6 +6,7 @@ import ProfilePage from '../PageObjects/ProfilePage';
 
 
 
+
 describe('Test case 2: Profile editing', () => {
 
     beforeEach('authorization', () => {     
@@ -142,6 +143,5 @@ describe('Test case 2: Profile editing', () => {
     });
 
 
-  
+});
 
-})

@@ -109,7 +109,7 @@ export function generateShareObject(title: string, text: string, url: string): S
 export function generateSendShareObject(url: string, amount: number, name: string): ShareObject {
   return generateShareObject(
     'Sending G$ via GoodDollar App',
-    `You've received ${amount} G$ from ${name}. To withdraw open:`,
+    `You've got a request from ${name} for ${amount} G$. To transfer open:`,
     url
   )
 }
@@ -123,7 +123,7 @@ export function generateReceiveShareObject(code: string, amount: number, name: s
   const url = generateShareLink('receive', { code })
   return generateShareObject(
     'Sending G$ via GoodDollar App',
-    `You've got a request from ${name} for ${amount} G$. To transfer open:`,
+    `You've received ${amount} G$ from ${name}. To withdraw open:`,
     url
   )
 }

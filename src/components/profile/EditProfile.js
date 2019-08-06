@@ -5,6 +5,7 @@ import isEqualWith from 'lodash/isEqualWith'
 import isEqual from 'lodash/isEqual'
 
 import merge from 'lodash/merge'
+import pickBy from 'lodash/pickBy'
 import userStorage from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import GDStore from '../../lib/undux/GDStore'
@@ -92,10 +93,26 @@ const EditProfile = ({ screenProps, theme, styles }) => {
       return false
     }
 
+    //create profile only with updated/new fields so we don't resave data
+    const toupdate = pickBy(profile, (v, k) => {
+      if (typeof x === 'function') {
+        return true
+      }
+      if (storedProfile[k] === undefined) {
+        return true
+      }
+      if (['string', 'number'].includes(typeof x)) {
+        return v.toString() !== storedProfile[k].toString()
+      }
+      if (v !== storedProfile[k]) {
+        return true
+      }
+      return false
+    })
     return userStorage
-      .setProfile(profile)
+      .setProfile(toupdate, true)
       .catch(err => {
-        log.error('Error saving profile', { err, profile })
+        log.error('Error saving profile', { err, toupdate })
         showErrorDialog('Unexpected error while saving profile', err)
         return false
       })

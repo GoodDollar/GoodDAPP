@@ -124,14 +124,12 @@ const EditProfile = ({ screenProps, theme, styles }) => {
   }
 
   const handleAvatarPress = event => {
-    // event.preventDefault()
-    // event.stopPropagation()
+    event.stopPropagation()
     screenProps.push(`${profile.avatar ? 'View' : 'Edit'}Avatar`)
   }
 
   const handleCameraPress = event => {
-    // event.preventDefault()
-    // event.stopPropagation()
+    event.stopPropagation()
     screenProps.push('EditAvatar')
   }
 

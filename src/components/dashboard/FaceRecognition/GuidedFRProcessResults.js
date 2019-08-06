@@ -2,9 +2,10 @@
 import React, { useEffect, useState } from 'react'
 import { ActivityIndicator, Image, StyleSheet, View } from 'react-native'
 import { Text } from 'react-native-paper'
-import find from 'lodash/find'
 import findKey from 'lodash/findKey'
-import mapValues from 'lodash/mapValues'
+
+// import find from 'lodash/find'
+// import mapValues from 'lodash/mapValues'
 import { getFirstWord } from '../../../lib/utils/getFirstWord'
 import CustomButton from '../../common/buttons/CustomButton'
 import Section from '../../common/layout/Section'
@@ -49,6 +50,7 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
   const { fullName } = store.get('profile')
 
   const [processStatus, setStatus] = useState({
+    isError: undefined,
     isStarted: undefined,
     isNotDuplicate: undefined,
     isEnrolled: undefined,
@@ -62,7 +64,10 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
 
     // let explanation = ''
     let failedFR = findKey(data, (v, k) => v === false)
-    if (failedFR) {
+    if (data.isError) {
+      fireEvent(`FR_Error`, { failedFR, error: data.isError })
+      log.error('FR Error', data.isError)
+    } else if (failedFR) {
       fireEvent(`FR_Failed`, { failedFR })
     }
     setStatus({ ...processStatus, ...data })
@@ -131,19 +136,19 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
     }
   }, [processStatus.isWhitelisted])
 
-  useEffect(() => {
-    if (isAPISuccess === undefined) {
-      return
-    }
+  // useEffect(() => {
+  //   if (isAPISuccess === undefined) {
+  //     return
+  //   }
 
-    //API call finished, so it will pass isWhitelisted to us
-    //this is a backup incase the gundb messaging doesnt work
-    const gunOK = find(processStatus, (v, k) => v !== undefined)
-    if (gunOK === undefined) {
-      const newStatus = mapValues(processStatus, v => false)
-      setStatus({ ...newStatus, isWhitelisted: isAPISuccess, useAPIResult: true })
-    }
-  }, [isAPISuccess])
+  //   //API call finished, so it will pass isWhitelisted to us
+  //   //this is a backup incase the gundb messaging doesnt work
+  //   const gunOK = find(processStatus, (v, k) => v !== undefined)
+  //   if (gunOK === undefined) {
+  //     const newStatus = mapValues(processStatus, v => false)
+  //     setStatus({ ...newStatus, isWhitelisted: isAPISuccess, useAPIResult: true })
+  //   }
+  // }, [isAPISuccess])
 
   const isProcessFailed =
     processStatus.isNotDuplicate === false ||
@@ -172,8 +177,10 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
     ) : null
 
   let helpText
-  if (processStatus.useAPIResult && isAPISuccess === false) {
-    helpText = 'Something went wrong, please try again...'
+
+  //if (processStatus.useAPIResult && isAPISuccess === false) {
+  if (processStatus.isError) {
+    helpText = `Something went wrong, please try again...\n\n(${processStatus.isError})`
   } else if (processStatus.isNotDuplicate === false) {
     helpText = (
       <View>

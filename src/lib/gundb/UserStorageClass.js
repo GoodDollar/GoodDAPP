@@ -550,7 +550,10 @@ export class UserStorage {
    */
   getDisplayProfile(profile: {}): UserModel {
     const displayProfile = Object.keys(profile).reduce(
-      (acc, currKey) => ({ ...acc, [currKey]: profile[currKey].display }),
+      (acc, currKey) => ({
+        ...acc,
+        [currKey]: profile[currKey].display,
+      }),
       {}
     )
     return getUserModel(displayProfile)
@@ -700,7 +703,7 @@ export class UserStorage {
     let display
     switch (privacy) {
       case 'private':
-        display = ''
+        display = '******'
         break
       case 'masked':
         display = UserStorage.maskField(field, value)

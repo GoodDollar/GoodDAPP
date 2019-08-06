@@ -101,7 +101,7 @@ const EditProfile = ({ screenProps, theme, styles }) => {
       if (storedProfile[k] === undefined) {
         return true
       }
-      if (['string', 'number'].includes(typeof x)) {
+      if (['string', 'number'].includes(typeof v)) {
         return v.toString() !== storedProfile[k].toString()
       }
       if (v !== storedProfile[k]) {

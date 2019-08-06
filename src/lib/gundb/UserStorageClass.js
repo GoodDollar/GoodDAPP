@@ -105,6 +105,23 @@ export type TransactionEvent = FeedEvent & {
   },
 }
 
+const welcomeMessage = {
+  id: '111111111111111111111111111111111111111111111111111111111111111111',
+  type: 'invite',
+  date: new Date().getTime(),
+  data: {
+    customName: 'Invite friends to GoodDollar',
+    receiptData: {
+      from: '0x0000000000000000000000000000000000000000',
+    },
+    reason:
+      'Send Invites to get more people connected on GoodDollar. You will earn GD and also Help other people to earn.',
+    endpoint: {
+      fullName: 'Invite friends to GoodDollar',
+    },
+  },
+}
+
 /**
  * Extracts transfer events sent to the current account
  * @param {object} receipt - Receipt event
@@ -509,6 +526,7 @@ export class UserStorage {
    */
   initFeed() {
     this.feed = this.gunuser.get('feed')
+    this.enqueueTX(welcomeMessage)
     this.feed.get('index').on(this.updateFeedIndex, false)
   }
 
@@ -977,6 +995,7 @@ export class UserStorage {
       reason,
       code: withdrawCode,
       otplStatus,
+      customName,
     } = data
     let avatar, fullName, address, withdrawStatus, initiator
     if (type === 'send') {
@@ -1023,6 +1042,7 @@ export class UserStorage {
         .get('profile'))
     const profileToShow = (profileByIndex || profileByAddress) && this.gun.get((profileByIndex || profileByAddress)._)
     fullName =
+      customName ||
       (profileToShow &&
         (await profileToShow
           .get('fullName')

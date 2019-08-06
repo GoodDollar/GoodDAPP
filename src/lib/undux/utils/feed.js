@@ -12,8 +12,8 @@ const getMockFeeds = () => {
   return Config.withMockedFeeds
     ? [
         {
-          id: '0x03edf991983463f446cb0d60156e832583306f09123918f69800b2aa864d5e93',
-          date: 1564769764000,
+          id: '111111111111111111111111111111111111111111111111111111111111333333',
+          date: new Date().getTime(),
           type: 'message',
           createdDate: 'Fri Aug 02 2019 15:15:44 GMT-0300 (Argentina Standard Time)',
           status: 'completed',
@@ -28,24 +28,8 @@ const getMockFeeds = () => {
           },
         },
         {
-          id: '0x03edf991983463f446cb0d60156e832583306f09281918f69800b2aa864d5e98',
-          date: 1564769764000,
-          type: 'invite',
-          createdDate: 'Fri Aug 02 2019 15:15:44 GMT-0300 (Argentina Standard Time)',
-          status: 'completed',
-          data: {
-            message:
-              'Send Invites to get more people connected on GoodDollar. You will earn GD and also Help other people to earn.',
-            endpoint: {
-              fullName: 'Invite friends to GoodDollar',
-              avatar: null,
-              address: null,
-            },
-          },
-        },
-        {
-          id: '0x03edf991983463f446cb0d60156e111111111f09281918f69800b2aa864d5e98',
-          date: 1564769764000,
+          id: '111111111111111111111111111111111111111111111111111111111111444444',
+          date: new Date().getTime(),
           type: 'feedback',
           createdDate: 'Fri Aug 02 2019 15:15:44 GMT-0300 (Argentina Standard Time)',
           status: 'completed',

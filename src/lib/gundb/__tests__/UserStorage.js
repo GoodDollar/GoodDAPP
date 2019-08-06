@@ -263,7 +263,7 @@ describe('UserStorage', () => {
       .then()
     const events = await userStorage.getAllFeed()
     expect(index['2019-01-01']).toBeGreaterThanOrEqual(3)
-    expect([event2, event3, mergedEvent]).toEqual(expect.arrayContaining(events))
+    expect(events).toEqual(expect.arrayContaining([event2, event3, mergedEvent]))
   })
 
   it('keeps event index sorted', async () => {
@@ -279,12 +279,12 @@ describe('UserStorage', () => {
 
   it('gets events first page', async () => {
     const gunRes = await userStorage.getFeedPage(2)
-    expect(gunRes.length).toEqual(4)
+    expect(gunRes.length).toEqual(2)
   })
 
   it('gets events second page', async () => {
     const gunRes = await userStorage.getFeedPage(2)
-    expect(gunRes.length).toEqual(0)
+    expect(gunRes.length).toEqual(3)
   })
 
   it('resets cursor and get events single day page', async () => {

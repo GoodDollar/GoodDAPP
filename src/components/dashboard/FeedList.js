@@ -67,7 +67,12 @@ const FeedList = ({
 
   const renderQuickActions = ({ item }) => <FeedActions item={item} />
 
-  const feeds = data && data instanceof Array && data.length ? data : undefined
+  const feeds = data && data instanceof Array && data.length ? data : [emptyFeed]
+
+  // console.info(
+  //   'here - feeds',
+  //   JSON.stringify(feeds.map(({ type: t, displayType: d, status: s, id: i }) => ({ t, d, s, i })), null, 2)
+  // )
 
   return (
     <ScrollView style={styles.scrollList} contentContainerStyle={styles.scrollableView}>
@@ -75,7 +80,7 @@ const FeedList = ({
         <AnimatedSwipeableFlatList
           bounceFirstRowOnMount={true}
           contentContainerStyle={styles.verticalList}
-          data={feeds && feeds.length ? [...feeds] : [emptyFeed]}
+          data={feeds}
           getItemLayout={getItemLayout}
           initialNumToRender={initialNumToRender || 10}
           key="vf"

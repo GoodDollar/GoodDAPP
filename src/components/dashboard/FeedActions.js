@@ -1,7 +1,8 @@
 // @flow
 import React from 'react'
-import { Alert, TouchableOpacity, View } from 'react-native-web'
+import { TouchableOpacity, View } from 'react-native-web'
 import { withStyles } from '../../lib/styles'
+import goodWallet from '../../lib/wallet/GoodWallet'
 import { Icon, Text } from '../common'
 import type { FeedEventProps } from './FeedItems/EventProps'
 
@@ -17,8 +18,16 @@ const FeedActions = ({ item, styles, theme }: FeedEventProps) => {
   const hasAction = canDelete || canCancel
   const backgroundColor = hasAction ? theme.colors.red : 'transparent'
 
-  const handleActionPress = () => {
-    Alert.alert('Tips', 'You could do something with this remove action!')
+  const handleActionPress = async () => {
+    if (canCancel) {
+      try {
+        await goodWallet.cancelOTLByTransactionHash(item.id)
+      } catch (e) {
+        console.info('error', e)
+      }
+    }
+
+    // TODO: canDelete action
   }
 
   return (
@@ -38,12 +47,12 @@ const FeedActions = ({ item, styles, theme }: FeedEventProps) => {
 }
 
 const actionLabel = ({ canDelete, canCancel }) => {
-  if (canDelete) {
-    return 'Delete'
-  }
-
   if (canCancel) {
     return 'Cancel Payment Link'
+  }
+
+  if (canDelete) {
+    return 'Delete'
   }
 
   return ''

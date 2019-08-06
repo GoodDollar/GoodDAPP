@@ -7,6 +7,7 @@ import isEmail from 'validator/lib/isEmail'
 
 import Config from '../../config/config'
 import isMobilePhone from '../validators/isMobilePhone'
+import { weiToGd } from '../wallet/utils'
 
 /**
  * Generates a code contaning an MNID with an amount if specified
@@ -110,8 +111,8 @@ export function generateSendShareObject(url: string, amount: number, to: string,
   return generateShareObject(
     'Sending G$ via GoodDollar App',
     to
-      ? `${to}, You've received ${amount} G$ from ${from}. To withdraw open:`
-      : `You've received ${amount} G$ from ${from}. To withdraw open:`,
+      ? `${to}, You've received ${weiToGd(amount)} G$ from ${from}. To withdraw open:`
+      : `You've received ${weiToGd(amount)} G$ from ${from}. To withdraw open:`,
     url
   )
 }
@@ -126,8 +127,8 @@ export function generateReceiveShareObject(code: string, amount: number, to: str
   return generateShareObject(
     'Sending G$ via GoodDollar App',
     to
-      ? `${to}, You've got a request from ${from} for ${amount} G$. To transfer open:`
-      : `You've got a request from ${from} for ${amount} G$. To transfer open:`,
+      ? `${to}, You've got a request from ${from} for ${weiToGd(amount)} G$. To transfer open:`
+      : `You've got a request from ${from} for ${weiToGd(amount)} G$. To transfer open:`,
     url
   )
 }

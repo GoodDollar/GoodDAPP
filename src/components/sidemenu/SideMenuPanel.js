@@ -69,7 +69,7 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation, s
     },
   },
   {
-    icon: 'notifications',
+    icon: 'terms-of-use',
     name: 'Terms of Use',
     action: () => {
       navigation.navigate('TOU')
@@ -77,7 +77,7 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation, s
     },
   },
   {
-    icon: 'faq',
+    icon: 'privacy-policy',
     name: 'Privacy Policy',
     action: () => {
       navigation.navigate('PP')

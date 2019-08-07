@@ -232,7 +232,7 @@ export class UserStorage {
    * @returns {string} - Value without '+' (plus), '-' (minus), '_' (underscore), ' ' (space), in lower case
    */
   static cleanFieldForIndex = (field: string, value: string): string => {
-    if (!value) {
+    if (value === undefined) {
       return value
     }
     if (field === 'mobile' || field === 'phone') {
@@ -699,7 +699,12 @@ export class UserStorage {
    * @param {string} privacy - (private | public | masked)
    * @returns {Promise} Promise with updated field value, secret, display and privacy.
    */
-  async setProfileField(field: string, value: string, privacy: FieldPrivacy = 'public'): Promise<ACK> {
+  async setProfileField(
+    field: string,
+    value: string,
+    privacy: FieldPrivacy = 'public',
+    onlyPrivacy: boolean = false
+  ): Promise<ACK> {
     let display
     switch (privacy) {
       case 'private':
@@ -729,16 +734,22 @@ export class UserStorage {
         return indexPromiseResult
       }
     }
-
-    return Promise.race([
-      this.profile.get(field).putAck({
+    if (onlyPrivacy) {
+      return this.profile.get(field).putAck({
         display,
         privacy,
-      }),
+      })
+    }
+
+    return Promise.race([
       this.profile
         .get(field)
         .get('value')
         .secretAck(value),
+      this.profile.get(field).putAck({
+        display,
+        privacy,
+      }),
     ])
   }
 
@@ -798,7 +809,7 @@ export class UserStorage {
    */
   async setProfileFieldPrivacy(field: string, privacy: FieldPrivacy): Promise<ACK> {
     let value = await this.getProfileFieldValue(field)
-    return this.setProfileField(field, value, privacy)
+    return this.setProfileField(field, value, privacy, true)
   }
 
   /**

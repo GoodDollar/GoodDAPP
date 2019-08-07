@@ -8,7 +8,7 @@ const SectionTitle = (props: any) => {
   return (
     <Text
       color="darkGray"
-      fontSize={24}
+      fontSize={22}
       fontWeight="500"
       style={[styles.title, props.style]}
       textTransform="uppercase"

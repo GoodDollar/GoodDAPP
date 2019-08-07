@@ -697,11 +697,8 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                     className="css-view-1dbjc4n"
                     style={
                       Object {
-                        "WebkitAlignItems": "center",
-                        "WebkitBoxAlign": "center",
                         "WebkitBoxPack": "center",
                         "WebkitJustifyContent": "center",
-                        "alignItems": "center",
                         "backgroundColor": "rgba(0,175,255,1.00)",
                         "borderBottomColor": "rgba(0,175,255,1.00)",
                         "borderBottomLeftRadius": "50px",
@@ -724,7 +721,6 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                         "marginLeft": "auto",
                         "minHeight": "44px",
                         "minWidth": "80px",
-                        "msFlexAlign": "center",
                         "msFlexPack": "center",
                         "paddingLeft": "0px",
                         "paddingRight": "0px",
@@ -1490,11 +1486,8 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                     className="css-view-1dbjc4n"
                     style={
                       Object {
-                        "WebkitAlignItems": "center",
-                        "WebkitBoxAlign": "center",
                         "WebkitBoxPack": "center",
                         "WebkitJustifyContent": "center",
-                        "alignItems": "center",
                         "backgroundColor": "rgba(0,175,255,1.00)",
                         "borderBottomColor": "rgba(0,175,255,1.00)",
                         "borderBottomLeftRadius": "50px",
@@ -1517,7 +1510,6 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                         "marginLeft": "auto",
                         "minHeight": "44px",
                         "minWidth": "80px",
-                        "msFlexAlign": "center",
                         "msFlexPack": "center",
                         "paddingLeft": "0px",
                         "paddingRight": "0px",

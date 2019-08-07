@@ -670,15 +670,12 @@ exports[`AppNavigation matches snapshot 1`] = `
             className="css-view-1dbjc4n"
             style={
               Object {
-                "WebkitAlignItems": "flex-start",
-                "WebkitBoxAlign": "start",
                 "WebkitBoxFlex": 1,
                 "WebkitBoxPack": "center",
                 "WebkitFlexBasis": "0%",
                 "WebkitFlexGrow": 1,
                 "WebkitFlexShrink": 1,
                 "WebkitJustifyContent": "center",
-                "alignItems": "flex-start",
                 "backgroundColor": "rgba(0,175,255,1.00)",
                 "borderBottomColor": "rgba(0,175,255,1.00)",
                 "borderBottomLeftRadius": "50px",
@@ -696,20 +693,20 @@ exports[`AppNavigation matches snapshot 1`] = `
                 "borderTopRightRadius": "50px",
                 "borderTopStyle": "solid",
                 "borderTopWidth": "0px",
+                "display": "flex",
                 "flexBasis": "0%",
                 "flexGrow": 1,
                 "flexShrink": 1,
                 "height": "44px",
                 "justifyContent": "center",
-                "marginRight": "24px",
+                "marginRight": "16px",
                 "minHeight": "44px",
                 "minWidth": "auto",
-                "msFlexAlign": "start",
                 "msFlexNegative": 1,
                 "msFlexPack": "center",
                 "msFlexPositive": 1,
                 "msFlexPreferredSize": "0%",
-                "paddingLeft": "4px",
+                "paddingLeft": "0px",
                 "paddingRight": "0px",
               }
             }
@@ -748,19 +745,19 @@ exports[`AppNavigation matches snapshot 1`] = `
                 className="css-view-1dbjc4n"
                 style={
                   Object {
-                    "WebkitAlignItems": "center",
-                    "WebkitBoxAlign": "center",
+                    "WebkitAlignItems": "stretch",
+                    "WebkitBoxAlign": "stretch",
                     "WebkitBoxDirection": "normal",
                     "WebkitBoxOrient": "horizontal",
-                    "WebkitBoxPack": "center",
+                    "WebkitBoxPack": "start",
                     "WebkitFlexDirection": "row",
-                    "WebkitJustifyContent": "center",
-                    "alignItems": "center",
+                    "WebkitJustifyContent": "flex-start",
+                    "alignItems": "stretch",
                     "flexDirection": "row",
-                    "justifyContent": "center",
-                    "msFlexAlign": "center",
+                    "justifyContent": "flex-start",
+                    "msFlexAlign": "stretch",
                     "msFlexDirection": "row",
-                    "msFlexPack": "center",
+                    "msFlexPack": "start",
                   }
                 }
               >
@@ -976,15 +973,12 @@ exports[`AppNavigation matches snapshot 1`] = `
             className="css-view-1dbjc4n"
             style={
               Object {
-                "WebkitAlignItems": "flex-end",
-                "WebkitBoxAlign": "end",
                 "WebkitBoxFlex": 1,
                 "WebkitBoxPack": "center",
                 "WebkitFlexBasis": "0%",
                 "WebkitFlexGrow": 1,
                 "WebkitFlexShrink": 1,
                 "WebkitJustifyContent": "center",
-                "alignItems": "flex-end",
                 "backgroundColor": "rgba(0,175,255,1.00)",
                 "borderBottomColor": "rgba(0,175,255,1.00)",
                 "borderBottomLeftRadius": "50px",
@@ -1002,21 +996,21 @@ exports[`AppNavigation matches snapshot 1`] = `
                 "borderTopRightRadius": "50px",
                 "borderTopStyle": "solid",
                 "borderTopWidth": "0px",
+                "display": "flex",
                 "flexBasis": "0%",
                 "flexGrow": 1,
                 "flexShrink": 1,
                 "height": "44px",
                 "justifyContent": "center",
-                "marginLeft": "24px",
+                "marginLeft": "16px",
                 "minHeight": "44px",
                 "minWidth": "auto",
-                "msFlexAlign": "end",
                 "msFlexNegative": 1,
                 "msFlexPack": "center",
                 "msFlexPositive": 1,
                 "msFlexPreferredSize": "0%",
                 "paddingLeft": "0px",
-                "paddingRight": "4px",
+                "paddingRight": "0px",
               }
             }
           >
@@ -1054,19 +1048,19 @@ exports[`AppNavigation matches snapshot 1`] = `
                 className="css-view-1dbjc4n"
                 style={
                   Object {
-                    "WebkitAlignItems": "center",
-                    "WebkitBoxAlign": "center",
+                    "WebkitAlignItems": "stretch",
+                    "WebkitBoxAlign": "stretch",
                     "WebkitBoxDirection": "normal",
                     "WebkitBoxOrient": "horizontal",
-                    "WebkitBoxPack": "center",
+                    "WebkitBoxPack": "end",
                     "WebkitFlexDirection": "row",
-                    "WebkitJustifyContent": "center",
-                    "alignItems": "center",
+                    "WebkitJustifyContent": "flex-end",
+                    "alignItems": "stretch",
                     "flexDirection": "row",
-                    "justifyContent": "center",
-                    "msFlexAlign": "center",
+                    "justifyContent": "flex-end",
+                    "msFlexAlign": "stretch",
                     "msFlexDirection": "row",
-                    "msFlexPack": "center",
+                    "msFlexPack": "end",
                   }
                 }
               >

@@ -42,6 +42,10 @@ const getEventSettingsByType = (theme, type) => {
         color: theme.colors.primary,
         name: 'system-filled',
       },
+      invite: {
+        color: theme.colors.primary,
+        name: 'system-filled',
+      },
       empty: {
         color: theme.colors.lightGray,
       },

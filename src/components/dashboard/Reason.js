@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
+import { StyleSheet } from 'react-native'
 import InputText from '../common/form/InputText'
-
 import { Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
@@ -25,17 +25,17 @@ const SendReason = (props: AmountProps) => {
     <Wrapper>
       <TopBar push={screenProps.push} />
       <Section grow>
-        <Section.Stack grow justifyContent="flex-start">
+        <Section.Stack justifyContent="flex-start" style={styles.container}>
           <Section.Title>What For?</Section.Title>
           <InputText
             autoFocus
-            style={props.styles.input}
+            style={[props.styles.input, styles.bottomContent]}
             value={reason}
             onChangeText={reason => setScreenState({ reason })}
             placeholder="Add a message"
           />
         </Section.Stack>
-        <Section.Row>
+        <Section.Row style={styles.bottomContent}>
           <Section.Row grow={1} justifyContent="flex-start">
             <BackButton mode="text" screenProps={screenProps}>
               Cancel
@@ -54,6 +54,15 @@ const SendReason = (props: AmountProps) => {
     </Wrapper>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    minHeight: 150,
+  },
+  bottomContent: {
+    marginTop: 'auto',
+  },
+})
 
 SendReason.navigationOptions = navigationOptions
 

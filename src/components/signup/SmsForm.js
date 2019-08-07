@@ -126,26 +126,28 @@ class SmsForm extends React.Component<Props, State> {
 
     return (
       <CustomWrapper handleSubmit={this.handleSubmit} footerComponent={() => <React.Fragment />}>
-        <Section.Stack grow justifyContent="flex-start">
-          <Section.Row justifyContent="center" style={styles.row}>
-            <Section.Title textTransform="none">{'Enter the verification code \n sent to your phone'}</Section.Title>
-          </Section.Row>
-          <Section.Stack justifyContent="center">
-            <OtpInput
-              shouldAutoFocus
-              numInputs={this.numInputs}
-              onChange={this.handleChange}
-              hasErrored={errorMessage !== ''}
-              errorStyle={styles.errorStyle}
-              value={otp}
-              placeholder="*"
-            />
-            <ErrorText error={errorMessage} />
+        <Section grow justifyContent="flex-start">
+          <Section.Stack justifyContent="flex-start" style={styles.container}>
+            <Section.Row justifyContent="center" style={styles.row}>
+              <Section.Title textTransform="none">{'Enter the verification code \n sent to your phone'}</Section.Title>
+            </Section.Row>
+            <Section.Stack justifyContent="center" style={styles.bottomContent}>
+              <OtpInput
+                shouldAutoFocus
+                numInputs={this.numInputs}
+                onChange={this.handleChange}
+                hasErrored={errorMessage !== ''}
+                errorStyle={styles.errorStyle}
+                value={otp}
+                placeholder="*"
+              />
+              <ErrorText error={errorMessage} />
+            </Section.Stack>
           </Section.Stack>
           <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
             <SMSAction status={resentCode ? DONE : renderButton ? PENDING : WAIT} handleRetry={this.handleRetry} />
           </Section.Row>
-        </Section.Stack>
+        </Section>
         <LoadingIndicator force={loading} />
       </CustomWrapper>
     )
@@ -191,6 +193,12 @@ const getStylesFromProps = ({ theme }) => ({
     borderBottomWidth: 1,
     borderBottomColor: theme.colors.red,
     color: theme.colors.red,
+  },
+  container: {
+    minHeight: 250,
+  },
+  bottomContent: {
+    marginTop: 'auto',
   },
 })
 

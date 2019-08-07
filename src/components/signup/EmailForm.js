@@ -74,44 +74,49 @@ class EmailForm extends React.Component<Props, State> {
         handleSubmit={this.handleSubmit}
         loading={this.props.screenProps.data.loading}
       >
-        <Section.Stack grow justifyContent="flex-start" style={styles.row}>
-          <Section.Row justifyContent="center">
-            <Section.Title textTransform="none">Please enter your email</Section.Title>
-          </Section.Row>
-          <Section.Row justifyContent="center">
-            <Section.Text fontSize={14} color="gray80Percent">
-              we will only notify you with important activity
-            </Section.Text>
-          </Section.Row>
-          <Section.Row justifyContent="center" style={styles.row}>
-            <InputText
-              id={key + '_input'}
-              value={this.state.email}
-              onChangeText={this.handleChange}
-              keyboardType="email-address"
-              onKeyPress={this.handleEnter}
-              error={errorMessage}
-              onCleanUpField={this.handleChange}
-              autoFocus
-            />
-          </Section.Row>
-          <Section.Row justifyContent="flex-end" style={styles.bottomText}>
+        <Section grow justifyContent="flex-start" style={styles.row}>
+          <Section.Stack justifyContent="flex-start" style={styles.container}>
+            <Section.Row justifyContent="center">
+              <Section.Title textTransform="none">Please enter your email</Section.Title>
+            </Section.Row>
+            <Section.Row justifyContent="center">
+              <Section.Text fontSize={14} color="gray80Percent">
+                we will only notify you with important activity
+              </Section.Text>
+            </Section.Row>
+            <Section.Row justifyContent="center" style={[styles.row, styles.bottomContent]}>
+              <InputText
+                id={key + '_input'}
+                value={this.state.email}
+                onChangeText={this.handleChange}
+                keyboardType="email-address"
+                onKeyPress={this.handleEnter}
+                error={errorMessage}
+                onCleanUpField={this.handleChange}
+                autoFocus
+              />
+            </Section.Row>
+          </Section.Stack>
+          <Section.Row justifyContent="flex-end" style={styles.bottomContent}>
             <Section.Text fontSize={14} color="gray80Percent">
               We respect your privacy and will never sell or give away your info to any third party.
             </Section.Text>
           </Section.Row>
-        </Section.Stack>
+        </Section>
       </CustomWrapper>
     )
   }
 }
 
 const getStylesFromProps = ({ theme }) => ({
-  bottomText: {
-    marginTop: 'auto',
-  },
   row: {
     marginVertical: theme.sizes.defaultQuadruple,
+  },
+  container: {
+    minHeight: 250,
+  },
+  bottomContent: {
+    marginTop: 'auto',
   },
 })
 

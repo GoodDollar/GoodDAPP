@@ -1,5 +1,6 @@
 // @flow
 import React, { useEffect } from 'react'
+import { StyleSheet } from 'react-native'
 import InputText from '../common/form/InputText'
 
 import { ScanQRButton, Section, Wrapper } from '../common'
@@ -43,14 +44,14 @@ const Who = (props: AmountProps) => {
         {!isReceive && <ScanQRButton onPress={() => screenProps.push('SendByQR')} />}
       </TopBar>
       <Section grow>
-        <Section.Stack justifyContent="flex-start">
+        <Section.Stack justifyContent="flex-start" style={styles.container}>
           <Section.Title>{text}</Section.Title>
           <InputText
             autoFocus
             error={state.error}
             onChangeText={setValue}
             placeholder="Enter the recipient name"
-            style={props.styles.input}
+            style={[props.styles.input, styles.bottomContent]}
             value={state.value}
           />
         </Section.Stack>
@@ -75,6 +76,15 @@ const Who = (props: AmountProps) => {
     </Wrapper>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    minHeight: 150,
+  },
+  bottomContent: {
+    marginTop: 'auto',
+  },
+})
 
 Who.navigationOptions = navigationOptions
 

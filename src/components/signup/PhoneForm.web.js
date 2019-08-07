@@ -78,39 +78,45 @@ class PhoneForm extends React.Component<Props, State> {
 
     return (
       <CustomWrapper valid={this.state.isValid} handleSubmit={this.handleSubmit} loading={loading}>
-        <Section.Stack grow justifyContent="flex-start" style={styles.row}>
-          <Section.Row justifyContent="center">
-            <Section.Title textTransform="none">
-              {`${getFirstWord(fullName)}, May we have your number please?`}
-            </Section.Title>
-          </Section.Row>
-          <Section.Row justifyContent="center" style={styles.row}>
-            <PhoneInput
-              id={key + '_input'}
-              value={this.state.mobile}
-              onChange={this.handleChange}
-              error={errorMessage}
-              onKeyDown={this.handleEnter}
-              country={this.state.countryCode}
-            />
-          </Section.Row>
-          <Section.Row justifyContent="center" style={styles.bottomText}>
+        <Section grow justifyContent="flex-start">
+          <Section.Stack justifyContent="flex-start" style={styles.container}>
+            <Section.Row justifyContent="center">
+              <Section.Title textTransform="none">
+                {`${getFirstWord(fullName)}, May we have your number please?`}
+              </Section.Title>
+            </Section.Row>
+            <Section.Row justifyContent="center" style={styles.row}>
+              <PhoneInput
+                id={key + '_input'}
+                value={this.state.mobile}
+                onChange={this.handleChange}
+                error={errorMessage}
+                onKeyDown={this.handleEnter}
+                country={this.state.countryCode}
+              />
+            </Section.Row>
+          </Section.Stack>
+          <Section.Row justifyContent="center" style={styles.bottomRow}>
             <Section.Text fontSize={14} color="gray80Percent">
               A verification code will be sent to this number
             </Section.Text>
           </Section.Row>
-        </Section.Stack>
+        </Section>
       </CustomWrapper>
     )
   }
 }
 
 const getStylesFromProps = ({ theme }) => ({
-  bottomText: {
-    marginTop: 'auto',
-  },
   row: {
     marginVertical: theme.sizes.defaultQuadruple,
+    marginTop: 'auto',
+  },
+  container: {
+    minHeight: 250,
+  },
+  bottomRow: {
+    marginTop: 'auto',
   },
 })
 

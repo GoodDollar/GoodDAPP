@@ -43,6 +43,11 @@ exports[`AmountInput matches snapshot 1`] = `
   >
     <div
       className="css-view-1dbjc4n"
+      style={
+        Object {
+          "minHeight": "150px",
+        }
+      }
     >
       <div
         className="css-view-1dbjc4n"
@@ -116,6 +121,7 @@ exports[`AmountInput matches snapshot 1`] = `
                 "fontSize": "32px",
                 "fontWeight": "bold",
                 "letterSpacing": "1.2px",
+                "marginTop": "auto",
                 "msTouchAction": "manipulation",
                 "paddingBottom": "4px",
                 "paddingLeft": "32px",

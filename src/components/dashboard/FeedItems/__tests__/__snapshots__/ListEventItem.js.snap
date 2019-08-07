@@ -357,6 +357,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
                 "fontWeight": "normal",
                 "height": "22px",
                 "lineHeight": "16px",
+                "marginBottom": "4px",
                 "msFlexNegative": 0,
                 "textAlign": "left",
                 "textDecoration": "none",
@@ -401,7 +402,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
                 }
               }
             >
-               Misao Matimbo
+              Misao Matimbo
             </span>
           </div>
           <div
@@ -808,6 +809,7 @@ exports[`ListEventItem send matches snapshot 1`] = `
                 "fontWeight": "normal",
                 "height": "22px",
                 "lineHeight": "16px",
+                "marginBottom": "4px",
                 "msFlexNegative": 0,
                 "textAlign": "left",
                 "textDecoration": "none",
@@ -852,7 +854,7 @@ exports[`ListEventItem send matches snapshot 1`] = `
                 }
               }
             >
-               Misao Matimbo
+              Misao Matimbo
             </span>
           </div>
           <div
@@ -1259,6 +1261,7 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
                 "fontWeight": "normal",
                 "height": "22px",
                 "lineHeight": "16px",
+                "marginBottom": "4px",
                 "msFlexNegative": 0,
                 "textAlign": "left",
                 "textDecoration": "none",
@@ -1303,7 +1306,7 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
                 }
               }
             >
-               Misao Matimbo
+              Misao Matimbo
             </span>
           </div>
           <div

@@ -561,6 +561,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                         "fontSize": "16px",
                         "fontWeight": "normal",
                         "lineHeight": "16px",
+                        "marginBottom": "4px",
                         "paddingRight": "4px",
                         "textAlign": "left",
                         "textDecoration": "none",
@@ -605,7 +606,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                         }
                       }
                     >
-                       Misao Matimbo
+                      Misao Matimbo
                     </span>
                   </div>
                   <div
@@ -1354,6 +1355,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                         "fontSize": "16px",
                         "fontWeight": "normal",
                         "lineHeight": "16px",
+                        "marginBottom": "4px",
                         "paddingRight": "4px",
                         "textAlign": "left",
                         "textDecoration": "none",
@@ -1398,7 +1400,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                         }
                       }
                     >
-                       Misao Matimbo
+                      Misao Matimbo
                     </span>
                   </div>
                   <div

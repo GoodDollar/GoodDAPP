@@ -1141,6 +1141,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                                     "fontWeight": "normal",
                                     "height": "22px",
                                     "lineHeight": "16px",
+                                    "marginBottom": "4px",
                                     "msFlexNegative": 0,
                                     "textAlign": "left",
                                     "textDecoration": "none",
@@ -1185,7 +1186,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                                     }
                                   }
                                 >
-                                   Misao Matimbo
+                                  Misao Matimbo
                                 </span>
                               </div>
                               <div
@@ -1689,6 +1690,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                                     "fontWeight": "normal",
                                     "height": "22px",
                                     "lineHeight": "16px",
+                                    "marginBottom": "4px",
                                     "msFlexNegative": 0,
                                     "textAlign": "left",
                                     "textDecoration": "none",
@@ -1733,7 +1735,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                                     }
                                   }
                                 >
-                                   Misao Matimbo
+                                  Misao Matimbo
                                 </span>
                               </div>
                               <div

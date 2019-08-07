@@ -467,7 +467,7 @@ describe('UserStorage', () => {
         mobile: '+22222222221',
       })
     } catch (e) {
-      expect(e).toEqual(new Error(['Existing index on field username']))
+      expect(e).toEqual(['Existing index on field username'])
     }
     const updated = await userStorage.getProfile()
     expect(updated.username).toBe('notTaken')

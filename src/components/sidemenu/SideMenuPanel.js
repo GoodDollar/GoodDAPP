@@ -56,8 +56,8 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation, s
     icon: 'faq',
     name: 'FAQ',
     action: () => {
-      // navigation.navigate('FAQ')
-      // hideSidemenu()
+      navigation.navigate('FAQ')
+      hideSidemenu()
     },
   },
   {

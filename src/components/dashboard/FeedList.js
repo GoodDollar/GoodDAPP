@@ -39,6 +39,7 @@ type ItemComponentProps = {
 
 const FeedList = ({ data, handleFeedSelection, initialNumToRender, onEndReached, styles }: FeedListProps) => {
   const [showErrorDialog] = useErrorDialog()
+  const feeds = data && data instanceof Array && data.length ? data : [emptyFeed]
 
   const getItemLayout = (_: any, index: number) => {
     const [length, separator, header] = [72, 1, 30]
@@ -62,10 +63,10 @@ const FeedList = ({ data, handleFeedSelection, initialNumToRender, onEndReached,
   /**
    * Calls proper action depening on the feed status
    * @param {string} transactionHash - feed item ID
-   * @param {object} action - wether to cancel/delete or any further action required
+   * @param {object} actions - wether to cancel/delete or any further action required
    */
-  const handleFeedActionPress = async (transactionHash, action) => {
-    if (action.canCancel) {
+  const handleFeedActionPress = async (transactionHash, actions) => {
+    if (actions.canCancel) {
       try {
         await goodWallet.cancelOTLByTransactionHash(transactionHash)
       } catch (e) {
@@ -77,17 +78,18 @@ const FeedList = ({ data, handleFeedSelection, initialNumToRender, onEndReached,
   }
 
   const renderQuickActions = ({ item }) => {
-    const canDelete = item && item.id && item.id.indexOf('0x') === -1
     const canCancel = item && item.displayType === 'sendpending'
+    const canDelete = item && item.id && item.id.indexOf('0x') === -1
+    const hasAction = canCancel || canDelete
+    const actions = { canCancel, canDelete }
+    const props = { item, hasAction }
 
     return (
-      <FeedActions item={item} onPress={handleFeedActionPress} canDelete={canDelete} canCancel={canCancel}>
-        {actionLabel({ canDelete, canCancel })}
+      <FeedActions onPress={hasAction && (() => handleFeedActionPress(item.id, actions))} {...props}>
+        {actionLabel(actions)}
       </FeedActions>
     )
   }
-
-  const feeds = data && data instanceof Array && data.length ? data : [emptyFeed]
 
   return (
     <ScrollView style={styles.scrollList} contentContainerStyle={styles.scrollableView}>

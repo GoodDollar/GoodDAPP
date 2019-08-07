@@ -11,18 +11,13 @@ import type { FeedEventProps } from './FeedItems/EventProps'
  * @param {FeedEventProps} feedItem - Contains the feed item
  * @returns React element with actions
  */
-const FeedActions = ({ canCancel, canDelete, children, item, onPress, styles, theme }: FeedEventProps) => {
-  const hasAction = canDelete || canCancel
+const FeedActions = ({ hasAction, children, onPress, styles, theme }: FeedEventProps) => {
   const backgroundColor = hasAction ? theme.colors.red : 'transparent'
-
-  const handleActionPress = () => {
-    onPress(item.id, { canCancel, canDelete })
-  }
 
   return (
     <View style={[styles.actionsContainer, { backgroundColor }]}>
       {hasAction && (
-        <TouchableOpacity onPress={hasAction && handleActionPress}>
+        <TouchableOpacity onPress={onPress}>
           <View style={styles.actionsContainerInner}>
             <Icon name="close" color={theme.colors.surface} />
             <Text style={[styles.action]} fontSize={14} fontWeight="500" color="surface">

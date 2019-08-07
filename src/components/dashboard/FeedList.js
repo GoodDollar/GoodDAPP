@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import React, { useState } from 'react'
 import { Animated, ScrollView, SwipeableFlatList, View } from 'react-native'
 import GDStore from '../../lib/undux/GDStore'
 import { withStyles } from '../../lib/styles'
@@ -38,9 +38,11 @@ type ItemComponentProps = {
 }
 
 const FeedList = ({ data, handleFeedSelection, initialNumToRender, onEndReached, styles }: FeedListProps) => {
+  //enable a demo showing how to mark an item that his action button delete/cancel has been pressed
+  const activeActionDemo = false
   const [showErrorDialog] = useErrorDialog()
   const feeds = data && data instanceof Array && data.length ? data : [emptyFeed]
-
+  const [activeItems, setActive] = useState({})
   const keyExtractor = (item, index) => item.id
   const getItemLayout = (_: any, index: number) => {
     const [length, separator, header] = [72, 1, 30]
@@ -58,7 +60,14 @@ const FeedList = ({ data, handleFeedSelection, initialNumToRender, onEndReached,
   }
 
   const renderItemComponent = ({ item, separators, index }: ItemComponentProps) => (
-    <FeedListItem key={item.id} item={item} separators={separators} fixedHeight onPress={pressItem(item, index + 1)} />
+    <FeedListItem
+      key={item.id}
+      item={item}
+      actionActive={activeItems[item.id]}
+      separators={separators}
+      fixedHeight
+      onPress={pressItem(item, index + 1)}
+    />
   )
 
   /**
@@ -66,10 +75,20 @@ const FeedList = ({ data, handleFeedSelection, initialNumToRender, onEndReached,
    * @param {string} transactionHash - feed item ID
    * @param {object} actions - wether to cancel/delete or any further action required
    */
-  const handleFeedActionPress = async (transactionHash, actions) => {
+  const handleFeedActionPress = (item, actions) => {
+    const transactionHash = item.id
     if (actions.canCancel) {
       try {
-        await goodWallet.cancelOTLByTransactionHash(transactionHash)
+        if (activeActionDemo) {
+          activeItems[item.id] = true
+          setActive(activeItems)
+        }
+        goodWallet
+          .cancelOTLByTransactionHash(transactionHash)
+          .catch(e => showErrorDialog('Canceling link the payment link has failed', e))
+
+        // activeItems[item.id] = false
+        // setActive(activeItems)
       } catch (e) {
         showErrorDialog(e)
       }
@@ -84,9 +103,12 @@ const FeedList = ({ data, handleFeedSelection, initialNumToRender, onEndReached,
     const hasAction = canCancel || canDelete
     const actions = { canCancel, canDelete }
     const props = { item, hasAction }
-
     return (
-      <FeedActions onPress={hasAction && (() => handleFeedActionPress(item.id, actions))} {...props}>
+      <FeedActions
+        onPress={hasAction && (() => handleFeedActionPress(item, actions))}
+        actionActive={activeItems[item.id]}
+        {...props}
+      >
         {actionLabel(actions)}
       </FeedActions>
     )

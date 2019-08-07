@@ -41,13 +41,14 @@ const sideMenuItemStyles = ({ theme }) => ({
     marginLeft: theme.sizes.default,
     marginRight: 30,
     width: 20,
-    textAlign: 'center',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   menuText: {
     paddingRight: theme.sizes.defaultDouble,
   },
   alignBottom: {
-    color: 'red',
     marginTop: 'auto',
   },
 })

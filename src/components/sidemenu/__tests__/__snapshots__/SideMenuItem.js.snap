@@ -71,9 +71,17 @@ exports[`SideMenuItem matches snapshot 1`] = `
       className="css-view-1dbjc4n"
       style={
         Object {
+          "WebkitAlignItems": "center",
+          "WebkitBoxAlign": "center",
+          "WebkitBoxPack": "center",
+          "WebkitJustifyContent": "center",
+          "alignItems": "center",
+          "display": "flex",
+          "justifyContent": "center",
           "marginLeft": "8px",
           "marginRight": "30px",
-          "textAlign": "center",
+          "msFlexAlign": "center",
+          "msFlexPack": "center",
           "width": "20px",
         }
       }

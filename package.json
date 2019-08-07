@@ -88,7 +88,7 @@
     "react-native-keyboard-aware-scroll-view": "^0.8.0",
     "react-native-masked-text": "^1.11.1",
     "react-native-otp": "^1.0.0",
-    "react-native-paper": "^2.11.0",
+    "react-native-paper": "^2.16.0",
     "react-native-qrcode-scanner": "^1.1.2",
     "react-native-recaptcha-v3": "0.0.16",
     "react-native-side-menu-gooddapp": "^2.0.2",

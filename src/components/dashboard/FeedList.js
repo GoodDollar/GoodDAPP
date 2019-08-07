@@ -3,6 +3,8 @@ import React from 'react'
 import { Animated, ScrollView, SwipeableFlatList, View } from 'react-native'
 import GDStore from '../../lib/undux/GDStore'
 import { withStyles } from '../../lib/styles'
+import { useErrorDialog } from '../../lib/undux/utils/dialog'
+import goodWallet from '../../lib/wallet/GoodWallet'
 import FeedActions from './FeedActions'
 import FeedListItem from './FeedItems/FeedListItem'
 
@@ -35,17 +37,9 @@ type ItemComponentProps = {
   index: number,
 }
 
-const FeedList = ({
-  data,
-  handleFeedSelection,
-  horizontal,
-  initialNumToRender,
-  onEndReached,
-  selectedFeed,
-  store,
-  styles,
-  updateData,
-}: FeedListProps) => {
+const FeedList = ({ data, handleFeedSelection, initialNumToRender, onEndReached, styles }: FeedListProps) => {
+  const [showErrorDialog] = useErrorDialog()
+
   const getItemLayout = (_: any, index: number) => {
     const [length, separator, header] = [72, 1, 30]
     return {
@@ -55,7 +49,7 @@ const FeedList = ({
     }
   }
 
-  const pressItem = (item, index: number) => () => {
+  const pressItem = item => () => {
     if (item.type !== 'empty') {
       handleFeedSelection(item, true)
     }
@@ -65,14 +59,35 @@ const FeedList = ({
     <FeedListItem item={item} separators={separators} fixedHeight onPress={pressItem(item, index + 1)} />
   )
 
-  const renderQuickActions = ({ item }) => <FeedActions item={item} />
+  /**
+   * Calls proper action depening on the feed status
+   * @param {string} transactionHash - feed item ID
+   * @param {object} action - wether to cancel/delete or any further action required
+   */
+  const handleFeedActionPress = async (transactionHash, action) => {
+    if (action.canCancel) {
+      try {
+        await goodWallet.cancelOTLByTransactionHash(transactionHash)
+      } catch (e) {
+        showErrorDialog(e)
+      }
+    }
+
+    // TODO: canDelete action
+  }
+
+  const renderQuickActions = ({ item }) => {
+    const canDelete = item && item.id && item.id.indexOf('0x') === -1
+    const canCancel = item && item.displayType === 'sendpending'
+
+    return (
+      <FeedActions item={item} onPress={handleFeedActionPress} canDelete={canDelete} canCancel={canCancel}>
+        {actionLabel({ canDelete, canCancel })}
+      </FeedActions>
+    )
+  }
 
   const feeds = data && data instanceof Array && data.length ? data : [emptyFeed]
-
-  // console.info(
-  //   'here - feeds',
-  //   JSON.stringify(feeds.map(({ type: t, displayType: d, status: s, id: i }) => ({ t, d, s, i })), null, 2)
-  // )
 
   return (
     <ScrollView style={styles.scrollList} contentContainerStyle={styles.scrollableView}>
@@ -121,5 +136,17 @@ const getStylesFromProps = ({ theme }) => ({
     height: '100%',
   },
 })
+
+const actionLabel = ({ canDelete, canCancel }) => {
+  if (canCancel) {
+    return 'Cancel Payment Link'
+  }
+
+  if (canDelete) {
+    return 'Delete'
+  }
+
+  return ''
+}
 
 export default GDStore.withStore(withStyles(getStylesFromProps)(FeedList))

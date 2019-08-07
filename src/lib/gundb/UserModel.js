@@ -87,19 +87,20 @@ export const getUserModel = (record: UserRecord): UserModel => {
 
   return {
     ...record,
-    isValid: function() {
-      const errors = this.getErrors()
+    isValid: function(update: boolean = false) {
+      const errors = this.getErrors(update)
       return _isValid(errors)
     },
-    getErrors: function() {
+    getErrors: function(update: boolean = false) {
       return {
-        email: userModelValidations.email(this.email),
-        mobile: userModelValidations.mobile(this.mobile),
-        username: userModelValidations.username(this.username),
+        email: update === false || this.email ? userModelValidations.email(this.email) : '',
+        mobile: update === false || this.mobile ? userModelValidations.mobile(this.mobile) : '',
+        username: update === false || this.username ? userModelValidations.username(this.username) : '',
       }
     },
-    validate: function() {
-      return { isValid: this.isValid(), errors: this.getErrors() }
+    validate: function(update: boolean = false) {
+      const errors = this.getErrors(update)
+      return { isValid: _isValid(errors), errors }
     },
   }
 }

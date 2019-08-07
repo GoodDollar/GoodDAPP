@@ -219,7 +219,7 @@ exports[`ProfileDataTable matches snapshot 1`] = `
                     }
                   }
                 >
-                  
+                  
                 </div>
               </div>
             </div>
@@ -738,7 +738,7 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                     }
                   }
                 >
-                  
+                  
                 </div>
               </div>
             </div>
@@ -2812,7 +2812,7 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                     }
                   }
                 >
-                  
+                  
                 </div>
               </div>
             </div>

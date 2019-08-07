@@ -4,7 +4,6 @@ import { isIOS, isMobileSafari } from 'mobile-device-detect'
 import GDStore from '../../../lib/undux/GDStore'
 import Separator from '../../common/layout/Separator'
 import logger from '../../../lib/logger/pino-logger'
-import normalize from '../../../lib/utils/normalizeText'
 import { CustomButton, Section, Wrapper } from '../../common'
 import { fireEvent } from '../../../lib/analytics/analytics'
 import { getFirstWord } from '../../../lib/utils/getFirstWord'
@@ -48,7 +47,7 @@ const FRIntro = props => {
               Since its your first time claiming G${' '}
             </Section.Text>
             <Section.Text style={[styles.description]}>
-              we need to make sure it&apos;s really you and prevent duplicate accounts. After all, we&apos;re give here
+              we need to make sure it&apos;s really you and prevent duplicate accounts. After all, we&apos;re give here
               free G$. Learn more about our{' '}
             </Section.Text>
             <Section.Text
@@ -82,45 +81,45 @@ const getStylesFromProps = ({ theme }) => ({
     flexGrow: 1,
     flexShrink: 0,
     justifyContent: 'center',
-    paddingBottom: theme.sizes.defaultDouble,
-    paddingLeft: theme.sizes.default,
-    paddingRight: theme.sizes.default,
-    paddingTop: theme.sizes.defaultDouble * 2,
+    paddingBottom: `${theme.sizes.defaultDouble / 16}rem`,
+    paddingLeft: `${theme.sizes.default / 16}rem`,
+    paddingRight: `${theme.sizes.default / 16}rem`,
+    paddingTop: `${theme.sizes.defaultDouble / 8}rem`,
   },
   mainContent: {
     flexGrow: 1,
     justifyContent: 'center',
-    paddingLeft: theme.sizes.defaultDouble,
-    paddingRight: theme.sizes.defaultDouble,
+    paddingLeft: `${theme.sizes.defaultDouble / 16}rem`,
+    paddingRight: `${theme.sizes.defaultDouble / 16}rem`,
   },
   mainTitle: {
     color: theme.colors.darkGray,
     fontFamily: theme.fonts.default,
-    fontSize: normalize(24),
+    fontSize: '1.5rem',
     fontWeight: '500',
-    marginBottom: 28,
+    marginBottom: '1.75rem',
     textTransform: 'none',
   },
   illustration: {
     flexGrow: 0,
     flexShrink: 0,
-    marginBottom: 28,
+    marginBottom: '1.75rem',
     maxWidth: '100%',
     minHeight: 151,
     minWidth: 203,
   },
   descriptionContainer: {
-    paddingBottom: theme.sizes.defaultDouble,
-    paddingLeft: theme.sizes.defaultHalf,
-    paddingRight: theme.sizes.defaultHalf,
-    paddingTop: theme.sizes.defaultDouble,
+    paddingBottom: `${theme.sizes.defaultDouble / 16}rem`,
+    paddingLeft: `${theme.sizes.defaultHalf / 16}rem`,
+    paddingRight: `${theme.sizes.defaultHalf / 16}rem`,
+    paddingTop: `${theme.sizes.defaultDouble / 16}rem`,
   },
   description: {
     color: theme.colors.primary,
     fontFamily: theme.fonts.default,
-    fontSize: normalize(16),
+    fontSize: '1rem',
     fontWeight: '400',
-    lineHeight: normalize(20),
+    lineHeight: '1.25rem',
   },
   descriptionBold: {
     fontFamily: theme.fonts.default,
@@ -134,7 +133,7 @@ const getStylesFromProps = ({ theme }) => ({
     width: '100%',
   },
   bottomSeparator: {
-    marginBottom: 28,
+    marginBottom: '1.75rem',
   },
 })
 

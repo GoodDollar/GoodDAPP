@@ -29,6 +29,7 @@ export const theme = {
     ...DefaultTheme.fonts,
     default: 'Roboto',
     slab: 'Roboto Slab',
+    medium: 'Roboto-Medium',
   },
   paddings: {
     defaultMargin: 8,

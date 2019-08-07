@@ -32,6 +32,7 @@ const styles = StyleSheet.create({
   titleStyle: {
     textAlign: 'center',
     textTransform: 'uppercase',
+    fontSize: '1.5rem',
   },
   topbarStyles: {
     flexGrow: 0,

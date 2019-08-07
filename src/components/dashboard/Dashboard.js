@@ -157,7 +157,8 @@ const Dashboard = props => {
             iconAlignment="left"
             routeName="Who"
             screenProps={screenProps}
-            style={[styles.leftButton]}
+            style={styles.leftButton}
+            contentStyle={styles.leftButtonContent}
             params={{
               nextRoutes: ['Amount', 'Reason', 'SendLinkSummary', 'SendConfirmation'],
               params: { action: 'Send' },
@@ -171,7 +172,8 @@ const Dashboard = props => {
             iconAlignment="right"
             routeName={'Receive'}
             screenProps={screenProps}
-            style={[styles.rightButton]}
+            style={styles.rightButton}
+            contentStyle={styles.rightButtonContent}
           >
             Receive
           </PushButton>
@@ -266,24 +268,28 @@ const getStylesFromProps = ({ theme }) => ({
     marginTop: 0,
   },
   leftButton: {
-    alignItems: 'flex-start',
     flex: 1,
     height: 44,
-    justifyContent: 'center',
-    marginRight: 24,
+    marginRight: 16,
     elevation: 0,
-    paddingLeft: theme.sizes.defaultHalf,
-    paddingRight: 0,
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  leftButtonContent: {
+    alignItems: 'stretch',
+    justifyContent: 'flex-start',
   },
   rightButton: {
-    alignItems: 'flex-end',
     flex: 1,
     height: 44,
-    justifyContent: 'center',
-    marginLeft: 24,
+    marginLeft: 16,
     elevation: 0,
-    paddingLeft: 0,
-    paddingRight: theme.sizes.defaultHalf,
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  rightButtonContent: {
+    alignItems: 'stretch',
+    justifyContent: 'flex-end',
   },
   bigNumberVerticalStyles: {
     fontFamily: theme.fonts.slab,

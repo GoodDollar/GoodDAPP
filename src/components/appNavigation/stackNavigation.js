@@ -7,6 +7,7 @@ import SimpleStore from '../../lib/undux/SimpleStore'
 import SideMenuPanel from '../sidemenu/SideMenuPanel'
 import logger from '../../lib/logger/pino-logger'
 import CustomButton, { type ButtonProps } from '../common/buttons/CustomButton'
+import Blurred from '../common/view/Blurred'
 import NavBar from './NavBar'
 import { navigationOptions } from './navigationConfig'
 import { PushButton } from './PushButton'
@@ -241,6 +242,8 @@ class AppView extends Component<AppViewProps, AppViewState> {
     const Component = this.getComponent(descriptor.getComponent(), { screenProps })
     const pageTitle = title || activeKey
     const open = store.get('sidemenu').visible
+    const { visible: dialogVisible } = store.get('currentScreen').dialogData
+    const currentFeed = store.get('currentFeed')
     const menu = open ? <SideMenuPanel navigation={navigation} /> : null
 
     return (
@@ -254,7 +257,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
             onChange={this.sideMenuSwap}
           />
         </View>
-        <div style={fullScreenContainer} className={open ? 'blurFx' : ''}>
+        <Blurred style={fullScreenContainer} blur={open || dialogVisible || currentFeed}>
           {!navigationBarHidden &&
             (NavigationBar ? (
               <NavigationBar />
@@ -268,7 +271,7 @@ class AppView extends Component<AppViewProps, AppViewState> {
               <SceneView navigation={descriptor.navigation} component={Component} screenProps={screenProps} />
             </ScrollView>
           )}
-        </div>
+        </Blurred>
       </React.Fragment>
     )
   }

@@ -1,5 +1,5 @@
 // @flow
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import type { Store } from 'undux'
 import normalize from '../../lib/utils/normalizeText'
 import GDStore from '../../lib/undux/GDStore'
@@ -50,21 +50,11 @@ export type DashboardProps = {
   store: Store,
   styles?: any,
 }
-
-type DashboardState = {
-  feeds: any[],
-  currentFeed: any,
-}
-
 const Dashboard = props => {
   const store = SimpleStore.useStore()
   const gdstore = GDStore.useStore()
   const [showDialog, hideDialog] = useDialog()
   const [showErrorDialog] = useErrorDialog()
-  const [state: DashboardState, setState] = useState({
-    currentFeed: null,
-    feeds: [],
-  })
   const { params } = props.navigation.state
 
   useEffect(() => {
@@ -85,7 +75,7 @@ const Dashboard = props => {
   }, [params])
 
   const showEventModal = currentFeed => {
-    setState({ currentFeed })
+    store.set('currentFeed')(currentFeed)
   }
 
   const handleFeedSelection = (receipt, horizontal) => {
@@ -123,7 +113,7 @@ const Dashboard = props => {
     }
   }
 
-  const { currentFeed } = state
+  const currentFeed = store.get('currentFeed')
   const { screenProps, styles }: DashboardProps = props
   const { balance, entitlement } = gdstore.get('account')
   const { avatar, fullName } = gdstore.get('profile')

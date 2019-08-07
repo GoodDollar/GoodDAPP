@@ -325,7 +325,7 @@ export class GoodWallet {
     return this.oneTimePaymentLinksContract
       .getPastEvents('PaymentWithdraw', { fromBlock, toBlock, filter })
       .catch(e => {
-        log.error('subscribeOTPL fromEventsPromise failed:', { e, filters: { fromBlock, toBlock, filter } })
+        log.error('subscribeOTPL Withdraw fromEventsPromise failed:', { e, filters: { fromBlock, toBlock, filter } })
         return { error: e }
       })
       .then(res => (res.error ? [] : res))
@@ -337,7 +337,7 @@ export class GoodWallet {
     return this.oneTimePaymentLinksContract
       .getPastEvents('PaymentCancel', { fromBlock, toBlock, filter })
       .catch(e => {
-        log.error('subscribeOTPL fromEventsPromise failed:', { e, filters: { fromBlock, toBlock, filter } })
+        log.error('subscribeOTPL Cancel fromEventsPromise failed:', { e, filters: { fromBlock, toBlock, filter } })
         return { error: e }
       })
       .then(res => (res.error ? [] : res))

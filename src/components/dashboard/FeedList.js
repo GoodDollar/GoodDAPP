@@ -41,6 +41,7 @@ const FeedList = ({ data, handleFeedSelection, initialNumToRender, onEndReached,
   const [showErrorDialog] = useErrorDialog()
   const feeds = data && data instanceof Array && data.length ? data : [emptyFeed]
 
+  const keyExtractor = (item, index) => item.id
   const getItemLayout = (_: any, index: number) => {
     const [length, separator, header] = [72, 1, 30]
     return {
@@ -57,7 +58,7 @@ const FeedList = ({ data, handleFeedSelection, initialNumToRender, onEndReached,
   }
 
   const renderItemComponent = ({ item, separators, index }: ItemComponentProps) => (
-    <FeedListItem item={item} separators={separators} fixedHeight onPress={pressItem(item, index + 1)} />
+    <FeedListItem key={item.id} item={item} separators={separators} fixedHeight onPress={pressItem(item, index + 1)} />
   )
 
   /**
@@ -101,6 +102,7 @@ const FeedList = ({ data, handleFeedSelection, initialNumToRender, onEndReached,
           getItemLayout={getItemLayout}
           initialNumToRender={initialNumToRender || 10}
           key="vf"
+          keyExtractor={keyExtractor}
           keyboardDismissMode="on-drag"
           keyboardShouldPersistTaps="always"
           legacyImplementation={false}

@@ -37,6 +37,8 @@ type State = SMSRecord & {
   otp: string | number,
 }
 
+const NumInputs: number = 6
+
 class SmsForm extends React.Component<Props, State> {
   state = {
     smsValidated: false,
@@ -46,12 +48,8 @@ class SmsForm extends React.Component<Props, State> {
     renderButton: false,
     resentCode: false,
     loading: false,
-    otp: undefined,
+    otp: Array(NumInputs).fill(null),
   }
-
-  numInputs: number = 6
-
-  componentDidMount() {}
 
   componentDidUpdate() {
     if (!this.state.renderButton) {
@@ -65,9 +63,9 @@ class SmsForm extends React.Component<Props, State> {
     }, 10000)
   }
 
-  handleChange = async (otp: string | number) => {
-    const otpValue = otp.toString()
-    if (otpValue.replace(/ /g, '').length === this.numInputs) {
+  handleChange = async (otp: array) => {
+    const otpValue = otp.filter(val => val).join('')
+    if (otpValue.replace(/ /g, '').length === NumInputs) {
       this.setState({
         loading: true,
         otp,
@@ -102,7 +100,7 @@ class SmsForm extends React.Component<Props, State> {
   }
 
   handleRetry = async () => {
-    this.setState({ sendingCode: true, otp: '', errorMessage: '' })
+    this.setState({ sendingCode: true, otp: Array(NumInputs).fill(null), errorMessage: '' })
 
     try {
       await API.sendOTP({ ...this.props.screenProps.data })
@@ -134,12 +132,13 @@ class SmsForm extends React.Component<Props, State> {
             <Section.Stack justifyContent="center" style={styles.bottomContent}>
               <OtpInput
                 shouldAutoFocus
-                numInputs={this.numInputs}
+                numInputs={NumInputs}
                 onChange={this.handleChange}
                 hasErrored={errorMessage !== ''}
                 errorStyle={styles.errorStyle}
                 value={otp}
                 placeholder="*"
+                keyboardType="phone-pad"
               />
               <ErrorText error={errorMessage} />
             </Section.Stack>

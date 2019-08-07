@@ -70,15 +70,19 @@ describe('UserStorage', () => {
   })
 
   it('gets profile field', async () => {
+    await userStorage.setProfileField('name', 'hadar2', 'public')
+
+    //need to wait for gundb to finish writing value with SEA
+    await delay(200)
     const gunRes = userStorage.getProfileField('name')
-    const res = await gunRes.then()
+    const res = await gunRes
     expect(res).toEqual(expect.objectContaining({ privacy: 'public', display: 'hadar2', value: expect.anything() }))
   })
 
   it('sets profile field private (encrypted)', async () => {
     await userStorage.setProfileField('id', 'z123', 'private')
     const res = await userStorage.profile.get('id').then()
-    expect(res).toEqual(expect.objectContaining({ privacy: 'private', display: '' }))
+    expect(res).toEqual(expect.objectContaining({ privacy: 'private', display: '******' }))
   })
 
   it('profile field private is encrypted', async () => {
@@ -90,6 +94,10 @@ describe('UserStorage', () => {
   })
 
   it('gets profile field private (decrypted)', async () => {
+    await userStorage.setProfileField('id', 'z123', 'private')
+
+    //wait for SEA
+    await delay(200)
     const gunRes = userStorage.getProfileFieldValue('id')
     const res = await gunRes.then()
     expect(res).toEqual('z123')
@@ -197,6 +205,8 @@ describe('UserStorage', () => {
     const before = await userStorage.profile.get('phone').then()
     expect(before).toMatchObject({ privacy: 'masked', display: '***********4928' })
 
+    //wait for SEA
+    await delay(200)
     const gunRes = await userStorage.setProfileFieldPrivacy('phone', 'public')
     expect(gunRes).toMatchObject({ err: undefined })
 
@@ -207,7 +217,7 @@ describe('UserStorage', () => {
   it('change profile field privacy to private', async () => {
     await userStorage.setProfileFieldPrivacy('phone', 'private')
     const res = await userStorage.profile.get('phone').then()
-    expect(res).toEqual(expect.objectContaining({ privacy: 'private', display: '' }))
+    expect(res).toEqual(expect.objectContaining({ privacy: 'private', display: '******' }))
   })
 
   it('add event', async () => {
@@ -327,7 +337,7 @@ describe('UserStorage', () => {
     userStorage.subscribeProfileUpdates(profile => {
       expect(profile.email.display).toEqual('j*****e@blah.com')
       expect(profile.name.display).toEqual('hadar2')
-      expect(profile.id.display).toEqual('')
+      expect(profile.id.display).toEqual('******')
       done()
     })
   })
@@ -351,7 +361,7 @@ describe('UserStorage', () => {
     userStorage.subscribeProfileUpdates(profile => {
       const { isValid, getErrors, validate, ...displayProfile } = userStorage.getDisplayProfile(profile)
       expect(displayProfile).toEqual({
-        id: '',
+        id: '******',
         name: 'hadar2',
         email: 'j*****e@blah.com',
         phone: '+22222222222',
@@ -407,7 +417,7 @@ describe('UserStorage', () => {
     const profile = getUserModel(profileData)
     const result = await userStorage.setProfile(profile)
     expect(result).toBe(true)
-    await delay(500)
+    await delay(200)
     userStorage.subscribeProfileUpdates(async updatedProfile => {
       await userStorage.getPrivateProfile(updatedProfile).then(result => {
         const { isValid, getErrors, validate, ...privateProfile } = result
@@ -467,8 +477,9 @@ describe('UserStorage', () => {
         mobile: '+22222222221',
       })
     } catch (e) {
-      expect(e).toEqual(new Error(['Existing index on field username']))
+      expect(e).toEqual(['Existing index on field username'])
     }
+    await delay(200)
     const updated = await userStorage.getProfile()
     expect(updated.username).toBe('notTaken')
     expect(updated.email).toBe('diferent@email.com')
@@ -486,6 +497,7 @@ describe('UserStorage', () => {
     expect(updatedUsername).not.toBe('taken')
     const newResultOk = await userStorage.setProfileField('username', 'user3', 'public')
     expect(newResultOk).toMatchObject({ err: undefined })
+    await delay(200)
     const updatedUsernameOk = await userStorage.getProfileFieldValue('username')
     expect(updatedUsernameOk).toBe('user3')
   })

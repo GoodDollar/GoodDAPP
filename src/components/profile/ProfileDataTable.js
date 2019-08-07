@@ -15,7 +15,7 @@ const ProfileDataTable = ({ profile, onChange, errors: errorsProp, editable, the
           <InputRounded
             disabled={!editable}
             error={errors.username}
-            icon="privacy"
+            icon="username"
             iconColor={theme.colors.primary}
             iconSize={22}
             onChange={username => onChange({ ...profile, username })}

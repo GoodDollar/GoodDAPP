@@ -233,7 +233,6 @@ export class GoodWallet {
 
     if (toBlock.gt(fromBlock)) {
       this.subscribeToOTPLEvents(fromBlock, toBlock)
-
       const event = 'Transfer'
       const contract = this.erc20Contract
 
@@ -246,7 +245,7 @@ export class GoodWallet {
       const fromEventsPromise = contract
         .getPastEvents(event, fromEventsFilter)
         .catch(e => {
-          log.error('listenTxUpdates fromEventsPromise failed:', { e, fromEventsFilter })
+          log.warn('listenTxUpdates fromEventsPromise failed:', { e, fromEventsFilter })
           return { error: e }
         })
         .then(res => {
@@ -278,7 +277,7 @@ export class GoodWallet {
       const toEventsPromise = contract
         .getPastEvents(event, toEventsFilter)
         .catch(e => {
-          log.error('listenTxUpdates toEventsPromise failed:', { e, toEventsFilter })
+          log.warn('listenTxUpdates toEventsPromise failed:', { e, toEventsFilter })
           return { error: e }
         })
         .then(res => {

@@ -13,7 +13,7 @@ const WhoRow = props => {
   return (
     <Section.Row style={styles.tableRow}>
       <Section.Text style={styles.tableRowLabel}>{actionReceive ? 'From:' : 'To:'}</Section.Text>
-      <Section.Text fontSize={24} fontWeight="bold">
+      <Section.Text color="darkGray" fontSize={24} fontWeight="500">
         {counterPartyDisplayName}
       </Section.Text>
     </Section.Row>
@@ -74,8 +74,9 @@ const getStylesFromProps = ({ theme }) => {
       borderBottomWidth: 1,
       borderBottomStyle: 'solid',
       marginTop: theme.sizes.defaultDouble,
-      alignItems: 'baseline',
-      paddingBottom: theme.sizes.default,
+      alignItems: 'flex-end',
+      paddingBottom: theme.sizes.defaultHalf,
+      height: 40,
     },
 
     // TODO: all this properties can be removed once we merge Text component in

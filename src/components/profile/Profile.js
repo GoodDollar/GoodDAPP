@@ -1,9 +1,11 @@
 // @flow
-import React from 'react'
+import React, { useEffect } from 'react'
+import isEqual from 'lodash/isEqual'
 import GDStore from '../../lib/undux/GDStore'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { Section, UserAvatar, Wrapper } from '../common'
 import { withStyles } from '../../lib/styles'
+import userStorage from '../../lib/gundb/UserStorage'
 import EditAvatar from './EditAvatar'
 import EditProfile from './EditProfile'
 import ProfileDataTable from './ProfileDataTable'
@@ -14,14 +16,24 @@ import CircleButtonWrapper from './CircleButtonWrapper'
 const TITLE = 'Profile'
 
 const ProfileWrapper = props => {
-  const profile = GDStore.useStore().get('profile')
+  const store = GDStore.useStore()
+  const profile = store.get('profile')
   const { screenProps, styles } = props
 
   const handleAvatarPress = event => {
-    event.preventDefault()
     event.stopPropagation()
     screenProps.push(`${profile.avatar ? 'View' : 'Edit'}Avatar`)
   }
+
+  const updateProfile = async () => {
+    const publicProfile = await userStorage.getPublicProfile()
+    store.set('profile')(publicProfile)
+  }
+  useEffect(() => {
+    if (isEqual(profile, {})) {
+      updateProfile()
+    }
+  }, [])
 
   return (
     <Wrapper>

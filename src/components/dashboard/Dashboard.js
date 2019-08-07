@@ -1,5 +1,5 @@
 // @flow
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import type { Store } from 'undux'
 import normalize from '../../lib/utils/normalizeText'
 import GDStore from '../../lib/undux/GDStore'
@@ -18,7 +18,7 @@ import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
 import logger from '../../lib/logger/pino-logger'
 import userStorage from '../../lib/gundb/UserStorage'
-import { PrivacyArticle, PrivacyPolicy, Support, TermsOfUse } from '../webView/webViewInstances'
+import { FAQ, PrivacyArticle, PrivacyPolicy, Support, TermsOfUse } from '../webView/webViewInstances'
 import { withStyles } from '../../lib/styles'
 import Mnemonics from '../signin/Mnemonics'
 import Amount from './Amount'
@@ -50,21 +50,11 @@ export type DashboardProps = {
   store: Store,
   styles?: any,
 }
-
-type DashboardState = {
-  feeds: any[],
-  currentFeed: any,
-}
-
 const Dashboard = props => {
   const store = SimpleStore.useStore()
   const gdstore = GDStore.useStore()
   const [showDialog, hideDialog] = useDialog()
   const [showErrorDialog] = useErrorDialog()
-  const [state: DashboardState, setState] = useState({
-    currentFeed: null,
-    feeds: [],
-  })
   const { params } = props.navigation.state
 
   useEffect(() => {
@@ -85,7 +75,7 @@ const Dashboard = props => {
   }, [params])
 
   const showEventModal = currentFeed => {
-    setState({ currentFeed })
+    store.set('currentFeed')(currentFeed)
   }
 
   const handleFeedSelection = (receipt, horizontal) => {
@@ -123,7 +113,7 @@ const Dashboard = props => {
     }
   }
 
-  const { currentFeed } = state
+  const currentFeed = store.get('currentFeed')
   const { screenProps, styles }: DashboardProps = props
   const { balance, entitlement } = gdstore.get('account')
   const { avatar, fullName } = gdstore.get('profile')
@@ -362,5 +352,6 @@ export default createStackNavigator({
   PrivacyArticle,
   TOU: TermsOfUse,
   Support,
+  FAQ,
   Recover: Mnemonics,
 })

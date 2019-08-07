@@ -458,7 +458,7 @@ exports[`Receive matches snapshot 1`] = `
                     "borderRadius": 5,
                     "contentPadding": 16,
                     "jaggedEdgeSize": 16,
-                    "overlayBackgroundColor": "rgba(255, 255, 255, 0.8)",
+                    "overlayBackgroundColor": "transparent",
                     "overlayHorizontalPadding": 20,
                     "overlayVerticalPadding": 30,
                   },
@@ -687,6 +687,7 @@ exports[`Receive matches snapshot 1`] = `
         </div>
         <div
           className="css-view-1dbjc4n"
+          data-gdtype="copybutton"
           style={
             Object {
               "WebkitAlignItems": "center",

@@ -125,7 +125,7 @@ exports[`SmsForm matches snapshot 1`] = `
                 "alignItems": "stretch",
                 "flexDirection": "column",
                 "justifyContent": "flex-start",
-                "minHeight": "250px",
+                "minHeight": "300px",
                 "msFlexAlign": "stretch",
                 "msFlexDirection": "column",
                 "msFlexPack": "start",

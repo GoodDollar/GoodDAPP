@@ -113,7 +113,7 @@ const getStylesFromProps = ({ theme }) => ({
     marginTop: 'auto',
   },
   container: {
-    minHeight: 250,
+    minHeight: 300,
   },
   bottomRow: {
     marginTop: 'auto',

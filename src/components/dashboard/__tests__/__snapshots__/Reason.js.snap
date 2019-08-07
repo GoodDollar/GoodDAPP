@@ -276,7 +276,7 @@ exports[`Reason matches snapshot 1`] = `
             "alignItems": "stretch",
             "flexDirection": "column",
             "justifyContent": "flex-start",
-            "minHeight": "150px",
+            "minHeight": "180px",
             "msFlexAlign": "stretch",
             "msFlexDirection": "column",
             "msFlexPack": "start",

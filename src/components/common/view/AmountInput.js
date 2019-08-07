@@ -68,7 +68,7 @@ const mapPropsToStyles = ({ theme }) => {
       marginTop: 'auto',
     },
     container: {
-      minHeight: 150,
+      minHeight: 180,
     },
     errorInput: {
       color: theme.colors.error,

@@ -113,7 +113,7 @@ const getStylesFromProps = ({ theme }) => ({
     marginVertical: theme.sizes.defaultQuadruple,
   },
   container: {
-    minHeight: 250,
+    minHeight: 300,
   },
   bottomContent: {
     marginTop: 'auto',

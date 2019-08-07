@@ -195,7 +195,7 @@ const getStylesFromProps = ({ theme }) => ({
     color: theme.colors.red,
   },
   container: {
-    minHeight: 250,
+    minHeight: 300,
   },
   bottomContent: {
     marginTop: 'auto',

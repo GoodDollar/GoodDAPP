@@ -57,7 +57,7 @@ const SendReason = (props: AmountProps) => {
 
 const styles = StyleSheet.create({
   container: {
-    minHeight: 150,
+    minHeight: 180,
   },
   bottomContent: {
     marginTop: 'auto',

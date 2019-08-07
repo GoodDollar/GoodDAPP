@@ -313,7 +313,7 @@ exports[`Amount matches snapshot 1`] = `
             className="css-view-1dbjc4n"
             style={
               Object {
-                "minHeight": "150px",
+                "minHeight": "180px",
               }
             }
           >

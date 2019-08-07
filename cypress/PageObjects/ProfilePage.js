@@ -13,15 +13,15 @@ class ProfilePage {
     }
 
     get profilePrivacyButton() {
-        return cy.xpath('//*[@id="root"]/div[1]/div/div[2]/div[2]/div/div/div/div[1]/div[1]/div', { timeout: 10000 });
+        return cy.get('[data-focusable]', { timeout: 10000 }).eq(2);
     }
 
     get avatarDiv() {
         return cy.get('img[alt]', { timeout: 10000 })
     }
 
-    get EditProfileButton() {
-        return cy.xpath('//*[@id="root"]/div[1]/div/div[2]/div[2]/div/div/div/div[1]/div[3]', { timeout: 10000 });
+    get editProfileButton() {
+        return cy.get('[data-focusable]', { timeout: 10000 }).eq(4);
     }
     
 }

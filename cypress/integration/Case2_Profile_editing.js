@@ -33,10 +33,8 @@ describe('Test case 2: Profile editing', () => {
         for( let i = 0; i < 7; i++) {
             HomePage.options.eq(i).should('be.visible');
         }
-        HomePage.options.eq(0).click();
-        cy.wait(5000)
-        ProfilePage.EditProfileButton.click();
-        cy.wait(5000)
+        HomePage.options.eq(0).click();   
+        ProfilePage.editProfileButton.click();   
         EditProfilePage.pageHeader.should('contain', 'Edit Profile');
         EditProfilePage.nameInput.should('be.visible');
         EditProfilePage.phoneInput.should('be.visible');
@@ -84,7 +82,7 @@ describe('Test case 2: Profile editing', () => {
         HomePage.optionsButton.click({force:true});
         HomePage.options.eq(0).click({force:true});
         cy.wait(3000);
-        ProfilePage.EditProfileButton.click({force:true, timeout:10000});
+        ProfilePage.editProfileButton.click({force:true, timeout:10000});
         cy.wait(3000);
 
         EditProfilePage.nameInput.clear({timeout:10000});
@@ -105,7 +103,7 @@ describe('Test case 2: Profile editing', () => {
         ProfilePage.emailInput.should('have.value', 'holenkov.andrew@qatestlab.eu');
 
 
-        ProfilePage.EditProfileButton.click();
+        ProfilePage.editProfileButton.click();
         cy.wait(3000);
         EditProfilePage.nameInput.clear();
         EditProfilePage.nameInput.type('AndrewLebowski'); 
@@ -124,7 +122,7 @@ describe('Test case 2: Profile editing', () => {
         HomePage.optionsButton.click({force:true});
         HomePage.options.eq(0).click({force:true});
         cy.wait(3000);
-        ProfilePage.EditProfileButton.click({force:true, timeout:10000});
+        ProfilePage.editProfileButton.click();
         cy.wait(3000);
 
         EditProfilePage.nameInput.clear({timeout:10000});

@@ -20,6 +20,7 @@ exports[`CopyButton matches snapshot 1`] = `
 >
   <div
     className="css-view-1dbjc4n"
+    data-gdtype="copybutton"
     style={
       Object {
         "WebkitAlignItems": "center",
@@ -182,6 +183,7 @@ exports[`CopyButton matches snapshot 2`] = `
 >
   <div
     className="css-view-1dbjc4n"
+    data-gdtype="copybutton"
     style={
       Object {
         "WebkitAlignItems": "center",

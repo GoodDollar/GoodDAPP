@@ -73,6 +73,10 @@ exports[`KeyboardRow matches snapshot 1`] = `
           "msFlexPreferredSize": "0%",
           "msTouchAction": "manipulation",
           "msUserSelect": "none",
+          "paddingBottom": "8px",
+          "paddingLeft": "8px",
+          "paddingRight": "8px",
+          "paddingTop": "8px",
           "touchAction": "manipulation",
           "userSelect": "none",
         }
@@ -133,6 +137,10 @@ exports[`KeyboardRow matches snapshot 1`] = `
           "msFlexPreferredSize": "0%",
           "msTouchAction": "manipulation",
           "msUserSelect": "none",
+          "paddingBottom": "8px",
+          "paddingLeft": "8px",
+          "paddingRight": "8px",
+          "paddingTop": "8px",
           "touchAction": "manipulation",
           "userSelect": "none",
         }
@@ -193,6 +201,10 @@ exports[`KeyboardRow matches snapshot 1`] = `
           "msFlexPreferredSize": "0%",
           "msTouchAction": "manipulation",
           "msUserSelect": "none",
+          "paddingBottom": "8px",
+          "paddingLeft": "8px",
+          "paddingRight": "8px",
+          "paddingTop": "8px",
           "touchAction": "manipulation",
           "userSelect": "none",
         }

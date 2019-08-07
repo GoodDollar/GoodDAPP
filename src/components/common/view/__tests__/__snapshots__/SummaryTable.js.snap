@@ -46,24 +46,25 @@ exports[`SummaryTable matches snapshot 1`] = `
       className="css-view-1dbjc4n"
       style={
         Object {
-          "WebkitAlignItems": "baseline",
-          "WebkitBoxAlign": "baseline",
+          "WebkitAlignItems": "flex-end",
+          "WebkitBoxAlign": "end",
           "WebkitBoxDirection": "normal",
           "WebkitBoxOrient": "horizontal",
           "WebkitBoxPack": "justify",
           "WebkitFlexDirection": "row",
           "WebkitJustifyContent": "space-between",
-          "alignItems": "baseline",
+          "alignItems": "flex-end",
           "borderBottomColor": "rgba(203,203,203,1.00)",
           "borderBottomStyle": "solid",
           "borderBottomWidth": "1px",
           "flexDirection": "row",
+          "height": "40px",
           "justifyContent": "space-between",
           "marginTop": "16px",
-          "msFlexAlign": "baseline",
+          "msFlexAlign": "end",
           "msFlexDirection": "row",
           "msFlexPack": "justify",
-          "paddingBottom": "8px",
+          "paddingBottom": "4px",
         }
       }
     >
@@ -95,7 +96,7 @@ exports[`SummaryTable matches snapshot 1`] = `
             "direction": "ltr",
             "fontFamily": "Roboto",
             "fontSize": "24px",
-            "fontWeight": "bold",
+            "fontWeight": "500",
             "lineHeight": "30px",
             "textAlign": "center",
             "textDecoration": "none",
@@ -110,24 +111,25 @@ exports[`SummaryTable matches snapshot 1`] = `
       className="css-view-1dbjc4n"
       style={
         Object {
-          "WebkitAlignItems": "baseline",
-          "WebkitBoxAlign": "baseline",
+          "WebkitAlignItems": "flex-end",
+          "WebkitBoxAlign": "end",
           "WebkitBoxDirection": "normal",
           "WebkitBoxOrient": "horizontal",
           "WebkitBoxPack": "justify",
           "WebkitFlexDirection": "row",
           "WebkitJustifyContent": "space-between",
-          "alignItems": "baseline",
+          "alignItems": "flex-end",
           "borderBottomColor": "rgba(203,203,203,1.00)",
           "borderBottomStyle": "solid",
           "borderBottomWidth": "1px",
           "flexDirection": "row",
+          "height": "40px",
           "justifyContent": "space-between",
           "marginTop": "16px",
-          "msFlexAlign": "baseline",
+          "msFlexAlign": "end",
           "msFlexDirection": "row",
           "msFlexPack": "justify",
-          "paddingBottom": "8px",
+          "paddingBottom": "4px",
         }
       }
     >
@@ -212,24 +214,25 @@ exports[`SummaryTable matches snapshot 1`] = `
       className="css-view-1dbjc4n"
       style={
         Object {
-          "WebkitAlignItems": "baseline",
-          "WebkitBoxAlign": "baseline",
+          "WebkitAlignItems": "flex-end",
+          "WebkitBoxAlign": "end",
           "WebkitBoxDirection": "normal",
           "WebkitBoxOrient": "horizontal",
           "WebkitBoxPack": "justify",
           "WebkitFlexDirection": "row",
           "WebkitJustifyContent": "space-between",
-          "alignItems": "baseline",
+          "alignItems": "flex-end",
           "borderBottomColor": "rgba(203,203,203,1.00)",
           "borderBottomStyle": "solid",
           "borderBottomWidth": "1px",
           "flexDirection": "row",
+          "height": "40px",
           "justifyContent": "space-between",
           "marginTop": "16px",
-          "msFlexAlign": "baseline",
+          "msFlexAlign": "end",
           "msFlexDirection": "row",
           "msFlexPack": "justify",
-          "paddingBottom": "8px",
+          "paddingBottom": "4px",
         }
       }
     >
@@ -322,24 +325,25 @@ exports[`SummaryTable matches snapshot with minimal properties 1`] = `
       className="css-view-1dbjc4n"
       style={
         Object {
-          "WebkitAlignItems": "baseline",
-          "WebkitBoxAlign": "baseline",
+          "WebkitAlignItems": "flex-end",
+          "WebkitBoxAlign": "end",
           "WebkitBoxDirection": "normal",
           "WebkitBoxOrient": "horizontal",
           "WebkitBoxPack": "justify",
           "WebkitFlexDirection": "row",
           "WebkitJustifyContent": "space-between",
-          "alignItems": "baseline",
+          "alignItems": "flex-end",
           "borderBottomColor": "rgba(203,203,203,1.00)",
           "borderBottomStyle": "solid",
           "borderBottomWidth": "1px",
           "flexDirection": "row",
+          "height": "40px",
           "justifyContent": "space-between",
           "marginTop": "16px",
-          "msFlexAlign": "baseline",
+          "msFlexAlign": "end",
           "msFlexDirection": "row",
           "msFlexPack": "justify",
-          "paddingBottom": "8px",
+          "paddingBottom": "4px",
         }
       }
     >

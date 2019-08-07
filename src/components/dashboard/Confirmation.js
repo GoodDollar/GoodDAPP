@@ -96,6 +96,7 @@ const getStylesFromProps = ({ theme }) => {
     },
     textRow: {
       marginBottom: theme.sizes.default,
+      marginTop: theme.sizes.default,
     },
     doneButton: {
       marginTop: theme.paddings.defaultMargin,

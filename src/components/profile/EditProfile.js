@@ -146,11 +146,7 @@ const EditProfile = ({ screenProps, theme, styles }) => {
           <UserAvatar profile={profile} onPress={handleAvatarPress}>
             <CameraButton handleCameraPress={handleCameraPress} />
           </UserAvatar>
-          <SaveButton
-            disabled={isPristine || saving || !isValid}
-            onPress={handleSaveButton}
-            onPressDone={onProfileSaved}
-          />
+          <SaveButton disabled={isPristine || !isValid} onPress={handleSaveButton} onPressDone={onProfileSaved} />
         </Section.Row>
         <ProfileDataTable onChange={handleProfileChange} editable={true} errors={errors} profile={profile} />
       </Section>

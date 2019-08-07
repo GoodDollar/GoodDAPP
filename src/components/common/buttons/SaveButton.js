@@ -24,7 +24,6 @@ type SaveButtonProps = {
 
 const SaveButton = ({ children, onPress, onPressDone, doneDelay, styles, theme, ...props }: SaveButtonProps) => {
   const [state, setState] = useState(NOT_SAVED)
-
   const pressAndNextState = async () => {
     setState(SAVING)
 
@@ -43,6 +42,7 @@ const SaveButton = ({ children, onPress, onPressDone, doneDelay, styles, theme, 
       style={[styles.saveButton, props.style]}
       color={props.color || theme.colors.darkBlue}
       loading={state === SAVING}
+      compact={state !== NOT_SAVED}
       {...props}
       onPress={pressAndNextState}
     >

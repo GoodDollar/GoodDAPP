@@ -72,7 +72,7 @@ const getStylesFromProps = ({ theme }) => {
   return {
     keyboard: {
       display: 'flex',
-      marginBottom: theme.sizes.default,
+      marginBottom: theme.sizes.defaultDouble,
       marginTop: theme.sizes.defaultDouble,
       maxHeight: 250,
       flexGrow: 1,

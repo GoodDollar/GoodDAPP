@@ -3,6 +3,7 @@ import { createNavigator, SwitchRouter } from '@react-navigation/core'
 import { createBrowserApp } from '@react-navigation/web'
 import { Platform } from 'react-native'
 import { navigationConfig } from './components/appNavigation/navigationConfig'
+import About from './components/about/AboutState'
 import BackupWallet from './components/backupWallet/BackupWalletState'
 import AppNavigation from './components/appNavigation/AppNavigation'
 import AppSwitch from './components/appSwitch/AppSwitch'
@@ -12,6 +13,7 @@ const AppNavigator = createNavigator(
   AppSwitch,
   SwitchRouter(
     {
+      About,
       BackupWallet,
       AppNavigation,
     },

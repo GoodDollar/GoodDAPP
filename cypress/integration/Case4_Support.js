@@ -6,7 +6,7 @@ import SupportPage from '../PageObjects/SupportPage'
 
 
 
-describe('Test case 3: Support', () => {
+describe('Test case 4: Ability to send support request and subscribe', () => {
 
     before('authorization', () => {     
         StartPage.open();
@@ -24,7 +24,7 @@ describe('Test case 3: Support', () => {
     it('User is able to send forms and follow the links', () => {
 
         HomePage.optionsButton.click( {force: true} );
-        HomePage.options.eq(5).click( {force: true} );
+        HomePage.options.eq(4).click( {force: true} );
         SupportPage.pageHeader.should('contain', 'Feedback & Support');
         SupportPage.iframe.should('be.visible');
 

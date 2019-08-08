@@ -7,7 +7,7 @@ import RecoverWalletPage from '../PageObjects/RecoverWalletPage';
 
 
 
-describe('Test case 5: Wallet backup', () => {
+describe('Test case 6: Ability to send recovering email', () => {
 
     before('authorization', () => {     
         StartPage.open();

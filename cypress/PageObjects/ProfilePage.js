@@ -21,9 +21,9 @@ class ProfilePage {
     }
 
     get editProfileButton() {
-        return cy.get('[data-focusable]', { timeout: 10000 }).eq(4);
+        return cy.get('body').find('[style="font-family: gooddollar; font-size: 25px; font-style: normal;"]', { timeout: 10000 });
     }
-    
+ 
 }
 
 export default new ProfilePage;

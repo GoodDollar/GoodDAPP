@@ -7,7 +7,7 @@ import ProfilePage from '../PageObjects/ProfilePage';
 
 
 
-describe('Test case 2: Profile editing', () => {
+describe('Test case 3: Ability to change user data', () => {
 
     beforeEach('authorization', () => {     
         StartPage.open();
@@ -30,13 +30,11 @@ describe('Test case 2: Profile editing', () => {
         HomePage.receiveButton.should('be.visible');
 
         HomePage.optionsButton.click( {force: true} );
-        for( let i = 0; i < 7; i++) {
+        for( let i = 0; i < 8; i++) {
             HomePage.options.eq(i).should('be.visible');
         }
         HomePage.options.eq(0).click();   
-        cy.wait(3000);
         ProfilePage.editProfileButton.click();  
-        cy.wait(3000); 
         EditProfilePage.pageHeader.should('contain', 'Edit Profile');
         EditProfilePage.nameInput.should('be.visible');
         EditProfilePage.phoneInput.should('be.visible');
@@ -90,9 +88,9 @@ describe('Test case 2: Profile editing', () => {
         EditProfilePage.nameInput.clear({timeout:10000});
         EditProfilePage.phoneInput.clear({timeout:10000});
         EditProfilePage.emailInput.clear({timeout:10000});
-        EditProfilePage.nameInput.type('RandomUsername', {force: true});
-        EditProfilePage.phoneInput.type('+380983611328', {force: true});
-        EditProfilePage.emailInput.type('holenkov.andrew@qatestlab.eu', {force: true});
+        EditProfilePage.nameInput.type('Random123', {force: true});
+        EditProfilePage.phoneInput.type('+380685953835', {force: true});
+        EditProfilePage.emailInput.type('andrey.holenkov@qatestlab.ec', {force: true});
 
 
         cy.wait(5000);
@@ -100,18 +98,18 @@ describe('Test case 2: Profile editing', () => {
         cy.wait(5000);
 
 
-        ProfilePage.nameInput.should('have.value', 'RandomUsername');
-        ProfilePage.phoneInput.should('have.value', '+380983611328');
-        ProfilePage.emailInput.should('have.value', 'holenkov.andrew@qatestlab.eu');
+        ProfilePage.nameInput.should('have.value', 'Random123');
+        ProfilePage.phoneInput.should('have.value', '+380685953835');
+        ProfilePage.emailInput.should('have.value', 'andrey.holenkov@qatestlab.ec');
 
 
         ProfilePage.editProfileButton.click();
         cy.wait(3000);
         EditProfilePage.nameInput.clear();
-        EditProfilePage.nameInput.type('AndrewLebowski'); 
+        EditProfilePage.nameInput.type('AndrewUser'); 
         EditProfilePage.phoneInput.clear();  
         cy.contains('OK').click();
-        EditProfilePage.phoneInput.type('+380983611320');
+        EditProfilePage.phoneInput.type('+380685953834');
         EditProfilePage.emailInput.clear();
         EditProfilePage.emailInput.type('andrey.holenkov@qatestlab.eu');
         cy.wait(3000)
@@ -145,4 +143,3 @@ describe('Test case 2: Profile editing', () => {
 
 
 });
-

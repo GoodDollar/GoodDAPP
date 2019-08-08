@@ -8,7 +8,7 @@ import ProfilePrivacyPage from '../PageObjects/ProfilePrivacyPage'
 
 
 
-describe('Test case 4: Profile privacy', () => {
+describe('Test case 5: Ability to change profile privacy level', () => {
 
     before('authorization', () => {     
         StartPage.open();
@@ -25,7 +25,7 @@ describe('Test case 4: Profile privacy', () => {
     it('User should be able to change privacy lvl', () => {
 
         HomePage.profileAvatar.click();
-        ProfilePage.phoneInput.should('have.value', '+380983611320');
+        ProfilePage.phoneInput.should('have.value', '+380685953834');
         ProfilePage.emailInput.should('have.value', 'andrey.holenkov@qatestlab.eu');
 
         ProfilePage.profilePrivacyButton.click();
@@ -37,7 +37,7 @@ describe('Test case 4: Profile privacy', () => {
         ProfilePrivacyPage.saveButton.click();
         ProfilePrivacyPage.backButton.click();
 
-        ProfilePage.phoneInput.should('have.value', '*********130');
+        ProfilePage.phoneInput.should('have.value', '*********3834');
         ProfilePage.emailInput.should('have.value', 'a*************v@qatestlab.eu');
         ProfilePage.profilePrivacyButton.click();
 
@@ -46,8 +46,8 @@ describe('Test case 4: Profile privacy', () => {
         ProfilePrivacyPage.saveButton.click();
         ProfilePrivacyPage.backButton.click();
 
-        ProfilePage.phoneInput.should('have.value', '');
-        ProfilePage.emailInput.should('have.value', '');
+        ProfilePage.phoneInput.should('have.value', '******');
+        ProfilePage.emailInput.should('have.value', '******');
         ProfilePage.profilePrivacyButton.click();
 
         ProfilePrivacyPage.publicNumberButton.click();

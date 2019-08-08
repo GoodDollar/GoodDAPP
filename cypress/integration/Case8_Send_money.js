@@ -8,7 +8,7 @@ import SendMoneyPage from '../PageObjects/SendMoneyPage'
 
 
 
-describe('Test case 6: Sending money', () => {
+describe('Test case 8: Ability to send money', () => {
 
     let sendMoneyUrl;
 

@@ -129,11 +129,8 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
-              "WebkitAlignItems": "center",
-              "WebkitBoxAlign": "center",
               "WebkitBoxPack": "center",
               "WebkitJustifyContent": "center",
-              "alignItems": "center",
               "backgroundColor": "rgba(0,0,0,0.00)",
               "borderBottomColor": "rgba(231,56,56,1.00)",
               "borderBottomLeftRadius": "50%",
@@ -155,7 +152,6 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
               "justifyContent": "center",
               "minHeight": "32px",
               "minWidth": "auto",
-              "msFlexAlign": "center",
               "msFlexPack": "center",
               "paddingLeft": "0px",
               "paddingRight": "0px",
@@ -253,11 +249,8 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
-              "WebkitAlignItems": "center",
-              "WebkitBoxAlign": "center",
               "WebkitBoxPack": "center",
               "WebkitJustifyContent": "center",
-              "alignItems": "center",
               "backgroundColor": "rgba(0,0,0,0.00)",
               "borderBottomColor": "rgba(244,71,74,1.00)",
               "borderBottomLeftRadius": "50%",
@@ -279,7 +272,6 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
               "justifyContent": "center",
               "minHeight": "32px",
               "minWidth": "auto",
-              "msFlexAlign": "center",
               "msFlexPack": "center",
               "paddingLeft": "0px",
               "paddingRight": "0px",
@@ -377,11 +369,8 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
-              "WebkitAlignItems": "center",
-              "WebkitBoxAlign": "center",
               "WebkitBoxPack": "center",
               "WebkitJustifyContent": "center",
-              "alignItems": "center",
               "backgroundColor": "rgba(0,0,0,0.00)",
               "borderBottomColor": "rgba(252,102,74,1.00)",
               "borderBottomLeftRadius": "50%",
@@ -403,7 +392,6 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
               "justifyContent": "center",
               "minHeight": "32px",
               "minWidth": "auto",
-              "msFlexAlign": "center",
               "msFlexPack": "center",
               "paddingLeft": "0px",
               "paddingRight": "0px",
@@ -501,11 +489,8 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
-              "WebkitAlignItems": "center",
-              "WebkitBoxAlign": "center",
               "WebkitBoxPack": "center",
               "WebkitJustifyContent": "center",
-              "alignItems": "center",
               "backgroundColor": "rgba(0,0,0,0.00)",
               "borderBottomColor": "rgba(253,135,68,1.00)",
               "borderBottomLeftRadius": "50%",
@@ -527,7 +512,6 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
               "justifyContent": "center",
               "minHeight": "32px",
               "minWidth": "auto",
-              "msFlexAlign": "center",
               "msFlexPack": "center",
               "paddingLeft": "0px",
               "paddingRight": "0px",
@@ -625,11 +609,8 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
-              "WebkitAlignItems": "center",
-              "WebkitBoxAlign": "center",
               "WebkitBoxPack": "center",
               "WebkitJustifyContent": "center",
-              "alignItems": "center",
               "backgroundColor": "rgba(0,0,0,0.00)",
               "borderBottomColor": "rgba(254,167,63,1.00)",
               "borderBottomLeftRadius": "50%",
@@ -651,7 +632,6 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
               "justifyContent": "center",
               "minHeight": "32px",
               "minWidth": "auto",
-              "msFlexAlign": "center",
               "msFlexPack": "center",
               "paddingLeft": "0px",
               "paddingRight": "0px",
@@ -749,11 +729,8 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
-              "WebkitAlignItems": "center",
-              "WebkitBoxAlign": "center",
               "WebkitBoxPack": "center",
               "WebkitJustifyContent": "center",
-              "alignItems": "center",
               "backgroundColor": "rgba(0,0,0,0.00)",
               "borderBottomColor": "rgba(255,194,31,1.00)",
               "borderBottomLeftRadius": "50%",
@@ -775,7 +752,6 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
               "justifyContent": "center",
               "minHeight": "32px",
               "minWidth": "auto",
-              "msFlexAlign": "center",
               "msFlexPack": "center",
               "paddingLeft": "0px",
               "paddingRight": "0px",
@@ -900,11 +876,8 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
-              "WebkitAlignItems": "center",
-              "WebkitBoxAlign": "center",
               "WebkitBoxPack": "center",
               "WebkitJustifyContent": "center",
-              "alignItems": "center",
               "backgroundColor": "rgba(0,0,0,0.00)",
               "borderBottomColor": "rgba(226,197,23,1.00)",
               "borderBottomLeftRadius": "50%",
@@ -926,7 +899,6 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
               "justifyContent": "center",
               "minHeight": "32px",
               "minWidth": "auto",
-              "msFlexAlign": "center",
               "msFlexPack": "center",
               "paddingLeft": "0px",
               "paddingRight": "0px",
@@ -1024,11 +996,8 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
-              "WebkitAlignItems": "center",
-              "WebkitBoxAlign": "center",
               "WebkitBoxPack": "center",
               "WebkitJustifyContent": "center",
-              "alignItems": "center",
               "backgroundColor": "rgba(0,0,0,0.00)",
               "borderBottomColor": "rgba(192,202,14,1.00)",
               "borderBottomLeftRadius": "50%",
@@ -1050,7 +1019,6 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
               "justifyContent": "center",
               "minHeight": "32px",
               "minWidth": "auto",
-              "msFlexAlign": "center",
               "msFlexPack": "center",
               "paddingLeft": "0px",
               "paddingRight": "0px",
@@ -1148,11 +1116,8 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
-              "WebkitAlignItems": "center",
-              "WebkitBoxAlign": "center",
               "WebkitBoxPack": "center",
               "WebkitJustifyContent": "center",
-              "alignItems": "center",
               "backgroundColor": "rgba(0,0,0,0.00)",
               "borderBottomColor": "rgba(158,204,6,1.00)",
               "borderBottomLeftRadius": "50%",
@@ -1174,7 +1139,6 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
               "justifyContent": "center",
               "minHeight": "32px",
               "minWidth": "auto",
-              "msFlexAlign": "center",
               "msFlexPack": "center",
               "paddingLeft": "0px",
               "paddingRight": "0px",
@@ -1272,11 +1236,8 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
-              "WebkitAlignItems": "center",
-              "WebkitBoxAlign": "center",
               "WebkitBoxPack": "center",
               "WebkitJustifyContent": "center",
-              "alignItems": "center",
               "backgroundColor": "rgba(0,0,0,0.00)",
               "borderBottomColor": "rgba(124,203,0,1.00)",
               "borderBottomLeftRadius": "50%",
@@ -1298,7 +1259,6 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
               "justifyContent": "center",
               "minHeight": "32px",
               "minWidth": "auto",
-              "msFlexAlign": "center",
               "msFlexPack": "center",
               "paddingLeft": "0px",
               "paddingRight": "0px",
@@ -1396,11 +1356,8 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
-              "WebkitAlignItems": "center",
-              "WebkitBoxAlign": "center",
               "WebkitBoxPack": "center",
               "WebkitJustifyContent": "center",
-              "alignItems": "center",
               "backgroundColor": "rgba(0,0,0,0.00)",
               "borderBottomColor": "rgba(49,171,0,1.00)",
               "borderBottomLeftRadius": "50%",
@@ -1422,7 +1379,6 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
               "justifyContent": "center",
               "minHeight": "32px",
               "minWidth": "auto",
-              "msFlexAlign": "center",
               "msFlexPack": "center",
               "paddingLeft": "0px",
               "paddingRight": "0px",
@@ -1605,11 +1561,8 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
       className="css-view-1dbjc4n"
       style={
         Object {
-          "WebkitAlignItems": "center",
-          "WebkitBoxAlign": "center",
           "WebkitBoxPack": "center",
           "WebkitJustifyContent": "center",
-          "alignItems": "center",
           "backgroundColor": "rgba(0,0,0,0.00)",
           "borderBottomColor": "rgba(0,175,255,1.00)",
           "borderBottomLeftRadius": "50px",
@@ -1630,7 +1583,6 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
           "justifyContent": "center",
           "minHeight": "44px",
           "minWidth": "80px",
-          "msFlexAlign": "center",
           "msFlexPack": "center",
           "paddingLeft": "0px",
           "paddingRight": "0px",

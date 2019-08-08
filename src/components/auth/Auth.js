@@ -107,6 +107,7 @@ const getStylesFromProps = ({ theme }) => {
       paddingHorizontal: theme.sizes.default,
       paddingVertical: theme.sizes.default,
       backgroundColor: theme.colors.darkGray,
+      boxShadow: '0 3px 6px rgba(0, 0, 0, 0.24)',
     },
     separator: {
       maxWidth: 276,

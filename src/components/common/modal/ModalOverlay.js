@@ -19,13 +19,14 @@ const getStylesFromProps = ({ theme }) => ({
   modalInnerWrapper: {
     alignSelf: 'center',
     maxWidth: '475px',
+    width: '100%',
     flexGrow: 1,
     flexShrink: 0,
-    width: '100%',
     paddingBottom: theme.modals.overlayVerticalPadding,
     paddingLeft: theme.modals.overlayHorizontalPadding,
     paddingRight: theme.modals.overlayHorizontalPadding,
     paddingTop: theme.modals.overlayVerticalPadding,
+    marginVertical: 'auto',
   },
 })
 

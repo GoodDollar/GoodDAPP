@@ -1,9 +1,9 @@
 // @flow
 import React from 'react'
-import { Alert, TouchableHighlight, View } from 'react-native-web'
+import { TouchableOpacity, View } from 'react-native-web'
+import { ActivityIndicator } from 'react-native-paper'
 import { withStyles } from '../../lib/styles'
 import { Icon, Text } from '../common'
-import normalize from '../../lib/utils/normalizeText'
 import type { FeedEventProps } from './FeedItems/EventProps'
 
 /**
@@ -12,29 +12,30 @@ import type { FeedEventProps } from './FeedItems/EventProps'
  * @param {FeedEventProps} feedItem - Contains the feed item
  * @returns React element with actions
  */
-const FeedActions = ({ item, styles, theme }: FeedEventProps) => (
-  <View
-    style={[
-      styles.actionsContainer,
-      {
-        backgroundColor: item && item.type !== 'empty' ? theme.colors.red : theme.colors.surface,
-      },
-    ]}
-  >
-    {item && item.type !== 'empty' && item.id && item.id.indexOf('0x') === -1 && (
-      <TouchableHighlight
-        onPress={() => {
-          Alert.alert('Tips', 'You could do something with this remove action!')
-        }}
-      >
-        <View style={styles.actionsContainerInner}>
-          <Icon name="close" color={theme.colors.surface} />
-          <Text style={[styles.action]}>Delete</Text>
-        </View>
-      </TouchableHighlight>
-    )}
-  </View>
-)
+const FeedActions = ({ actionActive, hasAction, children, onPress, styles, theme }: FeedEventProps) => {
+  const backgroundColor = hasAction ? theme.colors.red : 'transparent'
+
+  const content =
+    actionActive === undefined ? (
+      <>
+        <Icon name="close" color={theme.colors.surface} />
+        <Text style={[styles.action]} fontSize={14} fontWeight="500" color="surface">
+          {children}
+        </Text>
+      </>
+    ) : (
+      <ActivityIndicator />
+    )
+  return (
+    <View style={[styles.actionsContainer, { backgroundColor }]}>
+      {hasAction && (
+        <TouchableOpacity onPress={actionActive === undefined && onPress}>
+          <View style={styles.actionsContainerInner}>{content}</View>
+        </TouchableOpacity>
+      )}
+    </View>
+  )
+}
 
 const getStylesFromProps = ({ theme }) => ({
   actionsContainer: {
@@ -57,12 +58,8 @@ const getStylesFromProps = ({ theme }) => ({
     justifyContent: 'center',
   },
   action: {
-    color: '#fff',
-    fontFamily: theme.fonts.default,
-    fontSize: normalize(14),
-    fontWeight: '500',
-    lineHeight: normalize(14),
     marginTop: theme.sizes.default,
+    paddingHorizontal: theme.sizes.default,
   },
 })
 

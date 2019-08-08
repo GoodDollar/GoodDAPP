@@ -1166,8 +1166,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                                     }
                                   }
                                 >
-                                  From
-                                  :
+                                  From:
                                 </span>
                                 <span
                                   className="css-text-901oao css-textHasAncestor-16my406"
@@ -1715,8 +1714,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                                     }
                                   }
                                 >
-                                  To
-                                  :
+                                  To:
                                 </span>
                                 <span
                                   className="css-text-901oao css-textHasAncestor-16my406"

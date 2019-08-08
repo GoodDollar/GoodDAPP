@@ -1,11 +1,49 @@
 // @flow
 import type { Store } from 'undux'
 import throttle from 'lodash/throttle'
+import Config from '../../../config/config'
 import userStorage from '../../gundb/UserStorage'
 import pino from '../../logger/pino-logger'
 const logger = pino.child({ from: 'feeds' })
 
 export const PAGE_SIZE = 10
+
+const getMockFeeds = () => {
+  return Config.withMockedFeeds
+    ? [
+        {
+          id: '111111111111111111111111111111111111111111111111111111111111333333',
+          date: new Date().getTime(),
+          type: 'message',
+          createdDate: 'Fri Aug 02 2019 15:15:44 GMT-0300 (Argentina Standard Time)',
+          status: 'completed',
+          data: {
+            message:
+              '"I can buy food for my children!"\nNairobi, Kenya - 24,600 people are using GD today to buy essential commodities... ',
+            endpoint: {
+              fullName: 'Maisao Matimbo (Kenya)',
+              avatar: null,
+              address: null,
+            },
+          },
+        },
+        {
+          id: '111111111111111111111111111111111111111111111111111111111111444444',
+          date: new Date().getTime(),
+          type: 'feedback',
+          createdDate: 'Fri Aug 02 2019 15:15:44 GMT-0300 (Argentina Standard Time)',
+          status: 'completed',
+          data: {
+            message: 'How likely are you to recommend GoodDollar to a friend or colleague?',
+            endpoint: {
+              avatar: null,
+              address: null,
+            },
+          },
+        },
+      ]
+    : []
+}
 
 const getInitial = async (store: Store) => {
   logger.debug('getFeed')
@@ -13,9 +51,10 @@ const getInitial = async (store: Store) => {
   const feeds = await userStorage
     .getFormattedEvents(PAGE_SIZE, true)
     .catch(err => logger.error('getInitialFeed -> ', err))
-  logger.debug('getFeed done')
+  logger.info({ feeds })
+  const mockedFeeds = getMockFeeds()
   store.set('feedLoading')(false)
-  store.set('feeds')(feeds)
+  store.set('feeds')(feeds.concat(mockedFeeds))
 }
 
 export const getNextFeed = async (store: Store) => {

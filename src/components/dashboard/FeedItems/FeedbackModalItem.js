@@ -1,0 +1,154 @@
+// @flow
+import React from 'react'
+import { View } from 'react-native'
+import CustomButton from '../../common/buttons/CustomButton'
+import Text from '../../common/view/Text'
+import { withStyles } from '../../../lib/styles'
+import type { FeedEventProps } from './EventProps'
+
+const numberColors = [
+  '#E73838',
+  '#F4474A',
+  '#FC664A',
+  '#FD8744',
+  '#FEA73F',
+  '#FFC21F',
+  '#E2C517',
+  '#C0CA0E',
+  '#9ECC06',
+  '#7CCB00',
+  '#31AB00',
+]
+
+const CircleNumber = ({ value, onPress, styles, theme }) => (
+  <View style={styles.numberColumn}>
+    <CustomButton
+      style={[styles.numberButton, { borderColor: numberColors[value] }]}
+      onPress={onPress}
+      mode="outlined"
+      color={theme.colors.darkGray}
+    >
+      {value}
+    </CustomButton>
+  </View>
+)
+
+/**
+ * Render modal item according to the type for feed list in horizontal view
+ * @param {FeedEventProps} props - feed event
+ * @returns {HTMLElement}
+ */
+const FeedModalItem = (props: FeedEventProps) => {
+  const { item, onPress, styles, theme } = props
+  const buttonPress = () => {
+    onPress(item.id)
+  }
+
+  return (
+    <React.Fragment>
+      <View style={styles.dateAndAmount}>
+        <Text fontFamily="medium" fontSize={22} color="darkGray">
+          {item.data.message}
+        </Text>
+      </View>
+      <View style={[styles.numbersContainer, { borderColor: theme.colors.primary }]}>
+        <View style={styles.numbersRow}>
+          {Array.from({ length: 6 }, (elem, index) => (
+            <CircleNumber key={index} value={index} onPress={() => {}} styles={styles} theme={theme} />
+          ))}
+        </View>
+        <View style={styles.bottomNumbersRow}>
+          {Array.from({ length: 5 }, (elem, index) => (
+            <CircleNumber key={index + 6} value={index + 6} onPress={() => {}} styles={styles} theme={theme} />
+          ))}
+        </View>
+        <View style={styles.numbersDescriptionRow}>
+          <Text fontFamily="medium" fontSize={14} color="darkGray" style={{ marginRight: 'auto' }}>
+            0 - NO WAY!
+          </Text>
+          <Text fontFamily="medium" fontSize={14} color="darkGray" style={{ marginLeft: 'auto' }}>
+            10 - FOR SURE!
+          </Text>
+        </View>
+      </View>
+      <View style={styles.buttonsRow}>
+        <CustomButton mode="text" style={styles.button} onPress={buttonPress} color={theme.colors.gray80Percent}>
+          LATER
+        </CustomButton>
+      </View>
+    </React.Fragment>
+  )
+}
+
+const getStylesFromProps = ({ theme }) => {
+  return {
+    numberButton: {
+      borderRadius: '50%',
+      borderWidth: 2,
+      width: 32,
+      height: 32,
+      minHeight: 32,
+    },
+    dateAndAmount: {
+      alignItems: 'center',
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      marginBottom: 12,
+    },
+    numbersContainer: {
+      alignItems: 'center',
+      borderBottomWidth: 2,
+      borderTopWidth: 2,
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'flex-start',
+      marginBottom: 18,
+      paddingBottom: theme.sizes.defaultQuadruple,
+      paddingTop: theme.sizes.defaultQuadruple,
+    },
+    numbersRow: {
+      display: 'flex',
+      flexDirection: 'row',
+      flexGrow: 1,
+      width: '100%',
+      justifyContent: 'space-around',
+    },
+    bottomNumbersRow: {
+      display: 'flex',
+      flexDirection: 'row',
+      flexGrow: 1,
+      width: '100%',
+      justifyContent: 'space-around',
+      paddingTop: theme.sizes.default,
+      paddingBottom: theme.sizes.defaultDouble,
+      paddingLeft: theme.sizes.defaultQuadruple,
+      paddingRight: theme.sizes.defaultQuadruple,
+    },
+    numbersDescriptionRow: {
+      display: 'flex',
+      flexDirection: 'row',
+      flexGrow: 1,
+      width: '100%',
+      justifyContent: 'space-between',
+      paddingLeft: theme.sizes.defaultDouble,
+      paddingRight: theme.sizes.defaultDouble,
+    },
+    numberColumn: {
+      display: 'flex',
+      flexDirection: 'column',
+    },
+    buttonsRow: {
+      alignItems: 'flex-end',
+      flex: 1,
+      flexDirection: 'row',
+      justifyContent: 'center',
+      marginTop: theme.sizes.defaultDouble,
+    },
+    button: {
+      minWidth: 80,
+    },
+  }
+}
+
+export default withStyles(getStylesFromProps)(FeedModalItem)

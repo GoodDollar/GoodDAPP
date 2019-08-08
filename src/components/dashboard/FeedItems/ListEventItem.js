@@ -6,6 +6,7 @@ import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
 import { withStyles } from '../../../lib/styles'
 import Avatar from '../../common/view/Avatar'
 import BigGoodDollar from '../../common/view/BigGoodDollar'
+import CustomButton from '../../common/buttons/CustomButton'
 import Text from '../../common/view/Text'
 import type { FeedEventProps } from './EventProps'
 import EventIcon from './EventIcon'
@@ -53,9 +54,23 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
         <View style={styles.transferInfo} alignItems="flex-start">
           <View style={styles.mainInfo}>
             <EventCounterParty style={styles.feedItem} feedItem={feed} />
-            <Text numberOfLines={1} style={styles.message}>
-              {feed.data.message}
-            </Text>
+            {feed.type === 'welcome' ? (
+              <Text numberOfLines={1} style={styles.boldMessage}>
+                Start claiming free G$
+                <CustomButton
+                  mode="text"
+                  color={theme.colors.lighterGray}
+                  style={styles.readMore}
+                  textStyle={styles.readMoreText}
+                >
+                  Read more...
+                </CustomButton>
+              </Text>
+            ) : (
+              <Text numberOfLines={1} style={styles.message}>
+                {feed.data.message}
+              </Text>
+            )}
           </View>
           <EventIcon style={[styles.typeIcon]} type={itemType} />
         </View>
@@ -100,6 +115,17 @@ const getStylesFromProps = ({ theme }) => ({
     fontWeight: '400',
     marginTop: 2,
   },
+  readMoreText: {
+    fontFamily: theme.fonts.default,
+    fontSize: normalize(10),
+    fontWeight: '400',
+    letterSpacing: 0,
+  },
+  readMore: {
+    minHeight: normalize(16),
+    maxHeight: normalize(16),
+    marginHorizontal: -theme.sizes.default,
+  },
   actionSymbol: {
     fontFamily: theme.fonts.default,
     fontSize: normalize(15),
@@ -118,7 +144,7 @@ const getStylesFromProps = ({ theme }) => ({
     flexDirection: 'row',
     flexShrink: 1,
     marginTop: 'auto',
-    paddingTop: theme.sizes.defaultHalf,
+    paddingHorizontal: theme.sizes.defaultHalf,
   },
   mainInfo: {
     alignItems: 'flex-start',
@@ -134,6 +160,7 @@ const getStylesFromProps = ({ theme }) => ({
   feedItem: {
     flexShrink: 0,
     height: 22,
+    marginBottom: 0,
   },
   message: {
     color: theme.colors.gray80Percent,
@@ -142,6 +169,13 @@ const getStylesFromProps = ({ theme }) => ({
     textTransform: 'capitalize',
     flexShrink: 0,
     lineHeight: normalize(10),
+  },
+  boldMessage: {
+    color: theme.fontStyle.color,
+    fontFamily: theme.fonts.default,
+    fontSize: normalize(16),
+    fontWeight: '500',
+    lineHeight: normalize(16),
   },
   typeIcon: {
     marginTop: 'auto',

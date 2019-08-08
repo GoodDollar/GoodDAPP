@@ -10,7 +10,7 @@ const COPIED = 'COPIED'
 const DONE = 'DONE'
 const TRANSITION_TIME = 1000
 
-const CopyButton = ({ toCopy, children, onPressDone, ...props }) => {
+const CopyButton = ({ toCopy, children, onPressDone, iconColor, ...props }) => {
   const mode = props.mode || 'contained'
   const [state, setState] = useState(NOT_COPIED)
 
@@ -34,7 +34,7 @@ const CopyButton = ({ toCopy, children, onPressDone, ...props }) => {
       return (
         <CustomButton data-gdtype={'copybutton-copied'} mode={mode} {...props}>
           <View style={styles.iconButtonWrapper}>
-            <Icon size={16} name="done" color="white" />
+            <Icon size={16} name="done" color={iconColor || 'white'} />
           </View>
         </CustomButton>
       )

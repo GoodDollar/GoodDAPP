@@ -1,27 +1,55 @@
 // @flow
-import React from 'react'
+import React, { useState } from 'react'
 import { View } from 'react-native'
 import CustomButton from '../buttons/CustomButton'
+import CopyButton from '../buttons/CopyButton'
 import logger from '../../../lib/logger/pino-logger'
+import goodWallet from '../../../lib/wallet/GoodWallet'
+import { generateShareLink } from '../../../lib/share'
+import { useErrorDialog } from '../../../lib/undux/utils/dialog'
 import { withStyles } from '../../../lib/styles'
 
 const log = logger.child({ from: 'ModalActionsByFeed' })
 
 const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose }) => {
+  const [showErrorDialog] = useErrorDialog()
+  const [state, setState] = useState({})
+
   const cancelPayment = () => {
-    log({ item, action: 'cancelPayment' })
+    log.info({ item, action: 'cancelPayment' })
+    setState({ ...state, cancelPaymentLoading: true })
+    try {
+      goodWallet
+        .cancelOTLByTransactionHash(item.id)
+        .catch(e => showErrorDialog('Canceling link the payment link has failed', e))
+        .finally(() => {
+          setState({ ...state, cancelPaymentLoading: false })
+          handleModalClose()
+        })
+    } catch (e) {
+      setState({ ...state, cancelPaymentLoading: false })
+      handleModalClose()
+      showErrorDialog(e)
+    }
   }
-  const copyPaymentLink = () => {
-    log({ item, action: 'copyPaymentLink' })
-  }
+
+  const getPaymentLink = () =>
+    generateShareLink('send', {
+      paymentCode: item.id,
+      reason: item.data.message,
+    })
+
   const readMore = () => {
-    log({ item, action: 'readMore' })
+    log.info({ item, action: 'readMore' })
+    handleModalClose()
   }
   const shareMessage = () => {
-    log({ item, action: 'shareMessage' })
+    log.info({ item, action: 'shareMessage' })
+    handleModalClose()
   }
   const invitePeople = () => {
-    log({ item, action: 'invitePeople' })
+    log.info({ item, action: 'invitePeople' })
+    handleModalClose()
   }
 
   switch (item.type) {
@@ -34,12 +62,19 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose }) => {
               style={[styles.button, { borderColor: theme.colors.red }]}
               onPress={cancelPayment}
               color={theme.colors.red}
+              loading={state.cancelPaymentLoading}
             >
               Cancel payment link
             </CustomButton>
-            <CustomButton mode="outlined" style={styles.rightButton} onPress={copyPaymentLink}>
+            <CopyButton
+              mode="outlined"
+              style={styles.rightButton}
+              toCopy={getPaymentLink()}
+              onPressDone={handleModalClose}
+              iconColor={theme.colors.primary}
+            >
               Copy link
-            </CustomButton>
+            </CopyButton>
           </View>
           <View style={styles.buttonsView}>
             <CustomButton mode="contained" style={styles.rightButton} onPress={handleModalClose}>

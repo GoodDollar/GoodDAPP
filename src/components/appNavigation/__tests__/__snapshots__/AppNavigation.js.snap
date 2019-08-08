@@ -745,17 +745,17 @@ exports[`AppNavigation matches snapshot 1`] = `
                 className="css-view-1dbjc4n"
                 style={
                   Object {
-                    "WebkitAlignItems": "stretch",
-                    "WebkitBoxAlign": "stretch",
+                    "WebkitAlignItems": "center",
+                    "WebkitBoxAlign": "center",
                     "WebkitBoxDirection": "normal",
                     "WebkitBoxOrient": "horizontal",
                     "WebkitBoxPack": "center",
                     "WebkitFlexDirection": "row",
                     "WebkitJustifyContent": "center",
-                    "alignItems": "stretch",
+                    "alignItems": "center",
                     "flexDirection": "row",
                     "justifyContent": "center",
-                    "msFlexAlign": "stretch",
+                    "msFlexAlign": "center",
                     "msFlexDirection": "row",
                     "msFlexPack": "center",
                   }
@@ -1048,17 +1048,17 @@ exports[`AppNavigation matches snapshot 1`] = `
                 className="css-view-1dbjc4n"
                 style={
                   Object {
-                    "WebkitAlignItems": "stretch",
-                    "WebkitBoxAlign": "stretch",
+                    "WebkitAlignItems": "center",
+                    "WebkitBoxAlign": "center",
                     "WebkitBoxDirection": "normal",
                     "WebkitBoxOrient": "horizontal",
                     "WebkitBoxPack": "center",
                     "WebkitFlexDirection": "row",
                     "WebkitJustifyContent": "center",
-                    "alignItems": "stretch",
+                    "alignItems": "center",
                     "flexDirection": "row",
                     "justifyContent": "center",
-                    "msFlexAlign": "stretch",
+                    "msFlexAlign": "center",
                     "msFlexDirection": "row",
                     "msFlexPack": "center",
                   }

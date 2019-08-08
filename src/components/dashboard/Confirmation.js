@@ -103,12 +103,12 @@ const getStylesFromProps = ({ theme }) => {
     },
     bigGoodDollar: {
       fontFamily: theme.fonts.default,
-      fontSize: normalize(28),
+      fontSize: normalize(24),
       fontWeight: '700',
     },
     bigGoodDollarUnit: {
       fontFamily: theme.fonts.default,
-      fontSize: normalize(16),
+      fontSize: normalize(14),
       fontWeight: '700',
     },
     counterPartyDisplayName: {

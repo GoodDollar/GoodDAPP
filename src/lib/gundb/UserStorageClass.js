@@ -106,9 +106,10 @@ export type TransactionEvent = FeedEvent & {
 }
 
 const welcomeMessage = {
-  id: '111111111111111111111111111111111111111111111111111111111111111111',
+  id: '0',
   type: 'invite',
   date: new Date().getTime(),
+  status: 'completed',
   data: {
     customName: 'Invite friends to GoodDollar',
     receiptData: {
@@ -353,7 +354,7 @@ export class UserStorage {
       })
       logger.debug('init to events')
 
-      this.initFeed()
+      await this.initFeed()
 
       //save ref to user
       this.gun
@@ -524,10 +525,14 @@ export class UserStorage {
    * Subscribes to changes on the event index of day to number of events
    * the "false" (see gundb docs) passed is so we get the complete 'index' on every change and not just the day that changed
    */
-  initFeed() {
+  async initFeed() {
     this.feed = this.gunuser.get('feed')
     this.feed.get('index').on(this.updateFeedIndex, false)
-    this.enqueueTX(welcomeMessage)
+
+    //first time user
+    if ((await this.feed) === undefined) {
+      this.enqueueTX(welcomeMessage)
+    }
   }
 
   /**
@@ -1116,8 +1121,8 @@ export class UserStorage {
     //a race exists between enqueing and receipt from websockets/polling
     const release = await this.feedMutex.lock()
     try {
-      event.status = 'pending'
-      event.createdDate = new Date().toString()
+      event.status = event.status || 'pending'
+      event.createdDate = event.createdDate || new Date().toString()
       let putRes = await this.feed
         .get('queue')
         .get(event.id)

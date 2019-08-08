@@ -2,7 +2,7 @@ const getEventSettingsByType = (theme, type) => {
   const styles = {
     claim: {
       actionSymbol: '+',
-      color: theme.colors.green,
+      color: theme.colors.lightGreen,
       name: 'claim-filled',
     },
     send: {
@@ -17,7 +17,7 @@ const getEventSettingsByType = (theme, type) => {
     },
     receive: {
       actionSymbol: '+',
-      color: theme.colors.green,
+      color: theme.colors.lightGreen,
       name: 'claim-filled',
     },
     withdraw: {
@@ -28,18 +28,27 @@ const getEventSettingsByType = (theme, type) => {
     message: {
       color: theme.colors.purple,
       name: 'social-good-filled',
+      withoutAmount: true,
     },
     sendcancelled: {
       color: theme.colors.orange,
       name: 'clock-filled',
     },
     sendpending: {
+      actionSymbol: '-',
       color: theme.colors.orange,
       name: 'clock-filled',
+      withoutAmount: true,
+    },
+    invite: {
+      color: theme.colors.primary,
+      name: 'system-filled',
+      withoutAmount: true,
     },
     feedback: {
       color: theme.colors.primary,
       name: 'system-filled',
+      withoutAmount: true,
     },
     empty: {
       color: theme.colors.lightGray,

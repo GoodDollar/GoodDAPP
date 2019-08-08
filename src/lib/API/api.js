@@ -45,7 +45,7 @@ class API {
    */
   init() {
     log.info('initializing api...', Config.serverUrl)
-    return AsyncStorage.getItem('GoodDAPP_jwt').then(async jwt => {
+    return (this.ready = AsyncStorage.getItem('GoodDAPP_jwt').then(async jwt => {
       this.jwt = jwt
       let instance: AxiosInstance = axios.create({
         baseURL: Config.serverUrl,
@@ -77,7 +77,7 @@ class API {
       )
       this.client = await instance
       log.info('API ready', this.jwt)
-    })
+    }))
   }
 
   /**

@@ -1178,10 +1178,10 @@ export class UserStorage {
 
     //saving index by onetime code so we can retrieve and update it once withdrawn
     //or skip own withdraw
-    if (event.type == 'send' && event.data.code) {
+    if (event.type === 'send' && event.data.code) {
       const hashedCode = this.wallet.wallet.utils.sha3(event.data.code)
       this.feed.get('codeToTxHash').put({ [hashedCode]: event.id })
-    } else if (event.type == 'withdraw' && event.data.code) {
+    } else if (event.type === 'withdraw' && event.data.code) {
       //are we withdrawing our own link?
       const hashedCode = this.wallet.wallet.utils.sha3(event.data.code)
       const ownlink = await this.feed.get('codeToTxHash').get(hashedCode)

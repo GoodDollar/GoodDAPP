@@ -401,7 +401,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
                 }
               }
             >
-              Misao Matimbo
+               Misao Matimbo
             </span>
           </div>
           <div
@@ -852,7 +852,7 @@ exports[`ListEventItem send matches snapshot 1`] = `
                 }
               }
             >
-              Misao Matimbo
+               Misao Matimbo
             </span>
           </div>
           <div
@@ -1303,7 +1303,7 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
                 }
               }
             >
-              Misao Matimbo
+               Misao Matimbo
             </span>
           </div>
           <div

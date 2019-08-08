@@ -899,7 +899,6 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
             "borderTopRightRadius": "50px",
             "borderTopStyle": "solid",
             "borderTopWidth": "0px",
-            "boxShadow": "0px 0px 0px rgba(0,0,0,0.24)",
             "flexGrow": 1,
             "justifyContent": "center",
             "minHeight": "44px",

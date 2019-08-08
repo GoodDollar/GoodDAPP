@@ -72,7 +72,7 @@ exports[`EventCounterParty receive matches snapshot 1`] = `
         }
       }
     >
-      Misao Matimbo
+       Misao Matimbo
     </span>
   </div>
 </div>
@@ -150,7 +150,7 @@ exports[`EventCounterParty send matches snapshot 1`] = `
         }
       }
     >
-      Misao Matimbo
+       Misao Matimbo
     </span>
   </div>
 </div>
@@ -228,7 +228,7 @@ exports[`EventCounterParty withdraw matches snapshot 1`] = `
         }
       }
     >
-      Misao Matimbo
+       Misao Matimbo
     </span>
   </div>
 </div>

@@ -552,7 +552,7 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                         }
                       }
                     >
-                      Misao Matimbo
+                       Misao Matimbo
                     </span>
                   </div>
                   <div
@@ -662,7 +662,6 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                         "borderTopRightRadius": "50px",
                         "borderTopStyle": "solid",
                         "borderTopWidth": "0px",
-                        "boxShadow": "0px 0px 0px rgba(0,0,0,0.24)",
                         "justifyContent": "center",
                         "minHeight": "44px",
                         "minWidth": "80px",
@@ -1454,6 +1453,7 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                         "fontSize": "16px",
                         "fontWeight": "normal",
                         "lineHeight": "16px",
+                        "marginBottom": "4px",
                         "paddingRight": "4px",
                         "textAlign": "left",
                         "textDecoration": "none",
@@ -1607,7 +1607,6 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                         "borderTopRightRadius": "50px",
                         "borderTopStyle": "solid",
                         "borderTopWidth": "1px",
-                        "boxShadow": "0px 0px 0px rgba(0,0,0,0.24)",
                         "justifyContent": "center",
                         "minHeight": "44px",
                         "minWidth": "80px",
@@ -2457,6 +2456,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                         "fontSize": "16px",
                         "fontWeight": "normal",
                         "lineHeight": "16px",
+                        "marginBottom": "4px",
                         "paddingRight": "4px",
                         "textAlign": "left",
                         "textDecoration": "none",
@@ -2610,7 +2610,6 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                         "borderTopRightRadius": "50px",
                         "borderTopStyle": "solid",
                         "borderTopWidth": "1px",
-                        "boxShadow": "0px 0px 0px rgba(0,0,0,0.24)",
                         "justifyContent": "center",
                         "minHeight": "44px",
                         "minWidth": "80px",
@@ -2750,7 +2749,6 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                         "borderTopRightRadius": "50px",
                         "borderTopStyle": "solid",
                         "borderTopWidth": "1px",
-                        "boxShadow": "0px 0px 0px rgba(0,0,0,0.24)",
                         "justifyContent": "center",
                         "marginLeft": "8px",
                         "marginTop": "8px",
@@ -3674,7 +3672,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                         }
                       }
                     >
-                      Misao Matimbo
+                       Misao Matimbo
                     </span>
                   </div>
                   <div

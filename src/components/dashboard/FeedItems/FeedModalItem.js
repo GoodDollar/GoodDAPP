@@ -29,9 +29,10 @@ const FeedModalItem = (props: FeedEventProps) => {
   const itemType = item.displayType || item.type
   const eventSettings = getEventSettingsByType(theme, itemType)
   const mainColor = eventSettings.color
+  const showJaggedEdge = ['claim', 'sendcompleted', 'withdraw', 'receive'].includes(itemType)
 
   return (
-    <ModalWrapper leftBorderColor={mainColor} onClose={buttonPress} showJaggedEdge={true} fullHeight={true}>
+    <ModalWrapper leftBorderColor={mainColor} onClose={buttonPress} showJaggedEdge={showJaggedEdge} fullHeight={true}>
       {item.type === 'feedback' ? (
         <FeedbackModalItem {...props} />
       ) : (

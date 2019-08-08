@@ -24,13 +24,12 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose }) => {
         .catch(e => showErrorDialog('Canceling link the payment link has failed', e))
         .finally(() => {
           setState({ ...state, cancelPaymentLoading: false })
-          handleModalClose()
         })
     } catch (e) {
       setState({ ...state, cancelPaymentLoading: false })
-      handleModalClose()
       showErrorDialog(e)
     }
+    handleModalClose()
   }
 
   const getPaymentLink = () =>

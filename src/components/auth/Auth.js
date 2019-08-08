@@ -108,6 +108,7 @@ const getStylesFromProps = ({ theme }) => {
       paddingVertical: theme.sizes.default,
       backgroundColor: theme.colors.darkGray,
       boxShadow: '0 3px 6px rgba(0, 0, 0, 0.24)',
+      marginBottom: 12,
     },
     separator: {
       maxWidth: 276,
@@ -144,6 +145,7 @@ const getStylesFromProps = ({ theme }) => {
       maxWidth: '100%',
       minHeight: 192,
       minWidth: 284,
+      paddingTop: theme.sizes.default,
     },
   }
 }

@@ -35,11 +35,13 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose }) => {
               onPress={cancelPayment}
               color={theme.colors.red}
             >
-              Cancel payment
+              Cancel payment link
             </CustomButton>
             <CustomButton mode="outlined" style={styles.rightButton} onPress={copyPaymentLink}>
               Copy link
             </CustomButton>
+          </View>
+          <View style={styles.buttonsView}>
             <CustomButton mode="contained" style={styles.rightButton} onPress={handleModalClose}>
               Ok
             </CustomButton>
@@ -102,7 +104,7 @@ const getStylesFromProps = ({ theme }) => ({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    marginTop: theme.sizes.defaultDouble,
+    marginTop: 'auto',
     flexWrap: 'wrap',
   },
   button: {

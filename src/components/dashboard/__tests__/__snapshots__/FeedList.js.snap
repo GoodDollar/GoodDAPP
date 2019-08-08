@@ -1092,7 +1092,8 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                                 "marginTop": "auto",
                                 "msFlexDirection": "row",
                                 "msFlexNegative": 1,
-                                "paddingTop": "4px",
+                                "paddingLeft": "4px",
+                                "paddingRight": "4px",
                               }
                             }
                           >
@@ -1141,7 +1142,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                                     "fontWeight": "normal",
                                     "height": "22px",
                                     "lineHeight": "16px",
-                                    "marginBottom": "4px",
+                                    "marginBottom": "0px",
                                     "msFlexNegative": 0,
                                     "textAlign": "left",
                                     "textDecoration": "none",
@@ -1640,7 +1641,8 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                                 "marginTop": "auto",
                                 "msFlexDirection": "row",
                                 "msFlexNegative": 1,
-                                "paddingTop": "4px",
+                                "paddingLeft": "4px",
+                                "paddingRight": "4px",
                               }
                             }
                           >
@@ -1689,7 +1691,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                                     "fontWeight": "normal",
                                     "height": "22px",
                                     "lineHeight": "16px",
-                                    "marginBottom": "4px",
+                                    "marginBottom": "0px",
                                     "msFlexNegative": 0,
                                     "textAlign": "left",
                                     "textDecoration": "none",

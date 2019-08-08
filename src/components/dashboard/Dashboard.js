@@ -126,7 +126,7 @@ const Dashboard = props => {
     <Wrapper style={styles.dashboardWrapper}>
       <Section style={[styles.topInfo]}>
         {scrollPos <= 0 ? (
-          <Section.Stack justifyContent="center" alignItems="center">
+          <Section.Stack alignItems="center">
             <Avatar onPress={() => screenProps.push('Profile')} size={68} source={avatar} style={[styles.avatarBig]} />
             <Section.Text style={[styles.userName]}>{fullName || ' '}</Section.Text>
             <BigGoodDollar
@@ -238,7 +238,7 @@ const getStylesFromProps = ({ theme }) => ({
     paddingTop: 0,
   },
   avatarBig: {
-    marginBottom: 12,
+    marginBottom: theme.sizes.default,
   },
   avatarSmall: {
     borderRadius: '50%',
@@ -250,7 +250,7 @@ const getStylesFromProps = ({ theme }) => ({
     color: theme.colors.gray80Percent,
     fontFamily: theme.fonts.slab,
     fontSize: normalize(18),
-    marginBottom: theme.sizes.defaultDouble,
+    marginBottom: theme.sizes.default,
   },
   buttonsRow: {
     alignItems: 'center',
@@ -293,6 +293,7 @@ const getStylesFromProps = ({ theme }) => ({
     fontFamily: theme.fonts.slab,
     fontSize: normalize(42),
     fontWeight: '600',
+    marginBottom: theme.sizes.defaultDouble,
   },
   bigNumberStyles: {
     fontFamily: theme.fonts.slab,

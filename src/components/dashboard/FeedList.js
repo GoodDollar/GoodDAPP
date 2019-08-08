@@ -4,6 +4,8 @@ import { Animated, ScrollView, SwipeableFlatList, View } from 'react-native'
 import GDStore from '../../lib/undux/GDStore'
 import { withStyles } from '../../lib/styles'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
+import userStorage from '../../lib/gundb/UserStorage'
+import type { FeedEvent } from '../../lib/gundb/UserStorageClass'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import FeedActions from './FeedActions'
 import FeedListItem from './FeedItems/FeedListItem'
@@ -72,11 +74,12 @@ const FeedList = ({ data, handleFeedSelection, initialNumToRender, onEndReached,
 
   /**
    * Calls proper action depening on the feed status
-   * @param {string} transactionHash - feed item ID
+   * @param {FeedEvent} item - feed item
    * @param {object} actions - wether to cancel/delete or any further action required
    */
-  const handleFeedActionPress = (item, actions) => {
+  const handleFeedActionPress = (item: FeedEvent, actions: {}) => {
     const transactionHash = item.id
+
     if (actions.canCancel) {
       try {
         if (activeActionDemo) {
@@ -94,7 +97,17 @@ const FeedList = ({ data, handleFeedSelection, initialNumToRender, onEndReached,
       }
     }
 
-    // TODO: canDelete action
+    if (actions.canDelete) {
+      try {
+        if (activeActionDemo) {
+          activeItems[item.id] = true
+          setActive(activeItems)
+        }
+        userStorage.deleteEvent(item).catch(e => showErrorDialog('Deleting the event has failed', e))
+      } catch (e) {
+        showErrorDialog(e)
+      }
+    }
   }
 
   const renderQuickActions = ({ item }) => {

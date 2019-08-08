@@ -1168,9 +1168,20 @@ export class UserStorage {
   }
 
   /**
+   * Sets the event's status as deleted
+   * @param {FeedEvent} event
+   * @returns {Promise<FeedEvent>}
+   */
+  deleteEvent(event: FeedEvent): Promise<FeedEvent> {
+    event.status = 'deleted'
+    return this.updateFeedEvent(event)
+  }
+
+  /**
    * Add or Update feed event
    *
    * @param {FeedEvent} event - Event to be updated
+   * @param {string|*} previouseventDate
    * @returns {Promise} Promise with updated feed
    */
   async updateFeedEvent(event: FeedEvent, previouseventDate: string | void): Promise<FeedEvent> {

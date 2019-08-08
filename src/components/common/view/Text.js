@@ -44,16 +44,16 @@ class Text extends React.Component {
  */
 const relatedLineSpacing = fontSize =>
   ({
-    8: normalize(14),
-    10: normalize(14),
-    12: normalize(16),
-    14: normalize(20),
-    16: normalize(22),
-    18: normalize(24),
-    22: normalize(30),
-    24: normalize(30),
-    36: normalize(30),
-    42: normalize(30),
+    8: 14,
+    10: 14,
+    12: 16,
+    14: 20,
+    16: 22,
+    18: 24,
+    22: 30,
+    24: 30,
+    36: 30,
+    42: 30,
   }[fontSize] || fontSize * 1.2)
 
 const getStylesFromProps = ({

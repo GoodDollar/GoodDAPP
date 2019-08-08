@@ -875,13 +875,10 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
         className="css-view-1dbjc4n"
         style={
           Object {
-            "WebkitAlignItems": "center",
-            "WebkitBoxAlign": "center",
             "WebkitBoxFlex": 1,
             "WebkitBoxPack": "center",
             "WebkitFlexGrow": 1,
             "WebkitJustifyContent": "center",
-            "alignItems": "center",
             "backgroundColor": "rgba(0,0,0,0.00)",
             "borderBottomColor": "rgba(0,175,255,1.00)",
             "borderBottomLeftRadius": "50px",
@@ -904,7 +901,6 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
             "justifyContent": "center",
             "minHeight": "44px",
             "minWidth": "auto",
-            "msFlexAlign": "center",
             "msFlexPack": "center",
             "msFlexPositive": 1,
             "paddingLeft": "0px",
@@ -1013,13 +1009,10 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
         className="css-view-1dbjc4n"
         style={
           Object {
-            "WebkitAlignItems": "center",
-            "WebkitBoxAlign": "center",
             "WebkitBoxFlex": 3,
             "WebkitBoxPack": "center",
             "WebkitFlexGrow": 3,
             "WebkitJustifyContent": "center",
-            "alignItems": "center",
             "backgroundColor": "rgba(0,0,0,0.12)",
             "borderBottomColor": "rgba(0,175,255,1.00)",
             "borderBottomLeftRadius": "50px",
@@ -1041,7 +1034,6 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
             "justifyContent": "center",
             "minHeight": "44px",
             "minWidth": "auto",
-            "msFlexAlign": "center",
             "msFlexPack": "center",
             "msFlexPositive": 3,
             "paddingLeft": "0px",

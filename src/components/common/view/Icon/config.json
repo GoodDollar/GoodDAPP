@@ -143,7 +143,7 @@
         "width": 790
       },
       "search": [
-        "profile-privacy"
+        "privacy-policy"
       ]
     },
     {
@@ -750,7 +750,7 @@
     },
     {
       "uid": "c4d7dc6f17825456e410da3f2e693a7f",
-      "css": "profile-privacy",
+      "css": "privacy-policy",
       "code": 59550,
       "src": "custom_icons",
       "selected": true,

@@ -1,20 +1,20 @@
 // @flow
 import React from 'react'
-import { Image, View } from 'react-native'
+import { View } from 'react-native'
 import normalize from '../../../lib/utils/normalizeText'
 import Avatar from '../../common/view/Avatar'
 import BigGoodDollar from '../../common/view/BigGoodDollar'
-import CustomButton from '../../common/buttons/CustomButton'
 import Text from '../../common/view/Text'
 import ModalWrapper from '../../common/modal/ModalWrapper'
+import ModalActionsByFeedType from '../../common/modal/ModalActionsByFeedType'
+import TopImage from '../../common/modal/ModalTopImage'
 import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
 import { withStyles } from '../../../lib/styles'
 import type { FeedEventProps } from './EventProps'
 import EventCounterParty from './EventCounterParty'
 import getEventSettingsByType from './EventSettingsByType'
 import EventIcon from './EventIcon'
-import receiveIllustation from './img/receive.svg'
-import sendIllustration from './img/send.svg'
+import FeedbackModalItem from './FeedbackModalItem'
 
 /**
  * Render modal item according to the type for feed list in horizontal view
@@ -27,72 +27,65 @@ const FeedModalItem = (props: FeedEventProps) => {
     onPress(item.id)
   }
   const itemType = item.displayType || item.type
-  const mainColor = getEventSettingsByType(theme, itemType).color
-  const getImageByType = type => {
-    return (
-      {
-        claim: receiveIllustation,
-        receive: receiveIllustation,
-        send: sendIllustration,
-      }[type] || null
-    )
-  }
+  const eventSettings = getEventSettingsByType(theme, itemType)
+  const mainColor = eventSettings.color
+  const showJaggedEdge = ['claim', 'sendcompleted', 'withdraw', 'receive'].includes(itemType)
 
   return (
-    <ModalWrapper leftBorderColor={mainColor} onClose={buttonPress} showJaggedEdge={true} fullHeight={true}>
-      <React.Fragment>
-        {getImageByType(itemType) ? (
-          <View style={styles.mainImageContainer}>
-            <Image style={styles.mainImage} source={getImageByType(itemType)} />
+    <ModalWrapper leftBorderColor={mainColor} onClose={buttonPress} showJaggedEdge={showJaggedEdge} fullHeight={true}>
+      {item.type === 'feedback' ? (
+        <FeedbackModalItem {...props} />
+      ) : (
+        <React.Fragment>
+          <TopImage type={itemType} />
+          <View style={styles.dateAndAmount}>
+            <React.Fragment>
+              <Text style={styles.date}>{getFormattedDateTime(item.date)}</Text>
+              {!eventSettings.withoutAmount && (
+                <React.Fragment>
+                  {eventSettings && eventSettings.actionSymbol && (
+                    <Text style={[styles.actionSymbol, { color: mainColor }]}>{eventSettings.actionSymbol}</Text>
+                  )}
+                  <BigGoodDollar
+                    bigNumberStyles={styles.bigNumberStyles}
+                    bigNumberUnitStyles={styles.bigNumberUnitStyles}
+                    color={mainColor}
+                    number={item.data.amount}
+                  />
+                </React.Fragment>
+              )}
+            </React.Fragment>
           </View>
-        ) : null}
-        <View style={styles.dateAndAmount}>
-          <Text style={styles.date}>{getFormattedDateTime(item.date)}</Text>
-          <BigGoodDollar
-            bigNumberStyles={styles.bigNumberStyles}
-            bigNumberUnitStyles={styles.bigNumberUnitStyles}
-            color={mainColor}
-            number={item.data.amount}
-          />
-        </View>
-        <View style={[styles.transactionDetails, { borderColor: mainColor }]}>
-          <Avatar
-            source={item.data && item.data.endpoint && item.data.endpoint.avatar}
-            size={34}
-            style={styles.avatar}
-          />
-          {item.data && item.data.endpoint && <EventCounterParty style={styles.feedItem} feedItem={item} />}
-          <EventIcon type={itemType} style={styles.icon} />
-        </View>
-        {item.data.message ? (
-          <View style={styles.messageContainer}>
-            <Text style={styles.message}>{item.data.message}</Text>
+          <View style={[styles.transactionDetails, { borderColor: mainColor }]}>
+            <Avatar
+              source={item.data && item.data.endpoint && item.data.endpoint.avatar}
+              size={34}
+              style={styles.avatar}
+            />
+            {item.data && item.data.endpoint && <EventCounterParty style={styles.feedItem} feedItem={item} />}
+            <EventIcon type={itemType} style={styles.icon} />
           </View>
-        ) : null}
-        <View style={styles.buttonsRow}>
-          <CustomButton mode="contained" style={styles.rightButton} onPress={buttonPress}>
-            OK
-          </CustomButton>
-        </View>
-      </React.Fragment>
+          {item.data.message && (
+            <View style={styles.messageContainer}>
+              <Text style={styles.message}>{item.data.message}</Text>
+            </View>
+          )}
+          {item.status === 'pending' && (
+            <View style={styles.messageContainer}>
+              <Text fontSize={14} fontFamily="regular" color="placeholder">
+                Your balance will be updated in a minute
+              </Text>
+            </View>
+          )}
+          <ModalActionsByFeedType item={item} handleModalClose={buttonPress} />
+        </React.Fragment>
+      )}
     </ModalWrapper>
   )
 }
 
 const getStylesFromProps = ({ theme }) => {
   return {
-    mainImageContainer: {
-      display: 'flex',
-      flexGrow: 0,
-      flexShrink: 0,
-      justifyContent: 'center',
-      flexDirection: 'row',
-      marginBottom: 15,
-    },
-    mainImage: {
-      height: 110,
-      width: 70,
-    },
     dateAndAmount: {
       alignItems: 'center',
       display: 'flex',
@@ -148,10 +141,13 @@ const getStylesFromProps = ({ theme }) => {
       flex: 1,
       flexDirection: 'row',
       justifyContent: 'space-between',
+      marginTop: theme.sizes.defaultDouble,
     },
-    rightButton: {
+    actionSymbol: {
+      fontFamily: theme.fonts.default,
+      fontSize: normalize(22),
+      fontWeight: '700',
       marginLeft: 'auto',
-      minWidth: 80,
     },
   }
 }

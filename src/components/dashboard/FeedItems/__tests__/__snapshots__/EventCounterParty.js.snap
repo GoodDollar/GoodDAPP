@@ -29,6 +29,7 @@ exports[`EventCounterParty receive matches snapshot 1`] = `
         "fontSize": "16px",
         "fontWeight": "normal",
         "lineHeight": "16px",
+        "marginBottom": "4px",
         "textAlign": "left",
         "textDecoration": "none",
         "textTransform": "capitalize",
@@ -52,8 +53,7 @@ exports[`EventCounterParty receive matches snapshot 1`] = `
         }
       }
     >
-      From
-      :
+      From:
     </span>
     <span
       className="css-text-901oao css-textHasAncestor-16my406"
@@ -107,6 +107,7 @@ exports[`EventCounterParty send matches snapshot 1`] = `
         "fontSize": "16px",
         "fontWeight": "normal",
         "lineHeight": "16px",
+        "marginBottom": "4px",
         "textAlign": "left",
         "textDecoration": "none",
         "textTransform": "capitalize",
@@ -130,8 +131,7 @@ exports[`EventCounterParty send matches snapshot 1`] = `
         }
       }
     >
-      To
-      :
+      To:
     </span>
     <span
       className="css-text-901oao css-textHasAncestor-16my406"
@@ -185,6 +185,7 @@ exports[`EventCounterParty withdraw matches snapshot 1`] = `
         "fontSize": "16px",
         "fontWeight": "normal",
         "lineHeight": "16px",
+        "marginBottom": "4px",
         "textAlign": "left",
         "textDecoration": "none",
         "textTransform": "capitalize",
@@ -208,8 +209,7 @@ exports[`EventCounterParty withdraw matches snapshot 1`] = `
         }
       }
     >
-      From
-      :
+      From:
     </span>
     <span
       className="css-text-901oao css-textHasAncestor-16my406"

@@ -67,7 +67,7 @@ const Who = (props: AmountProps) => {
               nextRoutes={screenState.nextRoutes}
               values={{ params, counterPartyDisplayName: state.value }}
               canContinue={() => state.isValid}
-              label={state.value || isReceive ? 'Next' : 'Skip'}
+              label={state.value || !isReceive ? 'Next' : 'Skip'}
               disabled={!state.isValid}
             />
           </Section.Stack>

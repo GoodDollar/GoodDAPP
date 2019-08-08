@@ -96,18 +96,19 @@ const getStylesFromProps = ({ theme }) => {
     },
     textRow: {
       marginBottom: theme.sizes.default,
+      marginTop: theme.sizes.default,
     },
     doneButton: {
       marginTop: theme.paddings.defaultMargin,
     },
     bigGoodDollar: {
       fontFamily: theme.fonts.default,
-      fontSize: normalize(28),
+      fontSize: normalize(24),
       fontWeight: '700',
     },
     bigGoodDollarUnit: {
       fontFamily: theme.fonts.default,
-      fontSize: normalize(16),
+      fontSize: normalize(14),
       fontWeight: '700',
     },
     counterPartyDisplayName: {

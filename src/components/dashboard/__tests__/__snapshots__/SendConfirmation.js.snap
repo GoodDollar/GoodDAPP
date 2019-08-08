@@ -274,11 +274,8 @@ exports[`SendConfirmation matches snapshot 1`] = `
         data-gdtype="copybutton"
         style={
           Object {
-            "WebkitAlignItems": "center",
-            "WebkitBoxAlign": "center",
             "WebkitBoxPack": "center",
             "WebkitJustifyContent": "center",
-            "alignItems": "center",
             "backgroundColor": "rgba(0,175,255,1.00)",
             "borderBottomColor": "rgba(0,175,255,1.00)",
             "borderBottomLeftRadius": "50px",
@@ -300,7 +297,6 @@ exports[`SendConfirmation matches snapshot 1`] = `
             "justifyContent": "center",
             "minHeight": "44px",
             "minWidth": "auto",
-            "msFlexAlign": "center",
             "msFlexPack": "center",
             "paddingLeft": "0px",
             "paddingRight": "0px",

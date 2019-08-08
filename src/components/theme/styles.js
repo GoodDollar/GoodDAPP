@@ -16,6 +16,7 @@ export const theme = {
     gray80Percent: '#A3A3A3',
     placeholder: '#CBCBCB',
     green: '#00C3AE',
+    lightGreen: '#00BBA5',
     lightGray: '#EEE',
     lighterGray: '#A3A3A3',
     orange: '#F8AF40',
@@ -52,7 +53,7 @@ export const theme = {
   modals: {
     overlayBackgroundColor: 'transparent',
     overlayHorizontalPadding: 20,
-    overlayVerticalPadding: 30,
+    overlayVerticalPadding: 65,
     backgroundColor: '#fff',
     jaggedEdgeSize: 16,
     contentPadding: 16,

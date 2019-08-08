@@ -11,12 +11,13 @@ import getEventSettingsByType from './EventSettingsByType'
  * @returns {HTMLElement}
  */
 const FeedListItem = props => {
-  const { theme, item, onPress, styles } = props
+  const { theme, item, onPress, styles, actionActive } = props
   const itemStyle = getEventSettingsByType(theme, item.displayType || item.type)
   const imageStyle = {
     backgroundColor: itemStyle.color,
     backgroundImage: `url(${wavePattern})`,
   }
+  const overlay = actionActive ? <View style={styles.activeOverlay} /> : null
   return (
     <TouchableHighlight
       activeOpacity={0.5}
@@ -28,6 +29,7 @@ const FeedListItem = props => {
       <View style={styles.rowContent}>
         <View style={[styles.rowContentBorder, imageStyle]} />
         <ListEventItem {...props} />
+        {overlay}
       </View>
     </TouchableHighlight>
   )
@@ -67,6 +69,18 @@ const getStylesFromProps = ({ theme }) => ({
     right: 0,
     top: 0,
     width: 10,
+  },
+  activeOverlay: {
+    position: 'absolute',
+
+    //to make sure we compensate for -10 left
+    width: '120%',
+
+    //to cover color left border
+    left: -10,
+    height: '100%',
+    backgroundColor: 'gray',
+    opacity: 0.7,
   },
 })
 

@@ -1,5 +1,5 @@
 // @flow
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import type { Store } from 'undux'
 import normalize from '../../lib/utils/normalizeText'
 import GDStore from '../../lib/undux/GDStore'
@@ -118,24 +118,23 @@ const Dashboard = props => {
   const { balance, entitlement } = gdstore.get('account')
   const { avatar, fullName } = gdstore.get('profile')
   const feeds = gdstore.get('feeds')
-
-  // TODO: Calculate scroll position to update Dashboard avatar, name and gd amount view
-  const scrollPos = 100
-
+  const [scrollPos, setScrollPos] = useState(0)
   log.info('LOGGER FEEDS', { props })
+  log.info('scrollPos', { scrollPos })
+
   return (
     <Wrapper style={styles.dashboardWrapper}>
       <Section style={[styles.topInfo]}>
-        {scrollPos < 100 ? (
-          <Section style={[styles.userInfo, styles.userInfoVertical]}>
+        {scrollPos <= 0 ? (
+          <Section.Stack justifyContent="center" alignItems="center">
             <Avatar onPress={() => screenProps.push('Profile')} size={68} source={avatar} style={[styles.avatarBig]} />
-            <Section.Title style={[styles.userName]}>{fullName || ' '}</Section.Title>
+            <Section.Text style={[styles.userName]}>{fullName || ' '}</Section.Text>
             <BigGoodDollar
               bigNumberStyles={styles.bigNumberVerticalStyles}
               bigNumberUnitStyles={styles.bigNumberUnitStyles}
               number={balance}
             />
-          </Section>
+          </Section.Stack>
         ) : (
           <Section style={[styles.userInfo, styles.userInfoHorizontal]}>
             <Avatar
@@ -187,6 +186,9 @@ const Dashboard = props => {
         initialNumToRender={PAGE_SIZE}
         onEndReached={getNextFeed.bind(null, store)}
         updateData={() => {}}
+        onScroll={({ nativeEvent }) => {
+          setScrollPos(nativeEvent.contentOffset.y)
+        }}
       />
       {currentFeed && (
         <FeedModalList
@@ -226,15 +228,6 @@ const getStylesFromProps = ({ theme }) => ({
     backgroundColor: 'transparent',
     marginBottom: 12,
   },
-  userInfoVertical: {
-    alignItems: 'center',
-    paddingLeft: 0,
-    paddingRight: 0,
-    paddingBottom: 0,
-    paddingTop: 0,
-    flexDirection: 'column',
-    justifyContent: 'center',
-  },
   userInfoHorizontal: {
     alignItems: 'center',
     flexDirection: 'row',
@@ -245,10 +238,7 @@ const getStylesFromProps = ({ theme }) => ({
     paddingTop: 0,
   },
   avatarBig: {
-    borderRadius: '50%',
-    height: 68,
     marginBottom: 12,
-    width: 68,
   },
   avatarSmall: {
     borderRadius: '50%',
@@ -258,7 +248,7 @@ const getStylesFromProps = ({ theme }) => ({
   },
   userName: {
     color: theme.colors.gray80Percent,
-    fontFamily: 'RobotoSlab-Regular',
+    fontFamily: theme.fonts.slab,
     fontSize: normalize(18),
     marginBottom: theme.sizes.defaultDouble,
   },
@@ -302,8 +292,7 @@ const getStylesFromProps = ({ theme }) => ({
   bigNumberVerticalStyles: {
     fontFamily: theme.fonts.slab,
     fontSize: normalize(42),
-    marginRight: theme.sizes.defaultHalf,
-    fontWeight: '700',
+    fontWeight: '600',
   },
   bigNumberStyles: {
     fontFamily: theme.fonts.slab,

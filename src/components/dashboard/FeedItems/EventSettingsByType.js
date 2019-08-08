@@ -45,6 +45,11 @@ const getEventSettingsByType = (theme, type) => {
       name: 'system-filled',
       withoutAmount: true,
     },
+    welcome: {
+      color: theme.colors.primary,
+      name: 'system-filled',
+      withoutAmount: true,
+    },
     feedback: {
       color: theme.colors.primary,
       name: 'system-filled',

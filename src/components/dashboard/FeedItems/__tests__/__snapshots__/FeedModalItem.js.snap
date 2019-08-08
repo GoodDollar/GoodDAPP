@@ -206,7 +206,6 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                   "borderTopLeftRadius": "5px",
                   "flexGrow": 1,
                   "flexShrink": 0,
-                  "marginBottom": "16px",
                   "maxWidth": "10px",
                   "minWidth": "10px",
                   "msFlexNegative": 0,
@@ -237,7 +236,7 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                     "WebkitBoxFlex": 1,
                     "WebkitFlexGrow": 1,
                     "backgroundColor": "rgba(255,255,255,1.00)",
-                    "borderBottomRightRadius": "0",
+                    "borderBottomRightRadius": "5px",
                     "borderTopRightRadius": "5px",
                     "boxShadow": "0 20px 24px rgba(0, 0, 0, 0.5)",
                     "flexGrow": 1,
@@ -628,7 +627,7 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                       "flexDirection": "row",
                       "flexWrap": "wrap",
                       "justifyContent": "flex-end",
-                      "marginTop": "16px",
+                      "marginTop": "auto",
                       "msFlexAlign": "end",
                       "msFlexDirection": "row",
                       "msFlexPack": "end",
@@ -937,21 +936,6 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                   </div>
                 </div>
               </div>
-              <div
-                className="css-view-1dbjc4n"
-                style={
-                  Object {
-                    "backgroundImage": "linear-gradient(40deg, transparent 75%, #fff 76%), linear-gradient(-40deg, transparent 75%, #fff 76%)",
-                    "backgroundPosition": "-8px 0",
-                    "backgroundRepeat": "repeat-x",
-                    "backgroundSize": "16px",
-                    "height": "16px",
-                    "position": "relative",
-                    "width": "100%",
-                    "zIndex": 5,
-                  }
-                }
-              />
             </div>
           </div>
         </div>
@@ -1167,7 +1151,6 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                   "borderTopLeftRadius": "5px",
                   "flexGrow": 1,
                   "flexShrink": 0,
-                  "marginBottom": "16px",
                   "maxWidth": "10px",
                   "minWidth": "10px",
                   "msFlexNegative": 0,
@@ -1198,7 +1181,7 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                     "WebkitBoxFlex": 1,
                     "WebkitFlexGrow": 1,
                     "backgroundColor": "rgba(255,255,255,1.00)",
-                    "borderBottomRightRadius": "0",
+                    "borderBottomRightRadius": "5px",
                     "borderTopRightRadius": "5px",
                     "boxShadow": "0 20px 24px rgba(0, 0, 0, 0.5)",
                     "flexGrow": 1,
@@ -1589,7 +1572,7 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                       "flexDirection": "row",
                       "flexWrap": "wrap",
                       "justifyContent": "flex-end",
-                      "marginTop": "16px",
+                      "marginTop": "auto",
                       "msFlexAlign": "end",
                       "msFlexDirection": "row",
                       "msFlexPack": "end",
@@ -1882,21 +1865,6 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                   </div>
                 </div>
               </div>
-              <div
-                className="css-view-1dbjc4n"
-                style={
-                  Object {
-                    "backgroundImage": "linear-gradient(40deg, transparent 75%, #fff 76%), linear-gradient(-40deg, transparent 75%, #fff 76%)",
-                    "backgroundPosition": "-8px 0",
-                    "backgroundRepeat": "repeat-x",
-                    "backgroundSize": "16px",
-                    "height": "16px",
-                    "position": "relative",
-                    "width": "100%",
-                    "zIndex": 5,
-                  }
-                }
-              />
             </div>
           </div>
         </div>
@@ -2112,7 +2080,6 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                   "borderTopLeftRadius": "5px",
                   "flexGrow": 1,
                   "flexShrink": 0,
-                  "marginBottom": "16px",
                   "maxWidth": "10px",
                   "minWidth": "10px",
                   "msFlexNegative": 0,
@@ -2143,7 +2110,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                     "WebkitBoxFlex": 1,
                     "WebkitFlexGrow": 1,
                     "backgroundColor": "rgba(255,255,255,1.00)",
-                    "borderBottomRightRadius": "0",
+                    "borderBottomRightRadius": "5px",
                     "borderTopRightRadius": "5px",
                     "boxShadow": "0 20px 24px rgba(0, 0, 0, 0.5)",
                     "flexGrow": 1,
@@ -2608,7 +2575,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                       "flexDirection": "row",
                       "flexWrap": "wrap",
                       "justifyContent": "flex-end",
-                      "marginTop": "16px",
+                      "marginTop": "auto",
                       "msFlexAlign": "end",
                       "msFlexDirection": "row",
                       "msFlexPack": "end",
@@ -2750,7 +2717,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                               }
                             }
                           >
-                            Cancel payment
+                            Cancel payment link
                           </span>
                         </div>
                       </div>
@@ -2898,6 +2865,33 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                       </div>
                     </div>
                   </div>
+                </div>
+                <div
+                  className="css-view-1dbjc4n"
+                  style={
+                    Object {
+                      "WebkitAlignItems": "flex-end",
+                      "WebkitBoxAlign": "end",
+                      "WebkitBoxDirection": "normal",
+                      "WebkitBoxLines": "multiple",
+                      "WebkitBoxOrient": "horizontal",
+                      "WebkitBoxPack": "end",
+                      "WebkitFlexDirection": "row",
+                      "WebkitFlexWrap": "wrap",
+                      "WebkitJustifyContent": "flex-end",
+                      "alignItems": "flex-end",
+                      "display": "flex",
+                      "flexDirection": "row",
+                      "flexWrap": "wrap",
+                      "justifyContent": "flex-end",
+                      "marginTop": "auto",
+                      "msFlexAlign": "end",
+                      "msFlexDirection": "row",
+                      "msFlexPack": "end",
+                      "msFlexWrap": "wrap",
+                    }
+                  }
+                >
                   <div
                     className="css-view-1dbjc4n"
                     style={
@@ -3043,21 +3037,6 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                   </div>
                 </div>
               </div>
-              <div
-                className="css-view-1dbjc4n"
-                style={
-                  Object {
-                    "backgroundImage": "linear-gradient(40deg, transparent 75%, #fff 76%), linear-gradient(-40deg, transparent 75%, #fff 76%)",
-                    "backgroundPosition": "-8px 0",
-                    "backgroundRepeat": "repeat-x",
-                    "backgroundSize": "16px",
-                    "height": "16px",
-                    "position": "relative",
-                    "width": "100%",
-                    "zIndex": 5,
-                  }
-                }
-              />
             </div>
           </div>
         </div>
@@ -3769,7 +3748,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                       "flexDirection": "row",
                       "flexWrap": "wrap",
                       "justifyContent": "flex-end",
-                      "marginTop": "16px",
+                      "marginTop": "auto",
                       "msFlexAlign": "end",
                       "msFlexDirection": "row",
                       "msFlexPack": "end",

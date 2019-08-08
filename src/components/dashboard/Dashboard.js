@@ -159,6 +159,7 @@ const Dashboard = props => {
             screenProps={screenProps}
             style={styles.leftButton}
             contentStyle={styles.leftButtonContent}
+            textStyle={styles.leftButtonText}
             params={{
               nextRoutes: ['Amount', 'Reason', 'SendLinkSummary', 'SendConfirmation'],
               params: { action: 'Send' },
@@ -174,6 +175,7 @@ const Dashboard = props => {
             screenProps={screenProps}
             style={styles.rightButton}
             contentStyle={styles.rightButtonContent}
+            textStyle={styles.rightButtonText}
           >
             Receive
           </PushButton>
@@ -290,6 +292,12 @@ const getStylesFromProps = ({ theme }) => ({
   rightButtonContent: {
     alignItems: 'stretch',
     justifyContent: 'flex-end',
+  },
+  leftButtonText: {
+    marginRight: 16,
+  },
+  rightButtonText: {
+    marginLeft: 16,
   },
   bigNumberVerticalStyles: {
     fontFamily: theme.fonts.slab,

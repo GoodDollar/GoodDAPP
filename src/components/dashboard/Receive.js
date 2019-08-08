@@ -28,7 +28,7 @@ const Receive = ({ screenProps, styles, ...props }: ReceiveProps) => {
   const reason = ''
 
   const code = useMemo(() => generateCode(account, networkId, amount, reason), [account, networkId, amount, reason])
-  const share = useMemo(() => generateReceiveShareObject(code, amount, profile.fullName), [code])
+  const share = useMemo(() => generateReceiveShareObject(code, amount, '', profile.fullName), [code])
 
   const shareAction = async () => {
     try {

@@ -310,7 +310,7 @@ exports[`SmsForm matches snapshot 1`] = `
                         "borderRadius": 5,
                         "contentPadding": 16,
                         "jaggedEdgeSize": 16,
-                        "overlayBackgroundColor": "rgba(255, 255, 255, 0.8)",
+                        "overlayBackgroundColor": "transparent",
                         "overlayHorizontalPadding": 20,
                         "overlayVerticalPadding": 65,
                       },
@@ -328,7 +328,7 @@ exports[`SmsForm matches snapshot 1`] = `
                       },
                     }
                   }
-                  type="tel"
+                  type="text"
                   value=""
                 />
               </div>
@@ -449,7 +449,7 @@ exports[`SmsForm matches snapshot 1`] = `
                         "borderRadius": 5,
                         "contentPadding": 16,
                         "jaggedEdgeSize": 16,
-                        "overlayBackgroundColor": "rgba(255, 255, 255, 0.8)",
+                        "overlayBackgroundColor": "transparent",
                         "overlayHorizontalPadding": 20,
                         "overlayVerticalPadding": 65,
                       },
@@ -467,7 +467,7 @@ exports[`SmsForm matches snapshot 1`] = `
                       },
                     }
                   }
-                  type="tel"
+                  type="text"
                   value=""
                 />
               </div>
@@ -588,7 +588,7 @@ exports[`SmsForm matches snapshot 1`] = `
                         "borderRadius": 5,
                         "contentPadding": 16,
                         "jaggedEdgeSize": 16,
-                        "overlayBackgroundColor": "rgba(255, 255, 255, 0.8)",
+                        "overlayBackgroundColor": "transparent",
                         "overlayHorizontalPadding": 20,
                         "overlayVerticalPadding": 65,
                       },
@@ -606,7 +606,7 @@ exports[`SmsForm matches snapshot 1`] = `
                       },
                     }
                   }
-                  type="tel"
+                  type="text"
                   value=""
                 />
               </div>
@@ -727,7 +727,7 @@ exports[`SmsForm matches snapshot 1`] = `
                         "borderRadius": 5,
                         "contentPadding": 16,
                         "jaggedEdgeSize": 16,
-                        "overlayBackgroundColor": "rgba(255, 255, 255, 0.8)",
+                        "overlayBackgroundColor": "transparent",
                         "overlayHorizontalPadding": 20,
                         "overlayVerticalPadding": 65,
                       },
@@ -745,7 +745,7 @@ exports[`SmsForm matches snapshot 1`] = `
                       },
                     }
                   }
-                  type="tel"
+                  type="text"
                   value=""
                 />
               </div>
@@ -866,7 +866,7 @@ exports[`SmsForm matches snapshot 1`] = `
                         "borderRadius": 5,
                         "contentPadding": 16,
                         "jaggedEdgeSize": 16,
-                        "overlayBackgroundColor": "rgba(255, 255, 255, 0.8)",
+                        "overlayBackgroundColor": "transparent",
                         "overlayHorizontalPadding": 20,
                         "overlayVerticalPadding": 65,
                       },
@@ -884,7 +884,7 @@ exports[`SmsForm matches snapshot 1`] = `
                       },
                     }
                   }
-                  type="tel"
+                  type="text"
                   value=""
                 />
               </div>
@@ -1005,7 +1005,7 @@ exports[`SmsForm matches snapshot 1`] = `
                         "borderRadius": 5,
                         "contentPadding": 16,
                         "jaggedEdgeSize": 16,
-                        "overlayBackgroundColor": "rgba(255, 255, 255, 0.8)",
+                        "overlayBackgroundColor": "transparent",
                         "overlayHorizontalPadding": 20,
                         "overlayVerticalPadding": 65,
                       },
@@ -1023,7 +1023,7 @@ exports[`SmsForm matches snapshot 1`] = `
                       },
                     }
                   }
-                  type="tel"
+                  type="text"
                   value=""
                 />
               </div>

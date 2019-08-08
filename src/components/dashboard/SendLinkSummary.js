@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { StyleSheet } from 'react-native'
 import { isMobile } from 'mobile-device-detect'
-
+import GDStore from '../../lib/undux/GDStore'
 import { generateSendShareObject } from '../../lib/share'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
@@ -28,6 +28,7 @@ export type AmountProps = {
  * @param {any} props.navigation
  */
 const SendLinkSummary = (props: AmountProps) => {
+  const profile = GDStore.useStore().get('profile')
   const { screenProps } = props
   const [screenState] = useScreenState(screenProps)
   const [showDialog, , showErrorDialog] = useDialog()
@@ -41,7 +42,7 @@ const SendLinkSummary = (props: AmountProps) => {
   }
 
   const shareAction = async paymentLink => {
-    const share = generateSendShareObject(paymentLink, amount, counterPartyDisplayName)
+    const share = generateSendShareObject(paymentLink, amount, counterPartyDisplayName, profile.fullName)
     try {
       await navigator.share(share)
       setShared(true)

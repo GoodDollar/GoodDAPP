@@ -17,7 +17,7 @@ const Config = {
   throwSaveProfileErrors:
     !process.env.REACT_APP_THROW_SAVE_PROFILE_ERRORS || process.env.REACT_APP_THROW_SAVE_PROFILE_ERRORS === 'true',
   withMockedFeeds: process.env.REACT_APP_WITH_MOCKED_FEEDS === 'true',
-  safariMobileKeyboardGuidedSize: process.env.REACT_APP_SAFARI_MOBILE_KEYBOARD_GUIDED_SIZE !== 'false',
+  safariMobileKeyboardGuidedSize: process.env.REACT_APP_SAFARI_MOBILE_KEYBOARD_GUIDED_SIZE === 'true',
   ethereum: {
     '42': {
       network_id: 42,

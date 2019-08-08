@@ -249,7 +249,7 @@ export class UserStorage {
    * @returns {string} - Value without '+' (plus), '-' (minus), '_' (underscore), ' ' (space), in lower case
    */
   static cleanFieldForIndex = (field: string, value: string): string => {
-    if (!value) {
+    if (value === undefined) {
       return value
     }
     if (field === 'mobile' || field === 'phone') {
@@ -526,8 +526,8 @@ export class UserStorage {
    */
   initFeed() {
     this.feed = this.gunuser.get('feed')
-    this.enqueueTX(welcomeMessage)
     this.feed.get('index').on(this.updateFeedIndex, false)
+    this.enqueueTX(welcomeMessage)
   }
 
   /**
@@ -568,7 +568,10 @@ export class UserStorage {
    */
   getDisplayProfile(profile: {}): UserModel {
     const displayProfile = Object.keys(profile).reduce(
-      (acc, currKey) => ({ ...acc, [currKey]: profile[currKey].display }),
+      (acc, currKey) => ({
+        ...acc,
+        [currKey]: profile[currKey].display,
+      }),
       {}
     )
     return getUserModel(displayProfile)
@@ -608,18 +611,19 @@ export class UserStorage {
    * It saves only known profile fields
    *
    * @param {UserModel} profile - User profile
+   * @param {boolean} update - are we updating, if so validate only non empty fields
    * @returns {Promise} Promise with profile settings updates and privacy validations
    * @throws Error if profile is invalid
    */
-  setProfile(profile: UserModel) {
+  setProfile(profile: UserModel, update: boolean = false): Promise<> {
     if (profile && !profile.validate) {
       profile = getUserModel(profile)
     }
-    const { errors, isValid } = profile.validate()
+    const { errors, isValid } = profile.validate(update)
     if (!isValid) {
       logger.error('setProfile failed:', { errors })
       if (Config.throwSaveProfileErrors) {
-        throw new Error(errors)
+        return Promise.reject(errors)
       }
     }
 
@@ -649,7 +653,7 @@ export class UserStorage {
       if (errors.length > 0) {
         logger.error('setProfile some fields failed', errors.length, errors)
         if (Config.throwSaveProfileErrors) {
-          throw new Error(errors)
+          return Promise.reject(errors)
         }
       }
       return true
@@ -713,11 +717,16 @@ export class UserStorage {
    * @param {string} privacy - (private | public | masked)
    * @returns {Promise} Promise with updated field value, secret, display and privacy.
    */
-  async setProfileField(field: string, value: string, privacy: FieldPrivacy = 'public'): Promise<ACK> {
+  async setProfileField(
+    field: string,
+    value: string,
+    privacy: FieldPrivacy = 'public',
+    onlyPrivacy: boolean = false
+  ): Promise<ACK> {
     let display
     switch (privacy) {
       case 'private':
-        display = ''
+        display = '******'
         break
       case 'masked':
         display = UserStorage.maskField(field, value)
@@ -743,8 +752,14 @@ export class UserStorage {
         return indexPromiseResult
       }
     }
+    if (onlyPrivacy) {
+      return this.profile.get(field).putAck({
+        display,
+        privacy,
+      })
+    }
 
-    return Promise.all([
+    return Promise.race([
       this.profile
         .get(field)
         .get('value')
@@ -753,7 +768,7 @@ export class UserStorage {
         display,
         privacy,
       }),
-    ]).then(arr => arr[1])
+    ])
   }
 
   /**
@@ -812,7 +827,7 @@ export class UserStorage {
    */
   async setProfileFieldPrivacy(field: string, privacy: FieldPrivacy): Promise<ACK> {
     let value = await this.getProfileFieldValue(field)
-    return this.setProfileField(field, value, privacy)
+    return this.setProfileField(field, value, privacy, true)
   }
 
   /**

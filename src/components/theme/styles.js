@@ -51,7 +51,7 @@ export const theme = {
     backgroundColor: 'rgba(255, 0, 0, 0.8)',
   },
   modals: {
-    overlayBackgroundColor: 'rgba(255, 255, 255, 0.8)',
+    overlayBackgroundColor: 'transparent',
     overlayHorizontalPadding: 20,
     overlayVerticalPadding: 65,
     backgroundColor: '#fff',

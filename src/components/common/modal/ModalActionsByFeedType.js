@@ -27,17 +27,24 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose }) => {
   switch (item.type) {
     case 'send':
       return (
-        <View style={styles.buttonsView}>
-          <CustomButton mode="outlined" style={styles.button} onPress={cancelPayment} color={theme.colors.red}>
-            Cancel payment
-          </CustomButton>
-          <CustomButton mode="outlined" style={styles.rightButton} onPress={copyPaymentLink}>
-            Copy link
-          </CustomButton>
-          <CustomButton mode="contained" style={styles.rightButton} onPress={handleModalClose}>
-            Ok
-          </CustomButton>
-        </View>
+        <>
+          <View style={styles.buttonsView}>
+            <CustomButton
+              mode="outlined"
+              style={[styles.button, { borderColor: theme.colors.red }]}
+              onPress={cancelPayment}
+              color={theme.colors.red}
+            >
+              Cancel payment
+            </CustomButton>
+            <CustomButton mode="outlined" style={styles.rightButton} onPress={copyPaymentLink}>
+              Copy link
+            </CustomButton>
+            <CustomButton mode="contained" style={styles.rightButton} onPress={handleModalClose}>
+              Ok
+            </CustomButton>
+          </View>
+        </>
       )
     case 'message':
       return (
@@ -92,17 +99,18 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose }) => {
 const getStylesFromProps = ({ theme }) => ({
   buttonsView: {
     alignItems: 'flex-end',
-    flex: 1,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'flex-end',
     marginTop: theme.sizes.defaultDouble,
+    flexWrap: 'wrap',
   },
   button: {
     minWidth: 80,
   },
   rightButton: {
     marginLeft: theme.sizes.default,
+    marginTop: theme.sizes.default,
     minWidth: 80,
   },
 })

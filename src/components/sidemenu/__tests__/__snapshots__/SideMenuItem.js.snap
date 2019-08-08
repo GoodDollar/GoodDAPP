@@ -71,8 +71,18 @@ exports[`SideMenuItem matches snapshot 1`] = `
       className="css-view-1dbjc4n"
       style={
         Object {
+          "WebkitAlignItems": "center",
+          "WebkitBoxAlign": "center",
+          "WebkitBoxPack": "center",
+          "WebkitJustifyContent": "center",
+          "alignItems": "center",
+          "display": "flex",
+          "justifyContent": "center",
           "marginLeft": "8px",
-          "marginRight": "20px",
+          "marginRight": "30px",
+          "msFlexAlign": "center",
+          "msFlexPack": "center",
+          "width": "20px",
         }
       }
     >
@@ -83,7 +93,7 @@ exports[`SideMenuItem matches snapshot 1`] = `
           Object {
             "color": "rgba(0,175,255,1.00)",
             "fontFamily": "gooddollar",
-            "fontSize": "24px",
+            "fontSize": "22px",
             "fontStyle": "normal",
             "fontWeight": "normal",
           }
@@ -100,9 +110,9 @@ exports[`SideMenuItem matches snapshot 1`] = `
           "color": "rgba(66,69,74,1.00)",
           "direction": "ltr",
           "fontFamily": "Roboto",
-          "fontSize": "16px",
+          "fontSize": "14px",
           "fontWeight": "500",
-          "lineHeight": "22px",
+          "lineHeight": "20px",
           "textAlign": "left",
           "textDecoration": "none",
           "textTransform": "none",

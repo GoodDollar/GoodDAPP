@@ -107,18 +107,18 @@ export type TransactionEvent = FeedEvent & {
 
 const welcomeMessage = {
   id: '0',
-  type: 'invite',
+  type: 'welcome',
   date: new Date().getTime(),
   status: 'completed',
   data: {
-    customName: 'Invite friends to GoodDollar',
+    customName: 'Welcome to GoodDollar!',
     receiptData: {
       from: '0x0000000000000000000000000000000000000000',
     },
     reason:
-      'Send Invites to get more people connected on GoodDollar. You will earn GD and also Help other people to earn.',
+      'GoodDollar is a payment system with a built-in small basic income based on blockchain technology.\nLet’s change the world, for good.',
     endpoint: {
-      fullName: 'Invite friends to GoodDollar',
+      fullName: 'Welcome to GoodDollar!',
     },
   },
 }

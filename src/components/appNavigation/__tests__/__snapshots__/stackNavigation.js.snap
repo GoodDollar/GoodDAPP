@@ -22,15 +22,12 @@ exports[`NextButton matches snapshot 1`] = `
     className="css-view-1dbjc4n"
     style={
       Object {
-        "WebkitAlignItems": "center",
-        "WebkitBoxAlign": "center",
         "WebkitBoxFlex": 2,
         "WebkitBoxPack": "center",
         "WebkitFlexBasis": "0%",
         "WebkitFlexGrow": 2,
         "WebkitFlexShrink": 1,
         "WebkitJustifyContent": "center",
-        "alignItems": "center",
         "backgroundColor": "rgba(0,0,0,0.12)",
         "borderBottomColor": "rgba(0,175,255,1.00)",
         "borderBottomLeftRadius": "50px",
@@ -54,7 +51,6 @@ exports[`NextButton matches snapshot 1`] = `
         "justifyContent": "center",
         "minHeight": "44px",
         "minWidth": "auto",
-        "msFlexAlign": "center",
         "msFlexNegative": 1,
         "msFlexPack": "center",
         "msFlexPositive": 2,
@@ -187,11 +183,8 @@ exports[`PushButton matches snapshot 1`] = `
     className="css-view-1dbjc4n"
     style={
       Object {
-        "WebkitAlignItems": "center",
-        "WebkitBoxAlign": "center",
         "WebkitBoxPack": "center",
         "WebkitJustifyContent": "center",
-        "alignItems": "center",
         "backgroundColor": "rgba(0,175,255,1.00)",
         "borderBottomColor": "rgba(0,175,255,1.00)",
         "borderBottomLeftRadius": "50px",
@@ -213,7 +206,6 @@ exports[`PushButton matches snapshot 1`] = `
         "justifyContent": "center",
         "minHeight": "44px",
         "minWidth": "auto",
-        "msFlexAlign": "center",
         "msFlexPack": "center",
         "paddingLeft": "0px",
         "paddingRight": "0px",

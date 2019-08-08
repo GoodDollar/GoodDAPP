@@ -35,7 +35,6 @@ type TextContentProps = {
 
 const mapPropsToStyles = ({ theme }) => ({
   buttonStyle: {
-    alignItems: 'center',
     borderColor: theme.colors.primary,
     justifyContent: 'center',
     minHeight: 44,

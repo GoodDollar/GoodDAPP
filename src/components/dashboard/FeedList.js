@@ -85,7 +85,7 @@ const FeedList = ({ data, handleFeedSelection, initialNumToRender, onEndReached,
         }
         goodWallet
           .cancelOTLByTransactionHash(transactionHash)
-          .catch(e => showErrorDialog('Canceling link the payment link has failed', e))
+          .catch(e => showErrorDialog('Canceling the payment link has failed', e))
 
         // activeItems[item.id] = false
         // setActive(activeItems)

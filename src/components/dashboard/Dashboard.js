@@ -279,7 +279,7 @@ const getStylesFromProps = ({ theme }) => ({
   },
   leftButtonContent: {
     alignItems: 'stretch',
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
   },
   rightButton: {
     flex: 1,
@@ -291,7 +291,7 @@ const getStylesFromProps = ({ theme }) => ({
   },
   rightButtonContent: {
     alignItems: 'stretch',
-    justifyContent: 'flex-end',
+    justifyContent: 'center',
   },
   leftButtonText: {
     marginRight: 16,

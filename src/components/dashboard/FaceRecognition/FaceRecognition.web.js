@@ -70,9 +70,21 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
   componentWillMount = async () => {
     await zoomSdkLoader.ready
     this.loadedZoom = ZoomSDK
-    this.timeout = setTimeout(() => {
-      this.setState({ zoomReady: true })
-    }, 0)
+
+    navigator.getMedia =
+      navigator.getUserMedia || // use the proper vendor prefix
+      navigator.webkitGetUserMedia ||
+      navigator.mozGetUserMedia ||
+      navigator.msGetUserMedia
+
+    navigator.getMedia(
+      { video: true },
+      () =>
+        (this.timeout = setTimeout(() => {
+          this.setState({ zoomReady: true })
+        }, 0)),
+      this.showFRError
+    )
   }
 
   componentDidMount = () => {}

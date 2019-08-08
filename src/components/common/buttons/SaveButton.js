@@ -1,8 +1,9 @@
 // @flow
 import React, { useState } from 'react'
+import { TouchableOpacity, View } from 'react-native'
 import { withStyles } from '../../../lib/styles'
-import Icon from '../view/Icon'
 import Text from '../view/Text'
+import Icon from '../view/Icon'
 import CustomButton from './CustomButton'
 
 const NOT_SAVED = 'NOT_SAVED'
@@ -24,7 +25,6 @@ type SaveButtonProps = {
 
 const SaveButton = ({ children, onPress, onPressDone, doneDelay, styles, theme, ...props }: SaveButtonProps) => {
   const [state, setState] = useState(NOT_SAVED)
-
   const pressAndNextState = async () => {
     setState(SAVING)
 
@@ -39,21 +39,26 @@ const SaveButton = ({ children, onPress, onPressDone, doneDelay, styles, theme, 
   }
 
   return (
-    <CustomButton
-      style={[styles.saveButton, props.style]}
-      color={props.color || theme.colors.darkBlue}
-      loading={state === SAVING}
-      {...props}
-      onPress={pressAndNextState}
-    >
+    <View style={styles.wrapper}>
       {state === DONE ? (
-        <Icon size={16} name="success" color={theme.colors.surface} />
+        <TouchableOpacity cursor="inherit" style={[styles.iconButton]}>
+          <Icon size={16} name="success" color={theme.colors.surface} />
+        </TouchableOpacity>
       ) : (
-        <Text color="surface" textTransform="uppercase" fontSize={14} style={styles.customButtonText}>
-          {children || 'Save'}
-        </Text>
+        <CustomButton
+          style={[styles.saveButton, props.style]}
+          color={props.color || theme.colors.darkBlue}
+          loading={state === SAVING}
+          compact={state !== NOT_SAVED}
+          {...props}
+          onPress={pressAndNextState}
+        >
+          <Text color="surface" textTransform="uppercase" fontSize={14} style={styles.customButtonText}>
+            {children || 'Save'}
+          </Text>
+        </CustomButton>
       )}
-    </CustomButton>
+    </View>
   )
 }
 
@@ -64,17 +69,31 @@ SaveButton.defaultProps = {
 }
 
 const getStylesFromProps = ({ theme }) => ({
-  saveButton: {
+  wrapper: {
     position: 'absolute',
     top: 0,
     right: 0,
-    paddingHorizontal: theme.sizes.defaultDouble,
     marginVertical: 0,
+    display: 'flex',
+    justifyContent: 'flex-end',
+  },
+  saveButton: {
+    width: 80,
+    paddingHorizontal: theme.sizes.defaultDouble,
   },
   customButtonText: {
     fontWeight: 'bold',
     lineHeight: 0,
     paddingTop: 1,
+  },
+  iconButton: {
+    alignItems: 'center',
+    backgroundColor: theme.colors.darkBlue,
+    borderRadius: 21,
+    display: 'flex',
+    height: 42,
+    justifyContent: 'center',
+    width: 42,
   },
 })
 

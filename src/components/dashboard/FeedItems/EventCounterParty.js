@@ -24,6 +24,7 @@ const getStylesFromProps = ({ theme }) => ({
     lineHeight: normalize(16),
     textAlign: 'left',
     textTransform: 'capitalize',
+    marginBottom: theme.sizes.defaultHalf,
   },
   direction: {
     fontSize: normalize(10),

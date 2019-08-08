@@ -17,13 +17,18 @@ const FRError = props => {
   const isValid = get(props, 'screenProps.screenState.isValid', undefined)
 
   let reason = get(props, 'screenProps.screenState.error', '')
-  if (reason instanceof Error) {
-    reason = reason.message
+  if (reason instanceof Error || reason.message) {
+    if (reason.name === 'NotAllowedError') {
+      reason = `Looks like GoodDollar doesn't have access to your camera. Please provide access and try again`
+    } else {
+      reason = reason.message
+    }
   }
+
   log.debug({ props, reason })
 
   //is the error mesage something we want to show to the user? currently only camera related
-  const isRelevantError = reason.match(/camera/i)
+  const isRelevantError = reason.match(/camera/i) || reason === 'Permission denied'
   let error = isRelevantError
     ? reason
     : "You see, it's not that easy to capture your beauty :)\nSo, let's give it another shot..."

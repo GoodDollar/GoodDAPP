@@ -519,7 +519,6 @@ exports[`Who matches snapshot 1`] = `
                 "borderTopRightRadius": "50px",
                 "borderTopStyle": "solid",
                 "borderTopWidth": "0px",
-                "boxShadow": "0px 0px 0px rgba(0,0,0,0.24)",
                 "justifyContent": "center",
                 "minHeight": "44px",
                 "minWidth": "auto",
@@ -785,7 +784,7 @@ exports[`Who matches snapshot 1`] = `
                       }
                     }
                   >
-                    Skip
+                    Next
                   </span>
                 </div>
               </div>

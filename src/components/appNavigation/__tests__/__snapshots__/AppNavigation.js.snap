@@ -745,19 +745,19 @@ exports[`AppNavigation matches snapshot 1`] = `
                 className="css-view-1dbjc4n"
                 style={
                   Object {
-                    "WebkitAlignItems": "stretch",
-                    "WebkitBoxAlign": "stretch",
+                    "WebkitAlignItems": "center",
+                    "WebkitBoxAlign": "center",
                     "WebkitBoxDirection": "normal",
                     "WebkitBoxOrient": "horizontal",
-                    "WebkitBoxPack": "start",
+                    "WebkitBoxPack": "center",
                     "WebkitFlexDirection": "row",
-                    "WebkitJustifyContent": "flex-start",
-                    "alignItems": "stretch",
+                    "WebkitJustifyContent": "center",
+                    "alignItems": "center",
                     "flexDirection": "row",
-                    "justifyContent": "flex-start",
-                    "msFlexAlign": "stretch",
+                    "justifyContent": "center",
+                    "msFlexAlign": "center",
                     "msFlexDirection": "row",
-                    "msFlexPack": "start",
+                    "msFlexPack": "center",
                   }
                 }
               >
@@ -812,7 +812,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                         "justifyContent": "center",
                         "marginBottom": "0px",
                         "marginLeft": "0px",
-                        "marginRight": "0px",
+                        "marginRight": "16px",
                         "marginTop": "0px",
                         "msFlexAlign": "center",
                         "msFlexPack": "center",
@@ -1048,19 +1048,19 @@ exports[`AppNavigation matches snapshot 1`] = `
                 className="css-view-1dbjc4n"
                 style={
                   Object {
-                    "WebkitAlignItems": "stretch",
-                    "WebkitBoxAlign": "stretch",
+                    "WebkitAlignItems": "center",
+                    "WebkitBoxAlign": "center",
                     "WebkitBoxDirection": "normal",
                     "WebkitBoxOrient": "horizontal",
-                    "WebkitBoxPack": "end",
+                    "WebkitBoxPack": "center",
                     "WebkitFlexDirection": "row",
-                    "WebkitJustifyContent": "flex-end",
-                    "alignItems": "stretch",
+                    "WebkitJustifyContent": "center",
+                    "alignItems": "center",
                     "flexDirection": "row",
-                    "justifyContent": "flex-end",
-                    "msFlexAlign": "stretch",
+                    "justifyContent": "center",
+                    "msFlexAlign": "center",
                     "msFlexDirection": "row",
-                    "msFlexPack": "end",
+                    "msFlexPack": "center",
                   }
                 }
               >
@@ -1098,7 +1098,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                         "fontWeight": "500",
                         "justifyContent": "center",
                         "marginBottom": "0px",
-                        "marginLeft": "0px",
+                        "marginLeft": "16px",
                         "marginRight": "0px",
                         "marginTop": "0px",
                         "msFlexAlign": "center",

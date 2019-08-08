@@ -105,6 +105,24 @@ export type TransactionEvent = FeedEvent & {
   },
 }
 
+const welcomeMessage = {
+  id: '0',
+  type: 'invite',
+  date: new Date().getTime(),
+  status: 'completed',
+  data: {
+    customName: 'Invite friends to GoodDollar',
+    receiptData: {
+      from: '0x0000000000000000000000000000000000000000',
+    },
+    reason:
+      'Send Invites to get more people connected on GoodDollar. You will earn GD and also Help other people to earn.',
+    endpoint: {
+      fullName: 'Invite friends to GoodDollar',
+    },
+  },
+}
+
 /**
  * Extracts transfer events sent to the current account
  * @param {object} receipt - Receipt event
@@ -336,7 +354,7 @@ export class UserStorage {
       })
       logger.debug('init to events')
 
-      this.initFeed()
+      await this.initFeed()
 
       //save ref to user
       this.gun
@@ -507,9 +525,14 @@ export class UserStorage {
    * Subscribes to changes on the event index of day to number of events
    * the "false" (see gundb docs) passed is so we get the complete 'index' on every change and not just the day that changed
    */
-  initFeed() {
+  async initFeed() {
     this.feed = this.gunuser.get('feed')
     this.feed.get('index').on(this.updateFeedIndex, false)
+
+    //first time user
+    if ((await this.feed) === undefined) {
+      this.enqueueTX(welcomeMessage)
+    }
   }
 
   /**
@@ -992,6 +1015,7 @@ export class UserStorage {
       reason,
       code: withdrawCode,
       otplStatus,
+      customName,
     } = data
     let avatar, fullName, address, withdrawStatus, initiator
     if (type === 'send') {
@@ -1038,6 +1062,7 @@ export class UserStorage {
         .get('profile'))
     const profileToShow = (profileByIndex || profileByAddress) && this.gun.get((profileByIndex || profileByAddress)._)
     fullName =
+      customName ||
       (profileToShow &&
         (await profileToShow
           .get('fullName')
@@ -1096,8 +1121,8 @@ export class UserStorage {
     //a race exists between enqueing and receipt from websockets/polling
     const release = await this.feedMutex.lock()
     try {
-      event.status = 'pending'
-      event.createdDate = new Date().toString()
+      event.status = event.status || 'pending'
+      event.createdDate = event.createdDate || new Date().toString()
       let putRes = await this.feed
         .get('queue')
         .get(event.id)

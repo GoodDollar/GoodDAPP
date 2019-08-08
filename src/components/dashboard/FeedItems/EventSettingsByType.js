@@ -1,52 +1,51 @@
 const getEventSettingsByType = (theme, type) => {
-  return (
-    {
-      claim: {
-        actionSymbol: '+',
-        color: theme.colors.green,
-        name: 'claim-filled',
-      },
-      send: {
-        actionSymbol: '-',
-        color: theme.colors.red,
-        name: 'send-filled',
-      },
-      sendcompleted: {
-        actionSymbol: '-',
-        color: theme.colors.red,
-        name: 'send-filled',
-      },
-      receive: {
-        actionSymbol: '+',
-        color: theme.colors.green,
-        name: 'claim-filled',
-      },
-      withdraw: {
-        actionSymbol: '+',
-        color: theme.colors.green,
-        name: 'receive-filled',
-      },
-      message: {
-        color: theme.colors.purple,
-        name: 'social-good-filled',
-      },
-      sendcancelled: {
-        color: theme.colors.orange,
-        name: 'clock-filled',
-      },
-      sendpending: {
-        color: theme.colors.orange,
-        name: 'clock-filled',
-      },
-      feedback: {
-        color: theme.colors.primary,
-        name: 'system-filled',
-      },
-      empty: {
-        color: theme.colors.lightGray,
-      },
-    }[type] || undefined
-  )
+  const styles = {
+    claim: {
+      actionSymbol: '+',
+      color: theme.colors.green,
+      name: 'claim-filled',
+    },
+    send: {
+      actionSymbol: '-',
+      color: theme.colors.red,
+      name: 'send-filled',
+    },
+    sendcompleted: {
+      actionSymbol: '-',
+      color: theme.colors.red,
+      name: 'send-filled',
+    },
+    receive: {
+      actionSymbol: '+',
+      color: theme.colors.green,
+      name: 'claim-filled',
+    },
+    withdraw: {
+      actionSymbol: '+',
+      color: theme.colors.green,
+      name: 'receive-filled',
+    },
+    message: {
+      color: theme.colors.purple,
+      name: 'social-good-filled',
+    },
+    sendcancelled: {
+      color: theme.colors.orange,
+      name: 'clock-filled',
+    },
+    sendpending: {
+      color: theme.colors.orange,
+      name: 'clock-filled',
+    },
+    feedback: {
+      color: theme.colors.primary,
+      name: 'system-filled',
+    },
+    empty: {
+      color: theme.colors.lightGray,
+    },
+  }
+  return styles[type] || styles.empty
 }
 
 export default getEventSettingsByType

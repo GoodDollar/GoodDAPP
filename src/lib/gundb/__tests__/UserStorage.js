@@ -73,7 +73,7 @@ describe('UserStorage', () => {
     await userStorage.setProfileField('name', 'hadar2', 'public')
 
     //need to wait for gundb to finish writing value with SEA
-    await delay(200)
+    await delay(350)
     const gunRes = userStorage.getProfileField('name')
     const res = await gunRes
     expect(res).toEqual(expect.objectContaining({ privacy: 'public', display: 'hadar2', value: expect.anything() }))
@@ -97,7 +97,7 @@ describe('UserStorage', () => {
     await userStorage.setProfileField('id', 'z123', 'private')
 
     //wait for SEA
-    await delay(200)
+    await delay(350)
     const gunRes = userStorage.getProfileFieldValue('id')
     const res = await gunRes.then()
     expect(res).toEqual('z123')
@@ -206,7 +206,7 @@ describe('UserStorage', () => {
     expect(before).toMatchObject({ privacy: 'masked', display: '***********4928' })
 
     //wait for SEA
-    await delay(200)
+    await delay(350)
     const gunRes = await userStorage.setProfileFieldPrivacy('phone', 'public')
     expect(gunRes).toMatchObject({ err: undefined })
 
@@ -406,7 +406,7 @@ describe('UserStorage', () => {
       userStorage.setProfileField('mobile', '+22222222211', 'masked'),
       userStorage.setProfileField('email', 'new@domain.com', 'masked'),
     ]
-    await delay(200)
+    await delay(350)
     await Promise.all(updates)
     const profileData = {
       fullName: 'New Name',
@@ -417,7 +417,7 @@ describe('UserStorage', () => {
     const profile = getUserModel(profileData)
     const result = await userStorage.setProfile(profile)
     expect(result).toBe(true)
-    await delay(200)
+    await delay(350)
     userStorage.subscribeProfileUpdates(async updatedProfile => {
       await userStorage.getPrivateProfile(updatedProfile).then(result => {
         const { isValid, getErrors, validate, ...privateProfile } = result
@@ -479,7 +479,7 @@ describe('UserStorage', () => {
     } catch (e) {
       expect(e).toEqual(['Existing index on field username'])
     }
-    await delay(200)
+    await delay(350)
     const updated = await userStorage.getProfile()
     expect(updated.username).toBe('notTaken')
     expect(updated.email).toBe('diferent@email.com')
@@ -497,7 +497,7 @@ describe('UserStorage', () => {
     expect(updatedUsername).not.toBe('taken')
     const newResultOk = await userStorage.setProfileField('username', 'user3', 'public')
     expect(newResultOk).toMatchObject({ err: undefined })
-    await delay(200)
+    await delay(350)
     const updatedUsernameOk = await userStorage.getProfileFieldValue('username')
     expect(updatedUsernameOk).toBe('user3')
   })

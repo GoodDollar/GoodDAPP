@@ -81,6 +81,7 @@ describe('UserStorage', () => {
 
   it('sets profile field private (encrypted)', async () => {
     await userStorage.setProfileField('id', 'z123', 'private')
+    await delay(350)
     const res = await userStorage.profile.get('id').then()
     expect(res).toEqual(expect.objectContaining({ privacy: 'private', display: '******' }))
   })

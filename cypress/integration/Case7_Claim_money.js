@@ -1,7 +1,8 @@
 import StartPage from '../PageObjects/StartPage'
 import SignUpPage from '../PageObjects/SignUpPage'
-import HomePage from '../PageObjects/HomePage';
-import ClaimMoneyPage from '../PageObjects/ClaimMoneyPage';
+import HomePage from '../PageObjects/HomePage'
+import ClaimMoneyPage from '../PageObjects/ClaimMoneyPage'
+import LoginPage from '../PageObjects/LoginPage'
 
 
 

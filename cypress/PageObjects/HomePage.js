@@ -28,6 +28,10 @@ class HomePage {
         return cy.get('[dir=auto]', { timeout: 10000 }).eq(0)
     }
 
+    get moneyAmountDiv() {
+        return cy.get('[dir="auto"]', { timeout: 10000 }).eq(2)
+    }
+
 }
 
 export default new HomePage;

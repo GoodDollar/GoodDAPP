@@ -34,7 +34,9 @@ describe('Test case 2: Profile editing', () => {
             HomePage.options.eq(i).should('be.visible');
         }
         HomePage.options.eq(0).click();   
-        ProfilePage.editProfileButton.click();   
+        cy.wait(3000);
+        ProfilePage.editProfileButton.click();  
+        cy.wait(3000); 
         EditProfilePage.pageHeader.should('contain', 'Edit Profile');
         EditProfilePage.nameInput.should('be.visible');
         EditProfilePage.phoneInput.should('be.visible');
@@ -114,6 +116,7 @@ describe('Test case 2: Profile editing', () => {
         EditProfilePage.emailInput.type('andrey.holenkov@qatestlab.eu');
         cy.wait(3000)
         EditProfilePage.saveButton.click();
+        cy.wait(7500)
 
     }); 
 

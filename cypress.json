@@ -3,53 +3,53 @@
     "defaultCommandTimeout": 30000,
     "env": {    
         "wordsForSuccessfullLogin": [
-            "rabbit", "have", "citizen", 
-            "fossil", "tuition", "vivid", 
-            "near", "bronze", "fault", 
-            "myth", "mention", "rib"
+            "hollow", "edit", "hobby", 
+            "path", "cup", "pave", 
+            "flower", "shuffle", "build", 
+            "quiz", "abstract", "pink"
         ],
         "wordsForUnsuccessfullLogin": {
             "withChangedWord": [
-                "hello", "have", "citizen ",
-                "fossil", "tuition", "vivid", 
-                "near", "bronze", "fault", 
-                "myth", "mention", "rib"
+                "dollar", "edit", "hobby", 
+                "path", "cup", "pave", 
+                "flower", "shuffle", "build", 
+                "quiz", "abstract", "pink"
             ],
             "withNumbers": [
-                "rabbit", "have2", "citizen ", 
-                "fossil", "tuition", "vivid", 
-                "near", "bronze", "fault", 
-                "myth", "mention", "rib"
+                "hollow", "edit2", "hobby", 
+                "path", "cup", "pave", 
+                "flower", "shuffle", "build", 
+                "quiz", "abstract", "pink"
             ],
             "withSymbols": [
-                "rabbit", "have", "citizen ", 
-                "fossil", "tuition$", "vivid", 
-                "near", "bronze", "fault", 
-                "myth", "mention", "rib"
+                "hollow", "edit", "hobby@", 
+                "path", "cup", "pave", 
+                "flower", "shuffle", "build", 
+                "quiz", "abstract", "pink"
             ],
             "withChangedLetter": [
-                "gabbit", "have", "citizen ", 
-                "fossil", "tuition", "vivid", 
-                "near", "bronze", "fault", 
-                "myth", "mention", "rib"
+                "hollov", "edit", "hobby", 
+                "path", "cup", "pave", 
+                "flower", "shuffle", "build", 
+                "quiz", "abstract", "pink"
             ],
             "withChangedOrder": [
-                "rib", "have", "citizen ", 
-                "fossil", "tuition", "vivid", 
-                "near", "bronze", "fault", 
-                "myth", "mention", "rabbit"
+                "pink", "edit", "hobby", 
+                "path", "cup", "pave", 
+                "flower", "shuffle", "build", 
+                "quiz", "abstract", "hollow"
             ],
             "withCapitalize": [
-                "rabbit", "have", "citizen ", 
-                "fossil", "tuition", "vivid", 
-                "near", "Bronze", "fault", 
-                "myth", "mention", "rib"]
+                "hollow", "edit", "hobby", 
+                "path", "cup", "pave", 
+                "flower", "shuffle", "build", 
+                "quiz", "Abstract", "pink"]
         },
         "anotherAccountWords": [
-            "flavor", "brief", "kind",
-            "royal","suspect","slam",
-            "ethics","arm","voice",
-            "faint","update","potato"
+            "eight", "express", "gas",
+            "sunny","guilt","black",
+            "charge","music","mechanic",
+            "voyage","blur","menu"
         ]
     }
 }

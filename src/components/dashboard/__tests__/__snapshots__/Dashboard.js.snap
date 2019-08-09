@@ -583,7 +583,6 @@ exports[`Dashboard matches snapshot 1`] = `
                 "fontSize": "18px",
                 "fontWeight": "normal",
                 "lineHeight": "20px",
-                "marginBottom": "8px",
                 "textAlign": "center",
                 "textDecoration": "none",
                 "textTransform": "none",
@@ -600,48 +599,88 @@ exports[`Dashboard matches snapshot 1`] = `
                 "WebkitBoxAlign": "baseline",
                 "WebkitBoxDirection": "normal",
                 "WebkitBoxOrient": "horizontal",
+                "WebkitBoxPack": "justify",
                 "WebkitFlexDirection": "row",
+                "WebkitJustifyContent": "space-between",
                 "alignItems": "baseline",
-                "display": "flex",
                 "flexDirection": "row",
+                "justifyContent": "space-between",
+                "marginBottom": "16px",
+                "marginTop": "16px",
                 "msFlexAlign": "baseline",
                 "msFlexDirection": "row",
+                "msFlexPack": "justify",
               }
             }
           >
             <div
-              className="css-text-901oao"
-              dir="auto"
+              className="css-view-1dbjc4n"
               style={
                 Object {
-                  "color": "rgba(85,85,85,1.00)",
-                  "direction": "ltr",
-                  "fontFamily": "Roboto Slab",
-                  "fontSize": "42px",
-                  "fontWeight": "600",
-                  "lineHeight": "22px",
-                  "marginBottom": "16px",
-                  "marginRight": "2px",
-                  "textAlign": "right",
-                  "textDecoration": "none",
-                  "textTransform": "none",
+                  "WebkitAlignItems": "baseline",
+                  "WebkitBoxAlign": "baseline",
+                  "WebkitBoxDirection": "normal",
+                  "WebkitBoxOrient": "horizontal",
+                  "WebkitFlexDirection": "row",
+                  "alignItems": "baseline",
+                  "display": "flex",
+                  "flexDirection": "row",
+                  "msFlexAlign": "baseline",
+                  "msFlexDirection": "row",
                 }
               }
             >
-              -.--
+              <div
+                className="css-text-901oao"
+                dir="auto"
+                style={
+                  Object {
+                    "color": "rgba(85,85,85,1.00)",
+                    "direction": "ltr",
+                    "fontFamily": "Roboto Slab",
+                    "fontSize": "42px",
+                    "fontWeight": "600",
+                    "lineHeight": "22px",
+                    "marginRight": "2px",
+                    "textAlign": "right",
+                    "textDecoration": "none",
+                    "textTransform": "none",
+                  }
+                }
+              >
+                -.--
+              </div>
+              <div
+                className="css-text-901oao"
+                dir="auto"
+                style={
+                  Object {
+                    "color": "rgba(85,85,85,1.00)",
+                    "direction": "ltr",
+                    "fontFamily": "Roboto Slab",
+                    "fontSize": "18px",
+                    "fontWeight": "700",
+                    "lineHeight": "22px",
+                    "textAlign": "right",
+                    "textDecoration": "none",
+                    "textTransform": "none",
+                  }
+                }
+              />
             </div>
             <div
               className="css-text-901oao"
               dir="auto"
               style={
                 Object {
-                  "color": "rgba(85,85,85,1.00)",
+                  "color": "rgba(66,69,74,1.00)",
                   "direction": "ltr",
                   "fontFamily": "Roboto Slab",
                   "fontSize": "18px",
                   "fontWeight": "700",
-                  "lineHeight": "22px",
-                  "textAlign": "right",
+                  "lineHeight": "20px",
+                  "marginRight": "-20px",
+                  "textAlign": "center",
                   "textDecoration": "none",
                   "textTransform": "none",
                 }

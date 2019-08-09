@@ -71,6 +71,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose }) => {
               toCopy={getPaymentLink()}
               onPressDone={handleModalClose}
               iconColor={theme.colors.primary}
+              withoutDone={true}
             >
               Copy link
             </CopyButton>

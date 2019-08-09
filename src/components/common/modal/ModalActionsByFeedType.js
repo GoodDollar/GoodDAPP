@@ -21,7 +21,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose }) => {
     try {
       goodWallet
         .cancelOTLByTransactionHash(item.id)
-        .catch(e => showErrorDialog('Canceling link the payment link has failed', e))
+        .catch(e => showErrorDialog('Canceling the payment link has failed', e))
         .finally(() => {
           setState({ ...state, cancelPaymentLoading: false })
         })

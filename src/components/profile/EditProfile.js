@@ -18,6 +18,15 @@ import ProfileDataTable from './ProfileDataTable'
 const TITLE = 'Edit Profile'
 const log = logger.child({ from: TITLE })
 
+// To remove profile values that are already failing
+function filterObject(obj) {
+  const ret = {}
+  Object.keys(obj)
+    .filter(key => obj[key] !== undefined)
+    .forEach(key => (ret[key] = obj[key]))
+  return ret
+}
+
 const EditProfile = ({ screenProps, theme, styles }) => {
   const store = GDStore.useStore()
   const storedProfile = store.get('privateProfile')
@@ -53,12 +62,16 @@ const EditProfile = ({ screenProps, theme, styles }) => {
               return true
             }
             if (['string', 'number'].includes(typeof x)) {
-              return x.toString() === y.toString()
+              return y && x.toString() === y.toString()
             }
             return undefined
           })
           const { isValid, errors } = profile.validate()
-          const { isValid: isValidIndex, errors: errorsIndex } = await userStorage.validateProfile(profile)
+          log.info(JSON.stringify({ pristine, profile, isValid, errors }))
+
+          const { isValid: isValidIndex, errors: errorsIndex } = await userStorage.validateProfile(
+            filterObject(profile)
+          )
           const valid = isValid && isValidIndex
 
           setErrors(merge(errors, errorsIndex))
@@ -141,7 +154,7 @@ const EditProfile = ({ screenProps, theme, styles }) => {
 
   return (
     <Wrapper>
-      <Section style={styles.section} grow>
+      <Section grow>
         <Section.Row justifyContent="center" alignItems="flex-start">
           <UserAvatar profile={profile} onPress={handleAvatarPress}>
             <CameraButton handleCameraPress={handleCameraPress} />
@@ -158,10 +171,6 @@ EditProfile.navigationOptions = {
   title: TITLE,
 }
 
-const getStylesFromProps = ({ theme }) => ({
-  section: {
-    padding: theme.sizes.defaultDouble,
-  },
-})
+const getStylesFromProps = ({ theme }) => ({})
 
 export default withStyles(getStylesFromProps)(EditProfile)

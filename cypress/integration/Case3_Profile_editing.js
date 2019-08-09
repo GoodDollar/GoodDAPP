@@ -22,7 +22,7 @@ describe('Test case 3: Ability to change user data', () => {
     });
 
 
-    it('Elements are present', () => {
+    it('Elements are present at user profile', () => {
 
         HomePage.profileAvatar.should('be.visible');
         HomePage.sendButton.should('be.visible');

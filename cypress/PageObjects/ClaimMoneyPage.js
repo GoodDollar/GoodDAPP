@@ -5,7 +5,7 @@ class ClaimMoneyPage {
     }
 
     get image() {
-        return cy.xpath('img[src]', { timeout: 10000 }).eq(1);
+        return cy.get('img[src]', { timeout: 10000 }).eq(1);
     }
 
     get timer() {

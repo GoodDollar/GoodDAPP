@@ -19,8 +19,11 @@ export const setLoadingWithStore = (store: Store) => (to: boolean) => {
 }
 
 const getStylesFromProps = ({ theme }) => {
-  const backgroundColor =
-    theme && theme.modals && theme.modals.overlayBackgroundColor ? theme.modals.overlayBackgroundColor : 'transparent'
+  let backgroundColor = 'transparent'
+
+  if (theme && theme.modals && theme.modals.activityIndicatorBackgroundColor) {
+    backgroundColor = theme.modals.activityIndicatorBackgroundColor
+  }
 
   return {
     screen: {

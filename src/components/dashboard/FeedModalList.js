@@ -4,7 +4,6 @@ import { FlatList, View } from 'react-native'
 import { Portal } from 'react-native-paper'
 import { withStyles } from '../../lib/styles'
 import { getScreenWidth } from '../../lib/utils/Orientation'
-import { Indicator } from '../common/view/LoadingIndicator'
 import FeedModalItem from './FeedItems/FeedModalItem'
 
 const VIEWABILITY_CONFIG = {
@@ -86,7 +85,6 @@ const FeedModalList = ({
   const feeds = data && data instanceof Array && data.length ? data : undefined
   return (
     <Portal>
-      <Indicator loading={loading} />
       <View style={[styles.horizontalContainer, { opacity: loading ? 0 : 1 }]}>
         <FlatList
           onScroll={({ nativeEvent }) => {

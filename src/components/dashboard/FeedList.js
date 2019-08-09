@@ -98,18 +98,13 @@ const FeedList = ({ data, handleFeedSelection, initialNumToRender, onEndReached,
     }
 
     if (actions.canDelete) {
-      try {
-        if (activeActionDemo) {
-          activeItems[item.id] = true
-          setActive(activeItems)
-        }
-        userStorage.deleteEvent(item).catch(e => showErrorDialog('Deleting the event has failed', e))
-      } catch (e) {
-        showErrorDialog(e)
+      if (activeActionDemo) {
+        activeItems[item.id] = true
+        setActive(activeItems)
       }
+      userStorage.deleteEvent(item).catch(e => showErrorDialog('Deleting the event has failed', e))
     }
   }
-
   const renderQuickActions = ({ item }) => {
     const canCancel = item && item.displayType === 'sendpending'
     const canDelete = item && item.id && item.id.indexOf('0x') === -1

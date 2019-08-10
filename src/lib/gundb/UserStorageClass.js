@@ -105,7 +105,7 @@ export type TransactionEvent = FeedEvent & {
   },
 }
 
-const welcomeMessage = {
+export const welcomeMessage = {
   id: '0',
   type: 'welcome',
   date: new Date().getTime(),
@@ -116,7 +116,7 @@ const welcomeMessage = {
       from: '0x0000000000000000000000000000000000000000',
     },
     reason:
-      'GoodDollar is a payment system with a built-in small basic income based on blockchain technology.\nLet’s change the world, for good.',
+      'GoodDollar is a payment system with a built-in small basic income based on blockchain technology.\nLet’s change the world, for good.',
     endpoint: {
       fullName: 'Welcome to GoodDollar!',
     },
@@ -898,7 +898,7 @@ export class UserStorage {
     return Promise.all(
       feed
         .filter(feedItem => feedItem.data && ['deleted', 'cancelled'].includes(feedItem.status) === false)
-        .map(this.formatEvent)
+        .map(feedItem => this.formatEvent(feedItem))
     )
   }
 

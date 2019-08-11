@@ -1,6 +1,7 @@
 // @flow
 import React, { useEffect, useState } from 'react'
 import { Image } from 'react-native'
+import numeral from 'numeral'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import logger from '../../lib/logger/pino-logger'
@@ -195,11 +196,11 @@ const Claim = props => {
           <Section.Row style={styles.extraInfoStats}>
             <Section.Text>
               <Section.Text style={[styles.extraInfoStatsText, styles.textBold, styles.textPrimary]}>
-                {claimedToday.people}{' '}
+                {numeral(claimedToday.people).format('0a')}{' '}
               </Section.Text>
               <Section.Text style={[styles.extraInfoStatsText]}>People Claimed </Section.Text>
               <Section.Text style={[styles.extraInfoStatsText, styles.textBold, styles.textPrimary]}>
-                {claimedToday.amount}
+                {numeral(claimedToday.amount).format('0a')}
               </Section.Text>
               <Section.Text
                 style={[styles.extraInfoStatsText, styles.textBold, styles.textPrimary, styles.extraInfoStatsSmallText]}

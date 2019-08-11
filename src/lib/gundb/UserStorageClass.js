@@ -105,7 +105,7 @@ export type TransactionEvent = FeedEvent & {
   },
 }
 
-const welcomeMessage = {
+export const welcomeMessage = {
   id: '0',
   type: 'welcome',
   date: new Date().getTime(),
@@ -116,7 +116,7 @@ const welcomeMessage = {
       from: '0x0000000000000000000000000000000000000000',
     },
     reason:
-      'GoodDollar is a payment system with a built-in small basic income based on blockchain technology.\nLet’s change the world, for good.',
+      'GoodDollar is a payment system with a built-in small basic income based on blockchain technology.\nLet’s change the world, for good.',
     endpoint: {
       fullName: 'Welcome to GoodDollar!',
     },
@@ -898,7 +898,7 @@ export class UserStorage {
     return Promise.all(
       feed
         .filter(feedItem => feedItem.data && ['deleted', 'cancelled'].includes(feedItem.status) === false)
-        .map(this.formatEvent)
+        .map(feedItem => this.formatEvent(feedItem))
     )
   }
 
@@ -1168,9 +1168,20 @@ export class UserStorage {
   }
 
   /**
+   * Sets the event's status as deleted
+   * @param {FeedEvent} event
+   * @returns {Promise<FeedEvent>}
+   */
+  deleteEvent(event: FeedEvent): Promise<FeedEvent> {
+    event.status = 'deleted'
+    return this.updateFeedEvent(event)
+  }
+
+  /**
    * Add or Update feed event
    *
    * @param {FeedEvent} event - Event to be updated
+   * @param {string|*} previouseventDate
    * @returns {Promise} Promise with updated feed
    */
   async updateFeedEvent(event: FeedEvent, previouseventDate: string | void): Promise<FeedEvent> {
@@ -1178,10 +1189,10 @@ export class UserStorage {
 
     //saving index by onetime code so we can retrieve and update it once withdrawn
     //or skip own withdraw
-    if (event.type == 'send' && event.data.code) {
+    if (event.type === 'send' && event.data.code) {
       const hashedCode = this.wallet.wallet.utils.sha3(event.data.code)
       this.feed.get('codeToTxHash').put({ [hashedCode]: event.id })
-    } else if (event.type == 'withdraw' && event.data.code) {
+    } else if (event.type === 'withdraw' && event.data.code) {
       //are we withdrawing our own link?
       const hashedCode = this.wallet.wallet.utils.sha3(event.data.code)
       const ownlink = await this.feed.get('codeToTxHash').get(hashedCode)

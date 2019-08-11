@@ -20,11 +20,7 @@ const log = logger.child({ from: TITLE })
 
 // To remove profile values that are already failing
 function filterObject(obj) {
-  const ret = {}
-  Object.keys(obj)
-    .filter(key => obj[key] !== undefined)
-    .forEach(key => (ret[key] = obj[key]))
-  return ret
+  return pickBy(obj, (v, k) => v !== undefined)
 }
 
 const EditProfile = ({ screenProps, theme, styles }) => {
@@ -67,7 +63,6 @@ const EditProfile = ({ screenProps, theme, styles }) => {
             return undefined
           })
           const { isValid, errors } = profile.validate()
-          log.info(JSON.stringify({ pristine, profile, isValid, errors }))
 
           const { isValid: isValidIndex, errors: errorsIndex } = await userStorage.validateProfile(
             filterObject(profile)

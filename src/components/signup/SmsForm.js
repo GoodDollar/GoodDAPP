@@ -79,7 +79,7 @@ class SmsForm extends React.Component<Props, State> {
         log.error({ e })
 
         this.setState({
-          errorMessage: e.message || e.response.data.message,
+          errorMessage: e.message || e,
         })
       } finally {
         this.setState({ loading: false })
@@ -113,7 +113,7 @@ class SmsForm extends React.Component<Props, State> {
     } catch (e) {
       log.error(e)
       this.setState({
-        errorMessage: e.message || e.response.data.message,
+        errorMessage: e.message || e,
         sendingCode: false,
         renderButton: true,
       })

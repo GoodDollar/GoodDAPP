@@ -2,7 +2,7 @@
 import gun from '../gundb'
 
 import userStorage from '../UserStorage'
-import { getOperationType, getReceiveDataFromReceipt, type TransactionEvent } from '../UserStorageClass'
+import { getOperationType, getReceiveDataFromReceipt, type TransactionEvent, welcomeMessage } from '../UserStorageClass'
 
 import { getUserModel } from '../UserModel'
 import { addUser } from './__util__/index'
@@ -325,6 +325,27 @@ describe('UserStorage', () => {
     const events = await userStorage.getAllFeed()
     expect(index).toHaveProperty(date)
     expect(events).toContainEqual(transactionEvent)
+  })
+
+  it('has the welcome event already set', async () => {
+    const events = await userStorage.getAllFeed()
+    expect(events).toContainEqual(welcomeMessage)
+  })
+
+  it('should delete the Welcome event', async () => {
+    const deletedEvent = await userStorage.deleteEvent(welcomeMessage)
+    const date = `${new Date(welcomeMessage.date).toISOString().slice(0, 10)}`
+    const index = await userStorage.feed
+      .get('index')
+      .once()
+      .then()
+    expect(index).toHaveProperty(date)
+
+    const formattedEvents = await userStorage.getFormattedEvents()
+    expect(formattedEvents).not.toContainEqual(deletedEvent)
+
+    const events = await userStorage.getAllFeed()
+    expect(events).toContainEqual(deletedEvent)
   })
 
   it('should subscribe to profile updates', async done => {

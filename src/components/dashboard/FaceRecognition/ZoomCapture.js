@@ -52,9 +52,9 @@ const HelperWizard = props => {
       } else {
         text = 'Center your webcam'
         imgs = (
-          <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-            <Image source={WebcamBad} resizeMode={'contain'} style={{ margin: 15, width: '100%', height: 120 }} />
-            <Image source={WebcamGood} resizeMode={'contain'} style={{ margin: 15, width: '100%', height: 120 }} />
+          <View style={styles.imageViewWebCam}>
+            <Image source={WebcamBad} resizeMode={'contain'} style={styles.webcamImage} />
+            <Image source={WebcamGood} resizeMode={'contain'} style={styles.webcamImage} />
           </View>
         )
       }
@@ -63,15 +63,15 @@ const HelperWizard = props => {
       text = 'Ensure camera is at eye level'
       if (isMobile) {
         imgs = (
-          <View style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-            <Image source={MobileAngleGood} resizeMode={'contain'} style={{ width: '100%', height: 75 }} />
+          <View style={styles.imageView}>
+            <Image source={MobileAngleGood} resizeMode={'contain'} style={styles.mobileAngleImage} />
             {/* <Image source={MobileAngleBad} resizeMode={'contain'} style={{ width: '100%', height: 75 }} /> */}
           </View>
         )
       } else {
         imgs = (
-          <View style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-            <Image source={WebAngleGood} resizeMode={'contain'} style={{ width: '100%', height: 75 }} />
+          <View style={styles.imageView}>
+            <Image source={WebAngleGood} resizeMode={'contain'} style={styles.mobileAngleImage} />
             {/* <Image source={WebAngleOk} resizeMode={'contain'} style={{ width: '100%', height: 75 }} />
             <Image source={WebAngleBad} resizeMode={'contain'} style={{ width: '100%', height: 75 }} /> */}
           </View>
@@ -81,10 +81,10 @@ const HelperWizard = props => {
     case 2:
       text = 'Light your face evenly'
       imgs = (
-        <View style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-          <Image source={LightingBad2} resizeMode={'contain'} style={{ width: '100%', height: 75 }} />
-          <Image source={LightingBad1} resizeMode={'contain'} style={{ width: '100%', height: 75 }} />
-          <Image source={LightingGood} resizeMode={'contain'} style={{ width: '100%', height: 75 }} />
+        <View style={styles.imageView}>
+          <Image source={LightingBad2} resizeMode={'contain'} style={styles.loghtingBadImage} />
+          <Image source={LightingBad1} resizeMode={'contain'} style={styles.loghtingBadImage} />
+          <Image source={LightingGood} resizeMode={'contain'} style={styles.loghtingBadImage} />
         </View>
       )
       break
@@ -188,6 +188,31 @@ class ZoomCapture extends React.Component<ZoomCaptureProps> {
 }
 
 const styles = StyleSheet.create({
+  imageViewWebCam: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  imageView: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  webcamImage:{
+    margin: '0.9rem',
+    width: '100%',
+    height: '7.5rem'
+  },
+  loghtingBadImage:{
+    width: '100%',
+    height: '4.6875rem'
+  },
+  mobileAngleImage:{
+    width: '100%',
+    height: '4.6875rem'
+  },
   bottomSection: {
     flex: 1,
     backgroundColor: '#fff',

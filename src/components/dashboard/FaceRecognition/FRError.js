@@ -42,9 +42,9 @@ const FRError = props => {
   return (
     <Wrapper>
       <View style={styles.topContainer}>
-        <Section style={styles.descriptionContainer}>
+        <Section style={styles.descriptionContainer} justifyContent="space-evenly">
           <Section.Title style={styles.mainTitle}> {`${getFirstWord(fullName)},\n${title}`}</Section.Title>
-          <Image source={Oops} resizeMode={'center'} style={styles.errorImage} />
+          <Image source={Oops} resizeMode="center" style={styles.errorImage} />
           <Section style={styles.errorSection}>
             <Separator width={2} />
             <Section.Text style={styles.description}>
@@ -67,13 +67,14 @@ FRError.navigationOptions = {
 
 const getStylesFromProps = ({ theme }) => ({
   topContainer: {
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
     display: 'flex',
     backgroundColor: theme.colors.surface,
     height: '100%',
     flex: 1,
     flexGrow: 1,
     flexShrink: 0,
-    justifyContent: 'space-evenly',
     paddingBottom: `${theme.sizes.defaultDouble / 16}rem`,
     paddingLeft: `${theme.sizes.default / 16}rem`,
     paddingRight: `${theme.sizes.default / 16}rem`,
@@ -88,7 +89,6 @@ const getStylesFromProps = ({ theme }) => ({
   },
   descriptionContainer: {
     flex: 1,
-    justifyContent: 'space-evenly',
     marginBottom: 0,
     paddingBottom: `${theme.sizes.defaultDouble / 16}rem`,
     paddingLeft: `${theme.sizes.defaultHalf / 16}rem`,

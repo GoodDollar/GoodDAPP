@@ -35,7 +35,7 @@ const FRIntro = props => {
 
   return (
     <Wrapper>
-      <Section style={styles.topContainer}>
+      <Section style={styles.topContainer} grow={1} justifyContent="center">
         <View style={styles.mainContent}>
           <Section.Title style={styles.mainTitle}>
             {`${getFirstWord(fullName)},\nLet's verify it's really you`}
@@ -78,9 +78,7 @@ const getStylesFromProps = ({ theme }) => ({
     borderRadius: theme.sizes.borderRadius,
     display: 'flex',
     flexDirection: 'column',
-    flexGrow: 1,
     flexShrink: 0,
-    justifyContent: 'center',
     paddingBottom: `${theme.sizes.defaultDouble / 16}rem`,
     paddingLeft: `${theme.sizes.default / 16}rem`,
     paddingRight: `${theme.sizes.default / 16}rem`,

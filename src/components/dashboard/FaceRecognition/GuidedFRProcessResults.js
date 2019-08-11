@@ -1,6 +1,6 @@
 //@flow
 import React, { useEffect, useState } from 'react'
-import { ActivityIndicator, Image, StyleSheet, View } from 'react-native'
+import { Image, View } from 'react-native'
 import { Text } from 'react-native-paper'
 import find from 'lodash/find'
 import findKey from 'lodash/findKey'
@@ -8,43 +8,19 @@ import mapValues from 'lodash/mapValues'
 import { getFirstWord } from '../../../lib/utils/getFirstWord'
 import CustomButton from '../../common/buttons/CustomButton'
 import Section from '../../common/layout/Section'
-import Icon from '../../common/view/Icon'
+import FRStep from './FRStep'
 import Separator from '../../common/layout/Separator'
-import normalize from '../../../lib/utils/normalizeText'
 import logger from '../../../lib/logger/pino-logger'
 import goodWallet from '../../../lib/wallet/GoodWallet'
 import userStorage from '../../../lib/gundb/UserStorage'
 import LookingGood from '../../../assets/LookingGood.svg'
 import GDStore from '../../../lib/undux/GDStore'
 import { fireEvent } from '../../../lib/analytics/analytics'
+import { withStyles } from '../../../lib/styles'
 
 const log = logger.child({ from: 'GuidedFRProcessResults' })
 
-const FRStep = ({ title, isActive, status, isProcessFailed, paddingBottom }) => {
-  paddingBottom = paddingBottom === undefined ? 12 : paddingBottom
-  let statusColor = status === true ? 'success' : status === false ? 'failure' : 'none'
-  let statusIcon =
-    status === undefined ? null : (
-      <Icon name={status ? 'success' : 'close'} size={14} color="#fff" style={{ textAlign: 'center' }} />
-    )
-  let spinner =
-    isProcessFailed !== true && status === undefined && isActive === true ? <ActivityIndicator color={'gray'} /> : null
-  let iconOrSpinner =
-    statusIcon || spinner ? <View style={[styles[statusColor], styles.statusIcon]}>{statusIcon || spinner}</View> : null
-
-  //not active use grey otherwise based on status
-  let textStyle = isActive === false ? styles.textInactive : status === false ? styles.textError : styles.textActive
-  log.debug('FRStep', { title, status, isActive, statusColor, textStyle })
-  return (
-    <View style={{ flexDirection: 'row', paddingTop: 0, marginRight: 0, paddingBottom }}>
-      <View style={{ flexGrow: 2 }}>
-        <Text style={textStyle}>{title}</Text>
-      </View>
-      {iconOrSpinner}
-    </View>
-  )
-}
-const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigation, isAPISuccess }: any) => {
+const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, styles, done, navigation, isAPISuccess }: any) => {
   const store = GDStore.useStore()
   const { fullName } = store.get('profile')
 
@@ -165,9 +141,9 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
 
   let lookingGood =
     isProcessFailed === false && processStatus.isProfileSaved ? (
-      <View style={{ flexShrink: 0 }}>
+      <View style={styles.imageView}>
         <Text style={styles.textGood}>{`Looking Good ${getFirstWord(fullName)}`}</Text>
-        <Image source={LookingGood} resizeMode={'center'} style={{ marginTop: 36, height: 135 }} />
+        <Image source={LookingGood} resizeMode={'center'} style={styles.image} />
       </View>
     ) : null
 
@@ -207,31 +183,13 @@ C. Light your face evenly'
   }
   return (
     <View style={styles.topContainer}>
-      <Section
-        style={{
-          paddingBottom: 0,
-          paddingTop: 31,
-          marginBottom: 0,
-          paddingLeft: 44,
-          paddingRight: 44,
-          justifyContent: 'space-around',
-          flex: 1,
-        }}
-      >
-        <Section.Title style={styles.mainTitle}>
+      <Section style={styles.mainContainer} justifyContent="space-around">
+        <Section.Title style={styles.mainTitle} justifyContent="center" alignItems="center">
           <Text>Analyzing Results...</Text>
         </Section.Title>
-        <View
-          style={{
-            paddingBottom: 0,
-            paddingTop: 0,
-            marginBottom: 0,
-            padding: 0,
-            flexGrow: 0,
-          }}
-        >
+        <View style={styles.mainView}>
           <Separator width={2} />
-          <View style={{ marginBottom: 22, marginTop: 22 }}>
+          <View style={styles.steps}>
             <FRStep
               title={'Checking duplicates'}
               isActive={true}
@@ -272,7 +230,7 @@ C. Light your face evenly'
           </View>
           <Separator width={2} />
         </View>
-        <View style={{ flexShrink: 0 }}>
+        <View style={styles.imageView}>
           <Text style={styles.textHelp}>{helpText}</Text>
         </View>
         {lookingGood}
@@ -281,58 +239,51 @@ C. Light your face evenly'
     </View>
   )
 }
-
-const styles = StyleSheet.create({
+const getStylesFromProps = ({ theme }) => ({
   topContainer: {
+    fontFamily: theme.fonts.default,
     display: 'flex',
-    backgroundColor: 'white',
+    backgroundColor: theme.colors.surface,
     height: '100%',
     flex: 1,
     justifyContent: 'space-evenly',
-    paddingTop: 33,
+    paddingTop: '2rem',
     borderRadius: 5,
   },
+  imageView:{
+    flexShrink: 0
+  },
+  image:{
+    marginTop: '2.25rem',
+    height: '8.43rem'
+  },
+  mainContainer: {
+    paddingBottom: 0,
+    paddingTop: '2rem',
+    marginBottom: 0,
+    paddingLeft: '2.75rem',
+    paddingRight: '2.75rem',
+    flex: 1,
+  },
+  mainView: {
+    paddingBottom: 0,
+    paddingTop: 0,
+    marginBottom: 0,
+    padding: 0,
+    flexGrow: 0,
+  },
   mainTitle: {
-    fontFamily: 'Roboto-Medium',
-    fontSize: normalize(24),
-    color: '#42454A',
+    fontSize: '1.5rem',
+    color: theme.colors.darkGray,
     textTransform: 'none',
     display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   button: {
-    fontFamily: 'Roboto-Medium',
-    fontSize: normalize(16),
-  },
-  statusIcon: {
-    justifyContent: 'center',
-  },
-  textActive: {
-    fontFamily: 'Roboto-Medium',
-    fontSize: normalize(16),
-    color: '#42454A',
-    textTransform: 'none',
-    lineHeight: 28,
-  },
-  textInactive: {
-    fontFamily: 'Roboto',
-    fontSize: normalize(16),
-    color: '#CBCBCB',
-    textTransform: 'none',
-    lineHeight: 28,
-  },
-  textError: {
-    fontFamily: 'Roboto-Medium',
-    fontSize: normalize(16),
-    color: '#FA6C77',
-    textTransform: 'none',
-    lineHeight: 28,
+    fontSize: '1rem',
   },
   textHelp: {
-    fontFamily: 'Roboto',
-    fontSize: normalize(16),
-    color: '#FA6C77',
+    fontSize: '1rem',
+    color: theme.colors.red,
     textTransform: 'none',
   },
   helpLink: {
@@ -340,24 +291,11 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
   },
   textGood: {
-    fontFamily: 'Roboto-medium',
-    fontSize: normalize(24),
+    fontSize: '1.5rem',
     textTransform: 'none',
     textAlign: 'center',
   },
-  success: {
-    width: 28,
-    height: 28,
-    borderRadius: '50%',
-    backgroundColor: '#00C3AE',
-  },
-  failure: {
-    width: 28,
-    height: 28,
-    borderRadius: '50%',
-    backgroundColor: '#FA6C77',
-    flexGrow: 0,
-  },
 })
 
-export default GuidedFRProcessResults
+
+export default withStyles(getStylesFromProps)(GuidedFRProcessResults)

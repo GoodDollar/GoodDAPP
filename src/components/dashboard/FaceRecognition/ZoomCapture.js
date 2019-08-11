@@ -131,7 +131,7 @@ class ZoomCapture extends React.Component<ZoomCaptureProps> {
     try {
       log.debug('zoom initializes capture..')
       let zoomSDK = this.props.loadedZoom
-      this.zoom = new Zoom(zoomSDK, track)
+      this.zoom = new Zoom(zoomSDK)
       await this.zoom.ready
       if (this.props.showHelper === false) {
         this.captureUserMediaZoom()
@@ -146,7 +146,8 @@ class ZoomCapture extends React.Component<ZoomCaptureProps> {
     let captureOutcome: ZoomCaptureResult
     try {
       log.debug('zoom performs capture..')
-      captureOutcome = await this.zoom.capture() // TODO: handle capture errors.
+      await this.zoom.ready
+      captureOutcome = await this.zoom.capture(this.videoTrack) // TODO: handle capture errors.
       log.info({ captureOutcome })
       if (captureOutcome) {
         this.props.onCaptureResult(captureOutcome)

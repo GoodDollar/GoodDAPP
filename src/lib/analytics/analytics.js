@@ -18,6 +18,7 @@ export const initAnalytics = async (goodWallet: GoodWallet, userStorage: UserSto
         environment: Config.env,
         person: {
           id: emailOrId,
+          identifier,
         },
       },
     })

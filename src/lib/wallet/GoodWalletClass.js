@@ -281,11 +281,12 @@ export class GoodWallet {
           return { error: e }
         })
         .then(res => {
-          log.debug("listenTxUpdates got 'to' events", { res })
           let events = res.error ? [] : res
           let error = res.error
           const uniqEvents = uniqBy(events, 'transactionHash')
-
+          if (events.length > 0 || error) {
+            log.debug("listenTxUpdates got 'to' events", { res })
+          }
           uniqEvents.forEach(event => {
             this.getReceiptWithLogs(event.transactionHash)
               .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptReceived']))
@@ -324,7 +325,7 @@ export class GoodWallet {
     return this.oneTimePaymentLinksContract
       .getPastEvents('PaymentWithdraw', { fromBlock, toBlock, filter })
       .catch(e => {
-        log.error('subscribeOTPL Withdraw fromEventsPromise failed:', { e, filters: { fromBlock, toBlock, filter } })
+        log.warn('subscribeOTPL Withdraw fromEventsPromise failed:', { e, filters: { fromBlock, toBlock, filter } })
         return { error: e }
       })
       .then(res => (res.error ? [] : res))
@@ -336,7 +337,7 @@ export class GoodWallet {
     return this.oneTimePaymentLinksContract
       .getPastEvents('PaymentCancel', { fromBlock, toBlock, filter })
       .catch(e => {
-        log.error('subscribeOTPL Cancel fromEventsPromise failed:', { e, filters: { fromBlock, toBlock, filter } })
+        log.warn('subscribeOTPL Cancel fromEventsPromise failed:', { e, filters: { fromBlock, toBlock, filter } })
         return { error: e }
       })
       .then(res => (res.error ? [] : res))

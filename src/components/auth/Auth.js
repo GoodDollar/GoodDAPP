@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { Image, View } from 'react-native'
+import { View } from 'react-native'
 import Mnemonics from '../signin/Mnemonics'
 import logger from '../../lib/logger/pino-logger'
 import CustomButton from '../common/buttons/CustomButton'
@@ -11,7 +11,6 @@ import { PrivacyPolicy, TermsOfUse } from '../webView/webViewInstances'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
 import normalize from '../../lib/utils/normalizeText'
-import illustration from '../../assets/Auth/Illustration.svg'
 
 type Props = {
   navigation: any,
@@ -21,7 +20,6 @@ type Props = {
   styles: any,
 }
 
-Image.prefetch(illustration)
 const log = logger.child({ from: 'Auth' })
 class Auth extends React.Component<Props> {
   handleSignUp = () => {
@@ -53,21 +51,19 @@ class Auth extends React.Component<Props> {
     const { styles } = this.props
     return (
       <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
-        <Section justifyContent="space-between" style={styles.mainSection} alignItems="center">
-          <Section.Row alignItems="center" justifyContent="center" style={styles.topRow}>
-            <Section.Text color="surface" fontFamily="slab" fontSize={22} fontWeight={700}>
-              {`Alpha tokens are \n for test use only!`}
-            </Section.Text>
-          </Section.Row>
-          <Section.Separator color="#fff" width={2} style={styles.separator} />
-          <Section.Row alignItems="center" justifyContent="center" style={styles.bottomRow}>
-            <Section.Text color="surface" fontWeight="500" fontSize={16}>
-              {`They have NO real value. \n And will be deleted at the end of the Alpha`}
-            </Section.Text>
-          </Section.Row>
-        </Section>
-        <Section>
-          <Image source={illustration} style={styles.illustration} resizeMode="contain" />
+        <Section justifyContent="space-between" style={styles.mainSection}>
+          <Wrapper style={styles.containerPadding}>
+            <Section.Row alignItems="center" justifyContent="center" style={styles.topRow}>
+              <Section.Text color="surface" fontFamily="slab" fontSize={22}>
+                {`Alpha tokens are \n for test use only!`}
+              </Section.Text>
+            </Section.Row>
+            <Section.Row alignItems="center" justifyContent="center" style={styles.bottomRow}>
+              <Section.Text color="surface" fontWeight="500" fontSize={16}>
+                {`They have NO real value. \n And will be deleted at the end of the Alpha.`}
+              </Section.Text>
+            </Section.Row>
+          </Wrapper>
         </Section>
         <View style={styles.bottomContainer}>
           <Text fontSize={12} color="gray80Percent">
@@ -101,19 +97,17 @@ const getStylesFromProps = ({ theme }) => {
       paddingHorizontal: 0,
     },
     mainSection: {
-      marginHorizontal: theme.sizes.defaultDouble,
+      marginHorizontal: -theme.sizes.defaultDouble,
       marginVertical: 'auto',
-      borderRadius: 0,
-      paddingHorizontal: theme.sizes.default,
-      paddingVertical: theme.sizes.default,
-      backgroundColor: theme.colors.darkGray,
-      boxShadow: '0 3px 6px rgba(0, 0, 0, 0.24)',
-      marginBottom: 12,
+      paddingHorizontal: 0,
     },
-    separator: {
-      maxWidth: 276,
+    containerPadding: {
+      padding: 28,
+      alignItems: 'center',
     },
     topRow: {
+      borderBottomColor: theme.colors.surface,
+      borderBottomWidth: 1,
       paddingBottom: theme.sizes.defaultDouble,
       maxWidth: 276,
     },
@@ -137,15 +131,6 @@ const getStylesFromProps = ({ theme }) => {
     },
     underlined: {
       textDecorationLine: 'underline',
-    },
-    illustration: {
-      flexGrow: 0,
-      flexShrink: 0,
-      marginBottom: theme.sizes.default,
-      maxWidth: '100%',
-      minHeight: 192,
-      minWidth: 284,
-      paddingTop: theme.sizes.default,
     },
   }
 }

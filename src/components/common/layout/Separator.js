@@ -9,7 +9,6 @@ const Separator = ({ color, width, style, theme }) => (
         backgroundColor: theme.colors[color] || color || theme.colors.primary,
         borderRadius: width / 2,
         height: width,
-        width: '100%',
       },
       style,
     ]}

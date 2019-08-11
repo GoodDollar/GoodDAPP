@@ -107,8 +107,9 @@ const Claim = props => {
       showButtons: false,
       title: `YOUR G$\nIS ON ITS WAY...`,
     })
-
     try {
+      //when we come back from FR entitelment might not be set yet
+      const curEntitlement = weiToGd(entitlement || (await goodWallet.checkEntitlement()))
       const receipt = await goodWallet.claim({
         onTransactionHash: hash => {
           const transactionEvent: TransactionEvent = {
@@ -117,7 +118,7 @@ const Claim = props => {
             type: 'claim',
             data: {
               from: 'GoodDollar',
-              amount: entitlement,
+              amount: curEntitlement,
             },
           }
           userStorage.enqueueTX(transactionEvent)

@@ -19,6 +19,10 @@ class SignUpPage {
     get invalidValueErrorDiv() {
         return cy.xpath('//*[@id="root"]/div[1]/div/div/div[2]/div/div/div/div/div[1]/div/div[2]/div/div[2]', { timeout: 10000 });
     }
+
+    get errorOkayButton() {
+        return cy.xpath('//*[@id="root"]/div[3]/div/div/div/div/div[2]/div[2]/div/div[3]/div/div', { timeout: 10000 })
+    }
     
 
 }

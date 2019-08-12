@@ -53,7 +53,14 @@ const SaveButton = ({ children, onPress, onPressDone, doneDelay, styles, theme, 
           {...props}
           onPress={pressAndNextState}
         >
-          <Text color="surface" textTransform="uppercase" fontSize={14} style={styles.customButtonText}>
+          <Text
+            color="surface"
+            textTransform="uppercase"
+            fontSize={14}
+            fontWeight="700"
+            lineHeight={0}
+            style={styles.customButtonText}
+          >
             {children || 'Save'}
           </Text>
         </CustomButton>
@@ -81,8 +88,6 @@ const getStylesFromProps = ({ theme }) => ({
     width: 80,
   },
   customButtonText: {
-    fontWeight: 'bold',
-    lineHeight: 0,
     paddingTop: 1,
   },
   iconButton: {

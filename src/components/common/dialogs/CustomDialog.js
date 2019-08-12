@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { Paragraph, Portal } from 'react-native-paper'
 import normalize from '../../../lib/utils/normalizeText'
 import SimpleStore from '../../../lib/undux/SimpleStore'
@@ -9,6 +9,7 @@ import ErrorIcon from '../modal/ErrorIcon'
 import SuccessIcon from '../modal/SuccessIcon'
 import ModalWrapper from '../modal/ModalWrapper'
 import { theme } from '../../theme/styles'
+import Text from '../view/Text'
 
 export type DialogProps = {
   children?: any,
@@ -61,7 +62,9 @@ const CustomDialog = ({
     <Portal>
       <ModalWrapper onClose={onCancel || onDismiss} leftBorderColor={modalColor}>
         <React.Fragment>
-          <Text style={[styles.title, textColor]}>{title}</Text>
+          <Text color={textColor} fontFamily="slab" fontSize={24} fontWeight="700" style={styles.title}>
+            {title}
+          </Text>
           <View style={styles.content}>
             {children}
             {image ? image : defaultImage}
@@ -121,13 +124,8 @@ const SimpleStoreDialog = () => {
 
 const styles = StyleSheet.create({
   title: {
-    color: theme.colors.darkGray,
-    fontFamily: theme.fonts.slab,
-    fontSize: normalize(24),
-    fontWeight: '700',
-    marginBottom: 16,
-    paddingTop: 16,
-    textAlign: 'center',
+    marginBottom: theme.sizes.defaultDouble,
+    paddingTop: theme.sizes.defaultDouble,
   },
   paragraph: {
     color: theme.colors.darkGray,

@@ -18,6 +18,7 @@ export const DEFAULT_PARAMS = {
   receiveLink: undefined,
   reason: undefined,
   code: undefined,
+  action: undefined,
 }
 
 const log = logger.child({ from: 'stackNavigation' })

@@ -26,7 +26,7 @@ export function generateCode(
 ) {
   const mnid = encode({ address, network: `0x${networkId.toString(16)}` })
 
-  return `${mnid}|${amount}|${reason}|${counterPartyDisplayName}`
+  return `${mnid}|${amount}|${reason || ''}|${counterPartyDisplayName || ''}`
 }
 
 /**
@@ -35,7 +35,7 @@ export function generateCode(
  * @returns {null|{amount: *, address, networkId: number, reason: string}}
  */
 export function readCode(code: string) {
-  const [mnid, value, reason] = code.split('|')
+  const [mnid, value, reason, counterPartyDisplayName] = code.split('|')
 
   if (!isMNID(mnid)) {
     return null
@@ -49,6 +49,7 @@ export function readCode(code: string) {
     address,
     amount: amount ? amount : undefined,
     reason,
+    counterPartyDisplayName,
   }
 }
 

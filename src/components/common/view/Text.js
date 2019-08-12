@@ -4,6 +4,8 @@ import { Text as PaperText } from 'react-native-paper'
 import normalize from '../../../lib/utils/normalizeText'
 import { withStyles } from '../../../lib/styles'
 
+const LINE_HEIGHT_FACTOR = 1.2
+
 class Text extends React.Component {
   _root
 
@@ -44,17 +46,17 @@ class Text extends React.Component {
  */
 const relatedLineSpacing = fontSize =>
   ({
-    8: 14,
-    10: 14,
-    12: 16,
-    14: 20,
-    16: 22,
-    18: 24,
-    22: 30,
-    24: 30,
-    36: 30,
-    42: 30,
-  }[fontSize] || '1em')
+    8: normalize(14),
+    10: normalize(14),
+    12: normalize(16),
+    14: normalize(20),
+    16: normalize(22),
+    18: normalize(24),
+    22: normalize(30),
+    24: normalize(30),
+    36: normalize(30),
+    42: normalize(30),
+  }[fontSize] || normalize(fontSize * LINE_HEIGHT_FACTOR))
 
 const getStylesFromProps = ({
   theme,
@@ -68,7 +70,7 @@ const getStylesFromProps = ({
   textTransform,
 }) => {
   const calculatedFontSize = Number.isFinite(fontSize) ? normalize(fontSize) : normalize(16)
-  const calculatedLineHeight = lineHeight || relatedLineSpacing(calculatedFontSize)
+  const calculatedLineHeight = Number.isFinite(lineHeight) ? normalize(lineHeight) : relatedLineSpacing(fontSize)
 
   return {
     text: {

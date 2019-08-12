@@ -1,9 +1,9 @@
 // @flow
 import React from 'react'
-import { Button as BaseButton, DefaultTheme, Text } from 'react-native-paper'
+import { Button as BaseButton, DefaultTheme } from 'react-native-paper'
 import { withStyles } from '../../../lib/styles'
 import Icon from '../view/Icon'
-import normalize from '../../../lib/utils/normalizeText'
+import Text from '../view/Text'
 
 type IconFunction = (string, number) => React.Node
 
@@ -49,17 +49,7 @@ const mapPropsToStyles = ({ theme }) => ({
   },
   buttonText: {
     alignItems: 'center',
-    fontFamily: theme.fonts.default,
-    fontSize: normalize(16),
-    fontWeight: '500',
     justifyContent: 'center',
-    marginBottom: 0,
-    marginLeft: 0,
-    marginRight: 0,
-    marginTop: 0,
-    paddingBottom: 0,
-    paddingLeft: 0,
-    paddingRight: 0,
     paddingTop: 1,
   },
 })
@@ -69,12 +59,9 @@ const TextContent = withStyles(mapPropsToStyles)(
     if (typeof children === 'string') {
       return (
         <Text
-          style={[
-            styles.buttonText,
-            { color: dark && 'white' },
-            { textTransform: uppercase ? 'uppercase' : 'none' },
-            textStyle,
-          ]}
+          color={dark && 'white'}
+          textTransform={uppercase ? 'uppercase' : 'none'}
+          style={[styles.buttonText, textStyle]}
         >
           {children}
         </Text>

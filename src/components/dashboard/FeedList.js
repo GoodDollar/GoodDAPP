@@ -1,6 +1,6 @@
 // @flow
 import React, { useState } from 'react'
-import { Animated, ScrollView, SwipeableFlatList, View } from 'react-native'
+import { Animated, SwipeableFlatList } from 'react-native'
 import GDStore from '../../lib/undux/GDStore'
 import { withStyles } from '../../lib/styles'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
@@ -28,6 +28,7 @@ export type FeedListProps = {
   horizontal: boolean,
   selectedFeed: ?string,
   styles: Object,
+  onScroll: Function,
 }
 
 type ItemComponentProps = {
@@ -39,7 +40,7 @@ type ItemComponentProps = {
   index: number,
 }
 
-const FeedList = ({ data, handleFeedSelection, initialNumToRender, onEndReached, styles }: FeedListProps) => {
+const FeedList = ({ data, handleFeedSelection, initialNumToRender, onEndReached, styles, onScroll }: FeedListProps) => {
   //enable a demo showing how to mark an item that his action button delete/cancel has been pressed
   const activeActionDemo = false
   const [showErrorDialog] = useErrorDialog()
@@ -123,50 +124,39 @@ const FeedList = ({ data, handleFeedSelection, initialNumToRender, onEndReached,
   }
 
   return (
-    <ScrollView style={styles.scrollList} contentContainerStyle={styles.scrollableView}>
-      <View style={styles.verticalContainer}>
-        <AnimatedSwipeableFlatList
-          bounceFirstRowOnMount={true}
-          contentContainerStyle={styles.verticalList}
-          data={feeds}
-          getItemLayout={getItemLayout}
-          initialNumToRender={initialNumToRender || 10}
-          key="vf"
-          keyExtractor={keyExtractor}
-          keyboardDismissMode="on-drag"
-          keyboardShouldPersistTaps="always"
-          legacyImplementation={false}
-          maxSwipeDistance={112}
-          numColumns={1}
-          onEndReached={onEndReached}
-          refreshing={false}
-          renderItem={renderItemComponent}
-          renderQuickActions={renderQuickActions}
-          viewabilityConfig={VIEWABILITY_CONFIG}
-        />
-      </View>
-    </ScrollView>
+    <AnimatedSwipeableFlatList
+      bounceFirstRowOnMount={true}
+      style={styles.scrollView}
+      contentContainerStyle={styles.scrollableView}
+      data={feeds}
+      getItemLayout={getItemLayout}
+      initialNumToRender={initialNumToRender || 10}
+      key="vf"
+      keyExtractor={keyExtractor}
+      keyboardDismissMode="on-drag"
+      keyboardShouldPersistTaps="always"
+      legacyImplementation={false}
+      maxSwipeDistance={112}
+      numColumns={1}
+      onEndReached={onEndReached}
+      refreshing={false}
+      renderItem={renderItemComponent}
+      renderQuickActions={renderQuickActions}
+      viewabilityConfig={VIEWABILITY_CONFIG}
+      onScroll={onScroll}
+    />
   )
 }
 
 const getStylesFromProps = ({ theme }) => ({
-  verticalContainer: {
-    backgroundColor: '#efeff4',
-    flex: 1,
-    justifyContent: 'center',
-  },
-  verticalList: {
-    maxWidth: '100vw',
-    width: '100%',
-  },
-  scrollList: {
+  scrollView: {
     display: 'flex',
     flexGrow: 1,
     height: 1,
   },
   scrollableView: {
-    display: 'flex',
     flexGrow: 1,
+    display: 'flex',
     height: '100%',
   },
 })

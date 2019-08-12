@@ -35,7 +35,7 @@ type State = SMSRecord & {
   renderButton: boolean,
   resentCode: boolean,
   loading: boolean,
-  otp: string | Array<string>,
+  otp: Array<string>,
 }
 
 const NumInputs: number = 6
@@ -64,8 +64,8 @@ class SmsForm extends React.Component<Props, State> {
     }, 10000)
   }
 
-  handleChange = async (otp: Array<string> | string) => {
-    const otpValue = typeof otp === 'string' ? otp : otp.filter(val => val).join('')
+  handleChange = async (otp: array) => {
+    const otpValue = otp.filter(val => val).join('')
     if (otpValue.replace(/ /g, '').length === NumInputs) {
       this.setState({
         loading: true,
@@ -78,7 +78,7 @@ class SmsForm extends React.Component<Props, State> {
         log.error({ e })
 
         this.setState({
-          errorMessage: e.message || e.response.data.message,
+          errorMessage: e.message || e,
         })
       } finally {
         this.setState({ loading: false })
@@ -112,7 +112,7 @@ class SmsForm extends React.Component<Props, State> {
     } catch (e) {
       log.error(e)
       this.setState({
-        errorMessage: e.message || e.response.data.message,
+        errorMessage: e.message || e,
         sendingCode: false,
         renderButton: true,
       })
@@ -139,7 +139,7 @@ class SmsForm extends React.Component<Props, State> {
                 errorStyle={styles.errorStyle}
                 value={otp}
                 placeholder="*"
-                keyboardType="phone-pad"
+                isInputNum={true}
               />
               <ErrorText error={errorMessage} />
             </Section.Stack>

@@ -185,8 +185,7 @@ const OtpInput = (props: Props) => {
 
   // Helper to return OTP from input
   const handleOtpChange = (otp: string[]) => {
-    const otpValue = otp.join('')
-    onChange(isInputNum ? Number(otpValue) : otpValue)
+    onChange(otp)
   }
 
   // Focus on input by index

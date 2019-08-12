@@ -1,9 +1,11 @@
 // @flow
 import React, { useState } from 'react'
-import { Animated, ScrollView, SwipeableFlatList, View } from 'react-native'
+import { Animated, SwipeableFlatList } from 'react-native'
 import GDStore from '../../lib/undux/GDStore'
 import { withStyles } from '../../lib/styles'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
+import userStorage from '../../lib/gundb/UserStorage'
+import type { FeedEvent } from '../../lib/gundb/UserStorageClass'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import FeedActions from './FeedActions'
 import FeedListItem from './FeedItems/FeedListItem'
@@ -26,6 +28,7 @@ export type FeedListProps = {
   horizontal: boolean,
   selectedFeed: ?string,
   styles: Object,
+  onScroll: Function,
 }
 
 type ItemComponentProps = {
@@ -37,7 +40,7 @@ type ItemComponentProps = {
   index: number,
 }
 
-const FeedList = ({ data, handleFeedSelection, initialNumToRender, onEndReached, styles }: FeedListProps) => {
+const FeedList = ({ data, handleFeedSelection, initialNumToRender, onEndReached, styles, onScroll }: FeedListProps) => {
   //enable a demo showing how to mark an item that his action button delete/cancel has been pressed
   const activeActionDemo = false
   const [showErrorDialog] = useErrorDialog()
@@ -72,11 +75,12 @@ const FeedList = ({ data, handleFeedSelection, initialNumToRender, onEndReached,
 
   /**
    * Calls proper action depening on the feed status
-   * @param {string} transactionHash - feed item ID
+   * @param {FeedEvent} item - feed item
    * @param {object} actions - wether to cancel/delete or any further action required
    */
-  const handleFeedActionPress = (item, actions) => {
+  const handleFeedActionPress = (item: FeedEvent, actions: {}) => {
     const transactionHash = item.id
+
     if (actions.canCancel) {
       try {
         if (activeActionDemo) {
@@ -85,7 +89,7 @@ const FeedList = ({ data, handleFeedSelection, initialNumToRender, onEndReached,
         }
         goodWallet
           .cancelOTLByTransactionHash(transactionHash)
-          .catch(e => showErrorDialog('Canceling link the payment link has failed', e))
+          .catch(e => showErrorDialog('Canceling the payment link has failed', e))
 
         // activeItems[item.id] = false
         // setActive(activeItems)
@@ -94,9 +98,14 @@ const FeedList = ({ data, handleFeedSelection, initialNumToRender, onEndReached,
       }
     }
 
-    // TODO: canDelete action
+    if (actions.canDelete) {
+      if (activeActionDemo) {
+        activeItems[item.id] = true
+        setActive(activeItems)
+      }
+      userStorage.deleteEvent(item).catch(e => showErrorDialog('Deleting the event has failed', e))
+    }
   }
-
   const renderQuickActions = ({ item }) => {
     const canCancel = item && item.displayType === 'sendpending'
     const canDelete = item && item.id && item.id.indexOf('0x') === -1
@@ -115,50 +124,39 @@ const FeedList = ({ data, handleFeedSelection, initialNumToRender, onEndReached,
   }
 
   return (
-    <ScrollView style={styles.scrollList} contentContainerStyle={styles.scrollableView}>
-      <View style={styles.verticalContainer}>
-        <AnimatedSwipeableFlatList
-          bounceFirstRowOnMount={true}
-          contentContainerStyle={styles.verticalList}
-          data={feeds}
-          getItemLayout={getItemLayout}
-          initialNumToRender={initialNumToRender || 10}
-          key="vf"
-          keyExtractor={keyExtractor}
-          keyboardDismissMode="on-drag"
-          keyboardShouldPersistTaps="always"
-          legacyImplementation={false}
-          maxSwipeDistance={112}
-          numColumns={1}
-          onEndReached={onEndReached}
-          refreshing={false}
-          renderItem={renderItemComponent}
-          renderQuickActions={renderQuickActions}
-          viewabilityConfig={VIEWABILITY_CONFIG}
-        />
-      </View>
-    </ScrollView>
+    <AnimatedSwipeableFlatList
+      bounceFirstRowOnMount={true}
+      style={styles.scrollView}
+      contentContainerStyle={styles.scrollableView}
+      data={feeds}
+      getItemLayout={getItemLayout}
+      initialNumToRender={initialNumToRender || 10}
+      key="vf"
+      keyExtractor={keyExtractor}
+      keyboardDismissMode="on-drag"
+      keyboardShouldPersistTaps="always"
+      legacyImplementation={false}
+      maxSwipeDistance={112}
+      numColumns={1}
+      onEndReached={onEndReached}
+      refreshing={false}
+      renderItem={renderItemComponent}
+      renderQuickActions={renderQuickActions}
+      viewabilityConfig={VIEWABILITY_CONFIG}
+      onScroll={onScroll}
+    />
   )
 }
 
 const getStylesFromProps = ({ theme }) => ({
-  verticalContainer: {
-    backgroundColor: '#efeff4',
-    flex: 1,
-    justifyContent: 'center',
-  },
-  verticalList: {
-    maxWidth: '100vw',
-    width: '100%',
-  },
-  scrollList: {
+  scrollView: {
     display: 'flex',
     flexGrow: 1,
     height: 1,
   },
   scrollableView: {
-    display: 'flex',
     flexGrow: 1,
+    display: 'flex',
     height: '100%',
   },
 })

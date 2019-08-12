@@ -113,7 +113,6 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation, s
           onCancel: () => hideDialog(),
           onDismiss: async () => {
             store.set('loadingIndicator')({ loading: true })
-            hideSidemenu()
             const userStorage = await import('../../lib/gundb/UserStorage').then(_ => _.default)
             await userStorage
               .deleteAccount()
@@ -123,6 +122,8 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation, s
             window.location = '/'
           },
         })
+
+        hideSidemenu()
       },
     },
   ],

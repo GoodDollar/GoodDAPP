@@ -28,6 +28,20 @@ const getMockFeeds = () => {
           },
         },
         {
+          id: '111111111111111111111111111111111111111111111111111111111111222222',
+          date: new Date().getTime(),
+          type: 'invite',
+          createdDate: 'Fri Aug 02 2019 15:15:44 GMT-0300 (Argentina Standard Time)',
+          status: 'completed',
+          data: {
+            message:
+              'Send Invites to get more people connected on GoodDollar. You will earn GD and also Help other people to earn.',
+            endpoint: {
+              fullName: 'Invite friends to GoodDollar',
+            },
+          },
+        },
+        {
           id: '111111111111111111111111111111111111111111111111111111111111444444',
           date: new Date().getTime(),
           type: 'feedback',

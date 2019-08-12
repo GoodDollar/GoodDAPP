@@ -146,6 +146,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
             },
             "modals": Object {
+              "activityIndicatorBackgroundColor": "rgba(255, 255, 255, 0.8)",
               "backgroundColor": "#fff",
               "borderLeftWidth": 10,
               "borderRadius": 5,
@@ -284,6 +285,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
             },
             "modals": Object {
+              "activityIndicatorBackgroundColor": "rgba(255, 255, 255, 0.8)",
               "backgroundColor": "#fff",
               "borderLeftWidth": 10,
               "borderRadius": 5,
@@ -422,6 +424,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
             },
             "modals": Object {
+              "activityIndicatorBackgroundColor": "rgba(255, 255, 255, 0.8)",
               "backgroundColor": "#fff",
               "borderLeftWidth": 10,
               "borderRadius": 5,
@@ -560,6 +563,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
             },
             "modals": Object {
+              "activityIndicatorBackgroundColor": "rgba(255, 255, 255, 0.8)",
               "backgroundColor": "#fff",
               "borderLeftWidth": 10,
               "borderRadius": 5,
@@ -698,6 +702,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
             },
             "modals": Object {
+              "activityIndicatorBackgroundColor": "rgba(255, 255, 255, 0.8)",
               "backgroundColor": "#fff",
               "borderLeftWidth": 10,
               "borderRadius": 5,
@@ -836,6 +841,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
             },
             "modals": Object {
+              "activityIndicatorBackgroundColor": "rgba(255, 255, 255, 0.8)",
               "backgroundColor": "#fff",
               "borderLeftWidth": 10,
               "borderRadius": 5,
@@ -1014,6 +1020,7 @@ exports[`OtpInput matches snapshot 1`] = `
               "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
             },
             "modals": Object {
+              "activityIndicatorBackgroundColor": "rgba(255, 255, 255, 0.8)",
               "backgroundColor": "#fff",
               "borderLeftWidth": 10,
               "borderRadius": 5,
@@ -1153,6 +1160,7 @@ exports[`OtpInput matches snapshot 1`] = `
               "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
             },
             "modals": Object {
+              "activityIndicatorBackgroundColor": "rgba(255, 255, 255, 0.8)",
               "backgroundColor": "#fff",
               "borderLeftWidth": 10,
               "borderRadius": 5,
@@ -1292,6 +1300,7 @@ exports[`OtpInput matches snapshot 1`] = `
               "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
             },
             "modals": Object {
+              "activityIndicatorBackgroundColor": "rgba(255, 255, 255, 0.8)",
               "backgroundColor": "#fff",
               "borderLeftWidth": 10,
               "borderRadius": 5,
@@ -1431,6 +1440,7 @@ exports[`OtpInput matches snapshot 1`] = `
               "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
             },
             "modals": Object {
+              "activityIndicatorBackgroundColor": "rgba(255, 255, 255, 0.8)",
               "backgroundColor": "#fff",
               "borderLeftWidth": 10,
               "borderRadius": 5,
@@ -1570,6 +1580,7 @@ exports[`OtpInput matches snapshot 1`] = `
               "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
             },
             "modals": Object {
+              "activityIndicatorBackgroundColor": "rgba(255, 255, 255, 0.8)",
               "backgroundColor": "#fff",
               "borderLeftWidth": 10,
               "borderRadius": 5,
@@ -1709,6 +1720,7 @@ exports[`OtpInput matches snapshot 1`] = `
               "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
             },
             "modals": Object {
+              "activityIndicatorBackgroundColor": "rgba(255, 255, 255, 0.8)",
               "backgroundColor": "#fff",
               "borderLeftWidth": 10,
               "borderRadius": 5,
@@ -1887,6 +1899,7 @@ exports[`OtpInput number matches snapshot 1`] = `
               "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
             },
             "modals": Object {
+              "activityIndicatorBackgroundColor": "rgba(255, 255, 255, 0.8)",
               "backgroundColor": "#fff",
               "borderLeftWidth": 10,
               "borderRadius": 5,
@@ -2026,6 +2039,7 @@ exports[`OtpInput number matches snapshot 1`] = `
               "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
             },
             "modals": Object {
+              "activityIndicatorBackgroundColor": "rgba(255, 255, 255, 0.8)",
               "backgroundColor": "#fff",
               "borderLeftWidth": 10,
               "borderRadius": 5,
@@ -2165,6 +2179,7 @@ exports[`OtpInput number matches snapshot 1`] = `
               "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
             },
             "modals": Object {
+              "activityIndicatorBackgroundColor": "rgba(255, 255, 255, 0.8)",
               "backgroundColor": "#fff",
               "borderLeftWidth": 10,
               "borderRadius": 5,
@@ -2304,6 +2319,7 @@ exports[`OtpInput number matches snapshot 1`] = `
               "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
             },
             "modals": Object {
+              "activityIndicatorBackgroundColor": "rgba(255, 255, 255, 0.8)",
               "backgroundColor": "#fff",
               "borderLeftWidth": 10,
               "borderRadius": 5,
@@ -2443,6 +2459,7 @@ exports[`OtpInput number matches snapshot 1`] = `
               "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
             },
             "modals": Object {
+              "activityIndicatorBackgroundColor": "rgba(255, 255, 255, 0.8)",
               "backgroundColor": "#fff",
               "borderLeftWidth": 10,
               "borderRadius": 5,
@@ -2582,6 +2599,7 @@ exports[`OtpInput number matches snapshot 1`] = `
               "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
             },
             "modals": Object {
+              "activityIndicatorBackgroundColor": "rgba(255, 255, 255, 0.8)",
               "backgroundColor": "#fff",
               "borderLeftWidth": 10,
               "borderRadius": 5,

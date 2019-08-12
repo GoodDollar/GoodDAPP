@@ -117,7 +117,7 @@ export function Camera(props: CameraProps) {
       this.videoTrack = videoTrack
       videoPlayerRef.current.srcObject = stream
 
-      videoPlayerRef.current.addEventListener('loadeddata', () => {
+      videoPlayerRef.current.addEventListener('play', () => {
         props.onCameraLoad(videoTrack)
       })
     } catch (error) {

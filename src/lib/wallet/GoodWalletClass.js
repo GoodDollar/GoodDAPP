@@ -8,7 +8,6 @@ import ContractsAddress from '@gooddollar/goodcontracts/releases/deployment.json
 import ERC20ABI from '@gooddollar/goodcontracts/build/contracts/ERC20.min.json'
 import type Web3 from 'web3'
 import { BN, toBN } from 'web3-utils'
-import numeral from 'numeral'
 import uniqBy from 'lodash/uniqBy'
 import abiDecoder from 'abi-decoder'
 import values from 'lodash/values'
@@ -281,11 +280,12 @@ export class GoodWallet {
           return { error: e }
         })
         .then(res => {
-          log.debug("listenTxUpdates got 'to' events", { res })
           let events = res.error ? [] : res
           let error = res.error
           const uniqEvents = uniqBy(events, 'transactionHash')
-
+          if (events.length > 0 || error) {
+            log.debug("listenTxUpdates got 'to' events", { res })
+          }
           uniqEvents.forEach(event => {
             this.getReceiptWithLogs(event.transactionHash)
               .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptReceived']))
@@ -324,7 +324,7 @@ export class GoodWallet {
     return this.oneTimePaymentLinksContract
       .getPastEvents('PaymentWithdraw', { fromBlock, toBlock, filter })
       .catch(e => {
-        log.error('subscribeOTPL Withdraw fromEventsPromise failed:', { e, filters: { fromBlock, toBlock, filter } })
+        log.warn('subscribeOTPL Withdraw fromEventsPromise failed:', { e, filters: { fromBlock, toBlock, filter } })
         return { error: e }
       })
       .then(res => (res.error ? [] : res))
@@ -336,7 +336,7 @@ export class GoodWallet {
     return this.oneTimePaymentLinksContract
       .getPastEvents('PaymentCancel', { fromBlock, toBlock, filter })
       .catch(e => {
-        log.error('subscribeOTPL Cancel fromEventsPromise failed:', { e, filters: { fromBlock, toBlock, filter } })
+        log.warn('subscribeOTPL Cancel fromEventsPromise failed:', { e, filters: { fromBlock, toBlock, filter } })
         return { error: e }
       })
       .then(res => (res.error ? [] : res))
@@ -417,12 +417,12 @@ export class GoodWallet {
   }
 
   async getAmountAndQuantityClaimedToday(entitlement: BN): Promise<any> {
-    const people = (await this.identityContract.methods.whiteListedCount().call()) || ZERO
+    const people = ((await this.identityContract.methods.whiteListedCount().call()) || ZERO).toNumber()
 
-    const amount = people.toNumber() * entitlement.toNumber()
+    const amount = people * entitlement.toNumber()
     return {
-      people: numeral(people.toNumber()).format('0b'),
-      amount: numeral(amount).format('0b'),
+      people: people,
+      amount,
     }
   }
 

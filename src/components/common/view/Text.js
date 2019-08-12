@@ -74,7 +74,7 @@ const getStylesFromProps = ({
     text: {
       color: theme.colors[color] || color || theme.colors.text,
       textAlign: textAlign || 'center',
-      fontWeight: fontWeight || 'normal',
+      fontWeight: fontWeight || '500',
       fontFamily: theme.fonts[fontFamily] || fontFamily || 'Roboto',
       fontSize: calculatedFontSize,
       lineHeight: calculatedLineHeight,

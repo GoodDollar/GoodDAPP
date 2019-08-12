@@ -143,7 +143,6 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, styles, done, 
       </CustomButton>
     </Section>
   ) : null
-
   let lookingGood =
     isProcessFailed === false && processStatus.isProfileSaved ? (
       <View style={styles.imageView}>
@@ -240,7 +239,7 @@ C. Light your face evenly'
         <View style={styles.imageView}>
           <Text style={styles.textHelp}>{helpText}</Text>
         </View>
-        {lookingGood}
+        <View style={styles.imageContainer}>{lookingGood}</View>
       </Section>
       {retryButtonOrNull}
     </View>
@@ -260,8 +259,10 @@ const getStylesFromProps = ({ theme }) => ({
   imageView: {
     flexShrink: 0,
   },
+  imageContainer: {
+    height: '12rem',
+  },
   image: {
-    marginTop: '2.25rem',
     height: '8.43rem',
   },
   mainContainer: {

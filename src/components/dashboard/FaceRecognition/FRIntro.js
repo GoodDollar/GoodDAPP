@@ -22,7 +22,7 @@ const FRIntro = props => {
   const isValid = props.screenProps.screenState && props.screenProps.screenState.isValid
 
   log.debug({ isIOS, isMobileSafari })
-  if (!isUnsupported) {
+  if (isUnsupported) {
     props.screenProps.navigateTo('UnsupportedDevice', { reason: 'isNotMobileSafari' })
   }
   if (isValid) {

@@ -1,6 +1,7 @@
 // @flow
 import React, { useEffect, useState } from 'react'
 import { Image } from 'react-native'
+import numeral from 'numeral'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import logger from '../../lib/logger/pino-logger'
@@ -107,8 +108,9 @@ const Claim = props => {
       showButtons: false,
       title: `YOUR G$\nIS ON ITS WAY...`,
     })
-
     try {
+      //when we come back from FR entitelment might not be set yet
+      const curEntitlement = weiToGd(entitlement || (await goodWallet.checkEntitlement()))
       const receipt = await goodWallet.claim({
         onTransactionHash: hash => {
           const transactionEvent: TransactionEvent = {
@@ -117,7 +119,7 @@ const Claim = props => {
             type: 'claim',
             data: {
               from: 'GoodDollar',
-              amount: entitlement,
+              amount: curEntitlement,
             },
           }
           userStorage.enqueueTX(transactionEvent)
@@ -194,11 +196,11 @@ const Claim = props => {
           <Section.Row style={styles.extraInfoStats}>
             <Section.Text>
               <Section.Text style={[styles.extraInfoStatsText, styles.textBold, styles.textPrimary]}>
-                {claimedToday.people}{' '}
+                {numeral(claimedToday.people).format('0a')}{' '}
               </Section.Text>
               <Section.Text style={[styles.extraInfoStatsText]}>People Claimed </Section.Text>
               <Section.Text style={[styles.extraInfoStatsText, styles.textBold, styles.textPrimary]}>
-                {claimedToday.amount}
+                {numeral(claimedToday.amount).format('0a')}
               </Section.Text>
               <Section.Text
                 style={[styles.extraInfoStatsText, styles.textBold, styles.textPrimary, styles.extraInfoStatsSmallText]}

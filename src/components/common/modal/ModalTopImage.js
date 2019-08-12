@@ -81,7 +81,7 @@ const getStylesFromProps = ({ theme }) => ({
     marginBottom: 15,
   },
   mainPhoto: {
-    height: 128,
+    height: '20vh',
     width: '100%',
   },
 })

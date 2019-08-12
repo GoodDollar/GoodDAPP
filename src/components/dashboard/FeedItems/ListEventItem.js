@@ -40,7 +40,9 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
           {!eventSettings.withoutAmount && (
             <React.Fragment>
               {eventSettings && eventSettings.actionSymbol && (
-                <Text style={[styles.actionSymbol, { color: eventSettings.color }]}>{eventSettings.actionSymbol}</Text>
+                <Text fontSize={15} fontWeight="700" style={[styles.actionSymbol, { color: eventSettings.color }]}>
+                  {eventSettings.actionSymbol}
+                </Text>
               )}
               <BigGoodDollar
                 bigNumberStyles={styles.bigNumberStyles}
@@ -55,7 +57,7 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
           <View style={styles.mainInfo}>
             <EventCounterParty style={styles.feedItem} feedItem={feed} />
             {feed.type === 'welcome' ? (
-              <Text numberOfLines={1} style={styles.boldMessage}>
+              <Text color="darkGray" fontWeight="500" numberOfLines={1} style={styles.welcomeText}>
                 Start claiming free G$
                 <CustomButton
                   mode="text"
@@ -67,7 +69,13 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
                 </CustomButton>
               </Text>
             ) : (
-              <Text numberOfLines={1} style={styles.message}>
+              <Text
+                numberOfLines={1}
+                color="gray80Percent"
+                fontSize={10}
+                textTransform="capitalize"
+                style={styles.message}
+              >
                 {feed.data.message}
               </Text>
             )}
@@ -88,6 +96,9 @@ const getStylesFromProps = ({ theme }) => ({
     maxHeight: '100%',
     padding: theme.sizes.default,
     width: '100%',
+  },
+  welcomeText: {
+    paddingBottom: theme.sizes.default,
   },
   avatarBottom: {
     marginTop: 'auto',
@@ -113,7 +124,6 @@ const getStylesFromProps = ({ theme }) => ({
     fontFamily: theme.fonts.default,
     fontSize: normalize(10),
     fontWeight: '400',
-    marginTop: 2,
   },
   readMoreText: {
     fontFamily: theme.fonts.default,
@@ -128,9 +138,6 @@ const getStylesFromProps = ({ theme }) => ({
     marginHorizontal: -theme.sizes.default,
   },
   actionSymbol: {
-    fontFamily: theme.fonts.default,
-    fontSize: normalize(15),
-    fontWeight: '700',
     marginLeft: 'auto',
   },
   bigNumberStyles: {
@@ -146,6 +153,7 @@ const getStylesFromProps = ({ theme }) => ({
     flexShrink: 1,
     marginTop: 'auto',
     paddingHorizontal: theme.sizes.defaultHalf,
+    paddingTop: theme.sizes.defaultHalf,
   },
   mainInfo: {
     alignItems: 'flex-start',
@@ -164,19 +172,8 @@ const getStylesFromProps = ({ theme }) => ({
     marginBottom: 0,
   },
   message: {
-    color: theme.colors.gray80Percent,
-    fontSize: normalize(10),
     paddingBottom: theme.sizes.defaultHalf,
-    textTransform: 'capitalize',
     flexShrink: 0,
-    lineHeight: normalize(10),
-  },
-  boldMessage: {
-    color: theme.colors.darkGray,
-    fontFamily: theme.fonts.default,
-    fontSize: normalize(16),
-    fontWeight: '500',
-    lineHeight: normalize(16),
   },
   typeIcon: {
     marginTop: 'auto',

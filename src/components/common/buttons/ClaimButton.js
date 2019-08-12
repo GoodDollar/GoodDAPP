@@ -1,29 +1,18 @@
 // @flow
 import React from 'react'
-import { Text } from 'react-native'
-import normalize from '../../../lib/utils/normalizeText'
 import { PushButton } from '../../appNavigation/PushButton'
 import { withStyles } from '../../../lib/styles'
+import Text from '../view/Text'
 
-const ClaimButton = props => {
-  const { screenProps, styles } = props
-
-  return (
-    <PushButton routeName={'Claim'} screenProps={screenProps} style={[styles.claimButton]}>
-      <Text style={styles.buttonText}>Claim</Text>
-    </PushButton>
-  )
-}
+const ClaimButton = ({ screenProps, styles }) => (
+  <PushButton routeName="Claim" screenProps={screenProps} style={styles.claimButton}>
+    <Text color="surface" textTransform="uppercase">
+      Claim
+    </Text>
+  </PushButton>
+)
 
 const getStylesFromProps = ({ theme }) => ({
-  buttonText: {
-    color: '#fff',
-    fontFamily: theme.fonts.default,
-    fontSize: normalize(16),
-    fontWeight: '500',
-    margin: 0,
-    textTransform: 'uppercase',
-  },
   claimButton: {
     alignItems: 'center',
     backgroundColor: theme.colors.green,

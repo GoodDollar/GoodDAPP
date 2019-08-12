@@ -214,7 +214,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
             }
           }
         >
-          04/01/19 3:03 PM
+          04/01/19 15:03
         </div>
         <div
           className="css-text-901oao"
@@ -380,6 +380,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
                   "textAlign": "center",
                   "textDecoration": "none",
                   "textTransform": "none",
+                  "verticalAlign": "middle",
                 }
               }
             >
@@ -399,6 +400,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
                   "textAlign": "center",
                   "textDecoration": "none",
                   "textTransform": "none",
+                  "verticalAlign": "middle",
                 }
               }
             >
@@ -666,7 +668,7 @@ exports[`ListEventItem send matches snapshot 1`] = `
             }
           }
         >
-          04/01/19 3:03 PM
+          04/01/19 15:03
         </div>
         <div
           className="css-text-901oao"
@@ -832,6 +834,7 @@ exports[`ListEventItem send matches snapshot 1`] = `
                   "textAlign": "center",
                   "textDecoration": "none",
                   "textTransform": "none",
+                  "verticalAlign": "middle",
                 }
               }
             >
@@ -851,6 +854,7 @@ exports[`ListEventItem send matches snapshot 1`] = `
                   "textAlign": "center",
                   "textDecoration": "none",
                   "textTransform": "none",
+                  "verticalAlign": "middle",
                 }
               }
             >
@@ -1118,7 +1122,7 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
             }
           }
         >
-          04/01/19 3:03 PM
+          04/01/19 15:03
         </div>
         <div
           className="css-text-901oao"
@@ -1284,6 +1288,7 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
                   "textAlign": "center",
                   "textDecoration": "none",
                   "textTransform": "none",
+                  "verticalAlign": "middle",
                 }
               }
             >
@@ -1303,6 +1308,7 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
                   "textAlign": "center",
                   "textDecoration": "none",
                   "textTransform": "none",
+                  "verticalAlign": "middle",
                 }
               }
             >

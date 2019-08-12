@@ -10,6 +10,7 @@
   > .react-phone-number-input__row
   > .react-phone-number-input__input.react-phone-number-input__phone {
   border-bottom: 1px solid rgb(0, 0, 0) !important;
+  margin-bottom: 8px;
 }
 
 .react-phone-number-input

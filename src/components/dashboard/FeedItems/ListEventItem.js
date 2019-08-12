@@ -120,6 +120,7 @@ const getStylesFromProps = ({ theme }) => ({
     fontSize: normalize(10),
     fontWeight: '400',
     letterSpacing: 0,
+    marginLeft: 4,
   },
   readMore: {
     minHeight: normalize(16),
@@ -171,7 +172,7 @@ const getStylesFromProps = ({ theme }) => ({
     lineHeight: normalize(10),
   },
   boldMessage: {
-    color: theme.fontStyle.color,
+    color: theme.colors.darkGray,
     fontFamily: theme.fonts.default,
     fontSize: normalize(16),
     fontWeight: '500',

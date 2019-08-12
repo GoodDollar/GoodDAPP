@@ -360,7 +360,7 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                       }
                     }
                   >
-                    04/01/19 3:03 PM
+                    04/01/19 15:03
                   </div>
                 </div>
                 <div
@@ -508,7 +508,6 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                         "fontSize": "16px",
                         "fontWeight": "normal",
                         "lineHeight": "16px",
-                        "marginBottom": "4px",
                         "paddingRight": "4px",
                         "textAlign": "left",
                         "textDecoration": "none",
@@ -530,6 +529,7 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                           "textAlign": "center",
                           "textDecoration": "none",
                           "textTransform": "none",
+                          "verticalAlign": "middle",
                         }
                       }
                     >
@@ -549,6 +549,7 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                           "textAlign": "center",
                           "textDecoration": "none",
                           "textTransform": "none",
+                          "verticalAlign": "middle",
                         }
                       }
                     >
@@ -600,7 +601,7 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                         "fontFamily": "Roboto",
                         "fontSize": "14px",
                         "fontWeight": "normal",
-                        "lineHeight": "22px",
+                        "lineHeight": "20px",
                         "textAlign": "left",
                         "textDecoration": "none",
                         "textTransform": "none",
@@ -1297,7 +1298,7 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                       }
                     }
                   >
-                    04/01/19 3:03 PM
+                    04/01/19 15:03
                   </div>
                 </div>
                 <div
@@ -1445,7 +1446,6 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                         "fontSize": "16px",
                         "fontWeight": "normal",
                         "lineHeight": "16px",
-                        "marginBottom": "4px",
                         "paddingRight": "4px",
                         "textAlign": "left",
                         "textDecoration": "none",
@@ -1467,6 +1467,7 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                           "textAlign": "center",
                           "textDecoration": "none",
                           "textTransform": "none",
+                          "verticalAlign": "middle",
                         }
                       }
                     >
@@ -1486,6 +1487,7 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                           "textAlign": "center",
                           "textDecoration": "none",
                           "textTransform": "none",
+                          "verticalAlign": "middle",
                         }
                       }
                     >
@@ -1537,7 +1539,7 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                         "fontFamily": "Roboto",
                         "fontSize": "14px",
                         "fontWeight": "normal",
-                        "lineHeight": "22px",
+                        "lineHeight": "20px",
                         "textAlign": "left",
                         "textDecoration": "none",
                         "textTransform": "none",
@@ -2215,7 +2217,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                       }
                     }
                   >
-                    04/01/19 3:03 PM
+                    04/01/19 15:03
                   </div>
                   <div
                     className="css-text-901oao"
@@ -2440,7 +2442,6 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                         "fontSize": "16px",
                         "fontWeight": "normal",
                         "lineHeight": "16px",
-                        "marginBottom": "4px",
                         "paddingRight": "4px",
                         "textAlign": "left",
                         "textDecoration": "none",
@@ -2462,6 +2463,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                           "textAlign": "center",
                           "textDecoration": "none",
                           "textTransform": "none",
+                          "verticalAlign": "middle",
                         }
                       }
                     >
@@ -2481,6 +2483,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                           "textAlign": "center",
                           "textDecoration": "none",
                           "textTransform": "none",
+                          "verticalAlign": "middle",
                         }
                       }
                     >
@@ -2532,7 +2535,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                         "fontFamily": "Roboto",
                         "fontSize": "14px",
                         "fontWeight": "normal",
-                        "lineHeight": "22px",
+                        "lineHeight": "20px",
                         "textAlign": "left",
                         "textDecoration": "none",
                         "textTransform": "none",
@@ -3376,7 +3379,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                       }
                     }
                   >
-                    04/01/19 3:03 PM
+                    04/01/19 15:03
                   </div>
                   <div
                     className="css-text-901oao"
@@ -3601,7 +3604,6 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                         "fontSize": "16px",
                         "fontWeight": "normal",
                         "lineHeight": "16px",
-                        "marginBottom": "4px",
                         "paddingRight": "4px",
                         "textAlign": "left",
                         "textDecoration": "none",
@@ -3623,6 +3625,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                           "textAlign": "center",
                           "textDecoration": "none",
                           "textTransform": "none",
+                          "verticalAlign": "middle",
                         }
                       }
                     >
@@ -3642,6 +3645,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                           "textAlign": "center",
                           "textDecoration": "none",
                           "textTransform": "none",
+                          "verticalAlign": "middle",
                         }
                       }
                     >
@@ -3693,7 +3697,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                         "fontFamily": "Roboto",
                         "fontSize": "14px",
                         "fontWeight": "normal",
-                        "lineHeight": "22px",
+                        "lineHeight": "20px",
                         "textAlign": "left",
                         "textDecoration": "none",
                         "textTransform": "none",

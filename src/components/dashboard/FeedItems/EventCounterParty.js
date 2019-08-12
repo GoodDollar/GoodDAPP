@@ -24,16 +24,17 @@ const getStylesFromProps = ({ theme }) => ({
     lineHeight: normalize(16),
     textAlign: 'left',
     textTransform: 'capitalize',
-    marginBottom: theme.sizes.defaultHalf,
   },
   direction: {
     fontSize: normalize(10),
+    textAlignVertical: 'middle',
   },
   fullName: {
     fontFamily: theme.fonts.default,
     fontSize: normalize(16),
     fontWeight: '500',
     lineHeight: normalize(16),
+    textAlignVertical: 'middle',
   },
 })
 

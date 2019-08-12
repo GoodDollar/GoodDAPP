@@ -40,6 +40,11 @@ const TopImage = ({ type, styles }) => {
         style: styles.mainPhoto,
         containerStyle: styles.mainPhotoContainer,
       },
+      welcome: {
+        src: inviteIllustration,
+        style: styles.mainPhoto,
+        containerStyle: styles.mainPhotoContainer,
+      },
     }[type] || null)
 
   const image = getImageByType()

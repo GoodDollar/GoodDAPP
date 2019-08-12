@@ -188,6 +188,7 @@ exports[`SmsForm matches snapshot 1`] = `
                   "display": "flex",
                   "flexDirection": "row",
                   "justifyContent": "space-evenly",
+                  "marginBottom": "8px",
                   "msFlexDirection": "row",
                   "msFlexPack": "space-evenly",
                 }

@@ -8,7 +8,6 @@ import mapValues from 'lodash/mapValues'
 import { getFirstWord } from '../../../lib/utils/getFirstWord'
 import CustomButton from '../../common/buttons/CustomButton'
 import Section from '../../common/layout/Section'
-import FRStep from './FRStep'
 import Separator from '../../common/layout/Separator'
 import logger from '../../../lib/logger/pino-logger'
 import goodWallet from '../../../lib/wallet/GoodWallet'
@@ -17,6 +16,7 @@ import LookingGood from '../../../assets/LookingGood.svg'
 import GDStore from '../../../lib/undux/GDStore'
 import { fireEvent } from '../../../lib/analytics/analytics'
 import { withStyles } from '../../../lib/styles'
+import FRStep from './FRStep'
 
 const log = logger.child({ from: 'GuidedFRProcessResults' })
 
@@ -250,12 +250,12 @@ const getStylesFromProps = ({ theme }) => ({
     paddingTop: '2rem',
     borderRadius: 5,
   },
-  imageView:{
-    flexShrink: 0
+  imageView: {
+    flexShrink: 0,
   },
-  image:{
+  image: {
     marginTop: '2.25rem',
-    height: '8.43rem'
+    height: '8.43rem',
   },
   mainContainer: {
     paddingBottom: 0,
@@ -296,6 +296,5 @@ const getStylesFromProps = ({ theme }) => ({
     textAlign: 'center',
   },
 })
-
 
 export default withStyles(getStylesFromProps)(GuidedFRProcessResults)

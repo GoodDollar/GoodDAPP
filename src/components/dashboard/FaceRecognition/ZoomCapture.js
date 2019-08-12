@@ -192,26 +192,26 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   imageView: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
-  webcamImage:{
+  webcamImage: {
     margin: '0.9rem',
     width: '100%',
-    height: '7.5rem'
+    height: '7.5rem',
   },
-  loghtingBadImage:{
+  loghtingBadImage: {
     width: '100%',
-    height: '4.6875rem'
+    height: '4.6875rem',
   },
-  mobileAngleImage:{
+  mobileAngleImage: {
     width: '100%',
-    height: '4.6875rem'
+    height: '4.6875rem',
   },
   bottomSection: {
     flex: 1,

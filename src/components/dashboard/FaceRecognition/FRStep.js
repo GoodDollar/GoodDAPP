@@ -24,7 +24,7 @@ const FRStep = ({ title, isActive, status, isProcessFailed, paddingBottom, style
   log.debug('FRStep', { title, status, isActive, statusColor, textStyle })
 
   return (
-    <View style={[styles.topContainer,{paddingBottom}]}>
+    <View style={[styles.topContainer, { paddingBottom }]}>
       <View style={styles.mainView}>
         <Text style={textStyle}>{title}</Text>
       </View>
@@ -33,17 +33,17 @@ const FRStep = ({ title, isActive, status, isProcessFailed, paddingBottom, style
   )
 }
 const getStylesFromProps = ({ theme }) => ({
-  topContainer:{
+  topContainer: {
     flexDirection: 'row',
     paddingTop: 0,
     marginRight: 0,
   },
-  mainView:{
-    flexGrow: 2
+  mainView: {
+    flexGrow: 2,
   },
-  steps:{
+  steps: {
     marginBottom: '1.375rem',
-    marginTop: '1.375rem'
+    marginTop: '1.375rem',
   },
   statusIcon: {
     justifyContent: 'center',

@@ -55,19 +55,19 @@ class Auth extends React.Component<Props> {
           <Wrapper style={styles.containerPadding}>
             <Section.Row alignItems="center" justifyContent="center" style={styles.topRow}>
               <Section.Text color="surface" fontFamily="slab" fontSize={22}>
-                {`Alpha tokens are \n for test use only!`}
+                {`Alpha tokens are\nfor test use only!`}
               </Section.Text>
             </Section.Row>
             <Section.Row alignItems="center" justifyContent="center" style={styles.bottomRow}>
               <Section.Text color="surface">
-                {`They have NO real value. \n And will be deleted at the end of the Alpha.`}
+                {`They have NO real value.\nAnd will be deleted at the end of the Alpha.`}
               </Section.Text>
             </Section.Row>
           </Wrapper>
         </Section>
         <View style={styles.bottomContainer}>
           <Text fontSize={12} color="gray80Percent">
-            {`By clicking the 'Create a wallet' button,\n you are accepting our\n`}
+            {`By clicking the 'Create a wallet' button,\nyou are accepting our\n`}
             <Text style={styles.acceptTermsLink} onPress={this.handleNavigateTermsOfUse}>
               Terms of Use
             </Text>

@@ -329,7 +329,7 @@ exports[`SmsForm matches snapshot 1`] = `
                       },
                     }
                   }
-                  type="text"
+                  type="tel"
                   value=""
                 />
               </div>
@@ -469,7 +469,7 @@ exports[`SmsForm matches snapshot 1`] = `
                       },
                     }
                   }
-                  type="text"
+                  type="tel"
                   value=""
                 />
               </div>
@@ -609,7 +609,7 @@ exports[`SmsForm matches snapshot 1`] = `
                       },
                     }
                   }
-                  type="text"
+                  type="tel"
                   value=""
                 />
               </div>
@@ -749,7 +749,7 @@ exports[`SmsForm matches snapshot 1`] = `
                       },
                     }
                   }
-                  type="text"
+                  type="tel"
                   value=""
                 />
               </div>
@@ -889,7 +889,7 @@ exports[`SmsForm matches snapshot 1`] = `
                       },
                     }
                   }
-                  type="text"
+                  type="tel"
                   value=""
                 />
               </div>
@@ -1029,7 +1029,7 @@ exports[`SmsForm matches snapshot 1`] = `
                       },
                     }
                   }
-                  type="text"
+                  type="tel"
                   value=""
                 />
               </div>

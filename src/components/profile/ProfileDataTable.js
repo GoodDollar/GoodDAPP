@@ -55,9 +55,6 @@ const ProfileDataTable = ({ profile, onChange, errors: errorsProp, editable, the
                   />
                 </Section.Row>
               </Section.Row>
-              <Section.Row>
-                {errors.mobile ? <Section.Text style={styles.phoneError}>{errors.mobile}</Section.Text> : null}
-              </Section.Row>
             </Section.Stack>
           ) : (
             <InputRounded

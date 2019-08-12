@@ -125,7 +125,7 @@ exports[`PhoneForm matches snapshot 1`] = `
                 "alignItems": "stretch",
                 "flexDirection": "column",
                 "justifyContent": "flex-start",
-                "minHeight": "300px",
+                "minHeight": "200px",
                 "msFlexAlign": "stretch",
                 "msFlexDirection": "column",
                 "msFlexPack": "start",
@@ -178,20 +178,20 @@ exports[`PhoneForm matches snapshot 1`] = `
               className="css-view-1dbjc4n"
               style={
                 Object {
-                  "WebkitAlignItems": "center",
-                  "WebkitBoxAlign": "center",
+                  "WebkitAlignItems": "stretch",
+                  "WebkitBoxAlign": "stretch",
                   "WebkitBoxDirection": "normal",
-                  "WebkitBoxOrient": "horizontal",
+                  "WebkitBoxOrient": "vertical",
                   "WebkitBoxPack": "center",
-                  "WebkitFlexDirection": "row",
+                  "WebkitFlexDirection": "column",
                   "WebkitJustifyContent": "center",
-                  "alignItems": "center",
-                  "flexDirection": "row",
+                  "alignItems": "stretch",
+                  "flexDirection": "column",
                   "justifyContent": "center",
-                  "marginBottom": "32px",
+                  "marginBottom": "8px",
                   "marginTop": "auto",
-                  "msFlexAlign": "center",
-                  "msFlexDirection": "row",
+                  "msFlexAlign": "stretch",
+                  "msFlexDirection": "column",
                   "msFlexPack": "center",
                 }
               }
@@ -1771,6 +1771,28 @@ exports[`PhoneForm matches snapshot 1`] = `
                   />
                 </div>
               </div>
+              <div
+                className="css-text-901oao"
+                dir="auto"
+                style={
+                  Object {
+                    "WebkitTransform": "translateY(0px)",
+                    "color": "rgba(250,108,119,1.00)",
+                    "direction": "ltr",
+                    "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                    "fontSize": "12px",
+                    "height": "18px",
+                    "marginLeft": "48px",
+                    "opacity": 0,
+                    "paddingBottom": "4px",
+                    "paddingLeft": "0px",
+                    "paddingRight": "12px",
+                    "paddingTop": "4px",
+                    "textAlign": "center",
+                    "transform": "translateY(0px)",
+                  }
+                }
+              />
             </div>
           </div>
           <div

@@ -93,10 +93,10 @@ NameForm.navigationOptions = {
 
 const getStylesFromProps = ({ theme }) => ({
   row: {
-    marginVertical: theme.sizes.defaultQuadruple,
+    marginVertical: theme.sizes.defaultDouble,
   },
   container: {
-    minHeight: 300,
+    minHeight: 200,
   },
   bottomRow: {
     marginTop: 'auto',

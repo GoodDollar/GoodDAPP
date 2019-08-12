@@ -68,8 +68,8 @@ const InputText = ({ error, onCleanUpField, styles, theme, style, getRef, ...pro
   )
 }
 
-const ErrorComponent = ({ error, styles }) => (
-  <HelperText type="error" style={[styles.error, { opacity: error ? 1 : 0 }]}>
+const ErrorComponent = ({ error, styles, style }) => (
+  <HelperText type="error" style={[styles.error, { opacity: error ? 1 : 0 }, style]}>
     {error}
   </HelperText>
 )

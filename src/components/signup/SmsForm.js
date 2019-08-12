@@ -33,8 +33,9 @@ type State = SMSRecord & {
   errorMessage: string,
   sendingCode: boolean,
   renderButton: boolean,
+  resentCode: boolean,
   loading: boolean,
-  otp: string | number,
+  otp: string | Array<string>,
 }
 
 const NumInputs: number = 6
@@ -63,8 +64,8 @@ class SmsForm extends React.Component<Props, State> {
     }, 10000)
   }
 
-  handleChange = async (otp: array) => {
-    const otpValue = otp.filter(val => val).join('')
+  handleChange = async (otp: Array<string> | string) => {
+    const otpValue = typeof otp === 'string' ? otp : otp.filter(val => val).join('')
     if (otpValue.replace(/ /g, '').length === NumInputs) {
       this.setState({
         loading: true,
@@ -126,7 +127,7 @@ class SmsForm extends React.Component<Props, State> {
       <CustomWrapper handleSubmit={this.handleSubmit} footerComponent={() => <React.Fragment />}>
         <Section grow justifyContent="flex-start">
           <Section.Stack justifyContent="flex-start" style={styles.container}>
-            <Section.Row justifyContent="center" style={styles.row}>
+            <Section.Row justifyContent="center">
               <Section.Title textTransform="none">{'Enter the verification code \n sent to your phone'}</Section.Title>
             </Section.Row>
             <Section.Stack justifyContent="center" style={styles.bottomContent}>
@@ -186,7 +187,7 @@ const getStylesFromProps = ({ theme }) => ({
     height: 60,
   },
   row: {
-    marginVertical: theme.sizes.defaultQuadruple,
+    marginVertical: theme.sizes.defaultDouble,
   },
   errorStyle: {
     borderBottomWidth: 1,
@@ -194,10 +195,11 @@ const getStylesFromProps = ({ theme }) => ({
     color: theme.colors.red,
   },
   container: {
-    minHeight: 300,
+    minHeight: 200,
   },
   bottomContent: {
     marginTop: 'auto',
+    marginBottom: theme.sizes.defaultDouble,
   },
 })
 

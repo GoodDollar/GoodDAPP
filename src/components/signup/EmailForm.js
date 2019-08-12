@@ -110,10 +110,10 @@ class EmailForm extends React.Component<Props, State> {
 
 const getStylesFromProps = ({ theme }) => ({
   row: {
-    marginVertical: theme.sizes.defaultQuadruple,
+    marginVertical: theme.sizes.defaultDouble,
   },
   container: {
-    minHeight: 300,
+    minHeight: 200,
   },
   bottomContent: {
     marginTop: 'auto',

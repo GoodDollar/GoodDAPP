@@ -125,7 +125,7 @@ exports[`SmsForm matches snapshot 1`] = `
                 "alignItems": "stretch",
                 "flexDirection": "column",
                 "justifyContent": "flex-start",
-                "minHeight": "300px",
+                "minHeight": "200px",
                 "msFlexAlign": "stretch",
                 "msFlexDirection": "column",
                 "msFlexPack": "start",
@@ -146,8 +146,6 @@ exports[`SmsForm matches snapshot 1`] = `
                   "alignItems": "center",
                   "flexDirection": "row",
                   "justifyContent": "center",
-                  "marginBottom": "32px",
-                  "marginTop": "32px",
                   "msFlexAlign": "center",
                   "msFlexDirection": "row",
                   "msFlexPack": "center",
@@ -191,6 +189,7 @@ exports[`SmsForm matches snapshot 1`] = `
                   "alignItems": "stretch",
                   "flexDirection": "column",
                   "justifyContent": "center",
+                  "marginBottom": "16px",
                   "marginTop": "auto",
                   "msFlexAlign": "stretch",
                   "msFlexDirection": "column",
@@ -247,7 +246,7 @@ exports[`SmsForm matches snapshot 1`] = `
                     data-focusable={true}
                     dir="auto"
                     disabled={false}
-                    maxLength="1"
+                    maxLength={1}
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -386,7 +385,7 @@ exports[`SmsForm matches snapshot 1`] = `
                     data-focusable={true}
                     dir="auto"
                     disabled={false}
-                    maxLength="1"
+                    maxLength={1}
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -525,7 +524,7 @@ exports[`SmsForm matches snapshot 1`] = `
                     data-focusable={true}
                     dir="auto"
                     disabled={false}
-                    maxLength="1"
+                    maxLength={1}
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -664,7 +663,7 @@ exports[`SmsForm matches snapshot 1`] = `
                     data-focusable={true}
                     dir="auto"
                     disabled={false}
-                    maxLength="1"
+                    maxLength={1}
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -803,7 +802,7 @@ exports[`SmsForm matches snapshot 1`] = `
                     data-focusable={true}
                     dir="auto"
                     disabled={false}
-                    maxLength="1"
+                    maxLength={1}
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -942,7 +941,7 @@ exports[`SmsForm matches snapshot 1`] = `
                     data-focusable={true}
                     dir="auto"
                     disabled={false}
-                    maxLength="1"
+                    maxLength={1}
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -1089,8 +1088,8 @@ exports[`SmsForm matches snapshot 1`] = `
                 "alignItems": "center",
                 "flexDirection": "row",
                 "justifyContent": "center",
-                "marginBottom": "32px",
-                "marginTop": "32px",
+                "marginBottom": "16px",
+                "marginTop": "16px",
                 "msFlexAlign": "center",
                 "msFlexDirection": "row",
                 "msFlexPack": "center",

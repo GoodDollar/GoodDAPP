@@ -10,6 +10,7 @@ import { withStyles } from '../../lib/styles'
 import Config from '../../config/config'
 import { getFirstWord } from '../../lib/utils/getFirstWord'
 import Section from '../common/layout/Section'
+import { ErrorText } from '../common/form/InputText'
 import CustomWrapper from './signUpWrapper'
 
 const log = logger.child({ from: 'PhoneForm' })
@@ -85,7 +86,7 @@ class PhoneForm extends React.Component<Props, State> {
                 {`${getFirstWord(fullName)}, May we have your number please?`}
               </Section.Title>
             </Section.Row>
-            <Section.Row justifyContent="center" style={styles.row}>
+            <Section.Stack justifyContent="center" style={styles.column}>
               <PhoneInput
                 id={key + '_input'}
                 value={this.state.mobile}
@@ -94,7 +95,8 @@ class PhoneForm extends React.Component<Props, State> {
                 onKeyDown={this.handleEnter}
                 country={this.state.countryCode}
               />
-            </Section.Row>
+              <ErrorText error={errorMessage} style={styles.customError} />
+            </Section.Stack>
           </Section.Stack>
           <Section.Row justifyContent="center" style={styles.bottomRow}>
             <Section.Text fontSize={14} color="gray80Percent">
@@ -108,12 +110,15 @@ class PhoneForm extends React.Component<Props, State> {
 }
 
 const getStylesFromProps = ({ theme }) => ({
-  row: {
-    marginVertical: theme.sizes.defaultQuadruple,
+  column: {
+    marginBottom: theme.sizes.default,
     marginTop: 'auto',
   },
+  customError: {
+    marginLeft: 48,
+  },
   container: {
-    minHeight: 300,
+    minHeight: 200,
   },
   bottomRow: {
     marginTop: 'auto',

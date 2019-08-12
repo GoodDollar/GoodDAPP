@@ -2,6 +2,7 @@
 import React, { useMemo } from 'react'
 import { isMobile } from 'mobile-device-detect'
 import normalize from '../../lib/utils/normalizeText'
+import GDStore from '../../lib/undux/GDStore'
 import { generateReceiveShareObject, generateSendShareObject } from '../../lib/share'
 import { BigGoodDollar, CopyButton, CustomButton, QRCode, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
@@ -18,6 +19,7 @@ export type ReceiveProps = {
 }
 
 const ReceiveConfirmation = ({ screenProps, styles, ...props }: ReceiveProps) => {
+  const profile = GDStore.useStore().get('profile')
   const [screenState] = useScreenState(screenProps)
   const { amount, code, reason, counterPartyDisplayName } = screenState
   const [showErrorDialog] = useErrorDialog()
@@ -26,8 +28,8 @@ const ReceiveConfirmation = ({ screenProps, styles, ...props }: ReceiveProps) =>
   const share = useMemo(
     () =>
       params.action === ACTION_RECEIVE
-        ? generateReceiveShareObject(code, amount, counterPartyDisplayName)
-        : generateSendShareObject(code, amount, counterPartyDisplayName),
+        ? generateReceiveShareObject(code, amount, counterPartyDisplayName, profile.fullName)
+        : generateSendShareObject(code, amount, counterPartyDisplayName, profile.fullName),
     [code]
   )
 
@@ -94,18 +96,19 @@ const getStylesFromProps = ({ theme }) => {
     },
     textRow: {
       marginBottom: theme.sizes.default,
+      marginTop: theme.sizes.default,
     },
     doneButton: {
       marginTop: theme.paddings.defaultMargin,
     },
     bigGoodDollar: {
       fontFamily: theme.fonts.default,
-      fontSize: normalize(28),
+      fontSize: normalize(24),
       fontWeight: '700',
     },
     bigGoodDollarUnit: {
       fontFamily: theme.fonts.default,
-      fontSize: normalize(16),
+      fontSize: normalize(14),
       fontWeight: '700',
     },
     counterPartyDisplayName: {

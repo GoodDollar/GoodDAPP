@@ -1,7 +1,7 @@
 //@flow
 import React from 'react'
 import { Appbar } from 'react-native-paper'
-import { StyleSheet } from 'react-native'
+import { withStyles } from '../../lib/styles'
 
 /**
  * @type
@@ -18,21 +18,24 @@ type NavBarProps = {
  */
 class NavBar extends React.Component<NavBarProps> {
   render() {
+    const { styles } = this.props
+
     return (
       <Appbar.Header dark style={styles.topbarStyles}>
-        {this.props.goBack && <Appbar.BackAction onPress={this.props.goBack} />}
+        {this.props.goBack && <Appbar.BackAction onPress={this.props.goBack} color="white" />}
         <Appbar.Content title={this.props.title} titleStyle={styles.titleStyle} />
-        {this.props.goBack && <Appbar.Action />}
+        {this.props.goBack && <Appbar.Action color="white" />}
       </Appbar.Header>
     )
   }
 }
 
-const styles = StyleSheet.create({
+const getStylesFromProps = ({ theme }) => ({
   titleStyle: {
     textAlign: 'center',
     textTransform: 'uppercase',
     fontSize: '1.5rem',
+    color: theme.colors.surface,
   },
   topbarStyles: {
     flexGrow: 0,
@@ -40,4 +43,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default NavBar
+export default withStyles(getStylesFromProps)(NavBar)

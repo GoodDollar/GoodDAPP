@@ -105,10 +105,14 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       const login = import('../../lib/login/GoodWalletLogin')
       const { goodWallet, userStorage } = await init()
       initAnalytics(goodWallet, userStorage).then(_ => fireSignupEvent('STARTED'))
+
+      //the login also re-initialize the api with new jwt
       await login.then(l => l.default.auth())
+      await API.ready
 
       //now that we are loggedin, reload api with JWT
-      await API.init()
+      // await API.init()
+      log.debug('ready: finished initialization')
       return { goodWallet, userStorage }
     })()
     setReady(ready)

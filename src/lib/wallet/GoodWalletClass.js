@@ -225,10 +225,12 @@ export class GoodWallet {
   async listenTxUpdates(fromBlock: string = '0', blockIntervalCallback: Function) {
     log.trace('listenTxUpdates listening from block:', fromBlock)
     fromBlock = new BN(fromBlock)
+
     const toBlock = await this.getBlockNumber().catch(e => {
       log.error('listenTxUpdates: failed getting current block number', { e })
       return ZERO
     })
+
     if (toBlock.gt(fromBlock)) {
       this.subscribeToOTPLEvents(fromBlock, toBlock)
       const event = 'Transfer'
@@ -249,8 +251,9 @@ export class GoodWallet {
         .then(res => {
           log.debug("listenTxUpdates got 'from' events", { res })
           let events = res.error ? [] : res
-          let error = undefined || res.error
+          let error = res.error
           const uniqEvents = uniqBy(events, 'transactionHash')
+
           uniqEvents.forEach(event => {
             this.getReceiptWithLogs(event.transactionHash)
               .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptUpdated']))
@@ -278,10 +281,12 @@ export class GoodWallet {
           return { error: e }
         })
         .then(res => {
-          log.debug("listenTxUpdates got 'to' events", { res })
           let events = res.error ? [] : res
-          let error = undefined || res.error
+          let error = res.error
           const uniqEvents = uniqBy(events, 'transactionHash')
+          if (events.length > 0 || error) {
+            log.debug("listenTxUpdates got 'to' events", { res })
+          }
           uniqEvents.forEach(event => {
             this.getReceiptWithLogs(event.transactionHash)
               .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptReceived']))
@@ -301,50 +306,60 @@ export class GoodWallet {
     }
 
     const INTERVAL = BLOCK_COUNT * BLOCK_TIME
+
     log.trace('listenTxUpdates setting timeout. processed:', {
       fromBlock: fromBlock && fromBlock.toString(),
       toBlock: toBlock && toBlock.toString(),
     })
+
     blockIntervalCallback && blockIntervalCallback({ fromBlock: fromBlock.toNumber(), toBlock: toBlock.toNumber() })
+
     setTimeout(() => {
       this.listenTxUpdates(toBlock, blockIntervalCallback)
     }, INTERVAL)
   }
 
-  subscribeToOTPLEvents(fromBlock: BN, toBlock: BN) {
-    const contract = this.oneTimePaymentLinksContract
+  subscribeToOTPLWithdrawEvents(fromBlock: BN, toBlock: BN) {
+    const filter = { from: this.wallet.utils.toChecksumAddress(this.account) }
 
-    //Get transfers from this account
-    const fromEventsFilter = {
-      fromBlock,
-      toBlock,
-      filter: { from: this.wallet.utils.toChecksumAddress(this.account) },
-    }
-    const fromEventsPromise = Promise.all([
-      contract
-        .getPastEvents('PaymentWithdraw', fromEventsFilter)
-        .catch(e => {
-          log.warn('subscribeOTPL fromEventsPromise failed:', { e, fromEventsFilter })
-          return { error: e }
-        })
-        .then(res => (res.error ? [] : res)),
-      contract
-        .getPastEvents('PaymentCancel', fromEventsFilter)
-        .catch(e => {
-          log.warn('subscribeOTPL fromEventsPromise failed:', { e, fromEventsFilter })
-          return { error: e }
-        })
-        .then(res => (res.error ? [] : res)),
+    return this.oneTimePaymentLinksContract
+      .getPastEvents('PaymentWithdraw', { fromBlock, toBlock, filter })
+      .catch(e => {
+        log.warn('subscribeOTPL Withdraw fromEventsPromise failed:', { e, filters: { fromBlock, toBlock, filter } })
+        return { error: e }
+      })
+      .then(res => (res.error ? [] : res))
+  }
+
+  subscribeToOTPLCancelEvents(fromBlock: BN, toBlock: BN) {
+    const filter = { from: this.wallet.utils.toChecksumAddress(this.account) }
+
+    return this.oneTimePaymentLinksContract
+      .getPastEvents('PaymentCancel', { fromBlock, toBlock, filter })
+      .catch(e => {
+        log.warn('subscribeOTPL Cancel fromEventsPromise failed:', { e, filters: { fromBlock, toBlock, filter } })
+        return { error: e }
+      })
+      .then(res => (res.error ? [] : res))
+  }
+
+  subscribeToOTPLEvents(fromBlock: BN, toBlock: BN) {
+    return Promise.all([
+      this.subscribeToOTPLWithdrawEvents(fromBlock, toBlock),
+      this.subscribeToOTPLCancelEvents(fromBlock, toBlock),
     ])
-      .then(([res1, res2]) => {
-        const res = res1.concat(res2)
-        if (res.length == 0) {
+      .then(([withdraw, cancel]) => {
+        const res = withdraw.concat(cancel)
+
+        if (!res.length) {
           return
         }
-        log.debug("subscribeOTPL got 'from' events", { res })
-        let events = res.filter(_ => _.event === 'PaymentWithdraw' || _.event == 'PaymentCancel')
-        const uniqEvents = uniqBy(events, 'transactionHash')
-        uniqEvents.forEach(event => {
+
+        log.info("subscribeOTPL got 'from' events", { res })
+
+        const events = res.filter(({ event }) => event === 'PaymentWithdraw' || event === 'PaymentCancel')
+
+        uniqBy(events, 'transactionHash').forEach(event => {
           this.getReceiptWithLogs(event.transactionHash)
             .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['otplUpdated']))
             .catch(err => log.error('send event get/send receipt failed:', err))
@@ -353,8 +368,6 @@ export class GoodWallet {
       .catch(e => {
         log.error('listenTxUpdates fromEventsPromise unexpected error:', { e })
       })
-
-    return fromEventsPromise
   }
 
   /**
@@ -677,14 +690,35 @@ export class GoodWallet {
   }
 
   /**
-   * cancels payment link and return the money to the sender (if not been withdrawn already)
-   * @param {string} otlCode
+   * Cancels a Deposit based on its transaction hash
+   * @param {string} transactionHash
    * @returns {Promise<TransactionReceipt>}
    */
-  cancelOtl(otlCode: string): Promise<TransactionReceipt> {
-    const cancelOtlCall = this.oneTimePaymentLinksContract.methods.cancel(otlCode)
-    log.info('cancelOtlCall', cancelOtlCall)
+  async cancelOTLByTransactionHash(transactionHash: string): Promise<TransactionReceipt> {
+    const { logs } = await this.getReceiptWithLogs(transactionHash)
+    const paymentDepositLog = logs.filter(({ name }) => name === 'PaymentDeposit')[0]
 
+    if (paymentDepositLog && paymentDepositLog.events) {
+      const eventHashParam = paymentDepositLog.events.filter(({ name }) => name === 'hash')[0]
+
+      if (eventHashParam) {
+        const { value: hash } = eventHashParam
+        return this.cancelOTL(hash)
+      }
+
+      throw new Error('No hash available')
+    } else {
+      throw new Error('Impossible to cancel OTL')
+    }
+  }
+
+  /**
+   * cancels payment link and return the money to the sender (if not been withdrawn already)
+   * @param {string} hashedCode
+   * @returns {Promise<TransactionReceipt>}
+   */
+  cancelOTL(hashedCode: string): Promise<TransactionReceipt> {
+    const cancelOtlCall = this.oneTimePaymentLinksContract.methods.cancel(hashedCode)
     return this.sendTransaction(cancelOtlCall, { onTransactionHash: hash => log.debug({ hash }) })
   }
 

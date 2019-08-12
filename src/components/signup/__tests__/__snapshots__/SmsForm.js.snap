@@ -274,6 +274,7 @@ exports[`SmsForm matches snapshot 1`] = `
                         "gray80Percent": "#A3A3A3",
                         "green": "#00C3AE",
                         "lightGray": "#EEE",
+                        "lightGreen": "#00BBA5",
                         "lighterGray": "#A3A3A3",
                         "notification": "#f50057",
                         "orange": "#F8AF40",
@@ -304,14 +305,15 @@ exports[`SmsForm matches snapshot 1`] = `
                         "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                       },
                       "modals": Object {
+                        "activityIndicatorBackgroundColor": "rgba(255, 255, 255, 0.8)",
                         "backgroundColor": "#fff",
                         "borderLeftWidth": 10,
                         "borderRadius": 5,
                         "contentPadding": 16,
                         "jaggedEdgeSize": 16,
-                        "overlayBackgroundColor": "rgba(255, 255, 255, 0.8)",
+                        "overlayBackgroundColor": "transparent",
                         "overlayHorizontalPadding": 20,
-                        "overlayVerticalPadding": 30,
+                        "overlayVerticalPadding": 65,
                       },
                       "paddings": Object {
                         "defaultMargin": 8,
@@ -327,7 +329,7 @@ exports[`SmsForm matches snapshot 1`] = `
                       },
                     }
                   }
-                  type="tel"
+                  type="text"
                   value=""
                 />
               </div>
@@ -412,6 +414,7 @@ exports[`SmsForm matches snapshot 1`] = `
                         "gray80Percent": "#A3A3A3",
                         "green": "#00C3AE",
                         "lightGray": "#EEE",
+                        "lightGreen": "#00BBA5",
                         "lighterGray": "#A3A3A3",
                         "notification": "#f50057",
                         "orange": "#F8AF40",
@@ -442,14 +445,15 @@ exports[`SmsForm matches snapshot 1`] = `
                         "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                       },
                       "modals": Object {
+                        "activityIndicatorBackgroundColor": "rgba(255, 255, 255, 0.8)",
                         "backgroundColor": "#fff",
                         "borderLeftWidth": 10,
                         "borderRadius": 5,
                         "contentPadding": 16,
                         "jaggedEdgeSize": 16,
-                        "overlayBackgroundColor": "rgba(255, 255, 255, 0.8)",
+                        "overlayBackgroundColor": "transparent",
                         "overlayHorizontalPadding": 20,
-                        "overlayVerticalPadding": 30,
+                        "overlayVerticalPadding": 65,
                       },
                       "paddings": Object {
                         "defaultMargin": 8,
@@ -465,7 +469,7 @@ exports[`SmsForm matches snapshot 1`] = `
                       },
                     }
                   }
-                  type="tel"
+                  type="text"
                   value=""
                 />
               </div>
@@ -550,6 +554,7 @@ exports[`SmsForm matches snapshot 1`] = `
                         "gray80Percent": "#A3A3A3",
                         "green": "#00C3AE",
                         "lightGray": "#EEE",
+                        "lightGreen": "#00BBA5",
                         "lighterGray": "#A3A3A3",
                         "notification": "#f50057",
                         "orange": "#F8AF40",
@@ -580,14 +585,15 @@ exports[`SmsForm matches snapshot 1`] = `
                         "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                       },
                       "modals": Object {
+                        "activityIndicatorBackgroundColor": "rgba(255, 255, 255, 0.8)",
                         "backgroundColor": "#fff",
                         "borderLeftWidth": 10,
                         "borderRadius": 5,
                         "contentPadding": 16,
                         "jaggedEdgeSize": 16,
-                        "overlayBackgroundColor": "rgba(255, 255, 255, 0.8)",
+                        "overlayBackgroundColor": "transparent",
                         "overlayHorizontalPadding": 20,
-                        "overlayVerticalPadding": 30,
+                        "overlayVerticalPadding": 65,
                       },
                       "paddings": Object {
                         "defaultMargin": 8,
@@ -603,7 +609,7 @@ exports[`SmsForm matches snapshot 1`] = `
                       },
                     }
                   }
-                  type="tel"
+                  type="text"
                   value=""
                 />
               </div>
@@ -688,6 +694,7 @@ exports[`SmsForm matches snapshot 1`] = `
                         "gray80Percent": "#A3A3A3",
                         "green": "#00C3AE",
                         "lightGray": "#EEE",
+                        "lightGreen": "#00BBA5",
                         "lighterGray": "#A3A3A3",
                         "notification": "#f50057",
                         "orange": "#F8AF40",
@@ -718,14 +725,15 @@ exports[`SmsForm matches snapshot 1`] = `
                         "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                       },
                       "modals": Object {
+                        "activityIndicatorBackgroundColor": "rgba(255, 255, 255, 0.8)",
                         "backgroundColor": "#fff",
                         "borderLeftWidth": 10,
                         "borderRadius": 5,
                         "contentPadding": 16,
                         "jaggedEdgeSize": 16,
-                        "overlayBackgroundColor": "rgba(255, 255, 255, 0.8)",
+                        "overlayBackgroundColor": "transparent",
                         "overlayHorizontalPadding": 20,
-                        "overlayVerticalPadding": 30,
+                        "overlayVerticalPadding": 65,
                       },
                       "paddings": Object {
                         "defaultMargin": 8,
@@ -741,7 +749,7 @@ exports[`SmsForm matches snapshot 1`] = `
                       },
                     }
                   }
-                  type="tel"
+                  type="text"
                   value=""
                 />
               </div>
@@ -826,6 +834,7 @@ exports[`SmsForm matches snapshot 1`] = `
                         "gray80Percent": "#A3A3A3",
                         "green": "#00C3AE",
                         "lightGray": "#EEE",
+                        "lightGreen": "#00BBA5",
                         "lighterGray": "#A3A3A3",
                         "notification": "#f50057",
                         "orange": "#F8AF40",
@@ -856,14 +865,15 @@ exports[`SmsForm matches snapshot 1`] = `
                         "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                       },
                       "modals": Object {
+                        "activityIndicatorBackgroundColor": "rgba(255, 255, 255, 0.8)",
                         "backgroundColor": "#fff",
                         "borderLeftWidth": 10,
                         "borderRadius": 5,
                         "contentPadding": 16,
                         "jaggedEdgeSize": 16,
-                        "overlayBackgroundColor": "rgba(255, 255, 255, 0.8)",
+                        "overlayBackgroundColor": "transparent",
                         "overlayHorizontalPadding": 20,
-                        "overlayVerticalPadding": 30,
+                        "overlayVerticalPadding": 65,
                       },
                       "paddings": Object {
                         "defaultMargin": 8,
@@ -879,7 +889,7 @@ exports[`SmsForm matches snapshot 1`] = `
                       },
                     }
                   }
-                  type="tel"
+                  type="text"
                   value=""
                 />
               </div>
@@ -964,6 +974,7 @@ exports[`SmsForm matches snapshot 1`] = `
                         "gray80Percent": "#A3A3A3",
                         "green": "#00C3AE",
                         "lightGray": "#EEE",
+                        "lightGreen": "#00BBA5",
                         "lighterGray": "#A3A3A3",
                         "notification": "#f50057",
                         "orange": "#F8AF40",
@@ -994,14 +1005,15 @@ exports[`SmsForm matches snapshot 1`] = `
                         "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                       },
                       "modals": Object {
+                        "activityIndicatorBackgroundColor": "rgba(255, 255, 255, 0.8)",
                         "backgroundColor": "#fff",
                         "borderLeftWidth": 10,
                         "borderRadius": 5,
                         "contentPadding": 16,
                         "jaggedEdgeSize": 16,
-                        "overlayBackgroundColor": "rgba(255, 255, 255, 0.8)",
+                        "overlayBackgroundColor": "transparent",
                         "overlayHorizontalPadding": 20,
-                        "overlayVerticalPadding": 30,
+                        "overlayVerticalPadding": 65,
                       },
                       "paddings": Object {
                         "defaultMargin": 8,
@@ -1017,7 +1029,7 @@ exports[`SmsForm matches snapshot 1`] = `
                       },
                     }
                   }
-                  type="tel"
+                  type="text"
                   value=""
                 />
               </div>

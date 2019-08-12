@@ -37,3 +37,33 @@ describe('FeedModalItem - Send', () => {
     expect(tree).toMatchSnapshot()
   })
 })
+
+describe('FeedModalItem - Message', () => {
+  const WrappedFeedModalItem = withThemeProvider(FeedModalItem)
+  const props = generateFeedItemProps('message')
+  it('renders without errors', () => {
+    const tree = renderer.create(<WrappedFeedModalItem {...props} />)
+    expect(tree.toJSON()).toBeTruthy()
+  })
+
+  it('matches snapshot', () => {
+    const component = renderer.create(<WrappedFeedModalItem {...props} />)
+    const tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
+  })
+})
+
+describe('FeedModalItem - Invite', () => {
+  const WrappedFeedModalItem = withThemeProvider(FeedModalItem)
+  const props = generateFeedItemProps('invite')
+  it('renders without errors', () => {
+    const tree = renderer.create(<WrappedFeedModalItem {...props} />)
+    expect(tree.toJSON()).toBeTruthy()
+  })
+
+  it('matches snapshot', () => {
+    const component = renderer.create(<WrappedFeedModalItem {...props} />)
+    const tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
+  })
+})

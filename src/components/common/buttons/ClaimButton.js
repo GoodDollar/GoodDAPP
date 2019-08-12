@@ -25,6 +25,7 @@ const getStylesFromProps = ({ theme }) => ({
     textTransform: 'uppercase',
   },
   claimButton: {
+    alignItems: 'center',
     backgroundColor: theme.colors.green,
     borderColor: '#fff',
     borderRadius: '50%',

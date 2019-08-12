@@ -181,7 +181,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
             "WebkitFlexShrink": 1,
             "WebkitJustifyContent": "space-between",
             "alignItems": "center",
-            "borderBottomColor": "rgba(0,195,174,1.00)",
+            "borderBottomColor": "rgba(0,187,165,1.00)",
             "borderBottomStyle": "solid",
             "borderBottomWidth": "2px",
             "display": "flex",
@@ -221,7 +221,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
           dir="auto"
           style={
             Object {
-              "color": "rgba(0,195,174,1.00)",
+              "color": "rgba(0,187,165,1.00)",
               "direction": "ltr",
               "fontFamily": "Roboto",
               "fontSize": "15px",
@@ -258,7 +258,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
             dir="auto"
             style={
               Object {
-                "color": "rgba(0,195,174,1.00)",
+                "color": "rgba(0,187,165,1.00)",
                 "direction": "ltr",
                 "fontFamily": "Roboto Slab",
                 "fontSize": "15px",
@@ -278,7 +278,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
             dir="auto"
             style={
               Object {
-                "color": "rgba(0,195,174,1.00)",
+                "color": "rgba(0,187,165,1.00)",
                 "direction": "ltr",
                 "fontFamily": "Roboto Slab",
                 "fontSize": "10px",
@@ -308,7 +308,8 @@ exports[`ListEventItem receive matches snapshot 1`] = `
             "marginTop": "auto",
             "msFlexDirection": "row",
             "msFlexNegative": 1,
-            "paddingTop": "4px",
+            "paddingLeft": "4px",
+            "paddingRight": "4px",
           }
         }
       >
@@ -357,6 +358,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
                 "fontWeight": "normal",
                 "height": "22px",
                 "lineHeight": "16px",
+                "marginBottom": "0px",
                 "msFlexNegative": 0,
                 "textAlign": "left",
                 "textDecoration": "none",
@@ -381,8 +383,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
                 }
               }
             >
-              From
-              :
+              From:
             </span>
             <span
               className="css-text-901oao css-textHasAncestor-16my406"
@@ -433,7 +434,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
           dir="auto"
           style={
             Object {
-              "color": "rgba(0,195,174,1.00)",
+              "color": "rgba(0,187,165,1.00)",
               "fontFamily": "gooddollar",
               "fontSize": "34px",
               "fontStyle": "normal",
@@ -443,7 +444,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
             }
           }
         >
-          
+          
         </div>
       </div>
     </div>
@@ -759,7 +760,8 @@ exports[`ListEventItem send matches snapshot 1`] = `
             "marginTop": "auto",
             "msFlexDirection": "row",
             "msFlexNegative": 1,
-            "paddingTop": "4px",
+            "paddingLeft": "4px",
+            "paddingRight": "4px",
           }
         }
       >
@@ -808,6 +810,7 @@ exports[`ListEventItem send matches snapshot 1`] = `
                 "fontWeight": "normal",
                 "height": "22px",
                 "lineHeight": "16px",
+                "marginBottom": "0px",
                 "msFlexNegative": 0,
                 "textAlign": "left",
                 "textDecoration": "none",
@@ -832,8 +835,7 @@ exports[`ListEventItem send matches snapshot 1`] = `
                 }
               }
             >
-              To
-              :
+              To:
             </span>
             <span
               className="css-text-901oao css-textHasAncestor-16my406"
@@ -1210,7 +1212,8 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
             "marginTop": "auto",
             "msFlexDirection": "row",
             "msFlexNegative": 1,
-            "paddingTop": "4px",
+            "paddingLeft": "4px",
+            "paddingRight": "4px",
           }
         }
       >
@@ -1259,6 +1262,7 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
                 "fontWeight": "normal",
                 "height": "22px",
                 "lineHeight": "16px",
+                "marginBottom": "0px",
                 "msFlexNegative": 0,
                 "textAlign": "left",
                 "textDecoration": "none",
@@ -1283,8 +1287,7 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
                 }
               }
             >
-              From
-              :
+              From:
             </span>
             <span
               className="css-text-901oao css-textHasAncestor-16my406"

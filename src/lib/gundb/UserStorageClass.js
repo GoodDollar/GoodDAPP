@@ -105,6 +105,24 @@ export type TransactionEvent = FeedEvent & {
   },
 }
 
+export const welcomeMessage = {
+  id: '0',
+  type: 'welcome',
+  date: new Date().getTime(),
+  status: 'completed',
+  data: {
+    customName: 'Welcome to GoodDollar!',
+    receiptData: {
+      from: '0x0000000000000000000000000000000000000000',
+    },
+    reason:
+      'GoodDollar is a payment system with a built-in small basic income based on blockchain technology.\nLet’s change the world, for good.',
+    endpoint: {
+      fullName: 'Welcome to GoodDollar!',
+    },
+  },
+}
+
 /**
  * Extracts transfer events sent to the current account
  * @param {object} receipt - Receipt event
@@ -232,7 +250,7 @@ export class UserStorage {
    * @returns {string} - Value without '+' (plus), '-' (minus), '_' (underscore), ' ' (space), in lower case
    */
   static cleanFieldForIndex = (field: string, value: string): string => {
-    if (!value) {
+    if (value === undefined) {
       return value
     }
     if (field === 'mobile' || field === 'phone') {
@@ -336,7 +354,7 @@ export class UserStorage {
       })
       logger.debug('init to events')
 
-      this.initFeed()
+      await this.initFeed()
 
       //save ref to user
       this.gun
@@ -507,9 +525,14 @@ export class UserStorage {
    * Subscribes to changes on the event index of day to number of events
    * the "false" (see gundb docs) passed is so we get the complete 'index' on every change and not just the day that changed
    */
-  initFeed() {
+  async initFeed() {
     this.feed = this.gunuser.get('feed')
     this.feed.get('index').on(this.updateFeedIndex, false)
+
+    //first time user
+    if ((await this.feed) === undefined) {
+      this.enqueueTX(welcomeMessage)
+    }
   }
 
   /**
@@ -550,7 +573,10 @@ export class UserStorage {
    */
   getDisplayProfile(profile: {}): UserModel {
     const displayProfile = Object.keys(profile).reduce(
-      (acc, currKey) => ({ ...acc, [currKey]: profile[currKey].display }),
+      (acc, currKey) => ({
+        ...acc,
+        [currKey]: profile[currKey].display,
+      }),
       {}
     )
     return getUserModel(displayProfile)
@@ -590,18 +616,19 @@ export class UserStorage {
    * It saves only known profile fields
    *
    * @param {UserModel} profile - User profile
+   * @param {boolean} update - are we updating, if so validate only non empty fields
    * @returns {Promise} Promise with profile settings updates and privacy validations
    * @throws Error if profile is invalid
    */
-  setProfile(profile: UserModel) {
+  setProfile(profile: UserModel, update: boolean = false): Promise<> {
     if (profile && !profile.validate) {
       profile = getUserModel(profile)
     }
-    const { errors, isValid } = profile.validate()
+    const { errors, isValid } = profile.validate(update)
     if (!isValid) {
       logger.error('setProfile failed:', { errors })
       if (Config.throwSaveProfileErrors) {
-        throw new Error(errors)
+        return Promise.reject(errors)
       }
     }
 
@@ -631,7 +658,7 @@ export class UserStorage {
       if (errors.length > 0) {
         logger.error('setProfile some fields failed', errors.length, errors)
         if (Config.throwSaveProfileErrors) {
-          throw new Error(errors)
+          return Promise.reject(errors)
         }
       }
       return true
@@ -695,11 +722,16 @@ export class UserStorage {
    * @param {string} privacy - (private | public | masked)
    * @returns {Promise} Promise with updated field value, secret, display and privacy.
    */
-  async setProfileField(field: string, value: string, privacy: FieldPrivacy = 'public'): Promise<ACK> {
+  async setProfileField(
+    field: string,
+    value: string,
+    privacy: FieldPrivacy = 'public',
+    onlyPrivacy: boolean = false
+  ): Promise<ACK> {
     let display
     switch (privacy) {
       case 'private':
-        display = ''
+        display = '******'
         break
       case 'masked':
         display = UserStorage.maskField(field, value)
@@ -725,8 +757,14 @@ export class UserStorage {
         return indexPromiseResult
       }
     }
+    if (onlyPrivacy) {
+      return this.profile.get(field).putAck({
+        display,
+        privacy,
+      })
+    }
 
-    return Promise.all([
+    return Promise.race([
       this.profile
         .get(field)
         .get('value')
@@ -735,7 +773,7 @@ export class UserStorage {
         display,
         privacy,
       }),
-    ]).then(arr => arr[1])
+    ])
   }
 
   /**
@@ -794,7 +832,7 @@ export class UserStorage {
    */
   async setProfileFieldPrivacy(field: string, privacy: FieldPrivacy): Promise<ACK> {
     let value = await this.getProfileFieldValue(field)
-    return this.setProfileField(field, value, privacy)
+    return this.setProfileField(field, value, privacy, true)
   }
 
   /**
@@ -860,7 +898,7 @@ export class UserStorage {
     return Promise.all(
       feed
         .filter(feedItem => feedItem.data && ['deleted', 'cancelled'].includes(feedItem.status) === false)
-        .map(this.formatEvent)
+        .map(feedItem => this.formatEvent(feedItem))
     )
   }
 
@@ -977,6 +1015,7 @@ export class UserStorage {
       reason,
       code: withdrawCode,
       otplStatus,
+      customName,
     } = data
     let avatar, fullName, address, withdrawStatus, initiator
     if (type === 'send') {
@@ -1023,6 +1062,7 @@ export class UserStorage {
         .get('profile'))
     const profileToShow = (profileByIndex || profileByAddress) && this.gun.get((profileByIndex || profileByAddress)._)
     fullName =
+      customName ||
       (profileToShow &&
         (await profileToShow
           .get('fullName')
@@ -1081,8 +1121,8 @@ export class UserStorage {
     //a race exists between enqueing and receipt from websockets/polling
     const release = await this.feedMutex.lock()
     try {
-      event.status = 'pending'
-      event.createdDate = new Date().toString()
+      event.status = event.status || 'pending'
+      event.createdDate = event.createdDate || new Date().toString()
       let putRes = await this.feed
         .get('queue')
         .get(event.id)
@@ -1128,9 +1168,20 @@ export class UserStorage {
   }
 
   /**
+   * Sets the event's status as deleted
+   * @param {FeedEvent} event
+   * @returns {Promise<FeedEvent>}
+   */
+  deleteEvent(event: FeedEvent): Promise<FeedEvent> {
+    event.status = 'deleted'
+    return this.updateFeedEvent(event)
+  }
+
+  /**
    * Add or Update feed event
    *
    * @param {FeedEvent} event - Event to be updated
+   * @param {string|*} previouseventDate
    * @returns {Promise} Promise with updated feed
    */
   async updateFeedEvent(event: FeedEvent, previouseventDate: string | void): Promise<FeedEvent> {
@@ -1138,10 +1189,10 @@ export class UserStorage {
 
     //saving index by onetime code so we can retrieve and update it once withdrawn
     //or skip own withdraw
-    if (event.type == 'send' && event.data.code) {
+    if (event.type === 'send' && event.data.code) {
       const hashedCode = this.wallet.wallet.utils.sha3(event.data.code)
       this.feed.get('codeToTxHash').put({ [hashedCode]: event.id })
-    } else if (event.type == 'withdraw' && event.data.code) {
+    } else if (event.type === 'withdraw' && event.data.code) {
       //are we withdrawing our own link?
       const hashedCode = this.wallet.wallet.utils.sha3(event.data.code)
       const ownlink = await this.feed.get('codeToTxHash').get(hashedCode)

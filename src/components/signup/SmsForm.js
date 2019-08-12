@@ -67,7 +67,7 @@ class SmsForm extends React.Component<Props, State> {
 
   handleChange = async (otp: string | number) => {
     const otpValue = otp.toString()
-    if (otpValue.length === this.numInputs) {
+    if (otpValue.replace(/ /g, '').length === this.numInputs) {
       this.setState({
         loading: true,
         otp,
@@ -79,7 +79,7 @@ class SmsForm extends React.Component<Props, State> {
         log.error({ e })
 
         this.setState({
-          errorMessage: e.message || e.response.data.message,
+          errorMessage: e.message || e,
         })
       } finally {
         this.setState({ loading: false })
@@ -113,7 +113,7 @@ class SmsForm extends React.Component<Props, State> {
     } catch (e) {
       log.error(e)
       this.setState({
-        errorMessage: e.message || e.response.data.message,
+        errorMessage: e.message || e,
         sendingCode: false,
         renderButton: true,
       })
@@ -135,7 +135,6 @@ class SmsForm extends React.Component<Props, State> {
               shouldAutoFocus
               numInputs={this.numInputs}
               onChange={this.handleChange}
-              isInputNum
               hasErrored={errorMessage !== ''}
               errorStyle={styles.errorStyle}
               value={otp}

@@ -1092,7 +1092,8 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                                 "marginTop": "auto",
                                 "msFlexDirection": "row",
                                 "msFlexNegative": 1,
-                                "paddingTop": "4px",
+                                "paddingLeft": "4px",
+                                "paddingRight": "4px",
                               }
                             }
                           >
@@ -1141,6 +1142,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                                     "fontWeight": "normal",
                                     "height": "22px",
                                     "lineHeight": "16px",
+                                    "marginBottom": "0px",
                                     "msFlexNegative": 0,
                                     "textAlign": "left",
                                     "textDecoration": "none",
@@ -1165,8 +1167,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                                     }
                                   }
                                 >
-                                  From
-                                  :
+                                  From:
                                 </span>
                                 <span
                                   className="css-text-901oao css-textHasAncestor-16my406"
@@ -1640,7 +1641,8 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                                 "marginTop": "auto",
                                 "msFlexDirection": "row",
                                 "msFlexNegative": 1,
-                                "paddingTop": "4px",
+                                "paddingLeft": "4px",
+                                "paddingRight": "4px",
                               }
                             }
                           >
@@ -1689,6 +1691,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                                     "fontWeight": "normal",
                                     "height": "22px",
                                     "lineHeight": "16px",
+                                    "marginBottom": "0px",
                                     "msFlexNegative": 0,
                                     "textAlign": "left",
                                     "textDecoration": "none",
@@ -1713,8 +1716,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                                     }
                                   }
                                 >
-                                  To
-                                  :
+                                  To:
                                 </span>
                                 <span
                                   className="css-text-901oao css-textHasAncestor-16my406"

@@ -28,7 +28,7 @@ const ProfileDataTable = ({ profile, onChange, errors: errorsProp, editable, the
             <Section.Stack grow>
               <Section.Row>
                 <PhoneInput
-                  error={errors.mobile}
+                  error={errors.mobile && errors.mobile !== ''}
                   id="signup_phone"
                   onChange={value => onChange({ ...profile, mobile: value })}
                   placeholder="Enter phone number"
@@ -54,6 +54,9 @@ const ProfileDataTable = ({ profile, onChange, errors: errorsProp, editable, the
                     style={styles.phoneIcon}
                   />
                 </Section.Row>
+              </Section.Row>
+              <Section.Row>
+                {errors.mobile ? <Section.Text style={styles.phoneError}>{errors.mobile}</Section.Text> : null}
               </Section.Row>
             </Section.Stack>
           ) : (
@@ -101,6 +104,13 @@ const getStylesFromProps = ({ theme }) => {
       top: 0,
       width: 32,
       zIndex: 1,
+    },
+    phoneError: {
+      fontSize: 12,
+      color: theme.colors.red,
+      paddingLeft: 12,
+      paddingTop: 4,
+      paddingBottom: 4,
     },
   }
 }

@@ -102,13 +102,6 @@ const getStylesFromProps = ({ theme }) => {
       width: 32,
       zIndex: 1,
     },
-    phoneError: {
-      fontSize: 12,
-      color: theme.colors.red,
-      paddingLeft: 12,
-      paddingTop: 4,
-      paddingBottom: 4,
-    },
   }
 }
 

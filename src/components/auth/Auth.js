@@ -59,7 +59,7 @@ class Auth extends React.Component<Props> {
               </Section.Text>
             </Section.Row>
             <Section.Row alignItems="center" justifyContent="center" style={styles.bottomRow}>
-              <Section.Text color="surface" fontWeight="500" fontSize={16}>
+              <Section.Text color="surface">
                 {`They have NO real value. \n And will be deleted at the end of the Alpha.`}
               </Section.Text>
             </Section.Row>
@@ -79,9 +79,9 @@ class Auth extends React.Component<Props> {
           <CustomButton style={styles.buttonLayout} onPress={this.handleSignUp}>
             Create a wallet
           </CustomButton>
-          <Text fontWeight="500" fontSize={14} color="primary" onPress={this.handleSignIn}>
+          <Text fontSize={14} color="primary" onPress={this.handleSignIn}>
             {`Already have a wallet? `}
-            <Text fontWeight="500" fontSize={14} color="primary" onPress={this.handleSignIn} style={styles.underlined}>
+            <Text fontSize={14} color="primary" onPress={this.handleSignIn} style={styles.underlined}>
               Login
             </Text>
           </Text>

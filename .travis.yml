@@ -14,7 +14,7 @@ env:
     - CI=false
 script:
   - npm run coverage
-  - npm run coveralls
+  - npm run coveralls || true
   - npm run build
 
 after_success:

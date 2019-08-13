@@ -50,7 +50,7 @@ describe('Test case 8: Ability to send money', () => {
             LoginPage.mnemonicInputs.eq(i).type(wordsForSuccessfullLogin2[i]); 
         }
         LoginPage.recoverWalletButton.click();
-        cy.wait(7000)
+        cy.wait(7000);
         HomePage.moneyAmountDiv.invoke('text').then( moneyBefore => {
             cy.wait(7000)
             cy.log('Money before sending: ' + moneyBefore )    

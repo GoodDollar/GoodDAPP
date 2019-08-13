@@ -77,7 +77,7 @@ describe('Test case 3: Ability to change user data', () => {
 
     });
 
-    it('User is able to edit input fields', () => {
+    it.only('User is able to edit input fields', () => {
 
         HomePage.optionsButton.click({force:true});
         HomePage.options.eq(0).click({force:true});
@@ -88,9 +88,9 @@ describe('Test case 3: Ability to change user data', () => {
         EditProfilePage.nameInput.clear({timeout:10000});
         EditProfilePage.phoneInput.clear({timeout:10000});
         EditProfilePage.emailInput.clear({timeout:10000});
-        EditProfilePage.nameInput.type('Random123', {force: true});
-        EditProfilePage.phoneInput.type('+380685953835', {force: true});
-        EditProfilePage.emailInput.type('andrey.holenkov@qatestlab.ec', {force: true});
+        EditProfilePage.nameInput.type('Random12345', {force: true});
+        EditProfilePage.phoneInput.type('+380983611323', {force: true});
+        EditProfilePage.emailInput.type('gggggooddollar.test123@gmail.com', {force: true});
 
 
         cy.wait(5000);
@@ -98,20 +98,19 @@ describe('Test case 3: Ability to change user data', () => {
         cy.wait(5000);
 
 
-        ProfilePage.nameInput.should('have.value', 'Random123');
-        ProfilePage.phoneInput.should('have.value', '+380685953835');
-        ProfilePage.emailInput.should('have.value', 'andrey.holenkov@qatestlab.ec');
+        ProfilePage.nameInput.should('have.value', 'Random12345');
+        ProfilePage.phoneInput.should('have.value', '+380983611323');
+        ProfilePage.emailInput.should('have.value', 'gggggooddollar.test123@gmail.com');
 
 
         ProfilePage.editProfileButton.click();
         cy.wait(3000);
         EditProfilePage.nameInput.clear();
-        EditProfilePage.nameInput.type('AndrewUser'); 
+        EditProfilePage.nameInput.type('AndrewLebowski123'); 
         EditProfilePage.phoneInput.clear();  
-        cy.contains('OK').click();
-        EditProfilePage.phoneInput.type('+380685953834');
+        EditProfilePage.phoneInput.type('+380983611320');
         EditProfilePage.emailInput.clear();
-        EditProfilePage.emailInput.type('andrey.holenkov@qatestlab.eu');
+        EditProfilePage.emailInput.type('gooddollar.test123@gmail.com');
         cy.wait(3000)
         EditProfilePage.saveButton.click();
         cy.wait(7500)

@@ -9,7 +9,7 @@ class HomePage {
     }
 
     get claimButton() {
-        return cy.get('div[role=button]', { timeout: 10000 }).eq(3)
+        return cy.get('div[role=button]', { timeout: 10000 }).contains('Claim');
     }
 
     get receiveButton() {
@@ -29,7 +29,7 @@ class HomePage {
     }
 
     get moneyAmountDiv() {
-        return cy.get('[dir="auto"]', { timeout: 10000 }).eq(2)
+        return cy.get('[dir="auto"]', { timeout: 10000 }).eq(3)
     }
 
 }

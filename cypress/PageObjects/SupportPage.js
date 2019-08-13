@@ -8,6 +8,14 @@ class SupportPage {
         return cy.get('iframe[src="https://community.gooddollar.org/support/"]', { timeout: 10000 })
     }
 
+    get helpFormFirstName() {
+        return '#mauticform_input_communitygdsupportrequestform_first_name';
+    }
+
+    get helpFormLastName() {
+        return '#mauticform_input_communitygdsupportrequestform_last_name';
+    }
+
     get helpFormEmail() {
         return '#mauticform_input_communitygdsupportrequestform_email';
     }

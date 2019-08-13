@@ -1,5 +1,6 @@
 import StartPage from '../PageObjects/StartPage'
 import SignUpPage from '../PageObjects/SignUpPage'
+import { Wallet } from 'web3-eth-accounts';
 
 
 
@@ -35,22 +36,22 @@ describe('Test case 1: Ability to Sign Up', () => {
 
     });
 
+    it.only('Try to sign up the wallet with correct values', async () => {
 
-
-    it.only('Try to sign up the wallet with correct values', () => {
-
-        StartPage.open();
+        await StartPage.open();
         StartPage.createWalletButton.click();
         SignUpPage.nameInput.type('Name Name');
         SignUpPage.nextButton.click();
         SignUpPage.phoneInput.type('+79313107495');
         SignUpPage.nextButton.click();
-        cy.wait(7000);
+        cy.wait(5000);
         SignUpPage.errorOkayButton.click();
         SignUpPage.nextButton.click();
-        cy.wait(7000);
-        //const id = wallet.getAccountForType('login')
-        //cy.log('id: ' + id)
+        const win = await cy.window();
+        const identifierValue = win.wallet.getAccountForType('login');
+        cy.log("loooog: " + Object.keys(win))
+        cy.log('wall: ' + win.wallet.account)
+
         cy.request({
                     method: 'POST', 
                     url: 'https://good-qa.herokuapp.com/admin/user/get', 
@@ -59,10 +60,9 @@ describe('Test case 1: Ability to Sign Up', () => {
                     },
                     body: { 
                         password:'MashWzP8Kg',
-                        mobile:'+79313107495'
+                        identifier: identifierValue
                     }}
                     ).then( response => {
-                        cy.wait(20000)
                         const body = response.body
                         cy.log('loooog: ' + Object.keys(body)  )
                     });
@@ -72,40 +72,6 @@ describe('Test case 1: Ability to Sign Up', () => {
 
     });
 
-    it.only('Try to sign up the wallet with correct values', () => {
-
-        StartPage.open();
-        StartPage.createWalletButton.click();
-        SignUpPage.nameInput.type('Name Name');
-        SignUpPage.nextButton.click();
-        SignUpPage.phoneInput.type('+79313107495');
-        SignUpPage.nextButton.click();
-        cy.wait(7000);
-        SignUpPage.errorOkayButton.click();
-        SignUpPage.nextButton.click();
-        cy.wait(7000);
-        //const id = wallet.getAccountForType('login')
-        //cy.log('id: ' + id)
-        cy.request({
-                    method: 'POST', 
-                    url: 'https://good-qa.herokuapp.com/admin/user/get', 
-                    headers: { 
-                        'content-type': 'application/json'
-                    },
-                    body: { 
-                        password:'MashWzP8Kg',
-                        mobile:'+79313107495'
-                    }}
-                    ).then( response => {
-                        cy.wait(20000)
-                        const body = response.body
-                        cy.log('loooog: ' + Object.keys(body)  )
-                    });
-                
-
-
-
-    // });
 
 })
 

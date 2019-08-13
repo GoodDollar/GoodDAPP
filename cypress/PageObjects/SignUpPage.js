@@ -21,11 +21,7 @@ class SignUpPage {
     }
 
     get errorOkayButton() {
-<<<<<<< HEAD
         return cy.xpath('//*[@id="root"]/div[3]/div/div/div/div/div[2]/div[2]/div/div[3]/div/div', { timeout: 10000 });
-=======
-        return cy.xpath('//*[@id="root"]/div[3]/div/div/div/div/div[2]/div[2]/div/div[3]/div/div', { timeout: 10000 })
->>>>>>> 28dca2d0a8ab32c6188cb45e1ef86a570333ea34
     }
     
 

@@ -1,6 +1,6 @@
 import StartPage from '../PageObjects/StartPage'
 import SignUpPage from '../PageObjects/SignUpPage'
-import { Wallet } from 'web3-eth-accounts';
+
 
 
 
@@ -40,11 +40,11 @@ describe('Test case 1: Ability to Sign Up', () => {
 
         await StartPage.open();
         StartPage.createWalletButton.click();
+        cy.wait(8000);
         SignUpPage.nameInput.type('Name Name');
         SignUpPage.nextButton.click();
-        SignUpPage.phoneInput.type('+79313107495');
+        SignUpPage.phoneInput.type('+79315760704');
         SignUpPage.nextButton.click();
-        cy.wait(5000);
         SignUpPage.errorOkayButton.click();
         SignUpPage.nextButton.click();
         const win = await cy.window();

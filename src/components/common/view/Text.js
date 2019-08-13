@@ -41,10 +41,10 @@ class Text extends React.Component {
 /**
  * Returns the linespacing associated to the font-size based on guidelines
  * Defaults to 1em if size is not in the list
- * @param {number} fontSize
+ * @param {number} fontSize - defaults to 16
  * @returns {*|string}
  */
-const relatedLineSpacing = fontSize =>
+const relatedLineSpacing = (fontSize = 16) =>
   ({
     8: normalize(14),
     10: normalize(14),
@@ -57,6 +57,18 @@ const relatedLineSpacing = fontSize =>
     36: normalize(30),
     42: normalize(30),
   }[fontSize] || normalize(fontSize * LINE_HEIGHT_FACTOR))
+
+/**
+ * Returns the proper value to apply for the fontWeight prop based on values provided in wireframes
+ * @param {string} fontWeight - defaults to 'regular' { regular: 'normal', medium: '500', bold: '700' }
+ * @returns {string}
+ */
+const calculateFontWeight = (fontWeight = 'regular') =>
+  ({
+    regular: 'normal',
+    medium: '500',
+    bold: '700',
+  }[fontWeight] || 'normal')
 
 const getStylesFromProps = ({
   theme,
@@ -71,12 +83,13 @@ const getStylesFromProps = ({
 }) => {
   const calculatedFontSize = Number.isFinite(fontSize) ? normalize(fontSize) : normalize(16)
   const calculatedLineHeight = Number.isFinite(lineHeight) ? normalize(lineHeight) : relatedLineSpacing(fontSize)
+  const calculatedFontWeight = Number.isFinite(fontWeight) ? fontWeight : calculateFontWeight(fontWeight)
 
   return {
     text: {
       color: theme.colors[color] || color || theme.colors.text,
       textAlign: textAlign || 'center',
-      fontWeight: fontWeight || '500',
+      fontWeight: calculatedFontWeight,
       fontFamily: theme.fonts[fontFamily] || fontFamily || 'Roboto',
       fontSize: calculatedFontSize,
       lineHeight: calculatedLineHeight,

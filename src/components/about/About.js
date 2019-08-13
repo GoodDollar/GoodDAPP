@@ -16,17 +16,17 @@ const About = () => (
   <Wrapper style={styles.wrapper}>
     <Section style={styles.container}>
       <Section.Stack style={styles.content} grow justifyContent="space-between">
-        <Section.Text fontSize={18} color="surface">
+        <Section.Text fontSize={22} color="darkBlue">
           Welcome to
         </Section.Text>
         <Image source={splashImage} style={styles.logo} resizeMode="contain" />
         <Image source={goodDollarImage} style={styles.goodDollar} resizeMode="contain" />
-        <Section.Text fontSize={22} color="surface">
+        <Section.Text fontSize={22} color="darkBlue">
           {`V${Config.version}`}
         </Section.Text>
         <Section.Text fontSize={18} color="surface">
           GoodDollar is a payment system with a built-in UBI based on blockchain technology.
-          <Section.Text fontSize={18} fontWeight="700" color="surface">
+          <Section.Text fontSize={18} fontWeight="bold" color="surface">
             {`\nLet's change the world, for good.`}
           </Section.Text>
         </Section.Text>

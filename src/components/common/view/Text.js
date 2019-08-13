@@ -60,14 +60,31 @@ const relatedLineSpacing = (fontSize = 16) =>
 
 /**
  * Returns the proper value to apply for the fontWeight prop based on values provided in wireframes
- * @param {string} fontWeight - defaults to 'regular' { regular: 'normal', medium: '500', bold: '700' }
+ * @param {string} fontWeight - defaults to 'regular'
+ * {
+ *   extralight: 100,
+ *   thin: 200,
+ *   book: 300,
+ *   regular: 400,
+ *   medium: 500,
+ *   semibold: 600,
+ *   bold: 700,
+ *   black: 800,
+ *   fat: 900
+ * }
  * @returns {string}
  */
 const calculateFontWeight = (fontWeight = 'regular') =>
   ({
+    extralight: '100',
+    thin: '200',
+    book: '300',
     regular: 'normal',
     medium: '500',
+    semibold: '600',
     bold: '700',
+    black: '800',
+    fat: '900',
   }[fontWeight] || 'normal')
 
 const getStylesFromProps = ({
@@ -87,7 +104,7 @@ const getStylesFromProps = ({
 
   return {
     text: {
-      color: theme.colors[color] || color || theme.colors.text,
+      color: theme.colors[color] || color || theme.colors.darkGray,
       textAlign: textAlign || 'center',
       fontWeight: calculatedFontWeight,
       fontFamily: theme.fonts[fontFamily] || fontFamily || 'Roboto',

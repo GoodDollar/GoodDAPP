@@ -47,7 +47,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
         Object {
           "color": "rgba(66,69,74,1.00)",
           "direction": "ltr",
-          "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+          "fontFamily": "Roboto-Medium",
           "fontSize": "22px",
           "fontWeight": "normal",
           "lineHeight": "30px",
@@ -216,7 +216,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
                   Object {
                     "color": "rgba(66,69,74,1.00)",
                     "direction": "ltr",
-                    "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                    "fontFamily": "Roboto-Medium",
                     "letterSpacing": "1px",
                     "marginBottom": "9px",
                     "marginLeft": "8px",
@@ -336,7 +336,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
                   Object {
                     "color": "rgba(66,69,74,1.00)",
                     "direction": "ltr",
-                    "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                    "fontFamily": "Roboto-Medium",
                     "letterSpacing": "1px",
                     "marginBottom": "9px",
                     "marginLeft": "8px",
@@ -456,7 +456,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
                   Object {
                     "color": "rgba(66,69,74,1.00)",
                     "direction": "ltr",
-                    "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                    "fontFamily": "Roboto-Medium",
                     "letterSpacing": "1px",
                     "marginBottom": "9px",
                     "marginLeft": "8px",
@@ -576,7 +576,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
                   Object {
                     "color": "rgba(66,69,74,1.00)",
                     "direction": "ltr",
-                    "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                    "fontFamily": "Roboto-Medium",
                     "letterSpacing": "1px",
                     "marginBottom": "9px",
                     "marginLeft": "8px",
@@ -696,7 +696,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
                   Object {
                     "color": "rgba(66,69,74,1.00)",
                     "direction": "ltr",
-                    "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                    "fontFamily": "Roboto-Medium",
                     "letterSpacing": "1px",
                     "marginBottom": "9px",
                     "marginLeft": "8px",
@@ -816,7 +816,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
                   Object {
                     "color": "rgba(66,69,74,1.00)",
                     "direction": "ltr",
-                    "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                    "fontFamily": "Roboto-Medium",
                     "letterSpacing": "1px",
                     "marginBottom": "9px",
                     "marginLeft": "8px",
@@ -963,7 +963,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
                   Object {
                     "color": "rgba(66,69,74,1.00)",
                     "direction": "ltr",
-                    "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                    "fontFamily": "Roboto-Medium",
                     "letterSpacing": "1px",
                     "marginBottom": "9px",
                     "marginLeft": "8px",
@@ -1083,7 +1083,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
                   Object {
                     "color": "rgba(66,69,74,1.00)",
                     "direction": "ltr",
-                    "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                    "fontFamily": "Roboto-Medium",
                     "letterSpacing": "1px",
                     "marginBottom": "9px",
                     "marginLeft": "8px",
@@ -1203,7 +1203,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
                   Object {
                     "color": "rgba(66,69,74,1.00)",
                     "direction": "ltr",
-                    "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                    "fontFamily": "Roboto-Medium",
                     "letterSpacing": "1px",
                     "marginBottom": "9px",
                     "marginLeft": "8px",
@@ -1323,7 +1323,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
                   Object {
                     "color": "rgba(66,69,74,1.00)",
                     "direction": "ltr",
-                    "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                    "fontFamily": "Roboto-Medium",
                     "letterSpacing": "1px",
                     "marginBottom": "9px",
                     "marginLeft": "8px",
@@ -1443,7 +1443,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
                   Object {
                     "color": "rgba(66,69,74,1.00)",
                     "direction": "ltr",
-                    "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                    "fontFamily": "Roboto-Medium",
                     "letterSpacing": "1px",
                     "marginBottom": "9px",
                     "marginLeft": "8px",
@@ -1491,7 +1491,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
           Object {
             "color": "rgba(66,69,74,1.00)",
             "direction": "ltr",
-            "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+            "fontFamily": "Roboto-Medium",
             "fontSize": "14px",
             "fontWeight": "normal",
             "lineHeight": "20px",
@@ -1511,7 +1511,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
           Object {
             "color": "rgba(66,69,74,1.00)",
             "direction": "ltr",
-            "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+            "fontFamily": "Roboto-Medium",
             "fontSize": "14px",
             "fontWeight": "normal",
             "lineHeight": "20px",
@@ -1646,7 +1646,7 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
               Object {
                 "color": "rgba(163,163,163,1.00)",
                 "direction": "ltr",
-                "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                "fontFamily": "Roboto-Medium",
                 "letterSpacing": "1px",
                 "marginBottom": "9px",
                 "marginLeft": "8px",

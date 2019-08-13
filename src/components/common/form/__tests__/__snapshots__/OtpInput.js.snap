@@ -67,6 +67,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
         data-focusable={true}
         dir="auto"
         disabled={false}
+        enterkeyhint="next"
         maxLength="1"
         onBlur={[Function]}
         onChange={[Function]}
@@ -140,7 +141,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
             "fonts": Object {
               "default": "Roboto",
               "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-              "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "medium": "Roboto-Medium",
               "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
               "slab": "Roboto Slab",
               "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
@@ -206,6 +207,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
         data-focusable={true}
         dir="auto"
         disabled={false}
+        enterkeyhint="next"
         maxLength="1"
         onBlur={[Function]}
         onChange={[Function]}
@@ -279,7 +281,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
             "fonts": Object {
               "default": "Roboto",
               "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-              "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "medium": "Roboto-Medium",
               "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
               "slab": "Roboto Slab",
               "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
@@ -345,6 +347,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
         data-focusable={true}
         dir="auto"
         disabled={false}
+        enterkeyhint="next"
         maxLength="1"
         onBlur={[Function]}
         onChange={[Function]}
@@ -418,7 +421,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
             "fonts": Object {
               "default": "Roboto",
               "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-              "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "medium": "Roboto-Medium",
               "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
               "slab": "Roboto Slab",
               "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
@@ -484,6 +487,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
         data-focusable={true}
         dir="auto"
         disabled={false}
+        enterkeyhint="next"
         maxLength="1"
         onBlur={[Function]}
         onChange={[Function]}
@@ -557,7 +561,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
             "fonts": Object {
               "default": "Roboto",
               "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-              "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "medium": "Roboto-Medium",
               "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
               "slab": "Roboto Slab",
               "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
@@ -623,6 +627,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
         data-focusable={true}
         dir="auto"
         disabled={false}
+        enterkeyhint="next"
         maxLength="1"
         onBlur={[Function]}
         onChange={[Function]}
@@ -696,7 +701,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
             "fonts": Object {
               "default": "Roboto",
               "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-              "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "medium": "Roboto-Medium",
               "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
               "slab": "Roboto Slab",
               "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
@@ -762,6 +767,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
         data-focusable={true}
         dir="auto"
         disabled={false}
+        enterkeyhint="next"
         maxLength="1"
         onBlur={[Function]}
         onChange={[Function]}
@@ -835,7 +841,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
             "fonts": Object {
               "default": "Roboto",
               "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-              "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "medium": "Roboto-Medium",
               "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
               "slab": "Roboto Slab",
               "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
@@ -940,6 +946,7 @@ exports[`OtpInput matches snapshot 1`] = `
         data-focusable={true}
         dir="auto"
         disabled={false}
+        enterkeyhint="next"
         maxLength="1"
         onBlur={[Function]}
         onChange={[Function]}
@@ -1013,7 +1020,7 @@ exports[`OtpInput matches snapshot 1`] = `
             "fonts": Object {
               "default": "Roboto",
               "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-              "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "medium": "Roboto-Medium",
               "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
               "slab": "Roboto Slab",
               "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
@@ -1079,6 +1086,7 @@ exports[`OtpInput matches snapshot 1`] = `
         data-focusable={true}
         dir="auto"
         disabled={false}
+        enterkeyhint="next"
         maxLength="1"
         onBlur={[Function]}
         onChange={[Function]}
@@ -1152,7 +1160,7 @@ exports[`OtpInput matches snapshot 1`] = `
             "fonts": Object {
               "default": "Roboto",
               "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-              "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "medium": "Roboto-Medium",
               "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
               "slab": "Roboto Slab",
               "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
@@ -1218,6 +1226,7 @@ exports[`OtpInput matches snapshot 1`] = `
         data-focusable={true}
         dir="auto"
         disabled={false}
+        enterkeyhint="next"
         maxLength="1"
         onBlur={[Function]}
         onChange={[Function]}
@@ -1291,7 +1300,7 @@ exports[`OtpInput matches snapshot 1`] = `
             "fonts": Object {
               "default": "Roboto",
               "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-              "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "medium": "Roboto-Medium",
               "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
               "slab": "Roboto Slab",
               "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
@@ -1357,6 +1366,7 @@ exports[`OtpInput matches snapshot 1`] = `
         data-focusable={true}
         dir="auto"
         disabled={false}
+        enterkeyhint="next"
         maxLength="1"
         onBlur={[Function]}
         onChange={[Function]}
@@ -1430,7 +1440,7 @@ exports[`OtpInput matches snapshot 1`] = `
             "fonts": Object {
               "default": "Roboto",
               "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-              "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "medium": "Roboto-Medium",
               "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
               "slab": "Roboto Slab",
               "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
@@ -1496,6 +1506,7 @@ exports[`OtpInput matches snapshot 1`] = `
         data-focusable={true}
         dir="auto"
         disabled={false}
+        enterkeyhint="next"
         maxLength="1"
         onBlur={[Function]}
         onChange={[Function]}
@@ -1569,7 +1580,7 @@ exports[`OtpInput matches snapshot 1`] = `
             "fonts": Object {
               "default": "Roboto",
               "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-              "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "medium": "Roboto-Medium",
               "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
               "slab": "Roboto Slab",
               "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
@@ -1635,6 +1646,7 @@ exports[`OtpInput matches snapshot 1`] = `
         data-focusable={true}
         dir="auto"
         disabled={false}
+        enterkeyhint="next"
         maxLength="1"
         onBlur={[Function]}
         onChange={[Function]}
@@ -1708,7 +1720,7 @@ exports[`OtpInput matches snapshot 1`] = `
             "fonts": Object {
               "default": "Roboto",
               "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-              "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "medium": "Roboto-Medium",
               "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
               "slab": "Roboto Slab",
               "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
@@ -1813,6 +1825,7 @@ exports[`OtpInput number matches snapshot 1`] = `
         data-focusable={true}
         dir="auto"
         disabled={false}
+        enterkeyhint="next"
         maxLength="1"
         onBlur={[Function]}
         onChange={[Function]}
@@ -1886,7 +1899,7 @@ exports[`OtpInput number matches snapshot 1`] = `
             "fonts": Object {
               "default": "Roboto",
               "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-              "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "medium": "Roboto-Medium",
               "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
               "slab": "Roboto Slab",
               "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
@@ -1952,6 +1965,7 @@ exports[`OtpInput number matches snapshot 1`] = `
         data-focusable={true}
         dir="auto"
         disabled={false}
+        enterkeyhint="next"
         maxLength="1"
         onBlur={[Function]}
         onChange={[Function]}
@@ -2025,7 +2039,7 @@ exports[`OtpInput number matches snapshot 1`] = `
             "fonts": Object {
               "default": "Roboto",
               "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-              "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "medium": "Roboto-Medium",
               "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
               "slab": "Roboto Slab",
               "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
@@ -2091,6 +2105,7 @@ exports[`OtpInput number matches snapshot 1`] = `
         data-focusable={true}
         dir="auto"
         disabled={false}
+        enterkeyhint="next"
         maxLength="1"
         onBlur={[Function]}
         onChange={[Function]}
@@ -2164,7 +2179,7 @@ exports[`OtpInput number matches snapshot 1`] = `
             "fonts": Object {
               "default": "Roboto",
               "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-              "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "medium": "Roboto-Medium",
               "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
               "slab": "Roboto Slab",
               "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
@@ -2230,6 +2245,7 @@ exports[`OtpInput number matches snapshot 1`] = `
         data-focusable={true}
         dir="auto"
         disabled={false}
+        enterkeyhint="next"
         maxLength="1"
         onBlur={[Function]}
         onChange={[Function]}
@@ -2303,7 +2319,7 @@ exports[`OtpInput number matches snapshot 1`] = `
             "fonts": Object {
               "default": "Roboto",
               "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-              "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "medium": "Roboto-Medium",
               "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
               "slab": "Roboto Slab",
               "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
@@ -2369,6 +2385,7 @@ exports[`OtpInput number matches snapshot 1`] = `
         data-focusable={true}
         dir="auto"
         disabled={false}
+        enterkeyhint="next"
         maxLength="1"
         onBlur={[Function]}
         onChange={[Function]}
@@ -2442,7 +2459,7 @@ exports[`OtpInput number matches snapshot 1`] = `
             "fonts": Object {
               "default": "Roboto",
               "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-              "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "medium": "Roboto-Medium",
               "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
               "slab": "Roboto Slab",
               "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
@@ -2508,6 +2525,7 @@ exports[`OtpInput number matches snapshot 1`] = `
         data-focusable={true}
         dir="auto"
         disabled={false}
+        enterkeyhint="next"
         maxLength="1"
         onBlur={[Function]}
         onChange={[Function]}
@@ -2581,7 +2599,7 @@ exports[`OtpInput number matches snapshot 1`] = `
             "fonts": Object {
               "default": "Roboto",
               "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-              "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "medium": "Roboto-Medium",
               "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
               "slab": "Roboto Slab",
               "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",

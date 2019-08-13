@@ -111,7 +111,7 @@ exports[`NextButton matches snapshot 1`] = `
             Object {
               "color": "rgba(0,0,0,0.32)",
               "direction": "ltr",
-              "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "fontFamily": "Roboto-Medium",
               "letterSpacing": "1px",
               "marginBottom": "9px",
               "marginLeft": "8px",
@@ -269,7 +269,7 @@ exports[`PushButton matches snapshot 1`] = `
             Object {
               "color": "rgba(255,255,255,1.00)",
               "direction": "ltr",
-              "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "fontFamily": "Roboto-Medium",
               "letterSpacing": "1px",
               "marginBottom": "9px",
               "marginLeft": "8px",

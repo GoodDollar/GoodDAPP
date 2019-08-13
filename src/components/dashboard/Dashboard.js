@@ -1,5 +1,5 @@
 // @flow
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import type { Store } from 'undux'
 import normalize from '../../lib/utils/normalizeText'
@@ -120,24 +120,12 @@ const Dashboard = props => {
   const { avatar, fullName } = gdstore.get('profile')
   const feeds = gdstore.get('feeds')
   const [headerLarge, setHeaderLarge] = useState(true)
-  const largeRef = useRef()
-  const baseRef = useRef()
-  const buttonsRef = useRef()
-
-  // const [dimensions, setDimensions] = useState({})
-
-  // useLayoutEffect(() => {
-  //   if (buttonsRef.current && buttonsRef.current.getClientBoundingRect) {
-  //     setDimensions(buttonsRef.current.getClientBoundingRect())
-  //   }
-  // }, [buttonsRef.current])
-  // log.info('scrollPos', { dimensions, buttonsRef })
 
   return (
     <Wrapper style={styles.dashboardWrapper}>
       <Section style={[styles.topInfo]}>
         {headerLarge ? (
-          <Section.Stack ref={largeRef} alignItems="center">
+          <Section.Stack alignItems="center">
             <Avatar onPress={() => screenProps.push('Profile')} size={68} source={avatar} style={[styles.avatarBig]} />
             <Section.Text style={[styles.userName]}>{fullName || ' '}</Section.Text>
             <Section.Row style={styles.bigNumberWrapper}>
@@ -146,7 +134,7 @@ const Dashboard = props => {
             </Section.Row>
           </Section.Stack>
         ) : (
-          <Section ref={baseRef} style={[styles.userInfo, styles.userInfoHorizontal]}>
+          <Section style={[styles.userInfo, styles.userInfoHorizontal]}>
             <Avatar
               onPress={() => screenProps.push('Profile')}
               size={42}
@@ -156,7 +144,7 @@ const Dashboard = props => {
             <BigGoodDollar bigNumberStyles={styles.bigNumberStyles} number={balance} />
           </Section>
         )}
-        <Section.Row ref={buttonsRef} style={styles.buttonsRow}>
+        <Section.Row style={styles.buttonsRow}>
           <PushButton
             icon="send"
             iconAlignment="left"

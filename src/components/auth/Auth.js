@@ -7,7 +7,7 @@ import CustomButton from '../common/buttons/CustomButton'
 import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
 import Text from '../common/view/Text'
-import { PrivacyPolicy, TermsOfUse } from '../webView/webViewInstances'
+import { PrivacyPolicy, Support, TermsOfUse } from '../webView/webViewInstances'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
 import normalize from '../../lib/utils/normalizeText'
@@ -55,12 +55,12 @@ class Auth extends React.Component<Props> {
           <Wrapper style={styles.containerPadding}>
             <Section.Row alignItems="center" justifyContent="center" style={styles.topRow}>
               <Section.Text color="surface" fontFamily="slab" fontSize={22}>
-                {`Alpha tokens are \n for test use only!`}
+                {`Alpha tokens are\nfor test use only!`}
               </Section.Text>
             </Section.Row>
             <Section.Row alignItems="center" justifyContent="center" style={styles.bottomRow}>
               <Section.Text color="surface" fontWeight="500" fontSize={16}>
-                {`They have NO real value. \n And will be deleted at the end of the Alpha.`}
+                {`They have no real value and will be\ndeleted at the end of the Alpha.`}
               </Section.Text>
             </Section.Row>
           </Wrapper>
@@ -145,6 +145,7 @@ export default createStackNavigator(
     TermsOfUse,
     PrivacyPolicy,
     Recover: Mnemonics,
+    Support,
   },
   {
     backRouteName: 'Auth',

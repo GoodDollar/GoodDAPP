@@ -19,7 +19,7 @@ const Splash = () => (
         <Section.Text fontSize={22} color="darkBlue">
           {`Welcome and thank you\nfor participating in GoodDollar's\n`}
           <Section.Text fontSize={22} fontWeight="700" color="darkBlue">
-            Early Access Alpha
+            Early Access Alpha V2.0
           </Section.Text>
         </Section.Text>
         <Image source={splashImage} style={styles.logo} resizeMode="contain" />

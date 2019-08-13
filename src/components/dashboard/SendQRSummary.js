@@ -117,7 +117,7 @@ const SendQRSummary = (props: AmountProps) => {
         <Section.Title>Summary</Section.Title>
         <Section.Row justifyContent="center">
           <Section.Text color="gray80Percent" style={styles.descriptionText} fontSize={16}>
-            * the transaction may take a few seconds to be complete
+            {`* the transaction may take\n a few seconds to complete`}
           </Section.Text>
         </Section.Row>
         <SummaryTable counterPartyDisplayName={profile.name} amount={amount} reason={reason} />

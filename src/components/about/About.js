@@ -16,7 +16,7 @@ const About = () => (
   <Wrapper style={styles.wrapper}>
     <Section style={styles.container}>
       <Section.Stack style={styles.content} grow justifyContent="space-between">
-        <Section.Text fontSize={18} color="surface">
+        <Section.Text fontSize={22} color="black">
           Welcome to
         </Section.Text>
         <Image source={splashImage} style={styles.logo} resizeMode="contain" />

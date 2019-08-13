@@ -16,9 +16,9 @@ const log = logger.child({ from: 'ProfilePrivacy' })
 // privacy options
 const privacyOptions = ['private', 'masked', 'public']
 const tips = {
-  private: 'Nobody will be able to see your field, nor to find you searching by it.',
-  masked: 'Your field will be partially visible (e.g.: ****ple@***.com). Nobody will be able to search you by it.',
-  public: 'Your field is publicly available. Anybody will be able to find you by it.',
+  private: 'Your details will not be visible.',
+  masked: 'Your details will be partially visible\n(e.g.: ****ple@***.com).',
+  public: 'Your details will be fully visible.',
 }
 
 // fields to manage privacy of
@@ -81,7 +81,7 @@ const ProfilePrivacy = props => {
       <Section.Stack grow>
         <Section.Row grow justifyContent="center" style={styles.subtitleRow}>
           <Section.Text fontSize={16} fontWeight="bold" color={theme.colors.gray}>
-            Manage your profile privacy
+            Manage your privacy settings
           </Section.Text>
           <InfoIcon style={styles.infoIcon} color={theme.colors.primary} onPress={() => setShowTips(true)} />
         </Section.Row>
@@ -118,7 +118,7 @@ const ProfilePrivacy = props => {
       <CustomDialog
         visible={showTips}
         onDismiss={() => setShowTips(false)}
-        title="TIPS"
+        title="SETTINGS"
         dismissText="Ok"
         image={<React.Fragment />}
       >

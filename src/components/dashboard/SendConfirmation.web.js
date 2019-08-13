@@ -23,9 +23,14 @@ const SendConfirmation = ({ screenProps, styles }: ReceiveProps) => {
   return (
     <Wrapper>
       <TopBar hideBalance push={screenProps.push} />
-      <Section grow>
-        <Section.Title textTransform="none">You can send G$ to anyone in the world</Section.Title>
-        <Section.Text>Simply, copy and share this link with your recipient.</Section.Text>
+      <Section grow justifyContent={'center'}>
+        <Section.Text
+          style={{ display: 'flex', flexGrow: 1, justifyContent: 'center', alignItems: 'center' }}
+          fontSize={22}
+          fontWeight={'500'}
+        >
+          {`To complete the transaction\ncopy the link and share it\nwith your recipient.`}
+        </Section.Text>
         <SummaryTable counterPartyDisplayName={counterPartyDisplayName} amount={amount} reason={reason} />
         <CopyButton toCopy={paymentLink} onPressDone={() => screenProps.goToRoot()}>
           Copy link to clipboard

@@ -143,7 +143,7 @@ const SendLinkSummary = (props: AmountProps) => {
         <Section.Title>SUMMARY</Section.Title>
         <Section.Row justifyContent="center">
           <Section.Text color="gray80Percent" style={styles.descriptionText} fontSize={16}>
-            * the transaction may take a few seconds to be complete
+            {`* the transaction may take\n a few seconds to complete`}
           </Section.Text>
         </Section.Row>
 

@@ -25,14 +25,7 @@ const ProfileWrapper = props => {
     screenProps.push(`${profile.avatar ? 'View' : 'Edit'}Avatar`)
   }
 
-  const handleChangeProfile = encProfile => {
-    if (!encProfile) {
-      return
-    }
-    const publicProfile = userStorage.getDisplayProfile(encProfile)
-    if (!publicProfile.email) {
-      return
-    }
+  const handleChangeProfile = publicProfile => {
     store.set('profile')(publicProfile)
   }
 

@@ -81,7 +81,7 @@ const EmailConfirmation = ({ navigation, screenProps, styles }: Props) => {
         <Wrapper style={styles.containerPadding}>
           <Section.Row justifyContent="center" grow>
             <Section.Text fontFamily="slab" fontSize={22} color="surface">
-              {`In order to continue, \n go to your e-mail app and confirm registration`}
+              {`In order to continue,\ngo to your e-mail app and confirm registration`}
             </Section.Text>
           </Section.Row>
         </Wrapper>

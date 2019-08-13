@@ -125,6 +125,10 @@ class ZoomCapture extends React.Component<ZoomCaptureProps> {
 
   zoom: Zoom
 
+  state = {
+    cameraReady: false,
+  }
+
   cameraReady = async (track: MediaStreamTrack) => {
     log.debug('camera ready')
     this.videoTrack = track
@@ -133,6 +137,7 @@ class ZoomCapture extends React.Component<ZoomCaptureProps> {
       let zoomSDK = this.props.loadedZoom
       this.zoom = new Zoom(zoomSDK)
       await this.zoom.ready
+      this.setState({ cameraReady: true })
       if (this.props.showHelper === false) {
         this.captureUserMediaZoom()
       }
@@ -177,10 +182,12 @@ class ZoomCapture extends React.Component<ZoomCaptureProps> {
         <View style={styles.bottomSection}>
           <div id="zoom-parent-container" style={getVideoContainerStyles()}>
             <View id="helper" style={styles.helper}>
-              <HelperWizard done={this.captureUserMediaZoom} skip={this.props.showHelper === false} />
+              {this.state.cameraReady ? (
+                <HelperWizard done={this.captureUserMediaZoom} skip={this.props.showHelper === false} />
+              ) : null}
             </View>
             <div id="zoom-interface-container" style={{ position: 'absolute' }} />
-            {<Camera onCameraLoad={this.cameraReady} onError={this.props.onError} />}
+            {<Camera key="camera" onCameraLoad={this.cameraReady} onError={this.props.onError} />}
           </div>
         </View>
       </View>

@@ -50,7 +50,9 @@ const SendLinkSummary = (props: AmountProps) => {
       if (e.name !== 'AbortError') {
         showDialog({
           title: 'There was a problem triggering share action.',
-          message: `You can still copy the link in tapping on "Copy link to clipboard". \n Error ${e.name}: ${e.message}`,
+          message: `You can still copy the link in tapping on "Copy link to clipboard". \n Error ${e.name}: ${
+            e.message
+          }`,
           dismissText: 'Ok',
           onDismiss: () =>
             screenProps.push('SendConfirmation', {

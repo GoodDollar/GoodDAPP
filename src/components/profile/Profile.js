@@ -25,13 +25,20 @@ const ProfileWrapper = props => {
     screenProps.push(`${profile.avatar ? 'View' : 'Edit'}Avatar`)
   }
 
-  const handleChangeProfile = publicProfile => {
+  const handleChangeProfile = encProfile => {
+    if (!encProfile) {
+      return
+    }
+    const publicProfile = userStorage.getDisplayProfile(encProfile)
+    if (!publicProfile.email) {
+      return
+    }
     store.set('profile')(publicProfile)
   }
 
   const updateProfile = async () => {
     const publicProfile = await userStorage.getPublicProfile()
-    handleChangeProfile(publicProfile)
+    store.set('profile')(publicProfile)
   }
   useEffect(() => {
     if (isEqual(profile, {})) {

@@ -19,6 +19,8 @@ import Section from '../common/layout/Section'
 import illustration from '../../assets/Claim/illustration.svg'
 import type { DashboardProps } from './Dashboard'
 
+Image.prefetch(illustration)
+
 type ClaimProps = DashboardProps
 type ClaimState = {
   nextClaim: string,

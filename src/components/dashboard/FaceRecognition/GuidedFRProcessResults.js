@@ -19,6 +19,8 @@ import LookingGood from '../../../assets/LookingGood.svg'
 import GDStore from '../../../lib/undux/GDStore'
 import { fireEvent } from '../../../lib/analytics/analytics'
 
+Image.prefetch(LookingGood)
+
 const log = logger.child({ from: 'GuidedFRProcessResults' })
 
 const FRStep = ({ title, isActive, status, isProcessFailed, paddingBottom }) => {
@@ -109,14 +111,12 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
     }
   }, [])
 
-  const saveProfileAndDone = async () => {
+  const saveProfile = async () => {
     try {
       log.debug('savingProfileAndDone')
       let account = await goodWallet.getAccountForType('zoomId')
       await userStorage.setProfileField('zoomEnrollmentId', account, 'private')
       setStatus({ ...processStatus, isProfileSaved: true })
-
-      setTimeout(done, 2000)
     } catch (e) {
       setStatus({ ...processStatus, isProfileSaved: false })
     }
@@ -132,9 +132,16 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
   useEffect(() => {
     //done save profile and call done callback
     if (processStatus.isWhitelisted) {
-      saveProfileAndDone()
+      saveProfile()
     }
   }, [processStatus.isWhitelisted])
+
+  useEffect(() => {
+    //done save profile and call done callback
+    if (processStatus.isProfileSaved) {
+      setTimeout(done, 2000)
+    }
+  }, [processStatus.isProfileSaved])
 
   // useEffect(() => {
   //   if (isAPISuccess === undefined) {

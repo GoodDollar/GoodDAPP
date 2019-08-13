@@ -14,6 +14,7 @@ import GDStore from '../../../lib/undux/GDStore'
 import logger from '../../../lib/logger/pino-logger'
 import { fireEvent } from '../../../lib/analytics/analytics'
 
+Image.prefetch(Oops)
 const log = logger.child({ from: 'UnsupportedDevice' })
 
 const UnsupportedDevice = props => {

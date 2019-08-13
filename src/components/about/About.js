@@ -1,6 +1,6 @@
 import React from 'react'
 import { Image, StyleSheet } from 'react-native'
-import splashImage from '../../assets/Splash/logoPrimary.svg'
+import splashImage from '../../assets/Splash/logo.svg'
 import goodDollarImage from '../../assets/Splash/goodDollar.svg'
 import wavePattern from '../../assets/wave.svg'
 import Wrapper from '../common/layout/Wrapper'
@@ -16,16 +16,16 @@ const About = () => (
   <Wrapper style={styles.wrapper}>
     <Section style={styles.container}>
       <Section.Stack style={styles.content} grow justifyContent="space-between">
-        <Section.Text fontSize={22} color="black">
+        <Section.Text fontSize={22} color="darkBlue">
           Welcome to
         </Section.Text>
         <Image source={splashImage} style={styles.logo} resizeMode="contain" />
         <Image source={goodDollarImage} style={styles.goodDollar} resizeMode="contain" />
-        <Section.Text fontSize={22} color="surface">
+        <Section.Text fontSize={22} color="darkBlue">
           {`V${Config.version}`}
         </Section.Text>
-        <Section.Text fontSize={18} color="surface">
-          GoodDollar is a payment system with a built-in UBI based on blockchain technology.
+        <Section.Text fontSize={18} color="surface" style={styles.aboutDescription}>
+          GoodDollar is a payment system with a built-in small basic income based on blockchain technology.
           <Section.Text fontSize={18} fontWeight="700" color="surface">
             {`\nLet's change the world, for good.`}
           </Section.Text>
@@ -66,6 +66,9 @@ const styles = StyleSheet.create({
     maxWidth: '100%',
     minHeight: 30,
     minWidth: 212,
+  },
+  aboutDescription: {
+    maxWidth: 270,
   },
 })
 

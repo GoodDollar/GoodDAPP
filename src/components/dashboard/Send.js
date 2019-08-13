@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import isEmail from 'validator/lib/isEmail'
+import { withStyles } from '../../lib/styles'
+import normalize from '../../lib/utils/normalizeText'
 import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
 import userStorage from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
@@ -135,8 +137,16 @@ const Send = props => {
   )
 }
 
+const getStylesFromProps = ({ theme }) => ({
+  cancelButton: {
+    color: theme.colors.gray80Percent,
+    fontSize: normalize(14),
+    fontWeight: '500',
+  },
+})
+
 Send.navigationOptions = {
   title: SEND_TITLE,
 }
 
-export default Send
+export default withStyles(getStylesFromProps)(Send)

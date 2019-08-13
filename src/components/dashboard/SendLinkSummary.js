@@ -7,7 +7,6 @@ import { generateSendShareObject } from '../../lib/share'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import { useDialog } from '../../lib/undux/utils/dialog'
-import normalize from '../../lib/utils/normalizeText'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
 import { CustomButton, Section, Wrapper } from '../common'
@@ -151,7 +150,7 @@ const SendLinkSummary = (props: AmountProps) => {
         <SummaryTable counterPartyDisplayName={counterPartyDisplayName} amount={amount} reason={reason} />
         <Section.Row>
           <Section.Row grow={1} justifyContent="flex-start">
-            <BackButton mode="text" screenProps={screenProps} textStyle={styles.cancelButton}>
+            <BackButton mode="text" screenProps={screenProps}>
               Cancel
             </BackButton>
           </Section.Row>
@@ -169,11 +168,6 @@ const SendLinkSummary = (props: AmountProps) => {
 const getStylesFromProps = ({ theme }) => ({
   descriptionText: {
     maxWidth: 210,
-  },
-  cancelButton: {
-    color: theme.colors.gray80Percent,
-    fontSize: normalize(14),
-    fontWeight: '500',
   },
 })
 

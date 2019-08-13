@@ -7,10 +7,8 @@ import SummaryTable from '../common/view/SummaryTable'
 import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
 import { PushButton } from '../appNavigation/PushButton'
 
-import { withStyles } from '../../lib/styles'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { generateCode } from '../../lib/share'
-import normalize from '../../lib/utils/normalizeText'
 import { navigationOptions } from './utils/sendReceiveFlow'
 
 export type ReceiveProps = {
@@ -19,7 +17,7 @@ export type ReceiveProps = {
   theme: any,
 }
 
-const ReceiveAmount = ({ screenProps, styles, ...props }: ReceiveProps) => {
+const ReceiveAmount = ({ screenProps, ...props }: ReceiveProps) => {
   const [screenState] = useScreenState(screenProps)
   const { params } = props.navigation.state
 
@@ -47,7 +45,7 @@ const ReceiveAmount = ({ screenProps, styles, ...props }: ReceiveProps) => {
         />
         <Section.Row>
           <Section.Row grow={1} justifyContent="flex-start">
-            <BackButton mode="text" screenProps={screenProps} textStyle={styles.cancelButton}>
+            <BackButton mode="text" screenProps={screenProps}>
               Cancel
             </BackButton>
           </Section.Row>
@@ -73,12 +71,4 @@ ReceiveAmount.shouldNavigateToComponent = props => {
   return screenState.amount
 }
 
-const getStylesFromProps = ({ theme }) => ({
-  cancelButton: {
-    color: theme.colors.gray80Percent,
-    fontSize: normalize(14),
-    fontWeight: '500',
-  },
-})
-
-export default withStyles(getStylesFromProps)(ReceiveAmount)
+export default ReceiveAmount

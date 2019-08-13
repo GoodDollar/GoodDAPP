@@ -1,6 +1,5 @@
 // @flow
 import React, { useEffect } from 'react'
-import normalize from '../../lib/utils/normalizeText'
 import InputText from '../common/form/InputText'
 
 import { ScanQRButton, Section, Wrapper } from '../common'
@@ -57,7 +56,7 @@ const Who = (props: AmountProps) => {
         </Section.Stack>
         <Section.Row grow alignItems="flex-end">
           <Section.Row grow={1} justifyContent="flex-start">
-            <BackButton mode="text" screenProps={screenProps} textStyle={styles.cancelButton}>
+            <BackButton mode="text" screenProps={screenProps}>
               Cancel
             </BackButton>
           </Section.Row>
@@ -87,10 +86,5 @@ Who.shouldNavigateToComponent = props => {
 export default withStyles(({ theme }) => ({
   input: {
     marginTop: theme.sizes.defaultDouble,
-  },
-  cancelButton: {
-    color: theme.colors.gray80Percent,
-    fontSize: normalize(14),
-    fontWeight: '500',
   },
 }))(Who)

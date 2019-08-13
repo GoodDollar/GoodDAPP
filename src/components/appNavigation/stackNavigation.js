@@ -3,7 +3,9 @@ import React, { Component, useEffect, useState } from 'react'
 import { ScrollView, StyleSheet, View } from 'react-native'
 import SideMenu from 'react-native-side-menu-gooddapp'
 import { createNavigator, Route, SceneView, SwitchRouter } from '@react-navigation/core'
+import { withStyles } from '../../lib/styles'
 import SimpleStore from '../../lib/undux/SimpleStore'
+import normalize from '../../lib/utils/normalizeText'
 import SideMenuPanel from '../sidemenu/SideMenuPanel'
 import logger from '../../lib/logger/pino-logger'
 import CustomButton, { type ButtonProps } from '../common/buttons/CustomButton'
@@ -340,8 +342,8 @@ type BackButtonProps = {
  * This button gets the goToParent action from screenProps. Is meant to be used inside a stackNavigator
  * @param {ButtonProps} props
  */
-export const BackButton = (props: BackButtonProps) => {
-  const { disabled, screenProps, children, mode, color } = props
+const backButton = (props: BackButtonProps) => {
+  const { disabled, screenProps, children, mode, color, styles, textStyle = {} } = props
 
   return (
     <CustomButton
@@ -351,11 +353,22 @@ export const BackButton = (props: BackButtonProps) => {
       color={color || '#A3A3A3'}
       disabled={disabled}
       onPress={screenProps.goToParent}
+      textStyle={[styles.cancelButton, textStyle]}
     >
       {children}
     </CustomButton>
   )
 }
+
+const getStylesFromProps = ({ theme }) => ({
+  cancelButton: {
+    color: theme.colors.gray80Percent,
+    fontSize: normalize(14),
+    fontWeight: '500',
+  },
+})
+
+export const BackButton = withStyles(getStylesFromProps)(backButton)
 
 type NextButtonProps = {
   ...ButtonProps,

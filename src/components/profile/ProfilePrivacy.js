@@ -5,7 +5,6 @@ import { RadioButton } from 'react-native-paper'
 import { TouchableOpacity } from 'react-native'
 import userStorage from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
-import normalize from '../../lib/utils/normalizeText'
 import { BackButton } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
 import { CustomButton, CustomDialog, Icon, Section, Text } from '../common'
@@ -87,7 +86,7 @@ const ProfilePrivacy = props => {
           <InfoIcon style={styles.infoIcon} color={theme.colors.primary} onPress={() => setShowTips(true)} />
         </Section.Row>
 
-        <Section.Stack style={styles.optionsRowContainer}>
+        <Section.Stack justifyContent="flex-start" style={styles.optionsRowContainer}>
           <OptionsRow />
 
           {profileFields.map(field => (
@@ -103,7 +102,7 @@ const ProfilePrivacy = props => {
       </Section.Stack>
 
       <Section.Row grow alignItems="flex-end" style={styles.buttonsRow}>
-        <BackButton mode="text" screenProps={screenProps} style={styles.growOne} textStyle={styles.cancelButton}>
+        <BackButton mode="text" screenProps={screenProps} style={styles.growOne}>
           Cancel
         </BackButton>
         <CustomButton
@@ -163,7 +162,6 @@ const getStylesFromProps = ({ theme }) => {
       marginLeft: '0.5em',
     },
     optionsRowContainer: {
-      justifyContent: 'flex-start',
       padding: 0,
       height: '70%',
     },
@@ -183,11 +181,6 @@ const getStylesFromProps = ({ theme }) => {
     },
     dialogTipItem: {
       marginBottom: 20,
-    },
-    cancelButton: {
-      color: theme.colors.gray80Percent,
-      fontSize: normalize(14),
-      fontWeight: '500',
     },
   }
 }

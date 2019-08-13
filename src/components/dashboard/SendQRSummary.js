@@ -7,7 +7,6 @@ import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import { withStyles } from '../../lib/styles'
 import { useDialog } from '../../lib/undux/utils/dialog'
-import normalize from '../../lib/utils/normalizeText'
 import { useWrappedGoodWallet } from '../../lib/wallet/useWrappedWallet'
 import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
 import { CustomButton, Section, Wrapper } from '../common'
@@ -124,7 +123,7 @@ const SendQRSummary = (props: AmountProps) => {
         <SummaryTable counterPartyDisplayName={profile.name} amount={amount} reason={reason} />
         <Section.Row>
           <Section.Row grow={1} justifyContent="flex-start">
-            <BackButton mode="text" screenProps={screenProps} textStyle={styles.cancelButton}>
+            <BackButton mode="text" screenProps={screenProps}>
               Cancel
             </BackButton>
           </Section.Row>
@@ -148,11 +147,6 @@ const SendQRSummary = (props: AmountProps) => {
 const getStylesFromProps = ({ theme }) => ({
   descriptionText: {
     maxWidth: 210,
-  },
-  cancelButton: {
-    color: theme.colors.gray80Percent,
-    fontSize: normalize(14),
-    fontWeight: '500',
   },
 })
 

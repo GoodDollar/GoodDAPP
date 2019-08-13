@@ -7,8 +7,8 @@ export const showSupportDialog = (showErrorDialog, hideDialog, screenProps, erro
     boldMessage: (
       <>
         <Text fontWeight={'inherit'} color={'inherit'}>
-          Please contact
-        </Text>{' '}
+          {'Please contact '}
+        </Text>
         <Text
           fontWeight={'inherit'}
           textDecorationLine={'underline'}

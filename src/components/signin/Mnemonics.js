@@ -102,8 +102,12 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
   return (
     <Section grow={5} style={styles.wrapper}>
       <Section.Stack grow style={styles.instructions} justifyContent="space-around">
-        <Text fontWeight="bold" fontSize={22}>{`Please enter your\n12-word pass phrase:`}</Text>
-        <Text color="gray50Percent">You can copy-paste it from your backup email</Text>
+        <Text fontWeight="500" fontSize={22} color="darkGray">
+          {'Please enter your\n12-word pass phrase:'}
+        </Text>
+        <Text color="gray80Percent" fontSize={14}>
+          You can copy-paste it from your backup email
+        </Text>
       </Section.Stack>
       <Section.Stack grow={4} justifyContent="space-between" style={styles.inputsContainer}>
         <MnemonicInput recoveryMode={false} onChange={handleChange} seed={incomingMnemonic} />
@@ -137,7 +141,6 @@ const mnemonicsStyles = ({ theme }) => ({
   },
   bottomContainer: {
     backgroundColor: theme.colors.surface,
-    marginBottom: theme.paddings.defaultMargin,
     maxHeight: 50,
     minHeight: 50,
   },

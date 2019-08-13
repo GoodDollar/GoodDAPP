@@ -109,7 +109,7 @@ const Claim = props => {
     })
     try {
       //when we come back from FR entitelment might not be set yet
-      const curEntitlement = weiToGd(entitlement || (await goodWallet.checkEntitlement()))
+      const curEntitlement = entitlement || (await goodWallet.checkEntitlement())
       const receipt = await goodWallet.claim({
         onTransactionHash: hash => {
           const transactionEvent: TransactionEvent = {

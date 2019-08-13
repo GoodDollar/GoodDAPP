@@ -2,6 +2,9 @@
 import React from 'react'
 import { View } from 'react-native'
 import { withStyles } from '../../../lib/styles'
+import { getScreenHeight } from '../../../lib/utils/Orientation'
+
+const vh = getScreenHeight() * 0.01
 
 const ModalOverlay = ({ styles, children, style }: any) => (
   <View style={styles.modalOverlay}>
@@ -22,10 +25,10 @@ const getStylesFromProps = ({ theme }) => ({
     width: '100%',
     flexGrow: 1,
     flexShrink: 0,
-    paddingBottom: theme.modals.overlayVerticalPadding,
+    paddingBottom: `${15 * vh}px`,
     paddingLeft: theme.modals.overlayHorizontalPadding,
     paddingRight: theme.modals.overlayHorizontalPadding,
-    paddingTop: theme.modals.overlayVerticalPadding,
+    paddingTop: `${15 * vh}px`,
     marginVertical: 'auto',
   },
 })

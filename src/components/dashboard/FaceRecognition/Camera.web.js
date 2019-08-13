@@ -16,7 +16,7 @@ type CameraProps = {
 /**
  * Responsible to capture Camera stream
  */
-export function Camera(props: CameraProps) {
+const CameraComp = (props: CameraProps) => {
   let videoPlayerRef = createRef<HTMLVideoElement>()
   const acceptableConstraints: MediaStreamConstraints[] = [
     {
@@ -135,6 +135,7 @@ export function Camera(props: CameraProps) {
   )
 }
 
+export const Camera = React.memo(CameraComp)
 export const getResponsiveVideoDimensions = () => {
   const { width, height } = Dimensions.get('window')
 

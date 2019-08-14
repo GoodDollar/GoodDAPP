@@ -23,7 +23,7 @@ exports[`EventCounterParty receive matches snapshot 1`] = `
     dir="auto"
     style={
       Object {
-        "color": "rgba(85,85,85,1.00)",
+        "color": "rgba(66,69,74,1.00)",
         "direction": "ltr",
         "fontFamily": "Roboto",
         "fontSize": "16px",
@@ -40,7 +40,7 @@ exports[`EventCounterParty receive matches snapshot 1`] = `
       dir="auto"
       style={
         Object {
-          "color": "rgba(34,34,34,1.00)",
+          "color": "rgba(66,69,74,1.00)",
           "direction": "ltr",
           "fontFamily": "Roboto",
           "fontSize": "10px",
@@ -60,7 +60,7 @@ exports[`EventCounterParty receive matches snapshot 1`] = `
       dir="auto"
       style={
         Object {
-          "color": "rgba(34,34,34,1.00)",
+          "color": "rgba(66,69,74,1.00)",
           "direction": "ltr",
           "fontFamily": "Roboto",
           "fontSize": "16px",
@@ -102,7 +102,7 @@ exports[`EventCounterParty send matches snapshot 1`] = `
     dir="auto"
     style={
       Object {
-        "color": "rgba(85,85,85,1.00)",
+        "color": "rgba(66,69,74,1.00)",
         "direction": "ltr",
         "fontFamily": "Roboto",
         "fontSize": "16px",
@@ -119,7 +119,7 @@ exports[`EventCounterParty send matches snapshot 1`] = `
       dir="auto"
       style={
         Object {
-          "color": "rgba(34,34,34,1.00)",
+          "color": "rgba(66,69,74,1.00)",
           "direction": "ltr",
           "fontFamily": "Roboto",
           "fontSize": "10px",
@@ -139,7 +139,7 @@ exports[`EventCounterParty send matches snapshot 1`] = `
       dir="auto"
       style={
         Object {
-          "color": "rgba(34,34,34,1.00)",
+          "color": "rgba(66,69,74,1.00)",
           "direction": "ltr",
           "fontFamily": "Roboto",
           "fontSize": "16px",
@@ -181,7 +181,7 @@ exports[`EventCounterParty withdraw matches snapshot 1`] = `
     dir="auto"
     style={
       Object {
-        "color": "rgba(85,85,85,1.00)",
+        "color": "rgba(66,69,74,1.00)",
         "direction": "ltr",
         "fontFamily": "Roboto",
         "fontSize": "16px",
@@ -198,7 +198,7 @@ exports[`EventCounterParty withdraw matches snapshot 1`] = `
       dir="auto"
       style={
         Object {
-          "color": "rgba(34,34,34,1.00)",
+          "color": "rgba(66,69,74,1.00)",
           "direction": "ltr",
           "fontFamily": "Roboto",
           "fontSize": "10px",
@@ -218,7 +218,7 @@ exports[`EventCounterParty withdraw matches snapshot 1`] = `
       dir="auto"
       style={
         Object {
-          "color": "rgba(34,34,34,1.00)",
+          "color": "rgba(66,69,74,1.00)",
           "direction": "ltr",
           "fontFamily": "Roboto",
           "fontSize": "16px",

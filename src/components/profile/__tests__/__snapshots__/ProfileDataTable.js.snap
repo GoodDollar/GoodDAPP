@@ -223,6 +223,28 @@ exports[`ProfileDataTable matches snapshot 1`] = `
                 </div>
               </div>
             </div>
+            <div
+              className="css-text-901oao"
+              dir="auto"
+              style={
+                Object {
+                  "WebkitTransform": "translateY(0px)",
+                  "color": "rgba(250,108,119,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                  "fontSize": "12px",
+                  "height": "18px",
+                  "marginBottom": "8px",
+                  "opacity": 0,
+                  "paddingBottom": "4px",
+                  "paddingLeft": "0px",
+                  "paddingRight": "12px",
+                  "paddingTop": "4px",
+                  "textAlign": "center",
+                  "transform": "translateY(0px)",
+                }
+              }
+            />
           </div>
         </div>
         <div
@@ -366,6 +388,28 @@ exports[`ProfileDataTable matches snapshot 1`] = `
                 </div>
               </div>
             </div>
+            <div
+              className="css-text-901oao"
+              dir="auto"
+              style={
+                Object {
+                  "WebkitTransform": "translateY(0px)",
+                  "color": "rgba(250,108,119,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                  "fontSize": "12px",
+                  "height": "18px",
+                  "marginBottom": "8px",
+                  "opacity": 0,
+                  "paddingBottom": "4px",
+                  "paddingLeft": "0px",
+                  "paddingRight": "12px",
+                  "paddingTop": "4px",
+                  "textAlign": "center",
+                  "transform": "translateY(0px)",
+                }
+              }
+            />
           </div>
         </div>
         <div
@@ -511,6 +555,28 @@ exports[`ProfileDataTable matches snapshot 1`] = `
                 </div>
               </div>
             </div>
+            <div
+              className="css-text-901oao"
+              dir="auto"
+              style={
+                Object {
+                  "WebkitTransform": "translateY(0px)",
+                  "color": "rgba(250,108,119,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                  "fontSize": "12px",
+                  "height": "18px",
+                  "marginBottom": "8px",
+                  "opacity": 0,
+                  "paddingBottom": "4px",
+                  "paddingLeft": "0px",
+                  "paddingRight": "12px",
+                  "paddingTop": "4px",
+                  "textAlign": "center",
+                  "transform": "translateY(0px)",
+                }
+              }
+            />
           </div>
         </div>
       </div>
@@ -742,6 +808,28 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                 </div>
               </div>
             </div>
+            <div
+              className="css-text-901oao"
+              dir="auto"
+              style={
+                Object {
+                  "WebkitTransform": "translateY(0px)",
+                  "color": "rgba(250,108,119,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                  "fontSize": "12px",
+                  "height": "18px",
+                  "marginBottom": "8px",
+                  "opacity": 0,
+                  "paddingBottom": "4px",
+                  "paddingLeft": "0px",
+                  "paddingRight": "12px",
+                  "paddingTop": "4px",
+                  "textAlign": "center",
+                  "transform": "translateY(0px)",
+                }
+              }
+            />
           </div>
         </div>
         <div
@@ -816,7 +904,6 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "color": "#222",
-                    "marginBottom": 8,
                     "paddingBottom": 0,
                     "paddingLeft": 0,
                     "paddingRight": 0,
@@ -2442,6 +2529,28 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                 </div>
               </div>
             </div>
+            <div
+              className="css-text-901oao"
+              dir="auto"
+              style={
+                Object {
+                  "WebkitTransform": "translateY(0px)",
+                  "color": "rgba(250,108,119,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                  "fontSize": "12px",
+                  "height": "18px",
+                  "marginBottom": "8px",
+                  "opacity": 0,
+                  "paddingBottom": "4px",
+                  "paddingLeft": "0px",
+                  "paddingRight": "12px",
+                  "paddingTop": "4px",
+                  "textAlign": "center",
+                  "transform": "translateY(0px)",
+                }
+              }
+            />
           </div>
         </div>
         <div
@@ -2585,6 +2694,28 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                 </div>
               </div>
             </div>
+            <div
+              className="css-text-901oao"
+              dir="auto"
+              style={
+                Object {
+                  "WebkitTransform": "translateY(0px)",
+                  "color": "rgba(250,108,119,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                  "fontSize": "12px",
+                  "height": "18px",
+                  "marginBottom": "8px",
+                  "opacity": 0,
+                  "paddingBottom": "4px",
+                  "paddingLeft": "0px",
+                  "paddingRight": "12px",
+                  "paddingTop": "4px",
+                  "textAlign": "center",
+                  "transform": "translateY(0px)",
+                }
+              }
+            />
           </div>
         </div>
       </div>
@@ -2816,6 +2947,28 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                 </div>
               </div>
             </div>
+            <div
+              className="css-text-901oao"
+              dir="auto"
+              style={
+                Object {
+                  "WebkitTransform": "translateY(0px)",
+                  "color": "rgba(250,108,119,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                  "fontSize": "12px",
+                  "height": "18px",
+                  "marginBottom": "8px",
+                  "opacity": 0,
+                  "paddingBottom": "4px",
+                  "paddingLeft": "0px",
+                  "paddingRight": "12px",
+                  "paddingTop": "4px",
+                  "textAlign": "center",
+                  "transform": "translateY(0px)",
+                }
+              }
+            />
           </div>
         </div>
         <div
@@ -2890,7 +3043,6 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "color": "#FA6C77",
-                    "marginBottom": 8,
                     "paddingBottom": 0,
                     "paddingLeft": 0,
                     "paddingRight": 0,
@@ -4521,6 +4673,30 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                 </div>
               </div>
             </div>
+            <div
+              className="css-text-901oao"
+              dir="auto"
+              style={
+                Object {
+                  "WebkitTransform": "translateY(0px)",
+                  "color": "rgba(250,108,119,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                  "fontSize": "12px",
+                  "height": "18px",
+                  "marginBottom": "8px",
+                  "opacity": 1,
+                  "paddingBottom": "4px",
+                  "paddingLeft": "0px",
+                  "paddingRight": "12px",
+                  "paddingTop": "4px",
+                  "textAlign": "center",
+                  "transform": "translateY(0px)",
+                }
+              }
+            >
+              error
+            </div>
           </div>
         </div>
         <div
@@ -4674,12 +4850,14 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                   "direction": "ltr",
                   "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                   "fontSize": "12px",
+                  "height": "18px",
+                  "marginBottom": "8px",
                   "opacity": 1,
                   "paddingBottom": "4px",
-                  "paddingLeft": "12px",
-                  "paddingRight": "0px",
+                  "paddingLeft": "0px",
+                  "paddingRight": "12px",
                   "paddingTop": "4px",
-                  "textAlign": "left",
+                  "textAlign": "center",
                   "transform": "translateY(0px)",
                 }
               }

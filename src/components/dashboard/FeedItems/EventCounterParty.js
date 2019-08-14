@@ -11,17 +11,19 @@ const EventCounterParty = ({ feedItem, styles, style, theme }) => {
       : ''
   return (
     <Text
-      color={theme.fontStyle.color}
+      color="darkGray"
       textTransform="capitalize"
       textAlign="left"
       style={[styles.rowDataText, style]}
       numberOfLines={1}
       ellipsizeMode="tail"
     >
-      <Text fontSize={10} style={styles.direction}>
+      <Text fontSize={10} style={styles.direction} color="darkGray">
         {direction}
       </Text>
-      <Text fontWeight={500} style={styles.fullName}>{` ${feedItem.data.endpoint.fullName}${withdrawStatusText}`}</Text>
+      <Text fontWeight={500} style={styles.fullName} color="darkGray">
+        {` ${feedItem.data.endpoint.fullName}${withdrawStatusText}`}
+      </Text>
     </Text>
   )
 }

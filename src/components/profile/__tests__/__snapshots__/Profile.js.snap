@@ -1024,6 +1024,28 @@ exports[`Profile matches snapshot 1`] = `
                           </div>
                         </div>
                       </div>
+                      <div
+                        className="css-text-901oao"
+                        dir="auto"
+                        style={
+                          Object {
+                            "WebkitTransform": "translateY(0px)",
+                            "color": "rgba(250,108,119,1.00)",
+                            "direction": "ltr",
+                            "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                            "fontSize": "12px",
+                            "height": "18px",
+                            "marginBottom": "8px",
+                            "opacity": 0,
+                            "paddingBottom": "4px",
+                            "paddingLeft": "0px",
+                            "paddingRight": "12px",
+                            "paddingTop": "4px",
+                            "textAlign": "center",
+                            "transform": "translateY(0px)",
+                          }
+                        }
+                      />
                     </div>
                   </div>
                   <div
@@ -1166,6 +1188,28 @@ exports[`Profile matches snapshot 1`] = `
                           </div>
                         </div>
                       </div>
+                      <div
+                        className="css-text-901oao"
+                        dir="auto"
+                        style={
+                          Object {
+                            "WebkitTransform": "translateY(0px)",
+                            "color": "rgba(250,108,119,1.00)",
+                            "direction": "ltr",
+                            "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                            "fontSize": "12px",
+                            "height": "18px",
+                            "marginBottom": "8px",
+                            "opacity": 0,
+                            "paddingBottom": "4px",
+                            "paddingLeft": "0px",
+                            "paddingRight": "12px",
+                            "paddingTop": "4px",
+                            "textAlign": "center",
+                            "transform": "translateY(0px)",
+                          }
+                        }
+                      />
                     </div>
                   </div>
                   <div
@@ -1310,6 +1354,28 @@ exports[`Profile matches snapshot 1`] = `
                           </div>
                         </div>
                       </div>
+                      <div
+                        className="css-text-901oao"
+                        dir="auto"
+                        style={
+                          Object {
+                            "WebkitTransform": "translateY(0px)",
+                            "color": "rgba(250,108,119,1.00)",
+                            "direction": "ltr",
+                            "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                            "fontSize": "12px",
+                            "height": "18px",
+                            "marginBottom": "8px",
+                            "opacity": 0,
+                            "paddingBottom": "4px",
+                            "paddingLeft": "0px",
+                            "paddingRight": "12px",
+                            "paddingTop": "4px",
+                            "textAlign": "center",
+                            "transform": "translateY(0px)",
+                          }
+                        }
+                      />
                     </div>
                   </div>
                 </div>

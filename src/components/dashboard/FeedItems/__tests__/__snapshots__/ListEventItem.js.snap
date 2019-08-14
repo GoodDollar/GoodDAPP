@@ -350,7 +350,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
             style={
               Object {
                 "WebkitFlexShrink": 0,
-                "color": "rgba(85,85,85,1.00)",
+                "color": "rgba(66,69,74,1.00)",
                 "direction": "ltr",
                 "flexShrink": 0,
                 "fontFamily": "Roboto",
@@ -371,7 +371,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
               dir="auto"
               style={
                 Object {
-                  "color": "rgba(34,34,34,1.00)",
+                  "color": "rgba(66,69,74,1.00)",
                   "direction": "ltr",
                   "fontFamily": "Roboto",
                   "fontSize": "10px",
@@ -391,7 +391,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
               dir="auto"
               style={
                 Object {
-                  "color": "rgba(34,34,34,1.00)",
+                  "color": "rgba(66,69,74,1.00)",
                   "direction": "ltr",
                   "fontFamily": "Roboto",
                   "fontSize": "16px",
@@ -804,7 +804,7 @@ exports[`ListEventItem send matches snapshot 1`] = `
             style={
               Object {
                 "WebkitFlexShrink": 0,
-                "color": "rgba(85,85,85,1.00)",
+                "color": "rgba(66,69,74,1.00)",
                 "direction": "ltr",
                 "flexShrink": 0,
                 "fontFamily": "Roboto",
@@ -825,7 +825,7 @@ exports[`ListEventItem send matches snapshot 1`] = `
               dir="auto"
               style={
                 Object {
-                  "color": "rgba(34,34,34,1.00)",
+                  "color": "rgba(66,69,74,1.00)",
                   "direction": "ltr",
                   "fontFamily": "Roboto",
                   "fontSize": "10px",
@@ -845,7 +845,7 @@ exports[`ListEventItem send matches snapshot 1`] = `
               dir="auto"
               style={
                 Object {
-                  "color": "rgba(34,34,34,1.00)",
+                  "color": "rgba(66,69,74,1.00)",
                   "direction": "ltr",
                   "fontFamily": "Roboto",
                   "fontSize": "16px",
@@ -1258,7 +1258,7 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
             style={
               Object {
                 "WebkitFlexShrink": 0,
-                "color": "rgba(85,85,85,1.00)",
+                "color": "rgba(66,69,74,1.00)",
                 "direction": "ltr",
                 "flexShrink": 0,
                 "fontFamily": "Roboto",
@@ -1279,7 +1279,7 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
               dir="auto"
               style={
                 Object {
-                  "color": "rgba(34,34,34,1.00)",
+                  "color": "rgba(66,69,74,1.00)",
                   "direction": "ltr",
                   "fontFamily": "Roboto",
                   "fontSize": "10px",
@@ -1299,7 +1299,7 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
               dir="auto"
               style={
                 Object {
-                  "color": "rgba(34,34,34,1.00)",
+                  "color": "rgba(66,69,74,1.00)",
                   "direction": "ltr",
                   "fontFamily": "Roboto",
                   "fontSize": "16px",

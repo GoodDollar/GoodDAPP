@@ -502,7 +502,7 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                     dir="auto"
                     style={
                       Object {
-                        "color": "rgba(85,85,85,1.00)",
+                        "color": "rgba(66,69,74,1.00)",
                         "direction": "ltr",
                         "fontFamily": "Roboto",
                         "fontSize": "16px",
@@ -520,7 +520,7 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                       dir="auto"
                       style={
                         Object {
-                          "color": "rgba(34,34,34,1.00)",
+                          "color": "rgba(66,69,74,1.00)",
                           "direction": "ltr",
                           "fontFamily": "Roboto",
                           "fontSize": "10px",
@@ -540,7 +540,7 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                       dir="auto"
                       style={
                         Object {
-                          "color": "rgba(34,34,34,1.00)",
+                          "color": "rgba(66,69,74,1.00)",
                           "direction": "ltr",
                           "fontFamily": "Roboto",
                           "fontSize": "16px",
@@ -1440,7 +1440,7 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                     dir="auto"
                     style={
                       Object {
-                        "color": "rgba(85,85,85,1.00)",
+                        "color": "rgba(66,69,74,1.00)",
                         "direction": "ltr",
                         "fontFamily": "Roboto",
                         "fontSize": "16px",
@@ -1458,7 +1458,7 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                       dir="auto"
                       style={
                         Object {
-                          "color": "rgba(34,34,34,1.00)",
+                          "color": "rgba(66,69,74,1.00)",
                           "direction": "ltr",
                           "fontFamily": "Roboto",
                           "fontSize": "10px",
@@ -1478,7 +1478,7 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                       dir="auto"
                       style={
                         Object {
-                          "color": "rgba(34,34,34,1.00)",
+                          "color": "rgba(66,69,74,1.00)",
                           "direction": "ltr",
                           "fontFamily": "Roboto",
                           "fontSize": "16px",
@@ -2436,7 +2436,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                     dir="auto"
                     style={
                       Object {
-                        "color": "rgba(85,85,85,1.00)",
+                        "color": "rgba(66,69,74,1.00)",
                         "direction": "ltr",
                         "fontFamily": "Roboto",
                         "fontSize": "16px",
@@ -2454,7 +2454,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                       dir="auto"
                       style={
                         Object {
-                          "color": "rgba(34,34,34,1.00)",
+                          "color": "rgba(66,69,74,1.00)",
                           "direction": "ltr",
                           "fontFamily": "Roboto",
                           "fontSize": "10px",
@@ -2474,7 +2474,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                       dir="auto"
                       style={
                         Object {
-                          "color": "rgba(34,34,34,1.00)",
+                          "color": "rgba(66,69,74,1.00)",
                           "direction": "ltr",
                           "fontFamily": "Roboto",
                           "fontSize": "16px",
@@ -3598,7 +3598,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                     dir="auto"
                     style={
                       Object {
-                        "color": "rgba(85,85,85,1.00)",
+                        "color": "rgba(66,69,74,1.00)",
                         "direction": "ltr",
                         "fontFamily": "Roboto",
                         "fontSize": "16px",
@@ -3616,7 +3616,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                       dir="auto"
                       style={
                         Object {
-                          "color": "rgba(34,34,34,1.00)",
+                          "color": "rgba(66,69,74,1.00)",
                           "direction": "ltr",
                           "fontFamily": "Roboto",
                           "fontSize": "10px",
@@ -3636,7 +3636,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                       dir="auto"
                       style={
                         Object {
-                          "color": "rgba(34,34,34,1.00)",
+                          "color": "rgba(66,69,74,1.00)",
                           "direction": "ltr",
                           "fontFamily": "Roboto",
                           "fontSize": "16px",

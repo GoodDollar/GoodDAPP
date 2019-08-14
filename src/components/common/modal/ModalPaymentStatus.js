@@ -1,5 +1,5 @@
 import React from 'react'
-import { View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import Text from '../view/Text'
 
 const statusLabel = {
@@ -10,11 +10,20 @@ const statusLabel = {
 
 const PaymentStatus = ({ item }) =>
   item.displayType in statusLabel && (
-    <View style={{ marginVertical: '10vh' }}>
+    <View style={styles.titleStyle}>
       <Text color="primary" fontSize={22} fontWeight="500">
         {statusLabel[item.displayType]}
       </Text>
     </View>
   )
+
+const styles = StyleSheet.create({
+  titleStyle: {
+    height: 110,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+})
 
 export default PaymentStatus

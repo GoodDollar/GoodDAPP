@@ -78,6 +78,7 @@ const backupWalletStyles = ({ theme }) => ({
     marginBottom: theme.paddings.defaultMargin,
   },
   resendButton: {
+    color: theme.colors.primary,
     fontWeight: 'normal',
     fontSize: normalize(15),
     letterSpacing: 'initial',

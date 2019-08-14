@@ -835,7 +835,7 @@ exports[`Dashboard matches snapshot 1`] = `
                         "fontSize": "16px",
                         "fontStyle": "normal",
                         "fontWeight": "normal",
-                        "marginRight": "8px",
+                        "marginRight": "16px",
                       }
                     }
                   >
@@ -857,6 +857,7 @@ exports[`Dashboard matches snapshot 1`] = `
                         "fontSize": "16px",
                         "fontWeight": "500",
                         "justifyContent": "center",
+                        "letterSpacing": "0px",
                         "marginBottom": "0px",
                         "marginLeft": "0px",
                         "marginRight": "16px",
@@ -970,6 +971,7 @@ exports[`Dashboard matches snapshot 1`] = `
                     "alignItems": "center",
                     "flexDirection": "row",
                     "justifyContent": "center",
+                    "letterSpacing": "0px",
                     "msFlexAlign": "center",
                     "msFlexDirection": "row",
                     "msFlexPack": "center",
@@ -1144,6 +1146,7 @@ exports[`Dashboard matches snapshot 1`] = `
                         "fontSize": "16px",
                         "fontWeight": "500",
                         "justifyContent": "center",
+                        "letterSpacing": "0px",
                         "marginBottom": "0px",
                         "marginLeft": "16px",
                         "marginRight": "0px",
@@ -1171,7 +1174,7 @@ exports[`Dashboard matches snapshot 1`] = `
                         "fontSize": "16px",
                         "fontStyle": "normal",
                         "fontWeight": "normal",
-                        "marginLeft": "8px",
+                        "marginLeft": "16px",
                       }
                     }
                   >

@@ -4635,9 +4635,7 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                 </div>
                 <div
                   className="react-phone-number-input__error"
-                >
-                  error
-                </div>
+                />
               </div>
               <div
                 className="css-view-1dbjc4n"

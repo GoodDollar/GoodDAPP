@@ -79,7 +79,6 @@ const getStylesFromProps = ({ theme }) => ({
   },
   saveButton: {
     width: 80,
-    paddingHorizontal: theme.sizes.defaultDouble,
   },
   customButtonText: {
     fontWeight: 'bold',

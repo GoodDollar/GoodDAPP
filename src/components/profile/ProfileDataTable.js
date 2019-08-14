@@ -31,7 +31,7 @@ const ProfileDataTable = ({ profile, onChange, errors: errorsProp, editable, the
             <Section.Stack grow>
               <Section.Row>
                 <PhoneInput
-                  error={errors.mobile}
+                  error={errors.mobile && errors.mobile !== ''}
                   id="signup_phone"
                   onChange={value => onChange({ ...profile, mobile: value })}
                   placeholder="Enter phone number"

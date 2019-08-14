@@ -35,7 +35,7 @@ export function generateCode(
  * @returns {null|{amount: *, address, networkId: number, reason: string}}
  */
 export function readCode(code: string) {
-  const [mnid, value, reason] = code.split('|')
+  let [mnid, value, reason, counterPartyDisplayName] = code.split('|')
 
   if (!isMNID(mnid)) {
     return null
@@ -43,12 +43,15 @@ export function readCode(code: string) {
 
   const { network, address } = decode(mnid)
   const amount = value && parseInt(value)
+  reason = reason === 'undefined' ? undefined : reason
+  counterPartyDisplayName = counterPartyDisplayName === 'undefined' ? undefined : counterPartyDisplayName
 
   return {
     networkId: parseInt(network),
     address,
     amount: amount ? amount : undefined,
     reason,
+    counterPartyDisplayName,
   }
 }
 

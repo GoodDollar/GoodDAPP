@@ -560,7 +560,7 @@ exports[`Claim matches snapshot 1`] = `
                 }
               }
             >
-              --
+              0
                
             </span>
             <span
@@ -599,7 +599,7 @@ exports[`Claim matches snapshot 1`] = `
                 }
               }
             >
-              --
+              0
             </span>
             <span
               className="css-text-901oao css-textHasAncestor-16my406"
@@ -796,6 +796,7 @@ exports[`Claim matches snapshot 1`] = `
                   "alignItems": "center",
                   "flexDirection": "row",
                   "justifyContent": "center",
+                  "letterSpacing": "0px",
                   "msFlexAlign": "center",
                   "msFlexDirection": "row",
                   "msFlexPack": "center",
@@ -835,6 +836,7 @@ exports[`Claim matches snapshot 1`] = `
                       "fontSize": "16px",
                       "fontWeight": "500",
                       "justifyContent": "center",
+                      "letterSpacing": "0px",
                       "marginBottom": "0px",
                       "marginLeft": "0px",
                       "marginRight": "0px",

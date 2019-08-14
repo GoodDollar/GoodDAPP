@@ -1,6 +1,7 @@
 // @flow
 import React from 'react'
-import { Button as BaseButton, DefaultTheme, Text } from 'react-native-paper'
+import { View } from 'react-native'
+import { ActivityIndicator, Button as BaseButton, DefaultTheme, Text } from 'react-native-paper'
 import { withStyles } from '../../../lib/styles'
 import Icon from '../view/Icon'
 import normalize from '../../../lib/utils/normalizeText'
@@ -37,9 +38,12 @@ const mapPropsToStyles = ({ theme }) => ({
   buttonStyle: {
     borderColor: theme.colors.primary,
     justifyContent: 'center',
+    alignItems: 'center',
     minHeight: 44,
     paddingLeft: 0,
     paddingRight: 0,
+    padding: 0,
+    margin: 0,
   },
   leftIcon: {
     marginRight: theme.sizes.default,
@@ -61,6 +65,16 @@ const mapPropsToStyles = ({ theme }) => ({
     paddingLeft: 0,
     paddingRight: 0,
     paddingTop: 1,
+  },
+  contentWrapper: {
+    alignItems: 'center',
+    display: 'flex',
+    flexDirection: 'row',
+    flex: 1,
+  },
+  activityIndicator: {
+    marginRight: theme.sizes.default,
+    alignSelf: 'center',
   },
 })
 
@@ -118,7 +132,19 @@ const IconButton = ({ theme, dark, icon, size, style }: IconButtonProps) => {
  * @returns {React.Node}
  */
 const CustomButton = (props: ButtonProps) => {
-  const { theme, mode, style, children, icon, iconAlignment, iconSize, styles, textStyle, ...buttonProps } = props
+  const {
+    theme,
+    mode,
+    style,
+    children,
+    icon,
+    iconAlignment,
+    iconSize,
+    styles,
+    textStyle,
+    loading,
+    ...buttonProps
+  } = props
   const dark = mode === 'contained'
   const uppercase = mode !== 'text'
   return (
@@ -129,18 +155,23 @@ const CustomButton = (props: ButtonProps) => {
       style={[styles.buttonStyle, style]}
       theme={{ ...theme, roundness: 50 }}
       uppercase={uppercase}
-      onPress={!props.loading && props.onPress}
+      onPress={!loading && props.onPress}
       {...buttonProps}
     >
-      {icon && (!iconAlignment || iconAlignment === 'left') && (
-        <IconButton icon={icon} theme={theme} dark={dark} size={iconSize} style={styles.leftIcon} />
-      )}
-      <TextContent dark={dark} uppercase={uppercase} textStyle={textStyle}>
-        {children}
-      </TextContent>
-      {icon && iconAlignment === 'right' && (
-        <IconButton icon={icon} theme={theme} dark={dark} size={iconSize} style={styles.rightIcon} />
-      )}
+      <View style={styles.contentWrapper}>
+        {icon && (!iconAlignment || iconAlignment === 'left') && (
+          <IconButton icon={icon} theme={theme} dark={dark} size={iconSize} style={styles.leftIcon} />
+        )}
+        {loading && (
+          <ActivityIndicator style={styles.activityIndicator} animating={loading} color={'#fff'} size={iconSize} />
+        )}
+        <TextContent dark={dark} uppercase={uppercase} textStyle={textStyle}>
+          {children}
+        </TextContent>
+        {icon && iconAlignment === 'right' && (
+          <IconButton icon={icon} theme={theme} dark={dark} size={iconSize} style={styles.rightIcon} />
+        )}
+      </View>
     </BaseButton>
   )
 }

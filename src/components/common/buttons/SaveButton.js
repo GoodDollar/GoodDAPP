@@ -50,6 +50,7 @@ const SaveButton = ({ children, onPress, onPressDone, doneDelay, styles, theme, 
           color={props.color || theme.colors.darkBlue}
           loading={state === SAVING}
           compact={state !== NOT_SAVED}
+          iconSize={16}
           {...props}
           onPress={pressAndNextState}
         >
@@ -82,7 +83,6 @@ const getStylesFromProps = ({ theme }) => ({
   },
   customButtonText: {
     fontWeight: 'bold',
-    lineHeight: 0,
     paddingTop: 1,
   },
   iconButton: {

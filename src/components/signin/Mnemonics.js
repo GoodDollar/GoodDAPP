@@ -7,6 +7,7 @@ import { AsyncStorage } from 'react-native'
 import logger from '../../lib/logger/pino-logger'
 import { withStyles } from '../../lib/styles'
 import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
+import { getFirstWord } from '../../lib/utils/getFirstWord'
 import Text from '../common/view/Text'
 import Section from '../common/layout/Section'
 import { showSupportDialog } from '../common/dialogs/showSupportDialog'
@@ -32,11 +33,15 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
 
   const recover = async () => {
     setRecovering(true)
-    if (!mnemonics || !bip39.validateMnemonic(mnemonics)) {
+
+    const showError = () =>
       showErrorDialog('Your pass phrase appears\nto be incorrect.', undefined, {
-        boldMessage: 'Please check it and try again',
+        boldMessage: 'Please check it and try again.',
       })
+
+    if (!mnemonics || !bip39.validateMnemonic(mnemonics)) {
       setRecovering(false)
+      showError()
       return
     }
 
@@ -54,7 +59,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
       if (profile) {
         await AsyncStorage.setItem('GOODDAPP_isLoggedIn', true)
         const incomingRedirectUrl = get(navigation, 'state.params.redirect', '/')
-        const firstName = fullName.split(' ')[0]
+        const firstName = getFirstWord(fullName)
         showDialog({
           visible: true,
           title: 'Welcome back!',
@@ -67,9 +72,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
         // window.location = incomingRedirectUrl
       } else {
         await saveMnemonics(prevMnemonics)
-        showErrorDialog('Your pass phrase appears\nto be incorrect.', undefined, {
-          boldMessage: 'Please check it and try again',
-        })
+        showError()
       }
     } catch (err) {
       log.error(err)

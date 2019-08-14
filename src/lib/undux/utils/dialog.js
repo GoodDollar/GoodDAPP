@@ -12,11 +12,12 @@ export const showDialogForError = (
   dialogProps?: DialogProps
 ) => {
   let message = ''
+
   if (error === undefined && humanError && typeof humanError !== 'string') {
     error = humanError
     humanError = undefined
   }
-  if (error === undefined && message === undefined) {
+  if (error === undefined && humanError === undefined) {
     message = 'Unknown Error'
   } else if (error === undefined) {
     message = ''
@@ -35,7 +36,7 @@ export const showDialogForError = (
   }
 
   message = humanError ? humanError + '\n' + message : message
-  const dialogData = { visible: true, title: 'Ooops..', message, dismissText: 'OK', type: 'error', ...dialogProps }
+  const dialogData = { visible: true, title: 'Ooops...', message, dismissText: 'OK', type: 'error', ...dialogProps }
   showDialogWithData(store, dialogData)
 }
 

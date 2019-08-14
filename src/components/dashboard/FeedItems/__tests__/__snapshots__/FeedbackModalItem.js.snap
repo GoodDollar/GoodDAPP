@@ -129,8 +129,11 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
+              "WebkitAlignItems": "center",
+              "WebkitBoxAlign": "center",
               "WebkitBoxPack": "center",
               "WebkitJustifyContent": "center",
+              "alignItems": "center",
               "backgroundColor": "rgba(0,0,0,0.00)",
               "borderBottomColor": "rgba(231,56,56,1.00)",
               "borderBottomLeftRadius": "50%",
@@ -150,11 +153,18 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
               "borderTopWidth": "2px",
               "height": "32px",
               "justifyContent": "center",
+              "marginBottom": "0px",
+              "marginLeft": "0px",
+              "marginRight": "0px",
+              "marginTop": "0px",
               "minHeight": "32px",
               "minWidth": "auto",
+              "msFlexAlign": "center",
               "msFlexPack": "center",
+              "paddingBottom": "0px",
               "paddingLeft": "0px",
               "paddingRight": "0px",
+              "paddingTop": "0px",
               "width": "32px",
             }
           }
@@ -226,7 +236,35 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
                   }
                 }
               >
-                0
+                <div
+                  className="css-view-1dbjc4n"
+                  style={
+                    Object {
+                      "WebkitAlignItems": "center",
+                      "WebkitBoxAlign": "center",
+                      "WebkitBoxDirection": "normal",
+                      "WebkitBoxFlex": 1,
+                      "WebkitBoxOrient": "horizontal",
+                      "WebkitFlexBasis": "0%",
+                      "WebkitFlexDirection": "row",
+                      "WebkitFlexGrow": 1,
+                      "WebkitFlexShrink": 1,
+                      "alignItems": "center",
+                      "display": "flex",
+                      "flexBasis": "0%",
+                      "flexDirection": "row",
+                      "flexGrow": 1,
+                      "flexShrink": 1,
+                      "msFlexAlign": "center",
+                      "msFlexDirection": "row",
+                      "msFlexNegative": 1,
+                      "msFlexPositive": 1,
+                      "msFlexPreferredSize": "0%",
+                    }
+                  }
+                >
+                  0
+                </div>
               </div>
             </div>
           </div>
@@ -249,8 +287,11 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
+              "WebkitAlignItems": "center",
+              "WebkitBoxAlign": "center",
               "WebkitBoxPack": "center",
               "WebkitJustifyContent": "center",
+              "alignItems": "center",
               "backgroundColor": "rgba(0,0,0,0.00)",
               "borderBottomColor": "rgba(244,71,74,1.00)",
               "borderBottomLeftRadius": "50%",
@@ -270,11 +311,18 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
               "borderTopWidth": "2px",
               "height": "32px",
               "justifyContent": "center",
+              "marginBottom": "0px",
+              "marginLeft": "0px",
+              "marginRight": "0px",
+              "marginTop": "0px",
               "minHeight": "32px",
               "minWidth": "auto",
+              "msFlexAlign": "center",
               "msFlexPack": "center",
+              "paddingBottom": "0px",
               "paddingLeft": "0px",
               "paddingRight": "0px",
+              "paddingTop": "0px",
               "width": "32px",
             }
           }
@@ -346,7 +394,35 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
                   }
                 }
               >
-                1
+                <div
+                  className="css-view-1dbjc4n"
+                  style={
+                    Object {
+                      "WebkitAlignItems": "center",
+                      "WebkitBoxAlign": "center",
+                      "WebkitBoxDirection": "normal",
+                      "WebkitBoxFlex": 1,
+                      "WebkitBoxOrient": "horizontal",
+                      "WebkitFlexBasis": "0%",
+                      "WebkitFlexDirection": "row",
+                      "WebkitFlexGrow": 1,
+                      "WebkitFlexShrink": 1,
+                      "alignItems": "center",
+                      "display": "flex",
+                      "flexBasis": "0%",
+                      "flexDirection": "row",
+                      "flexGrow": 1,
+                      "flexShrink": 1,
+                      "msFlexAlign": "center",
+                      "msFlexDirection": "row",
+                      "msFlexNegative": 1,
+                      "msFlexPositive": 1,
+                      "msFlexPreferredSize": "0%",
+                    }
+                  }
+                >
+                  1
+                </div>
               </div>
             </div>
           </div>
@@ -369,8 +445,11 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
+              "WebkitAlignItems": "center",
+              "WebkitBoxAlign": "center",
               "WebkitBoxPack": "center",
               "WebkitJustifyContent": "center",
+              "alignItems": "center",
               "backgroundColor": "rgba(0,0,0,0.00)",
               "borderBottomColor": "rgba(252,102,74,1.00)",
               "borderBottomLeftRadius": "50%",
@@ -390,11 +469,18 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
               "borderTopWidth": "2px",
               "height": "32px",
               "justifyContent": "center",
+              "marginBottom": "0px",
+              "marginLeft": "0px",
+              "marginRight": "0px",
+              "marginTop": "0px",
               "minHeight": "32px",
               "minWidth": "auto",
+              "msFlexAlign": "center",
               "msFlexPack": "center",
+              "paddingBottom": "0px",
               "paddingLeft": "0px",
               "paddingRight": "0px",
+              "paddingTop": "0px",
               "width": "32px",
             }
           }
@@ -466,7 +552,35 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
                   }
                 }
               >
-                2
+                <div
+                  className="css-view-1dbjc4n"
+                  style={
+                    Object {
+                      "WebkitAlignItems": "center",
+                      "WebkitBoxAlign": "center",
+                      "WebkitBoxDirection": "normal",
+                      "WebkitBoxFlex": 1,
+                      "WebkitBoxOrient": "horizontal",
+                      "WebkitFlexBasis": "0%",
+                      "WebkitFlexDirection": "row",
+                      "WebkitFlexGrow": 1,
+                      "WebkitFlexShrink": 1,
+                      "alignItems": "center",
+                      "display": "flex",
+                      "flexBasis": "0%",
+                      "flexDirection": "row",
+                      "flexGrow": 1,
+                      "flexShrink": 1,
+                      "msFlexAlign": "center",
+                      "msFlexDirection": "row",
+                      "msFlexNegative": 1,
+                      "msFlexPositive": 1,
+                      "msFlexPreferredSize": "0%",
+                    }
+                  }
+                >
+                  2
+                </div>
               </div>
             </div>
           </div>
@@ -489,8 +603,11 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
+              "WebkitAlignItems": "center",
+              "WebkitBoxAlign": "center",
               "WebkitBoxPack": "center",
               "WebkitJustifyContent": "center",
+              "alignItems": "center",
               "backgroundColor": "rgba(0,0,0,0.00)",
               "borderBottomColor": "rgba(253,135,68,1.00)",
               "borderBottomLeftRadius": "50%",
@@ -510,11 +627,18 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
               "borderTopWidth": "2px",
               "height": "32px",
               "justifyContent": "center",
+              "marginBottom": "0px",
+              "marginLeft": "0px",
+              "marginRight": "0px",
+              "marginTop": "0px",
               "minHeight": "32px",
               "minWidth": "auto",
+              "msFlexAlign": "center",
               "msFlexPack": "center",
+              "paddingBottom": "0px",
               "paddingLeft": "0px",
               "paddingRight": "0px",
+              "paddingTop": "0px",
               "width": "32px",
             }
           }
@@ -586,7 +710,35 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
                   }
                 }
               >
-                3
+                <div
+                  className="css-view-1dbjc4n"
+                  style={
+                    Object {
+                      "WebkitAlignItems": "center",
+                      "WebkitBoxAlign": "center",
+                      "WebkitBoxDirection": "normal",
+                      "WebkitBoxFlex": 1,
+                      "WebkitBoxOrient": "horizontal",
+                      "WebkitFlexBasis": "0%",
+                      "WebkitFlexDirection": "row",
+                      "WebkitFlexGrow": 1,
+                      "WebkitFlexShrink": 1,
+                      "alignItems": "center",
+                      "display": "flex",
+                      "flexBasis": "0%",
+                      "flexDirection": "row",
+                      "flexGrow": 1,
+                      "flexShrink": 1,
+                      "msFlexAlign": "center",
+                      "msFlexDirection": "row",
+                      "msFlexNegative": 1,
+                      "msFlexPositive": 1,
+                      "msFlexPreferredSize": "0%",
+                    }
+                  }
+                >
+                  3
+                </div>
               </div>
             </div>
           </div>
@@ -609,8 +761,11 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
+              "WebkitAlignItems": "center",
+              "WebkitBoxAlign": "center",
               "WebkitBoxPack": "center",
               "WebkitJustifyContent": "center",
+              "alignItems": "center",
               "backgroundColor": "rgba(0,0,0,0.00)",
               "borderBottomColor": "rgba(254,167,63,1.00)",
               "borderBottomLeftRadius": "50%",
@@ -630,11 +785,18 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
               "borderTopWidth": "2px",
               "height": "32px",
               "justifyContent": "center",
+              "marginBottom": "0px",
+              "marginLeft": "0px",
+              "marginRight": "0px",
+              "marginTop": "0px",
               "minHeight": "32px",
               "minWidth": "auto",
+              "msFlexAlign": "center",
               "msFlexPack": "center",
+              "paddingBottom": "0px",
               "paddingLeft": "0px",
               "paddingRight": "0px",
+              "paddingTop": "0px",
               "width": "32px",
             }
           }
@@ -706,7 +868,35 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
                   }
                 }
               >
-                4
+                <div
+                  className="css-view-1dbjc4n"
+                  style={
+                    Object {
+                      "WebkitAlignItems": "center",
+                      "WebkitBoxAlign": "center",
+                      "WebkitBoxDirection": "normal",
+                      "WebkitBoxFlex": 1,
+                      "WebkitBoxOrient": "horizontal",
+                      "WebkitFlexBasis": "0%",
+                      "WebkitFlexDirection": "row",
+                      "WebkitFlexGrow": 1,
+                      "WebkitFlexShrink": 1,
+                      "alignItems": "center",
+                      "display": "flex",
+                      "flexBasis": "0%",
+                      "flexDirection": "row",
+                      "flexGrow": 1,
+                      "flexShrink": 1,
+                      "msFlexAlign": "center",
+                      "msFlexDirection": "row",
+                      "msFlexNegative": 1,
+                      "msFlexPositive": 1,
+                      "msFlexPreferredSize": "0%",
+                    }
+                  }
+                >
+                  4
+                </div>
               </div>
             </div>
           </div>
@@ -729,8 +919,11 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
+              "WebkitAlignItems": "center",
+              "WebkitBoxAlign": "center",
               "WebkitBoxPack": "center",
               "WebkitJustifyContent": "center",
+              "alignItems": "center",
               "backgroundColor": "rgba(0,0,0,0.00)",
               "borderBottomColor": "rgba(255,194,31,1.00)",
               "borderBottomLeftRadius": "50%",
@@ -750,11 +943,18 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
               "borderTopWidth": "2px",
               "height": "32px",
               "justifyContent": "center",
+              "marginBottom": "0px",
+              "marginLeft": "0px",
+              "marginRight": "0px",
+              "marginTop": "0px",
               "minHeight": "32px",
               "minWidth": "auto",
+              "msFlexAlign": "center",
               "msFlexPack": "center",
+              "paddingBottom": "0px",
               "paddingLeft": "0px",
               "paddingRight": "0px",
+              "paddingTop": "0px",
               "width": "32px",
             }
           }
@@ -826,7 +1026,35 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
                   }
                 }
               >
-                5
+                <div
+                  className="css-view-1dbjc4n"
+                  style={
+                    Object {
+                      "WebkitAlignItems": "center",
+                      "WebkitBoxAlign": "center",
+                      "WebkitBoxDirection": "normal",
+                      "WebkitBoxFlex": 1,
+                      "WebkitBoxOrient": "horizontal",
+                      "WebkitFlexBasis": "0%",
+                      "WebkitFlexDirection": "row",
+                      "WebkitFlexGrow": 1,
+                      "WebkitFlexShrink": 1,
+                      "alignItems": "center",
+                      "display": "flex",
+                      "flexBasis": "0%",
+                      "flexDirection": "row",
+                      "flexGrow": 1,
+                      "flexShrink": 1,
+                      "msFlexAlign": "center",
+                      "msFlexDirection": "row",
+                      "msFlexNegative": 1,
+                      "msFlexPositive": 1,
+                      "msFlexPreferredSize": "0%",
+                    }
+                  }
+                >
+                  5
+                </div>
               </div>
             </div>
           </div>
@@ -876,8 +1104,11 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
+              "WebkitAlignItems": "center",
+              "WebkitBoxAlign": "center",
               "WebkitBoxPack": "center",
               "WebkitJustifyContent": "center",
+              "alignItems": "center",
               "backgroundColor": "rgba(0,0,0,0.00)",
               "borderBottomColor": "rgba(226,197,23,1.00)",
               "borderBottomLeftRadius": "50%",
@@ -897,11 +1128,18 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
               "borderTopWidth": "2px",
               "height": "32px",
               "justifyContent": "center",
+              "marginBottom": "0px",
+              "marginLeft": "0px",
+              "marginRight": "0px",
+              "marginTop": "0px",
               "minHeight": "32px",
               "minWidth": "auto",
+              "msFlexAlign": "center",
               "msFlexPack": "center",
+              "paddingBottom": "0px",
               "paddingLeft": "0px",
               "paddingRight": "0px",
+              "paddingTop": "0px",
               "width": "32px",
             }
           }
@@ -973,7 +1211,35 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
                   }
                 }
               >
-                6
+                <div
+                  className="css-view-1dbjc4n"
+                  style={
+                    Object {
+                      "WebkitAlignItems": "center",
+                      "WebkitBoxAlign": "center",
+                      "WebkitBoxDirection": "normal",
+                      "WebkitBoxFlex": 1,
+                      "WebkitBoxOrient": "horizontal",
+                      "WebkitFlexBasis": "0%",
+                      "WebkitFlexDirection": "row",
+                      "WebkitFlexGrow": 1,
+                      "WebkitFlexShrink": 1,
+                      "alignItems": "center",
+                      "display": "flex",
+                      "flexBasis": "0%",
+                      "flexDirection": "row",
+                      "flexGrow": 1,
+                      "flexShrink": 1,
+                      "msFlexAlign": "center",
+                      "msFlexDirection": "row",
+                      "msFlexNegative": 1,
+                      "msFlexPositive": 1,
+                      "msFlexPreferredSize": "0%",
+                    }
+                  }
+                >
+                  6
+                </div>
               </div>
             </div>
           </div>
@@ -996,8 +1262,11 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
+              "WebkitAlignItems": "center",
+              "WebkitBoxAlign": "center",
               "WebkitBoxPack": "center",
               "WebkitJustifyContent": "center",
+              "alignItems": "center",
               "backgroundColor": "rgba(0,0,0,0.00)",
               "borderBottomColor": "rgba(192,202,14,1.00)",
               "borderBottomLeftRadius": "50%",
@@ -1017,11 +1286,18 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
               "borderTopWidth": "2px",
               "height": "32px",
               "justifyContent": "center",
+              "marginBottom": "0px",
+              "marginLeft": "0px",
+              "marginRight": "0px",
+              "marginTop": "0px",
               "minHeight": "32px",
               "minWidth": "auto",
+              "msFlexAlign": "center",
               "msFlexPack": "center",
+              "paddingBottom": "0px",
               "paddingLeft": "0px",
               "paddingRight": "0px",
+              "paddingTop": "0px",
               "width": "32px",
             }
           }
@@ -1093,7 +1369,35 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
                   }
                 }
               >
-                7
+                <div
+                  className="css-view-1dbjc4n"
+                  style={
+                    Object {
+                      "WebkitAlignItems": "center",
+                      "WebkitBoxAlign": "center",
+                      "WebkitBoxDirection": "normal",
+                      "WebkitBoxFlex": 1,
+                      "WebkitBoxOrient": "horizontal",
+                      "WebkitFlexBasis": "0%",
+                      "WebkitFlexDirection": "row",
+                      "WebkitFlexGrow": 1,
+                      "WebkitFlexShrink": 1,
+                      "alignItems": "center",
+                      "display": "flex",
+                      "flexBasis": "0%",
+                      "flexDirection": "row",
+                      "flexGrow": 1,
+                      "flexShrink": 1,
+                      "msFlexAlign": "center",
+                      "msFlexDirection": "row",
+                      "msFlexNegative": 1,
+                      "msFlexPositive": 1,
+                      "msFlexPreferredSize": "0%",
+                    }
+                  }
+                >
+                  7
+                </div>
               </div>
             </div>
           </div>
@@ -1116,8 +1420,11 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
+              "WebkitAlignItems": "center",
+              "WebkitBoxAlign": "center",
               "WebkitBoxPack": "center",
               "WebkitJustifyContent": "center",
+              "alignItems": "center",
               "backgroundColor": "rgba(0,0,0,0.00)",
               "borderBottomColor": "rgba(158,204,6,1.00)",
               "borderBottomLeftRadius": "50%",
@@ -1137,11 +1444,18 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
               "borderTopWidth": "2px",
               "height": "32px",
               "justifyContent": "center",
+              "marginBottom": "0px",
+              "marginLeft": "0px",
+              "marginRight": "0px",
+              "marginTop": "0px",
               "minHeight": "32px",
               "minWidth": "auto",
+              "msFlexAlign": "center",
               "msFlexPack": "center",
+              "paddingBottom": "0px",
               "paddingLeft": "0px",
               "paddingRight": "0px",
+              "paddingTop": "0px",
               "width": "32px",
             }
           }
@@ -1213,7 +1527,35 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
                   }
                 }
               >
-                8
+                <div
+                  className="css-view-1dbjc4n"
+                  style={
+                    Object {
+                      "WebkitAlignItems": "center",
+                      "WebkitBoxAlign": "center",
+                      "WebkitBoxDirection": "normal",
+                      "WebkitBoxFlex": 1,
+                      "WebkitBoxOrient": "horizontal",
+                      "WebkitFlexBasis": "0%",
+                      "WebkitFlexDirection": "row",
+                      "WebkitFlexGrow": 1,
+                      "WebkitFlexShrink": 1,
+                      "alignItems": "center",
+                      "display": "flex",
+                      "flexBasis": "0%",
+                      "flexDirection": "row",
+                      "flexGrow": 1,
+                      "flexShrink": 1,
+                      "msFlexAlign": "center",
+                      "msFlexDirection": "row",
+                      "msFlexNegative": 1,
+                      "msFlexPositive": 1,
+                      "msFlexPreferredSize": "0%",
+                    }
+                  }
+                >
+                  8
+                </div>
               </div>
             </div>
           </div>
@@ -1236,8 +1578,11 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
+              "WebkitAlignItems": "center",
+              "WebkitBoxAlign": "center",
               "WebkitBoxPack": "center",
               "WebkitJustifyContent": "center",
+              "alignItems": "center",
               "backgroundColor": "rgba(0,0,0,0.00)",
               "borderBottomColor": "rgba(124,203,0,1.00)",
               "borderBottomLeftRadius": "50%",
@@ -1257,11 +1602,18 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
               "borderTopWidth": "2px",
               "height": "32px",
               "justifyContent": "center",
+              "marginBottom": "0px",
+              "marginLeft": "0px",
+              "marginRight": "0px",
+              "marginTop": "0px",
               "minHeight": "32px",
               "minWidth": "auto",
+              "msFlexAlign": "center",
               "msFlexPack": "center",
+              "paddingBottom": "0px",
               "paddingLeft": "0px",
               "paddingRight": "0px",
+              "paddingTop": "0px",
               "width": "32px",
             }
           }
@@ -1333,7 +1685,35 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
                   }
                 }
               >
-                9
+                <div
+                  className="css-view-1dbjc4n"
+                  style={
+                    Object {
+                      "WebkitAlignItems": "center",
+                      "WebkitBoxAlign": "center",
+                      "WebkitBoxDirection": "normal",
+                      "WebkitBoxFlex": 1,
+                      "WebkitBoxOrient": "horizontal",
+                      "WebkitFlexBasis": "0%",
+                      "WebkitFlexDirection": "row",
+                      "WebkitFlexGrow": 1,
+                      "WebkitFlexShrink": 1,
+                      "alignItems": "center",
+                      "display": "flex",
+                      "flexBasis": "0%",
+                      "flexDirection": "row",
+                      "flexGrow": 1,
+                      "flexShrink": 1,
+                      "msFlexAlign": "center",
+                      "msFlexDirection": "row",
+                      "msFlexNegative": 1,
+                      "msFlexPositive": 1,
+                      "msFlexPreferredSize": "0%",
+                    }
+                  }
+                >
+                  9
+                </div>
               </div>
             </div>
           </div>
@@ -1356,8 +1736,11 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
+              "WebkitAlignItems": "center",
+              "WebkitBoxAlign": "center",
               "WebkitBoxPack": "center",
               "WebkitJustifyContent": "center",
+              "alignItems": "center",
               "backgroundColor": "rgba(0,0,0,0.00)",
               "borderBottomColor": "rgba(49,171,0,1.00)",
               "borderBottomLeftRadius": "50%",
@@ -1377,11 +1760,18 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
               "borderTopWidth": "2px",
               "height": "32px",
               "justifyContent": "center",
+              "marginBottom": "0px",
+              "marginLeft": "0px",
+              "marginRight": "0px",
+              "marginTop": "0px",
               "minHeight": "32px",
               "minWidth": "auto",
+              "msFlexAlign": "center",
               "msFlexPack": "center",
+              "paddingBottom": "0px",
               "paddingLeft": "0px",
               "paddingRight": "0px",
+              "paddingTop": "0px",
               "width": "32px",
             }
           }
@@ -1453,7 +1843,35 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
                   }
                 }
               >
-                10
+                <div
+                  className="css-view-1dbjc4n"
+                  style={
+                    Object {
+                      "WebkitAlignItems": "center",
+                      "WebkitBoxAlign": "center",
+                      "WebkitBoxDirection": "normal",
+                      "WebkitBoxFlex": 1,
+                      "WebkitBoxOrient": "horizontal",
+                      "WebkitFlexBasis": "0%",
+                      "WebkitFlexDirection": "row",
+                      "WebkitFlexGrow": 1,
+                      "WebkitFlexShrink": 1,
+                      "alignItems": "center",
+                      "display": "flex",
+                      "flexBasis": "0%",
+                      "flexDirection": "row",
+                      "flexGrow": 1,
+                      "flexShrink": 1,
+                      "msFlexAlign": "center",
+                      "msFlexDirection": "row",
+                      "msFlexNegative": 1,
+                      "msFlexPositive": 1,
+                      "msFlexPreferredSize": "0%",
+                    }
+                  }
+                >
+                  10
+                </div>
               </div>
             </div>
           </div>
@@ -1561,8 +1979,11 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
       className="css-view-1dbjc4n"
       style={
         Object {
+          "WebkitAlignItems": "center",
+          "WebkitBoxAlign": "center",
           "WebkitBoxPack": "center",
           "WebkitJustifyContent": "center",
+          "alignItems": "center",
           "backgroundColor": "rgba(0,0,0,0.00)",
           "borderBottomColor": "rgba(0,175,255,1.00)",
           "borderBottomLeftRadius": "50px",
@@ -1581,11 +2002,18 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
           "borderTopStyle": "solid",
           "borderTopWidth": "0px",
           "justifyContent": "center",
+          "marginBottom": "0px",
+          "marginLeft": "0px",
+          "marginRight": "0px",
+          "marginTop": "0px",
           "minHeight": "44px",
           "minWidth": "80px",
+          "msFlexAlign": "center",
           "msFlexPack": "center",
+          "paddingBottom": "0px",
           "paddingLeft": "0px",
           "paddingRight": "0px",
+          "paddingTop": "0px",
         }
       }
     >
@@ -1656,38 +2084,66 @@ exports[`FeedbackModalItem matches snapshot 1`] = `
               }
             }
           >
-            <span
-              className="css-text-901oao css-textHasAncestor-16my406"
-              dir="auto"
+            <div
+              className="css-view-1dbjc4n"
               style={
                 Object {
                   "WebkitAlignItems": "center",
                   "WebkitBoxAlign": "center",
-                  "WebkitBoxPack": "center",
-                  "WebkitJustifyContent": "center",
+                  "WebkitBoxDirection": "normal",
+                  "WebkitBoxFlex": 1,
+                  "WebkitBoxOrient": "horizontal",
+                  "WebkitFlexBasis": "0%",
+                  "WebkitFlexDirection": "row",
+                  "WebkitFlexGrow": 1,
+                  "WebkitFlexShrink": 1,
                   "alignItems": "center",
-                  "direction": "ltr",
-                  "fontFamily": "Roboto",
-                  "fontSize": "16px",
-                  "fontWeight": "500",
-                  "justifyContent": "center",
-                  "marginBottom": "0px",
-                  "marginLeft": "0px",
-                  "marginRight": "0px",
-                  "marginTop": "0px",
+                  "display": "flex",
+                  "flexBasis": "0%",
+                  "flexDirection": "row",
+                  "flexGrow": 1,
+                  "flexShrink": 1,
                   "msFlexAlign": "center",
-                  "msFlexPack": "center",
-                  "paddingBottom": "0px",
-                  "paddingLeft": "0px",
-                  "paddingRight": "0px",
-                  "paddingTop": "1px",
-                  "textAlign": "left",
-                  "textTransform": "none",
+                  "msFlexDirection": "row",
+                  "msFlexNegative": 1,
+                  "msFlexPositive": 1,
+                  "msFlexPreferredSize": "0%",
                 }
               }
             >
-              LATER
-            </span>
+              <span
+                className="css-text-901oao css-textHasAncestor-16my406"
+                dir="auto"
+                style={
+                  Object {
+                    "WebkitAlignItems": "center",
+                    "WebkitBoxAlign": "center",
+                    "WebkitBoxPack": "center",
+                    "WebkitJustifyContent": "center",
+                    "alignItems": "center",
+                    "direction": "ltr",
+                    "fontFamily": "Roboto",
+                    "fontSize": "16px",
+                    "fontWeight": "500",
+                    "justifyContent": "center",
+                    "marginBottom": "0px",
+                    "marginLeft": "0px",
+                    "marginRight": "0px",
+                    "marginTop": "0px",
+                    "msFlexAlign": "center",
+                    "msFlexPack": "center",
+                    "paddingBottom": "0px",
+                    "paddingLeft": "0px",
+                    "paddingRight": "0px",
+                    "paddingTop": "1px",
+                    "textAlign": "left",
+                    "textTransform": "none",
+                  }
+                }
+              >
+                LATER
+              </span>
+            </div>
           </div>
         </div>
       </div>

@@ -429,12 +429,15 @@ exports[`EmailForm matches snapshot 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
+              "WebkitAlignItems": "center",
+              "WebkitBoxAlign": "center",
               "WebkitBoxFlex": 1,
               "WebkitBoxPack": "center",
               "WebkitFlexBasis": "0%",
               "WebkitFlexGrow": 1,
               "WebkitFlexShrink": 1,
               "WebkitJustifyContent": "center",
+              "alignItems": "center",
               "backgroundColor": "rgba(0,0,0,0.12)",
               "borderBottomColor": "rgba(0,175,255,1.00)",
               "borderBottomLeftRadius": "50px",
@@ -456,14 +459,21 @@ exports[`EmailForm matches snapshot 1`] = `
               "flexGrow": 1,
               "flexShrink": 1,
               "justifyContent": "center",
+              "marginBottom": "0px",
+              "marginLeft": "0px",
+              "marginRight": "0px",
+              "marginTop": "0px",
               "minHeight": "44px",
               "minWidth": "auto",
+              "msFlexAlign": "center",
               "msFlexNegative": 1,
               "msFlexPack": "center",
               "msFlexPositive": 1,
               "msFlexPreferredSize": "0%",
+              "paddingBottom": "0px",
               "paddingLeft": "0px",
               "paddingRight": "0px",
+              "paddingTop": "0px",
             }
           }
         >
@@ -528,39 +538,67 @@ exports[`EmailForm matches snapshot 1`] = `
                   }
                 }
               >
-                <span
-                  className="css-text-901oao css-textHasAncestor-16my406"
-                  dir="auto"
+                <div
+                  className="css-view-1dbjc4n"
                   style={
                     Object {
                       "WebkitAlignItems": "center",
                       "WebkitBoxAlign": "center",
-                      "WebkitBoxPack": "center",
-                      "WebkitJustifyContent": "center",
+                      "WebkitBoxDirection": "normal",
+                      "WebkitBoxFlex": 1,
+                      "WebkitBoxOrient": "horizontal",
+                      "WebkitFlexBasis": "0%",
+                      "WebkitFlexDirection": "row",
+                      "WebkitFlexGrow": 1,
+                      "WebkitFlexShrink": 1,
                       "alignItems": "center",
-                      "color": "rgba(255,255,255,1.00)",
-                      "direction": "ltr",
-                      "fontFamily": "Roboto",
-                      "fontSize": "16px",
-                      "fontWeight": "500",
-                      "justifyContent": "center",
-                      "marginBottom": "0px",
-                      "marginLeft": "0px",
-                      "marginRight": "0px",
-                      "marginTop": "0px",
+                      "display": "flex",
+                      "flexBasis": "0%",
+                      "flexDirection": "row",
+                      "flexGrow": 1,
+                      "flexShrink": 1,
                       "msFlexAlign": "center",
-                      "msFlexPack": "center",
-                      "paddingBottom": "0px",
-                      "paddingLeft": "0px",
-                      "paddingRight": "0px",
-                      "paddingTop": "1px",
-                      "textAlign": "left",
-                      "textTransform": "uppercase",
+                      "msFlexDirection": "row",
+                      "msFlexNegative": 1,
+                      "msFlexPositive": 1,
+                      "msFlexPreferredSize": "0%",
                     }
                   }
                 >
-                  Next
-                </span>
+                  <span
+                    className="css-text-901oao css-textHasAncestor-16my406"
+                    dir="auto"
+                    style={
+                      Object {
+                        "WebkitAlignItems": "center",
+                        "WebkitBoxAlign": "center",
+                        "WebkitBoxPack": "center",
+                        "WebkitJustifyContent": "center",
+                        "alignItems": "center",
+                        "color": "rgba(255,255,255,1.00)",
+                        "direction": "ltr",
+                        "fontFamily": "Roboto",
+                        "fontSize": "16px",
+                        "fontWeight": "500",
+                        "justifyContent": "center",
+                        "marginBottom": "0px",
+                        "marginLeft": "0px",
+                        "marginRight": "0px",
+                        "marginTop": "0px",
+                        "msFlexAlign": "center",
+                        "msFlexPack": "center",
+                        "paddingBottom": "0px",
+                        "paddingLeft": "0px",
+                        "paddingRight": "0px",
+                        "paddingTop": "1px",
+                        "textAlign": "left",
+                        "textTransform": "uppercase",
+                      }
+                    }
+                  >
+                    Next
+                  </span>
+                </div>
               </div>
             </div>
           </div>

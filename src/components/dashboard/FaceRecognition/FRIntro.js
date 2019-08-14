@@ -48,8 +48,8 @@ const FRIntro = props => {
               Since its your first time claiming G${' '}
             </Section.Text>
             <Section.Text style={[styles.description]}>
-              we need to make sure it&apos;s really you and prevent duplicate accounts. After all, we&apos;re give here
-              free G$. Learn more about our{' '}
+              {"we need to make sure it's really you and prevent duplicate accounts." +
+                " After all, we're giving free G$. Learn more about our "}
             </Section.Text>
             <Section.Text
               style={[styles.description, styles.descriptionBold, styles.descriptionUnderline]}

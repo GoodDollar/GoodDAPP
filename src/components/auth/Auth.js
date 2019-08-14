@@ -7,10 +7,9 @@ import CustomButton from '../common/buttons/CustomButton'
 import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
 import Text from '../common/view/Text'
-import { PrivacyPolicy, TermsOfUse } from '../webView/webViewInstances'
+import { PrivacyPolicy, Support, TermsOfUse } from '../webView/webViewInstances'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
-import normalize from '../../lib/utils/normalizeText'
 
 type Props = {
   navigation: any,
@@ -54,13 +53,13 @@ class Auth extends React.Component<Props> {
         <Section justifyContent="space-between" style={styles.mainSection}>
           <Wrapper style={styles.containerPadding}>
             <Section.Row alignItems="center" justifyContent="center" style={styles.topRow}>
-              <Section.Text color="surface" fontFamily="slab" fontSize={22}>
+              <Section.Text color="surface" fontFamily="slab" fontSize={22} fontWeight="700">
                 {`Alpha tokens are\nfor test use only!`}
               </Section.Text>
             </Section.Row>
             <Section.Row alignItems="center" justifyContent="center" style={styles.bottomRow}>
-              <Section.Text color="surface">
-                {`They have NO real value.\nAnd will be deleted at the end of the Alpha.`}
+              <Section.Text color="surface" fontWeight="500" fontSize={16}>
+                {`They have no real value and will be\ndeleted at the end of the Alpha`}
               </Section.Text>
             </Section.Row>
           </Wrapper>
@@ -68,11 +67,23 @@ class Auth extends React.Component<Props> {
         <View style={styles.bottomContainer}>
           <Text fontSize={12} color="gray80Percent">
             {`By clicking the 'Create a wallet' button,\nyou are accepting our\n`}
-            <Text style={styles.acceptTermsLink} onPress={this.handleNavigateTermsOfUse}>
+            <Text
+              fontSize={12}
+              color="gray80Percent"
+              fontWeight="700"
+              textDecorationLine="underline"
+              onPress={this.handleNavigateTermsOfUse}
+            >
               Terms of Use
             </Text>
-            {` and `}
-            <Text style={styles.acceptTermsLink} onPress={this.handleNavigatePrivacyPolicy}>
+            {' and '}
+            <Text
+              fontSize={12}
+              color="gray80Percent"
+              fontWeight="700"
+              textDecorationLine="underline"
+              onPress={this.handleNavigatePrivacyPolicy}
+            >
               Privacy Policy
             </Text>
           </Text>
@@ -81,7 +92,7 @@ class Auth extends React.Component<Props> {
           </CustomButton>
           <Text fontSize={14} color="primary" onPress={this.handleSignIn}>
             {`Already have a wallet? `}
-            <Text fontSize={14} color="primary" onPress={this.handleSignIn} style={styles.underlined}>
+            <Text fontSize={14} color="primary" textDecorationLine="underline" onPress={this.handleSignIn}>
               Login
             </Text>
           </Text>
@@ -121,16 +132,7 @@ const getStylesFromProps = ({ theme }) => {
       marginVertical: 20,
     },
     acceptTermsLink: {
-      color: theme.colors.gray80Percent,
-      fontFamily: theme.fonts.default,
-      fontSize: normalize(12),
-      fontWeight: '700',
       marginTop: theme.sizes.default,
-      textAlign: 'center',
-      textDecorationLine: 'underline',
-    },
-    underlined: {
-      textDecorationLine: 'underline',
     },
   }
 }
@@ -145,6 +147,7 @@ export default createStackNavigator(
     TermsOfUse,
     PrivacyPolicy,
     Recover: Mnemonics,
+    Support,
   },
   {
     backRouteName: 'Auth',

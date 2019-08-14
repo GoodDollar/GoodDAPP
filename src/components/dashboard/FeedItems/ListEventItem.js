@@ -22,7 +22,6 @@ import EmptyEventFeed from './EmptyEventFeed'
 const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
   const itemType = feed.displayType || feed.type
   const eventSettings = getEventSettingsByType(theme, itemType)
-
   if (itemType === 'empty') {
     return <EmptyEventFeed />
   }
@@ -54,9 +53,9 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
         <View style={styles.transferInfo} alignItems="flex-start">
           <View style={styles.mainInfo}>
             <EventCounterParty style={styles.feedItem} feedItem={feed} />
-            {feed.type === 'welcome' ? (
+            {feed.data.subtitle ? (
               <Text numberOfLines={1} style={styles.boldMessage}>
-                Start claiming free G$
+                {feed.data.subtitle}{' '}
                 <CustomButton
                   mode="text"
                   color={theme.colors.lighterGray}

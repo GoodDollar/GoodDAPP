@@ -17,7 +17,7 @@ export type DialogProps = {
   image?: any,
   loading?: boolean,
   message?: string,
-  boldMessage?: string,
+  boldMessage?: any,
   onCancel?: () => void,
   onDismiss?: () => void,
   showButtons?: boolean,

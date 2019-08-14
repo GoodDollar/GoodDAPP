@@ -316,7 +316,8 @@ exports[`Profile matches snapshot 1`] = `
                 "color": "rgba(255,255,255,1.00)",
                 "direction": "ltr",
                 "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                "fontSize": "20px",
+                "fontSize": "16px",
+                "fontWeight": "500",
                 "textAlign": "center",
                 "textTransform": "uppercase",
               }

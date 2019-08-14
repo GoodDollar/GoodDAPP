@@ -10,12 +10,15 @@
   > .react-phone-number-input__row
   > .react-phone-number-input__input.react-phone-number-input__phone {
   border-bottom: 1px solid rgb(0, 0, 0) !important;
+  margin-bottom: 8px;
 }
 
 .react-phone-number-input
   > .react-phone-number-input__row
   > .react-phone-number-input__input.react-phone-number-input__phone.react-phone-number-input__input--invalid {
   border-bottom: 1px solid #fa6c77 !important;
+  color: #fa6c77;
+  border-color: #fa6c77;
 }
 
 .react-phone-number-input.react-phone-number-input--invalid .react-phone-number-input__error {

@@ -1,9 +1,9 @@
 import React from 'react'
 import { TextInput, View } from 'react-native'
-import { HelperText } from 'react-native-paper'
 import normalize from '../../../lib/utils/normalizeText'
 import { withStyles } from '../../../lib/styles'
 import Icon from '../view/Icon'
+import ErrorText from './ErrorText'
 
 /**
  * TopBar - used To display contextual information in a small container
@@ -37,11 +37,7 @@ const InputRounded = ({ styles, theme, icon, iconSize, iconColor, error, onChang
           />
         </View>
       </View>
-      {error ? (
-        <HelperText type="error" style={styles.error}>
-          {error}
-        </HelperText>
-      ) : null}
+      <ErrorText error={error} style={styles.errorMargin} />
     </View>
   )
 }
@@ -53,6 +49,8 @@ const getStylesFromProps = ({ theme }) => {
     position: 'relative',
     borderRadius: 24,
     borderWidth: 1,
+    marginTop: theme.sizes.defaultHalf,
+    marginBottom: theme.sizes.default,
   }
   const input = {
     color: theme.colors.darkGray,
@@ -106,6 +104,9 @@ const getStylesFromProps = ({ theme }) => {
     error: {
       paddingRight: 0,
       textAlign: 'left',
+    },
+    errorMargin: {
+      marginBottom: theme.sizes.default,
     },
   }
 }

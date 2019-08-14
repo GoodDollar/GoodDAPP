@@ -46,10 +46,10 @@ const mapPropsToStyles = ({ theme }) => ({
     margin: 0,
   },
   leftIcon: {
-    marginRight: theme.sizes.default,
+    marginRight: theme.sizes.defaultDouble,
   },
   rightIcon: {
-    marginLeft: theme.sizes.default,
+    marginLeft: theme.sizes.defaultDouble,
   },
   buttonText: {
     alignItems: 'center',
@@ -65,6 +65,10 @@ const mapPropsToStyles = ({ theme }) => ({
     paddingLeft: 0,
     paddingRight: 0,
     paddingTop: 1,
+    letterSpacing: 0,
+  },
+  contentStyle: {
+    letterSpacing: 0,
   },
   contentWrapper: {
     alignItems: 'center',
@@ -153,6 +157,7 @@ const CustomButton = (props: ButtonProps) => {
       dark={dark}
       mode={mode}
       style={[styles.buttonStyle, style]}
+      contentStyle={styles.contentStyle}
       theme={{ ...theme, roundness: 50 }}
       uppercase={uppercase}
       onPress={!loading && props.onPress}

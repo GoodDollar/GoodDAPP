@@ -1,11 +1,12 @@
 import React from 'react'
 import { Image, StyleSheet } from 'react-native'
-import splashImage from '../../assets/Splash/logoPrimary.svg'
+import splashImage from '../../assets/Splash/logo.svg'
 import goodDollarImage from '../../assets/Splash/goodDollar.svg'
 import wavePattern from '../../assets/wave.svg'
 import Wrapper from '../common/layout/Wrapper'
 import Section from '../common/layout/Section'
 import Config from '../../config/config'
+import normalize from '../../lib/utils/normalizeText'
 
 //minimize delay <Image> has over web <img>
 Image.prefetch(splashImage)
@@ -24,8 +25,8 @@ const About = () => (
         <Section.Text fontSize={22} color="darkBlue">
           {`V${Config.version}`}
         </Section.Text>
-        <Section.Text fontSize={18} color="surface">
-          GoodDollar is a payment system with a built-in UBI based on blockchain technology.
+        <Section.Text fontSize={18} color="surface" style={styles.aboutDescription}>
+          GoodDollar is a payment system with a built-in small basic income based on blockchain technology.
           <Section.Text fontSize={18} fontWeight="bold" color="surface">
             {`\nLet's change the world, for good.`}
           </Section.Text>
@@ -55,7 +56,8 @@ const styles = StyleSheet.create({
   },
   content: {
     transform: [{ rotateY: '180deg' }],
-    marginVertical: '10vh',
+    marginTop: '5vh',
+    marginBottom: '8vh',
   },
   logo: {
     maxWidth: '100%',
@@ -66,6 +68,9 @@ const styles = StyleSheet.create({
     maxWidth: '100%',
     minHeight: 30,
     minWidth: 212,
+  },
+  aboutDescription: {
+    maxWidth: normalize(270),
   },
 })
 

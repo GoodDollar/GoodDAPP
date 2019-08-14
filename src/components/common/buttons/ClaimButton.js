@@ -16,7 +16,7 @@ const getStylesFromProps = ({ theme }) => ({
   claimButton: {
     alignItems: 'center',
     backgroundColor: theme.colors.green,
-    borderColor: '#fff',
+    borderColor: theme.colors.surface,
     borderRadius: '50%',
     borderWidth: 3,
     height: 72,

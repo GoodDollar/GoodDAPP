@@ -49,6 +49,8 @@ const getStylesFromProps = ({ theme }) => {
     position: 'relative',
     borderRadius: 24,
     borderWidth: 1,
+    marginTop: theme.sizes.defaultHalf,
+    marginBottom: theme.sizes.default,
   }
   const input = {
     color: theme.colors.darkGray,

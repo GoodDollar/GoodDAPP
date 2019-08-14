@@ -106,6 +106,7 @@ const getStylesFromProps = ({ theme }) => {
       zIndex: 1,
     },
     errorMargin: {
+      marginTop: theme.sizes.default,
       marginBottom: theme.sizes.default,
     },
   }

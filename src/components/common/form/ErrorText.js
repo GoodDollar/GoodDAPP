@@ -12,6 +12,8 @@ const getStylesFromProps = ({ theme }) => ({
   error: {
     height: 18,
     paddingLeft: 0,
+    paddingTop: 0,
+    paddingBottom: 0,
     textAlign: 'center',
   },
 })

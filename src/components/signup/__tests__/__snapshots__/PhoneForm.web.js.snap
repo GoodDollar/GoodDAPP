@@ -1784,10 +1784,10 @@ exports[`PhoneForm matches snapshot 1`] = `
                     "height": "18px",
                     "marginLeft": "48px",
                     "opacity": 0,
-                    "paddingBottom": "4px",
+                    "paddingBottom": "0px",
                     "paddingLeft": "0px",
                     "paddingRight": "12px",
-                    "paddingTop": "4px",
+                    "paddingTop": "0px",
                     "textAlign": "center",
                     "transform": "translateY(0px)",
                   }

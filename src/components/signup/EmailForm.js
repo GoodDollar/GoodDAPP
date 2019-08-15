@@ -114,9 +114,11 @@ const getStylesFromProps = ({ theme }) => ({
   },
   container: {
     minHeight: 200,
+    paddingBottom: theme.sizes.defaultDouble,
   },
   bottomContent: {
     marginTop: 'auto',
+    marginBottom: theme.sizes.default,
   },
 })
 

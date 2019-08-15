@@ -139,7 +139,7 @@ for participating in GoodDollar's
                 "direction": "ltr",
                 "fontFamily": "Roboto",
                 "fontSize": "22px",
-                "fontWeight": "700",
+                "fontWeight": "800",
                 "lineHeight": "30px",
                 "textAlign": "center",
                 "textDecoration": "none",
@@ -147,7 +147,7 @@ for participating in GoodDollar's
               }
             }
           >
-            Early Access Alpha
+            Early Access Alpha V2.0
           </span>
         </div>
         <div

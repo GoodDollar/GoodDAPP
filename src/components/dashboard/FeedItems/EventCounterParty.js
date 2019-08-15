@@ -5,10 +5,6 @@ import { withStyles } from '../../../lib/styles'
 const EventCounterParty = ({ feedItem, styles, style, theme }) => {
   const direction =
     feedItem.type === 'send' ? 'To:' : ['claim', 'receive', 'withdraw'].indexOf(feedItem.type) > -1 ? 'From:' : ''
-  const withdrawStatusText =
-    feedItem.type === 'send' && feedItem.data.endpoint.withdrawStatus
-      ? ` by link - ${feedItem.data.endpoint.withdrawStatus}`
-      : ''
   return (
     <Text
       color="darkGray"
@@ -22,7 +18,7 @@ const EventCounterParty = ({ feedItem, styles, style, theme }) => {
         {direction}
       </Text>
       <Text fontWeight={500} style={styles.fullName} color="darkGray">
-        {` ${feedItem.data.endpoint.fullName}${withdrawStatusText}`}
+        {` ${feedItem.data.endpoint.fullName}`}
       </Text>
     </Text>
   )

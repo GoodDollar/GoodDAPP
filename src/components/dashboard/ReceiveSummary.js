@@ -7,7 +7,6 @@ import SummaryTable from '../common/view/SummaryTable'
 import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
 import { PushButton } from '../appNavigation/PushButton'
 
-import { withStyles } from '../../lib/styles'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { generateCode } from '../../lib/share'
 import { navigationOptions } from './utils/sendReceiveFlow'
@@ -72,4 +71,4 @@ ReceiveAmount.shouldNavigateToComponent = props => {
   return screenState.amount
 }
 
-export default withStyles()(ReceiveAmount)
+export default ReceiveAmount

@@ -2,6 +2,7 @@
 import React from 'react'
 import { Appbar } from 'react-native-paper'
 import { withStyles } from '../../lib/styles'
+import normalize from '../../lib/utils/normalizeText'
 
 /**
  * @type
@@ -35,6 +36,8 @@ const getStylesFromProps = ({ theme }) => ({
     textAlign: 'center',
     textTransform: 'uppercase',
     color: theme.colors.surface,
+    fontSize: normalize(16),
+    fontWeight: '500',
   },
   topbarStyles: {
     flexGrow: 0,

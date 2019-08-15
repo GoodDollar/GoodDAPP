@@ -1,6 +1,5 @@
 // @flow
 import React, { useEffect } from 'react'
-import { StyleSheet } from 'react-native'
 import InputText from '../common/form/InputText'
 
 import { ScanQRButton, Section, Wrapper } from '../common'
@@ -24,7 +23,7 @@ const getError = value => {
 }
 
 const Who = (props: AmountProps) => {
-  const { screenProps } = props
+  const { screenProps, styles } = props
   const [screenState, setScreenState] = useScreenState(screenProps)
   const { params } = props.navigation.state
   const isReceive = params && params.action === ACTION_RECEIVE
@@ -51,7 +50,7 @@ const Who = (props: AmountProps) => {
             error={state.error}
             onChangeText={setValue}
             placeholder="Enter the recipient name"
-            style={[props.styles.input, styles.bottomContent]}
+            style={styles.input}
             value={state.value}
           />
         </Section.Stack>
@@ -77,15 +76,6 @@ const Who = (props: AmountProps) => {
   )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    minHeight: 180,
-  },
-  bottomContent: {
-    marginTop: 'auto',
-  },
-})
-
 Who.navigationOptions = navigationOptions
 
 Who.shouldNavigateToComponent = props => {
@@ -93,4 +83,11 @@ Who.shouldNavigateToComponent = props => {
   return screenState.nextRoutes
 }
 
-export default withStyles(({ theme }) => ({ input: { marginTop: theme.sizes.defaultDouble } }))(Who)
+export default withStyles(({ theme }) => ({
+  input: {
+    marginTop: theme.sizes.defaultDouble,
+  },
+  container: {
+    minHeight: 180,
+  },
+}))(Who)

@@ -100,6 +100,7 @@ const getStylesFromProps = ({ theme }) => ({
   },
   bottomRow: {
     marginTop: 'auto',
+    marginBottom: theme.sizes.default,
   },
 })
 

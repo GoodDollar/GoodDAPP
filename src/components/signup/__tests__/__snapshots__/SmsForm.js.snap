@@ -171,8 +171,8 @@ exports[`SmsForm matches snapshot 1`] = `
                   }
                 }
               >
-                Enter the verification code 
- sent to your phone
+                Enter the verification code
+sent to your phone
               </div>
             </div>
             <div

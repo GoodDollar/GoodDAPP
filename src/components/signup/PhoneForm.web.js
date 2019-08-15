@@ -10,7 +10,7 @@ import { withStyles } from '../../lib/styles'
 import Config from '../../config/config'
 import { getFirstWord } from '../../lib/utils/getFirstWord'
 import Section from '../common/layout/Section'
-import { ErrorText } from '../common/form/InputText'
+import ErrorText from '../common/form/ErrorText'
 import CustomWrapper from './signUpWrapper'
 
 const log = logger.child({ from: 'PhoneForm' })

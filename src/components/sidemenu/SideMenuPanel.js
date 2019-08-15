@@ -5,7 +5,7 @@ import { useWrappedApi } from '../../lib/API/useWrappedApi'
 import logger from '../../lib/logger/pino-logger'
 import { withStyles } from '../../lib/styles'
 import SimpleStore from '../../lib/undux/SimpleStore'
-import { useDialog } from '../../lib/undux/utils/dialog'
+import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import { useSidemenu } from '../../lib/undux/utils/sidemenu'
 import { Icon } from '../common'
 import SideMenuItem from './SideMenuItem'
@@ -106,9 +106,10 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation, s
       name: 'Delete Account',
       color: 'red',
       action: () => {
-        showDialog({
-          title: 'Delete Account',
-          message: 'Are you sure?',
+        showDialog('', '', {
+          title: 'Are you sure?',
+          message: 'If you delete your account',
+          boldMessage: 'all your G$ will be lost forever!',
           dismissText: 'DELETE',
           onCancel: () => hideDialog(),
           onDismiss: async () => {
@@ -134,7 +135,7 @@ const SideMenuPanel = ({ navigation, styles, theme }: SideMenuPanelProps) => {
   const store = SimpleStore.useStore()
 
   const [toggleSidemenu, hideSidemenu] = useSidemenu()
-  const [showDialog, hideDialog] = useDialog()
+  const [showDialog, hideDialog] = useErrorDialog()
   const { topItems, bottomItems } = getMenuItems({ API, hideSidemenu, showDialog, hideDialog, navigation, store })
   return (
     <ScrollView contentContainerStyle={styles.scrollableContainer}>

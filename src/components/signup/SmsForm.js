@@ -6,7 +6,7 @@ import { withStyles } from '../../lib/styles'
 import Icon from '../common/view/Icon'
 import LoadingIndicator from '../common/view/LoadingIndicator'
 import Section from '../common/layout/Section'
-import { ErrorText } from '../common/form/InputText'
+import ErrorText from '../common/form/ErrorText'
 import OtpInput from '../common/form/OtpInput'
 import CustomWrapper from './signUpWrapper'
 import type { SignupState } from './SignupState'
@@ -126,7 +126,7 @@ class SmsForm extends React.Component<Props, State> {
       <CustomWrapper handleSubmit={this.handleSubmit} footerComponent={() => <React.Fragment />}>
         <Section.Stack grow justifyContent="flex-start">
           <Section.Row justifyContent="center" style={styles.row}>
-            <Section.Title textTransform="none">{'Enter the verification code \n sent to your phone'}</Section.Title>
+            <Section.Title textTransform="none">{'Enter the verification code\nsent to your phone'}</Section.Title>
           </Section.Row>
           <Section.Stack justifyContent="center">
             <OtpInput

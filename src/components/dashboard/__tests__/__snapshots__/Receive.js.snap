@@ -353,7 +353,7 @@ exports[`Receive matches snapshot 1`] = `
             }
           }
         >
-          Let someone scan your wallet address 
+          Let someone scan your wallet address
         </div>
         <div
           className="css-view-1dbjc4n"
@@ -524,7 +524,7 @@ exports[`Receive matches snapshot 1`] = `
             }
           }
         >
-           - OR - 
+          - OR -
         </div>
       </div>
       <div
@@ -623,6 +623,7 @@ exports[`Receive matches snapshot 1`] = `
                   "alignItems": "center",
                   "flexDirection": "row",
                   "justifyContent": "center",
+                  "letterSpacing": "0px",
                   "msFlexAlign": "center",
                   "msFlexDirection": "row",
                   "msFlexPack": "center",
@@ -661,6 +662,7 @@ exports[`Receive matches snapshot 1`] = `
                       "fontSize": "16px",
                       "fontWeight": "500",
                       "justifyContent": "center",
+                      "letterSpacing": "0px",
                       "marginBottom": "0px",
                       "marginLeft": "0px",
                       "marginRight": "0px",
@@ -761,6 +763,7 @@ exports[`Receive matches snapshot 1`] = `
                   "alignItems": "center",
                   "flexDirection": "row",
                   "justifyContent": "center",
+                  "letterSpacing": "0px",
                   "msFlexAlign": "center",
                   "msFlexDirection": "row",
                   "msFlexPack": "center",
@@ -800,6 +803,7 @@ exports[`Receive matches snapshot 1`] = `
                       "fontSize": "16px",
                       "fontWeight": "500",
                       "justifyContent": "center",
+                      "letterSpacing": "0px",
                       "marginBottom": "0px",
                       "marginLeft": "0px",
                       "marginRight": "0px",

@@ -321,7 +321,8 @@ exports[`SendLinkSummary matches snapshot 1`] = `
             }
           }
         >
-          * the transaction may take a few seconds to be complete
+          * the transaction may take
+a few seconds to complete
         </div>
       </div>
       <div
@@ -462,6 +463,7 @@ exports[`SendLinkSummary matches snapshot 1`] = `
                     "alignItems": "center",
                     "flexDirection": "row",
                     "justifyContent": "center",
+                    "letterSpacing": "0px",
                     "msFlexAlign": "center",
                     "msFlexDirection": "row",
                     "msFlexPack": "center",
@@ -495,11 +497,13 @@ exports[`SendLinkSummary matches snapshot 1`] = `
                         "WebkitBoxPack": "center",
                         "WebkitJustifyContent": "center",
                         "alignItems": "center",
+                        "color": "rgba(163,163,163,1.00)",
                         "direction": "ltr",
                         "fontFamily": "Roboto",
-                        "fontSize": "16px",
+                        "fontSize": "14px",
                         "fontWeight": "500",
                         "justifyContent": "center",
+                        "letterSpacing": "0px",
                         "marginBottom": "0px",
                         "marginLeft": "0px",
                         "marginRight": "0px",
@@ -616,6 +620,7 @@ exports[`SendLinkSummary matches snapshot 1`] = `
                     "alignItems": "center",
                     "flexDirection": "row",
                     "justifyContent": "center",
+                    "letterSpacing": "0px",
                     "msFlexAlign": "center",
                     "msFlexDirection": "row",
                     "msFlexPack": "center",
@@ -655,6 +660,7 @@ exports[`SendLinkSummary matches snapshot 1`] = `
                         "fontSize": "16px",
                         "fontWeight": "500",
                         "justifyContent": "center",
+                        "letterSpacing": "0px",
                         "marginBottom": "0px",
                         "marginLeft": "0px",
                         "marginRight": "0px",

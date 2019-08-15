@@ -33,7 +33,7 @@ exports[`Text matches snapshot with different fontSize 1`] = `
       "fontFamily": "Roboto",
       "fontSize": "20px",
       "fontWeight": "normal",
-      "lineHeight": "1em",
+      "lineHeight": "24px",
       "textAlign": "center",
       "textDecoration": "none",
       "textTransform": "none",

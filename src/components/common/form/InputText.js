@@ -2,12 +2,12 @@
 import React, { useEffect } from 'react'
 import { isMobileSafari } from 'mobile-device-detect'
 import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native'
-import HelperText from 'react-native-paper/src/components/HelperText'
 import normalize from '../../../lib/utils/normalizeText'
 import SimpleStore from '../../../lib/undux/SimpleStore'
-import Icon from '../view/Icon'
 import { withStyles } from '../../../lib/styles'
+import Icon from '../view/Icon'
 import Config from '../../../config/config'
+import ErrorText from './ErrorText'
 
 const InputText = ({ error, onCleanUpField, styles, theme, style, getRef, ...props }: any) => {
   const simpleStore = SimpleStore.useStore()
@@ -68,12 +68,6 @@ const InputText = ({ error, onCleanUpField, styles, theme, style, getRef, ...pro
   )
 }
 
-const ErrorComponent = ({ error, styles }) => (
-  <HelperText type="error" style={[styles.error, { opacity: error ? 1 : 0 }]}>
-    {error}
-  </HelperText>
-)
-
 const getStylesFromProps = ({ theme }) => ({
   input: {
     ...theme.fontStyle,
@@ -97,15 +91,5 @@ const getStylesFromProps = ({ theme }) => ({
     zIndex: 1,
   },
 })
-
-const getErrorStylesFromProps = ({ theme }) => ({
-  error: {
-    height: 18,
-    paddingLeft: 0,
-    textAlign: 'center',
-  },
-})
-
-export const ErrorText = withStyles(getErrorStylesFromProps)(ErrorComponent)
 
 export default withStyles(getStylesFromProps)(InputText)

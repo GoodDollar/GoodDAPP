@@ -2,7 +2,7 @@ import React from 'react'
 import { Text } from '../../common'
 import { withStyles } from '../../../lib/styles'
 
-const EventCounterParty = ({ feedItem, styles, style, theme }) => {
+const EventCounterParty = ({ feedItem, styles, style }) => {
   const direction =
     feedItem.type === 'send' ? 'To:' : ['claim', 'receive', 'withdraw'].indexOf(feedItem.type) > -1 ? 'From:' : ''
   const withdrawStatusText =
@@ -10,18 +10,11 @@ const EventCounterParty = ({ feedItem, styles, style, theme }) => {
       ? ` by link - ${feedItem.data.endpoint.withdrawStatus}`
       : ''
   return (
-    <Text
-      color="darkGray"
-      textTransform="capitalize"
-      textAlign="left"
-      style={[styles.rowDataText, style]}
-      numberOfLines={1}
-      ellipsizeMode="tail"
-    >
-      <Text fontSize={10} style={styles.direction} color="darkGray">
+    <Text textTransform="capitalize" textAlign="left" style={style} numberOfLines={1} ellipsizeMode="tail">
+      <Text fontSize={10} style={styles.direction}>
         {direction}
       </Text>
-      <Text fontWeight={500} style={styles.fullName} color="darkGray">
+      <Text fontWeight="medium" style={styles.fullName}>
         {` ${feedItem.data.endpoint.fullName}${withdrawStatusText}`}
       </Text>
     </Text>

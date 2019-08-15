@@ -100,7 +100,7 @@ const getStylesFromProps = ({
 }) => {
   const calculatedFontSize = Number.isFinite(fontSize) ? fontSize : 16
   const calculatedLineHeight = lineHeight || relatedLineSpacing(calculatedFontSize)
-  const calculatedFontWeight = Number.isFinite(fontWeight) ? fontWeight : calculateFontWeight(fontWeight)
+  const calculatedFontWeight = isNaN(fontWeight) ? calculateFontWeight(fontWeight) : fontWeight
 
   return {
     text: {

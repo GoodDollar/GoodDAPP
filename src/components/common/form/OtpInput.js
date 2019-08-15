@@ -247,6 +247,9 @@ const OtpInput = (props: Props) => {
     } else if (e.keyCode === RIGHT_ARROW || e.key === 'ArrowRight') {
       e.preventDefault()
       focusNextInput()
+    } else if (e.target.value.length === 1) {
+      e.preventDefault()
+      focusNextInput()
     }
   }
 

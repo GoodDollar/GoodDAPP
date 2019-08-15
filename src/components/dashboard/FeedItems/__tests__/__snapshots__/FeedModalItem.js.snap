@@ -87,10 +87,10 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
               "msFlexItemAlign": "center",
               "msFlexNegative": 0,
               "msFlexPositive": 1,
-              "paddingBottom": "65px",
+              "paddingBottom": "0px",
               "paddingLeft": "20px",
               "paddingRight": "20px",
-              "paddingTop": "65px",
+              "paddingTop": "0px",
               "width": "100%",
             }
           }
@@ -876,10 +876,10 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
               "msFlexItemAlign": "center",
               "msFlexNegative": 0,
               "msFlexPositive": 1,
-              "paddingBottom": "65px",
+              "paddingBottom": "0px",
               "paddingLeft": "20px",
               "paddingRight": "20px",
-              "paddingTop": "65px",
+              "paddingTop": "0px",
               "width": "100%",
             }
           }
@@ -1665,10 +1665,10 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
               "msFlexItemAlign": "center",
               "msFlexNegative": 0,
               "msFlexPositive": 1,
-              "paddingBottom": "65px",
+              "paddingBottom": "0px",
               "paddingLeft": "20px",
               "paddingRight": "20px",
-              "paddingTop": "65px",
+              "paddingTop": "0px",
               "width": "100%",
             }
           }
@@ -2528,10 +2528,10 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
               "msFlexItemAlign": "center",
               "msFlexNegative": 0,
               "msFlexPositive": 1,
-              "paddingBottom": "65px",
+              "paddingBottom": "0px",
               "paddingLeft": "20px",
               "paddingRight": "20px",
-              "paddingTop": "65px",
+              "paddingTop": "0px",
               "width": "100%",
             }
           }
@@ -3303,7 +3303,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                     "backgroundImage": "linear-gradient(40deg, transparent 75%, #fff 76%), linear-gradient(-40deg, transparent 75%, #fff 76%)",
                     "backgroundPosition": "-8px 0",
                     "backgroundRepeat": "repeat-x",
-                    "backgroundSize": "16px",
+                    "backgroundSize": "16px 16px",
                     "height": "16px",
                     "position": "relative",
                     "width": "100%",

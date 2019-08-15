@@ -99,7 +99,9 @@ const HelperWizard = props => {
     <React.Fragment>
       <View id="background" style={styles.background} />
       <View style={{ zIndex: 10, justifyContent: 'space-evenly', height: '100%' }}>
-        <Text style={{ fontFamily: 'Roboto-Medium', fontSize: 20, color: 'white' }}>{text}</Text>
+        <Text fontWeight="medium" fontSize={20} color="surface">
+          {text}
+        </Text>
         {imgs}
         <CustomButton
           style={{ borderColor: 'white', borderWidth: 2 }}

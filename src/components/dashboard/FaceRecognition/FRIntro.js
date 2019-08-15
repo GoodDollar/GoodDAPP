@@ -4,7 +4,6 @@ import { isIOS, isMobileSafari } from 'mobile-device-detect'
 import GDStore from '../../../lib/undux/GDStore'
 import Separator from '../../common/layout/Separator'
 import logger from '../../../lib/logger/pino-logger'
-import normalize from '../../../lib/utils/normalizeText'
 import { CustomButton, Section, Wrapper } from '../../common'
 import { fireEvent } from '../../../lib/analytics/analytics'
 import { getFirstWord } from '../../../lib/utils/getFirstWord'
@@ -38,23 +37,20 @@ const FRIntro = props => {
     <Wrapper>
       <Section style={styles.topContainer}>
         <View style={styles.mainContent}>
-          <Section.Title style={styles.mainTitle}>
+          <Section.Title fontSize={24} fontWeight="medium" textTransform="none" style={styles.mainTitle}>
             {`${getFirstWord(fullName)},\nLet's verify it's really you`}
           </Section.Title>
-          <Image source={illustration} resizeMode="contain" style={[styles.illustration]} />
+          <Image source={illustration} resizeMode="contain" style={styles.illustration} />
           <Separator width={2} />
-          <Section.Text style={[styles.descriptionContainer]}>
-            <Section.Text style={[styles.description, styles.descriptionBold]}>
+          <Section.Text style={styles.descriptionContainer}>
+            <Section.Text fontWeight="bold" color="primary">
               Since its your first time claiming G${' '}
             </Section.Text>
-            <Section.Text style={[styles.description]}>
+            <Section.Text color="primary">
               {"we need to make sure it's really you and prevent duplicate accounts." +
                 " After all, we're giving free G$. Learn more about our "}
             </Section.Text>
-            <Section.Text
-              style={[styles.description, styles.descriptionBold, styles.descriptionUnderline]}
-              onPress={gotoPrivacyArticle}
-            >
+            <Section.Text fontWeight="bold" textDecoration="underline" color="primary" onPress={gotoPrivacyArticle}>
               privacy policy
             </Section.Text>
           </Section.Text>
@@ -94,12 +90,7 @@ const getStylesFromProps = ({ theme }) => ({
     paddingRight: theme.sizes.defaultDouble,
   },
   mainTitle: {
-    color: theme.colors.darkGray,
-    fontFamily: theme.fonts.default,
-    fontSize: normalize(24),
-    fontWeight: '500',
     marginBottom: 28,
-    textTransform: 'none',
   },
   illustration: {
     flexGrow: 0,
@@ -110,24 +101,8 @@ const getStylesFromProps = ({ theme }) => ({
     minWidth: 203,
   },
   descriptionContainer: {
-    paddingBottom: theme.sizes.defaultDouble,
-    paddingLeft: theme.sizes.defaultHalf,
-    paddingRight: theme.sizes.defaultHalf,
-    paddingTop: theme.sizes.defaultDouble,
-  },
-  description: {
-    color: theme.colors.primary,
-    fontFamily: theme.fonts.default,
-    fontSize: normalize(16),
-    fontWeight: '400',
-    lineHeight: normalize(20),
-  },
-  descriptionBold: {
-    fontFamily: theme.fonts.default,
-    fontWeight: '700',
-  },
-  descriptionUnderline: {
-    textDecoration: 'underline',
+    paddingHorizontal: theme.sizes.defaultHalf,
+    paddingVertical: theme.sizes.defaultDouble,
   },
   button: {
     marginTop: 'auto',

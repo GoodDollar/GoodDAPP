@@ -12,7 +12,9 @@ const WhoRow = props => {
 
   return (
     <Section.Row style={styles.tableRow}>
-      <Section.Text color="gray80Percent">{actionReceive ? 'From:' : 'To:'}</Section.Text>
+      <Section.Text fontSize={14} color="gray80Percent">
+        {actionReceive ? 'From:' : 'To:'}
+      </Section.Text>
       <Section.Text fontSize={24}>{counterPartyDisplayName}</Section.Text>
     </Section.Row>
   )
@@ -25,7 +27,9 @@ const AmountRow = props => {
   }
   return (
     <Section.Row style={styles.tableRow}>
-      <Section.Text color="gray80Percent">Amount:</Section.Text>
+      <Section.Text fontSize={14} color="gray80Percent">
+        Amount:
+      </Section.Text>
       <BigGoodDollar
         bigNumberStyles={styles.bigGoodDollar}
         bigNumberUnitStyles={styles.bigGoodDollarUnit}
@@ -43,7 +47,9 @@ const ReasonRow = props => {
   }
   return (
     <Section.Row style={styles.tableRow}>
-      <Section.Text color="gray80Percent">For:</Section.Text>
+      <Section.Text fontSize={14} color="gray80Percent">
+        For:
+      </Section.Text>
       <Section.Text fontSize={14}>{reason}</Section.Text>
     </Section.Row>
   )

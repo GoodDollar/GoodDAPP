@@ -21,7 +21,7 @@ class BigNumber extends React.Component {
         <Text
           fontFamily="slab"
           fontSize={36}
-          fontWeight="700"
+          fontWeight="bold"
           textAlign="right"
           color={color || 'gray'}
           style={[styles.bigNumber, bigNumberStyles]}
@@ -31,7 +31,7 @@ class BigNumber extends React.Component {
         <Text
           fontFamily="slab"
           fontSize={18}
-          fontWeight="700"
+          fontWeight="bold"
           textAlign="right"
           color={color || 'gray'}
           style={bigNumberUnitStyles}

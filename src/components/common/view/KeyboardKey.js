@@ -23,7 +23,7 @@ const KeyboardKey = ({ keyValue, onPress, styles, theme }: KeyboardKeyProps) => 
           <Icon name="backspace" color={theme.colors.darkGray} size={18} style={{ textAlign: 'center' }} />
         </View>
       ) : (
-        <Text fontSize={20} fontWeight="700" color="darkGray" fontFamily="slab">
+        <Text fontSize={20} fontWeight="bold" fontFamily="slab">
           {keyValue}
         </Text>
       )}

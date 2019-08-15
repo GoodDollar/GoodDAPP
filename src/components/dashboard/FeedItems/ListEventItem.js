@@ -22,6 +22,7 @@ import EmptyEventFeed from './EmptyEventFeed'
 const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
   const itemType = feed.displayType || feed.type
   const eventSettings = getEventSettingsByType(theme, itemType)
+
   if (itemType === 'empty') {
     return <EmptyEventFeed />
   }
@@ -39,7 +40,9 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
           {!eventSettings.withoutAmount && (
             <React.Fragment>
               {eventSettings && eventSettings.actionSymbol && (
-                <Text style={[styles.actionSymbol, { color: eventSettings.color }]}>{eventSettings.actionSymbol}</Text>
+                <Text fontSize={15} fontWeight="700" style={[styles.actionSymbol, { color: eventSettings.color }]}>
+                  {eventSettings.actionSymbol}
+                </Text>
               )}
               <BigGoodDollar
                 bigNumberStyles={styles.bigNumberStyles}
@@ -53,9 +56,9 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
         <View style={styles.transferInfo} alignItems="flex-start">
           <View style={styles.mainInfo}>
             <EventCounterParty style={styles.feedItem} feedItem={feed} />
-            {feed.data.subtitle ? (
-              <Text numberOfLines={1} style={styles.boldMessage}>
-                {feed.data.subtitle}{' '}
+            {feed.type === 'welcome' ? (
+              <Text color="darkGray" fontWeight="500" numberOfLines={1} style={styles.welcomeText}>
+                Start claiming free G$
                 <CustomButton
                   mode="text"
                   color={theme.colors.lighterGray}
@@ -66,7 +69,13 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
                 </CustomButton>
               </Text>
             ) : (
-              <Text numberOfLines={1} style={styles.message}>
+              <Text
+                numberOfLines={1}
+                color="gray80Percent"
+                fontSize={10}
+                textTransform="capitalize"
+                style={styles.message}
+              >
                 {feed.data.message}
               </Text>
             )}
@@ -87,6 +96,9 @@ const getStylesFromProps = ({ theme }) => ({
     maxHeight: '100%',
     padding: theme.sizes.default,
     width: '100%',
+  },
+  welcomeText: {
+    paddingBottom: theme.sizes.default,
   },
   avatarBottom: {
     marginTop: 'auto',
@@ -112,13 +124,13 @@ const getStylesFromProps = ({ theme }) => ({
     fontFamily: theme.fonts.default,
     fontSize: normalize(10),
     fontWeight: '400',
-    marginTop: 2,
   },
   readMoreText: {
     fontFamily: theme.fonts.default,
     fontSize: normalize(10),
     fontWeight: '400',
     letterSpacing: 0,
+    marginLeft: 4,
   },
   readMore: {
     minHeight: normalize(16),
@@ -126,9 +138,6 @@ const getStylesFromProps = ({ theme }) => ({
     marginHorizontal: -theme.sizes.default,
   },
   actionSymbol: {
-    fontFamily: theme.fonts.default,
-    fontSize: normalize(15),
-    fontWeight: '700',
     marginLeft: 'auto',
   },
   bigNumberStyles: {
@@ -144,6 +153,7 @@ const getStylesFromProps = ({ theme }) => ({
     flexShrink: 1,
     marginTop: 'auto',
     paddingHorizontal: theme.sizes.defaultHalf,
+    paddingTop: theme.sizes.defaultHalf,
   },
   mainInfo: {
     alignItems: 'flex-start',
@@ -162,19 +172,8 @@ const getStylesFromProps = ({ theme }) => ({
     marginBottom: 0,
   },
   message: {
-    color: theme.colors.gray80Percent,
-    fontSize: normalize(10),
     paddingBottom: theme.sizes.defaultHalf,
-    textTransform: 'capitalize',
     flexShrink: 0,
-    lineHeight: normalize(10),
-  },
-  boldMessage: {
-    color: theme.fontStyle.color,
-    fontFamily: theme.fonts.default,
-    fontSize: normalize(16),
-    fontWeight: '500',
-    lineHeight: normalize(16),
   },
   typeIcon: {
     marginTop: 'auto',

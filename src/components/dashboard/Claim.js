@@ -5,12 +5,14 @@ import numeral from 'numeral'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import logger from '../../lib/logger/pino-logger'
+import normalize from '../../lib/utils/normalizeText'
 import GDStore from '../../lib/undux/GDStore'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import wrapper from '../../lib/undux/utils/wrapper'
 import { weiToGd } from '../../lib/wallet/utils'
 import { CustomButton, Wrapper } from '../common'
+import Text from '../common/view/Text'
 import TopBar from '../common/view/TopBar'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import { withStyles } from '../../lib/styles'
@@ -173,7 +175,12 @@ const Claim = props => {
         isCitizen ? handleClaim() : faceRecognition()
       }}
     >
-      {`CLAIM YOUR SHARE - ${weiToGd(entitlement)} G$`}
+      <Text color="surface">
+        {`CLAIM YOUR SHARE - ${weiToGd(entitlement)}`}
+        <Text fontSize={10} color="surface" style={styles.goodDollarUnit}>
+          G$
+        </Text>
+      </Text>
     </CustomButton>
   )
 
@@ -186,38 +193,34 @@ const Claim = props => {
             GoodDollar allows you to collect
           </Section.Text>
           <Section.Text style={styles.mainTextBigMarginBottom}>
-            <Section.Text color="surface" fontFamily="slab" fontWeight="700" fontSize={36}>
+            <Section.Text color="surface" fontFamily="slab" fontWeight="bold" fontSize={36}>
               1
             </Section.Text>
-            <Section.Text color="surface" fontFamily="slab" fontWeight="700" fontSize={20}>
+            <Section.Text color="surface" fontFamily="slab" fontWeight="bold" fontSize={20}>
               {' G$'}
             </Section.Text>
-            <Section.Text color="surface" fontFamily="slab" fontWeight="700" fontSize={36}>
+            <Section.Text color="surface" fontFamily="slab" fontWeight="bold" fontSize={36}>
               {' Free'}
             </Section.Text>
           </Section.Text>
-          <Section.Text color="surface" fontFamily="slab" fontWeight="700" fontSize={36}>
+          <Section.Text color="surface" fontFamily="slab" fontWeight="bold" fontSize={36}>
             Every Day
           </Section.Text>
         </Section.Stack>
         <Section.Stack style={styles.extraInfo}>
           <Image source={illustration} style={styles.illustration} resizeMode="contain" />
           <Section.Row style={styles.extraInfoStats}>
-            <Section.Text fontWeight="700" color="primary">
-              {numeral(claimedToday.people).format('0a')}{' '}
-            </Section.Text>
+            <Section.Text fontWeight="bold">{numeral(claimedToday.people).format('0a')} </Section.Text>
             <Section.Text>People Claimed </Section.Text>
-            <Section.Text fontWeight="700" color="primary">
-              {numeral(claimedToday.amount).format('0a')}
-            </Section.Text>
-            <Section.Text fontWeight="700" color="primary" fontSize={10}>
+            <Section.Text fontWeight="bold">{numeral(claimedToday.amount).format('0a')}</Section.Text>
+            <Section.Text fontWeight="bold" fontSize={10} style={styles.goodDollarUnit}>
               G${' '}
             </Section.Text>
             <Section.Text>Today!</Section.Text>
           </Section.Row>
           <Section.Stack style={styles.extraInfoCountdown}>
             <Section.Text style={styles.extraInfoCountdownTitle}>Next Daily Income:</Section.Text>
-            <Section.Text color="green" fontFamily="slab" fontSize="36" fontWeight="700">
+            <Section.Text color="surface" fontFamily="slab" fontSize={36} fontWeight="bold">
               {nextClaim}
             </Section.Text>
           </Section.Stack>
@@ -243,7 +246,6 @@ const getStylesFromProps = ({ theme }) => {
   const defaultStatsBlock = {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: theme.colors.lightGray,
     borderRadius: theme.sizes.borderRadius,
   }
 
@@ -286,19 +288,23 @@ const getStylesFromProps = ({ theme }) => {
     },
     extraInfoStats: {
       ...defaultStatsBlock,
-      ...defaultPaddings,
       ...defaultMargins,
+      paddingVertical: 8,
       flexGrow: 1,
     },
     extraInfoCountdown: {
       ...defaultStatsBlock,
       ...defaultPaddings,
       ...defaultMargins,
+      backgroundColor: theme.colors.orange,
       flexGrow: 2,
       flexDirection: 'column',
     },
     extraInfoCountdownTitle: {
       marginBottom: theme.sizes.default,
+    },
+    goodDollarUnit: {
+      paddingTop: normalize(4),
     },
   }
 }

@@ -116,7 +116,7 @@ const SendQRSummary = (props: AmountProps) => {
       <Section grow>
         <Section.Title>Summary</Section.Title>
         <Section.Row justifyContent="center">
-          <Section.Text color="gray80Percent" style={styles.descriptionText} fontSize={16}>
+          <Section.Text color="gray80Percent" style={styles.descriptionText}>
             {'* the transaction may take\na few seconds to complete'}
           </Section.Text>
         </Section.Row>

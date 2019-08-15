@@ -24,7 +24,7 @@ const SendConfirmation = ({ screenProps, styles }: ReceiveProps) => {
     <Wrapper>
       <TopBar hideBalance push={screenProps.push} />
       <Section grow justifyContent={'center'}>
-        <Section.Text style={styles.confirmationDescription} fontSize={22} fontWeight={'500'}>
+        <Section.Text style={styles.confirmationDescription} fontSize={22} fontWeight="medium">
           {'To complete the transaction\ncopy the link and share it\nwith your recipient.'}
         </Section.Text>
         <SummaryTable counterPartyDisplayName={counterPartyDisplayName} amount={amount} reason={reason} />

@@ -105,7 +105,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
   return (
     <Section grow={5} style={styles.wrapper}>
       <Section.Stack grow style={styles.instructions} justifyContent="space-around">
-        <Text fontWeight="500" fontSize={22} color="darkGray">
+        <Text fontWeight="medium" fontSize={22}>
           {'Please enter your\n12-word pass phrase:'}
         </Text>
         <Text color="gray80Percent" fontSize={14}>

@@ -54,13 +54,13 @@ class Auth extends React.Component<Props> {
       <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
         <Section justifyContent="space-between" style={styles.mainSection} alignItems="center">
           <Section.Row alignItems="center" justifyContent="center" style={styles.topRow}>
-            <Section.Text color="surface" fontFamily="slab" fontSize={22} fontWeight={700}>
+            <Section.Text color="surface" fontFamily="slab" fontSize={22} fontWeight="bold">
               {`Alpha tokens are\nfor test use only!`}
             </Section.Text>
           </Section.Row>
           <Section.Separator color="#fff" width={2} style={styles.separator} />
           <Section.Row alignItems="center" justifyContent="center">
-            <Section.Text color="surface" fontWeight="500" fontSize={16}>
+            <Section.Text color="surface" fontWeight="medium">
               {`They have no real value and will be deleted at the end of the Alpha`}
             </Section.Text>
           </Section.Row>
@@ -72,7 +72,7 @@ class Auth extends React.Component<Props> {
             <Text
               fontSize={12}
               color="gray80Percent"
-              fontWeight="700"
+              fontWeight="bold"
               textDecorationLine="underline"
               onPress={this.handleNavigateTermsOfUse}
             >
@@ -82,7 +82,7 @@ class Auth extends React.Component<Props> {
             <Text
               fontSize={12}
               color="gray80Percent"
-              fontWeight="700"
+              fontWeight="bold"
               textDecorationLine="underline"
               onPress={this.handleNavigatePrivacyPolicy}
             >

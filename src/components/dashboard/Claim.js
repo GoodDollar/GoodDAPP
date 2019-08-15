@@ -129,7 +129,7 @@ const Claim = props => {
       if (receipt.status) {
         showDialog({
           dismissText: 'Yay!',
-          message: `You've claimed your G$`,
+          message: `You've claimed your daily G$`,
           title: 'SUCCESS!',
           type: 'success',
           onDismiss: () => screenProps.goToRoot(),

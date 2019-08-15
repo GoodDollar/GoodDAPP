@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { Image, StyleSheet, View } from 'react-native'
 import { Text } from 'react-native-paper'
 import { isMobile } from 'mobile-device-detect'
-
+import SimpleStore from '../../../lib/undux/SimpleStore'
 import { CustomButton } from '../../common'
 
 // import { Section } from '../../common'
@@ -137,7 +137,7 @@ class ZoomCapture extends React.Component<ZoomCaptureProps> {
       let zoomSDK = this.props.loadedZoom
       this.zoom = new Zoom(zoomSDK)
       await this.zoom.ready
-      this.setState({ cameraReady: true })
+      this.setState({ cameraReady: true }, () => this.props.store.set('loadingIndicator')({ loading: false }))
       if (this.props.showHelper === false) {
         this.captureUserMediaZoom()
       }
@@ -164,12 +164,16 @@ class ZoomCapture extends React.Component<ZoomCaptureProps> {
   }
 
   componentDidMount() {
+    this.props.store.set('loadingIndicator')({ loading: true })
     if (!this.props.loadedZoom) {
       log.warn('zoomSDK was not loaded into ZoomCapture properly')
     }
   }
 
   componentWillUnmount() {
+    if (this.state.cameraReady === false) {
+      this.props.store.set('loadingIndicator')({ loading: false })
+    }
     if (this.props.loadedZoom) {
       log.warn('zoomSDK was loaded, canceling zoom capture')
       this.zoom && this.zoom.cancel()
@@ -241,4 +245,4 @@ const getVideoContainerStyles = () => ({
   marginBottom: 0,
 })
 
-export default ZoomCapture
+export default SimpleStore.withStore(ZoomCapture)

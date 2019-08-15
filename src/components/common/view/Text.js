@@ -54,7 +54,7 @@ const relatedLineSpacing = fontSize =>
     24: 30,
     36: 30,
     42: 30,
-  }[fontSize] || '1em')
+  }[fontSize] || fontSize * 1.2)
 
 const getStylesFromProps = ({
   theme,
@@ -67,7 +67,7 @@ const getStylesFromProps = ({
   textDecorationLine,
   textTransform,
 }) => {
-  const calculatedFontSize = Number.isFinite(fontSize) ? normalize(fontSize) : normalize(16)
+  const calculatedFontSize = Number.isFinite(fontSize) ? fontSize : 16
   const calculatedLineHeight = lineHeight || relatedLineSpacing(calculatedFontSize)
 
   return {
@@ -76,8 +76,8 @@ const getStylesFromProps = ({
       textAlign: textAlign || 'center',
       fontWeight: fontWeight || 'normal',
       fontFamily: theme.fonts[fontFamily] || fontFamily || 'Roboto',
-      fontSize: calculatedFontSize,
-      lineHeight: calculatedLineHeight,
+      fontSize: normalize(calculatedFontSize),
+      lineHeight: normalize(calculatedLineHeight),
       textTransform: textTransform || 'none',
       textDecorationLine: textDecorationLine || 'none',
     },

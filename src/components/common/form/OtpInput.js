@@ -307,6 +307,7 @@ const getStylesFromProps = ({ theme }) => ({
     display: 'flex',
     justifyContent: 'space-evenly',
     flexDirection: 'row',
+    marginBottom: theme.sizes.default,
   },
 })
 

@@ -80,7 +80,6 @@ const backupWalletStyles = ({ theme }) => ({
   resendButton: {
     fontWeight: 'normal',
     fontSize: normalize(15),
-    letterSpacing: 'initial',
   },
 })
 

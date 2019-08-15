@@ -2,23 +2,24 @@ import StartPage from '../PageObjects/StartPage'
 import LoginPage from '../PageObjects/LoginPage'
 import HomePage from '../PageObjects/HomePage'
 import EditProfilePage from '../PageObjects/EditProfilePage'
-import ProfilePage from '../PageObjects/ProfilePage';
+import ProfilePage from '../PageObjects/ProfilePage'
 
 
 
 
 describe('Test case 3: Ability to change user data', () => {
 
-    beforeEach('authorization', () => {     
+    beforeEach('authorization', () => {    
+
         StartPage.open();
-        StartPage.loginLink.click();  
-        
+        StartPage.loginLink.click();       
         const wordsForSuccessfullLogin = Cypress.env('wordsForSuccessfullLogin')
         for( let i = 0; i < 12; i++ ) {
             LoginPage.mnemonicInputs.eq(i).type(wordsForSuccessfullLogin[i]);
         }
         LoginPage.recoverWalletButton.click();
         cy.wait(5000)
+
     });
 
 
@@ -43,16 +44,15 @@ describe('Test case 3: Ability to change user data', () => {
         EditProfilePage.saveButton.should('be.visible');   
 
     }); 
+    
 
     it('User is able to upload avatar', () => {
 
         HomePage.profileAvatar.click();
         ProfilePage.avatarDiv.click({multiple: true});
-
         const selector = 'input[type="file"]';
         const fixturePath = 'smile.png';
         const type = 'image/png';
-
         cy.get(selector)
             .then(subject => cy.window()
             .then(win => cy.fixture(fixturePath, 'base64')
@@ -77,32 +77,23 @@ describe('Test case 3: Ability to change user data', () => {
 
     });
 
-    it.only('User is able to edit input fields', () => {
+
+    it('User is able to edit input fields', () => {
 
         HomePage.optionsButton.click({force:true});
         HomePage.options.eq(0).click({force:true});
-        cy.wait(3000);
-        ProfilePage.editProfileButton.click({force:true, timeout:10000});
-        cy.wait(3000);
-
-        EditProfilePage.nameInput.clear({timeout:10000});
-        EditProfilePage.phoneInput.clear({timeout:10000});
-        EditProfilePage.emailInput.clear({timeout:10000});
-        EditProfilePage.nameInput.type('Random12345', {force: true});
-        EditProfilePage.phoneInput.type('+380983611323', {force: true});
-        EditProfilePage.emailInput.type('gggggooddollar.test123@gmail.com', {force: true});
-
-
+        ProfilePage.editProfileButton.click();
+        EditProfilePage.nameInput.clear();
+        EditProfilePage.phoneInput.clear();
+        EditProfilePage.emailInput.clear();
+        EditProfilePage.nameInput.type('Random12345');
+        EditProfilePage.phoneInput.type('+380983611323');
+        EditProfilePage.emailInput.type('gggggooddollar.test123@gmail.com');
         cy.wait(5000);
         EditProfilePage.saveButton.click();
-        cy.wait(5000);
-
-
         ProfilePage.nameInput.should('have.value', 'Random12345');
         ProfilePage.phoneInput.should('have.value', '+380983611323');
         ProfilePage.emailInput.should('have.value', 'gggggooddollar.test123@gmail.com');
-
-
         ProfilePage.editProfileButton.click();
         cy.wait(3000);
         EditProfilePage.nameInput.clear();
@@ -111,31 +102,27 @@ describe('Test case 3: Ability to change user data', () => {
         EditProfilePage.phoneInput.type('+380983611320');
         EditProfilePage.emailInput.clear();
         EditProfilePage.emailInput.type('gooddollar.test123@gmail.com');
-        cy.wait(3000)
+        cy.wait(3000);
         EditProfilePage.saveButton.click();
-        cy.wait(7500)
+        cy.wait(5000);
 
     }); 
+
 
     it('User is unable to type invalid data', () => {
 
         HomePage.optionsButton.click({force:true});
         HomePage.options.eq(0).click({force:true});
-        cy.wait(3000);
         ProfilePage.editProfileButton.click();
-        cy.wait(3000);
-
         EditProfilePage.nameInput.clear({timeout:10000});
         EditProfilePage.phoneInput.clear({timeout:10000});
         EditProfilePage.emailInput.clear({timeout:10000});
-        EditProfilePage.nameInput.type('Random Username', {force: true});
-        EditProfilePage.phoneInput.type('+999999999999', {force: true});
-        EditProfilePage.emailInput.type('incorrect@email', {force: true});
-
+        EditProfilePage.nameInput.type('Random Username');
+        EditProfilePage.phoneInput.type('+999999999999');
+        EditProfilePage.emailInput.type('incorrect@email');
         EditProfilePage.wrongNameErrorDiv.should('contain', 'Must contain only letters (a-z), numbers (0-9) and underscore (_)');
         EditProfilePage.phoneInput.should('have.class', 'react-phone-number-input__input--invalid')
         EditProfilePage.wrongEmailErrorDiv.should('contain', 'Enter a valid format: yourname@example.com');
-
         EditProfilePage.saveButton.should('not.be.enabled');
 
     });

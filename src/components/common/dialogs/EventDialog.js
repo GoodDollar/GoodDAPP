@@ -47,10 +47,10 @@ const EventDialog = ({ visible, event, onDismiss, reason }: EventDialogProps) =>
           <Paragraph style={styles.date}>{customDate}</Paragraph>
           <Section style={styles.gdSection}>
             <Section.Row>
-              <Section.Text color="gray" fontSize={18} fontWeight="700">
+              <Section.Text color="gray" fontSize={18} fontWeight="bold">
                 Sent G$
               </Section.Text>
-              <Section.Text color="gray" fontWeight="700">
+              <Section.Text color="gray" fontWeight="bold">
                 + <BigGoodDollar number={amount} />
               </Section.Text>
             </Section.Row>

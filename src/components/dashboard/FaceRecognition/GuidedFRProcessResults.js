@@ -226,7 +226,7 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
           flex: 1,
         }}
       >
-        <Section.Title fontSize={24} fontWeight="medium" textTransform="none" style={styles.mainTitle}>
+        <Section.Title fontWeight="medium" textTransform="none" style={styles.mainTitle}>
           Analyzing Results...
         </Section.Title>
         <View

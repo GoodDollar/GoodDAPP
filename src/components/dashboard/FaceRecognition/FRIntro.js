@@ -37,7 +37,7 @@ const FRIntro = props => {
     <Wrapper>
       <Section style={styles.topContainer}>
         <View style={styles.mainContent}>
-          <Section.Title fontSize={24} fontWeight="medium" textTransform="none" style={styles.mainTitle}>
+          <Section.Title fontWeight="medium" textTransform="none" style={styles.mainTitle}>
             {`${getFirstWord(fullName)},\nLet's verify it's really you`}
           </Section.Title>
           <Image source={illustration} resizeMode="contain" style={styles.illustration} />

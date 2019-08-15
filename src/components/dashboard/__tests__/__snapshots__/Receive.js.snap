@@ -353,7 +353,7 @@ exports[`Receive matches snapshot 1`] = `
             }
           }
         >
-          Let someone scan your wallet address 
+          Let someone scan your wallet address
         </div>
         <div
           className="css-view-1dbjc4n"
@@ -524,7 +524,7 @@ exports[`Receive matches snapshot 1`] = `
             }
           }
         >
-           - OR - 
+          - OR -
         </div>
       </div>
       <div

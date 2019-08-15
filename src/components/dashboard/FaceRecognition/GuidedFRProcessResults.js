@@ -205,10 +205,10 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
     )
   } else if (processStatus.isLive === false) {
     helpText =
-      'We could not verify you are a living person. Funny hu? please make sure:\n\n\
-A. Center your webcam\n\
-B. Camera is at eye level\n\
-C. Light your face evenly'
+      'We could not verify you are a living person. Funny hu? please make sure:\n\n' +
+      'A. Center your webcam\n' +
+      'B. Camera is at eye level\n' +
+      'C. Light your face evenly'
   } else if (isProcessFailed) {
     helpText = 'Something went wrong, please try again...'
   }

@@ -14,7 +14,6 @@ import values from 'lodash/values'
 import keys from 'lodash/keys'
 import isEmail from 'validator/lib/isEmail'
 import Mutex from 'await-mutex'
-import { AsyncStorage } from 'react-native'
 import isMobilePhone from '../validators/isMobilePhone'
 
 import pino from '../logger/pino-logger'
@@ -1416,6 +1415,6 @@ export class UserStorage {
     //     profile: 'failed'
     //   }))
     logger.debug('deleteAccount', { deleteResults })
-    return AsyncStorage.clear()
+    return deleteResults
   }
 }

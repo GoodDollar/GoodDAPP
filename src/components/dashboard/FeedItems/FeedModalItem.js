@@ -7,6 +7,7 @@ import BigGoodDollar from '../../common/view/BigGoodDollar'
 import Text from '../../common/view/Text'
 import ModalWrapper from '../../common/modal/ModalWrapper'
 import ModalActionsByFeedType from '../../common/modal/ModalActionsByFeedType'
+import ModalPaymentStatus from '../../common/modal/ModalPaymentStatus'
 import TopImage from '../../common/modal/ModalTopImage'
 import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
 import { withStyles } from '../../../lib/styles'
@@ -38,6 +39,7 @@ const FeedModalItem = (props: FeedEventProps) => {
       ) : (
         <React.Fragment>
           <TopImage type={itemType} />
+          <ModalPaymentStatus item={item} />
           <View style={styles.dateAndAmount}>
             <React.Fragment>
               <Text fontSize={10}>{getFormattedDateTime(item.date)}</Text>

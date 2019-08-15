@@ -81,7 +81,6 @@ const backupWalletStyles = ({ theme }) => ({
     color: theme.colors.primary,
     fontWeight: 'normal',
     fontSize: normalize(15),
-    letterSpacing: 'initial',
   },
 })
 

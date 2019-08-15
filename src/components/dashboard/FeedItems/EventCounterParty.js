@@ -1,9 +1,8 @@
 import React from 'react'
-import normalize from '../../../lib/utils/normalizeText'
 import { Text } from '../../common'
 import { withStyles } from '../../../lib/styles'
 
-const EventCounterParty = ({ feedItem, styles, style }) => {
+const EventCounterParty = ({ feedItem, styles, style, theme }) => {
   const direction =
     feedItem.type === 'send' ? 'To:' : ['claim', 'receive', 'withdraw'].indexOf(feedItem.type) > -1 ? 'From:' : ''
   const withdrawStatusText =
@@ -11,29 +10,30 @@ const EventCounterParty = ({ feedItem, styles, style }) => {
       ? ` by link - ${feedItem.data.endpoint.withdrawStatus}`
       : ''
   return (
-    <Text style={[styles.rowDataText, style]} numberOfLines={1} ellipsizeMode="tail">
-      <Text style={styles.direction}>{direction}</Text>
-      <Text style={styles.fullName}>{` ${feedItem.data.endpoint.fullName}${withdrawStatusText}`}</Text>
+    <Text
+      color="darkGray"
+      textTransform="capitalize"
+      textAlign="left"
+      style={[styles.rowDataText, style]}
+      numberOfLines={1}
+      ellipsizeMode="tail"
+    >
+      <Text fontSize={10} style={styles.direction} color="darkGray">
+        {direction}
+      </Text>
+      <Text fontWeight={500} style={styles.fullName} color="darkGray">
+        {` ${feedItem.data.endpoint.fullName}${withdrawStatusText}`}
+      </Text>
     </Text>
   )
 }
 
 const getStylesFromProps = ({ theme }) => ({
-  rowDataText: {
-    color: theme.fontStyle.color,
-    lineHeight: normalize(16),
-    textAlign: 'left',
-    textTransform: 'capitalize',
-    marginBottom: theme.sizes.defaultHalf,
-  },
   direction: {
-    fontSize: normalize(10),
+    textAlignVertical: 'middle',
   },
   fullName: {
-    fontFamily: theme.fonts.default,
-    fontSize: normalize(16),
-    fontWeight: '500',
-    lineHeight: normalize(16),
+    textAlignVertical: 'middle',
   },
 })
 

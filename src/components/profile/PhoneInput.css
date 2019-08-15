@@ -36,9 +36,7 @@
   box-shadow: none;
 }
 
+.react-phone-number-input.react-phone-number-input--invalid .react-phone-number-input__error,
 .react-phone-number-input__error {
-  display: none;
-  text-align: right;
-  font-size: 12px;
-  font-family: Roboto, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  display: none !important;
 }

@@ -40,6 +40,11 @@ const TopImage = ({ type, styles }) => {
         style: styles.mainPhoto,
         containerStyle: styles.mainPhotoContainer,
       },
+      welcome: {
+        src: inviteIllustration,
+        style: styles.mainPhoto,
+        containerStyle: styles.mainPhotoContainer,
+      },
     }[type] || null)
 
   const image = getImageByType()
@@ -76,7 +81,7 @@ const getStylesFromProps = ({ theme }) => ({
     marginBottom: 15,
   },
   mainPhoto: {
-    height: 128,
+    height: '20vh',
     width: '100%',
   },
 })

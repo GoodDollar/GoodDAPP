@@ -112,6 +112,7 @@ export const welcomeMessage = {
   status: 'completed',
   data: {
     customName: 'Welcome to GoodDollar!',
+    subtitle: 'Start claiming free G$',
     receiptData: {
       from: '0x0000000000000000000000000000000000000000',
     },
@@ -1016,6 +1017,7 @@ export class UserStorage {
       code: withdrawCode,
       otplStatus,
       customName,
+      subtitle,
     } = data
     let avatar, fullName, address, withdrawStatus, initiator
     if (type === 'send') {
@@ -1107,6 +1109,7 @@ export class UserStorage {
         },
         amount: value,
         message: reason,
+        subtitle,
       },
     }
   }

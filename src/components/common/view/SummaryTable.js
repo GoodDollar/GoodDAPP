@@ -46,7 +46,7 @@ const ReasonRow = props => {
   return (
     <Section.Row style={styles.tableRow}>
       <Section.Text style={styles.tableRowLabel}>For:</Section.Text>
-      <Section.Text fontSize={16}>{reason}</Section.Text>
+      <Section.Text fontSize={14}>{reason}</Section.Text>
     </Section.Row>
   )
 }

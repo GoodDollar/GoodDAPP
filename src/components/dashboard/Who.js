@@ -23,7 +23,7 @@ const getError = value => {
 }
 
 const Who = (props: AmountProps) => {
-  const { screenProps } = props
+  const { screenProps, styles } = props
   const [screenState, setScreenState] = useScreenState(screenProps)
   const { params } = props.navigation.state
   const isReceive = params && params.action === ACTION_RECEIVE
@@ -50,7 +50,7 @@ const Who = (props: AmountProps) => {
             error={state.error}
             onChangeText={setValue}
             placeholder="Enter the recipient name"
-            style={props.styles.input}
+            style={styles.input}
             value={state.value}
           />
         </Section.Stack>
@@ -83,4 +83,8 @@ Who.shouldNavigateToComponent = props => {
   return screenState.nextRoutes
 }
 
-export default withStyles(({ theme }) => ({ input: { marginTop: theme.sizes.defaultDouble } }))(Who)
+export default withStyles(({ theme }) => ({
+  input: {
+    marginTop: theme.sizes.defaultDouble,
+  },
+}))(Who)

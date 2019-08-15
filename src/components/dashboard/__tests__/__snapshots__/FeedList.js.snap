@@ -854,14 +854,13 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                             "fontSize": "10px",
                             "fontWeight": "400",
                             "lineHeight": "22px",
-                            "marginTop": "2px",
                             "textAlign": "center",
                             "textDecoration": "none",
                             "textTransform": "none",
                           }
                         }
                       >
-                        04/01/19 3:03 PM
+                        04/01/19 15:03
                       </div>
                       <div
                         className="css-text-901oao"
@@ -873,7 +872,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                             "fontFamily": "Roboto",
                             "fontSize": "15px",
                             "fontWeight": "700",
-                            "lineHeight": "22px",
+                            "lineHeight": "18px",
                             "marginLeft": "auto",
                             "textAlign": "center",
                             "textDecoration": "none",
@@ -957,6 +956,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                           "msFlexNegative": 1,
                           "paddingLeft": "4px",
                           "paddingRight": "4px",
+                          "paddingTop": "4px",
                         }
                       }
                     >
@@ -997,14 +997,14 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                           style={
                             Object {
                               "WebkitFlexShrink": 0,
-                              "color": "rgba(85,85,85,1.00)",
+                              "color": "rgba(66,69,74,1.00)",
                               "direction": "ltr",
                               "flexShrink": 0,
                               "fontFamily": "Roboto",
                               "fontSize": "16px",
                               "fontWeight": "normal",
                               "height": "22px",
-                              "lineHeight": "16px",
+                              "lineHeight": "22px",
                               "marginBottom": "0px",
                               "msFlexNegative": 0,
                               "textAlign": "left",
@@ -1018,15 +1018,16 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                             dir="auto"
                             style={
                               Object {
-                                "color": "rgba(34,34,34,1.00)",
+                                "color": "rgba(66,69,74,1.00)",
                                 "direction": "ltr",
                                 "fontFamily": "Roboto",
                                 "fontSize": "10px",
                                 "fontWeight": "normal",
-                                "lineHeight": "22px",
+                                "lineHeight": "14px",
                                 "textAlign": "center",
                                 "textDecoration": "none",
                                 "textTransform": "none",
+                                "verticalAlign": "middle",
                               }
                             }
                           >
@@ -1037,15 +1038,16 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                             dir="auto"
                             style={
                               Object {
-                                "color": "rgba(34,34,34,1.00)",
+                                "color": "rgba(66,69,74,1.00)",
                                 "direction": "ltr",
                                 "fontFamily": "Roboto",
                                 "fontSize": "16px",
-                                "fontWeight": "500",
-                                "lineHeight": "16px",
+                                "fontWeight": 500,
+                                "lineHeight": "22px",
                                 "textAlign": "center",
                                 "textDecoration": "none",
                                 "textTransform": "none",
+                                "verticalAlign": "middle",
                               }
                             }
                           >
@@ -1064,7 +1066,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                               "fontFamily": "Roboto",
                               "fontSize": "10px",
                               "fontWeight": "normal",
-                              "lineHeight": "10px",
+                              "lineHeight": "14px",
                               "msFlexNegative": 0,
                               "paddingBottom": "4px",
                               "textAlign": "center",
@@ -1403,14 +1405,13 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                             "fontSize": "10px",
                             "fontWeight": "400",
                             "lineHeight": "22px",
-                            "marginTop": "2px",
                             "textAlign": "center",
                             "textDecoration": "none",
                             "textTransform": "none",
                           }
                         }
                       >
-                        04/01/19 3:03 PM
+                        04/01/19 15:03
                       </div>
                       <div
                         className="css-text-901oao"
@@ -1422,7 +1423,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                             "fontFamily": "Roboto",
                             "fontSize": "15px",
                             "fontWeight": "700",
-                            "lineHeight": "22px",
+                            "lineHeight": "18px",
                             "marginLeft": "auto",
                             "textAlign": "center",
                             "textDecoration": "none",
@@ -1506,6 +1507,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                           "msFlexNegative": 1,
                           "paddingLeft": "4px",
                           "paddingRight": "4px",
+                          "paddingTop": "4px",
                         }
                       }
                     >
@@ -1546,14 +1548,14 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                           style={
                             Object {
                               "WebkitFlexShrink": 0,
-                              "color": "rgba(85,85,85,1.00)",
+                              "color": "rgba(66,69,74,1.00)",
                               "direction": "ltr",
                               "flexShrink": 0,
                               "fontFamily": "Roboto",
                               "fontSize": "16px",
                               "fontWeight": "normal",
                               "height": "22px",
-                              "lineHeight": "16px",
+                              "lineHeight": "22px",
                               "marginBottom": "0px",
                               "msFlexNegative": 0,
                               "textAlign": "left",
@@ -1567,15 +1569,16 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                             dir="auto"
                             style={
                               Object {
-                                "color": "rgba(34,34,34,1.00)",
+                                "color": "rgba(66,69,74,1.00)",
                                 "direction": "ltr",
                                 "fontFamily": "Roboto",
                                 "fontSize": "10px",
                                 "fontWeight": "normal",
-                                "lineHeight": "22px",
+                                "lineHeight": "14px",
                                 "textAlign": "center",
                                 "textDecoration": "none",
                                 "textTransform": "none",
+                                "verticalAlign": "middle",
                               }
                             }
                           >
@@ -1586,15 +1589,16 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                             dir="auto"
                             style={
                               Object {
-                                "color": "rgba(34,34,34,1.00)",
+                                "color": "rgba(66,69,74,1.00)",
                                 "direction": "ltr",
                                 "fontFamily": "Roboto",
                                 "fontSize": "16px",
-                                "fontWeight": "500",
-                                "lineHeight": "16px",
+                                "fontWeight": 500,
+                                "lineHeight": "22px",
                                 "textAlign": "center",
                                 "textDecoration": "none",
                                 "textTransform": "none",
+                                "verticalAlign": "middle",
                               }
                             }
                           >
@@ -1613,7 +1617,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                               "fontFamily": "Roboto",
                               "fontSize": "10px",
                               "fontWeight": "normal",
-                              "lineHeight": "10px",
+                              "lineHeight": "14px",
                               "msFlexNegative": 0,
                               "paddingBottom": "4px",
                               "textAlign": "center",

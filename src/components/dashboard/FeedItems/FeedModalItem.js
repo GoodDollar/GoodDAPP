@@ -7,6 +7,7 @@ import BigGoodDollar from '../../common/view/BigGoodDollar'
 import Text from '../../common/view/Text'
 import ModalWrapper from '../../common/modal/ModalWrapper'
 import ModalActionsByFeedType from '../../common/modal/ModalActionsByFeedType'
+import ModalPaymentStatus from '../../common/modal/ModalPaymentStatus'
 import TopImage from '../../common/modal/ModalTopImage'
 import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
 import { withStyles } from '../../../lib/styles'
@@ -38,6 +39,7 @@ const FeedModalItem = (props: FeedEventProps) => {
       ) : (
         <React.Fragment>
           <TopImage type={itemType} />
+          <ModalPaymentStatus item={item} />
           <View style={styles.dateAndAmount}>
             <React.Fragment>
               <Text style={styles.date}>{getFormattedDateTime(item.date)}</Text>
@@ -57,17 +59,21 @@ const FeedModalItem = (props: FeedEventProps) => {
             </React.Fragment>
           </View>
           <View style={[styles.transactionDetails, { borderColor: mainColor }]}>
-            <Avatar
-              source={item.data && item.data.endpoint && item.data.endpoint.avatar}
-              size={34}
-              style={styles.avatar}
-            />
+            {!eventSettings.withoutAvatar && (
+              <Avatar
+                source={item.data && item.data.endpoint && item.data.endpoint.avatar}
+                size={34}
+                style={styles.avatar}
+              />
+            )}
             {item.data && item.data.endpoint && <EventCounterParty style={styles.feedItem} feedItem={item} />}
-            <EventIcon type={itemType} style={styles.icon} />
+            {!eventSettings.withoutAvatar && <EventIcon type={itemType} style={styles.icon} />}
           </View>
           {item.data.message && (
             <View style={styles.messageContainer}>
-              <Text style={styles.message}>{item.data.message}</Text>
+              <Text color="darkGray" fontSize={14} textAlign="left">
+                {item.data.message}
+              </Text>
             </View>
           )}
           {item.status === 'pending' && (
@@ -130,11 +136,6 @@ const getStylesFromProps = ({ theme }) => {
     },
     messageContainer: {
       flex: 1,
-    },
-    message: {
-      color: theme.colors.darkGray,
-      fontSize: normalize(14),
-      textAlign: 'left',
     },
     buttonsRow: {
       alignItems: 'flex-end',

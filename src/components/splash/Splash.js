@@ -18,8 +18,8 @@ const Splash = () => (
       <Section.Stack style={styles.content} grow justifyContent="space-between">
         <Section.Text fontSize={22} color="darkBlue">
           {`Welcome and thank you\nfor participating in GoodDollar's\n`}
-          <Section.Text fontSize={22} fontWeight="700" color="darkBlue">
-            Early Access Alpha
+          <Section.Text fontSize={22} fontWeight="800" color="darkBlue">
+            Early Access Alpha V2.0
           </Section.Text>
         </Section.Text>
         <Image source={splashImage} style={styles.logo} resizeMode="contain" />

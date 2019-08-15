@@ -34,16 +34,17 @@ type TextContentProps = {
   uppercase?: boolean,
 }
 
-const mapPropsToStyles = ({ theme }) => ({
+const mapPropsToStyles = ({ theme, compact }) => ({
   buttonStyle: {
     borderColor: theme.colors.primary,
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'stretch',
     minHeight: 44,
     paddingLeft: 0,
     paddingRight: 0,
     padding: 0,
     margin: 0,
+    display: 'flex',
   },
   leftIcon: {
     marginRight: theme.sizes.defaultDouble,
@@ -77,7 +78,7 @@ const mapPropsToStyles = ({ theme }) => ({
     flex: 1,
   },
   activityIndicator: {
-    marginRight: theme.sizes.default,
+    marginRight: compact ? theme.sizes.defaultHalf : theme.sizes.default,
     alignSelf: 'center',
   },
 })
@@ -167,9 +168,7 @@ const CustomButton = (props: ButtonProps) => {
         {icon && (!iconAlignment || iconAlignment === 'left') && (
           <IconButton icon={icon} theme={theme} dark={dark} size={iconSize} style={styles.leftIcon} />
         )}
-        {loading && (
-          <ActivityIndicator style={styles.activityIndicator} animating={loading} color={'#fff'} size={iconSize} />
-        )}
+        {loading && <ActivityIndicator style={styles.activityIndicator} animating={loading} color={'#fff'} size={25} />}
         <TextContent dark={dark} uppercase={uppercase} textStyle={textStyle}>
           {children}
         </TextContent>

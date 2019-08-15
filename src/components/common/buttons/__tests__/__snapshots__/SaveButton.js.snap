@@ -39,11 +39,11 @@ exports[`WrappedSaveButton matches snapshot 1`] = `
       className="css-view-1dbjc4n"
       style={
         Object {
-          "WebkitAlignItems": "center",
-          "WebkitBoxAlign": "center",
+          "WebkitAlignItems": "stretch",
+          "WebkitBoxAlign": "stretch",
           "WebkitBoxPack": "center",
           "WebkitJustifyContent": "center",
-          "alignItems": "center",
+          "alignItems": "stretch",
           "backgroundColor": "rgba(12,38,61,1.00)",
           "borderBottomColor": "rgba(0,175,255,1.00)",
           "borderBottomLeftRadius": "50px",
@@ -62,6 +62,7 @@ exports[`WrappedSaveButton matches snapshot 1`] = `
           "borderTopStyle": "solid",
           "borderTopWidth": "0px",
           "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
+          "display": "flex",
           "justifyContent": "center",
           "marginBottom": "0px",
           "marginLeft": "0px",
@@ -69,13 +70,13 @@ exports[`WrappedSaveButton matches snapshot 1`] = `
           "marginTop": "0px",
           "minHeight": "44px",
           "minWidth": "64px",
-          "msFlexAlign": "center",
+          "msFlexAlign": "stretch",
           "msFlexPack": "center",
           "paddingBottom": "0px",
           "paddingLeft": "0px",
           "paddingRight": "0px",
           "paddingTop": "0px",
-          "width": "80px",
+          "width": "85px",
         }
       }
     >
@@ -242,11 +243,11 @@ exports[`WrappedSaveButton matches snapshot 2`] = `
       className="css-view-1dbjc4n"
       style={
         Object {
-          "WebkitAlignItems": "center",
-          "WebkitBoxAlign": "center",
+          "WebkitAlignItems": "stretch",
+          "WebkitBoxAlign": "stretch",
           "WebkitBoxPack": "center",
           "WebkitJustifyContent": "center",
-          "alignItems": "center",
+          "alignItems": "stretch",
           "backgroundColor": "rgba(0,0,0,0.00)",
           "borderBottomColor": "rgba(0,175,255,1.00)",
           "borderBottomLeftRadius": "50px",
@@ -264,6 +265,7 @@ exports[`WrappedSaveButton matches snapshot 2`] = `
           "borderTopRightRadius": "50px",
           "borderTopStyle": "solid",
           "borderTopWidth": "1px",
+          "display": "flex",
           "justifyContent": "center",
           "marginBottom": "0px",
           "marginLeft": "0px",
@@ -271,13 +273,13 @@ exports[`WrappedSaveButton matches snapshot 2`] = `
           "marginTop": "0px",
           "minHeight": "44px",
           "minWidth": "64px",
-          "msFlexAlign": "center",
+          "msFlexAlign": "stretch",
           "msFlexPack": "center",
           "paddingBottom": "0px",
           "paddingLeft": "0px",
           "paddingRight": "0px",
           "paddingTop": "0px",
-          "width": "80px",
+          "width": "85px",
         }
       }
     >
@@ -444,11 +446,11 @@ exports[`WrappedSaveButton matches snapshot 3`] = `
       className="css-view-1dbjc4n"
       style={
         Object {
-          "WebkitAlignItems": "center",
-          "WebkitBoxAlign": "center",
+          "WebkitAlignItems": "stretch",
+          "WebkitBoxAlign": "stretch",
           "WebkitBoxPack": "center",
           "WebkitJustifyContent": "center",
-          "alignItems": "center",
+          "alignItems": "stretch",
           "backgroundColor": "rgba(204,204,204,1.00)",
           "borderBottomColor": "rgba(0,175,255,1.00)",
           "borderBottomLeftRadius": "50px",
@@ -467,6 +469,7 @@ exports[`WrappedSaveButton matches snapshot 3`] = `
           "borderTopStyle": "solid",
           "borderTopWidth": "0px",
           "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
+          "display": "flex",
           "justifyContent": "center",
           "marginBottom": "0px",
           "marginLeft": "0px",
@@ -474,13 +477,13 @@ exports[`WrappedSaveButton matches snapshot 3`] = `
           "marginTop": "0px",
           "minHeight": "44px",
           "minWidth": "64px",
-          "msFlexAlign": "center",
+          "msFlexAlign": "stretch",
           "msFlexPack": "center",
           "paddingBottom": "0px",
           "paddingLeft": "0px",
           "paddingRight": "0px",
           "paddingTop": "0px",
-          "width": "80px",
+          "width": "85px",
         }
       }
     >
@@ -647,11 +650,11 @@ exports[`WrappedSaveButton matches snapshot 4`] = `
       className="css-view-1dbjc4n"
       style={
         Object {
-          "WebkitAlignItems": "center",
-          "WebkitBoxAlign": "center",
+          "WebkitAlignItems": "stretch",
+          "WebkitBoxAlign": "stretch",
           "WebkitBoxPack": "center",
           "WebkitJustifyContent": "center",
-          "alignItems": "center",
+          "alignItems": "stretch",
           "backgroundColor": "rgba(12,38,61,1.00)",
           "borderBottomColor": "rgba(0,175,255,1.00)",
           "borderBottomLeftRadius": "50px",
@@ -670,6 +673,7 @@ exports[`WrappedSaveButton matches snapshot 4`] = `
           "borderTopStyle": "solid",
           "borderTopWidth": "0px",
           "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
+          "display": "flex",
           "justifyContent": "center",
           "marginBottom": "0px",
           "marginLeft": "0px",
@@ -677,13 +681,13 @@ exports[`WrappedSaveButton matches snapshot 4`] = `
           "marginTop": "0px",
           "minHeight": "44px",
           "minWidth": "64px",
-          "msFlexAlign": "center",
+          "msFlexAlign": "stretch",
           "msFlexPack": "center",
           "paddingBottom": "0px",
           "paddingLeft": "0px",
           "paddingRight": "0px",
           "paddingTop": "0px",
-          "width": "80px",
+          "width": "85px",
         }
       }
     >

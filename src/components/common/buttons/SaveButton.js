@@ -79,7 +79,7 @@ const getStylesFromProps = ({ theme }) => ({
     justifyContent: 'flex-end',
   },
   saveButton: {
-    width: 80,
+    width: 85,
   },
   customButtonText: {
     fontWeight: 'bold',

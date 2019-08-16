@@ -10,7 +10,7 @@ const EventCounterParty = ({ feedItem, styles, style }) => {
       <Text fontSize={10} style={styles.direction}>
         {direction}
       </Text>
-      <Text fontWeight="medium" style={styles.fullName}>
+      <Text fontWeight="medium" lineHeight={19} style={styles.fullName}>
         {` ${feedItem.data.endpoint.fullName}`}
       </Text>
     </Text>

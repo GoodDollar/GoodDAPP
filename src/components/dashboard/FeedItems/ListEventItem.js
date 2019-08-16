@@ -37,13 +37,13 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
       />
       <View grow style={styles.mainContents}>
         <View style={[styles.dateAndValue, { borderBottomColor: mainColor }]}>
-          <Text fontSize={10} color="gray80Percent">
+          <Text fontSize={10} color="gray80Percent" lineHeight={17}>
             {getFormattedDateTime(feed.date)}
           </Text>
           {!eventSettings.withoutAmount && (
             <React.Fragment>
               {eventSettings && eventSettings.actionSymbol && (
-                <Text fontSize={15} fontWeight="bold" color={mainColor} style={styles.actionSymbol}>
+                <Text fontSize={15} lineHeight={18} fontWeight="bold" color={mainColor} style={styles.actionSymbol}>
                   {eventSettings.actionSymbol}
                 </Text>
               )}
@@ -139,18 +139,22 @@ const getStylesFromProps = ({ theme }) => ({
   },
   bigNumberStyles: {
     fontSize: normalize(15),
+    lineHeight: normalize(18),
     marginRight: theme.sizes.defaultHalf,
   },
   bigNumberUnitStyles: {
     fontSize: normalize(10),
+    lineHeight: normalize(11),
+    marginTop: 6,
   },
   transferInfo: {
     display: 'flex',
     flexDirection: 'row',
     flexShrink: 1,
-    marginTop: 'auto',
+    marginVertical: 'auto',
     paddingHorizontal: theme.sizes.defaultHalf,
     paddingTop: theme.sizes.defaultHalf,
+    alignItems: 'center',
   },
   mainInfo: {
     alignItems: 'flex-start',
@@ -169,11 +173,11 @@ const getStylesFromProps = ({ theme }) => ({
     marginBottom: 0,
   },
   message: {
-    paddingBottom: theme.sizes.defaultHalf,
+    paddingBottom: 0,
     flexShrink: 0,
   },
   typeIcon: {
-    marginTop: 'auto',
+    marginTop: 0,
   },
 })
 

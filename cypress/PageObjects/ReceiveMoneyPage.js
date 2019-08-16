@@ -36,10 +36,6 @@ class ReceiveMoneyPage {
         return cy.get('[role=button]', { timeout: 10000 }).contains('Confirm');
     }
 
-    get yayWindowButton() {
-        return cy.get('[role=button]', { timeout: 10000 }).contains('Yay!');
-    }
-
 }
 
 export default new ReceiveMoneyPage;

@@ -53,6 +53,7 @@ describe('Test case 9: Ability to send money request and reseive money', () => {
         HomePage.sendButton.should('be.visible')
 
     });
+    
 
     it('User is able to receive money', async () => {
 
@@ -65,14 +66,13 @@ describe('Test case 9: Ability to send money request and reseive money', () => {
         LoginPage.recoverWalletButton.click();
         cy.wait(7000)
         const moneyBeforeSending = await HomePage.moneyAmountDiv.invoke('text');
-        cy.log("money: " + moneyBeforeSending);
         cy.visit(reseiveMoneyUrl);
         ReceiveMoneyPage.confirmWindowButton.should('be.visible');
         ReceiveMoneyPage.confirmWindowButton.click();
         cy.wait(8000)
-        cy.visit('https://goodqa.netlify.com/AppNavigation/Dashboard/Home')
+        cy.visit('https://goodqa.netlify.com/AppNavigation/Dashboard/Home');
+        cy.wait(15000)
         HomePage.claimButton.should('be.visible');
-        cy.wait(12000)
         HomePage.moneyAmountDiv.invoke('text').then( moneyAfterSending => {
             expect(Number(moneyBeforeSending) - 0.01).to.be.equal( Number(moneyAfterSending) )
         });

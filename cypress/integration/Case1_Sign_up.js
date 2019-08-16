@@ -34,7 +34,7 @@ describe('Test case 1: Ability to Sign Up', () => {
     });
 
 
-    it.only('Try to sign up the wallet with correct values', async () => {
+    it('Try to sign up the wallet with correct values', async () => {
 
         await StartPage.open();
         StartPage.createWalletButton.click();
@@ -85,9 +85,9 @@ describe('Test case 1: Ability to Sign Up', () => {
 
                     });
                 
-        
 
 
+                    
     });
 
 

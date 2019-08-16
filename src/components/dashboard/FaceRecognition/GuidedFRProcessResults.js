@@ -210,6 +210,7 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
       'B. Camera is at eye level\n' +
       'C. Light your face evenly'
   } else if (isProcessFailed) {
+    log.error('FR failed', processStatus)
     helpText = 'Something went wrong, please try again...'
   }
   return (

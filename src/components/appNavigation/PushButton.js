@@ -4,7 +4,7 @@ import CustomButton, { type ButtonProps } from '../common/buttons/CustomButton'
 
 type PushButtonProps = {
   ...ButtonProps,
-  canContinue: Promise<boolean>,
+  canContinue?: Function,
   params?: any,
   routeName: Route,
   screenProps: { push: (routeName: string, params: any) => void },

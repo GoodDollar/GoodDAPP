@@ -22,25 +22,11 @@ export function Camera(props: CameraProps) {
     {
       audio: false,
       video: {
-        width: { exact: 1280 },
-        height: { exact: 720 },
-        facingMode: 'user',
-      },
-    },
-    {
-      audio: false,
-      video: {
-        width: { exact: 640 },
-        height: { exact: 360 },
-        facingMode: 'user',
-      },
-    },
-    {
-      audio: false,
-      video: {
-        width: { exact: 1920 },
-        height: { exact: 1080 },
-        facingMode: 'user',
+        facingMode: {
+          ideal: 'user',
+        },
+        width: { min: 640 },
+        height: { min: 360 },
       },
     },
   ]

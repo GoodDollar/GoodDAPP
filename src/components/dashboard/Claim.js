@@ -74,7 +74,7 @@ const Claim = props => {
 
   const gatherStats = async () => {
     const [claimedToday, nextClaimDate] = await Promise.all([
-      wrappedGoodWallet.getAmountAndQuantityClaimedToday(entitlement),
+      wrappedGoodWallet.getAmountAndQuantityClaimedToday(),
       wrappedGoodWallet.getNextClaimTime(),
     ])
 

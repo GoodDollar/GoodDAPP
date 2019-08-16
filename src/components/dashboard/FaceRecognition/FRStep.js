@@ -2,6 +2,7 @@ import React from 'react'
 import { ActivityIndicator, View } from 'react-native'
 import { Text } from 'react-native-paper'
 import Icon from '../../common/view/Icon'
+import normalize from '../../../lib/utils/normalizeText'
 import logger from '../../../lib/logger/pino-logger'
 import { withStyles } from '../../../lib/styles'
 
@@ -49,19 +50,19 @@ const getStylesFromProps = ({ theme }) => ({
     justifyContent: 'center',
   },
   textActive: {
-    fontSize: '1rem',
+    fontSize: normalize(16),
     color: theme.colors.darkGray,
     textTransform: 'none',
     lineHeight: '1.75rem',
   },
   textInactive: {
-    fontSize: '1rem',
+    fontSize: normalize(16),
     color: theme.colors.gray50Percent,
     textTransform: 'none',
     lineHeight: '1.75rem',
   },
   textError: {
-    fontSize: '1rem',
+    fontSize: normalize(16),
     color: theme.colors.red,
     textTransform: 'none',
     lineHeight: '1.75rem',

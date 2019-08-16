@@ -13,6 +13,7 @@ import GDStore from '../../../lib/undux/GDStore'
 import logger from '../../../lib/logger/pino-logger'
 import { fireEvent } from '../../../lib/analytics/analytics'
 import { withStyles } from '../../../lib/styles'
+import normalize from '../../../lib/utils/normalizeText'
 
 const log = logger.child({ from: 'UnsupportedDevice' })
 
@@ -145,7 +146,7 @@ const getStylesFromProps = ({ theme }) => ({
     height: '10rem',
   },
   description: {
-    fontSize: '1rem',
+    fontSize: normalize(16),
     fontWeight: 'bold',
     color: theme.colors.primary,
     padding: 0,
@@ -153,7 +154,7 @@ const getStylesFromProps = ({ theme }) => ({
     paddingBottom: 15,
   },
   mainTitle: {
-    fontSize: '1.5rem',
+    fontSize: normalize(24),
     color: theme.colors.darkGray,
     textTransform: 'none',
   },

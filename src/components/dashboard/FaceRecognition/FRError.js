@@ -8,6 +8,7 @@ import Oops from '../../../assets/oops.svg'
 import GDStore from '../../../lib/undux/GDStore'
 import logger from '../../../lib/logger/pino-logger'
 import { withStyles } from '../../../lib/styles'
+import normalize from '../../../lib/utils/normalizeText'
 
 const log = logger.child({ from: 'FRError' })
 
@@ -114,15 +115,15 @@ const getStylesFromProps = ({ theme }) => ({
   description: {
     color: theme.colors.primary,
     fontFamily: theme.fonts.default,
-    fontSize: '1rem',
+    fontSize: normalize(16),
     fontWeight: 'bold',
     paddingBottom: '1.57rem',
     paddingTop: '1.57rem',
     lineHeight: '1.25rem',
   },
   mainTitle: {
-    fontFamily: theme.fonts.medium,
-    fontSize: '1.5rem',
+    fontFamily: theme.fonts.default,
+    fontSize: normalize(24),
     color: theme.colors.darkGray,
     textTransform: 'none',
   },

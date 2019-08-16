@@ -9,6 +9,7 @@ import { fireEvent } from '../../../lib/analytics/analytics'
 import { getFirstWord } from '../../../lib/utils/getFirstWord'
 import { withStyles } from '../../../lib/styles'
 import illustration from '../../../assets/FaceRecognition/illustration.svg'
+import normalize from '../../../lib/utils/normalizeText'
 
 Image.prefetch(illustration)
 
@@ -93,7 +94,7 @@ const getStylesFromProps = ({ theme }) => ({
   mainTitle: {
     color: theme.colors.darkGray,
     fontFamily: theme.fonts.default,
-    fontSize: '1.5rem',
+    fontSize: normalize(24),
     fontWeight: '500',
     marginBottom: '1.75rem',
     textTransform: 'none',
@@ -115,7 +116,7 @@ const getStylesFromProps = ({ theme }) => ({
   description: {
     color: theme.colors.primary,
     fontFamily: theme.fonts.default,
-    fontSize: '1rem',
+    fontSize: normalize(16),
     fontWeight: '400',
     lineHeight: '1.25rem',
   },

@@ -17,6 +17,7 @@ import LookingGood from '../../../assets/LookingGood.svg'
 import GDStore from '../../../lib/undux/GDStore'
 import { fireEvent } from '../../../lib/analytics/analytics'
 import { withStyles } from '../../../lib/styles'
+import normalize from '../../../lib/utils/normalizeText'
 import FRStep from './FRStep'
 
 const log = logger.child({ from: 'GuidedFRProcessResults' })
@@ -281,16 +282,16 @@ const getStylesFromProps = ({ theme }) => ({
     flexGrow: 0,
   },
   mainTitle: {
-    fontSize: '1.5rem',
+    fontSize: normalize(24),
     color: theme.colors.darkGray,
     textTransform: 'none',
     display: 'flex',
   },
   button: {
-    fontSize: '1rem',
+    fontSize: normalize(16),
   },
   textHelp: {
-    fontSize: '1rem',
+    fontSize: normalize(16),
     color: theme.colors.red,
     textTransform: 'none',
   },
@@ -299,7 +300,7 @@ const getStylesFromProps = ({ theme }) => ({
     textDecorationLine: 'underline',
   },
   textGood: {
-    fontSize: '1.5rem',
+    fontSize: normalize(24),
     textTransform: 'none',
     textAlign: 'center',
   },

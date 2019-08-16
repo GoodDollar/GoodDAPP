@@ -56,7 +56,6 @@ const FRError = props => {
           }}
         >
           <Section.Title fontWeight="medium" textTransform="none">
-            {' '}
             {`${getFirstWord(fullName)},\n${title}`}
           </Section.Title>
           <Image source={Oops} resizeMode={'center'} style={{ height: 146 }} />

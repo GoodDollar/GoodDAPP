@@ -87,10 +87,10 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
               "msFlexItemAlign": "center",
               "msFlexNegative": 0,
               "msFlexPositive": 1,
-              "paddingBottom": "0px",
+              "paddingBottom": "65px",
               "paddingLeft": "20px",
               "paddingRight": "20px",
-              "paddingTop": "0px",
+              "paddingTop": "65px",
               "width": "100%",
             }
           }
@@ -876,10 +876,10 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
               "msFlexItemAlign": "center",
               "msFlexNegative": 0,
               "msFlexPositive": 1,
-              "paddingBottom": "0px",
+              "paddingBottom": "65px",
               "paddingLeft": "20px",
               "paddingRight": "20px",
-              "paddingTop": "0px",
+              "paddingTop": "65px",
               "width": "100%",
             }
           }
@@ -1665,10 +1665,10 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
               "msFlexItemAlign": "center",
               "msFlexNegative": 0,
               "msFlexPositive": 1,
-              "paddingBottom": "0px",
+              "paddingBottom": "65px",
               "paddingLeft": "20px",
               "paddingRight": "20px",
-              "paddingTop": "0px",
+              "paddingTop": "65px",
               "width": "100%",
             }
           }
@@ -2528,10 +2528,10 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
               "msFlexItemAlign": "center",
               "msFlexNegative": 0,
               "msFlexPositive": 1,
-              "paddingBottom": "0px",
+              "paddingBottom": "65px",
               "paddingLeft": "20px",
               "paddingRight": "20px",
-              "paddingTop": "0px",
+              "paddingTop": "65px",
               "width": "100%",
             }
           }

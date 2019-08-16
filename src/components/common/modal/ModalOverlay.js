@@ -1,10 +1,10 @@
 // @flow
 import React from 'react'
+import { isMobileSafari } from 'mobile-device-detect'
 import { View } from 'react-native'
 import { withStyles } from '../../../lib/styles'
-import { getScreenHeight } from '../../../lib/utils/Orientation'
 
-const vh = getScreenHeight() * 0.01
+const browserPadding = isMobileSafari ? 44 : 0
 
 const ModalOverlay = ({ styles, children, style }: any) => (
   <View style={styles.modalOverlay}>
@@ -25,10 +25,10 @@ const getStylesFromProps = ({ theme }) => ({
     width: '100%',
     flexGrow: 1,
     flexShrink: 0,
-    paddingBottom: `${15 * vh}px`,
+    paddingBottom: theme.modals.overlayVerticalPadding + browserPadding * 1.5,
     paddingLeft: theme.modals.overlayHorizontalPadding,
     paddingRight: theme.modals.overlayHorizontalPadding,
-    paddingTop: `${15 * vh}px`,
+    paddingTop: theme.modals.overlayVerticalPadding - browserPadding * 0.5,
     marginVertical: 'auto',
   },
 })

@@ -48,10 +48,10 @@ exports[`ModalOverlay matches snapshot 1`] = `
           "msFlexItemAlign": "center",
           "msFlexNegative": 0,
           "msFlexPositive": 1,
-          "paddingBottom": "0px",
+          "paddingBottom": "65px",
           "paddingLeft": "20px",
           "paddingRight": "20px",
-          "paddingTop": "0px",
+          "paddingTop": "65px",
           "width": "100%",
         }
       }
@@ -110,10 +110,10 @@ exports[`ModalOverlay matches snapshot with properties 1`] = `
           "msFlexItemAlign": "center",
           "msFlexNegative": 0,
           "msFlexPositive": 1,
-          "paddingBottom": "0px",
+          "paddingBottom": "65px",
           "paddingLeft": "20px",
           "paddingRight": "20px",
-          "paddingTop": "0px",
+          "paddingTop": "65px",
           "width": "100%",
         }
       }

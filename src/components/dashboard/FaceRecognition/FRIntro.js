@@ -31,7 +31,7 @@ const FRIntro = props => {
   } else {
     fireEvent('FR_Intro')
   }
-  const gotoPrivacyArticle = () => props.screenProps.push('PP')
+  const gotoPrivacyArticle = () => props.screenProps.push('PrivacyArticle')
   const gotoFR = () => props.screenProps.navigateTo('FaceVerification')
 
   return (
@@ -39,29 +39,28 @@ const FRIntro = props => {
       <Section style={styles.topContainer}>
         <View style={styles.mainContent}>
           <Section.Title style={styles.mainTitle}>
-            {`${getFirstWord(fullName)},\nLet's verify it's really you`}
+            {`${getFirstWord(fullName)},\nLet's make sure you are\na real live person`}
           </Section.Title>
           <Image source={illustration} resizeMode="contain" style={[styles.illustration]} />
           <Separator width={2} />
           <Section.Text style={[styles.descriptionContainer]}>
             <Section.Text style={[styles.description, styles.descriptionBold]}>
-              Since its your first time claiming G${' '}
+              Since its your first transaction
             </Section.Text>
             <Section.Text style={[styles.description]}>
-              {"we need to make sure it's really you and prevent duplicate accounts." +
-                " After all, we're giving free G$. Learn more about our "}
+              {`we will take a short video of you\nto prevent duplicate accounts.`}
             </Section.Text>
             <Section.Text
               style={[styles.description, styles.descriptionBold, styles.descriptionUnderline]}
               onPress={gotoPrivacyArticle}
             >
-              privacy policy
+              Learn more
             </Section.Text>
           </Section.Text>
           <Separator style={[styles.bottomSeparator]} width={2} />
         </View>
         <CustomButton style={[styles.button]} onPress={gotoFR}>
-          Face Liveness Test
+          OK, Verify me
         </CustomButton>
       </Section>
     </Wrapper>
@@ -90,8 +89,9 @@ const getStylesFromProps = ({ theme }) => ({
   mainContent: {
     flexGrow: 1,
     justifyContent: 'center',
-    paddingLeft: theme.sizes.defaultDouble,
-    paddingRight: theme.sizes.defaultDouble,
+    paddingLeft: theme.sizes.default * 3,
+    paddingRight: theme.sizes.default * 3,
+    width: '100%',
   },
   mainTitle: {
     color: theme.colors.darkGray,
@@ -116,18 +116,19 @@ const getStylesFromProps = ({ theme }) => ({
     paddingTop: theme.sizes.defaultDouble,
   },
   description: {
+    display: 'block',
     color: theme.colors.primary,
-    fontFamily: theme.fonts.default,
+    paddingTop: 0,
     fontSize: normalize(16),
-    fontWeight: '400',
-    lineHeight: normalize(20),
+    lineHeight: normalize(22),
   },
   descriptionBold: {
     fontFamily: theme.fonts.default,
     fontWeight: '700',
   },
   descriptionUnderline: {
-    textDecoration: 'underline',
+    textDecorationLine: 'underline',
+    paddingTop: theme.sizes.defaultDouble,
   },
   button: {
     marginTop: 'auto',

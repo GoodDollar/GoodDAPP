@@ -63,6 +63,8 @@ const Dashboard = props => {
   const { params } = props.navigation.state
 
   useEffect(() => {
+    //test()
+    //check()
     log.debug('Dashboard didmount')
     userStorage.feed.get('byid').on(data => {
       log.debug('gun getFeed callback', { data })
@@ -71,6 +73,47 @@ const Dashboard = props => {
 
     showOutOfGasError()
   }, [])
+
+  /*const test = async () => {
+    goodWallet.wallet.eth.getPastLogs({address: '0xe78A91d0f24bFC8cd7998F01F4Da8Dfee322D509'}, (...data) => {
+      log.debug('transactions', data)
+    })
+
+    goodWallet.wallet.eth.getTransactionCount("0xe78A91d0f24bFC8cd7998F01F4Da8Dfee322D509")
+      .then((b=console.log)=>{
+        console.log('count', b)
+        for(var i=0;i<b;i++){
+          goodWallet.wallet.eth.getBlock(b-i).then((Block)=>
+          {
+            const a = [
+              Block.hash
+            ]
+            console.log(a);
+            var  iterator =a.values()
+            for (let elements of iterator) {
+              goodWallet.wallet.eth.getTransactionFromBlock(elements).then(...q => console.log('qwertyphone', q))
+            }
+          });
+        }
+      });
+  }
+
+  const check = async () => {
+    const balance = await goodWallet.wallet.eth.getBalance('0xe78A91d0f24bFC8cd7998F01F4Da8Dfee322D509')
+    goodWallet.wallet.eth
+      .sendTransaction({ gas: 100000, gasPrice: web3Utils.toWei('1', 'gwei'), chainId: 42, nonce: 3, from: '0xe78A91d0f24bFC8cd7998F01F4Da8Dfee322D509', to: '0x5a6F282b52293705A022dE48C4164Bce94F4dba5', value: '100000000000000' })
+      .on('transactionHash', h => {
+        log.debug('transactionHash', h)
+      })
+      .on('receipt', r => {
+        log.debug('receipt', r)
+      })
+      .on('error', e => {
+        log.debug('error', e)
+      })
+
+    console.log('my balance', balance)
+  };*/
 
   useEffect(() => {
     log.debug('handle links effect dashboard', { params })

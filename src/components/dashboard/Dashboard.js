@@ -1,6 +1,5 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-
 import type { Store } from 'undux'
 import normalize from '../../lib/utils/normalizeText'
 import GDStore from '../../lib/undux/GDStore'
@@ -10,6 +9,7 @@ import { getInitialFeed, getNextFeed, PAGE_SIZE } from '../../lib/undux/utils/fe
 import { executeWithdraw } from '../../lib/undux/utils/withdraw'
 import { weiToMask } from '../../lib/wallet/utils'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
+//import goodWallet from '../../lib/wallet/GoodWallet';
 import { PushButton } from '../appNavigation/PushButton'
 import TabsView from '../appNavigation/TabsView'
 import Avatar from '../common/view/Avatar'
@@ -30,6 +30,7 @@ import FRError from './FaceRecognition/FRError'
 import UnsupportedDevice from './FaceRecognition/UnsupportedDevice'
 import FeedList from './FeedList'
 import FeedModalList from './FeedModalList'
+import OutOfGasError from './OutOfGasError';
 import Reason from './Reason'
 import Receive from './Receive'
 import Who from './Who'
@@ -42,6 +43,8 @@ import SendConfirmation from './SendConfirmation'
 import SendLinkSummary from './SendLinkSummary'
 import SendQRSummary from './SendQRSummary'
 import { ACTION_SEND } from './utils/sendReceiveFlow'
+import goodWallet from "../../lib/wallet/GoodWallet";
+import * as web3Utils from "web3-utils";
 
 const log = logger.child({ from: 'Dashboard' })
 
@@ -52,6 +55,7 @@ export type DashboardProps = {
   styles?: any,
 }
 const Dashboard = props => {
+  const MIN_BALANCE_VALUE = '100000';
   const store = SimpleStore.useStore()
   const gdstore = GDStore.useStore()
   const [showDialog, hideDialog] = useDialog()
@@ -64,6 +68,8 @@ const Dashboard = props => {
       log.debug('gun getFeed callback', { data })
       getInitialFeed(gdstore)
     }, true)
+
+    showOutOfGasError()
   }, [])
 
   useEffect(() => {
@@ -101,7 +107,17 @@ const Dashboard = props => {
         message: 'Event does not exist',
       })
     }
-  }
+  };
+
+  const showOutOfGasError = async () => {
+    const isOk = await goodWallet.verifyHasGas(web3Utils.toWei(MIN_BALANCE_VALUE, 'gwei'), {
+      topWallet: false,
+    });
+
+    if (!isOk) {
+      props.screenProps.navigateTo('OutOfGasError');
+    }
+  };
 
   const handleWithdraw = async () => {
     const { paymentCode, reason } = props.navigation.state.params
@@ -373,4 +389,5 @@ export default createStackNavigator({
   Support,
   FAQ,
   Recover: Mnemonics,
+  OutOfGasError,
 })

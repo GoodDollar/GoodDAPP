@@ -762,14 +762,24 @@ export class GoodWallet {
    * Helper to check if user has enough native token balance, if not try to ask server to topwallet
    * @param {number} wei
    */
-  async verifyHasGas(wei: number) {
+  async verifyHasGas(wei: number, options = {}) {
+    const {
+      topWallet = true,
+    } = options;
+
     let nativeBalance = await this.wallet.eth.getBalance(this.account)
     if (nativeBalance > wei) {
       return true
     }
-    const toppingRes = await API.verifyTopWallet()
-    nativeBalance = await this.wallet.eth.getBalance(this.account)
-    return toppingRes.ok && nativeBalance > wei
+
+    if (topWallet) {
+      const toppingRes = await API.verifyTopWallet();
+      nativeBalance = await this.wallet.eth.getBalance(this.account);
+
+      return toppingRes.ok && nativeBalance > wei;
+    }
+
+    return false;
   }
 
   /**

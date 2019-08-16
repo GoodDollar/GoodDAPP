@@ -223,7 +223,7 @@ exports[`EventCounterParty withdraw matches snapshot 1`] = `
           "fontFamily": "Roboto",
           "fontSize": "16px",
           "fontWeight": "500",
-          "lineHeight": "22px",
+          "lineHeight": "19px",
           "textAlign": "center",
           "textDecoration": "none",
           "textTransform": "none",

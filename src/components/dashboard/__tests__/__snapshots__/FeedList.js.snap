@@ -848,12 +848,12 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                         dir="auto"
                         style={
                           Object {
-                            "color": "rgba(66,69,74,1.00)",
+                            "color": "rgba(163,163,163,1.00)",
                             "direction": "ltr",
                             "fontFamily": "Roboto",
                             "fontSize": "10px",
                             "fontWeight": "normal",
-                            "lineHeight": "14px",
+                            "lineHeight": "17px",
                             "textAlign": "center",
                             "textDecoration": "none",
                             "textTransform": "none",
@@ -909,7 +909,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                               "fontFamily": "Roboto Slab",
                               "fontSize": "15px",
                               "fontWeight": "700",
-                              "lineHeight": "30px",
+                              "lineHeight": "18px",
                               "marginRight": "4px",
                               "textAlign": "right",
                               "textDecoration": "none",
@@ -929,7 +929,8 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                               "fontFamily": "Roboto Slab",
                               "fontSize": "10px",
                               "fontWeight": "700",
-                              "lineHeight": "24px",
+                              "lineHeight": "11px",
+                              "marginTop": "6px",
                               "textAlign": "right",
                               "textDecoration": "none",
                               "textTransform": "none",
@@ -944,14 +945,19 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                       className="css-view-1dbjc4n"
                       style={
                         Object {
+                          "WebkitAlignItems": "center",
+                          "WebkitBoxAlign": "center",
                           "WebkitBoxDirection": "normal",
                           "WebkitBoxOrient": "horizontal",
                           "WebkitFlexDirection": "row",
                           "WebkitFlexShrink": 1,
+                          "alignItems": "center",
                           "display": "flex",
                           "flexDirection": "row",
                           "flexShrink": 1,
+                          "marginBottom": "auto",
                           "marginTop": "auto",
+                          "msFlexAlign": "center",
                           "msFlexDirection": "row",
                           "msFlexNegative": 1,
                           "paddingLeft": "4px",
@@ -1043,7 +1049,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                                 "fontFamily": "Roboto",
                                 "fontSize": "16px",
                                 "fontWeight": "500",
-                                "lineHeight": "22px",
+                                "lineHeight": "19px",
                                 "textAlign": "center",
                                 "textDecoration": "none",
                                 "textTransform": "none",
@@ -1068,7 +1074,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                               "fontWeight": "normal",
                               "lineHeight": "14px",
                               "msFlexNegative": 0,
-                              "paddingBottom": "4px",
+                              "paddingBottom": "0px",
                               "textAlign": "center",
                               "textDecoration": "none",
                               "textTransform": "capitalize",
@@ -1089,7 +1095,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                             "fontStyle": "normal",
                             "fontWeight": "normal",
                             "marginRight": "0px",
-                            "marginTop": "auto",
+                            "marginTop": "0px",
                           }
                         }
                       >
@@ -1399,12 +1405,12 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                         dir="auto"
                         style={
                           Object {
-                            "color": "rgba(66,69,74,1.00)",
+                            "color": "rgba(163,163,163,1.00)",
                             "direction": "ltr",
                             "fontFamily": "Roboto",
                             "fontSize": "10px",
                             "fontWeight": "normal",
-                            "lineHeight": "14px",
+                            "lineHeight": "17px",
                             "textAlign": "center",
                             "textDecoration": "none",
                             "textTransform": "none",
@@ -1460,7 +1466,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                               "fontFamily": "Roboto Slab",
                               "fontSize": "15px",
                               "fontWeight": "700",
-                              "lineHeight": "30px",
+                              "lineHeight": "18px",
                               "marginRight": "4px",
                               "textAlign": "right",
                               "textDecoration": "none",
@@ -1480,7 +1486,8 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                               "fontFamily": "Roboto Slab",
                               "fontSize": "10px",
                               "fontWeight": "700",
-                              "lineHeight": "24px",
+                              "lineHeight": "11px",
+                              "marginTop": "6px",
                               "textAlign": "right",
                               "textDecoration": "none",
                               "textTransform": "none",
@@ -1495,14 +1502,19 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                       className="css-view-1dbjc4n"
                       style={
                         Object {
+                          "WebkitAlignItems": "center",
+                          "WebkitBoxAlign": "center",
                           "WebkitBoxDirection": "normal",
                           "WebkitBoxOrient": "horizontal",
                           "WebkitFlexDirection": "row",
                           "WebkitFlexShrink": 1,
+                          "alignItems": "center",
                           "display": "flex",
                           "flexDirection": "row",
                           "flexShrink": 1,
+                          "marginBottom": "auto",
                           "marginTop": "auto",
+                          "msFlexAlign": "center",
                           "msFlexDirection": "row",
                           "msFlexNegative": 1,
                           "paddingLeft": "4px",
@@ -1594,7 +1606,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                                 "fontFamily": "Roboto",
                                 "fontSize": "16px",
                                 "fontWeight": "500",
-                                "lineHeight": "22px",
+                                "lineHeight": "19px",
                                 "textAlign": "center",
                                 "textDecoration": "none",
                                 "textTransform": "none",
@@ -1619,7 +1631,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                               "fontWeight": "normal",
                               "lineHeight": "14px",
                               "msFlexNegative": 0,
-                              "paddingBottom": "4px",
+                              "paddingBottom": "0px",
                               "textAlign": "center",
                               "textDecoration": "none",
                               "textTransform": "capitalize",
@@ -1640,7 +1652,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                             "fontStyle": "normal",
                             "fontWeight": "normal",
                             "marginRight": "0px",
-                            "marginTop": "auto",
+                            "marginTop": "0px",
                           }
                         }
                       >

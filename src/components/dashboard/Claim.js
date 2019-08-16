@@ -175,9 +175,9 @@ const Claim = props => {
         isCitizen ? handleClaim() : faceRecognition()
       }}
     >
-      <Text color="surface">
+      <Text color="surface" fontWeight="medium">
         {`CLAIM YOUR SHARE - ${weiToGd(entitlement)}`}
-        <Text fontSize={10} color="surface" style={styles.goodDollarUnit}>
+        <Text fontSize={10} color="surface" fontWeight="medium" style={styles.goodDollarUnit}>
           G$
         </Text>
       </Text>

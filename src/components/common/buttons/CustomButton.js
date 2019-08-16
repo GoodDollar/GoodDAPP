@@ -67,7 +67,12 @@ const TextContent = withStyles(mapPropsToStyles)(
       const textColor = (dark && 'white') || color || 'primary'
 
       return (
-        <Text color={textColor} textTransform={uppercase ? 'uppercase' : 'none'} style={[styles.buttonText, textStyle]}>
+        <Text
+          color={textColor}
+          fontWeight="medium"
+          textTransform={uppercase ? 'uppercase' : 'none'}
+          style={[styles.buttonText, textStyle]}
+        >
           {children}
         </Text>
       )

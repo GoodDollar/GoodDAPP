@@ -1120,7 +1120,7 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                     "direction": "ltr",
                     "fontFamily": "Roboto",
                     "fontSize": "16px",
-                    "fontWeight": "normal",
+                    "fontWeight": "500",
                     "justifyContent": "center",
                     "letterSpacing": "0px",
                     "lineHeight": "22px",

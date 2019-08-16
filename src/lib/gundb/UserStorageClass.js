@@ -1338,13 +1338,13 @@ export class UserStorage {
    * @param cb function
    * @returns {Promise<void>}
    */
-  onProfile(cb = () => {}) {
-    this.profile.on(encProfile => {
+  onceProfile(cb = () => {}) {
+    this.profile.once(encProfile => {
       if (!encProfile) {
         return
       }
       const publicProfile = this.getDisplayProfile(encProfile)
-      if (!publicProfile.email) {
+      if (isEqual(publicProfile, {})) {
         return
       }
       cb(publicProfile)

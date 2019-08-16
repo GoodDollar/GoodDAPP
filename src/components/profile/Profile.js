@@ -37,7 +37,7 @@ const ProfileWrapper = props => {
     if (isEqual(profile, {})) {
       updateProfile()
     }
-    userStorage.onProfile(handleChangeProfile)
+    userStorage.onceProfile(handleChangeProfile)
   }, [])
 
   return (

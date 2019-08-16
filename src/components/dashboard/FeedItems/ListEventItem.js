@@ -37,7 +37,9 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
       />
       <View grow style={styles.mainContents}>
         <View style={[styles.dateAndValue, { borderBottomColor: mainColor }]}>
-          <Text fontSize={10}>{getFormattedDateTime(feed.date)}</Text>
+          <Text fontSize={10} color="gray80Percent">
+            {getFormattedDateTime(feed.date)}
+          </Text>
           {!eventSettings.withoutAmount && (
             <React.Fragment>
               {eventSettings && eventSettings.actionSymbol && (

@@ -30,7 +30,7 @@ const FRIntro = props => {
   } else {
     fireEvent('FR_Intro')
   }
-  const gotoPrivacyArticle = () => props.screenProps.push('PP')
+  const gotoPrivacyArticle = () => props.screenProps.push('PrivacyArticle')
   const gotoFR = () => props.screenProps.navigateTo('FaceVerification')
 
   return (
@@ -38,26 +38,31 @@ const FRIntro = props => {
       <Section style={styles.topContainer}>
         <View style={styles.mainContent}>
           <Section.Title fontWeight="medium" textTransform="none" style={styles.mainTitle}>
-            {`${getFirstWord(fullName)},\nLet's verify it's really you`}
+            {`${getFirstWord(fullName)},\nLet's make sure you are\na real live person`}
           </Section.Title>
           <Image source={illustration} resizeMode="contain" style={styles.illustration} />
           <Separator width={2} />
           <Section.Text style={styles.descriptionContainer}>
-            <Section.Text fontWeight="bold" color="primary">
-              Since its your first time claiming G${' '}
+            <Section.Text fontWeight="bold" color="primary" style={styles.description}>
+              Since its your first transaction
             </Section.Text>
-            <Section.Text color="primary">
-              {"we need to make sure it's really you and prevent duplicate accounts." +
-                " After all, we're giving free G$. Learn more about our "}
+            <Section.Text color="primary" style={styles.description}>
+              {`we will take a short video of you\nto prevent duplicate accounts.`}
             </Section.Text>
-            <Section.Text fontWeight="bold" textDecoration="underline" color="primary" onPress={gotoPrivacyArticle}>
-              privacy policy
+            <Section.Text
+              fontWeight="bold"
+              textDecoration="underline"
+              color="primary"
+              style={[styles.description, styles.descriptionUnderline]}
+              onPress={gotoPrivacyArticle}
+            >
+              Learn more
             </Section.Text>
           </Section.Text>
           <Separator style={[styles.bottomSeparator]} width={2} />
         </View>
         <CustomButton style={[styles.button]} onPress={gotoFR}>
-          Face Liveness Test
+          OK, Verify me
         </CustomButton>
       </Section>
     </Wrapper>
@@ -86,8 +91,9 @@ const getStylesFromProps = ({ theme }) => ({
   mainContent: {
     flexGrow: 1,
     justifyContent: 'center',
-    paddingLeft: theme.sizes.defaultDouble,
-    paddingRight: theme.sizes.defaultDouble,
+    paddingLeft: theme.sizes.default * 3,
+    paddingRight: theme.sizes.default * 3,
+    width: '100%',
   },
   mainTitle: {
     marginBottom: 28,
@@ -103,6 +109,13 @@ const getStylesFromProps = ({ theme }) => ({
   descriptionContainer: {
     paddingHorizontal: theme.sizes.defaultHalf,
     paddingVertical: theme.sizes.defaultDouble,
+  },
+  description: {
+    display: 'block',
+    paddingTop: 0,
+  },
+  descriptionUnderline: {
+    paddingTop: theme.sizes.defaultDouble,
   },
   button: {
     marginTop: 'auto',

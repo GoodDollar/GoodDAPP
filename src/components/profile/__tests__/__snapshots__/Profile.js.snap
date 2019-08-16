@@ -315,8 +315,8 @@ exports[`Profile matches snapshot 1`] = `
               Object {
                 "color": "rgba(255,255,255,1.00)",
                 "direction": "ltr",
-                "fontFamily": "Roboto-Medium",
-                "fontSize": "1.5rem",
+                "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                "fontSize": "24px",
                 "textAlign": "center",
                 "textTransform": "uppercase",
               }

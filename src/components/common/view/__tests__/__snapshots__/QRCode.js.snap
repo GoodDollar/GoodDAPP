@@ -111,7 +111,7 @@ exports[`QRCode matches snapshot 1`] = `
             "fonts": Object {
               "default": "Roboto",
               "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-              "medium": "Roboto-Medium",
+              "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
               "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
               "slab": "Roboto Slab",
               "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
@@ -259,7 +259,7 @@ exports[`QRCode matches snapshot 2`] = `
             "fonts": Object {
               "default": "Roboto",
               "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-              "medium": "Roboto-Medium",
+              "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
               "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
               "slab": "Roboto Slab",
               "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",

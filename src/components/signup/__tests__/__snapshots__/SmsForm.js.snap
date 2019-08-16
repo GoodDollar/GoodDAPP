@@ -225,7 +225,6 @@ exports[`SmsForm matches snapshot 1`] = `
                   data-focusable={true}
                   dir="auto"
                   disabled={false}
-                  enterkeyhint="next"
                   maxLength="1"
                   onBlur={[Function]}
                   onChange={[Function]}
@@ -300,7 +299,7 @@ exports[`SmsForm matches snapshot 1`] = `
                       "fonts": Object {
                         "default": "Roboto",
                         "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                        "medium": "Roboto-Medium",
+                        "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                         "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                         "slab": "Roboto Slab",
                         "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
@@ -366,7 +365,6 @@ exports[`SmsForm matches snapshot 1`] = `
                   data-focusable={true}
                   dir="auto"
                   disabled={false}
-                  enterkeyhint="next"
                   maxLength="1"
                   onBlur={[Function]}
                   onChange={[Function]}
@@ -441,7 +439,7 @@ exports[`SmsForm matches snapshot 1`] = `
                       "fonts": Object {
                         "default": "Roboto",
                         "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                        "medium": "Roboto-Medium",
+                        "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                         "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                         "slab": "Roboto Slab",
                         "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
@@ -507,7 +505,6 @@ exports[`SmsForm matches snapshot 1`] = `
                   data-focusable={true}
                   dir="auto"
                   disabled={false}
-                  enterkeyhint="next"
                   maxLength="1"
                   onBlur={[Function]}
                   onChange={[Function]}
@@ -582,7 +579,7 @@ exports[`SmsForm matches snapshot 1`] = `
                       "fonts": Object {
                         "default": "Roboto",
                         "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                        "medium": "Roboto-Medium",
+                        "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                         "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                         "slab": "Roboto Slab",
                         "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
@@ -648,7 +645,6 @@ exports[`SmsForm matches snapshot 1`] = `
                   data-focusable={true}
                   dir="auto"
                   disabled={false}
-                  enterkeyhint="next"
                   maxLength="1"
                   onBlur={[Function]}
                   onChange={[Function]}
@@ -723,7 +719,7 @@ exports[`SmsForm matches snapshot 1`] = `
                       "fonts": Object {
                         "default": "Roboto",
                         "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                        "medium": "Roboto-Medium",
+                        "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                         "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                         "slab": "Roboto Slab",
                         "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
@@ -789,7 +785,6 @@ exports[`SmsForm matches snapshot 1`] = `
                   data-focusable={true}
                   dir="auto"
                   disabled={false}
-                  enterkeyhint="next"
                   maxLength="1"
                   onBlur={[Function]}
                   onChange={[Function]}
@@ -864,7 +859,7 @@ exports[`SmsForm matches snapshot 1`] = `
                       "fonts": Object {
                         "default": "Roboto",
                         "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                        "medium": "Roboto-Medium",
+                        "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                         "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                         "slab": "Roboto Slab",
                         "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
@@ -930,7 +925,6 @@ exports[`SmsForm matches snapshot 1`] = `
                   data-focusable={true}
                   dir="auto"
                   disabled={false}
-                  enterkeyhint="next"
                   maxLength="1"
                   onBlur={[Function]}
                   onChange={[Function]}
@@ -1005,7 +999,7 @@ exports[`SmsForm matches snapshot 1`] = `
                       "fonts": Object {
                         "default": "Roboto",
                         "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                        "medium": "Roboto-Medium",
+                        "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                         "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                         "slab": "Roboto Slab",
                         "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",

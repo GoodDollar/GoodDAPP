@@ -725,7 +725,7 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                             Object {
                               "color": "rgba(0,175,255,1.00)",
                               "direction": "ltr",
-                              "fontFamily": "Roboto-Medium",
+                              "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                               "letterSpacing": "1px",
                               "marginBottom": "9px",
                               "marginLeft": "8px",
@@ -863,7 +863,7 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                             Object {
                               "color": "rgba(255,255,255,1.00)",
                               "direction": "ltr",
-                              "fontFamily": "Roboto-Medium",
+                              "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                               "letterSpacing": "1px",
                               "marginBottom": "9px",
                               "marginLeft": "8px",
@@ -1662,7 +1662,7 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                             Object {
                               "color": "rgba(0,175,255,1.00)",
                               "direction": "ltr",
-                              "fontFamily": "Roboto-Medium",
+                              "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                               "letterSpacing": "1px",
                               "marginBottom": "9px",
                               "marginLeft": "8px",
@@ -1800,7 +1800,7 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                             Object {
                               "color": "rgba(255,255,255,1.00)",
                               "direction": "ltr",
-                              "fontFamily": "Roboto-Medium",
+                              "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                               "letterSpacing": "1px",
                               "marginBottom": "9px",
                               "marginLeft": "8px",
@@ -2657,7 +2657,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                             Object {
                               "color": "rgba(250,108,119,1.00)",
                               "direction": "ltr",
-                              "fontFamily": "Roboto-Medium",
+                              "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                               "letterSpacing": "1px",
                               "marginBottom": "9px",
                               "marginLeft": "8px",
@@ -2795,7 +2795,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                             Object {
                               "color": "rgba(0,175,255,1.00)",
                               "direction": "ltr",
-                              "fontFamily": "Roboto-Medium",
+                              "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                               "letterSpacing": "1px",
                               "marginBottom": "9px",
                               "marginLeft": "8px",
@@ -2960,7 +2960,7 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                             Object {
                               "color": "rgba(255,255,255,1.00)",
                               "direction": "ltr",
-                              "fontFamily": "Roboto-Medium",
+                              "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                               "letterSpacing": "1px",
                               "marginBottom": "9px",
                               "marginLeft": "8px",
@@ -3819,7 +3819,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                             Object {
                               "color": "rgba(255,255,255,1.00)",
                               "direction": "ltr",
-                              "fontFamily": "Roboto-Medium",
+                              "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                               "letterSpacing": "1px",
                               "marginBottom": "9px",
                               "marginLeft": "8px",

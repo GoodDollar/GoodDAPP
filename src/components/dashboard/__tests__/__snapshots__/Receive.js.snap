@@ -448,7 +448,7 @@ exports[`Receive matches snapshot 1`] = `
                   "fonts": Object {
                     "default": "Roboto",
                     "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                    "medium": "Roboto-Medium",
+                    "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                     "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                     "slab": "Roboto Slab",
                     "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
@@ -636,7 +636,7 @@ exports[`Receive matches snapshot 1`] = `
                   Object {
                     "color": "rgba(0,175,255,1.00)",
                     "direction": "ltr",
-                    "fontFamily": "Roboto-Medium",
+                    "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                     "letterSpacing": "1px",
                     "marginBottom": "9px",
                     "marginLeft": "8px",
@@ -774,7 +774,7 @@ exports[`Receive matches snapshot 1`] = `
                   Object {
                     "color": "rgba(255,255,255,1.00)",
                     "direction": "ltr",
-                    "fontFamily": "Roboto-Medium",
+                    "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                     "letterSpacing": "1px",
                     "marginBottom": "9px",
                     "marginLeft": "8px",

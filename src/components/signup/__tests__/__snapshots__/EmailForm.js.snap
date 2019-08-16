@@ -518,7 +518,7 @@ exports[`EmailForm matches snapshot 1`] = `
                   Object {
                     "color": "rgba(0,0,0,0.32)",
                     "direction": "ltr",
-                    "fontFamily": "Roboto-Medium",
+                    "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                     "letterSpacing": "1px",
                     "marginBottom": "9px",
                     "marginLeft": "8px",

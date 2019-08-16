@@ -148,6 +148,7 @@ const CustomButton = (props: ButtonProps) => {
     styles,
     textStyle,
     loading,
+    disabled,
     ...buttonProps
   } = props
   const dark = mode === 'contained'
@@ -161,14 +162,15 @@ const CustomButton = (props: ButtonProps) => {
       contentStyle={styles.contentStyle}
       theme={{ ...theme, roundness: 50 }}
       uppercase={uppercase}
-      onPress={!loading && props.onPress}
+      disabled={disabled || loading}
+      onPress={props.onPress}
       {...buttonProps}
     >
       <View style={styles.contentWrapper}>
         {icon && (!iconAlignment || iconAlignment === 'left') && (
           <IconButton icon={icon} theme={theme} dark={dark} size={iconSize} style={styles.leftIcon} />
         )}
-        {loading && <ActivityIndicator style={styles.activityIndicator} animating={loading} color={'#fff'} size={25} />}
+        {loading && <ActivityIndicator style={styles.activityIndicator} animating={loading} color={'#fff'} size={23} />}
         <TextContent dark={dark} uppercase={uppercase} textStyle={textStyle}>
           {children}
         </TextContent>

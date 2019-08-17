@@ -58,7 +58,7 @@ exports[`About matches snapshot 1`] = `
           "WebkitTransform": "rotateY(180deg)",
           "alignItems": "center",
           "backgroundColor": "rgba(0,0,0,0.00)",
-          "backgroundImage": "url(wave.svg)",
+          "backgroundImage": "url(wave50.svg)",
           "backgroundRepeat": "repeat-y",
           "backgroundSize": "cover",
           "borderBottomLeftRadius": "5px",

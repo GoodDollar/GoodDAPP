@@ -11,8 +11,7 @@ describe('Test case 6: Ability to send recovering email', () => {
 
     before('authorization', () => {     
         StartPage.open();
-        StartPage.loginLink.click();  
-        
+        StartPage.loginLink.click();    
         const wordsForSuccessfullLogin = Cypress.env('wordsForSuccessfullLogin')
         for( let i = 0; i < 12; i++ ) {
             LoginPage.mnemonicInputs.eq(i).type(wordsForSuccessfullLogin[i]);
@@ -24,6 +23,7 @@ describe('Test case 6: Ability to send recovering email', () => {
 
     it('User is able to recover mnemonics by email', () => {
 
+        cy.wait(3000)
         HomePage.optionsButton.click();
         HomePage.options.eq(1).click();
         for( let i = 0; i < 12; i++ ){

@@ -32,10 +32,10 @@ describe('Test case 2: Ability to do authorization', () => {
         StartPage.loginLink.click();  
         LoginPage.pageHeader.should('contain', 'Recover');
         LoginPage.mnemonicInputs.should('be.visible');
-    })
+    });
 
 
-    it('Try to login the wallet with wrong values', () => {
+    it('User is not able to login with wrong values', () => {
  
        const wrongWords = Cypress.env('wordsForUnsuccessfullLogin');
        typeInputValues( wrongWords.withChangedWord, false );
@@ -48,7 +48,7 @@ describe('Test case 2: Ability to do authorization', () => {
     });
 
 
-    it('Try to login the wallet with correct values', () => {
+    it('User is able to login with correct values', () => {
  
         const wordsForSuccessfullLogin = Cypress.env('wordsForSuccessfullLogin')
         typeInputValues( wordsForSuccessfullLogin, true )

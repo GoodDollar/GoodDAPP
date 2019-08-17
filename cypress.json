@@ -3,53 +3,53 @@
     "defaultCommandTimeout": 30000,
     "env": {    
         "wordsForSuccessfullLogin": [
-            "hollow", "edit", "hobby", 
-            "path", "cup", "pave", 
-            "flower", "shuffle", "build", 
-            "quiz", "abstract", "pink"
+            "okay", "cloth", "pattern", 
+            "north", "december", "stuff", 
+            "prefer", "scrub", "menu", 
+            "calm", "naive", "target"
         ],
         "wordsForUnsuccessfullLogin": {
             "withChangedWord": [
-                "dollar", "edit", "hobby", 
-                "path", "cup", "pave", 
-                "flower", "shuffle", "build", 
-                "quiz", "abstract", "pink"
+                "okay", "clothes", "pattern", 
+                "north", "december", "stuff", 
+                "prefer", "scrub", "menu", 
+                "calm", "naive", "target"
             ],
             "withNumbers": [
-                "hollow", "edit2", "hobby", 
-                "path", "cup", "pave", 
-                "flower", "shuffle", "build", 
-                "quiz", "abstract", "pink"
+                "1okay", "cloth", "pattern", 
+                "north", "december", "stuff", 
+                "prefer", "scrub", "menu", 
+                "calm", "naive", "target"
             ],
             "withSymbols": [
-                "hollow", "edit", "hobby@", 
-                "path", "cup", "pave", 
-                "flower", "shuffle", "build", 
-                "quiz", "abstract", "pink"
+                "okay", "cloth", "@pattern", 
+                "north", "december", "stuff", 
+                "prefer", "scrub", "menu", 
+                "calm", "naive", "target"
             ],
             "withChangedLetter": [
-                "hollov", "edit", "hobby", 
-                "path", "cup", "pave", 
-                "flower", "shuffle", "build", 
-                "quiz", "abstract", "pink"
+                "okey", "cloth", "pattern", 
+                "north", "december", "stuff", 
+                "prefer", "scrub", "menu", 
+                "calm", "naive", "target"
             ],
             "withChangedOrder": [
-                "pink", "edit", "hobby", 
-                "path", "cup", "pave", 
-                "flower", "shuffle", "build", 
-                "quiz", "abstract", "hollow"
+                "target", "cloth", "pattern", 
+                "north", "december", "stuff", 
+                "prefer", "scrub", "menu", 
+                "calm", "naive", "okay"
             ],
             "withCapitalize": [
-                "hollow", "edit", "hobby", 
-                "path", "cup", "pave", 
-                "flower", "shuffle", "build", 
-                "quiz", "Abstract", "pink"]
+                "okay", "cloth", "pattern", 
+                "north", "december", "stuff", 
+                "prefer", "scrub", "Menu", 
+                "calm", "naive", "target"]
         },
         "anotherAccountWords": [
-            "eight", "express", "gas",
-            "sunny","guilt","black",
-            "charge","music","mechanic",
-            "voyage","blur","menu"
+            "swarm", "upset", "loyal",
+            "advice","among","say",
+            "bridge","ridge","hawk",
+            "add","resemble","giggle"
         ]
     }
 }

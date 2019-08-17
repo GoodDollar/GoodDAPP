@@ -12,7 +12,6 @@ import ReceiveMoneyPage from '../PageObjects/ReceiveMoneyPage';
 describe('Test case 9: Ability to send money request and reseive money', () => {
 
     let reseiveMoneyUrl;
-    let moneyBeforeSending;
 
     it('User is able to send money request', async () => {
 
@@ -49,15 +48,12 @@ describe('Test case 9: Ability to send money request and reseive money', () => {
         ReceiveMoneyPage.shareLinkButton.click();
         cy.wait(5000);
         reseiveMoneyUrl = await ReceiveMoneyPage.shareLinkButton.invoke('attr', 'data-url');
-        //ReceiveMoneyPage.shareLinkButton.click();
-        //moneyBeforeSending = await HomePage.moneyAmountDiv.invoke('text');
-        //cy.log("money: " + moneyBeforeSending);
         cy.log(reseiveMoneyUrl);
         cy.wait(3000);
         HomePage.sendButton.should('be.visible')
-        cy.wait(3000);
 
     });
+    
 
     it('User is able to receive money', async () => {
 
@@ -69,11 +65,17 @@ describe('Test case 9: Ability to send money request and reseive money', () => {
         }
         LoginPage.recoverWalletButton.click();
         cy.wait(7000)
-        moneyBeforeSending = await HomePage.moneyAmountDiv.invoke('text');
-        cy.log("money: " + moneyBeforeSending);
+        const moneyBeforeSending = await HomePage.moneyAmountDiv.invoke('text');
         cy.visit(reseiveMoneyUrl);
-        cy.wait(7500);
+        ReceiveMoneyPage.confirmWindowButton.should('be.visible');
         ReceiveMoneyPage.confirmWindowButton.click();
+        cy.wait(8000)
+        cy.visit('https://goodqa.netlify.com/AppNavigation/Dashboard/Home');
+        cy.wait(15000)
+        HomePage.claimButton.should('be.visible');
+        HomePage.moneyAmountDiv.invoke('text').then( moneyAfterSending => {
+            expect(Number(moneyBeforeSending) - 0.01).to.be.equal( Number(moneyAfterSending) )
+        });
 
     });
 

@@ -1,10 +1,6 @@
 import StartPage from '../PageObjects/StartPage'
 import SignUpPage from '../PageObjects/SignUpPage'
-<<<<<<< HEAD
-import { browserName } from 'mobile-device-detect';
-=======
 import HomePage from '../PageObjects/HomePage'
->>>>>>> b20d92cf8e9f4bec9adca0bfd7ed235527652415
 
 
 

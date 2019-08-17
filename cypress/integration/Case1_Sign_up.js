@@ -1,5 +1,6 @@
 import StartPage from '../PageObjects/StartPage'
 import SignUpPage from '../PageObjects/SignUpPage'
+import { browserName } from 'mobile-device-detect';
 
 
 
@@ -67,12 +68,6 @@ describe('Test case 1: Ability to Sign Up', () => {
                         cy.log('loooog: ' + Object.keys(body)  )
                     });
                 
-
-
-
     });
 
 })
-
-
-

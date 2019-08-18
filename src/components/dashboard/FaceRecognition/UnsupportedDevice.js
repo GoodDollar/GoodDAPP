@@ -14,6 +14,7 @@ import logger from '../../../lib/logger/pino-logger'
 import { fireEvent } from '../../../lib/analytics/analytics'
 import Text from '../../common/view/Text'
 
+Image.prefetch(Oops)
 const log = logger.child({ from: 'UnsupportedDevice' })
 
 const UnsupportedDevice = props => {

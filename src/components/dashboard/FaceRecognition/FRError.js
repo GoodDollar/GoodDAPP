@@ -9,6 +9,7 @@ import GDStore from '../../../lib/undux/GDStore'
 import logger from '../../../lib/logger/pino-logger'
 const log = logger.child({ from: 'FRError' })
 
+Image.prefetch(Oops)
 const FRError = props => {
   const store = GDStore.useStore()
   const { fullName } = store.get('profile')

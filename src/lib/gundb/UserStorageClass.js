@@ -107,7 +107,7 @@ export type TransactionEvent = FeedEvent & {
 export const welcomeMessage = {
   id: '0',
   type: 'welcome',
-  date: new Date().getTime(),
+  date: new Date().toString(),
   status: 'completed',
   data: {
     customName: 'Welcome to GoodDollar!',

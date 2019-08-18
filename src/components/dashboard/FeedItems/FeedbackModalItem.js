@@ -47,7 +47,7 @@ const FeedModalItem = (props: FeedEventProps) => {
   return (
     <React.Fragment>
       <View style={styles.dateAndAmount}>
-        <Text fontFamily="medium" fontSize={22} color="darkGray">
+        <Text fontWeight="medium" fontSize={22}>
           {item.data.message}
         </Text>
       </View>
@@ -63,10 +63,10 @@ const FeedModalItem = (props: FeedEventProps) => {
           ))}
         </View>
         <View style={styles.numbersDescriptionRow}>
-          <Text fontFamily="medium" fontSize={14} color="darkGray" style={{ marginRight: 'auto' }}>
+          <Text fontWeight="medium" fontSize={14} style={{ marginRight: 'auto' }}>
             0 - NO WAY!
           </Text>
-          <Text fontFamily="medium" fontSize={14} color="darkGray" style={{ marginLeft: 'auto' }}>
+          <Text fontWeight="medium" fontSize={14} style={{ marginLeft: 'auto' }}>
             10 - FOR SURE!
           </Text>
         </View>

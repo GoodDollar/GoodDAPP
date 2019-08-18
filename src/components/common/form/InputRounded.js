@@ -37,7 +37,7 @@ const InputRounded = ({ styles, theme, icon, iconSize, iconColor, error, onChang
           />
         </View>
       </View>
-      <ErrorText error={error} style={styles.errorMargin} />
+      {!inputProps.disabled && <ErrorText error={error} style={styles.errorMargin} />}
     </View>
   )
 }
@@ -85,6 +85,10 @@ const getStylesFromProps = ({ theme }) => {
       borderTopColor: theme.colors.lightGray,
       borderTopLeftRadius: 0,
       borderTopRightRadius: 0,
+      marginBottom: 0,
+      marginTop: 2,
+      paddingTop: 2,
+      paddingBottom: 2,
     },
     input,
     inputError: {

@@ -19,7 +19,7 @@ const FeedActions = ({ actionActive, hasAction, children, onPress, styles, theme
     actionActive === undefined ? (
       <>
         <Icon name="close" color={theme.colors.surface} />
-        <Text style={[styles.action]} fontSize={14} fontWeight="500" color="surface">
+        <Text style={styles.action} fontSize={14} fontWeight="medium" color="surface">
           {children}
         </Text>
       </>

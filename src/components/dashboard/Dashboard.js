@@ -127,10 +127,14 @@ const Dashboard = props => {
         {headerLarge ? (
           <Section.Stack alignItems="center">
             <Avatar onPress={() => screenProps.push('Profile')} size={68} source={avatar} style={[styles.avatarBig]} />
-            <Section.Text style={[styles.userName]}>{fullName || ' '}</Section.Text>
+            <Section.Text color="gray80Percent" fontFamily="slab" fontSize={18}>
+              {fullName || ' '}
+            </Section.Text>
             <Section.Row style={styles.bigNumberWrapper}>
               <BigGoodDollar bigNumberStyles={styles.bigNumberVerticalStyles} number={balance} unit={undefined} />
-              <Section.Text style={styles.bigNumberUnitStyles}>G$</Section.Text>
+              <Section.Text fontSize={18} fontWeight="bold" fontFamily="slab" style={styles.bigNumberUnitStyles}>
+                G$
+              </Section.Text>
             </Section.Row>
           </Section.Stack>
         ) : (
@@ -259,11 +263,6 @@ const getStylesFromProps = ({ theme }) => ({
     margin: 0,
     width: 42,
   },
-  userName: {
-    color: theme.colors.gray80Percent,
-    fontFamily: theme.fonts.slab,
-    fontSize: normalize(18),
-  },
   buttonsRow: {
     alignItems: 'center',
     height: 70,
@@ -317,9 +316,6 @@ const getStylesFromProps = ({ theme }) => ({
   },
   bigNumberUnitStyles: {
     marginRight: normalize(-20),
-    fontFamily: theme.fonts.slab,
-    fontSize: normalize(18),
-    fontWeight: '700',
   },
 })
 

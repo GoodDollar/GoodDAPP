@@ -4,6 +4,8 @@ import { Text as PaperText } from 'react-native-paper'
 import normalize from '../../../lib/utils/normalizeText'
 import { withStyles } from '../../../lib/styles'
 
+const LINE_HEIGHT_FACTOR = 1.2
+
 class Text extends React.Component {
   _root
 
@@ -54,7 +56,36 @@ const relatedLineSpacing = fontSize =>
     24: 30,
     36: 30,
     42: 30,
-  }[fontSize] || fontSize * 1.2)
+  }[fontSize] || fontSize * LINE_HEIGHT_FACTOR)
+
+/**
+ * Returns the proper value to apply for the fontWeight prop based on values provided in wireframes
+ * @param {string} fontWeight - defaults to 'regular'
+ * {
+ *   extralight: 100,
+ *   thin: 200,
+ *   book: 300,
+ *   regular: 400,
+ *   medium: 500,
+ *   semibold: 600,
+ *   bold: 700,
+ *   black: 800,
+ *   fat: 900
+ * }
+ * @returns {string}
+ */
+const calculateFontWeight = (fontWeight = 'regular') =>
+  ({
+    extralight: '100',
+    thin: '200',
+    book: '300',
+    regular: 'normal',
+    medium: '500',
+    semibold: '600',
+    bold: '700',
+    black: '800',
+    fat: '900',
+  }[fontWeight] || 'normal')
 
 const getStylesFromProps = ({
   theme,
@@ -69,12 +100,13 @@ const getStylesFromProps = ({
 }) => {
   const calculatedFontSize = Number.isFinite(fontSize) ? fontSize : 16
   const calculatedLineHeight = lineHeight || relatedLineSpacing(calculatedFontSize)
+  const calculatedFontWeight = isNaN(fontWeight) ? calculateFontWeight(fontWeight) : fontWeight
 
   return {
     text: {
-      color: theme.colors[color] || color || theme.colors.text,
+      color: theme.colors[color] || color || theme.colors.darkGray,
       textAlign: textAlign || 'center',
-      fontWeight: fontWeight || 'normal',
+      fontWeight: calculatedFontWeight,
       fontFamily: theme.fonts[fontFamily] || fontFamily || 'Roboto',
       fontSize: normalize(calculatedFontSize),
       lineHeight: normalize(calculatedLineHeight),

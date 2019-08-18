@@ -17,7 +17,7 @@ const ScanQRButton = ({ onPress, styles, theme, ...screenProps }: Props) => {
   const { disabled, style = {} } = screenProps
   return (
     <TouchableOpacity style={[styles.row, style.row]} onPress={disabled ? undefined : onPress}>
-      <Text color={theme.colors.darkBlue} fontSize={14} fontWeight="500">
+      <Text color="darkBlue" fontSize={14} fontWeight="medium">
         Scan QR Code
       </Text>
       <View style={styles.iconWrapper}>

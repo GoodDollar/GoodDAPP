@@ -8,7 +8,7 @@ import HomePage from '../PageObjects/HomePage'
 
 describe('Test case 1: Ability to Sign Up', () => {
 
-    it('Try to sign up the wallet with wrong values', () => {
+    it('User is not able to sign up the wallet with wrong values', () => {
         
        StartPage.open();
        StartPage.createWalletButton.click();
@@ -34,7 +34,7 @@ describe('Test case 1: Ability to Sign Up', () => {
     });
 
 
-    it('Try to sign up the wallet with correct values', async () => {
+    it('User is able to sign up the wallet with correct values', async () => {
 
         await StartPage.open();
         StartPage.createWalletButton.click();

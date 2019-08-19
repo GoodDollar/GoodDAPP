@@ -16,7 +16,7 @@ script:
   - npm run coverage
   - npm run coveralls
   - npm run build
-  - npm test
+  - npm run cypress
 
 after_success:
   - npm run bundlesize:check

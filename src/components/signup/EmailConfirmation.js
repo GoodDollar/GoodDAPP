@@ -7,6 +7,7 @@ import { withStyles } from '../../lib/styles'
 import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
 import CustomWrapper from './signUpWrapper'
+import InputText from '../common/form/InputText'
 
 type Props = {
   screenProps: any,
@@ -16,32 +17,33 @@ type Props = {
 const log = logger.child({ from: 'EmailConfirmation' })
 
 const EmailConfirmation = ({ navigation, screenProps, styles }: Props) => {
-  const [globalProfile, setGlobalProfile] = useState({})
+  
+  const [globalProfile, setGlobalProfile] = useState({});
+  const [code, setCode] = useState('');
+  const [errorMessage, setErrorMessage] = useState();
 
   // const API = useWrappedApi()
   // const userStorage = useWrappedUserStorage()
   const setLoading = () => log.warn('implement me')
-  useEffect(() => {
-    const { params } = navigation.state
-
-    const validateEmail = async () => {
-      setLoading(true)
-
-      // recover user's profile persisted to userStorage in SignupState after sending the email
-      // done before verifying email to have all the user's information available to display
-      const profile = {} //await userStorage.getProfile()
-      setGlobalProfile(profile)
-
-      await API.verifyEmail({ code: params.validation })
-
+  
+  const validateEmail = async (code) => {
+    setLoading(true)
+  
+    // recover user's profile persisted to userStorage in SignupState after sending the email
+    // done before verifying email to have all the user's information available to display
+    const profile = {} //await userStorage.getProfile()
+    setGlobalProfile(profile)
+    
+    const res = await API.verifyEmail({ code: Number(code)})
+   
+    if (!res.data.ok) {
+      setErrorMessage("Oops, it's not right code")
+    } else {
       screenProps.doneCallback({ ...profile, isEmailConfirmed: true })
     }
-
-    if (params && params.validation) {
-      validateEmail().finally(() => setLoading(false))
-    }
-  }, [])
-
+    setLoading(false)
+  }
+  
   const handleResend = async () => {
     setLoading(true)
 
@@ -52,9 +54,29 @@ const EmailConfirmation = ({ navigation, screenProps, styles }: Props) => {
   }
 
   const handleSubmit = () => {
-    log.info('opening email client...')
+    if (code) (
+      validateEmail(code)
+    )
+    
+  }
+  
+  const handleChange = (code: string) => {
+    setErrorMessage()
+    if (code) {
+      if (code.length <= 10 ) {
+        setCode(code.replace(/[^0-9]/g, ''))
+      }
+    } else {
+      setCode('')
+    }
   }
 
+  const handleEnter = (event: { nativeEvent: { key: string } }) => {
+    if (event.nativeEvent.key === 'Enter') {
+      handleSubmit()
+    }
+  }
+  
   return (
     <CustomWrapper
       handleSubmit={handleSubmit}
@@ -77,6 +99,17 @@ const EmailConfirmation = ({ navigation, screenProps, styles }: Props) => {
             <Section.Text fontFamily="slab" fontSize={22} color="darkGray">
               {globalProfile.email || screenProps.data.email}
             </Section.Text>
+          </Section.Row>
+          <Section.Row justifyContent="center">
+              <InputText
+                id={'code_input'}
+                value={code}
+                onChangeText={handleChange}
+                error={errorMessage}
+                onKeyPress={handleEnter}
+                onCleanUpField={handleChange}
+                autoFocus
+              />
           </Section.Row>
         </Section>
         <Wrapper style={styles.containerPadding}>

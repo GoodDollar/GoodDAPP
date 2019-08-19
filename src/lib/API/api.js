@@ -152,8 +152,12 @@ class API {
    * @param {object} verificationData
    * @param {string} verificationData.code
    */
-  verifyEmail(verificationData: { code: string }): Promise<$AxiosXHR<any>> {
-    return this.client.post('/verify/email', { verificationData })
+  verifyEmail(verificationData: { code: integer }): Promise<$AxiosXHR<any>> {
+    return this.client
+      .post('/verify/email', { verificationData })
+      .catch(() => {
+        return { data: { ok:0 } }
+      })
   }
 
   /**

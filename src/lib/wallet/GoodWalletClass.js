@@ -763,9 +763,7 @@ export class GoodWallet {
    * @param {number} wei
    */
   async verifyHasGas(wei: number, options = {}) {
-    const {
-      topWallet = true,
-    } = options;
+    const { topWallet = true } = options
 
     let nativeBalance = await this.wallet.eth.getBalance(this.account)
     if (nativeBalance > wei) {
@@ -773,13 +771,13 @@ export class GoodWallet {
     }
 
     if (topWallet) {
-      const toppingRes = await API.verifyTopWallet();
-      nativeBalance = await this.wallet.eth.getBalance(this.account);
+      const toppingRes = await API.verifyTopWallet()
+      nativeBalance = await this.wallet.eth.getBalance(this.account)
 
-      return toppingRes.ok && nativeBalance > wei;
+      return toppingRes.ok && nativeBalance > wei
     }
 
-    return false;
+    return false
   }
 
   /**

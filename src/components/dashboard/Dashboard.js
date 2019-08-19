@@ -9,6 +9,7 @@ import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
 import { getInitialFeed, getNextFeed, PAGE_SIZE } from '../../lib/undux/utils/feed'
 import { executeWithdraw } from '../../lib/undux/utils/withdraw'
 import { weiToMask } from '../../lib/wallet/utils'
+
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 
 //import goodWallet from '../../lib/wallet/GoodWallet';

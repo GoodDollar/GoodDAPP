@@ -5,13 +5,19 @@ import { type DialogProps } from '../../../components/common/dialogs/CustomDialo
 import pino from '../../logger/pino-logger'
 const log = pino.child({ from: 'dialogs' })
 
-export const showDialogForError = (store: Store, humanError: string, error: Error | ResponseError) => {
+export const showDialogForError = (
+  store: Store,
+  humanError: string,
+  error: Error | ResponseError,
+  dialogProps?: DialogProps
+) => {
   let message = ''
+
   if (error === undefined && humanError && typeof humanError !== 'string') {
     error = humanError
     humanError = undefined
   }
-  if (error === undefined && message === undefined) {
+  if (error === undefined && humanError === undefined) {
     message = 'Unknown Error'
   } else if (error === undefined) {
     message = ''
@@ -30,7 +36,7 @@ export const showDialogForError = (store: Store, humanError: string, error: Erro
   }
 
   message = humanError ? humanError + '\n' + message : message
-  const dialogData = { visible: true, title: 'Error', message, dismissText: 'OK', type: 'error' }
+  const dialogData = { visible: true, title: 'Ooops...', message, dismissText: 'OK', type: 'error', ...dialogProps }
   showDialogWithData(store, dialogData)
 }
 

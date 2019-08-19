@@ -81,7 +81,7 @@ class PhoneForm extends React.Component<Props, State> {
         <Section.Stack grow justifyContent="flex-start" style={styles.row}>
           <Section.Row justifyContent="center">
             <Section.Title textTransform="none">
-              {`${getFirstWord(fullName)}, May we have your number please?`}
+              {`${getFirstWord(fullName)}, may we have your number please?`}
             </Section.Title>
           </Section.Row>
           <Section.Row justifyContent="center" style={styles.row}>

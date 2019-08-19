@@ -1,6 +1,6 @@
 //@flow
 import React, { useEffect, useState } from 'react'
-import { Image, View } from 'react-native'
+import { ActivityIndicator, Image, StyleSheet, View } from 'react-native'
 import { Text } from 'react-native-paper'
 import findKey from 'lodash/findKey'
 
@@ -9,20 +9,48 @@ import findKey from 'lodash/findKey'
 import { getFirstWord } from '../../../lib/utils/getFirstWord'
 import CustomButton from '../../common/buttons/CustomButton'
 import Section from '../../common/layout/Section'
+import Icon from '../../common/view/Icon'
 import Separator from '../../common/layout/Separator'
+import normalize from '../../../lib/utils/normalizeText'
 import logger from '../../../lib/logger/pino-logger'
 import goodWallet from '../../../lib/wallet/GoodWallet'
 import userStorage from '../../../lib/gundb/UserStorage'
 import LookingGood from '../../../assets/LookingGood.svg'
 import GDStore from '../../../lib/undux/GDStore'
 import { fireEvent } from '../../../lib/analytics/analytics'
-import { withStyles } from '../../../lib/styles'
-import normalize from '../../../lib/utils/normalizeText'
-import FRStep from './FRStep'
+
+Image.prefetch(LookingGood)
 
 const log = logger.child({ from: 'GuidedFRProcessResults' })
 
-const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, styles, done, navigation, isAPISuccess }: any) => {
+const FRStep = ({ title, isActive, status, isProcessFailed, paddingBottom }) => {
+  paddingBottom = paddingBottom === undefined ? 12 : paddingBottom
+  let statusColor = status === true ? 'success' : status === false ? 'failure' : 'none'
+  let statusIcon =
+    status === undefined ? null : (
+      <Icon name={status ? 'success' : 'close'} size={14} color="#fff" style={{ textAlign: 'center' }} />
+    )
+  let spinner =
+    isProcessFailed !== true && status === undefined && isActive === true ? <ActivityIndicator color={'gray'} /> : null
+  let iconOrSpinner =
+    statusIcon || spinner ? <View style={[styles[statusColor], styles.statusIcon]}>{statusIcon || spinner}</View> : null
+
+  //not active use grey otherwise based on status
+  let color = isActive === false ? 'gray50Percen' : status === false ? 'red' : 'darkGray'
+  log.debug('FRStep', { title, status, isActive, statusColor, color })
+
+  return (
+    <View style={{ flexDirection: 'row', paddingTop: 0, marginRight: 0, paddingBottom }}>
+      <View style={{ flexGrow: 2 }}>
+        <Text color={color} fontWeight={isActive && 'medium'} lineHeight={28}>
+          {title}
+        </Text>
+      </View>
+      {iconOrSpinner}
+    </View>
+  )
+}
+const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigation, isAPISuccess }: any) => {
   const store = GDStore.useStore()
   const { fullName } = store.get('profile')
 
@@ -86,14 +114,12 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, styles, done, 
     }
   }, [])
 
-  const saveProfileAndDone = async () => {
+  const saveProfile = async () => {
     try {
       log.debug('savingProfileAndDone')
       let account = await goodWallet.getAccountForType('zoomId')
       await userStorage.setProfileField('zoomEnrollmentId', account, 'private')
       setStatus({ ...processStatus, isProfileSaved: true })
-
-      setTimeout(done, 2000)
     } catch (e) {
       setStatus({ ...processStatus, isProfileSaved: false })
     }
@@ -109,9 +135,16 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, styles, done, 
   useEffect(() => {
     //done save profile and call done callback
     if (processStatus.isWhitelisted) {
-      saveProfileAndDone()
+      saveProfile()
     }
   }, [processStatus.isWhitelisted])
+
+  useEffect(() => {
+    //done save profile and call done callback
+    if (processStatus.isProfileSaved) {
+      setTimeout(done, 2000)
+    }
+  }, [processStatus.isProfileSaved])
 
   // useEffect(() => {
   //   if (isAPISuccess === undefined) {
@@ -144,11 +177,12 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, styles, done, 
       </CustomButton>
     </Section>
   ) : null
+
   let lookingGood =
     isProcessFailed === false && processStatus.isProfileSaved ? (
-      <View style={styles.imageView}>
-        <Text style={styles.textGood}>{`Looking Good ${getFirstWord(fullName)}`}</Text>
-        <Image source={LookingGood} resizeMode={'center'} style={styles.image} />
+      <View style={{ flexShrink: 0 }}>
+        <Text fontWeight="medium" fontSize={24}>{`Looking Good ${getFirstWord(fullName)}`}</Text>
+        <Image source={LookingGood} resizeMode={'center'} style={{ marginTop: 36, height: 135 }} />
       </View>
     ) : null
 
@@ -160,19 +194,17 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, styles, done, 
   } else if (processStatus.isNotDuplicate === false) {
     helpText = (
       <View>
-        <Text style={styles.textHelp}>
-          {'You look very familiar...\nIt seems you already have a wallet,\nyou can:\n\n'}
-        </Text>
-        <Text style={styles.textHelp}>
+        <Text color="red">{'You look very familiar...\nIt seems you already have a wallet,\nyou can:\n\n'}</Text>
+        <Text color="red">
           A.{' '}
-          <Text style={[styles.helpLink, styles.textHelp]} onPress={gotoRecover}>
+          <Text color="red" fontWeight="bold" textDecorationLine="underline" onPress={gotoRecover}>
             Recover previous wallet
           </Text>
           {'\n'}
         </Text>
-        <Text style={styles.textHelp}>
+        <Text color="red">
           B.{' '}
-          <Text style={[styles.helpLink, styles.textHelp]} onPress={gotoSupport}>
+          <Text color="red" fontWeight="bold" textDecorationLine="underline" onPress={gotoSupport}>
             Contact support
           </Text>
           {'\n'}
@@ -181,22 +213,41 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, styles, done, 
     )
   } else if (processStatus.isLive === false) {
     helpText =
-      'We could not verify you are a living person. Funny hu? please make sure:\n\n\
-A. Center your webcam\n\
-B. Camera is at eye level\n\
-C. Light your face evenly'
+      'We could not verify you are a living person. Funny hu? please make sure:\n\n' +
+      'A. Center your webcam\n' +
+      'B. Camera is at eye level\n' +
+      'C. Light your face evenly'
   } else if (isProcessFailed) {
+    log.error('FR failed', processStatus)
     helpText = 'Something went wrong, please try again...'
   }
   return (
     <View style={styles.topContainer}>
-      <Section style={styles.mainContainer} justifyContent="space-around">
-        <Section.Title style={styles.mainTitle} justifyContent="center" alignItems="center">
-          <Text>Analyzing Results...</Text>
+      <Section
+        style={{
+          paddingBottom: 0,
+          paddingTop: 31,
+          marginBottom: 0,
+          paddingLeft: 44,
+          paddingRight: 44,
+          justifyContent: 'space-around',
+          flex: 1,
+        }}
+      >
+        <Section.Title fontWeight="medium" textTransform="none" style={styles.mainTitle}>
+          Analyzing Results...
         </Section.Title>
-        <View style={styles.mainView}>
+        <View
+          style={{
+            paddingBottom: 0,
+            paddingTop: 0,
+            marginBottom: 0,
+            padding: 0,
+            flexGrow: 0,
+          }}
+        >
           <Separator width={2} />
-          <View style={styles.steps}>
+          <View style={{ marginBottom: 22, marginTop: 22 }}>
             <FRStep
               title={'Checking duplicates'}
               isActive={true}
@@ -237,73 +288,51 @@ C. Light your face evenly'
           </View>
           <Separator width={2} />
         </View>
-        <View style={styles.imageView}>
-          <Text style={styles.textHelp}>{helpText}</Text>
+        <View style={{ flexShrink: 0 }}>
+          <Text color="red">{helpText}</Text>
         </View>
-        <View style={styles.imageContainer}>{lookingGood}</View>
+        {lookingGood}
       </Section>
       {retryButtonOrNull}
     </View>
   )
 }
-const getStylesFromProps = ({ theme }) => ({
+
+const styles = StyleSheet.create({
   topContainer: {
-    fontFamily: theme.fonts.default,
     display: 'flex',
-    backgroundColor: theme.colors.surface,
+    backgroundColor: 'white',
     height: '100%',
     flex: 1,
     justifyContent: 'space-evenly',
-    paddingTop: '2rem',
+    paddingTop: 33,
     borderRadius: 5,
   },
-  imageView: {
-    flexShrink: 0,
-  },
-  imageContainer: {
-    height: '12rem',
-  },
-  image: {
-    height: '8.43rem',
-  },
-  mainContainer: {
-    paddingBottom: 0,
-    paddingTop: '2rem',
-    marginBottom: 0,
-    paddingLeft: '2.75rem',
-    paddingRight: '2.75rem',
-    flex: 1,
-  },
-  mainView: {
-    paddingBottom: 0,
-    paddingTop: 0,
-    marginBottom: 0,
-    padding: 0,
-    flexGrow: 0,
-  },
   mainTitle: {
-    fontSize: normalize(24),
-    color: theme.colors.darkGray,
-    textTransform: 'none',
     display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   button: {
+    fontFamily: 'Roboto-Medium',
     fontSize: normalize(16),
   },
-  textHelp: {
-    fontSize: normalize(16),
-    color: theme.colors.red,
-    textTransform: 'none',
+  statusIcon: {
+    justifyContent: 'center',
   },
-  helpLink: {
-    fontWeight: 'bold',
-    textDecorationLine: 'underline',
+  success: {
+    width: 28,
+    height: 28,
+    borderRadius: '50%',
+    backgroundColor: '#00C3AE',
   },
-  textGood: {
-    fontSize: normalize(24),
-    textTransform: 'none',
-    textAlign: 'center',
+  failure: {
+    width: 28,
+    height: 28,
+    borderRadius: '50%',
+    backgroundColor: '#FA6C77',
+    flexGrow: 0,
   },
 })
 
-export default withStyles(getStylesFromProps)(GuidedFRProcessResults)
+export default GuidedFRProcessResults

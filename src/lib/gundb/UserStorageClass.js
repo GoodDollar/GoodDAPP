@@ -14,7 +14,6 @@ import values from 'lodash/values'
 import keys from 'lodash/keys'
 import isEmail from 'validator/lib/isEmail'
 import Mutex from 'await-mutex'
-import { AsyncStorage } from 'react-native'
 import isMobilePhone from '../validators/isMobilePhone'
 
 import pino from '../logger/pino-logger'
@@ -108,10 +107,11 @@ export type TransactionEvent = FeedEvent & {
 export const welcomeMessage = {
   id: '0',
   type: 'welcome',
-  date: new Date().getTime(),
+  date: new Date().toString(),
   status: 'completed',
   data: {
     customName: 'Welcome to GoodDollar!',
+    subtitle: 'Start claiming free G$',
     receiptData: {
       from: '0x0000000000000000000000000000000000000000',
     },
@@ -1016,6 +1016,7 @@ export class UserStorage {
       code: withdrawCode,
       otplStatus,
       customName,
+      subtitle,
     } = data
     let avatar, fullName, address, withdrawStatus, initiator
     if (type === 'send') {
@@ -1107,6 +1108,7 @@ export class UserStorage {
         },
         amount: value,
         message: reason,
+        subtitle,
       },
     }
   }
@@ -1416,6 +1418,6 @@ export class UserStorage {
     //     profile: 'failed'
     //   }))
     logger.debug('deleteAccount', { deleteResults })
-    return AsyncStorage.clear()
+    return deleteResults
   }
 }

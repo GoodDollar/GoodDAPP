@@ -1,16 +1,16 @@
 // @flow
 import React from 'react'
-import { View } from 'react-native'
+import { Image, View } from 'react-native'
 import Mnemonics from '../signin/Mnemonics'
 import logger from '../../lib/logger/pino-logger'
 import CustomButton from '../common/buttons/CustomButton'
 import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
 import Text from '../common/view/Text'
-import { PrivacyPolicy, TermsOfUse } from '../webView/webViewInstances'
+import { PrivacyPolicy, Support, TermsOfUse } from '../webView/webViewInstances'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
-import normalize from '../../lib/utils/normalizeText'
+import illustration from '../../assets/Auth/Illustration.svg'
 
 type Props = {
   navigation: any,
@@ -20,6 +20,7 @@ type Props = {
   styles: any,
 }
 
+Image.prefetch(illustration)
 const log = logger.child({ from: 'Auth' })
 class Auth extends React.Component<Props> {
   handleSignUp = () => {
@@ -51,37 +52,49 @@ class Auth extends React.Component<Props> {
     const { styles } = this.props
     return (
       <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
-        <Section justifyContent="space-between" style={styles.mainSection}>
-          <Wrapper style={styles.containerPadding}>
-            <Section.Row alignItems="center" justifyContent="center" style={styles.topRow}>
-              <Section.Text color="surface" fontFamily="slab" fontSize={22}>
-                {`Alpha tokens are \n for test use only!`}
-              </Section.Text>
-            </Section.Row>
-            <Section.Row alignItems="center" justifyContent="center" style={styles.bottomRow}>
-              <Section.Text color="surface" fontWeight="500" fontSize={16}>
-                {`They have NO real value. \n And will be deleted at the end of the Alpha.`}
-              </Section.Text>
-            </Section.Row>
-          </Wrapper>
+        <Section justifyContent="space-between" style={styles.mainSection} alignItems="center">
+          <Section.Row alignItems="center" justifyContent="center" style={styles.topRow}>
+            <Section.Text color="surface" fontFamily="slab" fontSize={22} fontWeight="bold">
+              {`Alpha tokens are\nfor test use only!`}
+            </Section.Text>
+          </Section.Row>
+          <Section.Separator color="#fff" width={2} style={styles.separator} />
+          <Section.Row alignItems="center" justifyContent="center">
+            <Section.Text color="surface" fontWeight="medium">
+              {`They have no real value and will be deleted at the end of the Alpha`}
+            </Section.Text>
+          </Section.Row>
         </Section>
+        <Image source={illustration} style={styles.illustration} resizeMode="contain" />
         <View style={styles.bottomContainer}>
           <Text fontSize={12} color="gray80Percent">
-            {`By clicking the 'Create a wallet' button,\n you are accepting our\n`}
-            <Text style={styles.acceptTermsLink} onPress={this.handleNavigateTermsOfUse}>
+            {`By clicking the 'Create a wallet' button,\nyou are accepting our\n`}
+            <Text
+              fontSize={12}
+              color="gray80Percent"
+              fontWeight="bold"
+              textDecorationLine="underline"
+              onPress={this.handleNavigateTermsOfUse}
+            >
               Terms of Use
             </Text>
-            {` and `}
-            <Text style={styles.acceptTermsLink} onPress={this.handleNavigatePrivacyPolicy}>
+            {' and '}
+            <Text
+              fontSize={12}
+              color="gray80Percent"
+              fontWeight="bold"
+              textDecorationLine="underline"
+              onPress={this.handleNavigatePrivacyPolicy}
+            >
               Privacy Policy
             </Text>
           </Text>
           <CustomButton style={styles.buttonLayout} onPress={this.handleSignUp}>
             Create a wallet
           </CustomButton>
-          <Text fontWeight="500" fontSize={14} color="primary" onPress={this.handleSignIn}>
+          <Text fontSize={14} color="primary" onPress={this.handleSignIn}>
             {`Already have a wallet? `}
-            <Text fontWeight="500" fontSize={14} color="primary" onPress={this.handleSignIn} style={styles.underlined}>
+            <Text fontSize={14} color="primary" textDecorationLine="underline" onPress={this.handleSignIn}>
               Login
             </Text>
           </Text>
@@ -95,42 +108,44 @@ const getStylesFromProps = ({ theme }) => {
   return {
     mainWrapper: {
       paddingHorizontal: 0,
+      justifyContent: 'space-evenly',
     },
     mainSection: {
-      marginHorizontal: -theme.sizes.defaultDouble,
-      marginVertical: 'auto',
-      paddingHorizontal: 0,
+      marginHorizontal: theme.sizes.defaultDouble,
+      borderRadius: 0,
+      paddingLeft: theme.sizes.default,
+      paddingRight: theme.sizes.default,
+      paddingVertical: theme.sizes.default,
+      backgroundColor: theme.colors.darkGray,
+      boxShadow: '0 3px 6px rgba(0, 0, 0, 0.24)',
+      marginBottom: 12,
     },
-    containerPadding: {
-      padding: 28,
-      alignItems: 'center',
+    separator: {
+      maxWidth: 276,
+      width: '100%',
+      marginVertical: theme.sizes.default,
     },
     topRow: {
-      borderBottomColor: theme.colors.surface,
-      borderBottomWidth: 1,
-      paddingBottom: theme.sizes.defaultDouble,
       maxWidth: 276,
     },
-    bottomRow: {
-      paddingTop: theme.sizes.defaultDouble,
-    },
     bottomContainer: {
-      padding: theme.sizes.defaultDouble,
+      paddingHorizontal: theme.sizes.defaultDouble,
+      paddingBottom: theme.sizes.defaultDouble,
     },
     buttonLayout: {
       marginVertical: 20,
     },
     acceptTermsLink: {
-      color: theme.colors.gray80Percent,
-      fontFamily: theme.fonts.default,
-      fontSize: normalize(12),
-      fontWeight: '700',
       marginTop: theme.sizes.default,
-      textAlign: 'center',
-      textDecorationLine: 'underline',
     },
-    underlined: {
-      textDecorationLine: 'underline',
+    illustration: {
+      flexGrow: 1,
+      flexShrink: 0,
+      marginBottom: theme.sizes.default,
+      maxWidth: '100%',
+      minHeight: 100,
+      maxHeight: 192,
+      paddingTop: theme.sizes.default,
     },
   }
 }
@@ -145,6 +160,7 @@ export default createStackNavigator(
     TermsOfUse,
     PrivacyPolicy,
     Recover: Mnemonics,
+    Support,
   },
   {
     backRouteName: 'Auth',

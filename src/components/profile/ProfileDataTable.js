@@ -2,7 +2,10 @@ import React from 'react'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import PhoneInput from 'react-phone-number-input'
 import './ProfileDataTablePhoneInput.css'
-import { Icon, InputRounded, Section } from '../common'
+import Icon from '../common/view/Icon'
+import InputRounded from '../common/form/InputRounded'
+import ErrorText from '../common/form/ErrorText'
+import Section from '../common/layout/Section'
 import { withStyles } from '../../lib/styles'
 import './PhoneInput.css'
 
@@ -28,7 +31,7 @@ const ProfileDataTable = ({ profile, onChange, errors: errorsProp, editable, the
             <Section.Stack grow>
               <Section.Row>
                 <PhoneInput
-                  error={errors.mobile}
+                  error={errors.mobile && errors.mobile !== ''}
                   id="signup_phone"
                   onChange={value => onChange({ ...profile, mobile: value })}
                   placeholder="Enter phone number"
@@ -38,7 +41,6 @@ const ProfileDataTable = ({ profile, onChange, errors: errorsProp, editable, the
                     borderRadius: 24,
                     borderWidth: 1,
                     color: errors.mobile ? theme.colors.red : theme.colors.text,
-                    marginBottom: theme.sizes.default,
                     paddingBottom: 0,
                     paddingLeft: 0,
                     paddingRight: 0,
@@ -55,6 +57,7 @@ const ProfileDataTable = ({ profile, onChange, errors: errorsProp, editable, the
                   />
                 </Section.Row>
               </Section.Row>
+              <ErrorText error={errors.mobile} style={styles.errorMargin} />
             </Section.Stack>
           ) : (
             <InputRounded
@@ -101,6 +104,10 @@ const getStylesFromProps = ({ theme }) => {
       top: 0,
       width: 32,
       zIndex: 1,
+    },
+    errorMargin: {
+      marginTop: theme.sizes.default,
+      marginBottom: theme.sizes.default,
     },
   }
 }

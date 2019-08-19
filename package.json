@@ -1,6 +1,6 @@
 {
   "name": "@gooddollar/gooddapp",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "engines": {
     "node": "10.x",
     "npm": "6.x"
@@ -29,7 +29,8 @@
     "flow": "flow",
     "lint": "eslint \"src/**/*.js\" --max-warnings=0",
     "lint:fix": "npm run lint -- --fix",
-    "docs": "node scripts/docs.js"
+    "docs": "node scripts/docs.js",
+    "web:serveo": "export REACT_APP_WEB3_RPC=https://gdchain.serveo.net;export REACT_APP_SERVER_URL=https://gdserver.serveo.net;export REACT_APP_GUN_PUBLIC_URL=https://gdserver.serveo.net/gun;npm run web:local"
   },
   "repository": {
     "type": "git",
@@ -53,7 +54,7 @@
   "homepage": "https://gooddollar.org",
   "dependencies": {
     "@babel/preset-flow": "^7.0.0",
-    "@gooddollar/goodcontracts": "0.0.16",
+    "@gooddollar/goodcontracts": "0.0.18",
     "@gooddollar/gun-appendonly": "^1.0.1",
     "@react-navigation/core": "^3.1.1",
     "@react-navigation/web": "^1.0.0-alpha.7",
@@ -86,7 +87,7 @@
     "react-native-camera": "^1.12.0",
     "react-native-elements": "^1.1.0",
     "react-native-keyboard-aware-scroll-view": "^0.8.0",
-    "react-native-masked-text": "^1.11.1",
+    "react-native-masked-text": "^1.13.0",
     "react-native-otp": "^1.0.0",
     "react-native-paper": "^2.16.0",
     "react-native-qrcode-scanner": "^1.1.2",

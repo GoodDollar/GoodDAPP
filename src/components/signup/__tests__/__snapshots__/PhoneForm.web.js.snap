@@ -142,7 +142,7 @@ exports[`PhoneForm matches snapshot 1`] = `
                   "direction": "ltr",
                   "fontFamily": "Roboto",
                   "fontSize": "24px",
-                  "fontWeight": "500",
+                  "fontWeight": "normal",
                   "lineHeight": "30px",
                   "marginBottom": "8px",
                   "marginTop": "8px",
@@ -152,7 +152,7 @@ exports[`PhoneForm matches snapshot 1`] = `
                 }
               }
             >
-              Kevin, May we have your number please?
+              Kevin, may we have your number please?
             </div>
           </div>
           <div
@@ -1903,6 +1903,7 @@ exports[`PhoneForm matches snapshot 1`] = `
                   "alignItems": "center",
                   "flexDirection": "row",
                   "justifyContent": "center",
+                  "letterSpacing": "0px",
                   "msFlexAlign": "center",
                   "msFlexDirection": "row",
                   "msFlexPack": "center",
@@ -1942,17 +1943,13 @@ exports[`PhoneForm matches snapshot 1`] = `
                       "fontSize": "16px",
                       "fontWeight": "500",
                       "justifyContent": "center",
-                      "marginBottom": "0px",
-                      "marginLeft": "0px",
-                      "marginRight": "0px",
-                      "marginTop": "0px",
+                      "letterSpacing": "0px",
+                      "lineHeight": "22px",
                       "msFlexAlign": "center",
                       "msFlexPack": "center",
-                      "paddingBottom": "0px",
-                      "paddingLeft": "0px",
-                      "paddingRight": "0px",
                       "paddingTop": "1px",
-                      "textAlign": "left",
+                      "textAlign": "center",
+                      "textDecoration": "none",
                       "textTransform": "uppercase",
                     }
                   }

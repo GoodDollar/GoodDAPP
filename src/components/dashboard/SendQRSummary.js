@@ -3,15 +3,15 @@
  * @file Displays a summary when sending G$ directly to a blockchain address
  */
 import React, { useEffect, useState } from 'react'
-import { StyleSheet } from 'react-native'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
+import { withStyles } from '../../lib/styles'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import { useWrappedGoodWallet } from '../../lib/wallet/useWrappedWallet'
 import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
 import { CustomButton, Section, Wrapper } from '../common'
-import TopBar from '../common/view/TopBar'
 import SummaryTable from '../common/view/SummaryTable'
+import TopBar from '../common/view/TopBar'
 import { SEND_TITLE } from './utils/sendReceiveFlow'
 
 export type AmountProps = {
@@ -28,7 +28,7 @@ const log = logger.child({ from: 'SendQRSummary' })
  * @param {any} props.navigation
  */
 const SendQRSummary = (props: AmountProps) => {
-  const { screenProps } = props
+  const { screenProps, styles } = props
   const [screenState] = useScreenState(screenProps)
   const goodWallet = useWrappedGoodWallet()
   const [showDialog] = useDialog()
@@ -116,8 +116,8 @@ const SendQRSummary = (props: AmountProps) => {
       <Section grow>
         <Section.Title>Summary</Section.Title>
         <Section.Row justifyContent="center">
-          <Section.Text color="gray80Percent" style={styles.descriptionText} fontSize={16}>
-            * the transaction may take a few seconds to be complete
+          <Section.Text color="gray80Percent" style={styles.descriptionText}>
+            {'* the transaction may take\na few seconds to complete'}
           </Section.Text>
         </Section.Row>
         <SummaryTable counterPartyDisplayName={profile.name} amount={amount} reason={reason} />
@@ -144,8 +144,10 @@ const SendQRSummary = (props: AmountProps) => {
   )
 }
 
-const styles = StyleSheet.create({
-  descriptionText: { maxWidth: 210 },
+const getStylesFromProps = ({ theme }) => ({
+  descriptionText: {
+    maxWidth: 210,
+  },
 })
 
 SendQRSummary.navigationOptions = {
@@ -159,4 +161,4 @@ SendQRSummary.shouldNavigateToComponent = props => {
   return (!!screenState.amount && !!screenState.to) || screenState.from
 }
 
-export default SendQRSummary
+export default withStyles(getStylesFromProps)(SendQRSummary)

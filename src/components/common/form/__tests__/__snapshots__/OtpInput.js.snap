@@ -30,6 +30,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
         "display": "flex",
         "flexDirection": "row",
         "justifyContent": "space-evenly",
+        "marginBottom": "8px",
         "msFlexDirection": "row",
         "msFlexPack": "space-evenly",
       }
@@ -909,6 +910,7 @@ exports[`OtpInput matches snapshot 1`] = `
         "display": "flex",
         "flexDirection": "row",
         "justifyContent": "space-evenly",
+        "marginBottom": "8px",
         "msFlexDirection": "row",
         "msFlexPack": "space-evenly",
       }
@@ -956,6 +958,7 @@ exports[`OtpInput matches snapshot 1`] = `
         onKeyPress={[Function]}
         onPaste={[Function]}
         onSelect={[Function]}
+        placeholder=""
         readOnly={false}
         spellCheck={true}
         style={
@@ -1096,6 +1099,7 @@ exports[`OtpInput matches snapshot 1`] = `
         onKeyPress={[Function]}
         onPaste={[Function]}
         onSelect={[Function]}
+        placeholder=""
         readOnly={false}
         spellCheck={true}
         style={
@@ -1236,6 +1240,7 @@ exports[`OtpInput matches snapshot 1`] = `
         onKeyPress={[Function]}
         onPaste={[Function]}
         onSelect={[Function]}
+        placeholder=""
         readOnly={false}
         spellCheck={true}
         style={
@@ -1376,6 +1381,7 @@ exports[`OtpInput matches snapshot 1`] = `
         onKeyPress={[Function]}
         onPaste={[Function]}
         onSelect={[Function]}
+        placeholder=""
         readOnly={false}
         spellCheck={true}
         style={
@@ -1516,6 +1522,7 @@ exports[`OtpInput matches snapshot 1`] = `
         onKeyPress={[Function]}
         onPaste={[Function]}
         onSelect={[Function]}
+        placeholder=""
         readOnly={false}
         spellCheck={true}
         style={
@@ -1656,6 +1663,7 @@ exports[`OtpInput matches snapshot 1`] = `
         onKeyPress={[Function]}
         onPaste={[Function]}
         onSelect={[Function]}
+        placeholder=""
         readOnly={false}
         spellCheck={true}
         style={
@@ -1788,6 +1796,7 @@ exports[`OtpInput number matches snapshot 1`] = `
         "display": "flex",
         "flexDirection": "row",
         "justifyContent": "space-evenly",
+        "marginBottom": "8px",
         "msFlexDirection": "row",
         "msFlexPack": "space-evenly",
       }
@@ -1835,6 +1844,7 @@ exports[`OtpInput number matches snapshot 1`] = `
         onKeyPress={[Function]}
         onPaste={[Function]}
         onSelect={[Function]}
+        placeholder=""
         readOnly={false}
         spellCheck={true}
         style={
@@ -1975,6 +1985,7 @@ exports[`OtpInput number matches snapshot 1`] = `
         onKeyPress={[Function]}
         onPaste={[Function]}
         onSelect={[Function]}
+        placeholder=""
         readOnly={false}
         spellCheck={true}
         style={
@@ -2115,6 +2126,7 @@ exports[`OtpInput number matches snapshot 1`] = `
         onKeyPress={[Function]}
         onPaste={[Function]}
         onSelect={[Function]}
+        placeholder=""
         readOnly={false}
         spellCheck={true}
         style={
@@ -2255,6 +2267,7 @@ exports[`OtpInput number matches snapshot 1`] = `
         onKeyPress={[Function]}
         onPaste={[Function]}
         onSelect={[Function]}
+        placeholder=""
         readOnly={false}
         spellCheck={true}
         style={
@@ -2395,6 +2408,7 @@ exports[`OtpInput number matches snapshot 1`] = `
         onKeyPress={[Function]}
         onPaste={[Function]}
         onSelect={[Function]}
+        placeholder=""
         readOnly={false}
         spellCheck={true}
         style={
@@ -2535,6 +2549,7 @@ exports[`OtpInput number matches snapshot 1`] = `
         onKeyPress={[Function]}
         onPaste={[Function]}
         onSelect={[Function]}
+        placeholder=""
         readOnly={false}
         spellCheck={true}
         style={

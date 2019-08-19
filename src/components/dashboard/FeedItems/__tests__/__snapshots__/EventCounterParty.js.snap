@@ -23,13 +23,12 @@ exports[`EventCounterParty receive matches snapshot 1`] = `
     dir="auto"
     style={
       Object {
-        "color": "rgba(85,85,85,1.00)",
+        "color": "rgba(66,69,74,1.00)",
         "direction": "ltr",
         "fontFamily": "Roboto",
         "fontSize": "16px",
         "fontWeight": "normal",
-        "lineHeight": "16px",
-        "marginBottom": "4px",
+        "lineHeight": "22px",
         "textAlign": "left",
         "textDecoration": "none",
         "textTransform": "capitalize",
@@ -41,15 +40,16 @@ exports[`EventCounterParty receive matches snapshot 1`] = `
       dir="auto"
       style={
         Object {
-          "color": "rgba(34,34,34,1.00)",
+          "color": "rgba(66,69,74,1.00)",
           "direction": "ltr",
           "fontFamily": "Roboto",
           "fontSize": "10px",
           "fontWeight": "normal",
-          "lineHeight": "22px",
+          "lineHeight": "14px",
           "textAlign": "center",
           "textDecoration": "none",
           "textTransform": "none",
+          "verticalAlign": "middle",
         }
       }
     >
@@ -60,15 +60,16 @@ exports[`EventCounterParty receive matches snapshot 1`] = `
       dir="auto"
       style={
         Object {
-          "color": "rgba(34,34,34,1.00)",
+          "color": "rgba(66,69,74,1.00)",
           "direction": "ltr",
           "fontFamily": "Roboto",
           "fontSize": "16px",
           "fontWeight": "500",
-          "lineHeight": "16px",
+          "lineHeight": "19px",
           "textAlign": "center",
           "textDecoration": "none",
           "textTransform": "none",
+          "verticalAlign": "middle",
         }
       }
     >
@@ -101,13 +102,12 @@ exports[`EventCounterParty send matches snapshot 1`] = `
     dir="auto"
     style={
       Object {
-        "color": "rgba(85,85,85,1.00)",
+        "color": "rgba(66,69,74,1.00)",
         "direction": "ltr",
         "fontFamily": "Roboto",
         "fontSize": "16px",
         "fontWeight": "normal",
-        "lineHeight": "16px",
-        "marginBottom": "4px",
+        "lineHeight": "22px",
         "textAlign": "left",
         "textDecoration": "none",
         "textTransform": "capitalize",
@@ -119,15 +119,16 @@ exports[`EventCounterParty send matches snapshot 1`] = `
       dir="auto"
       style={
         Object {
-          "color": "rgba(34,34,34,1.00)",
+          "color": "rgba(66,69,74,1.00)",
           "direction": "ltr",
           "fontFamily": "Roboto",
           "fontSize": "10px",
           "fontWeight": "normal",
-          "lineHeight": "22px",
+          "lineHeight": "14px",
           "textAlign": "center",
           "textDecoration": "none",
           "textTransform": "none",
+          "verticalAlign": "middle",
         }
       }
     >
@@ -138,15 +139,16 @@ exports[`EventCounterParty send matches snapshot 1`] = `
       dir="auto"
       style={
         Object {
-          "color": "rgba(34,34,34,1.00)",
+          "color": "rgba(66,69,74,1.00)",
           "direction": "ltr",
           "fontFamily": "Roboto",
           "fontSize": "16px",
           "fontWeight": "500",
-          "lineHeight": "16px",
+          "lineHeight": "19px",
           "textAlign": "center",
           "textDecoration": "none",
           "textTransform": "none",
+          "verticalAlign": "middle",
         }
       }
     >
@@ -179,13 +181,12 @@ exports[`EventCounterParty withdraw matches snapshot 1`] = `
     dir="auto"
     style={
       Object {
-        "color": "rgba(85,85,85,1.00)",
+        "color": "rgba(66,69,74,1.00)",
         "direction": "ltr",
         "fontFamily": "Roboto",
         "fontSize": "16px",
         "fontWeight": "normal",
-        "lineHeight": "16px",
-        "marginBottom": "4px",
+        "lineHeight": "22px",
         "textAlign": "left",
         "textDecoration": "none",
         "textTransform": "capitalize",
@@ -197,15 +198,16 @@ exports[`EventCounterParty withdraw matches snapshot 1`] = `
       dir="auto"
       style={
         Object {
-          "color": "rgba(34,34,34,1.00)",
+          "color": "rgba(66,69,74,1.00)",
           "direction": "ltr",
           "fontFamily": "Roboto",
           "fontSize": "10px",
           "fontWeight": "normal",
-          "lineHeight": "22px",
+          "lineHeight": "14px",
           "textAlign": "center",
           "textDecoration": "none",
           "textTransform": "none",
+          "verticalAlign": "middle",
         }
       }
     >
@@ -216,15 +218,16 @@ exports[`EventCounterParty withdraw matches snapshot 1`] = `
       dir="auto"
       style={
         Object {
-          "color": "rgba(34,34,34,1.00)",
+          "color": "rgba(66,69,74,1.00)",
           "direction": "ltr",
           "fontFamily": "Roboto",
           "fontSize": "16px",
           "fontWeight": "500",
-          "lineHeight": "16px",
+          "lineHeight": "19px",
           "textAlign": "center",
           "textDecoration": "none",
           "textTransform": "none",
+          "verticalAlign": "middle",
         }
       }
     >

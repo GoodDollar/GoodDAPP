@@ -142,7 +142,7 @@ exports[`SmsForm matches snapshot 1`] = `
                   "direction": "ltr",
                   "fontFamily": "Roboto",
                   "fontSize": "24px",
-                  "fontWeight": "500",
+                  "fontWeight": "normal",
                   "lineHeight": "30px",
                   "marginBottom": "8px",
                   "marginTop": "8px",
@@ -152,8 +152,8 @@ exports[`SmsForm matches snapshot 1`] = `
                 }
               }
             >
-              Enter the verification code 
- sent to your phone
+              Enter the verification code
+sent to your phone
             </div>
           </div>
           <div
@@ -188,6 +188,7 @@ exports[`SmsForm matches snapshot 1`] = `
                   "display": "flex",
                   "flexDirection": "row",
                   "justifyContent": "space-evenly",
+                  "marginBottom": "8px",
                   "msFlexDirection": "row",
                   "msFlexPack": "space-evenly",
                 }
@@ -330,7 +331,7 @@ exports[`SmsForm matches snapshot 1`] = `
                       },
                     }
                   }
-                  type="text"
+                  type="tel"
                   value=""
                 />
               </div>
@@ -471,7 +472,7 @@ exports[`SmsForm matches snapshot 1`] = `
                       },
                     }
                   }
-                  type="text"
+                  type="tel"
                   value=""
                 />
               </div>
@@ -612,7 +613,7 @@ exports[`SmsForm matches snapshot 1`] = `
                       },
                     }
                   }
-                  type="text"
+                  type="tel"
                   value=""
                 />
               </div>
@@ -753,7 +754,7 @@ exports[`SmsForm matches snapshot 1`] = `
                       },
                     }
                   }
-                  type="text"
+                  type="tel"
                   value=""
                 />
               </div>
@@ -894,7 +895,7 @@ exports[`SmsForm matches snapshot 1`] = `
                       },
                     }
                   }
-                  type="text"
+                  type="tel"
                   value=""
                 />
               </div>
@@ -1035,7 +1036,7 @@ exports[`SmsForm matches snapshot 1`] = `
                       },
                     }
                   }
-                  type="text"
+                  type="tel"
                   value=""
                 />
               </div>
@@ -1052,10 +1053,10 @@ exports[`SmsForm matches snapshot 1`] = `
                   "fontSize": "12px",
                   "height": "18px",
                   "opacity": 0,
-                  "paddingBottom": "4px",
+                  "paddingBottom": "0px",
                   "paddingLeft": "0px",
                   "paddingRight": "12px",
-                  "paddingTop": "4px",
+                  "paddingTop": "0px",
                   "textAlign": "center",
                   "transform": "translateY(0px)",
                 }

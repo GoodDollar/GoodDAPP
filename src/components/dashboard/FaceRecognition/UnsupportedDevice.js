@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { AsyncStorage, Image, Text, View } from 'react-native'
+import { AsyncStorage, Image, StyleSheet, View } from 'react-native'
 import { isIOS, isMobile } from 'mobile-device-detect'
 
 import get from 'lodash/get'
@@ -12,16 +12,16 @@ import Oops from '../../../assets/oops.svg'
 import GDStore from '../../../lib/undux/GDStore'
 import logger from '../../../lib/logger/pino-logger'
 import { fireEvent } from '../../../lib/analytics/analytics'
-import { withStyles } from '../../../lib/styles'
-import normalize from '../../../lib/utils/normalizeText'
+import Text from '../../common/view/Text'
 
+Image.prefetch(Oops)
 const log = logger.child({ from: 'UnsupportedDevice' })
 
 const UnsupportedDevice = props => {
   const store = GDStore.useStore()
   const [code, setCode] = useState(undefined)
   const { fullName } = store.get('profile')
-  const styles = props.styles
+
   const reason = get(props, 'screenProps.screenState.reason', undefined)
 
   log.debug({ reason })
@@ -58,8 +58,19 @@ const UnsupportedDevice = props => {
   const qrCode =
     isMobile === true || code === undefined ? null : (
       <React.Fragment>
-        <Text style={styles.qrText}>Scan via your mobile</Text>
-        <View style={styles.qrView}>
+        <Text style={{ alignSelf: 'center' }}>Scan via your mobile</Text>
+        <View
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            alignSelf: 'center',
+            borderColor: '#00AFFF',
+            borderRadius: 5,
+            borderWidth: 1,
+            padding: 4,
+            marginTop: 8,
+          }}
+        >
           <QRCode value={code} size={111} />
         </View>
       </React.Fragment>
@@ -77,13 +88,32 @@ const UnsupportedDevice = props => {
   return (
     <Wrapper>
       <View style={styles.topContainer}>
-        <Section style={styles.mainContainer} justifyContent="space-evenly">
-          <Section.Title style={styles.mainTitle}> {title}</Section.Title>
-          <Image source={Oops} resizeMode={'center'} style={styles.image} />
-          <Section style={styles.textContainer}>
+        <Section
+          style={{
+            paddingBottom: 0,
+            paddingTop: 0,
+            marginBottom: 0,
+            paddingLeft: '10%',
+            paddingRight: '10%',
+            justifyContent: 'space-evenly',
+            flex: 1,
+          }}
+        >
+          <Section.Title fontWeight="medium" textTransform="none">
+            {title}
+          </Section.Title>
+          <Image source={Oops} resizeMode={'center'} style={{ height: 146 }} />
+          <Section
+            style={{
+              padding: 0,
+              paddingBottom: 0,
+              paddingTop: 0,
+              marginBottom: 0,
+            }}
+          >
             <Separator width={2} />
-            <Section.Text style={styles.description}>
-              <Text style={{ fontWeight: 'normal' }}> {`${error}`} </Text>
+            <Section.Text fontWeight="bold" color="primary" style={styles.description}>
+              {`${error}`}
             </Section.Text>
             <Separator width={2} />
           </Section>
@@ -98,65 +128,28 @@ UnsupportedDevice.navigationOptions = {
   title: 'Friendly Suggestion',
 }
 
-const getStylesFromProps = ({ theme }) => ({
+const styles = StyleSheet.create({
   topContainer: {
     display: 'flex',
-    backgroundColor: theme.colors.surface,
+    backgroundColor: 'white',
     height: '100%',
     flex: 1,
     flexGrow: 1,
     flexShrink: 0,
     justifyContent: 'space-evenly',
-    paddingTop: '2.06rem',
+    paddingTop: 33,
     borderRadius: 5,
-    fontFamily: theme.fonts.default,
   },
-  qrText: {
-    alignSelf: 'center',
-  },
-  qrView: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    alignSelf: 'center',
-    borderColor: theme.colors.primary,
-    borderRadius: 5,
-    borderWidth: 1,
-    padding: '0.25rem',
-    marginTop: '0.5rem',
-  },
-  textContainer: {
-    padding: 0,
-    paddingBottom: 0,
-    paddingTop: 0,
-    marginBottom: 0,
-  },
-  mainCOntainer: {
-    paddingBottom: 0,
-    paddingTop: 0,
-    marginBottom: 0,
-    paddingLeft: '10%',
-    paddingRight: '10%',
+  bottomContainer: {
+    display: 'flex',
     flex: 1,
-  },
-  image: {
-    height: '9.125rem',
-  },
-  qrCodeSize: {
-    width: '10rem',
-    height: '10rem',
+    paddingTop: 20,
+    justifyContent: 'flex-end',
   },
   description: {
-    fontSize: normalize(16),
-    fontWeight: 'bold',
-    color: theme.colors.primary,
     padding: 0,
     paddingTop: 15,
     paddingBottom: 15,
-  },
-  mainTitle: {
-    fontSize: normalize(24),
-    color: theme.colors.darkGray,
-    textTransform: 'none',
   },
 })
 
@@ -164,4 +157,4 @@ UnsupportedDevice.navigationOptions = {
   title: 'Face Verification',
   navigationBarHidden: false,
 }
-export default withStyles(getStylesFromProps)(UnsupportedDevice)
+export default UnsupportedDevice

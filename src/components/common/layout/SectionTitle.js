@@ -6,14 +6,7 @@ import Text from '../view/Text'
 const SectionTitle = (props: any) => {
   const { styles } = props
   return (
-    <Text
-      color="darkGray"
-      fontSize={24}
-      fontWeight="500"
-      style={[styles.title, props.style]}
-      textTransform="uppercase"
-      {...props}
-    >
+    <Text fontSize={24} style={[styles.title, props.style]} textTransform="uppercase" {...props}>
       {props.children}
     </Text>
   )
@@ -22,8 +15,7 @@ const SectionTitle = (props: any) => {
 const getStylesFromProps = ({ theme }) => {
   return {
     title: {
-      marginBottom: theme.sizes.default,
-      marginTop: theme.sizes.default,
+      marginVertical: theme.sizes.default,
     },
   }
 }

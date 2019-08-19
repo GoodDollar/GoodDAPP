@@ -59,7 +59,7 @@ const EmailConfirmation = ({ navigation, screenProps, styles }: Props) => {
       handleSubmit={handleSubmit}
       footerComponent={props => (
         <Section.Row justifyContent="center" grow>
-          <Section.Text fontWeight="500" fontSize={14} color="primary" onPress={handleResend}>
+          <Section.Text fontWeight="medium" fontSize={14} color="primary" onPress={handleResend}>
             {`I haven't received an email`}
           </Section.Text>
         </Section.Row>
@@ -68,12 +68,10 @@ const EmailConfirmation = ({ navigation, screenProps, styles }: Props) => {
       <Section grow justifyContent="space-between" style={styles.row}>
         <Section grow>
           <Section.Row justifyContent="center">
-            <Section.Text fontWeight="500" fontSize={16} color="darkGray">
-              {`We've sent an email to:`}
-            </Section.Text>
+            <Section.Text fontWeight="medium">{`We've sent an email to:`}</Section.Text>
           </Section.Row>
           <Section.Row justifyContent="center">
-            <Section.Text fontFamily="slab" fontSize={22} color="darkGray">
+            <Section.Text fontFamily="slab" fontSize={22}>
               {globalProfile.email || screenProps.data.email}
             </Section.Text>
           </Section.Row>
@@ -81,7 +79,7 @@ const EmailConfirmation = ({ navigation, screenProps, styles }: Props) => {
         <Wrapper style={styles.containerPadding}>
           <Section.Row justifyContent="center" grow>
             <Section.Text fontFamily="slab" fontSize={22} color="surface">
-              {`In order to continue, \n go to your e-mail app and confirm registration`}
+              {`In order to continue,\ngo to your e-mail app and confirm registration`}
             </Section.Text>
           </Section.Row>
         </Wrapper>

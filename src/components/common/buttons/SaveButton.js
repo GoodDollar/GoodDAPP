@@ -38,22 +38,30 @@ const SaveButton = ({ children, onPress, onPressDone, doneDelay, styles, theme, 
     }
   }
 
+  const backgroundColor = theme.colors[[DONE, SAVING].indexOf(state) > -1 ? 'blue' : 'darkBlue']
+
   return (
     <View style={styles.wrapper}>
       {state === DONE ? (
-        <TouchableOpacity cursor="inherit" style={[styles.iconButton]}>
+        <TouchableOpacity cursor="inherit" style={[styles.iconButton, { backgroundColor }]}>
           <Icon size={16} name="success" color={theme.colors.surface} />
         </TouchableOpacity>
       ) : (
         <CustomButton
-          style={[styles.saveButton, props.style]}
-          color={props.color || theme.colors.darkBlue}
+          {...props}
+          color={backgroundColor}
           loading={state === SAVING}
           compact={state !== NOT_SAVED}
-          {...props}
+          style={[styles.saveButton, props.style]}
           onPress={pressAndNextState}
         >
-          <Text color="surface" textTransform="uppercase" fontSize={14} style={styles.customButtonText}>
+          <Text
+            color="surface"
+            textTransform="uppercase"
+            fontSize={14}
+            fontWeight="medium"
+            style={styles.customButtonText}
+          >
             {children || 'Save'}
           </Text>
         </CustomButton>
@@ -79,16 +87,12 @@ const getStylesFromProps = ({ theme }) => ({
   },
   saveButton: {
     width: 80,
-    paddingHorizontal: theme.sizes.defaultDouble,
   },
   customButtonText: {
-    fontWeight: 'bold',
-    lineHeight: 0,
     paddingTop: 1,
   },
   iconButton: {
     alignItems: 'center',
-    backgroundColor: theme.colors.darkBlue,
     borderRadius: 21,
     display: 'flex',
     height: 42,

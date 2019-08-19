@@ -1,12 +1,18 @@
+/**
+ *
+ * NEED TO COMMENT in utils.js import { MaskService } from 'react-native-masked-text'
+ * it causes issues in running this in react >=0.59.0
+ *
+ */
 import './mock-browser'
 import fs from 'fs'
 import bip39 from 'bip39-light'
 import faker from 'faker'
 import FormData from 'form-data'
 import fetch from 'node-fetch'
-import { GoodWallet } from '../src/lib/wallet/GoodWallet'
+import { GoodWallet } from '../src/lib/wallet/GoodWalletClass'
 import { GoodWalletLogin } from '../src/lib/login/GoodWalletLogin'
-import { UserStorage } from '../src/lib/gundb/UserStorage'
+import { UserStorage } from '../src/lib/gundb/UserStorageClass'
 import Config from '../src/config/config'
 import API from '../src/lib/API/api'
 const Timeout = (timeout = 3000) => {
@@ -26,7 +32,7 @@ const createReq = (id, jwt) => {
   return fetch(`${Config.serverUrl}/verify/facerecognition`, {
     method: 'POST',
     body: req,
-    headers: { Authorization: `Bearer ${jwt}` }
+    headers: { Authorization: `Bearer ${jwt}` },
   })
 }
 
@@ -56,8 +62,8 @@ export const mytest = async i => {
         fullName: randomName,
         email: randomEmail,
         mobile: randomCard,
-        walletAddress: wallet.account
-      })
+        walletAddress: wallet.account,
+      }),
     ])
     console.info('/user/add:', adduser.data)
     if (adduser.data.ok !== 1) {
@@ -67,13 +73,13 @@ export const mytest = async i => {
       fullName: randomName,
       email: randomEmail,
       mobile: randomCard,
-      walletAddress: wallet.account
+      walletAddress: wallet.account,
     })
     let fr = await Promise.race([
       Timeout(20000).then(x => {
         throw new Error('FR timeout')
       }),
-      createReq(wallet.getAccountForType('zoomId'), creds.jwt).then(r => r.json())
+      createReq(wallet.getAccountForType('zoomId'), creds.jwt).then(r => r.json()),
     ])
 
     console.info('/verify/facerecognition:', fr)
@@ -114,7 +120,7 @@ const run = async numTests => {
   for (let i = 0; i < numTests; i++) {
     promises[i] = mytest(i)
     // eslint-disable-next-line no-await-in-loop
-    await Timeout(10000)
+    await Timeout(1000)
   }
   console.info('Waiting for tests to finish...')
   await Promise.all(promises)

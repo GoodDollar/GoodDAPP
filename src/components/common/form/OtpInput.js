@@ -22,7 +22,8 @@ type Props = {
   errorStyle?: Object,
   shouldAutoFocus?: boolean,
   isInputNum?: boolean,
-  value?: string,
+  value?: string | array,
+  keyboardType?: string,
 }
 
 type SingleOtpInputProps = {
@@ -41,6 +42,7 @@ type SingleOtpInputProps = {
   styles: Object,
   placeholder: string,
   onChange: any,
+  keyboardType?: string,
 }
 
 const getSingleOtpInputStylesFromProps = ({ theme }) => ({
@@ -112,6 +114,7 @@ const SingleOtpInput = withStyles(getSingleOtpInputStylesFromProps)((props: Sing
     value,
     styles,
     placeholder,
+    keyboardType,
     ...rest
   } = props
 
@@ -140,11 +143,11 @@ const SingleOtpInput = withStyles(getSingleOtpInputStylesFromProps)((props: Sing
         max: 9,
         pattern: /\d/g,
         type: 'number',
-        keyboardType: 'phone-pad',
+        keyboardType: keyboardType || 'phone-pad',
       }
     : {
         type: 'tel',
-        keyboardType: 'default',
+        keyboardType: keyboardType || 'default',
       }
   return (
     <View style={styles.singleOtpInputContainer}>
@@ -171,16 +174,16 @@ const OtpInput = (props: Props) => {
     containerStyle,
     placeholder,
     styles,
+    keyboardType,
   } = props
 
   const [activeInput, setActiveInput] = useState(0)
 
-  const getOtpValue = () => (value ? value.toString().split('') : [])
+  const getOtpValue = () => (value ? (Array.isArray(value) ? value : value.toString().split('')) : [])
 
   // Helper to return OTP from input
   const handleOtpChange = (otp: string[]) => {
-    const otpValue = otp.join('')
-    onChange(isInputNum ? Number(otpValue) : otpValue)
+    onChange(otp)
   }
 
   // Focus on input by index
@@ -200,9 +203,6 @@ const OtpInput = (props: Props) => {
   // Change OTP value at focused input
   const changeCodeAtFocus = (inputValue: string) => {
     const otp = getOtpValue()
-    while (otp.length < activeInput) {
-      otp.push(' ')
-    }
     otp[activeInput] = inputValue[0]
     handleOtpChange(otp)
   }
@@ -236,11 +236,8 @@ const OtpInput = (props: Props) => {
   const handleOnKeyPress = (e: Object) => {
     if (e.keyCode === BACKSPACE || e.key === 'Backspace') {
       e.preventDefault()
-      if (e.target.value === '') {
-        focusPrevInput()
-      } else {
-        changeCodeAtFocus('')
-      }
+      focusPrevInput()
+      changeCodeAtFocus('')
     } else if (e.keyCode === DELETE || e.key === 'Delete') {
       e.preventDefault()
       changeCodeAtFocus('')
@@ -258,11 +255,16 @@ const OtpInput = (props: Props) => {
       e.preventDefault()
       focusNextInput()
     }
+    const otp = getOtpValue()
+    if (e.target.value === otp[activeInput]) {
+      focusNextInput()
+    }
   }
 
   const renderInputs = () => {
     const otp = getOtpValue()
     const inputs = []
+    const customPlaceholder = otp.some(value => value !== null && value !== undefined) ? '' : placeholder
 
     for (let i = 0; i < numInputs; i++) {
       inputs.push(
@@ -289,7 +291,8 @@ const OtpInput = (props: Props) => {
           errorStyle={errorStyle}
           shouldAutoFocus={shouldAutoFocus}
           isInputNum={isInputNum}
-          placeholder={placeholder}
+          placeholder={customPlaceholder}
+          keyboardType={keyboardType || null}
         />
       )
     }
@@ -304,6 +307,7 @@ const getStylesFromProps = ({ theme }) => ({
     display: 'flex',
     justifyContent: 'space-evenly',
     flexDirection: 'row',
+    marginBottom: theme.sizes.default,
   },
 })
 

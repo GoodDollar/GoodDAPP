@@ -71,7 +71,7 @@ describe('Dialog', () => {
     expect(store.get('currentScreen')).toEqual({
       dialogData: {
         visible: true,
-        title: 'Error',
+        title: 'Ooops...',
         message: `human readable\n${message}`,
         dismissText: 'OK',
         type: 'error',
@@ -89,7 +89,7 @@ describe('Dialog', () => {
     expect(store.get('currentScreen')).toEqual({
       dialogData: {
         visible: true,
-        title: 'Error',
+        title: 'Ooops...',
         message: `human readable\n${err}`,
         dismissText: 'OK',
         type: 'error',
@@ -111,7 +111,7 @@ describe('Dialog', () => {
     expect(store.get('currentScreen')).toEqual({
       dialogData: {
         visible: true,
-        title: 'Error',
+        title: 'Ooops...',
         message: `human readable\n${message}`,
         dismissText: 'OK',
         type: 'error',

@@ -32,8 +32,8 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
         "flexGrow": 1,
         "msFlexPositive": 1,
         "paddingBottom": "16px",
-        "paddingLeft": "12px",
-        "paddingRight": "12px",
+        "paddingLeft": "0px",
+        "paddingRight": "0px",
         "paddingTop": "16px",
       }
     }
@@ -47,17 +47,17 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
           "WebkitBoxDirection": "normal",
           "WebkitBoxFlex": 1,
           "WebkitBoxOrient": "vertical",
-          "WebkitBoxPack": "justify",
+          "WebkitBoxPack": "start",
           "WebkitFlexDirection": "column",
           "WebkitFlexGrow": 1,
-          "WebkitJustifyContent": "space-between",
+          "WebkitJustifyContent": "flex-start",
           "alignItems": "stretch",
           "flexDirection": "column",
           "flexGrow": 1,
-          "justifyContent": "space-between",
+          "justifyContent": "flex-start",
           "msFlexAlign": "stretch",
           "msFlexDirection": "column",
-          "msFlexPack": "justify",
+          "msFlexPack": "start",
           "msFlexPositive": 1,
         }
       }
@@ -78,8 +78,9 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
             "alignItems": "center",
             "flexDirection": "row",
             "flexGrow": 1,
-            "height": "16%",
             "justifyContent": "center",
+            "marginBottom": "16px",
+            "maxHeight": "16%",
             "msFlexAlign": "center",
             "msFlexDirection": "row",
             "msFlexPack": "center",
@@ -96,7 +97,7 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
               "direction": "ltr",
               "fontFamily": "Roboto",
               "fontSize": "16px",
-              "fontWeight": "bold",
+              "fontWeight": "700",
               "lineHeight": "22px",
               "textAlign": "center",
               "textDecoration": "none",
@@ -104,7 +105,7 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
             }
           }
         >
-          Manage your profile privacy
+          Manage your privacy settings
         </div>
         <div
           className="css-view-1dbjc4n"
@@ -157,16 +158,24 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
         className="css-view-1dbjc4n"
         style={
           Object {
-            "backgroundColor": "rgba(255,255,255,1.00)",
-            "borderBottomLeftRadius": "5px",
-            "borderBottomRightRadius": "5px",
-            "borderTopLeftRadius": "5px",
-            "borderTopRightRadius": "5px",
+            "WebkitAlignItems": "stretch",
+            "WebkitBoxAlign": "stretch",
+            "WebkitBoxDirection": "normal",
+            "WebkitBoxOrient": "vertical",
+            "WebkitBoxPack": "start",
+            "WebkitFlexDirection": "column",
+            "WebkitJustifyContent": "flex-start",
+            "alignItems": "stretch",
+            "flexDirection": "column",
             "height": "70%",
-            "paddingBottom": "16px",
-            "paddingLeft": "12px",
-            "paddingRight": "12px",
-            "paddingTop": "16px",
+            "justifyContent": "flex-start",
+            "msFlexAlign": "stretch",
+            "msFlexDirection": "column",
+            "msFlexPack": "start",
+            "paddingBottom": "0px",
+            "paddingLeft": "0px",
+            "paddingRight": "0px",
+            "paddingTop": "0px",
           }
         }
       >
@@ -188,7 +197,7 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
               "msFlexAlign": "center",
               "msFlexDirection": "row",
               "paddingBottom": "8px",
-              "paddingLeft": "8px",
+              "paddingLeft": "32px",
               "paddingRight": "8px",
               "paddingTop": "8px",
             }
@@ -233,15 +242,14 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
             <div
               className="css-text-901oao"
               dir="auto"
-              size={14}
               style={
                 Object {
                   "color": "rgba(85,85,85,1.00)",
                   "direction": "ltr",
                   "fontFamily": "Roboto",
-                  "fontSize": "16px",
+                  "fontSize": "14px",
                   "fontWeight": "normal",
-                  "lineHeight": "22px",
+                  "lineHeight": "20px",
                   "textAlign": "center",
                   "textDecoration": "none",
                   "textTransform": "none",
@@ -267,15 +275,14 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
             <div
               className="css-text-901oao"
               dir="auto"
-              size={14}
               style={
                 Object {
                   "color": "rgba(85,85,85,1.00)",
                   "direction": "ltr",
                   "fontFamily": "Roboto",
-                  "fontSize": "16px",
+                  "fontSize": "14px",
                   "fontWeight": "normal",
-                  "lineHeight": "22px",
+                  "lineHeight": "20px",
                   "textAlign": "center",
                   "textDecoration": "none",
                   "textTransform": "none",
@@ -301,15 +308,14 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
             <div
               className="css-text-901oao"
               dir="auto"
-              size={14}
               style={
                 Object {
                   "color": "rgba(85,85,85,1.00)",
                   "direction": "ltr",
                   "fontFamily": "Roboto",
-                  "fontSize": "16px",
+                  "fontSize": "14px",
                   "fontWeight": "normal",
-                  "lineHeight": "22px",
+                  "lineHeight": "20px",
                   "textAlign": "center",
                   "textDecoration": "none",
                   "textTransform": "none",
@@ -338,7 +344,7 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
               "msFlexAlign": "center",
               "msFlexDirection": "row",
               "paddingBottom": "8px",
-              "paddingLeft": "8px",
+              "paddingLeft": "32px",
               "paddingRight": "8px",
               "paddingTop": "8px",
             }
@@ -599,7 +605,7 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
               "msFlexAlign": "center",
               "msFlexDirection": "row",
               "paddingBottom": "8px",
-              "paddingLeft": "8px",
+              "paddingLeft": "32px",
               "paddingRight": "8px",
               "paddingTop": "8px",
             }
@@ -861,13 +867,13 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
           "flexDirection": "row",
           "flexGrow": 1,
           "justifyContent": "space-between",
-          "marginBottom": "16px",
-          "marginLeft": "8px",
-          "marginRight": "8px",
+          "minHeight": "60px",
           "msFlexAlign": "end",
           "msFlexDirection": "row",
           "msFlexPack": "justify",
           "msFlexPositive": 1,
+          "paddingLeft": "16px",
+          "paddingRight": "16px",
         }
       }
     >
@@ -945,6 +951,7 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                 "alignItems": "center",
                 "flexDirection": "row",
                 "justifyContent": "center",
+                "letterSpacing": "0px",
                 "msFlexAlign": "center",
                 "msFlexDirection": "row",
                 "msFlexPack": "center",
@@ -978,22 +985,19 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                     "WebkitBoxPack": "center",
                     "WebkitJustifyContent": "center",
                     "alignItems": "center",
+                    "color": "rgba(163,163,163,1.00)",
                     "direction": "ltr",
                     "fontFamily": "Roboto",
-                    "fontSize": "16px",
+                    "fontSize": "14px",
                     "fontWeight": "500",
                     "justifyContent": "center",
-                    "marginBottom": "0px",
-                    "marginLeft": "0px",
-                    "marginRight": "0px",
-                    "marginTop": "0px",
+                    "letterSpacing": "0px",
+                    "lineHeight": "22px",
                     "msFlexAlign": "center",
                     "msFlexPack": "center",
-                    "paddingBottom": "0px",
-                    "paddingLeft": "0px",
-                    "paddingRight": "0px",
                     "paddingTop": "1px",
-                    "textAlign": "left",
+                    "textAlign": "center",
+                    "textDecoration": "none",
                     "textTransform": "none",
                   }
                 }
@@ -1008,9 +1012,9 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
         className="css-view-1dbjc4n"
         style={
           Object {
-            "WebkitBoxFlex": 3,
+            "WebkitBoxFlex": 10,
             "WebkitBoxPack": "center",
-            "WebkitFlexGrow": 3,
+            "WebkitFlexGrow": 10,
             "WebkitJustifyContent": "center",
             "backgroundColor": "rgba(0,0,0,0.12)",
             "borderBottomColor": "rgba(0,175,255,1.00)",
@@ -1029,12 +1033,12 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
             "borderTopRightRadius": "50px",
             "borderTopStyle": "solid",
             "borderTopWidth": "0px",
-            "flexGrow": 3,
+            "flexGrow": 10,
             "justifyContent": "center",
             "minHeight": "44px",
             "minWidth": "auto",
             "msFlexPack": "center",
-            "msFlexPositive": 3,
+            "msFlexPositive": 10,
             "paddingLeft": "0px",
             "paddingRight": "0px",
           }
@@ -1078,6 +1082,7 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                 "alignItems": "center",
                 "flexDirection": "row",
                 "justifyContent": "center",
+                "letterSpacing": "0px",
                 "msFlexAlign": "center",
                 "msFlexDirection": "row",
                 "msFlexPack": "center",
@@ -1117,17 +1122,13 @@ exports[`ProfilePrivacy matches snapshot 1`] = `
                     "fontSize": "16px",
                     "fontWeight": "500",
                     "justifyContent": "center",
-                    "marginBottom": "0px",
-                    "marginLeft": "0px",
-                    "marginRight": "0px",
-                    "marginTop": "0px",
+                    "letterSpacing": "0px",
+                    "lineHeight": "22px",
                     "msFlexAlign": "center",
                     "msFlexPack": "center",
-                    "paddingBottom": "0px",
-                    "paddingLeft": "0px",
-                    "paddingRight": "0px",
                     "paddingTop": "1px",
-                    "textAlign": "left",
+                    "textAlign": "center",
+                    "textDecoration": "none",
                     "textTransform": "uppercase",
                   }
                 }

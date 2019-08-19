@@ -190,13 +190,17 @@ exports[`SendConfirmation matches snapshot 1`] = `
       style={
         Object {
           "WebkitBoxFlex": 1,
+          "WebkitBoxPack": "center",
           "WebkitFlexGrow": 1,
+          "WebkitJustifyContent": "center",
           "backgroundColor": "rgba(255,255,255,1.00)",
           "borderBottomLeftRadius": "5px",
           "borderBottomRightRadius": "5px",
           "borderTopLeftRadius": "5px",
           "borderTopRightRadius": "5px",
           "flexGrow": 1,
+          "justifyContent": "center",
+          "msFlexPack": "center",
           "msFlexPositive": 1,
           "paddingBottom": "16px",
           "paddingLeft": "12px",
@@ -210,40 +214,34 @@ exports[`SendConfirmation matches snapshot 1`] = `
         dir="auto"
         style={
           Object {
+            "WebkitAlignItems": "center",
+            "WebkitBoxAlign": "center",
+            "WebkitBoxFlex": 1,
+            "WebkitBoxPack": "center",
+            "WebkitFlexGrow": 1,
+            "WebkitJustifyContent": "center",
+            "alignItems": "center",
             "color": "rgba(66,69,74,1.00)",
             "direction": "ltr",
+            "display": "flex",
+            "flexGrow": 1,
             "fontFamily": "Roboto",
-            "fontSize": "24px",
+            "fontSize": "22px",
             "fontWeight": "500",
+            "justifyContent": "center",
             "lineHeight": "30px",
-            "marginBottom": "8px",
-            "marginTop": "8px",
+            "msFlexAlign": "center",
+            "msFlexPack": "center",
+            "msFlexPositive": 1,
             "textAlign": "center",
             "textDecoration": "none",
             "textTransform": "none",
           }
         }
       >
-        You can send G$ to anyone in the world
-      </div>
-      <div
-        className="css-text-901oao"
-        dir="auto"
-        style={
-          Object {
-            "color": "rgba(66,69,74,1.00)",
-            "direction": "ltr",
-            "fontFamily": "Roboto",
-            "fontSize": "14px",
-            "fontWeight": "normal",
-            "lineHeight": "20px",
-            "textAlign": "center",
-            "textDecoration": "none",
-            "textTransform": "none",
-          }
-        }
-      >
-        Simply, copy and share this link with your recipient.
+        To complete the transaction
+copy the link and share it
+with your recipient.
       </div>
       <div
         className="css-view-1dbjc4n"
@@ -347,6 +345,7 @@ exports[`SendConfirmation matches snapshot 1`] = `
                 "alignItems": "center",
                 "flexDirection": "row",
                 "justifyContent": "center",
+                "letterSpacing": "0px",
                 "msFlexAlign": "center",
                 "msFlexDirection": "row",
                 "msFlexPack": "center",
@@ -386,17 +385,13 @@ exports[`SendConfirmation matches snapshot 1`] = `
                     "fontSize": "16px",
                     "fontWeight": "500",
                     "justifyContent": "center",
-                    "marginBottom": "0px",
-                    "marginLeft": "0px",
-                    "marginRight": "0px",
-                    "marginTop": "0px",
+                    "letterSpacing": "0px",
+                    "lineHeight": "22px",
                     "msFlexAlign": "center",
                     "msFlexPack": "center",
-                    "paddingBottom": "0px",
-                    "paddingLeft": "0px",
-                    "paddingRight": "0px",
                     "paddingTop": "1px",
-                    "textAlign": "left",
+                    "textAlign": "center",
+                    "textDecoration": "none",
                     "textTransform": "uppercase",
                   }
                 }

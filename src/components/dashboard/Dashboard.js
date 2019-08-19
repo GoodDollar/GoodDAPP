@@ -1,5 +1,6 @@
 // @flow
 import React, { useEffect, useState } from 'react'
+
 import type { Store } from 'undux'
 import normalize from '../../lib/utils/normalizeText'
 import GDStore from '../../lib/undux/GDStore'
@@ -118,20 +119,22 @@ const Dashboard = props => {
   const { balance, entitlement } = gdstore.get('account')
   const { avatar, fullName } = gdstore.get('profile')
   const feeds = gdstore.get('feeds')
-  const [scrollPos, setScrollPos] = useState(0)
-  log.info('LOGGER FEEDS', { props })
-  log.info('scrollPos', { scrollPos })
+  const [headerLarge, setHeaderLarge] = useState(true)
 
   return (
     <Wrapper style={styles.dashboardWrapper}>
       <Section style={[styles.topInfo]}>
-        {scrollPos <= 0 ? (
+        {headerLarge ? (
           <Section.Stack alignItems="center">
             <Avatar onPress={() => screenProps.push('Profile')} size={68} source={avatar} style={[styles.avatarBig]} />
-            <Section.Text style={[styles.userName]}>{fullName || ' '}</Section.Text>
+            <Section.Text color="gray80Percent" fontFamily="slab" fontSize={18}>
+              {fullName || ' '}
+            </Section.Text>
             <Section.Row style={styles.bigNumberWrapper}>
               <BigGoodDollar bigNumberStyles={styles.bigNumberVerticalStyles} number={balance} unit={undefined} />
-              <Section.Text style={styles.bigNumberUnitStyles}>G$</Section.Text>
+              <Section.Text fontSize={18} fontWeight="bold" fontFamily="slab" style={styles.bigNumberUnitStyles}>
+                G$
+              </Section.Text>
             </Section.Row>
           </Section.Stack>
         ) : (
@@ -182,7 +185,26 @@ const Dashboard = props => {
         onEndReached={getNextFeed.bind(null, store)}
         updateData={() => {}}
         onScroll={({ nativeEvent }) => {
-          setScrollPos(nativeEvent.contentOffset.y)
+          // Replicating Header Height.
+          // TODO: Improve this when doing animation
+          const HEIGHT_FULL =
+            props.theme.sizes.defaultDouble +
+            68 +
+            props.theme.sizes.default +
+            normalize(18) +
+            props.theme.sizes.defaultDouble * 2 +
+            normalize(42) +
+            normalize(70)
+          const HEIGHT_BASE = props.theme.sizes.defaultDouble + 68 + props.theme.sizes.default + normalize(70)
+
+          const HEIGHT_DIFF = HEIGHT_FULL - HEIGHT_BASE
+          const scrollPos = nativeEvent.contentOffset.y
+          const scrollPosAlt = headerLarge ? scrollPos - HEIGHT_DIFF : scrollPos + HEIGHT_DIFF
+          const newHeaderLarge = scrollPos <= HEIGHT_BASE || scrollPosAlt <= HEIGHT_BASE
+          log.info('scrollPos', { newHeaderLarge, scrollPos, scrollPosAlt, HEIGHT_DIFF, HEIGHT_BASE, HEIGHT_FULL })
+          if (newHeaderLarge !== headerLarge) {
+            setHeaderLarge(newHeaderLarge)
+          }
         }}
       />
       {currentFeed && (
@@ -241,11 +263,6 @@ const getStylesFromProps = ({ theme }) => ({
     margin: 0,
     width: 42,
   },
-  userName: {
-    color: theme.colors.gray80Percent,
-    fontFamily: theme.fonts.slab,
-    fontSize: normalize(18),
-  },
   buttonsRow: {
     alignItems: 'center',
     height: 70,
@@ -299,9 +316,6 @@ const getStylesFromProps = ({ theme }) => ({
   },
   bigNumberUnitStyles: {
     marginRight: normalize(-20),
-    fontFamily: theme.fonts.slab,
-    fontSize: normalize(18),
-    fontWeight: '700',
   },
 })
 

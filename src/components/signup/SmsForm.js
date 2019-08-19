@@ -6,7 +6,7 @@ import { withStyles } from '../../lib/styles'
 import Icon from '../common/view/Icon'
 import LoadingIndicator from '../common/view/LoadingIndicator'
 import Section from '../common/layout/Section'
-import { ErrorText } from '../common/form/InputText'
+import ErrorText from '../common/form/ErrorText'
 import OtpInput from '../common/form/OtpInput'
 import CustomWrapper from './signUpWrapper'
 import type { SignupState } from './SignupState'
@@ -37,6 +37,8 @@ type State = SMSRecord & {
   otp: string | number,
 }
 
+const NumInputs: number = 6
+
 class SmsForm extends React.Component<Props, State> {
   state = {
     smsValidated: false,
@@ -46,12 +48,8 @@ class SmsForm extends React.Component<Props, State> {
     renderButton: false,
     resentCode: false,
     loading: false,
-    otp: undefined,
+    otp: Array(NumInputs).fill(null),
   }
-
-  numInputs: number = 6
-
-  componentDidMount() {}
 
   componentDidUpdate() {
     if (!this.state.renderButton) {
@@ -65,9 +63,9 @@ class SmsForm extends React.Component<Props, State> {
     }, 10000)
   }
 
-  handleChange = async (otp: string | number) => {
-    const otpValue = otp.toString()
-    if (otpValue.replace(/ /g, '').length === this.numInputs) {
+  handleChange = async (otp: array) => {
+    const otpValue = otp.filter(val => val).join('')
+    if (otpValue.replace(/ /g, '').length === NumInputs) {
       this.setState({
         loading: true,
         otp,
@@ -102,7 +100,7 @@ class SmsForm extends React.Component<Props, State> {
   }
 
   handleRetry = async () => {
-    this.setState({ sendingCode: true, otp: '', errorMessage: '' })
+    this.setState({ sendingCode: true, otp: Array(NumInputs).fill(null), errorMessage: '' })
 
     try {
       await API.sendOTP({ ...this.props.screenProps.data })
@@ -128,17 +126,18 @@ class SmsForm extends React.Component<Props, State> {
       <CustomWrapper handleSubmit={this.handleSubmit} footerComponent={() => <React.Fragment />}>
         <Section.Stack grow justifyContent="flex-start">
           <Section.Row justifyContent="center" style={styles.row}>
-            <Section.Title textTransform="none">{'Enter the verification code \n sent to your phone'}</Section.Title>
+            <Section.Title textTransform="none">{'Enter the verification code\nsent to your phone'}</Section.Title>
           </Section.Row>
           <Section.Stack justifyContent="center">
             <OtpInput
               shouldAutoFocus
-              numInputs={this.numInputs}
+              numInputs={NumInputs}
               onChange={this.handleChange}
               hasErrored={errorMessage !== ''}
               errorStyle={styles.errorStyle}
               value={otp}
               placeholder="*"
+              isInputNum={true}
             />
             <ErrorText error={errorMessage} />
           </Section.Stack>
@@ -163,7 +162,7 @@ const SMSAction = ({ status, handleRetry }) => {
     )
   }
   return (
-    <Section.Text fontWeight="500" fontSize={14} color="primary" onPress={handleRetry}>
+    <Section.Text fontWeight="medium" fontSize={14} color="primary" onPress={handleRetry}>
       Send me the code again
     </Section.Text>
   )

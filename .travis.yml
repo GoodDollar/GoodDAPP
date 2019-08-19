@@ -1,6 +1,13 @@
 language: node_js
 node_js:
   - '10.15'
+
+addons:
+  apt:
+    packages:
+      # Ubuntu 16+ does not install this dependency by default, so we need to install it ourselves
+      - libgconf-2-4
+    
 cache:
   npm: true
   directories:
@@ -20,7 +27,7 @@ install:
   - npm ci
   
 script:
-  - npm start & wait-on http://localhost:8080
+  - npm install cypress --save-dev
   - cypress run
   - npm run coverage
   - npm run coveralls

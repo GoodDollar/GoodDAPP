@@ -3,6 +3,9 @@ node_js:
   - '10.15'
 cache:
   npm: true
+  directories:
+    # we also need to cache folder with Cypress binary
+    - ~/.cache
 
 env:
   global:
@@ -12,14 +15,6 @@ env:
     #    - REACT_APP_NETWORK_ID=4447
     - MNEMONIC="choice congress hobby buddy dutch busy army eager empty solution start grunt"
     - CI=false
-
-cache:
-  # Caches $HOME/.npm when npm ci is default script command
-  # Caches node_modules in all other cases
-  npm: true
-  directories:
-    # we also need to cache folder with Cypress binary
-    - ~/.cache
 
 install:
   - npm ci

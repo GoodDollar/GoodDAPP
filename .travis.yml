@@ -20,8 +20,8 @@ install:
   - npm ci
   
 script:
-  - npm run coverage
   - $(npm bin)/cypress run --record
+  - npm run coverage
   - npm run coveralls
   - npm run build
 

@@ -12,14 +12,20 @@ env:
     #    - REACT_APP_NETWORK_ID=4447
     - MNEMONIC="choice congress hobby buddy dutch busy army eager empty solution start grunt"
     - CI=false
+
+install:
+  - npm ci
+  
 script:
   - npm run coverage
   - npm run coveralls
   - npm run build
-  - npm run cypress
+
 
 after_success:
   - npm run bundlesize:check
+  - npm install cypress --save-dev
+  - cypress run
 
 after_failure:
   - cat /home/travis/.npm/_logs/*-debug.log

@@ -12,9 +12,6 @@ env:
     #    - REACT_APP_NETWORK_ID=4447
     - MNEMONIC="choice congress hobby buddy dutch busy army eager empty solution start grunt"
     - CI=false
-
-install:
-  - npm ci
   
 script:
   - npm run coverage

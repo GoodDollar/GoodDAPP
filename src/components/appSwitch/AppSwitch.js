@@ -24,17 +24,34 @@ const log = logger.child({ from: 'AppSwitch' })
 const AppSwitch = (props: LoadingProps) => {
   const store = SimpleStore.useStore()
   const gdstore = GDStore.useStore()
+  const { router, state, navigate } = props.navigation
+
+  const checkWeb3Token = async (token) => {
+    if (!token) return
+
+    const isLoggedIn = store.get('isLoggedIn')
+
+    if (!isLoggedIn) {
+      navigate('Signup')
+    }
+  }
 
   /*
   Check if user is incoming with a URL with action details, such as payment link or email confirmation
   */
   const getParams = async () => {
-    const { router, state } = props.navigation
-
     // const navInfo = router.getPathAndParamsForState(state)
     const destinationPath = await AsyncStorage.getItem('destinationPath').then(JSON.parse)
+    const web3Token = await AsyncStorage.getItem('web3Token')
     AsyncStorage.removeItem('destinationPath')
+
     log.debug('getParams', { destinationPath, router, state })
+
+    if (web3Token) {
+      console.log('web3Tokeninit', web3Token);
+      checkWeb3Token(web3Token)
+    }
+
     if (destinationPath) {
       const app = router.getActionForPathAndParams(destinationPath.path)
       const destRoute = actions => (some(actions, 'action') ? destRoute(actions.action) : actions.action)

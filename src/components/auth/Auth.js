@@ -1,6 +1,6 @@
 // @flow
-import React from 'react'
-import { Image, View } from 'react-native'
+import React  from 'react'
+import { AsyncStorage, Image, View } from 'react-native'
 import Mnemonics from '../signin/Mnemonics'
 import logger from '../../lib/logger/pino-logger'
 import CustomButton from '../common/buttons/CustomButton'
@@ -23,6 +23,25 @@ type Props = {
 Image.prefetch(illustration)
 const log = logger.child({ from: 'Auth' })
 class Auth extends React.Component<Props> {
+  async componentWillMount() {
+    await this.checkWeb3Token()
+  }
+
+  checkWeb3Token = async () => {
+    const {
+      navigation,
+    } = this.props;
+    const web3Token = await AsyncStorage.getItem('web3Token')
+console.log('web3Tokenfa', web3Token);
+    if (!web3Token) return
+
+    const isLoggedIn = await AsyncStorage.getItem('isLoggedIn')
+
+    if (!isLoggedIn) {
+      navigation.navigate('Signup')
+    }
+  }
+
   handleSignUp = () => {
     this.props.navigation.navigate('Signup')
 

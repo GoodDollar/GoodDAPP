@@ -87,7 +87,42 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       log.error('Could not get user location', e)
     }
   }
+
+  const checkWeb3Token = async () => {
+    const web3Token = AsyncStorage.getItem('web3Token')
+
+    if (web3Token) {
+      let behaviour = ''
+
+      try {
+        const w3user = await API.getUserFromW3ByToken(web3Token)
+
+        if (w3user.hasWallet) {
+          behaviour = 'goToRecoverScreen'
+        }
+      } catch (e) {
+        behaviour = 'showTokenError'
+      }
+
+      switch (behaviour) {
+        case 'showTokenError':
+          return navigation.navigate('InvalidW3TokenError')
+
+        case 'goToRecoverScreen':
+          return navigation.navigate('Recover')
+
+        default:
+          break
+      }
+
+      setState({ ...state, w3Token: web3Token })
+      // todo UserStorage.setProfile(w3user);
+    }
+  }
+
   useEffect(() => {
+    checkWeb3Token()
+
     //don't allow to start signup flow not from begining
     if (navigation.state.index > 0) {
       log.debug('redirecting to start, got index:', navigation.state.index)

@@ -7,6 +7,7 @@ import logger from '../logger/pino-logger'
 import type { NameRecord } from '../../components/signup/NameForm'
 import type { EmailRecord } from '../../components/signup/EmailForm'
 import type { MobileRecord } from '../../components/signup/PhoneForm.web'
+import config from '../../config/config'
 
 const log = logger.child({ from: 'API' })
 
@@ -203,6 +204,14 @@ class API {
         }
         return r
       })
+  }
+
+  /**
+   * `/verify/web3token` post api call
+   * @param {string} token
+   */
+  getUserFromW3ByToken(token: string): Promise<$AxiosXHR<any>> {
+    return this.client.get(`${config.web3SiteUrl}/user/by/token`, { token })
   }
 }
 const api = new API()

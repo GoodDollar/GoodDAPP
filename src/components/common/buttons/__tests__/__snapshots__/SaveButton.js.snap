@@ -449,7 +449,7 @@ exports[`WrappedSaveButton matches snapshot 3`] = `
           "WebkitBoxPack": "center",
           "WebkitJustifyContent": "center",
           "alignItems": "stretch",
-          "backgroundColor": "rgba(204,204,204,1.00)",
+          "backgroundColor": "rgba(12,38,61,1.00)",
           "borderBottomColor": "rgba(0,175,255,1.00)",
           "borderBottomLeftRadius": "50px",
           "borderBottomRightRadius": "50px",

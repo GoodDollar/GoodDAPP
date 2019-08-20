@@ -38,7 +38,7 @@ const SaveButton = ({ children, onPress, onPressDone, doneDelay, styles, theme, 
     }
   }
 
-  const backgroundColor = theme.colors[[DONE, SAVING].indexOf(state) > -1 ? 'blue' : 'darkBlue']
+  const backgroundColor = theme.colors.darkBlue
 
   return (
     <View style={styles.wrapper}>
@@ -53,7 +53,6 @@ const SaveButton = ({ children, onPress, onPressDone, doneDelay, styles, theme, 
           loading={state === SAVING}
           compact={true}
           iconSize={16}
-          {...props}
           style={[styles.saveButton, props.style]}
           onPress={pressAndNextState}
         >

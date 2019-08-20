@@ -273,7 +273,7 @@ const getStylesFromProps = ({ theme }) => ({
   leftButton: {
     flex: 1,
     height: 44,
-    marginRight: 16,
+    marginRight: 24,
     elevation: 0,
     display: 'flex',
     justifyContent: 'center',
@@ -285,7 +285,7 @@ const getStylesFromProps = ({ theme }) => ({
   rightButton: {
     flex: 1,
     height: 44,
-    marginLeft: 16,
+    marginLeft: 24,
     elevation: 0,
     display: 'flex',
     justifyContent: 'center',

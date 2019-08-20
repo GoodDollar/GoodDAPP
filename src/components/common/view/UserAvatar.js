@@ -3,13 +3,15 @@ import React from 'react'
 import { View } from 'react-native'
 import CreateAvatar from 'exif-react-avatar-edit'
 import { getScreenHeight, getScreenWidth, isPortrait } from '../../../lib/utils/Orientation'
+import { getDesignRelativeSize } from '../../../lib/utils/sizes'
+
 import { withStyles } from '../../../lib/styles'
 
 import Section from '../layout/Section'
 import Avatar from './Avatar'
 
 const AVATAR_DESIGN_WIDTH = 136
-const DESIGN_WIDTH = 360
+
 export type AvatarProps = {
   profile: {
     avatar: string,
@@ -39,10 +41,7 @@ const UserAvatar = (props: AvatarProps) => {
 
   const screenWidth = isPortrait() ? getScreenWidth() : getScreenHeight()
   let cropSize = Math.min(screenWidth - 70, 320)
-
-  // Getting relation from designs
-  const sizeInVW = AVATAR_DESIGN_WIDTH / DESIGN_WIDTH
-  const avatarSize = Math.min(getScreenWidth(), screenWidth * sizeInVW)
+  const avatarSize = getDesignRelativeSize(AVATAR_DESIGN_WIDTH)
 
   return editable ? (
     <View style={styles.innerAvatar}>

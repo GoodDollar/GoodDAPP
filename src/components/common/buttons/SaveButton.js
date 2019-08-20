@@ -51,7 +51,7 @@ const SaveButton = ({ children, onPress, onPressDone, doneDelay, styles, theme, 
           {...props}
           color={backgroundColor}
           loading={state === SAVING}
-          compact={state !== NOT_SAVED}
+          compact={true}
           iconSize={16}
           {...props}
           style={[styles.saveButton, props.style]}

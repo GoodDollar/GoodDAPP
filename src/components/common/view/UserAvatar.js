@@ -8,6 +8,8 @@ import { withStyles } from '../../../lib/styles'
 import Section from '../layout/Section'
 import Avatar from './Avatar'
 
+const AVATAR_DESIGN_WIDTH = 136
+const DESIGN_WIDTH = 360
 export type AvatarProps = {
   profile: {
     avatar: string,
@@ -28,17 +30,19 @@ export type AvatarProps = {
  * @param {string} props.profile.fullName
  * @param {any => mixed} props.onChange
  * @param {any => mixed} props.onClose
- * @param {boolean} props.originalSize
  * @param {boolean} props.editable
  * @param {React.Node} props.children
  * @returns {React.Node}
  */
 const UserAvatar = (props: AvatarProps) => {
-  const { profile, editable, onChange, onClose, originalSize = false, children, styles, containerStyle } = props
-  let cropSize = isPortrait() ? getScreenWidth() - 70 : getScreenHeight() - 70
-  if (cropSize > 320) {
-    cropSize = 320
-  }
+  const { profile, editable, onChange, onClose, children, styles, containerStyle } = props
+
+  const screenWidth = isPortrait() ? getScreenWidth() : getScreenHeight()
+  let cropSize = Math.min(screenWidth - 70, 320)
+
+  // Getting relation from designs
+  const sizeInVW = AVATAR_DESIGN_WIDTH / DESIGN_WIDTH
+  const avatarSize = Math.min(getScreenWidth(), screenWidth * sizeInVW)
 
   return editable ? (
     <View style={styles.innerAvatar}>
@@ -59,7 +63,7 @@ const UserAvatar = (props: AvatarProps) => {
   ) : (
     <View style={styles.avatar}>
       <View style={[styles.innerAvatar, containerStyle]}>
-        <Avatar size={originalSize ? cropSize : 136} {...props} source={profile.avatar}>
+        <Avatar size={avatarSize} {...props} source={profile.avatar}>
           {children}
         </Avatar>
         <Section.Title fontSize={22} textTransform="none" fontFamily="slab" style={styles.fullNameContainer}>

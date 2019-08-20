@@ -40,7 +40,7 @@ const BackupWallet = ({ screenProps, styles, theme }: BackupWalletProps) => {
 
   return (
     <Section grow={5} style={styles.wrapper}>
-      <Section.Text grow fontWeight="700" fontSize={16} style={styles.instructions}>
+      <Section.Text grow fontWeight="bold" fontSize={16} style={styles.instructions}>
         {'please save your 12-word pass phrase\n' +
           'and keep it in a secure location\n' +
           'so you can recover your wallet anytime'}
@@ -78,6 +78,7 @@ const backupWalletStyles = ({ theme }) => ({
     marginBottom: theme.paddings.defaultMargin,
   },
   resendButton: {
+    color: theme.colors.primary,
     fontWeight: 'normal',
     fontSize: normalize(15),
   },

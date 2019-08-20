@@ -745,7 +745,7 @@ exports[`Profile matches snapshot 1`] = `
                         "direction": "ltr",
                         "fontFamily": "Roboto Slab",
                         "fontSize": "22px",
-                        "fontWeight": "400",
+                        "fontWeight": "normal",
                         "lineHeight": "30px",
                         "marginTop": "8px",
                         "textAlign": "center",
@@ -939,12 +939,12 @@ exports[`Profile matches snapshot 1`] = `
                             "borderTopLeftRadius": "0px",
                             "borderTopRightRadius": "0px",
                             "borderTopWidth": "1px",
-                            "marginBottom": "8px",
-                            "marginTop": "4px",
-                            "paddingBottom": "0px",
+                            "marginBottom": "0px",
+                            "marginTop": "2px",
+                            "paddingBottom": "2px",
                             "paddingLeft": "32px",
                             "paddingRight": "32px",
-                            "paddingTop": "0px",
+                            "paddingTop": "2px",
                             "position": "relative",
                           }
                         }
@@ -1027,28 +1027,6 @@ exports[`Profile matches snapshot 1`] = `
                           </div>
                         </div>
                       </div>
-                      <div
-                        className="css-text-901oao"
-                        dir="auto"
-                        style={
-                          Object {
-                            "WebkitTransform": "translateY(0px)",
-                            "color": "rgba(250,108,119,1.00)",
-                            "direction": "ltr",
-                            "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                            "fontSize": "12px",
-                            "height": "18px",
-                            "marginBottom": "8px",
-                            "opacity": 0,
-                            "paddingBottom": "0px",
-                            "paddingLeft": "0px",
-                            "paddingRight": "12px",
-                            "paddingTop": "0px",
-                            "textAlign": "center",
-                            "transform": "translateY(0px)",
-                          }
-                        }
-                      />
                     </div>
                   </div>
                   <div
@@ -1105,12 +1083,12 @@ exports[`Profile matches snapshot 1`] = `
                             "borderTopLeftRadius": "0px",
                             "borderTopRightRadius": "0px",
                             "borderTopWidth": "1px",
-                            "marginBottom": "8px",
-                            "marginTop": "4px",
-                            "paddingBottom": "0px",
+                            "marginBottom": "0px",
+                            "marginTop": "2px",
+                            "paddingBottom": "2px",
                             "paddingLeft": "32px",
                             "paddingRight": "32px",
-                            "paddingTop": "0px",
+                            "paddingTop": "2px",
                             "position": "relative",
                           }
                         }
@@ -1193,28 +1171,6 @@ exports[`Profile matches snapshot 1`] = `
                           </div>
                         </div>
                       </div>
-                      <div
-                        className="css-text-901oao"
-                        dir="auto"
-                        style={
-                          Object {
-                            "WebkitTransform": "translateY(0px)",
-                            "color": "rgba(250,108,119,1.00)",
-                            "direction": "ltr",
-                            "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                            "fontSize": "12px",
-                            "height": "18px",
-                            "marginBottom": "8px",
-                            "opacity": 0,
-                            "paddingBottom": "0px",
-                            "paddingLeft": "0px",
-                            "paddingRight": "12px",
-                            "paddingTop": "0px",
-                            "textAlign": "center",
-                            "transform": "translateY(0px)",
-                          }
-                        }
-                      />
                     </div>
                   </div>
                   <div
@@ -1273,12 +1229,12 @@ exports[`Profile matches snapshot 1`] = `
                             "borderTopLeftRadius": "0px",
                             "borderTopRightRadius": "0px",
                             "borderTopWidth": "1px",
-                            "marginBottom": "8px",
-                            "marginTop": "4px",
-                            "paddingBottom": "0px",
+                            "marginBottom": "0px",
+                            "marginTop": "2px",
+                            "paddingBottom": "2px",
                             "paddingLeft": "32px",
                             "paddingRight": "32px",
-                            "paddingTop": "0px",
+                            "paddingTop": "2px",
                             "position": "relative",
                           }
                         }
@@ -1361,28 +1317,6 @@ exports[`Profile matches snapshot 1`] = `
                           </div>
                         </div>
                       </div>
-                      <div
-                        className="css-text-901oao"
-                        dir="auto"
-                        style={
-                          Object {
-                            "WebkitTransform": "translateY(0px)",
-                            "color": "rgba(250,108,119,1.00)",
-                            "direction": "ltr",
-                            "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                            "fontSize": "12px",
-                            "height": "18px",
-                            "marginBottom": "8px",
-                            "opacity": 0,
-                            "paddingBottom": "0px",
-                            "paddingLeft": "0px",
-                            "paddingRight": "12px",
-                            "paddingTop": "0px",
-                            "textAlign": "center",
-                            "transform": "translateY(0px)",
-                          }
-                        }
-                      />
                     </div>
                   </div>
                 </div>

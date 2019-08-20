@@ -6,13 +6,13 @@ export const showSupportDialog = (showErrorDialog, hideDialog, screenProps, erro
   showErrorDialog(`Something went wrong on our side... Error: ${errorCode}`, undefined, {
     boldMessage: (
       <>
-        <Text fontWeight={'inherit'} color={'inherit'}>
+        <Text fontWeight="inherit" color="inherit">
           {'Please contact '}
         </Text>
         <Text
-          fontWeight={'inherit'}
-          textDecorationLine={'underline'}
-          color={'inherit'}
+          fontWeight="inherit"
+          textDecorationLine="underline"
+          color="inherit"
           onPress={() => {
             hideDialog()
             screenProps.push('Support')

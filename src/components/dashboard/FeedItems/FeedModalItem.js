@@ -42,11 +42,13 @@ const FeedModalItem = (props: FeedEventProps) => {
           <ModalPaymentStatus item={item} />
           <View style={styles.dateAndAmount}>
             <React.Fragment>
-              <Text style={styles.date}>{getFormattedDateTime(item.date)}</Text>
+              <Text fontSize={10}>{getFormattedDateTime(item.date)}</Text>
               {!eventSettings.withoutAmount && (
                 <React.Fragment>
                   {eventSettings && eventSettings.actionSymbol && (
-                    <Text style={[styles.actionSymbol, { color: mainColor }]}>{eventSettings.actionSymbol}</Text>
+                    <Text fontWeight="bold" fontSize={22} color={mainColor} style={styles.actionSymbol}>
+                      {eventSettings.actionSymbol}
+                    </Text>
                   )}
                   <BigGoodDollar
                     bigNumberStyles={styles.bigNumberStyles}
@@ -71,14 +73,14 @@ const FeedModalItem = (props: FeedEventProps) => {
           </View>
           {item.data.message && (
             <View style={styles.messageContainer}>
-              <Text color="darkGray" fontSize={14} textAlign="left">
+              <Text fontSize={14} textAlign="left">
                 {item.data.message}
               </Text>
             </View>
           )}
           {item.status === 'pending' && (
             <View style={styles.messageContainer}>
-              <Text fontSize={14} fontFamily="regular" color="placeholder">
+              <Text fontSize={14} color="gray50Percent">
                 Your balance will be updated in a minute
               </Text>
             </View>
@@ -101,10 +103,6 @@ const getStylesFromProps = ({ theme }) => {
     },
     feedItem: {
       paddingRight: 4,
-    },
-    date: {
-      color: theme.colors.darkGray,
-      fontSize: normalize(10),
     },
     bigNumberStyles: {
       fontSize: normalize(22),
@@ -145,9 +143,6 @@ const getStylesFromProps = ({ theme }) => {
       marginTop: theme.sizes.defaultDouble,
     },
     actionSymbol: {
-      fontFamily: theme.fonts.default,
-      fontSize: normalize(22),
-      fontWeight: '700',
       marginLeft: 'auto',
     },
   }

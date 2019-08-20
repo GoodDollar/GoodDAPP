@@ -22,10 +22,8 @@ const mapPropsToStyles = ({ theme }) => ({
   section: {
     backgroundColor: theme.colors.surface,
     borderRadius: theme.sizes.borderRadius,
-    paddingLeft: 12,
-    paddingRight: 12,
-    paddingTop: theme.sizes.defaultDouble,
-    paddingBottom: theme.sizes.defaultDouble,
+    paddingHorizontal: 12,
+    paddingVertical: theme.sizes.defaultDouble,
   },
 })
 

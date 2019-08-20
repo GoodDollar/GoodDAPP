@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { AsyncStorage, Image, StyleSheet, Text, View } from 'react-native'
+import { AsyncStorage, Image, StyleSheet, View } from 'react-native'
 import { isIOS, isMobile } from 'mobile-device-detect'
 
 import get from 'lodash/get'
 import QRCode from 'qrcode.react'
 import { getFirstWord } from '../../../lib/utils/getFirstWord'
-import normalize from '../../../lib/utils/normalizeText'
 import Config from '../../../config/config'
 import { CopyButton, Section, Wrapper } from '../../common'
 import Separator from '../../common/layout/Separator'
@@ -13,7 +12,9 @@ import Oops from '../../../assets/oops.svg'
 import GDStore from '../../../lib/undux/GDStore'
 import logger from '../../../lib/logger/pino-logger'
 import { fireEvent } from '../../../lib/analytics/analytics'
+import Text from '../../common/view/Text'
 
+Image.prefetch(Oops)
 const log = logger.child({ from: 'UnsupportedDevice' })
 
 const UnsupportedDevice = props => {
@@ -57,7 +58,7 @@ const UnsupportedDevice = props => {
   const qrCode =
     isMobile === true || code === undefined ? null : (
       <React.Fragment>
-        <Text style={{ alignSelf: 'center', fontFamily: 'Roboto' }}>Scan via your mobile</Text>
+        <Text style={{ alignSelf: 'center' }}>Scan via your mobile</Text>
         <View
           style={{
             justifyContent: 'center',
@@ -98,7 +99,9 @@ const UnsupportedDevice = props => {
             flex: 1,
           }}
         >
-          <Section.Title style={styles.mainTitle}> {title}</Section.Title>
+          <Section.Title fontWeight="medium" textTransform="none">
+            {title}
+          </Section.Title>
           <Image source={Oops} resizeMode={'center'} style={{ height: 146 }} />
           <Section
             style={{
@@ -109,8 +112,8 @@ const UnsupportedDevice = props => {
             }}
           >
             <Separator width={2} />
-            <Section.Text style={styles.description}>
-              <Text style={{ fontWeight: 'normal' }}> {`${error}`} </Text>
+            <Section.Text fontWeight="bold" color="primary" style={styles.description}>
+              {`${error}`}
             </Section.Text>
             <Separator width={2} />
           </Section>
@@ -144,19 +147,9 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   description: {
-    fontSize: normalize(16),
-    fontFamily: 'Roboto',
-    fontWeight: 'bold',
-    color: '#00AFFF',
     padding: 0,
     paddingTop: 15,
     paddingBottom: 15,
-  },
-  mainTitle: {
-    fontFamily: 'Roboto-Medium',
-    fontSize: normalize(24),
-    color: '#42454A',
-    textTransform: 'none',
   },
 })
 

@@ -6,6 +6,7 @@ import wavePattern from '../../assets/wave.svg'
 import Wrapper from '../common/layout/Wrapper'
 import Section from '../common/layout/Section'
 import Config from '../../config/config'
+import normalize from '../../lib/utils/normalizeText'
 
 //minimize delay <Image> has over web <img>
 Image.prefetch(splashImage)
@@ -26,7 +27,7 @@ const About = () => (
         </Section.Text>
         <Section.Text fontSize={18} color="surface" style={styles.aboutDescription}>
           GoodDollar is a payment system with a built-in small basic income based on blockchain technology.
-          <Section.Text fontSize={18} fontWeight="700" color="surface">
+          <Section.Text fontSize={18} fontWeight="bold" color="surface">
             {`\nLet's change the world, for good.`}
           </Section.Text>
         </Section.Text>
@@ -55,7 +56,8 @@ const styles = StyleSheet.create({
   },
   content: {
     transform: [{ rotateY: '180deg' }],
-    marginVertical: '10vh',
+    marginTop: '5vh',
+    marginBottom: '8vh',
   },
   logo: {
     maxWidth: '100%',
@@ -68,7 +70,7 @@ const styles = StyleSheet.create({
     minWidth: 212,
   },
   aboutDescription: {
-    maxWidth: 270,
+    maxWidth: normalize(270),
   },
 })
 

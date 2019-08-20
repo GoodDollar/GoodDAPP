@@ -51,11 +51,11 @@ const ReceiveConfirmation = ({ screenProps, styles, ...props }: ReceiveProps) =>
           <QRCode value={code} />
         </Section.Stack>
         <Section.Stack grow justifyContent="center" alignItems="center">
-          <Section.Text style={[styles.textRow]}>{ACTION_RECEIVE ? 'Request exactly' : 'Send exactly'}</Section.Text>
+          <Section.Text style={styles.textRow}>{ACTION_RECEIVE ? 'Request exactly' : 'Send exactly'}</Section.Text>
           {counterPartyDisplayName && (
-            <Section.Text style={[styles.textRow]}>
+            <Section.Text style={styles.textRow}>
               {ACTION_RECEIVE ? 'From: ' : 'To: '}
-              <Section.Text style={styles.counterPartyDisplayName}>{counterPartyDisplayName}</Section.Text>
+              <Section.Text fontSize={18}>{counterPartyDisplayName}</Section.Text>
             </Section.Text>
           )}
           {amount && (
@@ -66,7 +66,7 @@ const ReceiveConfirmation = ({ screenProps, styles, ...props }: ReceiveProps) =>
               color={props.theme.colors.primary}
             />
           )}
-          <Section.Text style={[styles.textRow]}>{reason}</Section.Text>
+          <Section.Text style={styles.textRow}>{reason}</Section.Text>
         </Section.Stack>
         <Section.Stack>
           {isMobile && navigator.share ? (
@@ -95,8 +95,7 @@ const getStylesFromProps = ({ theme }) => {
       paddingTop: theme.sizes.default,
     },
     textRow: {
-      marginBottom: theme.sizes.default,
-      marginTop: theme.sizes.default,
+      marginVertical: theme.sizes.default,
     },
     doneButton: {
       marginTop: theme.paddings.defaultMargin,
@@ -110,9 +109,6 @@ const getStylesFromProps = ({ theme }) => {
       fontFamily: theme.fonts.default,
       fontSize: normalize(14),
       fontWeight: '700',
-    },
-    counterPartyDisplayName: {
-      fontSize: normalize(18),
     },
   }
 }

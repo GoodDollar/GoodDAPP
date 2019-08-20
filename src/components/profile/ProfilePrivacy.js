@@ -80,7 +80,7 @@ const ProfilePrivacy = props => {
     <Section grow style={styles.wrapper}>
       <Section.Stack grow justifyContent="flex-start">
         <Section.Row grow justifyContent="center" style={styles.subtitleRow}>
-          <Section.Text fontSize={16} fontWeight="700" color="gray">
+          <Section.Text fontWeight="bold" color="gray">
             Manage your privacy settings
           </Section.Text>
           <InfoIcon style={styles.infoIcon} color={theme.colors.primary} onPress={() => setShowTips(true)} />
@@ -125,7 +125,7 @@ const ProfilePrivacy = props => {
       >
         {privacyOptions.map(field => (
           <Section.Stack grow key={field} style={styles.dialogTipItem}>
-            <Text fontWeight="700" fontSize={18} color="primary" textAlign="left">
+            <Text fontWeight="bold" fontSize={18} color="primary" textAlign="left">
               {startCase(field)}
             </Text>
             <Text textAlign="left">{tips[field]}</Text>

@@ -146,6 +146,7 @@ const CustomButton = (props: ButtonProps) => {
   } = props
   const dark = mode === 'contained'
   const uppercase = mode !== 'text'
+  const color = props.color ? props.color : theme.colors.default
   return (
     <BaseButton
       compact
@@ -157,13 +158,21 @@ const CustomButton = (props: ButtonProps) => {
       uppercase={uppercase}
       disabled={disabled || loading}
       onPress={props.onPress}
+      color={color}
       {...buttonProps}
     >
       <View style={styles.contentWrapper}>
         {icon && (!iconAlignment || iconAlignment === 'left') && (
           <IconButton icon={icon} theme={theme} dark={dark} size={iconSize} style={styles.leftIcon} />
         )}
-        {loading && <ActivityIndicator style={styles.activityIndicator} animating={loading} color={'#fff'} size={23} />}
+        {loading && (
+          <ActivityIndicator
+            style={styles.activityIndicator}
+            animating={loading}
+            color={dark ? theme.colors.surface : color}
+            size={23}
+          />
+        )}
         <TextContent dark={dark} uppercase={uppercase} textStyle={textStyle} color={buttonProps.color}>
           {children}
         </TextContent>

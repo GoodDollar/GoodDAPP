@@ -88,7 +88,7 @@ const getStylesFromProps = ({ theme }) => ({
     justifyContent: 'flex-end',
   },
   saveButton: {
-    width: 85,
+    minWidth: 86,
   },
   customButtonText: {
     paddingTop: 1,

@@ -99,7 +99,9 @@ type ShareObject = {
 
 /**
  * Generates the standard object required for `navigator.share` method to trigger Share menu on mobile devices
- * @param url - Link
+ * @param {string} title
+ * @param {string} text
+ * @param {string} url - Link
  * @returns {ShareObject}
  */
 export function generateShareObject(title: string, text: string, url: string): ShareObject {
@@ -122,18 +124,22 @@ export function generateSendShareObject(url: string, amount: number, to: string,
 
 /**
  * Generates URL link to share/receive GDs
- * @param code - code returned by `generateCode`
+ * @param {string} code - code returned by `generateCode`
+ * @param {number } amount - amount expressed in Wei
+ * @param {string} to - recipient name
+ * @param {string} from - current user's fullName
  * @returns {string} - URL to use to share/receive GDs
  */
 export function generateReceiveShareObject(code: string, amount: number, to: string, from: string): ShareObject {
   const url = generateShareLink('receive', { code })
-  return generateShareObject(
-    'Sending G$ via GoodDollar App',
-    to
-      ? `${to}, You've got a request from ${from} for ${weiToGd(amount)} G$. To transfer open:`
-      : `You've got a request from ${from} for ${weiToGd(amount)} G$. To transfer open:`,
-    url
-  )
+  const text = [
+    to ? `${to}, ` : '',
+    `You've got a request from ${from}`,
+    amount > 0 ? ` for ${weiToGd(amount)} G$` : '',
+    `. To Transfer open:`,
+  ].join('')
+
+  return generateShareObject('Sending G$ via GoodDollar App', text, url)
 }
 
 type HrefLinkProps = {

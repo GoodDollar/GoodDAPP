@@ -69,14 +69,13 @@ exports[`WrappedSaveButton matches snapshot 1`] = `
           "marginRight": "0px",
           "marginTop": "0px",
           "minHeight": "44px",
-          "minWidth": "auto",
+          "minWidth": "86px",
           "msFlexAlign": "stretch",
           "msFlexPack": "center",
           "paddingBottom": "0px",
           "paddingLeft": "0px",
           "paddingRight": "0px",
           "paddingTop": "0px",
-          "width": "85px",
         }
       }
     >
@@ -272,14 +271,13 @@ exports[`WrappedSaveButton matches snapshot 2`] = `
           "marginRight": "0px",
           "marginTop": "0px",
           "minHeight": "44px",
-          "minWidth": "auto",
+          "minWidth": "86px",
           "msFlexAlign": "stretch",
           "msFlexPack": "center",
           "paddingBottom": "0px",
           "paddingLeft": "0px",
           "paddingRight": "0px",
           "paddingTop": "0px",
-          "width": "85px",
         }
       }
     >
@@ -476,14 +474,13 @@ exports[`WrappedSaveButton matches snapshot 3`] = `
           "marginRight": "0px",
           "marginTop": "0px",
           "minHeight": "44px",
-          "minWidth": "auto",
+          "minWidth": "86px",
           "msFlexAlign": "stretch",
           "msFlexPack": "center",
           "paddingBottom": "0px",
           "paddingLeft": "0px",
           "paddingRight": "0px",
           "paddingTop": "0px",
-          "width": "85px",
         }
       }
     >
@@ -680,14 +677,13 @@ exports[`WrappedSaveButton matches snapshot 4`] = `
           "marginRight": "0px",
           "marginTop": "0px",
           "minHeight": "44px",
-          "minWidth": "auto",
+          "minWidth": "86px",
           "msFlexAlign": "stretch",
           "msFlexPack": "center",
           "paddingBottom": "0px",
           "paddingLeft": "0px",
           "paddingRight": "0px",
           "paddingTop": "0px",
-          "width": "85px",
         }
       }
     >

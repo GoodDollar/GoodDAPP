@@ -1,137 +1,196 @@
 // @flow
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import normalize from '../../lib/utils/normalizeText'
-import API from '../../lib/API/api'
 import logger from '../../lib/logger/pino-logger'
+import API from '../../lib/API/api'
 import { withStyles } from '../../lib/styles'
+import Icon from '../common/view/Icon'
+import LoadingIndicator from '../common/view/LoadingIndicator'
 import Section from '../common/layout/Section'
-import Wrapper from '../common/layout/Wrapper'
+import { ErrorText } from '../common/form/InputText'
+import OtpInput from '../common/form/OtpInput'
 import CustomWrapper from './signUpWrapper'
-import InputText from '../common/form/InputText'
-
-type Props = {
-  screenProps: any,
-  navigation: any,
-}
+import type { SignupState } from './SignupState'
 
 const log = logger.child({ from: 'EmailConfirmation' })
 
-const EmailConfirmation = ({ navigation, screenProps, styles }: Props) => {
-  
-  const [globalProfile, setGlobalProfile] = useState({});
-  const [code, setCode] = useState('');
-  const [errorMessage, setErrorMessage] = useState();
+const DONE = 'DONE'
+const WAIT = 'WAIT'
+const PENDING = 'PENDING'
 
-  // const API = useWrappedApi()
-  // const userStorage = useWrappedUserStorage()
-  const setLoading = () => log.warn('implement me')
+type Props = {
+  phone: string,
+  data: SignupState,
+  doneCallback: ({ isPhoneVerified: boolean }) => null,
+  screenProps: any,
+}
+
+export type CodeRecord = {
+  codeValidated: boolean,
+  sentCode?: boolean,
+}
+
+type State = CodeRecord & {
+  errorMessage: string,
+  sendingCode: boolean,
+  renderButton: boolean,
+  loading: boolean,
+  code: string | number,
+}
+
+class EmailConfirmation extends React.Component<Props, State> {
+  state = {
+    codeValidated: false,
+    sentCode: false,
+    errorMessage: '',
+    sendingCode: false,
+    renderButton: false,
+    resentCode: false,
+    loading: false,
+    code: undefined,
+  }
   
-  const validateEmail = async (code) => {
-    setLoading(true)
+  numInputs: number = 6
   
-    // recover user's profile persisted to userStorage in SignupState after sending the email
-    // done before verifying email to have all the user's information available to display
-    const profile = {} //await userStorage.getProfile()
-    setGlobalProfile(profile)
-    
-    const res = await API.verifyEmail({ code: Number(code)})
-   
-    if (!res.data.ok) {
-      setErrorMessage("Oops, it's not right code")
-    } else {
-      screenProps.doneCallback({ ...profile, isEmailConfirmed: true })
+  componentDidMount() {}
+  
+  componentDidUpdate() {
+    if (!this.state.renderButton) {
+      this.displayDelayedRenderButton()
     }
-    setLoading(false)
   }
   
-  const handleResend = async () => {
-    setLoading(true)
-
-    const profile = globalProfile.email ? globalProfile : screenProps.data
-    await API.sendVerificationEmail(profile)
-
-    setLoading(false)
-  }
-
-  const handleSubmit = () => {
-    if (code) (
-      validateEmail(code)
-    )
-    
+  displayDelayedRenderButton = () => {
+    setTimeout(() => {
+      this.setState({ renderButton: true })
+    }, 10000)
   }
   
-  const handleChange = (code: string) => {
-    setErrorMessage()
-    if (code) {
-      if (code.length <= 10 ) {
-        setCode(code.replace(/[^0-9]/g, ''))
+  handleChange = async (code: string | number) => {
+    const codeValue = code.toString()
+  
+    if (codeValue.length === this.numInputs) {
+      this.setState({
+        loading: true,
+        code: code,
+      })
+      try {
+        await this.verifyCode(code)
+        this.handleSubmit()
+      } catch (e) {
+        log.error({ e })
+        this.setState({
+          errorMessage: e.response.data.message || e.message
+        })
+      } finally {
+        this.setState({ loading: false })
       }
     } else {
-      setCode('')
-    }
-  }
-
-  const handleEnter = (event: { nativeEvent: { key: string } }) => {
-    if (event.nativeEvent.key === 'Enter') {
-      handleSubmit()
+      this.setState({
+        errorMessage: '',
+        code: code,
+      })
     }
   }
   
+  handleSubmit = () => {
+    this.props.screenProps.doneCallback({isEmailConfirmed: true })
+  }
+  
+  // eslint-disable-next-line class-methods-use-this
+  verifyCode(code: integer) {
+    return API.verifyEmail({ code: Number(code)})
+  }
+  
+  handleRetry = async () => {
+    this.setState({ sendingCode: true, code: '', errorMessage: '' })
+    try {
+      await API.sendVerificationEmail(this.props.screenProps.data)
+      this.setState({ sendingCode: false, renderButton: false, resentCode: true }, this.displayDelayedRenderButton)
+      
+      //turn checkmark back into regular resend text
+      setTimeout(() => this.setState({ ...this.state, resentCode: false }), 2000)
+    } catch (e) {
+      log.error(e)
+      this.setState({
+        errorMessage: e.message || e.response.data.message,
+        sendingCode: false,
+        renderButton: true,
+      })
+    }
+  }
+  
+  render() {
+    const { errorMessage, renderButton, loading, code, resentCode } = this.state
+    const { styles } = this.props
+    
+    return (
+      <CustomWrapper handleSubmit={this.handleSubmit} footerComponent={() => <React.Fragment />}>
+        <Section.Stack grow justifyContent="flex-start">
+          <Section.Row justifyContent="center" style={styles.row}>
+            <Section.Title textTransform="none">{'Enter the verification code \n sent to your email'}</Section.Title>
+          </Section.Row>
+          <Section.Stack justifyContent="center">
+            <OtpInput
+              shouldAutoFocus
+              numInputs={this.numInputs}
+              onChange={this.handleChange}
+              isInputNum={true}
+              hasErrored={errorMessage !== ''}
+              errorStyle={styles.errorStyle}
+              value={code}
+            />
+            <ErrorText error={errorMessage} />
+          </Section.Stack>
+          <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
+            <CodeAction status={resentCode ? DONE : renderButton ? PENDING : WAIT} handleRetry={this.handleRetry} />
+          </Section.Row>
+        </Section.Stack>
+        <LoadingIndicator force={loading} />
+      </CustomWrapper>
+    )
+  }
+}
+
+const CodeAction = ({ status, handleRetry }) => {
+  if (status === DONE) {
+    return <Icon size={16} name="success" color="blue" />
+  } else if (status === WAIT) {
+    return (
+      <Section.Text fontFamily="regular" fontSize={14} color="gray80Percent">
+        Please wait a few seconds until the email arrives
+      </Section.Text>
+    )
+  }
   return (
-    <CustomWrapper
-      handleSubmit={handleSubmit}
-      footerComponent={props => (
-        <Section.Row justifyContent="center" grow>
-          <Section.Text fontFamily="medium" fontSize={14} color="primary" onPress={handleResend}>
-            {`I haven't received an email`}
-          </Section.Text>
-        </Section.Row>
-      )}
-    >
-      <Section grow justifyContent="space-between" style={styles.row}>
-        <Section grow>
-          <Section.Row justifyContent="center">
-            <Section.Text fontFamily="medium" fontSize={16} color="darkGray">
-              {`We've sent an email to:`}
-            </Section.Text>
-          </Section.Row>
-          <Section.Row justifyContent="center">
-            <Section.Text fontFamily="slab" fontSize={22} color="darkGray">
-              {globalProfile.email || screenProps.data.email}
-            </Section.Text>
-          </Section.Row>
-          <Section.Row justifyContent="center">
-              <InputText
-                id={'code_input'}
-                value={code}
-                onChangeText={handleChange}
-                error={errorMessage}
-                onKeyPress={handleEnter}
-                onCleanUpField={handleChange}
-                autoFocus
-              />
-          </Section.Row>
-        </Section>
-        <Wrapper style={styles.containerPadding}>
-          <Section.Row justifyContent="center" grow>
-            <Section.Text fontFamily="slab" fontSize={22} color="surface">
-              {`In order to continue, \n go to your e-mail app and confirm registration`}
-            </Section.Text>
-          </Section.Row>
-        </Wrapper>
-      </Section>
-    </CustomWrapper>
+    <Section.Text fontFamily="medium" fontSize={14} color="primary" onPress={handleRetry}>
+      Send me the code again
+    </Section.Text>
   )
 }
 
 const getStylesFromProps = ({ theme }) => ({
-  containerPadding: {
-    padding: normalize(28),
-    alignItems: 'center',
+  informativeParagraph: {
+    margin: '1em',
+  },
+  buttonWrapper: {
+    alignContent: 'stretch',
+    flexDirection: 'column',
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
+  button: {
+    justifyContent: 'center',
+    width: '100%',
+    height: normalize(60),
   },
   row: {
-    marginVertical: theme.sizes.defaultDouble,
-    paddingHorizontal: 0,
+    marginVertical: theme.sizes.defaultQuadruple,
+  },
+  errorStyle: {
+    borderBottomWidth: 1,
+    borderBottomColor: theme.colors.red,
+    color: theme.colors.red,
   },
 })
 

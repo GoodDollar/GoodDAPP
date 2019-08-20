@@ -35,6 +35,7 @@ const SendLinkSummary = (props: AmountProps) => {
 
   const [isCitizen, setIsCitizen] = useState()
   const [shared, setShared] = useState(false)
+  const [link, setLink] = useState('')
   const { amount, reason, counterPartyDisplayName } = screenState
 
   const faceRecognition = () => {
@@ -74,7 +75,14 @@ const SendLinkSummary = (props: AmountProps) => {
   }, [shared])
 
   const handleConfirm = () => {
-    const paymentLink = generateLink()
+    let paymentLink = link
+
+    // Prevents calling back `generateLink` as it generates a new transaction every time it's called
+    if (paymentLink === '') {
+      paymentLink = generateLink()
+      setLink(paymentLink)
+    }
+
     if (isMobile && navigator.share) {
       shareAction(paymentLink)
     } else {

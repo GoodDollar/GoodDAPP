@@ -359,7 +359,7 @@ exports[`ModalWrapper matches snapshot with properties 1`] = `
                     "backgroundImage": "linear-gradient(40deg, transparent 75%, #fff 76%), linear-gradient(-40deg, transparent 75%, #fff 76%)",
                     "backgroundPosition": "-8px 0",
                     "backgroundRepeat": "repeat-x",
-                    "backgroundSize": "16px",
+                    "backgroundSize": "16px 16px",
                     "height": "16px",
                     "position": "relative",
                     "width": "100%",

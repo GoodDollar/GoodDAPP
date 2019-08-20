@@ -12,6 +12,5 @@ export const getDesignRelativeSize = width => {
 
   const sizeInVW = width / DESIGN_WIDTH
   const size = Math.min(width, screenWidth * sizeInVW)
-  console.info({ sizeInVW, size, screenWidth })
   return size
 }

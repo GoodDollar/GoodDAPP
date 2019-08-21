@@ -634,8 +634,8 @@ export class UserStorage {
 
     const profileSettings = {
       fullName: { defaultPrivacy: 'public' },
-      email: { defaultPrivacy: 'public' },
-      mobile: { defaultPrivacy: 'public' },
+      email: { defaultPrivacy: 'private' },
+      mobile: { defaultPrivacy: 'private' },
       avatar: { defaultPrivacy: 'public' },
       walletAddress: { defaultPrivacy: 'public' },
       username: { defaultPrivacy: 'public' },

@@ -1,5 +1,6 @@
 import { routeAndPathForCode } from '../routeAndPathForCode'
 import goodWallet from '../../../../lib/wallet/GoodWallet'
+import { ACTION_SEND } from '../sendReceiveFlow'
 
 let networkId
 const httpProviderMock = jest.fn().mockImplementation(() => {
@@ -33,7 +34,11 @@ describe('routeAndPathForCode', () => {
 
     return routeAndPathForCode('send', code).then(({ route, params }) => {
       expect(route).toMatch('Amount')
-      expect(params).toEqual({ to: code.address, nextRoutes: ['Reason', 'SendQRSummary'] })
+      expect(params).toEqual({
+        to: code.address,
+        nextRoutes: ['Reason', 'SendQRSummary'],
+        params: { action: ACTION_SEND },
+      })
     })
   })
 

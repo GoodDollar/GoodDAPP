@@ -1,7 +1,6 @@
 // @flow
 import React from 'react'
 import { TouchableOpacity } from 'react-native'
-import normalize from '../../../lib/utils/normalizeText'
 import Text from '../view/Text'
 import { withStyles } from '../../../lib/styles'
 import CustomIcon from './CustomIcon'
@@ -38,7 +37,7 @@ const IconButton = ({ styles, theme, text, onPress, disabled, name, ...iconProps
         size={35}
         {...iconProps}
       />
-      <Text style={styles.text} color={disabled ? 'rgba(0, 0, 0, 0.32)' : 'inherit'}>
+      <Text fontSize={11} color={disabled ? 'rgba(0, 0, 0, 0.32)' : 'inherit'}>
         {text}
       </Text>
     </TouchableOpacity>
@@ -51,9 +50,6 @@ const getStylesFromProps = ({ theme }) => {
       flexDirection: 'column',
       alignItems: 'center',
       flex: 1,
-    },
-    text: {
-      fontSize: normalize(11),
     },
   }
 }

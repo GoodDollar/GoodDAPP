@@ -1,5 +1,6 @@
 const Config = {
   env: process.env.REACT_APP_ENV || 'development',
+  version: process.env.VERSION || 'v0',
   logLevel: process.env.REACT_APP_LOG_LEVEL || 'debug',
   serverUrl: process.env.REACT_APP_SERVER_URL || 'http://localhost:3003',
   gunPublicUrl: process.env.REACT_APP_GUN_PUBLIC_URL || 'http://localhost:3003/gun',
@@ -15,7 +16,8 @@ const Config = {
   skipMobileVerification: process.env.REACT_APP_SKIP_MOBILE_VERIFICATION === 'true',
   throwSaveProfileErrors:
     !process.env.REACT_APP_THROW_SAVE_PROFILE_ERRORS || process.env.REACT_APP_THROW_SAVE_PROFILE_ERRORS === 'true',
-  safariMobileKeyboardGuidedSize: process.env.REACT_APP_SAFARI_MOBILE_KEYBOARD_GUIDED_SIZE !== 'false',
+  withMockedFeeds: process.env.REACT_APP_WITH_MOCKED_FEEDS === 'true',
+  safariMobileKeyboardGuidedSize: process.env.REACT_APP_SAFARI_MOBILE_KEYBOARD_GUIDED_SIZE === 'true',
   ethereum: {
     '42': {
       network_id: 42,

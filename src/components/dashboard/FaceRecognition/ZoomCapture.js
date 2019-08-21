@@ -3,8 +3,7 @@ import React, { useState } from 'react'
 import { Image, StyleSheet, View } from 'react-native'
 import { Text } from 'react-native-paper'
 import { isMobile } from 'mobile-device-detect'
-import normalize from '../../../lib/utils/normalizeText'
-
+import SimpleStore from '../../../lib/undux/SimpleStore'
 import { CustomButton } from '../../common'
 
 // import { Section } from '../../common'
@@ -54,16 +53,8 @@ const HelperWizard = props => {
         text = 'Center your webcam'
         imgs = (
           <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-            <Image
-              source={WebcamBad}
-              resizeMode={'contain'}
-              style={{ margin: normalize(15), width: '100%', height: normalize(120) }}
-            />
-            <Image
-              source={WebcamGood}
-              resizeMode={'contain'}
-              style={{ margin: normalize(15), width: '100%', height: normalize(120) }}
-            />
+            <Image source={WebcamBad} resizeMode={'contain'} style={{ margin: 15, width: '100%', height: 120 }} />
+            <Image source={WebcamGood} resizeMode={'contain'} style={{ margin: 15, width: '100%', height: 120 }} />
           </View>
         )
       }
@@ -73,16 +64,16 @@ const HelperWizard = props => {
       if (isMobile) {
         imgs = (
           <View style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-            <Image source={MobileAngleGood} resizeMode={'contain'} style={{ width: '100%', height: normalize(75) }} />
-            {/* <Image source={MobileAngleBad} resizeMode={'contain'} style={{ width: '100%', height: normalize(75) }} /> */}
+            <Image source={MobileAngleGood} resizeMode={'contain'} style={{ width: '100%', height: 75 }} />
+            {/* <Image source={MobileAngleBad} resizeMode={'contain'} style={{ width: '100%', height: 75 }} /> */}
           </View>
         )
       } else {
         imgs = (
           <View style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-            <Image source={WebAngleGood} resizeMode={'contain'} style={{ width: '100%', height: normalize(75) }} />
-            {/* <Image source={WebAngleOk} resizeMode={'contain'} style={{ width: '100%', height: normalize(75) }} />
-            <Image source={WebAngleBad} resizeMode={'contain'} style={{ width: '100%', height: normalize(75) }} /> */}
+            <Image source={WebAngleGood} resizeMode={'contain'} style={{ width: '100%', height: 75 }} />
+            {/* <Image source={WebAngleOk} resizeMode={'contain'} style={{ width: '100%', height: 75 }} />
+            <Image source={WebAngleBad} resizeMode={'contain'} style={{ width: '100%', height: 75 }} /> */}
           </View>
         )
       }
@@ -91,9 +82,9 @@ const HelperWizard = props => {
       text = 'Light your face evenly'
       imgs = (
         <View style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-          <Image source={LightingBad2} resizeMode={'contain'} style={{ width: '100%', height: normalize(75) }} />
-          <Image source={LightingBad1} resizeMode={'contain'} style={{ width: '100%', height: normalize(75) }} />
-          <Image source={LightingGood} resizeMode={'contain'} style={{ width: '100%', height: normalize(75) }} />
+          <Image source={LightingBad2} resizeMode={'contain'} style={{ width: '100%', height: 75 }} />
+          <Image source={LightingBad1} resizeMode={'contain'} style={{ width: '100%', height: 75 }} />
+          <Image source={LightingGood} resizeMode={'contain'} style={{ width: '100%', height: 75 }} />
         </View>
       )
       break
@@ -108,10 +99,12 @@ const HelperWizard = props => {
     <React.Fragment>
       <View id="background" style={styles.background} />
       <View style={{ zIndex: 10, justifyContent: 'space-evenly', height: '100%' }}>
-        <Text style={{ fontFamily: 'Roboto-Medium', fontSize: normalize(20), color: 'white' }}>{text}</Text>
+        <Text fontWeight="medium" fontSize={20} color="surface">
+          {text}
+        </Text>
         {imgs}
         <CustomButton
-          style={{ borderColor: 'white', borderWidth: 2, fontColor: 'white' }}
+          style={{ borderColor: 'white', borderWidth: 2 }}
           mode={'outlined'}
           dark={true}
           onPress={nextStep}
@@ -134,14 +127,19 @@ class ZoomCapture extends React.Component<ZoomCaptureProps> {
 
   zoom: Zoom
 
+  state = {
+    cameraReady: false,
+  }
+
   cameraReady = async (track: MediaStreamTrack) => {
     log.debug('camera ready')
     this.videoTrack = track
     try {
       log.debug('zoom initializes capture..')
       let zoomSDK = this.props.loadedZoom
-      this.zoom = new Zoom(zoomSDK, track)
+      this.zoom = new Zoom(zoomSDK)
       await this.zoom.ready
+      this.setState({ cameraReady: true }, () => this.props.store.set('loadingIndicator')({ loading: false }))
       if (this.props.showHelper === false) {
         this.captureUserMediaZoom()
       }
@@ -155,7 +153,8 @@ class ZoomCapture extends React.Component<ZoomCaptureProps> {
     let captureOutcome: ZoomCaptureResult
     try {
       log.debug('zoom performs capture..')
-      captureOutcome = await this.zoom.capture() // TODO: handle capture errors.
+      await this.zoom.ready
+      captureOutcome = await this.zoom.capture(this.videoTrack) // TODO: handle capture errors.
       log.info({ captureOutcome })
       if (captureOutcome) {
         this.props.onCaptureResult(captureOutcome)
@@ -167,12 +166,16 @@ class ZoomCapture extends React.Component<ZoomCaptureProps> {
   }
 
   componentDidMount() {
+    this.props.store.set('loadingIndicator')({ loading: true })
     if (!this.props.loadedZoom) {
       log.warn('zoomSDK was not loaded into ZoomCapture properly')
     }
   }
 
   componentWillUnmount() {
+    if (this.state.cameraReady === false) {
+      this.props.store.set('loadingIndicator')({ loading: false })
+    }
     if (this.props.loadedZoom) {
       log.warn('zoomSDK was loaded, canceling zoom capture')
       this.zoom && this.zoom.cancel()
@@ -185,10 +188,12 @@ class ZoomCapture extends React.Component<ZoomCaptureProps> {
         <View style={styles.bottomSection}>
           <div id="zoom-parent-container" style={getVideoContainerStyles()}>
             <View id="helper" style={styles.helper}>
-              <HelperWizard done={this.captureUserMediaZoom} skip={this.props.showHelper === false} />
+              {this.state.cameraReady ? (
+                <HelperWizard done={this.captureUserMediaZoom} skip={this.props.showHelper === false} />
+              ) : null}
             </View>
             <div id="zoom-interface-container" style={{ position: 'absolute' }} />
-            {<Camera onCameraLoad={this.cameraReady} onError={this.props.onError} />}
+            {<Camera key="camera" onCameraLoad={this.cameraReady} onError={this.props.onError} />}
           </div>
         </View>
       </View>
@@ -202,7 +207,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     padding: 5,
     borderRadius: 5,
-    minHeight: 400,
   },
   helper: {
     position: 'absolute',
@@ -225,8 +229,13 @@ const styles = StyleSheet.create({
     height: '100%',
     backgroundColor: 'rgba(13, 165, 177, 0.5)',
     borderRadius: 5,
-    background:
-      'linear-gradient(to right, rgba(9, 181, 163, .5), rgba(18, 146, 193, .95)) no-repeat center center fixed',
+
+    // background:
+    //   'linear-gradient(to right, rgba(9, 181, 163, .5), rgba(18, 146, 193, .95)) no-repeat center center fixed',
+    backgroundImage: 'linear-gradient(to right, rgba(9, 181, 163, .5), rgba(18, 146, 193, .95))',
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center center',
+    backgroundAttachment: 'fixed',
   },
 })
 
@@ -238,4 +247,4 @@ const getVideoContainerStyles = () => ({
   marginBottom: 0,
 })
 
-export default ZoomCapture
+export default SimpleStore.withStore(ZoomCapture)

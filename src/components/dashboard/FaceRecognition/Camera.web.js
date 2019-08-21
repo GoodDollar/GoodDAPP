@@ -2,7 +2,6 @@
 import { Dimensions } from 'react-native'
 import React, { createRef, useEffect } from 'react'
 import { isMobile } from 'mobile-device-detect'
-import normalize from '../../../lib/utils/normalizeText'
 import logger from '../../../lib/logger/pino-logger'
 
 const log = logger.child({ from: 'Camera' })
@@ -17,31 +16,17 @@ type CameraProps = {
 /**
  * Responsible to capture Camera stream
  */
-export function Camera(props: CameraProps) {
+const CameraComp = (props: CameraProps) => {
   let videoPlayerRef = createRef<HTMLVideoElement>()
   const acceptableConstraints: MediaStreamConstraints[] = [
     {
       audio: false,
       video: {
-        width: { exact: 1280 },
-        height: { exact: 720 },
-        facingMode: 'user',
-      },
-    },
-    {
-      audio: false,
-      video: {
-        width: { exact: 640 },
-        height: { exact: 360 },
-        facingMode: 'user',
-      },
-    },
-    {
-      audio: false,
-      video: {
-        width: { exact: 1920 },
-        height: { exact: 1080 },
-        facingMode: 'user',
+        facingMode: {
+          ideal: 'user',
+        },
+        width: { min: 640 },
+        height: { min: 360 },
       },
     },
   ]
@@ -118,7 +103,7 @@ export function Camera(props: CameraProps) {
       this.videoTrack = videoTrack
       videoPlayerRef.current.srcObject = stream
 
-      videoPlayerRef.current.addEventListener('loadeddata', () => {
+      videoPlayerRef.current.addEventListener('play', () => {
         props.onCameraLoad(videoTrack)
       })
     } catch (error) {
@@ -136,14 +121,15 @@ export function Camera(props: CameraProps) {
   )
 }
 
+export const Camera = React.memo(CameraComp)
 export const getResponsiveVideoDimensions = () => {
   const { width, height } = Dimensions.get('window')
 
   const defaultHeight = height - 124 > 360 && width < 690
   if (isMobile) {
     return {
-      height: defaultHeight ? normalize(360) : 'auto',
-      maxHeight: defaultHeight ? normalize(360) : height - 124,
+      height: defaultHeight ? 360 : 'auto',
+      maxHeight: defaultHeight ? 360 : height - 124,
       width: defaultHeight ? 'auto' : '100%',
     }
   }

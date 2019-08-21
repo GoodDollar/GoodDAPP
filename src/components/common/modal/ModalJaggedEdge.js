@@ -8,12 +8,12 @@ const ModalJaggedEdge = ({ styles, style }: any) => <View style={[styles.jaggedE
 
 const getStylesFromProps = ({ theme }) => ({
   jaggedEdge: {
-    backgroundImage: `linear-gradient(45deg, transparent 75%, ${
+    backgroundImage: `linear-gradient(40deg, transparent 75%, ${
       theme.modals.backgroundColor
-    } 76%), linear-gradient(-45deg, transparent 75%, ${theme.modals.backgroundColor} 76%)`,
-    backgroundPosition: '0 0',
+    } 76%), linear-gradient(-40deg, transparent 75%, ${theme.modals.backgroundColor} 76%)`,
+    backgroundPosition: `-${theme.modals.jaggedEdgeSize / 2}px 0`,
     backgroundRepeat: 'repeat-x',
-    backgroundSize: `${theme.modals.jaggedEdgeSize}px`,
+    backgroundSize: `${theme.modals.jaggedEdgeSize}px ${theme.modals.jaggedEdgeSize}px`,
     height: theme.modals.jaggedEdgeSize,
     position: 'relative',
     width: '100%',

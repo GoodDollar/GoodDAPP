@@ -20,6 +20,7 @@ exports[`CopyButton matches snapshot 1`] = `
 >
   <div
     className="css-view-1dbjc4n"
+    data-gdtype="copybutton"
     style={
       Object {
         "WebkitBoxPack": "center",
@@ -43,8 +44,11 @@ exports[`CopyButton matches snapshot 1`] = `
         "borderTopWidth": "0px",
         "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
         "justifyContent": "center",
+        "minHeight": "44px",
         "minWidth": "auto",
         "msFlexPack": "center",
+        "paddingLeft": "0px",
+        "paddingRight": "0px",
       }
     }
   >
@@ -92,6 +96,7 @@ exports[`CopyButton matches snapshot 1`] = `
             "alignItems": "center",
             "flexDirection": "row",
             "justifyContent": "center",
+            "letterSpacing": "0px",
             "msFlexAlign": "center",
             "msFlexDirection": "row",
             "msFlexPack": "center",
@@ -105,7 +110,7 @@ exports[`CopyButton matches snapshot 1`] = `
             Object {
               "color": "rgba(255,255,255,1.00)",
               "direction": "ltr",
-              "fontFamily": "Roboto-Medium",
+              "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
               "letterSpacing": "1px",
               "marginBottom": "9px",
               "marginLeft": "8px",
@@ -115,38 +120,35 @@ exports[`CopyButton matches snapshot 1`] = `
             }
           }
         >
-          <div
-            className="css-view-1dbjc4n"
+          <span
+            className="css-text-901oao css-textHasAncestor-16my406"
+            dir="auto"
             style={
               Object {
+                "WebkitAlignItems": "center",
+                "WebkitBoxAlign": "center",
                 "WebkitBoxPack": "center",
                 "WebkitJustifyContent": "center",
-                "display": "inline-flex",
+                "alignItems": "center",
+                "color": "rgba(255,255,255,1.00)",
+                "direction": "ltr",
+                "fontFamily": "Roboto",
+                "fontSize": "16px",
+                "fontWeight": "500",
                 "justifyContent": "center",
-                "minHeight": "28px",
+                "letterSpacing": "0px",
+                "lineHeight": "22px",
+                "msFlexAlign": "center",
                 "msFlexPack": "center",
+                "paddingTop": "1px",
+                "textAlign": "center",
+                "textDecoration": "none",
+                "textTransform": "uppercase",
               }
             }
           >
-            <span
-              className="css-text-901oao css-textHasAncestor-16my406"
-              dir="auto"
-              style={
-                Object {
-                  "color": "rgba(255,255,255,1.00)",
-                  "direction": "ltr",
-                  "fontFamily": "Roboto",
-                  "fontWeight": "bold",
-                  "lineHeight": "0px",
-                  "paddingTop": "1px",
-                  "textAlign": "left",
-                  "textTransform": "uppercase",
-                }
-              }
-            >
-              Copy to Clipboard
-            </span>
-          </div>
+            Copy to Clipboard
+          </span>
         </div>
       </div>
     </div>
@@ -174,6 +176,7 @@ exports[`CopyButton matches snapshot 2`] = `
 >
   <div
     className="css-view-1dbjc4n"
+    data-gdtype="copybutton"
     style={
       Object {
         "WebkitBoxPack": "center",
@@ -195,10 +198,12 @@ exports[`CopyButton matches snapshot 2`] = `
         "borderTopRightRadius": "50px",
         "borderTopStyle": "solid",
         "borderTopWidth": "1px",
-        "boxShadow": "0px 0px 0px rgba(0,0,0,0.24)",
         "justifyContent": "center",
+        "minHeight": "44px",
         "minWidth": "auto",
         "msFlexPack": "center",
+        "paddingLeft": "0px",
+        "paddingRight": "0px",
       }
     }
   >
@@ -246,6 +251,7 @@ exports[`CopyButton matches snapshot 2`] = `
             "alignItems": "center",
             "flexDirection": "row",
             "justifyContent": "center",
+            "letterSpacing": "0px",
             "msFlexAlign": "center",
             "msFlexDirection": "row",
             "msFlexPack": "center",
@@ -259,7 +265,7 @@ exports[`CopyButton matches snapshot 2`] = `
             Object {
               "color": "rgba(0,175,255,1.00)",
               "direction": "ltr",
-              "fontFamily": "Roboto-Medium",
+              "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
               "letterSpacing": "1px",
               "marginBottom": "9px",
               "marginLeft": "8px",
@@ -269,37 +275,35 @@ exports[`CopyButton matches snapshot 2`] = `
             }
           }
         >
-          <div
-            className="css-view-1dbjc4n"
+          <span
+            className="css-text-901oao css-textHasAncestor-16my406"
+            dir="auto"
             style={
               Object {
+                "WebkitAlignItems": "center",
+                "WebkitBoxAlign": "center",
                 "WebkitBoxPack": "center",
                 "WebkitJustifyContent": "center",
-                "display": "inline-flex",
+                "alignItems": "center",
+                "color": "rgba(0,175,255,1.00)",
+                "direction": "ltr",
+                "fontFamily": "Roboto",
+                "fontSize": "16px",
+                "fontWeight": "500",
                 "justifyContent": "center",
-                "minHeight": "28px",
+                "letterSpacing": "0px",
+                "lineHeight": "22px",
+                "msFlexAlign": "center",
                 "msFlexPack": "center",
+                "paddingTop": "1px",
+                "textAlign": "center",
+                "textDecoration": "none",
+                "textTransform": "uppercase",
               }
             }
           >
-            <span
-              className="css-text-901oao css-textHasAncestor-16my406"
-              dir="auto"
-              style={
-                Object {
-                  "direction": "ltr",
-                  "fontFamily": "Roboto",
-                  "fontWeight": "bold",
-                  "lineHeight": "0px",
-                  "paddingTop": "1px",
-                  "textAlign": "left",
-                  "textTransform": "uppercase",
-                }
-              }
-            >
-              Title in CopyButton
-            </span>
-          </div>
+            Title in CopyButton
+          </span>
         </div>
       </div>
     </div>

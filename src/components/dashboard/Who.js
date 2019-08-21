@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import React, { useEffect } from 'react'
 import InputText from '../common/form/InputText'
 
 import { ScanQRButton, Section, Wrapper } from '../common'
@@ -23,34 +23,35 @@ const getError = value => {
 }
 
 const Who = (props: AmountProps) => {
-  const { screenProps } = props
-
-  const [screenState] = useScreenState(screenProps)
+  const { screenProps, styles } = props
+  const [screenState, setScreenState] = useScreenState(screenProps)
   const { params } = props.navigation.state
   const isReceive = params && params.action === ACTION_RECEIVE
   const { counterPartyDisplayName } = screenState
-
   const text = isReceive ? 'From Who?' : 'Send To?'
   const getErrorFunction = isReceive ? () => null : getError
   const [state, setValue] = useValidatedValueState(counterPartyDisplayName, getErrorFunction)
 
+  useEffect(() => {
+    setScreenState({ counterPartyDisplayName: state.value })
+  }, [state.value])
   console.info('Component props -> ', { props, params, text, state })
 
   return (
     <Wrapper>
       <TopBar push={screenProps.push}>
-        {isReceive && <ScanQRButton onPress={() => screenProps.push('SendByQR')} />}
+        {!isReceive && <ScanQRButton onPress={() => screenProps.push('SendByQR')} />}
       </TopBar>
       <Section grow>
         <Section.Stack justifyContent="flex-start">
           <Section.Title>{text}</Section.Title>
           <InputText
             autoFocus
-            style={props.styles.input}
-            value={state.value}
             error={state.error}
             onChangeText={setValue}
             placeholder="Enter the recipient name"
+            style={styles.input}
+            value={state.value}
           />
         </Section.Stack>
         <Section.Row grow alignItems="flex-end">
@@ -61,11 +62,11 @@ const Who = (props: AmountProps) => {
           </Section.Row>
           <Section.Stack grow={3}>
             <NextButton
-              nextRoutes={screenState.nextRoutes}
-              values={{ params, counterPartyDisplayName }}
-              canContinue={() => state.isValid}
               {...props}
-              label={state.value || isReceive ? 'Next' : 'Skip'}
+              nextRoutes={screenState.nextRoutes}
+              values={{ params, counterPartyDisplayName: state.value }}
+              canContinue={() => state.isValid}
+              label={state.value || !isReceive ? 'Next' : 'Skip'}
               disabled={!state.isValid}
             />
           </Section.Stack>
@@ -82,4 +83,8 @@ Who.shouldNavigateToComponent = props => {
   return screenState.nextRoutes
 }
 
-export default withStyles(({ theme }) => ({ input: { marginTop: theme.sizes.defaultDouble } }))(Who)
+export default withStyles(({ theme }) => ({
+  input: {
+    marginTop: theme.sizes.defaultDouble,
+  },
+}))(Who)

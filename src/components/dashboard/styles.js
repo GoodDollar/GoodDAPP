@@ -9,7 +9,7 @@ export const receiveStyles = StyleSheet.create({
   wrapper: {
     justifyContent: 'flex-start',
     width: '100%',
-    padding: normalize(8),
+    padding: 8,
   },
   section: {
     flex: 1,
@@ -68,15 +68,15 @@ export const receiveStyles = StyleSheet.create({
     marginTop: '1rem',
   },
   fullWidth: {
-    marginHorizontal: normalize(10),
+    marginHorizontal: 10,
   },
   amountSuffix: {
     flexGrow: 1,
-    height: normalize(40),
+    height: 40,
     fontSize: normalize(10),
     justifyContent: 'center',
-    lineHeight: normalize(40),
-    paddingTop: normalize(10),
+    lineHeight: 40,
+    paddingTop: 10,
   },
   buttonStyle: {
     marginTop: '1em',

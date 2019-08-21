@@ -1,13 +1,12 @@
 // @flow
 import React from 'react'
-import normalize from '../../lib/utils/normalizeText'
 import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
 import { withStyles } from '../../lib/styles'
 import Icon from '../common/view/Icon'
 import LoadingIndicator from '../common/view/LoadingIndicator'
 import Section from '../common/layout/Section'
-import { ErrorText } from '../common/form/InputText'
+import ErrorText from '../common/form/ErrorText'
 import OtpInput from '../common/form/OtpInput'
 import CustomWrapper from './signUpWrapper'
 import type { SignupState } from './SignupState'
@@ -26,7 +25,7 @@ type Props = {
 }
 
 export type CodeRecord = {
-  codeValidated: boolean,
+  isEmailConfirmed: boolean,
   sentCode?: boolean,
 }
 
@@ -38,21 +37,19 @@ type State = CodeRecord & {
   code: string | number,
 }
 
+const NumInputs: number = 6
+
 class EmailConfirmation extends React.Component<Props, State> {
   state = {
-    codeValidated: false,
+    isEmailConfirmed: false,
     sentCode: false,
     errorMessage: '',
     sendingCode: false,
     renderButton: false,
     resentCode: false,
     loading: false,
-    code: undefined,
+    code: Array(NumInputs).fill(null),
   }
-  
-  numInputs: number = 6
-  
-  componentDidMount() {}
   
   componentDidUpdate() {
     if (!this.state.renderButton) {
@@ -66,21 +63,21 @@ class EmailConfirmation extends React.Component<Props, State> {
     }, 10000)
   }
   
-  handleChange = async (code: string | number) => {
-    const codeValue = code.toString()
-  
-    if (codeValue.length === this.numInputs) {
+  handleChange = async (code: array) => {
+    const codeValue = code.filter(val => val).join('')
+    if (codeValue.replace(/ /g, '').length === NumInputs) {
       this.setState({
         loading: true,
-        code: code,
+        code,
       })
       try {
-        await this.verifyCode(code)
+        await this.verifyCode(codeValue)
         this.handleSubmit()
       } catch (e) {
         log.error({ e })
+        
         this.setState({
-          errorMessage: e.response.data.message || e.message
+          errorMessage: e.message || e,
         })
       } finally {
         this.setState({ loading: false })
@@ -88,22 +85,23 @@ class EmailConfirmation extends React.Component<Props, State> {
     } else {
       this.setState({
         errorMessage: '',
-        code: code,
+        code,
       })
     }
   }
   
   handleSubmit = () => {
-    this.props.screenProps.doneCallback({isEmailConfirmed: true })
+    this.props.screenProps.doneCallback({ isEmailConfirmed: true })
   }
   
   // eslint-disable-next-line class-methods-use-this
-  verifyCode(code: integer) {
+  verifyCode(code: string) {
     return API.verifyEmail({ code: Number(code)})
   }
   
   handleRetry = async () => {
-    this.setState({ sendingCode: true, code: '', errorMessage: '' })
+    this.setState({ sendingCode: true, code: Array(NumInputs).fill(null), errorMessage: '' })
+    
     try {
       await API.sendVerificationEmail(this.props.screenProps.data)
       this.setState({ sendingCode: false, renderButton: false, resentCode: true }, this.displayDelayedRenderButton)
@@ -113,7 +111,7 @@ class EmailConfirmation extends React.Component<Props, State> {
     } catch (e) {
       log.error(e)
       this.setState({
-        errorMessage: e.message || e.response.data.message,
+        errorMessage: e.message || e,
         sendingCode: false,
         renderButton: true,
       })
@@ -128,17 +126,18 @@ class EmailConfirmation extends React.Component<Props, State> {
       <CustomWrapper handleSubmit={this.handleSubmit} footerComponent={() => <React.Fragment />}>
         <Section.Stack grow justifyContent="flex-start">
           <Section.Row justifyContent="center" style={styles.row}>
-            <Section.Title textTransform="none">{'Enter the verification code \n sent to your email'}</Section.Title>
+            <Section.Title textTransform="none">{'Enter the verification code\nsent to your email'}</Section.Title>
           </Section.Row>
           <Section.Stack justifyContent="center">
             <OtpInput
               shouldAutoFocus
-              numInputs={this.numInputs}
+              numInputs={NumInputs}
               onChange={this.handleChange}
-              isInputNum={true}
               hasErrored={errorMessage !== ''}
               errorStyle={styles.errorStyle}
               value={code}
+              placeholder="*"
+              isInputNum={true}
             />
             <ErrorText error={errorMessage} />
           </Section.Stack>
@@ -157,13 +156,13 @@ const CodeAction = ({ status, handleRetry }) => {
     return <Icon size={16} name="success" color="blue" />
   } else if (status === WAIT) {
     return (
-      <Section.Text fontFamily="regular" fontSize={14} color="gray80Percent">
+      <Section.Text fontSize={14} color="gray80Percent">
         Please wait a few seconds until the email arrives
       </Section.Text>
     )
   }
   return (
-    <Section.Text fontFamily="medium" fontSize={14} color="primary" onPress={handleRetry}>
+    <Section.Text fontWeight="medium" fontSize={14} color="primary" onPress={handleRetry}>
       Send me the code again
     </Section.Text>
   )
@@ -182,7 +181,7 @@ const getStylesFromProps = ({ theme }) => ({
   button: {
     justifyContent: 'center',
     width: '100%',
-    height: normalize(60),
+    height: 60,
   },
   row: {
     marginVertical: theme.sizes.defaultQuadruple,

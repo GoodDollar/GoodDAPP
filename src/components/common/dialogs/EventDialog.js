@@ -6,7 +6,6 @@ import type { TransactionEvent } from '../../../lib/gundb/UserStorage'
 import { Avatar, BigGoodDollar } from '..'
 import CustomButton from '../buttons/CustomButton'
 import Section from '../layout/Section'
-import Text from '../view/Text'
 
 export type EventDialogProps = {
   visible: boolean,
@@ -48,20 +47,22 @@ const EventDialog = ({ visible, event, onDismiss, reason }: EventDialogProps) =>
           <Paragraph style={styles.date}>{customDate}</Paragraph>
           <Section style={styles.gdSection}>
             <Section.Row>
-              <Text style={styles.gd}>Sent G$</Text>
-              <Text style={styles.amount}>
+              <Section.Text color="gray" fontSize={18} fontWeight="bold">
+                Sent G$
+              </Section.Text>
+              <Section.Text color="gray" fontWeight="bold">
                 + <BigGoodDollar number={amount} />
-              </Text>
+              </Section.Text>
             </Section.Row>
           </Section>
           <View style={styles.senderView}>
             <Section style={styles.senderSection}>
               <Section.Row>
                 <Avatar style={styles.avatar} />
-                <Text style={{ color: '#555' }}>
-                  <Text style={{ color: '#555' }}>From: {sender}</Text>
-                  <Text>{`\n${name}`}</Text>
-                </Text>
+                <Section.Text color="gray">
+                  <Section.Text color="gray">From: {sender}</Section.Text>
+                  <Section.Text color="gray">{`\n${name}`}</Section.Text>
+                </Section.Text>
               </Section.Row>
             </Section>
           </View>
@@ -96,16 +97,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderTopColor: '#333',
     borderTopWidth: StyleSheet.hairlineWidth,
-  },
-  gd: {
-    color: '#555',
-    fontSize: '1.2em',
-    fontWeight: 'bold',
-  },
-  amount: {
-    color: '#555',
-    fontSize: '1em',
-    fontWeight: 'bold',
   },
   gdSection: {
     backgroundColor: '#fff',

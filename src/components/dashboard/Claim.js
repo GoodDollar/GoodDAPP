@@ -1,22 +1,26 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { Image, StyleSheet } from 'react-native'
-import normalize from '../../lib/utils/normalizeText'
-import illustration from '../../assets/Claim/illustration.png'
+import { Image } from 'react-native'
+import numeral from 'numeral'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import logger from '../../lib/logger/pino-logger'
+import normalize from '../../lib/utils/normalizeText'
 import GDStore from '../../lib/undux/GDStore'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import wrapper from '../../lib/undux/utils/wrapper'
-import { weiToMask } from '../../lib/wallet/utils'
-import { CustomButton, Section, Text, Wrapper } from '../common'
+import { weiToGd } from '../../lib/wallet/utils'
+import { CustomButton, Wrapper } from '../common'
+import Text from '../common/view/Text'
 import TopBar from '../common/view/TopBar'
-import ErrorIcon from '../common/modal/ErrorIcon'
 import LoadingIcon from '../common/modal/LoadingIcon'
-import SuccessIcon from '../common/modal/SuccessIcon'
+import { withStyles } from '../../lib/styles'
+import Section from '../common/layout/Section'
+import illustration from '../../assets/Claim/illustration.svg'
 import type { DashboardProps } from './Dashboard'
+
+Image.prefetch(illustration)
 
 type ClaimProps = DashboardProps
 type ClaimState = {
@@ -32,16 +36,17 @@ const log = logger.child({ from: 'Claim' })
 
 Image.prefetch(illustration)
 
-const Claim = ({ screenProps }: ClaimProps) => {
+const Claim = props => {
+  const { screenProps, styles }: ClaimProps = props
   const store = SimpleStore.useStore()
   const gdstore = GDStore.useStore()
-
+  const { entitlement } = gdstore.get('account')
   const [showDialog] = useDialog()
   const [loading, setLoading] = useState(false)
   const [claimInterval, setClaimInterval] = useState(null)
   const [state, setState]: [ClaimState, Function] = useState({
     nextClaim: '--:--:--',
-    entitlement: 0,
+    entitlement: entitlement || 0,
     claimedToday: {
       people: '--',
       amount: '--',
@@ -71,18 +76,12 @@ const Claim = ({ screenProps }: ClaimProps) => {
   const getNextClaim = nextClaimDate => new Date(nextClaimDate - new Date().getTime()).toISOString().substr(11, 8)
 
   const gatherStats = async () => {
-    store.set('loadingIndicator')({ loading: true })
-
-    const entitlement = await wrappedGoodWallet.checkEntitlement()
-
     const [claimedToday, nextClaimDate] = await Promise.all([
-      wrappedGoodWallet.getAmountAndQuantityClaimedToday(entitlement),
+      wrappedGoodWallet.getAmountAndQuantityClaimedToday(),
       wrappedGoodWallet.getNextClaimTime(),
     ])
 
     setState(prevState => ({ ...prevState, claimedToday, entitlement, nextClaim: getNextClaim(nextClaimDate) }))
-
-    store.set('loadingIndicator')({ loading: false })
 
     setClaimInterval(
       setInterval(() => {
@@ -94,32 +93,36 @@ const Claim = ({ screenProps }: ClaimProps) => {
 
   // Claim STATS
   useEffect(() => {
+    if (entitlement === undefined) {
+      return
+    }
     gatherStats()
-    return () => clearInterval(claimInterval)
-  }, [])
+    return () => claimInterval && clearInterval(claimInterval)
+  }, [entitlement])
 
   const handleClaim = async () => {
     setLoading(true)
 
     showDialog({
       dismissText: 'OK',
+      image: <LoadingIcon />,
       loading,
       message: 'please wait while processing...',
-      image: <LoadingIcon />,
-      title: `YOUR G$\nIS ON IT'S WAY...`,
+      showButtons: false,
+      title: `YOUR G$\nIS ON ITS WAY...`,
     })
-
     try {
+      //when we come back from FR entitelment might not be set yet
+      const curEntitlement = entitlement || (await goodWallet.checkEntitlement())
       const receipt = await goodWallet.claim({
-        onTransactionHash: async hash => {
-          const entitlement = await wrappedGoodWallet.checkEntitlement()
+        onTransactionHash: hash => {
           const transactionEvent: TransactionEvent = {
             id: hash,
             date: new Date().toString(),
             type: 'claim',
             data: {
               from: 'GoodDollar',
-              amount: entitlement,
+              amount: curEntitlement,
             },
           }
           userStorage.enqueueTX(transactionEvent)
@@ -129,27 +132,26 @@ const Claim = ({ screenProps }: ClaimProps) => {
       if (receipt.status) {
         showDialog({
           dismissText: 'Yay!',
-          image: <SuccessIcon />,
-          message: `You've claimed your G$`,
+          message: `You've claimed your daily G$`,
           title: 'SUCCESS!',
           type: 'success',
+          onDismiss: () => screenProps.goToRoot(),
         })
       } else {
         showDialog({
           dismissText: 'OK',
-          image: <ErrorIcon />,
           message: 'Something went wrong with the transaction.\nSee feed details for further information.',
           title: 'Claiming Failed',
           type: 'error',
         })
       }
     } catch (e) {
-      log.error('claiming failed', e)
+      log.error('claiming failed', e.message, e)
 
       showDialog({
         dismissText: 'OK',
-        image: <ErrorIcon />,
-        message: `${e.message}.\nTry again later.`,
+        message: e.message,
+        boldMessage: `Try again later.`,
         title: 'Claiming Failed',
         type: 'error',
       })
@@ -162,7 +164,6 @@ const Claim = ({ screenProps }: ClaimProps) => {
     screenProps.push('FRIntro', { from: 'Claim' })
   }
 
-  const { entitlement } = gdstore.get('account')
   const isCitizen = gdstore.get('isLoggedInCitizen')
   const { nextClaim, claimedToday } = state
 
@@ -176,85 +177,142 @@ const Claim = ({ screenProps }: ClaimProps) => {
         isCitizen ? handleClaim() : faceRecognition()
       }}
     >
-      {`CLAIM YOUR SHARE - ${weiToMask(entitlement, { showUnits: true })}`}
+      <Text color="surface" fontWeight="medium">
+        {`CLAIM YOUR SHARE - ${weiToGd(entitlement)}`}
+        <Text fontSize={10} color="surface" fontWeight="medium" style={styles.goodDollarUnit}>
+          G$
+        </Text>
+      </Text>
     </CustomButton>
   )
 
   return (
     <Wrapper>
       <TopBar push={screenProps.push} />
-      <Section grow>
-        <Section.Stack grow={4} justifyContent="flex-start">
-          <Text>GoodDollar allows you to collect</Text>
-          <Section.Row justifyContent="center">
-            <Text fontFamily="slabBold" fontSize={36} color="#00c3ae">
+      <Section style={styles.mainContainer}>
+        <Section.Stack style={styles.mainText}>
+          <Section.Text color="surface" style={styles.mainTextTitle}>
+            GoodDollar allows you to collect
+          </Section.Text>
+          <Section.Text style={styles.mainTextBigMarginBottom}>
+            <Section.Text color="surface" fontFamily="slab" fontWeight="bold" fontSize={36}>
               1
-            </Text>
-            <Text fontFamily="slabBold" fontSize={20} color="#00c3ae">
-              {' '}
-              G$
-            </Text>
-            <Text fontFamily="slabBold" fontSize={36} color="#00c3ae">
-              {' '}
-              Free
-            </Text>
-          </Section.Row>
-          <Section.Row justifyContent="center">
-            <Text fontFamily="slabBold" fontSize={36} color="#00c3ae">
-              Every Day
-            </Text>
-          </Section.Row>
-          <Image source={illustration} style={styles.illustration} resizeMode="contain" />
+            </Section.Text>
+            <Section.Text color="surface" fontFamily="slab" fontWeight="bold" fontSize={20}>
+              {' G$'}
+            </Section.Text>
+            <Section.Text color="surface" fontFamily="slab" fontWeight="bold" fontSize={36}>
+              {' Free'}
+            </Section.Text>
+          </Section.Text>
+          <Section.Text color="surface" fontFamily="slab" fontWeight="bold" fontSize={36}>
+            Every Day
+          </Section.Text>
         </Section.Stack>
-        <Section grow={3} style={styles.extraInfo}>
-          <Section.Row grow={1} style={styles.extraInfoStats} justifyContent="center">
-            <Section.Row alignItems="baseline">
-              <Text color="primary" fontWeight="bold">
-                {claimedToday.people}
-              </Text>
-              <Text>People Claimed</Text>
-              <Text color="primary" fontWeight="bold">
-                {claimedToday.amount}{' '}
-              </Text>
-              <Text color="primary" fontSize={12} fontWeight="bold">
-                G$
-              </Text>
-              <Text> Today!</Text>
-            </Section.Row>
+        <Section.Stack style={styles.extraInfo}>
+          <Image source={illustration} style={styles.illustration} resizeMode="contain" />
+          <Section.Row style={styles.extraInfoStats}>
+            <Section.Text fontWeight="bold">{numeral(claimedToday.people).format('0a')} </Section.Text>
+            <Section.Text>People Claimed </Section.Text>
+            <Section.Text fontWeight="bold">{numeral(claimedToday.amount).format('0a')}</Section.Text>
+            <Section.Text fontWeight="bold" fontSize={10} style={styles.goodDollarUnit}>
+              G${' '}
+            </Section.Text>
+            <Section.Text>Today!</Section.Text>
           </Section.Row>
-          <Section.Stack grow={2} style={styles.extraInfoCountdown} justifyContent="center">
-            <Text>Next daily income:</Text>
-            <Text fontFamily="slabBold" fontSize={36} color="#00c3ae">
+          <Section.Stack style={styles.extraInfoCountdown}>
+            <Section.Text style={styles.extraInfoCountdownTitle}>Next Daily Income:</Section.Text>
+            <Section.Text color="surface" fontFamily="slab" fontSize={36} fontWeight="bold">
               {nextClaim}
-            </Text>
+            </Section.Text>
           </Section.Stack>
           {ClaimButton}
-        </Section>
+        </Section.Stack>
       </Section>
     </Wrapper>
   )
 }
 
-const styles = StyleSheet.create({
-  illustration: {
-    marginTop: normalize(16),
-    minWidth: normalize(229),
-    maxWidth: '100%',
-    minHeight: normalize(159),
-  },
-  extraInfo: { padding: 0 },
-  extraInfoStats: { backgroundColor: '#e0e0e0', borderRadius: normalize(5) },
-  extraInfoCountdown: {
-    backgroundColor: '#e0e0e0',
-    margin: 0,
-    marginTop: normalize(8),
-    marginBottom: normalize(8),
-    borderRadius: normalize(5),
-  },
-})
+const getStylesFromProps = ({ theme }) => {
+  const defaultMargins = {
+    marginHorizontal: 0,
+    marginTop: 0,
+    marginBottom: theme.sizes.default,
+  }
+
+  const defaultPaddings = {
+    paddingVertical: theme.sizes.default,
+    paddingHorizontal: theme.sizes.defaultHalf,
+  }
+
+  const defaultStatsBlock = {
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: theme.sizes.borderRadius,
+  }
+
+  return {
+    mainContainer: {
+      backgroundColor: 'transparent',
+      flexGrow: 1,
+      paddingVertical: 0,
+      paddingHorizontal: 0,
+    },
+    mainText: {
+      alignItems: 'center',
+      flexDirection: 'column',
+      marginBottom: 64,
+      paddingTop: theme.sizes.defaultDouble,
+    },
+    mainTextTitle: {
+      marginBottom: 12,
+    },
+    mainTextBigMarginBottom: {
+      marginBottom: theme.sizes.defaultHalf,
+    },
+    illustration: {
+      flexGrow: 0,
+      flexShrink: 0,
+      marginBottom: theme.sizes.default,
+      marginTop: -80,
+      maxWidth: '100%',
+      minHeight: 159,
+      minWidth: 229,
+    },
+    extraInfo: {
+      backgroundColor: theme.colors.surface,
+      borderRadius: theme.sizes.borderRadius,
+      flexGrow: 1,
+      flexShrink: 1,
+      minHeight: 0,
+      paddingVertical: theme.sizes.defaultDouble,
+      paddingHorizontal: theme.sizes.default,
+    },
+    extraInfoStats: {
+      ...defaultStatsBlock,
+      ...defaultMargins,
+      paddingVertical: 8,
+      flexGrow: 1,
+    },
+    extraInfoCountdown: {
+      ...defaultStatsBlock,
+      ...defaultPaddings,
+      ...defaultMargins,
+      backgroundColor: theme.colors.orange,
+      flexGrow: 2,
+      flexDirection: 'column',
+    },
+    extraInfoCountdownTitle: {
+      marginBottom: theme.sizes.default,
+    },
+    goodDollarUnit: {
+      paddingTop: normalize(4),
+    },
+  }
+}
 
 Claim.navigationOptions = {
   title: 'Claim Daily G$',
 }
 
-export default Claim
+export default withStyles(getStylesFromProps)(Claim)

@@ -1,7 +1,8 @@
 // @flow
 import React, { useEffect, useState } from 'react'
 import { isMobile } from 'mobile-device-detect'
-
+import { withStyles } from '../../lib/styles'
+import GDStore from '../../lib/undux/GDStore'
 import { generateSendShareObject } from '../../lib/share'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
@@ -27,7 +28,8 @@ export type AmountProps = {
  * @param {any} props.navigation
  */
 const SendLinkSummary = (props: AmountProps) => {
-  const { screenProps } = props
+  const profile = GDStore.useStore().get('profile')
+  const { screenProps, styles } = props
   const [screenState] = useScreenState(screenProps)
   const [showDialog, , showErrorDialog] = useDialog()
 
@@ -40,7 +42,7 @@ const SendLinkSummary = (props: AmountProps) => {
   }
 
   const shareAction = async paymentLink => {
-    const share = generateSendShareObject(paymentLink)
+    const share = generateSendShareObject(paymentLink, amount, counterPartyDisplayName, profile.fullName)
     try {
       await navigator.share(share)
       setShared(true)
@@ -48,7 +50,7 @@ const SendLinkSummary = (props: AmountProps) => {
       if (e.name !== 'AbortError') {
         showDialog({
           title: 'There was a problem triggering share action.',
-          message: `You can still copy the link in tapping on "Copy link to clipboard". \n Error ${e.name}: ${
+          message: `You can still copy the link in tapping on "Copy link to clipboard".\n Error ${e.name}: ${
             e.message
           }`,
           dismissText: 'Ok',
@@ -139,6 +141,12 @@ const SendLinkSummary = (props: AmountProps) => {
       <TopBar push={screenProps.push} />
       <Section grow>
         <Section.Title>SUMMARY</Section.Title>
+        <Section.Row justifyContent="center">
+          <Section.Text color="gray80Percent" style={styles.descriptionText}>
+            {'* the transaction may take\na few seconds to complete'}
+          </Section.Text>
+        </Section.Row>
+
         <SummaryTable counterPartyDisplayName={counterPartyDisplayName} amount={amount} reason={reason} />
         <Section.Row>
           <Section.Row grow={1} justifyContent="flex-start">
@@ -157,6 +165,12 @@ const SendLinkSummary = (props: AmountProps) => {
   )
 }
 
+const getStylesFromProps = ({ theme }) => ({
+  descriptionText: {
+    maxWidth: 210,
+  },
+})
+
 SendLinkSummary.navigationOptions = {
   title: SEND_TITLE,
 }
@@ -166,4 +180,4 @@ SendLinkSummary.shouldNavigateToComponent = props => {
   return (!!screenState.nextRoutes && screenState.amount) || !!screenState.sendLink || screenState.from
 }
 
-export default SendLinkSummary
+export default withStyles(getStylesFromProps)(SendLinkSummary)

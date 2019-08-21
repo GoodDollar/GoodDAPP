@@ -70,9 +70,21 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
   componentWillMount = async () => {
     await zoomSdkLoader.ready
     this.loadedZoom = ZoomSDK
-    this.timeout = setTimeout(() => {
-      this.setState({ zoomReady: true })
-    }, 0)
+
+    navigator.getMedia =
+      navigator.getUserMedia || // use the proper vendor prefix
+      navigator.webkitGetUserMedia ||
+      navigator.mozGetUserMedia ||
+      navigator.msGetUserMedia
+
+    navigator.getMedia(
+      { video: true },
+      () =>
+        (this.timeout = setTimeout(() => {
+          this.setState({ zoomReady: true })
+        }, 0)),
+      this.showFRError
+    )
   }
 
   componentDidMount = () => {}
@@ -113,11 +125,13 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
       if (!result || !result.ok) {
         log.warn('FR API call failed:', { result })
         this.showFRError(result.error) // TODO: rami
-      } else if (get(result, 'enrollResult.enrollmentIdentifier', undefined)) {
-        this.setState({ ...this.state, isAPISuccess: true })
-      } else {
-        this.setState({ ...this.state, isAPISuccess: false })
       }
+
+      //else if (get(result, 'enrollResult.enrollmentIdentifier', undefined)) {
+      //   this.setState({ ...this.state, isAPISuccess: true })
+      // } else {
+      //   this.setState({ ...this.state, isAPISuccess: false })
+      // }
     } catch (e) {
       log.error('FR API call failed:', e, e.message)
       this.showFRError(e.message)
@@ -138,7 +152,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
       sessionId: undefined,
       showZoomCapture: true,
       isAPISuccess: undefined,
-      showHelper: false,
+      showHelper: true,
     })
   }
 

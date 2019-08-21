@@ -1,8 +1,7 @@
 import React from 'react'
 import { TouchableHighlight, View } from 'react-native'
-import normalize from '../../../lib/utils/normalizeText'
 import { withStyles } from '../../../lib/styles'
-import wavePattern from '../../../assets/wave.svg'
+import wavePattern from '../../../assets/feedListItemPattern.svg'
 import ListEventItem from './ListEventItem'
 import getEventSettingsByType from './EventSettingsByType'
 
@@ -12,11 +11,13 @@ import getEventSettingsByType from './EventSettingsByType'
  * @returns {HTMLElement}
  */
 const FeedListItem = props => {
-  const { theme, item, onPress, styles } = props
+  const { theme, item, onPress, styles, actionActive } = props
+  const itemStyle = getEventSettingsByType(theme, item.displayType || item.type)
   const imageStyle = {
-    backgroundColor: getEventSettingsByType(theme, item.type).color,
+    backgroundColor: itemStyle.color,
     backgroundImage: `url(${wavePattern})`,
   }
+  const overlay = actionActive ? <View style={styles.activeOverlay} /> : null
   return (
     <TouchableHighlight
       activeOpacity={0.5}
@@ -28,6 +29,7 @@ const FeedListItem = props => {
       <View style={styles.rowContent}>
         <View style={[styles.rowContentBorder, imageStyle]} />
         <ListEventItem {...props} />
+        {overlay}
       </View>
     </TouchableHighlight>
   )
@@ -37,19 +39,19 @@ const getStylesFromProps = ({ theme }) => ({
   row: {
     borderRadius: theme.feedItems.borderRadius,
     flexDirection: 'row',
-    marginBottom: normalize(6),
+    marginTop: theme.sizes.default,
     overflow: 'hidden',
     shadowColor: theme.colors.text,
     shadowOffset: {
       width: 0,
-      height: normalize(2),
+      height: 2,
     },
     elevation: 1,
-    minHeight: theme.feedItems.height,
+    height: theme.feedItems.height,
+    marginHorizontal: theme.sizes.default,
     maxHeight: theme.feedItems.height,
     shadowOpacity: 0.16,
-    shadowRadius: normalize(4),
-    marginHorizontal: theme.sizes.default,
+    shadowRadius: 4,
   },
   rowContent: {
     alignItems: 'center',
@@ -57,17 +59,28 @@ const getStylesFromProps = ({ theme }) => ({
     flex: 1,
     justifyContent: 'center',
     paddingLeft: theme.paddings.mainContainerPadding,
-    paddingRight: normalize(4),
   },
   rowContentBorder: {
-    backgroundRepeat: 'no-repeat',
+    backgroundRepeat: 'repeat-y',
     backgroundSize: 'initial',
     height: '100%',
     left: 0,
     position: 'absolute',
     right: 0,
     top: 0,
-    width: normalize(8),
+    width: 10,
+  },
+  activeOverlay: {
+    position: 'absolute',
+
+    //to make sure we compensate for -10 left
+    width: '120%',
+
+    //to cover color left border
+    left: -10,
+    height: '100%',
+    backgroundColor: 'gray',
+    opacity: 0.7,
   },
 })
 

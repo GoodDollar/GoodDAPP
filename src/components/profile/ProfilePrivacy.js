@@ -3,7 +3,6 @@ import startCase from 'lodash/startCase'
 import React, { useEffect, useState } from 'react'
 import { RadioButton } from 'react-native-paper'
 import { TouchableOpacity } from 'react-native'
-import normalize from '../../lib/utils/normalizeText'
 import userStorage from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import { BackButton } from '../appNavigation/stackNavigation'
@@ -17,9 +16,9 @@ const log = logger.child({ from: 'ProfilePrivacy' })
 // privacy options
 const privacyOptions = ['private', 'masked', 'public']
 const tips = {
-  private: 'Nobody will be able to see your field, nor to find you searching by it.',
-  masked: 'Your field will be partially visible (e.g.: ****ple@***.com). Nobody will be able to search you by it.',
-  public: 'Your field is publicly available. Anybody will be able to find you by it.',
+  private: 'Your details will not be visible.',
+  masked: 'Your details will be partially visible\n(e.g.: ****ple@***.com).',
+  public: 'Your details will be fully visible.',
 }
 
 // fields to manage privacy of
@@ -79,15 +78,15 @@ const ProfilePrivacy = props => {
 
   return (
     <Section grow style={styles.wrapper}>
-      <Section.Stack grow>
+      <Section.Stack grow justifyContent="flex-start">
         <Section.Row grow justifyContent="center" style={styles.subtitleRow}>
-          <Section.Text fontSize={16} fontWeight="bold" color={theme.colors.gray}>
-            Manage your profile privacy
+          <Section.Text fontWeight="bold" color="gray">
+            Manage your privacy settings
           </Section.Text>
           <InfoIcon style={styles.infoIcon} color={theme.colors.primary} onPress={() => setShowTips(true)} />
         </Section.Row>
 
-        <Section style={styles.optionsRowContainer}>
+        <Section.Stack justifyContent="flex-start" style={styles.optionsRowContainer}>
           <OptionsRow />
 
           {profileFields.map(field => (
@@ -99,7 +98,7 @@ const ProfilePrivacy = props => {
               <OptionsRow title={titles[field]} />
             </RadioButton.Group>
           ))}
-        </Section>
+        </Section.Stack>
       </Section.Stack>
 
       <Section.Row grow alignItems="flex-end" style={styles.buttonsRow}>
@@ -111,18 +110,25 @@ const ProfilePrivacy = props => {
           mode="contained"
           loading={loading}
           disabled={updatableValues().length === 0}
-          style={styles.growThree}
+          style={styles.growTen}
         >
           Save
         </CustomButton>
       </Section.Row>
-      <CustomDialog visible={showTips} onDismiss={() => setShowTips(false)} title="TIPS" dismissText="Ok">
+
+      <CustomDialog
+        visible={showTips}
+        onDismiss={() => setShowTips(false)}
+        title="SETTINGS"
+        dismissText="Ok"
+        image={<React.Fragment />}
+      >
         {privacyOptions.map(field => (
           <Section.Stack grow key={field} style={styles.dialogTipItem}>
-            <Text fontSize={18} color="primary" textAlign="left">
+            <Text fontWeight="bold" fontSize={18} color="primary" textAlign="left">
               {startCase(field)}
             </Text>
-            <Text>{tips[field]}</Text>
+            <Text textAlign="left">{tips[field]}</Text>
           </Section.Stack>
         ))}
       </CustomDialog>
@@ -149,7 +155,8 @@ const getStylesFromProps = ({ theme }) => {
   return {
     wrapper: {
       borderRadius: 0,
-      padding: 0,
+      paddingLeft: 0,
+      paddingRight: 0,
     },
     infoIcon: {
       marginLeft: '0.5em',
@@ -161,18 +168,19 @@ const getStylesFromProps = ({ theme }) => {
     growOne: {
       flexGrow: 1,
     },
-    growThree: {
-      flexGrow: 3,
+    growTen: {
+      flexGrow: 10,
     },
     subtitleRow: {
-      height: '16%',
+      maxHeight: '16%',
+      marginBottom: theme.sizes.defaultDouble,
     },
     buttonsRow: {
-      marginHorizontal: theme.paddings.mainContainerPadding,
-      marginBottom: normalize(16),
+      paddingHorizontal: theme.sizes.defaultDouble,
+      minHeight: 60,
     },
     dialogTipItem: {
-      marginBottom: normalize(20),
+      marginBottom: 20,
     },
   }
 }

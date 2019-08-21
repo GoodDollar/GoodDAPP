@@ -1,9 +1,9 @@
 import React from 'react'
 import { TextInput, View } from 'react-native'
-import { HelperText } from 'react-native-paper'
 import normalize from '../../../lib/utils/normalizeText'
 import { withStyles } from '../../../lib/styles'
 import Icon from '../view/Icon'
+import ErrorText from './ErrorText'
 
 /**
  * TopBar - used To display contextual information in a small container
@@ -13,7 +13,7 @@ import Icon from '../view/Icon'
  * @param {React.Node} props.children
  * @returns {React.Node}
  */
-const InputRounded = ({ styles, theme, icon, iconColor, error, onChange, ...inputProps }) => {
+const InputRounded = ({ styles, theme, icon, iconSize, iconColor, error, onChange, ...inputProps }) => {
   const handleChange = event => {
     onChange(event.target.value)
   }
@@ -23,36 +23,45 @@ const InputRounded = ({ styles, theme, icon, iconColor, error, onChange, ...inpu
       <View
         style={inputProps.disabled ? styles.inputText : error ? styles.errorInputContainer : styles.iconInputContainer}
       >
-        <TextInput style={error ? styles.inputError : styles.input} {...inputProps} onChange={handleChange} />
+        <TextInput
+          onChange={handleChange}
+          placeholderTextColor={theme.colors.gray50Percent}
+          style={error ? styles.inputError : styles.input}
+          {...inputProps}
+        />
         <View style={styles.suffixIcon}>
           <Icon
-            size={normalize(16)}
             color={error ? theme.colors.red : iconColor || theme.colors.gray50Percent}
             name={icon}
+            size={iconSize}
           />
         </View>
       </View>
-      <HelperText type="error" visible={error} style={styles.error}>
-        {error}
-      </HelperText>
+      {!inputProps.disabled && <ErrorText error={error} style={styles.errorMargin} />}
     </View>
   )
 }
 
 const getStylesFromProps = ({ theme }) => {
   const defaultInputContainer = {
-    position: 'relative',
-    paddingHorizontal: normalize(40),
+    paddingHorizontal: 32,
     paddingVertical: 0,
+    position: 'relative',
+    borderRadius: 24,
+    borderWidth: 1,
+    marginTop: theme.sizes.defaultHalf,
+    marginBottom: theme.sizes.default,
   }
   const input = {
+    color: theme.colors.darkGray,
+    backgroundColor: 'transparent',
     flex: 1,
-    backgroundColor: 'inherit',
-    border: 0,
-    lineHeight: normalize(36),
+    fontFamily: theme.fonts.default,
     fontSize: normalize(14),
-    fontFamily: theme.fonts.regular,
+    fontWeight: '400',
+    lineHeight: 36,
   }
+
   return {
     inputContainer: {
       display: 'inline-flex',
@@ -60,20 +69,26 @@ const getStylesFromProps = ({ theme }) => {
     },
     errorInputContainer: {
       ...defaultInputContainer,
-      borderRadius: normalize(24),
-      borderWidth: 1,
       borderColor: theme.colors.red,
+      lineHeight: 0,
     },
     iconInputContainer: {
       ...defaultInputContainer,
-      borderRadius: normalize(24),
-      borderWidth: 1,
-      borderColor: theme.colors.gray50Percent,
+      borderColor: theme.colors.lightGray,
+      marginBottom: theme.sizes.default,
     },
     inputText: {
       ...defaultInputContainer,
-      borderBottomColor: theme.colors.gray50Percent,
-      borderBottomWidth: 1,
+      borderBottomColor: 'transparent',
+      borderLeftColor: 'transparent',
+      borderRightColor: 'transparent',
+      borderTopColor: theme.colors.lightGray,
+      borderTopLeftRadius: 0,
+      borderTopRightRadius: 0,
+      marginBottom: 0,
+      marginTop: 2,
+      paddingTop: 2,
+      paddingBottom: 2,
     },
     input,
     inputError: {
@@ -81,14 +96,21 @@ const getStylesFromProps = ({ theme }) => {
       color: theme.colors.red,
     },
     suffixIcon: {
+      alignItems: 'center',
+      display: 'flex',
+      height: '100%',
+      justifyContent: 'center',
       position: 'absolute',
-      right: normalize(24),
-      paddingTop: theme.paddings.mainContainerPadding,
+      right: 0,
+      width: defaultInputContainer.paddingHorizontal,
       zIndex: 1,
     },
     error: {
       paddingRight: 0,
       textAlign: 'left',
+    },
+    errorMargin: {
+      marginBottom: theme.sizes.default,
     },
   }
 }

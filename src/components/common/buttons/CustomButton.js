@@ -1,77 +1,80 @@
 // @flow
 import React from 'react'
-import { View } from 'react-native'
-import { Button as BaseButton, DefaultTheme, Text } from 'react-native-paper'
+import { Button as BaseButton, DefaultTheme } from 'react-native-paper'
 import { withStyles } from '../../../lib/styles'
 import Icon from '../view/Icon'
+import Text from '../view/Text'
 
 type IconFunction = (string, number) => React.Node
 
-// import normalize from '../../../lib/utils/normalizeText'
-
 export type ButtonProps = {
   children: any,
-  theme: DefaultTheme,
-  disabled?: boolean,
-  mode?: string,
   color?: string,
   dark?: boolean,
-  style?: any,
-  onPress: any,
-  loading?: boolean,
-  uppercase?: boolean,
+  disabled?: boolean,
   icon?: string | IconFunction,
   iconAlignment?: string,
   iconSize?: number,
+  loading?: boolean,
+  mode?: string,
+  onPress: any,
+  style?: any,
   styles?: any,
+  textStyle?: any,
+  theme: DefaultTheme,
+  uppercase?: boolean,
 }
 
 type TextContentProps = {
   children: any,
   dark?: boolean,
-  uppercase?: boolean,
   styles: any,
   textStyle: any,
+  uppercase?: boolean,
 }
 
 const mapPropsToStyles = ({ theme }) => ({
-  button: {
-    justifyContent: 'center',
+  buttonStyle: {
     borderColor: theme.colors.primary,
-  },
-  buttonWrapperText: {
-    minHeight: 28,
     justifyContent: 'center',
+    minHeight: 44,
+    paddingLeft: 0,
+    paddingRight: 0,
   },
   leftIcon: {
-    marginRight: theme.sizes.default,
+    marginRight: theme.sizes.defaultDouble,
   },
   rightIcon: {
-    marginLeft: theme.sizes.default,
+    marginLeft: theme.sizes.defaultDouble,
   },
   buttonText: {
-    fontWeight: 'bold',
-    lineHeight: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
     paddingTop: 1,
+    letterSpacing: 0,
+  },
+  contentStyle: {
+    letterSpacing: 0,
   },
 })
 
 const TextContent = withStyles(mapPropsToStyles)(
-  ({ children, dark, uppercase, styles, textStyle }: TextContentProps) => {
+  ({ children, color, dark, uppercase, styles, textStyle }: TextContentProps) => {
     if (typeof children === 'string') {
+      // if set to dark, then text will be white.
+      // if 'color' is specified, use the color for the text
+      // if not, then button will be using 'primary' color
+      const textColor = (dark && 'white') || color || 'primary'
+
       return (
-        <View style={styles.buttonWrapperText}>
-          <Text
-            style={[
-              styles.buttonText,
-              { color: dark && 'white' },
-              { textTransform: uppercase ? 'uppercase' : 'none' },
-              textStyle,
-            ]}
-          >
-            {children}
-          </Text>
-        </View>
+        <Text
+          color={textColor}
+          fontWeight="medium"
+          textTransform={uppercase ? 'uppercase' : 'none'}
+          style={[styles.buttonText, textStyle]}
+        >
+          {children}
+        </Text>
       )
     }
 
@@ -80,11 +83,11 @@ const TextContent = withStyles(mapPropsToStyles)(
 )
 
 type IconButtonProps = {
-  theme: DefaultTheme,
   dark?: boolean,
   icon?: string | IconFunction,
   size: number,
   style: any,
+  theme: DefaultTheme,
 }
 
 const IconButton = ({ theme, dark, icon, size, style }: IconButtonProps) => {
@@ -113,24 +116,24 @@ const IconButton = ({ theme, dark, icon, size, style }: IconButtonProps) => {
  */
 const CustomButton = (props: ButtonProps) => {
   const { theme, mode, style, children, icon, iconAlignment, iconSize, styles, textStyle, ...buttonProps } = props
-  const disabled = props.loading || props.disabled
   const dark = mode === 'contained'
   const uppercase = mode !== 'text'
   return (
     <BaseButton
       compact
       dark={dark}
-      disabled={disabled}
       mode={mode}
-      style={[styles.button, style]}
+      style={[styles.buttonStyle, style]}
+      contentStyle={styles.contentStyle}
       theme={{ ...theme, roundness: 50 }}
       uppercase={uppercase}
+      onPress={!props.loading && props.onPress}
       {...buttonProps}
     >
       {icon && (!iconAlignment || iconAlignment === 'left') && (
         <IconButton icon={icon} theme={theme} dark={dark} size={iconSize} style={styles.leftIcon} />
       )}
-      <TextContent dark={dark} uppercase={uppercase} textStyle={textStyle}>
+      <TextContent dark={dark} uppercase={uppercase} textStyle={textStyle} color={buttonProps.color}>
         {children}
       </TextContent>
       {icon && iconAlignment === 'right' && (

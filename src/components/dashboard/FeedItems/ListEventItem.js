@@ -1,10 +1,13 @@
 // @flow
 import React from 'react'
-import { Avatar } from 'react-native-paper'
+import { View } from 'react-native'
 import normalize from '../../../lib/utils/normalizeText'
-import { BigGoodDollar, Section, Text } from '../../common'
 import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
 import { withStyles } from '../../../lib/styles'
+import Avatar from '../../common/view/Avatar'
+import BigGoodDollar from '../../common/view/BigGoodDollar'
+import CustomButton from '../../common/buttons/CustomButton'
+import Text from '../../common/view/Text'
 import type { FeedEventProps } from './EventProps'
 import EventIcon from './EventIcon'
 import EventCounterParty from './EventCounterParty'
@@ -17,89 +20,141 @@ import EmptyEventFeed from './EmptyEventFeed'
  * @returns {HTMLElement}
  */
 const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
-  const eventSettings = getEventSettingsByType(theme, feed.type)
+  const itemType = feed.displayType || feed.type
+  const eventSettings = getEventSettingsByType(theme, itemType)
+  const mainColor = eventSettings.color
 
-  if (feed.type === 'empty') {
+  if (itemType === 'empty') {
     return <EmptyEventFeed />
   }
+
   return (
-    <Section.Row style={styles.innerRow}>
-      <Section.Stack alignItems="flex-start" style={styles.avatarBottom}>
-        <Avatar.Image size={34} source={feed.data.endpoint.avatar} />
-      </Section.Stack>
-      <Section.Stack grow style={styles.mainSection}>
-        <Section.Row style={[styles.borderRow, { borderBottomColor: eventSettings.color }]}>
-          <Text style={styles.date}>{getFormattedDateTime(feed.date)}</Text>
-          <BigGoodDollar
-            color={eventSettings.color}
-            bigNumberStyles={styles.bigNumberStyles}
-            bigNumberUnitStyles={styles.bigNumberUnitStyles}
-            number={feed.data.amount}
-          />
-        </Section.Row>
-        <Section.Row style={styles.bottomInfo} alignItems="flex-start">
-          <Section.Stack style={styles.mainInfo}>
+    <View style={styles.innerRow}>
+      <Avatar
+        size={34}
+        style={styles.avatarBottom}
+        source={feed.data && feed.data.endpoint && feed.data.endpoint.avatar}
+      />
+      <View grow style={styles.mainContents}>
+        <View style={[styles.dateAndValue, { borderBottomColor: mainColor }]}>
+          <Text fontSize={10} color="gray80Percent" lineHeight={17}>
+            {getFormattedDateTime(feed.date)}
+          </Text>
+          {!eventSettings.withoutAmount && (
+            <React.Fragment>
+              {eventSettings && eventSettings.actionSymbol && (
+                <Text fontSize={15} lineHeight={18} fontWeight="bold" color={mainColor} style={styles.actionSymbol}>
+                  {eventSettings.actionSymbol}
+                </Text>
+              )}
+              <BigGoodDollar
+                bigNumberStyles={styles.bigNumberStyles}
+                bigNumberUnitStyles={styles.bigNumberUnitStyles}
+                color={mainColor}
+                number={feed.data.amount}
+              />
+            </React.Fragment>
+          )}
+        </View>
+        <View style={styles.transferInfo} alignItems="flex-start">
+          <View style={styles.mainInfo}>
             <EventCounterParty style={styles.feedItem} feedItem={feed} />
-            <Text numberOfLines={1} style={styles.message}>
-              {feed.data.message}
-            </Text>
-          </Section.Stack>
-          <Section.Stack alignItems="flex-end">
-            <EventIcon type={feed.type} />
-          </Section.Stack>
-        </Section.Row>
-      </Section.Stack>
-    </Section.Row>
+            {feed.type === 'welcome' ? (
+              <Text fontWeight="medium" numberOfLines={1} style={styles.welcomeText}>
+                Start claiming free G$
+                <CustomButton
+                  mode="text"
+                  color={theme.colors.lighterGray}
+                  style={styles.readMore}
+                  textStyle={styles.readMoreText}
+                >
+                  Read more...
+                </CustomButton>
+              </Text>
+            ) : (
+              <Text
+                numberOfLines={1}
+                color="gray80Percent"
+                fontSize={10}
+                textTransform="capitalize"
+                style={styles.message}
+              >
+                {feed.data.message}
+              </Text>
+            )}
+          </View>
+          <EventIcon style={styles.typeIcon} type={itemType} />
+        </View>
+      </View>
+    </View>
   )
 }
-
-// <Section.Row>
-//   <Section.Stack alignItems="flex-start" grow>
-//     <Section.Row>
-//       <EventCounterParty feedItem={feed} />
-//     </Section.Row>
-//     <Section.Row>
-//       <Text style={styles.rowDataSubText}>{feed.data.message}</Text>
-//     </Section.Row>
 
 const getStylesFromProps = ({ theme }) => ({
   innerRow: {
     alignItems: 'center',
     flexDirection: 'row',
+    flexGrow: 1,
     justifyContent: 'center',
-    padding: normalize(8),
+    maxHeight: '100%',
+    padding: theme.sizes.default,
     width: '100%',
-    flex: 1,
+  },
+  welcomeText: {
+    paddingBottom: theme.sizes.default,
   },
   avatarBottom: {
-    alignSelf: 'flex-end',
+    marginTop: 'auto',
   },
-  mainSection: {
-    marginLeft: normalize(8),
+  mainContents: {
+    flexGrow: 1,
+    flexShrink: 1,
+    height: '100%',
+    marginLeft: theme.sizes.default,
   },
-  borderRow: {
+  dateAndValue: {
     alignItems: 'center',
     borderBottomStyle: 'solid',
-    borderBottomWidth: normalize(2),
+    borderBottomWidth: 2,
     display: 'flex',
+    flexDirection: 'row',
+    flexShrink: 1,
     justifyContent: 'space-between',
-    marginBottom: normalize(8),
-    paddingBottom: normalize(4),
+    paddingBottom: theme.sizes.defaultHalf,
   },
-  date: {
-    color: theme.colors.lighterGray,
-    fontFamily: theme.fonts.regular,
+  readMoreText: {
+    fontFamily: theme.fonts.default,
     fontSize: normalize(10),
-    marginTop: normalize(2),
+    fontWeight: '400',
+    letterSpacing: 0,
+    marginLeft: 4,
+  },
+  readMore: {
+    minHeight: normalize(16),
+    maxHeight: normalize(16),
+    marginHorizontal: -theme.sizes.default,
+  },
+  actionSymbol: {
+    marginLeft: 'auto',
   },
   bigNumberStyles: {
     fontSize: normalize(15),
+    lineHeight: normalize(18),
+    marginRight: theme.sizes.defaultHalf,
   },
   bigNumberUnitStyles: {
     fontSize: normalize(10),
+    lineHeight: normalize(11),
+    marginTop: 6,
   },
-  bottomInfo: {
+  transferInfo: {
+    display: 'flex',
+    flexDirection: 'row',
     flexShrink: 1,
+    marginVertical: 'auto',
+    paddingHorizontal: theme.sizes.defaultHalf,
+    paddingTop: theme.sizes.defaultHalf,
+    alignItems: 'center',
   },
   mainInfo: {
     alignItems: 'flex-start',
@@ -108,16 +163,21 @@ const getStylesFromProps = ({ theme }) => ({
     flexGrow: 1,
     flexShrink: 1,
     justifyContent: 'flex-end',
-    marginVertical: 'auto',
+    marginBottom: 0,
+    marginRight: theme.sizes.default,
+    marginTop: 0,
   },
   feedItem: {
-    marginTop: 'auto',
-    paddingRight: normalize(4),
+    flexShrink: 0,
+    height: 22,
+    marginBottom: 0,
   },
   message: {
-    fontSize: normalize(10),
-    color: theme.colors.gray80Percent,
-    textTransform: 'capitalize',
+    paddingBottom: 0,
+    flexShrink: 0,
+  },
+  typeIcon: {
+    marginTop: 0,
   },
 })
 

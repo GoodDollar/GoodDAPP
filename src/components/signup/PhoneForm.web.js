@@ -81,7 +81,7 @@ class PhoneForm extends React.Component<Props, State> {
         <Section.Stack grow justifyContent="flex-start" style={styles.row}>
           <Section.Row justifyContent="center">
             <Section.Title textTransform="none">
-              {`${getFirstWord(fullName)}, May we have your number please?`}
+              {`${getFirstWord(fullName)}, may we have your number please?`}
             </Section.Title>
           </Section.Row>
           <Section.Row justifyContent="center" style={styles.row}>
@@ -95,7 +95,7 @@ class PhoneForm extends React.Component<Props, State> {
             />
           </Section.Row>
           <Section.Row justifyContent="center" style={styles.bottomText}>
-            <Section.Text fontFamily="regular" fontSize={14} color="gray80Percent">
+            <Section.Text fontSize={14} color="gray80Percent">
               A verification code will be sent to this number
             </Section.Text>
           </Section.Row>

@@ -2,7 +2,6 @@
 import React from 'react'
 import { View } from 'react-native'
 import Icon from '../view/Icon'
-import normalize from '../../../lib/utils/normalizeText'
 import { withStyles } from '../../../lib/styles'
 
 const CustomIcon = ({ styles, theme, name, color, size, reverse, reverseColor }) => (
@@ -14,7 +13,7 @@ const CustomIcon = ({ styles, theme, name, color, size, reverse, reverseColor })
 const getStylesFromProps = ({ theme }) => ({
   imageIcon: {
     borderRadius: '50%',
-    padding: normalize(16),
+    padding: 16,
   },
 })
 

@@ -1,48 +1,24 @@
 // @flow
 import React from 'react'
-// eslint-disable-next-line import/no-named-as-default
-import Icon from 'react-native-elements/src/icons/Icon'
-import { StyleSheet, View } from 'react-native'
-import { withTheme } from 'react-native-paper'
-import normalize from '../../lib/utils/normalizeText'
 import GDStore from '../../lib/undux/GDStore'
 import { Section, UserAvatar, Wrapper } from '../common'
+import { withStyles } from '../../lib/styles'
+import CircleButtonWrapper from './CircleButtonWrapper'
 import CameraButton from './CameraButton'
 
-const TITLE = 'View Avatar'
-
-const CloseButton = ({ handlePress, containerStyles, iconStyles, theme }) => (
-  <View style={[styles.container, containerStyles]}>
-    <Icon
-      onPress={handlePress}
-      size={normalize(20)}
-      color={theme.colors.darkBlue}
-      name="close"
-      reverse
-      containerStyle={styles.icon}
-    />
-  </View>
-)
-
-CloseButton.defaultProps = {
-  containerStyles: {},
-  iconStyles: {},
-}
-
-const ThemedCloseButton = withTheme(CloseButton)
+const TITLE = 'Your Profile'
 
 const ViewAvatar = props => {
+  const { styles } = props
   const store = GDStore.useStore()
   const profile = store.get('profile')
 
   const handleCameraPress = event => {
-    event.preventDefault()
     event.stopPropagation()
     props.screenProps.push('EditAvatar')
   }
 
   const handleClosePress = event => {
-    event.preventDefault()
     event.stopPropagation()
     props.screenProps.push('Profile')
   }
@@ -50,10 +26,9 @@ const ViewAvatar = props => {
   return (
     <Wrapper>
       <Section style={styles.section}>
-        <UserAvatar profile={profile} originalSize={true} containerStyle={styles.avatarContainer}>
-          <ThemedCloseButton handlePress={handleClosePress} />
-          <CameraButton containerStyles={styles.cameraButton} handleCameraPress={handleCameraPress} />
-        </UserAvatar>
+        <UserAvatar profile={profile} size={272} />
+        <CircleButtonWrapper style={styles.closeButton} iconName={'close'} iconSize={20} onPress={handleClosePress} />
+        <CameraButton style={styles.cameraButton} handleCameraPress={handleCameraPress} />
       </Section>
     </Wrapper>
   )
@@ -63,28 +38,22 @@ ViewAvatar.navigationOptions = {
   title: TITLE,
 }
 
-const styles = StyleSheet.create({
+const getStylesFromProps = ({ theme }) => ({
   section: {
     flex: 1,
-  },
-  avatarContainer: {
-    flex: 1,
+    position: 'relative',
   },
   cameraButton: {
-    left: 'inherit',
-    bottom: 'inherit',
-    top: 0,
-    right: 0,
-  },
-  container: {
+    left: 'auto',
     position: 'absolute',
-    left: 0,
-    top: 0,
+    right: 12,
+    top: theme.sizes.defaultDouble,
   },
-  icon: {
-    marginHorizontal: 0,
-    marginVertical: 0,
+  closeButton: {
+    left: 12,
+    position: 'absolute',
+    top: theme.sizes.defaultDouble,
   },
 })
 
-export default ViewAvatar
+export default withStyles(getStylesFromProps)(ViewAvatar)

@@ -49,11 +49,14 @@ exports[`NextButton matches snapshot 1`] = `
         "flexGrow": 2,
         "flexShrink": 1,
         "justifyContent": "center",
+        "minHeight": "44px",
         "minWidth": "auto",
         "msFlexNegative": 1,
         "msFlexPack": "center",
         "msFlexPositive": 2,
         "msFlexPreferredSize": "0%",
+        "paddingLeft": "0px",
+        "paddingRight": "0px",
       }
     }
   >
@@ -95,6 +98,7 @@ exports[`NextButton matches snapshot 1`] = `
             "alignItems": "center",
             "flexDirection": "row",
             "justifyContent": "center",
+            "letterSpacing": "0px",
             "msFlexAlign": "center",
             "msFlexDirection": "row",
             "msFlexPack": "center",
@@ -108,7 +112,7 @@ exports[`NextButton matches snapshot 1`] = `
             Object {
               "color": "rgba(0,0,0,0.32)",
               "direction": "ltr",
-              "fontFamily": "Roboto-Medium",
+              "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
               "letterSpacing": "1px",
               "marginBottom": "9px",
               "marginLeft": "8px",
@@ -118,38 +122,35 @@ exports[`NextButton matches snapshot 1`] = `
             }
           }
         >
-          <div
-            className="css-view-1dbjc4n"
+          <span
+            className="css-text-901oao css-textHasAncestor-16my406"
+            dir="auto"
             style={
               Object {
+                "WebkitAlignItems": "center",
+                "WebkitBoxAlign": "center",
                 "WebkitBoxPack": "center",
                 "WebkitJustifyContent": "center",
-                "display": "inline-flex",
+                "alignItems": "center",
+                "color": "rgba(255,255,255,1.00)",
+                "direction": "ltr",
+                "fontFamily": "Roboto",
+                "fontSize": "16px",
+                "fontWeight": "500",
                 "justifyContent": "center",
-                "minHeight": "28px",
+                "letterSpacing": "0px",
+                "lineHeight": "22px",
+                "msFlexAlign": "center",
                 "msFlexPack": "center",
+                "paddingTop": "1px",
+                "textAlign": "center",
+                "textDecoration": "none",
+                "textTransform": "uppercase",
               }
             }
           >
-            <span
-              className="css-text-901oao css-textHasAncestor-16my406"
-              dir="auto"
-              style={
-                Object {
-                  "color": "rgba(255,255,255,1.00)",
-                  "direction": "ltr",
-                  "fontFamily": "Roboto",
-                  "fontWeight": "bold",
-                  "lineHeight": "0px",
-                  "paddingTop": "1px",
-                  "textAlign": "left",
-                  "textTransform": "uppercase",
-                }
-              }
-            >
-              Next
-            </span>
-          </div>
+            Next
+          </span>
         </div>
       </div>
     </div>
@@ -200,8 +201,11 @@ exports[`PushButton matches snapshot 1`] = `
         "borderTopWidth": "0px",
         "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
         "justifyContent": "center",
+        "minHeight": "44px",
         "minWidth": "auto",
         "msFlexPack": "center",
+        "paddingLeft": "0px",
+        "paddingRight": "0px",
       }
     }
   >
@@ -249,6 +253,7 @@ exports[`PushButton matches snapshot 1`] = `
             "alignItems": "center",
             "flexDirection": "row",
             "justifyContent": "center",
+            "letterSpacing": "0px",
             "msFlexAlign": "center",
             "msFlexDirection": "row",
             "msFlexPack": "center",
@@ -262,7 +267,7 @@ exports[`PushButton matches snapshot 1`] = `
             Object {
               "color": "rgba(255,255,255,1.00)",
               "direction": "ltr",
-              "fontFamily": "Roboto-Medium",
+              "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
               "letterSpacing": "1px",
               "marginBottom": "9px",
               "marginLeft": "8px",
@@ -272,38 +277,35 @@ exports[`PushButton matches snapshot 1`] = `
             }
           }
         >
-          <div
-            className="css-view-1dbjc4n"
+          <span
+            className="css-text-901oao css-textHasAncestor-16my406"
+            dir="auto"
             style={
               Object {
+                "WebkitAlignItems": "center",
+                "WebkitBoxAlign": "center",
                 "WebkitBoxPack": "center",
                 "WebkitJustifyContent": "center",
-                "display": "inline-flex",
+                "alignItems": "center",
+                "color": "rgba(255,255,255,1.00)",
+                "direction": "ltr",
+                "fontFamily": "Roboto",
+                "fontSize": "16px",
+                "fontWeight": "500",
                 "justifyContent": "center",
-                "minHeight": "28px",
+                "letterSpacing": "0px",
+                "lineHeight": "22px",
+                "msFlexAlign": "center",
                 "msFlexPack": "center",
+                "paddingTop": "1px",
+                "textAlign": "center",
+                "textDecoration": "none",
+                "textTransform": "uppercase",
               }
             }
           >
-            <span
-              className="css-text-901oao css-textHasAncestor-16my406"
-              dir="auto"
-              style={
-                Object {
-                  "color": "rgba(255,255,255,1.00)",
-                  "direction": "ltr",
-                  "fontFamily": "Roboto",
-                  "fontWeight": "bold",
-                  "lineHeight": "0px",
-                  "paddingTop": "1px",
-                  "textAlign": "left",
-                  "textTransform": "uppercase",
-                }
-              }
-            >
-              Push
-            </span>
-          </div>
+            Push
+          </span>
         </div>
       </div>
     </div>

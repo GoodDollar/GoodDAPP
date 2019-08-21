@@ -12,10 +12,10 @@ const WhoRow = props => {
 
   return (
     <Section.Row style={styles.tableRow}>
-      <Section.Text style={styles.tableRowLabel}>{actionReceive ? 'From:' : 'To:'}</Section.Text>
-      <Section.Text fontSize={24} fontWeight="bold">
-        {counterPartyDisplayName}
+      <Section.Text fontSize={14} color="gray80Percent">
+        {actionReceive ? 'From:' : 'To:'}
       </Section.Text>
+      <Section.Text fontSize={24}>{counterPartyDisplayName}</Section.Text>
     </Section.Row>
   )
 }
@@ -27,7 +27,9 @@ const AmountRow = props => {
   }
   return (
     <Section.Row style={styles.tableRow}>
-      <Section.Text style={styles.tableRowLabel}>Amount:</Section.Text>
+      <Section.Text fontSize={14} color="gray80Percent">
+        Amount:
+      </Section.Text>
       <BigGoodDollar
         bigNumberStyles={styles.bigGoodDollar}
         bigNumberUnitStyles={styles.bigGoodDollarUnit}
@@ -45,8 +47,10 @@ const ReasonRow = props => {
   }
   return (
     <Section.Row style={styles.tableRow}>
-      <Section.Text style={styles.tableRowLabel}>For:</Section.Text>
-      <Section.Text fontSize={16}>{reason}</Section.Text>
+      <Section.Text fontSize={14} color="gray80Percent">
+        For:
+      </Section.Text>
+      <Section.Text fontSize={14}>{reason}</Section.Text>
     </Section.Row>
   )
 }
@@ -71,29 +75,24 @@ const getStylesFromProps = ({ theme }) => {
     tableRow: {
       // TODO: see where should we take this color from
       borderBottomColor: theme.colors.gray50Percent,
-      borderBottomWidth: normalize(1),
+      borderBottomWidth: 1,
       borderBottomStyle: 'solid',
       marginTop: theme.sizes.defaultDouble,
-      alignItems: 'baseline',
-      paddingBottom: theme.sizes.default,
+      alignItems: 'flex-end',
+      paddingBottom: theme.sizes.defaultHalf,
+      height: 40,
     },
 
     // TODO: all this properties can be removed once we merge Text component in
-    tableRowLabel: {
-      color: theme.colors.gray80Percent,
-    },
     bigGoodDollar: {
       color: theme.colors.primary,
       fontSize: normalize(24),
-      fontFamily: theme.fonts.bold,
+      fontFamily: theme.fonts.default,
     },
     bigGoodDollarUnit: {
       color: theme.colors.primary,
       fontSize: normalize(14),
-      fontFamily: theme.fonts.bold,
-    },
-    reason: {
-      fontSize: normalize(16),
+      fontFamily: theme.fonts.default,
     },
   }
 }

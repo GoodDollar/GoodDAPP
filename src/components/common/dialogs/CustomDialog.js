@@ -1,12 +1,15 @@
 // @flow
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { Paragraph, Portal } from 'react-native-paper'
 import normalize from '../../../lib/utils/normalizeText'
 import SimpleStore from '../../../lib/undux/SimpleStore'
 import CustomButton from '../buttons/CustomButton'
+import ErrorIcon from '../modal/ErrorIcon'
+import SuccessIcon from '../modal/SuccessIcon'
 import ModalWrapper from '../modal/ModalWrapper'
 import { theme } from '../../theme/styles'
+import Text from '../view/Text'
 
 export type DialogProps = {
   children?: any,
@@ -14,8 +17,10 @@ export type DialogProps = {
   image?: any,
   loading?: boolean,
   message?: string,
+  boldMessage?: any,
   onCancel?: () => void,
   onDismiss?: () => void,
+  showButtons?: boolean,
   title?: string,
   type?: string,
   visible?: boolean,
@@ -40,44 +45,53 @@ const CustomDialog = ({
   image,
   loading = false,
   message = null,
+  boldMessage = null,
   onCancel = null,
   onDismiss,
+  showButtons = true,
   title,
   type = 'common',
   visible,
 }: DialogProps) => {
+  const defaultImage = type === 'error' ? <ErrorIcon /> : <SuccessIcon />
+  const modalColor = getColorFromType(type)
+  const textColor = type === 'error' ? 'red' : 'darkGray'
+  const color = theme.colors[textColor]
+
   return visible ? (
     <Portal>
-      <ModalWrapper onClose={onCancel || onDismiss} leftBorderColor={getColorFromType(type)}>
+      <ModalWrapper onClose={onCancel || onDismiss} leftBorderColor={modalColor}>
         <React.Fragment>
-          <Text style={styles.title}>{title}</Text>
+          <Text color={textColor} fontFamily="slab" fontSize={24} fontWeight="bold" style={styles.title}>
+            {title}
+          </Text>
           <View style={styles.content}>
             {children}
-            {image ? image : null}
-            {message && <Paragraph style={styles.paragraph}>{message}</Paragraph>}
-          </View>
-          <View style={styles.buttonsContainer}>
-            {onCancel && (
-              <CustomButton
-                color={theme.colors.lighterGray}
-                disabled={loading}
-                loading={loading}
-                mode="text"
-                onPress={onCancel}
-                style={styles.buttonCancel}
-              >
-                Cancel
-              </CustomButton>
+            {image ? image : defaultImage}
+            {message && <Paragraph style={[styles.paragraph, { color }]}>{message}</Paragraph>}
+            {boldMessage && (
+              <Paragraph style={[styles.paragraph, { fontWeight: 'bold', color }]}>{boldMessage}</Paragraph>
             )}
-            <CustomButton
-              disabled={loading}
-              loading={loading}
-              onPress={onDismiss}
-              style={[styles.buttonOK, { backgroundColor: getColorFromType(type) }]}
-            >
-              {dismissText || 'Done'}
-            </CustomButton>
           </View>
+          {showButtons ? (
+            <View style={styles.buttonsContainer}>
+              {onCancel && (
+                <CustomButton
+                  color={theme.colors.lighterGray}
+                  disabled={loading}
+                  loading={loading}
+                  mode="text"
+                  onPress={onCancel}
+                  style={styles.buttonCancel}
+                >
+                  Cancel
+                </CustomButton>
+              )}
+              <CustomButton disabled={loading} loading={loading} onPress={onDismiss} style={[styles.buttonOK]}>
+                {dismissText || 'Done'}
+              </CustomButton>
+            </View>
+          ) : null}
         </React.Fragment>
       </ModalWrapper>
     </Portal>
@@ -110,12 +124,8 @@ const SimpleStoreDialog = () => {
 
 const styles = StyleSheet.create({
   title: {
-    color: theme.colors.darkGray,
-    fontFamily: theme.fonts.slabBold,
-    fontSize: normalize(24),
-    marginBottom: normalize(16),
-    paddingTop: normalize(16),
-    textAlign: 'center',
+    marginBottom: theme.sizes.defaultDouble,
+    paddingTop: theme.sizes.defaultDouble,
   },
   paragraph: {
     color: theme.colors.darkGray,
@@ -126,7 +136,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     flexGrow: 1,
-    marginBottom: normalize(40),
+    marginBottom: 40,
     padding: 0,
   },
   buttonsContainer: {
@@ -137,11 +147,11 @@ const styles = StyleSheet.create({
     paddingRight: 0,
   },
   buttonCancel: {
-    minWidth: normalize(80),
+    minWidth: 80,
   },
   buttonOK: {
     marginLeft: 'auto',
-    minWidth: normalize(80),
+    minWidth: 80,
   },
 })
 

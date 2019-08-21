@@ -44,15 +44,15 @@ const UserAvatar = (props: AvatarProps) => {
     <View style={styles.innerAvatar}>
       <View style={styles.cropContainer}>
         <CreateAvatar
-          onCrop={onChange}
-          onClose={onClose}
-          mobileScaleSpeed={0.01}
-          width={cropSize}
           height={cropSize}
           lineWidth={2}
           minCropRadius={15}
+          mobileScaleSpeed={0.01}
+          onClose={onClose}
+          onCrop={onChange}
           shadingOpacity={0.8}
           src={profile.avatar ? profile.avatar : undefined}
+          width={cropSize}
         />
       </View>
     </View>
@@ -62,7 +62,9 @@ const UserAvatar = (props: AvatarProps) => {
         <Avatar size={originalSize ? cropSize : 136} {...props} source={profile.avatar}>
           {children}
         </Avatar>
-        <Section.Title style={styles.fullNameContainer}>{profile.fullName}</Section.Title>
+        <Section.Title fontSize={22} textTransform="none" fontFamily="slab" style={styles.fullNameContainer}>
+          {profile.fullName}
+        </Section.Title>
       </View>
     </View>
   )
@@ -70,25 +72,25 @@ const UserAvatar = (props: AvatarProps) => {
 
 const getStylesFromProps = ({ theme }) => ({
   avatar: {
-    justifyContent: 'center',
     flexDirection: 'row',
+    justifyContent: 'center',
   },
   innerAvatar: {
-    flexDirection: 'column',
     alignItems: 'center',
     flex: 1,
+    flexDirection: 'column',
   },
   fullNameContainer: {
-    paddingTop: theme.paddings.mainContainerPadding,
+    marginTop: theme.sizes.default,
   },
   fullName: {
     textAlign: 'left',
   },
   cropContainer: {
-    marginTop: theme.paddings.mainContainerPadding,
     flex: 1,
-    justifyContent: 'center',
     flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: theme.paddings.mainContainerPadding,
   },
 })
 

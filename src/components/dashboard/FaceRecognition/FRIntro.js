@@ -1,21 +1,22 @@
 import React from 'react'
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { Image, View } from 'react-native'
 import { isIOS, isMobileSafari } from 'mobile-device-detect'
-import { getFirstWord } from '../../../lib/utils/getFirstWord'
-import normalize from '../../../lib/utils/normalizeText'
-
-import { CustomButton, Section, Wrapper } from '../../common'
-import Separator from '../../common/layout/Separator'
-import SmileyHug from '../../../assets/smileyhug.svg'
 import GDStore from '../../../lib/undux/GDStore'
-import { fireEvent } from '../../../lib/analytics/analytics'
-
+import Separator from '../../common/layout/Separator'
 import logger from '../../../lib/logger/pino-logger'
+import { CustomButton, Section, Wrapper } from '../../common'
+import { fireEvent } from '../../../lib/analytics/analytics'
+import { getFirstWord } from '../../../lib/utils/getFirstWord'
+import { withStyles } from '../../../lib/styles'
+import illustration from '../../../assets/FaceRecognition/illustration.svg'
+
+Image.prefetch(illustration)
 
 const log = logger.child({ from: 'FRIntro' })
 const FRIntro = props => {
   const store = GDStore.useStore()
   const { fullName } = store.get('profile')
+  const { styles } = props
 
   const isUnsupported = isIOS && isMobileSafari === false
   const isValid = props.screenProps.screenState && props.screenProps.screenState.isValid
@@ -29,50 +30,41 @@ const FRIntro = props => {
   } else {
     fireEvent('FR_Intro')
   }
-  const gotoPrivacyArticle = () => props.screenProps.push('PP')
+  const gotoPrivacyArticle = () => props.screenProps.push('PrivacyArticle')
   const gotoFR = () => props.screenProps.navigateTo('FaceVerification')
+
   return (
     <Wrapper>
-      <View style={styles.topContainer}>
-        <Section
-          style={{
-            paddingBottom: 0,
-            paddingTop: 0,
-            marginBottom: 0,
-            paddingLeft: '10%',
-            paddingRight: '10%',
-            justifyContent: 'space-evenly',
-            flex: 1,
-          }}
-        >
-          <Section.Title style={styles.mainTitle}>
-            {`${getFirstWord(fullName)},\nLets make sure you are\na real live person!`}
+      <Section style={styles.topContainer}>
+        <View style={styles.mainContent}>
+          <Section.Title fontWeight="medium" textTransform="none" style={styles.mainTitle}>
+            {`${getFirstWord(fullName)},\nLet's make sure you are\na real live person`}
           </Section.Title>
-          <Image source={SmileyHug} resizeMode={'center'} style={{ height: normalize(152) }} />
-          <Section
-            style={{
-              paddingBottom: 0,
-              paddingTop: 0,
-              marginBottom: 0,
-            }}
-          >
-            <Separator width={2} />
-            <Section.Text style={styles.description}>
-              Since this is your first transaction
-              <Text style={{ fontWeight: 'normal' }}>
-                {`\nWe will take a short video of you\nto prevent duplicate accounts.\n\n`}
-              </Text>
-              <Text style={{ fontWeight: 'bold', textDecorationLine: 'underline' }} onPress={gotoPrivacyArticle}>
-                {'Learn more'}
-              </Text>
+          <Image source={illustration} resizeMode="contain" style={styles.illustration} />
+          <Separator width={2} />
+          <Section.Text style={styles.descriptionContainer}>
+            <Section.Text fontWeight="bold" color="primary" style={styles.description}>
+              Since its your first transaction
             </Section.Text>
-            <Separator width={2} />
-          </Section>
-        </Section>
-        <Section>
-          <CustomButton onPress={gotoFR}>OK, Verify me</CustomButton>
-        </Section>
-      </View>
+            <Section.Text color="primary" style={styles.description}>
+              {`we will take a short video of you\nto prevent duplicate accounts.`}
+            </Section.Text>
+            <Section.Text
+              fontWeight="bold"
+              textDecoration="underline"
+              color="primary"
+              style={[styles.description, styles.descriptionUnderline]}
+              onPress={gotoPrivacyArticle}
+            >
+              Learn more
+            </Section.Text>
+          </Section.Text>
+          <Separator style={[styles.bottomSeparator]} width={2} />
+        </View>
+        <CustomButton style={[styles.button]} onPress={gotoFR}>
+          OK, Verify me
+        </CustomButton>
+      </Section>
     </Wrapper>
   )
 }
@@ -81,38 +73,56 @@ FRIntro.navigationOptions = {
   title: 'Face Verification',
 }
 
-const styles = StyleSheet.create({
+const getStylesFromProps = ({ theme }) => ({
   topContainer: {
+    alignItems: 'center',
+    backgroundColor: theme.colors.surface,
+    borderRadius: theme.sizes.borderRadius,
     display: 'flex',
-    backgroundColor: 'white',
-    height: '100%',
-    flex: 1,
+    flexDirection: 'column',
     flexGrow: 1,
     flexShrink: 0,
-    justifyContent: 'space-evenly',
-    paddingTop: normalize(33),
-    borderRadius: 5,
+    justifyContent: 'center',
+    paddingBottom: theme.sizes.defaultDouble,
+    paddingLeft: theme.sizes.default,
+    paddingRight: theme.sizes.default,
+    paddingTop: theme.sizes.defaultDouble * 2,
   },
-  bottomContainer: {
-    display: 'flex',
-    flex: 1,
-    paddingTop: normalize(20),
-    justifyContent: 'flex-end',
-  },
-  description: {
-    fontSize: normalize(16),
-    fontFamily: 'Roboto',
-    fontWeight: 'bold',
-    color: '#00AFFF',
-    verticalAlign: 'text-top',
-    paddingTop: normalize(25),
-    paddingBottom: normalize(25),
+  mainContent: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    paddingLeft: theme.sizes.default * 3,
+    paddingRight: theme.sizes.default * 3,
+    width: '100%',
   },
   mainTitle: {
-    fontFamily: 'Roboto-Medium',
-    fontSize: normalize(24),
-    color: '#42454A',
-    textTransform: 'none',
+    marginBottom: 28,
+  },
+  illustration: {
+    flexGrow: 0,
+    flexShrink: 0,
+    marginBottom: 28,
+    maxWidth: '100%',
+    minHeight: 151,
+    minWidth: 203,
+  },
+  descriptionContainer: {
+    paddingHorizontal: theme.sizes.defaultHalf,
+    paddingVertical: theme.sizes.defaultDouble,
+  },
+  description: {
+    display: 'block',
+    paddingTop: 0,
+  },
+  descriptionUnderline: {
+    paddingTop: theme.sizes.defaultDouble,
+  },
+  button: {
+    marginTop: 'auto',
+    width: '100%',
+  },
+  bottomSeparator: {
+    marginBottom: 28,
   },
 })
 
@@ -120,4 +130,5 @@ FRIntro.navigationOptions = {
   title: 'Face Verification',
   navigationBarHidden: false,
 }
-export default FRIntro
+
+export default withStyles(getStylesFromProps)(FRIntro)

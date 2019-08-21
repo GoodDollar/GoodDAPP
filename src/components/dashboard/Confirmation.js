@@ -2,6 +2,7 @@
 import React, { useMemo } from 'react'
 import { isMobile } from 'mobile-device-detect'
 import normalize from '../../lib/utils/normalizeText'
+import GDStore from '../../lib/undux/GDStore'
 import { generateReceiveShareObject, generateSendShareObject } from '../../lib/share'
 import { BigGoodDollar, CopyButton, CustomButton, QRCode, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
@@ -18,13 +19,17 @@ export type ReceiveProps = {
 }
 
 const ReceiveConfirmation = ({ screenProps, styles, ...props }: ReceiveProps) => {
+  const profile = GDStore.useStore().get('profile')
   const [screenState] = useScreenState(screenProps)
   const { amount, code, reason, counterPartyDisplayName } = screenState
   const [showErrorDialog] = useErrorDialog()
   const { params } = props.navigation.state
 
   const share = useMemo(
-    () => (params.action === ACTION_RECEIVE ? generateReceiveShareObject(code) : generateSendShareObject(code)),
+    () =>
+      params.action === ACTION_RECEIVE
+        ? generateReceiveShareObject(code, amount, counterPartyDisplayName, profile.fullName)
+        : generateSendShareObject(code, amount, counterPartyDisplayName, profile.fullName),
     [code]
   )
 
@@ -46,11 +51,11 @@ const ReceiveConfirmation = ({ screenProps, styles, ...props }: ReceiveProps) =>
           <QRCode value={code} />
         </Section.Stack>
         <Section.Stack grow justifyContent="center" alignItems="center">
-          <Section.Text style={[styles.textRow]}>{ACTION_RECEIVE ? 'Request exactly' : 'Send exactly'}</Section.Text>
+          <Section.Text style={styles.textRow}>{ACTION_RECEIVE ? 'Request exactly' : 'Send exactly'}</Section.Text>
           {counterPartyDisplayName && (
-            <Section.Text style={[styles.textRow]}>
+            <Section.Text style={styles.textRow}>
               {ACTION_RECEIVE ? 'From: ' : 'To: '}
-              <Section.Text style={styles.counterPartyDisplayName}>{counterPartyDisplayName}</Section.Text>
+              <Section.Text fontSize={18}>{counterPartyDisplayName}</Section.Text>
             </Section.Text>
           )}
           {amount && (
@@ -61,7 +66,7 @@ const ReceiveConfirmation = ({ screenProps, styles, ...props }: ReceiveProps) =>
               color={props.theme.colors.primary}
             />
           )}
-          <Section.Text style={[styles.textRow]}>{reason}</Section.Text>
+          <Section.Text style={styles.textRow}>{reason}</Section.Text>
         </Section.Stack>
         <Section.Stack>
           {isMobile && navigator.share ? (
@@ -90,21 +95,20 @@ const getStylesFromProps = ({ theme }) => {
       paddingTop: theme.sizes.default,
     },
     textRow: {
-      marginBottom: theme.sizes.default,
+      marginVertical: theme.sizes.default,
     },
     doneButton: {
       marginTop: theme.paddings.defaultMargin,
     },
     bigGoodDollar: {
-      fontSize: normalize(28),
-      fontFamily: theme.fonts.bold,
+      fontFamily: theme.fonts.default,
+      fontSize: normalize(24),
+      fontWeight: '700',
     },
     bigGoodDollarUnit: {
-      fontSize: normalize(16),
-      fontFamily: theme.fonts.bold,
-    },
-    counterPartyDisplayName: {
-      fontSize: normalize(18),
+      fontFamily: theme.fonts.default,
+      fontSize: normalize(14),
+      fontWeight: '700',
     },
   }
 }

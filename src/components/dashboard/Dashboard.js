@@ -1,23 +1,25 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { ScrollView, View } from 'react-native'
-import { Portal } from 'react-native-paper'
+
 import type { Store } from 'undux'
 import normalize from '../../lib/utils/normalizeText'
-
 import GDStore from '../../lib/undux/GDStore'
 import SimpleStore from '../../lib/undux/SimpleStore'
-import { useDialog } from '../../lib/undux/utils/dialog'
+import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
 import { getInitialFeed, getNextFeed, PAGE_SIZE } from '../../lib/undux/utils/feed'
 import { executeWithdraw } from '../../lib/undux/utils/withdraw'
 import { weiToMask } from '../../lib/wallet/utils'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { PushButton } from '../appNavigation/PushButton'
 import TabsView from '../appNavigation/TabsView'
-import { Avatar, BigGoodDollar, ClaimButton, Section, Wrapper } from '../common'
+import Avatar from '../common/view/Avatar'
+import BigGoodDollar from '../common/view/BigGoodDollar'
+import ClaimButton from '../common/buttons/ClaimButton'
+import Section from '../common/layout/Section'
+import Wrapper from '../common/layout/Wrapper'
 import logger from '../../lib/logger/pino-logger'
 import userStorage from '../../lib/gundb/UserStorage'
-import { PrivacyArticle, PrivacyPolicy, Support, TermsOfUse } from '../webView/webViewInstances'
+import { FAQ, PrivacyArticle, PrivacyPolicy, Support, TermsOfUse } from '../webView/webViewInstances'
 import { withStyles } from '../../lib/styles'
 import Mnemonics from '../signin/Mnemonics'
 import Amount from './Amount'
@@ -27,7 +29,7 @@ import FRIntro from './FaceRecognition/FRIntro'
 import FRError from './FaceRecognition/FRError'
 import UnsupportedDevice from './FaceRecognition/UnsupportedDevice'
 import FeedList from './FeedList'
-import FeedModalItem from './FeedItems/FeedModalItem'
+import FeedModalList from './FeedModalList'
 import Reason from './Reason'
 import Receive from './Receive'
 import Who from './Who'
@@ -39,37 +41,28 @@ import Send from './Send'
 import SendConfirmation from './SendConfirmation'
 import SendLinkSummary from './SendLinkSummary'
 import SendQRSummary from './SendQRSummary'
+import { ACTION_SEND } from './utils/sendReceiveFlow'
 
 const log = logger.child({ from: 'Dashboard' })
 
 export type DashboardProps = {
-  screenProps: any,
   navigation: any,
+  screenProps: any,
   store: Store,
+  styles?: any,
 }
-
-type DashboardState = {
-  horizontal: boolean,
-  feeds: any[],
-  currentFeedProps: any,
-}
-
 const Dashboard = props => {
   const store = SimpleStore.useStore()
   const gdstore = GDStore.useStore()
   const [showDialog, hideDialog] = useDialog()
-  const [state: DashboardState, setState] = useState({
-    horizontal: false,
-    currentFeedProps: null,
-    feeds: [],
-  })
+  const [showErrorDialog] = useErrorDialog()
   const { params } = props.navigation.state
 
   useEffect(() => {
     log.debug('Dashboard didmount')
     userStorage.feed.get('byid').on(data => {
       log.debug('gun getFeed callback', { data })
-      getFeeds()
+      getInitialFeed(gdstore)
     }, true)
   }, [])
 
@@ -82,21 +75,12 @@ const Dashboard = props => {
     }
   }, [params])
 
-  const getFeeds = () => {
-    getInitialFeed(gdstore)
-  }
-
-  const showEventModal = item => {
-    setState({
-      currentFeedProps: {
-        item,
-        onPress: closeFeedEvent,
-      },
-    })
+  const showEventModal = currentFeed => {
+    store.set('currentFeed')(currentFeed)
   }
 
   const handleFeedSelection = (receipt, horizontal) => {
-    showEventModal(receipt)
+    showEventModal(horizontal ? receipt : null)
   }
 
   const showNewFeedEvent = async eventId => {
@@ -119,162 +103,219 @@ const Dashboard = props => {
     }
   }
 
-  const closeFeedEvent = () => {
-    setState({ currentFeedProps: null })
-  }
-
   const handleWithdraw = async () => {
     const { paymentCode, reason } = props.navigation.state.params
     try {
       showDialog({ title: 'Processing Payment Link...', loading: true, dismissText: 'hold' })
       await executeWithdraw(store, paymentCode, reason)
       hideDialog()
-
-      // if (receipt.transactionHash) {
-      //   await showNewFeedEvent(receipt.transactionHash)
-      // }
     } catch (e) {
-      showDialog({ title: 'Error', message: e.message })
+      showErrorDialog(e)
     }
   }
 
-  const { horizontal, currentFeedProps } = state
-  const { screenProps, styles, theme }: DashboardProps = props
+  const currentFeed = store.get('currentFeed')
+  const { screenProps, styles }: DashboardProps = props
   const { balance, entitlement } = gdstore.get('account')
   const { avatar, fullName } = gdstore.get('profile')
   const feeds = gdstore.get('feeds')
+  const [headerLarge, setHeaderLarge] = useState(true)
 
-  // TODO: Calculate scroll position to update Dashboard avatar, name and gd amount view
-  const scrollPos = 100
-
-  log.info('LOGGER FEEDS', { feeds })
   return (
-    <View style={styles.dashboardView}>
-      <Wrapper backgroundColor={theme.colors.lightGray} style={styles.dashboardWrapper}>
-        <Section>
-          {scrollPos < 100 ? (
-            <>
-              <Section.Row justifyContent="center" alignItems="baseline">
-                <Avatar size={80} source={avatar} onPress={() => screenProps.push('Profile')} />
-              </Section.Row>
-              <Section.Row justifyContent="center" alignItems="baseline">
-                <Section.Title>{fullName || ' '}</Section.Title>
-              </Section.Row>
-              <Section.Row justifyContent="center" alignItems="baseline">
-                <BigGoodDollar
-                  bigNumberStyles={styles.bigNumberStyles}
-                  bigNumberUnitStyles={styles.bigNumberUnitStyles}
-                  number={balance}
-                />
-              </Section.Row>
-            </>
-          ) : (
-            <Section.Row>
-              <Section.Stack alignItems="flex-start">
-                <Avatar size={42} source={avatar} onPress={() => screenProps.push('Profile')} />
-              </Section.Stack>
-              <Section.Stack alignItems="flex-end">
-                <BigGoodDollar
-                  bigNumberStyles={styles.bigNumberStyles}
-                  bigNumberUnitStyles={styles.bigNumberUnitStyles}
-                  number={balance}
-                />
-              </Section.Stack>
+    <Wrapper style={styles.dashboardWrapper}>
+      <Section style={[styles.topInfo]}>
+        {headerLarge ? (
+          <Section.Stack alignItems="center">
+            <Avatar onPress={() => screenProps.push('Profile')} size={68} source={avatar} style={[styles.avatarBig]} />
+            <Section.Text color="gray80Percent" fontFamily="slab" fontSize={18}>
+              {fullName || ' '}
+            </Section.Text>
+            <Section.Row style={styles.bigNumberWrapper}>
+              <BigGoodDollar bigNumberStyles={styles.bigNumberVerticalStyles} number={balance} unit={undefined} />
+              <Section.Text fontSize={18} fontWeight="bold" fontFamily="slab" style={styles.bigNumberUnitStyles}>
+                G$
+              </Section.Text>
             </Section.Row>
-          )}
-          <Section.Row style={styles.buttonsRow} alignItems="stretch">
-            <PushButton
-              routeName="Who"
-              screenProps={screenProps}
-              style={styles.leftButton}
-              icon="send"
-              iconAlignment="left"
-              params={{
-                nextRoutes: ['Amount', 'Reason', 'SendLinkSummary', 'SendConfirmation'],
-                params: { action: 'Send' },
-              }}
-            >
-              Send
-            </PushButton>
-            <ClaimButton screenProps={screenProps} amount={weiToMask(entitlement, { showUnits: true })} />
-            <PushButton
-              routeName={'Receive'}
-              screenProps={screenProps}
-              style={styles.rightButton}
-              icon="receive"
-              iconAlignment="right"
-            >
-              Receive
-            </PushButton>
-          </Section.Row>
-        </Section>
-        <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollableView}>
-          <FeedList
-            horizontal={horizontal}
-            handleFeedSelection={handleFeedSelection}
-            fixedHeight
-            virtualized
-            data={feeds}
-            updateData={() => {}}
-            initialNumToRender={PAGE_SIZE}
-            onEndReached={getNextFeed.bind(null, store)}
-          />
-        </ScrollView>
-        {currentFeedProps && (
-          <Portal>
-            <FeedModalItem {...currentFeedProps} />
-          </Portal>
+          </Section.Stack>
+        ) : (
+          <Section style={[styles.userInfo, styles.userInfoHorizontal]}>
+            <Avatar
+              onPress={() => screenProps.push('Profile')}
+              size={42}
+              source={avatar}
+              style={[styles.avatarSmall]}
+            />
+            <BigGoodDollar bigNumberStyles={styles.bigNumberStyles} number={balance} />
+          </Section>
         )}
-      </Wrapper>
-    </View>
+        <Section.Row style={styles.buttonsRow}>
+          <PushButton
+            icon="send"
+            iconAlignment="left"
+            routeName="Who"
+            screenProps={screenProps}
+            style={styles.leftButton}
+            contentStyle={styles.leftButtonContent}
+            textStyle={styles.leftButtonText}
+            params={{
+              nextRoutes: ['Amount', 'Reason', 'SendLinkSummary', 'SendConfirmation'],
+              params: { action: 'Send' },
+            }}
+          >
+            Send
+          </PushButton>
+          <ClaimButton screenProps={screenProps} amount={weiToMask(entitlement, { showUnits: true })} />
+          <PushButton
+            icon="receive"
+            iconAlignment="right"
+            routeName={'Receive'}
+            screenProps={screenProps}
+            style={styles.rightButton}
+            contentStyle={styles.rightButtonContent}
+            textStyle={styles.rightButtonText}
+          >
+            Receive
+          </PushButton>
+        </Section.Row>
+      </Section>
+      <FeedList
+        data={feeds}
+        handleFeedSelection={handleFeedSelection}
+        initialNumToRender={PAGE_SIZE}
+        onEndReached={getNextFeed.bind(null, store)}
+        updateData={() => {}}
+        onScroll={({ nativeEvent }) => {
+          // Replicating Header Height.
+          // TODO: Improve this when doing animation
+          const HEIGHT_FULL =
+            props.theme.sizes.defaultDouble +
+            68 +
+            props.theme.sizes.default +
+            normalize(18) +
+            props.theme.sizes.defaultDouble * 2 +
+            normalize(42) +
+            normalize(70)
+          const HEIGHT_BASE = props.theme.sizes.defaultDouble + 68 + props.theme.sizes.default + normalize(70)
+
+          const HEIGHT_DIFF = HEIGHT_FULL - HEIGHT_BASE
+          const scrollPos = nativeEvent.contentOffset.y
+          const scrollPosAlt = headerLarge ? scrollPos - HEIGHT_DIFF : scrollPos + HEIGHT_DIFF
+          const newHeaderLarge = scrollPos <= HEIGHT_BASE || scrollPosAlt <= HEIGHT_BASE
+          log.info('scrollPos', { newHeaderLarge, scrollPos, scrollPosAlt, HEIGHT_DIFF, HEIGHT_BASE, HEIGHT_FULL })
+          if (newHeaderLarge !== headerLarge) {
+            setHeaderLarge(newHeaderLarge)
+          }
+        }}
+      />
+      {currentFeed && (
+        <FeedModalList
+          data={feeds}
+          handleFeedSelection={handleFeedSelection}
+          initialNumToRender={PAGE_SIZE}
+          onEndReached={getNextFeed.bind(null, store)}
+          selectedFeed={currentFeed}
+          updateData={() => {}}
+        />
+      )}
+    </Wrapper>
   )
 }
 
 const getStylesFromProps = ({ theme }) => ({
+  dashboardWrapper: {
+    backgroundImage: 'none',
+    backgroundColor: theme.colors.lightGray,
+    flexGrow: 1,
+    paddingLeft: 0,
+    paddingRight: 0,
+    paddingTop: 0,
+  },
+  topInfo: {
+    borderTopLeftRadius: 0,
+    borderTopRightRadius: 0,
+    marginBottom: 0,
+    marginLeft: theme.sizes.default,
+    marginRight: theme.sizes.default,
+    paddingBottom: theme.sizes.default,
+    paddingLeft: theme.sizes.default,
+    paddingRight: theme.sizes.default,
+    paddingTop: theme.sizes.defaultDouble,
+  },
+  userInfo: {
+    backgroundColor: 'transparent',
+    marginBottom: 12,
+  },
+  userInfoHorizontal: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingBottom: 0,
+    paddingLeft: 0,
+    paddingRight: 0,
+    paddingTop: 0,
+  },
+  avatarBig: {
+    marginBottom: theme.sizes.default,
+  },
+  avatarSmall: {
+    borderRadius: '50%',
+    height: 42,
+    margin: 0,
+    width: 42,
+  },
   buttonsRow: {
-    marginVertical: theme.sizes.default,
+    alignItems: 'center',
+    height: 70,
+    justifyContent: 'space-between',
+    marginBottom: 0,
+    marginTop: 0,
   },
   leftButton: {
     flex: 1,
-    marginRight: theme.sizes.defaultDouble,
-    paddingRight: theme.sizes.defaultDouble,
+    height: 44,
+    marginRight: 16,
+    elevation: 0,
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  leftButtonContent: {
+    alignItems: 'stretch',
+    justifyContent: 'center',
   },
   rightButton: {
     flex: 1,
-    marginLeft: theme.sizes.defaultDouble,
-    paddingLeft: theme.sizes.defaultDouble,
-  },
-  dashboardView: {
-    flexGrow: 1,
-  },
-  dashboardWrapper: {
-    paddingHorizontal: 0,
-  },
-  scrollView: {
-    marginTop: theme.sizes.default,
+    height: 44,
+    marginLeft: 16,
+    elevation: 0,
     display: 'flex',
-    flexGrow: 1,
-    height: 1,
-  },
-  scrollableView: {
-    flexGrow: 1,
-    display: 'flex',
-    height: '100%',
-  },
-  centering: {
-    alignItems: 'center',
     justifyContent: 'center',
-    padding: theme.sizes.default,
-    height: '256px',
+  },
+  rightButtonContent: {
+    alignItems: 'stretch',
+    justifyContent: 'center',
+  },
+  leftButtonText: {
+    marginRight: 16,
+  },
+  rightButtonText: {
+    marginLeft: 16,
+  },
+  bigNumberVerticalStyles: {
+    fontFamily: theme.fonts.slab,
+    fontSize: normalize(42),
+    fontWeight: '600',
+  },
+  bigNumberWrapper: {
+    marginVertical: theme.sizes.defaultDouble,
+    alignItems: 'baseline',
   },
   bigNumberStyles: {
-    fontFamily: 'RobotoSlab-Bold',
+    fontFamily: theme.fonts.slab,
     fontSize: normalize(36),
-    marginRight: theme.sizes.defaultHalf,
+    fontWeight: '700',
   },
   bigNumberUnitStyles: {
-    fontFamily: 'RobotoSlab-Bold',
-    fontSize: normalize(18),
+    marginRight: normalize(-20),
   },
 })
 
@@ -295,14 +336,17 @@ export default createStackNavigator({
   Who: {
     screen: Who,
     path: ':action/Who',
+    params: { action: ACTION_SEND },
   },
   Amount: {
     screen: Amount,
     path: ':action/Amount',
+    params: { action: ACTION_SEND },
   },
   Reason: {
     screen: Reason,
     path: ':action/Reason',
+    params: { action: ACTION_SEND },
   },
   ReceiveSummary,
   Confirmation: {
@@ -323,5 +367,6 @@ export default createStackNavigator({
   PrivacyArticle,
   TOU: TermsOfUse,
   Support,
+  FAQ,
   Recover: Mnemonics,
 })

@@ -1,39 +1,62 @@
 import goodWallet from '../../../lib/wallet/GoodWallet'
 
 describe('GoodWalletShare/ReceiveTokens', () => {
-  const amount = 1
-  let OTLCode
+  const amount = 0.1
+  const reason = 'Test_Reason'
+  let code
 
-  it('should get balance', async () => {
-    const data = await goodWallet.balanceOf()
-    const balance = parseInt(data)
+  it('should emit `transfer` event filtered  by`to` block', async () => {
+    await goodWallet.ready
+    const lastBlock = goodWallet.getBlockNumber()
 
-    expect(balance).toBe(0)
-  })
-
-  it('should generate payment link', () => {
-    const reason = 'Test_Reason'
-
-    const paymentData = goodWallet.generateLink(amount, reason, data => data)
-
-    OTLCode = paymentData.hashedCode
-
-    expect(paymentData).toEqual({
-      code: expect.any(String),
-      hashedCode: expect.any(String),
-      paymentLink: expect.stringMatching(new RegExp(`reason=${reason}`)),
+    goodWallet.listenTxUpdates(lastBlock, ({ toBlock, event }) => {
+      expect(event).toBeTruthy()
+      expect(event.event).toBe('Transfer')
+      expect(toBlock).toBeTruthy()
     })
+
+    const data = goodWallet.generateLink(amount, reason, () => {})
+
+    code = data.hashedCode
   })
 
-  it('should fail fetch withdraw data', () => {
-    goodWallet.canSend(amount).catch(e => expect(e).toEqual('Amount is bigger than balance'))
+  it('should emit `transfer` event filtered by `from` block', () => {
+    const lastBlock = goodWallet.getBlockNumber()
+
+    goodWallet.listenTxUpdates(lastBlock, ({ toBlock, event }) => {
+      expect(event).toBeTruthy()
+      expect(event.event).toBe('Transfer')
+      expect(toBlock).toBeTruthy()
+    })
+
+    goodWallet.withdraw(code)
   })
 
-  it('should fail withdraw', () => {
-    goodWallet.withdraw(OTLCode).catch(e => expect(e).toEqual('Amount is bigger than balance'))
+  it('should emit `PaymentWithdraw` event', () => {
+    const lastBlock = goodWallet.getBlockNumber()
+
+    const linkData = goodWallet.generateLink(amount, reason, () => {})
+
+    goodWallet.listenTxUpdates(lastBlock, ({ toBlock, event }) => {
+      expect(event).toBeTruthy()
+      expect(event.event).toBe('PaymentWithdraw')
+      expect(toBlock).toBeTruthy()
+    })
+
+    goodWallet.withdraw(linkData.hashedCode)
   })
 
-  it('should fail withdraw cancellation', () => {
-    goodWallet.cancelOTLByTransactionHash(OTLCode).catch(e => expect(e).toEqual('Impossible to cancel OTL'))
+  it('should emit `PaymentWithdraw` event', () => {
+    const lastBlock = goodWallet.getBlockNumber()
+
+    const linkData = goodWallet.generateLink(amount, reason, () => {})
+
+    goodWallet.listenTxUpdates(lastBlock, ({ toBlock, event }) => {
+      expect(event).toBeTruthy()
+      expect(event.event).toBe('PaymentCancel')
+      expect(toBlock).toBeTruthy()
+    })
+
+    goodWallet.cancelOTL(linkData.hashedCode)
   })
 })

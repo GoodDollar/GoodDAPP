@@ -69,10 +69,10 @@ exports[`KeyboardKey matches snapshot 1`] = `
         Object {
           "color": "rgba(66,69,74,1.00)",
           "direction": "ltr",
-          "fontFamily": "RobotoSlab-Bold",
+          "fontFamily": "Roboto Slab",
           "fontSize": "20px",
           "fontWeight": "700",
-          "lineHeight": "22px",
+          "lineHeight": "24px",
           "textAlign": "center",
           "textDecoration": "none",
           "textTransform": "none",

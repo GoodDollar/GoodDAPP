@@ -1,9 +1,9 @@
 // @flow
 import React from 'react'
-import { Button as BaseButton, DefaultTheme, Text } from 'react-native-paper'
+import { Button as BaseButton, DefaultTheme } from 'react-native-paper'
 import { withStyles } from '../../../lib/styles'
 import Icon from '../view/Icon'
-import normalize from '../../../lib/utils/normalizeText'
+import Text from '../view/Text'
 
 type IconFunction = (string, number) => React.Node
 
@@ -49,17 +49,7 @@ const mapPropsToStyles = ({ theme }) => ({
   },
   buttonText: {
     alignItems: 'center',
-    fontFamily: theme.fonts.default,
-    fontSize: normalize(16),
-    fontWeight: '500',
     justifyContent: 'center',
-    marginBottom: 0,
-    marginLeft: 0,
-    marginRight: 0,
-    marginTop: 0,
-    paddingBottom: 0,
-    paddingLeft: 0,
-    paddingRight: 0,
     paddingTop: 1,
     letterSpacing: 0,
   },
@@ -69,16 +59,19 @@ const mapPropsToStyles = ({ theme }) => ({
 })
 
 const TextContent = withStyles(mapPropsToStyles)(
-  ({ children, dark, uppercase, styles, textStyle }: TextContentProps) => {
+  ({ children, color, dark, uppercase, styles, textStyle }: TextContentProps) => {
     if (typeof children === 'string') {
+      // if set to dark, then text will be white.
+      // if 'color' is specified, use the color for the text
+      // if not, then button will be using 'primary' color
+      const textColor = (dark && 'white') || color || 'primary'
+
       return (
         <Text
-          style={[
-            styles.buttonText,
-            { color: dark && 'white' },
-            { textTransform: uppercase ? 'uppercase' : 'none' },
-            textStyle,
-          ]}
+          color={textColor}
+          fontWeight="medium"
+          textTransform={uppercase ? 'uppercase' : 'none'}
+          style={[styles.buttonText, textStyle]}
         >
           {children}
         </Text>
@@ -140,7 +133,7 @@ const CustomButton = (props: ButtonProps) => {
       {icon && (!iconAlignment || iconAlignment === 'left') && (
         <IconButton icon={icon} theme={theme} dark={dark} size={iconSize} style={styles.leftIcon} />
       )}
-      <TextContent dark={dark} uppercase={uppercase} textStyle={textStyle}>
+      <TextContent dark={dark} uppercase={uppercase} textStyle={textStyle} color={buttonProps.color}>
         {children}
       </TextContent>
       {icon && iconAlignment === 'right' && (

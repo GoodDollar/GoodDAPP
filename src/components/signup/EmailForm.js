@@ -77,7 +77,9 @@ class EmailForm extends React.Component<Props, State> {
         <Section grow justifyContent="flex-start" style={styles.row}>
           <Section.Stack justifyContent="flex-start" style={styles.container}>
             <Section.Row justifyContent="center">
-              <Section.Title textTransform="none">Please enter your email</Section.Title>
+              <Section.Title textTransform="none" color="darkGray" fontSize={22} fontWeight="500">
+                Please enter your email
+              </Section.Title>
             </Section.Row>
             <Section.Row justifyContent="center">
               <Section.Text fontSize={14} color="gray80Percent">

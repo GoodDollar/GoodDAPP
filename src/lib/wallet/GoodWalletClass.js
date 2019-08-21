@@ -416,10 +416,10 @@ export class GoodWallet {
     return (lastClaim.toNumber() + DAY_IN_SECONDS) * MILLISECONDS
   }
 
-  async getAmountAndQuantityClaimedToday(entitlement: BN): Promise<any> {
+  async getAmountAndQuantityClaimedToday(): Promise<any> {
     const people = ((await this.identityContract.methods.whiteListedCount().call()) || ZERO).toNumber()
-
-    const amount = people * entitlement.toNumber()
+    const dialyUBI = 1
+    const amount = people * dialyUBI
     return {
       people: people,
       amount,

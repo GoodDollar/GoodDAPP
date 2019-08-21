@@ -22,6 +22,7 @@ import EmptyEventFeed from './EmptyEventFeed'
 const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
   const itemType = feed.displayType || feed.type
   const eventSettings = getEventSettingsByType(theme, itemType)
+  const mainColor = eventSettings.color
 
   if (itemType === 'empty') {
     return <EmptyEventFeed />
@@ -31,23 +32,25 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
     <View style={styles.innerRow}>
       <Avatar
         size={34}
-        style={[styles.avatarBottom]}
+        style={styles.avatarBottom}
         source={feed.data && feed.data.endpoint && feed.data.endpoint.avatar}
       />
       <View grow style={styles.mainContents}>
-        <View style={[styles.dateAndValue, { borderBottomColor: eventSettings.color }]}>
-          <Text style={styles.date}>{getFormattedDateTime(feed.date)}</Text>
+        <View style={[styles.dateAndValue, { borderBottomColor: mainColor }]}>
+          <Text fontSize={10} color="gray80Percent" lineHeight={17}>
+            {getFormattedDateTime(feed.date)}
+          </Text>
           {!eventSettings.withoutAmount && (
             <React.Fragment>
               {eventSettings && eventSettings.actionSymbol && (
-                <Text fontSize={15} fontWeight="700" style={[styles.actionSymbol, { color: eventSettings.color }]}>
+                <Text fontSize={15} lineHeight={18} fontWeight="bold" color={mainColor} style={styles.actionSymbol}>
                   {eventSettings.actionSymbol}
                 </Text>
               )}
               <BigGoodDollar
                 bigNumberStyles={styles.bigNumberStyles}
                 bigNumberUnitStyles={styles.bigNumberUnitStyles}
-                color={eventSettings.color}
+                color={mainColor}
                 number={feed.data.amount}
               />
             </React.Fragment>
@@ -57,7 +60,7 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
           <View style={styles.mainInfo}>
             <EventCounterParty style={styles.feedItem} feedItem={feed} />
             {feed.type === 'welcome' ? (
-              <Text color="darkGray" fontWeight="500" numberOfLines={1} style={styles.welcomeText}>
+              <Text fontWeight="medium" numberOfLines={1} style={styles.welcomeText}>
                 Start claiming free G$
                 <CustomButton
                   mode="text"
@@ -80,7 +83,7 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
               </Text>
             )}
           </View>
-          <EventIcon style={[styles.typeIcon]} type={itemType} />
+          <EventIcon style={styles.typeIcon} type={itemType} />
         </View>
       </View>
     </View>
@@ -119,12 +122,6 @@ const getStylesFromProps = ({ theme }) => ({
     justifyContent: 'space-between',
     paddingBottom: theme.sizes.defaultHalf,
   },
-  date: {
-    color: theme.colors.lighterGray,
-    fontFamily: theme.fonts.default,
-    fontSize: normalize(10),
-    fontWeight: '400',
-  },
   readMoreText: {
     fontFamily: theme.fonts.default,
     fontSize: normalize(10),
@@ -142,18 +139,22 @@ const getStylesFromProps = ({ theme }) => ({
   },
   bigNumberStyles: {
     fontSize: normalize(15),
+    lineHeight: normalize(18),
     marginRight: theme.sizes.defaultHalf,
   },
   bigNumberUnitStyles: {
     fontSize: normalize(10),
+    lineHeight: normalize(11),
+    marginTop: 6,
   },
   transferInfo: {
     display: 'flex',
     flexDirection: 'row',
     flexShrink: 1,
-    marginTop: 'auto',
+    marginVertical: 'auto',
     paddingHorizontal: theme.sizes.defaultHalf,
     paddingTop: theme.sizes.defaultHalf,
+    alignItems: 'center',
   },
   mainInfo: {
     alignItems: 'flex-start',
@@ -172,11 +173,11 @@ const getStylesFromProps = ({ theme }) => ({
     marginBottom: 0,
   },
   message: {
-    paddingBottom: theme.sizes.defaultHalf,
+    paddingBottom: 0,
     flexShrink: 0,
   },
   typeIcon: {
-    marginTop: 'auto',
+    marginTop: 0,
   },
 })
 

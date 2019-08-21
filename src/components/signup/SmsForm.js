@@ -128,7 +128,9 @@ class SmsForm extends React.Component<Props, State> {
         <Section grow justifyContent="flex-start">
           <Section.Stack justifyContent="flex-start" style={styles.container}>
             <Section.Row justifyContent="center">
-              <Section.Title textTransform="none">{'Enter the verification code\nsent to your phone'}</Section.Title>
+              <Section.Title color="darkGray" fontSize={22} fontWeight="500" textTransform="none">
+                {'Enter the verification code\nsent to your phone'}
+              </Section.Title>
             </Section.Row>
             <Section.Stack justifyContent="center" style={styles.bottomContent}>
               <OtpInput
@@ -165,7 +167,7 @@ const SMSAction = ({ status, handleRetry }) => {
     )
   }
   return (
-    <Section.Text fontWeight="500" fontSize={14} color="primary" onPress={handleRetry}>
+    <Section.Text fontWeight="medium" fontSize={14} color="primary" onPress={handleRetry}>
       Send me the code again
     </Section.Text>
   )

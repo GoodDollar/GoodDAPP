@@ -5,19 +5,22 @@ import numeral from 'numeral'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import logger from '../../lib/logger/pino-logger'
+import normalize from '../../lib/utils/normalizeText'
 import GDStore from '../../lib/undux/GDStore'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import wrapper from '../../lib/undux/utils/wrapper'
 import { weiToGd } from '../../lib/wallet/utils'
 import { CustomButton, Wrapper } from '../common'
+import Text from '../common/view/Text'
 import TopBar from '../common/view/TopBar'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import { withStyles } from '../../lib/styles'
-import normalize from '../../lib/utils/normalizeText'
 import Section from '../common/layout/Section'
 import illustration from '../../assets/Claim/illustration.svg'
 import type { DashboardProps } from './Dashboard'
+
+Image.prefetch(illustration)
 
 type ClaimProps = DashboardProps
 type ClaimState = {
@@ -74,7 +77,7 @@ const Claim = props => {
 
   const gatherStats = async () => {
     const [claimedToday, nextClaimDate] = await Promise.all([
-      wrappedGoodWallet.getAmountAndQuantityClaimedToday(entitlement),
+      wrappedGoodWallet.getAmountAndQuantityClaimedToday(),
       wrappedGoodWallet.getNextClaimTime(),
     ])
 
@@ -174,45 +177,54 @@ const Claim = props => {
         isCitizen ? handleClaim() : faceRecognition()
       }}
     >
-      {`CLAIM YOUR SHARE - ${weiToGd(entitlement)} G$`}
+      <Text color="surface" fontWeight="medium">
+        {`CLAIM YOUR SHARE - ${weiToGd(entitlement)}`}
+        <Text fontSize={10} color="surface" fontWeight="medium" style={styles.goodDollarUnit}>
+          G$
+        </Text>
+      </Text>
     </CustomButton>
   )
 
   return (
     <Wrapper>
       <TopBar push={screenProps.push} />
-      <Section style={[styles.mainContainer]}>
-        <Section.Stack style={[styles.mainText]}>
-          <Section.Text style={[styles.mainTextTitle]}>GoodDollar allows you to collect</Section.Text>
-          <Section.Text style={[styles.mainTextBigMarginBottom]}>
-            <Section.Text style={[styles.mainTextBig]}>1</Section.Text>
-            <Section.Text style={[styles.mainTextSmall]}> G$</Section.Text>
-            <Section.Text style={[styles.mainTextBig]}> Free</Section.Text>
+      <Section style={styles.mainContainer}>
+        <Section.Stack style={styles.mainText}>
+          <Section.Text color="surface" style={styles.mainTextTitle}>
+            GoodDollar allows you to collect
           </Section.Text>
-          <Section.Text style={[styles.mainTextBig]}>Every Day</Section.Text>
+          <Section.Text style={styles.mainTextBigMarginBottom}>
+            <Section.Text color="surface" fontFamily="slab" fontWeight="bold" fontSize={36}>
+              1
+            </Section.Text>
+            <Section.Text color="surface" fontFamily="slab" fontWeight="bold" fontSize={20}>
+              {' G$'}
+            </Section.Text>
+            <Section.Text color="surface" fontFamily="slab" fontWeight="bold" fontSize={36}>
+              {' Free'}
+            </Section.Text>
+          </Section.Text>
+          <Section.Text color="surface" fontFamily="slab" fontWeight="bold" fontSize={36}>
+            Every Day
+          </Section.Text>
         </Section.Stack>
-        <Section.Stack style={[styles.extraInfo]}>
+        <Section.Stack style={styles.extraInfo}>
           <Image source={illustration} style={styles.illustration} resizeMode="contain" />
           <Section.Row style={styles.extraInfoStats}>
-            <Section.Text>
-              <Section.Text style={[styles.extraInfoStatsText, styles.textBold, styles.textPrimary]}>
-                {numeral(claimedToday.people).format('0a')}{' '}
-              </Section.Text>
-              <Section.Text style={[styles.extraInfoStatsText]}>People Claimed </Section.Text>
-              <Section.Text style={[styles.extraInfoStatsText, styles.textBold, styles.textPrimary]}>
-                {numeral(claimedToday.amount).format('0a')}
-              </Section.Text>
-              <Section.Text
-                style={[styles.extraInfoStatsText, styles.textBold, styles.textPrimary, styles.extraInfoStatsSmallText]}
-              >
-                G${' '}
-              </Section.Text>
-              <Section.Text style={[styles.extraInfoStatsText]}>Today!</Section.Text>
+            <Section.Text fontWeight="bold">{numeral(claimedToday.people).format('0a')} </Section.Text>
+            <Section.Text>People Claimed </Section.Text>
+            <Section.Text fontWeight="bold">{numeral(claimedToday.amount).format('0a')}</Section.Text>
+            <Section.Text fontWeight="bold" fontSize={10} style={styles.goodDollarUnit}>
+              G${' '}
             </Section.Text>
+            <Section.Text>Today!</Section.Text>
           </Section.Row>
-          <Section.Stack style={[styles.extraInfoCountdown]}>
-            <Section.Text style={[styles.extraInfoCountdownTitle]}>Next Daily Income:</Section.Text>
-            <Section.Text style={[styles.extraInfoCountdownNumber]}>{nextClaim}</Section.Text>
+          <Section.Stack style={styles.extraInfoCountdown}>
+            <Section.Text style={styles.extraInfoCountdownTitle}>Next Daily Income:</Section.Text>
+            <Section.Text color="surface" fontFamily="slab" fontSize={36} fontWeight="bold">
+              {nextClaim}
+            </Section.Text>
           </Section.Stack>
           {ClaimButton}
         </Section.Stack>
@@ -221,122 +233,83 @@ const Claim = props => {
   )
 }
 
-const getStylesFromProps = ({ theme }) => ({
-  mainContainer: {
-    backgroundColor: 'transparent',
-    flexGrow: 1,
-    paddingBottom: 0,
-    paddingLeft: 0,
-    paddingRight: 0,
-    paddingTop: 0,
-  },
-  mainText: {
-    alignItems: 'center',
-    flexDirection: 'column',
-    marginBottom: 64,
-    paddingTop: theme.sizes.defaultDouble,
-  },
-  mainTextTitle: {
-    color: '#fff',
-    fontFamily: theme.fonts.default,
-    fontSize: normalize(16),
-    fontWeight: '400',
-    marginBottom: 12,
-  },
-  mainTextBig: {
-    color: '#fff',
-    fontFamily: theme.fonts.slab,
-    fontSize: normalize(36),
-    fontWeight: '700',
-  },
-  mainTextBigMarginBottom: {
-    marginBottom: theme.sizes.defaultHalf,
-  },
-  mainTextSmall: {
-    color: '#fff',
-    fontFamily: theme.fonts.slab,
-    fontSize: normalize(20),
-    fontWeight: '700',
-  },
-  illustration: {
-    flexGrow: 0,
-    flexShrink: 0,
-    marginBottom: theme.sizes.default,
-    marginTop: -80,
-    maxWidth: '100%',
-    minHeight: 159,
-    minWidth: 229,
-  },
-  extraInfo: {
-    backgroundColor: '#fff',
-    borderRadius: theme.sizes.borderRadius,
-    flexGrow: 1,
-    flexShrink: 1,
-    minHeight: 0,
-    paddingBottom: theme.sizes.defaultDouble,
-    paddingLeft: theme.sizes.default,
-    paddingRight: theme.sizes.default,
-    paddingTop: theme.sizes.defaultDouble,
-  },
-  extraInfoStats: {
-    alignItems: 'center',
-    backgroundColor: theme.colors.lightGray,
-    borderRadius: theme.sizes.borderRadius,
-    flexGrow: 1,
-    justifyContent: 'center',
-    paddingBottom: theme.sizes.default,
-    paddingLeft: theme.sizes.defaultHalf,
-    paddingRight: theme.sizes.defaultHalf,
-    paddingTop: theme.sizes.default,
-    marginLeft: 0,
-    marginRight: 0,
-    marginBottom: theme.sizes.default,
+const getStylesFromProps = ({ theme }) => {
+  const defaultMargins = {
+    marginHorizontal: 0,
     marginTop: 0,
-  },
-  extraInfoStatsText: {
-    fontFamily: theme.fonts.default,
-    fontSize: normalize(15.5),
-    fontWeight: '400',
-  },
-  extraInfoStatsSmallText: {
-    fontSize: normalize(10),
-  },
-  textBold: {
-    fontFamily: theme.fonts.default,
-    fontWeight: '700',
-  },
-  textPrimary: {
-    color: theme.colors.primary,
-  },
-  extraInfoCountdown: {
-    alignItems: 'center',
-    backgroundColor: theme.colors.lightGray,
-    borderRadius: theme.sizes.borderRadius,
-    flexDirection: 'column',
-    flexGrow: 2,
-    justifyContent: 'center',
-    marginBottom: theme.sizes.defaultDouble,
-    marginLeft: 0,
-    marginRight: 0,
-    marginTop: 0,
-    paddingBottom: theme.sizes.default,
-    paddingLeft: theme.sizes.defaultHalf,
-    paddingRight: theme.sizes.defaultHalf,
-    paddingTop: theme.sizes.default,
-  },
-  extraInfoCountdownTitle: {
-    fontFamily: theme.fonts.default,
-    fontSize: normalize(16),
-    fontWeight: '400',
     marginBottom: theme.sizes.default,
-  },
-  extraInfoCountdownNumber: {
-    color: theme.colors.green,
-    fontFamily: theme.fonts.slab,
-    fontSize: normalize(36),
-    fontWeight: '700',
-  },
-})
+  }
+
+  const defaultPaddings = {
+    paddingVertical: theme.sizes.default,
+    paddingHorizontal: theme.sizes.defaultHalf,
+  }
+
+  const defaultStatsBlock = {
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: theme.sizes.borderRadius,
+  }
+
+  return {
+    mainContainer: {
+      backgroundColor: 'transparent',
+      flexGrow: 1,
+      paddingVertical: 0,
+      paddingHorizontal: 0,
+    },
+    mainText: {
+      alignItems: 'center',
+      flexDirection: 'column',
+      marginBottom: 64,
+      paddingTop: theme.sizes.defaultDouble,
+    },
+    mainTextTitle: {
+      marginBottom: 12,
+    },
+    mainTextBigMarginBottom: {
+      marginBottom: theme.sizes.defaultHalf,
+    },
+    illustration: {
+      flexGrow: 0,
+      flexShrink: 0,
+      marginBottom: theme.sizes.default,
+      marginTop: -80,
+      maxWidth: '100%',
+      minHeight: 159,
+      minWidth: 229,
+    },
+    extraInfo: {
+      backgroundColor: theme.colors.surface,
+      borderRadius: theme.sizes.borderRadius,
+      flexGrow: 1,
+      flexShrink: 1,
+      minHeight: 0,
+      paddingVertical: theme.sizes.defaultDouble,
+      paddingHorizontal: theme.sizes.default,
+    },
+    extraInfoStats: {
+      ...defaultStatsBlock,
+      ...defaultMargins,
+      paddingVertical: 8,
+      flexGrow: 1,
+    },
+    extraInfoCountdown: {
+      ...defaultStatsBlock,
+      ...defaultPaddings,
+      ...defaultMargins,
+      backgroundColor: theme.colors.orange,
+      flexGrow: 2,
+      flexDirection: 'column',
+    },
+    extraInfoCountdownTitle: {
+      marginBottom: theme.sizes.default,
+    },
+    goodDollarUnit: {
+      paddingTop: normalize(4),
+    },
+  }
+}
 
 Claim.navigationOptions = {
   title: 'Claim Daily G$',

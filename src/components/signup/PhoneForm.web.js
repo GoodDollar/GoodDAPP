@@ -82,7 +82,7 @@ class PhoneForm extends React.Component<Props, State> {
         <Section grow justifyContent="flex-start">
           <Section.Stack justifyContent="flex-start" style={styles.container}>
             <Section.Row justifyContent="center">
-              <Section.Title textTransform="none">
+              <Section.Title color="darkGray" fontSize={22} fontWeight="500" textTransform="none">
                 {`${getFirstWord(fullName)}, May we have your number please?`}
               </Section.Title>
             </Section.Row>

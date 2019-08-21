@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { Image, StyleSheet, View } from 'react-native'
 import { Text } from 'react-native-paper'
 import { isMobile } from 'mobile-device-detect'
-
+import SimpleStore from '../../../lib/undux/SimpleStore'
 import { CustomButton } from '../../common'
 
 // import { Section } from '../../common'
@@ -99,7 +99,9 @@ const HelperWizard = props => {
     <React.Fragment>
       <View id="background" style={styles.background} />
       <View style={{ zIndex: 10, justifyContent: 'space-evenly', height: '100%' }}>
-        <Text style={{ fontFamily: 'Roboto-Medium', fontSize: 20, color: 'white' }}>{text}</Text>
+        <Text fontWeight="medium" fontSize={20} color="surface">
+          {text}
+        </Text>
         {imgs}
         <CustomButton
           style={{ borderColor: 'white', borderWidth: 2 }}
@@ -125,6 +127,10 @@ class ZoomCapture extends React.Component<ZoomCaptureProps> {
 
   zoom: Zoom
 
+  state = {
+    cameraReady: false,
+  }
+
   cameraReady = async (track: MediaStreamTrack) => {
     log.debug('camera ready')
     this.videoTrack = track
@@ -133,6 +139,7 @@ class ZoomCapture extends React.Component<ZoomCaptureProps> {
       let zoomSDK = this.props.loadedZoom
       this.zoom = new Zoom(zoomSDK)
       await this.zoom.ready
+      this.setState({ cameraReady: true }, () => this.props.store.set('loadingIndicator')({ loading: false }))
       if (this.props.showHelper === false) {
         this.captureUserMediaZoom()
       }
@@ -159,12 +166,16 @@ class ZoomCapture extends React.Component<ZoomCaptureProps> {
   }
 
   componentDidMount() {
+    this.props.store.set('loadingIndicator')({ loading: true })
     if (!this.props.loadedZoom) {
       log.warn('zoomSDK was not loaded into ZoomCapture properly')
     }
   }
 
   componentWillUnmount() {
+    if (this.state.cameraReady === false) {
+      this.props.store.set('loadingIndicator')({ loading: false })
+    }
     if (this.props.loadedZoom) {
       log.warn('zoomSDK was loaded, canceling zoom capture')
       this.zoom && this.zoom.cancel()
@@ -177,10 +188,12 @@ class ZoomCapture extends React.Component<ZoomCaptureProps> {
         <View style={styles.bottomSection}>
           <div id="zoom-parent-container" style={getVideoContainerStyles()}>
             <View id="helper" style={styles.helper}>
-              <HelperWizard done={this.captureUserMediaZoom} skip={this.props.showHelper === false} />
+              {this.state.cameraReady ? (
+                <HelperWizard done={this.captureUserMediaZoom} skip={this.props.showHelper === false} />
+              ) : null}
             </View>
             <div id="zoom-interface-container" style={{ position: 'absolute' }} />
-            {<Camera onCameraLoad={this.cameraReady} onError={this.props.onError} />}
+            {<Camera key="camera" onCameraLoad={this.cameraReady} onError={this.props.onError} />}
           </div>
         </View>
       </View>
@@ -234,4 +247,4 @@ const getVideoContainerStyles = () => ({
   marginBottom: 0,
 })
 
-export default ZoomCapture
+export default SimpleStore.withStore(ZoomCapture)

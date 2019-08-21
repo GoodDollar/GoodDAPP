@@ -67,7 +67,9 @@ class NameForm extends React.Component<Props, State> {
         <Section grow justifyContent="flex-start">
           <Section.Stack justifyContent="flex-start" style={this.props.styles.container}>
             <Section.Row justifyContent="center" style={this.props.styles.row}>
-              <Section.Title textTransform="none">{'Hi, Please enter your full name'}</Section.Title>
+              <Section.Title color="darkGray" fontSize={22} fontWeight="500" textTransform="none">
+                {'Hi, Please enter your full name'}
+              </Section.Title>
             </Section.Row>
             <Section.Row justifyContent="center" style={this.props.styles.bottomRow}>
               <InputText

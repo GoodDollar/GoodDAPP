@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { ScrollView, TouchableOpacity, View } from 'react-native'
+import { AsyncStorage, ScrollView, TouchableOpacity, View } from 'react-native'
 import { useWrappedApi } from '../../lib/API/useWrappedApi'
 import logger from '../../lib/logger/pino-logger'
 import { withStyles } from '../../lib/styles'
@@ -118,6 +118,7 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation, s
             await userStorage
               .deleteAccount()
               .then(r => log.debug('deleted account', r))
+              .then(r => AsyncStorage.clear())
               .catch(e => log.error('Error deleting account', e))
             store.set('loadingIndicator')({ loading: false })
             window.location = '/'

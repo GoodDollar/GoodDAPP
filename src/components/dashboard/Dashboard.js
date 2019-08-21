@@ -131,10 +131,11 @@ const Dashboard = props => {
               {fullName || ' '}
             </Section.Text>
             <Section.Row style={styles.bigNumberWrapper}>
-              <BigGoodDollar bigNumberStyles={styles.bigNumberVerticalStyles} number={balance} unit={undefined} />
-              <Section.Text fontSize={18} fontWeight="bold" fontFamily="slab" style={styles.bigNumberUnitStyles}>
-                G$
-              </Section.Text>
+              <BigGoodDollar
+                number={balance}
+                bigNumberProps={{ fontSize: 42, fontWeight: 'semibold' }}
+                bigNumberUnitStyles={styles.bigNumberUnitStyles}
+              />
             </Section.Row>
           </Section.Stack>
         ) : (
@@ -145,7 +146,7 @@ const Dashboard = props => {
               source={avatar}
               style={[styles.avatarSmall]}
             />
-            <BigGoodDollar bigNumberStyles={styles.bigNumberStyles} number={balance} />
+            <BigGoodDollar number={balance} />
           </Section>
         )}
         <Section.Row style={styles.buttonsRow}>
@@ -300,19 +301,9 @@ const getStylesFromProps = ({ theme }) => ({
   rightButtonText: {
     marginLeft: 16,
   },
-  bigNumberVerticalStyles: {
-    fontFamily: theme.fonts.slab,
-    fontSize: normalize(42),
-    fontWeight: '600',
-  },
   bigNumberWrapper: {
     marginVertical: theme.sizes.defaultDouble,
     alignItems: 'baseline',
-  },
-  bigNumberStyles: {
-    fontFamily: theme.fonts.slab,
-    fontSize: normalize(36),
-    fontWeight: '700',
   },
   bigNumberUnitStyles: {
     marginRight: normalize(-20),

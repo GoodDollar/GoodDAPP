@@ -230,6 +230,11 @@ const OtpInput = (props: Props) => {
     handleOtpChange(otp)
   }
 
+  const getActiveInputValue = () => {
+    const otp = getOtpValue()
+    return otp[activeInput]
+  }
+
   // Handle pasted OTP
   const handleOnPaste = (e: Object) => {
     e.preventDefault()
@@ -259,8 +264,12 @@ const OtpInput = (props: Props) => {
   const handleOnKeyPress = (e: Object) => {
     if (e.keyCode === BACKSPACE || e.key === 'Backspace') {
       e.preventDefault()
-      focusPrevInput()
+      const currentValue = getActiveInputValue()
       changeCodeAtFocus('')
+      if (!currentValue || currentValue.length === 0) {
+        changeCodeAtFocus('', Math.max(activeInput - 1, 0))
+      }
+      focusPrevInput()
     } else if (e.keyCode === DELETE || e.key === 'Delete') {
       e.preventDefault()
       changeCodeAtFocus('')
@@ -276,10 +285,10 @@ const OtpInput = (props: Props) => {
   const checkLength = (e: Object) => {
     if (e.target.value.length > 1) {
       e.preventDefault()
-      const char = e.target.value[1]
       const nextInput = Math.max(Math.min(numInputs - 1, activeInput + 1), 0)
       focusNextInput()
-      changeCodeAtFocus(char, nextInput)
+      changeCodeAtFocus(e.target.value[0], activeInput)
+      changeCodeAtFocus(e.target.value[1], nextInput)
     }
     const otp = getOtpValue()
     if (e.target.value === otp[activeInput]) {

@@ -676,7 +676,7 @@ export class UserStorage {
     const cleanValue = UserStorage.cleanFieldForIndex(field, value)
 
     if (!cleanValue) {
-      logger.error('indexProfileField - value is empty', cleanValue)
+      logger.error(`indexProfileField - field ${field} value is empty (value: ${value})`, cleanValue)
       return false
     }
 

@@ -11,7 +11,6 @@ const getDesignRelativeSize = (size, isMax = true, baseSize, currentSize) => {
   const sizeInVW = size / baseSize
   const relativeSize = currentSize * sizeInVW
   const calculatedSize = isMax ? Math.min(size, relativeSize) : relativeSize
-  console.info({ size, isMax, sizeInVW, calculatedSize, baseSize, currentSize, relativeSize })
   return calculatedSize
 }
 

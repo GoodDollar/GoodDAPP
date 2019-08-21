@@ -66,37 +66,60 @@ const getSingleOtpInputStylesFromProps = ({ theme }) => ({
   },
 })
 
-const Input = ({ min, max, pattern, focus, shouldAutoFocus, onChange, ...props }) => {
+const Input = ({ min, max, pattern, focus, shouldAutoFocus, onChange, maxLength, ...props }) => {
   let input: ?HTMLInputElement = null
+  const [caretPosition, setCaretPosition] = useState({ start: 0, end: 0 })
+
+  const focusInput = (autofocusDisabled: boolean) => {
+    if (input && focus && !autofocusDisabled) {
+      input.focus()
+      const caret = props.value && props.value.length ? 1 : 0
+      setCaretPosition({ start: caret, end: caret })
+    }
+  }
 
   // Focus on first render
   // Only when shouldAutoFocus is true
   useEffect(() => {
-    if (input && focus && shouldAutoFocus) {
-      input.focus()
-    }
+    focusInput(!shouldAutoFocus)
   }, [])
 
   // Check if focusedInput changed
   // Prevent calling function if input already in focus
   useEffect(() => {
-    if (input && focus) {
-      input.focus()
-    }
+    focusInput()
   }, [focus])
 
-  const handleValidation = (value: number | string): boolean =>
+  const handleSingleCharValidation = (value: number | string): boolean =>
     (!min || value >= min) && (!max || value <= max) && (!pattern || pattern.test(value))
+
+  const handleValidation = (value: number | string): number => {
+    if (handleSingleCharValidation(value)) {
+      return 1 // Validations are ok
+    }
+    if (value.length > maxLength && [...value].every(char => handleSingleCharValidation(char))) {
+      return 2 // Validations are ok but input length is longer than 1
+    }
+    return 0 // There is an error
+  }
 
   const handleOnChange = (e: Object) => {
     e.preventDefault()
     const value = e.target.value
     const isValid = handleValidation(value)
     if (isValid && onChange) {
-      onChange(value)
+      onChange(value, isValid)
     }
   }
-  return <TextInput {...props} onChange={handleOnChange} ref={inputRef => (input = inputRef)} />
+  return (
+    <TextInput
+      {...props}
+      onChange={handleOnChange}
+      ref={inputRef => (input = inputRef)}
+      selection={caretPosition}
+      onSelectionChange={setCaretPosition}
+    />
+  )
 }
 
 const SingleOtpInput = withStyles(getSingleOtpInputStylesFromProps)((props: SingleOtpInputProps) => {
@@ -130,7 +153,7 @@ const SingleOtpInput = withStyles(getSingleOtpInputStylesFromProps)((props: Sing
   }
   const inputProps = {
     style: inputStyles,
-    maxLength: '1',
+    maxLength: 1,
     disabled: isDisabled,
     value: value && value !== ' ' ? value : '',
     returnKeyType: 'next',
@@ -201,9 +224,9 @@ const OtpInput = (props: Props) => {
   const focusPrevInput = () => focusInput(activeInput - 1)
 
   // Change OTP value at focused input
-  const changeCodeAtFocus = (inputValue: string) => {
+  const changeCodeAtFocus = (inputValue: string, selectedInput?: number) => {
     const otp = getOtpValue()
-    otp[activeInput] = inputValue[0]
+    otp[selectedInput || activeInput] = inputValue[0]
     handleOtpChange(otp)
   }
 
@@ -227,7 +250,7 @@ const OtpInput = (props: Props) => {
     handleOtpChange(otp)
   }
 
-  const handleOnChange = (inputValue: string) => {
+  const handleOnChange = (inputValue: string, validationResult: number) => {
     changeCodeAtFocus(inputValue)
     focusNextInput()
   }
@@ -247,16 +270,16 @@ const OtpInput = (props: Props) => {
     } else if (e.keyCode === RIGHT_ARROW || e.key === 'ArrowRight') {
       e.preventDefault()
       focusNextInput()
-    } else if (e.target.value.length === 1) {
-      e.preventDefault()
-      focusNextInput()
     }
   }
 
   const checkLength = (e: Object) => {
     if (e.target.value.length > 1) {
       e.preventDefault()
+      const char = e.target.value[1]
+      const nextInput = Math.max(Math.min(numInputs - 1, activeInput + 1), 0)
       focusNextInput()
+      changeCodeAtFocus(char, nextInput)
     }
     const otp = getOtpValue()
     if (e.target.value === otp[activeInput]) {

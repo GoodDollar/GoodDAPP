@@ -414,7 +414,7 @@ exports[`Who matches snapshot 1`] = `
                   "color": "rgba(66,69,74,1.00)",
                   "fontFamily": "Roboto Slab",
                   "fontSize": "18px",
-                  "marginTop": "16px",
+                  "marginTop": "24px",
                   "paddingBottom": "4px",
                   "paddingLeft": "32px",
                   "paddingRight": "32px",

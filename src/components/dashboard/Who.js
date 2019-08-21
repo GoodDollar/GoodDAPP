@@ -83,8 +83,13 @@ Who.shouldNavigateToComponent = props => {
   return screenState.nextRoutes
 }
 
-export default withStyles(({ theme }) => ({
+const getStylesFromProps = ({ theme }) => ({
   input: {
-    marginTop: theme.sizes.defaultDouble,
+    marginTop: theme.sizes.defaultDouble + theme.sizes.default,
   },
-}))(Who)
+  container: {
+    minHeight: '23vh',
+  },
+})
+
+export default withStyles(getStylesFromProps)(Who)

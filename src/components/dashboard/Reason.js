@@ -1,7 +1,6 @@
 // @flow
 import React from 'react'
 import InputText from '../common/form/InputText'
-
 import { Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
@@ -25,17 +24,17 @@ const SendReason = (props: AmountProps) => {
     <Wrapper>
       <TopBar push={screenProps.push} />
       <Section grow>
-        <Section.Stack grow justifyContent="flex-start">
+        <Section.Stack justifyContent="flex-start" style={props.styles.container}>
           <Section.Title>What For?</Section.Title>
           <InputText
             autoFocus
-            style={props.styles.input}
+            style={[props.styles.input, props.styles.bottomContent]}
             value={reason}
             onChangeText={reason => setScreenState({ reason })}
             placeholder="Add a message"
           />
         </Section.Stack>
-        <Section.Row>
+        <Section.Row style={props.styles.bottomContent}>
           <Section.Row grow={1} justifyContent="flex-start">
             <BackButton mode="text" screenProps={screenProps}>
               Cancel
@@ -62,4 +61,16 @@ SendReason.shouldNavigateToComponent = props => {
   return screenState.amount >= 0 && screenState.nextRoutes
 }
 
-export default withStyles(({ theme }) => ({ input: { marginTop: theme.sizes.defaultDouble } }))(SendReason)
+const getStylesFromProps = ({ theme }) => ({
+  input: {
+    marginTop: theme.sizes.defaultDouble,
+  },
+  container: {
+    minHeight: 180,
+  },
+  bottomContent: {
+    marginTop: 'auto',
+  },
+})
+
+export default withStyles(getStylesFromProps)(SendReason)

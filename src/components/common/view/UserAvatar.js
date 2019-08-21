@@ -3,7 +3,7 @@ import React from 'react'
 import { View } from 'react-native'
 import CreateAvatar from 'exif-react-avatar-edit'
 import { getScreenHeight, getScreenWidth, isPortrait } from '../../../lib/utils/Orientation'
-import { getDesignRelativeSize } from '../../../lib/utils/sizes'
+import { getDesignRelativeWidth } from '../../../lib/utils/sizes'
 
 import { withStyles } from '../../../lib/styles'
 
@@ -41,7 +41,7 @@ const UserAvatar = (props: AvatarProps) => {
 
   const screenWidth = isPortrait() ? getScreenWidth() : getScreenHeight()
   let cropSize = Math.min(screenWidth - 70, 320)
-  const avatarSize = getDesignRelativeSize(AVATAR_DESIGN_WIDTH)
+  const avatarSize = getDesignRelativeWidth(AVATAR_DESIGN_WIDTH)
 
   return editable ? (
     <View style={styles.innerAvatar}>

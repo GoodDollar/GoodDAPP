@@ -20,7 +20,7 @@ const log = logger.child({ from: TITLE })
 
 // To remove profile values that are already failing
 function filterObject(obj) {
-  return pickBy(obj, (v, k) => v !== undefined)
+  return pickBy(obj, (v, k) => v !== undefined && v !== '')
 }
 
 const EditProfile = ({ screenProps, theme, styles }) => {

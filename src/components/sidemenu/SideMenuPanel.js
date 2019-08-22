@@ -8,11 +8,14 @@ import SimpleStore from '../../lib/undux/SimpleStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import { useSidemenu } from '../../lib/undux/utils/sidemenu'
 import { Icon } from '../common'
+import IconWrapper from '../common/modal/IconWrapper'
 import SideMenuItem from './SideMenuItem'
 
 type SideMenuPanelProps = {
   navigation: any,
 }
+
+const TrashIcon = withStyles()(({ theme }) => <IconWrapper iconName="trash" color={theme.colors.error} size={50} />)
 
 const log = logger.child({ from: 'SideMenuPanel' })
 const getMenuItems = ({ API, hideSidemenu, showDialog, navigation, store, theme }) => ({
@@ -110,6 +113,7 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, navigation, store, theme 
           title: 'Are you sure?',
           message: 'If you delete your account',
           boldMessage: 'all your G$ will be lost forever!',
+          image: <TrashIcon />,
           buttons: [
             { text: 'Cancel', onPress: dismiss => dismiss(), mode: 'text', color: theme.colors.lighterGray },
             {

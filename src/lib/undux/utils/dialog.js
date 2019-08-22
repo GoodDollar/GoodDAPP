@@ -36,7 +36,7 @@ export const showDialogForError = (
   }
 
   message = humanError ? humanError + '\n' + message : message
-  const dialogData = { visible: true, title: 'Ooops...', message, dismissText: 'OK', type: 'error', ...dialogProps }
+  const dialogData = { visible: true, title: 'Ooops...', message, type: 'error', ...dialogProps }
   showDialogWithData(store, dialogData)
 }
 

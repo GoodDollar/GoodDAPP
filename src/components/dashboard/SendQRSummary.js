@@ -73,7 +73,7 @@ const SendQRSummary = (props: AmountProps) => {
             visible: true,
             title: 'SUCCESS!',
             message: 'The G$ was sent successfully',
-            dismissText: 'Yay!',
+            buttons: [{ text: 'Yay!' }],
             onDismiss: screenProps.goToRoot,
           })
           return hash

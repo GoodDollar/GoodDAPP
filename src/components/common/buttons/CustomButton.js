@@ -120,7 +120,6 @@ const CustomButton = (props: ButtonProps) => {
   const uppercase = mode !== 'text'
   return (
     <BaseButton
-      compact
       dark={dark}
       mode={mode}
       style={[styles.buttonStyle, style]}

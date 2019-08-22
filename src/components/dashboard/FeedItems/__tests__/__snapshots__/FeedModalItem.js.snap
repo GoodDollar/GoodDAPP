@@ -733,8 +733,8 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                               "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                               "letterSpacing": "1px",
                               "marginBottom": "9px",
-                              "marginLeft": "8px",
-                              "marginRight": "8px",
+                              "marginLeft": "16px",
+                              "marginRight": "16px",
                               "marginTop": "9px",
                               "textAlign": "center",
                             }
@@ -1517,8 +1517,8 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                               "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                               "letterSpacing": "1px",
                               "marginBottom": "9px",
-                              "marginLeft": "8px",
-                              "marginRight": "8px",
+                              "marginLeft": "16px",
+                              "marginRight": "16px",
                               "marginTop": "9px",
                               "textAlign": "center",
                             }
@@ -2375,8 +2375,8 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                               "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                               "letterSpacing": "1px",
                               "marginBottom": "9px",
-                              "marginLeft": "8px",
-                              "marginRight": "8px",
+                              "marginLeft": "16px",
+                              "marginRight": "16px",
                               "marginTop": "9px",
                               "textAlign": "center",
                             }
@@ -3234,8 +3234,8 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                               "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                               "letterSpacing": "1px",
                               "marginBottom": "9px",
-                              "marginLeft": "8px",
-                              "marginRight": "8px",
+                              "marginLeft": "16px",
+                              "marginRight": "16px",
                               "marginTop": "9px",
                               "textAlign": "center",
                             }

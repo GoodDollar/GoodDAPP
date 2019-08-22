@@ -63,7 +63,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
         showDialog({
           visible: true,
           title: 'Welcome back!',
-          dismissText: 'YAY!',
+          buttons: [{ text: 'Yay!' }],
           message: `Hi ${firstName},\nyour wallet was recovered successfully`,
           onDismiss: () => (window.location = incomingRedirectUrl),
         })

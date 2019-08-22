@@ -30,8 +30,8 @@ const BigGoodDollar = ({ number, formatter, ...props }: Props) => {
 
 const GDUnits = props => {
   const { fontSize, ...bigNumberUnitProps } = props.bigNumberUnitProps || {}
-  const dollarSignFontSize = fontSize ? fontSize - DIFF_FACTOR : DOLLAR_SIGN_SIZE
   const goodSignFontSize = fontSize || GOOD_SIGN_SIZE
+  const dollarSignFontSize = fontSize ? fontSize - DIFF_FACTOR : DOLLAR_SIGN_SIZE
 
   return (
     <Text style={props.bigNumberUnitStyles}>

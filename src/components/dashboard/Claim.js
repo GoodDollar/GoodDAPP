@@ -182,7 +182,7 @@ const Claim = props => {
       </Text>
       <BigGoodDollar
         number={entitlement}
-        formatter={number => weiToGd(number)}
+        formatter={weiToGd}
         bigNumberProps={{ fontSize: 16, color: 'surface', fontWeight: 'medium' }}
         bigNumberUnitProps={{ fontSize: 10, color: 'surface', fontWeight: 'medium' }}
         style={styles.inline}

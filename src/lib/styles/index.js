@@ -22,10 +22,6 @@ export const withStyles = (mapThemeToStyles, withStyleSheet = true) => Component
   }
 
   class WrappedComponent extends React.Component {
-    constructor(props) {
-      super(props)
-    }
-
     componentDidMount() {
       const styles = getUpdatedStyles(this.props)
       this.setState({ styles })

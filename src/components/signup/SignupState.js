@@ -109,13 +109,14 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
           return navigation.navigate('InvalidW3TokenError')
 
         case 'goToRecoverScreen':
-          return navigation.navigate('Recover')
+          return navigation.navigate('Recover', { web3HasWallet: true })
 
         default:
           break
       }
 
       setState({ ...state, w3Token: web3Token })
+
       // todo UserStorage.setProfile(w3user);
     }
   }

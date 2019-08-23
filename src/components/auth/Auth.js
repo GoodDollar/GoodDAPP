@@ -1,5 +1,5 @@
 // @flow
-import React  from 'react'
+import React from 'react'
 import { AsyncStorage, Image, View } from 'react-native'
 import Mnemonics from '../signin/Mnemonics'
 import logger from '../../lib/logger/pino-logger'
@@ -28,12 +28,12 @@ class Auth extends React.Component<Props> {
   }
 
   checkWeb3Token = async () => {
-    const {
-      navigation,
-    } = this.props;
+    const { navigation } = this.props
     const web3Token = await AsyncStorage.getItem('web3Token')
-console.log('web3Tokenfa', web3Token);
-    if (!web3Token) return
+
+    if (!web3Token) {
+      return
+    }
 
     const isLoggedIn = await AsyncStorage.getItem('isLoggedIn')
 

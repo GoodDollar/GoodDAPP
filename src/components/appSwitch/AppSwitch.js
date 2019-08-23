@@ -26,8 +26,10 @@ const AppSwitch = (props: LoadingProps) => {
   const gdstore = GDStore.useStore()
   const { router, state, navigate } = props.navigation
 
-  const checkWeb3Token = async (token) => {
-    if (!token) return
+  const checkWeb3Token = token => {
+    if (!token) {
+      return
+    }
 
     const isLoggedIn = store.get('isLoggedIn')
 
@@ -48,7 +50,6 @@ const AppSwitch = (props: LoadingProps) => {
     log.debug('getParams', { destinationPath, router, state })
 
     if (web3Token) {
-      console.log('web3Tokeninit', web3Token);
       checkWeb3Token(web3Token)
     }
 

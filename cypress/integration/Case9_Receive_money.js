@@ -55,9 +55,9 @@ describe('Test case 9: Ability to send money request and reseive money', () => {
     });
     
 
-    it('User is able to receive money', async () => {
+    it('User is able to receive money', () => {
 
-        await StartPage.open();
+        StartPage.open();
         StartPage.loginLink.click();         
         const wordsForSuccessfullLogin = Cypress.env('wordsForSuccessfullLogin')
         for( let i = 0; i < 12; i++ ) {
@@ -65,17 +65,21 @@ describe('Test case 9: Ability to send money request and reseive money', () => {
         }
         LoginPage.recoverWalletButton.click();
         cy.wait(7000)
-        const moneyBeforeSending = await HomePage.moneyAmountDiv.invoke('text');
-        cy.visit(reseiveMoneyUrl);
-        ReceiveMoneyPage.confirmWindowButton.should('be.visible');
-        ReceiveMoneyPage.confirmWindowButton.click();
-        cy.wait(8000)
-        cy.visit('https://goodqa.netlify.com/AppNavigation/Dashboard/Home');
-        cy.wait(15000)
-        HomePage.claimButton.should('be.visible');
-        HomePage.moneyAmountDiv.invoke('text').then( moneyAfterSending => {
-            expect(Number(moneyBeforeSending) - 0.01).to.be.equal( Number(moneyAfterSending) )
-        });
+        const moneyBeforeSending = 
+        HomePage.moneyAmountDiv.invoke('text')
+                .then ( moneyBeforeSending => {
+                    cy.visit(reseiveMoneyUrl);
+                    ReceiveMoneyPage.confirmWindowButton.should('be.visible');
+                    ReceiveMoneyPage.confirmWindowButton.click();
+                    cy.wait(8000)
+                    cy.visit('https://goodqa.netlify.com/AppNavigation/Dashboard/Home');
+                    cy.wait(25000)
+                    HomePage.claimButton.should('be.visible');
+                    HomePage.moneyAmountDiv.invoke('text')
+                            .then( moneyAfterSending => {
+                                expect(Number(moneyBeforeSending) - 0.01).to.be.equal( Number(moneyAfterSending) )
+                            });
+                });
 
     });
 

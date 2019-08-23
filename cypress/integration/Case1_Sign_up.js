@@ -34,9 +34,9 @@ describe('Test case 1: Ability to Sign Up', () => {
     });
 
 
-    it('User is able to sign up the wallet with correct values', async () => {
+    it('User is able to sign up the wallet with correct values', () => {
 
-        await StartPage.open();
+        StartPage.open();
         StartPage.createWalletButton.click();
         cy.wait(3000);
         SignUpPage.nameInput.type('Name Name');
@@ -46,9 +46,10 @@ describe('Test case 1: Ability to Sign Up', () => {
         // SignUpPage.errorOkayButton.click();
         // SignUpPage.nextButton.click();
         cy.wait(5000);
-        const win = await cy.window(); 
-        const identifierValue = win.wallet.getAccountForType('login').toLowerCase();
-        cy.request({
+        cy.window()
+            .then( win => {
+                const identifierValue = win.wallet.getAccountForType('login').toLowerCase();
+                cy.request({
                     method: 'POST', 
                     url: 'https://good-qa.herokuapp.com/admin/user/get', 
                     headers: { 
@@ -67,7 +68,7 @@ describe('Test case 1: Ability to Sign Up', () => {
                             SignUpPage.codeInputs.eq(i).type(charArray[i], {force:true});
                         }
                         cy.wait(5000);
-                        SignUpPage.emailInput.type('gooddollar.test12345@gmail.com');
+                        SignUpPage.emailInput.type('gooddollarssss@gmail.com');
                         cy.wait(5000);
                         SignUpPage.nextButton.click();
                         cy.wait(5000);
@@ -76,14 +77,16 @@ describe('Test case 1: Ability to Sign Up', () => {
                         HomePage.welcomeFeed.should('contain', 'Welcome to GoodDollar!');
                         HomePage.welcomeFeed.should('contain', 'Start claiming free G$');
                         HomePage.optionsButton.click();
-                        cy.wait(3000)
-                        HomePage.deleteAccountButton.click();
                         cy.wait(5000)
+                        HomePage.deleteAccountButton.click();
+                        cy.wait(8000)
                         HomePage.confirmDeletionButton.click();
                         cy.wait(15000);
                         cy.log("Done!")
 
                     });
+
+            }); 
                 
     });
 

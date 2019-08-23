@@ -29,12 +29,13 @@ describe('Test case 3: Ability to change user data', () => {
         HomePage.sendButton.should('be.visible');
         HomePage.claimButton.should('be.visible');
         HomePage.receiveButton.should('be.visible');
-
         HomePage.optionsButton.click( {force: true} );
         for( let i = 0; i < 8; i++) {
             HomePage.options.eq(i).should('be.visible');
         }
         HomePage.options.eq(0).click();   
+        ProfilePage.editProfileButton.should('be.visible');
+        cy.wait(10000);
         ProfilePage.editProfileButton.click();  
         EditProfilePage.pageHeader.should('contain', 'Edit Profile');
         EditProfilePage.nameInput.should('be.visible');
@@ -82,6 +83,8 @@ describe('Test case 3: Ability to change user data', () => {
 
         HomePage.optionsButton.click({force:true});
         HomePage.options.eq(0).click({force:true});
+        ProfilePage.editProfileButton.should('be.visible');
+        cy.wait(10000);
         ProfilePage.editProfileButton.click();
         EditProfilePage.nameInput.clear();
         EditProfilePage.phoneInput.clear();
@@ -94,6 +97,8 @@ describe('Test case 3: Ability to change user data', () => {
         ProfilePage.nameInput.should('have.value', 'Random12345');
         ProfilePage.phoneInput.should('have.value', '+380983611323');
         ProfilePage.emailInput.should('have.value', 'gggggooddollar.test123@gmail.com');
+        ProfilePage.editProfileButton.should('be.visible');
+        cy.wait(10000);
         ProfilePage.editProfileButton.click();
         cy.wait(3000);
         EditProfilePage.nameInput.clear();
@@ -104,7 +109,7 @@ describe('Test case 3: Ability to change user data', () => {
         EditProfilePage.emailInput.type('gooddollar.test123@gmail.com');
         cy.wait(3000);
         EditProfilePage.saveButton.click();
-        cy.wait(5000);
+        cy.wait(7000);
 
     }); 
 
@@ -113,6 +118,8 @@ describe('Test case 3: Ability to change user data', () => {
 
         HomePage.optionsButton.click({force:true});
         HomePage.options.eq(0).click({force:true});
+        ProfilePage.editProfileButton.should('be.visible');
+        cy.wait(10000);
         ProfilePage.editProfileButton.click();
         EditProfilePage.nameInput.clear({timeout:10000});
         EditProfilePage.phoneInput.clear({timeout:10000});

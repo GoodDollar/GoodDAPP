@@ -50,6 +50,7 @@ describe('Test case 5: Ability to change profile privacy level', () => {
         ProfilePrivacyPage.publicNumberButton.click();
         ProfilePrivacyPage.publicEmailButton.click();
         ProfilePrivacyPage.saveButton.click();
+        cy.wait(7000)
 
     });
 

@@ -110,7 +110,7 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, navigation, store, theme 
       color: 'red',
       action: () => {
         showDialog('', '', {
-          title: 'Are you sure?',
+          title: 'ARE YOU SURE?',
           message: 'If you delete your account',
           boldMessage: 'all your G$ will be lost forever!',
           image: <TrashIcon />,

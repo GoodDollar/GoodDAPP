@@ -7,7 +7,6 @@ import logger from '../logger/pino-logger'
 import type { NameRecord } from '../../components/signup/NameForm'
 import type { EmailRecord } from '../../components/signup/EmailForm'
 import type { MobileRecord } from '../../components/signup/PhoneForm.web'
-import config from '../../config/config'
 
 const log = logger.child({ from: 'API' })
 
@@ -207,13 +206,58 @@ class API {
   }
 
   /**
-   * `/verify/web3token` post api call
+   * `/w3Site/api/wl/user` get user from web3 by token
    * @param {string} token
    */
   getUserFromW3ByToken(token: string): Promise<$AxiosXHR<any>> {
-    return this.client.get(`${config.web3SiteUrl}/user/by/token`, { token })
+    let instance: AxiosInstance = axios.create({
+      baseURL: Config.web3SiteUrl,
+      timeout: 30000,
+      headers: { Authorization: token || '' },
+    })
+    instance.interceptors.request.use(req => req, error => Promise.reject(error))
+    instance.interceptors.response.use(
+      response => response.data,
+      error => {
+        if (error.response.data) {
+          return Promise.reject(error.response.data)
+        }
+
+        return Promise.reject(error)
+      }
+    )
+
+    return instance.get('api/wl/user')
+  }
+
+  /**
+   * `/w3Site/api/wl/user` get user from web3 by token
+   * @param {string} token
+   */
+  updateW3UserWithWallet(token, walletAddress: string): Promise<$AxiosXHR<any>> {
+    let instance: AxiosInstance = axios.create({
+      baseURL: Config.web3SiteUrl,
+      timeout: 30000,
+      headers: { Authorization: token || '' },
+    })
+    instance.interceptors.request.use(req => req, error => Promise.reject(error))
+    instance.interceptors.response.use(
+      response => response.data,
+      error => {
+        if (error.response.data) {
+          return Promise.reject(error.response.data)
+        }
+
+        return Promise.reject(error)
+      }
+    )
+
+    return instance.put('api/wl/user/update_profile', {
+      wallet_address: walletAddress,
+    })
   }
 }
+
 const api = new API()
 global.api = api
 export default api

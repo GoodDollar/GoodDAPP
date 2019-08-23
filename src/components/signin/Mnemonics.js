@@ -1,8 +1,8 @@
 // @flow
 //eslint-disable-next-line
 import bip39 from 'bip39-light'
-import get from 'lodash/get'
-import React, { useState } from 'react'
+import _get from 'lodash/get'
+import React, { useEffect, useState } from 'react'
 import { AsyncStorage } from 'react-native'
 import logger from '../../lib/logger/pino-logger'
 import { withStyles } from '../../lib/styles'
@@ -25,6 +25,25 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
   const [isRecovering, setRecovering] = useState(false)
   const [showDialog] = useDialog()
   const [showErrorDialog, hideDialog] = useErrorDialog()
+
+  const checkWeb3HasWallet = async () => {
+    const web3HasWallet = _get(navigation, 'state.params.web3HasWallet')
+
+    if (web3HasWallet) {
+      await AsyncStorage.removeItem('web3Token')
+
+      showDialog({
+        visible: true,
+        title: 'You already have account',
+        dismissText: 'OK',
+        message: `You already have account. Please recover it with 12 secret words`,
+      })
+    }
+  }
+
+  useEffect(() => {
+    checkWeb3HasWallet()
+  }, [])
 
   const handleChange = (mnemonics: []) => {
     log.info({ mnemonics })
@@ -58,7 +77,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
 
       if (profile) {
         await AsyncStorage.setItem('GOODDAPP_isLoggedIn', true)
-        const incomingRedirectUrl = get(navigation, 'state.params.redirect', '/')
+        const incomingRedirectUrl = _get(navigation, 'state.params.redirect', '/')
         const firstName = getFirstWord(fullName)
         showDialog({
           visible: true,
@@ -100,7 +119,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
     return [exists, exists && (await userStorage.getProfileFieldDisplayValue('fullName'))]
   }
 
-  const incomingMnemonic = get(navigation, 'state.params.mnemonic', undefined)
+  const incomingMnemonic = _get(navigation, 'state.params.mnemonic', undefined)
 
   return (
     <Section grow={5} style={styles.wrapper}>

@@ -89,16 +89,35 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   }
 
   const checkWeb3Token = async () => {
-    const web3Token = AsyncStorage.getItem('web3Token')
+    setLoading(true)
+    const web3Token = await AsyncStorage.getItem('web3Token')
 
     if (web3Token) {
       let behaviour = ''
 
       try {
-        const w3user = await API.getUserFromW3ByToken(web3Token)
+        const w3userData = await API.getUserFromW3ByToken(web3Token)
+        const w3user = w3userData.data
 
-        if (w3user.hasWallet) {
+        if (w3user.has_wallet) {
           behaviour = 'goToRecoverScreen'
+        } else {
+          const requestedData = {
+            w3Token: web3Token,
+            email: w3user.email,
+            isEmailConfirmed: true,
+            fullName: w3user.full_name,
+            avatar: w3user.image,
+            skipEmail: true,
+            skipEmailConfirmation: true,
+          }
+
+          setState({
+            ...state,
+            ...requestedData,
+          })
+
+          behaviour = 'goToMobileInput'
         }
       } catch (e) {
         behaviour = 'showTokenError'
@@ -106,24 +125,26 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
 
       switch (behaviour) {
         case 'showTokenError':
-          return navigation.navigate('InvalidW3TokenError')
+          navigation.navigate('InvalidW3TokenError')
+          break
 
         case 'goToRecoverScreen':
-          return navigation.navigate('Recover', { web3HasWallet: true })
+          navigation.navigate('Recover', { web3HasWallet: true })
+          break
+
+        case 'goToMobileInput':
+          navigation.navigate('Phone')
+          break
 
         default:
           break
       }
 
-      setState({ ...state, w3Token: web3Token })
-
-      // todo UserStorage.setProfile(w3user);
+      setLoading(false)
     }
   }
 
   useEffect(() => {
-    checkWeb3Token()
-
     //don't allow to start signup flow not from begining
     if (navigation.state.index > 0) {
       log.debug('redirecting to start, got index:', navigation.state.index)
@@ -151,10 +172,12 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
 
       //now that we are loggedin, reload api with JWT
       // await API.init()
-      log.debug('ready: finished initialization')
       return { goodWallet, userStorage }
     })()
+
     setReady(ready)
+
+    checkWeb3Token()
   }, [])
 
   const finishRegistration = async () => {
@@ -173,12 +196,18 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
 
       //first need to add user to our database
       // Stores creationBlock number into 'lastBlock' feed's node
+      delete state.skipEmail
+      delete state.skipEmailConfirmation
+
       await Promise.all([
         await API.addUser(state),
         userStorage.setProfile({ ...state, walletAddress: goodWallet.account }),
         userStorage.setProfileField('registered', true, 'public'),
         goodWallet.getBlockNumber().then(creationBlock => userStorage.saveLastBlockNumber(creationBlock.toString())),
       ])
+
+      await AsyncStorage.removeItem('web3Token')
+      await API.updateW3UserWithWallet(state.w3Token, goodWallet.account)
 
       //need to wait for API.addUser but we dont need to wait for it to finish
       AsyncStorage.getItem('GD_USER_MNEMONIC').then(mnemonic => API.sendRecoveryInstructionByEmail(mnemonic)),
@@ -192,11 +221,24 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       setLoading(false)
     }
   }
+
+  function getNextRoute(routes, routeIndex, state) {
+    let nextRoute = routes[routeIndex + 1]
+
+    if (state[`skip${nextRoute.key}`]) {
+      return getNextRoute(routes, routeIndex + 1, state)
+    }
+
+    return nextRoute
+  }
+
   const done = async (data: { [string]: string }) => {
     setLoading(true)
     fireSignupEvent()
     log.info('signup data:', { data })
-    let nextRoute = navigation.state.routes[navigation.state.index + 1]
+
+    let nextRoute = getNextRoute(navigation.state.routes, navigation.state.index, state)
+
     const newState = { ...state, ...data }
     setState(newState)
 

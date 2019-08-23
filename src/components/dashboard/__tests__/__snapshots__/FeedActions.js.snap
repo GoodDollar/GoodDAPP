@@ -42,10 +42,10 @@ exports[`FeedActions matches snapshot 1`] = `
         "msFlexItemAlign": "end",
         "msFlexPack": "center",
         "paddingBottom": "8px",
-        "paddingLeft": "8px",
-        "paddingRight": "8px",
+        "paddingLeft": "24px",
+        "paddingRight": "0px",
         "paddingTop": "8px",
-        "width": "122px",
+        "width": "140px",
       }
     }
   />

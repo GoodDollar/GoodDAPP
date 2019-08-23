@@ -70,7 +70,6 @@ const getStylesFromProps = ({ theme }) => {
     errorInputContainer: {
       ...defaultInputContainer,
       borderColor: theme.colors.red,
-      lineHeight: 0,
     },
     iconInputContainer: {
       ...defaultInputContainer,

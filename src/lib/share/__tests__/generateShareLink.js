@@ -82,4 +82,16 @@ describe('generateShareLink', () => {
       `${Config.publicUrl}/AppNavigation/Dashboard/Home?key=value&key2=value2&key3=value3&key4=value4`
     )
   })
+
+  it.only(`should return link generated from send action, with encoded query param`, () => {
+    // Given
+    const action = 'send'
+    const params = { key: 'value with spaces' }
+
+    // When
+    const link = generateShareLink(action, params)
+
+    // Then
+    expect(link).toEqual(`${Config.publicUrl}/AppNavigation/Dashboard/Home?key=value%20with%20spaces`)
+  })
 })

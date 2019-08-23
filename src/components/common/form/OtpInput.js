@@ -66,49 +66,40 @@ const getSingleOtpInputStylesFromProps = ({ theme }) => ({
   },
 })
 
-const Input = ({ min, max, pattern, focus, shouldAutoFocus, onChange, maxLength, ...props }) => {
+const Input = ({ min, max, pattern, focus, shouldAutoFocus, onChange, ...props }) => {
   let input: ?HTMLInputElement = null
-  const [caretPosition, setCaretPosition] = useState({ start: 0, end: 0 })
-
-  const focusInput = (autofocusDisabled: boolean) => {
-    if (input && focus && !autofocusDisabled) {
-      input.focus()
-      const caret = props.value && props.value.length ? 1 : 0
-      setCaretPosition({ start: caret, end: caret })
-    }
-  }
 
   // Focus on first render
   // Only when shouldAutoFocus is true
   useEffect(() => {
-    focusInput(!shouldAutoFocus)
+    if (input && focus && shouldAutoFocus) {
+      input.focus()
+    }
   }, [])
 
   // Check if focusedInput changed
   // Prevent calling function if input already in focus
   useEffect(() => {
-    focusInput()
+    if (input && focus) {
+      input.focus()
+    }
   }, [focus])
 
-  const handleSingleCharValidation = (value: number | string): boolean =>
-    (!min || value >= min) && (!max || value <= max) && (!pattern || pattern.test(value))
-
-  const handleValidation = (value: number | string): number => {
-    if (handleSingleCharValidation(value)) {
-      return 1 // Validations are ok
+  const handleSelection = ({ nativeEvent: { selection } }) => {
+    if (selection.start === selection.end && selection.start === 1) {
+      props.onChange(props.value)
     }
-    if (value.length > maxLength && [...value].every(char => handleSingleCharValidation(char))) {
-      return 2 // Validations are ok but input length is longer than 1
-    }
-    return 0 // There is an error
   }
+
+  const handleValidation = (value: number | string): boolean =>
+    (!min || value >= min) && (!max || value <= max) && (!pattern || pattern.test(value))
 
   const handleOnChange = (e: Object) => {
     e.preventDefault()
     const value = e.target.value
     const isValid = handleValidation(value)
     if (isValid && onChange) {
-      onChange(value, isValid)
+      onChange(value)
     }
   }
   return (
@@ -116,8 +107,9 @@ const Input = ({ min, max, pattern, focus, shouldAutoFocus, onChange, maxLength,
       {...props}
       onChange={handleOnChange}
       ref={inputRef => (input = inputRef)}
-      selection={caretPosition}
-      onSelectionChange={setCaretPosition}
+      onSelectionChange={handleSelection}
+      selection={{ start: 0, end: 1 }}
+      selectTextOnFocus={true}
     />
   )
 }
@@ -153,7 +145,7 @@ const SingleOtpInput = withStyles(getSingleOtpInputStylesFromProps)((props: Sing
   }
   const inputProps = {
     style: inputStyles,
-    maxLength: 1,
+    maxLength: '1',
     disabled: isDisabled,
     value: value && value !== ' ' ? value : '',
     returnKeyType: 'next',
@@ -224,15 +216,11 @@ const OtpInput = (props: Props) => {
   const focusPrevInput = () => focusInput(activeInput - 1)
 
   // Change OTP value at focused input
-  const changeCodeAtFocus = (inputValue: string, selectedInput?: number) => {
+  const changeCodeAtFocus = (inputValue: string, position: number) => {
     const otp = getOtpValue()
-    otp[selectedInput || activeInput] = inputValue[0]
+    const pos = position || position === 0 ? position : activeInput
+    otp[pos] = inputValue[0]
     handleOtpChange(otp)
-  }
-
-  const getActiveInputValue = () => {
-    const otp = getOtpValue()
-    return otp[activeInput]
   }
 
   // Handle pasted OTP
@@ -255,7 +243,7 @@ const OtpInput = (props: Props) => {
     handleOtpChange(otp)
   }
 
-  const handleOnChange = (inputValue: string, validationResult: number) => {
+  const handleOnChange = (inputValue: string) => {
     changeCodeAtFocus(inputValue)
     focusNextInput()
   }
@@ -264,12 +252,12 @@ const OtpInput = (props: Props) => {
   const handleOnKeyPress = (e: Object) => {
     if (e.keyCode === BACKSPACE || e.key === 'Backspace') {
       e.preventDefault()
-      const currentValue = getActiveInputValue()
-      changeCodeAtFocus('')
-      if (!currentValue || currentValue.length === 0) {
-        changeCodeAtFocus('', Math.max(activeInput - 1, 0))
+      if (e.target.value.length === 0) {
+        console.info({ activeInput, value: e.target.value })
+        changeCodeAtFocus('', activeInput - 1)
+        focusPrevInput()
       }
-      focusPrevInput()
+      changeCodeAtFocus('')
     } else if (e.keyCode === DELETE || e.key === 'Delete') {
       e.preventDefault()
       changeCodeAtFocus('')
@@ -285,10 +273,7 @@ const OtpInput = (props: Props) => {
   const checkLength = (e: Object) => {
     if (e.target.value.length > 1) {
       e.preventDefault()
-      const nextInput = Math.max(Math.min(numInputs - 1, activeInput + 1), 0)
       focusNextInput()
-      changeCodeAtFocus(e.target.value[0], activeInput)
-      changeCodeAtFocus(e.target.value[1], nextInput)
     }
     const otp = getOtpValue()
     if (e.target.value === otp[activeInput]) {

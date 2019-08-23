@@ -226,6 +226,7 @@ sent to your phone
                   data-focusable={true}
                   dir="auto"
                   disabled={false}
+                  maxLength="1"
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
@@ -365,6 +366,7 @@ sent to your phone
                   data-focusable={true}
                   dir="auto"
                   disabled={false}
+                  maxLength="1"
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
@@ -504,6 +506,7 @@ sent to your phone
                   data-focusable={true}
                   dir="auto"
                   disabled={false}
+                  maxLength="1"
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
@@ -643,6 +646,7 @@ sent to your phone
                   data-focusable={true}
                   dir="auto"
                   disabled={false}
+                  maxLength="1"
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
@@ -782,6 +786,7 @@ sent to your phone
                   data-focusable={true}
                   dir="auto"
                   disabled={false}
+                  maxLength="1"
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
@@ -921,6 +926,7 @@ sent to your phone
                   data-focusable={true}
                   dir="auto"
                   disabled={false}
+                  maxLength="1"
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}

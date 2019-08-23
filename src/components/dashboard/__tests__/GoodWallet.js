@@ -45,7 +45,7 @@ describe('GoodWalletShare/ReceiveTokens', () => {
           chainId: adminWallet.networkId,
           nonce: parseInt(nonce),
         })
-        .on('receipt', h => {
+        .on('transactionHash', h => {
           resolve(h)
         })
         .on('error', e => {
@@ -63,7 +63,7 @@ describe('GoodWalletShare/ReceiveTokens', () => {
           chainId: adminWallet.networkId,
           nonce: parseInt(nonce),
         })
-        .on('receipt', h => {
+        .on('transactionHash', h => {
           resolve(h)
         })
         .on('error', () => {
@@ -95,7 +95,7 @@ describe('GoodWalletShare/ReceiveTokens', () => {
             chainId: adminWallet.networkId,
             nonce: parseInt(nonce),
           })
-          .on('receipt', r => {
+          .on('transactionHash', r => {
             resolve(r)
           })
           .on('error', e => {
@@ -118,7 +118,7 @@ describe('GoodWalletShare/ReceiveTokens', () => {
             chainId: adminWallet.networkId,
             nonce: parseInt(nonce),
           })
-          .on('receipt', r => {
+          .on('transactionHash', r => {
             resolve(r)
           })
           .on('error', e => {

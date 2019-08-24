@@ -130,7 +130,6 @@ class SmsForm extends React.Component<Props, State> {
           </Section.Row>
           <Section.Stack justifyContent="center">
             <OtpInput
-              shouldAutoFocus
               numInputs={NumInputs}
               onChange={this.handleChange}
               hasErrored={errorMessage !== ''}

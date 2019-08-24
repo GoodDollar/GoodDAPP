@@ -66,14 +66,16 @@ const getSingleOtpInputStylesFromProps = ({ theme }) => ({
   },
 })
 
-const Input = ({ min, max, pattern, focus, shouldAutoFocus, onChange, ...props }) => {
+const Input = ({ min, max, pattern, focus, shouldAutoFocus, onChange, value, focusNextInput, ...props }) => {
   let input: ?HTMLInputElement = null
+  const [selection, setSelection] = useState({ start: 0, end: 1 })
 
   // Focus on first render
   // Only when shouldAutoFocus is true
   useEffect(() => {
     if (input && focus && shouldAutoFocus) {
       input.focus()
+      setSelection({ start: 0, end: value && value.length ? 1 : 0 })
     }
   }, [])
 
@@ -82,13 +84,15 @@ const Input = ({ min, max, pattern, focus, shouldAutoFocus, onChange, ...props }
   useEffect(() => {
     if (input && focus) {
       input.focus()
+      setSelection({ start: 0, end: value && value.length ? 1 : 0 })
     }
   }, [focus])
 
-  const handleSelection = ({ nativeEvent: { selection } }) => {
-    if (selection.start === selection.end && selection.start === 1) {
-      props.onChange(props.value)
+  const handleSelection = ({ nativeEvent: { selection: nativeSelection } }) => {
+    if (nativeSelection.start === nativeSelection.end && nativeSelection.start === 1) {
+      focusNextInput()
     }
+    setSelection({ start: 0, end: value && value.length ? 1 : 0 })
   }
 
   const handleValidation = (value: number | string): boolean =>
@@ -96,19 +100,21 @@ const Input = ({ min, max, pattern, focus, shouldAutoFocus, onChange, ...props }
 
   const handleOnChange = (e: Object) => {
     e.preventDefault()
-    const value = e.target.value
-    const isValid = handleValidation(value)
+    const newValue = e.target.value
+    const isValid = handleValidation(newValue)
     if (isValid && onChange) {
-      onChange(value)
+      onChange(newValue)
     }
   }
+
   return (
     <TextInput
       {...props}
+      value={value}
       onChange={handleOnChange}
       ref={inputRef => (input = inputRef)}
       onSelectionChange={handleSelection}
-      selection={{ start: 0, end: 1 }}
+      selection={selection}
       selectTextOnFocus={true}
     />
   )
@@ -145,7 +151,7 @@ const SingleOtpInput = withStyles(getSingleOtpInputStylesFromProps)((props: Sing
   }
   const inputProps = {
     style: inputStyles,
-    maxLength: '1',
+    maxLength: 1,
     disabled: isDisabled,
     value: value && value !== ' ' ? value : '',
     returnKeyType: 'next',
@@ -204,11 +210,13 @@ const OtpInput = (props: Props) => {
   // Focus on input by index
   const focusInput = (input: number) => {
     const activeInput = Math.max(Math.min(numInputs - 1, input), 0)
+    console.info('focusInput', { input, activeInput, numInputs })
     setActiveInput(activeInput)
   }
 
   // Focus on next input
   const focusNextInput = () => {
+    console.info('focusNextInput', { activeInput })
     focusInput(activeInput + 1)
   }
 
@@ -217,6 +225,7 @@ const OtpInput = (props: Props) => {
 
   // Change OTP value at focused input
   const changeCodeAtFocus = (inputValue: string, position: number) => {
+    console.info('changeCodeAtFocus', { inputValue, position })
     const otp = getOtpValue()
     const pos = position || position === 0 ? position : activeInput
     otp[pos] = inputValue[0]
@@ -244,12 +253,14 @@ const OtpInput = (props: Props) => {
   }
 
   const handleOnChange = (inputValue: string) => {
+    console.info('handleChange otp', { inputValue })
     changeCodeAtFocus(inputValue)
     focusNextInput()
   }
 
   // Handle cases of backspace, delete, left arrow, right arrow
   const handleOnKeyPress = (e: Object) => {
+    console.info('handleOnKeyPress', { keyCode: e.keyCode, key: e.key })
     if (e.keyCode === BACKSPACE || e.key === 'Backspace') {
       e.preventDefault()
       if (e.target.value.length === 0) {
@@ -270,7 +281,18 @@ const OtpInput = (props: Props) => {
     }
   }
 
+  const handleOnFocus = i => e => {
+    e.stopPropagation()
+    e.preventDefault()
+    console.info('onFocus', { i, activeInput, e, shouldAutoFocus })
+    setActiveInput(i)
+    e.target.select()
+  }
+
+  const handleOnBlur = () => setActiveInput(-1)
+
   const checkLength = (e: Object) => {
+    console.info('checkLength', { value: e.target.value })
     if (e.target.value.length > 1) {
       e.preventDefault()
       focusNextInput()
@@ -296,11 +318,8 @@ const OtpInput = (props: Props) => {
           onKeyPress={handleOnKeyPress}
           onInput={checkLength}
           onPaste={handleOnPaste}
-          onFocus={e => {
-            setActiveInput(i)
-            e.target.select()
-          }}
-          onBlur={() => setActiveInput(-1)}
+          onFocus={handleOnFocus(i)}
+          onBlur={handleOnBlur}
           separator={separator}
           inputStyle={inputStyle}
           focusStyle={focusStyle}
@@ -313,6 +332,7 @@ const OtpInput = (props: Props) => {
           isInputNum={isInputNum}
           placeholder={customPlaceholder}
           keyboardType={keyboardType || null}
+          focusNextInput={focusNextInput}
         />
       )
     }

@@ -136,6 +136,7 @@ const FeedList = ({
       <FeedActions
         onPress={hasAction && (() => handleFeedActionPress(item, actions))}
         actionActive={activeItems[item.id]}
+        actionIcon={actionIcon(actions)}
         {...props}
       >
         {actionLabel(actions)}
@@ -195,6 +196,18 @@ const actionLabel = ({ canDelete, canCancel }) => {
   }
 
   return ''
+}
+
+const actionIcon = ({ canDelete, canCancel }) => {
+  if (canCancel) {
+    return 'close'
+  }
+
+  if (canDelete) {
+    return 'trash'
+  }
+
+  return null
 }
 
 export default GDStore.withStore(withStyles(getStylesFromProps)(FeedList))

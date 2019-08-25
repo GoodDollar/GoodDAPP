@@ -207,6 +207,7 @@ const Dashboard = props => {
             setHeaderLarge(newHeaderLarge)
           }
         }}
+        headerLarge={headerLarge}
       />
       {currentFeed && (
         <FeedModalList

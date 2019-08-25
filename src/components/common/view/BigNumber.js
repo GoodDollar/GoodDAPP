@@ -15,7 +15,18 @@ import Text from './Text'
  */
 class BigNumber extends React.Component {
   render() {
-    const { bigNumberStyles, bigNumberUnitStyles, number, unit, style, color, styles } = this.props
+    const {
+      bigNumberStyles,
+      bigNumberUnitStyles,
+      bigNumberProps,
+      bigNumberUnitProps,
+      children,
+      number,
+      unit,
+      style,
+      color,
+      styles,
+    } = this.props
     return (
       <View style={[styles.bigNumberWrapper, style]}>
         <Text
@@ -24,20 +35,26 @@ class BigNumber extends React.Component {
           fontWeight="bold"
           textAlign="right"
           color={color || 'gray'}
+          {...bigNumberProps}
           style={[styles.bigNumber, bigNumberStyles]}
         >
           {number}
         </Text>
-        <Text
-          fontFamily="slab"
-          fontSize={18}
-          fontWeight="bold"
-          textAlign="right"
-          color={color || 'gray'}
-          style={bigNumberUnitStyles}
-        >
-          {unit}
-        </Text>
+        {unit ? (
+          <Text
+            fontFamily="slab"
+            fontSize={18}
+            fontWeight="bold"
+            textAlign="right"
+            color={color || 'gray'}
+            {...bigNumberUnitProps}
+            style={bigNumberUnitStyles}
+          >
+            {unit}
+          </Text>
+        ) : (
+          children
+        )}
       </View>
     )
   }

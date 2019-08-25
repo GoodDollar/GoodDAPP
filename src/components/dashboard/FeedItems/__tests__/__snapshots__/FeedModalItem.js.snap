@@ -2067,19 +2067,56 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                       dir="auto"
                       style={
                         Object {
-                          "color": "rgba(250,108,119,1.00)",
+                          "color": "rgba(66,69,74,1.00)",
                           "direction": "ltr",
-                          "fontFamily": "Roboto Slab",
-                          "fontSize": "12px",
-                          "fontWeight": "700",
-                          "lineHeight": "24px",
-                          "textAlign": "right",
+                          "fontFamily": "Roboto",
+                          "fontSize": "16px",
+                          "fontWeight": "normal",
+                          "lineHeight": "22px",
+                          "textAlign": "center",
                           "textDecoration": "none",
                           "textTransform": "none",
                         }
                       }
                     >
-                      G$
+                      <span
+                        className="css-text-901oao css-textHasAncestor-16my406"
+                        dir="auto"
+                        style={
+                          Object {
+                            "color": "rgba(250,108,119,1.00)",
+                            "direction": "ltr",
+                            "fontFamily": "Roboto Slab",
+                            "fontSize": "12px",
+                            "fontWeight": "700",
+                            "lineHeight": "16px",
+                            "textAlign": "right",
+                            "textDecoration": "none",
+                            "textTransform": "none",
+                          }
+                        }
+                      >
+                        G
+                      </span>
+                      <span
+                        className="css-text-901oao css-textHasAncestor-16my406"
+                        dir="auto"
+                        style={
+                          Object {
+                            "color": "rgba(250,108,119,1.00)",
+                            "direction": "ltr",
+                            "fontFamily": "Roboto Slab",
+                            "fontSize": "11.5px",
+                            "fontWeight": "700",
+                            "lineHeight": "13.799999999999999px",
+                            "textAlign": "right",
+                            "textDecoration": "none",
+                            "textTransform": "none",
+                          }
+                        }
+                      >
+                        $
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -2965,19 +3002,56 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                       dir="auto"
                       style={
                         Object {
-                          "color": "rgba(0,195,174,1.00)",
+                          "color": "rgba(66,69,74,1.00)",
                           "direction": "ltr",
-                          "fontFamily": "Roboto Slab",
-                          "fontSize": "12px",
-                          "fontWeight": "700",
-                          "lineHeight": "24px",
-                          "textAlign": "right",
+                          "fontFamily": "Roboto",
+                          "fontSize": "16px",
+                          "fontWeight": "normal",
+                          "lineHeight": "22px",
+                          "textAlign": "center",
                           "textDecoration": "none",
                           "textTransform": "none",
                         }
                       }
                     >
-                      G$
+                      <span
+                        className="css-text-901oao css-textHasAncestor-16my406"
+                        dir="auto"
+                        style={
+                          Object {
+                            "color": "rgba(0,195,174,1.00)",
+                            "direction": "ltr",
+                            "fontFamily": "Roboto Slab",
+                            "fontSize": "12px",
+                            "fontWeight": "700",
+                            "lineHeight": "16px",
+                            "textAlign": "right",
+                            "textDecoration": "none",
+                            "textTransform": "none",
+                          }
+                        }
+                      >
+                        G
+                      </span>
+                      <span
+                        className="css-text-901oao css-textHasAncestor-16my406"
+                        dir="auto"
+                        style={
+                          Object {
+                            "color": "rgba(0,195,174,1.00)",
+                            "direction": "ltr",
+                            "fontFamily": "Roboto Slab",
+                            "fontSize": "11.5px",
+                            "fontWeight": "700",
+                            "lineHeight": "13.799999999999999px",
+                            "textAlign": "right",
+                            "textDecoration": "none",
+                            "textTransform": "none",
+                          }
+                        }
+                      >
+                        $
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -3439,7 +3513,7 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                     "backgroundImage": "linear-gradient(40deg, transparent 75%, #fff 76%), linear-gradient(-40deg, transparent 75%, #fff 76%)",
                     "backgroundPosition": "-8px 0",
                     "backgroundRepeat": "repeat-x",
-                    "backgroundSize": "16px",
+                    "backgroundSize": "16px 16px",
                     "height": "16px",
                     "position": "relative",
                     "width": "100%",

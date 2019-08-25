@@ -38,7 +38,7 @@ const SaveButton = ({ children, onPress, onPressDone, doneDelay, styles, theme, 
     }
   }
 
-  const backgroundColor = theme.colors[[DONE, SAVING].indexOf(state) > -1 ? 'blue' : 'darkBlue']
+  const backgroundColor = theme.colors.darkBlue
 
   return (
     <View style={styles.wrapper}>
@@ -51,7 +51,8 @@ const SaveButton = ({ children, onPress, onPressDone, doneDelay, styles, theme, 
           {...props}
           color={backgroundColor}
           loading={state === SAVING}
-          compact={state !== NOT_SAVED}
+          compact={true}
+          iconSize={16}
           style={[styles.saveButton, props.style]}
           onPress={pressAndNextState}
         >
@@ -86,7 +87,7 @@ const getStylesFromProps = ({ theme }) => ({
     justifyContent: 'flex-end',
   },
   saveButton: {
-    width: 80,
+    minWidth: 86,
   },
   customButtonText: {
     paddingTop: 1,

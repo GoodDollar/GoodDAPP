@@ -850,8 +850,11 @@ exports[`Claim matches snapshot 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
+              "WebkitAlignItems": "stretch",
+              "WebkitBoxAlign": "stretch",
               "WebkitBoxPack": "center",
               "WebkitJustifyContent": "center",
+              "alignItems": "stretch",
               "backgroundColor": "rgba(0,175,255,1.00)",
               "borderBottomColor": "rgba(0,175,255,1.00)",
               "borderBottomLeftRadius": "50px",
@@ -870,12 +873,20 @@ exports[`Claim matches snapshot 1`] = `
               "borderTopStyle": "solid",
               "borderTopWidth": "0px",
               "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
+              "display": "flex",
               "justifyContent": "center",
+              "marginBottom": "0px",
+              "marginLeft": "0px",
+              "marginRight": "0px",
+              "marginTop": "0px",
               "minHeight": "44px",
               "minWidth": "auto",
+              "msFlexAlign": "stretch",
               "msFlexPack": "center",
+              "paddingBottom": "0px",
               "paddingLeft": "0px",
               "paddingRight": "0px",
+              "paddingTop": "0px",
             }
           }
         >
@@ -947,39 +958,30 @@ exports[`Claim matches snapshot 1`] = `
                   }
                 }
               >
-                <span
-                  className="css-text-901oao css-textHasAncestor-16my406"
-                  dir="auto"
-                  style={
-                    Object {
-                      "color": "rgba(255,255,255,1.00)",
-                      "direction": "ltr",
-                      "fontFamily": "Roboto",
-                      "fontSize": "16px",
-                      "fontWeight": "500",
-                      "lineHeight": "22px",
-                      "textAlign": "center",
-                      "textDecoration": "none",
-                      "textTransform": "none",
-                    }
-                  }
-                >
-                  CLAIM YOUR SHARE - 
-                </span>
                 <div
                   className="css-view-1dbjc4n"
                   style={
                     Object {
-                      "WebkitAlignItems": "baseline",
-                      "WebkitBoxAlign": "baseline",
+                      "WebkitAlignItems": "center",
+                      "WebkitBoxAlign": "center",
                       "WebkitBoxDirection": "normal",
+                      "WebkitBoxFlex": 1,
                       "WebkitBoxOrient": "horizontal",
+                      "WebkitFlexBasis": "0%",
                       "WebkitFlexDirection": "row",
-                      "alignItems": "baseline",
-                      "display": "inline",
+                      "WebkitFlexGrow": 1,
+                      "WebkitFlexShrink": 1,
+                      "alignItems": "center",
+                      "display": "flex",
+                      "flexBasis": "0%",
                       "flexDirection": "row",
-                      "msFlexAlign": "baseline",
+                      "flexGrow": 1,
+                      "flexShrink": 1,
+                      "msFlexAlign": "center",
                       "msFlexDirection": "row",
+                      "msFlexNegative": 1,
+                      "msFlexPositive": 1,
+                      "msFlexPreferredSize": "0%",
                     }
                   }
                 >
@@ -990,29 +992,9 @@ exports[`Claim matches snapshot 1`] = `
                       Object {
                         "color": "rgba(255,255,255,1.00)",
                         "direction": "ltr",
-                        "fontFamily": "Roboto Slab",
-                        "fontSize": "16px",
-                        "fontWeight": "500",
-                        "lineHeight": "22px",
-                        "marginRight": "2px",
-                        "textAlign": "right",
-                        "textDecoration": "none",
-                        "textTransform": "none",
-                      }
-                    }
-                  >
-                    -.--
-                  </span>
-                  <span
-                    className="css-text-901oao css-textHasAncestor-16my406"
-                    dir="auto"
-                    style={
-                      Object {
-                        "color": "rgba(66,69,74,1.00)",
-                        "direction": "ltr",
                         "fontFamily": "Roboto",
                         "fontSize": "16px",
-                        "fontWeight": "normal",
+                        "fontWeight": "500",
                         "lineHeight": "22px",
                         "textAlign": "center",
                         "textDecoration": "none",
@@ -1020,45 +1002,102 @@ exports[`Claim matches snapshot 1`] = `
                       }
                     }
                   >
-                    <span
-                      className="css-text-901oao css-textHasAncestor-16my406"
-                      dir="auto"
-                      style={
-                        Object {
-                          "color": "rgba(255,255,255,1.00)",
-                          "direction": "ltr",
-                          "fontFamily": "Roboto Slab",
-                          "fontSize": "10px",
-                          "fontWeight": "500",
-                          "lineHeight": "14px",
-                          "textAlign": "right",
-                          "textDecoration": "none",
-                          "textTransform": "none",
-                        }
-                      }
-                    >
-                      G
-                    </span>
-                    <span
-                      className="css-text-901oao css-textHasAncestor-16my406"
-                      dir="auto"
-                      style={
-                        Object {
-                          "color": "rgba(255,255,255,1.00)",
-                          "direction": "ltr",
-                          "fontFamily": "Roboto Slab",
-                          "fontSize": "9.5px",
-                          "fontWeight": "500",
-                          "lineHeight": "11.4px",
-                          "textAlign": "right",
-                          "textDecoration": "none",
-                          "textTransform": "none",
-                        }
-                      }
-                    >
-                      $
-                    </span>
+                    CLAIM YOUR SHARE - 
                   </span>
+                  <div
+                    className="css-view-1dbjc4n"
+                    style={
+                      Object {
+                        "WebkitAlignItems": "baseline",
+                        "WebkitBoxAlign": "baseline",
+                        "WebkitBoxDirection": "normal",
+                        "WebkitBoxOrient": "horizontal",
+                        "WebkitFlexDirection": "row",
+                        "alignItems": "baseline",
+                        "display": "inline",
+                        "flexDirection": "row",
+                        "msFlexAlign": "baseline",
+                        "msFlexDirection": "row",
+                      }
+                    }
+                  >
+                    <span
+                      className="css-text-901oao css-textHasAncestor-16my406"
+                      dir="auto"
+                      style={
+                        Object {
+                          "color": "rgba(255,255,255,1.00)",
+                          "direction": "ltr",
+                          "fontFamily": "Roboto Slab",
+                          "fontSize": "16px",
+                          "fontWeight": "500",
+                          "lineHeight": "22px",
+                          "marginRight": "2px",
+                          "textAlign": "right",
+                          "textDecoration": "none",
+                          "textTransform": "none",
+                        }
+                      }
+                    >
+                      -.--
+                    </span>
+                    <span
+                      className="css-text-901oao css-textHasAncestor-16my406"
+                      dir="auto"
+                      style={
+                        Object {
+                          "color": "rgba(66,69,74,1.00)",
+                          "direction": "ltr",
+                          "fontFamily": "Roboto",
+                          "fontSize": "16px",
+                          "fontWeight": "normal",
+                          "lineHeight": "22px",
+                          "textAlign": "center",
+                          "textDecoration": "none",
+                          "textTransform": "none",
+                        }
+                      }
+                    >
+                      <span
+                        className="css-text-901oao css-textHasAncestor-16my406"
+                        dir="auto"
+                        style={
+                          Object {
+                            "color": "rgba(255,255,255,1.00)",
+                            "direction": "ltr",
+                            "fontFamily": "Roboto Slab",
+                            "fontSize": "10px",
+                            "fontWeight": "500",
+                            "lineHeight": "14px",
+                            "textAlign": "right",
+                            "textDecoration": "none",
+                            "textTransform": "none",
+                          }
+                        }
+                      >
+                        G
+                      </span>
+                      <span
+                        className="css-text-901oao css-textHasAncestor-16my406"
+                        dir="auto"
+                        style={
+                          Object {
+                            "color": "rgba(255,255,255,1.00)",
+                            "direction": "ltr",
+                            "fontFamily": "Roboto Slab",
+                            "fontSize": "9.5px",
+                            "fontWeight": "500",
+                            "lineHeight": "11.4px",
+                            "textAlign": "right",
+                            "textDecoration": "none",
+                            "textTransform": "none",
+                          }
+                        }
+                      >
+                        $
+                      </span>
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>

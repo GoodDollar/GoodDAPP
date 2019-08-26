@@ -4,14 +4,13 @@ import Section from '../layout/Section'
 import { withStyles } from '../../../lib/styles'
 import BigGoodDollar from './BigGoodDollar'
 
-const WhoRow = props => {
-  const { styles, counterPartyDisplayName, actionReceive } = props
+const WhoRow = ({ styles, counterPartyDisplayName, actionReceive, marginTop }) => {
   if (!counterPartyDisplayName) {
     return null
   }
 
   return (
-    <Section.Row style={styles.tableRow}>
+    <Section.Row style={[styles.tableRow, { marginTop }]}>
       <Section.Text fontSize={14} color="gray80Percent">
         {actionReceive ? 'From:' : 'To:'}
       </Section.Text>
@@ -20,13 +19,12 @@ const WhoRow = props => {
   )
 }
 
-const AmountRow = props => {
-  const { amount, styles } = props
+const AmountRow = ({ amount, styles, marginTop, theme }) => {
   if (!amount) {
     return null
   }
   return (
-    <Section.Row style={styles.tableRow}>
+    <Section.Row style={[styles.tableRow, { marginTop }]}>
       <Section.Text fontSize={14} color="gray80Percent">
         Amount:
       </Section.Text>
@@ -34,19 +32,18 @@ const AmountRow = props => {
         bigNumberStyles={styles.bigGoodDollar}
         bigNumberUnitStyles={styles.bigGoodDollarUnit}
         number={amount}
-        color={props.theme.colors.primary}
+        color={theme.colors.primary}
       />
     </Section.Row>
   )
 }
 
-const ReasonRow = props => {
-  const { reason, styles } = props
+const ReasonRow = ({ reason, styles, marginTop }) => {
   if (!reason) {
     return null
   }
   return (
-    <Section.Row style={styles.tableRow}>
+    <Section.Row style={[styles.tableRow, { marginTop }]}>
       <Section.Text fontSize={14} color="gray80Percent">
         For:
       </Section.Text>
@@ -61,14 +58,23 @@ const ReasonRow = props => {
  * @param {String} props.counterPartyDisplayName
  * @param {String} props.amount
  * @param {Boolean} props.actionReceive if true text is for receive summary
+ * @param {Boolean} props.compact if true each row uses less margins
  */
-const SummaryTable = ({ styles, counterPartyDisplayName, amount, reason, actionReceive, theme }) => (
-  <Section.Stack grow justifyContent="center">
-    <WhoRow counterPartyDisplayName={counterPartyDisplayName} styles={styles} actionReceive={actionReceive} />
-    <AmountRow amount={amount} styles={styles} theme={theme} />
-    <ReasonRow reason={reason} styles={styles} />
-  </Section.Stack>
-)
+const SummaryTable = ({ styles, counterPartyDisplayName, amount, reason, actionReceive, theme, compact }) => {
+  const marginTop = compact ? theme.sizes.defaultHalf : theme.sizes.defaultDouble
+  return (
+    <Section.Stack grow justifyContent="center">
+      <WhoRow
+        counterPartyDisplayName={counterPartyDisplayName}
+        styles={styles}
+        actionReceive={actionReceive}
+        marginTop={marginTop}
+      />
+      <AmountRow amount={amount} styles={styles} theme={theme} marginTop={marginTop} />
+      <ReasonRow reason={reason} styles={styles} marginTop={marginTop} />
+    </Section.Stack>
+  )
+}
 
 const getStylesFromProps = ({ theme }) => {
   return {
@@ -77,7 +83,6 @@ const getStylesFromProps = ({ theme }) => {
       borderBottomColor: theme.colors.gray50Percent,
       borderBottomWidth: 1,
       borderBottomStyle: 'solid',
-      marginTop: theme.sizes.defaultDouble,
       alignItems: 'flex-end',
       paddingBottom: theme.sizes.defaultHalf,
       height: 40,

@@ -35,6 +35,7 @@ const FeedModalItem = ({ item, onPress, styles, theme }: FeedEventProps) => {
         counterPartyDisplayName={item.data.endpoint.fullName}
         amount={item.data.amount}
         reason={item.data.message}
+        compact={true}
       />
       <ModalActionsByFeedType item={item} handleModalClose={buttonPress} />
     </React.Fragment>
@@ -57,7 +58,7 @@ const getStylesFromProps = ({ theme }) => ({
     borderColor: theme.colors.red,
     borderWidth: 3,
     padding: theme.sizes.defaultQuadruple,
-    marginVertical: theme.sizes.defaultDouble,
+    marginTop: theme.sizes.defaultDouble,
   },
 })
 

@@ -29,13 +29,12 @@ matrix:
     - script: 
       - npm install cypress --save-dev
       - cypress run
+      - npm run coveralls
+      - npm run build
     - script: 
       - npm run coverage
-
-script:
-  - npm run coveralls
-  - npm run build
-
+      - npm run coveralls
+      - npm run build
 
 after_success:
   - npm run bundlesize:check

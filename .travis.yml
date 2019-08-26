@@ -24,13 +24,15 @@ env:
     - MNEMONIC="choice congress hobby buddy dutch busy army eager empty solution start grunt"
     - CI=false
 
-install:
-  - npm ci
-  
+matrix:
+  include:
+    - npm install cypress --save-dev
+      cypress run
+    - npm run coverage
+
+
+
 script:
-  - npm install cypress --save-dev
-  - cypress run
-  - npm run coverage
   - npm run coveralls
   - npm run build
 

@@ -1090,6 +1090,9 @@ export class UserStorage {
     switch (type) {
       case 'send':
         displayType += withdrawStatus
+        if (withdrawStatus === 'error') {
+          avatar = `${process.env.PUBLIC_URL}/favicon-96x96.png`
+        }
         break
     }
     return {

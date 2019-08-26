@@ -1260,24 +1260,24 @@ export class UserStorage {
         logger.error('updateFeedEvent failedEncrypt byId:', event, e.message, `${e}`)
         return { err: e.message }
       })
-    const saveAck = this.feed
-      .get(day)
-      .put(JSON.stringify(dayEventsArr))
-      .then()
-      .catch(e => logger.error('updateFeedEvent dayIndex', e.message, `${e}`))
-    const ack = this.feed
+    const saveDayIndexPtr = this.feed.get(day).put(JSON.stringify(dayEventsArr))
+    const saveDaySizePtr = this.feed
       .get('index')
       .get(day)
       .put(dayEventsArr.length)
-      .then()
-      .catch(e => logger.error('updateFeedEvent daySize', e.message, `${e}`))
 
-    const result = await Promise.all([saveAck, ack, eventAck])
-      .then(arr => {
-        return event
-      })
+    const saveAck =
+      saveDayIndexPtr && saveDayIndexPtr.then().catch(e => logger.error('updateFeedEvent dayIndex', e.message, `${e}`))
+    const ack =
+      saveDaySizePtr && saveDaySizePtr.then().catch(e => logger.error('updateFeedEvent daySize', e.message, `${e}`))
+
+    if (saveDayIndexPtr || saveDaySizePtr) {
+      logger.info('updateFeedEvent: Gun drain in process', { saveDayIndexPtr, saveDaySizePtr })
+    }
+
+    return Promise.all([saveAck, ack, eventAck])
+      .then(() => event)
       .catch(e => logger.error('savingIndex', e.message, `${e}`))
-    return result
   }
 
   /**

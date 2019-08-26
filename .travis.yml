@@ -26,9 +26,11 @@ env:
 
 matrix:
   include:
-    - npm install cypress --save-dev
-      cypress run
-    - npm run coverage
+    - script: 
+      - npm install cypress --save-dev
+      - cypress run
+    - script: 
+      - npm run coverage
 
 script:
   - npm run coveralls

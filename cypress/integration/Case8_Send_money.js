@@ -66,4 +66,4 @@ describe('Test case 8: Ability to send money', () => {
             
     });
 
-})
+});

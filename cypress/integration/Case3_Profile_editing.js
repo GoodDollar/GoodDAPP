@@ -96,7 +96,6 @@ describe('Test case 3: Ability to change user data', () => {
         cy.wait(7000);
         EditProfilePage.saveButton.click();
         cy.wait(10000);
-        EditProfilePage.pageHeader.should('not.contain', 'Edit Profile');   
         ProfilePage.nameInput.should('have.value', 'Random12345');
         ProfilePage.phoneInput.should('have.value', '+380983611323');
         ProfilePage.emailInput.should('have.value', 'gggggooddollar.test123@gmail.com');

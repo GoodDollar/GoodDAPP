@@ -1,5 +1,9 @@
 class ProfilePage {
 
+    get pageHeader() {
+        return cy.get('h1[role=heading]', { timeout: 10000 })
+    }
+
     get nameInput() {
         return cy.get('input[placeholder="Choose a Username"]', { timeout: 10000 })
     }

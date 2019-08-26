@@ -36,6 +36,10 @@ class ReceiveMoneyPage {
         return cy.get('[role=button]', { timeout: 10000 }).contains('Confirm');
     }
 
+    get doneButton() {
+        return cy.contains('Done', { timeout: 10000 });
+    }
+
 }
 
 export default new ReceiveMoneyPage;

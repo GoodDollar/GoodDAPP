@@ -18,7 +18,8 @@ describe('Test case 3: Ability to change user data', () => {
             LoginPage.mnemonicInputs.eq(i).type(wordsForSuccessfullLogin[i]);
         }
         LoginPage.recoverWalletButton.click();
-        cy.wait(5000)
+        cy.wait(7000)
+        HomePage.claimButton.should('be.visible');
 
     });
 
@@ -35,7 +36,7 @@ describe('Test case 3: Ability to change user data', () => {
         }
         HomePage.options.eq(0).click();   
         ProfilePage.editProfileButton.should('be.visible');
-        cy.wait(10000);
+        cy.wait(12000);
         ProfilePage.editProfileButton.click();  
         EditProfilePage.pageHeader.should('contain', 'Edit Profile');
         EditProfilePage.nameInput.should('be.visible');
@@ -84,7 +85,7 @@ describe('Test case 3: Ability to change user data', () => {
         HomePage.optionsButton.click({force:true});
         HomePage.options.eq(0).click({force:true});
         ProfilePage.editProfileButton.should('be.visible');
-        cy.wait(10000);
+        cy.wait(12000);
         ProfilePage.editProfileButton.click();
         EditProfilePage.nameInput.clear();
         EditProfilePage.phoneInput.clear();
@@ -92,13 +93,15 @@ describe('Test case 3: Ability to change user data', () => {
         EditProfilePage.nameInput.type('Random12345');
         EditProfilePage.phoneInput.type('+380983611323');
         EditProfilePage.emailInput.type('gggggooddollar.test123@gmail.com');
-        cy.wait(5000);
+        cy.wait(7000);
         EditProfilePage.saveButton.click();
+        cy.wait(10000);
+        EditProfilePage.pageHeader.should('not.contain', 'Edit Profile');   
         ProfilePage.nameInput.should('have.value', 'Random12345');
         ProfilePage.phoneInput.should('have.value', '+380983611323');
         ProfilePage.emailInput.should('have.value', 'gggggooddollar.test123@gmail.com');
         ProfilePage.editProfileButton.should('be.visible');
-        cy.wait(10000);
+        cy.wait(12000);
         ProfilePage.editProfileButton.click();
         cy.wait(3000);
         EditProfilePage.nameInput.clear();
@@ -110,6 +113,7 @@ describe('Test case 3: Ability to change user data', () => {
         cy.wait(3000);
         EditProfilePage.saveButton.click();
         cy.wait(7000);
+        ProfilePage.pageHeader.should('contain', 'Profile');
 
     }); 
 
@@ -119,7 +123,7 @@ describe('Test case 3: Ability to change user data', () => {
         HomePage.optionsButton.click({force:true});
         HomePage.options.eq(0).click({force:true});
         ProfilePage.editProfileButton.should('be.visible');
-        cy.wait(10000);
+        cy.wait(12000);
         ProfilePage.editProfileButton.click();
         EditProfilePage.nameInput.clear({timeout:10000});
         EditProfilePage.phoneInput.clear({timeout:10000});

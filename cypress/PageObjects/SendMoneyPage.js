@@ -17,7 +17,7 @@ class SendMoneyPage {
     }
 
     get confirmButton() {
-        return cy.get('div[role=button]', { timeout: 10000 }).contains('Confirm');
+        return cy.contains('Confirm', { timeout: 10000 });
     }
 
     get copyLinkButton() {

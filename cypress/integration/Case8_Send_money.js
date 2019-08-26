@@ -10,12 +10,9 @@ import SendMoneyPage from '../PageObjects/SendMoneyPage'
 
 describe('Test case 8: Ability to send money', () => {
 
-    let sendMoneyUrl;
+    it('User is able to send money', () => {
 
-
-    it('User is able to send money', async () => {
-
-        await StartPage.open();
+        StartPage.open();
         StartPage.loginLink.click();         
         const wordsForSuccessfullLogin = Cypress.env('wordsForSuccessfullLogin')
         for( let i = 0; i < 12; i++ ) {
@@ -30,44 +27,43 @@ describe('Test case 8: Ability to send money', () => {
         SendMoneyPage.nextButton.click();
         SendMoneyPage.messageInput.type('test message');
         SendMoneyPage.nextButton.click();
+        cy.wait(7000);
         SendMoneyPage.confirmButton.click();
         cy.wait(4000)
         SendMoneyPage.copyLinkButton.click();
         cy.wait(3000)
-        sendMoneyUrl = await SendMoneyPage.doneButton.invoke('attr', 'data-url')
-        cy.wait(3000)
-        SendMoneyPage.doneButton.click();
-        cy.wait(4000)
-    
-    });
-
-    it('Another user is able to receive money', () => {
-        
-        StartPage.open();
-        StartPage.loginLink.click();         
-        const wordsForSuccessfullLogin2 = Cypress.env('anotherAccountWords')
-        for( let i = 0; i < 12; i++ ) {
-            LoginPage.mnemonicInputs.eq(i).type(wordsForSuccessfullLogin2[i]); 
-        }
-        LoginPage.recoverWalletButton.click();
-        cy.wait(7000);
-        HomePage.moneyAmountDiv.invoke('text').then( moneyBefore => {
-            cy.wait(7000)
-            cy.log('Money before sending: ' + moneyBefore )    
-            cy.visit(sendMoneyUrl)
-            cy.wait(20000)
-            cy.visit('https://goodqa.netlify.com/AppNavigation/Dashboard/Home')
-            cy.wait(7000)
-            HomePage.moneyAmountDiv.invoke('text').then( moneyAfter => {
-                cy.wait(3000)
-                cy.log('Money after sending: ' + moneyBefore )
-                expect(Number(moneyBefore) + 0.01).to.be.equal( Number(moneyAfter) )
-            });
+        SendMoneyPage.doneButton.invoke('attr', 'data-url').then( sendMoneyUrl => {
+            cy.wait(3000)
+            SendMoneyPage.doneButton.click();
+            cy.wait(4000);
+            cy.clearLocalStorage();
+            cy.clearCookies();
+            StartPage.open();
+            StartPage.loginLink.click();         
+            const wordsForSuccessfullLogin2 = Cypress.env('anotherAccountWords')
+            for( let i = 0; i < 12; i++ ) {
+                LoginPage.mnemonicInputs.eq(i).type(wordsForSuccessfullLogin2[i]); 
+            }
+            LoginPage.recoverWalletButton.click();
+            cy.wait(12000);
+            HomePage.claimButton.should('be.visible');
+            HomePage.moneyAmountDiv.invoke('text').then( moneyBefore => {
+                cy.wait(7000)
+                cy.log('Money before sending: ' + moneyBefore )    
+                cy.visit(sendMoneyUrl)
+                cy.wait(20000)
+                cy.visit('https://goodqa.netlify.com/AppNavigation/Dashboard/Home')
+                cy.wait(7000)
+                HomePage.moneyAmountDiv.invoke('text').then( moneyAfter => {
+                    cy.wait(3000)
+                    cy.log('Money after sending: ' + moneyBefore )
+                    expect(Number(moneyBefore) + 0.01).to.be.equal( Number(moneyAfter) )
+                });
+                
+           });
+       
+        })
             
-       });
-        
-
-    })
-
+    });
 
 })

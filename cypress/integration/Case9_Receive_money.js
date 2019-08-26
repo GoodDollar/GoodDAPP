@@ -59,7 +59,7 @@ describe('Test case 9: Ability to send money request and reseive money', () => {
                 LoginPage.mnemonicInputs.eq(i).type(wordsForSuccessfullLogin[i]);
             }
             LoginPage.recoverWalletButton.click();
-            cy.wait(12000);
+            cy.wait(20000);
             HomePage.claimButton.should('be.visible');
             HomePage.moneyAmountDiv.invoke('text').then ( moneyBeforeSending => {
                 cy.visit(reseiveMoneyUrl);

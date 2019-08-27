@@ -2,7 +2,7 @@
 //eslint-disable-next-line
 import bip39 from 'bip39-light'
 import _get from 'lodash/get'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { AsyncStorage } from 'react-native'
 import logger from '../../lib/logger/pino-logger'
 import { withStyles } from '../../lib/styles'
@@ -26,24 +26,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
   const [showDialog] = useDialog()
   const [showErrorDialog, hideDialog] = useErrorDialog()
 
-  const checkWeb3HasWallet = async () => {
-    const web3HasWallet = _get(navigation, 'state.params.web3HasWallet')
-
-    if (web3HasWallet) {
-      await AsyncStorage.removeItem('web3Token')
-
-      showDialog({
-        visible: true,
-        title: 'You already have account',
-        dismissText: 'OK',
-        message: `You already have account. Please recover it with 12 secret words`,
-      })
-    }
-  }
-
-  useEffect(() => {
-    checkWeb3HasWallet()
-  }, [])
+  AsyncStorage.removeItem('web3Token')
 
   const handleChange = (mnemonics: []) => {
     log.info({ mnemonics })
@@ -120,6 +103,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
   }
 
   const incomingMnemonic = _get(navigation, 'state.params.mnemonic', undefined)
+  const web3HasWallet = _get(navigation, 'state.params.web3HasWallet')
 
   return (
     <Section grow={5} style={styles.wrapper}>
@@ -127,6 +111,11 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
         <Text fontWeight="medium" fontSize={22}>
           {'Please enter your\n12-word pass phrase:'}
         </Text>
+        {web3HasWallet && (
+          <Text color="gray80Percent" fontSize={14}>
+            Looks like you already have a wallet. Please recover it to continue
+          </Text>
+        )}
         <Text color="gray80Percent" fontSize={14}>
           You can copy-paste it from your backup email
         </Text>

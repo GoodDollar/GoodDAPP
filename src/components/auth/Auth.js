@@ -11,6 +11,7 @@ import { PrivacyPolicy, Support, TermsOfUse } from '../webView/webViewInstances'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
 import illustration from '../../assets/Auth/Illustration.svg'
+import API from '../../lib/API/api'
 
 type Props = {
   navigation: any,
@@ -37,8 +38,40 @@ class Auth extends React.Component<Props> {
 
     const isLoggedIn = await AsyncStorage.getItem('isLoggedIn')
 
-    if (!isLoggedIn) {
-      navigation.navigate('Signup')
+    if (isLoggedIn) {
+      return navigation.navigate('Dashboard')
+    }
+
+    let behaviour = ''
+
+    try {
+      const w3userData = await API.getUserFromW3ByToken(web3Token)
+      const w3user = w3userData.data
+
+      if (w3user.has_wallet) {
+        behaviour = 'goToRecoverScreen'
+      } else {
+        behaviour = 'goToSignUp'
+      }
+    } catch (e) {
+      behaviour = 'showTokenError'
+    }
+
+    switch (behaviour) {
+      case 'showTokenError':
+        navigation.navigate('InvalidW3TokenError')
+        break
+
+      case 'goToRecoverScreen':
+        navigation.navigate('Recover', { web3HasWallet: true })
+        break
+
+      case 'goToSignUp':
+        navigation.navigate('SignUp')
+        break
+
+      default:
+        break
     }
   }
 

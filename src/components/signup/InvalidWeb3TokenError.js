@@ -1,14 +1,16 @@
 import React from 'react'
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { AsyncStorage, Image, StyleSheet, Text, View } from 'react-native'
 import normalize from '../../lib/utils/normalizeText'
-import { Section, Wrapper, CustomButton } from '../common'
+import { CustomButton, Section, Wrapper } from '../common'
 import Separator from '../common/layout/Separator'
 import Oops from '../../assets/oops.svg'
 import config from '../../config/config'
 
 const OutOfGasError = props => {
-  const ERROR_BOLD = "Please get back to the web site and try again"
-  const TITLE = "Something went wrong"
+  AsyncStorage.removeItem('web3Token')
+
+  const ERROR_BOLD = 'Please get back to the web site and try again'
+  const TITLE = 'Something went wrong'
 
   const goToWeb3 = () => {
     window.location = config.web3SiteUrl
@@ -42,17 +44,17 @@ const OutOfGasError = props => {
           </Section>
         </Section>
         <Section>
-          <CustomButton onPress={goToWeb3}>{"Ok"}</CustomButton>
+          <CustomButton onPress={goToWeb3}>{'Ok'}</CustomButton>
         </Section>
       </View>
     </Wrapper>
   )
-};
+}
 
 OutOfGasError.navigationOptions = {
   navigationBarHidden: false,
   title: 'Out of gas',
-};
+}
 
 const styles = StyleSheet.create({
   topContainer: {
@@ -87,6 +89,6 @@ const styles = StyleSheet.create({
     color: '#42454A',
     textTransform: 'none',
   },
-});
+})
 
-export default OutOfGasError;
+export default OutOfGasError

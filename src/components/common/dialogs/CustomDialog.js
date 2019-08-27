@@ -11,9 +11,9 @@ import ModalWrapper from '../modal/ModalWrapper'
 import { theme } from '../../theme/styles'
 import Text from '../view/Text'
 
+export type DialogButtonProps = { color?: string, mode?: string, onPress?: Function => void, text: string, style?: any }
 export type DialogProps = {
   children?: any,
-  dismissText?: string,
   image?: any,
   loading?: boolean,
   message?: string,
@@ -24,6 +24,7 @@ export type DialogProps = {
   title?: string,
   type?: string,
   visible?: boolean,
+  buttons?: DialogButtonProps[],
 }
 
 /**
@@ -35,23 +36,22 @@ export type DialogProps = {
  * @param {boolean} [props.visible]
  * @param {string} [props.title]
  * @param {string} [props.message]
- * @param {string} [props.dismissText]
  * @param {boolean} [props.loading]
+ * @param {DialogButtonProps[]} [props.buttons]
  * @returns {React.Node}
  */
 const CustomDialog = ({
   children = null,
-  dismissText,
   image,
   loading = false,
   message = null,
   boldMessage = null,
-  onCancel = null,
   onDismiss,
   showButtons = true,
   title,
   type = 'common',
   visible,
+  buttons,
 }: DialogProps) => {
   const defaultImage = type === 'error' ? <ErrorIcon /> : <SuccessIcon />
   const modalColor = getColorFromType(type)
@@ -60,7 +60,7 @@ const CustomDialog = ({
 
   return visible ? (
     <Portal>
-      <ModalWrapper onClose={onCancel || onDismiss} leftBorderColor={modalColor}>
+      <ModalWrapper onClose={onDismiss} leftBorderColor={modalColor}>
         <React.Fragment>
           <Text color={textColor} fontFamily="slab" fontSize={24} fontWeight="bold" style={styles.title}>
             {title}
@@ -75,21 +75,24 @@ const CustomDialog = ({
           </View>
           {showButtons ? (
             <View style={styles.buttonsContainer}>
-              {onCancel && (
-                <CustomButton
-                  color={theme.colors.lighterGray}
-                  disabled={loading}
-                  loading={loading}
-                  mode="text"
-                  onPress={onCancel}
-                  style={styles.buttonCancel}
-                >
-                  Cancel
+              {buttons ? (
+                buttons.map(({ onPress = dismiss => dismiss(), style, ...buttonProps }, index) => (
+                  <CustomButton
+                    {...buttonProps}
+                    onPress={() => onPress(onDismiss)}
+                    style={[{ marginLeft: 10 }, style]}
+                    disabled={loading}
+                    loading={loading}
+                    key={index}
+                  >
+                    {buttonProps.text}
+                  </CustomButton>
+                ))
+              ) : (
+                <CustomButton disabled={loading} loading={loading} onPress={onDismiss} style={[styles.buttonOK]}>
+                  Ok
                 </CustomButton>
               )}
-              <CustomButton disabled={loading} loading={loading} onPress={onDismiss} style={[styles.buttonOK]}>
-                {dismissText || 'Done'}
-              </CustomButton>
             </View>
           ) : null}
         </React.Fragment>
@@ -142,7 +145,7 @@ const styles = StyleSheet.create({
   buttonsContainer: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
     paddingLeft: 0,
     paddingRight: 0,
   },
@@ -150,8 +153,8 @@ const styles = StyleSheet.create({
     minWidth: 80,
   },
   buttonOK: {
-    marginLeft: 'auto',
     minWidth: 80,
+    paddingHorizontal: 10,
   },
 })
 

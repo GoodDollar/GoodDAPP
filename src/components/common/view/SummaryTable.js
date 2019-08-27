@@ -1,5 +1,4 @@
 import React from 'react'
-import normalize from '../../../lib/utils/normalizeText'
 import Section from '../layout/Section'
 import { withStyles } from '../../../lib/styles'
 import BigGoodDollar from './BigGoodDollar'
@@ -31,10 +30,10 @@ const AmountRow = props => {
         Amount:
       </Section.Text>
       <BigGoodDollar
-        bigNumberStyles={styles.bigGoodDollar}
-        bigNumberUnitStyles={styles.bigGoodDollarUnit}
         number={amount}
-        color={props.theme.colors.primary}
+        color="primary"
+        bigNumberProps={{ fontSize: 24 }}
+        bigNumberUnitProps={{ fontSize: 14 }}
       />
     </Section.Row>
   )
@@ -81,18 +80,6 @@ const getStylesFromProps = ({ theme }) => {
       alignItems: 'flex-end',
       paddingBottom: theme.sizes.defaultHalf,
       height: 40,
-    },
-
-    // TODO: all this properties can be removed once we merge Text component in
-    bigGoodDollar: {
-      color: theme.colors.primary,
-      fontSize: normalize(24),
-      fontFamily: theme.fonts.default,
-    },
-    bigGoodDollarUnit: {
-      color: theme.colors.primary,
-      fontSize: normalize(14),
-      fontFamily: theme.fonts.default,
     },
   }
 }

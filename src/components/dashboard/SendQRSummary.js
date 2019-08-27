@@ -73,13 +73,13 @@ const SendQRSummary = (props: AmountProps) => {
             visible: true,
             title: 'SUCCESS!',
             message: 'The G$ was sent successfully',
-            dismissText: 'Yay!',
+            buttons: [{ text: 'Yay!' }],
             onDismiss: screenProps.goToRoot,
           })
           return hash
         },
         onError: e => {
-          log.error('Send TX failed:', { e, message: e.message })
+          log.error('Send TX failed:', e.message, e)
           showDialog({
             visible: true,
             title: 'Transaction Failed!',
@@ -89,7 +89,7 @@ const SendQRSummary = (props: AmountProps) => {
         },
       })
     } catch (e) {
-      log.error('Send TX failed:', { e, message: e.message })
+      log.error('Send TX failed:', e.message, e)
       showDialog({
         visible: true,
         title: 'Transaction Failed!',

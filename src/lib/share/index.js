@@ -191,5 +191,5 @@ export function generateShareLink(action: ActionType = 'receive', params: {} = {
     throw new Error(`Link couldn't be generated`)
   }
 
-  return `${Config.publicUrl}/AppNavigation/Dashboard/${destination}?${queryParams}`
+  return encodeURI(`${Config.publicUrl}/AppNavigation/Dashboard/${destination}?${queryParams}`)
 }

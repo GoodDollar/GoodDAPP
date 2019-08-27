@@ -208,7 +208,7 @@ export class GoodWallet {
         log.info('GoodWallet Ready.', { account: this.account })
       })
       .catch(e => {
-        log.error('Failed initializing GoodWallet', e)
+        log.error('Failed initializing GoodWallet', e.message, e)
         throw e
       })
     return this.ready
@@ -226,7 +226,7 @@ export class GoodWallet {
     fromBlock = new BN(fromBlock)
 
     const toBlock = await this.getBlockNumber().catch(e => {
-      log.error('listenTxUpdates: failed getting current block number', { e })
+      log.error('listenTxUpdates: failed getting current block number', e.message, e)
       return ZERO
     })
 
@@ -256,7 +256,7 @@ export class GoodWallet {
           uniqEvents.forEach(event => {
             this.getReceiptWithLogs(event.transactionHash)
               .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptUpdated']))
-              .catch(err => log.error('send event get/send receipt failed:', err))
+              .catch(e => log.error('send event get/send receipt failed:', e.message, e))
           })
 
           // Send for all events. We could define here different events
@@ -264,7 +264,7 @@ export class GoodWallet {
           this.getSubscribers('balanceChanged').forEach(cb => cb(error, events))
         })
         .catch(e => {
-          log.error('listenTxUpdates fromEventsPromise unexpected error:', { e })
+          log.error('listenTxUpdates fromEventsPromise unexpected error:', e.message, e)
         })
 
       //Get transfers to this account
@@ -289,7 +289,7 @@ export class GoodWallet {
           uniqEvents.forEach(event => {
             this.getReceiptWithLogs(event.transactionHash)
               .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptReceived']))
-              .catch(err => log.error('receive event get/send receipt failed:', err))
+              .catch(e => log.error('receive event get/send receipt failed:', e.message, e))
           })
 
           // Send for all events. We could define here different events
@@ -297,7 +297,7 @@ export class GoodWallet {
           this.getSubscribers('balanceChanged').forEach(cb => cb(error, events))
         })
         .catch(e => {
-          log.error('listenTxUpdates toEventsPromise unexpected error:', { e })
+          log.error('listenTxUpdates toEventsPromise unexpected error:', e.message, e)
         })
 
       //wait for events processing to end
@@ -361,11 +361,11 @@ export class GoodWallet {
         uniqBy(events, 'transactionHash').forEach(event => {
           this.getReceiptWithLogs(event.transactionHash)
             .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['otplUpdated']))
-            .catch(err => log.error('send event get/send receipt failed:', err))
+            .catch(e => log.error('send event get/send receipt failed:', e.message, e))
         })
       })
       .catch(e => {
-        log.error('listenTxUpdates fromEventsPromise unexpected error:', { e })
+        log.error('listenTxUpdates fromEventsPromise unexpected error:', e.message, e)
       })
   }
 
@@ -721,9 +721,9 @@ export class GoodWallet {
     return this.sendTransaction(cancelOtlCall, { onTransactionHash: hash => log.debug({ hash }) })
   }
 
-  handleError(err: Error) {
-    log.error('handleError', { err })
-    throw err
+  handleError(e: Error) {
+    log.error('handleError', e.message, e)
+    throw e
   }
 
   async getGasPrice(): Promise<number> {
@@ -737,7 +737,7 @@ export class GoodWallet {
         gasPrice = networkGasPrice.toString()
       }
     } catch (e) {
-      log.error('failed to retrieve gas price from network', { e })
+      log.error('failed to retrieve gas price from network', e.message, e)
     }
 
     return gasPrice

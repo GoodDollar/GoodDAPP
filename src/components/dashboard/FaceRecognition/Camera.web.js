@@ -106,9 +106,9 @@ const CameraComp = (props: CameraProps) => {
       videoPlayerRef.current.addEventListener('play', () => {
         props.onCameraLoad(videoTrack)
       })
-    } catch (error) {
-      log.error('getUserMedia failed:', error)
-      props.onError(error)
+    } catch (e) {
+      log.error('getUserMedia failed:', e.message, e)
+      props.onError(e)
     }
   }
 

@@ -75,7 +75,7 @@ class SmsForm extends React.Component<Props, State> {
         await this.verifyOTP(otpValue)
         this.handleSubmit()
       } catch (e) {
-        log.error({ e })
+        log.error(e.message, e)
 
         this.setState({
           errorMessage: e.message || e,
@@ -110,7 +110,7 @@ class SmsForm extends React.Component<Props, State> {
       //turn checkmark back into regular resend text
       setTimeout(() => this.setState({ ...this.state, resentCode: false }), 2000)
     } catch (e) {
-      log.error(e)
+      log.error(e.message, e)
       this.setState({
         errorMessage: e.message || e,
         sendingCode: false,

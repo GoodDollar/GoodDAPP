@@ -60,6 +60,6 @@ const extend = (() => {
 
 global.window = {}
 global.window.localStorage = new LocalStorage('./localStorage.tmp')
-global.gun = Gun([Config.gunPublicUrl])
+global.gun = Gun({ localStorge: false, peers: [Config.gunPublicUrl], axe: true, multicast: false })
 global.Gun = Gun
 console.info('here')

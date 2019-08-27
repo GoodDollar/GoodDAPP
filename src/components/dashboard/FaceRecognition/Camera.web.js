@@ -107,7 +107,7 @@ const CameraComp = (props: CameraProps) => {
         props.onCameraLoad(videoTrack)
       })
     } catch (e) {
-      log.error('getUserMedia failed:', e.message, `${e}`)
+      log.error('getUserMedia failed:', e.message, e)
       props.onError(e)
     }
   }

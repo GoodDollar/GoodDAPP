@@ -149,20 +149,6 @@ class EmailConfirmation extends React.Component<Props, State> {
 }
 
 const getStylesFromProps = ({ theme }) => ({
-  informativeParagraph: {
-    margin: '1em',
-  },
-  buttonWrapper: {
-    alignContent: 'stretch',
-    flexDirection: 'column',
-    display: 'flex',
-    justifyContent: 'space-between',
-  },
-  button: {
-    justifyContent: 'center',
-    width: '100%',
-    height: 60,
-  },
   row: {
     marginVertical: theme.sizes.defaultQuadruple,
   },

@@ -1,7 +1,6 @@
 // @flow
 import React, { useMemo } from 'react'
 import { isMobile } from 'mobile-device-detect'
-import normalize from '../../lib/utils/normalizeText'
 import GDStore from '../../lib/undux/GDStore'
 import { generateReceiveShareObject, generateSendShareObject } from '../../lib/share'
 import { BigGoodDollar, CopyButton, CustomButton, QRCode, Section, Wrapper } from '../common'
@@ -60,10 +59,10 @@ const ReceiveConfirmation = ({ screenProps, styles, ...props }: ReceiveProps) =>
           )}
           {amount && (
             <BigGoodDollar
-              bigNumberStyles={styles.bigGoodDollar}
-              bigNumberUnitStyles={styles.bigGoodDollarUnit}
               number={amount}
-              color={props.theme.colors.primary}
+              color="primary"
+              bigNumberProps={{ fontSize: 24 }}
+              bigNumberUnitProps={{ fontSize: 14 }}
             />
           )}
           <Section.Text style={styles.textRow}>{reason}</Section.Text>
@@ -99,16 +98,6 @@ const getStylesFromProps = ({ theme }) => {
     },
     doneButton: {
       marginTop: theme.paddings.defaultMargin,
-    },
-    bigGoodDollar: {
-      fontFamily: theme.fonts.default,
-      fontSize: normalize(24),
-      fontWeight: '700',
-    },
-    bigGoodDollarUnit: {
-      fontFamily: theme.fonts.default,
-      fontSize: normalize(14),
-      fontWeight: '700',
     },
   }
 }

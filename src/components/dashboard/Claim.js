@@ -5,13 +5,13 @@ import numeral from 'numeral'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import logger from '../../lib/logger/pino-logger'
-import normalize from '../../lib/utils/normalizeText'
 import GDStore from '../../lib/undux/GDStore'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import wrapper from '../../lib/undux/utils/wrapper'
 import { weiToGd } from '../../lib/wallet/utils'
 import { CustomButton, Wrapper } from '../common'
+import BigGoodDollar from '../common/view/BigGoodDollar'
 import Text from '../common/view/Text'
 import TopBar from '../common/view/TopBar'
 import LoadingIcon from '../common/modal/LoadingIcon'
@@ -104,7 +104,6 @@ const Claim = props => {
     setLoading(true)
 
     showDialog({
-      dismissText: 'OK',
       image: <LoadingIcon />,
       loading,
       message: 'please wait while processing...',
@@ -131,7 +130,7 @@ const Claim = props => {
 
       if (receipt.status) {
         showDialog({
-          dismissText: 'Yay!',
+          buttons: [{ text: 'Yay!' }],
           message: `You've claimed your daily G$`,
           title: 'SUCCESS!',
           type: 'success',
@@ -139,17 +138,15 @@ const Claim = props => {
         })
       } else {
         showDialog({
-          dismissText: 'OK',
           message: 'Something went wrong with the transaction.\nSee feed details for further information.',
           title: 'Claiming Failed',
           type: 'error',
         })
       }
     } catch (e) {
-      log.error('claiming failed', e.message, e)
+      log.error('claiming failed', e.message, `${e}`)
 
       showDialog({
-        dismissText: 'OK',
         message: e.message,
         boldMessage: `Try again later.`,
         title: 'Claiming Failed',
@@ -178,11 +175,15 @@ const Claim = props => {
       }}
     >
       <Text color="surface" fontWeight="medium">
-        {`CLAIM YOUR SHARE - ${weiToGd(entitlement)}`}
-        <Text fontSize={10} color="surface" fontWeight="medium" style={styles.goodDollarUnit}>
-          G$
-        </Text>
+        {`CLAIM YOUR SHARE - `}
       </Text>
+      <BigGoodDollar
+        number={entitlement}
+        formatter={weiToGd}
+        bigNumberProps={{ fontSize: 16, color: 'surface', fontWeight: 'medium' }}
+        bigNumberUnitProps={{ fontSize: 10, color: 'surface', fontWeight: 'medium' }}
+        style={styles.inline}
+      />
     </CustomButton>
   )
 
@@ -195,12 +196,13 @@ const Claim = props => {
             GoodDollar allows you to collect
           </Section.Text>
           <Section.Text style={styles.mainTextBigMarginBottom}>
-            <Section.Text color="surface" fontFamily="slab" fontWeight="bold" fontSize={36}>
-              1
-            </Section.Text>
-            <Section.Text color="surface" fontFamily="slab" fontWeight="bold" fontSize={20}>
-              {' G$'}
-            </Section.Text>
+            <BigGoodDollar
+              number={1}
+              formatter={number => number}
+              bigNumberProps={{ color: 'surface' }}
+              bigNumberUnitProps={{ color: 'surface', fontSize: 20 }}
+              style={styles.inline}
+            />
             <Section.Text color="surface" fontFamily="slab" fontWeight="bold" fontSize={36}>
               {' Free'}
             </Section.Text>
@@ -214,10 +216,12 @@ const Claim = props => {
           <Section.Row style={styles.extraInfoStats}>
             <Section.Text fontWeight="bold">{numeral(claimedToday.people).format('0a')} </Section.Text>
             <Section.Text>People Claimed </Section.Text>
-            <Section.Text fontWeight="bold">{numeral(claimedToday.amount).format('0a')}</Section.Text>
-            <Section.Text fontWeight="bold" fontSize={10} style={styles.goodDollarUnit}>
-              G${' '}
-            </Section.Text>
+            <BigGoodDollar
+              number={claimedToday.amount}
+              formatter={number => numeral(number).format('0a')}
+              bigNumberProps={{ fontSize: 16 }}
+              bigNumberUnitProps={{ fontSize: 10 }}
+            />
             <Section.Text>Today!</Section.Text>
           </Section.Row>
           <Section.Stack style={styles.extraInfoCountdown}>
@@ -305,8 +309,8 @@ const getStylesFromProps = ({ theme }) => {
     extraInfoCountdownTitle: {
       marginBottom: theme.sizes.default,
     },
-    goodDollarUnit: {
-      paddingTop: normalize(4),
+    inline: {
+      display: 'inline',
     },
   }
 }

@@ -277,20 +277,56 @@ exports[`ListEventItem receive matches snapshot 1`] = `
             dir="auto"
             style={
               Object {
-                "color": "rgba(0,187,165,1.00)",
+                "color": "rgba(66,69,74,1.00)",
                 "direction": "ltr",
-                "fontFamily": "Roboto Slab",
-                "fontSize": "10px",
-                "fontWeight": "700",
-                "lineHeight": "11px",
-                "marginTop": "6px",
-                "textAlign": "right",
+                "fontFamily": "Roboto",
+                "fontSize": "16px",
+                "fontWeight": "normal",
+                "lineHeight": "16px",
+                "textAlign": "center",
                 "textDecoration": "none",
                 "textTransform": "none",
               }
             }
           >
-            G$
+            <span
+              className="css-text-901oao css-textHasAncestor-16my406"
+              dir="auto"
+              style={
+                Object {
+                  "color": "rgba(0,187,165,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto Slab",
+                  "fontSize": "10px",
+                  "fontWeight": "700",
+                  "lineHeight": "11px",
+                  "textAlign": "right",
+                  "textDecoration": "none",
+                  "textTransform": "none",
+                }
+              }
+            >
+              G
+            </span>
+            <span
+              className="css-text-901oao css-textHasAncestor-16my406"
+              dir="auto"
+              style={
+                Object {
+                  "color": "rgba(0,187,165,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto Slab",
+                  "fontSize": "9.5px",
+                  "fontWeight": "700",
+                  "lineHeight": "11px",
+                  "textAlign": "right",
+                  "textDecoration": "none",
+                  "textTransform": "none",
+                }
+              }
+            >
+              $
+            </span>
           </div>
         </div>
       </div>
@@ -737,20 +773,56 @@ exports[`ListEventItem send matches snapshot 1`] = `
             dir="auto"
             style={
               Object {
-                "color": "rgba(250,108,119,1.00)",
+                "color": "rgba(66,69,74,1.00)",
                 "direction": "ltr",
-                "fontFamily": "Roboto Slab",
-                "fontSize": "10px",
-                "fontWeight": "700",
-                "lineHeight": "11px",
-                "marginTop": "6px",
-                "textAlign": "right",
+                "fontFamily": "Roboto",
+                "fontSize": "16px",
+                "fontWeight": "normal",
+                "lineHeight": "16px",
+                "textAlign": "center",
                 "textDecoration": "none",
                 "textTransform": "none",
               }
             }
           >
-            G$
+            <span
+              className="css-text-901oao css-textHasAncestor-16my406"
+              dir="auto"
+              style={
+                Object {
+                  "color": "rgba(250,108,119,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto Slab",
+                  "fontSize": "10px",
+                  "fontWeight": "700",
+                  "lineHeight": "11px",
+                  "textAlign": "right",
+                  "textDecoration": "none",
+                  "textTransform": "none",
+                }
+              }
+            >
+              G
+            </span>
+            <span
+              className="css-text-901oao css-textHasAncestor-16my406"
+              dir="auto"
+              style={
+                Object {
+                  "color": "rgba(250,108,119,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto Slab",
+                  "fontSize": "9.5px",
+                  "fontWeight": "700",
+                  "lineHeight": "11px",
+                  "textAlign": "right",
+                  "textDecoration": "none",
+                  "textTransform": "none",
+                }
+              }
+            >
+              $
+            </span>
           </div>
         </div>
       </div>
@@ -1197,20 +1269,56 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
             dir="auto"
             style={
               Object {
-                "color": "rgba(0,195,174,1.00)",
+                "color": "rgba(66,69,74,1.00)",
                 "direction": "ltr",
-                "fontFamily": "Roboto Slab",
-                "fontSize": "10px",
-                "fontWeight": "700",
-                "lineHeight": "11px",
-                "marginTop": "6px",
-                "textAlign": "right",
+                "fontFamily": "Roboto",
+                "fontSize": "16px",
+                "fontWeight": "normal",
+                "lineHeight": "16px",
+                "textAlign": "center",
                 "textDecoration": "none",
                 "textTransform": "none",
               }
             }
           >
-            G$
+            <span
+              className="css-text-901oao css-textHasAncestor-16my406"
+              dir="auto"
+              style={
+                Object {
+                  "color": "rgba(0,195,174,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto Slab",
+                  "fontSize": "10px",
+                  "fontWeight": "700",
+                  "lineHeight": "11px",
+                  "textAlign": "right",
+                  "textDecoration": "none",
+                  "textTransform": "none",
+                }
+              }
+            >
+              G
+            </span>
+            <span
+              className="css-text-901oao css-textHasAncestor-16my406"
+              dir="auto"
+              style={
+                Object {
+                  "color": "rgba(0,195,174,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto Slab",
+                  "fontSize": "9.5px",
+                  "fontWeight": "700",
+                  "lineHeight": "11px",
+                  "textAlign": "right",
+                  "textDecoration": "none",
+                  "textTransform": "none",
+                }
+              }
+            >
+              $
+            </span>
           </div>
         </div>
       </div>

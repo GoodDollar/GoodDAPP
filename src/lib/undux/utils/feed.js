@@ -64,7 +64,7 @@ const getInitial = async (store: Store) => {
   store.set('feedLoading')(true)
   const feeds = await userStorage
     .getFormattedEvents(PAGE_SIZE, true)
-    .catch(err => logger.error('getInitialFeed -> ', err))
+    .catch(e => logger.error('getInitialFeed -> ', e.message, `${e}`))
   logger.info({ feeds })
   const mockedFeeds = getMockFeeds()
   store.set('feedLoading')(false)
@@ -72,7 +72,7 @@ const getInitial = async (store: Store) => {
 }
 
 export const getNextFeed = async (store: Store) => {
-  const currentFeeds = store.get('feeds')
+  const currentFeeds = store.get('feeds') || []
   const newFeeds = await userStorage.getFormattedEvents(PAGE_SIZE, false)
   if (newFeeds.length > 0) {
     store.set('feeds')([...currentFeeds, ...newFeeds])

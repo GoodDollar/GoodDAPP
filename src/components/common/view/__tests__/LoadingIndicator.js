@@ -14,12 +14,14 @@ describe('LoadingIndicator', () => {
     it('should render empty without errors', () => {
       const component = renderer.create(
         <Container>
-          <LoadingIndicator />
+          <PaperProvider theme={theme}>
+            <LoadingIndicator />
+          </PaperProvider>
         </Container>
       )
 
       const tree = component.toJSON()
-      expect(tree).toBeNull()
+      expect(tree).toBeTruthy()
     })
 
     it('should match snapshot', () => {
@@ -38,7 +40,9 @@ describe('LoadingIndicator', () => {
     it('should match snapshot with default values', () => {
       const component = renderer.create(
         <Container>
-          <LoadingIndicator force />
+          <PaperProvider theme={theme}>
+            <LoadingIndicator force />
+          </PaperProvider>
         </Container>
       )
 

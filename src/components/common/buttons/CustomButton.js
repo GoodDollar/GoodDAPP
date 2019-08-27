@@ -1,6 +1,7 @@
 // @flow
 import React from 'react'
-import { Button as BaseButton, DefaultTheme } from 'react-native-paper'
+import { View } from 'react-native'
+import { ActivityIndicator, Button as BaseButton, DefaultTheme } from 'react-native-paper'
 import { withStyles } from '../../../lib/styles'
 import Icon from '../view/Icon'
 import Text from '../view/Text'
@@ -33,13 +34,17 @@ type TextContentProps = {
   uppercase?: boolean,
 }
 
-const mapPropsToStyles = ({ theme }) => ({
+const mapPropsToStyles = ({ theme, compact }) => ({
   buttonStyle: {
     borderColor: theme.colors.primary,
     justifyContent: 'center',
+    alignItems: 'stretch',
     minHeight: 44,
     paddingLeft: 0,
     paddingRight: 0,
+    padding: 0,
+    margin: 0,
+    display: 'flex',
   },
   leftIcon: {
     marginRight: theme.sizes.defaultDouble,
@@ -55,6 +60,16 @@ const mapPropsToStyles = ({ theme }) => ({
   },
   contentStyle: {
     letterSpacing: 0,
+  },
+  contentWrapper: {
+    alignItems: 'center',
+    display: 'flex',
+    flexDirection: 'row',
+    flex: 1,
+  },
+  activityIndicator: {
+    marginRight: compact ? theme.sizes.defaultHalf : theme.sizes.default,
+    alignSelf: 'center',
   },
 })
 
@@ -115,30 +130,55 @@ const IconButton = ({ theme, dark, icon, size, style }: IconButtonProps) => {
  * @returns {React.Node}
  */
 const CustomButton = (props: ButtonProps) => {
-  const { theme, mode, style, children, icon, iconAlignment, iconSize, styles, textStyle, ...buttonProps } = props
+  const {
+    theme,
+    mode,
+    style,
+    children,
+    icon,
+    iconAlignment,
+    iconSize,
+    styles,
+    textStyle,
+    loading,
+    disabled,
+    ...buttonProps
+  } = props
   const dark = mode === 'contained'
   const uppercase = mode !== 'text'
+  const color = props.color ? props.color : theme.colors.default
   return (
     <BaseButton
-      compact
       dark={dark}
       mode={mode}
       style={[styles.buttonStyle, style]}
       contentStyle={styles.contentStyle}
       theme={{ ...theme, roundness: 50 }}
       uppercase={uppercase}
-      onPress={!props.loading && props.onPress}
+      disabled={disabled || loading}
+      onPress={props.onPress}
+      color={color}
       {...buttonProps}
     >
-      {icon && (!iconAlignment || iconAlignment === 'left') && (
-        <IconButton icon={icon} theme={theme} dark={dark} size={iconSize} style={styles.leftIcon} />
-      )}
-      <TextContent dark={dark} uppercase={uppercase} textStyle={textStyle} color={buttonProps.color}>
-        {children}
-      </TextContent>
-      {icon && iconAlignment === 'right' && (
-        <IconButton icon={icon} theme={theme} dark={dark} size={iconSize} style={styles.rightIcon} />
-      )}
+      <View style={styles.contentWrapper}>
+        {icon && (!iconAlignment || iconAlignment === 'left') && (
+          <IconButton icon={icon} theme={theme} dark={dark} size={iconSize} style={styles.leftIcon} />
+        )}
+        {loading && (
+          <ActivityIndicator
+            style={styles.activityIndicator}
+            animating={loading}
+            color={dark ? theme.colors.surface : color}
+            size={23}
+          />
+        )}
+        <TextContent dark={dark} uppercase={uppercase} textStyle={textStyle} color={buttonProps.color}>
+          {children}
+        </TextContent>
+        {icon && iconAlignment === 'right' && (
+          <IconButton icon={icon} theme={theme} dark={dark} size={iconSize} style={styles.rightIcon} />
+        )}
+      </View>
     </BaseButton>
   )
 }

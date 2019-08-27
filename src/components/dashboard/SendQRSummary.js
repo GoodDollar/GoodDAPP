@@ -79,7 +79,7 @@ const SendQRSummary = (props: AmountProps) => {
           return hash
         },
         onError: e => {
-          log.error('Send TX failed:', e.message, `${e}`)
+          log.error('Send TX failed:', e.message, e)
           showDialog({
             visible: true,
             title: 'Transaction Failed!',
@@ -89,7 +89,7 @@ const SendQRSummary = (props: AmountProps) => {
         },
       })
     } catch (e) {
-      log.error('Send TX failed:', e.message, `${e}`)
+      log.error('Send TX failed:', e.message, e)
       showDialog({
         visible: true,
         title: 'Transaction Failed!',

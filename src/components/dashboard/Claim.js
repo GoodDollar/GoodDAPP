@@ -146,7 +146,7 @@ const Claim = props => {
         })
       }
     } catch (e) {
-      log.error('claiming failed', e.message, `${e}`)
+      log.error('claiming failed', e.message, e)
 
       showDialog({
         dismissText: 'OK',

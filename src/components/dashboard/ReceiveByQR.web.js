@@ -44,7 +44,7 @@ const ReceiveByQR = ({ screenProps }) => {
           setWithdrawParams({ receiveLink, reason })
         }
       } catch (e) {
-        log.error(e.message, `${e}`)
+        log.error(e.message, e)
         setQRDelay(false)
         throw e
       }
@@ -71,7 +71,7 @@ const ReceiveByQR = ({ screenProps }) => {
   }, [withdrawParams])
 
   const handleError = e => {
-    log.error(e.message, `${e}`)
+    log.error(e.message, e)
   }
 
   return (

@@ -119,7 +119,7 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation, s
               .deleteAccount()
               .then(r => log.debug('deleted account', r))
               .then(r => AsyncStorage.clear())
-              .catch(e => log.error('Error deleting account', e.message, `${e}`))
+              .catch(e => log.error('Error deleting account', e.message, e))
             store.set('loadingIndicator')({ loading: false })
             window.location = '/'
           },

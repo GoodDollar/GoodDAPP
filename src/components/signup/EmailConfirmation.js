@@ -3,7 +3,6 @@ import React from 'react'
 import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
 import { withStyles } from '../../lib/styles'
-import Icon from '../common/view/Icon'
 import LoadingIndicator from '../common/view/LoadingIndicator'
 import Section from '../common/layout/Section'
 import ErrorText from '../common/form/ErrorText'
@@ -12,10 +11,6 @@ import CustomWrapper from './signUpWrapper'
 import type { SignupState } from './SignupState'
 
 const log = logger.child({ from: 'EmailConfirmation' })
-
-const DONE = 'DONE'
-const WAIT = 'WAIT'
-const PENDING = 'PENDING'
 
 type Props = {
   phone: string,
@@ -119,7 +114,7 @@ class EmailConfirmation extends React.Component<Props, State> {
   }
   
   render() {
-    const { errorMessage, renderButton, loading, code, resentCode } = this.state
+    const { errorMessage, loading, code} = this.state
     const { styles } = this.props
     
     return (
@@ -142,30 +137,15 @@ class EmailConfirmation extends React.Component<Props, State> {
             <ErrorText error={errorMessage} />
           </Section.Stack>
           <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
-            <CodeAction status={resentCode ? DONE : renderButton ? PENDING : WAIT} handleRetry={this.handleRetry} />
+            <Section.Text fontWeight="medium" fontSize={14} color="primary" onPress={this.handleRetry}>
+              Send me the code again
+            </Section.Text>
           </Section.Row>
         </Section.Stack>
         <LoadingIndicator force={loading} />
       </CustomWrapper>
     )
   }
-}
-
-const CodeAction = ({ status, handleRetry }) => {
-  if (status === DONE) {
-    return <Icon size={16} name="success" color="blue" />
-  } else if (status === WAIT) {
-    return (
-      <Section.Text fontSize={14} color="gray80Percent">
-        Please wait a few seconds until the email arrives
-      </Section.Text>
-    )
-  }
-  return (
-    <Section.Text fontWeight="medium" fontSize={14} color="primary" onPress={handleRetry}>
-      Send me the code again
-    </Section.Text>
-  )
 }
 
 const getStylesFromProps = ({ theme }) => ({

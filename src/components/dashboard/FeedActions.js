@@ -1,7 +1,6 @@
 // @flow
 import React from 'react'
 import { TouchableOpacity, View } from 'react-native-web'
-import { ActivityIndicator } from 'react-native-paper'
 import { withStyles } from '../../lib/styles'
 import { Icon, Text } from '../common'
 import type { FeedEventProps } from './FeedItems/EventProps'
@@ -12,25 +11,19 @@ import type { FeedEventProps } from './FeedItems/EventProps'
  * @param {FeedEventProps} feedItem - Contains the feed item
  * @returns React element with actions
  */
-const FeedActions = ({ actionActive, hasAction, children, actionIcon, onPress, styles, theme }: FeedEventProps) => {
+const FeedActions = ({ hasAction, children, actionIcon, onPress, styles, theme }: FeedEventProps) => {
   const backgroundColor = hasAction ? theme.colors.red : 'transparent'
 
-  const content =
-    actionActive === undefined ? (
-      <>
-        <Icon name={actionIcon} color={theme.colors.surface} size={22} />
-        <Text style={styles.action} fontSize={14} fontWeight="medium" color="surface">
-          {children}
-        </Text>
-      </>
-    ) : (
-      <ActivityIndicator />
-    )
   return (
     <View style={[styles.actionsContainer, { backgroundColor }]}>
       {hasAction && (
-        <TouchableOpacity onPress={actionActive === undefined && onPress}>
-          <View style={styles.actionsContainerInner}>{content}</View>
+        <TouchableOpacity onPress={onPress}>
+          <View style={styles.actionsContainerInner}>
+            <Icon name={actionIcon} color={theme.colors.surface} size={22} />
+            <Text style={styles.action} fontSize={14} fontWeight="medium" color="surface">
+              {children}
+            </Text>
+          </View>
         </TouchableOpacity>
       )}
     </View>

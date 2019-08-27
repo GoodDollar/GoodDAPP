@@ -60,7 +60,7 @@ class PhoneForm extends React.Component<Props, State> {
     const modelErrorMessage = userModelValidations.mobile(this.state.mobile)
     const isValidIndexValue =
       Config.skipMobileVerification || (await UserStorage.isValidValue('mobile', this.state.mobile))
-    const errorMessage = modelErrorMessage || (isValidIndexValue ? '' : 'Unavailable mobile')
+    const errorMessage = modelErrorMessage || (isValidIndexValue ? '' : 'Mobile already registered')
     log.debug({ modelErrorMessage, isValidIndexValue, errorMessage, Config })
     this.setState({ errorMessage, isValid: errorMessage === '' })
     return errorMessage === ''

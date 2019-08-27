@@ -104,7 +104,6 @@ const Claim = props => {
     setLoading(true)
 
     showDialog({
-      dismissText: 'OK',
       image: <LoadingIcon />,
       loading,
       message: 'please wait while processing...',
@@ -131,7 +130,7 @@ const Claim = props => {
 
       if (receipt.status) {
         showDialog({
-          dismissText: 'Yay!',
+          buttons: [{ text: 'Yay!' }],
           message: `You've claimed your daily G$`,
           title: 'SUCCESS!',
           type: 'success',
@@ -139,7 +138,6 @@ const Claim = props => {
         })
       } else {
         showDialog({
-          dismissText: 'OK',
           message: 'Something went wrong with the transaction.\nSee feed details for further information.',
           title: 'Claiming Failed',
           type: 'error',
@@ -149,7 +147,6 @@ const Claim = props => {
       log.error('claiming failed', e.message, e)
 
       showDialog({
-        dismissText: 'OK',
         message: e.message,
         boldMessage: `Try again later.`,
         title: 'Claiming Failed',

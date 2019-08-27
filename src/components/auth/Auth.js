@@ -43,7 +43,7 @@ class Auth extends React.Component<Props> {
     }
 
     let behaviour = ''
-    let w3User
+    let w3User = {}
 
     try {
       const w3userData = await API.getUserFromW3ByToken(web3Token)

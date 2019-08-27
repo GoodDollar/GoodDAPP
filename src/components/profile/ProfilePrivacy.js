@@ -70,7 +70,7 @@ const ProfilePrivacy = props => {
       // resets initial privacy states with currently set values
       toUpdate.map(({ field }) => setInitialPrivacy(prevState => ({ ...prevState, [`${field}`]: privacy[field] })))
     } catch (e) {
-      log.error('Failed to save new privacy', { e })
+      log.error('Failed to save new privacy', e.message, `${e}`)
     }
 
     setLoading(false)

@@ -83,7 +83,7 @@ describe('generateShareLink', () => {
     )
   })
 
-  it.only(`should return link generated from send action, with encoded query param`, () => {
+  it(`should return link generated from send action, with encoded query param`, () => {
     // Given
     const action = 'send'
     const params = { key: 'value with spaces' }

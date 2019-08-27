@@ -284,7 +284,7 @@ export class UserStorage {
       .then(() => this.init())
       .then(() => logger.debug('userStorage initialized.'))
       .catch(e => {
-        logger.error('Error initializing UserStorage', { e, message: e.message, account: this.wallet.account })
+        logger.error('Error initializing UserStorage', { account: this.wallet.account }, e.message, `${e}`)
         return false
       })
   }
@@ -420,8 +420,8 @@ export class UserStorage {
         await this.updateFeedEvent(updatedFeedEvent, feedEvent.date)
       }
       return updatedFeedEvent
-    } catch (error) {
-      logger.error('handleReceiptUpdated', error)
+    } catch (e) {
+      logger.error('handleReceiptUpdated', e.message, `${e}`)
     } finally {
       release()
     }
@@ -459,8 +459,8 @@ export class UserStorage {
       logger.debug('handleOTPLUpdated receiptReceived', { feedEvent, otplStatus, receipt, data })
       await this.updateFeedEvent(feedEvent, prevDate)
       return feedEvent
-    } catch (error) {
-      logger.error('handleOTPLUpdated', error)
+    } catch (e) {
+      logger.error('handleOTPLUpdated', e.message, `${e}`)
     } finally {
       release()
     }
@@ -649,14 +649,14 @@ export class UserStorage {
         .filter(key => profile[key])
         .map(async field => {
           return this.setProfileField(field, profile[field], await getPrivacy(field)).catch(e => {
-            logger.error('setProfile field failed:', field, e.message, e)
+            logger.error('setProfile field failed:', { field }, e.message, `${e}`)
             return { err: `failed saving field ${field}` }
           })
         })
     ).then(results => {
       const errors = results.filter(ack => ack && ack.err).map(ack => ack.err)
       if (errors.length > 0) {
-        logger.error('setProfile some fields failed', errors.length, errors)
+        logger.error('setProfile some fields failed', errors.length, errors, JSON.stringify(errors))
         if (Config.throwSaveProfileErrors) {
           return Promise.reject(errors)
         }
@@ -686,8 +686,8 @@ export class UserStorage {
         .get(cleanValue)
         .then()
       return !(indexValue && indexValue.pub !== global.gun.user().is.pub)
-    } catch (err) {
-      logger.error('indexProfileField', err)
+    } catch (e) {
+      logger.error('indexProfileField', e.message, `${e}`)
       return true
     }
   }
@@ -815,8 +815,8 @@ export class UserStorage {
       }
 
       return indexNode.putAck(this.gunuser)
-    } catch (err) {
-      logger.error('indexProfileField', err)
+    } catch (e) {
+      logger.error('indexProfileField', e.message, `${e}`)
 
       // TODO: this should return unexpected error
       // return Promise.resolve({ err: `Unexpected Error`, ok: 0 })
@@ -870,7 +870,7 @@ export class UserStorage {
         .get(day[0])
         .then()
         .catch(e => {
-          logger.error('getFeed', e)
+          logger.error('getFeed', e.message, `${e}`)
           return []
         })
     })
@@ -1089,6 +1089,7 @@ export class UserStorage {
     let displayType = type
     switch (type) {
       case 'send':
+        withdrawStatus = 'error'
         displayType += withdrawStatus
         if (withdrawStatus === 'error') {
           avatar = `${process.env.PUBLIC_URL}/favicon-96x96.png`
@@ -1135,7 +1136,7 @@ export class UserStorage {
       this.updateFeedEvent(event)
       logger.debug('enqueueTX ok:', { event, putRes })
     } catch (e) {
-      logger.error('enqueueTX failed: ', { e, message: e.message })
+      logger.error('enqueueTX failed: ', e.message, `${e}`)
     } finally {
       release()
     }
@@ -1158,7 +1159,7 @@ export class UserStorage {
         return feedItem
       }
     } catch (e) {
-      logger.error('dequeueTX failed:', { e, message: e.message })
+      logger.error('dequeueTX failed:', e.message, `${e}`)
     }
   }
 
@@ -1260,26 +1261,26 @@ export class UserStorage {
       .secret(event)
       .then()
       .catch(e => {
-        logger.error('updateFeedEvent failedEncrypt byId:', e, event)
+        logger.error('updateFeedEvent failedEncrypt byId:', event, e.message, `${e}`)
         return { err: e.message }
       })
     const saveAck = this.feed
       .get(day)
       .put(JSON.stringify(dayEventsArr))
       .then()
-      .catch(err => logger.error('updateFeedEvent dayIndex', err))
+      .catch(e => logger.error('updateFeedEvent dayIndex', e.message, `${e}`))
     const ack = this.feed
       .get('index')
       .get(day)
       .put(dayEventsArr.length)
       .then()
-      .catch(err => logger.error('updateFeedEvent daySize', err))
+      .catch(e => logger.error('updateFeedEvent daySize', e.message, `${e}`))
 
     const result = await Promise.all([saveAck, ack, eventAck])
       .then(arr => {
         return event
       })
-      .catch(err => logger.error('savingIndex', err))
+      .catch(e => logger.error('savingIndex', e.message, `${e}`))
     return result
   }
 

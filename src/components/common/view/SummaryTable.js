@@ -1,56 +1,42 @@
 import React from 'react'
-import normalize from '../../../lib/utils/normalizeText'
 import Section from '../layout/Section'
 import { withStyles } from '../../../lib/styles'
 import BigGoodDollar from './BigGoodDollar'
 
-const WhoRow = ({ styles, counterPartyDisplayName, actionReceive, marginTop }) => {
-  if (!counterPartyDisplayName) {
-    return null
-  }
-
-  return (
+const WhoRow = ({ styles, counterPartyDisplayName, actionReceive, marginTop }) =>
+  counterPartyDisplayName ? (
     <Section.Row style={[styles.tableRow, { marginTop }]}>
       <Section.Text fontSize={14} color="gray80Percent">
         {actionReceive ? 'From:' : 'To:'}
       </Section.Text>
       <Section.Text fontSize={24}>{counterPartyDisplayName}</Section.Text>
     </Section.Row>
-  )
-}
+  ) : null
 
-const AmountRow = ({ amount, styles, marginTop, theme }) => {
-  if (!amount) {
-    return null
-  }
-  return (
+const AmountRow = ({ amount, styles, marginTop }) =>
+  amount ? (
     <Section.Row style={[styles.tableRow, { marginTop }]}>
       <Section.Text fontSize={14} color="gray80Percent">
         Amount:
       </Section.Text>
       <BigGoodDollar
-        bigNumberStyles={styles.bigGoodDollar}
-        bigNumberUnitStyles={styles.bigGoodDollarUnit}
         number={amount}
-        color={theme.colors.primary}
+        color="primary"
+        bigNumberProps={{ fontSize: 24 }}
+        bigNumberUnitProps={{ fontSize: 14 }}
       />
     </Section.Row>
-  )
-}
+  ) : null
 
-const ReasonRow = ({ reason, styles, marginTop }) => {
-  if (!reason) {
-    return null
-  }
-  return (
+const ReasonRow = ({ reason, styles, marginTop }) =>
+  reason ? (
     <Section.Row style={[styles.tableRow, { marginTop }]}>
       <Section.Text fontSize={14} color="gray80Percent">
         For:
       </Section.Text>
       <Section.Text fontSize={14}>{reason}</Section.Text>
     </Section.Row>
-  )
-}
+  ) : null
 
 /**
  *
@@ -70,7 +56,7 @@ const SummaryTable = ({ styles, counterPartyDisplayName, amount, reason, actionR
         actionReceive={actionReceive}
         marginTop={marginTop}
       />
-      <AmountRow amount={amount} styles={styles} theme={theme} marginTop={marginTop} />
+      <AmountRow amount={amount} styles={styles} marginTop={marginTop} />
       <ReasonRow reason={reason} styles={styles} marginTop={marginTop} />
     </Section.Stack>
   )
@@ -86,18 +72,6 @@ const getStylesFromProps = ({ theme }) => {
       alignItems: 'flex-end',
       paddingBottom: theme.sizes.defaultHalf,
       height: 40,
-    },
-
-    // TODO: all this properties can be removed once we merge Text component in
-    bigGoodDollar: {
-      color: theme.colors.primary,
-      fontSize: normalize(24),
-      fontFamily: theme.fonts.default,
-    },
-    bigGoodDollarUnit: {
-      color: theme.colors.primary,
-      fontSize: normalize(14),
-      fontFamily: theme.fonts.default,
     },
   }
 }

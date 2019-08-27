@@ -392,6 +392,7 @@ export const NextButton = ({
   nextRoutes: nextRoutesParam,
   label,
   canContinue,
+  loading,
 }: NextButtonProps) => {
   const [next, ...nextRoutes] = nextRoutesParam ? nextRoutesParam : []
   return (
@@ -403,6 +404,7 @@ export const NextButton = ({
       routeName={next}
       style={{ flex: 2 }}
       canContinue={canContinue}
+      loading={loading}
     >
       {label || 'Next'}
     </PushButton>

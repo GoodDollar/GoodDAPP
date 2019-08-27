@@ -48,10 +48,12 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
                 </Text>
               )}
               <BigGoodDollar
-                bigNumberStyles={styles.bigNumberStyles}
-                bigNumberUnitStyles={styles.bigNumberUnitStyles}
-                color={mainColor}
                 number={feed.data.amount}
+                color={mainColor}
+                bigNumberProps={{ fontSize: 15, lineHeight: 18 }}
+                bigNumberStyles={styles.bigNumberStyles}
+                bigNumberUnitProps={{ fontSize: 10, lineHeight: 11 }}
+                bigNumberUnitStyles={styles.bigNumberUnitStyles}
               />
             </React.Fragment>
           )}
@@ -138,14 +140,10 @@ const getStylesFromProps = ({ theme }) => ({
     marginLeft: 'auto',
   },
   bigNumberStyles: {
-    fontSize: normalize(15),
-    lineHeight: normalize(18),
     marginRight: theme.sizes.defaultHalf,
   },
   bigNumberUnitStyles: {
-    fontSize: normalize(10),
-    lineHeight: normalize(11),
-    marginTop: 6,
+    lineHeight: normalize(16),
   },
   transferInfo: {
     display: 'flex',

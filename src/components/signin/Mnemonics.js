@@ -74,8 +74,8 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
         await saveMnemonics(prevMnemonics)
         showError()
       }
-    } catch (err) {
-      log.error(err)
+    } catch (e) {
+      log.error(e.message, `${e}`)
       saveMnemonics(prevMnemonics)
       showSupportDialog(showErrorDialog, hideDialog, screenProps, 'men-1')
     } finally {

@@ -6,7 +6,7 @@ import Separator from '../common/layout/Separator'
 import Oops from '../../assets/oops.svg'
 import config from '../../config/config'
 
-const OutOfGasError = props => {
+const InvalidWe3TokenError = props => {
   AsyncStorage.removeItem('web3Token')
 
   const ERROR_BOLD = 'Please get back to the web site and try again'
@@ -51,9 +51,9 @@ const OutOfGasError = props => {
   )
 }
 
-OutOfGasError.navigationOptions = {
+InvalidWe3TokenError.navigationOptions = {
   navigationBarHidden: false,
-  title: 'Out of gas',
+  title: 'Invalid Auth Token',
 }
 
 const styles = StyleSheet.create({
@@ -91,4 +91,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default OutOfGasError
+export default InvalidWe3TokenError

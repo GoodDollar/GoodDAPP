@@ -77,6 +77,23 @@ class API {
       )
       this.client = await instance
       log.info('API ready', this.jwt)
+
+      let w3Instance: AxiosInstance = axios.create({
+        baseURL: Config.web3SiteUrl,
+        timeout: 30000,
+      })
+      w3Instance.interceptors.request.use(req => req, error => Promise.reject(error))
+      w3Instance.interceptors.response.use(
+        response => response.data,
+        error => {
+          if (error.response.data) {
+            return Promise.reject(error.response.data)
+          }
+
+          return Promise.reject(error)
+        }
+      )
+      this.w3Client = await w3Instance
     }))
   }
 
@@ -210,49 +227,20 @@ class API {
    * @param {string} token
    */
   getUserFromW3ByToken(token: string): Promise<$AxiosXHR<any>> {
-    let instance: AxiosInstance = axios.create({
-      baseURL: Config.web3SiteUrl,
-      timeout: 30000,
-      headers: { Authorization: token || '' },
-    })
-    instance.interceptors.request.use(req => req, error => Promise.reject(error))
-    instance.interceptors.response.use(
-      response => response.data,
-      error => {
-        if (error.response.data) {
-          return Promise.reject(error.response.data)
-        }
+    this.w3Client.defaults.headers.common.Authorization = token
 
-        return Promise.reject(error)
-      }
-    )
-
-    return instance.get('api/wl/user')
+    return this.w3Client.get('api/wl/user')
   }
 
   /**
    * `/w3Site/api/wl/user` get user from web3 by token
    * @param {string} token
+   * @param {string} walletAddress
    */
   updateW3UserWithWallet(token, walletAddress: string): Promise<$AxiosXHR<any>> {
-    let instance: AxiosInstance = axios.create({
-      baseURL: Config.web3SiteUrl,
-      timeout: 30000,
-      headers: { Authorization: token || '' },
-    })
-    instance.interceptors.request.use(req => req, error => Promise.reject(error))
-    instance.interceptors.response.use(
-      response => response.data,
-      error => {
-        if (error.response.data) {
-          return Promise.reject(error.response.data)
-        }
+    this.w3Client.defaults.headers.common.Authorization = token
 
-        return Promise.reject(error)
-      }
-    )
-
-    return instance.put('api/wl/user/update_profile', {
+    return this.w3Client.put('api/wl/user/update_profile', {
       wallet_address: walletAddress,
     })
   }

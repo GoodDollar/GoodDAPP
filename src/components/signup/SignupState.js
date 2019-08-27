@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { AsyncStorage, ScrollView, StyleSheet, View } from 'react-native'
 import { createSwitchNavigator } from '@react-navigation/core'
 import { isMobileSafari } from 'mobile-device-detect'
+import _get from 'lodash/get'
 
 import NavBar from '../appNavigation/NavBar'
 import { navigationConfig } from '../appNavigation/navigationConfig'
@@ -88,59 +89,16 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
     }
   }
 
-  const checkWeb3Token = async () => {
-    setLoading(true)
-    const web3Token = await AsyncStorage.getItem('web3Token')
+  const checkWeb3userData = () => {
+    const w3User = _get(navigation, 'state.params.w3User')
 
-    if (web3Token) {
-      let behaviour = ''
+    if (w3User) {
+      setState({
+        ...state,
+        ...w3User,
+      })
 
-      try {
-        const w3userData = await API.getUserFromW3ByToken(web3Token)
-        const w3user = w3userData.data
-
-        if (w3user.has_wallet) {
-          behaviour = 'goToRecoverScreen'
-        } else {
-          const requestedData = {
-            w3Token: web3Token,
-            email: w3user.email,
-            isEmailConfirmed: true,
-            fullName: w3user.full_name,
-            avatar: w3user.image,
-            skipEmail: true,
-            skipEmailConfirmation: true,
-          }
-
-          setState({
-            ...state,
-            ...requestedData,
-          })
-
-          behaviour = 'goToMobileInput'
-        }
-      } catch (e) {
-        behaviour = 'showTokenError'
-      }
-
-      switch (behaviour) {
-        case 'showTokenError':
-          navigation.navigate('InvalidW3TokenError')
-          break
-
-        case 'goToRecoverScreen':
-          navigation.navigate('Recover', { web3HasWallet: true })
-          break
-
-        case 'goToMobileInput':
-          navigation.navigate('Phone')
-          break
-
-        default:
-          break
-      }
-
-      setLoading(false)
+      navigation.navigate('Phone')
     }
   }
 
@@ -177,7 +135,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
 
     setReady(ready)
 
-    checkWeb3Token()
+    checkWeb3userData()
   }, [])
 
   const finishRegistration = async () => {
@@ -225,7 +183,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   function getNextRoute(routes, routeIndex, state) {
     let nextRoute = routes[routeIndex + 1]
 
-    if (state[`skip${nextRoute.key}`]) {
+    if (state[`skip${nextRoute && nextRoute.key}`]) {
       return getNextRoute(routes, routeIndex + 1, state)
     }
 

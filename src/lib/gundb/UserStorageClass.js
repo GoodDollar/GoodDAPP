@@ -87,6 +87,7 @@ export type FeedEvent = {
   createdDate?: string,
   status?: 'pending' | 'completed' | 'error' | 'cancelled' | 'deleted',
   data: any,
+  displayType?: string,
 }
 
 /**
@@ -154,7 +155,7 @@ export const getReceiveDataFromReceipt = (receipt: any) => {
     'value'
   )
   const withdrawLog = logs.find(log => {
-    return log && (log.name === 'PaymentWithdraw' || log.name == 'PaymentCancel')
+    return log && (log.name === 'PaymentWithdraw' || log.name === 'PaymentCancel')
   })
   logger.debug('getReceiveDataFromReceipt', { logs: receipt.logs, transferLog, withdrawLog })
   const log = withdrawLog || transferLog
@@ -895,6 +896,7 @@ export class UserStorage {
    */
   async getFormattedEvents(numResults: number, reset?: boolean): Promise<Array<StandardFeed>> {
     const feed = await this.getFeedPage(numResults, reset)
+    console.info('FMG', { feed })
     return Promise.all(
       feed
         .filter(feedItem => feedItem.data && ['deleted', 'cancelled'].includes(feedItem.status) === false)
@@ -1171,12 +1173,24 @@ export class UserStorage {
 
   /**
    * Sets the event's status as deleted
-   * @param {FeedEvent} event
+   * @param {string} eventId
    * @returns {Promise<FeedEvent>}
    */
-  deleteEvent(event: FeedEvent): Promise<FeedEvent> {
-    event.status = 'deleted'
-    return this.updateFeedEvent(event)
+  async deleteEvent(eventId: string): Promise<FeedEvent> {
+    const feedEvent = await this.getFeedItemByTransactionHash(eventId)
+    feedEvent.status = 'deleted'
+    return this.updateFeedEvent(feedEvent)
+  }
+
+  /**
+   * Sets the event's status as completed
+   * @param {string} eventId
+   * @returns {Promise<FeedEvent>}
+   */
+  async recoverEvent(eventId: string): Promise<FeedEvent> {
+    const feedEvent = await this.getFeedItemByTransactionHash(eventId)
+    feedEvent.status = 'completed'
+    return this.updateFeedEvent(feedEvent)
   }
 
   /**

@@ -333,7 +333,7 @@ describe('UserStorage', () => {
   })
 
   it('should delete the Welcome event', async () => {
-    const deletedEvent = await userStorage.deleteEvent(welcomeMessage)
+    const deletedEvent = await userStorage.deleteEvent(welcomeMessage.id)
     const date = `${new Date(welcomeMessage.date).toISOString().slice(0, 10)}`
     const index = await userStorage.feed
       .get('index')

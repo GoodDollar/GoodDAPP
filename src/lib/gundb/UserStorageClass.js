@@ -284,7 +284,7 @@ export class UserStorage {
       .then(() => this.init())
       .then(() => logger.debug('userStorage initialized.'))
       .catch(e => {
-        logger.error('Error initializing UserStorage', { account: this.wallet.account }, e.message, `${e}`)
+        logger.error('Error initializing UserStorage', { account: this.wallet.account }, e.message, e)
         return false
       })
   }
@@ -421,7 +421,7 @@ export class UserStorage {
       }
       return updatedFeedEvent
     } catch (e) {
-      logger.error('handleReceiptUpdated', e.message, `${e}`)
+      logger.error('handleReceiptUpdated', e.message, e)
     } finally {
       release()
     }
@@ -460,7 +460,7 @@ export class UserStorage {
       await this.updateFeedEvent(feedEvent, prevDate)
       return feedEvent
     } catch (e) {
-      logger.error('handleOTPLUpdated', e.message, `${e}`)
+      logger.error('handleOTPLUpdated', e.message, e)
     } finally {
       release()
     }
@@ -649,7 +649,7 @@ export class UserStorage {
         .filter(key => profile[key])
         .map(async field => {
           return this.setProfileField(field, profile[field], await getPrivacy(field)).catch(e => {
-            logger.error('setProfile field failed:', { field }, e.message, `${e}`)
+            logger.error('setProfile field failed:', { field }, e.message, e)
             return { err: `failed saving field ${field}` }
           })
         })
@@ -687,7 +687,7 @@ export class UserStorage {
         .then()
       return !(indexValue && indexValue.pub !== global.gun.user().is.pub)
     } catch (e) {
-      logger.error('indexProfileField', e.message, `${e}`)
+      logger.error('indexProfileField', e.message, e)
       return true
     }
   }
@@ -816,7 +816,7 @@ export class UserStorage {
 
       return indexNode.putAck(this.gunuser)
     } catch (e) {
-      logger.error('indexProfileField', e.message, `${e}`)
+      logger.error('indexProfileField', e.message, e)
 
       // TODO: this should return unexpected error
       // return Promise.resolve({ err: `Unexpected Error`, ok: 0 })
@@ -870,7 +870,7 @@ export class UserStorage {
         .get(day[0])
         .then()
         .catch(e => {
-          logger.error('getFeed', e.message, `${e}`)
+          logger.error('getFeed', e.message, e)
           return []
         })
     })
@@ -1132,7 +1132,7 @@ export class UserStorage {
       this.updateFeedEvent(event)
       logger.debug('enqueueTX ok:', { event, putRes })
     } catch (e) {
-      logger.error('enqueueTX failed: ', e.message, `${e}`)
+      logger.error('enqueueTX failed: ', e.message, e)
     } finally {
       release()
     }
@@ -1155,7 +1155,7 @@ export class UserStorage {
         return feedItem
       }
     } catch (e) {
-      logger.error('dequeueTX failed:', e.message, `${e}`)
+      logger.error('dequeueTX failed:', e.message, e)
     }
   }
 
@@ -1257,7 +1257,7 @@ export class UserStorage {
       .secret(event)
       .then()
       .catch(e => {
-        logger.error('updateFeedEvent failedEncrypt byId:', event, e.message, `${e}`)
+        logger.error('updateFeedEvent failedEncrypt byId:', event, e.message, e)
         return { err: e.message }
       })
     const saveDayIndexPtr = this.feed.get(day).put(JSON.stringify(dayEventsArr))
@@ -1267,9 +1267,9 @@ export class UserStorage {
       .put(dayEventsArr.length)
 
     const saveAck =
-      saveDayIndexPtr && saveDayIndexPtr.then().catch(e => logger.error('updateFeedEvent dayIndex', e.message, `${e}`))
+      saveDayIndexPtr && saveDayIndexPtr.then().catch(e => logger.error('updateFeedEvent dayIndex', e.message, e))
     const ack =
-      saveDaySizePtr && saveDaySizePtr.then().catch(e => logger.error('updateFeedEvent daySize', e.message, `${e}`))
+      saveDaySizePtr && saveDaySizePtr.then().catch(e => logger.error('updateFeedEvent daySize', e.message, e))
 
     if (saveDayIndexPtr || saveDaySizePtr) {
       logger.info('updateFeedEvent: Gun drain in process', { saveDayIndexPtr, saveDaySizePtr })
@@ -1277,7 +1277,7 @@ export class UserStorage {
 
     return Promise.all([saveAck, ack, eventAck])
       .then(() => event)
-      .catch(e => logger.error('savingIndex', e.message, `${e}`))
+      .catch(e => logger.error('savingIndex', e.message, e))
   }
 
   /**

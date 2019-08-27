@@ -18,7 +18,7 @@ const updateAll = store => {
       }
     })
     .catch(e => {
-      log.error(e.message, `${e}`)
+      log.error(e.message, e)
     })
 }
 

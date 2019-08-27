@@ -6,6 +6,7 @@ import { Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
+import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { navigationOptions } from './utils/sendReceiveFlow'
 
 export type AmountProps = {
@@ -57,7 +58,8 @@ const SendReason = (props: AmountProps) => {
 
 const styles = StyleSheet.create({
   container: {
-    minHeight: 180,
+    minHeight: getDesignRelativeHeight(180),
+    height: getDesignRelativeHeight(180),
   },
   bottomContent: {
     marginTop: 'auto',

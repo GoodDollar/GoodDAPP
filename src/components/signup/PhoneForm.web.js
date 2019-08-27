@@ -3,6 +3,7 @@ import React from 'react'
 import PhoneInput from 'react-phone-number-input'
 import debounce from 'lodash/debounce'
 import './PhoneForm.css'
+import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { userModelValidations } from '../../lib/gundb/UserModel'
 import { UserStorage } from '../../lib/gundb/UserStorageClass'
 import logger from '../../lib/logger/pino-logger'
@@ -118,7 +119,8 @@ const getStylesFromProps = ({ theme }) => ({
     marginLeft: 48,
   },
   container: {
-    minHeight: 200,
+    minHeight: getDesignRelativeHeight(200),
+    height: getDesignRelativeHeight(200),
   },
   bottomRow: {
     marginTop: 'auto',

@@ -2,6 +2,7 @@
 import React from 'react'
 import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
+import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { withStyles } from '../../lib/styles'
 import Icon from '../common/view/Icon'
 import LoadingIndicator from '../common/view/LoadingIndicator'
@@ -197,7 +198,8 @@ const getStylesFromProps = ({ theme }) => ({
     color: theme.colors.red,
   },
   container: {
-    minHeight: 200,
+    minHeight: getDesignRelativeHeight(200),
+    height: getDesignRelativeHeight(200),
   },
   bottomContent: {
     marginTop: 'auto',

@@ -1,6 +1,7 @@
 // @flow
 import React from 'react'
 import debounce from 'lodash/debounce'
+import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { userModelValidations } from '../../lib/gundb/UserModel'
 import { UserStorage } from '../../lib/gundb/UserStorageClass'
 
@@ -115,7 +116,8 @@ const getStylesFromProps = ({ theme }) => ({
     marginVertical: theme.sizes.defaultDouble,
   },
   container: {
-    minHeight: 200,
+    minHeight: getDesignRelativeHeight(200),
+    height: getDesignRelativeHeight(200),
     paddingBottom: theme.sizes.defaultDouble,
   },
   bottomContent: {

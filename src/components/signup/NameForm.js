@@ -2,6 +2,7 @@
 import React from 'react'
 import debounce from 'lodash/debounce'
 import { validateFullName } from '../../lib/validators/validateFullName'
+import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { withStyles } from '../../lib/styles'
 import InputText from '../common/form/InputText'
 import Section from '../common/layout/Section'
@@ -98,7 +99,8 @@ const getStylesFromProps = ({ theme }) => ({
     marginVertical: theme.sizes.defaultDouble,
   },
   container: {
-    minHeight: 200,
+    minHeight: getDesignRelativeHeight(200),
+    height: getDesignRelativeHeight(200),
   },
   bottomRow: {
     marginTop: 'auto',

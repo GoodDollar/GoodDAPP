@@ -6,6 +6,7 @@ import { ScanQRButton, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
+import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import useValidatedValueState from '../../lib/utils/useValidatedValueState'
 import { ACTION_RECEIVE, navigationOptions } from './utils/sendReceiveFlow'
 
@@ -85,9 +86,10 @@ Who.shouldNavigateToComponent = props => {
 
 export default withStyles(({ theme }) => ({
   input: {
-    marginTop: theme.sizes.defaultDouble,
+    marginTop: 'auto',
   },
   container: {
-    minHeight: 180,
+    minHeight: getDesignRelativeHeight(180),
+    height: getDesignRelativeHeight(180),
   },
 }))(Who)

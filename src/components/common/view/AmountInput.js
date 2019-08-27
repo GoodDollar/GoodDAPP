@@ -5,6 +5,7 @@ import { isMobile } from 'mobile-device-detect'
 import SectionTitle from '../layout/SectionTitle'
 import InputGoodDollar from '../form/InputGoodDollar'
 import { withStyles } from '../../../lib/styles'
+import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
 import NumPadKeyboard from './NumPadKeyboard'
 
 type AmountInputProps = {
@@ -68,7 +69,8 @@ const mapPropsToStyles = ({ theme }) => {
       marginTop: 'auto',
     },
     container: {
-      minHeight: 180,
+      minHeight: getDesignRelativeHeight(180),
+      height: getDesignRelativeHeight(180),
     },
     errorInput: {
       color: theme.colors.error,

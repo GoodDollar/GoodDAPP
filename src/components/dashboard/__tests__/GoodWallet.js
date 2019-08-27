@@ -1,11 +1,12 @@
 import web3Utils from 'web3-utils'
 import { GoodWallet } from '../../../lib/wallet/GoodWalletClass'
 import Config from '../../../config/config'
+import { gdToWei } from '../../../lib/wallet/utils'
 
 describe('GoodWalletShare/ReceiveTokens', () => {
   jest.setTimeout(30000)
 
-  const amount = 0.1
+  const amount = gdToWei(0.1)
   const reason = 'Test_Reason'
   let adminWallet
   let testWallet

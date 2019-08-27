@@ -66,7 +66,7 @@ const getUsernameErrorMessage = (username: string) => {
   if (username === '') {
     return 'Username cannot be empty'
   }
-  if (!isValidUsername(username)) {
+  if (!isNaN(username) || !isValidUsername(username)) {
     return 'Only letters, numbers and underscore'
   }
 

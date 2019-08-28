@@ -45,19 +45,19 @@ class EmailConfirmation extends React.Component<Props, State> {
     loading: false,
     code: Array(NumInputs).fill(null),
   }
-  
+
   componentDidUpdate() {
     if (!this.state.renderButton) {
       this.displayDelayedRenderButton()
     }
   }
-  
+
   displayDelayedRenderButton = () => {
     setTimeout(() => {
       this.setState({ renderButton: true })
     }, 10000)
   }
-  
+
   handleChange = async (code: array) => {
     const codeValue = code.filter(val => val).join('')
     if (codeValue.replace(/ /g, '').length === NumInputs) {
@@ -70,7 +70,7 @@ class EmailConfirmation extends React.Component<Props, State> {
         this.handleSubmit()
       } catch (e) {
         log.error({ e })
-        
+
         this.setState({
           errorMessage: e.message || e,
         })
@@ -84,23 +84,23 @@ class EmailConfirmation extends React.Component<Props, State> {
       })
     }
   }
-  
+
   handleSubmit = () => {
     this.props.screenProps.doneCallback({ isEmailConfirmed: true })
   }
-  
+
   // eslint-disable-next-line class-methods-use-this
   verifyCode(code: string) {
-    return API.verifyEmail({ code: Number(code)})
+    return API.verifyEmail({ code: code.toString() })
   }
-  
+
   handleRetry = async () => {
     this.setState({ sendingCode: true, code: Array(NumInputs).fill(null), errorMessage: '' })
-    
+
     try {
       await API.sendVerificationEmail(this.props.screenProps.data)
       this.setState({ sendingCode: false, renderButton: false, resentCode: true }, this.displayDelayedRenderButton)
-      
+
       //turn checkmark back into regular resend text
       setTimeout(() => this.setState({ ...this.state, resentCode: false }), 2000)
     } catch (e) {
@@ -112,11 +112,11 @@ class EmailConfirmation extends React.Component<Props, State> {
       })
     }
   }
-  
+
   render() {
-    const { errorMessage, loading, code} = this.state
+    const { errorMessage, loading, code } = this.state
     const { styles } = this.props
-    
+
     return (
       <CustomWrapper handleSubmit={this.handleSubmit} footerComponent={() => <React.Fragment />}>
         <Section.Stack grow justifyContent="flex-start">

@@ -11,7 +11,6 @@ import { PrivacyPolicy, Support, TermsOfUse } from '../webView/webViewInstances'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
 import illustration from '../../assets/Auth/Illustration.svg'
-import API from '../../lib/API/api'
 
 type Props = {
   navigation: any,
@@ -32,76 +31,8 @@ class Auth extends React.Component<Props> {
     const { navigation } = this.props
     const web3Token = await AsyncStorage.getItem('web3Token')
 
-    if (!web3Token) {
-      return
-    }
-
-    const isLoggedIn = await AsyncStorage.getItem('isLoggedIn')
-
-    if (isLoggedIn) {
-      return navigation.navigate('Dashboard')
-    }
-
-    let behaviour = ''
-    let w3User = {}
-
-    try {
-      const w3userData = await API.getUserFromW3ByToken(web3Token)
-      w3User = w3userData.data
-
-      if (w3User.has_wallet) {
-        behaviour = 'goToRecoverScreen'
-      } else {
-        behaviour = 'goToSignUp'
-      }
-    } catch (e) {
-      behaviour = 'showTokenError'
-    }
-
-    const userScreenData = {
-      email: w3User.email,
-      fullName: w3User.full_name,
-      w3Token: web3Token,
-    }
-
-    switch (behaviour) {
-      case 'showTokenError':
-        navigation.navigate('InvalidW3TokenError')
-        break
-
-      case 'goToRecoverScreen':
-        navigation.navigate('Recover', { web3HasWallet: true })
-        break
-
-      case 'goToSignUp':
-        if (w3User.image) {
-          userScreenData.avatar = await new Promise((resolve, reject) => {
-            const xmlHTTP = new XMLHttpRequest()
-
-            xmlHTTP.open('GET', w3User.image, true)
-            xmlHTTP.responseType = 'arraybuffer'
-            xmlHTTP.onload = function(e) {
-              const arr = new Uint8Array(this.response)
-              const raw = String.fromCharCode.apply(null, arr)
-              const b64 = btoa(raw)
-              const dataURL = 'data:image/png;base64,' + b64
-
-              resolve(dataURL)
-            }
-
-            xmlHTTP.onerror = reject
-
-            xmlHTTP.send()
-          })
-        }
-
-        navigation.navigate('Signup', {
-          w3User: userScreenData,
-        })
-        break
-
-      default:
-        break
+    if (web3Token) {
+      navigation.navigate('Signup')
     }
   }
 

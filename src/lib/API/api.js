@@ -229,7 +229,7 @@ class API {
   getUserFromW3ByToken(token: string): Promise<$AxiosXHR<any>> {
     this.w3Client.defaults.headers.common.Authorization = token
 
-    return this.w3Client.get('api/wl/user')
+    return this.w3Client.get('/api/wl/user')
   }
 
   /**
@@ -240,9 +240,17 @@ class API {
   updateW3UserWithWallet(token, walletAddress: string): Promise<$AxiosXHR<any>> {
     this.w3Client.defaults.headers.common.Authorization = token
 
-    return this.w3Client.put('api/wl/user/update_profile', {
+    return this.w3Client.put('/api/wl/user/update_profile', {
       wallet_address: walletAddress,
     })
+  }
+
+  /**
+   * `/verify/w3/email` verify if user not trying to send some different email than w3 provides
+   * @param {object} data - Object with email and web3 token
+   */
+  checkWeb3Email(data: { email: string, token: string }): Promise<$AxiosXHR<any>> {
+    return this.client.post('/verify/w3/email', data)
   }
 }
 

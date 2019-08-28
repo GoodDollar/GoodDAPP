@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react'
 import { AsyncStorage, ScrollView, StyleSheet, View } from 'react-native'
 import { createSwitchNavigator } from '@react-navigation/core'
 import { isMobileSafari } from 'mobile-device-detect'
-import _get from 'lodash/get'
 
 import NavBar from '../appNavigation/NavBar'
 import { navigationConfig } from '../appNavigation/navigationConfig'
@@ -89,16 +88,78 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
     }
   }
 
-  const checkWeb3userData = () => {
-    const w3User = _get(navigation, 'state.params.w3User')
+  const checkWeb3Token = async () => {
+    const web3Token = await AsyncStorage.getItem('web3Token')
 
-    if (w3User) {
-      setState({
-        ...state,
-        ...w3User,
-      })
+    if (!web3Token) {
+      return
+    }
 
-      navigation.navigate('Phone')
+    let behaviour = ''
+    let w3User = {}
+
+    try {
+      const w3userData = await API.getUserFromW3ByToken(web3Token)
+      w3User = w3userData.data
+
+      if (w3User.has_wallet) {
+        behaviour = 'goToRecoverScreen'
+      } else {
+        behaviour = 'goToPhone'
+      }
+    } catch (e) {
+      behaviour = 'showTokenError'
+    }
+
+    const userScreenData = {
+      email: w3User.email,
+      fullName: w3User.full_name,
+      w3Token: web3Token,
+      skipEmail: true,
+      skipEmailConfirmation: true,
+    }
+
+    switch (behaviour) {
+      case 'showTokenError':
+        navigation.navigate('InvalidW3TokenError')
+        break
+
+      case 'goToRecoverScreen':
+        navigation.navigate('Recover', { web3HasWallet: true })
+        break
+
+      case 'goToPhone':
+        if (w3User.image) {
+          userScreenData.avatar = await new Promise((resolve, reject) => {
+            const xmlHTTP = new XMLHttpRequest()
+
+            xmlHTTP.open('GET', w3User.image, true)
+            xmlHTTP.responseType = 'arraybuffer'
+            xmlHTTP.onload = function(e) {
+              const arr = new Uint8Array(this.response)
+              const raw = String.fromCharCode.apply(null, arr)
+              const b64 = btoa(raw)
+              const dataURL = 'data:image/png;base64,' + b64
+
+              resolve(dataURL)
+            }
+
+            xmlHTTP.onerror = reject
+
+            xmlHTTP.send()
+          })
+        }
+
+        setState({
+          ...state,
+          ...userScreenData,
+        })
+
+        navigation.navigate('Phone')
+        break
+
+      default:
+        break
     }
   }
 
@@ -135,7 +196,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
 
     setReady(ready)
 
-    checkWeb3userData()
+    checkWeb3Token()
   }, [])
 
   const finishRegistration = async () => {
@@ -144,6 +205,13 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
 
     log.info('Sending new user data', state)
     try {
+      if (state.w3Token) {
+        await API.checkWeb3Email({
+          email: state.email,
+          token: state.w3Token,
+        })
+      }
+
       const { goodWallet, userStorage } = await ready
 
       // TODO: this comment is incorrect until we restore email verificaiton requirement
@@ -152,20 +220,19 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       // Then, when the user access the application from the link (in EmailConfirmation), data is recovered and
       // saved to the `state`
 
+      const { skipEmail, skipEmailConfirmation, ...requestPayload } = state
+
       //first need to add user to our database
       // Stores creationBlock number into 'lastBlock' feed's node
-      delete state.skipEmail
-      delete state.skipEmailConfirmation
-
       await Promise.all([
-        await API.addUser(state),
-        userStorage.setProfile({ ...state, walletAddress: goodWallet.account }),
+        await API.addUser(requestPayload),
+        userStorage.setProfile({ ...requestPayload, walletAddress: goodWallet.account }),
         userStorage.setProfileField('registered', true, 'public'),
         goodWallet.getBlockNumber().then(creationBlock => userStorage.saveLastBlockNumber(creationBlock.toString())),
       ])
 
       await AsyncStorage.removeItem('web3Token')
-      await API.updateW3UserWithWallet(state.w3Token, goodWallet.account)
+      await API.updateW3UserWithWallet(requestPayload.w3Token, goodWallet.account)
 
       //need to wait for API.addUser but we dont need to wait for it to finish
       AsyncStorage.getItem('GD_USER_MNEMONIC').then(mnemonic => API.sendRecoveryInstructionByEmail(mnemonic)),
@@ -188,6 +255,16 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
     }
 
     return nextRoute
+  }
+
+  function getPrevRoute(routes, routeIndex, state) {
+    let prevRoute = routes[routeIndex - 1]
+
+    if (state[`skip${prevRoute && prevRoute.key}`]) {
+      return getPrevRoute(routes, routeIndex - 1, state)
+    }
+
+    return prevRoute
   }
 
   const done = async (data: { [string]: string }) => {
@@ -215,6 +292,16 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       }
     } else if (nextRoute && nextRoute.key === 'EmailConfirmation') {
       try {
+        if (state.w3Token) {
+          // Skip EmailConfirmation screen
+          nextRoute = navigation.state.routes[navigation.state.index + 2]
+
+          // Set email as confirmed
+          setState({ ...newState, isEmailConfirmed: true })
+
+          return
+        }
+
         const { data } = await API.sendVerificationEmail(newState)
         if (data.ok === 0) {
           return showErrorDialog('Failed sending verificaiton email', data.error)
@@ -250,9 +337,10 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   }
 
   const back = () => {
-    const nextRoute = navigation.state.routes[navigation.state.index - 1]
-    if (nextRoute) {
-      navigateWithFocus(nextRoute.key)
+    const prevRoute = getPrevRoute(navigation.state.routes, navigation.state.index, state)
+
+    if (prevRoute) {
+      navigateWithFocus(prevRoute.key)
     } else {
       navigation.navigate('Auth')
     }

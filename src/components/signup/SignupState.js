@@ -138,7 +138,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       //first need to add user to our database
       // Stores creationBlock number into 'lastBlock' feed's node
       await Promise.all([
-        await API.addUser(state),
+        await API.addUser({ ...state, walletAddress: goodWallet.account }),
         userStorage.setProfile({ ...state, walletAddress: goodWallet.account }),
         userStorage.setProfileField('registered', true, 'public'),
         goodWallet.getBlockNumber().then(creationBlock => userStorage.saveLastBlockNumber(creationBlock.toString())),

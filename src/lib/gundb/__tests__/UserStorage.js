@@ -42,10 +42,7 @@ describe('UserStorage', () => {
   })
 
   it('sets gundb field', async () => {
-    const res = await userStorage.profile
-      .get('x')
-      .put({ z: 1, y: 1 })
-      .then()
+    const res = await userStorage.profile.get('x').putAck({ z: 1, y: 1 })
     expect(res).toEqual(expect.objectContaining({ z: 1, y: 1 }))
   })
 

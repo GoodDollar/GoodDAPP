@@ -51,7 +51,6 @@ const FeedList = ({
   onScroll,
   headerLarge,
 }: FeedListProps) => {
-  //enable a demo showing how to mark an item that his action button delete/cancel has been pressed
   const [showErrorDialog] = useErrorDialog()
   const feeds = data && data instanceof Array && data.length ? data : [emptyFeed]
   const flRef = createRef()

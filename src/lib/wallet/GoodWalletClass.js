@@ -235,7 +235,7 @@ export class GoodWallet {
       if (error) {
         log.warn('listenTxUpdates fromEventsPromise failed:', { e: error, fromEventsFilter })
       } else {
-        logger.info('listenTxUpdates subscribed from', { error, event })
+        log.info('listenTxUpdates subscribed from', { error, event })
 
         this.getReceiptWithLogs(event.transactionHash)
           .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptUpdated']))

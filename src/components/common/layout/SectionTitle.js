@@ -12,12 +12,10 @@ const SectionTitle = (props: any) => {
   )
 }
 
-const getStylesFromProps = ({ theme }) => {
-  return {
-    title: {
-      marginVertical: theme.sizes.default,
-    },
-  }
-}
+const getStylesFromProps = ({ theme }) => ({
+  title: {
+    marginVertical: theme.sizes.default,
+  },
+})
 
 export default withStyles(getStylesFromProps)(SectionTitle)

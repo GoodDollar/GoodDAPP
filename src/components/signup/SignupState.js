@@ -129,6 +129,13 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
         break
 
       case 'goToPhone':
+        API.checkWeb3Email({
+          email: w3User.email,
+          token: web3Token,
+        }).catch(e => {
+          showErrorDialog('Email verification failed', e)
+        })
+
         if (w3User.image) {
           userScreenData.avatar = await API.getArrayBufferFromImageUrl(w3User.image)
             .then(response => {
@@ -194,13 +201,6 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
 
     log.info('Sending new user data', state)
     try {
-      if (state.w3Token) {
-        await API.checkWeb3Email({
-          email: state.email,
-          token: state.w3Token,
-        })
-      }
-
       const { goodWallet, userStorage } = await ready
 
       // TODO: this comment is incorrect until we restore email verificaiton requirement

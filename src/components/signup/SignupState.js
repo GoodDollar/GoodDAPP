@@ -141,8 +141,8 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       const addUserAPIResponse = await API.addUser(state)
       const profilePayload = { ...state, walletAddress: goodWallet.account }
 
-      if (addUserAPIResponse && addUserAPIResponse.w3Token) {
-        profilePayload.w3Token = addUserAPIResponse.w3Token
+      if (addUserAPIResponse && addUserAPIResponse.loginToken) {
+        profilePayload.loginToken = addUserAPIResponse.loginToken
       }
 
       await Promise.all([

@@ -13,7 +13,6 @@ import { weiToGd } from '../../lib/wallet/utils'
 import { CustomButton, Wrapper } from '../common'
 import BigGoodDollar from '../common/view/BigGoodDollar'
 import Text from '../common/view/Text'
-import TopBar from '../common/view/TopBar'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import { withStyles } from '../../lib/styles'
 import Section from '../common/layout/Section'
@@ -189,7 +188,6 @@ const Claim = props => {
 
   return (
     <Wrapper>
-      <TopBar push={screenProps.push} />
       <Section style={styles.mainContainer}>
         <Section.Stack style={styles.mainText}>
           <Section.Text color="surface" style={styles.mainTextTitle}>
@@ -261,12 +259,13 @@ const getStylesFromProps = ({ theme }) => {
       flexGrow: 1,
       paddingVertical: 0,
       paddingHorizontal: 0,
+      justifyContent: 'space-between',
     },
     mainText: {
       alignItems: 'center',
       flexDirection: 'column',
       marginBottom: 64,
-      paddingTop: theme.sizes.defaultDouble,
+      paddingTop: 50,
     },
     mainTextTitle: {
       marginBottom: 12,
@@ -289,6 +288,7 @@ const getStylesFromProps = ({ theme }) => {
       flexGrow: 1,
       flexShrink: 1,
       minHeight: 0,
+      maxHeight: '55vh',
       paddingVertical: theme.sizes.defaultDouble,
       paddingHorizontal: theme.sizes.default,
     },

@@ -1130,7 +1130,7 @@ export class UserStorage {
       let putRes = await this.feed
         .get('queue')
         .get(event.id)
-        .put(event)
+        .putAck(event)
       this.updateFeedEvent(event)
       logger.debug('enqueueTX ok:', { event, putRes })
     } catch (e) {
@@ -1274,11 +1274,11 @@ export class UserStorage {
         logger.error('updateFeedEvent failedEncrypt byId:', event, e.message, e)
         return { err: e.message }
       })
-    const saveDayIndexPtr = this.feed.get(day).put(JSON.stringify(dayEventsArr))
+    const saveDayIndexPtr = this.feed.get(day).putAck(JSON.stringify(dayEventsArr))
     const saveDaySizePtr = this.feed
       .get('index')
       .get(day)
-      .put(dayEventsArr.length)
+      .putAck(dayEventsArr.length)
 
     const saveAck =
       saveDayIndexPtr && saveDayIndexPtr.then().catch(e => logger.error('updateFeedEvent dayIndex', e.message, e))
@@ -1322,7 +1322,7 @@ export class UserStorage {
    */
   saveLastBlockNumber(blockNumber: number | string): Promise<any> {
     logger.debug('saving lastBlock:', blockNumber)
-    return this.getLastBlockNode().put(blockNumber)
+    return this.getLastBlockNode().putAck(blockNumber)
   }
 
   async getProfile(): Promise<any> {
@@ -1382,10 +1382,7 @@ export class UserStorage {
       })
     )
 
-    await this.gunuser
-      .get('profile')
-      .put('null')
-      .then()
+    await this.gunuser.get('profile').putAck('null')
 
     return true
   }
@@ -1415,7 +1412,7 @@ export class UserStorage {
         })),
       this.gunuser
         .get('feed')
-        .put(null)
+        .putAck(null)
         .then(r => ({
           feed: 'ok',
         }))

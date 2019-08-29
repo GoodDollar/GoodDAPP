@@ -226,7 +226,7 @@ sent to your email
                   data-focusable={true}
                   dir="auto"
                   disabled={false}
-                  maxLength="1"
+                  maxLength={1}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
@@ -366,7 +366,7 @@ sent to your email
                   data-focusable={true}
                   dir="auto"
                   disabled={false}
-                  maxLength="1"
+                  maxLength={1}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
@@ -506,7 +506,7 @@ sent to your email
                   data-focusable={true}
                   dir="auto"
                   disabled={false}
-                  maxLength="1"
+                  maxLength={1}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
@@ -646,7 +646,7 @@ sent to your email
                   data-focusable={true}
                   dir="auto"
                   disabled={false}
-                  maxLength="1"
+                  maxLength={1}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
@@ -786,7 +786,7 @@ sent to your email
                   data-focusable={true}
                   dir="auto"
                   disabled={false}
-                  maxLength="1"
+                  maxLength={1}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
@@ -926,7 +926,7 @@ sent to your email
                   data-focusable={true}
                   dir="auto"
                   disabled={false}
-                  maxLength="1"
+                  maxLength={1}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}

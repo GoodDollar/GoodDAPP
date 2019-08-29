@@ -162,6 +162,7 @@ const Dashboard = props => {
               nextRoutes: ['Amount', 'Reason', 'SendLinkSummary', 'SendConfirmation'],
               params: { action: 'Send' },
             }}
+            compact
           >
             Send
           </PushButton>
@@ -174,6 +175,7 @@ const Dashboard = props => {
             style={styles.rightButton}
             contentStyle={styles.rightButtonContent}
             textStyle={styles.rightButtonText}
+            compact
           >
             Receive
           </PushButton>

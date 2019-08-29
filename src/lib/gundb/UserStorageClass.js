@@ -1349,24 +1349,6 @@ export class UserStorage {
     return this.loadGunField(profileNode)
   }
 
-  /**
-   *
-   * @param cb function
-   * @returns {Promise<void>}
-   */
-  onceProfile(cb = () => {}) {
-    this.profile.once(encProfile => {
-      if (!encProfile) {
-        return
-      }
-      const publicProfile = this.getDisplayProfile(encProfile)
-      if (isEqual(publicProfile, {})) {
-        return
-      }
-      cb(publicProfile)
-    })
-  }
-
   async getPublicProfile(): Promise<any> {
     const encryptedProfile = await this.loadGunField(this.profile)
     if (encryptedProfile === undefined) {

@@ -1,12 +1,14 @@
 // @flow
-import React, { useState } from 'react'
+import React, { createRef, useState } from 'react'
 import { Animated, SwipeableFlatList } from 'react-native'
+import get from 'lodash/get'
 import GDStore from '../../lib/undux/GDStore'
 import { withStyles } from '../../lib/styles'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import userStorage from '../../lib/gundb/UserStorage'
 import type { FeedEvent } from '../../lib/gundb/UserStorageClass'
 import goodWallet from '../../lib/wallet/GoodWallet'
+import ScrollToTopButton from '../common/buttons/ScrollToTopButton'
 import FeedActions from './FeedActions'
 import FeedListItem from './FeedItems/FeedListItem'
 
@@ -40,13 +42,30 @@ type ItemComponentProps = {
   index: number,
 }
 
-const FeedList = ({ data, handleFeedSelection, initialNumToRender, onEndReached, styles, onScroll }: FeedListProps) => {
+const FeedList = ({
+  data,
+  handleFeedSelection,
+  initialNumToRender,
+  onEndReached,
+  styles,
+  onScroll,
+  headerLarge,
+}: FeedListProps) => {
   //enable a demo showing how to mark an item that his action button delete/cancel has been pressed
   const activeActionDemo = false
   const [showErrorDialog] = useErrorDialog()
   const feeds = data && data instanceof Array && data.length ? data : [emptyFeed]
   const [activeItems, setActive] = useState({})
+  const flRef = createRef()
+
+  const scrollToTop = () => {
+    if (get(flRef, 'current._component._flatListRef.scrollToOffset')) {
+      flRef.current._component._flatListRef.scrollToOffset({ offset: 0 })
+    }
+  }
+
   const keyExtractor = (item, index) => item.id
+
   const getItemLayout = (_: any, index: number) => {
     const [length, separator, header] = [72, 1, 30]
     return {
@@ -106,9 +125,10 @@ const FeedList = ({ data, handleFeedSelection, initialNumToRender, onEndReached,
       userStorage.deleteEvent(item).catch(e => showErrorDialog('Deleting the event has failed', e))
     }
   }
+
   const renderQuickActions = ({ item }) => {
     const canCancel = item && item.displayType === 'sendpending'
-    const canDelete = item && item.id && item.id.indexOf('0x') === -1
+    const canDelete = item && item.id && item.id.indexOf('0x') === -1 && feeds.length > 1
     const hasAction = canCancel || canDelete
     const actions = { canCancel, canDelete }
     const props = { item, hasAction }
@@ -116,6 +136,7 @@ const FeedList = ({ data, handleFeedSelection, initialNumToRender, onEndReached,
       <FeedActions
         onPress={hasAction && (() => handleFeedActionPress(item, actions))}
         actionActive={activeItems[item.id]}
+        actionIcon={actionIcon(actions)}
         {...props}
       >
         {actionLabel(actions)}
@@ -124,27 +145,31 @@ const FeedList = ({ data, handleFeedSelection, initialNumToRender, onEndReached,
   }
 
   return (
-    <AnimatedSwipeableFlatList
-      bounceFirstRowOnMount={true}
-      style={styles.scrollView}
-      contentContainerStyle={styles.scrollableView}
-      data={feeds}
-      getItemLayout={getItemLayout}
-      initialNumToRender={initialNumToRender || 10}
-      key="vf"
-      keyExtractor={keyExtractor}
-      keyboardDismissMode="on-drag"
-      keyboardShouldPersistTaps="always"
-      legacyImplementation={false}
-      maxSwipeDistance={112}
-      numColumns={1}
-      onEndReached={onEndReached}
-      refreshing={false}
-      renderItem={renderItemComponent}
-      renderQuickActions={renderQuickActions}
-      viewabilityConfig={VIEWABILITY_CONFIG}
-      onScroll={onScroll}
-    />
+    <>
+      <AnimatedSwipeableFlatList
+        bounceFirstRowOnMount={true}
+        style={styles.scrollView}
+        contentContainerStyle={styles.scrollableView}
+        data={feeds}
+        getItemLayout={getItemLayout}
+        initialNumToRender={initialNumToRender || 10}
+        key="vf"
+        keyExtractor={keyExtractor}
+        keyboardDismissMode="on-drag"
+        keyboardShouldPersistTaps="always"
+        legacyImplementation={false}
+        maxSwipeDistance={112}
+        numColumns={1}
+        onEndReached={onEndReached}
+        refreshing={false}
+        renderItem={renderItemComponent}
+        renderQuickActions={renderQuickActions}
+        viewabilityConfig={VIEWABILITY_CONFIG}
+        onScroll={onScroll}
+        ref={flRef}
+      />
+      {headerLarge ? null : <ScrollToTopButton onPress={scrollToTop} />}
+    </>
   )
 }
 
@@ -171,6 +196,18 @@ const actionLabel = ({ canDelete, canCancel }) => {
   }
 
   return ''
+}
+
+const actionIcon = ({ canDelete, canCancel }) => {
+  if (canCancel) {
+    return 'close'
+  }
+
+  if (canDelete) {
+    return 'trash'
+  }
+
+  return null
 }
 
 export default GDStore.withStore(withStyles(getStylesFromProps)(FeedList))

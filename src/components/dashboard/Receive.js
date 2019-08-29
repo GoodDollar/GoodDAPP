@@ -47,11 +47,13 @@ const Receive = ({ screenProps, styles, ...props }: ReceiveProps) => {
       </TopBar>
       <Section grow>
         <Section.Stack grow={3} justifyContent="space-around" alignItems="center">
-          <Section.Text style={styles.mainText}>Let someone scan your wallet address </Section.Text>
+          <Section.Text fontSize={14} style={styles.mainText}>
+            Let someone scan your wallet address
+          </Section.Text>
           <QRCode value={code} />
         </Section.Stack>
         <Section.Stack grow={1} justifyContent="center" alignItems="center">
-          <Section.Text> - OR - </Section.Text>
+          <Section.Text fontSize={14}>- OR -</Section.Text>
         </Section.Stack>
         <Section.Stack alignItems="stretch">
           <PushButton

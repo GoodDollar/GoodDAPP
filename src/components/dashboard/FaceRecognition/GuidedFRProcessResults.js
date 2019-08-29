@@ -19,6 +19,8 @@ import LookingGood from '../../../assets/LookingGood.svg'
 import GDStore from '../../../lib/undux/GDStore'
 import { fireEvent } from '../../../lib/analytics/analytics'
 
+Image.prefetch(LookingGood)
+
 const log = logger.child({ from: 'GuidedFRProcessResults' })
 
 const FRStep = ({ title, isActive, status, isProcessFailed, paddingBottom }) => {
@@ -34,12 +36,15 @@ const FRStep = ({ title, isActive, status, isProcessFailed, paddingBottom }) => 
     statusIcon || spinner ? <View style={[styles[statusColor], styles.statusIcon]}>{statusIcon || spinner}</View> : null
 
   //not active use grey otherwise based on status
-  let textStyle = isActive === false ? styles.textInactive : status === false ? styles.textError : styles.textActive
-  log.debug('FRStep', { title, status, isActive, statusColor, textStyle })
+  let color = isActive === false ? 'gray50Percen' : status === false ? 'red' : 'darkGray'
+  log.debug('FRStep', { title, status, isActive, statusColor, color })
+
   return (
     <View style={{ flexDirection: 'row', paddingTop: 0, marginRight: 0, paddingBottom }}>
       <View style={{ flexGrow: 2 }}>
-        <Text style={textStyle}>{title}</Text>
+        <Text color={color} fontWeight={isActive && 'medium'} lineHeight={28}>
+          {title}
+        </Text>
       </View>
       {iconOrSpinner}
     </View>
@@ -109,14 +114,12 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
     }
   }, [])
 
-  const saveProfileAndDone = async () => {
+  const saveProfile = async () => {
     try {
       log.debug('savingProfileAndDone')
       let account = await goodWallet.getAccountForType('zoomId')
       await userStorage.setProfileField('zoomEnrollmentId', account, 'private')
       setStatus({ ...processStatus, isProfileSaved: true })
-
-      setTimeout(done, 2000)
     } catch (e) {
       setStatus({ ...processStatus, isProfileSaved: false })
     }
@@ -132,9 +135,16 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
   useEffect(() => {
     //done save profile and call done callback
     if (processStatus.isWhitelisted) {
-      saveProfileAndDone()
+      saveProfile()
     }
   }, [processStatus.isWhitelisted])
+
+  useEffect(() => {
+    //done save profile and call done callback
+    if (processStatus.isProfileSaved) {
+      setTimeout(done, 2000)
+    }
+  }, [processStatus.isProfileSaved])
 
   // useEffect(() => {
   //   if (isAPISuccess === undefined) {
@@ -171,7 +181,7 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
   let lookingGood =
     isProcessFailed === false && processStatus.isProfileSaved ? (
       <View style={{ flexShrink: 0 }}>
-        <Text style={styles.textGood}>{`Looking Good ${getFirstWord(fullName)}`}</Text>
+        <Text fontWeight="medium" fontSize={24}>{`Looking Good ${getFirstWord(fullName)}`}</Text>
         <Image source={LookingGood} resizeMode={'center'} style={{ marginTop: 36, height: 135 }} />
       </View>
     ) : null
@@ -184,19 +194,17 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
   } else if (processStatus.isNotDuplicate === false) {
     helpText = (
       <View>
-        <Text style={styles.textHelp}>
-          {'You look very familiar...\nIt seems you already have a wallet,\nyou can:\n\n'}
-        </Text>
-        <Text style={styles.textHelp}>
+        <Text color="red">{'You look very familiar...\nIt seems you already have a wallet,\nyou can:\n\n'}</Text>
+        <Text color="red">
           A.{' '}
-          <Text style={[styles.helpLink, styles.textHelp]} onPress={gotoRecover}>
+          <Text color="red" fontWeight="bold" textDecorationLine="underline" onPress={gotoRecover}>
             Recover previous wallet
           </Text>
           {'\n'}
         </Text>
-        <Text style={styles.textHelp}>
+        <Text color="red">
           B.{' '}
-          <Text style={[styles.helpLink, styles.textHelp]} onPress={gotoSupport}>
+          <Text color="red" fontWeight="bold" textDecorationLine="underline" onPress={gotoSupport}>
             Contact support
           </Text>
           {'\n'}
@@ -205,11 +213,12 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigati
     )
   } else if (processStatus.isLive === false) {
     helpText =
-      'We could not verify you are a living person. Funny hu? please make sure:\n\n\
-A. Center your webcam\n\
-B. Camera is at eye level\n\
-C. Light your face evenly'
+      'We could not verify you are a living person. Funny hu? please make sure:\n\n' +
+      'A. Center your webcam\n' +
+      'B. Camera is at eye level\n' +
+      'C. Light your face evenly'
   } else if (isProcessFailed) {
+    log.error('FR failed', processStatus)
     helpText = 'Something went wrong, please try again...'
   }
   return (
@@ -225,8 +234,8 @@ C. Light your face evenly'
           flex: 1,
         }}
       >
-        <Section.Title style={styles.mainTitle}>
-          <Text>Analyzing Results...</Text>
+        <Section.Title fontWeight="medium" textTransform="none" style={styles.mainTitle}>
+          Analyzing Results...
         </Section.Title>
         <View
           style={{
@@ -280,7 +289,7 @@ C. Light your face evenly'
           <Separator width={2} />
         </View>
         <View style={{ flexShrink: 0 }}>
-          <Text style={styles.textHelp}>{helpText}</Text>
+          <Text color="red">{helpText}</Text>
         </View>
         {lookingGood}
       </Section>
@@ -300,10 +309,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   mainTitle: {
-    fontFamily: 'Roboto-Medium',
-    fontSize: normalize(24),
-    color: '#42454A',
-    textTransform: 'none',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -314,43 +319,6 @@ const styles = StyleSheet.create({
   },
   statusIcon: {
     justifyContent: 'center',
-  },
-  textActive: {
-    fontFamily: 'Roboto-Medium',
-    fontSize: normalize(16),
-    color: '#42454A',
-    textTransform: 'none',
-    lineHeight: 28,
-  },
-  textInactive: {
-    fontFamily: 'Roboto',
-    fontSize: normalize(16),
-    color: '#CBCBCB',
-    textTransform: 'none',
-    lineHeight: 28,
-  },
-  textError: {
-    fontFamily: 'Roboto-Medium',
-    fontSize: normalize(16),
-    color: '#FA6C77',
-    textTransform: 'none',
-    lineHeight: 28,
-  },
-  textHelp: {
-    fontFamily: 'Roboto',
-    fontSize: normalize(16),
-    color: '#FA6C77',
-    textTransform: 'none',
-  },
-  helpLink: {
-    fontWeight: 'bold',
-    textDecorationLine: 'underline',
-  },
-  textGood: {
-    fontFamily: 'Roboto-medium',
-    fontSize: normalize(24),
-    textTransform: 'none',
-    textAlign: 'center',
   },
   success: {
     width: 28,

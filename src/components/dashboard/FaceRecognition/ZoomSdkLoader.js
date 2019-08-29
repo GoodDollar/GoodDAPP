@@ -28,8 +28,7 @@ export class ZoomSdkLoader {
       log.info('ZoomSDK initialized and preloaded', this.loadedZoom)
       return this.loadedZoom
     } catch (e) {
-      log.error(e)
-      log.error('initializing failed', e)
+      log.error('initializing failed', e.message, e)
 
       return undefined
     }

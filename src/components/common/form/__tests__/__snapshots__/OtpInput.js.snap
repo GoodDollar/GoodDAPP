@@ -30,6 +30,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
         "display": "flex",
         "flexDirection": "row",
         "justifyContent": "space-evenly",
+        "marginBottom": "8px",
         "msFlexDirection": "row",
         "msFlexPack": "space-evenly",
       }
@@ -67,7 +68,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
         data-focusable={true}
         dir="auto"
         disabled={false}
-        maxLength="1"
+        maxLength={1}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -206,7 +207,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
         data-focusable={true}
         dir="auto"
         disabled={false}
-        maxLength="1"
+        maxLength={1}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -345,7 +346,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
         data-focusable={true}
         dir="auto"
         disabled={false}
-        maxLength="1"
+        maxLength={1}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -484,7 +485,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
         data-focusable={true}
         dir="auto"
         disabled={false}
-        maxLength="1"
+        maxLength={1}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -623,7 +624,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
         data-focusable={true}
         dir="auto"
         disabled={false}
-        maxLength="1"
+        maxLength={1}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -762,7 +763,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
         data-focusable={true}
         dir="auto"
         disabled={false}
-        maxLength="1"
+        maxLength={1}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -903,6 +904,7 @@ exports[`OtpInput matches snapshot 1`] = `
         "display": "flex",
         "flexDirection": "row",
         "justifyContent": "space-evenly",
+        "marginBottom": "8px",
         "msFlexDirection": "row",
         "msFlexPack": "space-evenly",
       }
@@ -940,7 +942,7 @@ exports[`OtpInput matches snapshot 1`] = `
         data-focusable={true}
         dir="auto"
         disabled={false}
-        maxLength="1"
+        maxLength={1}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -1080,7 +1082,7 @@ exports[`OtpInput matches snapshot 1`] = `
         data-focusable={true}
         dir="auto"
         disabled={false}
-        maxLength="1"
+        maxLength={1}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -1220,7 +1222,7 @@ exports[`OtpInput matches snapshot 1`] = `
         data-focusable={true}
         dir="auto"
         disabled={false}
-        maxLength="1"
+        maxLength={1}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -1360,7 +1362,7 @@ exports[`OtpInput matches snapshot 1`] = `
         data-focusable={true}
         dir="auto"
         disabled={false}
-        maxLength="1"
+        maxLength={1}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -1500,7 +1502,7 @@ exports[`OtpInput matches snapshot 1`] = `
         data-focusable={true}
         dir="auto"
         disabled={false}
-        maxLength="1"
+        maxLength={1}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -1640,7 +1642,7 @@ exports[`OtpInput matches snapshot 1`] = `
         data-focusable={true}
         dir="auto"
         disabled={false}
-        maxLength="1"
+        maxLength={1}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -1782,6 +1784,7 @@ exports[`OtpInput number matches snapshot 1`] = `
         "display": "flex",
         "flexDirection": "row",
         "justifyContent": "space-evenly",
+        "marginBottom": "8px",
         "msFlexDirection": "row",
         "msFlexPack": "space-evenly",
       }
@@ -1819,7 +1822,7 @@ exports[`OtpInput number matches snapshot 1`] = `
         data-focusable={true}
         dir="auto"
         disabled={false}
-        maxLength="1"
+        maxLength={1}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -1959,7 +1962,7 @@ exports[`OtpInput number matches snapshot 1`] = `
         data-focusable={true}
         dir="auto"
         disabled={false}
-        maxLength="1"
+        maxLength={1}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -2099,7 +2102,7 @@ exports[`OtpInput number matches snapshot 1`] = `
         data-focusable={true}
         dir="auto"
         disabled={false}
-        maxLength="1"
+        maxLength={1}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -2239,7 +2242,7 @@ exports[`OtpInput number matches snapshot 1`] = `
         data-focusable={true}
         dir="auto"
         disabled={false}
-        maxLength="1"
+        maxLength={1}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -2379,7 +2382,7 @@ exports[`OtpInput number matches snapshot 1`] = `
         data-focusable={true}
         dir="auto"
         disabled={false}
-        maxLength="1"
+        maxLength={1}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -2519,7 +2522,7 @@ exports[`OtpInput number matches snapshot 1`] = `
         data-focusable={true}
         dir="auto"
         disabled={false}
-        maxLength="1"
+        maxLength={1}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}

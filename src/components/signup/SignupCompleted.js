@@ -6,6 +6,7 @@ import illustration from '../../assets/Signup/illustration.svg'
 import Text from '../common/view/Text'
 import CustomWrapper from './signUpWrapper'
 
+Image.prefetch(illustration)
 type Props = {
   screenProps: any,
 }
@@ -24,7 +25,7 @@ export default class SignupCompleted extends React.Component<Props, State> {
         loading={loading}
         valid={createError !== true}
       >
-        <Text fontWeight="500" fontSize={22} color="darkGray">
+        <Text fontWeight="medium" fontSize={22}>
           {`Thanks ${getFirstWord(fullName)}\nYou're all set`}
         </Text>
         <Image source={illustration} style={styles.illustration} resizeMode="contain" />

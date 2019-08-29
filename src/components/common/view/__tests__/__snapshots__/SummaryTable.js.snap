@@ -96,7 +96,7 @@ exports[`SummaryTable matches snapshot 1`] = `
             "direction": "ltr",
             "fontFamily": "Roboto",
             "fontSize": "24px",
-            "fontWeight": "500",
+            "fontWeight": "normal",
             "lineHeight": "30px",
             "textAlign": "center",
             "textDecoration": "none",
@@ -176,10 +176,10 @@ exports[`SummaryTable matches snapshot 1`] = `
             Object {
               "color": "rgba(0,175,255,1.00)",
               "direction": "ltr",
-              "fontFamily": "Roboto",
+              "fontFamily": "Roboto Slab",
               "fontSize": "24px",
               "fontWeight": "700",
-              "lineHeight": "22px",
+              "lineHeight": "30px",
               "marginRight": "2px",
               "textAlign": "right",
               "textDecoration": "none",
@@ -194,19 +194,56 @@ exports[`SummaryTable matches snapshot 1`] = `
           dir="auto"
           style={
             Object {
-              "color": "rgba(0,175,255,1.00)",
+              "color": "rgba(66,69,74,1.00)",
               "direction": "ltr",
               "fontFamily": "Roboto",
-              "fontSize": "14px",
-              "fontWeight": "700",
+              "fontSize": "16px",
+              "fontWeight": "normal",
               "lineHeight": "22px",
-              "textAlign": "right",
+              "textAlign": "center",
               "textDecoration": "none",
               "textTransform": "none",
             }
           }
         >
-          G$
+          <span
+            className="css-text-901oao css-textHasAncestor-16my406"
+            dir="auto"
+            style={
+              Object {
+                "color": "rgba(0,175,255,1.00)",
+                "direction": "ltr",
+                "fontFamily": "Roboto Slab",
+                "fontSize": "14px",
+                "fontWeight": "700",
+                "lineHeight": "20px",
+                "textAlign": "right",
+                "textDecoration": "none",
+                "textTransform": "none",
+              }
+            }
+          >
+            G
+          </span>
+          <span
+            className="css-text-901oao css-textHasAncestor-16my406"
+            dir="auto"
+            style={
+              Object {
+                "color": "rgba(0,175,255,1.00)",
+                "direction": "ltr",
+                "fontFamily": "Roboto Slab",
+                "fontSize": "13.5px",
+                "fontWeight": "700",
+                "lineHeight": "16.2px",
+                "textAlign": "right",
+                "textDecoration": "none",
+                "textTransform": "none",
+              }
+            }
+          >
+            $
+          </span>
         </div>
       </div>
     </div>
@@ -263,9 +300,9 @@ exports[`SummaryTable matches snapshot 1`] = `
             "color": "rgba(66,69,74,1.00)",
             "direction": "ltr",
             "fontFamily": "Roboto",
-            "fontSize": "16px",
+            "fontSize": "14px",
             "fontWeight": "normal",
-            "lineHeight": "22px",
+            "lineHeight": "20px",
             "textAlign": "center",
             "textDecoration": "none",
             "textTransform": "none",
@@ -390,10 +427,10 @@ exports[`SummaryTable matches snapshot with minimal properties 1`] = `
             Object {
               "color": "rgba(0,175,255,1.00)",
               "direction": "ltr",
-              "fontFamily": "Roboto",
+              "fontFamily": "Roboto Slab",
               "fontSize": "24px",
               "fontWeight": "700",
-              "lineHeight": "22px",
+              "lineHeight": "30px",
               "marginRight": "2px",
               "textAlign": "right",
               "textDecoration": "none",
@@ -408,19 +445,56 @@ exports[`SummaryTable matches snapshot with minimal properties 1`] = `
           dir="auto"
           style={
             Object {
-              "color": "rgba(0,175,255,1.00)",
+              "color": "rgba(66,69,74,1.00)",
               "direction": "ltr",
               "fontFamily": "Roboto",
-              "fontSize": "14px",
-              "fontWeight": "700",
+              "fontSize": "16px",
+              "fontWeight": "normal",
               "lineHeight": "22px",
-              "textAlign": "right",
+              "textAlign": "center",
               "textDecoration": "none",
               "textTransform": "none",
             }
           }
         >
-          G$
+          <span
+            className="css-text-901oao css-textHasAncestor-16my406"
+            dir="auto"
+            style={
+              Object {
+                "color": "rgba(0,175,255,1.00)",
+                "direction": "ltr",
+                "fontFamily": "Roboto Slab",
+                "fontSize": "14px",
+                "fontWeight": "700",
+                "lineHeight": "20px",
+                "textAlign": "right",
+                "textDecoration": "none",
+                "textTransform": "none",
+              }
+            }
+          >
+            G
+          </span>
+          <span
+            className="css-text-901oao css-textHasAncestor-16my406"
+            dir="auto"
+            style={
+              Object {
+                "color": "rgba(0,175,255,1.00)",
+                "direction": "ltr",
+                "fontFamily": "Roboto Slab",
+                "fontSize": "13.5px",
+                "fontWeight": "700",
+                "lineHeight": "16.2px",
+                "textAlign": "right",
+                "textDecoration": "none",
+                "textTransform": "none",
+              }
+            }
+          >
+            $
+          </span>
         </div>
       </div>
     </div>

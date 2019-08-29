@@ -12,16 +12,25 @@ function isFunction(functionToCheck) {
  * @param {*} withStyleSheet wheather should or shouldn't be the result wrapped with `StyleSheet.create`
  */
 export const withStyles = (mapThemeToStyles, withStyleSheet = true) => Component => {
+  const getUpdatedStyles = props => {
+    let styles = {}
+    if (isFunction(mapThemeToStyles)) {
+      const stylesObject = mapThemeToStyles(props)
+      styles = withStyleSheet ? StyleSheet.create(stylesObject) : stylesObject
+    }
+    return styles
+  }
+
   class WrappedComponent extends React.Component {
     constructor(props) {
       super(props)
-      this.props = props
-      if (isFunction(mapThemeToStyles)) {
-        const stylesObject = mapThemeToStyles(this.props)
-        this.styles = withStyleSheet ? StyleSheet.create(stylesObject) : stylesObject
-      } else {
-        this.styles = {}
-      }
+      const styles = getUpdatedStyles(props)
+      this.state = { styles }
+    }
+
+    static getDerivedStateFromProps(props, state) {
+      const styles = getUpdatedStyles(props)
+      return { styles }
     }
 
     _root
@@ -40,7 +49,7 @@ export const withStyles = (mapThemeToStyles, withStyleSheet = true) => Component
         return <Component ref={c => (this._root = c)} {...this.props} />
       }
 
-      return <Component ref={c => (this._root = c)} {...this.props} styles={this.styles} />
+      return <Component ref={c => (this._root = c)} {...this.props} styles={this.state.styles} />
     }
   }
 

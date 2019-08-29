@@ -84,7 +84,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       const { data } = await API.getLocation()
       data && setCountryCode(data.country)
     } catch (e) {
-      log.error('Could not get user location', e)
+      log.error('Could not get user location', e.message, e)
     }
   }
   useEffect(() => {
@@ -149,7 +149,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
         await AsyncStorage.setItem('GOODDAPP_isLoggedIn', true)
       log.debug('New user created')
     } catch (e) {
-      log.error('New user failure', { e, message: e.message })
+      log.error('New user failure', e.message, e)
       showErrorDialog('New user creation failed, please go back and try again', e)
       setCreateError(true)
     } finally {
@@ -172,7 +172,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
         }
         return navigateWithFocus(nextRoute.key)
       } catch (e) {
-        log.error(e)
+        log.error(e.message, e)
         showErrorDialog('Sending mobile verification code failed', e)
       } finally {
         setLoading(false)
@@ -198,7 +198,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
         }
         return navigateWithFocus(nextRoute.key)
       } catch (e) {
-        log.error(e)
+        log.error(e.message, e)
         showErrorDialog('Email verification failed', e)
       } finally {
         setLoading(false)

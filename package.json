@@ -29,7 +29,8 @@
     "flow": "flow",
     "lint": "eslint \"src/**/*.js\" --max-warnings=0",
     "lint:fix": "npm run lint -- --fix",
-    "docs": "node scripts/docs.js"
+    "docs": "node scripts/docs.js",
+    "web:serveo": "export REACT_APP_WEB3_RPC=https://gdchain.serveo.net;export REACT_APP_SERVER_URL=https://gdserver.serveo.net;export REACT_APP_GUN_PUBLIC_URL=https://gdserver.serveo.net/gun;npm run web:local"
   },
   "repository": {
     "type": "git",
@@ -66,7 +67,7 @@
     "ethereumjs-wallet": "^0.6.3",
     "exif-react-avatar-edit": "^0.8.3",
     "faker": "^4.1.0",
-    "gun": "^0.2019.726",
+    "gun": "git+https://github.com/GoodDollar/gun.git#master",
     "hdkey": "^1.1.1",
     "loadjs": "^3.6.1",
     "lodash": "^4.17.11",
@@ -86,7 +87,7 @@
     "react-native-camera": "^1.12.0",
     "react-native-elements": "^1.1.0",
     "react-native-keyboard-aware-scroll-view": "^0.8.0",
-    "react-native-masked-text": "^1.11.1",
+    "react-native-masked-text": "^1.13.0",
     "react-native-otp": "^1.0.0",
     "react-native-paper": "^2.16.0",
     "react-native-qrcode-scanner": "^1.1.2",

@@ -6,7 +6,6 @@ exports[`Text matches snapshot 1`] = `
   dir="auto"
   style={
     Object {
-      "color": "rgba(0,0,0,1.00)",
       "direction": "ltr",
       "fontFamily": "Roboto",
       "fontSize": "16px",
@@ -28,12 +27,11 @@ exports[`Text matches snapshot with different fontSize 1`] = `
   dir="auto"
   style={
     Object {
-      "color": "rgba(0,0,0,1.00)",
       "direction": "ltr",
       "fontFamily": "Roboto",
       "fontSize": "20px",
       "fontWeight": "normal",
-      "lineHeight": "1em",
+      "lineHeight": "24px",
       "textAlign": "center",
       "textDecoration": "none",
       "textTransform": "none",

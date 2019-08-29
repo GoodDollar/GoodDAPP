@@ -4,6 +4,7 @@ import { View } from 'react-native'
 import CustomButton from '../buttons/CustomButton'
 import CopyButton from '../buttons/CopyButton'
 import logger from '../../../lib/logger/pino-logger'
+import normalize from '../../../lib/utils/normalizeText'
 import goodWallet from '../../../lib/wallet/GoodWallet'
 import { generateShareLink } from '../../../lib/share'
 import { useErrorDialog } from '../../../lib/undux/utils/dialog'
@@ -51,8 +52,8 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose }) => {
     handleModalClose()
   }
 
-  switch (item.type) {
-    case 'send':
+  switch (item.displayType) {
+    case 'sendpending':
       return (
         <>
           <View style={styles.buttonsView}>
@@ -62,6 +63,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose }) => {
               onPress={cancelPayment}
               color={theme.colors.red}
               loading={state.cancelPaymentLoading}
+              textStyle={styles.buttonTextStyle}
             >
               Cancel payment link
             </CustomButton>
@@ -69,9 +71,8 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose }) => {
               mode="outlined"
               style={styles.rightButton}
               toCopy={getPaymentLink()}
-              onPressDone={handleModalClose}
               iconColor={theme.colors.primary}
-              withoutDone={true}
+              textStyle={styles.buttonTextStyle}
             >
               Copy link
             </CopyButton>
@@ -122,7 +123,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose }) => {
     case 'empty':
       return null
     default:
-      // Claim / Receive / Withdraw / Notification
+      // claim / receive / withdraw / notification / sendcancelled / sendcompleted
       return (
         <View style={styles.buttonsView}>
           <CustomButton mode="contained" style={styles.button} onPress={handleModalClose}>
@@ -141,14 +142,19 @@ const getStylesFromProps = ({ theme }) => ({
     justifyContent: 'flex-end',
     marginTop: 'auto',
     flexWrap: 'wrap',
+    marginHorizontal: -theme.sizes.defaultHalf,
   },
   button: {
-    minWidth: 80,
+    minWidth: 96,
   },
   rightButton: {
     marginLeft: theme.sizes.default,
     marginTop: theme.sizes.default,
-    minWidth: 80,
+    minWidth: 96,
+  },
+  buttonTextStyle: {
+    fontSize: normalize(14),
+    letterSpacing: 0,
   },
 })
 

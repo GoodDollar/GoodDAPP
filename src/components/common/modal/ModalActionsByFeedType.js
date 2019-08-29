@@ -5,6 +5,7 @@ import CustomButton from '../buttons/CustomButton'
 import CopyButton from '../buttons/CopyButton'
 import logger from '../../../lib/logger/pino-logger'
 import normalize from '../../../lib/utils/normalizeText'
+import userStorage from '../../../lib/gundb/UserStorage'
 import goodWallet from '../../../lib/wallet/GoodWallet'
 import { generateShareLink } from '../../../lib/share'
 import { useErrorDialog } from '../../../lib/undux/utils/dialog'
@@ -16,19 +17,30 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose }) => {
   const [showErrorDialog] = useErrorDialog()
   const [state, setState] = useState({})
 
-  const cancelPayment = () => {
+  const cancelPayment = async () => {
     log.info({ item, action: 'cancelPayment' })
-    setState({ ...state, cancelPaymentLoading: true })
-    try {
-      goodWallet
-        .cancelOTLByTransactionHash(item.id)
-        .catch(e => showErrorDialog('Canceling the payment link has failed', e))
-        .finally(() => {
-          setState({ ...state, cancelPaymentLoading: false })
-        })
-    } catch (e) {
-      setState({ ...state, cancelPaymentLoading: false })
-      showErrorDialog(e)
+
+    if (item.status === 'pending') {
+      // if status is 'pending' trying to cancel a tx that doesn't exist will fail and may confuse the user
+      showErrorDialog("Current transaction is still pending, it can't be cancelled right now")
+    } else {
+      setState({ ...state, cancelPaymentLoading: true })
+      try {
+        await userStorage.deleteEvent(item.id)
+
+        goodWallet
+          .cancelOTLByTransactionHash(item.id)
+          .catch(e => {
+            userStorage.recoverEvent(item.id)
+            showErrorDialog('Canceling the payment link has failed', e)
+          })
+          .finally(() => {
+            setState({ ...state, cancelPaymentLoading: false })
+          })
+      } catch (e) {
+        setState({ ...state, cancelPaymentLoading: false })
+        showErrorDialog(e)
+      }
     }
     handleModalClose()
   }

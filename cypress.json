@@ -1,7 +1,8 @@
 {
     "chromeWebSecurity": false,
     "defaultCommandTimeout": 120000,
-    "env": {    
+    "env": {   
+        "baseUrl": "https://goodqa.netlify.com/",
         "wordsForSuccessfullLogin": [
             "okay", "cloth", "pattern", 
             "north", "december", "stuff", 

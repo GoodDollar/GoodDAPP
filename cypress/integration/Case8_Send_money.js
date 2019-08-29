@@ -52,7 +52,7 @@ describe('Test case 8: Ability to send money', () => {
                 cy.log('Money before sending: ' + moneyBefore )    
                 cy.visit(sendMoneyUrl)
                 cy.wait(20000)
-                cy.visit('https://goodqa.netlify.com/AppNavigation/Dashboard/Home')
+                cy.visit(Cypress.env('baseUrl') + '/AppNavigation/Dashboard/Home')
                 cy.wait(7000)
                 HomePage.moneyAmountDiv.invoke('text').then( moneyAfter => {
                     cy.wait(3000)

@@ -66,7 +66,7 @@ describe('Test case 9: Ability to send money request and reseive money', () => {
                 ReceiveMoneyPage.confirmWindowButton.should('be.visible');
                 ReceiveMoneyPage.confirmWindowButton.click();
                 cy.wait(8000)
-                cy.visit('https://goodqa.netlify.com/AppNavigation/Dashboard/Home');
+                cy.visit(Cypress.env('baseUrl') + '/AppNavigation/Dashboard/Home');
                 cy.wait(25000)
                 HomePage.claimButton.should('be.visible');
                 HomePage.moneyAmountDiv.invoke('text')

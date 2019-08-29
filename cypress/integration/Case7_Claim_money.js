@@ -28,7 +28,7 @@ describe('Test case 7: Ability to claim money', () => {
         ClaimMoneyPage.image.should('be.visible');
         ClaimMoneyPage.timer.should('be.visible');
         ClaimMoneyPage.claimButton.should('be.visible');
-        ClaimMoneyPage.claimButton.should('be.not.enabled')
+        ClaimMoneyPage.claimButton.should('be.not.enabled');
 
     });
 

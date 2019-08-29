@@ -130,24 +130,13 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
 
       case 'goToPhone':
         if (w3User.image) {
-          userScreenData.avatar = await new Promise((resolve, reject) => {
-            const xmlHTTP = new XMLHttpRequest()
-
-            xmlHTTP.open('GET', w3User.image, true)
-            xmlHTTP.responseType = 'arraybuffer'
-            xmlHTTP.onload = function(e) {
-              const arr = new Uint8Array(this.response)
-              const raw = String.fromCharCode.apply(null, arr)
-              const b64 = btoa(raw)
-              const dataURL = 'data:image/png;base64,' + b64
-
-              resolve(dataURL)
-            }
-
-            xmlHTTP.onerror = reject
-
-            xmlHTTP.send()
-          })
+          userScreenData.avatar = await API.getArrayBufferFromImageUrl(w3User.image)
+            .then(response => {
+              return Buffer.from(response, 'binary').toString('base64')
+            })
+            .catch(e => {
+              logger.error('Fetch base 64 from image uri failed', e)
+            })
         }
 
         setState({

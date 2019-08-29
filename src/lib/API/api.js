@@ -1,5 +1,6 @@
 // @flow
 import axios from 'axios'
+import fetch from 'cross-fetch'
 import type { $AxiosXHR, AxiosInstance, AxiosPromise } from 'axios'
 import { AsyncStorage } from 'react-native'
 import Config from '../../config/config'
@@ -251,6 +252,17 @@ class API {
    */
   checkWeb3Email(data: { email: string, token: string }): Promise<$AxiosXHR<any>> {
     return this.client.post('/verify/w3/email', data)
+  }
+
+  /**
+   * Get array buffer from image url
+   * @param {string} url - image url
+   */
+  getArrayBufferFromImageUrl(url: string) {
+    return fetch(url, {
+      url,
+      method: 'GET',
+    }).then(res => res.arrayBuffer())
   }
 }
 

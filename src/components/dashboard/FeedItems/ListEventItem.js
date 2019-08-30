@@ -6,7 +6,6 @@ import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
 import { withStyles } from '../../../lib/styles'
 import Avatar from '../../common/view/Avatar'
 import BigGoodDollar from '../../common/view/BigGoodDollar'
-import CustomButton from '../../common/buttons/CustomButton'
 import Text from '../../common/view/Text'
 import type { FeedEventProps } from './EventProps'
 import EventIcon from './EventIcon'
@@ -88,9 +87,6 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
 
 const getWelcomeStyles = ({ theme }) => ({
   readMoreText: {
-    fontFamily: theme.fonts.default,
-    fontSize: normalize(10),
-    fontWeight: '400',
     letterSpacing: 0,
     marginLeft: 4,
   },
@@ -98,24 +94,21 @@ const getWelcomeStyles = ({ theme }) => ({
     minHeight: normalize(16),
     maxHeight: normalize(16),
     marginHorizontal: -theme.sizes.default,
+    display: 'inline',
   },
   welcomeText: {
-    paddingBottom: theme.sizes.default,
     flexShrink: 0,
   },
 })
 
 const ReadMoreText = withStyles(getWelcomeStyles)(({ styles, theme, text, buttonText, style, color }) => (
-  <Text fontWeight="medium" numberOfLines={1} style={[styles.welcomeText, style]} color={color || 'darkGray'}>
-    {text}
-    <CustomButton
-      mode="text"
-      color={color ? theme.colors[color] : theme.colors.lighterGray}
-      style={styles.readMore}
-      textStyle={styles.readMoreText}
-    >
+  <Text style={styles.welcomeText}>
+    <Text fontWeight="medium" numberOfLines={1} style={style} color={color || 'darkGray'}>
+      {text}
+    </Text>
+    <Text color={color || 'darkGray'} numberOfLines={1} fontSize={10} style={styles.readMoreText}>
       {buttonText}
-    </CustomButton>
+    </Text>
   </Text>
 ))
 

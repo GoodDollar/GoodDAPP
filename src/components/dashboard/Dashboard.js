@@ -106,7 +106,7 @@ const Dashboard = props => {
   const handleWithdraw = async () => {
     const { paymentCode, reason } = props.navigation.state.params
     try {
-      showDialog({ title: 'Processing Payment Link...', loading: true, dismissText: 'hold' })
+      showDialog({ title: 'Processing Payment Link...', loading: true, buttons: [{ text: 'YAY!' }] })
       await executeWithdraw(store, paymentCode, reason)
       hideDialog()
     } catch (e) {
@@ -162,6 +162,7 @@ const Dashboard = props => {
               nextRoutes: ['Amount', 'Reason', 'SendLinkSummary', 'SendConfirmation'],
               params: { action: 'Send' },
             }}
+            compact
           >
             Send
           </PushButton>
@@ -174,6 +175,7 @@ const Dashboard = props => {
             style={styles.rightButton}
             contentStyle={styles.rightButtonContent}
             textStyle={styles.rightButtonText}
+            compact
           >
             Receive
           </PushButton>

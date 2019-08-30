@@ -87,6 +87,7 @@ export type FeedEvent = {
   createdDate?: string,
   status?: 'pending' | 'completed' | 'error' | 'cancelled' | 'deleted',
   data: any,
+  displayType?: string,
 }
 
 /**
@@ -154,7 +155,7 @@ export const getReceiveDataFromReceipt = (receipt: any) => {
     'value'
   )
   const withdrawLog = logs.find(log => {
-    return log && (log.name === 'PaymentWithdraw' || log.name == 'PaymentCancel')
+    return log && (log.name === 'PaymentWithdraw' || log.name === 'PaymentCancel')
   })
   logger.debug('getReceiveDataFromReceipt', { logs: receipt.logs, transferLog, withdrawLog })
   const log = withdrawLog || transferLog
@@ -284,7 +285,7 @@ export class UserStorage {
       .then(() => this.init())
       .then(() => logger.debug('userStorage initialized.'))
       .catch(e => {
-        logger.error('Error initializing UserStorage', { account: this.wallet.account }, e.message, `${e}`)
+        logger.error('Error initializing UserStorage', { account: this.wallet.account }, e.message, e)
         return false
       })
   }
@@ -421,7 +422,7 @@ export class UserStorage {
       }
       return updatedFeedEvent
     } catch (e) {
-      logger.error('handleReceiptUpdated', e.message, `${e}`)
+      logger.error('handleReceiptUpdated', e.message, e)
     } finally {
       release()
     }
@@ -460,7 +461,7 @@ export class UserStorage {
       await this.updateFeedEvent(feedEvent, prevDate)
       return feedEvent
     } catch (e) {
-      logger.error('handleOTPLUpdated', e.message, `${e}`)
+      logger.error('handleOTPLUpdated', e.message, e)
     } finally {
       release()
     }
@@ -634,8 +635,8 @@ export class UserStorage {
 
     const profileSettings = {
       fullName: { defaultPrivacy: 'public' },
-      email: { defaultPrivacy: 'public' },
-      mobile: { defaultPrivacy: 'public' },
+      email: { defaultPrivacy: 'private' },
+      mobile: { defaultPrivacy: 'private' },
       avatar: { defaultPrivacy: 'public' },
       walletAddress: { defaultPrivacy: 'public' },
       username: { defaultPrivacy: 'public' },
@@ -649,7 +650,7 @@ export class UserStorage {
         .filter(key => profile[key])
         .map(async field => {
           return this.setProfileField(field, profile[field], await getPrivacy(field)).catch(e => {
-            logger.error('setProfile field failed:', { field }, e.message, `${e}`)
+            logger.error('setProfile field failed:', { field }, e.message, e)
             return { err: `failed saving field ${field}` }
           })
         })
@@ -687,7 +688,7 @@ export class UserStorage {
         .then()
       return !(indexValue && indexValue.pub !== global.gun.user().is.pub)
     } catch (e) {
-      logger.error('indexProfileField', e.message, `${e}`)
+      logger.error('indexProfileField', e.message, e)
       return true
     }
   }
@@ -816,7 +817,7 @@ export class UserStorage {
 
       return indexNode.putAck(this.gunuser)
     } catch (e) {
-      logger.error('indexProfileField', e.message, `${e}`)
+      logger.error('indexProfileField', e.message, e)
 
       // TODO: this should return unexpected error
       // return Promise.resolve({ err: `Unexpected Error`, ok: 0 })
@@ -870,7 +871,7 @@ export class UserStorage {
         .get(day[0])
         .then()
         .catch(e => {
-          logger.error('getFeed', e.message, `${e}`)
+          logger.error('getFeed', e.message, e)
           return []
         })
     })
@@ -895,6 +896,7 @@ export class UserStorage {
    */
   async getFormattedEvents(numResults: number, reset?: boolean): Promise<Array<StandardFeed>> {
     const feed = await this.getFeedPage(numResults, reset)
+
     return Promise.all(
       feed
         .filter(feedItem => feedItem.data && ['deleted', 'cancelled'].includes(feedItem.status) === false)
@@ -1132,11 +1134,11 @@ export class UserStorage {
       let putRes = await this.feed
         .get('queue')
         .get(event.id)
-        .put(event)
+        .putAck(event)
       this.updateFeedEvent(event)
       logger.debug('enqueueTX ok:', { event, putRes })
     } catch (e) {
-      logger.error('enqueueTX failed: ', e.message, `${e}`)
+      logger.error('enqueueTX failed: ', e.message, e)
     } finally {
       release()
     }
@@ -1159,7 +1161,7 @@ export class UserStorage {
         return feedItem
       }
     } catch (e) {
-      logger.error('dequeueTX failed:', e.message, `${e}`)
+      logger.error('dequeueTX failed:', e.message, e)
     }
   }
 
@@ -1175,12 +1177,24 @@ export class UserStorage {
 
   /**
    * Sets the event's status as deleted
-   * @param {FeedEvent} event
+   * @param {string} eventId
    * @returns {Promise<FeedEvent>}
    */
-  deleteEvent(event: FeedEvent): Promise<FeedEvent> {
-    event.status = 'deleted'
-    return this.updateFeedEvent(event)
+  async deleteEvent(eventId: string): Promise<FeedEvent> {
+    const feedEvent = await this.getFeedItemByTransactionHash(eventId)
+    feedEvent.status = 'deleted'
+    return this.updateFeedEvent(feedEvent)
+  }
+
+  /**
+   * Sets the event's status as completed
+   * @param {string} eventId
+   * @returns {Promise<FeedEvent>}
+   */
+  async recoverEvent(eventId: string): Promise<FeedEvent> {
+    const feedEvent = await this.getFeedItemByTransactionHash(eventId)
+    feedEvent.status = 'completed'
+    return this.updateFeedEvent(feedEvent)
   }
 
   /**
@@ -1261,27 +1275,27 @@ export class UserStorage {
       .secret(event)
       .then()
       .catch(e => {
-        logger.error('updateFeedEvent failedEncrypt byId:', event, e.message, `${e}`)
+        logger.error('updateFeedEvent failedEncrypt byId:', event, e.message, e)
         return { err: e.message }
       })
-    const saveAck = this.feed
-      .get(day)
-      .put(JSON.stringify(dayEventsArr))
-      .then()
-      .catch(e => logger.error('updateFeedEvent dayIndex', e.message, `${e}`))
-    const ack = this.feed
+    const saveDayIndexPtr = this.feed.get(day).putAck(JSON.stringify(dayEventsArr))
+    const saveDaySizePtr = this.feed
       .get('index')
       .get(day)
-      .put(dayEventsArr.length)
-      .then()
-      .catch(e => logger.error('updateFeedEvent daySize', e.message, `${e}`))
+      .putAck(dayEventsArr.length)
 
-    const result = await Promise.all([saveAck, ack, eventAck])
-      .then(arr => {
-        return event
-      })
-      .catch(e => logger.error('savingIndex', e.message, `${e}`))
-    return result
+    const saveAck =
+      saveDayIndexPtr && saveDayIndexPtr.then().catch(e => logger.error('updateFeedEvent dayIndex', e.message, e))
+    const ack =
+      saveDaySizePtr && saveDaySizePtr.then().catch(e => logger.error('updateFeedEvent daySize', e.message, e))
+
+    if (saveDayIndexPtr || saveDaySizePtr) {
+      logger.info('updateFeedEvent: Gun drain in process', { saveDayIndexPtr, saveDaySizePtr })
+    }
+
+    return Promise.all([saveAck, ack, eventAck])
+      .then(() => event)
+      .catch(e => logger.error('savingIndex', e.message, e))
   }
 
   /**
@@ -1312,7 +1326,7 @@ export class UserStorage {
    */
   saveLastBlockNumber(blockNumber: number | string): Promise<any> {
     logger.debug('saving lastBlock:', blockNumber)
-    return this.getLastBlockNode().put(blockNumber)
+    return this.getLastBlockNode().putAck(blockNumber)
   }
 
   async getProfile(): Promise<any> {
@@ -1372,10 +1386,7 @@ export class UserStorage {
       })
     )
 
-    await this.gunuser
-      .get('profile')
-      .put('null')
-      .then()
+    await this.gunuser.get('profile').putAck('null')
 
     return true
   }
@@ -1405,7 +1416,7 @@ export class UserStorage {
         })),
       this.gunuser
         .get('feed')
-        .put(null)
+        .putAck(null)
         .then(r => ({
           feed: 'ok',
         }))

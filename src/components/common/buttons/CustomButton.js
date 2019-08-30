@@ -149,7 +149,6 @@ const CustomButton = (props: ButtonProps) => {
   const color = props.color ? props.color : theme.colors.default
   return (
     <BaseButton
-      compact
       dark={dark}
       mode={mode}
       style={[styles.buttonStyle, style]}

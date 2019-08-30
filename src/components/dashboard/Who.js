@@ -6,6 +6,7 @@ import { ScanQRButton, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
+import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import useValidatedValueState from '../../lib/utils/useValidatedValueState'
 import { ACTION_RECEIVE, navigationOptions } from './utils/sendReceiveFlow'
 
@@ -43,7 +44,7 @@ const Who = (props: AmountProps) => {
         {!isReceive && <ScanQRButton onPress={() => screenProps.push('SendByQR')} />}
       </TopBar>
       <Section grow>
-        <Section.Stack justifyContent="flex-start">
+        <Section.Stack justifyContent="flex-start" style={styles.container}>
           <Section.Title>{text}</Section.Title>
           <InputText
             autoFocus
@@ -85,6 +86,10 @@ Who.shouldNavigateToComponent = props => {
 
 export default withStyles(({ theme }) => ({
   input: {
-    marginTop: theme.sizes.defaultDouble,
+    marginTop: 'auto',
+  },
+  container: {
+    minHeight: getDesignRelativeHeight(180),
+    height: getDesignRelativeHeight(180),
   },
 }))(Who)

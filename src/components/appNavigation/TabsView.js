@@ -49,7 +49,7 @@ const TabsView = (props: TabViewProps) => {
 
   return (
     <Appbar.Header dark>
-      <Appbar.Action />
+      <Appbar.Action icon="menu" color="white" />
       <Appbar.Content />
       <Appbar.Action icon="menu" onPress={toggleSidemenu.bind(null, store)} color="white" />
     </Appbar.Header>

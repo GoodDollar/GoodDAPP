@@ -139,10 +139,11 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       // Stores creationBlock number into 'lastBlock' feed's node
 
       const addUserAPIResponse = await API.addUser(state)
+      const addUserAPIResponseData = addUserAPIResponse && addUserAPIResponse.data
       const profilePayload = { ...state, walletAddress: goodWallet.account }
 
-      if (addUserAPIResponse && addUserAPIResponse.loginToken) {
-        profilePayload.loginToken = addUserAPIResponse.loginToken
+      if (addUserAPIResponseData && addUserAPIResponseData.loginToken) {
+        profilePayload.loginToken = addUserAPIResponseData.loginToken
       }
 
       await Promise.all([

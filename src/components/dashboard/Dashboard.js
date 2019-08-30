@@ -1,6 +1,6 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-
+import { AsyncStorage } from 'react-native'
 import type { Store } from 'undux'
 import normalize from '../../lib/utils/normalizeText'
 import GDStore from '../../lib/undux/GDStore'
@@ -19,7 +19,7 @@ import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
 import logger from '../../lib/logger/pino-logger'
 import userStorage from '../../lib/gundb/UserStorage'
-import { FAQ, PrivacyArticle, PrivacyPolicy, Support, TermsOfUse } from '../webView/webViewInstances'
+import { FAQ, PrivacyArticle, PrivacyPolicy, RewardsTab, Support, TermsOfUse } from '../webView/webViewInstances'
 import { withStyles } from '../../lib/styles'
 import Mnemonics from '../signin/Mnemonics'
 import Amount from './Amount'
@@ -58,7 +58,15 @@ const Dashboard = props => {
   const [showErrorDialog] = useErrorDialog()
   const { params } = props.navigation.state
 
+  const prepareLoginToken = async () => {
+    const loginToken = await userStorage.getProfileFieldValue('loginToken')
+
+    await AsyncStorage.setItem('w3LoginToken', loginToken)
+  }
+
   useEffect(() => {
+    prepareLoginToken()
+
     log.debug('Dashboard didmount')
     userStorage.feed.get('byid').on(data => {
       log.debug('gun getFeed callback', { data })
@@ -361,4 +369,5 @@ export default createStackNavigator({
   Support,
   FAQ,
   Recover: Mnemonics,
+  Rewards: RewardsTab,
 })

@@ -4,6 +4,7 @@ import { Image, View } from 'react-native'
 import Mnemonics from '../signin/Mnemonics'
 import logger from '../../lib/logger/pino-logger'
 import CustomButton from '../common/buttons/CustomButton'
+import { PushButton } from '../appNavigation/PushButton'
 import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
 import Text from '../common/view/Text'
@@ -41,7 +42,7 @@ class Auth extends React.Component<Props> {
   }
 
   handleSignIn = () => {
-    this.props.navigation.navigate('Recover')
+    this.props.navigation.navigate('SignInState')
   }
 
   handleNavigateTermsOfUse = () => this.props.screenProps.push('TermsOfUse')
@@ -92,12 +93,9 @@ class Auth extends React.Component<Props> {
           <CustomButton style={styles.buttonLayout} onPress={this.handleSignUp}>
             Create a wallet
           </CustomButton>
-          <Text fontSize={14} color="primary" onPress={this.handleSignIn}>
-            {`Already have a wallet? `}
-            <Text fontSize={14} color="primary" textDecorationLine="underline" onPress={this.handleSignIn}>
-              Login
-            </Text>
-          </Text>
+          <PushButton dark={false} mode="outlined" onPress={this.handleSignIn}>
+            SIGN IN
+          </PushButton>
         </View>
       </Wrapper>
     )

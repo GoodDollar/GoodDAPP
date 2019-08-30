@@ -68,14 +68,16 @@ const getSingleOtpInputStylesFromProps = ({ theme }) => ({
   },
 })
 
-const Input = ({ min, max, pattern, focus, shouldAutoFocus, onChange, ...props }) => {
+const Input = ({ min, max, pattern, focus, shouldAutoFocus, onChange, value, focusNextInput, ...props }) => {
   let input: ?HTMLInputElement = null
+  const [selection, setSelection] = useState({ start: 0, end: value && value.length ? 1 : 0 })
 
   // Focus on first render
   // Only when shouldAutoFocus is true
   useEffect(() => {
     if (input && focus && shouldAutoFocus) {
       input.focus()
+      setSelection({ start: 0, end: value && value.length ? 1 : 0 })
     }
   }, [])
 
@@ -84,11 +86,19 @@ const Input = ({ min, max, pattern, focus, shouldAutoFocus, onChange, ...props }
   useEffect(() => {
     if (input && focus) {
       input.focus()
+      setSelection({ start: 0, end: value && value.length ? 1 : 0 })
     }
   }, [focus])
 
-  const handleValidation = (value: number | string): boolean =>
-    (!min || value >= min) && (!max || value <= max) && (!pattern || pattern.test(value))
+  const handleSelection = ({ nativeEvent: { selection: nativeSelection } }) => {
+    if (nativeSelection.start === nativeSelection.end && nativeSelection.start === 1) {
+      focusNextInput()
+    }
+    setSelection({ start: 0, end: value && value.length ? 1 : 0 })
+  }
+
+  const handleValidation = (inputValue: number | string): boolean =>
+    (!min || inputValue >= min) && (!max || inputValue <= max) && (!pattern || pattern.test(inputValue))
 
   const handleOnChange = (e: Object) => {
     e.preventDefault()
@@ -98,7 +108,17 @@ const Input = ({ min, max, pattern, focus, shouldAutoFocus, onChange, ...props }
       onChange(value)
     }
   }
-  return <TextInput {...props} onChange={handleOnChange} ref={inputRef => (input = inputRef)} />
+  return (
+    <TextInput
+      {...props}
+      value={value}
+      onChange={handleOnChange}
+      ref={inputRef => (input = inputRef)}
+      onSelectionChange={handleSelection}
+      selection={selection}
+      selectTextOnFocus={true}
+    />
+  )
 }
 
 const SingleOtpInput = withStyles(getSingleOtpInputStylesFromProps)((props: SingleOtpInputProps) => {
@@ -203,9 +223,10 @@ const OtpInput = (props: Props) => {
   const focusPrevInput = () => focusInput(activeInput - 1)
 
   // Change OTP value at focused input
-  const changeCodeAtFocus = (inputValue: string) => {
+  const changeCodeAtFocus = (inputValue: string, position?: number) => {
     const otp = getOtpValue()
-    otp[activeInput] = inputValue[0]
+    const pos = position || position === 0 ? position : activeInput
+    otp[pos] = inputValue[0]
     handleOtpChange(otp)
   }
 
@@ -238,7 +259,10 @@ const OtpInput = (props: Props) => {
   const handleOnKeyPress = (e: Object) => {
     if (e.keyCode === BACKSPACE || e.key === 'Backspace') {
       e.preventDefault()
-      focusPrevInput()
+      if (e.target.value.length === 0 && activeInput > 0) {
+        changeCodeAtFocus('', activeInput - 1)
+        focusPrevInput()
+      }
       changeCodeAtFocus('')
     } else if (e.keyCode === DELETE || e.key === 'Delete') {
       e.preventDefault()
@@ -315,7 +339,7 @@ const getStylesFromProps = ({ theme }) => ({
 
 OtpInput.defaultProps = {
   numInputs: 4,
-  onChange: (otp: number): void => null,
+  onChange: (otp: number): void => undefined,
   isDisabled: false,
   shouldAutoFocus: false,
   value: '',

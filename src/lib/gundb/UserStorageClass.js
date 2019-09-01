@@ -1365,7 +1365,7 @@ export class UserStorage {
    */
   async userAlreadyExist(): Promise<boolean> {
     const profile = await this.profile
-    logger.debug('userAlreadyExist', this.profile !== undefined && profile !== undefined)
+    logger.debug('userAlreadyExist', this.profile !== undefined && profile !== undefined && profile !== null)
     return !!profile
   }
 

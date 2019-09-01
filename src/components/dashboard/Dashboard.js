@@ -24,10 +24,6 @@ import { withStyles } from '../../lib/styles'
 import Mnemonics from '../signin/Mnemonics'
 import Amount from './Amount'
 import Claim from './Claim'
-import FaceRecognition from './FaceRecognition/FaceRecognition'
-import FRIntro from './FaceRecognition/FRIntro'
-import FRError from './FaceRecognition/FRError'
-import UnsupportedDevice from './FaceRecognition/UnsupportedDevice'
 import FeedList from './FeedList'
 import FeedModalList from './FeedModalList'
 import Reason from './Reason'
@@ -350,10 +346,6 @@ export default createStackNavigator({
   Send,
   SendLinkSummary,
   SendConfirmation,
-  FRError,
-  FaceVerification: FaceRecognition,
-  FRIntro,
-  UnsupportedDevice,
   SendByQR,
   ReceiveByQR,
   SendQRSummary,

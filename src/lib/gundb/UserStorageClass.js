@@ -1392,7 +1392,7 @@ export class UserStorage {
    * Deleting gundb profile and clearing local storage
    * Calling the server to delete their data
    */
-  async deleteAccount(): Promise<boolean> {
+  async deleteAccount(): Promise<Array<any>> {
     let deleteResults = await Promise.all([
       this.wallet
         .deleteAccount()
@@ -1422,13 +1422,13 @@ export class UserStorage {
     ])
 
     //Issue with gun delete()
-    // let profileDelete = await this.gunuser
-    //   .delete()
-    //   .then(r => ({ profile: 'ok' }))
-    //   .catch(e => ({
-    //     profile: 'failed'
-    //   }))
-    logger.debug('deleteAccount', { deleteResults })
+    let userDelete = await this.gunuser
+      .delete()
+      .then(r => ({ user: 'ok' }))
+      .catch(e => ({
+        user: 'failed',
+      }))
+    logger.debug('deleteAccount', deleteResults, userDelete)
     return deleteResults
   }
 }

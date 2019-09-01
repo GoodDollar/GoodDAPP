@@ -29,9 +29,10 @@ matrix:
     - script: 
       - npm run build
       - npm install cypress --save-dev 
-      - npm install netlify-cli --save-dev 
-      - npm install jq
-      - export CYPRESS_baseUrl=netlify deploy --draft -p | jq '.deploy_url'   #set cypress baseUrl as a result of netlify command
+      - npm install netlify-cli -g
+      - netlifyctl deploy --draft     
+      - npm install jq -save-dev
+      - export CYPRESS_baseUrl=jq '.deploy_url'   #set cypress baseUrl as a result of netlify command
       - cypress run     
     - script: 
       - npm run coverage

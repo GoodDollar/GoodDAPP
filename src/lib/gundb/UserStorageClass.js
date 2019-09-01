@@ -1365,7 +1365,7 @@ export class UserStorage {
    */
   async userAlreadyExist(): Promise<boolean> {
     const profile = await this.profile
-    logger.debug('userAlreadyExist', this.profile !== undefined && profile !== undefined)
+    logger.debug('userAlreadyExist', this.profile !== undefined && profile !== undefined && profile !== null)
     return !!profile
   }
 
@@ -1382,7 +1382,7 @@ export class UserStorage {
       })
     )
 
-    await this.gunuser.get('profile').putAck('null')
+    await this.gunuser.get('profile').putAck(null)
 
     return true
   }

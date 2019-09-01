@@ -27,11 +27,13 @@ env:
 matrix:
   include:
     - script: 
+      - npm install jq -g
+      - npm install cypress -g
       - npm run build
+      - npm install jq -save-dev
       - npm install cypress --save-dev 
       - npm install netlify-cli --save-dev
-      - netlifyctl deploy --draft     
-      - npm install jq -save-dev
+      - netlifyctl deploy --draft        
       - export CYPRESS_baseUrl=jq '.deploy_url'   #set cypress baseUrl as a result of netlify command
       - cypress run     
     - script: 

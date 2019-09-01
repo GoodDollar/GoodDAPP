@@ -58,10 +58,10 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   const [loading, setLoading] = useState(false)
   const [countryCode, setCountryCode] = useState(undefined)
   const [createError, setCreateError] = useState(false)
+  const [finishedPromise, setFinishedPromise] = useState(undefined)
 
   const [showErrorDialog] = useErrorDialog()
   const shouldGrow = store.get && !store.get('isMobileSafariKeyboardShown')
-
   const navigateWithFocus = (routeKey: string) => {
     navigation.navigate(routeKey)
     setLoading(false)
@@ -88,13 +88,6 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
     }
   }
   useEffect(() => {
-    //don't allow to start signup flow not from begining
-    if (navigation.state.index > 0) {
-      log.debug('redirecting to start, got index:', navigation.state.index)
-      setLoading(true)
-      return navigateWithFocus(navigation.state.routes[0].key)
-    }
-
     //get user country code for phone
     getCountryCode()
 
@@ -119,6 +112,13 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       return { goodWallet, userStorage }
     })()
     setReady(ready)
+
+    //don't allow to start signup flow not from begining
+    if (navigation.state.index > 0) {
+      log.debug('redirecting to start, got index:', navigation.state.index)
+      setLoading(true)
+      return navigateWithFocus(navigation.state.routes[0].key)
+    }
   }, [])
 
   const finishRegistration = async () => {
@@ -159,10 +159,10 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   const done = async (data: { [string]: string }) => {
     setLoading(true)
     fireSignupEvent()
-    log.info('signup data:', { data })
     let nextRoute = navigation.state.routes[navigation.state.index + 1]
     const newState = { ...state, ...data }
     setState(newState)
+    log.info('signup data:', { data, nextRoute })
 
     if (nextRoute && nextRoute.key === 'SMS') {
       try {
@@ -203,14 +203,14 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       } finally {
         setLoading(false)
       }
-    } else {
-      if (nextRoute) {
-        return navigateWithFocus(nextRoute.key)
-      }
-
-      //tell App.js we are done here so RouterSelector switches router
-      store.set('isLoggedIn')(true)
+    } else if (nextRoute) {
+      return navigateWithFocus(nextRoute.key)
     }
+
+    await finishedPromise.then(_ => log.debug('user registration synced and completed'))
+
+    //tell App.js we are done here so RouterSelector switches router
+    store.set('isLoggedIn')(true)
   }
 
   const back = () => {
@@ -224,10 +224,15 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
 
   useEffect(() => {
     const curRoute = navigation.state.routes[navigation.state.index]
+    if (state === initialState) {
+      return
+    }
     if (curRoute && curRoute.key === 'SignupCompleted') {
-      finishRegistration()
+      const finishedPromise = finishRegistration()
+      setFinishedPromise(finishedPromise)
     }
   }, [navigation.state.index])
+
   const { scrollableContainer, contentContainer } = styles
 
   return (

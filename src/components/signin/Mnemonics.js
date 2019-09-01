@@ -96,7 +96,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
     await wallet.ready
     const userStorage = new UserStorage(wallet)
     await userStorage.ready
-    const exists = userStorage.userAlreadyExist()
+    const exists = await userStorage.userAlreadyExist()
     return [exists, exists && (await userStorage.getProfileFieldDisplayValue('fullName'))]
   }
 

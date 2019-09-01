@@ -22,6 +22,7 @@ env:
     - BUNDLESIZE_GITHUB_TOKEN=63f6d1717c6652d63234cf9629977b08f4bac3fd
     #    - REACT_APP_NETWORK_ID=4447
     - MNEMONIC="choice congress hobby buddy dutch busy army eager empty solution start grunt"
+    - NETLIFY_AUTH_TOKEN=95afeb17e7327bfcd28ea26a0831e6d5956ae83cfa4de9903500178a3e534024
     - CI=false
 
 matrix:

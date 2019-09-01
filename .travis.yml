@@ -28,21 +28,14 @@ matrix:
   include:
     - script: 
       - npm run build
-      - npm install cypress --save-dev
-      - netlifyctl deploy --draft
-      - 
-      
-
-
-
-      
-      - cypress run
-      - npm run coveralls
-      
+      - npm install cypress --save-dev 
+      - netlifyctl deploy --draft     
+      - npm install jq
+      - export CYPRESS_baseUrl=netlify deploy --json -p | jq '.deploy_url'   #set cypress baseUrl as a result of netlify command
+      - cypress run     
     - script: 
       - npm run coverage
       - npm run coveralls
-      - npm run build
 
 after_success:
   - npm run bundlesize:check

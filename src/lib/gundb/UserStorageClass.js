@@ -1268,7 +1268,7 @@ export class UserStorage {
     const eventAck = this.feed
       .get('byid')
       .get(event.id)
-      .secret(event)
+      .secretAck(event)
       .then()
       .catch(e => {
         logger.error('updateFeedEvent failedEncrypt byId:', event, e.message, e)

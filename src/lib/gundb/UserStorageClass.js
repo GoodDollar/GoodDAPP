@@ -1382,7 +1382,7 @@ export class UserStorage {
       })
     )
 
-    await this.gunuser.get('profile').putAck('null')
+    await this.gunuser.get('profile').putAck(null)
 
     return true
   }

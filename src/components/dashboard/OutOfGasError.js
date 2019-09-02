@@ -3,7 +3,6 @@ import { Image, StyleSheet, Text, View } from 'react-native'
 import _get from 'lodash/get'
 import * as web3Utils from 'web3-utils'
 import normalize from '../../lib/utils/normalizeText'
-import GDStore from '../../lib/undux/GDStore'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { AwaitButton, Section, Wrapper } from '../common'
 import Separator from '../common/layout/Separator'
@@ -14,7 +13,6 @@ const log = logger.child({ from: 'OutOfGasError' })
 
 const OutOfGasError = props => {
   const MIN_BALANCE_VALUE = '100000'
-  const gdstore = GDStore.useStore()
   const isValid = _get(props, 'screenProps.screenState.isValid', undefined)
 
   const ERROR =
@@ -27,7 +25,6 @@ const OutOfGasError = props => {
   }
 
   const [isLoading, setLoading] = useState(false)
-  const { balance } = gdstore.get('account')
 
   const gotoDb = () => {
     props.screenProps.navigateTo('Home')
@@ -37,21 +34,17 @@ const OutOfGasError = props => {
     callTopWallet()
   }, [])
 
-  useEffect(() => {
-    if (parseInt(balance) >= Number(MIN_BALANCE_VALUE)) {
-      gotoDb()
-    }
-  }, [balance])
-
   const callTopWallet = async () => {
     setLoading(true)
-
-    const isOk = await goodWallet.verifyHasGas(web3Utils.toWei(MIN_BALANCE_VALUE, 'gwei'))
-
+    let isOk = false
+    try {
+      isOk = await goodWallet.verifyHasGas(web3Utils.toWei(MIN_BALANCE_VALUE, 'gwei'))
+    } catch (e) {
+      log.error(e)
+    }
     setLoading(false)
-
     if (isOk) {
-      //gotoDb();
+      gotoDb()
     }
   }
 

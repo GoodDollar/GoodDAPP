@@ -29,6 +29,7 @@ matrix:
     - script: 
       - npm install jq -g
       - npm install cypress
+      - npm install netlify-cli
       - npm run build
       - npm install jq -save-dev
       - npm install cypress --save-dev 

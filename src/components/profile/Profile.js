@@ -1,11 +1,9 @@
 // @flow
-import React, { useEffect } from 'react'
-import isEqual from 'lodash/isEqual'
+import React from 'react'
 import GDStore from '../../lib/undux/GDStore'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { Section, UserAvatar, Wrapper } from '../common'
 import { withStyles } from '../../lib/styles'
-import userStorage from '../../lib/gundb/UserStorage'
 import EditAvatar from './EditAvatar'
 import EditProfile from './EditProfile'
 import ProfileDataTable from './ProfileDataTable'
@@ -24,16 +22,6 @@ const ProfileWrapper = props => {
     event.stopPropagation()
     screenProps.push(`${profile.avatar ? 'View' : 'Edit'}Avatar`)
   }
-
-  const updateProfile = async () => {
-    const publicProfile = await userStorage.getPublicProfile()
-    store.set('profile')(publicProfile)
-  }
-  useEffect(() => {
-    if (isEqual(profile, {})) {
-      updateProfile()
-    }
-  }, [])
 
   return (
     <Wrapper>

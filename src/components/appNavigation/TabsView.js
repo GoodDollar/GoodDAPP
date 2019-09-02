@@ -1,9 +1,11 @@
 //@flow
 import React from 'react'
 import { Appbar } from 'react-native-paper'
+import { TouchableOpacity } from 'react-native-web'
 import { toggleSidemenu } from '../../lib/undux/utils/sidemenu'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import userStorage from '../../lib/gundb/UserStorage'
+import RewardSvg from '../../components/common/view/RewardSvg'
 
 type TabViewProps = {
   routes: { [string]: any },
@@ -56,7 +58,9 @@ const TabsView = (props: TabViewProps) => {
 
   return (
     <Appbar.Header dark>
-      <Appbar.Action icon="faq" color="white" onPress={goToRewards} />
+      <TouchableOpacity onPress={goToRewards} style={{ marginLeft: '10px' }}>
+        <RewardSvg />
+      </TouchableOpacity>
       <Appbar.Content />
       <Appbar.Action icon="menu" onPress={toggleSidemenu.bind(null, store)} color="white" />
     </Appbar.Header>

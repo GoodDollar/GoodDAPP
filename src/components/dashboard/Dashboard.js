@@ -1,9 +1,10 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { AsyncStorage } from 'react-native'
+import _get from 'lodash/get'
 import type { Store } from 'undux'
 import normalize from '../../lib/utils/normalizeText'
 import GDStore from '../../lib/undux/GDStore'
+import API from '../../lib/API/api'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
 import { getInitialFeed, getNextFeed, PAGE_SIZE } from '../../lib/undux/utils/feed'
@@ -61,7 +62,13 @@ const Dashboard = props => {
   const prepareLoginToken = async () => {
     const loginToken = await userStorage.getProfileFieldValue('loginToken')
 
-    await AsyncStorage.setItem('w3LoginToken', loginToken)
+    if (!loginToken) {
+      const response = await API.getLoginToken()
+
+      const _loginToken = _get(response, 'data.loginToken')
+
+      await userStorage.setProfileField('loginToken', _loginToken, 'private')
+    }
   }
 
   useEffect(() => {
@@ -321,7 +328,7 @@ const getStylesFromProps = ({ theme }) => ({
 
 Dashboard.navigationOptions = ({ navigation, screenProps }) => {
   return {
-    navigationBar: () => <TabsView goTo={navigation.navigate} routes={screenProps.routes} />,
+    navigationBar: () => <TabsView goTo={navigation.navigate} routes={screenProps.routes} navigation={navigation} />,
     title: 'Home',
     disableScroll: true,
   }

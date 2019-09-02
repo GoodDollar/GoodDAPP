@@ -3,6 +3,7 @@ import React from 'react'
 import { Appbar } from 'react-native-paper'
 import { toggleSidemenu } from '../../lib/undux/utils/sidemenu'
 import SimpleStore from '../../lib/undux/SimpleStore'
+import userStorage from '../../lib/gundb/UserStorage'
 
 type TabViewProps = {
   routes: { [string]: any },
@@ -45,11 +46,17 @@ type TabViewProps = {
 // )
 
 const TabsView = (props: TabViewProps) => {
+  const { navigation } = props
   const store = SimpleStore.useStore()
+  const goToRewards = () => {
+    userStorage.getProfileFieldValue('loginToken').then(loginToken => {
+      navigation.navigate('Rewards', { loginToken })
+    })
+  }
 
   return (
     <Appbar.Header dark>
-      <Appbar.Action icon="menu" color="white" />
+      <Appbar.Action icon="faq" color="white" onPress={goToRewards} />
       <Appbar.Content />
       <Appbar.Action icon="menu" onPress={toggleSidemenu.bind(null, store)} color="white" />
     </Appbar.Header>

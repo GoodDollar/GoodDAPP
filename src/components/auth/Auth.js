@@ -12,7 +12,6 @@ import { PrivacyPolicy, Support, TermsOfUse } from '../webView/webViewInstances'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
 import illustration from '../../assets/Auth/Illustration.svg'
-
 type Props = {
   navigation: any,
   screenProps: {
@@ -42,7 +41,7 @@ class Auth extends React.Component<Props> {
   }
 
   handleSignIn = () => {
-    this.props.navigation.navigate('Signin')
+    this.props.navigation.navigate('SigninInfo')
   }
 
   handleNavigateTermsOfUse = () => this.props.screenProps.push('TermsOfUse')

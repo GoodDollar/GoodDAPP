@@ -96,7 +96,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
   }
   const handleEnter = (event: { nativeEvent: { key: string } }) => {
     if (event.nativeEvent.key === 'Enter') {
-      this.recover()
+      recover()
     }
   }
 

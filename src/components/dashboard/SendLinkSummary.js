@@ -127,12 +127,7 @@ const SendLinkSummary = (props: AmountProps) => {
           log.debug('generateLinkAndSend: enqueueTX', { transactionEvent })
           userStorage.enqueueTX(transactionEvent)
         },
-        {
-          onError: err => {
-            const error = JSON.parse(`{${err.message.split('{')[1]}`)
-            userStorage.markWithErrorEvent(error.transactionHash)
-          },
-        }
+        { onError: userStorage.markWithErrorEvent }
       )
       log.debug('generateLinkAndSend:', { generateLinkResponse })
       if (generateLinkResponse) {

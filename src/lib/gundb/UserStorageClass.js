@@ -1207,8 +1207,9 @@ export class UserStorage {
    * @param {string} eventId
    * @returns {Promise<FeedEvent>}
    */
-  async markWithErrorEvent(eventId: string): Promise<FeedEvent> {
-    await this.updateEventOtplStatus(eventId, 'error')
+  async markWithErrorEvent(err: any): Promise<FeedEvent> {
+    const error = JSON.parse(`{${err.message.split('{')[1]}`)
+    await this.updateEventOtplStatus(error.transactionHash, 'error')
   }
 
   /**

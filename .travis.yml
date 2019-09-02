@@ -34,7 +34,7 @@ matrix:
       - npm install jq -save-dev
       - npm install cypress --save-dev 
       - npm install netlify-cli --save-dev
-      - netlify deploy -s $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN --draft
+      - netlify deploy -s $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN -p --dir ./build
       - export CYPRESS_baseUrl=jq '.deploy_url'   #set cypress baseUrl as a result of netlify command
       - cypress run     
     - script: 

@@ -22,7 +22,6 @@ env:
     - BUNDLESIZE_GITHUB_TOKEN=63f6d1717c6652d63234cf9629977b08f4bac3fd
     #    - REACT_APP_NETWORK_ID=4447
     - MNEMONIC="choice congress hobby buddy dutch busy army eager empty solution start grunt"
-    - NETLIFY_AUTH_TOKEN=1998ad22c4cd4f113923cc7f3fec810edff5f47ddaaf80a3c0c447c986216f0a 
     - CI=false
 
 matrix:
@@ -34,7 +33,7 @@ matrix:
       - npm install jq -save-dev
       - npm install cypress --save-dev 
       - npm install netlify-cli --save-dev
-      - netlify deploy --draft
+      - netlify deploy -s $NETLIFY_SITE_ID -t $NETLIFY_ACCESS_TOKEN -p ./build
       - export CYPRESS_baseUrl=jq '.deploy_url'   #set cypress baseUrl as a result of netlify command
       - cypress run     
     - script: 

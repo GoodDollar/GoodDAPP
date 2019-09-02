@@ -133,6 +133,8 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
           email: w3User.email,
           token: web3Token,
         }).catch(e => {
+          log.error(e.message, e)
+
           showErrorDialog('Email verification failed', e)
         })
 

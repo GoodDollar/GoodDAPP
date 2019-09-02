@@ -1,6 +1,6 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { Image } from 'react-native'
+import { Image, View } from 'react-native'
 import numeral from 'numeral'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import goodWallet from '../../lib/wallet/GoodWallet'
@@ -39,7 +39,10 @@ const Claim = props => {
   const { screenProps, styles }: ClaimProps = props
   const store = SimpleStore.useStore()
   const gdstore = GDStore.useStore()
+
   const { entitlement } = gdstore.get('account')
+  const isCitizen = gdstore.get('isLoggedInCitizen')
+
   const [showDialog] = useDialog()
   const [loading, setLoading] = useState(false)
   const [claimInterval, setClaimInterval] = useState(null)
@@ -72,7 +75,7 @@ const Claim = props => {
     evaluateFRValidity()
   }, [])
 
-  const getNextClaim = nextClaimDate => new Date(nextClaimDate - new Date().getTime()).toISOString().substr(11, 8)
+  const getNextClaim = date => new Date(date - new Date().getTime()).toISOString().substr(11, 8)
 
   const gatherStats = async () => {
     const [claimedToday, nextClaimDate] = await Promise.all([
@@ -111,7 +114,7 @@ const Claim = props => {
     })
     try {
       //when we come back from FR entitelment might not be set yet
-      const curEntitlement = entitlement || (await goodWallet.checkEntitlement())
+      const curEntitlement = state.entitlement || (await goodWallet.checkEntitlement())
       const receipt = await goodWallet.claim({
         onTransactionHash: hash => {
           const transactionEvent: TransactionEvent = {
@@ -160,32 +163,6 @@ const Claim = props => {
     screenProps.push('FRIntro', { from: 'Claim' })
   }
 
-  const isCitizen = gdstore.get('isLoggedInCitizen')
-  const { nextClaim, claimedToday } = state
-
-  const ClaimButton = (
-    <CustomButton
-      compact={true}
-      disabled={entitlement <= 0}
-      loading={loading}
-      mode="contained"
-      onPress={() => {
-        isCitizen ? handleClaim() : faceRecognition()
-      }}
-    >
-      <Text color="surface" fontWeight="medium">
-        {`CLAIM YOUR SHARE - `}
-      </Text>
-      <BigGoodDollar
-        number={entitlement}
-        formatter={weiToGd}
-        bigNumberProps={{ fontSize: 16, color: 'surface', fontWeight: 'medium' }}
-        bigNumberUnitProps={{ fontSize: 10, color: 'surface', fontWeight: 'medium' }}
-        style={styles.inline}
-      />
-    </CustomButton>
-  )
-
   return (
     <Wrapper>
       <Section style={styles.mainContainer}>
@@ -212,28 +189,80 @@ const Claim = props => {
         <Section.Stack style={styles.extraInfo}>
           <Image source={illustration} style={styles.illustration} resizeMode="contain" />
           <Section.Row style={styles.extraInfoStats}>
-            <Section.Text fontWeight="bold">{numeral(claimedToday.people).format('0a')} </Section.Text>
-            <Section.Text>People Claimed </Section.Text>
-            <BigGoodDollar
-              number={claimedToday.amount}
-              formatter={number => numeral(number).format('0a')}
-              bigNumberProps={{ fontSize: 16 }}
-              bigNumberUnitProps={{ fontSize: 10 }}
-            />
-            <Section.Text>Today!</Section.Text>
+            <Section.Text fontWeight="bold">{numeral(state.claimedToday.people).format('0a')} </Section.Text>
+            <Section.Text>people have already claimed today!</Section.Text>
           </Section.Row>
-          <Section.Stack style={styles.extraInfoCountdown}>
-            <Section.Text style={styles.extraInfoCountdownTitle}>Next Daily Income:</Section.Text>
-            <Section.Text color="surface" fontFamily="slab" fontSize={36} fontWeight="bold">
-              {nextClaim}
-            </Section.Text>
-          </Section.Stack>
-          {ClaimButton}
+          {!isCitizen && <Countdown styles={styles} nextClaim={state.nextClaim} />}
+          <ClaimButton
+            isCitizen={isCitizen}
+            entitlement={state.entitlement}
+            nextClaim={state.nextClaim}
+            loading={loading}
+            onPress={() => (isCitizen && entitlement ? handleClaim() : !isCitizen && faceRecognition())}
+            styles={styles}
+          />
         </Section.Stack>
       </Section>
     </Wrapper>
   )
 }
+
+const Countdown = ({ styles, nextClaim }) => (
+  <Section.Stack style={styles.extraInfoCountdown}>
+    <Section.Text style={styles.extraInfoCountdownTitle}>Next Daily Income:</Section.Text>
+    <Section.Text color="surface" fontFamily="slab" fontSize={36} fontWeight="bold">
+      {nextClaim}
+    </Section.Text>
+  </Section.Stack>
+)
+
+const ButtonAmountToClaim = ({ entitlement, styles }) => (
+  <>
+    <Text color="surface" fontWeight="medium">
+      {`CLAIM YOUR SHARE - `}
+    </Text>
+    <BigGoodDollar
+      number={entitlement}
+      formatter={weiToGd}
+      bigNumberProps={{ fontSize: 16, color: 'surface', fontWeight: 'medium' }}
+      bigNumberUnitProps={{ fontSize: 10, color: 'surface', fontWeight: 'medium' }}
+      style={styles.amountInButton}
+    />
+  </>
+)
+
+const ButtonCountdown = ({ styles, nextClaim }) => (
+  <View style={styles.countdownContainer}>
+    <Text style={styles.extraInfoCountdownTitle}>Next Daily Income:</Text>
+    <Text style={styles.countdown} color="surface" fontFamily="slab" fontSize={36} fontWeight="bold">
+      {nextClaim}
+    </Text>
+  </View>
+)
+
+const ButtonContent = ({ isCitizen, entitlement, nextClaim, styles }) => {
+  if (isCitizen) {
+    return entitlement ? (
+      <ButtonAmountToClaim styles={styles} entitlement={entitlement} />
+    ) : (
+      <ButtonCountdown styles={styles} nextClaim={nextClaim} />
+    )
+  }
+  return <ButtonAmountToClaim styles={styles} entitlement={entitlement} />
+}
+
+const ClaimButton = ({ isCitizen, entitlement, nextClaim, loading, onPress, styles }) => (
+  <CustomButton
+    compact={true}
+    disabled={entitlement <= 0}
+    loading={loading}
+    mode="contained"
+    onPress={onPress}
+    style={[isCitizen ? styles.citizenButton : {}, isCitizen && !entitlement ? styles.buttonCountdown : {}]}
+  >
+    <ButtonContent isCitizen={isCitizen} entitlement={entitlement} nextClaim={nextClaim} styles={styles} />
+  </CustomButton>
+)
 
 const getStylesFromProps = ({ theme }) => {
   const defaultMargins = {
@@ -251,6 +280,10 @@ const getStylesFromProps = ({ theme }) => {
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: theme.sizes.borderRadius,
+  }
+
+  const displayInline = {
+    display: 'inline',
   }
 
   return {
@@ -306,11 +339,29 @@ const getStylesFromProps = ({ theme }) => {
       flexGrow: 2,
       flexDirection: 'column',
     },
+    citizenButton: {
+      height: 68,
+    },
+    buttonCountdown: {
+      backgroundColor: theme.colors.orange,
+      flexDirection: 'column',
+    },
+    countdownContainer: {
+      flexDirection: 'column',
+    },
+    countdown: {
+      marginTop: -theme.sizes.defaultHalf,
+    },
     extraInfoCountdownTitle: {
       marginBottom: theme.sizes.default,
     },
     inline: {
-      display: 'inline',
+      ...displayInline,
+    },
+    amountInButton: {
+      ...displayInline,
+      marginLeft: theme.sizes.defaultHalf,
+      lineHeight: theme.sizes.default * 3,
     },
   }
 }

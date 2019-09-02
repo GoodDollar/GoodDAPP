@@ -148,10 +148,12 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       AsyncStorage.getItem('GD_USER_MNEMONIC').then(mnemonic => API.sendRecoveryInstructionByEmail(mnemonic)),
         await AsyncStorage.setItem('GOODDAPP_isLoggedIn', true)
       log.debug('New user created')
+      return true
     } catch (e) {
       log.error('New user failure', e.message, e)
       showErrorDialog('New user creation failed, please go back and try again', e)
       setCreateError(true)
+      return false
     } finally {
       setLoading(false)
     }
@@ -207,10 +209,13 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       return navigateWithFocus(nextRoute.key)
     }
 
-    await finishedPromise.then(_ => log.debug('user registration synced and completed'))
+    const ok = await finishedPromise
+    log.debug('user registration synced and completed', { ok })
 
     //tell App.js we are done here so RouterSelector switches router
-    store.set('isLoggedIn')(true)
+    if (ok) {
+      store.set('isLoggedIn')(true)
+    }
   }
 
   const back = () => {

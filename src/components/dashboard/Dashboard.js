@@ -112,7 +112,7 @@ const Dashboard = props => {
       topWallet: false,
     })
 
-    if (!isOk) {
+    if (isOk) {
       props.screenProps.navigateTo('OutOfGasError')
     }
   }

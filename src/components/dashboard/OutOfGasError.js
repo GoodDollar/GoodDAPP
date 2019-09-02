@@ -3,6 +3,7 @@ import { Image, Text, View } from 'react-native'
 import _get from 'lodash/get'
 import * as web3Utils from 'web3-utils'
 import normalize from '../../lib/utils/normalizeText'
+import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { AwaitButton, Section, Wrapper } from '../common'
 import Separator from '../common/layout/Separator'
@@ -18,7 +19,7 @@ const OutOfGasError = props => {
   const isValid = _get(props, 'screenProps.screenState.isValid', undefined)
 
   const ERROR =
-    "In·order·for·transactions·to·go·through,\nyou·need·some·virtual·money·named·'gas'.\nDon't·worry,·we'll·take·care·off·you.\n"
+    "In order for transactions to go through, you need some virtual money named 'gas'.Don't worry, we'll take care off you. "
   const ERROR_BOLD = "We're giving it to you for FREE, FOREVER."
   const TITLE = "Ooops,\nYou're out of gas..."
 
@@ -46,7 +47,7 @@ const OutOfGasError = props => {
     }
     setLoading(false)
     if (isOk) {
-      gotoDb()
+      // gotoDb()
     }
   }
 
@@ -56,7 +57,7 @@ const OutOfGasError = props => {
     <Wrapper>
       <View style={styles.topContainer}>
         <Section style={styles.mainContainer} justifyContent={'space-evenly'}>
-          <Section.Title style={styles.mainTitle}> {TITLE}</Section.Title>
+          <Section.Title style={styles.mainTitle}>{TITLE}</Section.Title>
           <Image source={Oops} resizeMode={'center'} style={styles.image} />
           <Section style={styles.mainSection}>
             <Separator style={styles.separator} width={2} />
@@ -108,7 +109,7 @@ const getStylesFromProps = ({ theme }) => ({
     marginBottom: 0,
   },
   image: {
-    height: 146,
+    height: getDesignRelativeHeight(146),
   },
   separator: {
     marginHorizontal: 12,
@@ -120,11 +121,13 @@ const getStylesFromProps = ({ theme }) => ({
     color: theme.colors.primary,
     paddingTop: 25,
     paddingBottom: 25,
+    paddingLeft: theme.paddings.defaultMargin,
+    paddingRight: theme.paddings.defaultMargin,
     verticalAlign: 'text-top',
   },
   mainTitle: {
     fontFamily: theme.fonts.default,
-    fontSize: 24,
+    fontSize: normalize(24),
     color: theme.colors.darkGray,
     textTransform: 'none',
   },

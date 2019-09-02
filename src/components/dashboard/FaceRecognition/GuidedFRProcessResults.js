@@ -314,7 +314,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   button: {
-    fontFamily: 'Roboto-Medium',
+    fontFamily: 'Roboto',
     fontSize: normalize(16),
   },
   statusIcon: {

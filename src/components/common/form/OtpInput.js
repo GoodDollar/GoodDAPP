@@ -24,6 +24,8 @@ type Props = {
   isInputNum?: boolean,
   value?: string | array,
   keyboardType?: string,
+  placeholder?: string,
+  styles: any,
 }
 
 type SingleOtpInputProps = {
@@ -130,7 +132,7 @@ const SingleOtpInput = withStyles(getSingleOtpInputStylesFromProps)((props: Sing
   }
   const inputProps = {
     style: inputStyles,
-    maxLength: '1',
+    maxLength: 1,
     disabled: isDisabled,
     value: value && value !== ' ' ? value : '',
     returnKeyType: 'next',

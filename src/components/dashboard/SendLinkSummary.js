@@ -1,7 +1,7 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { StyleSheet } from 'react-native'
 import { isMobile } from 'mobile-device-detect'
+import { withStyles } from '../../lib/styles'
 import GDStore from '../../lib/undux/GDStore'
 import { generateSendShareObject } from '../../lib/share'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
@@ -29,12 +29,13 @@ export type AmountProps = {
  */
 const SendLinkSummary = (props: AmountProps) => {
   const profile = GDStore.useStore().get('profile')
-  const { screenProps } = props
+  const { screenProps, styles } = props
   const [screenState] = useScreenState(screenProps)
   const [showDialog, , showErrorDialog] = useDialog()
 
   const [isCitizen, setIsCitizen] = useState()
   const [shared, setShared] = useState(false)
+  const [link, setLink] = useState('')
   const { amount, reason, counterPartyDisplayName } = screenState
 
   const faceRecognition = () => {
@@ -50,7 +51,7 @@ const SendLinkSummary = (props: AmountProps) => {
       if (e.name !== 'AbortError') {
         showDialog({
           title: 'There was a problem triggering share action.',
-          message: `You can still copy the link in tapping on "Copy link to clipboard". \n Error ${e.name}: ${
+          message: `You can still copy the link in tapping on "Copy link to clipboard".\n Error ${e.name}: ${
             e.message
           }`,
           dismissText: 'Ok',
@@ -74,7 +75,14 @@ const SendLinkSummary = (props: AmountProps) => {
   }, [shared])
 
   const handleConfirm = () => {
-    const paymentLink = generateLink()
+    let paymentLink = link
+
+    // Prevents calling back `generateLink` as it generates a new transaction every time it's called
+    if (paymentLink === '') {
+      paymentLink = generateLink()
+      setLink(paymentLink)
+    }
+
     if (isMobile && navigator.share) {
       shareAction(paymentLink)
     } else {
@@ -128,7 +136,7 @@ const SendLinkSummary = (props: AmountProps) => {
       showErrorDialog('Generating payment failed', 'Unknown Error')
     } catch (e) {
       showErrorDialog('Generating payment failed', e)
-      log.error(e)
+      log.error(e.message, e)
     }
   }
 
@@ -142,8 +150,8 @@ const SendLinkSummary = (props: AmountProps) => {
       <Section grow>
         <Section.Title>SUMMARY</Section.Title>
         <Section.Row justifyContent="center">
-          <Section.Text color="gray80Percent" style={styles.descriptionText} fontSize={16}>
-            * the transaction may take a few seconds to be complete
+          <Section.Text color="gray80Percent" style={styles.descriptionText}>
+            {'* the transaction may take\na few seconds to complete'}
           </Section.Text>
         </Section.Row>
 
@@ -165,8 +173,10 @@ const SendLinkSummary = (props: AmountProps) => {
   )
 }
 
-const styles = StyleSheet.create({
-  descriptionText: { maxWidth: 210 },
+const getStylesFromProps = ({ theme }) => ({
+  descriptionText: {
+    maxWidth: 210,
+  },
 })
 
 SendLinkSummary.navigationOptions = {
@@ -178,4 +188,4 @@ SendLinkSummary.shouldNavigateToComponent = props => {
   return (!!screenState.nextRoutes && screenState.amount) || !!screenState.sendLink || screenState.from
 }
 
-export default SendLinkSummary
+export default withStyles(getStylesFromProps)(SendLinkSummary)

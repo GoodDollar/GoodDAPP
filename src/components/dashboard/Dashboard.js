@@ -28,10 +28,6 @@ import Mnemonics from '../signin/Mnemonics'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import Amount from './Amount'
 import Claim from './Claim'
-import FaceRecognition from './FaceRecognition/FaceRecognition'
-import FRIntro from './FaceRecognition/FRIntro'
-import FRError from './FaceRecognition/FRError'
-import UnsupportedDevice from './FaceRecognition/UnsupportedDevice'
 import FeedList from './FeedList'
 import FeedModalList from './FeedModalList'
 import OutOfGasError from './OutOfGasError'
@@ -124,7 +120,7 @@ const Dashboard = props => {
   const handleWithdraw = async () => {
     const { paymentCode, reason } = props.navigation.state.params
     try {
-      showDialog({ title: 'Processing Payment Link...', loading: true, dismissText: 'hold' })
+      showDialog({ title: 'Processing Payment Link...', loading: true, buttons: [{ text: 'YAY!' }] })
       await executeWithdraw(store, paymentCode, reason)
       hideDialog()
     } catch (e) {
@@ -145,10 +141,15 @@ const Dashboard = props => {
         {headerLarge ? (
           <Section.Stack alignItems="center">
             <Avatar onPress={() => screenProps.push('Profile')} size={68} source={avatar} style={[styles.avatarBig]} />
-            <Section.Text style={[styles.userName]}>{fullName || ' '}</Section.Text>
+            <Section.Text color="gray80Percent" fontFamily="slab" fontSize={18}>
+              {fullName || ' '}
+            </Section.Text>
             <Section.Row style={styles.bigNumberWrapper}>
-              <BigGoodDollar bigNumberStyles={styles.bigNumberVerticalStyles} number={balance} unit={undefined} />
-              <Section.Text style={styles.bigNumberUnitStyles}>G$</Section.Text>
+              <BigGoodDollar
+                number={balance}
+                bigNumberProps={{ fontSize: 42, fontWeight: 'semibold' }}
+                bigNumberUnitStyles={styles.bigNumberUnitStyles}
+              />
             </Section.Row>
           </Section.Stack>
         ) : (
@@ -159,7 +160,7 @@ const Dashboard = props => {
               source={avatar}
               style={[styles.avatarSmall]}
             />
-            <BigGoodDollar bigNumberStyles={styles.bigNumberStyles} number={balance} />
+            <BigGoodDollar number={balance} />
           </Section>
         )}
         <Section.Row style={styles.buttonsRow}>
@@ -175,6 +176,7 @@ const Dashboard = props => {
               nextRoutes: ['Amount', 'Reason', 'SendLinkSummary', 'SendConfirmation'],
               params: { action: 'Send' },
             }}
+            compact
           >
             Send
           </PushButton>
@@ -187,6 +189,7 @@ const Dashboard = props => {
             style={styles.rightButton}
             contentStyle={styles.rightButtonContent}
             textStyle={styles.rightButtonText}
+            compact
           >
             Receive
           </PushButton>
@@ -220,6 +223,7 @@ const Dashboard = props => {
             setHeaderLarge(newHeaderLarge)
           }
         }}
+        headerLarge={headerLarge}
       />
       {currentFeed && (
         <FeedModalList
@@ -277,11 +281,6 @@ const getStylesFromProps = ({ theme }) => ({
     margin: 0,
     width: 42,
   },
-  userName: {
-    color: theme.colors.gray80Percent,
-    fontFamily: theme.fonts.slab,
-    fontSize: normalize(18),
-  },
   buttonsRow: {
     alignItems: 'center',
     height: 70,
@@ -292,7 +291,7 @@ const getStylesFromProps = ({ theme }) => ({
   leftButton: {
     flex: 1,
     height: 44,
-    marginRight: 16,
+    marginRight: 24,
     elevation: 0,
     display: 'flex',
     justifyContent: 'center',
@@ -304,7 +303,7 @@ const getStylesFromProps = ({ theme }) => ({
   rightButton: {
     flex: 1,
     height: 44,
-    marginLeft: 16,
+    marginLeft: 24,
     elevation: 0,
     display: 'flex',
     justifyContent: 'center',
@@ -319,25 +318,12 @@ const getStylesFromProps = ({ theme }) => ({
   rightButtonText: {
     marginLeft: 16,
   },
-  bigNumberVerticalStyles: {
-    fontFamily: theme.fonts.slab,
-    fontSize: normalize(42),
-    fontWeight: '600',
-  },
   bigNumberWrapper: {
     marginVertical: theme.sizes.defaultDouble,
     alignItems: 'baseline',
   },
-  bigNumberStyles: {
-    fontFamily: theme.fonts.slab,
-    fontSize: normalize(36),
-    fontWeight: '700',
-  },
   bigNumberUnitStyles: {
     marginRight: normalize(-20),
-    fontFamily: theme.fonts.slab,
-    fontSize: normalize(18),
-    fontWeight: '700',
   },
 })
 
@@ -378,10 +364,6 @@ export default createStackNavigator({
   Send,
   SendLinkSummary,
   SendConfirmation,
-  FRError,
-  FaceVerification: FaceRecognition,
-  FRIntro,
-  UnsupportedDevice,
   SendByQR,
   ReceiveByQR,
   SendQRSummary,

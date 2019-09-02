@@ -2,7 +2,7 @@ import React from 'react'
 import { Image, StyleSheet } from 'react-native'
 import splashImage from '../../assets/Splash/logo.svg'
 import goodDollarImage from '../../assets/Splash/goodDollar.svg'
-import wavePattern from '../../assets/wave.svg'
+import wavePattern from '../../assets/wave50.svg'
 import Wrapper from '../common/layout/Wrapper'
 import Section from '../common/layout/Section'
 import Config from '../../config/config'
@@ -18,8 +18,8 @@ const Splash = () => (
       <Section.Stack style={styles.content} grow justifyContent="space-between">
         <Section.Text fontSize={22} color="darkBlue">
           {`Welcome and thank you\nfor participating in GoodDollar's\n`}
-          <Section.Text fontSize={22} fontWeight="700" color="darkBlue">
-            Early Access Alpha
+          <Section.Text fontSize={22} fontWeight="black" color="darkBlue">
+            Early Access Alpha V2.0
           </Section.Text>
         </Section.Text>
         <Image source={splashImage} style={styles.logo} resizeMode="contain" />

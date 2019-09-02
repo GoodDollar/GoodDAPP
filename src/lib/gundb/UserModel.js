@@ -63,7 +63,10 @@ const getMobileErrorMessage = (mobile?: string) => {
 }
 
 const getUsernameErrorMessage = (username: string) => {
-  if (!isValidUsername(username)) {
+  if (username === '') {
+    return 'Username cannot be empty'
+  }
+  if (!isNaN(username) || !isValidUsername(username)) {
     return 'Only letters, numbers and underscore'
   }
 

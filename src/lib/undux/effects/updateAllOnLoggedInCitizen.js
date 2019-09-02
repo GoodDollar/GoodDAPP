@@ -24,7 +24,7 @@ const updateAllOnLoggedInCitizen: Effects<State> = (store: Store) => {
       updateAll(store)
       API.verifyTopWallet()
         .then(r => log.debug('Top Wallet Result:', r))
-        .catch(e => log.error('Top Wallet Error:', e.message))
+        .catch(e => log.error('Top Wallet Error:', e.message, e))
     }
   })
 }

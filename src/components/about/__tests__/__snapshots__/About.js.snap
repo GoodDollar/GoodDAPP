@@ -58,7 +58,7 @@ exports[`About matches snapshot 1`] = `
           "WebkitTransform": "rotateY(180deg)",
           "alignItems": "center",
           "backgroundColor": "rgba(0,0,0,0.00)",
-          "backgroundImage": "url(wave.svg)",
+          "backgroundImage": "url(wave50.svg)",
           "backgroundRepeat": "repeat-y",
           "backgroundSize": "cover",
           "borderBottomLeftRadius": "5px",
@@ -100,8 +100,8 @@ exports[`About matches snapshot 1`] = `
             "flexDirection": "column",
             "flexGrow": 1,
             "justifyContent": "space-between",
-            "marginBottom": "10vh",
-            "marginTop": "10vh",
+            "marginBottom": "8vh",
+            "marginTop": "5vh",
             "msFlexAlign": "stretch",
             "msFlexDirection": "column",
             "msFlexPack": "justify",
@@ -115,12 +115,12 @@ exports[`About matches snapshot 1`] = `
           dir="auto"
           style={
             Object {
-              "color": "rgba(255,255,255,1.00)",
+              "color": "rgba(12,38,61,1.00)",
               "direction": "ltr",
               "fontFamily": "Roboto",
-              "fontSize": "18px",
+              "fontSize": "22px",
               "fontWeight": "normal",
-              "lineHeight": "24px",
+              "lineHeight": "30px",
               "textAlign": "center",
               "textDecoration": "none",
               "textTransform": "none",
@@ -150,7 +150,7 @@ exports[`About matches snapshot 1`] = `
             style={
               Object {
                 "backgroundColor": "rgba(0,0,0,0.00)",
-                "backgroundImage": "url(\\"logoPrimary.svg\\")",
+                "backgroundImage": "url(\\"logo.svg\\")",
                 "backgroundPosition": "center",
                 "backgroundRepeat": "no-repeat",
                 "backgroundSize": "contain",
@@ -169,7 +169,7 @@ exports[`About matches snapshot 1`] = `
             alt=""
             className="css-accessibilityImage-9pa8cd"
             draggable={false}
-            src="logoPrimary.svg"
+            src="logo.svg"
           />
         </div>
         <div
@@ -220,7 +220,7 @@ exports[`About matches snapshot 1`] = `
           dir="auto"
           style={
             Object {
-              "color": "rgba(255,255,255,1.00)",
+              "color": "rgba(12,38,61,1.00)",
               "direction": "ltr",
               "fontFamily": "Roboto",
               "fontSize": "22px",
@@ -245,13 +245,14 @@ exports[`About matches snapshot 1`] = `
               "fontSize": "18px",
               "fontWeight": "normal",
               "lineHeight": "24px",
+              "maxWidth": "270px",
               "textAlign": "center",
               "textDecoration": "none",
               "textTransform": "none",
             }
           }
         >
-          GoodDollar is a payment system with a built-in UBI based on blockchain technology.
+          GoodDollar is a payment system with a built-in small basic income based on blockchain technology.
           <span
             className="css-text-901oao css-textHasAncestor-16my406"
             dir="auto"

@@ -1,8 +1,7 @@
 import React from 'react'
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { Image, StyleSheet, View } from 'react-native'
 import get from 'lodash/get'
 import { getFirstWord } from '../../../lib/utils/getFirstWord'
-import normalize from '../../../lib/utils/normalizeText'
 import { CustomButton, Section, Wrapper } from '../../common'
 import Separator from '../../common/layout/Separator'
 import Oops from '../../../assets/oops.svg'
@@ -10,6 +9,7 @@ import GDStore from '../../../lib/undux/GDStore'
 import logger from '../../../lib/logger/pino-logger'
 const log = logger.child({ from: 'FRError' })
 
+Image.prefetch(Oops)
 const FRError = props => {
   const store = GDStore.useStore()
   const { fullName } = store.get('profile')
@@ -56,7 +56,9 @@ const FRError = props => {
             paddingTop: 0,
           }}
         >
-          <Section.Title style={styles.mainTitle}> {`${getFirstWord(fullName)},\n${title}`}</Section.Title>
+          <Section.Title fontWeight="medium" textTransform="none">
+            {`${getFirstWord(fullName)},\n${title}`}
+          </Section.Title>
           <Image source={Oops} resizeMode={'center'} style={{ height: 146 }} />
           <Section
             style={{
@@ -66,8 +68,8 @@ const FRError = props => {
             }}
           >
             <Separator width={2} />
-            <Section.Text style={styles.description}>
-              <Text style={{ fontWeight: 'normal' }}> {`${error}`} </Text>
+            <Section.Text color="primary" fontWeight="bold" style={styles.description}>
+              {`${error}`}
             </Section.Text>
             <Separator width={2} />
           </Section>
@@ -103,18 +105,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   description: {
-    color: '#00AFFF',
-    fontFamily: 'Roboto',
-    fontSize: normalize(16),
-    fontWeight: 'bold',
-    paddingBottom: 25,
-    paddingTop: 25,
-  },
-  mainTitle: {
-    fontFamily: 'Roboto-Medium',
-    fontSize: 24,
-    color: '#42454A',
-    textTransform: 'none',
+    paddingVertical: 25,
   },
 })
 

@@ -1,12 +1,12 @@
 // @flow
 import React from 'react'
 import { View } from 'react-native'
-import normalize from '../../../lib/utils/normalizeText'
 import Avatar from '../../common/view/Avatar'
 import BigGoodDollar from '../../common/view/BigGoodDollar'
 import Text from '../../common/view/Text'
 import ModalWrapper from '../../common/modal/ModalWrapper'
 import ModalActionsByFeedType from '../../common/modal/ModalActionsByFeedType'
+import ModalPaymentStatus from '../../common/modal/ModalPaymentStatus'
 import TopImage from '../../common/modal/ModalTopImage'
 import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
 import { withStyles } from '../../../lib/styles'
@@ -38,19 +38,23 @@ const FeedModalItem = (props: FeedEventProps) => {
       ) : (
         <React.Fragment>
           <TopImage type={itemType} />
+          <ModalPaymentStatus item={item} />
           <View style={styles.dateAndAmount}>
             <React.Fragment>
-              <Text style={styles.date}>{getFormattedDateTime(item.date)}</Text>
+              <Text fontSize={10}>{getFormattedDateTime(item.date)}</Text>
               {!eventSettings.withoutAmount && (
                 <React.Fragment>
                   {eventSettings && eventSettings.actionSymbol && (
-                    <Text style={[styles.actionSymbol, { color: mainColor }]}>{eventSettings.actionSymbol}</Text>
+                    <Text fontWeight="bold" fontSize={22} color={mainColor} style={styles.actionSymbol}>
+                      {eventSettings.actionSymbol}
+                    </Text>
                   )}
                   <BigGoodDollar
-                    bigNumberStyles={styles.bigNumberStyles}
-                    bigNumberUnitStyles={styles.bigNumberUnitStyles}
-                    color={mainColor}
                     number={item.data.amount}
+                    color={mainColor}
+                    bigNumberProps={{ fontSize: 22 }}
+                    bigNumberStyles={styles.bigNumberStyles}
+                    bigNumberUnitProps={{ fontSize: 12 }}
                   />
                 </React.Fragment>
               )}
@@ -69,14 +73,14 @@ const FeedModalItem = (props: FeedEventProps) => {
           </View>
           {item.data.message && (
             <View style={styles.messageContainer}>
-              <Text color="darkGray" fontSize={14} textAlign="left">
+              <Text fontSize={14} textAlign="left">
                 {item.data.message}
               </Text>
             </View>
           )}
           {item.status === 'pending' && (
             <View style={styles.messageContainer}>
-              <Text fontSize={14} fontFamily="regular" color="placeholder">
+              <Text fontSize={14} color="gray50Percent">
                 Your balance will be updated in a minute
               </Text>
             </View>
@@ -100,16 +104,8 @@ const getStylesFromProps = ({ theme }) => {
     feedItem: {
       paddingRight: 4,
     },
-    date: {
-      color: theme.colors.darkGray,
-      fontSize: normalize(10),
-    },
     bigNumberStyles: {
-      fontSize: normalize(22),
       marginRight: 4,
-    },
-    bigNumberUnitStyles: {
-      fontSize: normalize(12),
     },
     transactionDetails: {
       alignItems: 'center',
@@ -143,9 +139,6 @@ const getStylesFromProps = ({ theme }) => {
       marginTop: theme.sizes.defaultDouble,
     },
     actionSymbol: {
-      fontFamily: theme.fonts.default,
-      fontSize: normalize(22),
-      fontWeight: '700',
       marginLeft: 'auto',
     },
   }

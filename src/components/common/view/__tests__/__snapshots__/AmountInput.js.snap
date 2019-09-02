@@ -43,6 +43,12 @@ exports[`AmountInput matches snapshot 1`] = `
   >
     <div
       className="css-view-1dbjc4n"
+      style={
+        Object {
+          "height": "0px",
+          "minHeight": "0px",
+        }
+      }
     >
       <div
         className="css-view-1dbjc4n"
@@ -116,6 +122,7 @@ exports[`AmountInput matches snapshot 1`] = `
                 "fontSize": "32px",
                 "fontWeight": "bold",
                 "letterSpacing": "1.2px",
+                "marginTop": "auto",
                 "msTouchAction": "manipulation",
                 "paddingBottom": "4px",
                 "paddingLeft": "32px",
@@ -246,10 +253,10 @@ exports[`AmountInput matches snapshot 1`] = `
               Object {
                 "color": "rgba(66,69,74,1.00)",
                 "direction": "ltr",
-                "fontFamily": "RobotoSlab-Bold",
+                "fontFamily": "Roboto Slab",
                 "fontSize": "20px",
                 "fontWeight": "700",
-                "lineHeight": "22px",
+                "lineHeight": "24px",
                 "textAlign": "center",
                 "textDecoration": "none",
                 "textTransform": "none",
@@ -310,10 +317,10 @@ exports[`AmountInput matches snapshot 1`] = `
               Object {
                 "color": "rgba(66,69,74,1.00)",
                 "direction": "ltr",
-                "fontFamily": "RobotoSlab-Bold",
+                "fontFamily": "Roboto Slab",
                 "fontSize": "20px",
                 "fontWeight": "700",
-                "lineHeight": "22px",
+                "lineHeight": "24px",
                 "textAlign": "center",
                 "textDecoration": "none",
                 "textTransform": "none",
@@ -374,10 +381,10 @@ exports[`AmountInput matches snapshot 1`] = `
               Object {
                 "color": "rgba(66,69,74,1.00)",
                 "direction": "ltr",
-                "fontFamily": "RobotoSlab-Bold",
+                "fontFamily": "Roboto Slab",
                 "fontSize": "20px",
                 "fontWeight": "700",
-                "lineHeight": "22px",
+                "lineHeight": "24px",
                 "textAlign": "center",
                 "textDecoration": "none",
                 "textTransform": "none",
@@ -460,10 +467,10 @@ exports[`AmountInput matches snapshot 1`] = `
               Object {
                 "color": "rgba(66,69,74,1.00)",
                 "direction": "ltr",
-                "fontFamily": "RobotoSlab-Bold",
+                "fontFamily": "Roboto Slab",
                 "fontSize": "20px",
                 "fontWeight": "700",
-                "lineHeight": "22px",
+                "lineHeight": "24px",
                 "textAlign": "center",
                 "textDecoration": "none",
                 "textTransform": "none",
@@ -524,10 +531,10 @@ exports[`AmountInput matches snapshot 1`] = `
               Object {
                 "color": "rgba(66,69,74,1.00)",
                 "direction": "ltr",
-                "fontFamily": "RobotoSlab-Bold",
+                "fontFamily": "Roboto Slab",
                 "fontSize": "20px",
                 "fontWeight": "700",
-                "lineHeight": "22px",
+                "lineHeight": "24px",
                 "textAlign": "center",
                 "textDecoration": "none",
                 "textTransform": "none",
@@ -588,10 +595,10 @@ exports[`AmountInput matches snapshot 1`] = `
               Object {
                 "color": "rgba(66,69,74,1.00)",
                 "direction": "ltr",
-                "fontFamily": "RobotoSlab-Bold",
+                "fontFamily": "Roboto Slab",
                 "fontSize": "20px",
                 "fontWeight": "700",
-                "lineHeight": "22px",
+                "lineHeight": "24px",
                 "textAlign": "center",
                 "textDecoration": "none",
                 "textTransform": "none",
@@ -674,10 +681,10 @@ exports[`AmountInput matches snapshot 1`] = `
               Object {
                 "color": "rgba(66,69,74,1.00)",
                 "direction": "ltr",
-                "fontFamily": "RobotoSlab-Bold",
+                "fontFamily": "Roboto Slab",
                 "fontSize": "20px",
                 "fontWeight": "700",
-                "lineHeight": "22px",
+                "lineHeight": "24px",
                 "textAlign": "center",
                 "textDecoration": "none",
                 "textTransform": "none",
@@ -738,10 +745,10 @@ exports[`AmountInput matches snapshot 1`] = `
               Object {
                 "color": "rgba(66,69,74,1.00)",
                 "direction": "ltr",
-                "fontFamily": "RobotoSlab-Bold",
+                "fontFamily": "Roboto Slab",
                 "fontSize": "20px",
                 "fontWeight": "700",
-                "lineHeight": "22px",
+                "lineHeight": "24px",
                 "textAlign": "center",
                 "textDecoration": "none",
                 "textTransform": "none",
@@ -802,10 +809,10 @@ exports[`AmountInput matches snapshot 1`] = `
               Object {
                 "color": "rgba(66,69,74,1.00)",
                 "direction": "ltr",
-                "fontFamily": "RobotoSlab-Bold",
+                "fontFamily": "Roboto Slab",
                 "fontSize": "20px",
                 "fontWeight": "700",
-                "lineHeight": "22px",
+                "lineHeight": "24px",
                 "textAlign": "center",
                 "textDecoration": "none",
                 "textTransform": "none",
@@ -888,10 +895,10 @@ exports[`AmountInput matches snapshot 1`] = `
               Object {
                 "color": "rgba(66,69,74,1.00)",
                 "direction": "ltr",
-                "fontFamily": "RobotoSlab-Bold",
+                "fontFamily": "Roboto Slab",
                 "fontSize": "20px",
                 "fontWeight": "700",
-                "lineHeight": "22px",
+                "lineHeight": "24px",
                 "textAlign": "center",
                 "textDecoration": "none",
                 "textTransform": "none",
@@ -952,10 +959,10 @@ exports[`AmountInput matches snapshot 1`] = `
               Object {
                 "color": "rgba(66,69,74,1.00)",
                 "direction": "ltr",
-                "fontFamily": "RobotoSlab-Bold",
+                "fontFamily": "Roboto Slab",
                 "fontSize": "20px",
                 "fontWeight": "700",
-                "lineHeight": "22px",
+                "lineHeight": "24px",
                 "textAlign": "center",
                 "textDecoration": "none",
                 "textTransform": "none",

@@ -58,7 +58,7 @@ exports[`Splash matches snapshot 1`] = `
           "WebkitTransform": "rotateY(180deg)",
           "alignItems": "center",
           "backgroundColor": "rgba(0,0,0,0.00)",
-          "backgroundImage": "url(wave.svg)",
+          "backgroundImage": "url(wave50.svg)",
           "backgroundRepeat": "repeat-y",
           "backgroundSize": "cover",
           "borderBottomLeftRadius": "5px",
@@ -139,7 +139,7 @@ for participating in GoodDollar's
                 "direction": "ltr",
                 "fontFamily": "Roboto",
                 "fontSize": "22px",
-                "fontWeight": "700",
+                "fontWeight": "800",
                 "lineHeight": "30px",
                 "textAlign": "center",
                 "textDecoration": "none",
@@ -147,7 +147,7 @@ for participating in GoodDollar's
               }
             }
           >
-            Early Access Alpha
+            Early Access Alpha V2.0
           </span>
         </div>
         <div

@@ -5,7 +5,7 @@ import * as web3Utils from 'web3-utils'
 import normalize from '../../lib/utils/normalizeText'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import goodWallet from '../../lib/wallet/GoodWallet'
-import { AwaitButton, Section, Wrapper } from '../common'
+import { AwaitButton, CustomButton, Section, Wrapper } from '../common'
 import Separator from '../common/layout/Separator'
 import Oops from '../../assets/oops.svg'
 import logger from '../../lib/logger/pino-logger'
@@ -17,20 +17,23 @@ const OutOfGasError = props => {
   const { styles } = props
   const MIN_BALANCE_VALUE = '100000'
   const isValid = _get(props, 'screenProps.screenState.isValid', undefined)
-
   const ERROR =
     "In order for transactions to go through, you need some virtual money named 'gas'.Don't worry, we'll take care off you. "
   const ERROR_BOLD = "We're giving it to you for FREE, FOREVER."
   const TITLE = "Ooops,\nYou're out of gas..."
-
+  const ERROR_CHEAT = 'Something went wrong try again later'
   if (isValid) {
     props.screenProps.pop({ isValid })
   }
 
   const [isLoading, setLoading] = useState(false)
+  const [isCheatError, setCheatError] = useState(false)
 
   const gotoDb = () => {
     props.screenProps.navigateTo('Home')
+  }
+  const gotoSupport = () => {
+    props.screenProps.navigateTo('Support')
   }
 
   useEffect(() => {
@@ -41,13 +44,17 @@ const OutOfGasError = props => {
     setLoading(true)
     let isOk = false
     try {
-      isOk = await goodWallet.verifyHasGas(web3Utils.toWei(MIN_BALANCE_VALUE, 'gwei'))
+      const { ok, error } = await goodWallet.verifyHasGas(web3Utils.toWei(MIN_BALANCE_VALUE, 'gwei'))
+      if (error) {
+        setCheatError(true)
+      }
+      isOk = ok
     } catch (e) {
       log.error(e)
     }
     setLoading(false)
     if (isOk) {
-      // gotoDb()
+      gotoDb()
     }
   }
 
@@ -61,17 +68,27 @@ const OutOfGasError = props => {
           <Image source={Oops} resizeMode={'center'} style={styles.image} />
           <Section style={styles.mainSection}>
             <Separator style={styles.separator} width={2} />
-            <Text style={styles.description}>
-              <Text style={styles.errorText}>{ERROR}</Text>
-              <Text>{ERROR_BOLD}</Text>
-            </Text>
+            {isCheatError ? (
+              <Text style={styles.description}>
+                <Text style={styles.errorText}>{ERROR_CHEAT}</Text>
+              </Text>
+            ) : (
+              <Text style={styles.description}>
+                <Text style={styles.errorText}>{ERROR}</Text>
+                <Text>{ERROR_BOLD}</Text>
+              </Text>
+            )}
             <Separator style={styles.separator} width={2} />
           </Section>
         </Section>
         <Section>
-          <AwaitButton isLoading={isLoading} onPress={gotoDb}>
-            {"You're good to go"}
-          </AwaitButton>
+          {isCheatError ? (
+            <CustomButton onPress={gotoSupport}>{'Contact support'}</CustomButton>
+          ) : (
+            <AwaitButton isLoading={isLoading} onPress={gotoDb}>
+              {"You're good to go"}
+            </AwaitButton>
+          )}
         </Section>
       </View>
     </Wrapper>

@@ -108,11 +108,11 @@ const Dashboard = props => {
   }
 
   const showOutOfGasError = async () => {
-    const isOk = await goodWallet.verifyHasGas(web3Utils.toWei(MIN_BALANCE_VALUE, 'gwei'), {
+    const { ok } = await goodWallet.verifyHasGas(web3Utils.toWei(MIN_BALANCE_VALUE, 'gwei'), {
       topWallet: false,
     })
 
-    if (isOk) {
+    if (!ok) {
       props.screenProps.navigateTo('OutOfGasError')
     }
   }

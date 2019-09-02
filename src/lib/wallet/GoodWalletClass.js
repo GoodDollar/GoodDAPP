@@ -767,17 +767,28 @@ export class GoodWallet {
 
     let nativeBalance = await this.wallet.eth.getBalance(this.account)
     if (nativeBalance > wei) {
-      return true
+      return {
+        ok: true,
+      }
     }
 
     if (topWallet) {
       const toppingRes = await API.verifyTopWallet()
+      if (!toppingRes.ok && toppingRes.sendEtherOutOfSystem) {
+        return {
+          error: true,
+        }
+      }
       nativeBalance = await this.wallet.eth.getBalance(this.account)
 
-      return toppingRes.ok && nativeBalance > wei
+      return {
+        ok: toppingRes.ok && nativeBalance > wei,
+      }
     }
 
-    return false
+    return {
+      ok: false,
+    }
   }
 
   /**
@@ -802,8 +813,8 @@ export class GoodWallet {
     gas = gas || (await tx.estimateGas().catch(this.handleError))
     gasPrice = gasPrice || this.gasPrice
 
-    const hasGas = await this.verifyHasGas(gas * gasPrice)
-    if (hasGas === false) {
+    const { ok } = await this.verifyHasGas(gas * gasPrice)
+    if (ok === false) {
       return Promise.reject('Reached daily transactions limit or not a citizen').catch(this.handleError)
     }
 

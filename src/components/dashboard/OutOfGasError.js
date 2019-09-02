@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { Image, Text, View } from 'react-native'
 import _get from 'lodash/get'
 import * as web3Utils from 'web3-utils'
 import normalize from '../../lib/utils/normalizeText'
@@ -8,10 +8,12 @@ import { AwaitButton, Section, Wrapper } from '../common'
 import Separator from '../common/layout/Separator'
 import Oops from '../../assets/oops.svg'
 import logger from '../../lib/logger/pino-logger'
+import { withStyles } from '../../lib/styles'
 
 const log = logger.child({ from: 'OutOfGasError' })
 
 const OutOfGasError = props => {
+  const { styles } = props
   const MIN_BALANCE_VALUE = '100000'
   const isValid = _get(props, 'screenProps.screenState.isValid', undefined)
 
@@ -53,29 +55,16 @@ const OutOfGasError = props => {
   return (
     <Wrapper>
       <View style={styles.topContainer}>
-        <Section
-          style={{
-            paddingBottom: 0,
-            paddingTop: 0,
-            marginBottom: 0,
-            justifyContent: 'space-evenly',
-            flex: 1,
-          }}
-        >
+        <Section style={styles.mainContainer} justifyContent={'space-evenly'}>
           <Section.Title style={styles.mainTitle}> {TITLE}</Section.Title>
-          <Image source={Oops} resizeMode={'center'} style={{ height: normalize(146) }} />
-          <Section
-            style={{
-              padding: 0,
-              marginBottom: 0,
-            }}
-          >
-            <Separator style={{ marginHorizontal: normalize(12) }} width={2} />
-            <Section.Text style={styles.description}>
-              <Text style={{ fontWeight: 'normal' }}>{ERROR}</Text>
+          <Image source={Oops} resizeMode={'center'} style={styles.image} />
+          <Section style={styles.mainSection}>
+            <Separator style={styles.separator} width={2} />
+            <Text style={styles.description}>
+              <Text style={styles.errorText}>{ERROR}</Text>
               <Text>{ERROR_BOLD}</Text>
-            </Section.Text>
-            <Separator style={{ marginHorizontal: normalize(12) }} width={2} />
+            </Text>
+            <Separator style={styles.separator} width={2} />
           </Section>
         </Section>
         <Section>
@@ -93,7 +82,7 @@ OutOfGasError.navigationOptions = {
   title: 'Out of gas',
 }
 
-const styles = StyleSheet.create({
+const getStylesFromProps = ({ theme }) => ({
   topContainer: {
     display: 'flex',
     backgroundColor: 'white',
@@ -102,30 +91,42 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     flexShrink: 0,
     justifyContent: 'space-evenly',
-    paddingTop: normalize(33),
+    paddingTop: 33,
     borderRadius: 5,
   },
-  bottomContainer: {
-    display: 'flex',
+  mainContainer: {
+    paddingBottom: 0,
+    paddingTop: 0,
+    marginBottom: 0,
     flex: 1,
-    paddingTop: normalize(20),
-    justifyContent: 'flex-end',
+  },
+  errorText: {
+    fontWeight: 'normal',
+  },
+  mainSection: {
+    padding: 0,
+    marginBottom: 0,
+  },
+  image: {
+    height: 146,
+  },
+  separator: {
+    marginHorizontal: 12,
   },
   description: {
     fontSize: normalize(16),
-    fontFamily: 'Roboto',
+    fontFamily: theme.fonts.default,
     fontWeight: 'bold',
-    color: '#00AFFF',
-    paddingTop: normalize(25),
-    paddingBottom: normalize(25),
+    color: theme.colors.primary,
+    paddingTop: 25,
+    paddingBottom: 25,
     verticalAlign: 'text-top',
   },
   mainTitle: {
-    fontFamily: 'Roboto-Medium',
-    fontSize: normalize(24),
-    color: '#42454A',
+    fontFamily: theme.fonts.default,
+    fontSize: 24,
+    color: theme.colors.darkGray,
     textTransform: 'none',
   },
 })
-
-export default OutOfGasError
+export default withStyles(getStylesFromProps)(OutOfGasError)

@@ -25,7 +25,7 @@ type Props = {
 Image.prefetch(illustration)
 const log = logger.child({ from: 'Auth' })
 
-class SignInState extends React.Component<Props> {
+class Signin extends React.Component<Props> {
   handleSignUpThirdParty = () => {
     // TODO: implement 3rd party sign up
     log.warn('3rd Party login not available yet')
@@ -51,10 +51,10 @@ class SignInState extends React.Component<Props> {
         <Section.Stack grow justifyContent="flex-start">
           <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
             <View style={styles.bottomContainer}>
-              <Text fontWeight="medium" fontSize={normalize(22)} fontFamily="roboto">
+              <Text fontWeight="medium" fontSize={normalize(22)} fontFamily="Roboto">
                 {'To sign in\n please follow this steps:'}
               </Text>
-              <Text fontSize={normalize(14)} color="gray80Percent" fontFamily="roboto">
+              <Text fontSize={normalize(14)} color="gray80Percent" fontFamily="Roboto">
                 {`(works from any device or platform)`}
               </Text>
               <Section.Text>
@@ -109,9 +109,6 @@ const getStylesFromProps = ({ theme }) => {
       minHeight: 95,
       paddingTop: theme.sizes.default,
     },
-    textTop: {
-      fontFamily: 'Roboto-Medium',
-    },
     text: {
       color: theme.colors.green,
     },
@@ -121,27 +118,9 @@ const getStylesFromProps = ({ theme }) => {
   }
 }
 
-SignInState.navigationOptions = {
+Signin.navigationOptions = {
   title: 'Sign in',
   navigationBarHidden: false,
 }
 
-export default withStyles(getStylesFromProps)(SignInState)
-
-// const auth = withStyles(getStylesFromProps)(SignInState)
-// auth.navigationOptions = {
-//   title: 'Sign In',
-//   navigationBarHidden: true,
-// }
-// export default createStackNavigator(
-//   {
-//     Login: auth,
-//     TermsOfUse,
-//     PrivacyPolicy,
-//     Recover: Mnemonics,
-//     Support,
-//   },
-//   {
-//     backRouteName: 'Auth',
-//   }
-// )
+export default withStyles(getStylesFromProps)(Signin)

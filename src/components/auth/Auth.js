@@ -42,7 +42,7 @@ class Auth extends React.Component<Props> {
   }
 
   handleSignIn = () => {
-    this.props.navigation.navigate('SignInState')
+    this.props.navigation.navigate('Signin')
   }
 
   handleNavigateTermsOfUse = () => this.props.screenProps.push('TermsOfUse')

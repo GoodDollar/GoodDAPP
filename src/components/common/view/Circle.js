@@ -2,7 +2,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { withStyles } from '../../../lib/styles'
-import normalize from '../../../lib/utils/normalizeText'
+import { theme } from '../../theme/styles'
 import Text from './Text'
 
 /**
@@ -20,17 +20,12 @@ class Circle extends React.Component {
     return (
       <View style={styles.mainBlock}>
         <View style={styles.circle}>
-          <Text
-            fontFamily="slab"
-            fontSize={normalize(24)}
-            // fontWeight="bold"
-            color="#ffffff"
-          >
+          <Text fontFamily="slab" fontSize={24} color="#ffffff">
             {number}
           </Text>
         </View>
         <View style={styles.text}>
-          <Text fontFamily="Roboto" fontSize={normalize(18)} color="#42454A">
+          <Text fontFamily="Roboto" fontSize={18} color={theme.colors.darkGray}>
             {children}
           </Text>
         </View>
@@ -52,9 +47,9 @@ const getStylesFromProps = ({ theme }) => {
       color: '#fff',
       borderRadius: '50%',
       height: 43,
-      padding: 5,
+      padding: theme.sizes.default,
       boxShadow: '6px 1px 0 rgba(12, 38, 61, 0.15)',
-      marginTop: 10,
+      marginTop: theme.sizes.default,
       width: 43,
     },
     text: {

@@ -2,16 +2,14 @@
 import React, { useEffect, useState } from 'react'
 import { ScrollView, StyleSheet, View } from 'react-native'
 import { createSwitchNavigator } from '@react-navigation/core'
-import { isMobileSafari } from 'mobile-device-detect'
 
 import NavBar from '../appNavigation/NavBar'
 import { navigationConfig } from '../appNavigation/navigationConfig'
 import logger from '../../lib/logger/pino-logger'
 
-import SimpleStore from '../../lib/undux/SimpleStore'
 import SigninInfo from './SigninInfo'
 import Mnemonics from './Mnemonics'
-const log = logger.child({ from: 'SignInState' })
+const log = logger.child({ from: 'Signin' })
 
 type Ready = Promise<{ goodWallet: any, userStorage: any }>
 
@@ -23,21 +21,12 @@ const SigninWizardNavigator = createSwitchNavigator(
   navigationConfig
 )
 
-const Signin = ({ navigation, screenProps }: { navigation: any, screenProps: any }) => {
-  const store = SimpleStore.useStore()
-  const [ready, setReady]: [Ready, ((Ready => Ready) | Ready) => void] = useState()
-  const shouldGrow = store.get && !store.get('isMobileSafariKeyboardShown')
+const stepTitle = ['Sign Up', 'recover']
 
+const Signin = ({ navigation, screenProps }: { navigation: any, screenProps: any }) => {
+  const [ready, setReady]: [Ready, ((Ready => Ready) | Ready) => void] = useState()
   const navigateWithFocus = (routeKey: string) => {
     navigation.navigate(routeKey)
-    if (isMobileSafari || routeKey === 'Phone') {
-      setTimeout(() => {
-        const el = document.getElementById(routeKey + '_input')
-        if (el) {
-          el.focus()
-        }
-      }, 300)
-    }
   }
   useEffect(() => {
     //don't allow to start signup flow not from begining
@@ -61,8 +50,8 @@ const Signin = ({ navigation, screenProps }: { navigation: any, screenProps: any
   const { scrollableContainer, contentContainer } = styles
 
   return (
-    <View style={{ flexGrow: shouldGrow ? 1 : 0 }}>
-      <NavBar goBack={back} title={'Sign Up'} />
+    <View style={{ flexGrow: 1 }}>
+      <NavBar goBack={back} title={stepTitle[navigation.state.index]} />
       <ScrollView contentContainerStyle={scrollableContainer}>
         <View style={contentContainer}>
           <SigninWizardNavigator

@@ -22,7 +22,7 @@ const ProfileWrapper = props => {
 
   const handleAvatarPress = event => {
     event.stopPropagation()
-    screenProps.push(`${profile.avatar ? 'View' : 'Edit'}Avatar`)
+    screenProps.push(`ViewAvatar`)
   }
 
   const updateProfile = async () => {

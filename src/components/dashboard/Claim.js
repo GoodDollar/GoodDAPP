@@ -9,6 +9,7 @@ import GDStore from '../../lib/undux/GDStore'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import wrapper from '../../lib/undux/utils/wrapper'
+import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import { weiToGd } from '../../lib/wallet/utils'
 import { CustomButton, Wrapper } from '../common'
 import BigGoodDollar from '../common/view/BigGoodDollar'
@@ -41,7 +42,7 @@ const Claim = props => {
   const gdstore = GDStore.useStore()
 
   const { entitlement } = gdstore.get('account')
-  const isCitizen = gdstore.get('isLoggedInCitizen')
+  const isCitizen = gdstore.get('isLoggedInCitizen') || true
 
   const [showDialog] = useDialog()
   const [loading, setLoading] = useState(false)
@@ -163,6 +164,8 @@ const Claim = props => {
     screenProps.push('FRIntro', { from: 'Claim' })
   }
 
+  const illustrationSizes = isCitizen ? styles.illustrationForCitizen : styles.illustrationForNonCitizen
+
   return (
     <Wrapper>
       <Section style={styles.mainContainer}>
@@ -185,12 +188,15 @@ const Claim = props => {
           <Section.Text color="surface" fontFamily="slab" fontWeight="bold" fontSize={36}>
             Every Day
           </Section.Text>
+          <Section.Text style={styles.blankBottom}>{/* used to prevent image overlapping text */ ' '}</Section.Text>
         </Section.Stack>
         <Section.Stack style={styles.extraInfo}>
-          <Image source={illustration} style={styles.illustration} resizeMode="contain" />
+          <Image source={illustration} style={[styles.illustration, illustrationSizes]} resizeMode="contain" />
           <Section.Row style={styles.extraInfoStats}>
-            <Section.Text fontWeight="bold">{numeral(state.claimedToday.people).format('0a')} </Section.Text>
-            <Section.Text>people have already claimed today!</Section.Text>
+            <Text style={styles.extraInfoWrapper}>
+              <Section.Text fontWeight="bold">{numeral(state.claimedToday.people).format('0a')} </Section.Text>
+              <Section.Text>people have already claimed today!</Section.Text>
+            </Text>
           </Section.Row>
           {!isCitizen && <Countdown styles={styles} nextClaim={state.nextClaim} />}
           <ClaimButton
@@ -297,8 +303,7 @@ const getStylesFromProps = ({ theme }) => {
     mainText: {
       alignItems: 'center',
       flexDirection: 'column',
-      marginBottom: 64,
-      paddingTop: 50,
+      marginVertical: 'auto',
     },
     mainTextTitle: {
       marginBottom: 12,
@@ -306,30 +311,41 @@ const getStylesFromProps = ({ theme }) => {
     mainTextBigMarginBottom: {
       marginBottom: theme.sizes.defaultHalf,
     },
+    blankBottom: {
+      minHeight: getDesignRelativeHeight(4 * theme.sizes.defaultDouble),
+    },
     illustration: {
       flexGrow: 0,
       flexShrink: 0,
       marginBottom: theme.sizes.default,
-      marginTop: -80,
-      maxWidth: '100%',
-      minHeight: 159,
-      minWidth: 229,
+    },
+    illustrationForCitizen: {
+      height: getDesignRelativeHeight(184),
+      marginTop: getDesignRelativeHeight(-94),
+    },
+    illustrationForNonCitizen: {
+      height: getDesignRelativeHeight(159),
+      marginTop: getDesignRelativeHeight(-70),
     },
     extraInfo: {
       backgroundColor: theme.colors.surface,
       borderRadius: theme.sizes.borderRadius,
       flexGrow: 1,
       flexShrink: 1,
-      minHeight: 0,
-      maxHeight: '55vh',
+      maxHeight: 'fit-content',
       paddingVertical: theme.sizes.defaultDouble,
       paddingHorizontal: theme.sizes.default,
     },
     extraInfoStats: {
       ...defaultStatsBlock,
       ...defaultMargins,
-      paddingVertical: 8,
+      paddingBottom: 8,
       flexGrow: 1,
+    },
+    extraInfoWrapper: {
+      display: 'inline',
+      textAlign: 'center',
+      width: getDesignRelativeWidth(340),
     },
     extraInfoCountdown: {
       ...defaultStatsBlock,

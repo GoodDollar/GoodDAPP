@@ -175,7 +175,7 @@ const SendLinkSummary = (props: AmountProps) => {
 
 const getStylesFromProps = ({ theme }) => ({
   descriptionText: {
-    maxWidth: 210,
+    maxWidth: 230,
   },
 })
 

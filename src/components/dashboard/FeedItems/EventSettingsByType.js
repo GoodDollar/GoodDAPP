@@ -20,6 +20,11 @@ const getEventSettingsByType = (theme, type) => {
       color: theme.colors.orange,
       name: 'clock-filled',
     },
+    senderror: {
+      color: theme.colors.primary,
+      name: 'system-filled',
+      withoutAmount: true,
+    },
     sendpending: {
       actionSymbol: '-',
       color: theme.colors.orange,

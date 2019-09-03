@@ -83,7 +83,6 @@
     "react-art": "^16.8.1",
     "react-cropper": "^1.2.0",
     "react-dom": "^16.8.1",
-    "react-dropzone": "^10.1.8",
     "react-helmet": "^5.2.0",
     "react-native": "^0.59.6",
     "react-native-camera": "^1.12.0",

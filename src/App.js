@@ -28,7 +28,7 @@ const App = () => {
             <LoadingIndicator />
             {/* <ReCaptcha sitekey={Config.recaptcha} action="auth" verifyCallback={this.onRecaptcha} /> */}
             <RouterSelector />
-            <AddToHomescreen onAddToHomescreenClick={handleAddToHomescreenClick} />
+            <AddToHomescreen icon="gooddollar" onAddToHomescreenClick={handleAddToHomescreenClick} />
           </React.Fragment>
         </SafeAreaView>
       </PaperProvider>

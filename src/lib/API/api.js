@@ -262,7 +262,7 @@ class API {
     return fetch(url, {
       url,
       method: 'GET',
-    }).then(res => res.arrayBuffer())
+    })
   }
 }
 

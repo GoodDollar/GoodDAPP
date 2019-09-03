@@ -27,7 +27,7 @@ env:
 matrix:
   include:
     - script: 
-      - npm run build
+      #- npm run build
       - scoop bucket add netlifyctl https://github.com/netlify/scoop-netlifyctl
       - scoop install netlifyctl
       - URL=netlifyctl -A $NETLIFY_ACCESS_TOKEN deploy --draft | jq '.deploy_url

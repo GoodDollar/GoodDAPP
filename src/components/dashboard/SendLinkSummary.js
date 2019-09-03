@@ -33,7 +33,7 @@ const SendLinkSummary = (props: AmountProps) => {
   const [screenState] = useScreenState(screenProps)
   const [showDialog, , showErrorDialog] = useDialog()
 
-  const [isCitizen, setIsCitizen] = useState()
+  const [isCitizen, setIsCitizen] = useState(GDStore.useStore().get('isLoggedInCitizen'))
   const [shared, setShared] = useState(false)
   const [link, setLink] = useState('')
   const { amount, reason, counterPartyDisplayName } = screenState
@@ -141,8 +141,10 @@ const SendLinkSummary = (props: AmountProps) => {
   }
 
   useEffect(() => {
-    goodWallet.isCitizen().then(setIsCitizen)
-  }, [isCitizen])
+    if (isCitizen === false) {
+      goodWallet.isCitizen().then(setIsCitizen)
+    }
+  }, [])
 
   return (
     <Wrapper>

@@ -40,6 +40,7 @@ const Claim = props => {
   const { screenProps, styles }: ClaimProps = props
   const store = SimpleStore.useStore()
   const gdstore = GDStore.useStore()
+  const isCitizen = gdstore.get('isLoggedInCitizen')
   const { entitlement } = gdstore.get('account')
   const [showDialog] = useDialog()
   const [loading, setLoading] = useState(false)
@@ -65,11 +66,15 @@ const Claim = props => {
       handleClaim()
     } else if (isValid === false) {
       screenProps.goToRoot()
+    } else {
+      if (isCitizen === false) {
+        goodWallet.isCitizen().then(_ => gdstore.set('isLoggedInCitizen')(_))
+      }
     }
   }
 
-  // FR Evaluation
   useEffect(() => {
+    // FR Evaluation
     evaluateFRValidity()
   }, [])
 
@@ -161,7 +166,6 @@ const Claim = props => {
     screenProps.push('FRIntro', { from: 'Claim' })
   }
 
-  const isCitizen = gdstore.get('isLoggedInCitizen')
   const { nextClaim, claimedToday } = state
 
   const ClaimButton = (

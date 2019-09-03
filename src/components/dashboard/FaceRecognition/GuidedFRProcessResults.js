@@ -315,6 +315,7 @@ const styles = StyleSheet.create({
   },
   button: {
     fontFamily: 'Roboto',
+    weight: 500,
     fontSize: normalize(16),
   },
   statusIcon: {

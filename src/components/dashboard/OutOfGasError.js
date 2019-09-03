@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Image, Text, View } from 'react-native'
+import { Image, View } from 'react-native'
 import _get from 'lodash/get'
 import * as web3Utils from 'web3-utils'
 import normalize from '../../lib/utils/normalizeText'
@@ -14,7 +14,7 @@ import { withStyles } from '../../lib/styles'
 const log = logger.child({ from: 'OutOfGasError' })
 
 const OutOfGasError = props => {
-  const { styles } = props
+  const { styles, theme } = props
   const MIN_BALANCE_VALUE = '100000'
   const isValid = _get(props, 'screenProps.screenState.isValid', undefined)
   const ERROR =
@@ -69,14 +69,14 @@ const OutOfGasError = props => {
           <Section style={styles.mainSection}>
             <Separator style={styles.separator} width={2} />
             {isCheatError ? (
-              <Text style={styles.description}>
-                <Text style={styles.errorText}>{ERROR_CHEAT}</Text>
-              </Text>
+              <Section.Text style={styles.description} fontSize={16} fontWeight={'bold'} color={theme.colors.primary}>
+                <Section.Text fontWeight={'normal'}>{ERROR_CHEAT}</Section.Text>
+              </Section.Text>
             ) : (
-              <Text style={styles.description}>
-                <Text style={styles.errorText}>{ERROR}</Text>
-                <Text>{ERROR_BOLD}</Text>
-              </Text>
+              <Section.Text style={styles.description} fontSize={16} fontWeight={'bold'} color={theme.colors.primary}>
+                <Section.Text fontWeight={'normal'}>{ERROR}</Section.Text>
+                <Section.Text>{ERROR_BOLD}</Section.Text>
+              </Section.Text>
             )}
             <Separator style={styles.separator} width={2} />
           </Section>
@@ -118,9 +118,6 @@ const getStylesFromProps = ({ theme }) => ({
     marginBottom: 0,
     flex: 1,
   },
-  errorText: {
-    fontWeight: 'normal',
-  },
   mainSection: {
     padding: 0,
     marginBottom: 0,
@@ -132,10 +129,6 @@ const getStylesFromProps = ({ theme }) => ({
     marginHorizontal: 12,
   },
   description: {
-    fontSize: normalize(16),
-    fontFamily: theme.fonts.default,
-    fontWeight: 'bold',
-    color: theme.colors.primary,
     paddingTop: 25,
     paddingBottom: 25,
     paddingLeft: theme.paddings.defaultMargin,

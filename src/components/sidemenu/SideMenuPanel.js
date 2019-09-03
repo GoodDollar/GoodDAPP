@@ -1,21 +1,24 @@
 // @flow
 import React from 'react'
-import { ScrollView, TouchableOpacity, View } from 'react-native'
+import { AsyncStorage, ScrollView, TouchableOpacity, View } from 'react-native'
 import { useWrappedApi } from '../../lib/API/useWrappedApi'
 import logger from '../../lib/logger/pino-logger'
 import { withStyles } from '../../lib/styles'
 import SimpleStore from '../../lib/undux/SimpleStore'
-import { useDialog } from '../../lib/undux/utils/dialog'
+import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import { useSidemenu } from '../../lib/undux/utils/sidemenu'
 import { Icon } from '../common'
+import IconWrapper from '../common/modal/IconWrapper'
 import SideMenuItem from './SideMenuItem'
 
 type SideMenuPanelProps = {
   navigation: any,
 }
 
+const TrashIcon = withStyles()(({ theme }) => <IconWrapper iconName="trash" color={theme.colors.error} size={50} />)
+
 const log = logger.child({ from: 'SideMenuPanel' })
-const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation, store }) => ({
+const getMenuItems = ({ API, hideSidemenu, showDialog, navigation, store, theme }) => ({
   topItems: [
     {
       icon: 'profile',
@@ -106,21 +109,29 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, hideDialog, navigation, s
       name: 'Delete Account',
       color: 'red',
       action: () => {
-        showDialog({
-          title: 'Delete Account',
-          message: 'Are you sure?',
-          dismissText: 'DELETE',
-          onCancel: () => hideDialog(),
-          onDismiss: async () => {
-            store.set('loadingIndicator')({ loading: true })
-            const userStorage = await import('../../lib/gundb/UserStorage').then(_ => _.default)
-            await userStorage
-              .deleteAccount()
-              .then(r => log.debug('deleted account', r))
-              .catch(e => log.error('Error deleting account', e))
-            store.set('loadingIndicator')({ loading: false })
-            window.location = '/'
-          },
+        showDialog('', '', {
+          title: 'ARE YOU SURE?',
+          message: 'If you delete your account',
+          boldMessage: 'all your G$ will be lost forever!',
+          image: <TrashIcon />,
+          buttons: [
+            { text: 'Cancel', onPress: dismiss => dismiss(), mode: 'text', color: theme.colors.lighterGray },
+            {
+              text: 'Delete',
+              color: theme.colors.red,
+              onPress: async () => {
+                store.set('loadingIndicator')({ loading: true })
+                const userStorage = await import('../../lib/gundb/UserStorage').then(_ => _.default)
+                await userStorage
+                  .deleteAccount()
+                  .then(r => log.debug('deleted account', r))
+                  .then(r => AsyncStorage.clear())
+                  .catch(e => log.error('Error deleting account', e.message, e))
+                store.set('loadingIndicator')({ loading: false })
+                window.location = '/'
+              },
+            },
+          ],
         })
 
         hideSidemenu()
@@ -134,8 +145,15 @@ const SideMenuPanel = ({ navigation, styles, theme }: SideMenuPanelProps) => {
   const store = SimpleStore.useStore()
 
   const [toggleSidemenu, hideSidemenu] = useSidemenu()
-  const [showDialog, hideDialog] = useDialog()
-  const { topItems, bottomItems } = getMenuItems({ API, hideSidemenu, showDialog, hideDialog, navigation, store })
+  const [showDialog] = useErrorDialog()
+  const { topItems, bottomItems } = getMenuItems({
+    API,
+    hideSidemenu,
+    showDialog,
+    navigation,
+    store,
+    theme,
+  })
   return (
     <ScrollView contentContainerStyle={styles.scrollableContainer}>
       <TouchableOpacity style={styles.closeIconRow} onPress={toggleSidemenu}>

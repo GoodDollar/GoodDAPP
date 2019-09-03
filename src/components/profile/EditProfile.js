@@ -18,6 +18,11 @@ import ProfileDataTable from './ProfileDataTable'
 const TITLE = 'Edit Profile'
 const log = logger.child({ from: TITLE })
 
+// To remove profile values that are already failing
+function filterObject(obj) {
+  return pickBy(obj, (v, k) => v !== undefined && v !== '')
+}
+
 const EditProfile = ({ screenProps, theme, styles }) => {
   const store = GDStore.useStore()
   const storedProfile = store.get('privateProfile')
@@ -53,12 +58,15 @@ const EditProfile = ({ screenProps, theme, styles }) => {
               return true
             }
             if (['string', 'number'].includes(typeof x)) {
-              return x.toString() === y.toString()
+              return y && x.toString() === y.toString()
             }
             return undefined
           })
           const { isValid, errors } = profile.validate()
-          const { isValid: isValidIndex, errors: errorsIndex } = await userStorage.validateProfile(profile)
+
+          const { isValid: isValidIndex, errors: errorsIndex } = await userStorage.validateProfile(
+            filterObject(profile)
+          )
           const valid = isValid && isValidIndex
 
           setErrors(merge(errors, errorsIndex))
@@ -67,7 +75,7 @@ const EditProfile = ({ screenProps, theme, styles }) => {
 
           return valid
         } catch (e) {
-          log.error('validate profile failed', e, e.message)
+          log.error('validate profile failed', e.message, e)
           showErrorDialog('Unexpected error while validating profile', e)
           return false
         }
@@ -111,9 +119,9 @@ const EditProfile = ({ screenProps, theme, styles }) => {
     })
     return userStorage
       .setProfile(toupdate, true)
-      .catch(err => {
-        log.error('Error saving profile', { err, toupdate })
-        showErrorDialog('Unexpected error while saving profile', err)
+      .catch(e => {
+        log.error('Error saving profile', { toupdate }, e.message, e)
+        showErrorDialog('Unexpected error while saving profile', e)
         return false
       })
       .finally(_ => setSaving(false))
@@ -141,7 +149,7 @@ const EditProfile = ({ screenProps, theme, styles }) => {
 
   return (
     <Wrapper>
-      <Section style={styles.section} grow>
+      <Section grow>
         <Section.Row justifyContent="center" alignItems="flex-start">
           <UserAvatar profile={profile} onPress={handleAvatarPress}>
             <CameraButton handleCameraPress={handleCameraPress} />
@@ -158,10 +166,6 @@ EditProfile.navigationOptions = {
   title: TITLE,
 }
 
-const getStylesFromProps = ({ theme }) => ({
-  section: {
-    padding: theme.sizes.defaultDouble,
-  },
-})
+const getStylesFromProps = ({ theme }) => ({})
 
 export default withStyles(getStylesFromProps)(EditProfile)

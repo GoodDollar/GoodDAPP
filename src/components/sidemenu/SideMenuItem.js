@@ -19,7 +19,7 @@ const SideMenuItem = ({ icon, name, color, action, styles, theme }: SideMenuItem
         color={color === undefined ? theme.colors.primary : theme.colors[color]}
       />
     </View>
-    <Text color={color || 'darkGray'} fontWeight="500" textAlign="left" fontSize={14}>
+    <Text color={color} fontWeight="medium" textAlign="left" fontSize={14}>
       {name}
     </Text>
   </TouchableOpacity>

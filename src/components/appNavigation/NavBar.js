@@ -35,8 +35,9 @@ const getStylesFromProps = ({ theme }) => ({
   titleStyle: {
     textAlign: 'center',
     textTransform: 'uppercase',
-    fontSize: normalize(24),
     color: theme.colors.surface,
+    fontSize: normalize(16),
+    fontWeight: '500',
   },
   topbarStyles: {
     flexGrow: 0,

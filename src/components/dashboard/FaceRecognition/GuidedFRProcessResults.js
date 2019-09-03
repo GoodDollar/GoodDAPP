@@ -20,9 +20,11 @@ import { withStyles } from '../../../lib/styles'
 import normalize from '../../../lib/utils/normalizeText'
 import FRStep from './FRStep'
 
+Image.prefetch(LookingGood)
+
 const log = logger.child({ from: 'GuidedFRProcessResults' })
 
-const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, styles, done, navigation, isAPISuccess }: any) => {
+const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, done, navigation, isAPISuccess, styles }: any) => {
   const store = GDStore.useStore()
   const { fullName } = store.get('profile')
 
@@ -86,14 +88,12 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, styles, done, 
     }
   }, [])
 
-  const saveProfileAndDone = async () => {
+  const saveProfile = async () => {
     try {
       log.debug('savingProfileAndDone')
       let account = await goodWallet.getAccountForType('zoomId')
       await userStorage.setProfileField('zoomEnrollmentId', account, 'private')
       setStatus({ ...processStatus, isProfileSaved: true })
-
-      setTimeout(done, 2000)
     } catch (e) {
       setStatus({ ...processStatus, isProfileSaved: false })
     }
@@ -109,9 +109,16 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, styles, done, 
   useEffect(() => {
     //done save profile and call done callback
     if (processStatus.isWhitelisted) {
-      saveProfileAndDone()
+      saveProfile()
     }
   }, [processStatus.isWhitelisted])
+
+  useEffect(() => {
+    //done save profile and call done callback
+    if (processStatus.isProfileSaved) {
+      setTimeout(done, 2000)
+    }
+  }, [processStatus.isProfileSaved])
 
   // useEffect(() => {
   //   if (isAPISuccess === undefined) {
@@ -144,6 +151,7 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, styles, done, 
       </CustomButton>
     </Section>
   ) : null
+
   let lookingGood =
     isProcessFailed === false && processStatus.isProfileSaved ? (
       <View style={styles.imageView}>
@@ -160,19 +168,17 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, styles, done, 
   } else if (processStatus.isNotDuplicate === false) {
     helpText = (
       <View>
-        <Text style={styles.textHelp}>
-          {'You look very familiar...\nIt seems you already have a wallet,\nyou can:\n\n'}
-        </Text>
-        <Text style={styles.textHelp}>
+        <Text color="red">{'You look very familiar...\nIt seems you already have a wallet,\nyou can:\n\n'}</Text>
+        <Text color="red">
           A.{' '}
-          <Text style={[styles.helpLink, styles.textHelp]} onPress={gotoRecover}>
+          <Text color="red" fontWeight="bold" textDecorationLine="underline" onPress={gotoRecover}>
             Recover previous wallet
           </Text>
           {'\n'}
         </Text>
-        <Text style={styles.textHelp}>
+        <Text color="red">
           B.{' '}
-          <Text style={[styles.helpLink, styles.textHelp]} onPress={gotoSupport}>
+          <Text color="red" fontWeight="bold" textDecorationLine="underline" onPress={gotoSupport}>
             Contact support
           </Text>
           {'\n'}
@@ -181,18 +187,19 @@ const GuidedFRProcessResults = ({ profileSaved, sessionId, retry, styles, done, 
     )
   } else if (processStatus.isLive === false) {
     helpText =
-      'We could not verify you are a living person. Funny hu? please make sure:\n\n\
-A. Center your webcam\n\
-B. Camera is at eye level\n\
-C. Light your face evenly'
+      'We could not verify you are a living person. Funny hu? please make sure:\n\n' +
+      'A. Center your webcam\n' +
+      'B. Camera is at eye level\n' +
+      'C. Light your face evenly'
   } else if (isProcessFailed) {
+    log.error('FR failed', processStatus)
     helpText = 'Something went wrong, please try again...'
   }
   return (
     <View style={styles.topContainer}>
       <Section style={styles.mainContainer} justifyContent="space-around">
         <Section.Title style={styles.mainTitle} justifyContent="center" alignItems="center">
-          <Text>Analyzing Results...</Text>
+          Analyzing Results...
         </Section.Title>
         <View style={styles.mainView}>
           <Separator width={2} />
@@ -238,7 +245,7 @@ C. Light your face evenly'
           <Separator width={2} />
         </View>
         <View style={styles.imageView}>
-          <Text style={styles.textHelp}>{helpText}</Text>
+          <Text color="red">{helpText}</Text>
         </View>
         <View style={styles.imageContainer}>{lookingGood}</View>
       </Section>
@@ -264,6 +271,7 @@ const getStylesFromProps = ({ theme }) => ({
     height: '12rem',
   },
   image: {
+    marginTop: 36,
     height: '8.43rem',
   },
   mainContainer: {
@@ -284,25 +292,32 @@ const getStylesFromProps = ({ theme }) => ({
   mainTitle: {
     fontSize: normalize(24),
     color: theme.colors.darkGray,
-    textTransform: 'none',
     display: 'flex',
   },
   button: {
     fontSize: normalize(16),
   },
-  textHelp: {
-    fontSize: normalize(16),
-    color: theme.colors.red,
-    textTransform: 'none',
-  },
-  helpLink: {
-    fontWeight: 'bold',
-    textDecorationLine: 'underline',
+  steps: {
+    marginBottom: 22,
+    marginTop: 22,
   },
   textGood: {
     fontSize: normalize(24),
     textTransform: 'none',
     textAlign: 'center',
+  },
+  success: {
+    width: 28,
+    height: 28,
+    borderRadius: '50%',
+    backgroundColor: '#00C3AE',
+  },
+  failure: {
+    width: 28,
+    height: 28,
+    borderRadius: '50%',
+    backgroundColor: '#FA6C77',
+    flexGrow: 0,
   },
 })
 

@@ -15,6 +15,16 @@ const getEventSettingsByType = (theme, type) => {
       color: theme.colors.red,
       name: 'send-filled',
     },
+    sendcancelled: {
+      actionSymbol: '-',
+      color: theme.colors.orange,
+      name: 'clock-filled',
+    },
+    sendpending: {
+      actionSymbol: '-',
+      color: theme.colors.orange,
+      name: 'clock-filled',
+    },
     receive: {
       actionSymbol: '+',
       color: theme.colors.lightGreen,
@@ -30,16 +40,6 @@ const getEventSettingsByType = (theme, type) => {
       name: 'social-good-filled',
       withoutAmount: true,
     },
-    sendcancelled: {
-      color: theme.colors.orange,
-      name: 'clock-filled',
-    },
-    sendpending: {
-      actionSymbol: '-',
-      color: theme.colors.orange,
-      name: 'clock-filled',
-      withoutAmount: true,
-    },
     invite: {
       color: theme.colors.primary,
       name: 'system-filled',
@@ -49,6 +49,7 @@ const getEventSettingsByType = (theme, type) => {
       color: theme.colors.primary,
       name: 'system-filled',
       withoutAmount: true,
+      withoutAvatar: true,
     },
     feedback: {
       color: theme.colors.primary,

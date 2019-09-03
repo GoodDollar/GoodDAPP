@@ -1,7 +1,6 @@
 // @flow
 import React, { useMemo } from 'react'
 import { isMobile } from 'mobile-device-detect'
-import normalize from '../../lib/utils/normalizeText'
 import GDStore from '../../lib/undux/GDStore'
 import { generateReceiveShareObject, generateSendShareObject } from '../../lib/share'
 import { BigGoodDollar, CopyButton, CustomButton, QRCode, Section, Wrapper } from '../common'
@@ -51,22 +50,22 @@ const ReceiveConfirmation = ({ screenProps, styles, ...props }: ReceiveProps) =>
           <QRCode value={code} />
         </Section.Stack>
         <Section.Stack grow justifyContent="center" alignItems="center">
-          <Section.Text style={[styles.textRow]}>{ACTION_RECEIVE ? 'Request exactly' : 'Send exactly'}</Section.Text>
+          <Section.Text style={styles.textRow}>{ACTION_RECEIVE ? 'Request exactly' : 'Send exactly'}</Section.Text>
           {counterPartyDisplayName && (
-            <Section.Text style={[styles.textRow]}>
+            <Section.Text style={styles.textRow}>
               {ACTION_RECEIVE ? 'From: ' : 'To: '}
-              <Section.Text style={styles.counterPartyDisplayName}>{counterPartyDisplayName}</Section.Text>
+              <Section.Text fontSize={18}>{counterPartyDisplayName}</Section.Text>
             </Section.Text>
           )}
           {amount && (
             <BigGoodDollar
-              bigNumberStyles={styles.bigGoodDollar}
-              bigNumberUnitStyles={styles.bigGoodDollarUnit}
               number={amount}
-              color={props.theme.colors.primary}
+              color="primary"
+              bigNumberProps={{ fontSize: 24 }}
+              bigNumberUnitProps={{ fontSize: 14 }}
             />
           )}
-          <Section.Text style={[styles.textRow]}>{reason}</Section.Text>
+          <Section.Text style={styles.textRow}>{reason}</Section.Text>
         </Section.Stack>
         <Section.Stack>
           {isMobile && navigator.share ? (
@@ -95,24 +94,10 @@ const getStylesFromProps = ({ theme }) => {
       paddingTop: theme.sizes.default,
     },
     textRow: {
-      marginBottom: theme.sizes.default,
-      marginTop: theme.sizes.default,
+      marginVertical: theme.sizes.default,
     },
     doneButton: {
       marginTop: theme.paddings.defaultMargin,
-    },
-    bigGoodDollar: {
-      fontFamily: theme.fonts.default,
-      fontSize: normalize(24),
-      fontWeight: '700',
-    },
-    bigGoodDollarUnit: {
-      fontFamily: theme.fonts.default,
-      fontSize: normalize(14),
-      fontWeight: '700',
-    },
-    counterPartyDisplayName: {
-      fontSize: normalize(18),
     },
   }
 }

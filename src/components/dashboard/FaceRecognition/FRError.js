@@ -1,5 +1,5 @@
 import React from 'react'
-import { Image, Text, View } from 'react-native'
+import { Image, View } from 'react-native'
 import get from 'lodash/get'
 import { getFirstWord } from '../../../lib/utils/getFirstWord'
 import { CustomButton, Section, Wrapper } from '../../common'
@@ -8,10 +8,10 @@ import Oops from '../../../assets/oops.svg'
 import GDStore from '../../../lib/undux/GDStore'
 import logger from '../../../lib/logger/pino-logger'
 import { withStyles } from '../../../lib/styles'
-import normalize from '../../../lib/utils/normalizeText'
 
 const log = logger.child({ from: 'FRError' })
 
+Image.prefetch(Oops)
 const FRError = props => {
   const { styles } = props
   const store = GDStore.useStore()
@@ -49,12 +49,15 @@ const FRError = props => {
     <Wrapper>
       <View style={styles.topContainer}>
         <Section style={styles.descriptionContainer} justifyContent="space-evenly">
-          <Section.Title style={styles.mainTitle}> {`${getFirstWord(fullName)},\n${title}`}</Section.Title>
+          <Section.Title fontWeight="medium" textTransform="none">
+            {' '}
+            {`${getFirstWord(fullName)},\n${title}`}
+          </Section.Title>
           <Image source={Oops} resizeMode="center" style={styles.errorImage} />
           <Section style={styles.errorSection}>
             <Separator width={2} />
-            <Section.Text style={styles.description}>
-              <Text style={styles.errorText}> {`${error}`} </Text>
+            <Section.Text color="primary" fontWeight="bold" style={styles.description}>
+              {`${error}`}
             </Section.Text>
             <Separator width={2} />
           </Section>
@@ -113,19 +116,7 @@ const getStylesFromProps = ({ theme }) => ({
     justifyContent: 'flex-end',
   },
   description: {
-    color: theme.colors.primary,
-    fontFamily: theme.fonts.default,
-    fontSize: normalize(16),
-    fontWeight: 'bold',
-    paddingBottom: '1.57rem',
-    paddingTop: '1.57rem',
-    lineHeight: '1.25rem',
-  },
-  mainTitle: {
-    fontFamily: theme.fonts.default,
-    fontSize: normalize(24),
-    color: theme.colors.darkGray,
-    textTransform: 'none',
+    paddingVertical: 25,
   },
 })
 

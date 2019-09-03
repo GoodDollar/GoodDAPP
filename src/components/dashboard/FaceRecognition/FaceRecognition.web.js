@@ -133,7 +133,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
       //   this.setState({ ...this.state, isAPISuccess: false })
       // }
     } catch (e) {
-      log.error('FR API call failed:', e, e.message)
+      log.error('FR API call failed:', e.message, e)
       this.showFRError(e.message)
     }
   }

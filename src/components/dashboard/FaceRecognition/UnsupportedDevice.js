@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { AsyncStorage, Image, Text, View } from 'react-native'
+import { AsyncStorage, Image, View } from 'react-native'
 import { isIOS, isMobile } from 'mobile-device-detect'
 
 import get from 'lodash/get'
@@ -13,8 +13,9 @@ import GDStore from '../../../lib/undux/GDStore'
 import logger from '../../../lib/logger/pino-logger'
 import { fireEvent } from '../../../lib/analytics/analytics'
 import { withStyles } from '../../../lib/styles'
-import normalize from '../../../lib/utils/normalizeText'
+import Text from '../../common/view/Text'
 
+Image.prefetch(Oops)
 const log = logger.child({ from: 'UnsupportedDevice' })
 
 const UnsupportedDevice = props => {
@@ -78,12 +79,14 @@ const UnsupportedDevice = props => {
     <Wrapper>
       <View style={styles.topContainer}>
         <Section style={styles.mainContainer} justifyContent="space-evenly">
-          <Section.Title style={styles.mainTitle}> {title}</Section.Title>
+          <Section.Title style={styles.mainTitle} fontWeight="medium" textTransform="none">
+            {title}
+          </Section.Title>
           <Image source={Oops} resizeMode={'center'} style={styles.image} />
           <Section style={styles.textContainer}>
             <Separator width={2} />
-            <Section.Text style={styles.description}>
-              <Text style={{ fontWeight: 'normal' }}> {`${error}`} </Text>
+            <Section.Text fontSize={16} fontWeight="bold" color="primary" style={styles.description}>
+              {`${error}`}
             </Section.Text>
             <Separator width={2} />
           </Section>
@@ -130,7 +133,7 @@ const getStylesFromProps = ({ theme }) => ({
     paddingTop: 0,
     marginBottom: 0,
   },
-  mainCOntainer: {
+  mainContainer: {
     paddingBottom: 0,
     paddingTop: 0,
     marginBottom: 0,
@@ -146,15 +149,11 @@ const getStylesFromProps = ({ theme }) => ({
     height: '10rem',
   },
   description: {
-    fontSize: normalize(16),
-    fontWeight: 'bold',
-    color: theme.colors.primary,
     padding: 0,
     paddingTop: 15,
     paddingBottom: 15,
   },
   mainTitle: {
-    fontSize: normalize(24),
     color: theme.colors.darkGray,
     textTransform: 'none',
   },

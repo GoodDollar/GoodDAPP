@@ -366,60 +366,24 @@ exports[`Send matches snapshot 1`] = `
             }
           >
             <div
-              className="css-view-1dbjc4n"
-            >
-              <div
-                className="css-view-1dbjc4n"
-                data-focusable={true}
-                disabled={false}
-                onKeyDown={[Function]}
-                onKeyUp={[Function]}
-                onResponderGrant={[Function]}
-                onResponderMove={[Function]}
-                onResponderRelease={[Function]}
-                onResponderTerminate={[Function]}
-                onResponderTerminationRequest={[Function]}
-                onStartShouldSetResponder={[Function]}
-                style={
-                  Object {
-                    "MozUserSelect": "none",
-                    "WebkitAlignItems": "center",
-                    "WebkitBoxAlign": "center",
-                    "WebkitBoxPack": "center",
-                    "WebkitJustifyContent": "center",
-                    "WebkitUserSelect": "none",
-                    "alignItems": "center",
-                    "backgroundColor": "rgba(0,0,0,0.00)",
-                    "cursor": "pointer",
-                    "justifyContent": "center",
-                    "msFlexAlign": "center",
-                    "msFlexPack": "center",
-                    "msTouchAction": "manipulation",
-                    "msUserSelect": "none",
-                    "touchAction": "manipulation",
-                    "userSelect": "none",
-                  }
+              className="css-text-901oao"
+              data-focusable={true}
+              dir="auto"
+              onClick={[Function]}
+              onKeyDown={[Function]}
+              style={
+                Object {
+                  "color": "rgba(40,44,52,1.00)",
+                  "cursor": "pointer",
+                  "fontFamily": "gooddollar",
+                  "fontSize": "24px",
+                  "fontStyle": "normal",
+                  "fontWeight": "normal",
                 }
-                tabIndex="0"
-              >
-                <div
-                  className="css-text-901oao"
-                  data-testid="iconIcon"
-                  dir="auto"
-                  style={
-                    Object {
-                      "backgroundColor": "rgba(0,0,0,0.00)",
-                      "color": "rgba(40,44,52,1.00)",
-                      "fontFamily": "MaterialIcons",
-                      "fontSize": "16px",
-                      "fontStyle": "normal",
-                      "fontWeight": "normal",
-                    }
-                  }
-                >
-                  
-                </div>
-              </div>
+              }
+              tabIndex="0"
+            >
+              
             </div>
           </div>
           <div

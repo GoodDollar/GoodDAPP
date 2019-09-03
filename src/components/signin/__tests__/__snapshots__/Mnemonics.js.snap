@@ -84,6 +84,25 @@ exports[`SignIn - Mnemonics matches snapshot 1`] = `
         Please enter your
 12-word pass phrase:
       </div>
+      <div
+        className="css-text-901oao"
+        dir="auto"
+        style={
+          Object {
+            "color": "rgba(163,163,163,1.00)",
+            "direction": "ltr",
+            "fontFamily": "Roboto",
+            "fontSize": "14px",
+            "fontWeight": "normal",
+            "lineHeight": "20px",
+            "textAlign": "center",
+            "textDecoration": "none",
+            "textTransform": "none",
+          }
+        }
+      >
+        You can copy-paste it from your backup email
+      </div>
     </div>
     <div
       className="css-view-1dbjc4n"

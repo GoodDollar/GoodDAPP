@@ -42,7 +42,7 @@ const Claim = props => {
   const gdstore = GDStore.useStore()
 
   const { entitlement } = gdstore.get('account')
-  const isCitizen = gdstore.get('isLoggedInCitizen') || true
+  const isCitizen = gdstore.get('isLoggedInCitizen')
 
   const [showDialog] = useDialog()
   const [loading, setLoading] = useState(false)

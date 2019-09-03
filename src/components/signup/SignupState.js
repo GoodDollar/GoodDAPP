@@ -138,16 +138,21 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       //first need to add user to our database
       // Stores creationBlock number into 'lastBlock' feed's node
 
-      const addUserAPIResponse = await API.addUser(state)
-      const addUserAPIResponseData = addUserAPIResponse && addUserAPIResponse.data
-      const profilePayload = { ...state, walletAddress: goodWallet.account }
+      const addUserAPIPromise = API.addUser(state)
+        .then(res => {
+          const data = res.data
 
-      if (addUserAPIResponseData && addUserAPIResponseData.loginToken) {
-        profilePayload.loginToken = addUserAPIResponseData.loginToken
-      }
+          if (data && data.loginToken) {
+            userStorage.setProfileField('loginToken', data.loginToken, 'private')
+          }
+        })
+        .catch(e => {
+          log.error(e.message, e)
+        })
 
       await Promise.all([
-        userStorage.setProfile(profilePayload),
+        addUserAPIPromise,
+        userStorage.setProfile({ ...state, walletAddress: goodWallet.account }),
         userStorage.setProfileField('registered', true, 'public'),
         goodWallet.getBlockNumber().then(creationBlock => userStorage.saveLastBlockNumber(creationBlock.toString())),
       ])

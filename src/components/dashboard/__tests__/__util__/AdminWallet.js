@@ -183,22 +183,6 @@ export class Wallet {
   }
 
   /**
-   * blacklist an user in the `Identity` contract
-   * @param {string} address
-   * @returns {Promise<TransactionReceipt>}
-   */
-  async blacklistUser(address: string): Promise<TransactionReceipt> {
-    const tx: TransactionReceipt = await this.sendTransaction(
-      this.identityContract.methods.blackListUser(address)
-    ).catch(e => {
-      log.error('Error blackListUser', { e }, e.message)
-      throw e
-    })
-
-    return tx
-  }
-
-  /**
    * verify if an user is verified in the `Identity` contract
    * @param {string} address
    * @returns {Promise<boolean>}

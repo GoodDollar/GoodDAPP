@@ -1087,11 +1087,15 @@ export class UserStorage {
       //check real status only if tx has been confirmed (ie we have a receipt)
       withdrawStatus = otplStatus ? otplStatus : 'pending'
     }
+    withdrawStatus = data.status === 'error' ? 'error' : withdrawStatus
 
     let displayType = type
     switch (type) {
       case 'send':
         displayType += withdrawStatus
+        if (withdrawStatus === 'error') {
+          avatar = `${process.env.PUBLIC_URL}/favicon-96x96.png`
+        }
         break
     }
     return {
@@ -1172,14 +1176,49 @@ export class UserStorage {
   }
 
   /**
+   * Sets the event's status
+   * @param {string} eventId
+   * @param {string} status
+   * @returns {Promise<FeedEvent>}
+   */
+  async updateEventStatus(eventId: string, status: string): Promise<FeedEvent> {
+    const feedEvent = await this.getFeedItemByTransactionHash(eventId)
+    feedEvent.status = status
+    return this.updateFeedEvent(feedEvent)
+  }
+
+  /**
+   * Sets the event's otpl status
+   * @param {string} eventId
+   * @param {string} status
+   * @returns {Promise<FeedEvent>}
+   */
+  async updateEventOtplStatus(eventId: string, status: string): Promise<FeedEvent> {
+    const feedEvent = await this.getFeedItemByTransactionHash(eventId)
+    feedEvent.status = status
+    if (feedEvent.data) {
+      feedEvent.data.otplStatus = status
+    }
+    return this.updateFeedEvent(feedEvent)
+  }
+
+  /**
+   * Sets the event's status as error
+   * @param {string} eventId
+   * @returns {Promise<FeedEvent>}
+   */
+  async markWithErrorEvent(err: any): Promise<FeedEvent> {
+    const error = JSON.parse(`{${err.message.split('{')[1]}`)
+    await this.updateEventOtplStatus(error.transactionHash, 'error')
+  }
+
+  /**
    * Sets the event's status as deleted
    * @param {string} eventId
    * @returns {Promise<FeedEvent>}
    */
-  async deleteEvent(eventId: string): Promise<FeedEvent> {
-    const feedEvent = await this.getFeedItemByTransactionHash(eventId)
-    feedEvent.status = 'deleted'
-    return this.updateFeedEvent(feedEvent)
+  deleteEvent(eventId: string): Promise<FeedEvent> {
+    return this.updateEventStatus(eventId, 'deleted')
   }
 
   /**
@@ -1187,10 +1226,8 @@ export class UserStorage {
    * @param {string} eventId
    * @returns {Promise<FeedEvent>}
    */
-  async recoverEvent(eventId: string): Promise<FeedEvent> {
-    const feedEvent = await this.getFeedItemByTransactionHash(eventId)
-    feedEvent.status = 'completed'
-    return this.updateFeedEvent(feedEvent)
+  recoverEvent(eventId: string): Promise<FeedEvent> {
+    return this.updateEventStatus(eventId, 'completed')
   }
 
   /**

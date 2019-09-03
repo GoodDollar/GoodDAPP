@@ -67,11 +67,15 @@ const Claim = props => {
       handleClaim()
     } else if (isValid === false) {
       screenProps.goToRoot()
+    } else {
+      if (isCitizen === false) {
+        goodWallet.isCitizen().then(_ => gdstore.set('isLoggedInCitizen')(_))
+      }
     }
   }
 
-  // FR Evaluation
   useEffect(() => {
+    // FR Evaluation
     evaluateFRValidity()
   }, [])
 
@@ -128,6 +132,7 @@ const Claim = props => {
           }
           userStorage.enqueueTX(transactionEvent)
         },
+        onError: userStorage.markWithErrorEvent,
       })
 
       if (receipt.status) {

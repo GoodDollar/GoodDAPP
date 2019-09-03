@@ -15,6 +15,7 @@ import EventCounterParty from './EventCounterParty'
 import getEventSettingsByType from './EventSettingsByType'
 import EventIcon from './EventIcon'
 import FeedbackModalItem from './FeedbackModalItem'
+import SendModalItemWithError from './SendModalItemWithError'
 
 /**
  * Render modal item according to the type for feed list in horizontal view
@@ -35,6 +36,8 @@ const FeedModalItem = (props: FeedEventProps) => {
     <ModalWrapper leftBorderColor={mainColor} onClose={buttonPress} showJaggedEdge={showJaggedEdge} fullHeight={true}>
       {item.type === 'feedback' ? (
         <FeedbackModalItem {...props} />
+      ) : itemType === 'senderror' ? (
+        <SendModalItemWithError {...props} />
       ) : (
         <React.Fragment>
           <TopImage type={itemType} />

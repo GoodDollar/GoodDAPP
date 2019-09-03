@@ -1,6 +1,7 @@
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import Text from '../view/Text'
+import { withStyles } from '../../../lib/styles'
 
 const statusLabel = {
   sendpending: 'Payment Pending...',
@@ -8,7 +9,7 @@ const statusLabel = {
   sendcompleted: 'Payment Completed!',
 }
 
-const PaymentStatus = ({ item }) =>
+const PaymentStatus = ({ item, styles }) =>
   item.displayType in statusLabel && (
     <View style={styles.titleStyle}>
       <Text color="primary" fontSize={22} fontWeight="500">
@@ -17,7 +18,7 @@ const PaymentStatus = ({ item }) =>
     </View>
   )
 
-const styles = StyleSheet.create({
+const getStylesFromProps = ({ theme }) => ({
   titleStyle: {
     height: 110,
     display: 'flex',
@@ -26,4 +27,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default PaymentStatus
+export default withStyles(getStylesFromProps)(PaymentStatus)

@@ -56,23 +56,23 @@ class API {
         req => {
           return req
         },
-        error => {
+        e => {
           // Do something with response error
-          log.error('axios req error', { error })
-          return Promise.reject(error)
+          log.error('axios req error', e.message, e)
+          return Promise.reject(e)
         }
       )
       instance.interceptors.response.use(
         response => {
           return response
         },
-        error => {
+        e => {
           // Do something with response error
-          log.error('axios response error', { error })
-          if (error.response.data) {
-            return Promise.reject(error.response.data)
+          log.error('axios response error', e.message, e)
+          if (e.response.data) {
+            return Promise.reject(e.response.data)
           }
-          return Promise.reject(error)
+          return Promise.reject(e)
         }
       )
       this.client = await instance

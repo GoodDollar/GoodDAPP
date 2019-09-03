@@ -1,23 +1,36 @@
+// @flow
 import React from 'react'
 import { TouchableHighlight, View } from 'react-native'
+import type { FeedEvent } from '../../../lib/gundb/UserStorageClass'
 import { withStyles } from '../../../lib/styles'
 import wavePattern from '../../../assets/feedListItemPattern.svg'
 import ListEventItem from './ListEventItem'
 import getEventSettingsByType from './EventSettingsByType'
 
+type FeedListItemProps = {
+  item: FeedEvent,
+  onPress: Function,
+  theme?: any,
+  styles?: any,
+}
+
 /**
  * Render list item according to the type for feed list
- * @param {FeedEventProps} feedEvent - feed event
- * @returns {HTMLElement}
+ * @param {FeedListItemProps} props
+ * @param {FeedEvent} props.item - feed event
+ * @param {function} props.onPress
+ * @param {object} props.theme
+ * @param {object} props.styles
+ * @returns {React.Node}
  */
-const FeedListItem = props => {
-  const { theme, item, onPress, styles, actionActive } = props
+const FeedListItem = (props: FeedListItemProps) => {
+  const { theme, item, onPress, styles } = props
   const itemStyle = getEventSettingsByType(theme, item.displayType || item.type)
   const imageStyle = {
     backgroundColor: itemStyle.color,
     backgroundImage: `url(${wavePattern})`,
   }
-  const overlay = actionActive ? <View style={styles.activeOverlay} /> : null
+
   return (
     <TouchableHighlight
       activeOpacity={0.5}
@@ -29,7 +42,6 @@ const FeedListItem = props => {
       <View style={styles.rowContent}>
         <View style={[styles.rowContentBorder, imageStyle]} />
         <ListEventItem {...props} />
-        {overlay}
       </View>
     </TouchableHighlight>
   )
@@ -69,18 +81,6 @@ const getStylesFromProps = ({ theme }) => ({
     right: 0,
     top: 0,
     width: 10,
-  },
-  activeOverlay: {
-    position: 'absolute',
-
-    //to make sure we compensate for -10 left
-    width: '120%',
-
-    //to cover color left border
-    left: -10,
-    height: '100%',
-    backgroundColor: 'gray',
-    opacity: 0.7,
   },
 })
 

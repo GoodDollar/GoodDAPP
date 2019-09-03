@@ -21,8 +21,8 @@ const InputRecipient = props => {
     try {
       const who = await Clipboard.getString()
       onChangeText(who)
-    } catch (err) {
-      log.error('Paste action failed', err)
+    } catch (e) {
+      log.error('Paste action failed', e.message, e)
     }
   }
 

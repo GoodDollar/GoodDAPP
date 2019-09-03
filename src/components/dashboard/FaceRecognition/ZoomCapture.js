@@ -144,7 +144,7 @@ class ZoomCapture extends React.Component<ZoomCaptureProps> {
         this.captureUserMediaZoom()
       }
     } catch (e) {
-      log.error(`Failed on capture, error: ${e}`)
+      log.error('Failed on capture, error:', e.message, e)
       this.props.onError(e)
     }
   }
@@ -160,7 +160,7 @@ class ZoomCapture extends React.Component<ZoomCaptureProps> {
         this.props.onCaptureResult(captureOutcome)
       }
     } catch (e) {
-      log.error(`Failed on capture, error: ${e}`)
+      log.error('Failed on capture, error:', e.message, e)
       this.props.onError(e)
     }
   }

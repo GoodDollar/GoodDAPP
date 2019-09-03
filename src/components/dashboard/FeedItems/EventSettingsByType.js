@@ -16,6 +16,7 @@ const getEventSettingsByType = (theme, type) => {
       name: 'send-filled',
     },
     sendcancelled: {
+      actionSymbol: '-',
       color: theme.colors.orange,
       name: 'clock-filled',
     },

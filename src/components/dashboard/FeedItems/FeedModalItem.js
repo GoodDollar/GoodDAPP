@@ -1,7 +1,6 @@
 // @flow
 import React from 'react'
 import { View } from 'react-native'
-import normalize from '../../../lib/utils/normalizeText'
 import Avatar from '../../common/view/Avatar'
 import BigGoodDollar from '../../common/view/BigGoodDollar'
 import Text from '../../common/view/Text'
@@ -51,10 +50,11 @@ const FeedModalItem = (props: FeedEventProps) => {
                     </Text>
                   )}
                   <BigGoodDollar
-                    bigNumberStyles={styles.bigNumberStyles}
-                    bigNumberUnitStyles={styles.bigNumberUnitStyles}
-                    color={mainColor}
                     number={item.data.amount}
+                    color={mainColor}
+                    bigNumberProps={{ fontSize: 22 }}
+                    bigNumberStyles={styles.bigNumberStyles}
+                    bigNumberUnitProps={{ fontSize: 12 }}
                   />
                 </React.Fragment>
               )}
@@ -105,11 +105,7 @@ const getStylesFromProps = ({ theme }) => {
       paddingRight: 4,
     },
     bigNumberStyles: {
-      fontSize: normalize(22),
       marginRight: 4,
-    },
-    bigNumberUnitStyles: {
-      fontSize: normalize(12),
     },
     transactionDetails: {
       alignItems: 'center',

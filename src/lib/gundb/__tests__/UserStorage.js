@@ -42,10 +42,8 @@ describe('UserStorage', () => {
   })
 
   it('sets gundb field', async () => {
-    const res = await userStorage.profile
-      .get('x')
-      .put({ z: 1, y: 1 })
-      .then()
+    await userStorage.profile.get('x').putAck({ z: 1, y: 1 })
+    const res = await userStorage.profile.get('x')
     expect(res).toEqual(expect.objectContaining({ z: 1, y: 1 }))
   })
 
@@ -333,7 +331,7 @@ describe('UserStorage', () => {
   })
 
   it('should delete the Welcome event', async () => {
-    const deletedEvent = await userStorage.deleteEvent(welcomeMessage)
+    const deletedEvent = await userStorage.deleteEvent(welcomeMessage.id)
     const date = `${new Date(welcomeMessage.date).toISOString().slice(0, 10)}`
     const index = await userStorage.feed
       .get('index')

@@ -4696,7 +4696,6 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                   "borderTopLeftRadius": "24px",
                   "borderTopRightRadius": "24px",
                   "borderTopWidth": "1px",
-                  "lineHeight": "0px",
                   "marginBottom": "8px",
                   "marginTop": "4px",
                   "paddingBottom": "0px",

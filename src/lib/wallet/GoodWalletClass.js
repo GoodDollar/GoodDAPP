@@ -205,7 +205,7 @@ export class GoodWallet {
         log.info('GoodWallet Ready.', { account: this.account })
       })
       .catch(e => {
-        log.error('Failed initializing GoodWallet', e)
+        log.error('Failed initializing GoodWallet', e.message, e)
         throw e
       })
     return this.ready
@@ -233,7 +233,7 @@ export class GoodWallet {
 
     contract.events.Transfer(fromEventsFilter, (error, event) => {
       if (error) {
-        log.warn('listenTxUpdates fromEventsPromise failed:', { e: error, fromEventsFilter })
+        log.error('listenTxUpdates fromEventsPromise failed:', e.message, e)
       } else {
         log.info('listenTxUpdates subscribed from', { error, event })
 
@@ -259,13 +259,13 @@ export class GoodWallet {
 
     contract.events.Transfer(toEventsFilter, (error, event) => {
       if (error) {
-        log.warn('listenTxUpdates toEventsPromise failed:', { e: error, toEventsFilter })
+        log.warn('listenTxUpdates toEventsPromise failed:', e.message, e)
       } else {
         logger.info('listenTxUpdates subscribed to', { error, event })
 
         this.getReceiptWithLogs(event.transactionHash)
           .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptReceived']))
-          .catch(err => log.error('receive event get/send receipt failed:', err))
+          .catch(err => log.error('receive event get/send receipt failed:', err.message, err))
 
         if (event && blockIntervalCallback) {
           blockIntervalCallback({ toBlock: event.blockNumber, event })
@@ -289,7 +289,7 @@ export class GoodWallet {
         if (event && event.event && ['PaymentWithdraw', 'PaymentCancel'].includes(event.event)) {
           this.getReceiptWithLogs(event.transactionHash)
             .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['otplUpdated']))
-            .catch(err => log.error('send event get/send receipt failed:', err))
+            .catch(err => log.error('send event get/send receipt failed:', err.message, err))
         }
 
         if (event && blockIntervalCallback) {
@@ -654,9 +654,9 @@ export class GoodWallet {
     return this.sendTransaction(cancelOtlCall, { onTransactionHash: hash => log.debug({ hash }) })
   }
 
-  handleError(err: Error) {
-    log.error('handleError', { err })
-    throw err
+  handleError(e: Error) {
+    log.error('handleError', e.message, e)
+    throw e
   }
 
   async getGasPrice(): Promise<number> {
@@ -670,7 +670,7 @@ export class GoodWallet {
         gasPrice = networkGasPrice.toString()
       }
     } catch (e) {
-      log.error('failed to retrieve gas price from network', { e })
+      log.error('failed to retrieve gas price from network', e.message, e)
     }
 
     return gasPrice

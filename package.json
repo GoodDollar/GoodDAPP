@@ -64,6 +64,7 @@
     "axios": "^0.18.0",
     "bip39-light": "^1.0.7",
     "clipboard": "^2.0.4",
+    "commander": "^3.0.1",
     "cypress-xpath": "^1.4.0",
     "ethereumjs-util": "^6.1.0",
     "ethereumjs-wallet": "^0.6.3",
@@ -108,7 +109,8 @@
     "validator": "^10.11.0",
     "web3": "^1.0.0-beta.55",
     "web3-providers": "^1.0.0-beta.55",
-    "websocket": "^1.0.28"
+    "websocket": "^1.0.28",
+    "winston": "^3.2.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.4.4",

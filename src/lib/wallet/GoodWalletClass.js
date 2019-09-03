@@ -280,47 +280,26 @@ export class GoodWallet {
 
   subscribeToOTPLEvents(fromBlock: BN, blockIntervalCallback) {
     const filter = { from: this.wallet.utils.toChecksumAddress(this.account) }
-    const handler = event => {
-      log.info('subscribeOTPL got event', { event })
+    const handler = (error, event) => {
+      if (error) {
+        log.error('listenTxUpdates fromEventsPromise unexpected error:', error.message, error)
+      } else {
+        log.info('subscribeOTPL got event', { event })
 
-      if (event && event.event && ['PaymentWithdraw', 'PaymentCancel'].includes(event.event)) {
-        this.getReceiptWithLogs(event.transactionHash)
-          .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['otplUpdated']))
-          .catch(err => log.error('send event get/send receipt failed:', err))
-      }
+        if (event && event.event && ['PaymentWithdraw', 'PaymentCancel'].includes(event.event)) {
+          this.getReceiptWithLogs(event.transactionHash)
+            .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['otplUpdated']))
+            .catch(err => log.error('send event get/send receipt failed:', err))
+        }
 
-      if (event && blockIntervalCallback) {
-        blockIntervalCallback({ toBlock: event.blockNumber, event })
+        if (event && blockIntervalCallback) {
+          blockIntervalCallback({ toBlock: event.blockNumber, event })
+        }
       }
     }
 
-    this.oneTimePaymentLinksContract.events.PaymentWithdraw(
-      {
-        fromBlock,
-        filter,
-      },
-      function(error, events) {
-        if (error) {
-          log.error('listenTxUpdates fromEventsPromise unexpected error:', { e: error })
-        } else {
-          handler(events)
-        }
-      }
-    )
-
-    this.oneTimePaymentLinksContract.events.PaymentCancel(
-      {
-        fromBlock,
-        filter,
-      },
-      function(error, events) {
-        if (error) {
-          log.error('listenTxUpdates fromEventsPromise unexpected error:', { e: error })
-        } else {
-          handler(events)
-        }
-      }
-    )
+    this.oneTimePaymentLinksContract.events.PaymentWithdraw({ fromBlock, filter }, handler)
+    this.oneTimePaymentLinksContract.events.PaymentCancel({ fromBlock, filter }, handler)
   }
 
   /**

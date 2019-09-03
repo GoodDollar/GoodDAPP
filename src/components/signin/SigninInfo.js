@@ -9,7 +9,7 @@ import Text from '../common/view/Text'
 
 import { withStyles } from '../../lib/styles'
 import illustration from '../../assets/Signin/illustration.svg'
-import normalize from '../../lib/utils/normalizeText'
+import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 type Props = {
   navigation: any,
   screenProps: {
@@ -41,10 +41,10 @@ class Signin extends React.Component<Props> {
               <Section.Stack grow justifyContent="flex-start">
                 <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
                   <View style={styles.bottomContainer}>
-                    <Text fontWeight="medium" fontSize={normalize(22)} fontFamily="Roboto">
+                    <Text fontWeight="medium" fontSize={22} fontFamily="Roboto">
                       {'To sign in\n please follow this steps:'}
                     </Text>
-                    <Text fontSize={normalize(14)} color="gray80Percent" fontFamily="Roboto">
+                    <Text fontSize={14} color="gray80Percent" fontFamily="Roboto">
                       {`(works from any device or platform)`}
                     </Text>
                     <Section.Text>
@@ -70,7 +70,7 @@ class Signin extends React.Component<Props> {
                   fontWeight="medium"
                   style={styles.textBottom}
                   textDecorationLine="underline"
-                  fontSize={normalize(14)}
+                  fontSize={14}
                   color="primary"
                   onPress={this.handleRecover}
                 >
@@ -91,15 +91,14 @@ const getStylesFromProps = ({ theme }) => {
       paddingHorizontal: 0,
       justifyContent: 'space-evenly',
     },
-
     illustration: {
       flexGrow: 1,
       flexShrink: 0,
       marginTop: 30,
       marginBottom: 30,
       maxWidth: '100%',
-      maxHeight: 175,
-      minHeight: 95,
+      maxHeight: getDesignRelativeHeight(175),
+      minHeight: getDesignRelativeHeight(95),
       paddingTop: theme.sizes.default,
     },
     text: {

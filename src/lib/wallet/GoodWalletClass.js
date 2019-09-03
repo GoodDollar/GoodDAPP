@@ -233,9 +233,9 @@ export class GoodWallet {
 
     contract.events.Transfer(fromEventsFilter, (error, event) => {
       if (error) {
-        log.error('listenTxUpdates fromEventsPromise failed:', e.message, e)
+        log.error('listenTxUpdates fromEventsPromise failed:', error.message, error)
       } else {
-        log.info('listenTxUpdates subscribed from', { error, event })
+        log.info('listenTxUpdates subscribed from', event)
 
         this.getReceiptWithLogs(event.transactionHash)
           .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptUpdated']))
@@ -259,9 +259,9 @@ export class GoodWallet {
 
     contract.events.Transfer(toEventsFilter, (error, event) => {
       if (error) {
-        log.warn('listenTxUpdates toEventsPromise failed:', e.message, e)
+        log.warn('listenTxUpdates toEventsPromise failed:', error.message, error)
       } else {
-        logger.info('listenTxUpdates subscribed to', { error, event })
+        logger.info('listenTxUpdates subscribed to', event)
 
         this.getReceiptWithLogs(event.transactionHash)
           .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['receiptReceived']))

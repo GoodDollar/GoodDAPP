@@ -27,18 +27,9 @@ env:
 matrix:
   include:
     - script: 
-      #- npm install jq -g
-      - npm install cypress
-      #- npm install netlify-cli -g
-      - Set-ExecutionPolicy RemoteSigned -scope CurrentUser
-      - Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')
-      - scoop bucket add netlifyctl https://github.com/netlify/scoop-netlifyctl
-      - scoop install netlifyctl
       - npm run build
-      #- npm install jq -save-dev
-      - npm install cypress --save-dev 
       - netlifyctl -A $NETLIFY_ACCESS_TOKEN -E https://gooddev.netlify.com deploy --draft
-      - export CYPRESS_baseUrl=jq '.deploy_url'   #set cypress baseUrl as a result of netlify command
+      - export CYPRESS_baseUrl=https://gooddev.netlify.com   #set cypress baseUrl as a result of netlify command
       - cypress run     
     - script: 
       - npm run coverage

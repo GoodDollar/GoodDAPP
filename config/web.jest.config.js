@@ -40,6 +40,7 @@ module.exports = {
   ],
   testPathIgnorePatterns: [
     "/__tests__/__util__/",
+    "/__tests__/__mocks__/",
     "<rootDir>/src/.*/.*(android|ios|native)\.js",
     "<rootDir>/src/index.js",
     "<rootDir>/src/init.js",

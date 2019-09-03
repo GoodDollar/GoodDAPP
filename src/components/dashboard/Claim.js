@@ -1,6 +1,6 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { Image, View } from 'react-native'
+import { Image } from 'react-native'
 import numeral from 'numeral'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import goodWallet from '../../lib/wallet/GoodWallet'
@@ -9,8 +9,8 @@ import GDStore from '../../lib/undux/GDStore'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import wrapper from '../../lib/undux/utils/wrapper'
-import { weiToGd } from '../../lib/wallet/utils'
-import { CustomButton, Wrapper } from '../common'
+import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
+import { Wrapper } from '../common'
 import BigGoodDollar from '../common/view/BigGoodDollar'
 import Text from '../common/view/Text'
 import LoadingIcon from '../common/modal/LoadingIcon'
@@ -18,6 +18,8 @@ import { withStyles } from '../../lib/styles'
 import Section from '../common/layout/Section'
 import illustration from '../../assets/Claim/illustration.svg'
 import type { DashboardProps } from './Dashboard'
+import ClaimButton from './ClaimButton'
+import Countdown from './ClaimCountdown'
 
 Image.prefetch(illustration)
 
@@ -168,6 +170,8 @@ const Claim = props => {
     screenProps.push('FRIntro', { from: 'Claim' })
   }
 
+  const illustrationSizes = isCitizen ? styles.illustrationForCitizen : styles.illustrationForNonCitizen
+
   return (
     <Wrapper>
       <Section style={styles.mainContainer}>
@@ -190,84 +194,29 @@ const Claim = props => {
           <Section.Text color="surface" fontFamily="slab" fontWeight="bold" fontSize={36}>
             Every Day
           </Section.Text>
+          <Section.Text style={styles.blankBottom}>{/* used to prevent image overlapping text */ ' '}</Section.Text>
         </Section.Stack>
         <Section.Stack style={styles.extraInfo}>
-          <Image source={illustration} style={styles.illustration} resizeMode="contain" />
+          <Image source={illustration} style={[styles.illustration, illustrationSizes]} resizeMode="contain" />
           <Section.Row style={styles.extraInfoStats}>
-            <Section.Text fontWeight="bold">{numeral(state.claimedToday.people).format('0a')} </Section.Text>
-            <Section.Text>people have already claimed today!</Section.Text>
+            <Text style={styles.extraInfoWrapper}>
+              <Section.Text fontWeight="bold">{numeral(state.claimedToday.people).format('0a')} </Section.Text>
+              <Section.Text>people have already claimed today!</Section.Text>
+            </Text>
           </Section.Row>
-          {!isCitizen && <Countdown styles={styles} nextClaim={state.nextClaim} />}
+          {!isCitizen && <Countdown nextClaim={state.nextClaim} />}
           <ClaimButton
             isCitizen={isCitizen}
             entitlement={state.entitlement}
             nextClaim={state.nextClaim}
             loading={loading}
             onPress={() => (isCitizen && entitlement ? handleClaim() : !isCitizen && faceRecognition())}
-            styles={styles}
           />
         </Section.Stack>
       </Section>
     </Wrapper>
   )
 }
-
-const Countdown = ({ styles, nextClaim }) => (
-  <Section.Stack style={styles.extraInfoCountdown}>
-    <Section.Text style={styles.extraInfoCountdownTitle}>Next Daily Income:</Section.Text>
-    <Section.Text color="surface" fontFamily="slab" fontSize={36} fontWeight="bold">
-      {nextClaim}
-    </Section.Text>
-  </Section.Stack>
-)
-
-const ButtonAmountToClaim = ({ entitlement, styles }) => (
-  <>
-    <Text color="surface" fontWeight="medium">
-      {`CLAIM YOUR SHARE - `}
-    </Text>
-    <BigGoodDollar
-      number={entitlement}
-      formatter={weiToGd}
-      bigNumberProps={{ fontSize: 16, color: 'surface', fontWeight: 'medium' }}
-      bigNumberUnitProps={{ fontSize: 10, color: 'surface', fontWeight: 'medium' }}
-      style={styles.amountInButton}
-    />
-  </>
-)
-
-const ButtonCountdown = ({ styles, nextClaim }) => (
-  <View style={styles.countdownContainer}>
-    <Text style={styles.extraInfoCountdownTitle}>Next Daily Income:</Text>
-    <Text style={styles.countdown} color="surface" fontFamily="slab" fontSize={36} fontWeight="bold">
-      {nextClaim}
-    </Text>
-  </View>
-)
-
-const ButtonContent = ({ isCitizen, entitlement, nextClaim, styles }) => {
-  if (isCitizen) {
-    return entitlement ? (
-      <ButtonAmountToClaim styles={styles} entitlement={entitlement} />
-    ) : (
-      <ButtonCountdown styles={styles} nextClaim={nextClaim} />
-    )
-  }
-  return <ButtonAmountToClaim styles={styles} entitlement={entitlement} />
-}
-
-const ClaimButton = ({ isCitizen, entitlement, nextClaim, loading, onPress, styles }) => (
-  <CustomButton
-    compact={true}
-    disabled={entitlement <= 0}
-    loading={loading}
-    mode="contained"
-    onPress={onPress}
-    style={[isCitizen ? styles.citizenButton : {}, isCitizen && !entitlement ? styles.buttonCountdown : {}]}
-  >
-    <ButtonContent isCitizen={isCitizen} entitlement={entitlement} nextClaim={nextClaim} styles={styles} />
-  </CustomButton>
-)
 
 const getStylesFromProps = ({ theme }) => {
   const defaultMargins = {
@@ -276,19 +225,10 @@ const getStylesFromProps = ({ theme }) => {
     marginBottom: theme.sizes.default,
   }
 
-  const defaultPaddings = {
-    paddingVertical: theme.sizes.default,
-    paddingHorizontal: theme.sizes.defaultHalf,
-  }
-
   const defaultStatsBlock = {
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: theme.sizes.borderRadius,
-  }
-
-  const displayInline = {
-    display: 'inline',
   }
 
   return {
@@ -302,8 +242,7 @@ const getStylesFromProps = ({ theme }) => {
     mainText: {
       alignItems: 'center',
       flexDirection: 'column',
-      marginBottom: 64,
-      paddingTop: 50,
+      marginVertical: 'auto',
     },
     mainTextTitle: {
       marginBottom: 12,
@@ -311,62 +250,44 @@ const getStylesFromProps = ({ theme }) => {
     mainTextBigMarginBottom: {
       marginBottom: theme.sizes.defaultHalf,
     },
+    blankBottom: {
+      minHeight: getDesignRelativeHeight(4 * theme.sizes.defaultDouble),
+    },
     illustration: {
       flexGrow: 0,
       flexShrink: 0,
       marginBottom: theme.sizes.default,
-      marginTop: -80,
-      maxWidth: '100%',
-      minHeight: 159,
-      minWidth: 229,
+    },
+    illustrationForCitizen: {
+      height: getDesignRelativeHeight(184),
+      marginTop: getDesignRelativeHeight(-94),
+    },
+    illustrationForNonCitizen: {
+      height: getDesignRelativeHeight(159),
+      marginTop: getDesignRelativeHeight(-70),
     },
     extraInfo: {
       backgroundColor: theme.colors.surface,
       borderRadius: theme.sizes.borderRadius,
       flexGrow: 1,
       flexShrink: 1,
-      minHeight: 0,
-      maxHeight: '55vh',
+      maxHeight: 'fit-content',
       paddingVertical: theme.sizes.defaultDouble,
       paddingHorizontal: theme.sizes.default,
     },
     extraInfoStats: {
       ...defaultStatsBlock,
       ...defaultMargins,
-      paddingVertical: 8,
+      paddingBottom: 8,
       flexGrow: 1,
     },
-    extraInfoCountdown: {
-      ...defaultStatsBlock,
-      ...defaultPaddings,
-      ...defaultMargins,
-      backgroundColor: theme.colors.orange,
-      flexGrow: 2,
-      flexDirection: 'column',
-    },
-    citizenButton: {
-      height: 68,
-    },
-    buttonCountdown: {
-      backgroundColor: theme.colors.orange,
-      flexDirection: 'column',
-    },
-    countdownContainer: {
-      flexDirection: 'column',
-    },
-    countdown: {
-      marginTop: -theme.sizes.defaultHalf,
-    },
-    extraInfoCountdownTitle: {
-      marginBottom: theme.sizes.default,
+    extraInfoWrapper: {
+      display: 'inline',
+      textAlign: 'center',
+      width: getDesignRelativeWidth(340),
     },
     inline: {
-      ...displayInline,
-    },
-    amountInButton: {
-      ...displayInline,
-      marginLeft: theme.sizes.defaultHalf,
-      lineHeight: theme.sizes.default * 3,
+      display: 'inline',
     },
   }
 }

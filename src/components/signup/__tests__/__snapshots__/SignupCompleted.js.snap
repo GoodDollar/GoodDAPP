@@ -175,12 +175,15 @@ You're all set
           className="css-view-1dbjc4n"
           style={
             Object {
+              "WebkitAlignItems": "stretch",
+              "WebkitBoxAlign": "stretch",
               "WebkitBoxFlex": 1,
               "WebkitBoxPack": "center",
               "WebkitFlexBasis": "0%",
               "WebkitFlexGrow": 1,
               "WebkitFlexShrink": 1,
               "WebkitJustifyContent": "center",
+              "alignItems": "stretch",
               "backgroundColor": "rgba(0,175,255,1.00)",
               "borderBottomColor": "rgba(0,175,255,1.00)",
               "borderBottomLeftRadius": "50px",
@@ -199,18 +202,26 @@ You're all set
               "borderTopStyle": "solid",
               "borderTopWidth": "0px",
               "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
+              "display": "flex",
               "flexBasis": "0%",
               "flexGrow": 1,
               "flexShrink": 1,
               "justifyContent": "center",
+              "marginBottom": "0px",
+              "marginLeft": "0px",
+              "marginRight": "0px",
+              "marginTop": "0px",
               "minHeight": "44px",
-              "minWidth": "auto",
+              "minWidth": "64px",
+              "msFlexAlign": "stretch",
               "msFlexNegative": 1,
               "msFlexPack": "center",
               "msFlexPositive": 1,
               "msFlexPreferredSize": "0%",
+              "paddingBottom": "0px",
               "paddingLeft": "0px",
               "paddingRight": "0px",
+              "paddingTop": "0px",
             }
           }
         >
@@ -275,42 +286,70 @@ You're all set
                     "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                     "letterSpacing": "1px",
                     "marginBottom": "9px",
-                    "marginLeft": "8px",
-                    "marginRight": "8px",
+                    "marginLeft": "16px",
+                    "marginRight": "16px",
                     "marginTop": "9px",
                     "textAlign": "center",
                   }
                 }
               >
-                <span
-                  className="css-text-901oao css-textHasAncestor-16my406"
-                  dir="auto"
+                <div
+                  className="css-view-1dbjc4n"
                   style={
                     Object {
                       "WebkitAlignItems": "center",
                       "WebkitBoxAlign": "center",
-                      "WebkitBoxPack": "center",
-                      "WebkitJustifyContent": "center",
+                      "WebkitBoxDirection": "normal",
+                      "WebkitBoxFlex": 1,
+                      "WebkitBoxOrient": "horizontal",
+                      "WebkitFlexBasis": "0%",
+                      "WebkitFlexDirection": "row",
+                      "WebkitFlexGrow": 1,
+                      "WebkitFlexShrink": 1,
                       "alignItems": "center",
-                      "color": "rgba(255,255,255,1.00)",
-                      "direction": "ltr",
-                      "fontFamily": "Roboto",
-                      "fontSize": "16px",
-                      "fontWeight": "500",
-                      "justifyContent": "center",
-                      "letterSpacing": "0px",
-                      "lineHeight": "22px",
+                      "display": "flex",
+                      "flexBasis": "0%",
+                      "flexDirection": "row",
+                      "flexGrow": 1,
+                      "flexShrink": 1,
                       "msFlexAlign": "center",
-                      "msFlexPack": "center",
-                      "paddingTop": "1px",
-                      "textAlign": "center",
-                      "textDecoration": "none",
-                      "textTransform": "uppercase",
+                      "msFlexDirection": "row",
+                      "msFlexNegative": 1,
+                      "msFlexPositive": 1,
+                      "msFlexPreferredSize": "0%",
                     }
                   }
                 >
-                  Let's start!
-                </span>
+                  <span
+                    className="css-text-901oao css-textHasAncestor-16my406"
+                    dir="auto"
+                    style={
+                      Object {
+                        "WebkitAlignItems": "center",
+                        "WebkitBoxAlign": "center",
+                        "WebkitBoxPack": "center",
+                        "WebkitJustifyContent": "center",
+                        "alignItems": "center",
+                        "color": "rgba(255,255,255,1.00)",
+                        "direction": "ltr",
+                        "fontFamily": "Roboto",
+                        "fontSize": "16px",
+                        "fontWeight": "500",
+                        "justifyContent": "center",
+                        "letterSpacing": "0px",
+                        "lineHeight": "22px",
+                        "msFlexAlign": "center",
+                        "msFlexPack": "center",
+                        "paddingTop": "1px",
+                        "textAlign": "center",
+                        "textDecoration": "none",
+                        "textTransform": "uppercase",
+                      }
+                    }
+                  >
+                    Let's start!
+                  </span>
+                </div>
               </div>
             </div>
           </div>

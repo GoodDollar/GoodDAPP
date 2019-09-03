@@ -36,15 +36,15 @@ const SendByQR = ({ screenProps }: Props) => {
 
         screenProps.push(route, params)
       } catch (e) {
-        log.error({ e })
+        log.error(e.message, e)
         setQRDelay(false)
         throw e
       }
     }
   }
 
-  const handleError = err => {
-    log.error({ err })
+  const handleError = e => {
+    log.error(e.message, e)
   }
 
   return (

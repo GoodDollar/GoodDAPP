@@ -136,7 +136,7 @@ const SendLinkSummary = (props: AmountProps) => {
       showErrorDialog('Generating payment failed', 'Unknown Error')
     } catch (e) {
       showErrorDialog('Generating payment failed', e)
-      log.error(e)
+      log.error(e.message, e)
     }
   }
 

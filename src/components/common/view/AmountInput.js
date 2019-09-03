@@ -2,17 +2,21 @@
 import React, { useEffect, useState } from 'react'
 import { Keyboard, TouchableWithoutFeedback, View } from 'react-native'
 import { isMobile } from 'mobile-device-detect'
+import SectionTitle from '../layout/SectionTitle'
 import InputGoodDollar from '../form/InputGoodDollar'
 import { withStyles } from '../../../lib/styles'
+import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
 import NumPadKeyboard from './NumPadKeyboard'
 
 type AmountInputProps = {
   amount: string,
   handleAmountChange: Function,
   styles: any,
+  title?: string,
+  error?: string,
 }
 
-const AmountInput = ({ amount, handleAmountChange, styles, error }: AmountInputProps) => {
+const AmountInput = ({ amount, handleAmountChange, styles, error, title }: AmountInputProps) => {
   const [caretPosition, setCaretPosition] = useState({ start: 0, end: 0 })
 
   useEffect(() => {
@@ -25,14 +29,15 @@ const AmountInput = ({ amount, handleAmountChange, styles, error }: AmountInputP
 
   return (
     <View style={styles.wrapper}>
-      <View>
+      <View style={styles.container}>
+        {title && <SectionTitle>{title}</SectionTitle>}
         <TouchableWithoutFeedback
           onPress={() => (isMobile ? Keyboard.dismiss() : null)}
           accessible={false}
           style={styles.section}
         >
           <InputGoodDollar
-            style={error ? styles.errorInput : {}}
+            style={error ? styles.errorInput : styles.section}
             disabled={isMobile}
             autoFocus
             amount={amount}
@@ -60,9 +65,17 @@ const mapPropsToStyles = ({ theme }) => {
       justifyContent: 'space-between',
       flex: 1,
     },
+    section: {
+      marginTop: 'auto',
+    },
+    container: {
+      minHeight: getDesignRelativeHeight(180),
+      height: getDesignRelativeHeight(180),
+    },
     errorInput: {
       color: theme.colors.error,
       borderBottomColor: theme.colors.error,
+      marginTop: 'auto',
     },
   }
 }

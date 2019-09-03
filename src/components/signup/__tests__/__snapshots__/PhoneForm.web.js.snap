@@ -91,25 +91,23 @@ exports[`PhoneForm matches snapshot 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
-              "WebkitAlignItems": "stretch",
-              "WebkitBoxAlign": "stretch",
-              "WebkitBoxDirection": "normal",
               "WebkitBoxFlex": 1,
-              "WebkitBoxOrient": "vertical",
               "WebkitBoxPack": "start",
-              "WebkitFlexDirection": "column",
               "WebkitFlexGrow": 1,
               "WebkitJustifyContent": "flex-start",
-              "alignItems": "stretch",
-              "flexDirection": "column",
+              "backgroundColor": "rgba(255,255,255,1.00)",
+              "borderBottomLeftRadius": "5px",
+              "borderBottomRightRadius": "5px",
+              "borderTopLeftRadius": "5px",
+              "borderTopRightRadius": "5px",
               "flexGrow": 1,
               "justifyContent": "flex-start",
-              "marginBottom": "32px",
-              "marginTop": "32px",
-              "msFlexAlign": "stretch",
-              "msFlexDirection": "column",
               "msFlexPack": "start",
               "msFlexPositive": 1,
+              "paddingBottom": "16px",
+              "paddingLeft": "12px",
+              "paddingRight": "12px",
+              "paddingTop": "16px",
             }
           }
         >
@@ -117,1640 +115,1685 @@ exports[`PhoneForm matches snapshot 1`] = `
             className="css-view-1dbjc4n"
             style={
               Object {
-                "WebkitAlignItems": "center",
-                "WebkitBoxAlign": "center",
+                "WebkitAlignItems": "stretch",
+                "WebkitBoxAlign": "stretch",
                 "WebkitBoxDirection": "normal",
-                "WebkitBoxOrient": "horizontal",
-                "WebkitBoxPack": "center",
-                "WebkitFlexDirection": "row",
-                "WebkitJustifyContent": "center",
-                "alignItems": "center",
-                "flexDirection": "row",
-                "justifyContent": "center",
-                "msFlexAlign": "center",
-                "msFlexDirection": "row",
-                "msFlexPack": "center",
+                "WebkitBoxOrient": "vertical",
+                "WebkitBoxPack": "start",
+                "WebkitFlexDirection": "column",
+                "WebkitJustifyContent": "flex-start",
+                "alignItems": "stretch",
+                "flexDirection": "column",
+                "height": "0px",
+                "justifyContent": "flex-start",
+                "minHeight": "0px",
+                "msFlexAlign": "stretch",
+                "msFlexDirection": "column",
+                "msFlexPack": "start",
               }
             }
           >
             <div
-              className="css-text-901oao"
-              dir="auto"
+              className="css-view-1dbjc4n"
               style={
                 Object {
-                  "color": "rgba(66,69,74,1.00)",
-                  "direction": "ltr",
-                  "fontFamily": "Roboto",
-                  "fontSize": "24px",
-                  "fontWeight": "normal",
-                  "lineHeight": "30px",
-                  "marginBottom": "8px",
-                  "marginTop": "8px",
-                  "textAlign": "center",
-                  "textDecoration": "none",
-                  "textTransform": "none",
+                  "WebkitAlignItems": "center",
+                  "WebkitBoxAlign": "center",
+                  "WebkitBoxDirection": "normal",
+                  "WebkitBoxOrient": "horizontal",
+                  "WebkitBoxPack": "center",
+                  "WebkitFlexDirection": "row",
+                  "WebkitJustifyContent": "center",
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "justifyContent": "center",
+                  "msFlexAlign": "center",
+                  "msFlexDirection": "row",
+                  "msFlexPack": "center",
                 }
               }
             >
-              Kevin, may we have your number please?
+              <div
+                className="css-text-901oao"
+                dir="auto"
+                style={
+                  Object {
+                    "color": "rgba(66,69,74,1.00)",
+                    "direction": "ltr",
+                    "fontFamily": "Roboto",
+                    "fontSize": "22px",
+                    "fontWeight": "500",
+                    "lineHeight": "30px",
+                    "marginBottom": "8px",
+                    "marginTop": "8px",
+                    "textAlign": "center",
+                    "textDecoration": "none",
+                    "textTransform": "none",
+                  }
+                }
+              >
+                Kevin, May we have your number please?
+              </div>
             </div>
-          </div>
-          <div
-            className="css-view-1dbjc4n"
-            style={
-              Object {
-                "WebkitAlignItems": "center",
-                "WebkitBoxAlign": "center",
-                "WebkitBoxDirection": "normal",
-                "WebkitBoxOrient": "horizontal",
-                "WebkitBoxPack": "center",
-                "WebkitFlexDirection": "row",
-                "WebkitJustifyContent": "center",
-                "alignItems": "center",
-                "flexDirection": "row",
-                "justifyContent": "center",
-                "marginBottom": "32px",
-                "marginTop": "32px",
-                "msFlexAlign": "center",
-                "msFlexDirection": "row",
-                "msFlexPack": "center",
-              }
-            }
-          >
             <div
-              className="react-phone-number-input"
+              className="css-view-1dbjc4n"
+              style={
+                Object {
+                  "WebkitAlignItems": "stretch",
+                  "WebkitBoxAlign": "stretch",
+                  "WebkitBoxDirection": "normal",
+                  "WebkitBoxOrient": "vertical",
+                  "WebkitBoxPack": "center",
+                  "WebkitFlexDirection": "column",
+                  "WebkitJustifyContent": "center",
+                  "alignItems": "stretch",
+                  "flexDirection": "column",
+                  "justifyContent": "center",
+                  "marginBottom": "8px",
+                  "marginTop": "auto",
+                  "msFlexAlign": "stretch",
+                  "msFlexDirection": "column",
+                  "msFlexPack": "center",
+                }
+              }
             >
               <div
-                className="react-phone-number-input__row"
+                className="react-phone-number-input"
               >
                 <div
-                  className="react-phone-number-input__country react-phone-number-input__country--native"
+                  className="react-phone-number-input__row"
                 >
                   <div
-                    className="react-phone-number-input__icon react-phone-number-input__icon--international"
+                    className="react-phone-number-input__country react-phone-number-input__country--native"
                   >
-                    <svg
-                      viewBox="0 0 50 50"
-                      xmlns="http://www.w3.org/2000/svg"
+                    <div
+                      className="react-phone-number-input__icon react-phone-number-input__icon--international"
                     >
-                      <path
-                        d="M8.45,13A21.44,21.44,0,1,1,37.08,41.56"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeWidth="1.5"
-                      />
-                      <path
-                        d="M19.36,35.47a36.9,36.9,0,0,1-2.28-13.24C17.08,10.39,21.88.85,27.8.85s10.72,9.54,10.72,21.38c0,6.48-1.44,12.28-3.71,16.21"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeWidth="1.5"
-                      />
-                      <path
-                        d="M17.41,33.4A39,39,0,0,1,27.8,32.06c6.62,0,12.55,1.5,16.48,3.86"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeWidth="1.5"
-                      />
-                      <path
-                        d="M44.29,8.53c-3.93,2.37-9.86,3.88-16.49,3.88S15.25,10.9,11.31,8.54"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeWidth="1.5"
-                      />
-                      <line
-                        fill="none"
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeWidth="1.5"
-                        x1="27.8"
-                        x2="27.8"
-                        y1="0.85"
-                        y2="34.61"
-                      />
-                      <line
-                        fill="none"
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeWidth="1.5"
-                        x1="15.2"
-                        x2="49.15"
-                        y1="22.23"
-                        y2="22.23"
-                      />
-                      <path
-                        d="M9.42,26.64c2.22-2.22,4.15-3.59.22-8.49S3.08,17,.93,19.17c-2.49,2.48-.13,11.74,9,20.89s18.41,11.5,20.89,9c2.15-2.15,5.91-4.77,1-8.71s-6.27-2-8.49.22c-1.55,1.55-5.48-1.69-8.86-5.08S7.87,28.19,9.42,26.64Z"
-                        fill="currentColor"
-                        stroke="transparent"
-                      />
-                    </svg>
+                      <svg
+                        viewBox="0 0 50 50"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M8.45,13A21.44,21.44,0,1,1,37.08,41.56"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeLinecap="round"
+                          strokeWidth="1.5"
+                        />
+                        <path
+                          d="M19.36,35.47a36.9,36.9,0,0,1-2.28-13.24C17.08,10.39,21.88.85,27.8.85s10.72,9.54,10.72,21.38c0,6.48-1.44,12.28-3.71,16.21"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeLinecap="round"
+                          strokeWidth="1.5"
+                        />
+                        <path
+                          d="M17.41,33.4A39,39,0,0,1,27.8,32.06c6.62,0,12.55,1.5,16.48,3.86"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeLinecap="round"
+                          strokeWidth="1.5"
+                        />
+                        <path
+                          d="M44.29,8.53c-3.93,2.37-9.86,3.88-16.49,3.88S15.25,10.9,11.31,8.54"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeLinecap="round"
+                          strokeWidth="1.5"
+                        />
+                        <line
+                          fill="none"
+                          stroke="currentColor"
+                          strokeLinecap="round"
+                          strokeWidth="1.5"
+                          x1="27.8"
+                          x2="27.8"
+                          y1="0.85"
+                          y2="34.61"
+                        />
+                        <line
+                          fill="none"
+                          stroke="currentColor"
+                          strokeLinecap="round"
+                          strokeWidth="1.5"
+                          x1="15.2"
+                          x2="49.15"
+                          y1="22.23"
+                          y2="22.23"
+                        />
+                        <path
+                          d="M9.42,26.64c2.22-2.22,4.15-3.59.22-8.49S3.08,17,.93,19.17c-2.49,2.48-.13,11.74,9,20.89s18.41,11.5,20.89,9c2.15-2.15,5.91-4.77,1-8.71s-6.27-2-8.49.22c-1.55,1.55-5.48-1.69-8.86-5.08S7.87,28.19,9.42,26.64Z"
+                          fill="currentColor"
+                          stroke="transparent"
+                        />
+                      </svg>
+                    </div>
+                    <select
+                      aria-label="Country"
+                      className="react-phone-number-input__country-select"
+                      disabled={false}
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      value="ZZ"
+                    >
+                      <option
+                        disabled={false}
+                        value="ZZ"
+                      >
+                        International
+                      </option>
+                      <option
+                        disabled={false}
+                        value="AF"
+                      >
+                        Afghanistan (‫افغانستان‬‎)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="AX"
+                      >
+                        Åland Islands
+                      </option>
+                      <option
+                        disabled={false}
+                        value="AL"
+                      >
+                        Albania (Shqipëri)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="DZ"
+                      >
+                        Algeria (‫الجزائر‬‎)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="AS"
+                      >
+                        American Samoa (Amerika Sāmoa)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="AD"
+                      >
+                        Andorra
+                      </option>
+                      <option
+                        disabled={false}
+                        value="AO"
+                      >
+                        Angola
+                      </option>
+                      <option
+                        disabled={false}
+                        value="AI"
+                      >
+                        Anguilla
+                      </option>
+                      <option
+                        disabled={false}
+                        value="AG"
+                      >
+                        Antigua and Barbuda
+                      </option>
+                      <option
+                        disabled={false}
+                        value="AR"
+                      >
+                        Argentina
+                      </option>
+                      <option
+                        disabled={false}
+                        value="AM"
+                      >
+                        Armenia (Հայաստան)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="AW"
+                      >
+                        Aruba
+                      </option>
+                      <option
+                        disabled={false}
+                        value="AC"
+                      >
+                        Ascension Island
+                      </option>
+                      <option
+                        disabled={false}
+                        value="AU"
+                      >
+                        Australia
+                      </option>
+                      <option
+                        disabled={false}
+                        value="AT"
+                      >
+                        Austria (Österreich)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="AZ"
+                      >
+                        Azerbaijan (Azərbaycan)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="BS"
+                      >
+                        Bahamas
+                      </option>
+                      <option
+                        disabled={false}
+                        value="BH"
+                      >
+                        Bahrain (‫البحرين‬‎)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="BD"
+                      >
+                        Bangladesh (বাংলাদেশ)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="BB"
+                      >
+                        Barbados
+                      </option>
+                      <option
+                        disabled={false}
+                        value="BY"
+                      >
+                        Belarus (Беларусь)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="BE"
+                      >
+                        Belgium (België)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="BZ"
+                      >
+                        Belize
+                      </option>
+                      <option
+                        disabled={false}
+                        value="BJ"
+                      >
+                        Benin (Bénin)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="BM"
+                      >
+                        Bermuda
+                      </option>
+                      <option
+                        disabled={false}
+                        value="BT"
+                      >
+                        Bhutan (འབྲུག)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="BO"
+                      >
+                        Bolivia
+                      </option>
+                      <option
+                        disabled={false}
+                        value="BA"
+                      >
+                        Bosnia and Herzegovina
+                      </option>
+                      <option
+                        disabled={false}
+                        value="BW"
+                      >
+                        Botswana
+                      </option>
+                      <option
+                        disabled={false}
+                        value="BR"
+                      >
+                        Brazil (Brasil)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="IO"
+                      >
+                        British Indian Ocean Territory
+                      </option>
+                      <option
+                        disabled={false}
+                        value="VG"
+                      >
+                        British Virgin Islands
+                      </option>
+                      <option
+                        disabled={false}
+                        value="BN"
+                      >
+                        Brunei (Negara Brunei Darussalam)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="BG"
+                      >
+                        Bulgaria (България)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="BF"
+                      >
+                        Burkina Faso
+                      </option>
+                      <option
+                        disabled={false}
+                        value="BI"
+                      >
+                        Burundi (Uburundi)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="KH"
+                      >
+                        Cambodia (កម្ពុជា)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="CM"
+                      >
+                        Cameroon (Cameroun)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="CA"
+                      >
+                        Canada
+                      </option>
+                      <option
+                        disabled={false}
+                        value="CV"
+                      >
+                        Cape Verde (Kabu Verdi)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="BQ"
+                      >
+                        Caribbean Netherlands
+                      </option>
+                      <option
+                        disabled={false}
+                        value="KY"
+                      >
+                        Cayman Islands
+                      </option>
+                      <option
+                        disabled={false}
+                        value="CF"
+                      >
+                        Central African Republic
+                      </option>
+                      <option
+                        disabled={false}
+                        value="TD"
+                      >
+                        Chad (Tchad)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="CL"
+                      >
+                        Chile
+                      </option>
+                      <option
+                        disabled={false}
+                        value="CN"
+                      >
+                        China (中国)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="CX"
+                      >
+                        Christmas Island
+                      </option>
+                      <option
+                        disabled={false}
+                        value="CC"
+                      >
+                        Cocos (Keeling) Islands
+                      </option>
+                      <option
+                        disabled={false}
+                        value="CO"
+                      >
+                        Colombia
+                      </option>
+                      <option
+                        disabled={false}
+                        value="KM"
+                      >
+                        Comoros (‫جزر القمر‬‎)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="CD"
+                      >
+                        Congo (DRC) (Kongo)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="CG"
+                      >
+                        Congo (Republic) (Congo-Brazzaville)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="CK"
+                      >
+                        Cook Islands
+                      </option>
+                      <option
+                        disabled={false}
+                        value="CR"
+                      >
+                        Costa Rica
+                      </option>
+                      <option
+                        disabled={false}
+                        value="CI"
+                      >
+                        Côte d’Ivoire
+                      </option>
+                      <option
+                        disabled={false}
+                        value="HR"
+                      >
+                        Croatia (Hrvatska)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="CU"
+                      >
+                        Cuba
+                      </option>
+                      <option
+                        disabled={false}
+                        value="CW"
+                      >
+                        Curaçao
+                      </option>
+                      <option
+                        disabled={false}
+                        value="CY"
+                      >
+                        Cyprus (Κύπρος)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="CZ"
+                      >
+                        Czech Republic (Česká republika)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="DK"
+                      >
+                        Denmark (Danmark)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="DJ"
+                      >
+                        Djibouti
+                      </option>
+                      <option
+                        disabled={false}
+                        value="DM"
+                      >
+                        Dominica
+                      </option>
+                      <option
+                        disabled={false}
+                        value="DO"
+                      >
+                        Dominican Republic
+                      </option>
+                      <option
+                        disabled={false}
+                        value="EC"
+                      >
+                        Ecuador
+                      </option>
+                      <option
+                        disabled={false}
+                        value="EG"
+                      >
+                        Egypt (‫مصر‬‎)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="SV"
+                      >
+                        El Salvador
+                      </option>
+                      <option
+                        disabled={false}
+                        value="GQ"
+                      >
+                        Equatorial Guinea (Guinea Ecuatorial)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="ER"
+                      >
+                        Eritrea
+                      </option>
+                      <option
+                        disabled={false}
+                        value="EE"
+                      >
+                        Estonia (Eesti)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="ET"
+                      >
+                        Ethiopia
+                      </option>
+                      <option
+                        disabled={false}
+                        value="FK"
+                      >
+                        Falkland Islands (Islas Malvinas)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="FO"
+                      >
+                        Faroe Islands (Føroyar)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="FJ"
+                      >
+                        Fiji (Matanitu Tugalala o Viti)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="FI"
+                      >
+                        Finland (Suomi)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="FR"
+                      >
+                        France (République française)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="GF"
+                      >
+                        French Guiana (Guyane française)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="PF"
+                      >
+                        French Polynesia (Polynésie française)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="GA"
+                      >
+                        Gabon (République gabonaise)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="GM"
+                      >
+                        Gambia
+                      </option>
+                      <option
+                        disabled={false}
+                        value="GE"
+                      >
+                        Georgia (საქართველო)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="DE"
+                      >
+                        Germany (Deutschland)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="GH"
+                      >
+                        Ghana (Gaana)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="GI"
+                      >
+                        Gibraltar
+                      </option>
+                      <option
+                        disabled={false}
+                        value="GR"
+                      >
+                        Greece (Ελλάδα)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="GL"
+                      >
+                        Greenland (Kalaallit Nunaat)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="GD"
+                      >
+                        Grenada
+                      </option>
+                      <option
+                        disabled={false}
+                        value="GP"
+                      >
+                        Guadeloupe
+                      </option>
+                      <option
+                        disabled={false}
+                        value="GU"
+                      >
+                        Guam (Guåhån)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="GT"
+                      >
+                        Guatemala
+                      </option>
+                      <option
+                        disabled={false}
+                        value="GG"
+                      >
+                        Guernsey
+                      </option>
+                      <option
+                        disabled={false}
+                        value="GN"
+                      >
+                        Guinea (Guinée)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="GW"
+                      >
+                        Guinea-Bissau (Guiné Bissau)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="GY"
+                      >
+                        Guyana
+                      </option>
+                      <option
+                        disabled={false}
+                        value="HT"
+                      >
+                        Haiti (République d'Haïti)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="HN"
+                      >
+                        Honduras
+                      </option>
+                      <option
+                        disabled={false}
+                        value="HK"
+                      >
+                        Hong Kong (香港)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="HU"
+                      >
+                        Hungary (Magyarország)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="IS"
+                      >
+                        Iceland (Ísland)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="IN"
+                      >
+                        India (भारत)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="ID"
+                      >
+                        Indonesia
+                      </option>
+                      <option
+                        disabled={false}
+                        value="IR"
+                      >
+                        Iran (‫ایران‬‎)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="IQ"
+                      >
+                        Iraq (‫العراق‬‎)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="IE"
+                      >
+                        Ireland
+                      </option>
+                      <option
+                        disabled={false}
+                        value="IM"
+                      >
+                        Isle of Man
+                      </option>
+                      <option
+                        disabled={false}
+                        value="IL"
+                      >
+                        Israel (‫ישראל‬‎)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="IT"
+                      >
+                        Italy (Italia)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="JM"
+                      >
+                        Jamaica
+                      </option>
+                      <option
+                        disabled={false}
+                        value="JP"
+                      >
+                        Japan (日本)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="JE"
+                      >
+                        Jersey
+                      </option>
+                      <option
+                        disabled={false}
+                        value="JO"
+                      >
+                        Jordan (‫الأردن‬‎)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="KZ"
+                      >
+                        Kazakhstan (Казахстан)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="KE"
+                      >
+                        Kenya
+                      </option>
+                      <option
+                        disabled={false}
+                        value="KI"
+                      >
+                        Kiribati
+                      </option>
+                      <option
+                        disabled={false}
+                        value="XK"
+                      >
+                        Kosovo
+                      </option>
+                      <option
+                        disabled={false}
+                        value="KW"
+                      >
+                        Kuwait (‫الكويت‬‎)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="KG"
+                      >
+                        Kyrgyzstan (Кыргызстан)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="LA"
+                      >
+                        Laos (ລາວ)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="LV"
+                      >
+                        Latvia (Latvija)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="LB"
+                      >
+                        Lebanon (‫لبنان‬‎)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="LS"
+                      >
+                        Lesotho
+                      </option>
+                      <option
+                        disabled={false}
+                        value="LR"
+                      >
+                        Liberia
+                      </option>
+                      <option
+                        disabled={false}
+                        value="LY"
+                      >
+                        Libya (‫ليبيا‬‎)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="LI"
+                      >
+                        Liechtenstein
+                      </option>
+                      <option
+                        disabled={false}
+                        value="LT"
+                      >
+                        Lithuania (Lietuva)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="LU"
+                      >
+                        Luxembourg (Lëtzebuerg)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="MO"
+                      >
+                        Macau (澳門)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="MK"
+                      >
+                        Macedonia (FYROM) (Македонија)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="MG"
+                      >
+                        Madagascar (Madagasikara)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="MW"
+                      >
+                        Malawi (Malaŵi)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="MY"
+                      >
+                        Malaysia
+                      </option>
+                      <option
+                        disabled={false}
+                        value="MV"
+                      >
+                        Maldives
+                      </option>
+                      <option
+                        disabled={false}
+                        value="ML"
+                      >
+                        Mali
+                      </option>
+                      <option
+                        disabled={false}
+                        value="MT"
+                      >
+                        Malta
+                      </option>
+                      <option
+                        disabled={false}
+                        value="MH"
+                      >
+                        Marshall Islands
+                      </option>
+                      <option
+                        disabled={false}
+                        value="MQ"
+                      >
+                        Martinique
+                      </option>
+                      <option
+                        disabled={false}
+                        value="MR"
+                      >
+                        Mauritania (‫موريتانيا‬‎)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="MU"
+                      >
+                        Mauritius (Moris)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="YT"
+                      >
+                        Mayotte
+                      </option>
+                      <option
+                        disabled={false}
+                        value="MX"
+                      >
+                        Mexico (México)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="FM"
+                      >
+                        Micronesia
+                      </option>
+                      <option
+                        disabled={false}
+                        value="MD"
+                      >
+                        Moldova (Republica Moldova)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="MC"
+                      >
+                        Monaco
+                      </option>
+                      <option
+                        disabled={false}
+                        value="MN"
+                      >
+                        Mongolia (Монгол)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="ME"
+                      >
+                        Montenegro (Crna Gora)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="MS"
+                      >
+                        Montserrat
+                      </option>
+                      <option
+                        disabled={false}
+                        value="MA"
+                      >
+                        Morocco (‫المغرب‬‎)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="MZ"
+                      >
+                        Mozambique (Moçambique)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="MM"
+                      >
+                        Myanmar (Burma) (မြန်မာ)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="NA"
+                      >
+                        Namibia (Namibië)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="NR"
+                      >
+                        Nauru (Repubrikin Naoero)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="NP"
+                      >
+                        Nepal (नेपाल)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="NL"
+                      >
+                        Netherlands (Nederland)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="NC"
+                      >
+                        New Caledonia (Nouvelle-Calédonie)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="NZ"
+                      >
+                        New Zealand
+                      </option>
+                      <option
+                        disabled={false}
+                        value="NI"
+                      >
+                        Nicaragua
+                      </option>
+                      <option
+                        disabled={false}
+                        value="NE"
+                      >
+                        Niger (Nijar)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="NG"
+                      >
+                        Nigeria
+                      </option>
+                      <option
+                        disabled={false}
+                        value="NU"
+                      >
+                        Niue (Niuē)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="NF"
+                      >
+                        Norfolk Island
+                      </option>
+                      <option
+                        disabled={false}
+                        value="KP"
+                      >
+                        North Korea (조선 민주주의 인민 공화국)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="MP"
+                      >
+                        Northern Mariana Islands
+                      </option>
+                      <option
+                        disabled={false}
+                        value="NO"
+                      >
+                        Norway (Norge)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="OM"
+                      >
+                        Oman (‫عُمان‬‎)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="PK"
+                      >
+                        Pakistan (‫پاکستان‬‎)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="PW"
+                      >
+                        Palau (Beluu er a Belau)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="PS"
+                      >
+                        Palestine (‫فلسطين‬‎)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="PA"
+                      >
+                        Panama (Panamá)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="PG"
+                      >
+                        Papua New Guinea
+                      </option>
+                      <option
+                        disabled={false}
+                        value="PY"
+                      >
+                        Paraguay (Tetã Paraguái)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="PE"
+                      >
+                        Peru (Perú)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="PH"
+                      >
+                        Philippines (Republika ng Pilipinas)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="PL"
+                      >
+                        Poland (Polska)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="PT"
+                      >
+                        Portugal (República Portuguesa)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="PR"
+                      >
+                        Puerto Rico
+                      </option>
+                      <option
+                        disabled={false}
+                        value="QA"
+                      >
+                        Qatar (‫قطر‬‎)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="RE"
+                      >
+                        Réunion (La Réunion)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="RO"
+                      >
+                        Romania (România)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="RU"
+                      >
+                        Russia (Россия)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="RW"
+                      >
+                        Rwanda
+                      </option>
+                      <option
+                        disabled={false}
+                        value="BL"
+                      >
+                        Saint Barthélemy (Saint-Barthélemy)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="SH"
+                      >
+                        Saint Helena
+                      </option>
+                      <option
+                        disabled={false}
+                        value="KN"
+                      >
+                        Saint Kitts and Nevis
+                      </option>
+                      <option
+                        disabled={false}
+                        value="LC"
+                      >
+                        Saint Lucia
+                      </option>
+                      <option
+                        disabled={false}
+                        value="MF"
+                      >
+                        Saint Martin (Saint-Martin)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="PM"
+                      >
+                        Saint Pierre and Miquelon
+                      </option>
+                      <option
+                        disabled={false}
+                        value="VC"
+                      >
+                        Saint Vincent and the Grenadines
+                      </option>
+                      <option
+                        disabled={false}
+                        value="WS"
+                      >
+                        Samoa (Sāmoa)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="SM"
+                      >
+                        San Marino
+                      </option>
+                      <option
+                        disabled={false}
+                        value="ST"
+                      >
+                        São Tomé and Príncipe
+                      </option>
+                      <option
+                        disabled={false}
+                        value="SA"
+                      >
+                        Saudi Arabia (‫المملكة العربية السعودية‬‎)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="SN"
+                      >
+                        Senegal (Sénégal)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="RS"
+                      >
+                        Serbia (Србија)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="SC"
+                      >
+                        Seychelles (Repiblik Sesel)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="SL"
+                      >
+                        Sierra Leone
+                      </option>
+                      <option
+                        disabled={false}
+                        value="SG"
+                      >
+                        Singapore (Singapura) (新加坡共和国)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="SX"
+                      >
+                        Sint Maarten
+                      </option>
+                      <option
+                        disabled={false}
+                        value="SK"
+                      >
+                        Slovakia (Slovensko)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="SI"
+                      >
+                        Slovenia (Slovenija)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="SB"
+                      >
+                        Solomon Islands
+                      </option>
+                      <option
+                        disabled={false}
+                        value="SO"
+                      >
+                        Somalia (Soomaaliya)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="ZA"
+                      >
+                        South Africa
+                      </option>
+                      <option
+                        disabled={false}
+                        value="KR"
+                      >
+                        South Korea (대한민국)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="SS"
+                      >
+                        South Sudan (‫جنوب السودان‬‎)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="ES"
+                      >
+                        Spain (España)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="LK"
+                      >
+                        Sri Lanka (ශ්‍රී ලංකාව)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="SD"
+                      >
+                        Sudan (‫السودان‬‎)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="SR"
+                      >
+                        Suriname
+                      </option>
+                      <option
+                        disabled={false}
+                        value="SJ"
+                      >
+                        Svalbard and Jan Mayen
+                      </option>
+                      <option
+                        disabled={false}
+                        value="SZ"
+                      >
+                        Swaziland (Umbuso weSwatini)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="SE"
+                      >
+                        Sweden (Sverige)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="CH"
+                      >
+                        Switzerland (Schweiz)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="SY"
+                      >
+                        Syria (‫سوريا‬‎)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="TW"
+                      >
+                        Taiwan (台灣)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="TJ"
+                      >
+                        Tajikistan (Ҷумҳурии Тоҷикистон)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="TZ"
+                      >
+                        Tanzania
+                      </option>
+                      <option
+                        disabled={false}
+                        value="TH"
+                      >
+                        Thailand (ไทย)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="TL"
+                      >
+                        Timor-Leste (Timór-Leste)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="TG"
+                      >
+                        Togo (République togolaise)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="TK"
+                      >
+                        Tokelau
+                      </option>
+                      <option
+                        disabled={false}
+                        value="TO"
+                      >
+                        Tonga
+                      </option>
+                      <option
+                        disabled={false}
+                        value="TT"
+                      >
+                        Trinidad and Tobago
+                      </option>
+                      <option
+                        disabled={false}
+                        value="TA"
+                      >
+                        Tristan da Cunha
+                      </option>
+                      <option
+                        disabled={false}
+                        value="TN"
+                      >
+                        Tunisia (‫تونس‬‎)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="TR"
+                      >
+                        Turkey (Türkiye)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="TM"
+                      >
+                        Turkmenistan (Türkmenistan)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="TC"
+                      >
+                        Turks and Caicos Islands
+                      </option>
+                      <option
+                        disabled={false}
+                        value="TV"
+                      >
+                        Tuvalu
+                      </option>
+                      <option
+                        disabled={false}
+                        value="VI"
+                      >
+                        U.S. Virgin Islands
+                      </option>
+                      <option
+                        disabled={false}
+                        value="UG"
+                      >
+                        Uganda
+                      </option>
+                      <option
+                        disabled={false}
+                        value="UA"
+                      >
+                        Ukraine (Україна)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="AE"
+                      >
+                        United Arab Emirates (‫الإمارات العربية المتحدة‬‎)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="GB"
+                      >
+                        United Kingdom
+                      </option>
+                      <option
+                        disabled={false}
+                        value="US"
+                      >
+                        United States
+                      </option>
+                      <option
+                        disabled={false}
+                        value="UY"
+                      >
+                        Uruguay
+                      </option>
+                      <option
+                        disabled={false}
+                        value="UZ"
+                      >
+                        Uzbekistan (Oʻzbekiston)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="VU"
+                      >
+                        Vanuatu
+                      </option>
+                      <option
+                        disabled={false}
+                        value="VA"
+                      >
+                        Vatican City (Città del Vaticano)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="VE"
+                      >
+                        Venezuela
+                      </option>
+                      <option
+                        disabled={false}
+                        value="VN"
+                      >
+                        Vietnam (Việt Nam)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="WF"
+                      >
+                        Wallis and Futuna (Wallis-et-Futuna)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="EH"
+                      >
+                        Western Sahara (‫الصحراء الغربية‬‎)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="YE"
+                      >
+                        Yemen (‫اليمن‬‎)
+                      </option>
+                      <option
+                        disabled={false}
+                        value="ZM"
+                      >
+                        Zambia
+                      </option>
+                      <option
+                        disabled={false}
+                        value="ZW"
+                      >
+                        Zimbabwe
+                      </option>
+                    </select>
+                    <div
+                      className="react-phone-number-input__country-select-arrow"
+                    />
                   </div>
-                  <select
-                    aria-label="Country"
-                    className="react-phone-number-input__country-select"
+                  <input
+                    autoComplete="tel"
+                    className="react-phone-number-input__input react-phone-number-input__phone"
                     disabled={false}
+                    id="Component_input"
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
-                    value="ZZ"
-                  >
-                    <option
-                      disabled={false}
-                      value="ZZ"
-                    >
-                      International
-                    </option>
-                    <option
-                      disabled={false}
-                      value="AF"
-                    >
-                      Afghanistan (‫افغانستان‬‎)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="AX"
-                    >
-                      Åland Islands
-                    </option>
-                    <option
-                      disabled={false}
-                      value="AL"
-                    >
-                      Albania (Shqipëri)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="DZ"
-                    >
-                      Algeria (‫الجزائر‬‎)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="AS"
-                    >
-                      American Samoa (Amerika Sāmoa)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="AD"
-                    >
-                      Andorra
-                    </option>
-                    <option
-                      disabled={false}
-                      value="AO"
-                    >
-                      Angola
-                    </option>
-                    <option
-                      disabled={false}
-                      value="AI"
-                    >
-                      Anguilla
-                    </option>
-                    <option
-                      disabled={false}
-                      value="AG"
-                    >
-                      Antigua and Barbuda
-                    </option>
-                    <option
-                      disabled={false}
-                      value="AR"
-                    >
-                      Argentina
-                    </option>
-                    <option
-                      disabled={false}
-                      value="AM"
-                    >
-                      Armenia (Հայաստան)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="AW"
-                    >
-                      Aruba
-                    </option>
-                    <option
-                      disabled={false}
-                      value="AC"
-                    >
-                      Ascension Island
-                    </option>
-                    <option
-                      disabled={false}
-                      value="AU"
-                    >
-                      Australia
-                    </option>
-                    <option
-                      disabled={false}
-                      value="AT"
-                    >
-                      Austria (Österreich)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="AZ"
-                    >
-                      Azerbaijan (Azərbaycan)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="BS"
-                    >
-                      Bahamas
-                    </option>
-                    <option
-                      disabled={false}
-                      value="BH"
-                    >
-                      Bahrain (‫البحرين‬‎)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="BD"
-                    >
-                      Bangladesh (বাংলাদেশ)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="BB"
-                    >
-                      Barbados
-                    </option>
-                    <option
-                      disabled={false}
-                      value="BY"
-                    >
-                      Belarus (Беларусь)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="BE"
-                    >
-                      Belgium (België)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="BZ"
-                    >
-                      Belize
-                    </option>
-                    <option
-                      disabled={false}
-                      value="BJ"
-                    >
-                      Benin (Bénin)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="BM"
-                    >
-                      Bermuda
-                    </option>
-                    <option
-                      disabled={false}
-                      value="BT"
-                    >
-                      Bhutan (འབྲུག)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="BO"
-                    >
-                      Bolivia
-                    </option>
-                    <option
-                      disabled={false}
-                      value="BA"
-                    >
-                      Bosnia and Herzegovina
-                    </option>
-                    <option
-                      disabled={false}
-                      value="BW"
-                    >
-                      Botswana
-                    </option>
-                    <option
-                      disabled={false}
-                      value="BR"
-                    >
-                      Brazil (Brasil)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="IO"
-                    >
-                      British Indian Ocean Territory
-                    </option>
-                    <option
-                      disabled={false}
-                      value="VG"
-                    >
-                      British Virgin Islands
-                    </option>
-                    <option
-                      disabled={false}
-                      value="BN"
-                    >
-                      Brunei (Negara Brunei Darussalam)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="BG"
-                    >
-                      Bulgaria (България)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="BF"
-                    >
-                      Burkina Faso
-                    </option>
-                    <option
-                      disabled={false}
-                      value="BI"
-                    >
-                      Burundi (Uburundi)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="KH"
-                    >
-                      Cambodia (កម្ពុជា)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="CM"
-                    >
-                      Cameroon (Cameroun)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="CA"
-                    >
-                      Canada
-                    </option>
-                    <option
-                      disabled={false}
-                      value="CV"
-                    >
-                      Cape Verde (Kabu Verdi)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="BQ"
-                    >
-                      Caribbean Netherlands
-                    </option>
-                    <option
-                      disabled={false}
-                      value="KY"
-                    >
-                      Cayman Islands
-                    </option>
-                    <option
-                      disabled={false}
-                      value="CF"
-                    >
-                      Central African Republic
-                    </option>
-                    <option
-                      disabled={false}
-                      value="TD"
-                    >
-                      Chad (Tchad)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="CL"
-                    >
-                      Chile
-                    </option>
-                    <option
-                      disabled={false}
-                      value="CN"
-                    >
-                      China (中国)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="CX"
-                    >
-                      Christmas Island
-                    </option>
-                    <option
-                      disabled={false}
-                      value="CC"
-                    >
-                      Cocos (Keeling) Islands
-                    </option>
-                    <option
-                      disabled={false}
-                      value="CO"
-                    >
-                      Colombia
-                    </option>
-                    <option
-                      disabled={false}
-                      value="KM"
-                    >
-                      Comoros (‫جزر القمر‬‎)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="CD"
-                    >
-                      Congo (DRC) (Kongo)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="CG"
-                    >
-                      Congo (Republic) (Congo-Brazzaville)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="CK"
-                    >
-                      Cook Islands
-                    </option>
-                    <option
-                      disabled={false}
-                      value="CR"
-                    >
-                      Costa Rica
-                    </option>
-                    <option
-                      disabled={false}
-                      value="CI"
-                    >
-                      Côte d’Ivoire
-                    </option>
-                    <option
-                      disabled={false}
-                      value="HR"
-                    >
-                      Croatia (Hrvatska)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="CU"
-                    >
-                      Cuba
-                    </option>
-                    <option
-                      disabled={false}
-                      value="CW"
-                    >
-                      Curaçao
-                    </option>
-                    <option
-                      disabled={false}
-                      value="CY"
-                    >
-                      Cyprus (Κύπρος)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="CZ"
-                    >
-                      Czech Republic (Česká republika)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="DK"
-                    >
-                      Denmark (Danmark)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="DJ"
-                    >
-                      Djibouti
-                    </option>
-                    <option
-                      disabled={false}
-                      value="DM"
-                    >
-                      Dominica
-                    </option>
-                    <option
-                      disabled={false}
-                      value="DO"
-                    >
-                      Dominican Republic
-                    </option>
-                    <option
-                      disabled={false}
-                      value="EC"
-                    >
-                      Ecuador
-                    </option>
-                    <option
-                      disabled={false}
-                      value="EG"
-                    >
-                      Egypt (‫مصر‬‎)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="SV"
-                    >
-                      El Salvador
-                    </option>
-                    <option
-                      disabled={false}
-                      value="GQ"
-                    >
-                      Equatorial Guinea (Guinea Ecuatorial)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="ER"
-                    >
-                      Eritrea
-                    </option>
-                    <option
-                      disabled={false}
-                      value="EE"
-                    >
-                      Estonia (Eesti)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="ET"
-                    >
-                      Ethiopia
-                    </option>
-                    <option
-                      disabled={false}
-                      value="FK"
-                    >
-                      Falkland Islands (Islas Malvinas)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="FO"
-                    >
-                      Faroe Islands (Føroyar)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="FJ"
-                    >
-                      Fiji (Matanitu Tugalala o Viti)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="FI"
-                    >
-                      Finland (Suomi)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="FR"
-                    >
-                      France (République française)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="GF"
-                    >
-                      French Guiana (Guyane française)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="PF"
-                    >
-                      French Polynesia (Polynésie française)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="GA"
-                    >
-                      Gabon (République gabonaise)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="GM"
-                    >
-                      Gambia
-                    </option>
-                    <option
-                      disabled={false}
-                      value="GE"
-                    >
-                      Georgia (საქართველო)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="DE"
-                    >
-                      Germany (Deutschland)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="GH"
-                    >
-                      Ghana (Gaana)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="GI"
-                    >
-                      Gibraltar
-                    </option>
-                    <option
-                      disabled={false}
-                      value="GR"
-                    >
-                      Greece (Ελλάδα)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="GL"
-                    >
-                      Greenland (Kalaallit Nunaat)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="GD"
-                    >
-                      Grenada
-                    </option>
-                    <option
-                      disabled={false}
-                      value="GP"
-                    >
-                      Guadeloupe
-                    </option>
-                    <option
-                      disabled={false}
-                      value="GU"
-                    >
-                      Guam (Guåhån)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="GT"
-                    >
-                      Guatemala
-                    </option>
-                    <option
-                      disabled={false}
-                      value="GG"
-                    >
-                      Guernsey
-                    </option>
-                    <option
-                      disabled={false}
-                      value="GN"
-                    >
-                      Guinea (Guinée)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="GW"
-                    >
-                      Guinea-Bissau (Guiné Bissau)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="GY"
-                    >
-                      Guyana
-                    </option>
-                    <option
-                      disabled={false}
-                      value="HT"
-                    >
-                      Haiti (République d'Haïti)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="HN"
-                    >
-                      Honduras
-                    </option>
-                    <option
-                      disabled={false}
-                      value="HK"
-                    >
-                      Hong Kong (香港)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="HU"
-                    >
-                      Hungary (Magyarország)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="IS"
-                    >
-                      Iceland (Ísland)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="IN"
-                    >
-                      India (भारत)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="ID"
-                    >
-                      Indonesia
-                    </option>
-                    <option
-                      disabled={false}
-                      value="IR"
-                    >
-                      Iran (‫ایران‬‎)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="IQ"
-                    >
-                      Iraq (‫العراق‬‎)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="IE"
-                    >
-                      Ireland
-                    </option>
-                    <option
-                      disabled={false}
-                      value="IM"
-                    >
-                      Isle of Man
-                    </option>
-                    <option
-                      disabled={false}
-                      value="IL"
-                    >
-                      Israel (‫ישראל‬‎)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="IT"
-                    >
-                      Italy (Italia)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="JM"
-                    >
-                      Jamaica
-                    </option>
-                    <option
-                      disabled={false}
-                      value="JP"
-                    >
-                      Japan (日本)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="JE"
-                    >
-                      Jersey
-                    </option>
-                    <option
-                      disabled={false}
-                      value="JO"
-                    >
-                      Jordan (‫الأردن‬‎)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="KZ"
-                    >
-                      Kazakhstan (Казахстан)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="KE"
-                    >
-                      Kenya
-                    </option>
-                    <option
-                      disabled={false}
-                      value="KI"
-                    >
-                      Kiribati
-                    </option>
-                    <option
-                      disabled={false}
-                      value="XK"
-                    >
-                      Kosovo
-                    </option>
-                    <option
-                      disabled={false}
-                      value="KW"
-                    >
-                      Kuwait (‫الكويت‬‎)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="KG"
-                    >
-                      Kyrgyzstan (Кыргызстан)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="LA"
-                    >
-                      Laos (ລາວ)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="LV"
-                    >
-                      Latvia (Latvija)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="LB"
-                    >
-                      Lebanon (‫لبنان‬‎)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="LS"
-                    >
-                      Lesotho
-                    </option>
-                    <option
-                      disabled={false}
-                      value="LR"
-                    >
-                      Liberia
-                    </option>
-                    <option
-                      disabled={false}
-                      value="LY"
-                    >
-                      Libya (‫ليبيا‬‎)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="LI"
-                    >
-                      Liechtenstein
-                    </option>
-                    <option
-                      disabled={false}
-                      value="LT"
-                    >
-                      Lithuania (Lietuva)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="LU"
-                    >
-                      Luxembourg (Lëtzebuerg)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="MO"
-                    >
-                      Macau (澳門)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="MK"
-                    >
-                      Macedonia (FYROM) (Македонија)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="MG"
-                    >
-                      Madagascar (Madagasikara)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="MW"
-                    >
-                      Malawi (Malaŵi)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="MY"
-                    >
-                      Malaysia
-                    </option>
-                    <option
-                      disabled={false}
-                      value="MV"
-                    >
-                      Maldives
-                    </option>
-                    <option
-                      disabled={false}
-                      value="ML"
-                    >
-                      Mali
-                    </option>
-                    <option
-                      disabled={false}
-                      value="MT"
-                    >
-                      Malta
-                    </option>
-                    <option
-                      disabled={false}
-                      value="MH"
-                    >
-                      Marshall Islands
-                    </option>
-                    <option
-                      disabled={false}
-                      value="MQ"
-                    >
-                      Martinique
-                    </option>
-                    <option
-                      disabled={false}
-                      value="MR"
-                    >
-                      Mauritania (‫موريتانيا‬‎)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="MU"
-                    >
-                      Mauritius (Moris)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="YT"
-                    >
-                      Mayotte
-                    </option>
-                    <option
-                      disabled={false}
-                      value="MX"
-                    >
-                      Mexico (México)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="FM"
-                    >
-                      Micronesia
-                    </option>
-                    <option
-                      disabled={false}
-                      value="MD"
-                    >
-                      Moldova (Republica Moldova)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="MC"
-                    >
-                      Monaco
-                    </option>
-                    <option
-                      disabled={false}
-                      value="MN"
-                    >
-                      Mongolia (Монгол)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="ME"
-                    >
-                      Montenegro (Crna Gora)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="MS"
-                    >
-                      Montserrat
-                    </option>
-                    <option
-                      disabled={false}
-                      value="MA"
-                    >
-                      Morocco (‫المغرب‬‎)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="MZ"
-                    >
-                      Mozambique (Moçambique)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="MM"
-                    >
-                      Myanmar (Burma) (မြန်မာ)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="NA"
-                    >
-                      Namibia (Namibië)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="NR"
-                    >
-                      Nauru (Repubrikin Naoero)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="NP"
-                    >
-                      Nepal (नेपाल)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="NL"
-                    >
-                      Netherlands (Nederland)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="NC"
-                    >
-                      New Caledonia (Nouvelle-Calédonie)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="NZ"
-                    >
-                      New Zealand
-                    </option>
-                    <option
-                      disabled={false}
-                      value="NI"
-                    >
-                      Nicaragua
-                    </option>
-                    <option
-                      disabled={false}
-                      value="NE"
-                    >
-                      Niger (Nijar)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="NG"
-                    >
-                      Nigeria
-                    </option>
-                    <option
-                      disabled={false}
-                      value="NU"
-                    >
-                      Niue (Niuē)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="NF"
-                    >
-                      Norfolk Island
-                    </option>
-                    <option
-                      disabled={false}
-                      value="KP"
-                    >
-                      North Korea (조선 민주주의 인민 공화국)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="MP"
-                    >
-                      Northern Mariana Islands
-                    </option>
-                    <option
-                      disabled={false}
-                      value="NO"
-                    >
-                      Norway (Norge)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="OM"
-                    >
-                      Oman (‫عُمان‬‎)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="PK"
-                    >
-                      Pakistan (‫پاکستان‬‎)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="PW"
-                    >
-                      Palau (Beluu er a Belau)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="PS"
-                    >
-                      Palestine (‫فلسطين‬‎)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="PA"
-                    >
-                      Panama (Panamá)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="PG"
-                    >
-                      Papua New Guinea
-                    </option>
-                    <option
-                      disabled={false}
-                      value="PY"
-                    >
-                      Paraguay (Tetã Paraguái)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="PE"
-                    >
-                      Peru (Perú)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="PH"
-                    >
-                      Philippines (Republika ng Pilipinas)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="PL"
-                    >
-                      Poland (Polska)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="PT"
-                    >
-                      Portugal (República Portuguesa)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="PR"
-                    >
-                      Puerto Rico
-                    </option>
-                    <option
-                      disabled={false}
-                      value="QA"
-                    >
-                      Qatar (‫قطر‬‎)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="RE"
-                    >
-                      Réunion (La Réunion)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="RO"
-                    >
-                      Romania (România)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="RU"
-                    >
-                      Russia (Россия)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="RW"
-                    >
-                      Rwanda
-                    </option>
-                    <option
-                      disabled={false}
-                      value="BL"
-                    >
-                      Saint Barthélemy (Saint-Barthélemy)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="SH"
-                    >
-                      Saint Helena
-                    </option>
-                    <option
-                      disabled={false}
-                      value="KN"
-                    >
-                      Saint Kitts and Nevis
-                    </option>
-                    <option
-                      disabled={false}
-                      value="LC"
-                    >
-                      Saint Lucia
-                    </option>
-                    <option
-                      disabled={false}
-                      value="MF"
-                    >
-                      Saint Martin (Saint-Martin)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="PM"
-                    >
-                      Saint Pierre and Miquelon
-                    </option>
-                    <option
-                      disabled={false}
-                      value="VC"
-                    >
-                      Saint Vincent and the Grenadines
-                    </option>
-                    <option
-                      disabled={false}
-                      value="WS"
-                    >
-                      Samoa (Sāmoa)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="SM"
-                    >
-                      San Marino
-                    </option>
-                    <option
-                      disabled={false}
-                      value="ST"
-                    >
-                      São Tomé and Príncipe
-                    </option>
-                    <option
-                      disabled={false}
-                      value="SA"
-                    >
-                      Saudi Arabia (‫المملكة العربية السعودية‬‎)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="SN"
-                    >
-                      Senegal (Sénégal)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="RS"
-                    >
-                      Serbia (Србија)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="SC"
-                    >
-                      Seychelles (Repiblik Sesel)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="SL"
-                    >
-                      Sierra Leone
-                    </option>
-                    <option
-                      disabled={false}
-                      value="SG"
-                    >
-                      Singapore (Singapura) (新加坡共和国)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="SX"
-                    >
-                      Sint Maarten
-                    </option>
-                    <option
-                      disabled={false}
-                      value="SK"
-                    >
-                      Slovakia (Slovensko)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="SI"
-                    >
-                      Slovenia (Slovenija)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="SB"
-                    >
-                      Solomon Islands
-                    </option>
-                    <option
-                      disabled={false}
-                      value="SO"
-                    >
-                      Somalia (Soomaaliya)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="ZA"
-                    >
-                      South Africa
-                    </option>
-                    <option
-                      disabled={false}
-                      value="KR"
-                    >
-                      South Korea (대한민국)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="SS"
-                    >
-                      South Sudan (‫جنوب السودان‬‎)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="ES"
-                    >
-                      Spain (España)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="LK"
-                    >
-                      Sri Lanka (ශ්‍රී ලංකාව)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="SD"
-                    >
-                      Sudan (‫السودان‬‎)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="SR"
-                    >
-                      Suriname
-                    </option>
-                    <option
-                      disabled={false}
-                      value="SJ"
-                    >
-                      Svalbard and Jan Mayen
-                    </option>
-                    <option
-                      disabled={false}
-                      value="SZ"
-                    >
-                      Swaziland (Umbuso weSwatini)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="SE"
-                    >
-                      Sweden (Sverige)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="CH"
-                    >
-                      Switzerland (Schweiz)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="SY"
-                    >
-                      Syria (‫سوريا‬‎)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="TW"
-                    >
-                      Taiwan (台灣)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="TJ"
-                    >
-                      Tajikistan (Ҷумҳурии Тоҷикистон)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="TZ"
-                    >
-                      Tanzania
-                    </option>
-                    <option
-                      disabled={false}
-                      value="TH"
-                    >
-                      Thailand (ไทย)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="TL"
-                    >
-                      Timor-Leste (Timór-Leste)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="TG"
-                    >
-                      Togo (République togolaise)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="TK"
-                    >
-                      Tokelau
-                    </option>
-                    <option
-                      disabled={false}
-                      value="TO"
-                    >
-                      Tonga
-                    </option>
-                    <option
-                      disabled={false}
-                      value="TT"
-                    >
-                      Trinidad and Tobago
-                    </option>
-                    <option
-                      disabled={false}
-                      value="TA"
-                    >
-                      Tristan da Cunha
-                    </option>
-                    <option
-                      disabled={false}
-                      value="TN"
-                    >
-                      Tunisia (‫تونس‬‎)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="TR"
-                    >
-                      Turkey (Türkiye)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="TM"
-                    >
-                      Turkmenistan (Türkmenistan)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="TC"
-                    >
-                      Turks and Caicos Islands
-                    </option>
-                    <option
-                      disabled={false}
-                      value="TV"
-                    >
-                      Tuvalu
-                    </option>
-                    <option
-                      disabled={false}
-                      value="VI"
-                    >
-                      U.S. Virgin Islands
-                    </option>
-                    <option
-                      disabled={false}
-                      value="UG"
-                    >
-                      Uganda
-                    </option>
-                    <option
-                      disabled={false}
-                      value="UA"
-                    >
-                      Ukraine (Україна)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="AE"
-                    >
-                      United Arab Emirates (‫الإمارات العربية المتحدة‬‎)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="GB"
-                    >
-                      United Kingdom
-                    </option>
-                    <option
-                      disabled={false}
-                      value="US"
-                    >
-                      United States
-                    </option>
-                    <option
-                      disabled={false}
-                      value="UY"
-                    >
-                      Uruguay
-                    </option>
-                    <option
-                      disabled={false}
-                      value="UZ"
-                    >
-                      Uzbekistan (Oʻzbekiston)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="VU"
-                    >
-                      Vanuatu
-                    </option>
-                    <option
-                      disabled={false}
-                      value="VA"
-                    >
-                      Vatican City (Città del Vaticano)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="VE"
-                    >
-                      Venezuela
-                    </option>
-                    <option
-                      disabled={false}
-                      value="VN"
-                    >
-                      Vietnam (Việt Nam)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="WF"
-                    >
-                      Wallis and Futuna (Wallis-et-Futuna)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="EH"
-                    >
-                      Western Sahara (‫الصحراء الغربية‬‎)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="YE"
-                    >
-                      Yemen (‫اليمن‬‎)
-                    </option>
-                    <option
-                      disabled={false}
-                      value="ZM"
-                    >
-                      Zambia
-                    </option>
-                    <option
-                      disabled={false}
-                      value="ZW"
-                    >
-                      Zimbabwe
-                    </option>
-                  </select>
-                  <div
-                    className="react-phone-number-input__country-select-arrow"
+                    onKeyDown={[Function]}
+                    type="tel"
+                    value=""
                   />
                 </div>
-                <input
-                  autoComplete="tel"
-                  className="react-phone-number-input__input react-phone-number-input__phone"
-                  disabled={false}
-                  id="Component_input"
-                  onBlur={[Function]}
-                  onChange={[Function]}
-                  onFocus={[Function]}
-                  onKeyDown={[Function]}
-                  type="tel"
-                  value=""
-                />
               </div>
+              <div
+                className="css-text-901oao"
+                dir="auto"
+                style={
+                  Object {
+                    "WebkitTransform": "translateY(0px)",
+                    "color": "rgba(250,108,119,1.00)",
+                    "direction": "ltr",
+                    "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                    "fontSize": "12px",
+                    "height": "18px",
+                    "marginLeft": "48px",
+                    "opacity": 0,
+                    "paddingBottom": "0px",
+                    "paddingLeft": "0px",
+                    "paddingRight": "12px",
+                    "paddingTop": "0px",
+                    "textAlign": "center",
+                    "transform": "translateY(0px)",
+                  }
+                }
+              />
             </div>
           </div>
           <div
@@ -1820,12 +1863,15 @@ exports[`PhoneForm matches snapshot 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
+              "WebkitAlignItems": "stretch",
+              "WebkitBoxAlign": "stretch",
               "WebkitBoxFlex": 1,
               "WebkitBoxPack": "center",
               "WebkitFlexBasis": "0%",
               "WebkitFlexGrow": 1,
               "WebkitFlexShrink": 1,
               "WebkitJustifyContent": "center",
+              "alignItems": "stretch",
               "backgroundColor": "rgba(0,175,255,1.00)",
               "borderBottomColor": "rgba(0,175,255,1.00)",
               "borderBottomLeftRadius": "50px",
@@ -1844,18 +1890,26 @@ exports[`PhoneForm matches snapshot 1`] = `
               "borderTopStyle": "solid",
               "borderTopWidth": "0px",
               "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
+              "display": "flex",
               "flexBasis": "0%",
               "flexGrow": 1,
               "flexShrink": 1,
               "justifyContent": "center",
+              "marginBottom": "0px",
+              "marginLeft": "0px",
+              "marginRight": "0px",
+              "marginTop": "0px",
               "minHeight": "44px",
-              "minWidth": "auto",
+              "minWidth": "64px",
+              "msFlexAlign": "stretch",
               "msFlexNegative": 1,
               "msFlexPack": "center",
               "msFlexPositive": 1,
               "msFlexPreferredSize": "0%",
+              "paddingBottom": "0px",
               "paddingLeft": "0px",
               "paddingRight": "0px",
+              "paddingTop": "0px",
             }
           }
         >
@@ -1920,42 +1974,70 @@ exports[`PhoneForm matches snapshot 1`] = `
                     "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                     "letterSpacing": "1px",
                     "marginBottom": "9px",
-                    "marginLeft": "8px",
-                    "marginRight": "8px",
+                    "marginLeft": "16px",
+                    "marginRight": "16px",
                     "marginTop": "9px",
                     "textAlign": "center",
                   }
                 }
               >
-                <span
-                  className="css-text-901oao css-textHasAncestor-16my406"
-                  dir="auto"
+                <div
+                  className="css-view-1dbjc4n"
                   style={
                     Object {
                       "WebkitAlignItems": "center",
                       "WebkitBoxAlign": "center",
-                      "WebkitBoxPack": "center",
-                      "WebkitJustifyContent": "center",
+                      "WebkitBoxDirection": "normal",
+                      "WebkitBoxFlex": 1,
+                      "WebkitBoxOrient": "horizontal",
+                      "WebkitFlexBasis": "0%",
+                      "WebkitFlexDirection": "row",
+                      "WebkitFlexGrow": 1,
+                      "WebkitFlexShrink": 1,
                       "alignItems": "center",
-                      "color": "rgba(255,255,255,1.00)",
-                      "direction": "ltr",
-                      "fontFamily": "Roboto",
-                      "fontSize": "16px",
-                      "fontWeight": "500",
-                      "justifyContent": "center",
-                      "letterSpacing": "0px",
-                      "lineHeight": "22px",
+                      "display": "flex",
+                      "flexBasis": "0%",
+                      "flexDirection": "row",
+                      "flexGrow": 1,
+                      "flexShrink": 1,
                       "msFlexAlign": "center",
-                      "msFlexPack": "center",
-                      "paddingTop": "1px",
-                      "textAlign": "center",
-                      "textDecoration": "none",
-                      "textTransform": "uppercase",
+                      "msFlexDirection": "row",
+                      "msFlexNegative": 1,
+                      "msFlexPositive": 1,
+                      "msFlexPreferredSize": "0%",
                     }
                   }
                 >
-                  Next
-                </span>
+                  <span
+                    className="css-text-901oao css-textHasAncestor-16my406"
+                    dir="auto"
+                    style={
+                      Object {
+                        "WebkitAlignItems": "center",
+                        "WebkitBoxAlign": "center",
+                        "WebkitBoxPack": "center",
+                        "WebkitJustifyContent": "center",
+                        "alignItems": "center",
+                        "color": "rgba(255,255,255,1.00)",
+                        "direction": "ltr",
+                        "fontFamily": "Roboto",
+                        "fontSize": "16px",
+                        "fontWeight": "500",
+                        "justifyContent": "center",
+                        "letterSpacing": "0px",
+                        "lineHeight": "22px",
+                        "msFlexAlign": "center",
+                        "msFlexPack": "center",
+                        "paddingTop": "1px",
+                        "textAlign": "center",
+                        "textDecoration": "none",
+                        "textTransform": "uppercase",
+                      }
+                    }
+                  >
+                    Next
+                  </span>
+                </div>
               </div>
             </div>
           </div>

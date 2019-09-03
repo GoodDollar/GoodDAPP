@@ -2,7 +2,7 @@
 //eslint-disable-next-line
 import bip39 from 'bip39-light'
 import get from 'lodash/get'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { AsyncStorage } from 'react-native'
 import logger from '../../lib/logger/pino-logger'
 import { withStyles } from '../../lib/styles'
@@ -99,6 +99,14 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
       recover()
     }
   }
+
+  const incomingMnemonic = get(navigation, 'state.params.mnemonic', undefined)
+
+  useEffect(() => {
+    if (incomingMnemonic) {
+      handleChange(incomingMnemonic)
+    }
+  }, [])
 
   /**
    * Helper to validate if exist a Gun profile associated to current mnemonic

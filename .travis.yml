@@ -30,8 +30,8 @@ matrix:
       - npm run build
       - scoop bucket add netlifyctl https://github.com/netlify/scoop-netlifyctl
       - scoop install netlifyctl
-      - URL=netlifyctl deploy --draft | jq '.deploy_url
-      - export CYPRESS_baseUrl=$URL   #set cypress baseUrl as a result of netlify command
+      - URL=netlifyctl -A $NETLIFY_ACCESS_TOKEN deploy --draft | jq '.deploy_url
+      - export CYPRESS_baseUrl=$URL  
       - cypress run     
     - script: 
       - npm run coverage

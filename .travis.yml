@@ -28,8 +28,10 @@ matrix:
   include:
     - script: 
       - npm run build
-      - netlifyctl -A $NETLIFY_ACCESS_TOKEN -E https://gooddev.netlify.com deploy --draft
-      - export CYPRESS_baseUrl=https://gooddev.netlify.com   #set cypress baseUrl as a result of netlify command
+      - scoop bucket add netlifyctl https://github.com/netlify/scoop-netlifyctl
+      - scoop install netlifyctl
+      - URL=netlify deploy --draft | jq '.deploy_url
+      - export CYPRESS_baseUrl=$URL   #set cypress baseUrl as a result of netlify command
       - cypress run     
     - script: 
       - npm run coverage

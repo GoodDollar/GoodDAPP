@@ -6,7 +6,6 @@ import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
 import { withStyles } from '../../../lib/styles'
 import Avatar from '../../common/view/Avatar'
 import BigGoodDollar from '../../common/view/BigGoodDollar'
-import CustomButton from '../../common/buttons/CustomButton'
 import Text from '../../common/view/Text'
 import type { FeedEventProps } from './EventProps'
 import EventIcon from './EventIcon'
@@ -60,29 +59,23 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
         </View>
         <View style={styles.transferInfo} alignItems="flex-start">
           <View style={styles.mainInfo}>
-            <EventCounterParty style={styles.feedItem} feedItem={feed} />
-            {feed.type === 'welcome' ? (
-              <Text fontWeight="medium" numberOfLines={1} style={styles.welcomeText}>
-                Start claiming free G$
-                <CustomButton
-                  mode="text"
-                  color={theme.colors.lighterGray}
-                  style={styles.readMore}
-                  textStyle={styles.readMoreText}
-                >
-                  Read more...
-                </CustomButton>
-              </Text>
+            {itemType === 'senderror' ? (
+              <>
+                <Text fontWeight="medium" lineHeight={19} style={styles.mainText} color="primary">
+                  {`We're sorry.`}
+                </Text>
+                <ReadMoreText
+                  text="This transaction failed"
+                  buttonText="Read why..."
+                  style={styles.failTransaction}
+                  color="primary"
+                />
+              </>
             ) : (
-              <Text
-                numberOfLines={1}
-                color="gray80Percent"
-                fontSize={10}
-                textTransform="capitalize"
-                style={styles.message}
-              >
-                {feed.data.message}
-              </Text>
+              <>
+                <EventCounterParty style={styles.feedItem} feedItem={feed} />
+                <FeedText feed={feed} />
+              </>
             )}
           </View>
           <EventIcon style={styles.typeIcon} type={itemType} />
@@ -91,6 +84,50 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
     </View>
   )
 }
+
+const getWelcomeStyles = ({ theme }) => ({
+  readMoreText: {
+    letterSpacing: 0,
+    marginLeft: 4,
+  },
+  readMore: {
+    minHeight: normalize(16),
+    maxHeight: normalize(16),
+    marginHorizontal: -theme.sizes.default,
+    display: 'inline',
+  },
+  welcomeText: {
+    flexShrink: 0,
+  },
+})
+
+const ReadMoreText = withStyles(getWelcomeStyles)(({ styles, theme, text, buttonText, style, color }) => (
+  <Text style={styles.welcomeText}>
+    <Text fontWeight="medium" numberOfLines={1} style={style} color={color || 'darkGray'}>
+      {text}
+    </Text>
+    <Text color={color || 'darkGray'} numberOfLines={1} fontSize={10} style={styles.readMoreText}>
+      {buttonText}
+    </Text>
+  </Text>
+))
+
+const getFeedTextStyles = ({ theme }) => ({
+  message: {
+    paddingBottom: 0,
+    flexShrink: 0,
+  },
+})
+
+const FeedText = withStyles(getFeedTextStyles)(({ styles, feed }) => {
+  return feed.type === 'welcome' ? (
+    <ReadMoreText text="Start claiming free G$" buttonText="Read more..." />
+  ) : (
+    <Text numberOfLines={1} color="gray80Percent" fontSize={10} textTransform="capitalize" style={styles.message}>
+      {feed.data.message}
+    </Text>
+  )
+})
 
 const getStylesFromProps = ({ theme }) => ({
   innerRow: {
@@ -101,9 +138,6 @@ const getStylesFromProps = ({ theme }) => ({
     maxHeight: '100%',
     padding: theme.sizes.default,
     width: '100%',
-  },
-  welcomeText: {
-    paddingBottom: theme.sizes.default,
   },
   avatarBottom: {
     marginTop: 'auto',
@@ -123,18 +157,6 @@ const getStylesFromProps = ({ theme }) => ({
     flexShrink: 1,
     justifyContent: 'space-between',
     paddingBottom: theme.sizes.defaultHalf,
-  },
-  readMoreText: {
-    fontFamily: theme.fonts.default,
-    fontSize: normalize(10),
-    fontWeight: '400',
-    letterSpacing: 0,
-    marginLeft: 4,
-  },
-  readMore: {
-    minHeight: normalize(16),
-    maxHeight: normalize(16),
-    marginHorizontal: -theme.sizes.default,
   },
   actionSymbol: {
     marginLeft: 'auto',
@@ -170,12 +192,14 @@ const getStylesFromProps = ({ theme }) => ({
     height: 22,
     marginBottom: 0,
   },
-  message: {
-    paddingBottom: 0,
-    flexShrink: 0,
-  },
   typeIcon: {
     marginTop: 0,
+  },
+  failTransaction: {
+    paddingBottom: 'inherit',
+  },
+  mainText: {
+    textAlignVertical: 'middle',
   },
 })
 

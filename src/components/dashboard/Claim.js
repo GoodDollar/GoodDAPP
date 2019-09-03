@@ -131,6 +131,7 @@ const Claim = props => {
           }
           userStorage.enqueueTX(transactionEvent)
         },
+        onError: userStorage.markWithErrorEvent,
       })
 
       if (receipt.status) {

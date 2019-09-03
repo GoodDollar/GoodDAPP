@@ -43,7 +43,7 @@ const Claim = props => {
   const gdstore = GDStore.useStore()
 
   const { entitlement } = gdstore.get('account')
-  const isCitizen = gdstore.get('isLoggedInCitizen') || true
+  const isCitizen = gdstore.get('isLoggedInCitizen')
 
   const [showDialog] = useDialog()
   const [loading, setLoading] = useState(false)
@@ -69,11 +69,15 @@ const Claim = props => {
       handleClaim()
     } else if (isValid === false) {
       screenProps.goToRoot()
+    } else {
+      if (isCitizen === false) {
+        goodWallet.isCitizen().then(_ => gdstore.set('isLoggedInCitizen')(_))
+      }
     }
   }
 
-  // FR Evaluation
   useEffect(() => {
+    // FR Evaluation
     evaluateFRValidity()
   }, [])
 
@@ -85,7 +89,7 @@ const Claim = props => {
       wrappedGoodWallet.getNextClaimTime(),
     ])
 
-    setState(prevState => ({ ...prevState, claimedToday, entitlement: 0, nextClaim: getNextClaim(nextClaimDate) }))
+    setState(prevState => ({ ...prevState, claimedToday, entitlement, nextClaim: getNextClaim(nextClaimDate) }))
 
     setClaimInterval(
       setInterval(() => {
@@ -130,6 +134,7 @@ const Claim = props => {
           }
           userStorage.enqueueTX(transactionEvent)
         },
+        onError: userStorage.markWithErrorEvent,
       })
 
       if (receipt.status) {

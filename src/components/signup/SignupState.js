@@ -137,16 +137,19 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
 
       //first need to add user to our database
       // Stores creationBlock number into 'lastBlock' feed's node
+
+      const mnemonic = await AsyncStorage.getItem('GD_USER_MNEMONIC')
+
       await Promise.all([
         await API.addUser(state),
-        userStorage.setProfile({ ...state, walletAddress: goodWallet.account }),
+        userStorage.setProfile({ ...state, walletAddress: goodWallet.account, mnemonic }),
         userStorage.setProfileField('registered', true, 'public'),
         goodWallet.getBlockNumber().then(creationBlock => userStorage.saveLastBlockNumber(creationBlock.toString())),
       ])
 
       //need to wait for API.addUser but we dont need to wait for it to finish
-      AsyncStorage.getItem('GD_USER_MNEMONIC').then(mnemonic => API.sendRecoveryInstructionByEmail(mnemonic)),
-        await AsyncStorage.setItem('GOODDAPP_isLoggedIn', true)
+      await API.sendRecoveryInstructionByEmail(userStorage.getMagicLine())
+      await AsyncStorage.setItem('GOODDAPP_isLoggedIn', true)
       log.debug('New user created')
       return true
     } catch (e) {

@@ -4,6 +4,7 @@ import bip39 from 'bip39-light'
 import get from 'lodash/get'
 import React, { useEffect, useState } from 'react'
 import { AsyncStorage } from 'react-native'
+import { IS_LOGGED_IN } from '../../lib/constants/localStorage'
 import logger from '../../lib/logger/pino-logger'
 import { withStyles } from '../../lib/styles'
 import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
@@ -69,7 +70,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
       const [profile, fullName] = await profileExist()
 
       if (profile) {
-        await AsyncStorage.setItem('GOODDAPP_isLoggedIn', true)
+        await AsyncStorage.setItem(IS_LOGGED_IN, true)
         const incomingRedirectUrl = get(navigation, 'state.params.redirect', '/')
         const firstName = getFirstWord(fullName)
         showDialog({

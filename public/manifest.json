@@ -1,5 +1,6 @@
 {
   "name": "GoodDollar",
+  "short_name": "GoodDollar",
   "display": "standalone",
   "orientation": "portrait",
   "start_url": "/",

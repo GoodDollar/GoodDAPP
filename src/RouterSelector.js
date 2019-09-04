@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { AsyncStorage } from 'react-native'
-import { DESTINATION_PATH, USE_DESKTOP } from './lib/constants/localStorage'
+import { DESTINATION_PATH } from './lib/constants/localStorage'
 import SimpleStore from './lib/undux/SimpleStore'
 import Splash from './components/splash/Splash'
 import { delay } from './lib/utils/async'
@@ -10,13 +10,8 @@ import logger from './lib/logger/pino-logger'
 const log = logger.child({ from: 'RouterSelector' })
 
 // import Router from './SignupRouter'
-let SignupRouter = React.lazy(async () => {
-  const useDesktop = JSON.parse(await AsyncStorage.getItem(USE_DESKTOP))
-  const delayTime = useDesktop ? 0 : 2000
-
-  return Promise.all([delay(delayTime), import(/* webpackChunkName: "signuprouter" */ './SignupRouter')]).then(
-    r => r[1]
-  )
+let SignupRouter = React.lazy(() => {
+  return Promise.all([delay(2000), import(/* webpackChunkName: "signuprouter" */ './SignupRouter')]).then(r => r[1])
 })
 let AppRouter = React.lazy(() => {
   log.debug('initializing storage and wallet...')

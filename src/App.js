@@ -22,12 +22,8 @@ const App = () => {
     setUseDesktop(true)
   }
 
-  const Splash =
-    !isMobile && !useDesktop ? (
-      <SplashDesktop onContinue={continueWithDesktop} />
-    ) : (
-      <RouterSelector usingDesktop={useDesktop} />
-    )
+  const Splash = !isMobile && !useDesktop ? <SplashDesktop onContinue={continueWithDesktop} /> : <RouterSelector />
+
   return (
     <PaperProvider theme={theme}>
       <SafeAreaView style={styles.safeAreaView}>

@@ -888,7 +888,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                         Object {
                           "color": "rgba(255,255,255,1.00)",
                           "fontFamily": "gooddollar",
-                          "fontSize": "16px",
+                          "fontSize": "14px",
                           "fontStyle": "normal",
                           "fontWeight": "normal",
                           "marginRight": "16px",
@@ -1287,7 +1287,7 @@ exports[`AppNavigation matches snapshot 1`] = `
                         Object {
                           "color": "rgba(255,255,255,1.00)",
                           "fontFamily": "gooddollar",
-                          "fontSize": "16px",
+                          "fontSize": "14px",
                           "fontStyle": "normal",
                           "fontWeight": "normal",
                           "marginLeft": "16px",

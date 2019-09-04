@@ -2,12 +2,12 @@
 import React, { useState } from 'react'
 import { View } from 'react-native'
 import CustomButton from '../buttons/CustomButton'
-import CopyButton from '../buttons/CopyButton'
+import ShareButton from '../buttons/ShareButton'
 import logger from '../../../lib/logger/pino-logger'
 import normalize from '../../../lib/utils/normalizeText'
 import userStorage from '../../../lib/gundb/UserStorage'
 import goodWallet from '../../../lib/wallet/GoodWallet'
-import { generateShareLink } from '../../../lib/share'
+import { generateSendShareObject, generateShareLink } from '../../../lib/share'
 import { useErrorDialog } from '../../../lib/undux/utils/dialog'
 import { withStyles } from '../../../lib/styles'
 
@@ -45,11 +45,13 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose }) => {
     handleModalClose()
   }
 
-  const getPaymentLink = () =>
-    generateShareLink('send', {
+  const getPaymentLink = () => {
+    const url = generateShareLink('send', {
       paymentCode: item.id,
       reason: item.data.message,
     })
+    return generateSendShareObject(url, item.data.amount, item.data.endpoint.fullName, '')
+  }
 
   const readMore = () => {
     log.info({ item, action: 'readMore' })
@@ -79,15 +81,14 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose }) => {
             >
               Cancel payment link
             </CustomButton>
-            <CopyButton
+            <ShareButton
+              share={getPaymentLink()}
+              actionText="Share as link"
               mode="outlined"
               style={styles.rightButton}
-              toCopy={getPaymentLink()}
               iconColor={theme.colors.primary}
               textStyle={styles.buttonTextStyle}
-            >
-              Copy link
-            </CopyButton>
+            />
           </View>
           <View style={styles.buttonsView}>
             <CustomButton mode="contained" style={styles.rightButton} onPress={handleModalClose}>
@@ -160,8 +161,8 @@ const getStylesFromProps = ({ theme }) => ({
     minWidth: 96,
   },
   rightButton: {
-    marginLeft: theme.sizes.default,
-    marginTop: theme.sizes.default,
+    marginLeft: 8.0001,
+    marginTop: 8.0001,
     minWidth: 96,
   },
   buttonTextStyle: {

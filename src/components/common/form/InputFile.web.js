@@ -19,7 +19,7 @@ const InputFile = props => {
         name="file"
         style={styles.input}
         onChange={async event => {
-          event.stopPropagation()
+          event.preventDefault()
           const [file] = inputRef.current.files
           const dataUrl = await toBase64(file)
           console.info({ file, dataUrl })

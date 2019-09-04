@@ -19,12 +19,12 @@ const ViewAvatar = props => {
   const [showErrorDialog] = useErrorDialog()
 
   const handleCameraPress = event => {
-    event.stopPropagation()
+    event.preventDefault()
     props.screenProps.push('EditAvatar')
   }
 
   const handleClosePress = event => {
-    event.stopPropagation()
+    event.preventDefault()
     wrappedUserStorage.setProfileField('avatar', null, 'public').catch(e => showErrorDialog('Saving image failed', e))
     props.screenProps.push('Profile')
   }

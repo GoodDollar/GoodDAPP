@@ -10,9 +10,9 @@ import logger from './lib/logger/pino-logger'
 const log = logger.child({ from: 'RouterSelector' })
 
 // import Router from './SignupRouter'
-let SignupRouter = React.lazy(() => {
-  return Promise.all([delay(2000), import(/* webpackChunkName: "signuprouter" */ './SignupRouter')]).then(r => r[1])
-})
+let SignupRouter = React.lazy(() =>
+  Promise.all([delay(2000), import(/* webpackChunkName: "signuprouter" */ './SignupRouter')]).then(r => r[1])
+)
 let AppRouter = React.lazy(() => {
   log.debug('initializing storage and wallet...')
   let walletAndStorageReady = import(/* webpackChunkName: "init" */ './init')

@@ -47,250 +47,18 @@ exports[`Claim matches snapshot 1`] = `
       className="css-view-1dbjc4n"
       style={
         Object {
-          "backgroundColor": "rgba(255,255,255,1.00)",
-          "borderBottomLeftRadius": "5px",
-          "borderBottomRightRadius": "5px",
-          "borderTopLeftRadius": "5px",
-          "borderTopRightRadius": "5px",
-          "marginBottom": "8px",
-          "paddingBottom": "8px",
-          "paddingLeft": "12px",
-          "paddingRight": "8px",
-          "paddingTop": "8px",
-        }
-      }
-    >
-      <div
-        className="css-view-1dbjc4n"
-        style={
-          Object {
-            "WebkitAlignItems": "center",
-            "WebkitBoxAlign": "center",
-            "WebkitBoxDirection": "normal",
-            "WebkitBoxOrient": "horizontal",
-            "WebkitBoxPack": "justify",
-            "WebkitFlexDirection": "row",
-            "WebkitJustifyContent": "space-between",
-            "alignItems": "center",
-            "flexDirection": "row",
-            "justifyContent": "space-between",
-            "msFlexAlign": "center",
-            "msFlexDirection": "row",
-            "msFlexPack": "justify",
-          }
-        }
-      >
-        <div
-          aria-disabled={true}
-          className="css-view-1dbjc4n"
-          disabled={true}
-          onKeyDown={[Function]}
-          onKeyUp={[Function]}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
-          style={
-            Object {
-              "MozTransitionProperty": "opacity",
-              "MozUserSelect": "none",
-              "WebkitTransitionDuration": "0.15s",
-              "WebkitTransitionProperty": "opacity",
-              "WebkitUserSelect": "none",
-              "backgroundColor": "rgba(203,203,203,1.00)",
-              "borderBottomColor": "rgba(163,163,163,1.00)",
-              "borderBottomLeftRadius": "21px",
-              "borderBottomRightRadius": "21px",
-              "borderBottomWidth": "1px",
-              "borderLeftColor": "rgba(163,163,163,1.00)",
-              "borderLeftWidth": "1px",
-              "borderRightColor": "rgba(163,163,163,1.00)",
-              "borderRightWidth": "1px",
-              "borderTopColor": "rgba(163,163,163,1.00)",
-              "borderTopLeftRadius": "21px",
-              "borderTopRightRadius": "21px",
-              "borderTopWidth": "1px",
-              "height": "42px",
-              "msUserSelect": "none",
-              "transitionDuration": "0.15s",
-              "transitionProperty": "opacity",
-              "userSelect": "none",
-              "width": "42px",
-            }
-          }
-        >
-          <div
-            className="css-view-1dbjc4n"
-            style={
-              Object {
-                "backgroundColor": "rgba(0,0,0,0.00)",
-                "borderBottomLeftRadius": "20px",
-                "borderBottomRightRadius": "20px",
-                "borderTopLeftRadius": "20px",
-                "borderTopRightRadius": "20px",
-                "height": "40px",
-                "width": "40px",
-              }
-            }
-          >
-            <div
-              className="css-view-1dbjc4n"
-              style={
-                Object {
-                  "WebkitFlexBasis": "auto",
-                  "borderBottomLeftRadius": "20px",
-                  "borderBottomRightRadius": "20px",
-                  "borderTopLeftRadius": "20px",
-                  "borderTopRightRadius": "20px",
-                  "flexBasis": "auto",
-                  "height": "40px",
-                  "msFlexPreferredSize": "auto",
-                  "overflowX": "hidden",
-                  "overflowY": "hidden",
-                  "width": "40px",
-                  "zIndex": 0,
-                }
-              }
-            >
-              <div
-                className="css-view-1dbjc4n"
-                style={
-                  Object {
-                    "backgroundColor": "rgba(0,0,0,0.00)",
-                    "backgroundImage": "url(\\"unknownProfile.svg\\")",
-                    "backgroundPosition": "center",
-                    "backgroundRepeat": "no-repeat",
-                    "backgroundSize": "cover",
-                    "bottom": "0px",
-                    "height": "100%",
-                    "left": "0px",
-                    "position": "absolute",
-                    "right": "0px",
-                    "top": "0px",
-                    "width": "100%",
-                    "zIndex": -1,
-                  }
-                }
-              />
-              <img
-                alt=""
-                className="css-accessibilityImage-9pa8cd"
-                draggable={false}
-                src="unknownProfile.svg"
-              />
-            </div>
-          </div>
-        </div>
-        <div
-          className="css-view-1dbjc4n"
-          style={
-            Object {
-              "WebkitAlignItems": "baseline",
-              "WebkitBoxAlign": "baseline",
-              "WebkitBoxDirection": "normal",
-              "WebkitBoxOrient": "horizontal",
-              "WebkitFlexDirection": "row",
-              "alignItems": "baseline",
-              "display": "flex",
-              "flexDirection": "row",
-              "msFlexAlign": "baseline",
-              "msFlexDirection": "row",
-            }
-          }
-        >
-          <div
-            className="css-text-901oao"
-            dir="auto"
-            style={
-              Object {
-                "color": "rgba(85,85,85,1.00)",
-                "direction": "ltr",
-                "fontFamily": "Roboto Slab",
-                "fontSize": "36px",
-                "fontWeight": "700",
-                "lineHeight": "30px",
-                "marginRight": "2px",
-                "textAlign": "right",
-                "textDecoration": "none",
-                "textTransform": "none",
-              }
-            }
-          >
-            -.--
-          </div>
-          <div
-            className="css-text-901oao"
-            dir="auto"
-            style={
-              Object {
-                "color": "rgba(66,69,74,1.00)",
-                "direction": "ltr",
-                "fontFamily": "Roboto",
-                "fontSize": "16px",
-                "fontWeight": "normal",
-                "lineHeight": "22px",
-                "textAlign": "center",
-                "textDecoration": "none",
-                "textTransform": "none",
-              }
-            }
-          >
-            <span
-              className="css-text-901oao css-textHasAncestor-16my406"
-              dir="auto"
-              style={
-                Object {
-                  "color": "rgba(85,85,85,1.00)",
-                  "direction": "ltr",
-                  "fontFamily": "Roboto Slab",
-                  "fontSize": "18px",
-                  "fontWeight": "700",
-                  "lineHeight": "24px",
-                  "textAlign": "right",
-                  "textDecoration": "none",
-                  "textTransform": "none",
-                }
-              }
-            >
-              G
-            </span>
-            <span
-              className="css-text-901oao css-textHasAncestor-16my406"
-              dir="auto"
-              style={
-                Object {
-                  "color": "rgba(85,85,85,1.00)",
-                  "direction": "ltr",
-                  "fontFamily": "Roboto Slab",
-                  "fontSize": "17.5px",
-                  "fontWeight": "700",
-                  "lineHeight": "21px",
-                  "textAlign": "right",
-                  "textDecoration": "none",
-                  "textTransform": "none",
-                }
-              }
-            >
-              $
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      className="css-view-1dbjc4n"
-      style={
-        Object {
           "WebkitBoxFlex": 1,
+          "WebkitBoxPack": "justify",
           "WebkitFlexGrow": 1,
+          "WebkitJustifyContent": "space-between",
           "backgroundColor": "rgba(0,0,0,0.00)",
           "borderBottomLeftRadius": "5px",
           "borderBottomRightRadius": "5px",
           "borderTopLeftRadius": "5px",
           "borderTopRightRadius": "5px",
           "flexGrow": 1,
+          "justifyContent": "space-between",
+          "msFlexPack": "justify",
           "msFlexPositive": 1,
           "paddingBottom": "0px",
           "paddingLeft": "0px",
@@ -313,11 +81,11 @@ exports[`Claim matches snapshot 1`] = `
             "alignItems": "center",
             "flexDirection": "column",
             "justifyContent": "space-between",
-            "marginBottom": "64px",
+            "marginBottom": "auto",
+            "marginTop": "auto",
             "msFlexAlign": "center",
             "msFlexDirection": "column",
             "msFlexPack": "justify",
-            "paddingTop": "16px",
           }
         }
       >
@@ -492,6 +260,26 @@ exports[`Claim matches snapshot 1`] = `
         >
           Every Day
         </div>
+        <div
+          className="css-text-901oao"
+          dir="auto"
+          style={
+            Object {
+              "color": "rgba(66,69,74,1.00)",
+              "direction": "ltr",
+              "fontFamily": "Roboto",
+              "fontSize": "16px",
+              "fontWeight": "normal",
+              "lineHeight": "22px",
+              "minHeight": "0px",
+              "textAlign": "center",
+              "textDecoration": "none",
+              "textTransform": "none",
+            }
+          }
+        >
+           
+        </div>
       </div>
       <div
         className="css-view-1dbjc4n"
@@ -517,7 +305,7 @@ exports[`Claim matches snapshot 1`] = `
             "flexGrow": 1,
             "flexShrink": 1,
             "justifyContent": "space-between",
-            "minHeight": "0px",
+            "maxHeight": "fit-content",
             "msFlexAlign": "stretch",
             "msFlexDirection": "column",
             "msFlexNegative": 1,
@@ -541,11 +329,9 @@ exports[`Claim matches snapshot 1`] = `
               "flexBasis": "auto",
               "flexGrow": 0,
               "flexShrink": 0,
+              "height": "0px",
               "marginBottom": "8px",
-              "marginTop": "-80px",
-              "maxWidth": "100%",
-              "minHeight": "159px",
-              "minWidth": "229px",
+              "marginTop": "-70px",
               "msFlexNegative": 0,
               "msFlexPositive": 0,
               "msFlexPreferredSize": "auto",
@@ -612,7 +398,6 @@ exports[`Claim matches snapshot 1`] = `
               "msFlexPack": "center",
               "msFlexPositive": 1,
               "paddingBottom": "8px",
-              "paddingTop": "8px",
             }
           }
         >
@@ -623,26 +408,7 @@ exports[`Claim matches snapshot 1`] = `
               Object {
                 "color": "rgba(66,69,74,1.00)",
                 "direction": "ltr",
-                "fontFamily": "Roboto",
-                "fontSize": "16px",
-                "fontWeight": "700",
-                "lineHeight": "22px",
-                "textAlign": "center",
-                "textDecoration": "none",
-                "textTransform": "none",
-              }
-            }
-          >
-            0
-             
-          </div>
-          <div
-            className="css-text-901oao"
-            dir="auto"
-            style={
-              Object {
-                "color": "rgba(66,69,74,1.00)",
-                "direction": "ltr",
+                "display": "inline",
                 "fontFamily": "Roboto",
                 "fontSize": "16px",
                 "fontWeight": "normal",
@@ -650,50 +416,32 @@ exports[`Claim matches snapshot 1`] = `
                 "textAlign": "center",
                 "textDecoration": "none",
                 "textTransform": "none",
+                "width": "0px",
               }
             }
           >
-            People Claimed 
-          </div>
-          <div
-            className="css-view-1dbjc4n"
-            style={
-              Object {
-                "WebkitAlignItems": "baseline",
-                "WebkitBoxAlign": "baseline",
-                "WebkitBoxDirection": "normal",
-                "WebkitBoxOrient": "horizontal",
-                "WebkitFlexDirection": "row",
-                "alignItems": "baseline",
-                "display": "flex",
-                "flexDirection": "row",
-                "msFlexAlign": "baseline",
-                "msFlexDirection": "row",
-              }
-            }
-          >
-            <div
-              className="css-text-901oao"
+            <span
+              className="css-text-901oao css-textHasAncestor-16my406"
               dir="auto"
               style={
                 Object {
-                  "color": "rgba(85,85,85,1.00)",
+                  "color": "rgba(66,69,74,1.00)",
                   "direction": "ltr",
-                  "fontFamily": "Roboto Slab",
+                  "fontFamily": "Roboto",
                   "fontSize": "16px",
                   "fontWeight": "700",
                   "lineHeight": "22px",
-                  "marginRight": "2px",
-                  "textAlign": "right",
+                  "textAlign": "center",
                   "textDecoration": "none",
                   "textTransform": "none",
                 }
               }
             >
               0
-            </div>
-            <div
-              className="css-text-901oao"
+               
+            </span>
+            <span
+              className="css-text-901oao css-textHasAncestor-16my406"
               dir="auto"
               style={
                 Object {
@@ -709,64 +457,8 @@ exports[`Claim matches snapshot 1`] = `
                 }
               }
             >
-              <span
-                className="css-text-901oao css-textHasAncestor-16my406"
-                dir="auto"
-                style={
-                  Object {
-                    "color": "rgba(85,85,85,1.00)",
-                    "direction": "ltr",
-                    "fontFamily": "Roboto Slab",
-                    "fontSize": "10px",
-                    "fontWeight": "700",
-                    "lineHeight": "14px",
-                    "textAlign": "right",
-                    "textDecoration": "none",
-                    "textTransform": "none",
-                  }
-                }
-              >
-                G
-              </span>
-              <span
-                className="css-text-901oao css-textHasAncestor-16my406"
-                dir="auto"
-                style={
-                  Object {
-                    "color": "rgba(85,85,85,1.00)",
-                    "direction": "ltr",
-                    "fontFamily": "Roboto Slab",
-                    "fontSize": "9.5px",
-                    "fontWeight": "700",
-                    "lineHeight": "11.4px",
-                    "textAlign": "right",
-                    "textDecoration": "none",
-                    "textTransform": "none",
-                  }
-                }
-              >
-                $
-              </span>
-            </div>
-          </div>
-          <div
-            className="css-text-901oao"
-            dir="auto"
-            style={
-              Object {
-                "color": "rgba(66,69,74,1.00)",
-                "direction": "ltr",
-                "fontFamily": "Roboto",
-                "fontSize": "16px",
-                "fontWeight": "normal",
-                "lineHeight": "22px",
-                "textAlign": "center",
-                "textDecoration": "none",
-                "textTransform": "none",
-              }
-            }
-          >
-            Today!
+              people have already claimed today!
+            </span>
           </div>
         </div>
         <div
@@ -855,7 +547,7 @@ exports[`Claim matches snapshot 1`] = `
               "WebkitBoxPack": "center",
               "WebkitJustifyContent": "center",
               "alignItems": "stretch",
-              "backgroundColor": "rgba(0,175,255,1.00)",
+              "backgroundColor": "rgba(0,0,0,0.12)",
               "borderBottomColor": "rgba(0,175,255,1.00)",
               "borderBottomLeftRadius": "50px",
               "borderBottomRightRadius": "50px",
@@ -872,7 +564,6 @@ exports[`Claim matches snapshot 1`] = `
               "borderTopRightRadius": "50px",
               "borderTopStyle": "solid",
               "borderTopWidth": "0px",
-              "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
               "display": "flex",
               "justifyContent": "center",
               "marginBottom": "0px",
@@ -891,15 +582,13 @@ exports[`Claim matches snapshot 1`] = `
           }
         >
           <div
-            className="css-cursor-18t94o4 css-view-1dbjc4n"
-            data-focusable={true}
-            disabled={false}
+            aria-disabled={true}
+            className="css-view-1dbjc4n"
+            disabled={true}
             onKeyDown={[Function]}
-            onKeyPress={[Function]}
             onKeyUp={[Function]}
             onResponderGrant={[Function]}
             onResponderMove={[Function]}
-            onResponderRelease={[Function]}
             onResponderTerminate={[Function]}
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
@@ -910,15 +599,11 @@ exports[`Claim matches snapshot 1`] = `
                 "borderBottomRightRadius": "50px",
                 "borderTopLeftRadius": "50px",
                 "borderTopRightRadius": "50px",
-                "cursor": "pointer",
-                "msTouchAction": "manipulation",
                 "overflowX": "hidden",
                 "overflowY": "hidden",
                 "position": "relative",
-                "touchAction": "manipulation",
               }
             }
-            tabIndex="0"
           >
             <div
               className="css-view-1dbjc4n"
@@ -946,7 +631,7 @@ exports[`Claim matches snapshot 1`] = `
                 dir="auto"
                 style={
                   Object {
-                    "color": "rgba(255,255,255,1.00)",
+                    "color": "rgba(0,0,0,0.32)",
                     "direction": "ltr",
                     "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                     "letterSpacing": "1px",
@@ -1016,6 +701,8 @@ exports[`Claim matches snapshot 1`] = `
                         "alignItems": "baseline",
                         "display": "inline",
                         "flexDirection": "row",
+                        "lineHeight": "24px",
+                        "marginLeft": "4px",
                         "msFlexAlign": "baseline",
                         "msFlexDirection": "row",
                       }
@@ -1039,7 +726,7 @@ exports[`Claim matches snapshot 1`] = `
                         }
                       }
                     >
-                      -.--
+                      0
                     </span>
                     <span
                       className="css-text-901oao css-textHasAncestor-16my406"

@@ -4,10 +4,10 @@ import QRCodeReact from 'qrcode.react'
 import { View } from 'react-native'
 import { withStyles } from '../../../lib/styles'
 
-const QRCode = ({ styles, ...props }: any) => {
+const QRCode = ({ qrStyles = {}, styles, ...props }: any) => {
   return (
     <View style={styles.qrWrapper}>
-      <View style={styles.qrCode}>
+      <View style={[styles.qrCode, qrStyles]}>
         <QRCodeReact {...props} />
       </View>
     </View>

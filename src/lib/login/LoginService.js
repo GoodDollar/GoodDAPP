@@ -2,6 +2,7 @@
 import { AsyncStorage } from 'react-native'
 import type { Credentials } from '../API/api'
 import API from '../API/api'
+import { CREDS, JWT } from '../constants/localStorage'
 import logger from '../logger/pino-logger'
 
 const log = logger.child({ from: 'LoginService' })
@@ -25,25 +26,25 @@ class LoginService {
       return
     }
     this.credentials = creds
-    AsyncStorage.setItem('GoodDAPP_creds', JSON.stringify(this.credentials))
+    AsyncStorage.setItem(CREDS, JSON.stringify(this.credentials))
   }
 
   // eslint-disable-next-line class-methods-use-this
   storeJWT(jwt: string) {
     this.jwt = jwt
     if (jwt) {
-      AsyncStorage.setItem('GoodDAPP_jwt', jwt)
+      AsyncStorage.setItem(JWT, jwt)
     }
   }
 
   async getCredentials(): Promise<?Credentials> {
-    const data = await AsyncStorage.getItem('GoodDAPP_creds')
+    const data = await AsyncStorage.getItem(CREDS)
     return data ? JSON.parse(data) : null
   }
 
   // eslint-disable-next-line class-methods-use-this
   getJWT(): Promise<?string> {
-    return AsyncStorage.getItem('GoodDAPP_jwt')
+    return AsyncStorage.getItem(JWT)
   }
 
   // eslint-disable-next-line class-methods-use-this

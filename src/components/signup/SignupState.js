@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { AsyncStorage, ScrollView, StyleSheet, View } from 'react-native'
 import { createSwitchNavigator } from '@react-navigation/core'
 import { isMobileSafari } from 'mobile-device-detect'
+import { GD_USER_MNEMONIC, IS_LOGGED_IN } from '../../lib/constants/localStorage'
 
 import NavBar from '../appNavigation/NavBar'
 import { navigationConfig } from '../appNavigation/navigationConfig'
@@ -145,8 +146,8 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       ])
 
       //need to wait for API.addUser but we dont need to wait for it to finish
-      AsyncStorage.getItem('GD_USER_MNEMONIC').then(mnemonic => API.sendRecoveryInstructionByEmail(mnemonic)),
-        await AsyncStorage.setItem('GOODDAPP_isLoggedIn', true)
+      AsyncStorage.getItem(GD_USER_MNEMONIC).then(mnemonic => API.sendRecoveryInstructionByEmail(mnemonic)),
+        await AsyncStorage.setItem(IS_LOGGED_IN, true)
       log.debug('New user created')
       return true
     } catch (e) {

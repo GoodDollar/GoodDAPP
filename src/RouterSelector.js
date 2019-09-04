@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { AsyncStorage } from 'react-native'
+import { DESTINATION_PATH } from './lib/constants/localStorage'
 import SimpleStore from './lib/undux/SimpleStore'
 import Splash from './components/splash/Splash'
 import { delay } from './lib/utils/async'
@@ -27,7 +28,7 @@ const RouterSelector = () => {
   const store = SimpleStore.useStore()
 
   //we use global state for signup process to signal user has registered
-  const isLoggedIn = store.get('isLoggedIn') //Promise.resolve( || AsyncStorage.getItem('GOODDAPP_isLoggedIn'))
+  const isLoggedIn = store.get('isLoggedIn') //Promise.resolve( || AsyncStorage.getItem(IS_LOGGED_IN))
 
   log.debug('RouterSelector Rendered', { isLoggedIn })
   const Router = isLoggedIn ? AppRouter : SignupRouter
@@ -41,7 +42,7 @@ const RouterSelector = () => {
     if (params && Object.keys(params).length > 0) {
       const dest = { path: window.location.pathname.slice(1), params }
       log.debug('Saving destination url', dest)
-      AsyncStorage.setItem('destinationPath', JSON.stringify(dest))
+      AsyncStorage.setItem(DESTINATION_PATH, JSON.stringify(dest))
     }
   }, [])
   return (

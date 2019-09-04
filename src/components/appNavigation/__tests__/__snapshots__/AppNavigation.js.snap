@@ -399,6 +399,7 @@ exports[`AppNavigation matches snapshot 1`] = `
         </div>
       </div>
     </div>
+    <div />
     <div
       className="css-view-1dbjc4n"
       data-name="viewWrapper"

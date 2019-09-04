@@ -213,7 +213,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
             }
           }
         >
-          04/01/19 15:03
+          19-04-01 15:03
         </div>
         <div
           className="css-text-901oao"
@@ -709,7 +709,7 @@ exports[`ListEventItem send matches snapshot 1`] = `
             }
           }
         >
-          04/01/19 15:03
+          19-04-01 15:03
         </div>
         <div
           className="css-text-901oao"
@@ -1205,7 +1205,7 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
             }
           }
         >
-          04/01/19 15:03
+          19-04-01 15:03
         </div>
         <div
           className="css-text-901oao"

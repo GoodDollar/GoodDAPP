@@ -868,7 +868,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                       }
                     }
                   >
-                    04/01/19 15:03
+                    19-04-01 15:03
                   </div>
                   <div
                     className="css-text-901oao"
@@ -1435,7 +1435,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                       }
                     }
                   >
-                    04/01/19 15:03
+                    19-04-01 15:03
                   </div>
                   <div
                     className="css-text-901oao"

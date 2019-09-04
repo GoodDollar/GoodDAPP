@@ -3,6 +3,7 @@ import axios from 'axios'
 import type { $AxiosXHR, AxiosInstance, AxiosPromise } from 'axios'
 import { AsyncStorage } from 'react-native'
 import Config from '../../config/config'
+import { JWT } from '../constants/localStorage'
 import logger from '../logger/pino-logger'
 import type { NameRecord } from '../../components/signup/NameForm'
 import type { EmailRecord } from '../../components/signup/EmailForm'
@@ -45,7 +46,7 @@ class API {
    */
   init() {
     log.info('initializing api...', Config.serverUrl)
-    return (this.ready = AsyncStorage.getItem('GoodDAPP_jwt').then(async jwt => {
+    return (this.ready = AsyncStorage.getItem(JWT).then(async jwt => {
       this.jwt = jwt
       let instance: AxiosInstance = axios.create({
         baseURL: Config.serverUrl,
@@ -203,6 +204,14 @@ class API {
         }
         return r
       })
+  }
+
+  /**
+   * `/verify/facerecognition` get api call
+   * @param {Credentials} creds
+   */
+  getLoginToken() {
+    return this.client.get('/storage/login/token')
   }
 }
 const api = new API()

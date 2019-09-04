@@ -67,6 +67,9 @@ const Dashboard = props => {
     }
   }
 
+  const nextFeed = () => {
+    return getNextFeed(gdstore)
+  }
   useEffect(() => {
     prepareLoginToken()
 
@@ -196,7 +199,7 @@ const Dashboard = props => {
         data={feeds}
         handleFeedSelection={handleFeedSelection}
         initialNumToRender={PAGE_SIZE}
-        onEndReached={getNextFeed.bind(null, store)}
+        onEndReached={nextFeed}
         updateData={() => {}}
         onScroll={({ nativeEvent }) => {
           // Replicating Header Height.
@@ -227,7 +230,7 @@ const Dashboard = props => {
           data={feeds}
           handleFeedSelection={handleFeedSelection}
           initialNumToRender={PAGE_SIZE}
-          onEndReached={getNextFeed.bind(null, store)}
+          onEndReached={nextFeed}
           selectedFeed={currentFeed}
           updateData={() => {}}
         />

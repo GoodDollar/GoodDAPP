@@ -1,7 +1,6 @@
 // @flow
 import React, { useEffect, useState } from 'react'
 import { isMobile } from 'mobile-device-detect'
-import { withStyles } from '../../lib/styles'
 import GDStore from '../../lib/undux/GDStore'
 import { generateSendShareObject } from '../../lib/share'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
@@ -27,9 +26,8 @@ export type AmountProps = {
  * @param {any} props.screenProps
  * @param {any} props.navigation
  */
-const SendLinkSummary = (props: AmountProps) => {
+const SendLinkSummary = ({ screenProps }: AmountProps) => {
   const profile = GDStore.useStore().get('profile')
-  const { screenProps, styles } = props
   const [screenState] = useScreenState(screenProps)
   const [showDialog, , showErrorDialog] = useDialog()
 
@@ -153,11 +151,8 @@ const SendLinkSummary = (props: AmountProps) => {
       <Section grow>
         <Section.Title>SUMMARY</Section.Title>
         <Section.Row justifyContent="center">
-          <Section.Text color="gray80Percent" style={styles.descriptionText}>
-            {'* the transaction may take\na few seconds to complete'}
-          </Section.Text>
+          <Section.Text color="gray80Percent">{'* the transaction may take\na few seconds to complete'}</Section.Text>
         </Section.Row>
-
         <SummaryTable counterPartyDisplayName={counterPartyDisplayName} amount={amount} reason={reason} />
         <Section.Row>
           <Section.Row grow={1} justifyContent="flex-start">
@@ -176,12 +171,6 @@ const SendLinkSummary = (props: AmountProps) => {
   )
 }
 
-const getStylesFromProps = ({ theme }) => ({
-  descriptionText: {
-    maxWidth: 210,
-  },
-})
-
 SendLinkSummary.navigationOptions = {
   title: SEND_TITLE,
 }
@@ -191,4 +180,4 @@ SendLinkSummary.shouldNavigateToComponent = props => {
   return (!!screenState.nextRoutes && screenState.amount) || !!screenState.sendLink || screenState.from
 }
 
-export default withStyles(getStylesFromProps)(SendLinkSummary)
+export default SendLinkSummary

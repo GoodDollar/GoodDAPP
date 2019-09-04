@@ -1,4 +1,3 @@
-export const USE_DESKTOP = 'GOODDAPP_useDesktop'
 export const JWT = 'GoodDAPP_jwt'
 export const CREDS = 'GoodDAPP_creds'
 export const DESTINATION_PATH = 'destinationPath'

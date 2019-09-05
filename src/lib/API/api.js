@@ -205,6 +205,14 @@ class API {
         return r
       })
   }
+
+  /**
+   * `/verify/facerecognition` get api call
+   * @param {Credentials} creds
+   */
+  getLoginToken() {
+    return this.client.get('/verify/w3/logintoken')
+  }
 }
 const api = new API()
 global.api = api

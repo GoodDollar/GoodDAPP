@@ -93,7 +93,7 @@ class SoftwareWalletProvider {
     let web3Provider
     let transport = this.conf.web3Transport
     switch (transport) {
-      case 'WebSocket':
+      case 'WebSocketProvider':
         provider = this.conf.websocketWeb3Provider
         web3Provider = new Web3.providers.WebsocketProvider(provider)
         break

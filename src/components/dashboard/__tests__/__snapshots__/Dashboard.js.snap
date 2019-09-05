@@ -157,87 +157,56 @@ exports[`Dashboard matches snapshot 1`] = `
         }
       >
         <div
-          aria-disabled={true}
           className="css-view-1dbjc4n"
-          disabled={true}
+          data-focusable={true}
           onKeyDown={[Function]}
           onKeyUp={[Function]}
           onResponderGrant={[Function]}
           onResponderMove={[Function]}
+          onResponderRelease={[Function]}
           onResponderTerminate={[Function]}
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
-          role="button"
           style={
             Object {
-              "WebkitAlignItems": "center",
-              "WebkitBoxAlign": "center",
-              "WebkitBoxPack": "center",
-              "WebkitJustifyContent": "center",
-              "alignItems": "center",
-              "height": "28px",
-              "justifyContent": "center",
-              "marginBottom": "10px",
+              "MozTransitionProperty": "opacity",
+              "MozUserSelect": "none",
+              "WebkitTransitionDuration": "0.15s",
+              "WebkitTransitionProperty": "opacity",
+              "WebkitUserSelect": "none",
+              "cursor": "pointer",
               "marginLeft": "10px",
-              "marginRight": "10px",
-              "marginTop": "10px",
-              "msFlexAlign": "center",
-              "msFlexPack": "center",
-              "overflowX": "visible",
-              "overflowY": "visible",
-              "position": "relative",
-              "width": "28px",
+              "msTouchAction": "manipulation",
+              "msUserSelect": "none",
+              "touchAction": "manipulation",
+              "transitionDuration": "0.15s",
+              "transitionProperty": "opacity",
+              "userSelect": "none",
             }
           }
+          tabIndex="0"
         >
-          <span
-            className="css-hitSlop-mjp8i1"
+          <svg
+            height="30.2"
             style={
               Object {
-                "bottom": "-10px",
-                "left": "-10px",
-                "right": "-10px",
-                "top": "-10px",
+                "enableBackground": "new 0 0 37.5 30.2",
               }
             }
-          />
-          <div
-            className="css-view-1dbjc4n"
+            version="1.1"
+            viewBox="0 0 37.5 30.2"
+            width="37.5"
+            x="0px"
+            xmlSpace="preserve"
+            xmlns="http://www.w3.org/2000/svg"
+            y="0px"
           >
-            <div
-              className="css-view-1dbjc4n"
-              style={
-                Object {
-                  "WebkitAlignItems": "center",
-                  "WebkitBoxAlign": "center",
-                  "WebkitBoxPack": "center",
-                  "WebkitJustifyContent": "center",
-                  "alignItems": "center",
-                  "height": "24px",
-                  "justifyContent": "center",
-                  "msFlexAlign": "center",
-                  "msFlexPack": "center",
-                  "width": "24px",
-                }
-              }
-            >
-              <div
-                className="css-view-1dbjc4n"
-                style={
-                  Object {
-                    "WebkitTransform": "rotate(0deg)",
-                    "bottom": "0px",
-                    "left": "0px",
-                    "opacity": 1,
-                    "position": "absolute",
-                    "right": "0px",
-                    "top": "0px",
-                    "transform": "rotate(0deg)",
-                  }
-                }
-              />
-            </div>
-          </div>
+            <path
+              className="st0"
+              d="M8.3,25.5c-0.3,0-0.6,0.1-0.8,0.3s-0.3,0.5-0.4,1h2.3v-0.1c0-0.4-0.1-0.7-0.3-0.9C8.9,25.6,8.6,25.5,8.3,25.5z M20.3,27.7c-0.2,0.2-0.3,0.4-0.3,0.6c0,0.2,0.1,0.4,0.2,0.5c0.2,0.1,0.4,0.2,0.6,0.2c0.2,0,0.5-0.1,0.7-0.2 c0.2-0.1,0.4-0.3,0.5-0.5v-1h-0.6C20.8,27.5,20.5,27.5,20.3,27.7z M29.9,25.5c-0.4,0-0.7,0.2-0.9,0.5c-0.2,0.3-0.3,0.8-0.3,1.4 c0,0.5,0.1,1,0.3,1.3c0.2,0.3,0.5,0.5,0.9,0.5c0.5,0,0.8-0.2,1.1-0.6v-2.3C30.8,25.7,30.4,25.5,29.9,25.5z M3.5,24.2 c-0.2-0.2-0.5-0.3-1-0.3H1.2v2.4h1.3c0.4,0,0.7-0.1,1-0.3c0.2-0.2,0.4-0.5,0.4-0.9C3.8,24.7,3.7,24.4,3.5,24.2z M3.8,26.9l1.6,3v0.1 H4l-1.4-2.7H1.2v2.7H0v-7.1h2.5c0.8,0,1.5,0.2,1.9,0.6c0.4,0.4,0.7,0.9,0.7,1.6c0,0.5-0.1,0.9-0.3,1.2C4.5,26.5,4.2,26.7,3.8,26.9z M10,25.3c0.4,0.5,0.6,1.1,0.6,1.9v0.5H7.1c0,0.4,0.2,0.8,0.4,1c0.3,0.3,0.6,0.4,1,0.4c0.5,0,1-0.2,1.3-0.7l0.6,0.6 c-0.2,0.3-0.5,0.6-0.8,0.7C9.3,30,8.9,30,8.5,30c-0.8,0-1.4-0.2-1.8-0.7c-0.5-0.5-0.7-1.1-0.7-1.9v-0.1c0-0.5,0.1-1,0.3-1.4 c0.2-0.4,0.5-0.7,0.9-1c0.4-0.2,0.8-0.3,1.2-0.3C9,24.6,9.6,24.8,10,25.3z M16.1,28.3L15,24.7h-0.9l-1.1,3.6l-0.9-3.6H11l1.4,5.3h1 l1.1-3.6l1.1,3.6h1l1.4-5.3H17L16.1,28.3z M23.1,28.7c0,0.5,0.1,0.9,0.2,1.1v0.1h-1.2c-0.1-0.1-0.1-0.3-0.1-0.5 c-0.4,0.4-0.8,0.6-1.4,0.6c-0.5,0-1-0.2-1.3-0.5c-0.3-0.3-0.5-0.7-0.5-1.1c0-0.6,0.2-1,0.6-1.3c0.4-0.3,1-0.5,1.8-0.5h0.7v-0.3 c0-0.3-0.1-0.5-0.2-0.7c-0.2-0.2-0.4-0.2-0.7-0.2c-0.3,0-0.5,0.1-0.7,0.2c-0.2,0.1-0.3,0.3-0.3,0.5h-1.2c0-0.3,0.1-0.6,0.3-0.8 c0.2-0.3,0.5-0.5,0.8-0.6c0.3-0.1,0.7-0.2,1.1-0.2c0.6,0,1.1,0.2,1.5,0.5c0.4,0.3,0.6,0.7,0.6,1.3V28.7z M25.5,25.3l0-0.6h-1.1v5.3 h1.2v-3.6c0.2-0.4,0.6-0.6,1.1-0.6c0.2,0,0.3,0,0.5,0l0-1.1c-0.1,0-0.2-0.1-0.4-0.1C26.2,24.6,25.8,24.8,25.5,25.3z M31,22.6h1.2 v7.5h-1.1L31,29.5c-0.4,0.4-0.8,0.6-1.4,0.6c-0.6,0-1.1-0.2-1.5-0.7c-0.4-0.5-0.6-1.2-0.6-2c0-0.8,0.2-1.5,0.6-2 c0.4-0.5,0.9-0.7,1.5-0.7c0.6,0,1,0.2,1.4,0.6V22.6z M37.3,27.7c-0.1-0.2-0.3-0.4-0.6-0.5c-0.3-0.1-0.6-0.3-1.1-0.4 c-0.5-0.1-0.8-0.2-0.9-0.3c-0.2-0.1-0.2-0.2-0.2-0.4c0-0.2,0.1-0.4,0.2-0.5c0.2-0.1,0.4-0.2,0.6-0.2c0.3,0,0.5,0.1,0.7,0.2 c0.2,0.2,0.3,0.3,0.3,0.6h1.2c0-0.5-0.2-0.9-0.6-1.2c-0.4-0.3-0.9-0.5-1.5-0.5c-0.6,0-1.1,0.2-1.5,0.5c-0.4,0.3-0.6,0.7-0.6,1.1 c0,0.5,0.3,1,0.9,1.2c0.3,0.1,0.6,0.2,1,0.3c0.4,0.1,0.7,0.2,0.9,0.3c0.2,0.1,0.3,0.3,0.3,0.5c0,0.2-0.1,0.3-0.2,0.5 c-0.2,0.1-0.4,0.2-0.7,0.2c-0.3,0-0.6-0.1-0.8-0.2c-0.2-0.2-0.3-0.4-0.3-0.6h-1.2c0,0.3,0.1,0.6,0.3,0.9c0.2,0.3,0.5,0.5,0.8,0.6 C34.6,30,35,30,35.4,30c0.6,0,1.2-0.1,1.5-0.4c0.4-0.3,0.6-0.7,0.6-1.2C37.5,28.2,37.5,27.9,37.3,27.7z M27.3,1.2c0,0.1,0,0.1,0,0.2 c0,4.5-3.4,8.2-7.8,8.8V14c0,0.1,0,0.1,0,0.1c2.3,0.5,3.9,2.6,3.9,4.9c0,0.6-0.5,1.1-1.1,1.1c-0.6,0-1.1-0.5-1.1-1.1 c-0.1-1.6-1.3-2.8-2.8-2.8c-1.6,0-2.8,1.3-2.8,2.8c0,0.6-0.5,1.1-1.1,1.1s-1.1-0.5-1.1-1.1c0-2.4,1.6-4.4,3.9-4.9c0-0.1,0-0.1,0-0.1 v-3.9c-4.5-0.6-7.8-4.3-7.8-8.8V1.2V1.1C9.5,0.5,10,0,10.6,0h15.6C26.8,0,27.3,0.5,27.3,1.2z M24.9,2.3H11.8C12.3,5.5,15.1,8,18.4,8 C21.7,8,24.5,5.5,24.9,2.3z"
+              fill="#fff"
+            />
+          </svg>
         </div>
         <div
           className="css-view-1dbjc4n"

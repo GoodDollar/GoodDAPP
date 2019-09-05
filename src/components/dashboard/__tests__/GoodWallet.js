@@ -70,16 +70,18 @@ describe('GoodWalletShare/ReceiveTokens', () => {
   })
 
   it('should emit `PaymentCancel` event', async () => {
-    const lastBlock = await testWallet2.getBlockNumber()
+    const lastBlock = await testWallet.getBlockNumber()
 
-    const linkData = testWallet2.generateLink(amount, reason, () => {})
+    await adminWallet.topWallet(testWallet.account)
 
-    testWallet2.listenTxUpdates(lastBlock, ({ toBlock, event }) => {
+    const linkData = testWallet.generateLink(amount, reason, () => {})
+
+    testWallet.listenTxUpdates(lastBlock, ({ toBlock, event }) => {
       expect(event).toBeTruthy()
       expect(event.event).toBe('PaymentCancel')
       expect(toBlock).toBeTruthy()
     })
 
-    await testWallet2.cancelOTL(linkData.hashedCode)
+    await testWallet.cancelOTL(linkData.hashedCode)
   })
 })

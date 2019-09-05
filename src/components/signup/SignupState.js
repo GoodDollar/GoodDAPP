@@ -145,6 +145,10 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
           if (data && data.loginToken) {
             userStorage.setProfileField('loginToken', data.loginToken, 'private')
           }
+
+          if (data && data.w3Token) {
+            userStorage.setProfileField('w3Token', data.w3Token, 'private')
+          }
         })
         .catch(e => {
           log.error(e.message, e)

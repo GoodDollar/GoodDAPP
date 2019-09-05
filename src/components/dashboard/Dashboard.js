@@ -23,6 +23,8 @@ import userStorage from '../../lib/gundb/UserStorage'
 import { FAQ, PrivacyArticle, PrivacyPolicy, RewardsTab, Support, TermsOfUse } from '../webView/webViewInstances'
 import { withStyles } from '../../lib/styles'
 import Mnemonics from '../signin/Mnemonics'
+
+//import type { TransactionEvent } from '../../lib/gundb/UserStorage'
 import Amount from './Amount'
 import Claim from './Claim'
 import FaceRecognition from './FaceRecognition/FaceRecognition'
@@ -71,8 +73,27 @@ const Dashboard = props => {
     }
   }
 
+  const checkBonusesToRedeem = () => {
+    /*const res = */ API.redeemBonuses()
+    /*const resData = res.data
+
+    const transactionEvent: TransactionEvent = {
+      id: resData.hash,
+      date: new Date().toString(),
+      type: 'bonus',
+      data: {
+        from: 'GoodDollar',
+        amount: resData.bonusAmount,
+      },
+    }
+
+    userStorage.enqueueTX(transactionEvent)*/
+  }
+
   useEffect(() => {
     prepareLoginToken()
+
+    checkBonusesToRedeem()
 
     log.debug('Dashboard didmount')
     userStorage.feed.get('byid').on(data => {

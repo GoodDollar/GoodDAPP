@@ -5,6 +5,11 @@ const getEventSettingsByType = (theme, type) => {
       color: theme.colors.lightGreen,
       name: 'claim-filled',
     },
+    bonus: {
+      actionSymbol: '+',
+      color: theme.colors.lightGreen,
+      name: 'rewards',
+    },
     send: {
       actionSymbol: '-',
       color: theme.colors.red,

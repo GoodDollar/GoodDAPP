@@ -206,11 +206,18 @@ class API {
   }
 
   /**
-   * `/verify/facerecognition` get api call
+   * `/storage/login/token` get api call
    * @param {Credentials} creds
    */
   getLoginToken() {
     return this.client.get('/storage/login/token')
+  }
+
+  /**
+   * `/verify/bonuses` get api call
+   */
+  redeemBonuses() {
+    return this.client.get('/verify/bonuses')
   }
 }
 const api = new API()

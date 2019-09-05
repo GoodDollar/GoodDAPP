@@ -29,8 +29,8 @@ matrix:
     - script: 
       - npm run build
       # Windows:
-      - npx netlify deploy --json --site %NETLIFY_SITE_ID% --auth %NETLIFY_ACCESS_TOKEN%
-      - jq build
+      - npx netlify deploy --json --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN
+      - jq build 1.0.0
       - jq -V
       - URL=netlify deploy --json --site %NETLIFY_SITE_ID% --auth %NETLIFY_ACCESS_TOKEN% | jq '.deploy_url'
       - export CYPRESS_baseUrl=$URL  

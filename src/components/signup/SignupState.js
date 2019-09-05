@@ -244,8 +244,8 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       await API.updateW3UserWithWallet(requestPayload.w3Token, goodWallet.account)
 
       //need to wait for API.addUser but we dont need to wait for it to finish
-      AsyncStorage.getItem(GD_USER_MNEMONIC).then(mnemonic => API.sendRecoveryInstructionByEmail(mnemonic)),
-        await AsyncStorage.setItem(IS_LOGGED_IN, true)
+      AsyncStorage.getItem(GD_USER_MNEMONIC).then(mnemonic => API.sendRecoveryInstructionByEmail(mnemonic))
+      await AsyncStorage.setItem(IS_LOGGED_IN, true)
       log.debug('New user created')
       return true
     } catch (e) {

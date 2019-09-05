@@ -22,9 +22,13 @@
     <script>
       window.addEventListener('beforeinstallprompt', e => {
         console.info('beforeinstallprompt')
+        console.info(e.platforms); // e.g., ["web", "android", "windows"] 
+        e.userChoice.then(function(outcome) { 
+          console.info(outcome); // either "accepted" or "dismissed"
+        }, err => console.info(err))
       })
-      console.info('dasdsadas')
-    </script>    <meta charset="utf-8" />
+    </script>
+    <meta charset="utf-8" />
     <link
       rel="shortcut icon"
       href="%PUBLIC_URL%/favicon.ico"

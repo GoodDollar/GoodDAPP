@@ -49,6 +49,17 @@ const handleAddToHomescreenClick = () => {
 
 const log = logger.child({ from: 'Dashboard' })
 
+window.addEventListener('beforeinstallprompt', e => {
+  console.info('beforeinstallprompt dashboard')
+  console.info(e.platforms) // e.g., ["web", "android", "windows"]
+  e.userChoice.then(
+    function(outcome) {
+      console.info(outcome) // either "accepted" or "dismissed"
+    },
+    err => console.info(err)
+  )
+})
+
 export type DashboardProps = {
   navigation: any,
   screenProps: any,

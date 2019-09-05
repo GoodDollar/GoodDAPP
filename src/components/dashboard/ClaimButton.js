@@ -74,7 +74,6 @@ const getStylesFromProps = ({ theme }) => ({
   amountInButton: {
     display: 'inline',
     marginLeft: theme.sizes.defaultHalf,
-    lineHeight: theme.sizes.default * 3,
   },
 })
 

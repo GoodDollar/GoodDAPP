@@ -44,7 +44,6 @@ const getStylesFromProps = ({ theme }) => {
     circle: {
       alignItems: 'center',
       backgroundColor: theme.colors.darkGray,
-      color: '#fff',
       borderRadius: '50%',
       height: 43,
       padding: theme.sizes.default,

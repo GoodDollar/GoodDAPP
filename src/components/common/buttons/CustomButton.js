@@ -58,9 +58,6 @@ const mapPropsToStyles = ({ theme, compact }) => ({
     paddingTop: 1,
     letterSpacing: 0,
   },
-  contentStyle: {
-    letterSpacing: 0,
-  },
   contentWrapper: {
     alignItems: 'center',
     display: 'flex',

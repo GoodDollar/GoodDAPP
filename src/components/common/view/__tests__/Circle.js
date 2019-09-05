@@ -7,7 +7,12 @@ import { withThemeProvider } from '../../../../__tests__/__util__'
 
 describe('Circle', () => {
   const WrappedCircle = withThemeProvider(Circle)
-  
+
+  it('renders without errors', () => {
+    const component = renderer.create(<WrappedCircle number={10}> Test text</WrappedCircle>)
+    expect(component.toJSON()).toBeTruthy()
+  })
+
   it('matches snapshot', () => {
     const component = renderer.create(<WrappedCircle number={10}> Test text</WrappedCircle>)
     const tree = component.toJSON()

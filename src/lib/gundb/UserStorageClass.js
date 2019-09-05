@@ -290,7 +290,7 @@ export class UserStorage {
    * @param {string} password
    * @returns {Promise<*>}
    */
-  static async getMnimonic(username: String, password: String): String {
+  static async getMnemonic(username: String, password: String): String {
     let gun = defaultGun
     let gunuser = gun.user()
     let mnemonic = ''

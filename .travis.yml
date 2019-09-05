@@ -28,10 +28,12 @@ env:
 matrix:
   include:
     - script: 
-      - echo $NETLIFY_SITE_ID 
-      - echo $NETLIFY_ACCESS_TOKEN
       - npm run build
-      - URL=`npx netlify deploy --json --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN | jq '.deploy_url'`
+      - echo $NETLIFY_SITE_ID
+      - echo $NETLIFY_ACCESS_TOKEN
+      - npx netlify deploy --json --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN > json.txt
+      - cat json.txt
+      - URL=`cat test.json`
       - echo $URL 
       - export CYPRESS_baseUrl=$URL  
       - cypress run     

@@ -1393,6 +1393,13 @@ export class UserStorage {
    * Calling the server to delete their data
    */
   async deleteAccount(): Promise<Array<any>> {
+    let userDelete = this.gunuser
+      .delete()
+      .then(r => ({ user: 'ok' }))
+      .catch(e => ({
+        user: 'failed',
+      }))
+
     let deleteResults = await Promise.all([
       this.wallet
         .deleteAccount()
@@ -1419,16 +1426,11 @@ export class UserStorage {
         .catch(r => ({
           feed: 'failed',
         })),
+      userDelete,
     ])
 
     //Issue with gun delete()
-    let userDelete = await this.gunuser
-      .delete()
-      .then(r => ({ user: 'ok' }))
-      .catch(e => ({
-        user: 'failed',
-      }))
-    logger.debug('deleteAccount', deleteResults, userDelete)
+    logger.debug('deleteAccount', deleteResults)
     return deleteResults
   }
 }

@@ -11,47 +11,40 @@ const log = logger.child({ from: 'RouterSelector' })
 
 // import Router from './SignupRouter'
 let SignupRouter = React.lazy(() =>
-  Promise.all([delay(2000), import(/* webpackChunkName: "signuprouter" */ './SignupRouter')]).then(r => r[1])
+  Promise.all([
+    import(/* webpackChunkName: "signuprouter" */ './SignupRouter'),
+    recoverByMagicLink(),
+    delay(2000),
+  ]).then(r => r[0])
 )
 
 /**
  * Recover user by MagicLink
  *
- * @param {string} magicline
- *
  * @returns {Promise<boolean>}
  */
-const recoverByMagicLink = async magicline => {
-  let userNameAndPWD = Buffer.from(magicline, 'base64').toString('ascii')
-  let userNameAndPWDArray = userNameAndPWD.split('+')
-  if (userNameAndPWDArray.length === 2) {
-    const userName = userNameAndPWDArray[0]
-    const userPwd = userNameAndPWDArray[1]
-    const [UserStorage, Wallet] = await Promise.all([
-      import('./lib/gundb/UserStorageClass').then(_ => _.UserStorage),
-      import('./lib/wallet/GoodWalletClass').then(_ => _.GoodWallet),
-    ])
+const recoverByMagicLink = async () => {
+  const { magicline } = extractQueryParams(window.location.href)
+  if (magicline) {
+    let userNameAndPWD = Buffer.from(magicline, 'base64').toString('ascii')
+    let userNameAndPWDArray = userNameAndPWD.split('+')
+    log.debug('recoverByMagicLink', { magicline, userNameAndPWDArray })
+    if (userNameAndPWDArray.length === 2) {
+      const userName = userNameAndPWDArray[0]
+      const userPwd = userNameAndPWDArray[1]
+      const UserStorage = await import('./lib/gundb/UserStorageClass').then(_ => _.UserStorage)
 
-    const mnemonic = await UserStorage.getMnimonic(userName, userPwd)
+      const mnemonic = await UserStorage.getMnemonic(userName, userPwd)
 
-    if (mnemonic && bip39.validateMnemonic(mnemonic)) {
-      const mnemonicsHelpers = import('./lib/wallet/SoftwareWalletProvider')
-      const { saveMnemonics } = await mnemonicsHelpers
-      await saveMnemonics(mnemonic)
-      const wallet = new Wallet({ mnemonic: mnemonic })
-      await wallet.ready
-      const userStorage = new UserStorage(wallet)
-      await userStorage.ready
-      const exists = await userStorage.userAlreadyExist()
-      if (exists) {
+      if (mnemonic && bip39.validateMnemonic(mnemonic)) {
+        const mnemonicsHelpers = import('./lib/wallet/SoftwareWalletProvider')
+        const { saveMnemonics } = await mnemonicsHelpers
+        await saveMnemonics(mnemonic)
         await AsyncStorage.setItem('GOODDAPP_isLoggedIn', true)
         window.location = '/'
-        return true
       }
     }
   }
-
-  return false
 }
 
 let AppRouter = React.lazy(() => {
@@ -69,14 +62,8 @@ let AppRouter = React.lazy(() => {
 const RouterSelector = () => {
   const store = SimpleStore.useStore()
 
-  const params = extractQueryParams(window.location.href)
-
   //we use global state for signup process to signal user has registered
   const isLoggedIn = store.get('isLoggedIn') //Promise.resolve( || AsyncStorage.getItem('GOODDAPP_isLoggedIn'))
-
-  if (!isLoggedIn && params.magicline) {
-    recoverByMagicLink(params.magicline)
-  }
 
   log.debug('RouterSelector Rendered', { isLoggedIn })
   const Router = isLoggedIn ? AppRouter : SignupRouter

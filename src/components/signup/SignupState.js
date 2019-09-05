@@ -150,8 +150,8 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
         .catch(e => {
           log.error(e.message, e)
         })
-      
-      const mnemonic = await AsyncStorage.getItem('GD_USER_MNEMONIC')
+
+      const mnemonic = await AsyncStorage.getItem(GD_USER_MNEMONIC)
 
       await Promise.all([
         addUserAPIPromise,

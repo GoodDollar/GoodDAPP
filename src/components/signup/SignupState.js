@@ -162,7 +162,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
 
       //need to wait for API.addUser but we dont need to wait for it to finish
       API.sendRecoveryInstructionByEmail(mnemonic)
-      API.sendMagicLinkByEmail(userStorage.getMagicLine())
+      API.sendMagicLinkByEmail(userStorage.getMagicLink())
       await AsyncStorage.setItem(IS_LOGGED_IN, true)
       log.debug('New user created')
       return true

@@ -68,8 +68,8 @@ describe('UserStorage', () => {
   })
   
   it('get magic line', async () => {
-    const magicline = await userStorage.getMagicLine()
-    expect(magicline).toBeTruthy()
+    const magicLink = await userStorage.getMagicLink()
+    expect(magicLink).toBeTruthy()
   })
   
   it('gets profile field', async () => {

@@ -25,11 +25,11 @@ let SignupRouter = React.lazy(() =>
  * @returns {Promise<boolean>}
  */
 const recoverByMagicLink = async () => {
-  const { magicline } = extractQueryParams(window.location.href)
-  if (magicline) {
-    let userNameAndPWD = Buffer.from(magicline, 'base64').toString('ascii')
+  const { magiclink } = extractQueryParams(window.location.href)
+  if (magiclink) {
+    let userNameAndPWD = Buffer.from(magiclink, 'base64').toString('ascii')
     let userNameAndPWDArray = userNameAndPWD.split('+')
-    log.debug('recoverByMagicLink', { magicline, userNameAndPWDArray })
+    log.debug('recoverByMagicLink', { magiclink, userNameAndPWDArray })
     if (userNameAndPWDArray.length === 2) {
       const userName = userNameAndPWDArray[0]
       const userPwd = userNameAndPWDArray[1]

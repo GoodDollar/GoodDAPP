@@ -19,7 +19,12 @@
         })(window, document, 'script', 'dataLayer', 'GTM-PZJ7X57')
     </script>
     <script src="%PUBLIC_URL%/ZoomAuthentication.js/ZoomAuthentication.js"></script>
-    <meta charset="utf-8" />
+    <script>
+      window.addEventListener('beforeinstallprompt', e => {
+        console.info('beforeinstallprompt')
+      })
+      console.info('dasdsadas')
+    </script>    <meta charset="utf-8" />
     <link
       rel="shortcut icon"
       href="%PUBLIC_URL%/favicon.ico"

@@ -47,10 +47,6 @@ const handleAddToHomescreenClick = () => {
     2. Tap on "Add to Home Screen" button`)
 }
 
-window.addEventListener('beforeinstallprompt', e => {
-  console.info('beforeinstallprompt')
-})
-
 const log = logger.child({ from: 'Dashboard' })
 
 export type DashboardProps = {

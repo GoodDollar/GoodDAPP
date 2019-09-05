@@ -71,58 +71,72 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose }) => {
       return (
         <>
           <View style={styles.buttonsView}>
-            <CustomButton
-              mode="outlined"
-              style={[styles.button, { borderColor: theme.colors.red }]}
-              onPress={cancelPayment}
-              color={theme.colors.red}
-              loading={state.cancelPaymentLoading}
-              textStyle={styles.buttonTextStyle}
-            >
-              Cancel payment link
-            </CustomButton>
-            <ShareButton
-              share={getPaymentLink()}
-              actionText="Share as link"
-              mode="outlined"
-              style={styles.rightButton}
-              iconColor={theme.colors.primary}
-              textStyle={styles.buttonTextStyle}
-            />
+            <View style={styles.rightButtonContainer}>
+              <CustomButton
+                mode="outlined"
+                style={[styles.button, { borderColor: theme.colors.red }]}
+                onPress={cancelPayment}
+                color={theme.colors.red}
+                loading={state.cancelPaymentLoading}
+                textStyle={styles.buttonTextStyle}
+              >
+                Cancel payment link
+              </CustomButton>
+            </View>
+            <View style={styles.rightButtonContainer}>
+              <ShareButton
+                share={getPaymentLink()}
+                actionText="Share as link"
+                mode="outlined"
+                style={styles.rightButton}
+                iconColor={theme.colors.primary}
+                textStyle={styles.buttonTextStyle}
+              />
+            </View>
           </View>
           <View style={styles.buttonsView}>
-            <CustomButton mode="contained" style={styles.rightButton} onPress={handleModalClose}>
-              Ok
-            </CustomButton>
+            <View style={styles.rightButtonContainer}>
+              <CustomButton mode="contained" style={styles.rightButton} onPress={handleModalClose}>
+                Ok
+              </CustomButton>
+            </View>
           </View>
         </>
       )
     case 'message':
       return (
         <View style={styles.buttonsView}>
-          <CustomButton mode="outlined" style={styles.button} onPress={readMore}>
-            Read more
-          </CustomButton>
-          <CustomButton mode="contained" style={styles.rightButton} onPress={shareMessage}>
-            Share
-          </CustomButton>
+          <View style={styles.rightButtonContainer}>
+            <CustomButton mode="outlined" style={styles.button} onPress={readMore}>
+              Read more
+            </CustomButton>
+          </View>
+          <View style={styles.rightButtonContainer}>
+            <CustomButton mode="contained" style={styles.rightButton} onPress={shareMessage}>
+              Share
+            </CustomButton>
+          </View>
         </View>
       )
     case 'invite':
       return (
         <View style={styles.buttonsView}>
-          <CustomButton mode="text" style={styles.button} onPress={handleModalClose}>
-            Later
-          </CustomButton>
-          <CustomButton
-            mode="contained"
-            style={styles.rightButton}
-            onPress={invitePeople}
-            iconAlignment="right"
-            icon="invite"
-          >
-            Invite
-          </CustomButton>
+          <View style={styles.rightButtonContainer}>
+            <CustomButton mode="text" style={styles.button} onPress={handleModalClose}>
+              Later
+            </CustomButton>
+          </View>
+          <View style={styles.rightButtonContainer}>
+            <CustomButton
+              mode="contained"
+              style={styles.rightButton}
+              onPress={invitePeople}
+              iconAlignment="right"
+              icon="invite"
+            >
+              Invite
+            </CustomButton>
+          </View>
         </View>
       )
     case 'feedback':
@@ -161,9 +175,14 @@ const getStylesFromProps = ({ theme }) => ({
     minWidth: 96,
   },
   rightButton: {
-    marginLeft: 8.0001,
-    marginTop: 8.0001,
     minWidth: 96,
+  },
+  rightButtonContainer: {
+    marginLeft: theme.sizes.default,
+    marginTop: theme.sizes.default,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'stretch',
   },
   buttonTextStyle: {
     fontSize: normalize(14),

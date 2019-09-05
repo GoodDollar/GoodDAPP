@@ -47,7 +47,7 @@ class Signin extends React.Component<Props> {
                     <Text fontSize={14} color="gray80Percent" fontFamily="Roboto">
                       {`(works from any device or platform)`}
                     </Text>
-                    <Section.Text>
+                    <Section.Text style={styles.blockCircle}>
                       <Circle number={1}>Go to your email</Circle>
                       <Circle number={2}>
                         Find{' '}
@@ -104,6 +104,9 @@ const getStylesFromProps = ({ theme }) => {
     },
     text: {
       color: theme.colors.green,
+    },
+    blockCircle: {
+      marginTop: 24,
     },
     textBottom: {
       marginBottom: 24,

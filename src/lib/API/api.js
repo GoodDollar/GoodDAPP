@@ -211,7 +211,7 @@ class API {
    * @param {Credentials} creds
    */
   getLoginToken() {
-    return this.client.get('/storage/login/token')
+    return this.client.get('/verify/w3/logintoken')
   }
 }
 const api = new API()

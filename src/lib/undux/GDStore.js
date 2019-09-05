@@ -39,6 +39,7 @@ export type State = {
   destinationPath: string,
   feeds: StandardFeed[],
   feedLoading: Boolean,
+  currentFeed: any,
 }
 
 /**
@@ -60,6 +61,7 @@ const initialState: State = {
   privateProfile: {},
   destinationPath: '',
   feeds: [],
+  currentFeed: undefined,
   feedLoading: false,
 }
 

@@ -29,7 +29,7 @@ matrix:
   include:
     - script: 
       - npm run build
-      - jq —version
+      - jq --version
       - echo $NETLIFY_SITE_ID
       - echo $NETLIFY_ACCESS_TOKEN
       - npx netlify deploy --json --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN > json.txt

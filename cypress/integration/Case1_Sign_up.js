@@ -4,39 +4,40 @@ import HomePage from '../PageObjects/HomePage'
 
 
 
-
-
 describe('Test case 1: Ability to Sign Up', () => {
 
     it('User is not able to sign up the wallet with wrong values', () => {
         
        StartPage.open();
+       StartPage.continueOnWebButton.click();
        StartPage.createWalletButton.click();
+
        SignUpPage.pageHeader.should('contain', 'Sign Up');
        SignUpPage.nameInput.should('be.visible');
        SignUpPage.nextButton.should('be.visible');
        SignUpPage.nameInput.type('Name');
-       SignUpPage.invalidValueErrorDiv.should('contain', 'Please add first and last name');
+       SignUpPage.invalidValueErrorMessage1.should('exist');
        SignUpPage.nameInput.clear();
        SignUpPage.nameInput.type('Name1 Name');
-       SignUpPage.invalidValueErrorDiv.should('contain', 'A-Z letter only, no numbers, no symbols');
+       SignUpPage.invalidValueErrorMessage2.should('exist');
        SignUpPage.nameInput.clear();
        SignUpPage.nameInput.type('Name Name');
        cy.wait(5000)
        SignUpPage.nextButton.click();
-       SignUpPage.phoneInput.type('+38098361132');
-       SignUpPage.invalidValueErrorDiv.should('contain', 'Please enter a valid phone format');
+       SignUpPage.phoneInput.type('+11111');
+       SignUpPage.invalidValueErrorMessage3.should('exist');
        SignUpPage.phoneInput.clear();
-       SignUpPage.phoneInput.type('+3809836113200');
-       SignUpPage.invalidValueErrorDiv.should('contain', 'Please enter a valid phone format');
+       SignUpPage.phoneInput.type('+9999999999999');
+       SignUpPage.invalidValueErrorMessage3.should('exist');
        SignUpPage.phoneInput.clear();
 
     });
 
 
-    it('User is able to sign up the wallet with correct values', () => {
+    it.only('User is able to sign up the wallet with correct values', () => {
 
         StartPage.open();
+        StartPage.continueOnWebButton.click();
         StartPage.createWalletButton.click();
         cy.wait(3000);
         SignUpPage.nameInput.type('Name Name');

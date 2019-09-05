@@ -20,13 +20,21 @@ class SignUpPage {
         return cy.get('#Email_input')
     }
 
-    get invalidValueErrorDiv() {
-        return cy.xpath('//*[@id="root"]/div[1]/div/div/div[2]/div/div/div/div/div[1]/div/div[2]/div/div[2]');
+    get invalidValueErrorMessage1() {
+        return cy.contains('Please add first and last name');
     }
 
-    get errorOkayButton() { 
-        return cy.xpath('//*[@id="root"]/div[3]/div/div/div/div/div[2]/div[2]/div/div[3]/div/div');
+    get invalidValueErrorMessage2() {
+        return cy.contains('A-Z letter only, no numbers, no symbols');
     }
+
+    get invalidValueErrorMessage3() {
+        return cy.contains('Please enter a valid phone format');
+    }
+
+    // get errorOkayButton() { 
+    //     return cy.xpath('//*[@id="root"]/div[3]/div/div/div/div/div[2]/div[2]/div/div[3]/div/div');
+    // }
 
     get codeInputs() {
         return cy.get('input[type=tel]')

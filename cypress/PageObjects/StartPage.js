@@ -1,7 +1,11 @@
 class StartPage {
 
+    get continueOnWebButton() {
+        return cy.contains('Continue on Web')
+    }
+
     get createWalletButton() { 
-        return cy.get('div[role="button"]', { timeout: 10000} );
+        return cy.get('div[role=button]').contains('Create a wallet');
     }
 
     get loginLink() {

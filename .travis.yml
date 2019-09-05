@@ -30,6 +30,7 @@ matrix:
     - script: 
       - npm run build
       - URL=`npx netlify deploy --json --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN | jq '.deploy_url'`
+      - echo $URL 
       - export CYPRESS_baseUrl=$URL  
       - cypress run     
     - script: 

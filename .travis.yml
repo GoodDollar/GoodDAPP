@@ -31,7 +31,7 @@ matrix:
       - npm run build
       - sudo apt-get install jq
       - jq --version
-      - URL=`npx netlify deploy --json --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN > test.json`
+      - npx netlify deploy --json --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN > test.json
       - URL=`grep -i 'deploy_url' test.json | cut -c18-70`
       - echo $URL 
       - URL=`npx netlify deploy --json --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN | jq '.deploy_url'`

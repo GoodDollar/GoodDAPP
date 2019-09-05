@@ -29,12 +29,11 @@ matrix:
   include:
     - script: 
       - npm run build
+      - sudo apt-get install jq
       - jq --version
       - echo $NETLIFY_SITE_ID
       - echo $NETLIFY_ACCESS_TOKEN
-      - npx netlify deploy --json --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN > json.txt
-      - cat json.txt
-      - URL=`cat test.json | jq '. deploy_url'`
+      - URL=`npx netlify deploy --json --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN | jq '.deploy_url'`
       - echo $URL 
       - export CYPRESS_baseUrl=$URL  
       - cypress run     

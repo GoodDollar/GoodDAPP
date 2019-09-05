@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { Image, ScrollView, View } from 'react-native'
+import { Image, ScrollView, TouchableOpacity, View } from 'react-native'
 import NavBar from '../appNavigation/NavBar'
 import Section from '../common/layout/Section'
 import Circle from '../common/view/Circle'
@@ -66,16 +66,17 @@ class Signin extends React.Component<Props> {
                 </Section.Row>
               </Section.Stack>
               <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
-                <Section.Text
-                  fontWeight="medium"
-                  style={styles.textBottom}
-                  textDecorationLine="underline"
-                  fontSize={14}
-                  color="primary"
-                  onPress={this.handleRecover}
-                >
-                  Or, recover from pass phrase
-                </Section.Text>
+                <TouchableOpacity onPress={this.handleRecover}>
+                  <Section.Text
+                    fontWeight="medium"
+                    style={styles.textBottom}
+                    textDecorationLine="underline"
+                    fontSize={14}
+                    color="primary"
+                  >
+                    Or, recover from pass phrase
+                  </Section.Text>
+                </TouchableOpacity>
               </Section.Row>
             </Wrapper>
           </View>

@@ -914,29 +914,54 @@ exports[`SignIn - SigninInfo matches snapshot 1`] = `
               }
             >
               <div
-                className="css-text-901oao"
+                className="css-view-1dbjc4n"
                 data-focusable={true}
-                dir="auto"
-                onClick={[Function]}
                 onKeyDown={[Function]}
+                onKeyUp={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
                 style={
                   Object {
-                    "color": "rgba(0,175,255,1.00)",
+                    "MozTransitionProperty": "opacity",
+                    "MozUserSelect": "none",
+                    "WebkitTransitionDuration": "0.15s",
+                    "WebkitTransitionProperty": "opacity",
+                    "WebkitUserSelect": "none",
                     "cursor": "pointer",
-                    "direction": "ltr",
-                    "fontFamily": "Roboto",
-                    "fontSize": "14px",
-                    "fontWeight": "500",
-                    "lineHeight": "20px",
-                    "marginBottom": "24px",
-                    "textAlign": "center",
-                    "textDecoration": "underline",
-                    "textTransform": "none",
+                    "msTouchAction": "manipulation",
+                    "msUserSelect": "none",
+                    "touchAction": "manipulation",
+                    "transitionDuration": "0.15s",
+                    "transitionProperty": "opacity",
+                    "userSelect": "none",
                   }
                 }
                 tabIndex="0"
               >
-                Or, recover from pass phrase
+                <div
+                  className="css-text-901oao"
+                  dir="auto"
+                  style={
+                    Object {
+                      "color": "rgba(0,175,255,1.00)",
+                      "direction": "ltr",
+                      "fontFamily": "Roboto",
+                      "fontSize": "14px",
+                      "fontWeight": "500",
+                      "lineHeight": "20px",
+                      "marginBottom": "24px",
+                      "textAlign": "center",
+                      "textDecoration": "underline",
+                      "textTransform": "none",
+                    }
+                  }
+                >
+                  Or, recover from pass phrase
+                </div>
               </div>
             </div>
           </div>

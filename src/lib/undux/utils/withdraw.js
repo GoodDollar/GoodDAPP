@@ -46,6 +46,7 @@ export const executeWithdraw = async (store: Store, code: string, reason: string
           res(transactionHash)
         },
         onError: e => {
+          userStorage.markWithErrorEvent(e)
           rej(e)
         },
       })

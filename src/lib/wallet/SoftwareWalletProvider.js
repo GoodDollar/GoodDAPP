@@ -4,13 +4,12 @@ import bip39 from 'bip39-light'
 import type { HttpProvider, WebSocketProvider } from 'web3-providers'
 import { AsyncStorage } from 'react-native'
 import Config from '../../config/config'
+import { GD_USER_MNEMONIC } from '../constants/localStorage'
 import logger from '../logger/pino-logger'
 import type { WalletConfig } from './WalletFactory'
 import MultipleAddressWallet from './MultipleAddressWallet'
 
 const log = logger.child({ from: 'SoftwareWalletProvider' })
-
-const GD_USER_MNEMONIC: string = 'GD_USER_MNEMONIC'
 
 /**
  * save mnemonics (secret phrase) to user device
@@ -94,7 +93,7 @@ class SoftwareWalletProvider {
     let web3Provider
     let transport = this.conf.web3Transport
     switch (transport) {
-      case 'WebSocket':
+      case 'WebSocketProvider':
         provider = this.conf.websocketWeb3Provider
         web3Provider = new Web3.providers.WebsocketProvider(provider)
         break

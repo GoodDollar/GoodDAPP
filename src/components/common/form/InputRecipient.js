@@ -1,8 +1,7 @@
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
-import IconE from 'react-native-elements/src/icons/Icon'
 import { HelperText, TextInput } from 'react-native-paper'
-import normalize from '../../../lib/utils/normalizeText'
+import Icon from '../view/Icon'
 import Clipboard from '../../../lib/utils/Clipboard'
 import logger from '../../../lib/logger/pino-logger'
 const log = logger.child({ from: 'InputRecipient' })
@@ -29,7 +28,7 @@ const InputRecipient = props => {
   return (
     <View style={styles.iconInputContainer}>
       <View style={styles.pasteIcon}>
-        <IconE size={normalize(16)} color="#282c34" name="content-paste" onPress={pasteToWho} />
+        <Icon size={24} color="#282c34" name="paste" onPress={pasteToWho} />
       </View>
       <TextInput
         onChangeText={onChangeText}

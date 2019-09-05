@@ -4,6 +4,7 @@ import { isIOS, isMobile } from 'mobile-device-detect'
 
 import get from 'lodash/get'
 import QRCode from 'qrcode.react'
+import { GD_USER_MNEMONIC } from '../../../lib/constants/localStorage'
 import { getFirstWord } from '../../../lib/utils/getFirstWord'
 import Config from '../../../config/config'
 import { CopyButton, Section, Wrapper } from '../../common'
@@ -41,7 +42,7 @@ const UnsupportedDevice = props => {
   }
 
   const generateQRCode = async () => {
-    const mnemonic = await AsyncStorage.getItem('GD_USER_MNEMONIC')
+    const mnemonic = await AsyncStorage.getItem(GD_USER_MNEMONIC)
     const url = `${Config.publicUrl}/Auth/Recover/?mnemonic=${mnemonic}&redirect=${encodeURI(
       '/AppNavigation/Dashboard/FRIntro'
     )}`

@@ -3,6 +3,7 @@ import React, { useEffect } from 'react'
 import { AsyncStorage } from 'react-native'
 import { SceneView } from '@react-navigation/core'
 import some from 'lodash/some'
+import { DESTINATION_PATH } from '../../lib/constants/localStorage'
 import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
 import SimpleStore from '../../lib/undux/SimpleStore'
@@ -30,9 +31,8 @@ const AppSwitch = (props: LoadingProps) => {
   */
   const getParams = async () => {
     // const navInfo = router.getPathAndParamsForState(state)
-    const destinationPath = await AsyncStorage.getItem('destinationPath').then(JSON.parse)
-    AsyncStorage.removeItem('destinationPath')
-
+    const destinationPath = await AsyncStorage.getItem(DESTINATION_PATH).then(JSON.parse)
+    AsyncStorage.removeItem(DESTINATION_PATH)
     log.debug('getParams', { destinationPath, router, state })
 
     if (destinationPath) {
@@ -77,7 +77,7 @@ const AppSwitch = (props: LoadingProps) => {
     // if (isLoggedIn) {
     //   if (destDetails) {
     //     props.navigation.navigate(destDetails)
-    //     return AsyncStorage.removeItem('destinationPath')
+    //     return AsyncStorage.removeItem(DESTINATION_PATH)
     //   } else props.navigation.navigate('AppNavigation')
     // } else {
     //   const { jwt } = credsOrError
@@ -96,7 +96,7 @@ const AppSwitch = (props: LoadingProps) => {
     //       //for non loggedin users, store non email validation params to the destinationPath for later
     //       //to be used once signed in
     //       const destinationPath = JSON.stringify(destDetails)
-    //       AsyncStorage.setItem('destinationPath', destinationPath)
+    //       AsyncStorage.setItem(DESTINATION_PATH, destinationPath)
     //     }
     //     props.navigation.navigate('Auth')
     //   } else {

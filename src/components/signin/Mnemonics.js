@@ -175,6 +175,7 @@ const mnemonicsStyles = ({ theme }) => ({
   },
   buttonLayout: {
     marginVertical: 20,
+    backgroundColor: theme.colors.lightGray2,
   },
   bottomContainer: {
     maxHeight: 50,

@@ -140,17 +140,9 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
         })
 
         if (w3User.image) {
-          userScreenData.avatar = await API.getArrayBufferFromImageUrl(w3User.image)
-            .then(async res => {
-              const mime = res.headers.map['content-type'].toLowerCase()
-              const data = await res.arrayBuffer()
-              const base64 = Buffer.from(data, 'binary').toString('base64')
-
-              return `data:${mime};base64,${base64}`
-            })
-            .catch(e => {
-              logger.error('Fetch base 64 from image uri failed', e)
-            })
+          userScreenData.avatar = await API.getBase64FromImageUrl(w3User.image).catch(e => {
+            logger.error('Fetch base 64 from image uri failed', e.message, e)
+          })
         }
 
         setState({

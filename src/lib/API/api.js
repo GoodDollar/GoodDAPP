@@ -1,6 +1,5 @@
 // @flow
 import axios from 'axios'
-import fetch from 'cross-fetch'
 import type { $AxiosXHR, AxiosInstance, AxiosPromise } from 'axios'
 import { AsyncStorage } from 'react-native'
 import Config from '../../config/config'
@@ -266,10 +265,11 @@ class API {
    * Get array buffer from image url
    * @param {string} url - image url
    */
-  getArrayBufferFromImageUrl(url: string) {
-    return fetch(url, {
-      url,
-      method: 'GET',
+  getBase64FromImageUrl(url: string) {
+    return axios.get(url, { responseType: 'arraybuffer' }).then(response => {
+      let image = btoa(new Uint8Array(response.data).reduce((data, byte) => data + String.fromCharCode(byte), ''))
+
+      return `data:${response.headers['content-type'].toLowerCase()};base64,${image}`
     })
   }
 }

@@ -1,9 +1,11 @@
 // @flow
 import React, { useEffect, useState } from 'react'
+import _get from 'lodash/get'
 import type { Store } from 'undux'
 import * as web3Utils from 'web3-utils'
 import normalize from '../../lib/utils/normalizeText'
 import GDStore from '../../lib/undux/GDStore'
+import API from '../../lib/API/api'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
 import { getInitialFeed, getNextFeed, PAGE_SIZE } from '../../lib/undux/utils/feed'
@@ -22,7 +24,7 @@ import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
 import logger from '../../lib/logger/pino-logger'
 import userStorage from '../../lib/gundb/UserStorage'
-import { FAQ, PrivacyArticle, PrivacyPolicy, Support, TermsOfUse } from '../webView/webViewInstances'
+import { FAQ, PrivacyArticle, PrivacyPolicy, RewardsTab, Support, TermsOfUse } from '../webView/webViewInstances'
 import { withStyles } from '../../lib/styles'
 import Mnemonics from '../signin/Mnemonics'
 import goodWallet from '../../lib/wallet/GoodWallet'
@@ -60,7 +62,24 @@ const Dashboard = props => {
   const [showErrorDialog] = useErrorDialog()
   const { params } = props.navigation.state
 
+  const prepareLoginToken = async () => {
+    const loginToken = await userStorage.getProfileFieldValue('loginToken')
+
+    if (!loginToken) {
+      const response = await API.getLoginToken()
+
+      const _loginToken = _get(response, 'data.loginToken')
+
+      await userStorage.setProfileField('loginToken', _loginToken, 'private')
+    }
+  }
+
+  const nextFeed = () => {
+    return getNextFeed(gdstore)
+  }
   useEffect(() => {
+    prepareLoginToken()
+
     log.debug('Dashboard didmount')
     userStorage.feed.get('byid').on(data => {
       log.debug('gun getFeed callback', { data })
@@ -199,7 +218,7 @@ const Dashboard = props => {
         data={feeds}
         handleFeedSelection={handleFeedSelection}
         initialNumToRender={PAGE_SIZE}
-        onEndReached={getNextFeed.bind(null, store)}
+        onEndReached={nextFeed}
         updateData={() => {}}
         onScroll={({ nativeEvent }) => {
           // Replicating Header Height.
@@ -230,7 +249,7 @@ const Dashboard = props => {
           data={feeds}
           handleFeedSelection={handleFeedSelection}
           initialNumToRender={PAGE_SIZE}
-          onEndReached={getNextFeed.bind(null, store)}
+          onEndReached={nextFeed}
           selectedFeed={currentFeed}
           updateData={() => {}}
         />
@@ -329,7 +348,7 @@ const getStylesFromProps = ({ theme }) => ({
 
 Dashboard.navigationOptions = ({ navigation, screenProps }) => {
   return {
-    navigationBar: () => <TabsView goTo={navigation.navigate} routes={screenProps.routes} />,
+    navigationBar: () => <TabsView goTo={navigation.navigate} routes={screenProps.routes} navigation={navigation} />,
     title: 'Home',
     disableScroll: true,
   }
@@ -374,4 +393,5 @@ export default createStackNavigator({
   FAQ,
   Recover: Mnemonics,
   OutOfGasError,
+  Rewards: RewardsTab,
 })

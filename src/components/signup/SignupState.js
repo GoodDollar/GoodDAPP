@@ -232,8 +232,8 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
         goodWallet.getBlockNumber().then(creationBlock => userStorage.saveLastBlockNumber(creationBlock.toString())),
       ])
 
-      await AsyncStorage.removeItem('web3Token')
-      await API.updateW3UserWithWallet(requestPayload.w3Token, goodWallet.account)
+      AsyncStorage.removeItem('web3Token')
+      API.updateW3UserWithWallet(requestPayload.w3Token, goodWallet.account)
 
       //need to wait for API.addUser but we dont need to wait for it to finish
       AsyncStorage.getItem(GD_USER_MNEMONIC).then(mnemonic => API.sendRecoveryInstructionByEmail(mnemonic))

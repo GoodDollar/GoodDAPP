@@ -33,7 +33,7 @@ matrix:
       - echo $NETLIFY_ACCESS_TOKEN
       - npx netlify deploy --json --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN > json.txt
       - cat json.txt
-      - URL=`cat test.json`
+      - URL=`cat test.json | jq '. deploy_url'`
       - echo $URL 
       - export CYPRESS_baseUrl=$URL  
       - cypress run     

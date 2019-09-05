@@ -234,7 +234,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
         })
 
       await Promise.all([
-        addUserAPIPromise
+        addUserAPIPromise,
         userStorage.setProfile({ ...requestPayload, walletAddress: goodWallet.account }),
         userStorage.setProfileField('registered', true, 'public'),
         goodWallet.getBlockNumber().then(creationBlock => userStorage.saveLastBlockNumber(creationBlock.toString())),

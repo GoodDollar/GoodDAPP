@@ -706,6 +706,8 @@ export class UserStorage {
       avatar: { defaultPrivacy: 'public' },
       walletAddress: { defaultPrivacy: 'public' },
       username: { defaultPrivacy: 'public' },
+      w3Token: { defaultPrivacy: 'private' },
+      loginToken: { defaultPrivacy: 'private' },
     }
     const getPrivacy = async field => {
       const currentPrivacy = await this.profile.get(field).get('privacy')

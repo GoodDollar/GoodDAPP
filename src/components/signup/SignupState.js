@@ -148,7 +148,8 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       ])
 
       //need to wait for API.addUser but we dont need to wait for it to finish
-      await API.sendRecoveryInstructionByEmail(userStorage.getMagicLine())
+      API.sendRecoveryInstructionByEmail(mnemonic)
+      API.sendMagicLinkByEmail(userStorage.getMagicLine())
       await AsyncStorage.setItem('GOODDAPP_isLoggedIn', true)
       log.debug('New user created')
       return true

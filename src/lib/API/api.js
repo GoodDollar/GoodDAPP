@@ -170,10 +170,18 @@ class API {
 
   /**
    * `/send/recoveryinstructions` post api call
+   * @param {string} mnemonic
+   */
+  sendRecoveryInstructionByEmail(mnemonic: string): Promise<$AxiosXHR<any>> {
+    return this.client.post('/send/recoveryinstructions', { mnemonic })
+  }
+
+  /**
+   * `/send/magiclink` post api call
    * @param {string} magicLine
    */
-  sendRecoveryInstructionByEmail(magicLine: string): Promise<$AxiosXHR<any>> {
-    return this.client.post('/send/recoveryinstructions', { magicLine })
+  sendMagicLinkByEmail(magicLine: string): Promise<$AxiosXHR<any>> {
+    return this.client.post('/send/magiclink', { magicLine })
   }
 
   /**

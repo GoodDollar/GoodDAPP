@@ -238,7 +238,7 @@ export class UserStorage {
   /**
    * Magic line for recovery user
    */
-  magicLine: String
+  magicline: String
 
   static indexableFields = {
     email: true,
@@ -383,7 +383,7 @@ export class UserStorage {
     } else {
       loggedInPromise = this.gunCreate(username, password).then(r => this.gunAuth(username, password))
     }
-    this.magicLine = this.createMagicLine(username, password)
+    this.magicline = this.createMagicLine(username, password)
 
     return new Promise(async (res, rej) => {
       let user = await loggedInPromise.catch(e => rej(e))
@@ -440,7 +440,7 @@ export class UserStorage {
    * return magic line
    */
   getMagicLine() {
-    return this.magicLine
+    return this.magicline
   }
 
   async handleReceiptUpdated(receipt: any): Promise<FeedEvent> {

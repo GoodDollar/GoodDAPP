@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import _get from 'lodash/get'
 import type { Store } from 'undux'
-import AddToHomescreen from 'react-add-to-homescreen'
+import AddWebApp from '../common/view/AddWebApp'
 import normalize from '../../lib/utils/normalizeText'
 import GDStore from '../../lib/undux/GDStore'
 import API from '../../lib/API/api'
@@ -40,12 +40,6 @@ import SendConfirmation from './SendConfirmation'
 import SendLinkSummary from './SendLinkSummary'
 import SendQRSummary from './SendQRSummary'
 import { ACTION_SEND } from './utils/sendReceiveFlow'
-
-const handleAddToHomescreenClick = () => {
-  alert(`
-    1. Open Share menu
-    2. Tap on "Add to Home Screen" button`)
-}
 
 const log = logger.child({ from: 'Dashboard' })
 
@@ -144,7 +138,7 @@ const Dashboard = props => {
 
   return (
     <>
-      <AddToHomescreen onAddToHomescreenClick={handleAddToHomescreenClick} />
+      <AddWebApp />
       <Wrapper style={styles.dashboardWrapper}>
         <Section style={[styles.topInfo]}>
           {headerLarge ? (

@@ -1,6 +1,6 @@
 // @flow
 import { isMobile } from 'mobile-device-detect'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Platform, SafeAreaView, StyleSheet } from 'react-native'
 import PaperProvider from 'react-native-paper/src/core/Provider'
 import { theme } from './components/theme/styles'
@@ -12,19 +12,6 @@ import SplashDesktop from './components/splash/SplashDesktop'
 
 const App = () => {
   const store = SimpleStore.useStore()
-
-  useEffect(() => {
-    window.addEventListener('beforeinstallprompt', e => {
-      console.info('beforeinstallprompt dashboard')
-      console.info(e.platforms) // e.g., ["web", "android", "windows"]
-      e.userChoice.then(
-        function(outcome) {
-          console.info(outcome) // either "accepted" or "dismissed"
-        },
-        err => console.info(err)
-      )
-    })
-  }, [])
 
   // onRecaptcha = (token: string) => {
   //   userStorage.setProfileField('recaptcha', token, 'private')

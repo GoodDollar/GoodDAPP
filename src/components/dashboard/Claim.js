@@ -166,8 +166,11 @@ const Claim = props => {
     }
   }
 
-  const faceRecognition = () => {
-    screenProps.push('FRIntro', { from: 'Claim' })
+  const faceRecognition = async () => {
+    await goodWallet.isCitizen().then(_ => gdstore.set('isLoggedInCitizen')(_))
+    handleClaim()
+
+    // screenProps.push('FRIntro', { from: 'Claim' })
   }
 
   const illustrationSizes = isCitizen ? styles.illustrationForCitizen : styles.illustrationForNonCitizen

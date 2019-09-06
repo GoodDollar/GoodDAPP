@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 
 const MAX_WIDTH = 600
 const MAX_HEIGHT = 600
@@ -12,15 +12,28 @@ const toBase64 = file =>
   })
 
 const InputFile = props => {
-  const inputRef = useRef()
-  const canvas = useRef()
-  const img = useRef()
+  const inputRef = useRef(null)
+  const [canvas, setCanvas] = useState()
+  const [img, setImg] = useState()
+  const canvasRef = useCallback(node => {
+    if (node !== null) {
+      setCanvas(node)
+    }
+  }, [])
+
+  const imgRef = useCallback(node => {
+    if (node !== null) {
+      setImg(node)
+    }
+  }, [])
 
   const getReducedFileAsDataUrl = (data64, maxWidth = MAX_WIDTH, maxHeight = MAX_HEIGHT) => {
-    img.current.src = data64
+    console.info('getReducedFileAsDataUrl', { img, canvas })
 
-    var width = img.current.width
-    var height = img.current.height
+    img.src = data64
+
+    var width = img.width
+    var height = img.height
 
     if (width > height) {
       if (width > maxWidth) {
@@ -33,36 +46,42 @@ const InputFile = props => {
         height = maxHeight
       }
     }
-    canvas.current.width = width
-    canvas.current.height = height
-    var ctx = canvas.current.getContext('2d')
-    ctx.drawImage(img.current, 0, 0, width, height)
+    canvas.width = width
+    canvas.height = height
+    var ctx = canvas.getContext('2d')
+    ctx.drawImage(img, 0, 0, width, height)
 
-    return canvas.current.toDataURL('image/png')
+    return canvas.toDataURL('image/png')
   }
 
   return (
     <>
-      <input
-        ref={inputRef}
-        type="file"
-        id="file"
-        name="file"
-        style={styles.input}
-        onChange={async event => {
-          event.preventDefault()
-          const [file] = inputRef.current.files
-          const data64Url = await toBase64(file)
-          const dataUrl = await getReducedFileAsDataUrl(data64Url)
-          console.info({ file, dataUrl, data64Url })
-          props.onChange(dataUrl)
-        }}
-      />
-      <canvas ref={canvas} style={{ position: 'absolute', display: 'none' }} />
-      <img alt="profile" ref={img} style={{ position: 'absolute', display: 'none' }} />
-      <label htmlFor="file" style={styles.label}>
-        {props.children}
-      </label>
+      {img && canvas && (
+        <>
+          <input
+            ref={inputRef}
+            type="file"
+            id="file"
+            name="file"
+            style={styles.input}
+            onChange={async event => {
+              event.preventDefault()
+              console.info({ event, inputRef })
+              const [file] = inputRef.current.files
+
+              const data64Url = await toBase64(file)
+              const dataUrl = getReducedFileAsDataUrl(data64Url)
+              console.info({ file, dataUrl, data64Url })
+              props.onChange(dataUrl)
+            }}
+          />
+          <label htmlFor="file" style={styles.label}>
+            {props.children}
+          </label>
+        </>
+      )}
+      <canvas ref={canvasRef} style={{ position: 'absolute', display: 'none' }} />
+      <img alt="profile" ref={imgRef} style={{ position: 'absolute', display: 'none' }} />
     </>
   )
 }

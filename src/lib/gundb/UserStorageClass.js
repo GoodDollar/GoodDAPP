@@ -235,9 +235,15 @@ export class UserStorage {
 
   _lastProfileUpdate: any
 
+  /**
+   * Magic line for recovery user
+   */
+  magiclink: String
+
   static indexableFields = {
     email: true,
     mobile: true,
+    mnemonic: true,
     phone: true,
     walletAddress: true,
     username: true,
@@ -276,6 +282,42 @@ export class UserStorage {
       return `${'*'.repeat(value.length - 4)}${value.slice(-4)}`
     }
     return value
+  }
+
+  /**
+   *
+   * @param {string} username
+   * @param {string} password
+   * @returns {Promise<*>}
+   */
+  static async getMnemonic(username: String, password: String): String {
+    let gun = defaultGun
+    let gunuser = gun.user()
+    let mnemonic = ''
+
+    const authUserInGun = (username, password) => {
+      return new Promise((res, rej) => {
+        gunuser.auth(username, password, user => {
+          logger.debug('gundb auth', user.err)
+          if (user.err) {
+            logger.error('Error getMnimonic UserStorage', user.err)
+            return rej(false)
+          }
+          res(true)
+        })
+      })
+    }
+
+    if (await authUserInGun(username, password)) {
+      const profile = gunuser.get('profile')
+      mnemonic = await profile
+        .get('mnemonic')
+        .get('value')
+        .decrypt()
+    }
+    await gunuser.leave()
+
+    return mnemonic
   }
 
   constructor(wallet: GoodWallet, gun: Gun = defaultGun) {
@@ -341,6 +383,7 @@ export class UserStorage {
     } else {
       loggedInPromise = this.gunCreate(username, password).then(r => this.gunAuth(username, password))
     }
+    this.magiclink = this.createMagicLink(username, password)
 
     return new Promise(async (res, rej) => {
       let user = await loggedInPromise.catch(e => rej(e))
@@ -376,6 +419,28 @@ export class UserStorage {
       this.wallet.subscribeToEvent('receiptReceived', receipt => this.handleReceiptUpdated(receipt))
       res(true)
     })
+  }
+
+  /**
+   * Create magic line for recovery user
+   *
+   * @param {string} username
+   * @param {string} password
+   *
+   * @returns {string}
+   */
+  createMagicLink(username: String, password: String): String {
+    let magicLink = `${username}+${password}`
+    magicLink = Buffer.from(magicLink).toString('base64')
+
+    return magicLink
+  }
+
+  /**
+   * return magic line
+   */
+  getMagicLink() {
+    return this.magiclink
   }
 
   async handleReceiptUpdated(receipt: any): Promise<FeedEvent> {
@@ -637,9 +702,12 @@ export class UserStorage {
       fullName: { defaultPrivacy: 'public' },
       email: { defaultPrivacy: 'private' },
       mobile: { defaultPrivacy: 'private' },
+      mnemonic: { defaultPrivacy: 'private' },
       avatar: { defaultPrivacy: 'public' },
       walletAddress: { defaultPrivacy: 'public' },
       username: { defaultPrivacy: 'public' },
+      w3Token: { defaultPrivacy: 'private' },
+      loginToken: { defaultPrivacy: 'private' },
     }
     const getPrivacy = async field => {
       const currentPrivacy = await this.profile.get(field).get('privacy')
@@ -1087,11 +1155,15 @@ export class UserStorage {
       //check real status only if tx has been confirmed (ie we have a receipt)
       withdrawStatus = otplStatus ? otplStatus : 'pending'
     }
+    withdrawStatus = data.status === 'error' ? 'error' : withdrawStatus
 
     let displayType = type
     switch (type) {
       case 'send':
         displayType += withdrawStatus
+        if (withdrawStatus === 'error') {
+          avatar = `${process.env.PUBLIC_URL}/favicon-96x96.png`
+        }
         break
     }
     return {
@@ -1172,14 +1244,49 @@ export class UserStorage {
   }
 
   /**
+   * Sets the event's status
+   * @param {string} eventId
+   * @param {string} status
+   * @returns {Promise<FeedEvent>}
+   */
+  async updateEventStatus(eventId: string, status: string): Promise<FeedEvent> {
+    const feedEvent = await this.getFeedItemByTransactionHash(eventId)
+    feedEvent.status = status
+    return this.updateFeedEvent(feedEvent)
+  }
+
+  /**
+   * Sets the event's otpl status
+   * @param {string} eventId
+   * @param {string} status
+   * @returns {Promise<FeedEvent>}
+   */
+  async updateEventOtplStatus(eventId: string, status: string): Promise<FeedEvent> {
+    const feedEvent = await this.getFeedItemByTransactionHash(eventId)
+    feedEvent.status = status
+    if (feedEvent.data) {
+      feedEvent.data.otplStatus = status
+    }
+    return this.updateFeedEvent(feedEvent)
+  }
+
+  /**
+   * Sets the event's status as error
+   * @param {string} eventId
+   * @returns {Promise<FeedEvent>}
+   */
+  async markWithErrorEvent(err: any): Promise<FeedEvent> {
+    const error = JSON.parse(`{${err.message.split('{')[1]}`)
+    await this.updateEventOtplStatus(error.transactionHash, 'error')
+  }
+
+  /**
    * Sets the event's status as deleted
    * @param {string} eventId
    * @returns {Promise<FeedEvent>}
    */
-  async deleteEvent(eventId: string): Promise<FeedEvent> {
-    const feedEvent = await this.getFeedItemByTransactionHash(eventId)
-    feedEvent.status = 'deleted'
-    return this.updateFeedEvent(feedEvent)
+  deleteEvent(eventId: string): Promise<FeedEvent> {
+    return this.updateEventStatus(eventId, 'deleted')
   }
 
   /**
@@ -1187,10 +1294,8 @@ export class UserStorage {
    * @param {string} eventId
    * @returns {Promise<FeedEvent>}
    */
-  async recoverEvent(eventId: string): Promise<FeedEvent> {
-    const feedEvent = await this.getFeedItemByTransactionHash(eventId)
-    feedEvent.status = 'completed'
-    return this.updateFeedEvent(feedEvent)
+  recoverEvent(eventId: string): Promise<FeedEvent> {
+    return this.updateEventStatus(eventId, 'completed')
   }
 
   /**

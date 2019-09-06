@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react'
 import { AsyncStorage } from 'react-native'
+import bip39 from 'bip39-light'
+import { DESTINATION_PATH } from './lib/constants/localStorage'
 import SimpleStore from './lib/undux/SimpleStore'
 import Splash from './components/splash/Splash'
 import { delay } from './lib/utils/async'
@@ -10,8 +12,42 @@ const log = logger.child({ from: 'RouterSelector' })
 
 // import Router from './SignupRouter'
 let SignupRouter = React.lazy(() =>
-  Promise.all([delay(2000), import(/* webpackChunkName: "signuprouter" */ './SignupRouter')]).then(r => r[1])
+  Promise.all([
+    import(/* webpackChunkName: "signuprouter" */ './SignupRouter'),
+    recoverByMagicLink(),
+    delay(2000),
+  ]).then(r => r[0])
 )
+
+/**
+ * Recover user by MagicLink
+ *
+ * @returns {Promise<boolean>}
+ */
+const recoverByMagicLink = async () => {
+  const { magiclink } = extractQueryParams(window.location.href)
+  if (magiclink) {
+    let userNameAndPWD = Buffer.from(magiclink, 'base64').toString('ascii')
+    let userNameAndPWDArray = userNameAndPWD.split('+')
+    log.debug('recoverByMagicLink', { magiclink, userNameAndPWDArray })
+    if (userNameAndPWDArray.length === 2) {
+      const userName = userNameAndPWDArray[0]
+      const userPwd = userNameAndPWDArray[1]
+      const UserStorage = await import('./lib/gundb/UserStorageClass').then(_ => _.UserStorage)
+
+      const mnemonic = await UserStorage.getMnemonic(userName, userPwd)
+
+      if (mnemonic && bip39.validateMnemonic(mnemonic)) {
+        const mnemonicsHelpers = import('./lib/wallet/SoftwareWalletProvider')
+        const { saveMnemonics } = await mnemonicsHelpers
+        await saveMnemonics(mnemonic)
+        await AsyncStorage.setItem('GOODDAPP_isLoggedIn', true)
+        window.location = '/'
+      }
+    }
+  }
+}
+
 let AppRouter = React.lazy(() => {
   log.debug('initializing storage and wallet...')
   let walletAndStorageReady = import(/* webpackChunkName: "init" */ './init')
@@ -23,11 +59,12 @@ let AppRouter = React.lazy(() => {
     })
     .then(r => r[1])
 })
+
 const RouterSelector = () => {
   const store = SimpleStore.useStore()
 
   //we use global state for signup process to signal user has registered
-  const isLoggedIn = store.get('isLoggedIn') //Promise.resolve( || AsyncStorage.getItem('GOODDAPP_isLoggedIn'))
+  const isLoggedIn = store.get('isLoggedIn') //Promise.resolve( || AsyncStorage.getItem(IS_LOGGED_IN))
 
   log.debug('RouterSelector Rendered', { isLoggedIn })
   const Router = isLoggedIn ? AppRouter : SignupRouter
@@ -41,7 +78,7 @@ const RouterSelector = () => {
     if (params && Object.keys(params).length > 0) {
       const dest = { path: window.location.pathname.slice(1), params }
       log.debug('Saving destination url', dest)
-      AsyncStorage.setItem('destinationPath', JSON.stringify(dest))
+      AsyncStorage.setItem(DESTINATION_PATH, JSON.stringify(dest))
     }
   }, [])
   return (

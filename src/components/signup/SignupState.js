@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { AsyncStorage, ScrollView, StyleSheet, View } from 'react-native'
 import { createSwitchNavigator } from '@react-navigation/core'
 import { isMobileSafari } from 'mobile-device-detect'
+import { GD_USER_MNEMONIC, IS_LOGGED_IN } from '../../lib/constants/localStorage'
 
 import NavBar from '../appNavigation/NavBar'
 import { navigationConfig } from '../appNavigation/navigationConfig'
@@ -137,16 +138,32 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
 
       //first need to add user to our database
       // Stores creationBlock number into 'lastBlock' feed's node
+
+      const addUserAPIPromise = API.addUser(state)
+        .then(res => {
+          const data = res.data
+
+          if (data && data.loginToken) {
+            userStorage.setProfileField('loginToken', data.loginToken, 'private')
+          }
+        })
+        .catch(e => {
+          log.error(e.message, e)
+        })
+
+      const mnemonic = await AsyncStorage.getItem(GD_USER_MNEMONIC)
+
       await Promise.all([
-        await API.addUser(state),
-        userStorage.setProfile({ ...state, walletAddress: goodWallet.account }),
+        addUserAPIPromise,
+        userStorage.setProfile({ ...state, walletAddress: goodWallet.account, mnemonic }),
         userStorage.setProfileField('registered', true, 'public'),
         goodWallet.getBlockNumber().then(creationBlock => userStorage.saveLastBlockNumber(creationBlock.toString())),
       ])
 
       //need to wait for API.addUser but we dont need to wait for it to finish
-      AsyncStorage.getItem('GD_USER_MNEMONIC').then(mnemonic => API.sendRecoveryInstructionByEmail(mnemonic)),
-        await AsyncStorage.setItem('GOODDAPP_isLoggedIn', true)
+      API.sendRecoveryInstructionByEmail(mnemonic)
+      API.sendMagicLinkByEmail(userStorage.getMagicLink())
+      await AsyncStorage.setItem(IS_LOGGED_IN, true)
       log.debug('New user created')
       return true
     } catch (e) {

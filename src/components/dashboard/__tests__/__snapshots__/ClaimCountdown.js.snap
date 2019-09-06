@@ -1,0 +1,99 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ClaimCountdown matches snapshot 1`] = `
+<div
+  className="css-view-1dbjc4n"
+  style={
+    Object {
+      "WebkitBoxFlex": 1,
+      "WebkitFlexBasis": "0%",
+      "WebkitFlexGrow": 1,
+      "WebkitFlexShrink": 1,
+      "flexBasis": "0%",
+      "flexGrow": 1,
+      "flexShrink": 1,
+      "msFlexNegative": 1,
+      "msFlexPositive": 1,
+      "msFlexPreferredSize": "0%",
+    }
+  }
+>
+  <div
+    className="css-view-1dbjc4n"
+    style={
+      Object {
+        "WebkitAlignItems": "center",
+        "WebkitBoxAlign": "center",
+        "WebkitBoxDirection": "normal",
+        "WebkitBoxFlex": 2,
+        "WebkitBoxOrient": "vertical",
+        "WebkitBoxPack": "center",
+        "WebkitFlexDirection": "column",
+        "WebkitFlexGrow": 2,
+        "WebkitJustifyContent": "center",
+        "alignItems": "center",
+        "backgroundColor": "rgba(248,175,64,1.00)",
+        "borderBottomLeftRadius": "5px",
+        "borderBottomRightRadius": "5px",
+        "borderTopLeftRadius": "5px",
+        "borderTopRightRadius": "5px",
+        "flexDirection": "column",
+        "flexGrow": 2,
+        "justifyContent": "center",
+        "marginBottom": "8px",
+        "marginLeft": "0px",
+        "marginRight": "0px",
+        "marginTop": "0px",
+        "msFlexAlign": "center",
+        "msFlexDirection": "column",
+        "msFlexPack": "center",
+        "msFlexPositive": 2,
+        "paddingBottom": "8px",
+        "paddingLeft": "4px",
+        "paddingRight": "4px",
+        "paddingTop": "8px",
+      }
+    }
+  >
+    <div
+      className="css-text-901oao"
+      dir="auto"
+      style={
+        Object {
+          "color": "rgba(66,69,74,1.00)",
+          "direction": "ltr",
+          "fontFamily": "Roboto",
+          "fontSize": "16px",
+          "fontWeight": "normal",
+          "lineHeight": "22px",
+          "marginBottom": "8px",
+          "textAlign": "center",
+          "textDecoration": "none",
+          "textTransform": "none",
+        }
+      }
+    >
+      Next Daily Income:
+    </div>
+    <div
+      className="css-text-901oao"
+      dir="auto"
+      style={
+        Object {
+          "color": "rgba(255,255,255,1.00)",
+          "direction": "ltr",
+          "fontFamily": "Roboto Slab",
+          "fontSize": "36px",
+          "fontWeight": "700",
+          "lineHeight": "30px",
+          "textAlign": "center",
+          "textDecoration": "none",
+          "textTransform": "none",
+        }
+      }
+    >
+      00:10:00
+    </div>
+  </div>
+</div>
+`;

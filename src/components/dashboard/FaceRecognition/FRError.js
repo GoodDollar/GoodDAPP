@@ -84,10 +84,10 @@ const getStylesFromProps = ({ theme }) => ({
     flex: 1,
     flexGrow: 1,
     flexShrink: 0,
-    paddingBottom: `${theme.sizes.defaultDouble / 16}rem`,
-    paddingLeft: `${theme.sizes.default / 16}rem`,
-    paddingRight: `${theme.sizes.default / 16}rem`,
-    paddingTop: `${theme.sizes.defaultDouble / 8}rem`,
+    paddingBottom: theme.sizes.defaultDouble,
+    paddingLeft: theme.sizes.default,
+    paddingRight: theme.sizes.default,
+    paddingTop: theme.sizes.defaultQuadruple,
     borderRadius: 5,
   },
   errorImage: {
@@ -99,10 +99,10 @@ const getStylesFromProps = ({ theme }) => ({
   descriptionContainer: {
     flex: 1,
     marginBottom: 0,
-    paddingBottom: `${theme.sizes.defaultDouble / 16}rem`,
-    paddingLeft: `${theme.sizes.defaultHalf / 16}rem`,
-    paddingRight: `${theme.sizes.defaultHalf / 16}rem`,
-    paddingTop: `${theme.sizes.defaultDouble / 16}rem`,
+    paddingBottom: theme.sizes.defaultDouble,
+    paddingLeft: theme.sizes.defaultHalf,
+    paddingRight: theme.sizes.defaultHalf,
+    paddingTop: theme.sizes.defaultDouble,
   },
   errorSection: {
     paddingBottom: 0,
@@ -112,7 +112,7 @@ const getStylesFromProps = ({ theme }) => ({
   bottomContainer: {
     display: 'flex',
     flex: 1,
-    paddingTop: '1.25rem',
+    paddingTop: 20,
     justifyContent: 'flex-end',
   },
   description: {

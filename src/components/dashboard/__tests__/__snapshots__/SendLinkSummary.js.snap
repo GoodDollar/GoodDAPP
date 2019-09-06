@@ -351,7 +351,6 @@ exports[`SendLinkSummary matches snapshot 1`] = `
               "fontSize": "16px",
               "fontWeight": "normal",
               "lineHeight": "22px",
-              "maxWidth": "210px",
               "textAlign": "center",
               "textDecoration": "none",
               "textTransform": "none",
@@ -630,7 +629,7 @@ a few seconds to complete
                 "WebkitBoxPack": "center",
                 "WebkitJustifyContent": "center",
                 "alignItems": "stretch",
-                "backgroundColor": "rgba(0,0,0,0.12)",
+                "backgroundColor": "rgba(0,175,255,1.00)",
                 "borderBottomColor": "rgba(0,175,255,1.00)",
                 "borderBottomLeftRadius": "50px",
                 "borderBottomRightRadius": "50px",
@@ -647,6 +646,7 @@ a few seconds to complete
                 "borderTopRightRadius": "50px",
                 "borderTopStyle": "solid",
                 "borderTopWidth": "0px",
+                "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
                 "display": "flex",
                 "justifyContent": "center",
                 "marginBottom": "0px",
@@ -665,13 +665,15 @@ a few seconds to complete
             }
           >
             <div
-              aria-disabled={true}
-              className="css-view-1dbjc4n"
-              disabled={true}
+              className="css-cursor-18t94o4 css-view-1dbjc4n"
+              data-focusable={true}
+              disabled={false}
               onKeyDown={[Function]}
+              onKeyPress={[Function]}
               onKeyUp={[Function]}
               onResponderGrant={[Function]}
               onResponderMove={[Function]}
+              onResponderRelease={[Function]}
               onResponderTerminate={[Function]}
               onResponderTerminationRequest={[Function]}
               onStartShouldSetResponder={[Function]}
@@ -682,11 +684,15 @@ a few seconds to complete
                   "borderBottomRightRadius": "50px",
                   "borderTopLeftRadius": "50px",
                   "borderTopRightRadius": "50px",
+                  "cursor": "pointer",
+                  "msTouchAction": "manipulation",
                   "overflowX": "hidden",
                   "overflowY": "hidden",
                   "position": "relative",
+                  "touchAction": "manipulation",
                 }
               }
+              tabIndex="0"
             >
               <div
                 className="css-view-1dbjc4n"
@@ -714,7 +720,7 @@ a few seconds to complete
                   dir="auto"
                   style={
                     Object {
-                      "color": "rgba(0,0,0,0.32)",
+                      "color": "rgba(255,255,255,1.00)",
                       "direction": "ltr",
                       "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                       "letterSpacing": "1px",

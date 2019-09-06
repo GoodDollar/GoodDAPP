@@ -5,7 +5,6 @@
 import React, { useEffect, useState } from 'react'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
-import { withStyles } from '../../lib/styles'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import { useWrappedGoodWallet } from '../../lib/wallet/useWrappedWallet'
 import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
@@ -27,8 +26,7 @@ const log = logger.child({ from: 'SendQRSummary' })
  * @param {any} props.screenProps
  * @param {any} props.navigation
  */
-const SendQRSummary = (props: AmountProps) => {
-  const { screenProps, styles } = props
+const SendQRSummary = ({ screenProps }: AmountProps) => {
   const [screenState] = useScreenState(screenProps)
   const goodWallet = useWrappedGoodWallet()
   const [showDialog] = useDialog()
@@ -110,15 +108,14 @@ const SendQRSummary = (props: AmountProps) => {
     }
     return () => setIsValid(undefined)
   }, [isValid])
+
   return (
     <Wrapper>
       <TopBar push={screenProps.push} />
       <Section grow>
         <Section.Title>Summary</Section.Title>
         <Section.Row justifyContent="center">
-          <Section.Text color="gray80Percent" style={styles.descriptionText}>
-            {'* the transaction may take\na few seconds to complete'}
-          </Section.Text>
+          <Section.Text color="gray80Percent">{'* the transaction may take\na few seconds to complete'}</Section.Text>
         </Section.Row>
         <SummaryTable counterPartyDisplayName={profile.name} amount={amount} reason={reason} />
         <Section.Row>
@@ -144,12 +141,6 @@ const SendQRSummary = (props: AmountProps) => {
   )
 }
 
-const getStylesFromProps = ({ theme }) => ({
-  descriptionText: {
-    maxWidth: 210,
-  },
-})
-
 SendQRSummary.navigationOptions = {
   title: SEND_TITLE,
 }
@@ -161,4 +152,4 @@ SendQRSummary.shouldNavigateToComponent = props => {
   return (!!screenState.amount && !!screenState.to) || screenState.from
 }
 
-export default withStyles(getStylesFromProps)(SendQRSummary)
+export default SendQRSummary

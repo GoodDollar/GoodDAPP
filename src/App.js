@@ -29,7 +29,7 @@ const App = () => {
     <PaperProvider theme={theme}>
       <SafeAreaView style={styles.safeAreaView}>
         <React.Fragment>
-          <AddWebApp />
+          <AddWebApp show={store.get('isLoggedIn')} />
           <SimpleStoreDialog />
           <LoadingIndicator />
           {/* <ReCaptcha sitekey={Config.recaptcha} action="auth" verifyCallback={this.onRecaptcha} /> */}

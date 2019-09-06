@@ -9,6 +9,7 @@ import RouterSelector from './RouterSelector'
 import { SimpleStoreDialog } from './components/common/dialogs/CustomDialog'
 import LoadingIndicator from './components/common/view/LoadingIndicator'
 import SplashDesktop from './components/splash/SplashDesktop'
+import AddWebApp from './components/common/view/AddWebApp'
 
 const App = () => {
   const store = SimpleStore.useStore()
@@ -28,6 +29,7 @@ const App = () => {
     <PaperProvider theme={theme}>
       <SafeAreaView style={styles.safeAreaView}>
         <React.Fragment>
+          <AddWebApp />
           <SimpleStoreDialog />
           <LoadingIndicator />
           {/* <ReCaptcha sitekey={Config.recaptcha} action="auth" verifyCallback={this.onRecaptcha} /> */}

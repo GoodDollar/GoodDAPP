@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from 'react'
 import _get from 'lodash/get'
 import type { Store } from 'undux'
-import AddWebApp from '../common/view/AddWebApp'
 import normalize from '../../lib/utils/normalizeText'
 import GDStore from '../../lib/undux/GDStore'
 import API from '../../lib/API/api'
@@ -138,7 +137,6 @@ const Dashboard = props => {
 
   return (
     <>
-      <AddWebApp />
       <Wrapper style={styles.dashboardWrapper}>
         <Section style={[styles.topInfo]}>
           {headerLarge ? (

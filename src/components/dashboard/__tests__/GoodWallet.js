@@ -82,6 +82,6 @@ describe('GoodWalletShare/ReceiveTokens', () => {
       expect(toBlock).toBeTruthy()
     })
 
-    await testWallet.cancelOTL(linkData.hashedCode)
+    testWallet.cancelOTL(linkData.hashedCode)
   })
 })

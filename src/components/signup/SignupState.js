@@ -225,9 +225,11 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
           log.error(e.message, e)
         })
 
+      const mnemonic = await AsyncStorage.getItem(GD_USER_MNEMONIC)
+
       await Promise.all([
         addUserAPIPromise,
-        userStorage.setProfile({ ...requestPayload, walletAddress: goodWallet.account }),
+        userStorage.setProfile({ ...requestPayload, walletAddress: goodWallet.account, mnemonic }),
         userStorage.setProfileField('registered', true, 'public'),
         goodWallet.getBlockNumber().then(creationBlock => userStorage.saveLastBlockNumber(creationBlock.toString())),
       ])
@@ -236,7 +238,8 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       API.updateW3UserWithWallet(requestPayload.w3Token, goodWallet.account)
 
       //need to wait for API.addUser but we dont need to wait for it to finish
-      AsyncStorage.getItem(GD_USER_MNEMONIC).then(mnemonic => API.sendRecoveryInstructionByEmail(mnemonic))
+      API.sendRecoveryInstructionByEmail(mnemonic)
+      API.sendMagicLinkByEmail(userStorage.getMagicLink())
       await AsyncStorage.setItem(IS_LOGGED_IN, true)
       log.debug('New user created')
       return true

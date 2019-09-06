@@ -18,6 +18,7 @@ import QRCode from './view/QRCode'
 import SaveButton from './buttons/SaveButton'
 import ScanQRButton from './buttons/ScanQRButton'
 import Section from './layout/Section'
+import ShareButton from './buttons/ShareButton'
 import Text from './view/Text'
 import UserAvatar from './view/UserAvatar'
 import Wrapper from './layout/Wrapper'
@@ -44,6 +45,7 @@ export {
   SaveButton,
   ScanQRButton,
   Section,
+  ShareButton,
   Text,
   UserAvatar,
   Wrapper,

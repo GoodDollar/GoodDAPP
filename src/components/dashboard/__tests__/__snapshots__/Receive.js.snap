@@ -423,7 +423,6 @@ exports[`Receive matches snapshot 1`] = `
                     "gray80Percent": "#A3A3A3",
                     "green": "#00C3AE",
                     "lightGray": "#EEE",
-                    "lightGray2": "#e3e3e3",
                     "lightGreen": "#00BBA5",
                     "lighterGray": "#A3A3A3",
                     "notification": "#f50057",

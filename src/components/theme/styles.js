@@ -18,7 +18,6 @@ export const theme = {
     green: '#00C3AE',
     lightGreen: '#00BBA5',
     lightGray: '#EEE',
-    lightGray2: '#e3e3e3',
     lighterGray: '#A3A3A3',
     orange: '#F8AF40',
     primary: '#00AFFF',

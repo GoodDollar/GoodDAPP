@@ -145,9 +145,9 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
           />
         </Section.Row>
       </Section.Stack>
-      <Section.Row grow style={styles.instructions} justifyContent="space-around">
+      <Section.Row style={styles.instructions} justifyContent="space-around">
         <Text color="gray80Percent" fontSize={14}>
-          {'You can copy-paste all of it at once\n rom your '}
+          {'You can copy-paste all of it at once\n from your '}
           <Text color="gray80Percent" fontSize={14} fontWeight="bold">
             {'backup email'}
           </Text>
@@ -175,11 +175,10 @@ const mnemonicsStyles = ({ theme }) => ({
   },
   buttonLayout: {
     marginVertical: 20,
-    backgroundColor: theme.colors.lightGray2,
   },
   bottomContainer: {
-    maxHeight: 50,
-    minHeight: 50,
+    maxHeight: 80,
+    minHeight: 80,
   },
 })
 

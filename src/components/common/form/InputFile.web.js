@@ -28,7 +28,6 @@ const InputFile = props => {
   }, [])
 
   const getReducedFileAsDataUrl = (data64, maxWidth = MAX_WIDTH, maxHeight = MAX_HEIGHT) => {
-    console.info('getReducedFileAsDataUrl', { img, canvas })
 
     img.src = data64
 
@@ -66,12 +65,10 @@ const InputFile = props => {
             style={styles.input}
             onChange={async event => {
               event.preventDefault()
-              console.info({ event, inputRef })
               const [file] = inputRef.current.files
 
               const data64Url = await toBase64(file)
               const dataUrl = getReducedFileAsDataUrl(data64Url)
-              console.info({ file, dataUrl, data64Url })
               props.onChange(dataUrl)
             }}
           />

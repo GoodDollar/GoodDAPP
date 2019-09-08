@@ -99,7 +99,7 @@ const getStylesFromProps = ({ theme }) => ({
   illustration: {
     flexGrow: 0,
     flexShrink: 0,
-    marginBottom: '1.75rem',
+    marginBottom: 28,
     maxWidth: '100%',
     minHeight: 151,
     minWidth: 203,
@@ -120,7 +120,7 @@ const getStylesFromProps = ({ theme }) => ({
     width: '100%',
   },
   bottomSeparator: {
-    marginBottom: '1.75rem',
+    marginBottom: 28,
   },
 })
 

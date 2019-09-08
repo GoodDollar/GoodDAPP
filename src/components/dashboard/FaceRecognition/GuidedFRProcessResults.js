@@ -261,25 +261,25 @@ const getStylesFromProps = ({ theme }) => ({
     height: '100%',
     flex: 1,
     justifyContent: 'space-evenly',
-    paddingTop: '2rem',
+    paddingTop: theme.sizes.defaultQuadruple,
     borderRadius: 5,
   },
   imageView: {
     flexShrink: 0,
   },
   imageContainer: {
-    height: '12rem',
+    height: 192,
   },
   image: {
     marginTop: 36,
-    height: '8.43rem',
+    height: 135,
   },
   mainContainer: {
     paddingBottom: 0,
-    paddingTop: '2rem',
+    paddingTop: theme.sizes.defaultQuadruple,
     marginBottom: 0,
-    paddingLeft: '2.75rem',
-    paddingRight: '2.75rem',
+    paddingLeft: 44,
+    paddingRight: 44,
     flex: 1,
   },
   mainView: {

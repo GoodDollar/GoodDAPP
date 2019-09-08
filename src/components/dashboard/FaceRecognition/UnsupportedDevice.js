@@ -111,7 +111,7 @@ const getStylesFromProps = ({ theme }) => ({
     flexGrow: 1,
     flexShrink: 0,
     justifyContent: 'space-evenly',
-    paddingTop: '2.06rem',
+    paddingTop: theme.sizes.defaultQuadruple,
     borderRadius: 5,
     fontFamily: theme.fonts.default,
   },
@@ -125,8 +125,8 @@ const getStylesFromProps = ({ theme }) => ({
     borderColor: theme.colors.primary,
     borderRadius: 5,
     borderWidth: 1,
-    padding: '0.25rem',
-    marginTop: '0.5rem',
+    padding: 4,
+    marginTop: theme.sizes.default,
   },
   textContainer: {
     padding: 0,
@@ -143,11 +143,11 @@ const getStylesFromProps = ({ theme }) => ({
     flex: 1,
   },
   image: {
-    height: '9.125rem',
+    height: 146,
   },
   qrCodeSize: {
-    width: '10rem',
-    height: '10rem',
+    width: 160,
+    height: 160,
   },
   description: {
     padding: 0,

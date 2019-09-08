@@ -48,7 +48,6 @@ exports[`Circle matches snapshot 1`] = `
           "borderTopLeftRadius": "50%",
           "borderTopRightRadius": "50%",
           "boxShadow": "6px 1px 0 rgba(12, 38, 61, 0.15)",
-          "color": "rgba(255,255,255,1.00)",
           "height": "43px",
           "marginTop": "8px",
           "msFlexAlign": "center",

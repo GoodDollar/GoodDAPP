@@ -9,6 +9,7 @@ import Text from '../../common/view/Text'
 import GDStore from '../../../lib/undux/GDStore'
 import logger from '../../../lib/logger/pino-logger'
 import { withStyles } from '../../../lib/styles'
+import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
 
 const log = logger.child({ from: 'FRError' })
 
@@ -86,14 +87,14 @@ const getStylesFromProps = ({ theme }) => ({
     flex: 1,
     flexGrow: 1,
     flexShrink: 0,
-    paddingBottom: theme.sizes.defaultDouble,
-    paddingLeft: theme.sizes.default,
-    paddingRight: theme.sizes.default,
-    paddingTop: theme.sizes.defaultQuadruple,
+    paddingBottom: getDesignRelativeHeight(theme.sizes.defaultDouble),
+    paddingLeft: getDesignRelativeWidth(theme.sizes.default),
+    paddingRight: getDesignRelativeWidth(theme.sizes.default),
+    paddingTop: getDesignRelativeHeight(theme.sizes.defaultQuadruple),
     borderRadius: 5,
   },
   errorImage: {
-    height: 146,
+    height: getDesignRelativeHeight(146),
   },
   errorText: {
     fontWeight: 'normal',
@@ -101,10 +102,10 @@ const getStylesFromProps = ({ theme }) => ({
   descriptionContainer: {
     flex: 1,
     marginBottom: 0,
-    paddingBottom: theme.sizes.defaultDouble,
-    paddingLeft: theme.sizes.defaultHalf,
-    paddingRight: theme.sizes.defaultHalf,
-    paddingTop: theme.sizes.defaultDouble,
+    paddingBottom: getDesignRelativeHeight(theme.sizes.defaultDouble),
+    paddingLeft: getDesignRelativeWidth(theme.sizes.defaultHalf),
+    paddingRight: getDesignRelativeWidth(theme.sizes.defaultHalf),
+    paddingTop: getDesignRelativeHeight(theme.sizes.defaultDouble),
   },
   errorSection: {
     paddingBottom: 0,
@@ -114,11 +115,11 @@ const getStylesFromProps = ({ theme }) => ({
   bottomContainer: {
     display: 'flex',
     flex: 1,
-    paddingTop: 20,
+    paddingTop: getDesignRelativeHeight(20),
     justifyContent: 'flex-end',
   },
   description: {
-    paddingVertical: 25,
+    paddingVertical: getDesignRelativeHeight(25),
   },
 })
 

@@ -39,6 +39,10 @@ import SendConfirmation from './SendConfirmation'
 import SendLinkSummary from './SendLinkSummary'
 import SendQRSummary from './SendQRSummary'
 import { ACTION_SEND } from './utils/sendReceiveFlow'
+import FaceRecognition from './FaceRecognition/FaceRecognition'
+import FRIntro from './FaceRecognition/FRIntro'
+import FRError from './FaceRecognition/FRError'
+import UnsupportedDevice from './FaceRecognition/UnsupportedDevice'
 
 const log = logger.child({ from: 'Dashboard' })
 
@@ -366,6 +370,10 @@ export default createStackNavigator({
   SendConfirmation,
   SendByQR,
   ReceiveByQR,
+  FRError,
+  FaceVerification: FaceRecognition,
+  FRIntro,
+  UnsupportedDevice,
   SendQRSummary,
   PP: PrivacyPolicy,
   PrivacyArticle,

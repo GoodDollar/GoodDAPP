@@ -18,6 +18,7 @@ import GDStore from '../../../lib/undux/GDStore'
 import { fireEvent } from '../../../lib/analytics/analytics'
 import { withStyles } from '../../../lib/styles'
 import normalize from '../../../lib/utils/normalizeText'
+import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
 import FRStep from './FRStep'
 
 Image.prefetch(LookingGood)
@@ -268,18 +269,18 @@ const getStylesFromProps = ({ theme }) => ({
     flexShrink: 0,
   },
   imageContainer: {
-    height: 192,
+    height: getDesignRelativeHeight(92),
   },
   image: {
-    marginTop: 36,
-    height: 135,
+    marginTop: getDesignRelativeHeight(36),
+    height: getDesignRelativeHeight(35),
   },
   mainContainer: {
     paddingBottom: 0,
     paddingTop: theme.sizes.defaultQuadruple,
     marginBottom: 0,
-    paddingLeft: 44,
-    paddingRight: 44,
+    paddingLeft: getDesignRelativeWidth(44),
+    paddingRight: getDesignRelativeWidth(44),
     flex: 1,
   },
   mainView: {
@@ -298,26 +299,13 @@ const getStylesFromProps = ({ theme }) => ({
     fontSize: normalize(16),
   },
   steps: {
-    marginBottom: 22,
-    marginTop: 22,
+    marginBottom: getDesignRelativeHeight(2),
+    marginTop: getDesignRelativeHeight(2),
   },
   textGood: {
     fontSize: normalize(24),
     textTransform: 'none',
     textAlign: 'center',
-  },
-  success: {
-    width: 28,
-    height: 28,
-    borderRadius: '50%',
-    backgroundColor: '#00C3AE',
-  },
-  failure: {
-    width: 28,
-    height: 28,
-    borderRadius: '50%',
-    backgroundColor: '#FA6C77',
-    flexGrow: 0,
   },
 })
 

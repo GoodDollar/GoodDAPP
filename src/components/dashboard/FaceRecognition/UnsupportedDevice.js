@@ -15,7 +15,7 @@ import logger from '../../../lib/logger/pino-logger'
 import { fireEvent } from '../../../lib/analytics/analytics'
 import { withStyles } from '../../../lib/styles'
 import Text from '../../common/view/Text'
-
+import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
 Image.prefetch(Oops)
 const log = logger.child({ from: 'UnsupportedDevice' })
 
@@ -111,7 +111,7 @@ const getStylesFromProps = ({ theme }) => ({
     flexGrow: 1,
     flexShrink: 0,
     justifyContent: 'space-evenly',
-    paddingTop: theme.sizes.defaultQuadruple,
+    paddingTop: getDesignRelativeHeight(theme.sizes.defaultQuadruple),
     borderRadius: 5,
     fontFamily: theme.fonts.default,
   },
@@ -126,7 +126,7 @@ const getStylesFromProps = ({ theme }) => ({
     borderRadius: 5,
     borderWidth: 1,
     padding: 4,
-    marginTop: theme.sizes.default,
+    marginTop: getDesignRelativeHeight(theme.sizes.default),
   },
   textContainer: {
     padding: 0,
@@ -143,16 +143,16 @@ const getStylesFromProps = ({ theme }) => ({
     flex: 1,
   },
   image: {
-    height: 146,
+    height: getDesignRelativeHeight(146),
   },
   qrCodeSize: {
     width: 160,
-    height: 160,
+    height: getDesignRelativeHeight(160),
   },
   description: {
     padding: 0,
-    paddingTop: 15,
-    paddingBottom: 15,
+    paddingTop: getDesignRelativeHeight(15),
+    paddingBottom: getDesignRelativeHeight(15),
   },
   mainTitle: {
     color: theme.colors.darkGray,

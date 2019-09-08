@@ -8,6 +8,7 @@ import Text from '../../common/view/Text'
 import { CustomButton, Section, Wrapper } from '../../common'
 import { fireEvent } from '../../../lib/analytics/analytics'
 import { getFirstWord } from '../../../lib/utils/getFirstWord'
+import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
 import { withStyles } from '../../../lib/styles'
 import illustration from '../../../assets/FaceRecognition/illustration.svg'
 
@@ -82,46 +83,46 @@ const getStylesFromProps = ({ theme }) => ({
     display: 'flex',
     flexDirection: 'column',
     flexShrink: 0,
-    paddingBottom: theme.sizes.defaultDouble,
-    paddingLeft: theme.sizes.default,
-    paddingRight: theme.sizes.default,
-    paddingTop: theme.sizes.defaultDouble * 2,
+    paddingBottom: getDesignRelativeHeight(theme.sizes.defaultDouble),
+    paddingLeft: getDesignRelativeWidth(theme.sizes.default),
+    paddingRight: getDesignRelativeWidth(theme.sizes.default),
+    paddingTop: getDesignRelativeHeight(theme.sizes.defaultDouble),
   },
   mainContent: {
     flexGrow: 1,
     justifyContent: 'center',
-    paddingLeft: theme.sizes.default * 3,
-    paddingRight: theme.sizes.default * 3,
+    paddingLeft: getDesignRelativeWidth(theme.sizes.default * 3),
+    paddingRight: getDesignRelativeWidth(theme.sizes.default * 3),
     width: '100%',
   },
   mainTitle: {
-    marginBottom: 28,
+    marginBottom: getDesignRelativeHeight(28),
   },
   illustration: {
     flexGrow: 0,
     flexShrink: 0,
-    marginBottom: 28,
+    marginBottom: getDesignRelativeHeight(28),
     maxWidth: '100%',
-    minHeight: 151,
-    minWidth: 203,
+    minHeight: getDesignRelativeHeight(145),
+    minWidth: getDesignRelativeWidth(203),
   },
   descriptionContainer: {
-    paddingHorizontal: theme.sizes.defaultHalf,
-    paddingVertical: theme.sizes.defaultDouble,
+    paddingHorizontal: getDesignRelativeHeight(theme.sizes.defaultHalf),
+    paddingVertical: getDesignRelativeHeight(theme.sizes.defaultDouble),
   },
   description: {
     display: 'block',
     paddingTop: 0,
   },
   descriptionUnderline: {
-    paddingTop: theme.sizes.defaultDouble,
+    paddingTop: getDesignRelativeHeight(theme.sizes.defaultDouble),
   },
   button: {
     marginTop: 'auto',
     width: '100%',
   },
   bottomSeparator: {
-    marginBottom: 28,
+    marginBottom: getDesignRelativeHeight(28),
   },
 })
 

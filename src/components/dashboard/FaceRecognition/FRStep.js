@@ -5,6 +5,7 @@ import Icon from '../../common/view/Icon'
 import normalize from '../../../lib/utils/normalizeText'
 import logger from '../../../lib/logger/pino-logger'
 import { withStyles } from '../../../lib/styles'
+import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
 
 const log = logger.child({ from: 'GuidedFRProcessResults' })
 
@@ -70,14 +71,14 @@ const getStylesFromProps = ({ theme }) => ({
     lineHeight: 28,
   },
   success: {
-    width: 28,
-    height: 28,
+    width: getDesignRelativeWidth(28),
+    height: getDesignRelativeHeight(8),
     borderRadius: '50%',
     backgroundColor: theme.colors.green,
   },
   failure: {
-    width: 28,
-    height: 28,
+    width: getDesignRelativeWidth(28),
+    height: getDesignRelativeHeight(8),
     borderRadius: '50%',
     backgroundColor: theme.colors.red,
     flexGrow: 0,

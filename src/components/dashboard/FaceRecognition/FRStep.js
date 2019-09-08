@@ -1,6 +1,6 @@
 import React from 'react'
 import { ActivityIndicator, View } from 'react-native'
-import { Text } from 'react-native-paper'
+import Text from '../../common/view/Text'
 import Icon from '../../common/view/Icon'
 import normalize from '../../../lib/utils/normalizeText'
 import logger from '../../../lib/logger/pino-logger'
@@ -23,11 +23,13 @@ const FRStep = ({ title, isActive, status, isProcessFailed, paddingBottom, style
   //not active use grey otherwise based on status
   let textStyle = isActive === false ? styles.textInactive : status === false ? styles.textError : styles.textActive
   log.debug('FRStep', { title, status, isActive, statusColor, textStyle })
-
+  let color = isActive === false ? 'gray50Percen' : status === false ? 'red' : 'darkGray'
   return (
     <View style={[styles.topContainer, { paddingBottom }]}>
       <View style={styles.mainView}>
-        <Text style={textStyle}>{title}</Text>
+        <Text color={color} fontWeight={isActive && 'medium'} lineHeight={28}>
+          {title}
+        </Text>
       </View>
       {iconOrSpinner}
     </View>

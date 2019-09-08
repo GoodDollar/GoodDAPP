@@ -86,9 +86,9 @@ const UnsupportedDevice = props => {
           <Image source={Oops} resizeMode={'center'} style={styles.image} />
           <Section style={styles.textContainer}>
             <Separator width={2} />
-            <Section.Text fontSize={16} fontWeight="bold" color="primary" style={styles.description}>
+            <Text fontSize={16} fontWeight="bold" color="primary" style={styles.description}>
               {`${error}`}
-            </Section.Text>
+            </Text>
             <Separator width={2} />
           </Section>
         </Section>

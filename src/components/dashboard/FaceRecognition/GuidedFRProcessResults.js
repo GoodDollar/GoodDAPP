@@ -1,8 +1,8 @@
 //@flow
 import React, { useEffect, useState } from 'react'
 import { Image, View } from 'react-native'
-import { Text } from 'react-native-paper'
 import findKey from 'lodash/findKey'
+import Text from '../../common/view/Text'
 
 // import find from 'lodash/find'
 // import mapValues from 'lodash/mapValues'

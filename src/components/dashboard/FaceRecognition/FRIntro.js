@@ -4,6 +4,7 @@ import { isIOS, isMobileSafari } from 'mobile-device-detect'
 import GDStore from '../../../lib/undux/GDStore'
 import Separator from '../../common/layout/Separator'
 import logger from '../../../lib/logger/pino-logger'
+import Text from '../../common/view/Text'
 import { CustomButton, Section, Wrapper } from '../../common'
 import { fireEvent } from '../../../lib/analytics/analytics'
 import { getFirstWord } from '../../../lib/utils/getFirstWord'
@@ -43,13 +44,13 @@ const FRIntro = props => {
           <Image source={illustration} resizeMode="contain" style={styles.illustration} />
           <Separator width={2} />
           <Section.Text style={styles.descriptionContainer}>
-            <Section.Text fontWeight="bold" color="primary" style={styles.description}>
+            <Text fontWeight="bold" color="primary" style={styles.description}>
               Since its your first transaction
-            </Section.Text>
-            <Section.Text color="primary" style={styles.description}>
+            </Text>
+            <Text color="primary" style={styles.description}>
               {`we will take a short video of you\nto prevent duplicate accounts.`}
-            </Section.Text>
-            <Section.Text
+            </Text>
+            <Text
               fontWeight="bold"
               textDecoration="underline"
               color="primary"
@@ -57,7 +58,7 @@ const FRIntro = props => {
               onPress={gotoPrivacyArticle}
             >
               Learn more
-            </Section.Text>
+            </Text>
           </Section.Text>
           <Separator style={[styles.bottomSeparator]} width={2} />
         </View>

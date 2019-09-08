@@ -5,6 +5,7 @@ import { getFirstWord } from '../../../lib/utils/getFirstWord'
 import { CustomButton, Section, Wrapper } from '../../common'
 import Separator from '../../common/layout/Separator'
 import Oops from '../../../assets/oops.svg'
+import Text from '../../common/view/Text'
 import GDStore from '../../../lib/undux/GDStore'
 import logger from '../../../lib/logger/pino-logger'
 import { withStyles } from '../../../lib/styles'
@@ -56,9 +57,9 @@ const FRError = props => {
           <Image source={Oops} resizeMode="center" style={styles.errorImage} />
           <Section style={styles.errorSection}>
             <Separator width={2} />
-            <Section.Text color="primary" fontWeight="bold" style={styles.description}>
+            <Text color="primary" fontWeight="bold" style={styles.description}>
               {`${error}`}
-            </Section.Text>
+            </Text>
             <Separator width={2} />
           </Section>
         </Section>

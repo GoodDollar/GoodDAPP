@@ -70,9 +70,10 @@ const FRError = props => {
     </Wrapper>
   )
 }
+
 FRError.navigationOptions = {
-  navigationBarHidden: false,
   title: 'Face Verification',
+  navigationBarHidden: false,
 }
 
 const getStylesFromProps = ({ theme }) => ({
@@ -120,10 +121,5 @@ const getStylesFromProps = ({ theme }) => ({
     paddingVertical: 25,
   },
 })
-
-FRError.navigationOptions = {
-  title: 'Face Verification',
-  navigationBarHidden: false,
-}
 
 export default withStyles(getStylesFromProps)(FRError)

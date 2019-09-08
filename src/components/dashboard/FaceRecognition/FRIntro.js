@@ -43,7 +43,7 @@ const FRIntro = props => {
           </Section.Title>
           <Image source={illustration} resizeMode="contain" style={styles.illustration} />
           <Separator width={2} />
-          <Section.Text style={styles.descriptionContainer}>
+          <Text style={styles.descriptionContainer}>
             <Text fontWeight="bold" color="primary" style={styles.description}>
               Since its your first transaction
             </Text>
@@ -59,7 +59,7 @@ const FRIntro = props => {
             >
               Learn more
             </Text>
-          </Section.Text>
+          </Text>
           <Separator style={[styles.bottomSeparator]} width={2} />
         </View>
         <CustomButton style={[styles.button]} onPress={gotoFR}>

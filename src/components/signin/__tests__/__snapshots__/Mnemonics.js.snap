@@ -299,22 +299,18 @@ exports[`SignIn - Mnemonics matches snapshot 1`] = `
           "WebkitAlignItems": "center",
           "WebkitBoxAlign": "center",
           "WebkitBoxDirection": "normal",
-          "WebkitBoxFlex": 1,
           "WebkitBoxOrient": "horizontal",
           "WebkitBoxPack": "justify",
           "WebkitFlexDirection": "row",
-          "WebkitFlexGrow": 1,
           "WebkitJustifyContent": "space-around",
           "alignItems": "center",
           "flexDirection": "row",
-          "flexGrow": 1,
           "justifyContent": "space-around",
           "marginBottom": "8px",
           "marginTop": "8px",
           "msFlexAlign": "center",
           "msFlexDirection": "row",
           "msFlexPack": "distribute",
-          "msFlexPositive": 1,
         }
       }
     >
@@ -336,7 +332,7 @@ exports[`SignIn - Mnemonics matches snapshot 1`] = `
         }
       >
         You can copy-paste all of it at once
- rom your 
+ from your 
         <span
           className="css-text-901oao css-textHasAncestor-16my406"
           dir="auto"
@@ -375,8 +371,8 @@ exports[`SignIn - Mnemonics matches snapshot 1`] = `
           "flexDirection": "column",
           "flexGrow": 1,
           "justifyContent": "flex-end",
-          "maxHeight": "50px",
-          "minHeight": "50px",
+          "maxHeight": "80px",
+          "minHeight": "80px",
           "msFlexAlign": "stretch",
           "msFlexDirection": "column",
           "msFlexPack": "end",

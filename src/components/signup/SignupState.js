@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { AsyncStorage, ScrollView, StyleSheet, View } from 'react-native'
 import { createSwitchNavigator } from '@react-navigation/core'
 import { isMobileSafari } from 'mobile-device-detect'
+import { GD_USER_MNEMONIC, IS_LOGGED_IN } from '../../lib/constants/localStorage'
 
 import NavBar from '../appNavigation/NavBar'
 import { navigationConfig } from '../appNavigation/navigationConfig'
@@ -58,10 +59,10 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   const [loading, setLoading] = useState(false)
   const [countryCode, setCountryCode] = useState(undefined)
   const [createError, setCreateError] = useState(false)
+  const [finishedPromise, setFinishedPromise] = useState(undefined)
 
   const [showErrorDialog] = useErrorDialog()
   const shouldGrow = store.get && !store.get('isMobileSafariKeyboardShown')
-
   const navigateWithFocus = (routeKey: string) => {
     navigation.navigate(routeKey)
     setLoading(false)
@@ -84,17 +85,80 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       const { data } = await API.getLocation()
       data && setCountryCode(data.country)
     } catch (e) {
-      log.error('Could not get user location', e)
+      log.error('Could not get user location', e.message, e)
     }
   }
-  useEffect(() => {
-    //don't allow to start signup flow not from begining
-    if (navigation.state.index > 0) {
-      log.debug('redirecting to start, got index:', navigation.state.index)
-      setLoading(true)
-      return navigateWithFocus(navigation.state.routes[0].key)
+
+  const checkWeb3Token = async () => {
+    const web3Token = await AsyncStorage.getItem('web3Token')
+
+    if (!web3Token) {
+      return
     }
 
+    let behaviour = ''
+    let w3User = {}
+
+    try {
+      const w3userData = await API.getUserFromW3ByToken(web3Token)
+      w3User = w3userData.data
+
+      if (w3User.has_wallet) {
+        behaviour = 'goToRecoverScreen'
+      } else {
+        behaviour = 'goToPhone'
+      }
+    } catch (e) {
+      behaviour = 'showTokenError'
+    }
+
+    const userScreenData = {
+      email: w3User.email,
+      fullName: w3User.full_name,
+      w3Token: web3Token,
+      skipEmail: true,
+      skipEmailConfirmation: true,
+    }
+
+    switch (behaviour) {
+      case 'showTokenError':
+        navigation.navigate('InvalidW3TokenError')
+        break
+
+      case 'goToRecoverScreen':
+        navigation.navigate('Recover', { web3HasWallet: true })
+        break
+
+      case 'goToPhone':
+        API.checkWeb3Email({
+          email: w3User.email,
+          token: web3Token,
+        }).catch(e => {
+          log.error(e.message, e)
+
+          showErrorDialog('Email verification failed', e)
+        })
+
+        if (w3User.image) {
+          userScreenData.avatar = await API.getBase64FromImageUrl(w3User.image).catch(e => {
+            logger.error('Fetch base 64 from image uri failed', e.message, e)
+          })
+        }
+
+        setState({
+          ...state,
+          ...userScreenData,
+        })
+
+        navigation.navigate('Phone')
+        break
+
+      default:
+        break
+    }
+  }
+
+  useEffect(() => {
     //get user country code for phone
     getCountryCode()
 
@@ -104,14 +168,30 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       const { init } = await import('../../init')
       const login = import('../../lib/login/GoodWalletLogin')
       const { goodWallet, userStorage } = await init()
+
+      //for QA
+      global.wallet = goodWallet
       initAnalytics(goodWallet, userStorage).then(_ => fireSignupEvent('STARTED'))
+
+      //the login also re-initialize the api with new jwt
       await login.then(l => l.default.auth())
+      await API.ready
 
       //now that we are loggedin, reload api with JWT
-      await API.init()
+      // await API.init()
       return { goodWallet, userStorage }
     })()
+
     setReady(ready)
+
+    //don't allow to start signup flow not from begining
+    if (navigation.state.index > 0) {
+      log.debug('redirecting to start, got index:', navigation.state.index)
+      setLoading(true)
+      return navigateWithFocus(navigation.state.routes[0].key)
+    }
+
+    checkWeb3Token()
   }, [])
 
   const finishRegistration = async () => {
@@ -128,34 +208,81 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       // Then, when the user access the application from the link (in EmailConfirmation), data is recovered and
       // saved to the `state`
 
+      const { skipEmail, skipEmailConfirmation, ...requestPayload } = state
+
       //first need to add user to our database
       // Stores creationBlock number into 'lastBlock' feed's node
+
+      const addUserAPIPromise = API.addUser(requestPayload)
+        .then(res => {
+          const data = res.data
+
+          if (data && data.loginToken) {
+            userStorage.setProfileField('loginToken', data.loginToken, 'private')
+          }
+        })
+        .catch(e => {
+          log.error(e.message, e)
+        })
+
+      const mnemonic = await AsyncStorage.getItem(GD_USER_MNEMONIC)
+
       await Promise.all([
-        await API.addUser(state),
-        userStorage.setProfile({ ...state, walletAddress: goodWallet.account }),
+        addUserAPIPromise,
+        userStorage.setProfile({ ...requestPayload, walletAddress: goodWallet.account, mnemonic }),
         userStorage.setProfileField('registered', true, 'public'),
         goodWallet.getBlockNumber().then(creationBlock => userStorage.saveLastBlockNumber(creationBlock.toString())),
       ])
 
+      AsyncStorage.removeItem('web3Token')
+      API.updateW3UserWithWallet(requestPayload.w3Token, goodWallet.account)
+
       //need to wait for API.addUser but we dont need to wait for it to finish
-      AsyncStorage.getItem('GD_USER_MNEMONIC').then(mnemonic => API.sendRecoveryInstructionByEmail(mnemonic)),
-        await AsyncStorage.setItem('GOODDAPP_isLoggedIn', true)
+      API.sendRecoveryInstructionByEmail(mnemonic)
+      API.sendMagicLinkByEmail(userStorage.getMagicLink())
+      await AsyncStorage.setItem(IS_LOGGED_IN, true)
       log.debug('New user created')
+      return true
     } catch (e) {
-      log.error('New user failure', { e, message: e.message })
+      log.error('New user failure', e.message, e)
       showErrorDialog('New user creation failed, please go back and try again', e)
       setCreateError(true)
+      return false
     } finally {
       setLoading(false)
     }
   }
+
+  function getNextRoute(routes, routeIndex, state) {
+    let nextRoute = routes[routeIndex + 1]
+
+    if (state[`skip${nextRoute && nextRoute.key}`]) {
+      return getNextRoute(routes, routeIndex + 1, state)
+    }
+
+    return nextRoute
+  }
+
+  function getPrevRoute(routes, routeIndex, state) {
+    let prevRoute = routes[routeIndex - 1]
+
+    if (state[`skip${prevRoute && prevRoute.key}`]) {
+      return getPrevRoute(routes, routeIndex - 1, state)
+    }
+
+    return prevRoute
+  }
+
   const done = async (data: { [string]: string }) => {
     setLoading(true)
     fireSignupEvent()
     log.info('signup data:', { data })
-    let nextRoute = navigation.state.routes[navigation.state.index + 1]
+
+    let nextRoute = getNextRoute(navigation.state.routes, navigation.state.index, state)
+
     const newState = { ...state, ...data }
     setState(newState)
+    log.info('signup data:', { data, nextRoute })
 
     if (nextRoute && nextRoute.key === 'SMS') {
       try {
@@ -165,13 +292,23 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
         }
         return navigateWithFocus(nextRoute.key)
       } catch (e) {
-        log.error(e)
+        log.error(e.message, e)
         showErrorDialog('Sending mobile verification code failed', e)
       } finally {
         setLoading(false)
       }
     } else if (nextRoute && nextRoute.key === 'EmailConfirmation') {
       try {
+        if (state.w3Token) {
+          // Skip EmailConfirmation screen
+          nextRoute = navigation.state.routes[navigation.state.index + 2]
+
+          // Set email as confirmed
+          setState({ ...newState, isEmailConfirmed: true })
+
+          return
+        }
+
         const { data } = await API.sendVerificationEmail(newState)
         if (data.ok === 0) {
           return showErrorDialog('Failed sending verificaiton email', data.error)
@@ -191,25 +328,29 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
         }
         return navigateWithFocus(nextRoute.key)
       } catch (e) {
-        log.error(e)
+        log.error(e.message, e)
         showErrorDialog('Email verification failed', e)
       } finally {
         setLoading(false)
       }
-    } else {
-      if (nextRoute) {
-        return navigateWithFocus(nextRoute.key)
-      }
+    } else if (nextRoute) {
+      return navigateWithFocus(nextRoute.key)
+    }
 
-      //tell App.js we are done here so RouterSelector switches router
+    const ok = await finishedPromise
+    log.debug('user registration synced and completed', { ok })
+
+    //tell App.js we are done here so RouterSelector switches router
+    if (ok) {
       store.set('isLoggedIn')(true)
     }
   }
 
   const back = () => {
-    const nextRoute = navigation.state.routes[navigation.state.index - 1]
-    if (nextRoute) {
-      navigateWithFocus(nextRoute.key)
+    const prevRoute = getPrevRoute(navigation.state.routes, navigation.state.index, state)
+
+    if (prevRoute) {
+      navigateWithFocus(prevRoute.key)
     } else {
       navigation.navigate('Auth')
     }
@@ -217,10 +358,15 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
 
   useEffect(() => {
     const curRoute = navigation.state.routes[navigation.state.index]
+    if (state === initialState) {
+      return
+    }
     if (curRoute && curRoute.key === 'SignupCompleted') {
-      finishRegistration()
+      const finishedPromise = finishRegistration()
+      setFinishedPromise(finishedPromise)
     }
   }, [navigation.state.index])
+
   const { scrollableContainer, contentContainer } = styles
 
   return (

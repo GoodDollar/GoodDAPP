@@ -53,10 +53,10 @@ exports[`Receive matches snapshot 1`] = `
           "borderTopLeftRadius": "5px",
           "borderTopRightRadius": "5px",
           "marginBottom": "8px",
-          "paddingBottom": "12px",
+          "paddingBottom": "8px",
           "paddingLeft": "12px",
-          "paddingRight": "12px",
-          "paddingTop": "12px",
+          "paddingRight": "8px",
+          "paddingTop": "8px",
         }
       }
     >
@@ -99,11 +99,25 @@ exports[`Receive matches snapshot 1`] = `
               "WebkitTransitionDuration": "0.15s",
               "WebkitTransitionProperty": "opacity",
               "WebkitUserSelect": "none",
-              "backgroundColor": "rgba(0,0,0,0.00)",
+              "backgroundColor": "rgba(203,203,203,1.00)",
+              "borderBottomColor": "rgba(163,163,163,1.00)",
+              "borderBottomLeftRadius": "21px",
+              "borderBottomRightRadius": "21px",
+              "borderBottomWidth": "1px",
+              "borderLeftColor": "rgba(163,163,163,1.00)",
+              "borderLeftWidth": "1px",
+              "borderRightColor": "rgba(163,163,163,1.00)",
+              "borderRightWidth": "1px",
+              "borderTopColor": "rgba(163,163,163,1.00)",
+              "borderTopLeftRadius": "21px",
+              "borderTopRightRadius": "21px",
+              "borderTopWidth": "1px",
+              "height": "42px",
               "msUserSelect": "none",
               "transitionDuration": "0.15s",
               "transitionProperty": "opacity",
               "userSelect": "none",
+              "width": "42px",
             }
           }
         >
@@ -111,13 +125,13 @@ exports[`Receive matches snapshot 1`] = `
             className="css-view-1dbjc4n"
             style={
               Object {
-                "backgroundColor": "rgba(238,238,238,1.00)",
-                "borderBottomLeftRadius": "21px",
-                "borderBottomRightRadius": "21px",
-                "borderTopLeftRadius": "21px",
-                "borderTopRightRadius": "21px",
-                "height": "44px",
-                "width": "44px",
+                "backgroundColor": "rgba(0,0,0,0.00)",
+                "borderBottomLeftRadius": "20px",
+                "borderBottomRightRadius": "20px",
+                "borderTopLeftRadius": "20px",
+                "borderTopRightRadius": "20px",
+                "height": "40px",
+                "width": "40px",
               }
             }
           >
@@ -126,16 +140,16 @@ exports[`Receive matches snapshot 1`] = `
               style={
                 Object {
                   "WebkitFlexBasis": "auto",
-                  "borderBottomLeftRadius": "21px",
-                  "borderBottomRightRadius": "21px",
-                  "borderTopLeftRadius": "21px",
-                  "borderTopRightRadius": "21px",
+                  "borderBottomLeftRadius": "20px",
+                  "borderBottomRightRadius": "20px",
+                  "borderTopLeftRadius": "20px",
+                  "borderTopRightRadius": "20px",
                   "flexBasis": "auto",
-                  "height": "42px",
+                  "height": "40px",
                   "msFlexPreferredSize": "auto",
                   "overflowX": "hidden",
                   "overflowY": "hidden",
-                  "width": "42px",
+                  "width": "40px",
                   "zIndex": 0,
                 }
               }
@@ -145,6 +159,7 @@ exports[`Receive matches snapshot 1`] = `
                 style={
                   Object {
                     "backgroundColor": "rgba(0,0,0,0.00)",
+                    "backgroundImage": "url(\\"unknownProfile.svg\\")",
                     "backgroundPosition": "center",
                     "backgroundRepeat": "no-repeat",
                     "backgroundSize": "cover",
@@ -158,6 +173,12 @@ exports[`Receive matches snapshot 1`] = `
                     "zIndex": -1,
                   }
                 }
+              />
+              <img
+                alt=""
+                className="css-accessibilityImage-9pa8cd"
+                draggable={false}
+                src="unknownProfile.svg"
               />
             </div>
           </div>
@@ -215,9 +236,9 @@ exports[`Receive matches snapshot 1`] = `
               Object {
                 "color": "rgba(12,38,61,1.00)",
                 "direction": "ltr",
-                "fontFamily": "Roboto-Medium",
+                "fontFamily": "Roboto",
                 "fontSize": "14px",
-                "fontWeight": "normal",
+                "fontWeight": "500",
                 "lineHeight": "20px",
                 "textAlign": "center",
                 "textDecoration": "none",
@@ -332,7 +353,7 @@ exports[`Receive matches snapshot 1`] = `
             }
           }
         >
-          Let someone scan your wallet address 
+          Let someone scan your wallet address
         </div>
         <div
           className="css-view-1dbjc4n"
@@ -402,6 +423,7 @@ exports[`Receive matches snapshot 1`] = `
                     "gray80Percent": "#A3A3A3",
                     "green": "#00C3AE",
                     "lightGray": "#EEE",
+                    "lightGreen": "#00BBA5",
                     "lighterGray": "#A3A3A3",
                     "notification": "#f50057",
                     "orange": "#F8AF40",
@@ -424,23 +446,23 @@ exports[`Receive matches snapshot 1`] = `
                     "textAlign": "center",
                   },
                   "fonts": Object {
-                    "bold": "Roboto-Bold",
+                    "default": "Roboto",
                     "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-                    "medium": "Roboto-Medium",
-                    "regular": "Roboto",
-                    "slab": "RobotoSlab-Regular",
-                    "slabBold": "RobotoSlab-Bold",
+                    "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                    "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                    "slab": "Roboto Slab",
                     "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                   },
                   "modals": Object {
+                    "activityIndicatorBackgroundColor": "rgba(255, 255, 255, 0.8)",
                     "backgroundColor": "#fff",
                     "borderLeftWidth": 10,
                     "borderRadius": 5,
                     "contentPadding": 16,
-                    "jaggedEdgeSize": 15,
-                    "overlayBackgroundColor": "rgba(255, 255, 255, 0.8)",
+                    "jaggedEdgeSize": 16,
+                    "overlayBackgroundColor": "transparent",
                     "overlayHorizontalPadding": 20,
-                    "overlayVerticalPadding": 30,
+                    "overlayVerticalPadding": 65,
                   },
                   "paddings": Object {
                     "defaultMargin": 8,
@@ -502,7 +524,7 @@ exports[`Receive matches snapshot 1`] = `
             }
           }
         >
-           - OR - 
+          - OR -
         </div>
       </div>
       <div
@@ -529,8 +551,11 @@ exports[`Receive matches snapshot 1`] = `
           className="css-view-1dbjc4n"
           style={
             Object {
+              "WebkitAlignItems": "stretch",
+              "WebkitBoxAlign": "stretch",
               "WebkitBoxPack": "center",
               "WebkitJustifyContent": "center",
+              "alignItems": "stretch",
               "backgroundColor": "rgba(0,0,0,0.00)",
               "borderBottomColor": "rgba(0,175,255,1.00)",
               "borderBottomLeftRadius": "50px",
@@ -548,10 +573,20 @@ exports[`Receive matches snapshot 1`] = `
               "borderTopRightRadius": "50px",
               "borderTopStyle": "solid",
               "borderTopWidth": "1px",
-              "boxShadow": "0px 0px 0px rgba(0,0,0,0.24)",
+              "display": "flex",
               "justifyContent": "center",
-              "minWidth": "auto",
+              "marginBottom": "0px",
+              "marginLeft": "0px",
+              "marginRight": "0px",
+              "marginTop": "0px",
+              "minHeight": "44px",
+              "minWidth": "64px",
+              "msFlexAlign": "stretch",
               "msFlexPack": "center",
+              "paddingBottom": "0px",
+              "paddingLeft": "0px",
+              "paddingRight": "0px",
+              "paddingTop": "0px",
             }
           }
         >
@@ -599,6 +634,7 @@ exports[`Receive matches snapshot 1`] = `
                   "alignItems": "center",
                   "flexDirection": "row",
                   "justifyContent": "center",
+                  "letterSpacing": "0px",
                   "msFlexAlign": "center",
                   "msFlexDirection": "row",
                   "msFlexPack": "center",
@@ -612,11 +648,11 @@ exports[`Receive matches snapshot 1`] = `
                   Object {
                     "color": "rgba(0,175,255,1.00)",
                     "direction": "ltr",
-                    "fontFamily": "Roboto-Medium",
+                    "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                     "letterSpacing": "1px",
                     "marginBottom": "9px",
-                    "marginLeft": "8px",
-                    "marginRight": "8px",
+                    "marginLeft": "16px",
+                    "marginRight": "16px",
                     "marginTop": "9px",
                     "textAlign": "center",
                   }
@@ -626,12 +662,26 @@ exports[`Receive matches snapshot 1`] = `
                   className="css-view-1dbjc4n"
                   style={
                     Object {
-                      "WebkitBoxPack": "center",
-                      "WebkitJustifyContent": "center",
-                      "display": "inline-flex",
-                      "justifyContent": "center",
-                      "minHeight": "28px",
-                      "msFlexPack": "center",
+                      "WebkitAlignItems": "center",
+                      "WebkitBoxAlign": "center",
+                      "WebkitBoxDirection": "normal",
+                      "WebkitBoxFlex": 1,
+                      "WebkitBoxOrient": "horizontal",
+                      "WebkitFlexBasis": "0%",
+                      "WebkitFlexDirection": "row",
+                      "WebkitFlexGrow": 1,
+                      "WebkitFlexShrink": 1,
+                      "alignItems": "center",
+                      "display": "flex",
+                      "flexBasis": "0%",
+                      "flexDirection": "row",
+                      "flexGrow": 1,
+                      "flexShrink": 1,
+                      "msFlexAlign": "center",
+                      "msFlexDirection": "row",
+                      "msFlexNegative": 1,
+                      "msFlexPositive": 1,
+                      "msFlexPreferredSize": "0%",
                     }
                   }
                 >
@@ -640,12 +690,24 @@ exports[`Receive matches snapshot 1`] = `
                     dir="auto"
                     style={
                       Object {
+                        "WebkitAlignItems": "center",
+                        "WebkitBoxAlign": "center",
+                        "WebkitBoxPack": "center",
+                        "WebkitJustifyContent": "center",
+                        "alignItems": "center",
+                        "color": "rgba(0,175,255,1.00)",
                         "direction": "ltr",
                         "fontFamily": "Roboto",
-                        "fontWeight": "bold",
-                        "lineHeight": "0px",
+                        "fontSize": "16px",
+                        "fontWeight": "500",
+                        "justifyContent": "center",
+                        "letterSpacing": "0px",
+                        "lineHeight": "22px",
+                        "msFlexAlign": "center",
+                        "msFlexPack": "center",
                         "paddingTop": "1px",
-                        "textAlign": "left",
+                        "textAlign": "center",
+                        "textDecoration": "none",
                         "textTransform": "uppercase",
                       }
                     }
@@ -659,10 +721,14 @@ exports[`Receive matches snapshot 1`] = `
         </div>
         <div
           className="css-view-1dbjc4n"
+          data-gdtype="copybutton"
           style={
             Object {
+              "WebkitAlignItems": "stretch",
+              "WebkitBoxAlign": "stretch",
               "WebkitBoxPack": "center",
               "WebkitJustifyContent": "center",
+              "alignItems": "stretch",
               "backgroundColor": "rgba(0,175,255,1.00)",
               "borderBottomColor": "rgba(0,175,255,1.00)",
               "borderBottomLeftRadius": "50px",
@@ -681,10 +747,20 @@ exports[`Receive matches snapshot 1`] = `
               "borderTopStyle": "solid",
               "borderTopWidth": "0px",
               "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
+              "display": "flex",
               "justifyContent": "center",
+              "marginBottom": "0px",
+              "marginLeft": "0px",
+              "marginRight": "0px",
               "marginTop": "16px",
-              "minWidth": "auto",
+              "minHeight": "44px",
+              "minWidth": "64px",
+              "msFlexAlign": "stretch",
               "msFlexPack": "center",
+              "paddingBottom": "0px",
+              "paddingLeft": "0px",
+              "paddingRight": "0px",
+              "paddingTop": "0px",
             }
           }
         >
@@ -732,6 +808,7 @@ exports[`Receive matches snapshot 1`] = `
                   "alignItems": "center",
                   "flexDirection": "row",
                   "justifyContent": "center",
+                  "letterSpacing": "0px",
                   "msFlexAlign": "center",
                   "msFlexDirection": "row",
                   "msFlexPack": "center",
@@ -745,11 +822,11 @@ exports[`Receive matches snapshot 1`] = `
                   Object {
                     "color": "rgba(255,255,255,1.00)",
                     "direction": "ltr",
-                    "fontFamily": "Roboto-Medium",
+                    "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                     "letterSpacing": "1px",
                     "marginBottom": "9px",
-                    "marginLeft": "8px",
-                    "marginRight": "8px",
+                    "marginLeft": "16px",
+                    "marginRight": "16px",
                     "marginTop": "9px",
                     "textAlign": "center",
                   }
@@ -759,12 +836,26 @@ exports[`Receive matches snapshot 1`] = `
                   className="css-view-1dbjc4n"
                   style={
                     Object {
-                      "WebkitBoxPack": "center",
-                      "WebkitJustifyContent": "center",
-                      "display": "inline-flex",
-                      "justifyContent": "center",
-                      "minHeight": "28px",
-                      "msFlexPack": "center",
+                      "WebkitAlignItems": "center",
+                      "WebkitBoxAlign": "center",
+                      "WebkitBoxDirection": "normal",
+                      "WebkitBoxFlex": 1,
+                      "WebkitBoxOrient": "horizontal",
+                      "WebkitFlexBasis": "0%",
+                      "WebkitFlexDirection": "row",
+                      "WebkitFlexGrow": 1,
+                      "WebkitFlexShrink": 1,
+                      "alignItems": "center",
+                      "display": "flex",
+                      "flexBasis": "0%",
+                      "flexDirection": "row",
+                      "flexGrow": 1,
+                      "flexShrink": 1,
+                      "msFlexAlign": "center",
+                      "msFlexDirection": "row",
+                      "msFlexNegative": 1,
+                      "msFlexPositive": 1,
+                      "msFlexPreferredSize": "0%",
                     }
                   }
                 >
@@ -773,13 +864,24 @@ exports[`Receive matches snapshot 1`] = `
                     dir="auto"
                     style={
                       Object {
+                        "WebkitAlignItems": "center",
+                        "WebkitBoxAlign": "center",
+                        "WebkitBoxPack": "center",
+                        "WebkitJustifyContent": "center",
+                        "alignItems": "center",
                         "color": "rgba(255,255,255,1.00)",
                         "direction": "ltr",
                         "fontFamily": "Roboto",
-                        "fontWeight": "bold",
-                        "lineHeight": "0px",
+                        "fontSize": "16px",
+                        "fontWeight": "500",
+                        "justifyContent": "center",
+                        "letterSpacing": "0px",
+                        "lineHeight": "22px",
+                        "msFlexAlign": "center",
+                        "msFlexPack": "center",
                         "paddingTop": "1px",
-                        "textAlign": "left",
+                        "textAlign": "center",
+                        "textDecoration": "none",
                         "textTransform": "uppercase",
                       }
                     }

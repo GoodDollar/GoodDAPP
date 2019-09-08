@@ -1,36 +1,26 @@
 // @flow
-import React, { PureComponent } from 'react'
-import { ActivityIndicator, Animated, Dimensions, FlatList, SwipeableFlatList, View } from 'react-native'
-import normalize from '../../lib/utils/normalizeText'
+import React, { createRef } from 'react'
+import { Animated, SwipeableFlatList } from 'react-native'
+import get from 'lodash/get'
 import GDStore from '../../lib/undux/GDStore'
-import pino from '../../lib/logger/pino-logger'
 import { withStyles } from '../../lib/styles'
+import { useErrorDialog } from '../../lib/undux/utils/dialog'
+import userStorage from '../../lib/gundb/UserStorage'
+import type { FeedEvent } from '../../lib/gundb/UserStorageClass'
+import goodWallet from '../../lib/wallet/GoodWallet'
+import ScrollToTopButton from '../common/buttons/ScrollToTopButton'
 import FeedActions from './FeedActions'
 import FeedListItem from './FeedItems/FeedListItem'
-import FeedModalItem from './FeedItems/FeedModalItem'
-
-const log = pino.child({ from: 'FeedListView' })
-const SCREEN_SIZE = {
-  width: 200,
-  height: 72,
-}
 
 const VIEWABILITY_CONFIG = {
   minimumViewTime: 3000,
   viewAreaCoveragePercentThreshold: 100,
   waitForInteraction: true,
 }
-
 const emptyFeed = { type: 'empty', data: {} }
-
-const AnimatedFlatList = Animated.createAnimatedComponent(FlatList)
 const AnimatedSwipeableFlatList = Animated.createAnimatedComponent(SwipeableFlatList)
 
-const { height } = Dimensions.get('window')
-
 export type FeedListProps = {
-  fixedHeight: boolean,
-  virtualized: boolean,
   data: any,
   updateData: any,
   onEndReached: any,
@@ -39,13 +29,8 @@ export type FeedListProps = {
   handleFeedSelection: Function,
   horizontal: boolean,
   selectedFeed: ?string,
-}
-
-type FeedListState = {
-  debug: boolean,
-  inverted: boolean,
-  filterText: '',
-  logViewable: boolean,
+  styles: Object,
+  onScroll: Function,
 }
 
 type ItemComponentProps = {
@@ -57,162 +42,162 @@ type ItemComponentProps = {
   index: number,
 }
 
-class FeedList extends PureComponent<FeedListProps, FeedListState> {
-  state = {
-    debug: false,
-    inverted: false,
-    filterText: '',
-    logViewable: false,
-  }
+const FeedList = ({
+  data,
+  handleFeedSelection,
+  initialNumToRender,
+  onEndReached,
+  styles,
+  onScroll,
+  headerLarge,
+}: FeedListProps) => {
+  const [showErrorDialog] = useErrorDialog()
+  const feeds = data && data instanceof Array && data.length ? data : [emptyFeed]
+  const flRef = createRef()
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.selectedFeed !== this.props.selectedFeed) {
-      const item = this.props.data.find(item => item.transactionHash === this.props.selectedFeed)
-      this.scrollToItem(item)
+  const scrollToTop = () => {
+    if (get(flRef, 'current._component._flatListRef.scrollToOffset')) {
+      flRef.current._component._flatListRef.scrollToOffset({ offset: 0 })
     }
   }
 
-  scrollToItem = item => {
-    log.info('Scroll to item', { item })
-    this.flatListRef && this.flatListRef.getNode().scrollToItem({ animated: true, item, viewPosition: 0.5 })
+  const keyExtractor = item => item.id
+
+  const getItemLayout = (_: any, index: number) => {
+    const [length, separator, header] = [72, 1, 30]
+    return {
+      index,
+      length,
+      offset: (length + separator) * index + header,
+    }
   }
 
-  getItemLayout = (data: any, index: number) => {
-    const [length, separator, header] = this.props.horizontal
-      ? [SCREEN_SIZE.width, 0, 100]
-      : [SCREEN_SIZE.height, 1, 30]
-    return { index, length, offset: (length + separator) * index + header }
-  }
-
-  pressItem = (item, index: number) => () => {
-    const { handleFeedSelection, horizontal } = this.props
+  const pressItem = item => () => {
     if (item.type !== 'empty') {
-      handleFeedSelection(item, !horizontal)
-      this.scrollToItem(item)
+      handleFeedSelection(item, true)
     }
   }
 
-  flatListRef = null
+  const renderItemComponent = ({ item, separators, index }: ItemComponentProps) => (
+    <FeedListItem key={item.id} item={item} separators={separators} fixedHeight onPress={pressItem(item, index + 1)} />
+  )
 
-  swipeableFlatListRef = null
+  /**
+   * Calls proper action depening on the feed status
+   * @param {FeedEvent} item - feed item
+   * @param {object} actions - wether to cancel/delete or any further action required
+   */
+  const handleFeedActionPress = async ({ id, status }: FeedEvent, actions: {}) => {
+    if (actions.canCancel) {
+      if (status === 'pending') {
+        // if status is 'pending' trying to cancel a tx that doesn't exist will fail and may confuse the user
+        showErrorDialog("Current transaction is still pending, it can't be cancelled right now")
+      } else {
+        try {
+          await userStorage.deleteEvent(id)
 
-  renderItemComponent = ({ item, separators, index }: ItemComponentProps) => {
-    const { fixedHeight, horizontal } = this.props
-    const itemProps = {
-      item,
-      separators,
-      onPress: this.pressItem(item, index + 1),
-      fixedHeight,
+          goodWallet.cancelOTLByTransactionHash(id).catch(e => {
+            showErrorDialog('Canceling the payment link has failed', e)
+            userStorage.recoverEvent(id)
+          })
+        } catch (e) {
+          showErrorDialog('Canceling the payment link has failed', e)
+        }
+      }
     }
-    return horizontal ? <FeedModalItem {...itemProps} /> : <FeedListItem {...itemProps} />
+
+    if (actions.canDelete) {
+      userStorage.deleteEvent(id).catch(e => showErrorDialog('Deleting the event has failed', e))
+    }
   }
 
-  renderQuickActions = ({ item }) => <FeedActions item={item} />
+  const renderQuickActions = ({ item }) => {
+    const canCancel = item && item.displayType === 'sendpending'
+    const canDelete = item && item.id && item.id.indexOf('0x') === -1 && feeds.length > 1
+    const hasAction = canCancel || canDelete
+    const actions = { canCancel, canDelete }
+    const props = { item, hasAction }
 
-  renderList = (feeds: any, loading: boolean) => {
-    const { fixedHeight, onEndReached, initialNumToRender, horizontal, styles } = this.props
-
-    if (horizontal) {
-      return (
-        <View style={styles.horizontalContainer}>
-          {loading ? <ActivityIndicator style={styles.loading} animating={true} color="gray" size="large" /> : null}
-          <AnimatedFlatList
-            contentContainerStyle={styles.horizontalList}
-            data={feeds && feeds.length ? feeds : [emptyFeed]}
-            getItemLayout={fixedHeight ? this.getItemLayout : undefined}
-            horizontal={horizontal}
-            initialNumToRender={5}
-            key={(horizontal ? 'h' : 'v') + (fixedHeight ? 'f' : 'd')}
-            keyboardDismissMode="on-drag"
-            keyboardShouldPersistTaps="always"
-            legacyImplementation={false}
-            numColumns={1}
-            onEndReached={onEndReached}
-            pagingEnabled={true}
-            ref={ref => (this.flatListRef = ref)}
-            refreshing={false}
-            renderItem={this.renderItemComponent}
-            viewabilityConfig={VIEWABILITY_CONFIG}
-          />
-        </View>
-      )
+    // returning null prevents swipe action
+    if (!hasAction) {
+      return null
     }
+
     return (
-      <View style={styles.verticalContainer}>
-        <AnimatedSwipeableFlatList
-          bounceFirstRowOnMount={true}
-          contentContainerStyle={styles.verticalList}
-          data={feeds && feeds.length ? [...feeds, emptyFeed] : [emptyFeed]}
-          getItemLayout={fixedHeight ? this.getItemLayout : undefined}
-          horizontal={horizontal}
-          initialNumToRender={initialNumToRender || 10}
-          key={(horizontal ? 'h' : 'v') + (fixedHeight ? 'f' : 'd')}
-          keyboardDismissMode="on-drag"
-          keyboardShouldPersistTaps="always"
-          legacyImplementation={false}
-          maxSwipeDistance={160}
-          numColumns={1}
-          onEndReached={onEndReached}
-          ref={ref => (this.swipeableFlatListRef = ref)}
-          refreshing={false}
-          renderItem={this.renderItemComponent}
-          renderQuickActions={this.renderQuickActions}
-          viewabilityConfig={VIEWABILITY_CONFIG}
-        />
-      </View>
+      <FeedActions
+        onPress={hasAction && (() => handleFeedActionPress(item, actions))}
+        actionIcon={actionIcon(actions)}
+        {...props}
+      >
+        {actionLabel(actions)}
+      </FeedActions>
     )
   }
 
-  render() {
-    const { data } = this.props
-    const feeds = data && data instanceof Array && data.length ? data : undefined
-    const loading = this.props.store.get('feedLoading')
-    return this.renderList(feeds, loading)
-  }
+  return (
+    <>
+      <AnimatedSwipeableFlatList
+        bounceFirstRowOnMount={true}
+        style={styles.scrollView}
+        contentContainerStyle={styles.scrollableView}
+        data={feeds}
+        getItemLayout={getItemLayout}
+        initialNumToRender={initialNumToRender || 10}
+        key="vf"
+        keyExtractor={keyExtractor}
+        keyboardDismissMode="on-drag"
+        keyboardShouldPersistTaps="always"
+        legacyImplementation={false}
+        maxSwipeDistance={112}
+        numColumns={1}
+        onEndReached={onEndReached}
+        refreshing={false}
+        renderItem={renderItemComponent}
+        renderQuickActions={renderQuickActions}
+        viewabilityConfig={VIEWABILITY_CONFIG}
+        onScroll={onScroll}
+        ref={flRef}
+      />
+      {headerLarge ? null : <ScrollToTopButton onPress={scrollToTop} />}
+    </>
+  )
 }
 
 const getStylesFromProps = ({ theme }) => ({
-  loading: {
-    marginTop: normalize(8),
-  },
-  horizontalContainer: {
-    backgroundColor: 'rgba(0, 0, 0, 0.7)',
-    flex: 1,
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    paddingVertical: normalize(20),
-    position: 'fixed',
-    height,
-  },
-  verticalContainer: {
-    backgroundColor: '#efeff4',
-    flex: 1,
-    justifyContent: 'center',
-  },
-  verticalList: {
-    width: '100%',
-    maxWidth: '100vw',
-  },
-  horizontalList: {
-    width: '100%',
-    maxWidth: '100vw',
-    flex: 1,
-    padding: theme.sizes.defaultHalf,
-  },
-  options: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    alignItems: 'center',
-  },
-  searchRow: {
-    paddingHorizontal: theme.sizes.default,
-  },
-  itemSeparator: {
+  scrollView: {
+    display: 'flex',
+    flexGrow: 1,
     height: 1,
-    backgroundColor: 'rgb(200, 199, 204)',
+  },
+  scrollableView: {
+    flexGrow: 1,
+    display: 'flex',
+    height: '100%',
   },
 })
+
+const actionLabel = ({ canDelete, canCancel }) => {
+  if (canCancel) {
+    return 'Cancel Payment Link'
+  }
+
+  if (canDelete) {
+    return 'Delete'
+  }
+
+  return ''
+}
+
+const actionIcon = ({ canDelete, canCancel }) => {
+  if (canCancel) {
+    return 'close'
+  }
+
+  if (canDelete) {
+    return 'trash'
+  }
+
+  return null
+}
 
 export default GDStore.withStore(withStyles(getStylesFromProps)(FeedList))

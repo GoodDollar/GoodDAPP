@@ -1,7 +1,7 @@
 // @flow
 import React, { useEffect, useState } from 'react'
 import { isMobile } from 'mobile-device-detect'
-
+import GDStore from '../../lib/undux/GDStore'
 import { generateSendShareObject } from '../../lib/share'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
@@ -26,13 +26,14 @@ export type AmountProps = {
  * @param {any} props.screenProps
  * @param {any} props.navigation
  */
-const SendLinkSummary = (props: AmountProps) => {
-  const { screenProps } = props
+const SendLinkSummary = ({ screenProps }: AmountProps) => {
+  const profile = GDStore.useStore().get('profile')
   const [screenState] = useScreenState(screenProps)
   const [showDialog, , showErrorDialog] = useDialog()
 
-  const [isCitizen, setIsCitizen] = useState()
+  const [isCitizen, setIsCitizen] = useState(GDStore.useStore().get('isLoggedInCitizen'))
   const [shared, setShared] = useState(false)
+  const [link, setLink] = useState('')
   const { amount, reason, counterPartyDisplayName } = screenState
 
   const faceRecognition = () => {
@@ -40,7 +41,7 @@ const SendLinkSummary = (props: AmountProps) => {
   }
 
   const shareAction = async paymentLink => {
-    const share = generateSendShareObject(paymentLink)
+    const share = generateSendShareObject(paymentLink, amount, counterPartyDisplayName, profile.fullName)
     try {
       await navigator.share(share)
       setShared(true)
@@ -48,7 +49,7 @@ const SendLinkSummary = (props: AmountProps) => {
       if (e.name !== 'AbortError') {
         showDialog({
           title: 'There was a problem triggering share action.',
-          message: `You can still copy the link in tapping on "Copy link to clipboard". \n Error ${e.name}: ${
+          message: `You can still copy the link in tapping on "Copy link to clipboard".\n Error ${e.name}: ${
             e.message
           }`,
           dismissText: 'Ok',
@@ -72,7 +73,14 @@ const SendLinkSummary = (props: AmountProps) => {
   }, [shared])
 
   const handleConfirm = () => {
-    const paymentLink = generateLink()
+    let paymentLink = link
+
+    // Prevents calling back `generateLink` as it generates a new transaction every time it's called
+    if (paymentLink === '') {
+      paymentLink = generateLink()
+      setLink(paymentLink)
+    }
+
     if (isMobile && navigator.share) {
       shareAction(paymentLink)
     } else {
@@ -116,7 +124,8 @@ const SendLinkSummary = (props: AmountProps) => {
           }
           log.debug('generateLinkAndSend: enqueueTX', { transactionEvent })
           userStorage.enqueueTX(transactionEvent)
-        }
+        },
+        { onError: userStorage.markWithErrorEvent }
       )
       log.debug('generateLinkAndSend:', { generateLinkResponse })
       if (generateLinkResponse) {
@@ -126,19 +135,24 @@ const SendLinkSummary = (props: AmountProps) => {
       showErrorDialog('Generating payment failed', 'Unknown Error')
     } catch (e) {
       showErrorDialog('Generating payment failed', e)
-      log.error(e)
+      log.error(e.message, e)
     }
   }
 
   useEffect(() => {
-    goodWallet.isCitizen().then(setIsCitizen)
-  }, [isCitizen])
+    if (isCitizen === false) {
+      goodWallet.isCitizen().then(setIsCitizen)
+    }
+  }, [])
 
   return (
     <Wrapper>
       <TopBar push={screenProps.push} />
       <Section grow>
         <Section.Title>SUMMARY</Section.Title>
+        <Section.Row justifyContent="center">
+          <Section.Text color="gray80Percent">{'* the transaction may take\na few seconds to complete'}</Section.Text>
+        </Section.Row>
         <SummaryTable counterPartyDisplayName={counterPartyDisplayName} amount={amount} reason={reason} />
         <Section.Row>
           <Section.Row grow={1} justifyContent="flex-start">

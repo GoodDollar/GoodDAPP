@@ -1,7 +1,6 @@
 // @flow
 import React from 'react'
 import { TouchableOpacity, View } from 'react-native'
-import normalize from '../../lib/utils/normalizeText'
 import { withStyles } from '../../lib/styles'
 import { Icon, Text } from '../common'
 
@@ -11,12 +10,16 @@ export type SideMenuItemProps = {
   action: Function,
 }
 
-const SideMenuItem = ({ icon, name, action, styles, theme }: SideMenuItemProps) => (
+const SideMenuItem = ({ icon, name, color, action, styles, theme }: SideMenuItemProps) => (
   <TouchableOpacity style={styles.clickableRow} onPress={action}>
     <View style={styles.menuIcon}>
-      <Icon name={icon} size={24} color={theme.colors.primary} />
+      <Icon
+        name={icon}
+        size={icon === 'gooddollar' ? 16 : 22}
+        color={color === undefined ? theme.colors.primary : theme.colors[color]}
+      />
     </View>
-    <Text color="darkGray" fontFamily="medium" textAlign="left">
+    <Text color={color} fontWeight="medium" textAlign="left" fontSize={14}>
       {name}
     </Text>
   </TouchableOpacity>
@@ -24,22 +27,26 @@ const SideMenuItem = ({ icon, name, action, styles, theme }: SideMenuItemProps) 
 
 const sideMenuItemStyles = ({ theme }) => ({
   clickableRow: {
-    borderBottomWidth: normalize(1),
+    borderBottomWidth: 1,
     borderBottomColor: theme.colors.lightGray,
     borderBottomStyle: 'solid',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-start',
     cursor: 'pointer',
-    padding: normalize(16),
+    padding: theme.sizes.defaultDouble,
     paddingLeft: 0,
   },
   menuIcon: {
-    marginLeft: normalize(8),
-    marginRight: normalize(20),
+    marginLeft: theme.sizes.default,
+    marginRight: 30,
+    width: 20,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   menuText: {
-    paddingRight: normalize(16),
+    paddingRight: theme.sizes.defaultDouble,
   },
 })
 

@@ -3,6 +3,7 @@ import axios from 'axios'
 import type { $AxiosXHR, AxiosInstance, AxiosPromise } from 'axios'
 import { AsyncStorage } from 'react-native'
 import Config from '../../config/config'
+import { JWT } from '../constants/localStorage'
 import logger from '../logger/pino-logger'
 import type { NameRecord } from '../../components/signup/NameForm'
 import type { EmailRecord } from '../../components/signup/EmailForm'
@@ -45,7 +46,7 @@ class API {
    */
   init() {
     log.info('initializing api...', Config.serverUrl)
-    return AsyncStorage.getItem('GoodDAPP_jwt').then(async jwt => {
+    return (this.ready = AsyncStorage.getItem(JWT).then(async jwt => {
       this.jwt = jwt
       let instance: AxiosInstance = axios.create({
         baseURL: Config.serverUrl,
@@ -56,25 +57,45 @@ class API {
         req => {
           return req
         },
-        error => {
+        e => {
           // Do something with response error
-          log.error('axios req error', { error })
-          return Promise.reject(error)
+          log.error('axios req error', e.message, e)
+          return Promise.reject(e)
         }
       )
       instance.interceptors.response.use(
         response => {
           return response
         },
-        error => {
+        e => {
           // Do something with response error
-          log.error('axios response error', { error })
-          return Promise.reject(error)
+          log.error('axios response error', e.message, e)
+          if (e.response.data) {
+            return Promise.reject(e.response.data)
+          }
+          return Promise.reject(e)
         }
       )
       this.client = await instance
       log.info('API ready', this.jwt)
-    })
+
+      let w3Instance: AxiosInstance = axios.create({
+        baseURL: Config.web3SiteUrl,
+        timeout: 30000,
+      })
+      w3Instance.interceptors.request.use(req => req, error => Promise.reject(error))
+      w3Instance.interceptors.response.use(
+        response => response.data,
+        error => {
+          if (error.response.data) {
+            return Promise.reject(error.response.data)
+          }
+
+          return Promise.reject(error)
+        }
+      )
+      this.w3Client = await w3Instance
+    }))
   }
 
   /**
@@ -174,6 +195,14 @@ class API {
   }
 
   /**
+   * `/send/magiclink` post api call
+   * @param {string} magiclink
+   */
+  sendMagicLinkByEmail(magiclink: string): Promise<$AxiosXHR<any>> {
+    return this.client.post('/send/magiclink', { magiclink })
+  }
+
+  /**
    * `/send/linksms` post api call
    * @param {string} to
    * @param {string} sendLink
@@ -201,7 +230,58 @@ class API {
         return r
       })
   }
+
+  /**
+   * `/storage/login/token` get api call
+   */
+  getLoginToken() {
+    return this.client.get('/verify/w3/logintoken')
+  }
+
+  /**
+   * `/w3Site/api/wl/user` get user from web3 by token
+   * @param {string} token
+   */
+  getUserFromW3ByToken(token: string): Promise<$AxiosXHR<any>> {
+    this.w3Client.defaults.headers.common.Authorization = token
+
+    return this.w3Client.get('/api/wl/user')
+  }
+
+  /**
+   * `/w3Site/api/wl/user` get user from web3 by token
+   * @param {string} token
+   * @param {string} walletAddress
+   */
+  updateW3UserWithWallet(token, walletAddress: string): Promise<$AxiosXHR<any>> {
+    this.w3Client.defaults.headers.common.Authorization = token
+
+    return this.w3Client.put('/api/wl/user/update_profile', {
+      wallet_address: walletAddress,
+    })
+  }
+
+  /**
+   * `/verify/w3/email` verify if user not trying to send some different email than w3 provides
+   * @param {object} data - Object with email and web3 token
+   */
+  checkWeb3Email(data: { email: string, token: string }): Promise<$AxiosXHR<any>> {
+    return this.client.post('/verify/w3/email', data)
+  }
+
+  /**
+   * Get array buffer from image url
+   * @param {string} url - image url
+   */
+  getBase64FromImageUrl(url: string) {
+    return axios.get(url, { responseType: 'arraybuffer' }).then(response => {
+      let image = btoa(new Uint8Array(response.data).reduce((data, byte) => data + String.fromCharCode(byte), ''))
+
+      return `data:${response.headers['content-type'].toLowerCase()};base64,${image}`
+    })
+  }
 }
+
 const api = new API()
 global.api = api
 export default api

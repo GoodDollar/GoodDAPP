@@ -95,14 +95,11 @@ exports[`ProfileDataTable matches snapshot 1`] = `
               "WebkitFlexDirection": "row",
               "WebkitJustifyContent": "space-between",
               "alignItems": "center",
-              "borderTopColor": "rgba(203,203,203,1.00)",
-              "borderTopWidth": "1px",
               "flexDirection": "row",
               "justifyContent": "space-between",
               "msFlexAlign": "center",
               "msFlexDirection": "row",
               "msFlexPack": "justify",
-              "paddingTop": "8px",
             }
           }
         >
@@ -128,12 +125,24 @@ exports[`ProfileDataTable matches snapshot 1`] = `
               className="css-view-1dbjc4n"
               style={
                 Object {
-                  "borderBottomColor": "rgba(203,203,203,1.00)",
+                  "borderBottomColor": "rgba(0,0,0,0.00)",
+                  "borderBottomLeftRadius": "24px",
+                  "borderBottomRightRadius": "24px",
                   "borderBottomWidth": "1px",
-                  "paddingBottom": "0px",
-                  "paddingLeft": "40px",
-                  "paddingRight": "40px",
-                  "paddingTop": "0px",
+                  "borderLeftColor": "rgba(0,0,0,0.00)",
+                  "borderLeftWidth": "1px",
+                  "borderRightColor": "rgba(0,0,0,0.00)",
+                  "borderRightWidth": "1px",
+                  "borderTopColor": "rgba(238,238,238,1.00)",
+                  "borderTopLeftRadius": "0px",
+                  "borderTopRightRadius": "0px",
+                  "borderTopWidth": "1px",
+                  "marginBottom": "0px",
+                  "marginTop": "2px",
+                  "paddingBottom": "2px",
+                  "paddingLeft": "32px",
+                  "paddingRight": "32px",
+                  "paddingTop": "2px",
                   "position": "relative",
                 }
               }
@@ -143,7 +152,7 @@ exports[`ProfileDataTable matches snapshot 1`] = `
                 autoCapitalize="sentences"
                 autoComplete="on"
                 autoCorrect="on"
-                className="css-textinput-1cwyjr8"
+                className="css-textinput-1cwyjr8 r-placeholderTextColor-1xktb6b"
                 dir="auto"
                 disabled={true}
                 onBlur={[Function]}
@@ -161,16 +170,14 @@ exports[`ProfileDataTable matches snapshot 1`] = `
                     "WebkitFlexBasis": "0%",
                     "WebkitFlexGrow": 1,
                     "WebkitFlexShrink": 1,
-                    "backgroundColor": "inherit",
-                    "borderBottomWidth": "0px",
-                    "borderLeftWidth": "0px",
-                    "borderRightWidth": "0px",
-                    "borderTopWidth": "0px",
+                    "backgroundColor": "rgba(0,0,0,0.00)",
+                    "color": "rgba(66,69,74,1.00)",
                     "flexBasis": "0%",
                     "flexGrow": 1,
                     "flexShrink": 1,
                     "fontFamily": "Roboto",
                     "fontSize": "14px",
+                    "fontWeight": "400",
                     "lineHeight": "36px",
                     "msFlexNegative": 1,
                     "msFlexPositive": 1,
@@ -184,9 +191,19 @@ exports[`ProfileDataTable matches snapshot 1`] = `
                 className="css-view-1dbjc4n"
                 style={
                   Object {
-                    "paddingTop": "8px",
+                    "WebkitAlignItems": "center",
+                    "WebkitBoxAlign": "center",
+                    "WebkitBoxPack": "center",
+                    "WebkitJustifyContent": "center",
+                    "alignItems": "center",
+                    "display": "flex",
+                    "height": "100%",
+                    "justifyContent": "center",
+                    "msFlexAlign": "center",
+                    "msFlexPack": "center",
                     "position": "absolute",
-                    "right": "24px",
+                    "right": "0px",
+                    "width": "32px",
                     "zIndex": 1,
                   }
                 }
@@ -198,36 +215,16 @@ exports[`ProfileDataTable matches snapshot 1`] = `
                     Object {
                       "color": "rgba(0,175,255,1.00)",
                       "fontFamily": "gooddollar",
-                      "fontSize": "16px",
+                      "fontSize": "22px",
                       "fontStyle": "normal",
                       "fontWeight": "normal",
                     }
                   }
                 >
-                  
+                  
                 </div>
               </div>
             </div>
-            <div
-              className="css-text-901oao"
-              dir="auto"
-              style={
-                Object {
-                  "WebkitTransform": "translateY(0px)",
-                  "color": "rgba(250,108,119,1.00)",
-                  "direction": "ltr",
-                  "fontFamily": "Roboto",
-                  "fontSize": "12px",
-                  "opacity": 1,
-                  "paddingBottom": "4px",
-                  "paddingLeft": "12px",
-                  "paddingRight": "0px",
-                  "paddingTop": "4px",
-                  "textAlign": "left",
-                  "transform": "translateY(0px)",
-                }
-              }
-            />
           </div>
         </div>
         <div
@@ -272,12 +269,24 @@ exports[`ProfileDataTable matches snapshot 1`] = `
               className="css-view-1dbjc4n"
               style={
                 Object {
-                  "borderBottomColor": "rgba(203,203,203,1.00)",
+                  "borderBottomColor": "rgba(0,0,0,0.00)",
+                  "borderBottomLeftRadius": "24px",
+                  "borderBottomRightRadius": "24px",
                   "borderBottomWidth": "1px",
-                  "paddingBottom": "0px",
-                  "paddingLeft": "40px",
-                  "paddingRight": "40px",
-                  "paddingTop": "0px",
+                  "borderLeftColor": "rgba(0,0,0,0.00)",
+                  "borderLeftWidth": "1px",
+                  "borderRightColor": "rgba(0,0,0,0.00)",
+                  "borderRightWidth": "1px",
+                  "borderTopColor": "rgba(238,238,238,1.00)",
+                  "borderTopLeftRadius": "0px",
+                  "borderTopRightRadius": "0px",
+                  "borderTopWidth": "1px",
+                  "marginBottom": "0px",
+                  "marginTop": "2px",
+                  "paddingBottom": "2px",
+                  "paddingLeft": "32px",
+                  "paddingRight": "32px",
+                  "paddingTop": "2px",
                   "position": "relative",
                 }
               }
@@ -287,7 +296,7 @@ exports[`ProfileDataTable matches snapshot 1`] = `
                 autoCapitalize="sentences"
                 autoComplete="on"
                 autoCorrect="on"
-                className="css-textinput-1cwyjr8"
+                className="css-textinput-1cwyjr8 r-placeholderTextColor-1xktb6b"
                 dir="auto"
                 disabled={true}
                 onBlur={[Function]}
@@ -305,16 +314,14 @@ exports[`ProfileDataTable matches snapshot 1`] = `
                     "WebkitFlexBasis": "0%",
                     "WebkitFlexGrow": 1,
                     "WebkitFlexShrink": 1,
-                    "backgroundColor": "inherit",
-                    "borderBottomWidth": "0px",
-                    "borderLeftWidth": "0px",
-                    "borderRightWidth": "0px",
-                    "borderTopWidth": "0px",
+                    "backgroundColor": "rgba(0,0,0,0.00)",
+                    "color": "rgba(66,69,74,1.00)",
                     "flexBasis": "0%",
                     "flexGrow": 1,
                     "flexShrink": 1,
                     "fontFamily": "Roboto",
                     "fontSize": "14px",
+                    "fontWeight": "400",
                     "lineHeight": "36px",
                     "msFlexNegative": 1,
                     "msFlexPositive": 1,
@@ -329,9 +336,19 @@ exports[`ProfileDataTable matches snapshot 1`] = `
                 className="css-view-1dbjc4n"
                 style={
                   Object {
-                    "paddingTop": "8px",
+                    "WebkitAlignItems": "center",
+                    "WebkitBoxAlign": "center",
+                    "WebkitBoxPack": "center",
+                    "WebkitJustifyContent": "center",
+                    "alignItems": "center",
+                    "display": "flex",
+                    "height": "100%",
+                    "justifyContent": "center",
+                    "msFlexAlign": "center",
+                    "msFlexPack": "center",
                     "position": "absolute",
-                    "right": "24px",
+                    "right": "0px",
+                    "width": "32px",
                     "zIndex": 1,
                   }
                 }
@@ -343,7 +360,7 @@ exports[`ProfileDataTable matches snapshot 1`] = `
                     Object {
                       "color": "rgba(0,175,255,1.00)",
                       "fontFamily": "gooddollar",
-                      "fontSize": "16px",
+                      "fontSize": "28px",
                       "fontStyle": "normal",
                       "fontWeight": "normal",
                     }
@@ -353,26 +370,6 @@ exports[`ProfileDataTable matches snapshot 1`] = `
                 </div>
               </div>
             </div>
-            <div
-              className="css-text-901oao"
-              dir="auto"
-              style={
-                Object {
-                  "WebkitTransform": "translateY(0px)",
-                  "color": "rgba(250,108,119,1.00)",
-                  "direction": "ltr",
-                  "fontFamily": "Roboto",
-                  "fontSize": "12px",
-                  "opacity": 1,
-                  "paddingBottom": "4px",
-                  "paddingLeft": "12px",
-                  "paddingRight": "0px",
-                  "paddingTop": "4px",
-                  "textAlign": "left",
-                  "transform": "translateY(0px)",
-                }
-              }
-            />
           </div>
         </div>
         <div
@@ -387,6 +384,8 @@ exports[`ProfileDataTable matches snapshot 1`] = `
               "WebkitFlexDirection": "row",
               "WebkitJustifyContent": "space-between",
               "alignItems": "center",
+              "borderBottomColor": "rgba(238,238,238,1.00)",
+              "borderBottomWidth": "1px",
               "flexDirection": "row",
               "justifyContent": "space-between",
               "msFlexAlign": "center",
@@ -417,12 +416,24 @@ exports[`ProfileDataTable matches snapshot 1`] = `
               className="css-view-1dbjc4n"
               style={
                 Object {
-                  "borderBottomColor": "rgba(203,203,203,1.00)",
+                  "borderBottomColor": "rgba(0,0,0,0.00)",
+                  "borderBottomLeftRadius": "24px",
+                  "borderBottomRightRadius": "24px",
                   "borderBottomWidth": "1px",
-                  "paddingBottom": "0px",
-                  "paddingLeft": "40px",
-                  "paddingRight": "40px",
-                  "paddingTop": "0px",
+                  "borderLeftColor": "rgba(0,0,0,0.00)",
+                  "borderLeftWidth": "1px",
+                  "borderRightColor": "rgba(0,0,0,0.00)",
+                  "borderRightWidth": "1px",
+                  "borderTopColor": "rgba(238,238,238,1.00)",
+                  "borderTopLeftRadius": "0px",
+                  "borderTopRightRadius": "0px",
+                  "borderTopWidth": "1px",
+                  "marginBottom": "0px",
+                  "marginTop": "2px",
+                  "paddingBottom": "2px",
+                  "paddingLeft": "32px",
+                  "paddingRight": "32px",
+                  "paddingTop": "2px",
                   "position": "relative",
                 }
               }
@@ -432,7 +443,7 @@ exports[`ProfileDataTable matches snapshot 1`] = `
                 autoCapitalize="sentences"
                 autoComplete="on"
                 autoCorrect="on"
-                className="css-textinput-1cwyjr8"
+                className="css-textinput-1cwyjr8 r-placeholderTextColor-1xktb6b"
                 dir="auto"
                 disabled={true}
                 onBlur={[Function]}
@@ -450,16 +461,14 @@ exports[`ProfileDataTable matches snapshot 1`] = `
                     "WebkitFlexBasis": "0%",
                     "WebkitFlexGrow": 1,
                     "WebkitFlexShrink": 1,
-                    "backgroundColor": "inherit",
-                    "borderBottomWidth": "0px",
-                    "borderLeftWidth": "0px",
-                    "borderRightWidth": "0px",
-                    "borderTopWidth": "0px",
+                    "backgroundColor": "rgba(0,0,0,0.00)",
+                    "color": "rgba(66,69,74,1.00)",
                     "flexBasis": "0%",
                     "flexGrow": 1,
                     "flexShrink": 1,
                     "fontFamily": "Roboto",
                     "fontSize": "14px",
+                    "fontWeight": "400",
                     "lineHeight": "36px",
                     "msFlexNegative": 1,
                     "msFlexPositive": 1,
@@ -474,9 +483,19 @@ exports[`ProfileDataTable matches snapshot 1`] = `
                 className="css-view-1dbjc4n"
                 style={
                   Object {
-                    "paddingTop": "8px",
+                    "WebkitAlignItems": "center",
+                    "WebkitBoxAlign": "center",
+                    "WebkitBoxPack": "center",
+                    "WebkitJustifyContent": "center",
+                    "alignItems": "center",
+                    "display": "flex",
+                    "height": "100%",
+                    "justifyContent": "center",
+                    "msFlexAlign": "center",
+                    "msFlexPack": "center",
                     "position": "absolute",
-                    "right": "24px",
+                    "right": "0px",
+                    "width": "32px",
                     "zIndex": 1,
                   }
                 }
@@ -488,7 +507,7 @@ exports[`ProfileDataTable matches snapshot 1`] = `
                     Object {
                       "color": "rgba(0,175,255,1.00)",
                       "fontFamily": "gooddollar",
-                      "fontSize": "16px",
+                      "fontSize": "20px",
                       "fontStyle": "normal",
                       "fontWeight": "normal",
                     }
@@ -498,26 +517,6 @@ exports[`ProfileDataTable matches snapshot 1`] = `
                 </div>
               </div>
             </div>
-            <div
-              className="css-text-901oao"
-              dir="auto"
-              style={
-                Object {
-                  "WebkitTransform": "translateY(0px)",
-                  "color": "rgba(250,108,119,1.00)",
-                  "direction": "ltr",
-                  "fontFamily": "Roboto",
-                  "fontSize": "12px",
-                  "opacity": 1,
-                  "paddingBottom": "4px",
-                  "paddingLeft": "12px",
-                  "paddingRight": "0px",
-                  "paddingTop": "4px",
-                  "textAlign": "left",
-                  "transform": "translateY(0px)",
-                }
-              }
-            />
           </div>
         </div>
       </div>
@@ -651,21 +650,23 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
               className="css-view-1dbjc4n"
               style={
                 Object {
-                  "borderBottomColor": "rgba(203,203,203,1.00)",
+                  "borderBottomColor": "rgba(238,238,238,1.00)",
                   "borderBottomLeftRadius": "24px",
                   "borderBottomRightRadius": "24px",
                   "borderBottomWidth": "1px",
-                  "borderLeftColor": "rgba(203,203,203,1.00)",
+                  "borderLeftColor": "rgba(238,238,238,1.00)",
                   "borderLeftWidth": "1px",
-                  "borderRightColor": "rgba(203,203,203,1.00)",
+                  "borderRightColor": "rgba(238,238,238,1.00)",
                   "borderRightWidth": "1px",
-                  "borderTopColor": "rgba(203,203,203,1.00)",
+                  "borderTopColor": "rgba(238,238,238,1.00)",
                   "borderTopLeftRadius": "24px",
                   "borderTopRightRadius": "24px",
                   "borderTopWidth": "1px",
+                  "marginBottom": "8px",
+                  "marginTop": "4px",
                   "paddingBottom": "0px",
-                  "paddingLeft": "40px",
-                  "paddingRight": "40px",
+                  "paddingLeft": "32px",
+                  "paddingRight": "32px",
                   "paddingTop": "0px",
                   "position": "relative",
                 }
@@ -675,7 +676,7 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                 autoCapitalize="sentences"
                 autoComplete="on"
                 autoCorrect="on"
-                className="css-textinput-1cwyjr8"
+                className="css-textinput-1cwyjr8 r-placeholderTextColor-1xktb6b"
                 data-focusable={true}
                 dir="auto"
                 disabled={false}
@@ -694,16 +695,14 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                     "WebkitFlexBasis": "0%",
                     "WebkitFlexGrow": 1,
                     "WebkitFlexShrink": 1,
-                    "backgroundColor": "inherit",
-                    "borderBottomWidth": "0px",
-                    "borderLeftWidth": "0px",
-                    "borderRightWidth": "0px",
-                    "borderTopWidth": "0px",
+                    "backgroundColor": "rgba(0,0,0,0.00)",
+                    "color": "rgba(66,69,74,1.00)",
                     "flexBasis": "0%",
                     "flexGrow": 1,
                     "flexShrink": 1,
                     "fontFamily": "Roboto",
                     "fontSize": "14px",
+                    "fontWeight": "400",
                     "lineHeight": "36px",
                     "msFlexNegative": 1,
                     "msFlexPositive": 1,
@@ -716,9 +715,19 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                 className="css-view-1dbjc4n"
                 style={
                   Object {
-                    "paddingTop": "8px",
+                    "WebkitAlignItems": "center",
+                    "WebkitBoxAlign": "center",
+                    "WebkitBoxPack": "center",
+                    "WebkitJustifyContent": "center",
+                    "alignItems": "center",
+                    "display": "flex",
+                    "height": "100%",
+                    "justifyContent": "center",
+                    "msFlexAlign": "center",
+                    "msFlexPack": "center",
                     "position": "absolute",
-                    "right": "24px",
+                    "right": "0px",
+                    "width": "32px",
                     "zIndex": 1,
                   }
                 }
@@ -730,13 +739,13 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                     Object {
                       "color": "rgba(0,175,255,1.00)",
                       "fontFamily": "gooddollar",
-                      "fontSize": "16px",
+                      "fontSize": "22px",
                       "fontStyle": "normal",
                       "fontWeight": "normal",
                     }
                   }
                 >
-                  
+                  
                 </div>
               </div>
             </div>
@@ -748,14 +757,16 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                   "WebkitTransform": "translateY(0px)",
                   "color": "rgba(250,108,119,1.00)",
                   "direction": "ltr",
-                  "fontFamily": "Roboto",
+                  "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                   "fontSize": "12px",
-                  "opacity": 1,
-                  "paddingBottom": "4px",
-                  "paddingLeft": "12px",
-                  "paddingRight": "0px",
-                  "paddingTop": "4px",
-                  "textAlign": "left",
+                  "height": "18px",
+                  "marginBottom": "8px",
+                  "opacity": 0,
+                  "paddingBottom": "0px",
+                  "paddingLeft": "0px",
+                  "paddingRight": "12px",
+                  "paddingTop": "0px",
+                  "textAlign": "center",
                   "transform": "translateY(0px)",
                 }
               }
@@ -813,20 +824,16 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                   "WebkitAlignItems": "center",
                   "WebkitBoxAlign": "center",
                   "WebkitBoxDirection": "normal",
-                  "WebkitBoxFlex": 1,
                   "WebkitBoxOrient": "horizontal",
                   "WebkitBoxPack": "justify",
                   "WebkitFlexDirection": "row",
-                  "WebkitFlexGrow": 1,
                   "WebkitJustifyContent": "space-between",
                   "alignItems": "center",
                   "flexDirection": "row",
-                  "flexGrow": 1,
                   "justifyContent": "space-between",
                   "msFlexAlign": "center",
                   "msFlexDirection": "row",
                   "msFlexPack": "justify",
-                  "msFlexPositive": 1,
                 }
               }
             >
@@ -834,8 +841,15 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                 className="react-phone-number-input"
                 style={
                   Object {
-                    "borderColor": "#CBCBCB",
+                    "borderColor": "#EEE",
+                    "borderRadius": 24,
+                    "borderWidth": 1,
                     "color": "#222",
+                    "paddingBottom": 0,
+                    "paddingLeft": 0,
+                    "paddingRight": 0,
+                    "paddingTop": 0,
+                    "position": "relative",
                   }
                 }
               >
@@ -2413,68 +2427,72 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                 </div>
               </div>
               <div
-                className="css-text-901oao"
-                dir="auto"
+                className="css-view-1dbjc4n"
                 style={
                   Object {
-                    "color": "rgba(0,175,255,1.00)",
-                    "fontFamily": "gooddollar",
-                    "fontSize": "18px",
-                    "fontStyle": "normal",
-                    "fontWeight": "normal",
+                    "WebkitAlignItems": "center",
+                    "WebkitBoxAlign": "center",
+                    "WebkitBoxDirection": "normal",
+                    "WebkitBoxOrient": "horizontal",
+                    "WebkitBoxPack": "center",
+                    "WebkitFlexDirection": "row",
+                    "WebkitJustifyContent": "center",
+                    "alignItems": "center",
+                    "display": "flex",
+                    "flexDirection": "row",
+                    "height": "38px",
+                    "justifyContent": "center",
+                    "msFlexAlign": "center",
+                    "msFlexDirection": "row",
+                    "msFlexPack": "center",
                     "position": "absolute",
-                    "right": "26px",
+                    "right": "0px",
+                    "top": "0px",
+                    "width": "32px",
+                    "zIndex": 1,
                   }
                 }
               >
-                
+                <div
+                  className="css-text-901oao"
+                  dir="auto"
+                  style={
+                    Object {
+                      "color": "rgba(0,175,255,1.00)",
+                      "fontFamily": "gooddollar",
+                      "fontSize": "28px",
+                      "fontStyle": "normal",
+                      "fontWeight": "normal",
+                    }
+                  }
+                >
+                  
+                </div>
               </div>
             </div>
             <div
-              className="css-view-1dbjc4n"
+              className="css-text-901oao"
+              dir="auto"
               style={
                 Object {
-                  "WebkitAlignItems": "center",
-                  "WebkitBoxAlign": "center",
-                  "WebkitBoxDirection": "normal",
-                  "WebkitBoxFlex": 1,
-                  "WebkitBoxOrient": "horizontal",
-                  "WebkitBoxPack": "justify",
-                  "WebkitFlexDirection": "row",
-                  "WebkitFlexGrow": 1,
-                  "WebkitJustifyContent": "space-between",
-                  "alignItems": "center",
-                  "flexDirection": "row",
-                  "flexGrow": 1,
-                  "justifyContent": "space-between",
-                  "msFlexAlign": "center",
-                  "msFlexDirection": "row",
-                  "msFlexPack": "justify",
-                  "msFlexPositive": 1,
+                  "WebkitTransform": "translateY(0px)",
+                  "color": "rgba(250,108,119,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                  "fontSize": "12px",
+                  "height": "18px",
+                  "marginBottom": "8px",
+                  "marginTop": "8px",
+                  "opacity": 0,
+                  "paddingBottom": "0px",
+                  "paddingLeft": "0px",
+                  "paddingRight": "12px",
+                  "paddingTop": "0px",
+                  "textAlign": "center",
+                  "transform": "translateY(0px)",
                 }
               }
-            >
-              <div
-                className="css-text-901oao"
-                dir="auto"
-                style={
-                  Object {
-                    "WebkitTransform": "translateY(0px)",
-                    "color": "rgba(250,108,119,1.00)",
-                    "direction": "ltr",
-                    "fontFamily": "Roboto",
-                    "fontSize": "12px",
-                    "opacity": 1,
-                    "paddingBottom": "4px",
-                    "paddingLeft": "12px",
-                    "paddingRight": "12px",
-                    "paddingTop": "4px",
-                    "textAlign": "left",
-                    "transform": "translateY(0px)",
-                  }
-                }
-              />
-            </div>
+            />
           </div>
         </div>
         <div
@@ -2519,21 +2537,23 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
               className="css-view-1dbjc4n"
               style={
                 Object {
-                  "borderBottomColor": "rgba(203,203,203,1.00)",
+                  "borderBottomColor": "rgba(238,238,238,1.00)",
                   "borderBottomLeftRadius": "24px",
                   "borderBottomRightRadius": "24px",
                   "borderBottomWidth": "1px",
-                  "borderLeftColor": "rgba(203,203,203,1.00)",
+                  "borderLeftColor": "rgba(238,238,238,1.00)",
                   "borderLeftWidth": "1px",
-                  "borderRightColor": "rgba(203,203,203,1.00)",
+                  "borderRightColor": "rgba(238,238,238,1.00)",
                   "borderRightWidth": "1px",
-                  "borderTopColor": "rgba(203,203,203,1.00)",
+                  "borderTopColor": "rgba(238,238,238,1.00)",
                   "borderTopLeftRadius": "24px",
                   "borderTopRightRadius": "24px",
                   "borderTopWidth": "1px",
+                  "marginBottom": "8px",
+                  "marginTop": "4px",
                   "paddingBottom": "0px",
-                  "paddingLeft": "40px",
-                  "paddingRight": "40px",
+                  "paddingLeft": "32px",
+                  "paddingRight": "32px",
                   "paddingTop": "0px",
                   "position": "relative",
                 }
@@ -2543,7 +2563,7 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                 autoCapitalize="sentences"
                 autoComplete="on"
                 autoCorrect="on"
-                className="css-textinput-1cwyjr8"
+                className="css-textinput-1cwyjr8 r-placeholderTextColor-1xktb6b"
                 data-focusable={true}
                 dir="auto"
                 disabled={false}
@@ -2562,16 +2582,14 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                     "WebkitFlexBasis": "0%",
                     "WebkitFlexGrow": 1,
                     "WebkitFlexShrink": 1,
-                    "backgroundColor": "inherit",
-                    "borderBottomWidth": "0px",
-                    "borderLeftWidth": "0px",
-                    "borderRightWidth": "0px",
-                    "borderTopWidth": "0px",
+                    "backgroundColor": "rgba(0,0,0,0.00)",
+                    "color": "rgba(66,69,74,1.00)",
                     "flexBasis": "0%",
                     "flexGrow": 1,
                     "flexShrink": 1,
                     "fontFamily": "Roboto",
                     "fontSize": "14px",
+                    "fontWeight": "400",
                     "lineHeight": "36px",
                     "msFlexNegative": 1,
                     "msFlexPositive": 1,
@@ -2585,9 +2603,19 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                 className="css-view-1dbjc4n"
                 style={
                   Object {
-                    "paddingTop": "8px",
+                    "WebkitAlignItems": "center",
+                    "WebkitBoxAlign": "center",
+                    "WebkitBoxPack": "center",
+                    "WebkitJustifyContent": "center",
+                    "alignItems": "center",
+                    "display": "flex",
+                    "height": "100%",
+                    "justifyContent": "center",
+                    "msFlexAlign": "center",
+                    "msFlexPack": "center",
                     "position": "absolute",
-                    "right": "24px",
+                    "right": "0px",
+                    "width": "32px",
                     "zIndex": 1,
                   }
                 }
@@ -2599,7 +2627,7 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                     Object {
                       "color": "rgba(0,175,255,1.00)",
                       "fontFamily": "gooddollar",
-                      "fontSize": "16px",
+                      "fontSize": "20px",
                       "fontStyle": "normal",
                       "fontWeight": "normal",
                     }
@@ -2617,14 +2645,16 @@ exports[`ProfileDataTable matches snapshot editable 1`] = `
                   "WebkitTransform": "translateY(0px)",
                   "color": "rgba(250,108,119,1.00)",
                   "direction": "ltr",
-                  "fontFamily": "Roboto",
+                  "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                   "fontSize": "12px",
-                  "opacity": 1,
-                  "paddingBottom": "4px",
-                  "paddingLeft": "12px",
-                  "paddingRight": "0px",
-                  "paddingTop": "4px",
-                  "textAlign": "left",
+                  "height": "18px",
+                  "marginBottom": "8px",
+                  "opacity": 0,
+                  "paddingBottom": "0px",
+                  "paddingLeft": "0px",
+                  "paddingRight": "12px",
+                  "paddingTop": "0px",
+                  "textAlign": "center",
                   "transform": "translateY(0px)",
                 }
               }
@@ -2762,21 +2792,23 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
               className="css-view-1dbjc4n"
               style={
                 Object {
-                  "borderBottomColor": "rgba(203,203,203,1.00)",
+                  "borderBottomColor": "rgba(238,238,238,1.00)",
                   "borderBottomLeftRadius": "24px",
                   "borderBottomRightRadius": "24px",
                   "borderBottomWidth": "1px",
-                  "borderLeftColor": "rgba(203,203,203,1.00)",
+                  "borderLeftColor": "rgba(238,238,238,1.00)",
                   "borderLeftWidth": "1px",
-                  "borderRightColor": "rgba(203,203,203,1.00)",
+                  "borderRightColor": "rgba(238,238,238,1.00)",
                   "borderRightWidth": "1px",
-                  "borderTopColor": "rgba(203,203,203,1.00)",
+                  "borderTopColor": "rgba(238,238,238,1.00)",
                   "borderTopLeftRadius": "24px",
                   "borderTopRightRadius": "24px",
                   "borderTopWidth": "1px",
+                  "marginBottom": "8px",
+                  "marginTop": "4px",
                   "paddingBottom": "0px",
-                  "paddingLeft": "40px",
-                  "paddingRight": "40px",
+                  "paddingLeft": "32px",
+                  "paddingRight": "32px",
                   "paddingTop": "0px",
                   "position": "relative",
                 }
@@ -2786,7 +2818,7 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                 autoCapitalize="sentences"
                 autoComplete="on"
                 autoCorrect="on"
-                className="css-textinput-1cwyjr8"
+                className="css-textinput-1cwyjr8 r-placeholderTextColor-1xktb6b"
                 data-focusable={true}
                 dir="auto"
                 disabled={false}
@@ -2805,16 +2837,14 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                     "WebkitFlexBasis": "0%",
                     "WebkitFlexGrow": 1,
                     "WebkitFlexShrink": 1,
-                    "backgroundColor": "inherit",
-                    "borderBottomWidth": "0px",
-                    "borderLeftWidth": "0px",
-                    "borderRightWidth": "0px",
-                    "borderTopWidth": "0px",
+                    "backgroundColor": "rgba(0,0,0,0.00)",
+                    "color": "rgba(66,69,74,1.00)",
                     "flexBasis": "0%",
                     "flexGrow": 1,
                     "flexShrink": 1,
                     "fontFamily": "Roboto",
                     "fontSize": "14px",
+                    "fontWeight": "400",
                     "lineHeight": "36px",
                     "msFlexNegative": 1,
                     "msFlexPositive": 1,
@@ -2827,9 +2857,19 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                 className="css-view-1dbjc4n"
                 style={
                   Object {
-                    "paddingTop": "8px",
+                    "WebkitAlignItems": "center",
+                    "WebkitBoxAlign": "center",
+                    "WebkitBoxPack": "center",
+                    "WebkitJustifyContent": "center",
+                    "alignItems": "center",
+                    "display": "flex",
+                    "height": "100%",
+                    "justifyContent": "center",
+                    "msFlexAlign": "center",
+                    "msFlexPack": "center",
                     "position": "absolute",
-                    "right": "24px",
+                    "right": "0px",
+                    "width": "32px",
                     "zIndex": 1,
                   }
                 }
@@ -2841,13 +2881,13 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                     Object {
                       "color": "rgba(0,175,255,1.00)",
                       "fontFamily": "gooddollar",
-                      "fontSize": "16px",
+                      "fontSize": "22px",
                       "fontStyle": "normal",
                       "fontWeight": "normal",
                     }
                   }
                 >
-                  
+                  
                 </div>
               </div>
             </div>
@@ -2859,14 +2899,16 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                   "WebkitTransform": "translateY(0px)",
                   "color": "rgba(250,108,119,1.00)",
                   "direction": "ltr",
-                  "fontFamily": "Roboto",
+                  "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                   "fontSize": "12px",
-                  "opacity": 1,
-                  "paddingBottom": "4px",
-                  "paddingLeft": "12px",
-                  "paddingRight": "0px",
-                  "paddingTop": "4px",
-                  "textAlign": "left",
+                  "height": "18px",
+                  "marginBottom": "8px",
+                  "opacity": 0,
+                  "paddingBottom": "0px",
+                  "paddingLeft": "0px",
+                  "paddingRight": "12px",
+                  "paddingTop": "0px",
+                  "textAlign": "center",
                   "transform": "translateY(0px)",
                 }
               }
@@ -2924,20 +2966,16 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                   "WebkitAlignItems": "center",
                   "WebkitBoxAlign": "center",
                   "WebkitBoxDirection": "normal",
-                  "WebkitBoxFlex": 1,
                   "WebkitBoxOrient": "horizontal",
                   "WebkitBoxPack": "justify",
                   "WebkitFlexDirection": "row",
-                  "WebkitFlexGrow": 1,
                   "WebkitJustifyContent": "space-between",
                   "alignItems": "center",
                   "flexDirection": "row",
-                  "flexGrow": 1,
                   "justifyContent": "space-between",
                   "msFlexAlign": "center",
                   "msFlexDirection": "row",
                   "msFlexPack": "justify",
-                  "msFlexPositive": 1,
                 }
               }
             >
@@ -2946,7 +2984,14 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                 style={
                   Object {
                     "borderColor": "#FA6C77",
+                    "borderRadius": 24,
+                    "borderWidth": 1,
                     "color": "#FA6C77",
+                    "paddingBottom": 0,
+                    "paddingLeft": 0,
+                    "paddingRight": 0,
+                    "paddingTop": 0,
+                    "position": "relative",
                   }
                 }
               >
@@ -4524,74 +4569,76 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                 </div>
                 <div
                   className="react-phone-number-input__error"
-                >
-                  error
-                </div>
+                />
               </div>
               <div
-                className="css-text-901oao"
-                dir="auto"
+                className="css-view-1dbjc4n"
                 style={
                   Object {
-                    "color": "rgba(250,108,119,1.00)",
-                    "fontFamily": "gooddollar",
-                    "fontSize": "18px",
-                    "fontStyle": "normal",
-                    "fontWeight": "normal",
+                    "WebkitAlignItems": "center",
+                    "WebkitBoxAlign": "center",
+                    "WebkitBoxDirection": "normal",
+                    "WebkitBoxOrient": "horizontal",
+                    "WebkitBoxPack": "center",
+                    "WebkitFlexDirection": "row",
+                    "WebkitJustifyContent": "center",
+                    "alignItems": "center",
+                    "display": "flex",
+                    "flexDirection": "row",
+                    "height": "38px",
+                    "justifyContent": "center",
+                    "msFlexAlign": "center",
+                    "msFlexDirection": "row",
+                    "msFlexPack": "center",
                     "position": "absolute",
-                    "right": "26px",
+                    "right": "0px",
+                    "top": "0px",
+                    "width": "32px",
+                    "zIndex": 1,
                   }
                 }
               >
-                
+                <div
+                  className="css-text-901oao"
+                  dir="auto"
+                  style={
+                    Object {
+                      "color": "rgba(250,108,119,1.00)",
+                      "fontFamily": "gooddollar",
+                      "fontSize": "28px",
+                      "fontStyle": "normal",
+                      "fontWeight": "normal",
+                    }
+                  }
+                >
+                  
+                </div>
               </div>
             </div>
             <div
-              className="css-view-1dbjc4n"
+              className="css-text-901oao"
+              dir="auto"
               style={
                 Object {
-                  "WebkitAlignItems": "center",
-                  "WebkitBoxAlign": "center",
-                  "WebkitBoxDirection": "normal",
-                  "WebkitBoxFlex": 1,
-                  "WebkitBoxOrient": "horizontal",
-                  "WebkitBoxPack": "justify",
-                  "WebkitFlexDirection": "row",
-                  "WebkitFlexGrow": 1,
-                  "WebkitJustifyContent": "space-between",
-                  "alignItems": "center",
-                  "flexDirection": "row",
-                  "flexGrow": 1,
-                  "justifyContent": "space-between",
-                  "msFlexAlign": "center",
-                  "msFlexDirection": "row",
-                  "msFlexPack": "justify",
-                  "msFlexPositive": 1,
+                  "WebkitTransform": "translateY(0px)",
+                  "color": "rgba(250,108,119,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+                  "fontSize": "12px",
+                  "height": "18px",
+                  "marginBottom": "8px",
+                  "marginTop": "8px",
+                  "opacity": 1,
+                  "paddingBottom": "0px",
+                  "paddingLeft": "0px",
+                  "paddingRight": "12px",
+                  "paddingTop": "0px",
+                  "textAlign": "center",
+                  "transform": "translateY(0px)",
                 }
               }
             >
-              <div
-                className="css-text-901oao"
-                dir="auto"
-                style={
-                  Object {
-                    "WebkitTransform": "translateY(0px)",
-                    "color": "rgba(250,108,119,1.00)",
-                    "direction": "ltr",
-                    "fontFamily": "Roboto",
-                    "fontSize": "12px",
-                    "opacity": 1,
-                    "paddingBottom": "4px",
-                    "paddingLeft": "12px",
-                    "paddingRight": "12px",
-                    "paddingTop": "4px",
-                    "textAlign": "left",
-                    "transform": "translateY(0px)",
-                  }
-                }
-              >
-                error
-              </div>
+              error
             </div>
           </div>
         </div>
@@ -4649,9 +4696,11 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                   "borderTopLeftRadius": "24px",
                   "borderTopRightRadius": "24px",
                   "borderTopWidth": "1px",
+                  "marginBottom": "8px",
+                  "marginTop": "4px",
                   "paddingBottom": "0px",
-                  "paddingLeft": "40px",
-                  "paddingRight": "40px",
+                  "paddingLeft": "32px",
+                  "paddingRight": "32px",
                   "paddingTop": "0px",
                   "position": "relative",
                 }
@@ -4661,7 +4710,7 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                 autoCapitalize="sentences"
                 autoComplete="on"
                 autoCorrect="on"
-                className="css-textinput-1cwyjr8"
+                className="css-textinput-1cwyjr8 r-placeholderTextColor-1xktb6b"
                 data-focusable={true}
                 dir="auto"
                 disabled={false}
@@ -4680,17 +4729,14 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                     "WebkitFlexBasis": "0%",
                     "WebkitFlexGrow": 1,
                     "WebkitFlexShrink": 1,
-                    "backgroundColor": "inherit",
-                    "borderBottomWidth": "0px",
-                    "borderLeftWidth": "0px",
-                    "borderRightWidth": "0px",
-                    "borderTopWidth": "0px",
+                    "backgroundColor": "rgba(0,0,0,0.00)",
                     "color": "rgba(250,108,119,1.00)",
                     "flexBasis": "0%",
                     "flexGrow": 1,
                     "flexShrink": 1,
                     "fontFamily": "Roboto",
                     "fontSize": "14px",
+                    "fontWeight": "400",
                     "lineHeight": "36px",
                     "msFlexNegative": 1,
                     "msFlexPositive": 1,
@@ -4704,9 +4750,19 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                 className="css-view-1dbjc4n"
                 style={
                   Object {
-                    "paddingTop": "8px",
+                    "WebkitAlignItems": "center",
+                    "WebkitBoxAlign": "center",
+                    "WebkitBoxPack": "center",
+                    "WebkitJustifyContent": "center",
+                    "alignItems": "center",
+                    "display": "flex",
+                    "height": "100%",
+                    "justifyContent": "center",
+                    "msFlexAlign": "center",
+                    "msFlexPack": "center",
                     "position": "absolute",
-                    "right": "24px",
+                    "right": "0px",
+                    "width": "32px",
                     "zIndex": 1,
                   }
                 }
@@ -4718,7 +4774,7 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                     Object {
                       "color": "rgba(250,108,119,1.00)",
                       "fontFamily": "gooddollar",
-                      "fontSize": "16px",
+                      "fontSize": "20px",
                       "fontStyle": "normal",
                       "fontWeight": "normal",
                     }
@@ -4736,14 +4792,16 @@ exports[`ProfileDataTable matches snapshot editable with errors 1`] = `
                   "WebkitTransform": "translateY(0px)",
                   "color": "rgba(250,108,119,1.00)",
                   "direction": "ltr",
-                  "fontFamily": "Roboto",
+                  "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                   "fontSize": "12px",
+                  "height": "18px",
+                  "marginBottom": "8px",
                   "opacity": 1,
-                  "paddingBottom": "4px",
-                  "paddingLeft": "12px",
-                  "paddingRight": "0px",
-                  "paddingTop": "4px",
-                  "textAlign": "left",
+                  "paddingBottom": "0px",
+                  "paddingLeft": "0px",
+                  "paddingRight": "12px",
+                  "paddingTop": "0px",
+                  "textAlign": "center",
                   "transform": "translateY(0px)",
                 }
               }

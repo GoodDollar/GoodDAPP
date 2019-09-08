@@ -25,9 +25,8 @@ class Zoom {
 
   videoTrack: MediaStreamTrack
 
-  constructor(zoomSDK: any, videoTrack: MediaStreamTrack) {
+  constructor(zoomSDK: any) {
     this.zoomSDK = zoomSDK
-    this.videoTrack = videoTrack
     this.ready = new Promise((resolve, reject) => {
       let ZoomSDK = zoomSDK
       log.info('ZoomSDK = ', { ZoomSDK })
@@ -40,7 +39,8 @@ class Zoom {
     })
   }
 
-  async capture() {
+  async capture(videoTrack: MediaStreamTrack) {
+    this.videoTrack = videoTrack
     await this.ready
     let ZoomSDK = this.zoomSDK
     const res = new Promise((resolve, reject) => {

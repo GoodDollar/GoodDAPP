@@ -46,24 +46,25 @@ exports[`SummaryTable matches snapshot 1`] = `
       className="css-view-1dbjc4n"
       style={
         Object {
-          "WebkitAlignItems": "baseline",
-          "WebkitBoxAlign": "baseline",
+          "WebkitAlignItems": "flex-end",
+          "WebkitBoxAlign": "end",
           "WebkitBoxDirection": "normal",
           "WebkitBoxOrient": "horizontal",
           "WebkitBoxPack": "justify",
           "WebkitFlexDirection": "row",
           "WebkitJustifyContent": "space-between",
-          "alignItems": "baseline",
+          "alignItems": "flex-end",
           "borderBottomColor": "rgba(203,203,203,1.00)",
           "borderBottomStyle": "solid",
           "borderBottomWidth": "1px",
           "flexDirection": "row",
+          "height": "40px",
           "justifyContent": "space-between",
           "marginTop": "16px",
-          "msFlexAlign": "baseline",
+          "msFlexAlign": "end",
           "msFlexDirection": "row",
           "msFlexPack": "justify",
-          "paddingBottom": "8px",
+          "paddingBottom": "4px",
         }
       }
     >
@@ -95,7 +96,7 @@ exports[`SummaryTable matches snapshot 1`] = `
             "direction": "ltr",
             "fontFamily": "Roboto",
             "fontSize": "24px",
-            "fontWeight": "bold",
+            "fontWeight": "normal",
             "lineHeight": "30px",
             "textAlign": "center",
             "textDecoration": "none",
@@ -110,24 +111,25 @@ exports[`SummaryTable matches snapshot 1`] = `
       className="css-view-1dbjc4n"
       style={
         Object {
-          "WebkitAlignItems": "baseline",
-          "WebkitBoxAlign": "baseline",
+          "WebkitAlignItems": "flex-end",
+          "WebkitBoxAlign": "end",
           "WebkitBoxDirection": "normal",
           "WebkitBoxOrient": "horizontal",
           "WebkitBoxPack": "justify",
           "WebkitFlexDirection": "row",
           "WebkitJustifyContent": "space-between",
-          "alignItems": "baseline",
+          "alignItems": "flex-end",
           "borderBottomColor": "rgba(203,203,203,1.00)",
           "borderBottomStyle": "solid",
           "borderBottomWidth": "1px",
           "flexDirection": "row",
+          "height": "40px",
           "justifyContent": "space-between",
           "marginTop": "16px",
-          "msFlexAlign": "baseline",
+          "msFlexAlign": "end",
           "msFlexDirection": "row",
           "msFlexPack": "justify",
-          "paddingBottom": "8px",
+          "paddingBottom": "4px",
         }
       }
     >
@@ -174,11 +176,11 @@ exports[`SummaryTable matches snapshot 1`] = `
             Object {
               "color": "rgba(0,175,255,1.00)",
               "direction": "ltr",
-              "fontFamily": "Roboto-Bold",
+              "fontFamily": "Roboto Slab",
               "fontSize": "24px",
               "fontWeight": "700",
-              "lineHeight": "auto",
-              "marginRight": "4px",
+              "lineHeight": "30px",
+              "marginRight": "2px",
               "textAlign": "right",
               "textDecoration": "none",
               "textTransform": "none",
@@ -192,19 +194,56 @@ exports[`SummaryTable matches snapshot 1`] = `
           dir="auto"
           style={
             Object {
-              "color": "rgba(0,175,255,1.00)",
+              "color": "rgba(66,69,74,1.00)",
               "direction": "ltr",
-              "fontFamily": "Roboto-Bold",
-              "fontSize": "14px",
-              "fontWeight": "700",
-              "lineHeight": "auto",
-              "textAlign": "right",
+              "fontFamily": "Roboto",
+              "fontSize": "16px",
+              "fontWeight": "normal",
+              "lineHeight": "22px",
+              "textAlign": "center",
               "textDecoration": "none",
               "textTransform": "none",
             }
           }
         >
-          G$
+          <span
+            className="css-text-901oao css-textHasAncestor-16my406"
+            dir="auto"
+            style={
+              Object {
+                "color": "rgba(0,175,255,1.00)",
+                "direction": "ltr",
+                "fontFamily": "Roboto Slab",
+                "fontSize": "14px",
+                "fontWeight": "700",
+                "lineHeight": "20px",
+                "textAlign": "right",
+                "textDecoration": "none",
+                "textTransform": "none",
+              }
+            }
+          >
+            G
+          </span>
+          <span
+            className="css-text-901oao css-textHasAncestor-16my406"
+            dir="auto"
+            style={
+              Object {
+                "color": "rgba(0,175,255,1.00)",
+                "direction": "ltr",
+                "fontFamily": "Roboto Slab",
+                "fontSize": "13.5px",
+                "fontWeight": "700",
+                "lineHeight": "16.2px",
+                "textAlign": "right",
+                "textDecoration": "none",
+                "textTransform": "none",
+              }
+            }
+          >
+            $
+          </span>
         </div>
       </div>
     </div>
@@ -212,24 +251,25 @@ exports[`SummaryTable matches snapshot 1`] = `
       className="css-view-1dbjc4n"
       style={
         Object {
-          "WebkitAlignItems": "baseline",
-          "WebkitBoxAlign": "baseline",
+          "WebkitAlignItems": "flex-end",
+          "WebkitBoxAlign": "end",
           "WebkitBoxDirection": "normal",
           "WebkitBoxOrient": "horizontal",
           "WebkitBoxPack": "justify",
           "WebkitFlexDirection": "row",
           "WebkitJustifyContent": "space-between",
-          "alignItems": "baseline",
+          "alignItems": "flex-end",
           "borderBottomColor": "rgba(203,203,203,1.00)",
           "borderBottomStyle": "solid",
           "borderBottomWidth": "1px",
           "flexDirection": "row",
+          "height": "40px",
           "justifyContent": "space-between",
           "marginTop": "16px",
-          "msFlexAlign": "baseline",
+          "msFlexAlign": "end",
           "msFlexDirection": "row",
           "msFlexPack": "justify",
-          "paddingBottom": "8px",
+          "paddingBottom": "4px",
         }
       }
     >
@@ -260,9 +300,9 @@ exports[`SummaryTable matches snapshot 1`] = `
             "color": "rgba(66,69,74,1.00)",
             "direction": "ltr",
             "fontFamily": "Roboto",
-            "fontSize": "16px",
+            "fontSize": "14px",
             "fontWeight": "normal",
-            "lineHeight": "22px",
+            "lineHeight": "20px",
             "textAlign": "center",
             "textDecoration": "none",
             "textTransform": "none",
@@ -322,24 +362,25 @@ exports[`SummaryTable matches snapshot with minimal properties 1`] = `
       className="css-view-1dbjc4n"
       style={
         Object {
-          "WebkitAlignItems": "baseline",
-          "WebkitBoxAlign": "baseline",
+          "WebkitAlignItems": "flex-end",
+          "WebkitBoxAlign": "end",
           "WebkitBoxDirection": "normal",
           "WebkitBoxOrient": "horizontal",
           "WebkitBoxPack": "justify",
           "WebkitFlexDirection": "row",
           "WebkitJustifyContent": "space-between",
-          "alignItems": "baseline",
+          "alignItems": "flex-end",
           "borderBottomColor": "rgba(203,203,203,1.00)",
           "borderBottomStyle": "solid",
           "borderBottomWidth": "1px",
           "flexDirection": "row",
+          "height": "40px",
           "justifyContent": "space-between",
           "marginTop": "16px",
-          "msFlexAlign": "baseline",
+          "msFlexAlign": "end",
           "msFlexDirection": "row",
           "msFlexPack": "justify",
-          "paddingBottom": "8px",
+          "paddingBottom": "4px",
         }
       }
     >
@@ -386,11 +427,11 @@ exports[`SummaryTable matches snapshot with minimal properties 1`] = `
             Object {
               "color": "rgba(0,175,255,1.00)",
               "direction": "ltr",
-              "fontFamily": "Roboto-Bold",
+              "fontFamily": "Roboto Slab",
               "fontSize": "24px",
               "fontWeight": "700",
-              "lineHeight": "auto",
-              "marginRight": "4px",
+              "lineHeight": "30px",
+              "marginRight": "2px",
               "textAlign": "right",
               "textDecoration": "none",
               "textTransform": "none",
@@ -404,19 +445,56 @@ exports[`SummaryTable matches snapshot with minimal properties 1`] = `
           dir="auto"
           style={
             Object {
-              "color": "rgba(0,175,255,1.00)",
+              "color": "rgba(66,69,74,1.00)",
               "direction": "ltr",
-              "fontFamily": "Roboto-Bold",
-              "fontSize": "14px",
-              "fontWeight": "700",
-              "lineHeight": "auto",
-              "textAlign": "right",
+              "fontFamily": "Roboto",
+              "fontSize": "16px",
+              "fontWeight": "normal",
+              "lineHeight": "22px",
+              "textAlign": "center",
               "textDecoration": "none",
               "textTransform": "none",
             }
           }
         >
-          G$
+          <span
+            className="css-text-901oao css-textHasAncestor-16my406"
+            dir="auto"
+            style={
+              Object {
+                "color": "rgba(0,175,255,1.00)",
+                "direction": "ltr",
+                "fontFamily": "Roboto Slab",
+                "fontSize": "14px",
+                "fontWeight": "700",
+                "lineHeight": "20px",
+                "textAlign": "right",
+                "textDecoration": "none",
+                "textTransform": "none",
+              }
+            }
+          >
+            G
+          </span>
+          <span
+            className="css-text-901oao css-textHasAncestor-16my406"
+            dir="auto"
+            style={
+              Object {
+                "color": "rgba(0,175,255,1.00)",
+                "direction": "ltr",
+                "fontFamily": "Roboto Slab",
+                "fontSize": "13.5px",
+                "fontWeight": "700",
+                "lineHeight": "16.2px",
+                "textAlign": "right",
+                "textDecoration": "none",
+                "textTransform": "none",
+              }
+            }
+          >
+            $
+          </span>
         </div>
       </div>
     </div>

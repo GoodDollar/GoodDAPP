@@ -14,7 +14,6 @@ import values from 'lodash/values'
 import keys from 'lodash/keys'
 import isEmail from 'validator/lib/isEmail'
 import Mutex from 'await-mutex'
-import { AsyncStorage } from 'react-native'
 import isMobilePhone from '../validators/isMobilePhone'
 
 import pino from '../logger/pino-logger'
@@ -86,8 +85,9 @@ export type FeedEvent = {
   type: string,
   date: string,
   createdDate?: string,
-  status?: 'pending' | 'completed' | 'error',
+  status?: 'pending' | 'completed' | 'error' | 'cancelled' | 'deleted',
   data: any,
+  displayType?: string,
 }
 
 /**
@@ -102,6 +102,25 @@ export type TransactionEvent = FeedEvent & {
     paymentLink?: string,
     code?: string,
     receipt?: any,
+  },
+}
+
+export const welcomeMessage = {
+  id: '0',
+  type: 'welcome',
+  date: new Date().toString(),
+  status: 'completed',
+  data: {
+    customName: 'Welcome to GoodDollar!',
+    subtitle: 'Start claiming free G$',
+    receiptData: {
+      from: '0x0000000000000000000000000000000000000000',
+    },
+    reason:
+      'GoodDollar is a payment system with a built-in small basic income based on blockchain technology.\nLet’s change the world, for good.',
+    endpoint: {
+      fullName: 'Welcome to GoodDollar!',
+    },
   },
 }
 
@@ -136,7 +155,7 @@ export const getReceiveDataFromReceipt = (receipt: any) => {
     'value'
   )
   const withdrawLog = logs.find(log => {
-    return log && log.name === 'PaymentWithdraw'
+    return log && (log.name === 'PaymentWithdraw' || log.name === 'PaymentCancel')
   })
   logger.debug('getReceiveDataFromReceipt', { logs: receipt.logs, transferLog, withdrawLog })
   const log = withdrawLog || transferLog
@@ -216,9 +235,15 @@ export class UserStorage {
 
   _lastProfileUpdate: any
 
+  /**
+   * Magic line for recovery user
+   */
+  magiclink: String
+
   static indexableFields = {
     email: true,
     mobile: true,
+    mnemonic: true,
     phone: true,
     walletAddress: true,
     username: true,
@@ -232,13 +257,13 @@ export class UserStorage {
    * @returns {string} - Value without '+' (plus), '-' (minus), '_' (underscore), ' ' (space), in lower case
    */
   static cleanFieldForIndex = (field: string, value: string): string => {
-    if (!value) {
+    if (value === undefined) {
       return value
     }
     if (field === 'mobile' || field === 'phone') {
       return value.replace(/[_+-\s]+/g, '')
     }
-    return value.toLowerCase()
+    return `${value}`.toLowerCase()
   }
 
   /**
@@ -259,6 +284,42 @@ export class UserStorage {
     return value
   }
 
+  /**
+   *
+   * @param {string} username
+   * @param {string} password
+   * @returns {Promise<*>}
+   */
+  static async getMnemonic(username: String, password: String): String {
+    let gun = defaultGun
+    let gunuser = gun.user()
+    let mnemonic = ''
+
+    const authUserInGun = (username, password) => {
+      return new Promise((res, rej) => {
+        gunuser.auth(username, password, user => {
+          logger.debug('gundb auth', user.err)
+          if (user.err) {
+            logger.error('Error getMnimonic UserStorage', user.err)
+            return rej(false)
+          }
+          res(true)
+        })
+      })
+    }
+
+    if (await authUserInGun(username, password)) {
+      const profile = gunuser.get('profile')
+      mnemonic = await profile
+        .get('mnemonic')
+        .get('value')
+        .decrypt()
+    }
+    await gunuser.leave()
+
+    return mnemonic
+  }
+
   constructor(wallet: GoodWallet, gun: Gun = defaultGun) {
     this.gun = gun
     this.wallet = wallet
@@ -266,7 +327,7 @@ export class UserStorage {
       .then(() => this.init())
       .then(() => logger.debug('userStorage initialized.'))
       .catch(e => {
-        logger.error('Error initializing UserStorage', { e, message: e.message, account: this.wallet.account })
+        logger.error('Error initializing UserStorage', { account: this.wallet.account }, e.message, e)
         return false
       })
   }
@@ -274,7 +335,7 @@ export class UserStorage {
   gunAuth(username: string, password: string): Promise<any> {
     return new Promise((res, rej) => {
       this.gunuser.auth(username, password, user => {
-        logger.debug('gundb auth', user)
+        logger.debug('gundb auth', user.err)
         if (user.err) {
           return rej(user.err)
         }
@@ -322,6 +383,7 @@ export class UserStorage {
     } else {
       loggedInPromise = this.gunCreate(username, password).then(r => this.gunAuth(username, password))
     }
+    this.magiclink = this.createMagicLink(username, password)
 
     return new Promise(async (res, rej) => {
       let user = await loggedInPromise.catch(e => rej(e))
@@ -336,14 +398,14 @@ export class UserStorage {
       })
       logger.debug('init to events')
 
-      this.initFeed()
+      await this.initFeed()
 
       //save ref to user
       this.gun
         .get('users')
         .get(this.gunuser.is.pub)
         .put(this.gunuser)
-      logger.debug('GunDB logged in', { username, pubkey: this.wallet.account, user: user })
+      logger.debug('GunDB logged in', { username, pubkey: this.wallet.account })
       logger.debug('subscribing')
 
       this.wallet.subscribeToEvent('receive', (err, events) => {
@@ -352,24 +414,51 @@ export class UserStorage {
       this.wallet.subscribeToEvent('send', (err, events) => {
         logger.debug({ err, events }, 'send')
       })
+      this.wallet.subscribeToEvent('otplUpdated', receipt => this.handleOTPLUpdated(receipt))
       this.wallet.subscribeToEvent('receiptUpdated', receipt => this.handleReceiptUpdated(receipt))
       this.wallet.subscribeToEvent('receiptReceived', receipt => this.handleReceiptUpdated(receipt))
       res(true)
     })
   }
 
+  /**
+   * Create magic line for recovery user
+   *
+   * @param {string} username
+   * @param {string} password
+   *
+   * @returns {string}
+   */
+  createMagicLink(username: String, password: String): String {
+    let magicLink = `${username}+${password}`
+    magicLink = Buffer.from(magicLink).toString('base64')
+
+    return magicLink
+  }
+
+  /**
+   * return magic line
+   */
+  getMagicLink() {
+    return this.magiclink
+  }
+
   async handleReceiptUpdated(receipt: any): Promise<FeedEvent> {
     //receipt received via websockets/polling need mutex to prevent race
     //with enqueing the initial TX data
+    const data = getReceiveDataFromReceipt(receipt)
+    if (data.name === 'PaymentCancel' || (data.name === 'PaymentWithdraw' && data.from === data.to)) {
+      logger.debug('handleReceiptUpdated: skipping self withdrawn payment link (cancelled)', { data, receipt })
+      return {}
+    }
     const release = await this.feedMutex.lock()
     try {
-      const data = getReceiveDataFromReceipt(receipt)
       logger.debug('handleReceiptUpdated', { data, receipt })
 
       //get initial TX data from queue, if not in queue then it must be a receive TX ie
       //not initiated by user
       //other option is that TX was processed on another wallet instance
-      const initialEvent = (await this.dequeueTX(receipt.transactionHash)) || {}
+      const initialEvent = (await this.dequeueTX(receipt.transactionHash)) || { data: {} }
       logger.debug('handleReceiptUpdated got enqueued event:', { id: receipt.transactionHash, initialEvent })
 
       //get existing or make a new event
@@ -394,11 +483,50 @@ export class UserStorage {
       }
       logger.debug('handleReceiptUpdated receiptReceived', { initialEvent, feedEvent, receipt, data, updatedFeedEvent })
       if (isEqual(feedEvent, updatedFeedEvent) === false) {
-        await this.updateFeedEvent(updatedFeedEvent)
+        await this.updateFeedEvent(updatedFeedEvent, feedEvent.date)
       }
       return updatedFeedEvent
-    } catch (error) {
-      logger.error('handleReceiptUpdated', error)
+    } catch (e) {
+      logger.error('handleReceiptUpdated', e.message, e)
+    } finally {
+      release()
+    }
+    return {}
+  }
+
+  /**
+   * callback to use when we get a transaction that withdrawn our payment link
+   * @param {*} receipt
+   */
+  async handleOTPLUpdated(receipt: any): Promise<FeedEvent> {
+    //receipt received via websockets/polling need mutex to prevent race
+    //with enqueing the initial TX data
+    const release = await this.feedMutex.lock()
+    try {
+      const data = getReceiveDataFromReceipt(receipt)
+      logger.debug('handleOTPLUpdated', { data, receipt })
+
+      //get our tx that created the payment link
+      const originalTXHash = await this.getTransactionHashByCode(data.hash)
+      if (originalTXHash === undefined) {
+        logger.error('handleOTPLUpdated: Original payment link TX not found', { data })
+        return
+      }
+      const feedEvent = await this.getFeedItemByTransactionHash(originalTXHash)
+
+      //if we withdrawn the payment link then its canceled
+      const otplStatus = data.name === 'PaymentCancel' || data.to === data.from ? 'cancelled' : 'completed'
+      const prevDate = feedEvent.date
+      feedEvent.data.to = data.to
+      feedEvent.data.otplReceipt = receipt
+      feedEvent.data.otplData = data
+      feedEvent.status = feedEvent.data.otplStatus = otplStatus
+      feedEvent.date = new Date().toString()
+      logger.debug('handleOTPLUpdated receiptReceived', { feedEvent, otplStatus, receipt, data })
+      await this.updateFeedEvent(feedEvent, prevDate)
+      return feedEvent
+    } catch (e) {
+      logger.error('handleOTPLUpdated', e.message, e)
     } finally {
       release()
     }
@@ -463,9 +591,14 @@ export class UserStorage {
    * Subscribes to changes on the event index of day to number of events
    * the "false" (see gundb docs) passed is so we get the complete 'index' on every change and not just the day that changed
    */
-  initFeed() {
+  async initFeed() {
     this.feed = this.gunuser.get('feed')
     this.feed.get('index').on(this.updateFeedIndex, false)
+
+    //first time user
+    if ((await this.feed) === undefined) {
+      this.enqueueTX(welcomeMessage)
+    }
   }
 
   /**
@@ -506,7 +639,10 @@ export class UserStorage {
    */
   getDisplayProfile(profile: {}): UserModel {
     const displayProfile = Object.keys(profile).reduce(
-      (acc, currKey) => ({ ...acc, [currKey]: profile[currKey].display }),
+      (acc, currKey) => ({
+        ...acc,
+        [currKey]: profile[currKey].display,
+      }),
       {}
     )
     return getUserModel(displayProfile)
@@ -546,28 +682,32 @@ export class UserStorage {
    * It saves only known profile fields
    *
    * @param {UserModel} profile - User profile
+   * @param {boolean} update - are we updating, if so validate only non empty fields
    * @returns {Promise} Promise with profile settings updates and privacy validations
    * @throws Error if profile is invalid
    */
-  setProfile(profile: UserModel) {
+  setProfile(profile: UserModel, update: boolean = false): Promise<> {
     if (profile && !profile.validate) {
       profile = getUserModel(profile)
     }
-    const { errors, isValid } = profile.validate()
+    const { errors, isValid } = profile.validate(update)
     if (!isValid) {
       logger.error('setProfile failed:', { errors })
       if (Config.throwSaveProfileErrors) {
-        throw new Error(errors)
+        return Promise.reject(errors)
       }
     }
 
     const profileSettings = {
       fullName: { defaultPrivacy: 'public' },
-      email: { defaultPrivacy: 'public' },
-      mobile: { defaultPrivacy: 'public' },
+      email: { defaultPrivacy: 'private' },
+      mobile: { defaultPrivacy: 'private' },
+      mnemonic: { defaultPrivacy: 'private' },
       avatar: { defaultPrivacy: 'public' },
       walletAddress: { defaultPrivacy: 'public' },
       username: { defaultPrivacy: 'public' },
+      w3Token: { defaultPrivacy: 'private' },
+      loginToken: { defaultPrivacy: 'private' },
     }
     const getPrivacy = async field => {
       const currentPrivacy = await this.profile.get(field).get('privacy')
@@ -578,16 +718,16 @@ export class UserStorage {
         .filter(key => profile[key])
         .map(async field => {
           return this.setProfileField(field, profile[field], await getPrivacy(field)).catch(e => {
-            logger.error('setProfile field failed:', field)
+            logger.error('setProfile field failed:', { field }, e.message, e)
             return { err: `failed saving field ${field}` }
           })
         })
     ).then(results => {
       const errors = results.filter(ack => ack && ack.err).map(ack => ack.err)
       if (errors.length > 0) {
-        logger.error('setProfile some fields failed', errors.length, errors)
+        logger.error('setProfile some fields failed', errors.length, errors, JSON.stringify(errors))
         if (Config.throwSaveProfileErrors) {
-          throw new Error(errors)
+          return Promise.reject(errors)
         }
       }
       return true
@@ -604,14 +744,19 @@ export class UserStorage {
   static async isValidValue(field: string, value: string) {
     const cleanValue = UserStorage.cleanFieldForIndex(field, value)
 
+    if (!cleanValue) {
+      logger.error(`indexProfileField - field ${field} value is empty (value: ${value})`, cleanValue)
+      return false
+    }
+
     try {
       const indexValue = await global.gun
         .get(`users/by${field}`)
         .get(cleanValue)
         .then()
       return !(indexValue && indexValue.pub !== global.gun.user().is.pub)
-    } catch (err) {
-      logger.error('indexProfileField', err)
+    } catch (e) {
+      logger.error('indexProfileField', e.message, e)
       return true
     }
   }
@@ -633,7 +778,7 @@ export class UserStorage {
     }, {})
 
     const isValid = validatedFields.every(elem => elem.valid)
-    logger.debug({ fields, validatedFields, errors, isValid })
+    logger.debug({ fields, validatedFields, errors, isValid, profile })
 
     return { isValid, errors }
   }
@@ -646,11 +791,16 @@ export class UserStorage {
    * @param {string} privacy - (private | public | masked)
    * @returns {Promise} Promise with updated field value, secret, display and privacy.
    */
-  async setProfileField(field: string, value: string, privacy: FieldPrivacy = 'public'): Promise<ACK> {
+  async setProfileField(
+    field: string,
+    value: string,
+    privacy: FieldPrivacy = 'public',
+    onlyPrivacy: boolean = false
+  ): Promise<ACK> {
     let display
     switch (privacy) {
       case 'private':
-        display = ''
+        display = '******'
         break
       case 'masked':
         display = UserStorage.maskField(field, value)
@@ -676,8 +826,14 @@ export class UserStorage {
         return indexPromiseResult
       }
     }
+    if (onlyPrivacy) {
+      return this.profile.get(field).putAck({
+        display,
+        privacy,
+      })
+    }
 
-    return Promise.all([
+    return Promise.race([
       this.profile
         .get(field)
         .get('value')
@@ -686,7 +842,7 @@ export class UserStorage {
         display,
         privacy,
       }),
-    ]).then(arr => arr[1])
+    ])
   }
 
   /**
@@ -728,8 +884,8 @@ export class UserStorage {
       }
 
       return indexNode.putAck(this.gunuser)
-    } catch (err) {
-      logger.error('indexProfileField', err)
+    } catch (e) {
+      logger.error('indexProfileField', e.message, e)
 
       // TODO: this should return unexpected error
       // return Promise.resolve({ err: `Unexpected Error`, ok: 0 })
@@ -745,7 +901,7 @@ export class UserStorage {
    */
   async setProfileFieldPrivacy(field: string, privacy: FieldPrivacy): Promise<ACK> {
     let value = await this.getProfileFieldValue(field)
-    return this.setProfileField(field, value, privacy)
+    return this.setProfileField(field, value, privacy, true)
   }
 
   /**
@@ -776,18 +932,19 @@ export class UserStorage {
     })
     this.cursor += daysToTake.length
 
+    //TODO: WTF does this work?!?! if we JSON.stringify teh day index content how come we don't need to JSON.parse it?
+    //this works in the unit tests also
     let promises: Array<Promise<Array<FeedEvent>>> = daysToTake.map(day => {
       return this.feed
         .get(day[0])
         .then()
         .catch(e => {
-          logger.error('getFeed', e)
+          logger.error('getFeed', e.message, e)
           return []
         })
     })
 
     const eventsIndex = flatten(await Promise.all(promises))
-
     return Promise.all(
       eventsIndex
         .filter(_ => _.id)
@@ -807,7 +964,12 @@ export class UserStorage {
    */
   async getFormattedEvents(numResults: number, reset?: boolean): Promise<Array<StandardFeed>> {
     const feed = await this.getFeedPage(numResults, reset)
-    return Promise.all(feed.filter(feedItem => feedItem.data).map(this.formatEvent))
+
+    return Promise.all(
+      feed
+        .filter(feedItem => feedItem.data && ['deleted', 'cancelled'].includes(feedItem.status) === false)
+        .map(feedItem => this.formatEvent(feedItem))
+    )
   }
 
   async getFormatedEventById(id: string): Promise<StandardFeed> {
@@ -910,9 +1072,22 @@ export class UserStorage {
    *  with props { id, date, type, data: { amount, message, endpoint: { address, fullName, avatar, withdrawStatus }}}
    */
   async formatEvent(event: FeedEvent): Promise<StandardFeed> {
-    logger.debug('formatEvent: incoming event', { event })
+    logger.debug('formatEvent: incoming event', event.id, { event })
     const { data, type, date, id, status, createdDate } = event
-    const { receiptData, receipt, from, to, counterPartyDisplayName, sender, amount, reason, code: withdrawCode } = data
+    const {
+      receiptData,
+      receipt,
+      from,
+      to,
+      counterPartyDisplayName,
+      sender,
+      amount,
+      reason,
+      code: withdrawCode,
+      otplStatus,
+      customName,
+      subtitle,
+    } = data
     let avatar, fullName, address, withdrawStatus, initiator
     if (type === 'send') {
       address = this.wallet.wallet.utils.isAddress(to) ? to : (receiptData && receiptData.to) || (receipt && receipt.to)
@@ -958,6 +1133,7 @@ export class UserStorage {
         .get('profile'))
     const profileToShow = (profileByIndex || profileByAddress) && this.gun.get((profileByIndex || profileByAddress)._)
     fullName =
+      customName ||
       (profileToShow &&
         (await profileToShow
           .get('fullName')
@@ -977,13 +1153,24 @@ export class UserStorage {
 
     if (withdrawCode) {
       //check real status only if tx has been confirmed (ie we have a receipt)
-      withdrawStatus = receipt ? await this.wallet.getWithdrawStatus(withdrawCode) : 'pending'
+      withdrawStatus = otplStatus ? otplStatus : 'pending'
     }
+    withdrawStatus = data.status === 'error' ? 'error' : withdrawStatus
 
+    let displayType = type
+    switch (type) {
+      case 'send':
+        displayType += withdrawStatus
+        if (withdrawStatus === 'error') {
+          avatar = `${process.env.PUBLIC_URL}/favicon-96x96.png`
+        }
+        break
+    }
     return {
       id: id,
       date: new Date(date).getTime(),
       type: type,
+      displayType,
       status,
       createdDate,
       data: {
@@ -995,6 +1182,7 @@ export class UserStorage {
         },
         amount: value,
         message: reason,
+        subtitle,
       },
     }
   }
@@ -1009,16 +1197,16 @@ export class UserStorage {
     //a race exists between enqueing and receipt from websockets/polling
     const release = await this.feedMutex.lock()
     try {
-      event.status = 'pending'
-      event.createdDate = new Date().toString()
+      event.status = event.status || 'pending'
+      event.createdDate = event.createdDate || new Date().toString()
       let putRes = await this.feed
         .get('queue')
         .get(event.id)
-        .put(event)
+        .putAck(event)
       this.updateFeedEvent(event)
       logger.debug('enqueueTX ok:', { event, putRes })
     } catch (e) {
-      logger.error('enqueueTX failed: ', { e, message: e.message })
+      logger.error('enqueueTX failed: ', e.message, e)
     } finally {
       release()
     }
@@ -1041,7 +1229,7 @@ export class UserStorage {
         return feedItem
       }
     } catch (e) {
-      logger.error('dequeueTX failed:', { e, message: e.message })
+      logger.error('dequeueTX failed:', e.message, e)
     }
   }
 
@@ -1056,18 +1244,113 @@ export class UserStorage {
   }
 
   /**
+   * Sets the event's status
+   * @param {string} eventId
+   * @param {string} status
+   * @returns {Promise<FeedEvent>}
+   */
+  async updateEventStatus(eventId: string, status: string): Promise<FeedEvent> {
+    const feedEvent = await this.getFeedItemByTransactionHash(eventId)
+    feedEvent.status = status
+    return this.updateFeedEvent(feedEvent)
+  }
+
+  /**
+   * Sets the event's otpl status
+   * @param {string} eventId
+   * @param {string} status
+   * @returns {Promise<FeedEvent>}
+   */
+  async updateEventOtplStatus(eventId: string, status: string): Promise<FeedEvent> {
+    const feedEvent = await this.getFeedItemByTransactionHash(eventId)
+    feedEvent.status = status
+    if (feedEvent.data) {
+      feedEvent.data.otplStatus = status
+    }
+    return this.updateFeedEvent(feedEvent)
+  }
+
+  /**
+   * Sets the event's status as error
+   * @param {string} eventId
+   * @returns {Promise<FeedEvent>}
+   */
+  async markWithErrorEvent(err: any): Promise<FeedEvent> {
+    const error = JSON.parse(`{${err.message.split('{')[1]}`)
+    await this.updateEventOtplStatus(error.transactionHash, 'error')
+  }
+
+  /**
+   * Sets the event's status as deleted
+   * @param {string} eventId
+   * @returns {Promise<FeedEvent>}
+   */
+  deleteEvent(eventId: string): Promise<FeedEvent> {
+    return this.updateEventStatus(eventId, 'deleted')
+  }
+
+  /**
+   * Sets the event's status as completed
+   * @param {string} eventId
+   * @returns {Promise<FeedEvent>}
+   */
+  recoverEvent(eventId: string): Promise<FeedEvent> {
+    return this.updateEventStatus(eventId, 'completed')
+  }
+
+  /**
    * Add or Update feed event
    *
    * @param {FeedEvent} event - Event to be updated
+   * @param {string|*} previouseventDate
    * @returns {Promise} Promise with updated feed
    */
-  async updateFeedEvent(event: FeedEvent): Promise<FeedEvent> {
+  async updateFeedEvent(event: FeedEvent, previouseventDate: string | void): Promise<FeedEvent> {
     logger.debug('updateFeedEvent:', { event })
+
+    //saving index by onetime code so we can retrieve and update it once withdrawn
+    //or skip own withdraw
+    if (event.type === 'send' && event.data.code) {
+      const hashedCode = this.wallet.wallet.utils.sha3(event.data.code)
+      this.feed.get('codeToTxHash').put({ [hashedCode]: event.id })
+    } else if (event.type === 'withdraw' && event.data.code) {
+      //are we withdrawing our own link?
+      const hashedCode = this.wallet.wallet.utils.sha3(event.data.code)
+      const ownlink = await this.feed.get('codeToTxHash').get(hashedCode)
+      if (ownlink) {
+        logger.debug('updateFeedEvent: skipping own link withdraw', { event })
+        this.feed
+          .get('queue')
+          .get(event.id)
+          .put(null)
+        return event
+      }
+    }
+
     let date = new Date(event.date)
 
     // force valid dates
     date = isValidDate(date) ? date : new Date()
     let day = `${date.toISOString().slice(0, 10)}`
+
+    //check if we need to update the day index location
+    if (previouseventDate) {
+      let prevdate = new Date(previouseventDate)
+      prevdate = isValidDate(prevdate) ? prevdate : date
+      let prevday = `${prevdate.toISOString().slice(0, 10)}`
+      if (day !== prevday) {
+        let dayEventsArr = (await this.feed.get(prevday)) || []
+        let removePos = dayEventsArr.findIndex(e => e.id === event.id)
+        if (removePos >= 0) {
+          dayEventsArr.splice(removePos, 1)
+          this.feed.get(prevday).put(JSON.stringify(dayEventsArr))
+          this.feed
+            .get('index')
+            .get(prevday)
+            .put(dayEventsArr.length)
+        }
+      }
+    }
 
     // Update dates index
     let dayEventsArr = (await this.feed.get(day).then()) || []
@@ -1084,41 +1367,49 @@ export class UserStorage {
       }
     }
 
-    // Saving eventFeed by id
     logger.debug('updateFeedEvent starting encrypt')
+
+    // Saving eventFeed by id
     const eventAck = this.feed
       .get('byid')
       .get(event.id)
-      .secret(event)
+      .secretAck(event)
       .then()
       .catch(e => {
-        logger.error('updateFeedEvent failedEncrypt byId:', e, event)
+        logger.error('updateFeedEvent failedEncrypt byId:', event, e.message, e)
         return { err: e.message }
       })
-
-    const saveAck = this.feed
-      .get(day)
-      .put(JSON.stringify(dayEventsArr))
-      .then()
-      .catch(err => logger.error('updateFeedEvent dayIndex', err))
-    const ack = this.feed
+    const saveDayIndexPtr = this.feed.get(day).putAck(JSON.stringify(dayEventsArr))
+    const saveDaySizePtr = this.feed
       .get('index')
       .get(day)
-      .put(dayEventsArr.length)
-      .then()
-      .catch(err => logger.error('updateFeedEvent daySize', err))
+      .putAck(dayEventsArr.length)
 
-    let blockAck = Promise.resolve()
-    if (event.data && event.data.receipt) {
-      blockAck = this.saveLastBlockNumber(event.data.receipt.blockNumber)
+    const saveAck =
+      saveDayIndexPtr && saveDayIndexPtr.then().catch(e => logger.error('updateFeedEvent dayIndex', e.message, e))
+    const ack =
+      saveDaySizePtr && saveDaySizePtr.then().catch(e => logger.error('updateFeedEvent daySize', e.message, e))
+
+    if (saveDayIndexPtr || saveDaySizePtr) {
+      logger.info('updateFeedEvent: Gun drain in process', { saveDayIndexPtr, saveDaySizePtr })
     }
 
-    const result = await Promise.all([saveAck, ack, eventAck, blockAck])
-      .then(arr => {
-        return event
-      })
-      .catch(err => logger.error('savingIndex', err))
-    return result
+    return Promise.all([saveAck, ack, eventAck])
+      .then(() => event)
+      .catch(e => logger.error('savingIndex', e.message, e))
+  }
+
+  /**
+   * get transaction id from one time payment link code
+   * when a transaction to otpl is made and has the "code" field we index by it.
+   * @param {string} hashedCode sha3 of the code
+   * @returns transaction id that generated the code
+   */
+  getTransactionHashByCode(hashedCode: string): Promise<string> {
+    return this.feed
+      .get('codeToTxHash')
+      .get(hashedCode)
+      .then()
   }
 
   /**
@@ -1136,11 +1427,15 @@ export class UserStorage {
    */
   saveLastBlockNumber(blockNumber: number | string): Promise<any> {
     logger.debug('saving lastBlock:', blockNumber)
-    return this.getLastBlockNode().put(blockNumber)
+    return this.getLastBlockNode().putAck(blockNumber)
   }
 
   async getProfile(): Promise<any> {
     const encryptedProfile = await this.loadGunField(this.profile)
+    if (encryptedProfile === undefined) {
+      logger.error('getProfile: profile node undefined')
+      return {}
+    }
     const fullProfile = this.getPrivateProfile(encryptedProfile)
     return fullProfile
   }
@@ -1155,8 +1450,18 @@ export class UserStorage {
     })
   }
 
-  getFullProfile(profileNode): Promise<> {
+  getEncryptedProfile(profileNode): Promise<> {
     return this.loadGunField(profileNode)
+  }
+
+  async getPublicProfile(): Promise<any> {
+    const encryptedProfile = await this.loadGunField(this.profile)
+    if (encryptedProfile === undefined) {
+      logger.error('getPublicProfile: profile node undefined')
+      return {}
+    }
+    const fullProfile = this.getDisplayProfile(encryptedProfile)
+    return fullProfile
   }
 
   /**
@@ -1165,7 +1470,7 @@ export class UserStorage {
    */
   async userAlreadyExist(): Promise<boolean> {
     const profile = await this.profile
-    logger.debug('userAlreadyExist', this.profile !== undefined && profile !== undefined)
+    logger.debug('userAlreadyExist', this.profile !== undefined && profile !== undefined && profile !== null)
     return !!profile
   }
 
@@ -1182,10 +1487,7 @@ export class UserStorage {
       })
     )
 
-    await this.gunuser
-      .get('profile')
-      .put('null')
-      .then()
+    await this.gunuser.get('profile').putAck(null)
 
     return true
   }
@@ -1215,7 +1517,7 @@ export class UserStorage {
         })),
       this.gunuser
         .get('feed')
-        .put(null)
+        .putAck(null)
         .then(r => ({
           feed: 'ok',
         }))
@@ -1232,6 +1534,6 @@ export class UserStorage {
     //     profile: 'failed'
     //   }))
     logger.debug('deleteAccount', { deleteResults })
-    return AsyncStorage.clear()
+    return deleteResults
   }
 }

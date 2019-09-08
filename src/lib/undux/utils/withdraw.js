@@ -46,12 +46,13 @@ export const executeWithdraw = async (store: Store, code: string, reason: string
           res(transactionHash)
         },
         onError: e => {
+          userStorage.markWithErrorEvent(e)
           rej(e)
         },
       })
     })
   } catch (e) {
-    log.error({ e })
+    log.error('code withdraw failed', code, e.message, e)
     throw e
   }
 }

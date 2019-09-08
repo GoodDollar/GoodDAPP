@@ -1,7 +1,9 @@
 // @flow
 import React from 'react'
 import { useScreenState } from '../appNavigation/stackNavigation'
-import { CopyButton, Section, Wrapper } from '../common'
+import CopyButton from '../common/buttons/CopyButton'
+import Section from '../common/layout/Section'
+import Wrapper from '../common/layout/Wrapper'
 import TopBar from '../common/view/TopBar'
 import { withStyles } from '../../lib/styles'
 import SummaryTable from '../common/view/SummaryTable'
@@ -23,9 +25,10 @@ const SendConfirmation = ({ screenProps, styles }: ReceiveProps) => {
   return (
     <Wrapper>
       <TopBar hideBalance push={screenProps.push} />
-      <Section grow>
-        <Section.Title textTransform="none">You can send G$ to anyone in the world</Section.Title>
-        <Section.Text>Simply, copy and share this link with your recipient.</Section.Text>
+      <Section grow justifyContent={'center'}>
+        <Section.Text style={styles.confirmationDescription} fontSize={22} fontWeight="medium">
+          {'To complete the transaction\ncopy the link and share it\nwith your recipient.'}
+        </Section.Text>
         <SummaryTable counterPartyDisplayName={counterPartyDisplayName} amount={amount} reason={reason} />
         <CopyButton toCopy={paymentLink} onPressDone={() => screenProps.goToRoot()}>
           Copy link to clipboard
@@ -34,6 +37,15 @@ const SendConfirmation = ({ screenProps, styles }: ReceiveProps) => {
     </Wrapper>
   )
 }
+
+const getStylesFromProps = ({ theme }) => ({
+  confirmationDescription: {
+    display: 'flex',
+    flexGrow: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+})
 
 SendConfirmation.navigationOptions = {
   title: SEND_TITLE,
@@ -45,4 +57,4 @@ SendConfirmation.shouldNavigateToComponent = props => {
   return !!screenState.paymentLink
 }
 
-export default withStyles()(SendConfirmation)
+export default withStyles(getStylesFromProps)(SendConfirmation)

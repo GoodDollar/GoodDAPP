@@ -1,6 +1,7 @@
 // @flow
 import { createConnectedStore } from 'undux'
 import { AsyncStorage } from 'react-native'
+import { IS_LOGGED_IN } from '../constants/localStorage'
 import withPinoLogger from './plugins/logger'
 
 /**
@@ -51,6 +52,7 @@ export type State = {
     visible: boolean,
   },
   isMobileSafariKeyboardShown: boolean,
+  currentFeed: any,
 }
 
 /**
@@ -74,15 +76,16 @@ const initialState: State = {
     visible: false,
   },
   isMobileSafariKeyboardShown: false,
+  currentFeed: null,
 }
 
 /**
  * default exported instance of our global Undux Store
  * @module
  */
-let SimpleStore: UnduxStore = createConnectedStore(initialState) // default value for tests
+let SimpleStore: UnduxStore = createConnectedStore(initialState, withPinoLogger) // default value for tests
 const initStore = async () => {
-  let isLoggedIn = await AsyncStorage.getItem('GOODDAPP_isLoggedIn').then(JSON.parse)
+  let isLoggedIn = await AsyncStorage.getItem(IS_LOGGED_IN).then(JSON.parse)
   initialState.isLoggedIn = isLoggedIn
   SimpleStore = createConnectedStore(initialState, withPinoLogger)
   return SimpleStore

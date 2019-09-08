@@ -9,8 +9,8 @@ import { useDialog } from '../../lib/undux/utils/dialog'
 import { useWrappedGoodWallet } from '../../lib/wallet/useWrappedWallet'
 import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
 import { CustomButton, Section, Wrapper } from '../common'
-import TopBar from '../common/view/TopBar'
 import SummaryTable from '../common/view/SummaryTable'
+import TopBar from '../common/view/TopBar'
 import { SEND_TITLE } from './utils/sendReceiveFlow'
 
 export type AmountProps = {
@@ -26,8 +26,7 @@ const log = logger.child({ from: 'SendQRSummary' })
  * @param {any} props.screenProps
  * @param {any} props.navigation
  */
-const SendQRSummary = (props: AmountProps) => {
-  const { screenProps } = props
+const SendQRSummary = ({ screenProps }: AmountProps) => {
   const [screenState] = useScreenState(screenProps)
   const goodWallet = useWrappedGoodWallet()
   const [showDialog] = useDialog()
@@ -72,13 +71,13 @@ const SendQRSummary = (props: AmountProps) => {
             visible: true,
             title: 'SUCCESS!',
             message: 'The G$ was sent successfully',
-            dismissText: 'Yay!',
+            buttons: [{ text: 'Yay!' }],
             onDismiss: screenProps.goToRoot,
           })
           return hash
         },
         onError: e => {
-          log.error('Send TX failed:', { e, message: e.message })
+          log.error('Send TX failed:', e.message, e)
           showDialog({
             visible: true,
             title: 'Transaction Failed!',
@@ -88,7 +87,7 @@ const SendQRSummary = (props: AmountProps) => {
         },
       })
     } catch (e) {
-      log.error('Send TX failed:', { e, message: e.message })
+      log.error('Send TX failed:', e.message, e)
       showDialog({
         visible: true,
         title: 'Transaction Failed!',
@@ -109,11 +108,15 @@ const SendQRSummary = (props: AmountProps) => {
     }
     return () => setIsValid(undefined)
   }, [isValid])
+
   return (
     <Wrapper>
       <TopBar push={screenProps.push} />
       <Section grow>
         <Section.Title>Summary</Section.Title>
+        <Section.Row justifyContent="center">
+          <Section.Text color="gray80Percent">{'* the transaction may take\na few seconds to complete'}</Section.Text>
+        </Section.Row>
         <SummaryTable counterPartyDisplayName={profile.name} amount={amount} reason={reason} />
         <Section.Row>
           <Section.Row grow={1} justifyContent="flex-start">

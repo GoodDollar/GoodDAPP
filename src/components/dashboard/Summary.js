@@ -23,7 +23,7 @@ const CounterPartyRow = props => {
 
   return (
     <Section.Row style={styles.tableRow}>
-      <Section.Text style={styles.tableRowLabel}>{action === ACTION_RECEIVE ? 'From:' : 'To:'}</Section.Text>
+      <Section.Text color="gray80Percent">{action === ACTION_RECEIVE ? 'From:' : 'To:'}</Section.Text>
       <Section.Text fontSize={24} fontWeight="bold">
         {displayName}
       </Section.Text>
@@ -38,7 +38,7 @@ const AmountRow = props => {
   }
   return (
     <Section.Row style={styles.tableRow}>
-      <Section.Text style={styles.tableRowLabel}>Amount:</Section.Text>
+      <Section.Text color="gray80Percent">Amount:</Section.Text>
       <BigGoodDollar elementStyles={styles.bigGoodDollar} number={amount} color={styles.bigGoodDollar.color} />
     </Section.Row>
   )
@@ -50,9 +50,9 @@ const ReasonRow = props => {
     return null
   }
   return (
-    <Section.Row style={styles.tableRow}>
-      <Section.Text style={styles.tableRowLabel}>For:</Section.Text>
-      <Section.Text fontSize={16}>{reason}</Section.Text>
+    <Section.Row alignItems="baseline" style={styles.tableRow}>
+      <Section.Text color="gray80Percent">For:</Section.Text>
+      <Section.Text>{reason}</Section.Text>
     </Section.Row>
   )
 }
@@ -106,24 +106,18 @@ const getStylesFromProps = ({ theme }) => {
     tableRow: {
       // TODO: see where should we take this color from
       borderBottomColor: theme.colors.gray50Percent,
-      borderBottomWidth: normalize(1),
+      borderBottomWidth: 1,
       borderBottomStyle: 'solid',
       marginTop: theme.sizes.defaultDouble,
-      alignItems: 'baseline',
       paddingBottom: theme.sizes.default,
     },
 
     // TODO: all this properties can be removed once we merge Text component in
-    tableRowLabel: {
-      color: '#A3A3A3',
-    },
     bigGoodDollar: {
       color: theme.colors.primary,
+      fontFamily: theme.fonts.default,
       fontSize: normalize(24),
-      fontFamily: theme.fonts.bold,
-    },
-    reason: {
-      fontSize: normalize(16),
+      fontWeight: '700',
     },
     doneButton: {
       marginTop: theme.sizes.default,

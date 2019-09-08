@@ -1,36 +1,62 @@
 // @flow
+//eslint-disable-next-line
 import bip39 from 'bip39-light'
 import get from 'lodash/get'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { AsyncStorage } from 'react-native'
-import normalize from '../../lib/utils/normalizeText'
+import { IS_LOGGED_IN } from '../../lib/constants/localStorage'
 import logger from '../../lib/logger/pino-logger'
 import { withStyles } from '../../lib/styles'
-import { useErrorDialog } from '../../lib/undux/utils/dialog'
+import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
+import { getFirstWord } from '../../lib/utils/getFirstWord'
 import Text from '../common/view/Text'
 import Section from '../common/layout/Section'
-
+import { showSupportDialog } from '../common/dialogs/showSupportDialog'
 import CustomButton from '../common/buttons/CustomButton'
-import MnemonicInput from './MnemonicInput'
+import InputText from '../common/form/InputText'
 
-//const TITLE = 'Recover my wallet'
 const TITLE = 'Recover'
 const log = logger.child({ from: TITLE })
+const MAX_WORDS = 12
 
-const Mnemonics = ({ navigation, styles }) => {
+const Mnemonics = ({ screenProps, navigation, styles }) => {
   //lazy load heavy wallet stuff for fast initial app load (part of initial routes)
   const mnemonicsHelpers = import('../../lib/wallet/SoftwareWalletProvider')
   const [mnemonics, setMnemonics] = useState()
-  const [showErrorDialog] = useErrorDialog()
+  const [isRecovering, setRecovering] = useState(false)
+  const [showDialog] = useDialog()
+  const [errorMessage, setErrorMessage] = useState()
+  const [showErrorDialog, hideDialog] = useErrorDialog()
 
-  const handleChange = (mnemonics: []) => {
+  AsyncStorage.removeItem('web3Token')
+
+  const handleChange = (mnemonics: string) => {
     log.info({ mnemonics })
-    setMnemonics(mnemonics.join(' '))
+    const splitted = mnemonics.split(' ')
+    if (splitted.length > MAX_WORDS) {
+      setErrorMessage('Your pass phrase appears to be incorrect.')
+    } else {
+      setErrorMessage(null)
+    }
+    if (splitted.length === MAX_WORDS) {
+      setRecovering(true)
+    } else {
+      setRecovering(false)
+    }
+    setMnemonics(mnemonics)
   }
 
   const recover = async () => {
+    setRecovering(true)
+
+    const showError = () =>
+      showErrorDialog('Your pass phrase appears\nto be incorrect.', undefined, {
+        boldMessage: 'Please check it and try again.',
+      })
+
     if (!mnemonics || !bip39.validateMnemonic(mnemonics)) {
-      showErrorDialog('Invalid Mnemonic')
+      setRecovering(false)
+      showError()
       return
     }
 
@@ -39,26 +65,51 @@ const Mnemonics = ({ navigation, styles }) => {
 
     try {
       // We need to try to get a new address using new mnenonics
+      //eslint-disable-next-line
       await saveMnemonics(mnemonics)
 
       // We validate that a user was registered for the specified mnemonics
-      const profile = await profileExist()
+      const [profile, fullName] = await profileExist()
 
       if (profile) {
-        await AsyncStorage.setItem('GOODDAPP_isLoggedIn', true)
+        await AsyncStorage.setItem(IS_LOGGED_IN, true)
+        const incomingRedirectUrl = get(navigation, 'state.params.redirect', '/')
+        const firstName = getFirstWord(fullName)
+        showDialog({
+          visible: true,
+          title: 'Welcome back!',
+          buttons: [{ text: 'Yay!' }],
+          message: `Hi ${firstName},\nyour wallet was recovered successfully`,
+          onDismiss: () => (window.location = incomingRedirectUrl),
+        })
 
         // There is no error and Profile exists. Reload screen to start with users mnemonics
-        window.location = '/'
+        // window.location = incomingRedirectUrl
       } else {
         await saveMnemonics(prevMnemonics)
-        showErrorDialog("Mnemonic doesn't match any existing account.")
+        showError()
       }
-    } catch (err) {
-      log.error(err)
-      showErrorDialog('Error recovering account', err)
+    } catch (e) {
+      log.error(e.message, e)
       saveMnemonics(prevMnemonics)
+      showSupportDialog(showErrorDialog, hideDialog, screenProps, 'men-1')
+    } finally {
+      setRecovering(false)
     }
   }
+  const handleEnter = (event: { nativeEvent: { key: string } }) => {
+    if (event.nativeEvent.key === 'Enter') {
+      recover()
+    }
+  }
+
+  const incomingMnemonic = get(navigation, 'state.params.mnemonic', undefined)
+
+  useEffect(() => {
+    if (incomingMnemonic) {
+      handleChange(incomingMnemonic)
+    }
+  }, [])
 
   /**
    * Helper to validate if exist a Gun profile associated to current mnemonic
@@ -73,22 +124,49 @@ const Mnemonics = ({ navigation, styles }) => {
     await wallet.ready
     const userStorage = new UserStorage(wallet)
     await userStorage.ready
-    return userStorage.userAlreadyExist()
+    const exists = await userStorage.userAlreadyExist()
+    return [exists, exists && (await userStorage.getProfileFieldDisplayValue('fullName'))]
   }
 
-  const incomingMnemonic = get(navigation, 'state.params.mnemonic', undefined)
+  const web3HasWallet = get(navigation, 'state.params.web3HasWallet')
 
   return (
     <Section grow={5} style={styles.wrapper}>
       <Section.Stack grow style={styles.instructions} justifyContent="space-around">
-        <Text fontWeight="bold" fontSize={22}>{`Please enter your\n12-word pass phrase:`}</Text>
-        <Text color="gray50Percent">You can copy-paste it from your backup email</Text>
+        <Text fontWeight="medium" fontSize={22}>
+          {'Please enter your\n12-word pass phrase:'}
+        </Text>
+        {web3HasWallet && (
+          <Text color="gray80Percent" fontSize={14}>
+            Looks like you already have a wallet. Please recover it to continue
+          </Text>
+        )}
+        <Text color="gray80Percent" fontSize={14}>
+          You can copy-paste it from your backup email
+        </Text>
       </Section.Stack>
-      <Section.Stack grow={4} justifyContent="space-between" style={styles.inputsContainer}>
-        <MnemonicInput recoveryMode={false} onChange={handleChange} seed={incomingMnemonic} />
+      <Section.Stack grow={4} justifyContent="space-between">
+        <Section.Row justifyContent="center">
+          <InputText
+            value={mnemonics}
+            onChangeText={handleChange}
+            error={errorMessage}
+            onKeyPress={handleEnter}
+            onCleanUpField={handleChange}
+            autoFocus
+          />
+        </Section.Row>
       </Section.Stack>
+      <Section.Row style={styles.instructions} justifyContent="space-around">
+        <Text color="gray80Percent" fontSize={14}>
+          {'You can copy-paste all of it at once\n from your '}
+          <Text color="gray80Percent" fontSize={14} fontWeight="bold">
+            {'backup email'}
+          </Text>
+        </Text>
+      </Section.Row>
       <Section.Stack grow style={styles.bottomContainer} justifyContent="flex-end">
-        <CustomButton mode="contained" onPress={recover} disabled={!mnemonics}>
+        <CustomButton style={styles.buttonLayout} onPress={recover} disabled={!isRecovering}>
           Recover my wallet
         </CustomButton>
       </Section.Stack>
@@ -107,18 +185,12 @@ const mnemonicsStyles = ({ theme }) => ({
   instructions: {
     marginVertical: theme.paddings.defaultMargin,
   },
-  inputsContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    marginHorizontal: theme.paddings.defaultMargin,
-    marginVertical: theme.paddings.defaultMargin,
-    overflowY: 'auto',
+  buttonLayout: {
+    marginVertical: 20,
   },
   bottomContainer: {
-    backgroundColor: theme.colors.surface,
-    marginBottom: theme.paddings.defaultMargin,
-    maxHeight: normalize(50),
-    minHeight: normalize(50),
+    maxHeight: 80,
+    minHeight: 80,
   },
 })
 

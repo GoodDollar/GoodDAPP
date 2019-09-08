@@ -1,38 +1,71 @@
 const getEventSettingsByType = (theme, type) => {
-  const colorsByType = {
+  const styles = {
     claim: {
-      color: theme.colors.green,
+      actionSymbol: '+',
+      color: theme.colors.lightGreen,
       name: 'claim-filled',
     },
     send: {
+      actionSymbol: '-',
       color: theme.colors.red,
       name: 'send-filled',
     },
+    sendcompleted: {
+      actionSymbol: '-',
+      color: theme.colors.red,
+      name: 'send-filled',
+    },
+    sendcancelled: {
+      actionSymbol: '-',
+      color: theme.colors.orange,
+      name: 'clock-filled',
+    },
+    senderror: {
+      color: theme.colors.primary,
+      name: 'system-filled',
+      withoutAmount: true,
+    },
+    sendpending: {
+      actionSymbol: '-',
+      color: theme.colors.orange,
+      name: 'clock-filled',
+    },
     receive: {
-      color: theme.colors.green,
+      actionSymbol: '+',
+      color: theme.colors.lightGreen,
       name: 'claim-filled',
     },
     withdraw: {
+      actionSymbol: '+',
       color: theme.colors.green,
       name: 'receive-filled',
     },
     message: {
       color: theme.colors.purple,
       name: 'social-good-filled',
+      withoutAmount: true,
     },
-    notification: {
-      color: theme.colors.orange,
-      name: 'clock-filled',
+    invite: {
+      color: theme.colors.primary,
+      name: 'system-filled',
+      withoutAmount: true,
+    },
+    welcome: {
+      color: theme.colors.primary,
+      name: 'system-filled',
+      withoutAmount: true,
+      withoutAvatar: true,
     },
     feedback: {
       color: theme.colors.primary,
       name: 'system-filled',
+      withoutAmount: true,
     },
     empty: {
       color: theme.colors.lightGray,
     },
   }
-  return colorsByType[type]
+  return styles[type] || styles.empty
 }
 
 export default getEventSettingsByType

@@ -3,7 +3,6 @@ import startCase from 'lodash/startCase'
 import React from 'react'
 import { View } from 'react-native'
 import { RadioButton } from 'react-native-paper'
-import normalize from '../../lib/utils/normalizeText'
 import { withStyles } from '../../lib/styles'
 import { Text } from '../common'
 
@@ -20,14 +19,14 @@ const privacyOptions = ['private', 'masked', 'public']
  */
 const OptionsRow = ({ title = '', styles, theme }) => (
   <View style={styles.optionsRowContainer}>
-    <Text style={styles.growTwo} textAlign="left" color={theme.colors.gray} fontFamily="medium">
+    <Text style={styles.growTwo} textAlign="left" color="gray" fontWeight="medium">
       {title}
     </Text>
 
     {privacyOptions.map(privacy => (
       <View style={styles.optionsRowTitle} key={privacy}>
         {title === '' ? (
-          <Text size={14} color={theme.colors.gray}>
+          <Text fontSize={14} color="gray">
             {startCase(privacy)}
           </Text>
         ) : (
@@ -46,15 +45,16 @@ const getStylesFromProps = ({ theme }) => {
       alignItems: 'center',
       borderBottomStyle: 'solid',
       borderBottomColor: theme.colors.lightGray,
-      borderBottomWidth: normalize(1), // not using StyleSheet.hairlineWidth as it's not being visible
+      borderBottomWidth: 1,
       padding: theme.paddings.mainContainerPadding,
+      paddingLeft: theme.sizes.defaultQuadruple,
     },
     growTwo: {
       flexGrow: 2,
     },
     optionsRowTitle: {
       width: '15%',
-      minWidth: normalize(60),
+      minWidth: 60,
       alignItems: 'center',
     },
   }

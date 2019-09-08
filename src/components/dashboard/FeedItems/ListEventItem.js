@@ -1,10 +1,12 @@
 // @flow
 import React from 'react'
-import { Avatar } from 'react-native-paper'
+import { View } from 'react-native'
 import normalize from '../../../lib/utils/normalizeText'
-import { BigGoodDollar, Section, Text } from '../../common'
 import { getFormattedDateTime } from '../../../lib/utils/FormatDate'
 import { withStyles } from '../../../lib/styles'
+import Avatar from '../../common/view/Avatar'
+import BigGoodDollar from '../../common/view/BigGoodDollar'
+import Text from '../../common/view/Text'
 import type { FeedEventProps } from './EventProps'
 import EventIcon from './EventIcon'
 import EventCounterParty from './EventCounterParty'
@@ -17,89 +19,162 @@ import EmptyEventFeed from './EmptyEventFeed'
  * @returns {HTMLElement}
  */
 const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
-  const eventSettings = getEventSettingsByType(theme, feed.type)
+  const itemType = feed.displayType || feed.type
+  const eventSettings = getEventSettingsByType(theme, itemType)
+  const mainColor = eventSettings.color
 
-  if (feed.type === 'empty') {
+  if (itemType === 'empty') {
     return <EmptyEventFeed />
   }
+
   return (
-    <Section.Row style={styles.innerRow}>
-      <Section.Stack alignItems="flex-start" style={styles.avatarBottom}>
-        <Avatar.Image size={34} source={feed.data.endpoint.avatar} />
-      </Section.Stack>
-      <Section.Stack grow style={styles.mainSection}>
-        <Section.Row style={[styles.borderRow, { borderBottomColor: eventSettings.color }]}>
-          <Text style={styles.date}>{getFormattedDateTime(feed.date)}</Text>
-          <BigGoodDollar
-            color={eventSettings.color}
-            bigNumberStyles={styles.bigNumberStyles}
-            bigNumberUnitStyles={styles.bigNumberUnitStyles}
-            number={feed.data.amount}
-          />
-        </Section.Row>
-        <Section.Row style={styles.bottomInfo} alignItems="flex-start">
-          <Section.Stack style={styles.mainInfo}>
-            <EventCounterParty style={styles.feedItem} feedItem={feed} />
-            <Text numberOfLines={1} style={styles.message}>
-              {feed.data.message}
-            </Text>
-          </Section.Stack>
-          <Section.Stack alignItems="flex-end">
-            <EventIcon type={feed.type} />
-          </Section.Stack>
-        </Section.Row>
-      </Section.Stack>
-    </Section.Row>
+    <View style={styles.innerRow}>
+      <Avatar
+        size={34}
+        style={styles.avatarBottom}
+        source={feed.data && feed.data.endpoint && feed.data.endpoint.avatar}
+      />
+      <View grow style={styles.mainContents}>
+        <View style={[styles.dateAndValue, { borderBottomColor: mainColor }]}>
+          <Text fontSize={10} color="gray80Percent" lineHeight={17}>
+            {getFormattedDateTime(feed.date)}
+          </Text>
+          {!eventSettings.withoutAmount && (
+            <React.Fragment>
+              {eventSettings && eventSettings.actionSymbol && (
+                <Text fontSize={15} lineHeight={18} fontWeight="bold" color={mainColor} style={styles.actionSymbol}>
+                  {eventSettings.actionSymbol}
+                </Text>
+              )}
+              <BigGoodDollar
+                number={feed.data.amount}
+                color={mainColor}
+                bigNumberProps={{ fontSize: 15, lineHeight: 18 }}
+                bigNumberStyles={styles.bigNumberStyles}
+                bigNumberUnitProps={{ fontSize: 10, lineHeight: 11 }}
+                bigNumberUnitStyles={styles.bigNumberUnitStyles}
+              />
+            </React.Fragment>
+          )}
+        </View>
+        <View style={styles.transferInfo} alignItems="flex-start">
+          <View style={styles.mainInfo}>
+            {itemType === 'senderror' ? (
+              <>
+                <Text fontWeight="medium" lineHeight={19} style={styles.mainText} color="primary">
+                  {`We're sorry.`}
+                </Text>
+                <ReadMoreText
+                  text="This transaction failed"
+                  buttonText="Read why..."
+                  style={styles.failTransaction}
+                  color="primary"
+                />
+              </>
+            ) : (
+              <>
+                <EventCounterParty style={styles.feedItem} feedItem={feed} />
+                <FeedText feed={feed} />
+              </>
+            )}
+          </View>
+          <EventIcon style={styles.typeIcon} type={itemType} />
+        </View>
+      </View>
+    </View>
   )
 }
 
-// <Section.Row>
-//   <Section.Stack alignItems="flex-start" grow>
-//     <Section.Row>
-//       <EventCounterParty feedItem={feed} />
-//     </Section.Row>
-//     <Section.Row>
-//       <Text style={styles.rowDataSubText}>{feed.data.message}</Text>
-//     </Section.Row>
+const getWelcomeStyles = ({ theme }) => ({
+  readMoreText: {
+    letterSpacing: 0,
+    marginLeft: 4,
+  },
+  readMore: {
+    minHeight: normalize(16),
+    maxHeight: normalize(16),
+    marginHorizontal: -theme.sizes.default,
+    display: 'inline',
+  },
+  welcomeText: {
+    flexShrink: 0,
+  },
+})
+
+const ReadMoreText = withStyles(getWelcomeStyles)(({ styles, theme, text, buttonText, style, color }) => (
+  <Text style={styles.welcomeText}>
+    <Text fontWeight="medium" numberOfLines={1} style={style} color={color || 'darkGray'}>
+      {text}
+    </Text>
+    <Text color={color || 'darkGray'} numberOfLines={1} fontSize={10} style={styles.readMoreText}>
+      {buttonText}
+    </Text>
+  </Text>
+))
+
+const getFeedTextStyles = ({ theme }) => ({
+  message: {
+    paddingBottom: 0,
+    flexShrink: 0,
+  },
+})
+
+const FeedText = withStyles(getFeedTextStyles)(({ styles, feed }) => {
+  return feed.type === 'welcome' ? (
+    <ReadMoreText text="Start claiming free G$" buttonText="Read more..." />
+  ) : (
+    <Text numberOfLines={1} color="gray80Percent" fontSize={10} textTransform="capitalize" style={styles.message}>
+      {feed.data.message}
+    </Text>
+  )
+})
 
 const getStylesFromProps = ({ theme }) => ({
   innerRow: {
     alignItems: 'center',
     flexDirection: 'row',
+    flexGrow: 1,
     justifyContent: 'center',
-    padding: normalize(8),
+    maxHeight: '100%',
+    padding: theme.sizes.default,
     width: '100%',
-    flex: 1,
   },
   avatarBottom: {
-    alignSelf: 'flex-end',
+    marginTop: 'auto',
   },
-  mainSection: {
-    marginLeft: normalize(8),
+  mainContents: {
+    flexGrow: 1,
+    flexShrink: 1,
+    height: '100%',
+    marginLeft: theme.sizes.default,
   },
-  borderRow: {
+  dateAndValue: {
     alignItems: 'center',
     borderBottomStyle: 'solid',
-    borderBottomWidth: normalize(2),
+    borderBottomWidth: 2,
     display: 'flex',
+    flexDirection: 'row',
+    flexShrink: 1,
     justifyContent: 'space-between',
-    marginBottom: normalize(8),
-    paddingBottom: normalize(4),
+    paddingBottom: theme.sizes.defaultHalf,
   },
-  date: {
-    color: theme.colors.lighterGray,
-    fontFamily: theme.fonts.regular,
-    fontSize: normalize(10),
-    marginTop: normalize(2),
+  actionSymbol: {
+    marginLeft: 'auto',
   },
   bigNumberStyles: {
-    fontSize: normalize(15),
+    marginRight: theme.sizes.defaultHalf,
   },
   bigNumberUnitStyles: {
-    fontSize: normalize(10),
+    lineHeight: normalize(16),
   },
-  bottomInfo: {
+  transferInfo: {
+    display: 'flex',
+    flexDirection: 'row',
     flexShrink: 1,
+    marginVertical: 'auto',
+    paddingHorizontal: theme.sizes.defaultHalf,
+    paddingTop: theme.sizes.defaultHalf,
+    alignItems: 'center',
   },
   mainInfo: {
     alignItems: 'flex-start',
@@ -108,16 +183,23 @@ const getStylesFromProps = ({ theme }) => ({
     flexGrow: 1,
     flexShrink: 1,
     justifyContent: 'flex-end',
-    marginVertical: 'auto',
+    marginBottom: 0,
+    marginRight: theme.sizes.default,
+    marginTop: 0,
   },
   feedItem: {
-    marginTop: 'auto',
-    paddingRight: normalize(4),
+    flexShrink: 0,
+    height: 22,
+    marginBottom: 0,
   },
-  message: {
-    fontSize: normalize(10),
-    color: theme.colors.gray80Percent,
-    textTransform: 'capitalize',
+  typeIcon: {
+    marginTop: 0,
+  },
+  failTransaction: {
+    paddingBottom: 'inherit',
+  },
+  mainText: {
+    textAlignVertical: 'middle',
   },
 })
 

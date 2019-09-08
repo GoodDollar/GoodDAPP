@@ -53,10 +53,10 @@ exports[`SendLinkSummary matches snapshot 1`] = `
           "borderTopLeftRadius": "5px",
           "borderTopRightRadius": "5px",
           "marginBottom": "8px",
-          "paddingBottom": "12px",
+          "paddingBottom": "8px",
           "paddingLeft": "12px",
-          "paddingRight": "12px",
-          "paddingTop": "12px",
+          "paddingRight": "8px",
+          "paddingTop": "8px",
         }
       }
     >
@@ -99,11 +99,25 @@ exports[`SendLinkSummary matches snapshot 1`] = `
               "WebkitTransitionDuration": "0.15s",
               "WebkitTransitionProperty": "opacity",
               "WebkitUserSelect": "none",
-              "backgroundColor": "rgba(0,0,0,0.00)",
+              "backgroundColor": "rgba(203,203,203,1.00)",
+              "borderBottomColor": "rgba(163,163,163,1.00)",
+              "borderBottomLeftRadius": "21px",
+              "borderBottomRightRadius": "21px",
+              "borderBottomWidth": "1px",
+              "borderLeftColor": "rgba(163,163,163,1.00)",
+              "borderLeftWidth": "1px",
+              "borderRightColor": "rgba(163,163,163,1.00)",
+              "borderRightWidth": "1px",
+              "borderTopColor": "rgba(163,163,163,1.00)",
+              "borderTopLeftRadius": "21px",
+              "borderTopRightRadius": "21px",
+              "borderTopWidth": "1px",
+              "height": "42px",
               "msUserSelect": "none",
               "transitionDuration": "0.15s",
               "transitionProperty": "opacity",
               "userSelect": "none",
+              "width": "42px",
             }
           }
         >
@@ -111,13 +125,13 @@ exports[`SendLinkSummary matches snapshot 1`] = `
             className="css-view-1dbjc4n"
             style={
               Object {
-                "backgroundColor": "rgba(238,238,238,1.00)",
-                "borderBottomLeftRadius": "21px",
-                "borderBottomRightRadius": "21px",
-                "borderTopLeftRadius": "21px",
-                "borderTopRightRadius": "21px",
-                "height": "44px",
-                "width": "44px",
+                "backgroundColor": "rgba(0,0,0,0.00)",
+                "borderBottomLeftRadius": "20px",
+                "borderBottomRightRadius": "20px",
+                "borderTopLeftRadius": "20px",
+                "borderTopRightRadius": "20px",
+                "height": "40px",
+                "width": "40px",
               }
             }
           >
@@ -126,16 +140,16 @@ exports[`SendLinkSummary matches snapshot 1`] = `
               style={
                 Object {
                   "WebkitFlexBasis": "auto",
-                  "borderBottomLeftRadius": "21px",
-                  "borderBottomRightRadius": "21px",
-                  "borderTopLeftRadius": "21px",
-                  "borderTopRightRadius": "21px",
+                  "borderBottomLeftRadius": "20px",
+                  "borderBottomRightRadius": "20px",
+                  "borderTopLeftRadius": "20px",
+                  "borderTopRightRadius": "20px",
                   "flexBasis": "auto",
-                  "height": "42px",
+                  "height": "40px",
                   "msFlexPreferredSize": "auto",
                   "overflowX": "hidden",
                   "overflowY": "hidden",
-                  "width": "42px",
+                  "width": "40px",
                   "zIndex": 0,
                 }
               }
@@ -145,6 +159,7 @@ exports[`SendLinkSummary matches snapshot 1`] = `
                 style={
                   Object {
                     "backgroundColor": "rgba(0,0,0,0.00)",
+                    "backgroundImage": "url(\\"unknownProfile.svg\\")",
                     "backgroundPosition": "center",
                     "backgroundRepeat": "no-repeat",
                     "backgroundSize": "cover",
@@ -158,6 +173,12 @@ exports[`SendLinkSummary matches snapshot 1`] = `
                     "zIndex": -1,
                   }
                 }
+              />
+              <img
+                alt=""
+                className="css-accessibilityImage-9pa8cd"
+                draggable={false}
+                src="unknownProfile.svg"
               />
             </div>
           </div>
@@ -186,11 +207,11 @@ exports[`SendLinkSummary matches snapshot 1`] = `
               Object {
                 "color": "rgba(85,85,85,1.00)",
                 "direction": "ltr",
-                "fontFamily": "Roboto-Bold",
+                "fontFamily": "Roboto Slab",
                 "fontSize": "36px",
                 "fontWeight": "700",
-                "lineHeight": "auto",
-                "marginRight": "4px",
+                "lineHeight": "30px",
+                "marginRight": "2px",
                 "textAlign": "right",
                 "textDecoration": "none",
                 "textTransform": "none",
@@ -204,19 +225,56 @@ exports[`SendLinkSummary matches snapshot 1`] = `
             dir="auto"
             style={
               Object {
-                "color": "rgba(85,85,85,1.00)",
+                "color": "rgba(66,69,74,1.00)",
                 "direction": "ltr",
-                "fontFamily": "Roboto-Bold",
-                "fontSize": "22px",
-                "fontWeight": "700",
-                "lineHeight": "auto",
-                "textAlign": "right",
+                "fontFamily": "Roboto",
+                "fontSize": "16px",
+                "fontWeight": "normal",
+                "lineHeight": "22px",
+                "textAlign": "center",
                 "textDecoration": "none",
                 "textTransform": "none",
               }
             }
           >
-            G$
+            <span
+              className="css-text-901oao css-textHasAncestor-16my406"
+              dir="auto"
+              style={
+                Object {
+                  "color": "rgba(85,85,85,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto Slab",
+                  "fontSize": "18px",
+                  "fontWeight": "700",
+                  "lineHeight": "24px",
+                  "textAlign": "right",
+                  "textDecoration": "none",
+                  "textTransform": "none",
+                }
+              }
+            >
+              G
+            </span>
+            <span
+              className="css-text-901oao css-textHasAncestor-16my406"
+              dir="auto"
+              style={
+                Object {
+                  "color": "rgba(85,85,85,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto Slab",
+                  "fontSize": "17.5px",
+                  "fontWeight": "700",
+                  "lineHeight": "21px",
+                  "textAlign": "right",
+                  "textDecoration": "none",
+                  "textTransform": "none",
+                }
+              }
+            >
+              $
+            </span>
           </div>
         </div>
       </div>
@@ -248,7 +306,7 @@ exports[`SendLinkSummary matches snapshot 1`] = `
           Object {
             "color": "rgba(66,69,74,1.00)",
             "direction": "ltr",
-            "fontFamily": "Roboto-Medium",
+            "fontFamily": "Roboto",
             "fontSize": "24px",
             "fontWeight": "normal",
             "lineHeight": "30px",
@@ -261,6 +319,47 @@ exports[`SendLinkSummary matches snapshot 1`] = `
         }
       >
         SUMMARY
+      </div>
+      <div
+        className="css-view-1dbjc4n"
+        style={
+          Object {
+            "WebkitAlignItems": "center",
+            "WebkitBoxAlign": "center",
+            "WebkitBoxDirection": "normal",
+            "WebkitBoxOrient": "horizontal",
+            "WebkitBoxPack": "center",
+            "WebkitFlexDirection": "row",
+            "WebkitJustifyContent": "center",
+            "alignItems": "center",
+            "flexDirection": "row",
+            "justifyContent": "center",
+            "msFlexAlign": "center",
+            "msFlexDirection": "row",
+            "msFlexPack": "center",
+          }
+        }
+      >
+        <div
+          className="css-text-901oao"
+          dir="auto"
+          style={
+            Object {
+              "color": "rgba(163,163,163,1.00)",
+              "direction": "ltr",
+              "fontFamily": "Roboto",
+              "fontSize": "16px",
+              "fontWeight": "normal",
+              "lineHeight": "22px",
+              "textAlign": "center",
+              "textDecoration": "none",
+              "textTransform": "none",
+            }
+          }
+        >
+          * the transaction may take
+a few seconds to complete
+        </div>
       </div>
       <div
         className="css-view-1dbjc4n"
@@ -334,8 +433,11 @@ exports[`SendLinkSummary matches snapshot 1`] = `
             className="css-view-1dbjc4n"
             style={
               Object {
+                "WebkitAlignItems": "stretch",
+                "WebkitBoxAlign": "stretch",
                 "WebkitBoxPack": "center",
                 "WebkitJustifyContent": "center",
+                "alignItems": "stretch",
                 "backgroundColor": "rgba(0,0,0,0.00)",
                 "borderBottomColor": "rgba(0,175,255,1.00)",
                 "borderBottomLeftRadius": "50px",
@@ -353,10 +455,20 @@ exports[`SendLinkSummary matches snapshot 1`] = `
                 "borderTopRightRadius": "50px",
                 "borderTopStyle": "solid",
                 "borderTopWidth": "0px",
-                "boxShadow": "0px 0px 0px rgba(0,0,0,0.24)",
+                "display": "flex",
                 "justifyContent": "center",
+                "marginBottom": "0px",
+                "marginLeft": "0px",
+                "marginRight": "0px",
+                "marginTop": "0px",
+                "minHeight": "44px",
                 "minWidth": "auto",
+                "msFlexAlign": "stretch",
                 "msFlexPack": "center",
+                "paddingBottom": "0px",
+                "paddingLeft": "0px",
+                "paddingRight": "0px",
+                "paddingTop": "0px",
               }
             }
           >
@@ -398,6 +510,7 @@ exports[`SendLinkSummary matches snapshot 1`] = `
                     "alignItems": "center",
                     "flexDirection": "row",
                     "justifyContent": "center",
+                    "letterSpacing": "0px",
                     "msFlexAlign": "center",
                     "msFlexDirection": "row",
                     "msFlexPack": "center",
@@ -411,7 +524,7 @@ exports[`SendLinkSummary matches snapshot 1`] = `
                     Object {
                       "color": "rgba(163,163,163,1.00)",
                       "direction": "ltr",
-                      "fontFamily": "Roboto-Medium",
+                      "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                       "letterSpacing": "1px",
                       "marginBottom": "9px",
                       "marginLeft": "8px",
@@ -425,12 +538,26 @@ exports[`SendLinkSummary matches snapshot 1`] = `
                     className="css-view-1dbjc4n"
                     style={
                       Object {
-                        "WebkitBoxPack": "center",
-                        "WebkitJustifyContent": "center",
-                        "display": "inline-flex",
-                        "justifyContent": "center",
-                        "minHeight": "28px",
-                        "msFlexPack": "center",
+                        "WebkitAlignItems": "center",
+                        "WebkitBoxAlign": "center",
+                        "WebkitBoxDirection": "normal",
+                        "WebkitBoxFlex": 1,
+                        "WebkitBoxOrient": "horizontal",
+                        "WebkitFlexBasis": "0%",
+                        "WebkitFlexDirection": "row",
+                        "WebkitFlexGrow": 1,
+                        "WebkitFlexShrink": 1,
+                        "alignItems": "center",
+                        "display": "flex",
+                        "flexBasis": "0%",
+                        "flexDirection": "row",
+                        "flexGrow": 1,
+                        "flexShrink": 1,
+                        "msFlexAlign": "center",
+                        "msFlexDirection": "row",
+                        "msFlexNegative": 1,
+                        "msFlexPositive": 1,
+                        "msFlexPreferredSize": "0%",
                       }
                     }
                   >
@@ -439,12 +566,24 @@ exports[`SendLinkSummary matches snapshot 1`] = `
                       dir="auto"
                       style={
                         Object {
+                          "WebkitAlignItems": "center",
+                          "WebkitBoxAlign": "center",
+                          "WebkitBoxPack": "center",
+                          "WebkitJustifyContent": "center",
+                          "alignItems": "center",
+                          "color": "rgba(163,163,163,1.00)",
                           "direction": "ltr",
                           "fontFamily": "Roboto",
-                          "fontWeight": "bold",
-                          "lineHeight": "0px",
+                          "fontSize": "14px",
+                          "fontWeight": "500",
+                          "justifyContent": "center",
+                          "letterSpacing": "0px",
+                          "lineHeight": "22px",
+                          "msFlexAlign": "center",
+                          "msFlexPack": "center",
                           "paddingTop": "1px",
-                          "textAlign": "left",
+                          "textAlign": "center",
+                          "textDecoration": "none",
                           "textTransform": "none",
                         }
                       }
@@ -485,9 +624,12 @@ exports[`SendLinkSummary matches snapshot 1`] = `
             className="css-view-1dbjc4n"
             style={
               Object {
+                "WebkitAlignItems": "stretch",
+                "WebkitBoxAlign": "stretch",
                 "WebkitBoxPack": "center",
                 "WebkitJustifyContent": "center",
-                "backgroundColor": "rgba(0,0,0,0.12)",
+                "alignItems": "stretch",
+                "backgroundColor": "rgba(0,175,255,1.00)",
                 "borderBottomColor": "rgba(0,175,255,1.00)",
                 "borderBottomLeftRadius": "50px",
                 "borderBottomRightRadius": "50px",
@@ -504,20 +646,34 @@ exports[`SendLinkSummary matches snapshot 1`] = `
                 "borderTopRightRadius": "50px",
                 "borderTopStyle": "solid",
                 "borderTopWidth": "0px",
+                "boxShadow": "0px 0.75px 1.5px rgba(0,0,0,0.24)",
+                "display": "flex",
                 "justifyContent": "center",
-                "minWidth": "auto",
+                "marginBottom": "0px",
+                "marginLeft": "0px",
+                "marginRight": "0px",
+                "marginTop": "0px",
+                "minHeight": "44px",
+                "minWidth": "64px",
+                "msFlexAlign": "stretch",
                 "msFlexPack": "center",
+                "paddingBottom": "0px",
+                "paddingLeft": "0px",
+                "paddingRight": "0px",
+                "paddingTop": "0px",
               }
             }
           >
             <div
-              aria-disabled={true}
-              className="css-view-1dbjc4n"
-              disabled={true}
+              className="css-cursor-18t94o4 css-view-1dbjc4n"
+              data-focusable={true}
+              disabled={false}
               onKeyDown={[Function]}
+              onKeyPress={[Function]}
               onKeyUp={[Function]}
               onResponderGrant={[Function]}
               onResponderMove={[Function]}
+              onResponderRelease={[Function]}
               onResponderTerminate={[Function]}
               onResponderTerminationRequest={[Function]}
               onStartShouldSetResponder={[Function]}
@@ -528,11 +684,15 @@ exports[`SendLinkSummary matches snapshot 1`] = `
                   "borderBottomRightRadius": "50px",
                   "borderTopLeftRadius": "50px",
                   "borderTopRightRadius": "50px",
+                  "cursor": "pointer",
+                  "msTouchAction": "manipulation",
                   "overflowX": "hidden",
                   "overflowY": "hidden",
                   "position": "relative",
+                  "touchAction": "manipulation",
                 }
               }
+              tabIndex="0"
             >
               <div
                 className="css-view-1dbjc4n"
@@ -548,6 +708,7 @@ exports[`SendLinkSummary matches snapshot 1`] = `
                     "alignItems": "center",
                     "flexDirection": "row",
                     "justifyContent": "center",
+                    "letterSpacing": "0px",
                     "msFlexAlign": "center",
                     "msFlexDirection": "row",
                     "msFlexPack": "center",
@@ -559,13 +720,13 @@ exports[`SendLinkSummary matches snapshot 1`] = `
                   dir="auto"
                   style={
                     Object {
-                      "color": "rgba(0,0,0,0.32)",
+                      "color": "rgba(255,255,255,1.00)",
                       "direction": "ltr",
-                      "fontFamily": "Roboto-Medium",
+                      "fontFamily": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
                       "letterSpacing": "1px",
                       "marginBottom": "9px",
-                      "marginLeft": "8px",
-                      "marginRight": "8px",
+                      "marginLeft": "16px",
+                      "marginRight": "16px",
                       "marginTop": "9px",
                       "textAlign": "center",
                     }
@@ -575,12 +736,26 @@ exports[`SendLinkSummary matches snapshot 1`] = `
                     className="css-view-1dbjc4n"
                     style={
                       Object {
-                        "WebkitBoxPack": "center",
-                        "WebkitJustifyContent": "center",
-                        "display": "inline-flex",
-                        "justifyContent": "center",
-                        "minHeight": "28px",
-                        "msFlexPack": "center",
+                        "WebkitAlignItems": "center",
+                        "WebkitBoxAlign": "center",
+                        "WebkitBoxDirection": "normal",
+                        "WebkitBoxFlex": 1,
+                        "WebkitBoxOrient": "horizontal",
+                        "WebkitFlexBasis": "0%",
+                        "WebkitFlexDirection": "row",
+                        "WebkitFlexGrow": 1,
+                        "WebkitFlexShrink": 1,
+                        "alignItems": "center",
+                        "display": "flex",
+                        "flexBasis": "0%",
+                        "flexDirection": "row",
+                        "flexGrow": 1,
+                        "flexShrink": 1,
+                        "msFlexAlign": "center",
+                        "msFlexDirection": "row",
+                        "msFlexNegative": 1,
+                        "msFlexPositive": 1,
+                        "msFlexPreferredSize": "0%",
                       }
                     }
                   >
@@ -589,13 +764,24 @@ exports[`SendLinkSummary matches snapshot 1`] = `
                       dir="auto"
                       style={
                         Object {
+                          "WebkitAlignItems": "center",
+                          "WebkitBoxAlign": "center",
+                          "WebkitBoxPack": "center",
+                          "WebkitJustifyContent": "center",
+                          "alignItems": "center",
                           "color": "rgba(255,255,255,1.00)",
                           "direction": "ltr",
                           "fontFamily": "Roboto",
-                          "fontWeight": "bold",
-                          "lineHeight": "0px",
+                          "fontSize": "16px",
+                          "fontWeight": "500",
+                          "justifyContent": "center",
+                          "letterSpacing": "0px",
+                          "lineHeight": "22px",
+                          "msFlexAlign": "center",
+                          "msFlexPack": "center",
                           "paddingTop": "1px",
-                          "textAlign": "left",
+                          "textAlign": "center",
+                          "textDecoration": "none",
                           "textTransform": "uppercase",
                         }
                       }

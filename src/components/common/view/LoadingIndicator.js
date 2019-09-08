@@ -1,9 +1,9 @@
 // @flow
 import React from 'react'
 import { ActivityIndicator, Colors, Portal } from 'react-native-paper'
-import { StyleSheet, View } from 'react-native-web'
+import { View } from 'react-native-web'
 import type { Store } from 'undux'
-
+import { withStyles } from '../../../lib/styles'
 import SimpleStore from '../../../lib/undux/SimpleStore'
 
 /**
@@ -18,7 +18,29 @@ export const setLoadingWithStore = (store: Store) => (to: boolean) => {
   store.set('loadingIndicator')(loadingIndicator)
 }
 
-export const Indicator = ({ loading }) => (
+const getStylesFromProps = ({ theme }) => {
+  let backgroundColor = 'transparent'
+
+  if (theme && theme.modals && theme.modals.activityIndicatorBackgroundColor) {
+    backgroundColor = theme.modals.activityIndicatorBackgroundColor
+  }
+
+  return {
+    screen: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      width: '100%',
+      height: '100%',
+      backgroundColor,
+    },
+  }
+}
+
+export const Indicator = withStyles(getStylesFromProps)(({ styles, loading }) => (
   <Portal>
     {loading ? (
       <View style={styles.screen}>
@@ -26,7 +48,7 @@ export const Indicator = ({ loading }) => (
       </View>
     ) : null}
   </Portal>
-)
+))
 
 /**
  * Provides a `LoadingIndicator` component which renders an ActivityIndicator over a semi-transparent background.
@@ -40,19 +62,6 @@ const LoadingIndicator = ({ force }) => {
   const loading = store.get('loadingIndicator').loading || force
   return <Indicator loading={loading} />
 }
-const styles = StyleSheet.create({
-  screen: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '100%',
-    height: '100%',
-    backgroundColor: 'rgba(255, 255, 255, 0.8)',
-  },
-})
 
 const suspenseWithIndicator = (child, props) => {
   const Child = React.lazy(() => child)

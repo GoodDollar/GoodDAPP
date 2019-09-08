@@ -1,17 +1,17 @@
 // @flow
 import React from 'react'
-import { View } from 'react-native'
+import { AsyncStorage, Image, View } from 'react-native'
 import Mnemonics from '../signin/Mnemonics'
 import logger from '../../lib/logger/pino-logger'
 import CustomButton from '../common/buttons/CustomButton'
+import { PushButton } from '../appNavigation/PushButton'
 import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
 import Text from '../common/view/Text'
-import { PrivacyPolicy, TermsOfUse } from '../webView/webViewInstances'
+import { PrivacyPolicy, Support, TermsOfUse } from '../webView/webViewInstances'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
-import normalize from '../../lib/utils/normalizeText'
-
+import illustration from '../../assets/Auth/Illustration.svg'
 type Props = {
   navigation: any,
   screenProps: {
@@ -20,8 +20,22 @@ type Props = {
   styles: any,
 }
 
+Image.prefetch(illustration)
 const log = logger.child({ from: 'Auth' })
 class Auth extends React.Component<Props> {
+  async componentWillMount() {
+    await this.checkWeb3Token()
+  }
+
+  checkWeb3Token = async () => {
+    const { navigation } = this.props
+    const web3Token = await AsyncStorage.getItem('web3Token')
+
+    if (web3Token) {
+      navigation.navigate('Signup')
+    }
+  }
+
   handleSignUp = () => {
     this.props.navigation.navigate('Signup')
 
@@ -40,7 +54,7 @@ class Auth extends React.Component<Props> {
   }
 
   handleSignIn = () => {
-    this.props.navigation.navigate('Recover')
+    this.props.navigation.navigate('SigninInfo')
   }
 
   handleNavigateTermsOfUse = () => this.props.screenProps.push('TermsOfUse')
@@ -51,46 +65,49 @@ class Auth extends React.Component<Props> {
     const { styles } = this.props
     return (
       <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
-        <Section justifyContent="space-between" style={styles.mainSection}>
-          <Wrapper style={styles.containerPadding}>
-            <Section.Row alignItems="center" justifyContent="center" style={styles.topRow}>
-              <Section.Text color="surface" fontFamily="slab" fontSize={22}>
-                {`Alpha tokens are \n for test use only!`}
-              </Section.Text>
-            </Section.Row>
-            <Section.Row alignItems="center" justifyContent="center" style={styles.bottomRow}>
-              <Section.Text color="surface" fontFamily="medium" fontSize={16}>
-                {`They have NO real value. \n And will be deleted at the end of the Alpha.`}
-              </Section.Text>
-            </Section.Row>
-          </Wrapper>
+        <Section justifyContent="space-between" style={styles.mainSection} alignItems="center">
+          <Section.Row alignItems="center" justifyContent="center" style={styles.topRow}>
+            <Section.Text color="surface" fontFamily="slab" fontSize={22} fontWeight="bold">
+              {`Alpha tokens are\nfor test use only!`}
+            </Section.Text>
+          </Section.Row>
+          <Section.Separator color="#fff" width={2} style={styles.separator} />
+          <Section.Row alignItems="center" justifyContent="center">
+            <Section.Text color="surface" fontWeight="medium">
+              {`They have no real value and will be deleted at the end of the Alpha`}
+            </Section.Text>
+          </Section.Row>
         </Section>
+        <Image source={illustration} style={styles.illustration} resizeMode="contain" />
         <View style={styles.bottomContainer}>
-          <Text fontFamily="regular" fontSize={12} color="gray80Percent">
-            {`By clicking the 'Create a wallet' button,\n you are accepting our\n`}
-            <Text style={styles.acceptTermsLink} onPress={this.handleNavigateTermsOfUse}>
+          <Text fontSize={12} color="gray80Percent">
+            {`By clicking the 'Create a wallet' button,\nyou are accepting our\n`}
+            <Text
+              fontSize={12}
+              color="gray80Percent"
+              fontWeight="bold"
+              textDecorationLine="underline"
+              onPress={this.handleNavigateTermsOfUse}
+            >
               Terms of Use
             </Text>
-            {` and `}
-            <Text style={styles.acceptTermsLink} onPress={this.handleNavigatePrivacyPolicy}>
+            {' and '}
+            <Text
+              fontSize={12}
+              color="gray80Percent"
+              fontWeight="bold"
+              textDecorationLine="underline"
+              onPress={this.handleNavigatePrivacyPolicy}
+            >
               Privacy Policy
             </Text>
           </Text>
           <CustomButton style={styles.buttonLayout} onPress={this.handleSignUp}>
             Create a wallet
           </CustomButton>
-          <Text fontFamily="medium" fontSize={14} color="primary" onPress={this.handleSignIn}>
-            {`Already have a wallet? `}
-            <Text
-              fontFamily="medium"
-              fontSize={14}
-              color="primary"
-              onPress={this.handleSignIn}
-              style={styles.underlined}
-            >
-              Login
-            </Text>
-          </Text>
+          <PushButton dark={false} mode="outlined" onPress={this.handleSignIn}>
+            SIGN IN
+          </PushButton>
         </View>
       </Wrapper>
     )
@@ -101,40 +118,44 @@ const getStylesFromProps = ({ theme }) => {
   return {
     mainWrapper: {
       paddingHorizontal: 0,
+      justifyContent: 'space-evenly',
     },
     mainSection: {
-      marginVertical: 'auto',
-      paddingHorizontal: 0,
+      marginHorizontal: theme.sizes.defaultDouble,
+      borderRadius: 0,
+      paddingLeft: theme.sizes.default,
+      paddingRight: theme.sizes.default,
+      paddingVertical: theme.sizes.default,
+      backgroundColor: theme.colors.darkGray,
+      boxShadow: '0 3px 6px rgba(0, 0, 0, 0.24)',
+      marginBottom: 12,
     },
-    containerPadding: {
-      padding: normalize(28),
-      alignItems: 'center',
+    separator: {
+      maxWidth: 276,
+      width: '100%',
+      marginVertical: theme.sizes.default,
     },
     topRow: {
-      borderBottomColor: theme.colors.surface,
-      borderBottomWidth: 1,
-      paddingBottom: theme.sizes.defaultDouble,
-      maxWidth: normalize(276),
-    },
-    bottomRow: {
-      paddingTop: theme.sizes.defaultDouble,
+      maxWidth: 276,
     },
     bottomContainer: {
-      padding: theme.sizes.defaultDouble,
+      paddingHorizontal: theme.sizes.defaultDouble,
+      paddingBottom: theme.sizes.defaultDouble,
     },
     buttonLayout: {
-      marginVertical: normalize(20),
+      marginVertical: 20,
     },
     acceptTermsLink: {
-      color: theme.colors.gray80Percent,
-      fontSize: normalize(12),
-      fontFamily: theme.fonts.bold,
-      textAlign: 'center',
       marginTop: theme.sizes.default,
-      textDecorationLine: 'underline',
     },
-    underlined: {
-      textDecorationLine: 'underline',
+    illustration: {
+      flexGrow: 1,
+      flexShrink: 0,
+      marginBottom: theme.sizes.default,
+      maxWidth: '100%',
+      minHeight: 100,
+      maxHeight: 192,
+      paddingTop: theme.sizes.default,
     },
   }
 }
@@ -149,6 +170,7 @@ export default createStackNavigator(
     TermsOfUse,
     PrivacyPolicy,
     Recover: Mnemonics,
+    Support,
   },
   {
     backRouteName: 'Auth',

@@ -17,8 +17,8 @@ const updateAll = store => {
         store.set('account')({ balance, entitlement, ready: true })
       }
     })
-    .catch(error => {
-      log.error(error)
+    .catch(e => {
+      log.error(e.message, e)
     })
 }
 

@@ -43,6 +43,12 @@ exports[`AmountInput matches snapshot 1`] = `
   >
     <div
       className="css-view-1dbjc4n"
+      style={
+        Object {
+          "height": "0px",
+          "minHeight": "0px",
+        }
+      }
     >
       <div
         className="css-view-1dbjc4n"
@@ -85,7 +91,7 @@ exports[`AmountInput matches snapshot 1`] = `
             autoComplete="on"
             autoCorrect="on"
             autoFocus={true}
-            className="css-textinput-1cwyjr8"
+            className="css-textinput-1cwyjr8 r-placeholderTextColor-1xktb6b"
             dir="auto"
             disabled={false}
             onBlur={[Function]}
@@ -112,10 +118,11 @@ exports[`AmountInput matches snapshot 1`] = `
                 "borderBottomWidth": "1px",
                 "color": "rgba(66,69,74,1.00)",
                 "cursor": "pointer",
-                "fontFamily": "RobotoSlab-Regular",
+                "fontFamily": "Roboto Slab",
                 "fontSize": "32px",
                 "fontWeight": "bold",
                 "letterSpacing": "1.2px",
+                "marginTop": "auto",
                 "msTouchAction": "manipulation",
                 "paddingBottom": "4px",
                 "paddingLeft": "32px",
@@ -138,14 +145,14 @@ exports[`AmountInput matches snapshot 1`] = `
               "WebkitTransform": "translateY(0px)",
               "color": "rgba(250,108,119,1.00)",
               "direction": "ltr",
-              "fontFamily": "Roboto",
+              "fontFamily": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
               "fontSize": "12px",
               "height": "18px",
               "opacity": 0,
-              "paddingBottom": "4px",
+              "paddingBottom": "0px",
               "paddingLeft": "0px",
               "paddingRight": "12px",
-              "paddingTop": "4px",
+              "paddingTop": "0px",
               "textAlign": "center",
               "transform": "translateY(0px)",
             }
@@ -164,7 +171,7 @@ exports[`AmountInput matches snapshot 1`] = `
           "display": "flex",
           "flexGrow": 1,
           "justifyContent": "space-between",
-          "marginBottom": "8px",
+          "marginBottom": "16px",
           "marginTop": "16px",
           "maxHeight": "250px",
           "msFlexPack": "justify",
@@ -229,6 +236,10 @@ exports[`AmountInput matches snapshot 1`] = `
               "msFlexPreferredSize": "0%",
               "msTouchAction": "manipulation",
               "msUserSelect": "none",
+              "paddingBottom": "8px",
+              "paddingLeft": "8px",
+              "paddingRight": "8px",
+              "paddingTop": "8px",
               "touchAction": "manipulation",
               "userSelect": "none",
             }
@@ -242,10 +253,10 @@ exports[`AmountInput matches snapshot 1`] = `
               Object {
                 "color": "rgba(66,69,74,1.00)",
                 "direction": "ltr",
-                "fontFamily": "RobotoSlab-Bold",
+                "fontFamily": "Roboto Slab",
                 "fontSize": "20px",
                 "fontWeight": "700",
-                "lineHeight": "22px",
+                "lineHeight": "24px",
                 "textAlign": "center",
                 "textDecoration": "none",
                 "textTransform": "none",
@@ -289,6 +300,10 @@ exports[`AmountInput matches snapshot 1`] = `
               "msFlexPreferredSize": "0%",
               "msTouchAction": "manipulation",
               "msUserSelect": "none",
+              "paddingBottom": "8px",
+              "paddingLeft": "8px",
+              "paddingRight": "8px",
+              "paddingTop": "8px",
               "touchAction": "manipulation",
               "userSelect": "none",
             }
@@ -302,10 +317,10 @@ exports[`AmountInput matches snapshot 1`] = `
               Object {
                 "color": "rgba(66,69,74,1.00)",
                 "direction": "ltr",
-                "fontFamily": "RobotoSlab-Bold",
+                "fontFamily": "Roboto Slab",
                 "fontSize": "20px",
                 "fontWeight": "700",
-                "lineHeight": "22px",
+                "lineHeight": "24px",
                 "textAlign": "center",
                 "textDecoration": "none",
                 "textTransform": "none",
@@ -349,6 +364,10 @@ exports[`AmountInput matches snapshot 1`] = `
               "msFlexPreferredSize": "0%",
               "msTouchAction": "manipulation",
               "msUserSelect": "none",
+              "paddingBottom": "8px",
+              "paddingLeft": "8px",
+              "paddingRight": "8px",
+              "paddingTop": "8px",
               "touchAction": "manipulation",
               "userSelect": "none",
             }
@@ -362,10 +381,10 @@ exports[`AmountInput matches snapshot 1`] = `
               Object {
                 "color": "rgba(66,69,74,1.00)",
                 "direction": "ltr",
-                "fontFamily": "RobotoSlab-Bold",
+                "fontFamily": "Roboto Slab",
                 "fontSize": "20px",
                 "fontWeight": "700",
-                "lineHeight": "22px",
+                "lineHeight": "24px",
                 "textAlign": "center",
                 "textDecoration": "none",
                 "textTransform": "none",
@@ -431,6 +450,10 @@ exports[`AmountInput matches snapshot 1`] = `
               "msFlexPreferredSize": "0%",
               "msTouchAction": "manipulation",
               "msUserSelect": "none",
+              "paddingBottom": "8px",
+              "paddingLeft": "8px",
+              "paddingRight": "8px",
+              "paddingTop": "8px",
               "touchAction": "manipulation",
               "userSelect": "none",
             }
@@ -444,10 +467,10 @@ exports[`AmountInput matches snapshot 1`] = `
               Object {
                 "color": "rgba(66,69,74,1.00)",
                 "direction": "ltr",
-                "fontFamily": "RobotoSlab-Bold",
+                "fontFamily": "Roboto Slab",
                 "fontSize": "20px",
                 "fontWeight": "700",
-                "lineHeight": "22px",
+                "lineHeight": "24px",
                 "textAlign": "center",
                 "textDecoration": "none",
                 "textTransform": "none",
@@ -491,6 +514,10 @@ exports[`AmountInput matches snapshot 1`] = `
               "msFlexPreferredSize": "0%",
               "msTouchAction": "manipulation",
               "msUserSelect": "none",
+              "paddingBottom": "8px",
+              "paddingLeft": "8px",
+              "paddingRight": "8px",
+              "paddingTop": "8px",
               "touchAction": "manipulation",
               "userSelect": "none",
             }
@@ -504,10 +531,10 @@ exports[`AmountInput matches snapshot 1`] = `
               Object {
                 "color": "rgba(66,69,74,1.00)",
                 "direction": "ltr",
-                "fontFamily": "RobotoSlab-Bold",
+                "fontFamily": "Roboto Slab",
                 "fontSize": "20px",
                 "fontWeight": "700",
-                "lineHeight": "22px",
+                "lineHeight": "24px",
                 "textAlign": "center",
                 "textDecoration": "none",
                 "textTransform": "none",
@@ -551,6 +578,10 @@ exports[`AmountInput matches snapshot 1`] = `
               "msFlexPreferredSize": "0%",
               "msTouchAction": "manipulation",
               "msUserSelect": "none",
+              "paddingBottom": "8px",
+              "paddingLeft": "8px",
+              "paddingRight": "8px",
+              "paddingTop": "8px",
               "touchAction": "manipulation",
               "userSelect": "none",
             }
@@ -564,10 +595,10 @@ exports[`AmountInput matches snapshot 1`] = `
               Object {
                 "color": "rgba(66,69,74,1.00)",
                 "direction": "ltr",
-                "fontFamily": "RobotoSlab-Bold",
+                "fontFamily": "Roboto Slab",
                 "fontSize": "20px",
                 "fontWeight": "700",
-                "lineHeight": "22px",
+                "lineHeight": "24px",
                 "textAlign": "center",
                 "textDecoration": "none",
                 "textTransform": "none",
@@ -633,6 +664,10 @@ exports[`AmountInput matches snapshot 1`] = `
               "msFlexPreferredSize": "0%",
               "msTouchAction": "manipulation",
               "msUserSelect": "none",
+              "paddingBottom": "8px",
+              "paddingLeft": "8px",
+              "paddingRight": "8px",
+              "paddingTop": "8px",
               "touchAction": "manipulation",
               "userSelect": "none",
             }
@@ -646,10 +681,10 @@ exports[`AmountInput matches snapshot 1`] = `
               Object {
                 "color": "rgba(66,69,74,1.00)",
                 "direction": "ltr",
-                "fontFamily": "RobotoSlab-Bold",
+                "fontFamily": "Roboto Slab",
                 "fontSize": "20px",
                 "fontWeight": "700",
-                "lineHeight": "22px",
+                "lineHeight": "24px",
                 "textAlign": "center",
                 "textDecoration": "none",
                 "textTransform": "none",
@@ -693,6 +728,10 @@ exports[`AmountInput matches snapshot 1`] = `
               "msFlexPreferredSize": "0%",
               "msTouchAction": "manipulation",
               "msUserSelect": "none",
+              "paddingBottom": "8px",
+              "paddingLeft": "8px",
+              "paddingRight": "8px",
+              "paddingTop": "8px",
               "touchAction": "manipulation",
               "userSelect": "none",
             }
@@ -706,10 +745,10 @@ exports[`AmountInput matches snapshot 1`] = `
               Object {
                 "color": "rgba(66,69,74,1.00)",
                 "direction": "ltr",
-                "fontFamily": "RobotoSlab-Bold",
+                "fontFamily": "Roboto Slab",
                 "fontSize": "20px",
                 "fontWeight": "700",
-                "lineHeight": "22px",
+                "lineHeight": "24px",
                 "textAlign": "center",
                 "textDecoration": "none",
                 "textTransform": "none",
@@ -753,6 +792,10 @@ exports[`AmountInput matches snapshot 1`] = `
               "msFlexPreferredSize": "0%",
               "msTouchAction": "manipulation",
               "msUserSelect": "none",
+              "paddingBottom": "8px",
+              "paddingLeft": "8px",
+              "paddingRight": "8px",
+              "paddingTop": "8px",
               "touchAction": "manipulation",
               "userSelect": "none",
             }
@@ -766,10 +809,10 @@ exports[`AmountInput matches snapshot 1`] = `
               Object {
                 "color": "rgba(66,69,74,1.00)",
                 "direction": "ltr",
-                "fontFamily": "RobotoSlab-Bold",
+                "fontFamily": "Roboto Slab",
                 "fontSize": "20px",
                 "fontWeight": "700",
-                "lineHeight": "22px",
+                "lineHeight": "24px",
                 "textAlign": "center",
                 "textDecoration": "none",
                 "textTransform": "none",
@@ -835,6 +878,10 @@ exports[`AmountInput matches snapshot 1`] = `
               "msFlexPreferredSize": "0%",
               "msTouchAction": "manipulation",
               "msUserSelect": "none",
+              "paddingBottom": "8px",
+              "paddingLeft": "8px",
+              "paddingRight": "8px",
+              "paddingTop": "8px",
               "touchAction": "manipulation",
               "userSelect": "none",
             }
@@ -848,10 +895,10 @@ exports[`AmountInput matches snapshot 1`] = `
               Object {
                 "color": "rgba(66,69,74,1.00)",
                 "direction": "ltr",
-                "fontFamily": "RobotoSlab-Bold",
+                "fontFamily": "Roboto Slab",
                 "fontSize": "20px",
                 "fontWeight": "700",
-                "lineHeight": "22px",
+                "lineHeight": "24px",
                 "textAlign": "center",
                 "textDecoration": "none",
                 "textTransform": "none",
@@ -895,6 +942,10 @@ exports[`AmountInput matches snapshot 1`] = `
               "msFlexPreferredSize": "0%",
               "msTouchAction": "manipulation",
               "msUserSelect": "none",
+              "paddingBottom": "8px",
+              "paddingLeft": "8px",
+              "paddingRight": "8px",
+              "paddingTop": "8px",
               "touchAction": "manipulation",
               "userSelect": "none",
             }
@@ -908,10 +959,10 @@ exports[`AmountInput matches snapshot 1`] = `
               Object {
                 "color": "rgba(66,69,74,1.00)",
                 "direction": "ltr",
-                "fontFamily": "RobotoSlab-Bold",
+                "fontFamily": "Roboto Slab",
                 "fontSize": "20px",
                 "fontWeight": "700",
-                "lineHeight": "22px",
+                "lineHeight": "24px",
                 "textAlign": "center",
                 "textDecoration": "none",
                 "textTransform": "none",
@@ -955,6 +1006,10 @@ exports[`AmountInput matches snapshot 1`] = `
               "msFlexPreferredSize": "0%",
               "msTouchAction": "manipulation",
               "msUserSelect": "none",
+              "paddingBottom": "8px",
+              "paddingLeft": "8px",
+              "paddingRight": "8px",
+              "paddingTop": "8px",
               "touchAction": "manipulation",
               "userSelect": "none",
             }

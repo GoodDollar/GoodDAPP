@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - '10.15'
+  - "10.15"
 
 addons:
   apt:
@@ -8,7 +8,7 @@ addons:
       # Ubuntu 16+ does not install this dependency by default, so we need to install it ourselves
       - libgconf-2-4
       - jq
-    
+
 cache:
   npm: true
   directories:
@@ -27,15 +27,15 @@ env:
 
 matrix:
   include:
-    - script: 
-      - npm run build
-      - npx netlify deploy --json --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN > test.json
-      - URL=`grep -i 'deploy_url' test.json | cut -c18-70`
-      - export CYPRESS_baseUrl=$URL  
-      - cypress run     
-    - script: 
-      - npm run coverage
-      - npm run coveralls
+    - script:
+        - npm run build
+        - npx netlify deploy --json --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN > test.json
+        - URL=`grep -i 'deploy_url' test.json | cut -c18-70`
+        - export CYPRESS_baseUrl=$URL
+        - cypress run
+    - script:
+        - npm run coverage
+        - npm run coveralls
 
 after_success:
   - npm run bundlesize:check

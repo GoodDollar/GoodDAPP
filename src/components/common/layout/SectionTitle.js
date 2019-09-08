@@ -6,26 +6,16 @@ import Text from '../view/Text'
 const SectionTitle = (props: any) => {
   const { styles } = props
   return (
-    <Text
-      style={[styles.title, props.style]}
-      color="darkGray"
-      fontSize={24}
-      fontFamily="medium"
-      textTransform="uppercase"
-      {...props}
-    >
+    <Text fontSize={24} style={[styles.title, props.style]} textTransform="uppercase" {...props}>
       {props.children}
     </Text>
   )
 }
 
-const getStylesFromProps = ({ theme }) => {
-  return {
-    title: {
-      marginBottom: theme.sizes.default,
-      marginTop: theme.sizes.default,
-    },
-  }
-}
+const getStylesFromProps = ({ theme }) => ({
+  title: {
+    marginVertical: theme.sizes.default,
+  },
+})
 
 export default withStyles(getStylesFromProps)(SectionTitle)

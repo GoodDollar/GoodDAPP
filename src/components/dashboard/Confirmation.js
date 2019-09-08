@@ -1,11 +1,13 @@
 // @flow
 import React, { useMemo } from 'react'
-import { isMobile } from 'mobile-device-detect'
-import normalize from '../../lib/utils/normalizeText'
+import GDStore from '../../lib/undux/GDStore'
 import { generateReceiveShareObject, generateSendShareObject } from '../../lib/share'
-import { BigGoodDollar, CopyButton, CustomButton, QRCode, Section, Wrapper } from '../common'
+import BigGoodDollar from '../common/view/BigGoodDollar'
+import QRCode from '../common/view/QRCode'
+import Section from '../common/layout/Section'
+import Wrapper from '../common/layout/Wrapper'
+import ShareButton from '../common/buttons/ShareButton'
 import TopBar from '../common/view/TopBar'
-import { useErrorDialog } from '../../lib/undux/utils/dialog'
 
 import { useScreenState } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
@@ -18,26 +20,19 @@ export type ReceiveProps = {
 }
 
 const ReceiveConfirmation = ({ screenProps, styles, ...props }: ReceiveProps) => {
+  const profile = GDStore.useStore().get('profile')
   const [screenState] = useScreenState(screenProps)
   const { amount, code, reason, counterPartyDisplayName } = screenState
-  const [showErrorDialog] = useErrorDialog()
   const { params } = props.navigation.state
 
   const share = useMemo(
-    () => (params.action === ACTION_RECEIVE ? generateReceiveShareObject(code) : generateSendShareObject(code)),
+    () =>
+      params.action === ACTION_RECEIVE
+        ? generateReceiveShareObject(code, amount, counterPartyDisplayName, profile.fullName)
+        : generateSendShareObject(code, amount, counterPartyDisplayName, profile.fullName),
     [code]
   )
 
-  const shareAction = async () => {
-    try {
-      await navigator.share(share)
-    } catch (e) {
-      if (e.name !== 'AbortError') {
-        showErrorDialog(e)
-      }
-    }
-  }
-  console.info({ styles })
   return (
     <Wrapper>
       <TopBar push={screenProps.push} hideBalance />
@@ -46,31 +41,25 @@ const ReceiveConfirmation = ({ screenProps, styles, ...props }: ReceiveProps) =>
           <QRCode value={code} />
         </Section.Stack>
         <Section.Stack grow justifyContent="center" alignItems="center">
-          <Section.Text style={[styles.textRow]}>{ACTION_RECEIVE ? 'Request exactly' : 'Send exactly'}</Section.Text>
+          <Section.Text style={styles.textRow}>{ACTION_RECEIVE ? 'Request exactly' : 'Send exactly'}</Section.Text>
           {counterPartyDisplayName && (
-            <Section.Text style={[styles.textRow]}>
+            <Section.Text style={styles.textRow}>
               {ACTION_RECEIVE ? 'From: ' : 'To: '}
-              <Section.Text style={styles.counterPartyDisplayName}>{counterPartyDisplayName}</Section.Text>
+              <Section.Text fontSize={18}>{counterPartyDisplayName}</Section.Text>
             </Section.Text>
           )}
           {amount && (
             <BigGoodDollar
-              bigNumberStyles={styles.bigGoodDollar}
-              bigNumberUnitStyles={styles.bigGoodDollarUnit}
               number={amount}
-              color={props.theme.colors.primary}
+              color="primary"
+              bigNumberProps={{ fontSize: 24 }}
+              bigNumberUnitProps={{ fontSize: 14 }}
             />
           )}
-          <Section.Text style={[styles.textRow]}>{reason}</Section.Text>
+          <Section.Text style={styles.textRow}>{reason}</Section.Text>
         </Section.Stack>
         <Section.Stack>
-          {isMobile && navigator.share ? (
-            <CustomButton onPress={shareAction}>Share as link</CustomButton>
-          ) : (
-            <CopyButton toCopy={share.url} onPressDone={screenProps.goToRoot}>
-              Share as link
-            </CopyButton>
-          )}
+          <ShareButton share={share} onPressDone={screenProps.goToRoot} actionText="Share as link" />
         </Section.Stack>
       </Section>
     </Wrapper>
@@ -90,21 +79,10 @@ const getStylesFromProps = ({ theme }) => {
       paddingTop: theme.sizes.default,
     },
     textRow: {
-      marginBottom: theme.sizes.default,
+      marginVertical: theme.sizes.default,
     },
     doneButton: {
       marginTop: theme.paddings.defaultMargin,
-    },
-    bigGoodDollar: {
-      fontSize: normalize(28),
-      fontFamily: theme.fonts.bold,
-    },
-    bigGoodDollarUnit: {
-      fontSize: normalize(16),
-      fontFamily: theme.fonts.bold,
-    },
-    counterPartyDisplayName: {
-      fontSize: normalize(18),
     },
   }
 }

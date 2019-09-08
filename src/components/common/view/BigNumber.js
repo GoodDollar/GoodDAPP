@@ -1,7 +1,6 @@
 // @flow
 import React from 'react'
 import { View } from 'react-native'
-import normalize from '../../../lib/utils/normalizeText'
 import { withStyles } from '../../../lib/styles'
 import Text from './Text'
 
@@ -16,13 +15,46 @@ import Text from './Text'
  */
 class BigNumber extends React.Component {
   render() {
-    const { bigNumberStyles, bigNumberUnitStyles, number, unit, style, color, theme, styles } = this.props
+    const {
+      bigNumberStyles,
+      bigNumberUnitStyles,
+      bigNumberProps,
+      bigNumberUnitProps,
+      children,
+      number,
+      unit,
+      style,
+      color,
+      styles,
+    } = this.props
     return (
       <View style={[styles.bigNumberWrapper, style]}>
-        <Text style={[styles.bigNumber, bigNumberStyles, { color: color || theme.fontStyle.color }]}>{number}</Text>
-        <Text style={[styles.bigNumberUnit, bigNumberUnitStyles, { color: color || theme.fontStyle.color }]}>
-          {unit}
+        <Text
+          fontFamily="slab"
+          fontSize={36}
+          fontWeight="bold"
+          textAlign="right"
+          color={color || 'gray'}
+          {...bigNumberProps}
+          style={[styles.bigNumber, bigNumberStyles]}
+        >
+          {number}
         </Text>
+        {unit ? (
+          <Text
+            fontFamily="slab"
+            fontSize={18}
+            fontWeight="bold"
+            textAlign="right"
+            color={color || 'gray'}
+            {...bigNumberUnitProps}
+            style={bigNumberUnitStyles}
+          >
+            {unit}
+          </Text>
+        ) : (
+          children
+        )}
       </View>
     )
   }
@@ -36,19 +68,7 @@ const getStylesFromProps = ({ theme }) => {
       flexDirection: 'row',
     },
     bigNumber: {
-      fontFamily: theme.fonts.bold,
-      fontSize: normalize(36),
-      fontWeight: '700',
-      marginRight: theme.sizes.defaultHalf,
-      textAlign: 'right',
-      lineHeight: 'auto',
-    },
-    bigNumberUnit: {
-      fontFamily: theme.fonts.bold,
-      fontSize: normalize(22),
-      fontWeight: '700',
-      textAlign: 'right',
-      lineHeight: 'auto',
+      marginRight: 2,
     },
   }
 }

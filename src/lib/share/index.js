@@ -7,6 +7,7 @@ import isEmail from 'validator/lib/isEmail'
 
 import Config from '../../config/config'
 import isMobilePhone from '../validators/isMobilePhone'
+import { weiToGd } from '../wallet/utils'
 
 /**
  * Generates a code contaning an MNID with an amount if specified
@@ -34,7 +35,7 @@ export function generateCode(
  * @returns {null|{amount: *, address, networkId: number, reason: string}}
  */
 export function readCode(code: string) {
-  const [mnid, value, reason] = code.split('|')
+  let [mnid, value, reason, counterPartyDisplayName] = code.split('|')
 
   if (!isMNID(mnid)) {
     return null
@@ -42,12 +43,15 @@ export function readCode(code: string) {
 
   const { network, address } = decode(mnid)
   const amount = value && parseInt(value)
+  reason = reason === 'undefined' ? undefined : reason
+  counterPartyDisplayName = counterPartyDisplayName === 'undefined' ? undefined : counterPartyDisplayName
 
   return {
     networkId: parseInt(network),
     address,
     amount: amount ? amount : undefined,
     reason,
+    counterPartyDisplayName,
   }
 }
 
@@ -95,7 +99,9 @@ type ShareObject = {
 
 /**
  * Generates the standard object required for `navigator.share` method to trigger Share menu on mobile devices
- * @param url - Link
+ * @param {string} title
+ * @param {string} text
+ * @param {string} url - Link
  * @returns {ShareObject}
  */
 export function generateShareObject(title: string, text: string, url: string): ShareObject {
@@ -106,18 +112,34 @@ export function generateShareObject(title: string, text: string, url: string): S
   }
 }
 
-export function generateSendShareObject(url: string): ShareObject {
-  return generateShareObject('Sending G$ via GoodDollar App', 'You have received G$. To withdraw open:', url)
+export function generateSendShareObject(url: string, amount: number, to: string, from: string): ShareObject {
+  return generateShareObject(
+    'Sending G$ via GoodDollar App',
+    to
+      ? `${to}, You've received ${weiToGd(amount)} G$ from ${from}. To withdraw open:`
+      : `You've received ${weiToGd(amount)} G$ from ${from}. To withdraw open:`,
+    url
+  )
 }
 
 /**
  * Generates URL link to share/receive GDs
- * @param code - code returned by `generateCode`
+ * @param {string} code - code returned by `generateCode`
+ * @param {number } amount - amount expressed in Wei
+ * @param {string} to - recipient name
+ * @param {string} from - current user's fullName
  * @returns {string} - URL to use to share/receive GDs
  */
-export function generateReceiveShareObject(code: string): ShareObject {
+export function generateReceiveShareObject(code: string, amount: number, to: string, from: string): ShareObject {
   const url = generateShareLink('receive', { code })
-  return generateShareObject('Sending G$ via GoodDollar App', 'To send me G$ open:', url)
+  const text = [
+    to ? `${to}, ` : '',
+    `You've got a request from ${from}`,
+    amount > 0 ? ` for ${weiToGd(amount)} G$` : '',
+    `. To Transfer open:`,
+  ].join('')
+
+  return generateShareObject('Sending G$ via GoodDollar App', text, url)
 }
 
 type HrefLinkProps = {
@@ -169,5 +191,5 @@ export function generateShareLink(action: ActionType = 'receive', params: {} = {
     throw new Error(`Link couldn't be generated`)
   }
 
-  return `${Config.publicUrl}/AppNavigation/Dashboard/${destination}?${queryParams}`
+  return encodeURI(`${Config.publicUrl}/AppNavigation/Dashboard/${destination}?${queryParams}`)
 }

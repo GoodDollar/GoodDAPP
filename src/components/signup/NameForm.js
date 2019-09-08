@@ -2,6 +2,7 @@
 import React from 'react'
 import debounce from 'lodash/debounce'
 import { validateFullName } from '../../lib/validators/validateFullName'
+import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { withStyles } from '../../lib/styles'
 import InputText from '../common/form/InputText'
 import Section from '../common/layout/Section'
@@ -64,22 +65,26 @@ class NameForm extends React.Component<Props, State> {
     const { key } = this.props.navigation.state
     return (
       <CustomWrapper valid={this.state.isValid} handleSubmit={this.handleSubmit}>
-        <Section.Stack grow justifyContent="flex-start">
-          <Section.Row justifyContent="center" style={this.props.styles.row}>
-            <Section.Title textTransform="none">{'Hi, Please enter your full name'}</Section.Title>
-          </Section.Row>
-          <Section.Row justifyContent="center">
-            <InputText
-              id={key + '_input'}
-              value={fullName}
-              onChangeText={this.handleChange}
-              error={errorMessage}
-              onKeyPress={this.handleEnter}
-              onCleanUpField={this.handleChange}
-              autoFocus
-            />
-          </Section.Row>
-        </Section.Stack>
+        <Section grow justifyContent="flex-start">
+          <Section.Stack justifyContent="flex-start" style={this.props.styles.container}>
+            <Section.Row justifyContent="center" style={this.props.styles.row}>
+              <Section.Title color="darkGray" fontSize={22} fontWeight="500" textTransform="none">
+                {'Hi, Please enter your full name'}
+              </Section.Title>
+            </Section.Row>
+            <Section.Row justifyContent="center" style={this.props.styles.bottomRow}>
+              <InputText
+                id={key + '_input'}
+                value={fullName}
+                onChangeText={this.handleChange}
+                error={errorMessage}
+                onKeyPress={this.handleEnter}
+                onCleanUpField={this.handleChange}
+                autoFocus
+              />
+            </Section.Row>
+          </Section.Stack>
+        </Section>
       </CustomWrapper>
     )
   }
@@ -91,7 +96,15 @@ NameForm.navigationOptions = {
 
 const getStylesFromProps = ({ theme }) => ({
   row: {
-    marginVertical: theme.sizes.defaultQuadruple,
+    marginVertical: theme.sizes.defaultDouble,
+  },
+  container: {
+    minHeight: getDesignRelativeHeight(200),
+    height: getDesignRelativeHeight(200),
+  },
+  bottomRow: {
+    marginTop: 'auto',
+    marginBottom: theme.sizes.default,
   },
 })
 

@@ -1,7 +1,6 @@
 // @flow
 import React from 'react'
 import { View } from 'react-native'
-import normalize from '../../../lib/utils/normalizeText'
 import { withStyles } from '../../../lib/styles'
 import SectionRow from './SectionRow'
 import SectionStack from './SectionStack'
@@ -23,9 +22,8 @@ const mapPropsToStyles = ({ theme }) => ({
   section: {
     backgroundColor: theme.colors.surface,
     borderRadius: theme.sizes.borderRadius,
-    padding: normalize(12),
-    paddingTop: theme.sizes.defaultDouble,
-    paddingBottom: theme.sizes.defaultDouble,
+    paddingHorizontal: 12,
+    paddingVertical: theme.sizes.defaultDouble,
   },
 })
 

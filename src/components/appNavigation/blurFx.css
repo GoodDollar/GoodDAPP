@@ -1,0 +1,3 @@
+.blurFx {
+  filter: blur(24px) brightness(0.8) opacity(0.5);
+}

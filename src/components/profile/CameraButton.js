@@ -1,44 +1,29 @@
 // @flow
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
-import { withTheme } from 'react-native-paper'
-// eslint-disable-next-line import/no-named-as-default
-import Icon from 'react-native-elements/src/icons/Icon'
-import normalize from '../../lib/utils/normalizeText'
+import { withStyles } from '../../lib/styles'
+import CircleButtonWrapper from './CircleButtonWrapper'
 
 type CameraButtonProps = {
   handleCameraPress: any => void,
-  containerStyles: any,
-  theme: any,
+  styles?: any,
+  style?: any,
 }
 
-const CameraButton = ({ handleCameraPress, containerStyles, theme }: CameraButtonProps) => (
-  <View style={[styles.container, containerStyles]}>
-    <Icon
-      onPress={handleCameraPress}
-      size={normalize(20)}
-      color={theme.colors.darkBlue}
-      name="photo-camera"
-      reverse
-      containerStyle={styles.icon}
-    />
-  </View>
+const CameraButton = ({ handleCameraPress, styles, style }: CameraButtonProps) => (
+  <CircleButtonWrapper
+    iconSize={22}
+    iconName={'camera'}
+    style={[styles.container, style]}
+    onPress={handleCameraPress}
+  />
 )
 
-CameraButton.defaultProps = {
-  containerStyles: {},
-}
-
-const styles = StyleSheet.create({
+const getStylesFromProps = ({ theme }) => ({
   container: {
-    position: 'absolute',
-    left: 0,
     bottom: 0,
-  },
-  icon: {
-    marginHorizontal: 0,
-    marginVertical: 0,
+    left: 0,
+    position: 'absolute',
   },
 })
 
-export default withTheme(CameraButton)
+export default withStyles(getStylesFromProps)(CameraButton)

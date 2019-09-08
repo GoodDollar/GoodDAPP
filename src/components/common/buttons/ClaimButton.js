@@ -1,34 +1,33 @@
 // @flow
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
-import normalize from '../../../lib/utils/normalizeText'
-
 import { PushButton } from '../../appNavigation/PushButton'
+import { withStyles } from '../../../lib/styles'
+import Text from '../view/Text'
 
-const ClaimButton = ({ screenProps, amount }) => (
-  <View style={styles.claimContainer}>
-    <PushButton routeName={'Claim'} screenProps={screenProps} style={styles.claimButton}>
-      <Text style={styles.buttonText}>Claim</Text>
-    </PushButton>
-  </View>
+const ClaimButton = ({ screenProps, styles }) => (
+  <PushButton routeName="Claim" screenProps={screenProps} style={styles.claimButton}>
+    <Text color="surface" textTransform="uppercase" fontWeight="medium">
+      Claim
+    </Text>
+  </PushButton>
 )
 
-const styles = StyleSheet.create({
-  buttonText: {
-    fontSize: normalize(16),
-    color: '#fff',
-    fontFamily: 'Roboto-Medium',
-    textTransform: 'uppercase',
-    marginHorizontal: 0,
-  },
-  claimContainer: {
-    padding: normalize(3),
-    backgroundColor: '#fff',
-    zIndex: 99,
+const getStylesFromProps = ({ theme }) => ({
+  claimButton: {
+    alignItems: 'center',
+    backgroundColor: theme.colors.green,
+    borderColor: theme.colors.surface,
     borderRadius: '50%',
-    position: 'absolute',
+    borderWidth: 3,
+    height: 72,
     left: '50%',
+    marginHorizontal: 0,
+    elevation: 0,
+    padding: 3,
+    position: 'absolute',
     top: '50%',
+    width: 72,
+    zIndex: 99,
     transform: [
       {
         translateX: '-50%',
@@ -38,17 +37,6 @@ const styles = StyleSheet.create({
       },
     ],
   },
-  claimButton: {
-    backgroundColor: '#00C3AE',
-    borderRadius: '50%',
-    height: normalize(72),
-    width: normalize(72),
-    marginHorizontal: 0,
-  },
-  grayedOutText: {
-    color: '#d5d5d5',
-    fontSize: normalize(10),
-  },
 })
 
-export default ClaimButton
+export default withStyles(getStylesFromProps)(ClaimButton)

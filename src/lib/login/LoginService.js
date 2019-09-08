@@ -2,6 +2,7 @@
 import { AsyncStorage } from 'react-native'
 import type { Credentials } from '../API/api'
 import API from '../API/api'
+import { CREDS, JWT } from '../constants/localStorage'
 import logger from '../logger/pino-logger'
 
 const log = logger.child({ from: 'LoginService' })
@@ -25,25 +26,25 @@ class LoginService {
       return
     }
     this.credentials = creds
-    AsyncStorage.setItem('GoodDAPP_creds', JSON.stringify(this.credentials))
+    AsyncStorage.setItem(CREDS, JSON.stringify(this.credentials))
   }
 
   // eslint-disable-next-line class-methods-use-this
   storeJWT(jwt: string) {
     this.jwt = jwt
     if (jwt) {
-      AsyncStorage.setItem('GoodDAPP_jwt', jwt)
+      AsyncStorage.setItem(JWT, jwt)
     }
   }
 
   async getCredentials(): Promise<?Credentials> {
-    const data = await AsyncStorage.getItem('GoodDAPP_creds')
+    const data = await AsyncStorage.getItem(CREDS)
     return data ? JSON.parse(data) : null
   }
 
   // eslint-disable-next-line class-methods-use-this
   getJWT(): Promise<?string> {
-    return AsyncStorage.getItem('GoodDAPP_jwt')
+    return AsyncStorage.getItem(JWT)
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -52,19 +53,13 @@ class LoginService {
   }
 
   async auth(): Promise<?Credentials | Error> {
-    if (this.credentials && this.jwt) {
-      this.credentials.jwt = this.jwt
-      log.info('Got existing credentials', this.credentials)
-      return Promise.resolve(this.credentials)
-    }
-
-    let creds = await this.login()
+    let creds = this.credentials || (await this.login())
     log.info('signed message', creds)
     this.storeCredentials(creds)
 
     // TODO: write the nonce https://gitlab.com/gooddollar/gooddapp/issues/1
     log.info('Calling server for authentication')
-    const authResult: Promise<Credentials | Error> = API.auth(creds)
+    return API.auth(creds)
       .then(res => {
         log.info('Got auth response', res)
         if (res.status === 200) {
@@ -78,10 +73,9 @@ class LoginService {
         throw new Error(res.statusText)
       })
       .catch((e: Error) => {
-        log.error('Login service auth failed:', e)
+        log.error('Login service auth failed:', e.message, e)
         return e
       })
-    return authResult
   }
 }
 

@@ -5,14 +5,16 @@ exports[`QRCode matches snapshot 1`] = `
   className="css-view-1dbjc4n"
   style={
     Object {
-      "WebkitAlignItems": "center",
-      "WebkitBoxAlign": "center",
-      "WebkitBoxPack": "center",
-      "WebkitJustifyContent": "center",
-      "alignItems": "center",
-      "justifyContent": "center",
-      "msFlexAlign": "center",
-      "msFlexPack": "center",
+      "WebkitBoxFlex": 1,
+      "WebkitFlexBasis": "0%",
+      "WebkitFlexGrow": 1,
+      "WebkitFlexShrink": 1,
+      "flexBasis": "0%",
+      "flexGrow": 1,
+      "flexShrink": 1,
+      "msFlexNegative": 1,
+      "msFlexPositive": 1,
+      "msFlexPreferredSize": "0%",
     }
   }
 >
@@ -20,59 +22,128 @@ exports[`QRCode matches snapshot 1`] = `
     className="css-view-1dbjc4n"
     style={
       Object {
-        "borderBottomColor": "rgba(98,0,238,1.00)",
-        "borderBottomLeftRadius": "5px",
-        "borderBottomRightRadius": "5px",
-        "borderBottomWidth": "1px",
-        "borderLeftColor": "rgba(98,0,238,1.00)",
-        "borderLeftWidth": "1px",
-        "borderRightColor": "rgba(98,0,238,1.00)",
-        "borderRightWidth": "1px",
-        "borderTopColor": "rgba(98,0,238,1.00)",
-        "borderTopLeftRadius": "5px",
-        "borderTopRightRadius": "5px",
-        "borderTopWidth": "1px",
-        "paddingBottom": "16px",
-        "paddingLeft": "16px",
-        "paddingRight": "16px",
-        "paddingTop": "16px",
+        "WebkitAlignItems": "center",
+        "WebkitBoxAlign": "center",
+        "WebkitBoxPack": "center",
+        "WebkitJustifyContent": "center",
+        "alignItems": "center",
+        "justifyContent": "center",
+        "msFlexAlign": "center",
+        "msFlexPack": "center",
       }
     }
   >
-    <canvas
-      height={128}
+    <div
+      className="css-view-1dbjc4n"
       style={
         Object {
-          "height": 128,
-          "width": 128,
+          "borderBottomColor": "rgba(0,175,255,1.00)",
+          "borderBottomLeftRadius": "5px",
+          "borderBottomRightRadius": "5px",
+          "borderBottomWidth": "1px",
+          "borderLeftColor": "rgba(0,175,255,1.00)",
+          "borderLeftWidth": "1px",
+          "borderRightColor": "rgba(0,175,255,1.00)",
+          "borderRightWidth": "1px",
+          "borderTopColor": "rgba(0,175,255,1.00)",
+          "borderTopLeftRadius": "5px",
+          "borderTopRightRadius": "5px",
+          "borderTopWidth": "1px",
+          "paddingBottom": "16px",
+          "paddingLeft": "16px",
+          "paddingRight": "16px",
+          "paddingTop": "16px",
         }
       }
-      theme={
-        Object {
-          "colors": Object {
-            "accent": "#03dac4",
-            "backdrop": "rgba(0, 0, 0, 0.5)",
-            "background": "#f6f6f6",
-            "disabled": "rgba(0, 0, 0, 0.26)",
-            "error": "#B00020",
-            "notification": "#f50057",
-            "placeholder": "rgba(0, 0, 0, 0.54)",
-            "primary": "#6200ee",
-            "surface": "#ffffff",
-            "text": "#000000",
-          },
-          "dark": false,
-          "fonts": Object {
-            "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-            "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-            "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-            "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-          },
-          "roundness": 4,
+    >
+      <canvas
+        height={128}
+        style={
+          Object {
+            "height": 128,
+            "width": 128,
+          }
         }
-      }
-      width={128}
-    />
+        theme={
+          Object {
+            "backdrop": Object {
+              "backgroundColor": "rgba(255, 0, 0, 0.8)",
+            },
+            "borders": Object {
+              "defaultBorderColor": "#c9c8c9",
+            },
+            "colors": Object {
+              "accent": "#03dac4",
+              "backdrop": "rgba(0, 0, 0, 0.5)",
+              "background": "#f6f6f6",
+              "blue": "#006EA0",
+              "darkBlue": "#0C263D",
+              "darkGray": "#42454A",
+              "disabled": "rgba(0, 0, 0, 0.26)",
+              "error": "#FA6C77",
+              "gray": "#555",
+              "gray50Percent": "#CBCBCB",
+              "gray80Percent": "#A3A3A3",
+              "green": "#00C3AE",
+              "lightGray": "#EEE",
+              "lightGreen": "#00BBA5",
+              "lighterGray": "#A3A3A3",
+              "notification": "#f50057",
+              "orange": "#F8AF40",
+              "placeholder": "#CBCBCB",
+              "primary": "#00AFFF",
+              "purple": "#9F6A9D",
+              "red": "#FA6C77",
+              "surface": "#ffffff",
+              "text": "#222",
+            },
+            "dark": false,
+            "feedItems": Object {
+              "borderRadius": 8,
+              "height": 84,
+              "itemBackgroundColor": "#fff",
+            },
+            "fontStyle": Object {
+              "color": "#555",
+              "fontSize": 18,
+              "textAlign": "center",
+            },
+            "fonts": Object {
+              "default": "Roboto",
+              "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "slab": "Roboto Slab",
+              "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+            },
+            "modals": Object {
+              "activityIndicatorBackgroundColor": "rgba(255, 255, 255, 0.8)",
+              "backgroundColor": "#fff",
+              "borderLeftWidth": 10,
+              "borderRadius": 5,
+              "contentPadding": 16,
+              "jaggedEdgeSize": 16,
+              "overlayBackgroundColor": "transparent",
+              "overlayHorizontalPadding": 20,
+              "overlayVerticalPadding": 65,
+            },
+            "paddings": Object {
+              "defaultMargin": 8,
+              "mainContainerPadding": 8,
+            },
+            "roundness": 4,
+            "sizes": Object {
+              "borderRadius": 5,
+              "default": 8,
+              "defaultDouble": 16,
+              "defaultHalf": 4,
+              "defaultQuadruple": 32,
+            },
+          }
+        }
+        width={128}
+      />
+    </div>
   </div>
 </div>
 `;
@@ -82,14 +153,16 @@ exports[`QRCode matches snapshot 2`] = `
   className="css-view-1dbjc4n"
   style={
     Object {
-      "WebkitAlignItems": "center",
-      "WebkitBoxAlign": "center",
-      "WebkitBoxPack": "center",
-      "WebkitJustifyContent": "center",
-      "alignItems": "center",
-      "justifyContent": "center",
-      "msFlexAlign": "center",
-      "msFlexPack": "center",
+      "WebkitBoxFlex": 1,
+      "WebkitFlexBasis": "0%",
+      "WebkitFlexGrow": 1,
+      "WebkitFlexShrink": 1,
+      "flexBasis": "0%",
+      "flexGrow": 1,
+      "flexShrink": 1,
+      "msFlexNegative": 1,
+      "msFlexPositive": 1,
+      "msFlexPreferredSize": "0%",
     }
   }
 >
@@ -97,59 +170,128 @@ exports[`QRCode matches snapshot 2`] = `
     className="css-view-1dbjc4n"
     style={
       Object {
-        "borderBottomColor": "rgba(98,0,238,1.00)",
-        "borderBottomLeftRadius": "5px",
-        "borderBottomRightRadius": "5px",
-        "borderBottomWidth": "1px",
-        "borderLeftColor": "rgba(98,0,238,1.00)",
-        "borderLeftWidth": "1px",
-        "borderRightColor": "rgba(98,0,238,1.00)",
-        "borderRightWidth": "1px",
-        "borderTopColor": "rgba(98,0,238,1.00)",
-        "borderTopLeftRadius": "5px",
-        "borderTopRightRadius": "5px",
-        "borderTopWidth": "1px",
-        "paddingBottom": "16px",
-        "paddingLeft": "16px",
-        "paddingRight": "16px",
-        "paddingTop": "16px",
+        "WebkitAlignItems": "center",
+        "WebkitBoxAlign": "center",
+        "WebkitBoxPack": "center",
+        "WebkitJustifyContent": "center",
+        "alignItems": "center",
+        "justifyContent": "center",
+        "msFlexAlign": "center",
+        "msFlexPack": "center",
       }
     }
   >
-    <canvas
-      height={128}
+    <div
+      className="css-view-1dbjc4n"
       style={
         Object {
-          "height": 128,
-          "width": 128,
+          "borderBottomColor": "rgba(0,175,255,1.00)",
+          "borderBottomLeftRadius": "5px",
+          "borderBottomRightRadius": "5px",
+          "borderBottomWidth": "1px",
+          "borderLeftColor": "rgba(0,175,255,1.00)",
+          "borderLeftWidth": "1px",
+          "borderRightColor": "rgba(0,175,255,1.00)",
+          "borderRightWidth": "1px",
+          "borderTopColor": "rgba(0,175,255,1.00)",
+          "borderTopLeftRadius": "5px",
+          "borderTopRightRadius": "5px",
+          "borderTopWidth": "1px",
+          "paddingBottom": "16px",
+          "paddingLeft": "16px",
+          "paddingRight": "16px",
+          "paddingTop": "16px",
         }
       }
-      theme={
-        Object {
-          "colors": Object {
-            "accent": "#03dac4",
-            "backdrop": "rgba(0, 0, 0, 0.5)",
-            "background": "#f6f6f6",
-            "disabled": "rgba(0, 0, 0, 0.26)",
-            "error": "#B00020",
-            "notification": "#f50057",
-            "placeholder": "rgba(0, 0, 0, 0.54)",
-            "primary": "#6200ee",
-            "surface": "#ffffff",
-            "text": "#000000",
-          },
-          "dark": false,
-          "fonts": Object {
-            "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-            "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-            "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-            "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
-          },
-          "roundness": 4,
+    >
+      <canvas
+        height={128}
+        style={
+          Object {
+            "height": 128,
+            "width": 128,
+          }
         }
-      }
-      width={128}
-    />
+        theme={
+          Object {
+            "backdrop": Object {
+              "backgroundColor": "rgba(255, 0, 0, 0.8)",
+            },
+            "borders": Object {
+              "defaultBorderColor": "#c9c8c9",
+            },
+            "colors": Object {
+              "accent": "#03dac4",
+              "backdrop": "rgba(0, 0, 0, 0.5)",
+              "background": "#f6f6f6",
+              "blue": "#006EA0",
+              "darkBlue": "#0C263D",
+              "darkGray": "#42454A",
+              "disabled": "rgba(0, 0, 0, 0.26)",
+              "error": "#FA6C77",
+              "gray": "#555",
+              "gray50Percent": "#CBCBCB",
+              "gray80Percent": "#A3A3A3",
+              "green": "#00C3AE",
+              "lightGray": "#EEE",
+              "lightGreen": "#00BBA5",
+              "lighterGray": "#A3A3A3",
+              "notification": "#f50057",
+              "orange": "#F8AF40",
+              "placeholder": "#CBCBCB",
+              "primary": "#00AFFF",
+              "purple": "#9F6A9D",
+              "red": "#FA6C77",
+              "surface": "#ffffff",
+              "text": "#222",
+            },
+            "dark": false,
+            "feedItems": Object {
+              "borderRadius": 8,
+              "height": 84,
+              "itemBackgroundColor": "#fff",
+            },
+            "fontStyle": Object {
+              "color": "#555",
+              "fontSize": 18,
+              "textAlign": "center",
+            },
+            "fonts": Object {
+              "default": "Roboto",
+              "light": "Roboto-Light, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "medium": "Roboto-Medium, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "regular": "Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+              "slab": "Roboto Slab",
+              "thin": "Roboto-Thin, Roboto, \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+            },
+            "modals": Object {
+              "activityIndicatorBackgroundColor": "rgba(255, 255, 255, 0.8)",
+              "backgroundColor": "#fff",
+              "borderLeftWidth": 10,
+              "borderRadius": 5,
+              "contentPadding": 16,
+              "jaggedEdgeSize": 16,
+              "overlayBackgroundColor": "transparent",
+              "overlayHorizontalPadding": 20,
+              "overlayVerticalPadding": 65,
+            },
+            "paddings": Object {
+              "defaultMargin": 8,
+              "mainContainerPadding": 8,
+            },
+            "roundness": 4,
+            "sizes": Object {
+              "borderRadius": 5,
+              "default": 8,
+              "defaultDouble": 16,
+              "defaultHalf": 4,
+              "defaultQuadruple": 32,
+            },
+          }
+        }
+        width={128}
+      />
+    </div>
   </div>
 </div>
 `;

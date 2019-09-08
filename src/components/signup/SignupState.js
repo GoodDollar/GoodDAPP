@@ -88,6 +88,76 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       log.error('Could not get user location', e.message, e)
     }
   }
+
+  const checkWeb3Token = async () => {
+    const web3Token = await AsyncStorage.getItem('web3Token')
+
+    if (!web3Token) {
+      return
+    }
+
+    let behaviour = ''
+    let w3User = {}
+
+    try {
+      const w3userData = await API.getUserFromW3ByToken(web3Token)
+      w3User = w3userData.data
+
+      if (w3User.has_wallet) {
+        behaviour = 'goToRecoverScreen'
+      } else {
+        behaviour = 'goToPhone'
+      }
+    } catch (e) {
+      behaviour = 'showTokenError'
+    }
+
+    const userScreenData = {
+      email: w3User.email,
+      fullName: w3User.full_name,
+      w3Token: web3Token,
+      skipEmail: true,
+      skipEmailConfirmation: true,
+    }
+
+    switch (behaviour) {
+      case 'showTokenError':
+        navigation.navigate('InvalidW3TokenError')
+        break
+
+      case 'goToRecoverScreen':
+        navigation.navigate('Recover', { web3HasWallet: true })
+        break
+
+      case 'goToPhone':
+        API.checkWeb3Email({
+          email: w3User.email,
+          token: web3Token,
+        }).catch(e => {
+          log.error(e.message, e)
+
+          showErrorDialog('Email verification failed', e)
+        })
+
+        if (w3User.image) {
+          userScreenData.avatar = await API.getBase64FromImageUrl(w3User.image).catch(e => {
+            logger.error('Fetch base 64 from image uri failed', e.message, e)
+          })
+        }
+
+        setState({
+          ...state,
+          ...userScreenData,
+        })
+
+        navigation.navigate('Phone')
+        break
+
+      default:
+        break
+    }
+  }
+
   useEffect(() => {
     //get user country code for phone
     getCountryCode()
@@ -109,9 +179,9 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
 
       //now that we are loggedin, reload api with JWT
       // await API.init()
-      log.debug('ready: finished initialization')
       return { goodWallet, userStorage }
     })()
+
     setReady(ready)
 
     //don't allow to start signup flow not from begining
@@ -120,6 +190,8 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       setLoading(true)
       return navigateWithFocus(navigation.state.routes[0].key)
     }
+
+    checkWeb3Token()
   }, [])
 
   const finishRegistration = async () => {
@@ -136,10 +208,12 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       // Then, when the user access the application from the link (in EmailConfirmation), data is recovered and
       // saved to the `state`
 
+      const { skipEmail, skipEmailConfirmation, ...requestPayload } = state
+
       //first need to add user to our database
       // Stores creationBlock number into 'lastBlock' feed's node
 
-      const addUserAPIPromise = API.addUser(state)
+      const addUserAPIPromise = API.addUser(requestPayload)
         .then(res => {
           const data = res.data
 
@@ -155,10 +229,13 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
 
       await Promise.all([
         addUserAPIPromise,
-        userStorage.setProfile({ ...state, walletAddress: goodWallet.account, mnemonic }),
+        userStorage.setProfile({ ...requestPayload, walletAddress: goodWallet.account, mnemonic }),
         userStorage.setProfileField('registered', true, 'public'),
         goodWallet.getBlockNumber().then(creationBlock => userStorage.saveLastBlockNumber(creationBlock.toString())),
       ])
+
+      AsyncStorage.removeItem('web3Token')
+      API.updateW3UserWithWallet(requestPayload.w3Token, goodWallet.account)
 
       //need to wait for API.addUser but we dont need to wait for it to finish
       API.sendRecoveryInstructionByEmail(mnemonic)
@@ -175,10 +252,34 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       setLoading(false)
     }
   }
+
+  function getNextRoute(routes, routeIndex, state) {
+    let nextRoute = routes[routeIndex + 1]
+
+    if (state[`skip${nextRoute && nextRoute.key}`]) {
+      return getNextRoute(routes, routeIndex + 1, state)
+    }
+
+    return nextRoute
+  }
+
+  function getPrevRoute(routes, routeIndex, state) {
+    let prevRoute = routes[routeIndex - 1]
+
+    if (state[`skip${prevRoute && prevRoute.key}`]) {
+      return getPrevRoute(routes, routeIndex - 1, state)
+    }
+
+    return prevRoute
+  }
+
   const done = async (data: { [string]: string }) => {
     setLoading(true)
     fireSignupEvent()
-    let nextRoute = navigation.state.routes[navigation.state.index + 1]
+    log.info('signup data:', { data })
+
+    let nextRoute = getNextRoute(navigation.state.routes, navigation.state.index, state)
+
     const newState = { ...state, ...data }
     setState(newState)
     log.info('signup data:', { data, nextRoute })
@@ -198,6 +299,16 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       }
     } else if (nextRoute && nextRoute.key === 'EmailConfirmation') {
       try {
+        if (state.w3Token) {
+          // Skip EmailConfirmation screen
+          nextRoute = navigation.state.routes[navigation.state.index + 2]
+
+          // Set email as confirmed
+          setState({ ...newState, isEmailConfirmed: true })
+
+          return
+        }
+
         const { data } = await API.sendVerificationEmail(newState)
         if (data.ok === 0) {
           return showErrorDialog('Failed sending verificaiton email', data.error)
@@ -236,9 +347,10 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   }
 
   const back = () => {
-    const nextRoute = navigation.state.routes[navigation.state.index - 1]
-    if (nextRoute) {
-      navigateWithFocus(nextRoute.key)
+    const prevRoute = getPrevRoute(navigation.state.routes, navigation.state.index, state)
+
+    if (prevRoute) {
+      navigateWithFocus(prevRoute.key)
     } else {
       navigation.navigate('Auth')
     }

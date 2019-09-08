@@ -20,7 +20,7 @@ export type ButtonProps = {
   mode?: string,
   onPress: any,
   style?: any,
-  styles?: any,
+  styles: any,
   textStyle?: any,
   theme: DefaultTheme,
   uppercase?: boolean,
@@ -29,6 +29,7 @@ export type ButtonProps = {
 type TextContentProps = {
   children: any,
   dark?: boolean,
+  color?: string,
   styles: any,
   textStyle: any,
   uppercase?: boolean,
@@ -148,18 +149,17 @@ const CustomButton = (props: ButtonProps) => {
     <BaseButton
       dark={dark}
       mode={mode}
-      style={[styles.buttonStyle, style]}
       contentStyle={styles.contentStyle}
       theme={{ ...theme, roundness: 50 }}
       uppercase={uppercase}
       disabled={disabled || loading}
-      onPress={props.onPress}
-      color={color}
       {...buttonProps}
+      color={color}
+      style={[styles.buttonStyle, style]}
     >
       <View style={styles.contentWrapper}>
         {icon && (!iconAlignment || iconAlignment === 'left') && (
-          <IconButton icon={icon} theme={theme} dark={dark} size={iconSize} style={styles.leftIcon} />
+          <IconButton icon={icon} theme={theme} dark={dark} size={iconSize || 14} style={styles.leftIcon} />
         )}
         {loading && (
           <ActivityIndicator
@@ -173,7 +173,7 @@ const CustomButton = (props: ButtonProps) => {
           {children}
         </TextContent>
         {icon && iconAlignment === 'right' && (
-          <IconButton icon={icon} theme={theme} dark={dark} size={iconSize} style={styles.rightIcon} />
+          <IconButton icon={icon} theme={theme} dark={dark} size={iconSize || 14} style={styles.rightIcon} />
         )}
       </View>
     </BaseButton>

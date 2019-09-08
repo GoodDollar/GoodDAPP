@@ -67,6 +67,11 @@ describe('UserStorage', () => {
     expect(res).toEqual(expect.objectContaining({ privacy: 'public', display: 'hadar2' }))
   })
 
+  it('get magic line', async () => {
+    const magicLink = await userStorage.getMagicLink()
+    expect(magicLink).toBeTruthy()
+  })
+
   it('gets profile field', async () => {
     await userStorage.setProfileField('name', 'hadar2', 'public')
 

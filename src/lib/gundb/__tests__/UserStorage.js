@@ -42,10 +42,8 @@ describe('UserStorage', () => {
   })
 
   it('sets gundb field', async () => {
-    const res = await userStorage.profile
-      .get('x')
-      .put({ z: 1, y: 1 })
-      .then()
+    await userStorage.profile.get('x').putAck({ z: 1, y: 1 })
+    const res = await userStorage.profile.get('x')
     expect(res).toEqual(expect.objectContaining({ z: 1, y: 1 }))
   })
 
@@ -67,6 +65,11 @@ describe('UserStorage', () => {
     await userStorage.setProfileField('name', 'hadar2', 'public')
     const res = await userStorage.profile.get('name').then()
     expect(res).toEqual(expect.objectContaining({ privacy: 'public', display: 'hadar2' }))
+  })
+
+  it('get magic line', async () => {
+    const magicLink = await userStorage.getMagicLink()
+    expect(magicLink).toBeTruthy()
   })
 
   it('gets profile field', async () => {
@@ -333,7 +336,7 @@ describe('UserStorage', () => {
   })
 
   it('should delete the Welcome event', async () => {
-    const deletedEvent = await userStorage.deleteEvent(welcomeMessage)
+    const deletedEvent = await userStorage.deleteEvent(welcomeMessage.id)
     const date = `${new Date(welcomeMessage.date).toISOString().slice(0, 10)}`
     const index = await userStorage.feed
       .get('index')

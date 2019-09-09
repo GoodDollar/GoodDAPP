@@ -3,13 +3,13 @@ import React, { useEffect } from 'react'
 import { AsyncStorage } from 'react-native'
 import { SceneView } from '@react-navigation/core'
 import some from 'lodash/some'
+import { DESTINATION_PATH } from '../../lib/constants/localStorage'
 import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import GDStore from '../../lib/undux/GDStore'
 import { updateAll as updateWalletStatus } from '../../lib/undux/utils/account'
 import { checkAuthStatus as getLoginState } from '../../lib/login/checkAuthStatus'
-import zoomSdkLoader from '../dashboard/FaceRecognition/ZoomSdkLoader'
 
 type LoadingProps = {
   navigation: any,
@@ -24,17 +24,17 @@ const log = logger.child({ from: 'AppSwitch' })
 const AppSwitch = (props: LoadingProps) => {
   const store = SimpleStore.useStore()
   const gdstore = GDStore.useStore()
+  const { router, state } = props.navigation
 
   /*
   Check if user is incoming with a URL with action details, such as payment link or email confirmation
   */
   const getParams = async () => {
-    const { router, state } = props.navigation
-
     // const navInfo = router.getPathAndParamsForState(state)
-    const destinationPath = await AsyncStorage.getItem('destinationPath').then(JSON.parse)
-    AsyncStorage.removeItem('destinationPath')
+    const destinationPath = await AsyncStorage.getItem(DESTINATION_PATH).then(JSON.parse)
+    AsyncStorage.removeItem(DESTINATION_PATH)
     log.debug('getParams', { destinationPath, router, state })
+
     if (destinationPath) {
       const app = router.getActionForPathAndParams(destinationPath.path)
       const destRoute = actions => (some(actions, 'action') ? destRoute(actions.action) : actions.action)
@@ -73,15 +73,11 @@ const AppSwitch = (props: LoadingProps) => {
     gdstore.set('isLoggedIn')(isLoggedIn)
     gdstore.set('isLoggedInCitizen')(isLoggedInCitizen)
     isLoggedInCitizen ? API.verifyTopWallet() : Promise.resolve()
-    if (!isLoggedInCitizen) {
-      // load Zoom SDK at start so it will be loaded when user gets to FR screen
-      await zoomSdkLoader.load()
-    }
 
     // if (isLoggedIn) {
     //   if (destDetails) {
     //     props.navigation.navigate(destDetails)
-    //     return AsyncStorage.removeItem('destinationPath')
+    //     return AsyncStorage.removeItem(DESTINATION_PATH)
     //   } else props.navigation.navigate('AppNavigation')
     // } else {
     //   const { jwt } = credsOrError
@@ -100,7 +96,7 @@ const AppSwitch = (props: LoadingProps) => {
     //       //for non loggedin users, store non email validation params to the destinationPath for later
     //       //to be used once signed in
     //       const destinationPath = JSON.stringify(destDetails)
-    //       AsyncStorage.setItem('destinationPath', destinationPath)
+    //       AsyncStorage.setItem(DESTINATION_PATH, destinationPath)
     //     }
     //     props.navigation.navigate('Auth')
     //   } else {

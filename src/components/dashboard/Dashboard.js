@@ -27,10 +27,6 @@ import Mnemonics from '../signin/Mnemonics'
 //import type { TransactionEvent } from '../../lib/gundb/UserStorage'
 import Amount from './Amount'
 import Claim from './Claim'
-import FaceRecognition from './FaceRecognition/FaceRecognition'
-import FRIntro from './FaceRecognition/FRIntro'
-import FRError from './FaceRecognition/FRError'
-import UnsupportedDevice from './FaceRecognition/UnsupportedDevice'
 import FeedList from './FeedList'
 import FeedModalList from './FeedModalList'
 import Reason from './Reason'
@@ -88,6 +84,10 @@ const Dashboard = props => {
     }
 
     userStorage.enqueueTX(transactionEvent)*/
+  }
+
+  const nextFeed = () => {
+    return getNextFeed(gdstore)
   }
 
   useEffect(() => {
@@ -198,6 +198,7 @@ const Dashboard = props => {
               nextRoutes: ['Amount', 'Reason', 'SendLinkSummary', 'SendConfirmation'],
               params: { action: 'Send' },
             }}
+            compact
           >
             Send
           </PushButton>
@@ -210,6 +211,7 @@ const Dashboard = props => {
             style={styles.rightButton}
             contentStyle={styles.rightButtonContent}
             textStyle={styles.rightButtonText}
+            compact
           >
             Receive
           </PushButton>
@@ -219,7 +221,7 @@ const Dashboard = props => {
         data={feeds}
         handleFeedSelection={handleFeedSelection}
         initialNumToRender={PAGE_SIZE}
-        onEndReached={getNextFeed.bind(null, store)}
+        onEndReached={nextFeed}
         updateData={() => {}}
         onScroll={({ nativeEvent }) => {
           // Replicating Header Height.
@@ -250,7 +252,7 @@ const Dashboard = props => {
           data={feeds}
           handleFeedSelection={handleFeedSelection}
           initialNumToRender={PAGE_SIZE}
-          onEndReached={getNextFeed.bind(null, store)}
+          onEndReached={nextFeed}
           selectedFeed={currentFeed}
           updateData={() => {}}
         />
@@ -384,10 +386,6 @@ export default createStackNavigator({
   Send,
   SendLinkSummary,
   SendConfirmation,
-  FRError,
-  FaceVerification: FaceRecognition,
-  FRIntro,
-  UnsupportedDevice,
   SendByQR,
   ReceiveByQR,
   SendQRSummary,

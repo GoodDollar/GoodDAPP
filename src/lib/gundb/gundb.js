@@ -13,7 +13,7 @@ const initGunDB = () => {
     } else {
       global.gun = Gun([Config.gunPublicUrl])
     }
-    logger.debug('Initialized gundb')
+    logger.debug('Initialized gundb', Config.gunPublicUrl)
   }
   return global.gun
 }

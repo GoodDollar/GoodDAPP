@@ -60,9 +60,8 @@ const Amount = (props: AmountProps) => {
     <Wrapper>
       <TopBar push={screenProps.push} />
       <Section grow>
-        <Section.Title>How much?</Section.Title>
         <Section.Stack grow justifyContent="flex-start">
-          <AmountInput amount={GDAmount} handleAmountChange={handleAmountChange} error={error} />
+          <AmountInput amount={GDAmount} handleAmountChange={handleAmountChange} error={error} title="How much?" />
         </Section.Stack>
         <Section.Row>
           <Section.Row grow={1} justifyContent="flex-start">

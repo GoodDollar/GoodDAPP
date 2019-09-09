@@ -6,6 +6,10 @@
   border-radius: 0 !important;
 }
 
+.react-phone-number-input > .react-phone-number-input__row {
+  margin-bottom: 8px;
+}
+
 .react-phone-number-input
   > .react-phone-number-input__row
   > .react-phone-number-input__input.react-phone-number-input__phone {
@@ -22,17 +26,7 @@
 }
 
 .react-phone-number-input.react-phone-number-input--invalid .react-phone-number-input__error {
-  margin-left: inherit;
-  margin-top: inherit;
-  text-align: center;
-  font-family: Roboto;
-  padding-bottom: 4px;
-  padding-top: 4px;
-  color: #fa6c77;
-  font-size: 12px;
-  opacity: 1;
-  padding-left: 0px;
-  display: block;
+  display: none;
 }
 
 .react-phone-number-input__icon {

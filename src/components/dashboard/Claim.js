@@ -9,16 +9,17 @@ import GDStore from '../../lib/undux/GDStore'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import wrapper from '../../lib/undux/utils/wrapper'
-import { weiToGd } from '../../lib/wallet/utils'
-import { CustomButton, Wrapper } from '../common'
+import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
+import { Wrapper } from '../common'
 import BigGoodDollar from '../common/view/BigGoodDollar'
 import Text from '../common/view/Text'
-import TopBar from '../common/view/TopBar'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import { withStyles } from '../../lib/styles'
 import Section from '../common/layout/Section'
 import illustration from '../../assets/Claim/illustration.svg'
 import type { DashboardProps } from './Dashboard'
+import ClaimButton from './ClaimButton'
+import Countdown from './ClaimCountdown'
 
 Image.prefetch(illustration)
 
@@ -40,7 +41,10 @@ const Claim = props => {
   const { screenProps, styles }: ClaimProps = props
   const store = SimpleStore.useStore()
   const gdstore = GDStore.useStore()
+
   const { entitlement } = gdstore.get('account')
+  const isCitizen = gdstore.get('isLoggedInCitizen')
+
   const [showDialog] = useDialog()
   const [loading, setLoading] = useState(false)
   const [claimInterval, setClaimInterval] = useState(null)
@@ -65,15 +69,19 @@ const Claim = props => {
       handleClaim()
     } else if (isValid === false) {
       screenProps.goToRoot()
+    } else {
+      if (isCitizen === false) {
+        goodWallet.isCitizen().then(_ => gdstore.set('isLoggedInCitizen')(_))
+      }
     }
   }
 
-  // FR Evaluation
   useEffect(() => {
+    // FR Evaluation
     evaluateFRValidity()
   }, [])
 
-  const getNextClaim = nextClaimDate => new Date(nextClaimDate - new Date().getTime()).toISOString().substr(11, 8)
+  const getNextClaim = date => new Date(date - new Date().getTime()).toISOString().substr(11, 8)
 
   const gatherStats = async () => {
     const [claimedToday, nextClaimDate] = await Promise.all([
@@ -112,7 +120,7 @@ const Claim = props => {
     })
     try {
       //when we come back from FR entitelment might not be set yet
-      const curEntitlement = entitlement || (await goodWallet.checkEntitlement())
+      const curEntitlement = state.entitlement || (await goodWallet.checkEntitlement())
       const receipt = await goodWallet.claim({
         onTransactionHash: hash => {
           const transactionEvent: TransactionEvent = {
@@ -126,6 +134,7 @@ const Claim = props => {
           }
           userStorage.enqueueTX(transactionEvent)
         },
+        onError: userStorage.markWithErrorEvent,
       })
 
       if (receipt.status) {
@@ -161,35 +170,10 @@ const Claim = props => {
     screenProps.push('FRIntro', { from: 'Claim' })
   }
 
-  const isCitizen = gdstore.get('isLoggedInCitizen')
-  const { nextClaim, claimedToday } = state
-
-  const ClaimButton = (
-    <CustomButton
-      compact={true}
-      disabled={entitlement <= 0}
-      loading={loading}
-      mode="contained"
-      onPress={() => {
-        isCitizen ? handleClaim() : faceRecognition()
-      }}
-    >
-      <Text color="surface" fontWeight="medium">
-        {`CLAIM YOUR SHARE - `}
-      </Text>
-      <BigGoodDollar
-        number={entitlement}
-        formatter={weiToGd}
-        bigNumberProps={{ fontSize: 16, color: 'surface', fontWeight: 'medium' }}
-        bigNumberUnitProps={{ fontSize: 10, color: 'surface', fontWeight: 'medium' }}
-        style={styles.inline}
-      />
-    </CustomButton>
-  )
+  const illustrationSizes = isCitizen ? styles.illustrationForCitizen : styles.illustrationForNonCitizen
 
   return (
     <Wrapper>
-      <TopBar push={screenProps.push} />
       <Section style={styles.mainContainer}>
         <Section.Stack style={styles.mainText}>
           <Section.Text color="surface" style={styles.mainTextTitle}>
@@ -210,27 +194,24 @@ const Claim = props => {
           <Section.Text color="surface" fontFamily="slab" fontWeight="bold" fontSize={36}>
             Every Day
           </Section.Text>
+          <Section.Text style={styles.blankBottom}>{/* used to prevent image overlapping text */ ' '}</Section.Text>
         </Section.Stack>
         <Section.Stack style={styles.extraInfo}>
-          <Image source={illustration} style={styles.illustration} resizeMode="contain" />
+          <Image source={illustration} style={[styles.illustration, illustrationSizes]} resizeMode="contain" />
           <Section.Row style={styles.extraInfoStats}>
-            <Section.Text fontWeight="bold">{numeral(claimedToday.people).format('0a')} </Section.Text>
-            <Section.Text>People Claimed </Section.Text>
-            <BigGoodDollar
-              number={claimedToday.amount}
-              formatter={number => numeral(number).format('0a')}
-              bigNumberProps={{ fontSize: 16 }}
-              bigNumberUnitProps={{ fontSize: 10 }}
-            />
-            <Section.Text>Today!</Section.Text>
+            <Text style={styles.extraInfoWrapper}>
+              <Section.Text fontWeight="bold">{numeral(state.claimedToday.people).format('0a')} </Section.Text>
+              <Section.Text>people have already claimed today!</Section.Text>
+            </Text>
           </Section.Row>
-          <Section.Stack style={styles.extraInfoCountdown}>
-            <Section.Text style={styles.extraInfoCountdownTitle}>Next Daily Income:</Section.Text>
-            <Section.Text color="surface" fontFamily="slab" fontSize={36} fontWeight="bold">
-              {nextClaim}
-            </Section.Text>
-          </Section.Stack>
-          {ClaimButton}
+          {!isCitizen && <Countdown nextClaim={state.nextClaim} />}
+          <ClaimButton
+            isCitizen={isCitizen}
+            entitlement={state.entitlement}
+            nextClaim={state.nextClaim}
+            loading={loading}
+            onPress={() => (isCitizen && entitlement ? handleClaim() : !isCitizen && faceRecognition())}
+          />
         </Section.Stack>
       </Section>
     </Wrapper>
@@ -242,11 +223,6 @@ const getStylesFromProps = ({ theme }) => {
     marginHorizontal: 0,
     marginTop: 0,
     marginBottom: theme.sizes.default,
-  }
-
-  const defaultPaddings = {
-    paddingVertical: theme.sizes.default,
-    paddingHorizontal: theme.sizes.defaultHalf,
   }
 
   const defaultStatsBlock = {
@@ -261,12 +237,12 @@ const getStylesFromProps = ({ theme }) => {
       flexGrow: 1,
       paddingVertical: 0,
       paddingHorizontal: 0,
+      justifyContent: 'space-between',
     },
     mainText: {
       alignItems: 'center',
       flexDirection: 'column',
-      marginBottom: 64,
-      paddingTop: theme.sizes.defaultDouble,
+      marginVertical: 'auto',
     },
     mainTextTitle: {
       marginBottom: 12,
@@ -274,40 +250,41 @@ const getStylesFromProps = ({ theme }) => {
     mainTextBigMarginBottom: {
       marginBottom: theme.sizes.defaultHalf,
     },
+    blankBottom: {
+      minHeight: getDesignRelativeHeight(4 * theme.sizes.defaultDouble),
+    },
     illustration: {
       flexGrow: 0,
       flexShrink: 0,
       marginBottom: theme.sizes.default,
-      marginTop: -80,
-      maxWidth: '100%',
-      minHeight: 159,
-      minWidth: 229,
+    },
+    illustrationForCitizen: {
+      height: getDesignRelativeHeight(184),
+      marginTop: getDesignRelativeHeight(-94),
+    },
+    illustrationForNonCitizen: {
+      height: getDesignRelativeHeight(159),
+      marginTop: getDesignRelativeHeight(-70),
     },
     extraInfo: {
       backgroundColor: theme.colors.surface,
       borderRadius: theme.sizes.borderRadius,
       flexGrow: 1,
       flexShrink: 1,
-      minHeight: 0,
+      maxHeight: 'fit-content',
       paddingVertical: theme.sizes.defaultDouble,
       paddingHorizontal: theme.sizes.default,
     },
     extraInfoStats: {
       ...defaultStatsBlock,
       ...defaultMargins,
-      paddingVertical: 8,
+      paddingBottom: 8,
       flexGrow: 1,
     },
-    extraInfoCountdown: {
-      ...defaultStatsBlock,
-      ...defaultPaddings,
-      ...defaultMargins,
-      backgroundColor: theme.colors.orange,
-      flexGrow: 2,
-      flexDirection: 'column',
-    },
-    extraInfoCountdownTitle: {
-      marginBottom: theme.sizes.default,
+    extraInfoWrapper: {
+      display: 'inline',
+      textAlign: 'center',
+      width: getDesignRelativeWidth(340),
     },
     inline: {
       display: 'inline',

@@ -53,19 +53,13 @@ class LoginService {
   }
 
   async auth(): Promise<?Credentials | Error> {
-    if (this.credentials && this.jwt) {
-      this.credentials.jwt = this.jwt
-      log.info('Got existing credentials', this.credentials)
-      return Promise.resolve(this.credentials)
-    }
-
-    let creds = await this.login()
+    let creds = this.credentials || (await this.login())
     log.info('signed message', creds)
     this.storeCredentials(creds)
 
     // TODO: write the nonce https://gitlab.com/gooddollar/gooddapp/issues/1
     log.info('Calling server for authentication')
-    const authResult: Promise<Credentials | Error> = API.auth(creds)
+    return API.auth(creds)
       .then(res => {
         log.info('Got auth response', res)
         if (res.status === 200) {
@@ -82,7 +76,6 @@ class LoginService {
         log.error('Login service auth failed:', e.message, e)
         return e
       })
-    return authResult
   }
 }
 

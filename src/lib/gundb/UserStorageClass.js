@@ -1088,7 +1088,7 @@ export class UserStorage {
       customName,
       subtitle,
     } = data
-    let avatar, fullName, address, withdrawStatus, initiator
+    let avatar, fullName, address, withdrawStatus, initiator, message
     if (type === 'send') {
       address = this.wallet.wallet.utils.isAddress(to) ? to : (receiptData && receiptData.to) || (receipt && receipt.to)
       address = address && UserStorage.cleanFieldForIndex('walletAddress', address)
@@ -1096,6 +1096,7 @@ export class UserStorage {
 
       // eslint-disable-next-line no-empty
     } else if (type === 'claim') {
+      message = 'Your daily basic income'
     } else {
       address = this.wallet.wallet.utils.isAddress(from)
         ? from
@@ -1181,7 +1182,7 @@ export class UserStorage {
           withdrawStatus,
         },
         amount: value,
-        message: reason,
+        message: reason || message,
         subtitle,
       },
     }

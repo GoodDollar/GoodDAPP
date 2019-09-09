@@ -1,18 +1,22 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 import { withThemeProvider } from '../../../__tests__/__util__'
-import Countdown from '../ClaimCountdown'
+import FRStep from '../FaceRecognition/FRStep'
 
-describe('ClaimCountdown', () => {
-  const WrappedCountdown = withThemeProvider(Countdown)
+describe('FRStep', () => {
+  const WrappedFRStep = withThemeProvider(FRStep)
 
   it('renders without errors', () => {
-    const tree = renderer.create(<WrappedCountdown nextClaim="00:10:00" />)
+    const tree = renderer.create(
+      <WrappedFRStep title={'Checking liveness'} isActive={true} status={true} isProcessFailed={false} />
+    )
     expect(tree.toJSON()).toBeTruthy()
   })
 
   it('matches snapshot', () => {
-    const component = renderer.create(<WrappedCountdown nextClaim="00:10:00" />)
+    const component = renderer.create(
+      <WrappedFRStep title={'Checking liveness'} isActive={true} status={true} isProcessFailed={false} />
+    )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

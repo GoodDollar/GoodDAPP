@@ -1,16 +1,21 @@
 import React from 'react'
-import { Image, StyleSheet, View } from 'react-native'
+import { Image, View } from 'react-native'
 import get from 'lodash/get'
 import { getFirstWord } from '../../../lib/utils/getFirstWord'
 import { CustomButton, Section, Wrapper } from '../../common'
 import Separator from '../../common/layout/Separator'
 import Oops from '../../../assets/oops.svg'
+import Text from '../../common/view/Text'
 import GDStore from '../../../lib/undux/GDStore'
 import logger from '../../../lib/logger/pino-logger'
+import { withStyles } from '../../../lib/styles'
+import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
+
 const log = logger.child({ from: 'FRError' })
 
 Image.prefetch(Oops)
 const FRError = props => {
+  const { styles } = props
   const store = GDStore.useStore()
   const { fullName } = store.get('profile')
 
@@ -31,7 +36,7 @@ const FRError = props => {
   const isRelevantError = reason.match(/camera/i) || reason === 'Permission denied'
   let error = isRelevantError
     ? reason
-    : "You see, it's not that easy to capture your beauty :)\nSo, let's give it another shot..."
+    : "You see, it's not that easy\n to capture your beauty :)\nSo, let's give it another shot..."
   let title = isRelevantError ? 'Something went wrong...' : 'Something went wrong on our side...'
   if (isValid) {
     props.screenProps.pop({ isValid })
@@ -45,32 +50,17 @@ const FRError = props => {
   return (
     <Wrapper>
       <View style={styles.topContainer}>
-        <Section
-          style={{
-            flex: 1,
-            justifyContent: 'space-evenly',
-            marginBottom: 0,
-            paddingBottom: 0,
-            paddingLeft: 44,
-            paddingRight: 44,
-            paddingTop: 0,
-          }}
-        >
+        <Section style={styles.descriptionContainer} justifyContent="space-evenly">
           <Section.Title fontWeight="medium" textTransform="none">
+            {' '}
             {`${getFirstWord(fullName)},\n${title}`}
           </Section.Title>
-          <Image source={Oops} resizeMode={'center'} style={{ height: 146 }} />
-          <Section
-            style={{
-              paddingBottom: 0,
-              paddingTop: 0,
-              marginBottom: 0,
-            }}
-          >
+          <Image source={Oops} resizeMode="center" style={styles.errorImage} />
+          <Section style={styles.errorSection}>
             <Separator width={2} />
-            <Section.Text color="primary" fontWeight="bold" style={styles.description}>
+            <Text color="primary" fontWeight="bold" style={styles.description}>
               {`${error}`}
-            </Section.Text>
+            </Text>
             <Separator width={2} />
           </Section>
         </Section>
@@ -81,36 +71,56 @@ const FRError = props => {
     </Wrapper>
   )
 }
+
 FRError.navigationOptions = {
-  navigationBarHidden: false,
   title: 'Face Verification',
+  navigationBarHidden: false,
 }
 
-const styles = StyleSheet.create({
+const getStylesFromProps = ({ theme }) => ({
   topContainer: {
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
     display: 'flex',
-    backgroundColor: 'white',
+    backgroundColor: theme.colors.surface,
     height: '100%',
     flex: 1,
     flexGrow: 1,
     flexShrink: 0,
-    justifyContent: 'space-evenly',
-    paddingTop: 33,
+    paddingBottom: getDesignRelativeHeight(theme.sizes.defaultDouble),
+    paddingLeft: getDesignRelativeWidth(theme.sizes.default),
+    paddingRight: getDesignRelativeWidth(theme.sizes.default),
+    paddingTop: getDesignRelativeHeight(theme.sizes.defaultQuadruple),
     borderRadius: 5,
+  },
+  errorImage: {
+    height: getDesignRelativeHeight(146),
+  },
+  errorText: {
+    fontWeight: 'normal',
+  },
+  descriptionContainer: {
+    flex: 1,
+    marginBottom: 0,
+    paddingBottom: getDesignRelativeHeight(theme.sizes.defaultDouble),
+    paddingLeft: getDesignRelativeWidth(theme.sizes.defaultHalf),
+    paddingRight: getDesignRelativeWidth(theme.sizes.defaultHalf),
+    paddingTop: getDesignRelativeHeight(theme.sizes.defaultDouble),
+  },
+  errorSection: {
+    paddingBottom: 0,
+    paddingTop: 0,
+    marginBottom: 0,
   },
   bottomContainer: {
     display: 'flex',
     flex: 1,
-    paddingTop: 20,
+    paddingTop: getDesignRelativeHeight(20),
     justifyContent: 'flex-end',
   },
   description: {
-    paddingVertical: 25,
+    paddingVertical: getDesignRelativeHeight(25),
   },
 })
 
-FRError.navigationOptions = {
-  title: 'Face Verifcation',
-  navigationBarHidden: false,
-}
-export default FRError
+export default withStyles(getStylesFromProps)(FRError)

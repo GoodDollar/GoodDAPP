@@ -28,6 +28,8 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
   const [errorMessage, setErrorMessage] = useState()
   const [showErrorDialog, hideDialog] = useErrorDialog()
 
+  AsyncStorage.removeItem('web3Token')
+
   const handleChange = (mnemonics: string) => {
     log.info({ mnemonics })
     const splitted = mnemonics.split(' ')
@@ -126,11 +128,21 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
     return [exists, exists && (await userStorage.getProfileFieldDisplayValue('fullName'))]
   }
 
+  const web3HasWallet = get(navigation, 'state.params.web3HasWallet')
+
   return (
     <Section grow={5} style={styles.wrapper}>
       <Section.Stack grow style={styles.instructions} justifyContent="space-around">
         <Text fontWeight="medium" fontSize={22}>
           {'Please enter your\n12-word pass phrase:'}
+        </Text>
+        {web3HasWallet && (
+          <Text color="gray80Percent" fontSize={14}>
+            Looks like you already have a wallet. Please recover it to continue
+          </Text>
+        )}
+        <Text color="gray80Percent" fontSize={14}>
+          You can copy-paste it from your backup email
         </Text>
       </Section.Stack>
       <Section.Stack grow={4} justifyContent="space-between">
@@ -145,9 +157,9 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
           />
         </Section.Row>
       </Section.Stack>
-      <Section.Row grow style={styles.instructions} justifyContent="space-around">
+      <Section.Row style={styles.instructions} justifyContent="space-around">
         <Text color="gray80Percent" fontSize={14}>
-          {'You can copy-paste all of it at once\n rom your '}
+          {'You can copy-paste all of it at once\n from your '}
           <Text color="gray80Percent" fontSize={14} fontWeight="bold">
             {'backup email'}
           </Text>
@@ -177,8 +189,8 @@ const mnemonicsStyles = ({ theme }) => ({
     marginVertical: 20,
   },
   bottomContainer: {
-    maxHeight: 50,
-    minHeight: 50,
+    maxHeight: 80,
+    minHeight: 80,
   },
 })
 

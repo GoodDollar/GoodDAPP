@@ -1,11 +1,13 @@
 // @flow
 import React, { useMemo } from 'react'
-import { isMobile } from 'mobile-device-detect'
 import GDStore from '../../lib/undux/GDStore'
 import { generateReceiveShareObject, generateSendShareObject } from '../../lib/share'
-import { BigGoodDollar, CopyButton, CustomButton, QRCode, Section, Wrapper } from '../common'
+import BigGoodDollar from '../common/view/BigGoodDollar'
+import QRCode from '../common/view/QRCode'
+import Section from '../common/layout/Section'
+import Wrapper from '../common/layout/Wrapper'
+import ShareButton from '../common/buttons/ShareButton'
 import TopBar from '../common/view/TopBar'
-import { useErrorDialog } from '../../lib/undux/utils/dialog'
 
 import { useScreenState } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
@@ -21,7 +23,6 @@ const ReceiveConfirmation = ({ screenProps, styles, ...props }: ReceiveProps) =>
   const profile = GDStore.useStore().get('profile')
   const [screenState] = useScreenState(screenProps)
   const { amount, code, reason, counterPartyDisplayName } = screenState
-  const [showErrorDialog] = useErrorDialog()
   const { params } = props.navigation.state
 
   const share = useMemo(
@@ -32,16 +33,6 @@ const ReceiveConfirmation = ({ screenProps, styles, ...props }: ReceiveProps) =>
     [code]
   )
 
-  const shareAction = async () => {
-    try {
-      await navigator.share(share)
-    } catch (e) {
-      if (e.name !== 'AbortError') {
-        showErrorDialog(e)
-      }
-    }
-  }
-  console.info({ styles })
   return (
     <Wrapper>
       <TopBar push={screenProps.push} hideBalance />
@@ -68,13 +59,7 @@ const ReceiveConfirmation = ({ screenProps, styles, ...props }: ReceiveProps) =>
           <Section.Text style={styles.textRow}>{reason}</Section.Text>
         </Section.Stack>
         <Section.Stack>
-          {isMobile && navigator.share ? (
-            <CustomButton onPress={shareAction}>Share as link</CustomButton>
-          ) : (
-            <CopyButton toCopy={share.url} onPressDone={screenProps.goToRoot}>
-              Share as link
-            </CopyButton>
-          )}
+          <ShareButton share={share} onPressDone={screenProps.goToRoot} actionText="Share as link" />
         </Section.Stack>
       </Section>
     </Wrapper>

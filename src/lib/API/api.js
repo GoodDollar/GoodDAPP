@@ -235,7 +235,7 @@ class API {
    * `/storage/login/token` get api call
    */
   getLoginToken() {
-    return this.client.get('/verify/w3/logintoken')
+    return this.client.get('/storage/w3/logintoken')
   }
 
   /**

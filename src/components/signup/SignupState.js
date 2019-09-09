@@ -239,7 +239,10 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       ])
 
       AsyncStorage.removeItem('web3Token')
-      API.updateW3UserWithWallet(requestPayload.w3Token, goodWallet.account)
+
+      if (requestPayload.w3Token) {
+        API.updateW3UserWithWallet(requestPayload.w3Token, goodWallet.account)
+      }
 
       //need to wait for API.addUser but we dont need to wait for it to finish
       API.sendRecoveryInstructionByEmail(mnemonic)

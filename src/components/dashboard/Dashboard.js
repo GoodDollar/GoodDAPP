@@ -9,7 +9,7 @@ import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
 import { getInitialFeed, getNextFeed, PAGE_SIZE } from '../../lib/undux/utils/feed'
 import { executeWithdraw } from '../../lib/undux/utils/withdraw'
-import { weiToMask } from '../../lib/wallet/utils'
+import { gdToWei, weiToMask } from '../../lib/wallet/utils'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { PushButton } from '../appNavigation/PushButton'
 import TabsView from '../appNavigation/TabsView'
@@ -19,12 +19,10 @@ import ClaimButton from '../common/buttons/ClaimButton'
 import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
 import logger from '../../lib/logger/pino-logger'
-import userStorage from '../../lib/gundb/UserStorage'
+import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import { FAQ, PrivacyArticle, PrivacyPolicy, RewardsTab, Support, TermsOfUse } from '../webView/webViewInstances'
 import { withStyles } from '../../lib/styles'
 import Mnemonics from '../signin/Mnemonics'
-
-//import type { TransactionEvent } from '../../lib/gundb/UserStorage'
 import Amount from './Amount'
 import Claim from './Claim'
 import FeedList from './FeedList'
@@ -70,20 +68,24 @@ const Dashboard = props => {
   }
 
   const checkBonusesToRedeem = () => {
-    /*const res = */ API.redeemBonuses()
-    /*const resData = res.data
+    API.redeemBonuses().then(res => {
+      const resData = res.data
 
-    const transactionEvent: TransactionEvent = {
-      id: resData.hash,
-      date: new Date().toString(),
-      type: 'bonus',
-      data: {
-        from: 'GoodDollar',
-        amount: resData.bonusAmount,
-      },
-    }
+      if (resData.hash && resData.bonusAmount) {
+        const transactionEvent: TransactionEvent = {
+          id: resData.hash,
+          date: new Date().toString(),
+          type: 'bonus',
+          status: 'pending',
+          data: {
+            customName: 'GoodDollar (Bonus)',
+            amount: gdToWei(resData.bonusAmount),
+          },
+        }
 
-    userStorage.enqueueTX(transactionEvent)*/
+        userStorage.enqueueTX(transactionEvent)
+      }
+    })
   }
 
   const nextFeed = () => {

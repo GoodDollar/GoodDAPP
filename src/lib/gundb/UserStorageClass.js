@@ -481,6 +481,11 @@ export class UserStorage {
           receipt,
         },
       }
+
+      if (updatedFeedEvent.type === 'bonus') {
+        updatedFeedEvent.displayType = receipt.status ? 'bonussuccess' : 'bonuserror'
+      }
+
       logger.debug('handleReceiptUpdated receiptReceived', { initialEvent, feedEvent, receipt, data, updatedFeedEvent })
       if (isEqual(feedEvent, updatedFeedEvent) === false) {
         await this.updateFeedEvent(updatedFeedEvent, feedEvent.date)
@@ -1147,7 +1152,7 @@ export class UserStorage {
           .get('avatar')
           .get('display')
           .then())) ||
-      (type === 'claim' || address === '0x0000000000000000000000000000000000000000'
+      (['claim', 'bonus'].includes(type) || address === '0x0000000000000000000000000000000000000000'
         ? `${process.env.PUBLIC_URL}/favicon-96x96.png`
         : undefined)
 
@@ -1165,11 +1170,16 @@ export class UserStorage {
           avatar = `${process.env.PUBLIC_URL}/favicon-96x96.png`
         }
         break
+
+      case 'bonus':
+        displayType += status
+        break
     }
+
     return {
       id: id,
       date: new Date(date).getTime(),
-      type: type,
+      type,
       displayType,
       status,
       createdDate,

@@ -269,11 +269,11 @@ const getStylesFromProps = ({ theme }) => ({
     flexShrink: 0,
   },
   imageContainer: {
-    height: getDesignRelativeHeight(92),
+    height: getDesignRelativeHeight(192),
   },
   image: {
     marginTop: getDesignRelativeHeight(36),
-    height: getDesignRelativeHeight(35),
+    height: getDesignRelativeHeight(135),
   },
   mainContainer: {
     paddingBottom: 0,
@@ -299,8 +299,8 @@ const getStylesFromProps = ({ theme }) => ({
     fontSize: normalize(16),
   },
   steps: {
-    marginBottom: getDesignRelativeHeight(2),
-    marginTop: getDesignRelativeHeight(2),
+    marginBottom: getDesignRelativeHeight(22),
+    marginTop: getDesignRelativeHeight(22),
   },
   textGood: {
     fontSize: normalize(24),

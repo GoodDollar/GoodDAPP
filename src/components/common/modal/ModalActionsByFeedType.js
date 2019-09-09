@@ -2,12 +2,12 @@
 import React, { useState } from 'react'
 import { View } from 'react-native'
 import CustomButton from '../buttons/CustomButton'
-import CopyButton from '../buttons/CopyButton'
+import ShareButton from '../buttons/ShareButton'
 import logger from '../../../lib/logger/pino-logger'
 import normalize from '../../../lib/utils/normalizeText'
 import userStorage from '../../../lib/gundb/UserStorage'
 import goodWallet from '../../../lib/wallet/GoodWallet'
-import { generateShareLink } from '../../../lib/share'
+import { generateSendShareObject, generateShareLink } from '../../../lib/share'
 import { useErrorDialog } from '../../../lib/undux/utils/dialog'
 import { withStyles } from '../../../lib/styles'
 
@@ -45,11 +45,13 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose }) => {
     handleModalClose()
   }
 
-  const getPaymentLink = () =>
-    generateShareLink('send', {
+  const getPaymentLink = () => {
+    const url = generateShareLink('send', {
       paymentCode: item.id,
       reason: item.data.message,
     })
+    return generateSendShareObject(url, item.data.amount, item.data.endpoint.fullName, '')
+  }
 
   const readMore = () => {
     log.info({ item, action: 'readMore' })
@@ -69,59 +71,72 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose }) => {
       return (
         <>
           <View style={styles.buttonsView}>
-            <CustomButton
-              mode="outlined"
-              style={[styles.button, { borderColor: theme.colors.red }]}
-              onPress={cancelPayment}
-              color={theme.colors.red}
-              loading={state.cancelPaymentLoading}
-              textStyle={styles.buttonTextStyle}
-            >
-              Cancel payment link
-            </CustomButton>
-            <CopyButton
-              mode="outlined"
-              style={styles.rightButton}
-              toCopy={getPaymentLink()}
-              iconColor={theme.colors.primary}
-              textStyle={styles.buttonTextStyle}
-            >
-              Copy link
-            </CopyButton>
+            <View style={styles.rightButtonContainer}>
+              <CustomButton
+                mode="outlined"
+                style={[styles.button, { borderColor: theme.colors.red }]}
+                onPress={cancelPayment}
+                color={theme.colors.red}
+                loading={state.cancelPaymentLoading}
+                textStyle={styles.buttonTextStyle}
+              >
+                Cancel payment link
+              </CustomButton>
+            </View>
+            <View style={styles.rightButtonContainer}>
+              <ShareButton
+                share={getPaymentLink()}
+                actionText="Share as link"
+                mode="outlined"
+                style={styles.rightButton}
+                iconColor={theme.colors.primary}
+                textStyle={styles.buttonTextStyle}
+              />
+            </View>
           </View>
           <View style={styles.buttonsView}>
-            <CustomButton mode="contained" style={styles.rightButton} onPress={handleModalClose}>
-              Ok
-            </CustomButton>
+            <View style={styles.rightButtonContainer}>
+              <CustomButton mode="contained" style={styles.rightButton} onPress={handleModalClose}>
+                Ok
+              </CustomButton>
+            </View>
           </View>
         </>
       )
     case 'message':
       return (
         <View style={styles.buttonsView}>
-          <CustomButton mode="outlined" style={styles.button} onPress={readMore}>
-            Read more
-          </CustomButton>
-          <CustomButton mode="contained" style={styles.rightButton} onPress={shareMessage}>
-            Share
-          </CustomButton>
+          <View style={styles.rightButtonContainer}>
+            <CustomButton mode="outlined" style={styles.button} onPress={readMore}>
+              Read more
+            </CustomButton>
+          </View>
+          <View style={styles.rightButtonContainer}>
+            <CustomButton mode="contained" style={styles.rightButton} onPress={shareMessage}>
+              Share
+            </CustomButton>
+          </View>
         </View>
       )
     case 'invite':
       return (
         <View style={styles.buttonsView}>
-          <CustomButton mode="text" style={styles.button} onPress={handleModalClose}>
-            Later
-          </CustomButton>
-          <CustomButton
-            mode="contained"
-            style={styles.rightButton}
-            onPress={invitePeople}
-            iconAlignment="right"
-            icon="invite"
-          >
-            Invite
-          </CustomButton>
+          <View style={styles.rightButtonContainer}>
+            <CustomButton mode="text" style={styles.button} onPress={handleModalClose}>
+              Later
+            </CustomButton>
+          </View>
+          <View style={styles.rightButtonContainer}>
+            <CustomButton
+              mode="contained"
+              style={styles.rightButton}
+              onPress={invitePeople}
+              iconAlignment="right"
+              icon="invite"
+            >
+              Invite
+            </CustomButton>
+          </View>
         </View>
       )
     case 'feedback':
@@ -160,9 +175,14 @@ const getStylesFromProps = ({ theme }) => ({
     minWidth: 96,
   },
   rightButton: {
+    minWidth: 96,
+  },
+  rightButtonContainer: {
     marginLeft: theme.sizes.default,
     marginTop: theme.sizes.default,
-    minWidth: 96,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'stretch',
   },
   buttonTextStyle: {
     fontSize: normalize(14),

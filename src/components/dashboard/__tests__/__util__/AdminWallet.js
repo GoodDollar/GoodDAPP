@@ -218,14 +218,14 @@ export class Wallet {
       const isVerified = force || (await this.isVerified(address))
       if (isVerified) {
         let userBalance = await this.web3.eth.getBalance(address)
-        let toTop = parseInt(web3Utils.toWei('1000000', 'gwei')) - userBalance
+        let toTop = parseInt(web3Utils.toWei('5000000', 'gwei')) - userBalance
         log.debug('TopWallet:', { userBalance, toTop })
-        if (force || toTop / 1000000 >= 0.75) {
+        if (force || toTop / 5000000 >= 0.75) {
           let res = await this.sendNative({
             from: this.address,
             to: address,
             value: toTop,
-            gas: 100000,
+            gas: 1000000,
             gasPrice: web3Utils.toWei('1', 'gwei'),
           })
           log.debug('Topwallet result:', res)

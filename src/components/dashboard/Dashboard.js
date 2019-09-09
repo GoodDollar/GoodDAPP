@@ -126,7 +126,7 @@ const Dashboard = props => {
     const { paymentCode, reason } = props.navigation.state.params
     try {
       showDialog({ title: 'Processing Payment Link...', loading: true, buttons: [{ text: 'YAY!' }] })
-      await executeWithdraw(store, paymentCode, reason)
+      await executeWithdraw(store, decodeURI(paymentCode), decodeURI(reason))
       hideDialog()
     } catch (e) {
       showErrorDialog(e)

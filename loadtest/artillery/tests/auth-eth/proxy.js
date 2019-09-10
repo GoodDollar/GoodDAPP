@@ -1,38 +1,66 @@
-import '../../../mock-browser'
+import Gun from 'gun'
+const fs = require("fs");
+const rimraf = require("rimraf");
 import bip39 from 'bip39-light'
-import Config from "../../../../src/config/config";
 import {GoodWallet} from "../../../../src/lib/wallet/GoodWalletClass";
 import {UserStorage} from "../../../../src/lib/gundb/UserStorageClass";
 import {GoodWalletLogin} from "../../../../src/lib/login/GoodWalletLogin";
-
+import { log } from '../../utils/commons'
 /**
  * Main method
  * @returns {Promise<boolean>}
  */
 const runProxy = async () => {
   try {
-   // await createCreds()
+    await generatedData()
   } catch (e) {
     console.log(e);
   }
-  
+
   return true
 }
+
+  const generatedData = async () => {
+    const count = process.env.DURATION * process.env.ARRIVALRATE
+    log('Run generated random data: ' + count)
+    let allCreds = []
+    let cred = null;
+    
+    if (fs.existsSync(`${__dirname}/temp`)) {
+      rimraf.sync(`${__dirname}/temp`);
+    }
+    fs.mkdirSync(`${__dirname}/temp`);
+    
+    for (let i=0; i < count; i++) {
+      cred = await createCreds(i)
+      allCreds.push(cred)
+    }
+    
+    if (allCreds) {
+      fs.writeFileSync(`${__dirname}/random.data`, JSON.stringify(allCreds))
+    }
+
+    return true
+  }
 
 /**
  * Generate random data (but it not work)
  * @returns {Promise<Credentials|Error>}
  */
-const createCreds = async () => {
+const createCreds = async (i) => {
   try {
-    const gun = global.Gun({ file: './loadtest/loadtestAuthEth.json', peers: [`${Config.serverUrl}/gun`] })
+    const gun = Gun({
+      file: `${__dirname}/temp/${i}.json`,
+    })
     let mnemonic = bip39.generateMnemonic()
-    let wallet = new GoodWallet({ mnemonic })
+    const wallet = new GoodWallet({ mnemonic })
     await wallet.ready
-    let storage = new UserStorage(wallet, gun)
-    await storage.ready
+    const storage = new UserStorage(wallet, gun)
     let login = new GoodWalletLogin(wallet, storage)
-    return await login.auth()
+    await storage.ready
+    const creds = await login.login()
+    return creds
+    
   } catch (e) {
     console.log(e)
   }

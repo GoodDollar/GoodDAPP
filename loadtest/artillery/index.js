@@ -1,17 +1,19 @@
+import '../mock-browser'
 import fs from 'fs'
 import childProcess from 'child_process'
+import {log} from './utils/commons'
 
 class artilleryTest {
   errorMessage = []
-
-  constructor (testName) {
+  
+  constructor(testName) {
     this.testName = testName.trim()
     this.pathToFolder = `${__dirname}/tests/${this.testName}`
     this.pathToProxy = `${__dirname}/tests/${this.testName}/proxy.js`
     this.pathToTest = `${__dirname}/tests/${this.testName}/test.yml`
     this.testResult = ''
   }
-
+  
   /**
    * init abd run test
    *
@@ -22,9 +24,9 @@ class artilleryTest {
     if (this.errorMessage.length > 0) {
       console.log('Errors', this.errorMessage)
     } else {
-      this.runProxy()
-      this.runTest()
-      this.log(this.testResult)
+      await this.runProxy()
+      await this.runTest()
+      log(this.testResult)
     }
   }
   
@@ -34,45 +36,45 @@ class artilleryTest {
    * @returns {Promise<boolean>}
    */
   runProxy = async () => {
-    this.log('Run proxy test')
+    log('Run proxy test')
     try {
-      const { runProxy } = require(this.pathToProxy);
+      const {runProxy} = require(this.pathToProxy);
       await runProxy()
     } catch (e) {
       console.log(e);
     }
-
+    
     return true
   }
-
+  
   /**
    * Run test
    *
    * @returns {Promise<void>}
    */
   runTest = async () => {
-    this.log('Run test')
+    log('Run test')
     this.testResult = childProcess.execSync(`artillery run ${ this.pathToTest}`).toString();
   }
-
+  
   /**
    * Checking test files
    */
   isTestExists = () => {
-    this.log('Start check file')
-
-      if (!fs.existsSync(this.pathToFolder)) {
-        this.addError(`Folder not found ${this.pathToFolder}`)
-      }
-
-      if (!fs.existsSync(this.pathToProxy)) {
-        this.addError(`File not found ${this.pathToProxy}`)
-      }
-
-      if (!fs.existsSync(this.pathToTest)) {
-        this.addError(`File not found ${this.pathToTest}`)
-      }
-    this.log('End check file')
+    log('Start check file')
+    
+    if (!fs.existsSync(this.pathToFolder)) {
+      this.addError(`Folder not found ${this.pathToFolder}`)
+    }
+    
+    if (!fs.existsSync(this.pathToProxy)) {
+      this.addError(`File not found ${this.pathToProxy}`)
+    }
+    
+    if (!fs.existsSync(this.pathToTest)) {
+      this.addError(`File not found ${this.pathToTest}`)
+    }
+    log('End check file')
   }
   
   /**
@@ -83,16 +85,7 @@ class artilleryTest {
   addError = (error) => {
     this.errorMessage.push(error)
   }
-
-  /**
-   * Log
-   *
-   * @param {string} msg
-   */
-  log = (msg) => {
-    console.info((new Date()) + ' || - ' , msg)
-  }
-
+  
 }
 
 
@@ -104,14 +97,14 @@ class artilleryTest {
  * @returns {Promise<void>}
  */
 const run = async testName => {
-  console.info('Waiting for tests to finish...')
+  log('Waiting for tests to finish...')
   try {
     const Test = new artilleryTest(testName)
-    Test.init()
+    await Test.init()
   } catch (e) {
     console.log(e)
   }
-  console.info('Done. Quiting')
+  log('Done. Quiting')
   process.exit(-1)
 };
 
@@ -121,5 +114,6 @@ testName.trim()
 if (testName) {
   run(testName)
 } else {
-  console.log('please enter test name')
+  log('Done. Quiting')
+  process.exit(-1)
 }

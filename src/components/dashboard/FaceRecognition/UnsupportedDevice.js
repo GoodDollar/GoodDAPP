@@ -15,7 +15,7 @@ import logger from '../../../lib/logger/pino-logger'
 import { fireEvent } from '../../../lib/analytics/analytics'
 import { withStyles } from '../../../lib/styles'
 import Text from '../../common/view/Text'
-import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
+import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
 Image.prefetch(Oops)
 const log = logger.child({ from: 'UnsupportedDevice' })
 
@@ -138,8 +138,8 @@ const getStylesFromProps = ({ theme }) => ({
     paddingBottom: 0,
     paddingTop: 0,
     marginBottom: 0,
-    paddingLeft: '10%',
-    paddingRight: '10%',
+    paddingLeft: getDesignRelativeWidth(10),
+    paddingRight: getDesignRelativeWidth(10),
     flex: 1,
   },
   image: {

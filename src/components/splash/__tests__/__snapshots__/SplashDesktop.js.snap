@@ -404,7 +404,6 @@ on your mobile device.
                   "alignItems": "center",
                   "flexDirection": "row",
                   "justifyContent": "center",
-                  "letterSpacing": "0px",
                   "msFlexAlign": "center",
                   "msFlexDirection": "row",
                   "msFlexPack": "center",

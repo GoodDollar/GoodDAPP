@@ -33,6 +33,8 @@ const CONTRACT_EVENT_TYPE_PAYMENT_CANCEL = 'PaymentCancel'
 const CONTRACT_EVENT_TYPE_BONUS_CLAIMED = 'BonusClaimed'
 const CONTRACT_EVENT_TYPE_TRANSFER = 'Transfer'
 
+const COMPLETED_BONUS_REASON_TEXT = 'Your recent earned rewards'
+
 function isValidDate(d) {
   return d instanceof Date && !isNaN(d)
 }
@@ -499,6 +501,10 @@ export class UserStorage {
           receiptData: data,
           receipt,
         },
+      }
+
+      if (initialEvent.type === EVENT_TYPE_BONUS && receipt.status) {
+        updatedFeedEvent.data.reason = COMPLETED_BONUS_REASON_TEXT
       }
 
       logger.debug('handleReceiptUpdated receiptReceived', { initialEvent, feedEvent, receipt, data, updatedFeedEvent })

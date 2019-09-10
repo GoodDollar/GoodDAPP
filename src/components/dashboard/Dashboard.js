@@ -87,7 +87,7 @@ const Dashboard = props => {
           type: 'bonus',
           status: 'pending',
           data: {
-            customName: 'GoodDollar (Bonus)',
+            customName: 'GoodDollar',
             amount: gdToWei(resData.bonusAmount),
           },
         }

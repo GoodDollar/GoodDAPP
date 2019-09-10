@@ -37,21 +37,25 @@ const ViewAvatar = props => {
     <Wrapper>
       <Section style={styles.section}>
         {profile.avatar ? (
-          <UserAvatar profile={profile} size={272} />
+          <>
+            <UserAvatar profile={profile} size={272} />
+            <CircleButtonWrapper
+              style={styles.closeButton}
+              iconName={'close'}
+              iconSize={20}
+              onPress={handleClosePress}
+            />
+            <CameraButton style={styles.cameraButton} handleCameraPress={handleCameraPress} />
+          </>
         ) : (
-          <InputFile onChange={handleAddAvatar}>
-            <UserAvatar profile={profile} size={272} />{' '}
-          </InputFile>
-        )}
-        {profile.avatar && (
-          <CircleButtonWrapper style={styles.closeButton} iconName={'close'} iconSize={20} onPress={handleClosePress} />
-        )}
-        {profile.avatar ? (
-          <CameraButton style={styles.cameraButton} handleCameraPress={handleCameraPress} />
-        ) : (
-          <InputFile onChange={handleAddAvatar}>
-            <CameraButton style={styles.cameraButton} />
-          </InputFile>
+          <>
+            <InputFile onChange={handleAddAvatar}>
+              <UserAvatar profile={profile} size={272} />{' '}
+            </InputFile>
+            <InputFile onChange={handleAddAvatar}>
+              <CameraButton style={styles.cameraButton} />
+            </InputFile>
+          </>
         )}
       </Section>
     </Wrapper>

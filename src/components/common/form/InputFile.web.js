@@ -1,4 +1,6 @@
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useRef } from 'react'
+import logger from '../../../lib/logger/pino-logger'
+const log = logger.child({ from: 'InputFile' })
 
 const MAX_WIDTH = 600
 const MAX_HEIGHT = 600
@@ -13,26 +15,21 @@ const toBase64 = file =>
 
 const InputFile = props => {
   const inputRef = useRef(null)
-  const [canvas, setCanvas] = useState()
-  const [img, setImg] = useState()
-  const canvasRef = useCallback(node => {
-    if (node !== null) {
-      setCanvas(node)
-    }
-  }, [])
 
-  const imgRef = useCallback(node => {
-    if (node !== null) {
-      setImg(node)
-    }
-  }, [])
+  const getReducedFileAsDataUrl = async (file, maxWidth = MAX_WIDTH, maxHeight = MAX_HEIGHT) => {
+    const data64 = await toBase64(file)
+    const img = await getImageWithSrc(data64)
+    const dataUrl = getReducedDataUrlWithImage(img, maxWidth, maxHeight)
 
-  const getReducedFileAsDataUrl = (data64, maxWidth = MAX_WIDTH, maxHeight = MAX_HEIGHT) => {
+    log.debug('getReducedFileAsDataUrl', { data64, img, dataUrl })
+    return dataUrl
+  }
 
-    img.src = data64
+  const getReducedDataUrlWithImage = (image, maxWidth, maxHeight) => {
+    const canvas = document.createElement('canvas')
 
-    var width = img.width
-    var height = img.height
+    let width = image.width
+    let height = image.height
 
     if (width > height) {
       if (width > maxWidth) {
@@ -47,38 +44,45 @@ const InputFile = props => {
     }
     canvas.width = width
     canvas.height = height
-    var ctx = canvas.getContext('2d')
-    ctx.drawImage(img, 0, 0, width, height)
 
-    return canvas.toDataURL('image/png')
+    var ctx = canvas.getContext('2d')
+    ctx.drawImage(image, 0, 0, width, height)
+
+    const dataUrl = canvas.toDataURL('image/png')
+    log.debug('getReducedDataUrlWithImage', { ctx, canvas, dataUrl })
+
+    return dataUrl
+  }
+
+  const getImageWithSrc = src => {
+    return new Promise((resolve, reject) => {
+      const img = new Image()
+      img.onload = function() {
+        resolve(img)
+      }
+      img.src = src
+    })
   }
 
   return (
     <>
-      {img && canvas && (
-        <>
-          <input
-            ref={inputRef}
-            type="file"
-            id="file"
-            name="file"
-            style={styles.input}
-            onChange={async event => {
-              event.preventDefault()
-              const [file] = inputRef.current.files
-
-              const data64Url = await toBase64(file)
-              const dataUrl = getReducedFileAsDataUrl(data64Url)
-              props.onChange(dataUrl)
-            }}
-          />
-          <label htmlFor="file" style={styles.label}>
-            {props.children}
-          </label>
-        </>
-      )}
-      <canvas ref={canvasRef} style={{ position: 'absolute', display: 'none' }} />
-      <img alt="profile" ref={imgRef} style={{ position: 'absolute', display: 'none' }} />
+      <input
+        ref={inputRef}
+        type="file"
+        id="file"
+        name="file"
+        style={styles.input}
+        accept="image/*"
+        onChange={async event => {
+          event.preventDefault()
+          const [file] = inputRef.current.files
+          const dataUrl = await getReducedFileAsDataUrl(file)
+          props.onChange(dataUrl)
+        }}
+      />
+      <label htmlFor="file" style={styles.label}>
+        {props.children}
+      </label>
     </>
   )
 }

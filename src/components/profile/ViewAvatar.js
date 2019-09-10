@@ -26,7 +26,6 @@ const ViewAvatar = props => {
   const handleClosePress = event => {
     event.preventDefault()
     wrappedUserStorage.setProfileField('avatar', null, 'public').catch(e => showErrorDialog('Saving image failed', e))
-    props.screenProps.push('Profile')
   }
 
   const handleAddAvatar = avatar => {

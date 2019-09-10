@@ -3,7 +3,7 @@ import { Image, View } from 'react-native'
 import _get from 'lodash/get'
 import * as web3Utils from 'web3-utils'
 import normalize from '../../lib/utils/normalizeText'
-import { getDesignRelativeHeight } from '../../lib/utils/sizes'
+import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { AwaitButton, CustomButton, Section, Wrapper } from '../common'
 import Separator from '../common/layout/Separator'
@@ -109,7 +109,7 @@ const getStylesFromProps = ({ theme }) => ({
     flexGrow: 1,
     flexShrink: 0,
     justifyContent: 'space-evenly',
-    paddingTop: 33,
+    paddingTop: getDesignRelativeHeight(33),
     borderRadius: 5,
   },
   mainContainer: {
@@ -126,13 +126,13 @@ const getStylesFromProps = ({ theme }) => ({
     height: getDesignRelativeHeight(146),
   },
   separator: {
-    marginHorizontal: 12,
+    marginHorizontal: getDesignRelativeHeight(12),
   },
   description: {
-    paddingTop: 25,
-    paddingBottom: 25,
-    paddingLeft: theme.paddings.defaultMargin,
-    paddingRight: theme.paddings.defaultMargin,
+    paddingTop: getDesignRelativeHeight(25),
+    paddingBottom: getDesignRelativeHeight(25),
+    paddingLeft: getDesignRelativeWidth(theme.paddings.defaultMargin),
+    paddingRight: getDesignRelativeWidth(theme.paddings.defaultMargin),
     verticalAlign: 'text-top',
   },
   mainTitle: {

@@ -1,5 +1,5 @@
 config:
-  target: http://localhost:3003
+  target: "{{ $processEnvironment.TARGET }}"
   phases:
     - duration: "{{ $processEnvironment.DURATION }}"
       arrivalRate: "{{ $processEnvironment.ARRIVALRATE }}"

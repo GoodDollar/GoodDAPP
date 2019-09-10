@@ -7,7 +7,7 @@ done
 echo '------------------------'
 
 read -p "Please enter test name, default [${TEST_NAME}] : " NAME
-[ -n "${NAME}" ] && TEST_NAME=NAME
+[ -n "${NAME}" ] && TEST_NAME=${NAME}
 
 unset DURATION_USER
 while [[ ! ${DURATION_USER} =~ ^[0-9]+$ ]]; do
@@ -35,6 +35,7 @@ export REACT_APP_GUN_PUBLIC_URL=http://localhost:3003/gun;
 export REACT_APP_PUBLIC_URL=http://localhost:3000;
 export DURATION=${DURATION_USER};
 export ARRIVALRATE=${ARRIVALRATE_USER};
+export TARGET=http://localhost:3003
 
 npx babel-node loadtest/artillery/index.js ${TEST_NAME}
 

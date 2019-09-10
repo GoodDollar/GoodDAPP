@@ -17,6 +17,7 @@ import NumPadKeyboard from './view/NumPadKeyboard'
 import QRCode from './view/QRCode'
 import SaveButton from './buttons/SaveButton'
 import ScanQRButton from './buttons/ScanQRButton'
+import AwaitButton from './buttons/AwaitButton'
 import Section from './layout/Section'
 import ShareButton from './buttons/ShareButton'
 import Text from './view/Text'
@@ -49,4 +50,5 @@ export {
   Text,
   UserAvatar,
   Wrapper,
+  AwaitButton,
 }

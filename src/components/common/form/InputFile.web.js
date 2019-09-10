@@ -124,7 +124,7 @@ const InputFile = props => {
         break
     }
 
-    ctx.drawImage(image, 0, 0)
+    ctx.drawImage(image, 0, 0, width, height)
 
     const dataUrl = canvas.toDataURL('image/png')
     log.debug('getReducedDataUrlWithImage', { ctx, canvas, dataUrl })

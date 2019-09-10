@@ -15,12 +15,12 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: 'gooddollar';
-    src: url('../font/gooddollar.svg?28641484#gooddollar') format('svg');
+    src: url('../font/gooddollar.svg?50653285#gooddollar') format('svg');
   }
 }
 */
 
- [class^="icon-"]:before, [class*=" icon-"]:before {
+[class^="icon-"]:before, [class*=" icon-"]:before {
   font-family: "gooddollar";
   font-style: normal;
   font-weight: normal;
@@ -63,6 +63,7 @@
 .icon-exchange:before { content: '\e805'; } /* '' */
 .icon-cake:before { content: '\e806'; } /* '' */
 .icon-camera:before { content: '\e807'; } /* '' */
+.icon-bonus-reward:before { content: '\e808'; } /* '' */
 .icon-paste:before { content: '\e80b'; } /* '' */
 .icon-close:before { content: '\e80c'; } /* '' */
 .icon-convert:before { content: '\e80d'; } /* '' */

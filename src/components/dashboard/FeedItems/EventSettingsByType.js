@@ -8,17 +8,17 @@ const getEventSettingsByType = (theme, type) => {
     bonuspending: {
       actionSymbol: '+',
       color: theme.colors.orange,
-      name: 'rewards',
+      name: 'bonus-reward',
     },
     bonuserror: {
       actionSymbol: '+',
       color: theme.colors.red,
-      name: 'rewards',
+      name: 'bonus-reward',
     },
     bonuscompleted: {
       actionSymbol: '+',
       color: theme.colors.lightGreen,
-      name: 'rewards',
+      name: 'bonus-reward',
     },
     send: {
       actionSymbol: '-',

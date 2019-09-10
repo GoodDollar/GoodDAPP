@@ -58,11 +58,15 @@ const Dashboard = props => {
   const prepareLoginToken = async () => {
     const loginToken = await userStorage.getProfileFieldValue('loginToken')
 
-    if (!loginToken) {
-      const response = await API.getLoginToken()
+    if (loginToken) {
+      return
+    }
 
-      const _loginToken = _get(response, 'data.loginToken')
+    const response = await API.getLoginToken()
 
+    const _loginToken = _get(response, 'data.loginToken')
+
+    if (_loginToken) {
       await userStorage.setProfileField('loginToken', _loginToken, 'private')
     }
   }

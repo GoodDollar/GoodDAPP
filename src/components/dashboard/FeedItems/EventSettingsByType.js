@@ -15,7 +15,7 @@ const getEventSettingsByType = (theme, type) => {
       color: theme.colors.red,
       name: 'rewards',
     },
-    bonussuccess: {
+    bonuscompleted: {
       actionSymbol: '+',
       color: theme.colors.lightGreen,
       name: 'rewards',

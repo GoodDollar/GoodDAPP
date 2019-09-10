@@ -25,13 +25,13 @@ import defaultGun from './gundb'
 const logger = pino.child({ from: 'UserStorage' })
 
 const EVENT_TYPE_BONUS = 'bonus'
-const EVENT_DISPLAY_TYPE_BONUS_SUCCESS = 'bonussuccess'
-const EVENT_DISPLAY_TYPE_BONUS_ERROR = 'bonuserror'
 const EVENT_TYPE_CLAIM = 'claim'
 const EVENT_TYPE_SEND = 'send'
 const EVENT_TYPE_RECEIVE = 'receive'
-const EVENT_TYPE_PAYMENT_WITHDRAW = 'PaymentWithdraw'
-const EVENT_TYPE_PAYMENT_CANCEL = 'PaymentCancel'
+const CONTRACT_EVENT_TYPE_PAYMENT_WITHDRAW = 'PaymentWithdraw'
+const CONTRACT_EVENT_TYPE_PAYMENT_CANCEL = 'PaymentCancel'
+const CONTRACT_EVENT_TYPE_BONUS_CLAIMED = 'BonusClaimed'
+const CONTRACT_EVENT_TYPE_TRANSFER = 'Transfer'
 
 function isValidDate(d) {
   return d instanceof Date && !isNaN(d)
@@ -155,20 +155,26 @@ export const getReceiveDataFromReceipt = (receipt: any) => {
       )
     )
 
+  // bonus claimed log
+  const bonusLog = logs.find(log => {
+    return log && log.name && log.name === CONTRACT_EVENT_TYPE_BONUS_CLAIMED
+  })
+
   //maxBy is used in case transaction also paid a TX fee/burn, so since they are small
   //it filters them out
   const transferLog = maxBy(
     logs.filter(log => {
-      return log && log.name === 'Transfer'
+      return log && log.name && log.name === CONTRACT_EVENT_TYPE_TRANSFER
     }),
     'value'
   )
   const withdrawLog = logs.find(log => {
-    return log && (log.name === EVENT_TYPE_PAYMENT_WITHDRAW || log.name === EVENT_TYPE_PAYMENT_CANCEL)
+    return log && (log.name === CONTRACT_EVENT_TYPE_PAYMENT_WITHDRAW || log.name === CONTRACT_EVENT_TYPE_PAYMENT_CANCEL)
   })
+
   logger.debug('getReceiveDataFromReceipt', { logs: receipt.logs, transferLog, withdrawLog })
-  const log = withdrawLog || transferLog
-  return log
+
+  return withdrawLog || transferLog || bonusLog
 }
 
 export const getOperationType = (data: any, account: string) => {
@@ -426,6 +432,7 @@ export class UserStorage {
       this.wallet.subscribeToEvent('otplUpdated', receipt => this.handleOTPLUpdated(receipt))
       this.wallet.subscribeToEvent('receiptUpdated', receipt => this.handleReceiptUpdated(receipt))
       this.wallet.subscribeToEvent('receiptReceived', receipt => this.handleReceiptUpdated(receipt))
+      this.wallet.subscribeToEvent('BonusClaimed', receipt => this.handleReceiptUpdated(receipt))
       res(true)
     })
   }
@@ -457,8 +464,8 @@ export class UserStorage {
     //with enqueing the initial TX data
     const data = getReceiveDataFromReceipt(receipt)
     if (
-      data.name === EVENT_TYPE_PAYMENT_CANCEL ||
-      (data.name === EVENT_TYPE_PAYMENT_WITHDRAW && data.from === data.to)
+      data.name === CONTRACT_EVENT_TYPE_PAYMENT_CANCEL ||
+      (data.name === CONTRACT_EVENT_TYPE_PAYMENT_WITHDRAW && data.from === data.to)
     ) {
       logger.debug('handleReceiptUpdated: skipping self withdrawn payment link (cancelled)', { data, receipt })
       return {}
@@ -492,12 +499,6 @@ export class UserStorage {
           receiptData: data,
           receipt,
         },
-      }
-
-      if (updatedFeedEvent.type === EVENT_TYPE_BONUS) {
-        updatedFeedEvent.displayType = receipt.status
-          ? EVENT_DISPLAY_TYPE_BONUS_SUCCESS
-          : EVENT_DISPLAY_TYPE_BONUS_ERROR
       }
 
       logger.debug('handleReceiptUpdated receiptReceived', { initialEvent, feedEvent, receipt, data, updatedFeedEvent })
@@ -534,7 +535,8 @@ export class UserStorage {
       const feedEvent = await this.getFeedItemByTransactionHash(originalTXHash)
 
       //if we withdrawn the payment link then its canceled
-      const otplStatus = data.name === EVENT_TYPE_PAYMENT_CANCEL || data.to === data.from ? 'cancelled' : 'completed'
+      const otplStatus =
+        data.name === CONTRACT_EVENT_TYPE_PAYMENT_CANCEL || data.to === data.from ? 'cancelled' : 'completed'
       const prevDate = feedEvent.date
       feedEvent.data.to = data.to
       feedEvent.data.otplReceipt = receipt

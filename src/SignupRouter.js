@@ -6,11 +6,12 @@ import { Platform } from 'react-native'
 import Signup from './components/signup/SignupState'
 import SigninInfo from './components/signin/SigninInfo'
 import Auth from './components/auth/Auth'
-
+import InvalidW3TokenError from './components/signup/InvalidWeb3TokenError'
 const router = createSwitchNavigator(
   {
     Auth,
     Signup,
+    InvalidW3TokenError,
     SigninInfo,
   },
   {

@@ -4,6 +4,7 @@ const Config = {
   logLevel: process.env.REACT_APP_LOG_LEVEL || 'debug',
   serverUrl: process.env.REACT_APP_SERVER_URL || 'http://localhost:3003',
   gunPublicUrl: process.env.REACT_APP_GUN_PUBLIC_URL || 'http://localhost:3003/gun',
+  web3SiteUrl: process.env.REACT_APP_WEB3_SITE_URL,
   publicUrl: process.env.REACT_APP_PUBLIC_URL || (window && window.location && window.location.origin),
   infuraKey: process.env.REACT_APP_INFURA_KEY,
   network: process.env.REACT_APP_NETWORK || 'fuse',

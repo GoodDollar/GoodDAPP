@@ -24,17 +24,17 @@ const log = logger.child({ from: 'AppSwitch' })
 const AppSwitch = (props: LoadingProps) => {
   const store = SimpleStore.useStore()
   const gdstore = GDStore.useStore()
+  const { router, state } = props.navigation
 
   /*
   Check if user is incoming with a URL with action details, such as payment link or email confirmation
   */
   const getParams = async () => {
-    const { router, state } = props.navigation
-
     // const navInfo = router.getPathAndParamsForState(state)
     const destinationPath = await AsyncStorage.getItem(DESTINATION_PATH).then(JSON.parse)
     AsyncStorage.removeItem(DESTINATION_PATH)
     log.debug('getParams', { destinationPath, router, state })
+
     if (destinationPath) {
       const app = router.getActionForPathAndParams(destinationPath.path)
       const destRoute = actions => (some(actions, 'action') ? destRoute(actions.action) : actions.action)

@@ -1,6 +1,7 @@
 .vscode
 android
 assets
+/node_modules
 /config
 flow-typed
 scripts

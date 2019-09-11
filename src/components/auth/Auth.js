@@ -1,6 +1,7 @@
 // @flow
 import React from 'react'
 import { AsyncStorage, Image, View } from 'react-native'
+import _get from 'lodash/get'
 import Mnemonics from '../signin/Mnemonics'
 import logger from '../../lib/logger/pino-logger'
 import CustomButton from '../common/buttons/CustomButton'
@@ -29,20 +30,29 @@ const log = logger.child({ from: 'Auth' })
 
 class Auth extends React.Component<Props> {
   state = {
-    w3TokenExists: false,
+    asGuest: false,
   }
 
   async componentWillMount() {
-    await this.checkWeb3Token()
+    await this.checkWeb3TokenAndPaymentCode()
   }
 
-  checkWeb3Token = async () => {
+  checkWeb3TokenAndPaymentCode = async () => {
     const { navigation } = this.props
     const web3Token = await AsyncStorage.getItem('web3Token')
+    const _destinationPath = await AsyncStorage.getItem('destinationPath')
+    const destinationPath = JSON.parse(_destinationPath)
+    const paymentCode = _get(destinationPath, 'params.paymentCode')
+
+    if (paymentCode) {
+      return this.setState({
+        asGuest: true,
+      })
+    }
 
     if (web3Token) {
       this.setState({
-        w3TokenExists: true,
+        asGuest: true,
       })
 
       let behaviour
@@ -105,18 +115,18 @@ class Auth extends React.Component<Props> {
 
   render() {
     const { styles } = this.props
-    const { w3TokenExists } = this.state
-    const firstButtonHandler = w3TokenExists ? this.handleSignUp : this.goToW3Site
-    const firstButtonText = w3TokenExists ? 'Create a wallet' : 'Get Invited'
-    const firstButtonColor = w3TokenExists ? undefined : mainTheme.colors.orange
-    const firstButtontextStyle = w3TokenExists ? undefined : styles.textBlack
+    const { asGuest } = this.state
+    const firstButtonHandler = asGuest ? this.handleSignUp : this.goToW3Site
+    const firstButtonText = asGuest ? 'Create a wallet' : 'Get Invited'
+    const firstButtonColor = asGuest ? undefined : mainTheme.colors.orange
+    const firstButtontextStyle = asGuest ? undefined : styles.textBlack
 
     return (
       <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
         <NavBar title={'Welcome'} />
         <Image source={illustration} style={styles.illustration} resizeMode="contain" />
         <View style={styles.bottomContainer}>
-          {w3TokenExists && (
+          {asGuest && (
             <Text fontSize={12} color="gray80Percent">
               {`By clicking the 'Create a wallet' button,\nyou are accepting our\n`}
               <Text

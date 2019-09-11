@@ -961,12 +961,15 @@ export class UserStorage {
    * @todo Add pagination
    */
   async getFormattedEvents(numResults: number, reset?: boolean): Promise<Array<StandardFeed>> {
-    const feeds = await this.getFeedPage(numResults, reset)
+    const feed = await this.getFeedPage(numResults, reset)
 
     return Promise.all(
-      feeds
-        .filter(feed => feed.data && ['deleted', 'cancelled'].includes(feed.status || feed.otplStatus) === false)
-        .map(feed => this.formatEvent(feed))
+      feed
+        .filter(
+          feedItem =>
+            feedItem.data && ['deleted', 'cancelled'].includes(feedItem.status || feedItem.otplStatus) === false
+        )
+        .map(feedItem => this.formatEvent(feedItem))
     )
   }
 

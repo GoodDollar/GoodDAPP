@@ -1,7 +1,6 @@
 // @flow
 import React from 'react'
-import { Image, ScrollView, TouchableOpacity, View } from 'react-native'
-import NavBar from '../appNavigation/NavBar'
+import { Image, TouchableOpacity, View } from 'react-native'
 import Section from '../common/layout/Section'
 import Circle from '../common/view/Circle'
 import Wrapper from '../common/layout/Wrapper'
@@ -10,6 +9,7 @@ import Text from '../common/view/Text'
 import { withStyles } from '../../lib/styles'
 import illustration from '../../assets/Signin/illustration.svg'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
+import {createStackNavigator} from "../appNavigation/stackNavigation";
 type Props = {
   navigation: any,
   screenProps: {
@@ -32,9 +32,6 @@ class Signin extends React.Component<Props> {
   render() {
     const { styles } = this.props
     return (
-      <View style={{ flexGrow: 1 }}>
-        <NavBar goBack={this.handleSignIn} title={'SIGN IN'} />
-        <ScrollView contentContainerStyle={styles.scrollableContainer}>
           <View style={styles.contentContainer}>
             <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
               <Image source={illustration} style={styles.illustration} resizeMode="contain" />
@@ -80,8 +77,6 @@ class Signin extends React.Component<Props> {
               </Section.Row>
             </Wrapper>
           </View>
-        </ScrollView>
-      </View>
     )
   }
 }
@@ -122,9 +117,17 @@ const getStylesFromProps = ({ theme }) => {
   }
 }
 
-Signin.navigationOptions = {
+const signin = withStyles(getStylesFromProps)(Signin)
+signin.navigationOptions = {
   title: 'Sign in',
   navigationBarHidden: false,
 }
 
-export default withStyles(getStylesFromProps)(Signin)
+export default createStackNavigator(
+  {
+    signin
+  },
+  {
+    backRouteName: 'Auth',
+  }
+)

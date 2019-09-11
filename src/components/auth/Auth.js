@@ -5,13 +5,17 @@ import Mnemonics from '../signin/Mnemonics'
 import logger from '../../lib/logger/pino-logger'
 import CustomButton from '../common/buttons/CustomButton'
 import { PushButton } from '../appNavigation/PushButton'
-import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
 import Text from '../common/view/Text'
 import { PrivacyPolicy, Support, TermsOfUse } from '../webView/webViewInstances'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
 import illustration from '../../assets/Auth/Illustration.svg'
+import NavBar from '../appNavigation/NavBar'
+import config from '../../config/config'
+import { theme as mainTheme } from '../theme/styles'
+import API from '../../lib/API/api'
+
 type Props = {
   navigation: any,
   screenProps: {
@@ -22,7 +26,12 @@ type Props = {
 
 Image.prefetch(illustration)
 const log = logger.child({ from: 'Auth' })
+
 class Auth extends React.Component<Props> {
+  state = {
+    w3TokenExists: false,
+  }
+
   async componentWillMount() {
     await this.checkWeb3Token()
   }
@@ -32,7 +41,36 @@ class Auth extends React.Component<Props> {
     const web3Token = await AsyncStorage.getItem('web3Token')
 
     if (web3Token) {
-      navigation.navigate('Signup')
+      this.setState({
+        w3TokenExists: true,
+      })
+
+      let behaviour
+      let w3User
+
+      try {
+        const w3userData = await API.getUserFromW3ByToken(web3Token)
+        w3User = w3userData.data
+
+        if (!w3User.has_wallet) {
+          behaviour = 'goToRecoverScreen'
+        }
+      } catch (e) {
+        behaviour = 'showTokenError'
+      }
+
+      switch (behaviour) {
+        case 'showTokenError':
+          navigation.navigate('InvalidW3TokenError')
+          break
+
+        case 'goToRecoverScreen':
+          navigation.navigate('Recover', { web3HasWallet: true })
+          break
+
+        default:
+          break
+      }
     }
   }
 
@@ -61,49 +99,55 @@ class Auth extends React.Component<Props> {
 
   handleNavigatePrivacyPolicy = () => this.props.screenProps.push('PrivacyPolicy')
 
+  goToW3Site = () => {
+    window.location = config.web3SiteUrl
+  }
+
   render() {
     const { styles } = this.props
+    const { w3TokenExists } = this.state
+    const firstButtonHandler = w3TokenExists ? this.handleSignUp : this.goToW3Site
+    const firstButtonText = w3TokenExists ? 'Create a wallet' : 'Get Invited'
+    const firstButtonColor = w3TokenExists ? undefined : mainTheme.colors.orange
+    const firstButtontextStyle = w3TokenExists ? undefined : styles.textBlack
+
     return (
       <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
-        <Section justifyContent="space-between" style={styles.mainSection} alignItems="center">
-          <Section.Row alignItems="center" justifyContent="center" style={styles.topRow}>
-            <Section.Text color="surface" fontFamily="slab" fontSize={22} fontWeight="bold">
-              {`Alpha tokens are\nfor test use only!`}
-            </Section.Text>
-          </Section.Row>
-          <Section.Separator color="#fff" width={2} style={styles.separator} />
-          <Section.Row alignItems="center" justifyContent="center">
-            <Section.Text color="surface" fontWeight="medium">
-              {`They have no real value and will be deleted at the end of the Alpha`}
-            </Section.Text>
-          </Section.Row>
-        </Section>
+        <NavBar title={'Welcome'} />
         <Image source={illustration} style={styles.illustration} resizeMode="contain" />
         <View style={styles.bottomContainer}>
-          <Text fontSize={12} color="gray80Percent">
-            {`By clicking the 'Create a wallet' button,\nyou are accepting our\n`}
-            <Text
-              fontSize={12}
-              color="gray80Percent"
-              fontWeight="bold"
-              textDecorationLine="underline"
-              onPress={this.handleNavigateTermsOfUse}
-            >
-              Terms of Use
+          {w3TokenExists && (
+            <Text fontSize={12} color="gray80Percent">
+              {`By clicking the 'Create a wallet' button,\nyou are accepting our\n`}
+              <Text
+                fontSize={12}
+                color="gray80Percent"
+                fontWeight="bold"
+                textDecorationLine="underline"
+                onPress={this.handleNavigateTermsOfUse}
+              >
+                Terms of Use
+              </Text>
+              {' and '}
+              <Text
+                fontSize={12}
+                color="gray80Percent"
+                fontWeight="bold"
+                r
+                textDecorationLine="underline"
+                onPress={this.handleNavigatePrivacyPolicy}
+              >
+                Privacy Policy
+              </Text>
             </Text>
-            {' and '}
-            <Text
-              fontSize={12}
-              color="gray80Percent"
-              fontWeight="bold"
-              textDecorationLine="underline"
-              onPress={this.handleNavigatePrivacyPolicy}
-            >
-              Privacy Policy
-            </Text>
-          </Text>
-          <CustomButton style={styles.buttonLayout} onPress={this.handleSignUp}>
-            Create a wallet
+          )}
+          <CustomButton
+            color={firstButtonColor}
+            style={styles.buttonLayout}
+            textStyle={firstButtontextStyle}
+            onPress={firstButtonHandler}
+          >
+            {firstButtonText}
           </CustomButton>
           <PushButton dark={false} mode="outlined" onPress={this.handleSignIn}>
             SIGN IN
@@ -118,7 +162,9 @@ const getStylesFromProps = ({ theme }) => {
   return {
     mainWrapper: {
       paddingHorizontal: 0,
-      justifyContent: 'space-evenly',
+      paddingVertical: 0,
+      justifyContent: 'space-between',
+      flexGrow: 1,
     },
     mainSection: {
       marginHorizontal: theme.sizes.defaultDouble,
@@ -134,6 +180,9 @@ const getStylesFromProps = ({ theme }) => {
       maxWidth: 276,
       width: '100%',
       marginVertical: theme.sizes.default,
+    },
+    textBlack: {
+      color: theme.fontStyle.color,
     },
     topRow: {
       maxWidth: 276,

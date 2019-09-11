@@ -23,8 +23,7 @@ const runProxy = async () => {
   const generatedData = async () => {
     const count = process.env.DURATION * process.env.ARRIVALRATE
     log('Run generated random data: ' + count)
-    let allCreds = []
-    let cred = null;
+    let creds = []
     
     if (fs.existsSync(`${__dirname}/temp`)) {
       rimraf.sync(`${__dirname}/temp`);
@@ -32,9 +31,11 @@ const runProxy = async () => {
     fs.mkdirSync(`${__dirname}/temp`);
     
     for (let i=0; i < count; i++) {
-      cred = await createCreds(i)
-      allCreds.push(cred)
+      creds.push(createCreds(i))
     }
+    
+    const allCreds = await Promise.all(creds)
+
     
     if (allCreds) {
       fs.writeFileSync(`${__dirname}/random.data`, JSON.stringify(allCreds))

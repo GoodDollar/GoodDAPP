@@ -5,7 +5,7 @@ describe('generateReceiveShareObject', () => {
     // Given
     const title = 'Sending G$ via GoodDollar App'
     const text = "Joe Bloggs, You've got a request from John Doe for 1 G$. To Transfer open:"
-    const isReceiveLink = /^http.+\/AppNavigation\/Dashboard\/Send\?code=123$/
+    const isReceiveLink = /^get.gdlr.info=123$/
 
     // When
     const shareObject = generateReceiveShareObject('123', 100, 'Joe Bloggs', 'John Doe')
@@ -20,7 +20,7 @@ describe('generateReceiveShareObject', () => {
     // Given
     const title = 'Sending G$ via GoodDollar App'
     const text = "Joe Bloggs, You've got a request from John Doe. To Transfer open:"
-    const isReceiveLink = /^http.+\/AppNavigation\/Dashboard\/Send\?code=123$/
+    const isReceiveLink = /^get.gdlr.info=123$/
 
     // When
     const shareObject = generateReceiveShareObject('123', 0, 'Joe Bloggs', 'John Doe')
@@ -35,7 +35,7 @@ describe('generateReceiveShareObject', () => {
     // Given
     const title = 'Sending G$ via GoodDollar App'
     const text = "You've got a request from John Doe for 1 G$. To Transfer open:"
-    const isReceiveLink = /^http.+\/AppNavigation\/Dashboard\/Send\?code=123$/
+    const isReceiveLink = /^get.gdlr.info=123$/
 
     // When
     const shareObject = generateReceiveShareObject('123', 100, '', 'John Doe')
@@ -50,7 +50,7 @@ describe('generateReceiveShareObject', () => {
     // Given
     const title = 'Sending G$ via GoodDollar App'
     const text = "You've got a request from John Doe. To Transfer open:"
-    const isReceiveLink = /^http.+\/AppNavigation\/Dashboard\/Send\?code=123$/
+    const isReceiveLink = /^get.gdlr.info=123$/
 
     // When
     const shareObject = generateReceiveShareObject('123', 0, '', 'John Doe')

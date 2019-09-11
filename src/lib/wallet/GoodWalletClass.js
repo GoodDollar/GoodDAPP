@@ -695,14 +695,33 @@ export class GoodWallet {
    * Helper to check if user has enough native token balance, if not try to ask server to topwallet
    * @param {number} wei
    */
-  async verifyHasGas(wei: number) {
+  async verifyHasGas(wei: number, options = {}) {
+    const { topWallet = true } = options
+
     let nativeBalance = await this.wallet.eth.getBalance(this.account)
     if (nativeBalance > wei) {
-      return true
+      return {
+        ok: true,
+      }
     }
-    const toppingRes = await API.verifyTopWallet()
-    nativeBalance = await this.wallet.eth.getBalance(this.account)
-    return toppingRes.ok && nativeBalance > wei
+
+    if (topWallet) {
+      const toppingRes = await API.verifyTopWallet()
+      if (!toppingRes.ok && toppingRes.sendEtherOutOfSystem) {
+        return {
+          error: true,
+        }
+      }
+      nativeBalance = await this.wallet.eth.getBalance(this.account)
+
+      return {
+        ok: toppingRes.ok && nativeBalance > wei,
+      }
+    }
+
+    return {
+      ok: false,
+    }
   }
 
   /**
@@ -727,8 +746,8 @@ export class GoodWallet {
     gas = gas || (await tx.estimateGas().catch(this.handleError))
     gasPrice = gasPrice || this.gasPrice
 
-    const hasGas = await this.verifyHasGas(gas * gasPrice)
-    if (hasGas === false) {
+    const { ok } = await this.verifyHasGas(gas * gasPrice)
+    if (ok === false) {
       return Promise.reject('Reached daily transactions limit or not a citizen').catch(this.handleError)
     }
 

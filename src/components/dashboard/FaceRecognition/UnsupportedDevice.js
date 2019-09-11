@@ -101,7 +101,6 @@ UnsupportedDevice.navigationOptions = {
   navigationBarHidden: false,
   title: 'Friendly Suggestion',
 }
-
 const getStylesFromProps = ({ theme }) => ({
   topContainer: {
     display: 'flex',
@@ -111,7 +110,7 @@ const getStylesFromProps = ({ theme }) => ({
     flexGrow: 1,
     flexShrink: 0,
     justifyContent: 'space-evenly',
-    paddingTop: getDesignRelativeHeight(theme.sizes.defaultQuadruple),
+    paddingTop: getDesignRelativeHeight(theme.sizes.defaultDouble),
     borderRadius: 5,
     fontFamily: theme.fonts.default,
   },
@@ -146,7 +145,7 @@ const getStylesFromProps = ({ theme }) => ({
     height: getDesignRelativeHeight(146),
   },
   qrCodeSize: {
-    width: 160,
+    width: getDesignRelativeWidth(160),
     height: getDesignRelativeHeight(160),
   },
   description: {

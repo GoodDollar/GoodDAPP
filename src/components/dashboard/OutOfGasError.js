@@ -7,6 +7,7 @@ import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { AwaitButton, CustomButton, Section, Wrapper } from '../common'
 import Separator from '../common/layout/Separator'
+import Text from '../common/view/Text'
 import Oops from '../../assets/oops.svg'
 import logger from '../../lib/logger/pino-logger'
 import { withStyles } from '../../lib/styles'
@@ -30,7 +31,7 @@ const OutOfGasError = props => {
   const [isCheatError, setCheatError] = useState(false)
 
   const gotoDb = () => {
-    props.screenProps.navigateTo('Home')
+    // props.screenProps.navigateTo('Home')
   }
   const gotoSupport = () => {
     props.screenProps.navigateTo('Support')
@@ -69,14 +70,14 @@ const OutOfGasError = props => {
           <Section style={styles.mainSection}>
             <Separator style={styles.separator} width={2} />
             {isCheatError ? (
-              <Section.Text style={styles.description} fontSize={16} fontWeight={'bold'} color={theme.colors.primary}>
-                <Section.Text fontWeight={'normal'}>{ERROR_CHEAT}</Section.Text>
-              </Section.Text>
+              <Text style={styles.description} fontSize={16} fontWeight={'bold'} color={theme.colors.primary}>
+                <Text fontWeight={'normal'}>{ERROR_CHEAT}</Text>
+              </Text>
             ) : (
-              <Section.Text style={styles.description} fontSize={16} fontWeight={'bold'} color={theme.colors.primary}>
-                <Section.Text fontWeight={'normal'}>{ERROR}</Section.Text>
-                <Section.Text>{ERROR_BOLD}</Section.Text>
-              </Section.Text>
+              <Text style={styles.description} fontSize={16} fontWeight={'bold'} color={theme.colors.primary}>
+                <Text fontWeight={'normal'}>{ERROR}</Text>
+                <Text>{ERROR_BOLD}</Text>
+              </Text>
             )}
             <Separator style={styles.separator} width={2} />
           </Section>

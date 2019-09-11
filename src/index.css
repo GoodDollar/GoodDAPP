@@ -10,6 +10,13 @@ html,
 
 html {
   background-color: #fff;
+  font-size: 16px;
+}
+
+@media (max-width: 475px) {
+  html {
+    font-size: 12px;
+  }
 }
 
 #root {
@@ -27,6 +34,8 @@ body {
     'Helvetica', -apple-system, BlinkMacSystemFont, sans-serif;
   margin: 0 auto;
   max-width: 475px;
+  min-width: 320px;
+  width: 100%;
   padding: 0;
 }
 

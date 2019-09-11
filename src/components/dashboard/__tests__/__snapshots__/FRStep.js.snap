@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Circle matches snapshot 1`] = `
+exports[`FRStep matches snapshot 1`] = `
 <div
   className="css-view-1dbjc4n"
   style={
@@ -22,16 +22,14 @@ exports[`Circle matches snapshot 1`] = `
     className="css-view-1dbjc4n"
     style={
       Object {
-        "WebkitAlignItems": "baseline",
-        "WebkitBoxAlign": "baseline",
         "WebkitBoxDirection": "normal",
         "WebkitBoxOrient": "horizontal",
         "WebkitFlexDirection": "row",
-        "alignItems": "baseline",
-        "display": "flex",
         "flexDirection": "row",
-        "msFlexAlign": "baseline",
+        "marginRight": "0px",
         "msFlexDirection": "row",
+        "paddingBottom": "12px",
+        "paddingTop": "0px",
       }
     }
   >
@@ -39,51 +37,10 @@ exports[`Circle matches snapshot 1`] = `
       className="css-view-1dbjc4n"
       style={
         Object {
-          "WebkitAlignItems": "center",
-          "WebkitBoxAlign": "center",
-          "alignItems": "center",
-          "backgroundColor": "rgba(66,69,74,1.00)",
-          "borderBottomLeftRadius": "50%",
-          "borderBottomRightRadius": "50%",
-          "borderTopLeftRadius": "50%",
-          "borderTopRightRadius": "50%",
-          "boxShadow": "6px 1px 0 rgba(12, 38, 61, 0.15)",
-          "height": "43px",
-          "marginTop": "8px",
-          "msFlexAlign": "center",
-          "paddingBottom": "6px",
-          "paddingLeft": "6px",
-          "paddingRight": "6px",
-          "paddingTop": "6px",
-          "width": "43px",
-        }
-      }
-    >
-      <div
-        className="css-text-901oao"
-        dir="auto"
-        style={
-          Object {
-            "color": "rgba(255,255,255,1.00)",
-            "direction": "ltr",
-            "fontFamily": "Roboto Slab",
-            "fontSize": "24px",
-            "fontWeight": "700",
-            "lineHeight": "30px",
-            "textAlign": "center",
-            "textDecoration": "none",
-            "textTransform": "none",
-          }
-        }
-      >
-        10
-      </div>
-    </div>
-    <div
-      className="css-view-1dbjc4n"
-      style={
-        Object {
-          "paddingLeft": "13px",
+          "WebkitBoxFlex": 2,
+          "WebkitFlexGrow": 2,
+          "flexGrow": 2,
+          "msFlexPositive": 2,
         }
       }
     >
@@ -95,16 +52,51 @@ exports[`Circle matches snapshot 1`] = `
             "color": "rgba(66,69,74,1.00)",
             "direction": "ltr",
             "fontFamily": "Roboto",
-            "fontSize": "18px",
-            "fontWeight": "normal",
-            "lineHeight": "24px",
+            "fontSize": "16px",
+            "fontWeight": "500",
+            "lineHeight": "28px",
             "textAlign": "center",
             "textDecoration": "none",
             "textTransform": "none",
           }
         }
       >
-         Test text
+        Checking liveness
+      </div>
+    </div>
+    <div
+      className="css-view-1dbjc4n"
+      style={
+        Object {
+          "WebkitBoxPack": "center",
+          "WebkitJustifyContent": "center",
+          "backgroundColor": "rgba(0,195,174,1.00)",
+          "borderBottomLeftRadius": "50%",
+          "borderBottomRightRadius": "50%",
+          "borderTopLeftRadius": "50%",
+          "borderTopRightRadius": "50%",
+          "height": "0px",
+          "justifyContent": "center",
+          "msFlexPack": "center",
+          "width": "0px",
+        }
+      }
+    >
+      <div
+        className="css-text-901oao"
+        dir="auto"
+        style={
+          Object {
+            "color": "rgba(255,255,255,1.00)",
+            "fontFamily": "gooddollar",
+            "fontSize": "14px",
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+            "textAlign": "center",
+          }
+        }
+      >
+        
       </div>
     </div>
   </div>

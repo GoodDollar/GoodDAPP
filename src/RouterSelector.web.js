@@ -75,6 +75,11 @@ const RouterSelector = () => {
       return
     }
     const params = extractQueryParams(window.location.href)
+
+    if (params.web3) {
+      AsyncStorage.setItem('web3Token', params.web3)
+    }
+
     if (params && Object.keys(params).length > 0) {
       const dest = { path: window.location.pathname.slice(1), params }
       log.debug('Saving destination url', dest)

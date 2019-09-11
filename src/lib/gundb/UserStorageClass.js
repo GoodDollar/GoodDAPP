@@ -543,8 +543,8 @@ export class UserStorage {
    * @param {string} transactionHash - transaction identifier
    * @returns {object} feed item or null if it doesn't exist
    */
-  async getFeedItemByTransactionHash(transactionHash: string): Promise<FeedEvent> {
-    let feedItem = await this.feed
+  getFeedItemByTransactionHash(transactionHash: string): Promise<FeedEvent> {
+    return this.feed
       .get('byid')
       .get(transactionHash)
       .decrypt()
@@ -552,8 +552,6 @@ export class UserStorage {
         logger.warn('getFeedItemByTransactionHash not found or cant decrypt', { transactionHash })
         return undefined
       })
-
-    return feedItem
   }
 
   /**
@@ -1001,7 +999,7 @@ export class UserStorage {
    * @param {string} username
    */
   async isUsername(username: string) {
-    let profile = await this.gun.get('users/byusername').get(username)
+    const profile = await this.gun.get('users/byusername').get(username)
     return profile !== undefined
   }
 
@@ -1239,9 +1237,8 @@ export class UserStorage {
    * @param {string} eventId
    * @returns {Promise<FeedEvent>}
    */
-  async peekTX(eventId: string): Promise<FeedEvent> {
-    const feedItem = await this.feed.get('queue').get(eventId)
-    return feedItem
+  peekTX(eventId: string): Promise<FeedEvent> {
+    return this.feed.get('queue').get(eventId)
   }
 
   /**
@@ -1265,15 +1262,17 @@ export class UserStorage {
   async updateEventOtplStatus(eventId: string, status: string): Promise<FeedEvent> {
     const feedEvent = await this.getFeedItemByTransactionHash(eventId)
     feedEvent.status = status
+
     if (feedEvent.data) {
       feedEvent.data.otplStatus = status
     }
+
     return this.updateFeedEvent(feedEvent)
   }
 
   /**
    * Sets the event's status as error
-   * @param {string} eventId
+   * @param {*} err
    * @returns {Promise<FeedEvent>}
    */
   async markWithErrorEvent(err: any): Promise<FeedEvent> {
@@ -1297,6 +1296,15 @@ export class UserStorage {
    */
   recoverEvent(eventId: string): Promise<FeedEvent> {
     return this.updateEventStatus(eventId, 'completed')
+  }
+
+  /**
+   * Sets an OTPL event to cancelled
+   * @param eventId
+   * @returns {Promise<FeedEvent>}
+   */
+  async cancelOTPLEvent(eventId: string): Promise<FeedEvent> {
+    await this.updateEventOtplStatus(eventId, 'cancelled')
   }
 
   /**

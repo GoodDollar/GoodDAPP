@@ -7,6 +7,7 @@
         {
             "type": "node",
             "request": "launch",
+            "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v10.15.3/bin/node",
             "name": "Test Current File",
             "program": "${workspaceFolder}/scripts/test.js",
             "args": ["--config", "./config/web.jest.config.js","${file}", "--detectOpenHandles"],
@@ -19,6 +20,7 @@
         {
             "type": "node",
             "request": "launch",
+            "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v10.15.3/bin/node",
             "name": "Update Current File Snapshot",
             "program": "${workspaceFolder}/scripts/test.js",
             "args": ["--config", "./config/web.jest.config.js","${file}", "--updateSnapshot", "--detectOpenHandles"],

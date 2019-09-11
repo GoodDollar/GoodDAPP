@@ -4,7 +4,7 @@ import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
 import userStorage from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import { readCode } from '../../lib/share'
-import { useDialog } from '../../lib/undux/utils/dialog'
+import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import InputRecipient from '../common/form/InputRecipient'
 import isMobilePhone from '../../lib/validators/isMobilePhone'
 import goodWallet from '../../lib/wallet/GoodWallet'
@@ -77,22 +77,18 @@ const ContinueButton = ({ screenProps, to, disabled, checkError }) => (
 const Send = props => {
   const [screenState, setScreenState] = useScreenState(props.screenProps)
   const [error, setError] = useState()
-  const [showDialogWithData] = useDialog()
+  const [showErrorDialog] = useErrorDialog()
 
   useEffect(() => {
     const { screenProps } = props
     const { state } = props.navigation
 
     if (state.params && state.params.code) {
-      const code = readCode(state.params.code)
+      const code = readCode(decodeURI(state.params.code))
       routeAndPathForCode('send', code)
         .then(({ route, params }) => screenProps.push(route, params))
-        .catch(({ message }) => {
-          showDialogWithData({
-            title: 'Error',
-            message,
-            onDismiss: screenProps.goToRoot,
-          })
+        .catch(e => {
+          showErrorDialog(null, e, { onDismiss: screenProps.goToRoot })
         })
     }
   }, [])

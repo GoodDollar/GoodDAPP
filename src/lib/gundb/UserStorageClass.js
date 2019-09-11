@@ -1020,10 +1020,10 @@ export class UserStorage {
       attr = 'email'
     } else if (await this.isUsername(field)) {
       attr = 'username'
-    } else if (this.wallet.wallet.utils.isAddress(field)) {
-      return field
-    } else {
-      return undefined
+    }
+
+    if (!attr) {
+      return this.wallet.wallet.utils.isAddress(field) ? field : undefined
     }
 
     const value = UserStorage.cleanFieldForIndex(attr, field)

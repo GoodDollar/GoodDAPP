@@ -102,6 +102,10 @@ const Dashboard = props => {
   }
 
   useEffect(() => {
+    window.onfocus = function() {
+      checkBonusesToRedeem()
+    }
+
     prepareLoginToken()
 
     checkBonusesToRedeem()
@@ -119,6 +123,10 @@ const Dashboard = props => {
       handleWithdraw()
     } else if (params && params.event) {
       showNewFeedEvent(params.event)
+    }
+
+    return function() {
+      window.onfocus = undefined
     }
   }, [params])
 

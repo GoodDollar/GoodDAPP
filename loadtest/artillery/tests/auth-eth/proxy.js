@@ -31,14 +31,13 @@ const runProxy = async () => {
     fs.mkdirSync(`${__dirname}/temp`);
     
     for (let i=0; i < count; i++) {
-      creds.push(createCreds(i))
+      creds.push(await createCreds(i))
     }
     
-    const allCreds = await Promise.all(creds)
 
     
-    if (allCreds) {
-      fs.writeFileSync(`${__dirname}/random.data`, JSON.stringify(allCreds))
+    if (creds) {
+      fs.writeFileSync(`${__dirname}/random.data`, JSON.stringify(creds))
     }
 
     return true

@@ -31,7 +31,7 @@ const OutOfGasError = props => {
   const [isCheatError, setCheatError] = useState(false)
 
   const gotoDb = () => {
-    // props.screenProps.navigateTo('Home')
+    props.screenProps.navigateTo('Home')
   }
   const gotoSupport = () => {
     props.screenProps.navigateTo('Support')

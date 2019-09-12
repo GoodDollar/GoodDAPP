@@ -104,7 +104,7 @@ const Dashboard = props => {
       .catch(err => {
         log.err('Failed to redeem bonuses', err.message, err)
 
-        showErrorDialog('Something Went Wrong. An error occurred while trying to charge bonuses')
+        showErrorDialog('Something Went Wrong. An error occurred while trying to redeem bonuses')
       })
   }
 

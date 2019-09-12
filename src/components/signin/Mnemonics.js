@@ -2,6 +2,7 @@
 //eslint-disable-next-line
 import bip39 from 'bip39-light'
 import get from 'lodash/get'
+import _debounce from 'lodash/debounce'
 import React, { useEffect, useState } from 'react'
 import { AsyncStorage } from 'react-native'
 import { IS_LOGGED_IN } from '../../lib/constants/localStorage'
@@ -166,7 +167,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
         </Text>
       </Section.Row>
       <Section.Stack grow style={styles.bottomContainer} justifyContent="flex-end">
-        <CustomButton style={styles.buttonLayout} onPress={recover} disabled={!isRecovering}>
+        <CustomButton style={styles.buttonLayout} onPress={_debounce(recover, 300)} disabled={!isRecovering}>
           Recover my wallet
         </CustomButton>
       </Section.Stack>

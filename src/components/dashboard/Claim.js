@@ -167,7 +167,6 @@ const Claim = props => {
   }
 
   const faceRecognition = async () => {
-    await goodWallet.isCitizen().then(_ => gdstore.set('isLoggedInCitizen')(_))
     handleClaim()
 
     // screenProps.push('FRIntro', { from: 'Claim' })

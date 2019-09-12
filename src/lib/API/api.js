@@ -285,7 +285,7 @@ class API {
    * `/verify/bonuses` get api call
    */
   redeemBonuses() {
-    return this.client.get('/verify/bonuses')
+    return this.client.get('/verify/w3/bonuses')
   }
 }
 

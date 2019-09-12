@@ -36,33 +36,35 @@ class Signin extends React.Component<Props> {
       <View style={styles.contentContainer}>
         <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
           <Image source={illustration} style={styles.illustration} resizeMode="contain" />
-          <Section.Stack grow justifyContent="flex-start">
-            <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
-              <View style={styles.bottomContainer}>
-                <Text fontWeight="medium" fontSize={22} fontFamily="Roboto">
-                  {'To sign in\n please follow this steps:'}
-                </Text>
-                <Text fontSize={14} color="gray80Percent" fontFamily="Roboto">
-                  {`(works from any device or platform)`}
-                </Text>
-                <Section.Text style={styles.blockCircle}>
-                  <Circle number={1}>Go to your email</Circle>
-                  <Circle number={2}>
-                    Find{' '}
-                    <Text fontWeight="bold" style={styles.text} fontFamily="Roboto">
-                      GoodDollar magic mail
-                    </Text>
-                  </Circle>
-                  <Circle number={3}>
-                    Click the{' '}
-                    <Text fontWeight="bold" style={styles.text} fontFamily="Roboto">
-                      magic link
-                    </Text>
-                  </Circle>
-                </Section.Text>
-              </View>
-            </Section.Row>
-          </Section.Stack>
+          <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
+            <View style={styles.bottomContainer}>
+              <Text fontWeight="medium" fontSize={22} fontFamily="Roboto">
+                {'To sign in\n please follow this steps:'}
+              </Text>
+              <Text fontSize={14} color="gray80Percent" fontFamily="Roboto">
+                {`(works from any device or platform)`}
+              </Text>
+            </View>
+          </Section.Row>
+          <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
+            <View style={styles.bottomContainer}>
+              <Section.Text style={styles.blockCircle}>
+                <Circle number={1}>Go to your email</Circle>
+                <Circle number={2}>
+                  Find{' '}
+                  <Text fontWeight="bold" style={styles.text} fontFamily="Roboto">
+                    GoodDollar magic mail
+                  </Text>
+                </Circle>
+                <Circle number={3}>
+                  Click the{' '}
+                  <Text fontWeight="bold" style={styles.text} fontFamily="Roboto">
+                    magic link
+                  </Text>
+                </Circle>
+              </Section.Text>
+            </View>
+          </Section.Row>
           <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
             <TouchableOpacity onPress={this.handleRecover}>
               <Section.Text

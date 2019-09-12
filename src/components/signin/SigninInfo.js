@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { Image, ScrollView, TouchableOpacity, View } from 'react-native'
+import { AsyncStorage, Image, ScrollView, TouchableOpacity, View } from 'react-native'
 import NavBar from '../appNavigation/NavBar'
 import Section from '../common/layout/Section'
 import Circle from '../common/view/Circle'
@@ -10,80 +10,74 @@ import Text from '../common/view/Text'
 import { withStyles } from '../../lib/styles'
 import illustration from '../../assets/Signin/illustration.svg'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
-type Props = {
-  navigation: any,
-  screenProps: {
-    push: Function,
-  },
-  styles: any,
-}
 
 Image.prefetch(illustration)
 
-class Signin extends React.Component<Props> {
-  handleSignIn = () => {
-    this.props.navigation.navigate('Auth')
+const Signin = props => {
+  const { styles } = props
+
+  AsyncStorage.removeItem('web3Token')
+
+  const handleSignIn = () => {
+    props.navigation.navigate('Auth')
   }
 
-  handleRecover = () => {
-    this.props.navigation.navigate('Recover')
+  const handleRecover = () => {
+    props.navigation.navigate('Recover')
   }
 
-  render() {
-    const { styles } = this.props
-    return (
-      <View style={{ flexGrow: 1 }}>
-        <NavBar goBack={this.handleSignIn} title={'SIGN IN'} />
-        <ScrollView contentContainerStyle={styles.scrollableContainer}>
-          <View style={styles.contentContainer}>
-            <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
-              <Image source={illustration} style={styles.illustration} resizeMode="contain" />
-              <Section.Stack grow justifyContent="flex-start">
-                <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
-                  <View style={styles.bottomContainer}>
-                    <Text fontWeight="medium" fontSize={22} fontFamily="Roboto">
-                      {'To sign in\n please follow this steps:'}
-                    </Text>
-                    <Text fontSize={14} color="gray80Percent" fontFamily="Roboto">
-                      {`(works from any device or platform)`}
-                    </Text>
-                    <Section.Text style={styles.blockCircle}>
-                      <Circle number={1}>Go to your email</Circle>
-                      <Circle number={2}>
-                        Find{' '}
-                        <Text fontWeight="bold" style={styles.text} fontFamily="Roboto">
-                          GoodDollar magic mail
-                        </Text>
-                      </Circle>
-                      <Circle number={3}>
-                        Click the{' '}
-                        <Text fontWeight="bold" style={styles.text} fontFamily="Roboto">
-                          magic link
-                        </Text>
-                      </Circle>
-                    </Section.Text>
-                  </View>
-                </Section.Row>
-              </Section.Stack>
+  return (
+    <View style={{ flexGrow: 1 }}>
+      <NavBar goBack={handleSignIn} title={'SIGN IN'} />
+      <ScrollView contentContainerStyle={styles.scrollableContainer}>
+        <View style={styles.contentContainer}>
+          <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
+            <Image source={illustration} style={styles.illustration} resizeMode="contain" />
+            <Section.Stack grow justifyContent="flex-start">
               <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
-                <TouchableOpacity onPress={this.handleRecover}>
-                  <Section.Text
-                    fontWeight="medium"
-                    style={styles.textBottom}
-                    textDecorationLine="underline"
-                    fontSize={14}
-                    color="primary"
-                  >
-                    Or, recover from pass phrase
+                <View style={styles.bottomContainer}>
+                  <Text fontWeight="medium" fontSize={22} fontFamily="Roboto">
+                    {'To sign in\n please follow this steps:'}
+                  </Text>
+                  <Text fontSize={14} color="gray80Percent" fontFamily="Roboto">
+                    {`(works from any device or platform)`}
+                  </Text>
+                  <Section.Text style={styles.blockCircle}>
+                    <Circle number={1}>Go to your email</Circle>
+                    <Circle number={2}>
+                      Find{' '}
+                      <Text fontWeight="bold" style={styles.text} fontFamily="Roboto">
+                        GoodDollar magic mail
+                      </Text>
+                    </Circle>
+                    <Circle number={3}>
+                      Click the{' '}
+                      <Text fontWeight="bold" style={styles.text} fontFamily="Roboto">
+                        magic link
+                      </Text>
+                    </Circle>
                   </Section.Text>
-                </TouchableOpacity>
+                </View>
               </Section.Row>
-            </Wrapper>
-          </View>
-        </ScrollView>
-      </View>
-    )
-  }
+            </Section.Stack>
+            <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
+              <TouchableOpacity onPress={handleRecover}>
+                <Section.Text
+                  fontWeight="medium"
+                  style={styles.textBottom}
+                  textDecorationLine="underline"
+                  fontSize={14}
+                  color="primary"
+                >
+                  Or, recover from pass phrase
+                </Section.Text>
+              </TouchableOpacity>
+            </Section.Row>
+          </Wrapper>
+        </View>
+      </ScrollView>
+    </View>
+  )
 }
 
 const getStylesFromProps = ({ theme }) => {

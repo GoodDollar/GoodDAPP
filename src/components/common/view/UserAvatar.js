@@ -1,8 +1,6 @@
 // @flow
 import React from 'react'
 import { View } from 'react-native'
-import CreateAvatar from 'exif-react-avatar-edit'
-import { getScreenHeight, getScreenWidth, isPortrait } from '../../../lib/utils/Orientation'
 import { getDesignRelativeWidth } from '../../../lib/utils/sizes'
 
 import { withStyles } from '../../../lib/styles'
@@ -37,29 +35,11 @@ export type AvatarProps = {
  * @returns {React.Node}
  */
 const UserAvatar = (props: AvatarProps) => {
-  const { profile, editable, onChange, onClose, children, styles, containerStyle } = props
+  const { profile, children, styles, containerStyle } = props
 
-  const screenWidth = isPortrait() ? getScreenWidth() : getScreenHeight()
-  let cropSize = Math.min(screenWidth - 70, 320)
   const avatarSize = getDesignRelativeWidth(AVATAR_DESIGN_WIDTH)
 
-  return editable ? (
-    <View style={styles.innerAvatar}>
-      <View style={styles.cropContainer}>
-        <CreateAvatar
-          height={cropSize}
-          lineWidth={2}
-          minCropRadius={15}
-          mobileScaleSpeed={0.01}
-          onClose={onClose}
-          onCrop={onChange}
-          shadingOpacity={0.8}
-          src={profile.avatar ? profile.avatar : undefined}
-          width={cropSize}
-        />
-      </View>
-    </View>
-  ) : (
+  return (
     <View style={styles.avatar}>
       <View style={[styles.innerAvatar, containerStyle]}>
         <Avatar size={avatarSize} {...props} source={profile.avatar}>

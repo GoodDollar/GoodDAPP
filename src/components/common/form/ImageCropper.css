@@ -1,0 +1,7 @@
+.cropper-view-box,
+.cropper-face {
+  border-radius: 50%;
+  border-width: 1;
+  border-style: solid;
+  border-color: rgb(0, 175, 255);
+}

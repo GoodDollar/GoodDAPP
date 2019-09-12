@@ -5,7 +5,9 @@ import { withTheme } from 'react-native-paper'
 import { useWrappedUserStorage } from '../../lib/gundb/useWrappedStorage'
 import GDStore from '../../lib/undux/GDStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
-import { CustomButton, Section, UserAvatar, Wrapper } from '../common'
+import { CustomButton, Section, Wrapper } from '../common'
+
+import ImageCropper from '../common/form/ImageCropper'
 
 const TITLE = 'Edit Avatar'
 
@@ -18,12 +20,10 @@ const EditAvatar = ({ screenProps, theme }) => {
   const [changed, setChanged] = useState(false)
   const [saving, setSaving] = useState(false)
 
-  const saveAvatar = async () => {
+  const saveAvatar = () => {
     setSaving(true)
 
-    await wrappedUserStorage
-      .setProfileField('avatar', avatar, 'public')
-      .catch(e => showErrorDialog('Saving image failed', e))
+    wrappedUserStorage.setProfileField('avatar', avatar, 'public').catch(e => showErrorDialog('Saving image failed', e))
 
     setSaving(false)
     screenProps.pop()
@@ -34,16 +34,11 @@ const EditAvatar = ({ screenProps, theme }) => {
     setChanged(true)
   }
 
-  const handleAvatarClose = () => {
-    setAvatar(null)
-    setChanged(true)
-  }
-
   return (
     <Wrapper>
       <Section style={styles.section}>
         <Section.Row>
-          <UserAvatar onChange={handleAvatarChange} onClose={handleAvatarClose} editable={true} profile={profile} />
+          <ImageCropper image={profile.avatar} onChange={handleAvatarChange} />
         </Section.Row>
         <Section.Stack justifyContent="flex-end" grow>
           <CustomButton

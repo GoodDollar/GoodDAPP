@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { AppState } from 'react-native'
 import _get from 'lodash/get'
 import type { Store } from 'undux'
+import * as web3Utils from 'web3-utils'
 import normalize from '../../lib/utils/normalizeText'
 import GDStore from '../../lib/undux/GDStore'
 import API from '../../lib/API/api'
@@ -24,10 +25,12 @@ import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import { FAQ, PrivacyArticle, PrivacyPolicy, RewardsTab, Support, TermsOfUse } from '../webView/webViewInstances'
 import { withStyles } from '../../lib/styles'
 import Mnemonics from '../signin/Mnemonics'
+import goodWallet from '../../lib/wallet/GoodWallet'
 import Amount from './Amount'
 import Claim from './Claim'
 import FeedList from './FeedList'
 import FeedModalList from './FeedModalList'
+import OutOfGasError from './OutOfGasError'
 import Reason from './Reason'
 import Receive from './Receive'
 import Who from './Who'
@@ -55,6 +58,7 @@ export type DashboardProps = {
   styles?: any,
 }
 const Dashboard = props => {
+  const MIN_BALANCE_VALUE = '100000'
   const store = SimpleStore.useStore()
   const gdstore = GDStore.useStore()
   const [showDialog, hideDialog] = useDialog()
@@ -130,6 +134,8 @@ const Dashboard = props => {
       log.debug('gun getFeed callback', { data })
       getInitialFeed(gdstore)
     }, true)
+
+    showOutOfGasError()
   }, [])
 
   useEffect(() => {
@@ -173,11 +179,21 @@ const Dashboard = props => {
     }
   }
 
+  const showOutOfGasError = async () => {
+    const { ok } = await goodWallet.verifyHasGas(web3Utils.toWei(MIN_BALANCE_VALUE, 'gwei'), {
+      topWallet: false,
+    })
+
+    if (!ok) {
+      props.screenProps.navigateTo('OutOfGasError')
+    }
+  }
+
   const handleWithdraw = async () => {
     const { paymentCode, reason } = props.navigation.state.params
     try {
       showDialog({ title: 'Processing Payment Link...', loading: true, buttons: [{ text: 'YAY!' }] })
-      await executeWithdraw(store, paymentCode, reason)
+      await executeWithdraw(store, decodeURI(paymentCode), decodeURI(reason))
       hideDialog()
     } catch (e) {
       showErrorDialog(e)
@@ -434,5 +450,6 @@ export default createStackNavigator({
   Support,
   FAQ,
   Recover: Mnemonics,
+  OutOfGasError,
   Rewards: RewardsTab,
 })

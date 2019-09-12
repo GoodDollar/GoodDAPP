@@ -170,6 +170,7 @@ export const getReceiveDataFromReceipt = (receipt: any) => {
     }),
     'value'
   )
+
   //we need the withdraw log to get the real "from", the Transfer of paymentlinks is "from" the smart contract
   const withdrawLog = logs.find(log => {
     return log && (log.name === CONTRACT_EVENT_TYPE_PAYMENT_WITHDRAW || log.name === CONTRACT_EVENT_TYPE_PAYMENT_CANCEL)
@@ -1116,7 +1117,7 @@ export class UserStorage {
       customName,
       subtitle,
     } = data
-    let avatar, fullName, address, withdrawStatus, initiator
+    let avatar, fullName, address, withdrawStatus, initiator, message
     if (type === EVENT_TYPE_SEND) {
       address = this.wallet.wallet.utils.isAddress(to) ? to : (receiptData && receiptData.to) || (receipt && receipt.to)
       address = address && UserStorage.cleanFieldForIndex('walletAddress', address)
@@ -1124,6 +1125,7 @@ export class UserStorage {
 
       // eslint-disable-next-line no-empty
     } else if (type === EVENT_TYPE_CLAIM) {
+      message = 'Your daily basic income'
     } else {
       address = this.wallet.wallet.utils.isAddress(from)
         ? from
@@ -1216,7 +1218,7 @@ export class UserStorage {
           withdrawStatus,
         },
         amount: value,
-        message: reason,
+        message: reason || message,
         subtitle,
       },
     }

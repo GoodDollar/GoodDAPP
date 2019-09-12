@@ -1,0 +1,14 @@
+{
+  "name": "loadtest",
+  "version": "1.0.0",
+  "description": "",
+  "main": "create-profile-loadtest.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "artillery": "^1.6.0-28"
+  }
+}

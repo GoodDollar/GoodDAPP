@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { AsyncStorage, Image, View } from 'react-native'
+import { AsyncStorage, Image } from 'react-native'
 import _get from 'lodash/get'
 import Mnemonics from '../signin/Mnemonics'
 import logger from '../../lib/logger/pino-logger'
@@ -16,6 +16,7 @@ import NavBar from '../appNavigation/NavBar'
 import config from '../../config/config'
 import { theme as mainTheme } from '../theme/styles'
 import API from '../../lib/API/api'
+import Section from '../common/layout/Section'
 
 type Props = {
   navigation: any,
@@ -125,7 +126,7 @@ class Auth extends React.Component<Props> {
       <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
         <NavBar title={'Welcome'} />
         <Image source={illustration} style={styles.illustration} resizeMode="contain" />
-        <View style={styles.bottomContainer}>
+        <Section style={styles.bottomContainer}>
           {asGuest && (
             <Text fontSize={12} color="gray80Percent">
               {`By clicking the 'Create a wallet' button,\nyou are accepting our\n`}
@@ -162,7 +163,7 @@ class Auth extends React.Component<Props> {
           <PushButton dark={false} mode="outlined" onPress={this.handleSignIn}>
             SIGN IN
           </PushButton>
-        </View>
+        </Section>
       </Wrapper>
     )
   }
@@ -176,26 +177,8 @@ const getStylesFromProps = ({ theme }) => {
       justifyContent: 'space-between',
       flexGrow: 1,
     },
-    mainSection: {
-      marginHorizontal: theme.sizes.defaultDouble,
-      borderRadius: 0,
-      paddingLeft: theme.sizes.default,
-      paddingRight: theme.sizes.default,
-      paddingVertical: theme.sizes.default,
-      backgroundColor: theme.colors.darkGray,
-      boxShadow: '0 3px 6px rgba(0, 0, 0, 0.24)',
-      marginBottom: 12,
-    },
-    separator: {
-      maxWidth: 276,
-      width: '100%',
-      marginVertical: theme.sizes.default,
-    },
     textBlack: {
       color: theme.fontStyle.color,
-    },
-    topRow: {
-      maxWidth: 276,
     },
     bottomContainer: {
       paddingHorizontal: theme.sizes.defaultDouble,

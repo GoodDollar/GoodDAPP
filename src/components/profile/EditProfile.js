@@ -132,13 +132,13 @@ const EditProfile = ({ screenProps, theme, styles }) => {
   }
 
   const handleAvatarPress = event => {
-    event.stopPropagation()
-    screenProps.push(`${profile.avatar ? 'View' : 'Edit'}Avatar`)
+    event.preventDefault()
+    screenProps.push(`ViewAvatar`)
   }
 
   const handleCameraPress = event => {
-    event.stopPropagation()
-    screenProps.push('EditAvatar')
+    event.preventDefault()
+    screenProps.push(`ViewAvatar`)
   }
 
   // Validate after saving profile state in order to show errors

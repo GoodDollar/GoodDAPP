@@ -100,7 +100,7 @@ exports[`SplashDesktop matches snapshot 1`] = `
             "flexDirection": "column",
             "flexGrow": 1,
             "justifyContent": "space-between",
-            "marginTop": "0px",
+            "marginTop": "30px",
             "msFlexAlign": "stretch",
             "msFlexDirection": "column",
             "msFlexPack": "justify",

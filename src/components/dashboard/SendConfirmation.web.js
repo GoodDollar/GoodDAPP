@@ -1,7 +1,9 @@
 // @flow
 import React from 'react'
 import { useScreenState } from '../appNavigation/stackNavigation'
-import { CopyButton, Section, Wrapper } from '../common'
+import CopyButton from '../common/buttons/CopyButton'
+import Section from '../common/layout/Section'
+import Wrapper from '../common/layout/Wrapper'
 import TopBar from '../common/view/TopBar'
 import { withStyles } from '../../lib/styles'
 import SummaryTable from '../common/view/SummaryTable'

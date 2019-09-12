@@ -857,7 +857,7 @@ exports[`Dashboard matches snapshot 1`] = `
                         Object {
                           "color": "rgba(255,255,255,1.00)",
                           "fontFamily": "gooddollar",
-                          "fontSize": "16px",
+                          "fontSize": "14px",
                           "fontStyle": "normal",
                           "fontWeight": "normal",
                           "marginRight": "16px",
@@ -996,7 +996,6 @@ exports[`Dashboard matches snapshot 1`] = `
                     "alignItems": "center",
                     "flexDirection": "row",
                     "justifyContent": "center",
-                    "letterSpacing": "0px",
                     "msFlexAlign": "center",
                     "msFlexDirection": "row",
                     "msFlexPack": "center",
@@ -1256,7 +1255,7 @@ exports[`Dashboard matches snapshot 1`] = `
                         Object {
                           "color": "rgba(255,255,255,1.00)",
                           "fontFamily": "gooddollar",
-                          "fontSize": "16px",
+                          "fontSize": "14px",
                           "fontStyle": "normal",
                           "fontWeight": "normal",
                           "marginLeft": "16px",

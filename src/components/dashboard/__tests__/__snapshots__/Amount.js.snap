@@ -350,8 +350,8 @@ exports[`Amount matches snapshot 1`] = `
             className="css-view-1dbjc4n"
             style={
               Object {
-                "height": "0px",
-                "minHeight": "0px",
+                "height": "180px",
+                "minHeight": "180px",
               }
             }
           >
@@ -1505,7 +1505,6 @@ exports[`Amount matches snapshot 1`] = `
                     "alignItems": "center",
                     "flexDirection": "row",
                     "justifyContent": "center",
-                    "letterSpacing": "0px",
                     "msFlexAlign": "center",
                     "msFlexDirection": "row",
                     "msFlexPack": "center",
@@ -1706,7 +1705,6 @@ exports[`Amount matches snapshot 1`] = `
                     "alignItems": "center",
                     "flexDirection": "row",
                     "justifyContent": "center",
-                    "letterSpacing": "0px",
                     "msFlexAlign": "center",
                     "msFlexDirection": "row",
                     "msFlexPack": "center",

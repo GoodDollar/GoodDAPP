@@ -87,6 +87,7 @@ const Dashboard = props => {
     return getNextFeed(gdstore)
   }
   useEffect(() => {
+    store.set('addWebApp')({ ...store.get('addWebApp'), show: true })
     prepareLoginToken()
 
     log.debug('Dashboard didmount')

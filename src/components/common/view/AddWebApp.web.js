@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import AddToHomescreen from 'react-add-to-homescreen'
+import SimpleStore from '../../../lib/undux/SimpleStore'
+import logger from '../../../lib/logger/pino-logger'
+
+const log = logger.child({ from: 'AddWebApp' })
 
 const handleAddToHomescreenClick = () => {
   alert(`
@@ -9,13 +13,15 @@ const handleAddToHomescreenClick = () => {
 
 const AddWebApp = props => {
   const [installPrompt, setInstallPrompt] = useState()
+  const store = SimpleStore.useStore()
+
   const installApp = async () => {
     installPrompt.prompt()
     let outcome = await installPrompt.userChoice
     if (outcome.outcome == 'accepted') {
-      console.info('App Installed')
+      log.debug('App Installed')
     } else {
-      console.info('App not installed')
+      log.debug('App not installed')
     }
 
     // Remove the event reference
@@ -23,10 +29,12 @@ const AddWebApp = props => {
   }
 
   useEffect(() => {
+    log.debug('useEffect, registering beforeinstallprompt')
+
     window.addEventListener('beforeinstallprompt', e => {
       // For older browsers
       e.preventDefault()
-      console.info('Install Prompt fired')
+      log.debug('Install Prompt fired')
 
       // See if the app is already installed, in that case, do nothing
       if (
@@ -39,12 +47,15 @@ const AddWebApp = props => {
     })
   }, [])
 
+  const { show } = store.get('addWebApp')
+
   useEffect(() => {
-    console.info({ installPrompt, show: props.show })
-    if (installPrompt && props.show) {
+    log.debug({ installPrompt, show })
+    if (installPrompt && show) {
       installApp()
     }
-  }, [installPrompt, props.show])
+  }, [installPrompt, show])
+
   return <AddToHomescreen onAddToHomescreenClick={handleAddToHomescreenClick} />
 }
 

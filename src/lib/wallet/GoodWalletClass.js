@@ -219,7 +219,7 @@ export class GoodWallet {
    * @returns {Promise<R>|Promise<R|*>|Promise<*>}
    */
   listenTxUpdates(fromBlock: string = '0', blockIntervalCallback: Function) {
-    log.trace('listenTxUpdates listening from block:', fromBlock)
+    log.debug('listenTxUpdates listening from block:', fromBlock)
     fromBlock = new BN(fromBlock)
 
     this.subscribeToOTPLEvents(fromBlock, blockIntervalCallback)

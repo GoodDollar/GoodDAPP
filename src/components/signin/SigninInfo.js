@@ -33,7 +33,7 @@ class Signin extends React.Component<Props> {
   render() {
     const { styles } = this.props
     return (
-      <View style={styles.contentContainer}>
+      <Section.Stack grow justifyContent="flex-start">
         <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
           <Image source={illustration} style={styles.illustration} resizeMode="contain" />
           <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
@@ -65,21 +65,21 @@ class Signin extends React.Component<Props> {
               </Section.Text>
             </View>
           </Section.Row>
-          <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
-            <TouchableOpacity onPress={this.handleRecover}>
-              <Section.Text
-                fontWeight="medium"
-                style={styles.textBottom}
-                textDecorationLine="underline"
-                fontSize={14}
-                color="primary"
-              >
-                Or, recover from pass phrase
-              </Section.Text>
-            </TouchableOpacity>
-          </Section.Row>
         </Wrapper>
-      </View>
+        <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
+          <TouchableOpacity onPress={this.handleRecover}>
+            <Section.Text
+              fontWeight="medium"
+              style={styles.textBottom}
+              textDecorationLine="underline"
+              fontSize={14}
+              color="primary"
+            >
+              Or, recover from pass phrase
+            </Section.Text>
+          </TouchableOpacity>
+        </Section.Row>
+      </Section.Stack>
     )
   }
 }

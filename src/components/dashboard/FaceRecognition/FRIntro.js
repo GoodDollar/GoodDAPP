@@ -34,13 +34,12 @@ const FRIntro = props => {
   }
   const gotoPrivacyArticle = () => props.screenProps.push('PrivacyArticle')
   const gotoFR = () => props.screenProps.navigateTo('FaceVerification')
-
   return (
     <Wrapper>
       <Section style={styles.topContainer} grow={1} justifyContent="center">
         <View style={styles.mainContent}>
           <Section.Title fontWeight="medium" textTransform="none" style={styles.mainTitle}>
-            {`${getFirstWord(fullName)},\nLet's make sure you are\na real live person`}
+            {`${getFirstWord(fullName)},\nLet's make sure you are a real live person`}
           </Section.Title>
           <Image source={illustration} resizeMode="contain" style={styles.illustration} />
           <Separator width={2} />
@@ -103,8 +102,7 @@ const getStylesFromProps = ({ theme }) => ({
     flexShrink: 0,
     marginBottom: getDesignRelativeHeight(28),
     maxWidth: '100%',
-    minHeight: getDesignRelativeHeight(145),
-    minWidth: getDesignRelativeWidth(203),
+    height: getDesignRelativeHeight(145),
   },
   descriptionContainer: {
     paddingHorizontal: getDesignRelativeHeight(theme.sizes.defaultHalf),
@@ -125,10 +123,5 @@ const getStylesFromProps = ({ theme }) => ({
     marginBottom: getDesignRelativeHeight(28),
   },
 })
-
-FRIntro.navigationOptions = {
-  title: 'Face Verification',
-  navigationBarHidden: false,
-}
 
 export default withStyles(getStylesFromProps)(FRIntro)

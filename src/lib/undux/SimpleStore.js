@@ -83,7 +83,6 @@ const initialState: State = {
   currentFeed: null,
   addWebApp: {
     show: false,
-    lastCheck: new Date(),
   },
 }
 

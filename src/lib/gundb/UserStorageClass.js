@@ -170,6 +170,7 @@ export const getReceiveDataFromReceipt = (receipt: any) => {
     }),
     'value'
   )
+  //we need the withdraw log to get the real "from", the Transfer of paymentlinks is "from" the smart contract
   const withdrawLog = logs.find(log => {
     return log && (log.name === CONTRACT_EVENT_TYPE_PAYMENT_WITHDRAW || log.name === CONTRACT_EVENT_TYPE_PAYMENT_CANCEL)
   })

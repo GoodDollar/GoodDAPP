@@ -1,5 +1,6 @@
 // @flow
 import React, { useEffect, useState } from 'react'
+import { AppState } from 'react-native'
 import _get from 'lodash/get'
 import type { Store } from 'undux'
 import normalize from '../../lib/utils/normalizeText'
@@ -111,10 +112,14 @@ const Dashboard = props => {
     return getNextFeed(gdstore)
   }
 
-  useEffect(() => {
-    window.onfocus = function() {
+  const handleAppFocus = state => {
+    if (state === 'active') {
       checkBonusesToRedeem()
     }
+  }
+
+  useEffect(() => {
+    AppState.addEventListener('change', handleAppFocus)
 
     prepareLoginToken()
 
@@ -136,7 +141,7 @@ const Dashboard = props => {
     }
 
     return function() {
-      window.onfocus = undefined
+      AppState.removeEventListener('change', handleAppFocus)
     }
   }, [params])
 

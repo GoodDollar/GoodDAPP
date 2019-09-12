@@ -67,7 +67,11 @@ const Dashboard = props => {
       return
     }
 
-    const response = await API.getLoginToken()
+    const response = await API.getLoginToken().catch(err => {
+      log.err('Failed to fetch login token from server', err.message, err)
+
+      showErrorDialog('Something Went Wrong. An error occurred while trying to fetch W3 Login Token from server')
+    })
 
     const _loginToken = _get(response, 'data.loginToken')
 
@@ -77,24 +81,30 @@ const Dashboard = props => {
   }
 
   const checkBonusesToRedeem = () => {
-    API.redeemBonuses().then(res => {
-      const resData = res.data
+    API.redeemBonuses()
+      .then(res => {
+        const resData = res.data
 
-      if (resData.hash && resData.bonusAmount) {
-        const transactionEvent: TransactionEvent = {
-          id: resData.hash,
-          date: new Date().toString(),
-          type: 'bonus',
-          status: 'pending',
-          data: {
-            customName: 'GoodDollar',
-            amount: gdToWei(resData.bonusAmount),
-          },
+        if (resData.hash && resData.bonusAmount) {
+          const transactionEvent: TransactionEvent = {
+            id: resData.hash,
+            date: new Date().toString(),
+            type: 'bonus',
+            status: 'pending',
+            data: {
+              customName: 'GoodDollar',
+              amount: gdToWei(resData.bonusAmount),
+            },
+          }
+
+          userStorage.enqueueTX(transactionEvent)
         }
+      })
+      .catch(err => {
+        log.err('Failed to redeem bonuses', err.message, err)
 
-        userStorage.enqueueTX(transactionEvent)
-      }
-    })
+        showErrorDialog('Something Went Wrong. An error occurred while trying to charge bonuses')
+      })
   }
 
   const nextFeed = () => {

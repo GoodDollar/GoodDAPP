@@ -75,11 +75,9 @@ const FeedModalItem = (props: FeedEventProps) => {
             {!eventSettings.withoutAvatar && <EventIcon type={itemType} style={styles.icon} />}
           </View>
           <View style={styles.messageContainer}>
-            {item.data.message && (
-              <Text fontSize={14} textAlign="left">
-                {item.data.message}
-              </Text>
-            )}
+            <Text fontSize={14} textAlign="left">
+              {item.data.message || ''}
+            </Text>
           </View>
           {item.status === 'pending' && (
             <View style={styles.messageContainer}>

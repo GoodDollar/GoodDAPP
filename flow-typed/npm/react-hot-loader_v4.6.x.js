@@ -1,5 +1,5 @@
-// flow-typed signature: 169093d12338d898985e78cd46664f50
-// flow-typed version: 9d7a8571fd/react-hot-loader_v4.6.x/flow_>=v0.53.0
+// flow-typed signature: 13db9b002bb52d52588a74ebc12f93e0
+// flow-typed version: c6154227d1/react-hot-loader_v4.6.x/flow_>=v0.53.0 <=v0.103.x
 
 // @flow
 declare module "react-hot-loader" {

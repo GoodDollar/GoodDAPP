@@ -1,5 +1,5 @@
-// flow-typed signature: 29b72ec0ac677361ff6dc475317decc8
-// flow-typed version: 77d9eda30f/rxjs_v6.x.x/flow_>=v0.72.x
+// flow-typed signature: d8a02680b10ab1ddf68df3912d65e0ee
+// flow-typed version: c6154227d1/rxjs_v6.x.x/flow_>=v0.72.x <=v0.103.x
 
 /** OPERATOR INTERFACES */
 declare interface rxjs$UnaryFunction<T, R> {
@@ -2911,11 +2911,13 @@ declare module "rxjs/operators" {
   ): rxjs$MonoTypeOperatorFunction<T>;
 
   declare export function takeWhile<T, S: T>(
-    predicate: (value: T, index: number) => S
+    predicate: (value: T, index: number) => S,
+    inclusive?: boolean
   ): rxjs$OperatorFunction<T, S>;
 
   declare export function takeWhile<T>(
-    predicate: (value: T, index: number) => boolean
+    predicate: (value: T, index: number) => boolean,
+    inclusive?: boolean
   ): rxjs$MonoTypeOperatorFunction<T>;
 
   declare export function tap<T>(

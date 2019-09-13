@@ -1,5 +1,5 @@
-// flow-typed signature: afa3502910d5b2aef93707cc683f52b8
-// flow-typed version: 492c298a82/react-helmet_v5.x.x/flow_>=v0.53.x
+// flow-typed signature: 8c85040bd866efac8d3fc55a9ffaea72
+// flow-typed version: c6154227d1/react-helmet_v5.x.x/flow_>=v0.53.x <=v0.103.x
 
 declare module 'react-helmet' {
   declare type Props = {

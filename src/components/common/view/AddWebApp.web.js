@@ -97,6 +97,10 @@ const AddWebApp = props => {
     log.debug('showExplanationDialog')
     showDialog({
       content: <ExplanationDialog />,
+      onDismiss: () => {
+        const date = new Date()
+        AsyncStorage.setItem('AddWebAppLastCheck', date.toISOString())
+      },
     })
   }
 

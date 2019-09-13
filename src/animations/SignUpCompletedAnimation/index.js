@@ -1,8 +1,11 @@
 // @flow
 import React from 'react'
+
 // import LottieView from 'lottie-react-native'
 // const animationData = require('./data.json')
 
+import { Image, View } from 'react-native'
+import img_9 from '../../assets/images/img_9.png'
 import img_0 from './images/img_0.png'
 import img_1 from './images/img_1.png'
 import img_2 from './images/img_2.png'
@@ -12,8 +15,6 @@ import img_5 from './images/img_5.png'
 import img_6 from './images/img_6.png'
 import img_7 from './images/img_7.png'
 import img_8 from './images/img_8.png'
-import img_9 from '../../assets/images/img_9.png'
-import { Image , View} from "react-native"
 
 Image.prefetch(img_0)
 Image.prefetch(img_1)
@@ -49,13 +50,13 @@ export default class SignUpCompletedAnimation extends React.Component<Props, Sta
   render() {
     return (
       <View>
-        <Image source={{uri:img_9}}/>
-      {/*<LottieView*/}
-      {/*  source={animationData}*/}
-      {/*  ref={animation => {*/}
-      {/*    this.animation = animation*/}
-      {/*  }}*/}
-      {/*/>*/}
+        <Image source={{ uri: img_9 }} />
+        {/*<LottieView*/}
+        {/*  source={animationData}*/}
+        {/*  ref={animation => {*/}
+        {/*    this.animation = animation*/}
+        {/*  }}*/}
+        {/*/>*/}
       </View>
     )
   }

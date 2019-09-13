@@ -49,7 +49,6 @@ import SendQRSummary from './SendQRSummary'
 import { ACTION_SEND } from './utils/sendReceiveFlow'
 import SignUpCompletedAnimation from './../../animations/SignUpCompletedAnimation'
 
-
 // import FaceRecognition from './FaceRecognition/FaceRecognition'
 // import FRIntro from './FaceRecognition/FRIntro'
 // import FRError from './FaceRecognition/FRError'
@@ -70,6 +69,7 @@ const Dashboard = props => {
   const [showDialog, hideDialog] = useDialog()
   const [showErrorDialog] = useErrorDialog()
   const { params } = props.navigation.state
+
   // props.screenProps.navigateTo('SignupCompleted')
   const prepareLoginToken = async () => {
     const loginToken = await userStorage.getProfileFieldValue('loginToken')

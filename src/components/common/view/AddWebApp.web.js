@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { AsyncStorage, Image, View } from 'react-native'
+import { isMobileSafari } from 'mobile-device-detect'
 import SimpleStore from '../../../lib/undux/SimpleStore'
 import { useDialog } from '../../../lib/undux/utils/dialog'
 import { withStyles } from '../../../lib/styles'
@@ -10,12 +11,6 @@ import Text from '../../common/view/Text'
 import logger from '../../../lib/logger/pino-logger'
 
 const log = logger.child({ from: 'AddWebApp' })
-
-// const handleAddToHomescreenClick = () => {
-//   alert(`
-//       1. Open Share menu
-//       2. Tap on "Add to Home Screen" button`)
-// }
 
 const mapPropsToStyles = ({ theme }) => {
   return {
@@ -93,6 +88,7 @@ const AddWebApp = props => {
   }, [])
 
   const showExplanationDialog = () => {
+    log.debug('showExplanationDialog')
     showDialog({
       content: <ExplanationDialog />,
     })
@@ -171,8 +167,16 @@ const AddWebApp = props => {
   }, [dialogShown])
 
   useEffect(() => {
-    log.debug({ installPrompt, show, lastCheck })
-    if (installPrompt && show) {
+    const DAYS_TO_WAIT = 5
+    const thirtyDaysFromLastDate = lastCheck + DAYS_TO_WAIT * 24 * 60 * 60 * 1000
+    const today = new Date()
+    log.debug({ installPrompt, show, lastCheck, today, thirtyDaysFromLastDate, DAYS_TO_WAIT })
+
+    if (thirtyDaysFromLastDate < today) {
+      return
+    }
+
+    if ((installPrompt && show) || (isMobileSafari && show)) {
       setDialogShown(true)
     }
   }, [installPrompt, show, lastCheck])

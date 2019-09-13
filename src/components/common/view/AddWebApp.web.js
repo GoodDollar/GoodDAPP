@@ -85,8 +85,12 @@ const AddWebApp = props => {
   const [showDialog] = useDialog()
   const { show } = store.get('addWebApp')
   useEffect(() => {
-    AsyncStorage.getItem('AddWebAppLastCheck').then(setLastCheck)
-    AsyncStorage.getItem('AddWebAppLastClaim').then(setLastClaim)
+    AsyncStorage.getItem('AddWebAppLastCheck')
+      .then(dateSting => dateSting && new Date(dateSting))
+      .then(setLastCheck)
+    AsyncStorage.getItem('AddWebAppLastClaim')
+      .then(dateSting => dateSting && new Date(dateSting))
+      .then(setLastClaim)
   }, [])
 
   const showExplanationDialog = () => {
@@ -127,7 +131,8 @@ const AddWebApp = props => {
           color: props.theme.colors.gray80Percent,
           onPress: dismiss => {
             log.debug('Canceled')
-            AsyncStorage.setItem('AddWebAppLastCheck', new Date())
+            const date = new Date()
+            AsyncStorage.setItem('AddWebAppLastCheck', date.toISOString())
             dismiss()
           },
         },
@@ -169,14 +174,18 @@ const AddWebApp = props => {
   }, [dialogShown])
 
   useEffect(() => {
-    const DAYS_TO_WAIT = 5
-    const thirtyDaysFromLastDate = lastCheck + DAYS_TO_WAIT * 24 * 60 * 60 * 1000
-    const today = new Date()
-    log.debug({ installPrompt, show, lastCheck, today, thirtyDaysFromLastDate, DAYS_TO_WAIT })
+    log.debug({ installPrompt, show, lastCheck })
 
     // Condition to show reminder
-    if (!lastCheck || thirtyDaysFromLastDate < today || lastCheck > lastClaim) {
-      return
+    if (lastCheck) {
+      const DAYS_TO_WAIT = 5
+      const thirtyDaysFromLastDate = new Date(lastCheck.getDate() + DAYS_TO_WAIT)
+      const today = new Date()
+      log.debug({ installPrompt, show, lastCheck, today, thirtyDaysFromLastDate, DAYS_TO_WAIT })
+
+      if (thirtyDaysFromLastDate < today || lastCheck > lastClaim) {
+        return
+      }
     }
 
     if ((installPrompt && show) || (isMobileSafari && show)) {

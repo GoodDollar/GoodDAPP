@@ -134,7 +134,7 @@ const Claim = props => {
             },
           }
           userStorage.enqueueTX(transactionEvent)
-          AsyncStorage.setItem('AddWebAppLastClaim', date)
+          AsyncStorage.setItem('AddWebAppLastClaim', date.toISOString())
         },
         onError: userStorage.markWithErrorEvent,
       })

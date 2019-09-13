@@ -1,5 +1,11 @@
 // @flow
-export const getFlexStylesFromProps = props => {
+type Props = {
+  justifyContent?: string,
+  alignItems?: string,
+  grow?: number,
+}
+
+export const getFlexStylesFromProps = (props: Props) => {
   const { justifyContent, alignItems, grow } = props
   const flexGrow = Number.isFinite(grow) ? grow : grow ? 1 : undefined
 

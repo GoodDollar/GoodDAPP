@@ -6,7 +6,7 @@ import userStorage from '../../gundb/UserStorage'
 
 const log = logger.child({ from: 'undux/utils/balance' })
 
-const updateAll = store => {
+const updateAll = (store: any) => {
   return Promise.all([goodWallet.balanceOf(), goodWallet.checkEntitlement()])
     .then(([balance, entitlement]) => {
       const account = store.get('account')

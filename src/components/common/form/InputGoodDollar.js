@@ -12,9 +12,9 @@ type SelectionProp = {
 }
 
 type Props = {
-  onChangeAmount: number => void,
+  onChangeAmount: string => void,
   amount: number,
-  onSelectionChange?: SelectionProp => void,
+  onSelectionChange: SelectionProp => void,
   style?: any,
   styles?: any,
 }
@@ -51,7 +51,7 @@ const InputGoodDollar = (props: Props) => {
   return (
     <InputText
       {...rest}
-      style={[style, styles.input]}
+      style={[style, styles ? styles.input : {}]}
       selection={selection}
       onSelectionChange={handleSelectionChange}
       value={amount}

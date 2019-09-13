@@ -5,5 +5,7 @@
  * @param {string} sentence
  * @returns {string}
  */
-export const getFirstWord = (sentence: string) =>
-  typeof sentence === 'string' ? /^([\w\u00C0-\u00ff])*/.exec(sentence.trim())[0] || '' : ''
+export const getFirstWord = (sentence: string) => {
+  const firstWord = /^([\w\u00C0-\u00ff])*/.exec(sentence.trim()) || []
+  return typeof sentence === 'string' ? firstWord[0] || '' : ''
+}

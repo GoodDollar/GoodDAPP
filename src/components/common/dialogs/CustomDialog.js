@@ -11,12 +11,12 @@ import ModalWrapper from '../modal/ModalWrapper'
 import { theme } from '../../theme/styles'
 import Text from '../view/Text'
 
-export type DialogButtonProps = { color?: string, mode?: string, onPress?: Function => void, text: string, style?: any }
+export type DialogButtonProps = { color?: string, mode?: string, onPress: Function => void, text: string, style?: any }
 export type DialogProps = {
   children?: any,
   image?: any,
   loading?: boolean,
-  message?: string,
+  message: string,
   boldMessage?: any,
   onCancel?: () => void,
   onDismiss?: () => void,
@@ -44,7 +44,7 @@ const CustomDialog = ({
   children = null,
   image,
   loading = false,
-  message = null,
+  message = '',
   boldMessage = null,
   onDismiss,
   showButtons = true,

@@ -22,10 +22,11 @@ type Props = {
   errorStyle?: Object,
   shouldAutoFocus?: boolean,
   isInputNum?: boolean,
-  value?: string | array,
+  value?: string | Array<string>,
   keyboardType?: string,
   placeholder?: string,
   styles: any,
+  focusNextInput: any,
 }
 
 type SingleOtpInputProps = {
@@ -97,7 +98,7 @@ const Input = ({ min, max, pattern, focus, shouldAutoFocus, onChange, value, foc
     setSelection({ start: 0, end: value && value.length ? 1 : 0 })
   }
 
-  const handleValidation = (inputValue: number | string): boolean =>
+  const handleValidation = (inputValue: string): boolean =>
     (!min || inputValue >= min) && (!max || inputValue <= max) && (!pattern || pattern.test(inputValue))
 
   const handleOnChange = (e: Object) => {

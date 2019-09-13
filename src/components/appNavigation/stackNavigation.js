@@ -353,7 +353,7 @@ const backButton = (props: BackButtonProps) => {
       color={color || '#A3A3A3'}
       disabled={disabled}
       onPress={screenProps.goToParent}
-      textStyle={[styles.cancelButton, textStyle]}
+      textStyle={[styles ? styles.cancelButton : {}, textStyle]}
     >
       {children}
     </CustomButton>

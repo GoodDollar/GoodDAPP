@@ -15,7 +15,7 @@ type SaveButtonProps = {
   children?: any,
   beforeSave?: () => boolean,
   onPress: () => void,
-  onPressDone?: () => void,
+  onPressDone: () => void,
   doneDelay?: number,
   styles: any,
   theme: any,

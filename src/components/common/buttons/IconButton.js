@@ -10,6 +10,8 @@ type IconProps = {
   onPress: Function,
   disabled: Boolean,
   name: String,
+  styles: any,
+  theme: any,
 }
 
 /**

@@ -11,8 +11,9 @@ import MnemonicInput from '../signin/MnemonicInput'
 const TITLE = 'Backup my wallet'
 
 type BackupWalletProps = {
-  styles: {},
+  styles: any,
   theme: {},
+  screenProps: any,
 }
 
 const BackupWallet = ({ screenProps, styles, theme }: BackupWalletProps) => {

@@ -1,4 +1,5 @@
 // @flow
+import { $AxiosError } from 'axios'
 import type { Store } from 'undux'
 import SimpleStore from '../SimpleStore'
 import { type DialogProps } from '../../../components/common/dialogs/CustomDialog'
@@ -7,8 +8,8 @@ const log = pino.child({ from: 'dialogs' })
 
 export const showDialogForError = (
   store: Store,
-  humanError: string,
-  error: Error | ResponseError,
+  humanError?: string,
+  error: Error | $AxiosError,
   dialogProps?: DialogProps
 ) => {
   let message = ''

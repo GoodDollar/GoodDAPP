@@ -5,11 +5,13 @@ import { withStyles } from '../../lib/styles'
 import normalize from '../../lib/utils/normalizeText'
 
 /**
- * @type
+ * Properties for the Navigation Bar component
+ * @type {{goBack?: Function}, {title: string}, {styles: any}}
  */
 type NavBarProps = {
   goBack?: () => void,
   title: string,
+  styles: any,
 }
 
 /**

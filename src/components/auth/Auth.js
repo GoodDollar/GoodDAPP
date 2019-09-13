@@ -26,10 +26,14 @@ type Props = {
   styles: any,
 }
 
+type State = {
+  asGuest: boolean,
+}
+
 Image.prefetch(illustration)
 const log = logger.child({ from: 'Auth' })
 
-class Auth extends React.Component<Props> {
+class Auth extends React.Component<Props, State> {
   state = {
     asGuest: false,
   }

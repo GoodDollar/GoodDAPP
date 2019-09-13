@@ -10,6 +10,7 @@ type ShareButtonProps = {
   onPressDone?: Function,
   actionText: string,
   buttonProps: any,
+  navigator: any,
 }
 
 const ShareButton = ({ share, onPressDone, actionText, ...buttonProps }: ShareButtonProps) => {

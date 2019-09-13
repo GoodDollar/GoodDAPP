@@ -74,3 +74,9 @@ declare module '@gooddollar/goodcontracts/build/contracts/GoodDollarReserve.min.
 declare module '@gooddollar/goodcontracts/build/contracts/OneTimePaymentLinks.min.json' {
   declare module.exports: $Exports<'@gooddollar/goodcontracts/build/contracts/OneTimePaymentLinks.json'>;
 }
+declare module '@gooddollar/goodcontracts/build/contracts/ERC20.min.json' {
+  declare module.exports: $Exports<'@gooddollar/goodcontracts/build/contracts/ERC20.json'>;
+}
+declare module '@gooddollar/goodcontracts/releases/deployment.json' {
+  declare module.exports: $Exports<'@gooddollar/goodcontracts/releases/deployment.json'>;
+}

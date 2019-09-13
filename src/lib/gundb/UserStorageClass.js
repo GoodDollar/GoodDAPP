@@ -664,7 +664,7 @@ export class UserStorage {
       .then(getUserModel)
   }
 
-  subscribeProfileUpdates(callback: any => void) {
+  subscribeProfileUpdates(callback: any => Promise<any>) {
     this.subscribersProfileUpdates.push(callback)
     if (this._lastProfileUpdate) {
       callback(this._lastProfileUpdate)

@@ -10,6 +10,7 @@ import RewardSvg from '../../components/common/view/RewardSvg'
 type TabViewProps = {
   routes: { [string]: any },
   goTo: (routeKey: string) => void,
+  navigation: any,
 }
 
 // TODO: Decide if makes sense keep this to add tab behavior again

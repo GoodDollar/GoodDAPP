@@ -11,6 +11,7 @@ import { BN, toBN } from 'web3-utils'
 import abiDecoder from 'abi-decoder'
 import values from 'lodash/values'
 import get from 'lodash/get'
+import BigNumber from 'big-number'
 import Config from '../../config/config'
 import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
@@ -458,8 +459,18 @@ export class GoodWallet {
    * @returns {Promise<boolean>}
    */
   async canSend(amount: number): Promise<boolean> {
+    // 1% is represented as 10000, and divided by 1000000 when required to be % representation to enable more granularity in the numbers (as Solidity doesn't support floating point)
+    const percentsContractRepresentation = await this.reserveContract.methods
+      .transactionFee()
+      .call()
+      .then(n => n.toString())
+    const fee = BigNumber(amount)
+      .mult(percentsContractRepresentation)
+      .div(1000000)
+    const amountWithFee = BigNumber(amount).add(fee)
+
     const balance = await this.balanceOf()
-    return parseInt(amount) <= parseInt(balance)
+    return parseInt(amountWithFee) <= parseInt(balance)
   }
 
   /**

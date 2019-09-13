@@ -427,16 +427,16 @@ export class UserStorage {
       logger.debug('GunDB logged in', { username, pubkey: this.wallet.account })
       logger.debug('subscribing')
 
-      this.wallet.subscribeToEvent('receive', (err, events) => {
+      this.wallet.subscribeToEvent(EVENT_TYPE_RECEIVE, (err, events) => {
         logger.debug({ err, events }, 'receive')
       })
-      this.wallet.subscribeToEvent('send', (err, events) => {
+      this.wallet.subscribeToEvent(EVENT_TYPE_SEND, (err, events) => {
         logger.debug({ err, events }, 'send')
       })
       this.wallet.subscribeToEvent('otplUpdated', receipt => this.handleOTPLUpdated(receipt))
       this.wallet.subscribeToEvent('receiptUpdated', receipt => this.handleReceiptUpdated(receipt))
       this.wallet.subscribeToEvent('receiptReceived', receipt => this.handleReceiptUpdated(receipt))
-      this.wallet.subscribeToEvent('BonusClaimed', receipt => this.handleReceiptUpdated(receipt))
+      this.wallet.subscribeToEvent(CONTRACT_EVENT_TYPE_BONUS_CLAIMED, receipt => this.handleReceiptUpdated(receipt))
       res(true)
     })
   }
@@ -1104,7 +1104,7 @@ export class UserStorage {
 
     const { address, initiator, initiatorType, value, displayName, message } = this._extractData(event)
     const withdrawStatus = this._extractWithdrawStatus(withdrawCode, otplStatus, status)
-    const displayType = this._extractDisplayType(type, withdrawStatus)
+    const displayType = this._extractDisplayType(type, withdrawStatus, status)
 
     const profileToShow = await this._extractProfileToShow(initiatorType, initiator, address)
     const [avatar, fullName] = await Promise.all([
@@ -1137,10 +1137,10 @@ export class UserStorage {
     const { isAddress } = this.wallet.wallet.utils
     const data = { address: '', initiator: '', initiatorType: '', value: '', displayName: '', message: '' }
 
-    if (type === 'send') {
+    if (type === EVENT_TYPE_SEND) {
       data.address = isAddress(to) ? to : (receiptData && receiptData.to) || (receipt && receipt.to)
       data.initiator = to
-    } else if (type === 'claim') {
+    } else if (type === EVENT_TYPE_CLAIM) {
       data.message = 'Your daily basic income'
     } else {
       data.address = isAddress(from) ? from : (receiptData && receiptData.from) || (receipt && receipt.from)
@@ -1161,8 +1161,18 @@ export class UserStorage {
     return status === 'error' ? status : withdrawCode ? otplStatus : ''
   }
 
-  _extractDisplayType(type, withdrawStatus) {
-    return type + `${type === 'send' ? withdrawStatus : ''}`
+  _extractDisplayType(type, withdrawStatus, status) {
+    let sufix = ''
+
+    if (type === EVENT_TYPE_SEND) {
+      sufix = withdrawStatus
+    }
+
+    if (type === EVENT_TYPE_BONUS) {
+      sufix = status
+    }
+
+    return `${type}${sufix}`
   }
 
   async _extractProfileToShow(initiatorType, initiator, address) {
@@ -1190,9 +1200,10 @@ export class UserStorage {
         .then())
 
     return (
-      (type === 'send' && withdrawStatus === 'error' && favicon) || //errored send
+      (type === EVENT_TYPE_BONUS && favicon) ||
+      (type === EVENT_TYPE_SEND && withdrawStatus === 'error' && favicon) || //errored send
       profileFromGun || // extract avatar from profile
-      (type === 'claim' || address === '0x0000000000000000000000000000000000000000' ? favicon : undefined)
+      (type === EVENT_TYPE_CLAIM || address === '0x0000000000000000000000000000000000000000' ? favicon : undefined)
     )
   }
 
@@ -1208,7 +1219,9 @@ export class UserStorage {
       customName || // if customName exist, use it
       (await profileFromGun()) || // if there's a profile, extract it's fullName
       (initiatorType && initiator) ||
-      (type === 'claim' || address === '0x0000000000000000000000000000000000000000' ? 'GoodDollar' : displayName)
+      (type === EVENT_TYPE_CLAIM || address === '0x0000000000000000000000000000000000000000'
+        ? 'GoodDollar'
+        : displayName)
     )
   }
 

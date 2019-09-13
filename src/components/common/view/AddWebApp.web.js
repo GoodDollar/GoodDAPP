@@ -79,12 +79,14 @@ const ExplanationDialog = withStyles(mapPropsToStyles)(({ styles }) => {
 const AddWebApp = props => {
   const [installPrompt, setInstallPrompt] = useState()
   const [lastCheck, setLastCheck] = useState()
+  const [lastClaim, setLastClaim] = useState()
   const [dialogShown, setDialogShown] = useState()
   const store = SimpleStore.useStore()
   const [showDialog] = useDialog()
   const { show } = store.get('addWebApp')
   useEffect(() => {
     AsyncStorage.getItem('AddWebAppLastCheck').then(setLastCheck)
+    AsyncStorage.getItem('AddWebAppLastClaim').then(setLastClaim)
   }, [])
 
   const showExplanationDialog = () => {
@@ -172,7 +174,8 @@ const AddWebApp = props => {
     const today = new Date()
     log.debug({ installPrompt, show, lastCheck, today, thirtyDaysFromLastDate, DAYS_TO_WAIT })
 
-    if (thirtyDaysFromLastDate < today) {
+    // Condition to show reminder
+    if (!lastCheck || thirtyDaysFromLastDate < today || lastCheck > lastClaim) {
       return
     }
 

@@ -167,7 +167,9 @@ const Claim = props => {
   }
 
   const faceRecognition = () => {
-    screenProps.push('FRIntro', { from: 'Claim' })
+    handleClaim()
+
+    // screenProps.push('FRIntro', { from: 'Claim' })
   }
 
   const illustrationSizes = isCitizen ? styles.illustrationForCitizen : styles.illustrationForNonCitizen

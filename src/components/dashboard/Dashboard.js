@@ -47,6 +47,8 @@ import SendConfirmation from './SendConfirmation'
 import SendLinkSummary from './SendLinkSummary'
 import SendQRSummary from './SendQRSummary'
 import { ACTION_SEND } from './utils/sendReceiveFlow'
+import SignUpCompletedAnimation from './../../animations/SignUpCompletedAnimation'
+
 
 // import FaceRecognition from './FaceRecognition/FaceRecognition'
 // import FRIntro from './FaceRecognition/FRIntro'
@@ -68,7 +70,7 @@ const Dashboard = props => {
   const [showDialog, hideDialog] = useDialog()
   const [showErrorDialog] = useErrorDialog()
   const { params } = props.navigation.state
-
+  // props.screenProps.navigateTo('SignupCompleted')
   const prepareLoginToken = async () => {
     const loginToken = await userStorage.getProfileFieldValue('loginToken')
 
@@ -167,6 +169,9 @@ const Dashboard = props => {
 
   return (
     <Wrapper style={styles.dashboardWrapper}>
+      <Section>
+        <SignUpCompletedAnimation />
+      </Section>
       <Section style={[styles.topInfo]}>
         {headerLarge ? (
           <Section.Stack alignItems="center">
@@ -225,6 +230,7 @@ const Dashboard = props => {
           </PushButton>
         </Section.Row>
       </Section>
+
       <FeedList
         data={feeds}
         handleFeedSelection={handleFeedSelection}

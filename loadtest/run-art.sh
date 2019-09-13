@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 TEST_NAME="auth-eth"
 ZERO=0
 echo '-----  TEST LIST ------ '
@@ -28,13 +29,13 @@ if [ $ARRIVALRATE_USER -le $ZERO ]
 then
   ARRIVALRATE_USER=1
 fi
+export DURATION=${DURATION_USER};
+export ARRIVALRATE=${ARRIVALRATE_USER};
 
 export REACT_APP_LOG_LEVEL=debug;
 export NODE_ENV=development;
 export REACT_APP_GUN_PUBLIC_URL=http://localhost:3003/gun;
 export REACT_APP_PUBLIC_URL=http://localhost:3000;
-export DURATION=${DURATION_USER};
-export ARRIVALRATE=${ARRIVALRATE_USER};
 export TARGET=http://localhost:3003
 
 npx babel-node loadtest/artillery/index.js ${TEST_NAME}

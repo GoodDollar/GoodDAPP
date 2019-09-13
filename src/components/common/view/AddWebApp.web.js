@@ -179,9 +179,17 @@ const AddWebApp = props => {
     // Condition to show reminder
     if (lastCheck) {
       const DAYS_TO_WAIT = 5
-      const thirtyDaysFromLastDate = new Date(lastCheck.getDate() + DAYS_TO_WAIT)
+      const thirtyDaysFromLastDate = new Date()
+      thirtyDaysFromLastDate.setDate(lastCheck.getDate() + DAYS_TO_WAIT)
       const today = new Date()
-      log.debug({ installPrompt, show, lastCheck, today, thirtyDaysFromLastDate, DAYS_TO_WAIT })
+      log.debug({
+        installPrompt,
+        show,
+        lastCheck,
+        today,
+        thirtyDaysFromLastDate,
+        DAYS_TO_WAIT,
+      })
 
       if (thirtyDaysFromLastDate < today || lastCheck > lastClaim) {
         return

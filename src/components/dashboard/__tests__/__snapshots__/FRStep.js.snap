@@ -75,10 +75,10 @@ exports[`FRStep matches snapshot 1`] = `
           "borderBottomRightRadius": "50%",
           "borderTopLeftRadius": "50%",
           "borderTopRightRadius": "50%",
-          "height": "0px",
+          "height": "28px",
           "justifyContent": "center",
           "msFlexPack": "center",
-          "width": "0px",
+          "width": "28px",
         }
       }
     >

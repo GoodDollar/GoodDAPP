@@ -15,7 +15,7 @@ import logger from '../../../lib/logger/pino-logger'
 import { fireEvent } from '../../../lib/analytics/analytics'
 import { withStyles } from '../../../lib/styles'
 import Text from '../../common/view/Text'
-import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
+import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
 Image.prefetch(Oops)
 const log = logger.child({ from: 'UnsupportedDevice' })
 
@@ -101,7 +101,6 @@ UnsupportedDevice.navigationOptions = {
   navigationBarHidden: false,
   title: 'Friendly Suggestion',
 }
-
 const getStylesFromProps = ({ theme }) => ({
   topContainer: {
     display: 'flex',
@@ -111,7 +110,7 @@ const getStylesFromProps = ({ theme }) => ({
     flexGrow: 1,
     flexShrink: 0,
     justifyContent: 'space-evenly',
-    paddingTop: getDesignRelativeHeight(theme.sizes.defaultQuadruple),
+    paddingTop: getDesignRelativeHeight(theme.sizes.defaultDouble),
     borderRadius: 5,
     fontFamily: theme.fonts.default,
   },
@@ -138,15 +137,15 @@ const getStylesFromProps = ({ theme }) => ({
     paddingBottom: 0,
     paddingTop: 0,
     marginBottom: 0,
-    paddingLeft: '10%',
-    paddingRight: '10%',
+    paddingLeft: getDesignRelativeWidth(10),
+    paddingRight: getDesignRelativeWidth(10),
     flex: 1,
   },
   image: {
     height: getDesignRelativeHeight(146),
   },
   qrCodeSize: {
-    width: 160,
+    width: getDesignRelativeWidth(160),
     height: getDesignRelativeHeight(160),
   },
   description: {

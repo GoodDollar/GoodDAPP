@@ -87,22 +87,26 @@ const FeedList = ({
    * @param {FeedEvent} item - feed item
    * @param {object} actions - wether to cancel/delete or any further action required
    */
-  const handleFeedActionPress = async ({ id, status }: FeedEvent, actions: {}) => {
+  const handleFeedActionPress = ({ id, status }: FeedEvent, actions: {}) => {
     if (actions.canCancel) {
       if (status === 'pending') {
         // if status is 'pending' trying to cancel a tx that doesn't exist will fail and may confuse the user
         showErrorDialog("Current transaction is still pending, it can't be cancelled right now")
       } else {
-        try {
-          await userStorage.deleteEvent(id)
-
-          goodWallet.cancelOTLByTransactionHash(id).catch(e => {
+        goodWallet
+          .cancelOTLByTransactionHash(id, {
+            onTransactionHash: async () => {
+              try {
+                await userStorage.cancelOTPLEvent(id)
+              } catch (e) {
+                showErrorDialog('Canceling the payment link has failed', e)
+              }
+            },
+          })
+          .catch(e => {
             showErrorDialog('Canceling the payment link has failed', e)
             userStorage.recoverEvent(id)
           })
-        } catch (e) {
-          showErrorDialog('Canceling the payment link has failed', e)
-        }
       }
     }
 

@@ -1,3 +1,5 @@
+const publicUrl = process.env.REACT_APP_PUBLIC_URL || (window && window.location && window.location.origin)
+
 const Config = {
   env: process.env.REACT_APP_ENV || 'development',
   version: process.env.VERSION || 'v0',
@@ -5,7 +7,7 @@ const Config = {
   serverUrl: process.env.REACT_APP_SERVER_URL || 'http://localhost:3003',
   gunPublicUrl: process.env.REACT_APP_GUN_PUBLIC_URL || 'http://localhost:3003/gun',
   web3SiteUrl: process.env.REACT_APP_WEB3_SITE_URL,
-  publicUrl: process.env.REACT_APP_PUBLIC_URL || (window && window.location && window.location.origin),
+  publicUrl,
   infuraKey: process.env.REACT_APP_INFURA_KEY,
   network: process.env.REACT_APP_NETWORK || 'fuse',
   zoomLicenseKey: process.env.REACT_APP_ZOOM_LICENSE_KEY,
@@ -20,8 +22,8 @@ const Config = {
     !process.env.REACT_APP_THROW_SAVE_PROFILE_ERRORS || process.env.REACT_APP_THROW_SAVE_PROFILE_ERRORS === 'true',
   withMockedFeeds: process.env.REACT_APP_WITH_MOCKED_FEEDS === 'true',
   safariMobileKeyboardGuidedSize: process.env.REACT_APP_SAFARI_MOBILE_KEYBOARD_GUIDED_SIZE === 'true',
-  receiveUrl: process.env.REACT_APP_RECEIVE_URL,
-  sendUrl: process.env.REACT_APP_SEND_URL,
+  receiveUrl: process.env.REACT_APP_RECEIVE_URL || `${publicUrl}/AppNavigation/Dashboard/Send?code=`,
+  sendUrl: process.env.REACT_APP_SEND_URL || `${publicUrl}/AppNavigation/Dashboard/Home?receive=`,
   ethereum: {
     '42': {
       network_id: 42,

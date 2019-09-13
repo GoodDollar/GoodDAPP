@@ -67,16 +67,37 @@ const InitialDialog = withStyles(mapPropsToStyles)(({ showDesc, styles }) => {
   )
 })
 
+const ExplanationDialog = withStyles(mapPropsToStyles)(({ styles }) => {
+  return (
+    <View style={styles.container}>
+      <DiaglogTitle>Add icon to home screen for easy access</DiaglogTitle>
+      <Text textAlign="left" color="gray80Percent" fontSize={14}>
+        {'1. Open Share menu'}
+      </Text>
+      <Text textAlign="left" color="gray80Percent" fontSize={14}>
+        {'2. Tap on "Add to Home Screen" button'}
+      </Text>
+    </View>
+  )
+})
+
 const AddWebApp = props => {
   const [installPrompt, setInstallPrompt] = useState()
   const [lastCheck, setLastCheck] = useState()
-
+  const [dialogShown, setDialogShown] = useState()
   const store = SimpleStore.useStore()
   const [showDialog] = useDialog()
   const { show } = store.get('addWebApp')
   useEffect(() => {
     AsyncStorage.getItem('AddWebAppLastCheck').then(setLastCheck)
   }, [])
+
+  const showExplanationDialog = () => {
+    showDialog({
+      content: <ExplanationDialog />,
+    })
+  }
+
   const installApp = async () => {
     installPrompt.prompt()
     let outcome = await installPrompt.userChoice
@@ -88,6 +109,14 @@ const AddWebApp = props => {
 
     // Remove the event reference
     setInstallPrompt(null)
+  }
+
+  const handleInstallApp = () => {
+    if (installPrompt) {
+      installApp()
+    } else {
+      showExplanationDialog()
+    }
   }
 
   const showInitialDialog = isReminder => {
@@ -108,8 +137,8 @@ const AddWebApp = props => {
           text: 'Add Icon',
           onPress: dismiss => {
             log.debug('Add Icon')
-            installApp()
             dismiss()
+            handleInstallApp()
           },
         },
       ],
@@ -136,9 +165,15 @@ const AddWebApp = props => {
   }, [])
 
   useEffect(() => {
+    if (dialogShown) {
+      showInitialDialog()
+    }
+  }, [dialogShown])
+
+  useEffect(() => {
     log.debug({ installPrompt, show, lastCheck })
     if (installPrompt && show) {
-      showInitialDialog()
+      setDialogShown(true)
     }
   }, [installPrompt, show, lastCheck])
 

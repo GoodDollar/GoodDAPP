@@ -624,9 +624,10 @@ export class GoodWallet {
   /**
    * Cancels a Deposit based on its transaction hash
    * @param {string} transactionHash
+   * @param {object} txCallbacks
    * @returns {Promise<TransactionReceipt>}
    */
-  async cancelOTLByTransactionHash(transactionHash: string): Promise<TransactionReceipt> {
+  async cancelOTLByTransactionHash(transactionHash: string, txCallbacks: {} = {}): Promise<TransactionReceipt> {
     const { logs } = await this.getReceiptWithLogs(transactionHash)
     const paymentDepositLog = logs.filter(({ name }) => name === 'PaymentDeposit')[0]
 
@@ -635,7 +636,7 @@ export class GoodWallet {
 
       if (eventHashParam) {
         const { value: hash } = eventHashParam
-        return this.cancelOTL(hash)
+        return this.cancelOTL(hash, txCallbacks)
       }
 
       throw new Error('No hash available')
@@ -647,11 +648,18 @@ export class GoodWallet {
   /**
    * cancels payment link and return the money to the sender (if not been withdrawn already)
    * @param {string} hashedCode
+   * @param {object} txCallbacks
    * @returns {Promise<TransactionReceipt>}
    */
-  cancelOTL(hashedCode: string): Promise<TransactionReceipt> {
+  cancelOTL(hashedCode: string, txCallbacks: {} = {}): Promise<TransactionReceipt> {
     const cancelOtlCall = this.oneTimePaymentLinksContract.methods.cancel(hashedCode)
-    return this.sendTransaction(cancelOtlCall, { onTransactionHash: hash => log.debug({ hash }) })
+    return this.sendTransaction(cancelOtlCall, {
+      ...txCallbacks,
+      onTransactionHash: hash => {
+        log.debug({ hash })
+        txCallbacks.onTransactionHash(hash)
+      },
+    })
   }
 
   handleError(e: Error) {
@@ -694,6 +702,7 @@ export class GoodWallet {
   /**
    * Helper to check if user has enough native token balance, if not try to ask server to topwallet
    * @param {number} wei
+   * @param {object} options
    */
   async verifyHasGas(wei: number, options = {}) {
     const { topWallet = true } = options

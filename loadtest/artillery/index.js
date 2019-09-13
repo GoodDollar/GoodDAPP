@@ -54,7 +54,7 @@ class artilleryTest {
    */
   runTest = async () => {
     log('Run test')
-    this.testResult = childProcess.execSync(`artillery run ${ this.pathToTest}`).toString();
+    this.testResult = childProcess.execSync(`${__dirname}/../../node_modules/.bin/artillery run ${ this.pathToTest}`).toString();
   }
   
   /**

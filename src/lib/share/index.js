@@ -178,31 +178,18 @@ type ActionType = 'receive' | 'send'
 export function generateShareLink(action: ActionType = 'receive', params: {} = {}): string {
   // depending on the action, routes may vary
   const destination = {
-    receive: Config.receiveUrl,
-    send: Config.sendUrl,
+    receive: 'Send',
+    send: 'Home',
   }[action]
-  let queryParams = ''
-
-  if (params.code) {
-    queryParams += `=${params.code}`
-    delete params.code
-  } else if (params.receive) {
-    queryParams += `=${params.receive}`
-    delete params.receive
-  }
 
   // creates query params from params object
-  const additionalParams = toPairs(params)
+  const queryParams = toPairs(params)
     .map(param => param.join('='))
     .join('&')
-
-  if (additionalParams.length) {
-    queryParams += `&${additionalParams}`
-  }
 
   if (!queryParams || !destination) {
     throw new Error(`Link couldn't be generated`)
   }
 
-  return encodeURI(`${destination}${queryParams}`)
+  return encodeURI(`${Config.publicUrl}/AppNavigation/Dashboard/${destination}?${queryParams}`)
 }

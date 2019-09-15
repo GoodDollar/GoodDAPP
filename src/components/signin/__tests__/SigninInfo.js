@@ -19,7 +19,7 @@ describe('SigninInfo', () => {
     )
     expect(tree.toJSON()).toBeTruthy()
   })
-
+  
   it('matches snapshot', () => {
     const WebRouter = withThemeProvider(createBrowserApp(createSwitchNavigator({ SigninInfo })))
     const component = renderer.create(

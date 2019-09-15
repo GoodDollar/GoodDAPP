@@ -53,10 +53,6 @@ export type State = {
   },
   isMobileSafariKeyboardShown: boolean,
   currentFeed: any,
-  addWebApp: {
-    show: boolean,
-    lastCheck: Date,
-  },
 }
 
 /**
@@ -81,9 +77,6 @@ const initialState: State = {
   },
   isMobileSafariKeyboardShown: false,
   currentFeed: null,
-  addWebApp: {
-    show: false,
-  },
 }
 
 /**

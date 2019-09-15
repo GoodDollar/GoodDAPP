@@ -51,7 +51,6 @@ const CustomDialog = ({
   title,
   type = 'common',
   visible,
-  content,
   buttons,
 }: DialogProps) => {
   const defaultImage = type === 'error' ? <ErrorIcon /> : <SuccessIcon />
@@ -63,21 +62,15 @@ const CustomDialog = ({
     <Portal>
       <ModalWrapper onClose={onDismiss} leftBorderColor={modalColor}>
         <React.Fragment>
-          {title && (
-            <Text color={textColor} fontFamily="slab" fontSize={24} fontWeight="bold" style={styles.title}>
-              {title}
-            </Text>
-          )}
+          <Text color={textColor} fontFamily="slab" fontSize={24} fontWeight="bold" style={styles.title}>
+            {title}
+          </Text>
           <View style={styles.content}>
-            {content || (
-              <>
-                {children}
-                {image ? image : defaultImage}
-                {message && <Paragraph style={[styles.paragraph, { color }]}>{message}</Paragraph>}
-                {boldMessage && (
-                  <Paragraph style={[styles.paragraph, { fontWeight: 'bold', color }]}>{boldMessage}</Paragraph>
-                )}
-              </>
+            {children}
+            {image ? image : defaultImage}
+            {message && <Paragraph style={[styles.paragraph, { color }]}>{message}</Paragraph>}
+            {boldMessage && (
+              <Paragraph style={[styles.paragraph, { fontWeight: 'bold', color }]}>{boldMessage}</Paragraph>
             )}
           </View>
           {showButtons ? (

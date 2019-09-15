@@ -1,6 +1,6 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { AsyncStorage, Image } from 'react-native'
+import { Image } from 'react-native'
 import numeral from 'numeral'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import goodWallet from '../../lib/wallet/GoodWallet'
@@ -123,10 +123,9 @@ const Claim = props => {
       const curEntitlement = state.entitlement || (await goodWallet.checkEntitlement())
       const receipt = await goodWallet.claim({
         onTransactionHash: hash => {
-          const date = new Date()
           const transactionEvent: TransactionEvent = {
             id: hash,
-            date: date.toString(),
+            date: new Date().toString(),
             type: 'claim',
             data: {
               from: 'GoodDollar',
@@ -134,7 +133,6 @@ const Claim = props => {
             },
           }
           userStorage.enqueueTX(transactionEvent)
-          AsyncStorage.setItem('AddWebAppLastClaim', date.toISOString())
         },
         onError: userStorage.markWithErrorEvent,
       })

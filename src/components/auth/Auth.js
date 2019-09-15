@@ -85,7 +85,9 @@ class Auth extends React.Component<Props> {
     }
   }
 
-  handleSignUp = () => {
+  handleSignUp = async () => {
+    await AsyncStorage.removeItem('gun/').catch(e => log.error('Failed to clear localStorage', e.message, e))
+
     this.props.navigation.navigate('Signup')
 
     //Hack to get keyboard up on mobile need focus from user event such as click

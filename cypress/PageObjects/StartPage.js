@@ -1,19 +1,19 @@
 class StartPage {
 
     get continueOnWebButton() {
-        return cy.contains('Continue on Web')
+        return cy.contains('Continue on Web');
     }
 
     get createWalletButton() { 
         return cy.get('div[role=button]').contains('Create a wallet');
     }
 
-    get loginLink() {
-        return cy.xpath('/html/body/div/div[1]/div/div[2]/div/div/div/div[2]/div[3]', { timeout: 10000 } );
+    get signInButton() {
+        return cy.contains('SIGN IN');
     }
 
     open() {
-        cy.visit(Cypress.env('baseUrl'));
+        cy.visit(Cypress.env('baseUrl') + '/?paymentCode=123');
     }
 
 }

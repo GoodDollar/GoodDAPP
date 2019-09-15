@@ -30,7 +30,7 @@
     "lint": "eslint \"src/**/*.js\" --max-warnings=0",
     "lint:fix": "npm run lint -- --fix",
     "docs": "node scripts/docs.js",
-    "cypress": "npx cypress open",
+    "cypress": "set \"NODE_ENV=development\" && npx cypress open",
     "web:serveo": "export REACT_APP_WEB3_RPC=https://gdchain.serveo.net;export REACT_APP_SERVER_URL=https://gdserver.serveo.net;export REACT_APP_GUN_PUBLIC_URL=https://gdserver.serveo.net/gun;npm run web:local"
   },
   "repository": {

@@ -4,53 +4,53 @@
     "env": {   
         "baseUrl": "https://gooddev.netlify.com/",
         "wordsForSuccessfullLogin": [
-            "okay", "cloth", "pattern", 
-            "north", "december", "stuff", 
-            "prefer", "scrub", "menu", 
-            "calm", "naive", "target"
+            "private", "wait", "because", 
+            "cook", "shock", "vintage", 
+            "potato", "mandate", "grab", 
+            "indicate", "oven", "erosion"
         ],
         "wordsForUnsuccessfullLogin": {
             "withChangedWord": [
-                "okay", "clothes", "pattern", 
-                "north", "december", "stuff", 
-                "prefer", "scrub", "menu", 
-                "calm", "naive", "target"
+                "pirate", "wait", "because", 
+                "cook", "shock", "vintage", 
+                "potato", "mandate", "grab", 
+                "indicate", "oven", "erosion"
             ],
             "withNumbers": [
-                "1okay", "cloth", "pattern", 
-                "north", "december", "stuff", 
-                "prefer", "scrub", "menu", 
-                "calm", "naive", "target"
+                "1private", "wait", "because", 
+                "cook", "shock", "vintage", 
+                "potato", "mandate", "grab", 
+                "indicate", "oven", "erosion"
             ],
             "withSymbols": [
-                "okay", "cloth", "@pattern", 
-                "north", "december", "stuff", 
-                "prefer", "scrub", "menu", 
-                "calm", "naive", "target"
+                "@private", "wait", "because", 
+                "cook", "shock", "vintage", 
+                "potato", "mandate", "grab", 
+                "indicate", "oven", "erosion"
             ],
             "withChangedLetter": [
-                "okey", "cloth", "pattern", 
-                "north", "december", "stuff", 
-                "prefer", "scrub", "menu", 
-                "calm", "naive", "target"
+                "qrivate", "wait", "because", 
+                "cook", "shock", "vintage", 
+                "potato", "mandate", "grab", 
+                "indicate", "oven", "erosion"
             ],
             "withChangedOrder": [
-                "target", "cloth", "pattern", 
-                "north", "december", "stuff", 
-                "prefer", "scrub", "menu", 
-                "calm", "naive", "okay"
+                "wait", "private", "because", 
+                "cook", "shock", "vintage", 
+                "potato", "mandate", "grab", 
+                "indicate", "oven", "erosion"
             ],
             "withCapitalize": [
-                "okay", "cloth", "pattern", 
-                "north", "december", "stuff", 
-                "prefer", "scrub", "Menu", 
-                "calm", "naive", "target"]
+                "Private", "wait", "because", 
+                "cook", "shock", "vintage", 
+                "potato", "mandate", "grab", 
+                "indicate", "oven", "erosion"]
         },
         "anotherAccountWords": [
-            "swarm", "upset", "loyal",
-            "advice","among","say",
-            "bridge","ridge","hawk",
-            "add","resemble","giggle"
+            "govern", "lesson", "uniform",
+            "comfort","rose","sick",
+            "silk","snap","lens",
+            "garment","enlist","effort"
         ]
     }
 }

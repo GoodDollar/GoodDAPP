@@ -5,18 +5,18 @@ import HomePage from '../PageObjects/HomePage'
 
 function typeInputValues( values , isCorrect) {
     LoginPage.recoverWalletButton.should('not.be.enabled');
-        for( let i = 0; i < 12; i++ ) {
-            LoginPage.mnemonicInputs.eq(i).type(values[i]);
-        }
+    const string = values.join(' ');
+    LoginPage.mnemonicsInput.type(string);
     LoginPage.recoverWalletButton.click();
         if(isCorrect) {
             LoginPage.recoverWalletButton.click({ force:true });
+            LoginPage.yayButton.click();
             cy.wait(7000);
             HomePage.profileAvatar.should('be.visible');
         } else {
             LoginPage.errorWindow.should('be.visible');
-            cy.contains('OK').click();
-            cy.reload();
+            cy.contains('Ok').click();
+            LoginPage.mnemonicsInput.clear();
         } 
 }
 
@@ -25,13 +25,13 @@ describe('Test case 2: Ability to do authorization', () => {
 
     beforeEach( () => {      
         StartPage.open();
-        StartPage.loginLink.should('contain', 'Already have a wallet?');    
+        StartPage.continueOnWebButton.click();   
         StartPage.createWalletButton.should('be.visible');
-        StartPage.loginLink.should('be.visible');  
-
-        StartPage.loginLink.click();  
+        StartPage.signInButton.should('be.visible');  
+        StartPage.signInButton.click();  
+        LoginPage.recoverFromPassPhraseLink.click();
         LoginPage.pageHeader.should('contain', 'Recover');
-        LoginPage.mnemonicInputs.should('be.visible');
+        LoginPage.mnemonicsInput.should('be.visible');
     });
 
 

@@ -1,23 +1,28 @@
 class LoginPage {
 
-    get mnemonicInputs() {
-        return cy.get('input[spellcheck="true"]', { timeout: 10000 } )
+    get mnemonicsInput() {
+        return cy.get('input');
     }
 
     get recoverWalletButton() {
-        return cy.get('[dir=auto]', { timeout: 10000 } ).eq(28)
+        return cy.contains('Recover my wallet');
     }
 
     get errorWindow() {
-        return cy.get('[dir=auto]', { timeout: 10000 } ).eq(31)
+        return cy.contains('Please check it and try again.');
     }
 
     get pageHeader() {
-        return cy.get('h1[role=heading]', { timeout: 10000 })
+        return cy.get('h1[role=heading]');
     }
 
+    get recoverFromPassPhraseLink() {
+        return cy.contains('Or, recover from pass phrase');
+    }
 
-
+    get yayButton() {
+        return cy.contains('Yay!');
+    }
 
 }
 

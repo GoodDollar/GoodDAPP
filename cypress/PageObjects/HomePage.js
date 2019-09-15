@@ -1,7 +1,7 @@
 class HomePage {
 
     get optionsButton() {
-        return cy.get('div[role=button]', { timeout: 10000 }).eq(1)
+        return cy.get('div[role=button]', { timeout: 10000 }).eq(0)
     }
 
     get sendButton() {

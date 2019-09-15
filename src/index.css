@@ -65,8 +65,3 @@ input:-webkit-autofill:focus {
 button {
   outline: none;
 }
-
-.add-to-home-banner {
-  padding-top: 10px;
-  padding-bottom: 10px;
-}

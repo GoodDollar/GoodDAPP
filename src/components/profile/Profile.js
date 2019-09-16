@@ -19,8 +19,8 @@ const ProfileWrapper = props => {
   const { screenProps, styles } = props
 
   const handleAvatarPress = event => {
-    event.stopPropagation()
-    screenProps.push(`${profile.avatar ? 'View' : 'Edit'}Avatar`)
+    event.preventDefault()
+    screenProps.push(`ViewAvatar`)
   }
 
   return (

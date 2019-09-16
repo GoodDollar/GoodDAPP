@@ -1,8 +1,10 @@
 // @flow
 import React, { useEffect, useState } from 'react'
+import { AppState } from 'react-native'
 import _get from 'lodash/get'
 import type { Store } from 'undux'
-import * as web3Utils from 'web3-utils'
+
+// import * as web3Utils from 'web3-utils'
 import normalize from '../../lib/utils/normalizeText'
 import GDStore from '../../lib/undux/GDStore'
 import API from '../../lib/API/api'
@@ -10,11 +12,8 @@ import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
 import { getInitialFeed, getNextFeed, PAGE_SIZE } from '../../lib/undux/utils/feed'
 import { executeWithdraw } from '../../lib/undux/utils/withdraw'
-import { weiToMask } from '../../lib/wallet/utils'
-
+import { gdToWei, weiToMask } from '../../lib/wallet/utils'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
-
-//import goodWallet from '../../lib/wallet/GoodWallet';
 import { PushButton } from '../appNavigation/PushButton'
 import TabsView from '../appNavigation/TabsView'
 import Avatar from '../common/view/Avatar'
@@ -23,11 +22,12 @@ import ClaimButton from '../common/buttons/ClaimButton'
 import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
 import logger from '../../lib/logger/pino-logger'
-import userStorage from '../../lib/gundb/UserStorage'
+import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import { FAQ, PrivacyArticle, PrivacyPolicy, RewardsTab, Support, TermsOfUse } from '../webView/webViewInstances'
 import { withStyles } from '../../lib/styles'
 import Mnemonics from '../signin/Mnemonics'
-import goodWallet from '../../lib/wallet/GoodWallet'
+
+// import goodWallet from '../../lib/wallet/GoodWallet'
 import Amount from './Amount'
 import Claim from './Claim'
 import FeedList from './FeedList'
@@ -60,7 +60,7 @@ export type DashboardProps = {
   styles?: any,
 }
 const Dashboard = props => {
-  const MIN_BALANCE_VALUE = '100000'
+  // const MIN_BALANCE_VALUE = '100000'
   const store = SimpleStore.useStore()
   const gdstore = GDStore.useStore()
   const [showDialog, hideDialog] = useDialog()
@@ -70,24 +70,66 @@ const Dashboard = props => {
   const prepareLoginToken = async () => {
     const loginToken = await userStorage.getProfileFieldValue('loginToken')
 
-    if (!loginToken) {
-      try {
-        const response = await API.getLoginToken()
-
-        const _loginToken = _get(response, 'data.loginToken')
-
-        await userStorage.setProfileField('loginToken', _loginToken, 'private')
-      } catch (e) {
-        log.error('prepareLoginToken failed', e.message, e)
-      }
+    if (loginToken) {
+      return
     }
+
+    const response = await API.getLoginToken().catch(err => {
+      log.err('Failed to fetch login token from server', err.message, err)
+
+      showErrorDialog('Something Went Wrong. An error occurred while trying to fetch W3 Login Token from server')
+    })
+
+    const _loginToken = _get(response, 'data.loginToken')
+
+    if (_loginToken) {
+      await userStorage.setProfileField('loginToken', _loginToken, 'private')
+    }
+  }
+
+  const checkBonusesToRedeem = () => {
+    API.redeemBonuses()
+      .then(res => {
+        const resData = res.data
+
+        if (resData.hash && resData.bonusAmount) {
+          const transactionEvent: TransactionEvent = {
+            id: resData.hash,
+            date: new Date().toString(),
+            type: 'bonus',
+            status: 'pending',
+            data: {
+              customName: 'GoodDollar',
+              amount: gdToWei(resData.bonusAmount),
+            },
+          }
+
+          userStorage.enqueueTX(transactionEvent)
+        }
+      })
+      .catch(err => {
+        log.err('Failed to redeem bonuses', err.message, err)
+
+        showErrorDialog('Something Went Wrong. An error occurred while trying to redeem bonuses')
+      })
   }
 
   const nextFeed = () => {
     return getNextFeed(gdstore)
   }
+
+  const handleAppFocus = state => {
+    if (state === 'active') {
+      checkBonusesToRedeem()
+    }
+  }
+
   useEffect(() => {
+    AppState.addEventListener('change', handleAppFocus)
+
     prepareLoginToken()
+
+    checkBonusesToRedeem()
 
     log.debug('Dashboard didmount')
     userStorage.feed.get('byid').on(data => {
@@ -95,7 +137,7 @@ const Dashboard = props => {
       getInitialFeed(gdstore)
     }, true)
 
-    showOutOfGasError()
+    // showOutOfGasError()
   }, [])
 
   useEffect(() => {
@@ -104,6 +146,10 @@ const Dashboard = props => {
       handleWithdraw()
     } else if (params && params.event) {
       showNewFeedEvent(params.event)
+    }
+
+    return function() {
+      AppState.removeEventListener('change', handleAppFocus)
     }
   }, [params])
 
@@ -135,15 +181,15 @@ const Dashboard = props => {
     }
   }
 
-  const showOutOfGasError = async () => {
-    const { ok } = await goodWallet.verifyHasGas(web3Utils.toWei(MIN_BALANCE_VALUE, 'gwei'), {
-      topWallet: false,
-    })
-
-    if (!ok) {
-      props.screenProps.navigateTo('OutOfGasError')
-    }
-  }
+  // const showOutOfGasError = async () => {
+  //   const { ok } = await goodWallet.verifyHasGas(web3Utils.toWei(MIN_BALANCE_VALUE, 'gwei'), {
+  //     topWallet: false,
+  //   })
+  //
+  //   if (!ok) {
+  //     props.screenProps.navigateTo('OutOfGasError')
+  //   }
+  // }
 
   const handleWithdraw = async () => {
     const { paymentCode, reason } = props.navigation.state.params

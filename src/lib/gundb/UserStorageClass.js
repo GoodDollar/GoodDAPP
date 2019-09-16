@@ -1092,22 +1092,22 @@ export class UserStorage {
       const withdrawStatus = this._extractWithdrawStatus(withdrawCode, otplStatus, status)
       const displayType = this._extractDisplayType(type, withdrawStatus)
       logger.debug('formatEvent:', event.id, { initiatorType, initiator, address })
-      const profileToShow = await this._extractProfileToShow(initiatorType, initiator, address)
+      const profileNode = this._extractProfileToShow(initiatorType, initiator, address)
       const [avatar, fullName] = await Promise.all([
-        this._extractAvatar(type, withdrawStatus, profileToShow, address).catch(e => {
+        this._extractAvatar(type, withdrawStatus, profileNode, address).catch(e => {
           logger.warn('formatEvent: failed extractAvatar', e.message, e, {
             type,
             withdrawStatus,
-            profileToShow,
+            profileNode,
             address,
           })
           return undefined
         }),
-        this._extractFullName(customName, profileToShow, initiatorType, initiator, type, address, displayName).catch(
+        this._extractFullName(customName, profileNode, initiatorType, initiator, type, address, displayName).catch(
           e => {
             logger.warn('formatEvent: failed extractFullName', e.message, e, {
               customName,
-              profileToShow,
+              profileNode,
               initiatorType,
               initiator,
               type,
@@ -1176,33 +1176,34 @@ export class UserStorage {
     return type + `${type === 'send' ? withdrawStatus : ''}`
   }
 
-  async _extractProfileToShow(initiatorType, initiator, address) {
+  _extractProfileToShow(initiatorType, initiator, address): Gun {
     const getProfile = (group, value) =>
       this.gun
         .get(group)
         .get(value)
         .get('profile')
 
-    const searchField = (initiatorType && `by${initiatorType}`) || ''
+    const searchField = initiatorType && `by${initiatorType}`
     const byIndex = searchField && getProfile(`users/${searchField}`, initiator)
     const byAddress = address && getProfile(`users/bywalletAddress`, address)
-    const [profileByIndex, profileByAddress] = await Promise.all([byIndex, byAddress])
 
-    return (profileByIndex || profileByAddress) && this.gun.get((profileByIndex || profileByAddress)._)
+    // const [profileByIndex, profileByAddress] = await Promise.all([byIndex, byAddress])
+
+    return byIndex || byAddress
   }
 
   async _extractAvatar(type, withdrawStatus, profileToShow, address) {
     const favicon = `${process.env.PUBLIC_URL}/favicon-96x96.png`
-    const profileFromGun =
+    const profileFromGun = () =>
       profileToShow &&
-      (await profileToShow
+      profileToShow
         .get('avatar')
         .get('display')
-        .then())
+        .then()
 
     return (
       (type === 'send' && withdrawStatus === 'error' && favicon) || //errored send
-      profileFromGun || // extract avatar from profile
+      (await profileFromGun()) || // extract avatar from profile
       (type === 'claim' || address === '0x0000000000000000000000000000000000000000' ? favicon : undefined)
     )
   }

@@ -55,7 +55,7 @@ describe('Test case 1: Ability to Sign Up', () => {
         SignUpPage.nextButton.click();
         cy.wait(5000);
         SignUpPage.nextButton.click();
-        cy.wait(5000);
+        cy.wait(8000);
         HomePage.welcomeFeed.should('contain', 'Welcome to GoodDollar!');
         HomePage.welcomeFeed.should('contain', 'Start claiming free G$');
         HomePage.optionsButton.click();

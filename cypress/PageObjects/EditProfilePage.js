@@ -12,12 +12,16 @@ class EditProfilePage {
         return cy.get('input[placeholder="Add your Email"]', { timeout: 10000 });
     }
 
+    get backButton() {
+        return cy.get('[role="button"]').eq(0);
+    }
+
     get avatarDiv() {
         return cy.get('[data-focusable=true]', { timeout: 10000 }).eq(2);
     }
 
     get saveButton() {
-        return cy.get('div[role=button]', { timeout: 10000 }).eq(2);
+        return cy.contains('Save');
     }
 
     get pageHeader() {
@@ -25,15 +29,11 @@ class EditProfilePage {
     }
 
     get saveAvatarButton() {
-        return cy.get('[role=button]', { timeout: 10000 }).eq(2);
+        return cy.contains('Save');
     }
 
-    get selectAvatarButton() {
-        return cy.get('[dir=auto]', { timeout: 10000 }).eq(5);
-    }
-    
     get clearAvatarButton() {
-        return cy.get('svg[viewBox]', { timeout: 10000 });
+        return cy.get('[dir="auto"]').eq(4);
     }
 
     get uploadedAvatar() {
@@ -47,8 +47,6 @@ class EditProfilePage {
     get wrongEmailErrorDiv() {
         return cy.xpath('//*[@id="root"]/div[1]/div/div[2]/div[2]/div/div/div/div[2]/div/div/div[3]/div/div[2]', { timeout: 10000});
     }
-
-
 
 }
 

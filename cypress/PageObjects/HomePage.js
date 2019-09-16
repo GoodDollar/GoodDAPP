@@ -1,19 +1,19 @@
 class HomePage {
 
     get optionsButton() {
-        return cy.get('div[role=button]', { timeout: 10000 }).eq(0)
+        return cy.get('div[role=button]').eq(0)
     }
 
     get sendButton() {
-        return cy.get('div[role=button]', { timeout: 10000 }).eq(2)
+        return cy.contains('Send');
     }
 
     get claimButton() {
-        return cy.contains('Claim', { timeout: 10000 });
+        return cy.contains('Claim');
     }
 
     get receiveButton() {
-        return cy.get('div[role=button]', { timeout: 10000 }).eq(4);
+        return cy.contains('Receive');
     }
 
     get options() {
@@ -37,11 +37,11 @@ class HomePage {
     }
 
     get deleteAccountButton() {
-        return cy.xpath('/html/body/div/div[1]/div/div[1]/div/div/div[2]/div/div/div[2]/div[9]/div');
+        return cy.contains('Delete Account');
     }
 
     get confirmDeletionButton() {
-        return cy.xpath('/html/body/div/div[3]/div/div/div/div/div[2]/div[2]/div/div[3]/div[2]/div');
+        return cy.contains('Delete');
     }
 
 }

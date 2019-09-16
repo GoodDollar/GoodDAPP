@@ -4,11 +4,7 @@ import { withStyles } from '../../../lib/styles'
 
 const EventCounterParty = ({ feedItem, styles, style }) => {
   const direction =
-    feedItem.type === 'send'
-      ? 'To:'
-      : ['claim', 'receive', 'withdraw', 'bonus'].indexOf(feedItem.type) > -1
-      ? 'From:'
-      : ''
+    feedItem.type === 'send' ? 'To:' : ['claim', 'receive', 'withdraw'].indexOf(feedItem.type) > -1 ? 'From:' : ''
   return (
     <Text textTransform="capitalize" textAlign="left" style={style} numberOfLines={1} ellipsizeMode="tail">
       <Text fontSize={10} style={styles.direction}>

@@ -1,5 +1,4 @@
 // @flow
-import RedemptionDataABI from '@gooddollar/goodcontracts/build/contracts/RedemptionData.min.json'
 import GoodDollarABI from '@gooddollar/goodcontracts/build/contracts/GoodDollar.min.json'
 import ReserveABI from '@gooddollar/goodcontracts/build/contracts/GoodDollarReserve.min.json'
 import IdentityABI from '@gooddollar/goodcontracts/build/contracts/Identity.min.json'
@@ -117,8 +116,6 @@ export class GoodWallet {
 
   oneTimePaymentLinksContract: Web3.eth.Contract
 
-  redeemDataContract: Web3.eth.Contract
-
   erc20Contract: Web3.eth.Contract
 
   account: string
@@ -175,14 +172,6 @@ export class GoodWallet {
         )
         abiDecoder.addABI(GoodDollarABI.abi)
 
-        // Redeem Data Contract
-        this.redeemDataContract = new this.wallet.eth.Contract(
-          RedemptionDataABI.abi,
-          get(ContractsAddress, `${this.network}.RedemptionData`, RedemptionDataABI.networks[this.networkId].address),
-          { from: this.account }
-        )
-        abiDecoder.addABI(RedemptionDataABI.abi)
-
         // ERC20 Contract
         this.erc20Contract = new this.wallet.eth.Contract(
           ERC20ABI.abi,
@@ -232,9 +221,6 @@ export class GoodWallet {
   listenTxUpdates(fromBlock: string = '0', blockIntervalCallback: Function) {
     log.debug('listenTxUpdates listening from block:', fromBlock)
     fromBlock = new BN(fromBlock)
-
-    // subscribe to bonus claimed events
-    this.subscribeToRedeemDataEvents(fromBlock, blockIntervalCallback)
 
     this.subscribeToOTPLEvents(fromBlock, blockIntervalCallback)
     const contract = this.erc20Contract
@@ -288,28 +274,6 @@ export class GoodWallet {
         // Send for all events. We could define here different events
         this.getSubscribers('receive').forEach(cb => cb(error, [event]))
         this.getSubscribers('balanceChanged').forEach(cb => cb(error, [event]))
-      }
-    })
-  }
-
-  subscribeToRedeemDataEvents(fromBlock: BN, blockIntervalCallback) {
-    const filter = { to: this.wallet.utils.toChecksumAddress(this.account) }
-
-    this.redeemDataContract.events.BonusClaimed({ fromBlock, filter }, (error, event) => {
-      if (error) {
-        return log.error('RedemptionDataContract BonusClaimed event emitted with error', error.message, error)
-      }
-
-      log.info('RedemptionDataContract BonusClaimed event - received', { event })
-
-      this.getReceiptWithLogs(event.transactionHash)
-        .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['BonusClaimed']))
-        .catch(err =>
-          log.error('RedemptionDataContract BonusClaimed event - get receipt by hash failed', err.message, err)
-        )
-
-      if (event && blockIntervalCallback) {
-        blockIntervalCallback({ toBlock: event.blockNumber, event })
       }
     })
   }

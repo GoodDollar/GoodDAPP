@@ -1094,8 +1094,29 @@ export class UserStorage {
       logger.debug('formatEvent:', event.id, { initiatorType, initiator, address })
       const profileToShow = await this._extractProfileToShow(initiatorType, initiator, address)
       const [avatar, fullName] = await Promise.all([
-        this._extractAvatar(type, withdrawStatus, profileToShow, address),
-        this._extractFullName(customName, profileToShow, initiatorType, initiator, type, address, displayName),
+        this._extractAvatar(type, withdrawStatus, profileToShow, address).catch(e => {
+          logger.warn('formatEvent: failed extractAvatar', e.message, e, {
+            type,
+            withdrawStatus,
+            profileToShow,
+            address,
+          })
+          return undefined
+        }),
+        this._extractFullName(customName, profileToShow, initiatorType, initiator, type, address, displayName).catch(
+          e => {
+            logger.warn('formatEvent: failed extractFullName', e.message, e, {
+              customName,
+              profileToShow,
+              initiatorType,
+              initiator,
+              type,
+              address,
+              displayName,
+            })
+            return undefined
+          }
+        ),
       ])
 
       return {

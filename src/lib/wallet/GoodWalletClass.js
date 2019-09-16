@@ -11,7 +11,6 @@ import { BN, toBN } from 'web3-utils'
 import abiDecoder from 'abi-decoder'
 import values from 'lodash/values'
 import get from 'lodash/get'
-import BigNumber from 'big-number'
 import Config from '../../config/config'
 import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
@@ -463,11 +462,10 @@ export class GoodWallet {
     const percentsContractRepresentation = await this.reserveContract.methods
       .transactionFee()
       .call()
-      .then(n => n.toString())
-    const fee = BigNumber(amount)
-      .mult(percentsContractRepresentation)
-      .div(1000000)
-    const amountWithFee = BigNumber(amount).add(fee)
+      .then(toBN)
+
+    const fee = new BN(amount).mul(percentsContractRepresentation).div(new BN('1000000'))
+    const amountWithFee = new BN(amount).add(fee)
 
     const balance = await this.balanceOf()
     return parseInt(amountWithFee) <= parseInt(balance)

@@ -972,7 +972,7 @@ export class UserStorage {
         .map(feedItem =>
           this.formatEvent(feedItem).catch(e => {
             logger.error('getFormattedEvents Failed formatting event:', feedItem, e.message, e)
-            return undefined
+            return {}
           })
         )
     )
@@ -1007,7 +1007,7 @@ export class UserStorage {
     logger.debug('getFormatedEventById updated event with receipt', { prevFeedEvent, updatedEvent })
     return this.formatEvent(updatedEvent).catch(e => {
       logger.error('getFormatedEventById Failed formatting event:', id, e.message, e)
-      return undefined
+      return {}
     })
   }
 
@@ -1084,37 +1084,42 @@ export class UserStorage {
   async formatEvent(event: FeedEvent): Promise<StandardFeed> {
     logger.debug('formatEvent: incoming event', event.id, { event })
 
-    const { data, type, date, id, status, createdDate } = event
-    const { sender, reason, code: withdrawCode, otplStatus, customName, subtitle } = data
+    try {
+      const { data, type, date, id, status, createdDate } = event
+      const { sender, reason, code: withdrawCode, otplStatus, customName, subtitle } = data
 
-    const { address, initiator, initiatorType, value, displayName, message } = this._extractData(event)
-    const withdrawStatus = this._extractWithdrawStatus(withdrawCode, otplStatus, status)
-    const displayType = this._extractDisplayType(type, withdrawStatus)
+      const { address, initiator, initiatorType, value, displayName, message } = this._extractData(event)
+      const withdrawStatus = this._extractWithdrawStatus(withdrawCode, otplStatus, status)
+      const displayType = this._extractDisplayType(type, withdrawStatus)
+      logger.debug('formatEvent:', event.id, { initiatorType, initiator, address })
+      const profileToShow = await this._extractProfileToShow(initiatorType, initiator, address)
+      const [avatar, fullName] = await Promise.all([
+        this._extractAvatar(type, withdrawStatus, profileToShow, address),
+        this._extractFullName(customName, profileToShow, initiatorType, initiator, type, address, displayName),
+      ])
 
-    const profileToShow = await this._extractProfileToShow(initiatorType, initiator, address)
-    const [avatar, fullName] = await Promise.all([
-      this._extractAvatar(type, withdrawStatus, profileToShow, address),
-      this._extractFullName(customName, profileToShow, initiatorType, initiator, type, address, displayName),
-    ])
-
-    return {
-      id,
-      date: new Date(date).getTime(),
-      type,
-      displayType,
-      status,
-      createdDate,
-      data: {
-        endpoint: {
-          address: sender,
-          fullName,
-          avatar,
-          withdrawStatus,
+      return {
+        id,
+        date: new Date(date).getTime(),
+        type,
+        displayType,
+        status,
+        createdDate,
+        data: {
+          endpoint: {
+            address: sender,
+            fullName,
+            avatar,
+            withdrawStatus,
+          },
+          amount: value,
+          message: reason || message,
+          subtitle,
         },
-        amount: value,
-        message: reason || message,
-        subtitle,
-      },
+      }
+    } catch (e) {
+      logger.error('formatEvent: failed formatting event:', event, e.message, e)
+      return {}
     }
   }
 

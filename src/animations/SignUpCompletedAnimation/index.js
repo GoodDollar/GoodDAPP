@@ -10,6 +10,13 @@ type State = {}
 export default class SignUpCompletedAnimation extends React.Component<Props, State> {
   componentDidMount() {
     this.animation.play()
+    this.animation.addEventListener('complete', () => {
+      this.animation.goToAndPlay(26, true)
+    })
+  }
+
+  componentWillUnmount() {
+    this.animation.removeEventListener('complete')
   }
 
   render() {

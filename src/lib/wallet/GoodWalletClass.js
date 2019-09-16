@@ -453,13 +453,46 @@ export class GoodWallet {
   }
 
   /**
-   * Checks if use can send an specific amount of G$s
-   * @param {number} amount
+   * Get transaction fee from GoodDollarReserveContract
    * @returns {Promise<boolean>}
    */
-  async canSend(amount: number): Promise<boolean> {
+  getTxFee(): Promise<boolean> {
+    return this.reserveContract.methods
+      .transactionFee()
+      .call()
+      .then(toBN)
+  }
+
+  /**
+   * Get transaction fee from GoodDollarReserveContract
+   * @returns {Promise<boolean>}
+   */
+  async calculateTxFee(amount): Promise<boolean> {
+    // 1% is represented as 10000, and divided by 1000000 when required to be % representation to enable more granularity in the numbers (as Solidity doesn't support floating point)
+    const percents = await this.getTxFee()
+
+    return new BN(amount).mul(percents).div(new BN('1000000'))
+  }
+
+  /**
+   * Checks if use can send an specific amount of G$s
+   * @param {number} amount
+   * @param {object} options
+   * @returns {Promise<boolean>}
+   */
+  async canSend(amount: number, options = {}): Promise<boolean> {
+    const { feeIncluded = false } = options
+    let amountWithFee = amount
+
+    if (!feeIncluded) {
+      // 1% is represented as 10000, and divided by 1000000 when required to be % representation to enable more granularity in the numbers (as Solidity doesn't support floating point)
+      const fee = await this.calculateTxFee(amount)
+
+      amountWithFee = new BN(amount).add(fee)
+    }
+
     const balance = await this.balanceOf()
-    return parseInt(amount) <= parseInt(balance)
+    return parseInt(amountWithFee) <= parseInt(balance)
   }
 
   /**

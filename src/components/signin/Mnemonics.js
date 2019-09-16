@@ -2,7 +2,6 @@
 //eslint-disable-next-line
 import bip39 from 'bip39-light'
 import get from 'lodash/get'
-import _debounce from 'lodash/debounce'
 import React, { useEffect, useState } from 'react'
 import { AsyncStorage } from 'react-native'
 import { IS_LOGGED_IN } from '../../lib/constants/localStorage'
@@ -25,6 +24,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
   const mnemonicsHelpers = import('../../lib/wallet/SoftwareWalletProvider')
   const [mnemonics, setMnemonics] = useState()
   const [isRecovering, setRecovering] = useState(false)
+  const [isSubmitBlocked, setSubmitBlocked] = useState(true)
   const [showDialog] = useDialog()
   const [errorMessage, setErrorMessage] = useState()
   const [showErrorDialog, hideDialog] = useErrorDialog()
@@ -33,16 +33,16 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
 
   const handleChange = (mnemonics: string) => {
     log.info({ mnemonics })
-    const splitted = mnemonics.split(' ')
+    const splitted = mnemonics.split(' ').filter(o => o)
     if (splitted.length > MAX_WORDS) {
       setErrorMessage('Your pass phrase appears to be incorrect.')
     } else {
       setErrorMessage(null)
     }
     if (splitted.length === MAX_WORDS) {
-      setRecovering(true)
+      setSubmitBlocked(false)
     } else {
-      setRecovering(false)
+      setSubmitBlocked(true)
     }
     setMnemonics(mnemonics)
   }
@@ -167,7 +167,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
         </Text>
       </Section.Row>
       <Section.Stack grow style={styles.bottomContainer} justifyContent="flex-end">
-        <CustomButton style={styles.buttonLayout} onPress={_debounce(recover, 300)} disabled={!isRecovering}>
+        <CustomButton style={styles.buttonLayout} onPress={recover} disabled={isSubmitBlocked || isRecovering}>
           Recover my wallet
         </CustomButton>
       </Section.Stack>

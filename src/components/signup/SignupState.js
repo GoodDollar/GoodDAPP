@@ -104,7 +104,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       w3User = w3userData.data
 
       if (w3User.has_wallet) {
-        behaviour = 'goToRecoverScreen'
+        behaviour = 'goToSignInScreen'
       } else {
         behaviour = 'goToPhone'
       }
@@ -125,8 +125,8 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
         navigation.navigate('InvalidW3TokenError')
         break
 
-      case 'goToRecoverScreen':
-        navigation.navigate('Recover', { web3HasWallet: true })
+      case 'goToSignInScreen':
+        navigation.navigate('SigninInfo')
         break
 
       case 'goToPhone':

@@ -61,10 +61,10 @@ class Auth extends React.Component<Props> {
 
       try {
         const w3userData = await API.getUserFromW3ByToken(web3Token)
-        w3User = w3userData.data
+        w3User = (w3userData && w3userData.data) || {}
 
-        if (!w3User.has_wallet) {
-          behaviour = 'goToRecoverScreen'
+        if (w3User.has_wallet) {
+          behaviour = 'goToSignInScreen'
         }
       } catch (e) {
         behaviour = 'showTokenError'
@@ -75,8 +75,8 @@ class Auth extends React.Component<Props> {
           navigation.navigate('InvalidW3TokenError')
           break
 
-        case 'goToRecoverScreen':
-          navigation.navigate('Recover', { web3HasWallet: true })
+        case 'goToSignInScreen':
+          navigation.navigate('SigninInfo')
           break
 
         default:

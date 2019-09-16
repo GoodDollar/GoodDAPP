@@ -969,13 +969,21 @@ export class UserStorage {
           feedItem =>
             feedItem.data && ['deleted', 'cancelled'].includes(feedItem.status || feedItem.otplStatus) === false
         )
-        .map(feedItem => this.formatEvent(feedItem))
+        .map(feedItem =>
+          this.formatEvent(feedItem).catch(e => {
+            logger.error('getFormattedEvents Failed formatting event:', feedItem, e.message, e)
+            return undefined
+          })
+        )
     )
   }
 
   async getFormatedEventById(id: string): Promise<StandardFeed> {
     const prevFeedEvent = await this.getFeedItemByTransactionHash(id)
-    const standardPrevFeedEvent = await this.formatEvent(prevFeedEvent)
+    const standardPrevFeedEvent = await this.formatEvent(prevFeedEvent).catch(e => {
+      logger.error('getFormatedEventById Failed formatting event:', id, e.message, e)
+      return undefined
+    })
     if (!prevFeedEvent) {
       return standardPrevFeedEvent
     }
@@ -986,7 +994,10 @@ export class UserStorage {
     logger.warn('getFormatedEventById: receipt missing for:', { id, standardPrevFeedEvent })
 
     //if for some reason we dont have the receipt(from blockchain) yet then fetch it
-    const receipt = await this.wallet.getReceiptWithLogs(id)
+    const receipt = await this.wallet.getReceiptWithLogs(id).catch(e => {
+      logger.warn('no receipt found for id:', id, e.message, e)
+      return undefined
+    })
     if (!receipt) {
       return standardPrevFeedEvent
     }
@@ -994,7 +1005,10 @@ export class UserStorage {
     //update the event
     let updatedEvent = await this.handleReceiptUpdated(receipt)
     logger.debug('getFormatedEventById updated event with receipt', { prevFeedEvent, updatedEvent })
-    return this.formatEvent(updatedEvent)
+    return this.formatEvent(updatedEvent).catch(e => {
+      logger.error('getFormatedEventById Failed formatting event:', id, e.message, e)
+      return undefined
+    })
   }
 
   /**

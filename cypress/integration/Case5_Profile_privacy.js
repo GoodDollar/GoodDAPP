@@ -12,14 +12,17 @@ describe('Test case 5: Ability to change profile privacy level', () => {
 
     before('authorization', () => {    
 
+  
         StartPage.open();
-        StartPage.loginLink.click();       
-        const wordsForSuccessfullLogin = Cypress.env('wordsForSuccessfullLogin')
-        for( let i = 0; i < 12; i++ ) {
-            LoginPage.mnemonicInputs.eq(i).type(wordsForSuccessfullLogin[i]);
-        }
+        StartPage.continueOnWebButton.click();   
+        StartPage.signInButton.click();  
+        LoginPage.recoverFromPassPhraseLink.click();
+        LoginPage.pageHeader.should('contain', 'Recover');
+        const string = Cypress.env('wordsForSuccessfullLogin').join(' ');
+        LoginPage.mnemonicsInput.type(string);
         LoginPage.recoverWalletButton.click();
-        cy.wait(7000)
+        LoginPage.yayButton.click();
+        cy.wait(7000);
 
     });
 
@@ -28,7 +31,7 @@ describe('Test case 5: Ability to change profile privacy level', () => {
 
         HomePage.profileAvatar.should('be.visible')
         HomePage.profileAvatar.click();
-        ProfilePage.phoneInput.should('have.value', '+380983611320');
+        ProfilePage.phoneInput.should('have.value', '+380983611327');
         ProfilePage.emailInput.should('have.value', 'gooddollar.test123@gmail.com');
         ProfilePage.profilePrivacyButton.click();
         cy.wait(5000);
@@ -37,7 +40,7 @@ describe('Test case 5: Ability to change profile privacy level', () => {
         ProfilePrivacyPage.muskedEmailButton.click();
         ProfilePrivacyPage.saveButton.click();
         ProfilePrivacyPage.backButton.click();
-        ProfilePage.phoneInput.should('have.value', '*********1320');
+        ProfilePage.phoneInput.should('have.value', '*********1327');
         ProfilePage.emailInput.should('have.value', 'g****************3@gmail.com');
         ProfilePage.profilePrivacyButton.click();
         ProfilePrivacyPage.privateNumberButton.click();

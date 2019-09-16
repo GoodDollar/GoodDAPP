@@ -1,5 +1,6 @@
 // @flow
 import React, { useState } from 'react'
+import { BN } from 'web3-utils'
 import { AmountInput, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
@@ -27,11 +28,15 @@ const Amount = (props: AmountProps) => {
     }
     console.info('canContiniue?', { weiAmount, params })
     try {
-      if (await goodWallet.canSend(weiAmount)) {
+      const txFeePercents = await goodWallet.getTxFee().then(n => n / 10000)
+      const fee = await goodWallet.calculateTxFee(weiAmount)
+      const amountWithFee = new BN(weiAmount).add(fee)
+
+      if (await goodWallet.canSend(amountWithFee, { feeIncluded: true })) {
         return true
       }
 
-      setError(`Sorry, you don't have enough G$`)
+      setError(`Sorry, you don't have enough G$ to send ${weiToGd(amountWithFee)} (${txFeePercents}% transaction fee)`)
       return false
     } catch (e) {
       setError(e.message)
@@ -54,6 +59,7 @@ const Amount = (props: AmountProps) => {
   const handleAmountChange = (value: string) => {
     setGDAmount(value)
     setLoading(value <= 0)
+    setError('')
   }
 
   return (

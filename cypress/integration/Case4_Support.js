@@ -11,13 +11,15 @@ describe('Test case 4: Ability to send support request and subscribe', () => {
     before('authorization', () => {   
 
         StartPage.open();
-        StartPage.loginLink.click();        
-        const wordsForSuccessfullLogin = Cypress.env('wordsForSuccessfullLogin')
-        for( let i = 0; i < 12; i++ ) {
-            LoginPage.mnemonicInputs.eq(i).type(wordsForSuccessfullLogin[i]);
-        }
+        StartPage.continueOnWebButton.click();   
+        StartPage.signInButton.click();  
+        LoginPage.recoverFromPassPhraseLink.click();
+        LoginPage.pageHeader.should('contain', 'Recover');
+        const string = Cypress.env('wordsForSuccessfullLogin').join(' ');
+        LoginPage.mnemonicsInput.type(string);
         LoginPage.recoverWalletButton.click();
-        cy.wait(5000)
+        LoginPage.yayButton.click();
+        cy.wait(7000);
 
     });
 

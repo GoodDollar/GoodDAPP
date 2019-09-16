@@ -104,7 +104,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       w3User = w3userData.data
 
       if (w3User.has_wallet) {
-        behaviour = 'goToRecoverScreen'
+        behaviour = 'goToSignInScreen'
       } else {
         behaviour = 'goToPhone'
       }
@@ -125,8 +125,8 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
         navigation.navigate('InvalidW3TokenError')
         break
 
-      case 'goToRecoverScreen':
-        navigation.navigate('Recover', { web3HasWallet: true })
+      case 'goToSignInScreen':
+        navigation.navigate('SigninInfo')
         break
 
       case 'goToPhone':
@@ -220,10 +220,6 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
           if (data && data.loginToken) {
             userStorage.setProfileField('loginToken', data.loginToken, 'private')
           }
-
-          if (data && data.w3Token) {
-            userStorage.setProfileField('w3Token', data.w3Token, 'private')
-          }
         })
         .catch(e => {
           log.error(e.message, e)
@@ -233,16 +229,13 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
 
       await Promise.all([
         addUserAPIPromise,
-        userStorage.setProfile({ ...requestPayload, walletAddress: goodWallet.account }),
+        userStorage.setProfile({ ...requestPayload, walletAddress: goodWallet.account, mnemonic }),
         userStorage.setProfileField('registered', true, 'public'),
         goodWallet.getBlockNumber().then(creationBlock => userStorage.saveLastBlockNumber(creationBlock.toString())),
       ])
 
       AsyncStorage.removeItem('web3Token')
-
-      if (requestPayload.w3Token) {
-        API.updateW3UserWithWallet(requestPayload.w3Token, goodWallet.account)
-      }
+      API.updateW3UserWithWallet(requestPayload.w3Token, goodWallet.account)
 
       //need to wait for API.addUser but we dont need to wait for it to finish
       API.sendRecoveryInstructionByEmail(mnemonic)

@@ -280,13 +280,6 @@ class API {
       return `data:${response.headers['content-type'].toLowerCase()};base64,${image}`
     })
   }
-
-  /**
-   * `/verify/bonuses` get api call
-   */
-  redeemBonuses() {
-    return this.client.get('/verify/w3/bonuses')
-  }
 }
 
 const api = new API()

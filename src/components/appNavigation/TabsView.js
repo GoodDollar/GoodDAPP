@@ -48,11 +48,11 @@ type TabViewProps = {
 // )
 
 const TabsView = (props: TabViewProps) => {
-  const { navigation } = props
+  const { goTo } = props
   const store = SimpleStore.useStore()
   const goToRewards = () => {
     userStorage.getProfileFieldValue('loginToken').then(loginToken => {
-      navigation.navigate('Rewards', { loginToken })
+      goTo('Rewards', { loginToken })
     })
   }
 

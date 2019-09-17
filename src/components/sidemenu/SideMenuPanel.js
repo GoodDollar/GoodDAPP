@@ -122,10 +122,17 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, navigation, store, theme 
               onPress: async () => {
                 store.set('loadingIndicator')({ loading: true })
                 const userStorage = await import('../../lib/gundb/UserStorage').then(_ => _.default)
+                let token = await userStorage.getProfileFieldValue('w3Token')
+
+                if (!token) {
+                  token = await userStorage.getProfileFieldValue('loginToken')
+                }
+
                 await userStorage
                   .deleteAccount()
                   .then(r => log.debug('deleted account', r))
                   .then(r => AsyncStorage.clear())
+                  .then(() => API.deleteWalletFromW3Site(token))
                   .catch(e => log.error('Error deleting account', e.message, e))
                 store.set('loadingIndicator')({ loading: false })
                 window.location = '/'

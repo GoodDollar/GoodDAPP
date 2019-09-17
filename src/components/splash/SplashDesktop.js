@@ -13,14 +13,14 @@ import QRCode from '../common/view/QRCode'
 Image.prefetch(goodDollarImage)
 Image.prefetch(wavePattern)
 
-const SplashDesktop = ({ onContinue }) => (
+const SplashDesktop = ({ onContinue, urlForQR }) => (
   <Wrapper style={styles.wrapper}>
     <Section style={styles.container}>
       <Section.Stack style={styles.content} grow justifyContent="space-between">
         <Section.Text fontSize={22} color="darkBlue">
           {`For Best Experience\nplease scan and continue\non your mobile device.`}
         </Section.Text>
-        <QRCode value={Config.publicUrl} size={150} qrStyles={styles.qrStyles} />
+        <QRCode value={urlForQR} size={150} qrStyles={styles.qrStyles} />
         <Image source={goodDollarImage} style={styles.goodDollar} resizeMode="contain" />
         <Section.Text fontSize={22} color="darkBlue">
           {`V${Config.version}`}

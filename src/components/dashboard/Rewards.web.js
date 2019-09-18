@@ -18,13 +18,14 @@ const RewardsTab = props => {
   return loginToken ? (
     <div
       style={{
+        height: '100%',
         overflow: 'scroll !important',
         WebkitOverflowScrolling: 'touch !important',
       }}
     >
       <iframe
         title="Rewards"
-        src={`${Config.web3SiteUrl}?loginToken=${loginToken}`}
+        src={`${Config.web3SiteUrl}?token=${loginToken}`}
         scrolling="no"
         allowFullScreen={true}
         frameBorder="0"

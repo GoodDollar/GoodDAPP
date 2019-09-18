@@ -1,6 +1,6 @@
-import { GoodWallet } from '../../../lib/wallet/GoodWalletClass'
+import { GoodWallet } from '../GoodWalletClass'
 import Config from '../../../config/config'
-import { gdToWei } from '../../../lib/wallet/utils'
+import { gdToWei } from '../utils'
 import adminWallet from './__util__/AdminWallet'
 
 describe('GoodWalletShare/ReceiveTokens', () => {
@@ -45,21 +45,6 @@ describe('GoodWalletShare/ReceiveTokens', () => {
     })
 
     await testWallet.claim()
-  })
-
-  it('should say that there is enough G$ on users balance to send including fee', async () => {
-    const newAmount = gdToWei(0.9)
-    const canSend = await testWallet.canSend(newAmount)
-
-    expect(canSend).toBeTruthy()
-  })
-
-  it('should fail as there is no enough G$ including fee on users balance', async () => {
-    const newAmount = gdToWei(1)
-    const canSend = await testWallet.canSend(newAmount)
-
-    // should fail because testWallet have only 1 G$, after including fee - canSend should return false
-    expect(canSend).toBeFalsy()
   })
 
   it('should emit `PaymentWithdraw` and `transfer` event filtered by `from` block', async () => {

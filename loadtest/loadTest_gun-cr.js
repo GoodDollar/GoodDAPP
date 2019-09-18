@@ -5,49 +5,49 @@ import Gun from 'gun'
 import { GoodWallet } from '../src/lib/wallet/GoodWalletClass'
 import { GoodWalletLogin } from '../src/lib/login/GoodWalletLogin'
 import { UserStorage } from '../src/lib/gundb/UserStorageClass'
-import delay from 'delay'
 import API from '../src/lib/API/api'
-import Config from "../src/config/config"
 let failedTests = {}
 
 const addUser = async (i) => {
   let result = {
-    addPablicDataTime: 0,
+    addPublicDataTime: 0,
     addPrivateDataTime: 0,
   }
-
+  
   try {
     let mnemonic = bip39.generateMnemonic()
     let wallet = new GoodWallet({ mnemonic })
     await wallet.ready
     await API.ready
-    const storage = new UserStorage(wallet,  Gun())
+    const storage = new UserStorage(wallet, Gun())
     await storage.ready
     const randomName = faker.name.findName() // Rowan Nikolaus
     const randomEmail = faker.internet.email() // Kassandra.Haley@erich.biz
     const randomCard = faker.phone.phoneNumber('+38097#######')
     let login = new GoodWalletLogin(wallet, storage)
-    let creds = await login.auth()
+    await login.auth()
     
     let publicUserData = {
-      fullName: randomName,
+      // fullName: randomName,
       walletAddress: wallet.account,
     }
     
     let privateUserData = {
-      email: randomEmail,
+      // email: randomEmail,
       mobile: randomCard,
-      
     }
+    console.log({
+      publicUserData, privateUserData
+    })
     const startTimeForSave = new Date().getTime()
     await storage.setProfile(publicUserData)
     const endTimeForSave = new Date().getTime()
-    result.addPablicDataTime = endTimeForSave - startTimeForSave
-  
-    const startTimeForGet = new Date().getTime()
+    result.addPublicDataTime = endTimeForSave - startTimeForSave
+    
+    const startTimeForSavePrivate = new Date().getTime()
     await storage.setProfile(privateUserData)
-    const endTimeForGet = new Date().getTime()
-    result.addPrivateDataTime = endTimeForGet - startTimeForGet
+    const endTimeForSavePrivate = new Date().getTime()
+    result.addPrivateDataTime = endTimeForSavePrivate - startTimeForSavePrivate
     
     
   } catch (error) {
@@ -63,19 +63,18 @@ const addUser = async (i) => {
 
 const run = async numTests => {
   let res = []
-  let addPablicDataTime = 0
+  let addPublicDataTime = 0
   let addPrivateDataTime = 0
-  await delay(3000)
   for (let i = 0; i < numTests; i++) {
     let runT = await addUser(i)
     res.push(runT)
-    addPablicDataTime += run.addPablicDataTime
-    addPrivateDataTime += run.addPrivateDataTime
+    addPublicDataTime += runT.addPublicDataTime
+    addPrivateDataTime += runT.addPrivateDataTime
   }
   
   console.info(res)
-  console.info(`Average addition time (Public):${addPablicDataTime/numTests}` )
-  console.info(`Average addition time (Private):${addPrivateDataTime/numTests}`)
+  console.info(`TPS (Public):${1000 / addPublicDataTime / numTests}`)
+  console.info(`TPS (Private):${1000 / addPrivateDataTime / numTests}`)
   console.info('Done. Quiting')
   process.exit(-1)
 }

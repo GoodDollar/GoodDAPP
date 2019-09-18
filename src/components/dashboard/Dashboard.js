@@ -90,6 +90,7 @@ const Dashboard = props => {
   }
   useEffect(() => {
     store.set('addWebApp')({ ...store.get('addWebApp'), show: true })
+
     prepareLoginToken()
 
     log.debug('Dashboard didmount')

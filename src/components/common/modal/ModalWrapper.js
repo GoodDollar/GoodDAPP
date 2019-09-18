@@ -11,18 +11,18 @@ import ModalInnerContents from './ModalInnerContents'
 import ModalContainer from './ModalContainer'
 
 const ModalWrapper = (props: any) => {
-  const { styles, children, onClose, leftBorderColor, showJaggedEdge = false, fullHeight = false } = props
+  const { styles, children, onClose, leftBorderColor, showJaggedEdge = false, fullHeight = false, showAtBottom } = props
 
   return (
     <ScrollView>
       <ModalOverlay>
-        {onClose ? <ModalCloseButton onClose={onClose} /> : null}
-        <ModalContainer fullHeight={fullHeight}>
+        <ModalContainer fullHeight={fullHeight} style={showAtBottom && styles.showAtBottom}>
           <ModalLeftBorder
             borderColor={leftBorderColor}
             style={[showJaggedEdge ? styles.modalLeftBorderAddMarginBottom : '']}
           />
           <ModalContents>
+            {onClose ? <ModalCloseButton onClose={onClose} /> : null}
             <ModalInnerContents style={[showJaggedEdge ? styles.modalContainerStraightenBottomRightEdge : '']}>
               {children}
             </ModalInnerContents>
@@ -40,6 +40,9 @@ const getStylesFromProps = ({ theme }) => ({
   },
   modalLeftBorderAddMarginBottom: {
     marginBottom: theme.modals.jaggedEdgeSize,
+  },
+  showAtBottom: {
+    marginTop: 'auto',
   },
 })
 

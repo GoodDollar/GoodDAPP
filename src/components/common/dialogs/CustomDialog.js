@@ -53,6 +53,7 @@ const CustomDialog = ({
   visible,
   content,
   buttons,
+  showAtBottom,
 }: DialogProps) => {
   const defaultImage = type === 'error' ? <ErrorIcon /> : <SuccessIcon />
   const modalColor = getColorFromType(type)
@@ -61,7 +62,7 @@ const CustomDialog = ({
 
   return visible ? (
     <Portal>
-      <ModalWrapper onClose={onDismiss} leftBorderColor={modalColor}>
+      <ModalWrapper onClose={onDismiss} leftBorderColor={modalColor} showAtBottom={showAtBottom}>
         <React.Fragment>
           {title && (
             <Text color={textColor} fontFamily="slab" fontSize={24} fontWeight="bold" style={styles.title}>

@@ -25,7 +25,7 @@ class SendMoneyPage {
     }
 
     get doneButton() {
-        return cy.get('[data-gdtype="copybutton-done"]', { timeout: 10000 });
+        return cy.get('div[data-gdtype="copybutton-done"]');
     }
 
 }

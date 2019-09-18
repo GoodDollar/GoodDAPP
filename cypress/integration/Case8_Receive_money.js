@@ -13,14 +13,17 @@ describe('Test case 9: Ability to send money request and reseive money', () => {
 
     it('User is able to send money request', () => {
 
+  
         StartPage.open();
-        StartPage.loginLink.click();         
-        const wordsForSuccessfullLogin = Cypress.env('anotherAccountWords')
-        for( let i = 0; i < 12; i++ ) {
-            LoginPage.mnemonicInputs.eq(i).type(wordsForSuccessfullLogin[i]);
-        }
+        StartPage.continueOnWebButton.click();   
+        StartPage.signInButton.click();  
+        LoginPage.recoverFromPassPhraseLink.click();
+        LoginPage.pageHeader.should('contain', 'Recover');
+        const string = Cypress.env('anotherAccountWords').join(' ');
+        LoginPage.mnemonicsInput.type(string);
         LoginPage.recoverWalletButton.click();
-        cy.wait(7000)
+        LoginPage.yayButton.click();
+        cy.wait(7000);
         HomePage.receiveButton.click();
         ReceiveMoneyPage.pageHeader.should('contain', 'Receive G$');
         ReceiveMoneyPage.requestSpecificAmountButton.should('be.visible');
@@ -53,12 +56,14 @@ describe('Test case 9: Ability to send money request and reseive money', () => {
             cy.clearLocalStorage();
             cy.clearCookies();
             StartPage.open();
-            StartPage.loginLink.click();         
-            const wordsForSuccessfullLogin = Cypress.env('wordsForSuccessfullLogin')
-            for( let i = 0; i < 12; i++ ) {
-                LoginPage.mnemonicInputs.eq(i).type(wordsForSuccessfullLogin[i]);
-            }
+            StartPage.continueOnWebButton.click();   
+            StartPage.signInButton.click();  
+            LoginPage.recoverFromPassPhraseLink.click();
+            LoginPage.pageHeader.should('contain', 'Recover');
+            const string2 = Cypress.env('wordsForSuccessfullLogin').join(' ');
+            LoginPage.mnemonicsInput.type(string2);
             LoginPage.recoverWalletButton.click();
+            LoginPage.yayButton.click();
             cy.wait(20000);
             HomePage.claimButton.should('be.visible');
             HomePage.moneyAmountDiv.invoke('text').then ( moneyBeforeSending => {

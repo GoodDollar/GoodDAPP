@@ -4,53 +4,53 @@
     "env": {   
         "baseUrl": "https://gooddev.netlify.com/",
         "wordsForSuccessfullLogin": [
-            "private", "wait", "because", 
-            "cook", "shock", "vintage", 
-            "potato", "mandate", "grab", 
-            "indicate", "oven", "erosion"
+            "evidence", "cream", "disagree", 
+            "able", "client", "tide", 
+            "inner", "creek", "few", 
+            "nose", "mom", "civil"
         ],
         "wordsForUnsuccessfullLogin": {
             "withChangedWord": [
-                "pirate", "wait", "because", 
-                "cook", "shock", "vintage", 
-                "potato", "mandate", "grab", 
-                "indicate", "oven", "erosion"
+                "hello", "cream", "disagree", 
+                "able", "client", "tide", 
+                "inner", "creek", "few", 
+                "nose", "mom", "civil"
             ],
             "withNumbers": [
-                "1private", "wait", "because", 
-                "cook", "shock", "vintage", 
-                "potato", "mandate", "grab", 
-                "indicate", "oven", "erosion"
+                "2evidence", "cream", "disagree", 
+                "able", "client", "tide", 
+                "inner", "creek", "few", 
+                "nose", "mom", "civil"
             ],
             "withSymbols": [
-                "@private", "wait", "because", 
-                "cook", "shock", "vintage", 
-                "potato", "mandate", "grab", 
-                "indicate", "oven", "erosion"
+                "@evidence", "cream", "disagree", 
+                "able", "client", "tide", 
+                "inner", "creek", "few", 
+                "nose", "mom", "civil"
             ],
             "withChangedLetter": [
-                "qrivate", "wait", "because", 
-                "cook", "shock", "vintage", 
-                "potato", "mandate", "grab", 
-                "indicate", "oven", "erosion"
+                "avidence", "cream", "disagree", 
+                "able", "client", "tide", 
+                "inner", "creek", "few", 
+                "nose", "mom", "civil"
             ],
             "withChangedOrder": [
-                "wait", "private", "because", 
-                "cook", "shock", "vintage", 
-                "potato", "mandate", "grab", 
-                "indicate", "oven", "erosion"
+                "cream", "evidence", "disagree", 
+                "able", "client", "tide", 
+                "inner", "creek", "few", 
+                "nose", "mom", "civil"
             ],
             "withCapitalize": [
-                "Private", "wait", "because", 
-                "cook", "shock", "vintage", 
-                "potato", "mandate", "grab", 
-                "indicate", "oven", "erosion"]
+                "Evidence", "cream", "disagree", 
+                "able", "client", "tide", 
+                "inner", "creek", "few", 
+                "nose", "mom", "civil"]
         },
         "anotherAccountWords": [
-            "govern", "lesson", "uniform",
-            "comfort","rose","sick",
-            "silk","snap","lens",
-            "garment","enlist","effort"
+            "wave", "depart", "appear",
+            "heart","convince","cable",
+            "visa","permit","punch",
+            "check","general","answer"
         ]
     }
 }

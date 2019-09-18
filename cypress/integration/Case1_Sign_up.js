@@ -40,7 +40,7 @@ describe('Test case 1: Ability to Sign Up', () => {
         cy.wait(3000);
         SignUpPage.nameInput.type('Name Name');
         SignUpPage.nextButton.click();
-        SignUpPage.phoneInput.type('+380983611321');
+        SignUpPage.phoneInput.type('+380673001758');
         SignUpPage.nextButton.click();
         // SignUpPage.errorOkayButton.click();
         // SignUpPage.nextButton.click();
@@ -50,14 +50,13 @@ describe('Test case 1: Ability to Sign Up', () => {
             SignUpPage.codeInputs.eq(i).type(i, {force:true});
         }
         cy.wait(5000);
-        SignUpPage.emailInput.type('gooddollar.test123@gmail.com');
+        SignUpPage.emailInput.type('main.test.acc.gooddollar@gmail.com');
         cy.wait(5000);
         SignUpPage.nextButton.click();
         cy.wait(5000);
         SignUpPage.nextButton.click();
         cy.wait(8000);
-        HomePage.welcomeFeed.should('contain', 'Welcome to GoodDollar!');
-        HomePage.welcomeFeed.should('contain', 'Start claiming free G$');
+        HomePage.welcomeFeed.should('be.visible');
         HomePage.optionsButton.click();
         cy.wait(5000)
         HomePage.deleteAccountButton.click();

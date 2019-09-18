@@ -33,7 +33,7 @@ class HomePage {
     }
 
     get welcomeFeed() {
-        return cy.get('[data-focusable="true"]').eq(7);
+        return cy.contains('Welcome to GoodDollar!');
     }
 
     get deleteAccountButton() {

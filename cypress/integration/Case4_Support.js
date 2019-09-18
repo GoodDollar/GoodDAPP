@@ -37,11 +37,11 @@ describe('Test case 4: Ability to send support request and subscribe', () => {
 
                 cy.wrap(body.find(SupportPage.helpFormEmail)).should('be.visible');
                 cy.wrap(body.find(SupportPage.helpFormTextArea)).should('be.visible');
-                cy.wrap(body.find(SupportPage.helpFormFirstName)).should('be.visible');
-                cy.wrap(body.find(SupportPage.helpFormLastName)).should('be.visible');
+                // cy.wrap(body.find(SupportPage.helpFormFirstName)).should('be.visible');
+                // cy.wrap(body.find(SupportPage.helpFormLastName)).should('be.visible');
                 cy.wrap(body.find(SupportPage.submitHelpFormButton)).should('be.visible');
-                cy.wrap(body.find(SupportPage.helpFormFirstName)).type('Andrew');
-                cy.wrap(body.find(SupportPage.helpFormLastName)).type('Lebowski');
+                // cy.wrap(body.find(SupportPage.helpFormFirstName)).type('Andrew');
+                // cy.wrap(body.find(SupportPage.helpFormLastName)).type('Lebowski');
                 cy.wrap(body.find(SupportPage.helpFormEmail)).clear().type('andrey.holenkov@qatestlab.eu');
                 cy.wrap(body.find(SupportPage.helpFormTextArea)).type('Test message');
                 cy.wrap(body.find(SupportPage.submitHelpFormButton)).click();

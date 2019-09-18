@@ -12,14 +12,17 @@ describe('Test case 8: Ability to send money', () => {
 
     it('User is able to send money', () => {
 
+    
         StartPage.open();
-        StartPage.loginLink.click();         
-        const wordsForSuccessfullLogin = Cypress.env('wordsForSuccessfullLogin')
-        for( let i = 0; i < 12; i++ ) {
-            LoginPage.mnemonicInputs.eq(i).type(wordsForSuccessfullLogin[i]);
-        }
+        StartPage.continueOnWebButton.click();   
+        StartPage.signInButton.click();  
+        LoginPage.recoverFromPassPhraseLink.click();
+        LoginPage.pageHeader.should('contain', 'Recover');
+        const string = Cypress.env('wordsForSuccessfullLogin').join(' ');
+        LoginPage.mnemonicsInput.type(string);
         LoginPage.recoverWalletButton.click();
-        cy.wait(5000)
+        LoginPage.yayButton.click();
+        cy.wait(7000);
         HomePage.sendButton.click();
         SendMoneyPage.nameInput.type('another person');
         SendMoneyPage.nextButton.click();
@@ -32,19 +35,22 @@ describe('Test case 8: Ability to send money', () => {
         cy.wait(4000)
         SendMoneyPage.copyLinkButton.click();
         cy.wait(3000)
+        SendMoneyPage.doneButton.should('be.visible')
         SendMoneyPage.doneButton.invoke('attr', 'data-url').then( sendMoneyUrl => {
             cy.wait(3000)
-            SendMoneyPage.doneButton.click();
+           //  SendMoneyPage.doneButton.click();
             cy.wait(4000);
             cy.clearLocalStorage();
             cy.clearCookies();
             StartPage.open();
-            StartPage.loginLink.click();         
-            const wordsForSuccessfullLogin2 = Cypress.env('anotherAccountWords')
-            for( let i = 0; i < 12; i++ ) {
-                LoginPage.mnemonicInputs.eq(i).type(wordsForSuccessfullLogin2[i]); 
-            }
+            StartPage.continueOnWebButton.click();   
+            StartPage.signInButton.click();  
+            LoginPage.recoverFromPassPhraseLink.click();
+            LoginPage.pageHeader.should('contain', 'Recover');
+            const string2 = Cypress.env('anotherAccountWords').join(' ');
+            LoginPage.mnemonicsInput.type(string2);
             LoginPage.recoverWalletButton.click();
+            LoginPage.yayButton.click();
             cy.wait(12000);
             HomePage.claimButton.should('be.visible');
             HomePage.moneyAmountDiv.invoke('text').then( moneyBefore => {

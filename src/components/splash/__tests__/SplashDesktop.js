@@ -7,13 +7,9 @@ const SplashDesktop = withThemeProvider(ImportedSplash)
 
 describe('SplashDesktop', () => {
   it('renders without errors', () => {
-    const tree = renderer.create(<SplashDesktop />)
-    expect(tree.toJSON()).toBeTruthy()
-  })
-
-  it('matches snapshot', () => {
-    const component = renderer.create(<SplashDesktop />)
-    const tree = component.toJSON()
-    expect(tree).toMatchSnapshot()
+    const tree = renderer.create(<SplashDesktop urlForQR="https://localhost" />)
+    const json = tree.toJSON()
+    expect(json).toBeTruthy()
+    expect(json).toMatchSnapshot()
   })
 })

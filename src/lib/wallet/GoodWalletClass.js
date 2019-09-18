@@ -749,7 +749,8 @@ export class GoodWallet {
 
     if (topWallet) {
       const toppingRes = await API.verifyTopWallet()
-      if (!toppingRes.ok && toppingRes.sendEtherOutOfSystem) {
+      const { data } = toppingRes
+      if (!data.ok) {
         return {
           error: true,
         }

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import userStorage from '../../lib/gundb/UserStorage'
+import Config from '../../config/config'
 import logger from '../../lib/logger/pino-logger'
 const log = logger.child({ from: 'RewardsTab' })
 
@@ -23,7 +24,7 @@ const RewardsTab = props => {
     >
       <iframe
         title="Rewards"
-        src={`https://w3.gooddollar.org?loginToken=${loginToken}`}
+        src={`${Config.web3SiteUrl}?loginToken=${loginToken}`}
         scrolling="no"
         allowFullScreen={true}
         frameBorder="0"

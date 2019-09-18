@@ -70,29 +70,27 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose }) => {
     case 'sendpending':
       return (
         <>
-          <View style={styles.buttonsView}>
-            <View style={styles.rightButtonContainer}>
-              <CustomButton
-                mode="outlined"
-                style={[styles.button, { borderColor: theme.colors.red }]}
-                onPress={cancelPayment}
-                color={theme.colors.red}
-                loading={state.cancelPaymentLoading}
-                textStyle={styles.buttonTextStyle}
-              >
-                Cancel payment link
-              </CustomButton>
-            </View>
-            <View style={styles.rightButtonContainer}>
-              <ShareButton
-                share={getPaymentLink()}
-                actionText="Share as link"
-                mode="outlined"
-                style={styles.rightButton}
-                iconColor={theme.colors.primary}
-                textStyle={styles.buttonTextStyle}
-              />
-            </View>
+          <View style={styles.rowButtonsView}>
+            <CustomButton
+              mode="outlined"
+              style={[styles.cancelButton, { borderColor: theme.colors.red }]}
+              onPress={cancelPayment}
+              color={theme.colors.red}
+              loading={state.cancelPaymentLoading}
+              textStyle={styles.buttonTextStyle}
+              compact
+            >
+              Cancel payment link
+            </CustomButton>
+            <ShareButton
+              share={getPaymentLink()}
+              actionText="Share as link"
+              mode="outlined"
+              style={styles.shareButton}
+              iconColor={theme.colors.primary}
+              textStyle={styles.buttonTextStyle}
+              compact
+            />
           </View>
           <View style={styles.buttonsView}>
             <View style={styles.rightButtonContainer}>
@@ -162,6 +160,17 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose }) => {
 }
 
 const getStylesFromProps = ({ theme }) => ({
+  rowButtonsView: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  cancelButton: {
+    width: '58%',
+  },
+  shareButton: {
+    width: '40%',
+  },
   buttonsView: {
     alignItems: 'flex-end',
     display: 'flex',
@@ -170,6 +179,7 @@ const getStylesFromProps = ({ theme }) => ({
     marginTop: 'auto',
     flexWrap: 'wrap',
     marginHorizontal: -theme.sizes.defaultHalf,
+    width: '100%',
   },
   button: {
     minWidth: 96,
@@ -185,7 +195,7 @@ const getStylesFromProps = ({ theme }) => ({
     alignItems: 'stretch',
   },
   buttonTextStyle: {
-    fontSize: normalize(14),
+    fontSize: normalize(11),
     letterSpacing: 0,
   },
 })

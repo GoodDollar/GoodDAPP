@@ -123,6 +123,18 @@ class API {
   }
 
   /**
+   * `/w3Site/api/wl/user/update_profile` post w3 api call to delete wallet address
+   * @param {string} token
+   */
+  deleteWalletFromW3Site(token): AxiosPromise<any> {
+    this.w3Client.defaults.headers.common.Authorization = token
+
+    return this.w3Client.put('/api/wl/user/update_profile', {
+      wallet_address: null,
+    })
+  }
+
+  /**
    * `/verify/sendotp` post api call
    * @param {UserRecord} user
    */

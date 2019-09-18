@@ -1,6 +1,7 @@
 import './mock-browser'
 import bip39 from 'bip39-light'
 import faker from 'faker'
+import Gun from 'gun'
 import { GoodWallet } from '../src/lib/wallet/GoodWalletClass'
 import { GoodWalletLogin } from '../src/lib/login/GoodWalletLogin'
 import { UserStorage } from '../src/lib/gundb/UserStorageClass'
@@ -11,62 +12,42 @@ let failedTests = {}
 
 const addUser = async (i) => {
   let result = {
-    addTime: 0,
-    getTime: 0,
+    addPablicDataTime: 0,
+    addPrivateDataTime: 0,
   }
 
   try {
-     const gun = global.Gun({
-       peers: [`${Config.gunPublicUrl}`],
-       multicast: false,
-       axe: true,
-     })
     let mnemonic = bip39.generateMnemonic()
     let wallet = new GoodWallet({ mnemonic })
-    console.log('#############################################')
-    console.log('wallet.ready')
     await wallet.ready
-    console.log('#############################################')
-    console.log('#############################################')
-    console.log('API.ready')
     await API.ready
-    console.log('#############################################')
-    const storage = new UserStorage(wallet,  gun)
-    console.log('#############################################')
-    console.log('storage.ready')
+    const storage = new UserStorage(wallet,  Gun())
     await storage.ready
-    console.log('#############################################')
     const randomName = faker.name.findName() // Rowan Nikolaus
     const randomEmail = faker.internet.email() // Kassandra.Haley@erich.biz
     const randomCard = faker.phone.phoneNumber('+38097#######')
     let login = new GoodWalletLogin(wallet, storage)
-    console.log('#############################################')
-    console.log('login.auth()')
-    console.log('#############################################')
     let creds = await login.auth()
-    let userData = {
+    
+    let publicUserData = {
       fullName: randomName,
-      email: randomEmail,
-      mobile: randomCard,
       walletAddress: wallet.account,
     }
-  
-    console.log('#############################################')
-    console.log('storage.setProfile(userData)')
-    console.log('#############################################')
-    const startTimeForSave = new Date().getTime()
-    await storage.setProfile(userData)
-    const endTimeForSave = new Date().getTime()
-    result.addTime = endTimeForSave - startTimeForSave
-  
     
-    console.log('#############################################')
-    console.log('storage.getProfileFieldValue(userData)')
-    console.log('#############################################')
+    let privateUserData = {
+      email: randomEmail,
+      mobile: randomCard,
+      
+    }
+    const startTimeForSave = new Date().getTime()
+    await storage.setProfile(publicUserData)
+    const endTimeForSave = new Date().getTime()
+    result.addPablicDataTime = endTimeForSave - startTimeForSave
+  
     const startTimeForGet = new Date().getTime()
-    const mm = await storage.getProfileFieldValue('email')
+    await storage.setProfile(privateUserData)
     const endTimeForGet = new Date().getTime()
-    result.getTime = endTimeForGet - startTimeForGet
+    result.addPrivateDataTime = endTimeForGet - startTimeForGet
     
     
   } catch (error) {
@@ -81,18 +62,20 @@ const addUser = async (i) => {
 }
 
 const run = async numTests => {
-  let rows = 0
   let res = []
+  let addPablicDataTime = 0
+  let addPrivateDataTime = 0
   await delay(3000)
   for (let i = 0; i < numTests; i++) {
     let runT = await addUser(i)
     res.push(runT)
-    // await delay(3000)
-    // rows += runT
+    addPablicDataTime += run.addPablicDataTime
+    addPrivateDataTime += run.addPrivateDataTime
   }
-  console.info('Waiting for tests to finish...')
-  console.info('Done running tests one decrypt', res)
-  console.info('Waiting for server memory stats')
+  
+  console.info(res)
+  console.info(`Average addition time (Public):${addPablicDataTime/numTests}` )
+  console.info(`Average addition time (Private):${addPrivateDataTime/numTests}`)
   console.info('Done. Quiting')
   process.exit(-1)
 }

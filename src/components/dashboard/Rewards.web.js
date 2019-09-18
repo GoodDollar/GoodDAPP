@@ -7,7 +7,6 @@ const RewardsTab = props => {
   const [loginToken, setLoginToken] = useState()
   const getToken = async () => {
     let token = await userStorage.getProfileFieldValue('loginToken')
-    token = 'x'
     log.debug('got rewards login token', token)
     setLoginToken(token)
   }

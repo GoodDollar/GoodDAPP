@@ -181,23 +181,30 @@ export function generateShareLink(action: ActionType = 'receive', params: {} = {
     receive: Config.receiveUrl,
     send: Config.sendUrl,
   }[action]
-  let queryParams = '?'
+  let queryParams = ''
 
   switch (Config.env) {
     case 'production':
       if (params.code) {
         queryParams = `/${params.code}`
+        delete params.code
       } else if (params.paymentCode) {
         queryParams = `/${params.paymentCode}`
+        delete params.paymentCode
       }
       break
 
     default:
-      // creates query params from params object
-      queryParams += toPairs(params)
-        .map(param => param.join('='))
-        .join('&')
       break
+  }
+
+  // creates query params from params object
+  const additionalParams = toPairs(params)
+    .map(param => param.join('='))
+    .join('&')
+
+  if (additionalParams.length) {
+    queryParams += `?${additionalParams}`
   }
 
   if (!queryParams || !destination) {

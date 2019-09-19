@@ -28,6 +28,7 @@ import userStorage from '../../lib/gundb/UserStorage'
 import { FAQ, PrivacyArticle, PrivacyPolicy, RewardsTab, Support, TermsOfUse } from '../webView/webViewInstances'
 import { withStyles } from '../../lib/styles'
 import Mnemonics from '../signin/Mnemonics'
+import { extractQueryParams, readCode } from '../../lib/share'
 
 // import goodWallet from '../../lib/wallet/GoodWallet'
 import Amount from './Amount'
@@ -47,6 +48,7 @@ import SendConfirmation from './SendConfirmation'
 import SendLinkSummary from './SendLinkSummary'
 import SendQRSummary from './SendQRSummary'
 import { ACTION_SEND } from './utils/sendReceiveFlow'
+import { routeAndPathForCode } from './utils/routeAndPathForCode'
 
 // import FaceRecognition from './FaceRecognition/FaceRecognition'
 // import FRIntro from './FaceRecognition/FRIntro'
@@ -84,6 +86,27 @@ const Dashboard = props => {
       }
     }
   }
+
+  //Service redirects Send/Receive
+  useEffect(() => {
+    const anyParams = extractQueryParams(window.location.href)
+    if (anyParams.code) {
+      const { screenProps } = props
+      if (anyParams && anyParams.code) {
+        const code = readCode(decodeURI(anyParams.code))
+        routeAndPathForCode('send', code)
+          .then(({ route, params }) => screenProps.push(route, params))
+          .catch(e => {
+            showErrorDialog(null, e, { onDismiss: screenProps.goToRoot })
+          })
+      }
+    }
+    if (anyParams.paymentCode) {
+      if (anyParams && anyParams.paymentCode) {
+        props.navigation.state.params = anyParams
+      }
+    }
+  }, [])
 
   const nextFeed = () => {
     return getNextFeed(gdstore)

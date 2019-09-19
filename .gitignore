@@ -7,6 +7,6 @@ secrets.json
 cli-commands.txt
 tree.txt
 radata/
-.idea/
+.idea
 yarn.lock
 account.data.txt

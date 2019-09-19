@@ -3,7 +3,8 @@ import WebView from 'react-native-web-webview'
 import _get from 'lodash/get'
 
 const WebViewScreen = props => {
-  return <WebView source={{ uri: props.source }} style={{ flex: 1 }} />
+  const { source, ...rest } = props
+  return <WebView source={{ uri: source }} style={{ flex: 1 }} {...rest} />
 }
 
 export default WebViewScreen

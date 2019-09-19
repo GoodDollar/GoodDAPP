@@ -39,23 +39,19 @@ exports[`Circle matches snapshot 1`] = `
       className="css-view-1dbjc4n"
       style={
         Object {
-          "WebkitAlignItems": "center",
-          "WebkitBoxAlign": "center",
-          "alignItems": "center",
+          "WebkitBoxPack": "center",
+          "WebkitJustifyContent": "center",
           "backgroundColor": "rgba(66,69,74,1.00)",
           "borderBottomLeftRadius": "50%",
           "borderBottomRightRadius": "50%",
           "borderTopLeftRadius": "50%",
           "borderTopRightRadius": "50%",
           "boxShadow": "6px 1px 0 rgba(12, 38, 61, 0.15)",
-          "color": "rgba(255,255,255,1.00)",
+          "display": "flex",
           "height": "43px",
+          "justifyContent": "center",
           "marginTop": "8px",
-          "msFlexAlign": "center",
-          "paddingBottom": "6px",
-          "paddingLeft": "6px",
-          "paddingRight": "6px",
-          "paddingTop": "6px",
+          "msFlexPack": "center",
           "width": "43px",
         }
       }
@@ -67,6 +63,7 @@ exports[`Circle matches snapshot 1`] = `
           Object {
             "color": "rgba(255,255,255,1.00)",
             "direction": "ltr",
+            "display": "block",
             "fontFamily": "Roboto Slab",
             "fontSize": "24px",
             "fontWeight": "700",

@@ -211,5 +211,5 @@ export function generateShareLink(action: ActionType = 'receive', params: {} = {
     throw new Error(`Link couldn't be generated`)
   }
 
-  return encodeURI(`${destination}${queryParams}`)
+  return `${destination}${queryParams}`
 }

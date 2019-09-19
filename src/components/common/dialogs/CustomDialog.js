@@ -52,6 +52,7 @@ const CustomDialog = ({
   title,
   type = 'common',
   visible,
+  content,
   buttons,
   showAtBottom,
 }: DialogProps) => {
@@ -69,15 +70,21 @@ const CustomDialog = ({
         shadowStyles={shadowStyles}
       >
         <React.Fragment>
-          <Text color={textColor} fontFamily="slab" fontSize={24} fontWeight="bold" style={styles.title}>
-            {title}
-          </Text>
+          {title && (
+            <Text color={textColor} fontFamily="slab" fontSize={24} fontWeight="bold" style={styles.title}>
+              {title}
+            </Text>
+          )}
           <View style={styles.content}>
-            {children}
-            {image ? image : defaultImage}
-            {message && <Paragraph style={[styles.paragraph, { color }]}>{message}</Paragraph>}
-            {boldMessage && (
-              <Paragraph style={[styles.paragraph, { fontWeight: 'bold', color }]}>{boldMessage}</Paragraph>
+            {content || (
+              <>
+                {children}
+                {image ? image : defaultImage}
+                {message && <Paragraph style={[styles.paragraph, { color }]}>{message}</Paragraph>}
+                {boldMessage && (
+                  <Paragraph style={[styles.paragraph, { fontWeight: 'bold', color }]}>{boldMessage}</Paragraph>
+                )}
+              </>
             )}
           </View>
           {showButtons ? (

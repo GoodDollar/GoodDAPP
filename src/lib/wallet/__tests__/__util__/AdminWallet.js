@@ -17,7 +17,6 @@ import conf from '../../../../config/config'
 import { type TransactionReceipt } from './blockchain-types'
 
 conf.mnemonic = process.env.REACT_APP_ADMIN_MNEMONIC
-
 const networks = conf.ethereum
 const network = conf.network
 const networkId = ContractsAddress[network].networkId

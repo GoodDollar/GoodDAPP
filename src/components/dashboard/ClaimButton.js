@@ -14,8 +14,8 @@ const ButtonAmountToClaim = ({ entitlement, styles }) => (
     <BigGoodDollar
       number={entitlement}
       formatter={weiToGd}
-      bigNumberProps={{ fontSize: 16, color: 'surface', fontWeight: 'medium' }}
-      bigNumberUnitProps={{ fontSize: 10, color: 'surface', fontWeight: 'medium' }}
+      bigNumberProps={{ fontSize: 16, color: 'surface', fontWeight: 'medium', lineHeight: 24 }}
+      bigNumberUnitProps={{ fontSize: 10, color: 'surface', fontWeight: 'medium', lineHeight: 24 }}
       style={styles.amountInButton}
     />
   </>
@@ -74,7 +74,6 @@ const getStylesFromProps = ({ theme }) => ({
   amountInButton: {
     display: 'inline',
     marginLeft: theme.sizes.defaultHalf,
-    lineHeight: theme.sizes.default * 3,
   },
 })
 

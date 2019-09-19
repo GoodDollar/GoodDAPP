@@ -18,8 +18,8 @@ class TestClient {
 
   init = async () => {
     const gun = global.Gun({
-      file: './loadtest/loadtest' + Math.random() + '.json',
-      localStorage: false,
+      file: 'test' + this.id,
+      localStorage: true,
       peers: [`${Config.gunPublicUrl}`],
       multicast: false,
       axe: true,

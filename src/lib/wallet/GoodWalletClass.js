@@ -219,7 +219,7 @@ export class GoodWallet {
    * @returns {Promise<R>|Promise<R|*>|Promise<*>}
    */
   listenTxUpdates(fromBlock: string = '0', blockIntervalCallback: Function) {
-    log.trace('listenTxUpdates listening from block:', fromBlock)
+    log.debug('listenTxUpdates listening from block:', fromBlock)
     fromBlock = new BN(fromBlock)
 
     this.subscribeToOTPLEvents(fromBlock, blockIntervalCallback)
@@ -453,13 +453,46 @@ export class GoodWallet {
   }
 
   /**
-   * Checks if use can send an specific amount of G$s
-   * @param {number} amount
+   * Get transaction fee from GoodDollarReserveContract
    * @returns {Promise<boolean>}
    */
-  async canSend(amount: number): Promise<boolean> {
+  getTxFee(): Promise<boolean> {
+    return this.reserveContract.methods
+      .transactionFee()
+      .call()
+      .then(toBN)
+  }
+
+  /**
+   * Get transaction fee from GoodDollarReserveContract
+   * @returns {Promise<boolean>}
+   */
+  async calculateTxFee(amount): Promise<boolean> {
+    // 1% is represented as 10000, and divided by 1000000 when required to be % representation to enable more granularity in the numbers (as Solidity doesn't support floating point)
+    const percents = await this.getTxFee()
+
+    return new BN(amount).mul(percents).div(new BN('1000000'))
+  }
+
+  /**
+   * Checks if use can send an specific amount of G$s
+   * @param {number} amount
+   * @param {object} options
+   * @returns {Promise<boolean>}
+   */
+  async canSend(amount: number, options = {}): Promise<boolean> {
+    const { feeIncluded = false } = options
+    let amountWithFee = amount
+
+    if (!feeIncluded) {
+      // 1% is represented as 10000, and divided by 1000000 when required to be % representation to enable more granularity in the numbers (as Solidity doesn't support floating point)
+      const fee = await this.calculateTxFee(amount)
+
+      amountWithFee = new BN(amount).add(fee)
+    }
+
     const balance = await this.balanceOf()
-    return parseInt(amount) <= parseInt(balance)
+    return parseInt(amountWithFee) <= parseInt(balance)
   }
 
   /**
@@ -624,9 +657,10 @@ export class GoodWallet {
   /**
    * Cancels a Deposit based on its transaction hash
    * @param {string} transactionHash
+   * @param {object} txCallbacks
    * @returns {Promise<TransactionReceipt>}
    */
-  async cancelOTLByTransactionHash(transactionHash: string): Promise<TransactionReceipt> {
+  async cancelOTLByTransactionHash(transactionHash: string, txCallbacks: {} = {}): Promise<TransactionReceipt> {
     const { logs } = await this.getReceiptWithLogs(transactionHash)
     const paymentDepositLog = logs.filter(({ name }) => name === 'PaymentDeposit')[0]
 
@@ -635,7 +669,7 @@ export class GoodWallet {
 
       if (eventHashParam) {
         const { value: hash } = eventHashParam
-        return this.cancelOTL(hash)
+        return this.cancelOTL(hash, txCallbacks)
       }
 
       throw new Error('No hash available')
@@ -647,11 +681,18 @@ export class GoodWallet {
   /**
    * cancels payment link and return the money to the sender (if not been withdrawn already)
    * @param {string} hashedCode
+   * @param {object} txCallbacks
    * @returns {Promise<TransactionReceipt>}
    */
-  cancelOTL(hashedCode: string): Promise<TransactionReceipt> {
+  cancelOTL(hashedCode: string, txCallbacks: {} = {}): Promise<TransactionReceipt> {
     const cancelOtlCall = this.oneTimePaymentLinksContract.methods.cancel(hashedCode)
-    return this.sendTransaction(cancelOtlCall, { onTransactionHash: hash => log.debug({ hash }) })
+    return this.sendTransaction(cancelOtlCall, {
+      ...txCallbacks,
+      onTransactionHash: hash => {
+        log.debug({ hash })
+        txCallbacks.onTransactionHash(hash)
+      },
+    })
   }
 
   handleError(e: Error) {
@@ -694,15 +735,35 @@ export class GoodWallet {
   /**
    * Helper to check if user has enough native token balance, if not try to ask server to topwallet
    * @param {number} wei
+   * @param {object} options
    */
-  async verifyHasGas(wei: number) {
+  async verifyHasGas(wei: number, options = {}) {
+    const { topWallet = true } = options
+
     let nativeBalance = await this.wallet.eth.getBalance(this.account)
     if (nativeBalance > wei) {
-      return true
+      return {
+        ok: true,
+      }
     }
-    const toppingRes = await API.verifyTopWallet()
-    nativeBalance = await this.wallet.eth.getBalance(this.account)
-    return toppingRes.ok && nativeBalance > wei
+
+    if (topWallet) {
+      const toppingRes = await API.verifyTopWallet()
+      if (!toppingRes.ok && toppingRes.sendEtherOutOfSystem) {
+        return {
+          error: true,
+        }
+      }
+      nativeBalance = await this.wallet.eth.getBalance(this.account)
+
+      return {
+        ok: toppingRes.ok && nativeBalance > wei,
+      }
+    }
+
+    return {
+      ok: false,
+    }
   }
 
   /**
@@ -727,8 +788,8 @@ export class GoodWallet {
     gas = gas || (await tx.estimateGas().catch(this.handleError))
     gasPrice = gasPrice || this.gasPrice
 
-    const hasGas = await this.verifyHasGas(gas * gasPrice)
-    if (hasGas === false) {
+    const { ok } = await this.verifyHasGas(gas * gasPrice)
+    if (ok === false) {
       return Promise.reject('Reached daily transactions limit or not a citizen').catch(this.handleError)
     }
 

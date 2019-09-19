@@ -76,23 +76,185 @@ exports[`ClaimCountdown matches snapshot 1`] = `
       Next Daily Income:
     </div>
     <div
-      className="css-text-901oao"
-      dir="auto"
+      className="css-view-1dbjc4n"
       style={
         Object {
-          "color": "rgba(255,255,255,1.00)",
-          "direction": "ltr",
-          "fontFamily": "Roboto Slab",
-          "fontSize": "36px",
-          "fontWeight": "700",
-          "lineHeight": "30px",
-          "textAlign": "center",
-          "textDecoration": "none",
-          "textTransform": "none",
+          "WebkitAlignItems": "center",
+          "WebkitBoxAlign": "center",
+          "WebkitBoxDirection": "normal",
+          "WebkitBoxOrient": "horizontal",
+          "WebkitBoxPack": "justify",
+          "WebkitFlexDirection": "row",
+          "WebkitJustifyContent": "space-between",
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "space-between",
+          "msFlexAlign": "center",
+          "msFlexDirection": "row",
+          "msFlexPack": "justify",
         }
       }
     >
-      00:10:00
+      <div
+        className="css-text-901oao"
+        dir="auto"
+        style={
+          Object {
+            "color": "rgba(255,255,255,1.00)",
+            "direction": "ltr",
+            "fontFamily": "Roboto Slab",
+            "fontSize": "36px",
+            "fontWeight": "700",
+            "lineHeight": "30px",
+            "textAlign": "center",
+            "textDecoration": "none",
+            "textTransform": "none",
+            "width": "25px",
+          }
+        }
+      >
+        0
+      </div>
+      <div
+        className="css-text-901oao"
+        dir="auto"
+        style={
+          Object {
+            "color": "rgba(255,255,255,1.00)",
+            "direction": "ltr",
+            "fontFamily": "Roboto Slab",
+            "fontSize": "36px",
+            "fontWeight": "700",
+            "lineHeight": "30px",
+            "textAlign": "center",
+            "textDecoration": "none",
+            "textTransform": "none",
+            "width": "25px",
+          }
+        }
+      >
+        0
+      </div>
+      <div
+        className="css-text-901oao"
+        dir="auto"
+        style={
+          Object {
+            "color": "rgba(255,255,255,1.00)",
+            "direction": "ltr",
+            "fontFamily": "Roboto Slab",
+            "fontSize": "36px",
+            "fontWeight": "700",
+            "lineHeight": "30px",
+            "textAlign": "center",
+            "textDecoration": "none",
+            "textTransform": "none",
+            "width": "15px",
+          }
+        }
+      >
+        :
+      </div>
+      <div
+        className="css-text-901oao"
+        dir="auto"
+        style={
+          Object {
+            "color": "rgba(255,255,255,1.00)",
+            "direction": "ltr",
+            "fontFamily": "Roboto Slab",
+            "fontSize": "36px",
+            "fontWeight": "700",
+            "lineHeight": "30px",
+            "textAlign": "center",
+            "textDecoration": "none",
+            "textTransform": "none",
+            "width": "25px",
+          }
+        }
+      >
+        1
+      </div>
+      <div
+        className="css-text-901oao"
+        dir="auto"
+        style={
+          Object {
+            "color": "rgba(255,255,255,1.00)",
+            "direction": "ltr",
+            "fontFamily": "Roboto Slab",
+            "fontSize": "36px",
+            "fontWeight": "700",
+            "lineHeight": "30px",
+            "textAlign": "center",
+            "textDecoration": "none",
+            "textTransform": "none",
+            "width": "25px",
+          }
+        }
+      >
+        0
+      </div>
+      <div
+        className="css-text-901oao"
+        dir="auto"
+        style={
+          Object {
+            "color": "rgba(255,255,255,1.00)",
+            "direction": "ltr",
+            "fontFamily": "Roboto Slab",
+            "fontSize": "36px",
+            "fontWeight": "700",
+            "lineHeight": "30px",
+            "textAlign": "center",
+            "textDecoration": "none",
+            "textTransform": "none",
+            "width": "15px",
+          }
+        }
+      >
+        :
+      </div>
+      <div
+        className="css-text-901oao"
+        dir="auto"
+        style={
+          Object {
+            "color": "rgba(255,255,255,1.00)",
+            "direction": "ltr",
+            "fontFamily": "Roboto Slab",
+            "fontSize": "36px",
+            "fontWeight": "700",
+            "lineHeight": "30px",
+            "textAlign": "center",
+            "textDecoration": "none",
+            "textTransform": "none",
+            "width": "25px",
+          }
+        }
+      >
+        0
+      </div>
+      <div
+        className="css-text-901oao"
+        dir="auto"
+        style={
+          Object {
+            "color": "rgba(255,255,255,1.00)",
+            "direction": "ltr",
+            "fontFamily": "Roboto Slab",
+            "fontSize": "36px",
+            "fontWeight": "700",
+            "lineHeight": "30px",
+            "textAlign": "center",
+            "textDecoration": "none",
+            "textTransform": "none",
+            "width": "25px",
+          }
+        }
+      >
+        0
+      </div>
     </div>
   </div>
 </div>

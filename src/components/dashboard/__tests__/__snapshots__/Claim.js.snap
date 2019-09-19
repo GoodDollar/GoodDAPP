@@ -271,7 +271,7 @@ exports[`Claim matches snapshot 1`] = `
               "fontSize": "16px",
               "fontWeight": "normal",
               "lineHeight": "22px",
-              "minHeight": "0px",
+              "minHeight": "64px",
               "textAlign": "center",
               "textDecoration": "none",
               "textTransform": "none",
@@ -329,9 +329,9 @@ exports[`Claim matches snapshot 1`] = `
               "flexBasis": "auto",
               "flexGrow": 0,
               "flexShrink": 0,
-              "height": "0px",
+              "height": "159px",
               "marginBottom": "8px",
-              "marginTop": "-70px",
+              "marginTop": "-116.36363636363636px",
               "msFlexNegative": 0,
               "msFlexPositive": 0,
               "msFlexPreferredSize": "auto",
@@ -416,7 +416,7 @@ exports[`Claim matches snapshot 1`] = `
                 "textAlign": "center",
                 "textDecoration": "none",
                 "textTransform": "none",
-                "width": "0px",
+                "width": "340px",
               }
             }
           >
@@ -519,23 +519,185 @@ exports[`Claim matches snapshot 1`] = `
             Next Daily Income:
           </div>
           <div
-            className="css-text-901oao"
-            dir="auto"
+            className="css-view-1dbjc4n"
             style={
               Object {
-                "color": "rgba(255,255,255,1.00)",
-                "direction": "ltr",
-                "fontFamily": "Roboto Slab",
-                "fontSize": "36px",
-                "fontWeight": "700",
-                "lineHeight": "30px",
-                "textAlign": "center",
-                "textDecoration": "none",
-                "textTransform": "none",
+                "WebkitAlignItems": "center",
+                "WebkitBoxAlign": "center",
+                "WebkitBoxDirection": "normal",
+                "WebkitBoxOrient": "horizontal",
+                "WebkitBoxPack": "justify",
+                "WebkitFlexDirection": "row",
+                "WebkitJustifyContent": "space-between",
+                "alignItems": "center",
+                "flexDirection": "row",
+                "justifyContent": "space-between",
+                "msFlexAlign": "center",
+                "msFlexDirection": "row",
+                "msFlexPack": "justify",
               }
             }
           >
-            --:--:--
+            <div
+              className="css-text-901oao"
+              dir="auto"
+              style={
+                Object {
+                  "color": "rgba(255,255,255,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto Slab",
+                  "fontSize": "36px",
+                  "fontWeight": "700",
+                  "lineHeight": "30px",
+                  "textAlign": "center",
+                  "textDecoration": "none",
+                  "textTransform": "none",
+                  "width": "25px",
+                }
+              }
+            >
+              -
+            </div>
+            <div
+              className="css-text-901oao"
+              dir="auto"
+              style={
+                Object {
+                  "color": "rgba(255,255,255,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto Slab",
+                  "fontSize": "36px",
+                  "fontWeight": "700",
+                  "lineHeight": "30px",
+                  "textAlign": "center",
+                  "textDecoration": "none",
+                  "textTransform": "none",
+                  "width": "25px",
+                }
+              }
+            >
+              -
+            </div>
+            <div
+              className="css-text-901oao"
+              dir="auto"
+              style={
+                Object {
+                  "color": "rgba(255,255,255,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto Slab",
+                  "fontSize": "36px",
+                  "fontWeight": "700",
+                  "lineHeight": "30px",
+                  "textAlign": "center",
+                  "textDecoration": "none",
+                  "textTransform": "none",
+                  "width": "15px",
+                }
+              }
+            >
+              :
+            </div>
+            <div
+              className="css-text-901oao"
+              dir="auto"
+              style={
+                Object {
+                  "color": "rgba(255,255,255,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto Slab",
+                  "fontSize": "36px",
+                  "fontWeight": "700",
+                  "lineHeight": "30px",
+                  "textAlign": "center",
+                  "textDecoration": "none",
+                  "textTransform": "none",
+                  "width": "25px",
+                }
+              }
+            >
+              -
+            </div>
+            <div
+              className="css-text-901oao"
+              dir="auto"
+              style={
+                Object {
+                  "color": "rgba(255,255,255,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto Slab",
+                  "fontSize": "36px",
+                  "fontWeight": "700",
+                  "lineHeight": "30px",
+                  "textAlign": "center",
+                  "textDecoration": "none",
+                  "textTransform": "none",
+                  "width": "25px",
+                }
+              }
+            >
+              -
+            </div>
+            <div
+              className="css-text-901oao"
+              dir="auto"
+              style={
+                Object {
+                  "color": "rgba(255,255,255,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto Slab",
+                  "fontSize": "36px",
+                  "fontWeight": "700",
+                  "lineHeight": "30px",
+                  "textAlign": "center",
+                  "textDecoration": "none",
+                  "textTransform": "none",
+                  "width": "15px",
+                }
+              }
+            >
+              :
+            </div>
+            <div
+              className="css-text-901oao"
+              dir="auto"
+              style={
+                Object {
+                  "color": "rgba(255,255,255,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto Slab",
+                  "fontSize": "36px",
+                  "fontWeight": "700",
+                  "lineHeight": "30px",
+                  "textAlign": "center",
+                  "textDecoration": "none",
+                  "textTransform": "none",
+                  "width": "25px",
+                }
+              }
+            >
+              -
+            </div>
+            <div
+              className="css-text-901oao"
+              dir="auto"
+              style={
+                Object {
+                  "color": "rgba(255,255,255,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto Slab",
+                  "fontSize": "36px",
+                  "fontWeight": "700",
+                  "lineHeight": "30px",
+                  "textAlign": "center",
+                  "textDecoration": "none",
+                  "textTransform": "none",
+                  "width": "25px",
+                }
+              }
+            >
+              -
+            </div>
           </div>
         </div>
         <div
@@ -619,7 +781,6 @@ exports[`Claim matches snapshot 1`] = `
                   "alignItems": "center",
                   "flexDirection": "row",
                   "justifyContent": "center",
-                  "letterSpacing": "0px",
                   "msFlexAlign": "center",
                   "msFlexDirection": "row",
                   "msFlexPack": "center",
@@ -701,7 +862,6 @@ exports[`Claim matches snapshot 1`] = `
                         "alignItems": "baseline",
                         "display": "inline",
                         "flexDirection": "row",
-                        "lineHeight": "24px",
                         "marginLeft": "4px",
                         "msFlexAlign": "baseline",
                         "msFlexDirection": "row",
@@ -718,7 +878,7 @@ exports[`Claim matches snapshot 1`] = `
                           "fontFamily": "Roboto Slab",
                           "fontSize": "16px",
                           "fontWeight": "500",
-                          "lineHeight": "22px",
+                          "lineHeight": "24px",
                           "marginRight": "2px",
                           "textAlign": "right",
                           "textDecoration": "none",
@@ -755,7 +915,7 @@ exports[`Claim matches snapshot 1`] = `
                             "fontFamily": "Roboto Slab",
                             "fontSize": "10px",
                             "fontWeight": "500",
-                            "lineHeight": "14px",
+                            "lineHeight": "24px",
                             "textAlign": "right",
                             "textDecoration": "none",
                             "textTransform": "none",
@@ -774,7 +934,7 @@ exports[`Claim matches snapshot 1`] = `
                             "fontFamily": "Roboto Slab",
                             "fontSize": "9.5px",
                             "fontWeight": "500",
-                            "lineHeight": "11.4px",
+                            "lineHeight": "24px",
                             "textAlign": "right",
                             "textDecoration": "none",
                             "textTransform": "none",

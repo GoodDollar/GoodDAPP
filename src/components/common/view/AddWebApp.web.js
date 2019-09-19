@@ -5,14 +5,16 @@ import SimpleStore from '../../../lib/undux/SimpleStore'
 import { useDialog } from '../../../lib/undux/utils/dialog'
 import { withStyles } from '../../../lib/styles'
 import addAppIlustration from '../../../assets/addApp.svg'
+import Icon from '../view/Icon'
 
 import Text from '../../common/view/Text'
 
 import logger from '../../../lib/logger/pino-logger'
+import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
 
 const log = logger.child({ from: 'AddWebApp' })
 
-const mapPropsToStyles = ({ theme }) => {
+const mapStylesToProps = ({ theme }) => {
   return {
     image: {
       width: '100%',
@@ -31,10 +33,38 @@ const mapPropsToStyles = ({ theme }) => {
       paddingVertical: theme.sizes.default,
       marginVertical: theme.sizes.default,
     },
+    explanationDialogContainer: {
+      display: 'flex',
+      alignItems: 'center',
+      height: getDesignRelativeHeight(9),
+    },
+    explanationDialogText: {
+      width: '100%',
+      textAlign: 'center',
+      lineHeight: 22,
+      fontWeight: 500,
+    },
+    explanationDialogTextBold: {
+      fontWeight: 'bold',
+    },
+    triangle: {
+      width: 0,
+      height: 0,
+      backgroundColor: 'transparent',
+      borderStyle: 'solid',
+      borderLeftWidth: 15,
+      borderRightWidth: 15,
+      borderTopWidth: 25,
+      borderLeftColor: 'transparent',
+      borderRightColor: 'transparent',
+      borderTopColor: 'white',
+      marginTop: 15,
+      marginRight: 10,
+    },
   }
 }
 
-const DiaglogTitle = withStyles(mapPropsToStyles)(({ children, styles }) => (
+const DiaglogTitle = withStyles(mapStylesToProps)(({ children, styles }) => (
   <View style={styles.titleContainer}>
     <Text textAlign="left" fontSize={22} fontWeight="medium">
       {children}
@@ -48,7 +78,7 @@ const DialogImage = props => (
   </View>
 )
 
-const InitialDialog = withStyles(mapPropsToStyles)(({ showDesc, styles }) => {
+const InitialDialog = withStyles(mapStylesToProps)(({ showDesc, styles }) => {
   return (
     <View style={styles.container}>
       <DialogImage styles={styles} />
@@ -62,16 +92,19 @@ const InitialDialog = withStyles(mapPropsToStyles)(({ showDesc, styles }) => {
   )
 })
 
-const ExplanationDialog = withStyles(mapPropsToStyles)(({ styles }) => {
+const ExplanationDialog = withStyles(mapStylesToProps)(({ styles }) => {
   return (
-    <View style={styles.container}>
-      <DiaglogTitle>Add icon to home screen for easy access</DiaglogTitle>
-      <Text textAlign="left" color="gray80Percent" fontSize={14}>
-        {'1. Open Share menu'}
+    <View style={styles.explanationDialogContainer}>
+      <Text fontSize={14} style={styles.explanationDialogText}>
+        {'Add this web-app to your iPhone:'}
       </Text>
-      <Text textAlign="left" color="gray80Percent" fontSize={14}>
-        {'2. Tap on "Add to Home Screen" button'}
+      <Text fontSize={14} style={styles.explanationDialogText}>
+        {'tap'} <Icon name="ios-share" size={20} /> {'then'}{' '}
+        <Text fontSize={14} style={[styles.explanationDialogText, styles.explanationDialogTextBold]}>
+          {'“Add to home screen"'}
+        </Text>
       </Text>
+      <View style={styles.triangle} />
     </View>
   )
 })
@@ -83,6 +116,7 @@ const AddWebApp = props => {
   const [dialogShown, setDialogShown] = useState()
   const store = SimpleStore.useStore()
   const [showDialog] = useDialog()
+  const { styles } = props
   const { show } = store.get('addWebApp')
   useEffect(() => {
     AsyncStorage.getItem('AddWebAppLastCheck')
@@ -96,7 +130,10 @@ const AddWebApp = props => {
   const showExplanationDialog = () => {
     log.debug('showExplanationDialog')
     showDialog({
+      shadowStyles: styles.shadowForIOSPopup,
       content: <ExplanationDialog />,
+      showButtons: false,
+      showAtBottom: true,
       onDismiss: () => {
         const date = new Date()
         AsyncStorage.setItem('AddWebAppLastCheck', date.toISOString())
@@ -208,4 +245,10 @@ const AddWebApp = props => {
   return null
 }
 
-export default withStyles()(AddWebApp)
+const mapStylesToComponentProps = ({ theme }) => ({
+  shadowForIOSPopup: {
+    boxShadow: '0px 13px 13px -16px rgba(0,0,0,1)',
+  },
+})
+
+export default withStyles(mapStylesToComponentProps)(AddWebApp)

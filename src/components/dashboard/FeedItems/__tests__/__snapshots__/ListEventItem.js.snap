@@ -81,6 +81,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
           "borderTopRightRadius": "17px",
           "borderTopWidth": "1px",
           "height": "34px",
+          "marginBottom": "5px",
           "marginTop": "auto",
           "msUserSelect": "none",
           "transitionDuration": "0.15s",
@@ -484,7 +485,7 @@ exports[`ListEventItem receive matches snapshot 1`] = `
               "fontStyle": "normal",
               "fontWeight": "normal",
               "marginRight": "0px",
-              "marginTop": "0px",
+              "marginTop": "auto",
             }
           }
         >
@@ -577,6 +578,7 @@ exports[`ListEventItem send matches snapshot 1`] = `
           "borderTopRightRadius": "17px",
           "borderTopWidth": "1px",
           "height": "34px",
+          "marginBottom": "5px",
           "marginTop": "auto",
           "msUserSelect": "none",
           "transitionDuration": "0.15s",
@@ -980,7 +982,7 @@ exports[`ListEventItem send matches snapshot 1`] = `
               "fontStyle": "normal",
               "fontWeight": "normal",
               "marginRight": "0px",
-              "marginTop": "0px",
+              "marginTop": "auto",
             }
           }
         >
@@ -1073,6 +1075,7 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
           "borderTopRightRadius": "17px",
           "borderTopWidth": "1px",
           "height": "34px",
+          "marginBottom": "5px",
           "marginTop": "auto",
           "msUserSelect": "none",
           "transitionDuration": "0.15s",
@@ -1476,7 +1479,7 @@ exports[`ListEventItem withdraw matches snapshot 1`] = `
               "fontStyle": "normal",
               "fontWeight": "normal",
               "marginRight": "0px",
-              "marginTop": "0px",
+              "marginTop": "auto",
             }
           }
         >

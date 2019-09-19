@@ -736,6 +736,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                     "borderTopRightRadius": "17px",
                     "borderTopWidth": "1px",
                     "height": "34px",
+                    "marginBottom": "5px",
                     "marginTop": "auto",
                     "msUserSelect": "none",
                     "transitionDuration": "0.15s",
@@ -1139,7 +1140,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                         "fontStyle": "normal",
                         "fontWeight": "normal",
                         "marginRight": "0px",
-                        "marginTop": "0px",
+                        "marginTop": "auto",
                       }
                     }
                   >
@@ -1303,6 +1304,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                     "borderTopRightRadius": "17px",
                     "borderTopWidth": "1px",
                     "height": "34px",
+                    "marginBottom": "5px",
                     "marginTop": "auto",
                     "msUserSelect": "none",
                     "transitionDuration": "0.15s",
@@ -1706,7 +1708,7 @@ exports[`FeedList Vertical rendering With feed data matches snapshot 1`] = `
                         "fontStyle": "normal",
                         "fontWeight": "normal",
                         "marginRight": "0px",
-                        "marginTop": "0px",
+                        "marginTop": "auto",
                       }
                     }
                   >

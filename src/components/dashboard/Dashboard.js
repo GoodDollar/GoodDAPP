@@ -25,11 +25,12 @@ import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
 import logger from '../../lib/logger/pino-logger'
 import userStorage from '../../lib/gundb/UserStorage'
-import { FAQ, PrivacyArticle, PrivacyPolicy, RewardsTab, Support, TermsOfUse } from '../webView/webViewInstances'
+import { FAQ, PrivacyArticle, PrivacyPolicy, Support, TermsOfUse } from '../webView/webViewInstances'
 import { withStyles } from '../../lib/styles'
 import Mnemonics from '../signin/Mnemonics'
 
 // import goodWallet from '../../lib/wallet/GoodWallet'
+import RewardsTab from './Rewards'
 import Amount from './Amount'
 import Claim from './Claim'
 import FeedList from './FeedList'
@@ -168,113 +169,107 @@ const Dashboard = props => {
   const [headerLarge, setHeaderLarge] = useState(true)
 
   return (
-    <>
-      <Wrapper style={styles.dashboardWrapper}>
-        <Section style={[styles.topInfo]}>
-          {headerLarge ? (
-            <Section.Stack alignItems="center">
-              <Avatar
-                onPress={() => screenProps.push('Profile')}
-                size={68}
-                source={avatar}
-                style={[styles.avatarBig]}
+    <Wrapper style={styles.dashboardWrapper}>
+      <Section style={[styles.topInfo]}>
+        {headerLarge ? (
+          <Section.Stack alignItems="center">
+            <Avatar onPress={() => screenProps.push('Profile')} size={68} source={avatar} style={[styles.avatarBig]} />
+            <Section.Text color="gray80Percent" fontFamily="slab" fontSize={18}>
+              {fullName || ' '}
+            </Section.Text>
+            <Section.Row style={styles.bigNumberWrapper}>
+              <BigGoodDollar
+                number={balance}
+                bigNumberProps={{ fontSize: 42, fontWeight: 'semibold' }}
+                bigNumberUnitStyles={styles.bigNumberUnitStyles}
               />
-              <Section.Text color="gray80Percent" fontFamily="slab" fontSize={18}>
-                {fullName || ' '}
-              </Section.Text>
-              <Section.Row style={styles.bigNumberWrapper}>
-                <BigGoodDollar
-                  number={balance}
-                  bigNumberProps={{ fontSize: 42, fontWeight: 'semibold' }}
-                  bigNumberUnitStyles={styles.bigNumberUnitStyles}
-                />
-              </Section.Row>
-            </Section.Stack>
-          ) : (
-            <Section style={[styles.userInfo, styles.userInfoHorizontal]}>
-              <Avatar
-                onPress={() => screenProps.push('Profile')}
-                size={42}
-                source={avatar}
-                style={[styles.avatarSmall]}
-              />
-              <BigGoodDollar number={balance} />
-            </Section>
-          )}
-          <Section.Row style={styles.buttonsRow}>
-            <PushButton
-              icon="send"
-              iconAlignment="left"
-              routeName="Who"
-              screenProps={screenProps}
-              style={styles.leftButton}
-              contentStyle={styles.leftButtonContent}
-              textStyle={styles.leftButtonText}
-              params={{
-                nextRoutes: ['Amount', 'Reason', 'SendLinkSummary', 'SendConfirmation'],
-                params: { action: 'Send' },
-              }}
-              compact
-            >
-              Send
-            </PushButton>
-            <ClaimButton screenProps={screenProps} amount={weiToMask(entitlement, { showUnits: true })} />
-            <PushButton
-              icon="receive"
-              iconAlignment="right"
-              routeName={'Receive'}
-              screenProps={screenProps}
-              style={styles.rightButton}
-              contentStyle={styles.rightButtonContent}
-              textStyle={styles.rightButtonText}
-              compact
-            >
-              Receive
-            </PushButton>
-          </Section.Row>
-        </Section>
-        <FeedList
+            </Section.Row>
+          </Section.Stack>
+        ) : (
+          <Section style={[styles.userInfo, styles.userInfoHorizontal]}>
+            <Avatar
+              onPress={() => screenProps.push('Profile')}
+              size={42}
+              source={avatar}
+              style={[styles.avatarSmall]}
+            />
+            <BigGoodDollar number={balance} />
+          </Section>
+        )}
+        <Section.Row style={styles.buttonsRow}>
+          <PushButton
+            icon="send"
+            iconAlignment="left"
+            routeName="Who"
+            screenProps={screenProps}
+            style={styles.leftButton}
+            contentStyle={styles.leftButtonContent}
+            textStyle={styles.leftButtonText}
+            params={{
+              nextRoutes: ['Amount', 'Reason', 'SendLinkSummary', 'SendConfirmation'],
+              params: { action: 'Send' },
+            }}
+            compact
+          >
+            Send
+          </PushButton>
+          <ClaimButton screenProps={screenProps} amount={weiToMask(entitlement, { showUnits: true })} />
+          <PushButton
+            icon="receive"
+            iconAlignment="right"
+            routeName={'Receive'}
+            screenProps={screenProps}
+            style={styles.rightButton}
+            contentStyle={styles.rightButtonContent}
+            textStyle={styles.rightButtonText}
+            compact
+          >
+            Receive
+          </PushButton>
+        </Section.Row>
+      </Section>
+      <FeedList
+        data={feeds}
+        handleFeedSelection={handleFeedSelection}
+        initialNumToRender={PAGE_SIZE}
+        onEndReached={nextFeed}
+        updateData={() => {}}
+        onScroll={({ nativeEvent }) => {
+          // Replicating Header Height.
+          // TODO: Improve this when doing animation
+          const HEIGHT_FULL =
+            props.theme.sizes.defaultDouble +
+            68 +
+            props.theme.sizes.default +
+            normalize(18) +
+            props.theme.sizes.defaultDouble * 2 +
+            normalize(42) +
+            normalize(70)
+          const HEIGHT_BASE = props.theme.sizes.defaultDouble + 68 + props.theme.sizes.default + normalize(70)
+
+          const HEIGHT_DIFF = HEIGHT_FULL - HEIGHT_BASE
+          const scrollPos = nativeEvent.contentOffset.y
+          const scrollPosAlt = headerLarge ? scrollPos - HEIGHT_DIFF : scrollPos + HEIGHT_DIFF
+          const newHeaderLarge = scrollPos <= HEIGHT_BASE || scrollPosAlt <= HEIGHT_BASE
+
+          // log.info('scrollPos', { newHeaderLarge, scrollPos, scrollPosAlt, HEIGHT_DIFF, HEIGHT_BASE, HEIGHT_FULL })
+          if (newHeaderLarge !== headerLarge) {
+            setHeaderLarge(newHeaderLarge)
+          }
+        }}
+        headerLarge={headerLarge}
+      />
+      {currentFeed && (
+        <FeedModalList
           data={feeds}
           handleFeedSelection={handleFeedSelection}
           initialNumToRender={PAGE_SIZE}
           onEndReached={nextFeed}
+          selectedFeed={currentFeed}
           updateData={() => {}}
-          onScroll={({ nativeEvent }) => {
-            // Replicating Header Height.
-            // TODO: Improve this when doing animation
-            const HEIGHT_FULL =
-              props.theme.sizes.defaultDouble +
-              68 +
-              props.theme.sizes.default +
-              normalize(18) +
-              props.theme.sizes.defaultDouble * 2 +
-              normalize(42) +
-              normalize(70)
-            const HEIGHT_BASE = props.theme.sizes.defaultDouble + 68 + props.theme.sizes.default + normalize(70)
-
-            const HEIGHT_DIFF = HEIGHT_FULL - HEIGHT_BASE
-            const scrollPos = nativeEvent.contentOffset.y
-            const scrollPosAlt = headerLarge ? scrollPos - HEIGHT_DIFF : scrollPos + HEIGHT_DIFF
-            const newHeaderLarge = scrollPos <= HEIGHT_BASE || scrollPosAlt <= HEIGHT_BASE
-            log.info('scrollPos', { newHeaderLarge, scrollPos, scrollPosAlt, HEIGHT_DIFF, HEIGHT_BASE, HEIGHT_FULL })
-            if (newHeaderLarge !== headerLarge) {
-              setHeaderLarge(newHeaderLarge)
-            }
-          }}
-          headerLarge={headerLarge}
         />
-        {currentFeed && (
-          <FeedModalList
-            data={feeds}
-            handleFeedSelection={handleFeedSelection}
-            initialNumToRender={PAGE_SIZE}
-            onEndReached={nextFeed}
-            selectedFeed={currentFeed}
-            updateData={() => {}}
-          />
-        )}
-      </Wrapper>
-    </>
+      )}
+    </Wrapper>
   )
 }
 

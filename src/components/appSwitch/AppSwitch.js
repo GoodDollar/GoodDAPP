@@ -10,7 +10,7 @@ import SimpleStore from '../../lib/undux/SimpleStore'
 import GDStore from '../../lib/undux/GDStore'
 import { updateAll as updateWalletStatus } from '../../lib/undux/utils/account'
 import { checkAuthStatus as getLoginState } from '../../lib/login/checkAuthStatus'
-
+import zoomSdkLoader from '../dashboard/FaceRecognition/ZoomSdkLoader'
 type LoadingProps = {
   navigation: any,
   descriptors: any,
@@ -73,6 +73,9 @@ const AppSwitch = (props: LoadingProps) => {
     gdstore.set('isLoggedIn')(isLoggedIn)
     gdstore.set('isLoggedInCitizen')(isLoggedInCitizen)
     isLoggedInCitizen ? API.verifyTopWallet() : Promise.resolve()
+    if (isLoggedInCitizen === false) {
+      zoomSdkLoader.load()
+    }
 
     // if (isLoggedIn) {
     //   if (destDetails) {

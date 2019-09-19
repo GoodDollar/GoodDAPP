@@ -11,10 +11,14 @@ declare var ZoomSDK: any
 const licenseKey = Config.zoomLicenseKey
 
 export class ZoomSdkLoader {
-  ready = this.load()
+  ready: Promise<>
+
+  load() {
+    return (this.ready = this._load())
+  }
 
   /* Orchestrates zoom loading & initialization process process */
-  async load() {
+  async _load() {
     log.debug('loading zoom sdk..', { ZoomLoader: this })
     try {
       if (window.ZoomSDK === undefined && global.ZoomSDK === undefined) {

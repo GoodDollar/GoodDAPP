@@ -3,7 +3,7 @@ import LoginPage from '../PageObjects/LoginPage'
 import HomePage from '../PageObjects/HomePage'
 import EditProfilePage from '../PageObjects/EditProfilePage'
 import SupportPage from '../PageObjects/SupportPage'
-
+ 
 
 
 describe('Test case 4: Ability to send support request and subscribe', () => {

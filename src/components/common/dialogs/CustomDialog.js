@@ -48,6 +48,7 @@ const CustomDialog = ({
   boldMessage = null,
   onDismiss,
   showButtons = true,
+  shadowStyles,
   title,
   type = 'common',
   visible,
@@ -62,7 +63,12 @@ const CustomDialog = ({
 
   return visible ? (
     <Portal>
-      <ModalWrapper onClose={onDismiss} leftBorderColor={modalColor} showAtBottom={showAtBottom}>
+      <ModalWrapper
+        onClose={onDismiss}
+        leftBorderColor={modalColor}
+        showAtBottom={showAtBottom}
+        shadowStyles={shadowStyles}
+      >
         <React.Fragment>
           {title && (
             <Text color={textColor} fontFamily="slab" fontSize={24} fontWeight="bold" style={styles.title}>

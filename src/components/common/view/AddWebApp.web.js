@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { AsyncStorage, Image, View } from 'react-native'
-
-//import { isMobileSafari } from 'mobile-device-detect'
+import { isMobileSafari } from 'mobile-device-detect'
 import SimpleStore from '../../../lib/undux/SimpleStore'
 import { useDialog } from '../../../lib/undux/utils/dialog'
 import { withStyles } from '../../../lib/styles'
 import addAppIlustration from '../../../assets/addApp.svg'
+import Icon from '../view/Icon'
 
 import Text from '../../common/view/Text'
 
@@ -36,12 +36,30 @@ const mapStylesToProps = ({ theme }) => {
     explanationDialogContainer: {
       display: 'flex',
       alignItems: 'center',
-      height: getDesignRelativeHeight(10),
+      height: getDesignRelativeHeight(9),
     },
     explanationDialogText: {
       width: '100%',
       textAlign: 'center',
+      lineHeight: 22,
+      fontWeight: 500,
+    },
+    explanationDialogTextBold: {
       fontWeight: 'bold',
+    },
+    triangle: {
+      width: 0,
+      height: 0,
+      backgroundColor: 'transparent',
+      borderStyle: 'solid',
+      borderLeftWidth: 15,
+      borderRightWidth: 15,
+      borderTopWidth: 25,
+      borderLeftColor: 'transparent',
+      borderRightColor: 'transparent',
+      borderTopColor: 'white',
+      marginTop: 15,
+      marginRight: 10,
     },
   }
 }
@@ -77,12 +95,16 @@ const InitialDialog = withStyles(mapStylesToProps)(({ showDesc, styles }) => {
 const ExplanationDialog = withStyles(mapStylesToProps)(({ styles }) => {
   return (
     <View style={styles.explanationDialogContainer}>
-      <Text textAlign="left" fontSize={14} style={styles.explanationDialogText}>
+      <Text fontSize={14} style={styles.explanationDialogText}>
         {'Add this web-app to your iPhone:'}
       </Text>
-      <Text textAlign="left" fontSize={14} style={styles.explanationDialogText}>
-        {'tap then “Add to home screen"'}
+      <Text fontSize={14} style={styles.explanationDialogText}>
+        {'tap'} <Icon name="ios-share" size={20} /> {'then'}{' '}
+        <Text fontSize={14} style={[styles.explanationDialogText, styles.explanationDialogTextBold]}>
+          {'“Add to home screen"'}
+        </Text>
       </Text>
+      <View style={styles.triangle} />
     </View>
   )
 })
@@ -94,6 +116,7 @@ const AddWebApp = props => {
   const [dialogShown, setDialogShown] = useState()
   const store = SimpleStore.useStore()
   const [showDialog] = useDialog()
+  const { styles } = props
   const { show } = store.get('addWebApp')
   useEffect(() => {
     AsyncStorage.getItem('AddWebAppLastCheck')
@@ -107,6 +130,7 @@ const AddWebApp = props => {
   const showExplanationDialog = () => {
     log.debug('showExplanationDialog')
     showDialog({
+      shadowStyles: styles.shadowForIOSPopup,
       content: <ExplanationDialog />,
       showButtons: false,
       showAtBottom: true,
@@ -213,13 +237,18 @@ const AddWebApp = props => {
       }
     }
 
-    //if ((installPrompt && show) || (isMobileSafari && show)) {
-    setDialogShown(true)
-
-    //}
+    if ((installPrompt && show) || (isMobileSafari && show)) {
+      setDialogShown(true)
+    }
   }, [installPrompt, show, lastCheck])
 
   return null
 }
 
-export default withStyles()(AddWebApp)
+const mapStylesToComponentProps = ({ theme }) => ({
+  shadowForIOSPopup: {
+    boxShadow: '0px 13px 13px -16px rgba(0,0,0,1)',
+  },
+})
+
+export default withStyles(mapStylesToComponentProps)(AddWebApp)

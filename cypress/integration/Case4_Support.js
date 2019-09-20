@@ -1,7 +1,6 @@
 import StartPage from '../PageObjects/StartPage'
 import LoginPage from '../PageObjects/LoginPage'
 import HomePage from '../PageObjects/HomePage'
-import EditProfilePage from '../PageObjects/EditProfilePage'
 import SupportPage from '../PageObjects/SupportPage'
  
 
@@ -46,7 +45,7 @@ describe('Test case 4: Ability to send support request and subscribe', () => {
                 cy.wrap(body.find(SupportPage.helpFormTextArea)).type('Test message');
                 cy.wrap(body.find(SupportPage.submitHelpFormButton)).click();
                 cy.wait(5000);
-                // cy.wrap(body.find(SupportPage.helpFormSuccessMessage)).should('contain', 'Thank you, your support request has been received.');
+                cy.wrap(body.find(SupportPage.helpFormSuccessMessage)).should('contain', 'Thank you, your support request has been received.');
                 cy.wrap(body.find(SupportPage.subscribeFormName)).should('be.visible');
                 cy.wrap(body.find(SupportPage.subscribeFormSurname)).should('be.visible');
                 cy.wrap(body.find(SupportPage.subscribeFormEmail)).should('be.visible');

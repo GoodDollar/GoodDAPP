@@ -1,7 +1,6 @@
 import StartPage from '../PageObjects/StartPage'
 import LoginPage from '../PageObjects/LoginPage'
 import HomePage from '../PageObjects/HomePage'
-import EditProfilePage from '../PageObjects/EditProfilePage'
 import ProfilePage from '../PageObjects/ProfilePage'
 import ProfilePrivacyPage from '../PageObjects/ProfilePrivacyPage'
 

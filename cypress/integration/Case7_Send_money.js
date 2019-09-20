@@ -1,14 +1,12 @@
 import StartPage from '../PageObjects/StartPage'
 import LoginPage from '../PageObjects/LoginPage'
 import HomePage from '../PageObjects/HomePage'
-import EditProfilePage from '../PageObjects/EditProfilePage'
-import SupportPage from '../PageObjects/SupportPage'
 import SendMoneyPage from '../PageObjects/SendMoneyPage'
 
 
 
 
-describe('Test case 8: Ability to send money', () => {
+describe('Test case 7: Ability to send money', () => {
 
     it('User is able to send money', () => {
 

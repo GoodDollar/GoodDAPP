@@ -1,8 +1,6 @@
 import StartPage from '../PageObjects/StartPage'
 import LoginPage from '../PageObjects/LoginPage'
 import HomePage from '../PageObjects/HomePage'
-import EditProfilePage from '../PageObjects/EditProfilePage'
-import SupportPage from '../PageObjects/SupportPage'
 import RecoverWalletPage from '../PageObjects/RecoverWalletPage';
 
 

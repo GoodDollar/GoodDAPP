@@ -1,7 +1,11 @@
 class HomePage {
 
+    get rewardsButton() {
+        return cy.get('svg[version]');
+    }
+
     get optionsButton() {
-        return cy.get('div[role=button]').eq(0)
+        return cy.get('div[role=button]').eq(0);
     }
 
     get sendButton() {

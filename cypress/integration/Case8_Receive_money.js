@@ -1,15 +1,12 @@
 import StartPage from '../PageObjects/StartPage'
 import LoginPage from '../PageObjects/LoginPage'
 import HomePage from '../PageObjects/HomePage'
-import EditProfilePage from '../PageObjects/EditProfilePage'
-import SupportPage from '../PageObjects/SupportPage'
-import SendMoneyPage from '../PageObjects/SendMoneyPage'
-import ReceiveMoneyPage from '../PageObjects/ReceiveMoneyPage';
+import ReceiveMoneyPage from '../PageObjects/ReceiveMoneyPage'
 
 
 
 
-describe('Test case 9: Ability to send money request and reseive money', () => {
+describe('Test case 8: Ability to send money request and reseive money', () => {
 
     it('User is able to send money request', () => {
 

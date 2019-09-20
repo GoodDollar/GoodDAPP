@@ -750,15 +750,15 @@ export class GoodWallet {
     if (topWallet) {
       const toppingRes = await API.verifyTopWallet()
       const { data } = toppingRes
-      if (!data.ok) {
+      if (data.ok !== 1) {
         return {
-          error: true,
+          ok: false,
+          error: data.error && !~data.error.indexOf(`User doesn't need topping`),
         }
       }
       nativeBalance = await this.wallet.eth.getBalance(this.account)
-
       return {
-        ok: toppingRes.ok && nativeBalance > wei,
+        ok: data.ok && nativeBalance > wei,
       }
     }
 

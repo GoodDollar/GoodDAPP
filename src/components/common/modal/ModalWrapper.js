@@ -27,6 +27,7 @@ const ModalWrapper = (props: any) => {
       <ModalOverlay>
         <ModalContainer fullHeight={fullHeight} style={showAtBottom && styles.showAtBottom}>
           <ModalLeftBorder
+            showTooltipArrow={showTooltipArrow}
             borderColor={leftBorderColor}
             style={[showJaggedEdge ? styles.modalLeftBorderAddMarginBottom : '']}
           />

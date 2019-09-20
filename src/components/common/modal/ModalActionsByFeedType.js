@@ -47,7 +47,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose }) => {
 
   const getPaymentLink = () => {
     const url = generateShareLink('send', {
-      paymentCode: item.id,
+      paymentCode: item.data.withdrawCode,
       reason: item.data.message,
     })
     return generateSendShareObject(url, item.data.amount, item.data.endpoint.fullName, '')

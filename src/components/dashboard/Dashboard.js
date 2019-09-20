@@ -91,21 +91,18 @@ const Dashboard = props => {
   //Service redirects Send/Receive
   useEffect(() => {
     const anyParams = extractQueryParams(window.location.href)
-    if (anyParams.code) {
+
+    if (anyParams && anyParams.code) {
       const { screenProps } = props
-      if (anyParams && anyParams.code) {
-        const code = readCode(decodeURI(anyParams.code))
-        routeAndPathForCode('send', code)
-          .then(({ route, params }) => screenProps.push(route, params))
-          .catch(e => {
-            showErrorDialog(null, e, { onDismiss: screenProps.goToRoot })
-          })
-      }
+      const code = readCode(decodeURI(anyParams.code))
+      routeAndPathForCode('send', code)
+        .then(({ route, params }) => screenProps.push(route, params))
+        .catch(e => {
+          showErrorDialog(null, e, { onDismiss: screenProps.goToRoot })
+        })
     }
-    if (anyParams.paymentCode) {
-      if (anyParams && anyParams.paymentCode) {
-        props.navigation.state.params = anyParams
-      }
+    if (anyParams && anyParams.paymentCode) {
+      props.navigation.state.params = anyParams
     }
   }, [])
 

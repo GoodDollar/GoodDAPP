@@ -1545,16 +1545,19 @@ export class UserStorage {
    * Calling the server to delete their data
    */
   async deleteAccount(): Promise<boolean> {
+    const zoomId = await this.wallet.getAccountForType('zoomId').replace('0x', '')
+    const zoomSignature = await this.wallet.sign(zoomId, 'zoomId')
+
     let deleteResults = await Promise.all([
-      this.wallet
-        .deleteAccount()
-        .then(r => ({ wallet: 'ok' }))
-        .catch(e => ({ wallet: 'failed' })),
-      API.deleteAccount(this.wallet.getAccountForType('zoomId'))
+      API.deleteAccount(zoomId, zoomSignature)
         .then(r => get(r, 'data.results'))
         .catch(e => ({
           server: 'failed',
         })),
+      this.wallet
+        .deleteAccount()
+        .then(r => ({ wallet: 'ok' }))
+        .catch(e => ({ wallet: 'failed' })),
       this.deleteProfile()
         .then(r => ({
           profile: 'ok',

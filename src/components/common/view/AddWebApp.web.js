@@ -47,20 +47,6 @@ const mapStylesToProps = ({ theme }) => {
     explanationDialogTextBold: {
       fontWeight: 'bold',
     },
-    triangle: {
-      width: 0,
-      height: 0,
-      backgroundColor: 'transparent',
-      borderStyle: 'solid',
-      borderLeftWidth: 15,
-      borderRightWidth: 15,
-      borderTopWidth: 25,
-      borderLeftColor: 'transparent',
-      borderRightColor: 'transparent',
-      borderTopColor: 'white',
-      marginTop: 15,
-      marginRight: 10,
-    },
   }
 }
 
@@ -99,12 +85,11 @@ const ExplanationDialog = withStyles(mapStylesToProps)(({ styles }) => {
         {'Add this web-app to your iPhone:'}
       </Text>
       <Text fontSize={14} style={styles.explanationDialogText}>
-        {'tap'} <Icon name="ios-share" size={20} /> {'then'}{' '}
+        {'tap'} <Icon name="ios-share" size={20} /> {'then '}
         <Text fontSize={14} style={[styles.explanationDialogText, styles.explanationDialogTextBold]}>
           {'“Add to home screen"'}
         </Text>
       </Text>
-      <View style={styles.triangle} />
     </View>
   )
 })
@@ -116,7 +101,6 @@ const AddWebApp = props => {
   const [dialogShown, setDialogShown] = useState()
   const store = SimpleStore.useStore()
   const [showDialog] = useDialog()
-  const { styles } = props
   const { show } = store.get('addWebApp')
   useEffect(() => {
     AsyncStorage.getItem('AddWebAppLastCheck')
@@ -130,10 +114,10 @@ const AddWebApp = props => {
   const showExplanationDialog = () => {
     log.debug('showExplanationDialog')
     showDialog({
-      shadowStyles: styles.shadowForIOSPopup,
       content: <ExplanationDialog />,
       showButtons: false,
       showAtBottom: true,
+      showTooltipArrow: true,
       onDismiss: () => {
         const date = new Date()
         AsyncStorage.setItem('AddWebAppLastCheck', date.toISOString())
@@ -245,10 +229,4 @@ const AddWebApp = props => {
   return null
 }
 
-const mapStylesToComponentProps = ({ theme }) => ({
-  shadowForIOSPopup: {
-    boxShadow: '0px 13px 13px -16px rgba(0,0,0,1)',
-  },
-})
-
-export default withStyles(mapStylesToComponentProps)(AddWebApp)
+export default withStyles()(AddWebApp)

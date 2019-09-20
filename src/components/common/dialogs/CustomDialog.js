@@ -48,7 +48,7 @@ const CustomDialog = ({
   boldMessage = null,
   onDismiss,
   showButtons = true,
-  shadowStyles,
+  showTooltipArrow,
   title,
   type = 'common',
   visible,
@@ -67,7 +67,7 @@ const CustomDialog = ({
         onClose={onDismiss}
         leftBorderColor={modalColor}
         showAtBottom={showAtBottom}
-        shadowStyles={shadowStyles}
+        showTooltipArrow={showTooltipArrow}
       >
         <React.Fragment>
           {title && (

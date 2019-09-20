@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { ScrollView } from 'react-native'
+import { ScrollView, View } from 'react-native'
 import { withStyles } from '../../../lib/styles'
 import ModalCloseButton from './ModalCloseButton'
 import ModalJaggedEdge from './ModalJaggedEdge'
@@ -19,7 +19,7 @@ const ModalWrapper = (props: any) => {
     showJaggedEdge = false,
     fullHeight = false,
     showAtBottom,
-    shadowStyles,
+    showTooltipArrow,
   } = props
 
   return (
@@ -30,14 +30,18 @@ const ModalWrapper = (props: any) => {
             borderColor={leftBorderColor}
             style={[showJaggedEdge ? styles.modalLeftBorderAddMarginBottom : '']}
           />
-          <ModalContents>
+          <ModalContents style={showTooltipArrow && styles.shadow}>
             {onClose ? <ModalCloseButton onClose={onClose} /> : null}
             <ModalInnerContents
-              style={[showJaggedEdge ? styles.modalContainerStraightenBottomRightEdge : '', shadowStyles]}
+              style={[
+                showJaggedEdge ? styles.modalContainerStraightenBottomRightEdge : '',
+                showTooltipArrow && styles.noneShadow,
+              ]}
             >
               {children}
             </ModalInnerContents>
             {showJaggedEdge ? <ModalJaggedEdge /> : null}
+            {showTooltipArrow && <View style={styles.triangle} />}
           </ModalContents>
         </ModalContainer>
       </ModalOverlay>
@@ -55,6 +59,24 @@ const getStylesFromProps = ({ theme }) => ({
   showAtBottom: {
     marginTop: 'auto',
     marginBottom: 10,
+  },
+  noneShadow: {
+    boxShadow: 'none',
+  },
+  shadow: {
+    boxShadow: '0px 2px 4px #00000029',
+  },
+  triangle: {
+    position: 'absolute',
+    display: 'block',
+    width: '2rem',
+    height: '2rem',
+    backgroundColor: 'white',
+    left: '49%',
+    bottom: -10,
+    webkitTransform: 'translateX(-50%) rotate(63deg) skewX(37deg)',
+    transform: 'translateX(-50%) rotate(63deg) skewX(37deg)',
+    boxShadow: 'rgba(0, 0, 0, 0.16) 2px 1px 4px',
   },
 })
 

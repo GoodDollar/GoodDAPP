@@ -1,6 +1,6 @@
-import { GoodWallet } from '../../../lib/wallet/GoodWalletClass'
+import { GoodWallet } from '../GoodWalletClass'
 import Config from '../../../config/config'
-import { gdToWei } from '../../../lib/wallet/utils'
+import { gdToWei } from '../utils'
 import adminWallet from './__util__/AdminWallet'
 
 describe('GoodWalletShare/ReceiveTokens', () => {

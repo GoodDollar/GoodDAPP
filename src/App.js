@@ -22,7 +22,12 @@ const App = () => {
     setUseDesktop(true)
   }
 
-  const Splash = !isMobile && !useDesktop ? <SplashDesktop onContinue={continueWithDesktop} /> : <RouterSelector />
+  const Splash =
+    !isMobile && !useDesktop ? (
+      <SplashDesktop onContinue={continueWithDesktop} urlForQR={window.location.href} />
+    ) : (
+      <RouterSelector />
+    )
 
   return (
     <PaperProvider theme={theme}>

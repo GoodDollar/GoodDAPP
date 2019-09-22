@@ -141,6 +141,7 @@ const getStylesFromProps = ({ theme }) => ({
   },
   avatarBottom: {
     marginTop: 'auto',
+    marginBottom: 5,
   },
   mainContents: {
     flexGrow: 1,
@@ -193,7 +194,7 @@ const getStylesFromProps = ({ theme }) => ({
     marginBottom: 0,
   },
   typeIcon: {
-    marginTop: 0,
+    marginTop: 'auto',
   },
   failTransaction: {
     paddingBottom: 'inherit',

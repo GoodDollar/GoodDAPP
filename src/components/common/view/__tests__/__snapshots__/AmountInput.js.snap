@@ -45,8 +45,8 @@ exports[`AmountInput matches snapshot 1`] = `
       className="css-view-1dbjc4n"
       style={
         Object {
-          "height": "0px",
-          "minHeight": "0px",
+          "height": "180px",
+          "minHeight": "180px",
         }
       }
     >

@@ -38,7 +38,7 @@ function Handler(store, params) {
       message = error.err
     }
     store.set('currentScreen')({
-      dialogData: { visible: true, title: 'Error', message, onDismiss },
+      dialogData: { visible: true, title: 'Error', message, onDismiss, type: 'error' },
     })
   }
 }

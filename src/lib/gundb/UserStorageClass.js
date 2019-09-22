@@ -1,26 +1,26 @@
 //@flow
 import Gun from '@gooddollar/gun-appendonly'
+import Mutex from 'await-mutex'
 import SEA from 'gun/sea'
 import find from 'lodash/find'
-import merge from 'lodash/merge'
-import orderBy from 'lodash/orderBy'
-import toPairs from 'lodash/toPairs'
-import takeWhile from 'lodash/takeWhile'
-import isEqual from 'lodash/isEqual'
-import maxBy from 'lodash/maxBy'
 import flatten from 'lodash/flatten'
 import get from 'lodash/get'
-import values from 'lodash/values'
+import isEqual from 'lodash/isEqual'
 import keys from 'lodash/keys'
+import maxBy from 'lodash/maxBy'
+import merge from 'lodash/merge'
+import orderBy from 'lodash/orderBy'
+import takeWhile from 'lodash/takeWhile'
+import toPairs from 'lodash/toPairs'
+import values from 'lodash/values'
 import isEmail from 'validator/lib/isEmail'
-import Mutex from 'await-mutex'
-import isMobilePhone from '../validators/isMobilePhone'
+import Config from '../../config/config'
+import API from '../API/api'
 
 import pino from '../logger/pino-logger'
-import API from '../API/api'
-import Config from '../../config/config'
-import { getUserModel, type UserModel } from './UserModel'
+import isMobilePhone from '../validators/isMobilePhone'
 import defaultGun from './gundb'
+import { getUserModel, type UserModel } from './UserModel'
 
 const logger = pino.child({ from: 'UserStorage' })
 
@@ -472,7 +472,7 @@ export class UserStorage {
       const updatedFeedEvent: FeedEvent = {
         ...feedEvent,
         ...initialEvent,
-        status: receipt.status ? 'completed' : 'error',
+        status: feedEvent.status === 'cancelled' ? feedEvent.status : receipt.status ? 'completed' : 'error',
         date: new Date().toString(),
         data: {
           ...feedEvent.data,
@@ -543,8 +543,8 @@ export class UserStorage {
    * @param {string} transactionHash - transaction identifier
    * @returns {object} feed item or null if it doesn't exist
    */
-  async getFeedItemByTransactionHash(transactionHash: string): Promise<FeedEvent> {
-    let feedItem = await this.feed
+  getFeedItemByTransactionHash(transactionHash: string): Promise<FeedEvent> {
+    return this.feed
       .get('byid')
       .get(transactionHash)
       .decrypt()
@@ -552,8 +552,6 @@ export class UserStorage {
         logger.warn('getFeedItemByTransactionHash not found or cant decrypt', { transactionHash })
         return undefined
       })
-
-    return feedItem
   }
 
   /**
@@ -967,14 +965,25 @@ export class UserStorage {
 
     return Promise.all(
       feed
-        .filter(feedItem => feedItem.data && ['deleted', 'cancelled'].includes(feedItem.status) === false)
-        .map(feedItem => this.formatEvent(feedItem))
+        .filter(
+          feedItem =>
+            feedItem.data && ['deleted', 'cancelled'].includes(feedItem.status || feedItem.otplStatus) === false
+        )
+        .map(feedItem =>
+          this.formatEvent(feedItem).catch(e => {
+            logger.error('getFormattedEvents Failed formatting event:', feedItem, e.message, e)
+            return {}
+          })
+        )
     )
   }
 
   async getFormatedEventById(id: string): Promise<StandardFeed> {
     const prevFeedEvent = await this.getFeedItemByTransactionHash(id)
-    const standardPrevFeedEvent = await this.formatEvent(prevFeedEvent)
+    const standardPrevFeedEvent = await this.formatEvent(prevFeedEvent).catch(e => {
+      logger.error('getFormatedEventById Failed formatting event:', id, e.message, e)
+      return undefined
+    })
     if (!prevFeedEvent) {
       return standardPrevFeedEvent
     }
@@ -985,7 +994,10 @@ export class UserStorage {
     logger.warn('getFormatedEventById: receipt missing for:', { id, standardPrevFeedEvent })
 
     //if for some reason we dont have the receipt(from blockchain) yet then fetch it
-    const receipt = await this.wallet.getReceiptWithLogs(id)
+    const receipt = await this.wallet.getReceiptWithLogs(id).catch(e => {
+      logger.warn('no receipt found for id:', id, e.message, e)
+      return undefined
+    })
     if (!receipt) {
       return standardPrevFeedEvent
     }
@@ -993,7 +1005,10 @@ export class UserStorage {
     //update the event
     let updatedEvent = await this.handleReceiptUpdated(receipt)
     logger.debug('getFormatedEventById updated event with receipt', { prevFeedEvent, updatedEvent })
-    return this.formatEvent(updatedEvent)
+    return this.formatEvent(updatedEvent).catch(e => {
+      logger.error('getFormatedEventById Failed formatting event:', id, e.message, e)
+      return {}
+    })
   }
 
   /**
@@ -1001,7 +1016,7 @@ export class UserStorage {
    * @param {string} username
    */
   async isUsername(username: string) {
-    let profile = await this.gun.get('users/byusername').get(username)
+    const profile = await this.gun.get('users/byusername').get(username)
     return profile !== undefined
   }
 
@@ -1011,19 +1026,20 @@ export class UserStorage {
    * @returns { string } address
    */
   async getUserAddress(field: string) {
-    let attr = undefined
+    let attr
+
     if (isMobilePhone(field)) {
       attr = 'mobile'
     } else if (isEmail(field)) {
       attr = 'email'
     } else if (await this.isUsername(field)) {
       attr = 'username'
-    } else if (this.wallet.wallet.utils.isAddress(field)) {
-      return field
     }
-    if (attr === undefined) {
-      return undefined
+
+    if (!attr) {
+      return this.wallet.wallet.utils.isAddress(field) ? field : undefined
     }
+
     const value = UserStorage.cleanFieldForIndex(attr, field)
 
     return this.gun
@@ -1041,7 +1057,7 @@ export class UserStorage {
    * @param {string} field - Profile field value (email, mobile or wallet address value)
    * @returns {object} profile - { name, avatar }
    */
-  async getUserProfile(field: string) {
+  async getUserProfile(field: string = '') {
     const attr = isMobilePhone(field) ? 'mobile' : isEmail(field) ? 'email' : 'walletAddress'
     const value = UserStorage.cleanFieldForIndex(attr, field)
 
@@ -1050,16 +1066,10 @@ export class UserStorage {
       .get(value)
       .get('profile')
 
-    const avatar =
-      (await profileToShow
-        .get('avatar')
-        .get('display')
-        .then()) || undefined
-    const name =
-      (await profileToShow
-        .get('fullName')
-        .get('display')
-        .then()) || 'Unknown Name'
+    const [avatar = undefined, name = 'Unknown Name'] = await Promise.all([
+      profileToShow.get('avatar').get('display'),
+      profileToShow.get('fullName').get('display'),
+    ])
 
     return { name, avatar }
   }
@@ -1067,124 +1077,151 @@ export class UserStorage {
   /**
    * Returns the feed in a standard format to be loaded in feed list and modal
    *
-   * @param {FeedEvent} param - Feed event with data, type, date and id props
+   * @param {FeedEvent} event - Feed event with data, type, date and id props
    * @returns {Promise} Promise with StandardFeed object,
    *  with props { id, date, type, data: { amount, message, endpoint: { address, fullName, avatar, withdrawStatus }}}
    */
   async formatEvent(event: FeedEvent): Promise<StandardFeed> {
     logger.debug('formatEvent: incoming event', event.id, { event })
-    const { data, type, date, id, status, createdDate } = event
-    const {
-      receiptData,
-      receipt,
-      from,
-      to,
-      counterPartyDisplayName,
-      sender,
-      amount,
-      reason,
-      code: withdrawCode,
-      otplStatus,
-      customName,
-      subtitle,
-    } = data
-    let avatar, fullName, address, withdrawStatus, initiator
-    if (type === 'send') {
-      address = this.wallet.wallet.utils.isAddress(to) ? to : (receiptData && receiptData.to) || (receipt && receipt.to)
-      address = address && UserStorage.cleanFieldForIndex('walletAddress', address)
-      initiator = to
 
-      // eslint-disable-next-line no-empty
-    } else if (type === 'claim') {
-    } else {
-      address = this.wallet.wallet.utils.isAddress(from)
-        ? from
-        : (receiptData && receiptData.from) || (receipt && receipt.from)
-      address = address && UserStorage.cleanFieldForIndex('walletAddress', address)
-      initiator = from
-    }
-    const initiatorType = initiator && (isMobilePhone(initiator) ? 'mobile' : isEmail(initiator) ? 'email' : undefined)
-    const value = (receiptData && receiptData.value) || amount
-    logger.debug('formatEvent: parsed data', {
-      id: event.id,
-      type,
-      address,
-      initiator,
-      reason,
-      to,
-      counterPartyDisplayName,
-      from,
-      receiptData,
-      value,
-    })
-    const defaultDisplayName = counterPartyDisplayName || 'Unknown'
-    const searchField = (initiatorType && `by${initiatorType}`) || ''
-    const profileByIndex =
-      initiatorType &&
-      (await this.gun
-        .get(`users/${searchField}`)
-        .get(initiator)
-        .get('profile'))
-    const profileByAddress =
-      address &&
-      (await this.gun
-        .get(`users/bywalletAddress`)
-        .get(address)
-        .get('profile'))
-    const profileToShow = (profileByIndex || profileByAddress) && this.gun.get((profileByIndex || profileByAddress)._)
-    fullName =
-      customName ||
-      (profileToShow &&
-        (await profileToShow
-          .get('fullName')
-          .get('display')
-          .then())) ||
-      (initiatorType && initiator) ||
-      (type === 'claim' || address === '0x0000000000000000000000000000000000000000' ? 'GoodDollar' : defaultDisplayName)
-    avatar =
-      (profileToShow &&
-        (await profileToShow
-          .get('avatar')
-          .get('display')
-          .then())) ||
-      (type === 'claim' || address === '0x0000000000000000000000000000000000000000'
-        ? `${process.env.PUBLIC_URL}/favicon-96x96.png`
-        : undefined)
+    try {
+      const { data, type, date, id, status, createdDate } = event
+      const { sender, reason, code: withdrawCode, otplStatus, customName, subtitle } = data
 
-    if (withdrawCode) {
-      //check real status only if tx has been confirmed (ie we have a receipt)
-      withdrawStatus = otplStatus ? otplStatus : 'pending'
-    }
-    withdrawStatus = data.status === 'error' ? 'error' : withdrawStatus
+      const { address, initiator, initiatorType, value, displayName, message } = this._extractData(event)
+      const withdrawStatus = this._extractWithdrawStatus(withdrawCode, otplStatus, status)
+      const displayType = this._extractDisplayType(type, withdrawStatus)
+      logger.debug('formatEvent:', event.id, { initiatorType, initiator, address })
+      const profileNode = this._extractProfileToShow(initiatorType, initiator, address)
+      const [avatar, fullName] = await Promise.all([
+        this._extractAvatar(type, withdrawStatus, profileNode, address).catch(e => {
+          logger.warn('formatEvent: failed extractAvatar', e.message, e, {
+            type,
+            withdrawStatus,
+            profileNode,
+            address,
+          })
+          return undefined
+        }),
+        this._extractFullName(customName, profileNode, initiatorType, initiator, type, address, displayName).catch(
+          e => {
+            logger.warn('formatEvent: failed extractFullName', e.message, e, {
+              customName,
+              profileNode,
+              initiatorType,
+              initiator,
+              type,
+              address,
+              displayName,
+            })
+            return undefined
+          }
+        ),
+      ])
 
-    let displayType = type
-    switch (type) {
-      case 'send':
-        displayType += withdrawStatus
-        if (withdrawStatus === 'error') {
-          avatar = `${process.env.PUBLIC_URL}/favicon-96x96.png`
-        }
-        break
-    }
-    return {
-      id: id,
-      date: new Date(date).getTime(),
-      type: type,
-      displayType,
-      status,
-      createdDate,
-      data: {
-        endpoint: {
-          address: sender,
-          fullName,
-          avatar,
-          withdrawStatus,
+      return {
+        id,
+        date: new Date(date).getTime(),
+        type,
+        displayType,
+        status,
+        createdDate,
+        data: {
+          endpoint: {
+            address: sender,
+            fullName,
+            avatar,
+            withdrawStatus,
+          },
+          amount: value,
+          message: reason || message,
+          subtitle,
         },
-        amount: value,
-        message: reason,
-        subtitle,
-      },
+      }
+    } catch (e) {
+      logger.error('formatEvent: failed formatting event:', event, e.message, e)
+      return {}
     }
+  }
+
+  _extractData({ type, id, data: { receiptData, receipt, from = '', to = '', counterPartyDisplayName = '', amount } }) {
+    const { isAddress } = this.wallet.wallet.utils
+    const data = { address: '', initiator: '', initiatorType: '', value: '', displayName: '', message: '' }
+
+    if (type === 'send') {
+      data.address = isAddress(to) ? to : (receiptData && receiptData.to) || (receipt && receipt.to)
+      data.initiator = to
+    } else if (type === 'claim') {
+      data.message = 'Your daily basic income'
+    } else {
+      data.address = isAddress(from) ? from : (receiptData && receiptData.from) || (receipt && receipt.from)
+      data.initiator = from
+    }
+
+    data.initiatorType = isMobilePhone(data.initiator) ? 'mobile' : isEmail(data.initiator) ? 'email' : undefined
+    data.address = data.address && UserStorage.cleanFieldForIndex('walletAddress', data.address)
+    data.value = (receiptData && receiptData.value) || amount
+    data.displayName = counterPartyDisplayName || 'Unknown'
+
+    logger.debug('formatEvent: parsed data', { id, type, to, counterPartyDisplayName, from, receiptData, ...data })
+
+    return data
+  }
+
+  _extractWithdrawStatus(withdrawCode, otplStatus = 'pending', status) {
+    return status === 'error' ? status : withdrawCode ? otplStatus : ''
+  }
+
+  _extractDisplayType(type, withdrawStatus) {
+    return type + `${type === 'send' ? withdrawStatus : ''}`
+  }
+
+  _extractProfileToShow(initiatorType, initiator, address): Gun {
+    const getProfile = (group, value) =>
+      this.gun
+        .get(group)
+        .get(value)
+        .get('profile')
+
+    const searchField = initiatorType && `by${initiatorType}`
+    const byIndex = searchField && getProfile(`users/${searchField}`, initiator)
+    const byAddress = address && getProfile(`users/bywalletAddress`, address)
+
+    // const [profileByIndex, profileByAddress] = await Promise.all([byIndex, byAddress])
+
+    return byIndex || byAddress
+  }
+
+  async _extractAvatar(type, withdrawStatus, profileToShow, address) {
+    const favicon = `${process.env.PUBLIC_URL}/favicon-96x96.png`
+    const profileFromGun = () =>
+      profileToShow &&
+      profileToShow
+        .get('avatar')
+        .get('display')
+        .then()
+
+    return (
+      (type === 'send' && withdrawStatus === 'error' && favicon) || //errored send
+      (await profileFromGun()) || // extract avatar from profile
+      (type === 'claim' || address === '0x0000000000000000000000000000000000000000' ? favicon : undefined)
+    )
+  }
+
+  async _extractFullName(customName, profileToShow, initiatorType, initiator, type, address, displayName) {
+    const profileFromGun = () =>
+      profileToShow &&
+      profileToShow
+        .get('fullName')
+        .get('display')
+        .then()
+
+    return (
+      customName || // if customName exist, use it
+      (await profileFromGun()) || // if there's a profile, extract it's fullName
+      (initiatorType && initiator) ||
+      (type === 'claim' || address === '0x0000000000000000000000000000000000000000' ? 'GoodDollar' : displayName)
+    )
   }
 
   /**
@@ -1238,9 +1275,8 @@ export class UserStorage {
    * @param {string} eventId
    * @returns {Promise<FeedEvent>}
    */
-  async peekTX(eventId: string): Promise<FeedEvent> {
-    const feedItem = await this.feed.get('queue').get(eventId)
-    return feedItem
+  peekTX(eventId: string): Promise<FeedEvent> {
+    return this.feed.get('queue').get(eventId)
   }
 
   /**
@@ -1264,15 +1300,17 @@ export class UserStorage {
   async updateEventOtplStatus(eventId: string, status: string): Promise<FeedEvent> {
     const feedEvent = await this.getFeedItemByTransactionHash(eventId)
     feedEvent.status = status
+
     if (feedEvent.data) {
       feedEvent.data.otplStatus = status
     }
+
     return this.updateFeedEvent(feedEvent)
   }
 
   /**
    * Sets the event's status as error
-   * @param {string} eventId
+   * @param {*} err
    * @returns {Promise<FeedEvent>}
    */
   async markWithErrorEvent(err: any): Promise<FeedEvent> {
@@ -1296,6 +1334,15 @@ export class UserStorage {
    */
   recoverEvent(eventId: string): Promise<FeedEvent> {
     return this.updateEventStatus(eventId, 'completed')
+  }
+
+  /**
+   * Sets an OTPL event to cancelled
+   * @param eventId
+   * @returns {Promise<FeedEvent>}
+   */
+  async cancelOTPLEvent(eventId: string): Promise<FeedEvent> {
+    await this.updateEventOtplStatus(eventId, 'cancelled')
   }
 
   /**

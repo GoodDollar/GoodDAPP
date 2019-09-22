@@ -1,6 +1,9 @@
 /* eslint-disable quote-props, quotes */
 
 module.exports = {
+  moduleNameMapper: {
+    "\\.(css|less)$": "<rootDir>/src/__tests__/__mocks__/styleMock.js"
+  },
   collectCoverageFrom: [
     'src/**/*.{js,jsx,ts,tsx}',
     '!src/**/*.d.ts'
@@ -37,6 +40,7 @@ module.exports = {
   ],
   testPathIgnorePatterns: [
     "/__tests__/__util__/",
+    "/__tests__/__mocks__/",
     "<rootDir>/src/.*/.*(android|ios|native)\.js",
     "<rootDir>/src/index.js",
     "<rootDir>/src/init.js",

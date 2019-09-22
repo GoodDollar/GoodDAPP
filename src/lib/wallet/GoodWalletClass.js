@@ -1,11 +1,10 @@
 // @flow
-import GoodDollarABI from '@gooddollar/goodcontracts/build/contracts/GoodDollar.min.json'
-import ReserveABI from '@gooddollar/goodcontracts/build/contracts/GoodDollarReserve.min.json'
-import IdentityABI from '@gooddollar/goodcontracts/build/contracts/Identity.min.json'
-import OneTimePaymentLinksABI from '@gooddollar/goodcontracts/build/contracts/OneTimePaymentLinks.min.json'
-import RedemptionABI from '@gooddollar/goodcontracts/build/contracts/RedemptionFunctional.min.json'
+import GoodDollarABI from '@gooddollar/goodcontracts/build/contracts/GoodDollar.json'
+import IdentityABI from '@gooddollar/goodcontracts/build/contracts/Identity.json'
+import OneTimePaymentsABI from '@gooddollar/goodcontracts/build/contracts/OneTimePayments.json'
 import ContractsAddress from '@gooddollar/goodcontracts/releases/deployment.json'
-import ERC20ABI from '@gooddollar/goodcontracts/build/contracts/ERC20.min.json'
+import ERC20ABI from '@gooddollar/goodcontracts/build/contracts/ERC20.json'
+import UBIABI from '@gooddollar/goodcontracts/build/contracts/FixedUBI.json'
 import type Web3 from 'web3'
 import { BN, toBN } from 'web3-utils'
 import abiDecoder from 'abi-decoder'
@@ -110,13 +109,11 @@ export class GoodWallet {
 
   identityContract: Web3.eth.Contract
 
-  claimContract: Web3.eth.Contract
-
-  reserveContract: Web3.eth.Contract
-
-  oneTimePaymentLinksContract: Web3.eth.Contract
+  oneTimePaymentsContract: Web3.eth.Contract
 
   erc20Contract: Web3.eth.Contract
+
+  UBIContract: Web3.eth.Contract
 
   account: string
 
@@ -157,12 +154,6 @@ export class GoodWallet {
           get(ContractsAddress, `${this.network}.Identity`, IdentityABI.networks[this.networkId].address),
           { from: this.account }
         )
-        this.claimContract = new this.wallet.eth.Contract(
-          RedemptionABI.abi,
-          get(ContractsAddress, `${this.network}.RedemptionFunctional`, RedemptionABI.networks[this.networkId].address),
-
-          { from: this.account }
-        )
 
         // Token Contract
         this.tokenContract = new this.wallet.eth.Contract(
@@ -180,28 +171,23 @@ export class GoodWallet {
         )
         abiDecoder.addABI(ERC20ABI.abi)
 
-        // Reserve Contract
-        this.reserveContract = new this.wallet.eth.Contract(
-          ReserveABI.abi,
-          get(ContractsAddress, `${this.network}.GoodDollarReserve`, ReserveABI.networks[this.networkId].address),
-          {
-            from: this.account,
-          }
+        // UBI Contract
+        this.UBIContract = new this.wallet.eth.Contract(
+          UBIABI.abi,
+          get(ContractsAddress, `${this.network}.FixedUBI`, UBIABI.networks[this.networkId].address),
+          { from: this.account }
         )
+        abiDecoder.addABI(UBIABI.abi)
 
         // OneTimePaymentLinks Contract
-        this.oneTimePaymentLinksContract = new this.wallet.eth.Contract(
-          OneTimePaymentLinksABI.abi,
-          get(
-            ContractsAddress,
-            `${this.network}.OneTimePaymentLinks`,
-            OneTimePaymentLinksABI.networks[this.networkId].address
-          ),
+        this.oneTimePaymentsContract = new this.wallet.eth.Contract(
+          OneTimePaymentsABI.abi,
+          get(ContractsAddress, `${this.network}.OneTimePayments`, OneTimePaymentsABI.networks[this.networkId].address),
           {
             from: this.account,
           }
         )
-        abiDecoder.addABI(OneTimePaymentLinksABI.abi)
+        abiDecoder.addABI(OneTimePaymentsABI.abi)
         log.info('GoodWallet Ready.', { account: this.account })
       })
       .catch(e => {
@@ -286,7 +272,7 @@ export class GoodWallet {
       } else {
         log.info('subscribeOTPL got event', { event })
 
-        if (event && event.event && ['PaymentWithdraw', 'PaymentCancel'].includes(event.event)) {
+        if (event && event.event && ['PaymentWithdrawn', 'PaymentCancelled'].includes(event.event)) {
           this.getReceiptWithLogs(event.transactionHash)
             .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['otplUpdated']))
             .catch(err => log.error('send event get/send receipt failed:', err.message, err))
@@ -298,8 +284,8 @@ export class GoodWallet {
       }
     }
 
-    this.oneTimePaymentLinksContract.events.PaymentWithdraw({ fromBlock, filter }, handler)
-    this.oneTimePaymentLinksContract.events.PaymentCancel({ fromBlock, filter }, handler)
+    this.oneTimePaymentsContract.events.PaymentWithdrawn({ fromBlock, filter }, handler)
+    this.oneTimePaymentsContract.events.PaymentCancelled({ fromBlock, filter }, handler)
   }
 
   /**
@@ -337,7 +323,7 @@ export class GoodWallet {
    */
   claim(callbacks: PromiEvents): Promise<TransactionReceipt> {
     try {
-      return this.sendTransaction(this.claimContract.methods.claimTokens(), callbacks)
+      return this.sendTransaction(this.UBIContract.methods.claim(), callbacks)
     } catch (e) {
       log.info(e)
       return Promise.reject(e)
@@ -345,22 +331,23 @@ export class GoodWallet {
   }
 
   async getNextClaimTime(): Promise<any> {
-    const lastClaim = (await this.claimContract.methods.getLastClaimed().call()) || ZERO
+    const lastClaim = (await this.UBIContract.methods.lastClaimed(this.account).call()) || ZERO
     return (lastClaim.toNumber() + DAY_IN_SECONDS) * MILLISECONDS
   }
 
   async getAmountAndQuantityClaimedToday(): Promise<any> {
-    const people = ((await this.identityContract.methods.whiteListedCount().call()) || ZERO).toNumber()
-    const dialyUBI = 1
-    const amount = people * dialyUBI
+    const res = ((await this.UBIContract.methods.getDailyStats().call()) || [ZERO, ZERO]).toNumber()
+
     return {
-      people: people,
-      amount,
+      people: res[0],
+      amount: res[1],
     }
   }
 
   async checkEntitlement(): Promise<number> {
-    return (await this.claimContract.methods.checkEntitlement().call()) || ZERO
+    const entitlement = await this.UBIContract.methods.checkEntitlement({ from: this.account }).call()
+
+    return entitlement
   }
 
   /**
@@ -441,7 +428,7 @@ export class GoodWallet {
    * @returns {Promise<boolean>}
    */
   isVerified(address: string): Promise<boolean> {
-    return this.identityContract.methods.isVerified(address).call()
+    return this.identityContract.methods.isClaimer(address).call()
   }
 
   /**
@@ -509,13 +496,12 @@ export class GoodWallet {
     const otpAddress = get(
       ContractsAddress,
       `${this.network}.OneTimePaymentLinks`,
-      OneTimePaymentLinksABI.networks[this.networkId].address
+      OneTimePaymentsABI.networks[this.networkId].address
     )
 
-    const deposit = this.oneTimePaymentLinksContract.methods.deposit(this.account, hashedCode, amount)
-    const encodedABI = await deposit.encodeABI()
-
-    const transferAndCall = this.tokenContract.methods.transferAndCall(otpAddress, amount, encodedABI)
+    const transferAndCall = this.tokenContract.methods.transferAndCall(otpAddress, amount, hashedCode, {
+      from: this.account,
+    })
 
     // Fixed gas amount so it can work locally with ganache
     // https://github.com/trufflesuite/ganache-core/issues/417
@@ -571,8 +557,8 @@ export class GoodWallet {
    * @returns {Promise<boolean>}
    */
   isWithdrawLinkUsed(link: string): Promise<boolean> {
-    const { isLinkUsed } = this.oneTimePaymentLinksContract.methods
-    return isLinkUsed(link).call()
+    const { hasPayment } = this.oneTimePaymentsContract.methods
+    return hasPayment(link).call()
   }
 
   /**
@@ -590,12 +576,12 @@ export class GoodWallet {
    * @returns {Promise<BN>}
    */
   getWithdrawAvailablePayment(link: string): Promise<BN> {
-    const { payments } = this.oneTimePaymentLinksContract.methods
+    const { payments } = this.oneTimePaymentsContract.methods
     const { toBN } = this.wallet.utils
 
-    return payments(link)
-      .call()
-      .then(toBN)
+    const amount = payments(link).call().paymentAmount
+
+    return amount.then(toBN)
   }
 
   /**
@@ -620,7 +606,7 @@ export class GoodWallet {
    * @param {string} otlCode - the payment identifier in OneTimePaymentLink contract
    */
   async canWithdraw(otlCode: string) {
-    const { senders } = this.oneTimePaymentLinksContract.methods
+    const { payments } = this.oneTimePaymentsContract.methods
 
     const link = this.getWithdrawLink(otlCode)
 
@@ -636,7 +622,7 @@ export class GoodWallet {
       throw new Error('Payment already withdrawn')
     }
 
-    const sender = await senders(link).call()
+    const sender = await payments(link).call().paymentSender
     return {
       amount: paymentAvailable.toString(),
       sender,
@@ -649,7 +635,7 @@ export class GoodWallet {
    * @param {PromiEvents} promiEvents
    */
   withdraw(otlCode: string, promiEvents: ?PromiEvents) {
-    const withdrawCall = this.oneTimePaymentLinksContract.methods.withdraw(otlCode)
+    const withdrawCall = this.oneTimePaymentsContract.methods.withdraw(otlCode)
     log.info('withdrawCall', withdrawCall)
     return this.sendTransaction(withdrawCall, { ...defaultPromiEvents, ...promiEvents })
   }
@@ -662,7 +648,7 @@ export class GoodWallet {
    */
   async cancelOTLByTransactionHash(transactionHash: string, txCallbacks: {} = {}): Promise<TransactionReceipt> {
     const { logs } = await this.getReceiptWithLogs(transactionHash)
-    const paymentDepositLog = logs.filter(({ name }) => name === 'PaymentDeposit')[0]
+    const paymentDepositLog = logs.filter(({ name }) => name === 'PaymentDeposited')[0]
 
     if (paymentDepositLog && paymentDepositLog.events) {
       const eventHashParam = paymentDepositLog.events.filter(({ name }) => name === 'hash')[0]
@@ -685,7 +671,7 @@ export class GoodWallet {
    * @returns {Promise<TransactionReceipt>}
    */
   cancelOTL(hashedCode: string, txCallbacks: {} = {}): Promise<TransactionReceipt> {
-    const cancelOtlCall = this.oneTimePaymentLinksContract.methods.cancel(hashedCode)
+    const cancelOtlCall = this.oneTimePaymentsContract.methods.cancel(hashedCode, , { from: this.account })
     return this.sendTransaction(cancelOtlCall, {
       ...txCallbacks,
       onTransactionHash: hash => {

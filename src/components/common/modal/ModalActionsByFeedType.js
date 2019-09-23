@@ -10,6 +10,7 @@ import goodWallet from '../../../lib/wallet/GoodWallet'
 import { generateSendShareObject, generateShareLink } from '../../../lib/share'
 import { useErrorDialog } from '../../../lib/undux/utils/dialog'
 import { withStyles } from '../../../lib/styles'
+import { getDesignRelativeWidth } from '../../../lib/utils/sizes'
 
 const log = logger.child({ from: 'ModalActionsByFeed' })
 
@@ -80,7 +81,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose }) => {
               textStyle={styles.buttonTextStyle}
               compact
             >
-              Cancel payment link
+              Cancel link
             </CustomButton>
             <ShareButton
               share={getPaymentLink()}
@@ -161,7 +162,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose }) => {
 
 const getStylesFromProps = ({ theme }) => ({
   shareButton: {
-    marginLeft: 5,
+    marginLeft: getDesignRelativeWidth(5),
   },
   buttonsView: {
     alignItems: 'flex-end',

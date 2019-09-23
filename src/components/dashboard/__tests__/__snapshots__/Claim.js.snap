@@ -1046,7 +1046,7 @@ exports[`Claim matches snapshot 1`] = `
                         Object {
                           "color": "rgba(255,255,255,1.00)",
                           "direction": "ltr",
-                          "fontFamily": "Roboto Slab",
+                          "fontFamily": "Roboto",
                           "fontSize": "16px",
                           "fontWeight": "500",
                           "lineHeight": "24px",
@@ -1083,7 +1083,7 @@ exports[`Claim matches snapshot 1`] = `
                           Object {
                             "color": "rgba(255,255,255,1.00)",
                             "direction": "ltr",
-                            "fontFamily": "Roboto Slab",
+                            "fontFamily": "Roboto",
                             "fontSize": "10px",
                             "fontWeight": "500",
                             "lineHeight": "24px",
@@ -1102,7 +1102,7 @@ exports[`Claim matches snapshot 1`] = `
                           Object {
                             "color": "rgba(255,255,255,1.00)",
                             "direction": "ltr",
-                            "fontFamily": "Roboto Slab",
+                            "fontFamily": "Roboto",
                             "fontSize": "9.5px",
                             "fontWeight": "500",
                             "lineHeight": "24px",

@@ -4,7 +4,6 @@ import Mutex from 'await-mutex'
 import SEA from 'gun/sea'
 import find from 'lodash/find'
 import flatten from 'lodash/flatten'
-import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import keys from 'lodash/keys'
 import maxBy from 'lodash/maxBy'
@@ -1547,42 +1546,41 @@ export class UserStorage {
   async deleteAccount(): Promise<boolean> {
     const zoomId = await this.wallet.getAccountForType('zoomId').replace('0x', '')
     const zoomSignature = await this.wallet.sign(zoomId, 'zoomId')
+    let deleteResults = false
+    let deleteAccountResult
 
-    let deleteResults = await Promise.all([
-      API.deleteAccount(zoomId, zoomSignature)
-        .then(r => get(r, 'data.results'))
-        .catch(e => ({
-          server: 'failed',
-        })),
-      this.wallet
-        .deleteAccount()
-        .then(r => ({ wallet: 'ok' }))
-        .catch(e => ({ wallet: 'failed' })),
-      this.deleteProfile()
-        .then(r => ({
-          profile: 'ok',
-        }))
-        .catch(r => ({
-          profile: 'failed',
-        })),
-      this.gunuser
-        .get('feed')
-        .putAck(null)
-        .then(r => ({
-          feed: 'ok',
-        }))
-        .catch(r => ({
-          feed: 'failed',
-        })),
-    ])
+    try {
+      deleteAccountResult = await API.deleteAccount(zoomId, zoomSignature)
+    } catch (e) {
+      logger.error('deleteAccount', { e })
+      return false
+    }
 
-    //Issue with gun delete()
-    // let profileDelete = await this.gunuser
-    //   .delete()
-    //   .then(r => ({ profile: 'ok' }))
-    //   .catch(e => ({
-    //     profile: 'failed'
-    //   }))
+    if (deleteAccountResult.data.ok) {
+      deleteResults = await Promise.all([
+        this.wallet
+          .deleteAccount()
+          .then(r => ({ wallet: 'ok' }))
+          .catch(e => ({ wallet: 'failed' })),
+        this.deleteProfile()
+          .then(r => ({
+            profile: 'ok',
+          }))
+          .catch(r => ({
+            profile: 'failed',
+          })),
+        this.gunuser
+          .get('feed')
+          .putAck(null)
+          .then(r => ({
+            feed: 'ok',
+          }))
+          .catch(r => ({
+            feed: 'failed',
+          })),
+      ])
+    }
+
     logger.debug('deleteAccount', { deleteResults })
     return deleteResults
   }

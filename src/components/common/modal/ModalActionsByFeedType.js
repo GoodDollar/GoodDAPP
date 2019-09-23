@@ -70,10 +70,10 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose }) => {
     case 'sendpending':
       return (
         <>
-          <View style={styles.rowButtonsView}>
+          <View style={styles.buttonsView}>
             <CustomButton
               mode="outlined"
-              style={[styles.cancelButton, { borderColor: theme.colors.red }]}
+              style={[styles.button, { borderColor: theme.colors.red }]}
               onPress={cancelPayment}
               color={theme.colors.red}
               loading={state.cancelPaymentLoading}
@@ -84,9 +84,9 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose }) => {
             </CustomButton>
             <ShareButton
               share={getPaymentLink()}
-              actionText="Share as link"
+              actionText="Share link"
               mode="outlined"
-              style={styles.shareButton}
+              style={[styles.button, styles.shareButton]}
               iconColor={theme.colors.primary}
               textStyle={styles.buttonTextStyle}
               compact
@@ -160,16 +160,8 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose }) => {
 }
 
 const getStylesFromProps = ({ theme }) => ({
-  rowButtonsView: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  cancelButton: {
-    width: '58%',
-  },
   shareButton: {
-    width: '40%',
+    marginLeft: 5,
   },
   buttonsView: {
     alignItems: 'flex-end',
@@ -195,7 +187,7 @@ const getStylesFromProps = ({ theme }) => ({
     alignItems: 'stretch',
   },
   buttonTextStyle: {
-    fontSize: normalize(11),
+    fontSize: normalize(14),
     letterSpacing: 0,
   },
 })

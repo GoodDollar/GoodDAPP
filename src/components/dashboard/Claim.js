@@ -19,7 +19,6 @@ import Section from '../common/layout/Section'
 import illustration from '../../assets/Claim/illustration.svg'
 import type { DashboardProps } from './Dashboard'
 import ClaimButton from './ClaimButton'
-import Countdown from './ClaimCountdown'
 
 Image.prefetch(illustration)
 
@@ -50,7 +49,7 @@ const Claim = props => {
   const [claimInterval, setClaimInterval] = useState(null)
   const [state, setState]: [ClaimState, Function] = useState({
     nextClaim: '--:--:--',
-    entitlement: entitlement || 0,
+    entitlement: (entitlement && entitlement.toNumber()) || 0,
     claimedToday: {
       people: '--',
       amount: '--',
@@ -89,7 +88,7 @@ const Claim = props => {
       wrappedGoodWallet.getNextClaimTime(),
     ])
 
-    setState(prevState => ({ ...prevState, claimedToday, entitlement, nextClaim: getNextClaim(nextClaimDate) }))
+    setState(prevState => ({ ...prevState, claimedToday, nextClaim: getNextClaim(nextClaimDate) }))
 
     setClaimInterval(
       setInterval(() => {
@@ -120,7 +119,7 @@ const Claim = props => {
     })
     try {
       //when we come back from FR entitelment might not be set yet
-      const curEntitlement = state.entitlement || (await goodWallet.checkEntitlement())
+      const curEntitlement = state.entitlement || (await goodWallet.checkEntitlement().toNumber())
       const receipt = await goodWallet.claim({
         onTransactionHash: hash => {
           const date = new Date()
@@ -175,7 +174,6 @@ const Claim = props => {
   }
 
   const illustrationSizes = isCitizen ? styles.illustrationForCitizen : styles.illustrationForNonCitizen
-
   return (
     <Wrapper>
       <Section style={styles.mainContainer}>
@@ -208,7 +206,16 @@ const Claim = props => {
               <Section.Text>people have already claimed today!</Section.Text>
             </Text>
           </Section.Row>
-          {!isCitizen && <Countdown nextClaim={state.nextClaim} />}
+          {!isCitizen && (
+            <ClaimButton
+              isCitizen={true}
+              entitlement={0}
+              nextClaim={state.nextClaim}
+              loading={loading}
+              style={styles.countdown}
+            />
+          )}
+
           <ClaimButton
             isCitizen={isCitizen}
             entitlement={state.entitlement}
@@ -292,6 +299,9 @@ const getStylesFromProps = ({ theme }) => {
     },
     inline: {
       display: 'inline',
+    },
+    countdown: {
+      marginBottom: theme.sizes.defaultDouble,
     },
   }
 }

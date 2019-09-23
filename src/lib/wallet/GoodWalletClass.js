@@ -1,10 +1,10 @@
 // @flow
-import GoodDollarABI from '@gooddollar/goodcontracts/build/contracts/GoodDollar.json'
-import IdentityABI from '@gooddollar/goodcontracts/build/contracts/Identity.json'
-import OneTimePaymentsABI from '@gooddollar/goodcontracts/build/contracts/OneTimePayments.json'
+import GoodDollarABI from '@gooddollar/goodcontracts/build/contracts/GoodDollar.min.json'
+import IdentityABI from '@gooddollar/goodcontracts/build/contracts/Identity.min.json'
+import OneTimePaymentsABI from '@gooddollar/goodcontracts/build/contracts/OneTimePayments.min.json'
 import ContractsAddress from '@gooddollar/goodcontracts/releases/deployment.json'
-import ERC20ABI from '@gooddollar/goodcontracts/build/contracts/ERC20.json'
-import UBIABI from '@gooddollar/goodcontracts/build/contracts/FixedUBI.json'
+import ERC20ABI from '@gooddollar/goodcontracts/build/contracts/ERC20.min.json'
+import UBIABI from '@gooddollar/goodcontracts/build/contracts/FixedUBI.min.json'
 import type Web3 from 'web3'
 import { BN, toBN } from 'web3-utils'
 import abiDecoder from 'abi-decoder'
@@ -493,12 +493,7 @@ export class GoodWallet {
       throw new Error(`Amount is bigger than balance`)
     }
 
-    const otpAddress = get(
-      ContractsAddress,
-      `${this.network}.OneTimePaymentLinks`,
-      OneTimePaymentsABI.networks[this.networkId].address
-    )
-
+    const otpAddress = this.oneTimePaymentsContract.address
     const transferAndCall = this.tokenContract.methods.transferAndCall(otpAddress, amount, hashedCode, {
       from: this.account,
     })
@@ -671,7 +666,7 @@ export class GoodWallet {
    * @returns {Promise<TransactionReceipt>}
    */
   cancelOTL(hashedCode: string, txCallbacks: {} = {}): Promise<TransactionReceipt> {
-    const cancelOtlCall = this.oneTimePaymentsContract.methods.cancel(hashedCode, , { from: this.account })
+    const cancelOtlCall = this.oneTimePaymentsContract.methods.cancel(hashedCode, { from: this.account })
     return this.sendTransaction(cancelOtlCall, {
       ...txCallbacks,
       onTransactionHash: hash => {

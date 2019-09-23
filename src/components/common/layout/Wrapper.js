@@ -1,6 +1,7 @@
 // @flow
 import React from 'react'
 import { View } from 'react-native'
+import { isMobileOnly } from 'mobile-device-detect'
 import { withStyles } from '../../../lib/styles'
 import SimpleStore from '../../../lib/undux/SimpleStore'
 
@@ -26,7 +27,7 @@ const Wrapper = props => {
 }
 
 const getStylesFromProps = ({ theme }) => {
-  return {
+  let styles = {
     container: {
       display: 'flex',
       flexGrow: 1,
@@ -36,6 +37,10 @@ const getStylesFromProps = ({ theme }) => {
       position: 'relative',
     },
   }
+  if (!isMobileOnly) {
+    styles.container = { ...styles.container, maxHeight: theme.sizes.maxHeightForTabletAndDesktop }
+  }
+  return styles
 }
 
 export default withStyles(getStylesFromProps)(Wrapper)

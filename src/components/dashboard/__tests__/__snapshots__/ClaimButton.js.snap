@@ -201,7 +201,7 @@ exports[`ClaimButton matches snapshot for citizen with entitlement 1`] = `
                   Object {
                     "color": "rgba(255,255,255,1.00)",
                     "direction": "ltr",
-                    "fontFamily": "Roboto Slab",
+                    "fontFamily": "Roboto",
                     "fontSize": "16px",
                     "fontWeight": "500",
                     "lineHeight": "24px",
@@ -238,7 +238,7 @@ exports[`ClaimButton matches snapshot for citizen with entitlement 1`] = `
                     Object {
                       "color": "rgba(255,255,255,1.00)",
                       "direction": "ltr",
-                      "fontFamily": "Roboto Slab",
+                      "fontFamily": "Roboto",
                       "fontSize": "10px",
                       "fontWeight": "500",
                       "lineHeight": "24px",
@@ -257,7 +257,7 @@ exports[`ClaimButton matches snapshot for citizen with entitlement 1`] = `
                     Object {
                       "color": "rgba(255,255,255,1.00)",
                       "direction": "ltr",
-                      "fontFamily": "Roboto Slab",
+                      "fontFamily": "Roboto",
                       "fontSize": "9.5px",
                       "fontWeight": "500",
                       "lineHeight": "24px",
@@ -467,26 +467,240 @@ exports[`ClaimButton matches snapshot for citizen without entitlement 1`] = `
               >
                 Next Daily Income:
               </span>
-              <span
-                className="css-text-901oao css-textHasAncestor-16my406"
-                dir="auto"
+              <div
+                className="css-view-1dbjc4n"
                 style={
                   Object {
-                    "color": "rgba(255,255,255,1.00)",
-                    "direction": "ltr",
-                    "fontFamily": "Roboto Slab",
-                    "fontSize": "36px",
-                    "fontWeight": "700",
-                    "lineHeight": "30px",
-                    "marginTop": "-4px",
-                    "textAlign": "center",
-                    "textDecoration": "none",
-                    "textTransform": "none",
+                    "WebkitAlignItems": "center",
+                    "WebkitBoxAlign": "center",
+                    "WebkitBoxDirection": "normal",
+                    "WebkitBoxFlex": 1,
+                    "WebkitBoxOrient": "horizontal",
+                    "WebkitBoxPack": "justify",
+                    "WebkitFlexDirection": "row",
+                    "WebkitFlexGrow": 1,
+                    "WebkitJustifyContent": "space-between",
+                    "alignItems": "center",
+                    "display": "inline-flex",
+                    "flexDirection": "row",
+                    "flexGrow": 1,
+                    "justifyContent": "space-between",
+                    "msFlexAlign": "center",
+                    "msFlexDirection": "row",
+                    "msFlexPack": "justify",
+                    "msFlexPositive": 1,
                   }
                 }
               >
-                00:10:00
-              </span>
+                <span
+                  className="css-text-901oao css-textHasAncestor-16my406"
+                  dir="auto"
+                  style={
+                    Object {
+                      "WebkitBoxPack": "center",
+                      "WebkitJustifyContent": "center",
+                      "color": "rgba(255,255,255,1.00)",
+                      "direction": "ltr",
+                      "display": "flex",
+                      "fontFamily": "Roboto Slab",
+                      "fontSize": "36px",
+                      "fontWeight": "700",
+                      "justifyContent": "center",
+                      "lineHeight": "30px",
+                      "marginTop": "-4px",
+                      "msFlexPack": "center",
+                      "textAlign": "center",
+                      "textDecoration": "none",
+                      "textTransform": "none",
+                      "width": "20px",
+                    }
+                  }
+                >
+                  0
+                </span>
+                <span
+                  className="css-text-901oao css-textHasAncestor-16my406"
+                  dir="auto"
+                  style={
+                    Object {
+                      "WebkitBoxPack": "center",
+                      "WebkitJustifyContent": "center",
+                      "color": "rgba(255,255,255,1.00)",
+                      "direction": "ltr",
+                      "display": "flex",
+                      "fontFamily": "Roboto Slab",
+                      "fontSize": "36px",
+                      "fontWeight": "700",
+                      "justifyContent": "center",
+                      "lineHeight": "30px",
+                      "marginTop": "-4px",
+                      "msFlexPack": "center",
+                      "textAlign": "center",
+                      "textDecoration": "none",
+                      "textTransform": "none",
+                      "width": "20px",
+                    }
+                  }
+                >
+                  0
+                </span>
+                <span
+                  className="css-text-901oao css-textHasAncestor-16my406"
+                  dir="auto"
+                  style={
+                    Object {
+                      "WebkitBoxPack": "center",
+                      "WebkitJustifyContent": "center",
+                      "color": "rgba(255,255,255,1.00)",
+                      "direction": "ltr",
+                      "display": "flex",
+                      "fontFamily": "Roboto Slab",
+                      "fontSize": "36px",
+                      "fontWeight": "700",
+                      "justifyContent": "center",
+                      "lineHeight": "30px",
+                      "marginTop": "-4px",
+                      "msFlexPack": "center",
+                      "textAlign": "center",
+                      "textDecoration": "none",
+                      "textTransform": "none",
+                      "width": "20px",
+                    }
+                  }
+                >
+                  :
+                </span>
+                <span
+                  className="css-text-901oao css-textHasAncestor-16my406"
+                  dir="auto"
+                  style={
+                    Object {
+                      "WebkitBoxPack": "center",
+                      "WebkitJustifyContent": "center",
+                      "color": "rgba(255,255,255,1.00)",
+                      "direction": "ltr",
+                      "display": "flex",
+                      "fontFamily": "Roboto Slab",
+                      "fontSize": "36px",
+                      "fontWeight": "700",
+                      "justifyContent": "center",
+                      "lineHeight": "30px",
+                      "marginTop": "-4px",
+                      "msFlexPack": "center",
+                      "textAlign": "center",
+                      "textDecoration": "none",
+                      "textTransform": "none",
+                      "width": "20px",
+                    }
+                  }
+                >
+                  1
+                </span>
+                <span
+                  className="css-text-901oao css-textHasAncestor-16my406"
+                  dir="auto"
+                  style={
+                    Object {
+                      "WebkitBoxPack": "center",
+                      "WebkitJustifyContent": "center",
+                      "color": "rgba(255,255,255,1.00)",
+                      "direction": "ltr",
+                      "display": "flex",
+                      "fontFamily": "Roboto Slab",
+                      "fontSize": "36px",
+                      "fontWeight": "700",
+                      "justifyContent": "center",
+                      "lineHeight": "30px",
+                      "marginTop": "-4px",
+                      "msFlexPack": "center",
+                      "textAlign": "center",
+                      "textDecoration": "none",
+                      "textTransform": "none",
+                      "width": "20px",
+                    }
+                  }
+                >
+                  0
+                </span>
+                <span
+                  className="css-text-901oao css-textHasAncestor-16my406"
+                  dir="auto"
+                  style={
+                    Object {
+                      "WebkitBoxPack": "center",
+                      "WebkitJustifyContent": "center",
+                      "color": "rgba(255,255,255,1.00)",
+                      "direction": "ltr",
+                      "display": "flex",
+                      "fontFamily": "Roboto Slab",
+                      "fontSize": "36px",
+                      "fontWeight": "700",
+                      "justifyContent": "center",
+                      "lineHeight": "30px",
+                      "marginTop": "-4px",
+                      "msFlexPack": "center",
+                      "textAlign": "center",
+                      "textDecoration": "none",
+                      "textTransform": "none",
+                      "width": "20px",
+                    }
+                  }
+                >
+                  :
+                </span>
+                <span
+                  className="css-text-901oao css-textHasAncestor-16my406"
+                  dir="auto"
+                  style={
+                    Object {
+                      "WebkitBoxPack": "center",
+                      "WebkitJustifyContent": "center",
+                      "color": "rgba(255,255,255,1.00)",
+                      "direction": "ltr",
+                      "display": "flex",
+                      "fontFamily": "Roboto Slab",
+                      "fontSize": "36px",
+                      "fontWeight": "700",
+                      "justifyContent": "center",
+                      "lineHeight": "30px",
+                      "marginTop": "-4px",
+                      "msFlexPack": "center",
+                      "textAlign": "center",
+                      "textDecoration": "none",
+                      "textTransform": "none",
+                      "width": "20px",
+                    }
+                  }
+                >
+                  0
+                </span>
+                <span
+                  className="css-text-901oao css-textHasAncestor-16my406"
+                  dir="auto"
+                  style={
+                    Object {
+                      "WebkitBoxPack": "center",
+                      "WebkitJustifyContent": "center",
+                      "color": "rgba(255,255,255,1.00)",
+                      "direction": "ltr",
+                      "display": "flex",
+                      "fontFamily": "Roboto Slab",
+                      "fontSize": "36px",
+                      "fontWeight": "700",
+                      "justifyContent": "center",
+                      "lineHeight": "30px",
+                      "marginTop": "-4px",
+                      "msFlexPack": "center",
+                      "textAlign": "center",
+                      "textDecoration": "none",
+                      "textTransform": "none",
+                      "width": "20px",
+                    }
+                  }
+                >
+                  0
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -689,7 +903,7 @@ exports[`ClaimButton matches snapshot for non-citizen 1`] = `
                   Object {
                     "color": "rgba(255,255,255,1.00)",
                     "direction": "ltr",
-                    "fontFamily": "Roboto Slab",
+                    "fontFamily": "Roboto",
                     "fontSize": "16px",
                     "fontWeight": "500",
                     "lineHeight": "24px",
@@ -726,7 +940,7 @@ exports[`ClaimButton matches snapshot for non-citizen 1`] = `
                     Object {
                       "color": "rgba(255,255,255,1.00)",
                       "direction": "ltr",
-                      "fontFamily": "Roboto Slab",
+                      "fontFamily": "Roboto",
                       "fontSize": "10px",
                       "fontWeight": "500",
                       "lineHeight": "24px",
@@ -745,7 +959,7 @@ exports[`ClaimButton matches snapshot for non-citizen 1`] = `
                     Object {
                       "color": "rgba(255,255,255,1.00)",
                       "direction": "ltr",
-                      "fontFamily": "Roboto Slab",
+                      "fontFamily": "Roboto",
                       "fontSize": "9.5px",
                       "fontWeight": "500",
                       "lineHeight": "24px",

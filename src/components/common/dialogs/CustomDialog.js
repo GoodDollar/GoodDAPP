@@ -48,10 +48,13 @@ const CustomDialog = ({
   boldMessage = null,
   onDismiss,
   showButtons = true,
+  showTooltipArrow,
   title,
   type = 'common',
   visible,
+  content,
   buttons,
+  showAtBottom,
 }: DialogProps) => {
   const defaultImage = type === 'error' ? <ErrorIcon /> : <SuccessIcon />
   const modalColor = getColorFromType(type)
@@ -60,17 +63,28 @@ const CustomDialog = ({
 
   return visible ? (
     <Portal>
-      <ModalWrapper onClose={onDismiss} leftBorderColor={modalColor}>
+      <ModalWrapper
+        onClose={onDismiss}
+        leftBorderColor={modalColor}
+        showAtBottom={showAtBottom}
+        showTooltipArrow={showTooltipArrow}
+      >
         <React.Fragment>
-          <Text color={textColor} fontFamily="slab" fontSize={24} fontWeight="bold" style={styles.title}>
-            {title}
-          </Text>
+          {title && (
+            <Text color={textColor} fontFamily="slab" fontSize={24} fontWeight="bold" style={styles.title}>
+              {title}
+            </Text>
+          )}
           <View style={styles.content}>
-            {children}
-            {image ? image : defaultImage}
-            {message && <Paragraph style={[styles.paragraph, { color }]}>{message}</Paragraph>}
-            {boldMessage && (
-              <Paragraph style={[styles.paragraph, { fontWeight: 'bold', color }]}>{boldMessage}</Paragraph>
+            {content || (
+              <>
+                {children}
+                {image ? image : defaultImage}
+                {message && <Paragraph style={[styles.paragraph, { color }]}>{message}</Paragraph>}
+                {boldMessage && (
+                  <Paragraph style={[styles.paragraph, { fontWeight: 'bold', color }]}>{boldMessage}</Paragraph>
+                )}
+              </>
             )}
           </View>
           {showButtons ? (

@@ -82,7 +82,26 @@ describe('generateShareLink', () => {
       `${Config.sendUrl}?key=value&key2=value2&key3=value3&key4=value4`
     )
   })
-
+  
+  it(`should return link generated from send action, with several query params`, () => {
+    // Given
+    const action = 'receive'
+    const params = {
+      key: 'value',
+      key2: 'value2',
+      key3: 'value3',
+      key4: 'value4',
+    }
+    
+    // When
+    const link = generateShareLink(action, params)
+    
+    // Then
+    expect(link).toEqual(
+      `${Config.receiveUrl}?key=value&key2=value2&key3=value3&key4=value4`
+    )
+  })
+  
   it(`should return link generated from send action, with encoded query param`, () => {
     // Given
     const action = 'send'

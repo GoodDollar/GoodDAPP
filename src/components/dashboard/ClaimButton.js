@@ -15,8 +15,15 @@ const ButtonAmountToClaim = ({ entitlement, styles }) => (
     <BigGoodDollar
       number={entitlement}
       formatter={weiToGd}
-      bigNumberProps={{ fontSize: 16, color: 'surface', fontWeight: 'medium', lineHeight: 24 }}
-      bigNumberUnitProps={{ fontSize: 10, color: 'surface', fontWeight: 'medium', lineHeight: 24 }}
+      fontFamily="Roboto"
+      bigNumberProps={{ fontFamily: 'Roboto', fontSize: 16, color: 'surface', fontWeight: 'medium', lineHeight: 24 }}
+      bigNumberUnitProps={{
+        fontFamily: 'Roboto',
+        fontSize: 10,
+        color: 'surface',
+        fontWeight: 'medium',
+        lineHeight: 24,
+      }}
       style={styles.amountInButton}
     />
   </>

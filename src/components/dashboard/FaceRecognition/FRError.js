@@ -90,7 +90,7 @@ const getStylesFromProps = ({ theme }) => ({
     paddingBottom: getDesignRelativeHeight(theme.sizes.defaultDouble),
     paddingLeft: getDesignRelativeWidth(theme.sizes.default),
     paddingRight: getDesignRelativeWidth(theme.sizes.default),
-    paddingTop: getDesignRelativeHeight(theme.sizes.defaultQuadruple),
+    paddingTop: getDesignRelativeHeight(theme.sizes.defaultDouble),
     borderRadius: 5,
   },
   errorImage: {
@@ -105,7 +105,7 @@ const getStylesFromProps = ({ theme }) => ({
     paddingBottom: getDesignRelativeHeight(theme.sizes.defaultDouble),
     paddingLeft: getDesignRelativeWidth(theme.sizes.defaultHalf),
     paddingRight: getDesignRelativeWidth(theme.sizes.defaultHalf),
-    paddingTop: getDesignRelativeHeight(theme.sizes.defaultDouble),
+    paddingTop: getDesignRelativeHeight(theme.sizes.default),
   },
   errorSection: {
     paddingBottom: 0,

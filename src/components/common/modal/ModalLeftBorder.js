@@ -3,11 +3,21 @@ import React from 'react'
 import { View } from 'react-native'
 import { withStyles } from '../../../lib/styles'
 import wavePattern from '../../../assets/wave.svg'
+import wavePatternForTooltipArrow from '../../../assets/feedListItemPattern.svg'
 import { mediumZIndex } from './styles'
 
 const ModalLeftBorder = (props: any) => {
-  const { styles, theme, borderColor = theme.colors.lightGray, style } = props
-  return <View style={[styles.modalLeftBorder, { backgroundColor: borderColor }, style]} />
+  const { styles, theme, borderColor = theme.colors.lightGray, style, showTooltipArrow } = props
+  return (
+    <View
+      style={[
+        styles.modalLeftBorder,
+        showTooltipArrow ? styles.tooltipArrowBackground : '',
+        { backgroundColor: borderColor },
+        style,
+      ]}
+    />
+  )
 }
 
 const getStylesFromProps = ({ theme }) => ({
@@ -22,6 +32,9 @@ const getStylesFromProps = ({ theme }) => ({
     minWidth: theme.modals.borderLeftWidth,
     position: 'relative',
     zIndex: mediumZIndex,
+  },
+  tooltipArrowBackground: {
+    backgroundImage: `url(${wavePatternForTooltipArrow})`,
   },
 })
 

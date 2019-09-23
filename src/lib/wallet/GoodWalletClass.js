@@ -753,7 +753,7 @@ export class GoodWallet {
       if (data.ok !== 1) {
         return {
           ok: false,
-          error: data.error && !~data.error.indexOf(`User doesn't need topping`),
+          error: (data.error && !~data.error.indexOf(`User doesn't need topping`)) || data.sendEtherOutOfSystem,
         }
       }
       nativeBalance = await this.wallet.eth.getBalance(this.account)

@@ -16,6 +16,9 @@ const log = logger.child({ from: 'ModalActionsByFeed' })
 const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose }) => {
   const [showErrorDialog] = useErrorDialog()
   const [state, setState] = useState({})
+  const [currentUserName, setCurrentUserName] = useState('')
+
+  userStorage.getProfileFieldValue('fullName').then(setCurrentUserName)
 
   const cancelPayment = async () => {
     log.info({ item, action: 'cancelPayment' })
@@ -50,7 +53,8 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose }) => {
       paymentCode: item.data.withdrawCode,
       reason: item.data.message,
     })
-    return generateSendShareObject(url, item.data.amount, item.data.endpoint.fullName, '')
+
+    return generateSendShareObject(url, item.data.amount, item.data.endpoint.fullName, currentUserName)
   }
 
   const readMore = () => {

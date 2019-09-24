@@ -162,7 +162,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
   }
 
   render() {
-    const { showZoomCapture, showGuidedFR, sessionId, isAPISuccess } = this.state
+    const { showZoomCapture, showGuidedFR, sessionId, isAPISuccess, zoomReady } = this.state
     return (
       <Wrapper>
         {showGuidedFR && (
@@ -176,7 +176,7 @@ class FaceRecognition extends React.Component<FaceRecognitionProps, State> {
           />
         )}
 
-        {this.state.zoomReady && showZoomCapture && (
+        {zoomReady && showZoomCapture && (
           <ZoomCapture
             screenProps={this.props.screenProps}
             onCaptureResult={this.onCaptureResult}

@@ -128,14 +128,19 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, navigation, store, theme 
                   token = await userStorage.getProfileFieldValue('loginToken')
                 }
 
-                await userStorage
-                  .deleteAccount()
-                  .then(r => log.debug('deleted account', r))
-                  .then(r => AsyncStorage.clear())
-                  .then(() => API.deleteWalletFromW3Site(token))
-                  .catch(e => log.error('Error deleting account', e.message, e))
-                store.set('loadingIndicator')({ loading: false })
-                window.location = '/'
+                const isDeleted = await userStorage.deleteAccount()
+                log.debug('deleted account', isDeleted)
+
+                if (isDeleted) {
+                  await Promise.all([AsyncStorage.clear(), API.deleteWalletFromW3Site(token)]).catch(e =>
+                    log.error('Error deleting account', e.message, e)
+                  )
+                  store.set('loadingIndicator')({ loading: false })
+                  window.location = '/'
+                } else {
+                  showDialog('Error deleting account')
+                  store.set('loadingIndicator')({ loading: false })
+                }
               },
             },
           ],

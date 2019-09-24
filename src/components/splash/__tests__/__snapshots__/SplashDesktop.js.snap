@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SplashDesktop renders without errors 1`] = `
+exports[`SplashDesktop matches snapshot 1`] = `
 <div
   className="css-view-1dbjc4n"
   style={
@@ -32,6 +32,7 @@ exports[`SplashDesktop renders without errors 1`] = `
         "display": "flex",
         "flexDirection": "column",
         "flexGrow": 0,
+        "maxHeight": "844px",
         "msFlexDirection": "column",
         "msFlexPositive": 0,
         "paddingBottom": "0px",
@@ -254,6 +255,7 @@ on your mobile device.
                     "defaultDouble": 16,
                     "defaultHalf": 4,
                     "defaultQuadruple": 32,
+                    "maxHeightForTabletAndDesktop": 844,
                   },
                 }
               }

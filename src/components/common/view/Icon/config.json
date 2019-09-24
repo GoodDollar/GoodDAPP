@@ -763,6 +763,20 @@
       ]
     },
     {
+      "uid": "44cbe96880b35b9442ba0ceec2148b5e",
+      "css": "ios-share",
+      "code": 59400,
+      "src": "custom_icons",
+      "selected": true,
+      "svg": {
+        "path": "M698.6 974.6H25.5V301.6H273.4V336.8H60.9V939.1H662.9V336.8H450.5V301.6H698.6V974.7ZM379.9 638H344.3V102.8L227.9 219.5 202.4 194.4 360.8 36 521.4 194 495.9 219.2 379.7 104.7V638Z",
+        "width": 724
+      },
+      "search": [
+        "icons-ios-share"
+      ]
+    },
+    {
       "uid": "6c297d3bb13b2069692f17f78d0f5547",
       "css": "terms-of-use",
       "code": 59551,

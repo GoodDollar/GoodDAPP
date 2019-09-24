@@ -21,8 +21,10 @@ const getStylesFromProps = ({ theme }) => ({
     zIndex: mediumZIndex,
   },
   modalCloseImage: {
+    position: 'absolute',
+    top: -20,
+    right: 0,
     height: 37,
-    marginBottom: -(37 / 2),
     marginLeft: 'auto',
     marginRight: -(37 / 2),
     width: 37,

@@ -117,9 +117,10 @@ class API {
   /**
    * `/user/delete` post api call
    * @param {string} zoomId
+   * @param {string} zoomSignature
    */
-  deleteAccount(zoomId: string): AxiosPromise<any> {
-    return this.client.post('/user/delete', { zoomId })
+  deleteAccount(zoomId: string, zoomSignature: string): AxiosPromise<any> {
+    return this.client.post('/user/delete', { zoomId, zoomSignature })
   }
 
   /**

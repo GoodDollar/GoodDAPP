@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import _get from 'lodash/get'
 import type { Store } from 'undux'
 
-// import * as web3Utils from 'web3-utils'
+import * as web3Utils from 'web3-utils'
 import normalize from '../../lib/utils/normalizeText'
 import GDStore from '../../lib/undux/GDStore'
 import API from '../../lib/API/api'
@@ -15,7 +15,7 @@ import { weiToMask } from '../../lib/wallet/utils'
 
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 
-//import goodWallet from '../../lib/wallet/GoodWallet';
+import goodWallet from '../../lib/wallet/GoodWallet'
 import { PushButton } from '../appNavigation/PushButton'
 import TabsView from '../appNavigation/TabsView'
 import Avatar from '../common/view/Avatar'
@@ -25,11 +25,12 @@ import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
 import logger from '../../lib/logger/pino-logger'
 import userStorage from '../../lib/gundb/UserStorage'
-import { FAQ, PrivacyArticle, PrivacyPolicy, RewardsTab, Support, TermsOfUse } from '../webView/webViewInstances'
+import { FAQ, PrivacyArticle, PrivacyPolicy, Support, TermsOfUse } from '../webView/webViewInstances'
 import { withStyles } from '../../lib/styles'
 import Mnemonics from '../signin/Mnemonics'
 
 // import goodWallet from '../../lib/wallet/GoodWallet'
+import RewardsTab from './Rewards'
 import Amount from './Amount'
 import Claim from './Claim'
 import FeedList from './FeedList'
@@ -62,7 +63,7 @@ export type DashboardProps = {
   styles?: any,
 }
 const Dashboard = props => {
-  // const MIN_BALANCE_VALUE = '100000'
+  const MIN_BALANCE_VALUE = '100000'
   const store = SimpleStore.useStore()
   const gdstore = GDStore.useStore()
   const [showDialog, hideDialog] = useDialog()
@@ -89,6 +90,8 @@ const Dashboard = props => {
     return getNextFeed(gdstore)
   }
   useEffect(() => {
+    store.set('addWebApp')({ ...store.get('addWebApp'), show: true })
+
     prepareLoginToken()
 
     log.debug('Dashboard didmount')
@@ -97,7 +100,7 @@ const Dashboard = props => {
       getInitialFeed(gdstore)
     }, true)
 
-    // showOutOfGasError()
+    showOutOfGasError()
   }, [])
 
   useEffect(() => {
@@ -137,15 +140,15 @@ const Dashboard = props => {
     }
   }
 
-  // const showOutOfGasError = async () => {
-  //   const { ok } = await goodWallet.verifyHasGas(web3Utils.toWei(MIN_BALANCE_VALUE, 'gwei'), {
-  //     topWallet: false,
-  //   })
-  //
-  //   if (!ok) {
-  //     props.screenProps.navigateTo('OutOfGasError')
-  //   }
-  // }
+  const showOutOfGasError = async () => {
+    const { ok } = await goodWallet.verifyHasGas(web3Utils.toWei(MIN_BALANCE_VALUE, 'gwei'), {
+      topWallet: false,
+    })
+
+    if (!ok) {
+      props.screenProps.navigateTo('OutOfGasError')
+    }
+  }
 
   const handleWithdraw = async () => {
     const { paymentCode, reason } = props.navigation.state.params

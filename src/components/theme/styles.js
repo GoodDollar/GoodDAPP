@@ -41,6 +41,7 @@ export const theme = {
     defaultQuadruple: 32,
     defaultHalf: 4,
     borderRadius: 5,
+    maxHeightForTabletAndDesktop: 844,
   },
   fontStyle: {
     color: '#555',

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SplashDesktop matches snapshot 1`] = `
+exports[`SplashDesktop renders without errors 1`] = `
 <div
   className="css-view-1dbjc4n"
   style={

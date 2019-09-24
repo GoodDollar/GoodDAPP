@@ -8,6 +8,7 @@ import BackupWallet from './components/backupWallet/BackupWalletState'
 import AppNavigation from './components/appNavigation/AppNavigation'
 import AppSwitch from './components/appSwitch/AppSwitch'
 import GDStore from './lib/undux/GDStore'
+import { SimpleStoreDialog } from './components/common/dialogs/CustomDialog'
 
 const AppNavigator = createNavigator(
   AppSwitch,
@@ -31,6 +32,7 @@ if (Platform.OS === 'web') {
 const Router = () => {
   return (
     <GDStore.Container>
+      <SimpleStoreDialog />
       <WebRouter />
     </GDStore.Container>
   )

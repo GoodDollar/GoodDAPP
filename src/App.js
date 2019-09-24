@@ -6,7 +6,6 @@ import PaperProvider from 'react-native-paper/src/core/Provider'
 import { theme } from './components/theme/styles'
 import SimpleStore from './lib/undux/SimpleStore'
 import RouterSelector from './RouterSelector.web'
-import { SimpleStoreDialog } from './components/common/dialogs/CustomDialog'
 import LoadingIndicator from './components/common/view/LoadingIndicator'
 import SplashDesktop from './components/splash/SplashDesktop'
 
@@ -33,7 +32,6 @@ const App = () => {
     <PaperProvider theme={theme}>
       <SafeAreaView style={styles.safeAreaView}>
         <React.Fragment>
-          <SimpleStoreDialog />
           <LoadingIndicator />
           {/* <ReCaptcha sitekey={Config.recaptcha} action="auth" verifyCallback={this.onRecaptcha} /> */}
           {Splash}

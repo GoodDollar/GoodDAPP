@@ -23,6 +23,7 @@ import SmsForm from './SmsForm'
 import PhoneForm from './PhoneForm'
 import EmailForm from './EmailForm'
 import NameForm from './NameForm'
+import MagicLinkInfo from './MagicLinkInfo'
 
 const log = logger.child({ from: 'SignupState' })
 
@@ -35,6 +36,7 @@ const SignupWizardNavigator = createSwitchNavigator(
     SMS: SmsForm,
     Email: EmailForm,
     EmailConfirmation,
+    MagicLinkInfo,
     SignupCompleted,
   },
   navigationConfig
@@ -276,6 +278,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   const done = async (data: { [string]: string }) => {
     setLoading(true)
     fireSignupEvent()
+
     log.info('signup data:', { data })
 
     let nextRoute = getNextRoute(navigation.state.routes, navigation.state.index, state)

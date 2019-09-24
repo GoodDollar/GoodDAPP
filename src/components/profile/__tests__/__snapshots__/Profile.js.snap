@@ -475,6 +475,7 @@ exports[`Profile matches snapshot 1`] = `
               "display": "flex",
               "flexDirection": "column",
               "flexGrow": 1,
+              "maxHeight": "844px",
               "msFlexDirection": "column",
               "msFlexPositive": 1,
               "paddingBottom": "8px",

@@ -265,6 +265,7 @@ const Dashboard = props => {
           onEndReached={nextFeed}
           selectedFeed={currentFeed}
           updateData={() => {}}
+          currentUserFullName={fullName}
         />
       )}
     </Wrapper>

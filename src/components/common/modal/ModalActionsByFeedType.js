@@ -13,12 +13,9 @@ import { withStyles } from '../../../lib/styles'
 
 const log = logger.child({ from: 'ModalActionsByFeed' })
 
-const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose }) => {
+const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, currentUserFullName }) => {
   const [showErrorDialog] = useErrorDialog()
   const [state, setState] = useState({})
-  const [currentUserName, setCurrentUserName] = useState('')
-
-  userStorage.getProfileFieldValue('fullName').then(setCurrentUserName)
 
   const cancelPayment = async () => {
     log.info({ item, action: 'cancelPayment' })
@@ -54,7 +51,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose }) => {
       reason: item.data.message,
     })
 
-    return generateSendShareObject(url, item.data.amount, item.data.endpoint.fullName, currentUserName)
+    return generateSendShareObject(url, item.data.amount, item.data.endpoint.fullName, currentUserFullName)
   }
 
   const readMore = () => {

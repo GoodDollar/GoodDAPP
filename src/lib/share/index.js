@@ -108,7 +108,7 @@ export function generateShareObject(title: string, text: string, url: string): S
   return {
     title,
     text,
-    url: encodeURI(url),
+    url,
   }
 }
 
@@ -211,5 +211,5 @@ export function generateShareLink(action: ActionType = 'receive', params: {} = {
     throw new Error(`Link couldn't be generated`)
   }
 
-  return `${destination}${queryParams}`
+  return encodeURI(`${destination}${queryParams}`)
 }

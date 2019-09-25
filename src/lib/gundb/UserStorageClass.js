@@ -116,7 +116,7 @@ export const welcomeMessage = {
       from: '0x0000000000000000000000000000000000000000',
     },
     reason:
-      'GoodDollar is a payment system with a built-in small basic income based on blockchain technology.\nLet’s change the world, for good.',
+      'GoodDollar is a digital coin with built-in\nbasic income. Start collecting your income by claiming GoodDollars every day.',
     endpoint: {
       fullName: 'Welcome to GoodDollar!',
     },

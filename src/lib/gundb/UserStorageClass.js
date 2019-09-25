@@ -110,7 +110,7 @@ export const welcomeMessage = {
   date: new Date().toString(),
   status: 'completed',
   data: {
-    customName: 'Welcome to GoodDollar!',
+    customName: 'Welcome to GoodDollar',
     subtitle: 'Start claiming free G$',
     receiptData: {
       from: '0x0000000000000000000000000000000000000000',
@@ -118,7 +118,7 @@ export const welcomeMessage = {
     reason:
       'GoodDollar is a digital coin with built-in\nbasic income. Start collecting your income by claiming GoodDollars every day.',
     endpoint: {
-      fullName: 'Welcome to GoodDollar!',
+      fullName: 'Welcome to GoodDollar',
     },
   },
 }

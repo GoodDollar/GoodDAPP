@@ -106,7 +106,7 @@ const ReadMoreText = withStyles(getWelcomeStyles)(({ styles, theme, text, button
     <Text fontWeight="medium" numberOfLines={1} style={style} color={color || 'darkGray'}>
       {text}
     </Text>
-    <Text color={color || 'darkGray'} numberOfLines={1} fontSize={10} style={styles.readMoreText}>
+    <Text color={color || 'lighterGray'} numberOfLines={1} fontSize={9} style={styles.readMoreText}>
       {buttonText}
     </Text>
   </Text>

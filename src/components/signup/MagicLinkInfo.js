@@ -39,7 +39,8 @@ const MagicLinkInfoComponent = props => {
             {`from any device or platform`}
           </Text>
           <Text fontWeight="medium" fontSize={22} fontFamily="Roboto">
-            {`using the`} <Text fontWeight="medium" fontSize={22} color="green">{`Magic Link`}</Text>
+            {`using the `}
+            <Text fontWeight="medium" fontSize={22} color="green">{`Magic Link`}</Text>
           </Text>
         </View>
       </Section.Row>
@@ -47,7 +48,7 @@ const MagicLinkInfoComponent = props => {
       <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
         <View style={styles.bottomContainer}>
           <Text fontSize={14} fontFamily="Roboto" lineHeight={20}>
-            {'Just find the'}
+            {'Just find the '}
             <Text
               fontSize={14}
               fontFamily="Roboto"
@@ -57,7 +58,7 @@ const MagicLinkInfoComponent = props => {
             >{`GoodDollar Magic Mail`}</Text>
           </Text>
           <Text fontSize={14} fontFamily="Roboto" lineHeight={20}>
-            {'that we just send you and click on the'}
+            {'that we just send you and click on the '}
             <Text
               fontSize={14}
               fontFamily="Roboto"

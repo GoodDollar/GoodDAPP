@@ -609,7 +609,7 @@ exports[`SigninInfo matches snapshot 1`] = `
                   }
                 >
                   To sign in
- please follow this steps:
+ please follow these steps:
                 </div>
                 <div
                   className="css-text-901oao"
@@ -848,7 +848,7 @@ exports[`SigninInfo matches snapshot 1`] = `
                         }
                       >
                         Find
-                         
+
                         <span
                           className="css-text-901oao css-textHasAncestor-16my406"
                           dir="auto"
@@ -866,7 +866,7 @@ exports[`SigninInfo matches snapshot 1`] = `
                             }
                           }
                         >
-                          GoodDollar magic mail
+                          GoodDollar magic link
                         </span>
                       </span>
                     </div>
@@ -957,7 +957,7 @@ exports[`SigninInfo matches snapshot 1`] = `
                         }
                       >
                         Click the
-                         
+
                         <span
                           className="css-text-901oao css-textHasAncestor-16my406"
                           dir="auto"

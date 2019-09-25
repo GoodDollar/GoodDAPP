@@ -10,7 +10,8 @@ import goodWallet from '../../../lib/wallet/GoodWallet'
 import { generateSendShareObject, generateShareLink } from '../../../lib/share'
 import { useErrorDialog } from '../../../lib/undux/utils/dialog'
 import { withStyles } from '../../../lib/styles'
-import { getDesignRelativeWidth } from '../../../lib/utils/sizes'
+
+//import { getDesignRelativeWidth } from '../../../lib/utils/sizes'
 
 const log = logger.child({ from: 'ModalActionsByFeed' })
 
@@ -71,10 +72,10 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose }) => {
     case 'sendpending':
       return (
         <>
-          <View style={styles.buttonsView}>
+          <View style={[styles.buttonsView, styles.spaceBetween]}>
             <CustomButton
               mode="outlined"
-              style={[styles.button, { borderColor: theme.colors.red }]}
+              style={[styles.button, styles.cancelButton, { borderColor: theme.colors.red }]}
               onPress={cancelPayment}
               color={theme.colors.red}
               loading={state.cancelPaymentLoading}
@@ -161,8 +162,15 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose }) => {
 }
 
 const getStylesFromProps = ({ theme }) => ({
+  cancelButton: {
+    width: '48%',
+    justifySelf: 'flex-start',
+  },
   shareButton: {
-    marginLeft: getDesignRelativeWidth(5),
+    width: '48%',
+  },
+  spaceBetween: {
+    justifyContent: 'space-between',
   },
   buttonsView: {
     alignItems: 'flex-end',

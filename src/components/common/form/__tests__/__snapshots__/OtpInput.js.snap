@@ -168,6 +168,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "defaultDouble": 16,
               "defaultHalf": 4,
               "defaultQuadruple": 32,
+              "maxHeightForTabletAndDesktop": 844,
             },
           }
         }
@@ -307,6 +308,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "defaultDouble": 16,
               "defaultHalf": 4,
               "defaultQuadruple": 32,
+              "maxHeightForTabletAndDesktop": 844,
             },
           }
         }
@@ -446,6 +448,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "defaultDouble": 16,
               "defaultHalf": 4,
               "defaultQuadruple": 32,
+              "maxHeightForTabletAndDesktop": 844,
             },
           }
         }
@@ -585,6 +588,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "defaultDouble": 16,
               "defaultHalf": 4,
               "defaultQuadruple": 32,
+              "maxHeightForTabletAndDesktop": 844,
             },
           }
         }
@@ -724,6 +728,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "defaultDouble": 16,
               "defaultHalf": 4,
               "defaultQuadruple": 32,
+              "maxHeightForTabletAndDesktop": 844,
             },
           }
         }
@@ -863,6 +868,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "defaultDouble": 16,
               "defaultHalf": 4,
               "defaultQuadruple": 32,
+              "maxHeightForTabletAndDesktop": 844,
             },
           }
         }
@@ -1043,6 +1049,7 @@ exports[`OtpInput matches snapshot 1`] = `
               "defaultDouble": 16,
               "defaultHalf": 4,
               "defaultQuadruple": 32,
+              "maxHeightForTabletAndDesktop": 844,
             },
           }
         }
@@ -1183,6 +1190,7 @@ exports[`OtpInput matches snapshot 1`] = `
               "defaultDouble": 16,
               "defaultHalf": 4,
               "defaultQuadruple": 32,
+              "maxHeightForTabletAndDesktop": 844,
             },
           }
         }
@@ -1323,6 +1331,7 @@ exports[`OtpInput matches snapshot 1`] = `
               "defaultDouble": 16,
               "defaultHalf": 4,
               "defaultQuadruple": 32,
+              "maxHeightForTabletAndDesktop": 844,
             },
           }
         }
@@ -1463,6 +1472,7 @@ exports[`OtpInput matches snapshot 1`] = `
               "defaultDouble": 16,
               "defaultHalf": 4,
               "defaultQuadruple": 32,
+              "maxHeightForTabletAndDesktop": 844,
             },
           }
         }
@@ -1603,6 +1613,7 @@ exports[`OtpInput matches snapshot 1`] = `
               "defaultDouble": 16,
               "defaultHalf": 4,
               "defaultQuadruple": 32,
+              "maxHeightForTabletAndDesktop": 844,
             },
           }
         }
@@ -1743,6 +1754,7 @@ exports[`OtpInput matches snapshot 1`] = `
               "defaultDouble": 16,
               "defaultHalf": 4,
               "defaultQuadruple": 32,
+              "maxHeightForTabletAndDesktop": 844,
             },
           }
         }
@@ -1923,6 +1935,7 @@ exports[`OtpInput number matches snapshot 1`] = `
               "defaultDouble": 16,
               "defaultHalf": 4,
               "defaultQuadruple": 32,
+              "maxHeightForTabletAndDesktop": 844,
             },
           }
         }
@@ -2063,6 +2076,7 @@ exports[`OtpInput number matches snapshot 1`] = `
               "defaultDouble": 16,
               "defaultHalf": 4,
               "defaultQuadruple": 32,
+              "maxHeightForTabletAndDesktop": 844,
             },
           }
         }
@@ -2203,6 +2217,7 @@ exports[`OtpInput number matches snapshot 1`] = `
               "defaultDouble": 16,
               "defaultHalf": 4,
               "defaultQuadruple": 32,
+              "maxHeightForTabletAndDesktop": 844,
             },
           }
         }
@@ -2343,6 +2358,7 @@ exports[`OtpInput number matches snapshot 1`] = `
               "defaultDouble": 16,
               "defaultHalf": 4,
               "defaultQuadruple": 32,
+              "maxHeightForTabletAndDesktop": 844,
             },
           }
         }
@@ -2483,6 +2499,7 @@ exports[`OtpInput number matches snapshot 1`] = `
               "defaultDouble": 16,
               "defaultHalf": 4,
               "defaultQuadruple": 32,
+              "maxHeightForTabletAndDesktop": 844,
             },
           }
         }
@@ -2623,6 +2640,7 @@ exports[`OtpInput number matches snapshot 1`] = `
               "defaultDouble": 16,
               "defaultHalf": 4,
               "defaultQuadruple": 32,
+              "maxHeightForTabletAndDesktop": 844,
             },
           }
         }

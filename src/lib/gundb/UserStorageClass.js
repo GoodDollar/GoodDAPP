@@ -105,7 +105,7 @@ export type TransactionEvent = FeedEvent & {
 }
 
 export const welcomeMessage = {
-  id: '0',
+  id: '1',
   type: 'welcome',
   date: new Date().toString(),
   status: 'completed',
@@ -119,6 +119,24 @@ export const welcomeMessage = {
       'GoodDollar is a payment system with a built-in small basic income based on blockchain technology.\nLet’s change the world, for good.',
     endpoint: {
       fullName: 'Welcome to GoodDollar!',
+    },
+  },
+}
+export const inviteFriendsMessage = {
+  id: '0',
+  type: 'invite',
+  date: new Date().toString(),
+  status: 'completed',
+  data: {
+    customName: 'Want to earn more G$ ?',
+    subtitle: 'Invite friends',
+    receiptData: {
+      from: '0x0000000000000000000000000000000000000000',
+    },
+    reason:
+      'Help expand the network by inviting family, friends, and colleagues to participate and claim their daily income.\nThe more people join, the more effective GoodDollar will be, for everyone.',
+    endpoint: {
+      fullName: 'Invite friends and earn G$',
     },
   },
 }
@@ -594,6 +612,10 @@ export class UserStorage {
 
     //first time user
     if ((await this.feed) === undefined) {
+      const w3Token = await this.getProfileFieldValue('w3Token')
+      if (!w3Token) {
+        this.enqueueTX(inviteFriendsMessage)
+      }
       this.enqueueTX(welcomeMessage)
     }
   }

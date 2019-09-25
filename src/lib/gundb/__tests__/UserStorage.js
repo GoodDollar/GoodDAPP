@@ -2,7 +2,7 @@
 import gun from '../gundb'
 
 import userStorage from '../UserStorage'
-import { getOperationType, getReceiveDataFromReceipt, type TransactionEvent, welcomeMessage } from '../UserStorageClass'
+import { getOperationType, getReceiveDataFromReceipt, type TransactionEvent, welcomeMessage, inviteFriendsMessage } from '../UserStorageClass'
 
 import { getUserModel } from '../UserModel'
 import { addUser } from './__util__/index'
@@ -328,6 +328,12 @@ describe('UserStorage', () => {
     const events = await userStorage.getAllFeed()
     expect(index).toHaveProperty(date)
     expect(events).toContainEqual(transactionEvent)
+  })
+
+  it('add invite event', async () => {
+    await userStorage.updateFeedEvent(inviteFriendsMessage)
+    const events = await userStorage.getAllFeed()
+    expect(events).toContainEqual(inviteFriendsMessage)
   })
 
   it('has the welcome event already set', async () => {

@@ -23,7 +23,7 @@ import SendModalItemWithError from './SendModalItemWithError'
  * @returns {HTMLElement}
  */
 const FeedModalItem = (props: FeedEventProps) => {
-  const { item, onPress, styles, theme } = props
+  const { item, onPress, styles, theme, navigation } = props
   const buttonPress = () => {
     onPress(item.id)
   }
@@ -88,7 +88,7 @@ const FeedModalItem = (props: FeedEventProps) => {
               </Text>
             </View>
           )}
-          <ModalActionsByFeedType item={item} handleModalClose={buttonPress} />
+          <ModalActionsByFeedType item={item} navigation={navigation} handleModalClose={buttonPress} />
         </React.Fragment>
       )}
     </ModalWrapper>

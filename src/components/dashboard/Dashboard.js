@@ -267,6 +267,7 @@ const Dashboard = props => {
           onEndReached={nextFeed}
           selectedFeed={currentFeed}
           updateData={() => {}}
+          navigation={props.navigation}
         />
       )}
     </Wrapper>

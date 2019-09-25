@@ -106,7 +106,7 @@ const ReadMoreText = withStyles(getWelcomeStyles)(({ styles, theme, text, button
     <Text fontWeight="medium" numberOfLines={1} style={style} color={color || 'darkGray'}>
       {text}
     </Text>
-    <Text color={color || 'darkGray'} numberOfLines={1} fontSize={10} style={styles.readMoreText}>
+    <Text color={color || theme.colors.lighterGray} numberOfLines={1} fontSize={10} style={styles.readMoreText}>
       {buttonText}
     </Text>
   </Text>
@@ -120,13 +120,27 @@ const getFeedTextStyles = ({ theme }) => ({
 })
 
 const FeedText = withStyles(getFeedTextStyles)(({ styles, feed }) => {
-  return feed.type === 'welcome' ? (
-    <ReadMoreText text="Start claiming free G$" buttonText="Read more..." />
-  ) : (
-    <Text numberOfLines={1} color="gray80Percent" fontSize={10} textTransform="capitalize" style={styles.message}>
-      {feed.data.message}
-    </Text>
-  )
+  let result = ''
+
+  switch (feed.type) {
+    case 'welcome':
+      result = <ReadMoreText text="Start claiming free G$" buttonText="Read more..." />
+      break
+
+    case 'invite':
+      result = <ReadMoreText text="Invite more friends!" buttonText="Read more..." />
+      break
+
+    default:
+      result = (
+        <Text numberOfLines={1} color="gray80Percent" fontSize={10} textTransform="capitalize" style={styles.message}>
+          {feed.data.message}
+        </Text>
+      )
+      break
+  }
+
+  return result
 })
 
 const getStylesFromProps = ({ theme }) => ({

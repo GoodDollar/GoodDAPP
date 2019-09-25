@@ -638,7 +638,6 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                       "msFlexDirection": "row",
                       "msFlexPack": "end",
                       "msFlexWrap": "wrap",
-                      "width": "100%",
                     }
                   }
                 >
@@ -1463,7 +1462,6 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                       "msFlexDirection": "row",
                       "msFlexPack": "end",
                       "msFlexWrap": "wrap",
-                      "width": "100%",
                     }
                   }
                 >
@@ -2399,7 +2397,6 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                       "msFlexDirection": "row",
                       "msFlexPack": "end",
                       "msFlexWrap": "wrap",
-                      "width": "100%",
                     }
                   }
                 >
@@ -3335,7 +3332,6 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                       "msFlexDirection": "row",
                       "msFlexPack": "end",
                       "msFlexWrap": "wrap",
-                      "width": "100%",
                     }
                   }
                 >
@@ -4272,7 +4268,6 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                       "msFlexDirection": "row",
                       "msFlexPack": "end",
                       "msFlexWrap": "wrap",
-                      "width": "100%",
                     }
                   }
                 >

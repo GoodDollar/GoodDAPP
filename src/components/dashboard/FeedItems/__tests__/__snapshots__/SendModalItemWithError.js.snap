@@ -452,7 +452,6 @@ please try again.
         "msFlexDirection": "row",
         "msFlexPack": "end",
         "msFlexWrap": "wrap",
-        "width": "100%",
       }
     }
   >

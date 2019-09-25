@@ -41,7 +41,6 @@ const FeedModalList = ({
   handleFeedSelection,
   selectedFeed,
   styles,
-  currentUserFullName,
 }: FeedModalListProps) => {
   const flatListRef = createRef()
 
@@ -80,13 +79,7 @@ const FeedModalList = ({
   }
 
   const renderItemComponent = ({ item, separators, index }: ItemComponentProps) => (
-    <FeedModalItem
-      item={item}
-      separators={separators}
-      fixedHeight
-      onPress={() => handleFeedSelection(item, false)}
-      currentUserFullName={currentUserFullName}
-    />
+    <FeedModalItem item={item} separators={separators} fixedHeight onPress={() => handleFeedSelection(item, false)} />
   )
 
   const feeds = data && data instanceof Array && data.length ? data : undefined

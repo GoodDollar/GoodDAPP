@@ -174,7 +174,8 @@ exports[`NameForm matches snapshot 1`] = `
                   }
                 }
               >
-                Hi, Please enter your full name
+                Hi, nice to meet you.
+                 Please enter your full name
               </div>
             </div>
             <div
@@ -293,7 +294,7 @@ exports[`NameForm matches snapshot 1`] = `
                     }
                   }
                 >
-                  
+
                 </div>
               </div>
             </div>
@@ -682,7 +683,8 @@ exports[`NameForm matches snapshot with empty value 1`] = `
                   }
                 }
               >
-                Hi, Please enter your full name
+                Hi, nice to meet you.
+                 Please enter your full name
               </div>
             </div>
             <div
@@ -801,7 +803,7 @@ exports[`NameForm matches snapshot with empty value 1`] = `
                     }
                   }
                 >
-                  
+
                 </div>
               </div>
             </div>

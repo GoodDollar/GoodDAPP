@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SplashDesktop matches snapshot 1`] = `
+exports[`SplashDesktop renders without errors 1`] = `
 <div
   className="css-view-1dbjc4n"
   style={
@@ -24,17 +24,17 @@ exports[`SplashDesktop matches snapshot 1`] = `
     style={
       Object {
         "WebkitBoxDirection": "normal",
-        "WebkitBoxFlex": 1,
+        "WebkitBoxFlex": 0,
         "WebkitBoxOrient": "vertical",
         "WebkitFlexDirection": "column",
-        "WebkitFlexGrow": 1,
+        "WebkitFlexGrow": 0,
         "backgroundImage": "linear-gradient(to bottom, #00AFFF, #2DC0F7, #28C0EF, #23C0E7, #1EC1DF, #19C1D7, #14C1CF, #0FC2C7, #0FC2C7, #0AC2BF, #05C2B7, #00C3AF)",
         "display": "flex",
         "flexDirection": "column",
-        "flexGrow": 1,
+        "flexGrow": 0,
         "maxHeight": "844px",
         "msFlexDirection": "column",
-        "msFlexPositive": 1,
+        "msFlexPositive": 0,
         "paddingBottom": "0px",
         "paddingLeft": "0px",
         "paddingRight": "0px",
@@ -369,15 +369,13 @@ on your mobile device.
           }
         >
           <div
-            className="css-cursor-18t94o4 css-view-1dbjc4n"
-            data-focusable={true}
-            disabled={false}
+            aria-disabled={true}
+            className="css-view-1dbjc4n"
+            disabled={true}
             onKeyDown={[Function]}
-            onKeyPress={[Function]}
             onKeyUp={[Function]}
             onResponderGrant={[Function]}
             onResponderMove={[Function]}
-            onResponderRelease={[Function]}
             onResponderTerminate={[Function]}
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
@@ -388,15 +386,11 @@ on your mobile device.
                 "borderBottomRightRadius": "50px",
                 "borderTopLeftRadius": "50px",
                 "borderTopRightRadius": "50px",
-                "cursor": "pointer",
-                "msTouchAction": "manipulation",
                 "overflowX": "hidden",
                 "overflowY": "hidden",
                 "position": "relative",
-                "touchAction": "manipulation",
               }
             }
-            tabIndex="0"
           >
             <div
               className="css-view-1dbjc4n"

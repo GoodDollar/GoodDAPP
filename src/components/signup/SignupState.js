@@ -62,6 +62,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   const [countryCode, setCountryCode] = useState(undefined)
   const [createError, setCreateError] = useState(false)
   const [finishedPromise, setFinishedPromise] = useState(undefined)
+  const [showNavBarGoBackButton, setShowNavBarGoBackButton] = useState(true)
 
   const [showErrorDialog] = useErrorDialog()
   const shouldGrow = store.get && !store.get('isMobileSafariKeyboardShown')
@@ -365,6 +366,8 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       return
     }
     if (curRoute && curRoute.key === 'SignupCompleted') {
+      setShowNavBarGoBackButton(false)
+
       const finishedPromise = finishRegistration()
       setFinishedPromise(finishedPromise)
     }
@@ -374,7 +377,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
 
   return (
     <View style={{ flexGrow: shouldGrow ? 1 : 0 }}>
-      <NavBar goBack={back} title={'Sign Up'} />
+      <NavBar goBack={showNavBarGoBackButton ? back : undefined} title={'Sign Up'} />
       <ScrollView contentContainerStyle={scrollableContainer}>
         <View style={contentContainer}>
           <SignupWizardNavigator

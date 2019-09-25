@@ -1,10 +1,10 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
-import { withThemeProvider } from '../../../__tests__/__util__'
-import OutOfGasError from '../OutOfGasError'
+import { withSimpleStateProvider, withThemeProvider } from '../../../__tests__/__util__'
+import ZoomCapture from '../FaceRecognition/ZoomCapture'
 
-describe('OutOfGasError', () => {
-  const Wrapped = withThemeProvider(OutOfGasError)
+describe('ZoomCapture', () => {
+  const Wrapped = withSimpleStateProvider(withThemeProvider(ZoomCapture))
 
   it('renders without errors', () => {
     const tree = renderer.create(<Wrapped />)

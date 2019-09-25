@@ -10,15 +10,14 @@ import goodWallet from '../../../lib/wallet/GoodWallet'
 import { generateSendShareObject, generateShareLink } from '../../../lib/share'
 import { useErrorDialog } from '../../../lib/undux/utils/dialog'
 import { withStyles } from '../../../lib/styles'
-
+import GDStore from '../../../lib/undux/GDStore'
 const log = logger.child({ from: 'ModalActionsByFeed' })
 
 const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose }) => {
   const [showErrorDialog] = useErrorDialog()
   const [state, setState] = useState({})
-  const [currentUserName, setCurrentUserName] = useState('')
-
-  userStorage.getProfileFieldValue('fullName').then(setCurrentUserName)
+  const store = GDStore.useStore()
+  const currentUserName = store.get('profile').fullName
 
   const cancelPayment = async () => {
     log.info({ item, action: 'cancelPayment' })

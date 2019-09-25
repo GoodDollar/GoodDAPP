@@ -2,6 +2,7 @@ import React from 'react'
 import { createNavigator, SwitchRouter } from '@react-navigation/core'
 import { createBrowserApp } from '@react-navigation/web'
 import { Platform } from 'react-native'
+import { Portal } from 'react-native-paper'
 import { navigationConfig } from './components/appNavigation/navigationConfig'
 import About from './components/about/AboutState'
 import BackupWallet from './components/backupWallet/BackupWalletState'
@@ -33,7 +34,9 @@ const Router = () => {
   return (
     <GDStore.Container>
       <SimpleStoreDialog />
-      <WebRouter />
+      <Portal.Host>
+        <WebRouter />
+      </Portal.Host>
     </GDStore.Container>
   )
 }

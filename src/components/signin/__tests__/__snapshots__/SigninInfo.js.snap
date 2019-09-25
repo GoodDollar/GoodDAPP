@@ -502,6 +502,7 @@ exports[`SigninInfo matches snapshot 1`] = `
                 "flexDirection": "column",
                 "flexGrow": 1,
                 "justifyContent": "space-evenly",
+                "maxHeight": "844px",
                 "msFlexDirection": "column",
                 "msFlexPack": "space-evenly",
                 "msFlexPositive": 1,

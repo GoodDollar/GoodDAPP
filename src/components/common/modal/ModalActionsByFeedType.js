@@ -10,14 +10,14 @@ import goodWallet from '../../../lib/wallet/GoodWallet'
 import { generateSendShareObject, generateShareLink } from '../../../lib/share'
 import { useErrorDialog } from '../../../lib/undux/utils/dialog'
 import { withStyles } from '../../../lib/styles'
-
-//import { getDesignRelativeWidth } from '../../../lib/utils/sizes'
-
+import GDStore from '../../../lib/undux/GDStore'
 const log = logger.child({ from: 'ModalActionsByFeed' })
 
 const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose }) => {
   const [showErrorDialog] = useErrorDialog()
   const [state, setState] = useState({})
+  const store = GDStore.useStore()
+  const currentUserName = store.get('profile').fullName
 
   const cancelPayment = async () => {
     log.info({ item, action: 'cancelPayment' })
@@ -49,10 +49,11 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose }) => {
 
   const getPaymentLink = () => {
     const url = generateShareLink('send', {
-      paymentCode: item.id,
+      paymentCode: item.data.withdrawCode,
       reason: item.data.message,
     })
-    return generateSendShareObject(url, item.data.amount, item.data.endpoint.fullName, '')
+
+    return generateSendShareObject(url, item.data.amount, item.data.endpoint.fullName, currentUserName)
   }
 
   const readMore = () => {
@@ -72,27 +73,29 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose }) => {
     case 'sendpending':
       return (
         <>
-          <View style={[styles.buttonsView, styles.spaceBetween]}>
-            <CustomButton
-              mode="outlined"
-              style={[styles.button, styles.cancelButton, { borderColor: theme.colors.red }]}
-              onPress={cancelPayment}
-              color={theme.colors.red}
-              loading={state.cancelPaymentLoading}
-              textStyle={styles.buttonTextStyle}
-              compact
-            >
-              Cancel link
-            </CustomButton>
-            <ShareButton
-              share={getPaymentLink()}
-              actionText="Share link"
-              mode="outlined"
-              style={[styles.button, styles.shareButton]}
-              iconColor={theme.colors.primary}
-              textStyle={styles.buttonTextStyle}
-              compact
-            />
+          <View style={styles.buttonsView}>
+            <View style={styles.rightButtonContainer}>
+              <CustomButton
+                mode="outlined"
+                style={[styles.button, { borderColor: theme.colors.red }]}
+                onPress={cancelPayment}
+                color={theme.colors.red}
+                loading={state.cancelPaymentLoading}
+                textStyle={styles.buttonTextStyle}
+              >
+                Cancel payment link
+              </CustomButton>
+            </View>
+            <View style={styles.rightButtonContainer}>
+              <ShareButton
+                share={getPaymentLink()}
+                actionText="Share as link"
+                mode="outlined"
+                style={styles.rightButton}
+                iconColor={theme.colors.primary}
+                textStyle={styles.buttonTextStyle}
+              />
+            </View>
           </View>
           <View style={styles.buttonsView}>
             <View style={styles.rightButtonContainer}>
@@ -162,16 +165,6 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose }) => {
 }
 
 const getStylesFromProps = ({ theme }) => ({
-  cancelButton: {
-    width: '48%',
-    justifySelf: 'flex-start',
-  },
-  shareButton: {
-    width: '48%',
-  },
-  spaceBetween: {
-    justifyContent: 'space-between',
-  },
   buttonsView: {
     alignItems: 'flex-end',
     display: 'flex',
@@ -180,7 +173,6 @@ const getStylesFromProps = ({ theme }) => ({
     marginTop: 'auto',
     flexWrap: 'wrap',
     marginHorizontal: -theme.sizes.defaultHalf,
-    width: '100%',
   },
   button: {
     minWidth: 96,

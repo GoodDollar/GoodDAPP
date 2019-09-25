@@ -12,15 +12,15 @@ describe('getNetowrkName', () => {
     expect(networkName).toMatch('UNDEFINED')
   })
 
-  it(`should return FUSE for networkId 121`, () => {
+  it(`should return FUSE for networkId 122`, () => {
     // Given
-    const networkId = 121
+    const networkId = 122
 
     // When
     const networkName = getNetworkName(networkId)
 
     // Then
-    expect(networkName).toMatch('FUSE')
+    expect(networkName).toMatch('FUSENET')
   })
 
   it(`should return 'RSK TESTNET' for networkId 31`, () => {

@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { AsyncStorage } from 'react-native'
 import bip39 from 'bip39-light'
+import API from './lib/API/api'
 import { DESTINATION_PATH } from './lib/constants/localStorage'
 import SimpleStore from './lib/undux/SimpleStore'
 import Splash from './components/splash/Splash'
@@ -9,10 +10,28 @@ import { extractQueryParams } from './lib/share/index'
 import logger from './lib/logger/pino-logger'
 
 const log = logger.child({ from: 'RouterSelector' })
+const apiReady = async () => {
+  try {
+    await API.ready
+    const res = await Promise.race([
+      API.auth()
+        .then(_ => 'api')
+        .catch(_ => 'api'),
+      delay(3000).then(_ => 'timeout'),
+    ])
+    if (res === 'timeout') {
+      return apiReady()
+    }
+  } catch (e) {
+    log.debug('apiReady:', e.message)
+    return apiReady()
+  }
+}
 
 // import Router from './SignupRouter'
 let SignupRouter = React.lazy(() =>
   Promise.all([
+    apiReady(),
     import(/* webpackChunkName: "signuprouter" */ './SignupRouter'),
     recoverByMagicLink(),
     delay(2000),

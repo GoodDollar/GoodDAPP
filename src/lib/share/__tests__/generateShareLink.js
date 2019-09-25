@@ -108,7 +108,7 @@ describe('generateShareLink', () => {
     const params = { key: 'value with spaces' }
 
     // When
-    const link = encodeURI(generateShareLink(action, params))
+    const link = generateShareLink(action, params)
 
     // Then
     expect(link).toEqual(`${Config.sendUrl}?key=value%20with%20spaces`)

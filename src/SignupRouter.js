@@ -7,6 +7,8 @@ import Signup from './components/signup/SignupState'
 import SigninInfo from './components/signin/SigninInfo'
 import Auth from './components/auth/Auth'
 import InvalidW3TokenError from './components/signup/InvalidWeb3TokenError'
+import { SimpleStoreDialog } from './components/common/dialogs/CustomDialog'
+
 const router = createSwitchNavigator(
   {
     Auth,
@@ -23,6 +25,11 @@ if (Platform.OS === 'web') {
   WebRouter = createBrowserApp(router)
 }
 const Router = () => {
-  return <WebRouter />
+  return (
+    <>
+      <SimpleStoreDialog />
+      <WebRouter />
+    </>
+  )
 }
 export default Router

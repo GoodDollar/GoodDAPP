@@ -10,29 +10,38 @@ import { extractQueryParams } from './lib/share/index'
 import logger from './lib/logger/pino-logger'
 
 const log = logger.child({ from: 'RouterSelector' })
+
+/**
+ * Don't start app if server isn't responding
+ */
 const apiReady = async () => {
   try {
     await API.ready
     const res = await Promise.race([
       API.auth()
-        .then(_ => 'api')
-        .catch(_ => 'api'),
+        .then(_ => true)
+        .catch(_ => _.message !== 'Network Error'),
       delay(3000).then(_ => 'timeout'),
     ])
-    if (res === 'timeout') {
+    log.debug({ res })
+    if (res !== true) {
+      await delay(3000)
       return apiReady()
     }
+    return
   } catch (e) {
     log.debug('apiReady:', e.message)
-    return apiReady()
+    await delay(3000)
+
+    // return apiReady()
   }
 }
 
 // import Router from './SignupRouter'
 let SignupRouter = React.lazy(() =>
   Promise.all([
-    apiReady(),
     import(/* webpackChunkName: "signuprouter" */ './SignupRouter'),
+    apiReady(),
     recoverByMagicLink(),
     delay(2000),
   ]).then(r => r[0])
@@ -71,7 +80,7 @@ let AppRouter = React.lazy(() => {
   log.debug('initializing storage and wallet...')
   let walletAndStorageReady = import(/* webpackChunkName: "init" */ './init')
   let p2 = walletAndStorageReady.then(({ init, _ }) => init()).then(_ => log.debug('storage and wallet ready'))
-  return Promise.all([p2, import(/* webpackChunkName: "router" */ './Router')])
+  return Promise.all([p2, apiReady(), import(/* webpackChunkName: "router" */ './Router')])
     .then(r => {
       log.debug('router ready')
       return r

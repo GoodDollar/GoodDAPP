@@ -30,6 +30,7 @@ import { withStyles } from '../../lib/styles'
 import Mnemonics from '../signin/Mnemonics'
 
 // import goodWallet from '../../lib/wallet/GoodWallet'
+import { deleteAccountDialog } from '../sidemenu/SideMenuPanel'
 import RewardsTab from './Rewards'
 import Amount from './Amount'
 import Claim from './Claim'
@@ -90,6 +91,9 @@ const Dashboard = props => {
     return getNextFeed(gdstore)
   }
   useEffect(() => {
+    if (props.navigation.state.key === 'Delete') {
+      deleteAccountDialog({ API, showDialog: showErrorDialog, store, theme: props.theme })
+    }
     store.set('addWebApp')({ ...store.get('addWebApp'), show: true })
 
     prepareLoginToken()
@@ -141,11 +145,11 @@ const Dashboard = props => {
   }
 
   const showOutOfGasError = async () => {
-    const { ok } = await goodWallet.verifyHasGas(web3Utils.toWei(MIN_BALANCE_VALUE, 'gwei'), {
+    const res = await goodWallet.verifyHasGas(web3Utils.toWei(MIN_BALANCE_VALUE, 'gwei'), {
       topWallet: false,
     })
-
-    if (!ok) {
+    log.debug('showOutOfGasError', res)
+    if (!res.ok) {
       props.screenProps.navigateTo('OutOfGasError')
     }
   }
@@ -373,6 +377,7 @@ const WrappedDashboard = withStyles(getStylesFromProps)(Dashboard)
 
 export default createStackNavigator({
   Home: WrappedDashboard,
+  Delete: WrappedDashboard,
   Claim,
   Receive,
   Who: {

@@ -111,7 +111,7 @@ export const welcomeMessage = {
   status: 'completed',
   data: {
     customName: 'Welcome to GoodDollar!',
-    subtitle: 'Start claiming free G$',
+    subtitle: 'Welcome to GoodDollar!',
     receiptData: {
       from: '0x0000000000000000000000000000000000000000',
     },
@@ -128,8 +128,8 @@ export const inviteFriendsMessage = {
   date: new Date().toString(),
   status: 'completed',
   data: {
-    customName: 'Want to earn more G$ ?',
-    subtitle: 'Invite friends',
+    customName: 'Invite friends and earn G$',
+    subtitle: 'Want to earn more G$ ?',
     receiptData: {
       from: '0x0000000000000000000000000000000000000000',
     },

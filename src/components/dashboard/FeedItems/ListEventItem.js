@@ -73,7 +73,7 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
               </>
             ) : (
               <>
-                <EventCounterParty style={styles.feedItem} feedItem={feed} />
+                <EventCounterParty style={styles.feedItem} feedItem={feed} subtitle={true} />
                 <FeedText feed={feed} />
               </>
             )}

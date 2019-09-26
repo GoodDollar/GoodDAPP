@@ -83,7 +83,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose }) => {
                 loading={state.cancelPaymentLoading}
                 textStyle={styles.buttonTextStyle}
               >
-                Cancel payment link
+                Cancel link
               </CustomButton>
             </View>
             <View style={styles.rightButtonContainer}>
@@ -170,7 +170,7 @@ const getStylesFromProps = ({ theme }) => ({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    marginTop: 'auto',
+    marginTop: theme.sizes.defaultHalf,
     flexWrap: 'wrap',
     marginHorizontal: -theme.sizes.defaultHalf,
   },

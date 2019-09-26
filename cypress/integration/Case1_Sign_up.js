@@ -1,6 +1,7 @@
 import StartPage from '../PageObjects/StartPage'
 import SignUpPage from '../PageObjects/SignUpPage'
 import HomePage from '../PageObjects/HomePage'
+import RewardsPage from '../PageObjects/RewardsPage';
 
 
 
@@ -57,6 +58,23 @@ describe('Test case 1: Ability to Sign Up', () => {
         SignUpPage.nextButton.click();
         cy.wait(8000);
         HomePage.welcomeFeed.should('be.visible');
+        // ** Part for checking Rewards window **//
+        HomePage.rewardsButton.click();
+        RewardsPage.pageHeader.should('contain', 'Rewards');
+        RewardsPage.iframe.should('be.visible');
+        RewardsPage.iframe
+            .then( iframe => new Promise(resolve => setTimeout( () => resolve(iframe), 7500 )))
+            .then( iframe => {
+                const body = iframe.contents().find('body');
+
+                cy.wrap(body.find(RewardsPage.createWalletButton)).should('be.visible');
+                cy.wrap(body.find(RewardsPage.contentWrapper)).should('contain', 'Redeem your rewards & collected a daily income');
+                cy.wrap(body.find(RewardsPage.createWalletButton)).click();
+        
+            });
+        RewardsPage.backButton.click()
+        cy.wait(7000);
+        // ** ** //    
         HomePage.optionsButton.click();
         cy.wait(5000)
         HomePage.deleteAccountButton.click();

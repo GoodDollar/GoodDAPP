@@ -9,11 +9,15 @@ class RewardsPage {
     }
 
     get createWalletButton() {
-        return 'a[href*="https://dapp.gooddollar.org/?web3"]'
+        return 'a[href*="https://goodqa.netlify.com/?web3"]'
     }
 
     get contentWrapper() {
         return '.bg-wrapper'
+    }
+
+    get backButton() {
+        return cy.get('[aria-label="Back"]')
     }
 
  

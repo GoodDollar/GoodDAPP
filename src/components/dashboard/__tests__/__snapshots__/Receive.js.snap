@@ -24,16 +24,17 @@ exports[`Receive matches snapshot 1`] = `
     style={
       Object {
         "WebkitBoxDirection": "normal",
-        "WebkitBoxFlex": 0,
+        "WebkitBoxFlex": 1,
         "WebkitBoxOrient": "vertical",
         "WebkitFlexDirection": "column",
-        "WebkitFlexGrow": 0,
+        "WebkitFlexGrow": 1,
         "backgroundImage": "linear-gradient(to bottom, #00AFFF, #2DC0F7, #28C0EF, #23C0E7, #1EC1DF, #19C1D7, #14C1CF, #0FC2C7, #0FC2C7, #0AC2BF, #05C2B7, #00C3AF)",
         "display": "flex",
         "flexDirection": "column",
-        "flexGrow": 0,
+        "flexGrow": 1,
+        "maxHeight": "844px",
         "msFlexDirection": "column",
-        "msFlexPositive": 0,
+        "msFlexPositive": 1,
         "paddingBottom": "8px",
         "paddingLeft": "8px",
         "paddingRight": "8px",
@@ -475,6 +476,7 @@ exports[`Receive matches snapshot 1`] = `
                     "defaultDouble": 16,
                     "defaultHalf": 4,
                     "defaultQuadruple": 32,
+                    "maxHeightForTabletAndDesktop": 844,
                   },
                 }
               }

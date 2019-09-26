@@ -11,11 +11,14 @@ import { generateSendShareObject, generateShareLink } from '../../../lib/share'
 import { useErrorDialog } from '../../../lib/undux/utils/dialog'
 import { withStyles } from '../../../lib/styles'
 import Text from '../view/Text'
+import GDStore from '../../../lib/undux/GDStore'
 const log = logger.child({ from: 'ModalActionsByFeed' })
 
 const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigation }) => {
   const [showErrorDialog] = useErrorDialog()
   const [state, setState] = useState({})
+  const store = GDStore.useStore()
+  const currentUserName = store.get('profile').fullName
 
   const cancelPayment = async () => {
     log.info({ item, action: 'cancelPayment' })
@@ -47,10 +50,11 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
 
   const getPaymentLink = () => {
     const url = generateShareLink('send', {
-      paymentCode: item.id,
+      paymentCode: item.data.withdrawCode,
       reason: item.data.message,
     })
-    return generateSendShareObject(url, item.data.amount, item.data.endpoint.fullName, '')
+
+    return generateSendShareObject(url, item.data.amount, item.data.endpoint.fullName, currentUserName)
   }
 
   const readMore = () => {

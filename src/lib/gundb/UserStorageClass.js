@@ -1157,6 +1157,7 @@ export class UserStorage {
           amount: value,
           message: reason || message,
           subtitle,
+          withdrawCode,
         },
       }
     } catch (e) {

@@ -32,6 +32,7 @@ exports[`EmailConfirmation matches snapshot 1`] = `
         "display": "flex",
         "flexDirection": "column",
         "flexGrow": 1,
+        "maxHeight": "844px",
         "msFlexDirection": "column",
         "msFlexPositive": 1,
         "paddingBottom": "16px",
@@ -327,6 +328,7 @@ sent to your email
                         "defaultDouble": 16,
                         "defaultHalf": 4,
                         "defaultQuadruple": 32,
+                        "maxHeightForTabletAndDesktop": 844,
                       },
                     }
                   }
@@ -467,6 +469,7 @@ sent to your email
                         "defaultDouble": 16,
                         "defaultHalf": 4,
                         "defaultQuadruple": 32,
+                        "maxHeightForTabletAndDesktop": 844,
                       },
                     }
                   }
@@ -607,6 +610,7 @@ sent to your email
                         "defaultDouble": 16,
                         "defaultHalf": 4,
                         "defaultQuadruple": 32,
+                        "maxHeightForTabletAndDesktop": 844,
                       },
                     }
                   }
@@ -747,6 +751,7 @@ sent to your email
                         "defaultDouble": 16,
                         "defaultHalf": 4,
                         "defaultQuadruple": 32,
+                        "maxHeightForTabletAndDesktop": 844,
                       },
                     }
                   }
@@ -887,6 +892,7 @@ sent to your email
                         "defaultDouble": 16,
                         "defaultHalf": 4,
                         "defaultQuadruple": 32,
+                        "maxHeightForTabletAndDesktop": 844,
                       },
                     }
                   }
@@ -1027,6 +1033,7 @@ sent to your email
                         "defaultDouble": 16,
                         "defaultHalf": 4,
                         "defaultQuadruple": 32,
+                        "maxHeightForTabletAndDesktop": 844,
                       },
                     }
                   }

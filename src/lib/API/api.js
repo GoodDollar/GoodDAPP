@@ -70,7 +70,7 @@ class API {
         e => {
           // Do something with response error
           log.error('axios response error', e.message, e)
-          if (e.response.data) {
+          if (e.response && e.response.data) {
             return Promise.reject(e.response.data)
           }
           return Promise.reject(e)
@@ -87,7 +87,7 @@ class API {
       w3Instance.interceptors.response.use(
         response => response.data,
         error => {
-          if (error.response.data) {
+          if (error.response && error.response.data) {
             return Promise.reject(error.response.data)
           }
 

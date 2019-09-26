@@ -1,6 +1,7 @@
 // @flow
 import React, { useEffect, useState } from 'react'
 import _get from 'lodash/get'
+import debounce from 'lodash/debounce'
 import type { Store } from 'undux'
 
 import * as web3Utils from 'web3-utils'
@@ -56,6 +57,23 @@ import { ACTION_SEND } from './utils/sendReceiveFlow'
 // import UnsupportedDevice from './FaceRecognition/UnsupportedDevice'
 
 const log = logger.child({ from: 'Dashboard' })
+const MIN_BALANCE_VALUE = '100000'
+const GAS_CHECK_DEBOUNCE_TIME = 1000
+const showOutOfGasError = debounce(
+  async props => {
+    const { ok } = await goodWallet.verifyHasGas(web3Utils.toWei(MIN_BALANCE_VALUE, 'gwei'), {
+      topWallet: false,
+    })
+
+    if (!ok) {
+      props.screenProps.navigateTo('OutOfGasError')
+    }
+  },
+  GAS_CHECK_DEBOUNCE_TIME,
+  {
+    maxWait: GAS_CHECK_DEBOUNCE_TIME,
+  }
+)
 
 export type DashboardProps = {
   navigation: any,
@@ -64,13 +82,11 @@ export type DashboardProps = {
   styles?: any,
 }
 const Dashboard = props => {
-  const MIN_BALANCE_VALUE = '100000'
   const store = SimpleStore.useStore()
   const gdstore = GDStore.useStore()
   const [showDialog, hideDialog] = useDialog()
   const [showErrorDialog] = useErrorDialog()
   const { params } = props.navigation.state
-
   const prepareLoginToken = async () => {
     const loginToken = await userStorage.getProfileFieldValue('loginToken')
 
@@ -103,8 +119,6 @@ const Dashboard = props => {
       log.debug('gun getFeed callback', { data })
       getInitialFeed(gdstore)
     }, true)
-
-    showOutOfGasError()
   }, [])
 
   useEffect(() => {
@@ -144,15 +158,7 @@ const Dashboard = props => {
     }
   }
 
-  const showOutOfGasError = async () => {
-    const res = await goodWallet.verifyHasGas(web3Utils.toWei(MIN_BALANCE_VALUE, 'gwei'), {
-      topWallet: false,
-    })
-    log.debug('showOutOfGasError', res)
-    if (!res.ok) {
-      props.screenProps.navigateTo('OutOfGasError')
-    }
-  }
+  showOutOfGasError(props)
 
   const handleWithdraw = async () => {
     const { paymentCode, reason } = props.navigation.state.params

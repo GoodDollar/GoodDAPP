@@ -85,7 +85,7 @@ let AppRouter = React.lazy(() => {
       log.debug('router ready')
       return r
     })
-    .then(r => r[1])
+    .then(r => r[2])
 })
 
 const RouterSelector = () => {

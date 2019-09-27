@@ -115,7 +115,7 @@ const Claim = props => {
       loading,
       message: 'please wait while processing...',
       showButtons: false,
-      title: `YOUR G$\nIS ON ITS WAY...`,
+      title: `YOUR MONEY\nIS ON ITS WAY...`,
     })
     try {
       //when we come back from FR entitelment might not be set yet
@@ -141,8 +141,8 @@ const Claim = props => {
       if (receipt.status) {
         showDialog({
           buttons: [{ text: 'Yay!' }],
-          message: `You've claimed your daily G$`,
-          title: 'SUCCESS!',
+          message: `You've claimed your daily G$\nsee you tomorrow.`,
+          title: 'CHA-CHING!',
           type: 'success',
           onDismiss: () => screenProps.goToRoot(),
         })

@@ -52,7 +52,7 @@ describe('Test case 9: Ability to see rewards', () => {
 
     })
 
-    it('User is able to see rewards page correctly if he has w3 account without wallet (register new wallet)', () => {
+    it.only('User is able to see rewards page correctly if he has w3 account without wallet (register new wallet)', () => {
 
         w3Page.openPage();
         w3Page.loginTab.should('be.visible');
@@ -66,6 +66,9 @@ describe('Test case 9: Ability to see rewards', () => {
         w3Page.createWalletButton.should('be.visible');
         w3Page.createWalletButton.invoke('attr', 'href').then( createWalletUrl => {
             cy.wait(3000)
+            cy.visit(createWalletUrl)
+            //
+            
             Cypress.env("newWalletLink", createWalletUrl);
             // StartPage.continueOnWebButton.should('be.visible');
             // StartPage.continueOnWebButton.click();
@@ -117,8 +120,8 @@ describe('Test case 9: Ability to see rewards', () => {
 
     })
 
-    // it('lalala', () => {
-    //     cy.wait(30000)
+    // it.only('lalala', () => {
+    //     cy.log(Cypress.env('newWalletLink'))
     //     cy.visit(Cypress.env('newWalletLink'))
     // })
 

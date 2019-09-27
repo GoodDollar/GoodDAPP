@@ -80,7 +80,23 @@ const Claim = props => {
     evaluateFRValidity()
   }, [])
 
-  const getNextClaim = date => new Date(date - new Date().getTime()).toISOString().substr(11, 8)
+  const getNextClaim = date => {
+    let nextClaimTime = date - new Date().getTime()
+
+    // let nextEntitlement = gdstore.get('account')
+    if (nextClaimTime < 0) {
+      console.log('*******************')
+      setState({
+        nextClaim: '--:--:--',
+        entitlement: 100,
+        claimedToday: {
+          people: '--',
+          amount: '--',
+        },
+      })
+    }
+    return new Date(nextClaimTime).toISOString().substr(11, 8)
+  }
 
   const gatherStats = async () => {
     const [claimedToday, nextClaimDate] = await Promise.all([
@@ -173,6 +189,12 @@ const Claim = props => {
     // screenProps.push('FRIntro', { from: 'Claim' })
   }
 
+  console.log({
+    isCitizen: isCitizen,
+    entitlement: state.entitlement,
+    nextClaim: state.nextClaim,
+    loading: loading,
+  })
   const illustrationSizes = isCitizen ? styles.illustrationForCitizen : styles.illustrationForNonCitizen
   return (
     <Wrapper>

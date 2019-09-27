@@ -362,12 +362,16 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
 
   useEffect(() => {
     const curRoute = navigation.state.routes[navigation.state.index]
+
     if (state === initialState) {
       return
     }
-    if (curRoute && curRoute.key === 'SignupCompleted') {
-      setShowNavBarGoBackButton(false)
 
+    if (curRoute && curRoute.key === 'MagicLinkInfo') {
+      setShowNavBarGoBackButton(false)
+    }
+
+    if (curRoute && curRoute.key === 'SignupCompleted') {
       const finishedPromise = finishRegistration()
       setFinishedPromise(finishedPromise)
     }

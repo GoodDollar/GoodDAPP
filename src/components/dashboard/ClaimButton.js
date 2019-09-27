@@ -6,6 +6,7 @@ import { CustomButton } from '../common'
 import BigGoodDollar from '../common/view/BigGoodDollar'
 import Text from '../common/view/Text'
 import Section from '../common/layout/Section'
+import { getDesignRelativeWidth } from '../../lib/utils/sizes'
 
 const ButtonAmountToClaim = ({ entitlement, styles }) => (
   <>
@@ -16,13 +17,14 @@ const ButtonAmountToClaim = ({ entitlement, styles }) => (
       number={entitlement}
       formatter={weiToGd}
       fontFamily="Roboto"
-      bigNumberProps={{ fontFamily: 'Roboto', fontSize: 16, color: 'surface', fontWeight: 'medium', lineHeight: 24 }}
+      bigNumberProps={{ fontFamily: 'Roboto', fontSize: 36, color: 'surface', fontWeight: 'medium', lineHeight: 24 }}
       bigNumberUnitProps={{
         fontFamily: 'Roboto',
-        fontSize: 10,
+        fontSize: 16,
         color: 'surface',
         fontWeight: 'medium',
-        lineHeight: 24,
+        lineHeight: 19,
+        marginVertical: 'auto',
       }}
       style={styles.amountInButton}
     />
@@ -31,21 +33,21 @@ const ButtonAmountToClaim = ({ entitlement, styles }) => (
 
 export const ButtonCountdown = ({ styles, nextClaim }) => (
   <View style={styles.countdownContainer}>
-    <Text style={styles.extraInfoCountdownTitle}>Next Daily Income:</Text>
-    <Section.Row grow>
+    <Text style={styles.extraInfoCountdownTitle}>Your Next Daily Income:</Text>
+    <Section.Row grow style={styles.justifyCenter}>
       {nextClaim &&
         nextClaim.split('').map((value, index) => {
           return (
-            <Section.Text
+            <Text
               key={index}
-              style={styles.countdown}
-              color="surface"
-              fontFamily="slab"
               fontSize={36}
+              fontFamily="Roboto Slab"
               fontWeight="bold"
+              color="white"
+              style={[styles.countdown, ~[2, 5].indexOf(index) && styles.tallCountDown]}
             >
               {value}
-            </Section.Text>
+            </Text>
           )
         })}
     </Section.Row>
@@ -70,15 +72,18 @@ const ClaimButton = ({ isCitizen, entitlement, nextClaim, loading, onPress, styl
     loading={loading}
     mode="contained"
     onPress={onPress}
-    style={[isCitizen ? styles.citizenButton : {}, isCitizen && !entitlement ? styles.buttonCountdown : {}, style]}
+    style={[styles.minButtonHeight, isCitizen && !entitlement ? styles.buttonCountdown : {}, style]}
   >
     <ButtonContent isCitizen={isCitizen} entitlement={entitlement} nextClaim={nextClaim} styles={styles} />
   </CustomButton>
 )
 
 const getStylesFromProps = ({ theme }) => ({
-  citizenButton: {
-    height: 68,
+  justifyCenter: {
+    justifyContent: 'center',
+  },
+  minButtonHeight: {
+    minHeight: 68,
   },
   buttonCountdown: {
     backgroundColor: theme.colors.orange,
@@ -87,10 +92,11 @@ const getStylesFromProps = ({ theme }) => ({
   countdownContainer: {
     flexDirection: 'column',
   },
+  tallCountDown: {
+    width: getDesignRelativeWidth(10),
+  },
   countdown: {
-    display: 'flex',
-    width: 20,
-    justifyContent: 'center',
+    width: getDesignRelativeWidth(25),
     marginTop: -theme.sizes.defaultHalf,
   },
   extraInfoCountdownTitle: {
@@ -101,4 +107,5 @@ const getStylesFromProps = ({ theme }) => ({
     marginLeft: theme.sizes.defaultHalf,
   },
 })
+
 export default withStyles(getStylesFromProps)(ClaimButton)

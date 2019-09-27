@@ -1,6 +1,6 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { AsyncStorage, Image } from 'react-native'
+import { AsyncStorage, Image, View } from 'react-native'
 import numeral from 'numeral'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import goodWallet from '../../lib/wallet/GoodWallet'
@@ -178,32 +178,54 @@ const Claim = props => {
     <Wrapper>
       <Section style={styles.mainContainer}>
         <Section.Stack style={styles.mainText}>
-          <Section.Text color="surface" style={styles.mainTextTitle}>
-            GoodDollar allows you to collect
-          </Section.Text>
-          <Section.Text style={styles.mainTextBigMarginBottom}>
-            <BigGoodDollar
-              number={1}
-              formatter={number => number}
-              bigNumberProps={{ color: 'surface' }}
-              bigNumberUnitProps={{ color: 'surface', fontSize: 20 }}
-              style={styles.inline}
-            />
-            <Section.Text color="surface" fontFamily="slab" fontWeight="bold" fontSize={36}>
-              {' Free'}
+          <View style={styles.mainTextBorder}>
+            <Section.Text color="primary" size={16} fontFamily="Roboto" lineHeight={19} style={styles.mainTextToast}>
+              {'GET NOW'}
             </Section.Text>
+            <Section.Text style={styles.mainTextBigMarginBottom}>
+              <BigGoodDollar
+                number={1}
+                formatter={number => number}
+                bigNumberProps={{ color: 'surface' }}
+                bigNumberUnitProps={{ color: 'surface', fontSize: 20 }}
+                style={styles.inline}
+              />
+              <Section.Text color="surface" fontFamily="slab" fontWeight="bold" fontSize={36}>
+                {' Free'}
+              </Section.Text>
+            </Section.Text>
+            <Section.Text color="surface" fontFamily="slab" fontWeight="bold" fontSize={36}>
+              Every Day
+            </Section.Text>
+          </View>
+          <Section.Row alignItems="center" justifyContent="center" style={[styles.row, styles.subMainText]}>
+            <View style={styles.bottomContainer}>
+              <Text color="white" fontSize={16} fontFamily="Roboto">
+                {'Claim now & spend it'}
+              </Text>
+              <Text color="white" fontFamily="Roboto" size={16}>
+                {`on things you care about`}
+              </Text>
+            </View>
+          </Section.Row>
+          <Section.Text
+            color="white"
+            fontFamily="Roboto"
+            fontWeight="bold"
+            lineHeigh={19}
+            size={16}
+            style={styles.learnMore}
+            textDecorationLine="underline"
+          >
+            {'Learn more'}
           </Section.Text>
-          <Section.Text color="surface" fontFamily="slab" fontWeight="bold" fontSize={36}>
-            Every Day
-          </Section.Text>
-          <Section.Text style={styles.blankBottom}>{/* used to prevent image overlapping text */ ' '}</Section.Text>
         </Section.Stack>
         <Section.Stack style={styles.extraInfo}>
           <Image source={illustration} style={[styles.illustration, illustrationSizes]} resizeMode="contain" />
           <Section.Row style={styles.extraInfoStats}>
             <Text style={styles.extraInfoWrapper}>
               <Section.Text fontWeight="bold">{numeral(state.claimedToday.people).format('0a')} </Section.Text>
-              <Section.Text>people have already claimed today!</Section.Text>
+              <Section.Text>good people have claimed today!</Section.Text>
             </Text>
           </Section.Row>
           {!isCitizen && (
@@ -258,6 +280,33 @@ const getStylesFromProps = ({ theme }) => {
     mainTextTitle: {
       marginBottom: 12,
     },
+    mainTextBorder: {
+      marginTop: getDesignRelativeHeight(10),
+      borderWidth: 2,
+      borderStyle: 'solid',
+      borderColor: theme.colors.white,
+      borderRadius: 5,
+      paddingHorizontal: getDesignRelativeWidth(40),
+      paddingVertical: getDesignRelativeHeight(25),
+      position: 'relative',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+    },
+    mainTextToast: {
+      paddingHorizontal: getDesignRelativeWidth(30),
+      paddingVertical: getDesignRelativeWidth(2),
+      backgroundColor: theme.colors.white,
+      position: 'absolute',
+      top: -getDesignRelativeHeight(13),
+      borderRadius: 5,
+    },
+    subMainText: {
+      marginTop: getDesignRelativeHeight(15),
+    },
+    learnMore: {
+      marginTop: getDesignRelativeHeight(15),
+    },
     mainTextBigMarginBottom: {
       marginBottom: theme.sizes.defaultHalf,
     },
@@ -285,6 +334,7 @@ const getStylesFromProps = ({ theme }) => {
       maxHeight: 'fit-content',
       paddingVertical: theme.sizes.defaultDouble,
       paddingHorizontal: theme.sizes.default,
+      marginTop: getDesignRelativeHeight(70),
     },
     extraInfoStats: {
       ...defaultStatsBlock,
@@ -302,6 +352,8 @@ const getStylesFromProps = ({ theme }) => {
     },
     countdown: {
       marginBottom: theme.sizes.defaultDouble,
+      minHeight: getDesignRelativeHeight(72),
+      borderRadius: 5,
     },
   }
 }

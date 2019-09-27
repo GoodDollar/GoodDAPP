@@ -74,13 +74,11 @@ const FeedModalItem = (props: FeedEventProps) => {
             {item.data && item.data.endpoint && <EventCounterParty style={styles.feedItem} feedItem={item} />}
             {!eventSettings.withoutAvatar && <EventIcon type={itemType} style={styles.icon} />}
           </View>
-          {item.data.message && (
-            <View style={styles.messageContainer}>
-              <Text fontSize={14} textAlign="left">
-                {item.data.message}
-              </Text>
-            </View>
-          )}
+          <View style={styles.messageContainer}>
+            <Text fontSize={14} textAlign="left">
+              {item.data.message || ''}
+            </Text>
+          </View>
           {item.status === 'pending' && (
             <View style={styles.messageContainer}>
               <Text fontSize={14} color="gray50Percent">

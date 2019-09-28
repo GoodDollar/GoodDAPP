@@ -82,13 +82,11 @@ const Claim = props => {
 
   const getNextClaim = date => {
     let nextClaimTime = date - new Date().getTime()
-
-    // let nextEntitlement = gdstore.get('account')
-    if (nextClaimTime < 0) {
-      console.log('*******************')
+    if (nextClaimTime < 0 && state.entitlement <= 0) {
+      const { entitlement } = gdstore.get('account')
       setState({
         nextClaim: '--:--:--',
-        entitlement: 100,
+        entitlement: (entitlement && entitlement.toNumber()) || 0,
         claimedToday: {
           people: '--',
           amount: '--',
@@ -189,12 +187,6 @@ const Claim = props => {
     // screenProps.push('FRIntro', { from: 'Claim' })
   }
 
-  console.log({
-    isCitizen: isCitizen,
-    entitlement: state.entitlement,
-    nextClaim: state.nextClaim,
-    loading: loading,
-  })
   const illustrationSizes = isCitizen ? styles.illustrationForCitizen : styles.illustrationForNonCitizen
   return (
     <Wrapper>

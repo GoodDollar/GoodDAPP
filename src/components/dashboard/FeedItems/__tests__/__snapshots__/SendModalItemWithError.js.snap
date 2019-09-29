@@ -447,11 +447,12 @@ please try again.
         "justifyContent": "flex-end",
         "marginLeft": "-4px",
         "marginRight": "-4px",
-        "marginTop": "auto",
+        "marginTop": "4px",
         "msFlexAlign": "end",
         "msFlexDirection": "row",
         "msFlexPack": "end",
         "msFlexWrap": "wrap",
+        "width": "100%",
       }
     }
   >

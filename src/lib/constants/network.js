@@ -15,6 +15,7 @@ export const NETWORK_ID = {
   POA: 99,
   XDAI: 100,
   FUSE: 121,
+  FUSENET: 122,
   DEVELOP: 4447,
 }
 

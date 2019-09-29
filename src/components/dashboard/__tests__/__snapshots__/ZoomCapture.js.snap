@@ -1,0 +1,121 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ZoomCapture matches snapshot 1`] = `
+<div
+  className="css-view-1dbjc4n"
+  style={
+    Object {
+      "WebkitBoxFlex": 1,
+      "WebkitFlexBasis": "0%",
+      "WebkitFlexGrow": 1,
+      "WebkitFlexShrink": 1,
+      "flexBasis": "0%",
+      "flexGrow": 1,
+      "flexShrink": 1,
+      "msFlexNegative": 1,
+      "msFlexPositive": 1,
+      "msFlexPreferredSize": "0%",
+    }
+  }
+>
+  <div
+    className="css-view-1dbjc4n"
+  >
+    <div
+      className="css-view-1dbjc4n"
+      style={
+        Object {
+          "WebkitBoxFlex": 1,
+          "WebkitFlexBasis": "0%",
+          "WebkitFlexGrow": 1,
+          "WebkitFlexShrink": 1,
+          "backgroundColor": "rgba(255,255,255,1.00)",
+          "borderBottomLeftRadius": "5px",
+          "borderBottomRightRadius": "5px",
+          "borderTopLeftRadius": "5px",
+          "borderTopRightRadius": "5px",
+          "flexBasis": "0%",
+          "flexGrow": 1,
+          "flexShrink": 1,
+          "msFlexNegative": 1,
+          "msFlexPositive": 1,
+          "msFlexPreferredSize": "0%",
+          "paddingBottom": "5px",
+          "paddingLeft": "5px",
+          "paddingRight": "5px",
+          "paddingTop": "5px",
+        }
+      }
+    >
+      <div
+        id="zoom-parent-container"
+        style={
+          Object {
+            "height": 384,
+            "marginBottom": 0,
+            "marginLeft": "0",
+            "marginRight": "0",
+            "marginTop": 0,
+            "width": "auto",
+          }
+        }
+      >
+        <div
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "WebkitAlignItems": "center",
+              "WebkitBoxAlign": "center",
+              "WebkitBoxPack": "justify",
+              "WebkitJustifyContent": "space-around",
+              "alignItems": "center",
+              "display": "flex",
+              "height": "100%",
+              "justifyContent": "space-around",
+              "msFlexAlign": "center",
+              "msFlexPack": "distribute",
+              "position": "absolute",
+              "top": "0px",
+              "width": "100%",
+              "zIndex": 10,
+            }
+          }
+        />
+        <div
+          id="zoom-interface-container"
+          style={
+            Object {
+              "position": "absolute",
+            }
+          }
+        />
+        <div
+          style={
+            Object {
+              "alignContent": "center",
+              "display": "grid",
+              "justifyContent": "center",
+              "overflow": "hidden",
+            }
+          }
+        >
+          <video
+            autoPlay={true}
+            id="zoom-video-element"
+            playsInline={true}
+            style={
+              Object {
+                "height": 384,
+                "justifySelf": "center",
+                "overflow": "hidden",
+                "transform": "scaleX(-1)",
+                "width": "auto",
+              }
+            }
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

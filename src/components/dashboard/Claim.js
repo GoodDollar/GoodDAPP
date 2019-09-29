@@ -80,13 +80,13 @@ const Claim = props => {
     evaluateFRValidity()
   }, [])
 
-  const getNextClaim = date => {
+  const getNextClaim = async date => {
     let nextClaimTime = date - new Date().getTime()
     if (nextClaimTime < 0 && state.entitlement <= 0) {
-      const { entitlement } = gdstore.get('account')
+      const entitlement = await goodWallet.checkEntitlement().toNumber()
       setState({
         nextClaim: '--:--:--',
-        entitlement: (entitlement && entitlement.toNumber()) || 0,
+        entitlement: entitlement,
         claimedToday: {
           people: '--',
           amount: '--',
@@ -101,12 +101,12 @@ const Claim = props => {
       wrappedGoodWallet.getAmountAndQuantityClaimedToday(),
       wrappedGoodWallet.getNextClaimTime(),
     ])
-
-    setState(prevState => ({ ...prevState, claimedToday, nextClaim: getNextClaim(nextClaimDate) }))
+    const nextClaim = await getNextClaim(nextClaimDate)
+    setState( prevState => ({ ...prevState, claimedToday, nextClaim }))
 
     setClaimInterval(
-      setInterval(() => {
-        const nextClaim = getNextClaim(nextClaimDate)
+      setInterval(async () => {
+        const nextClaim = await getNextClaim(nextClaimDate)
         setState(prevState => ({ ...prevState, nextClaim }))
       }, 1000)
     )

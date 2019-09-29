@@ -12,6 +12,7 @@ import { useErrorDialog } from '../../../lib/undux/utils/dialog'
 import { withStyles } from '../../../lib/styles'
 import Text from '../view/Text'
 import GDStore from '../../../lib/undux/GDStore'
+
 const log = logger.child({ from: 'ModalActionsByFeed' })
 
 const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigation }) => {
@@ -74,29 +75,25 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
     case 'sendpending':
       return (
         <>
-          <View style={styles.buttonsView}>
-            <View style={styles.rightButtonContainer}>
-              <CustomButton
-                mode="outlined"
-                style={[styles.button, { borderColor: theme.colors.red }]}
-                onPress={cancelPayment}
-                color={theme.colors.red}
-                loading={state.cancelPaymentLoading}
-                textStyle={styles.buttonTextStyle}
-              >
-                Cancel payment link
-              </CustomButton>
-            </View>
-            <View style={styles.rightButtonContainer}>
-              <ShareButton
-                share={getPaymentLink()}
-                actionText="Share as link"
-                mode="outlined"
-                style={styles.rightButton}
-                iconColor={theme.colors.primary}
-                textStyle={styles.buttonTextStyle}
-              />
-            </View>
+          <View style={[styles.buttonsView, styles.spaceBetween]}>
+            <CustomButton
+              mode="outlined"
+              style={[styles.button, styles.cancelButton, { borderColor: theme.colors.red }]}
+              onPress={cancelPayment}
+              color={theme.colors.red}
+              loading={state.cancelPaymentLoading}
+              textStyle={styles.buttonTextStyle}
+            >
+              Cancel link
+            </CustomButton>
+            <ShareButton
+              share={getPaymentLink()}
+              actionText="Share link"
+              mode="outlined"
+              style={[styles.rightButton, styles.shareButton]}
+              iconColor={theme.colors.primary}
+              textStyle={styles.buttonTextStyle}
+            />
           </View>
           <View style={styles.buttonsView}>
             <View style={styles.rightButtonContainer}>
@@ -177,9 +174,19 @@ const getStylesFromProps = ({ theme }) => ({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    marginTop: 'auto',
+    marginTop: theme.sizes.defaultHalf,
     flexWrap: 'wrap',
     marginHorizontal: -theme.sizes.defaultHalf,
+    width: '100%',
+  },
+  spaceBetween: {
+    justifyContent: 'space-between',
+  },
+  shareButton: {
+    width: '48%',
+  },
+  cancelButton: {
+    width: '48%',
   },
   button: {
     minWidth: 96,

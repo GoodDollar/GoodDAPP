@@ -111,8 +111,6 @@ const Dashboard = props => {
       deleteAccountDialog({ API, showDialog: showErrorDialog, store, theme: props.theme })
     }
 
-    store.set('addWebApp')({ ...store.get('addWebApp'), show: true })
-
     prepareLoginToken()
 
     log.debug('Dashboard didmount')

@@ -1,6 +1,6 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { AsyncStorage, Image, View } from 'react-native'
+import { AsyncStorage, Image, TouchableOpacity, View } from 'react-native'
 import numeral from 'numeral'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import goodWallet from '../../lib/wallet/GoodWallet'
@@ -17,6 +17,7 @@ import LoadingIcon from '../common/modal/LoadingIcon'
 import { withStyles } from '../../lib/styles'
 import Section from '../common/layout/Section'
 import illustration from '../../assets/Claim/illustration.svg'
+import addAppIlustration from '../../assets/addApp.svg'
 import type { DashboardProps } from './Dashboard'
 import ClaimButton from './ClaimButton'
 
@@ -35,6 +36,47 @@ type ClaimState = {
 const log = logger.child({ from: 'Claim' })
 
 Image.prefetch(illustration)
+
+const learnMoreStyles = ({ theme }) => ({
+  titleContainer: {
+    borderTopWidth: 2,
+    borderTopStyle: 'solid',
+    borderTopColor: theme.colors.primary,
+    borderBottomWidth: 2,
+    borderBottomStyle: 'solid',
+    borderBottomColor: theme.colors.primary,
+    paddingVertical: theme.sizes.default,
+    marginVertical: theme.sizes.default,
+  },
+  image: {
+    width: '100%',
+    height: '15vh',
+  },
+  imageContainer: {
+    padding: 32,
+  },
+})
+
+const LearnMoreDialog = withStyles(learnMoreStyles)(({ styles }) => {
+  return (
+    <View style={styles.container}>
+      <View style={styles.imageContainer}>
+        <Image style={styles.image} source={addAppIlustration} resizeMode="contain" />
+      </View>
+      <View style={styles.titleContainer}>
+        <Text textAlign="left" fontSize={22} fontWeight="medium" fontFamily="Roboto" lineHeight={25} color="darkGrey">
+          {'Claiming Daily GoodDallars'}
+        </Text>
+      </View>
+      <Text textAlign="left" fontFamily="Roboto" color="darkGrey" fontSize={14} lineHeight={20}>
+        {'GoodDollar gives every active member a small daily income.'}
+      </Text>
+      <Text textAlign="left" fontFamily="Roboto" color="darkGrey" fontSize={14} lineHeight={20}>
+        {'Sign in every day, collect GoodDollars and use them to pay for goods and services.'}
+      </Text>
+    </View>
+  )
+})
 
 const Claim = props => {
   const { screenProps, styles }: ClaimProps = props
@@ -173,6 +215,24 @@ const Claim = props => {
     // screenProps.push('FRIntro', { from: 'Claim' })
   }
 
+  const showLearnMoreDialog = () => {
+    showDialog({
+      content: <LearnMoreDialog />,
+      buttons: [
+        {
+          text: 'READ MORE',
+          mode: 'text',
+          color: props.theme.colors.gray80Percent,
+          onPress: dismiss => dismiss,
+        },
+        {
+          text: 'OK',
+          onPress: dismiss => dismiss,
+        },
+      ],
+    })
+  }
+
   const illustrationSizes = isCitizen ? styles.illustrationForCitizen : styles.illustrationForNonCitizen
   return (
     <Wrapper>
@@ -208,17 +268,19 @@ const Claim = props => {
               </Text>
             </View>
           </Section.Row>
-          <Section.Text
-            color="white"
-            fontFamily="Roboto"
-            fontWeight="bold"
-            lineHeigh={19}
-            size={16}
-            style={styles.learnMore}
-            textDecorationLine="underline"
-          >
-            {'Learn more'}
-          </Section.Text>
+          <TouchableOpacity onPress={showLearnMoreDialog}>
+            <Section.Text
+              color="white"
+              fontFamily="Roboto"
+              fontWeight="bold"
+              lineHeigh={19}
+              size={16}
+              style={styles.learnMore}
+              textDecorationLine="underline"
+            >
+              {'Learn more'}
+            </Section.Text>
+          </TouchableOpacity>
         </Section.Stack>
         <Section.Stack style={styles.extraInfo}>
           <Image source={illustration} style={[styles.illustration, illustrationSizes]} resizeMode="contain" />

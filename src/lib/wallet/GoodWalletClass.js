@@ -738,32 +738,39 @@ export class GoodWallet {
    * @param {object} options
    */
   async verifyHasGas(wei: number, options = {}) {
-    const { topWallet = true } = options
+    try {
+      const { topWallet = true } = options
 
-    let nativeBalance = await this.wallet.eth.getBalance(this.account)
-    if (nativeBalance > wei) {
-      return {
-        ok: true,
-      }
-    }
-
-    if (topWallet) {
-      const toppingRes = await API.verifyTopWallet()
-      const { data } = toppingRes
-      if (data.ok !== 1) {
+      let nativeBalance = await this.wallet.eth.getBalance(this.account)
+      if (nativeBalance > wei) {
         return {
-          ok: false,
-          error: (data.error && !~data.error.indexOf(`User doesn't need topping`)) || data.sendEtherOutOfSystem,
+          ok: true,
         }
       }
-      nativeBalance = await this.wallet.eth.getBalance(this.account)
-      return {
-        ok: data.ok && nativeBalance > wei,
-      }
-    }
 
-    return {
-      ok: false,
+      if (topWallet) {
+        const toppingRes = await API.verifyTopWallet()
+        const { data } = toppingRes
+        if (data.ok !== 1) {
+          return {
+            ok: false,
+            error: (data.error && !~data.error.indexOf(`User doesn't need topping`)) || data.sendEtherOutOfSystem,
+          }
+        }
+        nativeBalance = await this.wallet.eth.getBalance(this.account)
+        return {
+          ok: data.ok && nativeBalance > wei,
+        }
+      }
+
+      return {
+        ok: false,
+      }
+    } catch (e) {
+      return {
+        ok: false,
+        error: true,
+      }
     }
   }
 

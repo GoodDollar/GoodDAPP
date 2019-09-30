@@ -5,6 +5,7 @@ const Config = {
   serverUrl: process.env.REACT_APP_SERVER_URL || 'http://localhost:3003',
   gunPublicUrl: process.env.REACT_APP_GUN_PUBLIC_URL || 'http://localhost:3003/gun',
   web3SiteUrl: process.env.REACT_APP_WEB3_SITE_URL || 'https://w3.gooddollar.org',
+  web3SiteUrlEconomyEndpoint: process.env.REACT_APP_WEB3_SITE_URL_ECONOMY_ENDPOINT || '/learn/economy',
   publicUrl: process.env.REACT_APP_PUBLIC_URL || (window && window.location && window.location.origin),
   infuraKey: process.env.REACT_APP_INFURA_KEY,
   network: process.env.REACT_APP_NETWORK || 'fuse',
@@ -48,6 +49,8 @@ const Config = {
     },
   },
 }
+
+Config.web3SiteUrlEconomyPage = `${Config.web3SiteUrl}${Config.web3SiteUrlEconomyEndpoint}`
 
 // Forcing value as number, if not MNID encoder/decoder may fail
 // Config.networkId = Config.ethereum[Config.networkId].network_id

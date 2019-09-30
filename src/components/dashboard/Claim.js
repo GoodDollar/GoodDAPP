@@ -20,6 +20,7 @@ import { withStyles } from '../../lib/styles'
 import Section from '../common/layout/Section'
 import illustration from '../../assets/Claim/illustration.svg'
 import { theme } from '../theme/styles'
+import Config from '../../config/config'
 import type { DashboardProps } from './Dashboard'
 import ClaimButton from './ClaimButton'
 
@@ -241,7 +242,10 @@ const Claim = props => {
           mode: 'text',
           color: theme.colors.primary,
           style: styles.learnMoreDialogReadMoreButton,
-          onPress: dismiss => dismiss,
+          onPress: dismiss => {
+            window.location = Config.web3SiteUrlEconomyPage
+            dismiss()
+          },
         },
         {
           text: 'OK',

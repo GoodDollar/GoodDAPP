@@ -69,7 +69,7 @@ describe('Test case 1: Ability to Sign Up', () => {
 
                 cy.wrap(body.find(RewardsPage.createWalletButton)).should('be.visible');
                 cy.wrap(body.find(RewardsPage.contentWrapper)).should('contain', 'Redeem your rewards & collected a daily income');
-                cy.wrap(body.find(RewardsPage.createWalletButton)).click();
+                //cy.wrap(body.find(RewardsPage.createWalletButton)).click();
         
             });
         RewardsPage.backButton.click()

@@ -4,47 +4,47 @@
     "env": {   
         "baseUrl": "https://gooddev.netlify.com/",
         "wordsForSuccessfullLogin": [
-            "evidence", "cream", "disagree", 
-            "able", "client", "tide", 
-            "inner", "creek", "few", 
-            "nose", "mom", "civil"
+            "aerobic", "change", "battle", 
+            "tent", "open", "general", 
+            "solar", "jazz", "today", 
+            "simple", "blind", "able"
         ],
         "wordsForUnsuccessfullLogin": {
             "withChangedWord": [
-                "hello", "cream", "disagree", 
-                "able", "client", "tide", 
-                "inner", "creek", "few", 
-                "nose", "mom", "civil"
+                "arabic", "change", "battle", 
+                "tent", "open", "general", 
+                "solar", "jazz", "today", 
+                "simple", "blind", "able"
             ],
             "withNumbers": [
-                "2evidence", "cream", "disagree", 
-                "able", "client", "tide", 
-                "inner", "creek", "few", 
-                "nose", "mom", "civil"
+                "1aerobic", "change", "battle", 
+                "tent", "open", "general", 
+                "solar", "jazz", "today", 
+                "simple", "blind", "able"
             ],
             "withSymbols": [
-                "@evidence", "cream", "disagree", 
-                "able", "client", "tide", 
-                "inner", "creek", "few", 
-                "nose", "mom", "civil"
+                "@aerobic", "change", "battle", 
+                "tent", "open", "general", 
+                "solar", "jazz", "today", 
+                "simple", "blind", "able"
             ],
             "withChangedLetter": [
-                "avidence", "cream", "disagree", 
-                "able", "client", "tide", 
-                "inner", "creek", "few", 
-                "nose", "mom", "civil"
+                "oerobic", "change", "battle", 
+                "tent", "open", "general", 
+                "solar", "jazz", "today", 
+                "simple", "blind", "able"
             ],
             "withChangedOrder": [
-                "cream", "evidence", "disagree", 
-                "able", "client", "tide", 
-                "inner", "creek", "few", 
-                "nose", "mom", "civil"
+                "change", "aerobic", "battle", 
+                "tent", "open", "general", 
+                "solar", "jazz", "today", 
+                "simple", "blind", "able"
             ],
             "withCapitalize": [
-                "Evidence", "cream", "disagree", 
-                "able", "client", "tide", 
-                "inner", "creek", "few", 
-                "nose", "mom", "civil"]
+                "Aerobic", "change", "battle", 
+                "tent", "open", "general", 
+                "solar", "jazz", "today", 
+                "simple", "blind", "able"]
         },
         "anotherAccountWords": [
             "wave", "depart", "appear",

@@ -110,6 +110,7 @@ const Dashboard = props => {
     if (props.navigation.state.key === 'Delete') {
       deleteAccountDialog({ API, showDialog: showErrorDialog, store, theme: props.theme })
     }
+
     store.set('addWebApp')({ ...store.get('addWebApp'), show: true })
 
     prepareLoginToken()

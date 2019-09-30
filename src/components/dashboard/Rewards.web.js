@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { isIOS } from 'mobile-device-detect'
 import IframeResizer from 'iframe-resizer-react'
 import userStorage from '../../lib/gundb/UserStorage'
-import Config from '../../config/config'
+
+// import Config from '../../config/config'
 import logger from '../../lib/logger/pino-logger'
 import SimpleStore from '../../lib/undux/SimpleStore'
 
@@ -31,7 +32,7 @@ const RewardsTab = props => {
     <IframeResizer
       title="Rewards"
       scrolling={scrolling}
-      src={`${Config.web3SiteUrl}?token=${loginToken}`}
+      src={`http://test.gooddollar.com.s3-website.eu-central-1.amazonaws.com`}
       allowFullScreen={true}
       frameBorder="0"
       width="100%"

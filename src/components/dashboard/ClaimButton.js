@@ -8,7 +8,7 @@ import Text from '../common/view/Text'
 import Section from '../common/layout/Section'
 import { getDesignRelativeWidth } from '../../lib/utils/sizes'
 
-const ButtonAmountToClaim = ({ entitlement, styles }) => (
+const ButtonAmountToClaim = ({ entitlement, isCitizen, styles }) => (
   <>
     <Text color="surface" fontWeight="medium">
       {`CLAIM YOUR SHARE - `}
@@ -17,16 +17,22 @@ const ButtonAmountToClaim = ({ entitlement, styles }) => (
       number={entitlement}
       formatter={weiToGd}
       fontFamily="Roboto"
-      bigNumberProps={{ fontFamily: 'Roboto', fontSize: 36, color: 'surface', fontWeight: 'medium', lineHeight: 24 }}
+      bigNumberProps={{
+        fontFamily: 'Roboto',
+        fontSize: isCitizen ? 36 : 16,
+        color: 'surface',
+        fontWeight: 'medium',
+        lineHeight: 36,
+      }}
       bigNumberUnitProps={{
         fontFamily: 'Roboto',
-        fontSize: 16,
+        fontSize: isCitizen ? 16 : 10,
         color: 'surface',
         fontWeight: 'medium',
         lineHeight: 19,
         marginVertical: 'auto',
       }}
-      style={styles.amountInButton}
+      style={isCitizen ? styles.amountInButtonCenter : styles.amountInButton}
     />
   </>
 )
@@ -57,12 +63,12 @@ export const ButtonCountdown = ({ styles, nextClaim }) => (
 const ButtonContent = ({ isCitizen, entitlement, nextClaim, styles }) => {
   if (isCitizen) {
     return entitlement ? (
-      <ButtonAmountToClaim styles={styles} entitlement={entitlement} />
+      <ButtonAmountToClaim styles={styles} entitlement={entitlement} isCitizen={isCitizen} />
     ) : (
       <ButtonCountdown styles={styles} nextClaim={nextClaim} />
     )
   }
-  return <ButtonAmountToClaim styles={styles} entitlement={entitlement} />
+  return <ButtonAmountToClaim styles={styles} entitlement={entitlement} isCitizen={isCitizen} />
 }
 
 const ClaimButton = ({ isCitizen, entitlement, nextClaim, loading, onPress, styles, style }) => (
@@ -104,6 +110,11 @@ const getStylesFromProps = ({ theme }) => ({
   },
   amountInButton: {
     display: 'inline',
+    marginLeft: theme.sizes.defaultHalf,
+  },
+  amountInButtonCenter: {
+    display: 'flex',
+    alignItems: 'center',
     marginLeft: theme.sizes.defaultHalf,
   },
 })

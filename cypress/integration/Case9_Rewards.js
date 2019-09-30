@@ -1,9 +1,12 @@
+/* eslint-disable lines-around-comment */
+/* eslint-disable no-undef */
+/* eslint-disable prettier/prettier */
 import StartPage from '../PageObjects/StartPage'
 import LoginPage from '../PageObjects/LoginPage'
 import HomePage from '../PageObjects/HomePage'
 import RewardsPage from '../PageObjects/RewardsPage'
 import w3Page from '../PageObjects/w3Page'
-import SignUpPage from '../PageObjects/SignUpPage'
+
 
 
 
@@ -24,33 +27,35 @@ describe('Test case 9: Ability to see rewards', () => {
         
     // });
 
-    it('User is able to see rewards page correctly if he has wallet without w3 account', () => {
+    // it('User is able to see rewards page correctly if he has wallet without w3 account', () => {
 
-        StartPage.open();
-        StartPage.continueOnWebButton.click();   
-        StartPage.signInButton.click();  
-        LoginPage.recoverFromPassPhraseLink.click();
-        LoginPage.pageHeader.should('contain', 'Recover');
-        const string = Cypress.env('wordsForSuccessfullLogin').join(' ');
-        LoginPage.mnemonicsInput.type(string);
-        LoginPage.recoverWalletButton.click();
-        LoginPage.yayButton.click();
-        cy.wait(7000);
-        HomePage.rewardsButton.click();
-        RewardsPage.pageHeader.should('contain', 'Rewards');
-        RewardsPage.iframe.should('be.visible');
-        RewardsPage.iframe
-            .then( iframe => new Promise(resolve => setTimeout( () => resolve(iframe), 7500 )))
-            .then( iframe => {
-                const body = iframe.contents().find('body');
+    //     StartPage.open();
+    //     StartPage.continueOnWebButton.click();   
+    //     StartPage.signInButton.click();  
+    //     LoginPage.recoverFromPassPhraseLink.click();
+    //     LoginPage.pageHeader.should('contain', 'Recover');
+    //     const string = Cypress.env('wordsForSuccessfullLogin').join(' ');
+    //     LoginPage.mnemonicsInput.type(string);
+    //     LoginPage.recoverWalletButton.click();
+    //     LoginPage.yayButton.click();
+    //     cy.wait(7000);
+    //     HomePage.rewardsButton.click();
+    //     RewardsPage.pageHeader.should('contain', 'Rewards');
+    //     RewardsPage.iframe.should('be.visible');
+    //     RewardsPage.iframe
+    //         .then( iframe => new Promise(resolve => setTimeout( () => resolve(iframe), 7500 )))
+    //         .then( iframe => {
+    //             const body = iframe.contents().find('body');
 
-                cy.wrap(body.find(RewardsPage.createWalletButton)).should('be.visible');
-                cy.wrap(body.find(RewardsPage.contentWrapper)).should('contain', 'Redeem your rewards & collected a daily income');
-                // cy.wrap(body.find(RewardsPage.createWalletButton)).click();
+    //             cy.wrap(body.find(RewardsPage.createWalletButton)).should('be.visible');
+    //             cy.wrap(body.find(RewardsPage.contentWrapper)).should('contain', 'Redeem your rewards & collected a daily income');
+    //             // cy.wrap(body.find(RewardsPage.createWalletButton)).click();
         
-            });
+    //         });
 
-    })
+    // })
+
+    let url;
 
     it('User is able to see rewards page correctly if he has w3 account without wallet (register new wallet)', () => {
 
@@ -64,9 +69,13 @@ describe('Test case 9: Ability to see rewards', () => {
         w3Page.passwordInput.type('Test12345!!!');
         w3Page.loginButton.click();
         w3Page.createWalletButton.should('be.visible');
-        w3Page.createWalletButton.invoke('attr', 'href').then( createWalletUrl => {
+        w3Page.createWalletButton.invoke('attr', 'href').then( async createWalletUrl => {
             cy.wait(3000)
-            Cypress.env("newWalletLink", createWalletUrl);
+            cy.log(createWalletUrl)
+            Cypress.env("myVar1", createWalletUrl);
+            url = createWalletUrl;
+            cy.wait(3000)
+            cy.log(Cypress.env("myVar1"))
             // StartPage.continueOnWebButton.should('be.visible');
             // StartPage.continueOnWebButton.click();
             // StartPage.createWalletButton.click();
@@ -117,10 +126,11 @@ describe('Test case 9: Ability to see rewards', () => {
 
     })
 
-    // it('lalala', () => {
-    //     cy.wait(30000)
-    //     cy.visit(Cypress.env('newWalletLink'))
-    // })
+    it('lalala', () => {
+     
+        cy.log(url)
+        cy.visit(Cypress.env('myVar1'))
+    })
 
     
 

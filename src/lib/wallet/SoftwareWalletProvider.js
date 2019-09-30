@@ -73,7 +73,12 @@ class SoftwareWalletProvider {
     log.info('wallet config:', this.conf, provider)
 
     //let web3 = new Web3(new WebsocketProvider("wss://ropsten.infura.io/ws"))
-    let pkey: ?string = this.conf.mnemonic || (await getMnemonics())
+    let pkey: ?string
+    if (this.conf.mnemonicToSeed) {
+      pkey = bip39.mnemonicToSeed(this.conf.mnemonic || (await getMnemonics()))
+    } else {
+      pkey = this.conf.mnemonic || (await getMnemonics())
+    }
 
     //we start from addres 1, since from address 0 pubkey all public keys can  be generated
     //and we want privacy

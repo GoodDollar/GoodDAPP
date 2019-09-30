@@ -388,7 +388,7 @@ const getStylesFromProps = ({ theme }) => {
       borderRadius: 5,
     },
     subMainText: {
-      marginTop: getDesignRelativeHeight(15),
+      marginTop: getDesignRelativeHeight(10),
     },
     learnMore: {
       marginTop: getDesignRelativeHeight(15),

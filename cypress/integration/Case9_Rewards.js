@@ -1,9 +1,12 @@
+/* eslint-disable lines-around-comment */
+/* eslint-disable no-undef */
+/* eslint-disable prettier/prettier */
 import StartPage from '../PageObjects/StartPage'
 import LoginPage from '../PageObjects/LoginPage'
 import HomePage from '../PageObjects/HomePage'
 import RewardsPage from '../PageObjects/RewardsPage'
 import w3Page from '../PageObjects/w3Page'
-import SignUpPage from '../PageObjects/SignUpPage'
+
 
 
 
@@ -52,6 +55,8 @@ describe('Test case 9: Ability to see rewards', () => {
 
     // })
 
+    let url;
+
     it('User is able to see rewards page correctly if he has w3 account without wallet (register new wallet)', () => {
 
         w3Page.openPage();
@@ -64,7 +69,11 @@ describe('Test case 9: Ability to see rewards', () => {
         w3Page.passwordInput.type('Test12345!!!');
         w3Page.loginButton.click();
         w3Page.createWalletButton.should('be.visible');
-        w3Page.createWalletButton.invoke('attr', 'href').then( createWalletUrl => {
+        w3Page.createWalletButton.invoke('attr', 'href').then( async createWalletUrl => {
+            cy.wait(3000)
+            cy.log(createWalletUrl)
+            Cypress.env("myVar1", createWalletUrl);
+            url = createWalletUrl;
             cy.wait(3000)
             // cy.visit(createWalletUrl)
             //
@@ -121,9 +130,7 @@ describe('Test case 9: Ability to see rewards', () => {
     })
 
     it('lalala', () => {
-        cy.wait(3000)
-        cy.log(Cypress.env('newWalletLink'))
-        cy.wait(3000)
+  
         cy.visit(Cypress.env('newWalletLink'))
         cy.wait(15000)
 

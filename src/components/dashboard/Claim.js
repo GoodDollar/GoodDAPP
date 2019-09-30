@@ -10,14 +10,16 @@ import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import wrapper from '../../lib/undux/utils/wrapper'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
+import normalize from '../../lib/utils/normalizeText'
 import { Wrapper } from '../common'
 import BigGoodDollar from '../common/view/BigGoodDollar'
 import Text from '../common/view/Text'
 import LoadingIcon from '../common/modal/LoadingIcon'
+import Icon from '../common/view/Icon'
 import { withStyles } from '../../lib/styles'
 import Section from '../common/layout/Section'
 import illustration from '../../assets/Claim/illustration.svg'
-import addAppIlustration from '../../assets/addApp.svg'
+import { theme } from '../theme/styles'
 import type { DashboardProps } from './Dashboard'
 import ClaimButton from './ClaimButton'
 
@@ -45,15 +47,20 @@ const learnMoreStyles = ({ theme }) => ({
     borderBottomWidth: 2,
     borderBottomStyle: 'solid',
     borderBottomColor: theme.colors.primary,
-    paddingVertical: theme.sizes.default,
+    paddingVertical: getDesignRelativeHeight(20),
     marginVertical: theme.sizes.default,
+    marginBottom: getDesignRelativeHeight(18),
   },
   image: {
-    width: '100%',
-    height: '15vh',
+    textAlign: 'center',
+    marginBottom: getDesignRelativeHeight(8),
   },
   imageContainer: {
-    padding: 32,
+    paddingHorizontal: getDesignRelativeWidth(20),
+    paddingVertical: getDesignRelativeHeight(20),
+  },
+  mainText: {
+    letterSpacing: 0.28,
   },
 })
 
@@ -61,11 +68,21 @@ const LearnMoreDialog = withStyles(learnMoreStyles)(({ styles }) => {
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
-        <Image style={styles.image} source={addAppIlustration} resizeMode="contain" />
+        <Icon name="info" size={80} style={styles.image} />
+        <Text
+          fontSize={28}
+          lineHeight={37}
+          fontFamily="Roboto"
+          fontWeight="bold"
+          color="primary"
+          style={styles.mainText}
+        >
+          {'DID YOU KNOW?'}
+        </Text>
       </View>
       <View style={styles.titleContainer}>
         <Text textAlign="left" fontSize={22} fontWeight="medium" fontFamily="Roboto" lineHeight={25} color="darkGrey">
-          {'Claiming Daily GoodDallars'}
+          {'Claiming Daily GoodDollars'}
         </Text>
       </View>
       <Text textAlign="left" fontFamily="Roboto" color="darkGrey" fontSize={14} lineHeight={20}>
@@ -222,12 +239,14 @@ const Claim = props => {
         {
           text: 'READ MORE',
           mode: 'text',
-          color: props.theme.colors.gray80Percent,
+          color: theme.colors.primary,
+          style: styles.learnMoreDialogReadMoreButton,
           onPress: dismiss => dismiss,
         },
         {
           text: 'OK',
-          onPress: dismiss => dismiss,
+          style: styles.learnMoreDialogOkButton,
+          onPress: dismiss => dismiss(),
         },
       ],
     })
@@ -338,6 +357,7 @@ const getStylesFromProps = ({ theme }) => {
       alignItems: 'center',
       flexDirection: 'column',
       marginVertical: 'auto',
+      zIndex: 1,
     },
     mainTextTitle: {
       marginBottom: 12,
@@ -368,6 +388,16 @@ const getStylesFromProps = ({ theme }) => {
     },
     learnMore: {
       marginTop: getDesignRelativeHeight(15),
+    },
+    learnMoreDialogReadMoreButton: {
+      borderWidth: 1,
+      borderColor: theme.colors.primary,
+      width: '64%',
+      fontSize: normalize(14),
+    },
+    learnMoreDialogOkButton: {
+      width: '34%',
+      fontSize: normalize(14),
     },
     mainTextBigMarginBottom: {
       marginBottom: theme.sizes.defaultHalf,

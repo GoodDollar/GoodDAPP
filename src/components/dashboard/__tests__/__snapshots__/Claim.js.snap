@@ -455,7 +455,7 @@ exports[`Claim matches snapshot 1`] = `
             "flexGrow": 1,
             "flexShrink": 1,
             "justifyContent": "space-between",
-            "marginTop": "70px",
+            "marginTop": "85px",
             "maxHeight": "fit-content",
             "msFlexAlign": "stretch",
             "msFlexDirection": "column",

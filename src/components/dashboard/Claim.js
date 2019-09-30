@@ -430,7 +430,7 @@ const getStylesFromProps = ({ theme }) => {
       maxHeight: 'fit-content',
       paddingVertical: theme.sizes.defaultDouble,
       paddingHorizontal: theme.sizes.default,
-      marginTop: getDesignRelativeHeight(70),
+      marginTop: getDesignRelativeHeight(85),
     },
     extraInfoStats: {
       ...defaultStatsBlock,

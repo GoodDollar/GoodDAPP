@@ -6,6 +6,7 @@ import sendIllustration from '../../../assets/Feed/send.svg'
 import messageIllustration from '../../../assets/Feed/message.png'
 import inviteIllustration from '../../../assets/Feed/invite.png'
 import inviteFriendsIllustration from '../../../assets/Feed/inviteFriends.png'
+import backupIllustration from '../../../assets/Feed/backup.png'
 import { withStyles } from '../../../lib/styles'
 
 const TopImage = ({ type, styles }) => {
@@ -43,6 +44,11 @@ const TopImage = ({ type, styles }) => {
       },
       welcome: {
         src: inviteIllustration,
+        style: styles.mainPhoto,
+        containerStyle: styles.mainPhotoContainer,
+      },
+      backup: {
+        src: backupIllustration,
         style: styles.mainPhoto,
         containerStyle: styles.mainPhotoContainer,
       },

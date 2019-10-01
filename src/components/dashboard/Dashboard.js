@@ -32,6 +32,7 @@ import Mnemonics from '../signin/Mnemonics'
 
 // import goodWallet from '../../lib/wallet/GoodWallet'
 import { deleteAccountDialog } from '../sidemenu/SideMenuPanel'
+import { backupMessage } from '../../lib/gundb/UserStorageClass'
 import RewardsTab from './Rewards'
 import Amount from './Amount'
 import Claim from './Claim'
@@ -103,6 +104,20 @@ const Dashboard = props => {
     }
   }
 
+  /**
+   * if necessary, add a backup card
+   *
+   * @returns {Promise<void>}
+   */
+  const addBackupCard = async () => {
+    const userProperties = await userStorage.userProperties.getAll()
+    if (!userProperties.isMadeBackup && userProperties.needAddBackupFeed) {
+      await userStorage.enqueueTX(backupMessage)
+      await userStorage.userProperties.set('isMadeBackup', true)
+      await userStorage.userProperties.set('needAddBackupFeed', false)
+    }
+  }
+
   const nextFeed = () => {
     return getNextFeed(gdstore)
   }
@@ -113,7 +128,7 @@ const Dashboard = props => {
     store.set('addWebApp')({ ...store.get('addWebApp'), show: true })
 
     prepareLoginToken()
-
+    addBackupCard()
     log.debug('Dashboard didmount')
     userStorage.feed.get('byid').on(data => {
       log.debug('gun getFeed callback', { data })

@@ -11,7 +11,7 @@ describe('Check W3 Login Token Save', () => {
 
     await userStorage.ready
 
-    userStorage.setProfileField('loginToken', token, 'private')
+     userStorage.setProfileField('loginToken', token, 'private')
 
     const savedPrivateTokenValue = await userStorage.getProfileField('loginToken')
     const savedTokenValue = await userStorage.getProfileFieldValue('loginToken')

@@ -39,3 +39,15 @@ describe('EventIcon - Receive', () => {
     expect(tree.toJSON()).toMatchSnapshot()
   })
 })
+
+describe('EventIcon - welcome', () => {
+  it('renders without errors', () => {
+    const tree = renderer.create(<EventIcon type="welcome" />)
+    expect(tree.toJSON()).toBeTruthy()
+  })
+
+  it('matches snapshot', () => {
+    const tree = renderer.create(<EventIcon type="welcome" />)
+    expect(tree.toJSON()).toMatchSnapshot()
+  })
+})

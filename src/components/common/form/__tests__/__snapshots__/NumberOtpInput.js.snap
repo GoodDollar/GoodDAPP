@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`OtpInput matches snapshot 1`] = `
+exports[`Number OtpInput number matches snapshot 1`] = `
 <div
   className="css-view-1dbjc4n"
   style={
@@ -173,8 +173,8 @@ exports[`OtpInput matches snapshot 1`] = `
             },
           }
         }
-        type="text"
-        value="T"
+        type="tel"
+        value="1"
       />
     </div>
     <div
@@ -314,8 +314,8 @@ exports[`OtpInput matches snapshot 1`] = `
             },
           }
         }
-        type="text"
-        value="e"
+        type="tel"
+        value="2"
       />
     </div>
     <div
@@ -455,8 +455,8 @@ exports[`OtpInput matches snapshot 1`] = `
             },
           }
         }
-        type="text"
-        value="x"
+        type="tel"
+        value="3"
       />
     </div>
     <div
@@ -596,8 +596,8 @@ exports[`OtpInput matches snapshot 1`] = `
             },
           }
         }
-        type="text"
-        value="t"
+        type="tel"
+        value="4"
       />
     </div>
     <div
@@ -737,7 +737,7 @@ exports[`OtpInput matches snapshot 1`] = `
             },
           }
         }
-        type="text"
+        type="tel"
         value=""
       />
     </div>
@@ -878,7 +878,7 @@ exports[`OtpInput matches snapshot 1`] = `
             },
           }
         }
-        type="text"
+        type="tel"
         value=""
       />
     </div>

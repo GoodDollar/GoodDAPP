@@ -5,16 +5,16 @@ import { withThemeProvider } from '../../../../__tests__/__util__'
 
 // Note: test renderer must be required after react-native.
 
-describe('OtpInput', () => {
+describe('Empty OtpInput', () => {
   const WrappedOtpInput = withThemeProvider(OtpInput)
 
   it('renders without errors', () => {
-    const tree = renderer.create(<WrappedOtpInput numInputs={6} />)
+    const tree = renderer.create(<WrappedOtpInput numInputs={6} isInputNum />)
     expect(tree.toJSON()).toBeTruthy()
   })
 
-  it('matches snapshot', () => {
-    const component = renderer.create(<WrappedOtpInput numInputs={6} value="Text" />)
+  it('empty matches snapshot', () => {
+    const component = renderer.create(<WrappedOtpInput numInputs={6} isInputNum />)
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

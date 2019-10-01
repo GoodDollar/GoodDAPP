@@ -144,6 +144,14 @@ class API {
   }
 
   /**
+   * `/verify/sendnewotp` post api call
+   * @param {String} mobile
+   */
+  sendNewOTP(mobile: String): AxiosPromise<any> {
+    return this.client.post('/verify/sendnewotp', { mobile })
+  }
+
+  /**
    * `/verify/user` post api call
    * @param {any} verificationData
    */
@@ -167,6 +175,14 @@ class API {
   }
 
   /**
+   * `/verify/newmobile` post api call
+   * @param {String} otp
+   */
+  verifyNewMobile(otp: String): Promise<$AxiosXHR<any>> {
+    return this.client.post('/verify/newmobile', { otp })
+  }
+
+  /**
    * `/verify/topwallet` post api call. Tops users wallet
    */
   verifyTopWallet(): Promise<$AxiosXHR<any>> {
@@ -182,12 +198,29 @@ class API {
   }
 
   /**
+   * `/verify/sendenewmail` post api call
+   * @param {String} email
+   */
+  sendVerificationForNewEmail(email: String): Promise<$AxiosXHR<any>> {
+    return this.client.post('/verify/sendnewemail', { email })
+  }
+
+  /**
    * `/verify/email` post api call
    * @param {object} verificationData
    * @param {string} verificationData.code
    */
   verifyEmail(verificationData: { code: string }): Promise<$AxiosXHR<any>> {
     return this.client.post('/verify/email', { verificationData })
+  }
+
+  /**
+   * `/verify/newemail` post api call
+   * @param {object} verificationData
+   * @param {string} verificationData.code
+   */
+  verifyNewEmail(code: string): Promise<$AxiosXHR<any>> {
+    return this.client.post('/verify/newemail', { code })
   }
 
   /**

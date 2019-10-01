@@ -1,38 +1,22 @@
 // @flow
 import React from 'react'
+import _get from 'lodash/get'
 import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { withStyles } from '../../lib/styles'
-import type { SignupState } from './SignupState'
-import SMSFormComponent from './SMSFormComponent'
+import SMSFormComponent from '../signup/SMSFormComponent'
 
 const log = logger.child({ from: 'SmsForm' })
-
-type Props = {
-  phone: string,
-  data: SignupState,
-  doneCallback: ({ isPhoneVerified: boolean }) => null,
-  screenProps: any,
-}
 
 export type SMSRecord = {
   smsValidated: boolean,
   sentSMS?: boolean,
 }
 
-type State = SMSRecord & {
-  errorMessage: string,
-  sendingCode: boolean,
-  renderButton: boolean,
-  resentCode: boolean,
-  loading: boolean,
-  otp: Array<string>,
-}
-
 const NumInputs: number = 6
 
-class SmsForm extends React.Component<Props, State> {
+class VerifyEditCode extends React.Component {
   state = {
     smsValidated: false,
     sentSMS: false,
@@ -41,33 +25,69 @@ class SmsForm extends React.Component<Props, State> {
     renderButton: false,
     resentCode: false,
     loading: false,
-    otp: Array(NumInputs).fill(null),
+    code: Array(NumInputs).fill(null),
+    requestFn: undefined,
+    resendCodeFn: undefined,
+    fieldToShow: '',
+  }
+
+  componentDidMount() {
+    const { navigation } = this.props
+    const field = _get(navigation, 'state.params.field')
+    let requestFn
+    let resendCodeFn
+    let fieldToShow
+
+    switch (field) {
+      case 'phone':
+        requestFn = API.verifyNewMobile
+        resendCodeFn = API.sendNewOTP
+        fieldToShow = 'phone'
+        break
+
+      case 'email':
+      default:
+        requestFn = API.verifyNewEmail
+        resendCodeFn = API.sendVerificationForNewEmail
+        fieldToShow = 'email'
+        break
+    }
+
+    this.setState({
+      requestFn,
+      resendCodeFn,
+      fieldToShow,
+    })
   }
 
   componentDidUpdate() {
     if (!this.state.renderButton) {
-      this.displayDelayedRenderButton()
+      this.renderDelayedButton()
     }
   }
 
-  displayDelayedRenderButton = () => {
+  renderDelayedButton = () => {
     setTimeout(() => {
       this.setState({ renderButton: true })
     }, 10000)
   }
 
-  handleChange = async (otp: array) => {
-    const otpValue = otp.filter(val => val).join('')
-    if (otpValue.replace(/ /g, '').length === NumInputs) {
+  handleChange = async (code: array) => {
+    const codeValue = code.filter(val => val).join('')
+    if (codeValue.replace(/ /g, '').length === NumInputs) {
       this.setState({
         loading: true,
-        otp,
+        code,
       })
+
       try {
-        await this.verifyOTP(otpValue)
+        const { requestFn } = this.state
+
+        await requestFn({ code: codeValue })
+
         this.handleSubmit()
       } catch (e) {
-        log.error(e.message, e)
+        log.error('Failed to verify top:', e.message, e)
 
         this.setState({
           errorMessage: e.message || e,
@@ -78,31 +98,29 @@ class SmsForm extends React.Component<Props, State> {
     } else {
       this.setState({
         errorMessage: '',
-        otp,
+        code,
       })
     }
   }
 
   handleSubmit = () => {
-    this.props.screenProps.doneCallback({ smsValidated: true })
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  verifyOTP(otp: string) {
-    return API.verifyMobile({ otp })
+    // show success popup - redirect to prodile on dismiss
   }
 
   handleRetry = async () => {
-    this.setState({ sendingCode: true, otp: Array(NumInputs).fill(null), errorMessage: '' })
+    this.setState({ sendingCode: true, code: Array(NumInputs).fill(null), errorMessage: '' })
 
     try {
-      await API.sendOTP({ ...this.props.screenProps.data })
-      this.setState({ sendingCode: false, renderButton: false, resentCode: true }, this.displayDelayedRenderButton)
+      const { resendCodeFn } = this.state
+
+      await resendCodeFn({ ...this.props.screenProps.data })
+      this.setState({ sendingCode: false, renderButton: false, resentCode: true }, this.renderDelayedButton)
 
       //turn checkmark back into regular resend text
       setTimeout(() => this.setState({ ...this.state, resentCode: false }), 2000)
     } catch (e) {
-      log.error(e.message, e)
+      log.error('Failed to resend code:', e.message, e)
+
       this.setState({
         errorMessage: e.message || e,
         sendingCode: false,
@@ -112,25 +130,30 @@ class SmsForm extends React.Component<Props, State> {
   }
 
   render() {
-    const { errorMessage, renderButton, loading, otp, resentCode } = this.state
+    const { errorMessage, renderButton, loading, code, resentCode, fieldToShow } = this.state
     const { styles } = this.props
+    const mainText = `Enter the verification code\nsent to your ${fieldToShow}`
 
     return (
       <SMSFormComponent
         errorMessage={errorMessage}
         renderButton={renderButton}
         loading={loading}
-        otp={otp}
+        otp={code}
         resentCode={resentCode}
         styles={styles}
         NumInputs={NumInputs}
         handleSubmit={this.handleSubmit}
         handleChange={this.handleChange}
         handleRetry={this.handleRetry}
-        mainText={'Enter the verification code\nsent to your phone'}
+        mainText={mainText}
       />
     )
   }
+}
+
+VerifyEditCode.navigationOptions = {
+  title: 'Edit Profile',
 }
 
 const getStylesFromProps = ({ theme }) => ({
@@ -166,4 +189,4 @@ const getStylesFromProps = ({ theme }) => ({
   },
 })
 
-export default withStyles(getStylesFromProps)(SmsForm)
+export default withStyles(getStylesFromProps)(VerifyEditCode)

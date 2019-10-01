@@ -9,8 +9,20 @@ describe('OtpInput', () => {
   const WrappedOtpInput = withThemeProvider(OtpInput)
 
   it('renders without errors', () => {
-    const tree = renderer.create(<WrappedOtpInput numInputs={6} />)
+    const tree = renderer.create(<WrappedOtpInput numInputs={3} />)
     expect(tree.toJSON()).toBeTruthy()
+  })
+
+  it('empty matches snapshot', () => {
+    const component = renderer.create(<WrappedOtpInput numInputs={6} isInputNum={true} />)
+    const tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
+  })
+
+  it('number matches snapshot', () => {
+    const component = renderer.create(<WrappedOtpInput numInputs={6} isInputNum={true} value="1234" />)
+    const tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
   })
 
   it('matches snapshot', () => {

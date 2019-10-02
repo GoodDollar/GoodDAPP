@@ -18,7 +18,7 @@ type SideMenuPanelProps = {
 export const deleteAccountDialog = ({ API, showDialog, store, theme }) => {
   showDialog('', '', {
     title: 'ARE YOU SURE?',
-    message: 'If you delete your account',
+    message: 'If you delete your wallet',
     boldMessage: 'all your G$ will be lost forever!',
     image: <TrashIcon />,
     buttons: [
@@ -144,7 +144,7 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, navigation, store, theme 
   bottomItems: [
     {
       icon: 'trash',
-      name: 'Delete Account',
+      name: 'Delete wallet',
       color: 'red',
       action: () => {
         deleteAccountDialog({ API, showDialog, store, theme })

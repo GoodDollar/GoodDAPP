@@ -428,7 +428,7 @@ export class GoodWallet {
    * @returns {Promise<boolean>}
    */
   isVerified(address: string): Promise<boolean> {
-    return this.identityContract.methods.isClaimer(address).call()
+    return this.identityContract.methods.isWhitelisted(address).call()
   }
 
   /**
@@ -444,8 +444,8 @@ export class GoodWallet {
    * @returns {Promise<boolean>}
    */
   getTxFee(): Promise<boolean> {
-    return this.reserveContract.methods
-      .transactionFee()
+    return this.tokenContract.methods
+      .GetFees(1)
       .call()
       .then(toBN)
   }

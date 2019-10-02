@@ -15,7 +15,7 @@ const ClaimButton = ({ screenProps, styles }) => (
 const getStylesFromProps = ({ theme }) => ({
   claimButton: {
     animationKeyframes: 'zoom-in-out',
-    animationDuration: '1s',
+    animationDuration: '1.5s',
     animationTimingFunction: 'linear',
     animationDelay: '1s',
     animationIterationCount: 3,

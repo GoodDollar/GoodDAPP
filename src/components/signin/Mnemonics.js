@@ -142,9 +142,6 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
             Looks like you already have a wallet. Please recover it to continue
           </Text>
         )}
-        <Text color="gray80Percent" fontSize={14}>
-          You can copy-paste it from your backup email
-        </Text>
       </Section.Stack>
       <Section.Stack grow={4} justifyContent="space-between">
         <Section.Row justifyContent="center">

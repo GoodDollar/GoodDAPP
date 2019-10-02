@@ -80,7 +80,7 @@ describe('Test case 9: Ability to see rewards', () => {
     it('User is able to create new wallet with w3 token', () => {
         
 
-        cy.visit("https://goodqa.netlify.com/?web3=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjozNTV9LCJpYXQiOjE1NzAwMjk4NTJ9.f9RJ54TGs4d6WSzgP91pvbdRgGMdiz7u5PriDqbCyqA")
+        cy.visit("")
         //cy.visit(Cypress.env('w3Link'))
         StartPage.continueOnWebButton.click();
         StartPage.createWalletButton.click();
@@ -120,7 +120,7 @@ describe('Test case 9: Ability to see rewards', () => {
                         HomePage.optionsButton.click();
                         cy.window()
                         .then( async win => {
-                            const data = await win.api.getUserFromW3ByToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjozNTV9LCJpYXQiOjE1NzAwMjk4NTJ9.f9RJ54TGs4d6WSzgP91pvbdRgGMdiz7u5PriDqbCyqA');
+                            const data = await win.api.getUserFromW3ByToken('');
                             cy.log("laaaaa: " + data.has_wallet)
                       
                          

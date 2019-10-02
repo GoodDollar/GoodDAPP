@@ -83,10 +83,10 @@ const Claim = props => {
   const getNextClaim = async date => {
     let nextClaimTime = date - new Date().getTime()
     if (nextClaimTime < 0 && state.entitlement <= 0) {
-      const entitlement = await goodWallet.checkEntitlement().toNumber()
+      const entitlement = await goodWallet.checkEntitlement()
       setState({
         nextClaim: '--:--:--',
-        entitlement: entitlement,
+        entitlement: entitlement.toNumber() > 0 ? entitlement.toNumber() : 100,
         claimedToday: {
           people: '--',
           amount: '--',

@@ -20,6 +20,7 @@ const Config = {
     !process.env.REACT_APP_THROW_SAVE_PROFILE_ERRORS || process.env.REACT_APP_THROW_SAVE_PROFILE_ERRORS === 'true',
   withMockedFeeds: process.env.REACT_APP_WITH_MOCKED_FEEDS === 'true',
   safariMobileKeyboardGuidedSize: process.env.REACT_APP_SAFARI_MOBILE_KEYBOARD_GUIDED_SIZE === 'true',
+  nextTimeClaim: process.env.REACT_APP_NEXT_TIME_CLAIM || 86400,
   ethereum: {
     '42': {
       network_id: 42,

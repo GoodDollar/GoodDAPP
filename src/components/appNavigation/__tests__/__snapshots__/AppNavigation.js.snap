@@ -903,15 +903,25 @@ exports[`AppNavigation matches snapshot 1`] = `
             </div>
           </div>
           <div
-            className="css-view-1dbjc4n"
+            className="css-view-1dbjc4n r-animationKeyframes-1nwwcyr"
             style={
               Object {
                 "WebkitAlignItems": "center",
+                "WebkitAnimationDelay": "1s",
+                "WebkitAnimationDirection": "normal",
+                "WebkitAnimationDuration": "1s",
+                "WebkitAnimationIterationCount": 3,
+                "WebkitAnimationTimingFunction": "linear",
                 "WebkitBoxAlign": "center",
                 "WebkitBoxPack": "center",
                 "WebkitJustifyContent": "center",
                 "WebkitTransform": "translateX(-50%) translateY(-50%)",
                 "alignItems": "center",
+                "animationDelay": "1s",
+                "animationDirection": "normal",
+                "animationDuration": "1s",
+                "animationIterationCount": 3,
+                "animationTimingFunction": "linear",
                 "backgroundColor": "rgba(0,195,174,1.00)",
                 "borderBottomColor": "rgba(255,255,255,1.00)",
                 "borderBottomLeftRadius": "50%",

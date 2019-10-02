@@ -57,7 +57,7 @@ const learnMoreStyles = ({ theme }) => ({
     marginBottom: getDesignRelativeHeight(8),
   },
   imageContainer: {
-    paddingHorizontal: getDesignRelativeWidth(20),
+    paddingHorizontal: getDesignRelativeWidth(5),
     paddingVertical: getDesignRelativeHeight(20),
   },
   mainText: {

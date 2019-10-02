@@ -119,10 +119,10 @@ const getStylesFromProps = ({ theme }) => ({
     width: '100%',
   },
   submitButton: {
-    width: '74%',
+    width: '71%',
   },
   cancelButton: {
-    width: '24%',
+    width: '28%',
     fontSize: normalize(14),
   },
 })

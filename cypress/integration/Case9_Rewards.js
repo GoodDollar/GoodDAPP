@@ -70,8 +70,8 @@ describe('Test case 9: Ability to see rewards', () => {
         w3Page.loginButton.click();
         w3Page.createWalletButton.should('be.visible');
         w3Page.createWalletButton.invoke('attr', 'href').then( createWalletUrl => {
-            cy.log(createWalletUrl)
             Cypress.env('myLink', createWalletUrl)
+            cy.log(Cypress.env('myLink'))
             cy.wait(3000)
         })
 
@@ -80,7 +80,7 @@ describe('Test case 9: Ability to see rewards', () => {
     it('User is able to create new wallet with w3 token', () => {
         
         cy.visit(Cypress.env('myLink'))
-        // cy.visit("https://goodqa.netlify.com/?web3=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjozNTh9LCJpYXQiOjE1NzAwMTg4NDJ9.eWtCWkDf98qxmcxWfbH6Y39-BWNYmcbknnQ9WozDOTM")
+    
         StartPage.continueOnWebButton.click();
         StartPage.createWalletButton.click();
         cy.wait(3000)

@@ -60,7 +60,7 @@ describe('Test case 7: Ability to send money', () => {
                 cy.wait(7000)
                 HomePage.moneyAmountDiv.invoke('text').then( moneyAfter => {
                     cy.wait(3000)
-                    cy.log('Money after sending: ' + moneyBefore )
+                    cy.log('Money after sending: ' + moneyAfter)
                     expect(Number(moneyBefore) + 0.01).to.be.equal( Number(moneyAfter) )
                 });
                 

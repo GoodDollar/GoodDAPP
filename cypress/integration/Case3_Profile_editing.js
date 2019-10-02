@@ -72,7 +72,7 @@ describe('Test case 3: Ability to change user data', () => {
         )
         cy.wait(8000)
         EditProfilePage.saveAvatarButton.click();
-        EditProfilePage.saveAvatarButton.click();
+        //EditProfilePage.saveAvatarButton.click();
         EditProfilePage.uploadedAvatar.should('be.visible')
         EditProfilePage.clearAvatarButton.click();
         cy.wait(8000)
@@ -89,16 +89,16 @@ describe('Test case 3: Ability to change user data', () => {
         EditProfilePage.nameInput.clear();
         EditProfilePage.phoneInput.clear();
         EditProfilePage.emailInput.clear();
-        EditProfilePage.nameInput.type('AndrewAndrew');
-        EditProfilePage.phoneInput.type('+380983611328');
-        EditProfilePage.emailInput.type('test123@test.com');
+        EditProfilePage.nameInput.type('AndrewGolenkov');
+        EditProfilePage.phoneInput.type('+380983611321');
+        EditProfilePage.emailInput.type('test1234@test.com');
         cy.wait(7000);
         EditProfilePage.saveButton.click();
         cy.wait(10000);
-        EditProfilePage.backButton.click();
-        ProfilePage.nameInput.should('have.value', 'AndrewAndrew');
-        ProfilePage.phoneInput.should('have.value', '+380983611328');
-        ProfilePage.emailInput.should('have.value', 'test123@test.com');
+        //EditProfilePage.backButton.click();
+        ProfilePage.nameInput.should('have.value', 'AndrewGolenkov');
+        ProfilePage.phoneInput.should('have.value', '+380983611321');
+        ProfilePage.emailInput.should('have.value', 'test1234@test.com');
         ProfilePage.editProfileButton.should('be.visible');
         cy.wait(12000);
         ProfilePage.editProfileButton.click();
@@ -112,13 +112,13 @@ describe('Test case 3: Ability to change user data', () => {
         cy.wait(3000);
         EditProfilePage.saveButton.click();
         cy.wait(7000);
-        EditProfilePage.backButton.click();
+        //EditProfilePage.backButton.click();
         ProfilePage.pageHeader.should('contain', 'Profile');
 
     }); 
 
 
-    it('User is unable to type invalid data', () => {
+    it.only('User is unable to type invalid data', () => {
 
         HomePage.optionsButton.click({force:true});
         HomePage.options.eq(0).click({force:true});

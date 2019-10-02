@@ -17,7 +17,7 @@ main.test.acc.gooddollar@gmail.com
 Jb7%%WFG1
 380673001758
 
-
+cy.visit("https://goodqa.netlify.com/?web3=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjozNTh9LCJpYXQiOjE1NzAwMTg4NDJ9.eWtCWkDf98qxmcxWfbH6Y39-BWNYmcbknnQ9WozDOTM")
 
 
 

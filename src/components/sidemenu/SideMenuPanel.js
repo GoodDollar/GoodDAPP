@@ -140,6 +140,15 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, navigation, store, theme 
         hideSidemenu()
       },
     },
+    {
+      icon: 'logout',
+      name: 'Logout',
+      action: () => {
+        AsyncStorage.clear()
+        window.location = '/'
+        hideSidemenu()
+      },
+    },
   ],
   bottomItems: [
     {
@@ -148,7 +157,6 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, navigation, store, theme 
       color: 'red',
       action: () => {
         deleteAccountDialog({ API, showDialog, store, theme })
-
         hideSidemenu()
       },
     },

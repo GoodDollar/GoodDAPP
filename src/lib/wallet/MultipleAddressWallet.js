@@ -1,11 +1,14 @@
 // @flow
 import HDKey from 'hdkey'
+import bip39 from 'bip39-light'
 import Wallet from 'ethereumjs-wallet'
+import conf from '../../config/config'
 import logger from '../logger/pino-logger'
 
 type WalletsCollection = {
   [key: string]: Wallet, // Associative array
 }
+
 class MultipleAddressWallet {
   ready: Promise<Web3>
 
@@ -22,6 +25,11 @@ class MultipleAddressWallet {
   constructor(mnemonic: string, numOfAccounts: number) {
     logger.debug('MultipleAddressWallet ', { mnemonic }, { numOfAccounts })
     this.numOfAccounts = numOfAccounts
+    if (conf.mnemonicToSeed) {
+      this.mnemonic = bip39.mnemonicToSeed(mnemonic)
+    } else {
+      this.mnemonic = mnemonic
+    }
     this.mnemonic = mnemonic
     this.addresses = []
     this.wallets = {}

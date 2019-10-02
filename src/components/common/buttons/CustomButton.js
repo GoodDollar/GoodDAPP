@@ -20,6 +20,7 @@ export type ButtonProps = {
   mode?: string,
   onPress: any,
   style?: any,
+  iconStyle?: any,
   styles: any,
   textStyle?: any,
   theme: DefaultTheme,
@@ -125,6 +126,7 @@ const IconButton = ({ theme, dark, icon, size, style }: IconButtonProps) => {
  * @param {string} [props.iconAlignment=right]
  * @param {number} [props.iconSize=20]
  * @param {Object} [props.style] Button style
+ * @param {Object} [props.iconStyle] icon style
  * @returns {React.Node}
  */
 const CustomButton = (props: ButtonProps) => {
@@ -140,6 +142,7 @@ const CustomButton = (props: ButtonProps) => {
     textStyle,
     loading,
     disabled,
+    iconStyle,
     ...buttonProps
   } = props
   const dark = mode === 'contained'
@@ -159,7 +162,13 @@ const CustomButton = (props: ButtonProps) => {
     >
       <View style={styles.contentWrapper}>
         {icon && (!iconAlignment || iconAlignment === 'left') && (
-          <IconButton icon={icon} theme={theme} dark={dark} size={iconSize || 14} style={styles.leftIcon} />
+          <IconButton
+            icon={icon}
+            theme={theme}
+            dark={dark}
+            size={iconSize || 14}
+            style={iconStyle || styles.leftIcon}
+          />
         )}
         {loading && (
           <ActivityIndicator
@@ -173,7 +182,13 @@ const CustomButton = (props: ButtonProps) => {
           {children}
         </TextContent>
         {icon && iconAlignment === 'right' && (
-          <IconButton icon={icon} theme={theme} dark={dark} size={iconSize || 14} style={styles.rightIcon} />
+          <IconButton
+            icon={icon}
+            theme={theme}
+            dark={dark}
+            size={iconSize || 14}
+            style={iconStyle || styles.rightIcon}
+          />
         )}
       </View>
     </BaseButton>

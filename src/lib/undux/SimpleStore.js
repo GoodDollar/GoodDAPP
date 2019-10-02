@@ -56,6 +56,7 @@ export type State = {
   addWebApp: {
     show: boolean,
     lastCheck: Date,
+    skipCount: Number,
   },
 }
 

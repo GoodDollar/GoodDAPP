@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { AsyncStorage, Image, View } from 'react-native'
 import { isMobileSafari } from 'mobile-device-detect'
+import moment from 'moment'
 import SimpleStore from '../../../lib/undux/SimpleStore'
 import { useDialog } from '../../../lib/undux/utils/dialog'
 import { withStyles } from '../../../lib/styles'
@@ -97,32 +98,40 @@ const ExplanationDialog = withStyles(mapStylesToProps)(({ styles }) => {
 const AddWebApp = props => {
   const [installPrompt, setInstallPrompt] = useState()
   const [lastCheck, setLastCheck] = useState()
+  const [nextCheck, setNextCheck] = useState()
+  const [skipCount, setSkipCount] = useState(0)
   const [lastClaim, setLastClaim] = useState()
   const [dialogShown, setDialogShown] = useState()
   const store = SimpleStore.useStore()
   const [showDialog] = useDialog()
   const { show } = store.get('addWebApp')
   useEffect(() => {
-    AsyncStorage.getItem('AddWebAppLastCheck')
-      .then(dateSting => dateSting && new Date(dateSting))
-      .then(setLastCheck)
-    AsyncStorage.getItem('AddWebAppLastClaim')
-      .then(dateSting => dateSting && new Date(dateSting))
-      .then(setLastClaim)
+    AsyncStorage.getItem('AddWebAppLastCheck').then(setLastCheck)
+    AsyncStorage.getItem('AddWebAppNextCheck').then(setNextCheck)
+    AsyncStorage.getItem('AddWebAppSkipCount').then(sc => setSkipCount(Number(sc)))
+    AsyncStorage.getItem('AddWebAppLastClaim').then(setLastClaim)
   }, [])
 
   const showExplanationDialog = () => {
-    log.debug('showExplanationDialog')
     showDialog({
       content: <ExplanationDialog />,
       showButtons: false,
       showAtBottom: true,
       showTooltipArrow: true,
-      onDismiss: () => {
-        const date = new Date()
-        AsyncStorage.setItem('AddWebAppLastCheck', date.toISOString())
-      },
+      onDismiss: () => handleLater,
     })
+  }
+
+  const handleLater = () => {
+    const newSkipCount = Number(skipCount) + 1
+    const nextCheckInDays = Math.pow(2, skipCount)
+    const nextCheckDate = moment()
+      .add(nextCheckInDays, 'days')
+      .toDate()
+
+    AsyncStorage.setItem('AddWebAppSkipCount', newSkipCount)
+    AsyncStorage.setItem('AddWebAppLastCheck', new Date().toISOString())
+    AsyncStorage.setItem('AddWebAppNextCheck', nextCheckDate.toISOString())
   }
 
   const installApp = async () => {
@@ -155,16 +164,13 @@ const AddWebApp = props => {
           mode: 'text',
           color: props.theme.colors.gray80Percent,
           onPress: dismiss => {
-            log.debug('Canceled')
-            const date = new Date()
-            AsyncStorage.setItem('AddWebAppLastCheck', date.toISOString())
             dismiss()
+            handleLater()
           },
         },
         {
           text: 'Add Icon',
           onPress: dismiss => {
-            log.debug('Add Icon')
             dismiss()
             handleInstallApp()
           },
@@ -199,24 +205,14 @@ const AddWebApp = props => {
   }, [dialogShown])
 
   useEffect(() => {
-    log.debug({ installPrompt, show, lastCheck })
+    log.debug({ installPrompt, show, skipCount })
 
     // Condition to show reminder
     if (lastCheck) {
-      const DAYS_TO_WAIT = 5
-      const thirtyDaysFromLastDate = new Date()
-      thirtyDaysFromLastDate.setDate(lastCheck.getDate() + DAYS_TO_WAIT)
-      const today = new Date()
-      log.debug({
-        installPrompt,
-        show,
-        lastCheck,
-        today,
-        thirtyDaysFromLastDate,
-        DAYS_TO_WAIT,
-      })
+      const isNextCheckBanned = !!nextCheck && moment(nextCheck).isAfter(moment())
+      const notClaimedAfterLastCheck = lastClaim ? moment(lastCheck).isAfter(moment(lastClaim)) : true
 
-      if (thirtyDaysFromLastDate < today || lastCheck > lastClaim) {
+      if (isNextCheckBanned || notClaimedAfterLastCheck) {
         return
       }
     }

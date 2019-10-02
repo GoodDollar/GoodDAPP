@@ -79,8 +79,9 @@ describe('Test case 9: Ability to see rewards', () => {
 
     it('User is able to create new wallet with w3 token', () => {
         
-        //cy.visit(mylink)
-        cy.visit(Cypress.env('w3Link'))
+
+        cy.visit("https://goodqa.netlify.com/?web3=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjozNTV9LCJpYXQiOjE1NzAwMjk4NTJ9.f9RJ54TGs4d6WSzgP91pvbdRgGMdiz7u5PriDqbCyqA")
+        //cy.visit(Cypress.env('w3Link'))
         StartPage.continueOnWebButton.click();
         StartPage.createWalletButton.click();
         cy.wait(3000)
@@ -112,18 +113,24 @@ describe('Test case 9: Ability to see rewards', () => {
                             cy.wait(2000)
                             SignUpPage.codeInputs.eq(i).type(charArray[i], {force:true});
                         }
-
                         cy.wait(5000);
                         SignUpPage.nextButton.click();
                         cy.wait(5000);    
                         HomePage.welcomeFeed.should('be.visible');
                         HomePage.optionsButton.click();
-                        cy.wait(5000)
-                        HomePage.deleteAccountButton.click();
-                        cy.wait(8000)
-                        HomePage.confirmDeletionButton.click();
-                        cy.wait(30000);
-                        cy.log("Done!")
+                        cy.window()
+                        .then( async win => {
+                            const data = await win.api.getUserFromW3ByToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjozNTV9LCJpYXQiOjE1NzAwMjk4NTJ9.f9RJ54TGs4d6WSzgP91pvbdRgGMdiz7u5PriDqbCyqA');
+                            cy.log("laaaaa: " + data.has_wallet)
+                      
+                         
+                        })
+                        // cy.wait(5000)
+                        // HomePage.deleteAccountButton.click();
+                        // cy.wait(8000)
+                        // HomePage.confirmDeletionButton.click();
+                        // cy.wait(30000);
+                        // cy.log("Done!")
                 
 
                     });

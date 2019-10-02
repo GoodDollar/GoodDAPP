@@ -40,6 +40,7 @@ describe('Test case 1: Ability to Sign Up', () => {
         StartPage.createWalletButton.click();
         cy.wait(3000);
         SignUpPage.nameInput.type('Name Name');
+        cy.wait(3000);
         SignUpPage.nextButton.click();
         SignUpPage.phoneInput.type('+380673001758');
         SignUpPage.nextButton.click();

@@ -168,7 +168,13 @@ const SMSAction = ({ status, handleRetry }) => {
     )
   }
   return (
-    <Section.Text fontWeight="medium" fontSize={14} color="primary" onPress={handleRetry}>
+    <Section.Text
+      fontWeight="medium"
+      textDecorationLine="underline"
+      fontSize={14}
+      color="primary"
+      onPress={handleRetry}
+    >
       Send me the code again
     </Section.Text>
   )

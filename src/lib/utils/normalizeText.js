@@ -61,6 +61,11 @@ const normalize = size => {
       return size * 1.2
     }
 
+    // handle iphone x
+    if (deviceHeight > 735 && deviceHeight <= 812) {
+      return size * 1.1
+    }
+
     // catch larger devices
     // ie iphone 6s plus / 7 plus / mi note 等等
     return size * 1.27
@@ -78,12 +83,9 @@ const normalize = size => {
       // catch in-between size Androids and scale font up
       // a tad but not too much
     }
-    if (deviceHeight >= 667 && deviceHeight <= 735) {
+    if (deviceHeight >= 667) {
       return size * 1.25
     }
-
-    // catch larger phablet devices
-    return size * 1.4
   }
 
   // if older device ie pixelRatio !== 2 || 3 || 3.5

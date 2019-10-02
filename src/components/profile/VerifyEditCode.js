@@ -1,11 +1,13 @@
 // @flow
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import _get from 'lodash/get'
 import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { withStyles } from '../../lib/styles'
 import SMSFormComponent from '../signup/SMSFormComponent'
+import { useDialog } from '../../lib/undux/utils/dialog'
+import userStorage from '../../lib/gundb/UserStorage'
 
 const log = logger.child({ from: 'SmsForm' })
 
@@ -16,140 +18,130 @@ export type SMSRecord = {
 
 const NumInputs: number = 6
 
-class VerifyEditCode extends React.Component {
-  state = {
-    smsValidated: false,
-    sentSMS: false,
-    errorMessage: '',
-    sendingCode: false,
-    renderButton: false,
-    resentCode: false,
-    loading: false,
-    code: Array(NumInputs).fill(null),
-    requestFn: undefined,
-    resendCodeFn: undefined,
-    fieldToShow: '',
+const VerifyEditCode = props => {
+  const [renderButton, setRenderButton] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [code, setCode] = useState(Array(NumInputs).fill(null))
+  const [errorMessage, setErrorMessage] = useState('')
+  const [resentCode, setResentCode] = useState(false)
+  const [showDialog] = useDialog()
+
+  const { navigation, styles } = props
+  const field = _get(navigation, 'state.params.field')
+  const content = _get(navigation, 'state.params.content')
+  let requestFn
+  let resendCodeFn
+  let fieldToShow
+  let fieldToSave
+  let waitTextInst
+
+  switch (field) {
+    case 'phone':
+      requestFn = 'verifyNewMobile'
+      resendCodeFn = 'sendNewOTP'
+      fieldToShow = 'phone'
+      waitTextInst = 'SMS'
+      fieldToSave = 'mobile'
+      break
+
+    case 'email':
+    default:
+      requestFn = 'verifyNewEmail'
+      resendCodeFn = 'sendVerificationForNewEmail'
+      fieldToShow = 'email'
+      fieldToSave = 'email'
+      waitTextInst = 'email'
+      break
   }
 
-  componentDidMount() {
-    const { navigation } = this.props
-    const field = _get(navigation, 'state.params.field')
-    let requestFn
-    let resendCodeFn
-    let fieldToShow
-
-    switch (field) {
-      case 'phone':
-        requestFn = API.verifyNewMobile
-        resendCodeFn = API.sendNewOTP
-        fieldToShow = 'phone'
-        break
-
-      case 'email':
-      default:
-        requestFn = API.verifyNewEmail
-        resendCodeFn = API.sendVerificationForNewEmail
-        fieldToShow = 'email'
-        break
+  useEffect(() => {
+    if (!renderButton) {
+      renderDelayedButton()
     }
+  }, [renderButton])
 
-    this.setState({
-      requestFn,
-      resendCodeFn,
-      fieldToShow,
-    })
-  }
-
-  componentDidUpdate() {
-    if (!this.state.renderButton) {
-      this.renderDelayedButton()
-    }
-  }
-
-  renderDelayedButton = () => {
+  const renderDelayedButton = () => {
     setTimeout(() => {
-      this.setState({ renderButton: true })
+      setRenderButton(true)
     }, 10000)
   }
 
-  handleChange = async (code: array) => {
+  const handleChange = async (code: array) => {
     const codeValue = code.filter(val => val).join('')
+
     if (codeValue.replace(/ /g, '').length === NumInputs) {
-      this.setState({
-        loading: true,
-        code,
-      })
+      setLoading(true)
+      setCode(code)
 
       try {
-        const { requestFn } = this.state
+        await API[requestFn](codeValue, content)
 
-        await requestFn({ code: codeValue })
-
-        this.handleSubmit()
+        handleSubmit()
       } catch (e) {
         log.error('Failed to verify top:', e.message, e)
 
-        this.setState({
-          errorMessage: e.message || e,
-        })
+        setErrorMessage(e.message || e)
       } finally {
-        this.setState({ loading: false })
+        setLoading(false)
       }
     } else {
-      this.setState({
-        errorMessage: '',
-        code,
-      })
+      setErrorMessage('')
+      setCode(code)
     }
   }
 
-  handleSubmit = () => {
-    // show success popup - redirect to prodile on dismiss
+  const handleSubmit = () => {
+    userStorage.setProfileField(fieldToSave, content, 'private')
+
+    showDialog({
+      title: `New ${fieldToShow} saved successfully!`,
+      onDismiss: () => {
+        navigation.navigate('Profile')
+      },
+    })
   }
 
-  handleRetry = async () => {
-    this.setState({ sendingCode: true, code: Array(NumInputs).fill(null), errorMessage: '' })
+  const handleRetry = async () => {
+    setCode(Array(NumInputs).fill(null))
+    setErrorMessage('')
 
     try {
-      const { resendCodeFn } = this.state
+      await API[resendCodeFn](content)
 
-      await resendCodeFn({ ...this.props.screenProps.data })
-      this.setState({ sendingCode: false, renderButton: false, resentCode: true }, this.renderDelayedButton)
+      setRenderButton(false)
+      setResentCode(true)
+
+      renderDelayedButton()
 
       //turn checkmark back into regular resend text
-      setTimeout(() => this.setState({ ...this.state, resentCode: false }), 2000)
+      setTimeout(() => setResentCode(false), 2000)
     } catch (e) {
       log.error('Failed to resend code:', e.message, e)
 
-      this.setState({
-        errorMessage: e.message || e,
-        sendingCode: false,
-        renderButton: true,
-      })
+      setErrorMessage(e.message || e)
+      setRenderButton(true)
     }
   }
 
-  render() {
-    const { errorMessage, renderButton, loading, code, resentCode, fieldToShow } = this.state
-    const { styles } = this.props
-    const mainText = `Enter the verification code\nsent to your ${fieldToShow}`
+  const mainText = `Enter the verification code\nsent to your ${fieldToShow}`
+  const waitText = `Please wait a few seconds until the ${waitTextInst} arrives`
 
-    return (
-      <SMSFormComponent
-        errorMessage={errorMessage}
-        renderButton={renderButton}
-        loading={loading}
-        otp={code}
-        resentCode={resentCode}
-        styles={styles}
-        NumInputs={NumInputs}
-        handleSubmit={this.handleSubmit}
-        handleChange={this.handleChange}
-        handleRetry={this.handleRetry}
-        mainText={mainText}
-      />
-    )
-  }
+  return (
+    <SMSFormComponent
+      errorMessage={errorMessage}
+      renderButton={renderButton}
+      loading={loading}
+      otp={code}
+      resentCode={resentCode}
+      styles={styles}
+      NumInputs={NumInputs}
+      handleSubmit={handleSubmit}
+      handleChange={handleChange}
+      handleRetry={handleRetry}
+      mainText={mainText}
+      waitText={waitText}
+    />
+  )
 }
 
 VerifyEditCode.navigationOptions = {

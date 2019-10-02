@@ -11,7 +11,7 @@ const DONE = 'DONE'
 const WAIT = 'WAIT'
 const PENDING = 'PENDING'
 
-class SmsForm extends React.Component<Props, State> {
+class SmsForm extends React.Component {
   render() {
     const {
       errorMessage,
@@ -25,6 +25,7 @@ class SmsForm extends React.Component<Props, State> {
       handleChange,
       handleRetry,
       mainText,
+      waitText,
     } = this.props
 
     return (
@@ -51,7 +52,11 @@ class SmsForm extends React.Component<Props, State> {
             </Section.Stack>
           </Section.Stack>
           <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
-            <SMSAction status={resentCode ? DONE : renderButton ? PENDING : WAIT} handleRetry={handleRetry} />
+            <SMSAction
+              status={resentCode ? DONE : renderButton ? PENDING : WAIT}
+              handleRetry={handleRetry}
+              waitText={waitText}
+            />
           </Section.Row>
         </Section>
         <LoadingIndicator force={loading} />
@@ -60,19 +65,19 @@ class SmsForm extends React.Component<Props, State> {
   }
 }
 
-const SMSAction = ({ status, handleRetry }) => {
+const SMSAction = ({ status, handleRetry, waitText }) => {
   if (status === DONE) {
     return <Icon size={16} name="success" color="blue" />
   } else if (status === WAIT) {
     return (
       <Section.Text fontSize={14} color="gray80Percent">
-        Please wait a few seconds until the SMS arrives
+        {waitText}
       </Section.Text>
     )
   }
   return (
     <Section.Text fontWeight="medium" fontSize={14} color="primary" onPress={handleRetry}>
-      Send me the code again
+      {'Send me the code again'}
     </Section.Text>
   )
 }

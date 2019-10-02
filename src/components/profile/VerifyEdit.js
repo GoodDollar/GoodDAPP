@@ -33,14 +33,14 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
     case 'phone':
       fieldToShow = 'phone number'
       sendToText = 'number'
-      sendCodeRequestFn = API.sendNewOTP
+      sendCodeRequestFn = 'sendNewOTP'
       break
 
     case 'email':
     default:
       fieldToShow = 'email'
       sendToText = 'email'
-      sendCodeRequestFn = API.sendVerificationForNewEmail
+      sendCodeRequestFn = 'sendVerificationForNewEmail'
       break
   }
 
@@ -52,9 +52,9 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
     try {
       setLoading(true)
 
-      await sendCodeRequestFn(content)
+      await API[sendCodeRequestFn](content)
 
-      navigation.navigate('VerifyEditCode', { field })
+      navigation.navigate('VerifyEditCode', { field, content })
     } catch (e) {
       log.error('Failed to send code', e.message, e)
 

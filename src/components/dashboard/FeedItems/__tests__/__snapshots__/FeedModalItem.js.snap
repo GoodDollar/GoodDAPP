@@ -431,7 +431,7 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                         }
                       }
                     >
-
+                      
                     </span>
                     <span
                       className="css-text-901oao css-textHasAncestor-16my406"
@@ -453,23 +453,6 @@ exports[`FeedModalItem - Invite matches snapshot 1`] = `
                     >
                        Misao Matimbo
                     </span>
-                  </div>
-                  <div
-                    className="css-text-901oao"
-                    dir="auto"
-                    style={
-                      Object {
-                        "color": "rgba(0,175,255,1.00)",
-                        "fontFamily": "gooddollar",
-                        "fontSize": "34px",
-                        "fontStyle": "normal",
-                        "fontWeight": "normal",
-                        "marginLeft": "auto",
-                        "marginRight": "0px",
-                      }
-                    }
-                  >
-                    
                   </div>
                 </div>
                 <div
@@ -1256,7 +1239,7 @@ exports[`FeedModalItem - Message matches snapshot 1`] = `
                         }
                       }
                     >
-
+                      
                     </span>
                     <span
                       className="css-text-901oao css-textHasAncestor-16my406"

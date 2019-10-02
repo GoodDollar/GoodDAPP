@@ -77,9 +77,10 @@ describe('Test case 9: Ability to see rewards', () => {
 
     })
 
-    it.only('User is able to create new wallet with w3 token', () => {
+    it('User is able to create new wallet with w3 token', () => {
         
-        cy.visit(process.env.W3_TOKEN)
+        //cy.visit(mylink)
+        cy.visit(Cypress.env('w3Link'))
         StartPage.continueOnWebButton.click();
         StartPage.createWalletButton.click();
         cy.wait(3000)

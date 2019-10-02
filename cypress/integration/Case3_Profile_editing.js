@@ -118,7 +118,7 @@ describe('Test case 3: Ability to change user data', () => {
     }); 
 
 
-    it.only('User is unable to type invalid data', () => {
+    it('User is unable to type invalid data', () => {
 
         HomePage.optionsButton.click({force:true});
         HomePage.options.eq(0).click({force:true});

@@ -2,7 +2,7 @@
 import gun from '../gundb'
 
 import userStorage from '../UserStorage'
-import { getOperationType, getReceiveDataFromReceipt, type TransactionEvent, welcomeMessage } from '../UserStorageClass'
+import { getOperationType, getReceiveDataFromReceipt, type TransactionEvent, welcomeMessage, inviteFriendsMessage } from '../UserStorageClass'
 
 import { getUserModel } from '../UserModel'
 import { addUser } from './__util__/index'
@@ -330,6 +330,12 @@ describe('UserStorage', () => {
     expect(events).toContainEqual(transactionEvent)
   })
 
+  it('add invite event', async () => {
+    await userStorage.updateFeedEvent(inviteFriendsMessage)
+    const events = await userStorage.getAllFeed()
+    expect(events).toContainEqual(inviteFriendsMessage)
+  })
+
   it('has the welcome event already set', async () => {
     const events = await userStorage.getAllFeed()
     expect(events).toContainEqual(welcomeMessage)
@@ -349,6 +355,29 @@ describe('UserStorage', () => {
 
     const events = await userStorage.getAllFeed()
     expect(events).toContainEqual(deletedEvent)
+  })
+
+  it('should return withdrawCode from formatEvent function', async () => {
+    const event = {
+      id: '0x538ec5afdce092b4178aecb2d77cbf2912e1eef7cd95c2feb20b62601cf24f47',
+      date: new Date().toString(),
+      createdDate: new Date().toString(),
+      type: 'send',
+      status: 'pending',
+      data: {
+        counterPartyDisplayName: 'Test User',
+        reason: 'Test Reason',
+        amount: 10,
+        paymentLink: 'http://localhost:3000?paymentCode=42a4761a301993b307a3',
+        code: '42a4761a301993b307a3',
+      },
+    }
+
+    const result = await userStorage.formatEvent(event)
+
+    expect(result.data).toBeTruthy()
+    expect(result.data.withdrawCode).toBeTruthy()
+    expect(result.data.withdrawCode).toBe(event.data.code)
   })
 
   it('should subscribe to profile updates', async done => {

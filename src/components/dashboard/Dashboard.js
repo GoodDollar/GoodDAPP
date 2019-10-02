@@ -1,9 +1,10 @@
 // @flow
 import React, { useEffect, useState } from 'react'
 import _get from 'lodash/get'
+import debounce from 'lodash/debounce'
 import type { Store } from 'undux'
 
-// import * as web3Utils from 'web3-utils'
+import * as web3Utils from 'web3-utils'
 import normalize from '../../lib/utils/normalizeText'
 import GDStore from '../../lib/undux/GDStore'
 import API from '../../lib/API/api'
@@ -15,7 +16,7 @@ import { weiToMask } from '../../lib/wallet/utils'
 
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 
-//import goodWallet from '../../lib/wallet/GoodWallet';
+import goodWallet from '../../lib/wallet/GoodWallet'
 import { PushButton } from '../appNavigation/PushButton'
 import TabsView from '../appNavigation/TabsView'
 import Avatar from '../common/view/Avatar'
@@ -28,8 +29,10 @@ import userStorage from '../../lib/gundb/UserStorage'
 import { FAQ, PrivacyArticle, PrivacyPolicy, Support, TermsOfUse } from '../webView/webViewInstances'
 import { withStyles } from '../../lib/styles'
 import Mnemonics from '../signin/Mnemonics'
+import { extractQueryParams, readCode } from '../../lib/share'
 
 // import goodWallet from '../../lib/wallet/GoodWallet'
+import { deleteAccountDialog } from '../sidemenu/SideMenuPanel'
 import RewardsTab from './Rewards'
 import Amount from './Amount'
 import Claim from './Claim'
@@ -48,6 +51,7 @@ import SendConfirmation from './SendConfirmation'
 import SendLinkSummary from './SendLinkSummary'
 import SendQRSummary from './SendQRSummary'
 import { ACTION_SEND } from './utils/sendReceiveFlow'
+import { routeAndPathForCode } from './utils/routeAndPathForCode'
 
 // import FaceRecognition from './FaceRecognition/FaceRecognition'
 // import FRIntro from './FaceRecognition/FRIntro'
@@ -55,6 +59,23 @@ import { ACTION_SEND } from './utils/sendReceiveFlow'
 // import UnsupportedDevice from './FaceRecognition/UnsupportedDevice'
 
 const log = logger.child({ from: 'Dashboard' })
+const MIN_BALANCE_VALUE = '100000'
+const GAS_CHECK_DEBOUNCE_TIME = 1000
+const showOutOfGasError = debounce(
+  async props => {
+    const { ok } = await goodWallet.verifyHasGas(web3Utils.toWei(MIN_BALANCE_VALUE, 'gwei'), {
+      topWallet: false,
+    })
+
+    if (!ok) {
+      props.screenProps.navigateTo('OutOfGasError')
+    }
+  },
+  GAS_CHECK_DEBOUNCE_TIME,
+  {
+    maxWait: GAS_CHECK_DEBOUNCE_TIME,
+  }
+)
 
 export type DashboardProps = {
   navigation: any,
@@ -63,13 +84,11 @@ export type DashboardProps = {
   styles?: any,
 }
 const Dashboard = props => {
-  // const MIN_BALANCE_VALUE = '100000'
   const store = SimpleStore.useStore()
   const gdstore = GDStore.useStore()
   const [showDialog, hideDialog] = useDialog()
   const [showErrorDialog] = useErrorDialog()
   const { params } = props.navigation.state
-
   const prepareLoginToken = async () => {
     const loginToken = await userStorage.getProfileFieldValue('loginToken')
 
@@ -86,10 +105,32 @@ const Dashboard = props => {
     }
   }
 
+  //Service redirects Send/Receive
+  useEffect(() => {
+    const anyParams = extractQueryParams(window.location.href)
+
+    if (anyParams && anyParams.code) {
+      const { screenProps } = props
+      const code = readCode(decodeURI(anyParams.code))
+      routeAndPathForCode('send', code)
+        .then(({ route, params }) => screenProps.push(route, params))
+        .catch(e => {
+          showErrorDialog(null, e, { onDismiss: screenProps.goToRoot })
+        })
+    }
+    if (anyParams && anyParams.paymentCode) {
+      props.navigation.state.params = anyParams
+    }
+  }, [])
+
   const nextFeed = () => {
     return getNextFeed(gdstore)
   }
   useEffect(() => {
+    if (props.navigation.state.key === 'Delete') {
+      deleteAccountDialog({ API, showDialog: showErrorDialog, store, theme: props.theme })
+    }
+
     prepareLoginToken()
 
     log.debug('Dashboard didmount')
@@ -97,8 +138,6 @@ const Dashboard = props => {
       log.debug('gun getFeed callback', { data })
       getInitialFeed(gdstore)
     }, true)
-
-    // showOutOfGasError()
   }, [])
 
   useEffect(() => {
@@ -138,15 +177,7 @@ const Dashboard = props => {
     }
   }
 
-  // const showOutOfGasError = async () => {
-  //   const { ok } = await goodWallet.verifyHasGas(web3Utils.toWei(MIN_BALANCE_VALUE, 'gwei'), {
-  //     topWallet: false,
-  //   })
-  //
-  //   if (!ok) {
-  //     props.screenProps.navigateTo('OutOfGasError')
-  //   }
-  // }
+  showOutOfGasError(props)
 
   const handleWithdraw = async () => {
     const { paymentCode, reason } = props.navigation.state.params
@@ -265,6 +296,7 @@ const Dashboard = props => {
           onEndReached={nextFeed}
           selectedFeed={currentFeed}
           updateData={() => {}}
+          navigation={props.navigation}
         />
       )}
     </Wrapper>
@@ -371,6 +403,7 @@ const WrappedDashboard = withStyles(getStylesFromProps)(Dashboard)
 
 export default createStackNavigator({
   Home: WrappedDashboard,
+  Delete: WrappedDashboard,
   Claim,
   Receive,
   Who: {

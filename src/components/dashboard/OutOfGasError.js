@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { Image, View } from 'react-native'
 import _get from 'lodash/get'
 import * as web3Utils from 'web3-utils'
-import normalize from '../../lib/utils/normalizeText'
 import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../lib/utils/sizes'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { AwaitButton, CustomButton, Section, Wrapper } from '../common'
@@ -18,8 +17,9 @@ const OutOfGasError = props => {
   const { styles, theme } = props
   const MIN_BALANCE_VALUE = '100000'
   const isValid = _get(props, 'screenProps.screenState.isValid', undefined)
-  const ERROR =
-    "In order for transactions to go through, you need some virtual money named 'gas'.Don't worry, we'll take care off you. "
+  const ERROR = `In order for transactions to go through,
+you need ‘Gas’ witch is a virtual money. 
+Don’t worry, we’ll take care off you.\n`
   const ERROR_BOLD = "We're giving it to you for FREE, FOREVER."
   const TITLE = "Ooops,\nYou're out of gas..."
   const ERROR_CHEAT = 'Something went wrong try again later'
@@ -70,13 +70,19 @@ const OutOfGasError = props => {
           <Section style={styles.mainSection}>
             <Separator style={styles.separator} width={2} />
             {isCheatError ? (
-              <Text style={styles.description} fontSize={16} fontWeight={'bold'} color={theme.colors.primary}>
-                <Text fontWeight={'normal'}>{ERROR_CHEAT}</Text>
+              <Text style={styles.description} fontSize={13} fontWeight={'bold'} color={theme.colors.primary}>
+                <Text fontWeight={'normal'} color={theme.colors.primary}>
+                  {ERROR_CHEAT}
+                </Text>
               </Text>
             ) : (
-              <Text style={styles.description} fontSize={16} fontWeight={'bold'} color={theme.colors.primary}>
-                <Text fontWeight={'normal'}>{ERROR}</Text>
-                <Text>{ERROR_BOLD}</Text>
+              <Text style={styles.description} fontSize={13} fontWeight={'bold'} color={theme.colors.primary}>
+                <Text fontWeight={'normal'} fontSize={13} color={theme.colors.primary}>
+                  {ERROR}
+                </Text>
+                <Text fontWeight={'bold'} fontSize={13} color={theme.colors.primary}>
+                  {ERROR_BOLD}
+                </Text>
               </Text>
             )}
             <Separator style={styles.separator} width={2} />
@@ -110,7 +116,7 @@ const getStylesFromProps = ({ theme }) => ({
     flexGrow: 1,
     flexShrink: 0,
     justifyContent: 'space-evenly',
-    paddingTop: getDesignRelativeHeight(33),
+    paddingTop: getDesignRelativeHeight(theme.sizes.default),
     borderRadius: 5,
   },
   mainContainer: {
@@ -118,27 +124,29 @@ const getStylesFromProps = ({ theme }) => ({
     paddingTop: 0,
     marginBottom: 0,
     flex: 1,
+    marginHorizontal: getDesignRelativeWidth(0),
   },
   mainSection: {
     padding: 0,
     marginBottom: 0,
+    marginHorizontal: getDesignRelativeWidth(0),
+    paddingHorizontal: getDesignRelativeWidth(12),
   },
   image: {
-    height: getDesignRelativeHeight(146),
+    height: getDesignRelativeHeight(180),
   },
   separator: {
-    marginHorizontal: getDesignRelativeHeight(12),
+    marginHorizontal: getDesignRelativeWidth(0),
   },
   description: {
+    minWidth: getDesignRelativeWidth(265),
     paddingTop: getDesignRelativeHeight(25),
     paddingBottom: getDesignRelativeHeight(25),
-    paddingLeft: getDesignRelativeWidth(theme.paddings.defaultMargin),
-    paddingRight: getDesignRelativeWidth(theme.paddings.defaultMargin),
     verticalAlign: 'text-top',
   },
   mainTitle: {
+    fontWeight: 'bold',
     fontFamily: theme.fonts.default,
-    fontSize: normalize(24),
     color: theme.colors.darkGray,
     textTransform: 'none',
   },

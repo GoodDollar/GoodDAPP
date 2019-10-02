@@ -10,12 +10,16 @@ import goodWallet from '../../../lib/wallet/GoodWallet'
 import { generateSendShareObject, generateShareLink } from '../../../lib/share'
 import { useErrorDialog } from '../../../lib/undux/utils/dialog'
 import { withStyles } from '../../../lib/styles'
+import Text from '../view/Text'
+import GDStore from '../../../lib/undux/GDStore'
 
 const log = logger.child({ from: 'ModalActionsByFeed' })
 
-const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose }) => {
+const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigation }) => {
   const [showErrorDialog] = useErrorDialog()
   const [state, setState] = useState({})
+  const store = GDStore.useStore()
+  const currentUserName = store.get('profile').fullName
 
   const cancelPayment = async () => {
     log.info({ item, action: 'cancelPayment' })
@@ -47,10 +51,11 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose }) => {
 
   const getPaymentLink = () => {
     const url = generateShareLink('send', {
-      paymentCode: item.id,
+      paymentCode: item.data.withdrawCode,
       reason: item.data.message,
     })
-    return generateSendShareObject(url, item.data.amount, item.data.endpoint.fullName, '')
+
+    return generateSendShareObject(url, item.data.amount, item.data.endpoint.fullName, currentUserName)
   }
 
   const readMore = () => {
@@ -62,7 +67,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose }) => {
     handleModalClose()
   }
   const invitePeople = () => {
-    log.info({ item, action: 'invitePeople' })
+    navigation.navigate('Rewards')
     handleModalClose()
   }
 
@@ -70,29 +75,25 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose }) => {
     case 'sendpending':
       return (
         <>
-          <View style={styles.buttonsView}>
-            <View style={styles.rightButtonContainer}>
-              <CustomButton
-                mode="outlined"
-                style={[styles.button, { borderColor: theme.colors.red }]}
-                onPress={cancelPayment}
-                color={theme.colors.red}
-                loading={state.cancelPaymentLoading}
-                textStyle={styles.buttonTextStyle}
-              >
-                Cancel payment link
-              </CustomButton>
-            </View>
-            <View style={styles.rightButtonContainer}>
-              <ShareButton
-                share={getPaymentLink()}
-                actionText="Share as link"
-                mode="outlined"
-                style={styles.rightButton}
-                iconColor={theme.colors.primary}
-                textStyle={styles.buttonTextStyle}
-              />
-            </View>
+          <View style={[styles.buttonsView, styles.spaceBetween]}>
+            <CustomButton
+              mode="outlined"
+              style={[styles.button, styles.cancelButton, { borderColor: theme.colors.red }]}
+              onPress={cancelPayment}
+              color={theme.colors.red}
+              loading={state.cancelPaymentLoading}
+              textStyle={styles.buttonTextStyle}
+            >
+              Cancel link
+            </CustomButton>
+            <ShareButton
+              share={getPaymentLink()}
+              actionText="Share link"
+              mode="outlined"
+              style={[styles.rightButton, styles.shareButton]}
+              iconColor={theme.colors.primary}
+              textStyle={styles.buttonTextStyle}
+            />
           </View>
           <View style={styles.buttonsView}>
             <View style={styles.rightButtonContainer}>
@@ -123,18 +124,24 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose }) => {
         <View style={styles.buttonsView}>
           <View style={styles.rightButtonContainer}>
             <CustomButton mode="text" style={styles.button} onPress={handleModalClose}>
-              Later
+              <Text fontSize={14} color="gray80Percent" fontFamily="Roboto">
+                LATER
+              </Text>
             </CustomButton>
           </View>
           <View style={styles.rightButtonContainer}>
             <CustomButton
               mode="contained"
-              style={styles.rightButton}
+              style={styles.button}
               onPress={invitePeople}
               iconAlignment="right"
+              iconSize={20}
               icon="invite"
+              iconStyle={styles.iconStyle}
             >
-              Invite
+              <Text fontSize={14} color="#FFFFFF" fontFamily="Roboto">
+                INVITE
+              </Text>
             </CustomButton>
           </View>
         </View>
@@ -167,12 +174,26 @@ const getStylesFromProps = ({ theme }) => ({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    marginTop: 'auto',
+    marginTop: theme.sizes.defaultHalf,
     flexWrap: 'wrap',
     marginHorizontal: -theme.sizes.defaultHalf,
+    width: '100%',
+  },
+  spaceBetween: {
+    justifyContent: 'space-between',
+  },
+  shareButton: {
+    width: '48%',
+  },
+  cancelButton: {
+    width: '48%',
   },
   button: {
     minWidth: 96,
+  },
+  iconStyle: {
+    marginLeft: theme.sizes.defaultHalf,
+    marginBottom: 3,
   },
   rightButton: {
     minWidth: 96,

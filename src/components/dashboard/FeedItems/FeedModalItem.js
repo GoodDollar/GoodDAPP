@@ -23,7 +23,7 @@ import SendModalItemWithError from './SendModalItemWithError'
  * @returns {HTMLElement}
  */
 const FeedModalItem = (props: FeedEventProps) => {
-  const { item, onPress, styles, theme } = props
+  const { item, onPress, styles, theme, navigation } = props
   const buttonPress = () => {
     onPress(item.id)
   }
@@ -74,13 +74,11 @@ const FeedModalItem = (props: FeedEventProps) => {
             {item.data && item.data.endpoint && <EventCounterParty style={styles.feedItem} feedItem={item} />}
             {!eventSettings.withoutAvatar && <EventIcon type={itemType} style={styles.icon} />}
           </View>
-          {item.data.message && (
-            <View style={styles.messageContainer}>
-              <Text fontSize={14} textAlign="left">
-                {item.data.message}
-              </Text>
-            </View>
-          )}
+          <View style={styles.messageContainer}>
+            <Text fontSize={14} textAlign="left">
+              {item.data.message || ''}
+            </Text>
+          </View>
           {item.status === 'pending' && (
             <View style={styles.messageContainer}>
               <Text fontSize={14} color="gray50Percent">
@@ -88,7 +86,7 @@ const FeedModalItem = (props: FeedEventProps) => {
               </Text>
             </View>
           )}
-          <ModalActionsByFeedType item={item} handleModalClose={buttonPress} />
+          <ModalActionsByFeedType item={item} navigation={navigation} handleModalClose={buttonPress} />
         </React.Fragment>
       )}
     </ModalWrapper>

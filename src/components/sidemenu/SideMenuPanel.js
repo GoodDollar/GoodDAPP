@@ -15,6 +15,44 @@ type SideMenuPanelProps = {
   navigation: any,
 }
 
+export const deleteAccountDialog = ({ API, showDialog, store, theme }) => {
+  showDialog('', '', {
+    title: 'ARE YOU SURE?',
+    message: 'If you delete your wallet',
+    boldMessage: 'all your G$ will be lost forever!',
+    image: <TrashIcon />,
+    buttons: [
+      { text: 'Cancel', onPress: dismiss => dismiss(), mode: 'text', color: theme.colors.lighterGray },
+      {
+        text: 'Delete',
+        color: theme.colors.red,
+        onPress: async () => {
+          store.set('loadingIndicator')({ loading: true })
+          const userStorage = await import('../../lib/gundb/UserStorage').then(_ => _.default)
+          let token = await userStorage.getProfileFieldValue('w3Token')
+
+          if (!token) {
+            token = await userStorage.getProfileFieldValue('loginToken')
+          }
+
+          const isDeleted = await userStorage.deleteAccount()
+          log.debug('deleted account', isDeleted)
+
+          if (isDeleted) {
+            await Promise.all([AsyncStorage.clear(), API.deleteWalletFromW3Site(token)]).catch(e =>
+              log.error('Error deleting account', e.message, e)
+            )
+            store.set('loadingIndicator')({ loading: false })
+            window.location = '/'
+          } else {
+            showDialog('Error deleting account')
+            store.set('loadingIndicator')({ loading: false })
+          }
+        },
+      },
+    ],
+  })
+}
 const TrashIcon = withStyles()(({ theme }) => <IconWrapper iconName="trash" color={theme.colors.error} size={50} />)
 
 const log = logger.child({ from: 'SideMenuPanel' })
@@ -102,45 +140,23 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, navigation, store, theme 
         hideSidemenu()
       },
     },
+    {
+      icon: 'logout',
+      name: 'Logout',
+      action: () => {
+        AsyncStorage.clear()
+        window.location = '/'
+        hideSidemenu()
+      },
+    },
   ],
   bottomItems: [
     {
       icon: 'trash',
-      name: 'Delete Account',
+      name: 'Delete wallet',
       color: 'red',
       action: () => {
-        showDialog('', '', {
-          title: 'ARE YOU SURE?',
-          message: 'If you delete your account',
-          boldMessage: 'all your G$ will be lost forever!',
-          image: <TrashIcon />,
-          buttons: [
-            { text: 'Cancel', onPress: dismiss => dismiss(), mode: 'text', color: theme.colors.lighterGray },
-            {
-              text: 'Delete',
-              color: theme.colors.red,
-              onPress: async () => {
-                store.set('loadingIndicator')({ loading: true })
-                const userStorage = await import('../../lib/gundb/UserStorage').then(_ => _.default)
-                let token = await userStorage.getProfileFieldValue('w3Token')
-
-                if (!token) {
-                  token = await userStorage.getProfileFieldValue('loginToken')
-                }
-
-                await userStorage
-                  .deleteAccount()
-                  .then(r => log.debug('deleted account', r))
-                  .then(r => AsyncStorage.clear())
-                  .then(() => API.deleteWalletFromW3Site(token))
-                  .catch(e => log.error('Error deleting account', e.message, e))
-                store.set('loadingIndicator')({ loading: false })
-                window.location = '/'
-              },
-            },
-          ],
-        })
-
+        deleteAccountDialog({ API, showDialog, store, theme })
         hideSidemenu()
       },
     },

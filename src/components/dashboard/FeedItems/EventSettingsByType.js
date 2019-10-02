@@ -49,6 +49,7 @@ const getEventSettingsByType = (theme, type) => {
       color: theme.colors.primary,
       name: 'info',
       withoutAmount: true,
+      withoutAvatar: true,
     },
     welcome: {
       color: theme.colors.primary,

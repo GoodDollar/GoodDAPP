@@ -108,7 +108,7 @@ export function generateShareObject(title: string, text: string, url: string): S
   return {
     title,
     text,
-    url: encodeURI(url),
+    url,
   }
 }
 
@@ -178,18 +178,38 @@ type ActionType = 'receive' | 'send'
 export function generateShareLink(action: ActionType = 'receive', params: {} = {}): string {
   // depending on the action, routes may vary
   const destination = {
-    receive: 'Send',
-    send: 'Home',
+    receive: Config.receiveUrl,
+    send: Config.sendUrl,
   }[action]
+  let queryParams = ''
+
+  switch (Config.env) {
+    case 'production':
+      if (params.code) {
+        queryParams = `/${params.code}`
+        delete params.code
+      } else if (params.paymentCode) {
+        queryParams = `/${params.paymentCode}`
+        delete params.paymentCode
+      }
+      break
+
+    default:
+      break
+  }
 
   // creates query params from params object
-  const queryParams = toPairs(params)
+  const additionalParams = toPairs(params)
     .map(param => param.join('='))
     .join('&')
+
+  if (additionalParams.length) {
+    queryParams += `?${additionalParams}`
+  }
 
   if (!queryParams || !destination) {
     throw new Error(`Link couldn't be generated`)
   }
 
-  return encodeURI(`${Config.publicUrl}/AppNavigation/Dashboard/${destination}?${queryParams}`)
+  return encodeURI(`${destination}${queryParams}`)
 }

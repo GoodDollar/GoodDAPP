@@ -2,7 +2,7 @@ import React from 'react'
 import { Text } from '../../common'
 import { withStyles } from '../../../lib/styles'
 
-const EventCounterParty = ({ feedItem, styles, style }) => {
+const EventCounterParty = ({ feedItem, styles, style, subtitle }) => {
   const direction =
     feedItem.type === 'send' ? 'To:' : ['claim', 'receive', 'withdraw'].indexOf(feedItem.type) > -1 ? 'From:' : ''
   return (
@@ -11,7 +11,7 @@ const EventCounterParty = ({ feedItem, styles, style }) => {
         {direction}
       </Text>
       <Text fontWeight="medium" lineHeight={19} style={styles.fullName}>
-        {` ${feedItem.data.endpoint.fullName}`}
+        {feedItem.data.subtitle && subtitle ? ` ${feedItem.data.subtitle}` : ` ${feedItem.data.endpoint.fullName}`}
       </Text>
     </Text>
   )

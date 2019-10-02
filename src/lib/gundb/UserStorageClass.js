@@ -122,6 +122,24 @@ export const welcomeMessage = {
     },
   },
 }
+export const inviteFriendsMessage = {
+  id: '0',
+  type: 'invite',
+  date: new Date().toString(),
+  status: 'completed',
+  data: {
+    customName: 'Invite friends and earn G$',
+    subtitle: 'Want to earn more G$ ?',
+    receiptData: {
+      from: '0x0000000000000000000000000000000000000000',
+    },
+    reason:
+      'Help expand the network by inviting family, friends, and colleagues to participate and claim their daily income.\nThe more people join, the more effective GoodDollar will be, for everyone.',
+    endpoint: {
+      fullName: 'Invite friends and earn G$',
+    },
+  },
+}
 
 /**
  * Extracts transfer events sent to the current account
@@ -594,6 +612,10 @@ export class UserStorage {
 
     //first time user
     if ((await this.feed) === undefined) {
+      const w3Token = await this.getProfileFieldValue('w3Token')
+      if (!w3Token) {
+        this.enqueueTX(inviteFriendsMessage)
+      }
       this.enqueueTX(welcomeMessage)
     }
   }

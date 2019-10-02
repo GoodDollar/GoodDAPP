@@ -10,11 +10,12 @@ import goodWallet from '../../../lib/wallet/GoodWallet'
 import { generateSendShareObject, generateShareLink } from '../../../lib/share'
 import { useErrorDialog } from '../../../lib/undux/utils/dialog'
 import { withStyles } from '../../../lib/styles'
+import Text from '../view/Text'
 import GDStore from '../../../lib/undux/GDStore'
 
 const log = logger.child({ from: 'ModalActionsByFeed' })
 
-const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose }) => {
+const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigation }) => {
   const [showErrorDialog] = useErrorDialog()
   const [state, setState] = useState({})
   const store = GDStore.useStore()
@@ -66,7 +67,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose }) => {
     handleModalClose()
   }
   const invitePeople = () => {
-    log.info({ item, action: 'invitePeople' })
+    navigation.navigate('Rewards')
     handleModalClose()
   }
 
@@ -123,18 +124,24 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose }) => {
         <View style={styles.buttonsView}>
           <View style={styles.rightButtonContainer}>
             <CustomButton mode="text" style={styles.button} onPress={handleModalClose}>
-              Later
+              <Text fontSize={14} color="gray80Percent" fontFamily="Roboto">
+                LATER
+              </Text>
             </CustomButton>
           </View>
           <View style={styles.rightButtonContainer}>
             <CustomButton
               mode="contained"
-              style={styles.rightButton}
+              style={styles.button}
               onPress={invitePeople}
               iconAlignment="right"
+              iconSize={20}
               icon="invite"
+              iconStyle={styles.iconStyle}
             >
-              Invite
+              <Text fontSize={14} color="#FFFFFF" fontFamily="Roboto">
+                INVITE
+              </Text>
             </CustomButton>
           </View>
         </View>
@@ -183,6 +190,10 @@ const getStylesFromProps = ({ theme }) => ({
   },
   button: {
     minWidth: 96,
+  },
+  iconStyle: {
+    marginLeft: theme.sizes.defaultHalf,
+    marginBottom: 3,
   },
   rightButton: {
     minWidth: 96,

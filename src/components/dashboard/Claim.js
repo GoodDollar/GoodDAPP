@@ -80,19 +80,33 @@ const Claim = props => {
     evaluateFRValidity()
   }, [])
 
-  const getNextClaim = date => new Date(date - new Date().getTime()).toISOString().substr(11, 8)
+  const getNextClaim = async date => {
+    let nextClaimTime = date - new Date().getTime()
+    if (nextClaimTime < 0 && state.entitlement <= 0) {
+      const entitlement = await goodWallet.checkEntitlement()
+      setState({
+        nextClaim: '--:--:--',
+        entitlement: entitlement.toNumber() > 0 ? entitlement.toNumber() : 100,
+        claimedToday: {
+          people: '--',
+          amount: '--',
+        },
+      })
+    }
+    return new Date(nextClaimTime).toISOString().substr(11, 8)
+  }
 
   const gatherStats = async () => {
     const [claimedToday, nextClaimDate] = await Promise.all([
       wrappedGoodWallet.getAmountAndQuantityClaimedToday(),
       wrappedGoodWallet.getNextClaimTime(),
     ])
-
-    setState(prevState => ({ ...prevState, claimedToday, nextClaim: getNextClaim(nextClaimDate) }))
+    const nextClaim = await getNextClaim(nextClaimDate)
+    setState( prevState => ({ ...prevState, claimedToday, nextClaim }))
 
     setClaimInterval(
-      setInterval(() => {
-        const nextClaim = getNextClaim(nextClaimDate)
+      setInterval(async () => {
+        const nextClaim = await getNextClaim(nextClaimDate)
         setState(prevState => ({ ...prevState, nextClaim }))
       }, 1000)
     )

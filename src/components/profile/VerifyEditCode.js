@@ -134,6 +134,7 @@ const VerifyEditCode = props => {
       handleRetry={handleRetry}
       mainText={mainText}
       waitText={waitText}
+      aside={[3]}
     />
   )
 }

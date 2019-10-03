@@ -26,6 +26,7 @@ class SmsForm extends React.Component {
       handleRetry,
       mainText,
       waitText,
+      aside,
     } = this.props
 
     return (
@@ -47,6 +48,7 @@ class SmsForm extends React.Component {
                 value={otp}
                 placeholder="*"
                 isInputNum
+                aside={aside}
               />
               <ErrorText error={errorMessage} />
             </Section.Stack>

@@ -13,7 +13,7 @@ import SignUpPage from '../PageObjects/SignUpPage'
 
 describe('Test case 9: Ability to see rewards', () => {
 
-    it('User is able to see rewards page correctly if he has wallet without w3 account', () => {
+    it('User is able to see create a wallet with w3 token and check hass_wallet status', () => {
 
         StartPage.open();
         StartPage.continueOnWebButton.click();   
@@ -37,19 +37,21 @@ describe('Test case 9: Ability to see rewards', () => {
                 cy.wrap(body.find(RewardsPage.createWalletButton)).should('be.visible');
                 cy.wrap(body.find(RewardsPage.contentWrapper)).should('contain', 'Redeem your rewards & collected a daily income');
                 cy.wrap(body.find(RewardsPage.createWalletButton)).invoke('attr', 'href').then( createWalletUrl => {
+
                     // ** Extract token from button attribute ** //
                     const w3token = createWalletUrl.slice(33);
                     cy.log(w3token)
                     RewardsPage.backButton.click()
+
                     // ** Check if user have a wallet created with w3 token before creating new one ** //
                     cy.window()
                         .then( async win => {
                         const info = await win.api.getUserFromW3ByToken(w3token);
                         const hasWallet = info.data.has_wallet;
                         cy.log("has wallet: " + hasWallet)
-                        expect(hasWallet).to.be.false
-                                                  
+                        expect(hasWallet).to.be.false                                   
                     })     
+
                     cy.clearCookies()
                     cy.clearLocalStorage()
                     cy.visit('https://gooddev.netlify.com/?web3=' + w3token)
@@ -68,15 +70,16 @@ describe('Test case 9: Ability to see rewards', () => {
                     SignUpPage.gotItButton.click()
                     SignUpPage.letStartButton.click();
                     cy.wait(25000);
+
                     // ** Check if user have a wallet created with w3 token after creating ** //
                     cy.window()
                         .then( async win => {
                         const info = await win.api.getUserFromW3ByToken(w3token);
                         const hasWallet = info.data.has_wallet;
                         cy.log("has wallet: " + hasWallet)
-                        expect(hasWallet).to.be.true
-                                              
+                        expect(hasWallet).to.be.true                               
                     })  
+
                     HomePage.optionsButton.click();
                     cy.wait(5000)
                     HomePage.deleteAccountButton.click();
@@ -93,6 +96,7 @@ describe('Test case 9: Ability to see rewards', () => {
                     LoginPage.recoverWalletButton.click();
                     LoginPage.yayButton.click();
                     cy.wait(7000);
+
                     // ** Check if user have a wallet created with w3 token after deleting ** //
                     cy.window()
                     .then( async win => {
@@ -101,7 +105,7 @@ describe('Test case 9: Ability to see rewards', () => {
                         cy.log("has wallet: " + hasWallet)
                         expect(hasWallet).to.be.false
                                               
-                    })  
+                    });  
 
                 });
         

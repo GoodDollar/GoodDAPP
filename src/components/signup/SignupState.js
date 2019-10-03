@@ -23,6 +23,7 @@ import SmsForm from './SmsForm'
 import PhoneForm from './PhoneForm'
 import EmailForm from './EmailForm'
 import NameForm from './NameForm'
+import MagicLinkInfo from './MagicLinkInfo'
 
 const log = logger.child({ from: 'SignupState' })
 
@@ -35,6 +36,7 @@ const SignupWizardNavigator = createSwitchNavigator(
     SMS: SmsForm,
     Email: EmailForm,
     EmailConfirmation,
+    MagicLinkInfo,
     SignupCompleted,
   },
   navigationConfig
@@ -60,6 +62,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   const [countryCode, setCountryCode] = useState(undefined)
   const [createError, setCreateError] = useState(false)
   const [finishedPromise, setFinishedPromise] = useState(undefined)
+  const [showNavBarGoBackButton, setShowNavBarGoBackButton] = useState(true)
 
   const [showErrorDialog] = useErrorDialog()
   const shouldGrow = store.get && !store.get('isMobileSafariKeyboardShown')
@@ -276,6 +279,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   const done = async (data: { [string]: string }) => {
     setLoading(true)
     fireSignupEvent()
+
     log.info('signup data:', { data })
 
     let nextRoute = getNextRoute(navigation.state.routes, navigation.state.index, state)
@@ -358,9 +362,15 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
 
   useEffect(() => {
     const curRoute = navigation.state.routes[navigation.state.index]
+
     if (state === initialState) {
       return
     }
+
+    if (curRoute && curRoute.key === 'MagicLinkInfo') {
+      setShowNavBarGoBackButton(false)
+    }
+
     if (curRoute && curRoute.key === 'SignupCompleted') {
       const finishedPromise = finishRegistration()
       setFinishedPromise(finishedPromise)
@@ -371,7 +381,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
 
   return (
     <View style={{ flexGrow: shouldGrow ? 1 : 0 }}>
-      <NavBar goBack={back} title={'Sign Up'} />
+      <NavBar goBack={showNavBarGoBackButton ? back : undefined} title={'Sign Up'} />
       <ScrollView contentContainerStyle={scrollableContainer}>
         <View style={contentContainer}>
           <SignupWizardNavigator

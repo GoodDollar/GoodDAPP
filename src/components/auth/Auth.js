@@ -120,7 +120,16 @@ class Auth extends React.Component<Props> {
     const { styles } = this.props
     const { asGuest } = this.state
     const firstButtonHandler = asGuest ? this.handleSignUp : this.goToW3Site
-    const firstButtonText = asGuest ? 'Create a wallet' : 'Get Invited'
+    const firstButtonText = asGuest ? (
+      'Create a wallet'
+    ) : (
+      <Text style={styles.buttonText} fontWeight="medium">
+        NEW HERE?
+        <Text style={styles.buttonText} fontWeight="black">
+          {' GET INVITED'}
+        </Text>
+      </Text>
+    )
     const firstButtonColor = asGuest ? undefined : mainTheme.colors.orange
     const firstButtontextStyle = asGuest ? undefined : styles.textBlack
 
@@ -163,7 +172,12 @@ class Auth extends React.Component<Props> {
             {firstButtonText}
           </CustomButton>
           <PushButton dark={false} mode="outlined" onPress={this.handleSignIn}>
-            SIGN IN
+            <Text style={styles.buttonText} fontWeight="regular" color={'primary'}>
+              ALREADY REGISTERED?
+              <Text textTransform={'uppercase'} style={styles.buttonText} color={'primary'} fontWeight="black">
+                {' SIGN IN'}
+              </Text>
+            </Text>
           </PushButton>
         </Section>
       </Wrapper>
@@ -188,6 +202,12 @@ const getStylesFromProps = ({ theme }) => {
     },
     buttonLayout: {
       marginVertical: 20,
+    },
+    buttonText: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      paddingTop: 1,
+      letterSpacing: 0,
     },
     acceptTermsLink: {
       marginTop: theme.sizes.default,

@@ -19,12 +19,13 @@ const ModalWrapper = (props: any) => {
     showJaggedEdge = false,
     fullHeight = false,
     showAtBottom,
+    itemType,
     showTooltipArrow,
   } = props
 
   return (
     <ScrollView>
-      <ModalOverlay>
+      <ModalOverlay itemType={itemType}>
         <ModalContainer fullHeight={fullHeight} style={showAtBottom && styles.showAtBottom}>
           <ModalLeftBorder
             showTooltipArrow={showTooltipArrow}

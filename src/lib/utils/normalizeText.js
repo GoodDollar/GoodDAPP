@@ -1,107 +1,22 @@
-//
-// Method to normalize size of fonts across devices
-//
-// Some code taken from https://jsfiddle.net/97ty7yjk/ &
-// https://stackoverflow.com/questions/34837342/font-size-on-iphone-6s-plus
-//
-// author: @xiaoneng
-// date: 14/10/2016
-// version: 03
-//
+import { Dimensions } from 'react-native'
 
-const React = require('react-native') // eslint-disable-line no-undef
-const { PixelRatio, Dimensions } = React
+const { height, width } = Dimensions.get('window')
 
-const pixelRatio = PixelRatio.get()
-const deviceHeight = Dimensions.get('window').height
-const deviceWidth = Dimensions.get('window').width
+const DESIGN_WIDTH = 360
+const DESIGN_HEIGHT = 640 - 24
 
-// -- Testing Only --
-// const fontScale = PixelRatio.getFontScale();
-// const layoutSize = PixelRatio.getPixelSizeForLayoutSize(14);
-// console.log('normalizeText getPR ->', pixelRatio);
-// console.log('normalizeText getFS ->', fontScale);
-// console.log('normalizeText getDH ->', deviceHeight);
-// console.log('normalizeText getDW ->', deviceWidth);
-// console.log('normalizeText getPSFLS ->', layoutSize);
+const windowHeight = height > DESIGN_HEIGHT ? DESIGN_HEIGHT : height
+const windowWidth = width > DESIGN_WIDTH ? DESIGN_WIDTH : width
 
-const normalize = size => {
-  if (pixelRatio >= 2 && pixelRatio < 3) {
-    // iphone 5s and older Androids
-    if (deviceWidth < 360) {
-      if (size > 14) {
-        return size * 0.85
-      }
+const CURRENT_RESOLUTION = Math.sqrt(windowHeight * windowHeight + windowWidth * windowWidth)
+const DESIGN_RESOLUTION = Math.sqrt(DESIGN_HEIGHT * DESIGN_HEIGHT + DESIGN_WIDTH * DESIGN_WIDTH)
 
-      return size * 0.95
-    }
+const RESOLUTIONS_PROPORTION = CURRENT_RESOLUTION / DESIGN_RESOLUTION
 
-    // iphone 5
-    if (deviceHeight < 667) {
-      return size
-
-      // iphone 6-6s
-    } else if (deviceHeight >= 667 && deviceHeight <= 735) {
-      return size * 1.15
-    }
-
-    // older phablets
-    return size * 1.25
-  } else if (pixelRatio >= 3 && pixelRatio < 3.5) {
-    // catch Android font scaling on small machines
-    // where pixel ratio / font scale ratio => 3:3
-    if (deviceWidth <= 360) {
-      return size
-    }
-
-    // Catch other weird android width sizings
-    if (deviceHeight < 667) {
-      if (size > 14) {
-        return size * 1.1
-      }
-
-      return size * 1.15
-
-      // catch in-between size Androids and scale font up
-      // a tad but not too much
-    }
-    if (deviceHeight >= 667 && deviceHeight <= 735) {
-      return size * 1.2
-    }
-
-    // handle iphone x in browser
-    if (deviceHeight > 735 && deviceHeight <= 812) {
-      if (size > 14) {
-        return size * 1.05
-      }
-
-      return size * 1.1
-    }
-
-    // catch larger devices
-    // ie iphone 6s plus / 7 plus / mi note 等等
-    return size * 1.27
-  } else if (pixelRatio >= 3.5) {
-    // catch Android font scaling on small machines
-    // where pixel ratio / font scale ratio => 3:3
-    if (deviceWidth <= 360) {
-      return size
-
-      // Catch other smaller android height sizings
-    }
-    if (deviceHeight < 667) {
-      return size * 1.2
-
-      // catch in-between size Androids and scale font up
-      // a tad but not too much
-    }
-    if (deviceHeight >= 667) {
-      return size * 1.25
-    }
+export default size => {
+  if (RESOLUTIONS_PROPORTION < 1 && size <= 14) {
+    return size
   }
 
-  // if older device ie pixelRatio !== 2 || 3 || 3.5
-  return size
+  return RESOLUTIONS_PROPORTION * size
 }
-
-module.exports = normalize // eslint-disable-line no-undef

@@ -6,7 +6,6 @@ import API from '../../lib/API/api'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { withStyles } from '../../lib/styles'
 import SMSFormComponent from '../signup/SMSFormComponent'
-import { useDialog } from '../../lib/undux/utils/dialog'
 import userStorage from '../../lib/gundb/UserStorage'
 
 const log = logger.child({ from: 'SmsForm' })
@@ -24,7 +23,6 @@ const VerifyEditCode = props => {
   const [code, setCode] = useState(Array(NumInputs).fill(null))
   const [errorMessage, setErrorMessage] = useState('')
   const [resentCode, setResentCode] = useState(false)
-  const [showDialog] = useDialog()
 
   const { navigation, styles } = props
   const field = _get(navigation, 'state.params.field')
@@ -76,7 +74,7 @@ const VerifyEditCode = props => {
       try {
         await API[requestFn](codeValue, content)
 
-        handleSubmit()
+        await handleSubmit()
       } catch (e) {
         log.error('Failed to verify top:', e.message, e)
 
@@ -90,15 +88,11 @@ const VerifyEditCode = props => {
     }
   }
 
-  const handleSubmit = () => {
-    userStorage.setProfileField(fieldToSave, content, 'private')
+  const handleSubmit = async () => {
+    const privacy = await userStorage.getFieldPrivacy(fieldToSave)
+    await userStorage.setProfileField(fieldToSave, content, privacy)
 
-    showDialog({
-      title: `New ${fieldToShow} saved successfully!`,
-      onDismiss: () => {
-        navigation.navigate('Profile')
-      },
-    })
+    navigation.navigate('Profile')
   }
 
   const handleRetry = async () => {

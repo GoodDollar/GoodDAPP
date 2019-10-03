@@ -56,7 +56,7 @@ export default class UserProperties {
     await this.gun
       .get('properties')
       .get(field)
-      .put(value)
+      .putAck(value)
     await this.updateLocalData()
 
     return true

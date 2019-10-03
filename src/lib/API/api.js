@@ -177,10 +177,9 @@ class API {
   /**
    * `/verify/newmobile` post api call
    * @param {String} otp
-   * @param {String} mobile
    */
-  verifyNewMobile(otp: String, mobile: String): Promise<$AxiosXHR<any>> {
-    return this.client.post('/verify/newmobile', { otp, mobile })
+  verifyNewMobile(otp: String): Promise<$AxiosXHR<any>> {
+    return this.client.post('/verify/newmobile', { otp })
   }
 
   /**
@@ -218,10 +217,9 @@ class API {
   /**
    * `/verify/newemail` post api call
    * @param {string} code
-   * @param {string} email
    */
-  verifyNewEmail(code: String, email: String): Promise<$AxiosXHR<any>> {
-    return this.client.post('/verify/newemail', { code, email })
+  verifyNewEmail(code: String): Promise<$AxiosXHR<any>> {
+    return this.client.post('/verify/newemail', { code })
   }
 
   /**

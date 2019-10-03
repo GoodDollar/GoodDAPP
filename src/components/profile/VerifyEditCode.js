@@ -72,7 +72,7 @@ const VerifyEditCode = props => {
       setCode(code)
 
       try {
-        await API[requestFn](codeValue, content)
+        await API[requestFn](codeValue)
 
         await handleSubmit()
       } catch (e) {

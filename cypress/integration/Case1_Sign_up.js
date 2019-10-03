@@ -55,9 +55,9 @@ describe('Test case 1: Ability to Sign Up', () => {
         SignUpPage.emailInput.type('main.test.acc.gooddollar@gmail.com');
         cy.wait(5000);
         SignUpPage.nextButton.click();
-        cy.wait(5000);
-        SignUpPage.nextButton.click();
-        cy.wait(8000);
+        SignUpPage.gotItButton.click();
+        SignUpPage.letStartButton.click();
+        cy.wait(10000);
         HomePage.welcomeFeed.should('be.visible');
         // ** Part for checking Rewards window **//
         HomePage.rewardsButton.click();

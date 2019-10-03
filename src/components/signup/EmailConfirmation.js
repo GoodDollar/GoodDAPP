@@ -137,6 +137,7 @@ class EmailConfirmation extends React.Component<Props, State> {
                 value={code}
                 placeholder="*"
                 isInputNum={true}
+                aside={[3]}
               />
               <ErrorText error={errorMessage} />
             </Section.Stack>

@@ -129,6 +129,7 @@ class SmsForm extends React.Component<Props, State> {
         handleRetry={this.handleRetry}
         mainText={'Enter the verification code\nsent to your phone'}
         waitText={'Please wait a few seconds until the SMS arrives'}
+        aside={[3]}
       />
     )
   }

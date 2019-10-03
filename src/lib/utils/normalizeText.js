@@ -29,6 +29,10 @@ const normalize = size => {
   if (pixelRatio >= 2 && pixelRatio < 3) {
     // iphone 5s and older Androids
     if (deviceWidth < 360) {
+      if (size > 14) {
+        return size * 0.85
+      }
+
       return size * 0.95
     }
 
@@ -52,6 +56,10 @@ const normalize = size => {
 
     // Catch other weird android width sizings
     if (deviceHeight < 667) {
+      if (size > 14) {
+        return size * 1.1
+      }
+
       return size * 1.15
 
       // catch in-between size Androids and scale font up
@@ -61,8 +69,12 @@ const normalize = size => {
       return size * 1.2
     }
 
-    // handle iphone x
+    // handle iphone x in browser
     if (deviceHeight > 735 && deviceHeight <= 812) {
+      if (size > 14) {
+        return size * 1.05
+      }
+
       return size * 1.1
     }
 

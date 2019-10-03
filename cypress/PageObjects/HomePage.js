@@ -41,11 +41,11 @@ class HomePage {
     }
 
     get deleteAccountButton() {
-        return cy.contains('Delete Account');
+        return cy.contains('Delete wallet');
     }
 
     get confirmDeletionButton() {
-        return cy.contains('Delete');
+        return cy.get('.r-16y2uox.r-nsbfu8.r-bnwqim.r-184en5c').contains('Delete');
     }
 
 }

@@ -40,6 +40,14 @@ class SignUpPage {
         return cy.get('input[type=tel]')
     }
 
+    get gotItButton() {
+        return cy.contains('Cool, got it!')
+    }
+
+    get letStartButton() {
+        return cy.contains("Let's start!")
+    }
+
 }
 
 export default new SignUpPage;

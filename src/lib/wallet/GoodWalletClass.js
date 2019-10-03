@@ -19,7 +19,7 @@ import WalletFactory from './WalletFactory'
 
 const log = logger.child({ from: 'GoodWallet' })
 
-const DAY_IN_SECONDS = Number(Config.nextTimeClaim)
+const DAY_IN_SECONDS = window.nextTimeClaim ? Number(window.nextTimeClaim) : Number(Config.nextTimeClaim)
 const MILLISECONDS = 1000
 const ZERO = new BN('0')
 

@@ -655,6 +655,7 @@ sent to your phone
                       "flexBasis": "0%",
                       "flexGrow": 1,
                       "flexShrink": 1,
+                      "marginLeft": "15px",
                       "msFlexAlign": "center",
                       "msFlexNegative": 1,
                       "msFlexPositive": 1,

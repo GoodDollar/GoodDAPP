@@ -28,7 +28,7 @@ class NameForm extends React.Component<Props, State> {
   state = {
     errorMessage: '',
     fullName: this.props.screenProps.data.fullName || '',
-    isValid: true,
+    isValid: false,
   }
 
   input = undefined
@@ -69,7 +69,7 @@ class NameForm extends React.Component<Props, State> {
           <Section.Stack justifyContent="flex-start" style={this.props.styles.container}>
             <Section.Row justifyContent="center" style={this.props.styles.row}>
               <Section.Title color="darkGray" fontSize={22} fontWeight="500" textTransform="none">
-                {'Hi, Please enter your full name'}
+                {'Hi, nice to meet you.\n Please enter your full name'}
               </Section.Title>
             </Section.Row>
             <Section.Row justifyContent="center" style={this.props.styles.bottomRow}>

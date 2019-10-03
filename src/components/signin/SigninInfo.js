@@ -29,7 +29,7 @@ const Signin = props => {
         <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
           <View style={styles.bottomContainer}>
             <Text fontWeight="medium" fontSize={22} fontFamily="Roboto">
-              {'To sign in\n please follow this steps:'}
+              {'To sign in\n please follow these steps:'}
             </Text>
             <Text fontSize={14} color="gray80Percent" fontFamily="Roboto">
               {`(works from any device or platform)`}
@@ -43,7 +43,7 @@ const Signin = props => {
               <Circle number={2}>
                 Find{' '}
                 <Text fontWeight="bold" style={styles.text} fontFamily="Roboto">
-                  GoodDollar magic mail
+                  GoodDollar magic link
                 </Text>
               </Circle>
               <Circle number={3}>

@@ -390,7 +390,7 @@ export class UserStorage {
       logger.debug('init:', 'logging out first')
       this.gunuser.leave()
     }
-    const existingUsername = await this.gun.get('~@' + username)
+    const existingUsername = await this.getUserByGunAlias(username)
     logger.debug('init existing username:', { existingUsername })
     let loggedInPromise
     if (existingUsername) {
@@ -436,6 +436,10 @@ export class UserStorage {
       this.wallet.subscribeToEvent('receiptReceived', receipt => this.handleReceiptUpdated(receipt))
       res(true)
     })
+  }
+
+  async getUserByGunAlias(alias) {
+    return new Promise(res => this.gun.get('~@' + alias).once(data => res(!!data)))
   }
 
   /**

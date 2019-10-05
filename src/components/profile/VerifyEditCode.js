@@ -35,7 +35,7 @@ const VerifyEditCode = props => {
 
   switch (field) {
     case 'phone':
-      requestFn = 'verifyNewMobile'
+      requestFn = 'verifyMobile'
       resendCodeFn = 'sendNewOTP'
       fieldToShow = 'phone'
       waitTextInst = 'SMS'
@@ -44,7 +44,7 @@ const VerifyEditCode = props => {
 
     case 'email':
     default:
-      requestFn = 'verifyNewEmail'
+      requestFn = 'verifyEmail'
       resendCodeFn = 'sendVerificationForNewEmail'
       fieldToShow = 'email'
       fieldToSave = 'email'
@@ -72,7 +72,15 @@ const VerifyEditCode = props => {
       setCode(code)
 
       try {
-        await API[requestFn](codeValue)
+        const verificationData = {}
+
+        if (field === 'phone') {
+          verificationData.otp = code
+        } else {
+          verificationData.code = code
+        }
+
+        await API[requestFn](verificationData)
 
         await handleSubmit()
       } catch (e) {

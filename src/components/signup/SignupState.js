@@ -14,7 +14,7 @@ import SimpleStore from '../../lib/undux/SimpleStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 
 import { getUserModel, type UserModel } from '../../lib/gundb/UserModel'
-import { fireEvent, initAnalytics } from '../../lib/analytics/analytics'
+import { fireEvent } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
 import type { SMSRecord } from './SmsForm'
 import SignupCompleted from './SignupCompleted'
@@ -174,7 +174,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
 
       //for QA
       global.wallet = goodWallet
-      initAnalytics(goodWallet, userStorage).then(_ => fireSignupEvent('STARTED'))
+      fireSignupEvent('STARTED')
 
       //the login also re-initialize the api with new jwt
       await login.then(l => l.default.auth())

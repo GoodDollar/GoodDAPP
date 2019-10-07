@@ -90,7 +90,7 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
               {'Cancel'}
             </CustomButton>
             <CustomButton onPress={handleSubmit} style={styles.submitButton} loading={loading}>
-              {'Verify my email'}
+              {`Verify my ${sendToText}`}
             </CustomButton>
           </View>
         </Section.Row>

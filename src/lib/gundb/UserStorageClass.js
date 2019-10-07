@@ -153,7 +153,7 @@ export const backupMessage = {
       from: '0x0000000000000000000000000000000000000000',
     },
     reason:
-      'Your pass phrase is the only key to your wallet, this is why our wallet is super secure. Only you have an access to your wallet and money. But with great power comes great responsibility, If you won’t backup your pass phrase or if you lose it — you won’t be able to access your wallet and all your money will be lost forever. So, better safe than sorry.',
+      'Your pass phrase is the only key to your wallet, this is why our wallet is super secure. Only you have access to your wallet and money. But if you won’t backup your pass phrase or if you lose it — you won’t be able to access your wallet and all your money will be lost forever.',
     endpoint: {
       fullName: 'Backup your wallet. Now.',
     },

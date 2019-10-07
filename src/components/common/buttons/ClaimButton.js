@@ -18,7 +18,7 @@ const getStylesFromProps = ({ theme }) => ({
     animationDuration: '1.5s',
     animationTimingFunction: 'linear',
     animationDelay: '1s',
-    animationIterationCount: 3,
+    animationIterationCount: 1,
     animationDirection: 'normal',
     alignItems: 'center',
     backgroundColor: theme.colors.green,

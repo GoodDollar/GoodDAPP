@@ -1,5 +1,5 @@
 import React from 'react'
-import { Image, StyleSheet, View } from 'react-native'
+import { Image, StyleSheet } from 'react-native'
 import splashImage from '../../assets/Splash/logo.svg'
 import goodDollarImage from '../../assets/Splash/goodDollar.svg'
 import wavePattern from '../../assets/wave50.svg'
@@ -15,7 +15,6 @@ Image.prefetch(wavePattern)
 const Splash = () => (
   <Wrapper style={styles.wrapper}>
     <Section style={styles.container}>
-      <View style={styles.backgroundWaves} />
       <Section.Stack style={styles.content} grow justifyContent="space-between">
         <Section.Text fontSize={22} color="darkBlue">
           {`Welcome and thank you\nfor participating in GoodDollar's\n`}
@@ -44,19 +43,12 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     justifyContent: 'center',
-    transform: [{ rotateY: '180deg' }],
-    position: 'relative',
-    backgroundColor: 'transparent',
-    flex: 1,
-  },
-  backgroundWaves: {
-    position: 'absolute',
-    width: '100%',
-    height: '100%',
     backgroundImage: `url(${wavePattern})`,
     backgroundRepeat: 'repeat-y',
+    backgroundColor: 'transparent',
     backgroundSize: 'cover',
-    opacity: 0.4,
+    transform: [{ rotateY: '180deg' }],
+    flex: 1,
   },
   content: {
     transform: [{ rotateY: '180deg' }],

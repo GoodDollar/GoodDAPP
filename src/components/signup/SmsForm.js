@@ -143,6 +143,7 @@ class SmsForm extends React.Component<Props, State> {
                 value={otp}
                 placeholder="*"
                 isInputNum={true}
+                aside={[3]}
               />
               <ErrorText error={errorMessage} />
             </Section.Stack>

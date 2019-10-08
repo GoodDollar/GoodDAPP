@@ -29,11 +29,7 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
 
   return (
     <View style={styles.innerRow}>
-      <Avatar
-        size={34}
-        style={styles.avatarBottom}
-        source={feed.data && feed.data.endpoint && feed.data.endpoint.avatar}
-      />
+      <View style={styles.emptySpace} />
       <View grow style={styles.mainContents}>
         <View style={[styles.dateAndValue, { borderBottomColor: mainColor }]}>
           <Text fontSize={10} color="gray80Percent" lineHeight={17}>
@@ -58,6 +54,11 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
           )}
         </View>
         <View style={styles.transferInfo} alignItems="flex-start">
+          <Avatar
+            size={34}
+            style={styles.avatarBottom}
+            source={feed.data && feed.data.endpoint && feed.data.endpoint.avatar}
+          />
           <View style={styles.mainInfo}>
             {itemType === 'senderror' ? (
               <>
@@ -154,8 +155,9 @@ const getStylesFromProps = ({ theme }) => ({
     width: '100%',
   },
   avatarBottom: {
-    marginTop: 'auto',
-    marginBottom: 5,
+    position: 'absolute',
+    left: -40,
+    bottom: 0,
   },
   mainContents: {
     flexGrow: 1,
@@ -183,6 +185,7 @@ const getStylesFromProps = ({ theme }) => ({
     lineHeight: normalize(16),
   },
   transferInfo: {
+    position: 'relative',
     display: 'flex',
     flexDirection: 'row',
     flexShrink: 1,
@@ -190,6 +193,9 @@ const getStylesFromProps = ({ theme }) => ({
     paddingHorizontal: theme.sizes.defaultHalf,
     paddingTop: theme.sizes.defaultHalf,
     alignItems: 'center',
+  },
+  emptySpace: {
+    width: 34,
   },
   mainInfo: {
     alignItems: 'flex-start',

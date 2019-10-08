@@ -99,8 +99,6 @@ export class GoodWallet {
 
   ready: Promise<Web3>
 
-  wallet: Web3
-
   config: {}
 
   accountsContract: Web3.eth.Contract

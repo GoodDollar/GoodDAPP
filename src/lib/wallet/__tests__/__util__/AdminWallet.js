@@ -40,8 +40,6 @@ export class Wallet {
 
   claimContract: Web3.eth.Contract
 
-  reserveContract: Web3.eth.Contract
-
   address: string
 
   networkId: number

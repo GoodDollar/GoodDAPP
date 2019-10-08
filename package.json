@@ -28,6 +28,7 @@
     "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls",
     "bundlesize:check": "bundlesize",
     "flow": "flow",
+    "backend": "npm run start --prefix node_modules/@gooddollar/goodcontracts/",
     "lint": "eslint \"src/**/*.js\" --max-warnings=0",
     "lint:fix": "npm run lint -- --fix",
     "docs": "node scripts/docs.js",

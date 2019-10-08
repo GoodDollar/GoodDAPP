@@ -1,5 +1,5 @@
 import React from 'react'
-import { Image, StyleSheet, View } from 'react-native'
+import { Image, StyleSheet } from 'react-native'
 import goodDollarImage from '../../assets/Splash/goodDollar.svg'
 import wavePattern from '../../assets/wave50.svg'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
@@ -16,7 +16,6 @@ Image.prefetch(wavePattern)
 const SplashDesktop = ({ onContinue, urlForQR }) => (
   <Wrapper style={styles.wrapper}>
     <Section style={styles.container}>
-      <View style={styles.backgroundWaves} />
       <Section.Stack style={styles.content} grow justifyContent="space-between">
         <Section.Text fontSize={22} color="darkBlue">
           {`For Best Experience\nplease scan and continue\non your mobile device.`}
@@ -45,19 +44,12 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     justifyContent: 'center',
-    position: 'relative',
-    backgroundColor: 'transparent',
-    transform: [{ rotateY: '180deg' }],
-    flex: 1,
-  },
-  backgroundWaves: {
-    position: 'absolute',
-    width: '100%',
-    height: '100%',
     backgroundImage: `url(${wavePattern})`,
     backgroundRepeat: 'repeat-y',
+    backgroundColor: 'transparent',
     backgroundSize: 'cover',
-    opacity: 0.4,
+    transform: [{ rotateY: '180deg' }],
+    flex: 1,
   },
   content: {
     transform: [{ rotateY: '180deg' }],

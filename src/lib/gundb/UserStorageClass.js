@@ -105,20 +105,20 @@ export type TransactionEvent = FeedEvent & {
 }
 
 export const welcomeMessage = {
-  id: '1',
+  id: '0',
   type: 'welcome',
   date: new Date().toString(),
   status: 'completed',
   data: {
-    customName: 'Welcome to GoodDollar!',
-    subtitle: 'Welcome to GoodDollar!',
+    customName: 'Welcome to GoodDollar',
+    subtitle: 'Start claiming free G$',
     receiptData: {
       from: '0x0000000000000000000000000000000000000000',
     },
     reason:
-      'GoodDollar is a payment system with a built-in small basic income based on blockchain technology.\nLet’s change the world, for good.',
+      'GoodDollar is a digital coin with built-in\nbasic income. Start collecting your income by claiming GoodDollars every day.',
     endpoint: {
-      fullName: 'Welcome to GoodDollar!',
+      fullName: 'Welcome to GoodDollar',
     },
   },
 }

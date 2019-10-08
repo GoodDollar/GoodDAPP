@@ -143,6 +143,7 @@ class SmsForm extends React.Component<Props, State> {
                 value={otp}
                 placeholder="*"
                 isInputNum={true}
+                aside={[3]}
               />
               <ErrorText error={errorMessage} />
             </Section.Stack>
@@ -168,7 +169,13 @@ const SMSAction = ({ status, handleRetry }) => {
     )
   }
   return (
-    <Section.Text fontWeight="medium" textDecorationLine="underline"  fontSize={14} color="primary" onPress={handleRetry}>
+    <Section.Text
+      fontWeight="medium"
+      textDecorationLine="underline"
+      fontSize={14}
+      color="primary"
+      onPress={handleRetry}
+    >
       Send me the code again
     </Section.Text>
   )

@@ -56,3 +56,22 @@ exports[`EventIcon - Withdraw matches snapshot 1`] = `
   
 </div>
 `;
+
+exports[`EventIcon - welcome matches snapshot 1`] = `
+<div
+  className="css-text-901oao"
+  dir="auto"
+  style={
+    Object {
+      "color": "rgba(98,0,238,1.00)",
+      "fontFamily": "gooddollar",
+      "fontSize": "34px",
+      "fontStyle": "normal",
+      "fontWeight": "normal",
+      "marginRight": "0px",
+    }
+  }
+>
+  
+</div>
+`;

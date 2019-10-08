@@ -66,6 +66,9 @@ const getSingleOtpInputStylesFromProps = ({ theme }) => ({
     borderBottomColor: theme.colors.gray,
     borderBottomWidth: 2,
   },
+  asideInput: {
+    marginLeft: 15,
+  },
 })
 
 const Input = ({ min, max, pattern, focus, shouldAutoFocus, onChange, value, focusNextInput, ...props }) => {
@@ -137,9 +140,11 @@ const SingleOtpInput = withStyles(getSingleOtpInputStylesFromProps)((props: Sing
     styles,
     placeholder,
     keyboardType,
+    aside,
+    indexElement,
     ...rest
   } = props
-
+  let stylesSingleOtpInputContainer = [styles.singleOtpInputContainer]
   const inputStyles = [styles.input, inputStyle]
   if (focus && focusStyle) {
     inputStyles.push(focusStyle)
@@ -150,6 +155,11 @@ const SingleOtpInput = withStyles(getSingleOtpInputStylesFromProps)((props: Sing
   if (hasErrored && errorStyle) {
     inputStyles.push(errorStyle)
   }
+
+  if (aside && typeof aside === 'object' && aside.indexOf(indexElement) >= 0) {
+    stylesSingleOtpInputContainer.push(styles.asideInput)
+  }
+
   const inputProps = {
     style: inputStyles,
     maxLength: 1,
@@ -172,7 +182,7 @@ const SingleOtpInput = withStyles(getSingleOtpInputStylesFromProps)((props: Sing
         keyboardType: keyboardType || 'default',
       }
   return (
-    <View style={styles.singleOtpInputContainer}>
+    <View style={stylesSingleOtpInputContainer}>
       <Input {...inputProps} {...inputValidations} {...rest} />
       {!isLastChild && separator}
     </View>
@@ -195,6 +205,7 @@ const OtpInput = (props: Props) => {
     isInputNum,
     containerStyle,
     placeholder,
+    aside,
     styles,
     keyboardType,
   } = props
@@ -319,6 +330,8 @@ const OtpInput = (props: Props) => {
           isInputNum={isInputNum}
           placeholder={customPlaceholder}
           keyboardType={keyboardType || null}
+          indexElement={i}
+          aside={aside}
         />
       )
     }

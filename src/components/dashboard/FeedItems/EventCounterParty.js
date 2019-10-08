@@ -11,10 +11,7 @@ const EventCounterParty = ({ feedItem, styles, style, subtitle }) => {
         {direction}
       </Text>
       <Text fontWeight="medium" lineHeight={19} style={styles.fullName}>
-        {(feedItem.data.subtitle && subtitle)
-            ? ` ${feedItem.data.subtitle}`
-            : ` ${feedItem.data.endpoint.fullName}`
-        }
+        {feedItem.data.subtitle && subtitle ? ` ${feedItem.data.subtitle}` : ` ${feedItem.data.endpoint.fullName}`}
       </Text>
     </Text>
   )

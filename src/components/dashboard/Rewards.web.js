@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import get from 'lodash/get'
+import IframeResizer from 'iframe-resizer-react'
 import { isIOS } from 'mobile-device-detect'
 import userStorage from '../../lib/gundb/UserStorage'
 import Config from '../../config/config'
@@ -10,7 +10,6 @@ const log = logger.child({ from: 'RewardsTab' })
 
 const RewardsTab = props => {
   const [loginToken, setLoginToken] = useState()
-  const [height, setHeight] = useState('100%')
   const store = SimpleStore.useStore()
   const scrolling = isIOS ? 'no' : 'yes'
 
@@ -21,17 +20,6 @@ const RewardsTab = props => {
   }
   const isLoaded = function() {
     store.set('loadingIndicator')({ loading: false })
-    const self = this
-    let oldHeight = 0
-    function resizeiframe() {
-      let newHeight = get(self.document.getElementsByTagName('body'), '[0].offsetHeight')
-      if (newHeight && newHeight !== oldHeight) {
-        oldHeight = newHeight
-        setHeight(newHeight)
-      }
-    }
-    resizeiframe()
-    self.contentWindow.onresize = resizeiframe
   }
 
   useEffect(() => {
@@ -40,24 +28,23 @@ const RewardsTab = props => {
   }, [])
 
   return loginToken === undefined ? null : (
-    <iframe
+    <IframeResizer
       title="Rewards"
-      src={`${Config.web3SiteUrl}?token=${loginToken}&purpose=iframe`}
       scrolling={scrolling}
-      allowFullScreen={true}
+      src={`${Config.web3SiteUrl}?token=${loginToken}&purpose=iframe`}
+      allowFullScreen
       frameBorder="0"
       width="100%"
       height="100%"
-      seamless={true}
-      onLoad={isLoaded}
+      seamless
       style={{
         maxWidth: '100%',
         maxHeight: '100%',
         minWidth: '100%',
         minHeight: '100%',
-        height,
         width: 0,
       }}
+      onLoad={isLoaded}
     />
   )
 }

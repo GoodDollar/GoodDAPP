@@ -1,11 +1,7 @@
-/* eslint-disable lines-around-comment */
-/* eslint-disable no-undef */
-/* eslint-disable prettier/prettier */
 import StartPage from '../PageObjects/StartPage'
 import LoginPage from '../PageObjects/LoginPage'
 import HomePage from '../PageObjects/HomePage'
 import RewardsPage from '../PageObjects/RewardsPage'
-import w3Page from '../PageObjects/w3Page'
 import SignUpPage from '../PageObjects/SignUpPage'
 
 

@@ -37,7 +37,7 @@ class HomePage {
     }
 
     get welcomeFeed() {
-        return cy.contains('Welcome to GoodDollar!');
+        return cy.contains('Start claiming free G$');
     }
 
     get deleteAccountButton() {

@@ -47,10 +47,15 @@ describe('Test case 1: Ability to Sign Up', () => {
         // SignUpPage.errorOkayButton.click();
         // SignUpPage.nextButton.click();
         cy.wait(5000);
-        for( let i = 0; i < 6; i++ ) {
-            cy.wait(2000)
-            SignUpPage.codeInputs.eq(i).type(i, {force:true});
-        }
+        
+        // ** it works more reliably then cycle ** //
+        SignUpPage.codeInputs.eq(0).type(0 , {force:true} )
+        SignUpPage.codeInputs.eq(1).type(1 , {force:true} )
+        SignUpPage.codeInputs.eq(2).type(2 , {force:true} )
+        SignUpPage.codeInputs.eq(3).type(3 , {force:true} )
+        SignUpPage.codeInputs.eq(4).type(4 , {force:true} )
+        SignUpPage.codeInputs.eq(5).type(5 , {force:true} )
+
         cy.wait(5000);
         SignUpPage.emailInput.type('main.test.acc.gooddollar@gmail.com');
         cy.wait(5000);
@@ -75,7 +80,7 @@ describe('Test case 1: Ability to Sign Up', () => {
             });
         RewardsPage.backButton.click()
         cy.wait(7000);
-        // ** ** //    
+        // ** ^^ ** //    
         HomePage.optionsButton.click();
         cy.wait(5000)
         HomePage.deleteAccountButton.click();
@@ -84,49 +89,6 @@ describe('Test case 1: Ability to Sign Up', () => {
         cy.wait(15000);
         cy.log("Done!")
 
-
-
-        // cy.window()
-        //     .then( win => {
-        //         const identifierValue = win.wallet.getAccountForType('login').toLowerCase();
-        //         cy.request({
-        //             method: 'POST', 
-        //             url: 'https://good-qa.herokuapp.com/admin/user/get', 
-        //             headers: { 
-        //                 'content-type': 'application/json'
-        //             },
-        //             body: { 
-        //                 password:'MashWzP8Kg',
-        //                 identifier: identifierValue
-        //             }}
-        //             )
-        //             .then( response => {
-        //                 const code = response.body.user.otp.code.toString();        
-        //                 const charArray = code.split('');             
-        //                 for( let i = 0; i < 6; i++ ) {
-        //                     cy.wait(2000)
-        //                     SignUpPage.codeInputs.eq(i).type(charArray[i], {force:true});
-        //                 }
-        //                 cy.wait(5000);
-        //                 SignUpPage.emailInput.type('gooddollarssss@gmail.com');
-        //                 cy.wait(5000);
-        //                 SignUpPage.nextButton.click();
-        //                 cy.wait(5000);
-        //                 SignUpPage.nextButton.click();
-        //                 cy.wait(5000);
-        //                 HomePage.welcomeFeed.should('contain', 'Welcome to GoodDollar!');
-        //                 HomePage.welcomeFeed.should('contain', 'Start claiming free G$');
-        //                 HomePage.optionsButton.click();
-        //                 cy.wait(5000)
-        //                 HomePage.deleteAccountButton.click();
-        //                 cy.wait(8000)
-        //                 HomePage.confirmDeletionButton.click();
-        //                 cy.wait(15000);
-        //                 cy.log("Done!")
-
-        //             });
-
-        //     }); 
                 
     });
 

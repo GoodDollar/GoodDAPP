@@ -11,7 +11,9 @@ function typeInputValues( values , isCorrect) {
         if(isCorrect) {
             LoginPage.recoverWalletButton.click({ force:true });
             LoginPage.yayButton.click();
-            cy.wait(7000);
+            // cy.wait(7000);
+            HomePage.claimButton.click()
+            cy.wait(10000);
             HomePage.profileAvatar.should('be.visible');
         } else {
             LoginPage.errorWindow.should('be.visible');

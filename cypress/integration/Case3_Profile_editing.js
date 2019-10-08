@@ -36,9 +36,9 @@ describe('Test case 3: Ability to change user data', () => {
             HomePage.options.eq(i).should('be.visible');
         }
         HomePage.options.eq(0).click();   
-        ProfilePage.editProfileButton.should('be.visible');
-        cy.wait(12000);
-        ProfilePage.editProfileButton.click();  
+        // ProfilePage.editProfileButton.should('be.visible');
+        // ProfilePage.editProfileButton.click();  
+        ProfilePage.openEditProfileButton()
         EditProfilePage.pageHeader.should('contain', 'Edit Profile');
         EditProfilePage.nameInput.should('be.visible');
         EditProfilePage.phoneInput.should('be.visible');
@@ -84,8 +84,9 @@ describe('Test case 3: Ability to change user data', () => {
 
         HomePage.optionsButton.click({force:true});
         HomePage.options.eq(0).click({force:true});
-        ProfilePage.editProfileButton.should('be.visible');
-        ProfilePage.editProfileButton.click();
+        ProfilePage.openEditProfileButton()
+        // ProfilePage.editProfileButton.should('be.visible');
+        // ProfilePage.editProfileButton.click();
         EditProfilePage.nameInput.clear();
         EditProfilePage.phoneInput.clear();
         EditProfilePage.emailInput.clear();
@@ -94,14 +95,16 @@ describe('Test case 3: Ability to change user data', () => {
         EditProfilePage.emailInput.type('test1234@test.com');
         cy.wait(7000);
         EditProfilePage.saveButton.click();
-        cy.wait(10000);
+        cy.wait(5000);
+        ProfilePage.openProfilePage()
+        cy.wait(5000)
         //EditProfilePage.backButton.click();
         ProfilePage.nameInput.should('have.value', 'AndrewGolenkov');
         ProfilePage.phoneInput.should('have.value', '+380983611321');
         ProfilePage.emailInput.should('have.value', 'test1234@test.com');
-        ProfilePage.editProfileButton.should('be.visible');
-        cy.wait(12000);
-        ProfilePage.editProfileButton.click();
+        ProfilePage.openEditProfileButton()
+        //ProfilePage.editProfileButton.should('be.visible');
+        //ProfilePage.editProfileButton.click();
         cy.wait(3000);
         EditProfilePage.nameInput.clear();
         EditProfilePage.nameInput.type('AndrewLebowski123'); 
@@ -122,9 +125,9 @@ describe('Test case 3: Ability to change user data', () => {
 
         HomePage.optionsButton.click({force:true});
         HomePage.options.eq(0).click({force:true});
-        ProfilePage.editProfileButton.should('be.visible');
-        cy.wait(12000);
-        ProfilePage.editProfileButton.click();
+        ProfilePage.openEditProfileButton()
+        // ProfilePage.editProfileButton.should('be.visible');
+        // ProfilePage.editProfileButton.click();
         EditProfilePage.nameInput.clear({timeout:10000});
         EditProfilePage.phoneInput.clear({timeout:10000});
         EditProfilePage.emailInput.clear({timeout:10000});

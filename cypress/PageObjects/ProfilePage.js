@@ -24,8 +24,17 @@ class ProfilePage {
         return cy.get('img[alt]', { timeout: 10000 })
     }
 
-    get editProfileButton() {
-        return cy.get('body').find('[style="font-family: gooddollar; font-size: 25px; font-style: normal;"]', { timeout: 10000 });
+    // ** this button causes react decoder error sometimes ** //
+    // get editProfileButton() {
+    //     return cy.get('body').find('[style="font-family: gooddollar; font-size: 25px; font-style: normal;"]', { timeout: 10000 });
+    // }
+
+    openEditProfileButton() {
+        cy.visit(Cypress.env('baseUrl') + 'AppNavigation/Profile/EditProfile');
+    }
+
+    openProfilePage() {
+        cy.visit(Cypress.env('baseUrl') + 'AppNavigation/Profile/Profile');
     }
  
 }

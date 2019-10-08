@@ -4,10 +4,19 @@ import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { withStyles } from '../../lib/styles'
+import Icon from '../common/view/Icon'
+import LoadingIndicator from '../common/view/LoadingIndicator'
+import Section from '../common/layout/Section'
+import ErrorText from '../common/form/ErrorText'
+import OtpInput from '../common/form/OtpInput'
+import CustomWrapper from './signUpWrapper'
 import type { SignupState } from './SignupState'
-import SMSFormComponent from './SMSFormComponent'
 
 const log = logger.child({ from: 'SmsForm' })
+
+const DONE = 'DONE'
+const WAIT = 'WAIT'
+const PENDING = 'PENDING'
 
 type Props = {
   phone: string,
@@ -44,6 +53,10 @@ class SmsForm extends React.Component<Props, State> {
     otp: Array(NumInputs).fill(null),
   }
 
+  componentDidMount() {
+    this.displayDelayedRenderButton()
+  }
+
   componentDidUpdate() {
     if (!this.state.renderButton) {
       this.displayDelayedRenderButton()
@@ -71,9 +84,8 @@ class SmsForm extends React.Component<Props, State> {
 
         this.setState({
           errorMessage: e.message || e,
+          loading: false,
         })
-      } finally {
-        this.setState({ loading: false })
       }
     } else {
       this.setState({
@@ -83,8 +95,10 @@ class SmsForm extends React.Component<Props, State> {
     }
   }
 
-  handleSubmit = () => {
-    this.props.screenProps.doneCallback({ smsValidated: true })
+  handleSubmit = async () => {
+    await this.props.screenProps.doneCallback({ smsValidated: true })
+
+    this.setState({ loading: false })
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -94,9 +108,12 @@ class SmsForm extends React.Component<Props, State> {
 
   handleRetry = async () => {
     this.setState({ sendingCode: true, otp: Array(NumInputs).fill(null), errorMessage: '' })
+    let { retryFunctionName } = this.props.screenProps
+
+    retryFunctionName = retryFunctionName || 'sendOTP'
 
     try {
-      await API.sendOTP({ ...this.props.screenProps.data })
+      await API[retryFunctionName]({ ...this.props.screenProps.data })
       this.setState({ sendingCode: false, renderButton: false, resentCode: true }, this.displayDelayedRenderButton)
 
       //turn checkmark back into regular resend text
@@ -116,23 +133,60 @@ class SmsForm extends React.Component<Props, State> {
     const { styles } = this.props
 
     return (
-      <SMSFormComponent
-        errorMessage={errorMessage}
-        renderButton={renderButton}
-        loading={loading}
-        otp={otp}
-        resentCode={resentCode}
-        styles={styles}
-        NumInputs={NumInputs}
-        handleSubmit={this.handleSubmit}
-        handleChange={this.handleChange}
-        handleRetry={this.handleRetry}
-        mainText={'Enter the verification code\nsent to your phone'}
-        waitText={'Please wait a few seconds until the SMS arrives'}
-        aside={[3]}
-      />
+      <CustomWrapper handleSubmit={this.handleSubmit} footerComponent={() => <React.Fragment />}>
+        <Section grow justifyContent="flex-start">
+          <Section.Stack justifyContent="flex-start" style={styles.container}>
+            <Section.Row justifyContent="center">
+              <Section.Title color="darkGray" fontSize={22} fontWeight="500" textTransform="none">
+                {'Enter the verification code\nsent to your phone'}
+              </Section.Title>
+            </Section.Row>
+            <Section.Stack justifyContent="center" style={styles.bottomContent}>
+              <OtpInput
+                shouldAutoFocus
+                numInputs={NumInputs}
+                onChange={this.handleChange}
+                hasErrored={errorMessage !== ''}
+                errorStyle={styles.errorStyle}
+                value={otp}
+                placeholder="*"
+                isInputNum={true}
+                asside={[3]}
+              />
+              <ErrorText error={errorMessage} />
+            </Section.Stack>
+          </Section.Stack>
+          <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
+            <SMSAction status={resentCode ? DONE : renderButton ? PENDING : WAIT} handleRetry={this.handleRetry} />
+          </Section.Row>
+        </Section>
+        <LoadingIndicator force={loading} />
+      </CustomWrapper>
     )
   }
+}
+
+const SMSAction = ({ status, handleRetry }) => {
+  if (status === DONE) {
+    return <Icon size={16} name="success" color="blue" />
+  } else if (status === WAIT) {
+    return (
+      <Section.Text fontSize={14} color="gray80Percent">
+        Please wait a few seconds until the SMS arrives
+      </Section.Text>
+    )
+  }
+  return (
+    <Section.Text
+      textDecorationLine="underline"
+      fontWeight="medium"
+      fontSize={14}
+      color="primary"
+      onPress={handleRetry}
+    >
+      Send me the code again
+    </Section.Text>
+  )
 }
 
 const getStylesFromProps = ({ theme }) => ({

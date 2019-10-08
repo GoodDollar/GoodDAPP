@@ -88,7 +88,7 @@ export class Wallet {
     this.web3 = new Web3(this.getWeb3TransportProvider(), null, {
       defaultBlock: 'latest',
       defaultGas: 200000,
-      defaultGasPrice: 2000000,
+      defaultGasPrice: 1000000,
       transactionBlockTimeout: 5,
       transactionConfirmationBlocks: 1,
       transactionPollingTimeout: 30,
@@ -117,7 +117,7 @@ export class Wallet {
       {
         from: this.address,
         gas: 500000,
-        gasPrice: web3Utils.toWei('1', 'gwei'),
+        gasPrice: web3Utils.toWei('2', 'gwei'),
       }
     )
     this.claimContract = new this.web3.eth.Contract(

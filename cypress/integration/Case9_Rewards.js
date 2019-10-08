@@ -7,7 +7,7 @@ import SignUpPage from '../PageObjects/SignUpPage'
 
 
 
-describe('Test case 9: Ability to see rewards', () => {
+describe('Test case 9: Ability to see rewards and create wallet with token', () => {
 
     it('User is able to see create a wallet with w3 token and check hass_wallet status', () => {
 

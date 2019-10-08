@@ -858,7 +858,7 @@ exports[`Dashboard matches snapshot 1`] = `
                         Object {
                           "color": "rgba(255,255,255,1.00)",
                           "fontFamily": "gooddollar",
-                          "fontSize": "14px",
+                          "fontSize": "20px",
                           "fontStyle": "normal",
                           "fontWeight": "normal",
                           "marginRight": "16px",
@@ -1256,7 +1256,7 @@ exports[`Dashboard matches snapshot 1`] = `
                         Object {
                           "color": "rgba(255,255,255,1.00)",
                           "fontFamily": "gooddollar",
-                          "fontSize": "14px",
+                          "fontSize": "20px",
                           "fontStyle": "normal",
                           "fontWeight": "normal",
                           "marginLeft": "16px",

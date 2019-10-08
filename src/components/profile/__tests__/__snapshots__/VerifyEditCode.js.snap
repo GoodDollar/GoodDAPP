@@ -1114,22 +1114,27 @@ sent to your email
           >
             <div
               className="css-text-901oao"
+              data-focusable={true}
               dir="auto"
+              onClick={[Function]}
+              onKeyDown={[Function]}
               style={
                 Object {
-                  "color": "rgba(163,163,163,1.00)",
+                  "color": "rgba(0,175,255,1.00)",
+                  "cursor": "pointer",
                   "direction": "ltr",
                   "fontFamily": "Roboto",
                   "fontSize": "14px",
-                  "fontWeight": "normal",
+                  "fontWeight": "500",
                   "lineHeight": "20px",
                   "textAlign": "center",
-                  "textDecoration": "none",
+                  "textDecoration": "underline",
                   "textTransform": "none",
                 }
               }
+              tabIndex="0"
             >
-              Please wait a few seconds until the email arrives
+              Send me the code again
             </div>
           </div>
         </div>

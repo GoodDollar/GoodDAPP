@@ -25,7 +25,7 @@ const ModalWrapper = (props: any) => {
   return (
     <ScrollView>
       <ModalOverlay>
-        <ModalContainer fullHeight={fullHeight} style={showAtBottom && styles.showAtBottom}>
+        <ModalContainer fullHeight={fullHeight} style={[showAtBottom && styles.showAtBottom, styles.maxHeightBlock]}>
           <ModalLeftBorder
             showTooltipArrow={showTooltipArrow}
             borderColor={leftBorderColor}
@@ -63,6 +63,9 @@ const getStylesFromProps = ({ theme }) => ({
   },
   noneShadow: {
     boxShadow: 'none',
+  },
+  maxHeightBlock: {
+    maxHeight: theme.sizes.maxHeightForTabletAndDesktop,
   },
   shadow: {
     boxShadow: '0px 2px 4px #00000029',

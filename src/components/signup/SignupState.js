@@ -94,9 +94,11 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   }
 
   const checkWeb3Token = async () => {
+    setLoading(true)
     const web3Token = await AsyncStorage.getItem('web3Token')
 
     if (!web3Token) {
+      setLoading(false)
       return
     }
 
@@ -168,6 +170,8 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       default:
         break
     }
+
+    setLoading(false)
   }
 
   useEffect(() => {

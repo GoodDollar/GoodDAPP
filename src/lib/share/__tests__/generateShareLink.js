@@ -47,7 +47,7 @@ describe('generateShareLink', () => {
     const link = generateShareLink(action, params)
 
     // Then
-    expect(link).toEqual(`${Config.publicUrl}/AppNavigation/Dashboard/Home?key=value`)
+    expect(link).toEqual(`${Config.sendUrl}?key=value`)
   })
 
   it(`should return link generated from receive action`, () => {
@@ -61,7 +61,7 @@ describe('generateShareLink', () => {
     const link = generateShareLink(action, params)
 
     // Then
-    expect(link).toEqual(`${Config.publicUrl}/AppNavigation/Dashboard/Send?key=value`)
+    expect(link).toEqual(`${Config.receiveUrl}?key=value`)
   })
 
   it(`should return link generated from send action, with several query params`, () => {
@@ -78,9 +78,24 @@ describe('generateShareLink', () => {
     const link = generateShareLink(action, params)
 
     // Then
-    expect(link).toEqual(
-      `${Config.publicUrl}/AppNavigation/Dashboard/Home?key=value&key2=value2&key3=value3&key4=value4`
-    )
+    expect(link).toEqual(`${Config.sendUrl}?key=value&key2=value2&key3=value3&key4=value4`)
+  })
+
+  it(`should return link generated from send action, with several query params`, () => {
+    // Given
+    const action = 'receive'
+    const params = {
+      key: 'value',
+      key2: 'value2',
+      key3: 'value3',
+      key4: 'value4',
+    }
+
+    // When
+    const link = generateShareLink(action, params)
+
+    // Then
+    expect(link).toEqual(`${Config.receiveUrl}?key=value&key2=value2&key3=value3&key4=value4`)
   })
 
   it(`should return link generated from send action, with encoded query param`, () => {
@@ -92,6 +107,6 @@ describe('generateShareLink', () => {
     const link = generateShareLink(action, params)
 
     // Then
-    expect(link).toEqual(`${Config.publicUrl}/AppNavigation/Dashboard/Home?key=value%20with%20spaces`)
+    expect(link).toEqual(`${Config.sendUrl}?key=value%20with%20spaces`)
   })
 })

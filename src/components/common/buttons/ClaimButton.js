@@ -2,13 +2,10 @@
 import React from 'react'
 import { PushButton } from '../../appNavigation/PushButton'
 import { withStyles } from '../../../lib/styles'
-import Text from '../view/Text'
 
 const ClaimButton = ({ screenProps, styles }) => (
   <PushButton routeName="Claim" screenProps={screenProps} style={styles.claimButton}>
-    <Text color="surface" textTransform="uppercase" fontWeight="medium">
-      Claim
-    </Text>
+    Claim
   </PushButton>
 )
 

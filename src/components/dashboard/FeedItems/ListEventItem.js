@@ -55,7 +55,7 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
         </View>
         <View style={styles.transferInfo} alignItems="flex-start">
           <Avatar
-            size={34}
+            size={normalize(34)}
             style={styles.avatarBottom}
             source={feed.data && feed.data.endpoint && feed.data.endpoint.avatar}
           />
@@ -79,7 +79,7 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
               </>
             )}
           </View>
-          <EventIcon style={styles.typeIcon} type={itemType} />
+          <EventIcon style={styles.typeIcon} type={itemType} size={normalize(34)} />
         </View>
       </View>
     </View>
@@ -156,8 +156,9 @@ const getStylesFromProps = ({ theme }) => ({
   },
   avatarBottom: {
     position: 'absolute',
-    left: -40,
-    bottom: 0,
+    left: -normalize(41),
+    marginTop: theme.sizes.default,
+    alignSelf: 'flex-start',
   },
   mainContents: {
     flexGrow: 1,
@@ -173,7 +174,7 @@ const getStylesFromProps = ({ theme }) => ({
     flexDirection: 'row',
     flexShrink: 1,
     justifyContent: 'space-between',
-    paddingBottom: theme.sizes.defaultHalf,
+    paddingBottom: theme.sizes.default - 2,
   },
   actionSymbol: {
     marginLeft: 'auto',
@@ -189,13 +190,12 @@ const getStylesFromProps = ({ theme }) => ({
     display: 'flex',
     flexDirection: 'row',
     flexShrink: 1,
-    marginVertical: 'auto',
-    paddingHorizontal: theme.sizes.defaultHalf,
-    paddingTop: theme.sizes.defaultHalf,
-    alignItems: 'center',
+    height: normalize(45),
+    justifyContent: 'center',
+    alignItems: 'flex-start',
   },
   emptySpace: {
-    width: 34,
+    width: normalize(34),
   },
   mainInfo: {
     alignItems: 'flex-start',
@@ -210,11 +210,14 @@ const getStylesFromProps = ({ theme }) => ({
   },
   feedItem: {
     flexShrink: 0,
-    height: 22,
-    marginBottom: 0,
+    height: normalize(20),
+    marginTop: theme.sizes.default - 2,
+    display: 'flex',
+    alignItems: 'flex-end',
   },
   typeIcon: {
-    marginTop: 'auto',
+    marginTop: theme.sizes.default,
+    alignSelf: 'flex-start',
   },
   failTransaction: {
     paddingBottom: 'inherit',

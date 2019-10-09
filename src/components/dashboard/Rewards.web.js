@@ -18,7 +18,7 @@ const RewardsTab = props => {
     log.debug('got rewards login token', token)
     setLoginToken(token)
   }
-  const isLoaded = function() {
+  const isLoaded = () => {
     store.set('loadingIndicator')({ loading: false })
   }
 

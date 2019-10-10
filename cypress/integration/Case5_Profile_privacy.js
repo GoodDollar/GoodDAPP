@@ -21,7 +21,7 @@ describe('Test case 5: Ability to change profile privacy level', () => {
         LoginPage.mnemonicsInput.type(string);
         LoginPage.recoverWalletButton.click();
         LoginPage.yayButton.click();
-        cy.wait(7000);
+        cy.wait(15000);
 
     });
 

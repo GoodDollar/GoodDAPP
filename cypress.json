@@ -4,47 +4,47 @@
     "env": {   
         "baseUrl": "https://gooddev.netlify.com/",
         "wordsForSuccessfullLogin": [
-            "aerobic", "change", "battle", 
-            "tent", "open", "general", 
-            "solar", "jazz", "today", 
-            "simple", "blind", "able"
+            "yard", "medal", "enroll", 
+            "token", "arena", "turn", 
+            "middle", "spike", "weather", 
+            "utility", "unusual", "act"
         ],
         "wordsForUnsuccessfullLogin": {
             "withChangedWord": [
-                "arabic", "change", "battle", 
-                "tent", "open", "general", 
-                "solar", "jazz", "today", 
-                "simple", "blind", "able"
+                "park", "medal", "enroll", 
+                "token", "arena", "turn", 
+                "middle", "spike", "weather", 
+                "utility", "unusual", "act"
             ],
             "withNumbers": [
-                "1aerobic", "change", "battle", 
-                "tent", "open", "general", 
-                "solar", "jazz", "today", 
-                "simple", "blind", "able"
+                "1yard", "medal", "enroll", 
+                "token", "arena", "turn", 
+                "middle", "spike", "weather", 
+                "utility", "unusual", "act"
             ],
             "withSymbols": [
-                "@aerobic", "change", "battle", 
-                "tent", "open", "general", 
-                "solar", "jazz", "today", 
-                "simple", "blind", "able"
+                "@yard", "medal", "enroll", 
+                "token", "arena", "turn", 
+                "middle", "spike", "weather", 
+                "utility", "unusual", "act"
             ],
             "withChangedLetter": [
-                "oerobic", "change", "battle", 
-                "tent", "open", "general", 
-                "solar", "jazz", "today", 
-                "simple", "blind", "able"
+                "nard", "medal", "enroll", 
+                "token", "arena", "turn", 
+                "middle", "spike", "weather", 
+                "utility", "unusual", "act"
             ],
             "withChangedOrder": [
-                "change", "aerobic", "battle", 
-                "tent", "open", "general", 
-                "solar", "jazz", "today", 
-                "simple", "blind", "able"
+                "medal", "yard", "enroll", 
+                "token", "arena", "turn", 
+                "middle", "spike", "weather", 
+                "utility", "unusual", "act"
             ],
             "withCapitalize": [
-                "Aerobic", "change", "battle", 
-                "tent", "open", "general", 
-                "solar", "jazz", "today", 
-                "simple", "blind", "able"]
+                "Yard", "medal", "enroll", 
+                "token", "arena", "turn", 
+                "middle", "spike", "weather", 
+                "utility", "unusual", "act"]
         },
         "anotherAccountWords": [
             "rice", "tray", "gas",

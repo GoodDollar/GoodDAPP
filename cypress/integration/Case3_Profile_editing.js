@@ -90,24 +90,24 @@ describe('Test case 3: Ability to change user data', () => {
         EditProfilePage.nameInput.clear();
         EditProfilePage.phoneInput.clear();
         EditProfilePage.emailInput.clear();
-        EditProfilePage.nameInput.type('AndrewGolenkov');
-        EditProfilePage.phoneInput.type('+380983611321');
-        EditProfilePage.emailInput.type('test1234@test.com');
+        EditProfilePage.nameInput.type('AndrewGolenkovName');
+        EditProfilePage.phoneInput.type('+380983611322');
+        EditProfilePage.emailInput.type('test12345@test.com');
         cy.wait(7000);
         EditProfilePage.saveButton.click();
         cy.wait(5000);
         ProfilePage.openProfilePage()
         cy.wait(5000)
         //EditProfilePage.backButton.click();
-        ProfilePage.nameInput.should('have.value', 'AndrewGolenkov');
-        ProfilePage.phoneInput.should('have.value', '+380983611321');
-        ProfilePage.emailInput.should('have.value', 'test1234@test.com');
+        ProfilePage.nameInput.should('have.value', 'AndrewGolenkovName');
+        ProfilePage.phoneInput.should('have.value', '+380983611322');
+        ProfilePage.emailInput.should('have.value', 'test12345@test.com');
         ProfilePage.openEditProfileButton()
         //ProfilePage.editProfileButton.should('be.visible');
         //ProfilePage.editProfileButton.click();
         cy.wait(3000);
         EditProfilePage.nameInput.clear();
-        EditProfilePage.nameInput.type('AndrewLebowski123'); 
+        EditProfilePage.nameInput.type('AndrewLebowski'); 
         EditProfilePage.phoneInput.clear();  
         EditProfilePage.phoneInput.type('+380983611327');
         EditProfilePage.emailInput.clear();

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { AsyncStorage, ScrollView, StyleSheet, View } from 'react-native'
 import { createSwitchNavigator } from '@react-navigation/core'
 import { isMobileSafari } from 'mobile-device-detect'
+import _get from 'lodash/get'
 import { GD_USER_MNEMONIC, IS_LOGGED_IN } from '../../lib/constants/localStorage'
 
 import NavBar from '../appNavigation/NavBar'
@@ -63,6 +64,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   const [createError, setCreateError] = useState(false)
   const [finishedPromise, setFinishedPromise] = useState(undefined)
   const [showNavBarGoBackButton, setShowNavBarGoBackButton] = useState(true)
+  const [registerAllowed, setRegisterAllowed] = useState(false)
 
   const [showErrorDialog] = useErrorDialog()
   const shouldGrow = store.get && !store.get('isMobileSafariKeyboardShown')
@@ -161,7 +163,23 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
     }
   }
 
+  const isRegisterAllowed = async () => {
+    const w3Token = await AsyncStorage.getItem('web3Token')
+    const destinationPath = await AsyncStorage.getItem('destinationPath')
+      .then(JSON.parse)
+      .catch(e => ({}))
+    const paymentCode = _get(destinationPath, 'params.paymentCode')
+
+    if (paymentCode || w3Token) {
+      return setRegisterAllowed(true)
+    }
+
+    navigation.navigate('Login')
+  }
+
   useEffect(() => {
+    isRegisterAllowed()
+
     //get user country code for phone
     getCountryCode()
 
@@ -379,7 +397,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
 
   const { scrollableContainer, contentContainer } = styles
 
-  return (
+  return registerAllowed ? (
     <View style={{ flexGrow: shouldGrow ? 1 : 0 }}>
       <NavBar goBack={showNavBarGoBackButton ? back : undefined} title={'Sign Up'} />
       <ScrollView contentContainerStyle={scrollableContainer}>
@@ -396,7 +414,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
         </View>
       </ScrollView>
     </View>
-  )
+  ) : null
 }
 
 Signup.router = SignupWizardNavigator.router

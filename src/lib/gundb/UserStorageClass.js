@@ -736,15 +736,7 @@ export class UserStorage {
       keys(profileSettings)
         .filter(key => profile[key])
         .map(async field => {
-          let privacy
-
-          if (Config.isEToro && !update) {
-            privacy = 'public'
-          } else {
-            privacy = await getPrivacy(field)
-          }
-
-          return this.setProfileField(field, profile[field], privacy).catch(e => {
+          return this.setProfileField(field, profile[field], await getPrivacy(field)).catch(e => {
             logger.error('setProfile field failed:', { field }, e.message, e)
             return { err: `failed saving field ${field}` }
           })

@@ -26,13 +26,14 @@ import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
 import logger from '../../lib/logger/pino-logger'
 import userStorage from '../../lib/gundb/UserStorage'
-import { FAQ, PrivacyArticle, PrivacyPolicy, Support, TermsOfUse } from '../webView/webViewInstances'
+import { FAQ, Marketplace, PrivacyArticle, PrivacyPolicy, Support, TermsOfUse } from '../webView/webViewInstances'
 import { withStyles } from '../../lib/styles'
 import Mnemonics from '../signin/Mnemonics'
 import { extractQueryParams, readCode } from '../../lib/share'
 
 // import goodWallet from '../../lib/wallet/GoodWallet'
 import { deleteAccountDialog } from '../sidemenu/SideMenuPanel'
+import config from '../../config/config'
 import RewardsTab from './Rewards'
 import Amount from './Amount'
 import Claim from './Claim'
@@ -447,4 +448,5 @@ export default createStackNavigator({
   Recover: Mnemonics,
   OutOfGasError,
   Rewards: RewardsTab,
+  Marketplace: config.market ? Marketplace : WrappedDashboard,
 })

@@ -111,7 +111,7 @@ export const welcomeMessage = {
   status: 'completed',
   data: {
     customName: 'Welcome to GoodDollar',
-    subtitle: 'Start claiming free G$',
+    subtitle: 'Welcome to GoodDollar',
     receiptData: {
       from: '0x0000000000000000000000000000000000000000',
     },

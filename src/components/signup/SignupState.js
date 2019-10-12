@@ -5,7 +5,6 @@ import { createSwitchNavigator } from '@react-navigation/core'
 import { isMobileSafari } from 'mobile-device-detect'
 import _get from 'lodash/get'
 import { GD_USER_MNEMONIC, IS_LOGGED_IN } from '../../lib/constants/localStorage'
-
 import NavBar from '../appNavigation/NavBar'
 import { navigationConfig } from '../appNavigation/navigationConfig'
 import logger from '../../lib/logger/pino-logger'
@@ -95,27 +94,37 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   }
 
   const checkWeb3Token = async () => {
+    setLoading(true)
     const web3Token = await AsyncStorage.getItem('web3Token')
 
     if (!web3Token) {
+      setLoading(false)
       return
     }
 
     let behaviour = ''
-    let w3User = {}
+    const _w3User = _get(navigation, 'state.params.w3User')
+    let w3User = _w3User && typeof _w3User === 'object' ? _w3User : {}
 
-    try {
-      const w3userData = await API.getUserFromW3ByToken(web3Token)
-      w3User = w3userData.data
+    if (!Object.keys(w3User).length) {
+      try {
+        const w3userData = await API.getUserFromW3ByToken(web3Token)
 
+        w3User = w3userData.data
+      } catch (e) {
+        behaviour = 'showTokenError'
+      }
+    }
+
+    if (!behaviour) {
       if (w3User.has_wallet) {
         behaviour = 'goToSignInScreen'
       } else {
         behaviour = 'goToPhone'
       }
-    } catch (e) {
-      behaviour = 'showTokenError'
     }
+
+    log.info('behaviour', behaviour)
 
     const userScreenData = {
       email: w3User.email,
@@ -139,14 +148,14 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
           email: w3User.email,
           token: web3Token,
         }).catch(e => {
-          log.error(e.message, e)
+          log.error('W3 Email verification failed', e.message, e)
 
           showErrorDialog('Email verification failed', e)
         })
 
         if (w3User.image) {
           userScreenData.avatar = await API.getBase64FromImageUrl(w3User.image).catch(e => {
-            logger.error('Fetch base 64 from image uri failed', e.message, e)
+            log.error('Fetch base 64 from image uri failed', e.message, e)
           })
         }
 
@@ -161,6 +170,8 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       default:
         break
     }
+
+    setLoading(false)
   }
 
   const isRegisterAllowed = async () => {
@@ -205,12 +216,14 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
 
     setReady(ready)
 
-    //don't allow to start signup flow not from begining
-    if (navigation.state.index > 0) {
-      log.debug('redirecting to start, got index:', navigation.state.index)
-      setLoading(true)
-      return navigateWithFocus(navigation.state.routes[0].key)
-    }
+    // don't allow to start sign up flow not from begining except when w3Token provided
+    AsyncStorage.getItem('web3Token').then(token => {
+      if (!token && navigation.state.index > 0) {
+        log.debug('redirecting to start, got index:', navigation.state.index)
+        setLoading(true)
+        return navigateWithFocus(navigation.state.routes[0].key)
+      }
+    })
 
     checkWeb3Token()
   }, [])

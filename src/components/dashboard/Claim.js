@@ -102,7 +102,7 @@ const Claim = props => {
       wrappedGoodWallet.getNextClaimTime(),
     ])
     const nextClaim = await getNextClaim(nextClaimDate)
-    setState( prevState => ({ ...prevState, claimedToday, nextClaim }))
+    setState(prevState => ({ ...prevState, claimedToday, nextClaim }))
 
     setClaimInterval(
       setInterval(async () => {

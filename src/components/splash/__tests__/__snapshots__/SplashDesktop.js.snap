@@ -59,9 +59,6 @@ exports[`SplashDesktop matches snapshot 1`] = `
           "WebkitTransform": "rotateY(180deg)",
           "alignItems": "center",
           "backgroundColor": "rgba(0,0,0,0.00)",
-          "backgroundImage": "url(wave50.svg)",
-          "backgroundRepeat": "repeat-y",
-          "backgroundSize": "cover",
           "borderBottomLeftRadius": "5px",
           "borderBottomRightRadius": "5px",
           "borderTopLeftRadius": "5px",
@@ -79,10 +76,25 @@ exports[`SplashDesktop matches snapshot 1`] = `
           "paddingLeft": "12px",
           "paddingRight": "12px",
           "paddingTop": "16px",
+          "position": "relative",
           "transform": "rotateY(180deg)",
         }
       }
     >
+      <div
+        className="css-view-1dbjc4n"
+        style={
+          Object {
+            "backgroundImage": "url(wave50.svg)",
+            "backgroundRepeat": "repeat-y",
+            "backgroundSize": "cover",
+            "height": "100%",
+            "opacity": 0.4,
+            "position": "absolute",
+            "width": "100%",
+          }
+        }
+      />
       <div
         className="css-view-1dbjc4n"
         style={

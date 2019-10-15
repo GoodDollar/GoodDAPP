@@ -55,7 +55,7 @@ const ListEvent = ({ item: feed, theme, styles }: FeedEventProps) => {
         </View>
         <View style={styles.transferInfo} alignItems="flex-start">
           <Avatar
-            size={normalize(34)}
+            size={34}
             style={styles.avatarBottom}
             source={feed.data && feed.data.endpoint && feed.data.endpoint.avatar}
           />
@@ -196,6 +196,9 @@ const getStylesFromProps = ({ theme }) => ({
   },
   emptySpace: {
     width: normalize(34),
+  },
+  emptySpace: {
+    width: 34,
   },
   mainInfo: {
     alignItems: 'flex-start',

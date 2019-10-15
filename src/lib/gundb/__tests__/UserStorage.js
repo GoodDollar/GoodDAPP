@@ -3,12 +3,14 @@ import gun from '../gundb'
 
 import userStorage from '../UserStorage'
 import {
+  backupMessage,
   getOperationType,
   getReceiveDataFromReceipt,
   inviteFriendsMessage,
   type TransactionEvent,
   welcomeMessage,
 } from '../UserStorageClass'
+import UserPropertiesClass from '../UserPropertiesClass'
 
 import { getUserModel } from '../UserModel'
 import { addUser } from './__util__/index'
@@ -71,6 +73,23 @@ describe('UserStorage', () => {
     await userStorage.setProfileField('name', 'hadar2', 'public')
     const res = await userStorage.profile.get('name').then()
     expect(res).toEqual(expect.objectContaining({ privacy: 'public', display: 'hadar2' }))
+  })
+
+  it('get all user properties', async () => {
+    const res = await userStorage.userProperties.getAll()
+    expect(res).toEqual(expect.objectContaining(UserPropertiesClass.defaultProperties))
+  })
+
+  it('set all user properties', async () => {
+    const res = await userStorage.userProperties.set('isMadeBackup', true)
+    expect(res).toBeTruthy()
+  })
+
+  it('get user property', async () => {
+    const res = await userStorage.userProperties.set('isMadeBackup', true)
+    expect(res).toBeTruthy()
+    const isMadeBackup = await userStorage.userProperties.get('isMadeBackup')
+    expect(isMadeBackup).toBeTruthy()
   })
 
   it('get magic line', async () => {
@@ -345,6 +364,12 @@ describe('UserStorage', () => {
   it('has the welcome event already set', async () => {
     const events = await userStorage.getAllFeed()
     expect(events).toContainEqual(welcomeMessage)
+  })
+
+  it('has the backupMessage event already set', async () => {
+    await userStorage.updateFeedEvent(backupMessage)
+    const events = await userStorage.getAllFeed()
+    expect(events).toContainEqual(backupMessage)
   })
 
   it('should delete the Welcome event', async () => {

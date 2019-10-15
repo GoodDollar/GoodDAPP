@@ -33,14 +33,14 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
     case 'phone':
       fieldToShow = 'phone number'
       sendToText = 'number'
-      sendCodeRequestFn = 'sendNewOTP'
+      sendCodeRequestFn = 'sendOTP'
       break
 
     case 'email':
     default:
       fieldToShow = 'email'
       sendToText = 'email'
-      sendCodeRequestFn = 'sendVerificationForNewEmail'
+      sendCodeRequestFn = 'sendVerificationEmail'
       break
   }
 

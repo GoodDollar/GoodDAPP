@@ -417,8 +417,8 @@ export class UserStorage {
 
     this.profileSettings = {
       fullName: { defaultPrivacy: 'public' },
-      email: { defaultPrivacy: 'private' },
-      mobile: { defaultPrivacy: 'private' },
+      email: { defaultPrivacy: Config.isEToro ? 'public' : 'private' },
+      mobile: { defaultPrivacy: Config.isEToro ? 'public' : 'private' },
       mnemonic: { defaultPrivacy: 'private' },
       avatar: { defaultPrivacy: 'public' },
       walletAddress: { defaultPrivacy: 'public' },

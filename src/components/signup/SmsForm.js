@@ -1,5 +1,6 @@
 // @flow
 import React from 'react'
+import { View } from 'react-native'
 import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
@@ -157,7 +158,11 @@ class SmsForm extends React.Component<Props, State> {
             </Section.Stack>
           </Section.Stack>
           <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
-            <SMSAction status={resentCode ? DONE : renderButton ? PENDING : WAIT} handleRetry={this.handleRetry} />
+            <SMSAction
+              status={resentCode ? DONE : renderButton ? PENDING : WAIT}
+              handleRetry={this.handleRetry}
+              successIconStyle={styles.successIconStyle}
+            />
           </Section.Row>
         </Section>
         <LoadingIndicator force={loading} />
@@ -166,9 +171,13 @@ class SmsForm extends React.Component<Props, State> {
   }
 }
 
-const SMSAction = ({ status, handleRetry }) => {
+const SMSAction = ({ status, handleRetry, successIconStyle }) => {
   if (status === DONE) {
-    return <Icon size={16} name="success" color="blue" />
+    return (
+      <View style={successIconStyle}>
+        <Icon size={16} name="success" color="primary" />
+      </View>
+    )
   } else if (status === WAIT) {
     return (
       <Section.Text fontSize={14} color="gray80Percent">
@@ -176,6 +185,7 @@ const SMSAction = ({ status, handleRetry }) => {
       </Section.Text>
     )
   }
+
   return (
     <Section.Text
       textDecorationLine="underline"
@@ -219,6 +229,17 @@ const getStylesFromProps = ({ theme }) => ({
   bottomContent: {
     marginTop: 'auto',
     marginBottom: theme.sizes.defaultDouble,
+  },
+  successIconStyle: {
+    borderWidth: 1,
+    borderRadius: '50%',
+    borderColor: theme.colors.primary,
+    position: 'relative',
+    height: 48,
+    width: 48,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 })
 

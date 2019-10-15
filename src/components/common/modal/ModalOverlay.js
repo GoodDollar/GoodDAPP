@@ -1,10 +1,13 @@
 // @flow
 import React from 'react'
-import { isMobileSafari } from 'mobile-device-detect'
+import { isMobileOnly, isMobileSafari } from 'mobile-device-detect'
 import { View } from 'react-native'
 import { withStyles } from '../../../lib/styles'
+import { theme } from '../../theme/styles.js'
 import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
 const browserPadding = isMobileSafari ? 44 : 0
+
+const height = isMobileOnly ? '100vh' : theme.sizes.maxHeightForTabletAndDesktop
 
 const ModalOverlay = ({ styles, children, style, itemType }: any) => {
   const modalInnerWrapperStyle = itemType === 'custom' ? styles.customModalInnerWrapper : styles.feedModalInnerWrapper
@@ -19,7 +22,7 @@ const getStylesFromProps = ({ theme }) => ({
   modalOverlay: {
     alignSelf: 'flex-start',
     backgroundColor: theme.modals.overlayBackgroundColor,
-    height: '100vh',
+    height: height,
     width: '100vw',
   },
   customModalInnerWrapper: {

@@ -197,9 +197,6 @@ const getStylesFromProps = ({ theme }) => ({
   emptySpace: {
     width: normalize(34),
   },
-  emptySpace: {
-    width: 34,
-  },
   mainInfo: {
     alignItems: 'flex-start',
     display: 'flex',

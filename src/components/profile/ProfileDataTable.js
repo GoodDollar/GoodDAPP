@@ -9,8 +9,35 @@ import Section from '../common/layout/Section'
 import { withStyles } from '../../lib/styles'
 import './PhoneInput.css'
 
-const ProfileDataTable = ({ profile, onChange, errors: errorsProp, editable, theme, styles }) => {
+const ProfileDataTable = ({
+  profile,
+  storedProfile,
+  onChange,
+  errors: errorsProp,
+  editable,
+  theme,
+  styles,
+  navigation,
+  setLockSubmit,
+}) => {
   const errors = errorsProp || {}
+
+  const verifyEmail = () => {
+    if (profile.email !== storedProfile.email) {
+      verifyEdit('email', profile.email)
+    }
+  }
+
+  const verifyPhone = () => {
+    if (profile.mobile !== storedProfile.mobile) {
+      verifyEdit('phone', profile.mobile)
+    }
+  }
+
+  const verifyEdit = (field, content) => {
+    navigation.navigate('VerifyEdit', { field, content })
+  }
+
   return (
     <Section.Row alignItems="center" grow={1}>
       <KeyboardAwareScrollView resetScrollToCoords={{ x: 0, y: 0 }} scrollEnabled={false}>
@@ -33,7 +60,12 @@ const ProfileDataTable = ({ profile, onChange, errors: errorsProp, editable, the
                 <PhoneInput
                   error={errors.mobile && errors.mobile !== ''}
                   id="signup_phone"
+                  onFocus={() => setLockSubmit(true)}
                   onChange={value => onChange({ ...profile, mobile: value })}
+                  onBlur={() => {
+                    setLockSubmit(false)
+                    verifyPhone()
+                  }}
                   placeholder="Enter phone number"
                   value={profile.mobile}
                   style={{
@@ -78,7 +110,12 @@ const ProfileDataTable = ({ profile, onChange, errors: errorsProp, editable, the
             icon="envelope"
             iconColor={theme.colors.primary}
             iconSize={20}
+            onFocus={() => setLockSubmit(true)}
             onChange={email => onChange({ ...profile, email })}
+            onBlur={() => {
+              setLockSubmit(false)
+              verifyEmail()
+            }}
             placeholder="Add your Email"
             value={profile.email}
           />

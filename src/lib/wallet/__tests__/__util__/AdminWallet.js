@@ -111,13 +111,14 @@ export class Wallet {
     }
     this.network = conf.network
     this.networkId = conf.ethNetwork.network_id
+    this.gasPrice = web3Utils.toWei('2', 'gwei')
     this.identityContract = new this.web3.eth.Contract(
       IdentityABI.abi,
       get(ContractsAddress, `${this.network}.Identity`, IdentityABI.networks[this.networkId].address),
       {
         from: this.address,
         gas: 500000,
-        gasPrice: web3Utils.toWei('1', 'gwei'),
+        gasPrice: web3Utils.toWei('2', 'gwei'),
       }
     )
     this.claimContract = new this.web3.eth.Contract(

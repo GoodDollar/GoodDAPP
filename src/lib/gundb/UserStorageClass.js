@@ -19,6 +19,7 @@ import API from '../API/api'
 import pino from '../logger/pino-logger'
 import isMobilePhone from '../validators/isMobilePhone'
 import defaultGun from './gundb'
+import UserProperties from './UserPropertiesClass'
 import { getUserModel, type UserModel } from './UserModel'
 
 const logger = pino.child({ from: 'UserStorage' })
@@ -105,7 +106,7 @@ export type TransactionEvent = FeedEvent & {
 }
 
 export const welcomeMessage = {
-  id: '0',
+  id: '1',
   type: 'welcome',
   date: new Date().toString(),
   status: 'completed',
@@ -137,6 +138,24 @@ export const inviteFriendsMessage = {
       'Help expand the network by inviting family, friends, and colleagues to participate and claim their daily income.\nThe more people join, the more effective GoodDollar will be, for everyone.',
     endpoint: {
       fullName: 'Invite friends and earn G$',
+    },
+  },
+}
+export const backupMessage = {
+  id: '2',
+  type: 'backup',
+  date: new Date().toString(),
+  status: 'completed',
+  data: {
+    customName: 'Backup your wallet. Now.',
+    subtitle: 'You need to backup your',
+    receiptData: {
+      from: '0x0000000000000000000000000000000000000000',
+    },
+    reason:
+      'Your pass phrase is the only key to your wallet, this is why our wallet is super secure. Only you have access to your wallet and money. But if you won’t backup your pass phrase or if you lose it — you won’t be able to access your wallet and all your money will be lost forever.',
+    endpoint: {
+      fullName: 'Backup your wallet. Now.',
     },
   },
 }
@@ -211,6 +230,18 @@ export class UserStorage {
    * @instance {Gun}
    */
   gun: Gun
+
+  /**
+   * a gun node referring tto gun.user().get('properties')
+   * @instance {Gun}
+   */
+  properties: Gun
+
+  /**
+   * a gun node referring tto gun.user().get('properties')
+   * @instance {UserProperties}
+   */
+  userProperties: UserProperties
 
   /**
    * a gun node refering to gun.user().get('profile')
@@ -430,6 +461,7 @@ export class UserStorage {
       logger.debug('init to events')
 
       await this.initFeed()
+      await this.initProperties()
 
       //save ref to user
       this.gun
@@ -632,6 +664,20 @@ export class UserStorage {
       }
       this.enqueueTX(welcomeMessage)
     }
+  }
+
+  /**
+   * Save user properties
+   */
+  async initProperties() {
+    this.properties = this.gunuser.get('properties')
+
+    if ((await this.properties) === undefined) {
+      let putRes = await this.properties.get('properties').put(UserProperties.defaultProperties)
+      logger.debug('set defaultProperties ok:', { defaultProperties: UserProperties.defaultProperties, putRes })
+    }
+    this.userProperties = new UserProperties(this.properties)
+    await this.userProperties.updateLocalData()
   }
 
   /**
@@ -1605,6 +1651,15 @@ export class UserStorage {
           }))
           .catch(r => ({
             feed: 'failed',
+          })),
+        this.gunuser
+          .get('properties')
+          .putAck(null)
+          .then(r => ({
+            properties: 'ok',
+          }))
+          .catch(r => ({
+            properties: 'failed',
           })),
       ])
     }

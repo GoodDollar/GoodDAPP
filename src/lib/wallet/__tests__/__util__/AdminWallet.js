@@ -33,8 +33,6 @@ export class Wallet {
 
   wallet: HDWallet
 
-  accountsContract: Web3.eth.Contract
-
   tokenContract: Web3.eth.Contract
 
   identityContract: Web3.eth.Contract
@@ -281,6 +279,7 @@ export class Wallet {
 
     let release = await this.mutex.lock()
     this.nonce = parseInt(await this.web3.eth.getTransactionCount(this.address))
+
     return new Promise((res, rej) => {
       tx.send({ gas, gasPrice, chainId: this.networkId, nonce: this.nonce })
         .on('transactionHash', h => {

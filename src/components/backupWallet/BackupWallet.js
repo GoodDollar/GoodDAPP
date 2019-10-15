@@ -3,11 +3,13 @@ import React, { useEffect, useState } from 'react'
 import Clipboard from '../../lib/utils/Clipboard'
 import { useWrappedApi } from '../../lib/API/useWrappedApi'
 import { withStyles } from '../../lib/styles'
-import { useDialog } from '../../lib/undux/utils/dialog'
+import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
 import { getMnemonics, getMnemonicsObject } from '../../lib/wallet/SoftwareWalletProvider'
 import normalize from '../../lib/utils/normalizeText'
 import { CustomButton, Section, Text } from '../common'
 import MnemonicInput from '../signin/MnemonicInput'
+import userStorage from '../../lib/gundb/UserStorage'
+import { backupMessage } from '../../lib/gundb/UserStorageClass'
 
 const TITLE = 'Backup my wallet'
 
@@ -18,6 +20,7 @@ type BackupWalletProps = {
 
 const BackupWallet = ({ screenProps, styles, theme }: BackupWalletProps) => {
   const [showDialogWithData] = useDialog()
+  const [showErrorDialog] = useErrorDialog()
   const [mnemonics, setMnemonics] = useState('')
   const API = useWrappedApi()
 
@@ -33,6 +36,13 @@ const BackupWallet = ({ screenProps, styles, theme }: BackupWalletProps) => {
   const sendRecoveryEmail = async () => {
     const currentMnemonics = await getMnemonics()
     await API.sendRecoveryInstructionByEmail(currentMnemonics)
+    const userProperties = await userStorage.userProperties.getAll()
+    if (userProperties.isMadeBackup) {
+      userStorage.deleteEvent(backupMessage.id).catch(e => showErrorDialog('Deleting the event has failed', e))
+    } else {
+      await userStorage.userProperties.set('isMadeBackup', true)
+    }
+    await userStorage.userProperties.set('needAddBackupFeed', false)
     showDialogWithData({
       title: 'Backup Your Wallet',
       message: 'We sent an email with recovery instructions for your wallet',

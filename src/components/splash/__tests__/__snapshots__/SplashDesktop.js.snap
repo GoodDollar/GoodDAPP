@@ -225,6 +225,7 @@ on your mobile device.
                     "red": "#FA6C77",
                     "surface": "#ffffff",
                     "text": "#222",
+                    "white": "#ffffff",
                   },
                   "dark": false,
                   "feedItems": Object {

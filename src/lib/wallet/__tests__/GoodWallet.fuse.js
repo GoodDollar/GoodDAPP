@@ -22,7 +22,6 @@ describe('GoodWalletShare/ReceiveTokens', () => {
     await adminWallet.ready
     await testWallet.ready
     await testWallet2.ready
-    await adminWallet.ready
 
     await adminWallet.whitelistUser(testWallet.account, 'did:gd')
     await adminWallet.whitelistUser(testWallet2.account, 'did:gd')

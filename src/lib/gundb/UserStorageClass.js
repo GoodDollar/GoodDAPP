@@ -106,7 +106,7 @@ export type TransactionEvent = FeedEvent & {
 }
 
 export const welcomeMessage = {
-  id: '0',
+  id: '1',
   type: 'welcome',
   date: new Date().toString(),
   status: 'completed',

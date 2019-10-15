@@ -362,7 +362,6 @@ describe('UserStorage', () => {
   })
 
   it('has the welcome event already set', async () => {
-    await userStorage.updateFeedEvent(welcomeMessage)
     const events = await userStorage.getAllFeed()
     expect(events).toContainEqual(welcomeMessage)
   })

@@ -144,6 +144,14 @@ class API {
   }
 
   /**
+   * `/verify/sendnewotp` post api call
+   * @param {String} mobile
+   */
+  sendNewOTP(mobile: String): AxiosPromise<any> {
+    return this.client.post('/verify/sendnewotp', { mobile })
+  }
+
+  /**
    * `/verify/user` post api call
    * @param {any} verificationData
    */
@@ -179,6 +187,14 @@ class API {
    */
   sendVerificationEmail(user: UserRecord): Promise<$AxiosXHR<any>> {
     return this.client.post('/verify/sendemail', { user })
+  }
+
+  /**
+   * `/verify/sendenewmail` post api call
+   * @param {String} email
+   */
+  sendVerificationForNewEmail(email: String): Promise<$AxiosXHR<any>> {
+    return this.client.post('/verify/sendnewemail', { email })
   }
 
   /**

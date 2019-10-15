@@ -10,6 +10,8 @@ import ProfileDataTable from './ProfileDataTable'
 import ProfilePrivacy from './ProfilePrivacy'
 import ViewAvatar from './ViewAvatar'
 import CircleButtonWrapper from './CircleButtonWrapper'
+import VerifyEdit from './VerifyEdit'
+import VerifyEditCode from './VerifyEditCode'
 
 const TITLE = 'Profile'
 
@@ -58,4 +60,12 @@ const getStylesFromProps = ({ theme }) => ({
 
 const Profile = withStyles(getStylesFromProps)(ProfileWrapper)
 
-export default createStackNavigator({ Profile, EditProfile, ProfilePrivacy, ViewAvatar, EditAvatar })
+export default createStackNavigator({
+  Profile,
+  EditProfile,
+  ProfilePrivacy,
+  ViewAvatar,
+  EditAvatar,
+  VerifyEdit,
+  VerifyEditCode,
+})

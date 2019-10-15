@@ -434,6 +434,7 @@ exports[`Receive matches snapshot 1`] = `
                     "red": "#FA6C77",
                     "surface": "#ffffff",
                     "text": "#222",
+                    "white": "#ffffff",
                   },
                   "dark": false,
                   "feedItems": Object {

@@ -57,6 +57,12 @@ const getEventSettingsByType = (theme, type) => {
       withoutAmount: true,
       withoutAvatar: true,
     },
+    backup: {
+      color: theme.colors.primary,
+      name: 'info',
+      withoutAmount: true,
+      withoutAvatar: true,
+    },
     feedback: {
       color: theme.colors.primary,
       name: 'info',

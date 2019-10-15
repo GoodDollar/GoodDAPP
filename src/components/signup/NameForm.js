@@ -25,10 +25,17 @@ export type NameRecord = {
 }
 
 class NameForm extends React.Component<Props, State> {
-  state = {
-    errorMessage: '',
-    fullName: this.props.screenProps.data.fullName || '',
-    isValid: false,
+  constructor(props) {
+    super(props)
+
+    const fullName = props.screenProps.data.fullName || ''
+    const errorMessage = validateFullName(fullName)
+
+    this.state = {
+      errorMessage: '',
+      fullName,
+      isValid: errorMessage === '',
+    }
   }
 
   input = undefined

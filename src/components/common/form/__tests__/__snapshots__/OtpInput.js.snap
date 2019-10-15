@@ -126,6 +126,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "red": "#FA6C77",
               "surface": "#ffffff",
               "text": "#222",
+              "white": "#ffffff",
             },
             "dark": false,
             "feedItems": Object {
@@ -266,6 +267,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "red": "#FA6C77",
               "surface": "#ffffff",
               "text": "#222",
+              "white": "#ffffff",
             },
             "dark": false,
             "feedItems": Object {
@@ -406,6 +408,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "red": "#FA6C77",
               "surface": "#ffffff",
               "text": "#222",
+              "white": "#ffffff",
             },
             "dark": false,
             "feedItems": Object {
@@ -546,6 +549,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "red": "#FA6C77",
               "surface": "#ffffff",
               "text": "#222",
+              "white": "#ffffff",
             },
             "dark": false,
             "feedItems": Object {
@@ -686,6 +690,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "red": "#FA6C77",
               "surface": "#ffffff",
               "text": "#222",
+              "white": "#ffffff",
             },
             "dark": false,
             "feedItems": Object {
@@ -826,6 +831,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "red": "#FA6C77",
               "surface": "#ffffff",
               "text": "#222",
+              "white": "#ffffff",
             },
             "dark": false,
             "feedItems": Object {
@@ -1007,6 +1013,7 @@ exports[`OtpInput matches snapshot 1`] = `
               "red": "#FA6C77",
               "surface": "#ffffff",
               "text": "#222",
+              "white": "#ffffff",
             },
             "dark": false,
             "feedItems": Object {
@@ -1148,6 +1155,7 @@ exports[`OtpInput matches snapshot 1`] = `
               "red": "#FA6C77",
               "surface": "#ffffff",
               "text": "#222",
+              "white": "#ffffff",
             },
             "dark": false,
             "feedItems": Object {
@@ -1289,6 +1297,7 @@ exports[`OtpInput matches snapshot 1`] = `
               "red": "#FA6C77",
               "surface": "#ffffff",
               "text": "#222",
+              "white": "#ffffff",
             },
             "dark": false,
             "feedItems": Object {
@@ -1430,6 +1439,7 @@ exports[`OtpInput matches snapshot 1`] = `
               "red": "#FA6C77",
               "surface": "#ffffff",
               "text": "#222",
+              "white": "#ffffff",
             },
             "dark": false,
             "feedItems": Object {
@@ -1571,6 +1581,7 @@ exports[`OtpInput matches snapshot 1`] = `
               "red": "#FA6C77",
               "surface": "#ffffff",
               "text": "#222",
+              "white": "#ffffff",
             },
             "dark": false,
             "feedItems": Object {
@@ -1712,6 +1723,7 @@ exports[`OtpInput matches snapshot 1`] = `
               "red": "#FA6C77",
               "surface": "#ffffff",
               "text": "#222",
+              "white": "#ffffff",
             },
             "dark": false,
             "feedItems": Object {
@@ -1893,6 +1905,7 @@ exports[`OtpInput number matches snapshot 1`] = `
               "red": "#FA6C77",
               "surface": "#ffffff",
               "text": "#222",
+              "white": "#ffffff",
             },
             "dark": false,
             "feedItems": Object {
@@ -2034,6 +2047,7 @@ exports[`OtpInput number matches snapshot 1`] = `
               "red": "#FA6C77",
               "surface": "#ffffff",
               "text": "#222",
+              "white": "#ffffff",
             },
             "dark": false,
             "feedItems": Object {
@@ -2175,6 +2189,7 @@ exports[`OtpInput number matches snapshot 1`] = `
               "red": "#FA6C77",
               "surface": "#ffffff",
               "text": "#222",
+              "white": "#ffffff",
             },
             "dark": false,
             "feedItems": Object {
@@ -2316,6 +2331,7 @@ exports[`OtpInput number matches snapshot 1`] = `
               "red": "#FA6C77",
               "surface": "#ffffff",
               "text": "#222",
+              "white": "#ffffff",
             },
             "dark": false,
             "feedItems": Object {
@@ -2457,6 +2473,7 @@ exports[`OtpInput number matches snapshot 1`] = `
               "red": "#FA6C77",
               "surface": "#ffffff",
               "text": "#222",
+              "white": "#ffffff",
             },
             "dark": false,
             "feedItems": Object {
@@ -2598,6 +2615,7 @@ exports[`OtpInput number matches snapshot 1`] = `
               "red": "#FA6C77",
               "surface": "#ffffff",
               "text": "#222",
+              "white": "#ffffff",
             },
             "dark": false,
             "feedItems": Object {

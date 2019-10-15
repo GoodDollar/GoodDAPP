@@ -19,6 +19,7 @@ import API from '../API/api'
 import pino from '../logger/pino-logger'
 import isMobilePhone from '../validators/isMobilePhone'
 import defaultGun from './gundb'
+import UserProperties from './UserPropertiesClass'
 import { getUserModel, type UserModel } from './UserModel'
 
 const logger = pino.child({ from: 'UserStorage' })
@@ -105,20 +106,56 @@ export type TransactionEvent = FeedEvent & {
 }
 
 export const welcomeMessage = {
-  id: '0',
+  id: '1',
   type: 'welcome',
   date: new Date().toString(),
   status: 'completed',
   data: {
-    customName: 'Welcome to GoodDollar!',
-    subtitle: 'Start claiming free G$',
+    customName: 'Welcome to GoodDollar',
+    subtitle: 'Welcome to GoodDollar',
     receiptData: {
       from: '0x0000000000000000000000000000000000000000',
     },
     reason:
-      'GoodDollar is a payment system with a built-in small basic income based on blockchain technology.\nLet’s change the world, for good.',
+      'GoodDollar is a digital coin with built-in\nbasic income. Start collecting your income by claiming GoodDollars every day.',
     endpoint: {
-      fullName: 'Welcome to GoodDollar!',
+      fullName: 'Welcome to GoodDollar',
+    },
+  },
+}
+export const inviteFriendsMessage = {
+  id: '0',
+  type: 'invite',
+  date: new Date().toString(),
+  status: 'completed',
+  data: {
+    customName: 'Invite friends and earn G$',
+    subtitle: 'Want to earn more G$ ?',
+    receiptData: {
+      from: '0x0000000000000000000000000000000000000000',
+    },
+    reason:
+      'Help expand the network by inviting family, friends, and colleagues to participate and claim their daily income.\nThe more people join, the more effective GoodDollar will be, for everyone.',
+    endpoint: {
+      fullName: 'Invite friends and earn G$',
+    },
+  },
+}
+export const backupMessage = {
+  id: '2',
+  type: 'backup',
+  date: new Date().toString(),
+  status: 'completed',
+  data: {
+    customName: 'Backup your wallet. Now.',
+    subtitle: 'You need to backup your',
+    receiptData: {
+      from: '0x0000000000000000000000000000000000000000',
+    },
+    reason:
+      'Your pass phrase is the only key to your wallet, this is why our wallet is super secure. Only you have access to your wallet and money. But if you won’t backup your pass phrase or if you lose it — you won’t be able to access your wallet and all your money will be lost forever.',
+    endpoint: {
+      fullName: 'Backup your wallet. Now.',
     },
   },
 }
@@ -195,6 +232,18 @@ export class UserStorage {
   gun: Gun
 
   /**
+   * a gun node referring tto gun.user().get('properties')
+   * @instance {Gun}
+   */
+  properties: Gun
+
+  /**
+   * a gun node referring tto gun.user().get('properties')
+   * @instance {UserProperties}
+   */
+  userProperties: UserProperties
+
+  /**
    * a gun node refering to gun.user().get('profile')
    * @instance {Gun}
    */
@@ -233,6 +282,8 @@ export class UserStorage {
   subscribersProfileUpdates = []
 
   _lastProfileUpdate: any
+
+  profileSettings: any
 
   /**
    * Magic line for recovery user
@@ -364,6 +415,18 @@ export class UserStorage {
   async init() {
     logger.debug('Initializing GunDB UserStorage')
 
+    this.profileSettings = {
+      fullName: { defaultPrivacy: 'public' },
+      email: { defaultPrivacy: 'private' },
+      mobile: { defaultPrivacy: 'private' },
+      mnemonic: { defaultPrivacy: 'private' },
+      avatar: { defaultPrivacy: 'public' },
+      walletAddress: { defaultPrivacy: 'public' },
+      username: { defaultPrivacy: 'public' },
+      w3Token: { defaultPrivacy: 'private' },
+      loginToken: { defaultPrivacy: 'private' },
+    }
+
     //sign with different address so its not connected to main user address and there's no 1-1 link
     const username = await this.wallet.sign('GoodDollarUser', 'gundb').then(r => r.slice(0, 20))
     const password = await this.wallet.sign('GoodDollarPass', 'gundb').then(r => r.slice(0, 20))
@@ -398,6 +461,7 @@ export class UserStorage {
       logger.debug('init to events')
 
       await this.initFeed()
+      await this.initProperties()
 
       //save ref to user
       this.gun
@@ -594,8 +658,26 @@ export class UserStorage {
 
     //first time user
     if ((await this.feed) === undefined) {
+      const w3Token = await this.getProfileFieldValue('w3Token')
+      if (!w3Token) {
+        this.enqueueTX(inviteFriendsMessage)
+      }
       this.enqueueTX(welcomeMessage)
     }
+  }
+
+  /**
+   * Save user properties
+   */
+  async initProperties() {
+    this.properties = this.gunuser.get('properties')
+
+    if ((await this.properties) === undefined) {
+      let putRes = await this.properties.get('properties').put(UserProperties.defaultProperties)
+      logger.debug('set defaultProperties ok:', { defaultProperties: UserProperties.defaultProperties, putRes })
+    }
+    this.userProperties = new UserProperties(this.properties)
+    await this.userProperties.updateLocalData()
   }
 
   /**
@@ -674,6 +756,12 @@ export class UserStorage {
     this.subscribersProfileUpdates = []
   }
 
+  async getFieldPrivacy(field) {
+    const currentPrivacy = await this.profile.get(field).get('privacy')
+
+    return currentPrivacy || this.profileSettings[field].defaultPrivacy || 'public'
+  }
+
   /**
    * Save profile with all validations and indexes
    * It saves only known profile fields
@@ -695,26 +783,11 @@ export class UserStorage {
       }
     }
 
-    const profileSettings = {
-      fullName: { defaultPrivacy: 'public' },
-      email: { defaultPrivacy: 'private' },
-      mobile: { defaultPrivacy: 'private' },
-      mnemonic: { defaultPrivacy: 'private' },
-      avatar: { defaultPrivacy: 'public' },
-      walletAddress: { defaultPrivacy: 'public' },
-      username: { defaultPrivacy: 'public' },
-      w3Token: { defaultPrivacy: 'private' },
-      loginToken: { defaultPrivacy: 'private' },
-    }
-    const getPrivacy = async field => {
-      const currentPrivacy = await this.profile.get(field).get('privacy')
-      return currentPrivacy || profileSettings[field].defaultPrivacy || 'public'
-    }
     return Promise.all(
-      keys(profileSettings)
+      keys(this.profileSettings)
         .filter(key => profile[key])
         .map(async field => {
-          return this.setProfileField(field, profile[field], await getPrivacy(field)).catch(e => {
+          return this.setProfileField(field, profile[field], await this.getFieldPrivacy(field)).catch(e => {
             logger.error('setProfile field failed:', { field }, e.message, e)
             return { err: `failed saving field ${field}` }
           })
@@ -1578,6 +1651,15 @@ export class UserStorage {
           }))
           .catch(r => ({
             feed: 'failed',
+          })),
+        this.gunuser
+          .get('properties')
+          .putAck(null)
+          .then(r => ({
+            properties: 'ok',
+          }))
+          .catch(r => ({
+            properties: 'failed',
           })),
       ])
     }

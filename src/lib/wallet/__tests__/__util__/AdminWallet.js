@@ -116,7 +116,7 @@ export class Wallet {
       {
         from: this.address,
         gas: 500000,
-        gasPrice: web3Utils.toWei('1', 'gwei'),
+        gasPrice: web3Utils.toWei('2', 'gwei'),
       }
     )
     this.claimContract = new this.web3.eth.Contract(

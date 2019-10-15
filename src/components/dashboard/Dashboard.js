@@ -30,9 +30,11 @@ import userStorage from '../../lib/gundb/UserStorage'
 import { FAQ, PrivacyArticle, PrivacyPolicy, Support, TermsOfUse } from '../webView/webViewInstances'
 import { withStyles } from '../../lib/styles'
 import Mnemonics from '../signin/Mnemonics'
+import { extractQueryParams, readCode } from '../../lib/share'
 
 // import goodWallet from '../../lib/wallet/GoodWallet'
 import { deleteAccountDialog } from '../sidemenu/SideMenuPanel'
+import { backupMessage } from '../../lib/gundb/UserStorageClass'
 import RewardsTab from './Rewards'
 import Amount from './Amount'
 import Claim from './Claim'
@@ -51,6 +53,7 @@ import SendConfirmation from './SendConfirmation'
 import SendLinkSummary from './SendLinkSummary'
 import SendQRSummary from './SendQRSummary'
 import { ACTION_SEND } from './utils/sendReceiveFlow'
+import { routeAndPathForCode } from './utils/routeAndPathForCode'
 
 // import FaceRecognition from './FaceRecognition/FaceRecognition'
 // import FRIntro from './FaceRecognition/FRIntro'
@@ -105,6 +108,38 @@ const Dashboard = props => {
     }
   }
 
+  /**
+   * if necessary, add a backup card
+   *
+   * @returns {Promise<void>}
+   */
+  const addBackupCard = async () => {
+    const userProperties = await userStorage.userProperties.getAll()
+    if (!userProperties.isMadeBackup && userProperties.needAddBackupFeed) {
+      await userStorage.enqueueTX(backupMessage)
+      await userStorage.userProperties.set('isMadeBackup', true)
+      await userStorage.userProperties.set('needAddBackupFeed', false)
+    }
+  }
+
+  //Service redirects Send/Receive
+  useEffect(() => {
+    const anyParams = extractQueryParams(window.location.href)
+
+    if (anyParams && anyParams.code) {
+      const { screenProps } = props
+      const code = readCode(decodeURI(anyParams.code))
+      routeAndPathForCode('send', code)
+        .then(({ route, params }) => screenProps.push(route, params))
+        .catch(e => {
+          showErrorDialog(null, e, { onDismiss: screenProps.goToRoot })
+        })
+    }
+    if (anyParams && anyParams.paymentCode) {
+      props.navigation.state.params = anyParams
+    }
+  }, [])
+
   const nextFeed = () => {
     return getNextFeed(gdstore)
   }
@@ -113,10 +148,9 @@ const Dashboard = props => {
     if (props.navigation.state.key === 'Delete') {
       deleteAccountDialog({ API, showDialog: showErrorDialog, store, theme: props.theme })
     }
-    store.set('addWebApp')({ ...store.get('addWebApp'), show: true })
 
     prepareLoginToken()
-
+    addBackupCard()
     log.debug('Dashboard didmount')
     userStorage.feed.get('byid').on(data => {
       log.debug('gun getFeed callback', { data })
@@ -241,6 +275,7 @@ const Dashboard = props => {
             icon="send"
             iconAlignment="left"
             routeName="Who"
+            iconSize={20}
             screenProps={screenProps}
             style={styles.leftButton}
             contentStyle={styles.leftButtonContent}
@@ -258,6 +293,7 @@ const Dashboard = props => {
           </Animated.View>
           <PushButton
             icon="receive"
+            iconSize={20}
             iconAlignment="right"
             routeName={'Receive'}
             screenProps={screenProps}
@@ -309,6 +345,7 @@ const Dashboard = props => {
           onEndReached={nextFeed}
           selectedFeed={currentFeed}
           updateData={() => {}}
+          navigation={props.navigation}
         />
       )}
     </Wrapper>

@@ -283,6 +283,8 @@ export class UserStorage {
 
   _lastProfileUpdate: any
 
+  profileSettings: any
+
   /**
    * Magic line for recovery user
    */
@@ -412,6 +414,18 @@ export class UserStorage {
    */
   async init() {
     logger.debug('Initializing GunDB UserStorage')
+
+    this.profileSettings = {
+      fullName: { defaultPrivacy: 'public' },
+      email: { defaultPrivacy: 'private' },
+      mobile: { defaultPrivacy: 'private' },
+      mnemonic: { defaultPrivacy: 'private' },
+      avatar: { defaultPrivacy: 'public' },
+      walletAddress: { defaultPrivacy: 'public' },
+      username: { defaultPrivacy: 'public' },
+      w3Token: { defaultPrivacy: 'private' },
+      loginToken: { defaultPrivacy: 'private' },
+    }
 
     //sign with different address so its not connected to main user address and there's no 1-1 link
     const username = await this.wallet.sign('GoodDollarUser', 'gundb').then(r => r.slice(0, 20))
@@ -742,6 +756,12 @@ export class UserStorage {
     this.subscribersProfileUpdates = []
   }
 
+  async getFieldPrivacy(field) {
+    const currentPrivacy = await this.profile.get(field).get('privacy')
+
+    return currentPrivacy || this.profileSettings[field].defaultPrivacy || 'public'
+  }
+
   /**
    * Save profile with all validations and indexes
    * It saves only known profile fields
@@ -763,26 +783,11 @@ export class UserStorage {
       }
     }
 
-    const profileSettings = {
-      fullName: { defaultPrivacy: 'public' },
-      email: { defaultPrivacy: 'private' },
-      mobile: { defaultPrivacy: 'private' },
-      mnemonic: { defaultPrivacy: 'private' },
-      avatar: { defaultPrivacy: 'public' },
-      walletAddress: { defaultPrivacy: 'public' },
-      username: { defaultPrivacy: 'public' },
-      w3Token: { defaultPrivacy: 'private' },
-      loginToken: { defaultPrivacy: 'private' },
-    }
-    const getPrivacy = async field => {
-      const currentPrivacy = await this.profile.get(field).get('privacy')
-      return currentPrivacy || profileSettings[field].defaultPrivacy || 'public'
-    }
     return Promise.all(
-      keys(profileSettings)
+      keys(this.profileSettings)
         .filter(key => profile[key])
         .map(async field => {
-          return this.setProfileField(field, profile[field], await getPrivacy(field)).catch(e => {
+          return this.setProfileField(field, profile[field], await this.getFieldPrivacy(field)).catch(e => {
             logger.error('setProfile field failed:', { field }, e.message, e)
             return { err: `failed saving field ${field}` }
           })

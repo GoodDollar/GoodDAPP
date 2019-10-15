@@ -45,6 +45,8 @@ class Auth extends React.Component<Props> {
     const destinationPath = JSON.parse(_destinationPath)
     const paymentCode = _get(destinationPath, 'params.paymentCode')
 
+    log.info('checkWeb3TokenAndPaymentCode', web3Token, paymentCode)
+
     if (paymentCode) {
       return this.setState({
         asGuest: true,
@@ -65,10 +67,16 @@ class Auth extends React.Component<Props> {
 
         if (w3User.has_wallet) {
           behaviour = 'goToSignInScreen'
+        } else {
+          this.setState({
+            w3User,
+          })
         }
       } catch (e) {
         behaviour = 'showTokenError'
       }
+
+      log.info('behaviour', behaviour)
 
       switch (behaviour) {
         case 'showTokenError':
@@ -86,9 +94,13 @@ class Auth extends React.Component<Props> {
   }
 
   handleSignUp = async () => {
+    const { w3User } = this.state
+    const w3Token = await AsyncStorage.getItem('web3Token')
+    const redirectTo = w3Token ? 'Phone' : 'Signup'
+
     await AsyncStorage.removeItem('gun/').catch(e => log.error('Failed to clear localStorage', e.message, e))
 
-    this.props.navigation.navigate('Signup')
+    this.props.navigation.navigate(redirectTo, { w3User })
 
     //Hack to get keyboard up on mobile need focus from user event such as click
     setTimeout(() => {
@@ -131,7 +143,7 @@ class Auth extends React.Component<Props> {
       </Text>
     )
     const firstButtonColor = asGuest ? undefined : mainTheme.colors.orange
-    const firstButtontextStyle = asGuest ? undefined : styles.textBlack
+    const firstButtonTextStyle = asGuest ? undefined : styles.textBlack
 
     return (
       <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
@@ -166,7 +178,7 @@ class Auth extends React.Component<Props> {
           <CustomButton
             color={firstButtonColor}
             style={styles.buttonLayout}
-            textStyle={firstButtontextStyle}
+            textStyle={firstButtonTextStyle}
             onPress={firstButtonHandler}
           >
             {firstButtonText}

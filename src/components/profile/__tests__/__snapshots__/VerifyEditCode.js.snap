@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SmsForm matches snapshot 1`] = `
+exports[`VerifyEditCode matches snapshot 1`] = `
 <div
   className="css-view-1dbjc4n"
   style={
@@ -174,7 +174,7 @@ exports[`SmsForm matches snapshot 1`] = `
                 }
               >
                 Enter the verification code
-sent to your phone
+sent to your email
               </div>
             </div>
             <div
@@ -655,6 +655,7 @@ sent to your phone
                       "flexBasis": "0%",
                       "flexGrow": 1,
                       "flexShrink": 1,
+                      "marginLeft": "15px",
                       "msFlexAlign": "center",
                       "msFlexNegative": 1,
                       "msFlexPositive": 1,
@@ -1113,22 +1114,27 @@ sent to your phone
           >
             <div
               className="css-text-901oao"
+              data-focusable={true}
               dir="auto"
+              onClick={[Function]}
+              onKeyDown={[Function]}
               style={
                 Object {
-                  "color": "rgba(163,163,163,1.00)",
+                  "color": "rgba(0,175,255,1.00)",
+                  "cursor": "pointer",
                   "direction": "ltr",
                   "fontFamily": "Roboto",
                   "fontSize": "14px",
-                  "fontWeight": "normal",
+                  "fontWeight": "500",
                   "lineHeight": "20px",
                   "textAlign": "center",
-                  "textDecoration": "none",
+                  "textDecoration": "underline",
                   "textTransform": "none",
                 }
               }
+              tabIndex="0"
             >
-              Please wait a few seconds until the SMS arrives
+              Send me the code again
             </div>
           </div>
         </div>

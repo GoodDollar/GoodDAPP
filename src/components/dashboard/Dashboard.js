@@ -230,6 +230,7 @@ const Dashboard = props => {
             icon="send"
             iconAlignment="left"
             routeName="Who"
+            iconSize={20}
             screenProps={screenProps}
             style={styles.leftButton}
             contentStyle={styles.leftButtonContent}
@@ -245,6 +246,7 @@ const Dashboard = props => {
           <ClaimButton screenProps={screenProps} amount={weiToMask(entitlement, { showUnits: true })} />
           <PushButton
             icon="receive"
+            iconSize={20}
             iconAlignment="right"
             routeName={'Receive'}
             screenProps={screenProps}

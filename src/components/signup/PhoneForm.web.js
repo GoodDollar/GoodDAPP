@@ -39,6 +39,14 @@ class PhoneForm extends React.Component<Props, State> {
     isValid: true,
   }
 
+  componentDidUpdate() {
+    if (this.props.screenProps.data.countryCode !== this.state.countryCode) {
+      this.setState({
+        countryCode: this.props.screenProps.data.countryCode,
+      })
+    }
+  }
+
   handleChange = (mobile: string) => {
     this.checkErrorsSlow()
 

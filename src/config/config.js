@@ -25,6 +25,7 @@ const Config = {
   safariMobileKeyboardGuidedSize: process.env.REACT_APP_SAFARI_MOBILE_KEYBOARD_GUIDED_SIZE === 'true',
   receiveUrl: process.env.REACT_APP_RECEIVE_URL || `${publicUrl}`,
   sendUrl: process.env.REACT_APP_SEND_URL || `${publicUrl}`,
+  nextTimeClaim: process.env.REACT_APP_NEXT_TIME_CLAIM || 86400,
   ethereum: {
     '42': {
       network_id: 42,

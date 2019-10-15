@@ -125,19 +125,23 @@ const Dashboard = props => {
   }, [])
 
   useEffect(() => {
-    Animated.sequence([
-      Animated.timing(animValue, {
-        toValue: 1.2,
-        duration: 750,
-        easing: Easing.ease,
-        delay: 1000,
-      }),
-      Animated.timing(animValue, {
-        toValue: 1,
-        duration: 750,
-        easing: Easing.ease,
-      }),
-    ]).start()
+    const { entitlement } = gdstore.get('account')
+
+    if (Number(entitlement)) {
+      Animated.sequence([
+        Animated.timing(animValue, {
+          toValue: 1.2,
+          duration: 750,
+          easing: Easing.ease,
+          delay: 1000,
+        }),
+        Animated.timing(animValue, {
+          toValue: 1,
+          duration: 750,
+          easing: Easing.ease,
+        }),
+      ]).start()
+    }
   }, [])
 
   useEffect(() => {

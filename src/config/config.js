@@ -11,6 +11,7 @@ const Config = {
   publicUrl,
   infuraKey: process.env.REACT_APP_INFURA_KEY,
   network: process.env.REACT_APP_NETWORK || 'fuse',
+  market: process.env.REACT_APP_MARKET || process.env.REACT_APP_MARKET === 'etoro',
   isEToro: process.env.REACT_APP_NETWORK === 'etoro',
   zoomLicenseKey: process.env.REACT_APP_ZOOM_LICENSE_KEY,
   amplitudeKey: process.env.REACT_APP_AMPLITUDE_API_KEY,

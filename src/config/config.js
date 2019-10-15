@@ -10,7 +10,7 @@ const Config = {
   publicUrl,
   infuraKey: process.env.REACT_APP_INFURA_KEY,
   network: process.env.REACT_APP_NETWORK || 'fuse',
-  market: process.env.REACT_APP_MARKET,
+  market: process.env.REACT_APP_MARKET || process.env.REACT_APP_MARKET === 'etoro',
   zoomLicenseKey: process.env.REACT_APP_ZOOM_LICENSE_KEY,
   amplitudeKey: process.env.REACT_APP_AMPLITUDE_API_KEY,
   rollbarKey: process.env.REACT_APP_ROLLBAR_API_KEY,
@@ -53,10 +53,6 @@ const Config = {
       websocketWeb3Provider: 'ws://localhost:9545/ws',
     },
   },
-}
-
-if (Config.network === 'etoro' && typeof Config.market === 'undefined') {
-  Config.market = true
 }
 
 // Forcing value as number, if not MNID encoder/decoder may fail

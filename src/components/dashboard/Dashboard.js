@@ -1,5 +1,6 @@
 // @flow
 import React, { useEffect, useState } from 'react'
+import { Animated, Easing } from 'react-native'
 import _get from 'lodash/get'
 import debounce from 'lodash/debounce'
 import type { Store } from 'undux'
@@ -82,6 +83,7 @@ export type DashboardProps = {
   styles?: any,
 }
 const Dashboard = props => {
+  const [animValue] = useState(new Animated.Value(1))
   const store = SimpleStore.useStore()
   const gdstore = GDStore.useStore()
   const [showDialog, hideDialog] = useDialog()
@@ -106,6 +108,7 @@ const Dashboard = props => {
   const nextFeed = () => {
     return getNextFeed(gdstore)
   }
+
   useEffect(() => {
     if (props.navigation.state.key === 'Delete') {
       deleteAccountDialog({ API, showDialog: showErrorDialog, store, theme: props.theme })
@@ -119,6 +122,22 @@ const Dashboard = props => {
       log.debug('gun getFeed callback', { data })
       getInitialFeed(gdstore)
     }, true)
+  }, [])
+
+  useEffect(() => {
+    Animated.sequence([
+      Animated.timing(animValue, {
+        toValue: 1.2,
+        duration: 750,
+        easing: Easing.ease,
+        delay: 1000,
+      }),
+      Animated.timing(animValue, {
+        toValue: 1,
+        duration: 750,
+        easing: Easing.ease,
+      }),
+    ]).start()
   }, [])
 
   useEffect(() => {
@@ -177,6 +196,13 @@ const Dashboard = props => {
   const { avatar, fullName } = gdstore.get('profile')
   const feeds = gdstore.get('feeds')
   const [headerLarge, setHeaderLarge] = useState(true)
+  const scale = {
+    transform: [
+      {
+        scale: animValue,
+      },
+    ],
+  }
 
   return (
     <Wrapper style={styles.dashboardWrapper}>
@@ -223,7 +249,9 @@ const Dashboard = props => {
           >
             Send
           </PushButton>
-          <ClaimButton screenProps={screenProps} amount={weiToMask(entitlement, { showUnits: true })} />
+          <Animated.View style={{ zIndex: 1, ...scale }}>
+            <ClaimButton screenProps={screenProps} amount={weiToMask(entitlement, { showUnits: true })} />
+          </Animated.View>
           <PushButton
             icon="receive"
             iconAlignment="right"

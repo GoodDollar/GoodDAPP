@@ -70,21 +70,3 @@ button {
   padding-top: 10px;
   padding-bottom: 10px;
 }
-
-@keyframes zoom-in-out {
-  0%{
-    -webkit-transform: translateX(-50%) translateY(-50%) scale(1);
-    -ms-transform: translateX(-50%) translateY(-50%) scale(1);
-    transform: translateX(-50%) translateY(-50%) scale(1);
-  }
-  50%{
-    -webkit-transform: translateX(-50%) translateY(-50%) scale(1.2);
-    -ms-transform: translateX(-50%) translateY(-50%) scale(1.2);
-    transform: translateX(-50%) translateY(-50%) scale(1.2);
-  }
-  100%{
-    -webkit-transform: translateX(-50%) translateY(-50%) scale(1);
-    -ms-transform: translateX(-50%) translateY(-50%) scale(1);
-    transform: translateX(-50%) translateY(-50%) scale(1);
-  }
-}

@@ -70,7 +70,10 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
     navigation.navigate('Rewards')
     handleModalClose()
   }
-
+  const backupPage = () => {
+    navigation.navigate('BackupWallet')
+    handleModalClose()
+  }
   switch (item.displayType) {
     case 'sendpending':
       return (
@@ -141,6 +144,18 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
             >
               <Text fontSize={14} color="#FFFFFF" fontFamily="Roboto">
                 INVITE
+              </Text>
+            </CustomButton>
+          </View>
+        </View>
+      )
+    case 'backup':
+      return (
+        <View style={styles.buttonsView}>
+          <View style={styles.rightButtonContainer}>
+            <CustomButton mode="contained" style={styles.button} onPress={backupPage}>
+              <Text fontSize={14} color="#FFFFFF" fontFamily="Roboto">
+                {"LET'S BACKUP"}
               </Text>
             </CustomButton>
           </View>

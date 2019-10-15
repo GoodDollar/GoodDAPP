@@ -11,7 +11,7 @@ import SmsForm from '../SmsForm'
 
 describe('SmsForm', () => {
   it('renders without errors', () => {
-    const WebRouter = withThemeProvider(createBrowserApp(createSwitchNavigator({ SmsForm })))
+    const WebRouter = withThemeProvider(createBrowserApp(createSwitchNavigator({ SMS: SmsForm })))
     const tree = renderer.create(
       <StoresWrapper>
         <WebRouter />
@@ -21,7 +21,7 @@ describe('SmsForm', () => {
   })
 
   it('matches snapshot', () => {
-    const WebRouter = withThemeProvider(createBrowserApp(createSwitchNavigator({ SmsForm })))
+    const WebRouter = withThemeProvider(createBrowserApp(createSwitchNavigator({ SMS: SmsForm })))
     const component = renderer.create(
       <StoresWrapper>
         <WebRouter />

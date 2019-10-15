@@ -132,6 +132,10 @@ const FeedText = withStyles(getFeedTextStyles)(({ styles, feed }) => {
       result = <ReadMoreText text="Invite more friends!" buttonText="Read more..." />
       break
 
+    case 'backup':
+      result = <ReadMoreText text="wallet pass phrase" buttonText="Read more..." />
+      break
+
     default:
       result = (
         <Text numberOfLines={1} color="gray80Percent" fontSize={10} textTransform="capitalize" style={styles.message}>

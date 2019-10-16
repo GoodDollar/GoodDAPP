@@ -50,6 +50,7 @@ const getStylesFromProps = ({ theme }) => ({
     paddingRight: theme.modals.overlayHorizontalPadding,
     paddingTop: theme.modals.overlayVerticalPadding - browserPadding * 0.5,
     marginTop: getDesignRelativeHeight(50, false),
+    marginBottom: getDesignRelativeHeight(50, false),
   },
 })
 

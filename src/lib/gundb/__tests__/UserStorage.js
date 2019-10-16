@@ -1,4 +1,5 @@
 // @flow
+import _ from 'lodash'
 import gun from '../gundb'
 
 import userStorage from '../UserStorage'
@@ -370,6 +371,18 @@ describe('UserStorage', () => {
     await userStorage.updateFeedEvent(backupMessage)
     const events = await userStorage.getAllFeed()
     expect(events).toContainEqual(backupMessage)
+  })
+
+  it('has the Survey already set', async () => {
+    const testSurvey = {
+      amount: 'amount',
+      reason: 'reason',
+      survey: 'survey',
+    }
+    await userStorage.saveSurveyDetails(testSurvey)
+    const surveys = await userStorage.getSurveyDetails()
+    const result = _.pick(surveys, ['amount', 'reason', 'survey'])
+    expect(result).toEqual(testSurvey)
   })
 
   it('should delete the Welcome event', async () => {

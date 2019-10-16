@@ -124,6 +124,11 @@ const SendLinkSummary = ({ screenProps }: AmountProps) => {
           }
           log.debug('generateLinkAndSend: enqueueTX', { transactionEvent })
           userStorage.enqueueTX(transactionEvent)
+          userStorage.saveSurveyDetails({
+            reason,
+            amount,
+            survey: 'other',
+          })
         },
         { onError: userStorage.markWithErrorEvent }
       )

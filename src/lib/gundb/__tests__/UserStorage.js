@@ -2,7 +2,13 @@
 import gun from '../gundb'
 
 import userStorage from '../UserStorage'
-import { getOperationType, getReceiveDataFromReceipt, type TransactionEvent, welcomeMessage, inviteFriendsMessage } from '../UserStorageClass'
+import {
+  getOperationType,
+  getReceiveDataFromReceipt,
+  inviteFriendsMessage,
+  type TransactionEvent,
+  welcomeMessage,
+} from '../UserStorageClass'
 
 import { getUserModel } from '../UserModel'
 import { addUser } from './__util__/index'

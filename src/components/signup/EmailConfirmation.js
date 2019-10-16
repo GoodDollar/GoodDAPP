@@ -7,9 +7,9 @@ import LoadingIndicator from '../common/view/LoadingIndicator'
 import Section from '../common/layout/Section'
 import ErrorText from '../common/form/ErrorText'
 import OtpInput from '../common/form/OtpInput'
+import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import CustomWrapper from './signUpWrapper'
 import type { SignupState } from './SignupState'
-import {getDesignRelativeHeight} from "../../lib/utils/sizes";
 
 const log = logger.child({ from: 'EmailConfirmation' })
 
@@ -142,7 +142,13 @@ class EmailConfirmation extends React.Component<Props, State> {
             </Section.Stack>
           </Section.Stack>
           <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
-            <Section.Text fontWeight="medium" textDecorationLine="underline" fontSize={14} color="primary" onPress={this.handleRetry}>
+            <Section.Text
+              fontWeight="medium"
+              textDecorationLine="underline"
+              fontSize={14}
+              color="primary"
+              onPress={this.handleRetry}
+            >
               Send me the code again
             </Section.Text>
           </Section.Row>

@@ -33,7 +33,7 @@ class HomePage {
     }
 
     get moneyAmountDiv() {
-        return cy.get('[dir="auto"]', { timeout: 10000 }).eq(3);
+        return cy.get('[dir="auto"]', { timeout: 10000 }).eq(4);
     }
 
     get welcomeFeed() {

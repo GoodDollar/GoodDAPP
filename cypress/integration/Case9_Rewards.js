@@ -30,8 +30,8 @@ describe('Test case 9: Ability to see rewards and create wallet with token', () 
             .then( iframe => new Promise(resolve => setTimeout( () => resolve(iframe), 7500 )))
             .then( iframe => {
                 const body = iframe.contents().find('body');
-                cy.wrap(body.find(RewardsPage.createWalletButton)).should('be.visible');
-                cy.wrap(body.find(RewardsPage.contentWrapper)).should('contain', 'Redeem your rewards & collected a daily income');
+                //cy.wrap(body.find(RewardsPage.createWalletButton)).should('be.visible');
+                cy.wrap(body.find(RewardsPage.contentWrapper)).should('contain', 'Redeem your rewards & collected daily income');
                 cy.wrap(body.find(RewardsPage.createWalletButton)).invoke('attr', 'href').then( createWalletUrl => {
 
                     // ** Extract token from button attribute ** //
@@ -44,7 +44,7 @@ describe('Test case 9: Ability to see rewards and create wallet with token', () 
                     StartPage.createWalletButton.click();
                     cy.contains('Ok').click();
                     cy.wait(3000);
-                    SignUpPage.phoneInput.type('+79315944375');
+                    SignUpPage.phoneInput.type('+79315944371');
                     //cy.contains('Ok').click();
                     SignUpPage.nextButton.click();
                     cy.wait(3000);

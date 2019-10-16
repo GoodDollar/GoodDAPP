@@ -149,14 +149,14 @@ export class GoodWallet {
         // Identity Contract
         this.identityContract = new this.wallet.eth.Contract(
           IdentityABI.abi,
-          get(ContractsAddress, `${this.network}.Identity`, IdentityABI.networks[this.networkId].address),
+          get(ContractsAddress, `${this.network}.Identity` /*IdentityABI.networks[this.networkId].address*/),
           { from: this.account }
         )
 
         // Token Contract
         this.tokenContract = new this.wallet.eth.Contract(
           GoodDollarABI.abi,
-          get(ContractsAddress, `${this.network}.GoodDollar`, GoodDollarABI.networks[this.networkId].address),
+          get(ContractsAddress, `${this.network}.GoodDollar` /*GoodDollarABI.networks[this.networkId].address*/),
           { from: this.account }
         )
         abiDecoder.addABI(GoodDollarABI.abi)
@@ -164,7 +164,7 @@ export class GoodWallet {
         // ERC20 Contract
         this.erc20Contract = new this.wallet.eth.Contract(
           ERC20ABI.abi,
-          get(ContractsAddress, `${this.network}.GoodDollar`, GoodDollarABI.networks[this.networkId].address),
+          get(ContractsAddress, `${this.network}.GoodDollar` /*GoodDollarABI.networks[this.networkId].address*/),
           { from: this.account }
         )
         abiDecoder.addABI(ERC20ABI.abi)
@@ -172,7 +172,7 @@ export class GoodWallet {
         // UBI Contract
         this.UBIContract = new this.wallet.eth.Contract(
           UBIABI.abi,
-          get(ContractsAddress, `${this.network}.UBI`, UBIABI.networks[this.networkId].address),
+          get(ContractsAddress, `${this.network}.UBI` /*UBIABI.networks[this.networkId].address*/),
           { from: this.account }
         )
         abiDecoder.addABI(UBIABI.abi)
@@ -180,7 +180,10 @@ export class GoodWallet {
         // OneTimePaymentLinks Contract
         this.oneTimePaymentsContract = new this.wallet.eth.Contract(
           OneTimePaymentsABI.abi,
-          get(ContractsAddress, `${this.network}.OneTimePayments`, OneTimePaymentsABI.networks[this.networkId].address),
+          get(
+            ContractsAddress,
+            `${this.network}.OneTimePayments` /*OneTimePaymentsABI.networks[this.networkId].address*/
+          ),
           {
             from: this.account,
           }
@@ -334,11 +337,11 @@ export class GoodWallet {
   }
 
   async getAmountAndQuantityClaimedToday(): Promise<any> {
-    const res = ((await this.UBIContract.methods.getDailyStats().call()) || [ZERO, ZERO]).toNumber()
+    const res = (await this.UBIContract.methods.getDailyStats().call()) || [ZERO, ZERO]
 
     return {
-      people: res[0],
-      amount: res[1],
+      people: res[0].toNumber(),
+      amount: res[1].toNumber(),
     }
   }
 

@@ -74,9 +74,7 @@ describe('Test case 1: Ability to Sign Up', () => {
                 const body = iframe.contents().find('body');
 
                 cy.wrap(body.find(RewardsPage.createWalletButton)).should('be.visible');
-                cy.wrap(body.find(RewardsPage.contentWrapper)).should('contain', 'Redeem your rewards & collected a daily income');
-                //cy.wrap(body.find(RewardsPage.createWalletButton)).click();
-        
+                cy.wrap(body.find(RewardsPage.contentWrapper)).should('contain', 'Redeem your rewards & collected daily income');      
             });
         RewardsPage.backButton.click()
         cy.wait(7000);

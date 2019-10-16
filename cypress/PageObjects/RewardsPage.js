@@ -13,7 +13,7 @@ class RewardsPage {
     }
 
     get contentWrapper() {
-        return '.bg-wrapper'
+        return '[class=bg-wrapper]'
     }
 
     get backButton() {

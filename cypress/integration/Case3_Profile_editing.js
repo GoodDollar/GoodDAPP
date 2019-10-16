@@ -3,8 +3,18 @@ import LoginPage from '../PageObjects/LoginPage'
 import HomePage from '../PageObjects/HomePage'
 import EditProfilePage from '../PageObjects/EditProfilePage'
 import ProfilePage from '../PageObjects/ProfilePage'
+import SignUpPage from '../PageObjects/SignUpPage'
 
-
+function makeVerification() {
+    cy.wait(10000);
+    cy.get('[role="button"]').eq(3).click();
+    for( let i = 0; i < 6; i++ ) {
+        cy.wait(2000)
+        SignUpPage.codeInputs.eq(i).type(i, {force:true});
+    }
+    cy.wait(5000)
+    ProfilePage.openEditProfileButton()
+}
 
 
 describe('Test case 3: Ability to change user data', () => {
@@ -36,8 +46,6 @@ describe('Test case 3: Ability to change user data', () => {
             HomePage.options.eq(i).should('be.visible');
         }
         HomePage.options.eq(0).click();   
-        // ProfilePage.editProfileButton.should('be.visible');
-        // ProfilePage.editProfileButton.click();  
         ProfilePage.openEditProfileButton()
         EditProfilePage.pageHeader.should('contain', 'Edit Profile');
         EditProfilePage.nameInput.should('be.visible');
@@ -85,36 +93,41 @@ describe('Test case 3: Ability to change user data', () => {
         HomePage.optionsButton.click({force:true});
         HomePage.options.eq(0).click({force:true});
         ProfilePage.openEditProfileButton()
-        // ProfilePage.editProfileButton.should('be.visible');
-        // ProfilePage.editProfileButton.click();
-        EditProfilePage.nameInput.clear();
         EditProfilePage.phoneInput.clear();
+        EditProfilePage.phoneInput.type('+380983611328');
+        EditProfilePage.phoneInput.blur();
+        makeVerification();
         EditProfilePage.emailInput.clear();
-        EditProfilePage.nameInput.type('AndrewGolenkovName');
-        EditProfilePage.phoneInput.type('+380983611322');
         EditProfilePage.emailInput.type('test12345@test.com');
-        cy.wait(7000);
+        EditProfilePage.emailInput.blur();
+        makeVerification();
+        EditProfilePage.nameInput.clear();
+        EditProfilePage.nameInput.type('AndrewGolenkovName');
+        cy.wait(5000);
         EditProfilePage.saveButton.click();
         cy.wait(5000);
         ProfilePage.openProfilePage()
         cy.wait(5000)
         //EditProfilePage.backButton.click();
         ProfilePage.nameInput.should('have.value', 'AndrewGolenkovName');
-        ProfilePage.phoneInput.should('have.value', '+380983611322');
+        ProfilePage.phoneInput.should('have.value', '+380983611328');
         ProfilePage.emailInput.should('have.value', 'test12345@test.com');
+        // ** back to the default values ** //
         ProfilePage.openEditProfileButton()
-        //ProfilePage.editProfileButton.should('be.visible');
-        //ProfilePage.editProfileButton.click();
         cy.wait(3000);
-        EditProfilePage.nameInput.clear();
-        EditProfilePage.nameInput.type('AndrewLebowski'); 
-        EditProfilePage.phoneInput.clear();  
-        EditProfilePage.phoneInput.type('+380983611327');
+        EditProfilePage.phoneInput.clear();
+        EditProfilePage.phoneInput.type('+380983611320');
+        EditProfilePage.phoneInput.blur();
+        makeVerification();
         EditProfilePage.emailInput.clear();
         EditProfilePage.emailInput.type('gooddollar.test123@gmail.com');
-        cy.wait(3000);
+        EditProfilePage.emailInput.blur();
+        makeVerification();
+        EditProfilePage.nameInput.clear();
+        EditProfilePage.nameInput.type('AndrewLebowski');
+        cy.wait(5000)
         EditProfilePage.saveButton.click();
-        cy.wait(7000);
+        cy.wait(5000);
         //EditProfilePage.backButton.click();
         ProfilePage.pageHeader.should('contain', 'Profile');
 
@@ -129,14 +142,14 @@ describe('Test case 3: Ability to change user data', () => {
         // ProfilePage.editProfileButton.should('be.visible');
         // ProfilePage.editProfileButton.click();
         EditProfilePage.nameInput.clear({timeout:10000});
-        EditProfilePage.phoneInput.clear({timeout:10000});
-        EditProfilePage.emailInput.clear({timeout:10000});
+        // EditProfilePage.phoneInput.clear({timeout:10000});
+        // EditProfilePage.emailInput.clear({timeout:10000});
         EditProfilePage.nameInput.type('Random Username');
-        EditProfilePage.phoneInput.type('+999999999999');
-        EditProfilePage.emailInput.type('incorrect@email');
+        // EditProfilePage.phoneInput.type('+999999999999');
+        // EditProfilePage.emailInput.type('incorrect@email');
         EditProfilePage.wrongNameErrorDiv.should('contain', 'Only letters, numbers and underscore');
-        EditProfilePage.phoneInput.should('have.class', 'react-phone-number-input__input--invalid')
-        EditProfilePage.wrongEmailErrorDiv.should('contain', 'Enter a valid format: yourname@example.com');
+        // EditProfilePage.phoneInput.should('have.class', 'react-phone-number-input__input--invalid')
+        // EditProfilePage.wrongEmailErrorDiv.should('contain', 'Enter a valid format: yourname@example.com');
         EditProfilePage.saveButton.should('not.be.enabled');
 
     });

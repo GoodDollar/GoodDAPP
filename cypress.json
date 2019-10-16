@@ -4,53 +4,53 @@
     "env": {   
         "baseUrl": "https://gooddev.netlify.com/",
         "wordsForSuccessfullLogin": [
-            "yard", "medal", "enroll", 
-            "token", "arena", "turn", 
-            "middle", "spike", "weather", 
-            "utility", "unusual", "act"
+            "orchard", "steak", "mother", 
+            "note", "work", "profit", 
+            "vital", "film", "gentle", 
+            "involve", "like", "jewel"
         ],
         "wordsForUnsuccessfullLogin": {
             "withChangedWord": [
-                "park", "medal", "enroll", 
-                "token", "arena", "turn", 
-                "middle", "spike", "weather", 
-                "utility", "unusual", "act"
+                "hello", "steak", "mother", 
+                "note", "work", "profit", 
+                "vital", "film", "gentle", 
+                "involve", "like", "jewel"
             ],
             "withNumbers": [
-                "1yard", "medal", "enroll", 
-                "token", "arena", "turn", 
-                "middle", "spike", "weather", 
-                "utility", "unusual", "act"
+                "1orchard", "steak", "mother", 
+                "note", "work", "profit", 
+                "vital", "film", "gentle", 
+                "involve", "like", "jewel"
             ],
             "withSymbols": [
-                "@yard", "medal", "enroll", 
-                "token", "arena", "turn", 
-                "middle", "spike", "weather", 
-                "utility", "unusual", "act"
+                "@orchard", "steak", "mother", 
+                "note", "work", "profit", 
+                "vital", "film", "gentle", 
+                "involve", "like", "jewel"
             ],
             "withChangedLetter": [
-                "nard", "medal", "enroll", 
-                "token", "arena", "turn", 
-                "middle", "spike", "weather", 
-                "utility", "unusual", "act"
+                "archard", "steak", "mother", 
+                "note", "work", "profit", 
+                "vital", "film", "gentle", 
+                "involve", "like", "jewel"
             ],
             "withChangedOrder": [
-                "medal", "yard", "enroll", 
-                "token", "arena", "turn", 
-                "middle", "spike", "weather", 
-                "utility", "unusual", "act"
+                "steak", "orchard", "mother", 
+                "note", "work", "profit", 
+                "vital", "film", "gentle", 
+                "involve", "like", "jewel"
             ],
             "withCapitalize": [
-                "Yard", "medal", "enroll", 
-                "token", "arena", "turn", 
-                "middle", "spike", "weather", 
-                "utility", "unusual", "act"]
+                "Orchard", "steak", "mother", 
+                "note", "work", "profit", 
+                "vital", "film", "gentle", 
+                "involve", "like", "jewel"]
         },
         "anotherAccountWords": [
-            "rice", "tray", "gas",
-            "sentence","illness","palm",
-            "segment","mirror","foot",
-            "cruel","ketchup","analyst"
+            "heavy", "cabbage", "sea",
+            "negative","advance","cave",
+            "before","brisk","script",
+            "theory","pepper","weird"
         ]
     }
 }

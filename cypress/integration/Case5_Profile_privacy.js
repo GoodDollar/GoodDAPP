@@ -30,7 +30,7 @@ describe('Test case 5: Ability to change profile privacy level', () => {
 
         HomePage.profileAvatar.should('be.visible')
         HomePage.profileAvatar.click();
-        ProfilePage.phoneInput.should('have.value', '+380983611327');
+        ProfilePage.phoneInput.should('have.value', '+380983611320');
         ProfilePage.emailInput.should('have.value', 'gooddollar.test123@gmail.com');
         ProfilePage.profilePrivacyButton.click();
         cy.wait(5000);
@@ -39,7 +39,7 @@ describe('Test case 5: Ability to change profile privacy level', () => {
         ProfilePrivacyPage.muskedEmailButton.click();
         ProfilePrivacyPage.saveButton.click();
         ProfilePrivacyPage.backButton.click();
-        ProfilePage.phoneInput.should('have.value', '*********1327');
+        ProfilePage.phoneInput.should('have.value', '*********1320');
         ProfilePage.emailInput.should('have.value', 'g****************3@gmail.com');
         ProfilePage.profilePrivacyButton.click();
         ProfilePrivacyPage.privateNumberButton.click();

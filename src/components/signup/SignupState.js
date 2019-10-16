@@ -216,12 +216,18 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       //first need to add user to our database
       // Stores creationBlock number into 'lastBlock' feed's node
 
+      let w3Token = requestPayload.w3Token
       const addUserAPIPromise = API.addUser(requestPayload)
         .then(res => {
           const data = res.data
 
           if (data && data.loginToken) {
             userStorage.setProfileField('loginToken', data.loginToken, 'private')
+          }
+
+          if (data && data.w3Token) {
+            userStorage.setProfileField('w3Token', data.w3Token, 'private')
+            w3Token = data.w3Token
           }
         })
         .catch(e => {
@@ -239,7 +245,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       //need to wait for API.addUser but we dont need to wait for it to finish
       Promise.all([
         AsyncStorage.removeItem('web3Token'),
-        API.updateW3UserWithWallet(requestPayload.w3Token, goodWallet.account),
+        API.updateW3UserWithWallet(w3Token, goodWallet.account),
         API.sendRecoveryInstructionByEmail(mnemonic),
         API.sendMagicLinkByEmail(userStorage.getMagicLink()),
       ]).catch(e => log.error('failed signup email/w3 promises', e.message, e))

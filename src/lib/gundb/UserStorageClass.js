@@ -188,6 +188,10 @@ export const getOperationType = (data: any, account: string) => {
   return EVENT_TYPES[data.name] || operationType
 }
 
+const EVENT_TYPE_SEND = 'send'
+const EVENT_TYPE_BONUS = 'bonus'
+const COMPLETED_BONUS_REASON_TEXT = 'Some text'
+
 /**
  * Users gundb to handle user storage.
  * User storage is used to keep the user Self Soverign Profile and his blockchain transcation history
@@ -498,6 +502,11 @@ export class UserStorage {
           receipt,
         },
       }
+
+      if (initialEvent.type === EVENT_TYPE_BONUS && receipt.status) {
+        updatedFeedEvent.data.reason = COMPLETED_BONUS_REASON_TEXT
+      }
+
       logger.debug('handleReceiptUpdated receiptReceived', { initialEvent, feedEvent, receipt, data, updatedFeedEvent })
       if (isEqual(feedEvent, updatedFeedEvent) === false) {
         await this.updateFeedEvent(updatedFeedEvent, feedEvent.date)
@@ -1111,7 +1120,7 @@ export class UserStorage {
 
       const { address, initiator, initiatorType, value, displayName, message } = this._extractData(event)
       const withdrawStatus = this._extractWithdrawStatus(withdrawCode, otplStatus, status)
-      const displayType = this._extractDisplayType(type, withdrawStatus)
+      const displayType = this._extractDisplayType(type, withdrawStatus, status)
       logger.debug('formatEvent:', event.id, { initiatorType, initiator, address })
       const profileNode = this._extractProfileToShow(initiatorType, initiator, address)
       const [avatar, fullName] = await Promise.all([
@@ -1194,8 +1203,18 @@ export class UserStorage {
     return status === 'error' ? status : withdrawCode ? otplStatus : ''
   }
 
-  _extractDisplayType(type, withdrawStatus) {
-    return type + `${type === 'send' ? withdrawStatus : ''}`
+  _extractDisplayType(type, withdrawStatus, status) {
+    let sufix = ''
+
+    if (type === EVENT_TYPE_SEND) {
+      sufix = withdrawStatus
+    }
+
+    if (type === EVENT_TYPE_BONUS) {
+      sufix = status
+    }
+
+    return `${type}${sufix}`
   }
 
   _extractProfileToShow(initiatorType, initiator, address): Gun {
@@ -1224,6 +1243,7 @@ export class UserStorage {
         .then()
 
     return (
+      (type === EVENT_TYPE_BONUS && favicon) ||
       (type === 'send' && withdrawStatus === 'error' && favicon) || //errored send
       (await profileFromGun()) || // extract avatar from profile
       (type === 'claim' || address === '0x0000000000000000000000000000000000000000' ? favicon : undefined)

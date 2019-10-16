@@ -172,7 +172,7 @@ export class GoodWallet {
         // UBI Contract
         this.UBIContract = new this.wallet.eth.Contract(
           UBIABI.abi,
-          get(ContractsAddress, `${this.network}.FixedUBI`, UBIABI.networks[this.networkId].address),
+          get(ContractsAddress, `${this.network}.UBI`, UBIABI.networks[this.networkId].address),
           { from: this.account }
         )
         abiDecoder.addABI(UBIABI.abi)
@@ -270,7 +270,7 @@ export class GoodWallet {
       } else {
         log.info('subscribeOTPL got event', { event })
 
-        if (event && event.event && ['PaymentWithdrawn', 'PaymentCancelled'].includes(event.event)) {
+        if (event && event.event && ['PaymentWithdraw', 'PaymentCancel'].includes(event.event)) {
           this.getReceiptWithLogs(event.transactionHash)
             .then(receipt => this.sendReceiptWithLogsToSubscribers(receipt, ['otplUpdated']))
             .catch(err => log.error('send event get/send receipt failed:', err.message, err))
@@ -282,8 +282,8 @@ export class GoodWallet {
       }
     }
 
-    this.oneTimePaymentsContract.events.PaymentWithdrawn({ fromBlock, filter }, handler)
-    this.oneTimePaymentsContract.events.PaymentCancelled({ fromBlock, filter }, handler)
+    this.oneTimePaymentsContract.events.PaymentWithdraw({ fromBlock, filter }, handler)
+    this.oneTimePaymentsContract.events.PaymentCancel({ fromBlock, filter }, handler)
   }
 
   /**
@@ -343,7 +343,7 @@ export class GoodWallet {
   }
 
   async checkEntitlement(): Promise<number> {
-    const entitlement = await this.UBIContract.methods.checkEntitlement({ from: this.account }).call()
+    const entitlement = await this.UBIContract.methods.checkEntitlement().call()
 
     return entitlement
   }
@@ -641,7 +641,7 @@ export class GoodWallet {
    */
   async cancelOTLByTransactionHash(transactionHash: string, txCallbacks: {} = {}): Promise<TransactionReceipt> {
     const { logs } = await this.getReceiptWithLogs(transactionHash)
-    const paymentDepositLog = logs.filter(({ name }) => name === 'PaymentDeposited')[0]
+    const paymentDepositLog = logs.filter(({ name }) => name === 'PaymentDeposit')[0]
 
     if (paymentDepositLog && paymentDepositLog.events) {
       const eventHashParam = paymentDepositLog.events.filter(({ name }) => name === 'hash')[0]

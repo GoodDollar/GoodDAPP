@@ -125,7 +125,7 @@ const SendLinkSummary = ({ screenProps }: AmountProps) => {
           log.debug('generateLinkAndSend: enqueueTX', { transactionEvent })
           userStorage.enqueueTX(transactionEvent)
           if (Config.isEToro) {
-            userStorage.saveSurveyDetails({
+            userStorage.saveSurveyDetails(hash, {
               reason,
               amount,
               survey: 'other',

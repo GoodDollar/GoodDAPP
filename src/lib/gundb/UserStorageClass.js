@@ -1103,15 +1103,19 @@ export class UserStorage {
 
   /**
    * Save survey
-   * @param details
+   * @param {string} hash
+   * @param {object} details
    * @returns {Promise<void>}
    */
-  async saveSurveyDetails(details: SurveyDetails) {
+  async saveSurveyDetails(hash: string, details: SurveyDetails) {
     try {
-      await this.gun.get('survey').set(details)
+      await this.gun
+        .get('survey')
+        .get(hash)
+        .set(details)
       return true
     } catch (e) {
-      logger.error('saveSurveyDetails :', details, e.message, e)
+      logger.error('saveSurveyDetails :', hash, details, e.message, e)
       return false
     }
   }
@@ -1120,8 +1124,11 @@ export class UserStorage {
    * Get all survey
    * @returns {Promise<void>}
    */
-  async getSurveyDetails() {
-    const result = await this.gun.get('survey').map(survey => survey)
+  async getSurveyDetailBuHash(hash: string) {
+    const result = await this.gun
+      .get('survey')
+      .get(hash)
+      .map(survey => survey)
     return result
   }
 

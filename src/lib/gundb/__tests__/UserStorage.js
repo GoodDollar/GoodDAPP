@@ -374,13 +374,14 @@ describe('UserStorage', () => {
   })
 
   it('has the Survey already set', async () => {
+    const hash = 'test_hash'
     const testSurvey = {
       amount: 'amount',
       reason: 'reason',
       survey: 'survey',
     }
-    await userStorage.saveSurveyDetails(testSurvey)
-    const surveys = await userStorage.getSurveyDetails()
+    await userStorage.saveSurveyDetails(hash, testSurvey)
+    const surveys = await userStorage.getSurveyDetailBuHash(hash)
     const result = _.pick(surveys, ['amount', 'reason', 'survey'])
     expect(result).toEqual(testSurvey)
   })

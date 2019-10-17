@@ -12,7 +12,7 @@ import { CustomButton, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import SummaryTable from '../common/view/SummaryTable'
 import { SEND_TITLE } from './utils/sendReceiveFlow'
-
+import Config from '../../config/config'
 const log = logger.child({ from: 'SendLinkSummary' })
 
 export type AmountProps = {
@@ -124,11 +124,13 @@ const SendLinkSummary = ({ screenProps }: AmountProps) => {
           }
           log.debug('generateLinkAndSend: enqueueTX', { transactionEvent })
           userStorage.enqueueTX(transactionEvent)
-          userStorage.saveSurveyDetails({
-            reason,
-            amount,
-            survey: 'other',
-          })
+          if (Config.isEToro) {
+            userStorage.saveSurveyDetails({
+              reason,
+              amount,
+              survey: 'other',
+            })
+          }
         },
         { onError: userStorage.markWithErrorEvent }
       )

@@ -23,6 +23,16 @@ import { getUserModel, type UserModel } from './UserModel'
 
 const logger = pino.child({ from: 'UserStorage' })
 
+const EVENT_TYPE_BONUS = 'bonus'
+const EVENT_TYPE_CLAIM = 'claim'
+const EVENT_TYPE_SEND = 'send'
+const EVENT_TYPE_RECEIVE = 'receive'
+const CONTRACT_EVENT_TYPE_PAYMENT_WITHDRAW = 'PaymentWithdraw'
+const CONTRACT_EVENT_TYPE_PAYMENT_CANCEL = 'PaymentCancel'
+const CONTRACT_EVENT_TYPE_TRANSFER = 'Transfer'
+
+const COMPLETED_BONUS_REASON_TEXT = 'Your recent earned rewards'
+
 function isValidDate(d) {
   return d instanceof Date && !isNaN(d)
 }
@@ -167,12 +177,12 @@ export const getReceiveDataFromReceipt = (receipt: any) => {
   //it filters them out
   const transferLog = maxBy(
     logs.filter(log => {
-      return log && log.name === 'Transfer'
+      return log && log.name === CONTRACT_EVENT_TYPE_TRANSFER
     }),
     'value'
   )
   const withdrawLog = logs.find(log => {
-    return log && (log.name === 'PaymentWithdraw' || log.name === 'PaymentCancel')
+    return log && (log.name === CONTRACT_EVENT_TYPE_PAYMENT_WITHDRAW || log.name === CONTRACT_EVENT_TYPE_PAYMENT_CANCEL)
   })
   logger.debug('getReceiveDataFromReceipt', { logs: receipt.logs, transferLog, withdrawLog })
   const log = withdrawLog || transferLog
@@ -184,13 +194,9 @@ export const getOperationType = (data: any, account: string) => {
     PaymentWithdraw: 'withdraw',
   }
 
-  const operationType = data.from && data.from.toLowerCase() === account ? 'send' : 'receive'
+  const operationType = data.from && data.from.toLowerCase() === account ? EVENT_TYPE_SEND : EVENT_TYPE_RECEIVE
   return EVENT_TYPES[data.name] || operationType
 }
-
-const EVENT_TYPE_SEND = 'send'
-const EVENT_TYPE_BONUS = 'bonus'
-const COMPLETED_BONUS_REASON_TEXT = 'Some text'
 
 /**
  * Users gundb to handle user storage.
@@ -429,11 +435,11 @@ export class UserStorage {
       logger.debug('GunDB logged in', { username, pubkey: this.wallet.account })
       logger.debug('subscribing')
 
-      this.wallet.subscribeToEvent('receive', (err, events) => {
-        logger.debug({ err, events }, 'receive')
+      this.wallet.subscribeToEvent(EVENT_TYPE_RECEIVE, (err, events) => {
+        logger.debug({ err, events }, EVENT_TYPE_RECEIVE)
       })
-      this.wallet.subscribeToEvent('send', (err, events) => {
-        logger.debug({ err, events }, 'send')
+      this.wallet.subscribeToEvent(EVENT_TYPE_SEND, (err, events) => {
+        logger.debug({ err, events }, EVENT_TYPE_SEND)
       })
       this.wallet.subscribeToEvent('otplUpdated', receipt => this.handleOTPLUpdated(receipt))
       this.wallet.subscribeToEvent('receiptUpdated', receipt => this.handleReceiptUpdated(receipt))
@@ -468,7 +474,10 @@ export class UserStorage {
     //receipt received via websockets/polling need mutex to prevent race
     //with enqueing the initial TX data
     const data = getReceiveDataFromReceipt(receipt)
-    if (data.name === 'PaymentCancel' || (data.name === 'PaymentWithdraw' && data.from === data.to)) {
+    if (
+      data.name === CONTRACT_EVENT_TYPE_PAYMENT_CANCEL ||
+      (data.name === CONTRACT_EVENT_TYPE_PAYMENT_WITHDRAW && data.from === data.to)
+    ) {
       logger.debug('handleReceiptUpdated: skipping self withdrawn payment link (cancelled)', { data, receipt })
       return {}
     }
@@ -541,7 +550,8 @@ export class UserStorage {
       const feedEvent = await this.getFeedItemByTransactionHash(originalTXHash)
 
       //if we withdrawn the payment link then its canceled
-      const otplStatus = data.name === 'PaymentCancel' || data.to === data.from ? 'cancelled' : 'completed'
+      const otplStatus =
+        data.name === CONTRACT_EVENT_TYPE_PAYMENT_CANCEL || data.to === data.from ? 'cancelled' : 'completed'
       const prevDate = feedEvent.date
       feedEvent.data.to = data.to
       feedEvent.data.otplReceipt = receipt
@@ -1179,10 +1189,10 @@ export class UserStorage {
     const { isAddress } = this.wallet.wallet.utils
     const data = { address: '', initiator: '', initiatorType: '', value: '', displayName: '', message: '' }
 
-    if (type === 'send') {
+    if (type === EVENT_TYPE_SEND) {
       data.address = isAddress(to) ? to : (receiptData && receiptData.to) || (receipt && receipt.to)
       data.initiator = to
-    } else if (type === 'claim') {
+    } else if (type === EVENT_TYPE_CLAIM) {
       data.message = 'Your daily basic income'
     } else {
       data.address = isAddress(from) ? from : (receiptData && receiptData.from) || (receipt && receipt.from)
@@ -1244,9 +1254,9 @@ export class UserStorage {
 
     return (
       (type === EVENT_TYPE_BONUS && favicon) ||
-      (type === 'send' && withdrawStatus === 'error' && favicon) || //errored send
+      (type === EVENT_TYPE_SEND && withdrawStatus === 'error' && favicon) || //errored send
       (await profileFromGun()) || // extract avatar from profile
-      (type === 'claim' || address === '0x0000000000000000000000000000000000000000' ? favicon : undefined)
+      (type === EVENT_TYPE_CLAIM || address === '0x0000000000000000000000000000000000000000' ? favicon : undefined)
     )
   }
 
@@ -1262,7 +1272,9 @@ export class UserStorage {
       customName || // if customName exist, use it
       (await profileFromGun()) || // if there's a profile, extract it's fullName
       (initiatorType && initiator) ||
-      (type === 'claim' || address === '0x0000000000000000000000000000000000000000' ? 'GoodDollar' : displayName)
+      (type === EVENT_TYPE_CLAIM || address === '0x0000000000000000000000000000000000000000'
+        ? 'GoodDollar'
+        : displayName)
     )
   }
 
@@ -1399,7 +1411,7 @@ export class UserStorage {
 
     //saving index by onetime code so we can retrieve and update it once withdrawn
     //or skip own withdraw
-    if (event.type === 'send' && event.data.code) {
+    if (event.type === EVENT_TYPE_SEND && event.data.code) {
       const hashedCode = this.wallet.wallet.utils.sha3(event.data.code)
       this.feed.get('codeToTxHash').put({ [hashedCode]: event.id })
     } else if (event.type === 'withdraw' && event.data.code) {

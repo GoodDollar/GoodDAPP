@@ -107,7 +107,13 @@ const Dashboard = props => {
     }
   }
 
-  const checkBonusesToRedeem = () => {
+  const checkBonusesToRedeem = async () => {
+    const isUserWhitelisted = await goodWallet.isVerified()
+
+    if (!isUserWhitelisted) {
+      return
+    }
+
     API.redeemBonuses()
       .then(res => {
         const resData = res.data

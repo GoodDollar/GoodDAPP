@@ -5,8 +5,9 @@ import { View } from 'react-native'
 import { withStyles } from '../../../lib/styles'
 import { theme } from '../../theme/styles.js'
 import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
+import { getScreenHeight, getScreenWidth } from '../../../lib/utils/Orientation'
 
-const height = isMobileOnly ? '100vh' : theme.sizes.maxHeightForTabletAndDesktop
+const height = isMobileOnly ? getScreenHeight() : theme.sizes.maxHeightForTabletAndDesktop
 
 const ModalOverlay = ({ styles, children, style, itemType }: any) => {
   const modalInnerWrapperStyle = itemType === 'custom' ? styles.customModalInnerWrapper : styles.feedModalInnerWrapper
@@ -22,7 +23,7 @@ const getStylesFromProps = ({ theme }) => ({
     alignSelf: 'flex-start',
     backgroundColor: theme.modals.overlayBackgroundColor,
     height: height,
-    width: '100vw',
+    width: getScreenWidth(),
   },
   customModalInnerWrapper: {
     alignSelf: 'center',

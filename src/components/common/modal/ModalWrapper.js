@@ -20,12 +20,13 @@ const ModalWrapper = (props: any) => {
     showJaggedEdge = false,
     fullHeight = false,
     showAtBottom,
+    itemType,
     showTooltipArrow,
   } = props
 
   return (
     <ScrollView>
-      <ModalOverlay>
+      <ModalOverlay itemType={itemType}>
         <ModalContainer
           fullHeight={fullHeight}
           style={[showAtBottom && styles.showAtBottom, !isMobileOnly && styles.maxHeightBlock]}
@@ -65,11 +66,11 @@ const getStylesFromProps = ({ theme }) => ({
     marginTop: 'auto',
     marginBottom: 10,
   },
-  noneShadow: {
-    boxShadow: 'none',
-  },
   maxHeightBlock: {
     maxHeight: theme.sizes.maxHeightForTabletAndDesktop,
+  },
+  noneShadow: {
+    boxShadow: 'none',
   },
   shadow: {
     boxShadow: '0px 2px 4px #00000029',

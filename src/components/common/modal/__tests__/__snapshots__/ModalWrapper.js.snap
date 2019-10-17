@@ -64,9 +64,9 @@ exports[`ModalWrapper matches snapshot 1`] = `
             "WebkitAlignSelf": "flex-start",
             "alignSelf": "flex-start",
             "backgroundColor": "rgba(0,0,0,0.00)",
-            "height": "100vh",
+            "height": "844px",
             "msFlexItemAlign": "start",
-            "width": "100vw",
+            "width": "1024px",
           }
         }
       >
@@ -81,16 +81,14 @@ exports[`ModalWrapper matches snapshot 1`] = `
               "alignSelf": "center",
               "flexGrow": 1,
               "flexShrink": 0,
-              "marginBottom": "auto",
-              "marginTop": "auto",
+              "marginBottom": "88.51948051948051px",
+              "marginTop": "62.33766233766234px",
               "maxWidth": "475px",
               "msFlexItemAlign": "center",
               "msFlexNegative": 0,
               "msFlexPositive": 1,
-              "paddingBottom": "65px",
               "paddingLeft": "20px",
               "paddingRight": "20px",
-              "paddingTop": "65px",
               "width": "100%",
             }
           }
@@ -245,9 +243,9 @@ exports[`ModalWrapper matches snapshot with properties 1`] = `
             "WebkitAlignSelf": "flex-start",
             "alignSelf": "flex-start",
             "backgroundColor": "rgba(0,0,0,0.00)",
-            "height": "100vh",
+            "height": "844px",
             "msFlexItemAlign": "start",
-            "width": "100vw",
+            "width": "1024px",
           }
         }
       >
@@ -262,16 +260,14 @@ exports[`ModalWrapper matches snapshot with properties 1`] = `
               "alignSelf": "center",
               "flexGrow": 1,
               "flexShrink": 0,
-              "marginBottom": "auto",
-              "marginTop": "auto",
+              "marginBottom": "88.51948051948051px",
+              "marginTop": "62.33766233766234px",
               "maxWidth": "475px",
               "msFlexItemAlign": "center",
               "msFlexNegative": 0,
               "msFlexPositive": 1,
-              "paddingBottom": "65px",
               "paddingLeft": "20px",
               "paddingRight": "20px",
-              "paddingTop": "65px",
               "width": "100%",
             }
           }

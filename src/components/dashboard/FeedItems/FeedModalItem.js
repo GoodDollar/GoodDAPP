@@ -33,7 +33,13 @@ const FeedModalItem = (props: FeedEventProps) => {
   const showJaggedEdge = ['claim', 'sendcompleted', 'withdraw', 'receive'].includes(itemType)
 
   return (
-    <ModalWrapper leftBorderColor={mainColor} itemType={itemType} onClose={buttonPress} showJaggedEdge={showJaggedEdge}>
+    <ModalWrapper
+      leftBorderColor={mainColor}
+      itemType={itemType}
+      onClose={buttonPress}
+      showJaggedEdge={showJaggedEdge}
+      fullHeight={true}
+    >
       {item.type === 'feedback' ? (
         <FeedbackModalItem {...props} />
       ) : itemType === 'senderror' ? (

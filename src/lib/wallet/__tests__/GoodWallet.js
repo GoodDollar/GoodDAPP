@@ -27,8 +27,6 @@ describe('Wallet Initialization', () => {
       expect(goodWallet.networkId).not.toBeNull()
       expect(goodWallet.identityContract).toBeDefined()
       expect(goodWallet.identityContract).not.toBeNull()
-      expect(goodWallet.claimContract).toBeDefined()
-      expect(goodWallet.claimContract).not.toBeNull()
       expect(goodWallet.tokenContract).toBeDefined()
       expect(goodWallet.tokenContract).not.toBeNull()
       expect(goodWallet.reserveContract).toBeDefined()

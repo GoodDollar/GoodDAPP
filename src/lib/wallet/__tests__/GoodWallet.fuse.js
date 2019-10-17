@@ -159,7 +159,7 @@ describe('GoodWalletShare/ReceiveTokens', () => {
     return testWallet.ready.then(async () => {
       const DEPOSIT_CODE = 'test'
       const DEPOSIT_CODE_HASH = testWallet.getWithdrawLink(DEPOSIT_CODE)
-      const balance = await testWallet.balanceOf()
+      const balance = await testWallet.balanceOf().then(n => Number(n))
 
       expect(balance).toBeGreaterThan(0)
 
@@ -190,7 +190,7 @@ describe('GoodWalletShare/ReceiveTokens', () => {
     return testWallet.ready.then(async () => {
       const DEPOSIT_CODE = 'test'
       const DEPOSIT_CODE_HASH = testWallet.getWithdrawLink(DEPOSIT_CODE)
-      const balance = await testWallet.balanceOf()
+      const balance = await testWallet.balanceOf().then(n => Number(n))
       expect(balance).toBeGreaterThan(0)
 
       await adminWallet.blacklistUser(testWallet.account)
@@ -208,7 +208,7 @@ describe('GoodWalletShare/ReceiveTokens', () => {
     return testWallet.ready.then(async () => {
       const DEPOSIT_CODE = 'test'
       const DEPOSIT_CODE_HASH = testWallet.getWithdrawLink(DEPOSIT_CODE)
-      const balance = await testWallet.balanceOf()
+      const balance = await testWallet.balanceOf().then(n => Number(n))
       expect(balance).toBeGreaterThan(0)
 
       await adminWallet.blacklistUser(testWallet2.account)

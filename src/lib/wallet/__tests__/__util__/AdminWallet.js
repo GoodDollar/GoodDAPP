@@ -6,7 +6,6 @@ import type { HttpProvider, WebSocketProvider } from 'web3-providers'
 import IdentityABI from '@gooddollar/goodcontracts/build/contracts/Identity.json'
 import GoodDollarABI from '@gooddollar/goodcontracts/build/contracts/GoodDollar.json'
 import ContractsAddress from '@gooddollar/goodcontracts/releases/deployment.json'
-import UBIABI from '@gooddollar/goodcontracts/build/contracts/FixedUBI.json'
 import moment from 'moment'
 import get from 'lodash/get'
 import Mutex from 'await-mutex'
@@ -110,7 +109,7 @@ export class Wallet {
     this.networkId = conf.ethNetwork.network_id
     this.identityContract = new this.web3.eth.Contract(
       IdentityABI.abi,
-      get(ContractsAddress, `${this.network}.Identity`, IdentityABI.networks[this.networkId].address),
+      get(ContractsAddress, `${this.network}.Identity` /*IdentityABI.networks[this.networkId].address*/),
       {
         from: this.address,
         gas: 500000,
@@ -120,22 +119,14 @@ export class Wallet {
 
     this.tokenContract = new this.web3.eth.Contract(
       GoodDollarABI.abi,
-      get(ContractsAddress, `${this.network}.GoodDollar`, GoodDollarABI.networks[this.networkId].address),
+      get(ContractsAddress, `${this.network}.GoodDollar` /*GoodDollarABI.networks[this.networkId].address*/),
       {
         from: this.address,
         gas: 500000,
         gasPrice: web3Utils.toWei('1', 'gwei'),
       }
     )
-    this.UBIContract = new this.web3.eth.Contract(
-      UBIABI.abi,
-      get(ContractsAddress, `${this.network}.UBI`, UBIABI.networks[this.networkId].address),
-      {
-        from: this.address,
-        gas: 500000,
-        gasPrice: web3Utils.toWei('1', 'gwei'),
-      }
-    )
+
     try {
       let gdbalance = await this.tokenContract.methods.balanceOf(this.address).call()
       let nativebalance = await this.web3.eth.getBalance(this.address)

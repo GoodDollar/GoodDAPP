@@ -3,16 +3,19 @@ import React, { useEffect, useState } from 'react'
 import { isMobile } from 'mobile-device-detect'
 import GDStore from '../../lib/undux/GDStore'
 import { generateSendShareObject } from '../../lib/share'
+import Config from '../../config/config'
+import { withStyles } from '../../lib/styles'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import { useDialog } from '../../lib/undux/utils/dialog'
+import normalize from '../../lib/utils/normalizeText'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
 import { CustomButton, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import SummaryTable from '../common/view/SummaryTable'
 import { SEND_TITLE } from './utils/sendReceiveFlow'
-import Config from '../../config/config'
+import SurveySend from './SurveySend'
 const log = logger.child({ from: 'SendLinkSummary' })
 
 export type AmountProps = {
@@ -24,15 +27,17 @@ export type AmountProps = {
  * Screen that shows transaction summary for a send link action
  * @param {AmountProps} props
  * @param {any} props.screenProps
- * @param {any} props.navigation
+ * @param {any} props.styles
  */
-const SendLinkSummary = ({ screenProps }: AmountProps) => {
+const SendLinkSummary = ({ screenProps, styles }: AmountProps) => {
   const profile = GDStore.useStore().get('profile')
   const [screenState] = useScreenState(screenProps)
   const [showDialog, , showErrorDialog] = useDialog()
 
   const [isCitizen, setIsCitizen] = useState(GDStore.useStore().get('isLoggedInCitizen'))
   const [shared, setShared] = useState(false)
+  const [dialogSurvey, setDialogSurvey] = useState(true)
+  const [survey, setSurvey] = useState('other')
   const [link, setLink] = useState('')
   const { amount, reason, counterPartyDisplayName } = screenState
 
@@ -65,12 +70,34 @@ const SendLinkSummary = ({ screenProps }: AmountProps) => {
     }
   }
 
+  const checkSurvey = value => {
+    setSurvey(value)
+    setDialogSurvey(true)
+  }
   // Going to root after shared
   useEffect(() => {
     if (shared) {
       screenProps.goToRoot()
     }
   }, [shared])
+
+  useEffect(() => {
+    if (Config.isEToro && dialogSurvey) {
+      setDialogSurvey(false)
+      showDialog({
+        content: <SurveySend handleCheckSurvey={checkSurvey} />,
+        buttons: [
+          {
+            style: styles.OkButton,
+            text: 'Ok',
+            onPress: dismiss => {
+              dismiss()
+            },
+          },
+        ],
+      })
+    }
+  }, [dialogSurvey])
 
   const handleConfirm = () => {
     let paymentLink = link
@@ -128,7 +155,7 @@ const SendLinkSummary = ({ screenProps }: AmountProps) => {
             userStorage.saveSurveyDetails(hash, {
               reason,
               amount,
-              survey: 'other',
+              survey,
             })
           }
         },
@@ -178,6 +205,16 @@ const SendLinkSummary = ({ screenProps }: AmountProps) => {
   )
 }
 
+const mapStylesToProps = ({ theme }) => {
+  return {
+    OkButton: {
+      borderWidth: 1,
+      borderColor: theme.colors.primary,
+      width: 100,
+      fontSize: normalize(14),
+    },
+  }
+}
 SendLinkSummary.navigationOptions = {
   title: SEND_TITLE,
 }
@@ -187,4 +224,4 @@ SendLinkSummary.shouldNavigateToComponent = props => {
   return (!!screenState.nextRoutes && screenState.amount) || !!screenState.sendLink || screenState.from
 }
 
-export default SendLinkSummary
+export default withStyles(mapStylesToProps)(SendLinkSummary)

@@ -15,7 +15,7 @@ import values from 'lodash/values'
 import isEmail from 'validator/lib/isEmail'
 import Config from '../../config/config'
 import API from '../API/api'
-
+import moment from 'moment'
 import pino from '../logger/pino-logger'
 import isMobilePhone from '../validators/isMobilePhone'
 import defaultGun from './gundb'
@@ -270,6 +270,11 @@ export class UserStorage {
   cursor: number = 0
 
   /**
+   * today's date (ddmmyy)
+   */
+  date: string
+
+  /**
    * In memory array. keep number of events per day
    * @instance {Gun}
    */
@@ -382,6 +387,7 @@ export class UserStorage {
   constructor(wallet: GoodWallet, gun: Gun = defaultGun) {
     this.gun = gun
     this.wallet = wallet
+    this.date = moment(new Date()).format('DDMMYY')
     this.ready = this.wallet.ready
       .then(() => this.init())
       .then(() => logger.debug('userStorage initialized.'))
@@ -1107,15 +1113,16 @@ export class UserStorage {
    * @param {object} details
    * @returns {Promise<void>}
    */
-  async saveSurveyDetails(hash: string, details: SurveyDetails) {
+  saveSurveyDetails(hash, details: SurveyDetails) {
     try {
-      await this.gun
+      this.gun
         .get('survey')
+        .get(this.date)
         .get(hash)
         .set(details)
       return true
     } catch (e) {
-      logger.error('saveSurveyDetails :', hash, details, e.message, e)
+      logger.error('saveSurveyDetails :', details, e.message, e)
       return false
     }
   }
@@ -1124,9 +1131,10 @@ export class UserStorage {
    * Get all survey
    * @returns {Promise<void>}
    */
-  async getSurveyDetailBuHash(hash: string) {
+  async getSurveyDetailByHashAndDate(hash: string, date: string) {
     const result = await this.gun
       .get('survey')
+      .get(date)
       .get(hash)
       .map(survey => survey)
     return result

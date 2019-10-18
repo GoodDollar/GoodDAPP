@@ -15,6 +15,7 @@ import UserPropertiesClass from '../UserPropertiesClass'
 
 import { getUserModel } from '../UserModel'
 import { addUser } from './__util__/index'
+import moment from "moment";
 
 const delay = duration => {
   return new Promise((resolve, reject) => {
@@ -373,15 +374,21 @@ describe('UserStorage', () => {
     expect(events).toContainEqual(backupMessage)
   })
 
+  it('check property date in userStorage', () => {
+    const date = moment(new Date()).format('DDMMYY')
+    expect(date).toEqual(userStorage.date)
+  })
+
   it('has the Survey already set', async () => {
     const hash = 'test_hash'
+    const date = moment(new Date()).format('DDMMYY')
     const testSurvey = {
       amount: 'amount',
       reason: 'reason',
       survey: 'survey',
     }
     await userStorage.saveSurveyDetails(hash, testSurvey)
-    const surveys = await userStorage.getSurveyDetailBuHash(hash)
+    const surveys = await userStorage.getSurveyDetailByHashAndDate(hash, date)
     const result = _.pick(surveys, ['amount', 'reason', 'survey'])
     expect(result).toEqual(testSurvey)
   })

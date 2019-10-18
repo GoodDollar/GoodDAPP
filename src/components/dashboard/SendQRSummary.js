@@ -6,11 +6,15 @@ import React, { useEffect, useState } from 'react'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import { useDialog } from '../../lib/undux/utils/dialog'
+import { withStyles } from '../../lib/styles'
 import { useWrappedGoodWallet } from '../../lib/wallet/useWrappedWallet'
 import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
 import { CustomButton, Section, Wrapper } from '../common'
 import SummaryTable from '../common/view/SummaryTable'
 import TopBar from '../common/view/TopBar'
+import normalize from '../../lib/utils/normalizeText'
+import Config from '../../config/config'
+import SurveySend from './SurveySend'
 import { SEND_TITLE } from './utils/sendReceiveFlow'
 
 export type AmountProps = {
@@ -24,12 +28,14 @@ const log = logger.child({ from: 'SendQRSummary' })
  * Screen that shows transaction summary for a send qr action
  * @param {AmountProps} props
  * @param {any} props.screenProps
- * @param {any} props.navigation
+ * @param {any} props.styles
  */
-const SendQRSummary = ({ screenProps }: AmountProps) => {
+const SendQRSummary = ({ screenProps, styles }: AmountProps) => {
   const [screenState] = useScreenState(screenProps)
   const goodWallet = useWrappedGoodWallet()
   const [showDialog] = useDialog()
+  const [dialogSurvey, setDialogSurvey] = useState(true)
+  const [survey, setSurvey] = useState('other')
   const [loading, setLoading] = useState(false)
   const [isValid, setIsValid] = useState(screenState.isValid)
   const { amount, reason, to } = screenState
@@ -39,11 +45,35 @@ const SendQRSummary = ({ screenProps }: AmountProps) => {
     const profile = await userStorage.getUserProfile(to)
     setProfile(profile)
   }
+
+  const checkSurvey = value => {
+    setSurvey(value)
+    setDialogSurvey(true)
+  }
+
   useEffect(() => {
     if (to) {
       updateRecepientProfile()
     }
   }, [to])
+
+  useEffect(() => {
+    if (Config.isEToro && dialogSurvey) {
+      setDialogSurvey(false)
+      showDialog({
+        content: <SurveySend handleCheckSurvey={checkSurvey} />,
+        buttons: [
+          {
+            style: styles.OkButton,
+            text: 'Ok',
+            onPress: dismiss => {
+              dismiss()
+            },
+          },
+        ],
+      })
+    }
+  }, [dialogSurvey])
 
   const faceRecognition = () => {
     return screenProps.push('FRIntro', { from: 'SendQRSummary' })
@@ -67,6 +97,14 @@ const SendQRSummary = ({ screenProps }: AmountProps) => {
             },
           }
           userStorage.enqueueTX(transactionEvent)
+          if (Config.isEToro) {
+            userStorage.saveSurveyDetails(hash, {
+              reason,
+              amount,
+              survey,
+            })
+          }
+
           showDialog({
             visible: true,
             title: 'SUCCESS!',
@@ -141,6 +179,17 @@ const SendQRSummary = ({ screenProps }: AmountProps) => {
   )
 }
 
+const mapStylesToProps = ({ theme }) => {
+  return {
+    OkButton: {
+      borderWidth: 1,
+      borderColor: theme.colors.primary,
+      width: 100,
+      fontSize: normalize(14),
+    },
+  }
+}
+
 SendQRSummary.navigationOptions = {
   title: SEND_TITLE,
 }
@@ -152,4 +201,4 @@ SendQRSummary.shouldNavigateToComponent = props => {
   return (!!screenState.amount && !!screenState.to) || screenState.from
 }
 
-export default SendQRSummary
+export default withStyles(mapStylesToProps)(SendQRSummary)

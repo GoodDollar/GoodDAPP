@@ -446,7 +446,7 @@ export class GoodWallet {
    */
   getTxFee(): Promise<boolean> {
     return this.tokenContract.methods
-      .GetFees(1)
+      .getFees(1)
       .call()
       .then(toBN)
   }

@@ -1,11 +1,14 @@
 // @flow
-import React, { useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import { View } from 'react-native'
 import { RadioButton } from 'react-native-paper'
 import { withStyles } from '../../lib/styles'
 import { Section } from '../common'
 import Text from '../common/view/Text'
+import { useDialog } from '../../lib/undux/utils/dialog'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
+import Config from '../../config/config'
+import normalize from '../../lib/utils/normalizeText'
 
 export type AmountProps = {
   screenProps: any,
@@ -20,6 +23,31 @@ const surveyOptions = ['A product', 'A service', 'Other']
  * @param {any} props.styles
  */
 const SurveySend = ({ handleCheckSurvey, styles }: any) => {
+  const [dialogSurvey, setDialogSurvey] = useState(true)
+  const [showDialog] = useDialog()
+
+  useEffect(() => {
+    if (Config.isEToro && dialogSurvey) {
+      setDialogSurvey(false)
+      showDialog({
+        content: <Content handleCheckSurvey={handleCheckSurvey} styles={styles} />,
+        buttons: [
+          {
+            style: styles.OkButton,
+            text: 'Ok',
+            onPress: dismiss => {
+              dismiss()
+            },
+          },
+        ],
+      })
+    }
+  }, [dialogSurvey])
+
+  return null
+}
+
+const Content = ({ handleCheckSurvey, styles }: any) => {
   const [survey, setSurvey] = useState('other')
 
   const checkSurvey = value => {
@@ -78,6 +106,12 @@ const mapStylesToProps = ({ theme }) => {
     },
     radioBtnBlock: {
       width: 120,
+    },
+    OkButton: {
+      borderWidth: 1,
+      borderColor: theme.colors.primary,
+      width: 100,
+      fontSize: normalize(14),
     },
   }
 }

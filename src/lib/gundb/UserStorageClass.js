@@ -270,11 +270,6 @@ export class UserStorage {
   cursor: number = 0
 
   /**
-   * today's date (ddmmyy)
-   */
-  date: string
-
-  /**
    * In memory array. keep number of events per day
    * @instance {Gun}
    */
@@ -387,7 +382,6 @@ export class UserStorage {
   constructor(wallet: GoodWallet, gun: Gun = defaultGun) {
     this.gun = gun
     this.wallet = wallet
-    this.date = moment(new Date()).format('DDMMYY')
     this.ready = this.wallet.ready
       .then(() => this.init())
       .then(() => logger.debug('userStorage initialized.'))
@@ -1115,11 +1109,12 @@ export class UserStorage {
    */
   saveSurveyDetails(hash, details: SurveyDetails) {
     try {
+      const date = moment(new Date()).format('DDMMYY')
       this.gun
         .get('survey')
-        .get(this.date)
+        .get(date)
         .get(hash)
-        .set(details)
+        .put(details)
       return true
     } catch (e) {
       logger.error('saveSurveyDetails :', details, e.message, e)
@@ -1136,7 +1131,6 @@ export class UserStorage {
       .get('survey')
       .get(date)
       .get(hash)
-      .map(survey => survey)
     return result
   }
 

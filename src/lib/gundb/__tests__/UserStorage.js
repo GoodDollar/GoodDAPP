@@ -374,11 +374,6 @@ describe('UserStorage', () => {
     expect(events).toContainEqual(backupMessage)
   })
 
-  it('check property date in userStorage', () => {
-    const date = moment(new Date()).format('DDMMYY')
-    expect(date).toEqual(userStorage.date)
-  })
-
   it('has the Survey already set', async () => {
     const hash = 'test_hash'
     const date = moment(new Date()).format('DDMMYY')

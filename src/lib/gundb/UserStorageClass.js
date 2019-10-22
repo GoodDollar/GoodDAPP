@@ -15,7 +15,7 @@ import values from 'lodash/values'
 import isEmail from 'validator/lib/isEmail'
 import Config from '../../config/config'
 import API from '../API/api'
-
+import moment from 'moment'
 import pino from '../logger/pino-logger'
 import isMobilePhone from '../validators/isMobilePhone'
 import defaultGun from './gundb'
@@ -88,6 +88,15 @@ export type FeedEvent = {
   status?: 'pending' | 'completed' | 'error' | 'cancelled' | 'deleted',
   data: any,
   displayType?: string,
+}
+
+/**
+ * Survey details
+ */
+export type SurveyDetails = {
+  amount: string,
+  reason: string,
+  survey: string,
 }
 
 /**
@@ -1090,6 +1099,39 @@ export class UserStorage {
   async isUsername(username: string) {
     const profile = await this.gun.get('users/byusername').get(username)
     return profile !== undefined
+  }
+
+  /**
+   * Save survey
+   * @param {string} hash
+   * @param {object} details
+   * @returns {Promise<void>}
+   */
+  saveSurveyDetails(hash, details: SurveyDetails) {
+    try {
+      const date = moment(new Date()).format('DDMMYY')
+      this.gun
+        .get('survey')
+        .get(date)
+        .get(hash)
+        .put(details)
+      return true
+    } catch (e) {
+      logger.error('saveSurveyDetails :', details, e.message, e)
+      return false
+    }
+  }
+
+  /**
+   * Get all survey
+   * @returns {Promise<void>}
+   */
+  async getSurveyDetailByHashAndDate(hash: string, date: string) {
+    const result = await this.gun
+      .get('survey')
+      .get(date)
+      .get(hash)
+    return result
   }
 
   /**

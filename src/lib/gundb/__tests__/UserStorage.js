@@ -1,4 +1,5 @@
 // @flow
+import _ from 'lodash'
 import gun from '../gundb'
 
 import userStorage from '../UserStorage'
@@ -14,6 +15,7 @@ import UserPropertiesClass from '../UserPropertiesClass'
 
 import { getUserModel } from '../UserModel'
 import { addUser } from './__util__/index'
+import moment from "moment";
 
 const delay = duration => {
   return new Promise((resolve, reject) => {
@@ -370,6 +372,20 @@ describe('UserStorage', () => {
     await userStorage.updateFeedEvent(backupMessage)
     const events = await userStorage.getAllFeed()
     expect(events).toContainEqual(backupMessage)
+  })
+
+  it('has the Survey already set', async () => {
+    const hash = 'test_hash'
+    const date = moment(new Date()).format('DDMMYY')
+    const testSurvey = {
+      amount: 'amount',
+      reason: 'reason',
+      survey: 'survey',
+    }
+    await userStorage.saveSurveyDetails(hash, testSurvey)
+    const surveys = await userStorage.getSurveyDetailByHashAndDate(hash, date)
+    const result = _.pick(surveys, ['amount', 'reason', 'survey'])
+    expect(result).toEqual(testSurvey)
   })
 
   it('should delete the Welcome event', async () => {

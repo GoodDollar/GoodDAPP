@@ -1,5 +1,6 @@
 // @flow
 import _ from 'lodash'
+import moment from 'moment'
 import gun from '../gundb'
 import Config from '../../../config/config'
 import userStorage from '../UserStorage'
@@ -16,7 +17,6 @@ import UserPropertiesClass from '../UserPropertiesClass'
 
 import { getUserModel } from '../UserModel'
 import { addUser } from './__util__/index'
-import moment from "moment";
 
 const delay = duration => {
   return new Promise((resolve, reject) => {

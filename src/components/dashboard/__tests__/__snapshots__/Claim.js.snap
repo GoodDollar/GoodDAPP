@@ -87,64 +87,192 @@ exports[`Claim matches snapshot 1`] = `
             "msFlexAlign": "center",
             "msFlexDirection": "column",
             "msFlexPack": "justify",
+            "zIndex": 1,
           }
         }
       >
         <div
-          className="css-text-901oao"
-          dir="auto"
+          className="css-view-1dbjc4n"
           style={
             Object {
-              "color": "rgba(255,255,255,1.00)",
-              "direction": "ltr",
-              "fontFamily": "Roboto",
-              "fontSize": "16px",
-              "fontWeight": "normal",
-              "lineHeight": "22px",
-              "marginBottom": "12px",
-              "textAlign": "center",
-              "textDecoration": "none",
-              "textTransform": "none",
-            }
-          }
-        >
-          GoodDollar allows you to collect
-        </div>
-        <div
-          className="css-text-901oao"
-          dir="auto"
-          style={
-            Object {
-              "color": "rgba(66,69,74,1.00)",
-              "direction": "ltr",
-              "fontFamily": "Roboto",
-              "fontSize": "16px",
-              "fontWeight": "normal",
-              "lineHeight": "22px",
-              "marginBottom": "4px",
-              "textAlign": "center",
-              "textDecoration": "none",
-              "textTransform": "none",
+              "WebkitAlignItems": "center",
+              "WebkitBoxAlign": "center",
+              "WebkitBoxDirection": "normal",
+              "WebkitBoxOrient": "vertical",
+              "WebkitFlexDirection": "column",
+              "alignItems": "center",
+              "borderBottomColor": "rgba(255,255,255,1.00)",
+              "borderBottomLeftRadius": "5px",
+              "borderBottomRightRadius": "5px",
+              "borderBottomStyle": "solid",
+              "borderBottomWidth": "2px",
+              "borderLeftColor": "rgba(255,255,255,1.00)",
+              "borderLeftStyle": "solid",
+              "borderLeftWidth": "2px",
+              "borderRightColor": "rgba(255,255,255,1.00)",
+              "borderRightStyle": "solid",
+              "borderRightWidth": "2px",
+              "borderTopColor": "rgba(255,255,255,1.00)",
+              "borderTopLeftRadius": "5px",
+              "borderTopRightRadius": "5px",
+              "borderTopStyle": "solid",
+              "borderTopWidth": "2px",
+              "display": "flex",
+              "flexDirection": "column",
+              "marginTop": "10px",
+              "msFlexAlign": "center",
+              "msFlexDirection": "column",
+              "paddingBottom": "25px",
+              "paddingLeft": "40px",
+              "paddingRight": "40px",
+              "paddingTop": "25px",
+              "position": "relative",
             }
           }
         >
           <div
-            className="css-view-1dbjc4n"
+            className="css-text-901oao"
+            dir="auto"
+            size={16}
             style={
               Object {
-                "WebkitAlignItems": "baseline",
-                "WebkitBoxAlign": "baseline",
-                "WebkitBoxDirection": "normal",
-                "WebkitBoxOrient": "horizontal",
-                "WebkitFlexDirection": "row",
-                "alignItems": "baseline",
-                "display": "inline",
-                "flexDirection": "row",
-                "msFlexAlign": "baseline",
-                "msFlexDirection": "row",
+                "backgroundColor": "rgba(255,255,255,1.00)",
+                "borderBottomLeftRadius": "5px",
+                "borderBottomRightRadius": "5px",
+                "borderTopLeftRadius": "5px",
+                "borderTopRightRadius": "5px",
+                "color": "rgba(0,175,255,1.00)",
+                "direction": "ltr",
+                "fontFamily": "Roboto",
+                "fontSize": "16px",
+                "fontWeight": "normal",
+                "lineHeight": "19px",
+                "paddingBottom": "2px",
+                "paddingLeft": "30px",
+                "paddingRight": "30px",
+                "paddingTop": "2px",
+                "position": "absolute",
+                "textAlign": "center",
+                "textDecoration": "none",
+                "textTransform": "none",
+                "top": "-13px",
               }
             }
           >
+            GET NOW
+          </div>
+          <div
+            className="css-text-901oao"
+            dir="auto"
+            style={
+              Object {
+                "color": "rgba(66,69,74,1.00)",
+                "direction": "ltr",
+                "fontFamily": "Roboto",
+                "fontSize": "16px",
+                "fontWeight": "normal",
+                "lineHeight": "22px",
+                "marginBottom": "4px",
+                "textAlign": "center",
+                "textDecoration": "none",
+                "textTransform": "none",
+              }
+            }
+          >
+            <div
+              className="css-view-1dbjc4n"
+              style={
+                Object {
+                  "WebkitAlignItems": "baseline",
+                  "WebkitBoxAlign": "baseline",
+                  "WebkitBoxDirection": "normal",
+                  "WebkitBoxOrient": "horizontal",
+                  "WebkitFlexDirection": "row",
+                  "alignItems": "baseline",
+                  "display": "inline",
+                  "flexDirection": "row",
+                  "msFlexAlign": "baseline",
+                  "msFlexDirection": "row",
+                }
+              }
+            >
+              <span
+                className="css-text-901oao css-textHasAncestor-16my406"
+                dir="auto"
+                style={
+                  Object {
+                    "color": "rgba(255,255,255,1.00)",
+                    "direction": "ltr",
+                    "fontFamily": "Roboto Slab",
+                    "fontSize": "36px",
+                    "fontWeight": "700",
+                    "lineHeight": "30px",
+                    "marginRight": "2px",
+                    "textAlign": "right",
+                    "textDecoration": "none",
+                    "textTransform": "none",
+                  }
+                }
+              >
+                1
+              </span>
+              <span
+                className="css-text-901oao css-textHasAncestor-16my406"
+                dir="auto"
+                style={
+                  Object {
+                    "color": "rgba(66,69,74,1.00)",
+                    "direction": "ltr",
+                    "fontFamily": "Roboto",
+                    "fontSize": "16px",
+                    "fontWeight": "normal",
+                    "lineHeight": "22px",
+                    "textAlign": "center",
+                    "textDecoration": "none",
+                    "textTransform": "none",
+                  }
+                }
+              >
+                <span
+                  className="css-text-901oao css-textHasAncestor-16my406"
+                  dir="auto"
+                  style={
+                    Object {
+                      "color": "rgba(255,255,255,1.00)",
+                      "direction": "ltr",
+                      "fontFamily": "Roboto Slab",
+                      "fontSize": "20px",
+                      "fontWeight": "700",
+                      "lineHeight": "24px",
+                      "textAlign": "right",
+                      "textDecoration": "none",
+                      "textTransform": "none",
+                    }
+                  }
+                >
+                  G
+                </span>
+                <span
+                  className="css-text-901oao css-textHasAncestor-16my406"
+                  dir="auto"
+                  style={
+                    Object {
+                      "color": "rgba(255,255,255,1.00)",
+                      "direction": "ltr",
+                      "fontFamily": "Roboto Slab",
+                      "fontSize": "19.5px",
+                      "fontWeight": "700",
+                      "lineHeight": "23.4px",
+                      "textAlign": "right",
+                      "textDecoration": "none",
+                      "textTransform": "none",
+                    }
+                  }
+                >
+                  $
+                </span>
+              </span>
+            </div>
             <span
               className="css-text-901oao css-textHasAncestor-16my406"
               dir="auto"
@@ -156,74 +284,17 @@ exports[`Claim matches snapshot 1`] = `
                   "fontSize": "36px",
                   "fontWeight": "700",
                   "lineHeight": "30px",
-                  "marginRight": "2px",
-                  "textAlign": "right",
-                  "textDecoration": "none",
-                  "textTransform": "none",
-                }
-              }
-            >
-              1
-            </span>
-            <span
-              className="css-text-901oao css-textHasAncestor-16my406"
-              dir="auto"
-              style={
-                Object {
-                  "color": "rgba(66,69,74,1.00)",
-                  "direction": "ltr",
-                  "fontFamily": "Roboto",
-                  "fontSize": "16px",
-                  "fontWeight": "normal",
-                  "lineHeight": "22px",
                   "textAlign": "center",
                   "textDecoration": "none",
                   "textTransform": "none",
                 }
               }
             >
-              <span
-                className="css-text-901oao css-textHasAncestor-16my406"
-                dir="auto"
-                style={
-                  Object {
-                    "color": "rgba(255,255,255,1.00)",
-                    "direction": "ltr",
-                    "fontFamily": "Roboto Slab",
-                    "fontSize": "20px",
-                    "fontWeight": "700",
-                    "lineHeight": "24px",
-                    "textAlign": "right",
-                    "textDecoration": "none",
-                    "textTransform": "none",
-                  }
-                }
-              >
-                G
-              </span>
-              <span
-                className="css-text-901oao css-textHasAncestor-16my406"
-                dir="auto"
-                style={
-                  Object {
-                    "color": "rgba(255,255,255,1.00)",
-                    "direction": "ltr",
-                    "fontFamily": "Roboto Slab",
-                    "fontSize": "19.5px",
-                    "fontWeight": "700",
-                    "lineHeight": "23.4px",
-                    "textAlign": "right",
-                    "textDecoration": "none",
-                    "textTransform": "none",
-                  }
-                }
-              >
-                $
-              </span>
+               Free
             </span>
           </div>
-          <span
-            className="css-text-901oao css-textHasAncestor-16my406"
+          <div
+            className="css-text-901oao"
             dir="auto"
             style={
               Object {
@@ -239,47 +310,125 @@ exports[`Claim matches snapshot 1`] = `
               }
             }
           >
-             Free
-          </span>
+            Every Day
+          </div>
         </div>
         <div
-          className="css-text-901oao"
-          dir="auto"
+          className="css-view-1dbjc4n"
           style={
             Object {
-              "color": "rgba(255,255,255,1.00)",
-              "direction": "ltr",
-              "fontFamily": "Roboto Slab",
-              "fontSize": "36px",
-              "fontWeight": "700",
-              "lineHeight": "30px",
-              "textAlign": "center",
-              "textDecoration": "none",
-              "textTransform": "none",
+              "WebkitAlignItems": "center",
+              "WebkitBoxAlign": "center",
+              "WebkitBoxDirection": "normal",
+              "WebkitBoxOrient": "horizontal",
+              "WebkitBoxPack": "center",
+              "WebkitFlexDirection": "row",
+              "WebkitJustifyContent": "center",
+              "alignItems": "center",
+              "flexDirection": "row",
+              "justifyContent": "center",
+              "marginTop": "10px",
+              "msFlexAlign": "center",
+              "msFlexDirection": "row",
+              "msFlexPack": "center",
             }
           }
         >
-          Every Day
+          <div
+            className="css-view-1dbjc4n"
+          >
+            <div
+              className="css-text-901oao"
+              dir="auto"
+              style={
+                Object {
+                  "color": "rgba(255,255,255,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto",
+                  "fontSize": "16px",
+                  "fontWeight": "normal",
+                  "lineHeight": "22px",
+                  "textAlign": "center",
+                  "textDecoration": "none",
+                  "textTransform": "none",
+                }
+              }
+            >
+              Claim now & spend it
+            </div>
+            <div
+              className="css-text-901oao"
+              dir="auto"
+              size={16}
+              style={
+                Object {
+                  "color": "rgba(255,255,255,1.00)",
+                  "direction": "ltr",
+                  "fontFamily": "Roboto",
+                  "fontSize": "16px",
+                  "fontWeight": "normal",
+                  "lineHeight": "22px",
+                  "textAlign": "center",
+                  "textDecoration": "none",
+                  "textTransform": "none",
+                }
+              }
+            >
+              on things you care about
+            </div>
+          </div>
         </div>
         <div
-          className="css-text-901oao"
-          dir="auto"
+          className="css-view-1dbjc4n"
+          data-focusable={true}
+          onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
           style={
             Object {
-              "color": "rgba(66,69,74,1.00)",
-              "direction": "ltr",
-              "fontFamily": "Roboto",
-              "fontSize": "16px",
-              "fontWeight": "normal",
-              "lineHeight": "22px",
-              "minHeight": "64px",
-              "textAlign": "center",
-              "textDecoration": "none",
-              "textTransform": "none",
+              "MozTransitionProperty": "opacity",
+              "MozUserSelect": "none",
+              "WebkitTransitionDuration": "0.15s",
+              "WebkitTransitionProperty": "opacity",
+              "WebkitUserSelect": "none",
+              "cursor": "pointer",
+              "msTouchAction": "manipulation",
+              "msUserSelect": "none",
+              "touchAction": "manipulation",
+              "transitionDuration": "0.15s",
+              "transitionProperty": "opacity",
+              "userSelect": "none",
             }
           }
+          tabIndex="0"
         >
-           
+          <div
+            className="css-text-901oao"
+            dir="auto"
+            lineHeigh={19}
+            size={16}
+            style={
+              Object {
+                "color": "rgba(255,255,255,1.00)",
+                "direction": "ltr",
+                "fontFamily": "Roboto",
+                "fontSize": "16px",
+                "fontWeight": "700",
+                "lineHeight": "22px",
+                "marginTop": "15px",
+                "textAlign": "center",
+                "textDecoration": "underline",
+                "textTransform": "none",
+              }
+            }
+          >
+            Learn more
+          </div>
         </div>
       </div>
       <div
@@ -306,6 +455,7 @@ exports[`Claim matches snapshot 1`] = `
             "flexGrow": 1,
             "flexShrink": 1,
             "justifyContent": "space-between",
+            "marginTop": "85px",
             "maxHeight": "fit-content",
             "msFlexAlign": "stretch",
             "msFlexDirection": "column",
@@ -458,7 +608,7 @@ exports[`Claim matches snapshot 1`] = `
                 }
               }
             >
-              people have already claimed today!
+              good people have claimed today!
             </span>
           </div>
         </div>
@@ -476,8 +626,8 @@ exports[`Claim matches snapshot 1`] = `
               "alignItems": "stretch",
               "backgroundColor": "rgba(248,175,64,1.00)",
               "borderBottomColor": "rgba(0,175,255,1.00)",
-              "borderBottomLeftRadius": "50px",
-              "borderBottomRightRadius": "50px",
+              "borderBottomLeftRadius": "5px",
+              "borderBottomRightRadius": "5px",
               "borderBottomStyle": "solid",
               "borderBottomWidth": "0px",
               "borderLeftColor": "rgba(0,175,255,1.00)",
@@ -487,19 +637,18 @@ exports[`Claim matches snapshot 1`] = `
               "borderRightStyle": "solid",
               "borderRightWidth": "0px",
               "borderTopColor": "rgba(0,175,255,1.00)",
-              "borderTopLeftRadius": "50px",
-              "borderTopRightRadius": "50px",
+              "borderTopLeftRadius": "5px",
+              "borderTopRightRadius": "5px",
               "borderTopStyle": "solid",
               "borderTopWidth": "0px",
               "display": "flex",
               "flexDirection": "column",
-              "height": "68px",
               "justifyContent": "center",
               "marginBottom": "16px",
               "marginLeft": "0px",
               "marginRight": "0px",
               "marginTop": "0px",
-              "minHeight": "44px",
+              "minHeight": "72px",
               "minWidth": "auto",
               "msFlexAlign": "stretch",
               "msFlexDirection": "column",
@@ -630,7 +779,7 @@ exports[`Claim matches snapshot 1`] = `
                         }
                       }
                     >
-                      Next Daily Income:
+                      Your Next Daily Income:
                     </span>
                     <div
                       className="css-view-1dbjc4n"
@@ -641,18 +790,18 @@ exports[`Claim matches snapshot 1`] = `
                           "WebkitBoxDirection": "normal",
                           "WebkitBoxFlex": 1,
                           "WebkitBoxOrient": "horizontal",
-                          "WebkitBoxPack": "justify",
+                          "WebkitBoxPack": "center",
                           "WebkitFlexDirection": "row",
                           "WebkitFlexGrow": 1,
-                          "WebkitJustifyContent": "space-between",
+                          "WebkitJustifyContent": "center",
                           "alignItems": "center",
                           "display": "inline-flex",
                           "flexDirection": "row",
                           "flexGrow": 1,
-                          "justifyContent": "space-between",
+                          "justifyContent": "center",
                           "msFlexAlign": "center",
                           "msFlexDirection": "row",
-                          "msFlexPack": "justify",
+                          "msFlexPack": "center",
                           "msFlexPositive": 1,
                         }
                       }
@@ -662,22 +811,17 @@ exports[`Claim matches snapshot 1`] = `
                         dir="auto"
                         style={
                           Object {
-                            "WebkitBoxPack": "center",
-                            "WebkitJustifyContent": "center",
                             "color": "rgba(255,255,255,1.00)",
                             "direction": "ltr",
-                            "display": "flex",
                             "fontFamily": "Roboto Slab",
                             "fontSize": "36px",
                             "fontWeight": "700",
-                            "justifyContent": "center",
                             "lineHeight": "30px",
                             "marginTop": "-4px",
-                            "msFlexPack": "center",
                             "textAlign": "center",
                             "textDecoration": "none",
                             "textTransform": "none",
-                            "width": "20px",
+                            "width": "25px",
                           }
                         }
                       >
@@ -688,22 +832,17 @@ exports[`Claim matches snapshot 1`] = `
                         dir="auto"
                         style={
                           Object {
-                            "WebkitBoxPack": "center",
-                            "WebkitJustifyContent": "center",
                             "color": "rgba(255,255,255,1.00)",
                             "direction": "ltr",
-                            "display": "flex",
                             "fontFamily": "Roboto Slab",
                             "fontSize": "36px",
                             "fontWeight": "700",
-                            "justifyContent": "center",
                             "lineHeight": "30px",
                             "marginTop": "-4px",
-                            "msFlexPack": "center",
                             "textAlign": "center",
                             "textDecoration": "none",
                             "textTransform": "none",
-                            "width": "20px",
+                            "width": "25px",
                           }
                         }
                       >
@@ -714,22 +853,17 @@ exports[`Claim matches snapshot 1`] = `
                         dir="auto"
                         style={
                           Object {
-                            "WebkitBoxPack": "center",
-                            "WebkitJustifyContent": "center",
                             "color": "rgba(255,255,255,1.00)",
                             "direction": "ltr",
-                            "display": "flex",
                             "fontFamily": "Roboto Slab",
                             "fontSize": "36px",
                             "fontWeight": "700",
-                            "justifyContent": "center",
                             "lineHeight": "30px",
                             "marginTop": "-4px",
-                            "msFlexPack": "center",
                             "textAlign": "center",
                             "textDecoration": "none",
                             "textTransform": "none",
-                            "width": "20px",
+                            "width": "10px",
                           }
                         }
                       >
@@ -740,22 +874,17 @@ exports[`Claim matches snapshot 1`] = `
                         dir="auto"
                         style={
                           Object {
-                            "WebkitBoxPack": "center",
-                            "WebkitJustifyContent": "center",
                             "color": "rgba(255,255,255,1.00)",
                             "direction": "ltr",
-                            "display": "flex",
                             "fontFamily": "Roboto Slab",
                             "fontSize": "36px",
                             "fontWeight": "700",
-                            "justifyContent": "center",
                             "lineHeight": "30px",
                             "marginTop": "-4px",
-                            "msFlexPack": "center",
                             "textAlign": "center",
                             "textDecoration": "none",
                             "textTransform": "none",
-                            "width": "20px",
+                            "width": "25px",
                           }
                         }
                       >
@@ -766,22 +895,17 @@ exports[`Claim matches snapshot 1`] = `
                         dir="auto"
                         style={
                           Object {
-                            "WebkitBoxPack": "center",
-                            "WebkitJustifyContent": "center",
                             "color": "rgba(255,255,255,1.00)",
                             "direction": "ltr",
-                            "display": "flex",
                             "fontFamily": "Roboto Slab",
                             "fontSize": "36px",
                             "fontWeight": "700",
-                            "justifyContent": "center",
                             "lineHeight": "30px",
                             "marginTop": "-4px",
-                            "msFlexPack": "center",
                             "textAlign": "center",
                             "textDecoration": "none",
                             "textTransform": "none",
-                            "width": "20px",
+                            "width": "25px",
                           }
                         }
                       >
@@ -792,22 +916,17 @@ exports[`Claim matches snapshot 1`] = `
                         dir="auto"
                         style={
                           Object {
-                            "WebkitBoxPack": "center",
-                            "WebkitJustifyContent": "center",
                             "color": "rgba(255,255,255,1.00)",
                             "direction": "ltr",
-                            "display": "flex",
                             "fontFamily": "Roboto Slab",
                             "fontSize": "36px",
                             "fontWeight": "700",
-                            "justifyContent": "center",
                             "lineHeight": "30px",
                             "marginTop": "-4px",
-                            "msFlexPack": "center",
                             "textAlign": "center",
                             "textDecoration": "none",
                             "textTransform": "none",
-                            "width": "20px",
+                            "width": "10px",
                           }
                         }
                       >
@@ -818,22 +937,17 @@ exports[`Claim matches snapshot 1`] = `
                         dir="auto"
                         style={
                           Object {
-                            "WebkitBoxPack": "center",
-                            "WebkitJustifyContent": "center",
                             "color": "rgba(255,255,255,1.00)",
                             "direction": "ltr",
-                            "display": "flex",
                             "fontFamily": "Roboto Slab",
                             "fontSize": "36px",
                             "fontWeight": "700",
-                            "justifyContent": "center",
                             "lineHeight": "30px",
                             "marginTop": "-4px",
-                            "msFlexPack": "center",
                             "textAlign": "center",
                             "textDecoration": "none",
                             "textTransform": "none",
-                            "width": "20px",
+                            "width": "25px",
                           }
                         }
                       >
@@ -844,22 +958,17 @@ exports[`Claim matches snapshot 1`] = `
                         dir="auto"
                         style={
                           Object {
-                            "WebkitBoxPack": "center",
-                            "WebkitJustifyContent": "center",
                             "color": "rgba(255,255,255,1.00)",
                             "direction": "ltr",
-                            "display": "flex",
                             "fontFamily": "Roboto Slab",
                             "fontSize": "36px",
                             "fontWeight": "700",
-                            "justifyContent": "center",
                             "lineHeight": "30px",
                             "marginTop": "-4px",
-                            "msFlexPack": "center",
                             "textAlign": "center",
                             "textDecoration": "none",
                             "textTransform": "none",
-                            "width": "20px",
+                            "width": "25px",
                           }
                         }
                       >
@@ -904,7 +1013,7 @@ exports[`Claim matches snapshot 1`] = `
               "marginLeft": "0px",
               "marginRight": "0px",
               "marginTop": "0px",
-              "minHeight": "44px",
+              "minHeight": "68px",
               "minWidth": "auto",
               "msFlexAlign": "stretch",
               "msFlexPack": "center",
@@ -1050,7 +1159,7 @@ exports[`Claim matches snapshot 1`] = `
                           "fontFamily": "Roboto",
                           "fontSize": "16px",
                           "fontWeight": "500",
-                          "lineHeight": "24px",
+                          "lineHeight": "36px",
                           "marginRight": "2px",
                           "textAlign": "right",
                           "textDecoration": "none",
@@ -1080,6 +1189,7 @@ exports[`Claim matches snapshot 1`] = `
                       <span
                         className="css-text-901oao css-textHasAncestor-16my406"
                         dir="auto"
+                        marginVertical="auto"
                         style={
                           Object {
                             "color": "rgba(255,255,255,1.00)",
@@ -1087,7 +1197,7 @@ exports[`Claim matches snapshot 1`] = `
                             "fontFamily": "Roboto",
                             "fontSize": "10px",
                             "fontWeight": "500",
-                            "lineHeight": "24px",
+                            "lineHeight": "19px",
                             "textAlign": "right",
                             "textDecoration": "none",
                             "textTransform": "none",
@@ -1099,6 +1209,7 @@ exports[`Claim matches snapshot 1`] = `
                       <span
                         className="css-text-901oao css-textHasAncestor-16my406"
                         dir="auto"
+                        marginVertical="auto"
                         style={
                           Object {
                             "color": "rgba(255,255,255,1.00)",
@@ -1106,7 +1217,7 @@ exports[`Claim matches snapshot 1`] = `
                             "fontFamily": "Roboto",
                             "fontSize": "9.5px",
                             "fontWeight": "500",
-                            "lineHeight": "24px",
+                            "lineHeight": "19px",
                             "textAlign": "right",
                             "textDecoration": "none",
                             "textTransform": "none",

@@ -68,6 +68,7 @@ const CustomDialog = ({
         leftBorderColor={modalColor}
         showAtBottom={showAtBottom}
         showTooltipArrow={showTooltipArrow}
+        itemType={'custom'}
       >
         <React.Fragment>
           {title && (

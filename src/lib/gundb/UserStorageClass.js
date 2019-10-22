@@ -132,6 +132,25 @@ export const welcomeMessage = {
     },
   },
 }
+
+export const welcomeMessageOnlyEtoro = {
+  id: '1',
+  type: 'welcome',
+  date: new Date().toString(),
+  status: 'completed',
+  data: {
+    customName: 'Welcome to your wallet.',
+    subtitle: 'Welcome to GoodDollar',
+    receiptData: {
+      from: '0x0000000000000000000000000000000000000000',
+    },
+    reason: 'You can claim G$1 each day and use them to buy items in the GoodMarket.',
+    endpoint: {
+      fullName: 'Welcome to GoodDollar',
+    },
+  },
+}
+
 export const inviteFriendsMessage = {
   id: '0',
   type: 'invite',
@@ -671,7 +690,12 @@ export class UserStorage {
       if (!w3Token) {
         this.enqueueTX(inviteFriendsMessage)
       }
-      this.enqueueTX(welcomeMessage)
+
+      if (Config.isEToro) {
+        this.enqueueTX(welcomeMessageOnlyEtoro)
+      } else {
+        this.enqueueTX(welcomeMessage)
+      }
     }
   }
 

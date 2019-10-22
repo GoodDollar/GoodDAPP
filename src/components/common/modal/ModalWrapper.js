@@ -1,6 +1,7 @@
 // @flow
 import React from 'react'
 import { ScrollView, View } from 'react-native'
+import { isMobileOnly } from 'mobile-device-detect'
 import { withStyles } from '../../../lib/styles'
 import ModalCloseButton from './ModalCloseButton'
 import ModalJaggedEdge from './ModalJaggedEdge'
@@ -19,13 +20,17 @@ const ModalWrapper = (props: any) => {
     showJaggedEdge = false,
     fullHeight = false,
     showAtBottom,
+    itemType,
     showTooltipArrow,
   } = props
 
   return (
     <ScrollView>
-      <ModalOverlay>
-        <ModalContainer fullHeight={fullHeight} style={showAtBottom && styles.showAtBottom}>
+      <ModalOverlay itemType={itemType}>
+        <ModalContainer
+          fullHeight={fullHeight}
+          style={[showAtBottom && styles.showAtBottom, !isMobileOnly && styles.maxHeightBlock]}
+        >
           <ModalLeftBorder
             showTooltipArrow={showTooltipArrow}
             borderColor={leftBorderColor}
@@ -60,6 +65,9 @@ const getStylesFromProps = ({ theme }) => ({
   showAtBottom: {
     marginTop: 'auto',
     marginBottom: 10,
+  },
+  maxHeightBlock: {
+    maxHeight: theme.sizes.maxHeightForTabletAndDesktop,
   },
   noneShadow: {
     boxShadow: 'none',

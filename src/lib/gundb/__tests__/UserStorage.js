@@ -1,14 +1,19 @@
 // @flow
+import _ from 'lodash'
+import moment from 'moment'
 import gun from '../gundb'
-
+import Config from '../../../config/config'
 import userStorage from '../UserStorage'
 import {
+  backupMessage,
   getOperationType,
   getReceiveDataFromReceipt,
   inviteFriendsMessage,
   type TransactionEvent,
   welcomeMessage,
+  welcomeMessageOnlyEtoro,
 } from '../UserStorageClass'
+import UserPropertiesClass from '../UserPropertiesClass'
 
 import { getUserModel } from '../UserModel'
 import { addUser } from './__util__/index'
@@ -71,6 +76,23 @@ describe('UserStorage', () => {
     await userStorage.setProfileField('name', 'hadar2', 'public')
     const res = await userStorage.profile.get('name').then()
     expect(res).toEqual(expect.objectContaining({ privacy: 'public', display: 'hadar2' }))
+  })
+
+  it('get all user properties', async () => {
+    const res = await userStorage.userProperties.getAll()
+    expect(res).toEqual(expect.objectContaining(UserPropertiesClass.defaultProperties))
+  })
+
+  it('set all user properties', async () => {
+    const res = await userStorage.userProperties.set('isMadeBackup', true)
+    expect(res).toBeTruthy()
+  })
+
+  it('get user property', async () => {
+    const res = await userStorage.userProperties.set('isMadeBackup', true)
+    expect(res).toBeTruthy()
+    const isMadeBackup = await userStorage.userProperties.get('isMadeBackup')
+    expect(isMadeBackup).toBeTruthy()
   })
 
   it('get magic line', async () => {
@@ -344,7 +366,46 @@ describe('UserStorage', () => {
 
   it('has the welcome event already set', async () => {
     const events = await userStorage.getAllFeed()
-    expect(events).toContainEqual(welcomeMessage)
+    if (Config.isEToro) {
+      expect(events).toContainEqual(welcomeMessageOnlyEtoro)
+    } else {
+      expect(events).toContainEqual(welcomeMessage)
+    }
+  })
+
+  it('has the welcome event already set', async () => {
+    const events = await userStorage.getAllFeed()
+    if (Config.isEToro) {
+      expect(events).toEqual(expect.not.objectContaining(welcomeMessage))
+    } else {
+      expect(events).toEqual(expect.not.objectContaining(welcomeMessageOnlyEtoro))
+    }
+  })
+
+  it('add welcome etoro', async () => {
+    await userStorage.updateFeedEvent(welcomeMessageOnlyEtoro)
+    const events = await userStorage.getAllFeed()
+    expect(events).toContainEqual(welcomeMessageOnlyEtoro)
+  })
+
+  it('has the backupMessage event already set', async () => {
+    await userStorage.updateFeedEvent(backupMessage)
+    const events = await userStorage.getAllFeed()
+    expect(events).toContainEqual(backupMessage)
+  })
+
+  it('has the Survey already set', async () => {
+    const hash = 'test_hash'
+    const date = moment(new Date()).format('DDMMYY')
+    const testSurvey = {
+      amount: 'amount',
+      reason: 'reason',
+      survey: 'survey',
+    }
+    await userStorage.saveSurveyDetails(hash, testSurvey)
+    const surveys = await userStorage.getSurveyDetailByHashAndDate(hash, date)
+    const result = _.pick(surveys, ['amount', 'reason', 'survey'])
+    expect(result).toEqual(testSurvey)
   })
 
   it('should delete the Welcome event', async () => {

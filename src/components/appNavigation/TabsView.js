@@ -6,6 +6,8 @@ import { toggleSidemenu } from '../../lib/undux/utils/sidemenu'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import userStorage from '../../lib/gundb/UserStorage'
 import RewardSvg from '../../components/common/view/RewardSvg'
+import MarketPlaceSvg from '../../components/common/view/MarketPlaceSvg'
+import config from '../../config/config'
 
 type TabViewProps = {
   routes: { [string]: any },
@@ -50,10 +52,15 @@ type TabViewProps = {
 const TabsView = (props: TabViewProps) => {
   const { navigation } = props
   const store = SimpleStore.useStore()
+
   const goToRewards = () => {
     userStorage.getProfileFieldValue('loginToken').then(loginToken => {
       navigation.navigate('Rewards', { loginToken })
     })
+  }
+
+  const goToMarketplace = () => {
+    navigation.navigate('Marketplace')
   }
 
   return (
@@ -61,6 +68,12 @@ const TabsView = (props: TabViewProps) => {
       <TouchableOpacity onPress={goToRewards} style={{ marginLeft: '10px' }}>
         <RewardSvg />
       </TouchableOpacity>
+      <Appbar.Content />
+      {config.market && (
+        <TouchableOpacity onPress={goToMarketplace}>
+          <MarketPlaceSvg />
+        </TouchableOpacity>
+      )}
       <Appbar.Content />
       <Appbar.Action icon="menu" onPress={toggleSidemenu.bind(null, store)} color="white" />
     </Appbar.Header>

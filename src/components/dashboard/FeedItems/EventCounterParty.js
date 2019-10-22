@@ -11,9 +11,11 @@ const EventCounterParty = ({ feedItem, styles, style, subtitle }) => {
       : ''
   return (
     <Text textTransform="capitalize" textAlign="left" style={style} numberOfLines={1} ellipsizeMode="tail">
-      <Text fontSize={10} style={styles.direction}>
-        {direction}
-      </Text>
+      {direction && (
+        <Text fontSize={10} style={styles.direction}>
+          {direction}
+        </Text>
+      )}
       <Text fontWeight="medium" lineHeight={19} style={styles.fullName}>
         {feedItem.data.subtitle && subtitle ? ` ${feedItem.data.subtitle}` : ` ${feedItem.data.endpoint.fullName}`}
       </Text>
@@ -24,6 +26,7 @@ const EventCounterParty = ({ feedItem, styles, style, subtitle }) => {
 const getStylesFromProps = ({ theme }) => ({
   direction: {
     textAlignVertical: 'middle',
+    marginRight: 3,
   },
   fullName: {
     textAlignVertical: 'middle',

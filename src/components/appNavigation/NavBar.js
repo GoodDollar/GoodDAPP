@@ -22,11 +22,11 @@ class NavBar extends React.Component<NavBarProps> {
     const { styles } = this.props
 
     return (
-      <Appbar.Header dark style={styles.topbarStyles}>
+      <Appbar dark style={styles.topbarStyles}>
         {this.props.goBack && <Appbar.BackAction onPress={this.props.goBack} color="white" />}
         <Appbar.Content title={this.props.title} titleStyle={styles.titleStyle} />
         {this.props.goBack && <Appbar.Action color="white" />}
-      </Appbar.Header>
+      </Appbar>
     )
   }
 }
@@ -42,6 +42,7 @@ const getStylesFromProps = ({ theme }) => ({
   topbarStyles: {
     flexGrow: 0,
     flexShrink: 0,
+    boxShadow: 'none',
   },
 })
 

@@ -8,9 +8,12 @@ const Config = {
   serverUrl: process.env.REACT_APP_SERVER_URL || 'http://localhost:3003',
   gunPublicUrl: process.env.REACT_APP_GUN_PUBLIC_URL || 'http://localhost:3003/gun',
   web3SiteUrl: process.env.REACT_APP_WEB3_SITE_URL || 'https://w3.gooddollar.org',
+  web3SiteUrlEconomyEndpoint: process.env.REACT_APP_WEB3_SITE_URL_ECONOMY_ENDPOINT || '/learn/economy',
   publicUrl,
   infuraKey: process.env.REACT_APP_INFURA_KEY,
   network: process.env.REACT_APP_NETWORK || 'fuse',
+  market: process.env.REACT_APP_MARKET || process.env.REACT_APP_MARKET === 'etoro',
+  isEToro: process.env.REACT_APP_NETWORK === 'etoro',
   zoomLicenseKey: process.env.REACT_APP_ZOOM_LICENSE_KEY,
   amplitudeKey: process.env.REACT_APP_AMPLITUDE_API_KEY,
   rollbarKey: process.env.REACT_APP_ROLLBAR_API_KEY,
@@ -25,6 +28,7 @@ const Config = {
   safariMobileKeyboardGuidedSize: process.env.REACT_APP_SAFARI_MOBILE_KEYBOARD_GUIDED_SIZE === 'true',
   receiveUrl: process.env.REACT_APP_RECEIVE_URL || `${publicUrl}`,
   sendUrl: process.env.REACT_APP_SEND_URL || `${publicUrl}`,
+  nextTimeClaim: process.env.REACT_APP_NEXT_TIME_CLAIM || 86400,
   ethereum: {
     '42': {
       network_id: 42,
@@ -53,6 +57,8 @@ const Config = {
     },
   },
 }
+
+Config.web3SiteUrlEconomyPage = `${Config.web3SiteUrl}${Config.web3SiteUrlEconomyEndpoint}`
 
 // Forcing value as number, if not MNID encoder/decoder may fail
 // Config.networkId = Config.ethereum[Config.networkId].network_id

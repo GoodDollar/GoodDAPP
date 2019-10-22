@@ -1,6 +1,6 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { AppState } from 'react-native'
+import { AppState, Animated, Easing } from 'react-native'
 import _get from 'lodash/get'
 import debounce from 'lodash/debounce'
 import type { Store } from 'undux'
@@ -28,13 +28,15 @@ import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
 import logger from '../../lib/logger/pino-logger'
 import userStorage from '../../lib/gundb/UserStorage'
-import { FAQ, PrivacyArticle, PrivacyPolicy, Support, TermsOfUse } from '../webView/webViewInstances'
+import { FAQ, Marketplace, PrivacyArticle, PrivacyPolicy, Support, TermsOfUse } from '../webView/webViewInstances'
 import { withStyles } from '../../lib/styles'
 import Mnemonics from '../signin/Mnemonics'
 import { extractQueryParams, readCode } from '../../lib/share'
 
 // import goodWallet from '../../lib/wallet/GoodWallet'
 import { deleteAccountDialog } from '../sidemenu/SideMenuPanel'
+import config from '../../config/config'
+import { backupMessage } from '../../lib/gundb/UserStorageClass'
 import RewardsTab from './Rewards'
 import Amount from './Amount'
 import Claim from './Claim'
@@ -86,6 +88,7 @@ export type DashboardProps = {
   styles?: any,
 }
 const Dashboard = props => {
+  const [animValue] = useState(new Animated.Value(1))
   const store = SimpleStore.useStore()
   const gdstore = GDStore.useStore()
   const [showDialog, hideDialog] = useDialog()
@@ -104,6 +107,20 @@ const Dashboard = props => {
       } catch (e) {
         log.error('prepareLoginToken failed', e.message, e)
       }
+    }
+  }
+
+  /**
+   * if necessary, add a backup card
+   *
+   * @returns {Promise<void>}
+   */
+  const addBackupCard = async () => {
+    const userProperties = await userStorage.userProperties.getAll()
+    if (!userProperties.isMadeBackup && userProperties.needAddBackupFeed) {
+      await userStorage.enqueueTX(backupMessage)
+      await userStorage.userProperties.set('isMadeBackup', true)
+      await userStorage.userProperties.set('needAddBackupFeed', false)
     }
   }
 
@@ -178,7 +195,7 @@ const Dashboard = props => {
     checkBonusesToRedeem()
 
     prepareLoginToken()
-
+    addBackupCard()
     log.debug('Dashboard didmount')
     userStorage.feed.get('byid').on(data => {
       log.debug('gun getFeed callback', { data })
@@ -187,6 +204,26 @@ const Dashboard = props => {
 
     return function() {
       AppState.removeEventListener('change', handleAppFocus)
+    }
+  }, [])
+
+  useEffect(() => {
+    const { entitlement } = gdstore.get('account')
+
+    if (Number(entitlement)) {
+      Animated.sequence([
+        Animated.timing(animValue, {
+          toValue: 1.2,
+          duration: 750,
+          easing: Easing.ease,
+          delay: 1000,
+        }),
+        Animated.timing(animValue, {
+          toValue: 1,
+          duration: 750,
+          easing: Easing.ease,
+        }),
+      ]).start()
     }
   }, [])
 
@@ -246,6 +283,13 @@ const Dashboard = props => {
   const { avatar, fullName } = gdstore.get('profile')
   const feeds = gdstore.get('feeds')
   const [headerLarge, setHeaderLarge] = useState(true)
+  const scale = {
+    transform: [
+      {
+        scale: animValue,
+      },
+    ],
+  }
 
   return (
     <Wrapper style={styles.dashboardWrapper}>
@@ -280,6 +324,7 @@ const Dashboard = props => {
             icon="send"
             iconAlignment="left"
             routeName="Who"
+            iconSize={20}
             screenProps={screenProps}
             style={styles.leftButton}
             contentStyle={styles.leftButtonContent}
@@ -292,9 +337,12 @@ const Dashboard = props => {
           >
             Send
           </PushButton>
-          <ClaimButton screenProps={screenProps} amount={weiToMask(entitlement, { showUnits: true })} />
+          <Animated.View style={{ zIndex: 1, ...scale }}>
+            <ClaimButton screenProps={screenProps} amount={weiToMask(entitlement, { showUnits: true })} />
+          </Animated.View>
           <PushButton
             icon="receive"
+            iconSize={20}
             iconAlignment="right"
             routeName={'Receive'}
             screenProps={screenProps}
@@ -495,4 +543,5 @@ export default createStackNavigator({
   Recover: Mnemonics,
   OutOfGasError,
   Rewards: RewardsTab,
+  Marketplace: config.market ? Marketplace : WrappedDashboard,
 })

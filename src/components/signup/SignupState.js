@@ -248,19 +248,18 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       // Stores creationBlock number into 'lastBlock' feed's node
 
       let w3Token = requestPayload.w3Token
-      const addUserAPIPromise = API.addUser(requestPayload)
-        .then(res => {
-          const data = res.data
+      const addUserAPIPromise = API.addUser(requestPayload).then(res => {
+        const data = res.data
 
-          if (data && data.loginToken) {
-            userStorage.setProfileField('loginToken', data.loginToken, 'private')
-          }
+        if (data && data.loginToken) {
+          userStorage.setProfileField('loginToken', data.loginToken, 'private')
+        }
 
-          if (data && data.w3Token) {
-            userStorage.setProfileField('w3Token', data.w3Token, 'private')
-            w3Token = data.w3Token
-          }
-        })
+        if (data && data.w3Token) {
+          userStorage.setProfileField('w3Token', data.w3Token, 'private')
+          w3Token = data.w3Token
+        }
+      })
 
       const mnemonic = await AsyncStorage.getItem(GD_USER_MNEMONIC)
       await addUserAPIPromise

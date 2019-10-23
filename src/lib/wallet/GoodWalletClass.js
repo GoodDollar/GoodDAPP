@@ -326,7 +326,7 @@ export class GoodWallet {
     try {
       return this.sendTransaction(this.UBIContract.methods.claim(), callbacks)
     } catch (e) {
-      log.info(e)
+      log.error('claim failed', e.message, e)
       return Promise.reject(e)
     }
   }
@@ -495,9 +495,7 @@ export class GoodWallet {
     }
 
     const otpAddress = this.oneTimePaymentsContract.address
-    const transferAndCall = this.tokenContract.methods.transferAndCall(otpAddress, amount, hashedCode, {
-      from: this.account,
-    })
+    const transferAndCall = this.tokenContract.methods.transferAndCall(otpAddress, amount, hashedCode)
 
     // Fixed gas amount so it can work locally with ganache
     // https://github.com/trufflesuite/ganache-core/issues/417
@@ -783,19 +781,24 @@ export class GoodWallet {
       return Promise.reject('Reached daily transactions limit or not a citizen').catch(this.handleError)
     }
 
-    log.debug({ gas, gasPrice })
     return (
       new Promise((res, rej) => {
         tx.send({ gas, gasPrice, chainId: this.networkId })
           .on('transactionHash', h => {
+            log.debug('got txhash', h)
             onTransactionHash && onTransactionHash(h)
           })
           .on('receipt', r => {
+            log.debug('got receipt', r)
             onReceipt && onReceipt(r)
             res(r)
           })
-          .on('confirmation', c => onConfirmation && onConfirmation(c))
+          .on('confirmation', c => {
+            log.debug('got confirmation', c)
+            onConfirmation && onConfirmation(c)
+          })
           .on('error', e => {
+            log.debug('got error', e)
             onError && onError(e)
             rej(e)
           })

@@ -83,7 +83,6 @@ const getStylesFromProps = ({ theme }) => ({
     backgroundColor: 'white',
     left: '49%',
     bottom: -10,
-    webkitTransform: 'translateX(-50%) rotate(63deg) skewX(37deg)',
     transform: 'translateX(-50%) rotate(63deg) skewX(37deg)',
     boxShadow: 'rgba(0, 0, 0, 0.16) 2px 1px 4px',
   },

@@ -9,6 +9,7 @@ import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import { useSidemenu } from '../../lib/undux/utils/sidemenu'
 import { Icon } from '../common'
 import IconWrapper from '../common/modal/IconWrapper'
+import { CLICK_DELETE_WALLET, fireEventByCode, LOGOUT } from '../../lib/analytics/proxyAnalytics'
 import SideMenuItem from './SideMenuItem'
 
 type SideMenuPanelProps = {
@@ -144,6 +145,7 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, navigation, store, theme 
       icon: 'logout',
       name: 'Logout',
       action: () => {
+        fireEventByCode(LOGOUT)
         AsyncStorage.clear()
         window.location = '/'
         hideSidemenu()
@@ -156,6 +158,7 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, navigation, store, theme 
       name: 'Delete wallet',
       color: 'red',
       action: () => {
+        fireEventByCode(CLICK_DELETE_WALLET)
         deleteAccountDialog({ API, showDialog, store, theme })
         hideSidemenu()
       },

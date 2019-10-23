@@ -12,7 +12,7 @@ import { useErrorDialog } from '../../../lib/undux/utils/dialog'
 import { withStyles } from '../../../lib/styles'
 import Text from '../view/Text'
 import GDStore from '../../../lib/undux/GDStore'
-import {fireEventByCode, CLICK_BTN_CARD_ACTION} from "../../../lib/analytics/proxyAnalytics";
+import { CLICK_BTN_CARD_ACTION, fireEventByCode } from '../../../lib/analytics/proxyAnalytics'
 
 const log = logger.child({ from: 'ModalActionsByFeed' })
 
@@ -22,7 +22,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
   const store = GDStore.useStore()
   const currentUserName = store.get('profile').fullName
 
-  const fireEvent = (actionType) => {
+  const fireEvent = actionType => {
     fireEventByCode(CLICK_BTN_CARD_ACTION, { cardId: item.id, actionType })
   }
 

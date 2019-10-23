@@ -16,6 +16,7 @@ import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import { getUserModel, type UserModel } from '../../lib/gundb/UserModel'
 import { fireEvent } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
+import { APP_OPEN, fireEventByCode } from '../../lib/analytics/proxyAnalytics'
 import type { SMSRecord } from './SmsForm'
 import SignupCompleted from './SignupCompleted'
 import EmailConfirmation from './EmailConfirmation'
@@ -192,6 +193,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
     const paymentCode = _get(destinationPath, 'params.paymentCode')
 
     if (paymentCode || w3Token) {
+      fireEventByCode(APP_OPEN, { source: paymentCode ? 'payment code' : 'w3' })
       return setRegisterAllowed(true)
     }
 

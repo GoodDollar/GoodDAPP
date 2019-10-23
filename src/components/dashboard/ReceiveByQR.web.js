@@ -10,6 +10,7 @@ import { executeWithdraw } from '../../lib/undux/utils/withdraw'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import { Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
+import { fireEventByCode, QR_SCAN } from '../../lib/analytics/proxyAnalytics'
 
 const QR_DEFAULT_DELAY = 300
 
@@ -40,7 +41,7 @@ const ReceiveByQR = ({ screenProps }) => {
           if (!receiveLink) {
             showErrorDialog('Invalid QR Code. Probably this QR code is for sending GD')
           }
-
+          fireEventByCode(QR_SCAN, { type: 'resive' })
           setWithdrawParams({ receiveLink, reason })
         }
       } catch (e) {

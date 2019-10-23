@@ -4,6 +4,7 @@ import { FlatList, View } from 'react-native'
 import { Portal } from 'react-native-paper'
 import { withStyles } from '../../lib/styles'
 import { getScreenWidth } from '../../lib/utils/Orientation'
+import { CARD_SLIDE, fireEventByCode } from '../../lib/analytics/proxyAnalytics'
 import FeedModalItem from './FeedItems/FeedModalItem'
 
 const VIEWABILITY_CONFIG = {
@@ -48,6 +49,7 @@ const FeedModalList = ({
   // Component is in loading state until matches the offset for the selected item
   const [loading, setLoading] = useState(true)
   const [offset, setOffset] = useState()
+  const [slide, setSlide] = useState(true)
   const screenWidth = getScreenWidth()
 
   // When screenWidth or selectedFeed changes needs to recalculate the offset
@@ -90,11 +92,21 @@ const FeedModalList = ({
   )
 
   const feeds = data && data instanceof Array && data.length ? data : undefined
+  let contentOffset = 0
   return (
     <Portal>
       <View style={[styles.horizontalContainer, { opacity: loading ? 0 : 1 }]}>
         <FlatList
           onScroll={({ nativeEvent }) => {
+            if (contentOffset === 0) {
+              contentOffset = nativeEvent.contentOffset.x
+            }
+            if (slide && contentOffset !== nativeEvent.contentOffset.x) {
+              fireEventByCode(CARD_SLIDE)
+              contentOffset = nativeEvent.contentOffset.x
+              setSlide(false)
+            }
+
             // when nativeEvent contentOffset reaches target offset setLoading to false, we stopped scrolling
             if (nativeEvent.contentOffset.x === offset) {
               setLoading(false)

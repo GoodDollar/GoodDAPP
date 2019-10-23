@@ -8,8 +8,8 @@ import logger from '../../lib/logger/pino-logger'
 import { BackButton } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
 import { CustomButton, CustomDialog, Icon, Section, Text } from '../common'
-import OptionsRow from './OptionsRow'
 import { fireEventByCode, PROFILE_PRIVACY } from '../../lib/analytics/proxyAnalytics'
+import OptionsRow from './OptionsRow'
 
 const TITLE = 'PROFILE PRIVACY'
 const log = logger.child({ from: 'ProfilePrivacy' })
@@ -97,8 +97,8 @@ const ProfilePrivacy = props => {
             <RadioButton.Group
               onValueChange={value => {
                 setField(field)
-                setPrivacy(prevState => ({ ...prevState, [`${field}`]: value }))}
-              }
+                setPrivacy(prevState => ({ ...prevState, [`${field}`]: value }))
+              }}
               value={privacy[field]}
               key={field}
             >

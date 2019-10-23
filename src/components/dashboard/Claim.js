@@ -21,9 +21,9 @@ import Section from '../common/layout/Section'
 import illustration from '../../assets/Claim/illustration.svg'
 import { theme } from '../theme/styles'
 import Config from '../../config/config'
+import { CLAIM_SUCCESS, fireEventByCode } from '../../lib/analytics/proxyAnalytics'
 import type { DashboardProps } from './Dashboard'
 import ClaimButton from './ClaimButton'
-import { fireEventByCode, CLAIM_SUCCESS } from '../../lib/analytics/proxyAnalytics'
 
 Image.prefetch(illustration)
 

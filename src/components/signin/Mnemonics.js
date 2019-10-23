@@ -14,7 +14,7 @@ import Section from '../common/layout/Section'
 import { showSupportDialog } from '../common/dialogs/showSupportDialog'
 import CustomButton from '../common/buttons/CustomButton'
 import InputText from '../common/form/InputText'
-import { fireEventByCode, CLICK_BTN_RECOVER_WALLET, RECOVER_SUCCESS } from '../../lib/analytics/proxyAnalytics'
+import { CLICK_BTN_RECOVER_WALLET, fireEventByCode, RECOVER_SUCCESS } from '../../lib/analytics/proxyAnalytics'
 
 const TITLE = 'Recover'
 const log = logger.child({ from: TITLE })
@@ -85,6 +85,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
           onDismiss: () => (window.location = incomingRedirectUrl),
         })
         fireEventByCode(RECOVER_SUCCESS)
+
         // There is no error and Profile exists. Reload screen to start with users mnemonics
         // window.location = incomingRedirectUrl
       } else {

@@ -6,9 +6,9 @@ import { withStyles } from '../../lib/styles'
 import { useWrappedUserStorage } from '../../lib/gundb/useWrappedStorage'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import InputFile from '../common/form/InputFile'
+import { fireEventByCode, PROFILE_IMAGE } from '../../lib/analytics/proxyAnalytics'
 import CircleButtonWrapper from './CircleButtonWrapper'
 import CameraButton from './CameraButton'
-import {fireEventByCode, PROFILE_IMAGE} from "../../lib/analytics/proxyAnalytics";
 
 const TITLE = 'Your Profile'
 

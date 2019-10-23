@@ -12,9 +12,9 @@ import GDStore from '../../lib/undux/GDStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import { withStyles } from '../../lib/styles'
 import { SaveButton, Section, UserAvatar, Wrapper } from '../common'
+import { fireEventByCode, PROFILE_UPDATE } from '../../lib/analytics/proxyAnalytics'
 import CameraButton from './CameraButton'
 import ProfileDataTable from './ProfileDataTable'
-import { fireEventByCode, PROFILE_UPDATE } from '../../lib/analytics/proxyAnalytics'
 
 const TITLE = 'Edit Profile'
 const log = logger.child({ from: TITLE })
@@ -98,6 +98,7 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
     setSaving(true)
 
     fireEventByCode(PROFILE_UPDATE)
+
     // with flush triggers immediate call for the validation
     if (!(await validate.flush())) {
       setSaving(false)

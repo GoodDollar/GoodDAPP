@@ -6,6 +6,7 @@ import debounce from 'lodash/debounce'
 import type { Store } from 'undux'
 
 import * as web3Utils from 'web3-utils'
+import { isMobile } from 'mobile-device-detect'
 import normalize from '../../lib/utils/normalizeText'
 import GDStore from '../../lib/undux/GDStore'
 import API from '../../lib/API/api'
@@ -36,6 +37,7 @@ import { extractQueryParams, readCode } from '../../lib/share'
 import { deleteAccountDialog } from '../sidemenu/SideMenuPanel'
 import config from '../../config/config'
 import { backupMessage } from '../../lib/gundb/UserStorageClass'
+import { ADDTOHOME, APP_OPEN, fireEventByCode } from '../../lib/analytics/proxyAnalytics'
 import RewardsTab from './Rewards'
 import Amount from './Amount'
 import Claim from './Claim'
@@ -71,7 +73,7 @@ const showOutOfGasError = debounce(
     })
 
     if (!ok) {
-      //props.screenProps.navigateTo('OutOfGasError')
+      props.screenProps.navigateTo('OutOfGasError')
     }
   },
   GAS_CHECK_DEBOUNCE_TIME,
@@ -90,6 +92,7 @@ const Dashboard = props => {
   const [animValue] = useState(new Animated.Value(1))
   const store = SimpleStore.useStore()
   const gdstore = GDStore.useStore()
+  const [initDash, setInitDash] = useState(true)
   const [showDialog, hideDialog] = useDialog()
   const [showErrorDialog] = useErrorDialog()
   const { params } = props.navigation.state
@@ -120,6 +123,26 @@ const Dashboard = props => {
       await userStorage.enqueueTX(backupMessage)
       await userStorage.userProperties.set('isMadeBackup', true)
       await userStorage.userProperties.set('needAddBackupFeed', false)
+    }
+  }
+
+  useEffect(() => {
+    if (initDash) {
+      addAnalytics()
+      setInitDash(false)
+    }
+  }, [])
+
+  const addAnalytics = async () => {
+    const { show } = store.get('addWebApp')
+    const isFirstRunOnHomeScreen = await userStorage.userProperties.get('isFirstRunOnHomeScreen')
+    if (!show && isMobile) {
+      if (isFirstRunOnHomeScreen) {
+        fireEventByCode(ADDTOHOME)
+        await userStorage.userProperties.set('isFirstRunOnHomeScreen', false)
+      } else {
+        fireEventByCode(APP_OPEN, { source: 'mobile homescreen icon' })
+      }
     }
   }
 

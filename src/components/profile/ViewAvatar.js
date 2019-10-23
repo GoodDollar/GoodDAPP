@@ -8,6 +8,7 @@ import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import InputFile from '../common/form/InputFile'
 import CircleButtonWrapper from './CircleButtonWrapper'
 import CameraButton from './CameraButton'
+import {fireEventByCode, PROFILE_IMAGE} from "../../lib/analytics/proxyAnalytics";
 
 const TITLE = 'Your Profile'
 
@@ -29,6 +30,7 @@ const ViewAvatar = props => {
   }
 
   const handleAddAvatar = avatar => {
+    fireEventByCode(PROFILE_IMAGE)
     wrappedUserStorage.setProfileField('avatar', avatar, 'public').catch(e => showErrorDialog('Saving image failed', e))
     props.screenProps.push('EditAvatar')
   }

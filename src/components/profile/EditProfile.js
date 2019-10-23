@@ -14,6 +14,7 @@ import { withStyles } from '../../lib/styles'
 import { SaveButton, Section, UserAvatar, Wrapper } from '../common'
 import CameraButton from './CameraButton'
 import ProfileDataTable from './ProfileDataTable'
+import { fireEventByCode, PROFILE_UPDATE } from '../../lib/analytics/proxyAnalytics'
 
 const TITLE = 'Edit Profile'
 const log = logger.child({ from: TITLE })
@@ -96,6 +97,7 @@ const EditProfile = ({ screenProps, theme, styles, navigation }) => {
   const handleSaveButton = async () => {
     setSaving(true)
 
+    fireEventByCode(PROFILE_UPDATE)
     // with flush triggers immediate call for the validation
     if (!(await validate.flush())) {
       setSaving(false)

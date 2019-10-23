@@ -18,6 +18,7 @@ export default class UserProperties {
   static defaultProperties = {
     isMadeBackup: false,
     needAddBackupFeed: false,
+    isFirstRunOnHomeScreen: false,
   }
 
   fields = ['isMadeBackup', 'needAddBackupFeed']

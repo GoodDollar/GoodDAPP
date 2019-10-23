@@ -14,6 +14,7 @@ import Section from '../common/layout/Section'
 import { showSupportDialog } from '../common/dialogs/showSupportDialog'
 import CustomButton from '../common/buttons/CustomButton'
 import InputText from '../common/form/InputText'
+import { fireEventByCode, CLICK_BTN_RECOVER_WALLET, RECOVER_SUCCESS } from '../../lib/analytics/proxyAnalytics'
 
 const TITLE = 'Recover'
 const log = logger.child({ from: TITLE })
@@ -49,7 +50,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
 
   const recover = async () => {
     setRecovering(true)
-
+    fireEventByCode(CLICK_BTN_RECOVER_WALLET)
     const showError = () =>
       showErrorDialog('Your pass phrase appears\nto be incorrect.', undefined, {
         boldMessage: 'Please check it and try again.',
@@ -83,7 +84,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
           message: `Hi ${firstName},\nyour wallet was recovered successfully`,
           onDismiss: () => (window.location = incomingRedirectUrl),
         })
-
+        fireEventByCode(RECOVER_SUCCESS)
         // There is no error and Profile exists. Reload screen to start with users mnemonics
         // window.location = incomingRedirectUrl
       } else {

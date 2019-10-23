@@ -8,6 +8,7 @@ import Splash from './components/splash/Splash'
 import { delay } from './lib/utils/async'
 import { extractQueryParams } from './lib/share/index'
 import logger from './lib/logger/pino-logger'
+import { fireEventByCode, SIGNIN_SUCCESS } from './lib/analytics/proxyAnalytics'
 
 const log = logger.child({ from: 'RouterSelector' })
 
@@ -70,6 +71,7 @@ const recoverByMagicLink = async () => {
         const { saveMnemonics } = await mnemonicsHelpers
         await saveMnemonics(mnemonic)
         await AsyncStorage.setItem('GOODDAPP_isLoggedIn', true)
+        fireEventByCode(SIGNIN_SUCCESS)
         window.location = '/'
       }
     }

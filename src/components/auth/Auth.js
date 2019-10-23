@@ -4,6 +4,7 @@ import { AsyncStorage, Image } from 'react-native'
 import _get from 'lodash/get'
 import Mnemonics from '../signin/Mnemonics'
 import logger from '../../lib/logger/pino-logger'
+import { fireEventByCode, CLICK_BTN_SIGNIN} from '../../lib/analytics/proxyAnalytics'
 import CustomButton from '../common/buttons/CustomButton'
 import { PushButton } from '../appNavigation/PushButton'
 import Wrapper from '../common/layout/Wrapper'
@@ -118,6 +119,7 @@ class Auth extends React.Component<Props> {
 
   handleSignIn = () => {
     this.props.navigation.navigate('SigninInfo')
+    fireEventByCode(CLICK_BTN_SIGNIN)
   }
 
   handleNavigateTermsOfUse = () => this.props.screenProps.push('TermsOfUse')

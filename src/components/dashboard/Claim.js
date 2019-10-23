@@ -23,6 +23,7 @@ import { theme } from '../theme/styles'
 import Config from '../../config/config'
 import type { DashboardProps } from './Dashboard'
 import ClaimButton from './ClaimButton'
+import { fireEventByCode, CLAIM_SUCCESS } from '../../lib/analytics/proxyAnalytics'
 
 Image.prefetch(illustration)
 
@@ -207,6 +208,7 @@ const Claim = props => {
             },
           }
           userStorage.enqueueTX(transactionEvent)
+          fireEventByCode(CLAIM_SUCCESS, { txhash: hash })
           AsyncStorage.setItem('AddWebAppLastClaim', date.toISOString())
         },
         onError: userStorage.markWithErrorEvent,

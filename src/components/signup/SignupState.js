@@ -79,9 +79,19 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       }, 300)
     }
   }
-  const fireSignupEvent = (event?: string) => {
+
+  const fireSignupEvent = async (event?: string) => {
+    const web3Token = await AsyncStorage.getItem('web3Token')
+    let data = {}
+    let source = ''
     let curRoute = navigation.state.routes[navigation.state.index]
-    fireEvent(`SIGNUP_${event || curRoute.key}`)
+
+    if (web3Token) {
+      data = { web3Token }
+      source = 'W3'
+    }
+
+    fireEvent(`SIGNUP_${event || curRoute.key}_${source}`, data)
   }
 
   const getCountryCode = async () => {

@@ -11,6 +11,7 @@ import goodWallet from '../../lib/wallet/GoodWallet'
 import ScrollToTopButton from '../common/buttons/ScrollToTopButton'
 import FeedActions from './FeedActions'
 import FeedListItem from './FeedItems/FeedListItem'
+import {fireEventByCode, CARD_OPEN} from "../../lib/analytics/proxyAnalytics";
 
 const VIEWABILITY_CONFIG = {
   minimumViewTime: 3000,
@@ -74,6 +75,7 @@ const FeedList = ({
 
   const pressItem = item => () => {
     if (item.type !== 'empty') {
+      fireEventByCode(CARD_OPEN)
       handleFeedSelection(item, true)
     }
   }

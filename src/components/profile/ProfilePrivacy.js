@@ -9,6 +9,7 @@ import { BackButton } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
 import { CustomButton, CustomDialog, Icon, Section, Text } from '../common'
 import OptionsRow from './OptionsRow'
+import { fireEventByCode, PROFILE_PRIVACY } from '../../lib/analytics/proxyAnalytics'
 
 const TITLE = 'PROFILE PRIVACY'
 const log = logger.child({ from: 'ProfilePrivacy' })
@@ -30,6 +31,7 @@ const ProfilePrivacy = props => {
   const [initialPrivacy, setInitialPrivacy] = useState(initialState)
   const [privacy, setPrivacy] = useState(initialState)
   const [loading, setLoading] = useState(false)
+  const [field, setField] = useState(false)
   const [showTips, setShowTips] = useState(false)
   const { screenProps, styles, theme } = props
 
@@ -56,6 +58,8 @@ const ProfilePrivacy = props => {
 
   const handleSave = async () => {
     setLoading(true)
+
+    fireEventByCode(PROFILE_PRIVACY, { privacy: privacy[field], field })
 
     try {
       // filters out fields to be updated
@@ -91,7 +95,10 @@ const ProfilePrivacy = props => {
 
           {profileFields.map(field => (
             <RadioButton.Group
-              onValueChange={value => setPrivacy(prevState => ({ ...prevState, [`${field}`]: value }))}
+              onValueChange={value => {
+                setField(field)
+                setPrivacy(prevState => ({ ...prevState, [`${field}`]: value }))}
+              }
               value={privacy[field]}
               key={field}
             >

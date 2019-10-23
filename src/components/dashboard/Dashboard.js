@@ -71,7 +71,7 @@ const showOutOfGasError = debounce(
     })
 
     if (!ok) {
-      props.screenProps.navigateTo('OutOfGasError')
+      //props.screenProps.navigateTo('OutOfGasError')
     }
   },
   GAS_CHECK_DEBOUNCE_TIME,

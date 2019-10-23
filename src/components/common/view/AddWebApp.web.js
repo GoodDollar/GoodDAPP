@@ -12,6 +12,8 @@ import Text from '../../common/view/Text'
 
 import logger from '../../../lib/logger/pino-logger'
 import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
+import {ADDTOHOME, fireEventByCode} from "../../../lib/analytics/proxyAnalytics";
+import userStorage from "../../../lib/gundb/UserStorage";
 
 const log = logger.child({ from: 'AddWebApp' })
 
@@ -221,6 +223,14 @@ const AddWebApp = props => {
       setDialogShown(true)
     }
   }, [installPrompt, show, lastCheck])
+
+  useEffect(async () => {
+    const isFirstRunOnHomeScreen = await userStorage.userProperties.get('isFirstRunOnHomeScreen')
+    if (!isFirstRunOnHomeScreen && show) {
+      fireEventByCode(ADDTOHOME)
+      await userStorage.userProperties.set('isFirstRunOnHomeScreen', true)
+    }
+  }, [show])
 
   return null
 }

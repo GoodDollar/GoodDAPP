@@ -8,6 +8,7 @@ import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import GDStore from '../../lib/undux/GDStore'
+import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import { updateAll as updateWalletStatus } from '../../lib/undux/utils/account'
 import { checkAuthStatus as getLoginState } from '../../lib/login/checkAuthStatus'
 
@@ -24,6 +25,7 @@ const log = logger.child({ from: 'AppSwitch' })
 const AppSwitch = (props: LoadingProps) => {
   const store = SimpleStore.useStore()
   const gdstore = GDStore.useStore()
+  const [showErrorDialog] = useErrorDialog()
   const { router, state } = props.navigation
 
   /*
@@ -109,7 +111,11 @@ const AppSwitch = (props: LoadingProps) => {
 
   const init = async () => {
     // store.set('loadingIndicator')({ loading: true })
-    await initialize()
+    try {
+      await initialize()
+    } catch (e) {
+      showErrorDialog('Failed initializing wallet', e)
+    }
     store.set('loadingIndicator')({ loading: false })
   }
   useEffect(() => {

@@ -206,7 +206,11 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       fireSignupEvent('STARTED')
 
       //the login also re-initialize the api with new jwt
-      await login.then(l => l.default.auth())
+      await login
+        .then(l => l.default.auth())
+        .catch(e => {
+          showErrorDialog('Failed authenticating with server', e)
+        })
       await API.ready
 
       //now that we are loggedin, reload api with JWT

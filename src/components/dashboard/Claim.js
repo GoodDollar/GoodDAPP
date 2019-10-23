@@ -241,10 +241,9 @@ const Claim = props => {
     }
   }
 
-  const faceRecognition = async () => {
-    await handleClaim()
-
-    // screenProps.push('FRIntro', { from: 'Claim' })
+  const faceRecognition = () => {
+    //await handleClaim()
+    screenProps.push('FRIntro', { from: 'Claim' })
   }
 
   const showLearnMoreDialog = () => {
@@ -310,7 +309,7 @@ const Claim = props => {
               color="white"
               fontFamily="Roboto"
               fontWeight="bold"
-              lineHeigh={19}
+              lineHeight={19}
               size={16}
               style={styles.learnMore}
               textDecorationLine="underline"

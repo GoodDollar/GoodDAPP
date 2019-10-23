@@ -257,17 +257,13 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       //first need to add user to our database
       // Stores creationBlock number into 'lastBlock' feed's node
 
-      const addUserAPIPromise = API.addUser(requestPayload)
-        .then(res => {
-          const data = res.data
+      const addUserAPIPromise = API.addUser(requestPayload).then(res => {
+        const data = res.data
 
-          if (data && data.loginToken) {
-            userStorage.setProfileField('loginToken', data.loginToken, 'private')
-          }
-        })
-        .catch(e => {
-          log.error(e.message, e)
-        })
+        if (data && data.loginToken) {
+          userStorage.setProfileField('loginToken', data.loginToken, 'private')
+        }
+      })
 
       const mnemonic = await AsyncStorage.getItem(GD_USER_MNEMONIC)
       await addUserAPIPromise

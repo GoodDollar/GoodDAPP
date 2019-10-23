@@ -11,6 +11,8 @@ import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
 import { CustomButton, Section, Wrapper } from '../common'
 import SummaryTable from '../common/view/SummaryTable'
 import TopBar from '../common/view/TopBar'
+import Config from '../../config/config'
+import SurveySend from './SurveySend'
 import { SEND_TITLE } from './utils/sendReceiveFlow'
 
 export type AmountProps = {
@@ -24,12 +26,13 @@ const log = logger.child({ from: 'SendQRSummary' })
  * Screen that shows transaction summary for a send qr action
  * @param {AmountProps} props
  * @param {any} props.screenProps
- * @param {any} props.navigation
+ * @param {any} props.styles
  */
 const SendQRSummary = ({ screenProps }: AmountProps) => {
   const [screenState] = useScreenState(screenProps)
   const goodWallet = useWrappedGoodWallet()
   const [showDialog] = useDialog()
+  const [survey, setSurvey] = useState('other')
   const [loading, setLoading] = useState(false)
   const [isValid, setIsValid] = useState(screenState.isValid)
   const { amount, reason, to } = screenState
@@ -39,6 +42,7 @@ const SendQRSummary = ({ screenProps }: AmountProps) => {
     const profile = await userStorage.getUserProfile(to)
     setProfile(profile)
   }
+
   useEffect(() => {
     if (to) {
       updateRecepientProfile()
@@ -67,6 +71,14 @@ const SendQRSummary = ({ screenProps }: AmountProps) => {
             },
           }
           userStorage.enqueueTX(transactionEvent)
+          if (Config.isEToro) {
+            userStorage.saveSurveyDetails(hash, {
+              reason,
+              amount,
+              survey,
+            })
+          }
+
           showDialog({
             visible: true,
             title: 'SUCCESS!',
@@ -137,6 +149,7 @@ const SendQRSummary = ({ screenProps }: AmountProps) => {
           </Section.Stack>
         </Section.Row>
       </Section>
+      <SurveySend handleCheckSurvey={setSurvey} />
     </Wrapper>
   )
 }

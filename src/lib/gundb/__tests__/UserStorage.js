@@ -1,6 +1,7 @@
 // @flow
+import _ from 'lodash'
 import gun from '../gundb'
-
+import Config from '../../../config/config'
 import userStorage from '../UserStorage'
 import {
   backupMessage,
@@ -9,11 +10,13 @@ import {
   inviteFriendsMessage,
   type TransactionEvent,
   welcomeMessage,
+  welcomeMessageOnlyEtoro,
 } from '../UserStorageClass'
 import UserPropertiesClass from '../UserPropertiesClass'
 
 import { getUserModel } from '../UserModel'
 import { addUser } from './__util__/index'
+import moment from "moment";
 
 const delay = duration => {
   return new Promise((resolve, reject) => {
@@ -363,13 +366,46 @@ describe('UserStorage', () => {
 
   it('has the welcome event already set', async () => {
     const events = await userStorage.getAllFeed()
-    expect(events).toContainEqual(welcomeMessage)
+    if (Config.isEToro) {
+      expect(events).toContainEqual(welcomeMessageOnlyEtoro)
+    } else {
+      expect(events).toContainEqual(welcomeMessage)
+    }
+  })
+
+  it('has the welcome event already set', async () => {
+    const events = await userStorage.getAllFeed()
+    if (Config.isEToro) {
+      expect(events).toEqual(expect.not.objectContaining(welcomeMessage))
+    } else {
+      expect(events).toEqual(expect.not.objectContaining(welcomeMessageOnlyEtoro))
+    }
+  })
+
+  it('add welcome etoro', async () => {
+    await userStorage.updateFeedEvent(welcomeMessageOnlyEtoro)
+    const events = await userStorage.getAllFeed()
+    expect(events).toContainEqual(welcomeMessageOnlyEtoro)
   })
 
   it('has the backupMessage event already set', async () => {
     await userStorage.updateFeedEvent(backupMessage)
     const events = await userStorage.getAllFeed()
     expect(events).toContainEqual(backupMessage)
+  })
+
+  it('has the Survey already set', async () => {
+    const hash = 'test_hash'
+    const date = moment(new Date()).format('DDMMYY')
+    const testSurvey = {
+      amount: 'amount',
+      reason: 'reason',
+      survey: 'survey',
+    }
+    await userStorage.saveSurveyDetails(hash, testSurvey)
+    const surveys = await userStorage.getSurveyDetailByHashAndDate(hash, date)
+    const result = _.pick(surveys, ['amount', 'reason', 'survey'])
+    expect(result).toEqual(testSurvey)
   })
 
   it('should delete the Welcome event', async () => {

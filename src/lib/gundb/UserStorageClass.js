@@ -15,7 +15,7 @@ import values from 'lodash/values'
 import isEmail from 'validator/lib/isEmail'
 import Config from '../../config/config'
 import API from '../API/api'
-
+import moment from 'moment'
 import pino from '../logger/pino-logger'
 import isMobilePhone from '../validators/isMobilePhone'
 import defaultGun from './gundb'
@@ -91,6 +91,15 @@ export type FeedEvent = {
 }
 
 /**
+ * Survey details
+ */
+export type SurveyDetails = {
+  amount: string,
+  reason: string,
+  survey: string,
+}
+
+/**
  * Blockchain transaction event data
  */
 export type TransactionEvent = FeedEvent & {
@@ -123,6 +132,25 @@ export const welcomeMessage = {
     },
   },
 }
+
+export const welcomeMessageOnlyEtoro = {
+  id: '1',
+  type: 'welcome',
+  date: new Date().toString(),
+  status: 'completed',
+  data: {
+    customName: 'Welcome to your wallet.',
+    subtitle: 'Welcome to GoodDollar',
+    receiptData: {
+      from: '0x0000000000000000000000000000000000000000',
+    },
+    reason: 'You can claim G$1 each day and use them to buy items in the GoodMarket.',
+    endpoint: {
+      fullName: 'Welcome to GoodDollar',
+    },
+  },
+}
+
 export const inviteFriendsMessage = {
   id: '0',
   type: 'invite',
@@ -662,7 +690,12 @@ export class UserStorage {
       if (!w3Token) {
         this.enqueueTX(inviteFriendsMessage)
       }
-      this.enqueueTX(welcomeMessage)
+
+      if (Config.isEToro) {
+        this.enqueueTX(welcomeMessageOnlyEtoro)
+      } else {
+        this.enqueueTX(welcomeMessage)
+      }
     }
   }
 
@@ -1090,6 +1123,39 @@ export class UserStorage {
   async isUsername(username: string) {
     const profile = await this.gun.get('users/byusername').get(username)
     return profile !== undefined
+  }
+
+  /**
+   * Save survey
+   * @param {string} hash
+   * @param {object} details
+   * @returns {Promise<void>}
+   */
+  saveSurveyDetails(hash, details: SurveyDetails) {
+    try {
+      const date = moment(new Date()).format('DDMMYY')
+      this.gun
+        .get('survey')
+        .get(date)
+        .get(hash)
+        .put(details)
+      return true
+    } catch (e) {
+      logger.error('saveSurveyDetails :', details, e.message, e)
+      return false
+    }
+  }
+
+  /**
+   * Get all survey
+   * @returns {Promise<void>}
+   */
+  async getSurveyDetailByHashAndDate(hash: string, date: string) {
+    const result = await this.gun
+      .get('survey')
+      .get(date)
+      .get(hash)
+    return result
   }
 
   /**

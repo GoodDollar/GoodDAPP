@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { isMobile } from 'mobile-device-detect'
 import GDStore from '../../lib/undux/GDStore'
 import { generateSendShareObject } from '../../lib/share'
+import Config from '../../config/config'
 import userStorage, { type TransactionEvent } from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import { useDialog } from '../../lib/undux/utils/dialog'
@@ -12,7 +13,7 @@ import { CustomButton, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import SummaryTable from '../common/view/SummaryTable'
 import { SEND_TITLE } from './utils/sendReceiveFlow'
-
+import SurveySend from './SurveySend'
 const log = logger.child({ from: 'SendLinkSummary' })
 
 export type AmountProps = {
@@ -24,7 +25,6 @@ export type AmountProps = {
  * Screen that shows transaction summary for a send link action
  * @param {AmountProps} props
  * @param {any} props.screenProps
- * @param {any} props.navigation
  */
 const SendLinkSummary = ({ screenProps }: AmountProps) => {
   const profile = GDStore.useStore().get('profile')
@@ -33,6 +33,7 @@ const SendLinkSummary = ({ screenProps }: AmountProps) => {
 
   const [isCitizen, setIsCitizen] = useState(GDStore.useStore().get('isLoggedInCitizen'))
   const [shared, setShared] = useState(false)
+  const [survey, setSurvey] = useState('other')
   const [link, setLink] = useState('')
   const { amount, reason, counterPartyDisplayName } = screenState
 
@@ -124,6 +125,13 @@ const SendLinkSummary = ({ screenProps }: AmountProps) => {
           }
           log.debug('generateLinkAndSend: enqueueTX', { transactionEvent })
           userStorage.enqueueTX(transactionEvent)
+          if (Config.isEToro) {
+            userStorage.saveSurveyDetails(hash, {
+              reason,
+              amount,
+              survey,
+            })
+          }
         },
         { onError: userStorage.markWithErrorEvent }
       )
@@ -167,6 +175,7 @@ const SendLinkSummary = ({ screenProps }: AmountProps) => {
           </Section.Stack>
         </Section.Row>
       </Section>
+      <SurveySend handleCheckSurvey={setSurvey} />
     </Wrapper>
   )
 }

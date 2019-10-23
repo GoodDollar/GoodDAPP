@@ -124,8 +124,8 @@ const Dashboard = props => {
     }
   }
 
-  const checkBonusesToRedeem = async () => {
-    const isUserWhitelisted = await goodWallet.isVerified()
+  const checkBonusesToRedeem = () => {
+    const isUserWhitelisted = gdstore.get('isLoggedInCitizen')
 
     if (!isUserWhitelisted) {
       return
@@ -151,7 +151,7 @@ const Dashboard = props => {
         }
       })
       .catch(err => {
-        log.err('Failed to redeem bonuses', err.message, err)
+        log.error('Failed to redeem bonuses', err.message, err)
 
         showErrorDialog('Something Went Wrong. An error occurred while trying to redeem bonuses')
       })

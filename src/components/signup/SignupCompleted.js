@@ -25,16 +25,11 @@ export default class SignupCompleted extends React.Component<Props, State> {
   }
 
   render() {
-    const { createError, fullName, loading } = this.props.screenProps.data
+    const { fullName, loading } = this.props.screenProps.data
     const { pressSubmit } = this.state
 
     return (
-      <CustomWrapper
-        handleSubmit={this.handleSubmit}
-        submitText="Let's start!"
-        loading={pressSubmit && loading}
-        valid={createError !== true}
-      >
+      <CustomWrapper valid handleSubmit={this.handleSubmit} submitText="Let's start!" loading={pressSubmit && loading}>
         <Text fontWeight="medium" fontSize={22}>
           {`Thanks ${getFirstWord(fullName)}\nYou're all set`}
         </Text>

@@ -1,5 +1,5 @@
 // @flow
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { AsyncStorage } from 'react-native'
 import { SceneView } from '@react-navigation/core'
 import some from 'lodash/some'
@@ -11,6 +11,7 @@ import GDStore from '../../lib/undux/GDStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import { updateAll as updateWalletStatus } from '../../lib/undux/utils/account'
 import { checkAuthStatus as getLoginState } from '../../lib/login/checkAuthStatus'
+import Splash from '../splash/Splash'
 
 type LoadingProps = {
   navigation: any,
@@ -27,6 +28,7 @@ const AppSwitch = (props: LoadingProps) => {
   const gdstore = GDStore.useStore()
   const [showErrorDialog] = useErrorDialog()
   const { router, state } = props.navigation
+  const [ready, setReady] = useState(false)
 
   /*
   Check if user is incoming with a URL with action details, such as payment link or email confirmation
@@ -72,6 +74,7 @@ const AppSwitch = (props: LoadingProps) => {
     const { isLoggedInCitizen, isLoggedIn } = await Promise.all([getLoginState(), updateWalletStatus(gdstore)]).then(
       ([authResult, _]) => authResult
     )
+    log.debug({ isLoggedIn, isLoggedInCitizen })
     gdstore.set('isLoggedIn')(isLoggedIn)
     gdstore.set('isLoggedInCitizen')(isLoggedInCitizen)
     isLoggedInCitizen ? API.verifyTopWallet() : Promise.resolve()
@@ -110,9 +113,12 @@ const AppSwitch = (props: LoadingProps) => {
   }
 
   const init = async () => {
+    log.debug('initializing')
+
     // store.set('loadingIndicator')({ loading: true })
     try {
       await initialize()
+      setReady(true)
     } catch (e) {
       showErrorDialog('Failed initializing wallet', e)
     }
@@ -130,11 +136,12 @@ const AppSwitch = (props: LoadingProps) => {
   const { descriptors, navigation } = props
   const activeKey = navigation.state.routes[navigation.state.index].key
   const descriptor = descriptors[activeKey]
-  return (
-    <React.Fragment>
-      <SceneView navigation={descriptor.navigation} component={descriptor.getComponent()} />
-    </React.Fragment>
+  const display = ready ? (
+    <SceneView navigation={descriptor.navigation} component={descriptor.getComponent()} />
+  ) : (
+    <Splash />
   )
+  return <React.Fragment>{display}</React.Fragment>
 }
 
 export default AppSwitch

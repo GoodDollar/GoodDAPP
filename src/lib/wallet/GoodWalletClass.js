@@ -573,7 +573,9 @@ export class GoodWallet {
     const { payments } = this.oneTimePaymentsContract.methods
     const { toBN } = this.wallet.utils
 
-    const amount = payments(link).call().paymentAmount
+    const amount = payments(link)
+      .call()
+      .then(_ => _.paymentAmount)
 
     return amount.then(toBN)
   }
@@ -616,7 +618,7 @@ export class GoodWallet {
       throw new Error('Payment already withdrawn')
     }
 
-    const sender = await payments(link).call().paymentSender
+    const sender = (await payments(link).call()).paymentSender
     return {
       amount: paymentAvailable.toString(),
       sender,

@@ -95,7 +95,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
 
   const checkWeb3Token = async () => {
     setLoading(true)
-    const web3Token = await AsyncStorage.getItem('web3Token')
+    const web3Token = await AsyncStorage.getItem('GD_web3Token')
 
     if (!web3Token) {
       setLoading(false)
@@ -175,8 +175,8 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   }
 
   const isRegisterAllowed = async () => {
-    const w3Token = await AsyncStorage.getItem('web3Token')
-    const destinationPath = await AsyncStorage.getItem('destinationPath')
+    const w3Token = await AsyncStorage.getItem('GD_web3Token')
+    const destinationPath = await AsyncStorage.getItem('GD_destinationPath')
       .then(JSON.parse)
       .catch(e => ({}))
     const paymentCode = _get(destinationPath, 'params.paymentCode')
@@ -221,7 +221,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
     setReady(ready)
 
     // don't allow to start sign up flow not from begining except when w3Token provided
-    AsyncStorage.getItem('web3Token').then(token => {
+    AsyncStorage.getItem('GD_web3Token').then(token => {
       if (!token && navigation.state.index > 0) {
         log.debug('redirecting to start, got index:', navigation.state.index)
         setLoading(true)
@@ -275,7 +275,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
 
       //need to wait for API.addUser but we dont need to wait for it to finish
       Promise.all([
-        AsyncStorage.removeItem('web3Token'),
+        AsyncStorage.removeItem('GD_web3Token'),
         w3Token && API.updateW3UserWithWallet(w3Token, goodWallet.account),
         API.sendRecoveryInstructionByEmail(mnemonic),
         API.sendMagicLinkByEmail(userStorage.getMagicLink()),

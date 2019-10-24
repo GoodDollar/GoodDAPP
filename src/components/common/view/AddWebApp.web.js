@@ -106,10 +106,10 @@ const AddWebApp = props => {
   const [showDialog] = useDialog()
   const { show } = store.get('addWebApp')
   useEffect(() => {
-    AsyncStorage.getItem('AddWebAppLastCheck').then(setLastCheck)
-    AsyncStorage.getItem('AddWebAppNextCheck').then(setNextCheck)
-    AsyncStorage.getItem('AddWebAppSkipCount').then(sc => setSkipCount(Number(sc)))
-    AsyncStorage.getItem('AddWebAppLastClaim').then(setLastClaim)
+    AsyncStorage.getItem('GD_AddWebAppLastCheck').then(setLastCheck)
+    AsyncStorage.getItem('GD_AddWebAppNextCheck').then(setNextCheck)
+    AsyncStorage.getItem('GD_AddWebAppSkipCount').then(sc => setSkipCount(Number(sc)))
+    AsyncStorage.getItem('GD_AddWebAppLastClaim').then(setLastClaim)
   }, [])
 
   const showExplanationDialog = () => {
@@ -129,9 +129,9 @@ const AddWebApp = props => {
       .add(nextCheckInDays, 'days')
       .toDate()
 
-    AsyncStorage.setItem('AddWebAppSkipCount', newSkipCount)
-    AsyncStorage.setItem('AddWebAppLastCheck', new Date().toISOString())
-    AsyncStorage.setItem('AddWebAppNextCheck', nextCheckDate.toISOString())
+    AsyncStorage.setItem('GD_AddWebAppSkipCount', newSkipCount)
+    AsyncStorage.setItem('GD_AddWebAppLastCheck', new Date().toISOString())
+    AsyncStorage.setItem('GD_AddWebAppNextCheck', nextCheckDate.toISOString())
   }
 
   const installApp = async () => {

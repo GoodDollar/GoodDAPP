@@ -571,7 +571,6 @@ export class GoodWallet {
    */
   getWithdrawAvailablePayment(link: string): Promise<BN> {
     const { payments } = this.oneTimePaymentsContract.methods
-    const { toBN } = this.wallet.utils
 
     const amount = payments(link)
       .call()
@@ -630,10 +629,13 @@ export class GoodWallet {
    * @param {string} otlCode
    * @param {PromiEvents} promiEvents
    */
-  withdraw(otlCode: string, promiEvents: ?PromiEvents) {
+  async withdraw(otlCode: string, promiEvents: ?PromiEvents) {
     const withdrawCall = this.oneTimePaymentsContract.methods.withdraw(otlCode)
     log.info('withdrawCall', withdrawCall)
-    return this.sendTransaction(withdrawCall, { ...defaultPromiEvents, ...promiEvents })
+    const gasLimit = await this.oneTimePaymentsContract.methods.gasLimit.call().then(toBN)
+
+    //contract enforces max gas of 80000 to prevent front running
+    return this.sendTransaction(withdrawCall, { ...defaultPromiEvents, ...promiEvents }, { gas: gasLimit.toNumber() })
   }
 
   /**
@@ -686,7 +688,6 @@ export class GoodWallet {
     let gasPrice = this.gasPrice
 
     try {
-      const { toBN } = this.wallet.utils
       const networkGasPrice = await this.wallet.eth.getGasPrice().then(toBN)
 
       if (networkGasPrice.gt(toBN('0'))) {
@@ -777,7 +778,7 @@ export class GoodWallet {
     const { onTransactionHash, onReceipt, onConfirmation, onError } = { ...defaultPromiEvents, ...txCallbacks }
     gas = gas || (await tx.estimateGas().catch(this.handleError))
     gasPrice = gasPrice || this.gasPrice
-
+    log.debug({ gas, gasPrice })
     const { ok } = await this.verifyHasGas(gas * gasPrice)
     if (ok === false) {
       return Promise.reject('Reached daily transactions limit or not a citizen').catch(this.handleError)

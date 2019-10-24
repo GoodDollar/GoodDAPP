@@ -987,9 +987,9 @@ export class UserStorage {
     }
 
     try {
-      // if (!(await UserStorage.isValidValue(field, value))) {
-      //   return Promise.resolve({ err: `Existing index on field ${field}`, ok: 0 })
-      // }
+      if (field === 'username' && !(await UserStorage.isValidValue(field, value))) {
+        return Promise.resolve({ err: `Existing index on field ${field}`, ok: 0 })
+      }
       const indexNode = this.gun.get(`users/by${field}`).get(cleanValue)
       const indexValue = await indexNode.then()
 

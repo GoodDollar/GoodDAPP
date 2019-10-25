@@ -26,7 +26,12 @@ export function generateCode(
 ) {
   const mnid = encode({ address, network: `0x${networkId.toString(16)}` })
 
-  return `${mnid}|${amount}|${reason}|${counterPartyDisplayName}`
+  const codeArr = [mnid, amount, reason]
+  if (counterPartyDisplayName) {
+    codeArr.push(counterPartyDisplayName)
+  }
+
+  return codeArr.join('|')
 }
 
 /**

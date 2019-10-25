@@ -95,6 +95,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
 
   const checkWeb3Token = async () => {
     setLoading(true)
+
     const web3Token = await AsyncStorage.getItem('GD_web3Token')
 
     if (!web3Token) {
@@ -213,6 +214,8 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
         })
       await API.ready
 
+      checkWeb3Token()
+
       //now that we are loggedin, reload api with JWT
       // await API.init()
       return { goodWallet, userStorage }
@@ -228,8 +231,6 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
         return navigateWithFocus(navigation.state.routes[0].key)
       }
     })
-
-    checkWeb3Token()
   }, [])
 
   const finishRegistration = async () => {

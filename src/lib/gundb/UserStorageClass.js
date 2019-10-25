@@ -214,7 +214,7 @@ export const getReceiveDataFromReceipt = (receipt: any) => {
     .map(log =>
       log.events.reduce(
         (acc, curr) => {
-          if (acc[curr.name] && acc[curr.name].value && acc[curr.name].value < curr.value) {
+          if (!acc[curr.name] || (acc[curr.name] && acc[curr.name].value && acc[curr.name].value < curr.value)) {
             return { ...acc, [curr.name]: curr.value }
           }
           return acc

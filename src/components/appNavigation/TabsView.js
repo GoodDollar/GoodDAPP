@@ -69,7 +69,7 @@ const TabsView = (props: TabViewProps) => {
         <RewardSvg />
       </TouchableOpacity>
       <Appbar.Content />
-      {config.market && (
+      {(config.market || config.isEToro) && (
         <TouchableOpacity onPress={goToMarketplace}>
           <MarketPlaceSvg />
         </TouchableOpacity>

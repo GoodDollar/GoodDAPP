@@ -543,5 +543,5 @@ export default createStackNavigator({
   Recover: Mnemonics,
   OutOfGasError,
   Rewards: RewardsTab,
-  Marketplace: config.market ? Marketplace : WrappedDashboard,
+  Marketplace: config.market || config.isEToro ? Marketplace : WrappedDashboard,
 })

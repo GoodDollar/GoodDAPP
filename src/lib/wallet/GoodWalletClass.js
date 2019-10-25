@@ -669,7 +669,7 @@ export class GoodWallet {
    * @returns {Promise<TransactionReceipt>}
    */
   cancelOTL(hashedCode: string, txCallbacks: {} = {}): Promise<TransactionReceipt> {
-    const cancelOtlCall = this.oneTimePaymentsContract.methods.cancel(hashedCode, { from: this.account })
+    const cancelOtlCall = this.oneTimePaymentsContract.methods.cancel(hashedCode)
     return this.sendTransaction(cancelOtlCall, {
       ...txCallbacks,
       onTransactionHash: hash => {

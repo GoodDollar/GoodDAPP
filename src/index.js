@@ -21,11 +21,11 @@ if (style.styleSheet) {
  */
 const upgradeVersion = async () => {
   const version = await AsyncStorage.getItem('GD_version')
-  if (version === 'beta') {
+  if (version === 'beta.10') {
     return
   }
   await AsyncStorage.clear()
-  return AsyncStorage.setItem('GD_version', 'beta')
+  return AsyncStorage.setItem('GD_version', 'beta.10')
 }
 
 // Inject stylesheet

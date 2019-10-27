@@ -495,9 +495,9 @@ export class GoodWallet {
    * perform transaction to deposit amount into the OneTimePaymentLink contract
    * @param {number} amount
    * @param {string} hashedCode
-   * @param {PromieEvents} events
+   * @param {PromieEvents} callbacks
    */
-  async depositToHash(amount: number, hashedCode: string, events: PromiEvents): Promise<TransactionReceipt> {
+  async depositToHash(amount: number, hashedCode: string, callbacks: PromiEvents): Promise<TransactionReceipt> {
     if (!(await this.canSend(amount))) {
       throw new Error(`Amount is bigger than balance`)
     }
@@ -510,7 +510,7 @@ export class GoodWallet {
     const gas: number = 200000 //Math.floor((await transferAndCall.estimateGas().catch(this.handleError)) * 2)
 
     //dont wait for transaction return immediatly with hash code and link (not using await here)
-    return this.sendTransaction(transferAndCall, events, { gas })
+    return this.sendTransaction(transferAndCall, callbacks, { gas })
   }
 
   /**
@@ -612,21 +612,21 @@ export class GoodWallet {
   async canWithdraw(otlCode: string) {
     const { payments } = this.oneTimePaymentsContract.methods
 
-    const link = this.getWithdrawLink(otlCode)
+    const hash = this.getWithdrawLink(otlCode)
 
     // Check link availability
-    const linkUsed = await this.isWithdrawLinkUsed(link)
+    const linkUsed = await this.isWithdrawLinkUsed(hash)
     if (!linkUsed) {
       throw new Error('Could not find payment or incorrect code')
     }
 
     // Check payment availability
-    const paymentAvailable = await this.getWithdrawAvailablePayment(link)
+    const paymentAvailable = await this.getWithdrawAvailablePayment(hash)
     if (this.isWithdrawPaymentAvailable(paymentAvailable) === false) {
       throw new Error('Payment already withdrawn')
     }
 
-    const sender = (await payments(link).call()).paymentSender
+    const sender = (await payments(hash).call()).paymentSender
     return {
       amount: paymentAvailable.toString(),
       sender,
@@ -636,15 +636,15 @@ export class GoodWallet {
   /**
    * withdraws the payment received in the link to the current wallet holder
    * @param {string} otlCode
-   * @param {PromiEvents} promiEvents
+   * @param {PromiEvents} callbacks
    */
-  async withdraw(otlCode: string, promiEvents: ?PromiEvents) {
+  async withdraw(otlCode: string, callbacks: PromiEvents) {
     const withdrawCall = this.oneTimePaymentsContract.methods.withdraw(otlCode)
     log.info('withdrawCall', withdrawCall)
     const gasLimit = await this.oneTimePaymentsContract.methods.gasLimit.call().then(toBN)
 
     //contract enforces max gas of 80000 to prevent front running
-    return this.sendTransaction(withdrawCall, { ...defaultPromiEvents, ...promiEvents }, { gas: gasLimit.toNumber() })
+    return this.sendTransaction(withdrawCall, callbacks, { gas: gasLimit.toNumber() })
   }
 
   /**
@@ -679,13 +679,7 @@ export class GoodWallet {
    */
   cancelOTL(hashedCode: string, txCallbacks: {} = {}): Promise<TransactionReceipt> {
     const cancelOtlCall = this.oneTimePaymentsContract.methods.cancel(hashedCode)
-    return this.sendTransaction(cancelOtlCall, {
-      ...txCallbacks,
-      onTransactionHash: hash => {
-        log.debug({ hash })
-        txCallbacks.onTransactionHash(hash)
-      },
-    })
+    return this.sendTransaction(cancelOtlCall, txCallbacks)
   }
 
   handleError(e: Error) {
@@ -709,7 +703,7 @@ export class GoodWallet {
     return gasPrice
   }
 
-  async sendAmount(to: string, amount: number, events: PromiEvents): Promise<TransactionReceipt> {
+  async sendAmount(to: string, amount: number, callbacks: PromiEvents): Promise<TransactionReceipt> {
     if (!this.wallet.utils.isAddress(to)) {
       throw new Error('Address is invalid')
     }
@@ -721,7 +715,7 @@ export class GoodWallet {
     log.info({ amount, to })
     const transferCall = this.tokenContract.methods.transfer(to, amount.toString()) // retusn TX object (not sent to the blockchain yet)
 
-    return this.sendTransaction(transferCall, events) // Send TX to the blockchain
+    return this.sendTransaction(transferCall, callbacks) // Send TX to the blockchain
   }
 
   /**
@@ -786,13 +780,13 @@ export class GoodWallet {
     { gas, gasPrice }: GasValues = { gas: undefined, gasPrice: undefined }
   ) {
     const { onTransactionHash, onReceipt, onConfirmation, onError } = { ...defaultPromiEvents, ...txCallbacks }
-    gas = gas || (await tx.estimateGas().catch(this.handleError)) * Config.network === 'develop' ? 2 : 1
+    gas = gas || (await tx.estimateGas())
     gasPrice = gasPrice || this.gasPrice
     const { ok } = await this.verifyHasGas(gas * gasPrice)
     if (ok === false) {
       return Promise.reject('Reached daily transactions limit or not a citizen').catch(this.handleError)
     }
-
+    log.debug({ gas, gasPrice })
     return (
       new Promise((res, rej) => {
         tx.send({ gas, gasPrice, chainId: this.networkId })

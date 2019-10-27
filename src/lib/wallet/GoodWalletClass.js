@@ -405,7 +405,15 @@ export class GoodWallet {
   }
 
   balanceOf(): Promise<number> {
-    return this.tokenContract.methods.balanceOf(this.account).call()
+    return this.tokenContract.methods
+      .balanceOf(this.account)
+      .call()
+      .then(toBN)
+      .then(_ => _.toNumber())
+  }
+
+  balanceOfNative(): Promise<number> {
+    return this.wallet.eth.getBalance(this.account).then(parseInt)
   }
 
   signMessage() {}
@@ -489,7 +497,7 @@ export class GoodWallet {
    * @param {string} hashedCode
    * @param {PromieEvents} events
    */
-  async depositToHash(amount: number, hashedCode: string, events: PromiEvents): any {
+  async depositToHash(amount: number, hashedCode: string, events: PromiEvents): Promise<TransactionReceipt> {
     if (!(await this.canSend(amount))) {
       throw new Error(`Amount is bigger than balance`)
     }
@@ -532,12 +540,13 @@ export class GoodWallet {
     //pass extra data
     const onTransactionHash = getOnTxHash({ paymentLink, code })
 
-    this.depositToHash(amount, hashedCode, { ...events, onTransactionHash })
+    const txPromise = this.depositToHash(amount, hashedCode, { ...events, onTransactionHash })
 
     return {
       code,
       hashedCode,
       paymentLink,
+      txPromise,
     }
   }
 
@@ -724,7 +733,7 @@ export class GoodWallet {
     try {
       const { topWallet = true } = options
 
-      let nativeBalance = await this.wallet.eth.getBalance(this.account)
+      let nativeBalance = await this.balanceOfNative()
       if (nativeBalance > wei) {
         return {
           ok: true,
@@ -732,6 +741,7 @@ export class GoodWallet {
       }
 
       if (topWallet) {
+        log.info('no gas, asking for top wallet')
         const toppingRes = await API.verifyTopWallet()
         const { data } = toppingRes
         if (data.ok !== 1) {
@@ -776,9 +786,8 @@ export class GoodWallet {
     { gas, gasPrice }: GasValues = { gas: undefined, gasPrice: undefined }
   ) {
     const { onTransactionHash, onReceipt, onConfirmation, onError } = { ...defaultPromiEvents, ...txCallbacks }
-    gas = gas || (await tx.estimateGas().catch(this.handleError))
+    gas = gas || (await tx.estimateGas().catch(this.handleError)) * Config.network === 'develop' ? 2 : 1
     gasPrice = gasPrice || this.gasPrice
-    log.debug({ gas, gasPrice })
     const { ok } = await this.verifyHasGas(gas * gasPrice)
     if (ok === false) {
       return Promise.reject('Reached daily transactions limit or not a citizen').catch(this.handleError)

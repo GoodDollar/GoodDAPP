@@ -54,7 +54,7 @@ export class Wallet {
   getWeb3TransportProvider(): HttpProvider | WebSocketProvider {
     let provider
     let web3Provider
-    let transport = conf.ethNetwork.web3Transport
+    let transport = 'HttpProvider'
     switch (transport) {
       case 'WebSocket':
         provider = conf.ethNetwork.websocketWeb3Provider
@@ -136,6 +136,7 @@ export class Wallet {
         nativebalance,
         network: this.networkId,
         nonce: this.nonce,
+        provider: this.getWeb3TransportProvider(),
       })
     } catch (e) {
       log.error('Error initializing wallet', { e }, e.message)
@@ -218,9 +219,9 @@ export class Wallet {
       const isVerified = force || (await this.isVerified(address))
       if (isVerified) {
         let userBalance = await this.web3.eth.getBalance(address)
-        let toTop = parseInt(web3Utils.toWei('5000000', 'gwei')) - userBalance
+        let toTop = parseInt(web3Utils.toWei('10000000', 'gwei')) - userBalance
         log.debug('TopWallet:', { userBalance, toTop })
-        if (force || toTop / 5000000 >= 0.75) {
+        if (force || toTop / 10000000 >= 0.75) {
           let res = await this.sendNative({
             from: this.address,
             to: address,

@@ -488,7 +488,7 @@ export class GoodWallet {
     }
 
     const balance = await this.balanceOf()
-    return parseInt(amountWithFee) <= parseInt(balance)
+    return parseInt(amountWithFee) <= balance
   }
 
   /**
@@ -777,47 +777,49 @@ export class GoodWallet {
   async sendTransaction(
     tx: any,
     txCallbacks: PromiEvents = defaultPromiEvents,
-    { gas, gasPrice }: GasValues = { gas: undefined, gasPrice: undefined }
+    { setgas, gasPrice }: GasValues = { gas: undefined, gasPrice: undefined }
   ) {
     const { onTransactionHash, onReceipt, onConfirmation, onError } = { ...defaultPromiEvents, ...txCallbacks }
-    gas = gas || (await tx.estimateGas())
+    let gas = setgas || (await tx.estimateGas())
     gasPrice = gasPrice || this.gasPrice
     const { ok } = await this.verifyHasGas(gas * gasPrice)
     if (ok === false) {
       return Promise.reject('Reached daily transactions limit or not a citizen').catch(this.handleError)
     }
+    if (Config.network === 'develop' && setgas === undefined) {
+      gas *= 2
+    }
     log.debug({ gas, gasPrice })
-    return (
-      new Promise((res, rej) => {
-        tx.send({ gas, gasPrice, chainId: this.networkId })
-          .on('transactionHash', h => {
-            log.debug('got txhash', h)
-            onTransactionHash && onTransactionHash(h)
-          })
-          .on('receipt', r => {
-            log.debug('got receipt', r)
-            onReceipt && onReceipt(r)
-            res(r)
-          })
-          .on('confirmation', c => {
-            log.debug('got confirmation', c)
-            onConfirmation && onConfirmation(c)
-          })
-          .on('error', e => {
-            log.debug('got error', e)
-            onError && onError(e)
-            rej(e)
-          })
-      })
+    const res = new Promise((res, rej) => {
+      tx.send({ gas, gasPrice, chainId: this.networkId })
+        .on('transactionHash', h => {
+          log.debug('got txhash', h)
+          onTransactionHash && onTransactionHash(h)
+        })
+        .on('receipt', r => {
+          log.debug('got receipt', r)
+          res(r)
+          onReceipt && onReceipt(r)
+        })
+        .on('confirmation', c => {
+          log.debug('got confirmation', c)
+          onConfirmation && onConfirmation(c)
+        })
+        .on('error', e => {
+          log.debug('got error', e)
+          rej(e)
+          onError && onError(e)
+        })
+    })
+    return res
 
-        /** receipt handling happens already in polling events */
-        // .then(async receipt => {
-        //   const transactionReceipt = await this.getReceiptWithLogs(receipt.transactionHash)
-        //   await this.sendReceiptWithLogsToSubscribers(transactionReceipt, ['receiptReceived', 'receiptUpdated'])
-        //   return transactionReceipt
-        // })
-        .catch(this.handleError)
-    )
+    /** receipt handling happens already in polling events */
+    // .then(async receipt => {
+    //   const transactionReceipt = await this.getReceiptWithLogs(receipt.transactionHash)
+    //   await this.sendReceiptWithLogsToSubscribers(transactionReceipt, ['receiptReceived', 'receiptUpdated'])
+    //   return transactionReceipt
+    // })
+    // .catch(this.handleError)
   }
 }
 

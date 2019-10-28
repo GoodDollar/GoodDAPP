@@ -26,14 +26,9 @@ const getTopText = () => {
     text = (
       <Section.Text fontSize={22} color="darkBlue">
         <Section.Text fontSize={22} fontWeight="black" color="darkBlue">
-          {`Welcome to GoodDollar's Beta\n`}
+          {`Welcome to GoodDollar Wallet\n`}
         </Section.Text>
-        <Section.Text fontSize={22} color="darkBlue">
-          {`Visit GoodMarket and spend\nyour GoodDollars before they expire on Feb 11th\n`}
-        </Section.Text>
-        <Section.Text fontSize={22} fontWeight="black" color="darkBlue">
-          Early Access Alpha V2.0
-        </Section.Text>
+        {`Visit GoodMarket and spend\nyour GoodDollars before they expire\non Feb 11th`}
       </Section.Text>
     )
   }

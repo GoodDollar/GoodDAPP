@@ -277,10 +277,14 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       //need to wait for API.addUser but we dont need to wait for it to finish
       Promise.all([
         AsyncStorage.removeItem('GD_web3Token'),
-        w3Token && API.updateW3UserWithWallet(w3Token, goodWallet.account),
-        API.sendRecoveryInstructionByEmail(mnemonic),
-        API.sendMagicLinkByEmail(userStorage.getMagicLink()),
-      ]).catch(e => log.error('failed signup email/w3 promises', e.message, e))
+        w3Token &&
+          API.updateW3UserWithWallet(w3Token, goodWallet.account).catch(e =>
+            log.error('failed updateW3UserWithWallet', e.message, e)
+          ),
+        API.sendMagicLinkByEmail(userStorage.getMagicLink()).catch(e =>
+          log.error('failed sendMagicLinkByEmail', e.message, e)
+        ),
+      ])
       await AsyncStorage.setItem(IS_LOGGED_IN, true)
       log.debug('New user created')
       return true

@@ -36,6 +36,7 @@ import { extractQueryParams, readCode } from '../../lib/share'
 import { deleteAccountDialog } from '../sidemenu/SideMenuPanel'
 import config from '../../config/config'
 import { backupMessage } from '../../lib/gundb/UserStorageClass'
+import LoadingIcon from '../common/modal/LoadingIcon'
 import RewardsTab from './Rewards'
 import Amount from './Amount'
 import Claim from './Claim'
@@ -221,7 +222,11 @@ const Dashboard = props => {
   const handleWithdraw = async () => {
     const { paymentCode, reason } = props.navigation.state.params
     try {
-      showDialog({ title: 'Processing Payment Link...', loading: true, buttons: [{ text: 'YAY!' }] })
+      showDialog({
+        title: 'Processing Payment Link...',
+        image: <LoadingIcon />,
+        showButtons: false,
+      })
       await executeWithdraw(store, decodeURI(paymentCode), decodeURI(reason))
       hideDialog()
     } catch (e) {

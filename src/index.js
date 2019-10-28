@@ -20,12 +20,13 @@ if (style.styleSheet) {
  * decide if we need to clear storage
  */
 const upgradeVersion = async () => {
+  const required = 'beta.11'
   const version = await AsyncStorage.getItem('GD_version')
-  if (version === 'beta.10') {
+  if (version === required) {
     return
   }
   await AsyncStorage.clear()
-  return AsyncStorage.setItem('GD_version', 'beta.10')
+  return AsyncStorage.setItem('GD_version', required)
 }
 
 // Inject stylesheet

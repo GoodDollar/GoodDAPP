@@ -365,7 +365,7 @@ exports[`Amount matches snapshot 1`] = `
                   "direction": "ltr",
                   "fontFamily": "Roboto",
                   "fontSize": "24px",
-                  "fontWeight": "normal",
+                  "fontWeight": "500",
                   "lineHeight": "30px",
                   "marginBottom": "8px",
                   "marginTop": "8px",

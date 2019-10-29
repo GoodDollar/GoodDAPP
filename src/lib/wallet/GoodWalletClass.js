@@ -233,8 +233,8 @@ export class GoodWallet {
         }
 
         // Send for all events. We could define here different events
-        this.getSubscribers('send').forEach(cb => cb(error, [event]))
-        this.getSubscribers('balanceChanged').forEach(cb => cb(error, [event]))
+        this.getSubscribers('send').forEach(cb => cb(event))
+        this.getSubscribers('balanceChanged').forEach(cb => cb(event))
       }
     })
 
@@ -259,8 +259,8 @@ export class GoodWallet {
         }
 
         // Send for all events. We could define here different events
-        this.getSubscribers('receive').forEach(cb => cb(error, [event]))
-        this.getSubscribers('balanceChanged').forEach(cb => cb(error, [event]))
+        this.getSubscribers('receive').forEach(cb => cb(event))
+        this.getSubscribers('balanceChanged').forEach(cb => cb(event))
       }
     })
   }
@@ -357,7 +357,7 @@ export class GoodWallet {
    * @return {object} subscriber id and eventName
    * @dev so consumer can unsubscribe using id and event name
    */
-  subscribeToEvent(eventName: string, cb: Function) {
+  subscribeToEvent(eventName: string, cb: (EventLog | TransactionReceipt) => any) {
     if (!this.subscribers[eventName]) {
       // Get last id from subscribersList
       this.subscribers[eventName] = {}
@@ -524,7 +524,7 @@ export class GoodWallet {
   generateLink(
     amount: number,
     reason: string = '',
-    getOnTxHash: (extraData: { paymentLink: string, code: string }) => (hash: string) => any,
+    getOnTxHash: (extraData: { paymentLink: string, code: string }) => (hash: string) => any = () => () => {},
     events: PromiEvents = defaultPromiEvents
   ): { code: string, hashedCode: string, paymentLink: string } {
     const code = this.wallet.utils.randomHex(10).replace('0x', '')
@@ -640,7 +640,6 @@ export class GoodWallet {
    */
   async withdraw(otlCode: string, callbacks: PromiEvents) {
     const withdrawCall = this.oneTimePaymentsContract.methods.withdraw(otlCode)
-    log.info('withdrawCall', withdrawCall)
     const gasLimit = await this.oneTimePaymentsContract.methods.gasLimit.call().then(toBN)
 
     //contract enforces max gas of 80000 to prevent front running
@@ -777,19 +776,19 @@ export class GoodWallet {
   async sendTransaction(
     tx: any,
     txCallbacks: PromiEvents = defaultPromiEvents,
-    { setgas, gasPrice }: GasValues = { gas: undefined, gasPrice: undefined }
+    { gas: setgas, gasPrice }: GasValues = { gas: undefined, gasPrice: undefined }
   ) {
     const { onTransactionHash, onReceipt, onConfirmation, onError } = { ...defaultPromiEvents, ...txCallbacks }
     let gas = setgas || (await tx.estimateGas())
     gasPrice = gasPrice || this.gasPrice
-    const { ok } = await this.verifyHasGas(gas * gasPrice)
-    if (ok === false) {
-      return Promise.reject('Reached daily transactions limit or not a citizen').catch(this.handleError)
-    }
     if (Config.network === 'develop' && setgas === undefined) {
       gas *= 2
     }
     log.debug({ gas, gasPrice })
+    const { ok } = await this.verifyHasGas(gas * gasPrice)
+    if (ok === false) {
+      return Promise.reject('Reached daily transactions limit or not a citizen').catch(this.handleError)
+    }
     const res = new Promise((res, rej) => {
       tx.send({ gas, gasPrice, chainId: this.networkId })
         .on('transactionHash', h => {

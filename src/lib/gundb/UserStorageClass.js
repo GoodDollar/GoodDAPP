@@ -512,11 +512,11 @@ export class UserStorage {
       logger.debug('GunDB logged in', { username, pubkey: this.wallet.account })
       logger.debug('subscribing')
 
-      this.wallet.subscribeToEvent(EVENT_TYPE_RECEIVE, (err, events) => {
-        logger.debug({ err, events }, EVENT_TYPE_RECEIVE)
+      this.wallet.subscribeToEvent(EVENT_TYPE_RECEIVE, event => {
+        logger.debug({ event }, EVENT_TYPE_RECEIVE)
       })
-      this.wallet.subscribeToEvent(EVENT_TYPE_SEND, (err, events) => {
-        logger.debug({ err, events }, EVENT_TYPE_SEND)
+      this.wallet.subscribeToEvent(EVENT_TYPE_SEND, event => {
+        logger.debug({ event }, EVENT_TYPE_SEND)
       })
       this.wallet.subscribeToEvent('otplUpdated', receipt => this.handleOTPLUpdated(receipt))
       this.wallet.subscribeToEvent('receiptUpdated', receipt => this.handleReceiptUpdated(receipt))

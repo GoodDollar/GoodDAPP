@@ -6,7 +6,6 @@ import { Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import { BackButton, NextButton, useScreenState } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
-import { theme } from '../theme/styles'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 import { navigationOptions } from './utils/sendReceiveFlow'
 
@@ -28,7 +27,7 @@ const SendReason = (props: AmountProps) => {
       <TopBar push={screenProps.push} />
       <Section grow>
         <Section.Stack justifyContent="flex-start" style={styles.container}>
-          <Section.Title style={styles.mediumFontWeight}>What For?</Section.Title>
+          <Section.Title>What For?</Section.Title>
           <InputText
             autoFocus
             style={[props.styles.input, styles.bottomContent]}
@@ -65,10 +64,6 @@ const styles = StyleSheet.create({
   bottomContent: {
     marginTop: 'auto',
   },
-  mediumFontWeight: {
-    marginVertical: theme.sizes.default,
-    fontWeight: '500',
-  },
 })
 
 SendReason.navigationOptions = navigationOptions
@@ -78,8 +73,4 @@ SendReason.shouldNavigateToComponent = props => {
   return screenState.amount >= 0 && screenState.nextRoutes
 }
 
-export default withStyles(({ theme }) => ({
-  input: {
-    marginTop: theme.sizes.defaultDouble,
-  },
-}))(SendReason)
+export default withStyles(({ theme }) => ({ input: { marginTop: theme.sizes.defaultDouble } }))(SendReason)

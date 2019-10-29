@@ -7,7 +7,8 @@ import userStorage from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import { BackButton } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
-import { CustomButton, CustomDialog, Icon, Section, Text } from '../common'
+import { CustomButton, Icon, Section, Text } from '../common'
+import { useDialog } from '../../lib/undux/utils/dialog'
 import OptionsRow from './OptionsRow'
 
 const TITLE = 'PROFILE PRIVACY'
@@ -30,8 +31,8 @@ const ProfilePrivacy = props => {
   const [initialPrivacy, setInitialPrivacy] = useState(initialState)
   const [privacy, setPrivacy] = useState(initialState)
   const [loading, setLoading] = useState(false)
-  const [showTips, setShowTips] = useState(false)
   const { screenProps, styles, theme } = props
+  const [showDialog] = useDialog()
 
   useEffect(() => {
     // looks for the users fields' privacy
@@ -48,6 +49,31 @@ const ProfilePrivacy = props => {
 
     privacyGatherer()
   }, [])
+
+  const handleSaveShowTips = () => {
+    showDialog({
+      content: (
+        <>
+          {privacyOptions.map(field => (
+            <Section.Stack grow key={field} style={styles.dialogTipItem}>
+              <Text fontWeight="bold" fontSize={18} color="primary" textAlign="left">
+                {startCase(field)}
+              </Text>
+              <Text textAlign="left">{tips[field]}</Text>
+            </Section.Stack>
+          ))}
+        </>
+      ),
+      buttons: [
+        {
+          text: 'Ok',
+          onPress: dismiss => {
+            dismiss()
+          },
+        },
+      ],
+    })
+  }
 
   /**
    * filters the fields to be updated
@@ -83,7 +109,7 @@ const ProfilePrivacy = props => {
           <Section.Text fontWeight="bold" color="gray">
             Manage your privacy settings
           </Section.Text>
-          <InfoIcon style={styles.infoIcon} color={theme.colors.primary} onPress={() => setShowTips(true)} />
+          <InfoIcon style={styles.infoIcon} color={theme.colors.primary} onPress={() => handleSaveShowTips()} />
         </Section.Row>
 
         <Section.Stack justifyContent="flex-start" style={styles.optionsRowContainer}>
@@ -115,17 +141,6 @@ const ProfilePrivacy = props => {
           Save
         </CustomButton>
       </Section.Row>
-
-      <CustomDialog visible={showTips} onDismiss={() => setShowTips(false)} title="SETTINGS" image={<React.Fragment />}>
-        {privacyOptions.map(field => (
-          <Section.Stack grow key={field} style={styles.dialogTipItem}>
-            <Text fontWeight="bold" fontSize={18} color="primary" textAlign="left">
-              {startCase(field)}
-            </Text>
-            <Text textAlign="left">{tips[field]}</Text>
-          </Section.Stack>
-        ))}
-      </CustomDialog>
     </Section>
   )
 }

@@ -12,6 +12,7 @@ import { BackButton, useScreenState } from '../appNavigation/stackNavigation'
 import { CustomButton, Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
 import SummaryTable from '../common/view/SummaryTable'
+import { theme } from '../theme/styles'
 import { SEND_TITLE } from './utils/sendReceiveFlow'
 import SurveySend from './SurveySend'
 const log = logger.child({ from: 'SendLinkSummary' })
@@ -157,7 +158,7 @@ const SendLinkSummary = ({ screenProps }: AmountProps) => {
     <Wrapper>
       <TopBar push={screenProps.push} />
       <Section grow>
-        <Section.Title>SUMMARY</Section.Title>
+        <Section.Title style={{ fontWeight: '500', marginVertical: theme.sizes.default }}>SUMMARY</Section.Title>
         <Section.Row justifyContent="center">
           <Section.Text color="gray80Percent">{'* the transaction may take\na few seconds to complete'}</Section.Text>
         </Section.Row>

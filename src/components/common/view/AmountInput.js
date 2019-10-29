@@ -30,7 +30,7 @@ const AmountInput = ({ amount, handleAmountChange, styles, error, title }: Amoun
   return (
     <View style={styles.wrapper}>
       <View style={styles.container}>
-        {title && <SectionTitle>{title}</SectionTitle>}
+        {title && <SectionTitle style={styles.mediumFontWeight}>{title}</SectionTitle>}
         <TouchableWithoutFeedback
           onPress={() => (isMobile ? Keyboard.dismiss() : null)}
           accessible={false}
@@ -76,6 +76,10 @@ const mapPropsToStyles = ({ theme }) => {
       color: theme.colors.error,
       borderBottomColor: theme.colors.error,
       marginTop: 'auto',
+    },
+    mediumFontWeight: {
+      marginVertical: theme.sizes.default,
+      fontWeight: '500',
     },
   }
 }

@@ -93,6 +93,8 @@ const Dashboard = props => {
   const [showDialog, hideDialog] = useDialog()
   const [showErrorDialog] = useErrorDialog()
   const { params } = props.navigation.state
+  const [update, setUpdate] = useState(0)
+
   const prepareLoginToken = async () => {
     const loginToken = await userStorage.getProfileFieldValue('loginToken')
 
@@ -242,6 +244,15 @@ const Dashboard = props => {
       },
     ],
   }
+
+  useEffect(() => {
+    const debouncedHandleResize = debounce(() => {
+      log.info('update component after resize', update)
+      setUpdate(Date.now())
+    }, 100)
+
+    window.addEventListener('resize', () => debouncedHandleResize())
+  }, [])
 
   return (
     <Wrapper style={styles.dashboardWrapper}>

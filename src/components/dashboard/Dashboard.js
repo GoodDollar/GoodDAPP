@@ -221,11 +221,12 @@ const Dashboard = props => {
 
   const handleWithdraw = async () => {
     const { paymentCode, reason } = props.navigation.state.params
+    const { styles }: DashboardProps = props
     try {
       showDialog({
         title: 'Processing Payment Link...',
         image: <LoadingIcon />,
-        showButtons: false,
+        buttons: [{ text: 'YAY!', style: styles.disabledButton}]
       })
       await executeWithdraw(store, decodeURI(paymentCode), decodeURI(reason))
       hideDialog()
@@ -440,6 +441,9 @@ const getStylesFromProps = ({ theme }) => ({
   bigNumberWrapper: {
     marginVertical: theme.sizes.defaultDouble,
     alignItems: 'baseline',
+  },
+  disabledButton: {
+    backgroundColor: theme.colors.gray50Percent,
   },
   bigNumberUnitStyles: {
     marginRight: normalize(-20),

@@ -183,7 +183,7 @@ export function generateShareLink(action: ActionType = 'receive', params: {} = {
   }[action]
   let queryParams = ''
 
-  switch (Config.env) {
+  switch (Config.network) {
     case 'production':
       if (params.code) {
         queryParams = `/${params.code}`

@@ -45,7 +45,7 @@ const Who = (props: AmountProps) => {
       </TopBar>
       <Section grow>
         <Section.Stack justifyContent="flex-start" style={styles.container}>
-          <Section.Title>{text}</Section.Title>
+          <Section.Title style={styles.mediumFontWeight}>{text}</Section.Title>
           <InputText
             autoFocus
             error={state.error}
@@ -91,5 +91,9 @@ export default withStyles(({ theme }) => ({
   container: {
     minHeight: getDesignRelativeHeight(180),
     height: getDesignRelativeHeight(180),
+  },
+  mediumFontWeight: {
+    marginVertical: theme.sizes.default,
+    fontWeight: '500',
   },
 }))(Who)

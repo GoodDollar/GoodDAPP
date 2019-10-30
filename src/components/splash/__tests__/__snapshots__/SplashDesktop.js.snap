@@ -140,7 +140,27 @@ exports[`SplashDesktop matches snapshot 1`] = `
             }
           }
         >
-          For Best Experience
+          <span
+            className="css-text-901oao css-textHasAncestor-16my406"
+            dir="auto"
+            style={
+              Object {
+                "color": "rgba(12,38,61,1.00)",
+                "direction": "ltr",
+                "fontFamily": "Roboto",
+                "fontSize": "22px",
+                "fontWeight": "800",
+                "lineHeight": "30px",
+                "textAlign": "center",
+                "textDecoration": "none",
+                "textTransform": "none",
+              }
+            }
+          >
+            Welcome to GoodDollar Wallet
+
+          </span>
+          For best experience
 please scan and continue
 on your mobile device.
         </div>
@@ -318,25 +338,6 @@ on your mobile device.
             draggable={false}
             src="goodDollar.svg"
           />
-        </div>
-        <div
-          className="css-text-901oao"
-          dir="auto"
-          style={
-            Object {
-              "color": "rgba(12,38,61,1.00)",
-              "direction": "ltr",
-              "fontFamily": "Roboto",
-              "fontSize": "22px",
-              "fontWeight": "normal",
-              "lineHeight": "30px",
-              "textAlign": "center",
-              "textDecoration": "none",
-              "textTransform": "none",
-            }
-          }
-        >
-          Vv0
         </div>
         <div
           className="css-view-1dbjc4n"

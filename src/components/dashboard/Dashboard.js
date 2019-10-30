@@ -1,6 +1,6 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { Animated, Easing } from 'react-native'
+import { Animated, Easing, Dimensions } from 'react-native'
 import _get from 'lodash/get'
 import debounce from 'lodash/debounce'
 import type { Store } from 'undux'
@@ -251,7 +251,7 @@ const Dashboard = props => {
       setUpdate(Date.now())
     }, 100)
 
-    window.addEventListener('resize', () => debouncedHandleResize())
+    Dimensions.addEventListener('change', () => debouncedHandleResize())
   }, [])
 
   return (

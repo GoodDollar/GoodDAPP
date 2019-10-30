@@ -89,7 +89,7 @@ exports[`SplashDesktop matches snapshot 1`] = `
             "backgroundRepeat": "repeat-y",
             "backgroundSize": "cover",
             "height": "100%",
-            "opacity": 0.4,
+            "opacity": 0.2,
             "position": "absolute",
             "width": "100%",
           }

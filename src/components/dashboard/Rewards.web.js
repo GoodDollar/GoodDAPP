@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import IframeResizer from 'iframe-resizer-react'
+
+// import IframeResizer from 'iframe-resizer-react'
 import { isIOS } from 'mobile-device-detect'
+
+// import IframeResizer from 'iframe-resizer-react'
 import userStorage from '../../lib/gundb/UserStorage'
-import Config from '../../config/config'
+
+// import Config from '../../config/config'
 import logger from '../../lib/logger/pino-logger'
 import SimpleStore from '../../lib/undux/SimpleStore'
+import { getScreenHeight, getScreenWidth } from '../../lib/utils/Orientation'
 
 const log = logger.child({ from: 'RewardsTab' })
 
@@ -28,21 +33,20 @@ const RewardsTab = props => {
   }, [])
 
   return loginToken === undefined ? null : (
-    <IframeResizer
-      title="Rewards"
+    <iframe
+      title="Marketplace"
       scrolling={scrolling}
-      src={`${Config.web3SiteUrl}?token=${loginToken}&purpose=iframe`}
+      src={`https://etoro.gooddollar.org?token=${loginToken}&purpose=iframe`}
       allowFullScreen
-      frameBorder="0"
-      width="100%"
-      height="100%"
+      frameBorder="1"
       seamless
       style={{
         maxWidth: '100%',
         maxHeight: '100%',
         minWidth: '100%',
         minHeight: '100%',
-        width: 0,
+        width: getScreenWidth(),
+        height: getScreenHeight(),
       }}
       onLoad={isLoaded}
     />

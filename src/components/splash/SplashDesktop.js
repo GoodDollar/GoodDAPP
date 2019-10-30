@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     backgroundImage: `url(${wavePattern})`,
     backgroundRepeat: 'repeat-y',
     backgroundSize: 'cover',
-    opacity: 0.4,
+    opacity: 0.2,
   },
   content: {
     transform: [{ rotateY: '180deg' }],

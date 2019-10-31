@@ -8,8 +8,10 @@ import Splash from './components/splash/Splash'
 import { delay } from './lib/utils/async'
 import { extractQueryParams } from './lib/share/index'
 import logger from './lib/logger/pino-logger'
+import Config from './config/config'
 
 const log = logger.child({ from: 'RouterSelector' })
+log.debug({ Config })
 
 /**
  * Don't start app if server isn't responding

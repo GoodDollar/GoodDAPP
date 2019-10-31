@@ -27,7 +27,7 @@ import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
 import logger from '../../lib/logger/pino-logger'
 import userStorage from '../../lib/gundb/UserStorage'
-import { FAQ, Marketplace, PrivacyArticle, PrivacyPolicy, Support, TermsOfUse } from '../webView/webViewInstances'
+import { FAQ, PrivacyArticle, PrivacyPolicy, Support, TermsOfUse } from '../webView/webViewInstances'
 import { withStyles } from '../../lib/styles'
 import Mnemonics from '../signin/Mnemonics'
 import { extractQueryParams, readCode } from '../../lib/share'
@@ -38,6 +38,7 @@ import config from '../../config/config'
 import { backupMessage } from '../../lib/gundb/UserStorageClass'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import RewardsTab from './Rewards'
+import MarketTab from './Marketplace'
 import Amount from './Amount'
 import Claim from './Claim'
 import FeedList from './FeedList'
@@ -516,5 +517,5 @@ export default createStackNavigator({
   Recover: Mnemonics,
   OutOfGasError,
   Rewards: RewardsTab,
-  Marketplace: config.market ? Marketplace : WrappedDashboard,
+  Marketplace: config.market ? MarketTab : WrappedDashboard,
 })

@@ -7,7 +7,9 @@ import messageIllustration from '../../../assets/Feed/message.png'
 import inviteIllustration from '../../../assets/Feed/invite.png'
 import inviteFriendsIllustration from '../../../assets/Feed/inviteFriends.png'
 import backupIllustration from '../../../assets/Feed/backup.png'
+import spendingIllustration from '../../../assets/Feed/spending.svg'
 import { withStyles } from '../../../lib/styles'
+import normalize from '../../../lib/utils/normalizeText'
 
 const TopImage = ({ type, styles }) => {
   const getImageByType = () =>
@@ -52,6 +54,11 @@ const TopImage = ({ type, styles }) => {
         style: styles.mainPhoto,
         containerStyle: styles.mainPhotoContainer,
       },
+      spending: {
+        src: spendingIllustration,
+        style: styles.spending,
+        containerStyle: styles.mainPhotoContainer,
+      },
     }[type] || null)
 
   const image = getImageByType()
@@ -90,6 +97,11 @@ const getStylesFromProps = ({ theme }) => ({
   mainPhoto: {
     height: '20vh',
     width: '100%',
+  },
+  spending: {
+    width: normalize(176),
+    height: normalize(76),
+    margin: '10%',
   },
 })
 

@@ -35,7 +35,7 @@ import { extractQueryParams, readCode } from '../../lib/share'
 // import goodWallet from '../../lib/wallet/GoodWallet'
 import { deleteAccountDialog } from '../sidemenu/SideMenuPanel'
 import config from '../../config/config'
-import { backupMessage } from '../../lib/gundb/UserStorageClass'
+import { backupMessage, startSpending } from '../../lib/gundb/UserStorageClass'
 import RewardsTab from './Rewards'
 import Amount from './Amount'
 import Claim from './Claim'
@@ -152,12 +152,33 @@ const Dashboard = props => {
 
     prepareLoginToken()
     addBackupCard()
+    onlyForEToro()
+
     log.debug('Dashboard didmount')
     userStorage.feed.get('byid').on(data => {
       log.debug('gun getFeed callback', { data })
       getInitialFeed(gdstore)
     }, true)
   }, [])
+
+  const onlyForEToro = async () => {
+    if (config.isEToro) {
+      const userProperties = await userStorage.userProperties.getAll()
+      if (
+        userProperties.firstVisitApp &&
+        Date.now() - userProperties.firstVisitApp >= 68400 &&
+        userProperties.EToro_needAddCardSpending
+      ) {
+        await userStorage.enqueueTX(startSpending)
+        await userStorage.userProperties.set('EToro_needAddCardSpending', false)
+      }
+
+      if (!userProperties.firstVisitApp) {
+        await userStorage.userProperties.set('firstVisitApp', Date.now())
+        await userStorage.userProperties.set('EToro_needAddCardSpending', true)
+      }
+    }
+  }
 
   useEffect(() => {
     const { entitlement } = gdstore.get('account')

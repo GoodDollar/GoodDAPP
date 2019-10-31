@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 
-// import IframeResizer from 'iframe-resizer-react'
+// import { View } from 'react-native'
+import IframeResizer from 'iframe-resizer-react'
 import { isIOS } from 'mobile-device-detect'
 import Config from '../../config/config'
 import logger from '../../lib/logger/pino-logger'
@@ -20,35 +21,21 @@ const MarketTab = props => {
     store.set('loadingIndicator')({ loading: true })
   }, [])
 
-  log.info('Show marketplace')
+  log.info('Show marketplace', Config.marketplaceUrl)
 
   return (
-    <div
-      style={{
-        position: 'relative',
-        WebkitOverflowScrolling: 'touch',
-        overflowY: 'scroll',
-        height: '100%',
-      }}
-    >
-      <iframe
-        title="Marketplace"
-        scrolling={scrolling}
-        src={`${Config.marketplaceUrl}`}
-        allowFullScreen
-        frameBorder="0"
-        seamless
-        style={{
-          maxWidth: '100%',
-          maxHeight: '100%',
-          minWidth: '100%',
-          minHeight: '100%',
-          height: '100%',
-          width: 0,
-        }}
-        onLoad={isLoaded}
-      />
-    </div>
+    <IframeResizer
+      title="GoodMarket"
+      scrolling={scrolling}
+      src={`${Config.marketplaceUrl}`}
+      allowFullScreen
+      frameBorder="0"
+      width="100%"
+      height="100%"
+      seamless
+      style={{ flex: 1 }}
+      onLoad={isLoaded}
+    />
   )
 }
 

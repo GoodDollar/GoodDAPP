@@ -50,8 +50,6 @@ upgradeVersion()
 
 // check login for standalone version of running app
 const checkLogin = async () => {
-  const cachedData2 = await fetchDataFromCache()
-  alert(Object.keys(cachedData2).length)
   if (!(window.matchMedia && window.matchMedia('(display-mode: standalone)').matches)) {
     return
   }

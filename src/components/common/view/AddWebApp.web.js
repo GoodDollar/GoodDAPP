@@ -3,6 +3,7 @@ import { AsyncStorage, Image, View } from 'react-native'
 import { isMobileSafari } from 'mobile-device-detect'
 import moment from 'moment'
 import SimpleStore from '../../../lib/undux/SimpleStore'
+import { GD_USER_MNEMONIC } from '../../../lib/constants/localStorage'
 import { useDialog } from '../../../lib/undux/utils/dialog'
 import { withStyles } from '../../../lib/styles'
 import addAppIlustration from '../../../assets/addApp.svg'
@@ -112,7 +113,7 @@ const AddWebApp = props => {
     AsyncStorage.getItem('AddWebAppNextCheck').then(setNextCheck)
     AsyncStorage.getItem('AddWebAppSkipCount').then(sc => setSkipCount(Number(sc)))
     AsyncStorage.getItem('AddWebAppLastClaim').then(setLastClaim)
-    AsyncStorage.getItem('GD_USER_MNEMONIC').then(setMnemonic)
+    AsyncStorage.getItem(GD_USER_MNEMONIC).then(setMnemonic)
   }, [])
 
   const showExplanationDialog = () => {

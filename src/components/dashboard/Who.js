@@ -45,7 +45,7 @@ const Who = (props: AmountProps) => {
       </TopBar>
       <Section grow>
         <Section.Stack justifyContent="flex-start" style={styles.container}>
-          <Section.Title>{text}</Section.Title>
+          <Section.Title fontWeight="medium">{text}</Section.Title>
           <InputText
             autoFocus
             error={state.error}

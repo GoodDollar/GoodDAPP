@@ -1,6 +1,6 @@
 {
   "name": "@gooddollar/gooddapp",
-  "version": "0.9.4",
+  "version": "0.9.5",
   "engines": {
     "node": "10.x",
     "npm": "6.x"
@@ -33,7 +33,8 @@
     "lint:fix": "npm run lint -- --fix",
     "docs": "node scripts/docs.js",
     "web:serveo": "export REACT_APP_WEB3_RPC=https://gdchain.serveo.net;export REACT_APP_SERVER_URL=https://gdserver.serveo.net;export REACT_APP_GUN_PUBLIC_URL=https://gdserver.serveo.net/gun;npm run web:local",
-    "rename:scrypt": "sed -i -e 's|./build/Release/scrypt|scrypt|g' node_modules/scrypt/index.js"
+    "rename:scrypt": "sed -i -e 's|./build/Release/scrypt|scrypt|g' node_modules/scrypt/index.js",
+    "version": "auto-changelog -p && git add CHANGELOG.md"
   },
   "repository": {
     "type": "git",
@@ -117,6 +118,7 @@
     "@peculiar/webcrypto": "^1.0.19",
     "@svgr/webpack": "2.4.1",
     "artillery": "^1.6.0-28",
+    "auto-changelog": "^1.16.2",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "9.0.0",
     "babel-jest": "^24.8.0",

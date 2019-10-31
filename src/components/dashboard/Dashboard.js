@@ -1,6 +1,6 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { Animated, Easing } from 'react-native'
+import { Animated, Easing, Dimensions } from 'react-native'
 import _get from 'lodash/get'
 import debounce from 'lodash/debounce'
 import type { Store } from 'undux'
@@ -27,7 +27,7 @@ import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
 import logger from '../../lib/logger/pino-logger'
 import userStorage from '../../lib/gundb/UserStorage'
-import { FAQ, Marketplace, PrivacyArticle, PrivacyPolicy, Support, TermsOfUse } from '../webView/webViewInstances'
+import { FAQ, PrivacyArticle, PrivacyPolicy, Support, TermsOfUse } from '../webView/webViewInstances'
 import { withStyles } from '../../lib/styles'
 import Mnemonics from '../signin/Mnemonics'
 import { extractQueryParams, readCode } from '../../lib/share'
@@ -36,7 +36,9 @@ import { extractQueryParams, readCode } from '../../lib/share'
 import { deleteAccountDialog } from '../sidemenu/SideMenuPanel'
 import config from '../../config/config'
 import { backupMessage } from '../../lib/gundb/UserStorageClass'
+import LoadingIcon from '../common/modal/LoadingIcon'
 import RewardsTab from './Rewards'
+import MarketTab from './Marketplace'
 import Amount from './Amount'
 import Claim from './Claim'
 import FeedList from './FeedList'
@@ -93,6 +95,8 @@ const Dashboard = props => {
   const [showDialog, hideDialog] = useDialog()
   const [showErrorDialog] = useErrorDialog()
   const { params } = props.navigation.state
+  const [update, setUpdate] = useState(0)
+
   const prepareLoginToken = async () => {
     const loginToken = await userStorage.getProfileFieldValue('loginToken')
 
@@ -220,8 +224,14 @@ const Dashboard = props => {
 
   const handleWithdraw = async () => {
     const { paymentCode, reason } = props.navigation.state.params
+    const { styles }: DashboardProps = props
     try {
-      showDialog({ title: 'Processing Payment Link...', loading: true, buttons: [{ text: 'YAY!' }] })
+      showDialog({
+        title: 'Processing Payment Link...',
+        image: <LoadingIcon />,
+        message: 'please wait while processing...',
+        buttons: [{ text: 'YAY!', style: styles.disabledButton }]
+      })
       await executeWithdraw(store, decodeURI(paymentCode), decodeURI(reason))
       hideDialog()
     } catch (e) {
@@ -242,6 +252,15 @@ const Dashboard = props => {
       },
     ],
   }
+
+  useEffect(() => {
+    const debouncedHandleResize = debounce(() => {
+      log.info('update component after resize', update)
+      setUpdate(Date.now())
+    }, 100)
+
+    Dimensions.addEventListener('change', () => debouncedHandleResize())
+  }, [])
 
   return (
     <Wrapper style={styles.dashboardWrapper}>
@@ -436,6 +455,9 @@ const getStylesFromProps = ({ theme }) => ({
     marginVertical: theme.sizes.defaultDouble,
     alignItems: 'baseline',
   },
+  disabledButton: {
+    backgroundColor: theme.colors.gray50Percent,
+  },
   bigNumberUnitStyles: {
     marginRight: normalize(-20),
   },
@@ -495,5 +517,5 @@ export default createStackNavigator({
   Recover: Mnemonics,
   OutOfGasError,
   Rewards: RewardsTab,
-  Marketplace: config.market ? Marketplace : WrappedDashboard,
+  Marketplace: config.market ? MarketTab : WrappedDashboard,
 })

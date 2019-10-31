@@ -52,6 +52,7 @@ const ProfilePrivacy = props => {
 
   const handleSaveShowTips = () => {
     showDialog({
+      title: 'SETTINGS',
       content: (
         <>
           {privacyOptions.map(field => (

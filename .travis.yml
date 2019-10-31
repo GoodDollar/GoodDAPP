@@ -23,6 +23,7 @@ before_script:
 script:
   - npm run coverage -- --silent
   - npm run coveralls || true
+  - pkill -f ganache
   - npm run build
 
 after_success:

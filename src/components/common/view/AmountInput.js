@@ -30,7 +30,7 @@ const AmountInput = ({ amount, handleAmountChange, styles, error, title }: Amoun
   return (
     <View style={styles.wrapper}>
       <View style={styles.container}>
-        {title && <SectionTitle fontWeight="500">{title}</SectionTitle>}
+        {title && <SectionTitle fontWeight="medium">{title}</SectionTitle>}
         <TouchableWithoutFeedback
           onPress={() => (isMobile ? Keyboard.dismiss() : null)}
           accessible={false}

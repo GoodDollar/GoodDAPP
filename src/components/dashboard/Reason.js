@@ -27,7 +27,7 @@ const SendReason = (props: AmountProps) => {
       <TopBar push={screenProps.push} />
       <Section grow>
         <Section.Stack justifyContent="flex-start" style={styles.container}>
-          <Section.Title fontWeight="500">What For?</Section.Title>
+          <Section.Title fontWeight="medium">What For?</Section.Title>
           <InputText
             autoFocus
             style={[props.styles.input, styles.bottomContent]}

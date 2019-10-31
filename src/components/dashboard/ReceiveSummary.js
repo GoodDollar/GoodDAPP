@@ -36,7 +36,7 @@ const ReceiveAmount = ({ screenProps, ...props }: ReceiveProps) => {
     <Wrapper>
       <TopBar push={screenProps.push} />
       <Section justifyContent="space-between" grow>
-        <Section.Title fontWeight="500">Summary</Section.Title>
+        <Section.Title fontWeight="medium">Summary</Section.Title>
         <SummaryTable
           actionReceive={true}
           counterPartyDisplayName={counterPartyDisplayName}

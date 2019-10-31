@@ -157,7 +157,7 @@ const SendLinkSummary = ({ screenProps }: AmountProps) => {
     <Wrapper>
       <TopBar push={screenProps.push} />
       <Section grow>
-        <Section.Title fontWeight="500">SUMMARY</Section.Title>
+        <Section.Title fontWeight="medium">SUMMARY</Section.Title>
         <Section.Row justifyContent="center">
           <Section.Text color="gray80Percent">{'* the transaction may take\na few seconds to complete'}</Section.Text>
         </Section.Row>

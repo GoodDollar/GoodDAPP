@@ -12,6 +12,7 @@ import Text from '../../common/view/Text'
 
 import logger from '../../../lib/logger/pino-logger'
 import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
+import { saveDataToCache } from '../../../lib/utils/cache'
 
 const log = logger.child({ from: 'AddWebApp' })
 
@@ -101,6 +102,7 @@ const AddWebApp = props => {
   const [nextCheck, setNextCheck] = useState()
   const [skipCount, setSkipCount] = useState(0)
   const [lastClaim, setLastClaim] = useState()
+  const [mnemonic, setMnemonic] = useState()
   const [dialogShown, setDialogShown] = useState()
   const store = SimpleStore.useStore()
   const [showDialog] = useDialog()
@@ -110,9 +112,12 @@ const AddWebApp = props => {
     AsyncStorage.getItem('AddWebAppNextCheck').then(setNextCheck)
     AsyncStorage.getItem('AddWebAppSkipCount').then(sc => setSkipCount(Number(sc)))
     AsyncStorage.getItem('AddWebAppLastClaim').then(setLastClaim)
+    AsyncStorage.getItem('GD_USER_MNEMONIC').then(setMnemonic)
   }, [])
 
   const showExplanationDialog = () => {
+    saveDataToCache({ mnemonic })
+
     showDialog({
       content: <ExplanationDialog />,
       showButtons: false,

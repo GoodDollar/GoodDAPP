@@ -54,6 +54,10 @@ export function register(config) {
         // Is not localhost. Just register service worker
         registerValidSW(swUrl, config)
       }
+
+      if (config && config.checkLogin) {
+        config.checkLogin()
+      }
     })
   }
 }

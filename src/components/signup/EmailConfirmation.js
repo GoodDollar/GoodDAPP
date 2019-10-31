@@ -1,5 +1,6 @@
 // @flow
 import React from 'react'
+import { View } from 'react-native'
 import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
 import { withStyles } from '../../lib/styles'
@@ -8,6 +9,7 @@ import Section from '../common/layout/Section'
 import ErrorText from '../common/form/ErrorText'
 import OtpInput from '../common/form/OtpInput'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
+import Icon from '../common/view/Icon'
 import CustomWrapper from './signUpWrapper'
 import type { SignupState } from './SignupState'
 
@@ -34,6 +36,10 @@ type State = CodeRecord & {
 }
 
 const NumInputs: number = 6
+
+const DONE = 'DONE'
+const WAIT = 'WAIT'
+const PENDING = 'PENDING'
 
 class EmailConfirmation extends React.Component<Props, State> {
   state = {
@@ -119,7 +125,7 @@ class EmailConfirmation extends React.Component<Props, State> {
   }
 
   render() {
-    const { errorMessage, loading, code } = this.state
+    const { errorMessage, loading, code, resentCode, renderButton } = this.state
     const { styles } = this.props
 
     return (
@@ -147,21 +153,45 @@ class EmailConfirmation extends React.Component<Props, State> {
             </Section.Stack>
           </Section.Stack>
           <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
-            <Section.Text
-              fontWeight="medium"
-              textDecorationLine="underline"
-              fontSize={14}
-              color="primary"
-              onPress={this.handleRetry}
-            >
-              Send me the code again
-            </Section.Text>
+            <CodeAction
+              status={resentCode ? DONE : renderButton ? PENDING : WAIT}
+              handleRetry={this.handleRetry}
+              successIconStyle={styles.successIconStyle}
+            />
           </Section.Row>
         </Section>
         <LoadingIndicator force={loading} />
       </CustomWrapper>
     )
   }
+}
+
+const CodeAction = ({ status, handleRetry, successIconStyle }) => {
+  if (status === DONE) {
+    return (
+      <View style={successIconStyle}>
+        <Icon size={16} name="success" color="primary" />
+      </View>
+    )
+  } else if (status === WAIT) {
+    return (
+      <Section.Text fontSize={14} color="gray80Percent">
+        Please wait a few seconds until the email arrives
+      </Section.Text>
+    )
+  }
+
+  return (
+    <Section.Text
+      textDecorationLine="underline"
+      fontWeight="medium"
+      fontSize={14}
+      color="primary"
+      onPress={handleRetry}
+    >
+      Send me the code again
+    </Section.Text>
+  )
 }
 
 const getStylesFromProps = ({ theme }) => ({
@@ -180,6 +210,17 @@ const getStylesFromProps = ({ theme }) => ({
   bottomContent: {
     marginTop: 'auto',
     marginBottom: theme.sizes.defaultDouble,
+  },
+  successIconStyle: {
+    borderWidth: 1,
+    borderRadius: '50%',
+    borderColor: theme.colors.primary,
+    position: 'relative',
+    height: 48,
+    width: 48,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 })
 

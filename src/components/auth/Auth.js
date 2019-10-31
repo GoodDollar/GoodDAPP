@@ -12,11 +12,11 @@ import { PrivacyPolicy, Support, TermsOfUse } from '../webView/webViewInstances'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
 import illustration from '../../assets/Auth/Illustration.svg'
-import NavBar from '../appNavigation/NavBar'
 import config from '../../config/config'
 import { theme as mainTheme } from '../theme/styles'
 import API from '../../lib/API/api'
 import Section from '../common/layout/Section'
+import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 
 type Props = {
   navigation: any,
@@ -147,7 +147,9 @@ class Auth extends React.Component<Props> {
 
     return (
       <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
-        <NavBar title={'Welcome'} />
+        <Text style={styles.headerText} fontSize={22} lineHeight={25} fontFamily="Roboto" fontWeight="medium">
+          {'Welcome to your\nfinancial future!'}
+        </Text>
         <Image source={illustration} style={styles.illustration} resizeMode="contain" />
         <Section style={styles.bottomContainer}>
           {asGuest && (
@@ -232,6 +234,10 @@ const getStylesFromProps = ({ theme }) => {
       minHeight: 100,
       maxHeight: 192,
       paddingTop: theme.sizes.default,
+    },
+    headerText: {
+      marginTop: getDesignRelativeHeight(95),
+      marginBottom: getDesignRelativeHeight(25),
     },
   }
 }

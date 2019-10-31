@@ -28,7 +28,7 @@ const getTopText = () => {
         <Section.Text fontSize={22} fontWeight="black" color="darkBlue">
           {`Welcome to GoodDollar Wallet\n`}
         </Section.Text>
-        {`Visit GoodMarket and spend\nyour GoodDollars before they expire\non Feb 11th`}
+        {`Visit GoodMarket and spend\nyour GoodDollars before they\nexpire on Feb 11th`}
       </Section.Text>
     )
   }

@@ -102,10 +102,19 @@ const AddWebApp = props => {
   const [skipCount, setSkipCount] = useState(0)
   const [lastClaim, setLastClaim] = useState()
   const [dialogShown, setDialogShown] = useState()
+  const [isStandalone, setStandalone] = useState(false)
   const store = SimpleStore.useStore()
   const [showDialog] = useDialog()
   const { show } = store.get('addWebApp')
+
   useEffect(() => {
+    if (
+      (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) ||
+      window.navigator.standalone === true
+    ) {
+      setStandalone(true)
+    }
+
     AsyncStorage.getItem('AddWebAppLastCheck').then(setLastCheck)
     AsyncStorage.getItem('AddWebAppNextCheck').then(setNextCheck)
     AsyncStorage.getItem('AddWebAppSkipCount').then(sc => setSkipCount(Number(sc)))
@@ -188,12 +197,10 @@ const AddWebApp = props => {
       log.debug('Install Prompt fired')
 
       // See if the app is already installed, in that case, do nothing
-      if (
-        (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) ||
-        window.navigator.standalone === true
-      ) {
+      if (isStandalone) {
         return
       }
+
       setInstallPrompt(e)
     })
   }, [])
@@ -205,6 +212,10 @@ const AddWebApp = props => {
   }, [dialogShown])
 
   useEffect(() => {
+    if (isStandalone) {
+      return
+    }
+
     log.debug({ installPrompt, show, skipCount })
 
     // Condition to show reminder

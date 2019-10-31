@@ -134,7 +134,7 @@ class EmailConfirmation extends React.Component<Props, State> {
           <Section.Stack justifyContent="flex-start" style={styles.container}>
             <Section.Row justifyContent="center">
               <Section.Title color="darkGray" fontSize={22} fontWeight="500" textTransform="none">
-                {'Enter the verification code\nsent to your email'}
+                {'You’ve got mail!\nA second verification code\nwas emailed to you'}
               </Section.Title>
             </Section.Row>
             <Section.Stack justifyContent="center" style={styles.bottomContent}>
@@ -189,7 +189,7 @@ const CodeAction = ({ status, handleRetry, successIconStyle }) => {
       color="primary"
       onPress={handleRetry}
     >
-      Send me the code again
+      email me the code again
     </Section.Text>
   )
 }

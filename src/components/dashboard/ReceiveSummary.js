@@ -9,7 +9,6 @@ import { PushButton } from '../appNavigation/PushButton'
 
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { generateCode } from '../../lib/share'
-import { theme } from '../theme/styles'
 import { navigationOptions } from './utils/sendReceiveFlow'
 
 export type ReceiveProps = {
@@ -37,7 +36,7 @@ const ReceiveAmount = ({ screenProps, ...props }: ReceiveProps) => {
     <Wrapper>
       <TopBar push={screenProps.push} />
       <Section justifyContent="space-between" grow>
-        <Section.Title style={{ fontWeight: '500', marginVertical: theme.sizes.default }}>Summary</Section.Title>
+        <Section.Title fontWeight="500">Summary</Section.Title>
         <SummaryTable
           actionReceive={true}
           counterPartyDisplayName={counterPartyDisplayName}

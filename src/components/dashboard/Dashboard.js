@@ -226,7 +226,8 @@ const Dashboard = props => {
       showDialog({
         title: 'Processing Payment Link...',
         image: <LoadingIcon />,
-        buttons: [{ text: 'YAY!', style: styles.disabledButton}]
+        message: 'please wait while processing...',
+        buttons: [{ text: 'YAY!', style: styles.disabledButton }]
       })
       await executeWithdraw(store, decodeURI(paymentCode), decodeURI(reason))
       hideDialog()

@@ -264,6 +264,10 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
           userStorage.setProfileField('w3Token', data.w3Token, 'private')
           w3Token = data.w3Token
         }
+
+        if (data && data.marketToken) {
+          userStorage.setProfileField('marketToken', data.marketToken, 'private')
+        }
       })
 
       await addUserAPIPromise

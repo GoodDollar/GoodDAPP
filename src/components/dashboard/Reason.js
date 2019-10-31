@@ -27,7 +27,7 @@ const SendReason = (props: AmountProps) => {
       <TopBar push={screenProps.push} />
       <Section grow>
         <Section.Stack justifyContent="flex-start" style={styles.container}>
-          <Section.Title>What For?</Section.Title>
+          <Section.Title fontWeight="medium">What For?</Section.Title>
           <InputText
             autoFocus
             style={[props.styles.input, styles.bottomContent]}
@@ -73,4 +73,8 @@ SendReason.shouldNavigateToComponent = props => {
   return screenState.amount >= 0 && screenState.nextRoutes
 }
 
-export default withStyles(({ theme }) => ({ input: { marginTop: theme.sizes.defaultDouble } }))(SendReason)
+export default withStyles(({ theme }) => ({
+  input: {
+    marginTop: theme.sizes.defaultDouble,
+  },
+}))(SendReason)

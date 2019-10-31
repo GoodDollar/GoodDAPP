@@ -14,7 +14,7 @@ env:
 
 before_script:
   - pushd node_modules/@gooddollar/goodcontracts
-  - npm i
+  - npm ci
   - npm run ganache &
   - npm run wait
   - npm run deploy

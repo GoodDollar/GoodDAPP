@@ -236,7 +236,8 @@ const getStylesFromProps = ({ theme }) => {
       paddingTop: theme.sizes.default,
     },
     headerText: {
-      marginTop: getDesignRelativeHeight(100),
+      marginTop: getDesignRelativeHeight(95),
+      marginBottom: getDesignRelativeHeight(25),
     },
   }
 }

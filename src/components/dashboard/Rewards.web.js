@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from 'react'
-// import IframeResizer from 'iframe-resizer-react'
-// import { isIOS } from 'mobile-device-detect'
 import userStorage from '../../lib/gundb/UserStorage'
-// import Config from '../../config/config'
 import logger from '../../lib/logger/pino-logger'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { getScreenHeight, getScreenWidth } from '../../lib/utils/Orientation'
@@ -12,7 +9,6 @@ const log = logger.child({ from: 'RewardsTab' })
 const RewardsTab = props => {
   const [loginToken, setLoginToken] = useState()
   const store = SimpleStore.useStore()
-  // const scrolling = isIOS ? 'no' : 'yes'
 
   const getToken = async () => {
     let token = (await userStorage.getProfileFieldValue('loginToken')) || ''
@@ -27,30 +23,20 @@ const RewardsTab = props => {
     store.set('loadingIndicator')({ loading: true })
     getToken()
 
-    const eventMethod = window.addEventListener
-      ? "addEventListener"
-      : "attachEvent"
+    const eventMethod = window.addEventListener ? 'addEventListener' : 'attachEvent'
     const eventer = window[eventMethod]
-    const messageEvent = eventMethod === "attachEvent"
-      ? "onmessage"
-      : "message"
-    eventer(messageEvent, function (e) {
-      console.log('RECEIVE MESSAGE!!!!!!', e)
-      // if (e.origin !== 'http://the-trusted-iframe-origin.com') return;
+    const messageEvent = eventMethod === 'attachEvent' ? 'onmessage' : 'message'
+    eventer(messageEvent, function(e) {
       const data = e.data
-      console.log('RECEIVE MESSAGE!!!!!! data', data)
       if (data && data.type && data.type === 'iFrameHeight' && data.height) {
-        console.log('RECEIVE MESSAGE!!!!!! data.height', data.height)
         setHeight(data.height)
       }
     })
-
   }, [])
 
   return loginToken === undefined ? null : (
     <iframe
       title="Rewards"
-      // scrolling={scrolling}
       src={`https://64af95a6.ngrok.io`}
       allowFullScreen
       frameBorder="0"
@@ -61,7 +47,7 @@ const RewardsTab = props => {
         minWidth: '100%',
         minHeight: '100%',
         width: getScreenWidth(),
-        height: height
+        height: height,
       }}
       onLoad={isLoaded}
     />
@@ -69,6 +55,6 @@ const RewardsTab = props => {
 }
 
 RewardsTab.navigationOptions = {
-  title: 'Rewards'
+  title: 'Rewards',
 }
 export default RewardsTab

@@ -1,6 +1,6 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { Animated, Easing } from 'react-native'
+import { Animated, Easing, Dimensions } from 'react-native'
 import _get from 'lodash/get'
 import debounce from 'lodash/debounce'
 import type { Store } from 'undux'
@@ -94,6 +94,8 @@ const Dashboard = props => {
   const [showDialog, hideDialog] = useDialog()
   const [showErrorDialog] = useErrorDialog()
   const { params } = props.navigation.state
+  const [update, setUpdate] = useState(0)
+
   const prepareLoginToken = async () => {
     const loginToken = await userStorage.getProfileFieldValue('loginToken')
 
@@ -249,6 +251,15 @@ const Dashboard = props => {
       },
     ],
   }
+
+  useEffect(() => {
+    const debouncedHandleResize = debounce(() => {
+      log.info('update component after resize', update)
+      setUpdate(Date.now())
+    }, 100)
+
+    Dimensions.addEventListener('change', () => debouncedHandleResize())
+  }, [])
 
   return (
     <Wrapper style={styles.dashboardWrapper}>

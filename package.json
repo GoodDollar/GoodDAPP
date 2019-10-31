@@ -34,7 +34,8 @@
     "lint:fix": "npm run lint -- --fix",
     "docs": "node scripts/docs.js",
     "web:serveo": "export REACT_APP_WEB3_RPC=https://gdchain.serveo.net;export REACT_APP_SERVER_URL=https://gdserver.serveo.net;export REACT_APP_GUN_PUBLIC_URL=https://gdserver.serveo.net/gun;npm run web:local",
-    "rename:scrypt": "sed -i -e 's|./build/Release/scrypt|scrypt|g' node_modules/scrypt/index.js"
+    "rename:scrypt": "sed -i -e 's|./build/Release/scrypt|scrypt|g' node_modules/scrypt/index.js",
+    "version": "auto-changelog -p && git add CHANGELOG.md"
   },
   "repository": {
     "type": "git",
@@ -58,7 +59,7 @@
   "homepage": "https://gooddollar.org",
   "dependencies": {
     "@babel/preset-flow": "^7.0.0",
-    "@gooddollar/goodcontracts": "1.0.0-beta.13",
+    "@gooddollar/goodcontracts": "1.0.0-beta.14",
     "@gooddollar/gun-appendonly": "^1.0.1",
     "@react-navigation/core": "^3.1.1",
     "@react-navigation/web": "^1.0.0-alpha.7",
@@ -118,6 +119,7 @@
     "@peculiar/webcrypto": "^1.0.19",
     "@svgr/webpack": "2.4.1",
     "artillery": "^1.6.0-28",
+    "auto-changelog": "^1.16.2",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "9.0.0",
     "babel-jest": "^24.8.0",

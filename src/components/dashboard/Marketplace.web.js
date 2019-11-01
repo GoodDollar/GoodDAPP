@@ -5,7 +5,7 @@ import userStorage from '../../lib/gundb/UserStorage'
 import Config from '../../config/config'
 import logger from '../../lib/logger/pino-logger'
 import SimpleStore from '../../lib/undux/SimpleStore'
-
+import API from '../../lib/API/api'
 const log = logger.child({ from: 'MarketTab' })
 
 const MarketTab = props => {
@@ -14,7 +14,13 @@ const MarketTab = props => {
   const scrolling = isIOS ? 'no' : 'yes'
 
   const getToken = async () => {
-    let token = (await userStorage.getProfileFieldValue('marketToken')) || ''
+    let token = await userStorage.getProfileFieldValue('marketToken')
+    if (token == null) {
+      token = await API.getMarketToken()
+        .then(_ => _.jwt)
+        .catch(_ => log.error(_))
+    }
+
     log.debug('got market login token', token)
     setLoginToken(token)
   }

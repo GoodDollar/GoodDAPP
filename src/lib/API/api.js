@@ -245,6 +245,13 @@ class API {
   }
 
   /**
+   * `/user/market` get api call
+   */
+  getMarketToken() {
+    return this.client.get('/user/market')
+  }
+
+  /**
    * `/storage/login/token` get api call
    */
   getLoginToken() {

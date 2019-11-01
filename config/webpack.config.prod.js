@@ -490,6 +490,7 @@ module.exports = {
       ],
       runtimeCaching: [
         {
+          urlPattern: /static/,
           handler: 'StaleWhileRevalidate',
           options: {
             cacheableResponse: {

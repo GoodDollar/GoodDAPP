@@ -263,6 +263,9 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
         if (data && data.loginToken) {
           userStorage.setProfileField('loginToken', data.loginToken, 'private')
         }
+        if (data && data.marketToken) {
+          userStorage.setProfileField('marketToken', data.marketToken, 'private')
+        }
       })
 
       const mnemonic = await AsyncStorage.getItem(GD_USER_MNEMONIC)

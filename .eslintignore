@@ -7,5 +7,4 @@ flow-typed
 scripts
 public/ZoomAuthentication.js
 /*.js
-/src/serviceWorker.js
 /node_modules/**

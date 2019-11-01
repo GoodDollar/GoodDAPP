@@ -12,7 +12,7 @@ import { useErrorDialog } from '../../../lib/undux/utils/dialog'
 import { withStyles } from '../../../lib/styles'
 import Text from '../view/Text'
 import GDStore from '../../../lib/undux/GDStore'
-import { CLICK_BTN_CARD_ACTION, fireEventByCode } from '../../../lib/analytics/proxyAnalytics'
+import { CLICK_BTN_CARD_ACTION, fireEvent } from '../../../lib/analytics/analytics'
 
 const log = logger.child({ from: 'ModalActionsByFeed' })
 
@@ -22,13 +22,13 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
   const store = GDStore.useStore()
   const currentUserName = store.get('profile').fullName
 
-  const fireEvent = actionType => {
-    fireEventByCode(CLICK_BTN_CARD_ACTION, { cardId: item.id, actionType })
+  const fireEventAnalytics = actionType => {
+    fireEvent(CLICK_BTN_CARD_ACTION, { cardId: item.id, actionType })
   }
 
   const cancelPayment = async () => {
     log.info({ item, action: 'cancelPayment' })
-    fireEvent('cancelPayment')
+    fireEventAnalytics('cancelPayment')
     if (item.status === 'pending') {
       // if status is 'pending' trying to cancel a tx that doesn't exist will fail and may confuse the user
       showErrorDialog("Current transaction is still pending, it can't be cancelled right now")
@@ -59,27 +59,27 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
       paymentCode: item.data.withdrawCode,
       reason: item.data.message,
     })
-    fireEvent('Sharelink')
+    fireEventAnalytics('Sharelink')
     return generateSendShareObject(url, item.data.amount, item.data.endpoint.fullName, currentUserName)
   }
 
   const readMore = () => {
-    fireEvent('readMore')
+    fireEventAnalytics('readMore')
     log.info({ item, action: 'readMore' })
     handleModalClose()
   }
   const shareMessage = () => {
-    fireEvent('shareMessage')
+    fireEventAnalytics('shareMessage')
     log.info({ item, action: 'shareMessage' })
     handleModalClose()
   }
   const invitePeople = () => {
-    fireEvent('Rewards')
+    fireEventAnalytics('Rewards')
     navigation.navigate('Rewards')
     handleModalClose()
   }
   const backupPage = () => {
-    fireEvent('BackupWallet')
+    fireEventAnalytics('BackupWallet')
     navigation.navigate('BackupWallet')
     handleModalClose()
   }

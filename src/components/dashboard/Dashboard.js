@@ -37,7 +37,8 @@ import { extractQueryParams, readCode } from '../../lib/share'
 import { deleteAccountDialog } from '../sidemenu/SideMenuPanel'
 import config from '../../config/config'
 import { backupMessage } from '../../lib/gundb/UserStorageClass'
-import { ADDTOHOME, APP_OPEN, fireEventByCode } from '../../lib/analytics/proxyAnalytics'
+import { ADDTOHOME, APP_OPEN, fireEvent } from '../../lib/analytics/analytics'
+import LoadingIcon from '../common/modal/LoadingIcon'
 import RewardsTab from './Rewards'
 import Amount from './Amount'
 import Claim from './Claim'
@@ -135,13 +136,13 @@ const Dashboard = props => {
 
   const addAnalytics = async () => {
     const { show } = store.get('addWebApp')
-    const isFirstRunOnHomeScreen = await userStorage.userProperties.get('isFirstRunOnHomeScreen')
+    const isAddedToHomeScreen = await userStorage.userProperties.get('isAddedToHomeScreen')
     if (!show && isMobile) {
-      if (isFirstRunOnHomeScreen) {
-        fireEventByCode(ADDTOHOME)
-        await userStorage.userProperties.set('isFirstRunOnHomeScreen', false)
+      if (isAddedToHomeScreen) {
+        fireEvent(ADDTOHOME)
+        await userStorage.userProperties.set('isAddedToHomeScreen', false)
       } else {
-        fireEventByCode(APP_OPEN, { source: 'mobile homescreen icon' })
+        fireEvent(APP_OPEN, { source: 'mobile homescreen icon' })
       }
     }
   }
@@ -243,8 +244,14 @@ const Dashboard = props => {
 
   const handleWithdraw = async () => {
     const { paymentCode, reason } = props.navigation.state.params
+    const { styles }: DashboardProps = props
     try {
-      showDialog({ title: 'Processing Payment Link...', loading: true, buttons: [{ text: 'YAY!' }] })
+      showDialog({
+        title: 'Processing Payment Link...',
+        image: <LoadingIcon />,
+        message: 'please wait while processing...',
+        buttons: [{ text: 'YAY!', style: styles.disabledButton }],
+      })
       await executeWithdraw(store, decodeURI(paymentCode), decodeURI(reason))
       hideDialog()
     } catch (e) {
@@ -458,6 +465,9 @@ const getStylesFromProps = ({ theme }) => ({
   bigNumberWrapper: {
     marginVertical: theme.sizes.defaultDouble,
     alignItems: 'baseline',
+  },
+  disabledButton: {
+    backgroundColor: theme.colors.gray50Percent,
   },
   bigNumberUnitStyles: {
     marginRight: normalize(-20),

@@ -9,7 +9,7 @@ import userStorage from '../../lib/gundb/UserStorage'
 import type { FeedEvent } from '../../lib/gundb/UserStorageClass'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import ScrollToTopButton from '../common/buttons/ScrollToTopButton'
-import { CARD_OPEN, fireEventByCode } from '../../lib/analytics/proxyAnalytics'
+import { CARD_OPEN, fireEvent } from '../../lib/analytics/analytics'
 import FeedActions from './FeedActions'
 import FeedListItem from './FeedItems/FeedListItem'
 
@@ -75,7 +75,7 @@ const FeedList = ({
 
   const pressItem = item => () => {
     if (item.type !== 'empty') {
-      fireEventByCode(CARD_OPEN, { cardId: item.id })
+      fireEvent(CARD_OPEN, { cardId: item.id })
       handleFeedSelection(item, true)
     }
   }

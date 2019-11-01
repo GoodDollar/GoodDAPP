@@ -10,7 +10,7 @@ import SideMenuPanel from '../sidemenu/SideMenuPanel'
 import logger from '../../lib/logger/pino-logger'
 import CustomButton, { type ButtonProps } from '../common/buttons/CustomButton'
 import Blurred from '../common/view/Blurred'
-import { fireEventFromNavigation } from '../../lib/analytics/proxyAnalytics'
+import { fireEventFromNavigation } from '../../lib/analytics/analytics'
 import userStorage from '../../lib/gundb/UserStorage'
 import NavBar from './NavBar'
 import { navigationOptions } from './navigationConfig'
@@ -350,7 +350,7 @@ const styles = StyleSheet.create({
  * This function is meant to be used to create a new stack navigation with the given routes.
  * @param {[Route]} routes: Array with routes in the stack
  * @param {Object} navigationConfig
- */
+*/
 export const createStackNavigator = (routes: any, navigationConfig: any) => {
   const defaultNavigationConfig = {
     backRouteName: 'Home',

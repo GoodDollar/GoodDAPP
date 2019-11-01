@@ -9,7 +9,7 @@ import SimpleStore from '../../lib/undux/SimpleStore'
 import { wrapFunction } from '../../lib/undux/utils/wrapper'
 import { Section, Wrapper } from '../common'
 import TopBar from '../common/view/TopBar'
-import { fireEventByCode, QR_SCAN } from '../../lib/analytics/proxyAnalytics'
+import { fireEvent, QR_SCAN } from '../../lib/analytics/analytics'
 import { routeAndPathForCode } from './utils/routeAndPathForCode'
 
 const QR_DEFAULT_DELAY = 300
@@ -34,7 +34,7 @@ const SendByQR = ({ screenProps }: Props) => {
         log.info({ code })
 
         const { route, params } = await routeAndPathForCode('sendByQR', code)
-        fireEventByCode(QR_SCAN, { type: 'send' })
+        fireEvent(QR_SCAN, { type: 'send' })
         screenProps.push(route, params)
       } catch (e) {
         log.error(e.message, e)

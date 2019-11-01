@@ -9,7 +9,7 @@ import inviteFriendsIllustration from '../../../assets/Feed/inviteFriends.png'
 import backupIllustration from '../../../assets/Feed/backup.png'
 import spendingIllustration from '../../../assets/Feed/spending.svg'
 import { withStyles } from '../../../lib/styles'
-import normalize from '../../../lib/utils/normalizeText'
+import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
 
 const TopImage = ({ type, styles }) => {
   const getImageByType = () =>
@@ -99,8 +99,8 @@ const getStylesFromProps = ({ theme }) => ({
     width: '100%',
   },
   spending: {
-    width: normalize(176),
-    height: normalize(76),
+    width: getDesignRelativeWidth(176),
+    height: getDesignRelativeHeight(76),
     margin: '10%',
   },
 })

@@ -168,15 +168,15 @@ const Dashboard = props => {
       if (
         userProperties.firstVisitApp &&
         Date.now() - userProperties.firstVisitApp >= 68400 &&
-        userProperties.EToro_needAddCardSpending
+        userProperties.etoroNeedAddCardSpending
       ) {
         await userStorage.enqueueTX(startSpending)
-        await userStorage.userProperties.set('EToro_needAddCardSpending', false)
+        await userStorage.userProperties.set('etoroNeedAddCardSpending', false)
       }
 
       if (!userProperties.firstVisitApp) {
         await userStorage.userProperties.set('firstVisitApp', Date.now())
-        await userStorage.userProperties.set('EToro_needAddCardSpending', true)
+        await userStorage.userProperties.set('etoroNeedAddCardSpending', true)
       }
     }
   }

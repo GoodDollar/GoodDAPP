@@ -54,7 +54,8 @@ class SoftwareWalletProvider {
 
   defaults = {
     defaultBlock: 'latest',
-    defaultGas: 140000,
+
+    // defaultGas: 140000,
     defaultGasPrice: 1000000,
     transactionBlockTimeout: 2,
     transactionConfirmationBlocks: 1,

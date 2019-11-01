@@ -149,14 +149,14 @@ export class GoodWallet {
         // Identity Contract
         this.identityContract = new this.wallet.eth.Contract(
           IdentityABI.abi,
-          get(ContractsAddress, `${this.network}.Identity`, IdentityABI.networks[this.networkId].address),
+          get(ContractsAddress, `${this.network}.Identity` /*IdentityABI.networks[this.networkId].address*/),
           { from: this.account }
         )
 
         // Token Contract
         this.tokenContract = new this.wallet.eth.Contract(
           GoodDollarABI.abi,
-          get(ContractsAddress, `${this.network}.GoodDollar`, GoodDollarABI.networks[this.networkId].address),
+          get(ContractsAddress, `${this.network}.GoodDollar` /*GoodDollarABI.networks[this.networkId].address*/),
           { from: this.account }
         )
         abiDecoder.addABI(GoodDollarABI.abi)
@@ -164,7 +164,7 @@ export class GoodWallet {
         // ERC20 Contract
         this.erc20Contract = new this.wallet.eth.Contract(
           ERC20ABI.abi,
-          get(ContractsAddress, `${this.network}.GoodDollar`, GoodDollarABI.networks[this.networkId].address),
+          get(ContractsAddress, `${this.network}.GoodDollar` /*GoodDollarABI.networks[this.networkId].address*/),
           { from: this.account }
         )
         abiDecoder.addABI(ERC20ABI.abi)
@@ -172,7 +172,7 @@ export class GoodWallet {
         // UBI Contract
         this.UBIContract = new this.wallet.eth.Contract(
           UBIABI.abi,
-          get(ContractsAddress, `${this.network}.UBI`, UBIABI.networks[this.networkId].address),
+          get(ContractsAddress, `${this.network}.UBI` /*UBIABI.networks[this.networkId].address*/),
           { from: this.account }
         )
         abiDecoder.addABI(UBIABI.abi)
@@ -180,7 +180,10 @@ export class GoodWallet {
         // OneTimePaymentLinks Contract
         this.oneTimePaymentsContract = new this.wallet.eth.Contract(
           OneTimePaymentsABI.abi,
-          get(ContractsAddress, `${this.network}.OneTimePayments`, OneTimePaymentsABI.networks[this.networkId].address),
+          get(
+            ContractsAddress,
+            `${this.network}.OneTimePayments` /*OneTimePaymentsABI.networks[this.networkId].address*/
+          ),
           {
             from: this.account,
           }
@@ -230,8 +233,8 @@ export class GoodWallet {
         }
 
         // Send for all events. We could define here different events
-        this.getSubscribers('send').forEach(cb => cb(error, [event]))
-        this.getSubscribers('balanceChanged').forEach(cb => cb(error, [event]))
+        this.getSubscribers('send').forEach(cb => cb(event))
+        this.getSubscribers('balanceChanged').forEach(cb => cb(event))
       }
     })
 
@@ -256,8 +259,8 @@ export class GoodWallet {
         }
 
         // Send for all events. We could define here different events
-        this.getSubscribers('receive').forEach(cb => cb(error, [event]))
-        this.getSubscribers('balanceChanged').forEach(cb => cb(error, [event]))
+        this.getSubscribers('receive').forEach(cb => cb(event))
+        this.getSubscribers('balanceChanged').forEach(cb => cb(event))
       }
     })
   }
@@ -323,7 +326,7 @@ export class GoodWallet {
     try {
       return this.sendTransaction(this.UBIContract.methods.claim(), callbacks)
     } catch (e) {
-      log.info(e)
+      log.error('claim failed', e.message, e)
       return Promise.reject(e)
     }
   }
@@ -334,11 +337,11 @@ export class GoodWallet {
   }
 
   async getAmountAndQuantityClaimedToday(): Promise<any> {
-    const res = ((await this.UBIContract.methods.getDailyStats().call()) || [ZERO, ZERO]).toNumber()
+    const res = (await this.UBIContract.methods.getDailyStats().call()) || [ZERO, ZERO]
 
     return {
-      people: res[0],
-      amount: res[1],
+      people: res[0].toNumber(),
+      amount: res[1].toNumber(),
     }
   }
 
@@ -354,7 +357,7 @@ export class GoodWallet {
    * @return {object} subscriber id and eventName
    * @dev so consumer can unsubscribe using id and event name
    */
-  subscribeToEvent(eventName: string, cb: Function) {
+  subscribeToEvent(eventName: string, cb: (EventLog | TransactionReceipt) => any) {
     if (!this.subscribers[eventName]) {
       // Get last id from subscribersList
       this.subscribers[eventName] = {}
@@ -402,7 +405,15 @@ export class GoodWallet {
   }
 
   balanceOf(): Promise<number> {
-    return this.tokenContract.methods.balanceOf(this.account).call()
+    return this.tokenContract.methods
+      .balanceOf(this.account)
+      .call()
+      .then(toBN)
+      .then(_ => _.toNumber())
+  }
+
+  balanceOfNative(): Promise<number> {
+    return this.wallet.eth.getBalance(this.account).then(parseInt)
   }
 
   signMessage() {}
@@ -443,7 +454,7 @@ export class GoodWallet {
    */
   getTxFee(): Promise<boolean> {
     return this.tokenContract.methods
-      .GetFees(1)
+      .getFees(1)
       .call()
       .then(toBN)
   }
@@ -477,31 +488,29 @@ export class GoodWallet {
     }
 
     const balance = await this.balanceOf()
-    return parseInt(amountWithFee) <= parseInt(balance)
+    return parseInt(amountWithFee) <= balance
   }
 
   /**
    * perform transaction to deposit amount into the OneTimePaymentLink contract
    * @param {number} amount
    * @param {string} hashedCode
-   * @param {PromieEvents} events
+   * @param {PromieEvents} callbacks
    */
-  async depositToHash(amount: number, hashedCode: string, events: PromiEvents): any {
+  async depositToHash(amount: number, hashedCode: string, callbacks: PromiEvents): Promise<TransactionReceipt> {
     if (!(await this.canSend(amount))) {
       throw new Error(`Amount is bigger than balance`)
     }
 
     const otpAddress = this.oneTimePaymentsContract.address
-    const transferAndCall = this.tokenContract.methods.transferAndCall(otpAddress, amount, hashedCode, {
-      from: this.account,
-    })
+    const transferAndCall = this.tokenContract.methods.transferAndCall(otpAddress, amount, hashedCode)
 
     // Fixed gas amount so it can work locally with ganache
     // https://github.com/trufflesuite/ganache-core/issues/417
     const gas: number = 200000 //Math.floor((await transferAndCall.estimateGas().catch(this.handleError)) * 2)
 
     //dont wait for transaction return immediatly with hash code and link (not using await here)
-    return this.sendTransaction(transferAndCall, events, { gas })
+    return this.sendTransaction(transferAndCall, callbacks, { gas })
   }
 
   /**
@@ -515,7 +524,7 @@ export class GoodWallet {
   generateLink(
     amount: number,
     reason: string = '',
-    getOnTxHash: (extraData: { paymentLink: string, code: string }) => (hash: string) => any,
+    getOnTxHash: (extraData: { paymentLink: string, code: string }) => (hash: string) => any = () => () => {},
     events: PromiEvents = defaultPromiEvents
   ): { code: string, hashedCode: string, paymentLink: string } {
     const code = this.wallet.utils.randomHex(10).replace('0x', '')
@@ -531,12 +540,13 @@ export class GoodWallet {
     //pass extra data
     const onTransactionHash = getOnTxHash({ paymentLink, code })
 
-    this.depositToHash(amount, hashedCode, { ...events, onTransactionHash })
+    const txPromise = this.depositToHash(amount, hashedCode, { ...events, onTransactionHash })
 
     return {
       code,
       hashedCode,
       paymentLink,
+      txPromise,
     }
   }
 
@@ -570,9 +580,10 @@ export class GoodWallet {
    */
   getWithdrawAvailablePayment(link: string): Promise<BN> {
     const { payments } = this.oneTimePaymentsContract.methods
-    const { toBN } = this.wallet.utils
 
-    const amount = payments(link).call().paymentAmount
+    const amount = payments(link)
+      .call()
+      .then(_ => _.paymentAmount)
 
     return amount.then(toBN)
   }
@@ -601,21 +612,21 @@ export class GoodWallet {
   async canWithdraw(otlCode: string) {
     const { payments } = this.oneTimePaymentsContract.methods
 
-    const link = this.getWithdrawLink(otlCode)
+    const hash = this.getWithdrawLink(otlCode)
 
     // Check link availability
-    const linkUsed = await this.isWithdrawLinkUsed(link)
+    const linkUsed = await this.isWithdrawLinkUsed(hash)
     if (!linkUsed) {
       throw new Error('Could not find payment or incorrect code')
     }
 
     // Check payment availability
-    const paymentAvailable = await this.getWithdrawAvailablePayment(link)
+    const paymentAvailable = await this.getWithdrawAvailablePayment(hash)
     if (this.isWithdrawPaymentAvailable(paymentAvailable) === false) {
       throw new Error('Payment already withdrawn')
     }
 
-    const sender = await payments(link).call().paymentSender
+    const sender = (await payments(hash).call()).paymentSender
     return {
       amount: paymentAvailable.toString(),
       sender,
@@ -625,12 +636,14 @@ export class GoodWallet {
   /**
    * withdraws the payment received in the link to the current wallet holder
    * @param {string} otlCode
-   * @param {PromiEvents} promiEvents
+   * @param {PromiEvents} callbacks
    */
-  withdraw(otlCode: string, promiEvents: ?PromiEvents) {
+  async withdraw(otlCode: string, callbacks: PromiEvents) {
     const withdrawCall = this.oneTimePaymentsContract.methods.withdraw(otlCode)
-    log.info('withdrawCall', withdrawCall)
-    return this.sendTransaction(withdrawCall, { ...defaultPromiEvents, ...promiEvents })
+    const gasLimit = await this.oneTimePaymentsContract.methods.gasLimit.call().then(toBN)
+
+    //contract enforces max gas of 80000 to prevent front running
+    return this.sendTransaction(withdrawCall, callbacks, { gas: gasLimit.toNumber() })
   }
 
   /**
@@ -664,14 +677,8 @@ export class GoodWallet {
    * @returns {Promise<TransactionReceipt>}
    */
   cancelOTL(hashedCode: string, txCallbacks: {} = {}): Promise<TransactionReceipt> {
-    const cancelOtlCall = this.oneTimePaymentsContract.methods.cancel(hashedCode, { from: this.account })
-    return this.sendTransaction(cancelOtlCall, {
-      ...txCallbacks,
-      onTransactionHash: hash => {
-        log.debug({ hash })
-        txCallbacks.onTransactionHash(hash)
-      },
-    })
+    const cancelOtlCall = this.oneTimePaymentsContract.methods.cancel(hashedCode)
+    return this.sendTransaction(cancelOtlCall, txCallbacks)
   }
 
   handleError(e: Error) {
@@ -683,7 +690,6 @@ export class GoodWallet {
     let gasPrice = this.gasPrice
 
     try {
-      const { toBN } = this.wallet.utils
       const networkGasPrice = await this.wallet.eth.getGasPrice().then(toBN)
 
       if (networkGasPrice.gt(toBN('0'))) {
@@ -696,7 +702,7 @@ export class GoodWallet {
     return gasPrice
   }
 
-  async sendAmount(to: string, amount: number, events: PromiEvents): Promise<TransactionReceipt> {
+  async sendAmount(to: string, amount: number, callbacks: PromiEvents): Promise<TransactionReceipt> {
     if (!this.wallet.utils.isAddress(to)) {
       throw new Error('Address is invalid')
     }
@@ -708,7 +714,7 @@ export class GoodWallet {
     log.info({ amount, to })
     const transferCall = this.tokenContract.methods.transfer(to, amount.toString()) // retusn TX object (not sent to the blockchain yet)
 
-    return this.sendTransaction(transferCall, events) // Send TX to the blockchain
+    return this.sendTransaction(transferCall, callbacks) // Send TX to the blockchain
   }
 
   /**
@@ -720,7 +726,7 @@ export class GoodWallet {
     try {
       const { topWallet = true } = options
 
-      let nativeBalance = await this.wallet.eth.getBalance(this.account)
+      let nativeBalance = await this.balanceOfNative()
       if (nativeBalance > wei) {
         return {
           ok: true,
@@ -728,6 +734,7 @@ export class GoodWallet {
       }
 
       if (topWallet) {
+        log.info('no gas, asking for top wallet')
         const toppingRes = await API.verifyTopWallet()
         const { data } = toppingRes
         if (data.ok !== 1) {
@@ -769,43 +776,49 @@ export class GoodWallet {
   async sendTransaction(
     tx: any,
     txCallbacks: PromiEvents = defaultPromiEvents,
-    { gas, gasPrice }: GasValues = { gas: undefined, gasPrice: undefined }
+    { gas: setgas, gasPrice }: GasValues = { gas: undefined, gasPrice: undefined }
   ) {
     const { onTransactionHash, onReceipt, onConfirmation, onError } = { ...defaultPromiEvents, ...txCallbacks }
-    gas = gas || (await tx.estimateGas().catch(this.handleError))
+    let gas = setgas || (await tx.estimateGas())
     gasPrice = gasPrice || this.gasPrice
-
+    if (Config.network === 'develop' && setgas === undefined) {
+      gas *= 2
+    }
+    log.debug({ gas, gasPrice })
     const { ok } = await this.verifyHasGas(gas * gasPrice)
     if (ok === false) {
       return Promise.reject('Reached daily transactions limit or not a citizen').catch(this.handleError)
     }
+    const res = new Promise((res, rej) => {
+      tx.send({ gas, gasPrice, chainId: this.networkId })
+        .on('transactionHash', h => {
+          log.debug('got txhash', h)
+          onTransactionHash && onTransactionHash(h)
+        })
+        .on('receipt', r => {
+          log.debug('got receipt', r)
+          res(r)
+          onReceipt && onReceipt(r)
+        })
+        .on('confirmation', c => {
+          log.debug('got confirmation', c)
+          onConfirmation && onConfirmation(c)
+        })
+        .on('error', e => {
+          log.debug('got error', e)
+          rej(e)
+          onError && onError(e)
+        })
+    })
+    return res
 
-    log.debug({ gas, gasPrice })
-    return (
-      new Promise((res, rej) => {
-        tx.send({ gas, gasPrice, chainId: this.networkId })
-          .on('transactionHash', h => {
-            onTransactionHash && onTransactionHash(h)
-          })
-          .on('receipt', r => {
-            onReceipt && onReceipt(r)
-            res(r)
-          })
-          .on('confirmation', c => onConfirmation && onConfirmation(c))
-          .on('error', e => {
-            onError && onError(e)
-            rej(e)
-          })
-      })
-
-        /** receipt handling happens already in polling events */
-        // .then(async receipt => {
-        //   const transactionReceipt = await this.getReceiptWithLogs(receipt.transactionHash)
-        //   await this.sendReceiptWithLogsToSubscribers(transactionReceipt, ['receiptReceived', 'receiptUpdated'])
-        //   return transactionReceipt
-        // })
-        .catch(this.handleError)
-    )
+    /** receipt handling happens already in polling events */
+    // .then(async receipt => {
+    //   const transactionReceipt = await this.getReceiptWithLogs(receipt.transactionHash)
+    //   await this.sendReceiptWithLogsToSubscribers(transactionReceipt, ['receiptReceived', 'receiptUpdated'])
+    //   return transactionReceipt
+    // })
+    // .catch(this.handleError)
   }
 }
 

@@ -71,7 +71,7 @@ const recoverByMagicLink = async () => {
         const mnemonicsHelpers = import('./lib/wallet/SoftwareWalletProvider')
         const { saveMnemonics } = await mnemonicsHelpers
         await saveMnemonics(mnemonic)
-        await AsyncStorage.setItem('GOODDAPP_isLoggedIn', true)
+        await AsyncStorage.setItem('GD_isLoggedIn', true)
         window.location = '/'
       }
     }
@@ -107,7 +107,7 @@ const RouterSelector = () => {
     const params = extractQueryParams(window.location.href)
 
     if (params.web3) {
-      AsyncStorage.setItem('web3Token', params.web3)
+      AsyncStorage.setItem('GD_web3Token', params.web3)
     }
 
     if (params && Object.keys(params).length > 0) {

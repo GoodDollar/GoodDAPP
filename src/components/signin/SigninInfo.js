@@ -16,7 +16,7 @@ Image.prefetch(illustration)
 const Signin = props => {
   const { styles } = props
 
-  AsyncStorage.removeItem('web3Token')
+  AsyncStorage.removeItem('GD_web3Token')
 
   const handleRecover = () => {
     props.navigation.navigate('Recover')

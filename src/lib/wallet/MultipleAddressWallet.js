@@ -18,6 +18,8 @@ class MultipleAddressWallet {
 
   mnemonic: string
 
+  seed: string
+
   addresses: Array<string>
 
   numOfAccounts: number = 10
@@ -26,9 +28,9 @@ class MultipleAddressWallet {
     logger.debug('MultipleAddressWallet ', { mnemonic }, { numOfAccounts })
     this.numOfAccounts = numOfAccounts
     if (conf.mnemonicToSeed) {
-      this.mnemonic = bip39.mnemonicToSeed(mnemonic)
+      this.seed = bip39.mnemonicToSeed(mnemonic)
     } else {
-      this.mnemonic = mnemonic
+      this.seed = mnemonic
     }
     this.mnemonic = mnemonic
     this.addresses = []
@@ -40,7 +42,7 @@ class MultipleAddressWallet {
   initAccounts() {
     // i starts from 1
     for (let i = 0; i < this.numOfAccounts; i++) {
-      let root = HDKey.fromMasterSeed(this.mnemonic)
+      let root = HDKey.fromMasterSeed(this.seed)
       var path = "m/44'/60'/0'/0/" + (i + 1)
       let addrNode = root.derive(path)
       let privateKeyBuffer = Buffer.from(addrNode._privateKey, 'hex')

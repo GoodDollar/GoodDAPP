@@ -95,7 +95,8 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
 
   const checkWeb3Token = async () => {
     setLoading(true)
-    const web3Token = await AsyncStorage.getItem('web3Token')
+
+    const web3Token = await AsyncStorage.getItem('GD_web3Token')
 
     if (!web3Token) {
       setLoading(false)
@@ -175,8 +176,8 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   }
 
   const isRegisterAllowed = async () => {
-    const w3Token = await AsyncStorage.getItem('web3Token')
-    const destinationPath = await AsyncStorage.getItem('destinationPath')
+    const w3Token = await AsyncStorage.getItem('GD_web3Token')
+    const destinationPath = await AsyncStorage.getItem('GD_destinationPath')
       .then(JSON.parse)
       .catch(e => ({}))
     const paymentCode = _get(destinationPath, 'params.paymentCode')
@@ -206,8 +207,14 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       fireSignupEvent('STARTED')
 
       //the login also re-initialize the api with new jwt
-      await login.then(l => l.default.auth())
+      await login
+        .then(l => l.default.auth())
+        .catch(e => {
+          showErrorDialog('Failed authenticating with server', e)
+        })
       await API.ready
+
+      checkWeb3Token()
 
       //now that we are loggedin, reload api with JWT
       // await API.init()
@@ -217,15 +224,13 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
     setReady(ready)
 
     // don't allow to start sign up flow not from begining except when w3Token provided
-    AsyncStorage.getItem('web3Token').then(token => {
+    AsyncStorage.getItem('GD_web3Token').then(token => {
       if (!token && navigation.state.index > 0) {
         log.debug('redirecting to start, got index:', navigation.state.index)
         setLoading(true)
         return navigateWithFocus(navigation.state.routes[0].key)
       }
     })
-
-    checkWeb3Token()
   }, [])
 
   const finishRegistration = async () => {
@@ -247,19 +252,26 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       //first need to add user to our database
       // Stores creationBlock number into 'lastBlock' feed's node
 
+      let w3Token = requestPayload.w3Token
       const addUserAPIPromise = API.addUser(requestPayload).then(res => {
         const data = res.data
 
         if (data && data.loginToken) {
           userStorage.setProfileField('loginToken', data.loginToken, 'private')
         }
+
+        if (data && data.w3Token) {
+          userStorage.setProfileField('w3Token', data.w3Token, 'private')
+          w3Token = data.w3Token
+        }
+
         if (data && data.marketToken) {
           userStorage.setProfileField('marketToken', data.marketToken, 'private')
         }
       })
 
-      const mnemonic = await AsyncStorage.getItem(GD_USER_MNEMONIC)
       await addUserAPIPromise
+      const mnemonic = await AsyncStorage.getItem(GD_USER_MNEMONIC)
       await Promise.all([
         userStorage.setProfile({ ...requestPayload, walletAddress: goodWallet.account, mnemonic }),
         userStorage.setProfileField('registered', true, 'public'),
@@ -268,11 +280,15 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
 
       //need to wait for API.addUser but we dont need to wait for it to finish
       Promise.all([
-        AsyncStorage.removeItem('web3Token'),
-        API.updateW3UserWithWallet(requestPayload.w3Token, goodWallet.account),
-        API.sendRecoveryInstructionByEmail(mnemonic),
-        API.sendMagicLinkByEmail(userStorage.getMagicLink()),
-      ]).catch(e => log.error('failed signup email/w3 promises', e.message, e))
+        AsyncStorage.removeItem('GD_web3Token'),
+        w3Token &&
+          API.updateW3UserWithWallet(w3Token, goodWallet.account).catch(e =>
+            log.error('failed updateW3UserWithWallet', e.message, e)
+          ),
+        API.sendMagicLinkByEmail(userStorage.getMagicLink()).catch(e =>
+          log.error('failed sendMagicLinkByEmail', e.message, e)
+        ),
+      ])
       await AsyncStorage.setItem(IS_LOGGED_IN, true)
       log.debug('New user created')
       return true

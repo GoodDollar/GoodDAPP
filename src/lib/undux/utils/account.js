@@ -10,7 +10,7 @@ const updateAll = store => {
   return Promise.all([goodWallet.balanceOf(), goodWallet.checkEntitlement()])
     .then(([balance, entitlement]) => {
       const account = store.get('account')
-      const balanceChanged = !account.balance || !account.balance.eq(balance)
+      const balanceChanged = !account.balance || account.balance != balance
       const entitlementChanged = !account.entitlement || !account.entitlement.eq(entitlement)
 
       if (balanceChanged || entitlementChanged || account.ready === false) {
@@ -29,9 +29,9 @@ const updateAll = store => {
  * @param {Store} store
  * @returns {Promise<void>}
  */
-const onBalanceChange = async (error: {}, events: [] = [], store: Store) => {
-  if (!error && events.length) {
-    log.debug('new Transfer events:', { error, events })
+const onBalanceChange = async (event: EventLog, store: Store) => {
+  if (event) {
+    log.debug('new Transfer events:', { event })
     await updateAll(store)
   }
 }
@@ -52,7 +52,7 @@ const initTransferEvents = async (store: Store) => {
 
     goodWallet.listenTxUpdates(lastBlock, ({ fromBlock, toBlock }) => userStorage.saveLastBlockNumber(toBlock))
 
-    goodWallet.balanceChanged((error, event) => onBalanceChange(error, event, store))
+    goodWallet.balanceChanged(event => onBalanceChange(event, store))
   }
 }
 

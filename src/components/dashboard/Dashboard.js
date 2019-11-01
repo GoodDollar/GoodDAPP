@@ -1,6 +1,6 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { Animated, Easing, Dimensions } from 'react-native'
+import { Animated, AppState, Dimensions, Easing } from 'react-native'
 import _get from 'lodash/get'
 import debounce from 'lodash/debounce'
 import type { Store } from 'undux'
@@ -13,10 +13,11 @@ import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
 import { getInitialFeed, getNextFeed, PAGE_SIZE } from '../../lib/undux/utils/feed'
 import { executeWithdraw } from '../../lib/undux/utils/withdraw'
-import { weiToMask } from '../../lib/wallet/utils'
+import { gdToWei, weiToMask } from '../../lib/wallet/utils'
 
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 
+import type { TransactionEvent } from '../../lib/gundb/UserStorage'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { PushButton } from '../appNavigation/PushButton'
 import TabsView from '../appNavigation/TabsView'
@@ -127,6 +128,39 @@ const Dashboard = props => {
     }
   }
 
+  const checkBonusesToRedeem = () => {
+    const isUserWhitelisted = gdstore.get('isLoggedInCitizen')
+
+    if (!isUserWhitelisted) {
+      return
+    }
+
+    API.redeemBonuses()
+      .then(res => {
+        const resData = res.data
+
+        if (resData.hash && resData.bonusAmount) {
+          const transactionEvent: TransactionEvent = {
+            id: resData.hash,
+            date: new Date().toString(),
+            type: 'bonus',
+            status: 'pending',
+            data: {
+              customName: 'GoodDollar',
+              amount: gdToWei(resData.bonusAmount),
+            },
+          }
+
+          userStorage.enqueueTX(transactionEvent)
+        }
+      })
+      .catch(err => {
+        log.error('Failed to redeem bonuses', err.message, err)
+
+        showErrorDialog('Something Went Wrong. An error occurred while trying to redeem bonuses')
+      })
+  }
+
   //Service redirects Send/Receive
   useEffect(() => {
     const anyParams = extractQueryParams(window.location.href)
@@ -149,10 +183,20 @@ const Dashboard = props => {
     return getNextFeed(gdstore)
   }
 
+  const handleAppFocus = state => {
+    if (state === 'active') {
+      checkBonusesToRedeem()
+    }
+  }
+
   useEffect(() => {
+    AppState.addEventListener('change', handleAppFocus)
+
     if (props.navigation.state.key === 'Delete') {
       deleteAccountDialog({ API, showDialog: showErrorDialog, store, theme: props.theme })
     }
+
+    checkBonusesToRedeem()
 
     prepareLoginToken()
     addBackupCard()
@@ -161,6 +205,10 @@ const Dashboard = props => {
       log.debug('gun getFeed callback', { data })
       getInitialFeed(gdstore)
     }, true)
+
+    return function() {
+      AppState.removeEventListener('change', handleAppFocus)
+    }
   }, [])
 
   useEffect(() => {
@@ -230,7 +278,7 @@ const Dashboard = props => {
         title: 'Processing Payment Link...',
         image: <LoadingIcon />,
         message: 'please wait while processing...',
-        buttons: [{ text: 'YAY!', style: styles.disabledButton }]
+        buttons: [{ text: 'YAY!', style: styles.disabledButton }],
       })
       await executeWithdraw(store, decodeURI(paymentCode), decodeURI(reason))
       hideDialog()

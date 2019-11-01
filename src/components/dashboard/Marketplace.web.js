@@ -31,19 +31,13 @@ const MarketTab = props => {
     <IframeResizer
       title="GoodMarket"
       scrolling={scrolling}
-      src={`${Config.marketUrl}?jwt=${loginToken}`}
+      src={`${Config.marketUrl}`}
       allowFullScreen
       frameBorder="0"
       width="100%"
       height="100%"
       seamless
-      style={{
-        maxWidth: '100%',
-        maxHeight: '100%',
-        minWidth: '100%',
-        minHeight: '100%',
-        width: 0,
-      }}
+      style={{ flex: 1 }}
       onLoad={isLoaded}
     />
   )

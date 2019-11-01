@@ -12,18 +12,18 @@ env:
     #    - REACT_APP_NETWORK_ID=4447
     - MNEMONIC="myth like bonus scare over problem client lizard pioneer submit female collect"
 
-before_script:
-  - pushd node_modules/@gooddollar/goodcontracts
-  - npm ci
-  - npm run ganache &
-  - npm run wait
-  - npm run deploy
-  - popd
+# before_script:
+#   - pushd node_modules/@gooddollar/goodcontracts
+#   - npm ci
+#   - npm run ganache &
+#   - npm run wait
+#   - npm run deploy
+#   - popd
 
 script:
-  - npm run coverage -- --silent
-  - npm run coveralls || true
-  - pkill -f ganache
+  # - npm run coverage -- --silent
+  # - npm run coveralls || true
+  # - pkill -f ganache
   - npm run build
 
 after_success:

@@ -1,9 +1,10 @@
 //@flow
+import _pick from 'lodash/pick'
 import './lib/gundb/gundb'
 import goodWallet from './lib/wallet/GoodWallet'
 import userStorage from './lib/gundb/UserStorage'
 import logger from './lib/logger/pino-logger'
-
+import isWebApp from './lib/utils/isWebApp'
 import { APP_OPEN, fireEvent, initAnalytics } from './lib/analytics/analytics'
 import { extractQueryParams } from './lib/share'
 
@@ -12,16 +13,11 @@ export const init = () => {
     global.wallet = goodWallet
     await initAnalytics(goodWallet, userStorage, logger)
 
-    if (
-      (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) ||
-      window.navigator.standalone === true
-    ) {
-      const params = extractQueryParams(window.location.href)
-      if (params.web3 || params.paymentCode) {
-        fireEvent(APP_OPEN, { source: params.paymentCode ? 'payment code' : 'w3' })
-      }
-    }
+    const params = extractQueryParams(window.location.href)
+    const source = Object.keys(_pick(params, ['web3', 'paymentCode', 'code'])).pop() || 'none'
 
-    return { goodWallet, userStorage }
+    fireEvent(APP_OPEN, { source, isWebApp })
+
+    return { goodWallet, userStorage, source }
   })
 }

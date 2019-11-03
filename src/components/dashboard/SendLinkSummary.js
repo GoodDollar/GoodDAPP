@@ -140,10 +140,11 @@ const SendLinkSummary = ({ screenProps }: AmountProps) => {
         const { paymentLink } = generateLinkResponse
         return paymentLink
       }
+      log.error('generating payment link failed - unknwon')
       showErrorDialog('Generating payment failed', 'Unknown Error')
     } catch (e) {
       showErrorDialog('Generating payment failed', e)
-      log.error(e.message, e)
+      log.error('generating payment link failed', e.message, e)
     }
   }
 

@@ -15,6 +15,11 @@ export const PROFILE_IMAGE = 'PROFILE_IMAGE'
 export const PROFILE_UPDATE = 'PROFILE_UPDATE'
 export const PHRASE_BACKUP = 'PHRASE_BACKUP'
 export const ADDTOHOME = 'ADDTOHOME'
+export const ADDTOHOME_LATER = 'ADDTOHOME_LATER'
+
+//desktop/chrome did user accept or reject the install prompt
+export const ADDTOHOME_OK = 'ADDTOHOME_OK'
+export const ADDTOHOME_REJECTED = 'ADDTOHOME_REJECTED'
 export const ERROR_LOG = 'ERROR'
 export const QR_SCAN = 'QR_SCAN'
 export const APP_OPEN = 'APP_OPEN'
@@ -113,7 +118,7 @@ const patchLogger = () => {
   global.logger.error = function() {
     fireEvent('ERROR_LOG', arguments)
     if (global.Rollbar && Config.env !== 'test') {
-      Rollbar.error.apply(Rollbar, arguments)
+      global.Rollbar.error.apply(global.Rollbar, arguments)
     }
     return error.apply(global.logger, arguments)
   }

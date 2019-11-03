@@ -6,7 +6,6 @@ import debounce from 'lodash/debounce'
 import type { Store } from 'undux'
 
 import * as web3Utils from 'web3-utils'
-import { isMobile } from 'mobile-device-detect'
 import normalize from '../../lib/utils/normalizeText'
 import GDStore from '../../lib/undux/GDStore'
 import API from '../../lib/API/api'
@@ -37,7 +36,6 @@ import { extractQueryParams, readCode } from '../../lib/share'
 import { deleteAccountDialog } from '../sidemenu/SideMenuPanel'
 import config from '../../config/config'
 import { backupMessage } from '../../lib/gundb/UserStorageClass'
-import { ADDTOHOME, APP_OPEN, fireEvent } from '../../lib/analytics/analytics'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import RewardsTab from './Rewards'
 import MarketTab from './Marketplace'
@@ -132,23 +130,9 @@ const Dashboard = props => {
 
   useEffect(() => {
     if (initDash) {
-      addAnalytics()
       setInitDash(false)
     }
   }, [])
-
-  const addAnalytics = async () => {
-    const { show } = store.get('addWebApp')
-    const isAddedToHomeScreen = await userStorage.userProperties.get('isAddedToHomeScreen')
-    if (!show && isMobile) {
-      if (isAddedToHomeScreen) {
-        fireEvent(ADDTOHOME)
-        await userStorage.userProperties.set('isAddedToHomeScreen', false)
-      } else {
-        fireEvent(APP_OPEN, { source: 'mobile homescreen icon' })
-      }
-    }
-  }
 
   //Service redirects Send/Receive
   useEffect(() => {

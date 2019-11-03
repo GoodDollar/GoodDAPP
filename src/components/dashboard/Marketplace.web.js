@@ -1,28 +1,38 @@
 import React, { useEffect, useState } from 'react'
 import IframeResizer from 'iframe-resizer-react'
 import { isIOS } from 'mobile-device-detect'
+import _get from 'lodash/get'
 import userStorage from '../../lib/gundb/UserStorage'
 import Config from '../../config/config'
 import logger from '../../lib/logger/pino-logger'
 import SimpleStore from '../../lib/undux/SimpleStore'
+import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import API from '../../lib/API/api'
 const log = logger.child({ from: 'MarketTab' })
 
 const MarketTab = props => {
+  const [showErrorDialog] = useErrorDialog()
   const [loginToken, setLoginToken] = useState()
   const store = SimpleStore.useStore()
   const scrolling = isIOS ? 'no' : 'yes'
 
   const getToken = async () => {
-    let token = await userStorage.getProfileFieldValue('marketToken')
-    if (token == null) {
-      token = await API.getMarketToken()
-        .then(_ => _.jwt)
-        .catch(_ => log.error(_))
+    try {
+      let token = await userStorage.getProfileFieldValue('marketToken')
+      if (token === undefined) {
+        token = await API.getMarketToken().then(_ => _get(_, 'data.jwt'))
+      }
+      if (token === undefined) {
+        //continue to market without login in
+        setLoginToken('')
+        throw new Error('empty market token')
+      }
+      log.debug('got market login token', token)
+      setLoginToken(token)
+    } catch (e) {
+      log.error(e, e.message)
+      showErrorDialog('Error login in to market, try again later or contact support', 'MARKETPLACE-1')
     }
-
-    log.debug('got market login token', token)
-    setLoginToken(token)
   }
   const isLoaded = () => {
     store.set('loadingIndicator')({ loading: false })
@@ -37,7 +47,7 @@ const MarketTab = props => {
     <IframeResizer
       title="GoodMarket"
       scrolling={scrolling}
-      src={`${Config.marketUrl}`}
+      src={`${Config.marketUrl}?jwt=${loginToken}`}
       allowFullScreen
       frameBorder="0"
       width="100%"

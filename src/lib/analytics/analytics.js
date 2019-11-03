@@ -1,4 +1,5 @@
 //@flow
+import logger from '../../lib/logger/pino-logger'
 import Config from '../../config/config'
 
 export const CLICK_BTN_SIGNIN = 'CLICK_BTN_SIGNIN'
@@ -22,12 +23,12 @@ export const CARD_SLIDE = 'CARD_SLIDE'
 
 let Amplitude, FS, Rollbar
 
-const log = console
+const log = logger.child({ from: 'analytics' })
 
 export const initAnalytics = async (goodWallet: GoodWallet, userStorage: UserStorage, logger) => {
-  const log = logger.child({ from: 'analytics' })
   const identifier = goodWallet.getAccountForType('login')
-  const emailOrId = (await userStorage.getProfileFieldValue('email')) || identifier
+  const email = await userStorage.getProfileFieldValue('email')
+  const emailOrId = email || identifier
   if (global.Rollbar && Config.rollbarKey) {
     Rollbar = global.Rollbar
     global.Rollbar.configure({
@@ -47,7 +48,14 @@ export const initAnalytics = async (goodWallet: GoodWallet, userStorage: UserSto
   if (global.amplitude && Config.amplitudeKey) {
     Amplitude = global.amplitude.getInstance()
     Amplitude.init(Config.amplitudeKey)
-    Amplitude && Amplitude.setUserId(emailOrId)
+    if (Amplitude) {
+      const created = new Amplitude.Identify().setOnce('sign_up_date', new Date().toString())
+      if (email) {
+        Amplitude.setUserId(email)
+      }
+      Amplitude.setUserProperties({ identifier })
+      Amplitude.identify(created)
+    }
   }
 
   if (global.FS) {
@@ -59,6 +67,8 @@ export const initAnalytics = async (goodWallet: GoodWallet, userStorage: UserSto
     FS: FS !== undefined,
     Rollbar: Rollbar !== undefined,
   })
+
+  patchLogger()
 }
 
 export const fireEvent = (event: string, data: any = {}) => {
@@ -68,7 +78,7 @@ export const fireEvent = (event: string, data: any = {}) => {
 
   switch (event) {
     case ERROR_LOG:
-      data = { code: data && data[1] ? data[1] : '' }
+      data = { reason: data && data[1] ? data[1] : '' }
       break
 
     default:
@@ -96,4 +106,15 @@ export const fireEventFromNavigation = navigation => {
   const code = `${action}_${key}`.toUpperCase()
 
   fireEvent(code)
+}
+
+const patchLogger = () => {
+  let error = global.logger.error
+  global.logger.error = function() {
+    fireEvent('ERROR_LOG', arguments)
+    if (global.Rollbar && Config.env !== 'test') {
+      Rollbar.error.apply(Rollbar, arguments)
+    }
+    return error.apply(global.logger, arguments)
+  }
 }

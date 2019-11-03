@@ -19,16 +19,22 @@ const MarketTab = props => {
   const getToken = async () => {
     try {
       let token = await userStorage.getProfileFieldValue('marketToken')
-      if (token === undefined) {
-        token = await API.getMarketToken().then(_ => _get(_, 'data.jwt'))
+      if (token) {
+        setLoginToken(token)
       }
-      if (token === undefined) {
+
+      const newtoken = await API.getMarketToken().then(_ => _get(_, 'data.jwt'))
+      if (newtoken !== undefined && newtoken !== token) {
+        token = newtoken
+        userStorage.setProfileField('marketToken', newtoken)
+        setLoginToken(newtoken)
+      }
+      log.debug('got market login token', token)
+      if (token == null) {
         //continue to market without login in
         setLoginToken('')
         throw new Error('empty market token')
       }
-      log.debug('got market login token', token)
-      setLoginToken(token)
     } catch (e) {
       log.error(e, e.message)
       showErrorDialog('Error login in to market, try again later or contact support', 'MARKETPLACE-1')

@@ -138,13 +138,13 @@ const Dashboard = props => {
     API.redeemBonuses()
       .then(res => {
         const resData = res.data
-
+        log.debug('redeemBonuses', { resData })
         if (resData.hash && resData.bonusAmount) {
           const transactionEvent: TransactionEvent = {
             id: resData.hash,
             date: new Date().toString(),
             type: 'bonus',
-            status: 'pending',
+            status: 'completed',
             data: {
               customName: 'GoodDollar',
               amount: gdToWei(resData.bonusAmount),
@@ -157,7 +157,7 @@ const Dashboard = props => {
       .catch(err => {
         log.error('Failed to redeem bonuses', err.message, err)
 
-        showErrorDialog('Something Went Wrong. An error occurred while trying to redeem bonuses')
+        // showErrorDialog('Something Went Wrong. An error occurred while trying to redeem bonuses')
       })
   }
 

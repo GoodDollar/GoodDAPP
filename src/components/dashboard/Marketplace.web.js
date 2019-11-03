@@ -55,6 +55,7 @@ const MarketTab = props => {
       scrolling={scrolling}
       src={`${Config.marketUrl}?jwt=${loginToken}`}
       allowFullScreen
+      checkOrigin={false}
       frameBorder="0"
       width="100%"
       height="100%"

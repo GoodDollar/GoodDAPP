@@ -90,15 +90,18 @@ const FeedModalList = ({
     />
   )
 
+  const slideEvent = _once(() => {
+    fireEvent(CARD_SLIDE)
+  })
+
   const feeds = data && data instanceof Array && data.length ? data : undefined
   return (
     <Portal>
       <View style={[styles.horizontalContainer, { opacity: loading ? 0 : 1 }]}>
         <FlatList
           onScroll={({ nativeEvent }) => {
-            _once(() => {
-              fireEvent(CARD_SLIDE)
-            })
+            slideEvent()
+
             // when nativeEvent contentOffset reaches target offset setLoading to false, we stopped scrolling
             if (nativeEvent.contentOffset.x === offset) {
               setLoading(false)

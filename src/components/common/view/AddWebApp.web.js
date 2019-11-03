@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { AsyncStorage, Image, View } from 'react-native'
 import { isMobileSafari } from 'mobile-device-detect'
 import moment from 'moment'
+import isWebApp from '../../../lib/utils/isWebApp'
 import SimpleStore from '../../../lib/undux/SimpleStore'
 import { useDialog } from '../../../lib/undux/utils/dialog'
 import { withStyles } from '../../../lib/styles'
@@ -188,10 +189,7 @@ const AddWebApp = props => {
       log.debug('Install Prompt fired')
 
       // See if the app is already installed, in that case, do nothing
-      if (
-        (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) ||
-        window.navigator.standalone === true
-      ) {
+      if (isWebApp) {
         return
       }
       setInstallPrompt(e)

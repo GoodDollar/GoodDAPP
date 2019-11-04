@@ -5,6 +5,7 @@ import { createSwitchNavigator } from '@react-navigation/core'
 import { Platform } from 'react-native'
 import Signup from './components/signup/SignupState'
 import SigninInfo from './components/signin/SigninInfo'
+import IOSWebAppSignIn from './components/signin/IOSWebAppSignIn'
 import Auth from './components/auth/Auth'
 import InvalidW3TokenError from './components/signup/InvalidWeb3TokenError'
 import { SimpleStoreDialog } from './components/common/dialogs/CustomDialog'
@@ -18,6 +19,7 @@ const router = createSwitchNavigator(
     Signup,
     InvalidW3TokenError,
     SigninInfo,
+    IOSWebAppSignIn,
   },
   {
     initialRouteName: 'Auth',

@@ -1,6 +1,6 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { Animated, Easing, Dimensions } from 'react-native'
+import { Animated, Dimensions, Easing } from 'react-native'
 import _get from 'lodash/get'
 import debounce from 'lodash/debounce'
 import type { Store } from 'undux'
@@ -150,6 +150,29 @@ const Dashboard = props => {
   }
 
   useEffect(() => {
+    if (props.navigation.state.key === 'SendIOSCodeAgain') {
+      const magicLinkCode = userStorage.getMagicLink()
+      const { mobile } = gdstore.get('profile')
+
+      showDialog({
+        image: <LoadingIcon />,
+      })
+
+      API.sendMagicCodeBySms(mobile, magicLinkCode)
+        .then(r => {
+          showDialog({
+            title: 'SMS with code was sent to your phone number',
+          })
+        })
+        .catch(e => {
+          log.error('Failed to send magic link code to user by sms', e.message, e)
+
+          showErrorDialog({
+            title: 'Send SMS with code failed',
+          })
+        })
+    }
+
     if (props.navigation.state.key === 'Delete') {
       deleteAccountDialog({ API, showDialog: showErrorDialog, store, theme: props.theme })
     }
@@ -230,7 +253,7 @@ const Dashboard = props => {
         title: 'Processing Payment Link...',
         image: <LoadingIcon />,
         message: 'please wait while processing...',
-        buttons: [{ text: 'YAY!', style: styles.disabledButton }]
+        buttons: [{ text: 'YAY!', style: styles.disabledButton }],
       })
       await executeWithdraw(store, decodeURI(paymentCode), decodeURI(reason))
       hideDialog()
@@ -476,6 +499,7 @@ const WrappedDashboard = withStyles(getStylesFromProps)(Dashboard)
 export default createStackNavigator({
   Home: WrappedDashboard,
   Delete: WrappedDashboard,
+  SendIOSCodeAgain: WrappedDashboard,
   Claim,
   Receive,
   Who: {

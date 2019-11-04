@@ -9,6 +9,7 @@ const Config = {
   web3SiteUrl: process.env.REACT_APP_WEB3_SITE_URL || 'https://w3.gooddollar.org',
   web3SiteUrlEconomyEndpoint: process.env.REACT_APP_WEB3_SITE_URL_ECONOMY_ENDPOINT || '/learn/economy',
   publicUrl,
+  sendIOSCodeAgainLink: `${publicUrl}/Dashboard/sendIOSCodeAgain`,
   infuraKey: process.env.REACT_APP_INFURA_KEY,
   network: process.env.REACT_APP_NETWORK || 'fuse',
   market: process.env.REACT_APP_MARKET || process.env.REACT_APP_MARKET === 'etoro',

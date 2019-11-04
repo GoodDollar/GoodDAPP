@@ -9,8 +9,8 @@ import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import { useSidemenu } from '../../lib/undux/utils/sidemenu'
 import { Icon } from '../common'
 import IconWrapper from '../common/modal/IconWrapper'
+import LoadingIcon from '../common/modal/LoadingIcon'
 import SideMenuItem from './SideMenuItem'
-
 type SideMenuPanelProps = {
   navigation: any,
 }
@@ -27,7 +27,13 @@ export const deleteAccountDialog = ({ API, showDialog, store, theme }) => {
         text: 'Delete',
         color: theme.colors.red,
         onPress: async () => {
-          store.set('loadingIndicator')({ loading: true })
+          showDialog('', '', {
+            title: 'ARE YOU SURE?',
+            message: 'If you delete your wallet',
+            boldMessage: 'all your G$ will be lost forever!',
+            image: <LoadingIcon />,
+            showButtons: false,
+          })
           const userStorage = await import('../../lib/gundb/UserStorage').then(_ => _.default)
           let token = await userStorage.getProfileFieldValue('w3Token')
 
@@ -42,11 +48,9 @@ export const deleteAccountDialog = ({ API, showDialog, store, theme }) => {
             await Promise.all([AsyncStorage.clear(), API.deleteWalletFromW3Site(token)]).catch(e =>
               log.error('Error deleting account', e.message, e)
             )
-            store.set('loadingIndicator')({ loading: false })
             window.location = '/'
           } else {
             showDialog('Error deleting account')
-            store.set('loadingIndicator')({ loading: false })
           }
         },
       },

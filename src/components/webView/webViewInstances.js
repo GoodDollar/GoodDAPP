@@ -7,5 +7,3 @@ export const PrivacyArticle = createWebViewScreen(
 )
 export const Support = createWebViewScreen('https://community.gooddollar.org/support/', 'Feedback & Support')
 export const FAQ = createWebViewScreen('https://community.gooddollar.org/faq/', 'FAQ')
-
-export const Marketplace = createWebViewScreen('https://emarket.gooddollar.org', 'Marketplace')

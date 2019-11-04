@@ -10,6 +10,7 @@ import AppNavigation from './components/appNavigation/AppNavigation'
 import AppSwitch from './components/appSwitch/AppSwitch'
 import GDStore from './lib/undux/GDStore'
 import { SimpleStoreDialog } from './components/common/dialogs/CustomDialog'
+import { fireEventFromNavigation } from './lib/analytics/analytics'
 
 const AppNavigator = createNavigator(
   AppSwitch,
@@ -35,7 +36,7 @@ const Router = () => {
     <GDStore.Container>
       <SimpleStoreDialog />
       <Portal.Host>
-        <WebRouter />
+        <WebRouter onNavigationStateChange={(prevNav, nav, action) => fireEventFromNavigation(action)} />
       </Portal.Host>
     </GDStore.Container>
   )

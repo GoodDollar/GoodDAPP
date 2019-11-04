@@ -11,6 +11,7 @@ import { SimpleStoreDialog } from './components/common/dialogs/CustomDialog'
 import Blurred from './components/common/view/Blurred'
 import './components/appNavigation/blurFx.css'
 import SimpleStore from './lib/undux/SimpleStore.js'
+import { fireEventFromNavigation } from './lib/analytics/analytics'
 
 const router = createSwitchNavigator(
   {
@@ -47,7 +48,7 @@ const Router = () => {
     <>
       <Blurred style={fullScreenContainer} blur={dialogVisible}>
         <SimpleStoreDialog />
-        <WebRouter />
+        <WebRouter onNavigationStateChange={(prevNav, nav, action) => fireEventFromNavigation(action)} />
       </Blurred>
     </>
   )

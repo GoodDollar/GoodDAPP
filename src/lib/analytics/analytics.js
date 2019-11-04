@@ -30,7 +30,7 @@ let Amplitude, FS, Rollbar
 
 const log = logger.child({ from: 'analytics' })
 
-export const initAnalytics = async (goodWallet: GoodWallet, userStorage: UserStorage, logger) => {
+export const initAnalytics = async (goodWallet: GoodWallet, userStorage: UserStorage) => {
   const identifier = goodWallet.getAccountForType('login')
   const email = await userStorage.getProfileFieldValue('email')
   const emailOrId = email || identifier
@@ -102,11 +102,10 @@ export const fireEvent = (event: string, data: any = {}) => {
 
 /**
  * Create code from navigation active route and call `fireEvent`
- * @param {object} navigation
+ * @param {object} route
  */
-export const fireEventFromNavigation = navigation => {
-  const route = navigation.state.routes[navigation.state.index]
-  const key = route.key
+export const fireEventFromNavigation = route => {
+  const key = route.routeName
   const action = route.params && route.params.action ? `${route.params.action}` : 'GOTO'
   const code = `${action}_${key}`.toUpperCase()
 

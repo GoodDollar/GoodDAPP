@@ -10,7 +10,6 @@ import SideMenuPanel from '../sidemenu/SideMenuPanel'
 import logger from '../../lib/logger/pino-logger'
 import CustomButton, { type ButtonProps } from '../common/buttons/CustomButton'
 import Blurred from '../common/view/Blurred'
-import { fireEventFromNavigation } from '../../lib/analytics/analytics'
 import userStorage from '../../lib/gundb/UserStorage'
 import NavBar from './NavBar'
 import { navigationOptions } from './navigationConfig'
@@ -51,8 +50,6 @@ class AppView extends Component<AppViewProps, AppViewState> {
     currentState: {},
   }
 
-  routeIndex = -1
-
   /**
    * marks route transistion
    */
@@ -80,11 +77,6 @@ class AppView extends Component<AppViewProps, AppViewState> {
         if (!userProperties.isMadeBackup && !userProperties.needAddBackupFeed) {
           await userStorage.userProperties.set('needAddBackupFeed', true)
         }
-        if (this.routeIndex !== navigation.state.index) {
-          fireEventFromNavigation(navigation)
-          this.routeIndex = navigation.state.index
-        }
-
         break
     }
   }

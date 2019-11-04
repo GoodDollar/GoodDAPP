@@ -115,10 +115,10 @@ const AddWebApp = props => {
       setStandalone(true)
     }
 
-    AsyncStorage.getItem('AddWebAppLastCheck').then(setLastCheck)
-    AsyncStorage.getItem('AddWebAppNextCheck').then(setNextCheck)
-    AsyncStorage.getItem('AddWebAppSkipCount').then(sc => setSkipCount(Number(sc)))
-    AsyncStorage.getItem('AddWebAppLastClaim').then(setLastClaim)
+    AsyncStorage.getItem('GD_AddWebAppLastCheck').then(setLastCheck)
+    AsyncStorage.getItem('GD_AddWebAppNextCheck').then(setNextCheck)
+    AsyncStorage.getItem('GD_AddWebAppSkipCount').then(sc => setSkipCount(Number(sc)))
+    AsyncStorage.getItem('GD_AddWebAppLastClaim').then(setLastClaim)
 
     if (!isStandalone) {
       log.debug('useEffect, registering beforeinstallprompt')

@@ -114,6 +114,13 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
     }
   }, [])
 
+  useEffect(() => {
+    import('../../init').then(async ({ init }) => {
+      await init()
+      fireEvent('GOTO_RECOVER')
+    })
+  }, [])
+
   /**
    * Helper to validate if exist a Gun profile associated to current mnemonic
    * @returns {Promise<Promise<*>|Promise<*>|Promise<any>>}

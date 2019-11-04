@@ -1,9 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import WebView from 'react-native-web-webview'
 import _get from 'lodash/get'
+import { fireEvent } from '../../lib/analytics/analytics'
 
 const WebViewScreen = props => {
-  const { source, ...rest } = props
+  const { source, title, ...rest } = props
+  useEffect(() => {
+    import('../../init').then(async ({ init }) => {
+      await init()
+      fireEvent(`GOTO_${title}`)
+    })
+  }, [])
+
   return <WebView source={{ uri: source }} style={{ flex: 1 }} {...rest} />
 }
 
@@ -25,7 +33,7 @@ export const createWebViewScreen = (source, title) => {
         break
     }
 
-    return <WebViewScreen source={source} />
+    return <WebViewScreen source={source} title={title} />
   }
 
   CurrentWebView.navigationOptions = {

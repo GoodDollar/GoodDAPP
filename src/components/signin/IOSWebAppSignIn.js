@@ -2,7 +2,7 @@
 //eslint-disable-next-line
 import bip39 from 'bip39-light'
 import React, { Fragment, useState } from 'react'
-import { AsyncStorage, Image, Linking } from 'react-native'
+import { AsyncStorage, Image } from 'react-native'
 import { IS_LOGGED_IN } from '../../lib/constants/localStorage'
 import logger from '../../lib/logger/pino-logger'
 import { withStyles } from '../../lib/styles'
@@ -14,7 +14,6 @@ import InputText from '../common/form/InputText'
 import NavBar from '../appNavigation/NavBar'
 import IOSWebAppSignInSVG from '../../assets/IOSWebAppSignIn.svg'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
-import Config from '../../config/config'
 
 Image.prefetch(IOSWebAppSignInSVG)
 
@@ -102,18 +101,6 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
               autoFocus
             />
           </Section.Row>
-        </Section.Stack>
-        <Section.Stack>
-          <Section.Text
-            textDecorationLine="underline"
-            fontWeight="medium"
-            fontSize={14}
-            color="primary"
-            lineHeight={30}
-            onPress={() => Linking.openURL(Config.sendIOSCodeAgainLink)}
-          >
-            {'Send me the code again'}
-          </Section.Text>
         </Section.Stack>
         <Image source={IOSWebAppSignInSVG} resizeMode={'contain'} style={styles.image} />
         <Section.Stack grow style={styles.bottomContainer} justifyContent="flex-end">

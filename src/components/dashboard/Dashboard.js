@@ -150,37 +150,6 @@ const Dashboard = props => {
   }
 
   useEffect(() => {
-    if (props.navigation.state.key === 'SendIOSCodeAgain') {
-      const magicLinkCode = userStorage.getMagicLink()
-      const { mobile } = gdstore.get('profile')
-
-      showDialog({
-        image: <LoadingIcon />,
-      })
-
-      API.sendMagicCodeBySms(mobile, magicLinkCode)
-        .then(r => {
-          showDialog({
-            title: 'SMS with code was sent to your phone number',
-            buttons: [
-              {
-                text: 'Ok',
-                onPress: dismiss => {
-                  window.close()
-                },
-              },
-            ],
-          })
-        })
-        .catch(e => {
-          log.error('Failed to send magic link code to user by sms', e.message, e)
-
-          showErrorDialog({
-            title: 'Send SMS with code failed',
-          })
-        })
-    }
-
     if (props.navigation.state.key === 'Delete') {
       deleteAccountDialog({ API, showDialog: showErrorDialog, store, theme: props.theme })
     }
@@ -507,7 +476,6 @@ const WrappedDashboard = withStyles(getStylesFromProps)(Dashboard)
 export default createStackNavigator({
   Home: WrappedDashboard,
   Delete: WrappedDashboard,
-  SendIOSCodeAgain: WrappedDashboard,
   Claim,
   Receive,
   Who: {

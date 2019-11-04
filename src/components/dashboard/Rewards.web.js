@@ -31,7 +31,7 @@ const RewardsTab = props => {
     <IframeResizer
       title="Rewards"
       scrolling={scrolling}
-      src={`${Config.marketUrl}?jwt=${loginToken}&purpose=iframe`}
+      src={`${Config.web3SiteUrl}?jwt=${loginToken}&purpose=iframe`}
       allowFullScreen
       checkOrigin={false}
       frameBorder="0"

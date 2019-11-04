@@ -136,7 +136,7 @@ const mnemonicsStyles = ({ theme }) => ({
   image: {
     flexGrow: 1,
     flexShrink: 0,
-    marginVertical: 26,
+    marginVertical: getDesignRelativeHeight(25),
     height: getDesignRelativeHeight(200),
   },
 })

@@ -162,6 +162,14 @@ const Dashboard = props => {
         .then(r => {
           showDialog({
             title: 'SMS with code was sent to your phone number',
+            buttons: [
+              {
+                text: 'Ok',
+                onPress: dismiss => {
+                  window.close()
+                },
+              },
+            ],
           })
         })
         .catch(e => {

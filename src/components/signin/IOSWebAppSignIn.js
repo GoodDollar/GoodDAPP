@@ -80,10 +80,6 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
     }
   }
 
-  const resendCode = () => {
-    Linking.openURL(Config.sendIOSCodeAgainLink)
-  }
-
   return (
     <Fragment>
       <NavBar title={TITLE} />
@@ -114,7 +110,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
             fontSize={14}
             color="primary"
             lineHeight={30}
-            onPress={resendCode}
+            onPress={() => Linking.openURL(Config.sendIOSCodeAgainLink)}
           >
             {'Send me the code again'}
           </Section.Text>

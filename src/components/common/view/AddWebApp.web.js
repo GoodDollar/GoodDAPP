@@ -119,6 +119,18 @@ const AddWebApp = props => {
     AsyncStorage.getItem('AddWebAppNextCheck').then(setNextCheck)
     AsyncStorage.getItem('AddWebAppSkipCount').then(sc => setSkipCount(Number(sc)))
     AsyncStorage.getItem('AddWebAppLastClaim').then(setLastClaim)
+
+    if (!isStandalone) {
+      log.debug('useEffect, registering beforeinstallprompt')
+
+      window.addEventListener('beforeinstallprompt', e => {
+        // For older browsers
+        e.preventDefault()
+        log.debug('Install Prompt fired')
+
+        setInstallPrompt(e)
+      })
+    }
   }, [])
 
   const showExplanationDialog = () => {
@@ -187,23 +199,6 @@ const AddWebApp = props => {
       ],
     })
   }
-
-  useEffect(() => {
-    log.debug('useEffect, registering beforeinstallprompt')
-
-    window.addEventListener('beforeinstallprompt', e => {
-      // For older browsers
-      e.preventDefault()
-      log.debug('Install Prompt fired')
-
-      // See if the app is already installed, in that case, do nothing
-      if (isStandalone) {
-        return
-      }
-
-      setInstallPrompt(e)
-    })
-  }, [])
 
   useEffect(() => {
     if (dialogShown) {

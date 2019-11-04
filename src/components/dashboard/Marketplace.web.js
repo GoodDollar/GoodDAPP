@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import IframeResizer from 'iframe-resizer-react'
-import { isIOS } from 'mobile-device-detect'
+import { isIOS, osVersion } from 'mobile-device-detect'
 import _get from 'lodash/get'
 import userStorage from '../../lib/gundb/UserStorage'
 import Config from '../../config/config'
@@ -49,11 +49,28 @@ const MarketTab = props => {
     getToken()
   }, [])
 
-  return loginToken === undefined ? null : (
+  if (loginToken === undefined) {
+    return null
+  }
+  const src = `${Config.marketUrl}?jwt=${loginToken}&nofooter=true`
+  if (isIOS === false || osVersion > 13) {
+    return (
+      <iframe
+        title="GoodMarket"
+        scrolling="yes"
+        onLoad={isLoaded}
+        src={src}
+        seamless
+        frameBorder="0"
+        style={{ flex: 1 }}
+      />
+    )
+  }
+  return (
     <IframeResizer
       title="GoodMarket"
       scrolling={scrolling}
-      src={`${Config.marketUrl}?jwt=${loginToken}&nofooter=true`}
+      src={src}
       allowFullScreen
       checkOrigin={false}
       frameBorder="0"

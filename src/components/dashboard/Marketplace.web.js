@@ -53,7 +53,7 @@ const MarketTab = props => {
     <IframeResizer
       title="GoodMarket"
       scrolling={scrolling}
-      src={`${Config.marketUrl}?jwt=${loginToken}`}
+      src={`${Config.marketUrl}?jwt=${loginToken}&nofooter=true`}
       allowFullScreen
       checkOrigin={false}
       frameBorder="0"

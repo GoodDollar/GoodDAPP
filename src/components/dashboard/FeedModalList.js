@@ -96,6 +96,9 @@ const FeedModalList = ({
       <View style={[styles.horizontalContainer, { opacity: 1 }]}>
         <FlatList
           onScroll={({ nativeEvent }) => {
+            console.log('****************************************')
+            console.log({nativeEvent, offset})
+            console.log('****************************************')
             // when nativeEvent contentOffset reaches target offset setLoading to false, we stopped scrolling
             if (nativeEvent.contentOffset.x === offset) {
               setLoading(false)

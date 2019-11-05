@@ -1,6 +1,6 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { Animated, Easing, Dimensions } from 'react-native'
+import { Animated, Dimensions, Easing } from 'react-native'
 import _get from 'lodash/get'
 import debounce from 'lodash/debounce'
 import type { Store } from 'undux'
@@ -73,7 +73,7 @@ const showOutOfGasError = debounce(
     })
 
     if (!ok) {
-      props.screenProps.navigateTo('OutOfGasError')
+      // props.screenProps.navigateTo('OutOfGasError')
     }
   },
   GAS_CHECK_DEBOUNCE_TIME,

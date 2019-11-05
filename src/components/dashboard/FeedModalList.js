@@ -52,7 +52,6 @@ const FeedModalList = ({
 
   // When screenWidth or selectedFeed changes needs to recalculate the offset
   useEffect(() => {
-    console.log(loading)
     const index = selectedFeed ? data.findIndex(item => item.id === selectedFeed.id) : 0
     setOffset(screenWidth * index)
   }, [screenWidth, selectedFeed])
@@ -70,7 +69,6 @@ const FeedModalList = ({
       // Fire scrollToOffset within a delay to ensure the action is executed.
       // https://stackoverflow.com/questions/40200660/react-native-scrollto-with-interactionmanager-not-working
       setTimeout(() => {
-        console.log('seeeeeeeeeeet scoooollllllll', offset)
         flatListRef && flatListRef.current && flatListRef.current.scrollToOffset({ animated: false, offset })
       }, 0)
     }
@@ -98,14 +96,6 @@ const FeedModalList = ({
         <FlatList
           style={styles.flatList}
           onScroll={({ nativeEvent }) => {
-            console.log('****************************************')
-            console.log('888888888888888888888888888888')
-            console.log({ nativeEvent })
-            console.log('-------------------------------')
-            console.log('contentOffset', Math.abs(offset - nativeEvent.contentOffset.x))
-            console.log('offset', offset)
-            console.log('****************************************')
-
             // when nativeEvent contentOffset reaches target offset setLoading to false, we stopped scrolling
             if (Math.abs(offset - nativeEvent.contentOffset.x) < 5) {
               setLoading(false)
@@ -122,7 +112,7 @@ const FeedModalList = ({
           refreshing={false}
           renderItem={renderItemComponent}
           viewabilityConfig={VIEWABILITY_CONFIG}
-          horizontal={true}
+          horizontal
           pagingEnabled
         />
       </View>
@@ -133,6 +123,7 @@ const FeedModalList = ({
 const getStylesFromProps = ({ theme }) => ({
   horizontalContainer: {
     backgroundColor: theme.modals.overlayBackgroundColor,
+    flex: 1,
     top: 0,
     left: 0,
     padding: 0,
@@ -143,9 +134,10 @@ const getStylesFromProps = ({ theme }) => ({
   horizontalList: {
     width: '100%',
     maxWidth: '100vw',
+    flex: 1,
   },
   flatList: {
-    transform: 'translateY(1px)',
+    transform: 'translateY(1px)', //Do not delete, this repairs horizontal feed scrolling
   },
 })
 

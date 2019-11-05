@@ -99,7 +99,7 @@ const FeedModalList = ({
           style={styles.flatList}
           onScroll={({ nativeEvent }) => {
             console.log('****************************************')
-            console.log('77777777777777777777777777777777777')
+            console.log('888888888888888888888888888888')
             console.log({ nativeEvent })
             console.log('-------------------------------')
             console.log('contentOffset', Math.abs(offset - nativeEvent.contentOffset.x))

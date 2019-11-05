@@ -82,7 +82,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
   return (
     <Fragment>
       <NavBar title={TITLE} />
-      <Section grow={5} style={styles.wrapper}>
+      <Section grow style={styles.wrapper}>
         <Section.Stack grow style={styles.instructions} justifyContent="center">
           <Text fontWeight="medium" fontSize={22} fontFamily="Roboto" lineHeight={28} style={styles.headerText}>
             {'Easy sign in with iPhone!'}
@@ -103,11 +103,11 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
           </Section.Row>
         </Section.Stack>
         <Image source={IOSWebAppSignInSVG} resizeMode={'contain'} style={styles.image} />
-        <Section.Stack grow style={styles.bottomContainer} justifyContent="flex-end">
+        <Section style={styles.bottomContainer}>
           <CustomButton style={styles.buttonLayout} onPress={recover} disabled={!isValid || isRecovering}>
             {'SIGN IN'}
           </CustomButton>
-        </Section.Stack>
+        </Section>
       </Section>
     </Fragment>
   )
@@ -129,11 +129,12 @@ const mnemonicsStyles = ({ theme }) => ({
     marginTop: getDesignRelativeHeight(10),
   },
   buttonLayout: {
-    marginVertical: 20,
+    marginVertical: getDesignRelativeHeight(20),
   },
   bottomContainer: {
-    maxHeight: 80,
-    minHeight: 80,
+    maxHeight: getDesignRelativeHeight(100),
+    minHeight: getDesignRelativeHeight(100),
+    justifyContent: 'flex-end',
   },
   image: {
     flexGrow: 1,

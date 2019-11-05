@@ -97,7 +97,7 @@ const FeedModalList = ({
         <FlatList
           onScroll={({ nativeEvent }) => {
             console.log('****************************************')
-            console.log('2222222222222222222222222222222222')
+            console.log('3333333333333333333333')
             console.log({ nativeEvent })
             console.log('-------------------------------')
             console.log('contentOffset', Math.abs(offset - nativeEvent.contentOffset.x))
@@ -120,7 +120,7 @@ const FeedModalList = ({
           refreshing={false}
           renderItem={renderItemComponent}
           viewabilityConfig={VIEWABILITY_CONFIG}
-          horizontal
+          horizontal={true}
           pagingEnabled
         />
       </View>
@@ -131,8 +131,7 @@ const FeedModalList = ({
 const getStylesFromProps = ({ theme }) => ({
   horizontalContainer: {
     backgroundColor: theme.modals.overlayBackgroundColor,
-
-    // flex: 1,
+    flex: 1,
     top: 0,
     left: 0,
     padding: 0,

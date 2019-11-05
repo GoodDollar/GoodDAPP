@@ -130,7 +130,6 @@ const FeedModalList = ({
 const getStylesFromProps = ({ theme }) => ({
   horizontalContainer: {
     backgroundColor: theme.modals.overlayBackgroundColor,
-
     // flex: 1,
     top: 0,
     left: 0,

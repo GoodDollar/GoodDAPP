@@ -171,13 +171,13 @@ const FeedList = ({
 
 const getStylesFromProps = ({ theme }) => ({
   scrollView: {
-    display: 'flex',
-    flexGrow: 1,
+    // display: 'flex',
+    // flexGrow: 1,
     height: 1,
   },
   scrollableView: {
-    flexGrow: 1,
-    display: 'flex',
+    // flexGrow: 1,
+    // display: 'flex',
     height: '100%',
   },
 })

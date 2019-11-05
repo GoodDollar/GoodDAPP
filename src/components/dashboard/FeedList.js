@@ -1,6 +1,6 @@
 // @flow
 import React, { createRef } from 'react'
-import { Animated, SwipeableFlatList } from 'react-native'
+import {Animated, SwipeableFlatList} from 'react-native'
 
 import get from 'lodash/get'
 import GDStore from '../../lib/undux/GDStore'

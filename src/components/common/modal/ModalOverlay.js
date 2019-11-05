@@ -1,13 +1,11 @@
 // @flow
 import React from 'react'
-import { isMobileOnly } from 'mobile-device-detect'
 import { View } from 'react-native'
 import { withStyles } from '../../../lib/styles'
-import { theme } from '../../theme/styles.js'
 import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
-import { getScreenHeight, getScreenWidth } from '../../../lib/utils/Orientation'
+import { getMaxDeviceHeight, getScreenWidth } from '../../../lib/utils/Orientation'
 
-const height = isMobileOnly ? getScreenHeight() : theme.sizes.maxHeightForTabletAndDesktop
+const height = getMaxDeviceHeight()
 
 const ModalOverlay = ({ styles, children, style, itemType }: any) => {
   const modalInnerWrapperStyle = itemType === 'custom' ? styles.customModalInnerWrapper : styles.feedModalInnerWrapper

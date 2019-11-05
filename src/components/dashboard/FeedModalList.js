@@ -70,8 +70,9 @@ const FeedModalList = ({
       // Fire scrollToOffset within a delay to ensure the action is executed.
       // https://stackoverflow.com/questions/40200660/react-native-scrollto-with-interactionmanager-not-working
       setTimeout(() => {
+        console.log('seeeeeeeeeeet scoooollllllll', offset)
         flatListRef && flatListRef.current && flatListRef.current.scrollToOffset({ animated: false, offset })
-      }, 0)
+      }, 5000)
     }
   }, [offset, flatListRef])
 
@@ -97,7 +98,7 @@ const FeedModalList = ({
         <FlatList
           onScroll={({ nativeEvent }) => {
             console.log('****************************************')
-            console.log('555555555555555555555')
+            console.log('6666666666666666666')
             console.log({ nativeEvent })
             console.log('-------------------------------')
             console.log('contentOffset', Math.abs(offset - nativeEvent.contentOffset.x))

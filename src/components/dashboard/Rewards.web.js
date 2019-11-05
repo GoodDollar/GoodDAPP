@@ -3,7 +3,6 @@ import userStorage from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import { getScreenHeight, getScreenWidth } from '../../lib/utils/Orientation'
-import Config from '../../config/config'
 const log = logger.child({ from: 'RewardsTab' })
 
 const RewardsTab = props => {
@@ -40,10 +39,9 @@ const RewardsTab = props => {
   return loginToken === undefined ? null : (
     <iframe
       title="Rewards"
-      src={`${Config.web3SiteUrl}?token=${loginToken}&purpose=iframe`}
+      src={`http://etoro.gooddollar.org?token=${loginToken}&purpose=iframe`}
       allowFullScreen
       frameBorder="0"
-      seamless
       style={{
         maxWidth: '100%',
         maxHeight: '100%',

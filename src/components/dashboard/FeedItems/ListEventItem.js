@@ -136,6 +136,10 @@ const FeedText = withStyles(getFeedTextStyles)(({ styles, feed }) => {
       result = <ReadMoreText text="wallet pass phrase" buttonText="Read more..." />
       break
 
+    case 'spending':
+      result = <ReadMoreText text="here >>>" buttonText="Read more..." />
+      break
+
     default:
       result = (
         <Text numberOfLines={1} color="gray80Percent" fontSize={10} textTransform="capitalize" style={styles.message}>

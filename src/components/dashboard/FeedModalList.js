@@ -92,7 +92,7 @@ const FeedModalList = ({
   const feeds = data && data instanceof Array && data.length ? data : undefined
   return (
     <Portal>
-      <View style={[styles.horizontalContainer, { opacity: loading ? 0 : 1 }]}>
+      <View style={[styles.horizontalContainer, { opacity: 1 }]}>
         <FlatList
           onScroll={({ nativeEvent }) => {
             // when nativeEvent contentOffset reaches target offset setLoading to false, we stopped scrolling

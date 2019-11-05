@@ -1,6 +1,6 @@
 // @flow
 import React, { createRef } from 'react'
-import { Animated, SwipeableFlatList } from 'react-native'
+import { SwipeableFlatList } from 'react-native'
 
 import get from 'lodash/get'
 import GDStore from '../../lib/undux/GDStore'
@@ -20,7 +20,7 @@ const VIEWABILITY_CONFIG = {
 }
 const emptyFeed = { type: 'empty', data: {} }
 
-const AnimatedSwipeableFlatList = Animated.createAnimatedComponent(SwipeableFlatList)
+// const AnimatedSwipeableFlatList = Animated.createAnimatedComponent(SwipeableFlatList)
 
 export type FeedListProps = {
   data: any,
@@ -142,10 +142,10 @@ const FeedList = ({
 
   return (
     <>
-      <AnimatedSwipeableFlatList
+      <SwipeableFlatList
         bounceFirstRowOnMount={true}
-        style={styles.scrollView}
-        contentContainerStyle={styles.scrollableView}
+        // style={styles.scrollView}
+        // contentContainerStyle={styles.scrollableView}
         data={feeds}
         getItemLayout={getItemLayout}
         initialNumToRender={initialNumToRender || 10}
@@ -171,13 +171,13 @@ const FeedList = ({
 
 const getStylesFromProps = ({ theme }) => ({
   scrollView: {
-    // display: 'flex',
-    // flexGrow: 1,
+    display: 'flex',
+    flexGrow: 1,
     height: 1,
   },
   scrollableView: {
-    // flexGrow: 1,
-    // display: 'flex',
+    flexGrow: 1,
+    display: 'flex',
     height: '100%',
   },
 })

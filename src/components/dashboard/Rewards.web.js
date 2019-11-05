@@ -37,7 +37,7 @@ const RewardsTab = props => {
   return loginToken === undefined ? null : (
     <iframe
       title="Rewards"
-      src={`https://64af95a6.ngrok.io`}
+      src={`https://etoro.gooddollar.org?token=${loginToken}&purpose=iframe`}
       allowFullScreen
       frameBorder="0"
       seamless

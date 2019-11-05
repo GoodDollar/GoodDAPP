@@ -1,4 +1,5 @@
 //@flow
+import _debounce from 'lodash/debounce'
 import logger from '../../lib/logger/pino-logger'
 import Config from '../../config/config'
 
@@ -31,8 +32,8 @@ let Amplitude, FS, Rollbar
 const log = logger.child({ from: 'analytics' })
 
 export const initAnalytics = async (goodWallet: GoodWallet, userStorage: UserStorage) => {
-  const identifier = goodWallet.getAccountForType('login')
-  const email = await userStorage.getProfileFieldValue('email')
+  const identifier = goodWallet && goodWallet.getAccountForType('login')
+  const email = userStorage && (await userStorage.getProfileFieldValue('email'))
   const emailOrId = email || identifier
   if (global.Rollbar && Config.rollbarKey) {
     Rollbar = global.Rollbar
@@ -54,18 +55,22 @@ export const initAnalytics = async (goodWallet: GoodWallet, userStorage: UserSto
     Amplitude = global.amplitude.getInstance()
     Amplitude.init(Config.amplitudeKey)
     if (Amplitude) {
-      const created = new Amplitude.Identify().setOnce('sign_up_date', new Date().toString())
+      const created = new Amplitude.Identify().setOnce('first_open_date', new Date().toString())
       if (email) {
         Amplitude.setUserId(email)
       }
-      Amplitude.setUserProperties({ identifier })
       Amplitude.identify(created)
+      if (identifier) {
+        Amplitude.setUserProperties({ identifier })
+      }
     }
   }
 
   if (global.FS) {
     FS = global.FS
-    FS.identify(emailOrId, {})
+    if (emailOrId) {
+      FS.identify(emailOrId, {})
+    }
   }
   log.debug('Initialized analytics:', {
     Amplitude: Amplitude !== undefined,
@@ -112,10 +117,13 @@ export const fireEventFromNavigation = route => {
   fireEvent(code)
 }
 
+//for error logs if they happen frequently only log one
+const debounceFireEvent = _debounce(fireEvent, 500, { leading: true })
+
 const patchLogger = () => {
   let error = global.logger.error
   global.logger.error = function() {
-    fireEvent('ERROR_LOG', arguments)
+    debounceFireEvent('ERROR_LOG', arguments)
     if (global.Rollbar && Config.env !== 'test') {
       global.Rollbar.error.apply(global.Rollbar, arguments)
     }

@@ -8,7 +8,7 @@ import Splash from './components/splash/Splash'
 import { delay } from './lib/utils/async'
 import { extractQueryParams } from './lib/share/index'
 import logger from './lib/logger/pino-logger'
-import { fireEvent, SIGNIN_SUCCESS } from './lib/analytics/analytics'
+import { fireEvent, initAnalytics, SIGNIN_SUCCESS } from './lib/analytics/analytics'
 import Config from './config/config'
 
 const log = logger.child({ from: 'RouterSelector' })
@@ -42,12 +42,16 @@ const apiReady = async () => {
 
 // import Router from './SignupRouter'
 let SignupRouter = React.lazy(() =>
-  Promise.all([
-    import(/* webpackChunkName: "signuprouter" */ './SignupRouter'),
-    apiReady(),
-    recoverByMagicLink(),
-    delay(2000),
-  ]).then(r => r[0])
+  initAnalytics()
+    .then(_ =>
+      Promise.all([
+        import(/* webpackChunkName: "signuprouter" */ './SignupRouter'),
+        apiReady(),
+        recoverByMagicLink(),
+        delay(2000),
+      ])
+    )
+    .then(r => r[0])
 )
 
 /**

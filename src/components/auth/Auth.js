@@ -39,12 +39,6 @@ class Auth extends React.Component<Props> {
     await this.checkWeb3TokenAndPaymentCode()
   }
 
-  async componentDidMount() {
-    const { init } = await import('../../init')
-    await init()
-    fireEvent('GOTO_AUTH')
-  }
-
   checkWeb3TokenAndPaymentCode = async () => {
     const { navigation } = this.props
     const web3Token = await AsyncStorage.getItem('web3Token')

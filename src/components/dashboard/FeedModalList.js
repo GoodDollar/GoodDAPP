@@ -97,11 +97,12 @@ const FeedModalList = ({
         <FlatList
           onScroll={({ nativeEvent }) => {
             console.log('****************************************')
-            console.log({nativeEvent})
+            console.log({ nativeEvent })
             console.log('-------------------------------')
             console.log('contentOffset', Math.abs(offset - nativeEvent.contentOffset.x))
             console.log('offset', offset)
             console.log('****************************************')
+
             // when nativeEvent contentOffset reaches target offset setLoading to false, we stopped scrolling
             if (Math.abs(offset - nativeEvent.contentOffset.x) < 5) {
               setLoading(false)
@@ -129,7 +130,8 @@ const FeedModalList = ({
 const getStylesFromProps = ({ theme }) => ({
   horizontalContainer: {
     backgroundColor: theme.modals.overlayBackgroundColor,
-    flex: 1,
+
+    // flex: 1,
     top: 0,
     left: 0,
     padding: 0,

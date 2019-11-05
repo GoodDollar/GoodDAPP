@@ -102,15 +102,15 @@ exports[`SignIn - IOSWebAppSignIn matches snapshot 1`] = `
     className="css-view-1dbjc4n"
     style={
       Object {
-        "WebkitBoxFlex": 5,
-        "WebkitFlexGrow": 5,
+        "WebkitBoxFlex": 1,
+        "WebkitFlexGrow": 1,
         "backgroundColor": "rgba(255,255,255,1.00)",
         "borderBottomLeftRadius": "0px",
         "borderBottomRightRadius": "0px",
         "borderTopLeftRadius": "0px",
         "borderTopRightRadius": "0px",
-        "flexGrow": 5,
-        "msFlexPositive": 5,
+        "flexGrow": 1,
+        "msFlexPositive": 1,
         "paddingBottom": "0px",
         "paddingLeft": "12px",
         "paddingRight": "12px",
@@ -421,25 +421,21 @@ was sent to your phone on SMS:
       className="css-view-1dbjc4n"
       style={
         Object {
-          "WebkitAlignItems": "stretch",
-          "WebkitBoxAlign": "stretch",
-          "WebkitBoxDirection": "normal",
-          "WebkitBoxFlex": 1,
-          "WebkitBoxOrient": "vertical",
           "WebkitBoxPack": "end",
-          "WebkitFlexDirection": "column",
-          "WebkitFlexGrow": 1,
           "WebkitJustifyContent": "flex-end",
-          "alignItems": "stretch",
-          "flexDirection": "column",
-          "flexGrow": 1,
+          "backgroundColor": "rgba(255,255,255,1.00)",
+          "borderBottomLeftRadius": "5px",
+          "borderBottomRightRadius": "5px",
+          "borderTopLeftRadius": "5px",
+          "borderTopRightRadius": "5px",
           "justifyContent": "flex-end",
-          "maxHeight": "80px",
-          "minHeight": "80px",
-          "msFlexAlign": "stretch",
-          "msFlexDirection": "column",
+          "maxHeight": "100px",
+          "minHeight": "100px",
           "msFlexPack": "end",
-          "msFlexPositive": 1,
+          "paddingBottom": "16px",
+          "paddingLeft": "12px",
+          "paddingRight": "12px",
+          "paddingTop": "16px",
         }
       }
     >

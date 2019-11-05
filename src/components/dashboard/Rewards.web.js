@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react'
+import { TouchableOpacity, View } from 'react-native'
 import IframeResizer from 'iframe-resizer-react'
 import { isIOS } from 'mobile-device-detect'
+import { Appbar } from 'react-native-paper'
 import userStorage from '../../lib/gundb/UserStorage'
 import Config from '../../config/config'
 import logger from '../../lib/logger/pino-logger'
 import SimpleStore from '../../lib/undux/SimpleStore'
+import WalletSVG from '../common/view/WalletSvg'
 
 const log = logger.child({ from: 'RewardsTab' })
 
@@ -49,7 +52,22 @@ const RewardsTab = props => {
   )
 }
 
-RewardsTab.navigationOptions = {
-  title: 'Rewards',
+const NavigationBar = navigate => (
+  <Appbar.Header dark>
+    <View style={{ width: 48 }} />
+    <Appbar.Content />
+    <Appbar.Content title="REWARDS" color="white" titleStyle={{ textAlign: 'center', fontWeight: 'bold' }} />
+    <Appbar.Content />
+    <TouchableOpacity onPress={() => navigate('Home')}>
+      <WalletSVG />
+    </TouchableOpacity>
+  </Appbar.Header>
+)
+
+RewardsTab.navigationOptions = ({ navigation }) => {
+  return {
+    navigationBar: () => NavigationBar(navigation.navigate),
+  }
 }
+
 export default RewardsTab

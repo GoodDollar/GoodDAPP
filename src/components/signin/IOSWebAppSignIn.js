@@ -125,7 +125,9 @@ const mnemonicsStyles = ({ theme }) => ({
     borderRadius: 0,
     paddingVertical: 0,
   },
-  instructions: {},
+  instructions: {
+    marginTop: getDesignRelativeHeight(10),
+  },
   buttonLayout: {
     marginVertical: 20,
   },
@@ -136,7 +138,7 @@ const mnemonicsStyles = ({ theme }) => ({
   image: {
     flexGrow: 1,
     flexShrink: 0,
-    marginVertical: getDesignRelativeHeight(25),
+    marginBottom: getDesignRelativeHeight(20),
     height: getDesignRelativeHeight(200),
   },
 })

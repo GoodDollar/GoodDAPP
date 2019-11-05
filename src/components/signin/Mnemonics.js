@@ -14,7 +14,7 @@ import Section from '../common/layout/Section'
 import { showSupportDialog } from '../common/dialogs/showSupportDialog'
 import CustomButton from '../common/buttons/CustomButton'
 import InputText from '../common/form/InputText'
-import { CLICK_BTN_RECOVER_WALLET, fireEvent, RECOVER_SUCCESS } from '../../lib/analytics/analytics'
+import { CLICK_BTN_RECOVER_WALLET, fireEvent, RECOVER_FAILED, RECOVER_SUCCESS } from '../../lib/analytics/analytics'
 
 const TITLE = 'Recover'
 const log = logger.child({ from: TITLE })
@@ -57,6 +57,7 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
       })
 
     if (!mnemonics || !bip39.validateMnemonic(mnemonics)) {
+      fireEvent(RECOVER_FAILED, { invalidMnemonics: true })
       setRecovering(false)
       showError()
       return
@@ -89,10 +90,12 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
         // There is no error and Profile exists. Reload screen to start with users mnemonics
         // window.location = incomingRedirectUrl
       } else {
+        fireEvent(RECOVER_FAILED, { noProfileFound: true })
         await saveMnemonics(prevMnemonics)
         showError()
       }
     } catch (e) {
+      fireEvent(RECOVER_FAILED, { unexpected: true })
       log.error('recover mnemonics failed', e.message, e)
       saveMnemonics(prevMnemonics)
       showSupportDialog(showErrorDialog, hideDialog, screenProps, 'men-1')

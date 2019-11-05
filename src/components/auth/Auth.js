@@ -4,7 +4,7 @@ import { AsyncStorage, Image } from 'react-native'
 import _get from 'lodash/get'
 import Mnemonics from '../signin/Mnemonics'
 import logger from '../../lib/logger/pino-logger'
-import { CLICK_BTN_SIGNIN, fireEvent } from '../../lib/analytics/analytics'
+import { CLICK_BTN_GETINVITED, fireEvent } from '../../lib/analytics/analytics'
 import CustomButton from '../common/buttons/CustomButton'
 import { PushButton } from '../appNavigation/PushButton'
 import Wrapper from '../common/layout/Wrapper'
@@ -119,7 +119,6 @@ class Auth extends React.Component<Props> {
 
   handleSignIn = () => {
     this.props.navigation.navigate('SigninInfo')
-    fireEvent(CLICK_BTN_SIGNIN)
   }
 
   handleNavigateTermsOfUse = () => this.props.screenProps.push('TermsOfUse')
@@ -127,6 +126,7 @@ class Auth extends React.Component<Props> {
   handleNavigatePrivacyPolicy = () => this.props.screenProps.push('PrivacyPolicy')
 
   goToW3Site = () => {
+    fireEvent(CLICK_BTN_GETINVITED)
     window.location = config.web3SiteUrl
   }
 

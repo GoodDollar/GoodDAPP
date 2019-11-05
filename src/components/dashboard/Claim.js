@@ -21,7 +21,7 @@ import Section from '../common/layout/Section'
 import illustration from '../../assets/Claim/illustration.svg'
 import { theme } from '../theme/styles'
 import Config from '../../config/config'
-import { CLAIM_SUCCESS, fireEvent } from '../../lib/analytics/analytics'
+import { CLAIM_FAILED, CLAIM_SUCCESS, fireEvent } from '../../lib/analytics/analytics'
 import type { DashboardProps } from './Dashboard'
 import ClaimButton from './ClaimButton'
 
@@ -105,7 +105,7 @@ const Claim = props => {
   const { entitlement } = gdstore.get('account')
   const isCitizen = gdstore.get('isLoggedInCitizen')
 
-  const [showDialog] = useDialog()
+  const [showDialog, , showErrorDialog] = useDialog()
   const [loading, setLoading] = useState(false)
   const [claimInterval, setClaimInterval] = useState(null)
   const [state, setState]: [ClaimState, Function] = useState({
@@ -208,13 +208,13 @@ const Claim = props => {
             },
           }
           userStorage.enqueueTX(transactionEvent)
-          fireEvent(CLAIM_SUCCESS, { txhash: hash })
           AsyncStorage.setItem('AddWebAppLastClaim', date.toISOString())
         },
         onError: userStorage.markWithErrorEvent,
       })
 
       if (receipt.status) {
+        fireEvent(CLAIM_SUCCESS, { txhash: receipt.transactionHash })
         showDialog({
           buttons: [{ text: 'Yay!' }],
           message: `You've claimed your daily G$\nsee you tomorrow.`,
@@ -223,21 +223,13 @@ const Claim = props => {
           onDismiss: () => screenProps.goToRoot(),
         })
       } else {
-        showDialog({
-          message: 'Something went wrong with the transaction.\nSee feed details for further information.',
-          title: 'Claiming Failed',
-          type: 'error',
-        })
+        fireEvent(CLAIM_FAILED, { txhash: receipt.transactionHash, txNotCompleted: true })
+        showErrorDialog('Claim request failed', 'CLAIM-1', { boldMessage: 'Try again later.' })
       }
     } catch (e) {
+      fireEvent(CLAIM_SUCCESS, { txError: true })
       log.error('claiming failed', e.message, e)
-
-      showDialog({
-        message: e.message,
-        boldMessage: `Try again later.`,
-        title: 'Claiming Failed',
-        type: 'error',
-      })
+      showErrorDialog('Claim request failed', 'CLAIM-2', { boldMessage: 'Try again later.' })
     } finally {
       setLoading(false)
     }

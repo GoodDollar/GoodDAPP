@@ -3,18 +3,22 @@ import _debounce from 'lodash/debounce'
 import logger from '../../lib/logger/pino-logger'
 import Config from '../../config/config'
 
-export const CLICK_BTN_SIGNIN = 'CLICK_BTN_SIGNIN'
+export const CLICK_BTN_GETINVITED = 'CLICK_BTN_GETINVITED'
 export const CLICK_BTN_RECOVER_WALLET = 'CLICK_BTN_RECOVER_WALLET'
 export const CLICK_BTN_CARD_ACTION = 'CLICK_BTN_CARD_ACTION'
 export const CLICK_DELETE_WALLET = 'CLICK_DELETE_WALLET'
-export const SIGNIN_SUCCESS = 'SIGNIN_SUCCESS'
+export const SIGNIN_SUCCESS = 'MAGICLINK_SUCCESS'
+export const SIGNIN_FAILED = 'MAGICLINK_FAILED'
 export const RECOVER_SUCCESS = 'RECOVER_SUCCESS'
+export const RECOVER_FAILED = 'RECOVER_FAILED'
 export const CLAIM_SUCCESS = 'CLAIM_SUCCESS'
+export const CLAIM_FAILED = 'CLAIM_FAILED'
 export const CARD_OPEN = 'CARD_OPEN'
 export const PROFILE_PRIVACY = 'PROFILE_PRIVACY'
 export const PROFILE_IMAGE = 'PROFILE_IMAGE'
 export const PROFILE_UPDATE = 'PROFILE_UPDATE'
 export const PHRASE_BACKUP = 'PHRASE_BACKUP'
+export const PHRASE_BACKUP_COPY = 'PHRASE_BACKUP_COPY'
 export const ADDTOHOME = 'ADDTOHOME'
 export const ADDTOHOME_LATER = 'ADDTOHOME_LATER'
 
@@ -112,6 +116,7 @@ export const fireEvent = (event: string, data: any = {}) => {
 export const fireEventFromNavigation = route => {
   const key = route.routeName
   const action = route.params && route.params.action ? `${route.params.action}` : 'GOTO'
+
   const code = `${action}_${key}`.toUpperCase()
 
   fireEvent(code)
@@ -123,7 +128,9 @@ const debounceFireEvent = _debounce(fireEvent, 500, { leading: true })
 const patchLogger = () => {
   let error = global.logger.error
   global.logger.error = function() {
-    debounceFireEvent('ERROR_LOG', arguments)
+    if (arguments[1] && arguments[1].indexOf('axios') == -1) {
+      debounceFireEvent('ERROR_LOG', arguments)
+    }
     if (global.Rollbar && Config.env !== 'test') {
       global.Rollbar.error.apply(global.Rollbar, arguments)
     }

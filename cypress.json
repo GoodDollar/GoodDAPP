@@ -4,53 +4,53 @@
     "env": {   
         "baseUrl": "https://gooddev.netlify.com/",
         "wordsForSuccessfullLogin": [
-            "orchard", "steak", "mother", 
-            "note", "work", "profit", 
-            "vital", "film", "gentle", 
-            "involve", "like", "jewel"
+            "script", "idle", "civil", 
+            "river", "random", "memory", 
+            "fork", "mechanic", "cabbage", 
+            "inflict", "potato", "scrub"
         ],
         "wordsForUnsuccessfullLogin": {
             "withChangedWord": [
-                "hello", "steak", "mother", 
-                "note", "work", "profit", 
-                "vital", "film", "gentle", 
-                "involve", "like", "jewel"
+                "hello", "idle", "civil", 
+                "river", "random", "memory", 
+                "fork", "mechanic", "cabbage", 
+                "inflict", "potato", "scrub"
             ],
             "withNumbers": [
-                "1orchard", "steak", "mother", 
-                "note", "work", "profit", 
-                "vital", "film", "gentle", 
-                "involve", "like", "jewel"
+                "1script", "idle", "civil", 
+                "river", "random", "memory", 
+                "fork", "mechanic", "cabbage", 
+                "inflict", "potato", "scrub"
             ],
             "withSymbols": [
-                "@orchard", "steak", "mother", 
-                "note", "work", "profit", 
-                "vital", "film", "gentle", 
-                "involve", "like", "jewel"
+                "@script", "idle", "civil", 
+                "river", "random", "memory", 
+                "fork", "mechanic", "cabbage", 
+                "inflict", "potato", "scrub"
             ],
             "withChangedLetter": [
-                "archard", "steak", "mother", 
-                "note", "work", "profit", 
-                "vital", "film", "gentle", 
-                "involve", "like", "jewel"
+                "acript", "idle", "civil", 
+                "river", "random", "memory", 
+                "fork", "mechanic", "cabbage", 
+                "inflict", "potato", "scrub"
             ],
             "withChangedOrder": [
-                "steak", "orchard", "mother", 
-                "note", "work", "profit", 
-                "vital", "film", "gentle", 
-                "involve", "like", "jewel"
+                "idle", "script", "civil", 
+                "river", "random", "memory", 
+                "fork", "mechanic", "cabbage", 
+                "inflict", "potato", "scrub"
             ],
             "withCapitalize": [
-                "Orchard", "steak", "mother", 
-                "note", "work", "profit", 
-                "vital", "film", "gentle", 
-                "involve", "like", "jewel"]
+                "Script", "idle", "civil", 
+                "river", "random", "memory", 
+                "fork", "mechanic", "cabbage", 
+                "inflict", "potato", "scrub"]
         },
         "anotherAccountWords": [
-            "heavy", "cabbage", "sea",
-            "negative","advance","cave",
-            "before","brisk","script",
-            "theory","pepper","weird"
+            "lesson", "vacuum", "region",
+            "ring","vintage","exhibit",
+            "truly","adult","detect",
+            "long","family","tooth"
         ]
     }
 }

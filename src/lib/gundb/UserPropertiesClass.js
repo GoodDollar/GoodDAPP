@@ -13,14 +13,16 @@ const logger = pino.child({ from: 'UserStorage' })
 export default class UserProperties {
   /**
    * Default User Properties
-   * @type {{isMadeBackup: boolean, addBackupFeed: boolean}}
+   * @type {{isMadeBackup: boolean, addBackupFeed: boolean, firstVisitApp:number, etoroAddCardSpending:boolean}}
    */
   static defaultProperties = {
     isMadeBackup: false,
     needAddBackupFeed: false,
+    firstVisitApp: null,
+    etoroAddCardSpending: true,
   }
 
-  fields = ['isMadeBackup', 'needAddBackupFeed']
+  fields = ['isMadeBackup', 'needAddBackupFeed', 'firstVisitApp', 'etoroAddCardSpending']
 
   /**
    * a gun node referring tto gun.user().get('properties')

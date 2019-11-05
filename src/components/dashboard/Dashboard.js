@@ -1,6 +1,6 @@
 // @flow
 import React, { useEffect, useState } from 'react'
-import { Animated, AppState, Easing } from 'react-native'
+import { Animated, Dimensions, Easing } from 'react-native'
 import _get from 'lodash/get'
 import debounce from 'lodash/debounce'
 import type { Store } from 'undux'
@@ -13,11 +13,10 @@ import SimpleStore from '../../lib/undux/SimpleStore'
 import { useDialog, useErrorDialog } from '../../lib/undux/utils/dialog'
 import { getInitialFeed, getNextFeed, PAGE_SIZE } from '../../lib/undux/utils/feed'
 import { executeWithdraw } from '../../lib/undux/utils/withdraw'
-import { gdToWei, weiToMask } from '../../lib/wallet/utils'
+import { weiToMask } from '../../lib/wallet/utils'
 
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 
-import type { TransactionEvent } from '../../lib/gundb/UserStorage'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { PushButton } from '../appNavigation/PushButton'
 import TabsView from '../appNavigation/TabsView'
@@ -36,9 +35,10 @@ import { extractQueryParams, readCode } from '../../lib/share'
 // import goodWallet from '../../lib/wallet/GoodWallet'
 import { deleteAccountDialog } from '../sidemenu/SideMenuPanel'
 import config from '../../config/config'
-import { backupMessage } from '../../lib/gundb/UserStorageClass'
-import Marketplace from './MarketPlaceIframe'
+import { backupMessage, startSpending } from '../../lib/gundb/UserStorageClass'
+import LoadingIcon from '../common/modal/LoadingIcon'
 import RewardsTab from './Rewards'
+import MarketTab from './Marketplace'
 import Amount from './Amount'
 import Claim from './Claim'
 import FeedList from './FeedList'
@@ -95,6 +95,8 @@ const Dashboard = props => {
   const [showDialog, hideDialog] = useDialog()
   const [showErrorDialog] = useErrorDialog()
   const { params } = props.navigation.state
+  const [update, setUpdate] = useState(0)
+
   const prepareLoginToken = async () => {
     const loginToken = await userStorage.getProfileFieldValue('loginToken')
 
@@ -125,39 +127,6 @@ const Dashboard = props => {
     }
   }
 
-  const checkBonusesToRedeem = () => {
-    const isUserWhitelisted = gdstore.get('isLoggedInCitizen')
-
-    if (!isUserWhitelisted) {
-      return
-    }
-
-    API.redeemBonuses()
-      .then(res => {
-        const resData = res.data
-
-        if (resData.hash && resData.bonusAmount) {
-          const transactionEvent: TransactionEvent = {
-            id: resData.hash,
-            date: new Date().toString(),
-            type: 'bonus',
-            status: 'pending',
-            data: {
-              customName: 'GoodDollar',
-              amount: gdToWei(resData.bonusAmount),
-            },
-          }
-
-          userStorage.enqueueTX(transactionEvent)
-        }
-      })
-      .catch(err => {
-        log.error('Failed to redeem bonuses', err.message, err)
-
-        showErrorDialog('Something Went Wrong. An error occurred while trying to redeem bonuses')
-      })
-  }
-
   //Service redirects Send/Receive
   useEffect(() => {
     const anyParams = extractQueryParams(window.location.href)
@@ -180,33 +149,40 @@ const Dashboard = props => {
     return getNextFeed(gdstore)
   }
 
-  const handleAppFocus = state => {
-    if (state === 'active') {
-      checkBonusesToRedeem()
-    }
-  }
-
   useEffect(() => {
-    AppState.addEventListener('change', handleAppFocus)
-
     if (props.navigation.state.key === 'Delete') {
       deleteAccountDialog({ API, showDialog: showErrorDialog, store, theme: props.theme })
     }
 
-    checkBonusesToRedeem()
-
     prepareLoginToken()
     addBackupCard()
+    onlyForEToro()
+
     log.debug('Dashboard didmount')
     userStorage.feed.get('byid').on(data => {
       log.debug('gun getFeed callback', { data })
       getInitialFeed(gdstore)
     }, true)
-
-    return function() {
-      AppState.removeEventListener('change', handleAppFocus)
-    }
   }, [])
+
+  const onlyForEToro = async () => {
+    if (config.isEToro) {
+      const userProperties = await userStorage.userProperties.getAll()
+      if (
+        userProperties.firstVisitApp &&
+        Date.now() - userProperties.firstVisitApp >= 68400 &&
+        userProperties.etoroAddCardSpending
+      ) {
+        await userStorage.enqueueTX(startSpending)
+        await userStorage.userProperties.set('etoroAddCardSpending', false)
+      }
+
+      if (!userProperties.firstVisitApp) {
+        await userStorage.userProperties.set('firstVisitApp', Date.now())
+        await userStorage.userProperties.set('etoroAddCardSpending', true)
+      }
+    }
+  }
 
   useEffect(() => {
     const { entitlement } = gdstore.get('account')
@@ -269,8 +245,14 @@ const Dashboard = props => {
 
   const handleWithdraw = async () => {
     const { paymentCode, reason } = props.navigation.state.params
+    const { styles }: DashboardProps = props
     try {
-      showDialog({ title: 'Processing Payment Link...', loading: true, buttons: [{ text: 'YAY!' }] })
+      showDialog({
+        title: 'Processing Payment Link...',
+        image: <LoadingIcon />,
+        message: 'please wait while processing...',
+        buttons: [{ text: 'YAY!', style: styles.disabledButton }],
+      })
       await executeWithdraw(store, decodeURI(paymentCode), decodeURI(reason))
       hideDialog()
     } catch (e) {
@@ -291,6 +273,15 @@ const Dashboard = props => {
       },
     ],
   }
+
+  useEffect(() => {
+    const debouncedHandleResize = debounce(() => {
+      log.info('update component after resize', update)
+      setUpdate(Date.now())
+    }, 100)
+
+    Dimensions.addEventListener('change', () => debouncedHandleResize())
+  }, [])
 
   return (
     <Wrapper style={styles.dashboardWrapper}>
@@ -485,6 +476,9 @@ const getStylesFromProps = ({ theme }) => ({
     marginVertical: theme.sizes.defaultDouble,
     alignItems: 'baseline',
   },
+  disabledButton: {
+    backgroundColor: theme.colors.gray50Percent,
+  },
   bigNumberUnitStyles: {
     marginRight: normalize(-20),
   },
@@ -544,5 +538,5 @@ export default createStackNavigator({
   Recover: Mnemonics,
   OutOfGasError,
   Rewards: RewardsTab,
-  Marketplace: config.market || config.isEToro ? Marketplace : WrappedDashboard,
+  Marketplace: config.market ? MarketTab : WrappedDashboard,
 })

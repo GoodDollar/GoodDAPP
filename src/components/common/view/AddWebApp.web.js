@@ -102,14 +102,35 @@ const AddWebApp = props => {
   const [skipCount, setSkipCount] = useState(0)
   const [lastClaim, setLastClaim] = useState()
   const [dialogShown, setDialogShown] = useState()
+  const [isStandalone, setStandalone] = useState(false)
   const store = SimpleStore.useStore()
   const [showDialog] = useDialog()
   const { show } = store.get('addWebApp')
+
   useEffect(() => {
-    AsyncStorage.getItem('GD_AddWebAppLastCheck').then(setLastCheck)
-    AsyncStorage.getItem('GD_AddWebAppNextCheck').then(setNextCheck)
-    AsyncStorage.getItem('GD_AddWebAppSkipCount').then(sc => setSkipCount(Number(sc)))
-    AsyncStorage.getItem('GD_AddWebAppLastClaim').then(setLastClaim)
+    if (
+      (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) ||
+      window.navigator.standalone === true
+    ) {
+      setStandalone(true)
+    }
+
+    AsyncStorage.getItem('AddWebAppLastCheck').then(setLastCheck)
+    AsyncStorage.getItem('AddWebAppNextCheck').then(setNextCheck)
+    AsyncStorage.getItem('AddWebAppSkipCount').then(sc => setSkipCount(Number(sc)))
+    AsyncStorage.getItem('AddWebAppLastClaim').then(setLastClaim)
+
+    if (!isStandalone) {
+      log.debug('useEffect, registering beforeinstallprompt')
+
+      window.addEventListener('beforeinstallprompt', e => {
+        // For older browsers
+        e.preventDefault()
+        log.debug('Install Prompt fired')
+
+        setInstallPrompt(e)
+      })
+    }
   }, [])
 
   const showExplanationDialog = () => {
@@ -129,9 +150,9 @@ const AddWebApp = props => {
       .add(nextCheckInDays, 'days')
       .toDate()
 
-    AsyncStorage.setItem('GD_AddWebAppSkipCount', newSkipCount)
-    AsyncStorage.setItem('GD_AddWebAppLastCheck', new Date().toISOString())
-    AsyncStorage.setItem('GD_AddWebAppNextCheck', nextCheckDate.toISOString())
+    AsyncStorage.setItem('AddWebAppSkipCount', newSkipCount)
+    AsyncStorage.setItem('AddWebAppLastCheck', new Date().toISOString())
+    AsyncStorage.setItem('AddWebAppNextCheck', nextCheckDate.toISOString())
   }
 
   const installApp = async () => {
@@ -180,31 +201,16 @@ const AddWebApp = props => {
   }
 
   useEffect(() => {
-    log.debug('useEffect, registering beforeinstallprompt')
-
-    window.addEventListener('beforeinstallprompt', e => {
-      // For older browsers
-      e.preventDefault()
-      log.debug('Install Prompt fired')
-
-      // See if the app is already installed, in that case, do nothing
-      if (
-        (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) ||
-        window.navigator.standalone === true
-      ) {
-        return
-      }
-      setInstallPrompt(e)
-    })
-  }, [])
-
-  useEffect(() => {
     if (dialogShown) {
       showInitialDialog()
     }
   }, [dialogShown])
 
   useEffect(() => {
+    if (isStandalone) {
+      return
+    }
+
     log.debug({ installPrompt, show, skipCount })
 
     // Condition to show reminder

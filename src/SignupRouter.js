@@ -37,6 +37,7 @@ const fullScreenContainer = {
   display: 'flex',
   flexGrow: 1,
   flexDirection: 'column',
+  minHeight: 480,
 }
 
 const Router = () => {

@@ -6,9 +6,11 @@ import { withStyles } from '../../lib/styles'
 import { useWrappedUserStorage } from '../../lib/gundb/useWrappedStorage'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import InputFile from '../common/form/InputFile'
+import logger from '../../lib/logger/pino-logger'
 import CircleButtonWrapper from './CircleButtonWrapper'
 import CameraButton from './CameraButton'
 
+const log = logger.child({ from: 'ViewAvatar' })
 const TITLE = 'Your Profile'
 
 const ViewAvatar = props => {
@@ -25,11 +27,17 @@ const ViewAvatar = props => {
 
   const handleClosePress = event => {
     event.preventDefault()
-    wrappedUserStorage.setProfileField('avatar', null, 'public').catch(e => showErrorDialog('Saving image failed', e))
+    wrappedUserStorage.setProfileField('avatar', null, 'public').catch(e => {
+      showErrorDialog('Could not delete image. Please try again.')
+      log.error('delete image failed:', e.message, e)
+    })
   }
 
   const handleAddAvatar = avatar => {
-    wrappedUserStorage.setProfileField('avatar', avatar, 'public').catch(e => showErrorDialog('Saving image failed', e))
+    wrappedUserStorage.setProfileField('avatar', avatar, 'public').catch(e => {
+      showErrorDialog('Could not save image. Please try again.')
+      log.error('save image failed:', e.message, e)
+    })
     props.screenProps.push('EditAvatar')
   }
 

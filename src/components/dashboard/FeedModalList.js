@@ -97,6 +97,7 @@ const FeedModalList = ({
         <FlatList
           onScroll={({ nativeEvent }) => {
             console.log('****************************************')
+            console.log('rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr')
             console.log({ nativeEvent })
             console.log('-------------------------------')
             console.log('contentOffset', Math.abs(offset - nativeEvent.contentOffset.x))
@@ -130,6 +131,7 @@ const FeedModalList = ({
 const getStylesFromProps = ({ theme }) => ({
   horizontalContainer: {
     backgroundColor: theme.modals.overlayBackgroundColor,
+
     // flex: 1,
     top: 0,
     left: 0,

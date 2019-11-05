@@ -165,12 +165,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
             </CustomButton>
           </View>
           <View style={styles.rightButtonContainer}>
-            <CustomButton
-              mode="contained"
-              style={styles.button}
-              onPress={Marketplace}
-              iconAlignment="right"
-            >
+            <CustomButton mode="contained" style={styles.button} onPress={Marketplace} iconAlignment="right">
               <Text fontSize={14} color="#FFFFFF" fontFamily="Roboto">
                 {"LET'S GO"}
               </Text>

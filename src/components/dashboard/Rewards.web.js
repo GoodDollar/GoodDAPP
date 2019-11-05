@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react'
-
-// import { isIOS } from 'mobile-device-detect'
 import userStorage from '../../lib/gundb/UserStorage'
 import logger from '../../lib/logger/pino-logger'
 import SimpleStore from '../../lib/undux/SimpleStore'
@@ -39,7 +37,6 @@ const RewardsTab = props => {
       }
     })
   }, [])
-
   return loginToken === undefined ? null : (
     <iframe
       title="Rewards"

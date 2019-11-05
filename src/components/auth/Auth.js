@@ -2,7 +2,6 @@
 import React from 'react'
 import { AsyncStorage, Image } from 'react-native'
 import _get from 'lodash/get'
-import { isMobileSafari } from 'mobile-device-detect'
 import Mnemonics from '../signin/Mnemonics'
 import logger from '../../lib/logger/pino-logger'
 import CustomButton from '../common/buttons/CustomButton'
@@ -18,7 +17,6 @@ import { theme as mainTheme } from '../theme/styles'
 import API from '../../lib/API/api'
 import Section from '../common/layout/Section'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
-import { GD_USER_MNEMONIC } from '../../lib/constants/localStorage'
 
 type Props = {
   navigation: any,
@@ -37,18 +35,6 @@ class Auth extends React.Component<Props> {
   }
 
   async componentWillMount() {
-    const { navigation } = this.props
-    const mnemonic = await AsyncStorage.getItem(GD_USER_MNEMONIC)
-
-    if (
-      isMobileSafari &&
-      ((window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) ||
-        window.navigator.standalone === true) &&
-      !mnemonic
-    ) {
-      navigation.navigate('IOSWebAppSignIn')
-    }
-
     await this.checkWeb3TokenAndPaymentCode()
   }
 

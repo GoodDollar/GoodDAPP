@@ -72,7 +72,7 @@ const FeedModalList = ({
       setTimeout(() => {
         console.log('seeeeeeeeeeet scoooollllllll', offset)
         flatListRef && flatListRef.current && flatListRef.current.scrollToOffset({ animated: false, offset })
-      }, 5000)
+      }, 0)
     }
   }, [offset, flatListRef])
 
@@ -96,9 +96,10 @@ const FeedModalList = ({
     <Portal>
       <View style={[styles.horizontalContainer, { opacity: loading ? 0 : 1 }]}>
         <FlatList
+          style={styles.flatList}
           onScroll={({ nativeEvent }) => {
             console.log('****************************************')
-            console.log('6666666666666666666')
+            console.log('77777777777777777777777777777777777')
             console.log({ nativeEvent })
             console.log('-------------------------------')
             console.log('contentOffset', Math.abs(offset - nativeEvent.contentOffset.x))
@@ -142,6 +143,9 @@ const getStylesFromProps = ({ theme }) => ({
   horizontalList: {
     width: '100%',
     maxWidth: '100vw',
+  },
+  flatList: {
+    transform: 'translateY(1px)',
   },
 })
 

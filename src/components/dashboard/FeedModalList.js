@@ -52,6 +52,7 @@ const FeedModalList = ({
 
   // When screenWidth or selectedFeed changes needs to recalculate the offset
   useEffect(() => {
+    console.log(loading)
     const index = selectedFeed ? data.findIndex(item => item.id === selectedFeed.id) : 0
     setOffset(screenWidth * index)
   }, [screenWidth, selectedFeed])

@@ -68,6 +68,12 @@ const getEventSettingsByType = (theme, type) => {
       name: 'info',
       withoutAmount: true,
     },
+    spending: {
+      color: theme.colors.primary,
+      name: 'info',
+      withoutAmount: true,
+      withoutAvatar: true,
+    },
     empty: {
       color: theme.colors.lightGray,
     },

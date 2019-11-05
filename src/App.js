@@ -9,7 +9,6 @@ import RouterSelector from './RouterSelector.web'
 import LoadingIndicator from './components/common/view/LoadingIndicator'
 import SplashDesktop from './components/splash/SplashDesktop'
 import AddWebApp from './components/common/view/AddWebApp'
-import GDStore from './lib/undux/GDStore'
 
 const App = () => {
   const store = SimpleStore.useStore()
@@ -34,9 +33,7 @@ const App = () => {
     <PaperProvider theme={theme}>
       <SafeAreaView style={styles.safeAreaView}>
         <React.Fragment>
-          <GDStore.Container>
-            <AddWebApp />
-          </GDStore.Container>
+          <AddWebApp />
           <LoadingIndicator />
           {/* <ReCaptcha sitekey={Config.recaptcha} action="auth" verifyCallback={this.onRecaptcha} /> */}
           {Splash}

@@ -8,7 +8,6 @@ import { withStyles } from '../../../lib/styles'
 import addAppIlustration from '../../../assets/addApp.svg'
 import Icon from '../view/Icon'
 import userStorage from '../../../lib/gundb/UserStorage'
-import GDStore from '../../../lib/undux/GDStore'
 import API from '../../../lib/API/api'
 
 import Text from '../../common/view/Text'
@@ -99,7 +98,6 @@ const ExplanationDialog = withStyles(mapStylesToProps)(({ styles }) => {
 })
 
 const AddWebApp = props => {
-  const gdStore = GDStore.useStore()
   const [installPrompt, setInstallPrompt] = useState()
   const [lastCheck, setLastCheck] = useState()
   const [nextCheck, setNextCheck] = useState()
@@ -116,9 +114,9 @@ const AddWebApp = props => {
     AsyncStorage.getItem('AddWebAppLastClaim').then(setLastClaim)
   }, [])
 
-  const showExplanationDialog = () => {
+  const showExplanationDialog = async () => {
     const magicLinkCode = userStorage.getMagicLink()
-    const { mobile } = gdStore.get('profile')
+    const mobile = await userStorage.getProfileFieldValue('mobile')
 
     API.sendMagicCodeBySms(mobile, magicLinkCode).catch(e => {
       log.error('Failed to send magic link code to user by sms', e.message, e)

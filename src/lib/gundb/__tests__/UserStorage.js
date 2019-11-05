@@ -11,6 +11,7 @@ import {
   type TransactionEvent,
   welcomeMessage,
   welcomeMessageOnlyEtoro,
+  startSpending,
 } from '../UserStorageClass'
 import UserPropertiesClass from '../UserPropertiesClass'
 
@@ -362,6 +363,12 @@ describe('UserStorage', () => {
     await userStorage.updateFeedEvent(inviteFriendsMessage)
     const events = await userStorage.getAllFeed()
     expect(events).toContainEqual(inviteFriendsMessage)
+  })
+
+  it('add invite event', async () => {
+    await userStorage.updateFeedEvent(startSpending)
+    const events = await userStorage.getAllFeed()
+    expect(events).toContainEqual(startSpending)
   })
 
   it('has the welcome event already set', async () => {

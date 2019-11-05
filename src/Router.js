@@ -33,11 +33,8 @@ if (Platform.OS === 'web') {
   WebRouter = createBrowserApp(AppNavigator)
 }
 
-const addBackupCard = async () => {
-  const userProperties = userStorage.userProperties.getAll()
-  if (!userProperties.isMadeBackup && !userProperties.needAddBackupFeed) {
-    await userStorage.userProperties.set('needAddBackupFeed', true)
-  }
+const addBackupCard = () => {
+  userStorage.addBackupCard()
 }
 const onRouteChange = (prevNav, nav, route) => {
   if (route.routeName !== 'HOME') {

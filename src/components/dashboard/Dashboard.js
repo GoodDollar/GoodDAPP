@@ -35,7 +35,6 @@ import { extractQueryParams, readCode } from '../../lib/share'
 // import goodWallet from '../../lib/wallet/GoodWallet'
 import { deleteAccountDialog } from '../sidemenu/SideMenuPanel'
 import config from '../../config/config'
-import { backupMessage } from '../../lib/gundb/UserStorageClass'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import RewardsTab from './Rewards'
 import MarketTab from './Marketplace'
@@ -114,20 +113,6 @@ const Dashboard = props => {
     }
   }
 
-  /**
-   * if necessary, add a backup card
-   *
-   * @returns {Promise<void>}
-   */
-  const addBackupCard = async () => {
-    const userProperties = await userStorage.userProperties.getAll()
-    if (!userProperties.isMadeBackup && userProperties.needAddBackupFeed) {
-      await userStorage.enqueueTX(backupMessage)
-      await userStorage.userProperties.set('isMadeBackup', true)
-      await userStorage.userProperties.set('needAddBackupFeed', false)
-    }
-  }
-
   useEffect(() => {
     if (initDash) {
       setInitDash(false)
@@ -162,7 +147,6 @@ const Dashboard = props => {
     }
 
     prepareLoginToken()
-    addBackupCard()
     log.debug('Dashboard didmount')
     userStorage.feed.get('byid').on(data => {
       log.debug('gun getFeed callback', { data })

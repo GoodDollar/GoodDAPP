@@ -714,6 +714,19 @@ export class UserStorage {
   }
 
   /**
+   * if necessary, add a backup card
+   *
+   * @returns {Promise<void>}
+   */
+  async addBackupCard() {
+    const userProperties = await this.userProperties.getAll()
+    if (!userProperties.isMadeBackup) {
+      await this.enqueueTX(backupMessage)
+      await this.userProperties.set('isMadeBackup', true)
+    }
+  }
+
+  /**
    * Returns profile attribute
    *
    * @param {string} field - Profile attribute

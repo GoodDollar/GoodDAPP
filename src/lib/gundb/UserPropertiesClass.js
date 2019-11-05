@@ -17,10 +17,9 @@ export default class UserProperties {
    */
   static defaultProperties = {
     isMadeBackup: false,
-    needAddBackupFeed: false,
   }
 
-  fields = ['isMadeBackup', 'needAddBackupFeed', 'isAddedToHomeScreen']
+  fields = ['isMadeBackup', 'isAddedToHomeScreen']
 
   /**
    * a gun node referring tto gun.user().get('properties')

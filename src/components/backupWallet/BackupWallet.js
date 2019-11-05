@@ -44,7 +44,6 @@ const BackupWallet = ({ screenProps, styles, theme }: BackupWalletProps) => {
     } else {
       await userStorage.userProperties.set('isMadeBackup', true)
     }
-    await userStorage.userProperties.set('needAddBackupFeed', false)
     showDialogWithData({
       title: 'Backup Your Wallet',
       message: 'We sent an email with recovery instructions for your wallet',

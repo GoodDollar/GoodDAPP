@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import IframeResizer from 'iframe-resizer-react'
-import { isIOS, osVersion } from 'mobile-device-detect'
 import _get from 'lodash/get'
 import userStorage from '../../lib/gundb/UserStorage'
 import Config from '../../config/config'
@@ -14,7 +12,6 @@ const MarketTab = props => {
   const [showErrorDialog] = useErrorDialog()
   const [loginToken, setLoginToken] = useState()
   const store = SimpleStore.useStore()
-  const scrolling = isIOS ? 'no' : 'yes'
 
   const getToken = async () => {
     try {
@@ -53,32 +50,17 @@ const MarketTab = props => {
     return null
   }
   const src = `${Config.marketUrl}?jwt=${loginToken}&nofooter=true`
-  if (isIOS === false || osVersion > 13) {
-    return (
-      <iframe
-        title="GoodMarket"
-        scrolling="yes"
-        onLoad={isLoaded}
-        src={src}
-        seamless
-        frameBorder="0"
-        style={{ flex: 1 }}
-      />
-    )
-  }
+
+  //this is for paperclip external market, doesnt seem like it requires iframeresizer to work in ios
   return (
-    <IframeResizer
+    <iframe
       title="GoodMarket"
-      scrolling={scrolling}
-      src={src}
-      allowFullScreen
-      checkOrigin={false}
-      frameBorder="0"
-      width="100%"
-      height="100%"
-      seamless
-      style={{ flex: 1 }}
+      scrolling="yes"
       onLoad={isLoaded}
+      src={src}
+      seamless
+      frameBorder="0"
+      style={{ flex: 1 }}
     />
   )
 }

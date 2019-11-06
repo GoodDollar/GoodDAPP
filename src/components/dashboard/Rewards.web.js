@@ -53,15 +53,31 @@ const RewardsTab = props => {
   )
 }
 
+const navBarStyles = {
+  wrapper: {
+    position: 'relative',
+  },
+  title: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+  },
+  walletIcon: {
+    position: 'absolute',
+    right: 5,
+    bottom: -5,
+  },
+}
+
 const NavigationBar = navigate => (
-  <Appbar.Header dark>
+  <Appbar.Header dark style={navBarStyles.wrapper}>
     <View style={{ width: 48 }} />
     <Appbar.Content />
-    <Section.Text color="white" fontWeight="bold">
+    <Section.Text color="white" fontWeight="bold" style={navBarStyles.title}>
       {'REWARDS'}
     </Section.Text>
     <Appbar.Content />
-    <TouchableOpacity onPress={() => navigate('Home')}>
+    <TouchableOpacity onPress={() => navigate('Home')} style={navBarStyles.walletIcon}>
       <WalletSVG />
     </TouchableOpacity>
   </Appbar.Header>

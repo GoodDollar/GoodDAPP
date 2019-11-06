@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { TouchableOpacity, View } from 'react-native'
+import { TouchableOpacity } from 'react-native'
 import { Appbar } from 'react-native-paper'
 import IframeResizer from 'iframe-resizer-react'
 import { isIOS } from 'mobile-device-detect'
@@ -53,15 +53,28 @@ const MarketTab = props => {
   )
 }
 
+const navBarStyles = {
+  wrapper: {
+    position: 'relative',
+  },
+  title: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+  },
+  walletIcon: {
+    position: 'absolute',
+    right: 5,
+    bottom: -5,
+  },
+}
+
 const NavigationBar = navigate => (
-  <Appbar.Header dark>
-    <View style={{ width: 48 }} />
-    <Appbar.Content />
-    <Section.Text color="white" fontWeight="bold">
+  <Appbar.Header dark style={navBarStyles.wrapper}>
+    <Section.Text color="white" fontWeight="bold" style={navBarStyles.title}>
       {'GOODMARKET'}
     </Section.Text>
-    <Appbar.Content />
-    <TouchableOpacity onPress={() => navigate('Home')}>
+    <TouchableOpacity onPress={() => navigate('Home')} style={navBarStyles.walletIcon}>
       <WalletSVG />
     </TouchableOpacity>
   </Appbar.Header>

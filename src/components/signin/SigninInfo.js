@@ -22,6 +22,10 @@ const Signin = props => {
     props.navigation.navigate('Recover')
   }
 
+  const goToSupport = () => {
+    props.navigation.navigate('Support')
+  }
+
   return (
     <Section.Stack grow justifyContent="flex-start">
       <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
@@ -70,7 +74,7 @@ const Signin = props => {
         </TouchableOpacity>
       </Section.Row>
       <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
-        <TouchableOpacity onPress={handleRecover}>
+        <TouchableOpacity onPress={goToSupport}>
           <Section.Text
             fontWeight="medium"
             style={styles.textBottom}

@@ -1,5 +1,5 @@
 // @flow
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import { View } from 'react-native'
 import { RadioButton } from 'react-native-paper'
 import { withStyles } from '../../lib/styles'

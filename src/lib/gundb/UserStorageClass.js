@@ -13,9 +13,9 @@ import takeWhile from 'lodash/takeWhile'
 import toPairs from 'lodash/toPairs'
 import values from 'lodash/values'
 import isEmail from 'validator/lib/isEmail'
+import moment from 'moment'
 import Config from '../../config/config'
 import API from '../API/api'
-import moment from 'moment'
 import pino from '../logger/pino-logger'
 import isMobilePhone from '../validators/isMobilePhone'
 import defaultGun from './gundb'
@@ -732,6 +732,38 @@ export class UserStorage {
     }
     this.userProperties = new UserProperties(this.properties)
     await this.userProperties.updateLocalData()
+  }
+
+  /**
+   * if necessary, add a backup card
+   *
+   * @returns {Promise<void>}
+   */
+  async addBackupCard() {
+    const userProperties = await this.userProperties.getAll()
+    if (!userProperties.isMadeBackup) {
+      await this.enqueueTX(backupMessage)
+      await this.userProperties.set('isMadeBackup', true)
+    }
+  }
+
+  async onlyForEToro() {
+    if (Config.isEToro) {
+      const userProperties = await this.userProperties.getAll()
+      if (
+        userProperties.firstVisitApp &&
+        Date.now() - userProperties.firstVisitApp >= 68400 &&
+        userProperties.etoroAddCardSpending
+      ) {
+        await this.enqueueTX(startSpending)
+        await this.userProperties.set('etoroAddCardSpending', false)
+      }
+
+      if (!userProperties.firstVisitApp) {
+        await this.userProperties.set('firstVisitApp', Date.now())
+        await this.userProperties.set('etoroAddCardSpending', true)
+      }
+    }
   }
 
   /**

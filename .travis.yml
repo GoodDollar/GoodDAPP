@@ -28,7 +28,7 @@ env:
 matrix:
   include:
     - script:
-        if: branch = automated-tests #$CYPRESS_BRANCH
+        if: branch = "automated-tests" #$CYPRESS_BRANCH
         - npm run build
         - npx netlify deploy --json --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN > test.json
         - URL=`grep -i 'deploy_url' test.json | cut -c18-70`

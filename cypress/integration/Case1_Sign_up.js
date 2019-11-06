@@ -2,7 +2,8 @@
 import StartPage from '../PageObjects/StartPage'
 import SignUpPage from '../PageObjects/SignUpPage'
 import HomePage from '../PageObjects/HomePage'
-import RewardsPage from '../PageObjects/RewardsPage'
+
+// import RewardsPage from '../PageObjects/RewardsPage'
 
 describe('Test case 1: Ability to Sign Up', () => {
   it('User is not able to sign up the wallet with wrong values', () => {
@@ -63,30 +64,30 @@ describe('Test case 1: Ability to Sign Up', () => {
 
     HomePage.welcomeFeed.should('be.visible')
 
-    // ** Part for checking Rewards window **//
-    HomePage.rewardsButton.click()
-    RewardsPage.pageHeader.should('contain', 'Rewards')
-    RewardsPage.iframe.should('be.visible')
-    RewardsPage.iframe
-      .then(iframe => new Promise(resolve => setTimeout(() => resolve(iframe), 7500)))
-      .then(iframe => {
-        const body = iframe.contents().find('body')
+    // // ** Part for checking Rewards window **//
+    // HomePage.rewardsButton.click()
+    // RewardsPage.pageHeader.should('contain', 'Rewards')
+    // RewardsPage.iframe.should('be.visible')
+    // RewardsPage.iframe
+    //   .then(iframe => new Promise(resolve => setTimeout(() => resolve(iframe), 7500)))
+    //   .then(iframe => {
+    //     const body = iframe.contents().find('body')
 
-        cy.wrap(body.find(RewardsPage.createWalletButton)).should('be.visible')
+    //     cy.wrap(body.find(RewardsPage.createWalletButton)).should('be.visible')
 
-        // cy.wrap(body.find(RewardsPage.contentWrapper)).should('contain', 'Redeem your rewards & collected daily income')
-      })
-    RewardsPage.backButton.click()
-    cy.wait(7000)
-    cy.window().then(win => {
-      const identifierValue = win.wallet.getAccountForType('login').toLowerCase()
-      cy.request(
-        'POST',
-        'https://explorer.fusenet.io/api/?module=account&action=balance&address=' + identifierValue
-      ).then(res => {
-        cy.log(res)
-      })
-    })
+    //     // cy.wrap(body.find(RewardsPage.contentWrapper)).should('contain', 'Redeem your rewards & collected daily income')
+    //   })
+    // RewardsPage.backButton.click()
+    // cy.wait(7000)
+    // cy.window().then(win => {
+    //   const identifierValue = win.wallet.getAccountForType('login').toLowerCase()
+    //   cy.request(
+    //     'POST',
+    //     'https://explorer.fusenet.io/api/?module=account&action=balance&address=' + identifierValue
+    //   ).then(res => {
+    //     cy.log(res)
+    //   })
+    // })
 
     // ** ^^ ** //
     HomePage.optionsButton.click()

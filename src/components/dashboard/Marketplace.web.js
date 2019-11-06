@@ -8,6 +8,7 @@ import Config from '../../config/config'
 import logger from '../../lib/logger/pino-logger'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import WalletSVG from '../common/view/WalletSvg'
+import Section from '../common/layout/Section'
 
 const log = logger.child({ from: 'MarketTab' })
 
@@ -56,7 +57,9 @@ const NavigationBar = navigate => (
   <Appbar.Header dark>
     <View style={{ width: 48 }} />
     <Appbar.Content />
-    <Appbar.Content title="GoodMarket" color="white" titleStyle={{ textAlign: 'center', fontWeight: 'bold' }} />
+    <Section.Text color="white" fontWeight="bold">
+      {'GOODMARKET'}
+    </Section.Text>
     <Appbar.Content />
     <TouchableOpacity onPress={() => navigate('Home')}>
       <WalletSVG />

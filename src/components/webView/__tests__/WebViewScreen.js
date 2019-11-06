@@ -3,6 +3,8 @@ import renderer from 'react-test-renderer'
 import WebViewScreen, { createWebViewScreen } from '../WebViewScreen'
 import SimpleStore from '../../../lib/undux/SimpleStore'
 import { PrivacyPolicy, TermsOfUse } from '../webViewInstances'
+import { FAQ, PrivacyPolicy, Support, TermsOfUse } from '../webViewInstances'
+import { StoresWrapper } from '../../../lib/undux/utils/storeswrapper.js'
 
 // Note: test renderer must be required after react-native.
 
@@ -33,20 +35,20 @@ describe('WebViewScreen', () => {
 })
 
 describe('WebViewScreen Instances', () => {
-  it('TermsOfUse renders without errors', () => {
+  it('they renders without errors', () => {
     const tree = renderer.create(
-      <SimpleStore.Container>
+      <StoresWrapper>
         <TermsOfUse />
-      </SimpleStore.Container>
+      </StoresWrapper>
     )
     expect(tree.toJSON()).toBeTruthy()
   })
 
   it('TermsOfUse matches snapshot', () => {
     const component = renderer.create(
-      <SimpleStore.Container>
+      <StoresWrapper>
         <TermsOfUse />
-      </SimpleStore.Container>
+      </StoresWrapper>
     )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
@@ -54,18 +56,56 @@ describe('WebViewScreen Instances', () => {
 
   it('PrivacyPolicy renders without errors', () => {
     const tree = renderer.create(
-      <SimpleStore.Container>
+      <StoresWrapper>
         <PrivacyPolicy />
-      </SimpleStore.Container>
+      </StoresWrapper>
     )
     expect(tree.toJSON()).toBeTruthy()
   })
 
   it('PrivacyPolicy matches snapshot', () => {
     const component = renderer.create(
-      <SimpleStore.Container>
+      <StoresWrapper>
         <PrivacyPolicy />
-      </SimpleStore.Container>
+      </StoresWrapper>
+    )
+    const tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
+  })
+
+  it('FAQ renders without errors', () => {
+    const tree = renderer.create(
+      <StoresWrapper>
+        <FAQ />
+      </StoresWrapper>
+    )
+    expect(tree.toJSON()).toBeTruthy()
+  })
+
+  it('FAQ matches snapshot', () => {
+    const component = renderer.create(
+      <StoresWrapper>
+        <FAQ />
+      </StoresWrapper>
+    )
+    const tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
+  })
+
+  it('Support renders without errors', () => {
+    const tree = renderer.create(
+      <StoresWrapper>
+        <Support />
+      </StoresWrapper>
+    )
+    expect(tree.toJSON()).toBeTruthy()
+  })
+
+  it('Support matches snapshot', () => {
+    const component = renderer.create(
+      <StoresWrapper>
+        <Support />
+      </StoresWrapper>
     )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()

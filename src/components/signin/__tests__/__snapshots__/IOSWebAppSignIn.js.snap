@@ -94,7 +94,7 @@ exports[`SignIn - IOSWebAppSignIn matches snapshot 1`] = `
           }
         }
       >
-        EASY SIGN IN
+        EASY ACCESS
       </h1>
     </div>
   </div>
@@ -161,7 +161,7 @@ exports[`SignIn - IOSWebAppSignIn matches snapshot 1`] = `
           }
         }
       >
-        Easy sign in with iPhone!
+        Easy access with iPhone!
       </div>
       <div
         className="css-text-901oao"
@@ -180,8 +180,8 @@ exports[`SignIn - IOSWebAppSignIn matches snapshot 1`] = `
           }
         }
       >
-        Copy-paste the iPhone code which
-was sent to your phone on SMS:
+        Copy-paste the easy access code
+sent to you by text message:
       </div>
     </div>
     <div

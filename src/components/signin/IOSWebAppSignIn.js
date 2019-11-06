@@ -17,7 +17,7 @@ import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 
 Image.prefetch(IOSWebAppSignInSVG)
 
-const TITLE = 'EASY SIGN IN'
+const TITLE = 'EASY ACCESS'
 const log = logger.child({ from: TITLE })
 
 const Mnemonics = ({ screenProps, navigation, styles }) => {
@@ -85,10 +85,10 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
       <Section grow style={styles.wrapper}>
         <Section.Stack grow style={styles.instructions} justifyContent="center">
           <Text fontWeight="medium" fontSize={22} fontFamily="Roboto" lineHeight={28} style={styles.headerText}>
-            {'Easy sign in with iPhone!'}
+            {'Easy access with iPhone!'}
           </Text>
           <Text color="gray80Percent" fontSize={14}>
-            {'Copy-paste the iPhone code which\nwas sent to your phone on SMS:'}
+            {'Copy-paste the easy access code\nsent to you by text message:'}
           </Text>
         </Section.Stack>
         <Section.Stack justifyContent="space-between">

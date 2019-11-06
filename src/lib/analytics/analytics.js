@@ -59,7 +59,7 @@ export const initAnalytics = async (goodWallet: GoodWallet, userStorage: UserSto
     Amplitude = global.amplitude.getInstance()
     Amplitude.init(Config.amplitudeKey)
     if (Amplitude) {
-      const created = new Amplitude.Identify().setOnce('first_open_date', new Date().toString())
+      const created = new global.amplitude.Identify().setOnce('first_open_date', new Date().toString())
       if (email) {
         Amplitude.setUserId(email)
       }

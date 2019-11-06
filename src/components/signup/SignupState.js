@@ -31,12 +31,12 @@ export type SignupState = UserModel & SMSRecord
 type Ready = Promise<{ goodWallet: any, userStorage: any }>
 const SignupWizardNavigator = createSwitchNavigator(
   {
-    MagicLinkInfo,
     Name: NameForm,
     Phone: PhoneForm,
     SMS: SmsForm,
     Email: EmailForm,
     EmailConfirmation,
+    MagicLinkInfo,
     SignupCompleted,
   },
   navigationConfig

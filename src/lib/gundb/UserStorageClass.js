@@ -139,12 +139,13 @@ export const welcomeMessageOnlyEtoro = {
   date: new Date().toString(),
   status: 'completed',
   data: {
-    customName: 'Welcome to your wallet.',
+    customName: 'Welcome to GoodDollar!',
     subtitle: 'Welcome to GoodDollar',
     receiptData: {
       from: '0x0000000000000000000000000000000000000000',
     },
-    reason: 'You can claim G$1 each day and use them to buy items in the GoodMarket.',
+    reason:
+      'Start collecting your income by claiming GoodDollars every day. Since this is a test version - all coins are “play” coins and have no value outside of this pilot, you can use them to buy goods during the trail, at the end of it, they will be returned to the system.',
     endpoint: {
       fullName: 'Welcome to GoodDollar',
     },

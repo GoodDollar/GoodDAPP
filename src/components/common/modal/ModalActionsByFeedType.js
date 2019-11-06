@@ -78,6 +78,11 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
     navigation.navigate('Rewards')
     handleModalClose()
   }
+
+  const Marketplace = () => {
+    navigation.navigate('Marketplace')
+    handleModalClose()
+  }
   const backupPage = () => {
     fireEventAnalytics('BackupWallet')
     navigation.navigate('BackupWallet')
@@ -153,6 +158,25 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
             >
               <Text fontSize={14} color="#FFFFFF" fontFamily="Roboto">
                 INVITE
+              </Text>
+            </CustomButton>
+          </View>
+        </View>
+      )
+    case 'spending':
+      return (
+        <View style={styles.buttonsView}>
+          <View style={styles.rightButtonContainer}>
+            <CustomButton mode="text" style={styles.button} onPress={handleModalClose}>
+              <Text fontSize={14} color="gray80Percent" fontFamily="Roboto">
+                LATER
+              </Text>
+            </CustomButton>
+          </View>
+          <View style={styles.rightButtonContainer}>
+            <CustomButton mode="contained" style={styles.button} onPress={Marketplace} iconAlignment="right">
+              <Text fontSize={14} color="#FFFFFF" fontFamily="Roboto">
+                {"LET'S GO"}
               </Text>
             </CustomButton>
           </View>

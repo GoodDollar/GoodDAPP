@@ -188,6 +188,25 @@ export const backupMessage = {
   },
 }
 
+export const startSpending = {
+  id: '3',
+  type: 'spending',
+  date: new Date().toString(),
+  status: 'completed',
+  data: {
+    customName: 'Go to GoodMarket',
+    subtitle: 'Start spending your GoodDollars',
+    receiptData: {
+      from: '0x0000000000000000000000000000000000000000',
+    },
+    reason:
+      'Visit GoodMarket, eToro’s exclusive marketplace, where you can buy or sell items in exchange for GoodDollars.',
+    endpoint: {
+      fullName: 'Go to GoodMarket',
+    },
+  },
+}
+
 /**
  * Extracts transfer events sent to the current account
  * @param {object} receipt - Receipt event
@@ -687,14 +706,16 @@ export class UserStorage {
     //first time user
     if ((await this.feed) === undefined) {
       const w3Token = await this.getProfileFieldValue('w3Token')
-      if (!w3Token) {
-        this.enqueueTX(inviteFriendsMessage)
-      }
 
       if (Config.isEToro) {
         this.enqueueTX(welcomeMessageOnlyEtoro)
       } else {
         this.enqueueTX(welcomeMessage)
+      }
+      if (!w3Token) {
+        setTimeout(() => {
+          this.enqueueTX(inviteFriendsMessage)
+        }, 60000)
       }
     }
   }
@@ -723,6 +744,25 @@ export class UserStorage {
     if (!userProperties.isMadeBackup) {
       await this.enqueueTX(backupMessage)
       await this.userProperties.set('isMadeBackup', true)
+    }
+  }
+
+  async onlyForEToro() {
+    if (Config.isEToro) {
+      const userProperties = await this.userProperties.getAll()
+      if (
+        userProperties.firstVisitApp &&
+        Date.now() - userProperties.firstVisitApp >= 68400 &&
+        userProperties.etoroAddCardSpending
+      ) {
+        await this.enqueueTX(startSpending)
+        await this.userProperties.set('etoroAddCardSpending', false)
+      }
+
+      if (!userProperties.firstVisitApp) {
+        await this.userProperties.set('firstVisitApp', Date.now())
+        await this.userProperties.set('etoroAddCardSpending', true)
+      }
     }
   }
 

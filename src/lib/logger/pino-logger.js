@@ -7,6 +7,10 @@ const logger = pino({
 logger.debug = logger.info
 let error = logger.error
 logger.error = function() {
+  if (global.bugsnagClient && Config.env !== 'test') {
+    let [logContext, logMessage, eMsg, error, ...rest] = arguments
+    global.bugsnagClient.notify(logMessage, { context: logContext.from, metaData: { logMessage, eMsg, error, rest } })
+  }
   if (global.Rollbar && Config.env !== 'test') {
     Rollbar.error.apply(Rollbar, arguments)
   }

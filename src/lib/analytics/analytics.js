@@ -8,6 +8,13 @@ const log = logger.child({ from: 'analytics' })
 export const initAnalytics = async (goodWallet: GoodWallet, userStorage: UserStorage) => {
   const identifier = goodWallet.getAccountForType('login')
   const emailOrId = (await userStorage.getProfileFieldValue('email')) || identifier
+
+  if (global.bugsnagClient) {
+    global.bugsnagClient.user = {
+      id: identifier,
+      email: emailOrId,
+    }
+  }
   if (global.Rollbar && Config.rollbarKey) {
     Rollbar = global.Rollbar
     global.Rollbar.configure({

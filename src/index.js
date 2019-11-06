@@ -1,11 +1,23 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { AsyncStorage } from 'react-native'
+import bugsnag from '@bugsnag/js'
+import bugsnagReact from '@bugsnag/plugin-react'
 import './index.css'
 import fontMaterialIcons from 'react-native-vector-icons/Fonts/MaterialIcons.ttf'
 import App from './App'
 import * as serviceWorker from './serviceWorker'
 import { initStore, default as SimpleStore } from './lib/undux/SimpleStore'
+import Config from './config/config'
+const bugsnagClient = bugsnag({
+  apiKey: '5185647cee5387bca62f5a0f1ad1f67e',
+  appVersion: Config.version,
+  releaseStage: Config.env,
+})
+global.bugsnagClient = bugsnagClient
+bugsnagClient.metaData = { network: Config.network }
+bugsnagClient.use(bugsnagReact, React)
+const ErrorBoundary = bugsnagClient.getPlugin('react')
 
 const fontStylesMaterialIcons = `@font-face { src: url(${fontMaterialIcons}); font-family: MaterialIcons; }`
 const style = document.createElement('style')
@@ -38,9 +50,11 @@ upgradeVersion()
   .then(_ => initStore())
   .then(() => {
     ReactDOM.render(
-      <SimpleStore.Container>
-        <App />
-      </SimpleStore.Container>,
+      <ErrorBoundary>
+        <SimpleStore.Container>
+          <App />
+        </SimpleStore.Container>
+      </ErrorBoundary>,
       document.getElementById('root')
     )
   })

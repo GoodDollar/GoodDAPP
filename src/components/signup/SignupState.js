@@ -31,8 +31,8 @@ export type SignupState = UserModel & SMSRecord
 type Ready = Promise<{ goodWallet: any, userStorage: any }>
 const SignupWizardNavigator = createSwitchNavigator(
   {
-    Phone: PhoneForm,
     Name: NameForm,
+    Phone: PhoneForm,
     SMS: SmsForm,
     Email: EmailForm,
     EmailConfirmation,

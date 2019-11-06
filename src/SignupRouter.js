@@ -3,8 +3,10 @@ import { createBrowserApp } from '@react-navigation/web'
 import { createSwitchNavigator } from '@react-navigation/core'
 
 import { Platform } from 'react-native'
+import { isMobileSafari } from 'mobile-device-detect'
 import Signup from './components/signup/SignupState'
 import SigninInfo from './components/signin/SigninInfo'
+import IOSWebAppSignIn from './components/signin/IOSWebAppSignIn'
 import Auth from './components/auth/Auth'
 import InvalidW3TokenError from './components/signup/InvalidWeb3TokenError'
 import { SimpleStoreDialog } from './components/common/dialogs/CustomDialog'
@@ -12,15 +14,19 @@ import Blurred from './components/common/view/Blurred'
 import './components/appNavigation/blurFx.css'
 import SimpleStore from './lib/undux/SimpleStore.js'
 import { fireEventFromNavigation } from './lib/analytics/analytics'
+import isWebApp from './lib/utils/isWebApp'
+
+const initialRouteName = isMobileSafari && isWebApp ? 'IOSWebAppSignIn' : 'Auth'
 const router = createSwitchNavigator(
   {
     Auth,
     Signup,
     InvalidW3TokenError,
     SigninInfo,
+    IOSWebAppSignIn,
   },
   {
-    initialRouteName: 'Auth',
+    initialRouteName,
   }
 )
 let WebRouter

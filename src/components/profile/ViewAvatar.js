@@ -46,7 +46,7 @@ const ViewAvatar = props => {
             <CircleButtonWrapper
               style={styles.closeButton}
               iconName={'trash'}
-              iconSize={20}
+              iconSize={21}
               onPress={handleClosePress}
             />
             <CameraButton style={styles.cameraButton} handleCameraPress={handleCameraPress} />

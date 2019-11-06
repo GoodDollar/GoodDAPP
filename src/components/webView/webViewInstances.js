@@ -7,4 +7,3 @@ export const PrivacyArticle = createIframe(
 )
 export const Support = createIframe('https://community.gooddollar.org/support/', 'Feedback & Support')
 export const FAQ = createIframe('https://community.gooddollar.org/faq/', 'FAQ')
-export const Market = createIframe('https://etoro.paperclip.co', 'GoodMarket')

@@ -7,7 +7,9 @@ import messageIllustration from '../../../assets/Feed/message.png'
 import inviteIllustration from '../../../assets/Feed/invite.png'
 import inviteFriendsIllustration from '../../../assets/Feed/inviteFriends.png'
 import backupIllustration from '../../../assets/Feed/backup.png'
+import spendingIllustration from '../../../assets/Feed/spending.svg'
 import { withStyles } from '../../../lib/styles'
+import { getDesignRelativeHeight, getDesignRelativeWidth } from '../../../lib/utils/sizes'
 
 const TopImage = ({ type, styles }) => {
   const getImageByType = () =>
@@ -57,6 +59,11 @@ const TopImage = ({ type, styles }) => {
         style: styles.mainPhoto,
         containerStyle: styles.mainPhotoContainer,
       },
+      spending: {
+        src: spendingIllustration,
+        style: styles.spending,
+        containerStyle: styles.mainPhotoContainer,
+      },
     }[type] || null)
 
   const image = getImageByType()
@@ -79,8 +86,8 @@ const getStylesFromProps = ({ theme }) => ({
     marginBottom: 15,
   },
   mainImage: {
-    height: 110,
-    width: 70,
+    height: getDesignRelativeHeight(110, false),
+    width: getDesignRelativeWidth(70, false),
   },
   mainPhotoContainer: {
     display: 'flex',
@@ -95,6 +102,11 @@ const getStylesFromProps = ({ theme }) => ({
   mainPhoto: {
     height: '20vh',
     width: '100%',
+  },
+  spending: {
+    width: getDesignRelativeWidth(176, false),
+    height: getDesignRelativeHeight(76, false),
+    margin: '10%',
   },
 })
 

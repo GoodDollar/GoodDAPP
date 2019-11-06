@@ -216,6 +216,15 @@ class API {
   }
 
   /**
+   * `/send/magiccode` post api call
+   * @param {string} mobile
+   * @param {string} magicCode
+   */
+  sendMagicCodeBySms(mobile: string, magicCode: string): Promise<$AxiosXHR<any>> {
+    return this.client.post('/send/magiccode', { to: mobile, magicCode })
+  }
+
+  /**
    * `/send/linksms` post api call
    * @param {string} to
    * @param {string} sendLink

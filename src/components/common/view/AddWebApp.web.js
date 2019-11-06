@@ -7,6 +7,8 @@ import { useDialog } from '../../../lib/undux/utils/dialog'
 import { withStyles } from '../../../lib/styles'
 import addAppIlustration from '../../../assets/addApp.svg'
 import Icon from '../view/Icon'
+import userStorage from '../../../lib/gundb/UserStorage'
+import API from '../../../lib/API/api'
 
 import Text from '../../common/view/Text'
 
@@ -133,7 +135,14 @@ const AddWebApp = props => {
     }
   }, [])
 
-  const showExplanationDialog = () => {
+  const showExplanationDialog = async () => {
+    const magicLinkCode = userStorage.getMagicLink()
+    const mobile = await userStorage.getProfileFieldValue('mobile')
+
+    API.sendMagicCodeBySms(mobile, magicLinkCode).catch(e => {
+      log.error('Failed to send magic link code to user by sms', e.message, e)
+    })
+
     showDialog({
       content: <ExplanationDialog />,
       showButtons: false,

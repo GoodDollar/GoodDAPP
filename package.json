@@ -86,7 +86,7 @@
     "react-art": "^16.8.1",
     "react-cropper": "^1.2.0",
     "react-dom": "^16.8.1",
-    "react-native": "^0.59.6",
+    "react-native": "^0.61.3",
     "react-native-keyboard-aware-scroll-view": "^0.8.0",
     "react-native-masked-text": "^1.13.0",
     "react-native-otp": "^1.0.0",

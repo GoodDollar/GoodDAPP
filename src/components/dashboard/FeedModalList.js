@@ -94,9 +94,10 @@ const FeedModalList = ({
     <Portal>
       <View style={[styles.horizontalContainer, { opacity: loading ? 0 : 1 }]}>
         <FlatList
+          style={styles.flatList}
           onScroll={({ nativeEvent }) => {
             // when nativeEvent contentOffset reaches target offset setLoading to false, we stopped scrolling
-            if (nativeEvent.contentOffset.x === offset) {
+            if (Math.abs(offset - nativeEvent.contentOffset.x) < 5) {
               setLoading(false)
             }
           }}
@@ -134,6 +135,9 @@ const getStylesFromProps = ({ theme }) => ({
     width: '100%',
     maxWidth: '100vw',
     flex: 1,
+  },
+  flatList: {
+    transform: 'translateY(1px)', //Do not delete, this repairs horizontal feed scrolling
   },
 })
 

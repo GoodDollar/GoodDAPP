@@ -2,45 +2,31 @@
 
 exports[`WebViewScreen Instances PrivacyPolicy matches snapshot 1`] = `
 <iframe
-  allowFullScreen={true}
-  allowpaymentrequest="true"
   frameBorder="0"
+  onLoad={[Function]}
   seamless={true}
   src="https://community.gooddollar.org/pp/"
   style={
     Object {
-      "borderBottomWidth": "0px",
-      "borderLeftWidth": "0px",
-      "borderRightWidth": "0px",
-      "borderTopWidth": "0px",
-      "height": "100%",
-      "overflowX": "hidden",
-      "overflowY": "hidden",
-      "width": "100%",
+      "flex": 1,
     }
   }
+  title="Privacy Policy"
 />
 `;
 
 exports[`WebViewScreen Instances TermsOfUse matches snapshot 1`] = `
 <iframe
-  allowFullScreen={true}
-  allowpaymentrequest="true"
   frameBorder="0"
+  onLoad={[Function]}
   seamless={true}
   src="https://community.gooddollar.org/dappterms/"
   style={
     Object {
-      "borderBottomWidth": "0px",
-      "borderLeftWidth": "0px",
-      "borderRightWidth": "0px",
-      "borderTopWidth": "0px",
-      "height": "100%",
-      "overflowX": "hidden",
-      "overflowY": "hidden",
-      "width": "100%",
+      "flex": 1,
     }
   }
+  title="Terms of Use"
 />
 `;
 

@@ -10,6 +10,7 @@ import type { FeedEvent } from '../../lib/gundb/UserStorageClass'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import ScrollToTopButton from '../common/buttons/ScrollToTopButton'
 import logger from '../../lib/logger/pino-logger'
+import { CARD_OPEN, fireEvent } from '../../lib/analytics/analytics'
 import FeedActions from './FeedActions'
 import FeedListItem from './FeedItems/FeedListItem'
 
@@ -77,6 +78,7 @@ const FeedList = ({
 
   const pressItem = item => () => {
     if (item.type !== 'empty') {
+      fireEvent(CARD_OPEN, { cardId: item.id })
       handleFeedSelection(item, true)
     }
   }

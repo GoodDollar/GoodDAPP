@@ -11,6 +11,7 @@ import MnemonicInput from '../signin/MnemonicInput'
 import userStorage from '../../lib/gundb/UserStorage'
 import { backupMessage } from '../../lib/gundb/UserStorageClass'
 import logger from '../../lib/logger/pino-logger'
+import { fireEvent, PHRASE_BACKUP } from '../../lib/analytics/analytics'
 
 const log = logger.child({ from: 'BackupWallet' })
 const TITLE = 'Backup my wallet'
@@ -39,6 +40,7 @@ const BackupWallet = ({ screenProps, styles, theme }: BackupWalletProps) => {
     try {
       const currentMnemonics = await getMnemonics()
       await API.sendRecoveryInstructionByEmail(currentMnemonics)
+      fireEvent(PHRASE_BACKUP, { method: 'email' })
       showDialogWithData({
         title: 'Backup Your Wallet',
         message: 'We sent an email with recovery instructions for your wallet',
@@ -53,11 +55,11 @@ const BackupWallet = ({ screenProps, styles, theme }: BackupWalletProps) => {
     } else {
       await userStorage.userProperties.set('isMadeBackup', true)
     }
-    await userStorage.userProperties.set('needAddBackupFeed', false)
   }
 
   const setClipboard = async () => {
     const currentMnemonics = await getMnemonics()
+    fireEvent(PHRASE_BACKUP, { method: 'copy' })
     Clipboard.setString(currentMnemonics)
     showDialogWithData({
       title: 'Copy all to clipboard',

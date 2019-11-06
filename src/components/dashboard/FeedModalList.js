@@ -2,10 +2,11 @@
 import React, { createRef, useEffect, useState } from 'react'
 import { FlatList, View } from 'react-native'
 import { Portal } from 'react-native-paper'
+import _once from 'lodash/once'
 import { withStyles } from '../../lib/styles'
 import { getScreenWidth } from '../../lib/utils/Orientation'
+import { CARD_SLIDE, fireEvent } from '../../lib/analytics/analytics'
 import FeedModalItem from './FeedItems/FeedModalItem'
-
 const VIEWABILITY_CONFIG = {
   minimumViewTime: 3000,
   viewAreaCoveragePercentThreshold: 100,
@@ -89,6 +90,10 @@ const FeedModalList = ({
     />
   )
 
+  const slideEvent = _once(() => {
+    fireEvent(CARD_SLIDE)
+  })
+
   const feeds = data && data instanceof Array && data.length ? data : undefined
   return (
     <Portal>
@@ -96,6 +101,8 @@ const FeedModalList = ({
         <FlatList
           style={styles.flatList}
           onScroll={({ nativeEvent }) => {
+            slideEvent()
+
             // when nativeEvent contentOffset reaches target offset setLoading to false, we stopped scrolling
             if (Math.abs(offset - nativeEvent.contentOffset.x) < 5) {
               setLoading(false)

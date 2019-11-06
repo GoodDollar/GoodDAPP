@@ -8,6 +8,7 @@ import logger from '../../lib/logger/pino-logger'
 import { BackButton } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
 import { CustomButton, Icon, Section, Text } from '../common'
+import { fireEvent, PROFILE_PRIVACY } from '../../lib/analytics/analytics'
 import { useDialog } from '../../lib/undux/utils/dialog'
 import OptionsRow from './OptionsRow'
 
@@ -31,6 +32,7 @@ const ProfilePrivacy = props => {
   const [initialPrivacy, setInitialPrivacy] = useState(initialState)
   const [privacy, setPrivacy] = useState(initialState)
   const [loading, setLoading] = useState(false)
+  const [field, setField] = useState(false)
   const { screenProps, styles, theme } = props
   const [showDialog] = useDialog()
 
@@ -84,6 +86,8 @@ const ProfilePrivacy = props => {
   const handleSave = async () => {
     setLoading(true)
 
+    fireEvent(PROFILE_PRIVACY, { privacy: privacy[field], field })
+
     try {
       // filters out fields to be updated
       const toUpdate = updatableValues().map(field => ({
@@ -118,7 +122,10 @@ const ProfilePrivacy = props => {
 
           {profileFields.map(field => (
             <RadioButton.Group
-              onValueChange={value => setPrivacy(prevState => ({ ...prevState, [`${field}`]: value }))}
+              onValueChange={value => {
+                setField(field)
+                setPrivacy(prevState => ({ ...prevState, [`${field}`]: value }))
+              }}
               value={privacy[field]}
               key={field}
             >

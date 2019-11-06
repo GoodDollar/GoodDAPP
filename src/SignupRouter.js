@@ -13,10 +13,10 @@ import { SimpleStoreDialog } from './components/common/dialogs/CustomDialog'
 import Blurred from './components/common/view/Blurred'
 import './components/appNavigation/blurFx.css'
 import SimpleStore from './lib/undux/SimpleStore.js'
+import { fireEventFromNavigation } from './lib/analytics/analytics'
 import isWebApp from './lib/utils/isWebApp'
 
 const initialRouteName = isMobileSafari && isWebApp ? 'IOSWebAppSignIn' : 'Auth'
-
 const router = createSwitchNavigator(
   {
     Auth,
@@ -53,7 +53,7 @@ const Router = () => {
     <>
       <Blurred style={fullScreenContainer} blur={dialogVisible}>
         <SimpleStoreDialog />
-        <WebRouter />
+        <WebRouter onNavigationStateChange={(prevNav, nav, action) => fireEventFromNavigation(action)} />
       </Blurred>
     </>
   )

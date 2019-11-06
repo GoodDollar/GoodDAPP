@@ -2,8 +2,16 @@ import React, { useEffect, useState } from 'react'
 import { AsyncStorage, Image, View } from 'react-native'
 import { isMobileSafari } from 'mobile-device-detect'
 import moment from 'moment'
+import isWebApp from '../../../lib/utils/isWebApp'
 import SimpleStore from '../../../lib/undux/SimpleStore'
 import { useDialog } from '../../../lib/undux/utils/dialog'
+import {
+  ADDTOHOME,
+  ADDTOHOME_LATER,
+  ADDTOHOME_OK,
+  ADDTOHOME_REJECTED,
+  fireEvent,
+} from '../../../lib/analytics/analytics'
 import { withStyles } from '../../../lib/styles'
 import addAppIlustration from '../../../assets/addApp.svg'
 import Icon from '../view/Icon'
@@ -168,8 +176,10 @@ const AddWebApp = props => {
     installPrompt.prompt()
     let outcome = await installPrompt.userChoice
     if (outcome.outcome == 'accepted') {
+      fireEvent(ADDTOHOME_OK)
       log.debug('App Installed')
     } else {
+      fireEvent(ADDTOHOME_REJECTED)
       log.debug('App not installed')
     }
 
@@ -194,6 +204,7 @@ const AddWebApp = props => {
           mode: 'text',
           color: props.theme.colors.gray80Percent,
           onPress: dismiss => {
+            fireEvent(ADDTOHOME_LATER, { skipCount })
             dismiss()
             handleLater()
           },
@@ -201,6 +212,7 @@ const AddWebApp = props => {
         {
           text: 'Add Icon',
           onPress: dismiss => {
+            fireEvent(ADDTOHOME, { skipCount })
             dismiss()
             handleInstallApp()
           },
@@ -208,6 +220,22 @@ const AddWebApp = props => {
       ],
     })
   }
+
+  useEffect(() => {
+    log.debug('useEffect, registering beforeinstallprompt')
+
+    window.addEventListener('beforeinstallprompt', e => {
+      // For older browsers
+      e.preventDefault()
+      log.debug('Install Prompt fired')
+
+      // See if the app is already installed, in that case, do nothing
+      if (isWebApp) {
+        return
+      }
+      setInstallPrompt(e)
+    })
+  }, [])
 
   useEffect(() => {
     if (dialogShown) {

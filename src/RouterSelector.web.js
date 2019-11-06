@@ -8,6 +8,7 @@ import Splash from './components/splash/Splash'
 import { delay } from './lib/utils/async'
 import { extractQueryParams } from './lib/share/index'
 import logger from './lib/logger/pino-logger'
+import { fireEvent, initAnalytics, SIGNIN_FAILED, SIGNIN_SUCCESS } from './lib/analytics/analytics'
 import Config from './config/config'
 
 const log = logger.child({ from: 'RouterSelector' })
@@ -41,12 +42,16 @@ const apiReady = async () => {
 
 // import Router from './SignupRouter'
 let SignupRouter = React.lazy(() =>
-  Promise.all([
-    import(/* webpackChunkName: "signuprouter" */ './SignupRouter'),
-    apiReady(),
-    recoverByMagicLink(),
-    delay(2000),
-  ]).then(r => r[0])
+  initAnalytics()
+    .then(_ =>
+      Promise.all([
+        import(/* webpackChunkName: "signuprouter" */ './SignupRouter'),
+        apiReady(),
+        recoverByMagicLink(),
+        delay(2000),
+      ])
+    )
+    .then(r => r[0])
 )
 
 /**
@@ -55,26 +60,32 @@ let SignupRouter = React.lazy(() =>
  * @returns {Promise<boolean>}
  */
 const recoverByMagicLink = async () => {
-  const { magiclink } = extractQueryParams(window.location.href)
-  if (magiclink) {
-    let userNameAndPWD = Buffer.from(magiclink, 'base64').toString('ascii')
-    let userNameAndPWDArray = userNameAndPWD.split('+')
-    log.debug('recoverByMagicLink', { magiclink, userNameAndPWDArray })
-    if (userNameAndPWDArray.length === 2) {
-      const userName = userNameAndPWDArray[0]
-      const userPwd = userNameAndPWDArray[1]
-      const UserStorage = await import('./lib/gundb/UserStorageClass').then(_ => _.UserStorage)
+  try {
+    const { magiclink } = extractQueryParams(window.location.href)
+    if (magiclink) {
+      let userNameAndPWD = Buffer.from(magiclink, 'base64').toString('ascii')
+      let userNameAndPWDArray = userNameAndPWD.split('+')
+      log.debug('recoverByMagicLink', { magiclink, userNameAndPWDArray })
+      if (userNameAndPWDArray.length === 2) {
+        const userName = userNameAndPWDArray[0]
+        const userPwd = userNameAndPWDArray[1]
+        const UserStorage = await import('./lib/gundb/UserStorageClass').then(_ => _.UserStorage)
 
-      const mnemonic = await UserStorage.getMnemonic(userName, userPwd)
+        const mnemonic = await UserStorage.getMnemonic(userName, userPwd)
 
-      if (mnemonic && bip39.validateMnemonic(mnemonic)) {
-        const mnemonicsHelpers = import('./lib/wallet/SoftwareWalletProvider')
-        const { saveMnemonics } = await mnemonicsHelpers
-        await saveMnemonics(mnemonic)
-        await AsyncStorage.setItem('GD_isLoggedIn', true)
-        window.location = '/'
+        if (mnemonic && bip39.validateMnemonic(mnemonic)) {
+          const mnemonicsHelpers = import('./lib/wallet/SoftwareWalletProvider')
+          const { saveMnemonics } = await mnemonicsHelpers
+          await saveMnemonics(mnemonic)
+          await AsyncStorage.setItem('GD_isLoggedIn', true)
+          fireEvent(SIGNIN_SUCCESS)
+          window.location = '/'
+        }
       }
     }
+  } catch (e) {
+    log.error('Magiclink signin failed', e.message, e)
+    fireEvent(SIGNIN_FAILED)
   }
 }
 

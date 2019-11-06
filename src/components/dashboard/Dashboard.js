@@ -36,7 +36,6 @@ import { extractQueryParams, readCode } from '../../lib/share'
 // import goodWallet from '../../lib/wallet/GoodWallet'
 import { deleteAccountDialog } from '../sidemenu/SideMenuPanel'
 import config from '../../config/config'
-import { backupMessage, startSpending } from '../../lib/gundb/UserStorageClass'
 import LoadingIcon from '../common/modal/LoadingIcon'
 import RewardsTab from './Rewards'
 import MarketTab from './Marketplace'
@@ -93,6 +92,7 @@ const Dashboard = props => {
   const [animValue] = useState(new Animated.Value(1))
   const store = SimpleStore.useStore()
   const gdstore = GDStore.useStore()
+  const [initDash, setInitDash] = useState(true)
   const [showDialog, hideDialog] = useDialog()
   const [showErrorDialog] = useErrorDialog()
   const { params } = props.navigation.state
@@ -114,19 +114,11 @@ const Dashboard = props => {
     }
   }
 
-  /**
-   * if necessary, add a backup card
-   *
-   * @returns {Promise<void>}
-   */
-  const addBackupCard = async () => {
-    const userProperties = await userStorage.userProperties.getAll()
-    if (!userProperties.isMadeBackup && userProperties.needAddBackupFeed) {
-      await userStorage.enqueueTX(backupMessage)
-      await userStorage.userProperties.set('isMadeBackup', true)
-      await userStorage.userProperties.set('needAddBackupFeed', false)
+  useEffect(() => {
+    if (initDash) {
+      setInitDash(false)
     }
-  }
+  }, [])
 
   const checkBonusesToRedeem = () => {
     const isUserWhitelisted = gdstore.get('isLoggedInCitizen')
@@ -201,9 +193,6 @@ const Dashboard = props => {
     checkBonusesToRedeem()
 
     prepareLoginToken()
-    addBackupCard()
-    onlyForEToro()
-
     log.debug('Dashboard didmount')
     userStorage.feed.get('byid').on(data => {
       log.debug('gun getFeed callback', { data })
@@ -214,25 +203,6 @@ const Dashboard = props => {
       AppState.removeEventListener('change', handleAppFocus)
     }
   }, [])
-
-  const onlyForEToro = async () => {
-    if (config.isEToro) {
-      const userProperties = await userStorage.userProperties.getAll()
-      if (
-        userProperties.firstVisitApp &&
-        Date.now() - userProperties.firstVisitApp >= 68400 &&
-        userProperties.etoroAddCardSpending
-      ) {
-        await userStorage.enqueueTX(startSpending)
-        await userStorage.userProperties.set('etoroAddCardSpending', false)
-      }
-
-      if (!userProperties.firstVisitApp) {
-        await userStorage.userProperties.set('firstVisitApp', Date.now())
-        await userStorage.userProperties.set('etoroAddCardSpending', true)
-      }
-    }
-  }
 
   useEffect(() => {
     const { entitlement } = gdstore.get('account')

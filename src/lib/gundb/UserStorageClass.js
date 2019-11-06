@@ -757,6 +757,38 @@ export class UserStorage {
   }
 
   /**
+   * if necessary, add a backup card
+   *
+   * @returns {Promise<void>}
+   */
+  async addBackupCard() {
+    const userProperties = await this.userProperties.getAll()
+    if (!userProperties.isMadeBackup) {
+      await this.enqueueTX(backupMessage)
+      await this.userProperties.set('isMadeBackup', true)
+    }
+  }
+
+  async onlyForEToro() {
+    if (Config.isEToro) {
+      const userProperties = await this.userProperties.getAll()
+      if (
+        userProperties.firstVisitApp &&
+        Date.now() - userProperties.firstVisitApp >= 68400 &&
+        userProperties.etoroAddCardSpending
+      ) {
+        await this.enqueueTX(startSpending)
+        await this.userProperties.set('etoroAddCardSpending', false)
+      }
+
+      if (!userProperties.firstVisitApp) {
+        await this.userProperties.set('firstVisitApp', Date.now())
+        await this.userProperties.set('etoroAddCardSpending', true)
+      }
+    }
+  }
+
+  /**
    * Returns profile attribute
    *
    * @param {string} field - Profile attribute

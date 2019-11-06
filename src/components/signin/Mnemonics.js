@@ -14,6 +14,7 @@ import Section from '../common/layout/Section'
 import { showSupportDialog } from '../common/dialogs/showSupportDialog'
 import CustomButton from '../common/buttons/CustomButton'
 import InputText from '../common/form/InputText'
+import { CLICK_BTN_RECOVER_WALLET, fireEvent, RECOVER_FAILED, RECOVER_SUCCESS } from '../../lib/analytics/analytics'
 
 const TITLE = 'Recover'
 const log = logger.child({ from: TITLE })
@@ -49,13 +50,14 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
 
   const recover = async () => {
     setRecovering(true)
-
+    fireEvent(CLICK_BTN_RECOVER_WALLET)
     const showError = () =>
       showErrorDialog('Your pass phrase appears\nto be incorrect.', undefined, {
         boldMessage: 'Please check it and try again.',
       })
 
     if (!mnemonics || !bip39.validateMnemonic(mnemonics)) {
+      fireEvent(RECOVER_FAILED, { invalidMnemonics: true })
       setRecovering(false)
       showError()
       return
@@ -83,15 +85,18 @@ const Mnemonics = ({ screenProps, navigation, styles }) => {
           message: `Hi ${firstName},\nyour wallet was recovered successfully`,
           onDismiss: () => (window.location = incomingRedirectUrl),
         })
+        fireEvent(RECOVER_SUCCESS)
 
         // There is no error and Profile exists. Reload screen to start with users mnemonics
         // window.location = incomingRedirectUrl
       } else {
+        fireEvent(RECOVER_FAILED, { noProfileFound: true })
         await saveMnemonics(prevMnemonics)
         showError()
       }
     } catch (e) {
-      log.error(e.message, e)
+      fireEvent(RECOVER_FAILED, { unexpected: true })
+      log.error('recover mnemonics failed', e.message, e)
       saveMnemonics(prevMnemonics)
       showSupportDialog(showErrorDialog, hideDialog, screenProps, 'men-1')
     } finally {

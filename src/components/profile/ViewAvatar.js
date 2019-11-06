@@ -7,6 +7,7 @@ import { useWrappedUserStorage } from '../../lib/gundb/useWrappedStorage'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import InputFile from '../common/form/InputFile'
 import logger from '../../lib/logger/pino-logger'
+import { fireEvent, PROFILE_IMAGE } from '../../lib/analytics/analytics'
 import CircleButtonWrapper from './CircleButtonWrapper'
 import CameraButton from './CameraButton'
 
@@ -34,6 +35,7 @@ const ViewAvatar = props => {
   }
 
   const handleAddAvatar = avatar => {
+    fireEvent(PROFILE_IMAGE)
     wrappedUserStorage.setProfileField('avatar', avatar, 'public').catch(e => {
       showErrorDialog('Could not save image. Please try again.')
       log.error('save image failed:', e.message, e)

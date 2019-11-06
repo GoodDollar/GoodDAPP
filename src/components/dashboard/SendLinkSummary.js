@@ -50,9 +50,7 @@ const SendLinkSummary = ({ screenProps }: AmountProps) => {
       if (e.name !== 'AbortError') {
         showDialog({
           title: 'There was a problem triggering share action.',
-          message: `You can still copy the link in tapping on "Copy link to clipboard".\n Error ${e.name}: ${
-            e.message
-          }`,
+          message: `You can still copy the link by tapping on "Copy link to clipboard".`,
           dismissText: 'Ok',
           onDismiss: () =>
             screenProps.push('SendConfirmation', {
@@ -140,9 +138,9 @@ const SendLinkSummary = ({ screenProps }: AmountProps) => {
         const { paymentLink } = generateLinkResponse
         return paymentLink
       }
-      showErrorDialog('Generating payment failed', 'Unknown Error')
+      showErrorDialog('Could not complete transaction. Please try again.')
     } catch (e) {
-      showErrorDialog('Generating payment failed', e)
+      showErrorDialog('Could not complete transaction. Please try again.')
       log.error(e.message, e)
     }
   }

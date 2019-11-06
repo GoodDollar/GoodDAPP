@@ -4,12 +4,10 @@ import userStorage from '../../lib/gundb/UserStorage'
 import Config from '../../config/config'
 import logger from '../../lib/logger/pino-logger'
 import SimpleStore from '../../lib/undux/SimpleStore'
-import { useErrorDialog } from '../../lib/undux/utils/dialog'
 import API from '../../lib/API/api'
 const log = logger.child({ from: 'MarketTab' })
 
 const MarketTab = props => {
-  const [showErrorDialog] = useErrorDialog()
   const [loginToken, setLoginToken] = useState()
   const store = SimpleStore.useStore()
 
@@ -34,7 +32,8 @@ const MarketTab = props => {
       }
     } catch (e) {
       log.error(e, e.message)
-      showErrorDialog('Error login in to market, try again later or contact support', 'MARKETPLACE-1')
+
+      // showErrorDialog('Error login in to market, try again later or contact support', 'MARKETPLACE-1')
     }
   }
   const isLoaded = () => {

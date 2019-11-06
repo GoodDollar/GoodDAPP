@@ -10,7 +10,9 @@ import { CustomButton, Section, Text } from '../common'
 import MnemonicInput from '../signin/MnemonicInput'
 import userStorage from '../../lib/gundb/UserStorage'
 import { backupMessage } from '../../lib/gundb/UserStorageClass'
+import logger from '../../lib/logger/pino-logger'
 
+const log = logger.child({ from: 'BackupWallet' })
 const TITLE = 'Backup my wallet'
 
 type BackupWalletProps = {
@@ -34,19 +36,24 @@ const BackupWallet = ({ screenProps, styles, theme }: BackupWalletProps) => {
   }, [])
 
   const sendRecoveryEmail = async () => {
-    const currentMnemonics = await getMnemonics()
-    await API.sendRecoveryInstructionByEmail(currentMnemonics)
+    try {
+      const currentMnemonics = await getMnemonics()
+      await API.sendRecoveryInstructionByEmail(currentMnemonics)
+      showDialogWithData({
+        title: 'Backup Your Wallet',
+        message: 'We sent an email with recovery instructions for your wallet',
+      })
+    } catch (e) {
+      log.error('backup email failed:', e.message, e)
+      showErrorDialog('Could not send backup email. Please try again.')
+    }
     const userProperties = await userStorage.userProperties.getAll()
     if (userProperties.isMadeBackup) {
-      userStorage.deleteEvent(backupMessage.id).catch(e => showErrorDialog('Deleting the event has failed', e))
+      userStorage.deleteEvent(backupMessage.id).catch(e => log.error('delete backup message failed', e.message, e))
     } else {
       await userStorage.userProperties.set('isMadeBackup', true)
     }
     await userStorage.userProperties.set('needAddBackupFeed', false)
-    showDialogWithData({
-      title: 'Backup Your Wallet',
-      message: 'We sent an email with recovery instructions for your wallet',
-    })
   }
 
   const setClipboard = async () => {

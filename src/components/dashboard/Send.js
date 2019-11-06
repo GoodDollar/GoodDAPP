@@ -88,7 +88,9 @@ const Send = props => {
       routeAndPathForCode('send', code)
         .then(({ route, params }) => screenProps.push(route, params))
         .catch(e => {
-          showErrorDialog(null, e, { onDismiss: screenProps.goToRoot })
+          showErrorDialog('Paymnet link is incorrect. Please double check your link.', null, {
+            onDismiss: screenProps.goToRoot,
+          })
         })
     }
   }, [])

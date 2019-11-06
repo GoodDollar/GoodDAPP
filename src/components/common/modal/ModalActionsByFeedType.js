@@ -26,7 +26,7 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
 
     if (item.status === 'pending') {
       // if status is 'pending' trying to cancel a tx that doesn't exist will fail and may confuse the user
-      showErrorDialog("Current transaction is still pending, it can't be cancelled right now")
+      showErrorDialog("The transaction is still pending, it can't be cancelled right now")
     } else {
       setState({ ...state, cancelPaymentLoading: true })
       try {
@@ -36,14 +36,16 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigat
           .cancelOTLByTransactionHash(item.id)
           .catch(e => {
             userStorage.recoverEvent(item.id)
-            showErrorDialog('Canceling the payment link has failed', e)
+            log.error('cancel payment failed', e.message, e)
+            showErrorDialog('The payment could not be canceled at this time', 'CANCEL-PAYMNET-1')
           })
           .finally(() => {
             setState({ ...state, cancelPaymentLoading: false })
           })
       } catch (e) {
+        log.error('cancel payment failed', e.message, e)
         setState({ ...state, cancelPaymentLoading: false })
-        showErrorDialog(e)
+        showErrorDialog('The payment could not be canceled at this time', 'CANCEL-PAYMNET-2')
       }
     }
     handleModalClose()

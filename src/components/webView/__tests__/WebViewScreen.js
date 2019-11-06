@@ -1,8 +1,6 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 import WebViewScreen, { createWebViewScreen } from '../WebViewScreen'
-import SimpleStore from '../../../lib/undux/SimpleStore'
-import { PrivacyPolicy, TermsOfUse } from '../webViewInstances'
 import { FAQ, PrivacyPolicy, Support, TermsOfUse } from '../webViewInstances'
 import { StoresWrapper } from '../../../lib/undux/utils/storeswrapper.js'
 

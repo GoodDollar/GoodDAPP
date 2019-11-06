@@ -60,7 +60,7 @@
     "@gooddollar/goodcontracts": "0.0.19",
     "@gooddollar/gun-appendonly": "^1.0.1",
     "@react-navigation/core": "^3.1.1",
-    "@react-navigation/web": "^1.0.0-alpha.7",
+    "@react-navigation/web": "^1.0.0-alpha.9",
     "FormData": "^0.10.1",
     "abi-decoder": "^1.2.0",
     "await-mutex": "^1.0.2",

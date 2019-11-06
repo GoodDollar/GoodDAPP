@@ -13,9 +13,9 @@ import takeWhile from 'lodash/takeWhile'
 import toPairs from 'lodash/toPairs'
 import values from 'lodash/values'
 import isEmail from 'validator/lib/isEmail'
+import moment from 'moment'
 import Config from '../../config/config'
 import API from '../API/api'
-import moment from 'moment'
 import pino from '../logger/pino-logger'
 import isMobilePhone from '../validators/isMobilePhone'
 import defaultGun from './gundb'
@@ -139,12 +139,13 @@ export const welcomeMessageOnlyEtoro = {
   date: new Date().toString(),
   status: 'completed',
   data: {
-    customName: 'Welcome to your wallet.',
+    customName: 'Welcome to GoodDollar!',
     subtitle: 'Welcome to GoodDollar',
     receiptData: {
       from: '0x0000000000000000000000000000000000000000',
     },
-    reason: 'You can claim G$1 each day and use them to buy items in the GoodMarket.',
+    reason:
+      'Start collecting your income by claiming GoodDollars every day. Since this is a test version - all coins are “play” coins and have no value outside of this pilot, you can use them to buy goods during the trail, at the end of it, they will be returned to the system.',
     endpoint: {
       fullName: 'Welcome to GoodDollar',
     },
@@ -732,6 +733,38 @@ export class UserStorage {
     }
     this.userProperties = new UserProperties(this.properties)
     await this.userProperties.updateLocalData()
+  }
+
+  /**
+   * if necessary, add a backup card
+   *
+   * @returns {Promise<void>}
+   */
+  async addBackupCard() {
+    const userProperties = await this.userProperties.getAll()
+    if (!userProperties.isMadeBackup) {
+      await this.enqueueTX(backupMessage)
+      await this.userProperties.set('isMadeBackup', true)
+    }
+  }
+
+  async onlyForEToro() {
+    if (Config.isEToro) {
+      const userProperties = await this.userProperties.getAll()
+      if (
+        userProperties.firstVisitApp &&
+        Date.now() - userProperties.firstVisitApp >= 68400 &&
+        userProperties.etoroAddCardSpending
+      ) {
+        await this.enqueueTX(startSpending)
+        await this.userProperties.set('etoroAddCardSpending', false)
+      }
+
+      if (!userProperties.firstVisitApp) {
+        await this.userProperties.set('firstVisitApp', Date.now())
+        await this.userProperties.set('etoroAddCardSpending', true)
+      }
+    }
   }
 
   /**

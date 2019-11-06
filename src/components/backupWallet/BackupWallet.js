@@ -10,6 +10,7 @@ import { CustomButton, Section, Text } from '../common'
 import MnemonicInput from '../signin/MnemonicInput'
 import userStorage from '../../lib/gundb/UserStorage'
 import { backupMessage } from '../../lib/gundb/UserStorageClass'
+import { fireEvent, PHRASE_BACKUP } from '../../lib/analytics/analytics'
 
 const TITLE = 'Backup my wallet'
 
@@ -34,6 +35,7 @@ const BackupWallet = ({ screenProps, styles, theme }: BackupWalletProps) => {
   }, [])
 
   const sendRecoveryEmail = async () => {
+    fireEvent(PHRASE_BACKUP, { method: 'email' })
     const currentMnemonics = await getMnemonics()
     await API.sendRecoveryInstructionByEmail(currentMnemonics)
     const userProperties = await userStorage.userProperties.getAll()
@@ -42,7 +44,6 @@ const BackupWallet = ({ screenProps, styles, theme }: BackupWalletProps) => {
     } else {
       await userStorage.userProperties.set('isMadeBackup', true)
     }
-    await userStorage.userProperties.set('needAddBackupFeed', false)
     showDialogWithData({
       title: 'Backup Your Wallet',
       message: 'We sent an email with recovery instructions for your wallet',
@@ -51,6 +52,7 @@ const BackupWallet = ({ screenProps, styles, theme }: BackupWalletProps) => {
 
   const setClipboard = async () => {
     const currentMnemonics = await getMnemonics()
+    fireEvent(PHRASE_BACKUP, { method: 'copy' })
     Clipboard.setString(currentMnemonics)
     showDialogWithData({
       title: 'Copy all to clipboard',

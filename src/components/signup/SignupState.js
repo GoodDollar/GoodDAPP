@@ -14,8 +14,8 @@ import SimpleStore from '../../lib/undux/SimpleStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 
 import { getUserModel, type UserModel } from '../../lib/gundb/UserModel'
-import { fireEvent } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
+import { fireEvent } from '../../lib/analytics/analytics'
 import type { SMSRecord } from './SmsForm'
 import SignupCompleted from './SignupCompleted'
 import EmailConfirmation from './EmailConfirmation'
@@ -79,9 +79,11 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       }, 300)
     }
   }
-  const fireSignupEvent = (event?: string) => {
+
+  const fireSignupEvent = (event?: string, data) => {
     let curRoute = navigation.state.routes[navigation.state.index]
-    fireEvent(`SIGNUP_${event || curRoute.key}`)
+
+    fireEvent(`SIGNUP_${event || curRoute.key}`, data)
   }
 
   const getCountryCode = async () => {
@@ -199,11 +201,11 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       log.debug('ready: Starting initialization')
       const { init } = await import('../../init')
       const login = import('../../lib/login/GoodWalletLogin')
-      const { goodWallet, userStorage } = await init()
+      const { goodWallet, userStorage, source } = await init()
 
       //for QA
       global.wallet = goodWallet
-      fireSignupEvent('STARTED')
+      fireSignupEvent('STARTED', { source })
 
       //the login also re-initialize the api with new jwt
       await login.then(l => l.default.auth())
@@ -326,7 +328,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
         }
         return navigateWithFocus(nextRoute.key)
       } catch (e) {
-        log.error(e.message, e)
+        log.error('Send mobile code failed', e.message, e)
         showErrorDialog('Sending mobile verification code failed', e)
       } finally {
         setLoading(false)
@@ -362,7 +364,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
         }
         return navigateWithFocus(nextRoute.key)
       } catch (e) {
-        log.error(e.message, e)
+        log.error('Email verification failed', e.message, e)
         showErrorDialog('Email verification failed', e)
       } finally {
         setLoading(false)

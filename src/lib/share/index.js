@@ -64,8 +64,8 @@ export function readCode(code: string) {
  */
 export function readReceiveLink(link: string) {
   // checks that the link has the expected strings in it
-  const isValidReceiveLink = [Config.publicUrl, 'receiveLink', 'reason'].every(v => link.indexOf(v) !== -1)
-  const isUrlOptions = Config.env === 'development' ? { require_tld: false } : {}
+  const isValidReceiveLink = ['receiveLink', 'reason'].every(v => link.indexOf(v) !== -1)
+  const isUrlOptions = { require_tld: false }
 
   if (!isURL(link, isUrlOptions) || !isValidReceiveLink) {
     return null

@@ -22,6 +22,11 @@ const TopImage = ({ type, styles }) => {
         style: styles.mainImage,
         containerStyle: styles.mainImageContainer,
       },
+      bonuscompleted: {
+        src: receiveIllustation,
+        style: styles.mainImage,
+        containerStyle: styles.mainImageContainer,
+      },
       receive: {
         src: receiveIllustation,
         style: styles.mainImage,

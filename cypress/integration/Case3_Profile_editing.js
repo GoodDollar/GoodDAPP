@@ -92,6 +92,7 @@ describe('Test case 3: Ability to change user data', () => {
     EditProfilePage.phoneInput.type('+380983611328')
     EditProfilePage.phoneInput.blur()
     makeVerification()
+
     EditProfilePage.emailInput.clear()
     EditProfilePage.emailInput.type('test12345@test.com')
     EditProfilePage.emailInput.blur()

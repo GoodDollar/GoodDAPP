@@ -46,7 +46,7 @@ export const initAnalytics = async (goodWallet: GoodWallet, userStorage: UserSto
       captureUncaught: true,
       captureUnhandledRejections: true,
       payload: {
-        environment: Config.env,
+        environment: Config.env + Config.network,
         person: {
           id: emailOrId,
           identifier,

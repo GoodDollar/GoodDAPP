@@ -84,6 +84,13 @@ describe('UserStorage', () => {
     expect(res).toEqual(expect.objectContaining(UserPropertiesClass.defaultProperties))
   })
 
+  it('start system feeds', async () => {
+    await userStorage.startSystemFeed()
+    const res = await userStorage.userProperties.getAll()
+
+    expect(res.firstVisitApp).toBeTruthy()
+  })
+
   it('set all user properties', async () => {
     const res = await userStorage.userProperties.set('isMadeBackup', true)
     expect(res).toBeTruthy()

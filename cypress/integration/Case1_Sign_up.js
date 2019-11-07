@@ -89,7 +89,7 @@ describe('Test case 1: Ability to Sign Up', () => {
     //   })
     // })
 
-    // ** ^^ ** //
+    // ** test ** //
     HomePage.optionsButton.click()
     cy.wait(5000)
     HomePage.deleteAccountButton.click()

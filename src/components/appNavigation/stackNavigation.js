@@ -2,6 +2,7 @@
 import React, { Component, useEffect, useState } from 'react'
 import { ScrollView, StyleSheet, View } from 'react-native'
 import SideMenu from 'react-native-side-menu-gooddapp'
+import { isMobileOnly } from 'mobile-device-detect'
 import { createNavigator, Route, SceneView, SwitchRouter } from '@react-navigation/core'
 import { withStyles } from '../../lib/styles'
 import SimpleStore from '../../lib/undux/SimpleStore'
@@ -10,6 +11,7 @@ import SideMenuPanel from '../sidemenu/SideMenuPanel'
 import logger from '../../lib/logger/pino-logger'
 import CustomButton, { type ButtonProps } from '../common/buttons/CustomButton'
 import Blurred from '../common/view/Blurred'
+import { theme } from '../theme/styles'
 import NavBar from './NavBar'
 import { navigationOptions } from './navigationConfig'
 import { PushButton } from './PushButton'
@@ -269,7 +271,10 @@ class AppView extends Component<AppViewProps, AppViewState> {
           {disableScroll ? (
             <SceneView navigation={descriptor.navigation} component={Component} screenProps={screenProps} />
           ) : (
-            <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollableView}>
+            <ScrollView
+              style={styles.scrollView}
+              contentContainerStyle={isMobileOnly ? styles.scrollableView : styles.scrollableViewDesktop}
+            >
               <SceneView navigation={descriptor.navigation} component={Component} screenProps={screenProps} />
             </ScrollView>
           )}
@@ -302,6 +307,10 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     display: 'flex',
     height: '100%',
+  },
+  scrollableViewDesktop: {
+    display: 'flex',
+    height: theme.sizes.maxHeightForTabletAndDesktop,
   },
   sideMenuContainer: {
     ...fullScreen,

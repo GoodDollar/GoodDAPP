@@ -754,7 +754,11 @@ export class UserStorage {
    */
   async addBackupCard() {
     const userProperties = await this.userProperties.getAll()
-    if (!userProperties.isMadeBackup) {
+    const firstVisitAppDate = userProperties.firstVisitApp
+    const displayTimeFilter = 24 * 60 * 60 * 1000 // 24 hours
+    const allowToShowByTimeFilter = firstVisitAppDate && Date.now() - firstVisitAppDate >= displayTimeFilter
+
+    if (!userProperties.isMadeBackup && allowToShowByTimeFilter) {
       await this.enqueueTX(backupMessage)
       await this.userProperties.set('isMadeBackup', true)
     }

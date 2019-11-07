@@ -508,7 +508,7 @@ export class UserStorage {
       })
       logger.debug('init to events')
 
-      await this.initFeed()
+      this.initFeed()
       await this.initProperties()
 
       //save ref to user
@@ -700,24 +700,36 @@ export class UserStorage {
    * Subscribes to changes on the event index of day to number of events
    * the "false" (see gundb docs) passed is so we get the complete 'index' on every change and not just the day that changed
    */
-  async initFeed() {
+  initFeed() {
     this.feed = this.gunuser.get('feed')
     this.feed.get('index').on(this.updateFeedIndex, false)
+  }
 
-    //first time user
-    if ((await this.feed) === undefined) {
-      const w3Token = await this.getProfileFieldValue('w3Token')
+  async startSystemFeed() {
+    const userProperties = await this.userProperties.getAll()
+    const firstVisitAppDate = userProperties.firstVisitApp
 
+    // first time user visit
+    if (!firstVisitAppDate) {
       if (Config.isEToro) {
         this.enqueueTX(welcomeMessageOnlyEtoro)
+
+        setTimeout(() => {
+          this.enqueueTX(startSpending)
+        }, 60000)
       } else {
         this.enqueueTX(welcomeMessage)
       }
+
+      const w3Token = await this.getProfileFieldValue('w3Token')
+
       if (!w3Token) {
         setTimeout(() => {
           this.enqueueTX(inviteFriendsMessage)
         }, 60000)
       }
+
+      await this.userProperties.set('firstVisitApp', Date.now())
     }
   }
 
@@ -745,25 +757,6 @@ export class UserStorage {
     if (!userProperties.isMadeBackup) {
       await this.enqueueTX(backupMessage)
       await this.userProperties.set('isMadeBackup', true)
-    }
-  }
-
-  async onlyForEToro() {
-    if (Config.isEToro) {
-      const userProperties = await this.userProperties.getAll()
-      if (
-        userProperties.firstVisitApp &&
-        Date.now() - userProperties.firstVisitApp >= 68400 &&
-        userProperties.etoroAddCardSpending
-      ) {
-        await this.enqueueTX(startSpending)
-        await this.userProperties.set('etoroAddCardSpending', false)
-      }
-
-      if (!userProperties.firstVisitApp) {
-        await this.userProperties.set('firstVisitApp', Date.now())
-        await this.userProperties.set('etoroAddCardSpending', true)
-      }
     }
   }
 

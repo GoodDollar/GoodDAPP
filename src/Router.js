@@ -43,7 +43,7 @@ const onRouteChange = (prevNav, nav, route) => {
   fireEventFromNavigation(route)
 }
 const Router = () => {
-  userStorage.onlyForEToro()
+  userStorage.startSystemFeed()
   return (
     <GDStore.Container>
       <SimpleStoreDialog />

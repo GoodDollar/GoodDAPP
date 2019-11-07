@@ -128,11 +128,12 @@ const debounceFireEvent = _debounce(fireEvent, 500, { leading: true })
 const patchLogger = () => {
   let error = global.logger.error
   global.logger.error = function() {
+    let [logContext, logMessage, eMsg, errorObj, ...rest] = arguments
     if (arguments[1] && arguments[1].indexOf('axios') == -1) {
       debounceFireEvent('ERROR_LOG', arguments)
     }
     if (global.Rollbar && Config.env !== 'test') {
-      global.Rollbar.error.apply(global.Rollbar, arguments)
+      global.Rollbar.error(logMessage, errorObj, { logContext, eMsg, rest })
     }
     return error.apply(global.logger, arguments)
   }

@@ -99,8 +99,8 @@ const getStylesFromProps = ({ theme }) => ({
     width: '100%',
   },
   spending: {
-    width: getDesignRelativeWidth(176, false),
-    height: getDesignRelativeHeight(76, false),
+    width: getDesignRelativeWidth(176),
+    height: getDesignRelativeHeight(76),
     margin: '10%',
   },
 })

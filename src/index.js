@@ -21,12 +21,11 @@ if (style.styleSheet) {
  * decide if we need to clear storage
  */
 const upgradeVersion = async () => {
-  const required = Config.isEtoro ? 'etoro' : 'beta.11'
+  const required = Config.isEToro ? 'etoro' : 'beta.11'
   const version = await AsyncStorage.getItem('GD_version')
   if (version === required) {
     return
   }
-
   await AsyncStorage.clear()
   return AsyncStorage.setItem('GD_version', required)
 }

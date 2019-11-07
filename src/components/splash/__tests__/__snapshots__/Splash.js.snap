@@ -104,71 +104,32 @@ exports[`Splash matches snapshot 1`] = `
             "WebkitBoxDirection": "normal",
             "WebkitBoxFlex": 1,
             "WebkitBoxOrient": "vertical",
-            "WebkitBoxPack": "justify",
+            "WebkitBoxPack": "center",
             "WebkitFlexDirection": "column",
             "WebkitFlexGrow": 1,
-            "WebkitJustifyContent": "space-between",
+            "WebkitJustifyContent": "center",
             "WebkitTransform": "rotateY(180deg)",
             "alignItems": "stretch",
             "flexDirection": "column",
             "flexGrow": 1,
-            "justifyContent": "space-between",
+            "justifyContent": "center",
             "marginBottom": "10vh",
             "marginTop": "10vh",
             "msFlexAlign": "stretch",
             "msFlexDirection": "column",
-            "msFlexPack": "justify",
+            "msFlexPack": "center",
             "msFlexPositive": 1,
             "transform": "rotateY(180deg)",
           }
         }
       >
         <div
-          className="css-text-901oao"
-          dir="auto"
-          style={
-            Object {
-              "color": "rgba(12,38,61,1.00)",
-              "direction": "ltr",
-              "fontFamily": "Roboto",
-              "fontSize": "22px",
-              "fontWeight": "normal",
-              "lineHeight": "30px",
-              "textAlign": "center",
-              "textDecoration": "none",
-              "textTransform": "none",
-            }
-          }
-        >
-          Welcome and thank you
-for participating in GoodDollar's
-
-          <span
-            className="css-text-901oao css-textHasAncestor-16my406"
-            dir="auto"
-            style={
-              Object {
-                "color": "rgba(12,38,61,1.00)",
-                "direction": "ltr",
-                "fontFamily": "Roboto",
-                "fontSize": "22px",
-                "fontWeight": "800",
-                "lineHeight": "30px",
-                "textAlign": "center",
-                "textDecoration": "none",
-                "textTransform": "none",
-              }
-            }
-          >
-            Early Access Alpha V2.0
-          </span>
-        </div>
-        <div
           className="css-view-1dbjc4n"
           style={
             Object {
               "WebkitFlexBasis": "auto",
               "flexBasis": "auto",
+              "marginBottom": "64px",
               "maxWidth": "100%",
               "minHeight": "135px",
               "minWidth": "135px",
@@ -212,6 +173,7 @@ for participating in GoodDollar's
             Object {
               "WebkitFlexBasis": "auto",
               "flexBasis": "auto",
+              "marginBottom": "22px",
               "maxWidth": "100%",
               "minHeight": "30px",
               "minWidth": "212px",

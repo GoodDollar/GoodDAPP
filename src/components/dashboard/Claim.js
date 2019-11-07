@@ -225,11 +225,9 @@ const Claim = props => {
     setLoading(true)
 
     showDialog({
-      image: <LoadingIcon />,
-      loading,
-      message: 'please wait while processing...',
+      content: <ContentLoadClaim styles={styles} />,
       showButtons: false,
-      title: `YOUR MONEY\nIS ON ITS WAY...`,
+      loading,
     })
     try {
       //when we come back from FR entitelment might not be set yet
@@ -255,10 +253,8 @@ const Claim = props => {
       if (receipt.status) {
         fireEvent(CLAIM_SUCCESS, { txhash: receipt.transactionHash })
         showDialog({
+          content: <ContentLoadClaim styles={styles} type={'success'} />,
           buttons: [{ text: 'Yay!' }],
-          message: `You've claimed your daily G$\nsee you tomorrow.`,
-          title: 'CHA-CHING!\n',
-          type: 'success',
           onDismiss: () => screenProps.goToRoot(),
         })
       } else {
@@ -415,7 +411,7 @@ const getStylesFromProps = ({ theme }) => {
     blockMessageLoading: {
       paddingTop: 20,
       paddingBottom: 20,
-      height: 95,
+      height: 94,
     },
     blockMessage: {
       paddingTop: 20,

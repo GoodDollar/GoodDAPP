@@ -716,7 +716,7 @@ export class UserStorage {
 
         setTimeout(() => {
           this.enqueueTX(startSpending)
-        }, 60000)
+        }, 60 * 1000) // 1 minute
       } else {
         this.enqueueTX(welcomeMessage)
       }
@@ -726,7 +726,7 @@ export class UserStorage {
       if (!w3Token) {
         setTimeout(() => {
           this.enqueueTX(inviteFriendsMessage)
-        }, 60000)
+        }, 2 * 60 * 1000) // 2 minutes
       }
 
       await this.userProperties.set('firstVisitApp', Date.now())

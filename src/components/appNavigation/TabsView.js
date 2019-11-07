@@ -70,7 +70,7 @@ const TabsView = (props: TabViewProps) => {
       </TouchableOpacity>
       <Appbar.Content />
       {config.market && (
-        <TouchableOpacity onPress={goToMarketplace}>
+        <TouchableOpacity onPress={goToMarketplace} style={{ marginBottom: '5px', height: 53 }}>
           <MarketPlaceSvg />
         </TouchableOpacity>
       )}

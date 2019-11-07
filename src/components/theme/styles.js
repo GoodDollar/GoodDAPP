@@ -25,6 +25,7 @@ export const theme = {
     red: '#FA6C77',
     text: '#222',
     error: '#FA6C77',
+    white: '#ffffff',
   },
   fonts: {
     ...DefaultTheme.fonts,
@@ -41,6 +42,7 @@ export const theme = {
     defaultQuadruple: 32,
     defaultHalf: 4,
     borderRadius: 5,
+    maxHeightForTabletAndDesktop: 844,
   },
   fontStyle: {
     color: '#555',

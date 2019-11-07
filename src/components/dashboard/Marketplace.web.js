@@ -1,5 +1,5 @@
+/* eslint-disable import/no-unresolved */
 import React, { useEffect, useState } from 'react'
-// eslint-disable-next-line import/no-unresolved
 import IframeResizer from 'iframe-resizer-react'
 import { isIOS } from 'mobile-device-detect'
 import userStorage from '../../lib/gundb/UserStorage'
@@ -7,16 +7,16 @@ import Config from '../../config/config'
 import logger from '../../lib/logger/pino-logger'
 import SimpleStore from '../../lib/undux/SimpleStore'
 
-const log = logger.child({ from: 'RewardsTab' })
+const log = logger.child({ from: 'MarketTab' })
 
-const RewardsTab = props => {
+const MarketTab = props => {
   const [loginToken, setLoginToken] = useState()
   const store = SimpleStore.useStore()
   const scrolling = isIOS ? 'no' : 'yes'
 
   const getToken = async () => {
-    let token = (await userStorage.getProfileFieldValue('loginToken')) || ''
-    log.debug('got rewards login token', token)
+    let token = (await userStorage.getProfileFieldValue('marketToken')) || ''
+    log.debug('got market login token', token)
     setLoginToken(token)
   }
   const isLoaded = () => {
@@ -30,9 +30,9 @@ const RewardsTab = props => {
 
   return loginToken === undefined ? null : (
     <IframeResizer
-      title="Rewards"
+      title="GoodMarket"
       scrolling={scrolling}
-      src={`${Config.web3SiteUrl}?token=${loginToken}&purpose=iframe`}
+      src={`${Config.marketUrl}?jwt=${loginToken}`}
       allowFullScreen
       frameBorder="0"
       width="100%"
@@ -50,7 +50,7 @@ const RewardsTab = props => {
   )
 }
 
-RewardsTab.navigationOptions = {
-  title: 'Rewards',
+MarketTab.navigationOptions = {
+  title: 'GoodMarket',
 }
-export default RewardsTab
+export default MarketTab

@@ -1,35 +1,54 @@
 // @flow
 import React from 'react'
-import { isMobileSafari } from 'mobile-device-detect'
+import { isMobileOnly } from 'mobile-device-detect'
 import { View } from 'react-native'
 import { withStyles } from '../../../lib/styles'
+import { theme } from '../../theme/styles.js'
+import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
+import { getScreenHeight, getScreenWidth } from '../../../lib/utils/Orientation'
 
-const browserPadding = isMobileSafari ? 44 : 0
+const height = isMobileOnly ? getScreenHeight() : theme.sizes.maxHeightForTabletAndDesktop
 
-const ModalOverlay = ({ styles, children, style }: any) => (
-  <View style={styles.modalOverlay}>
-    <View style={[styles.modalInnerWrapper, style]}>{children}</View>
-  </View>
-)
+const ModalOverlay = ({ styles, children, style, itemType }: any) => {
+  const modalInnerWrapperStyle = itemType === 'custom' ? styles.customModalInnerWrapper : styles.feedModalInnerWrapper
+  return (
+    <View style={styles.modalOverlay}>
+      <View style={[modalInnerWrapperStyle, style]}>{children}</View>
+    </View>
+  )
+}
 
 const getStylesFromProps = ({ theme }) => ({
   modalOverlay: {
     alignSelf: 'flex-start',
     backgroundColor: theme.modals.overlayBackgroundColor,
-    height: '100vh',
-    width: '100vw',
+    height: height,
+    width: getScreenWidth(),
   },
-  modalInnerWrapper: {
+  customModalInnerWrapper: {
     alignSelf: 'center',
     maxWidth: '475px',
     width: '100%',
     flexGrow: 1,
     flexShrink: 0,
-    paddingBottom: theme.modals.overlayVerticalPadding + browserPadding * 1.5,
     paddingLeft: theme.modals.overlayHorizontalPadding,
     paddingRight: theme.modals.overlayHorizontalPadding,
-    paddingTop: theme.modals.overlayVerticalPadding - browserPadding * 0.5,
     marginVertical: 'auto',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '100%',
+    display: 'flex',
+  },
+  feedModalInnerWrapper: {
+    alignSelf: 'center',
+    maxWidth: '475px',
+    width: '100%',
+    flexGrow: 1,
+    flexShrink: 0,
+    paddingLeft: theme.modals.overlayHorizontalPadding,
+    paddingRight: theme.modals.overlayHorizontalPadding,
+    marginTop: getDesignRelativeHeight(50, false),
+    marginBottom: getDesignRelativeHeight(71, false),
   },
 })
 

@@ -1,8 +1,20 @@
 // @flow
+import _ from 'lodash'
+import moment from 'moment'
 import gun from '../gundb'
-
+import Config from '../../../config/config'
 import userStorage from '../UserStorage'
-import { getOperationType, getReceiveDataFromReceipt, type TransactionEvent, welcomeMessage } from '../UserStorageClass'
+import {
+  backupMessage,
+  getOperationType,
+  getReceiveDataFromReceipt,
+  inviteFriendsMessage,
+  startSpending,
+  type TransactionEvent,
+  welcomeMessage,
+  welcomeMessageOnlyEtoro,
+} from '../UserStorageClass'
+import UserPropertiesClass from '../UserPropertiesClass'
 
 import { getUserModel } from '../UserModel'
 import { addUser } from './__util__/index'
@@ -65,6 +77,23 @@ describe('UserStorage', () => {
     await userStorage.setProfileField('name', 'hadar2', 'public')
     const res = await userStorage.profile.get('name').then()
     expect(res).toEqual(expect.objectContaining({ privacy: 'public', display: 'hadar2' }))
+  })
+
+  it('get all user properties', async () => {
+    const res = await userStorage.userProperties.getAll()
+    expect(res).toEqual(expect.objectContaining(UserPropertiesClass.defaultProperties))
+  })
+
+  it('set all user properties', async () => {
+    const res = await userStorage.userProperties.set('isMadeBackup', true)
+    expect(res).toBeTruthy()
+  })
+
+  it('get user property', async () => {
+    const res = await userStorage.userProperties.set('isMadeBackup', true)
+    expect(res).toBeTruthy()
+    const isMadeBackup = await userStorage.userProperties.get('isMadeBackup')
+    expect(isMadeBackup).toBeTruthy()
   })
 
   it('get magic line', async () => {
@@ -330,9 +359,60 @@ describe('UserStorage', () => {
     expect(events).toContainEqual(transactionEvent)
   })
 
+  it('add invite event', async () => {
+    await userStorage.updateFeedEvent(inviteFriendsMessage)
+    const events = await userStorage.getAllFeed()
+    expect(events).toContainEqual(inviteFriendsMessage)
+  })
+
+  it('add invite event', async () => {
+    await userStorage.updateFeedEvent(startSpending)
+    const events = await userStorage.getAllFeed()
+    expect(events).toContainEqual(startSpending)
+  })
+
   it('has the welcome event already set', async () => {
     const events = await userStorage.getAllFeed()
-    expect(events).toContainEqual(welcomeMessage)
+    if (Config.isEToro) {
+      expect(events).toContainEqual(welcomeMessageOnlyEtoro)
+    } else {
+      expect(events).toContainEqual(welcomeMessage)
+    }
+  })
+
+  it('has the welcome event already set', async () => {
+    const events = await userStorage.getAllFeed()
+    if (Config.isEToro) {
+      expect(events).toEqual(expect.not.objectContaining(welcomeMessage))
+    } else {
+      expect(events).toEqual(expect.not.objectContaining(welcomeMessageOnlyEtoro))
+    }
+  })
+
+  it('add welcome etoro', async () => {
+    await userStorage.updateFeedEvent(welcomeMessageOnlyEtoro)
+    const events = await userStorage.getAllFeed()
+    expect(events).toContainEqual(welcomeMessageOnlyEtoro)
+  })
+
+  it('has the backupMessage event already set', async () => {
+    await userStorage.updateFeedEvent(backupMessage)
+    const events = await userStorage.getAllFeed()
+    expect(events).toContainEqual(backupMessage)
+  })
+
+  it('has the Survey already set', async () => {
+    const hash = 'test_hash'
+    const date = moment(new Date()).format('DDMMYY')
+    const testSurvey = {
+      amount: 'amount',
+      reason: 'reason',
+      survey: 'survey',
+    }
+    await userStorage.saveSurveyDetails(hash, testSurvey)
+    const surveys = await userStorage.getSurveyDetailByHashAndDate(hash, date)
+    const result = _.pick(surveys, ['amount', 'reason', 'survey'])
+    expect(result).toEqual(testSurvey)
   })
 
   it('should delete the Welcome event', async () => {
@@ -349,6 +429,29 @@ describe('UserStorage', () => {
 
     const events = await userStorage.getAllFeed()
     expect(events).toContainEqual(deletedEvent)
+  })
+
+  it('should return withdrawCode from formatEvent function', async () => {
+    const event = {
+      id: '0x538ec5afdce092b4178aecb2d77cbf2912e1eef7cd95c2feb20b62601cf24f47',
+      date: new Date().toString(),
+      createdDate: new Date().toString(),
+      type: 'send',
+      status: 'pending',
+      data: {
+        counterPartyDisplayName: 'Test User',
+        reason: 'Test Reason',
+        amount: 10,
+        paymentLink: 'http://localhost:3000?paymentCode=42a4761a301993b307a3',
+        code: '42a4761a301993b307a3',
+      },
+    }
+
+    const result = await userStorage.formatEvent(event)
+
+    expect(result.data).toBeTruthy()
+    expect(result.data.withdrawCode).toBeTruthy()
+    expect(result.data.withdrawCode).toBe(event.data.code)
   })
 
   it('should subscribe to profile updates', async done => {

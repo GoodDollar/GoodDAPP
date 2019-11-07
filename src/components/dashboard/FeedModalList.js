@@ -2,10 +2,11 @@
 import React, { createRef, useEffect, useState } from 'react'
 import { FlatList, View } from 'react-native'
 import { Portal } from 'react-native-paper'
+import _once from 'lodash/once'
 import { withStyles } from '../../lib/styles'
 import { getScreenWidth } from '../../lib/utils/Orientation'
+import { CARD_SLIDE, fireEvent } from '../../lib/analytics/analytics'
 import FeedModalItem from './FeedItems/FeedModalItem'
-
 const VIEWABILITY_CONFIG = {
   minimumViewTime: 3000,
   viewAreaCoveragePercentThreshold: 100,
@@ -41,6 +42,7 @@ const FeedModalList = ({
   handleFeedSelection,
   selectedFeed,
   styles,
+  navigation,
 }: FeedModalListProps) => {
   const flatListRef = createRef()
 
@@ -79,17 +81,30 @@ const FeedModalList = ({
   }
 
   const renderItemComponent = ({ item, separators, index }: ItemComponentProps) => (
-    <FeedModalItem item={item} separators={separators} fixedHeight onPress={() => handleFeedSelection(item, false)} />
+    <FeedModalItem
+      navigation={navigation}
+      item={item}
+      separators={separators}
+      fixedHeight
+      onPress={() => handleFeedSelection(item, false)}
+    />
   )
+
+  const slideEvent = _once(() => {
+    fireEvent(CARD_SLIDE)
+  })
 
   const feeds = data && data instanceof Array && data.length ? data : undefined
   return (
     <Portal>
       <View style={[styles.horizontalContainer, { opacity: loading ? 0 : 1 }]}>
         <FlatList
+          style={styles.flatList}
           onScroll={({ nativeEvent }) => {
+            slideEvent()
+
             // when nativeEvent contentOffset reaches target offset setLoading to false, we stopped scrolling
-            if (nativeEvent.contentOffset.x === offset) {
+            if (Math.abs(offset - nativeEvent.contentOffset.x) < 5) {
               setLoading(false)
             }
           }}
@@ -127,6 +142,9 @@ const getStylesFromProps = ({ theme }) => ({
     width: '100%',
     maxWidth: '100vw',
     flex: 1,
+  },
+  flatList: {
+    transform: 'translateY(1px)', //Do not delete, this repairs horizontal feed scrolling
   },
 })
 

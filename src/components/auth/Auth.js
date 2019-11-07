@@ -4,6 +4,7 @@ import { AsyncStorage, Image } from 'react-native'
 import _get from 'lodash/get'
 import Mnemonics from '../signin/Mnemonics'
 import logger from '../../lib/logger/pino-logger'
+import { CLICK_BTN_GETINVITED, fireEvent } from '../../lib/analytics/analytics'
 import CustomButton from '../common/buttons/CustomButton'
 import { PushButton } from '../appNavigation/PushButton'
 import Wrapper from '../common/layout/Wrapper'
@@ -12,11 +13,11 @@ import { PrivacyPolicy, Support, TermsOfUse } from '../webView/webViewInstances'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 import { withStyles } from '../../lib/styles'
 import illustration from '../../assets/Auth/Illustration.svg'
-import NavBar from '../appNavigation/NavBar'
 import config from '../../config/config'
 import { theme as mainTheme } from '../theme/styles'
 import API from '../../lib/API/api'
 import Section from '../common/layout/Section'
+import { getDesignRelativeHeight } from '../../lib/utils/sizes'
 
 type Props = {
   navigation: any,
@@ -45,6 +46,8 @@ class Auth extends React.Component<Props> {
     const destinationPath = JSON.parse(_destinationPath)
     const paymentCode = _get(destinationPath, 'params.paymentCode')
 
+    log.info('checkWeb3TokenAndPaymentCode', web3Token, paymentCode)
+
     if (paymentCode) {
       return this.setState({
         asGuest: true,
@@ -65,10 +68,16 @@ class Auth extends React.Component<Props> {
 
         if (w3User.has_wallet) {
           behaviour = 'goToSignInScreen'
+        } else {
+          this.setState({
+            w3User,
+          })
         }
       } catch (e) {
         behaviour = 'showTokenError'
       }
+
+      log.info('behaviour', behaviour)
 
       switch (behaviour) {
         case 'showTokenError':
@@ -86,9 +95,13 @@ class Auth extends React.Component<Props> {
   }
 
   handleSignUp = async () => {
+    const { w3User } = this.state
+    const w3Token = await AsyncStorage.getItem('web3Token')
+    const redirectTo = w3Token ? 'Phone' : 'Signup'
+
     await AsyncStorage.removeItem('gun/').catch(e => log.error('Failed to clear localStorage', e.message, e))
 
-    this.props.navigation.navigate('Signup')
+    this.props.navigation.navigate(redirectTo, { w3User })
 
     //Hack to get keyboard up on mobile need focus from user event such as click
     setTimeout(() => {
@@ -113,6 +126,7 @@ class Auth extends React.Component<Props> {
   handleNavigatePrivacyPolicy = () => this.props.screenProps.push('PrivacyPolicy')
 
   goToW3Site = () => {
+    fireEvent(CLICK_BTN_GETINVITED)
     window.location = config.web3SiteUrl
   }
 
@@ -120,13 +134,24 @@ class Auth extends React.Component<Props> {
     const { styles } = this.props
     const { asGuest } = this.state
     const firstButtonHandler = asGuest ? this.handleSignUp : this.goToW3Site
-    const firstButtonText = asGuest ? 'Create a wallet' : 'Get Invited'
+    const firstButtonText = asGuest ? (
+      'Create a wallet'
+    ) : (
+      <Text style={styles.buttonText} fontWeight="medium">
+        NEW HERE?
+        <Text style={styles.buttonText} fontWeight="black">
+          {' GET INVITED'}
+        </Text>
+      </Text>
+    )
     const firstButtonColor = asGuest ? undefined : mainTheme.colors.orange
-    const firstButtontextStyle = asGuest ? undefined : styles.textBlack
+    const firstButtonTextStyle = asGuest ? undefined : styles.textBlack
 
     return (
       <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
-        <NavBar title={'Welcome'} />
+        <Text style={styles.headerText} fontSize={22} lineHeight={25} fontFamily="Roboto" fontWeight="medium">
+          {'Welcome to your\nfinancial future!'}
+        </Text>
         <Image source={illustration} style={styles.illustration} resizeMode="contain" />
         <Section style={styles.bottomContainer}>
           {asGuest && (
@@ -157,13 +182,18 @@ class Auth extends React.Component<Props> {
           <CustomButton
             color={firstButtonColor}
             style={styles.buttonLayout}
-            textStyle={firstButtontextStyle}
+            textStyle={firstButtonTextStyle}
             onPress={firstButtonHandler}
           >
             {firstButtonText}
           </CustomButton>
           <PushButton dark={false} mode="outlined" onPress={this.handleSignIn}>
-            SIGN IN
+            <Text style={styles.buttonText} fontWeight="regular" color={'primary'}>
+              ALREADY REGISTERED?
+              <Text textTransform={'uppercase'} style={styles.buttonText} color={'primary'} fontWeight="black">
+                {' SIGN IN'}
+              </Text>
+            </Text>
           </PushButton>
         </Section>
       </Wrapper>
@@ -189,6 +219,12 @@ const getStylesFromProps = ({ theme }) => {
     buttonLayout: {
       marginVertical: 20,
     },
+    buttonText: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      paddingTop: 1,
+      letterSpacing: 0,
+    },
     acceptTermsLink: {
       marginTop: theme.sizes.default,
     },
@@ -200,6 +236,10 @@ const getStylesFromProps = ({ theme }) => {
       minHeight: 100,
       maxHeight: 192,
       paddingTop: theme.sizes.default,
+    },
+    headerText: {
+      marginTop: getDesignRelativeHeight(95),
+      marginBottom: getDesignRelativeHeight(25),
     },
   }
 }

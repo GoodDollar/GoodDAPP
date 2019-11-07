@@ -1,18 +1,18 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 import { withThemeProvider } from '../../../__tests__/__util__'
-import Countdown from '../ClaimCountdown'
+import Rewards from '../Rewards.web'
 
-describe('ClaimCountdown', () => {
-  const WrappedCountdown = withThemeProvider(Countdown)
+describe('Rewards', () => {
+  const WrappedRewards = withThemeProvider(Rewards)
 
   it('renders without errors', () => {
-    const tree = renderer.create(<WrappedCountdown nextClaim="00:10:00" />)
+    const tree = renderer.create(<WrappedRewards />)
     expect(tree.toJSON()).toBeTruthy()
   })
 
   it('matches snapshot', () => {
-    const component = renderer.create(<WrappedCountdown nextClaim="00:10:00" />)
+    const component = renderer.create(<WrappedRewards />)
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

@@ -1,5 +1,6 @@
 // @flow
 import React from 'react'
+import { View } from 'react-native'
 import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
 import { withStyles } from '../../lib/styles'
@@ -7,6 +8,8 @@ import LoadingIndicator from '../common/view/LoadingIndicator'
 import Section from '../common/layout/Section'
 import ErrorText from '../common/form/ErrorText'
 import OtpInput from '../common/form/OtpInput'
+import { getDesignRelativeHeight } from '../../lib/utils/sizes'
+import Icon from '../common/view/Icon'
 import CustomWrapper from './signUpWrapper'
 import type { SignupState } from './SignupState'
 
@@ -33,6 +36,10 @@ type State = CodeRecord & {
 }
 
 const NumInputs: number = 6
+
+const DONE = 'DONE'
+const WAIT = 'WAIT'
+const PENDING = 'PENDING'
 
 class EmailConfirmation extends React.Component<Props, State> {
   state = {
@@ -73,9 +80,8 @@ class EmailConfirmation extends React.Component<Props, State> {
 
         this.setState({
           errorMessage: e.message || e,
+          loading: false,
         })
-      } finally {
-        this.setState({ loading: false })
       }
     } else {
       this.setState({
@@ -85,8 +91,10 @@ class EmailConfirmation extends React.Component<Props, State> {
     }
   }
 
-  handleSubmit = () => {
-    this.props.screenProps.doneCallback({ isEmailConfirmed: true })
+  handleSubmit = async () => {
+    await this.props.screenProps.doneCallback({ isEmailConfirmed: true })
+
+    this.setState({ loading: false })
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -96,15 +104,18 @@ class EmailConfirmation extends React.Component<Props, State> {
 
   handleRetry = async () => {
     this.setState({ sendingCode: true, code: Array(NumInputs).fill(null), errorMessage: '' })
+    let { retryFunctionName } = this.props.screenProps
+
+    retryFunctionName = retryFunctionName || 'sendVerificationEmail'
 
     try {
-      await API.sendVerificationEmail(this.props.screenProps.data)
+      await API[retryFunctionName]({ ...this.props.screenProps.data })
       this.setState({ sendingCode: false, renderButton: false, resentCode: true }, this.displayDelayedRenderButton)
 
       //turn checkmark back into regular resend text
       setTimeout(() => this.setState({ ...this.state, resentCode: false }), 2000)
     } catch (e) {
-      log.error(e)
+      log.error('resend email code failed', e.message, e)
       this.setState({
         errorMessage: e.message || e,
         sendingCode: false,
@@ -114,48 +125,102 @@ class EmailConfirmation extends React.Component<Props, State> {
   }
 
   render() {
-    const { errorMessage, loading, code } = this.state
+    const { errorMessage, loading, code, resentCode, renderButton } = this.state
     const { styles } = this.props
 
     return (
       <CustomWrapper handleSubmit={this.handleSubmit} footerComponent={() => <React.Fragment />}>
-        <Section.Stack grow justifyContent="flex-start">
-          <Section.Row justifyContent="center" style={styles.row}>
-            <Section.Title textTransform="none">{'Enter the verification code\nsent to your email'}</Section.Title>
-          </Section.Row>
-          <Section.Stack justifyContent="center">
-            <OtpInput
-              shouldAutoFocus
-              numInputs={NumInputs}
-              onChange={this.handleChange}
-              hasErrored={errorMessage !== ''}
-              errorStyle={styles.errorStyle}
-              value={code}
-              placeholder="*"
-              isInputNum={true}
-            />
-            <ErrorText error={errorMessage} />
+        <Section grow justifyContent="flex-start">
+          <Section.Stack justifyContent="flex-start" style={styles.container}>
+            <Section.Row justifyContent="center">
+              <Section.Title color="darkGray" fontSize={22} fontWeight="500" textTransform="none">
+                {'You’ve got mail!\nA second verification code\nwas emailed to you'}
+              </Section.Title>
+            </Section.Row>
+            <Section.Stack justifyContent="center" style={styles.bottomContent}>
+              <OtpInput
+                shouldAutoFocus
+                numInputs={NumInputs}
+                onChange={this.handleChange}
+                hasErrored={errorMessage !== ''}
+                errorStyle={styles.errorStyle}
+                value={code}
+                placeholder="*"
+                isInputNum={true}
+                aside={[3]}
+              />
+              <ErrorText error={errorMessage} />
+            </Section.Stack>
           </Section.Stack>
           <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
-            <Section.Text fontWeight="medium" fontSize={14} color="primary" onPress={this.handleRetry}>
-              Send me the code again
-            </Section.Text>
+            <CodeAction
+              status={resentCode ? DONE : renderButton ? PENDING : WAIT}
+              handleRetry={this.handleRetry}
+              successIconStyle={styles.successIconStyle}
+            />
           </Section.Row>
-        </Section.Stack>
+        </Section>
         <LoadingIndicator force={loading} />
       </CustomWrapper>
     )
   }
 }
 
+const CodeAction = ({ status, handleRetry, successIconStyle }) => {
+  if (status === DONE) {
+    return (
+      <View style={successIconStyle}>
+        <Icon size={16} name="success" color="primary" />
+      </View>
+    )
+  } else if (status === WAIT) {
+    return (
+      <Section.Text fontSize={14} color="gray80Percent">
+        Please wait a few seconds until the email arrives
+      </Section.Text>
+    )
+  }
+
+  return (
+    <Section.Text
+      textDecorationLine="underline"
+      fontWeight="medium"
+      fontSize={14}
+      color="primary"
+      onPress={handleRetry}
+    >
+      email me the code again
+    </Section.Text>
+  )
+}
+
 const getStylesFromProps = ({ theme }) => ({
   row: {
-    marginVertical: theme.sizes.defaultQuadruple,
+    marginVertical: theme.sizes.defaultDouble,
   },
   errorStyle: {
     borderBottomWidth: 1,
     borderBottomColor: theme.colors.red,
     color: theme.colors.red,
+  },
+  container: {
+    minHeight: getDesignRelativeHeight(200),
+    height: getDesignRelativeHeight(200),
+  },
+  bottomContent: {
+    marginTop: 'auto',
+    marginBottom: theme.sizes.defaultDouble,
+  },
+  successIconStyle: {
+    borderWidth: 1,
+    borderRadius: '50%',
+    borderColor: theme.colors.primary,
+    position: 'relative',
+    height: 48,
+    width: 48,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 })
 

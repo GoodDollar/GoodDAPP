@@ -1,5 +1,6 @@
 // @flow
 import React from 'react'
+import { View } from 'react-native'
 import logger from '../../lib/logger/pino-logger'
 import API from '../../lib/API/api'
 import { getDesignRelativeHeight } from '../../lib/utils/sizes'
@@ -53,6 +54,10 @@ class SmsForm extends React.Component<Props, State> {
     otp: Array(NumInputs).fill(null),
   }
 
+  componentDidMount() {
+    this.displayDelayedRenderButton()
+  }
+
   componentDidUpdate() {
     if (!this.state.renderButton) {
       this.displayDelayedRenderButton()
@@ -76,13 +81,12 @@ class SmsForm extends React.Component<Props, State> {
         await this.verifyOTP(otpValue)
         this.handleSubmit()
       } catch (e) {
-        log.error(e.message, e)
+        log.error('Verify otp failed', e.message, e)
 
         this.setState({
           errorMessage: e.message || e,
+          loading: false,
         })
-      } finally {
-        this.setState({ loading: false })
       }
     } else {
       this.setState({
@@ -92,8 +96,10 @@ class SmsForm extends React.Component<Props, State> {
     }
   }
 
-  handleSubmit = () => {
-    this.props.screenProps.doneCallback({ smsValidated: true })
+  handleSubmit = async () => {
+    await this.props.screenProps.doneCallback({ smsValidated: true })
+
+    this.setState({ loading: false })
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -103,15 +109,18 @@ class SmsForm extends React.Component<Props, State> {
 
   handleRetry = async () => {
     this.setState({ sendingCode: true, otp: Array(NumInputs).fill(null), errorMessage: '' })
+    let { retryFunctionName } = this.props.screenProps
+
+    retryFunctionName = retryFunctionName || 'sendOTP'
 
     try {
-      await API.sendOTP({ ...this.props.screenProps.data })
+      await API[retryFunctionName]({ ...this.props.screenProps.data })
       this.setState({ sendingCode: false, renderButton: false, resentCode: true }, this.displayDelayedRenderButton)
 
       //turn checkmark back into regular resend text
       setTimeout(() => this.setState({ ...this.state, resentCode: false }), 2000)
     } catch (e) {
-      log.error(e.message, e)
+      log.error('Resend sms code failed', e.message, e)
       this.setState({
         errorMessage: e.message || e,
         sendingCode: false,
@@ -143,12 +152,17 @@ class SmsForm extends React.Component<Props, State> {
                 value={otp}
                 placeholder="*"
                 isInputNum={true}
+                aside={[3]}
               />
               <ErrorText error={errorMessage} />
             </Section.Stack>
           </Section.Stack>
           <Section.Row alignItems="center" justifyContent="center" style={styles.row}>
-            <SMSAction status={resentCode ? DONE : renderButton ? PENDING : WAIT} handleRetry={this.handleRetry} />
+            <SMSAction
+              status={resentCode ? DONE : renderButton ? PENDING : WAIT}
+              handleRetry={this.handleRetry}
+              successIconStyle={styles.successIconStyle}
+            />
           </Section.Row>
         </Section>
         <LoadingIndicator force={loading} />
@@ -157,9 +171,13 @@ class SmsForm extends React.Component<Props, State> {
   }
 }
 
-const SMSAction = ({ status, handleRetry }) => {
+const SMSAction = ({ status, handleRetry, successIconStyle }) => {
   if (status === DONE) {
-    return <Icon size={16} name="success" color="blue" />
+    return (
+      <View style={successIconStyle}>
+        <Icon size={16} name="success" color="primary" />
+      </View>
+    )
   } else if (status === WAIT) {
     return (
       <Section.Text fontSize={14} color="gray80Percent">
@@ -167,8 +185,15 @@ const SMSAction = ({ status, handleRetry }) => {
       </Section.Text>
     )
   }
+
   return (
-    <Section.Text fontWeight="medium" fontSize={14} color="primary" onPress={handleRetry}>
+    <Section.Text
+      textDecorationLine="underline"
+      fontWeight="medium"
+      fontSize={14}
+      color="primary"
+      onPress={handleRetry}
+    >
       Send me the code again
     </Section.Text>
   )
@@ -204,6 +229,17 @@ const getStylesFromProps = ({ theme }) => ({
   bottomContent: {
     marginTop: 'auto',
     marginBottom: theme.sizes.defaultDouble,
+  },
+  successIconStyle: {
+    borderWidth: 1,
+    borderRadius: '50%',
+    borderColor: theme.colors.primary,
+    position: 'relative',
+    height: 48,
+    width: 48,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 })
 

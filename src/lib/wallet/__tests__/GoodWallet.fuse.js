@@ -19,6 +19,7 @@ describe('GoodWalletShare/ReceiveTokens', () => {
       web3Transport: Config.web3TransportProvider,
     })
 
+    await adminWallet.ready
     await testWallet.ready
     await testWallet2.ready
 

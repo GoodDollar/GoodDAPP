@@ -1095,7 +1095,7 @@ exports[`SideMenuPanel matches snapshot 1`] = `
                 }
               }
             >
-              Delete Account
+              Delete wallet
             </div>
           </div>
         </div>

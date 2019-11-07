@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react'
+// eslint-disable-next-line import/no-unresolved
+import IframeResizer from 'iframe-resizer-react'
 import { isIOS } from 'mobile-device-detect'
 import userStorage from '../../lib/gundb/UserStorage'
 import Config from '../../config/config'
@@ -11,6 +13,7 @@ const RewardsTab = props => {
   const [loginToken, setLoginToken] = useState()
   const store = SimpleStore.useStore()
   const scrolling = isIOS ? 'no' : 'yes'
+
   const getToken = async () => {
     let token = (await userStorage.getProfileFieldValue('loginToken')) || ''
     log.debug('got rewards login token', token)
@@ -19,38 +22,31 @@ const RewardsTab = props => {
   const isLoaded = () => {
     store.set('loadingIndicator')({ loading: false })
   }
+
   useEffect(() => {
     store.set('loadingIndicator')({ loading: true })
     getToken()
   }, [])
 
   return loginToken === undefined ? null : (
-    <div
+    <IframeResizer
+      title="Rewards"
+      scrolling={scrolling}
+      src={`${Config.web3SiteUrl}?token=${loginToken}&purpose=iframe`}
+      allowFullScreen
+      frameBorder="0"
+      width="100%"
+      height="100%"
+      seamless
       style={{
-        height: '100%',
-        overflow: 'scroll !important',
-        WebkitOverflowScrolling: 'touch !important',
+        maxWidth: '100%',
+        maxHeight: '100%',
+        minWidth: '100%',
+        minHeight: '100%',
+        width: 0,
       }}
-    >
-      <iframe
-        title="Rewards"
-        src={`${Config.web3SiteUrl}?token=${loginToken}`}
-        scrolling={scrolling}
-        allowFullScreen={true}
-        frameBorder="0"
-        width="100%"
-        height="100%"
-        seamless={true}
-        onLoad={() => isLoaded()}
-        style={{
-          maxWidth: '100%',
-          maxHeight: '100%',
-          minWidth: '100%',
-          minHeight: '100%',
-          width: 0,
-        }}
-      />
-    </div>
+      onLoad={isLoaded}
+    />
   )
 }
 

@@ -12,17 +12,27 @@ type Props = {
 }
 type State = {}
 export default class SignupCompleted extends React.Component<Props, State> {
+  state = {
+    pressSubmit: false,
+  }
+
   handleSubmit = () => {
+    this.setState({
+      pressSubmit: true,
+    })
+
     this.props.screenProps.doneCallback({ isEmailConfirmed: true })
   }
 
   render() {
     const { createError, fullName, loading } = this.props.screenProps.data
+    const { pressSubmit } = this.state
+
     return (
       <CustomWrapper
         handleSubmit={this.handleSubmit}
         submitText="Let's start!"
-        loading={loading}
+        loading={pressSubmit && loading}
         valid={createError !== true}
       >
         <Text fontWeight="medium" fontSize={22}>

@@ -3,9 +3,9 @@ import { Icon } from '../../common'
 import { withStyles } from '../../../lib/styles'
 import getEventSettingsByType from './EventSettingsByType'
 
-const EventIcon = ({ type, theme, styles, style }) => {
+const EventIcon = ({ type, theme, styles, style, size = 34 }) => {
   const icon = getEventSettingsByType(theme, type)
-  return <Icon color={icon.color} size={34} name={icon.name} style={[styles.eventIcon, style ? style : {}]} />
+  return <Icon color={icon.color} size={size} name={icon.name} style={[styles.eventIcon, style ? style : {}]} />
 }
 
 const getStylesFromProps = ({ theme }) => ({

@@ -3,8 +3,8 @@ import React, { useEffect, useState } from 'react'
 import { AsyncStorage, ScrollView, StyleSheet, View } from 'react-native'
 import { createSwitchNavigator } from '@react-navigation/core'
 import { isMobileSafari } from 'mobile-device-detect'
+import _get from 'lodash/get'
 import { GD_USER_MNEMONIC, IS_LOGGED_IN } from '../../lib/constants/localStorage'
-
 import NavBar from '../appNavigation/NavBar'
 import { navigationConfig } from '../appNavigation/navigationConfig'
 import logger from '../../lib/logger/pino-logger'
@@ -14,8 +14,8 @@ import SimpleStore from '../../lib/undux/SimpleStore'
 import { useErrorDialog } from '../../lib/undux/utils/dialog'
 
 import { getUserModel, type UserModel } from '../../lib/gundb/UserModel'
-import { fireEvent, initAnalytics } from '../../lib/analytics/analytics'
 import Config from '../../config/config'
+import { fireEvent } from '../../lib/analytics/analytics'
 import type { SMSRecord } from './SmsForm'
 import SignupCompleted from './SignupCompleted'
 import EmailConfirmation from './EmailConfirmation'
@@ -23,6 +23,7 @@ import SmsForm from './SmsForm'
 import PhoneForm from './PhoneForm'
 import EmailForm from './EmailForm'
 import NameForm from './NameForm'
+import MagicLinkInfo from './MagicLinkInfo'
 
 const log = logger.child({ from: 'SignupState' })
 
@@ -35,6 +36,7 @@ const SignupWizardNavigator = createSwitchNavigator(
     SMS: SmsForm,
     Email: EmailForm,
     EmailConfirmation,
+    MagicLinkInfo,
     SignupCompleted,
   },
   navigationConfig
@@ -60,6 +62,8 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   const [countryCode, setCountryCode] = useState(undefined)
   const [createError, setCreateError] = useState(false)
   const [finishedPromise, setFinishedPromise] = useState(undefined)
+  const [showNavBarGoBackButton, setShowNavBarGoBackButton] = useState(true)
+  const [registerAllowed, setRegisterAllowed] = useState(false)
 
   const [showErrorDialog] = useErrorDialog()
   const shouldGrow = store.get && !store.get('isMobileSafariKeyboardShown')
@@ -75,9 +79,11 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       }, 300)
     }
   }
-  const fireSignupEvent = (event?: string) => {
+
+  const fireSignupEvent = (event?: string, data) => {
     let curRoute = navigation.state.routes[navigation.state.index]
-    fireEvent(`SIGNUP_${event || curRoute.key}`)
+
+    fireEvent(`SIGNUP_${event || curRoute.key}`, data)
   }
 
   const getCountryCode = async () => {
@@ -90,27 +96,37 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   }
 
   const checkWeb3Token = async () => {
+    setLoading(true)
     const web3Token = await AsyncStorage.getItem('web3Token')
 
     if (!web3Token) {
+      setLoading(false)
       return
     }
 
     let behaviour = ''
-    let w3User = {}
+    const _w3User = _get(navigation, 'state.params.w3User')
+    let w3User = _w3User && typeof _w3User === 'object' ? _w3User : {}
 
-    try {
-      const w3userData = await API.getUserFromW3ByToken(web3Token)
-      w3User = w3userData.data
+    if (!Object.keys(w3User).length) {
+      try {
+        const w3userData = await API.getUserFromW3ByToken(web3Token)
 
+        w3User = w3userData.data
+      } catch (e) {
+        behaviour = 'showTokenError'
+      }
+    }
+
+    if (!behaviour) {
       if (w3User.has_wallet) {
         behaviour = 'goToSignInScreen'
       } else {
         behaviour = 'goToPhone'
       }
-    } catch (e) {
-      behaviour = 'showTokenError'
     }
+
+    log.info('behaviour', behaviour)
 
     const userScreenData = {
       email: w3User.email,
@@ -134,14 +150,14 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
           email: w3User.email,
           token: web3Token,
         }).catch(e => {
-          log.error(e.message, e)
+          log.error('W3 Email verification failed', e.message, e)
 
           showErrorDialog('Email verification failed', e)
         })
 
         if (w3User.image) {
           userScreenData.avatar = await API.getBase64FromImageUrl(w3User.image).catch(e => {
-            logger.error('Fetch base 64 from image uri failed', e.message, e)
+            log.error('Fetch base 64 from image uri failed', e.message, e)
           })
         }
 
@@ -156,9 +172,27 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       default:
         break
     }
+
+    setLoading(false)
+  }
+
+  const isRegisterAllowed = async () => {
+    const w3Token = await AsyncStorage.getItem('web3Token')
+    const destinationPath = await AsyncStorage.getItem('destinationPath')
+      .then(JSON.parse)
+      .catch(e => ({}))
+    const paymentCode = _get(destinationPath, 'params.paymentCode')
+
+    if (paymentCode || w3Token) {
+      return setRegisterAllowed(true)
+    }
+
+    navigation.navigate('Login')
   }
 
   useEffect(() => {
+    isRegisterAllowed()
+
     //get user country code for phone
     getCountryCode()
 
@@ -167,11 +201,11 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       log.debug('ready: Starting initialization')
       const { init } = await import('../../init')
       const login = import('../../lib/login/GoodWalletLogin')
-      const { goodWallet, userStorage } = await init()
+      const { goodWallet, userStorage, source } = await init()
 
       //for QA
       global.wallet = goodWallet
-      initAnalytics(goodWallet, userStorage).then(_ => fireSignupEvent('STARTED'))
+      fireSignupEvent('STARTED', { source })
 
       //the login also re-initialize the api with new jwt
       await login.then(l => l.default.auth())
@@ -184,12 +218,14 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
 
     setReady(ready)
 
-    //don't allow to start signup flow not from begining
-    if (navigation.state.index > 0) {
-      log.debug('redirecting to start, got index:', navigation.state.index)
-      setLoading(true)
-      return navigateWithFocus(navigation.state.routes[0].key)
-    }
+    // don't allow to start sign up flow not from begining except when w3Token provided
+    AsyncStorage.getItem('web3Token').then(token => {
+      if (!token && navigation.state.index > 0) {
+        log.debug('redirecting to start, got index:', navigation.state.index)
+        setLoading(true)
+        return navigateWithFocus(navigation.state.routes[0].key)
+      }
+    })
 
     checkWeb3Token()
   }, [])
@@ -213,33 +249,32 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
       //first need to add user to our database
       // Stores creationBlock number into 'lastBlock' feed's node
 
-      const addUserAPIPromise = API.addUser(requestPayload)
-        .then(res => {
-          const data = res.data
+      const addUserAPIPromise = API.addUser(requestPayload).then(res => {
+        const data = res.data
 
-          if (data && data.loginToken) {
-            userStorage.setProfileField('loginToken', data.loginToken, 'private')
-          }
-        })
-        .catch(e => {
-          log.error(e.message, e)
-        })
+        if (data && data.loginToken) {
+          userStorage.setProfileField('loginToken', data.loginToken, 'private')
+        }
+        if (data && data.marketToken) {
+          userStorage.setProfileField('marketToken', data.marketToken, 'private')
+        }
+      })
 
       const mnemonic = await AsyncStorage.getItem(GD_USER_MNEMONIC)
-
+      await addUserAPIPromise
       await Promise.all([
-        addUserAPIPromise,
         userStorage.setProfile({ ...requestPayload, walletAddress: goodWallet.account, mnemonic }),
         userStorage.setProfileField('registered', true, 'public'),
         goodWallet.getBlockNumber().then(creationBlock => userStorage.saveLastBlockNumber(creationBlock.toString())),
       ])
 
-      AsyncStorage.removeItem('web3Token')
-      API.updateW3UserWithWallet(requestPayload.w3Token, goodWallet.account)
-
       //need to wait for API.addUser but we dont need to wait for it to finish
-      API.sendRecoveryInstructionByEmail(mnemonic)
-      API.sendMagicLinkByEmail(userStorage.getMagicLink())
+      Promise.all([
+        AsyncStorage.removeItem('web3Token'),
+        API.updateW3UserWithWallet(requestPayload.w3Token, goodWallet.account),
+        API.sendRecoveryInstructionByEmail(mnemonic),
+        API.sendMagicLinkByEmail(userStorage.getMagicLink()),
+      ]).catch(e => log.error('failed signup email/w3 promises', e.message, e))
       await AsyncStorage.setItem(IS_LOGGED_IN, true)
       log.debug('New user created')
       return true
@@ -276,6 +311,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
   const done = async (data: { [string]: string }) => {
     setLoading(true)
     fireSignupEvent()
+
     log.info('signup data:', { data })
 
     let nextRoute = getNextRoute(navigation.state.routes, navigation.state.index, state)
@@ -292,7 +328,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
         }
         return navigateWithFocus(nextRoute.key)
       } catch (e) {
-        log.error(e.message, e)
+        log.error('Send mobile code failed', e.message, e)
         showErrorDialog('Sending mobile verification code failed', e)
       } finally {
         setLoading(false)
@@ -328,7 +364,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
         }
         return navigateWithFocus(nextRoute.key)
       } catch (e) {
-        log.error(e.message, e)
+        log.error('Email verification failed', e.message, e)
         showErrorDialog('Email verification failed', e)
       } finally {
         setLoading(false)
@@ -358,9 +394,15 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
 
   useEffect(() => {
     const curRoute = navigation.state.routes[navigation.state.index]
+
     if (state === initialState) {
       return
     }
+
+    if (curRoute && curRoute.key === 'MagicLinkInfo') {
+      setShowNavBarGoBackButton(false)
+    }
+
     if (curRoute && curRoute.key === 'SignupCompleted') {
       const finishedPromise = finishRegistration()
       setFinishedPromise(finishedPromise)
@@ -369,9 +411,9 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
 
   const { scrollableContainer, contentContainer } = styles
 
-  return (
+  return registerAllowed ? (
     <View style={{ flexGrow: shouldGrow ? 1 : 0 }}>
-      <NavBar goBack={back} title={'Sign Up'} />
+      <NavBar goBack={showNavBarGoBackButton ? back : undefined} title={'Sign Up'} />
       <ScrollView contentContainerStyle={scrollableContainer}>
         <View style={contentContainer}>
           <SignupWizardNavigator
@@ -386,7 +428,7 @@ const Signup = ({ navigation, screenProps }: { navigation: any, screenProps: any
         </View>
       </ScrollView>
     </View>
-  )
+  ) : null
 }
 
 Signup.router = SignupWizardNavigator.router

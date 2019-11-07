@@ -6,7 +6,7 @@ exports[`WebViewScreen Instances FAQ matches snapshot 1`] = `
   height="100%"
   onLoad={[Function]}
   seamless={true}
-  src="https://community.gooddollar.org/faq/"
+  src="https://community.gooddollar.org/faq-iframe"
   style={
     Object {
       "height": 844,
@@ -40,7 +40,7 @@ exports[`WebViewScreen Instances Support matches snapshot 1`] = `
   height="100%"
   onLoad={[Function]}
   seamless={true}
-  src="https://community.gooddollar.org/support/"
+  src="https://community.gooddollar.org/support-iframe/"
   style={
     Object {
       "height": 844,

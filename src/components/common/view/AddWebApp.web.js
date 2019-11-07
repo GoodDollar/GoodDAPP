@@ -125,13 +125,10 @@ const AddWebApp = props => {
     if (isWebApp === false) {
       log.debug('useEffect, registering beforeinstallprompt')
 
-      window.addEventListener('beforeinstallprompt', e => {
-        // For older browsers
-        e.preventDefault()
-        log.debug('Install Prompt fired')
-
-        setInstallPrompt(e)
-      })
+      const installPrompt = store.get('installPrompt')
+      if (installPrompt) {
+        setInstallPrompt(installPrompt)
+      }
     }
   }, [])
 

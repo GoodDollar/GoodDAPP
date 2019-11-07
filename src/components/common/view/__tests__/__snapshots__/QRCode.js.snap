@@ -96,6 +96,7 @@ exports[`QRCode matches snapshot 1`] = `
               "red": "#FA6C77",
               "surface": "#ffffff",
               "text": "#222",
+              "white": "#ffffff",
             },
             "dark": false,
             "feedItems": Object {
@@ -138,6 +139,7 @@ exports[`QRCode matches snapshot 1`] = `
               "defaultDouble": 16,
               "defaultHalf": 4,
               "defaultQuadruple": 32,
+              "maxHeightForTabletAndDesktop": 844,
             },
           }
         }
@@ -244,6 +246,7 @@ exports[`QRCode matches snapshot 2`] = `
               "red": "#FA6C77",
               "surface": "#ffffff",
               "text": "#222",
+              "white": "#ffffff",
             },
             "dark": false,
             "feedItems": Object {
@@ -286,6 +289,7 @@ exports[`QRCode matches snapshot 2`] = `
               "defaultDouble": 16,
               "defaultHalf": 4,
               "defaultQuadruple": 32,
+              "maxHeightForTabletAndDesktop": 844,
             },
           }
         }

@@ -47,19 +47,32 @@ const getEventSettingsByType = (theme, type) => {
     },
     invite: {
       color: theme.colors.primary,
-      name: 'system-filled',
+      name: 'info',
       withoutAmount: true,
+      withoutAvatar: true,
     },
     welcome: {
       color: theme.colors.primary,
-      name: 'system-filled',
+      name: 'info',
+      withoutAmount: true,
+      withoutAvatar: true,
+    },
+    backup: {
+      color: theme.colors.primary,
+      name: 'info',
       withoutAmount: true,
       withoutAvatar: true,
     },
     feedback: {
       color: theme.colors.primary,
-      name: 'system-filled',
+      name: 'info',
       withoutAmount: true,
+    },
+    spending: {
+      color: theme.colors.primary,
+      name: 'info',
+      withoutAmount: true,
+      withoutAvatar: true,
     },
     empty: {
       color: theme.colors.lightGray,

@@ -1,9 +1,11 @@
 // @flow
 import React, { useEffect, useState } from 'react'
+import { Animated, Dimensions, Easing } from 'react-native'
 import _get from 'lodash/get'
+import debounce from 'lodash/debounce'
 import type { Store } from 'undux'
 
-// import * as web3Utils from 'web3-utils'
+import * as web3Utils from 'web3-utils'
 import normalize from '../../lib/utils/normalizeText'
 import GDStore from '../../lib/undux/GDStore'
 import API from '../../lib/API/api'
@@ -15,7 +17,7 @@ import { weiToMask } from '../../lib/wallet/utils'
 
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 
-//import goodWallet from '../../lib/wallet/GoodWallet';
+import goodWallet from '../../lib/wallet/GoodWallet'
 import { PushButton } from '../appNavigation/PushButton'
 import TabsView from '../appNavigation/TabsView'
 import Avatar from '../common/view/Avatar'
@@ -28,9 +30,14 @@ import userStorage from '../../lib/gundb/UserStorage'
 import { FAQ, PrivacyArticle, PrivacyPolicy, Support, TermsOfUse } from '../webView/webViewInstances'
 import { withStyles } from '../../lib/styles'
 import Mnemonics from '../signin/Mnemonics'
+import { extractQueryParams, readCode } from '../../lib/share'
 
 // import goodWallet from '../../lib/wallet/GoodWallet'
+import { deleteAccountDialog } from '../sidemenu/SideMenuPanel'
+import config from '../../config/config'
+import LoadingIcon from '../common/modal/LoadingIcon'
 import RewardsTab from './Rewards'
+import MarketTab from './Marketplace'
 import Amount from './Amount'
 import Claim from './Claim'
 import FeedList from './FeedList'
@@ -48,6 +55,7 @@ import SendConfirmation from './SendConfirmation'
 import SendLinkSummary from './SendLinkSummary'
 import SendQRSummary from './SendQRSummary'
 import { ACTION_SEND } from './utils/sendReceiveFlow'
+import { routeAndPathForCode } from './utils/routeAndPathForCode'
 
 // import FaceRecognition from './FaceRecognition/FaceRecognition'
 // import FRIntro from './FaceRecognition/FRIntro'
@@ -55,6 +63,23 @@ import { ACTION_SEND } from './utils/sendReceiveFlow'
 // import UnsupportedDevice from './FaceRecognition/UnsupportedDevice'
 
 const log = logger.child({ from: 'Dashboard' })
+const MIN_BALANCE_VALUE = '100000'
+const GAS_CHECK_DEBOUNCE_TIME = 1000
+const showOutOfGasError = debounce(
+  async props => {
+    const { ok } = await goodWallet.verifyHasGas(web3Utils.toWei(MIN_BALANCE_VALUE, 'gwei'), {
+      topWallet: false,
+    })
+
+    if (!ok) {
+      props.screenProps.navigateTo('OutOfGasError')
+    }
+  },
+  GAS_CHECK_DEBOUNCE_TIME,
+  {
+    maxWait: GAS_CHECK_DEBOUNCE_TIME,
+  }
+)
 
 export type DashboardProps = {
   navigation: any,
@@ -63,12 +88,14 @@ export type DashboardProps = {
   styles?: any,
 }
 const Dashboard = props => {
-  // const MIN_BALANCE_VALUE = '100000'
+  const [animValue] = useState(new Animated.Value(1))
   const store = SimpleStore.useStore()
   const gdstore = GDStore.useStore()
+  const [initDash, setInitDash] = useState(true)
   const [showDialog, hideDialog] = useDialog()
   const [showErrorDialog] = useErrorDialog()
   const { params } = props.navigation.state
+  const [update, setUpdate] = useState(0)
 
   const prepareLoginToken = async () => {
     const loginToken = await userStorage.getProfileFieldValue('loginToken')
@@ -86,19 +113,65 @@ const Dashboard = props => {
     }
   }
 
+  useEffect(() => {
+    if (initDash) {
+      setInitDash(false)
+    }
+  }, [])
+
+  //Service redirects Send/Receive
+  useEffect(() => {
+    const anyParams = extractQueryParams(window.location.href)
+
+    if (anyParams && anyParams.code) {
+      const { screenProps } = props
+      const code = readCode(decodeURI(anyParams.code))
+      routeAndPathForCode('send', code)
+        .then(({ route, params }) => screenProps.push(route, params))
+        .catch(e => {
+          showErrorDialog(null, e, { onDismiss: screenProps.goToRoot })
+        })
+    }
+    if (anyParams && anyParams.paymentCode) {
+      props.navigation.state.params = anyParams
+    }
+  }, [])
+
   const nextFeed = () => {
     return getNextFeed(gdstore)
   }
-  useEffect(() => {
-    prepareLoginToken()
 
+  useEffect(() => {
+    if (props.navigation.state.key === 'Delete') {
+      deleteAccountDialog({ API, showDialog: showErrorDialog, store, theme: props.theme })
+    }
+
+    prepareLoginToken()
     log.debug('Dashboard didmount')
     userStorage.feed.get('byid').on(data => {
       log.debug('gun getFeed callback', { data })
       getInitialFeed(gdstore)
     }, true)
+  }, [])
 
-    // showOutOfGasError()
+  useEffect(() => {
+    const { entitlement } = gdstore.get('account')
+
+    if (Number(entitlement)) {
+      Animated.sequence([
+        Animated.timing(animValue, {
+          toValue: 1.2,
+          duration: 750,
+          easing: Easing.ease,
+          delay: 1000,
+        }),
+        Animated.timing(animValue, {
+          toValue: 1,
+          duration: 750,
+          easing: Easing.ease,
+        }),
+      ]).start()
+    }
   }, [])
 
   useEffect(() => {
@@ -138,20 +211,18 @@ const Dashboard = props => {
     }
   }
 
-  // const showOutOfGasError = async () => {
-  //   const { ok } = await goodWallet.verifyHasGas(web3Utils.toWei(MIN_BALANCE_VALUE, 'gwei'), {
-  //     topWallet: false,
-  //   })
-  //
-  //   if (!ok) {
-  //     props.screenProps.navigateTo('OutOfGasError')
-  //   }
-  // }
+  showOutOfGasError(props)
 
   const handleWithdraw = async () => {
     const { paymentCode, reason } = props.navigation.state.params
+    const { styles }: DashboardProps = props
     try {
-      showDialog({ title: 'Processing Payment Link...', loading: true, buttons: [{ text: 'YAY!' }] })
+      showDialog({
+        title: 'Processing Payment Link...',
+        image: <LoadingIcon />,
+        message: 'please wait while processing...',
+        buttons: [{ text: 'YAY!', style: styles.disabledButton }],
+      })
       await executeWithdraw(store, decodeURI(paymentCode), decodeURI(reason))
       hideDialog()
     } catch (e) {
@@ -165,6 +236,22 @@ const Dashboard = props => {
   const { avatar, fullName } = gdstore.get('profile')
   const feeds = gdstore.get('feeds')
   const [headerLarge, setHeaderLarge] = useState(true)
+  const scale = {
+    transform: [
+      {
+        scale: animValue,
+      },
+    ],
+  }
+
+  useEffect(() => {
+    const debouncedHandleResize = debounce(() => {
+      log.info('update component after resize', update)
+      setUpdate(Date.now())
+    }, 100)
+
+    Dimensions.addEventListener('change', () => debouncedHandleResize())
+  }, [])
 
   return (
     <Wrapper style={styles.dashboardWrapper}>
@@ -199,6 +286,7 @@ const Dashboard = props => {
             icon="send"
             iconAlignment="left"
             routeName="Who"
+            iconSize={20}
             screenProps={screenProps}
             style={styles.leftButton}
             contentStyle={styles.leftButtonContent}
@@ -211,9 +299,12 @@ const Dashboard = props => {
           >
             Send
           </PushButton>
-          <ClaimButton screenProps={screenProps} amount={weiToMask(entitlement, { showUnits: true })} />
+          <Animated.View style={{ zIndex: 1, ...scale }}>
+            <ClaimButton screenProps={screenProps} amount={weiToMask(entitlement, { showUnits: true })} />
+          </Animated.View>
           <PushButton
             icon="receive"
+            iconSize={20}
             iconAlignment="right"
             routeName={'Receive'}
             screenProps={screenProps}
@@ -265,6 +356,7 @@ const Dashboard = props => {
           onEndReached={nextFeed}
           selectedFeed={currentFeed}
           updateData={() => {}}
+          navigation={props.navigation}
         />
       )}
     </Wrapper>
@@ -354,6 +446,9 @@ const getStylesFromProps = ({ theme }) => ({
     marginVertical: theme.sizes.defaultDouble,
     alignItems: 'baseline',
   },
+  disabledButton: {
+    backgroundColor: theme.colors.gray50Percent,
+  },
   bigNumberUnitStyles: {
     marginRight: normalize(-20),
   },
@@ -371,6 +466,7 @@ const WrappedDashboard = withStyles(getStylesFromProps)(Dashboard)
 
 export default createStackNavigator({
   Home: WrappedDashboard,
+  Delete: WrappedDashboard,
   Claim,
   Receive,
   Who: {
@@ -412,4 +508,5 @@ export default createStackNavigator({
   Recover: Mnemonics,
   OutOfGasError,
   Rewards: RewardsTab,
+  Marketplace: config.market ? MarketTab : WrappedDashboard,
 })

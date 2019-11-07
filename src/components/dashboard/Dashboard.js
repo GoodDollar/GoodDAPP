@@ -18,6 +18,7 @@ import { gdToWei, weiToMask } from '../../lib/wallet/utils'
 import { createStackNavigator } from '../appNavigation/stackNavigation'
 
 import type { TransactionEvent } from '../../lib/gundb/UserStorage'
+import userStorage from '../../lib/gundb/UserStorage'
 import goodWallet from '../../lib/wallet/GoodWallet'
 import { PushButton } from '../appNavigation/PushButton'
 import TabsView from '../appNavigation/TabsView'
@@ -27,13 +28,10 @@ import ClaimButton from '../common/buttons/ClaimButton'
 import Section from '../common/layout/Section'
 import Wrapper from '../common/layout/Wrapper'
 import logger from '../../lib/logger/pino-logger'
-import userStorage from '../../lib/gundb/UserStorage'
 import { FAQ, PrivacyArticle, PrivacyPolicy, Support, TermsOfUse } from '../webView/webViewInstances'
 import { withStyles } from '../../lib/styles'
 import Mnemonics from '../signin/Mnemonics'
 import { extractQueryParams, readCode } from '../../lib/share'
-
-// import goodWallet from '../../lib/wallet/GoodWallet'
 import { deleteAccountDialog } from '../sidemenu/SideMenuPanel'
 import config from '../../config/config'
 import LoadingIcon from '../common/modal/LoadingIcon'
@@ -160,13 +158,20 @@ const Dashboard = props => {
     if (anyParams && anyParams.code) {
       const { screenProps } = props
       const code = readCode(decodeURI(anyParams.code))
-      routeAndPathForCode('send', code)
-        .then(({ route, params }) => screenProps.push(route, params))
-        .catch(e => {
-          showErrorDialog('Paymnet link is incorrect. Please double check your link.', null, {
-            onDismiss: screenProps.goToRoot,
-          })
+      userStorage
+        .getProfile('walletAddress')
+        .then(profile => {
+          if (String(profile.walletAddress).toLowerCase() !== String(code.address).toLowerCase()) {
+            routeAndPathForCode('send', code)
+              .then(({ route, params }) => screenProps.push(route, params))
+              .catch(e => {
+                showErrorDialog('Paymnet link is incorrect. Please double check your link.', null, {
+                  onDismiss: screenProps.goToRoot,
+                })
+              })
+          }
         })
+        .catch(e => log.error(e, e.message))
     }
     if (anyParams && anyParams.paymentCode) {
       props.navigation.state.params = anyParams

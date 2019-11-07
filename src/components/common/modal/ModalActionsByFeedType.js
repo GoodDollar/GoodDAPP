@@ -10,16 +10,25 @@ import goodWallet from '../../../lib/wallet/GoodWallet'
 import { generateSendShareObject, generateShareLink } from '../../../lib/share'
 import { useErrorDialog } from '../../../lib/undux/utils/dialog'
 import { withStyles } from '../../../lib/styles'
+import Text from '../view/Text'
+import GDStore from '../../../lib/undux/GDStore'
+import { CLICK_BTN_CARD_ACTION, fireEvent } from '../../../lib/analytics/analytics'
 
 const log = logger.child({ from: 'ModalActionsByFeed' })
 
-const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose }) => {
+const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose, navigation }) => {
   const [showErrorDialog] = useErrorDialog()
   const [state, setState] = useState({})
+  const store = GDStore.useStore()
+  const currentUserName = store.get('profile').fullName
+
+  const fireEventAnalytics = actionType => {
+    fireEvent(CLICK_BTN_CARD_ACTION, { cardId: item.id, actionType })
+  }
 
   const cancelPayment = async () => {
     log.info({ item, action: 'cancelPayment' })
-
+    fireEventAnalytics('cancelPayment')
     if (item.status === 'pending') {
       // if status is 'pending' trying to cancel a tx that doesn't exist will fail and may confuse the user
       showErrorDialog("Current transaction is still pending, it can't be cancelled right now")
@@ -47,52 +56,61 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose }) => {
 
   const getPaymentLink = () => {
     const url = generateShareLink('send', {
-      paymentCode: item.id,
+      paymentCode: item.data.withdrawCode,
       reason: item.data.message,
     })
-    return generateSendShareObject(url, item.data.amount, item.data.endpoint.fullName, '')
+    fireEventAnalytics('Sharelink')
+    return generateSendShareObject(url, item.data.amount, item.data.endpoint.fullName, currentUserName)
   }
 
   const readMore = () => {
+    fireEventAnalytics('readMore')
     log.info({ item, action: 'readMore' })
     handleModalClose()
   }
   const shareMessage = () => {
+    fireEventAnalytics('shareMessage')
     log.info({ item, action: 'shareMessage' })
     handleModalClose()
   }
   const invitePeople = () => {
-    log.info({ item, action: 'invitePeople' })
+    fireEventAnalytics('Rewards')
+    navigation.navigate('Rewards')
     handleModalClose()
   }
 
+  const Marketplace = () => {
+    navigation.navigate('Marketplace')
+    handleModalClose()
+  }
+  const backupPage = () => {
+    fireEventAnalytics('BackupWallet')
+    navigation.navigate('BackupWallet')
+    handleModalClose()
+  }
   switch (item.displayType) {
     case 'sendpending':
       return (
         <>
-          <View style={styles.buttonsView}>
-            <View style={styles.rightButtonContainer}>
-              <CustomButton
-                mode="outlined"
-                style={[styles.button, { borderColor: theme.colors.red }]}
-                onPress={cancelPayment}
-                color={theme.colors.red}
-                loading={state.cancelPaymentLoading}
-                textStyle={styles.buttonTextStyle}
-              >
-                Cancel payment link
-              </CustomButton>
-            </View>
-            <View style={styles.rightButtonContainer}>
-              <ShareButton
-                share={getPaymentLink()}
-                actionText="Share as link"
-                mode="outlined"
-                style={styles.rightButton}
-                iconColor={theme.colors.primary}
-                textStyle={styles.buttonTextStyle}
-              />
-            </View>
+          <View style={[styles.buttonsView, styles.spaceBetween]}>
+            <CustomButton
+              mode="outlined"
+              style={[styles.button, styles.cancelButton, { borderColor: theme.colors.red }]}
+              onPress={cancelPayment}
+              color={theme.colors.red}
+              loading={state.cancelPaymentLoading}
+              textStyle={styles.buttonTextStyle}
+            >
+              Cancel link
+            </CustomButton>
+            <ShareButton
+              share={getPaymentLink()}
+              actionText="Share link"
+              mode="outlined"
+              style={[styles.rightButton, styles.shareButton]}
+              iconColor={theme.colors.primary}
+              textStyle={styles.buttonTextStyle}
+            />
           </View>
           <View style={styles.buttonsView}>
             <View style={styles.rightButtonContainer}>
@@ -123,18 +141,55 @@ const ModalActionsByFeedType = ({ theme, styles, item, handleModalClose }) => {
         <View style={styles.buttonsView}>
           <View style={styles.rightButtonContainer}>
             <CustomButton mode="text" style={styles.button} onPress={handleModalClose}>
-              Later
+              <Text fontSize={14} color="gray80Percent" fontFamily="Roboto">
+                LATER
+              </Text>
             </CustomButton>
           </View>
           <View style={styles.rightButtonContainer}>
             <CustomButton
               mode="contained"
-              style={styles.rightButton}
+              style={styles.button}
               onPress={invitePeople}
               iconAlignment="right"
+              iconSize={20}
               icon="invite"
+              iconStyle={styles.iconStyle}
             >
-              Invite
+              <Text fontSize={14} color="#FFFFFF" fontFamily="Roboto">
+                INVITE
+              </Text>
+            </CustomButton>
+          </View>
+        </View>
+      )
+    case 'spending':
+      return (
+        <View style={styles.buttonsView}>
+          <View style={styles.rightButtonContainer}>
+            <CustomButton mode="text" style={styles.button} onPress={handleModalClose}>
+              <Text fontSize={14} color="gray80Percent" fontFamily="Roboto">
+                LATER
+              </Text>
+            </CustomButton>
+          </View>
+          <View style={styles.rightButtonContainer}>
+            <CustomButton mode="contained" style={styles.button} onPress={Marketplace} iconAlignment="right">
+              <Text fontSize={14} color="#FFFFFF" fontFamily="Roboto">
+                {"LET'S GO"}
+              </Text>
+            </CustomButton>
+          </View>
+        </View>
+      )
+    case 'backup':
+      return (
+        <View style={styles.buttonsView}>
+          <View style={styles.rightButtonContainer}>
+            <CustomButton mode="contained" style={styles.button} onPress={backupPage}>
+              <Text fontSize={14} color="#FFFFFF" fontFamily="Roboto">
+                {"LET'S BACKUP"}
+              </Text>
             </CustomButton>
           </View>
         </View>
@@ -167,12 +222,26 @@ const getStylesFromProps = ({ theme }) => ({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    marginTop: 'auto',
+    marginTop: theme.sizes.defaultHalf,
     flexWrap: 'wrap',
     marginHorizontal: -theme.sizes.defaultHalf,
+    width: '100%',
+  },
+  spaceBetween: {
+    justifyContent: 'space-between',
+  },
+  shareButton: {
+    width: '48%',
+  },
+  cancelButton: {
+    width: '48%',
   },
   button: {
     minWidth: 96,
+  },
+  iconStyle: {
+    marginLeft: theme.sizes.defaultHalf,
+    marginBottom: 3,
   },
   rightButton: {
     minWidth: 96,

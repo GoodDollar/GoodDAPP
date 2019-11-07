@@ -126,6 +126,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "red": "#FA6C77",
               "surface": "#ffffff",
               "text": "#222",
+              "white": "#ffffff",
             },
             "dark": false,
             "feedItems": Object {
@@ -168,6 +169,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "defaultDouble": 16,
               "defaultHalf": 4,
               "defaultQuadruple": 32,
+              "maxHeightForTabletAndDesktop": 844,
             },
           }
         }
@@ -265,6 +267,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "red": "#FA6C77",
               "surface": "#ffffff",
               "text": "#222",
+              "white": "#ffffff",
             },
             "dark": false,
             "feedItems": Object {
@@ -307,6 +310,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "defaultDouble": 16,
               "defaultHalf": 4,
               "defaultQuadruple": 32,
+              "maxHeightForTabletAndDesktop": 844,
             },
           }
         }
@@ -404,6 +408,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "red": "#FA6C77",
               "surface": "#ffffff",
               "text": "#222",
+              "white": "#ffffff",
             },
             "dark": false,
             "feedItems": Object {
@@ -446,6 +451,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "defaultDouble": 16,
               "defaultHalf": 4,
               "defaultQuadruple": 32,
+              "maxHeightForTabletAndDesktop": 844,
             },
           }
         }
@@ -543,6 +549,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "red": "#FA6C77",
               "surface": "#ffffff",
               "text": "#222",
+              "white": "#ffffff",
             },
             "dark": false,
             "feedItems": Object {
@@ -585,6 +592,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "defaultDouble": 16,
               "defaultHalf": 4,
               "defaultQuadruple": 32,
+              "maxHeightForTabletAndDesktop": 844,
             },
           }
         }
@@ -682,6 +690,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "red": "#FA6C77",
               "surface": "#ffffff",
               "text": "#222",
+              "white": "#ffffff",
             },
             "dark": false,
             "feedItems": Object {
@@ -724,6 +733,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "defaultDouble": 16,
               "defaultHalf": 4,
               "defaultQuadruple": 32,
+              "maxHeightForTabletAndDesktop": 844,
             },
           }
         }
@@ -821,6 +831,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "red": "#FA6C77",
               "surface": "#ffffff",
               "text": "#222",
+              "white": "#ffffff",
             },
             "dark": false,
             "feedItems": Object {
@@ -863,6 +874,7 @@ exports[`OtpInput empty matches snapshot 1`] = `
               "defaultDouble": 16,
               "defaultHalf": 4,
               "defaultQuadruple": 32,
+              "maxHeightForTabletAndDesktop": 844,
             },
           }
         }
@@ -1001,6 +1013,7 @@ exports[`OtpInput matches snapshot 1`] = `
               "red": "#FA6C77",
               "surface": "#ffffff",
               "text": "#222",
+              "white": "#ffffff",
             },
             "dark": false,
             "feedItems": Object {
@@ -1043,6 +1056,7 @@ exports[`OtpInput matches snapshot 1`] = `
               "defaultDouble": 16,
               "defaultHalf": 4,
               "defaultQuadruple": 32,
+              "maxHeightForTabletAndDesktop": 844,
             },
           }
         }
@@ -1141,6 +1155,7 @@ exports[`OtpInput matches snapshot 1`] = `
               "red": "#FA6C77",
               "surface": "#ffffff",
               "text": "#222",
+              "white": "#ffffff",
             },
             "dark": false,
             "feedItems": Object {
@@ -1183,6 +1198,7 @@ exports[`OtpInput matches snapshot 1`] = `
               "defaultDouble": 16,
               "defaultHalf": 4,
               "defaultQuadruple": 32,
+              "maxHeightForTabletAndDesktop": 844,
             },
           }
         }
@@ -1281,6 +1297,7 @@ exports[`OtpInput matches snapshot 1`] = `
               "red": "#FA6C77",
               "surface": "#ffffff",
               "text": "#222",
+              "white": "#ffffff",
             },
             "dark": false,
             "feedItems": Object {
@@ -1323,6 +1340,7 @@ exports[`OtpInput matches snapshot 1`] = `
               "defaultDouble": 16,
               "defaultHalf": 4,
               "defaultQuadruple": 32,
+              "maxHeightForTabletAndDesktop": 844,
             },
           }
         }
@@ -1421,6 +1439,7 @@ exports[`OtpInput matches snapshot 1`] = `
               "red": "#FA6C77",
               "surface": "#ffffff",
               "text": "#222",
+              "white": "#ffffff",
             },
             "dark": false,
             "feedItems": Object {
@@ -1463,6 +1482,7 @@ exports[`OtpInput matches snapshot 1`] = `
               "defaultDouble": 16,
               "defaultHalf": 4,
               "defaultQuadruple": 32,
+              "maxHeightForTabletAndDesktop": 844,
             },
           }
         }
@@ -1561,6 +1581,7 @@ exports[`OtpInput matches snapshot 1`] = `
               "red": "#FA6C77",
               "surface": "#ffffff",
               "text": "#222",
+              "white": "#ffffff",
             },
             "dark": false,
             "feedItems": Object {
@@ -1603,6 +1624,7 @@ exports[`OtpInput matches snapshot 1`] = `
               "defaultDouble": 16,
               "defaultHalf": 4,
               "defaultQuadruple": 32,
+              "maxHeightForTabletAndDesktop": 844,
             },
           }
         }
@@ -1701,6 +1723,7 @@ exports[`OtpInput matches snapshot 1`] = `
               "red": "#FA6C77",
               "surface": "#ffffff",
               "text": "#222",
+              "white": "#ffffff",
             },
             "dark": false,
             "feedItems": Object {
@@ -1743,6 +1766,7 @@ exports[`OtpInput matches snapshot 1`] = `
               "defaultDouble": 16,
               "defaultHalf": 4,
               "defaultQuadruple": 32,
+              "maxHeightForTabletAndDesktop": 844,
             },
           }
         }
@@ -1881,6 +1905,7 @@ exports[`OtpInput number matches snapshot 1`] = `
               "red": "#FA6C77",
               "surface": "#ffffff",
               "text": "#222",
+              "white": "#ffffff",
             },
             "dark": false,
             "feedItems": Object {
@@ -1923,6 +1948,7 @@ exports[`OtpInput number matches snapshot 1`] = `
               "defaultDouble": 16,
               "defaultHalf": 4,
               "defaultQuadruple": 32,
+              "maxHeightForTabletAndDesktop": 844,
             },
           }
         }
@@ -2021,6 +2047,7 @@ exports[`OtpInput number matches snapshot 1`] = `
               "red": "#FA6C77",
               "surface": "#ffffff",
               "text": "#222",
+              "white": "#ffffff",
             },
             "dark": false,
             "feedItems": Object {
@@ -2063,6 +2090,7 @@ exports[`OtpInput number matches snapshot 1`] = `
               "defaultDouble": 16,
               "defaultHalf": 4,
               "defaultQuadruple": 32,
+              "maxHeightForTabletAndDesktop": 844,
             },
           }
         }
@@ -2161,6 +2189,7 @@ exports[`OtpInput number matches snapshot 1`] = `
               "red": "#FA6C77",
               "surface": "#ffffff",
               "text": "#222",
+              "white": "#ffffff",
             },
             "dark": false,
             "feedItems": Object {
@@ -2203,6 +2232,7 @@ exports[`OtpInput number matches snapshot 1`] = `
               "defaultDouble": 16,
               "defaultHalf": 4,
               "defaultQuadruple": 32,
+              "maxHeightForTabletAndDesktop": 844,
             },
           }
         }
@@ -2301,6 +2331,7 @@ exports[`OtpInput number matches snapshot 1`] = `
               "red": "#FA6C77",
               "surface": "#ffffff",
               "text": "#222",
+              "white": "#ffffff",
             },
             "dark": false,
             "feedItems": Object {
@@ -2343,6 +2374,7 @@ exports[`OtpInput number matches snapshot 1`] = `
               "defaultDouble": 16,
               "defaultHalf": 4,
               "defaultQuadruple": 32,
+              "maxHeightForTabletAndDesktop": 844,
             },
           }
         }
@@ -2441,6 +2473,7 @@ exports[`OtpInput number matches snapshot 1`] = `
               "red": "#FA6C77",
               "surface": "#ffffff",
               "text": "#222",
+              "white": "#ffffff",
             },
             "dark": false,
             "feedItems": Object {
@@ -2483,6 +2516,7 @@ exports[`OtpInput number matches snapshot 1`] = `
               "defaultDouble": 16,
               "defaultHalf": 4,
               "defaultQuadruple": 32,
+              "maxHeightForTabletAndDesktop": 844,
             },
           }
         }
@@ -2581,6 +2615,7 @@ exports[`OtpInput number matches snapshot 1`] = `
               "red": "#FA6C77",
               "surface": "#ffffff",
               "text": "#222",
+              "white": "#ffffff",
             },
             "dark": false,
             "feedItems": Object {
@@ -2623,6 +2658,7 @@ exports[`OtpInput number matches snapshot 1`] = `
               "defaultDouble": 16,
               "defaultHalf": 4,
               "defaultQuadruple": 32,
+              "maxHeightForTabletAndDesktop": 844,
             },
           }
         }

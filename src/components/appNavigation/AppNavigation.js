@@ -45,6 +45,10 @@ const AppNavigation = ({ navigation }: AppNavigationProps) => {
   useEffect(() => {
     if (account.ready === false) {
       store.set('loadingIndicator')({ loading: true })
+
+      setTimeout(() => {
+        store.set('addWebApp')({ ...store.get('addWebApp'), show: true })
+      }, 2000)
     } else {
       store.set('loadingIndicator')({ loading: false })
     }

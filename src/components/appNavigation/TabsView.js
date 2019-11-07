@@ -8,6 +8,7 @@ import userStorage from '../../lib/gundb/UserStorage'
 import RewardSvg from '../../components/common/view/RewardSvg'
 import MarketPlaceSvg from '../../components/common/view/MarketPlaceSvg'
 import config from '../../config/config'
+import { withStyles } from '../../lib/styles'
 
 type TabViewProps = {
   routes: { [string]: any },
@@ -50,7 +51,7 @@ type TabViewProps = {
 // )
 
 const TabsView = (props: TabViewProps) => {
-  const { navigation } = props
+  const { navigation, styles } = props
   const store = SimpleStore.useStore()
 
   const goToRewards = () => {
@@ -69,8 +70,8 @@ const TabsView = (props: TabViewProps) => {
         <RewardSvg />
       </TouchableOpacity>
       <Appbar.Content />
-      {(config.market || config.isEToro) && (
-        <TouchableOpacity onPress={goToMarketplace}>
+      {config.market && (
+        <TouchableOpacity onPress={goToMarketplace} style={styles.marketIconBackground}>
           <MarketPlaceSvg />
         </TouchableOpacity>
       )}
@@ -80,4 +81,16 @@ const TabsView = (props: TabViewProps) => {
   )
 }
 
-export default TabsView
+const styles = ({ theme }) => ({
+  marketIconBackground: {
+    backgroundColor: theme.colors.green,
+    borderWidth: 3,
+    borderStyle: 'solid',
+    borderColor: 'white',
+    borderRadius: '50%',
+    paddingVertical: 8,
+    paddingHorizontal: 4,
+  },
+})
+
+export default withStyles(styles)(TabsView)

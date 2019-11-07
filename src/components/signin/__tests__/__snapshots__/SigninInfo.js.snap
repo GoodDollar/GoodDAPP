@@ -514,7 +514,7 @@ exports[`SigninInfo matches snapshot 1`] = `
                   "flexShrink": 0,
                   "marginBottom": "30px",
                   "marginTop": "30px",
-                  "maxHeight": "175px",
+                  "maxHeight": "142px",
                   "maxWidth": "100%",
                   "minHeight": "95px",
                   "msFlexNegative": 0,
@@ -840,12 +840,12 @@ exports[`SigninInfo matches snapshot 1`] = `
                           dir="auto"
                           style={
                             Object {
-                              "color": "rgba(0,195,174,1.00)",
+                              "color": "rgba(66,69,74,1.00)",
                               "direction": "ltr",
                               "fontFamily": "Roboto",
-                              "fontSize": "16px",
+                              "fontSize": "18px",
                               "fontWeight": "700",
-                              "lineHeight": "22px",
+                              "lineHeight": "24px",
                               "textAlign": "center",
                               "textDecoration": "none",
                               "textTransform": "none",
@@ -942,19 +942,18 @@ exports[`SigninInfo matches snapshot 1`] = `
                           }
                         }
                       >
-                        Click the
-                         
+                        Click the 
                         <span
                           className="css-text-901oao css-textHasAncestor-16my406"
                           dir="auto"
                           style={
                             Object {
-                              "color": "rgba(0,195,174,1.00)",
+                              "color": "rgba(66,69,74,1.00)",
                               "direction": "ltr",
                               "fontFamily": "Roboto",
-                              "fontSize": "16px",
+                              "fontSize": "18px",
                               "fontWeight": "700",
-                              "lineHeight": "22px",
+                              "lineHeight": "24px",
                               "textAlign": "center",
                               "textDecoration": "none",
                               "textTransform": "none",
@@ -1038,6 +1037,77 @@ exports[`SigninInfo matches snapshot 1`] = `
                 }
               >
                 Or, recover from pass phrase
+              </div>
+            </div>
+          </div>
+          <div
+            className="css-view-1dbjc4n"
+            style={
+              Object {
+                "WebkitAlignItems": "center",
+                "WebkitBoxAlign": "center",
+                "WebkitBoxDirection": "normal",
+                "WebkitBoxOrient": "horizontal",
+                "WebkitBoxPack": "center",
+                "WebkitFlexDirection": "row",
+                "WebkitJustifyContent": "center",
+                "alignItems": "center",
+                "flexDirection": "row",
+                "justifyContent": "center",
+                "msFlexAlign": "center",
+                "msFlexDirection": "row",
+                "msFlexPack": "center",
+              }
+            }
+          >
+            <div
+              className="css-view-1dbjc4n"
+              data-focusable={true}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                Object {
+                  "MozTransitionProperty": "opacity",
+                  "MozUserSelect": "none",
+                  "WebkitTransitionDuration": "0.15s",
+                  "WebkitTransitionProperty": "opacity",
+                  "WebkitUserSelect": "none",
+                  "cursor": "pointer",
+                  "msTouchAction": "manipulation",
+                  "msUserSelect": "none",
+                  "touchAction": "manipulation",
+                  "transitionDuration": "0.15s",
+                  "transitionProperty": "opacity",
+                  "userSelect": "none",
+                }
+              }
+              tabIndex="0"
+            >
+              <div
+                className="css-text-901oao"
+                dir="auto"
+                style={
+                  Object {
+                    "color": "rgba(0,175,255,1.00)",
+                    "direction": "ltr",
+                    "fontFamily": "Roboto",
+                    "fontSize": "14px",
+                    "fontWeight": "500",
+                    "lineHeight": "20px",
+                    "marginBottom": "24px",
+                    "textAlign": "center",
+                    "textDecoration": "underline",
+                    "textTransform": "none",
+                  }
+                }
+              >
+                Still having issues? contact support
               </div>
             </div>
           </div>

@@ -221,8 +221,8 @@ exports[`Amount matches snapshot 1`] = `
               }
             }
           >
-            Welcome to your
-financial future!
+            Welcome to
+GoodDollar Wallet
           </div>
           <div
             className="css-view-1dbjc4n"

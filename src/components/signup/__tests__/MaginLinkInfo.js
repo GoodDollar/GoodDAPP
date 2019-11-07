@@ -5,13 +5,11 @@ import renderer from 'react-test-renderer'
 import { withThemeProvider } from '../../../__tests__/__util__'
 import { StoresWrapper } from '../../../lib/undux/utils/storeswrapper.js'
 
-// Note: test renderer must be required after react-native.
+import MagicLinkInfo from '../MagicLinkInfo'
 
-import SmsForm from '../SmsForm'
-
-describe('SmsForm', () => {
+describe('Sign Up Magic Link Info Screen', () => {
   it('renders without errors', () => {
-    const WebRouter = withThemeProvider(createBrowserApp(createSwitchNavigator({ SMS: SmsForm })))
+    const WebRouter = withThemeProvider(createBrowserApp(createSwitchNavigator({ MagicLinkInfo })))
     const tree = renderer.create(
       <StoresWrapper>
         <WebRouter />
@@ -21,7 +19,7 @@ describe('SmsForm', () => {
   })
 
   it('matches snapshot', () => {
-    const WebRouter = withThemeProvider(createBrowserApp(createSwitchNavigator({ SMS: SmsForm })))
+    const WebRouter = withThemeProvider(createBrowserApp(createSwitchNavigator({ MagicLinkInfo })))
     const component = renderer.create(
       <StoresWrapper>
         <WebRouter />

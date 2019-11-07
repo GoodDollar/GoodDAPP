@@ -71,7 +71,7 @@ const navBarStyles = {
 
 const NavigationBar = navigate => (
   <Appbar.Header dark style={navBarStyles.wrapper}>
-    <Section.Text color="white" fontWeight="bold" style={navBarStyles.title}>
+    <Section.Text color="white" fontWeight="medium" style={navBarStyles.title}>
       {'GOODMARKET'}
     </Section.Text>
     <TouchableOpacity onPress={() => navigate('Home')} style={navBarStyles.walletIcon}>

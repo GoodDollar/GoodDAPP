@@ -201,19 +201,6 @@ const Claim = props => {
 
   // Claim STATS
   useEffect(() => {
-    showDialog({
-      content: <ContentLoadClaim styles={styles} />,
-      showButtons: false,
-      loading,
-    })
-    setTimeout(() => {
-      showDialog({
-        content: <ContentLoadClaim styles={styles} type={'success'} />,
-        buttons: [{ text: 'Yay!' }],
-        onDismiss: () => screenProps.goToRoot(),
-      })
-    }, 3000)
-
     if (entitlement === undefined) {
       return
     }

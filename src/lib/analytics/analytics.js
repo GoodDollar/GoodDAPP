@@ -47,6 +47,7 @@ export const initAnalytics = async (goodWallet: GoodWallet, userStorage: UserSto
       captureUnhandledRejections: true,
       payload: {
         environment: Config.env,
+        codeVersion: Config.version,
         person: {
           id: emailOrId,
           identifier,
@@ -58,6 +59,7 @@ export const initAnalytics = async (goodWallet: GoodWallet, userStorage: UserSto
   if (global.amplitude && Config.amplitudeKey) {
     Amplitude = global.amplitude.getInstance()
     Amplitude.init(Config.amplitudeKey)
+    Amplitude.setVersionName(Config.version)
     if (Amplitude) {
       const created = new Amplitude.Identify().setOnce('first_open_date', new Date().toString())
       if (email) {
@@ -90,16 +92,6 @@ export const fireEvent = (event: string, data: any = {}) => {
     return
   }
 
-  switch (event) {
-    case ERROR_LOG:
-      data = { reason: data && data[1] ? data[1] : '' }
-      break
-
-    default:
-      break
-  }
-
-  data.version = Config.version
   let res = Amplitude.logEvent(event, data)
 
   if (res === undefined) {
@@ -130,7 +122,7 @@ const patchLogger = () => {
   global.logger.error = function() {
     let [logContext, logMessage, eMsg, errorObj, ...rest] = arguments
     if (arguments[1] && arguments[1].indexOf('axios') == -1) {
-      debounceFireEvent('ERROR_LOG', arguments)
+      debounceFireEvent(ERROR_LOG, { reason: logMessage || eMsg, logContext })
     }
     if (global.Rollbar && Config.env !== 'test') {
       global.Rollbar.error(logMessage, errorObj, { logContext, eMsg, rest })

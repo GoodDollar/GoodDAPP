@@ -112,24 +112,17 @@ const AddWebApp = props => {
   const [skipCount, setSkipCount] = useState(0)
   const [lastClaim, setLastClaim] = useState()
   const [dialogShown, setDialogShown] = useState()
-  const [isStandalone, setStandalone] = useState(false)
   const store = SimpleStore.useStore()
   const [showDialog] = useDialog()
   const { show } = store.get('addWebApp')
 
   useEffect(() => {
-    if (
-      (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) ||
-      window.navigator.standalone === true
-    ) {
-      setStandalone(true)
-    }
     AsyncStorage.getItem('GD_AddWebAppLastCheck').then(setLastCheck)
     AsyncStorage.getItem('GD_AddWebAppNextCheck').then(setNextCheck)
     AsyncStorage.getItem('GD_AddWebAppSkipCount').then(sc => setSkipCount(Number(sc)))
     AsyncStorage.getItem('GD_AddWebAppLastClaim').then(setLastClaim)
 
-    if (!isStandalone) {
+    if (isWebApp === false) {
       log.debug('useEffect, registering beforeinstallprompt')
 
       const installPrompt = store.get('installPrompt')
@@ -218,29 +211,13 @@ const AddWebApp = props => {
   }
 
   useEffect(() => {
-    log.debug('useEffect, registering beforeinstallprompt')
-
-    window.addEventListener('beforeinstallprompt', e => {
-      // For older browsers
-      e.preventDefault()
-      log.debug('Install Prompt fired')
-
-      // See if the app is already installed, in that case, do nothing
-      if (isWebApp) {
-        return
-      }
-      setInstallPrompt(e)
-    })
-  }, [])
-
-  useEffect(() => {
     if (dialogShown) {
       showInitialDialog()
     }
   }, [dialogShown])
 
   useEffect(() => {
-    if (isStandalone) {
+    if (isWebApp) {
       return
     }
 

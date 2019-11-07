@@ -1,22 +1,57 @@
 import React, { useEffect } from 'react'
 import { AsyncStorage } from 'react-native'
 import bip39 from 'bip39-light'
+import API from './lib/API/api'
 import { DESTINATION_PATH } from './lib/constants/localStorage'
 import SimpleStore from './lib/undux/SimpleStore'
 import Splash from './components/splash/Splash'
 import { delay } from './lib/utils/async'
 import { extractQueryParams } from './lib/share/index'
 import logger from './lib/logger/pino-logger'
+import { fireEvent, initAnalytics, SIGNIN_FAILED, SIGNIN_SUCCESS } from './lib/analytics/analytics'
+import Config from './config/config'
 
 const log = logger.child({ from: 'RouterSelector' })
+log.debug({ Config })
+
+/**
+ * Don't start app if server isn't responding
+ */
+const apiReady = async () => {
+  try {
+    await API.ready
+    const res = await Promise.race([
+      API.auth()
+        .then(_ => true)
+        .catch(_ => _.message !== 'Network Error'),
+      delay(3000).then(_ => 'timeout'),
+    ])
+    log.debug({ res })
+    if (res !== true) {
+      await delay(3000)
+      return apiReady()
+    }
+    return
+  } catch (e) {
+    log.debug('apiReady:', e.message)
+    await delay(3000)
+
+    // return apiReady()
+  }
+}
 
 // import Router from './SignupRouter'
 let SignupRouter = React.lazy(() =>
-  Promise.all([
-    import(/* webpackChunkName: "signuprouter" */ './SignupRouter'),
-    recoverByMagicLink(),
-    delay(2000),
-  ]).then(r => r[0])
+  initAnalytics()
+    .then(_ =>
+      Promise.all([
+        import(/* webpackChunkName: "signuprouter" */ './SignupRouter'),
+        apiReady(),
+        recoverByMagicLink(),
+        delay(2000),
+      ])
+    )
+    .then(r => r[0])
 )
 
 /**
@@ -25,26 +60,32 @@ let SignupRouter = React.lazy(() =>
  * @returns {Promise<boolean>}
  */
 const recoverByMagicLink = async () => {
-  const { magiclink } = extractQueryParams(window.location.href)
-  if (magiclink) {
-    let userNameAndPWD = Buffer.from(magiclink, 'base64').toString('ascii')
-    let userNameAndPWDArray = userNameAndPWD.split('+')
-    log.debug('recoverByMagicLink', { magiclink, userNameAndPWDArray })
-    if (userNameAndPWDArray.length === 2) {
-      const userName = userNameAndPWDArray[0]
-      const userPwd = userNameAndPWDArray[1]
-      const UserStorage = await import('./lib/gundb/UserStorageClass').then(_ => _.UserStorage)
+  try {
+    const { magiclink } = extractQueryParams(window.location.href)
+    if (magiclink) {
+      let userNameAndPWD = Buffer.from(magiclink, 'base64').toString('ascii')
+      let userNameAndPWDArray = userNameAndPWD.split('+')
+      log.debug('recoverByMagicLink', { magiclink, userNameAndPWDArray })
+      if (userNameAndPWDArray.length === 2) {
+        const userName = userNameAndPWDArray[0]
+        const userPwd = userNameAndPWDArray[1]
+        const UserStorage = await import('./lib/gundb/UserStorageClass').then(_ => _.UserStorage)
 
-      const mnemonic = await UserStorage.getMnemonic(userName, userPwd)
+        const mnemonic = await UserStorage.getMnemonic(userName, userPwd)
 
-      if (mnemonic && bip39.validateMnemonic(mnemonic)) {
-        const mnemonicsHelpers = import('./lib/wallet/SoftwareWalletProvider')
-        const { saveMnemonics } = await mnemonicsHelpers
-        await saveMnemonics(mnemonic)
-        await AsyncStorage.setItem('GOODDAPP_isLoggedIn', true)
-        window.location = '/'
+        if (mnemonic && bip39.validateMnemonic(mnemonic)) {
+          const mnemonicsHelpers = import('./lib/wallet/SoftwareWalletProvider')
+          const { saveMnemonics } = await mnemonicsHelpers
+          await saveMnemonics(mnemonic)
+          await AsyncStorage.setItem('GOODDAPP_isLoggedIn', true)
+          fireEvent(SIGNIN_SUCCESS)
+          window.location = '/'
+        }
       }
     }
+  } catch (e) {
+    log.error('Magiclink signin failed', e.message, e)
+    fireEvent(SIGNIN_FAILED)
   }
 }
 
@@ -52,12 +93,12 @@ let AppRouter = React.lazy(() => {
   log.debug('initializing storage and wallet...')
   let walletAndStorageReady = import(/* webpackChunkName: "init" */ './init')
   let p2 = walletAndStorageReady.then(({ init, _ }) => init()).then(_ => log.debug('storage and wallet ready'))
-  return Promise.all([p2, import(/* webpackChunkName: "router" */ './Router')])
+  return Promise.all([p2, apiReady(), import(/* webpackChunkName: "router" */ './Router')])
     .then(r => {
       log.debug('router ready')
       return r
     })
-    .then(r => r[1])
+    .then(r => r[2])
 })
 
 const RouterSelector = () => {

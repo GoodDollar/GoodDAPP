@@ -330,7 +330,7 @@ const Claim = props => {
               style={styles.countdown}
             />
           )}
-
+          <View style={styles.space} />
           <ClaimButton
             isCitizen={isCitizen}
             entitlement={state.entitlement}
@@ -455,9 +455,11 @@ const getStylesFromProps = ({ theme }) => {
       display: 'inline',
     },
     countdown: {
-      marginBottom: theme.sizes.defaultDouble,
       minHeight: getDesignRelativeHeight(72),
       borderRadius: 5,
+    },
+    space: {
+      height: 16,
     },
   }
 }

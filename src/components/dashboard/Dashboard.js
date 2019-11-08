@@ -159,31 +159,30 @@ const Dashboard = props => {
       return false
     }
   }
-
-  //Service redirects Send/Receive
-  useEffect(() => {
-    const checkCode = async () => {
-      if (anyParams && anyParams.code) {
-        const { screenProps } = props
-        const code = readCode(decodeURI(anyParams.code))
-        if (!(await isTheSameUser(code))) {
-          try {
-            const { route, params } = await routeAndPathForCode('send', code)
-            screenProps.push(route, params)
-          } catch (e) {
-            showErrorDialog('Paymnet link is incorrect. Please double check your link.', null, {
-              onDismiss: screenProps.goToRoot,
-            })
-          }
+  const checkCode = async anyParams => {
+    if (anyParams && anyParams.code) {
+      const { screenProps } = props
+      const code = readCode(decodeURI(anyParams.code))
+      if (!(await isTheSameUser(code))) {
+        try {
+          const { route, params } = await routeAndPathForCode('send', code)
+          screenProps.push(route, params)
+        } catch (e) {
+          showErrorDialog('Paymnet link is incorrect. Please double check your link.', null, {
+            onDismiss: screenProps.goToRoot,
+          })
         }
       }
     }
+  }
 
+  //Service redirects Send/Receive
+  useEffect(() => {
     const anyParams = extractQueryParams(window.location.href)
     if (anyParams && anyParams.paymentCode) {
       props.navigation.state.params = anyParams
     } else {
-      checkCode()
+      checkCode(anyParams).catch(e => log.error(e, e.message))
     }
   }, [])
 

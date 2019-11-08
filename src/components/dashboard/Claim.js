@@ -175,6 +175,22 @@ const Claim = props => {
 
   // Claim STATS
   useEffect(() => {
+    showDialog({
+      image: <LoadingIcon />,
+      loading,
+      message: 'please wait while processing...',
+      showButtons: false,
+      title: `YOUR MONEY\nIS ON ITS WAY...`,
+    })
+    setTimeout(() => {
+      showDialog({
+        buttons: [{ text: 'Yay!' }],
+        message: `You've claimed your daily G$\nsee you tomorrow.`,
+        title: 'CHA-CHING!',
+        type: 'success',
+        onDismiss: () => screenProps.goToRoot(),
+      })
+    }, 3000)
     if (entitlement === undefined) {
       return
     }
@@ -218,7 +234,7 @@ const Claim = props => {
         showDialog({
           buttons: [{ text: 'Yay!' }],
           message: `You've claimed your daily G$\nsee you tomorrow.`,
-          title: 'CHA-CHING!\n',
+          title: 'CHA-CHING!',
           type: 'success',
           onDismiss: () => screenProps.goToRoot(),
         })
@@ -364,28 +380,6 @@ const getStylesFromProps = ({ theme }) => {
       paddingVertical: 0,
       paddingHorizontal: 0,
       justifyContent: 'space-between',
-    },
-    blockTitle: {
-      paddingTop: 20,
-      paddingBottom: 20,
-      height: 100,
-    },
-    contentLoadClaim: {
-      minHeight: 330,
-    },
-
-    blockMessageLoading: {
-      paddingTop: 20,
-      paddingBottom: 20,
-      height: 94,
-    },
-    blockMessage: {
-      paddingTop: 20,
-      paddingBottom: 20,
-      height: 50,
-    },
-    disabledButton: {
-      backgroundColor: theme.colors.gray50Percent,
     },
     mainText: {
       alignItems: 'center',

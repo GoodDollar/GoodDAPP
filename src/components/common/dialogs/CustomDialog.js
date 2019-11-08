@@ -17,7 +17,6 @@ export type DialogProps = {
   image?: any,
   loading?: boolean,
   message?: string,
-  wrapperStyles?: any,
   boldMessage?: any,
   onCancel?: () => void,
   onDismiss?: () => void,
@@ -56,7 +55,6 @@ const CustomDialog = ({
   content,
   buttons,
   showAtBottom,
-  wrapperStyles,
 }: DialogProps) => {
   const defaultImage = type === 'error' ? <ErrorIcon /> : <SuccessIcon />
   const modalColor = getColorFromType(type)
@@ -71,7 +69,6 @@ const CustomDialog = ({
         showAtBottom={showAtBottom}
         showTooltipArrow={showTooltipArrow}
         itemType={'custom'}
-        style={wrapperStyles}
       >
         <React.Fragment>
           {title && (

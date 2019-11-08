@@ -150,7 +150,7 @@ class Auth extends React.Component<Props> {
     return (
       <Wrapper backgroundColor="#fff" style={styles.mainWrapper}>
         <Text style={styles.headerText} fontSize={22} lineHeight={25} fontFamily="Roboto" fontWeight="medium">
-          {'Welcome to your\nfinancial future!'}
+          {'Welcome to\nGoodDollar Wallet'}
         </Text>
         <Image source={illustration} style={styles.illustration} resizeMode="contain" />
         <Section style={styles.bottomContainer}>

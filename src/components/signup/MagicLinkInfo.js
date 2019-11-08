@@ -26,7 +26,7 @@ const MagicLinkInfoComponent = props => {
             style={styles.headerText}
             lineHeight={25}
           >
-            {'DID YOU KNOW?'}
+            {'GOOD TO KNOW'}
           </Text>
         </View>
       </Section.Row>
@@ -40,7 +40,7 @@ const MagicLinkInfoComponent = props => {
           </Text>
           <Text fontWeight="medium" fontSize={22} fontFamily="Roboto">
             {`using the `}
-            <Text fontWeight="medium" fontSize={22} color="green">{`Magic Link`}</Text>
+            <Text fontWeight="bold" fontSize={22}>{`Magic Link`}</Text>
           </Text>
         </View>
       </Section.Row>
@@ -49,23 +49,11 @@ const MagicLinkInfoComponent = props => {
         <View style={styles.bottomContainer}>
           <Text fontSize={14} fontFamily="Roboto" lineHeight={20}>
             {'Just find the '}
-            <Text
-              fontSize={14}
-              fontFamily="Roboto"
-              lineHeight={20}
-              color="green"
-              fontWeight="bold"
-            >{`GoodDollar Magic Mail`}</Text>
+            <Text fontSize={14} fontFamily="Roboto" lineHeight={20} fontWeight="bold">{`GoodDollar Magic Mail`}</Text>
           </Text>
           <Text fontSize={14} fontFamily="Roboto" lineHeight={20}>
             {'that we just send you and click on the '}
-            <Text
-              fontSize={14}
-              fontFamily="Roboto"
-              lineHeight={20}
-              color="green"
-              fontWeight="bold"
-            >{`Magic Link`}</Text>
+            <Text fontSize={14} fontFamily="Roboto" lineHeight={20} fontWeight="bold">{`Magic Link`}</Text>
           </Text>
         </View>
       </Section.Row>

@@ -15,7 +15,6 @@ import { Wrapper } from '../common'
 import BigGoodDollar from '../common/view/BigGoodDollar'
 import Text from '../common/view/Text'
 import LoadingIcon from '../common/modal/LoadingIcon'
-import SuccessIcon from '../common/modal/SuccessIcon'
 import Icon from '../common/view/Icon'
 import { withStyles } from '../../lib/styles'
 import Section from '../common/layout/Section'
@@ -173,31 +172,6 @@ const Claim = props => {
       }, 1000)
     )
   }
-  const ContentLoadClaim = ({ styles, type }: any) => {
-    return (
-      <>
-        <Section.Row justifyContent="center">
-          <View style={styles.blockTitle}>
-            <Text textAlign="center" fontSize={24} fontWeight="bold">
-              {type === 'success' ? 'CHA-CHING!\n' : 'YOUR MONEY\nIS ON ITS WAY...'}
-            </Text>
-          </View>
-        </Section.Row>
-        <Section.Row justifyContent="center">
-          <View style={styles.blockIcon}>{type === 'success' ? <SuccessIcon /> : <LoadingIcon />}</View>
-        </Section.Row>
-        <Section.Row justifyContent="center">
-          <View style={type === 'success' ? styles.blockMessage : styles.blockMessageLoading}>
-            <Text textAlign="center" fontSize={16}>
-              {type === 'success'
-                ? "You've claimed your daily G$\nsee you tomorrow."
-                : 'please wait while processing...'}
-            </Text>
-          </View>
-        </Section.Row>
-      </>
-    )
-  }
 
   // Claim STATS
   useEffect(() => {
@@ -212,9 +186,11 @@ const Claim = props => {
     setLoading(true)
 
     showDialog({
-      content: <ContentLoadClaim styles={styles} />,
-      showButtons: false,
+      image: <LoadingIcon />,
       loading,
+      message: 'please wait while processing...',
+      showButtons: false,
+      title: `YOUR MONEY\nIS ON ITS WAY...`,
     })
     try {
       //when we come back from FR entitelment might not be set yet
@@ -240,8 +216,10 @@ const Claim = props => {
       if (receipt.status) {
         fireEvent(CLAIM_SUCCESS, { txhash: receipt.transactionHash })
         showDialog({
-          content: <ContentLoadClaim styles={styles} type={'success'} />,
           buttons: [{ text: 'Yay!' }],
+          message: `You've claimed your daily G$\nsee you tomorrow.`,
+          title: 'CHA-CHING!\n',
+          type: 'success',
           onDismiss: () => screenProps.goToRoot(),
         })
       } else {
@@ -392,9 +370,10 @@ const getStylesFromProps = ({ theme }) => {
       paddingBottom: 20,
       height: 100,
     },
-    blockIcon: {
-      height: 100,
+    contentLoadClaim: {
+      minHeight: 330,
     },
+
     blockMessageLoading: {
       paddingTop: 20,
       paddingBottom: 20,

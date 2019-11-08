@@ -14,6 +14,7 @@ import ModalContainer from './ModalContainer'
 const ModalWrapper = (props: any) => {
   const {
     styles,
+    style,
     children,
     onClose,
     leftBorderColor,
@@ -29,7 +30,7 @@ const ModalWrapper = (props: any) => {
       <ModalOverlay itemType={itemType}>
         <ModalContainer
           fullHeight={fullHeight}
-          style={[showAtBottom && styles.showAtBottom, !isMobileOnly && styles.maxHeightBlock]}
+          style={[showAtBottom && styles.showAtBottom, !isMobileOnly && styles.maxHeightBlock, style]}
         >
           <ModalLeftBorder
             showTooltipArrow={showTooltipArrow}

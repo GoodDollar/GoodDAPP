@@ -70,7 +70,7 @@ const getStylesFromProps = ({ theme }) => ({
     maxHeight: theme.sizes.maxHeightForTabletAndDesktop,
   },
   minHeightBlock: {
-    minHeight: theme.sizes.maxHeightForDialogMessage,
+    minHeight: theme.sizes.minHeightForDialogMessage,
   },
   noneShadow: {
     boxShadow: 'none',

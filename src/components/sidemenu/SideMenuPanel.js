@@ -11,6 +11,7 @@ import { Icon } from '../common'
 import IconWrapper from '../common/modal/IconWrapper'
 import { CLICK_DELETE_WALLET, fireEvent, LOGOUT } from '../../lib/analytics/analytics'
 import LoadingIcon from '../common/modal/LoadingIcon'
+import isWebApp from '../../lib/utils/isWebApp'
 import SideMenuItem from './SideMenuItem'
 
 type SideMenuPanelProps = {
@@ -162,12 +163,7 @@ const getMenuItems = ({ API, hideSidemenu, showDialog, navigation, store, theme 
     ],
   }
 
-  if (
-    !(
-      (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) ||
-      window.navigator.standalone === true
-    )
-  ) {
+  if (!isWebApp) {
     result.topItems.push({
       icon: 'logout',
       name: 'Logout',

@@ -59,7 +59,7 @@ class API {
         },
         e => {
           // Do something with response error
-          log.error('axios req error', e.message, e)
+          log.warn('axios req error', e.message, e)
           return Promise.reject(e)
         }
       )
@@ -69,7 +69,7 @@ class API {
         },
         e => {
           // Do something with response error
-          log.error('axios response error', e.message, e)
+          log.warn('axios response error', e.message, e)
           if (e.response && e.response.data) {
             return Promise.reject(e.response.data)
           }

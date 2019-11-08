@@ -62,9 +62,10 @@ const getMockFeeds = () => {
 const getInitial = async (store: Store) => {
   logger.debug('getFeed')
   store.set('feedLoading')(true)
-  const feeds = await userStorage
-    .getFormattedEvents(PAGE_SIZE, true)
-    .catch(e => logger.error('getInitialFeed -> ', e.message, e))
+  const feeds =
+    (await userStorage
+      .getFormattedEvents(PAGE_SIZE, true)
+      .catch(e => logger.error('getInitialFeed -> ', e.message, e))) || []
   logger.info({ feeds })
   const mockedFeeds = getMockFeeds()
   store.set('feedLoading')(false)

@@ -1771,11 +1771,11 @@ exports[`FeedModalItem - Send matches snapshot 1`] = `
                       Object {
                         "WebkitFlexBasis": "auto",
                         "flexBasis": "auto",
-                        "height": "137.14285714285714px",
+                        "height": "110px",
                         "msFlexPreferredSize": "auto",
                         "overflowX": "hidden",
                         "overflowY": "hidden",
-                        "width": "199.11111111111111px",
+                        "width": "70px",
                         "zIndex": 0,
                       }
                     }
@@ -2707,11 +2707,11 @@ exports[`FeedModalItem - Send with Error status matches snapshot 1`] = `
                       Object {
                         "WebkitFlexBasis": "auto",
                         "flexBasis": "auto",
-                        "height": "137.14285714285714px",
+                        "height": "110px",
                         "msFlexPreferredSize": "auto",
                         "overflowX": "hidden",
                         "overflowY": "hidden",
-                        "width": "199.11111111111111px",
+                        "width": "70px",
                         "zIndex": 0,
                       }
                     }
@@ -3644,11 +3644,11 @@ exports[`FeedModalItem - Withdraw matches snapshot 1`] = `
                       Object {
                         "WebkitFlexBasis": "auto",
                         "flexBasis": "auto",
-                        "height": "137.14285714285714px",
+                        "height": "110px",
                         "msFlexPreferredSize": "auto",
                         "overflowX": "hidden",
                         "overflowY": "hidden",
-                        "width": "199.11111111111111px",
+                        "width": "70px",
                         "zIndex": 0,
                       }
                     }

@@ -167,13 +167,14 @@ const Dashboard = props => {
         const { screenProps } = props
         const code = readCode(decodeURI(anyParams.code))
         if (!(await isTheSameUser(code))) {
-          routeAndPathForCode('send', code)
-            .then(({ route, params }) => screenProps.push(route, params))
-            .catch(e => {
-              showErrorDialog('Paymnet link is incorrect. Please double check your link.', null, {
-                onDismiss: screenProps.goToRoot,
-              })
+          try {
+            const { route, params } = await routeAndPathForCode('send', code)
+            screenProps.push(route, params)
+          } catch (e) {
+            showErrorDialog('Paymnet link is incorrect. Please double check your link.', null, {
+              onDismiss: screenProps.goToRoot,
             })
+          }
         }
       }
     }

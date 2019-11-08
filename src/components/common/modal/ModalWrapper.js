@@ -10,7 +10,6 @@ import ModalContents from './ModalContents'
 import ModalOverlay from './ModalOverlay'
 import ModalInnerContents from './ModalInnerContents'
 import ModalContainer from './ModalContainer'
-import {getDesignRelativeHeight} from "../../../lib/utils/sizes";
 
 const ModalWrapper = (props: any) => {
   const {
@@ -71,7 +70,7 @@ const getStylesFromProps = ({ theme }) => ({
     maxHeight: theme.sizes.maxHeightForTabletAndDesktop,
   },
   minHeightBlock: {
-    minHeight: getDesignRelativeHeight(theme.sizes.maxHeightForDialogMessage),
+    minHeight: theme.sizes.maxHeightForDialogMessage,
   },
   noneShadow: {
     boxShadow: 'none',

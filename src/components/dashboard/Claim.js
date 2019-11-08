@@ -175,22 +175,6 @@ const Claim = props => {
 
   // Claim STATS
   useEffect(() => {
-    showDialog({
-      image: <LoadingIcon />,
-      loading,
-      message: 'please wait while processing...',
-      showButtons: false,
-      title: `YOUR MONEY\nIS ON ITS WAY...`,
-    })
-    setTimeout(() => {
-      showDialog({
-        buttons: [{ text: 'Yay!' }],
-        message: `You've claimed your daily G$\nsee you tomorrow.`,
-        title: 'CHA-CHING!',
-        type: 'success',
-        onDismiss: () => screenProps.goToRoot(),
-      })
-    }, 3000)
     if (entitlement === undefined) {
       return
     }

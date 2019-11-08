@@ -150,31 +150,39 @@ const Dashboard = props => {
         // showErrorDialog('Something Went Wrong. An error occurred while trying to redeem bonuses')
       })
   }
+  const isTheSameUser = async code => {
+    try {
+      const walletAddress = await userStorage.getProfileWalletAddress()
+      return String(code.address).toLowerCase() === walletAddress
+    } catch (e) {
+      log.error(e, e.message)
+      return false
+    }
+  }
 
   //Service redirects Send/Receive
   useEffect(() => {
-    const anyParams = extractQueryParams(window.location.href)
-
-    if (anyParams && anyParams.code) {
-      const { screenProps } = props
-      const code = readCode(decodeURI(anyParams.code))
-      userStorage
-        .getProfile('walletAddress')
-        .then(profile => {
-          if (String(profile.walletAddress).toLowerCase() !== String(code.address).toLowerCase()) {
-            routeAndPathForCode('send', code)
-              .then(({ route, params }) => screenProps.push(route, params))
-              .catch(e => {
-                showErrorDialog('Paymnet link is incorrect. Please double check your link.', null, {
-                  onDismiss: screenProps.goToRoot,
-                })
+    const checkCode = async () => {
+      if (anyParams && anyParams.code) {
+        const { screenProps } = props
+        const code = readCode(decodeURI(anyParams.code))
+        if (!(await isTheSameUser(code))) {
+          routeAndPathForCode('send', code)
+            .then(({ route, params }) => screenProps.push(route, params))
+            .catch(e => {
+              showErrorDialog('Paymnet link is incorrect. Please double check your link.', null, {
+                onDismiss: screenProps.goToRoot,
               })
-          }
-        })
-        .catch(e => log.error(e, e.message))
+            })
+        }
+      }
     }
+
+    const anyParams = extractQueryParams(window.location.href)
     if (anyParams && anyParams.paymentCode) {
       props.navigation.state.params = anyParams
+    } else {
+      checkCode()
     }
   }, [])
 

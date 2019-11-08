@@ -1714,6 +1714,11 @@ export class UserStorage {
     return fullProfile
   }
 
+  async getProfileWalletAddress(): Promise<any> {
+    const profile = await this.getProfile()
+    return String(profile.walletAddress).toLowerCase()
+  }
+
   loadGunField(gunNode): Promise<any> {
     return new Promise(async res => {
       gunNode.load(p => res(p))

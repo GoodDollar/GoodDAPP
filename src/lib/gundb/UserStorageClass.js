@@ -730,7 +730,7 @@ export class UserStorage {
     const firstVisitAppDate = userProperties.firstVisitApp
 
     // first time user visit
-    if (!firstVisitAppDate) {
+    if (firstVisitAppDate == null) {
       if (Config.isEToro) {
         this.enqueueTX(welcomeMessageOnlyEtoro)
 
@@ -1447,6 +1447,7 @@ export class UserStorage {
       const existingEvent = await this.feed
         .get('byid')
         .get(event.id)
+        .then()
         .catch(_ => false)
       if (existingEvent) {
         logger.warn('enqueueTx skipping existing event id', event, existingEvent)

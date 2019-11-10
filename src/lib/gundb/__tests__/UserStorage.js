@@ -91,6 +91,15 @@ describe('UserStorage', () => {
     expect(res.firstVisitApp).toBeTruthy()
   })
 
+  it('events/has the welcome event already set', async () => {
+    const events = await userStorage.getAllFeed()
+    if (Config.isEToro) {
+      expect(events).toContainEqual(welcomeMessageOnlyEtoro)
+    } else {
+      expect(events).toContainEqual(welcomeMessage)
+    }
+  })
+
   it('set all user properties', async () => {
     const res = await userStorage.userProperties.set('isMadeBackup', true)
     expect(res).toBeTruthy()
@@ -260,7 +269,7 @@ describe('UserStorage', () => {
     expect(res).toEqual(expect.objectContaining({ privacy: 'private', display: '******' }))
   })
 
-  it('add event', async () => {
+  it('events/add event', async () => {
     await userStorage.updateFeedEvent(event)
     const index = await userStorage.feed
       .get('index')
@@ -271,7 +280,7 @@ describe('UserStorage', () => {
     expect(events).toContainEqual(event)
   })
 
-  it('add second event', async () => {
+  it('events/add second event', async () => {
     await userStorage.updateFeedEvent(event)
     await userStorage.updateFeedEvent(event2)
     const index = await userStorage.feed
@@ -284,7 +293,7 @@ describe('UserStorage', () => {
     expect(events).toContainEqual(event)
   })
 
-  it('updates first event', async () => {
+  it('events/updates first event', async () => {
     await userStorage.updateFeedEvent(event)
     await delay(0)
     let updatedEvent = {
@@ -303,7 +312,7 @@ describe('UserStorage', () => {
     expect(events).toContainEqual(updatedEvent)
   })
 
-  it('add middle event', async () => {
+  it('events/add middle event', async () => {
     await userStorage.updateFeedEvent(mergedEvent)
     await userStorage.updateFeedEvent(event2)
     await userStorage.updateFeedEvent(event3)
@@ -316,7 +325,7 @@ describe('UserStorage', () => {
     expect(events).toEqual(expect.arrayContaining([event2, event3, mergedEvent]))
   })
 
-  it('keeps event index sorted', async () => {
+  it('events/keeps event index sorted', async () => {
     await userStorage.updateFeedEvent(event4)
     const index = await userStorage.feed
       .get('index')
@@ -327,12 +336,14 @@ describe('UserStorage', () => {
     expect(events.map(event => event.id)).toEqual([event4.id])
   })
 
-  it('gets events first page', async () => {
+  it('events/gets events first page', async () => {
+    //welcome message+01-02 event =2
     const gunRes = await userStorage.getFeedPage(2)
     expect(gunRes.length).toEqual(2)
   })
 
-  it('gets events second page', async () => {
+  it('events/gets events second page using cursor', async () => {
+    //rest of other 3 01-01 events
     const gunRes = await userStorage.getFeedPage(2)
     expect(gunRes.length).toEqual(3)
   })
@@ -342,7 +353,7 @@ describe('UserStorage', () => {
     expect(gunRes.length).toEqual(1)
   })
 
-  it('add TransactionEvent event', async () => {
+  it('events/add TransactionEvent event', async () => {
     const date = '2020-01-01'
     const transactionEvent: TransactionEvent = {
       id: 'xyz32',
@@ -366,28 +377,19 @@ describe('UserStorage', () => {
     expect(events).toContainEqual(transactionEvent)
   })
 
-  it('add invite event', async () => {
+  it('events/add invite event', async () => {
     await userStorage.updateFeedEvent(inviteFriendsMessage)
     const events = await userStorage.getAllFeed()
     expect(events).toContainEqual(inviteFriendsMessage)
   })
 
-  it('add invite event', async () => {
+  it('events/add invite event', async () => {
     await userStorage.updateFeedEvent(startSpending)
     const events = await userStorage.getAllFeed()
     expect(events).toContainEqual(startSpending)
   })
 
-  it('has the welcome event already set', async () => {
-    const events = await userStorage.getAllFeed()
-    if (Config.isEToro) {
-      expect(events).toContainEqual(welcomeMessageOnlyEtoro)
-    } else {
-      expect(events).toContainEqual(welcomeMessage)
-    }
-  })
-
-  it('has the welcome event already set', async () => {
+  it('events/doesnt have the welcome event already set', async () => {
     const events = await userStorage.getAllFeed()
     if (Config.isEToro) {
       expect(events).toEqual(expect.not.objectContaining(welcomeMessage))
@@ -396,13 +398,13 @@ describe('UserStorage', () => {
     }
   })
 
-  it('add welcome etoro', async () => {
+  it('events/add welcome etoro', async () => {
     await userStorage.updateFeedEvent(welcomeMessageOnlyEtoro)
     const events = await userStorage.getAllFeed()
     expect(events).toContainEqual(welcomeMessageOnlyEtoro)
   })
 
-  it('has the backupMessage event already set', async () => {
+  it('events/has the backupMessage event already set', async () => {
     await userStorage.updateFeedEvent(backupMessage)
     const events = await userStorage.getAllFeed()
     expect(events).toContainEqual(backupMessage)

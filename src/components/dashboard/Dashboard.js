@@ -153,20 +153,24 @@ const Dashboard = props => {
   const isTheSameUser = code => {
     return String(code.address).toLowerCase() === goodWallet.account.toLowerCase()
   }
-  const checkCode = anyParams => {
-    if (anyParams && anyParams.code) {
-      const { screenProps } = props
-      const code = readCode(decodeURI(anyParams.code))
-      if (isTheSameUser(code) === false) {
-        try {
-          const { route, params } = routeAndPathForCode('send', code)
-          screenProps.push(route, params)
-        } catch (e) {
-          showErrorDialog('Paymnet link is incorrect. Please double check your link.', null, {
-            onDismiss: screenProps.goToRoot,
-          })
+  const checkCode = async anyParams => {
+    try {
+      if (anyParams && anyParams.code) {
+        const { screenProps } = props
+        const code = readCode(decodeURI(anyParams.code))
+        if (isTheSameUser(code) === false) {
+          try {
+            const { route, params } = await routeAndPathForCode('send', code)
+            screenProps.push(route, params)
+          } catch (e) {
+            showErrorDialog('Paymnet link is incorrect. Please double check your link.', null, {
+              onDismiss: screenProps.goToRoot,
+            })
+          }
         }
       }
+    } catch (e) {
+      log.error('checkCode unexpected error:', e.message, e)
     }
   }
 
@@ -176,11 +180,7 @@ const Dashboard = props => {
     if (anyParams && anyParams.paymentCode) {
       props.navigation.state.params = anyParams
     } else {
-      try {
-        checkCode(anyParams)
-      } catch (e) {
-        log.error('checkCode unexpected error:', e.message, e)
-      }
+      checkCode(anyParams)
     }
   }, [])
 

@@ -1,13 +1,17 @@
 //@flow
 import React from 'react'
 import { Appbar } from 'react-native-paper'
+import { isMobileSafari } from 'mobile-device-detect'
 import { TouchableOpacity } from 'react-native-web'
+import _get from 'lodash/get'
 import { toggleSidemenu } from '../../lib/undux/utils/sidemenu'
 import SimpleStore from '../../lib/undux/SimpleStore'
 import RewardSvg from '../../components/common/view/RewardSvg'
 import MarketPlaceSvg from '../../components/common/view/MarketPlaceSvg'
 import config from '../../config/config'
 import { withStyles } from '../../lib/styles'
+import userStorage from '../../lib/gundb/UserStorage'
+import API from '../../lib/API/api'
 
 type TabViewProps = {
   routes: { [string]: any },
@@ -53,12 +57,29 @@ const TabsView = (props: TabViewProps) => {
   const { navigation, styles } = props
   const store = SimpleStore.useStore()
 
-  const goToRewards = () => {
-    navigation.navigate('Rewards')
+  const goToRewards = async () => {
+    if (isMobileSafari) {
+      let token = (await userStorage.getProfileFieldValue('loginToken')) || ''
+      const src = `${config.web3SiteUrl}?token=${token}&purpose=iframe`
+      window.open(src, '_self')
+    } else {
+      navigation.navigate('Rewards')
+    }
   }
 
-  const goToMarketplace = () => {
-    navigation.navigate('Marketplace')
+  const goToMarketplace = async () => {
+    if (isMobileSafari) {
+      let token = await userStorage.getProfileFieldValue('marketToken')
+      const src = `${config.marketUrl}?jwt=${token}&nofooter=true`
+      window.open(src, '_self')
+      const newtoken = await API.getMarketToken().then(_ => _get(_, 'data.jwt'))
+      if (newtoken !== undefined && newtoken !== token) {
+        token = newtoken
+        userStorage.setProfileField('marketToken', newtoken)
+      }
+    } else {
+      navigation.navigate('Marketplace')
+    }
   }
 
   return (

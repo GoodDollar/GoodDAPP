@@ -110,6 +110,8 @@ const AddWebApp = props => {
   const [skipCount, setSkipCount] = useState(0)
   const [lastClaim, setLastClaim] = useState()
   const [dialogShown, setDialogShown] = useState()
+  const [iOSAdded, setIOSAdded] = useState(false)
+
   const store = SimpleStore.useStore()
   const [showDialog] = useDialog()
   const { show } = store.get('addWebApp')
@@ -119,6 +121,7 @@ const AddWebApp = props => {
     AsyncStorage.getItem('GD_AddWebAppNextCheck').then(setNextCheck)
     AsyncStorage.getItem('GD_AddWebAppSkipCount').then(sc => setSkipCount(Number(sc)))
     AsyncStorage.getItem('GD_AddWebAppLastClaim').then(setLastClaim)
+    AsyncStorage.getItem('GD_AddWebAppIOSAdded').then(setIOSAdded)
 
     if (isWebApp === false) {
       log.debug('useEffect, registering beforeinstallprompt')
@@ -178,7 +181,8 @@ const AddWebApp = props => {
   const handleInstallApp = () => {
     if (installPrompt) {
       installApp()
-    } else {
+    } else if (isMobileSafari) {
+      AsyncStorage.setItem('GD_AddWebAppIOSAdded', true)
       showExplanationDialog()
     }
   }
@@ -232,7 +236,7 @@ const AddWebApp = props => {
       }
     }
 
-    if ((installPrompt && show) || (isMobileSafari && show)) {
+    if ((installPrompt && show) || (iOSAdded === false && isMobileSafari && show)) {
       setDialogShown(true)
     }
   }, [installPrompt, show, lastCheck])

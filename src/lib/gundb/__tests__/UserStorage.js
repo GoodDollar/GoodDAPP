@@ -911,12 +911,14 @@ describe('users index', () => {
   })
 
   it('events/doesnt enqueue existing event', async () => {
-    const prevmsg = welcomeMessage
-    await userStorage.enqueueTX(welcomeMessage)
-    const newmsg = Object.assign({ date: 'fake date' }, welcomeMessage)
+    const prevmsg = Object.assign({}, welcomeMessage)
+    prevmsg.id = 'fakeid'
+    await userStorage.enqueueTX(prevmsg)
+    await delay(500)
+    const newmsg = Object.assign({ date: 'fake date' }, prevmsg)
     const res = await userStorage.enqueueTX(newmsg)
     expect(res).toBeFalsy()
-    const fromfeed = await userStorage.getFeedItemByTransactionHash(welcomeMessage.id)
+    const fromfeed = await userStorage.getFeedItemByTransactionHash(prevmsg.id)
     expect(fromfeed).toEqual(prevmsg)
   })
 })

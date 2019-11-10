@@ -21,7 +21,6 @@ import API from '../../../lib/API/api'
 import Text from '../../common/view/Text'
 
 import logger from '../../../lib/logger/pino-logger'
-import { getDesignRelativeHeight } from '../../../lib/utils/sizes'
 
 const log = logger.child({ from: 'AddWebApp' })
 
@@ -47,7 +46,6 @@ const mapStylesToProps = ({ theme }) => {
     explanationDialogContainer: {
       display: 'flex',
       alignItems: 'center',
-      height: getDesignRelativeHeight(9),
     },
     explanationDialogText: {
       width: '100%',
@@ -145,6 +143,7 @@ const AddWebApp = props => {
       showButtons: false,
       showAtBottom: true,
       showTooltipArrow: true,
+      isMinHeight: false,
       onDismiss: () => handleLater,
     })
   }

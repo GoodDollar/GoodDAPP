@@ -22,6 +22,7 @@ const ModalWrapper = (props: any) => {
     showAtBottom,
     itemType,
     showTooltipArrow,
+    isMinHeight = true,
   } = props
 
   return (
@@ -29,7 +30,11 @@ const ModalWrapper = (props: any) => {
       <ModalOverlay itemType={itemType}>
         <ModalContainer
           fullHeight={fullHeight}
-          style={[showAtBottom && styles.showAtBottom, !isMobileOnly && styles.maxHeightBlock, styles.minHeightBlock]}
+          style={[
+            showAtBottom && styles.showAtBottom,
+            !isMobileOnly && styles.maxHeightBlock,
+            isMinHeight && styles.minHeightBlock,
+          ]}
         >
           <ModalLeftBorder
             showTooltipArrow={showTooltipArrow}
@@ -64,7 +69,7 @@ const getStylesFromProps = ({ theme }) => ({
   },
   showAtBottom: {
     marginTop: 'auto',
-    marginBottom: 10,
+    marginBottom: 30,
   },
   maxHeightBlock: {
     maxHeight: theme.sizes.maxHeightForTabletAndDesktop,

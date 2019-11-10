@@ -55,8 +55,6 @@ export type State = {
   currentFeed: any,
   addWebApp: {
     show: boolean,
-    lastCheck: Date,
-    skipCount: Number,
   },
 }
 

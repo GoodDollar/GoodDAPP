@@ -91,7 +91,6 @@ const Dashboard = props => {
   const [animValue] = useState(new Animated.Value(1))
   const store = SimpleStore.useStore()
   const gdstore = GDStore.useStore()
-  const [initDash, setInitDash] = useState(true)
   const [showDialog, hideDialog] = useDialog()
   const [showErrorDialog] = useErrorDialog()
   const { params } = props.navigation.state
@@ -113,14 +112,20 @@ const Dashboard = props => {
     }
   }
 
-  useEffect(() => {
-    if (initDash) {
-      setInitDash(false)
+  const handleDeleteRedirect = () => {
+    if (props.navigation.state.key === 'Delete') {
+      deleteAccountDialog({ API, showDialog: showErrorDialog, store, theme: props.theme })
     }
-  }, [])
+  }
 
-  //Service redirects Send/Receive
-  useEffect(() => {
+  const subscribeToFeed = () => {
+    userStorage.feed.get('byid').on(data => {
+      log.debug('gun getFeed callback', { data })
+      getInitialFeed(gdstore)
+    }, true)
+  }
+
+  const handleReceiveLink = () => {
     const anyParams = extractQueryParams(window.location.href)
 
     if (anyParams && anyParams.code) {
@@ -135,26 +140,9 @@ const Dashboard = props => {
     if (anyParams && anyParams.paymentCode) {
       props.navigation.state.params = anyParams
     }
-  }, [])
-
-  const nextFeed = () => {
-    return getNextFeed(gdstore)
   }
 
-  useEffect(() => {
-    if (props.navigation.state.key === 'Delete') {
-      deleteAccountDialog({ API, showDialog: showErrorDialog, store, theme: props.theme })
-    }
-
-    prepareLoginToken()
-    log.debug('Dashboard didmount')
-    userStorage.feed.get('byid').on(data => {
-      log.debug('gun getFeed callback', { data })
-      getInitialFeed(gdstore)
-    }, true)
-  }, [])
-
-  useEffect(() => {
+  const animateClaim = () => {
     const { entitlement } = gdstore.get('account')
 
     if (Number(entitlement)) {
@@ -172,6 +160,38 @@ const Dashboard = props => {
         }),
       ]).start()
     }
+  }
+  const showDelayed = () => {
+    setTimeout(() => {
+      store.set('addWebApp')({ show: true })
+      animateClaim()
+    }, 2000)
+  }
+
+  /**
+   * rerender on screen size change
+   */
+  const handleResize = () => {
+    const debouncedHandleResize = debounce(() => {
+      log.info('update component after resize', update)
+      setUpdate(Date.now())
+    }, 100)
+
+    Dimensions.addEventListener('change', () => debouncedHandleResize())
+  }
+
+  const nextFeed = () => {
+    return getNextFeed(gdstore)
+  }
+
+  useEffect(() => {
+    log.debug('Dashboard didmount')
+    handleDeleteRedirect()
+    prepareLoginToken()
+    subscribeToFeed()
+    handleReceiveLink()
+    showDelayed()
+    handleResize()
   }, [])
 
   useEffect(() => {
@@ -243,15 +263,6 @@ const Dashboard = props => {
       },
     ],
   }
-
-  useEffect(() => {
-    const debouncedHandleResize = debounce(() => {
-      log.info('update component after resize', update)
-      setUpdate(Date.now())
-    }, 100)
-
-    Dimensions.addEventListener('change', () => debouncedHandleResize())
-  }, [])
 
   return (
     <Wrapper style={styles.dashboardWrapper}>

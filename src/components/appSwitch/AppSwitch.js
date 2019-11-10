@@ -10,6 +10,7 @@ import SimpleStore from '../../lib/undux/SimpleStore'
 import GDStore from '../../lib/undux/GDStore'
 import { updateAll as updateWalletStatus } from '../../lib/undux/utils/account'
 import { checkAuthStatus as getLoginState } from '../../lib/login/checkAuthStatus'
+import userStorage from '../../lib/gundb/UserStorage'
 
 type LoadingProps = {
   navigation: any,
@@ -73,6 +74,7 @@ const AppSwitch = (props: LoadingProps) => {
     gdstore.set('isLoggedIn')(isLoggedIn)
     gdstore.set('isLoggedInCitizen')(isLoggedInCitizen)
     isLoggedInCitizen ? API.verifyTopWallet() : Promise.resolve()
+    await userStorage.startSystemFeed()
 
     // if (isLoggedIn) {
     //   if (destDetails) {

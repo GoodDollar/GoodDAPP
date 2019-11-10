@@ -11,7 +11,6 @@ import AppSwitch from './components/appSwitch/AppSwitch'
 import GDStore from './lib/undux/GDStore'
 import { SimpleStoreDialog } from './components/common/dialogs/CustomDialog'
 import { fireEventFromNavigation } from './lib/analytics/analytics'
-import userStorage from './lib/gundb/UserStorage'
 
 const AppNavigator = createNavigator(
   AppSwitch,
@@ -33,17 +32,10 @@ if (Platform.OS === 'web') {
   WebRouter = createBrowserApp(AppNavigator)
 }
 
-const addBackupCard = () => {
-  userStorage.addBackupCard()
-}
 const onRouteChange = (prevNav, nav, route) => {
-  if (route.routeName !== 'HOME') {
-    addBackupCard()
-  }
   fireEventFromNavigation(route)
 }
 const Router = () => {
-  userStorage.startSystemFeed()
   return (
     <GDStore.Container>
       <SimpleStoreDialog />

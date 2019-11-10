@@ -644,7 +644,7 @@ exports[`Claim matches snapshot 1`] = `
               "display": "flex",
               "flexDirection": "column",
               "justifyContent": "center",
-              "marginBottom": "16px",
+              "marginBottom": "0px",
               "marginLeft": "0px",
               "marginRight": "0px",
               "marginTop": "0px",
@@ -981,6 +981,14 @@ exports[`Claim matches snapshot 1`] = `
             </div>
           </div>
         </div>
+        <div
+          className="css-view-1dbjc4n"
+          style={
+            Object {
+              "height": "16px",
+            }
+          }
+        />
         <div
           className="css-view-1dbjc4n"
           style={
